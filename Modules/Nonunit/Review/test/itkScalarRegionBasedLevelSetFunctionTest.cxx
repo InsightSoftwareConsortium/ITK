@@ -21,18 +21,18 @@
 namespace itk
 {
 
-template < typename TInput, // LevelSetImageType
-  typename TFeature, // FeatureImageType
-  typename TSharedData >
-class ScalarRegionBasedLevelSetFunctionTestHelper :
- public ScalarRegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
+template <typename TInput,   // LevelSetImageType
+          typename TFeature, // FeatureImageType
+          typename TSharedData>
+class ScalarRegionBasedLevelSetFunctionTestHelper
+  : public ScalarRegionBasedLevelSetFunction<TInput, TFeature, TSharedData>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarRegionBasedLevelSetFunctionTestHelper);
 
   /** Standard class type aliases. */
   using Self = ScalarRegionBasedLevelSetFunctionTestHelper;
-  using Superclass = ScalarRegionBasedLevelSetFunction<TInput,TFeature,TSharedData>;
+  using Superclass = ScalarRegionBasedLevelSetFunction<TInput, TFeature, TSharedData>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -41,39 +41,45 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( ScalarRegionBasedLevelSetFunctionTestHelper, ScalarRegionBasedLevelSetFunction );
+  itkTypeMacro(ScalarRegionBasedLevelSetFunctionTestHelper, ScalarRegionBasedLevelSetFunction);
 
   using ScalarValueType = typename Superclass::ScalarValueType;
   using FeaturePixelType = typename Superclass::FeaturePixelType;
   using FeatureIndexType = typename Superclass::FeatureIndexType;
 
-  ScalarValueType ComputeInternalTerm(const FeaturePixelType &,
-    const FeatureIndexType & ) override
-    {
-    return ScalarValueType( 0 );
-    }
+  ScalarValueType
+  ComputeInternalTerm(const FeaturePixelType &, const FeatureIndexType &) override
+  {
+    return ScalarValueType(0);
+  }
 
-  ScalarValueType ComputeExternalTerm(const FeaturePixelType &,
-    const FeatureIndexType & ) override
-    {
-    return ScalarValueType( 0 );
-    }
+  ScalarValueType
+  ComputeExternalTerm(const FeaturePixelType &, const FeatureIndexType &) override
+  {
+    return ScalarValueType(0);
+  }
 
-  ScalarValueType ComputeOverlapParameters( const FeatureIndexType& ,
-    ScalarValueType& ) override
-    {
-    return ScalarValueType( 0 );
-    }
+  ScalarValueType
+  ComputeOverlapParameters(const FeatureIndexType &, ScalarValueType &) override
+  {
+    return ScalarValueType(0);
+  }
 
-  void ComputeParameters() override {}
+  void
+  ComputeParameters() override
+  {}
 
-  void UpdateSharedDataParameters() override {}
+  void
+  UpdateSharedDataParameters() override
+  {}
 
-  void UpdateSharedDataInsideParameters( const unsigned int& ,
-    const FeaturePixelType&, const ScalarValueType& ) override {}
+  void
+  UpdateSharedDataInsideParameters(const unsigned int &, const FeaturePixelType &, const ScalarValueType &) override
+  {}
 
-  void UpdateSharedDataOutsideParameters( const unsigned int& ,
-    const FeaturePixelType&, const ScalarValueType& ) override {}
+  void
+  UpdateSharedDataOutsideParameters(const unsigned int &, const FeaturePixelType &, const ScalarValueType &) override
+  {}
 
 protected:
   ScalarRegionBasedLevelSetFunctionTestHelper() {}
@@ -93,65 +99,67 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( ScalarRegionBasedLevelSetFunctionSharedDataHelper, DataObject );
+  itkTypeMacro(ScalarRegionBasedLevelSetFunctionSharedDataHelper, DataObject);
 
-  unsigned long       m_FunctionCount;
+  unsigned long m_FunctionCount;
 
-  using IndexType = Index< NDimension >;
-  using ListPixelType = std::list< unsigned int >;
+  using IndexType = Index<NDimension>;
+  using ListPixelType = std::list<unsigned int>;
 
-  using ImageType = Image< ListPixelType, NDimension >;
-  typename ImageType::Pointer   m_NearestNeighborListImage;
+  using ImageType = Image<ListPixelType, NDimension>;
+  typename ImageType::Pointer m_NearestNeighborListImage;
 
   using PixelType = double;
-  using InputImageType = Image< PixelType, NDimension >;
+  using InputImageType = Image<PixelType, NDimension>;
 
   struct SingleData
-    {
+  {
     typename InputImageType::Pointer m_HeavisideFunctionOfLevelSetImage;
-    int m_WeightedNumberOfPixelsInsideLevelSet;
-    int m_WeightedSumOfPixelValuesInsideLevelSet;
-    int m_ForegroundConstantValues;
+    int                              m_WeightedNumberOfPixelsInsideLevelSet;
+    int                              m_WeightedSumOfPixelValuesInsideLevelSet;
+    int                              m_ForegroundConstantValues;
 
     int m_WeightedNumberOfPixelsOutsideLevelSet;
     int m_WeightedSumOfPixelValuesOutsideLevelSet;
     int m_BackgroundConstantValues;
 
-    IndexType GetFeatureIndex( const IndexType & indx )
-      {
+    IndexType
+    GetFeatureIndex(const IndexType & indx)
+    {
       return indx;
-      }
+    }
 
-    IndexType GetIndex( const IndexType & globalIndex )
-      {
+    IndexType
+    GetIndex(const IndexType & globalIndex)
+    {
       return globalIndex;
-      }
-    };
+    }
+  };
 
-  SingleData* m_LevelSetDataPointerVector[19];
-
+  SingleData * m_LevelSetDataPointerVector[19];
 };
 
-}
+} // namespace itk
 
-int itkScalarRegionBasedLevelSetFunctionTest( int, char* [] )
+int
+itkScalarRegionBasedLevelSetFunctionTest(int, char *[])
 {
   constexpr unsigned int Dimension = 3;
 
   using PixelType = double;
-  using ImageType = itk::Image< PixelType, Dimension >;
-  using FeatureImageType = itk::Image< float, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using FeatureImageType = itk::Image<float, Dimension>;
 
   using DataHelperType = itk::ScalarRegionBasedLevelSetFunctionSharedDataHelper<Dimension>;
 
-  using RegionBasedLevelSetFunctionType = itk::ScalarRegionBasedLevelSetFunctionTestHelper<
-    ImageType, FeatureImageType, DataHelperType >;
+  using RegionBasedLevelSetFunctionType =
+    itk::ScalarRegionBasedLevelSetFunctionTestHelper<ImageType, FeatureImageType, DataHelperType>;
 
   RegionBasedLevelSetFunctionType::Pointer function = RegionBasedLevelSetFunctionType::New();
-  if( function.IsNull() )
-    {
+  if (function.IsNull())
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

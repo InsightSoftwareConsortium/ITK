@@ -42,12 +42,9 @@ namespace itk
  * \ingroup ImageFunctions ImageInterpolators
  * \ingroup ITKImageFunction
  */
-template< typename TInputImage, typename TCoordRep = double >
-class ITK_TEMPLATE_EXPORT VectorInterpolateImageFunction:
-  public ImageFunction<
-    TInputImage,
-    typename NumericTraits< typename TInputImage::PixelType >::RealType,
-    TCoordRep >
+template <typename TInputImage, typename TCoordRep = double>
+class ITK_TEMPLATE_EXPORT VectorInterpolateImageFunction
+  : public ImageFunction<TInputImage, typename NumericTraits<typename TInputImage::PixelType>::RealType, TCoordRep>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorInterpolateImageFunction);
@@ -60,12 +57,11 @@ public:
 
   /** Standard class type aliases. */
   using Self = VectorInterpolateImageFunction;
-  using Superclass = ImageFunction< TInputImage,
-                         typename NumericTraits< typename TInputImage::PixelType >::RealType,
-                         TCoordRep >;
+  using Superclass =
+    ImageFunction<TInputImage, typename NumericTraits<typename TInputImage::PixelType>::RealType, TCoordRep>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VectorInterpolateImageFunction, ImageFunction);
@@ -74,7 +70,7 @@ public:
   using InputImageType = typename Superclass::InputImageType;
   using PixelType = typename InputImageType::PixelType;
   using ValueType = typename PixelType::ValueType;
-  using RealType = typename NumericTraits< ValueType >::RealType;
+  using RealType = typename NumericTraits<ValueType>::RealType;
 
   /** Point type alias support */
   using PointType = typename Superclass::PointType;
@@ -96,12 +92,13 @@ public:
    * The point is assume to lie within the image buffer.
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  OutputType Evaluate(const PointType & point) const override
+  OutputType
+  Evaluate(const PointType & point) const override
   {
     ContinuousIndexType index;
 
     this->GetInputImage()->TransformPhysicalPointToContinuousIndex(point, index);
-    return ( this->EvaluateAtContinuousIndex(index) );
+    return (this->EvaluateAtContinuousIndex(index));
   }
 
   /** Interpolate the image at a continuous index position
@@ -114,8 +111,8 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index) const override = 0;
+  OutputType
+  EvaluateAtContinuousIndex(const ContinuousIndexType & index) const override = 0;
 
   /** Interpolate the image at an index position.
    * Simply returns the image value at the
@@ -124,24 +121,27 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  OutputType EvaluateAtIndex(const IndexType & index) const override
+  OutputType
+  EvaluateAtIndex(const IndexType & index) const override
   {
     OutputType output;
     PixelType  input = this->GetInputImage()->GetPixel(index);
 
-    for ( unsigned int k = 0;
-              k < this->GetInputImage()->GetNumberOfComponentsPerPixel(); k++ )
-      {
-      output[k] = static_cast< double >( input[k] );
-      }
-    return ( output );
+    for (unsigned int k = 0; k < this->GetInputImage()->GetNumberOfComponentsPerPixel(); k++)
+    {
+      output[k] = static_cast<double>(input[k]);
+    }
+    return (output);
   }
 
 protected:
   VectorInterpolateImageFunction() = default;
   ~VectorInterpolateImageFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override
-  { Superclass::PrintSelf(os, indent); }
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
+  {
+    Superclass::PrintSelf(os, indent);
+  }
 };
 } // end namespace itk
 

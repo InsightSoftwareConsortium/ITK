@@ -32,33 +32,35 @@
 
 namespace itk
 {
-#if !defined ( ITK_LEGACY_REMOVE )
-void PlatformMultiThreader::MultipleMethodExecute()
+#if !defined(ITK_LEGACY_REMOVE)
+void
+PlatformMultiThreader::MultipleMethodExecute()
 {
   ThreadIdType thread_loop;
 
   // obey the global maximum number of threads limit
-  if ( m_NumberOfWorkUnits > m_GlobalMaximumNumberOfThreads )
-    {
+  if (m_NumberOfWorkUnits > m_GlobalMaximumNumberOfThreads)
+  {
     m_NumberOfWorkUnits = m_GlobalMaximumNumberOfThreads;
-    }
+  }
 
-  for ( thread_loop = 0; thread_loop < m_NumberOfWorkUnits; thread_loop++ )
+  for (thread_loop = 0; thread_loop < m_NumberOfWorkUnits; thread_loop++)
+  {
+    if (m_MultipleMethod[thread_loop] == (ThreadFunctionType)0)
     {
-    if ( m_MultipleMethod[thread_loop] == (ThreadFunctionType)0 )
-      {
       itkExceptionMacro(<< "No multiple method set for: " << thread_loop);
       return;
-      }
     }
+  }
 
   // There is no multi threading, so there is only one thread.
-  m_ThreadInfoArray[0].UserData    = m_MultipleData[0];
+  m_ThreadInfoArray[0].UserData = m_MultipleData[0];
   m_ThreadInfoArray[0].NumberOfWorkUnits = m_NumberOfWorkUnits;
-  ( m_MultipleMethod[0] )( (void *)( &m_ThreadInfoArray[0] ) );
+  (m_MultipleMethod[0])((void *)(&m_ThreadInfoArray[0]));
 }
 
-ThreadIdType PlatformMultiThreader::SpawnThread(ThreadFunctionType itkNotUsed( f ), void *UserData)
+ThreadIdType
+PlatformMultiThreader::SpawnThread(ThreadFunctionType itkNotUsed(f), void * UserData)
 {
   // There is no multi threading, so there is only one thread.
   // This won't work - so give an error message.
@@ -66,7 +68,8 @@ ThreadIdType PlatformMultiThreader::SpawnThread(ThreadFunctionType itkNotUsed( f
   return -1;
 }
 
-void PlatformMultiThreader::TerminateThread(ThreadIdType WorkUnitID)
+void
+PlatformMultiThreader::TerminateThread(ThreadIdType WorkUnitID)
 {
   // There is no multi threading, so there is only one thread.
   // This won't work - so give an error message.
@@ -75,16 +78,14 @@ void PlatformMultiThreader::TerminateThread(ThreadIdType WorkUnitID)
 #endif
 
 void
-PlatformMultiThreader
-::SpawnWaitForSingleMethodThread(ThreadProcessIdType itkNotUsed( threadHandle ))
+PlatformMultiThreader ::SpawnWaitForSingleMethodThread(ThreadProcessIdType itkNotUsed(threadHandle))
 {
   // No threading library specified.  Do nothing.  No joining or waiting
   // necessary.
 }
 
 ThreadProcessIdType
-PlatformMultiThreader
-::SpawnDispatchSingleMethodThread(PlatformMultiThreader::WorkUnitInfo * itkNotUsed( threadInfo ))
+PlatformMultiThreader ::SpawnDispatchSingleMethodThread(PlatformMultiThreader::WorkUnitInfo * itkNotUsed(threadInfo))
 {
   // No threading library specified.  Do nothing.  The computation
   // will be run by the main execution thread.

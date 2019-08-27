@@ -34,18 +34,17 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKMathematicalMorphology
  */
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-class ITK_TEMPLATE_EXPORT WhiteTopHatImageFilter:
-  public KernelImageFilter< TInputImage, TOutputImage, TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+class ITK_TEMPLATE_EXPORT WhiteTopHatImageFilter : public KernelImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(WhiteTopHatImageFilter);
 
   /** Standard class type aliases. */
   using Self = WhiteTopHatImageFilter;
-  using Superclass = KernelImageFilter< TInputImage, TOutputImage, TKernel >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = KernelImageFilter<TInputImage, TOutputImage, TKernel>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;
@@ -70,8 +69,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(WhiteTopHatImageFilter,
-               KernelImageFilter);
+  itkTypeMacro(WhiteTopHatImageFilter, KernelImageFilter);
 
   /** A safe border is added to input image to avoid borders effects
    * and remove it once the closing is done */
@@ -80,12 +78,13 @@ public:
   itkBooleanMacro(SafeBorder);
 
   /** define values used to determine which algorithm to use */
-  enum AlgorithmType {
+  enum AlgorithmType
+  {
     BASIC = 0,
     HISTO = 1,
     ANCHOR = 2,
     VHGW = 3
-    };
+  };
 
   /** Set/Get the backend filter class. */
   itkSetMacro(Algorithm, int);
@@ -98,9 +97,11 @@ public:
 protected:
   WhiteTopHatImageFilter();
   ~WhiteTopHatImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   bool m_SafeBorder;
@@ -112,7 +113,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWhiteTopHatImageFilter.hxx"
+#  include "itkWhiteTopHatImageFilter.hxx"
 #endif
 
 #endif

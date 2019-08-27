@@ -40,63 +40,61 @@
 // even though the image and it's permuted counterpart are situated in physical
 // domain precisely the same way.
 
-int itkBSplineTransformInitializerTest2( int argc, char * argv[] )
+int
+itkBSplineTransformInitializerTest2(int argc, char * argv[])
 {
 
-  if( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0] << " fixedImage ";
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int ImageDimension = 2;
 
   using PixelType = unsigned char;
-  using FixedImageType = itk::Image< PixelType, ImageDimension >;
+  using FixedImageType = itk::Image<PixelType, ImageDimension>;
 
-  using FixedReaderType = itk::ImageFileReader< FixedImageType >;
+  using FixedReaderType = itk::ImageFileReader<FixedImageType>;
   FixedReaderType::Pointer fixedReader = FixedReaderType::New();
-  fixedReader->SetFileName( argv[1] );
+  fixedReader->SetFileName(argv[1]);
 
   try
-    {
+  {
     fixedReader->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // We first use the passed fixed image to construct the control point
   // grid and save the control point locations.
 
   FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
-  const unsigned int SpaceDimension = ImageDimension;
+  const unsigned int     SpaceDimension = ImageDimension;
   constexpr unsigned int SplineOrder = 3;
   using CoordinateRepType = double;
 
-  using TransformType = itk::BSplineTransform< CoordinateRepType, SpaceDimension,
-    SplineOrder >;
+  using TransformType = itk::BSplineTransform<CoordinateRepType, SpaceDimension, SplineOrder>;
 
   TransformType::Pointer bsplineTransform = TransformType::New();
 
-  using InitializerType =
-      itk::BSplineTransformInitializer< TransformType, FixedImageType >;
+  using InitializerType = itk::BSplineTransformInitializer<TransformType, FixedImageType>;
 
   InitializerType::Pointer transformInitializer = InitializerType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( transformInitializer, BSplineTransformInitializer,
-    Object );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(transformInitializer, BSplineTransformInitializer, Object);
 
-  transformInitializer->SetTransform( bsplineTransform );
-  ITK_TEST_SET_GET_VALUE( bsplineTransform, transformInitializer->GetTransform() );
+  transformInitializer->SetTransform(bsplineTransform);
+  ITK_TEST_SET_GET_VALUE(bsplineTransform, transformInitializer->GetTransform());
 
-  transformInitializer->SetImage( fixedImage );
-  ITK_TEST_SET_GET_VALUE( fixedImage, transformInitializer->GetImage() );
+  transformInitializer->SetImage(fixedImage);
+  ITK_TEST_SET_GET_VALUE(fixedImage, transformInitializer->GetImage());
 
   TransformType::CoefficientImageArray coefficientImages;
 
@@ -106,22 +104,21 @@ int itkBSplineTransformInitializerTest2( int argc, char * argv[] )
   meshSize[0] = 5;
   meshSize[1] = 6;
 
-  bsplineTransform->SetTransformDomainMeshSize( meshSize );
+  bsplineTransform->SetTransformDomainMeshSize(meshSize);
 
   coefficientImages = bsplineTransform->GetCoefficientImages();
 
   std::vector<FixedImageType::PointType> controlPointLocations;
 
   using CoefficientImageType = TransformType::ImageType;
-  itk::ImageRegionIteratorWithIndex<CoefficientImageType> it(
-    coefficientImages[0], coefficientImages[0]->GetLargestPossibleRegion() );
-  for( it.GoToBegin(); !it.IsAtEnd(); ++it )
-    {
+  itk::ImageRegionIteratorWithIndex<CoefficientImageType> it(coefficientImages[0],
+                                                             coefficientImages[0]->GetLargestPossibleRegion());
+  for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+  {
     FixedImageType::PointType point;
-    coefficientImages[0]->TransformIndexToPhysicalPoint( it.GetIndex(),
-      point );
-    controlPointLocations.push_back( point );
-    }
+    coefficientImages[0]->TransformIndexToPhysicalPoint(it.GetIndex(), point);
+    controlPointLocations.push_back(point);
+  }
 
   // We permute the fixed image and construct the control point grid using
   // the same grid size. The idea is that since the two images reside in
@@ -129,53 +126,51 @@ int itkBSplineTransformInitializerTest2( int argc, char * argv[] )
   // be the same.
 
   using PermuterType = itk::PermuteAxesImageFilter<FixedImageType>;
-  PermuterType::Pointer permuter = PermuterType::New();
+  PermuterType::Pointer               permuter = PermuterType::New();
   PermuterType::PermuteOrderArrayType array;
 
   array[0] = 1;
   array[1] = 0;
 
-  permuter->SetInput( fixedImage );
-  permuter->SetOrder( array );
+  permuter->SetInput(fixedImage);
+  permuter->SetOrder(array);
   permuter->Update();
 
-  TransformType::Pointer bsplineTransform2 = TransformType::New();
+  TransformType::Pointer   bsplineTransform2 = TransformType::New();
   InitializerType::Pointer transformInitializer2 = InitializerType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( transformInitializer2, BSplineTransformInitializer,
-    Object );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(transformInitializer2, BSplineTransformInitializer, Object);
 
-  transformInitializer2->SetTransform( bsplineTransform2 );
-  transformInitializer2->SetImage( permuter->GetOutput() );
+  transformInitializer2->SetTransform(bsplineTransform2);
+  transformInitializer2->SetImage(permuter->GetOutput());
 
   transformInitializer2->InitializeTransform();
 
-  bsplineTransform2->SetTransformDomainMeshSize( meshSize );
+  bsplineTransform2->SetTransformDomainMeshSize(meshSize);
   coefficientImages = bsplineTransform2->GetCoefficientImages();
 
   std::vector<FixedImageType::PointType> controlPointLocations2;
 
-  itk::ImageRegionIteratorWithIndex<CoefficientImageType> it2(
-    coefficientImages[0], coefficientImages[0]->GetLargestPossibleRegion() );
-  for( it2.GoToBegin(); !it2.IsAtEnd(); ++it2 )
-    {
+  itk::ImageRegionIteratorWithIndex<CoefficientImageType> it2(coefficientImages[0],
+                                                              coefficientImages[0]->GetLargestPossibleRegion());
+  for (it2.GoToBegin(); !it2.IsAtEnd(); ++it2)
+  {
     FixedImageType::PointType point;
-    coefficientImages[0]->TransformIndexToPhysicalPoint( it2.GetIndex(),
-      point );
-    controlPointLocations2.push_back( point );
-    }
+    coefficientImages[0]->TransformIndexToPhysicalPoint(it2.GetIndex(), point);
+    controlPointLocations2.push_back(point);
+  }
 
   std::vector<FixedImageType::PointType>::const_iterator it3;
   std::vector<FixedImageType::PointType>::const_iterator it4;
-  for( it3 = controlPointLocations.begin(), it4 = controlPointLocations2.begin();
-    it3 != controlPointLocations.end(); ++it3, ++it4 )
+  for (it3 = controlPointLocations.begin(), it4 = controlPointLocations2.begin(); it3 != controlPointLocations.end();
+       ++it3, ++it4)
+  {
+    if (*it3 != *it4)
     {
-    if( *it3 != *it4 )
-      {
       std::cerr << "Control point locations are different." << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
   return EXIT_SUCCESS;
 }

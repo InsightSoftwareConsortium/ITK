@@ -69,25 +69,24 @@ namespace itk
  * \ingroup DeformableImageRegistration
  * \ingroup ITKPDEDeformableRegistration
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-class ITK_TEMPLATE_EXPORT PDEDeformableRegistrationFilter:
-  public DenseFiniteDifferenceImageFilter< TDisplacementField, TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+class ITK_TEMPLATE_EXPORT PDEDeformableRegistrationFilter
+  : public DenseFiniteDifferenceImageFilter<TDisplacementField, TDisplacementField>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PDEDeformableRegistrationFilter);
 
   /** Standard class type aliases. */
   using Self = PDEDeformableRegistrationFilter;
-  using Superclass = DenseFiniteDifferenceImageFilter< TDisplacementField, TDisplacementField >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = DenseFiniteDifferenceImageFilter<TDisplacementField, TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(PDEDeformableRegistrationFilter,
-               DenseFiniteDifferenceImageFilter);
+  itkTypeMacro(PDEDeformableRegistrationFilter, DenseFiniteDifferenceImageFilter);
 
   /** FixedImage image type. */
   using FixedImageType = TFixedImage;
@@ -110,8 +109,8 @@ public:
   using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
 
   /** PDEDeformableRegistrationFilterFunction type. */
-  using PDEDeformableRegistrationFunctionType = PDEDeformableRegistrationFunction< FixedImageType, MovingImageType,
-                                             DisplacementFieldType >;
+  using PDEDeformableRegistrationFunctionType =
+    PDEDeformableRegistrationFunction<FixedImageType, MovingImageType, DisplacementFieldType>;
 
   /** Inherit some enums and type alias from the superclass. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
@@ -135,15 +134,19 @@ public:
   itkGetInputMacro(InitialDisplacementField, DisplacementFieldType);
 
   /** Get output displacement field. */
-  DisplacementFieldType * GetDisplacementField()
-  { return this->GetOutput(); }
+  DisplacementFieldType *
+  GetDisplacementField()
+  {
+    return this->GetOutput();
+  }
 
   /** Get the number of valid inputs.  For PDEDeformableRegistration,
    * this checks whether the fixed and moving images have been
    * set. While PDEDeformableRegistration can take a third input as an
    * initial displacement field, this input is not a required input.
    */
-  std::vector< SmartPointer< DataObject > >::size_type GetNumberOfValidRequiredInputs() const override;
+  std::vector<SmartPointer<DataObject>>::size_type
+  GetNumberOfValidRequiredInputs() const override;
 
   /** Set/Get whether the displacement field is smoothed
    * (regularized). Smoothing the displacement yields a solution
@@ -154,13 +157,14 @@ public:
   itkGetConstMacro(SmoothDisplacementField, bool);
   itkBooleanMacro(SmoothDisplacementField);
 
-  using StandardDeviationsType = FixedArray< double, ImageDimension >;
+  using StandardDeviationsType = FixedArray<double, ImageDimension>;
 
   /** Set the Gaussian smoothing standard deviations for the
    * displacement field. The values are set with respect to pixel
    * coordinates. */
   itkSetMacro(StandardDeviations, StandardDeviationsType);
-  virtual void SetStandardDeviations(double value);
+  virtual void
+  SetStandardDeviations(double value);
 
   /** Get the Gaussian smoothing standard deviations use for smoothing
    * the displacement field. */
@@ -178,15 +182,19 @@ public:
   /** Set the Gaussian smoothing standard deviations for the update
    * field. The values are set with respect to pixel coordinates. */
   itkSetMacro(UpdateFieldStandardDeviations, StandardDeviationsType);
-  virtual void SetUpdateFieldStandardDeviations(double value);
+  virtual void
+  SetUpdateFieldStandardDeviations(double value);
 
   /** Get the Gaussian smoothing standard deviations used for
    * smoothing the update field. */
   itkGetConstReferenceMacro(UpdateFieldStandardDeviations, StandardDeviationsType);
 
   /** Stop the registration after the current iteration. */
-  virtual void StopRegistration()
-  { m_StopRegistrationFlag = true; }
+  virtual void
+  StopRegistration()
+  {
+    m_StopRegistrationFlag = true;
+  }
 
   /** Set/Get the desired maximum error of the Gaussian kernel approximate.
    * \sa GaussianOperator. */
@@ -201,50 +209,59 @@ public:
 protected:
   PDEDeformableRegistrationFilter();
   ~PDEDeformableRegistrationFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Supplies the halting criteria for this class of filters.  The
    * algorithm will stop after a user-specified number of iterations. */
-  bool Halt() override
+  bool
+  Halt() override
   {
-    if ( m_StopRegistrationFlag )
-      {
+    if (m_StopRegistrationFlag)
+    {
       return true;
-      }
+    }
 
     return this->Superclass::Halt();
   }
 
   /** A simple method to copy the data from the input to the output.
    * If the input does not exist, a zero field is written to the output. */
-  void CopyInputToOutput() override;
+  void
+  CopyInputToOutput() override;
 
   /** Initialize the state of filter and equation before each iteration.
    * Progress feeback is implemented as part of this method. */
-  void InitializeIteration() override;
+  void
+  InitializeIteration() override;
 
   /** Utility to smooth the displacement field (represented in the Output)
    * using a Gaussian operator. The amount of smoothing can be specified
    * by setting the StandardDeviations. */
-  virtual void SmoothDisplacementField();
+  virtual void
+  SmoothDisplacementField();
 
   /** Utility to smooth the UpdateBuffer using a Gaussian operator.
    * The amount of smoothing can be specified by setting the
    * UpdateFieldStandardDeviations. */
-  virtual void SmoothUpdateField();
+  virtual void
+  SmoothUpdateField();
 
   /** This method is called after the solution has been generated. In this case,
    * the filter release the memory of the internal buffers. */
-  void PostProcessOutput() override;
+  void
+  PostProcessOutput() override;
 
   /** This method is called before iterating the solution. */
-  void Initialize() override;
+  void
+  Initialize() override;
 
   /** By default the output displacement field has the same Spacing, Origin
    * and LargestPossibleRegion as the input/initial displacement field.  If
    * the initial displacement field is not set, the output information is
    * copied from the fixed image. */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** It is difficult to compute in advance the input moving image region
    * required to compute the requested output region. Thus the safest
@@ -252,7 +269,8 @@ protected:
    *
    * For the fixed image and displacement field, the input requested region
    * set to be the same as that of the output requested region. */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
 private:
   /** Standard deviation for Gaussian smoothing */
@@ -280,7 +298,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPDEDeformableRegistrationFilter.hxx"
+#  include "itkPDEDeformableRegistrationFilter.hxx"
 #endif
 
 #endif

@@ -40,38 +40,38 @@ namespace itk
  * \endsphinx
  */
 
-template< unsigned int TDimension = 3 >
-class ITK_TEMPLATE_EXPORT ContourSpatialObject:
-  public PointBasedSpatialObject<  TDimension,
-           ContourSpatialObjectPoint< TDimension > >
+template <unsigned int TDimension = 3>
+class ITK_TEMPLATE_EXPORT ContourSpatialObject
+  : public PointBasedSpatialObject<TDimension, ContourSpatialObjectPoint<TDimension>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ContourSpatialObject);
 
   using Self = ContourSpatialObject;
-  using Superclass = PointBasedSpatialObject< TDimension,
-          ContourSpatialObjectPoint< TDimension > >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = PointBasedSpatialObject<TDimension, ContourSpatialObjectPoint<TDimension>>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using ScalarType = double;
 
-  using ContourPointType = ContourSpatialObjectPoint< TDimension >;
-  using ContourPointListType = std::vector< ContourPointType >;
-  using ControlPointType = ContourSpatialObjectPoint< TDimension >;
-  using ControlPointListType = std::vector< ControlPointType >;
+  using ContourPointType = ContourSpatialObjectPoint<TDimension>;
+  using ContourPointListType = std::vector<ContourPointType>;
+  using ControlPointType = ContourSpatialObjectPoint<TDimension>;
+  using ControlPointListType = std::vector<ControlPointType>;
 
   using PointType = typename Superclass::PointType;
   using TransformType = typename Superclass::TransformType;
   using BoundingBoxType = typename Superclass::BoundingBoxType;
-  using PointContainerType = VectorContainer< IdentifierType, PointType >;
-  using PointContainerPointer = SmartPointer< PointContainerType >;
+  using PointContainerType = VectorContainer<IdentifierType, PointType>;
+  using PointContainerPointer = SmartPointer<PointContainerType>;
 
-  enum InterpolationMethodType {
+  enum InterpolationMethodType
+  {
     NO_INTERPOLATION = 0,
     EXPLICIT_INTERPOLATION,
     BEZIER_INTERPOLATION,
-    LINEAR_INTERPOLATION };
+    LINEAR_INTERPOLATION
+  };
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -81,55 +81,74 @@ public:
 
   /** Reset the spatial object to its initial condition, yet preserves
    *   Id, Parent, and Child information */
-  void Clear( void ) override;
+  void
+  Clear(void) override;
 
   /** Returns a reference to the list of the control points. */
-  ControlPointListType & GetControlPoints()
-  { return m_ControlPoints; }
+  ControlPointListType &
+  GetControlPoints()
+  {
+    return m_ControlPoints;
+  }
 
   /** Returns a reference to the list of the control points. */
-  const ControlPointListType & GetControlPoints() const
-  { return m_ControlPoints; }
+  const ControlPointListType &
+  GetControlPoints() const
+  {
+    return m_ControlPoints;
+  }
 
   /** Set the list of control points. */
-  void SetControlPoints(const ControlPointListType & newPoints);
+  void
+  SetControlPoints(const ControlPointListType & newPoints);
 
   /** Set the list of control points. */
-  void AddControlPoint(const ControlPointType & point);
+  void
+  AddControlPoint(const ControlPointType & point);
 
   /** Return a control point in the list given the index */
-  const ControlPointType * GetControlPoint(IdentifierType id) const
-  { return &( m_ControlPoints[id] ); }
+  const ControlPointType *
+  GetControlPoint(IdentifierType id) const
+  {
+    return &(m_ControlPoints[id]);
+  }
 
   /** Return a control point in the list given the index */
-  ControlPointType * GetControlPoint(IdentifierType id)
-  { return &( m_ControlPoints[id] ); }
+  ControlPointType *
+  GetControlPoint(IdentifierType id)
+  {
+    return &(m_ControlPoints[id]);
+  }
 
   /** Return the number of control points in the list */
-  SizeValueType GetNumberOfControlPoints() const
-  { return static_cast<SizeValueType>( m_ControlPoints.size() ); }
+  SizeValueType
+  GetNumberOfControlPoints() const
+  {
+    return static_cast<SizeValueType>(m_ControlPoints.size());
+  }
 
   /** Set the interpolation type */
-  itkSetMacro( InterpolationMethod, InterpolationMethodType )
+  itkSetMacro(InterpolationMethod, InterpolationMethodType)
 
-  /** Get the interpolation type */
-  itkGetConstMacro( InterpolationMethod, InterpolationMethodType )
+    /** Get the interpolation type */
+    itkGetConstMacro(InterpolationMethod, InterpolationMethodType)
 
-  /** Set the interpolation factor, e.g., factor of 2 means 2 interpolated
-   *    points created for every control point. */
-  itkSetMacro( InterpolationFactor, unsigned int )
+    /** Set the interpolation factor, e.g., factor of 2 means 2 interpolated
+     *    points created for every control point. */
+    itkSetMacro(InterpolationFactor, unsigned int)
 
-  /** Get the interpolation factor */
-  itkGetConstMacro( InterpolationFactor, unsigned int )
+    /** Get the interpolation factor */
+    itkGetConstMacro(InterpolationFactor, unsigned int)
 
-  /** Set if the contour is closed */
-  itkSetMacro(IsClosed, bool);
+    /** Set if the contour is closed */
+    itkSetMacro(IsClosed, bool);
 
   /** Get if the contour is closed */
   itkGetConstMacro(IsClosed, bool);
 
   /** Get the axis-normal orientation of the contour */
-  int GetOrientationInObjectSpace() const;
+  int
+  GetOrientationInObjectSpace() const;
 
   /** Set the slice attached to the contour.
    *   Set -1 to indicate no attachment */
@@ -140,33 +159,35 @@ public:
   itkGetConstMacro(AttachedToSlice, int);
 
   /** Apply the interpolator to generate points from the control points */
-  void Update() override;
+  void
+  Update() override;
 
 protected:
   ContourSpatialObject();
   ~ContourSpatialObject() override = default;
 
   /** Method to print the object. */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typename LightObject::Pointer InternalClone() const override;
+  typename LightObject::Pointer
+  InternalClone() const override;
 
 private:
-  ContourPointListType      m_ControlPoints;
+  ContourPointListType m_ControlPoints;
 
-  InterpolationMethodType   m_InterpolationMethod;
-  unsigned int              m_InterpolationFactor;
+  InterpolationMethodType m_InterpolationMethod;
+  unsigned int            m_InterpolationFactor;
 
-  mutable bool              m_IsClosed;
-  mutable int               m_OrientationInObjectSpace;
-  mutable ModifiedTimeType  m_OrientationInObjectSpaceMTime;
-  int                       m_AttachedToSlice;
-
+  mutable bool             m_IsClosed;
+  mutable int              m_OrientationInObjectSpace;
+  mutable ModifiedTimeType m_OrientationInObjectSpaceMTime;
+  int                      m_AttachedToSlice;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkContourSpatialObject.hxx"
+#  include "itkContourSpatialObject.hxx"
 #endif
 
 #endif // itkContourSpatialObject_h

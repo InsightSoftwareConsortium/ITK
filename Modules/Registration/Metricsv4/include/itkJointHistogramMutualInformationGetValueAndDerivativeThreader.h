@@ -30,23 +30,23 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-template < typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric >
+template <typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric>
 class ITK_TEMPLATE_EXPORT JointHistogramMutualInformationGetValueAndDerivativeThreader
-  : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
+  : public ImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(JointHistogramMutualInformationGetValueAndDerivativeThreader);
 
   /** Standard class type aliases. */
   using Self = JointHistogramMutualInformationGetValueAndDerivativeThreader;
-  using Superclass =
-      ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro( JointHistogramMutualInformationGetValueAndDerivativeThreader, ImageToImageMetricv4GetValueAndDerivativeThreader );
+  itkTypeMacro(JointHistogramMutualInformationGetValueAndDerivativeThreader,
+               ImageToImageMetricv4GetValueAndDerivativeThreader);
 
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   using DomainType = typename Superclass::DomainType;
   using AssociateType = typename Superclass::AssociateType;
@@ -81,47 +81,47 @@ protected:
   JointHistogramMutualInformationGetValueAndDerivativeThreader();
   ~JointHistogramMutualInformationGetValueAndDerivativeThreader() override;
 
-  using JointHistogramType = Image< SizeValueType, 2 >;
+  using JointHistogramType = Image<SizeValueType, 2>;
 
-  void BeforeThreadedExecution() override;
+  void
+  BeforeThreadedExecution() override;
 
-  void AfterThreadedExecution() override;
+  void
+  AfterThreadedExecution() override;
 
-  bool ProcessPoint(
-        const VirtualIndexType &          virtualIndex,
-        const VirtualPointType &          virtualPoint,
-        const FixedImagePointType &       mappedFixedPoint,
-        const FixedImagePixelType &       mappedFixedPixelValue,
-        const FixedImageGradientType &    mappedFixedImageGradient,
-        const MovingImagePointType &      mappedMovingPoint,
-        const MovingImagePixelType &      mappedMovingPixelValue,
-        const MovingImageGradientType &   mappedMovingImageGradient,
-        MeasureType &                     metricValueReturn,
-        DerivativeType &                  localDerivativeReturn,
-        const ThreadIdType                threadId ) const override;
+  bool
+  ProcessPoint(const VirtualIndexType &        virtualIndex,
+               const VirtualPointType &        virtualPoint,
+               const FixedImagePointType &     mappedFixedPoint,
+               const FixedImagePixelType &     mappedFixedPixelValue,
+               const FixedImageGradientType &  mappedFixedImageGradient,
+               const MovingImagePointType &    mappedMovingPoint,
+               const MovingImagePixelType &    mappedMovingPixelValue,
+               const MovingImageGradientType & mappedMovingImageGradient,
+               MeasureType &                   metricValueReturn,
+               DerivativeType &                localDerivativeReturn,
+               const ThreadIdType              threadId) const override;
 
-  inline InternalComputationValueType ComputeFixedImageMarginalPDFDerivative(
-                                        const MarginalPDFPointType & margPDFpoint,
-                                        const ThreadIdType threadId ) const;
+  inline InternalComputationValueType
+  ComputeFixedImageMarginalPDFDerivative(const MarginalPDFPointType & margPDFpoint, const ThreadIdType threadId) const;
 
-  inline InternalComputationValueType ComputeMovingImageMarginalPDFDerivative(
-                                        const MarginalPDFPointType & margPDFpoint,
-                                        const ThreadIdType threadId ) const;
+  inline InternalComputationValueType
+  ComputeMovingImageMarginalPDFDerivative(const MarginalPDFPointType & margPDFpoint, const ThreadIdType threadId) const;
 
-  inline InternalComputationValueType ComputeJointPDFDerivative(
-                                          const JointPDFPointType & jointPDFpoint,
-                                          const ThreadIdType threadId,
-                                          const SizeValueType ind ) const;
+  inline InternalComputationValueType
+  ComputeJointPDFDerivative(const JointPDFPointType & jointPDFpoint,
+                            const ThreadIdType        threadId,
+                            const SizeValueType       ind) const;
   struct JointHistogramMIPerThreadStruct
-    {
-    JointPDFInterpolatorPointer          JointPDFInterpolator;
-    MarginalPDFInterpolatorPointer       FixedImageMarginalPDFInterpolator;
-    MarginalPDFInterpolatorPointer       MovingImageMarginalPDFInterpolator;
-    };
-  itkPadStruct( ITK_CACHE_LINE_ALIGNMENT, JointHistogramMIPerThreadStruct,
-                                            PaddedJointHistogramMIPerThreadStruct);
-  itkAlignedTypedef( ITK_CACHE_LINE_ALIGNMENT, PaddedJointHistogramMIPerThreadStruct,
-                                               AlignedJointHistogramMIPerThreadStruct );
+  {
+    JointPDFInterpolatorPointer    JointPDFInterpolator;
+    MarginalPDFInterpolatorPointer FixedImageMarginalPDFInterpolator;
+    MarginalPDFInterpolatorPointer MovingImageMarginalPDFInterpolator;
+  };
+  itkPadStruct(ITK_CACHE_LINE_ALIGNMENT, JointHistogramMIPerThreadStruct, PaddedJointHistogramMIPerThreadStruct);
+  itkAlignedTypedef(ITK_CACHE_LINE_ALIGNMENT,
+                    PaddedJointHistogramMIPerThreadStruct,
+                    AlignedJointHistogramMIPerThreadStruct);
   AlignedJointHistogramMIPerThreadStruct * m_JointHistogramMIPerThreadVariables;
 
 private:

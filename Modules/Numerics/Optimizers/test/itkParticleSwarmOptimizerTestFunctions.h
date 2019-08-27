@@ -37,46 +37,45 @@ namespace itk
 class ParticleSwarmTestF1 : public SingleValuedCostFunction
 {
 public:
-
   using Self = ParticleSwarmTestF1;
   using Superclass = SingleValuedCostFunction;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
-  itkNewMacro( Self );
-  itkTypeMacro( ParticleSwarmTestF1, SingleValuedCostFunction );
+  itkNewMacro(Self);
+  itkTypeMacro(ParticleSwarmTestF1, SingleValuedCostFunction);
 
   using ParametersType = Superclass::ParametersType;
   using MeasureType = Superclass::MeasureType;
 
   ParticleSwarmTestF1() = default;
 
-  double GetValue( const ParametersType & parameters ) const override
+  double
+  GetValue(const ParametersType & parameters) const override
   {
     double val;
 
-    if( parameters[0] < 0 )
-      {
+    if (parameters[0] < 0)
+    {
       val = parameters[0] * parameters[0] + 4 * parameters[0];
-      }
+    }
     else
-      {
+    {
       val = 2 * parameters[0] * parameters[0] - 8 * parameters[0];
-      }
+    }
     return val;
   }
 
-  void GetDerivative( const ParametersType & itkNotUsed(parameters),
-                      DerivativeType & itkNotUsed(derivative) ) const override
+  void
+  GetDerivative(const ParametersType & itkNotUsed(parameters), DerivativeType & itkNotUsed(derivative)) const override
   {
-    throw ExceptionObject( __FILE__, __LINE__,
-                                "no derivative available" );
+    throw ExceptionObject(__FILE__, __LINE__, "no derivative available");
   }
 
-  unsigned int GetNumberOfParameters() const override
+  unsigned int
+  GetNumberOfParameters() const override
   {
     return 1;
   }
-
 };
 
 /**
@@ -94,13 +93,12 @@ public:
 class ParticleSwarmTestF2 : public SingleValuedCostFunction
 {
 public:
-
   using Self = ParticleSwarmTestF2;
   using Superclass = SingleValuedCostFunction;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
-  itkNewMacro( Self );
-  itkTypeMacro( ParticleSwarmTestF2, SingleValuedCostFunction );
+  itkNewMacro(Self);
+  itkTypeMacro(ParticleSwarmTestF2, SingleValuedCostFunction);
 
   using ParametersType = Superclass::ParametersType;
   using DerivativeType = Superclass::DerivativeType;
@@ -109,34 +107,35 @@ public:
   using VectorType = vnl_vector<double>;
   using MatrixType = vnl_matrix<double>;
 
-  ParticleSwarmTestF2() : m_A( 2, 2 ), m_Intercept(2)
+  ParticleSwarmTestF2()
+    : m_A(2, 2)
+    , m_Intercept(2)
   {
-    m_A[0][0] =  3;
-    m_A[0][1] =  2;
-    m_A[1][0] =  2;
-    m_A[1][1] =  6;
+    m_A[0][0] = 3;
+    m_A[0][1] = 2;
+    m_A[1][0] = 2;
+    m_A[1][1] = 6;
 
-    m_Intercept[0]    =  2;
-    m_Intercept[1]    = -8;
+    m_Intercept[0] = 2;
+    m_Intercept[1] = -8;
   }
 
-  double GetValue( const ParametersType & parameters ) const override
+  double
+  GetValue(const ParametersType & parameters) const override
   {
-    return 0.5 * ( m_A(0, 0) * parameters[0] * parameters[0]
-                   + m_A(0, 1) * parameters[0] * parameters[1]
-                   + m_A(1, 0) * parameters[0] * parameters[1]
-                   + m_A(1, 1) * parameters[1] * parameters[1] )
-           - m_Intercept[0] * parameters[0] - m_Intercept[1] * parameters[1];
+    return 0.5 * (m_A(0, 0) * parameters[0] * parameters[0] + m_A(0, 1) * parameters[0] * parameters[1] +
+                  m_A(1, 0) * parameters[0] * parameters[1] + m_A(1, 1) * parameters[1] * parameters[1]) -
+           m_Intercept[0] * parameters[0] - m_Intercept[1] * parameters[1];
   }
 
-  void GetDerivative( const ParametersType & itkNotUsed(parameters),
-                      DerivativeType & itkNotUsed(derivative) ) const override
+  void
+  GetDerivative(const ParametersType & itkNotUsed(parameters), DerivativeType & itkNotUsed(derivative)) const override
   {
-    throw ExceptionObject( __FILE__, __LINE__,
-                                "no derivative available" );
+    throw ExceptionObject(__FILE__, __LINE__, "no derivative available");
   }
 
-  unsigned int GetNumberOfParameters() const override
+  unsigned int
+  GetNumberOfParameters() const override
   {
     return 2;
   }
@@ -154,38 +153,36 @@ private:
 class ParticleSwarmTestF3 : public SingleValuedCostFunction
 {
 public:
-
   using Self = ParticleSwarmTestF3;
   using Superclass = SingleValuedCostFunction;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
-  itkNewMacro( Self );
-  itkTypeMacro( ParticleSwarmTestF3, SingleValuedCostFunction );
+  itkNewMacro(Self);
+  itkTypeMacro(ParticleSwarmTestF3, SingleValuedCostFunction);
 
   using ParametersType = Superclass::ParametersType;
   using MeasureType = Superclass::MeasureType;
 
   ParticleSwarmTestF3() = default;
 
-  double GetValue( const ParametersType & parameters ) const override
+  double
+  GetValue(const ParametersType & parameters) const override
   {
-    return (1 - parameters[0]) * (1 - parameters[0])
-           + 100 * (parameters[1] - parameters[0] * parameters[0])
-           * (parameters[1] - parameters[0] * parameters[0]);
+    return (1 - parameters[0]) * (1 - parameters[0]) +
+           100 * (parameters[1] - parameters[0] * parameters[0]) * (parameters[1] - parameters[0] * parameters[0]);
   }
 
-  void GetDerivative( const ParametersType & itkNotUsed(parameters),
-                      DerivativeType & itkNotUsed(derivative) ) const override
+  void
+  GetDerivative(const ParametersType & itkNotUsed(parameters), DerivativeType & itkNotUsed(derivative)) const override
   {
-    throw ExceptionObject( __FILE__, __LINE__,
-                                "no derivative available" );
+    throw ExceptionObject(__FILE__, __LINE__, "no derivative available");
   }
 
-  unsigned int GetNumberOfParameters() const override
+  unsigned int
+  GetNumberOfParameters() const override
   {
     return 2;
   }
-
 };
 
 class CommandIterationUpdateParticleSwarm : public Command
@@ -194,37 +191,38 @@ public:
   using Self = CommandIterationUpdateParticleSwarm;
   using Superclass = Command;
   using Pointer = SmartPointer<Self>;
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
-  void Reset()
+  void
+  Reset()
   {
     m_IterationNumber = 0;
   }
 
-  itkSetMacro( PrintOptimizer, bool );
+  itkSetMacro(PrintOptimizer, bool);
 
-  void Execute(Object *caller, const EventObject & event) override
+  void
+  Execute(Object * caller, const EventObject & event) override
   {
-    Execute( (const Object *)caller, event);
+    Execute((const Object *)caller, event);
   }
 
-  void Execute(const Object * object, const EventObject & event) override
+  void
+  Execute(const Object * object, const EventObject & event) override
   {
-    const auto * optimizer = static_cast<const ParticleSwarmOptimizerBase *>( object );
+    const auto * optimizer = static_cast<const ParticleSwarmOptimizerBase *>(object);
 
-    if( dynamic_cast<const IterationEvent *>( &event ) != nullptr ||
-          dynamic_cast<const StartEvent *>( &event ) != nullptr )
-      {
+    if (dynamic_cast<const IterationEvent *>(&event) != nullptr || dynamic_cast<const StartEvent *>(&event) != nullptr)
+    {
       std::cout << m_IterationNumber++ << ":  ";
       std::cout << "x: " << optimizer->GetCurrentPosition() << "  ";
       std::cout << "f(x): " << optimizer->GetValue() << std::endl;
-      if( m_PrintOptimizer )
-        {
-        ParticleSwarmOptimizerBase::Pointer optimizerPtr =
-          const_cast<ParticleSwarmOptimizerBase *>(optimizer);
+      if (m_PrintOptimizer)
+      {
+        ParticleSwarmOptimizerBase::Pointer optimizerPtr = const_cast<ParticleSwarmOptimizerBase *>(optimizer);
         std::cout << optimizerPtr;
-        }
       }
+    }
   }
 
 protected:
@@ -239,5 +237,5 @@ private:
   bool          m_PrintOptimizer;
 };
 
-} // itk namespace
-#endif //itkParticleSwarmOptimizerTestFunctions_h
+} // namespace itk
+#endif // itkParticleSwarmOptimizerTestFunctions_h

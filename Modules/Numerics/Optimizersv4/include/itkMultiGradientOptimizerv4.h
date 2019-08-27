@@ -23,28 +23,28 @@
 
 namespace itk
 {
-  /** \class MultiGradientOptimizerv4Template
-   *  \brief Multiple gradient-based optimizers are combined in order to perform a multi-objective optimization.
-   *
-   *  This optimizer will do a combined gradient descent optimization using whatever metric/optimizer gradient
-   *  sub-optimizers are passed to it by the user.  The learning rate or scaleestimator for each sub-optimizer
-   *  controls the relative weight of each metric in the optimization.  Denote the weights as \f$ w_1 \f$ and \f$ w_2 \f$ then
-   *  the MultiGradientOptimizer will optimize \f$ \sum_i w_i Metric_i \f$ by using update rule:
-   *
-   *  \f[
-   *    params_{new} = params_{old} + \frac{1}{N_{Metrics}} * ( \sum_i w_i Grad(Metric_i) )
-   *  \f]
-   *
-   *  \note The scales, learning rates and weights options must be set individually for each sub-optimizer,
-   *  and have no effect when set on this class.
-   *
-   *  The test for this class illustrates the expected behavior.
-   *
-   * \ingroup ITKOptimizersv4
-   */
-template<typename TInternalComputationValueType>
+/** \class MultiGradientOptimizerv4Template
+ *  \brief Multiple gradient-based optimizers are combined in order to perform a multi-objective optimization.
+ *
+ *  This optimizer will do a combined gradient descent optimization using whatever metric/optimizer gradient
+ *  sub-optimizers are passed to it by the user.  The learning rate or scaleestimator for each sub-optimizer
+ *  controls the relative weight of each metric in the optimization.  Denote the weights as \f$ w_1 \f$ and \f$ w_2 \f$
+ * then the MultiGradientOptimizer will optimize \f$ \sum_i w_i Metric_i \f$ by using update rule:
+ *
+ *  \f[
+ *    params_{new} = params_{old} + \frac{1}{N_{Metrics}} * ( \sum_i w_i Grad(Metric_i) )
+ *  \f]
+ *
+ *  \note The scales, learning rates and weights options must be set individually for each sub-optimizer,
+ *  and have no effect when set on this class.
+ *
+ *  The test for this class illustrates the expected behavior.
+ *
+ * \ingroup ITKOptimizersv4
+ */
+template <typename TInternalComputationValueType>
 class ITK_TEMPLATE_EXPORT MultiGradientOptimizerv4Template
-: public GradientDescentOptimizerv4Template<TInternalComputationValueType>
+  : public GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultiGradientOptimizerv4Template);
@@ -52,8 +52,8 @@ public:
   /** Standard class type aliases. */
   using Self = MultiGradientOptimizerv4Template;
   using Superclass = GradientDescentOptimizerv4Template<TInternalComputationValueType>;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MultiGradientOptimizerv4Template, Superclass);
@@ -62,11 +62,12 @@ public:
   itkNewMacro(Self);
 
   using LocalOptimizerType = itk::GradientDescentOptimizerv4Template<TInternalComputationValueType>;
-  using LocalOptimizerPointer = typename itk::GradientDescentOptimizerv4Template<TInternalComputationValueType>::Pointer;
+  using LocalOptimizerPointer =
+    typename itk::GradientDescentOptimizerv4Template<TInternalComputationValueType>::Pointer;
   using ParametersType = typename Superclass::ParametersType;
   using OptimizerType = ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>;
   using OptimizerPointer = typename OptimizerType::Pointer;
-  using OptimizersListType = std::vector< LocalOptimizerPointer >;
+  using OptimizersListType = std::vector<LocalOptimizerPointer>;
   using OptimizersListSizeType = typename OptimizersListType::size_type;
 
   using StopConditionType = typename Superclass::StopConditionType;
@@ -89,53 +90,61 @@ public:
 
   /** Measure type */
   using MeasureType = typename Superclass::MeasureType;
-  using MetricValuesListType = std::vector< MeasureType >;
+  using MetricValuesListType = std::vector<MeasureType>;
 
   /** Get stop condition enum */
-  const StopConditionType & GetStopCondition() const override
-    {
+  const StopConditionType &
+  GetStopCondition() const override
+  {
     return this->m_StopCondition;
-    }
+  }
 
   /** Begin the optimization */
-  void StartOptimization( bool doOnlyInitialization = false ) override;
+  void
+  StartOptimization(bool doOnlyInitialization = false) override;
 
   /** Stop optimization. The object is left in a state so the
    * optimization can be resumed by calling ResumeOptimization. */
-  void StopOptimization() override;
+  void
+  StopOptimization() override;
 
   /** Resume the optimization. Can be called after StopOptimization to
    * resume. The bulk of the optimization work loop is here. */
-  void ResumeOptimization() override;
+  void
+  ResumeOptimization() override;
 
   /** Get the reason for termination */
-  const StopConditionReturnStringType GetStopConditionDescription() const override;
+  const StopConditionReturnStringType
+  GetStopConditionDescription() const override;
 
   /** Get the list of optimizers currently held.  */
-  OptimizersListType & GetOptimizersList();
+  OptimizersListType &
+  GetOptimizersList();
 
   /** Set the list of optimizers to combine */
-  void SetOptimizersList(OptimizersListType & p);
+  void
+  SetOptimizersList(OptimizersListType & p);
 
   /** Get the list of metric values that we produced after the multi-objective search.  */
-  const MetricValuesListType & GetMetricValuesList() const;
+  const MetricValuesListType &
+  GetMetricValuesList() const;
 
-  protected:
-
+protected:
   /** Default constructor */
   MultiGradientOptimizerv4Template();
   ~MultiGradientOptimizerv4Template() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /* Common variables for optimization control and reporting */
-  bool                          m_Stop{false};
-  StopConditionType             m_StopCondition;
-  StopConditionDescriptionType  m_StopConditionDescription;
-  OptimizersListType            m_OptimizersList;
-  MetricValuesListType          m_MetricValuesList;
-  MeasureType                   m_MinimumMetricValue;
-  MeasureType                   m_MaximumMetricValue;
+  bool                         m_Stop{ false };
+  StopConditionType            m_StopCondition;
+  StopConditionDescriptionType m_StopConditionDescription;
+  OptimizersListType           m_OptimizersList;
+  MetricValuesListType         m_MetricValuesList;
+  MeasureType                  m_MinimumMetricValue;
+  MeasureType                  m_MaximumMetricValue;
 };
 
 /** This helps to meet backward compatibility */
@@ -144,7 +153,7 @@ using MultiGradientOptimizerv4 = MultiGradientOptimizerv4Template<double>;
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMultiGradientOptimizerv4.hxx"
+#  include "itkMultiGradientOptimizerv4.hxx"
 #endif
 
 #endif

@@ -48,17 +48,15 @@ namespace itk
  * \ingroup ITKThresholding
  */
 
-template<typename TInputImage, typename TOutputImage, typename TMaskImage=TOutputImage>
-class HuangThresholdImageFilter :
-    public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
+template <typename TInputImage, typename TOutputImage, typename TMaskImage = TOutputImage>
+class HuangThresholdImageFilter : public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(HuangThresholdImageFilter);
 
   /** Standard Self type alias */
   using Self = HuangThresholdImageFilter;
-  using Superclass = HistogramThresholdImageFilter<TInputImage,TOutputImage,
-                                        TMaskImage>;
+  using Superclass = HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -92,17 +90,14 @@ public:
   using MaskImageRegionType = typename MaskImageType::RegionType;
 
   using HistogramType = typename Superclass::HistogramType;
-  using CalculatorType = HuangThresholdCalculator< HistogramType, InputPixelType >;
+  using CalculatorType = HuangThresholdCalculator<HistogramType, InputPixelType>;
 
   /** Image related type alias. */
   static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
   static constexpr unsigned int OutputImageDimension = OutputImageType::ImageDimension;
 
 protected:
-  HuangThresholdImageFilter()
-    {
-    this->SetCalculator( CalculatorType::New() );
-    }
+  HuangThresholdImageFilter() { this->SetCalculator(CalculatorType::New()); }
   ~HuangThresholdImageFilter() override = default;
 };
 

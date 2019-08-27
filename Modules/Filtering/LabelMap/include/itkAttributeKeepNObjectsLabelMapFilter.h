@@ -21,7 +21,8 @@
 #include "itkInPlaceLabelMapFilter.h"
 #include "itkAttributeLabelObject.h"
 
-namespace itk {
+namespace itk
+{
 /** \class AttributeKeepNObjectsLabelMapFilter
  * \brief keep N objects according to their attribute value
  *
@@ -38,10 +39,10 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template<typename TImage, typename TAttributeAccessor=
-    typename Functor::AttributeLabelObjectAccessor< typename TImage::LabelObjectType > >
-class ITK_TEMPLATE_EXPORT AttributeKeepNObjectsLabelMapFilter :
-    public InPlaceLabelMapFilter<TImage>
+template <typename TImage,
+          typename TAttributeAccessor =
+            typename Functor::AttributeLabelObjectAccessor<typename TImage::LabelObjectType>>
+class ITK_TEMPLATE_EXPORT AttributeKeepNObjectsLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AttributeKeepNObjectsLabelMapFilter);
@@ -70,17 +71,16 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(AttributeKeepNObjectsLabelMapFilter,
-               InPlaceLabelMapFilter);
+  itkTypeMacro(AttributeKeepNObjectsLabelMapFilter, InPlaceLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-/*  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<InputImagePixelType>));
-  itkConceptMacro(IntConvertibleToInputCheck,
-    (Concept::Convertible<int, InputImagePixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<InputImagePixelType>));*/
+  /*  itkConceptMacro(InputEqualityComparableCheck,
+      (Concept::EqualityComparable<InputImagePixelType>));
+    itkConceptMacro(IntConvertibleToInputCheck,
+      (Concept::Convertible<int, InputImagePixelType>));
+    itkConceptMacro(InputOStreamWritableCheck,
+      (Concept::OStreamWritable<InputImagePixelType>));*/
   // End concept checking
 #endif
 
@@ -89,58 +89,68 @@ public:
    * highest value are kept. Turming ReverseOrdering to true make this filter
    * keep the objects with the smallest values
    */
-  itkSetMacro( ReverseOrdering, bool );
-  itkGetConstReferenceMacro( ReverseOrdering, bool );
-  itkBooleanMacro( ReverseOrdering );
+  itkSetMacro(ReverseOrdering, bool);
+  itkGetConstReferenceMacro(ReverseOrdering, bool);
+  itkBooleanMacro(ReverseOrdering);
 
   /**
    * Set/Get the number of objects to keep
    */
-  itkSetMacro( NumberOfObjects, SizeValueType );
-  itkGetConstReferenceMacro( NumberOfObjects, SizeValueType );
+  itkSetMacro(NumberOfObjects, SizeValueType);
+  itkGetConstReferenceMacro(NumberOfObjects, SizeValueType);
 
 protected:
   AttributeKeepNObjectsLabelMapFilter();
   ~AttributeKeepNObjectsLabelMapFilter() override = default;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   class ReverseComparator
-    {
-    public:
-    bool operator()( const typename LabelObjectType::Pointer & a, const typename LabelObjectType::Pointer & b )
-      {
-      return m_Accessor( a ) < m_Accessor( b );
-      }
-    ReverseComparator() : m_Accessor() {}
-    private:
-     AttributeAccessorType m_Accessor;
-    };
-
-  class Comparator
-    {
+  {
   public:
-    bool operator()( const typename LabelObjectType::Pointer & a, const typename LabelObjectType::Pointer & b )
-      {
-      return m_Accessor( a ) > m_Accessor( b );
-      }
-    Comparator(): m_Accessor () {}
+    bool
+    operator()(const typename LabelObjectType::Pointer & a, const typename LabelObjectType::Pointer & b)
+    {
+      return m_Accessor(a) < m_Accessor(b);
+    }
+    ReverseComparator()
+      : m_Accessor()
+    {}
+
   private:
     AttributeAccessorType m_Accessor;
-    };
+  };
+
+  class Comparator
+  {
+  public:
+    bool
+    operator()(const typename LabelObjectType::Pointer & a, const typename LabelObjectType::Pointer & b)
+    {
+      return m_Accessor(a) > m_Accessor(b);
+    }
+    Comparator()
+      : m_Accessor()
+    {}
+
+  private:
+    AttributeAccessorType m_Accessor;
+  };
 
 private:
-  bool           m_ReverseOrdering;
-  SizeValueType  m_NumberOfObjects;
+  bool          m_ReverseOrdering;
+  SizeValueType m_NumberOfObjects;
 
 }; // end of class
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAttributeKeepNObjectsLabelMapFilter.hxx"
+#  include "itkAttributeKeepNObjectsLabelMapFilter.hxx"
 #endif
 
 #endif

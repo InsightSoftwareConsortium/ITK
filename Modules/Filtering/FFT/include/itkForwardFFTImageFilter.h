@@ -56,9 +56,9 @@ namespace itk
  * \sphinxexample{Filtering/FFT/ComputeForwardFFT,Compute Forward FFT}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage=Image< std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension> >
-class ITK_TEMPLATE_EXPORT ForwardFFTImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage,
+          typename TOutputImage = Image<std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT ForwardFFTImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ForwardFFTImageFilter);
@@ -74,36 +74,40 @@ public:
   using OutputSizeType = typename OutputIndexType::SizeType;
 
   using Self = ForwardFFTImageFilter;
-  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Customized object creation methods that support configuration-based
-    * selection of FFT implementation.
-    *
-    * Default implementation is VnlFFT. */
-  static Pointer New();
+   * selection of FFT implementation.
+   *
+   * Default implementation is VnlFFT. */
+  static Pointer
+  New();
 
   /* Return the prefered greatest prime factor supported for the input image
    * size. Defaults to 2 as many implementations work only for sizes that are
    * power of 2.
    */
-  virtual SizeValueType GetSizeGreatestPrimeFactor() const;
+  virtual SizeValueType
+  GetSizeGreatestPrimeFactor() const;
 
 protected:
   ForwardFFTImageFilter() = default;
   ~ForwardFFTImageFilter() override = default;
 
   /** This class requires the entire input. */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** This class produces the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *output) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkForwardFFTImageFilter.hxx"
+#  include "itkForwardFFTImageFilter.hxx"
 #endif
 
 #endif

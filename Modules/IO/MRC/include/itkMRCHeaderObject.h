@@ -45,8 +45,7 @@ namespace itk
  * \sa MetaDataDictionary
  * \ingroup ITKIOMRC
  */
-class ITKIOMRC_EXPORT MRCHeaderObject:
-  public LightObject
+class ITKIOMRC_EXPORT MRCHeaderObject : public LightObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MRCHeaderObject);
@@ -54,8 +53,8 @@ public:
   /** Standard class type aliases. */
   using Self = MRCHeaderObject;
   using Superclass = LightObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** plain old data structure of the MRC header as used by IMOD. This
    * header must be 1024 bytes.
@@ -66,9 +65,9 @@ public:
    */
   struct Header
   {
-    int32_t nx;            /**< Number of Columns */
-    int32_t ny;            /**< Number of Rows */
-    int32_t nz;            /**< Number of Sections */
+    int32_t nx; /**< Number of Columns */
+    int32_t ny; /**< Number of Rows */
+    int32_t nz; /**< Number of Sections */
 
     /** Types of pixel in image.  Values used by IMOD:
      * 0 = unsigned bytes,
@@ -78,7 +77,7 @@ public:
      * 4 = float * 2, (used for complex data)
      * 6 = unsigned 16-bit integers (non-standard)
      * 16 = unsigned char * 3 (for rgb data, non-standard)
-    */
+     */
     int32_t mode;
 
     /**  Starting point of sub image. (ignored) */
@@ -101,23 +100,23 @@ public:
     float beta;
     float gamma;
 
-    int32_t mapc;           /**< map column  1=x,2=y,3=z. (ignored)  */
-    int32_t mapr;           /**< map row     1=x,2=y,3=z. (ignored)  */
-    int32_t maps;           /**< map section 1=x,2=y,3=z. (ignored)  */
+    int32_t mapc; /**< map column  1=x,2=y,3=z. (ignored)  */
+    int32_t mapr; /**< map row     1=x,2=y,3=z. (ignored)  */
+    int32_t maps; /**< map section 1=x,2=y,3=z. (ignored)  */
 
     // These need to be set for proper scaling of
     // non byte data.
-    float amin;               /**< Minimum pixel value.  */
-    float amax;               /**< Maximum pixel value.  */
-    float amean;              /**< Mean pixel value.  */
+    float amin;  /**< Minimum pixel value.  */
+    float amax;  /**< Maximum pixel value.  */
+    float amean; /**< Mean pixel value.  */
 
-    int16_t ispg;           /**< image type  */
-    int16_t nsymbt;         /**< space group number  */
+    int16_t ispg;   /**< image type  */
+    int16_t nsymbt; /**< space group number  */
 
-    int32_t next;           /**< number of bytes in extended header */
-    int16_t creatid;        /**< Creator ID  */
+    int32_t next;    /**< number of bytes in extended header */
+    int16_t creatid; /**< Creator ID  */
 
-    int8_t notused1[30];     /**<     extra data (not used)  */
+    int8_t notused1[30]; /**<     extra data (not used)  */
 
     // These two values specify the structure of data in the
     // extended header; their meaning depend on whether the
@@ -128,9 +127,9 @@ public:
     // value = (sign of s1)*(|s1|*256 + (|s2| modulo 256))
     // * 2**((sign of s2) * (|s2|/256))
 
-    int16_t nint;          // Number of integers per section (Agard format) or
-                           // number of bytes per section (SerialEM format)
-    int16_t nreal;         // Number of reals per section (Agard format) or
+    int16_t nint;  // Number of integers per section (Agard format) or
+                   // number of bytes per section (SerialEM format)
+    int16_t nreal; // Number of reals per section (Agard format) or
     // flags for which types of short data (SerialEM format):
     // 1 = tilt angle * 100  (2 bytes)
     // 2 = piece coordinates for montage  (6 bytes)
@@ -148,74 +147,80 @@ public:
     int8_t notused2[28];
 
     // Explanation of type of data.
-    int16_t idtype;        // ( 0 = mono, 1 = tilt, 2 = tilts, 3 = lina, 4 =
-                           // lins)
+    int16_t idtype; // ( 0 = mono, 1 = tilt, 2 = tilts, 3 = lina, 4 =
+                    // lins)
     int16_t lens;
-    int16_t nd1;           // for idtype = 1, nd1 = axis (1, 2, or 3)
+    int16_t nd1; // for idtype = 1, nd1 = axis (1, 2, or 3)
     int16_t nd2;
-    int16_t vd1;           // vd1 = 100. * tilt increment
-    int16_t vd2;           // vd2 = 100. * starting angle
+    int16_t vd1; // vd1 = 100. * tilt increment
+    int16_t vd2; // vd2 = 100. * starting angle
 
     // Used to rotate model to match new rotated image.
-    float tiltangles[6];     // 0,1,2 = original:  3,4,5 = current
+    float tiltangles[6]; // 0,1,2 = original:  3,4,5 = current
 
     // NEW-STYLE MRC image2000 HEADER - IMOD 2.6.20 and above:
-    float xorg;              // Origin of image.  Used to auto translate model
-    float yorg;              // to match a new image that has been translated.
+    float xorg; // Origin of image.  Used to auto translate model
+    float yorg; // to match a new image that has been translated.
     float zorg;
 
-    char cmap[4];            /**< Contains "MAP "  */
-    char stamp[4];           /**< First byte has 17 for big- or 68 for
-                               little-endian  */
+    char cmap[4];  /**< Contains "MAP "  */
+    char stamp[4]; /**< First byte has 17 for big- or 68 for
+                     little-endian  */
     float rms;
 
     // ALL HEADERS:
     int32_t nlabl;         /**< Number of labels with useful data.  */
-    char label[10][80];    /**< 10 labels of 80 characters.  */
+    char    label[10][80]; /**< 10 labels of 80 characters.  */
   };
 
   /** Fei/Agard extended header */
   struct FeiExtendedHeader
   {
-    float atilt;        /**< alpha tilt  */
-    float btilt;        /**< beta tilt  */
-    float xstage;       /**< Stage x position  (unit=m, huh if > 1)  */
-    float ystage;       /**< Stage y position  (unit=m, huh if > 1)  */
-    float zstage;       /**< Stage z position  (unit=m, huh if > 1)  */
-    float xshift;       /**< Image shift x (unit=m, huh if > 1)  */
-    float yshift;       /**< Image shift y (unit=m, huh if > 1)  */
-    float defocus;      /**< (unit=m, huh if > 1)  */
-    float exptime;      /**< time is seconds  */
-    float meanint;      /**< mean value  */
-    float tiltaxis;     /**< tilt axis in degree  */
-    float pixelsize;    /**< pixel size (unit=m, huh if > 1)  */
+    float atilt;     /**< alpha tilt  */
+    float btilt;     /**< beta tilt  */
+    float xstage;    /**< Stage x position  (unit=m, huh if > 1)  */
+    float ystage;    /**< Stage y position  (unit=m, huh if > 1)  */
+    float zstage;    /**< Stage z position  (unit=m, huh if > 1)  */
+    float xshift;    /**< Image shift x (unit=m, huh if > 1)  */
+    float yshift;    /**< Image shift y (unit=m, huh if > 1)  */
+    float defocus;   /**< (unit=m, huh if > 1)  */
+    float exptime;   /**< time is seconds  */
+    float meanint;   /**< mean value  */
+    float tiltaxis;  /**< tilt axis in degree  */
+    float pixelsize; /**< pixel size (unit=m, huh if > 1)  */
     float magnification;
-    char notused[76];   /**< fill up 128 bytes  */
+    char  notused[76]; /**< fill up 128 bytes  */
   };
 
   /** pixel type enumeration */
-  enum { MRCHEADER_MODE_UINT8 = 0,
-         MRCHEADER_MODE_IN16 = 1,
-         MRCHEADER_MODE_FLOAT = 2,
-         MRCHEADER_MODE_COMPLEX_INT16 = 3,
-         MRCHEADER_MODE_COMPLEX_FLOAT = 4,
-         MRCHEADER_MODE_UINT16 = 6,
-         MRCHEADER_MODE_RGB_BYTE = 16 };
+  enum
+  {
+    MRCHEADER_MODE_UINT8 = 0,
+    MRCHEADER_MODE_IN16 = 1,
+    MRCHEADER_MODE_FLOAT = 2,
+    MRCHEADER_MODE_COMPLEX_INT16 = 3,
+    MRCHEADER_MODE_COMPLEX_FLOAT = 4,
+    MRCHEADER_MODE_UINT16 = 6,
+    MRCHEADER_MODE_RGB_BYTE = 16
+  };
 
   /** map enumeration */
-  enum { MRCHEADER_MAP_X = 1,
-         MRCHEADER_MAP_Y = 2,
-         MRCHEADER_MAP_Z = 3 };
+  enum
+  {
+    MRCHEADER_MAP_X = 1,
+    MRCHEADER_MAP_Y = 2,
+    MRCHEADER_MAP_Z = 3
+  };
 
 public:
-
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MRCHeaderObject, LightObject);
 
-  void DeepCopy(ConstPointer h);
+  void
+  DeepCopy(ConstPointer h);
 
   /** \param buffer is assumed to point to a 1024 block of memory
    * which has the header
@@ -227,9 +232,11 @@ public:
    * If the byte order of the header then byte swapping will be
    * performed.
    */
-  bool SetHeader(const Header *buffer);
+  bool
+  SetHeader(const Header * buffer);
 
-  const Header & GetHeader() const;
+  const Header &
+  GetHeader() const;
 
   /** After SetHeader is called GetExtendedHeaderSize contains the
    * extected size of the buffer argument. This buffer is expected to
@@ -239,44 +246,49 @@ public:
    * and known. If false is returned then extended header information
    * is not available.
    */
-  bool SetExtendedHeader(const void *buffer);
+  bool
+  SetExtendedHeader(const void * buffer);
 
   /** the expected number of bytes in the extended header, this is only
    * valid after a successful call to SetHeader.
    */
-  SizeValueType GetExtendedHeaderSize() const;
+  SizeValueType
+  GetExtendedHeaderSize() const;
 
   /** the expected number of bytes in the header */
-  SizeValueType GetHeaderSize() const
-    {
-      return sizeof( Header );
-    }
+  SizeValueType
+  GetHeaderSize() const
+  {
+    return sizeof(Header);
+  }
 
   /** returns true if the original header from SetHeader was big
    * endian.
    */
-  bool IsOriginalHeaderBigEndian() const;
+  bool
+  IsOriginalHeaderBigEndian() const;
 
   /** Public avaiable data : FIXME : NO MEMBER VARIABLES SHOULD BE PUBLIC. */
-  Header m_Header;                    // FIXME : This should be private and
-                                      // should have Get/Set Methods.
+  Header m_Header; // FIXME : This should be private and
+                   // should have Get/Set Methods.
 
 protected:
-
   MRCHeaderObject();
   ~MRCHeaderObject() override;
 
   /** Methods to fix the order of a set header */
-  void swapHeader(bool bigEndian);
+  void
+  swapHeader(bool bigEndian);
 
   /** Prints loads of information from the header */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  SizeValueType m_ExtendedHeaderSize{0};
-  void *        m_ExtendedHeader{nullptr};
+  SizeValueType m_ExtendedHeaderSize{ 0 };
+  void *        m_ExtendedHeader{ nullptr };
 
-  FeiExtendedHeader *m_ExtendedFeiHeader{nullptr};
+  FeiExtendedHeader * m_ExtendedFeiHeader{ nullptr };
 
   bool m_BigEndianHeader;
 };

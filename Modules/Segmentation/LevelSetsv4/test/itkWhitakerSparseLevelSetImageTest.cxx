@@ -19,47 +19,47 @@
 #include "itkWhitakerSparseLevelSetImage.h"
 #include "itkMath.h"
 
-int itkWhitakerSparseLevelSetImageTest( int , char* [] )
+int
+itkWhitakerSparseLevelSetImageTest(int, char *[])
 {
   using OutputType = double;
   constexpr unsigned int Dimension = 2;
-  using SparseLevelSetType =
-      itk::WhitakerSparseLevelSetImage< OutputType, Dimension >;
+  using SparseLevelSetType = itk::WhitakerSparseLevelSetImage<OutputType, Dimension>;
 
   using LabelMapType = SparseLevelSetType::LabelMapType;
   using IndexType = LabelMapType::IndexType;
 
   IndexType index;
-  index.Fill( 3 );
+  index.Fill(3);
 
   LabelMapType::Pointer labelMap = LabelMapType::New();
-  labelMap->SetBackgroundValue( 3 );
+  labelMap->SetBackgroundValue(3);
 
-  for( int i = 0; i < 4; i++ )
-    {
+  for (int i = 0; i < 4; i++)
+  {
     ++index[1];
-    labelMap->SetPixel( index, -3 );
-    }
+    labelMap->SetPixel(index, -3);
+  }
 
   SparseLevelSetType::Pointer phi = SparseLevelSetType::New();
-  phi->SetLabelMap( labelMap );
+  phi->SetLabelMap(labelMap);
 
   index[0] = 3;
   index[1] = 3;
 
-  if( itk::Math::NotExactlyEquals(phi->Evaluate( index ), 3) )
-    {
-    std::cout << index << ' ' << phi->Evaluate( index ) << " != 3" << std::endl;
+  if (itk::Math::NotExactlyEquals(phi->Evaluate(index), 3))
+  {
+    std::cout << index << ' ' << phi->Evaluate(index) << " != 3" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   index[0] = 3;
   index[1] = 4;
-  if( itk::Math::NotExactlyEquals(phi->Evaluate( index ), -3) )
-    {
-    std::cout << index << ' ' << phi->Evaluate( index ) << " != -3" << std::endl;
+  if (itk::Math::NotExactlyEquals(phi->Evaluate(index), -3))
+  {
+    std::cout << index << ' ' << phi->Evaluate(index) << " != -3" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

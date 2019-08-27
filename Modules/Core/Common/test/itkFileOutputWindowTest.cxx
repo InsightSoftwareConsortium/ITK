@@ -21,7 +21,8 @@
 #include <iostream>
 
 
-int itkFileOutputWindowTest(int, char* [] )
+int
+itkFileOutputWindowTest(int, char *[])
 {
 
   // Declare the type for the morphology Filter

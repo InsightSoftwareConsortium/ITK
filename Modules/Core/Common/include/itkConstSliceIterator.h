@@ -47,16 +47,20 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< typename TPixel, typename TContainer >
+template <typename TPixel, typename TContainer>
 class ConstSliceIterator
 {
 public:
   /** Constructor. */
-  ConstSliceIterator(const TContainer *n, std::slice s):
-    m_ContainerPointer(n), m_Pos(0), m_Slice(s) {}
+  ConstSliceIterator(const TContainer * n, std::slice s)
+    : m_ContainerPointer(n)
+    , m_Pos(0)
+    , m_Slice(s)
+  {}
 
   /** Returns a ConstSliceIterator that points to the beginning of the slice. */
-  ConstSliceIterator Begin()
+  ConstSliceIterator
+  Begin()
   {
     ConstSliceIterator ans = *this;
 
@@ -66,25 +70,28 @@ public:
 
   /** Returns a ConstSliceIterator that points to one past the end
    *  of the slice. */
-  ConstSliceIterator End()
+  ConstSliceIterator
+  End()
   {
     ConstSliceIterator ans = *this;
 
-    ans.m_Pos = static_cast< SizeValueType >( m_Slice.size() );
+    ans.m_Pos = static_cast<SizeValueType>(m_Slice.size());
     return ans;
   }
 
   /** Increments the iterator. */
-  ConstSliceIterator operator++()
+  ConstSliceIterator
+  operator++()
   {
     m_Pos++;
     return *this;
   }
 
   /** Increments the iterator. */
-  ConstSliceIterator operator++(int)
+  ConstSliceIterator
+  operator++(int)
   {
-    ConstSliceIterator ans  = *this;
+    ConstSliceIterator ans = *this;
 
     m_Pos++;
     return ans;
@@ -92,29 +99,24 @@ public:
 
   /** Returns the element at position n of the slice. Sets the
    * iterator to point to position n. */
-  const TPixel & operator[](SizeValueType n)
-  {
-    return this->Loc(m_Pos = n);
-  }
+  const TPixel & operator[](SizeValueType n) { return this->Loc(m_Pos = n); }
 
   /** Dereferences the iterator, returning the value that it points
    * to. */
-  const TPixel & operator*()
-  {
-    return Loc(m_Pos);
-  }
+  const TPixel & operator*() { return Loc(m_Pos); }
 
   /** Returns the logical && of the boolean == of two slice iterator positions,
    * stride, and start locations. */
-  bool operator==(const ConstSliceIterator & orig)
+  bool
+  operator==(const ConstSliceIterator & orig)
   {
-    return orig.m_Pos == this->m_Pos
-           &&   orig.m_Slice.stride() == this->m_Slice.stride()
-           &&   orig.m_Slice.start() == this->m_Slice.start();
+    return orig.m_Pos == this->m_Pos && orig.m_Slice.stride() == this->m_Slice.stride() &&
+           orig.m_Slice.start() == this->m_Slice.start();
   }
 
   /** Returns the logical inverse of the boolean == of two slice iterators. */
-  bool operator!=(const ConstSliceIterator & orig)
+  bool
+  operator!=(const ConstSliceIterator & orig)
   {
     return !operator==(orig);
   }
@@ -122,22 +124,23 @@ public:
   /** Returns the boolean < of two slice iterator positions.  Result
    * is only true if the slice iterators have the same stride and
    * start location. */
-  bool operator<(const ConstSliceIterator & orig)
+  bool
+  operator<(const ConstSliceIterator & orig)
   {
-    return this->m_Pos < orig.m_Pos
-           &&   this->m_Slice.stride() == orig.m_Slice.stride()
-           &&   this->m_Slice.start() == orig.m_Slice.start();
+    return this->m_Pos < orig.m_Pos && this->m_Slice.stride() == orig.m_Slice.stride() &&
+           this->m_Slice.start() == orig.m_Slice.start();
   }
 
 private:
   /** Returns the value located at position n of the slice. */
-  const TPixel & Loc(SizeValueType n) const
+  const TPixel &
+  Loc(SizeValueType n) const
   {
-    return ( *m_ContainerPointer )[static_cast< SizeValueType >( m_Slice.start() + n * m_Slice.stride())];
+    return (*m_ContainerPointer)[static_cast<SizeValueType>(m_Slice.start() + n * m_Slice.stride())];
   }
 
   /** Pointer to the container referenced by the slice iterator. */
-  const TContainer *m_ContainerPointer;
+  const TContainer * m_ContainerPointer;
 
   /** Current position within the slice. */
   SizeValueType m_Pos;

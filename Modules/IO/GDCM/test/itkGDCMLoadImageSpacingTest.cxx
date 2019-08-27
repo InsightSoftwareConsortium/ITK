@@ -35,42 +35,42 @@
 // The patch that this test is part of has a fallback for the case of
 // the MediaStorageTypes for which gdcm has trouble with the spacing tag.
 
-int itkGDCMLoadImageSpacingTest(int argc, char *argv[])
+int
+itkGDCMLoadImageSpacingTest(int argc, char * argv[])
 {
-  if(argc < 4)
-    {
+  if (argc < 4)
+  {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Image Spacing0 Spacing1" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   const char * imageFilename = argv[1];
-  const double spacing0 = std::stod( argv[2] );
-  const double spacing1 = std::stod( argv[3] );
+  const double spacing0 = std::stod(argv[2]);
+  const double spacing1 = std::stod(argv[3]);
 
   using ImageType = itk::Image<unsigned short, 2>;
   using ReaderType = itk::ImageFileReader<ImageType>;
 
   itk::GDCMImageIO::Pointer imageIO = itk::GDCMImageIO::New();
-  ReaderType::Pointer reader = ReaderType::New();
-  reader->SetImageIO( imageIO );
-  reader->SetFileName( imageFilename );
+  ReaderType::Pointer       reader = ReaderType::New();
+  reader->SetImageIO(imageIO);
+  reader->SetFileName(imageFilename);
   try
-    {
+  {
     reader->Update();
-    }
-  catch( itk::ExceptionObject & error )
-    {
+  }
+  catch (itk::ExceptionObject & error)
+  {
     std::cerr << "Error when reading input: " << error << std::endl;
-    }
+  }
 
   ImageType::Pointer image = reader->GetOutput();
   std::cout << image << std::endl;
   ImageType::SpacingType spacing = image->GetSpacing();
-  if(std::abs( spacing[0]- spacing0 ) >= 0.000001 ||
-     std::abs( spacing[1]- spacing1 ) >= 0.000001 )
-    {
+  if (std::abs(spacing[0] - spacing0) >= 0.000001 || std::abs(spacing[1] - spacing1) >= 0.000001)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

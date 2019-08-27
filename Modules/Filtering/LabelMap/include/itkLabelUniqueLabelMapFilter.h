@@ -24,7 +24,8 @@
 #include <set>
 
 
-namespace itk {
+namespace itk
+{
 /** \class LabelUniqueLabelMapFilter
  * \brief Make sure that the objects are not overlapping
  *
@@ -42,9 +43,10 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template<typename TImage>
-class LabelUniqueLabelMapFilter :
-    public AttributeUniqueLabelMapFilter<TImage, typename Functor::LabelLabelObjectAccessor< typename TImage::LabelObjectType > >
+template <typename TImage>
+class LabelUniqueLabelMapFilter
+  : public AttributeUniqueLabelMapFilter<TImage,
+                                         typename Functor::LabelLabelObjectAccessor<typename TImage::LabelObjectType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelUniqueLabelMapFilter);
@@ -52,7 +54,7 @@ public:
   /** Standard class type aliases. */
   using Self = LabelUniqueLabelMapFilter;
   using Superclass =
-      AttributeUniqueLabelMapFilter<TImage, typename Functor::LabelLabelObjectAccessor< typename TImage::LabelObjectType > >;
+    AttributeUniqueLabelMapFilter<TImage, typename Functor::LabelLabelObjectAccessor<typename TImage::LabelObjectType>>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -73,17 +75,16 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LabelUniqueLabelMapFilter,
-               AttributeUniqueLabelMapFilter);
+  itkTypeMacro(LabelUniqueLabelMapFilter, AttributeUniqueLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-/*  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<InputImagePixelType>));
-  itkConceptMacro(IntConvertibleToInputCheck,
-    (Concept::Convertible<int, InputImagePixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<InputImagePixelType>));*/
+  /*  itkConceptMacro(InputEqualityComparableCheck,
+      (Concept::EqualityComparable<InputImagePixelType>));
+    itkConceptMacro(IntConvertibleToInputCheck,
+      (Concept::Convertible<int, InputImagePixelType>));
+    itkConceptMacro(InputOStreamWritableCheck,
+      (Concept::OStreamWritable<InputImagePixelType>));*/
   // End concept checking
 #endif
 

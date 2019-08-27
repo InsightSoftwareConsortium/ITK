@@ -59,16 +59,15 @@ namespace itk
  * \ingroup ITKReview
  */
 
-template< typename TInputImage, typename TOutputImage, typename TAttribute, typename TFunction >
-class ITK_TEMPLATE_EXPORT AttributeMorphologyBaseImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage, typename TAttribute, typename TFunction>
+class ITK_TEMPLATE_EXPORT AttributeMorphologyBaseImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   /**
    * Standard "Self" & Superclass typedef.
    */
   using Self = AttributeMorphologyBaseImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
 
   /**
    * Types from the Superclass
@@ -94,17 +93,17 @@ public:
    */
   using InputImageType = TInputImage;
   using OutputImageType = TOutputImage;
-//   using IndexType = typename TInputImage::IndexType;
-//   using SizeType = typename TInputImage::SizeType;
+  //   using IndexType = typename TInputImage::IndexType;
+  //   using SizeType = typename TInputImage::SizeType;
   using RegionType = typename TOutputImage::RegionType;
-  using ListType = std::list< IndexType >;
+  using ListType = std::list<IndexType>;
   using AttributeType = TAttribute;
 
   /**
    * Smart pointer type alias support
    */
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /**
    * Run-time type information (and related methods)
@@ -144,28 +143,31 @@ protected:
 
   ~AttributeMorphologyBaseImageFilter() override {}
   AttributeMorphologyBaseImageFilter(const Self &) {}
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * Standard pipeline method.
    */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** AttributeMorphologyBaseImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
    * \sa ProcessObject::GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** AttributeMorphologyBaseImageFilter will produce all of the output.
    * Therefore it must provide an implementation of
    * EnlargeOutputRequestedRegion().
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
-  void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) ) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
   AttributeType m_AttributeValuePerPixel;
 
 private:
-
   bool          m_FullyConnected;
   AttributeType m_Lambda;
 
@@ -175,43 +177,45 @@ private:
   static constexpr OffsetValueType ROOT = -3;
 
   // Just used for area/volume openings at the moment
-  AttributeType *m_AuxData;
+  AttributeType * m_AuxData;
 
-  using OffsetVecType = std::vector< OffsetType >;
+  using OffsetVecType = std::vector<OffsetType>;
   // offset in the linear array.
-  using OffsetDirectVecType = std::vector< OffsetValueType >;
+  using OffsetDirectVecType = std::vector<OffsetValueType>;
 
-  void SetupOffsetVec(OffsetDirectVecType & PosOffsets, OffsetVecType & Offsets);
+  void
+  SetupOffsetVec(OffsetDirectVecType & PosOffsets, OffsetVecType & Offsets);
 
   class GreyAndPos
   {
-public:
+  public:
     InputPixelType  Val;
     OffsetValueType Pos;
   };
 
-  GreyAndPos        * m_SortPixels;
-  OffsetValueType   * m_Parent;
+  GreyAndPos *      m_SortPixels;
+  OffsetValueType * m_Parent;
 #ifndef PAMI
-  bool *m_Processed;
+  bool * m_Processed;
 #endif
   // This is a bit ugly, but I can't see an easy way around
-  InputPixelType *m_Raw;
+  InputPixelType * m_Raw;
 
   class ComparePixStruct
   {
-public:
+  public:
     TFunction m_TFunction;
-    bool operator()(GreyAndPos const & l, GreyAndPos const & r) const
+    bool
+    operator()(GreyAndPos const & l, GreyAndPos const & r) const
     {
-      if ( m_TFunction(l.Val, r.Val) )
-        {
+      if (m_TFunction(l.Val, r.Val))
+      {
         return true;
-        }
-      if ( l.Val == r.Val )
-        {
-        return ( l.Pos < r.Pos );
-        }
+      }
+      if (l.Val == r.Val)
+      {
+        return (l.Pos < r.Pos);
+      }
       return false;
     }
   };
@@ -219,110 +223,119 @@ public:
 #ifdef PAMI
   // version from PAMI. Note - using the AuxData array rather than the
   // parent array to store area
-  void MakeSet(OffsetValueType x)
+  void
+  MakeSet(OffsetValueType x)
   {
     m_Parent[x] = ACTIVE;
     m_AuxData[x] = m_AttributeValuePerPixel;
   }
 
-  OffsetValueType FindRoot(OffsetValueType x)
+  OffsetValueType
+  FindRoot(OffsetValueType x)
   {
-    if ( m_Parent[x] >= 0 )
-      {
+    if (m_Parent[x] >= 0)
+    {
       m_Parent[x] = FindRoot(m_Parent[x]);
-      return ( m_Parent[x] );
-      }
+      return (m_Parent[x]);
+    }
     else
-      {
-      return ( x );
-      }
+    {
+      return (x);
+    }
   }
 
-  bool Criterion(OffsetValueType x, OffsetValueType y)
+  bool
+  Criterion(OffsetValueType x, OffsetValueType y)
   {
-    return ( ( m_Raw[x] == m_Raw[y] ) || ( m_AuxData[x] < m_Lambda ) );
+    return ((m_Raw[x] == m_Raw[y]) || (m_AuxData[x] < m_Lambda));
   }
 
-  void Union(OffsetValueType n, OffsetValueType p)
+  void
+  Union(OffsetValueType n, OffsetValueType p)
   {
     OffsetValueType r = FindRoot(n);
 
-    if ( r != p )
+    if (r != p)
+    {
+      if (Criterion(r, p))
       {
-      if ( Criterion(r, p) )
-        {
         m_AuxData[p] += m_AuxData[r];
         m_Parent[r] = p;
-        }
-      else
-        {
-        m_AuxData[p] = m_Lambda;
-        }
       }
+      else
+      {
+        m_AuxData[p] = m_Lambda;
+      }
+    }
   }
 
 #else
   // version from ISMM paper
-  void MakeSet(OffsetValueType x)
+  void
+  MakeSet(OffsetValueType x)
   {
     m_Parent[x] = ACTIVE;
     m_AuxData[x] = m_AttributeValuePerPixel;
   }
 
-  void Link(OffsetValueType x, OffsetValueType y)
+  void
+  Link(OffsetValueType x, OffsetValueType y)
   {
-    if ( ( m_Parent[y] == ACTIVE ) && ( m_Parent[x] == ACTIVE ) )
-      {
+    if ((m_Parent[y] == ACTIVE) && (m_Parent[x] == ACTIVE))
+    {
       // should be a call to MergeAuxData
       m_AuxData[y] = m_AuxData[x] + m_AuxData[y];
       m_AuxData[x] = -m_AttributeValuePerPixel;
-      }
-    else if ( m_Parent[x] == ACTIVE )
-      {
+    }
+    else if (m_Parent[x] == ACTIVE)
+    {
       m_AuxData[x] = -m_AttributeValuePerPixel;
-      }
+    }
     else
-      {
+    {
       m_AuxData[y] = -m_AttributeValuePerPixel;
       m_Parent[y] = INACTIVE;
-      }
+    }
     m_Parent[x] = y;
   }
 
-  OffsetValueType FindRoot(OffsetValueType x)
+  OffsetValueType
+  FindRoot(OffsetValueType x)
   {
-    if ( m_Parent[x] >= 0 )
-      {
+    if (m_Parent[x] >= 0)
+    {
       m_Parent[x] = FindRoot(m_Parent[x]);
-      return ( m_Parent[x] );
-      }
+      return (m_Parent[x]);
+    }
     else
-      {
-      return ( x );
-      }
+    {
+      return (x);
+    }
   }
 
-  bool Equiv(OffsetValueType x, OffsetValueType y)
+  bool
+  Equiv(OffsetValueType x, OffsetValueType y)
   {
-    return ( ( m_Raw[x] == m_Raw[y] ) || ( m_Parent[x] == ACTIVE ) );
+    return ((m_Raw[x] == m_Raw[y]) || (m_Parent[x] == ACTIVE));
   }
 
-  void Union(OffsetValueType n, OffsetValueType p)
+  void
+  Union(OffsetValueType n, OffsetValueType p)
   {
     OffsetValueType r = FindRoot(n);
 
-    if ( r != p )
+    if (r != p)
+    {
+      if (Equiv(r, p))
       {
-      if ( Equiv(r, p) )
-        {
         Link(r, p);
-        }
-      else if ( m_Parent[p] == ACTIVE )
-        {
+      }
+      else if (m_Parent[p] == ACTIVE)
+      {
         m_Parent[p] = INACTIVE;
         m_AuxData[p] = -m_AttributeValuePerPixel;
-        }
       }
+    }
   }
 
 #endif
@@ -330,7 +343,7 @@ public:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAttributeMorphologyBaseImageFilter.hxx"
+#  include "itkAttributeMorphologyBaseImageFilter.hxx"
 #endif
 
 #endif

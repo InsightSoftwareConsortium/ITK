@@ -27,106 +27,92 @@
 
 namespace itk
 {
-template< typename TInputImage1, typename TInputImage2 >
-DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
-::DirectedHausdorffDistanceImageFilter():m_MaxDistance(1)
+template <typename TInputImage1, typename TInputImage2>
+DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::DirectedHausdorffDistanceImageFilter()
+  : m_MaxDistance(1)
 {
   // this filter requires two input images
   this->SetNumberOfRequiredInputs(2);
 
   m_DistanceMap = nullptr;
-  m_DirectedHausdorffDistance = NumericTraits< RealType >::ZeroValue();
-  m_AverageHausdorffDistance = NumericTraits< RealType >::ZeroValue();
+  m_DirectedHausdorffDistance = NumericTraits<RealType>::ZeroValue();
+  m_AverageHausdorffDistance = NumericTraits<RealType>::ZeroValue();
   m_UseImageSpacing = true;
   this->DynamicMultiThreadingOff();
 }
 
-template< typename TInputImage1, typename TInputImage2 >
+template <typename TInputImage1, typename TInputImage2>
 void
-DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
-::SetInput1(const TInputImage1 *image)
+DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::SetInput1(const TInputImage1 * image)
 {
-  this->SetInput( image );
+  this->SetInput(image);
 }
 
-template< typename TInputImage1, typename TInputImage2 >
+template <typename TInputImage1, typename TInputImage2>
 void
-DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
-::SetInput2(const TInputImage2 *image)
+DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::SetInput2(const TInputImage2 * image)
 {
-  this->SetNthInput( 1, const_cast< TInputImage2 * >( image ) );
+  this->SetNthInput(1, const_cast<TInputImage2 *>(image));
 }
 
-template< typename TInputImage1, typename TInputImage2 >
-const typename DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
-::InputImage1Type *
-DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
-::GetInput1()
+template <typename TInputImage1, typename TInputImage2>
+const typename DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::InputImage1Type *
+DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::GetInput1()
 {
   return this->GetInput();
 }
 
-template< typename TInputImage1, typename TInputImage2 >
-const typename DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
-::InputImage2Type *
-DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
-::GetInput2()
+template <typename TInputImage1, typename TInputImage2>
+const typename DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::InputImage2Type *
+DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::GetInput2()
 {
-  return itkDynamicCastInDebugMode< const TInputImage2 * >
-    ( this->ProcessObject::GetInput(1) );
+  return itkDynamicCastInDebugMode<const TInputImage2 *>(this->ProcessObject::GetInput(1));
 }
 
-template< typename TInputImage1, typename TInputImage2 >
+template <typename TInputImage1, typename TInputImage2>
 void
-DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
-::GenerateInputRequestedRegion()
+DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
 
   // this filter requires:
   // - the largeset possible region of the first image
   // - the corresponding region of the second image
-  if ( this->GetInput1() )
-    {
-    InputImage1Pointer image1 =
-      const_cast< InputImage1Type * >( this->GetInput1() );
+  if (this->GetInput1())
+  {
+    InputImage1Pointer image1 = const_cast<InputImage1Type *>(this->GetInput1());
     image1->SetRequestedRegionToLargestPossibleRegion();
 
-    if ( this->GetInput2() )
-      {
-      InputImage2Pointer image2 =
-        const_cast< InputImage2Type * >( this->GetInput2() );
-      RegionType region = image1->GetRequestedRegion();
-      image2->SetRequestedRegion( region );
-      }
+    if (this->GetInput2())
+    {
+      InputImage2Pointer image2 = const_cast<InputImage2Type *>(this->GetInput2());
+      RegionType         region = image1->GetRequestedRegion();
+      image2->SetRequestedRegion(region);
     }
+  }
 }
 
-template< typename TInputImage1, typename TInputImage2 >
+template <typename TInputImage1, typename TInputImage2>
 void
-DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
-::EnlargeOutputRequestedRegion(DataObject *data)
+DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::EnlargeOutputRequestedRegion(DataObject * data)
 {
   Superclass::EnlargeOutputRequestedRegion(data);
   data->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< typename TInputImage1, typename TInputImage2 >
+template <typename TInputImage1, typename TInputImage2>
 void
-DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
-::AllocateOutputs()
+DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::AllocateOutputs()
 {
   // Pass the first input through as the output
-  InputImage1Pointer image =
-    const_cast< TInputImage1 * >( this->GetInput1() );
+  InputImage1Pointer image = const_cast<TInputImage1 *>(this->GetInput1());
 
   this->GraftOutput(image);
 }
 
-template< typename TInputImage1, typename TInputImage2 >
+template <typename TInputImage1, typename TInputImage2>
 void
-DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
-::BeforeThreadedGenerateData()
+DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::BeforeThreadedGenerateData()
 {
   ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
@@ -136,15 +122,14 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   m_Sum.resize(numberOfThreads);
 
   // Initialize the temporaries
-  m_MaxDistance.Fill(NumericTraits< RealType >::ZeroValue());
+  m_MaxDistance.Fill(NumericTraits<RealType>::ZeroValue());
   m_PixelCount.Fill(0);
 
   // Compute distance from non-zero pixels in the second image
-  using FilterType =
-      itk::SignedMaurerDistanceMapImageFilter< InputImage2Type, DistanceMapType >;
+  using FilterType = itk::SignedMaurerDistanceMapImageFilter<InputImage2Type, DistanceMapType>;
   typename FilterType::Pointer filter = FilterType::New();
 
-  filter->SetInput( this->GetInput2() );
+  filter->SetInput(this->GetInput2());
   filter->SetSquaredDistance(false);
   filter->SetUseImageSpacing(m_UseImageSpacing);
   filter->Update();
@@ -152,91 +137,87 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   m_DistanceMap = filter->GetOutput();
 }
 
-template< typename TInputImage1, typename TInputImage2 >
+template <typename TInputImage1, typename TInputImage2>
 void
-DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
-::AfterThreadedGenerateData()
+DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::AfterThreadedGenerateData()
 {
   ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
-  m_DirectedHausdorffDistance = NumericTraits< RealType >::ZeroValue();
+  m_DirectedHausdorffDistance = NumericTraits<RealType>::ZeroValue();
 
-  RealType        sum = NumericTraits< RealType >::ZeroValue();
-  IdentifierType  pixelcount = 0;
+  RealType       sum = NumericTraits<RealType>::ZeroValue();
+  IdentifierType pixelcount = 0;
 
   // find max over all threads
-  for ( ThreadIdType i = 0; i < numberOfThreads; i++ )
+  for (ThreadIdType i = 0; i < numberOfThreads; i++)
+  {
+    if (m_MaxDistance[i] > m_DirectedHausdorffDistance)
     {
-    if ( m_MaxDistance[i] > m_DirectedHausdorffDistance )
-      {
       m_DirectedHausdorffDistance = m_MaxDistance[i];
-      }
+    }
     pixelcount += m_PixelCount[i];
     sum += m_Sum[i].GetSum();
-    }
+  }
 
-  if( pixelcount != 0 )
-    {
-    m_AverageHausdorffDistance = sum / static_cast< RealType >( pixelcount );
-    }
+  if (pixelcount != 0)
+  {
+    m_AverageHausdorffDistance = sum / static_cast<RealType>(pixelcount);
+  }
   else
-    {
-    itkGenericExceptionMacro( <<"pixelcount is equal to 0" );
-    }
+  {
+    itkGenericExceptionMacro(<< "pixelcount is equal to 0");
+  }
 
   // clean up
   m_DistanceMap = nullptr;
 }
 
-template< typename TInputImage1, typename TInputImage2 >
+template <typename TInputImage1, typename TInputImage2>
 void
-DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
-::ThreadedGenerateData(const RegionType & regionForThread,
-                       ThreadIdType threadId)
+DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::ThreadedGenerateData(
+  const RegionType & regionForThread,
+  ThreadIdType       threadId)
 {
-  ImageRegionConstIterator< TInputImage1 >    it1 (this->GetInput1(), regionForThread);
-  ImageRegionConstIterator< DistanceMapType > it2 (m_DistanceMap, regionForThread);
+  ImageRegionConstIterator<TInputImage1>    it1(this->GetInput1(), regionForThread);
+  ImageRegionConstIterator<DistanceMapType> it2(m_DistanceMap, regionForThread);
 
   // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, regionForThread.GetNumberOfPixels() );
+  ProgressReporter progress(this, threadId, regionForThread.GetNumberOfPixels());
 
   // do the work
-  while ( !it1.IsAtEnd() )
+  while (!it1.IsAtEnd())
+  {
+    if (Math::NotExactlyEquals(it1.Get(), NumericTraits<InputImage1PixelType>::ZeroValue()))
     {
-    if ( Math::NotExactlyEquals(it1.Get(), NumericTraits< InputImage1PixelType >::ZeroValue()) )
-      {
       // The signed distance map is calculated, but we want the calculation based on the
       // unsigned distance map.  Therefore, we set all distance map values less than 0 to 0.
-      const RealType val2 = (static_cast< RealType >( it2.Get() ) < NumericTraits< RealType >::ZeroValue() ) ?
-                             NumericTraits< RealType >::ZeroValue() : static_cast< RealType >( it2.Get() );
-      if ( val2 > m_MaxDistance[threadId] )
-        {
+      const RealType val2 = (static_cast<RealType>(it2.Get()) < NumericTraits<RealType>::ZeroValue())
+                              ? NumericTraits<RealType>::ZeroValue()
+                              : static_cast<RealType>(it2.Get());
+      if (val2 > m_MaxDistance[threadId])
+      {
         m_MaxDistance[threadId] = val2;
-        }
+      }
       m_PixelCount[threadId]++;
       m_Sum[threadId].AddElement(val2);
-      }
+    }
 
     ++it1;
     ++it2;
 
     progress.CompletedPixel();
-    }
+  }
 }
 
-template< typename TInputImage1, typename TInputImage2 >
+template <typename TInputImage1, typename TInputImage2>
 void
-DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
-::PrintSelf(std::ostream & os, Indent indent) const
+DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "DirectedHausdorffDistance: "
-     << m_DirectedHausdorffDistance << std::endl;
-  os << indent << "AverageHausdorffDistance: "
-     << m_AverageHausdorffDistance << std::endl;
-  os << indent << "Use Image Spacing : "
-     << m_UseImageSpacing << std::endl;
+  os << indent << "DirectedHausdorffDistance: " << m_DirectedHausdorffDistance << std::endl;
+  os << indent << "AverageHausdorffDistance: " << m_AverageHausdorffDistance << std::endl;
+  os << indent << "Use Image Spacing : " << m_UseImageSpacing << std::endl;
 }
 } // end namespace itk
 #endif

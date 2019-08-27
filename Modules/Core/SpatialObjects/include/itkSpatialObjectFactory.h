@@ -37,21 +37,20 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-template< typename T >
-class SpatialObjectFactory:public SpatialObjectFactoryBase
+template <typename T>
+class SpatialObjectFactory : public SpatialObjectFactoryBase
 {
 public:
-
-  static void RegisterSpatialObject()
+  static void
+  RegisterSpatialObject()
   {
-    typename T::Pointer t = T::New();
-    SpatialObjectFactoryBase::Pointer f =
-      SpatialObjectFactoryBase::GetFactory();
-    f->RegisterSpatialObject ( t->GetClassNameAndDimension().c_str(),
-                               t->GetClassNameAndDimension().c_str(),
-                               t->GetClassNameAndDimension().c_str(),
-                               1,
-                               CreateObjectFunction< T >::New() );
+    typename T::Pointer               t = T::New();
+    SpatialObjectFactoryBase::Pointer f = SpatialObjectFactoryBase::GetFactory();
+    f->RegisterSpatialObject(t->GetClassNameAndDimension().c_str(),
+                             t->GetClassNameAndDimension().c_str(),
+                             t->GetClassNameAndDimension().c_str(),
+                             1,
+                             CreateObjectFunction<T>::New());
   }
 };
 } // end namespace itk

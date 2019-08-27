@@ -98,20 +98,18 @@ namespace itk
  *   \ingroup LevelSetSegmentation
  * \ingroup ITKLevelSets
  */
-template< typename TInputImage,
-          typename TFeatureImage,
-          typename TOutputPixelType = float >
-class ITK_TEMPLATE_EXPORT CurvesLevelSetImageFilter:
-  public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType = float>
+class ITK_TEMPLATE_EXPORT CurvesLevelSetImageFilter
+  : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CurvesLevelSetImageFilter);
 
   /** Standard class type aliases */
   using Self = CurvesLevelSetImageFilter;
-  using Superclass = SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Inherited type alias from the superclass. */
   using ValueType = typename Superclass::ValueType;
@@ -119,7 +117,7 @@ public:
   using FeatureImageType = typename Superclass::FeatureImageType;
 
   /** Type of the segmentation function */
-  using CurvesFunctionType = CurvesLevelSetFunction< OutputImageType, FeatureImageType >;
+  using CurvesFunctionType = CurvesLevelSetFunction<OutputImageType, FeatureImageType>;
   using CurvesFunctionPointer = typename CurvesFunctionType::Pointer;
 
   /** Run-time type information (and related methods). */
@@ -129,19 +127,22 @@ public:
   itkNewMacro(Self);
 
   /** Set the value of sigma used to compute derivatives */
-  void SetDerivativeSigma(float value)
+  void
+  SetDerivativeSigma(float value)
   {
     m_CurvesFunction->SetDerivativeSigma(value);
     this->Modified();
   }
 
-  float GetDerivativeSigma() const
-  { return m_CurvesFunction->GetDerivativeSigma(); }
+  float
+  GetDerivativeSigma() const
+  {
+    return m_CurvesFunction->GetDerivativeSigma();
+  }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< TOutputPixelType > ) );
+  itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<TOutputPixelType>));
   // End concept checking
 #endif
 
@@ -149,11 +150,13 @@ protected:
   ~CurvesLevelSetImageFilter() override = default;
   CurvesLevelSetImageFilter();
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Overridden from Superclass to handle the case when PropagationScaling is
     zero.*/
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   CurvesFunctionPointer m_CurvesFunction;
@@ -161,7 +164,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCurvesLevelSetImageFilter.hxx"
+#  include "itkCurvesLevelSetImageFilter.hxx"
 #endif
 
 #endif

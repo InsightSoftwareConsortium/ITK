@@ -23,7 +23,8 @@ namespace itk
 namespace fem
 {
 
-void LoadNoisyLandmark::PrintSelf(std::ostream& os, Indent indent) const
+void
+LoadNoisyLandmark::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -37,7 +38,6 @@ void LoadNoisyLandmark::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "Has Structure Tensor? " << this->m_HasStructureTensor << std::endl;
   os << indent << "Structure Tensor: " << this->m_StructureTensor << std::endl;
   os << indent << "Landmark Tensor: " << this->m_LandmarkTensor << std::endl;
-
 }
 
 } // end namespace fem

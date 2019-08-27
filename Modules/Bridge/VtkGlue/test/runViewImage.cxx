@@ -32,37 +32,37 @@
  * \sa itk::ViewImage
  */
 int
-runViewImage(int argc, char* argv[])
+runViewImage(int argc, char * argv[])
 {
-  if ( argc < 2 || argc == 4 || argc > 5 )
-    {
+  if (argc < 2 || argc == 4 || argc > 5)
+  {
     std::cerr << "Usage: " << argv[0] << " inputImage [title] [win_size_x win_size_y] " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // Defaults
   std::string winTitle = "itkViewImage";
-  size_t winWidth = 600;
-  size_t winHeight = 600;
-  if ( argc >= 3 )
-    {
+  size_t      winWidth = 600;
+  size_t      winHeight = 600;
+  if (argc >= 3)
+  {
     winTitle = argv[2];
-    }
-  if ( argc == 5 )
-    {
+  }
+  if (argc == 5)
+  {
     winWidth = std::stoi(argv[3]);
     winHeight = std::stoi(argv[4]);
-    }
-  const std::string inputImage  = argv[1];
+  }
+  const std::string inputImage = argv[1];
 
   constexpr unsigned int dimension = 3;
   using PixelType = float;
-  using ImageType = itk::Image< PixelType, dimension >;
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ImageType = itk::Image<PixelType, dimension>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   auto reader = ReaderType::New();
   reader->SetFileName(inputImage);
   reader->Update();
 
-  itk::ViewImage<ImageType>::View(reader->GetOutput(), winTitle, winWidth, winHeight );
+  itk::ViewImage<ImageType>::View(reader->GetOutput(), winTitle, winWidth, winHeight);
 
   return EXIT_SUCCESS;
 }

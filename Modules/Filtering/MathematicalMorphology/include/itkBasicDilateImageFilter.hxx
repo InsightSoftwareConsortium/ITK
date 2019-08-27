@@ -22,43 +22,41 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-BasicDilateImageFilter< TInputImage, TOutputImage, TKernel >
-::BasicDilateImageFilter()
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+BasicDilateImageFilter<TInputImage, TOutputImage, TKernel>::BasicDilateImageFilter()
 {
-  m_DilateBoundaryCondition.SetConstant( NumericTraits< PixelType >::NonpositiveMin() );
+  m_DilateBoundaryCondition.SetConstant(NumericTraits<PixelType>::NonpositiveMin());
   this->OverrideBoundaryCondition(&m_DilateBoundaryCondition);
 }
 
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-typename BasicDilateImageFilter< TInputImage, TOutputImage, TKernel >::PixelType
-BasicDilateImageFilter< TInputImage, TOutputImage, TKernel >
-::Evaluate(const NeighborhoodIteratorType & nit,
-           const KernelIteratorType kernelBegin,
-           const KernelIteratorType kernelEnd)
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+typename BasicDilateImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
+BasicDilateImageFilter<TInputImage, TOutputImage, TKernel>::Evaluate(const NeighborhoodIteratorType & nit,
+                                                                     const KernelIteratorType         kernelBegin,
+                                                                     const KernelIteratorType         kernelEnd)
 {
   unsigned int i;
-  PixelType    max = NumericTraits< PixelType >::NonpositiveMin();
+  PixelType    max = NumericTraits<PixelType>::NonpositiveMin();
   PixelType    temp;
 
   KernelIteratorType kernel_it;
 
-  for ( i = 0, kernel_it = kernelBegin; kernel_it < kernelEnd; ++kernel_it, ++i )
-    {
+  for (i = 0, kernel_it = kernelBegin; kernel_it < kernelEnd; ++kernel_it, ++i)
+  {
     // if structuring element is positive, use the pixel under that element
     // in the image
-    if ( *kernel_it > NumericTraits< KernelPixelType >::ZeroValue() )
-      {
+    if (*kernel_it > NumericTraits<KernelPixelType>::ZeroValue())
+    {
       // note we use GetPixel() on the SmartNeighborhoodIterator to
       // respect boundary conditions
       temp = nit.GetPixel(i);
 
-      if ( temp > max )
-        {
+      if (temp > max)
+      {
         max = temp;
-        }
       }
     }
+  }
 
   return max;
 }

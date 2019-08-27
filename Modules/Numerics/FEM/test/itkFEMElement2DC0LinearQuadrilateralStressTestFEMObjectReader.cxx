@@ -27,12 +27,13 @@
 #include <iostream>
 
 //  Example taken from 'Fundamentals of the Finite ELement Method' - Grandin
-int itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int argc, char *argv[])
+int
+itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int argc, char * argv[])
 {
-  //Need to register default FEM object types,
-  //and setup SpatialReader to recognize FEM types
-  //which is all currently done as a HACK in
-  //the initializaiton of the itk::FEMFactoryBase::GetFactory()
+  // Need to register default FEM object types,
+  // and setup SpatialReader to recognize FEM types
+  // which is all currently done as a HACK in
+  // the initializaiton of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
   using SpatialObjectType = itk::SpatialObject<2>;
@@ -49,46 +50,46 @@ int itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int argc, char
   using FEMSpatialObjectWriterType = itk::FEMSpatialObjectWriter<2>;
   using FEMSpatialObjectWriterPointer = FEMSpatialObjectWriterType::Pointer;
   FEMSpatialObjectWriterPointer SpatialWriter = FEMSpatialObjectWriterType::New();
-  SpatialWriter->SetInput(SpatialReader->GetScene() );
+  SpatialWriter->SetInput(SpatialReader->GetScene());
   SpatialWriter->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/TrialWrite.meta");
   SpatialWriter->Update();
 
   FEMSpatialObjectReaderType::ScenePointer myScene = SpatialReader->GetScene();
-  if( !myScene )
-    {
+  if (!myScene)
+  {
     std::cout << "No Scene : [FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << " [PASSED]" << std::endl;
 
   // Testing the fe mesh validity
   using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<2>;
   using FEMObjectSpatialObjectPointer = FEMObjectSpatialObjectType::Pointer;
 
-  FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
-  if( strcmp( (*(children->begin() ) )->GetTypeName(), "FEMObjectSpatialObject") )
-    {
+  FEMObjectSpatialObjectType::ChildrenListType * children = SpatialReader->GetGroup()->GetChildren();
+  if (strcmp((*(children->begin()))->GetTypeName(), "FEMObjectSpatialObject"))
+  {
     std::cout << " [FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   FEMObjectSpatialObjectType::Pointer femSO =
-    dynamic_cast<FEMObjectSpatialObjectType *>( (*(children->begin() ) ).GetPointer() );
+    dynamic_cast<FEMObjectSpatialObjectType *>((*(children->begin())).GetPointer());
   if (!femSO)
-    {
+  {
     std::cout << " dynamic_cast [FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   delete children;
 
   femSO->GetFEMObject()->Solve();
 
   float soln[8];
-  for( int i = 0; i < 8; i++ )
-    {
+  for (int i = 0; i < 8; i++)
+  {
     soln[i] = femSO->GetFEMObject()->GetSolution(i);
     std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
-    }
+  }
 
   std::cout << "Test PASSED!" << std::endl;
   return EXIT_SUCCESS;

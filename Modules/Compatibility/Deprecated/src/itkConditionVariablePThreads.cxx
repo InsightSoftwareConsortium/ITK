@@ -29,18 +29,21 @@ ConditionVariable::~ConditionVariable()
   pthread_cond_destroy(&m_ConditionVariable.m_ConditionVariable);
 }
 
-void ConditionVariable::Signal()
+void
+ConditionVariable::Signal()
 {
   pthread_cond_signal(&m_ConditionVariable.m_ConditionVariable);
 }
 
-void ConditionVariable::Broadcast()
+void
+ConditionVariable::Broadcast()
 {
   pthread_cond_broadcast(&m_ConditionVariable.m_ConditionVariable);
 }
 
-void ConditionVariable::Wait(SimpleMutexLock *mutex)
+void
+ConditionVariable::Wait(SimpleMutexLock * mutex)
 {
-  pthread_cond_wait( &m_ConditionVariable.m_ConditionVariable,  &mutex->GetMutexLock());
+  pthread_cond_wait(&m_ConditionVariable.m_ConditionVariable, &mutex->GetMutexLock());
 }
-} //end of namespace itk
+} // end of namespace itk

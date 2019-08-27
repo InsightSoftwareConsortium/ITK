@@ -86,7 +86,7 @@ public:
   using Self = CommandIterationUpdate;
   using Superclass = itk::Command;
   using Pointer = itk::SmartPointer<Self>;
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
 protected:
   CommandIterationUpdate() = default;
@@ -95,230 +95,227 @@ public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
   using OptimizerPointer = const OptimizerType *;
 
-  void Execute(itk::Object *caller, const itk::EventObject & event) override
+  void
+  Execute(itk::Object * caller, const itk::EventObject & event) override
+  {
+    Execute((const itk::Object *)caller, event);
+  }
+
+  void
+  Execute(const itk::Object * object, const itk::EventObject & event) override
+  {
+    auto optimizer = static_cast<OptimizerPointer>(object);
+    if (typeid(event) != typeid(itk::IterationEvent))
     {
-    Execute( (const itk::Object *)caller, event);
+      return;
     }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event) override
-    {
-    auto optimizer = static_cast< OptimizerPointer >( object );
-    if( typeid( event ) != typeid( itk::IterationEvent ) )
-      {
-      return;
-      }
-
     OptimizerType::DerivativeType gradient = optimizer->GetGradient();
-    OptimizerType::ScalesType     scales   = optimizer->GetScales();
+    OptimizerType::ScalesType     scales = optimizer->GetScales();
 
     double magnitude2 = 0.0;
 
-    for(unsigned int i=0; i<gradient.size(); i++)
-      {
+    for (unsigned int i = 0; i < gradient.size(); i++)
+    {
       const double fc = gradient[i] / scales[i];
       magnitude2 += fc * fc;
-      }
+    }
 
-    const double gradientMagnitude = std::sqrt( magnitude2 );
+    const double gradientMagnitude = std::sqrt(magnitude2);
 
     std::cout << optimizer->GetCurrentIteration() << "   ";
     std::cout << optimizer->GetValue() << "   ";
     std::cout << gradientMagnitude << "   ";
     std::cout << optimizer->GetCurrentPosition() << std::endl;
-    }
+  }
 };
 
-int main( int argc, char * argv [] )
+int
+main(int argc, char * argv[])
 {
 
-  if( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "Missing argument" << std::endl;
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " movingImageFileName [initialX initialY] " << std::endl;
     std::cerr << "[rasterizedObjectFileName] [BoxSizeX BoxSizeY]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
 
   using MaskPixelType = unsigned char;
 
-  using MaskImageType = itk::Image< MaskPixelType, Dimension >;
+  using MaskImageType = itk::Image<MaskPixelType, Dimension>;
 
 
-  using SpatialObjectType = itk::BoxSpatialObject< Dimension >;
+  using SpatialObjectType = itk::BoxSpatialObject<Dimension>;
 
-  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<
-                              SpatialObjectType, MaskImageType >;
+  using SpatialObjectToImageFilterType =
+    itk::SpatialObjectToImageFilter<SpatialObjectType, MaskImageType>;
 
-  using FixedPointSetType = itk::PointSet< float, Dimension >;
+  using FixedPointSetType = itk::PointSet<float, Dimension>;
 
 
-  using NarrowBandFilterType = itk::BinaryMaskToNarrowBandPointSetFilter<
-                                    MaskImageType, FixedPointSetType >;
+  using NarrowBandFilterType =
+    itk::BinaryMaskToNarrowBandPointSetFilter<MaskImageType, FixedPointSetType>;
 
   using PixelType = signed short;
 
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
   using MaskPixelType = unsigned char;
 
-  using MaskImageType = itk::Image< MaskPixelType, Dimension >;
+  using MaskImageType = itk::Image<MaskPixelType, Dimension>;
 
 
-  using TransformType = itk::Rigid2DTransform< double  >;
+  using TransformType = itk::Rigid2DTransform<double>;
 
   using ParametersType = TransformType::ParametersType;
 
 
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
 
-  using LinearInterpolatorType = itk::LinearInterpolateImageFunction<
-                                    ImageType,
-                                    double     >;
+  using LinearInterpolatorType = itk::LinearInterpolateImageFunction<ImageType, double>;
 
 
-  using MetricType = itk::NormalizedCorrelationPointSetToImageMetric<
-                                    FixedPointSetType,
-                                    ImageType  >;
+  using MetricType =
+    itk::NormalizedCorrelationPointSetToImageMetric<FixedPointSetType, ImageType>;
 
 
   using OptimizerScalesType = OptimizerType::ScalesType;
 
 
-  using RegistrationType = itk::PointSetToImageRegistrationMethod<
-                                    FixedPointSetType,
-                                    ImageType  >;
+  using RegistrationType =
+    itk::PointSetToImageRegistrationMethod<FixedPointSetType, ImageType>;
 
 
   using IterationObserverType = CommandIterationUpdate;
 
-  using ImageReaderType = itk::ImageFileReader< ImageType >;
+  using ImageReaderType = itk::ImageFileReader<ImageType>;
 
-  SpatialObjectType::Pointer            spatialObject;
-  TransformType::Pointer                transform;
-  OptimizerType::Pointer                optimizer;
-  IterationObserverType::Pointer        iterationObserver;
-  LinearInterpolatorType::Pointer       linearInterpolator;
-  MetricType::Pointer                   metric;
-  RegistrationType::Pointer             registrationMethod;
-  ImageReaderType::Pointer              movingImageReader;
-  FixedPointSetType::Pointer            fixedPointSet;
-  ImageType::ConstPointer               movingImage;
+  SpatialObjectType::Pointer      spatialObject;
+  TransformType::Pointer          transform;
+  OptimizerType::Pointer          optimizer;
+  IterationObserverType::Pointer  iterationObserver;
+  LinearInterpolatorType::Pointer linearInterpolator;
+  MetricType::Pointer             metric;
+  RegistrationType::Pointer       registrationMethod;
+  ImageReaderType::Pointer        movingImageReader;
+  FixedPointSetType::Pointer      fixedPointSet;
+  ImageType::ConstPointer         movingImage;
 
   SpatialObjectToImageFilterType::Pointer rasterizationFilter;
   NarrowBandFilterType::Pointer           narrowBandPointSetFilter;
 
 
-  metric              = MetricType::New();
-  transform           = TransformType::New();
-  optimizer           = OptimizerType::New();
-  linearInterpolator  = LinearInterpolatorType::New();
-  registrationMethod  = RegistrationType::New();
-  iterationObserver   = IterationObserverType::New();
+  metric = MetricType::New();
+  transform = TransformType::New();
+  optimizer = OptimizerType::New();
+  linearInterpolator = LinearInterpolatorType::New();
+  registrationMethod = RegistrationType::New();
+  iterationObserver = IterationObserverType::New();
 
-  spatialObject            = SpatialObjectType::New();
-  rasterizationFilter      = SpatialObjectToImageFilterType::New();
+  spatialObject = SpatialObjectType::New();
+  rasterizationFilter = SpatialObjectToImageFilterType::New();
   narrowBandPointSetFilter = NarrowBandFilterType::New();
 
-  movingImageReader        = ImageReaderType::New();
+  movingImageReader = ImageReaderType::New();
 
-  movingImageReader->SetFileName( argv[1] );
+  movingImageReader->SetFileName(argv[1]);
 
   try
-    {
+  {
     movingImageReader->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Problem reading Moving image from = " << std::endl;
     std::cerr << argv[1] << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   movingImage = movingImageReader->GetOutput();
 
   SpatialObjectType::SizeType boxSize;
-  boxSize[0] = 60.0;  // mm
-  boxSize[1] = 60.0;  // mm
+  boxSize[0] = 60.0; // mm
+  boxSize[1] = 60.0; // mm
 
-  if( argc > 6 )
-    {
-    boxSize[0] = std::stod( argv[5] );
-    boxSize[1] = std::stod( argv[6] );
-    }
+  if (argc > 6)
+  {
+    boxSize[0] = std::stod(argv[5]);
+    boxSize[1] = std::stod(argv[6]);
+  }
 
   //
   // The geometry of the BoxSpatialObject is such that one of
   // its corners is located at the origin of coordinates.
   //
-  spatialObject->SetSizeInObjectSpace( boxSize );
+  spatialObject->SetSizeInObjectSpace(boxSize);
 
-  ImageType::RegionType region =
-                movingImage->GetLargestPossibleRegion();
+  ImageType::RegionType region = movingImage->GetLargestPossibleRegion();
 
-  ImageType::SizeType   imageSize = region.GetSize();
+  ImageType::SizeType imageSize = region.GetSize();
 
   ImageType::SpacingType spacing = movingImage->GetSpacing();
-  ImageType::PointType  origin;
-  origin[0] = ( boxSize[0] - imageSize[0] * spacing[0] ) / 2.0;
-  origin[1] = ( boxSize[1] - imageSize[1] * spacing[1] ) / 2.0;
+  ImageType::PointType   origin;
+  origin[0] = (boxSize[0] - imageSize[0] * spacing[0]) / 2.0;
+  origin[1] = (boxSize[1] - imageSize[1] * spacing[1]) / 2.0;
 
-  rasterizationFilter->SetInput( spatialObject );
-  rasterizationFilter->SetSize( imageSize );
-  rasterizationFilter->SetSpacing( spacing );
-  rasterizationFilter->SetOrigin( origin );
+  rasterizationFilter->SetInput(spatialObject);
+  rasterizationFilter->SetSize(imageSize);
+  rasterizationFilter->SetSpacing(spacing);
+  rasterizationFilter->SetOrigin(origin);
 
 
-  narrowBandPointSetFilter->SetBandWidth( 5.0 );
+  narrowBandPointSetFilter->SetBandWidth(5.0);
 
-  narrowBandPointSetFilter->SetInput(
-                    rasterizationFilter->GetOutput() );
+  narrowBandPointSetFilter->SetInput(rasterizationFilter->GetOutput());
 
   narrowBandPointSetFilter->Update();
 
-  if( argc > 4 )
-    {
-    using MaskWriterType = itk::ImageFileWriter< MaskImageType >;
+  if (argc > 4)
+  {
+    using MaskWriterType = itk::ImageFileWriter<MaskImageType>;
     MaskWriterType::Pointer maskWriter = MaskWriterType::New();
-    maskWriter->SetInput( rasterizationFilter->GetOutput() );
-    maskWriter->SetFileName( argv[4] );
+    maskWriter->SetInput(rasterizationFilter->GetOutput());
+    maskWriter->SetFileName(argv[4]);
     maskWriter->Update();
-    }
+  }
 
   fixedPointSet = narrowBandPointSetFilter->GetOutput();
 
-  fixedPointSet->Print( std::cout );
+  fixedPointSet->Print(std::cout);
 
-  registrationMethod->SetOptimizer(     optimizer     );
-  registrationMethod->SetInterpolator(  linearInterpolator  );
-  registrationMethod->SetMetric(        metric        );
-  registrationMethod->SetTransform(     transform     );
+  registrationMethod->SetOptimizer(optimizer);
+  registrationMethod->SetInterpolator(linearInterpolator);
+  registrationMethod->SetMetric(metric);
+  registrationMethod->SetTransform(transform);
 
-  registrationMethod->SetMovingImage(   movingImage  );
-  registrationMethod->SetFixedPointSet( fixedPointSet );
+  registrationMethod->SetMovingImage(movingImage);
+  registrationMethod->SetFixedPointSet(fixedPointSet);
 
 
-  optimizer->SetMaximumStepLength( 1.00 );
-  optimizer->SetMinimumStepLength( 0.001 );
-  optimizer->SetNumberOfIterations( 300 );
-  optimizer->SetRelaxationFactor( 0.90 );
-  optimizer->SetGradientMagnitudeTolerance( 0.05 );
+  optimizer->SetMaximumStepLength(1.00);
+  optimizer->SetMinimumStepLength(0.001);
+  optimizer->SetNumberOfIterations(300);
+  optimizer->SetRelaxationFactor(0.90);
+  optimizer->SetGradientMagnitudeTolerance(0.05);
   optimizer->MinimizeOn();
-  optimizer->AddObserver( itk::IterationEvent(), iterationObserver );
+  optimizer->AddObserver(itk::IterationEvent(), iterationObserver);
 
-  TransformType::TranslationType  initialTranslation;
+  TransformType::TranslationType initialTranslation;
   initialTranslation[0] = 0.0;
   initialTranslation[1] = 0.0;
 
-  if( argc >= 4 )
-    {
-    initialTranslation[0] = std::stod( argv[2] );
-    initialTranslation[1] = std::stod( argv[3] );
-    }
+  if (argc >= 4)
+  {
+    initialTranslation[0] = std::stod(argv[2]);
+    initialTranslation[1] = std::stod(argv[3]);
+  }
 
 
   TransformType::OutputPointType rotationCenter;
@@ -326,13 +323,12 @@ int main( int argc, char * argv [] )
   rotationCenter[1] = boxSize[1] / 2.0;
 
   transform->SetIdentity();
-  transform->SetCenter( rotationCenter );
-  transform->SetTranslation( initialTranslation );
+  transform->SetCenter(rotationCenter);
+  transform->SetTranslation(initialTranslation);
 
-  registrationMethod->SetInitialTransformParameters(
-                                  transform->GetParameters() );
+  registrationMethod->SetInitialTransformParameters(transform->GetParameters());
 
-  OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
+  OptimizerScalesType optimizerScales(transform->GetNumberOfParameters());
 
   const double translationScale = 1.0 / 1000.0;
 
@@ -340,25 +336,24 @@ int main( int argc, char * argv [] )
   optimizerScales[1] = translationScale;
   optimizerScales[2] = translationScale;
 
-  optimizer->SetScales( optimizerScales );
+  optimizer->SetScales(optimizerScales);
 
   try
-    {
+  {
     registrationMethod->Update();
     std::cout << "Optimizer stop condition: "
               << registrationMethod->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Problem found during the registration" << std::endl;
     std::cerr << argv[1] << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  ParametersType transformParameters =
-         registrationMethod->GetLastTransformParameters();
+  ParametersType transformParameters = registrationMethod->GetLastTransformParameters();
 
 
   TransformType::OutputPointType center = transform->GetCenter();

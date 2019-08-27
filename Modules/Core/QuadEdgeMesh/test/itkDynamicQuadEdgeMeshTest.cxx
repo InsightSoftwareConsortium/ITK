@@ -25,7 +25,7 @@
  */
 
 
-using MeshType = itk::QuadEdgeMesh< double, 3 >;
+using MeshType = itk::QuadEdgeMesh<double, 3>;
 
 
 using CellTraits = MeshType::CellTraits;
@@ -50,7 +50,8 @@ using PointDataContainer = MeshType::PointDataContainer;
 using PointsIterator = PointsContainer::Iterator;
 using CellsIterator = PointDataContainer::Iterator;
 
-int itkDynamicQuadEdgeMeshTest(int, char* [] )
+int
+itkDynamicQuadEdgeMeshTest(int, char *[])
 {
 
   /**
@@ -69,31 +70,30 @@ int itkDynamicQuadEdgeMeshTest(int, char* [] )
   displacement[1] = 5;
   displacement[2] = 0;
 
-  pointA.Fill( 0.0 );
+  pointA.Fill(0.0);
   pointB = pointA + displacement;
   pointC = pointB + displacement;
   pointD = pointC + displacement;
 
   PointsContainer::Pointer pointsContainter = mesh->GetPoints();
 
-  pointsContainter->SetElement( 0, pointA );
-  pointsContainter->SetElement( 1, pointB );
-  pointsContainter->SetElement( 2, pointC );
-  pointsContainter->SetElement( 3, pointD );
+  pointsContainter->SetElement(0, pointA);
+  pointsContainter->SetElement(1, pointB);
+  pointsContainter->SetElement(2, pointC);
+  pointsContainter->SetElement(3, pointD);
 
 
   std::cout << "Number of Points = " << mesh->GetNumberOfPoints() << std::endl;
 
-  PointsIterator point    = pointsContainter->Begin();
+  PointsIterator point = pointsContainter->Begin();
   PointsIterator endpoint = pointsContainter->End();
 
-  while( point != endpoint )
-    {
+  while (point != endpoint)
+  {
     std::cout << point.Index() << " = " << point.Value() << std::endl;
     point++;
-    }
+  }
 
 
   return 0;
-
 }

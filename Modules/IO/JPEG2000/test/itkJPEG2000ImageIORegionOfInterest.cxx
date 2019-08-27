@@ -21,16 +21,17 @@
 #include "itkImageFileWriter.h"
 #include "itkRegionOfInterestImageFilter.h"
 
-int itkJPEG2000ImageIORegionOfInterest( int argc, char * argv[] )
+int
+itkJPEG2000ImageIORegionOfInterest(int argc, char * argv[])
 {
   // Verify the number of parameters in the command line
-  if( argc < 7 )
-    {
+  if (argc < 7)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " inputImageFile  outputImageFile " << std::endl;
     std::cerr << " startX startY sizeX sizeY " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //  Register the factory
   itk::JPEG2000ImageIOFactory::RegisterOneFactory();
@@ -40,17 +41,16 @@ int itkJPEG2000ImageIORegionOfInterest( int argc, char * argv[] )
   using OutputPixelType = unsigned char;
   constexpr unsigned int Dimension = 2;
 
-  using InputImageType = itk::Image< InputPixelType,  Dimension >;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   //  The RegionOfInterestImageFilter type is instantiated using
   //  the input and output image types. A filter object is created with the
   //  New() method and assigned to a \doxygen{SmartPointer}.
-  using FilterType = itk::RegionOfInterestImageFilter< InputImageType,
-                                            OutputImageType >;
+  using FilterType = itk::RegionOfInterestImageFilter<InputImageType, OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
 
   //  The RegionOfInterestImageFilter requires a region to be
@@ -60,42 +60,42 @@ int itkJPEG2000ImageIORegionOfInterest( int argc, char * argv[] )
   //  example, the specification of the region is taken from the command line
   //  arguments (this example assumes that a 2D image is being processed).
   OutputImageType::IndexType start;
-  start[0] = std::stoi( argv[3] );
-  start[1] = std::stoi( argv[4] );
+  start[0] = std::stoi(argv[3]);
+  start[1] = std::stoi(argv[4]);
 
   OutputImageType::SizeType size;
-  size[0] = std::stoi( argv[5] );
-  size[1] = std::stoi( argv[6] );
+  size[0] = std::stoi(argv[5]);
+  size[1] = std::stoi(argv[6]);
 
   OutputImageType::RegionType desiredRegion;
-  desiredRegion.SetSize(  size  );
-  desiredRegion.SetIndex( start );
+  desiredRegion.SetSize(size);
+  desiredRegion.SetIndex(start);
   //  Then the region is passed to the filter using the
   //  SetRegionOfInterest() method.
 
-  filter->SetRegionOfInterest( desiredRegion );
+  filter->SetRegionOfInterest(desiredRegion);
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  const std::string inputFilename  = argv[1];
+  const std::string inputFilename = argv[1];
   const std::string outputFilename = argv[2];
 
-  reader->SetFileName( inputFilename  );
-  writer->SetFileName( outputFilename );
+  reader->SetFileName(inputFilename);
+  writer->SetFileName(outputFilename);
 
-  filter->SetInput( reader->GetOutput() );
-  writer->SetInput( filter->GetOutput() );
+  filter->SetInput(reader->GetOutput());
+  writer->SetInput(filter->GetOutput());
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   return EXIT_SUCCESS;
 }

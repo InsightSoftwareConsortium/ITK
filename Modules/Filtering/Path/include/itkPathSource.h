@@ -37,8 +37,8 @@ namespace itk
  * \ingroup ITKPath
  */
 
-template< typename TOutputPath >
-class ITK_TEMPLATE_EXPORT PathSource:public ProcessObject
+template <typename TOutputPath>
+class ITK_TEMPLATE_EXPORT PathSource : public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PathSource);
@@ -46,8 +46,8 @@ public:
   /** Standard class type aliases. */
   using Self = PathSource;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Smart Pointer type to a DataObject. */
   using DataObjectPointer = DataObject::Pointer;
@@ -106,9 +106,11 @@ public:
    * Region, which can be set using ImageBase::SetRequestedRegion().
    * By default, the largest possible region is requested.
    */
-  OutputPathType * GetOutput();
+  OutputPathType *
+  GetOutput();
 
-  OutputPathType * GetOutput(unsigned int idx);
+  OutputPathType *
+  GetOutput(unsigned int idx);
 
   /** Graft the specified DataObject onto this ProcessObject's output.
    * This method grabs a handle to the specified DataObject's path
@@ -145,7 +147,8 @@ public:
    * filter's pipeline mechanism must be consistent with what the
    * mini-pipeline will do). */
   // just calls GraftNthOutput()
-  virtual void GraftOutput(OutputPathType *output);
+  virtual void
+  GraftOutput(OutputPathType * output);
 
   /** Graft the specified data object onto this ProcessObject's idx'th
    * output. This is the similar to GraftOutput method except is
@@ -153,7 +156,8 @@ public:
    * must be a valid output number (less than
    * ProcessObject::GetNumberOfIndexedOutputs()). See the GraftOutput for
    * general usage information. */
-  virtual void GraftNthOutput(unsigned int idx, OutputPathType *output);
+  virtual void
+  GraftNthOutput(unsigned int idx, OutputPathType * output);
 
   /** Make a DataObject of the correct type to used as the specified
    * output.  Every ProcessObject subclass must be able to create a
@@ -170,12 +174,14 @@ public:
    * an implementation of MakeOutput(). */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
 protected:
   PathSource();
   ~PathSource() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   // Inherit the empty ProcessObject::GenerateData()
 
@@ -185,7 +191,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPathSource.hxx"
+#  include "itkPathSource.hxx"
 #endif
 
 #endif

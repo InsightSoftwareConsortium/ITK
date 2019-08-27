@@ -30,26 +30,31 @@ namespace Functor
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 class Sin
 {
 public:
   Sin() = default;
   ~Sin() = default;
-  bool operator!=(const Sin &) const
+  bool
+  operator!=(const Sin &) const
   {
     return false;
   }
 
-  bool operator==(const Sin & other) const
+  bool
+  operator==(const Sin & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput & A) const
-  { return static_cast<TOutput>(std::sin( static_cast<double>( A ) ) ); }
+  inline TOutput
+  operator()(const TInput & A) const
+  {
+    return static_cast<TOutput>(std::sin(static_cast<double>(A)));
+  }
 };
-}
+} // namespace Functor
 
 /** \class SinImageFilter
  * \brief Computes the sine of each pixel.
@@ -64,45 +69,39 @@ public:
  * \sphinxexample{Filtering/ImageIntensity/ApplySinImageFilter,Apply Sin Image Filter.}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class SinImageFilter:
-  public
-  UnaryGeneratorImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class SinImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SinImageFilter);
 
   /** Standard class type aliases. */
   using Self = SinImageFilter;
-  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using FunctorType = Functor::Sin< typename TInputImage::PixelType,
-                                    typename TOutputImage::PixelType >;
+  using Superclass = UnaryGeneratorImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using FunctorType = Functor::Sin<typename TInputImage::PixelType, typename TOutputImage::PixelType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(SinImageFilter,
-               UnaryGeneratorImageFilter);
+  itkTypeMacro(SinImageFilter, UnaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputConvertibleToDoubleCheck,
-                   ( Concept::Convertible< typename TInputImage::PixelType, double > ) );
-  itkConceptMacro( DoubleConvertibleToOutputCheck,
-                   ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
+  itkConceptMacro(InputConvertibleToDoubleCheck, (Concept::Convertible<typename TInputImage::PixelType, double>));
+  itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, typename TOutputImage::PixelType>));
   // End concept checking
 #endif
 
 protected:
   SinImageFilter()
-    {
-#if !defined( ITK_WRAPPING_PARSER )
-      Superclass::SetFunctor(FunctorType());
+  {
+#if !defined(ITK_WRAPPING_PARSER)
+    Superclass::SetFunctor(FunctorType());
 #endif
-    }
+  }
 
   ~SinImageFilter() override = default;
 };

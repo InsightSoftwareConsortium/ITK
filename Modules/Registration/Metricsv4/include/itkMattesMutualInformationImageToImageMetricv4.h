@@ -94,20 +94,22 @@ namespace itk
  * \sa itkImageToImageMetricv4
  * \ingroup ITKMetricsv4
  */
-template <typename TFixedImage, typename TMovingImage, typename TVirtualImage = TFixedImage,
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage = TFixedImage,
           typename TInternalComputationValueType = double,
-          typename TMetricTraits = DefaultImageToImageMetricTraitsv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType>
-          >
-class ITK_TEMPLATE_EXPORT MattesMutualInformationImageToImageMetricv4 :
-  public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
+          typename TMetricTraits =
+            DefaultImageToImageMetricTraitsv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType>>
+class ITK_TEMPLATE_EXPORT MattesMutualInformationImageToImageMetricv4
+  : public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MattesMutualInformationImageToImageMetricv4);
 
   /** Standard class type aliases. */
   using Self = MattesMutualInformationImageToImageMetricv4;
-  using Superclass = ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage,
-                             TInternalComputationValueType,TMetricTraits>;
+  using Superclass =
+    ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -144,21 +146,22 @@ public:
 
   /* Image dimension accessors */
   static constexpr typename TVirtualImage::ImageDimensionType VirtualImageDimension = TVirtualImage::ImageDimension;
-  static constexpr typename TFixedImage::ImageDimensionType FixedImageDimension = TFixedImage::ImageDimension;
-  static constexpr typename TMovingImage::ImageDimensionType MovingImageDimension = TMovingImage::ImageDimension;
+  static constexpr typename TFixedImage::ImageDimensionType   FixedImageDimension = TFixedImage::ImageDimension;
+  static constexpr typename TMovingImage::ImageDimensionType  MovingImageDimension = TMovingImage::ImageDimension;
 
   /** Number of bins to used in the histogram. Typical value is
    * 50. The minimum value is 5 due to the padding required by the Parzen
    * windowing with a cubic-BSpline kernel. Note that even if the metric
    * is used on binary images, the number of bins should at least be
    * equal to five. */
-  itkSetClampMacro( NumberOfHistogramBins, SizeValueType, 5, NumericTraits<SizeValueType>::max() );
+  itkSetClampMacro(NumberOfHistogramBins, SizeValueType, 5, NumericTraits<SizeValueType>::max());
   itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType);
 
-  void Initialize() override;
+  void
+  Initialize() override;
 
   /** The marginal PDFs are stored as std::vector. */
-  //NOTE:  floating point precision is not as stable.
+  // NOTE:  floating point precision is not as stable.
   // Double precision proves faster and more robust in real-world testing.
   using PDFValueType = TInternalComputationValueType;
 
@@ -170,14 +173,15 @@ public:
    * Get the internal JointPDF image that was used in
    * creating the metric value.
    */
-  const typename JointPDFType::Pointer GetJointPDF () const
+  const typename JointPDFType::Pointer
+  GetJointPDF() const
+  {
+    if (this->m_ThreaderJointPDF.empty())
     {
-    if( this->m_ThreaderJointPDF.empty() )
-      {
       return typename JointPDFType::Pointer(nullptr);
-      }
-    return this->m_ThreaderJointPDF[0];
     }
+    return this->m_ThreaderJointPDF[0];
+  }
 
   /**
    * Get the internal JointPDFDeriviative image that was used in
@@ -185,25 +189,39 @@ public:
    * This is only created when a global support transform is used, and
    * derivatives are requested.
    */
-  const typename JointPDFDerivativesType::Pointer GetJointPDFDerivatives () const
-    {
+  const typename JointPDFDerivativesType::Pointer
+  GetJointPDFDerivatives() const
+  {
     return this->m_JointPDFDerivatives;
-    }
+  }
 
-  void FinalizeThread( const ThreadIdType threadId ) override;
+  void
+  FinalizeThread(const ThreadIdType threadId) override;
 
 protected:
   MattesMutualInformationImageToImageMetricv4();
   ~MattesMutualInformationImageToImageMetricv4() override = default;
 
-  friend class MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
-  friend class MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
+  friend class MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
+    ThreadedImageRegionPartitioner<Superclass::VirtualImageDimension>,
+    Superclass,
+    Self>;
+  friend class MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
+    ThreadedIndexedContainerPartitioner,
+    Superclass,
+    Self>;
   using MattesMutualInformationDenseGetValueAndDerivativeThreaderType =
-      MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
+    MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
+      ThreadedImageRegionPartitioner<Superclass::VirtualImageDimension>,
+      Superclass,
+      Self>;
   using MattesMutualInformationSparseGetValueAndDerivativeThreaderType =
-      MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
+    MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner,
+                                                                             Superclass,
+                                                                             Self>;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   using JointPDFIndexType = typename JointPDFType::IndexType;
   using JointPDFValueType = typename JointPDFType::PixelType;
@@ -215,17 +233,19 @@ protected:
   using JointPDFDerivativesSizeType = typename JointPDFDerivativesType::SizeType;
 
   /** Typedefs for BSpline kernel and derivative functions. */
-  using CubicBSplineFunctionType = BSplineKernelFunction<3,PDFValueType>;
-  using CubicBSplineDerivativeFunctionType = BSplineDerivativeKernelFunction<3,PDFValueType>;
+  using CubicBSplineFunctionType = BSplineKernelFunction<3, PDFValueType>;
+  using CubicBSplineDerivativeFunctionType = BSplineDerivativeKernelFunction<3, PDFValueType>;
 
   /** Post-processing code common to both GetValue
    * and GetValueAndDerivative. */
-  virtual void GetValueCommonAfterThreadedExecution();
+  virtual void
+  GetValueCommonAfterThreadedExecution();
 
-  OffsetValueType ComputeSingleFixedImageParzenWindowIndex( const FixedImagePixelType & value ) const;
+  OffsetValueType
+  ComputeSingleFixedImageParzenWindowIndex(const FixedImagePixelType & value) const;
 
   /** Variables to define the marginal and joint histograms. */
-  SizeValueType m_NumberOfHistogramBins{50};
+  SizeValueType m_NumberOfHistogramBins{ 50 };
   PDFValueType  m_MovingImageNormalizedMin;
   PDFValueType  m_FixedImageNormalizedMin;
   PDFValueType  m_FixedImageTrueMin;
@@ -243,18 +263,18 @@ protected:
   using PRatioType = PDFValueType;
   using PRatioArrayType = std::vector<PRatioType>;
 
-  mutable PRatioArrayType           m_PRatioArray;
+  mutable PRatioArrayType m_PRatioArray;
 
   /** Helper array for storing per-parameter linearized index to
    * retrieve the pRatio during evaluation with local-support transform. */
-  mutable std::vector<OffsetValueType>   m_JointPdfIndex1DArray;
+  mutable std::vector<OffsetValueType> m_JointPdfIndex1DArray;
 
   /** The moving image marginal PDF. */
-  mutable std::vector<PDFValueType>               m_MovingImageMarginalPDF;
-  mutable std::vector<std::vector<PDFValueType> > m_ThreaderFixedImageMarginalPDF;
+  mutable std::vector<PDFValueType>              m_MovingImageMarginalPDF;
+  mutable std::vector<std::vector<PDFValueType>> m_ThreaderFixedImageMarginalPDF;
 
   /** The joint PDF and PDF derivatives. */
-  typename std::vector<typename JointPDFType::Pointer>            m_ThreaderJointPDF;
+  typename std::vector<typename JointPDFType::Pointer> m_ThreaderJointPDF;
 
   /* \class DerivativeBufferManager
    * A helper class to manage complexities of minimizing memory
@@ -271,23 +291,27 @@ protected:
   class DerivativeBufferManager
   {
     using Self = DerivativeBufferManager;
-public:
+
+  public:
     /* All these methods are thread safe except ReduceBuffer */
 
-    void Initialize( size_t maxBufferLength, const size_t cachedNumberOfLocalParameters,
-                     std::mutex * parentDerivativeLockPtr,
-                     typename JointPDFDerivativesType::Pointer parentJointPDFDerivatives);
+    void
+    Initialize(size_t                                    maxBufferLength,
+               const size_t                              cachedNumberOfLocalParameters,
+               std::mutex *                              parentDerivativeLockPtr,
+               typename JointPDFDerivativesType::Pointer parentJointPDFDerivatives);
 
-    void DoubleBufferSize();
+    void
+    DoubleBufferSize();
 
-    DerivativeBufferManager() :
-      m_MemoryBlock(0)
-    {
-    }
+    DerivativeBufferManager()
+      : m_MemoryBlock(0)
+    {}
 
     ~DerivativeBufferManager() = default;
 
-    size_t GetCachedNumberOfLocalParameters() const
+    size_t
+    GetCachedNumberOfLocalParameters() const
     {
       return this->m_CachedNumberOfLocalParameters;
     }
@@ -296,15 +320,18 @@ public:
      * Attempt to dump the buffer if it is full.
      * If the attempt to acquire the lock fails, double the buffer size and try again.
      */
-    void CheckAndReduceIfNecessary();
+    void
+    CheckAndReduceIfNecessary();
 
     /**
      * Force the buffer to dump by blocking.
      */
-    void BlockAndReduce();
+    void
+    BlockAndReduce();
 
     // If offset is same as previous offset, then accumulate with previous
-    PDFValueType * GetNextElementAndAddOffset(const OffsetValueType & offset)
+    PDFValueType *
+    GetNextElementAndAddOffset(const OffsetValueType & offset)
     {
       m_BufferOffsetContainer[m_CurrentFillSize] = offset;
       PDFValueType * PDFBufferForWriting = m_BufferPDFValuesContainer[m_CurrentFillSize];
@@ -316,13 +343,14 @@ public:
      * Apply the operations stored in the buffer.
      * This method is not thread safe and requires a lock while threading.
      */
-    void ReduceBuffer();
+    void
+    ReduceBuffer();
 
-private:
+  private:
     // How many AccumlatorElements used
-    size_t                       m_CurrentFillSize{0};
+    size_t m_CurrentFillSize{ 0 };
     // Continguous chunk of memory for efficiency
-    std::vector<PDFValueType>    m_MemoryBlock;
+    std::vector<PDFValueType> m_MemoryBlock;
     // The (number of lines in the buffer) * (cells per line)
     size_t                       m_MemoryBlockSize;
     std::vector<PDFValueType *>  m_BufferPDFValuesContainer;
@@ -330,7 +358,7 @@ private:
     size_t                       m_CachedNumberOfLocalParameters;
     size_t                       m_MaxBufferSize;
     // Pointer handle to parent version
-    std::mutex *   m_ParentJointPDFDerivativesLockPtr;
+    std::mutex * m_ParentJointPDFDerivativesLockPtr;
     // Smart pointer handle to parent version
     typename JointPDFDerivativesType::Pointer m_ParentJointPDFDerivatives;
   };
@@ -343,18 +371,18 @@ private:
 
   /** Store the per-point local derivative result by parzen window bin.
    * For local-support transforms only. */
-  mutable std::vector<DerivativeType>              m_LocalDerivativeByParzenBin;
+  mutable std::vector<DerivativeType> m_LocalDerivativeByParzenBin;
 
 private:
   /** Perform the final step in computing results */
-  virtual void ComputeResults() const;
-
+  virtual void
+  ComputeResults() const;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMattesMutualInformationImageToImageMetricv4.hxx"
+#  include "itkMattesMutualInformationImageToImageMetricv4.hxx"
 #endif
 
 #endif

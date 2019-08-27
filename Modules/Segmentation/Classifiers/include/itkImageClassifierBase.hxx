@@ -24,11 +24,9 @@ namespace itk
 /**
  * PrintSelf
  */
-template< typename TInputImage,
-          typename TClassifiedImage >
+template <typename TInputImage, typename TClassifiedImage>
 void
-ImageClassifierBase< TInputImage, TClassifiedImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+ImageClassifierBase<TInputImage, TClassifiedImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -42,11 +40,9 @@ ImageClassifierBase< TInputImage, TClassifiedImage >
 /**
  * Generate data (start the classification process)
  */
-template< typename TInputImage,
-          typename TClassifiedImage >
+template <typename TInputImage, typename TClassifiedImage>
 void
-ImageClassifierBase< TInputImage, TClassifiedImage >
-::GenerateData()
+ImageClassifierBase<TInputImage, TClassifiedImage>::GenerateData()
 {
   this->Classify();
 } // end Generate data
@@ -54,98 +50,91 @@ ImageClassifierBase< TInputImage, TClassifiedImage >
 //------------------------------------------------------------------
 // The core function where classification is carried out
 //------------------------------------------------------------------
-template< typename TInputImage,
-          typename TClassifiedImage >
+template <typename TInputImage, typename TClassifiedImage>
 void
-ImageClassifierBase< TInputImage, TClassifiedImage >
-::Classify()
+ImageClassifierBase<TInputImage, TClassifiedImage>::Classify()
 {
   ClassifiedImagePointer classifiedImage = this->GetClassifiedImage();
 
-  //Check if the an output buffer has been allocated
-  if ( !classifiedImage )
-    {
+  // Check if the an output buffer has been allocated
+  if (!classifiedImage)
+  {
     this->Allocate();
 
-    //To trigger the pipeline process
+    // To trigger the pipeline process
     this->Modified();
-    }
+  }
 
   //--------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the input image
   //-------------------------------------------------------------------
   InputImageConstPointer  inputImage = this->GetInputImage();
-  InputImageConstIterator inIt( inputImage, inputImage->GetBufferedRegion() );
+  InputImageConstIterator inIt(inputImage, inputImage->GetBufferedRegion());
 
   //--------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the classified image
   //--------------------------------------------------------------------
   classifiedImage = this->GetClassifiedImage();
 
-  ClassifiedImageIterator
-  classifiedIt( classifiedImage, classifiedImage->GetBufferedRegion() );
+  ClassifiedImageIterator classifiedIt(classifiedImage, classifiedImage->GetBufferedRegion());
 
   //--------------------------------------------------------------------
-  //Set up the vector to store the image  data
+  // Set up the vector to store the image  data
 
   InputImagePixelType      inputImagePixel;
   ClassifiedImagePixelType outputClassifiedLabel;
 
-  //Set up the storage containers to record the probability
-  //measures for each class.
+  // Set up the storage containers to record the probability
+  // measures for each class.
   unsigned int numberOfClasses = this->GetNumberOfMembershipFunctions();
 
-  std::vector< double > discriminantScores;
+  std::vector<double> discriminantScores;
   discriminantScores.resize(numberOfClasses);
   unsigned int classLabel;
   unsigned int classIndex;
 
   // support progress methods/callbacks
-  SizeValueType totalPixels =
-    inputImage->GetBufferedRegion().GetNumberOfPixels();
+  SizeValueType totalPixels = inputImage->GetBufferedRegion().GetNumberOfPixels();
   SizeValueType updateVisits = totalPixels / 10;
-  if ( updateVisits < 1 )
-    {
+  if (updateVisits < 1)
+  {
     updateVisits = 1;
-    }
+  }
   int k = 0;
 
-  for ( inIt.GoToBegin(); !inIt.IsAtEnd(); ++inIt, ++classifiedIt, ++k )
+  for (inIt.GoToBegin(); !inIt.IsAtEnd(); ++inIt, ++classifiedIt, ++k)
+  {
+    if (!(k % updateVisits))
     {
-    if ( !( k % updateVisits ) )
-      {
-      this->UpdateProgress( (float)k / (float)totalPixels );
-      }
+      this->UpdateProgress((float)k / (float)totalPixels);
+    }
 
-    //Read the input vector
+    // Read the input vector
     inputImagePixel = inIt.Get();
-    for ( classIndex = 0; classIndex < numberOfClasses; classIndex++ )
-      {
-      discriminantScores[classIndex] =
-        ( this->GetMembershipFunction(classIndex) )->Evaluate(inputImagePixel);
-      }
+    for (classIndex = 0; classIndex < numberOfClasses; classIndex++)
+    {
+      discriminantScores[classIndex] = (this->GetMembershipFunction(classIndex))->Evaluate(inputImagePixel);
+    }
 
-    classLabel = static_cast<unsigned int>( this->GetDecisionRule()->Evaluate(discriminantScores) );
+    classLabel = static_cast<unsigned int>(this->GetDecisionRule()->Evaluate(discriminantScores));
 
-    outputClassifiedLabel = ClassifiedImagePixelType (classLabel);
+    outputClassifiedLabel = ClassifiedImagePixelType(classLabel);
     classifiedIt.Set(outputClassifiedLabel);
-    } // end for (looping through the dataset)
-}     // end Classify
+  } // end for (looping through the dataset)
+} // end Classify
 
 /**
  * Allocate
  */
-template< typename TInputImage,
-          typename TClassifiedImage >
+template <typename TInputImage, typename TClassifiedImage>
 void
-ImageClassifierBase< TInputImage, TClassifiedImage >
-::Allocate()
+ImageClassifierBase<TInputImage, TClassifiedImage>::Allocate()
 {
   InputImageConstPointer inputImage = this->GetInputImage();
 
   InputImageSizeType inputImageSize = inputImage->GetBufferedRegion().GetSize();
 
-  ClassifiedImagePointer classifiedImage =  TClassifiedImage::New();
+  ClassifiedImagePointer classifiedImage = TClassifiedImage::New();
 
   this->SetClassifiedImage(classifiedImage);
 
@@ -162,22 +151,19 @@ ImageClassifierBase< TInputImage, TClassifiedImage >
   classifiedImage->Allocate();
 }
 
-template< typename TInputImage,
-          typename TClassifiedImage >
-std::vector< double >
-ImageClassifierBase< TInputImage, TClassifiedImage >
-::GetPixelMembershipValue(const InputImagePixelType inputImagePixel)
+template <typename TInputImage, typename TClassifiedImage>
+std::vector<double>
+ImageClassifierBase<TInputImage, TClassifiedImage>::GetPixelMembershipValue(const InputImagePixelType inputImagePixel)
 {
-  unsigned int numberOfClasses = this->GetNumberOfClasses();
-  std::vector< double >  pixelMembershipValue(numberOfClasses);
+  unsigned int        numberOfClasses = this->GetNumberOfClasses();
+  std::vector<double> pixelMembershipValue(numberOfClasses);
 
-  for ( unsigned int classIndex = 0; classIndex < numberOfClasses; classIndex++ )
-    {
-    pixelMembershipValue[classIndex] =
-      ( this->GetMembershipFunction(classIndex) )->Evaluate(inputImagePixel);
-    }
+  for (unsigned int classIndex = 0; classIndex < numberOfClasses; classIndex++)
+  {
+    pixelMembershipValue[classIndex] = (this->GetMembershipFunction(classIndex))->Evaluate(inputImagePixel);
+  }
 
-  //Return the membership value of the
+  // Return the membership value of the
   return pixelMembershipValue;
 }
 } // namespace itk

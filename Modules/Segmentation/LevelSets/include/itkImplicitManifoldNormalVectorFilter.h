@@ -69,25 +69,22 @@ namespace itk
  * the NodeType has the following additional members: m_Flux.
  * \ingroup ITKLevelSets
  */
-template< typename TInputImage, typename TSparseOutputImage >
-class ITK_TEMPLATE_EXPORT ImplicitManifoldNormalVectorFilter:
-  public FiniteDifferenceSparseImageFilter< TInputImage, TSparseOutputImage >
+template <typename TInputImage, typename TSparseOutputImage>
+class ITK_TEMPLATE_EXPORT ImplicitManifoldNormalVectorFilter
+  : public FiniteDifferenceSparseImageFilter<TInputImage, TSparseOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImplicitManifoldNormalVectorFilter);
 
   /** Standard class type alias */
   using Self = ImplicitManifoldNormalVectorFilter;
-  using Superclass = FiniteDifferenceSparseImageFilter<
-    TInputImage,
-    TSparseOutputImage >;
+  using Superclass = FiniteDifferenceSparseImageFilter<TInputImage, TSparseOutputImage>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(ImplicitManifoldNormalVectorFilter,
-               FiniteDifferenceSparseImageFilter);
+  itkTypeMacro(ImplicitManifoldNormalVectorFilter, FiniteDifferenceSparseImageFilter);
 
   /** Standard New macro. */
   itkNewMacro(Self);
@@ -107,22 +104,23 @@ public:
   using NodeListType = typename Superclass::NodeListType;
 
   /** The iterator for the input image. */
-  using InputImageIteratorType = ConstNeighborhoodIterator< InputImageType >;
+  using InputImageIteratorType = ConstNeighborhoodIterator<InputImageType>;
 
   /** This is the finite difference function type for processing the normal
       vectors */
-  using NormalFunctionType = NormalVectorFunctionBase< SparseOutputImageType >;
+  using NormalFunctionType = NormalVectorFunctionBase<SparseOutputImageType>;
 
   /** This is the radius type for the image neigborhoods. */
   using RadiusType = typename FiniteDifferenceFunctionType::RadiusType;
 
   /** This method is used to set the finite difference function. */
-  void SetNormalFunction(NormalFunctionType *nf);
+  void
+  SetNormalFunction(NormalFunctionType * nf);
 
   itkSetMacro(MaxIteration, unsigned int);
   itkGetConstMacro(MaxIteration, unsigned int);
-  itkSetMacro(IsoLevelLow,  NodeValueType);
-  itkGetConstMacro(IsoLevelLow,  NodeValueType);
+  itkSetMacro(IsoLevelLow, NodeValueType);
+  itkGetConstMacro(IsoLevelLow, NodeValueType);
   itkSetMacro(IsoLevelHigh, NodeValueType);
   itkGetConstMacro(IsoLevelHigh, NodeValueType);
   itkSetMacro(MinVectorNorm, NodeValueType);
@@ -135,52 +133,60 @@ public:
 protected:
   ImplicitManifoldNormalVectorFilter();
   ~ImplicitManifoldNormalVectorFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This calls SetNormalBand to create the band of normals to process. */
-  void Initialize() override;
+  void
+  Initialize() override;
 
   /** This function sets the band for normal vector processing. */
-  void SetNormalBand();
+  void
+  SetNormalBand();
 
   /** This function precomputes information for normal vector
    * processing. */
-  void InitializeNormalBandNode(NormalBandNodeType *node,
-                                const InputImageIteratorType & it);
+  void
+  InitializeNormalBandNode(NormalBandNodeType * node, const InputImageIteratorType & it);
 
   /** This function does nothing. The output initialization
       is handled by Initialize. */
-  void CopyInputToOutput() override {}
+  void
+  CopyInputToOutput() override
+  {}
 
   /** This is the stopping criterion function used in the iterative finite
       difference scheme. */
-  bool Halt() override
+  bool
+  Halt() override
   {
-    if ( this->GetElapsedIterations() == m_MaxIteration )
-      {
+    if (this->GetElapsedIterations() == m_MaxIteration)
+    {
       return true;
-      }
+    }
     else
-      {
+    {
       return false;
-      }
+    }
   }
 
 protected:
   /** This function implements the unit norm constraint for normal vectors. */
-  NormalVectorType DataConstraint(const NormalVectorType & data) const override
+  NormalVectorType
+  DataConstraint(const NormalVectorType & data) const override
   {
-    return ( data / ( m_MinVectorNorm + data.GetNorm() ) );
+    return (data / (m_MinVectorNorm + data.GetNorm()));
   }
 
   /** This function implements unsharp masking which is turned ON/OFF by the
       UnsharpMaskingFlag and controlled by the UnsharpMaskingWeight
       parameters. */
-  void PostProcessOutput() override;
+  void
+  PostProcessOutput() override;
 
 private:
   /** The finite difference function. */
-  NormalFunctionType *m_NormalFunction;
+  NormalFunctionType * m_NormalFunction;
 
   /** The number of iterations this filter will execute. */
   unsigned int m_MaxIteration;
@@ -209,7 +215,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImplicitManifoldNormalVectorFilter.hxx"
+#  include "itkImplicitManifoldNormalVectorFilter.hxx"
 #endif
 
 #endif

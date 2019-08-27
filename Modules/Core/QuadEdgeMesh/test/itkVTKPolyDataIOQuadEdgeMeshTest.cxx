@@ -22,60 +22,60 @@
 
 #include <iostream>
 
-int itkVTKPolyDataIOQuadEdgeMeshTest(int argc, char* argv[] )
+int
+itkVTKPolyDataIOQuadEdgeMeshTest(int argc, char * argv[])
 {
 
   using MeshType = itk::QuadEdgeMesh<float, 3>;
-  using ReaderType = itk::VTKPolyDataReader< MeshType >;
-  using WriterType = itk::VTKPolyDataWriter< MeshType >;
+  using ReaderType = itk::VTKPolyDataReader<MeshType>;
+  using WriterType = itk::VTKPolyDataWriter<MeshType>;
 
-  ReaderType::Pointer  polyDataReader = ReaderType::New();
-  WriterType::Pointer  polyDataWriter = WriterType::New();
+  ReaderType::Pointer polyDataReader = ReaderType::New();
+  WriterType::Pointer polyDataWriter = WriterType::New();
 
-  if( argc != 3 )
-    {
-    std::cerr << "Usage: itkVTKPolyDataReaderTest inputFilename outputFilename"
-              << std::endl;
+  if (argc != 3)
+  {
+    std::cerr << "Usage: itkVTKPolyDataReaderTest inputFilename outputFilename" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   else
-    {
+  {
     polyDataReader->SetFileName(argv[1]);
     polyDataWriter->SetFileName(argv[2]);
-    }
+  }
 
   std::cout << "polyDataReader:" << std::endl;
   std::cout << polyDataReader << std::endl;
   try
-    {
+  {
     polyDataReader->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Error during Update() " << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   MeshType::Pointer mesh = polyDataReader->GetOutput();
 
-  polyDataWriter->SetInput( mesh );
+  polyDataWriter->SetInput(mesh);
 
   std::cout << "polyDataWriter:" << std::endl;
   std::cout << polyDataWriter << std::endl;
   try
-    {
+  {
     polyDataWriter->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Error during Update() " << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Should make a diff
 
-  std::cout << "Test passed"<< std::endl;
+  std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;
 }

@@ -42,19 +42,21 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< typename TImage >
-class RelabelLabelMapFilter:
-  public AttributeRelabelLabelMapFilter< TImage, typename Functor::LabelLabelObjectAccessor<typename TImage::LabelObjectType> >
+template <typename TImage>
+class RelabelLabelMapFilter
+  : public AttributeRelabelLabelMapFilter<TImage,
+                                          typename Functor::LabelLabelObjectAccessor<typename TImage::LabelObjectType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RelabelLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = RelabelLabelMapFilter;
-  using Superclass = AttributeRelabelLabelMapFilter< TImage,
-     typename Functor::LabelLabelObjectAccessor<typename TImage::LabelObjectType> >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass =
+    AttributeRelabelLabelMapFilter<TImage,
+                                   typename Functor::LabelLabelObjectAccessor<typename TImage::LabelObjectType>>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using ImageType = TImage;
@@ -85,12 +87,9 @@ public:
 #endif
 
 protected:
-  RelabelLabelMapFilter()
-    {
-    this->SetReverseOrdering( true );
-    }
+  RelabelLabelMapFilter() { this->SetReverseOrdering(true); }
   ~RelabelLabelMapFilter() override = default;
-};                                     // end of class
+}; // end of class
 } // end namespace itk
 
 

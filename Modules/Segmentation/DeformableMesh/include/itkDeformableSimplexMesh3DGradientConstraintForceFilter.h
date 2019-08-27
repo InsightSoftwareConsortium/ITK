@@ -42,7 +42,7 @@ public:
   unsigned int m_Index;
 
   ImageVoxel() = default;
-  ImageVoxel(int *pos, double *subpos, double val, double dist, unsigned int ind)
+  ImageVoxel(int * pos, double * subpos, double val, double dist, unsigned int ind)
   {
     this->m_Vpos[0] = pos[0];
     this->m_Vpos[1] = pos[1];
@@ -56,19 +56,43 @@ public:
   }
 
   /// returns voxel X coordinate (voxel column)
-  unsigned int GetX() const { return m_Vpos[0]; }
+  unsigned int
+  GetX() const
+  {
+    return m_Vpos[0];
+  }
   /// returns voxel Y coordinate (voxel row)
-  unsigned int GetY() const { return m_Vpos[1]; }
+  unsigned int
+  GetY() const
+  {
+    return m_Vpos[1];
+  }
   /// returns voxel Z coordinate (voxel plane)
-  unsigned int GetZ() const { return m_Vpos[2]; }
+  unsigned int
+  GetZ() const
+  {
+    return m_Vpos[2];
+  }
   /// returns voxel distance to origin
-  double GetDistance() const { return m_Distance; }
+  double
+  GetDistance() const
+  {
+    return m_Distance;
+  }
   /// returns voxel value
-  double GetValue() const { return m_Value; }
+  double
+  GetValue() const
+  {
+    return m_Value;
+  }
   /// returns voxel position
 
   /// set the value of the voxel
-  void SetValue(const double val) { m_Value = val; }
+  void
+  SetValue(const double val)
+  {
+    m_Value = val;
+  }
 };
 
 /** \class DeformableSimplexMesh3DGradientConstraintForceFilter
@@ -82,20 +106,20 @@ public:
  * \ingroup ITKDeformableMesh
  */
 
-template< typename TInputMesh, typename TOutputMesh >
-class ITK_TEMPLATE_EXPORT DeformableSimplexMesh3DGradientConstraintForceFilter :
-  public DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh>
+class ITK_TEMPLATE_EXPORT DeformableSimplexMesh3DGradientConstraintForceFilter
+  : public DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
 {
 public:
   /** Standard "Self" type alias. */
   using Self = DeformableSimplexMesh3DGradientConstraintForceFilter;
 
   /** Standard "Superclass" type alias. */
-  using Superclass = DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >;
+  using Superclass = DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>;
 
   /** Smart pointer type alias support */
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -119,10 +143,10 @@ public:
 
   using PixelType = typename InputMeshType::PixelType;
 
-  using GradientIntensityImageType = Image< PixelType, 3 >;
+  using GradientIntensityImageType = Image<PixelType, 3>;
   using GradientIntensityImagePointer = typename GradientIntensityImageType::Pointer;
 
-  using OriginalImageType = Image< float, 3 >;
+  using OriginalImageType = Image<float, 3>;
   using OriginalImageIndexType = typename OriginalImageType::IndexType;
   using ImageIndexValueType = typename OriginalImageIndexType::IndexValueType;
   using OriginalImagePointer = typename OriginalImageType::ConstPointer;
@@ -132,14 +156,15 @@ public:
   itkGetConstMacro(Range, int);
 
   // full segment or half segment direction
-  enum SIDE {
+  enum SIDE
+  {
     // half segment in direction
     NORMAL,
     // half segment in -direction
     INVERSE,
     // complete segment
     BOTH
-    };
+  };
 
   /**
    * Set Original image
@@ -150,13 +175,17 @@ protected:
   DeformableSimplexMesh3DGradientConstraintForceFilter();
   ~DeformableSimplexMesh3DGradientConstraintForceFilter() override;
   DeformableSimplexMesh3DGradientConstraintForceFilter(const Self &) {}
-  void operator=(const Self &){}
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  operator=(const Self &)
+  {}
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * Compute the external force component
    */
-  void ComputeExternalForce(SimplexMeshGeometry *data, const GradientImageType *gradientImage) override;
+  void
+  ComputeExternalForce(SimplexMeshGeometry * data, const GradientImageType * gradientImage) override;
 
   /**
    * Range of search for Bresenham algorithm (normal line at each vertex)
@@ -164,25 +193,28 @@ protected:
   int m_Range;
 
 private:
-  double NextVoxel(const double *pp, int *ic, double *x, double *y, double *z);
+  double
+  NextVoxel(const double * pp, int * ic, double * x, double * y, double * z);
 
-  int Signi(double a);
+  int
+  Signi(double a);
 
-  void Clear();
+  void
+  Clear();
 
   // line starting voxel
-  ImageVoxel *m_StartVoxel;
+  ImageVoxel * m_StartVoxel;
   // line voxels in direction
-  std::vector< ImageVoxel * > m_Positive;
+  std::vector<ImageVoxel *> m_Positive;
   // line voxels in -direction
-  std::vector< ImageVoxel * > m_Negative;
+  std::vector<ImageVoxel *> m_Negative;
 
   OriginalImagePointer m_Image;
 }; // end of class
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDeformableSimplexMesh3DGradientConstraintForceFilter.hxx"
+#  include "itkDeformableSimplexMesh3DGradientConstraintForceFilter.hxx"
 #endif
 
 #endif /* __DeformableSimplexMesh3DGradientConstraintForceFilter_h */

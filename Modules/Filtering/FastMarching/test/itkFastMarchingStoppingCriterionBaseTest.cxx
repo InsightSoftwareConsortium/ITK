@@ -20,17 +20,16 @@
 
 namespace itk
 {
-template< typename TInput, typename TOutput >
-class FastMarchingStoppingCriterionBaseHelperTest :
-public FastMarchingStoppingCriterionBase< TInput, TOutput >
+template <typename TInput, typename TOutput>
+class FastMarchingStoppingCriterionBaseHelperTest : public FastMarchingStoppingCriterionBase<TInput, TOutput>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingStoppingCriterionBaseHelperTest);
 
   using Self = FastMarchingStoppingCriterionBaseHelperTest;
-  using Superclass = FastMarchingStoppingCriterionBase< TInput, TOutput >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = FastMarchingStoppingCriterionBase<TInput, TOutput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using NodeType = typename Superclass::NodeType;
 
@@ -38,44 +37,56 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FastMarchingStoppingCriterionBaseHelperTest,
-                FastMarchingStoppingCriterionBase );
+  itkTypeMacro(FastMarchingStoppingCriterionBaseHelperTest, FastMarchingStoppingCriterionBase);
 
-  bool IsSatisfied() const override { return true; }
-  std::string GetDescription() const override { return "Description"; }
+  bool
+  IsSatisfied() const override
+  {
+    return true;
+  }
+  std::string
+  GetDescription() const override
+  {
+    return "Description";
+  }
 
 protected:
-  FastMarchingStoppingCriterionBaseHelperTest() : Superclass() {}
+  FastMarchingStoppingCriterionBaseHelperTest()
+    : Superclass()
+  {}
   ~FastMarchingStoppingCriterionBaseHelperTest() override = default;
 
-  void SetCurrentNode( const NodeType& ) override {}
+  void
+  SetCurrentNode(const NodeType &) override
+  {}
 
-  void Reset() override {}
+  void
+  Reset() override
+  {}
 };
-}
+} // namespace itk
 
-int itkFastMarchingStoppingCriterionBaseTest( int , char *[] )
+int
+itkFastMarchingStoppingCriterionBaseTest(int, char *[])
 {
-  using ImageType = itk::Image< float, 2>;
+  using ImageType = itk::Image<float, 2>;
 
-  using ImageStoppingCriterionType =
-      itk::FastMarchingStoppingCriterionBaseHelperTest< ImageType, ImageType >;
+  using ImageStoppingCriterionType = itk::FastMarchingStoppingCriterionBaseHelperTest<ImageType, ImageType>;
 
   ImageStoppingCriterionType::Pointer image_criterion = ImageStoppingCriterionType::New();
-  if( image_criterion.IsNull() )
-    {
+  if (image_criterion.IsNull())
+  {
     return EXIT_FAILURE;
-    }
+  }
 
-  using MeshType = itk::QuadEdgeMesh< float, 3 >;
+  using MeshType = itk::QuadEdgeMesh<float, 3>;
 
-  using MeshStoppingCriterionType =
-      itk::FastMarchingStoppingCriterionBaseHelperTest< MeshType, MeshType >;
+  using MeshStoppingCriterionType = itk::FastMarchingStoppingCriterionBaseHelperTest<MeshType, MeshType>;
 
   MeshStoppingCriterionType::Pointer mesh_criterion = MeshStoppingCriterionType::New();
-  if( mesh_criterion.IsNull() )
-    {
+  if (mesh_criterion.IsNull())
+  {
     return EXIT_FAILURE;
-    }
+  }
   return EXIT_SUCCESS;
 }

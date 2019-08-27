@@ -23,7 +23,8 @@
 // info: is_pod (c++20 deprecated) is equivalent to is_trivial && is_standard_layout
 
 // QuadEdgeMeshPoint is neither trivial or has a standard_layout
-TEST(QuadEdgeMeshTypeTraits, QuadEdgeMeshPointIsNotPOD) {
+TEST(QuadEdgeMeshTypeTraits, QuadEdgeMeshPointIsNotPOD)
+{
   using T = itk::QuadEdgeMeshPoint<float, 3>;
   EXPECT_EQ(std::is_trivial<T>::value, false);
   EXPECT_EQ(std::is_standard_layout<T>::value, false);

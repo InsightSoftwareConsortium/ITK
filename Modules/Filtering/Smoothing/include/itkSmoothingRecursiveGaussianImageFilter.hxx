@@ -25,9 +25,8 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TOutputImage >
-SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::SmoothingRecursiveGaussianImageFilter()
+template <typename TInputImage, typename TOutputImage>
+SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SmoothingRecursiveGaussianImageFilter()
 
 {
   // NB: The first filter is the last dimension because it does not
@@ -43,25 +42,24 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   m_FirstSmoothingFilter->ReleaseDataFlagOn();
   // InPlace will be set conditionally in the GenerateData method.
 
-  for ( unsigned int i = 0; i < ImageDimension - 1; i++ )
-    {
+  for (unsigned int i = 0; i < ImageDimension - 1; i++)
+  {
     m_SmoothingFilters[i] = InternalGaussianFilterType::New();
     m_SmoothingFilters[i]->SetOrder(EnumGaussianOrderType::ZeroOrder);
     m_SmoothingFilters[i]->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
     m_SmoothingFilters[i]->SetDirection(i);
     m_SmoothingFilters[i]->ReleaseDataFlagOn();
     m_SmoothingFilters[i]->InPlaceOn();
-    }
+  }
 
-  m_SmoothingFilters[0]->SetInput( m_FirstSmoothingFilter->GetOutput() );
-  for ( unsigned int i = 1; i < ImageDimension - 1; i++ )
-    {
-    m_SmoothingFilters[i]->SetInput(
-      m_SmoothingFilters[i - 1]->GetOutput() );
-    }
+  m_SmoothingFilters[0]->SetInput(m_FirstSmoothingFilter->GetOutput());
+  for (unsigned int i = 1; i < ImageDimension - 1; i++)
+  {
+    m_SmoothingFilters[i]->SetInput(m_SmoothingFilters[i - 1]->GetOutput());
+  }
 
   m_CastingFilter = CastingFilterType::New();
-  m_CastingFilter->SetInput( m_SmoothingFilters[ImageDimension - 2]->GetOutput() );
+  m_CastingFilter->SetInput(m_SmoothingFilters[ImageDimension - 2]->GetOutput());
   m_CastingFilter->InPlaceOn();
 
   this->InPlaceOff();
@@ -75,24 +73,22 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::SetNumberOfWorkUnits(ThreadIdType nb)
+SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetNumberOfWorkUnits(ThreadIdType nb)
 {
   Superclass::SetNumberOfWorkUnits(nb);
-  for ( unsigned int i = 0; i < ImageDimension - 1; i++ )
-    {
+  for (unsigned int i = 0; i < ImageDimension - 1; i++)
+  {
     m_SmoothingFilters[i]->SetNumberOfWorkUnits(nb);
-    }
+  }
   m_FirstSmoothingFilter->SetNumberOfWorkUnits(nb);
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 bool
-SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::CanRunInPlace() const
+SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::CanRunInPlace() const
 {
   // Note: There are two different ways this filter may try to run
   // in-place:
@@ -112,10 +108,9 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::SetSigma(ScalarRealType sigma)
+SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSigma(ScalarRealType sigma)
 {
   SigmaArrayType sigmas(sigma);
 
@@ -123,135 +118,128 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::SetSigmaArray(const SigmaArrayType & sigma)
+SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSigmaArray(const SigmaArrayType & sigma)
 {
-  if ( this->m_Sigma != sigma )
-    {
+  if (this->m_Sigma != sigma)
+  {
     this->m_Sigma = sigma;
-    for ( unsigned int i = 0; i < ImageDimension - 1; i++ )
-      {
+    for (unsigned int i = 0; i < ImageDimension - 1; i++)
+    {
       m_SmoothingFilters[i]->SetSigma(m_Sigma[i]);
-      }
-    m_FirstSmoothingFilter->SetSigma(m_Sigma[ImageDimension-1]);
+    }
+    m_FirstSmoothingFilter->SetSigma(m_Sigma[ImageDimension - 1]);
 
     this->Modified();
-    }
+  }
 }
 
 
-template< typename TInputImage, typename TOutputImage >
-typename SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >::SigmaArrayType
-SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::GetSigmaArray() const
+template <typename TInputImage, typename TOutputImage>
+typename SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SigmaArrayType
+SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigmaArray() const
 {
   return m_Sigma;
 }
 
 
-template< typename TInputImage, typename TOutputImage >
-typename SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >::ScalarRealType
-SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::GetSigma() const
+template <typename TInputImage, typename TOutputImage>
+typename SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::ScalarRealType
+SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigma() const
 {
   return m_Sigma[0];
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::SetNormalizeAcrossScale(bool normalize)
+SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetNormalizeAcrossScale(bool normalize)
 {
   m_NormalizeAcrossScale = normalize;
 
-  for ( unsigned int i = 0; i < ImageDimension - 1; i++ )
-    {
+  for (unsigned int i = 0; i < ImageDimension - 1; i++)
+  {
     m_SmoothingFilters[i]->SetNormalizeAcrossScale(normalize);
-    }
+  }
   m_FirstSmoothingFilter->SetNormalizeAcrossScale(normalize);
 
   this->Modified();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // Call the superclass' implementation of this method. This should
   // copy the output requested region to the input requested region.
   Superclass::GenerateInputRequestedRegion();
 
   // This filter needs all of the input
-  typename SmoothingRecursiveGaussianImageFilter< TInputImage,
-                                                  TOutputImage >::InputImagePointer image =
-    const_cast< InputImageType * >( this->GetInput() );
-  if ( image )
-    {
-    image->SetRequestedRegion( this->GetInput()->GetLargestPossibleRegion() );
-    }
+  typename SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::InputImagePointer image =
+    const_cast<InputImageType *>(this->GetInput());
+  if (image)
+  {
+    image->SetRequestedRegion(this->GetInput()->GetLargestPossibleRegion());
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::EnlargeOutputRequestedRegion(DataObject *output)
+SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * output)
 {
-  auto * out = dynamic_cast< TOutputImage * >( output );
+  auto * out = dynamic_cast<TOutputImage *>(output);
 
-  if ( out )
-    {
-    out->SetRequestedRegion( out->GetLargestPossibleRegion() );
-    }
+  if (out)
+  {
+    out->SetRequestedRegion(out->GetLargestPossibleRegion());
+  }
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   itkDebugMacro(<< "SmoothingRecursiveGaussianImageFilter generating data ");
 
-  const typename TInputImage::ConstPointer inputImage( this->GetInput() );
+  const typename TInputImage::ConstPointer inputImage(this->GetInput());
 
   const typename TInputImage::RegionType region = inputImage->GetRequestedRegion();
-  const typename TInputImage::SizeType   size   = region.GetSize();
+  const typename TInputImage::SizeType   size = region.GetSize();
 
-  for ( unsigned int d = 0; d < ImageDimension; d++ )
+  for (unsigned int d = 0; d < ImageDimension; d++)
+  {
+    if (size[d] < 4)
     {
-    if ( size[d] < 4 )
-      {
-      itkExceptionMacro("The number of pixels along dimension " << d <<
-        " is less than 4. This filter requires a minimum of four pixels along the dimension to be processed.");
-      }
+      itkExceptionMacro(
+        "The number of pixels along dimension "
+        << d << " is less than 4. This filter requires a minimum of four pixels along the dimension to be processed.");
     }
+  }
 
   // If this filter is running in-place, then set the first smoothing
   // filter to steal the bulk data, by running in-place.
-  if ( this->CanRunInPlace() && this->GetInPlace() )
-    {
+  if (this->CanRunInPlace() && this->GetInPlace())
+  {
     m_FirstSmoothingFilter->InPlaceOn();
 
     // To make this filter's input and out share the same data, call
     // the InPlace's/Superclass's allocate methods, which takes care
     // of the needed bulk data sharing.
     this->AllocateOutputs();
-    }
+  }
   else
-    {
+  {
     m_FirstSmoothingFilter->InPlaceOff();
-    }
+  }
 
   // If the last filter is running in-place then this bulk data is not
   // needed, release it to save memory.
-  if ( m_CastingFilter->CanRunInPlace() )
-    {
+  if (m_CastingFilter->CanRunInPlace())
+  {
     this->GetOutput()->ReleaseData();
-    }
+  }
 
   // Create a process accumulator for tracking the progress of this minipipeline.
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
@@ -259,36 +247,35 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 
   // Register the filter with the with progress accumulator using
   // equal weight proportion.
-  for ( unsigned int i = 0; i < ImageDimension - 1; i++ )
-    {
-    progress->RegisterInternalFilter( m_SmoothingFilters[i], 1.0 / ( ImageDimension ) );
-    }
+  for (unsigned int i = 0; i < ImageDimension - 1; i++)
+  {
+    progress->RegisterInternalFilter(m_SmoothingFilters[i], 1.0 / (ImageDimension));
+  }
 
-  progress->RegisterInternalFilter( m_FirstSmoothingFilter, 1.0 / ( ImageDimension ) );
+  progress->RegisterInternalFilter(m_FirstSmoothingFilter, 1.0 / (ImageDimension));
   m_FirstSmoothingFilter->SetInput(inputImage);
 
   // Graft our output to the internal filter to force the proper regions
   // to be generated, and the bulk data which be be from the input due
   // to the in-place option.
-  m_CastingFilter->GraftOutput( this->GetOutput() );
+  m_CastingFilter->GraftOutput(this->GetOutput());
   m_CastingFilter->Update();
-  this->GraftOutput( m_CastingFilter->GetOutput() );
+  this->GraftOutput(m_CastingFilter->GetOutput());
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  for( unsigned int i = 0; i < ImageDimension - 1; ++i )
-    {
-    itkPrintSelfObjectMacro( SmoothingFilters[i] );
-    }
-  itkPrintSelfObjectMacro( FirstSmoothingFilter );
-  itkPrintSelfObjectMacro( CastingFilter );
+  for (unsigned int i = 0; i < ImageDimension - 1; ++i)
+  {
+    itkPrintSelfObjectMacro(SmoothingFilters[i]);
+  }
+  itkPrintSelfObjectMacro(FirstSmoothingFilter);
+  itkPrintSelfObjectMacro(CastingFilter);
 
   os << indent << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
   os << indent << "Sigma: " << m_Sigma << std::endl;

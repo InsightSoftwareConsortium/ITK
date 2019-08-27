@@ -19,53 +19,53 @@
 
 #include "itkMedianImageFunction.h"
 
-int itkMedianImageFunctionTest(int, char* [] )
+int
+itkMedianImageFunctionTest(int, char *[])
 {
 
   constexpr unsigned int Dimension = 3;
   using PixelType = unsigned char;
 
-  using ImageType = itk::Image< PixelType, Dimension >;
-  using FunctionType = itk::MedianImageFunction< ImageType >;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using FunctionType = itk::MedianImageFunction<ImageType>;
 
   // Create and allocate the image
-  ImageType::Pointer      image = ImageType::New();
-  ImageType::SizeType     size;
-  ImageType::IndexType    start;
-  ImageType::RegionType   region;
-  const int sizeDim(50);
-  const int centerIndex(sizeDim/2);
+  ImageType::Pointer    image = ImageType::New();
+  ImageType::SizeType   size;
+  ImageType::IndexType  start;
+  ImageType::RegionType region;
+  const int             sizeDim(50);
+  const int             centerIndex(sizeDim / 2);
   size[0] = 50;
   size[1] = 50;
   size[2] = 50;
-  start.Fill( 0 );
+  start.Fill(0);
 
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
-  image->SetRegions( region );
+  image->SetRegions(region);
   image->Allocate();
 
   ImageType::PixelType initialValue = 27;
 
-  image->FillBuffer( initialValue );
+  image->FillBuffer(initialValue);
 
   FunctionType::Pointer function = FunctionType::New();
 
-  function->SetInputImage( image );
+  function->SetInputImage(image);
 
-  ImageType::IndexType    index;
+  ImageType::IndexType index;
 
   index[0] = centerIndex;
   index[1] = centerIndex;
   index[2] = centerIndex;
 
-  FunctionType::OutputType  median;
+  FunctionType::OutputType median;
 
-  median = function->EvaluateAtIndex( index );
+  median = function->EvaluateAtIndex(index);
   std::cout << "function->EvaluateAtIndex( index ): "
-            << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(median)
-            << std::endl;
+            << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(median) << std::endl;
 
   // Test Evaluate
   FunctionType::PointType point;
@@ -75,8 +75,7 @@ int itkMedianImageFunctionTest(int, char* [] )
   FunctionType::OutputType median2;
   median2 = function->Evaluate(point);
   std::cout << "function->Evaluate(point): "
-            << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(median2)
-            << std::endl;
+            << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(median2) << std::endl;
 
   // Test EvaluateAtContinuousIndex
   FunctionType::ContinuousIndexType cindex;
@@ -86,16 +85,15 @@ int itkMedianImageFunctionTest(int, char* [] )
   FunctionType::OutputType median3;
   median3 = function->EvaluateAtContinuousIndex(cindex);
   std::cout << "function->EvaluateAtContinuousIndex(cindex): "
-            << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(median3)
-            << std::endl;
+            << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(median3) << std::endl;
 
   // since the input image is constant
   // the should be equal to the initial value
-  if( itk::Math::abs( initialValue - median ) > 10e-7 )
-    {
+  if (itk::Math::abs(initialValue - median) > 10e-7)
+  {
     std::cerr << "Error in mean computation" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test PASSED ! " << std::endl;
   //
@@ -103,58 +101,55 @@ int itkMedianImageFunctionTest(int, char* [] )
 
   // first, put something in the neighborhood outside the current
   // neighborhood that will change the median result
-  unsigned char voxelval(28);
-  ImageType::IndexType    index2;
-  for(index2[0] = centerIndex-2; index2[0] < centerIndex+3; index2[0]++)
+  unsigned char        voxelval(28);
+  ImageType::IndexType index2;
+  for (index2[0] = centerIndex - 2; index2[0] < centerIndex + 3; index2[0]++)
+  {
+    for (index2[1] = centerIndex - 2; index2[1] < centerIndex + 3; index2[1]++)
     {
-    for(index2[1] = centerIndex-2; index2[1] < centerIndex+3; index2[1]++)
+      for (index2[2] = centerIndex - 2; index2[2] < centerIndex + 3; index2[2]++)
       {
-      for(index2[2] = centerIndex-2; index2[2] < centerIndex+3; index2[2]++)
-        {
         // don't change voxels inside default neighborhood
-        if((index2[0] < centerIndex - 1 || index2[0] > centerIndex + 1) ||
-           (index2[1] < centerIndex - 1 || index2[1] > centerIndex + 1) ||
-           (index2[2] < centerIndex - 1 || index2[2] > centerIndex + 1))
-          {
-          image->SetPixel(index2,voxelval);
+        if ((index2[0] < centerIndex - 1 || index2[0] > centerIndex + 1) ||
+            (index2[1] < centerIndex - 1 || index2[1] > centerIndex + 1) ||
+            (index2[2] < centerIndex - 1 || index2[2] > centerIndex + 1))
+        {
+          image->SetPixel(index2, voxelval);
           voxelval++;
-          }
         }
       }
     }
+  }
 
   // check median with default neighborhood
   index[2] = index[1] = index[0] = centerIndex;
-  median = function->EvaluateAtIndex( index );
+  median = function->EvaluateAtIndex(index);
   std::cout << "function->EvaluateAtIndex( index ): "
-            << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(median)
-            << std::endl;
+            << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(median) << std::endl;
 
   // since the input image is constant
   // the should be equal to the initial value
-  if( itk::Math::abs( initialValue - median ) > 10e-7 )
-    {
+  if (itk::Math::abs(initialValue - median) > 10e-7)
+  {
     std::cerr << "Error in mean computation" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // now set the radius
   function->SetNeighborhoodRadius(2);
-  median = function->EvaluateAtIndex( index );
+  median = function->EvaluateAtIndex(index);
   std::cout << "function->EvaluateAtIndex( index ), neighborhood radius 2: "
-            << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(median)
-            << std::endl;
+            << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(median) << std::endl;
   // Since we've changed the image outside the default neighborhood
   // for the MedianImageFunction, it would be an error for the median
   // to be the same
-  if( itk::Math::abs( initialValue - median ) < 10e-7 )
-    {
+  if (itk::Math::abs(initialValue - median) < 10e-7)
+  {
     std::cerr << "Error in mean computation" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   std::cout << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
-
 }

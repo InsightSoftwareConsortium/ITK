@@ -18,29 +18,28 @@
 
 #include "itkFastMarchingNumberOfElementsStoppingCriterion.h"
 
-int itkFastMarchingNumberOfElementsStoppingCriterionTest( int , char * [] )
+int
+itkFastMarchingNumberOfElementsStoppingCriterionTest(int, char *[])
 {
-  using ImageType = itk::Image< float, 2>;
+  using ImageType = itk::Image<float, 2>;
 
-  using ImageStoppingCriterionType = itk::FastMarchingNumberOfElementsStoppingCriterion<
-      ImageType, ImageType >;
+  using ImageStoppingCriterionType = itk::FastMarchingNumberOfElementsStoppingCriterion<ImageType, ImageType>;
 
   ImageStoppingCriterionType::Pointer image_criterion = ImageStoppingCriterionType::New();
-  if( image_criterion.IsNull() )
-    {
+  if (image_criterion.IsNull())
+  {
     return EXIT_FAILURE;
-    }
+  }
 
-  using MeshType = itk::QuadEdgeMesh< float, 3 >;
+  using MeshType = itk::QuadEdgeMesh<float, 3>;
 
-  using MeshStoppingCriterionType =
-      itk::FastMarchingNumberOfElementsStoppingCriterion< MeshType, MeshType >;
+  using MeshStoppingCriterionType = itk::FastMarchingNumberOfElementsStoppingCriterion<MeshType, MeshType>;
 
   MeshStoppingCriterionType::Pointer mesh_criterion = MeshStoppingCriterionType::New();
-  if( mesh_criterion.IsNull() )
-    {
+  if (mesh_criterion.IsNull())
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

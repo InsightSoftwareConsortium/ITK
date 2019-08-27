@@ -20,7 +20,8 @@
 
 #include "itkLabelMapFilter.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class LabelMapMaskImageFilter
  * \brief Mask and image with a LabelMap
@@ -42,9 +43,8 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template<typename TInputImage, typename TOutputImage>
-class ITK_TEMPLATE_EXPORT LabelMapMaskImageFilter :
-    public LabelMapFilter<TInputImage, TOutputImage>
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT LabelMapMaskImageFilter : public LabelMapFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapMaskImageFilter);
@@ -86,30 +86,34 @@ public:
   /** Runtime information support. */
   itkTypeMacro(LabelMapMaskImageFilter, LabelMapFilter);
 
-   /** Set the feature image */
-  void SetFeatureImage(const TOutputImage *input)
-    {
+  /** Set the feature image */
+  void
+  SetFeatureImage(const TOutputImage * input)
+  {
     // Process object is not const-correct so the const casting is required.
-    this->SetNthInput( 1, const_cast<TOutputImage *>(input) );
-    }
+    this->SetNthInput(1, const_cast<TOutputImage *>(input));
+  }
 
   /** Get the feature image */
-  const OutputImageType * GetFeatureImage()
-    {
-    return static_cast<OutputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
-    }
+  const OutputImageType *
+  GetFeatureImage()
+  {
+    return static_cast<OutputImageType *>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
+  }
 
   /** Set the input image */
-  void SetInput1(const TInputImage *input)
-    {
-    this->SetInput( input );
-    }
+  void
+  SetInput1(const TInputImage * input)
+  {
+    this->SetInput(input);
+  }
 
   /** Set the feature image */
-  void SetInput2(const TOutputImage *input)
-    {
-    this->SetFeatureImage( input );
-    }
+  void
+  SetInput2(const TOutputImage * input)
+  {
+    this->SetFeatureImage(input);
+  }
 
   /**
    * Set/Get the value used as "background" in the output image.
@@ -152,41 +156,49 @@ protected:
   /** LabelMapMaskImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** LabelMapMaskImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void DynamicThreadedGenerateData(const OutputImageRegionType& outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
-  //part of a compile error workaround for GCC 4.8.5-28 (Red Hat) from 20150623
-  void SuperclassDynamicTGD(const OutputImageRegionType & outputRegion)
+  // part of a compile error workaround for GCC 4.8.5-28 (Red Hat) from 20150623
+  void
+  SuperclassDynamicTGD(const OutputImageRegionType & outputRegion)
   {
     Superclass::DynamicThreadedGenerateData(outputRegion);
   }
 
-  void ThreadedProcessLabelObject( LabelObjectType * labelObject ) override;
+  void
+  ThreadedProcessLabelObject(LabelObjectType * labelObject) override;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  InputImagePixelType       m_Label;
-  OutputImagePixelType      m_BackgroundValue;
-  bool                      m_Negated{ false };
-  bool                      m_Crop{ false };
-  SizeType                  m_CropBorder;
+  InputImagePixelType  m_Label;
+  OutputImagePixelType m_BackgroundValue;
+  bool                 m_Negated{ false };
+  bool                 m_Crop{ false };
+  SizeType             m_CropBorder;
 
-  TimeStamp                 m_CropTimeStamp;
+  TimeStamp m_CropTimeStamp;
 }; // end of class
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelMapMaskImageFilter.hxx"
+#  include "itkLabelMapMaskImageFilter.hxx"
 #endif
 
 #endif

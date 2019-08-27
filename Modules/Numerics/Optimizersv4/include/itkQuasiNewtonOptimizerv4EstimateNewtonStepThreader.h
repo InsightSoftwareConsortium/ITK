@@ -23,16 +23,17 @@
 
 namespace itk
 {
-template<typename TInternalComputationValueType>
+template <typename TInternalComputationValueType>
 class ITK_FORWARD_EXPORT QuasiNewtonOptimizerv4Template;
 
 /** \class QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate
  * \brief Estimate the quasi-Newton step in a thread.
  * \ingroup ITKOptimizersv4
  * */
-template<typename TInternalComputationValueType>
+template <typename TInternalComputationValueType>
 class ITK_TEMPLATE_EXPORT QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate
-  : public DomainThreader< ThreadedIndexedContainerPartitioner, QuasiNewtonOptimizerv4Template<TInternalComputationValueType> >
+  : public DomainThreader<ThreadedIndexedContainerPartitioner,
+                          QuasiNewtonOptimizerv4Template<TInternalComputationValueType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate);
@@ -40,33 +41,34 @@ public:
   /** Standard class type aliases. */
   using Self = QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate;
   using Superclass =
-      DomainThreader< ThreadedIndexedContainerPartitioner, QuasiNewtonOptimizerv4Template<TInternalComputationValueType> >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+    DomainThreader<ThreadedIndexedContainerPartitioner, QuasiNewtonOptimizerv4Template<TInternalComputationValueType>>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro( QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate, DomainThreader );
+  itkTypeMacro(QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate, DomainThreader);
 
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   using DomainType = typename Superclass::DomainType;
   using AssociateType = typename Superclass::AssociateType;
   using IndexRangeType = DomainType;
 
 protected:
-  void ThreadedExecution( const IndexRangeType & subrange,
-                                  const ThreadIdType threadId ) override;
+  void
+  ThreadedExecution(const IndexRangeType & subrange, const ThreadIdType threadId) override;
 
   QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate() = default;
   ~QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate() override = default;
 };
 
 /** This helps to meet backward compatibility */
-using QuasiNewtonOptimizerv4EstimateNewtonStepThreader = QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate<double>;
+using QuasiNewtonOptimizerv4EstimateNewtonStepThreader =
+  QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate<double>;
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuasiNewtonOptimizerv4EstimateNewtonStepThreader.hxx"
+#  include "itkQuasiNewtonOptimizerv4EstimateNewtonStepThreader.hxx"
 #endif
 
 #endif

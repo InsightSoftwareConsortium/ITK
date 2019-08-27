@@ -23,73 +23,69 @@
 
 namespace itk
 {
-template< typename TDataContainer >
-ClassifierBase< TDataContainer >
-::ClassifierBase()
+template <typename TDataContainer>
+ClassifierBase<TDataContainer>::ClassifierBase()
 {
   m_NumberOfClasses = 0;
   m_DecisionRule = nullptr;
   m_MembershipFunctions.resize(0);
 }
 
-template< typename TDataContainer >
+template <typename TDataContainer>
 void
-ClassifierBase< TDataContainer >
-::PrintSelf(std::ostream & os, Indent indent) const
+ClassifierBase<TDataContainer>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Number of classes: " << m_NumberOfClasses << std::endl;
   os << indent << "DecisionRule: ";
-  if ( m_DecisionRule.IsNotNull() )
-    {
+  if (m_DecisionRule.IsNotNull())
+  {
     os << m_DecisionRule << std::endl;
-    }
+  }
   else
-    {
+  {
     os << "not set." << std::endl;
-    }
+  }
 
   os << indent << "MembershipFunctions: " << std::endl;
-  for ( unsigned int i = 0; i < m_MembershipFunctions.size(); ++i )
-    {
+  for (unsigned int i = 0; i < m_MembershipFunctions.size(); ++i)
+  {
     os << indent << m_MembershipFunctions[i] << std::endl;
-    }
+  }
 }
 
-template< typename TDataContainer >
+template <typename TDataContainer>
 void
-ClassifierBase< TDataContainer >
-::Update()
+ClassifierBase<TDataContainer>::Update()
 {
-  if ( m_NumberOfClasses == 0 )
-    {
+  if (m_NumberOfClasses == 0)
+  {
     itkExceptionMacro("Zero class");
     return;
-    }
+  }
 
-  if ( m_MembershipFunctions.empty() )
-    {
+  if (m_MembershipFunctions.empty())
+  {
     itkExceptionMacro("No membership function");
     return;
-    }
+  }
 
-  if ( m_NumberOfClasses != m_MembershipFunctions.size() )
-    {
+  if (m_NumberOfClasses != m_MembershipFunctions.size())
+  {
     itkExceptionMacro("The number of classes and the number of membership mismatch.");
     return;
-    }
+  }
 
   this->GenerateData();
 }
 
-template< typename TDataContainer >
+template <typename TDataContainer>
 unsigned int
-ClassifierBase< TDataContainer >
-::AddMembershipFunction(MembershipFunctionType *function)
+ClassifierBase<TDataContainer>::AddMembershipFunction(MembershipFunctionType * function)
 {
   m_MembershipFunctions.push_back(function);
-  return static_cast< unsigned int >( m_MembershipFunctions.size() );
+  return static_cast<unsigned int>(m_MembershipFunctions.size());
 }
 } // namespace itk
 

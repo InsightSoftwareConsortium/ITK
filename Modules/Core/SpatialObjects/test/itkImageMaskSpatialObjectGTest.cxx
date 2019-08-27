@@ -28,123 +28,118 @@
 
 #include <gtest/gtest.h>
 
-#if ! defined ( ITK_LEGACY_REMOVE )
+#if !defined(ITK_LEGACY_REMOVE)
 
 namespace
 {
-  // Convenience function that calls GetAxisAlignedBoundingBoxRegion() for the specified image.
-  template<typename TImage>
-  typename TImage::RegionType ComputeAxisAlignedBoundingBoxRegionInImageGridSpace(const TImage& image)
+// Convenience function that calls GetAxisAlignedBoundingBoxRegion() for the specified image.
+template <typename TImage>
+typename TImage::RegionType
+ComputeAxisAlignedBoundingBoxRegionInImageGridSpace(const TImage & image)
+{
+  using PixelType = typename TImage::PixelType;
+  const auto spatialObject = itk::ImageMaskSpatialObject<TImage::ImageDimension, PixelType>::New();
+  spatialObject->SetImage(&image);
+  return spatialObject->GetAxisAlignedBoundingBoxRegion();
+}
+
+
+template <typename TPixel, unsigned VImageDimension>
+void
+Expect_AxisAlignedBoundingBoxRegion_is_empty_when_all_pixel_values_are_zero(
+  const itk::ImageRegion<VImageDimension> & imageRegion)
+{
+  const auto image = itk::Image<TPixel, VImageDimension>::New();
+
+  image->SetRegions(imageRegion);
+  image->Allocate(true);
+
+  EXPECT_EQ(ComputeAxisAlignedBoundingBoxRegionInImageGridSpace(*image).GetSize(), itk::Size<VImageDimension>{});
+}
+
+
+template <typename TPixel, unsigned VImageDimension>
+void
+Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_all_pixel_values_are_non_zero(
+  const itk::ImageRegion<VImageDimension> & imageRegion)
+{
+  const auto image = itk::Image<TPixel, VImageDimension>::New();
+  image->SetRegions(imageRegion);
+  image->Allocate();
+
+  // Set all pixels to non-zero (1).
+  image->FillBuffer(1);
+
+  EXPECT_EQ(ComputeAxisAlignedBoundingBoxRegionInImageGridSpace(*image), imageRegion);
+
+  // Same test, but now using max() as non-zero value.
+  image->FillBuffer(itk::NumericTraits<TPixel>::max());
+
+  EXPECT_EQ(ComputeAxisAlignedBoundingBoxRegionInImageGridSpace(*image), imageRegion);
+}
+
+
+template <typename TPixel, unsigned VImageDimension>
+void
+Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the_only_non_zero_pixel(
+  const itk::ImageRegion<VImageDimension> & imageRegion)
+{
+  const auto image = itk::Image<TPixel, VImageDimension>::New();
+
+  image->SetRegions(imageRegion);
+
+  // Initialize all pixels to zero.
+  image->Allocate(true);
+
+  const itk::Experimental::ImageRegionIndexRange<VImageDimension> indexRange{ imageRegion };
+
+  // Expected size: the "region size" of a single pixel (1x1, in 2D, 1x1x1 in 3D).
+  const itk::Size<VImageDimension> expectedSize = [] {
+    itk::Size<VImageDimension> size;
+    size.Fill(1);
+    return size;
+  }();
+
+  for (const auto & index : indexRange)
   {
-    using PixelType = typename TImage::PixelType;
-    const auto spatialObject = itk::ImageMaskSpatialObject<TImage::ImageDimension, PixelType>::New();
-    spatialObject->SetImage(&image);
-    return spatialObject->GetAxisAlignedBoundingBoxRegion();
+    // Set only one pixel value non-zero.
+    image->SetPixel(index, 1);
+    const itk::ImageRegion<VImageDimension> expectedRegion{ index, expectedSize };
+    EXPECT_EQ(ComputeAxisAlignedBoundingBoxRegionInImageGridSpace(*image), expectedRegion);
+    // Restore pixel value to zero for the next iteration.
+    image->SetPixel(index, 0);
   }
+}
 
 
-  template <typename TPixel, unsigned VImageDimension>
-  void Expect_AxisAlignedBoundingBoxRegion_is_empty_when_all_pixel_values_are_zero(
-    const itk::ImageRegion<VImageDimension>& imageRegion)
+template <typename TPixel, unsigned VImageDimension>
+void
+Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_only_a_single_pixel_has_value_zero(
+  const itk::ImageRegion<VImageDimension> & imageRegion)
+{
+  using ImageType = itk::Image<TPixel, VImageDimension>;
+  const auto image = ImageType::New();
+  image->SetRegions(imageRegion);
+  image->Allocate();
+
+  // Set all pixels to non-zero.
+  image->FillBuffer(1);
+
+  const itk::Experimental::ImageBufferRange<ImageType> imageRange{ *image };
+
+  for (auto && pixel : imageRange)
   {
-    const auto image = itk::Image<TPixel, VImageDimension>::New();
+    // Set only one pixel value zero.
+    pixel = 0;
 
-    image->SetRegions(imageRegion);
-    image->Allocate(true);
+    EXPECT_EQ(ComputeAxisAlignedBoundingBoxRegionInImageGridSpace(*image), imageRegion);
 
-    EXPECT_EQ(
-      ComputeAxisAlignedBoundingBoxRegionInImageGridSpace(*image).GetSize(),
-      itk::Size<VImageDimension>{});
+    // Restore pixel value to non-zero for the next iteration.
+    pixel = 1;
   }
+}
 
-
-  template <typename TPixel, unsigned VImageDimension>
-  void Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_all_pixel_values_are_non_zero(
-    const itk::ImageRegion<VImageDimension>& imageRegion)
-  {
-    const auto image = itk::Image<TPixel, VImageDimension>::New();
-    image->SetRegions(imageRegion);
-    image->Allocate();
-
-    // Set all pixels to non-zero (1).
-    image->FillBuffer(1);
-
-    EXPECT_EQ(
-      ComputeAxisAlignedBoundingBoxRegionInImageGridSpace(*image),
-      imageRegion);
-
-    // Same test, but now using max() as non-zero value.
-    image->FillBuffer(itk::NumericTraits<TPixel>::max());
-
-    EXPECT_EQ(
-      ComputeAxisAlignedBoundingBoxRegionInImageGridSpace(*image),
-      imageRegion);
-  }
-
-
-  template <typename TPixel, unsigned VImageDimension>
-  void Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the_only_non_zero_pixel(
-    const itk::ImageRegion<VImageDimension>& imageRegion)
-  {
-    const auto image = itk::Image<TPixel, VImageDimension>::New();
-
-    image->SetRegions(imageRegion);
-
-    // Initialize all pixels to zero.
-    image->Allocate(true);
-
-    const itk::Experimental::ImageRegionIndexRange<VImageDimension> indexRange{ imageRegion };
-
-    // Expected size: the "region size" of a single pixel (1x1, in 2D, 1x1x1 in 3D).
-    const itk::Size<VImageDimension> expectedSize = []
-    {
-      itk::Size<VImageDimension> size;
-      size.Fill(1);
-      return size;
-    }();
-
-    for (const auto& index : indexRange)
-    {
-      // Set only one pixel value non-zero.
-      image->SetPixel(index, 1);
-      const itk::ImageRegion<VImageDimension> expectedRegion{ index, expectedSize };
-      EXPECT_EQ(
-        ComputeAxisAlignedBoundingBoxRegionInImageGridSpace(*image), expectedRegion);
-      // Restore pixel value to zero for the next iteration.
-      image->SetPixel(index, 0);
-    }
-  }
-
-
-  template <typename TPixel, unsigned VImageDimension>
-  void Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_only_a_single_pixel_has_value_zero(
-    const itk::ImageRegion<VImageDimension>& imageRegion)
-  {
-    using ImageType = itk::Image<TPixel, VImageDimension>;
-    const auto image = ImageType::New();
-    image->SetRegions(imageRegion);
-    image->Allocate();
-
-    // Set all pixels to non-zero.
-    image->FillBuffer(1);
-
-    const itk::Experimental::ImageBufferRange< ImageType> imageRange{ *image };
-
-    for (auto&& pixel: imageRange)
-    {
-      // Set only one pixel value zero.
-      pixel = 0;
-
-      EXPECT_EQ(
-        ComputeAxisAlignedBoundingBoxRegionInImageGridSpace(*image),
-        imageRegion);
-
-      // Restore pixel value to non-zero for the next iteration.
-      pixel = 1;
-    }
-  }
-
-}  // End of namespace
+} // End of namespace
 
 
 // Tests that the AABB region (as returned by GetAxisAlignedBoundingBoxRegion())
@@ -155,13 +150,13 @@ TEST(ImageMaskSpatialObject, AxisAlignedBoundingBoxIsEmptyWhenAllPixelsAreZero)
   Expect_AxisAlignedBoundingBoxRegion_is_empty_when_all_pixel_values_are_zero<double>(
     itk::ImageRegion<2>{ itk::Index<2>(), itk::Size<2>::Filled(1) });
   Expect_AxisAlignedBoundingBoxRegion_is_empty_when_all_pixel_values_are_zero<double>(
-    itk::ImageRegion<2>{ itk::Index<2>{{-1, -2}}, itk::Size<2>{{3, 4}} });
+    itk::ImageRegion<2>{ itk::Index<2>{ { -1, -2 } }, itk::Size<2>{ { 3, 4 } } });
 
   // Test 3D images:
   Expect_AxisAlignedBoundingBoxRegion_is_empty_when_all_pixel_values_are_zero<unsigned char>(
     itk::ImageRegion<3>{ itk::Index<3>(), itk::Size<3>::Filled(1) });
   Expect_AxisAlignedBoundingBoxRegion_is_empty_when_all_pixel_values_are_zero<unsigned char>(
-    itk::ImageRegion<3>{ itk::Index<3>{{-1, -2, -3}}, itk::Size<3>{{3, 4, 5}} });
+    itk::ImageRegion<3>{ itk::Index<3>{ { -1, -2, -3 } }, itk::Size<3>{ { 3, 4, 5 } } });
 }
 
 
@@ -172,13 +167,13 @@ TEST(ImageMaskSpatialObject, AxisAlignedBoundingBoxRegionIsImageRegionWhenAllPix
   Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_all_pixel_values_are_non_zero<double>(
     itk::ImageRegion<2>{ itk::Index<2>(), itk::Size<2>::Filled(1) });
   Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_all_pixel_values_are_non_zero<double>(
-    itk::ImageRegion<2>{ itk::Index<2>{{-1, -2}}, itk::Size<2>{{3, 4}} });
+    itk::ImageRegion<2>{ itk::Index<2>{ { -1, -2 } }, itk::Size<2>{ { 3, 4 } } });
 
   // Test 3D images:
   Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_all_pixel_values_are_non_zero<unsigned char>(
     itk::ImageRegion<3>{ itk::Index<3>(), itk::Size<3>::Filled(1) });
   Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_all_pixel_values_are_non_zero<unsigned char>(
-    itk::ImageRegion<3>{ itk::Index<3>{{-1, -2, -3}}, itk::Size<3>{{3, 4, 5}} });
+    itk::ImageRegion<3>{ itk::Index<3>{ { -1, -2, -3 } }, itk::Size<3>{ { 3, 4, 5 } } });
 }
 
 
@@ -189,13 +184,13 @@ TEST(ImageMaskSpatialObject, AxisAlignedBoundingBoxRegionIsRegionOfSinglePixelWh
   Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the_only_non_zero_pixel<double>(
     itk::ImageRegion<2>{ itk::Index<2>(), itk::Size<2>::Filled(1) });
   Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the_only_non_zero_pixel<double>(
-    itk::ImageRegion<2>{ itk::Index<2>{{-1, -2}}, itk::Size<2>{{3, 4}} });
+    itk::ImageRegion<2>{ itk::Index<2>{ { -1, -2 } }, itk::Size<2>{ { 3, 4 } } });
 
   // Test 3D images:
   Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the_only_non_zero_pixel<unsigned char>(
     itk::ImageRegion<3>{ itk::Index<3>(), itk::Size<3>::Filled(1) });
   Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the_only_non_zero_pixel<unsigned char>(
-    itk::ImageRegion<3>{ itk::Index<3>{{-1, -2, -3}}, itk::Size<3>{{3, 4, 5}} });
+    itk::ImageRegion<3>{ itk::Index<3>{ { -1, -2, -3 } }, itk::Size<3>{ { 3, 4, 5 } } });
 }
 
 
@@ -207,13 +202,13 @@ TEST(ImageMaskSpatialObject, AxisAlignedBoundingBoxRegionIsImageRegionWhenOnlyOn
   Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_only_a_single_pixel_has_value_zero<double>(
     itk::ImageRegion<2>{ itk::Index<2>(), itk::Size<2>::Filled(2) });
   Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_only_a_single_pixel_has_value_zero<double>(
-    itk::ImageRegion<2>{ itk::Index<2>{{-1, -2}}, itk::Size<2>{{3, 4}} });
+    itk::ImageRegion<2>{ itk::Index<2>{ { -1, -2 } }, itk::Size<2>{ { 3, 4 } } });
 
   // Test 3D images:
   Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_only_a_single_pixel_has_value_zero<unsigned char>(
     itk::ImageRegion<3>{ itk::Index<3>(), itk::Size<3>::Filled(2) });
   Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_only_a_single_pixel_has_value_zero<unsigned char>(
-    itk::ImageRegion<3>{ itk::Index<3>{{-1, -2, -3}}, itk::Size<3>{{3, 4, 5}} });
+    itk::ImageRegion<3>{ itk::Index<3>{ { -1, -2, -3 } }, itk::Size<3>{ { 3, 4, 5 } } });
 }
 
 
@@ -232,7 +227,7 @@ TEST(ImageMaskSpatialObject, IsInsideSingleZeroPixel)
   image->FillBuffer(1);
 
   constexpr itk::IndexValueType indexValue{ 4 };
-  image->SetPixel({{ indexValue, indexValue }}, 0);
+  image->SetPixel({ { indexValue, indexValue } }, 0);
 
   const auto spatialObject = itk::ImageMaskSpatialObject<ImageDimension>::New();
   spatialObject->SetImage(image);
@@ -258,7 +253,7 @@ TEST(ImageMaskSpatialObject, IsInsideSingleNonZeroPixel)
   image->Allocate(true);
 
   constexpr itk::IndexValueType indexValue{ 4 };
-  image->SetPixel({{ indexValue, indexValue }}, 1);
+  image->SetPixel({ { indexValue, indexValue } }, 1);
 
   const auto spatialObject = itk::ImageMaskSpatialObject<ImageDimension>::New();
   spatialObject->SetImage(image);
@@ -286,7 +281,7 @@ TEST(ImageMaskSpatialObject, IsInsideIndependentOfDistantPixels)
 
   // Set the value of a pixel to non-zero.
   constexpr itk::IndexValueType indexValue{ 8 };
-  image->SetPixel({{ indexValue, indexValue }}, 1);
+  image->SetPixel({ { indexValue, indexValue } }, 1);
 
   const auto spatialObject = itk::ImageMaskSpatialObject<ImageDimension>::New();
   spatialObject->SetImage(image);

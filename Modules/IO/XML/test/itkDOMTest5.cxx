@@ -27,24 +27,25 @@ especially the change of working directory for reading/writing external files in
 #include <iostream>
 #include "itkMacro.h"
 
-int itkDOMTest5( int argc, char* argv[] )
+int
+itkDOMTest5(int argc, char * argv[])
 {
-  if ( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "arguments expected: <output>.DOMTestObject.xml" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   try
-    {
+  {
     std::cout << "input file for w/r: " << argv[1] << std::endl;
     std::cout << std::endl;
 
     // create the test object
     itk::DOMTestObject::Pointer testobj1 = itk::DOMTestObject::New();
     // settings for foo
-    testobj1->SetFooValue( "Hello!" );
-    testobj1->SetFooFileName( "itkDOMTest5-output/foo.txt" );
+    testobj1->SetFooValue("Hello!");
+    testobj1->SetFooFileName("itkDOMTest5-output/foo.txt");
 
     std::cout << "foo value: " << testobj1->GetFooValue() << std::endl;
     std::cout << "foo file : " << testobj1->GetFooFileName() << std::endl;
@@ -52,43 +53,43 @@ int itkDOMTest5( int argc, char* argv[] )
 
     // write the test object to an XML file
     itk::DOMTestObjectDOMWriter::Pointer writer = itk::DOMTestObjectDOMWriter::New();
-    writer->SetInput( testobj1 );
-    writer->SetFileName( argv[1] );
+    writer->SetInput(testobj1);
+    writer->SetFileName(argv[1]);
     writer->Update();
 
     itk::DOMTestObject::Pointer testobj2;
 
     // read the object back to memory from the disk
     itk::DOMTestObjectDOMReader::Pointer reader = itk::DOMTestObjectDOMReader::New();
-    reader->SetFileName( argv[1] );
+    reader->SetFileName(argv[1]);
     reader->Update();
     testobj2 = reader->GetOutput();
 
     // check whether the two test objects have the same values
     std::cout << "returned foo value: " << testobj2->GetFooValue() << std::endl;
     std::cout << std::endl;
-    if ( testobj1->GetFooValue() != testobj2->GetFooValue() )
-      {
+    if (testobj1->GetFooValue() != testobj2->GetFooValue())
+    {
       throw "foo values mismatch";
-      }
+    }
 
     // testing is successful if reached here
-    }
-  catch ( const itk::ExceptionObject& eo )
-    {
-    eo.Print( std::cerr );
+  }
+  catch (const itk::ExceptionObject & eo)
+  {
+    eo.Print(std::cerr);
     return EXIT_FAILURE;
-    }
-  catch ( const char* e )
-    {
+  }
+  catch (const char * e)
+  {
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
-  catch ( ... )
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Unknown exception caught!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

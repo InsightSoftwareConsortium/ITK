@@ -22,56 +22,55 @@
 // NEW
 #include "itkDelaunayConformingQuadEdgeMeshFilter.h"
 
-int itkDelaunayConformingQuadEdgeMeshFilterTest( int argc, char* argv[] )
+int
+itkDelaunayConformingQuadEdgeMeshFilterTest(int argc, char * argv[])
 {
   // ** ERROR MESSAGE AND HELP ** //
-  if( argc < 3 )
-    {
-    std::cout <<"Requires 2 argument: " <<std::endl;
-    std::cout <<"1-Input file name " <<std::endl;
-    std::cout <<"2-Output file name " <<std::endl;
+  if (argc < 3)
+  {
+    std::cout << "Requires 2 argument: " << std::endl;
+    std::cout << "1-Input file name " << std::endl;
+    std::cout << "2-Output file name " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // ** TYPEDEF **
   using Coord = double;
 
-  using MeshType = itk::QuadEdgeMesh< Coord, 3 >;
-  using ReaderType = itk::MeshFileReader< MeshType >;
-  using WriterType = itk::MeshFileWriter< MeshType >;
+  using MeshType = itk::QuadEdgeMesh<Coord, 3>;
+  using ReaderType = itk::MeshFileReader<MeshType>;
+  using WriterType = itk::MeshFileWriter<MeshType>;
 
   // ** READ THE FILE IN **
-  ReaderType::Pointer reader = ReaderType::New( );
-  reader->SetFileName( argv[1] );
+  ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName(argv[1]);
   try
-    {
-    reader->Update( );
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  {
+    reader->Update();
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown while reading the input file " << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  MeshType::Pointer mesh = reader->GetOutput( );
+  MeshType::Pointer mesh = reader->GetOutput();
 
-  using DelaunayConformFilterType =
-      itk::DelaunayConformingQuadEdgeMeshFilter< MeshType, MeshType >;
-  DelaunayConformFilterType::Pointer filter = DelaunayConformFilterType::New( );
-  filter->SetInput( mesh );
-  filter->Update( );
+  using DelaunayConformFilterType = itk::DelaunayConformingQuadEdgeMeshFilter<MeshType, MeshType>;
+  DelaunayConformFilterType::Pointer filter = DelaunayConformFilterType::New();
+  filter->SetInput(mesh);
+  filter->Update();
 
   // ** WRITE OUTPUT **
-  WriterType::Pointer writer = WriterType::New( );
-  writer->SetInput( filter->GetOutput( ) );
-  writer->SetFileName( argv[2] );
-  writer->Update( );
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(argv[2]);
+  writer->Update();
 
-  std::cout <<"Input: " <<argv[1] <<std::endl;
-  std::cout <<"Output: " <<argv[2] <<std::endl;
-  std::cout <<"Number of Edge flipped performed: "
-    <<filter->GetNumberOfEdgeFlips( ) <<std::endl;
+  std::cout << "Input: " << argv[1] << std::endl;
+  std::cout << "Output: " << argv[2] << std::endl;
+  std::cout << "Number of Edge flipped performed: " << filter->GetNumberOfEdgeFlips() << std::endl;
 
   // ** PRINT **
   std::cout << filter;

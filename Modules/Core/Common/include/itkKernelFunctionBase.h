@@ -39,15 +39,15 @@ namespace itk
  * \ingroup Functions
  * \ingroup ITKCommon
  */
-template< typename TRealValueType = double >
-class KernelFunctionBase:public FunctionBase< TRealValueType, TRealValueType >
+template <typename TRealValueType = double>
+class KernelFunctionBase : public FunctionBase<TRealValueType, TRealValueType>
 {
 public:
   /** Standard class type aliases. */
   using Self = KernelFunctionBase;
-  using Superclass = FunctionBase< TRealValueType, TRealValueType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = FunctionBase<TRealValueType, TRealValueType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using RealType = TRealValueType;
 
@@ -55,20 +55,23 @@ public:
   itkTypeMacro(KernelFunctionBase, FunctionBase);
 
   /** Evaluate the function. Subclasses must implement this. */
-  TRealValueType Evaluate(const TRealValueType & u) const override = 0;
+  TRealValueType
+  Evaluate(const TRealValueType & u) const override = 0;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-    // Begin concept checking
-    itkConceptMacro( TRealValueTypeIsFloatingPointCheck,
-                         ( Concept::IsFloatingPoint< TRealValueType > ) );
-      // End concept checking
+  // Begin concept checking
+  itkConceptMacro(TRealValueTypeIsFloatingPointCheck, (Concept::IsFloatingPoint<TRealValueType>));
+  // End concept checking
 #endif
 
 protected:
   KernelFunctionBase() = default;
   ~KernelFunctionBase() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override
-  { Superclass::PrintSelf(os, indent); }
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
+  {
+    Superclass::PrintSelf(os, indent);
+  }
 };
 } // end namespace itk
 

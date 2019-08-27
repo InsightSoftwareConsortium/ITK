@@ -21,31 +21,32 @@
 #include "itkComposeImageFilter.h"
 #include "itkMath.h"
 
-template< typename TImage >
-int itkImageToListSampleAdaptorTestTemplate()
+template <typename TImage>
+int
+itkImageToListSampleAdaptorTestTemplate()
 {
   using ImageType = TImage;
   const unsigned int Dimension = ImageType::ImageDimension;
 
-  using FloatImageType = itk::Image< float, Dimension >;
+  using FloatImageType = itk::Image<float, Dimension>;
 
   // Now generate a random image
-  using SourceType = itk::RandomImageSource< FloatImageType >;
+  using SourceType = itk::RandomImageSource<FloatImageType>;
   typename SourceType::Pointer source = SourceType::New();
 
-  itk::SizeValueType size[Dimension] = {17, 8, 20};
+  itk::SizeValueType size[Dimension] = { 17, 8, 20 };
   itk::SizeValueType totalSize = size[0] * size[1] * size[2];
 
   source->SetSize(size);
   float minValue = -100.0;
   float maxValue = 1000.0;
 
-  source->SetMin( static_cast< typename FloatImageType::PixelType >( minValue ) );
-  source->SetMax( static_cast< typename FloatImageType::PixelType >( maxValue ) );
+  source->SetMin(static_cast<typename FloatImageType::PixelType>(minValue));
+  source->SetMax(static_cast<typename FloatImageType::PixelType>(maxValue));
 
-  using ComposeFilterType = itk::ComposeImageFilter< FloatImageType, ImageType >;
+  using ComposeFilterType = itk::ComposeImageFilter<FloatImageType, ImageType>;
   typename ComposeFilterType::Pointer composeFilter = ComposeFilterType::New();
-  composeFilter->SetInput( source->GetOutput() );
+  composeFilter->SetInput(source->GetOutput());
   composeFilter->Update();
 
   // creates a sample
@@ -53,116 +54,121 @@ int itkImageToListSampleAdaptorTestTemplate()
 
   typename ImageToListSampleAdaptorType::Pointer sample = ImageToListSampleAdaptorType::New();
 
-  //Test if the methods throw exceptions if invoked before setting the image
+  // Test if the methods throw exceptions if invoked before setting the image
   try
-    {
+  {
     // purposely call Size() method prematurely in order to trigger an exception.
     sample->Size();
     std::cerr << "Exception should have been thrown since the input image \
-                  is not set yet" << std::endl;
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
+                  is not set yet"
+              << std::endl;
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Caught expected exception: " << excp << std::endl;
-    }
+  }
   try
-    {
+  {
     // purposely call GetTotalFrequency() method prematurely in order to trigger an exception.
     sample->GetTotalFrequency();
     std::cerr << "Exception should have been thrown since the input image \
-                  is not set yet" << std::endl;
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
+                  is not set yet"
+              << std::endl;
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Caught expected exception: " << excp << std::endl;
-    }
+  }
 
   try
-    {
-    typename ImageToListSampleAdaptorType::MeasurementVectorType m = sample->GetMeasurementVector( 0 );
+  {
+    typename ImageToListSampleAdaptorType::MeasurementVectorType m = sample->GetMeasurementVector(0);
     std::cerr << "Exception should have been thrown since the input image \
-                  is not set yet " << m << std::endl;
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
+                  is not set yet "
+              << m << std::endl;
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Caught expected exception: " << excp << std::endl;
-    }
+  }
 
   try
-    {
-    typename ImageToListSampleAdaptorType::ImageConstPointer image = sample->GetImage( );
+  {
+    typename ImageToListSampleAdaptorType::ImageConstPointer image = sample->GetImage();
     std::cerr << "Exception should have been thrown since the input image \
-                  is not set yet" << std::endl;
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
+                  is not set yet"
+              << std::endl;
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Caught expected exception: " << excp << std::endl;
-    }
+  }
 
   try
-    {
+  {
     // purposely call GetFrequency() method prematurely in order to trigger an exception.
-    sample->GetFrequency(0 );
+    sample->GetFrequency(0);
     std::cerr << "Exception should have been thrown since the input image \
-                  is not set yet" << std::endl;
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
+                  is not set yet"
+              << std::endl;
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Caught expected exception: " << excp << std::endl;
-    }
+  }
 
 
-  sample->SetImage( composeFilter->GetOutput() );
+  sample->SetImage(composeFilter->GetOutput());
 
   // tests begin
 
-  //check size
+  // check size
   if (totalSize != sample->Size())
-    {
-    std::cerr << "Size() is not returning the correct size"<< std::endl;
+  {
+    std::cerr << "Size() is not returning the correct size" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  //check frequency
+  // check frequency
   if (totalSize != sample->GetTotalFrequency())
-    {
-    std::cerr << "GetTotalFrequency() is not returning the correct frequency"<< std::endl;
+  {
+    std::cerr << "GetTotalFrequency() is not returning the correct frequency" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
-  sample->Print( std::cout );
+  sample->Print(std::cout);
 
   typename ImageType::IndexType index;
   typename ImageType::PixelType pixel;
 
   typename ImageToListSampleAdaptorType::InstanceIdentifier iid;
 
-  for ( unsigned int i=0; i < size[2]; i++ )
+  for (unsigned int i = 0; i < size[2]; i++)
+  {
+    for (unsigned int j = 0; j < size[1]; j++)
     {
-    for ( unsigned int j=0; j < size[1]; j++ )
+      for (unsigned int k = 0; k < size[0]; k++)
       {
-      for ( unsigned int k=0; k < size[0]; k++ )
-        {
-        index[0]=k;
-        index[1]=j;
-        index[2]=i;
+        index[0] = k;
+        index[1] = j;
+        index[2] = i;
 
-        pixel = sample->GetImage()->GetPixel( index );
-        iid = sample->GetImage()->ComputeOffset( index );
-        if ( itk::Math::NotExactlyEquals(sample->GetMeasurementVector(iid)[0], pixel[0]) )
-          {
+        pixel = sample->GetImage()->GetPixel(index);
+        iid = sample->GetImage()->ComputeOffset(index);
+        if (itk::Math::NotExactlyEquals(sample->GetMeasurementVector(iid)[0], pixel[0]))
+        {
           std::cerr << "Error in pixel value accessed using the adaptor" << std::endl;
           return EXIT_FAILURE;
-          }
         }
       }
     }
+  }
 
   // iterator tests
   //
   std::cerr << "Iterators..." << std::endl;
-    {
+  {
     // forward iterator
     using IteratorType = typename ImageToListSampleAdaptorType::Iterator;
 
@@ -171,61 +177,57 @@ int itkImageToListSampleAdaptorTestTemplate()
     // copy constructor
     IteratorType bs_iter(s_iter);
     if (bs_iter != s_iter)
-      {
+    {
       std::cerr << "Iterator::Copy Constructor failed" << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
     // assignment operator
-    IteratorType assignment_iter( bs_iter );
+    IteratorType assignment_iter(bs_iter);
     assignment_iter = s_iter;
     if (assignment_iter != s_iter)
-      {
+    {
       std::cerr << "Iterator::assignment operator failed" << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
     typename ImageToListSampleAdaptorType::InstanceIdentifier iid2 = 0;
     while (s_iter != sample->End())
+    {
+      if (sample->GetMeasurementVector(iid2) != s_iter.GetMeasurementVector())
       {
-      if (sample->GetMeasurementVector(iid2) !=
-          s_iter.GetMeasurementVector())
-        {
-        std::cerr << "Iterator::GetMeasurementVector (forward) failed"
-                  << std::endl;
+        std::cerr << "Iterator::GetMeasurementVector (forward) failed" << std::endl;
         return EXIT_FAILURE;
-        }
+      }
       if (iid2 != s_iter.GetInstanceIdentifier())
-        {
-        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed"
-                  << std::endl;
+      {
+        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed" << std::endl;
         return EXIT_FAILURE;
-        }
+      }
       if (s_iter.GetFrequency() != 1)
-        {
+      {
         std::cerr << "Iterator::GetFrequency (forward) failed" << std::endl;
         return EXIT_FAILURE;
-        }
+      }
       if (sample->GetFrequency(iid2) != 1)
-        {
+      {
         std::cerr << "GetFrequency (forward) failed" << std::endl;
         return EXIT_FAILURE;
-        }
+      }
       ++iid2;
       ++s_iter;
-      }
-
-    if (s_iter != sample->End())
-      {
-      std::cerr << "Iterator::End (forward) failed" << std::endl;
-      return EXIT_FAILURE;
-      }
-
     }
 
-  //Test the iterators
-  std::cerr << "Const Iterators..." << std::endl;
+    if (s_iter != sample->End())
     {
+      std::cerr << "Iterator::End (forward) failed" << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
+
+  // Test the iterators
+  std::cerr << "Const Iterators..." << std::endl;
+  {
     // forward iterator
     using ConstIteratorType = typename ImageToListSampleAdaptorType::ConstIterator;
 
@@ -234,86 +236,80 @@ int itkImageToListSampleAdaptorTestTemplate()
     // copy constructor
     ConstIteratorType bs_iter(s_iter);
     if (bs_iter != s_iter)
-      {
-      std::cerr << "Iterator::Copy Constructor (from const) failed"
-                << std::endl;
+    {
+      std::cerr << "Iterator::Copy Constructor (from const) failed" << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
     // assignment operator
-    ConstIteratorType assignment_iter( bs_iter );
+    ConstIteratorType assignment_iter(bs_iter);
     assignment_iter = s_iter;
     if (assignment_iter != s_iter)
-      {
-      std::cerr << "Const Iterator::operator= () failed"
-                << std::endl;
+    {
+      std::cerr << "Const Iterator::operator= () failed" << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
     // copy from non-const iterator
-    typename ImageToListSampleAdaptorType::Iterator nonconst_iter = sample->Begin();
+    typename ImageToListSampleAdaptorType::Iterator      nonconst_iter = sample->Begin();
     typename ImageToListSampleAdaptorType::ConstIterator s2_iter(nonconst_iter);
     if (s2_iter != s_iter)
-      {
-      std::cerr << "Iterator::Copy Constructor (from non-const) failed"
-                << std::endl;
+    {
+      std::cerr << "Iterator::Copy Constructor (from non-const) failed" << std::endl;
       return EXIT_FAILURE;
-      }
+    }
     // assignment from non-const iterator
     s2_iter = nonconst_iter;
     if (s2_iter != s_iter)
-      {
+    {
       std::cerr << "Iterator::assignment (from non-const) failed" << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
     typename ImageToListSampleAdaptorType::InstanceIdentifier iid3 = 0;
     while (s_iter != sample->End())
+    {
+      if (sample->GetMeasurementVector(iid3) != s_iter.GetMeasurementVector())
       {
-      if (sample->GetMeasurementVector(iid3) !=
-          s_iter.GetMeasurementVector())
-        {
-        std::cerr << "Iterator::GetMeasurementVector (forward) failed"
-                  << std::endl;
+        std::cerr << "Iterator::GetMeasurementVector (forward) failed" << std::endl;
         return EXIT_FAILURE;
-        }
+      }
       if (iid3 != s_iter.GetInstanceIdentifier())
-        {
-        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed"
-                  << std::endl;
+      {
+        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed" << std::endl;
         return EXIT_FAILURE;
-        }
+      }
       if (s_iter.GetFrequency() != 1)
-        {
+      {
         std::cerr << "Iterator::GetFrequency (forward) failed" << std::endl;
         return EXIT_FAILURE;
-        }
+      }
       ++iid3;
       ++s_iter;
-      }
+    }
 
     if (s_iter != sample->End())
-      {
+    {
       std::cerr << "Iterator::End (forward) failed" << std::endl;
       return EXIT_FAILURE;
-      }
-
     }
+  }
   return EXIT_SUCCESS;
 }
 
-int itkImageToListSampleAdaptorTest(int, char* [] )
+int
+itkImageToListSampleAdaptorTest(int, char *[])
 {
   int returnValue = EXIT_SUCCESS;
 
   constexpr unsigned int Dimension = 3;
 
-  using VectorImageType = itk::VectorImage< float, Dimension >;
-  returnValue += itkImageToListSampleAdaptorTestTemplate< VectorImageType >();
+  using VectorImageType = itk::VectorImage<float, Dimension>;
+  returnValue += itkImageToListSampleAdaptorTestTemplate<VectorImageType>();
 
-  using FixedArrayType = itk::FixedArray< float, 1 >;
-  using FixedArrayImageType = itk::Image< FixedArrayType, Dimension >;
-  returnValue += itkImageToListSampleAdaptorTestTemplate< FixedArrayImageType >();
+  using FixedArrayType = itk::FixedArray<float, 1>;
+  using FixedArrayImageType = itk::Image<FixedArrayType, Dimension>;
+  returnValue += itkImageToListSampleAdaptorTestTemplate<FixedArrayImageType>();
 
   return returnValue;
 }

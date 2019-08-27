@@ -44,12 +44,11 @@ namespace Functor
 class LexicographicCompare
 {
 public:
-  template< class TAggregateType1, class TAggregateType2 >
-  bool operator()(const TAggregateType1 &lhs, const TAggregateType2 &rhs) const
+  template <class TAggregateType1, class TAggregateType2>
+  bool
+  operator()(const TAggregateType1 & lhs, const TAggregateType2 & rhs) const
   {
-    return std::lexicographical_compare(
-      std::begin(lhs), std::end(lhs),
-      std::begin(rhs), std::end(rhs));
+    return std::lexicographical_compare(std::begin(lhs), std::end(lhs), std::begin(rhs), std::end(rhs));
   }
 };
 
@@ -71,8 +70,9 @@ public:
   /* Returns true when lhs comes before rhs. Each argument must be a
    * bidirectional range, for example an Index or an Offset
    */
-  template< typename TBidirectionalRange1, typename TBidirectionalRange2 >
-  bool operator()(const TBidirectionalRange1 &lhs, const TBidirectionalRange2 &rhs) const
+  template <typename TBidirectionalRange1, typename TBidirectionalRange2>
+  bool
+  operator()(const TBidirectionalRange1 & lhs, const TBidirectionalRange2 & rhs) const
   {
     using ReverseIterator1 = std::reverse_iterator<decltype(std::begin(lhs))>;
     using ReverseIterator2 = std::reverse_iterator<decltype(std::begin(rhs))>;
@@ -81,16 +81,15 @@ public:
     // each of them is converted to an std::reverse_iterator! (From C++14,
     // std::make_reverse_iterator would be of help here, to construct the four
     // std::reverse_iterator arguments!)
-    return std::lexicographical_compare(
-      ReverseIterator1{ std::end(lhs) },
-      ReverseIterator1{ std::begin(lhs) },
-      ReverseIterator2{ std::end(rhs) },
-      ReverseIterator2{ std::begin(rhs) });
+    return std::lexicographical_compare(ReverseIterator1{ std::end(lhs) },
+                                        ReverseIterator1{ std::begin(lhs) },
+                                        ReverseIterator2{ std::end(rhs) },
+                                        ReverseIterator2{ std::begin(rhs) });
   }
 };
 
 
-} //end namespace Functor
-} //end namespace itk
+} // end namespace Functor
+} // end namespace itk
 
 #endif

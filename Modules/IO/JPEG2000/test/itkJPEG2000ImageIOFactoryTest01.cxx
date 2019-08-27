@@ -19,21 +19,20 @@
 #include "itkJPEG2000ImageIOFactory.h"
 
 
-int itkJPEG2000ImageIOFactoryTest01( int /*argc */, char * /*argv*/[] )
+int
+itkJPEG2000ImageIOFactoryTest01(int /*argc */, char * /*argv*/[])
 {
   //  Register the factory
   itk::JPEG2000ImageIOFactory::RegisterOneFactory();
 
-  itk::JPEG2000ImageIOFactory::Pointer factory =
-    itk::JPEG2000ImageIOFactory::New();
+  itk::JPEG2000ImageIOFactory::Pointer factory = itk::JPEG2000ImageIOFactory::New();
 
   std::cout << "ITK Version = " << factory->GetITKSourceVersion() << std::endl;
   std::cout << "Description = " << factory->GetDescription() << std::endl;
 
   std::cout << "ClassName = " << factory->GetNameOfClass() << std::endl;
 
-  itk::JPEG2000ImageIOFactory::Pointer factory2 =
-    itk::JPEG2000ImageIOFactory::FactoryNew();
+  itk::JPEG2000ImageIOFactory::Pointer factory2 = itk::JPEG2000ImageIOFactory::FactoryNew();
 
   return EXIT_SUCCESS;
 }

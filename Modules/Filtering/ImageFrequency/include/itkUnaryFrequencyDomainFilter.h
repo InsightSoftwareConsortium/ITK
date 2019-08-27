@@ -56,10 +56,8 @@ namespace itk
  *
  * \ingroup ITKImageFrequency
  */
-template< typename TImageType,
-  typename TFrequencyIterator = FrequencyFFTLayoutImageRegionIteratorWithIndex<TImageType> >
-class UnaryFrequencyDomainFilter:
-  public InPlaceImageFilter<TImageType, TImageType>
+template <typename TImageType, typename TFrequencyIterator = FrequencyFFTLayoutImageRegionIteratorWithIndex<TImageType>>
+class UnaryFrequencyDomainFilter : public InPlaceImageFilter<TImageType, TImageType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(UnaryFrequencyDomainFilter);
@@ -89,8 +87,7 @@ public:
   static constexpr unsigned int ImageDimension = TImageType::ImageDimension;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  itkConceptMacro( ImageTypeHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TImageType::PixelType > ) );
+  itkConceptMacro(ImageTypeHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TImageType::PixelType>));
 #endif
 
   /** Frequency Iterator types */
@@ -102,56 +99,62 @@ public:
    * original image in the spatial domain was odd.
    * Only needed when using HermitianFrequencyIterator and the original
    * image was odd. **/
-  itkSetMacro( ActualXDimensionIsOdd, bool );
+  itkSetMacro(ActualXDimensionIsOdd, bool);
   itkGetConstReferenceMacro(ActualXDimensionIsOdd, bool);
-  itkBooleanMacro( ActualXDimensionIsOdd );
+  itkBooleanMacro(ActualXDimensionIsOdd);
 
   /** Returns factor with which the current frequency should be multiplied. */
-  using ConstRefFunctionType = double( const FrequencyIteratorType& );
+  using ConstRefFunctionType = double(const FrequencyIteratorType &);
 
   /** Directly modifies the frequency as needed. */
-  using ValueFunctionType = void( FrequencyIteratorType& );
+  using ValueFunctionType = void(FrequencyIteratorType &);
 
-#if !defined( ITK_WRAPPING_PARSER )
+#if !defined(ITK_WRAPPING_PARSER)
   /** The functor returns factor with which the current frequency should be multiplied. */
-  void SetFunctor( const std::function<ConstRefFunctionType> &f)
+  void
+  SetFunctor(const std::function<ConstRefFunctionType> & f)
   {
-    auto inPlaceFunctor = [f]( FrequencyIteratorType& freq ) { freq.Value() *= f( freq ); };
+    auto inPlaceFunctor = [f](FrequencyIteratorType & freq) { freq.Value() *= f(freq); };
 
-    m_DynamicThreadedGenerateDataFunction = [this, inPlaceFunctor]( const ImageRegionType& outputRegionForThread ) {
-      return this->DynamicThreadedGenerateDataWithFunctor( inPlaceFunctor, outputRegionForThread );
+    m_DynamicThreadedGenerateDataFunction = [this, inPlaceFunctor](const ImageRegionType & outputRegionForThread) {
+      return this->DynamicThreadedGenerateDataWithFunctor(inPlaceFunctor, outputRegionForThread);
     };
 
     this->Modified();
   }
 
   /** The functor directly modifies the frequency as needed. */
- void SetFunctor( const std::function<ValueFunctionType> &f)
+  void
+  SetFunctor(const std::function<ValueFunctionType> & f)
   {
-    m_DynamicThreadedGenerateDataFunction = [this, f]( const ImageRegionType& outputRegionForThread )
-      { return this->DynamicThreadedGenerateDataWithFunctor(f, outputRegionForThread); };
+    m_DynamicThreadedGenerateDataFunction = [this, f](const ImageRegionType & outputRegionForThread) {
+      return this->DynamicThreadedGenerateDataWithFunctor(f, outputRegionForThread);
+    };
 
     this->Modified();
   }
 
 
   /** The functor returns factor with which the current frequency should be multiplied. */
-  void SetFunctor( ConstRefFunctionType *f)
+  void
+  SetFunctor(ConstRefFunctionType * f)
   {
-    auto inPlaceFunctor = [f]( FrequencyIteratorType& freq ) { freq.Value() *= f( freq ); };
+    auto inPlaceFunctor = [f](FrequencyIteratorType & freq) { freq.Value() *= f(freq); };
 
-    m_DynamicThreadedGenerateDataFunction = [this, inPlaceFunctor]( const ImageRegionType& outputRegionForThread ) {
-      return this->DynamicThreadedGenerateDataWithFunctor( inPlaceFunctor, outputRegionForThread );
+    m_DynamicThreadedGenerateDataFunction = [this, inPlaceFunctor](const ImageRegionType & outputRegionForThread) {
+      return this->DynamicThreadedGenerateDataWithFunctor(inPlaceFunctor, outputRegionForThread);
     };
 
     this->Modified();
   }
 
   /** The functor directly modifies the frequency as needed. */
-  void SetFunctor( ValueFunctionType *funcPointer)
+  void
+  SetFunctor(ValueFunctionType * funcPointer)
   {
-    m_DynamicThreadedGenerateDataFunction = [this, funcPointer]( const ImageRegionType& outputRegionForThread )
-      { return this->DynamicThreadedGenerateDataWithFunctor(funcPointer, outputRegionForThread); };
+    m_DynamicThreadedGenerateDataFunction = [this, funcPointer](const ImageRegionType & outputRegionForThread) {
+      return this->DynamicThreadedGenerateDataWithFunctor(funcPointer, outputRegionForThread);
+    };
 
     this->Modified();
   }
@@ -165,10 +168,12 @@ public:
    * operator() method which accept arguments of FrequencyIteratorType&.
    */
   template <typename TFunctor>
-  void SetFunctor( const TFunctor & functor)
+  void
+  SetFunctor(const TFunctor & functor)
   {
-    m_DynamicThreadedGenerateDataFunction = [this, functor]( const ImageRegionType& outputRegionForThread )
-      { return this->DynamicThreadedGenerateDataWithFunctor(functor, outputRegionForThread); };
+    m_DynamicThreadedGenerateDataFunction = [this, functor](const ImageRegionType & outputRegionForThread) {
+      return this->DynamicThreadedGenerateDataWithFunctor(functor, outputRegionForThread);
+    };
 
     this->Modified();
   }
@@ -176,7 +181,8 @@ public:
 
 protected:
   UnaryFrequencyDomainFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** UnaryFrequencyDomainFilter is implemented as a multithreaded filter.
    * Therefore, this implementation provides a DynamicThreadedGenerateData()
@@ -188,18 +194,20 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   template <typename TFunctor>
-  void DynamicThreadedGenerateDataWithFunctor( const TFunctor &, const ImageRegionType & outputRegionForThread );
-  void DynamicThreadedGenerateData( const ImageRegionType & outputRegionForThread ) override;
+  void
+  DynamicThreadedGenerateDataWithFunctor(const TFunctor &, const ImageRegionType & outputRegionForThread);
+  void
+  DynamicThreadedGenerateData(const ImageRegionType & outputRegionForThread) override;
 
 private:
-  std::function< void( const ImageRegionType& ) > m_DynamicThreadedGenerateDataFunction;
+  std::function<void(const ImageRegionType &)> m_DynamicThreadedGenerateDataFunction;
 
-  bool m_ActualXDimensionIsOdd{false};
+  bool m_ActualXDimensionIsOdd{ false };
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkUnaryFrequencyDomainFilter.hxx"
+#  include "itkUnaryFrequencyDomainFilter.hxx"
 #endif
 
 #endif // itkUnaryFrequencyDomainFilter_h

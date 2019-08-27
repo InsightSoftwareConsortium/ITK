@@ -30,17 +30,17 @@ namespace itk
  *  the maximum size of the point-set's bounding box is used.
  * \ingroup ITKCommon
  */
-template< typename TInputPointSet, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT PointSetToImageFilter:public ImageSource< TOutputImage >
+template <typename TInputPointSet, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT PointSetToImageFilter : public ImageSource<TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToImageFilter);
 
   /** Standard class type aliases. */
   using Self = PointSetToImageFilter;
-  using Superclass = ImageSource< TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageSource<TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using SizeType = typename TOutputImage::SizeType;
   using OutputImageType = TOutputImage;
   using OutputImagePointer = typename OutputImageType::Pointer;
@@ -71,22 +71,28 @@ public:
 
   /** Set/Get the input point-set of this process object.  */
   using Superclass::SetInput;
-  virtual void SetInput(const InputPointSetType *pointset);
+  virtual void
+  SetInput(const InputPointSetType * pointset);
 
-  virtual void SetInput(unsigned int, const InputPointSetType *pointset);
+  virtual void
+  SetInput(unsigned int, const InputPointSetType * pointset);
 
-  const InputPointSetType * GetInput();
+  const InputPointSetType *
+  GetInput();
 
-  const InputPointSetType * GetInput(unsigned int idx);
+  const InputPointSetType *
+  GetInput(unsigned int idx);
 
   /** Set the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from
    * float. \sa GetSpacing() */
   itkSetMacro(Spacing, SpacingType);
-  virtual void SetSpacing(const double *spacing);
+  virtual void
+  SetSpacing(const double * spacing);
 
-  virtual void SetSpacing(const float *spacing);
+  virtual void
+  SetSpacing(const float * spacing);
 
   /** Get the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.
@@ -105,31 +111,33 @@ public:
    * as double but may be set from float.
    * \sa GetOrigin() */
   itkSetMacro(Origin, PointType);
-  virtual void SetOrigin(const double *origin);
+  virtual void
+  SetOrigin(const double * origin);
 
-  virtual void SetOrigin(const float *origin);
+  virtual void
+  SetOrigin(const float * origin);
 
   /** Get the origin of the image. The origin is the geometric
-    * coordinates of the index (0,0).  The value returned is a pointer
-    * to a double array.  For ImageBase and Image, the default origin is
-    * 0. */
+   * coordinates of the index (0,0).  The value returned is a pointer
+   * to a double array.  For ImageBase and Image, the default origin is
+   * 0. */
   itkGetConstReferenceMacro(Origin, PointType);
 
   /** Set/Get the value for pixels in the point-set.
-  * By default, this filter will return an image
-  * that contains values from the point-set specified as input.
-  * If this "inside" value is changed to a non-null value,
-  * the output produced by this filter will be a mask with inside/outside values
-  * specified by the user. */
+   * By default, this filter will return an image
+   * that contains values from the point-set specified as input.
+   * If this "inside" value is changed to a non-null value,
+   * the output produced by this filter will be a mask with inside/outside values
+   * specified by the user. */
   itkSetMacro(InsideValue, ValueType);
   itkGetConstMacro(InsideValue, ValueType);
 
   /** Set/Get the value for pixels outside the point-set.
-  * By default, this filter will return an image
-  * that contains values from the point specified as input.
-  * If this "outside" value is changed to a non-null value,
-  * the output produced by this filter will be a mask with inside/outside values
-  * specified by the user. */
+   * By default, this filter will return an image
+   * that contains values from the point specified as input.
+   * If this "outside" value is changed to a non-null value,
+   * the output produced by this filter will be a mask with inside/outside values
+   * specified by the user. */
   itkSetMacro(OutsideValue, ValueType);
   itkGetConstMacro(OutsideValue, ValueType);
 
@@ -141,8 +149,11 @@ protected:
   PointSetToImageFilter();
   ~PointSetToImageFilter() override = default;
 
-  void GenerateOutputInformation() override {}  // do nothing
-  void GenerateData() override;
+  void
+  GenerateOutputInformation() override
+  {} // do nothing
+  void
+  GenerateData() override;
 
   SizeType m_Size;
 
@@ -155,12 +166,13 @@ protected:
   ValueType m_InsideValue;
   ValueType m_OutsideValue;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPointSetToImageFilter.hxx"
+#  include "itkPointSetToImageFilter.hxx"
 #endif
 
 #endif

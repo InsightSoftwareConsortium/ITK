@@ -46,28 +46,28 @@
  *  delta = 0.001.
  *
  */
-template< typename TImage, typename TInterpolator>
-int TestMattesMetricWithAffineTransform(
-  TInterpolator * const interpolator, const bool useSampling, const size_t imageSize )
+template <typename TImage, typename TInterpolator>
+int
+TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bool useSampling, const size_t imageSize)
 {
 
-//------------------------------------------------------------
-// Create two simple images
-//------------------------------------------------------------
+  //------------------------------------------------------------
+  // Create two simple images
+  //------------------------------------------------------------
 
-  //Allocate Images
+  // Allocate Images
   using MovingImageType = TImage;
   using FixedImageType = TImage;
   using SizeValueType = typename MovingImageType::SizeValueType;
 
   const unsigned int ImageDimension = MovingImageType::ImageDimension;
-  //Image size is scaled to represent sqrt(256^3)
-  typename MovingImageType::SizeType size = {{static_cast<SizeValueType>(imageSize),
-                                              static_cast<SizeValueType>(imageSize)}};
-  typename MovingImageType::IndexType index = {{0,0}};
+  // Image size is scaled to represent sqrt(256^3)
+  typename MovingImageType::SizeType   size = { { static_cast<SizeValueType>(imageSize),
+                                                static_cast<SizeValueType>(imageSize) } };
+  typename MovingImageType::IndexType  index = { { 0, 0 } };
   typename MovingImageType::RegionType region;
-  region.SetSize( size );
-  region.SetIndex( index );
+  region.SetSize(size);
+  region.SetIndex(index);
 
   typename MovingImageType::SpacingType imgSpacing;
   imgSpacing[0] = 3.0;
@@ -78,151 +78,151 @@ int TestMattesMetricWithAffineTransform(
   imgOrigin[1] = -0.002;
 
   typename MovingImageType::Pointer imgMoving = MovingImageType::New();
-  imgMoving->SetLargestPossibleRegion( region );
-  imgMoving->SetBufferedRegion( region );
-  imgMoving->SetRequestedRegion( region );
+  imgMoving->SetLargestPossibleRegion(region);
+  imgMoving->SetBufferedRegion(region);
+  imgMoving->SetRequestedRegion(region);
   imgMoving->Allocate();
-  imgMoving->SetSpacing( imgSpacing );
-  imgMoving->SetOrigin( imgOrigin );
+  imgMoving->SetSpacing(imgSpacing);
+  imgMoving->SetOrigin(imgOrigin);
 
   typename FixedImageType::Pointer imgFixed = FixedImageType::New();
-  imgFixed->SetLargestPossibleRegion( region );
-  imgFixed->SetBufferedRegion( region );
-  imgFixed->SetRequestedRegion( region );
+  imgFixed->SetLargestPossibleRegion(region);
+  imgFixed->SetBufferedRegion(region);
+  imgFixed->SetRequestedRegion(region);
   imgFixed->Allocate();
-  imgFixed->SetSpacing( imgSpacing );
-  imgFixed->SetOrigin( imgOrigin );
+  imgFixed->SetSpacing(imgSpacing);
+  imgFixed->SetOrigin(imgOrigin);
 
   // Fill images with a 2D gaussian
   using ReferenceIteratorType = itk::ImageRegionIterator<MovingImageType>;
   using TargetIteratorType = itk::ImageRegionIterator<FixedImageType>;
 
-  itk::Point<double,2> center;
-  center[0] = (double)region.GetSize()[0]/2.0;
-  center[1] = (double)region.GetSize()[1]/2.0;
+  itk::Point<double, 2> center;
+  center[0] = (double)region.GetSize()[0] / 2.0;
+  center[1] = (double)region.GetSize()[1] / 2.0;
 
-  const double s = (double)region.GetSize()[0]/2.0;
+  const double s = (double)region.GetSize()[0] / 2.0;
 
-  itk::Point<double,2>  p;
+  itk::Point<double, 2> p;
 
   // Set the displacement
-  itk::Vector<double,2> displacement;
+  itk::Vector<double, 2> displacement;
   displacement[0] = 5;
   displacement[1] = 5;
 
-    {
-    ReferenceIteratorType ri(imgMoving,region);
+  {
+    ReferenceIteratorType ri(imgMoving, region);
     ri.GoToBegin();
-    while(!ri.IsAtEnd())
-      {
+    while (!ri.IsAtEnd())
+    {
       p[0] = ri.GetIndex()[0];
       p[1] = ri.GetIndex()[1];
-      itk::Vector<double,2> d = p-center;
+      itk::Vector<double, 2> d = p - center;
       d += displacement;
       const double x = d[0];
       const double y = d[1];
-      ri.Set( (unsigned char) ( 200.0 * std::exp( - ( x*x + y*y )/(s*s) ) ) );
+      ri.Set((unsigned char)(200.0 * std::exp(-(x * x + y * y) / (s * s))));
       ++ri;
-      }
     }
-    {
-    TargetIteratorType ti(imgFixed,region);
+  }
+  {
+    TargetIteratorType ti(imgFixed, region);
     ti.GoToBegin();
-    while(!ti.IsAtEnd())
-      {
+    while (!ti.IsAtEnd())
+    {
       p[0] = ti.GetIndex()[0];
       p[1] = ti.GetIndex()[1];
-      itk::Vector<double,2> d = p-center;
-      const double x = d[0];
-      const double y = d[1];
-      ti.Set( (unsigned char) ( 200.0 * std::exp( - ( x*x + y*y )/(s*s) ) ) );
+      itk::Vector<double, 2> d = p - center;
+      const double           x = d[0];
+      const double           y = d[1];
+      ti.Set((unsigned char)(200.0 * std::exp(-(x * x + y * y) / (s * s))));
       ++ti;
-      }
     }
+  }
 
-  //Setup a fixed image mask for the image
+  // Setup a fixed image mask for the image
   typename MovingImageType::Pointer imgMovingMask = MovingImageType::New();
   imgMovingMask->CopyInformation(imgMoving);
   imgMovingMask->SetRegions(region);
   imgMovingMask->Allocate(true); // initialize buffer to zero
 
-  typename FixedImageType::Pointer imgFixedMask   = FixedImageType::New();
+  typename FixedImageType::Pointer imgFixedMask = FixedImageType::New();
   imgFixedMask->CopyInformation(imgFixed);
   imgFixedMask->SetRegions(region);
   imgFixedMask->Allocate(true); // initialize buffer to zero
 
+  {
     {
-      {
-      //Set up a mask that only has every third voxel listed is used in fixed image region
-      int count=0;
-      ReferenceIteratorType ri1(imgMovingMask,region);
+      // Set up a mask that only has every third voxel listed is used in fixed image region
+      int                   count = 0;
+      ReferenceIteratorType ri1(imgMovingMask, region);
       ri1.GoToBegin();
-      while(!ri1.IsAtEnd()) //Set all moving mask voxels to 1
+      while (!ri1.IsAtEnd()) // Set all moving mask voxels to 1
+      {
+        if (count % 3 == 0)
         {
-        if(count%3 == 0)
-          {
           ri1.Set(1);
-          }
+        }
         ++ri1;
         ++count;
-        }
-      }
-
-      {
-      //Set up a mask that only has every other voxel listed is used in fixed image region
-      int count=0;
-      TargetIteratorType ti1(imgFixedMask,region);
-      ti1.GoToBegin();
-      while(!ti1.IsAtEnd())//Set a subset of fixed mask voxels to 1, so that requested number can be made more than possible number
-        {
-        if(count%2 == 0)
-          {
-          ti1.Set(1);
-          }
-        ++ti1;
-        ++count;
-        }
       }
     }
 
-//-----------------------------------------------------------
-// Set up a transformer
-//-----------------------------------------------------------
-  using TransformType = itk::AffineTransform< double, ImageDimension >;
+    {
+      // Set up a mask that only has every other voxel listed is used in fixed image region
+      int                count = 0;
+      TargetIteratorType ti1(imgFixedMask, region);
+      ti1.GoToBegin();
+      while (!ti1.IsAtEnd()) // Set a subset of fixed mask voxels to 1, so that requested number can be made more than
+                             // possible number
+      {
+        if (count % 2 == 0)
+        {
+          ti1.Set(1);
+        }
+        ++ti1;
+        ++count;
+      }
+    }
+  }
+
+  //-----------------------------------------------------------
+  // Set up a transformer
+  //-----------------------------------------------------------
+  using TransformType = itk::AffineTransform<double, ImageDimension>;
   using ParametersType = typename TransformType::ParametersType;
 
   typename TransformType::Pointer transformer = TransformType::New();
 
-//------------------------------------------------------------
-// Set up the metric
-//------------------------------------------------------------
-  using MetricType = itk::MattesMutualInformationImageToImageMetricv4<
-    FixedImageType, MovingImageType >;
+  //------------------------------------------------------------
+  // Set up the metric
+  //------------------------------------------------------------
+  using MetricType = itk::MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType>;
 
   typename MetricType::Pointer metric = MetricType::New();
 
   // Sanity check before metric is run, these should be nullptr;
-  if( metric->GetJointPDFDerivatives().IsNotNull() )
-    {
+  if (metric->GetJointPDFDerivatives().IsNotNull())
+  {
     return EXIT_FAILURE;
-    }
-  if( metric->GetJointPDF().IsNotNull() )
-    {
+  }
+  if (metric->GetJointPDF().IsNotNull())
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   // connect the interpolator
-  metric->SetMovingInterpolator( interpolator );
+  metric->SetMovingInterpolator(interpolator);
 
   // connect the transform
-  metric->SetMovingTransform( transformer );
+  metric->SetMovingTransform(transformer);
 
   // connect the images to the metric
-  metric->SetFixedImage( imgFixed );
-  metric->SetMovingImage( imgMoving );
+  metric->SetFixedImage(imgFixed);
+  metric->SetMovingImage(imgMoving);
 
   // set the number of histogram bins
-  metric->SetNumberOfHistogramBins( 50 );
+  metric->SetNumberOfHistogramBins(50);
 
   // this test doesn't pass when using gradient image filters,
   // presumably because of different deriviative scaling created
@@ -237,63 +237,64 @@ int TestMattesMetricWithAffineTransform(
   //-------------------------------------------------------
   std::cout << "Name of class: " << metric->GetNameOfClass() << std::endl;
   std::cout << "No. of histogram bin used = " << metric->GetNumberOfHistogramBins() << std::endl;
-  if( metric->GetJointPDF().IsNotNull() )
-    {
+  if (metric->GetJointPDF().IsNotNull())
+  {
     std::cout << "JointPDF image info: " << metric->GetJointPDF() << std::endl;
-    }
-  if( metric->GetJointPDFDerivatives().IsNotNull() )
-    {
+  }
+  if (metric->GetJointPDFDerivatives().IsNotNull())
+  {
     std::cout << "JointPDFDerivative image info: " << metric->GetJointPDFDerivatives() << std::endl;
-    }
+  }
   std::cout << "GetNumberOfWorkUnitsUsed: " << metric->GetNumberOfWorkUnitsUsed() << std::endl;
   metric->Print(std::cout);
 
   // Now start the algorithmc testing
 
   std::cout << "useSampling: " << useSampling << std::endl;
-  if( useSampling )
-    {
+  if (useSampling)
+  {
     using PointSetType = typename MetricType::FixedSampledPointSetType;
     using PointType = typename PointSetType::PointType;
-    typename PointSetType::Pointer                        pset(PointSetType::New());
-    unsigned int ind=0;
-    unsigned int ct=0;
-    itk::ImageRegionIteratorWithIndex<FixedImageType> It(imgFixed, imgFixed->GetLargestPossibleRegion() );
-    for( It.GoToBegin(); !It.IsAtEnd(); ++It )
-      {
+    typename PointSetType::Pointer                    pset(PointSetType::New());
+    unsigned int                                      ind = 0;
+    unsigned int                                      ct = 0;
+    itk::ImageRegionIteratorWithIndex<FixedImageType> It(imgFixed, imgFixed->GetLargestPossibleRegion());
+    for (It.GoToBegin(); !It.IsAtEnd(); ++It)
+    {
       // take every N^th point
-      if ( ct % 5 == 0  )
-        {
+      if (ct % 5 == 0)
+      {
         PointType pt;
-        imgFixed->TransformIndexToPhysicalPoint( It.GetIndex(), pt);
+        imgFixed->TransformIndexToPhysicalPoint(It.GetIndex(), pt);
         pset->SetPoint(ind, pt);
         ind++;
-        }
-        ct++;
       }
-    std::cout << "Setting point set with " << ind << " points of " << imgFixed->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
-    metric->SetFixedSampledPointSet( pset );
-    metric->SetUseSampledPointSet( true );
+      ct++;
     }
+    std::cout << "Setting point set with " << ind << " points of "
+              << imgFixed->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
+    metric->SetFixedSampledPointSet(pset);
+    metric->SetUseSampledPointSet(true);
+  }
 
   // initialize the metric before use
   metric->Initialize();
 
-//------------------------------------------------------------
-// Set up a affine transform parameters
-//------------------------------------------------------------
+  //------------------------------------------------------------
+  // Set up a affine transform parameters
+  //------------------------------------------------------------
   transformer->SetIdentity();
   const unsigned int numberOfParameters = transformer->GetNumberOfParameters();
-  ParametersType parameters = transformer->GetParameters();
+  ParametersType     parameters = transformer->GetParameters();
 
-//---------------------------------------------------------
-// Print out mutual information values
-// for parameters[4] = {-10,10} (arbitrary choice)
-//---------------------------------------------------------
+  //---------------------------------------------------------
+  // Print out mutual information values
+  // for parameters[4] = {-10,10} (arbitrary choice)
+  //---------------------------------------------------------
 
-  typename MetricType::MeasureType metricValueWithDerivative;
-  typename MetricType::MeasureType metricValueOnly;
-  typename MetricType::DerivativeType derivative( numberOfParameters );
+  typename MetricType::MeasureType    metricValueWithDerivative;
+  typename MetricType::MeasureType    metricValueOnly;
+  typename MetricType::DerivativeType derivative(numberOfParameters);
 
 
   bool testFailed = false;
@@ -302,170 +303,174 @@ int TestMattesMetricWithAffineTransform(
   itk::TimeProbe timerGetValue;
 
   std::cout << "param[4]\tMI\tMI2\tdMI/dparam[4]" << std::endl;
-  for( double trans = -10; trans <= 10; trans += 0.5 )
-    {
+  for (double trans = -10; trans <= 10; trans += 0.5)
+  {
     parameters[4] = trans;
-    transformer->SetParameters( parameters );
+    transformer->SetParameters(parameters);
     timerGetValueAndDerivative.Start();
-    metric->GetValueAndDerivative( metricValueWithDerivative, derivative );
+    metric->GetValueAndDerivative(metricValueWithDerivative, derivative);
     timerGetValueAndDerivative.Stop();
     timerGetValue.Start();
     metricValueOnly = metric->GetValue();
     timerGetValue.Stop();
 
-    std::cout << "OffsetParam: " << trans << "\tvalueWithDerivative: " << metricValueWithDerivative << "\tvalueOnly: " <<
-      metricValueOnly << "\tderivative[4]: " << derivative[4];
+    std::cout << "OffsetParam: " << trans << "\tvalueWithDerivative: " << metricValueWithDerivative
+              << "\tvalueOnly: " << metricValueOnly << "\tderivative[4]: " << derivative[4];
     // Make sure the metric value calculation is
     // consistent
-    if( ! itk::Math::FloatAlmostEqual( metricValueWithDerivative, metricValueOnly, 8 ) )
-      {
-      std::cout << "\t[FAILED]: metricValueWithDerivative values do not match: ("
-                << metricValueWithDerivative << " - " << metricValueOnly <<  ") = "
-                << (metricValueWithDerivative - metricValueOnly ) << std::endl;
+    if (!itk::Math::FloatAlmostEqual(metricValueWithDerivative, metricValueOnly, 8))
+    {
+      std::cout << "\t[FAILED]: metricValueWithDerivative values do not match: (" << metricValueWithDerivative << " - "
+                << metricValueOnly << ") = " << (metricValueWithDerivative - metricValueOnly) << std::endl;
       testFailed = true;
-      }
-    else
-      {
-      std::cout << "\t[PASSED]" << std::endl;
-      }
     }
+    else
+    {
+      std::cout << "\t[PASSED]" << std::endl;
+    }
+  }
   std::cerr << "GetValueAndDerivative took " << timerGetValueAndDerivative.GetMean() << " seconds.\n";
   std::cerr << "GetValue took " << timerGetValue.GetMean() << " seconds.\n";
 
-  std::cout << "NumberOfValidPoints: " << metric->GetNumberOfValidPoints() << " of " << metric->GetVirtualRegion().GetNumberOfPixels() << std::endl;
+  std::cout << "NumberOfValidPoints: " << metric->GetNumberOfValidPoints() << " of "
+            << metric->GetVirtualRegion().GetNumberOfPixels() << std::endl;
 
-//---------------------------------------------------------
-// Check output gradients for numerical accuracy
-//---------------------------------------------------------
+  //---------------------------------------------------------
+  // Check output gradients for numerical accuracy
+  //---------------------------------------------------------
   parameters[4] = 0;
-  transformer->SetParameters( parameters );
+  transformer->SetParameters(parameters);
   metric->Initialize();
-  metric->GetValueAndDerivative( metricValueWithDerivative, derivative );
+  metric->GetValueAndDerivative(metricValueWithDerivative, derivative);
 
-  ParametersType parameters1Plus( numberOfParameters );
-  ParametersType parameters2Plus( numberOfParameters );
-  ParametersType parameters1Minus( numberOfParameters );
-  ParametersType parameters2Minus( numberOfParameters );
+  ParametersType parameters1Plus(numberOfParameters);
+  ParametersType parameters2Plus(numberOfParameters);
+  ParametersType parameters1Minus(numberOfParameters);
+  ParametersType parameters2Minus(numberOfParameters);
 
   constexpr double delta = 0.00001;
 
   const double tolerance = (useSampling) ? static_cast<double>(0.075) : static_cast<double>(0.014);
-  for( unsigned int perturbParamIndex = 0; perturbParamIndex < numberOfParameters; ++perturbParamIndex )
+  for (unsigned int perturbParamIndex = 0; perturbParamIndex < numberOfParameters; ++perturbParamIndex)
+  {
+    // copy the parameters and perturb the current one.
+    for (unsigned int j = 0; j < numberOfParameters; ++j)
     {
-    //copy the parameters and perturb the current one.
-    for( unsigned int j = 0; j < numberOfParameters; ++j )
+      if (j == perturbParamIndex)
       {
-      if( j == perturbParamIndex )
-        {
-        parameters1Plus[j] = parameters[perturbParamIndex] + delta;      //positive perturbation
-        parameters2Plus[j] = parameters[perturbParamIndex] + 2.0*delta;  //positive perturbation
-        parameters1Minus[j] = parameters[perturbParamIndex] - delta;     //negative perturbation
-        parameters2Minus[j] = parameters[perturbParamIndex] - 2.0*delta; //negative perturbation
-        }
+        parameters1Plus[j] = parameters[perturbParamIndex] + delta;        // positive perturbation
+        parameters2Plus[j] = parameters[perturbParamIndex] + 2.0 * delta;  // positive perturbation
+        parameters1Minus[j] = parameters[perturbParamIndex] - delta;       // negative perturbation
+        parameters2Minus[j] = parameters[perturbParamIndex] - 2.0 * delta; // negative perturbation
+      }
       else
-        {
+      {
         parameters1Plus[j] = parameters[j];
         parameters1Minus[j] = parameters[j];
         parameters2Plus[j] = parameters[j];
         parameters2Minus[j] = parameters[j];
-        }
       }
+    }
 
-    transformer->SetParameters( parameters1Plus );
+    transformer->SetParameters(parameters1Plus);
     const typename MetricType::MeasureType measure1Plus = metric->GetValue();
 
-    transformer->SetParameters( parameters1Minus );
+    transformer->SetParameters(parameters1Minus);
     const typename MetricType::MeasureType measure1Minus = metric->GetValue();
-    //Compute a first-order accuracy first order derivative
-    const double firstOrderApproxDerivative = -1.0 * ( measure1Plus - measure1Minus ) / ( 2.0 * delta );
-    //Compute a second-order accuracy first order derivative
-    transformer->SetParameters( parameters2Plus );
+    // Compute a first-order accuracy first order derivative
+    const double firstOrderApproxDerivative = -1.0 * (measure1Plus - measure1Minus) / (2.0 * delta);
+    // Compute a second-order accuracy first order derivative
+    transformer->SetParameters(parameters2Plus);
     const typename MetricType::MeasureType measure2Plus = metric->GetValue();
 
-    transformer->SetParameters( parameters2Minus );
+    transformer->SetParameters(parameters2Minus);
     const typename MetricType::MeasureType measure2Minus = metric->GetValue();
 
-    //Computing second order derivative to get a handle on
-    //stability of estimates from the metric
-    const double secondOrderApproxDerivative = -1.0 * (
-      (-1.0/12.0)*measure2Plus + (+1.0/12.0)*measure2Minus +
-      (+2.0/3.0)*measure1Plus + (-2.0/3.0)*measure1Minus ) / ( delta );
-    const double ratio = derivative[perturbParamIndex]/secondOrderApproxDerivative;
+    // Computing second order derivative to get a handle on
+    // stability of estimates from the metric
+    const double secondOrderApproxDerivative = -1.0 *
+                                               ((-1.0 / 12.0) * measure2Plus + (+1.0 / 12.0) * measure2Minus +
+                                                (+2.0 / 3.0) * measure1Plus + (-2.0 / 3.0) * measure1Minus) /
+                                               (delta);
+    const double ratio = derivative[perturbParamIndex] / secondOrderApproxDerivative;
 
-    std::cout << "perturbParamIndex: " << perturbParamIndex
-      << "\tparameters[: " << parameters[perturbParamIndex]
-      << "]\tmetric->GetDerivative[" << derivative[perturbParamIndex]
-      << "]\n\t\tsecondOrderApproxDerivative[" << secondOrderApproxDerivative
-      << "]\tfirstOrderApproxDerivative[" << firstOrderApproxDerivative
-      << "]\tratio: " << ratio;
+    std::cout << "perturbParamIndex: " << perturbParamIndex << "\tparameters[: " << parameters[perturbParamIndex]
+              << "]\tmetric->GetDerivative[" << derivative[perturbParamIndex] << "]\n\t\tsecondOrderApproxDerivative["
+              << secondOrderApproxDerivative << "]\tfirstOrderApproxDerivative[" << firstOrderApproxDerivative
+              << "]\tratio: " << ratio;
 
-    const double evalDiff = itk::Math::abs( ratio - 1.0 );
-    if ( evalDiff > tolerance )
-      {
-      std::cout << "\t[FAILED] computed derivative differ from central difference by (" << evalDiff << " > " << tolerance << ")." << std::endl;
-      testFailed = true;
-      }
-    else
-      {
-      std::cout << "\t[PASSED]" << std::endl;
-      }
-    }
-
-  if( testFailed )
+    const double evalDiff = itk::Math::abs(ratio - 1.0);
+    if (evalDiff > tolerance)
     {
-    return EXIT_FAILURE;
+      std::cout << "\t[FAILED] computed derivative differ from central difference by (" << evalDiff << " > "
+                << tolerance << ")." << std::endl;
+      testFailed = true;
     }
+    else
+    {
+      std::cout << "\t[PASSED]" << std::endl;
+    }
+  }
+
+  if (testFailed)
+  {
+    return EXIT_FAILURE;
+  }
   return EXIT_SUCCESS;
 }
 
 /**
  * Test entry point.
  */
-int itkMattesMutualInformationImageToImageMetricv4Test(int, char *[] )
+int
+itkMattesMutualInformationImageToImageMetricv4Test(int, char *[])
 {
 
-  constexpr size_t imageSize  = 100; //NOTE 100 is very small
+  constexpr size_t imageSize = 100; // NOTE 100 is very small
 
-  //using ImageType = itk::Image<unsigned char,2>;
-  using ImageType = itk::Image<double,2>;
+  // using ImageType = itk::Image<unsigned char,2>;
+  using ImageType = itk::Image<double, 2>;
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
   // Test metric with a linear interpolator
-  using LinearInterpolatorType = itk::LinearInterpolateImageFunction< ImageType, double >;
+  using LinearInterpolatorType = itk::LinearInterpolateImageFunction<ImageType, double>;
 
   LinearInterpolatorType::Pointer linearInterpolator = LinearInterpolatorType::New();
 
   std::cout << "Test metric with a linear interpolator." << std::endl;
   bool useSampling = false;
-  int failed = true;
-  failed = TestMattesMetricWithAffineTransform<ImageType,LinearInterpolatorType>( linearInterpolator, useSampling, imageSize );
-  if ( failed )
-    {
+  int  failed = true;
+  failed =
+    TestMattesMetricWithAffineTransform<ImageType, LinearInterpolatorType>(linearInterpolator, useSampling, imageSize);
+  if (failed)
+  {
     std::cout << "Test failed when using all the pixels instead of sampling" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   useSampling = true;
-  failed = TestMattesMetricWithAffineTransform<ImageType,LinearInterpolatorType>( linearInterpolator, useSampling, imageSize );
-  if ( failed )
-    {
+  failed =
+    TestMattesMetricWithAffineTransform<ImageType, LinearInterpolatorType>(linearInterpolator, useSampling, imageSize);
+  if (failed)
+  {
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // Test metric with a BSpline interpolator
-  using BSplineInterpolatorType = itk::BSplineInterpolateImageFunction< ImageType, double >;
+  using BSplineInterpolatorType = itk::BSplineInterpolateImageFunction<ImageType, double>;
 
   BSplineInterpolatorType::Pointer bSplineInterpolator = BSplineInterpolatorType::New();
 
-  bSplineInterpolator->SetSplineOrder( 3 );
+  bSplineInterpolator->SetSplineOrder(3);
   useSampling = false;
   std::cout << "Test metric with a BSpline interpolator and no sampling." << std::endl;
-  failed = TestMattesMetricWithAffineTransform<ImageType,BSplineInterpolatorType>( bSplineInterpolator, useSampling, imageSize );
-  if ( failed )
-    {
+  failed = TestMattesMetricWithAffineTransform<ImageType, BSplineInterpolatorType>(
+    bSplineInterpolator, useSampling, imageSize);
+  if (failed)
+  {
     std::cout << "Test failed when using all the pixels instead of sampling" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;

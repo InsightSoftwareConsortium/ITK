@@ -49,20 +49,21 @@ itkGPUKernelClassMacro(GPUDenseFiniteDifferenceImageFilterKernel);
  *
  * \ingroup ITKGPUFiniteDifference
  */
-template< typename TInputImage, typename TOutputImage, typename TParentImageFilter =
-            DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage > >
-class ITK_TEMPLATE_EXPORT GPUDenseFiniteDifferenceImageFilter :
-  public GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
+template <typename TInputImage,
+          typename TOutputImage,
+          typename TParentImageFilter = DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>>
+class ITK_TEMPLATE_EXPORT GPUDenseFiniteDifferenceImageFilter
+  : public GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUDenseFiniteDifferenceImageFilter);
 
   /** Standard class type aliases */
   using Self = GPUDenseFiniteDifferenceImageFilter;
-  using GPUSuperclass = GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >;
+  using GPUSuperclass = GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>;
   using CPUSuperclass = TParentImageFilter;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(GPUDenseFiniteDifferenceImageFilter, GPUFiniteDifferenceImageFilter);
@@ -88,12 +89,9 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputTimesDoubleCheck,
-                   ( Concept::MultiplyOperator< PixelType, double > ) );
-  itkConceptMacro( OutputAdditiveOperatorsCheck,
-                   ( Concept::AdditiveOperators< PixelType > ) );
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< typename TInputImage::PixelType, PixelType > ) );
+  itkConceptMacro(OutputTimesDoubleCheck, (Concept::MultiplyOperator<PixelType, double>));
+  itkConceptMacro(OutputAdditiveOperatorsCheck, (Concept::AdditiveOperators<PixelType>));
+  itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<typename TInputImage::PixelType, PixelType>));
   // End concept checking
 #endif
 
@@ -103,32 +101,40 @@ public:
 protected:
   GPUDenseFiniteDifferenceImageFilter();
   ~GPUDenseFiniteDifferenceImageFilter() override {}
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This method applies changes from the m_UpdateBuffer to the output using
    * the GPU.  "dt" is the time step to use for the update of each pixel. */
-  void ApplyUpdate(const TimeStepType& dt) override;
+  void
+  ApplyUpdate(const TimeStepType & dt) override;
 
-  void GPUApplyUpdate(const TimeStepType& dt) override;
+  void
+  GPUApplyUpdate(const TimeStepType & dt) override;
 
   /** This method populates an update buffer with changes for each pixel in the
    * output using the GPU. Returns value is a time step to be used for the update. */
-  TimeStepType GPUCalculateChange() override;
+  TimeStepType
+  GPUCalculateChange() override;
 
   /** A simple method to copy the data from the input to the output.  ( Supports
    * "read-only" image adaptors in the case where the input image type converts
    * to a different output image type. )  */
-  void CopyInputToOutput() override;
+  void
+  CopyInputToOutput() override;
 
   /** Method to allow subclasses to get direct access to the update
    * buffer */
-  UpdateBufferType * GetUpdateBuffer() override {
+  UpdateBufferType *
+  GetUpdateBuffer() override
+  {
     return CPUSuperclass::GetUpdateBuffer();
   }
 
   /** This method allocates storage in m_UpdateBuffer.  It is called from
    * Superclass::GenerateData(). */
-  void AllocateUpdateBuffer() override;
+  void
+  AllocateUpdateBuffer() override;
 
   /* GPU kernel handle for GPUApplyUpdate */
   int m_ApplyUpdateGPUKernelHandle;
@@ -136,7 +142,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGPUDenseFiniteDifferenceImageFilter.hxx"
+#  include "itkGPUDenseFiniteDifferenceImageFilter.hxx"
 #endif
 
 #endif

@@ -40,18 +40,17 @@ namespace itk
  * \ingroup ITKEigen
  */
 
-template< typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage >
-class ITK_TEMPLATE_EXPORT EigenAnalysis2DImageFilter:
-  public ImageToImageFilter< TInputImage, TEigenValueImage >
+template <typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage>
+class ITK_TEMPLATE_EXPORT EigenAnalysis2DImageFilter : public ImageToImageFilter<TInputImage, TEigenValueImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(EigenAnalysis2DImageFilter);
 
   /** Standard class type aliases. */
   using Self = EigenAnalysis2DImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TEigenValueImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TEigenValueImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(EigenAnalysis2DImageFilter, ImageToImageFilter);
@@ -81,37 +80,43 @@ public:
 
   /** Connect the image containting the elements [0,0]
    * of the input 2D matrix */
-  void SetInput1(TInputImage *image1);
+  void
+  SetInput1(TInputImage * image1);
 
   /** Connect the image containting the elements [0,1]
    * of the input 2D matrix. This is the same [1,0]
    * element given that the input matrix is expected
    * to be symmetric */
-  void SetInput2(TInputImage *image2);
+  void
+  SetInput2(TInputImage * image2);
 
   /** Connect the image containting the elements [1,1]
    * of the input 2D matrix */
-  void SetInput3(TInputImage *image3);
+  void
+  SetInput3(TInputImage * image3);
 
   /** Get the Output image with the greatest eigenvalue */
-  EigenValueImageType * GetMaxEigenValue();
+  EigenValueImageType *
+  GetMaxEigenValue();
 
   /** Get the Output image with the smallest eigenvalue */
-  EigenValueImageType * GetMinEigenValue();
+  EigenValueImageType *
+  GetMinEigenValue();
 
   /** Get the Output image with the eigen vector associated with
    * the greatest eigen value */
-  EigenVectorImageType * GetMaxEigenVector();
+  EigenVectorImageType *
+  GetMaxEigenVector();
 
   /**  Create the Output */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObject::Pointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( VectorComponentHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< VectorComponentType > ) );
+  itkConceptMacro(VectorComponentHasNumericTraitsCheck, (Concept::HasNumericTraits<VectorComponentType>));
   // End concept checking
 #endif
 
@@ -119,12 +124,13 @@ protected:
   EigenAnalysis2DImageFilter();
   ~EigenAnalysis2DImageFilter() override = default;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkEigenAnalysis2DImageFilter.hxx"
+#  include "itkEigenAnalysis2DImageFilter.hxx"
 #endif
 
 #endif

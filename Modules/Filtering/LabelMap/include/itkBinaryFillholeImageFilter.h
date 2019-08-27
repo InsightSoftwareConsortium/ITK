@@ -20,7 +20,8 @@
 
 #include "itkImageToImageFilter.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class BinaryFillholeImageFilter
  * \brief Remove holes not connected to the boundary of the image.
@@ -41,9 +42,8 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template<typename TInputImage>
-class ITK_TEMPLATE_EXPORT BinaryFillholeImageFilter :
-    public ImageToImageFilter<TInputImage, TInputImage>
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT BinaryFillholeImageFilter : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryFillholeImageFilter);
@@ -74,8 +74,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryFillholeImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(BinaryFillholeImageFilter, ImageToImageFilter);
 
   /**
    * Set/Get whether the connected components are defined strictly by
@@ -89,8 +88,7 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro(InputOStreamWritableCheck,
-                  (Concept::OStreamWritable<InputImagePixelType>));
+  itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputImagePixelType>));
   // End concept checking
 #endif
 
@@ -105,31 +103,35 @@ public:
 protected:
   BinaryFillholeImageFilter();
   ~BinaryFillholeImageFilter() override = default;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** BinaryFillholeImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** BinaryFillholeImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   InputImagePixelType m_ForegroundValue;
 
-  bool                m_FullyConnected;
+  bool m_FullyConnected;
 
 }; // end of class
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryFillholeImageFilter.hxx"
+#  include "itkBinaryFillholeImageFilter.hxx"
 #endif
 
 #endif

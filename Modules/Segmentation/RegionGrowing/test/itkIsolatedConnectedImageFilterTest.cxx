@@ -22,13 +22,16 @@
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 
-int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
+int
+itkIsolatedConnectedImageFilterTest(int ac, char * av[])
 {
-  if(ac < 8)
-    {
-    std::cerr << "Usage: " << av[0] << " InputImage OutputImage FindUpper(true,false) seed1_x seed1_y seed2_x seed2_y [seed1_x2 seed1_y2 seed2_x2 seed2_y2]*\n";
+  if (ac < 8)
+  {
+    std::cerr << "Usage: " << av[0]
+              << " InputImage OutputImage FindUpper(true,false) seed1_x seed1_y seed2_x seed2_y [seed1_x2 seed1_y2 "
+                 "seed2_x2 seed2_y2]*\n";
     return -1;
-    }
+  }
 
   using PixelType = unsigned char;
   using myImage = itk::Image<PixelType, 2>;
@@ -36,39 +39,43 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
   input->SetFileName(av[1]);
 
   // Create a filter
-  using FilterType = itk::IsolatedConnectedImageFilter<myImage,myImage>;
+  using FilterType = itk::IsolatedConnectedImageFilter<myImage, myImage>;
 
-  FilterType::Pointer filter = FilterType::New();
+  FilterType::Pointer      filter = FilterType::New();
   itk::SimpleFilterWatcher watcher(filter);
 
   filter->SetInput(input->GetOutput());
 
   FilterType::IndexType seed1;
 
-#if ! defined ( ITK_LEGACY_REMOVE )
-  seed1[0] = std::stoi(av[4]); seed1[1] = std::stoi(av[5]);
+#if !defined(ITK_LEGACY_REMOVE)
+  seed1[0] = std::stoi(av[4]);
+  seed1[1] = std::stoi(av[5]);
   filter->SetSeed1(seed1); // deprecated method
 
-  seed1[0] = std::stoi(av[6]); seed1[1] = std::stoi(av[7]);
+  seed1[0] = std::stoi(av[6]);
+  seed1[1] = std::stoi(av[7]);
   filter->SetSeed2(seed1); // deprecated method
 #endif
 
   // Clear the seeds and then add all of the seeds
   filter->ClearSeeds1();
   filter->ClearSeeds2();
-  for (int i=4; i<ac; i+=4)
-    {
-    seed1[0] = std::stoi(av[i]); seed1[1] = std::stoi(av[i+1]);
+  for (int i = 4; i < ac; i += 4)
+  {
+    seed1[0] = std::stoi(av[i]);
+    seed1[1] = std::stoi(av[i + 1]);
     filter->AddSeed1(seed1);
 
-    seed1[0] = std::stoi(av[i+2]); seed1[1] = std::stoi(av[i+3]);
+    seed1[0] = std::stoi(av[i + 2]);
+    seed1[1] = std::stoi(av[i + 3]);
     filter->AddSeed2(seed1);
-    }
+  }
 
   // The min and max values for a .png image
   filter->SetLower(0);
-#if ! defined ( ITK_LEGACY_REMOVE )
-  filter->SetUpperValueLimit(255); //deprecated method
+#if !defined(ITK_LEGACY_REMOVE)
+  filter->SetUpperValueLimit(255); // deprecated method
 #endif
   filter->SetUpper(255);
   filter->SetReplaceValue(255);
@@ -79,94 +86,93 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
   // Test SetMacro
   std::string findUpper = av[3];
   if (findUpper == "true")
-    { filter->FindUpperThresholdOn(); }
+  {
+    filter->FindUpperThresholdOn();
+  }
   else
-    { filter->FindUpperThresholdOff(); }
+  {
+    filter->FindUpperThresholdOff();
+  }
 
   // Test GetMacros
   PixelType lower = filter->GetLower();
-  std::cout << "filter->GetLower(): "
-            << static_cast<itk::NumericTraits<PixelType>::PrintType>(lower)
-            << std::endl;
+  std::cout << "filter->GetLower(): " << static_cast<itk::NumericTraits<PixelType>::PrintType>(lower) << std::endl;
   PixelType isolatedValueTolerance = filter->GetIsolatedValueTolerance();
   std::cout << "filter->GetIsolatedValueTolerance(): "
-            << static_cast<itk::NumericTraits<PixelType>::PrintType>(isolatedValueTolerance)
-            << std::endl;
-#if ! defined ( ITK_LEGACY_REMOVE )
+            << static_cast<itk::NumericTraits<PixelType>::PrintType>(isolatedValueTolerance) << std::endl;
+#if !defined(ITK_LEGACY_REMOVE)
   PixelType upperValueLimit = filter->GetUpperValueLimit();
   std::cout << "filter->GetUpperValueLimit(): "
-            << static_cast<itk::NumericTraits<PixelType>::PrintType>(upperValueLimit)
-            << std::endl;
+            << static_cast<itk::NumericTraits<PixelType>::PrintType>(upperValueLimit) << std::endl;
 #endif
   PixelType upper = filter->GetUpper();
-  std::cout << "filter->GetUpper(): "
-            << static_cast<itk::NumericTraits<PixelType>::PrintType>(upper)
-            << std::endl;
+  std::cout << "filter->GetUpper(): " << static_cast<itk::NumericTraits<PixelType>::PrintType>(upper) << std::endl;
   PixelType replaceValue = filter->GetReplaceValue();
-  std::cout << "filter->GetReplaceValue(): "
-            << static_cast<itk::NumericTraits<PixelType>::PrintType>(replaceValue)
+  std::cout << "filter->GetReplaceValue(): " << static_cast<itk::NumericTraits<PixelType>::PrintType>(replaceValue)
             << std::endl;
   bool findUpperThreshold = filter->GetFindUpperThreshold();
-  std::cout << "filter->GetFindUpperThreshold(): "
-            << findUpperThreshold
-            << std::endl;
+  std::cout << "filter->GetFindUpperThreshold(): " << findUpperThreshold << std::endl;
 
   try
-    {
+  {
     input->Update();
     filter->Update();
-    }
-  catch (itk::ExceptionObject& e)
-    {
-    std::cerr << "Exception detected: "  << e.GetDescription();
+  }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "Exception detected: " << e.GetDescription();
     return -1;
-    }
+  }
 
   bool thresholdingFailed = filter->GetThresholdingFailed();
 
   if (thresholdingFailed)
-    {
+  {
     std::cout << "Selection of isolating threshold failed" << std::endl;
-    }
+  }
   else
-    {
+  {
     std::cout << "Selection of isolating threshold succeeded" << std::endl;
-    }
+  }
 
   // Generate test image
   itk::ImageFileWriter<myImage>::Pointer writer;
   writer = itk::ImageFileWriter<myImage>::New();
-  writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( av[2] );
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(av[2]);
   writer->Update();
 
 
   // Now flip the mode to test whether it fails
   if (findUpper == "true")
-    { filter->FindUpperThresholdOff(); }
+  {
+    filter->FindUpperThresholdOff();
+  }
   else
-    { filter->FindUpperThresholdOn(); }
+  {
+    filter->FindUpperThresholdOn();
+  }
 
   try
-    {
+  {
     filter->Update();
-    }
-  catch (itk::ExceptionObject& e)
-    {
-    std::cerr << "Exception detected: "  << e.GetDescription();
+  }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "Exception detected: " << e.GetDescription();
     return -1;
-    }
+  }
 
   thresholdingFailed = filter->GetThresholdingFailed();
 
   if (thresholdingFailed)
-    {
+  {
     std::cout << "When mode flipped: Selection of isolating threshold failed" << std::endl;
-    }
+  }
   else
-    {
+  {
     std::cout << "When mode flipped: Selection of isolating threshold succeeded" << std::endl;
-    }
+  }
 
 
   return EXIT_SUCCESS;

@@ -27,22 +27,21 @@
 namespace itk
 {
 
-template<typename THistogram, typename TOutput>
+template <typename THistogram, typename TOutput>
 void
-TriangleThresholdCalculator<THistogram, TOutput>
-::GenerateData()
+TriangleThresholdCalculator<THistogram, TOutput>::GenerateData()
 {
   const HistogramType * histogram = this->GetInput();
 
-  if ( histogram->GetTotalFrequency() == 0 )
-    {
+  if (histogram->GetTotalFrequency() == 0)
+  {
     itkExceptionMacro(<< "Histogram is empty");
-    }
-  ProgressReporter progress(this, 0, histogram->GetSize(0) );
-  if( histogram->GetSize(0) == 1 )
-    {
-    this->GetOutput()->Set( static_cast<OutputType>(histogram->GetMeasurement(0,0)) );
-    }
+  }
+  ProgressReporter progress(this, 0, histogram->GetSize(0));
+  if (histogram->GetSize(0) == 1)
+  {
+    this->GetOutput()->Set(static_cast<OutputType>(histogram->GetMeasurement(0, 0)));
+  }
 
   SizeValueType size = histogram->GetSize(0);
 
@@ -53,24 +52,24 @@ TriangleThresholdCalculator<THistogram, TOutput>
   // Triangle method needs the maximum and minimum indexes
   // Minimum indexes for this purpose are poorly defined - can't just
   // take a index with zero entries.
-  double Mx = itk::NumericTraits<double>::min();
+  double         Mx = itk::NumericTraits<double>::min();
   IndexValueType MxIdx = 0;
 
-  for ( SizeValueType j = 0; j < size; j++ )
+  for (SizeValueType j = 0; j < size; j++)
+  {
+    if (histogram->GetFrequency(j, 0) > Mx)
     {
-    if ( histogram->GetFrequency(j, 0) > Mx )
-      {
       MxIdx = j;
       Mx = histogram->GetFrequency(j, 0);
-      }
     }
+  }
 
 
   cumSum[0] = histogram->GetFrequency(0, 0);
-  for ( SizeValueType j = 1; j < size; j++ )
-    {
-    cumSum[j] = histogram->GetFrequency(j, 0) + cumSum[j-1];
-    }
+  for (SizeValueType j = 1; j < size; j++)
+  {
+    cumSum[j] = histogram->GetFrequency(j, 0) + cumSum[j - 1];
+  }
 
   typename HistogramType::MeasurementVectorType onePC(1), nnPC(1);
   onePC.Fill(histogram->Quantile(0, 0.01));
@@ -85,30 +84,31 @@ TriangleThresholdCalculator<THistogram, TOutput>
   // line between the max index and the further of 1% and 99%
   IndexValueType ThreshIdx = 0;
   if (fabs((float)MxIdx - (float)onePCIdx) > fabs((float)MxIdx - (float)nnPCIdx))
-    {
+  {
     // line to 1 %
-    double slope = Mx / ( MxIdx - onePCIdx );
+    double slope = Mx / (MxIdx - onePCIdx);
     for (IndexValueType k = onePCIdx; k < MxIdx; k++)
-      {
-      float line = slope * ( k - onePCIdx);
-      triangle[k] = line - histogram->GetFrequency(k);
-      }
-
-    ThreshIdx = onePCIdx + std::distance(&(triangle[onePCIdx]), std::max_element(&(triangle[onePCIdx]), &(triangle[MxIdx])));
-    }
-  else
     {
-    // line to 99 %
-    double slope = -Mx / ( nnPCIdx - MxIdx );
-    for (IndexValueType k = MxIdx; k < nnPCIdx; k++)
-      {
-      float line = slope*(k - MxIdx) + Mx;
+      float line = slope * (k - onePCIdx);
       triangle[k] = line - histogram->GetFrequency(k);
-      }
-    ThreshIdx = MxIdx + std::distance(&(triangle[MxIdx]), std::max_element(&(triangle[MxIdx]), &(triangle[nnPCIdx])));
     }
 
-  this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( ThreshIdx + 1, 0 ) ) );
+    ThreshIdx =
+      onePCIdx + std::distance(&(triangle[onePCIdx]), std::max_element(&(triangle[onePCIdx]), &(triangle[MxIdx])));
+  }
+  else
+  {
+    // line to 99 %
+    double slope = -Mx / (nnPCIdx - MxIdx);
+    for (IndexValueType k = MxIdx; k < nnPCIdx; k++)
+    {
+      float line = slope * (k - MxIdx) + Mx;
+      triangle[k] = line - histogram->GetFrequency(k);
+    }
+    ThreshIdx = MxIdx + std::distance(&(triangle[MxIdx]), std::max_element(&(triangle[MxIdx]), &(triangle[nnPCIdx])));
+  }
+
+  this->GetOutput()->Set(static_cast<OutputType>(histogram->GetMeasurement(ThreshIdx + 1, 0)));
 }
 
 } // end namespace itk

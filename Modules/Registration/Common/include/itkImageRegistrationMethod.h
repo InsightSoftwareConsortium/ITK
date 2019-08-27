@@ -66,8 +66,8 @@ namespace itk
  * \sphinxexample{Core/Transform/GlobalRegistrationTwoImagesBSpline,Global Registration Of Two Images (BSpline)}
  * \endsphinx
  */
-template< typename TFixedImage, typename TMovingImage >
-class ITK_TEMPLATE_EXPORT ImageRegistrationMethod:public ProcessObject
+template <typename TFixedImage, typename TMovingImage>
+class ITK_TEMPLATE_EXPORT ImageRegistrationMethod : public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageRegistrationMethod);
@@ -75,8 +75,8 @@ public:
   /** Standard class type aliases. */
   using Self = ImageRegistrationMethod;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -93,7 +93,7 @@ public:
   using MovingImageConstPointer = typename MovingImageType::ConstPointer;
 
   /**  Type of the metric. */
-  using MetricType = ImageToImageMetric< FixedImageType, MovingImageType >;
+  using MetricType = ImageToImageMetric<FixedImageType, MovingImageType>;
   using MetricPointer = typename MetricType::Pointer;
   using FixedImageRegionType = typename MetricType::FixedImageRegionType;
 
@@ -103,7 +103,7 @@ public:
 
   /** Type for the output: Using Decorator pattern for enabling
    *  the Transform to be passed in the data pipeline */
-  using TransformOutputType = DataObjectDecorator< TransformType >;
+  using TransformOutputType = DataObjectDecorator<TransformType>;
   using TransformOutputPointer = typename TransformOutputType::Pointer;
   using TransformOutputConstPointer = typename TransformOutputType::ConstPointer;
 
@@ -122,15 +122,17 @@ public:
   using DataObjectPointer = typename DataObject::Pointer;
 
   /** Set/Get the Fixed image. */
-  void SetFixedImage(const FixedImageType *fixedImage);
+  void
+  SetFixedImage(const FixedImageType * fixedImage);
   itkGetConstObjectMacro(FixedImage, FixedImageType);
 
   /** Set/Get the Moving image. */
-  void SetMovingImage(const MovingImageType *movingImage);
+  void
+  SetMovingImage(const MovingImageType * movingImage);
   itkGetConstObjectMacro(MovingImage, MovingImageType);
 
   /** Set/Get the Optimizer. */
-  itkSetObjectMacro(Optimizer,  OptimizerType);
+  itkSetObjectMacro(Optimizer, OptimizerType);
   itkGetModifiableObjectMacro(Optimizer, OptimizerType);
 
   /** Set/Get the Metric. */
@@ -146,7 +148,8 @@ public:
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
   /** Set/Get the initial transformation parameters. */
-  virtual void SetInitialTransformParameters(const ParametersType & param);
+  virtual void
+  SetInitialTransformParameters(const ParametersType & param);
 
   itkGetConstReferenceMacro(InitialTransformParameters, ParametersType);
 
@@ -161,7 +164,8 @@ public:
    \warning The same region can also be set directly into the metric.
    please avoid to set the region in both places since this can lead
    to inconsistent configurations.  */
-  void SetFixedImageRegion(const FixedImageRegionType & region);
+  void
+  SetFixedImageRegion(const FixedImageRegionType & region);
 
   /** Get the region of the fixed image to be considered as region of
    interest during the registration. This region will be passed to
@@ -178,34 +182,41 @@ public:
   itkSetMacro(FixedImageRegionDefined, bool);
 
   /** Initialize by setting the interconnects between the components. */
-  virtual void Initialize();
+  virtual void
+  Initialize();
 
   /** Returns the transform resulting from the registration process  */
-  const TransformOutputType * GetOutput() const;
+  const TransformOutputType *
+  GetOutput() const;
 
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
   /** Method to return the latest modified time of this object or
    * any of its cached ivars */
-  ModifiedTimeType GetMTime() const override;
+  ModifiedTimeType
+  GetMTime() const override;
 
 protected:
   ImageRegistrationMethod();
   ~ImageRegistrationMethod() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */
-  void  GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Provides derived classes with the ability to set this private var */
   itkSetMacro(LastTransformParameters, ParametersType);
 
   /* Start the Optimization */
-  void StartOptimization();
+  void
+  StartOptimization();
 
 private:
   MetricPointer          m_Metric;
@@ -226,7 +237,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageRegistrationMethod.hxx"
+#  include "itkImageRegistrationMethod.hxx"
 #endif
 
 #endif

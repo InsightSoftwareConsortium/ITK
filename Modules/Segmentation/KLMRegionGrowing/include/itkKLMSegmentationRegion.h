@@ -89,7 +89,7 @@ namespace itk
 // Forward reference because of circular dependencies
 class ITK_FORWARD_EXPORT KLMSegmentationBorder;
 
-class ITKKLMRegionGrowing_EXPORT KLMSegmentationRegion:public SegmentationRegion
+class ITKKLMRegionGrowing_EXPORT KLMSegmentationRegion : public SegmentationRegion
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(KLMSegmentationRegion);
@@ -97,8 +97,8 @@ public:
   /** Standard class type aliases. */
   using Self = KLMSegmentationRegion;
   using Superclass = SegmentationRegion;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -107,18 +107,18 @@ public:
   itkTypeMacro(KLMSegmentationRegion, SegmentationRegion);
 
   /** Type definition for an double vector. */
-  using MeanRegionIntensityType = vnl_vector< double >;
+  using MeanRegionIntensityType = vnl_vector<double>;
 
   /** Type definition for vector container that stores the borders
    * associated with a current region. */
-  using RegionBorderVectorType = std::vector< KLMSegmentationBorder * >;
+  using RegionBorderVectorType = std::vector<KLMSegmentationBorder *>;
   using RegionBorderVectorSizeType = RegionBorderVectorType::size_type;
 
   /** Type definition for the region border vector iterators to be used. */
   using RegionBorderVectorIterator = RegionBorderVectorType::iterator;
 
   /** Type definition for the const region border vector iterators to be used.
-    */
+   */
   using RegionBorderVectorConstIterator = RegionBorderVectorType::const_iterator;
 
   /** type definition for the region label type. */
@@ -126,101 +126,117 @@ public:
 
   /** Get a head pointer to the vector container storing the borders
    * associated with a region. */
-  RegionBorderVectorIterator GetRegionBorderItBegin();
+  RegionBorderVectorIterator
+  GetRegionBorderItBegin();
 
-  RegionBorderVectorConstIterator GetRegionBorderConstItBegin();
+  RegionBorderVectorConstIterator
+  GetRegionBorderConstItBegin();
 
   /** Get a tail pointer to the vector container storing the borders
    * associated with a region. */
-  RegionBorderVectorIterator GetRegionBorderItEnd();
+  RegionBorderVectorIterator
+  GetRegionBorderItEnd();
 
-  RegionBorderVectorConstIterator GetRegionBorderConstItEnd();
+  RegionBorderVectorConstIterator
+  GetRegionBorderConstItEnd();
 
   /** Get the number of borders in the vector container storing the borders
    * associated with a region. */
-  RegionBorderVectorSizeType GetRegionBorderSize() const;
+  RegionBorderVectorSizeType
+  GetRegionBorderSize() const;
 
   /** Set/Get the mean pixel intensity in the region. */
   itkSetMacro(MeanRegionIntensity, MeanRegionIntensityType)
-  itkGetConstReferenceMacro(MeanRegionIntensity, MeanRegionIntensityType);
+    itkGetConstReferenceMacro(MeanRegionIntensity, MeanRegionIntensityType);
 
   /** Set the region with parameter values
    * defining the region. */
-  void SetRegionParameters(MeanRegionIntensityType meanRegionIntensity,
-                           double regionArea,
-                           RegionLabelType label);
+  void
+  SetRegionParameters(MeanRegionIntensityType meanRegionIntensity, double regionArea, RegionLabelType label);
 
   /** Function to print the region parameters using std::cout. */
-  void PrintRegionInfo();
+  void
+  PrintRegionInfo();
 
   /** Insert a region border to the front of the list. */
-  void PushFrontRegionBorder(KLMSegmentationBorder *pBorderCandidate);
+  void
+  PushFrontRegionBorder(KLMSegmentationBorder * pBorderCandidate);
 
   /** Insert a region border to the back of the list. */
-  void PushBackRegionBorder(KLMSegmentationBorder *pBorderCandidate);
+  void
+  PushBackRegionBorder(KLMSegmentationBorder * pBorderCandidate);
 
   /** Insert a region border to the list, where position is unknown
-    * (sorting based on region labels is done to maintain consistency). */
-  void InsertRegionBorder(KLMSegmentationBorder *pBorderCandidate);
+   * (sorting based on region labels is done to maintain consistency). */
+  void
+  InsertRegionBorder(KLMSegmentationBorder * pBorderCandidate);
 
   /** Insert a region border into the border list at a given location. */
-  void InsertRegionBorder(RegionBorderVectorIterator it,
-                          KLMSegmentationBorder *pBorderCandidate);
+  void
+  InsertRegionBorder(RegionBorderVectorIterator it, KLMSegmentationBorder * pBorderCandidate);
 
   /** Delete a region border from the border list. */
-  void DeleteRegionBorder(KLMSegmentationBorder *pBorderCandidate);
+  void
+  DeleteRegionBorder(KLMSegmentationBorder * pBorderCandidate);
 
   /** Delete all region borders in the border list. */
-  void DeleteAllRegionBorders();
+  void
+  DeleteAllRegionBorders();
 
   /** Set the region with parameter values (mean and area)
    * defining the region when merged with the new region. */
-  void CombineRegionParameters(const Self *region);
+  void
+  CombineRegionParameters(const Self * region);
 
   /** Compute the energy cost (mean squared difference scaled by area)
    * that would result if this region is merged with another region. */
-  double EnergyFunctional(const Self *region);
+  double
+  EnergyFunctional(const Self * region);
 
   /** Reset a region's label to that of the supplied region and update
-    * the regions borders to that of the supplied region. */
-  void ResetRegionLabelAndUpdateBorders(Self *region);
+   * the regions borders to that of the supplied region. */
+  void
+  ResetRegionLabelAndUpdateBorders(Self * region);
 
   /** Splice the regions borders from the new region into the current
-    * region.  If duplicate borders are found, the duplicate border
-    * region is not inserted into the new region borders list, rather,
-    * it has its pointers to region1 and region2 set to nullptr and
-    * Lambda set to -1.0.
-    *
-    * For example, take an image with 3 regions A, B, C
-    * \f[\begin{tabular}{|c|c|}
-    * \hline
-    *   A & A \\ \hline
-    *   B & C \\ \hline
-    *  \end{tabular}\f]
-    * where region A has region borders A-B and A-C;
-    * region B has region borders A-B and B-C; and
-    * region C has region borders A-C and B-C.
-    *
-    * Suppose region border A-B has been removed, so that region B
-    * can be merged into region A.  When splicing the region
-    * borders from A and B into the new region A, duplicate
-    * region borders A-C and A-C (one of which was formerly B-C)
-    * will be present.  In this case, one of the region borders
-    * A-C is given the combined length of the two former borders
-    * and is put into the region borders list.  The other is
-    * nullified by having its pointers to region1 and region2 set
-    * to nullptr and its Lambda value set to -1.0.
-    */
-  void SpliceRegionBorders(Self *region);
+   * region.  If duplicate borders are found, the duplicate border
+   * region is not inserted into the new region borders list, rather,
+   * it has its pointers to region1 and region2 set to nullptr and
+   * Lambda set to -1.0.
+   *
+   * For example, take an image with 3 regions A, B, C
+   * \f[\begin{tabular}{|c|c|}
+   * \hline
+   *   A & A \\ \hline
+   *   B & C \\ \hline
+   *  \end{tabular}\f]
+   * where region A has region borders A-B and A-C;
+   * region B has region borders A-B and B-C; and
+   * region C has region borders A-C and B-C.
+   *
+   * Suppose region border A-B has been removed, so that region B
+   * can be merged into region A.  When splicing the region
+   * borders from A and B into the new region A, duplicate
+   * region borders A-C and A-C (one of which was formerly B-C)
+   * will be present.  In this case, one of the region borders
+   * A-C is given the combined length of the two former borders
+   * and is put into the region borders list.  The other is
+   * nullified by having its pointers to region1 and region2 set
+   * to nullptr and its Lambda value set to -1.0.
+   */
+  void
+  SpliceRegionBorders(Self * region);
 
   /** Recalculate the Lambda values using EvaluateLambda() for all
    * the borders defining the region. */
-  void UpdateRegionBorderLambda();
+  void
+  UpdateRegionBorderLambda();
 
 protected:
   KLMSegmentationRegion();
   ~KLMSegmentationRegion() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   RegionBorderVectorType  m_RegionBorderVector;

@@ -49,26 +49,25 @@ namespace itk
  *
  * \ingroup ITKDisplacementField
  */
-template<typename TTimeVaryingVelocityField, typename TDisplacementField =
- Image<typename TTimeVaryingVelocityField::PixelType,
- TTimeVaryingVelocityField::ImageDimension - 1> >
-class ITK_TEMPLATE_EXPORT TimeVaryingVelocityFieldIntegrationImageFilter :
-  public ImageToImageFilter<TTimeVaryingVelocityField, TDisplacementField>
+template <typename TTimeVaryingVelocityField,
+          typename TDisplacementField =
+            Image<typename TTimeVaryingVelocityField::PixelType, TTimeVaryingVelocityField::ImageDimension - 1>>
+class ITK_TEMPLATE_EXPORT TimeVaryingVelocityFieldIntegrationImageFilter
+  : public ImageToImageFilter<TTimeVaryingVelocityField, TDisplacementField>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingVelocityFieldIntegrationImageFilter);
 
   using Self = TimeVaryingVelocityFieldIntegrationImageFilter;
-  using Superclass = ImageToImageFilter
-    <TTimeVaryingVelocityField, TDisplacementField>;
+  using Superclass = ImageToImageFilter<TTimeVaryingVelocityField, TDisplacementField>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information ( and related methods ) */
-  itkTypeMacro( TimeVaryingVelocityFieldIntegrationImageFilter, ImageToImageFilter );
+  itkTypeMacro(TimeVaryingVelocityFieldIntegrationImageFilter, ImageToImageFilter);
 
   /**
    * Dimensionality of input data is assumed to be one more than the output
@@ -86,99 +85,103 @@ public:
   using PointType = typename DisplacementFieldType::PointType;
   using OutputRegionType = typename DisplacementFieldType::RegionType;
 
-  using VelocityFieldInterpolatorType = VectorInterpolateImageFunction
-    <TimeVaryingVelocityFieldType, ScalarType>;
+  using VelocityFieldInterpolatorType = VectorInterpolateImageFunction<TimeVaryingVelocityFieldType, ScalarType>;
   using VelocityFieldInterpolatorPointer = typename VelocityFieldInterpolatorType::Pointer;
 
   using DisplacementFieldInterpolatorType = VectorInterpolateImageFunction<DisplacementFieldType, ScalarType>;
   using DisplacementFieldInterpolatorPointer = typename DisplacementFieldInterpolatorType::Pointer;
 
   /** Get/Set the time-varying velocity field interpolator.  Default = linear. */
-  itkSetObjectMacro( VelocityFieldInterpolator, VelocityFieldInterpolatorType );
-  itkGetModifiableObjectMacro(VelocityFieldInterpolator, VelocityFieldInterpolatorType );
+  itkSetObjectMacro(VelocityFieldInterpolator, VelocityFieldInterpolatorType);
+  itkGetModifiableObjectMacro(VelocityFieldInterpolator, VelocityFieldInterpolatorType);
 
   /**
    * Get/Set the deformation field interpolator for the initial diffeomorphism
    * (if set).  Default = linear.
    */
-  itkSetObjectMacro( DisplacementFieldInterpolator, DisplacementFieldInterpolatorType );
-  itkGetModifiableObjectMacro(DisplacementFieldInterpolator, DisplacementFieldInterpolatorType );
+  itkSetObjectMacro(DisplacementFieldInterpolator, DisplacementFieldInterpolatorType);
+  itkGetModifiableObjectMacro(DisplacementFieldInterpolator, DisplacementFieldInterpolatorType);
 
   /**
    * Get/Set the initial diffeomorphism
    */
-  itkSetObjectMacro( InitialDiffeomorphism, DisplacementFieldType );
-  itkGetModifiableObjectMacro(InitialDiffeomorphism, DisplacementFieldType );
+  itkSetObjectMacro(InitialDiffeomorphism, DisplacementFieldType);
+  itkGetModifiableObjectMacro(InitialDiffeomorphism, DisplacementFieldType);
 
   /**
    * Set the lower time bound defining the integration domain of the transform.
    * We assume that the total possible time domain is [0,1].
    */
-  itkSetClampMacro( LowerTimeBound, RealType, 0, 1 );
+  itkSetClampMacro(LowerTimeBound, RealType, 0, 1);
 
   /**
    * Get the lower time bound defining the integration domain of the transform.
    * We assume that the total possible time domain is [0,1].
    */
-  itkGetConstMacro( LowerTimeBound, RealType );
+  itkGetConstMacro(LowerTimeBound, RealType);
 
   /**
    * Set the upper time bound defining the integration domain of the transform.
    * We assume that the total possible time domain is [0,1].
    */
-  itkSetClampMacro( UpperTimeBound, RealType, 0, 1 );
+  itkSetClampMacro(UpperTimeBound, RealType, 0, 1);
 
   /**
    * Get the upper time bound defining the integration domain of the transform.
    * We assume that the total possible time domain is [0,1].
    */
-  itkGetConstMacro( UpperTimeBound, RealType );
+  itkGetConstMacro(UpperTimeBound, RealType);
 
   /**
    * Set the number of integration steps used in the Runge-Kutta solution of the
    * initial value problem.  Default = 10.
    */
-  itkSetMacro( NumberOfIntegrationSteps, unsigned int );
+  itkSetMacro(NumberOfIntegrationSteps, unsigned int);
 
   /**
    * Get the number of integration steps used in the Runge-Kutta solution of the
    * initial value problem.  Default = 10.
    */
-  itkGetConstMacro( NumberOfIntegrationSteps, unsigned int );
+  itkGetConstMacro(NumberOfIntegrationSteps, unsigned int);
 
 protected:
   TimeVaryingVelocityFieldIntegrationImageFilter();
   ~TimeVaryingVelocityFieldIntegrationImageFilter() override = default;
 
-  void PrintSelf( std::ostream & os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
-  void DynamicThreadedGenerateData( const OutputRegionType & ) override;
+  void
+  DynamicThreadedGenerateData(const OutputRegionType &) override;
 
 
-  VectorType IntegrateVelocityAtPoint( const PointType &initialSpatialPoint, const TimeVaryingVelocityFieldType * inputField );
+  VectorType
+  IntegrateVelocityAtPoint(const PointType & initialSpatialPoint, const TimeVaryingVelocityFieldType * inputField);
 
-  RealType                                  m_LowerTimeBound;
-  RealType                                  m_UpperTimeBound;
+  RealType m_LowerTimeBound;
+  RealType m_UpperTimeBound;
 
-  DisplacementFieldPointer                  m_InitialDiffeomorphism;
+  DisplacementFieldPointer m_InitialDiffeomorphism;
 
-  unsigned int                              m_NumberOfIntegrationSteps;
+  unsigned int m_NumberOfIntegrationSteps;
 
-  unsigned int                              m_NumberOfTimePoints;
+  unsigned int m_NumberOfTimePoints;
 
-  DisplacementFieldInterpolatorPointer      m_DisplacementFieldInterpolator;
+  DisplacementFieldInterpolatorPointer m_DisplacementFieldInterpolator;
 
 private:
-  VelocityFieldInterpolatorPointer          m_VelocityFieldInterpolator;
+  VelocityFieldInterpolatorPointer m_VelocityFieldInterpolator;
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTimeVaryingVelocityFieldIntegrationImageFilter.hxx"
+#  include "itkTimeVaryingVelocityFieldIntegrationImageFilter.hxx"
 #endif
 
 #endif

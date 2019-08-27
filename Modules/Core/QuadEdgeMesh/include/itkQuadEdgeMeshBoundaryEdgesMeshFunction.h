@@ -33,19 +33,18 @@ namespace itk
  *        components.
  * \ingroup ITKQuadEdgeMesh
  */
-template< typename TMesh >
-class ITK_TEMPLATE_EXPORT QuadEdgeMeshBoundaryEdgesMeshFunction:
-  public FunctionBase< TMesh, typename TMesh::EdgeListPointerType >
+template <typename TMesh>
+class ITK_TEMPLATE_EXPORT QuadEdgeMeshBoundaryEdgesMeshFunction
+  : public FunctionBase<TMesh, typename TMesh::EdgeListPointerType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshBoundaryEdgesMeshFunction);
 
   // Standard types
   using Self = QuadEdgeMeshBoundaryEdgesMeshFunction;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = FunctionBase< TMesh,
-                        typename  TMesh::EdgeListPointerType >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = FunctionBase<TMesh, typename TMesh::EdgeListPointerType>;
 
   // Types in superclass:
   using InputType = typename Superclass::InputType;
@@ -60,15 +59,16 @@ public:
   itkTypeMacro(QuadEdgeMeshBoundaryEdgesMeshFunction, FunctionBase);
   itkNewMacro(Self);
 
-  OutputType Evaluate(const InputType & mesh) const override;
+  OutputType
+  Evaluate(const InputType & mesh) const override;
 
 protected:
   QuadEdgeMeshBoundaryEdgesMeshFunction() = default;
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.hxx"
+#  include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.hxx"
 #endif
 
 #endif

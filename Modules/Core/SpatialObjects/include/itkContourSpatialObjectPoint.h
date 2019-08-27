@@ -33,16 +33,14 @@ namespace itk
  * \sa SpatialObjectPoint
  * \ingroup ITKSpatialObjects
  */
-template< unsigned int TPointDimension = 3 >
-class ITK_TEMPLATE_EXPORT ContourSpatialObjectPoint:
-  public SpatialObjectPoint< TPointDimension >
+template <unsigned int TPointDimension = 3>
+class ITK_TEMPLATE_EXPORT ContourSpatialObjectPoint : public SpatialObjectPoint<TPointDimension>
 {
 public:
-
   using Self = ContourSpatialObjectPoint;
-  using Superclass = SpatialObjectPoint< TPointDimension >;
-  using PointType = Point< double, TPointDimension >;
-  using CovariantVectorType = CovariantVector< double, TPointDimension >;
+  using Superclass = SpatialObjectPoint<TPointDimension>;
+  using PointType = Point<double, TPointDimension>;
+  using CovariantVectorType = CovariantVector<double, TPointDimension>;
 
   /** Constructor. This one defines the number of dimensions
    *  in the ContourSpatialObjectPoint */
@@ -52,33 +50,37 @@ public:
   ~ContourSpatialObjectPoint() override = default;
 
   /** Get the picked point. */
-  const PointType & GetPickedPointInObjectSpace() const;
+  const PointType &
+  GetPickedPointInObjectSpace() const;
 
   /** Set the picked point : N-D case. */
-  void SetPickedPointInObjectSpace(const PointType & point);
+  void
+  SetPickedPointInObjectSpace(const PointType & point);
 
   /** Get the normal. */
-  const CovariantVectorType & GetNormalInObjectSpace() const;
+  const CovariantVectorType &
+  GetNormalInObjectSpace() const;
 
   /** Set the normal : N-D case. */
-  void SetNormalInObjectSpace(const CovariantVectorType & normal);
+  void
+  SetNormalInObjectSpace(const CovariantVectorType & normal);
 
   /** Copy a surface point to another. */
-  Self & operator=(const ContourSpatialObjectPoint & rhs);
+  Self &
+  operator=(const ContourSpatialObjectPoint & rhs);
 
 protected:
-
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
   CovariantVectorType m_NormalInObjectSpace;
   PointType           m_PickedPointInObjectSpace;
 };
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkContourSpatialObjectPoint.hxx"
+#  include "itkContourSpatialObjectPoint.hxx"
 #endif
 
 #endif // itkContourSpatialObjectPoint_h

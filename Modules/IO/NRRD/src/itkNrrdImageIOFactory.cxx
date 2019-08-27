@@ -23,11 +23,8 @@ namespace itk
 {
 NrrdImageIOFactory::NrrdImageIOFactory()
 {
-  this->RegisterOverride( "itkImageIOBase",
-                          "itkNrrdImageIO",
-                          "Nrrd Image IO",
-                          true,
-                          CreateObjectFunction< NrrdImageIO >::New() );
+  this->RegisterOverride(
+    "itkImageIOBase", "itkNrrdImageIO", "Nrrd Image IO", true, CreateObjectFunction<NrrdImageIO>::New());
 }
 
 NrrdImageIOFactory::~NrrdImageIOFactory() = default;
@@ -49,13 +46,14 @@ NrrdImageIOFactory::GetDescription() const
 
 static bool NrrdImageIOFactoryHasBeenRegistered;
 
-void ITKIONRRD_EXPORT NrrdImageIOFactoryRegister__Private()
+void ITKIONRRD_EXPORT
+     NrrdImageIOFactoryRegister__Private()
 {
-  if( ! NrrdImageIOFactoryHasBeenRegistered )
-    {
+  if (!NrrdImageIOFactoryHasBeenRegistered)
+  {
     NrrdImageIOFactoryHasBeenRegistered = true;
     NrrdImageIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

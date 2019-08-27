@@ -46,15 +46,17 @@
 class amoebaTestF1 : public itk::SingleValuedCostFunction
 {
 public:
-
   using Self = amoebaTestF1;
   using Superclass = itk::SingleValuedCostFunction;
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
-  itkNewMacro( Self );
-  itkTypeMacro( amoebaTestF1, SingleValuedCostFunction );
+  itkNewMacro(Self);
+  itkTypeMacro(amoebaTestF1, SingleValuedCostFunction);
 
-  enum { SpaceDimension=2 };
+  enum
+  {
+    SpaceDimension = 2
+  };
 
   using ParametersType = Superclass::ParametersType;
   using DerivativeType = Superclass::DerivativeType;
@@ -64,77 +66,82 @@ public:
   using MatrixType = vnl_matrix<double>;
 
 
-  amoebaTestF1():m_A(SpaceDimension,SpaceDimension),m_B(SpaceDimension)
-   {
-    m_A[0][0] =  3;
-    m_A[0][1] =  2;
-    m_A[1][0] =  2;
-    m_A[1][1] =  6;
+  amoebaTestF1()
+    : m_A(SpaceDimension, SpaceDimension)
+    , m_B(SpaceDimension)
+  {
+    m_A[0][0] = 3;
+    m_A[0][1] = 2;
+    m_A[1][0] = 2;
+    m_A[1][1] = 6;
 
-    m_B[0]    =  2;
-    m_B[1]    = -8;
+    m_B[0] = 2;
+    m_B[1] = -8;
     m_Negate = false;
-    }
+  }
 
-  double GetValue( const ParametersType & parameters ) const override
+  double
+  GetValue(const ParametersType & parameters) const override
+  {
+
+    VectorType v(parameters.Size());
+    for (unsigned int i = 0; i < SpaceDimension; i++)
     {
-
-    VectorType v( parameters.Size() );
-    for(unsigned int i=0; i<SpaceDimension; i++)
-      {
       v[i] = parameters[i];
-      }
+    }
     VectorType Av = m_A * v;
-    double val = ( inner_product<double>( Av , v ) )/2.0;
-    val -= inner_product< double >( m_B , v );
-    if( m_Negate )
-      {
-      val *= -1.0;
-      }
-    return val;
-    }
-
-  void GetDerivative( const ParametersType & parameters,
-                            DerivativeType & derivative ) const override
+    double     val = (inner_product<double>(Av, v)) / 2.0;
+    val -= inner_product<double>(m_B, v);
+    if (m_Negate)
     {
+      val *= -1.0;
+    }
+    return val;
+  }
 
-    VectorType v( parameters.Size() );
-    for(unsigned int i=0; i<SpaceDimension; i++)
-      {
+  void
+  GetDerivative(const ParametersType & parameters, DerivativeType & derivative) const override
+  {
+
+    VectorType v(parameters.Size());
+    for (unsigned int i = 0; i < SpaceDimension; i++)
+    {
       v[i] = parameters[i];
-      }
+    }
     std::cout << "GetDerivative( " << v << " ) = ";
-    VectorType gradient = m_A * v  - m_B;
+    VectorType gradient = m_A * v - m_B;
     std::cout << gradient << std::endl;
     derivative = DerivativeType(SpaceDimension);
-    for(unsigned int i=0; i<SpaceDimension; i++)
+    for (unsigned int i = 0; i < SpaceDimension; i++)
+    {
+      if (!m_Negate)
       {
-      if( !m_Negate )
-        {
         derivative[i] = gradient[i];
-        }
+      }
       else
-        {
+      {
         derivative[i] = -gradient[i];
-        }
       }
     }
+  }
 
-  unsigned int GetNumberOfParameters() const override
-    {
+  unsigned int
+  GetNumberOfParameters() const override
+  {
     return SpaceDimension;
-    }
+  }
 
   // Used to switch between maximization and minimization.
-  void SetNegate(bool flag )
-    {
+  void
+  SetNegate(bool flag)
+  {
     m_Negate = flag;
-    }
+  }
 
 private:
-  MatrixType        m_A;
-  VectorType        m_B;
-  bool              m_Negate;
+  MatrixType m_A;
+  VectorType m_B;
+  bool       m_Negate;
 };
 
 
@@ -148,44 +155,44 @@ private:
 class amoebaTestF2 : public itk::SingleValuedCostFunction
 {
 public:
-
   using Self = amoebaTestF2;
   using Superclass = itk::SingleValuedCostFunction;
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
-  itkNewMacro( Self );
-  itkTypeMacro( amoebaTestF1, SingleValuedCostFunction );
+  itkNewMacro(Self);
+  itkTypeMacro(amoebaTestF1, SingleValuedCostFunction);
 
   using ParametersType = Superclass::ParametersType;
   using MeasureType = Superclass::MeasureType;
 
   amoebaTestF2() = default;
 
-  double GetValue( const ParametersType & parameters ) const override
-    {
+  double
+  GetValue(const ParametersType & parameters) const override
+  {
     double val;
-    if( parameters[0]<0 )
-      {
-      val = parameters[0]*parameters[0]+4*parameters[0];
-      }
+    if (parameters[0] < 0)
+    {
+      val = parameters[0] * parameters[0] + 4 * parameters[0];
+    }
     else
-      {
-      val = 2*parameters[0]*parameters[0]-8*parameters[0];
-      }
+    {
+      val = 2 * parameters[0] * parameters[0] - 8 * parameters[0];
+    }
     return val;
-    }
+  }
 
-  void GetDerivative( const ParametersType & itkNotUsed(parameters),
-                            DerivativeType & itkNotUsed(derivative) ) const override
-    {
-      throw itk::ExceptionObject( __FILE__, __LINE__,
-                                  "no derivative available" );
-    }
+  void
+  GetDerivative(const ParametersType & itkNotUsed(parameters), DerivativeType & itkNotUsed(derivative)) const override
+  {
+    throw itk::ExceptionObject(__FILE__, __LINE__, "no derivative available");
+  }
 
-  unsigned int GetNumberOfParameters() const override
-    {
+  unsigned int
+  GetNumberOfParameters() const override
+  {
     return 1;
-    }
+  }
 };
 
 class CommandIterationUpdateAmoeba : public itk::Command
@@ -194,32 +201,34 @@ public:
   using Self = CommandIterationUpdateAmoeba;
   using Superclass = itk::Command;
   using Pointer = itk::SmartPointer<Self>;
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
-  void Reset() { m_IterationNumber = 0; }
+  void
+  Reset()
+  {
+    m_IterationNumber = 0;
+  }
 
-  void Execute(itk::Object *caller, const itk::EventObject & event) override
+  void
+  Execute(itk::Object * caller, const itk::EventObject & event) override
+  {
+    Execute((const itk::Object *)caller, event);
+  }
+
+  void
+  Execute(const itk::Object * object, const itk::EventObject & event) override
+  {
+    const auto * optimizer = static_cast<const itk::AmoebaOptimizer *>(object);
+    if (dynamic_cast<const itk::FunctionEvaluationIterationEvent *>(&event))
     {
-      Execute( (const itk::Object *)caller, event);
-    }
-
-  void Execute(const itk::Object * object, const itk::EventObject & event) override
-    {
-    const auto * optimizer = static_cast< const itk::AmoebaOptimizer * >( object );
-    if( dynamic_cast< const itk::FunctionEvaluationIterationEvent * >( &event ) )
-      {
       std::cout << m_IterationNumber++ << ":  ";
-      std::cout << "x: "<< optimizer->GetCachedCurrentPosition() <<"  ";
-      std::cout << "f(x): " << optimizer->GetCachedValue() <<std::endl;
-
-      }
+      std::cout << "x: " << optimizer->GetCachedCurrentPosition() << "  ";
+      std::cout << "f(x): " << optimizer->GetCachedValue() << std::endl;
     }
+  }
 
 protected:
-  CommandIterationUpdateAmoeba()
-  {
-    m_IterationNumber=0;
-  }
+  CommandIterationUpdateAmoeba() { m_IterationNumber = 0; }
 
 private:
   unsigned long m_IterationNumber;
@@ -228,31 +237,34 @@ private:
 /**
  * Test Amoeba with a 2D quadratic function - happy day scenario.
  */
-int AmoebaTest1();
+int
+AmoebaTest1();
 
 /**
  * Test Amoeba and Amoeba with restarts on a function with two minima.
  */
-int AmoebaTest2();
+int
+AmoebaTest2();
 
-int itkAmoebaOptimizerTest(int, char* [] )
+int
+itkAmoebaOptimizerTest(int, char *[])
 {
   int result1 = AmoebaTest1();
   int result2 = AmoebaTest2();
 
-  std::cout<< "All Tests Completed."<< std::endl;
+  std::cout << "All Tests Completed." << std::endl;
 
-  if( result1 == EXIT_FAILURE ||
-      result2 == EXIT_FAILURE )
-    {
-    std::cerr<<"[FAILURE]\n";
+  if (result1 == EXIT_FAILURE || result2 == EXIT_FAILURE)
+  {
+    std::cerr << "[FAILURE]\n";
     return EXIT_FAILURE;
-    }
-  std::cout<<"[SUCCESS]\n";
+  }
+  std::cout << "[SUCCESS]\n";
   return EXIT_SUCCESS;
 }
 
-int AmoebaTest1()
+int
+AmoebaTest1()
 {
 
   std::cout << "Amoeba Optimizer Test 1\n \n";
@@ -260,35 +272,35 @@ int AmoebaTest1()
   using OptimizerType = itk::AmoebaOptimizer;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
+  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
 
   // set optimizer parameters
-  itkOptimizer->SetMaximumNumberOfIterations( 10 );
+  itkOptimizer->SetMaximumNumberOfIterations(10);
 
   double xTolerance = 0.01;
-  itkOptimizer->SetParametersConvergenceTolerance( xTolerance );
+  itkOptimizer->SetParametersConvergenceTolerance(xTolerance);
 
   double fTolerance = 0.001;
-  itkOptimizer->SetFunctionConvergenceTolerance( fTolerance );
+  itkOptimizer->SetFunctionConvergenceTolerance(fTolerance);
 
   amoebaTestF1::Pointer costFunction = amoebaTestF1::New();
-  itkOptimizer->SetCostFunction( costFunction );
+  itkOptimizer->SetCostFunction(costFunction);
   std::cout << "itkOptimizer->GetCostFunction(): " << itkOptimizer->GetCostFunction() << std::endl;
 
-  OptimizerType::ParametersType initialValue(2);       // constructor requires vector size
+  OptimizerType::ParametersType initialValue(2); // constructor requires vector size
 
-  initialValue[0] =  100;             // We start not far from  | 2 -2 |
+  initialValue[0] = 100; // We start not far from  | 2 -2 |
   initialValue[1] = -100;
 
   OptimizerType::ParametersType currentValue(2);
 
   currentValue = initialValue;
 
-  itkOptimizer->SetInitialPosition( currentValue );
+  itkOptimizer->SetInitialPosition(currentValue);
 
 
   try
-    {
+  {
 
     std::cout << "Run for " << itkOptimizer->GetMaximumNumberOfIterations();
     std::cout << " iterations or less." << std::endl;
@@ -296,22 +308,21 @@ int AmoebaTest1()
     itkOptimizer->StartOptimization();
 
 
-    itkOptimizer->SetMaximumNumberOfIterations( 100 );
+    itkOptimizer->SetMaximumNumberOfIterations(100);
     std::cout << "Continue for " << itkOptimizer->GetMaximumNumberOfIterations();
     std::cout << " iterations or less." << std::endl;
-    itkOptimizer->SetInitialPosition( itkOptimizer->GetCurrentPosition() );
+    itkOptimizer->SetInitialPosition(itkOptimizer->GetCurrentPosition());
     itkOptimizer->StartOptimization();
-
-    }
-  catch( itk::ExceptionObject & e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cerr << "Exception thrown ! " << std::endl;
     std::cerr << "An error occurred during Optimization" << std::endl;
-    std::cerr << "Location    = " << e.GetLocation()    << std::endl;
+    std::cerr << "Location    = " << e.GetLocation() << std::endl;
     std::cerr << "Description = " << e.GetDescription() << std::endl;
-    std::cerr <<"[TEST 1 FAILURE]\n";
+    std::cerr << "[TEST 1 FAILURE]\n";
     return EXIT_FAILURE;
-    }
+  }
 
 
   std::cout << "Optimizer: " << itkOptimizer;
@@ -324,216 +335,213 @@ int AmoebaTest1()
   finalPosition = itkOptimizer->GetCurrentPosition();
 
   double trueParameters[2] = { 2, -2 };
-  bool pass = true;
+  bool   pass = true;
 
   std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << std::endl;
-  std::cout << "Final position = " << finalPosition     << std::endl;
+  std::cout << "Final position = " << finalPosition << std::endl;
 
-  for( unsigned int j = 0; j < 2; j++ )
-    {
-    if( itk::Math::abs( finalPosition[j] - trueParameters[j] ) > xTolerance )
+  for (unsigned int j = 0; j < 2; j++)
+  {
+    if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > xTolerance)
       pass = false;
-    }
+  }
 
-  if( !pass )
-    {
-    std::cerr<<"[TEST 1 FAILURE]\n";
+  if (!pass)
+  {
+    std::cerr << "[TEST 1 FAILURE]\n";
     return EXIT_FAILURE;
-    }
+  }
 
   // Get the final value of the optimizer
   std::cout << "Testing optimizers GetValue() : ";
   OptimizerType::MeasureType finalValue = itkOptimizer->GetValue();
-  if(std::fabs(finalValue+9.99998)>0.01)
-    {
+  if (std::fabs(finalValue + 9.99998) > 0.01)
+  {
     std::cerr << "failed\n";
-    std::cerr<<"[TEST 1 FAILURE]\n";
+    std::cerr << "[TEST 1 FAILURE]\n";
     return EXIT_FAILURE;
-    }
+  }
   else
-    {
+  {
     std::cout << "succeeded\n";
-    }
+  }
 
   // Set now the function to maximize
   //
   { // add a block-scope to have local variables
 
-  std::cout << "Testing Maximization " << std::endl;
+    std::cout << "Testing Maximization " << std::endl;
 
-  currentValue = initialValue;
+    currentValue = initialValue;
 
-  itkOptimizer->SetInitialPosition( currentValue );
+    itkOptimizer->SetInitialPosition(currentValue);
 
-  CommandIterationUpdateAmoeba::Pointer observer =
-    CommandIterationUpdateAmoeba::New();
-  itkOptimizer->AddObserver( itk::FunctionEvaluationIterationEvent(), observer );
+    CommandIterationUpdateAmoeba::Pointer observer = CommandIterationUpdateAmoeba::New();
+    itkOptimizer->AddObserver(itk::FunctionEvaluationIterationEvent(), observer);
 
-  try
+    try
     {
-    // These two following statement should compensate each other
-    // and allow us to get to the same result as the test above.
-    costFunction->SetNegate(true);
-    itkOptimizer->MaximizeOn();
+      // These two following statement should compensate each other
+      // and allow us to get to the same result as the test above.
+      costFunction->SetNegate(true);
+      itkOptimizer->MaximizeOn();
 
-    std::cout << "Run for " << itkOptimizer->GetMaximumNumberOfIterations();
-    std::cout << " iterations or less." << std::endl;
+      std::cout << "Run for " << itkOptimizer->GetMaximumNumberOfIterations();
+      std::cout << " iterations or less." << std::endl;
 
-    itkOptimizer->StartOptimization();
+      itkOptimizer->StartOptimization();
 
-    itkOptimizer->SetMaximumNumberOfIterations( 100 );
-    itkOptimizer->SetInitialPosition( itkOptimizer->GetCurrentPosition() );
+      itkOptimizer->SetMaximumNumberOfIterations(100);
+      itkOptimizer->SetInitialPosition(itkOptimizer->GetCurrentPosition());
 
-    std::cout << "Continue for " << itkOptimizer->GetMaximumNumberOfIterations();
-    std::cout << " iterations or less, starting from previous position.";
-    std::cout << std::endl;
-    itkOptimizer->StartOptimization();
-
+      std::cout << "Continue for " << itkOptimizer->GetMaximumNumberOfIterations();
+      std::cout << " iterations or less, starting from previous position.";
+      std::cout << std::endl;
+      itkOptimizer->StartOptimization();
     }
-  catch( itk::ExceptionObject & e )
+    catch (itk::ExceptionObject & e)
     {
-    std::cerr << "Exception thrown ! " << std::endl;
-    std::cerr << "An error occurred during Optimization" << std::endl;
-    std::cerr << "Location    = " << e.GetLocation()    << std::endl;
-    std::cerr << "Description = " << e.GetDescription() << std::endl;
-    std::cerr <<"[TEST 1 FAILURE]\n";
-    return EXIT_FAILURE;
+      std::cerr << "Exception thrown ! " << std::endl;
+      std::cerr << "An error occurred during Optimization" << std::endl;
+      std::cerr << "Location    = " << e.GetLocation() << std::endl;
+      std::cerr << "Description = " << e.GetDescription() << std::endl;
+      std::cerr << "[TEST 1 FAILURE]\n";
+      return EXIT_FAILURE;
     }
 
-  finalPosition = itkOptimizer->GetCurrentPosition();
-  std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << std::endl;
-  std::cout << "Final position = " << finalPosition     << std::endl;
+    finalPosition = itkOptimizer->GetCurrentPosition();
+    std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << std::endl;
+    std::cout << "Final position = " << finalPosition << std::endl;
 
-  for( unsigned int j = 0; j < 2; j++ )
+    for (unsigned int j = 0; j < 2; j++)
     {
-    if( itk::Math::abs( finalPosition[j] - trueParameters[j] ) > xTolerance )
-      pass = false;
+      if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > xTolerance)
+        pass = false;
     }
 
-  if( !pass )
+    if (!pass)
     {
-    std::cerr<<"[TEST 1 FAILURE]\n";
-    return EXIT_FAILURE;
+      std::cerr << "[TEST 1 FAILURE]\n";
+      return EXIT_FAILURE;
     }
 
-  // Get the final value of the optimizer
-  std::cout << "Testing optimizer's GetValue() [invokes additional function evaluation]: ";
-  finalValue = itkOptimizer->GetValue();
-  if(std::fabs(finalValue+9.99998)>0.01)
+    // Get the final value of the optimizer
+    std::cout << "Testing optimizer's GetValue() [invokes additional function evaluation]: ";
+    finalValue = itkOptimizer->GetValue();
+    if (std::fabs(finalValue + 9.99998) > 0.01)
     {
-    std::cerr << "failed\n";
-    std::cerr <<"[TEST 1 FAILURE]\n";
-    return EXIT_FAILURE;
+      std::cerr << "failed\n";
+      std::cerr << "[TEST 1 FAILURE]\n";
+      return EXIT_FAILURE;
     }
-  else
+    else
     {
-    std::cout << "succeeded\n";
+      std::cout << "succeeded\n";
     }
-
   }
-  std::cout<<"[TEST 1 SUCCESS]\n";
+  std::cout << "[TEST 1 SUCCESS]\n";
   return EXIT_SUCCESS;
 }
 
-int AmoebaTest2()
+int
+AmoebaTest2()
 {
   std::cout << "Amoeba Optimizer Test 2\n \n";
 
   using OptimizerType = itk::AmoebaOptimizer;
-  OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
+  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
 
-         // set optimizer parameters
+  // set optimizer parameters
   unsigned int maxIterations = 100;
-  itkOptimizer->SetMaximumNumberOfIterations( maxIterations );
+  itkOptimizer->SetMaximumNumberOfIterations(maxIterations);
 
   double xTolerance = 0.01;
-  itkOptimizer->SetParametersConvergenceTolerance( xTolerance );
+  itkOptimizer->SetParametersConvergenceTolerance(xTolerance);
 
   double fTolerance = 0.001;
-  itkOptimizer->SetFunctionConvergenceTolerance( fTolerance );
+  itkOptimizer->SetFunctionConvergenceTolerance(fTolerance);
 
-          //the initial simplex is constructed as:
-          //x,
-          //x_i = [x[0], ... , x[i]+initialSimplexDelta[i], ... , x[n]]
-          //
-  OptimizerType::ParametersType initialSimplexDelta( 1 );
+  // the initial simplex is constructed as:
+  // x,
+  // x_i = [x[0], ... , x[i]+initialSimplexDelta[i], ... , x[n]]
+  //
+  OptimizerType::ParametersType initialSimplexDelta(1);
   initialSimplexDelta[0] = 10;
-  itkOptimizer->SetInitialSimplexDelta( initialSimplexDelta );
+  itkOptimizer->SetInitialSimplexDelta(initialSimplexDelta);
 
-  OptimizerType::ParametersType initialParameters( 1 ), finalParameters;
-             //starting position
-  initialParameters[0] =  -100;
+  OptimizerType::ParametersType initialParameters(1), finalParameters;
+  // starting position
+  initialParameters[0] = -100;
 
-  itkOptimizer->SetInitialPosition( initialParameters );
+  itkOptimizer->SetInitialPosition(initialParameters);
 
-              //the function we want to optimize
+  // the function we want to optimize
   amoebaTestF2::Pointer costFunction = amoebaTestF2::New();
-  itkOptimizer->SetCostFunction( costFunction );
+  itkOptimizer->SetCostFunction(costFunction);
 
-              //observe the iterations
-  CommandIterationUpdateAmoeba::Pointer observer =
-    CommandIterationUpdateAmoeba::New();
-  itkOptimizer->AddObserver( itk::IterationEvent(), observer );
+  // observe the iterations
+  CommandIterationUpdateAmoeba::Pointer observer = CommandIterationUpdateAmoeba::New();
+  itkOptimizer->AddObserver(itk::IterationEvent(), observer);
 
   try
-    {
+  {
     itkOptimizer->StartOptimization();
-    }
-  catch( itk::ExceptionObject & e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cerr << "Exception thrown ! " << std::endl;
     std::cerr << "An error occurred during Optimization" << std::endl;
-    std::cerr << "Location    = " << e.GetLocation()    << std::endl;
+    std::cerr << "Location    = " << e.GetLocation() << std::endl;
     std::cerr << "Description = " << e.GetDescription() << std::endl;
-    std::cerr <<"[TEST 2 FAILURE]\n";
+    std::cerr << "[TEST 2 FAILURE]\n";
     return EXIT_FAILURE;
-    }
+  }
 
-            //we should have converged to the local minimum, -2
+  // we should have converged to the local minimum, -2
   finalParameters = itkOptimizer->GetCurrentPosition();
   double knownParameters = -2.0;
-  std::cout<<"Standard Amoeba:\n";
-  std::cout << "Known parameters   = " << knownParameters<<"   ";
+  std::cout << "Standard Amoeba:\n";
+  std::cout << "Known parameters   = " << knownParameters << "   ";
   std::cout << "Estimated parameters = " << finalParameters << std::endl;
-  std::cout<< "Converged to local minimum." << std::endl;
-  if( fabs( finalParameters[0] - knownParameters ) > xTolerance )
-    {
-    std::cerr<<"[TEST 2 FAILURE]\n";
+  std::cout << "Converged to local minimum." << std::endl;
+  if (fabs(finalParameters[0] - knownParameters) > xTolerance)
+  {
+    std::cerr << "[TEST 2 FAILURE]\n";
     return EXIT_FAILURE;
-    }
+  }
 
-            //run again using multiple restarts
+  // run again using multiple restarts
   observer->Reset();
-  itkOptimizer->SetInitialPosition( initialParameters );
+  itkOptimizer->SetInitialPosition(initialParameters);
   itkOptimizer->OptimizeWithRestartsOn();
 
   try
-    {
+  {
     itkOptimizer->StartOptimization();
-    }
-  catch( itk::ExceptionObject & e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cerr << "Exception thrown ! " << std::endl;
     std::cerr << "An error occurred during Optimization" << std::endl;
-    std::cerr << "Location    = " << e.GetLocation()    << std::endl;
+    std::cerr << "Location    = " << e.GetLocation() << std::endl;
     std::cerr << "Description = " << e.GetDescription() << std::endl;
-    std::cerr <<"[TEST 2 FAILURE]\n";
+    std::cerr << "[TEST 2 FAILURE]\n";
     return EXIT_FAILURE;
-    }
+  }
 
-            //we should have converged to the global minimum, 2
+  // we should have converged to the global minimum, 2
   finalParameters = itkOptimizer->GetCurrentPosition();
   knownParameters = 2.0;
-  std::cout<<"Amoeba with restarts:\n";
-  std::cout << "Known parameters   = " << knownParameters<<"   ";
+  std::cout << "Amoeba with restarts:\n";
+  std::cout << "Known parameters   = " << knownParameters << "   ";
   std::cout << "Estimated parameters = " << finalParameters << std::endl;
-  std::cout<< "Converged to global minimum." << std::endl;
+  std::cout << "Converged to global minimum." << std::endl;
 
-  if( fabs( finalParameters[0] - knownParameters ) > xTolerance )
-    {
-    std::cerr <<"[TEST 2 FAILURE]\n";
+  if (fabs(finalParameters[0] - knownParameters) > xTolerance)
+  {
+    std::cerr << "[TEST 2 FAILURE]\n";
     return EXIT_FAILURE;
-    }
-  std::cout<<"[TEST 1 SUCCESS]\n";
+  }
+  std::cout << "[TEST 1 SUCCESS]\n";
   return EXIT_SUCCESS;
 }

@@ -44,9 +44,8 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKLevelSets
  */
-template< typename TFeatureImage, typename TOutputPixel >
-class ITK_TEMPLATE_EXPORT ShapePriorMAPCostFunctionBase:
-  public SingleValuedCostFunction
+template <typename TFeatureImage, typename TOutputPixel>
+class ITK_TEMPLATE_EXPORT ShapePriorMAPCostFunctionBase : public SingleValuedCostFunction
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShapePriorMAPCostFunctionBase);
@@ -54,8 +53,8 @@ public:
   /** Standard class type aliases. */
   using Self = ShapePriorMAPCostFunctionBase;
   using Superclass = SingleValuedCostFunction;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ShapePriorMAPCostFunctionBase, SingleValuedCostFunction);
@@ -83,15 +82,14 @@ public:
   using PixelType = TOutputPixel;
 
   /** Type of node used to represent the active region around the zero set. */
-  using NodeType = LevelSetNode< PixelType, Self::ImageDimension >;
+  using NodeType = LevelSetNode<PixelType, Self::ImageDimension>;
 
   /** Type of container used to store the level set nodes. */
-  using NodeContainerType = VectorContainer< unsigned int, NodeType >;
+  using NodeContainerType = VectorContainer<unsigned int, NodeType>;
   using NodeContainerPointer = typename NodeContainerType::ConstPointer;
 
   /** Type of the shape signed distance function. */
-  using ShapeFunctionType = ShapeSignedDistanceFunction< double,
-                                       Self::ImageDimension >;
+  using ShapeFunctionType = ShapeSignedDistanceFunction<double, Self::ImageDimension>;
   using ShapeFunctionPointer = typename ShapeFunctionType::Pointer;
 
   /** Set/Get the shape distance function. */
@@ -107,43 +105,56 @@ public:
   itkGetConstObjectMacro(FeatureImage, FeatureImageType);
 
   /** This method returns the value of the cost function corresponding
-    * to the specified parameters.    */
-  MeasureType GetValue(const ParametersType & parameters) const override;
+   * to the specified parameters.    */
+  MeasureType
+  GetValue(const ParametersType & parameters) const override;
 
   /** This method returns the derivative of the cost function corresponding
-    * to the specified parameters.   */
-  void GetDerivative(const ParametersType &, DerivativeType &) const override
-  { itkExceptionMacro(<< "This function is currently not supported."); }
+   * to the specified parameters.   */
+  void
+  GetDerivative(const ParametersType &, DerivativeType &) const override
+  {
+    itkExceptionMacro(<< "This function is currently not supported.");
+  }
 
   /** Return the number of parameters. */
-  unsigned int GetNumberOfParameters() const override
-  { return m_ShapeFunction->GetNumberOfParameters(); }
+  unsigned int
+  GetNumberOfParameters() const override
+  {
+    return m_ShapeFunction->GetNumberOfParameters();
+  }
 
   /** Compute the inside term component of the MAP cost function.
    * Subclasses should override this function */
-  virtual MeasureType ComputeLogInsideTerm(const ParametersType &) const = 0;
+  virtual MeasureType
+  ComputeLogInsideTerm(const ParametersType &) const = 0;
 
   /** Compute the gradient term component of the MAP cost function.
    * Subclasses should override this function */
-  virtual MeasureType ComputeLogGradientTerm(const ParametersType &) const = 0;
+  virtual MeasureType
+  ComputeLogGradientTerm(const ParametersType &) const = 0;
 
   /** Compute the shape prior component of the MAP cost function.
    * Subclasses should override this function */
-  virtual MeasureType ComputeLogShapePriorTerm(const ParametersType &) const = 0;
+  virtual MeasureType
+  ComputeLogShapePriorTerm(const ParametersType &) const = 0;
 
   /** Compute the pose prior component of the MAP cost function.
    * Subclasses should override this function */
-  virtual MeasureType ComputeLogPosePriorTerm(const ParametersType &) const = 0;
+  virtual MeasureType
+  ComputeLogPosePriorTerm(const ParametersType &) const = 0;
 
   /** Initialize the cost function by making sure that all the components
    *  are present. */
-  virtual void Initialize();
+  virtual void
+  Initialize();
 
 protected:
   ShapePriorMAPCostFunctionBase();
   ~ShapePriorMAPCostFunctionBase() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   ShapeFunctionPointer m_ShapeFunction;
   NodeContainerPointer m_ActiveRegion;
@@ -153,7 +164,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapePriorMAPCostFunctionBase.hxx"
+#  include "itkShapePriorMAPCostFunctionBase.hxx"
 #endif
 
 #endif

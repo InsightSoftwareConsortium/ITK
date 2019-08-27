@@ -30,16 +30,17 @@ namespace itk
 namespace print_helper
 {
 
-template< typename T >
-std::ostream & operator<<( std::ostream & os, const std::vector< T >& v )
+template <typename T>
+std::ostream &
+operator<<(std::ostream & os, const std::vector<T> & v)
 {
-  if( v.empty() )
-    {
+  if (v.empty())
+  {
     return os << "()";
-    }
+  }
 
   os << "(";
-  std::copy( v.begin(), v.end() - 1, std::ostream_iterator< T >( os, ", " ) );
+  std::copy(v.begin(), v.end() - 1, std::ostream_iterator<T>(os, ", "));
   return os << v.back() << ")";
 }
 

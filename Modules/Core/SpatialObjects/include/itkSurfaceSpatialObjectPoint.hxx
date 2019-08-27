@@ -23,48 +23,43 @@
 namespace itk
 {
 /** Constructor */
-template< unsigned int TPointDimension >
-SurfaceSpatialObjectPoint< TPointDimension >
-::SurfaceSpatialObjectPoint()
+template <unsigned int TPointDimension>
+SurfaceSpatialObjectPoint<TPointDimension>::SurfaceSpatialObjectPoint()
 {
   m_NormalInObjectSpace.Fill(0);
 }
 
 /** Set the normal : N-D case */
-template< unsigned int TPointDimension >
+template <unsigned int TPointDimension>
 void
-SurfaceSpatialObjectPoint< TPointDimension >
-::SetNormalInObjectSpace(const CovariantVectorType & normal)
+SurfaceSpatialObjectPoint<TPointDimension>::SetNormalInObjectSpace(const CovariantVectorType & normal)
 {
   m_NormalInObjectSpace = normal;
 }
 
 /** Get the normal at one point */
-template< unsigned int TPointDimension >
-const typename SurfaceSpatialObjectPoint< TPointDimension >::CovariantVectorType &
-SurfaceSpatialObjectPoint< TPointDimension >
-::GetNormalInObjectSpace() const
+template <unsigned int TPointDimension>
+const typename SurfaceSpatialObjectPoint<TPointDimension>::CovariantVectorType &
+SurfaceSpatialObjectPoint<TPointDimension>::GetNormalInObjectSpace() const
 {
   return m_NormalInObjectSpace;
 }
 
 /** Print the object */
-template< unsigned int TPointDimension >
+template <unsigned int TPointDimension>
 void
-SurfaceSpatialObjectPoint< TPointDimension >
-::PrintSelf(std::ostream & os, Indent indent) const
+SurfaceSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "SurfaceSpatialObjectPoint(" << this << ")" << std::endl;
   os << indent << "Normal definition: ";
-  os << indent <<  m_NormalInObjectSpace << std::endl;
+  os << indent << m_NormalInObjectSpace << std::endl;
 }
 
 /** Copy a surface point to another */
-template< unsigned int TPointDimension >
-typename SurfaceSpatialObjectPoint< TPointDimension >::Self &
-SurfaceSpatialObjectPoint< TPointDimension >
-::operator=(const SurfaceSpatialObjectPoint & rhs)
+template <unsigned int TPointDimension>
+typename SurfaceSpatialObjectPoint<TPointDimension>::Self &
+SurfaceSpatialObjectPoint<TPointDimension>::operator=(const SurfaceSpatialObjectPoint & rhs)
 {
   this->m_Id = rhs.m_Id;
   this->m_Color = rhs.m_Color;

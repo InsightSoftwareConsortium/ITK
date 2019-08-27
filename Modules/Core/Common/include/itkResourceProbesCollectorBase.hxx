@@ -24,10 +24,9 @@
 namespace itk
 {
 
-template< typename TProbe >
+template <typename TProbe>
 void
-ResourceProbesCollectorBase< TProbe >
-::Start(const char *id)
+ResourceProbesCollectorBase<TProbe>::Start(const char * id)
 {
   // if the probe does not exist yet, it is created.
   this->m_Probes[id].SetNameOfProbe(id);
@@ -35,202 +34,204 @@ ResourceProbesCollectorBase< TProbe >
 }
 
 
-template< typename TProbe >
+template <typename TProbe>
 void
-ResourceProbesCollectorBase< TProbe >
-::Stop(const char *id)
+ResourceProbesCollectorBase<TProbe>::Stop(const char * id)
 {
   IdType tid = id;
 
   auto pos = this->m_Probes.find(tid);
-  if ( pos == this->m_Probes.end() )
-    {
+  if (pos == this->m_Probes.end())
+  {
     itkGenericExceptionMacro(<< "The probe \"" << id << "\" does not exist. It can not be stopped.");
     return;
-    }
+  }
   pos->second.Stop();
 }
 
 
-template< typename TProbe >
+template <typename TProbe>
 const TProbe &
-ResourceProbesCollectorBase< TProbe >
-::GetProbe(const char *id) const
+ResourceProbesCollectorBase<TProbe>::GetProbe(const char * id) const
 {
   IdType tid = id;
 
   auto pos = this->m_Probes.find(tid);
-  if ( pos == this->m_Probes.end() )
-    {
+  if (pos == this->m_Probes.end())
+  {
     itkGenericExceptionMacro(<< "The probe \"" << id << "\" does not exist.");
-    }
+  }
   return pos->second;
 }
 
 
-template< typename TProbe >
+template <typename TProbe>
 void
-ResourceProbesCollectorBase< TProbe >
-::Report(std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs)
+ResourceProbesCollectorBase<TProbe>::Report(std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs)
 {
-  auto probe = this->m_Probes.begin();
-  typename MapType::const_iterator end   = this->m_Probes.end();
+  auto                             probe = this->m_Probes.begin();
+  typename MapType::const_iterator end = this->m_Probes.end();
 
-  if ( probe == end )
-    {
+  if (probe == end)
+  {
     os << "No probes have been created" << std::endl;
     return;
-    }
+  }
 
   bool firstProbe = true;
-  while ( probe != end )
+  while (probe != end)
+  {
+    if (firstProbe)
     {
-    if(firstProbe)
-      {
       probe->second.Report(os, printSystemInfo, printReportHead, useTabs);
       firstProbe = false;
-      }
+    }
     else
-      {
+    {
       probe->second.Report(os, false, false, useTabs);
-      }
+    }
 
     ++probe;
-    }
+  }
 }
 
 
-template< typename TProbe >
+template <typename TProbe>
 void
-ResourceProbesCollectorBase< TProbe >
-::Report(const char *name, std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs)
+ResourceProbesCollectorBase<TProbe>::Report(const char *   name,
+                                            std::ostream & os,
+                                            bool           printSystemInfo,
+                                            bool           printReportHead,
+                                            bool           useTabs)
 {
   const IdType tid = name;
 
   auto pos = this->m_Probes.find(tid);
-  if ( pos == this->m_Probes.end() )
-    {
-    os << "The probe \"" << name << "\" does not exist. It's report is not available" <<std::endl;
+  if (pos == this->m_Probes.end())
+  {
+    os << "The probe \"" << name << "\" does not exist. It's report is not available" << std::endl;
     return;
-    }
+  }
 
   pos->second.Report(os, printSystemInfo, printReportHead, useTabs);
 }
 
 
-template< typename TProbe >
+template <typename TProbe>
 void
-ResourceProbesCollectorBase< TProbe >
-::ExpandedReport(std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs)
+ResourceProbesCollectorBase<TProbe>::ExpandedReport(std::ostream & os,
+                                                    bool           printSystemInfo,
+                                                    bool           printReportHead,
+                                                    bool           useTabs)
 {
-  auto probe = this->m_Probes.begin();
+  auto                             probe = this->m_Probes.begin();
   typename MapType::const_iterator end = this->m_Probes.end();
 
-  if ( probe == end )
-    {
+  if (probe == end)
+  {
     os << "No probes have been created" << std::endl;
     return;
-    }
+  }
 
   bool firstProbe = true;
-  while ( probe != end )
+  while (probe != end)
+  {
+    if (firstProbe)
     {
-    if(firstProbe)
-      {
       probe->second.ExpandedReport(os, printSystemInfo, printReportHead, useTabs);
       firstProbe = false;
-      }
+    }
     else
-      {
+    {
       probe->second.ExpandedReport(os, false, false, useTabs);
-      }
+    }
 
     ++probe;
-    }
+  }
 }
 
 
-template< typename TProbe >
+template <typename TProbe>
 void
-ResourceProbesCollectorBase< TProbe >
-::ExpandedReport(const char *name, std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs)
+ResourceProbesCollectorBase<TProbe>::ExpandedReport(const char *   name,
+                                                    std::ostream & os,
+                                                    bool           printSystemInfo,
+                                                    bool           printReportHead,
+                                                    bool           useTabs)
 {
   const IdType tid = name;
 
   auto pos = this->m_Probes.find(tid);
-  if ( pos == this->m_Probes.end() )
-    {
-    os << "The probe \"" << name << "\" does not exist. It's report is not available" <<std::endl;
+  if (pos == this->m_Probes.end())
+  {
+    os << "The probe \"" << name << "\" does not exist. It's report is not available" << std::endl;
     return;
-    }
+  }
 
   pos->second.ExpandedReport(os, printSystemInfo, printReportHead, useTabs);
 }
 
 
-template< typename TProbe >
+template <typename TProbe>
 void
-ResourceProbesCollectorBase< TProbe >
-::JSONReport(std::ostream & os, bool printSystemInfo)
+ResourceProbesCollectorBase<TProbe>::JSONReport(std::ostream & os, bool printSystemInfo)
 {
-  auto probe = this->m_Probes.begin();
+  auto                             probe = this->m_Probes.begin();
   typename MapType::const_iterator end = this->m_Probes.end();
 
-  if ( probe == end )
-    {
+  if (probe == end)
+  {
     os << "{ \"Status\": \"No probes have been created\" }" << std::endl;
     return;
-    }
+  }
 
   os << "{\n";
   if (printSystemInfo)
-    {
+  {
     os << "  \"SystemInformation\": ";
     probe->second.PrintJSONSystemInformation(os);
     os << ",\n";
-    }
+  }
   os << "  \"Probes\": [\n";
   bool firstProbe = true;
-  while ( probe != end )
+  while (probe != end)
+  {
+    if (firstProbe)
     {
-    if(firstProbe)
-      {
       probe->second.JSONReport(os);
       firstProbe = false;
-      }
+    }
     else
-      {
+    {
       os << ",\n";
       probe->second.JSONReport(os);
-      }
+    }
 
     ++probe;
-    }
+  }
   os << "\n  ]\n}" << std::endl;
 }
 
 
-template< typename TProbe >
+template <typename TProbe>
 void
-ResourceProbesCollectorBase< TProbe >
-::JSONReport(const char *name, std::ostream & os)
+ResourceProbesCollectorBase<TProbe>::JSONReport(const char * name, std::ostream & os)
 {
   const IdType tid = name;
 
   auto pos = this->m_Probes.find(tid);
-  if ( pos == this->m_Probes.end() )
-    {
-    os << "  { \"ProbeName\": \"" << name << "\", \"Status\": \"Does not exist!\" }" <<std::endl;
+  if (pos == this->m_Probes.end())
+  {
+    os << "  { \"ProbeName\": \"" << name << "\", \"Status\": \"Does not exist!\" }" << std::endl;
     return;
-    }
+  }
 
   pos->second.JSONReport(os);
 }
 
-template< typename TProbe >
+template <typename TProbe>
 void
-ResourceProbesCollectorBase< TProbe >
-::Clear()
+ResourceProbesCollectorBase<TProbe>::Clear()
 {
   this->m_Probes.clear();
 }
@@ -238,4 +239,4 @@ ResourceProbesCollectorBase< TProbe >
 
 } // end namespace itk
 
-#endif //itkResourceProbesCollectorBase_hxx
+#endif // itkResourceProbesCollectorBase_hxx

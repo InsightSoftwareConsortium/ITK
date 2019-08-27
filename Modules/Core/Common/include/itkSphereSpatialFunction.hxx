@@ -22,52 +22,49 @@
 
 namespace itk
 {
-template< unsigned int VImageDimension, typename TInput >
-SphereSpatialFunction< VImageDimension, TInput >
-::SphereSpatialFunction()
+template <unsigned int VImageDimension, typename TInput>
+SphereSpatialFunction<VImageDimension, TInput>::SphereSpatialFunction()
 {
   m_Radius = 1.0;
 
   m_Center.Fill(0.0f);
 }
 
-template< unsigned int VImageDimension, typename TInput >
-typename SphereSpatialFunction< VImageDimension, TInput >::OutputType
-SphereSpatialFunction< VImageDimension, TInput >
-::Evaluate(const InputType & position) const
+template <unsigned int VImageDimension, typename TInput>
+typename SphereSpatialFunction<VImageDimension, TInput>::OutputType
+SphereSpatialFunction<VImageDimension, TInput>::Evaluate(const InputType & position) const
 {
   double acc = 0;
 
-  for ( unsigned int i = 0; i < VImageDimension; i++ )
-    {
-    acc += ( position[i] - m_Center[i] ) * ( position[i] - m_Center[i] );
-    }
+  for (unsigned int i = 0; i < VImageDimension; i++)
+  {
+    acc += (position[i] - m_Center[i]) * (position[i] - m_Center[i]);
+  }
 
   acc -= m_Radius * m_Radius;
 
-  if ( acc <= 0 ) // inside the sphere
-    {
+  if (acc <= 0) // inside the sphere
+  {
     return 1;
-    }
+  }
   else
-    {
+  {
     return 0; // outside the sphere
-    }
+  }
 }
 
-template< unsigned int VImageDimension, typename TInput >
+template <unsigned int VImageDimension, typename TInput>
 void
-SphereSpatialFunction< VImageDimension, TInput >
-::PrintSelf(std::ostream & os, Indent indent) const
+SphereSpatialFunction<VImageDimension, TInput>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   unsigned int i;
   os << indent << "Center: [";
-  for ( i = 0; i < VImageDimension - 1; i++ )
-    {
+  for (i = 0; i < VImageDimension - 1; i++)
+  {
     os << m_Center[i] << ", ";
-    }
+  }
   os << "]" << std::endl;
 
   os << indent << "Radius: " << m_Radius << std::endl;

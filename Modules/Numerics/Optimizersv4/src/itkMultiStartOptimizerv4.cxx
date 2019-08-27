@@ -21,10 +21,10 @@ namespace itk
 {
 /**Define how to print enumerations. */
 std::ostream &
-operator<<( std::ostream & out, const StopType value )
+operator<<(std::ostream & out, const StopType value)
 {
   const char * s = nullptr;
-  switch ( value )
+  switch (value)
   {
     case StopType::MAXIMUM_NUMBER_OF_ITERATIONS:
       s = "StopType::MAXIMUM_NUMBER_OF_ITERATIONS";

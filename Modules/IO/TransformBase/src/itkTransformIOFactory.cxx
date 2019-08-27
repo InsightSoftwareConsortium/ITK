@@ -21,68 +21,71 @@
 namespace itk
 {
 
-template<typename TParametersValueType>
-TransformIOFactoryTemplate<TParametersValueType>
-::TransformIOFactoryTemplate() = default;
+template <typename TParametersValueType>
+TransformIOFactoryTemplate<TParametersValueType>::TransformIOFactoryTemplate() = default;
 
-template<typename TParametersValueType>
-TransformIOFactoryTemplate<TParametersValueType>
-::~TransformIOFactoryTemplate() = default;
+template <typename TParametersValueType>
+TransformIOFactoryTemplate<TParametersValueType>::~TransformIOFactoryTemplate() = default;
 
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 typename TransformIOBaseTemplate<TParametersValueType>::Pointer
-TransformIOFactoryTemplate<TParametersValueType>
-::CreateTransformIO(const char *path, TransformIOFactoryFileModeType mode)
+TransformIOFactoryTemplate<TParametersValueType>::CreateTransformIO(const char *                   path,
+                                                                    TransformIOFactoryFileModeType mode)
 {
-  typename std::list< typename TransformIOBaseTemplate<TParametersValueType>::Pointer > possibleTransformIO;
-  for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkTransformIOBaseTemplate") )
+  typename std::list<typename TransformIOBaseTemplate<TParametersValueType>::Pointer> possibleTransformIO;
+  for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkTransformIOBaseTemplate"))
+  {
+    auto * io = dynamic_cast<TransformIOBaseTemplate<TParametersValueType> *>(allobject.GetPointer());
+    if (io)
     {
-    auto * io = dynamic_cast< TransformIOBaseTemplate<TParametersValueType> * >( allobject.GetPointer() );
-    if ( io )
-      {
       possibleTransformIO.push_back(io);
-      }
     }
-  for ( auto k = possibleTransformIO.begin();
-        k != possibleTransformIO.end(); ++k )
+  }
+  for (auto k = possibleTransformIO.begin(); k != possibleTransformIO.end(); ++k)
+  {
+    if (mode == TransformIOFactoryFileModeType::ReadMode)
     {
-    if ( mode == TransformIOFactoryFileModeType::ReadMode )
+      if ((*k)->CanReadFile(path))
       {
-      if ( ( *k )->CanReadFile(path) )
-        {
         return *k;
-        }
-      }
-    else if ( mode == TransformIOFactoryFileModeType::WriteMode )
-      {
-      if ( ( *k )->CanWriteFile(path) )
-        {
-        return *k;
-        }
       }
     }
+    else if (mode == TransformIOFactoryFileModeType::WriteMode)
+    {
+      if ((*k)->CanWriteFile(path))
+      {
+        return *k;
+      }
+    }
+  }
   return nullptr;
 }
 
 /** Print enum values */
-std::ostream& operator<<(std::ostream& out, const TransformIOFactoryFileModeType value)
+std::ostream &
+operator<<(std::ostream & out, const TransformIOFactoryFileModeType value)
 {
-    const char* s =0;
-    switch(value)
-    {
-        case TransformIOFactoryFileModeType::ReadMode: s = "TransformIOFactoryFileModeType::ReadMode"; break;
-        case TransformIOFactoryFileModeType::WriteMode: s = "TransformIOFactoryFileModeType::WriteMode"; break;
-        default: s = "INVALID VALUE FOR TransformIOFactoryFileModeType";
-    }
-    return out << s;
+  const char * s = 0;
+  switch (value)
+  {
+    case TransformIOFactoryFileModeType::ReadMode:
+      s = "TransformIOFactoryFileModeType::ReadMode";
+      break;
+    case TransformIOFactoryFileModeType::WriteMode:
+      s = "TransformIOFactoryFileModeType::WriteMode";
+      break;
+    default:
+      s = "INVALID VALUE FOR TransformIOFactoryFileModeType";
+  }
+  return out << s;
 }
 
 ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
-template class ITKIOTransformBase_EXPORT TransformIOFactoryTemplate< double >;
-template class ITKIOTransformBase_EXPORT TransformIOFactoryTemplate< float >;
+template class ITKIOTransformBase_EXPORT TransformIOFactoryTemplate<double>;
+template class ITKIOTransformBase_EXPORT TransformIOFactoryTemplate<float>;
 
 ITK_GCC_PRAGMA_DIAG_POP()
 
-}  // end namespace itk
+} // end namespace itk

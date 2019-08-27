@@ -30,28 +30,24 @@
 namespace itk
 {
 void
-Region
-::Print(std::ostream & os, Indent indent) const
+Region ::Print(std::ostream & os, Indent indent) const
 {
   this->PrintHeader(os, indent);
-  this->PrintSelf( os, indent.GetNextIndent() );
+  this->PrintSelf(os, indent.GetNextIndent());
   this->PrintTrailer(os, indent);
 }
 
 void
-Region
-::PrintHeader(std::ostream & os, Indent indent) const
+Region ::PrintHeader(std::ostream & os, Indent indent) const
 {
   os << indent << this->GetNameOfClass() << " (" << this << ")\n";
 }
 
 void
-Region
-::PrintTrailer( std::ostream & itkNotUsed(os), Indent itkNotUsed(indent) ) const
+Region ::PrintTrailer(std::ostream & itkNotUsed(os), Indent itkNotUsed(indent)) const
 {}
 
 void
-Region
-::PrintSelf(std::ostream &, Indent) const
+Region ::PrintSelf(std::ostream &, Indent) const
 {}
 } // end namespace itk

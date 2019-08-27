@@ -29,35 +29,38 @@ namespace Functor
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1 >
+template <typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1>
 class Maximum
 {
 public:
   Maximum() = default;
   ~Maximum() = default;
-  bool operator!=(const Maximum &) const
+  bool
+  operator!=(const Maximum &) const
   {
     return false;
   }
 
-  bool operator==(const Maximum & other) const
+  bool
+  operator==(const Maximum & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
+  inline TOutput
+  operator()(const TInput1 & A, const TInput2 & B) const
   {
-    if ( A > B )
-      {
-      return static_cast< TOutput >( A );
-      }
+    if (A > B)
+    {
+      return static_cast<TOutput>(A);
+    }
     else
-      {
-      return static_cast< TOutput >( B );
-      }
+    {
+      return static_cast<TOutput>(B);
+    }
   }
 };
-}
+} // namespace Functor
 
 /** \class MaximumImageFilter
  * \brief Implements a pixel-wise operator Max(a,b) between two images.
@@ -77,52 +80,45 @@ public:
  * \sphinxexample{Filtering/ImageIntensity/SetOutputPixelToMax,Compare Two Images And Set Output Pixel To Max}
  * \endsphinx
  */
-template< typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1 >
-class MaximumImageFilter:
-  public
-  BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
+template <typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1>
+class MaximumImageFilter : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MaximumImageFilter);
 
   /** Standard class type aliases. */
   using Self = MaximumImageFilter;
-  using Superclass = BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >;
+  using Superclass = BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using FunctorType = Functor::Maximum< typename TInputImage1::PixelType,
-                                        typename TInputImage2::PixelType,
-                                        typename TOutputImage::PixelType >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using FunctorType = Functor::
+    Maximum<typename TInputImage1::PixelType, typename TInputImage2::PixelType, typename TOutputImage::PixelType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MaximumImageFilter,
-               BinaryGeneratorImageFilter);
+  itkTypeMacro(MaximumImageFilter, BinaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( Input1ConvertibleToOutputCheck,
-                   ( Concept::Convertible< typename TInputImage1::PixelType,
-                                           typename TOutputImage::PixelType > ) );
-  itkConceptMacro( Input2ConvertibleToOutputCheck,
-                   ( Concept::Convertible< typename TInputImage2::PixelType,
-                                           typename TOutputImage::PixelType > ) );
-  itkConceptMacro( Input1GreaterThanInput2Check,
-                   ( Concept::GreaterThanComparable< typename TInputImage1::PixelType,
-                                                     typename TInputImage2::PixelType > ) );
+  itkConceptMacro(Input1ConvertibleToOutputCheck,
+                  (Concept::Convertible<typename TInputImage1::PixelType, typename TOutputImage::PixelType>));
+  itkConceptMacro(Input2ConvertibleToOutputCheck,
+                  (Concept::Convertible<typename TInputImage2::PixelType, typename TOutputImage::PixelType>));
+  itkConceptMacro(Input1GreaterThanInput2Check,
+                  (Concept::GreaterThanComparable<typename TInputImage1::PixelType, typename TInputImage2::PixelType>));
   // End concept checking
 #endif
 
 protected:
   MaximumImageFilter()
-    {
-#if !defined( ITK_WRAPPING_PARSER )
-      Superclass::SetFunctor(FunctorType());
+  {
+#if !defined(ITK_WRAPPING_PARSER)
+    Superclass::SetFunctor(FunctorType());
 #endif
-    }
+  }
 
   ~MaximumImageFilter() override = default;
 };

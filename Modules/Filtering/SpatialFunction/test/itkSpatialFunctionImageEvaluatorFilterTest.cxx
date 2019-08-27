@@ -23,18 +23,19 @@
 #include "itkGaussianSpatialFunction.h"
 #include "itkSpatialFunctionImageEvaluatorFilter.h"
 
-int itkSpatialFunctionImageEvaluatorFilterTest(int, char* [] )
+int
+itkSpatialFunctionImageEvaluatorFilterTest(int, char *[])
 {
   constexpr unsigned int dim = 3;
 
   // Image typedef
-  using ImageType = itk::Image< unsigned char, dim >;
+  using ImageType = itk::Image<unsigned char, dim>;
 
   //-----------------Create a new input image--------------------
   // Image size and spacing parameters
-  ImageType::SizeValueType sourceImageSize[]  = { 20,20,20 };
-  ImageType::SpacingValueType sourceImageSpacing[] = { 1.0,1.0,1.0 };
-  ImageType::PointValueType sourceImageOrigin[] = { 0,0,0 };
+  ImageType::SizeValueType    sourceImageSize[] = { 20, 20, 20 };
+  ImageType::SpacingValueType sourceImageSpacing[] = { 1.0, 1.0, 1.0 };
+  ImageType::PointValueType   sourceImageOrigin[] = { 0, 0, 0 };
 
   // Create the sourceImage
   ImageType::Pointer sourceImage = ImageType::New();
@@ -44,17 +45,17 @@ int itkSpatialFunctionImageEvaluatorFilterTest(int, char* [] )
   // Create a size object native to the sourceImage type
   ImageType::SizeType sourceImageSizeObject;
   // Set the size object to the array defined earlier
-  sourceImageSizeObject.SetSize( sourceImageSize );
+  sourceImageSizeObject.SetSize(sourceImageSize);
   // Create a region object native to the sourceImage type
   ImageType::RegionType largestPossibleRegion;
   // Resize the region
-  largestPossibleRegion.SetSize( sourceImageSizeObject );
+  largestPossibleRegion.SetSize(sourceImageSizeObject);
   // Set the largest legal region size (i.e. the size of the whole sourceImage) to what we just defined
-  sourceImage->SetLargestPossibleRegion( largestPossibleRegion );
+  sourceImage->SetLargestPossibleRegion(largestPossibleRegion);
   // Set the buffered region
-  sourceImage->SetBufferedRegion( largestPossibleRegion );
+  sourceImage->SetBufferedRegion(largestPossibleRegion);
   // Set the requested region
-  sourceImage->SetRequestedRegion( largestPossibleRegion );
+  sourceImage->SetRequestedRegion(largestPossibleRegion);
   // Now allocate memory for the sourceImage
   sourceImage->Allocate();
 

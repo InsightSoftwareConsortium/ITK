@@ -52,15 +52,17 @@ public:
    *
    * An exception will be thrown if errors were encountered during the conversion.
    */
-  template < typename T >
-  static std::string& ToData( std::string& s, std::vector<T>& data, int count = -1 );
+  template <typename T>
+  static std::string &
+  ToData(std::string & s, std::vector<T> & data, int count = -1);
 
   /**
    * Functions to convert a vector of type std::vector<T> to a string.
    * An exception will be thrown if errors were encountered during the conversion.
    */
-  template < typename T >
-  static std::string& FromData( std::string& s, const std::vector<T>& data );
+  template <typename T>
+  static std::string &
+  FromData(std::string & s, const std::vector<T> & data);
 
   /////////////////////////////////////////////////////////////////////////////
   // helper functions for converting a string to/from a itk::Array
@@ -75,15 +77,17 @@ public:
    *
    * An exception will be thrown if errors were encountered during the conversion.
    */
-  template < typename T >
-  static std::string& ToData( std::string& s, Array<T>& data, int count = -1 );
+  template <typename T>
+  static std::string &
+  ToData(std::string & s, Array<T> & data, int count = -1);
 
   /**
    * Functions to convert an array of type itk::Array<T> to a string.
    * An exception will be thrown if errors were encountered during the conversion.
    */
-  template < typename T >
-  static std::string& FromData( std::string& s, const Array<T>& data );
+  template <typename T>
+  static std::string &
+  FromData(std::string & s, const Array<T> & data);
 
   /////////////////////////////////////////////////////////////////////////////
   // helper functions for converting a string to/from a basic data type
@@ -93,64 +97,78 @@ public:
    * Functions to convert a string to a value of basic data type.
    * An exception will be thrown if errors were encountered during the conversion.
    */
-  template < typename T >
-  static std::string& ToData( std::string& s, T& data );
+  template <typename T>
+  static std::string &
+  ToData(std::string & s, T & data);
 
   /**
    * Functions to convert a value of basic data type to a string.
    * An exception will be thrown if errors were encountered during the conversion.
    */
-  template < typename T >
-  static std::string& FromData( std::string& s, const T& data );
+  template <typename T>
+  static std::string &
+  FromData(std::string & s, const T & data);
 
   /////////////////////////////////////////////////////////////////////////////
   // helper functions for string manipulations
   /////////////////////////////////////////////////////////////////////////////
 
   /** Method to trim the spaces or user-specified characters on both ends of a string. */
-  static std::string& Trim( std::string& str, const std::string& dislike = " \t\n\r" );
+  static std::string &
+  Trim(std::string & str, const std::string & dislike = " \t\n\r");
 
   /** Method to trim the spaces or user-specified characters on left end of a string. */
-  static std::string& TrimLeft( std::string& str, const std::string& dislike = " \t\n\r" );
+  static std::string &
+  TrimLeft(std::string & str, const std::string & dislike = " \t\n\r");
 
   /** Method to trim the spaces or user-specified characters on right end of a string. */
-  static std::string& TrimRight( std::string& str, const std::string& dislike = " \t\n\r" );
+  static std::string &
+  TrimRight(std::string & str, const std::string & dislike = " \t\n\r");
 
   /** Method to covert lower-case characters to upper cases in a string. */
-  static std::string& ToUpperCase( std::string& str );
+  static std::string &
+  ToUpperCase(std::string & str);
 
   /** Method to covert upper-case characters to lower cases in a string. */
-  static std::string& ToLowerCase( std::string& str );
+  static std::string &
+  ToLowerCase(std::string & str);
 
   /** Method to split a string into two parts with user-defined delimiters. */
-  static void Split( const std::string& s, std::string& lpart, std::string& rpart, const std::string& delims = "=:" );
+  static void
+  Split(const std::string & s, std::string & lpart, std::string & rpart, const std::string & delims = "=:");
 
   /** Method to split a string into a sequence of strings with user-defined delimiters. */
-  static void Split( const std::string& s, std::vector<std::string>& result, const std::string& delims = ";|" );
+  static void
+  Split(const std::string & s, std::vector<std::string> & result, const std::string & delims = ";|");
 
   /**
    * Method to split a string into a sequence of sub-strings with user-defined delimiters,
    * then each sub-string is further splitted into a <key,value> pair with separators "=:".
    */
-  static void Split( const std::string& s, std::map<std::string,std::string>& result, const std::string& delims = ";|" );
+  static void
+  Split(const std::string & s, std::map<std::string, std::string> & result, const std::string & delims = ";|");
 
   /** Method to test whether one string matches with another. */
-  static bool MatchWith( const std::string& s1, const std::string& s2, bool ignoreCase = true );
+  static bool
+  MatchWith(const std::string & s1, const std::string & s2, bool ignoreCase = true);
 
   /** Method to test whether a string starts with a user-given sub-string. */
-  static bool StartWith( const std::string& s1, const std::string& s2, bool ignoreCase = true );
+  static bool
+  StartWith(const std::string & s1, const std::string & s2, bool ignoreCase = true);
 
   /** Method to test whether a string ends with a user-given sub-string. */
-  static bool EndWith( const std::string& s1, const std::string& s2, bool ignoreCase = true );
+  static bool
+  EndWith(const std::string & s1, const std::string & s2, bool ignoreCase = true);
 
   /** Method to test whether a string contains a user-given sub-string. */
-  static bool ContainSub( const std::string& s1, const std::string& s2, bool ignoreCase = true );
+  static bool
+  ContainSub(const std::string & s1, const std::string & s2, bool ignoreCase = true);
 }; // class StringTools
 
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkStringTools.hxx"
+#  include "itkStringTools.hxx"
 #endif
 
 #endif // itkStringTools_h

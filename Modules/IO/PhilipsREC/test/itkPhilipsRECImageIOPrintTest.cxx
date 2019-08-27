@@ -22,35 +22,36 @@
 #include <vxl_version.h>
 #include "vnl/vnl_vector_fixed.h"
 
-int itkPhilipsRECImageIOPrintTest( int argc, char * argv [] )
+int
+itkPhilipsRECImageIOPrintTest(int argc, char * argv[])
 {
 
-  if( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "Usage: " << argv[0] << " InputImage" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using PhilipsRECImageIOType = itk::PhilipsRECImageIO;
 
   PhilipsRECImageIOType::Pointer imageIO = PhilipsRECImageIOType::New();
 
-  if( !imageIO->CanReadFile( argv[1] ) )
-    {
+  if (!imageIO->CanReadFile(argv[1]))
+  {
     std::cerr << "Cannot read file " << argv[1] << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   imageIO->SetFileName(argv[1]);
 
   try
-    {
+  {
     imageIO->ReadImageInformation();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Print all of the PAR parameters.
   // Return EXIT_FAILURE if the value cannot be read.
@@ -58,532 +59,478 @@ int itkPhilipsRECImageIOPrintTest( int argc, char * argv [] )
   int         tempInt = -1;
   float       tempFloat = 0;
 
-  if( !itk::ExposeMetaData<std::string>(imageIO->GetMetaDataDictionary(),
-    "PAR_Version",tempStr) )
-    {
+  if (!itk::ExposeMetaData<std::string>(imageIO->GetMetaDataDictionary(), "PAR_Version", tempStr))
+  {
     std::cerr << "Cannot read PAR_Version" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_Version = " << tempStr << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_SliceOrientation",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_SliceOrientation", tempInt))
+  {
     std::cerr << "Cannot read PAR_SliceOrientation" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_SliceOrientation = " << tempInt << std::endl;
 
-  if( !itk::ExposeMetaData<std::string>(imageIO->GetMetaDataDictionary(),
-    "PAR_ExaminationName",tempStr) )
-    {
+  if (!itk::ExposeMetaData<std::string>(imageIO->GetMetaDataDictionary(), "PAR_ExaminationName", tempStr))
+  {
     std::cerr << "Cannot read PAR_ExaminationName" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_ExaminationName = " << tempStr << std::endl;
 
-  if( !itk::ExposeMetaData<std::string>(imageIO->GetMetaDataDictionary(),
-    "PAR_ProtocolName",tempStr) )
-    {
+  if (!itk::ExposeMetaData<std::string>(imageIO->GetMetaDataDictionary(), "PAR_ProtocolName", tempStr))
+  {
     std::cerr << "Cannot read PAR_ProtocolName" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_ProtocolName = " << tempStr << std::endl;
 
-  if( !itk::ExposeMetaData<std::string>(imageIO->GetMetaDataDictionary(),
-    "PAR_SeriesType",tempStr) )
-    {
+  if (!itk::ExposeMetaData<std::string>(imageIO->GetMetaDataDictionary(), "PAR_SeriesType", tempStr))
+  {
     std::cerr << "Cannot read PAR_SeriesType" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_SeriesType = " << tempStr << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_AcquisitionNr",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_AcquisitionNr", tempInt))
+  {
     std::cerr << "Cannot read PAR_AcquisitionNr" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_AcquisitionNr = " << tempInt << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_ReconstructionNr",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_ReconstructionNr", tempInt))
+  {
     std::cerr << "Cannot read PAR_ReconstructionNr" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_ReconstructionNr = " << tempInt << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_ScanDuration",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_ScanDuration", tempInt))
+  {
     std::cerr << "Cannot read PAR_ScanDuration" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_ScanDuration = " << tempInt << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_MaxNumberOfCardiacPhases",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_MaxNumberOfCardiacPhases", tempInt))
+  {
     std::cerr << "Cannot read PAR_MaxNumberOfCardiacPhases" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_MaxNumberOfCardiacPhases = " << tempInt << std::endl;
 
-  PhilipsRECImageIOType::TriggerTimesContainerType::Pointer
-    ptrToTimePoints = nullptr;
-  if( !itk::ExposeMetaData<PhilipsRECImageIOType::TriggerTimesContainerType
-    ::Pointer>(imageIO->GetMetaDataDictionary(), "PAR_TriggerTimes",
-    ptrToTimePoints) )
-    {
+  PhilipsRECImageIOType::TriggerTimesContainerType::Pointer ptrToTimePoints = nullptr;
+  if (!itk::ExposeMetaData<PhilipsRECImageIOType::TriggerTimesContainerType ::Pointer>(
+        imageIO->GetMetaDataDictionary(), "PAR_TriggerTimes", ptrToTimePoints))
+  {
     std::cerr << "Cannot read PAR_TriggerTimes" << std::endl;
     return EXIT_FAILURE;
-    }
-  if( !ptrToTimePoints )
-    {
+  }
+  if (!ptrToTimePoints)
+  {
     std::cerr << "PAR_TriggerTimes is nullptr" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "TriggerTimes =";
-  for( PhilipsRECImageIOType::TriggerTimesContainerType::ElementIdentifier iter = 0;
-    iter < ptrToTimePoints->Size(); iter++ )
-     {
-     std::cout << " " << ptrToTimePoints->ElementAt(iter);
-     }
+  for (PhilipsRECImageIOType::TriggerTimesContainerType::ElementIdentifier iter = 0; iter < ptrToTimePoints->Size();
+       iter++)
+  {
+    std::cout << " " << ptrToTimePoints->ElementAt(iter);
+  }
   std::cout << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_MaxNumberOfEchoes",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_MaxNumberOfEchoes", tempInt))
+  {
     std::cerr << "Cannot read PAR_MaxNumberOfEchoes" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_MaxNumberOfEchoes = " << tempInt << std::endl;
 
-  PhilipsRECImageIOType::EchoTimesContainerType::Pointer
-    ptrToEchoes = nullptr;
-  if( !itk::ExposeMetaData<PhilipsRECImageIOType::EchoTimesContainerType
-    ::Pointer>(imageIO->GetMetaDataDictionary(), "PAR_EchoTimes",
-    ptrToEchoes) )
-    {
+  PhilipsRECImageIOType::EchoTimesContainerType::Pointer ptrToEchoes = nullptr;
+  if (!itk::ExposeMetaData<PhilipsRECImageIOType::EchoTimesContainerType ::Pointer>(
+        imageIO->GetMetaDataDictionary(), "PAR_EchoTimes", ptrToEchoes))
+  {
     std::cerr << "Cannot read PAR_EchoTimes" << std::endl;
     return EXIT_FAILURE;
-    }
-  if( !ptrToEchoes )
-    {
+  }
+  if (!ptrToEchoes)
+  {
     std::cerr << "PAR_EchoTimes is nullptr" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "EchoTimes =";
-  for( PhilipsRECImageIOType::EchoTimesContainerType::ElementIdentifier iter = 0;
-    iter < ptrToEchoes->Size(); iter++ )
-    {
+  for (PhilipsRECImageIOType::EchoTimesContainerType::ElementIdentifier iter = 0; iter < ptrToEchoes->Size(); iter++)
+  {
     std::cout << " " << ptrToEchoes->ElementAt(iter);
-    }
+  }
   std::cout << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_MaxNumberOfDynamics",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_MaxNumberOfDynamics", tempInt))
+  {
     std::cerr << "Cannot read PAR_MaxNumberOfDynamics" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_MaxNumberOfDynamics = " << tempInt << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_MaxNumberOfMixes",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_MaxNumberOfMixes", tempInt))
+  {
     std::cerr << "Cannot read PAR_MaxNumberOfMixes" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_MaxNumberOfMixes = " << tempInt << std::endl;
 
-  if( !itk::ExposeMetaData<std::string>(imageIO->GetMetaDataDictionary(),
-    "PAR_PatientPosition",tempStr) )
-    {
+  if (!itk::ExposeMetaData<std::string>(imageIO->GetMetaDataDictionary(), "PAR_PatientPosition", tempStr))
+  {
     std::cerr << "Cannot read PAR_PatientPosition" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_PatientPosition = " << tempStr << std::endl;
 
-  if( !itk::ExposeMetaData<std::string>(imageIO->GetMetaDataDictionary(),
-    "PAR_PreparationDirection",tempStr) )
-    {
+  if (!itk::ExposeMetaData<std::string>(imageIO->GetMetaDataDictionary(), "PAR_PreparationDirection", tempStr))
+  {
     std::cerr << "Cannot read PAR_PreparationDirection" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_PreparationDirection = " << tempStr << std::endl;
 
-  if( !itk::ExposeMetaData<std::string>(imageIO->GetMetaDataDictionary(),
-    "PAR_Technique",tempStr) )
-    {
+  if (!itk::ExposeMetaData<std::string>(imageIO->GetMetaDataDictionary(), "PAR_Technique", tempStr))
+  {
     std::cerr << "Cannot read PAR_Technique" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_Technique = " << tempStr << std::endl;
 
-  if( !itk::ExposeMetaData<std::string>(imageIO->GetMetaDataDictionary(),
-    "PAR_ScanMode",tempStr) )
-    {
+  if (!itk::ExposeMetaData<std::string>(imageIO->GetMetaDataDictionary(), "PAR_ScanMode", tempStr))
+  {
     std::cerr << "Cannot read PAR_ScanMode" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_ScanMode = " << tempStr << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_NumberOfAverages",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_NumberOfAverages", tempInt))
+  {
     std::cerr << "Cannot read PAR_NumberOfAverages" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_NumberOfAverages = " << tempInt << std::endl;
 
   PhilipsRECImageIOType::ScanResolutionType scanRes;
-  if( !itk::ExposeMetaData<PhilipsRECImageIOType::ScanResolutionType>
-    (imageIO->GetMetaDataDictionary(),"PAR_ScanResolution",scanRes) )
-    {
+  if (!itk::ExposeMetaData<PhilipsRECImageIOType::ScanResolutionType>(
+        imageIO->GetMetaDataDictionary(), "PAR_ScanResolution", scanRes))
+  {
     std::cerr << "Cannot read PAR_ScanResolution" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_ScanResolution = " << scanRes << std::endl;
 
-  PhilipsRECImageIOType::RepetitionTimesContainerType::Pointer
-    ptrToTR = nullptr;
-  if( !itk::ExposeMetaData<PhilipsRECImageIOType::RepetitionTimesContainerType
-    ::Pointer>(imageIO->GetMetaDataDictionary(), "PAR_RepetitionTimes",
-    ptrToTR) )
-    {
+  PhilipsRECImageIOType::RepetitionTimesContainerType::Pointer ptrToTR = nullptr;
+  if (!itk::ExposeMetaData<PhilipsRECImageIOType::RepetitionTimesContainerType ::Pointer>(
+        imageIO->GetMetaDataDictionary(), "PAR_RepetitionTimes", ptrToTR))
+  {
     std::cerr << "Cannot read PAR_RepetitionTimes" << std::endl;
     return EXIT_FAILURE;
-    }
-  if( !ptrToTR )
-    {
+  }
+  if (!ptrToTR)
+  {
     std::cerr << "PAR_RepetitionTimes is nullptr" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "RepetitionTimes =";
-  for( PhilipsRECImageIOType::RepetitionTimesContainerType::ElementIdentifier iter = 0;
-    iter < ptrToTR->Size(); iter++ )
-    {
+  for (PhilipsRECImageIOType::RepetitionTimesContainerType::ElementIdentifier iter = 0; iter < ptrToTR->Size(); iter++)
+  {
     std::cout << " " << ptrToTR->ElementAt(iter);
-    }
+  }
   std::cout << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_ScanPercentage",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_ScanPercentage", tempInt))
+  {
     std::cerr << "Cannot read PAR_ScanPercentage" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_ScanPercentage = " << tempInt << std::endl;
 
   PhilipsRECImageIOType::FOVType parFOV;
-  if( !itk::ExposeMetaData<PhilipsRECImageIOType::FOVType>
-    (imageIO->GetMetaDataDictionary(),"PAR_FOV",parFOV) )
-    {
+  if (!itk::ExposeMetaData<PhilipsRECImageIOType::FOVType>(imageIO->GetMetaDataDictionary(), "PAR_FOV", parFOV))
+  {
     std::cerr << "Cannot read PAR_FOV" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_FOV = " << parFOV << std::endl;
 
-  if( !itk::ExposeMetaData<float>(imageIO->GetMetaDataDictionary(),
-    "PAR_WaterFatShiftPixels",tempFloat) )
-    {
+  if (!itk::ExposeMetaData<float>(imageIO->GetMetaDataDictionary(), "PAR_WaterFatShiftPixels", tempFloat))
+  {
     std::cerr << "Cannot read PAR_WaterFatShiftPixels" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_WaterFatShiftPixels = " << tempFloat << std::endl;
 
   PhilipsRECImageIOType::AngulationMidSliceType angMidSlice;
-  if( !itk::ExposeMetaData<PhilipsRECImageIOType::AngulationMidSliceType>
-    (imageIO->GetMetaDataDictionary(),"PAR_AngulationMidSlice",angMidSlice) )
-    {
+  if (!itk::ExposeMetaData<PhilipsRECImageIOType::AngulationMidSliceType>(
+        imageIO->GetMetaDataDictionary(), "PAR_AngulationMidSlice", angMidSlice))
+  {
     std::cerr << "Cannot read PAR_AngulationMidSlice" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_AngulationMidSlice = " << angMidSlice << std::endl;
 
   PhilipsRECImageIOType::OffCentreMidSliceType offMidSlice;
-  if( !itk::ExposeMetaData<PhilipsRECImageIOType::OffCentreMidSliceType>
-    (imageIO->GetMetaDataDictionary(),"PAR_OffCentreMidSlice",offMidSlice) )
-    {
+  if (!itk::ExposeMetaData<PhilipsRECImageIOType::OffCentreMidSliceType>(
+        imageIO->GetMetaDataDictionary(), "PAR_OffCentreMidSlice", offMidSlice))
+  {
     std::cerr << "Cannot read PAR_OffCentreMidSlice" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_OffCentreMidSlice = " << offMidSlice << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_FlowCompensation",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_FlowCompensation", tempInt))
+  {
     std::cerr << "Cannot read PAR_FlowCompensation" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_FlowCompensation = " << tempInt << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_Presaturation",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_Presaturation", tempInt))
+  {
     std::cerr << "Cannot read PAR_Presaturation" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_Presaturation = " << tempInt << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_CardiacFrequency",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_CardiacFrequency", tempInt))
+  {
     std::cerr << "Cannot read PAR_CardiacFrequency" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_CardiacFrequency = " << tempInt << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_MinRRInterval",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_MinRRInterval", tempInt))
+  {
     std::cerr << "Cannot read PAR_MinRRInterval" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_MinRRInterval = " << tempInt << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_MaxRRInterval",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_MaxRRInterval", tempInt))
+  {
     std::cerr << "Cannot read PAR_MaxRRInterval" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_MaxRRInterval = " << tempInt << std::endl;
 
   PhilipsRECImageIOType::PhaseEncodingVelocityType phaseEncodeVel;
-  if( !itk::ExposeMetaData<PhilipsRECImageIOType::PhaseEncodingVelocityType>
-    (imageIO->GetMetaDataDictionary(),"PAR_PhaseEncodingVelocity",
-    phaseEncodeVel) )
-    {
+  if (!itk::ExposeMetaData<PhilipsRECImageIOType::PhaseEncodingVelocityType>(
+        imageIO->GetMetaDataDictionary(), "PAR_PhaseEncodingVelocity", phaseEncodeVel))
+  {
     std::cerr << "Cannot read PAR_PhaseEncodingVelocity" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_PhaseEncodingVelocity = " << phaseEncodeVel << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_MTC",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_MTC", tempInt))
+  {
     std::cerr << "Cannot read PAR_MTC" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_MTC = " << tempInt << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_SPIR",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_SPIR", tempInt))
+  {
     std::cerr << "Cannot read PAR_SPIR" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_SPIR = " << tempInt << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_EPIFactor",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_EPIFactor", tempInt))
+  {
     std::cerr << "Cannot read PAR_EPIFactor" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_EPIFactor = " << tempInt << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_TurboFactor",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_TurboFactor", tempInt))
+  {
     std::cerr << "Cannot read PAR_TurboFactor" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_TurboFactor = " << tempInt << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_DynamicScan",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_DynamicScan", tempInt))
+  {
     std::cerr << "Cannot read PAR_DynamicScan" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_DynamicScan = " << tempInt << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_Diffusion",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_Diffusion", tempInt))
+  {
     std::cerr << "Cannot read PAR_Diffusion" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_Diffusion = " << tempInt << std::endl;
 
-  if( !itk::ExposeMetaData<float>(imageIO->GetMetaDataDictionary(),
-    "PAR_DiffusionEchoTime",tempFloat) )
-    {
+  if (!itk::ExposeMetaData<float>(imageIO->GetMetaDataDictionary(), "PAR_DiffusionEchoTime", tempFloat))
+  {
     std::cerr << "Cannot read PAR_DiffusionEchoTime" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_DiffusionEchoTime = " << tempFloat << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_MaxNumberOfDiffusionValues",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_MaxNumberOfDiffusionValues", tempInt))
+  {
     std::cerr << "Cannot read PAR_MaxNumberOfDiffusionValues" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_MaxNumberOfDiffusionValues = " << tempInt << std::endl;
 
-  PhilipsRECImageIOType::GradientBvalueContainerType::Pointer
-    ptrToBValues = nullptr;
-  if( !itk::ExposeMetaData<PhilipsRECImageIOType::GradientBvalueContainerType
-    ::Pointer>(imageIO->GetMetaDataDictionary(), "PAR_GradientBValues",
-    ptrToBValues) )
-    {
+  PhilipsRECImageIOType::GradientBvalueContainerType::Pointer ptrToBValues = nullptr;
+  if (!itk::ExposeMetaData<PhilipsRECImageIOType::GradientBvalueContainerType ::Pointer>(
+        imageIO->GetMetaDataDictionary(), "PAR_GradientBValues", ptrToBValues))
+  {
     std::cerr << "Cannot read PAR_GradientBValues" << std::endl;
     return EXIT_FAILURE;
-    }
-  if( !ptrToBValues )
-    {
+  }
+  if (!ptrToBValues)
+  {
     std::cerr << "PAR_GradientBValues is nullptr" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "GradientBValues =";
-  for( PhilipsRECImageIOType::GradientBvalueContainerType::ElementIdentifier iter = 0;
-    iter < ptrToBValues->Size(); iter++ )
-    {
+  for (PhilipsRECImageIOType::GradientBvalueContainerType::ElementIdentifier iter = 0; iter < ptrToBValues->Size();
+       iter++)
+  {
     std::cout << " " << ptrToBValues->ElementAt(iter);
-    }
+  }
   std::cout << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_MaxNumberOfGradientOrients",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_MaxNumberOfGradientOrients", tempInt))
+  {
     std::cerr << "Cannot read PAR_MaxNumberOfGradientOrients" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_MaxNumberOfGradientOrients = " << tempInt << std::endl;
 
-  PhilipsRECImageIOType::GradientDirectionContainerType::Pointer
-    ptrToGradValues = nullptr;
-  if( !itk::ExposeMetaData<PhilipsRECImageIOType::GradientDirectionContainerType
-    ::Pointer>(imageIO->GetMetaDataDictionary(), "PAR_GradientDirectionValues",
-    ptrToGradValues) )
-    {
+  PhilipsRECImageIOType::GradientDirectionContainerType::Pointer ptrToGradValues = nullptr;
+  if (!itk::ExposeMetaData<PhilipsRECImageIOType::GradientDirectionContainerType ::Pointer>(
+        imageIO->GetMetaDataDictionary(), "PAR_GradientDirectionValues", ptrToGradValues))
+  {
     std::cerr << "Cannot read PAR_GradientDirectionValues" << std::endl;
     return EXIT_FAILURE;
-    }
-  if( !ptrToGradValues )
-    {
+  }
+  if (!ptrToGradValues)
+  {
     std::cerr << "PAR_GradientDirectionValues is nullptr" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "GradientDirectionValues =";
-  for( PhilipsRECImageIOType::GradientDirectionContainerType::ElementIdentifier iter = 0;
-    iter < ptrToGradValues->Size(); iter++ )
-     {
-     std::cout << " " << ptrToGradValues->ElementAt(iter);
-     }
+  for (PhilipsRECImageIOType::GradientDirectionContainerType::ElementIdentifier iter = 0;
+       iter < ptrToGradValues->Size();
+       iter++)
+  {
+    std::cout << " " << ptrToGradValues->ElementAt(iter);
+  }
   std::cout << std::endl;
 
-  if( !itk::ExposeMetaData<float>(imageIO->GetMetaDataDictionary(),
-    "PAR_InversionDelay",tempFloat) )
-    {
+  if (!itk::ExposeMetaData<float>(imageIO->GetMetaDataDictionary(), "PAR_InversionDelay", tempFloat))
+  {
     std::cerr << "Cannot read PAR_InversionDelay" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_InversionDelay = " << tempFloat << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_NumberOfImageTypes",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_NumberOfImageTypes", tempInt))
+  {
     std::cerr << "Cannot read PAR_NumberOfImageTypes" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_NumberOfImageTypes = " << tempInt << std::endl;
 
   PhilipsRECImageIOType::ImageTypesType imageTypes;
-  if( !itk::ExposeMetaData<PhilipsRECImageIOType::ImageTypesType>
-    (imageIO->GetMetaDataDictionary(),"PAR_ImageTypes",
-    imageTypes) )
-    {
+  if (!itk::ExposeMetaData<PhilipsRECImageIOType::ImageTypesType>(
+        imageIO->GetMetaDataDictionary(), "PAR_ImageTypes", imageTypes))
+  {
     std::cerr << "Cannot read PAR_ImageTypes" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_ImageTypes = " << imageTypes << std::endl;
 
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_NumberOfScanningSequences",tempInt) )
-    {
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_NumberOfScanningSequences", tempInt))
+  {
     std::cerr << "Cannot read PAR_NumberOfScanningSequences" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_NumberOfScanningSequences = " << tempInt << std::endl;
 
   PhilipsRECImageIOType::ScanningSequencesType scanningSeq;
-  if( !itk::ExposeMetaData<PhilipsRECImageIOType::ScanningSequencesType>
-    (imageIO->GetMetaDataDictionary(),"PAR_ScanningSequences",
-    scanningSeq) )
-    {
+  if (!itk::ExposeMetaData<PhilipsRECImageIOType::ScanningSequencesType>(
+        imageIO->GetMetaDataDictionary(), "PAR_ScanningSequences", scanningSeq))
+  {
     std::cerr << "Cannot read PAR_ScanningSequences" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_ScanningSequences = " << scanningSeq << std::endl;
 
-  using ScanningSequenceImageTypeRescaleValuesContainerTypePtr = PhilipsRECImageIOType::ScanningSequenceImageTypeRescaleValuesContainerType::Pointer;
+  using ScanningSequenceImageTypeRescaleValuesContainerTypePtr =
+    PhilipsRECImageIOType::ScanningSequenceImageTypeRescaleValuesContainerType::Pointer;
 
-  ScanningSequenceImageTypeRescaleValuesContainerTypePtr
-    ptrToRescaleValues = nullptr;
-  if( !itk::ExposeMetaData<ScanningSequenceImageTypeRescaleValuesContainerTypePtr>
-    (imageIO->GetMetaDataDictionary(),
-    "PAR_ScanningSequenceImageTypeRescaleValues",
-    ptrToRescaleValues) )
-    {
+  ScanningSequenceImageTypeRescaleValuesContainerTypePtr ptrToRescaleValues = nullptr;
+  if (!itk::ExposeMetaData<ScanningSequenceImageTypeRescaleValuesContainerTypePtr>(
+        imageIO->GetMetaDataDictionary(), "PAR_ScanningSequenceImageTypeRescaleValues", ptrToRescaleValues))
+  {
     std::cerr << "Cannot read PAR_ScanningSequenceImageTypeRescaleValues";
     std::cerr << std::endl;
     return EXIT_FAILURE;
-    }
-  if( !ptrToRescaleValues )
-    {
+  }
+  if (!ptrToRescaleValues)
+  {
     std::cerr << "PAR_ScanningSequenceImageTypeRescaleValues is nullptr";
     std::cerr << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "ScanningSequenceImageTypeRescaleValues = " << std::endl;
-  for( PhilipsRECImageIOType::ScanningSequenceImageTypeRescaleValuesContainerType::ElementIdentifier iter = 0;
-    iter < ptrToRescaleValues->Size(); iter++ )
-    {
+  for (PhilipsRECImageIOType::ScanningSequenceImageTypeRescaleValuesContainerType::ElementIdentifier iter = 0;
+       iter < ptrToRescaleValues->Size();
+       iter++)
+  {
     std::cout << "Scanning Sequence " << iter << " =";
-    PhilipsRECImageIOType::ImageTypeRescaleValuesContainerType::Pointer
-      rescaleValueVector = ptrToRescaleValues->ElementAt(iter);
-    for( PhilipsRECImageIOType::ImageTypeRescaleValuesContainerType::ElementIdentifier iter1 = 0;
-      iter1 < rescaleValueVector->Size(); iter1++ )
-      {
-      std::cout << "  " << rescaleValueVector->ElementAt(iter1);
-      }
-      std::cout << std::endl;
-    }
-
-  if( !itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(),
-    "PAR_NumberOfASLLabelTypes",tempInt) )
+    PhilipsRECImageIOType::ImageTypeRescaleValuesContainerType::Pointer rescaleValueVector =
+      ptrToRescaleValues->ElementAt(iter);
+    for (PhilipsRECImageIOType::ImageTypeRescaleValuesContainerType::ElementIdentifier iter1 = 0;
+         iter1 < rescaleValueVector->Size();
+         iter1++)
     {
+      std::cout << "  " << rescaleValueVector->ElementAt(iter1);
+    }
+    std::cout << std::endl;
+  }
+
+  if (!itk::ExposeMetaData<int>(imageIO->GetMetaDataDictionary(), "PAR_NumberOfASLLabelTypes", tempInt))
+  {
     std::cerr << "Cannot read PAR_NumberOfASLLabelTypes" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "PAR_NumberOfASLLabelTypes = " << tempInt << std::endl;
 
-  PhilipsRECImageIOType::LabelTypesASLContainerType::Pointer
-    ptrToASLLabelTypes = nullptr;
-  if( !itk::ExposeMetaData<PhilipsRECImageIOType::LabelTypesASLContainerType
-    ::Pointer>(imageIO->GetMetaDataDictionary(), "PAR_ASLLabelTypes",
-    ptrToASLLabelTypes) )
-    {
+  PhilipsRECImageIOType::LabelTypesASLContainerType::Pointer ptrToASLLabelTypes = nullptr;
+  if (!itk::ExposeMetaData<PhilipsRECImageIOType::LabelTypesASLContainerType ::Pointer>(
+        imageIO->GetMetaDataDictionary(), "PAR_ASLLabelTypes", ptrToASLLabelTypes))
+  {
     std::cerr << "Cannot read PAR_ASLLabelTypes" << std::endl;
     return EXIT_FAILURE;
-    }
-  if( !ptrToASLLabelTypes )
-    {
+  }
+  if (!ptrToASLLabelTypes)
+  {
     std::cerr << "PAR_ASLLabelTypes is nullptr" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "ASLLabelTypes =";
-  for( PhilipsRECImageIOType::LabelTypesASLContainerType::ElementIdentifier iter = 0;
-    iter < ptrToASLLabelTypes->Size(); iter++ )
-    {
+  for (PhilipsRECImageIOType::LabelTypesASLContainerType::ElementIdentifier iter = 0; iter < ptrToASLLabelTypes->Size();
+       iter++)
+  {
     std::cout << " " << ptrToASLLabelTypes->ElementAt(iter);
-    }
+  }
   std::cout << std::endl;
 
   return EXIT_SUCCESS;

@@ -45,7 +45,6 @@ namespace itk
 class ITKCommon_EXPORT RealTimeStamp
 {
 public:
-
   using Self = RealTimeStamp;
 
   friend class RealTimeClock;
@@ -60,48 +59,64 @@ public:
   using TimeRepresentationType = RealTimeInterval::TimeRepresentationType;
 
   /** Return time in multiple units. */
-  TimeRepresentationType GetTimeInMicroSeconds() const;
-  TimeRepresentationType GetTimeInMilliSeconds() const;
-  TimeRepresentationType GetTimeInSeconds() const;
-  TimeRepresentationType GetTimeInMinutes() const;
-  TimeRepresentationType GetTimeInHours() const;
-  TimeRepresentationType GetTimeInDays() const;
+  TimeRepresentationType
+  GetTimeInMicroSeconds() const;
+  TimeRepresentationType
+  GetTimeInMilliSeconds() const;
+  TimeRepresentationType
+  GetTimeInSeconds() const;
+  TimeRepresentationType
+  GetTimeInMinutes() const;
+  TimeRepresentationType
+  GetTimeInHours() const;
+  TimeRepresentationType
+  GetTimeInDays() const;
 
   /** Arithmetic operations between RealTimeInterval and RealTimeStamp. */
-  RealTimeInterval operator-( const Self & ) const;
-  Self operator+( const RealTimeInterval & ) const;
-  Self operator-( const RealTimeInterval & ) const;
-  const Self & operator+=( const RealTimeInterval & );
-  const Self & operator-=( const RealTimeInterval & );
+  RealTimeInterval
+  operator-(const Self &) const;
+  Self
+  operator+(const RealTimeInterval &) const;
+  Self
+  operator-(const RealTimeInterval &) const;
+  const Self &
+  operator+=(const RealTimeInterval &);
+  const Self &
+  operator-=(const RealTimeInterval &);
 
   /** Comparison operations. */
-  bool operator>( const Self & ) const;
-  bool operator<( const Self & ) const;
-  bool operator==( const Self & ) const;
-  bool operator!=( const Self & ) const;
-  bool operator<=( const Self & ) const;
-  bool operator>=( const Self & ) const;
+  bool
+  operator>(const Self &) const;
+  bool
+  operator<(const Self &) const;
+  bool
+  operator==(const Self &) const;
+  bool
+  operator!=(const Self &) const;
+  bool
+  operator<=(const Self &) const;
+  bool
+  operator>=(const Self &) const;
 
   /** Default print out of a RealTimeStamp */
-  friend ITKCommon_EXPORT std::ostream & operator<<(std::ostream & os, const RealTimeStamp & v);
+  friend ITKCommon_EXPORT std::ostream &
+                          operator<<(std::ostream & os, const RealTimeStamp & v);
 
 private:
-
   using SecondsCounterType = uint64_t;
   using MicroSecondsCounterType = uint64_t;
 
   /** Constructor with values. Intentionally made private */
-  RealTimeStamp( SecondsCounterType, MicroSecondsCounterType );
+  RealTimeStamp(SecondsCounterType, MicroSecondsCounterType);
 
   using SecondsDifferenceType = RealTimeInterval::SecondsDifferenceType;
   using MicroSecondsDifferenceType = RealTimeInterval::MicroSecondsDifferenceType;
 
   /** Number of Seconds and Microseconds since... */
-  SecondsCounterType        m_Seconds;
-  MicroSecondsCounterType   m_MicroSeconds;
-
+  SecondsCounterType      m_Seconds;
+  MicroSecondsCounterType m_MicroSeconds;
 };
 
 } // end of namespace itk
 
-#endif  // itkRealTimeStamp_h
+#endif // itkRealTimeStamp_h

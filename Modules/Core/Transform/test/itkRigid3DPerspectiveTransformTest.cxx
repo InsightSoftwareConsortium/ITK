@@ -21,13 +21,14 @@
 #include "itkRigid3DPerspectiveTransform.h"
 
 
-int itkRigid3DPerspectiveTransformTest(int ,char * [] )
+int
+itkRigid3DPerspectiveTransformTest(int, char *[])
 {
 
 
   using TransformType = itk::Rigid3DPerspectiveTransform<double>;
 
-  const double epsilon = 1e-10;
+  const double           epsilon = 1e-10;
   constexpr unsigned int N = 3;
 
   constexpr double focal = 100.0;
@@ -37,22 +38,22 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
 
   /* Create a 3D identity transformation and show its parameters */
   {
-    TransformType::Pointer  identityTransform = TransformType::New();
-    identityTransform->SetFocalDistance(  focal );
+    TransformType::Pointer identityTransform = TransformType::New();
+    identityTransform->SetFocalDistance(focal);
 
     TransformType::OffsetType offset = identityTransform->GetOffset();
     std::cout << "Vector from instantiating an identity transform:  ";
     std::cout << offset << std::endl;
 
-    for(unsigned int i=0; i<N; i++)
+    for (unsigned int i = 0; i < N; i++)
     {
-      if( std::fabs( offset[i]-0.0 ) > epsilon )
+      if (std::fabs(offset[i] - 0.0) > epsilon)
       {
         Ok = false;
         break;
       }
     }
-    if( !Ok )
+    if (!Ok)
     {
       std::cerr << "Identity doesn't have a null offset" << std::endl;
       return EXIT_FAILURE;
@@ -61,27 +62,27 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
 
   /* Create a Rigid 3D transform with translation */
   {
-    TransformType::Pointer  translation = TransformType::New();
-    translation->SetFocalDistance( focal );
+    TransformType::Pointer translation = TransformType::New();
+    translation->SetFocalDistance(focal);
 
     TransformType::OffsetType ioffset;
     ioffset.Fill(0.0);
 
-    translation->SetOffset( ioffset );
+    translation->SetOffset(ioffset);
 
     TransformType::OffsetType offset = translation->GetOffset();
     std::cout << "pure Translation test:  ";
     std::cout << offset << std::endl;
 
-    for(unsigned int i=0; i<N; i++)
+    for (unsigned int i = 0; i < N; i++)
     {
-      if( std::fabs( offset[i]- ioffset[i] ) > epsilon )
+      if (std::fabs(offset[i] - ioffset[i]) > epsilon)
       {
         Ok = false;
         break;
       }
     }
-    if( !Ok )
+    if (!Ok)
     {
       std::cerr << "Get Offset  differs from SetOffset value " << std::endl;
       return EXIT_FAILURE;
@@ -94,20 +95,20 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
       TransformType::InputPointType q;
       q = p + ioffset;
       TransformType::OutputPointType s;
-      const double factor = focal/q[2];
+      const double                   factor = focal / q[2];
       s[0] = q[0] * factor;
       s[1] = q[1] * factor;
       TransformType::OutputPointType r;
-      r = translation->TransformPoint( p );
-      for(unsigned int i=0; i<N-1; i++)
+      r = translation->TransformPoint(p);
+      for (unsigned int i = 0; i < N - 1; i++)
       {
-        if( std::fabs( s[i]- r[i] ) > epsilon )
+        if (std::fabs(s[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
         }
       }
-      if( !Ok )
+      if (!Ok)
       {
         std::cerr << "Error translating point: " << p << std::endl;
         std::cerr << "Result should be       : " << s << std::endl;
@@ -123,28 +124,28 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
 
   /* Create a Rigid 3D transform with a rotation */
   {
-    TransformType::Pointer  rigid = TransformType::New();
-    rigid->SetFocalDistance( focal );
+    TransformType::Pointer rigid = TransformType::New();
+    rigid->SetFocalDistance(focal);
 
     TransformType::OffsetType ioffset;
     ioffset.Fill(0.0);
 
-    rigid->SetOffset( ioffset );
+    rigid->SetOffset(ioffset);
 
     TransformType::OffsetType offset = rigid->GetOffset();
     std::cout << "pure Translation test:  ";
     std::cout << offset << std::endl;
 
     using VersorType = TransformType::VersorType;
-    VersorType rotation;
+    VersorType             rotation;
     VersorType::VectorType axis;
-    VersorType::ValueType  angle = 30.0f * std::atan( 1.0f ) / 45.0f;
+    VersorType::ValueType  angle = 30.0f * std::atan(1.0f) / 45.0f;
     axis[0] = 1.0f;
     axis[1] = 1.0f;
     axis[2] = 1.0f;
 
-    rotation.Set( axis, angle );
-    rigid->SetRotation( rotation );
+    rotation.Set(axis, angle);
+    rigid->SetRotation(rotation);
 
     {
       // Project an itk::Point
@@ -153,20 +154,20 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
       TransformType::InputPointType q;
       q = p + ioffset;
       TransformType::OutputPointType s;
-      const double factor = focal/q[2];
+      const double                   factor = focal / q[2];
       s[0] = q[0] * factor;
       s[1] = q[1] * factor;
       TransformType::OutputPointType r;
-      r = rigid->TransformPoint( p );
-      for(unsigned int i=0; i<N-1; i++)
+      r = rigid->TransformPoint(p);
+      for (unsigned int i = 0; i < N - 1; i++)
       {
-        if( std::fabs( s[i]- r[i] ) > epsilon )
+        if (std::fabs(s[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
         }
       }
-      if( !Ok )
+      if (!Ok)
       {
         std::cerr << "Error rotating point: " << p << std::endl;
         std::cerr << "Result should be       : " << s << std::endl;
@@ -183,5 +184,4 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
 
   std::cout << "Test successful" << std::endl;
   return EXIT_SUCCESS;
-
 }

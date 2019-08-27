@@ -54,34 +54,42 @@ public:
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
-  ::itk::LightObject::Pointer CreateAnother() const override;
+  ::itk::LightObject::Pointer
+  CreateAnother() const override;
 
   /**
    * Set the edge number on which the force is being applied
    */
-  void SetEdge(int edge);
+  void
+  SetEdge(int edge);
 
   /**
    * Get the edge number on which the force is being applied
    */
-  int GetEdge() const;
+  int
+  GetEdge() const;
 
   /**
    * Set the edge force values
    */
-  void SetForce(const vnl_matrix<itk::fem::Element::Float> force);
+  void
+  SetForce(const vnl_matrix<itk::fem::Element::Float> force);
 
   /**
    * Get the edge force values
    */
-  const vnl_matrix<itk::fem::Element::Float> & GetForce() const;
-  vnl_matrix<itk::fem::Element::Float> & GetForce();
+  const vnl_matrix<itk::fem::Element::Float> &
+  GetForce() const;
+  vnl_matrix<itk::fem::Element::Float> &
+  GetForce();
 
   /** Apply the load to the specified element */
-  void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) override;
+  void
+  ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) override;
 
 protected:
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * Local number of the edge (face) of the element on which the load acts.

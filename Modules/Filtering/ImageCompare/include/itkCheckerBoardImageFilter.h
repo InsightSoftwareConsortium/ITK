@@ -38,21 +38,20 @@ namespace itk
  * \ingroup ITKImageCompare
  *
  * \sphinx
- * \sphinxexample{Filtering/ImageCompare/CombineTwoImagesWithCheckerBoardPattern,Combine Two Images With Checker Board Pattern}
- * \endsphinx
+ * \sphinxexample{Filtering/ImageCompare/CombineTwoImagesWithCheckerBoardPattern,Combine Two Images With Checker Board
+ * Pattern} \endsphinx
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT CheckerBoardImageFilter:
-  public ImageToImageFilter< TImage, TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT CheckerBoardImageFilter : public ImageToImageFilter<TImage, TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CheckerBoardImageFilter);
 
   /** Standard class type aliases. */
   using Self = CheckerBoardImageFilter;
-  using Superclass = ImageToImageFilter< TImage, TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TImage, TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using InputImageType = TImage;
   using OutputImageType = TImage;
@@ -70,14 +69,15 @@ public:
   static constexpr unsigned int ImageDimension = TImage::ImageDimension;
 
   /** Type to hold the number of checker boxes per dimension. */
-  using PatternArrayType = FixedArray< unsigned int,
-                       TImage ::ImageDimension >;
+  using PatternArrayType = FixedArray<unsigned int, TImage ::ImageDimension>;
 
   /** Set the first operand for checker board. */
-  void SetInput1(const TImage *image1);
+  void
+  SetInput1(const TImage * image1);
 
   /** Set the second operand for checker board. */
-  void SetInput2(const TImage *image2);
+  void
+  SetInput2(const TImage * image2);
 
   /** Set/Get the checker pattern array, i.e. the number of checker boxes
    * per image dimension. */
@@ -87,7 +87,8 @@ public:
 protected:
   CheckerBoardImageFilter();
   ~CheckerBoardImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** CheckerBoardImageFilter can be implemented as a multithreaded filter. Therefore,
    * this implementation provides a DynamicThreadedGenerateData() routine which
@@ -97,7 +98,8 @@ protected:
    * specified by the parameter "outputRegionForThread"
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void DynamicThreadedGenerateData(const ImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const ImageRegionType & outputRegionForThread) override;
 
 
 private:
@@ -106,7 +108,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCheckerBoardImageFilter.hxx"
+#  include "itkCheckerBoardImageFilter.hxx"
 #endif
 
 #endif

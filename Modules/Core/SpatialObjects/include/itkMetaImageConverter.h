@@ -33,20 +33,19 @@ namespace itk
  *  \sa MetaConverterBase
  *  \ingroup ITKSpatialObjects
  */
-template< unsigned int NDimensions = 3,
+template <unsigned int NDimensions = 3,
           typename TPixel = unsigned char,
-          typename TSpatialObjectType = ImageSpatialObject< NDimensions,TPixel > >
-class ITK_TEMPLATE_EXPORT MetaImageConverter :
-    public MetaConverterBase< NDimensions >
+          typename TSpatialObjectType = ImageSpatialObject<NDimensions, TPixel>>
+class ITK_TEMPLATE_EXPORT MetaImageConverter : public MetaConverterBase<NDimensions>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaImageConverter);
 
   /** Standard class type aliases */
   using Self = MetaImageConverter;
-  using Superclass = MetaConverterBase< NDimensions >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MetaConverterBase<NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -63,19 +62,24 @@ public:
   using ImageSpatialObjectPointer = typename ImageSpatialObjectType::Pointer;
   using ImageSpatialObjectConstPointer = typename ImageSpatialObjectType::ConstPointer;
   using ImageMetaObjectType = MetaImage;
-  using ImageType = Image<TPixel,NDimensions>;
+  using ImageType = Image<TPixel, NDimensions>;
   /** Convert the MetaObject to Spatial Object */
-  SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) override;
+  SpatialObjectPointer
+  MetaObjectToSpatialObject(const MetaObjectType * mo) override;
 
   /** Convert the SpatialObject to MetaObject */
-  MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject) override;
+  MetaObjectType *
+  SpatialObjectToMetaObject(const SpatialObjectType * spatialObject) override;
 
 protected:
   /** Create the specific MetaObject for this class */
-  MetaObjectType *CreateMetaObject() override;
-  virtual const char *GetMetaObjectSubType();
+  MetaObjectType *
+  CreateMetaObject() override;
+  virtual const char *
+  GetMetaObjectSubType();
 
-  typename ImageType::Pointer AllocateImage(const ImageMetaObjectType *image);
+  typename ImageType::Pointer
+  AllocateImage(const ImageMetaObjectType * image);
 
   MetaImageConverter() = default;
   ~MetaImageConverter() override = default;
@@ -84,7 +88,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkMetaImageConverter.hxx"
+#  include "itkMetaImageConverter.hxx"
 #endif
 
 #endif

@@ -48,9 +48,8 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template<typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT CenteredRigid2DTransform :
-  public Rigid2DTransform<TParametersValueType>
+template <typename TParametersValueType = double>
+class ITK_TEMPLATE_EXPORT CenteredRigid2DTransform : public Rigid2DTransform<TParametersValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CenteredRigid2DTransform);
@@ -118,7 +117,8 @@ public:
    *
    * \sa Transform::SetParameters()
    * \sa Transform::SetFixedParameters() */
-  void SetParameters(const ParametersType & parameters) override;
+  void
+  SetParameters(const ParametersType & parameters) override;
 
   /** Get the parameters that uniquely define the transform
    * This is typically used by optimizers.
@@ -128,36 +128,44 @@ public:
    *
    * \sa Transform::GetParameters()
    * \sa Transform::GetFixedParameters() */
-  const ParametersType & GetParameters() const override;
+  const ParametersType &
+  GetParameters() const override;
 
   /** This method computes the Jacobian matrix of the transformation
    * at a given input point.
    */
-  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
+  void
+  ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const override;
 
   /** Set the fixed parameters and update internal transformation.
    * This is a null function as there are no fixed parameters. */
-  void SetFixedParameters(const FixedParametersType &) override;
+  void
+  SetFixedParameters(const FixedParametersType &) override;
 
   /** Get the Fixed Parameters. An empty array is returned
    * as there are no fixed parameters. */
-  const FixedParametersType & GetFixedParameters() const override;
+  const FixedParametersType &
+  GetFixedParameters() const override;
 
   /**
    * This method creates and returns a new CenteredRigid2DTransform object
    * which is the inverse of self. */
-  void CloneInverseTo(Pointer & newinverse) const;
+  void
+  CloneInverseTo(Pointer & newinverse) const;
 
   /** Get an inverse of this transform. */
-  bool GetInverse(Self *inverse) const;
+  bool
+  GetInverse(Self * inverse) const;
 
   /** Return an inverse of this transform. */
-  InverseTransformBasePointer GetInverseTransform() const override;
+  InverseTransformBasePointer
+  GetInverseTransform() const override;
 
   /**
    * This method creates and returns a new CenteredRigid2DTransform object
    * which has the same parameters as self. */
-  void CloneTo(Pointer & clone) const;
+  void
+  CloneTo(Pointer & clone) const;
 
 protected:
   CenteredRigid2DTransform();
@@ -165,12 +173,13 @@ protected:
 
   CenteredRigid2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
-};                                        // class CenteredRigid2DTransform
-}  // namespace itk
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
+}; // class CenteredRigid2DTransform
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCenteredRigid2DTransform.hxx"
+#  include "itkCenteredRigid2DTransform.hxx"
 #endif
 
 #endif /* itkCenteredRigid2DTransform_h */

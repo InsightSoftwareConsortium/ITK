@@ -63,24 +63,30 @@ public:
   /** Standard class type aliases. */
   using Self = TimeStamp;
 
-  using GlobalTimeStampType = std::atomic< ModifiedTimeType >;
+  using GlobalTimeStampType = std::atomic<ModifiedTimeType>;
 
   /** Create an instance of this class. We don't want to use reference
    * counting. */
-  static Self * New();
+  static Self *
+  New();
 
   /** Constructor must remain public because classes instantiate
    * TimeStamps implicitly in their construction.  */
-  TimeStamp()
-  { m_ModifiedTime = 0; }
+  TimeStamp() { m_ModifiedTime = 0; }
 
   /** Destoy this instance. */
-  void Delete()
-  { delete this; }
+  void
+  Delete()
+  {
+    delete this;
+  }
 
   /** The class name as a string.  */
-  static const char * GetNameOfClass()
-  { return "TimeStamp"; }
+  static const char *
+  GetNameOfClass()
+  {
+    return "TimeStamp";
+  }
 
   /** Set this objects time to the current time. The current time is just a
    * monotonically increasing unsigned long integer. It is possible for this
@@ -89,25 +95,35 @@ public:
    * changing objects within the program. When this does occur, the typical
    * consequence should be that some filters will update themselves when
    * really they don't need to.   */
-  void Modified();
+  void
+  Modified();
 
   /** Return this object's Modified time.  */
-  ModifiedTimeType GetMTime() const
-  { return m_ModifiedTime; }
+  ModifiedTimeType
+  GetMTime() const
+  {
+    return m_ModifiedTime;
+  }
 
   /** Support comparisons of time stamp objects directly.  */
-  bool operator>(TimeStamp & ts)
-  { return ( m_ModifiedTime > ts.m_ModifiedTime ); }
-  bool operator<(TimeStamp & ts)
-  { return ( m_ModifiedTime < ts.m_ModifiedTime ); }
+  bool
+  operator>(TimeStamp & ts)
+  {
+    return (m_ModifiedTime > ts.m_ModifiedTime);
+  }
+  bool
+  operator<(TimeStamp & ts)
+  {
+    return (m_ModifiedTime < ts.m_ModifiedTime);
+  }
 
   /** Allow for typcasting to unsigned long.  */
-  operator ModifiedTimeType() const
-        { return m_ModifiedTime; }
+  operator ModifiedTimeType() const { return m_ModifiedTime; }
 
   /** Assignment operator, allows to initialize one time stamp by copying from
    * another. */
-  Self & operator=( const Self & other ) = default;
+  Self &
+  operator=(const Self & other) = default;
 
 private:
   /** Set/Get the pointer to GlobalTimeStamp.
@@ -120,7 +136,7 @@ private:
    * stage of static initialization. It is then populated on the first call to
    * itk::TimeStamp::Modified() but it can be overridden with SetGlobalTimeStamp().
    * */
-  static GlobalTimeStampType *m_GlobalTimeStamp;
+  static GlobalTimeStampType * m_GlobalTimeStamp;
 };
 } // end namespace itk
 

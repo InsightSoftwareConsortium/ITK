@@ -35,18 +35,17 @@ namespace itk
   \ingroup RegistrationMetrics
  * \ingroup ITKRegistrationCommon
  */
-template< typename TFixedImage, typename TMovingImage >
-class ITK_TEMPLATE_EXPORT HistogramImageToImageMetric:
-  public ImageToImageMetric< TFixedImage, TMovingImage >
+template <typename TFixedImage, typename TMovingImage>
+class ITK_TEMPLATE_EXPORT HistogramImageToImageMetric : public ImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(HistogramImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = HistogramImageToImageMetric;
-  using Superclass = ImageToImageMetric< TFixedImage, TMovingImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageMetric<TFixedImage, TMovingImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(HistogramImageToImageMetric, ImageToImageMetric);
@@ -72,18 +71,20 @@ public:
   /** Typedefs for histogram. This should have been defined as
       Histogram<RealType,2> but a bug in VC++7 produced an internal compiler
       error with such declaration. */
-  using HistogramType = Statistics::Histogram< double >;
+  using HistogramType = Statistics::Histogram<double>;
 
   using MeasurementVectorType = typename HistogramType::MeasurementVectorType;
   using HistogramSizeType = typename HistogramType::SizeType;
   using HistogramPointer = typename HistogramType::Pointer;
 
   /** Initializes the metric. */
-  void Initialize() override;
+  void
+  Initialize() override;
 
   /** Define the transform and thereby the parameter space of the metric
    *   and the space of its derivatives */
-  void SetTransform(TransformType *transform) override;
+  void
+  SetTransform(TransformType * transform) override;
 
   /** Sets the histogram size. Note this function must be called before
       \c Initialize(). */
@@ -121,7 +122,7 @@ public:
   itkGetConstMacro(DerivativeStepLength, double);
 
   /** The scales type. */
-  using ScalesType = Array< double >;
+  using ScalesType = Array<double>;
 
   /** Sets the derivative step length scales. */
   itkSetMacro(DerivativeStepLengthScales, ScalesType);
@@ -130,32 +131,38 @@ public:
   itkGetConstReferenceMacro(DerivativeStepLengthScales, ScalesType);
 
   /**  Get the value for single valued optimizers. */
-  MeasureType GetValue(const TransformParametersType & parameters) const override;
+  MeasureType
+  GetValue(const TransformParametersType & parameters) const override;
 
   /** Get the derivatives of the match measure. */
-  void GetDerivative(const TransformParametersType & parameters,
-                     DerivativeType & derivative) const override;
+  void
+  GetDerivative(const TransformParametersType & parameters, DerivativeType & derivative) const override;
 
   /**  Get value and derivatives for multiple valued optimizers. */
-  void GetValueAndDerivative(const TransformParametersType & parameters,
-                             MeasureType & Value,
-                             DerivativeType & Derivative) const override;
+  void
+  GetValueAndDerivative(const TransformParametersType & parameters,
+                        MeasureType &                   Value,
+                        DerivativeType &                Derivative) const override;
 
   /** Set the lower bounds of the intensities to be considered for computing
-    * the histogram. This option allows to focus the computation of the Metric in
-    * a particular range of intensities that correspond to features of interest. */
-  void SetLowerBound(const MeasurementVectorType & bound);
+   * the histogram. This option allows to focus the computation of the Metric in
+   * a particular range of intensities that correspond to features of interest. */
+  void
+  SetLowerBound(const MeasurementVectorType & bound);
 
   /** Returns the current state of m_LowerBound. */
-  const MeasurementVectorType & GetLowerBound() const;
+  const MeasurementVectorType &
+  GetLowerBound() const;
 
   /** Set the upper bounds of the intensities to be considered for computing
-    * the histogram. This option allows to focus the computation of the Metric in
-    * a particular range of intensities that correspond to features of interest.  */
-  void SetUpperBound(const MeasurementVectorType & bound);
+   * the histogram. This option allows to focus the computation of the Metric in
+   * a particular range of intensities that correspond to features of interest.  */
+  void
+  SetUpperBound(const MeasurementVectorType & bound);
 
   /** Returns the current state of m_UpperBound. */
-  const MeasurementVectorType & GetUpperBound() const;
+  const MeasurementVectorType &
+  GetUpperBound() const;
 
 protected:
   /** Constructor is protected to ensure that \c New() function is used to
@@ -173,34 +180,38 @@ protected:
   double m_UpperBoundIncreaseFactor;
 
   /** Boolean flag to indicate whether the user supplied lower bounds or
-    * whether they should be computed from the min of image intensities */
+   * whether they should be computed from the min of image intensities */
   bool m_LowerBoundSetByUser;
 
   /** Boolean flag to indicate whether the user supplied upper bounds or
-    * whether they should be computed from the max of image intensities */
+   * whether they should be computed from the max of image intensities */
   bool m_UpperBoundSetByUser;
 
   /** Computes the joint histogram from the transformation parameters
       passed to the function. */
-  void ComputeHistogram(const TransformParametersType & parameters,
-                        HistogramType & histogram) const;
+  void
+  ComputeHistogram(const TransformParametersType & parameters, HistogramType & histogram) const;
 
   /** Computes the joint histogram from the transformation parameters
       passed to the function. */
-  void ComputeHistogram(const TransformParametersType & parameters,
-                        unsigned int parameter,
-                        double step,
-                        HistogramType & histogram) const;
+  void
+  ComputeHistogram(const TransformParametersType & parameters,
+                   unsigned int                    parameter,
+                   double                          step,
+                   HistogramType &                 histogram) const;
 
   /** Copies a histogram. */
-  void CopyHistogram(HistogramType & target, HistogramType & source) const;
+  void
+  CopyHistogram(HistogramType & target, HistogramType & source) const;
 
   /** Evaluates the similarity measure using the given histogram. All
       subclasses must reimplement this method. */
-  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const = 0;
+  virtual MeasureType
+  EvaluateMeasure(HistogramType & histogram) const = 0;
 
   /** PrintSelf function */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** The padding value. */
@@ -224,7 +235,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHistogramImageToImageMetric.hxx"
+#  include "itkHistogramImageToImageMetric.hxx"
 #endif
 
 #endif // itkHistogramImageToImageMetric_h

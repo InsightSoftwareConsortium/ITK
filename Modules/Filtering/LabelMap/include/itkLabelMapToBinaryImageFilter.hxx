@@ -26,145 +26,137 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
-::LabelMapToBinaryImageFilter()
+template <typename TInputImage, typename TOutputImage>
+LabelMapToBinaryImageFilter<TInputImage, TOutputImage>::LabelMapToBinaryImageFilter()
 {
-  this->m_BackgroundValue = NumericTraits< OutputImagePixelType >::NonpositiveMin();
-  this->m_ForegroundValue = NumericTraits< OutputImagePixelType >::max();
+  this->m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
+  this->m_ForegroundValue = NumericTraits<OutputImagePixelType>::max();
   this->DynamicMultiThreadingOn();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+LabelMapToBinaryImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast< InputImageType * >( this->GetInput() );
+  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
 
-  if ( input )
-    {
-    input->SetRequestedRegion( input->GetLargestPossibleRegion() );
-    }
+  if (input)
+  {
+    input->SetRequestedRegion(input->GetLargestPossibleRegion());
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
-::EnlargeOutputRequestedRegion(DataObject *)
+LabelMapToBinaryImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+LabelMapToBinaryImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   this->UpdateProgress(0.0f);
   this->AllocateOutputs();
   this->BeforeThreadedGenerateData();
   this->UpdateProgress(0.05f);
 
-  ProgressTransformer pt( 0.05f, 0.5f, this );
-  this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  ProgressTransformer pt(0.05f, 0.5f, this);
+  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
-      this->GetOutput()->GetRequestedRegion(),
-      [this](const OutputImageRegionType & outputRegionForThread)
-        { this->DynamicThreadedGenerateData(outputRegionForThread); },
-        pt.GetProcessObject() );
+    this->GetOutput()->GetRequestedRegion(),
+    [this](const OutputImageRegionType & outputRegionForThread) {
+      this->DynamicThreadedGenerateData(outputRegionForThread);
+    },
+    pt.GetProcessObject());
 
-  ProgressTransformer pt2( 0.5f, 0.99f, this );
+  ProgressTransformer pt2(0.5f, 0.99f, this);
   // delegate to the superclass implementation to use the thread support for the label objects
   this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
-      this->GetOutput()->GetRequestedRegion(),
-      [this](const OutputImageRegionType & outputRegionForThread)
-        { this->SuperclassDynamicTGD(outputRegionForThread); },
-        pt2.GetProcessObject() );
+    this->GetOutput()->GetRequestedRegion(),
+    [this](const OutputImageRegionType & outputRegionForThread) { this->SuperclassDynamicTGD(outputRegionForThread); },
+    pt2.GetProcessObject());
 
   this->AfterThreadedGenerateData();
   this->UpdateProgress(1.0f);
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+LabelMapToBinaryImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
-  OutputImageType *output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
 
   // fill the output with background value - they will be overridden with the
   // foreground value later, if there is some objects
-  if ( this->GetNumberOfIndexedInputs() == 2 )
-    {
+  if (this->GetNumberOfIndexedInputs() == 2)
+  {
     // fill the background with the background values from the background image
-    ImageRegionConstIterator< OutputImageType > bgIt(this->GetBackgroundImage(), outputRegionForThread);
-    ImageRegionIterator< OutputImageType >      oIt(output, outputRegionForThread);
+    ImageRegionConstIterator<OutputImageType> bgIt(this->GetBackgroundImage(), outputRegionForThread);
+    ImageRegionIterator<OutputImageType>      oIt(output, outputRegionForThread);
 
     bgIt.GoToBegin();
     oIt.GoToBegin();
 
-    while ( !oIt.IsAtEnd() )
-      {
+    while (!oIt.IsAtEnd())
+    {
       const OutputImagePixelType & bg = bgIt.Get();
-      if ( bg != this->m_ForegroundValue )
-        {
+      if (bg != this->m_ForegroundValue)
+      {
         oIt.Set(bg);
-        }
+      }
       else
-        {
+      {
         oIt.Set(this->m_BackgroundValue);
-        }
+      }
       ++oIt;
       ++bgIt;
-      }
     }
+  }
   else
-    {
+  {
     // fill the background with the background value
-    ImageRegionIterator< OutputImageType > oIt(output, outputRegionForThread);
+    ImageRegionIterator<OutputImageType> oIt(output, outputRegionForThread);
     oIt.GoToBegin();
 
-    while ( !oIt.IsAtEnd() )
-      {
+    while (!oIt.IsAtEnd())
+    {
       oIt.Set(this->m_BackgroundValue);
       ++oIt;
-      }
     }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
-::ThreadedProcessLabelObject(LabelObjectType *labelObject)
+LabelMapToBinaryImageFilter<TInputImage, TOutputImage>::ThreadedProcessLabelObject(LabelObjectType * labelObject)
 {
-  OutputImageType *output = this->GetOutput();
-  typename LabelObjectType::ConstIndexIterator it( labelObject );
-  while( ! it.IsAtEnd() )
-    {
-    output->SetPixel( it.GetIndex(), this->m_ForegroundValue );
+  OutputImageType *                            output = this->GetOutput();
+  typename LabelObjectType::ConstIndexIterator it(labelObject);
+  while (!it.IsAtEnd())
+  {
+    output->SetPixel(it.GetIndex(), this->m_ForegroundValue);
     ++it;
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+LabelMapToBinaryImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
 
   os << indent << "ForegroundValue: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( this->m_ForegroundValue )
-     << std::endl;
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->m_ForegroundValue) << std::endl;
   os << indent << "BackgroundValue: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( this->m_BackgroundValue )
-     << std::endl;
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->m_BackgroundValue) << std::endl;
 }
 } // end namespace itk
 

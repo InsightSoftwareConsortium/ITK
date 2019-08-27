@@ -20,7 +20,8 @@
 #include "itkTestingMacros.h"
 
 
-int itkLabelVotingImageFilterTest( int, char* [] )
+int
+itkLabelVotingImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
@@ -30,35 +31,29 @@ int itkLabelVotingImageFilterTest( int, char* [] )
   using PixelType = unsigned int;
 
   // Declare the types of the images
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
   // Input data arrays for test images
-  const unsigned int dataImageA[8] =
-    { 0, 1, 3, 3, 4, 6, 6, 0 };
-  const unsigned int dataImageB[8] =
-    { 1, 1, 2, 4, 4, 5, 7, 1 };
-  const unsigned int dataImageC[8] =
-    { 0, 2, 2, 3, 5, 5, 6, 8 };
+  const unsigned int dataImageA[8] = { 0, 1, 3, 3, 4, 6, 6, 0 };
+  const unsigned int dataImageB[8] = { 1, 1, 2, 4, 4, 5, 7, 1 };
+  const unsigned int dataImageC[8] = { 0, 2, 2, 3, 5, 5, 6, 8 };
 
   // Correct combinations of input images
-  const unsigned int combinationABC[8] =
-    { 0, 1, 2, 3, 4, 5, 6, 9 };
-  const unsigned int combinationAB[8] =
-    { 8, 1, 8, 8, 4, 8, 8, 8 };
-  const unsigned int combinationABundecided255[8] =
-    { 255, 1, 255, 255, 4, 255, 255, 255 };
+  const unsigned int combinationABC[8] = { 0, 1, 2, 3, 4, 5, 6, 9 };
+  const unsigned int combinationAB[8] = { 8, 1, 8, 8, 4, 8, 8, 8 };
+  const unsigned int combinationABundecided255[8] = { 255, 1, 255, 255, 4, 255, 255, 255 };
 
   // Declare the type of the index to access images
-  using IndexType = itk::Index< Dimension >;
+  using IndexType = itk::Index<Dimension>;
 
   // Declare the type of the size
-  using SizeType = itk::Size< Dimension >;
+  using SizeType = itk::Size<Dimension>;
 
   // Declare the type of the Region
-  using RegionType = itk::ImageRegion< Dimension >;
+  using RegionType = itk::ImageRegion<Dimension>;
 
   // Declare appropriate Iterator type for the images
-  using IteratorType = itk::ImageRegionIterator< ImageType >;
+  using IteratorType = itk::ImageRegionIterator<ImageType>;
 
   // Declare the type for the filter
   using LabelVotingImageFilterType = itk::LabelVotingImageFilter<ImageType>;
@@ -80,64 +75,61 @@ int itkLabelVotingImageFilterTest( int, char* [] )
   start[2] = 0;
 
   RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
   // Initialize Image A
-  inputImageA->SetLargestPossibleRegion( region );
-  inputImageA->SetBufferedRegion( region );
-  inputImageA->SetRequestedRegion( region );
+  inputImageA->SetLargestPossibleRegion(region);
+  inputImageA->SetBufferedRegion(region);
+  inputImageA->SetRequestedRegion(region);
   inputImageA->Allocate();
 
-  IteratorType it =
-    IteratorType( inputImageA, inputImageA->GetBufferedRegion() );
+  IteratorType it = IteratorType(inputImageA, inputImageA->GetBufferedRegion());
 
-  for( int i = 0; i < 8; ++i, ++it )
-    {
-    it.Set( dataImageA[i] );
-    }
+  for (int i = 0; i < 8; ++i, ++it)
+  {
+    it.Set(dataImageA[i]);
+  }
 
   // Initialize Image B
-  inputImageB->SetLargestPossibleRegion( region );
-  inputImageB->SetBufferedRegion( region );
-  inputImageB->SetRequestedRegion( region );
+  inputImageB->SetLargestPossibleRegion(region);
+  inputImageB->SetBufferedRegion(region);
+  inputImageB->SetRequestedRegion(region);
   inputImageB->Allocate();
 
-  it = IteratorType( inputImageB, inputImageB->GetBufferedRegion() );
-  for( int i = 0; i < 8; ++i, ++it )
-    {
-    it.Set( dataImageB[i] );
-    }
+  it = IteratorType(inputImageB, inputImageB->GetBufferedRegion());
+  for (int i = 0; i < 8; ++i, ++it)
+  {
+    it.Set(dataImageB[i]);
+  }
 
   // Initialize Image C
-  inputImageC->SetLargestPossibleRegion( region );
-  inputImageC->SetBufferedRegion( region );
-  inputImageC->SetRequestedRegion( region );
+  inputImageC->SetLargestPossibleRegion(region);
+  inputImageC->SetBufferedRegion(region);
+  inputImageC->SetRequestedRegion(region);
   inputImageC->Allocate();
 
-  it = IteratorType( inputImageC, inputImageC->GetBufferedRegion() );
-  for( int i = 0; i < 8; ++i, ++it )
-    {
-    it.Set( dataImageC[i] );
-    }
+  it = IteratorType(inputImageC, inputImageC->GetBufferedRegion());
+  for (int i = 0; i < 8; ++i, ++it)
+  {
+    it.Set(dataImageC[i]);
+  }
 
   // Create the LabelVoting Filter
-  LabelVotingImageFilterType::Pointer labelVotingFilter =
-    LabelVotingImageFilterType::New();
+  LabelVotingImageFilterType::Pointer labelVotingFilter = LabelVotingImageFilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( labelVotingFilter, LabelVotingImageFilter,
-    ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(labelVotingFilter, LabelVotingImageFilter, ImageToImageFilter);
 
 
   // Test with first two input images with undecided label set to 255
   //
 
   // Set the first two input images
-  labelVotingFilter->SetInput( 0, inputImageA );
-  labelVotingFilter->SetInput( 1, inputImageB );
+  labelVotingFilter->SetInput(0, inputImageA);
+  labelVotingFilter->SetInput(1, inputImageB);
 
   // Set label for undecided pixels
-  labelVotingFilter->SetLabelForUndecidedPixels( 255 );
+  labelVotingFilter->SetLabelForUndecidedPixels(255);
 
   // Execute the filter
   labelVotingFilter->Update();
@@ -146,18 +138,17 @@ int itkLabelVotingImageFilterTest( int, char* [] )
   ImageType::Pointer outputImage = labelVotingFilter->GetOutput();
 
   // Compare to correct results
-  it = IteratorType( outputImage, outputImage->GetBufferedRegion() );
-  for( unsigned int i = 0; i < 8; ++i, ++it )
+  it = IteratorType(outputImage, outputImage->GetBufferedRegion());
+  for (unsigned int i = 0; i < 8; ++i, ++it)
+  {
+    if (combinationABundecided255[i] != it.Get())
     {
-    if( combinationABundecided255[i] != it.Get() )
-      {
       std::cout << "Incorrect result using images A,B and undecided=255: "
-                << "i = " << i
-                << ", Expected = " << combinationABundecided255[i]
-                << ", Received = " << it.Get() << "\n";
+                << "i = " << i << ", Expected = " << combinationABundecided255[i] << ", Received = " << it.Get()
+                << "\n";
       return EXIT_FAILURE;
-      }
     }
+  }
 
 
   // Test with first two input images
@@ -173,24 +164,23 @@ int itkLabelVotingImageFilterTest( int, char* [] )
   outputImage = labelVotingFilter->GetOutput();
 
   // Compare to correct results
-  it = IteratorType( outputImage, outputImage->GetBufferedRegion() );
-  for(unsigned int i = 0; i < 8; ++i, ++it )
+  it = IteratorType(outputImage, outputImage->GetBufferedRegion());
+  for (unsigned int i = 0; i < 8; ++i, ++it)
+  {
+    if (combinationAB[i] != it.Get())
     {
-    if( combinationAB[i] != it.Get() )
-      {
-      std::cout << "Incorrect result using images A,B: i = " << i
-                << ", Expected = " << combinationAB[i]
+      std::cout << "Incorrect result using images A,B: i = " << i << ", Expected = " << combinationAB[i]
                 << ", Received = " << it.Get() << "\n";
       return EXIT_FAILURE;
-      }
     }
+  }
 
 
   // Test with all three input images
   //
 
   // Set the third input image
-  labelVotingFilter->SetInput( 2, inputImageC );
+  labelVotingFilter->SetInput(2, inputImageC);
 
   // Execute the filter
   labelVotingFilter->Update();
@@ -199,17 +189,16 @@ int itkLabelVotingImageFilterTest( int, char* [] )
   outputImage = labelVotingFilter->GetOutput();
 
   // Compare to correct results
-  it = IteratorType( outputImage, outputImage->GetBufferedRegion() );
-  for( unsigned int i = 0; i < 8; ++i, ++it )
+  it = IteratorType(outputImage, outputImage->GetBufferedRegion());
+  for (unsigned int i = 0; i < 8; ++i, ++it)
+  {
+    if (combinationABC[i] != it.Get())
     {
-    if( combinationABC[i] != it.Get() )
-      {
-      std::cout << "Incorrect result using images A,B,C: i = " << i
-                << ", Expected = " << combinationABC[i]
+      std::cout << "Incorrect result using images A,B,C: i = " << i << ", Expected = " << combinationABC[i]
                 << ", Received = " << it.Get() << "\n";
       return EXIT_FAILURE;
-      }
     }
+  }
 
   std::cout << "Test succeeded." << std::endl;
 

@@ -25,25 +25,26 @@
 namespace itk
 {
 /** Constructor with default arguments */
-template<typename TParametersValueType, unsigned int NDimensions>
-AffineTransform<TParametersValueType, NDimensions>::AffineTransform():Superclass(ParametersDimension)
+template <typename TParametersValueType, unsigned int NDimensions>
+AffineTransform<TParametersValueType, NDimensions>::AffineTransform()
+  : Superclass(ParametersDimension)
 {}
 
 /** Constructor with default arguments */
-template<typename TParametersValueType, unsigned int NDimensions>
-AffineTransform<TParametersValueType, NDimensions>::AffineTransform(unsigned int parametersDimension):
-  Superclass(parametersDimension)
+template <typename TParametersValueType, unsigned int NDimensions>
+AffineTransform<TParametersValueType, NDimensions>::AffineTransform(unsigned int parametersDimension)
+  : Superclass(parametersDimension)
 {}
 
 /** Constructor with explicit arguments */
-template<typename TParametersValueType, unsigned int NDimensions>
-AffineTransform<TParametersValueType, NDimensions>::AffineTransform(const MatrixType & matrix,
-                                                             const OutputVectorType & offset):
-  Superclass(matrix, offset)
+template <typename TParametersValueType, unsigned int NDimensions>
+AffineTransform<TParametersValueType, NDimensions>::AffineTransform(const MatrixType &       matrix,
+                                                                    const OutputVectorType & offset)
+  : Superclass(matrix, offset)
 {}
 
 /** Print self */
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
 AffineTransform<TParametersValueType, NDimensions>::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -51,39 +52,38 @@ AffineTransform<TParametersValueType, NDimensions>::PrintSelf(std::ostream & os,
 }
 
 /** Compose with a translation */
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
 AffineTransform<TParametersValueType, NDimensions>::Translate(const OutputVectorType & trans, bool pre)
 {
   OutputVectorType newTranslation = this->GetTranslation();
 
-  if ( pre )
-    {
+  if (pre)
+  {
     newTranslation += this->GetMatrix() * trans;
-    }
+  }
   else
-    {
+  {
     newTranslation += trans;
-    }
+  }
   this->SetVarTranslation(newTranslation);
   this->ComputeOffset();
   this->Modified();
 }
 
 /** Compose with isotropic scaling */
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-AffineTransform<TParametersValueType, NDimensions>
-::Scale(const TParametersValueType & factor, bool pre)
+AffineTransform<TParametersValueType, NDimensions>::Scale(const TParametersValueType & factor, bool pre)
 {
-  if ( pre )
-    {
+  if (pre)
+  {
     MatrixType newMatrix = this->GetMatrix();
     newMatrix *= factor;
     this->SetVarMatrix(newMatrix);
-    }
+  }
   else
-    {
+  {
     MatrixType newMatrix = this->GetMatrix();
     newMatrix *= factor;
     this->SetVarMatrix(newMatrix);
@@ -91,73 +91,71 @@ AffineTransform<TParametersValueType, NDimensions>
     OutputVectorType newTranslation = this->GetTranslation();
     newTranslation *= factor;
     this->SetVarTranslation(newTranslation);
-    }
+  }
   this->ComputeMatrixParameters();
   this->ComputeOffset();
   this->Modified();
 }
 
 /** Compose with anisotropic scaling */
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-AffineTransform<TParametersValueType, NDimensions>
-::Scale(const OutputVectorType & factor, bool pre)
+AffineTransform<TParametersValueType, NDimensions>::Scale(const OutputVectorType & factor, bool pre)
 {
   MatrixType   trans;
   unsigned int i, j;
 
-  for ( i = 0; i < NDimensions; i++ )
+  for (i = 0; i < NDimensions; i++)
+  {
+    for (j = 0; j < NDimensions; j++)
     {
-    for ( j = 0; j < NDimensions; j++ )
-      {
       trans[i][j] = 0.0;
-      }
+    }
     trans[i][i] = factor[i];
-    }
-  if ( pre )
-    {
+  }
+  if (pre)
+  {
     this->SetVarMatrix(this->GetMatrix() * trans);
-    }
+  }
   else
-    {
-    this->SetVarMatrix( trans * this->GetMatrix() );
-    this->SetVarTranslation( trans * this->GetTranslation() );
-    }
+  {
+    this->SetVarMatrix(trans * this->GetMatrix());
+    this->SetVarTranslation(trans * this->GetTranslation());
+  }
   this->ComputeMatrixParameters();
   this->ComputeOffset();
   this->Modified();
 }
 
 /** Compose with elementary rotation */
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-AffineTransform<TParametersValueType, NDimensions>
-::Rotate(int axis1, int axis2, TParametersValueType angle, bool pre)
+AffineTransform<TParametersValueType, NDimensions>::Rotate(int axis1, int axis2, TParametersValueType angle, bool pre)
 {
   MatrixType   trans;
   unsigned int i, j;
 
-  for ( i = 0; i < NDimensions; i++ )
+  for (i = 0; i < NDimensions; i++)
+  {
+    for (j = 0; j < NDimensions; j++)
     {
-    for ( j = 0; j < NDimensions; j++ )
-      {
       trans[i][j] = 0.0;
-      }
+    }
     trans[i][i] = 1.0;
-    }
-  trans[axis1][axis1] =  std::cos(angle);
-  trans[axis1][axis2] =  std::sin(angle);
+  }
+  trans[axis1][axis1] = std::cos(angle);
+  trans[axis1][axis2] = std::sin(angle);
   trans[axis2][axis1] = -std::sin(angle);
-  trans[axis2][axis2] =  std::cos(angle);
-  if ( pre )
-    {
+  trans[axis2][axis2] = std::cos(angle);
+  if (pre)
+  {
     this->SetVarMatrix(this->GetMatrix() * trans);
-    }
+  }
   else
-    {
-    this->SetVarMatrix( trans * this->GetMatrix() );
-    this->SetVarTranslation( trans * this->GetTranslation() );
-    }
+  {
+    this->SetVarMatrix(trans * this->GetMatrix());
+    this->SetVarTranslation(trans * this->GetTranslation());
+  }
   this->ComputeMatrixParameters();
   this->ComputeOffset();
   this->Modified();
@@ -166,26 +164,25 @@ AffineTransform<TParametersValueType, NDimensions>
 /** Compose with 2D rotation
  * \todo Find a way to generate a compile-time error
  * is this is used with NDimensions != 2. */
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-AffineTransform<TParametersValueType, NDimensions>
-::Rotate2D(TParametersValueType angle, bool pre)
+AffineTransform<TParametersValueType, NDimensions>::Rotate2D(TParametersValueType angle, bool pre)
 {
   MatrixType trans;
 
-  trans[0][0] =  std::cos(angle);
+  trans[0][0] = std::cos(angle);
   trans[0][1] = -std::sin(angle);
-  trans[1][0] =  std::sin(angle);
-  trans[1][1] =  std::cos(angle);
-  if ( pre )
-    {
+  trans[1][0] = std::sin(angle);
+  trans[1][1] = std::cos(angle);
+  if (pre)
+  {
     this->SetVarMatrix(this->GetMatrix() * trans);
-    }
+  }
   else
-    {
-    this->SetVarMatrix( trans * this->GetMatrix() );
-    this->SetVarTranslation( trans * this->GetTranslation() );
-    }
+  {
+    this->SetVarMatrix(trans * this->GetMatrix());
+    this->SetVarTranslation(trans * this->GetTranslation());
+  }
   this->ComputeMatrixParameters();
   this->ComputeOffset();
   this->Modified();
@@ -194,10 +191,11 @@ AffineTransform<TParametersValueType, NDimensions>
 /** Compose with 3D rotation
  *  \todo Find a way to generate a compile-time error
  *  is this is used with NDimensions != 3. */
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-AffineTransform<TParametersValueType, NDimensions>
-::Rotate3D(const OutputVectorType & axis, TParametersValueType angle, bool pre)
+AffineTransform<TParametersValueType, NDimensions>::Rotate3D(const OutputVectorType & axis,
+                                                             TParametersValueType     angle,
+                                                             bool                     pre)
 {
   MatrixType trans;
   ScalarType r, x1, x2, x3;
@@ -217,76 +215,73 @@ AffineTransform<TParametersValueType, NDimensions>
 
   // Compute elements of the rotation matrix
   trans[0][0] = q0 * q0 + q1 * q1 - q2 * q2 - q3 * q3;
-  trans[0][1] = 2.0 * ( q1 * q2 - q0 * q3 );
-  trans[0][2] = 2.0 * ( q1 * q3 + q0 * q2 );
-  trans[1][0] = 2.0 * ( q1 * q2 + q0 * q3 );
+  trans[0][1] = 2.0 * (q1 * q2 - q0 * q3);
+  trans[0][2] = 2.0 * (q1 * q3 + q0 * q2);
+  trans[1][0] = 2.0 * (q1 * q2 + q0 * q3);
   trans[1][1] = q0 * q0 + q2 * q2 - q1 * q1 - q3 * q3;
-  trans[1][2] = 2.0 * ( q2 * q3 - q0 * q1 );
-  trans[2][0] = 2.0 * ( q1 * q3 - q0 * q2 );
-  trans[2][1] = 2.0 * ( q2 * q3 + q0 * q1 );
+  trans[1][2] = 2.0 * (q2 * q3 - q0 * q1);
+  trans[2][0] = 2.0 * (q1 * q3 - q0 * q2);
+  trans[2][1] = 2.0 * (q2 * q3 + q0 * q1);
   trans[2][2] = q0 * q0 + q3 * q3 - q1 * q1 - q2 * q2;
 
   // Compose rotation matrix with the existing matrix
-  if ( pre )
-    {
+  if (pre)
+  {
     this->SetVarMatrix(this->GetMatrix() * trans);
-    }
+  }
   else
-    {
-    this->SetVarMatrix( trans * this->GetMatrix() );
-    this->SetVarTranslation( trans * this->GetTranslation() );
-    }
+  {
+    this->SetVarMatrix(trans * this->GetMatrix());
+    this->SetVarTranslation(trans * this->GetTranslation());
+  }
   this->ComputeMatrixParameters();
   this->ComputeOffset();
   this->Modified();
 }
 
 /** Compose with elementary rotation */
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-AffineTransform<TParametersValueType, NDimensions>
-::Shear(int axis1, int axis2, TParametersValueType coef, bool pre)
+AffineTransform<TParametersValueType, NDimensions>::Shear(int axis1, int axis2, TParametersValueType coef, bool pre)
 {
   MatrixType   trans;
   unsigned int i, j;
 
-  for ( i = 0; i < NDimensions; i++ )
+  for (i = 0; i < NDimensions; i++)
+  {
+    for (j = 0; j < NDimensions; j++)
     {
-    for ( j = 0; j < NDimensions; j++ )
-      {
       trans[i][j] = 0.0;
-      }
+    }
     trans[i][i] = 1.0;
-    }
-  trans[axis1][axis2] =  coef;
-  if ( pre )
-    {
+  }
+  trans[axis1][axis2] = coef;
+  if (pre)
+  {
     this->SetVarMatrix(this->GetMatrix() * trans);
-    }
+  }
   else
-    {
-    this->SetVarMatrix( trans * this->GetMatrix() );
-    this->SetVarTranslation( trans * this->GetTranslation() );
-    }
+  {
+    this->SetVarMatrix(trans * this->GetMatrix());
+    this->SetVarTranslation(trans * this->GetTranslation());
+  }
   this->ComputeMatrixParameters();
   this->ComputeOffset();
   this->Modified();
 }
 
 /** Get an inverse of this transform. */
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 bool
-AffineTransform<TParametersValueType, NDimensions>
-::GetInverse(Self *inverse) const
+AffineTransform<TParametersValueType, NDimensions>::GetInverse(Self * inverse) const
 {
   return this->Superclass::GetInverse(inverse);
 }
 
 /** Return an inverse of this transform. */
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 typename AffineTransform<TParametersValueType, NDimensions>::InverseTransformBasePointer
-AffineTransform<TParametersValueType, NDimensions>
-::GetInverseTransform() const
+AffineTransform<TParametersValueType, NDimensions>::GetInverseTransform() const
 {
   Pointer inv = New();
 
@@ -294,54 +289,52 @@ AffineTransform<TParametersValueType, NDimensions>
 }
 
 /** Compute a distance between two affine transforms */
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 typename AffineTransform<TParametersValueType, NDimensions>::ScalarType
-AffineTransform<TParametersValueType, NDimensions>
-::Metric(const Self *other) const
+AffineTransform<TParametersValueType, NDimensions>::Metric(const Self * other) const
 {
   ScalarType result = 0.0, term;
 
-  for ( unsigned int i = 0; i < NDimensions; i++ )
+  for (unsigned int i = 0; i < NDimensions; i++)
+  {
+    for (unsigned int j = 0; j < NDimensions; j++)
     {
-    for ( unsigned int j = 0; j < NDimensions; j++ )
-      {
       term = this->GetMatrix()[i][j] - other->GetMatrix()[i][j];
       result += term * term;
-      }
+    }
     term = this->GetOffset()[i] - other->GetOffset()[i];
     result += term * term;
-    }
+  }
   return std::sqrt(result);
 }
 
 /** Compute a distance between self and the identity transform */
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 typename AffineTransform<TParametersValueType, NDimensions>::ScalarType
-AffineTransform<TParametersValueType, NDimensions>
-::Metric() const
+AffineTransform<TParametersValueType, NDimensions>::Metric() const
 {
   ScalarType result = 0.0, term;
 
-  for ( unsigned int i = 0; i < NDimensions; i++ )
+  for (unsigned int i = 0; i < NDimensions; i++)
+  {
+    for (unsigned int j = 0; j < NDimensions; j++)
     {
-    for ( unsigned int j = 0; j < NDimensions; j++ )
+      if (i == j)
       {
-      if ( i == j )
-        {
         term = this->GetMatrix()[i][j] - 1.0;
-        }
-      else
-        {
-        term = this->GetMatrix()[i][j];
-        }
-      result += term * term;
       }
+      else
+      {
+        term = this->GetMatrix()[i][j];
+      }
+      result += term * term;
+    }
     term = this->GetOffset()[i];
     result += term * term;
-    }
+  }
 
   return std::sqrt(result);
 }
-} // namespace
+} // namespace itk
 
 #endif

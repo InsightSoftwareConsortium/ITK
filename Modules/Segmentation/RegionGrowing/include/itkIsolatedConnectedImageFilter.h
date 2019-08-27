@@ -67,25 +67,23 @@ namespace itk
  * \ingroup RegionGrowingSegmentation
  * \ingroup ITKRegionGrowing
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT IsolatedConnectedImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT IsolatedConnectedImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(IsolatedConnectedImageFilter);
 
   /** Standard class type aliases. */
   using Self = IsolatedConnectedImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods).  */
-  itkTypeMacro(IsolatedConnectedImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(IsolatedConnectedImageFilter, ImageToImageFilter);
   using InputImageType = TInputImage;
   using InputImagePointer = typename InputImageType::Pointer;
   using InputImageConstPointer = typename InputImageType::ConstPointer;
@@ -99,41 +97,50 @@ public:
   using OutputImageRegionType = typename OutputImageType::RegionType;
   using OutputImagePixelType = typename OutputImageType::PixelType;
 
-  using SeedsContainerType = std::vector< IndexType >;
+  using SeedsContainerType = std::vector<IndexType>;
 
   using InputRealType = typename NumericTraits<InputImagePixelType>::RealType;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Add seed point 1. This seed will be isolated from Seed2 (if possible).
    *  All pixels connected to this seed will be replaced with ReplaceValue. */
-  void AddSeed1(const IndexType & seed);
+  void
+  AddSeed1(const IndexType & seed);
 
   /** Set a single seed point 1.
    *
    * This seed will be isolated from Seed2 (if possible). All pixels
    * connected to this seed will be replaced with ReplaceValue.
    */
-  void SetSeed1(const IndexType & seed);
+  void
+  SetSeed1(const IndexType & seed);
 
   /** Clear all the seeds1. */
-  void ClearSeeds1();
+  void
+  ClearSeeds1();
 
   /** Add seed point 2. This seed will be isolated from Seed1 (if possible). */
-  void AddSeed2(const IndexType & seed);
+  void
+  AddSeed2(const IndexType & seed);
 
   /**  Set a single seed point 2.
    *
    * This seed will be isolated from Seed1 (if possible).
    */
-  void SetSeed2(const IndexType & seed);
+  void
+  SetSeed2(const IndexType & seed);
 
   /** Clear all the seeds2. */
-  void ClearSeeds2();
+  void
+  ClearSeeds2();
 
   /** Method to access seed container */
-  virtual const SeedsContainerType &GetSeeds1() const;
-  virtual const SeedsContainerType &GetSeeds2() const;
+  virtual const SeedsContainerType &
+  GetSeeds1() const;
+  virtual const SeedsContainerType &
+  GetSeeds2() const;
 
   /** Set/Get the limit on the lower threshold value. The default is
    * the NonpositiveMin() for the InputPixelType. */
@@ -145,17 +152,19 @@ public:
   itkSetMacro(Upper, InputImagePixelType);
   itkGetConstReferenceMacro(Upper, InputImagePixelType);
 
-#if ! defined ( ITK_LEGACY_REMOVE )
+#if !defined(ITK_LEGACY_REMOVE)
   /** \deprecated
    * Set/Get the limit on the upper threshold value. The default is
       the max() for the InputPixelType.  These methods have been
       deprecated.  Please use Set/Get Upper instead. */
-  void SetUpperValueLimit(InputImagePixelType upperValue)
+  void
+  SetUpperValueLimit(InputImagePixelType upperValue)
   {
     this->SetUpper(upperValue);
   }
 
-  InputImagePixelType GetUpperValueLimit()
+  InputImagePixelType
+  GetUpperValueLimit()
   {
     return this->GetUpper();
   }
@@ -187,8 +196,7 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputImagePixelType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputImagePixelType>));
   // End concept checking
 #endif
 
@@ -210,17 +218,20 @@ protected:
   bool m_ThresholdingFailed;
 
   // Override since the filter needs all the data for the algorithm
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   // Override since the filter produces the entire dataset
-  void EnlargeOutputRequestedRegion(DataObject *output) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkIsolatedConnectedImageFilter.hxx"
+#  include "itkIsolatedConnectedImageFilter.hxx"
 #endif
 
 #endif

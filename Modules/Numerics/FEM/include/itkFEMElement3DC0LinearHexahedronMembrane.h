@@ -55,13 +55,14 @@ public:
   itkSimpleNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Element3DC0LinearHexahedronMembrane, Element3DMembrane<Element3DC0LinearHexahedron> );
+  itkTypeMacro(Element3DC0LinearHexahedronMembrane, Element3DMembrane<Element3DC0LinearHexahedron>);
 
   /**
    * CreateAnother method will clone the existing instance of this type,
    * including its internal member variables.
    */
-  ::itk::LightObject::Pointer CreateAnother() const override;
+  ::itk::LightObject::Pointer
+  CreateAnother() const override;
 
   /**
    * Default constructor only clears the internal storage
@@ -75,8 +76,8 @@ public:
   Element3DC0LinearHexahedronMembrane(NodeIDType ns_[], Material::ConstPointer p_);
 
 protected:
-  void PrintSelf(std::ostream& os, Indent indent) const override;
-
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 
 } // end namespace fem

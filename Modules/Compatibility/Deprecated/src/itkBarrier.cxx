@@ -19,35 +19,34 @@
 
 namespace itk
 {
-Barrier::Barrier()
-{
-}
+Barrier::Barrier() {}
 
 Barrier::~Barrier() = default;
 
-void Barrier::Initialize(unsigned int n)
+void
+Barrier::Initialize(unsigned int n)
 {
   m_NumberExpected = n;
 }
 
-void Barrier::Wait()
+void
+Barrier::Wait()
 {
-  std::unique_lock< std::mutex > lockHolder{ m_Mutex };
-  unsigned  lGeneration = m_Generation;
+  std::unique_lock<std::mutex> lockHolder{ m_Mutex };
+  unsigned                     lGeneration = m_Generation;
   ++m_NumberArrived;
-  if ( m_NumberArrived == m_NumberExpected )
-    {
+  if (m_NumberArrived == m_NumberExpected)
+  {
     // Clear all blocked threads
     ++m_Generation;
     m_NumberArrived = 0;
     m_ConditionVariable.notify_all();
-    }
+  }
   else
-    {
+  {
     // Block this thread
-    m_ConditionVariable.wait( lockHolder, [this, lGeneration]
-        { return lGeneration != m_Generation; } );
-    }
+    m_ConditionVariable.wait(lockHolder, [this, lGeneration] { return lGeneration != m_Generation; });
+  }
 }
 
 } // end namespace itk

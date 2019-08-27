@@ -51,29 +51,25 @@ namespace itk
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ITKPDEDeformableRegistration
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-class ITK_TEMPLATE_EXPORT LevelSetMotionRegistrationFunction:
-  public PDEDeformableRegistrationFunction< TFixedImage,
-                                            TMovingImage,
-                                            TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+class ITK_TEMPLATE_EXPORT LevelSetMotionRegistrationFunction
+  : public PDEDeformableRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetMotionRegistrationFunction);
 
   /** Standard class type aliases. */
   using Self = LevelSetMotionRegistrationFunction;
-  using Superclass = PDEDeformableRegistrationFunction< TFixedImage,
-                                             TMovingImage, TDisplacementField >;
+  using Superclass = PDEDeformableRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LevelSetMotionRegistrationFunction,
-               PDEDeformableRegistrationFunction);
+  itkTypeMacro(LevelSetMotionRegistrationFunction, PDEDeformableRegistrationFunction);
 
   /** MovingImage image type. */
   using MovingImageType = typename Superclass::MovingImageType;
@@ -103,68 +99,82 @@ public:
 
   /** Interpolator type. */
   using CoordRepType = double;
-  using InterpolatorType = InterpolateImageFunction< MovingImageType, CoordRepType >;
+  using InterpolatorType = InterpolateImageFunction<MovingImageType, CoordRepType>;
   using InterpolatorPointer = typename InterpolatorType::Pointer;
   using PointType = typename InterpolatorType::PointType;
-  using DefaultInterpolatorType =
-      LinearInterpolateImageFunction< MovingImageType, CoordRepType >;
+  using DefaultInterpolatorType = LinearInterpolateImageFunction<MovingImageType, CoordRepType>;
 
   /** Vector types. */
-  using VectorType = Vector< double, Self::ImageDimension >;
-  using CovariantVectorType =
-      CovariantVector< double, Self::ImageDimension >;
+  using VectorType = Vector<double, Self::ImageDimension>;
+  using CovariantVectorType = CovariantVector<double, Self::ImageDimension>;
 
   /** Moving image gradient calculator type. */
   using MovingImageSmoothingFilterType = SmoothingRecursiveGaussianImageFilter<MovingImageType>;
   using MovingImageSmoothingFilterPointer = typename MovingImageSmoothingFilterType::Pointer;
 
   /** Set the moving image interpolator. */
-  void SetMovingImageInterpolator(InterpolatorType *ptr)
-  { m_MovingImageInterpolator = ptr; }
+  void
+  SetMovingImageInterpolator(InterpolatorType * ptr)
+  {
+    m_MovingImageInterpolator = ptr;
+  }
 
   /** Get the moving image interpolator. */
-  InterpolatorType * GetMovingImageInterpolator()
-  { return m_MovingImageInterpolator; }
+  InterpolatorType *
+  GetMovingImageInterpolator()
+  {
+    return m_MovingImageInterpolator;
+  }
 
   /** Compute the time step that can taken for this iterations.  In
    * this context, the timestep is a function of the maximum gradients. */
-  TimeStepType ComputeGlobalTimeStep(void *GlobalData) const override;
+  TimeStepType
+  ComputeGlobalTimeStep(void * GlobalData) const override;
 
   /** Return a pointer to a global data structure that is passed to
    * this object from the solver at each calculation.  */
-  void * GetGlobalDataPointer() const override
+  void *
+  GetGlobalDataPointer() const override
   {
     auto * global = new GlobalDataStruct();
 
-    global->m_SumOfSquaredDifference  = 0.0;
+    global->m_SumOfSquaredDifference = 0.0;
     global->m_NumberOfPixelsProcessed = 0L;
-    global->m_SumOfSquaredChange      = 0;
-    global->m_MaxL1Norm            = NumericTraits< double >::NonpositiveMin();
+    global->m_SumOfSquaredChange = 0;
+    global->m_MaxL1Norm = NumericTraits<double>::NonpositiveMin();
     return global;
   }
 
   /** Release memory for global data structure. */
-  void ReleaseGlobalDataPointer(void *GlobalData) const override;
+  void
+  ReleaseGlobalDataPointer(void * GlobalData) const override;
 
   /** Set the object's state before each iteration. */
-  void InitializeIteration() override;
+  void
+  InitializeIteration() override;
 
   /** This method is called by a finite difference solver image filter at
    * each pixel that does not lie on a data set boundary */
-  PixelType  ComputeUpdate( const NeighborhoodType & neighborhood,
-                                    void *globalData,
-                                    const FloatOffsetType & offset =
-                                      FloatOffsetType(0.0) ) override;
+  PixelType
+  ComputeUpdate(const NeighborhoodType & neighborhood,
+                void *                   globalData,
+                const FloatOffsetType &  offset = FloatOffsetType(0.0)) override;
 
   /** Get the metric value. The metric value is the mean square difference
    * in intensity between the fixed image and transforming moving image
    * computed over the the overlapping region between the two images. */
-  virtual double GetMetric() const
-  { return m_Metric; }
+  virtual double
+  GetMetric() const
+  {
+    return m_Metric;
+  }
 
   /** Get the rms change in deformation field. */
-  virtual double GetRMSChange() const
-  { return m_RMSChange; }
+  virtual double
+  GetRMSChange() const
+  {
+    return m_RMSChange;
+  }
 
   /** Set/Get the parameter alpha.  Alpha is added to the calculated
    * gradient magnitude prior to normalizing the gradient to protect
@@ -172,52 +182,64 @@ public:
    * approaches zero.  This should be set as a small fraction of the
    * intensity dynamic range, for instance 0.04%. Default is the
    * absolute (not percentage) value of 0.1. */
-  virtual void SetAlpha(double);
+  virtual void
+  SetAlpha(double);
 
-  virtual double GetAlpha() const;
+  virtual double
+  GetAlpha() const;
 
   /** Set/Get the threshold below which the absolute difference of
    * intensity yields a match. When the intensities match between a
    * moving and fixed image pixel, the update vector (for that
    * iteration) will be the zero vector. Default is 0.001. */
-  virtual void SetIntensityDifferenceThreshold(double);
+  virtual void
+  SetIntensityDifferenceThreshold(double);
 
-  virtual double GetIntensityDifferenceThreshold() const;
+  virtual double
+  GetIntensityDifferenceThreshold() const;
 
   /** Set/Get the threshold below which the gradient magnitude is
    * considered the zero vector. Default is 1e-9. */
-  virtual void SetGradientMagnitudeThreshold(double);
+  virtual void
+  SetGradientMagnitudeThreshold(double);
 
-  virtual double GetGradientMagnitudeThreshold() const;
+  virtual double
+  GetGradientMagnitudeThreshold() const;
 
   /** Set/Get the standard deviation used for smoothing the moving
    * image prior to calculating gradients. */
-  virtual void SetGradientSmoothingStandardDeviations(double);
+  virtual void
+  SetGradientSmoothingStandardDeviations(double);
 
-  virtual double GetGradientSmoothingStandardDeviations() const;
+  virtual double
+  GetGradientSmoothingStandardDeviations() const;
 
   /** Use the image spacing information in calculations. Use this option if you
    * want derivatives in physical space. Default is UseImageSpacing ON, due to a
    * backward compatibility state. */
-  void SetUseImageSpacing(bool);
+  void
+  SetUseImageSpacing(bool);
 
-  bool GetUseImageSpacing() const;
+  bool
+  GetUseImageSpacing() const;
 
 protected:
   LevelSetMotionRegistrationFunction();
   ~LevelSetMotionRegistrationFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** FixedImage image neighborhood iterator type. */
   using FixedImageNeighborhoodIteratorType = ConstNeighborhoodIterator<FixedImageType>;
 
   /** A global data type for this class of equation. Used to store
    * information for computing the metric. */
-  struct GlobalDataStruct {
-    double m_SumOfSquaredDifference;
+  struct GlobalDataStruct
+  {
+    double        m_SumOfSquaredDifference;
     SizeValueType m_NumberOfPixelsProcessed;
-    double m_SumOfSquaredChange;
-    double m_MaxL1Norm;
+    double        m_SumOfSquaredChange;
+    double        m_MaxL1Norm;
   };
 
 private:
@@ -262,7 +284,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetMotionRegistrationFunction.hxx"
+#  include "itkLevelSetMotionRegistrationFunction.hxx"
 #endif
 
 #endif

@@ -57,8 +57,8 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< typename T >
-class ITK_TEMPLATE_EXPORT AutoPointerDataObjectDecorator:public DataObject
+template <typename T>
+class ITK_TEMPLATE_EXPORT AutoPointerDataObjectDecorator : public DataObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AutoPointerDataObjectDecorator);
@@ -66,12 +66,12 @@ public:
   /** Standard type alias */
   using Self = AutoPointerDataObjectDecorator;
   using Superclass = DataObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Typedef for the component type (object being decorated) */
   using ComponentType = T;
-  using ComponentPointer = std::unique_ptr< T >;
+  using ComponentPointer = std::unique_ptr<T>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -80,26 +80,35 @@ public:
   itkTypeMacro(AutoPointerDataObjectDecorator, DataObject);
 
   /** Set the contained object */
-  virtual void Set(T *val);
+  virtual void
+  Set(T * val);
 
   /** Get the contained object */
-  virtual T * Get() { return m_Component.get(); }
-  virtual const T * Get() const { return m_Component.get(); }
+  virtual T *
+  Get()
+  {
+    return m_Component.get();
+  }
+  virtual const T *
+  Get() const
+  {
+    return m_Component.get();
+  }
 
 protected:
   AutoPointerDataObjectDecorator() = default;
   ~AutoPointerDataObjectDecorator() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 protected:
-
 private:
   ComponentPointer m_Component;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAutoPointerDataObjectDecorator.hxx"
+#  include "itkAutoPointerDataObjectDecorator.hxx"
 #endif
 
 #endif

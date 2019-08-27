@@ -49,8 +49,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ITKOptimizers_EXPORT QuaternionRigidTransformGradientDescentOptimizer:
-  public GradientDescentOptimizer
+class ITKOptimizers_EXPORT QuaternionRigidTransformGradientDescentOptimizer : public GradientDescentOptimizer
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuaternionRigidTransformGradientDescentOptimizer);
@@ -58,22 +57,22 @@ public:
   /** Standard class type aliases. */
   using Self = QuaternionRigidTransformGradientDescentOptimizer;
   using Superclass = GradientDescentOptimizer;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(QuaternionRigidTransformGradientDescentOptimizer,
-               GradientDescentOptimizer);
+  itkTypeMacro(QuaternionRigidTransformGradientDescentOptimizer, GradientDescentOptimizer);
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */
   using ParametersType = Superclass::ParametersType;
 
   /** Advance one step following the gradient direction. */
-  void AdvanceOneStep() override;
+  void
+  AdvanceOneStep() override;
 
 protected:
   QuaternionRigidTransformGradientDescentOptimizer() = default;

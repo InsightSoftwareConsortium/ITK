@@ -35,115 +35,139 @@ namespace itk
  *
  * \ingroup ITKVideoBridgeVXL
  */
-template< typename TVideoStream >
+template <typename TVideoStream>
 class ITK_TEMPLATE_EXPORT vidl_itk_istream : public vidl_istream
 {
 public:
-
   /**-CONSTRUCTORS AND DESTRUCTOR--------------------------------------------*/
 
   /** Typedefs */
   using VideoStreamType = TVideoStream;
-  using Self = vidl_itk_istream< VideoStreamType >;
+  using Self = vidl_itk_istream<VideoStreamType>;
   using FrameType = typename VideoStreamType::FrameType;
   using FrameOffsetType = ::itk::SizeValueType;
   using PixelType = typename FrameType::PixelType;
-  static constexpr unsigned int Dimensions =      FrameType::ImageDimension;
+  static constexpr unsigned int Dimensions = FrameType::ImageDimension;
 
   /** Constructor - default */
   vidl_itk_istream();
 
   /** Constructor - from a VideoStream */
-  vidl_itk_istream(VideoStreamType* videoStream);
+  vidl_itk_istream(VideoStreamType * videoStream);
 
   /** Destructor */
   virtual ~vidl_itk_istream() {}
 
   /** ITK's type info */
   // Cannot use as we do not derive from ITK Object with GetNameOfClass itkTypeMacro(vidl_itk_istream, vidl_istream);
-  const char *GetNameOfClass() const
-    {
+  const char *
+  GetNameOfClass() const
+  {
     return "vidl_itk_istream";
-    }
+  }
 
 
   /**-OPEN CLOSE-------------------------------------------------------------*/
 
   /** Open from a VideoStream */
-  virtual bool open(VideoStreamType* videoStream);
+  virtual bool
+  open(VideoStreamType * videoStream);
 
   /** Close the stream. For our purposes, this just means set the VideoStream
    * pointer to nullptr */
-  virtual void close() { m_VideoStream = nullptr; }
+  virtual void
+  close()
+  {
+    m_VideoStream = nullptr;
+  }
 
 
   /**-STREAM INFORMATION-----------------------------------------------------*/
 
   /** Return whether or not the VideoStream is null */
-  virtual bool is_open() const { return m_VideoStream != nullptr; }
+  virtual bool
+  is_open() const
+  {
+    return m_VideoStream != nullptr;
+  }
 
   /** Return true if the stream is in a valid state. To comply with vxl's
    * standard, this will return false until advance() has been called at least
    * once. */
-  virtual bool is_valid() const;
+  virtual bool
+  is_valid() const;
 
   /** Return whether or not the stream is seekable. For us, it is only not
    * seekable if the largest possible temporal region has infinite duration */
-  virtual bool is_seekable() const;
+  virtual bool
+  is_seekable() const;
 
   /** Return the nuber of frames. Returns -1 if non-seekable */
-  virtual int num_frames() const;
+  virtual int
+  num_frames() const;
 
   /** Return the current frame number. Before advance() has been called, this
    * will return static_cast<unsigned int>(-1) */
-  virtual unsigned int frame_number() const;
+  virtual unsigned int
+  frame_number() const;
 
   /** Frame width */
-  virtual unsigned int width() const;
+  virtual unsigned int
+  width() const;
 
   /** Frame height */
-  virtual unsigned int height() const;
+  virtual unsigned int
+  height() const;
 
   /** Return pixel type as a vidl_pixel_format */
-  virtual vidl_pixel_format format() const;
+  virtual vidl_pixel_format
+  format() const;
 
   /** Return frame rate. For use this will always return 0.0 since we don't use
    * a fixed framerate for VideoStream */
-  virtual double frame_rate() const { return 0.0; }
+  virtual double
+  frame_rate() const
+  {
+    return 0.0;
+  }
 
   /** Return duration in seconds */
-  virtual double duration() const;
+  virtual double
+  duration() const;
 
 
   /**-STREAM MANIPULATION----------------------------------------------------*/
 
   /** Advance to the next frame but don't update the VideoStream */
-  virtual bool advance();
+  virtual bool
+  advance();
 
   /** Return the next frame from the stream (advance and update) */
-  virtual vidl_frame_sptr read_frame();
+  virtual vidl_frame_sptr
+  read_frame();
 
   /** Return the current frame (update) */
-  virtual vidl_frame_sptr current_frame();
+  virtual vidl_frame_sptr
+  current_frame();
 
   /** Seek to the given frame */
-  virtual bool seek_frame(unsigned int frameNumber);
+  virtual bool
+  seek_frame(unsigned int frameNumber);
 
 protected:
-
   /** Internal VideoStream pointer */
-  VideoStreamType* m_VideoStream;
+  VideoStreamType * m_VideoStream;
 
   /** Keep track of whether or not advance has been called yet */
   bool m_AdvanceCalled;
 
-};  // end class vidl_itk_istream
+}; // end class vidl_itk_istream
 
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "vidl_itk_istream.hxx"
+#  include "vidl_itk_istream.hxx"
 #endif
 
 #endif

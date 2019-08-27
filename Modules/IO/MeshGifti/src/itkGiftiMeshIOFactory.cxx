@@ -24,33 +24,25 @@
 namespace itk
 {
 void
-GiftiMeshIOFactory
-::PrintSelf(std::ostream &, Indent) const
+GiftiMeshIOFactory ::PrintSelf(std::ostream &, Indent) const
 {}
 
-GiftiMeshIOFactory
-::GiftiMeshIOFactory()
+GiftiMeshIOFactory ::GiftiMeshIOFactory()
 {
-  this->RegisterOverride( "itkMeshIOBase",
-                         "itkGiftiMeshIO",
-                         "Gifti Mesh IO",
-                         true,
-                         CreateObjectFunction< GiftiMeshIO >::New() );
+  this->RegisterOverride(
+    "itkMeshIOBase", "itkGiftiMeshIO", "Gifti Mesh IO", true, CreateObjectFunction<GiftiMeshIO>::New());
 }
 
-GiftiMeshIOFactory
-::~GiftiMeshIOFactory() = default;
+GiftiMeshIOFactory ::~GiftiMeshIOFactory() = default;
 
 const char *
-GiftiMeshIOFactory
-::GetITKSourceVersion() const
+GiftiMeshIOFactory ::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char *
-GiftiMeshIOFactory
-::GetDescription() const
+GiftiMeshIOFactory ::GetDescription() const
 {
   return "Gifti MeshIO Factory, allows the loading of Gifti meshs into insight";
 }
@@ -59,13 +51,14 @@ GiftiMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool GiftiMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMeshGifti_EXPORT GiftiMeshIOFactoryRegister__Private()
+void ITKIOMeshGifti_EXPORT
+     GiftiMeshIOFactoryRegister__Private()
 {
-  if( ! GiftiMeshIOFactoryHasBeenRegistered )
-    {
+  if (!GiftiMeshIOFactoryHasBeenRegistered)
+  {
     GiftiMeshIOFactoryHasBeenRegistered = true;
     GiftiMeshIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

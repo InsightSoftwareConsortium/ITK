@@ -34,39 +34,36 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TOutputImage >
-ThresholdLabelerImageFilter< TInputImage, TOutputImage >
-::ThresholdLabelerImageFilter() :
-  m_LabelOffset( NumericTraits< OutputPixelType >::ZeroValue() )
+template <typename TInputImage, typename TOutputImage>
+ThresholdLabelerImageFilter<TInputImage, TOutputImage>::ThresholdLabelerImageFilter()
+  : m_LabelOffset(NumericTraits<OutputPixelType>::ZeroValue())
 {
   m_Thresholds.clear();
   m_RealThresholds.clear();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ThresholdLabelerImageFilter< TInputImage, TOutputImage >
-::BeforeThreadedGenerateData()
+ThresholdLabelerImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  auto size = static_cast<unsigned int>( m_Thresholds.size() );
+  auto size = static_cast<unsigned int>(m_Thresholds.size());
 
-  for ( unsigned int i = 0; i < size - 1; i++ )
+  for (unsigned int i = 0; i < size - 1; i++)
+  {
+    if (m_Thresholds[i] > m_Thresholds[i + 1])
     {
-    if ( m_Thresholds[i] > m_Thresholds[i + 1] )
-      {
       itkExceptionMacro(<< "Thresholds must be sorted.");
-      }
     }
+  }
 
   // Set up the functor values
   this->GetFunctor().SetThresholds(m_RealThresholds);
   this->GetFunctor().SetLabelOffset(m_LabelOffset);
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ThresholdLabelerImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+ThresholdLabelerImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   using namespace print_helper;
 

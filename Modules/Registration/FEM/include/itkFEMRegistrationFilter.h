@@ -129,7 +129,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(FEMRegistrationFilter, ImageToImageFilter );
+  itkTypeMacro(FEMRegistrationFilter, ImageToImageFilter);
 
   using MovingImageType = TMovingImage;
   using FixedImageType = TFixedImage;
@@ -145,7 +145,11 @@ public:
   using LinearSystemSolverType = LinearSystemWrapperItpack;
   using SolverType = SolverCrankNicolson<ImageDimension>;
 
-  enum Sign { positive = 1, negative = -1 };
+  enum Sign
+  {
+    positive = 1,
+    negative = -1
+  };
   using Float = double;
   using LoadArray = Load::ArrayType;
 
@@ -180,36 +184,39 @@ public:
   using FieldPointer = typename FieldType::Pointer;
 
   /** Instantiate the load class with the correct image type. */
-  using ImageMetricLoadType =
-      FiniteDifferenceFunctionLoad<MovingImageType, FixedImageType>;
-  using MetricBaseType =
-      PDEDeformableRegistrationFunction<FixedImageType, MovingImageType, FieldType>;
+  using ImageMetricLoadType = FiniteDifferenceFunctionLoad<MovingImageType, FixedImageType>;
+  using MetricBaseType = PDEDeformableRegistrationFunction<FixedImageType, MovingImageType, FieldType>;
 
   using MetricBaseTypePointer = typename MetricBaseType::Pointer;
-  using StandardDeviationsType = FixedArray< double, ImageDimension >;
+  using StandardDeviationsType = FixedArray<double, ImageDimension>;
 
   /** Set the Moving image. */
-  void SetMovingImage(MovingImageType* R);
+  void
+  SetMovingImage(MovingImageType * R);
 
   /**
    * Get the Moving image. This image is dependent on the current resolution
    *in a multi-resolution registration.
    */
-  MovingImageType * GetMovingImage()
+  MovingImageType *
+  GetMovingImage()
   {
     return m_MovingImage;
   }
 
   /** Get the original full resolution moving image. */
-  MovingImageType * GetOriginalMovingImage()
+  MovingImageType *
+  GetOriginalMovingImage()
   {
     return m_OriginalMovingImage;
   }
 
   /** Get/Set the target (fixed) image. */
-  void SetFixedImage(FixedImageType* T);
+  void
+  SetFixedImage(FixedImageType * T);
 
-  FixedImageType * GetFixedImage()
+  FixedImageType *
+  GetFixedImage()
   {
     return m_FixedImage;
   }
@@ -219,70 +226,87 @@ public:
    * mesh will be returned for each level of the registration. If the
    * user provides a mesh, one should be provided for each level.
    */
-  void SetInputFEMObject(FEMObjectType* F, unsigned int level = 0);
+  void
+  SetInputFEMObject(FEMObjectType * F, unsigned int level = 0);
 
-  FEMObjectType * GetInputFEMObject(unsigned int level = 0);
+  FEMObjectType *
+  GetInputFEMObject(unsigned int level = 0);
 
   /** Call this to register two images. */
-  void RunRegistration();
+  void
+  RunRegistration();
 
   /** The solution loop. */
-  void IterativeSolve(SolverType *S);
+  void
+  IterativeSolve(SolverType * S);
 
   /** The solution loop for a simple multi-resolution strategy. */
-  void MultiResSolve();
+  void
+  MultiResSolve();
 
   /** Applies the warp to the input image. */
-  void WarpImage(const MovingImageType * R);
+  void
+  WarpImage(const MovingImageType * R);
 
   /** Get the reference image warped to the target image.
       Must first apply the warp using WarpImage() */
-  FixedImageType * GetWarpedImage()
+  FixedImageType *
+  GetWarpedImage()
   {
     return m_WarpedImage;
   }
 
   /** Compute the jacobian of the current deformation field. */
-  void ComputeJacobian();
+  void
+  ComputeJacobian();
 
   /** Get the image that gives the jacobian of the deformation field. */
-  FloatImageType * GetJacobianImage()
+  FloatImageType *
+  GetJacobianImage()
   {
     return m_FloatImage;
   }
 
   /** Outputs the FE deformation field interpolated over the entire image domain. */
-  FieldType * GetDisplacementField()
+  FieldType *
+  GetDisplacementField()
   {
     return m_Field;
   }
 
   /** Sets the FE deformation field. */
-  void SetDisplacementField(FieldType* F)
+  void
+  SetDisplacementField(FieldType * F)
   {
     m_FieldSize = F->GetLargestPossibleRegion().GetSize();
     m_Field = F;
   }
 
   /** Add a way to include landmarks. */
-  void AddLandmark(PointType source, PointType target);
+  void
+  AddLandmark(PointType source, PointType target);
 
-  void InsertLandmark(unsigned int i, PointType source, PointType target);
+  void
+  InsertLandmark(unsigned int i, PointType source, PointType target);
 
-  void DeleteLandmark(unsigned int i);
+  void
+  DeleteLandmark(unsigned int i);
 
-  void ClearLandmarks();
+  void
+  ClearLandmarks();
 
-  void GetLandmark(unsigned int i, PointType& source, PointType& target);
+  void
+  GetLandmark(unsigned int i, PointType & source, PointType & target);
 
   /** We check the jacobian of the current deformation field.
-    *  If it is < threshold, we begin diffeomorphism enforcement:
-    *    1)  Warp the moving image.
-    *    2)  Set the vector field to zero.
-    *    3)  Set the warped moving image as the new moving image,
-    *        resizing if necessary.
-    */
-  void EnforceDiffeomorphism(float thresh, SolverType *S,  bool onlywriteimages);
+   *  If it is < threshold, we begin diffeomorphism enforcement:
+   *    1)  Warp the moving image.
+   *    2)  Set the vector field to zero.
+   *    3)  Set the warped moving image as the new moving image,
+   *        resizing if necessary.
+   */
+  void
+  EnforceDiffeomorphism(float thresh, SolverType * S, bool onlywriteimages);
 
   /** The FEM filter can generate its own mesh for 2 or 3 dimensions, if none is provided.
       The mesh is generated for quadrilaterals in 2D and hexahedra in 3D.  This function
@@ -290,7 +314,8 @@ public:
       designated by "which".
       E.g. to generate 10 pixels per element in each dimension in the 1st resolution, use SetMeshResolution(10,0);.
     */
-  void SetMeshPixelsPerElementAtEachResolution(unsigned int i, unsigned int which = 0)
+  void
+  SetMeshPixelsPerElementAtEachResolution(unsigned int i, unsigned int which = 0)
   {
     m_MeshPixelsPerElementAtEachResolution[which] = i;
   }
@@ -298,31 +323,35 @@ public:
   /** This determines the number of integration points to use at each resolution.
       These integration points are used to generate the force.  The actual number
       used will be i^d, where d is the number of parameters in the elements local domain. */
-  void SetNumberOfIntegrationPoints(unsigned int i, unsigned int which = 0)
+  void
+  SetNumberOfIntegrationPoints(unsigned int i, unsigned int which = 0)
   {
     m_NumberOfIntegrationPoints[which] = i;
   }
 
   /** The metric region allows one to compute the derivative (force) of the similarity metric
-    * using a region of size [i,i] in 2D and [i,i,i] in 3D.
-    * \param i number of elements
-    * \param which determines the region at a given resolution of the solution process.
-    */
-  void SetWidthOfMetricRegion(unsigned int i, unsigned int which = 0)
+   * using a region of size [i,i] in 2D and [i,i,i] in 3D.
+   * \param i number of elements
+   * \param which determines the region at a given resolution of the solution process.
+   */
+  void
+  SetWidthOfMetricRegion(unsigned int i, unsigned int which = 0)
   {
     m_MetricWidth[which] = i;
   }
 
-  unsigned int GetWidthOfMetricRegion(unsigned int which = 0)
+  unsigned int
+  GetWidthOfMetricRegion(unsigned int which = 0)
   {
     return m_MetricWidth[which];
   }
 
   /** Setting the maximum iterations stops the solution after i iterations regardless of energy.
-    * \param i number of elements
-    * \param which determines the resolution of the solution process the call is applied to.
-    */
-  void SetMaximumIterations(unsigned int i, unsigned int which)
+   * \param i number of elements
+   * \param which determines the resolution of the solution process the call is applied to.
+   */
+  void
+  SetMaximumIterations(unsigned int i, unsigned int which)
   {
     m_Maxiters[which] = i;
   }
@@ -343,8 +372,8 @@ public:
   itkGetMacro(Alpha, Float);
 
   /**
-  * Get/Set if landmarks are being used.
-  */
+   * Get/Set if landmarks are being used.
+   */
   itkSetMacro(UseLandmarks, bool);
   itkGetMacro(UseLandmarks, bool);
   itkBooleanMacro(UseLandmarks);
@@ -363,37 +392,43 @@ public:
   itkGetMacro(EnergyReductionFactor, Float);
 
   /** Sets the stiffness Matrix weight. */
-  void SetElasticity(Float i, unsigned int which = 0)
+  void
+  SetElasticity(Float i, unsigned int which = 0)
   {
     m_E[which] = i;
   }
 
   /** Gets the stiffness Matrix weight. */
-  Float GetElasticity(unsigned int which = 0)
+  Float
+  GetElasticity(unsigned int which = 0)
   {
     return m_E[which];
   }
 
   /** Set mass matrix weight. */
-  void SetRho(Float r, unsigned int which = 0)
+  void
+  SetRho(Float r, unsigned int which = 0)
   {
     m_Rho[which] = r;
   }
 
   /** Set image similarity energy weight. */
-  void SetGamma(Float r, unsigned int which = 0)
+  void
+  SetGamma(Float r, unsigned int which = 0)
   {
     m_Gamma[which] = r;
   }
 
   /** Image Metric minimizes energy. */
-  void  SetDescentDirectionMinimize()
+  void
+  SetDescentDirectionMinimize()
   {
     m_DescentDirection = positive;
   }
 
   /** Image Metric maximizes energy. */
-  void SetDescentDirectionMaximize()
+  void
+  SetDescentDirectionMaximize()
   {
     m_DescentDirection = negative;
   }
@@ -430,7 +465,8 @@ public:
   /**
    * Return the size of the full size image.
    */
-  ImageSizeType GetImageSize()
+  ImageSizeType
+  GetImageSize()
   {
     return m_FullImageSize;
   }
@@ -450,35 +486,41 @@ public:
    *  2 = Mutual information
    *  3 = Demons
    */
-  void ChooseMetric( unsigned int whichmetric );
+  void
+  ChooseMetric(unsigned int whichmetric);
 
   /**
    * Return the type of image metric used for the registration.
    */
-  unsigned int GetMetricType()
+  unsigned int
+  GetMetricType()
   {
     return m_WhichMetric;
   }
 
   /** This function allows one to set the element and its material externally. */
-  void SetElement(Element::Pointer e)
+  void
+  SetElement(Element::Pointer e)
   {
     m_Element = e;
   }
 
   /** This sets the pointer to the material. */
-  void SetMaterial(MaterialType::Pointer m)
+  void
+  SetMaterial(MaterialType::Pointer m)
   {
     m_Material = m;
   }
 
   /** Print vector field for debugging. */
-  void PrintVectorField(unsigned int modnum = 1000);
+  void
+  PrintVectorField(unsigned int modnum = 1000);
 
   /**
    * Get/Set the maximum number of levels for multi-resolution.
    */
-  void SetMaxLevel(unsigned int level);
+  void
+  SetMaxLevel(unsigned int level);
   itkGetMacro(MaxLevel, unsigned int);
 
   /**
@@ -490,16 +532,17 @@ public:
   itkBooleanMacro(CreateMeshFromImage);
 
   /** Set the interpolator function. */
-  itkSetObjectMacro( Interpolator, InterpolatorType );
+  itkSetObjectMacro(Interpolator, InterpolatorType);
 
   /** Get a pointer to the interpolator function. */
-  itkGetModifiableObjectMacro( Interpolator, InterpolatorType );
+  itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
   /** Set the Gaussian smoothing standard deviations for the
    * displacement field. The values are set with respect to pixel
    * coordinates. */
   itkSetMacro(StandardDeviations, StandardDeviationsType);
-  virtual void SetStandardDeviations(double value);
+  virtual void
+  SetStandardDeviations(double value);
 
   /** Get the Gaussian smoothing standard deviations use for smoothing
    * the displacement field. */
@@ -519,67 +562,81 @@ protected:
   FEMRegistrationFilter();
   ~FEMRegistrationFilter() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This function generates a regular mesh of ElementsPerSide^D size. */
-  void CreateMesh(unsigned int ElementsPerSide, SolverType *solver);
+  void
+  CreateMesh(unsigned int ElementsPerSide, SolverType * solver);
 
   /** The non-image loads are entered into the solver. */
-  void ApplyLoads(ImageSizeType Isz, double* spacing = nullptr);
+  void
+  ApplyLoads(ImageSizeType Isz, double * spacing = nullptr);
 
   /** The image loads are entered into the solver. */
-  void ApplyImageLoads(MovingImageType* i1, FixedImageType* i2);
+  void
+  ApplyImageLoads(MovingImageType * i1, FixedImageType * i2);
 
   // FIXME - Not implemented
   /**  Builds the itpack linear system wrapper with appropriate parameters.
        Currently undefined. */
-  void  CreateLinearSystemSolver();
+  void
+  CreateLinearSystemSolver();
 
   // FIXME - Not implemented
   /** Evaluates the image similarity energy by calling the image metric. */
-  Float EvaluateEnergy();
+  Float
+  EvaluateEnergy();
 
   /** Interpolates the vector field over the domain.
-    * Our convention is to always keep the vector field
-    * at the scale of the original images.
-    */
-  void InterpolateVectorField(SolverType *S);
+   * Our convention is to always keep the vector field
+   * at the scale of the original images.
+   */
+  void
+  InterpolateVectorField(SolverType * S);
 
   // FIXME - Not implemented
   /** Calculates the metric over the domain given the vector field.
-    */
-  FloatImageType * GetMetricImage(FieldType* F);
+   */
+  FloatImageType *
+  GetMetricImage(FieldType * F);
 
   /** Re-size the vector field (smaller to larger). */
-  FieldPointer ExpandVectorField(ExpandFactorsType* expandFactors, FieldType* f);
+  FieldPointer
+  ExpandVectorField(ExpandFactorsType * expandFactors, FieldType * f);
 
   /** This is used for changing between mesh resolutions. */
-  void SampleVectorFieldAtNodes(SolverType *S);
+  void
+  SampleVectorFieldAtNodes(SolverType * S);
 
   /** This is used to calculate residual error. */
-  Float EvaluateResidual(SolverType *mySolver, Float t);
+  Float
+  EvaluateResidual(SolverType * mySolver, Float t);
 
   // FIXME - Replace with BSD Code
   /* Finds a triplet that brackets the energy minimum. From Numerical Recipes.*/
   // void FindBracketingTriplet(SolverType& mySolver,Float* a, Float* b, Float* c);
-  void FindBracketingTriplet(SolverType *mySolver, Float* a, Float* b, Float* c);
+  void
+  FindBracketingTriplet(SolverType * mySolver, Float * a, Float * b, Float * c);
 
   /**
    * Finds the optimum value between the last two solutions
    * and sets the current solution to that value. Uses Evaluate Residual
    */
-  Float GoldenSection(SolverType *mySolver, Float tol = 0.01, unsigned int MaxIters = 25);
+  Float
+  GoldenSection(SolverType * mySolver, Float tol = 0.01, unsigned int MaxIters = 25);
 
   /** Get/Set the solver's current load. */
-  itkSetObjectMacro( Load, ImageMetricLoadType );
-  itkGetModifiableObjectMacro(Load, ImageMetricLoadType );
+  itkSetObjectMacro(Load, ImageMetricLoadType);
+  itkGetModifiableObjectMacro(Load, ImageMetricLoadType);
 
   /** Smooth the current displacement field using a separable Gaussian kernel. */
-  void SmoothDisplacementField();
+  void
+  SmoothDisplacementField();
 
 private:
-
-  void InitializeField();
+  void
+  InitializeField();
 
   unsigned int m_DoLineSearchOnImageEnergy;
   unsigned int m_LineSearchMaximumIterations;
@@ -588,12 +645,12 @@ private:
   vnl_vector<unsigned int> m_NumberOfIntegrationPoints; // resolution of integration
   vnl_vector<unsigned int> m_MetricWidth;               // number of iterations at each level
   vnl_vector<unsigned int> m_Maxiters;
-  unsigned int             m_TotalIterations;           // total number of iterations that were run
+  unsigned int             m_TotalIterations; // total number of iterations that were run
   unsigned int             m_MaxLevel;
-  unsigned int             m_FileCount;                 // keeps track of number of files written
-  unsigned int             m_CurrentLevel;              // current resolution level
+  unsigned int             m_FileCount;    // keeps track of number of files written
+  unsigned int             m_CurrentLevel; // current resolution level
 
-  typename FixedImageType::SizeType     m_CurrentLevelImageSize;
+  typename FixedImageType::SizeType m_CurrentLevelImageSize;
 
   unsigned int m_WhichMetric;
 
@@ -605,9 +662,9 @@ private:
   vnl_vector<Float> m_E;
   vnl_vector<Float> m_Rho;
   vnl_vector<Float> m_Gamma;
-  Float             m_Energy;          // current value of energy
-  Float             m_MinE;            // minimum recorded energy
-  Float             m_MinJacobian;     // minimum recorded energy
+  Float             m_Energy;      // current value of energy
+  Float             m_MinE;        // minimum recorded energy
+  Float             m_MinJacobian; // minimum recorded energy
   Float             m_Alpha;
 
   bool          m_UseLandmarks;
@@ -629,28 +686,28 @@ private:
   typename FieldType::Pointer    m_Field;
 
   // Only use TotalField if re-gridding is employed.
-  typename FieldType::Pointer               m_TotalField;
-  typename ImageMetricLoadType::Pointer     m_Load; // Defines the load to use
+  typename FieldType::Pointer           m_TotalField;
+  typename ImageMetricLoadType::Pointer m_Load; // Defines the load to use
 
   // Define the warper
-  typename WarperType::Pointer          m_Warper;
+  typename WarperType::Pointer m_Warper;
 
   // Declare a new image to hold the warped reference
-  typename FixedImageType::Pointer      m_WarpedImage;
-  typename FloatImageType::Pointer      m_FloatImage;
-  typename FixedImageType::RegionType   m_Wregion;
-  typename FixedImageType::IndexType    m_Windex;
+  typename FixedImageType::Pointer    m_WarpedImage;
+  typename FloatImageType::Pointer    m_FloatImage;
+  typename FixedImageType::RegionType m_Wregion;
+  typename FixedImageType::IndexType  m_Windex;
 
   // Declare images for target and reference
-  typename MovingImageType::Pointer     m_MovingImage;
-  typename MovingImageType::Pointer     m_OriginalMovingImage;
-  typename FixedImageType::Pointer      m_FixedImage;
+  typename MovingImageType::Pointer m_MovingImage;
+  typename MovingImageType::Pointer m_OriginalMovingImage;
+  typename FixedImageType::Pointer  m_FixedImage;
 
   // Element and metric pointers
-  typename Element::Pointer             m_Element;
-  typename MaterialType::Pointer        m_Material;
-  MetricBaseTypePointer                 m_Metric;
-  typename FEMObjectType::Pointer       m_FEMObject;
+  typename Element::Pointer       m_Element;
+  typename MaterialType::Pointer  m_Material;
+  MetricBaseTypePointer           m_Metric;
+  typename FEMObjectType::Pointer m_FEMObject;
 
   LandmarkArrayType   m_LandmarkArray;
   InterpolatorPointer m_Interpolator;
@@ -660,13 +717,12 @@ private:
   unsigned int m_MaximumKernelWidth;
 
   StandardDeviationsType m_StandardDeviations;
-
 };
 } // end namespace fem
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMRegistrationFilter.hxx"
+#  include "itkFEMRegistrationFilter.hxx"
 #endif
 
 #endif

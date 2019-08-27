@@ -52,18 +52,17 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-int main( int argc, char *argv[] )
+int
+main(int argc, char * argv[])
 {
   // Verify the number of parameters on the command line.
-  if ( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Missing parameters. " << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0]
-              << " inputImageFile outputImageFile"
-              << std::endl;
+    std::cerr << argv[0] << " inputImageFile outputImageFile" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Software Guide : BeginLatex
   //
@@ -77,29 +76,29 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   constexpr unsigned int Dimension = 2;
 
-  using RGBPixelType = itk::RGBPixel< unsigned char >;
-  using ImageType = itk::Image< RGBPixelType, Dimension >;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
+  using ImageType = itk::Image<RGBPixelType, Dimension>;
 
-  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
+  using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
   // Software Guide : EndCodeSnippet
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
   ImageType::ConstPointer inputImage;
-  ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  ReaderType::Pointer     reader = ReaderType::New();
+  reader->SetFileName(argv[1]);
   try
-    {
+  {
     reader->Update();
     inputImage = reader->GetOutput();
-    }
-  catch ( itk::ExceptionObject &err)
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Software Guide : BeginLatex
   //
@@ -112,8 +111,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   ImageType::Pointer outputImage = ImageType::New();
-  outputImage->SetRegions( inputImage->GetRequestedRegion() );
-  outputImage->CopyInformation( inputImage );
+  outputImage->SetRegions(inputImage->GetRequestedRegion());
+  outputImage->CopyInformation(inputImage);
   outputImage->Allocate();
   // Software Guide : EndCodeSnippet
 
@@ -125,7 +124,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  IteratorType outputIt( outputImage, outputImage->GetRequestedRegion() );
+  IteratorType outputIt(outputImage, outputImage->GetRequestedRegion());
   // Software Guide : EndCodeSnippet
 
   // Software Guide: BeginLatex
@@ -137,32 +136,30 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ImageType::IndexType requestedIndex =
-                outputImage->GetRequestedRegion().GetIndex();
-  ImageType::SizeType requestedSize =
-                outputImage->GetRequestedRegion().GetSize();
+  ImageType::IndexType requestedIndex = outputImage->GetRequestedRegion().GetIndex();
+  ImageType::SizeType  requestedSize = outputImage->GetRequestedRegion().GetSize();
 
-  for ( outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt)
-    {
+  for (outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt)
+  {
     ImageType::IndexType idx = outputIt.GetIndex();
-    idx[0] =  requestedIndex[0] + requestedSize[0] - 1 - idx[0];
-    outputIt.Set( inputImage->GetPixel(idx) );
-    }
+    idx[0] = requestedIndex[0] + requestedSize[0] - 1 - idx[0];
+    outputIt.Set(inputImage->GetPixel(idx));
+  }
   // Software Guide : EndCodeSnippet
 
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[2] );
+  writer->SetFileName(argv[2]);
   writer->SetInput(outputImage);
   try
-    {
+  {
     writer->Update();
-    }
-  catch ( itk::ExceptionObject &err)
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-}
+  }
 
   // Software Guide : BeginLatex
   //

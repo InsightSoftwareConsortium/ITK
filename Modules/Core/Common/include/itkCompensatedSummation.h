@@ -62,7 +62,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template < typename TFloat >
+template <typename TFloat>
 class ITK_TEMPLATE_EXPORT CompensatedSummation
 {
 public:
@@ -70,7 +70,7 @@ public:
   using FloatType = TFloat;
 
   /** Type used for the sum and compensation. */
-  using AccumulateType = typename NumericTraits< FloatType >::AccumulateType;
+  using AccumulateType = typename NumericTraits<FloatType>::AccumulateType;
 
   /** Standard class type aliases. */
   using Self = CompensatedSummation;
@@ -80,31 +80,41 @@ public:
   CompensatedSummation(FloatType value);
 
   /** Copy constructor. */
-  CompensatedSummation( const Self & rhs );
+  CompensatedSummation(const Self & rhs);
   /** Assignment operator. */
-  Self & operator=( const Self & rhs );
+  Self &
+  operator=(const Self & rhs);
 
   /** Add an element to the sum. */
-  void AddElement( const FloatType & element );
-  Self & operator+=( const FloatType & rhs );
-  Self & operator+=( const Self & rhs );
+  void
+  AddElement(const FloatType & element);
+  Self &
+  operator+=(const FloatType & rhs);
+  Self &
+  operator+=(const Self & rhs);
 
   /** Subtract an element from the sum. */
-  Self & operator-=( const FloatType & rhs );
+  Self &
+  operator-=(const FloatType & rhs);
 
   /** Division and multiplication. These do not provide any numerical advantages
    * relative to vanilla division and multiplication. */
-  Self & operator*=( const FloatType & rhs );
-  Self & operator/=( const FloatType & rhs );
+  Self &
+  operator*=(const FloatType & rhs);
+  Self &
+  operator/=(const FloatType & rhs);
 
   /** Reset the sum and compensation to zero. */
-  void ResetToZero();
+  void
+  ResetToZero();
 
   /** Reset the sum to the given value and the compensation to zero. */
-  Self & operator=( const FloatType & rhs );
+  Self &
+  operator=(const FloatType & rhs);
 
   /** Get the sum. */
-  const AccumulateType & GetSum() const;
+  const AccumulateType &
+  GetSum() const;
 
   /** explicit conversion */
   explicit operator FloatType() const;
@@ -115,17 +125,19 @@ private:
 
 // Maybe support more types in the future with template specialization.
 #ifdef ITK_USE_CONCEPT_CHECKING
-  itkConceptMacro( OnlyDefinedForFloatingPointTypes, ( itk::Concept::IsFloatingPoint< TFloat > ) );
+  itkConceptMacro(OnlyDefinedForFloatingPointTypes, (itk::Concept::IsFloatingPoint<TFloat>));
 #endif // ITK_USE_CONCEPT_CHECKING
 };
 
-void ITKCommon_EXPORT CompensatedSummationAddElement( float& compensation, float& sum, const float& element );
-void ITKCommon_EXPORT CompensatedSummationAddElement( double& compensation, double& sum, const double& element );
+void ITKCommon_EXPORT
+     CompensatedSummationAddElement(float & compensation, float & sum, const float & element);
+void ITKCommon_EXPORT
+     CompensatedSummationAddElement(double & compensation, double & sum, const double & element);
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCompensatedSummation.hxx"
+#  include "itkCompensatedSummation.hxx"
 #endif
 
 #endif

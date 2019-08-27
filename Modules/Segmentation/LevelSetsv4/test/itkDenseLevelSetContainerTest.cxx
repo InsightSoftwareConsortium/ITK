@@ -18,43 +18,43 @@
 
 #include "itkLevelSetContainer.h"
 
-int itkDenseLevelSetContainerTest( int , char* [] )
+int
+itkDenseLevelSetContainerTest(int, char *[])
 {
   constexpr unsigned int Dimension = 2;
 
-  using ImageType = itk::Image< float, Dimension >;
-  using LevelSetType = itk::LevelSetDenseImage< ImageType >;
+  using ImageType = itk::Image<float, Dimension>;
+  using LevelSetType = itk::LevelSetDenseImage<ImageType>;
 
   using NameType = std::string;
 
-  using NamedLevelSetContainerType = itk::LevelSetContainer< NameType, LevelSetType >;
+  using NamedLevelSetContainerType = itk::LevelSetContainer<NameType, LevelSetType>;
 
-  NamedLevelSetContainerType::Pointer name_container =
-      NamedLevelSetContainerType::New();
+  NamedLevelSetContainerType::Pointer name_container = NamedLevelSetContainerType::New();
 
-  name_container->AddLevelSet( "Lung", LevelSetType::New() );
-  name_container->AddLevelSet( "Heart", LevelSetType::New() );
+  name_container->AddLevelSet("Lung", LevelSetType::New());
+  name_container->AddLevelSet("Heart", LevelSetType::New());
 
-  if( ( name_container->GetLevelSet( "Vessel" ) ).IsNotNull() )
-    {
+  if ((name_container->GetLevelSet("Vessel")).IsNotNull())
+  {
     return EXIT_FAILURE;
-    }
+  }
 
-  if( ( name_container->GetLevelSet( "Heart" ) ).IsNull() )
-    {
+  if ((name_container->GetLevelSet("Heart")).IsNull())
+  {
     return EXIT_FAILURE;
-    }
+  }
 
-  if( name_container->RemoveLevelSet( "Lung" ) == false )
-    {
+  if (name_container->RemoveLevelSet("Lung") == false)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
-  using LevelSetContainerType = itk::LevelSetContainer< unsigned int, LevelSetType >;
+  using LevelSetContainerType = itk::LevelSetContainer<unsigned int, LevelSetType>;
   LevelSetContainerType::Pointer container = LevelSetContainerType::New();
 
-  container->AddLevelSet( 1, LevelSetType::New() );
-  container->AddLevelSet( 3, LevelSetType::New() );
+  container->AddLevelSet(1, LevelSetType::New());
+  container->AddLevelSet(3, LevelSetType::New());
 
   return EXIT_SUCCESS;
 }

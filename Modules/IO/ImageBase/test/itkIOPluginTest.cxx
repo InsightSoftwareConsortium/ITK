@@ -20,65 +20,61 @@
 #include "itkImageFileWriter.h"
 #include "itkTestingMacros.h"
 
-int itkIOPluginTest(int argc, char *argv[])
+int
+itkIOPluginTest(int argc, char * argv[])
 {
   if (argc < 4)
-    {
+  {
     std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " FactoryPath FileName Output" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  const char* envName = "ITK_AUTOLOAD_PATH";
-  char*myenv = getenv( envName );
+  const char * envName = "ITK_AUTOLOAD_PATH";
+  char *       myenv = getenv(envName);
 
   if (myenv)
-    {
+  {
     std::cout << myenv << std::endl;
-    }
+  }
   else
-    {
+  {
     std::cout << envName << " is not set!" << std::endl;
-    }
+  }
 
   // List all registered factories
-  std::list<itk::ObjectFactoryBase *> factories =
-    itk::ObjectFactoryBase::GetRegisteredFactories();
+  std::list<itk::ObjectFactoryBase *> factories = itk::ObjectFactoryBase::GetRegisteredFactories();
 
   std::cout << "----- Registered factories -----" << std::endl;
   if (!factories.empty())
-    {
+  {
     for (auto & factory : factories)
-      {
-      std::cout << "  Factory version: "
-                << factory->GetITKSourceVersion() << std::endl
-                << "  Factory description: "
-                << factory->GetDescription() << std::endl;
+    {
+      std::cout << "  Factory version: " << factory->GetITKSourceVersion() << std::endl
+                << "  Factory description: " << factory->GetDescription() << std::endl;
 
-      std::list<std::string> overrides = factory->GetClassOverrideNames();
-      std::list<std::string> names = factory->GetClassOverrideWithNames();
-      std::list<std::string> descriptions = factory->GetClassOverrideDescriptions();
-      std::list<bool> enableflags = factory->GetEnableFlags();
+      std::list<std::string>                 overrides = factory->GetClassOverrideNames();
+      std::list<std::string>                 names = factory->GetClassOverrideWithNames();
+      std::list<std::string>                 descriptions = factory->GetClassOverrideDescriptions();
+      std::list<bool>                        enableflags = factory->GetEnableFlags();
       std::list<std::string>::const_iterator n = names.begin();
       std::list<std::string>::const_iterator d = descriptions.begin();
-      std::list<bool>::const_iterator e = enableflags.begin();
-      for ( std::list<std::string>::const_iterator o = overrides.begin();
-            o != overrides.end(); ++o, ++n, ++d, e++ )
-        {
-        std::cout << "    Override " << *o
-                  << " with " << *n << std::endl
+      std::list<bool>::const_iterator        e = enableflags.begin();
+      for (std::list<std::string>::const_iterator o = overrides.begin(); o != overrides.end(); ++o, ++n, ++d, e++)
+      {
+        std::cout << "    Override " << *o << " with " << *n << std::endl
                   << "      described as \"" << *d << "\"" << std::endl
                   << "      enabled " << *e << std::endl;
-        }
       }
-    std::cout << "----- -----" << std::endl;
     }
+    std::cout << "----- -----" << std::endl;
+  }
   else
-    {
+  {
     std::cout << "Failed to load any factories" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  using ImageNDType = itk::Image<unsigned char,2>;
+  using ImageNDType = itk::Image<unsigned char, 2>;
   using ReaderType = itk::ImageFileReader<ImageNDType>;
   using WriterType = itk::ImageFileWriter<ImageNDType>;
   ReaderType::Pointer reader = ReaderType::New();
@@ -86,7 +82,7 @@ int itkIOPluginTest(int argc, char *argv[])
 
   int status = EXIT_SUCCESS;
   try
-    {
+  {
     reader->SetFileName(argv[2]);
 
     writer->SetFileName(argv[3]);
@@ -94,23 +90,23 @@ int itkIOPluginTest(int argc, char *argv[])
     writer->Update();
     reader->GetOutput()->Print(std::cout);
   }
-  catch (itk::ExceptionObject &ex)
-    {
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << "------------------ Caught unexpected exception!" << std::endl;
     std::cout << ex;
     status = EXIT_FAILURE;
-    }
+  }
 
   try
-    {
+  {
     reader->SetFileName("foo");
     reader->Update();
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << "------------------ Caught expected exception!" << std::endl;
     std::cout << ex;
-    }
+  }
 
   return status;
 }

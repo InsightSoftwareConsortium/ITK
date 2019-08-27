@@ -37,7 +37,7 @@ class ITKVtkGlue_EXPORT ImageInfo
 public:
   using ImageType = itk::Image<unsigned char, 2>;
 
-  ImageInfo(ImageType *image, std::string description="")
+  ImageInfo(ImageType * image, std::string description = "")
   {
     m_Image = image;
     m_Description = description;
@@ -55,7 +55,7 @@ class ITKVtkGlue_EXPORT RGBImageInfo
 {
 public:
   using ImageType = itk::Image<itk::RGBPixel<unsigned char>, 2>;
-  RGBImageInfo(ImageType *image, std::string description="")
+  RGBImageInfo(ImageType * image, std::string description = "")
   {
     m_Image = image;
     m_Description = description;
@@ -120,95 +120,101 @@ public:
     m_ViewPortSize = 300;
   }
   /** Add an image to be rendered. */
-  template<typename TImage> void AddImage(
-    TImage *,
-    bool FlipVertical=true,
-    std::string Description="");
+  template <typename TImage>
+  void
+  AddImage(TImage *, bool FlipVertical = true, std::string Description = "");
 
   /** Add an RGB image to be rendered */
-  template<typename TImage> void AddRGBImage(
-    TImage *,
-    bool FlipVertical=true,
-    std::string Description="");
+  template <typename TImage>
+  void
+  AddRGBImage(TImage *, bool FlipVertical = true, std::string Description = "");
 
   /** Render the images. If interact is tru, start a vtk
    * Interactor. If false, return after one render.
    */
-  void Visualize(bool interact=true);
+  void
+  Visualize(bool interact = true);
 
 
   /** Each render window will have its own camera */
-  void ShareCameraOff()
+  void
+  ShareCameraOff()
   {
     m_ShareCamera = false;
   }
 
   /** Each render window will use the same camera */
-  void ShareCameraOn()
+  void
+  ShareCameraOn()
   {
     m_ShareCamera = true;
   }
 
   /** Use pixel replication in rendered image */
-  void InterpolateOff()
+  void
+  InterpolateOff()
   {
     m_Interpolate = false;
   }
 
   /** Use pixel interpolation in rendered image */
-  void InterpolateOn()
+  void
+  InterpolateOn()
   {
     m_Interpolate = true;
   }
 
   /** Each render window will take a snaphot */
-  void SnapshotOn()
+  void
+  SnapshotOn()
   {
     m_Snapshot = true;
   }
 
   /** Each render window will take a snaphot */
-  void SnapshotOff()
+  void
+  SnapshotOff()
   {
     m_Snapshot = false;
   }
 
-  void SetSnapshotPath( const std::string& iPath )
+  void
+  SetSnapshotPath(const std::string & iPath)
   {
     m_SnapshotPath = iPath;
   }
 
-  void SetSnapshotPrefix( const std::string& iPrefix )
+  void
+  SetSnapshotPrefix(const std::string & iPrefix)
   {
     m_SnapshotPrefix = iPrefix;
   }
 
   /** Provide the image format to be used when taking snapshot */
-  void SetSnapshotExtension( const std::string& iExtension )
+  void
+  SetSnapshotExtension(const std::string & iExtension)
   {
     m_SnapshotExtension = iExtension;
-    std::transform(
-          m_SnapshotExtension.begin(),
-          m_SnapshotExtension.end(),
-          m_SnapshotExtension.begin(),
-          ::tolower );
+    std::transform(m_SnapshotExtension.begin(), m_SnapshotExtension.end(), m_SnapshotExtension.begin(), ::tolower);
   }
 
   /** Set the number of columns, default 4.*/
-  void SetNumberOfColumns (const unsigned int columns)
+  void
+  SetNumberOfColumns(const unsigned int columns)
   {
     m_NumberOfColumns = columns;
   }
 
   /** Set the viewport size, default 300.*/
-  void SetViewPortSize (const unsigned int size)
+  void
+  SetViewPortSize(const unsigned int size)
   {
     m_ViewPortSize = size;
   }
 
 private:
-  std::vector<ImageInfo>    Images;        // Container for images
-  std::vector<RGBImageInfo> RGBImages;     // Container for rgb images
+  std::vector<ImageInfo>    Images;    // Container for images
+  std::vector<RGBImageInfo> RGBImages; // Container for rgb images
   itk::IdentifierType       m_Counter;
   std::string               m_SnapshotPath;
   std::string               m_SnapshotPrefix;

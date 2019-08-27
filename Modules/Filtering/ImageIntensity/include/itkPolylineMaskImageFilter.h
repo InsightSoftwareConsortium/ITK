@@ -33,18 +33,17 @@ namespace itk
  * \ingroup ImageToImageFilter
  * \ingroup ITKImageIntensity
  */
-template< typename TInputImage, typename TPolyline, typename TVector,
-          typename TOutputImage >
-class ITK_TEMPLATE_EXPORT PolylineMaskImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TPolyline, typename TVector, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT PolylineMaskImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolylineMaskImageFilter);
 
   /** Standard class type aliases. */
   using Self = PolylineMaskImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -62,11 +61,11 @@ public:
   using InputImagePointer = typename InputImageType::ConstPointer;
   using InputImageRegionType = typename InputImageType::RegionType;
   using InputImagePixelType = typename InputImageType::PixelType;
-  using PointType = Point< double, 3 >;
-  using ProjPlanePointType = Point< double, 2 >;
+  using PointType = Point<double, 3>;
+  using ProjPlanePointType = Point<double, 2>;
 
   /** Standard matrix type for this class. */
-  using MatrixType = Matrix< double, Self::InputDimension, Self::InputDimension >;
+  using MatrixType = Matrix<double, Self::InputDimension, Self::InputDimension>;
 
   /** type alias for the vector type. */
   using VectorType = TVector;
@@ -81,10 +80,12 @@ public:
   using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** Set input image. */
-  void SetInput1(const InputImageType *image);
+  void
+  SetInput1(const InputImageType * image);
 
   /** Set input polyline. */
-  void SetInput2(const PolylineType *polyline);
+  void
+  SetInput2(const PolylineType * polyline);
 
   /** Set/Get viewing direction vector. */
   itkSetMacro(ViewVector, VectorType);
@@ -107,24 +108,27 @@ public:
   itkGetConstMacro(FocalPoint, ProjPlanePointType);
 
   /** Generate 3D rotation matrix using the viewing and up vectors. */
-  void GenerateRotationMatrix();
+  void
+  GenerateRotationMatrix();
 
   /** 3D rotation and perspective projection transform. */
-  ProjPlanePointType TransformProjectPoint(PointType inputPoint);
+  ProjPlanePointType
+  TransformProjectPoint(PointType inputPoint);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( VectorHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename VectorType::ValueType > ) );
+  itkConceptMacro(VectorHasNumericTraitsCheck, (Concept::HasNumericTraits<typename VectorType::ValueType>));
   // End concept checking
 #endif
 
 protected:
   PolylineMaskImageFilter();
   ~PolylineMaskImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   VectorType m_ViewVector;
@@ -141,7 +145,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPolylineMaskImageFilter.hxx"
+#  include "itkPolylineMaskImageFilter.hxx"
 #endif
 
 #endif

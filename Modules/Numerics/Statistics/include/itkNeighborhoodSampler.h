@@ -40,17 +40,17 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< typename TSample >
-class ITK_TEMPLATE_EXPORT NeighborhoodSampler:public SampleToSubsampleFilter< TSample >
+template <typename TSample>
+class ITK_TEMPLATE_EXPORT NeighborhoodSampler : public SampleToSubsampleFilter<TSample>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(NeighborhoodSampler);
 
   /** Standard class type aliases. */
   using Self = NeighborhoodSampler;
-  using Superclass = SampleToSubsampleFilter< TSample >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SampleToSubsampleFilter<TSample>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
   itkTypeMacro(NeighborhoodSampler, SampleToSubsampleFilter);
@@ -69,7 +69,7 @@ public:
   using RadiusType = double;
 
   /** Type of DataObjects to use for distance radius input. */
-  using InputRadiusObjectType = SimpleDataObjectDecorator< RadiusType >;
+  using InputRadiusObjectType = SimpleDataObjectDecorator<RadiusType>;
 
   /** Method to set the input value of the Radius */
   itkSetGetDecoratedInputMacro(Radius, RadiusType);
@@ -77,15 +77,17 @@ public:
 protected:
   NeighborhoodSampler() = default;
   ~NeighborhoodSampler() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
-};                                   // end of class
+  void
+  GenerateData() override;
+}; // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNeighborhoodSampler.hxx"
+#  include "itkNeighborhoodSampler.hxx"
 #endif
 
 #endif

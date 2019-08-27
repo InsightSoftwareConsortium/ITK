@@ -29,18 +29,18 @@ namespace itk
  * \ingroup QEMeshModifierFunctions
  * \ingroup ITKQuadEdgeMesh
  */
-template< typename TMesh, typename TQEType >
-class ITK_TEMPLATE_EXPORT QuadEdgeMeshEulerOperatorCreateCenterVertexFunction:
-  public QuadEdgeMeshFunctionBase< TMesh, TQEType * >
+template <typename TMesh, typename TQEType>
+class ITK_TEMPLATE_EXPORT QuadEdgeMeshEulerOperatorCreateCenterVertexFunction
+  : public QuadEdgeMeshFunctionBase<TMesh, TQEType *>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorCreateCenterVertexFunction);
 
   /** Standard class type aliases. */
   using Self = QuadEdgeMeshEulerOperatorCreateCenterVertexFunction;
-  using Superclass = QuadEdgeMeshFunctionBase< TMesh, TQEType * >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = QuadEdgeMeshFunctionBase<TMesh, TQEType *>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   itkNewMacro(Self);
   /** Run-time type information (and related methods). */
@@ -58,18 +58,17 @@ public:
   using VectorType = typename MeshType::VectorType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate(QEType *e);
+  virtual OutputType
+  Evaluate(QEType * e);
 
-  PointIdentifier GetNewPointID()
+  PointIdentifier
+  GetNewPointID()
   {
-    return ( this->m_NewPointID );
+    return (this->m_NewPointID);
   }
 
 protected:
-  QuadEdgeMeshEulerOperatorCreateCenterVertexFunction()
-  {
-    this->m_NewPointID = (PointIdentifier)0;
-  }
+  QuadEdgeMeshEulerOperatorCreateCenterVertexFunction() { this->m_NewPointID = (PointIdentifier)0; }
 
   ~QuadEdgeMeshEulerOperatorCreateCenterVertexFunction() override = default;
 

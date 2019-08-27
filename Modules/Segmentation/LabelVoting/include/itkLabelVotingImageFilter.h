@@ -71,18 +71,17 @@ namespace itk
  *
  * \ingroup ITKLabelVoting
  */
-template< typename TInputImage, typename TOutputImage = TInputImage >
-class ITK_TEMPLATE_EXPORT LabelVotingImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT LabelVotingImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelVotingImageFilter);
 
   /** Standard class type aliases. */
   using Self = LabelVotingImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -112,7 +111,8 @@ public:
   using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** Set label value for undecided pixels. */
-  void SetLabelForUndecidedPixels(const OutputPixelType l)
+  void
+  SetLabelForUndecidedPixels(const OutputPixelType l)
   {
     this->m_LabelForUndecidedPixels = l;
     this->m_HasLabelForUndecidedPixels = true;
@@ -125,40 +125,34 @@ public:
    * is overwritten when SetLabelForUndecidedPixels is called and the new
    * value only becomes effective upon the next filter update.
    */
-  OutputPixelType GetLabelForUndecidedPixels() const
+  OutputPixelType
+  GetLabelForUndecidedPixels() const
   {
     return this->m_LabelForUndecidedPixels;
   }
 
   /** Unset label value for undecided pixels and turn on automatic selection.
-    */
-  void UnsetLabelForUndecidedPixels()
+   */
+  void
+  UnsetLabelForUndecidedPixels()
   {
-    if ( this->m_HasLabelForUndecidedPixels )
-      {
+    if (this->m_HasLabelForUndecidedPixels)
+    {
       this->m_HasLabelForUndecidedPixels = false;
       this->Modified();
-      }
+    }
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< InputPixelType, OutputPixelType > ) );
-  itkConceptMacro( IntConvertibleToInputCheck,
-                   ( Concept::Convertible< int, InputPixelType > ) );
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< InputImageDimension, ImageDimension > ) );
-  itkConceptMacro( InputUnsignedIntCheck,
-                   ( Concept::IsUnsignedInteger< InputPixelType > ) );
-  itkConceptMacro( IntConvertibleToOutputPixelType,
-                   ( Concept::Convertible< int, OutputPixelType > ) );
-  itkConceptMacro( InputPlusIntCheck,
-                   ( Concept::AdditiveOperators< InputPixelType, int > ) );
-  itkConceptMacro( InputIncrementDecrementOperatorsCheck,
-                   ( Concept::IncrementDecrementOperators< InputPixelType > ) );
-  itkConceptMacro( OutputOStreamWritableCheck,
-                   ( Concept::OStreamWritable< OutputPixelType > ) );
+  itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelType, OutputPixelType>));
+  itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputPixelType>));
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  itkConceptMacro(InputUnsignedIntCheck, (Concept::IsUnsignedInteger<InputPixelType>));
+  itkConceptMacro(IntConvertibleToOutputPixelType, (Concept::Convertible<int, OutputPixelType>));
+  itkConceptMacro(InputPlusIntCheck, (Concept::AdditiveOperators<InputPixelType, int>));
+  itkConceptMacro(InputIncrementDecrementOperatorsCheck, (Concept::IncrementDecrementOperators<InputPixelType>));
+  itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<OutputPixelType>));
   // End concept checking
 #endif
 
@@ -168,15 +162,19 @@ protected:
 
   /** Determine maximum label value in all input images and initialize
    * global data. */
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
-  void PrintSelf(std::ostream &, Indent) const override;
+  void
+  PrintSelf(std::ostream &, Indent) const override;
 
   /** Determine maximum value among all input images' pixels. */
-  InputPixelType ComputeMaximumInputValue();
+  InputPixelType
+  ComputeMaximumInputValue();
 
 private:
   OutputPixelType m_LabelForUndecidedPixels;
@@ -186,7 +184,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelVotingImageFilter.hxx"
+#  include "itkLabelVotingImageFilter.hxx"
 #endif
 
 #endif

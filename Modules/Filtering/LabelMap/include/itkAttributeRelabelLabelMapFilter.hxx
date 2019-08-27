@@ -22,11 +22,11 @@
 #include "itkProgressReporter.h"
 
 
-namespace itk {
+namespace itk
+{
 
 template <typename TImage, typename TAttributeAccessor>
-AttributeRelabelLabelMapFilter<TImage, TAttributeAccessor>
-::AttributeRelabelLabelMapFilter()
+AttributeRelabelLabelMapFilter<TImage, TAttributeAccessor>::AttributeRelabelLabelMapFilter()
 {
   m_ReverseOrdering = false;
 }
@@ -34,73 +34,67 @@ AttributeRelabelLabelMapFilter<TImage, TAttributeAccessor>
 
 template <typename TImage, typename TAttributeAccessor>
 void
-AttributeRelabelLabelMapFilter<TImage, TAttributeAccessor>
-::GenerateData()
+AttributeRelabelLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
 {
   // Allocate the output
   this->AllocateOutputs();
 
   ImageType * output = this->GetOutput();
 
-  using VectorType = typename std::vector< typename LabelObjectType::Pointer >;
+  using VectorType = typename std::vector<typename LabelObjectType::Pointer>;
 
-  ProgressReporter progress( this, 0, 2 * output->GetNumberOfLabelObjects() );
+  ProgressReporter progress(this, 0, 2 * output->GetNumberOfLabelObjects());
 
   // get the label objects in a vector, so they can be sorted
   VectorType labelObjects;
-  labelObjects.reserve( output->GetNumberOfLabelObjects() );
-  for( typename ImageType::Iterator it( output );
-    ! it.IsAtEnd();
-    ++it )
-    {
-    labelObjects.push_back( it.GetLabelObject() );
+  labelObjects.reserve(output->GetNumberOfLabelObjects());
+  for (typename ImageType::Iterator it(output); !it.IsAtEnd(); ++it)
+  {
+    labelObjects.push_back(it.GetLabelObject());
     progress.CompletedPixel();
-    }
+  }
 
   // instantiate the comparator and sort the vector
-  if( m_ReverseOrdering )
-    {
+  if (m_ReverseOrdering)
+  {
     ReverseComparator comparator;
-    std::sort( labelObjects.begin(), labelObjects.end(), comparator );
-    }
+    std::sort(labelObjects.begin(), labelObjects.end(), comparator);
+  }
   else
-    {
+  {
     Comparator comparator;
-    std::sort( labelObjects.begin(), labelObjects.end(), comparator );
-    }
+    std::sort(labelObjects.begin(), labelObjects.end(), comparator);
+  }
   //   progress.CompletedPixel();
 
   // and put back the objects in the map
   output->ClearLabels();
   unsigned int label = 0;
-  for( typename VectorType::const_iterator it = labelObjects.begin();
-    it != labelObjects.end();
-    it++ )
-    {
+  for (typename VectorType::const_iterator it = labelObjects.begin(); it != labelObjects.end(); it++)
+  {
     // avoid the background label if it is used
-    if( label == output->GetBackgroundValue() )
-      {
+    if (label == output->GetBackgroundValue())
+    {
       label++;
-      }
-    (*it)->SetLabel( label );
-    output->AddLabelObject( *it );
+    }
+    (*it)->SetLabel(label);
+    output->AddLabelObject(*it);
 
     // go to the nex label
     label++;
     progress.CompletedPixel();
-    }
+  }
 }
 
 
 template <typename TImage, typename TAttributeAccessor>
 void
-AttributeRelabelLabelMapFilter<TImage, TAttributeAccessor>
-::PrintSelf(std::ostream& os, Indent indent) const
+AttributeRelabelLabelMapFilter<TImage, TAttributeAccessor>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
-  os << indent << "ReverseOrdering: "  << m_ReverseOrdering << std::endl;
+  os << indent << "ReverseOrdering: " << m_ReverseOrdering << std::endl;
 }
 
-}// end namespace itk
+} // end namespace itk
 #endif

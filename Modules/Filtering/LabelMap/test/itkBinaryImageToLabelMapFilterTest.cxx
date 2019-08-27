@@ -25,74 +25,75 @@
 #include "itkSimpleFilterWatcher.h"
 
 
-int itkBinaryImageToLabelMapFilterTest( int argc, char * argv [] )
+int
+itkBinaryImageToLabelMapFilterTest(int argc, char * argv[])
 {
 
-  if( argc != 7 )
-    {
+  if (argc != 7)
+  {
     std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputBinaryImage outputLabelImage";
     std::cerr << " fullyConnected(0/1)  foregroundValue backgroundValue expectfailure";
     std::cerr << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 3;
 
   using BinaryPixelType = unsigned char;
   using LabelPixelType = unsigned char;
 
-  using ImageType = itk::Image< BinaryPixelType, Dimension >;
+  using ImageType = itk::Image<BinaryPixelType, Dimension>;
 
-  using LabelObjectType = itk::LabelObject< LabelPixelType, Dimension >;
-  using LabelMapType = itk::LabelMap< LabelObjectType >;
+  using LabelObjectType = itk::LabelObject<LabelPixelType, Dimension>;
+  using LabelMapType = itk::LabelMap<LabelObjectType>;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
-  using ImageToLabelType = itk::BinaryImageToLabelMapFilter< ImageType, LabelMapType >;
+  using ImageToLabelType = itk::BinaryImageToLabelMapFilter<ImageType, LabelMapType>;
   ImageToLabelType::Pointer imageToLabel = ImageToLabelType::New();
   // test the behavior without input
-  ITK_TRY_EXPECT_EXCEPTION( imageToLabel->Update() );
+  ITK_TRY_EXPECT_EXCEPTION(imageToLabel->Update());
   imageToLabel->ResetPipeline();
 
-  imageToLabel->SetFullyConnected( std::stoi(argv[3]) );
-  imageToLabel->SetInputForegroundValue( std::stoi(argv[4]) );
-  imageToLabel->SetOutputBackgroundValue( std::stoi(argv[5]) );
+  imageToLabel->SetFullyConnected(std::stoi(argv[3]));
+  imageToLabel->SetInputForegroundValue(std::stoi(argv[4]));
+  imageToLabel->SetOutputBackgroundValue(std::stoi(argv[5]));
 
-  itk::SimpleFilterWatcher watcher( imageToLabel );
+  itk::SimpleFilterWatcher watcher(imageToLabel);
 
-  using LabelToImageType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
+  using LabelToImageType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   LabelToImageType::Pointer labelToImage = LabelToImageType::New();
 
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetFileName( argv[2] );
+  writer->SetFileName(argv[2]);
   writer->UseCompressionOn();
 
 
-  imageToLabel->SetInput( reader->GetOutput() );
-  labelToImage->SetInput( imageToLabel->GetOutput() );
-  writer->SetInput( labelToImage->GetOutput() );
+  imageToLabel->SetInput(reader->GetOutput());
+  labelToImage->SetInput(imageToLabel->GetOutput());
+  writer->SetInput(labelToImage->GetOutput());
 
-  bool expectfailure = std::stoi( argv[6] );
+  bool expectfailure = std::stoi(argv[6]);
 
-  if( expectfailure )
-    {
-    ITK_TRY_EXPECT_EXCEPTION( writer->Update() );
-    }
+  if (expectfailure)
+  {
+    ITK_TRY_EXPECT_EXCEPTION(writer->Update());
+  }
   else
-    {
-    ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
-    }
+  {
+    ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  }
 
   imageToLabel->GetOutput()->PrintLabelObjects();
 
   std::cout << imageToLabel->GetNameOfClass() << std::endl;
 
-  imageToLabel->Print( std::cout );
+  imageToLabel->Print(std::cout);
 
   return EXIT_SUCCESS;
 }

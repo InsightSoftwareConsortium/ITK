@@ -19,16 +19,18 @@
 #include <iostream>
 #include "itkIndex.h"
 
-bool math_test_helper(std::string str, bool test)
+bool
+math_test_helper(std::string str, bool test)
 {
   if (!test)
-    {
-    std::cout<<"test ("<<str<<") failed"<<std::endl;
-    }
+  {
+    std::cout << "test (" << str << ") failed" << std::endl;
+  }
   return test;
 }
 
-int itkMathRoundTest( int, char *[] )
+int
+itkMathRoundTest(int, char *[])
 {
   bool ok = true;
 
@@ -60,38 +62,63 @@ int itkMathRoundTest( int, char *[] )
   ok &= math_test_helper("rnd(9.5001) == 10", itk::Math::Round<IndexValueType>(9.5001) == 10);
   ok &= math_test_helper("rnd(9.5001f) == 10", itk::Math::Round<IndexValueType>(9.5001f) == 10);
 
-  ok &= math_test_helper("rnd_halfinttoeven(-8.4999) == -8", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-8.4999) == -8);
-  ok &= math_test_helper("rnd_halfinttoeven(-8.4999f) == -8", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-8.4999f) == -8);
-  ok &= math_test_helper("rnd_halfinttoeven(-8.50) == -8", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-8.50) == -8);
-  ok &= math_test_helper("rnd_halfinttoeven(-8.50f) == -8", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-8.50f) == -8);
-  ok &= math_test_helper("rnd_halfinttoeven(-8.5001) == -9", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-8.5001) == -9);
-  ok &= math_test_helper("rnd_halfinttoeven(-8.5001f) == -9", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-8.5001f) == -9);
-  ok &= math_test_helper("rnd_halfinttoeven(8.4999) == 8", itk::Math::RoundHalfIntegerToEven<IndexValueType>(8.4999) == 8);
-  ok &= math_test_helper("rnd_halfinttoeven(8.4999f) == 8", itk::Math::RoundHalfIntegerToEven<IndexValueType>(8.4999f) == 8);
+  ok &= math_test_helper("rnd_halfinttoeven(-8.4999) == -8",
+                         itk::Math::RoundHalfIntegerToEven<IndexValueType>(-8.4999) == -8);
+  ok &= math_test_helper("rnd_halfinttoeven(-8.4999f) == -8",
+                         itk::Math::RoundHalfIntegerToEven<IndexValueType>(-8.4999f) == -8);
+  ok &=
+    math_test_helper("rnd_halfinttoeven(-8.50) == -8", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-8.50) == -8);
+  ok &= math_test_helper("rnd_halfinttoeven(-8.50f) == -8",
+                         itk::Math::RoundHalfIntegerToEven<IndexValueType>(-8.50f) == -8);
+  ok &= math_test_helper("rnd_halfinttoeven(-8.5001) == -9",
+                         itk::Math::RoundHalfIntegerToEven<IndexValueType>(-8.5001) == -9);
+  ok &= math_test_helper("rnd_halfinttoeven(-8.5001f) == -9",
+                         itk::Math::RoundHalfIntegerToEven<IndexValueType>(-8.5001f) == -9);
+  ok &=
+    math_test_helper("rnd_halfinttoeven(8.4999) == 8", itk::Math::RoundHalfIntegerToEven<IndexValueType>(8.4999) == 8);
+  ok &= math_test_helper("rnd_halfinttoeven(8.4999f) == 8",
+                         itk::Math::RoundHalfIntegerToEven<IndexValueType>(8.4999f) == 8);
   ok &= math_test_helper("rnd_halfinttoeven(8.50) == 8", itk::Math::RoundHalfIntegerToEven<IndexValueType>(8.50) == 8);
-  ok &= math_test_helper("rnd_halfinttoeven(8.50f) == 8", itk::Math::RoundHalfIntegerToEven<IndexValueType>(8.50f) == 8);
-  ok &= math_test_helper("rnd_halfinttoeven(8.5001) == 9", itk::Math::RoundHalfIntegerToEven<IndexValueType>(8.5001) == 9);
-  ok &= math_test_helper("rnd_halfinttoeven(8.5001f) == 9", itk::Math::RoundHalfIntegerToEven<IndexValueType>(8.5001f) == 9);
+  ok &=
+    math_test_helper("rnd_halfinttoeven(8.50f) == 8", itk::Math::RoundHalfIntegerToEven<IndexValueType>(8.50f) == 8);
+  ok &=
+    math_test_helper("rnd_halfinttoeven(8.5001) == 9", itk::Math::RoundHalfIntegerToEven<IndexValueType>(8.5001) == 9);
+  ok &= math_test_helper("rnd_halfinttoeven(8.5001f) == 9",
+                         itk::Math::RoundHalfIntegerToEven<IndexValueType>(8.5001f) == 9);
 
-  ok &= math_test_helper("rnd_halfinttoeven(-9.4999) == -9 ", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-9.4999) == -9);
-  ok &= math_test_helper("rnd_halfinttoeven(-9.4999f) == -9 ", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-9.4999f) == -9);
-  ok &= math_test_helper("rnd_halfinttoeven(-9.50) == -10", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-9.50) == -10);
-  ok &= math_test_helper("rnd_halfinttoeven(-9.50f) == -10", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-9.50f) == -10);
-  ok &= math_test_helper("rnd_halfinttoeven(-9.5001) == -10", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-9.5001) == -10);
-  ok &= math_test_helper("rnd_halfinttoeven(-9.5001f) == -10", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-9.5001f) == -10);
-  ok &= math_test_helper("rnd_halfinttoeven(9.4999) == 9 ", itk::Math::RoundHalfIntegerToEven<IndexValueType>(9.4999) == 9);
-  ok &= math_test_helper("rnd_halfinttoeven(9.4999f) == 9 ", itk::Math::RoundHalfIntegerToEven<IndexValueType>(9.4999f) == 9);
-  ok &= math_test_helper("rnd_halfinttoeven(9.50) == 10", itk::Math::RoundHalfIntegerToEven<IndexValueType>(9.50) == 10);
-  ok &= math_test_helper("rnd_halfinttoeven(9.50f) == 10", itk::Math::RoundHalfIntegerToEven<IndexValueType>(9.50f) == 10);
-  ok &= math_test_helper("rnd_halfinttoeven(9.5001) == 10", itk::Math::RoundHalfIntegerToEven<IndexValueType>(9.5001) == 10);
-  ok &= math_test_helper("rnd_halfinttoeven(9.5001f) == 10", itk::Math::RoundHalfIntegerToEven<IndexValueType>(9.5001f) == 10);
+  ok &= math_test_helper("rnd_halfinttoeven(-9.4999) == -9 ",
+                         itk::Math::RoundHalfIntegerToEven<IndexValueType>(-9.4999) == -9);
+  ok &= math_test_helper("rnd_halfinttoeven(-9.4999f) == -9 ",
+                         itk::Math::RoundHalfIntegerToEven<IndexValueType>(-9.4999f) == -9);
+  ok &= math_test_helper("rnd_halfinttoeven(-9.50) == -10",
+                         itk::Math::RoundHalfIntegerToEven<IndexValueType>(-9.50) == -10);
+  ok &= math_test_helper("rnd_halfinttoeven(-9.50f) == -10",
+                         itk::Math::RoundHalfIntegerToEven<IndexValueType>(-9.50f) == -10);
+  ok &= math_test_helper("rnd_halfinttoeven(-9.5001) == -10",
+                         itk::Math::RoundHalfIntegerToEven<IndexValueType>(-9.5001) == -10);
+  ok &= math_test_helper("rnd_halfinttoeven(-9.5001f) == -10",
+                         itk::Math::RoundHalfIntegerToEven<IndexValueType>(-9.5001f) == -10);
+  ok &=
+    math_test_helper("rnd_halfinttoeven(9.4999) == 9 ", itk::Math::RoundHalfIntegerToEven<IndexValueType>(9.4999) == 9);
+  ok &= math_test_helper("rnd_halfinttoeven(9.4999f) == 9 ",
+                         itk::Math::RoundHalfIntegerToEven<IndexValueType>(9.4999f) == 9);
+  ok &=
+    math_test_helper("rnd_halfinttoeven(9.50) == 10", itk::Math::RoundHalfIntegerToEven<IndexValueType>(9.50) == 10);
+  ok &=
+    math_test_helper("rnd_halfinttoeven(9.50f) == 10", itk::Math::RoundHalfIntegerToEven<IndexValueType>(9.50f) == 10);
+  ok &= math_test_helper("rnd_halfinttoeven(9.5001) == 10",
+                         itk::Math::RoundHalfIntegerToEven<IndexValueType>(9.5001) == 10);
+  ok &= math_test_helper("rnd_halfinttoeven(9.5001f) == 10",
+                         itk::Math::RoundHalfIntegerToEven<IndexValueType>(9.5001f) == 10);
 
   ok &= math_test_helper("rnd_halfintup(-8.4999) == -8", itk::Math::RoundHalfIntegerUp<IndexValueType>(-8.4999) == -8);
-  ok &= math_test_helper("rnd_halfintup(-8.4999f) == -8", itk::Math::RoundHalfIntegerUp<IndexValueType>(-8.4999f) == -8);
+  ok &=
+    math_test_helper("rnd_halfintup(-8.4999f) == -8", itk::Math::RoundHalfIntegerUp<IndexValueType>(-8.4999f) == -8);
   ok &= math_test_helper("rnd_halfintup(-8.50) == -8", itk::Math::RoundHalfIntegerUp<IndexValueType>(-8.50) == -8);
   ok &= math_test_helper("rnd_halfintup(-8.50f) == -8", itk::Math::RoundHalfIntegerUp<IndexValueType>(-8.50f) == -8);
   ok &= math_test_helper("rnd_halfintup(-8.5001) == -9", itk::Math::RoundHalfIntegerUp<IndexValueType>(-8.5001) == -9);
-  ok &= math_test_helper("rnd_halfintup(-8.5001f) == -9", itk::Math::RoundHalfIntegerUp<IndexValueType>(-8.5001f) == -9);
+  ok &=
+    math_test_helper("rnd_halfintup(-8.5001f) == -9", itk::Math::RoundHalfIntegerUp<IndexValueType>(-8.5001f) == -9);
   ok &= math_test_helper("rnd_halfintup(8.4999) == 8", itk::Math::RoundHalfIntegerUp<IndexValueType>(8.4999) == 8);
   ok &= math_test_helper("rnd_halfintup(8.4999f) == 8", itk::Math::RoundHalfIntegerUp<IndexValueType>(8.4999f) == 8);
   ok &= math_test_helper("rnd_halfintup(8.50) == 9", itk::Math::RoundHalfIntegerUp<IndexValueType>(8.50) == 9);
@@ -100,11 +127,14 @@ int itkMathRoundTest( int, char *[] )
   ok &= math_test_helper("rnd_halfintup(8.5001f) == 9", itk::Math::RoundHalfIntegerUp<IndexValueType>(8.5001f) == 9);
 
   ok &= math_test_helper("rnd_halfintup(-9.4999) == -9 ", itk::Math::RoundHalfIntegerUp<IndexValueType>(-9.4999) == -9);
-  ok &= math_test_helper("rnd_halfintup(-9.4999f) == -9 ", itk::Math::RoundHalfIntegerUp<IndexValueType>(-9.4999f) == -9);
+  ok &=
+    math_test_helper("rnd_halfintup(-9.4999f) == -9 ", itk::Math::RoundHalfIntegerUp<IndexValueType>(-9.4999f) == -9);
   ok &= math_test_helper("rnd_halfintup(-9.50) == -9 ", itk::Math::RoundHalfIntegerUp<IndexValueType>(-9.50) == -9);
   ok &= math_test_helper("rnd_halfintup(-9.50f) == -9 ", itk::Math::RoundHalfIntegerUp<IndexValueType>(-9.50f) == -9);
-  ok &= math_test_helper("rnd_halfintup(-9.5001) == -10", itk::Math::RoundHalfIntegerUp<IndexValueType>(-9.5001) == -10);
-  ok &= math_test_helper("rnd_halfintup(-9.5001f) == -10", itk::Math::RoundHalfIntegerUp<IndexValueType>(-9.5001f) == -10);
+  ok &=
+    math_test_helper("rnd_halfintup(-9.5001) == -10", itk::Math::RoundHalfIntegerUp<IndexValueType>(-9.5001) == -10);
+  ok &=
+    math_test_helper("rnd_halfintup(-9.5001f) == -10", itk::Math::RoundHalfIntegerUp<IndexValueType>(-9.5001f) == -10);
   ok &= math_test_helper("rnd_halfintup(9.4999) == 9 ", itk::Math::RoundHalfIntegerUp<IndexValueType>(9.4999) == 9);
   ok &= math_test_helper("rnd_halfintup(9.4999f) == 9 ", itk::Math::RoundHalfIntegerUp<IndexValueType>(9.4999f) == 9);
   ok &= math_test_helper("rnd_halfintup(9.50) == 10", itk::Math::RoundHalfIntegerUp<IndexValueType>(9.50) == 10);
@@ -165,12 +195,12 @@ int itkMathRoundTest( int, char *[] )
   ok &= math_test_helper("ceil(-9.0001f) == -9 ", itk::Math::Ceil<IndexValueType>(-9.0001f) == -9);
 
   if (!ok)
-    {
+  {
     return EXIT_FAILURE;
-    }
+  }
   else
-    {
-    std::cout<<"Test passed"<<std::endl;
+  {
+    std::cout << "Test passed" << std::endl;
     return EXIT_SUCCESS;
-    }
+  }
 }

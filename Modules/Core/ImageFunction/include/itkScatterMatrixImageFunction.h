@@ -41,25 +41,24 @@ namespace itk
  * \ingroup ImageFunctions
  * \ingroup ITKImageFunction
  */
-template< typename TInputImage, typename TCoordRep = float >
-class ITK_TEMPLATE_EXPORT ScatterMatrixImageFunction:
-  public ImageFunction< TInputImage,
-                        vnl_matrix<
-                          typename NumericTraits< typename TInputImage::PixelType::ValueType >::RealType >,
-                        TCoordRep >
+template <typename TInputImage, typename TCoordRep = float>
+class ITK_TEMPLATE_EXPORT ScatterMatrixImageFunction
+  : public ImageFunction<TInputImage,
+                         vnl_matrix<typename NumericTraits<typename TInputImage::PixelType::ValueType>::RealType>,
+                         TCoordRep>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScatterMatrixImageFunction);
 
   /** Standard class type aliases. */
   using Self = ScatterMatrixImageFunction;
-  using Superclass = ImageFunction< TInputImage,
-                         vnl_matrix<
-                           typename NumericTraits< typename TInputImage::PixelType::ValueType >::RealType >,
-                         TCoordRep >;
+  using Superclass =
+    ImageFunction<TInputImage,
+                  vnl_matrix<typename NumericTraits<typename TInputImage::PixelType::ValueType>::RealType>,
+                  TCoordRep>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ScatterMatrixImageFunction, ImageFunction);
@@ -86,14 +85,15 @@ public:
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
   /** Datatype used for the covariance matrix */
-  using RealType = vnl_matrix<
-    typename NumericTraits< typename InputImageType::PixelType::ValueType >::RealType >;
+  using RealType = vnl_matrix<typename NumericTraits<typename InputImageType::PixelType::ValueType>::RealType>;
 
   /** Evalulate the function at specified index */
-  RealType EvaluateAtIndex(const IndexType & index) const override;
+  RealType
+  EvaluateAtIndex(const IndexType & index) const override;
 
   /** Evaluate the function at non-integer positions */
-  RealType Evaluate(const PointType & point) const override
+  RealType
+  Evaluate(const PointType & point) const override
   {
     IndexType index;
 
@@ -101,8 +101,8 @@ public:
     return this->EvaluateAtIndex(index);
   }
 
-  RealType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex) const override
+  RealType
+  EvaluateAtContinuousIndex(const ContinuousIndexType & cindex) const override
   {
     IndexType index;
 
@@ -118,7 +118,8 @@ public:
 protected:
   ScatterMatrixImageFunction();
   ~ScatterMatrixImageFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   unsigned int m_NeighborhoodRadius;
@@ -126,7 +127,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScatterMatrixImageFunction.hxx"
+#  include "itkScatterMatrixImageFunction.hxx"
 #endif
 
 #endif

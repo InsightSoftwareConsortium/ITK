@@ -20,9 +20,8 @@
 #include "itkTestingMacros.h"
 
 /* Create a simple metric to use for testing here. */
-template< typename TFixedObject,  typename TMovingObject >
-class GradientDescentOptimizerBasev4TestMetric:
-  public itk::ObjectToObjectMetricBase
+template <typename TFixedObject, typename TMovingObject>
+class GradientDescentOptimizerBasev4TestMetric : public itk::ObjectToObjectMetricBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4TestMetric);
@@ -30,8 +29,8 @@ public:
   /** Standard class type aliases. */
   using Self = GradientDescentOptimizerBasev4TestMetric;
   using Superclass = itk::ObjectToObjectMetricBase;
-  using Pointer = itk::SmartPointer< Self >;
-  using ConstPointer = itk::SmartPointer< const Self >;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   using MeasureType = typename Superclass::MeasureType;
   using DerivativeType = typename Superclass::DerivativeType;
@@ -43,43 +42,66 @@ public:
   itkNewMacro(Self);
 
   // Pure virtual functions that all Metrics must provide
-  unsigned int GetNumberOfParameters() const override { return 5; }
+  unsigned int
+  GetNumberOfParameters() const override
+  {
+    return 5;
+  }
 
-  MeasureType GetValue() const override
-    {
-    return itk::NumericTraits< MeasureType >::OneValue();
-    }
+  MeasureType
+  GetValue() const override
+  {
+    return itk::NumericTraits<MeasureType>::OneValue();
+  }
 
-  void GetDerivative( DerivativeType & derivative ) const override
-    {
-    derivative.Fill( itk::NumericTraits< ParametersValueType >::ZeroValue() );
-    }
+  void
+  GetDerivative(DerivativeType & derivative) const override
+  {
+    derivative.Fill(itk::NumericTraits<ParametersValueType>::ZeroValue());
+  }
 
-  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const override
-    {
-    value = itk::NumericTraits< MeasureType >::OneValue();
-    derivative.Fill( itk::NumericTraits< ParametersValueType >::ZeroValue() );
-    }
+  void
+  GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const override
+  {
+    value = itk::NumericTraits<MeasureType>::OneValue();
+    derivative.Fill(itk::NumericTraits<ParametersValueType>::ZeroValue());
+  }
 
-  unsigned int GetNumberOfLocalParameters() const override
-  { return 3; }
+  unsigned int
+  GetNumberOfLocalParameters() const override
+  {
+    return 3;
+  }
 
-  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) override {}
+  void
+  UpdateTransformParameters(const DerivativeType &, ParametersValueType) override
+  {}
 
-  const ParametersType & GetParameters() const override
-  { return m_Parameters; }
+  const ParametersType &
+  GetParameters() const override
+  {
+    return m_Parameters;
+  }
 
-  void SetParameters( ParametersType & ) override {}
+  void
+  SetParameters(ParametersType &) override
+  {}
 
-  bool HasLocalSupport() const override
-    {
+  bool
+  HasLocalSupport() const override
+  {
     return false;
-    }
+  }
 
-  void Initialize() throw ( itk::ExceptionObject ) override {}
+  void
+  Initialize() throw(itk::ExceptionObject) override
+  {}
 
-  void PrintSelf(std::ostream& os, itk::Indent indent) const override
-  { Superclass::PrintSelf( os, indent ); }
+  void
+  PrintSelf(std::ostream & os, itk::Indent indent) const override
+  {
+    Superclass::PrintSelf(os, indent);
+  }
 
 protected:
   ~GradientDescentOptimizerBasev4TestMetric() override = default;
@@ -91,8 +113,7 @@ private:
 
 /* Define a simple derived optimizer class.
  * \class GradientDescentOptimizerBasev4TestOptimizer */
-class GradientDescentOptimizerBasev4TestOptimizer
-  : public itk::GradientDescentOptimizerBasev4
+class GradientDescentOptimizerBasev4TestOptimizer : public itk::GradientDescentOptimizerBasev4
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4TestOptimizer);
@@ -100,70 +121,71 @@ public:
   /** Standard "Self" type alias. */
   using Self = GradientDescentOptimizerBasev4TestOptimizer;
   using Superclass = itk::GradientDescentOptimizerBasev4;
-  using Pointer = itk::SmartPointer< Self >;
-  using ConstPointer = itk::SmartPointer< const Self >;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( GradientDescentOptimizerBasev4TestOptimizer,
-                GradientDescentOptimizerBasev4);
+  itkTypeMacro(GradientDescentOptimizerBasev4TestOptimizer, GradientDescentOptimizerBasev4);
 
   /* Provide an override for the pure virtual StartOptimization */
-  void StartOptimization( bool doOnlyInitialization = false ) override
-    {
-    Superclass::StartOptimization( doOnlyInitialization );
+  void
+  StartOptimization(bool doOnlyInitialization = false) override
+  {
+    Superclass::StartOptimization(doOnlyInitialization);
     std::cout << "StartOptimization called. doOnlyInitialization: " << doOnlyInitialization << std::endl;
-    }
+  }
 
-  void ResumeOptimization() override
-    {
+  void
+  ResumeOptimization() override
+  {
     std::cout << "ResumeOptimization called." << std::endl;
-    }
+  }
 
-  void ModifyGradientByScalesOverSubRange (const IndexRangeType& index ) override
-    {
-    std::cout << "ModifyGradientByScalesOverSubRange called with index:"
-              << index << std::endl;
-    }
+  void
+  ModifyGradientByScalesOverSubRange(const IndexRangeType & index) override
+  {
+    std::cout << "ModifyGradientByScalesOverSubRange called with index:" << index << std::endl;
+  }
 
-  void ModifyGradientByLearningRateOverSubRange (const IndexRangeType& index ) override
-    {
-    std::cout << "ModifyGradientByLearningRateOverSubRange called with index:"
-              << index << std::endl;
-    }
+  void
+  ModifyGradientByLearningRateOverSubRange(const IndexRangeType & index) override
+  {
+    std::cout << "ModifyGradientByLearningRateOverSubRange called with index:" << index << std::endl;
+  }
 
 protected:
-
-  GradientDescentOptimizerBasev4TestOptimizer()= default;
+  GradientDescentOptimizerBasev4TestOptimizer() = default;
   ~GradientDescentOptimizerBasev4TestOptimizer() override = default;
 };
 
 
-int itkGradientDescentOptimizerBasev4Test(int , char* [])
+int
+itkGradientDescentOptimizerBasev4Test(int, char *[])
 {
   constexpr int ImageDimension = 2;
   using ImageType = itk::Image<double, ImageDimension>;
 
-  using MetricType = GradientDescentOptimizerBasev4TestMetric<ImageType,ImageType>;
+  using MetricType = GradientDescentOptimizerBasev4TestMetric<ImageType, ImageType>;
 
-  MetricType::Pointer metric = MetricType::New();
+  MetricType::Pointer                                  metric = MetricType::New();
   GradientDescentOptimizerBasev4TestOptimizer::Pointer optimizer = GradientDescentOptimizerBasev4TestOptimizer::New();
 
   /* exercise some methods */
-  optimizer->SetMetric( metric );
-  if( optimizer->GetMetric() != metric )
-    {
+  optimizer->SetMetric(metric);
+  if (optimizer->GetMetric() != metric)
+  {
     std::cerr << "Set/GetMetric failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "value: " << optimizer->GetCurrentMetricValue() << std::endl;
 
-  optimizer->SetNumberOfWorkUnits( 2 );
+  optimizer->SetNumberOfWorkUnits(2);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( optimizer->StartOptimization() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(optimizer->StartOptimization());
 
   std::cout << "Printing self.." << std::endl;
   std::cout << optimizer << std::endl;

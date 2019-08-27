@@ -36,25 +36,23 @@ namespace itk
 /**
  *
  */
-template< typename T >
+template <typename T>
 void
-DataObjectDecorator< T >
-::Set( const ComponentType *val)
+DataObjectDecorator<T>::Set(const ComponentType * val)
 {
-  if ( m_Component != val )
-    {
-    m_Component = const_cast<ComponentType*>(val);
+  if (m_Component != val)
+  {
+    m_Component = const_cast<ComponentType *>(val);
     this->Modified();
-    }
+  }
 }
 
 /**
  *
  */
-template< typename T >
+template <typename T>
 const T *
-DataObjectDecorator< T >
-::Get() const
+DataObjectDecorator<T>::Get() const
 {
   return m_Component.GetPointer();
 }
@@ -62,10 +60,9 @@ DataObjectDecorator< T >
 /**
  *
  */
-template< typename T >
+template <typename T>
 T *
-DataObjectDecorator< T >
-::GetModifiable()
+DataObjectDecorator<T>::GetModifiable()
 {
   return m_Component.GetPointer();
 }
@@ -73,65 +70,61 @@ DataObjectDecorator< T >
 /**
  *
  */
-template< typename T >
+template <typename T>
 ModifiedTimeType
-DataObjectDecorator< T >
-::GetMTime() const
+DataObjectDecorator<T>::GetMTime() const
 {
   const ModifiedTimeType t = Superclass::GetMTime();
   if (m_Component.IsNotNull())
-    {
+  {
     return std::max(t, m_Component->GetMTime());
-    }
+  }
   return t;
 }
 
 /**
  *
  */
-template< typename T >
+template <typename T>
 void
-DataObjectDecorator< T >
-::Initialize()
+DataObjectDecorator<T>::Initialize()
 {
   Superclass::Initialize();
 
   // make sure the MTime does not change
-  if ( m_Component.IsNull())
-    {
+  if (m_Component.IsNull())
+  {
     return;
-    }
-  if ( m_Component->GetMTime() > Superclass::GetMTime() )
-    {
+  }
+  if (m_Component->GetMTime() > Superclass::GetMTime())
+  {
     this->SetTimeStamp(m_Component->GetTimeStamp());
-    }
+  }
   m_Component = nullptr;
 }
 
 /**
  *
  */
-template< typename T >
+template <typename T>
 void
-DataObjectDecorator< T >
-::Graft( const DataObject *data )
+DataObjectDecorator<T>::Graft(const DataObject * data)
 {
-  const auto * decorator = dynamic_cast< const Self * >( data );
+  const auto * decorator = dynamic_cast<const Self *>(data);
   this->Graft(decorator);
 }
 
 /**
  *
  */
-template< typename T >
+template <typename T>
 void
-DataObjectDecorator< T >
-::Graft( const Self *data )
+DataObjectDecorator<T>::Graft(const Self * data)
 {
-  if ( !data )
-    {
+  if (!data)
+  {
     return;
-    }
+  }
 
   this->Set(data->m_Component);
 }
@@ -139,10 +132,9 @@ DataObjectDecorator< T >
 /**
  *
  */
-template< typename T >
+template <typename T>
 void
-DataObjectDecorator< T >
-::PrintSelf(std::ostream & os, Indent indent) const
+DataObjectDecorator<T>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

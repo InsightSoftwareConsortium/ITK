@@ -63,9 +63,9 @@ namespace itk
  * \sphinxexample{Filtering/BinaryMathematicalMorphology/ErodeABinaryImage,Erode A Binary Image}
  * \endsphin
  */
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-class ITK_TEMPLATE_EXPORT BinaryErodeImageFilter:
-  public BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+class ITK_TEMPLATE_EXPORT BinaryErodeImageFilter
+  : public BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryErodeImageFilter);
@@ -84,11 +84,10 @@ public:
 
   /** Standard class type aliases. */
   using Self = BinaryErodeImageFilter;
-  using Superclass = BinaryMorphologyImageFilter< InputImageType, OutputImageType,
-                                       KernelType >;
+  using Superclass = BinaryMorphologyImageFilter<InputImageType, OutputImageType, KernelType>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -102,7 +101,7 @@ public:
   /** Image type alias support */
   using InputPixelType = typename InputImageType::PixelType;
   using OutputPixelType = typename OutputImageType::PixelType;
-  using InputRealType = typename NumericTraits< InputPixelType >::RealType;
+  using InputRealType = typename NumericTraits<InputPixelType>::RealType;
   using OffsetType = typename InputImageType::OffsetType;
   using IndexType = typename InputImageType::IndexType;
 
@@ -113,21 +112,29 @@ public:
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of PixelType. This is an alias to the
    * ForegroundValue in the superclass. */
-  void SetErodeValue(const InputPixelType & value)
-  { this->SetForegroundValue(value); }
+  void
+  SetErodeValue(const InputPixelType & value)
+  {
+    this->SetForegroundValue(value);
+  }
 
   /** Get the value in the image considered as "foreground". Defaults to
    * maximum value of PixelType. This is an alias to the
    * ForegroundValue in the superclass. */
-  InputPixelType GetErodeValue() const
-  { return this->GetForegroundValue(); }
+  InputPixelType
+  GetErodeValue() const
+  {
+    return this->GetForegroundValue();
+  }
 
 protected:
   BinaryErodeImageFilter();
   ~BinaryErodeImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   // type inherited from the superclass
   using NeighborIndexContainer = typename Superclass::NeighborIndexContainer;
@@ -135,7 +142,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryErodeImageFilter.hxx"
+#  include "itkBinaryErodeImageFilter.hxx"
 #endif
 
 #endif

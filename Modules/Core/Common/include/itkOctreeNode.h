@@ -20,7 +20,17 @@
 #include "itkMacro.h"
 namespace itk
 {
-enum LeafIdentifier { ZERO = 0, ONE = 1, TWO = 2, THREE = 3, FOUR = 4, FIVE = 5, SIX = 6, SEVEN = 7 };
+enum LeafIdentifier
+{
+  ZERO = 0,
+  ONE = 1,
+  TWO = 2,
+  THREE = 3,
+  FOUR = 4,
+  FIVE = 5,
+  SIX = 6,
+  SEVEN = 7
+};
 
 // Forward reference because of circular dependencies
 class ITK_FORWARD_EXPORT OctreeNodeBranch;
@@ -64,11 +74,13 @@ public:
    * instance of an OctreeNode.
    * @{
    */
-  OctreeNode & GetChild(const enum LeafIdentifier ChildID) const;
+  OctreeNode &
+  GetChild(const enum LeafIdentifier ChildID) const;
 
-  OctreeNode & GetChild(const enum LeafIdentifier ChildID);
+  OctreeNode &
+  GetChild(const enum LeafIdentifier ChildID);
   /** @}
-  */
+   */
 
   /**
    * Determines the color value of the specified Child for this OctreeNode
@@ -76,7 +88,8 @@ public:
    * member function.  Behavior is undefined when the child is another Octree.
    * \return A value between 0 and 255 to indicate the color of the Desired child.
    */
-  long int GetColor() const;
+  long int
+  GetColor() const;
 
   /**
    * Sets the color value of the specified Child for this OctreeNode
@@ -84,47 +97,51 @@ public:
    * \post All children of the specified child are removed, and the child is set to
    * the desired value.
    */
-  void SetColor(int NodeColor);
+  void
+  SetColor(int NodeColor);
 
   /**
    * Sets the color value of the specified Child for this OctreeNode
    * \post All children of the specified child are removed, and the child is set to
    * the desired value.
    */
-  void SetBranch(OctreeNodeBranch *NewBranch);
+  void
+  SetBranch(OctreeNodeBranch * NewBranch);
 
   /**
    * Determines if the child is a leaf node (colored), or a branch node (uncolored)
    * \return true if it is colored, false if it is not
    */
-  bool IsNodeColored() const;
+  bool
+  IsNodeColored() const;
 
-  inline void SetParentOctree(OctreeBase *parent)
+  inline void
+  SetParentOctree(OctreeBase * parent)
   {
     m_Parent = parent;
   }
 
 protected:
-
 private:
   /**
    * Removes all children from this node down, and sets the value
    * value of the children to background.
    */
-  void RemoveChildren();
+  void
+  RemoveChildren();
 
   /**
    * Each element holds COLOR or pointer to another octree node
    */
-  OctreeNodeBranch *m_Branch;
-  OctreeBase *      m_Parent;
+  OctreeNodeBranch * m_Branch;
+  OctreeBase *       m_Parent;
 };
 
 class ITKCommon_EXPORT OctreeNodeBranch
 {
 public:
   OctreeNodeBranch() = default;
-  OctreeNodeBranch(OctreeBase *parent)
+  OctreeNodeBranch(OctreeBase * parent)
   {
     for (auto & leaf : m_Leaves)
     {
@@ -132,7 +149,8 @@ public:
     }
   }
 
-  inline OctreeNode * GetLeaf(enum LeafIdentifier LeafID)
+  inline OctreeNode *
+  GetLeaf(enum LeafIdentifier LeafID)
   {
     return &m_Leaves[LeafID];
   }
@@ -140,5 +158,5 @@ public:
 private:
   OctreeNode m_Leaves[8];
 };
-} //End of itk Namespace
-#endif                          /* itkOctreeNode_h */
+} // namespace itk
+#endif /* itkOctreeNode_h */

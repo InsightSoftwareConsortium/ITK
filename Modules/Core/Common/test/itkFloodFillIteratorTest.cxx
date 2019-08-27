@@ -25,18 +25,19 @@
 #include "itkSphereSpatialFunction.h"
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"
 
-int itkFloodFillIteratorTest(int, char* [] )
+int
+itkFloodFillIteratorTest(int, char *[])
 {
   constexpr unsigned int dim = 3;
 
   // Image type alias
-  using TImageType = itk::Image< int, dim >;
+  using TImageType = itk::Image<int, dim>;
 
   //-----------------Create a new input image--------------------
   // Image size and spacing parameters
-  TImageType::SizeValueType    sourceImageSize[]  = { 20,20,20 };
-  TImageType::SpacingValueType sourceImageSpacing[] = { 1.0,1.0,1.0 };
-  TImageType::PointValueType   sourceImageOrigin[] = { 0,0,0 };
+  TImageType::SizeValueType    sourceImageSize[] = { 20, 20, 20 };
+  TImageType::SpacingValueType sourceImageSpacing[] = { 1.0, 1.0, 1.0 };
+  TImageType::PointValueType   sourceImageOrigin[] = { 0, 0, 0 };
 
   // Creates the sourceImage (but doesn't set the size or allocate memory)
   TImageType::Pointer sourceImage = TImageType::New();
@@ -50,30 +51,29 @@ int itkFloodFillIteratorTest(int, char* [] )
   // Create a size object native to the sourceImage type
   TImageType::SizeType sourceImageSizeObject;
   // Set the size object to the array defined earlier
-  sourceImageSizeObject.SetSize( sourceImageSize );
+  sourceImageSizeObject.SetSize(sourceImageSize);
   // Create a region object native to the sourceImage type
   TImageType::RegionType largestPossibleRegion;
   // Resize the region
-  largestPossibleRegion.SetSize( sourceImageSizeObject );
+  largestPossibleRegion.SetSize(sourceImageSizeObject);
   // Set the largest legal region size (i.e. the size of the whole sourceImage) to what we just defined
-  sourceImage->SetLargestPossibleRegion( largestPossibleRegion );
+  sourceImage->SetLargestPossibleRegion(largestPossibleRegion);
   // Set the buffered region
-  sourceImage->SetBufferedRegion( largestPossibleRegion );
+  sourceImage->SetBufferedRegion(largestPossibleRegion);
   // Set the requested region
-  sourceImage->SetRequestedRegion( largestPossibleRegion );
+  sourceImage->SetRequestedRegion(largestPossibleRegion);
   // Now allocate memory for the sourceImage
   sourceImage->Allocate();
 
   std::cout << "New sourceImage allocated" << std::endl;
 
   // Initialize the image to hold all 0's
-  itk::ImageRegionIterator<TImageType> it =
-    itk::ImageRegionIterator<TImageType>(sourceImage, largestPossibleRegion);
+  itk::ImageRegionIterator<TImageType> it = itk::ImageRegionIterator<TImageType>(sourceImage, largestPossibleRegion);
 
-  for(it.GoToBegin(); !it.IsAtEnd(); ++it)
-    {
+  for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+  {
     it.Set(0);
-    }
+  }
 
   //---------Create and initialize a spatial function-----------
 
@@ -83,32 +83,31 @@ int itkFloodFillIteratorTest(int, char* [] )
   // Create and initialize a new sphere function
 
   TFunctionType::Pointer spatialFunc = TFunctionType::New();
-  spatialFunc->SetRadius( 5 );
+  spatialFunc->SetRadius(5);
 
   TFunctionPositionType center;
-  center[0]=10;
-  center[1]=10;
-  center[2]=10;
+  center[0] = 10;
+  center[1] = 10;
+  center[2] = 10;
   spatialFunc->SetCenter(center);
 
   std::cout << "Sphere spatial function created" << std::endl;
 
   //---------Create and initialize a spatial function iterator-----------
-  TImageType::IndexType seedPos;
-  const TImageType::IndexValueType pos[] = {10,10,10};
+  TImageType::IndexType            seedPos;
+  const TImageType::IndexValueType pos[] = { 10, 10, 10 };
   seedPos.SetIndex(pos);
 
-  using TItType = itk::FloodFilledSpatialFunctionConditionalIterator<
-                                    TImageType, TFunctionType>;
+  using TItType = itk::FloodFilledSpatialFunctionConditionalIterator<TImageType, TFunctionType>;
   TItType sfi = TItType(sourceImage, spatialFunc, seedPos);
 
   // Iterate through the entire image and set interior pixels to 255
-  for(; !( sfi.IsAtEnd() ); ++sfi)
-    {
+  for (; !(sfi.IsAtEnd()); ++sfi)
+  {
 
     std::cout << sfi.GetIndex() << ": " << sfi.Get() << std::endl;
     sfi.Set(255);
-    }
+  }
 
   std::cout << "Spatial function iterator created, sphere drawn" << std::endl;
 

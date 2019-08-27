@@ -38,26 +38,26 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-template<typename TFixedPointSet, typename TMovingPointSet = TFixedPointSet,
-  class TInternalComputationValueType = double>
-class ITK_TEMPLATE_EXPORT EuclideanDistancePointSetToPointSetMetricv4:
-  public PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
+template <typename TFixedPointSet,
+          typename TMovingPointSet = TFixedPointSet,
+          class TInternalComputationValueType = double>
+class ITK_TEMPLATE_EXPORT EuclideanDistancePointSetToPointSetMetricv4
+  : public PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(EuclideanDistancePointSetToPointSetMetricv4);
 
   /** Standard class type aliases. */
   using Self = EuclideanDistancePointSetToPointSetMetricv4;
-  using Superclass = PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet,
-    TInternalComputationValueType>;
+  using Superclass = PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( EuclideanDistancePointSetToPointSetMetricv4, PointSetToPointSetMetricv4 );
+  itkTypeMacro(EuclideanDistancePointSetToPointSetMetricv4, PointSetToPointSetMetricv4);
 
   /** Types transferred from the base class */
   using MeasureType = typename Superclass::MeasureType;
@@ -70,30 +70,36 @@ public:
   /**
    * Calculates the local metric value for a single point.
    */
-  MeasureType GetLocalNeighborhoodValue( const PointType &, const PixelType & pixel = 0 ) const override;
+  MeasureType
+  GetLocalNeighborhoodValue(const PointType &, const PixelType & pixel = 0) const override;
 
   /**
    * Calculates the local value and derivative for a single point.
    */
-  void GetLocalNeighborhoodValueAndDerivative( const PointType &,
-    MeasureType &, LocalDerivativeType &, const PixelType & pixel = 0 ) const override;
+  void
+  GetLocalNeighborhoodValueAndDerivative(const PointType &,
+                                         MeasureType &,
+                                         LocalDerivativeType &,
+                                         const PixelType & pixel = 0) const override;
 
 protected:
   EuclideanDistancePointSetToPointSetMetricv4() = default;
   ~EuclideanDistancePointSetToPointSetMetricv4() override = default;
 
-  bool RequiresFixedPointsLocator() const override
-    {
+  bool
+  RequiresFixedPointsLocator() const override
+  {
     return false;
-    }
+  }
 
   /** PrintSelf function */
-  void PrintSelf( std::ostream & os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkEuclideanDistancePointSetToPointSetMetricv4.hxx"
+#  include "itkEuclideanDistancePointSetToPointSetMetricv4.hxx"
 #endif
 
 #endif

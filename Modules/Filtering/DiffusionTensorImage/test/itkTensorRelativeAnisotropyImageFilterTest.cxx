@@ -21,7 +21,8 @@
 #include "itkDiffusionTensor3D.h"
 
 
-int itkTensorRelativeAnisotropyImageFilterTest(int, char* [] )
+int
+itkTensorRelativeAnisotropyImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
@@ -40,7 +41,7 @@ int itkTensorRelativeAnisotropyImageFilterTest(int, char* [] )
   using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create the image
-  myImageType::Pointer inputImage  = myImageType::New();
+  myImageType::Pointer inputImage = myImageType::New();
 
 
   // Define their size, and start index
@@ -53,27 +54,27 @@ int itkTensorRelativeAnisotropyImageFilterTest(int, char* [] )
   start.Fill(0);
 
   myRegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
   // Initialize Image A
-  inputImage->SetLargestPossibleRegion( region );
-  inputImage->SetBufferedRegion( region );
-  inputImage->SetRequestedRegion( region );
+  inputImage->SetLargestPossibleRegion(region);
+  inputImage->SetBufferedRegion(region);
+  inputImage->SetRequestedRegion(region);
   inputImage->Allocate();
 
   // Declare Iterator type for the input image
   using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
 
   // Create one iterator for the Input Image A (this is a light object)
-  myIteratorType it( inputImage, inputImage->GetRequestedRegion() );
+  myIteratorType it(inputImage, inputImage->GetRequestedRegion());
 
   // Initialize the content of Image A
-  while( !it.IsAtEnd() )
-    {
-    it.Set( 0.0 );
+  while (!it.IsAtEnd())
+  {
+    it.Set(0.0);
     ++it;
-    }
+  }
 
   size[0] = 4;
   size[1] = 4;
@@ -84,28 +85,26 @@ int itkTensorRelativeAnisotropyImageFilterTest(int, char* [] )
   start[2] = 2;
 
   // Create one iterator for an internal region
-  region.SetSize( size );
-  region.SetIndex( start );
-  myIteratorType itb( inputImage, region );
+  region.SetSize(size);
+  region.SetIndex(start);
+  myIteratorType itb(inputImage, region);
 
   // Initialize the content the internal region
-  while( !itb.IsAtEnd() )
-    {
-    itb.Set( 100.0 );
+  while (!itb.IsAtEnd())
+  {
+    itb.Set(100.0);
     ++itb;
-    }
+  }
 
   // Declare the type for the tensor pixel and tensor image.
-  using myTensorPixelType = itk::DiffusionTensor3D< double >;
-  using myDTIImageType = itk::Image< myTensorPixelType, myDimension >;
+  using myTensorPixelType = itk::DiffusionTensor3D<double>;
+  using myDTIImageType = itk::Image<myTensorPixelType, myDimension>;
   using myRealValueType = myTensorPixelType::RealValueType;
 
   // Declare the type for the image generator
-  using myFilterType = itk::HessianRecursiveGaussianImageFilter<
-                                            myImageType,
-                                            myDTIImageType >;
+  using myFilterType = itk::HessianRecursiveGaussianImageFilter<myImageType, myDTIImageType>;
 
-  using myFaImageType = itk::Image< myRealValueType, myDimension >;
+  using myFaImageType = itk::Image<myRealValueType, myDimension>;
 
 
   // Create a  Filter
@@ -113,19 +112,17 @@ int itkTensorRelativeAnisotropyImageFilterTest(int, char* [] )
 
 
   // Connect the input images
-  filter->SetInput( inputImage );
+  filter->SetInput(inputImage);
 
   // Select the value of Sigma
-  filter->SetSigma( 8.0 );
+  filter->SetSigma(8.0);
 
 
-  using FAFilterType = itk::TensorRelativeAnisotropyImageFilter<
-                                                  myDTIImageType,
-                                                  myFaImageType >;
+  using FAFilterType = itk::TensorRelativeAnisotropyImageFilter<myDTIImageType, myFaImageType>;
 
   FAFilterType::Pointer relativeAnisotropyFilter = FAFilterType::New();
 
-  relativeAnisotropyFilter->SetInput( filter->GetOutput() );
+  relativeAnisotropyFilter->SetInput(filter->GetOutput());
 
   // Execute the filter
   relativeAnisotropyFilter->Update();
@@ -141,20 +138,18 @@ int itkTensorRelativeAnisotropyImageFilterTest(int, char* [] )
   using myOutputIteratorType = itk::ImageRegionIteratorWithIndex<myFaImageType>;
 
   // Create an iterator for going through the output image
-  myOutputIteratorType itg( outputImage,
-                            outputImage->GetRequestedRegion() );
+  myOutputIteratorType itg(outputImage, outputImage->GetRequestedRegion());
 
   //  Print the content of the result image
   std::cout << " Result " << std::endl;
   itg.GoToBegin();
-  while( !itg.IsAtEnd() )
-    {
+  while (!itg.IsAtEnd())
+  {
     std::cout << itg.GetIndex() << " = " << itg.Get() << std::endl;
     ++itg;
-    }
+  }
 
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
-
 }

@@ -89,26 +89,25 @@ namespace itk
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ITKLevelSets
  */
-template< typename TImageType, typename TFeatureImageType = TImageType >
-class ITK_TEMPLATE_EXPORT GeodesicActiveContourShapePriorLevelSetFunction:
-  public ShapePriorSegmentationLevelSetFunction< TImageType, TFeatureImageType >
+template <typename TImageType, typename TFeatureImageType = TImageType>
+class ITK_TEMPLATE_EXPORT GeodesicActiveContourShapePriorLevelSetFunction
+  : public ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GeodesicActiveContourShapePriorLevelSetFunction);
 
   /** Standard class type aliases. */
   using Self = GeodesicActiveContourShapePriorLevelSetFunction;
-  using Superclass = ShapePriorSegmentationLevelSetFunction< TImageType, TFeatureImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using FeatureImageType = TFeatureImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GeodesicActiveContourShapePriorLevelSetFunction,
-               ShapePriorSegmentationLevelSetFunction);
+  itkTypeMacro(GeodesicActiveContourShapePriorLevelSetFunction, ShapePriorSegmentationLevelSetFunction);
 
   /** Extract some parameters from the superclass. */
   using ImageType = typename Superclass::ImageType;
@@ -124,47 +123,61 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Compute speed image from feature image. */
-  void CalculateSpeedImage() override;
+  void
+  CalculateSpeedImage() override;
 
   /** Compute the advection field from feature image. */
-  void CalculateAdvectionImage() override;
+  void
+  CalculateAdvectionImage() override;
 
   /** The curvature speed is same as the propagation speed. */
-  ScalarValueType CurvatureSpeed(const NeighborhoodType & neighborhood,
-                                         const FloatOffsetType & offset, GlobalDataStruct *gd) const override
-  { return this->PropagationSpeed(neighborhood, offset, gd); }
+  ScalarValueType
+  CurvatureSpeed(const NeighborhoodType & neighborhood,
+                 const FloatOffsetType &  offset,
+                 GlobalDataStruct *       gd) const override
+  {
+    return this->PropagationSpeed(neighborhood, offset, gd);
+  }
 
   /** Set/Get the sigma for the Gaussian kernel used to compute the gradient
    * of the feature image needed for the advection term of the equation. */
-  void SetDerivativeSigma(const double v)
-  { m_DerivativeSigma = v; }
-  double GetDerivativeSigma()
-  { return m_DerivativeSigma; }
+  void
+  SetDerivativeSigma(const double v)
+  {
+    m_DerivativeSigma = v;
+  }
+  double
+  GetDerivativeSigma()
+  {
+    return m_DerivativeSigma;
+  }
 
-  void Initialize(const RadiusType & r) override
+  void
+  Initialize(const RadiusType & r) override
   {
     Superclass::Initialize(r);
 
-    this->SetAdvectionWeight(NumericTraits< ScalarValueType >::OneValue());
-    this->SetPropagationWeight(NumericTraits< ScalarValueType >::OneValue());
-    this->SetCurvatureWeight(NumericTraits< ScalarValueType >::OneValue());
-    this->SetShapePriorWeight(NumericTraits< ScalarValueType >::OneValue());
+    this->SetAdvectionWeight(NumericTraits<ScalarValueType>::OneValue());
+    this->SetPropagationWeight(NumericTraits<ScalarValueType>::OneValue());
+    this->SetCurvatureWeight(NumericTraits<ScalarValueType>::OneValue());
+    this->SetShapePriorWeight(NumericTraits<ScalarValueType>::OneValue());
   }
 
 protected:
   GeodesicActiveContourShapePriorLevelSetFunction()
   {
-    this->SetAdvectionWeight(NumericTraits< ScalarValueType >::OneValue());
-    this->SetPropagationWeight(NumericTraits< ScalarValueType >::OneValue());
-    this->SetCurvatureWeight(NumericTraits< ScalarValueType >::OneValue());
-    this->SetShapePriorWeight(NumericTraits< ScalarValueType >::OneValue());
+    this->SetAdvectionWeight(NumericTraits<ScalarValueType>::OneValue());
+    this->SetPropagationWeight(NumericTraits<ScalarValueType>::OneValue());
+    this->SetCurvatureWeight(NumericTraits<ScalarValueType>::OneValue());
+    this->SetShapePriorWeight(NumericTraits<ScalarValueType>::OneValue());
 
     m_DerivativeSigma = 1.0;
   }
 
   ~GeodesicActiveContourShapePriorLevelSetFunction() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   double m_DerivativeSigma;
@@ -172,7 +185,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGeodesicActiveContourShapePriorLevelSetFunction.hxx"
+#  include "itkGeodesicActiveContourShapePriorLevelSetFunction.hxx"
 #endif
 
 #endif

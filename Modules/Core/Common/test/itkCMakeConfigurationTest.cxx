@@ -36,62 +36,58 @@
 #include <ctime>
 #include <cstring>
 
-void itkCMakeInformationPrintFile(const char* name, std::ostream& os)
+void
+itkCMakeInformationPrintFile(const char * name, std::ostream & os)
 {
   // Preserve valuable output regardless of the limits set in
   // CMake/CTestCustom.cmake
   os << "CTEST_FULL_OUTPUT\n";
   os << "System Information File \"" << name << "\"";
   struct stat fs;
-  if(stat(name, &fs) != 0)
-    {
+  if (stat(name, &fs) != 0)
+  {
     os << " does not exist.\n";
     return;
-    }
+  }
   else
-    {
+  {
     os << " has " << fs.st_size << " bytes";
-    }
+  }
 
   std::ifstream fin(name);
-  if(fin)
-    {
-    const char* div = "=======================================================================";
+  if (fin)
+  {
+    const char * div = "=======================================================================";
     os << ":\n[" << div << "[\n";
     os << fin.rdbuf();
     os << "]" << div << "]\n";
     os.flush();
-    }
+  }
   else
-    {
+  {
     os << " but cannot be opened for read.\n";
-    }
+  }
 }
 
-int main(int argc, char* argv[])
+int
+main(int argc, char * argv[])
 {
-  if(argc != 2)
-    {
+  if (argc != 2)
+  {
     std::cerr << "Usage: itkCMakeInformationTest <top-of-build-tree>\n";
     return EXIT_FAILURE;
-    }
+  }
   std::string build_dir = argv[1];
   build_dir += "/";
 
-  const char* files[] =
-    {
-      "CMakeCache.txt",
-      "Modules/Core/Common/itkConfigure.h",
-      "ITKConfig.cmake",
-      "ITKConfigVersion.cmake",
-      "ITKTargets.cmake",
-      nullptr
-    };
+  const char * files[] = { "CMakeCache.txt",   "Modules/Core/Common/itkConfigure.h",
+                           "ITKConfig.cmake",  "ITKConfigVersion.cmake",
+                           "ITKTargets.cmake", nullptr };
 
-  for(const char** f = files; *f; ++f)
-    {
+  for (const char ** f = files; *f; ++f)
+  {
     std::string fname = build_dir + *f;
     itkCMakeInformationPrintFile(fname.c_str(), std::cout);
-    }
+  }
   return EXIT_SUCCESS;
 }

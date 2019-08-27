@@ -29,18 +29,17 @@ namespace itk
  *
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< typename TInputMesh, typename TOutputMesh=TInputMesh >
-class DiscreteMinimumCurvatureQuadEdgeMeshFilter:
-  public DiscretePrincipalCurvaturesQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh = TInputMesh>
+class DiscreteMinimumCurvatureQuadEdgeMeshFilter
+  : public DiscretePrincipalCurvaturesQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteMinimumCurvatureQuadEdgeMeshFilter);
 
   using Self = DiscreteMinimumCurvatureQuadEdgeMeshFilter;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = DiscretePrincipalCurvaturesQuadEdgeMeshFilter<
-    TInputMesh, TOutputMesh >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = DiscretePrincipalCurvaturesQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
 
   using InputMeshType = typename Superclass::InputMeshType;
   using InputMeshPointer = typename Superclass::InputMeshPointer;
@@ -68,8 +67,7 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputIsFloatingPointCheck,
-                   ( Concept::IsFloatingPoint< OutputCurvatureType > ) );
+  itkConceptMacro(OutputIsFloatingPointCheck, (Concept::IsFloatingPoint<OutputCurvatureType>));
   // End concept checking
 #endif
 
@@ -77,12 +75,13 @@ protected:
   DiscreteMinimumCurvatureQuadEdgeMeshFilter() = default;
   ~DiscreteMinimumCurvatureQuadEdgeMeshFilter() override = default;
 
-  OutputCurvatureType EstimateCurvature(const OutputPointType & iP) override
+  OutputCurvatureType
+  EstimateCurvature(const OutputPointType & iP) override
   {
     this->ComputeMeanAndGaussianCurvatures(iP);
-    return this->m_Mean - std::sqrt( this->ComputeDelta() );
+    return this->m_Mean - std::sqrt(this->ComputeDelta());
   }
 };
-}
+} // namespace itk
 
 #endif

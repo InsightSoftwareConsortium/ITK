@@ -31,29 +31,26 @@ namespace itk
 {
 
 // Construct a new MutexLock
-SimpleMutexLock::SimpleMutexLock()
-{
-}
+SimpleMutexLock::SimpleMutexLock() {}
 
 // Destruct the MutexVariable
-SimpleMutexLock::~SimpleMutexLock()
-{
-}
+SimpleMutexLock::~SimpleMutexLock() {}
 
 // Lock the MutexLock
-void SimpleMutexLock::Lock()
-{
-}
+void
+SimpleMutexLock::Lock()
+{}
 
 // Lock the MutexLock
-bool SimpleMutexLock::TryLock()
+bool
+SimpleMutexLock::TryLock()
 {
   return true;
 }
 
 // Unlock the MutexLock
-void SimpleMutexLock::Unlock()
-{
-}
+void
+SimpleMutexLock::Unlock()
+{}
 
-} //end namespace itk
+} // end namespace itk

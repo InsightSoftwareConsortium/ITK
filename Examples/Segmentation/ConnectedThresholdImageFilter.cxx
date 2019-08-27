@@ -93,15 +93,17 @@
 #include "itkImageFileWriter.h"
 
 
-int main( int argc, char *argv[])
+int
+main(int argc, char * argv[])
 {
-  if( argc < 7 )
-    {
+  if (argc < 7)
+  {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImage  outputImage seedX seedY lowerThreshold upperThreshold" << std::endl;
+    std::cerr << " inputImage  outputImage seedX seedY lowerThreshold upperThreshold"
+              << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //  Software Guide : BeginLatex
@@ -115,26 +117,25 @@ int main( int argc, char *argv[])
   // Software Guide : BeginCodeSnippet
   using InternalPixelType = float;
   constexpr unsigned int Dimension = 2;
-  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
+  using InternalImageType = itk::Image<InternalPixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
 
   using OutputPixelType = unsigned char;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
-  using CastingFilterType =
-      itk::CastImageFilter< InternalImageType, OutputImageType >;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
+  using CastingFilterType = itk::CastImageFilter<InternalImageType, OutputImageType>;
   CastingFilterType::Pointer caster = CastingFilterType::New();
 
   // We instantiate reader and writer types
   //
-  using ReaderType = itk::ImageFileReader< InternalImageType >;
-  using WriterType = itk::ImageFileWriter<  OutputImageType  >;
+  using ReaderType = itk::ImageFileReader<InternalImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
 
   //  Software Guide : BeginLatex
@@ -147,7 +148,7 @@ int main( int argc, char *argv[])
 
   // Software Guide : BeginCodeSnippet
   using CurvatureFlowImageFilterType =
-      itk::CurvatureFlowImageFilter< InternalImageType, InternalImageType >;
+    itk::CurvatureFlowImageFilter<InternalImageType, InternalImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -159,8 +160,7 @@ int main( int argc, char *argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  CurvatureFlowImageFilterType::Pointer smoothing =
-                         CurvatureFlowImageFilterType::New();
+  CurvatureFlowImageFilterType::Pointer smoothing = CurvatureFlowImageFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -173,8 +173,7 @@ int main( int argc, char *argv[])
 
   // Software Guide : BeginCodeSnippet
   using ConnectedFilterType =
-    itk::ConnectedThresholdImageFilter< InternalImageType,
-                                        InternalImageType >;
+    itk::ConnectedThresholdImageFilter<InternalImageType, InternalImageType>;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -200,10 +199,10 @@ int main( int argc, char *argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  smoothing->SetInput( reader->GetOutput() );
-  connectedThreshold->SetInput( smoothing->GetOutput() );
-  caster->SetInput( connectedThreshold->GetOutput() );
-  writer->SetInput( caster->GetOutput() );
+  smoothing->SetInput(reader->GetOutput());
+  connectedThreshold->SetInput(smoothing->GetOutput());
+  caster->SetInput(connectedThreshold->GetOutput());
+  writer->SetInput(caster->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -217,8 +216,8 @@ int main( int argc, char *argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  smoothing->SetNumberOfIterations( 5 );
-  smoothing->SetTimeStep( 0.125 );
+  smoothing->SetNumberOfIterations(5);
+  smoothing->SetTimeStep(0.125);
   // Software Guide : EndCodeSnippet
 
 
@@ -236,12 +235,12 @@ int main( int argc, char *argv[])
   //
   //  Software Guide : EndLatex
 
-  const InternalPixelType lowerThreshold = std::stod( argv[5] );
-  const InternalPixelType upperThreshold = std::stod( argv[6] );
+  const InternalPixelType lowerThreshold = std::stod(argv[5]);
+  const InternalPixelType upperThreshold = std::stod(argv[6]);
 
   // Software Guide : BeginCodeSnippet
-  connectedThreshold->SetLower(  lowerThreshold  );
-  connectedThreshold->SetUpper(  upperThreshold  );
+  connectedThreshold->SetLower(lowerThreshold);
+  connectedThreshold->SetUpper(upperThreshold);
   // Software Guide : EndCodeSnippet
 
 
@@ -256,7 +255,7 @@ int main( int argc, char *argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  connectedThreshold->SetReplaceValue( 255 );
+  connectedThreshold->SetReplaceValue(255);
   // Software Guide : EndCodeSnippet
 
 
@@ -271,14 +270,14 @@ int main( int argc, char *argv[])
   //
   //  Software Guide : EndLatex
 
-  InternalImageType::IndexType  index;
+  InternalImageType::IndexType index;
 
-  index[0] = std::stoi( argv[3] );
-  index[1] = std::stoi( argv[4] );
+  index[0] = std::stoi(argv[3]);
+  index[1] = std::stoi(argv[4]);
 
 
   // Software Guide : BeginCodeSnippet
-  connectedThreshold->SetSeed( index );
+  connectedThreshold->SetSeed(index);
   // Software Guide : EndCodeSnippet
 
 
@@ -292,14 +291,14 @@ int main( int argc, char *argv[])
 
   // Software Guide : BeginCodeSnippet
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excep )
-    {
+  }
+  catch (itk::ExceptionObject & excep)
+  {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 
@@ -319,11 +318,11 @@ int main( int argc, char *argv[])
   //  \begin{tabular}{|l|c|c|c|c|}
   //  \hline
   //  Structure & Seed Index & Lower & Upper & Output Image \\ \hline
-  //  White matter & $(60,116)$ & 150 & 180 & Second from left in Figure \ref{fig:ConnectedThresholdOutput} \\ \hline
-  //  Ventricle    & $(81,112)$ & 210 & 250 & Third  from left in Figure \ref{fig:ConnectedThresholdOutput} \\ \hline
-  //  Gray matter  & $(107,69)$ & 180 & 210 & Fourth from left in Figure \ref{fig:ConnectedThresholdOutput} \\ \hline
-  //  \end{tabular}
-  //  \end{center}
+  //  White matter & $(60,116)$ & 150 & 180 & Second from left in Figure
+  //  \ref{fig:ConnectedThresholdOutput} \\ \hline Ventricle    & $(81,112)$ & 210 & 250
+  //  & Third  from left in Figure \ref{fig:ConnectedThresholdOutput} \\ \hline Gray
+  //  matter  & $(107,69)$ & 180 & 210 & Fourth from left in Figure
+  //  \ref{fig:ConnectedThresholdOutput} \\ \hline \end{tabular} \end{center}
   //  \itkcaption[ConnectedThreshold example parameters]{Parameters used for
   //  segmenting some brain structures shown in
   //  Figure~\ref{fig:ConnectedThresholdOutput} with the filter

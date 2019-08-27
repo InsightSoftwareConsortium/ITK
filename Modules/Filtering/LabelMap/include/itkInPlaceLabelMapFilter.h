@@ -79,17 +79,17 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT InPlaceLabelMapFilter:public LabelMapFilter< TInputImage, TInputImage >
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT InPlaceLabelMapFilter : public LabelMapFilter<TInputImage, TInputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(InPlaceLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = InPlaceLabelMapFilter;
-  using Superclass = LabelMapFilter< TInputImage, TInputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = LabelMapFilter<TInputImage, TInputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(InPlaceLabelMapFilter, LabelMapFilter);
@@ -133,7 +133,8 @@ public:
    * determine whether a particular use of the filter is really
    * running in place. Some filters may be able to optimize their
    * operation if the InPlace is true and CanRunInPlace is true. */
-  bool CanRunInPlace() const
+  bool
+  CanRunInPlace() const
   {
     return true; // used to test if TInputImage == TOutputImage. But
                  // if you look above, the superclass declaration
@@ -146,7 +147,8 @@ protected:
   InPlaceLabelMapFilter() = default;
   ~InPlaceLabelMapFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** The GenerateData method normally allocates the buffers for all
    * of the outputs of a filter. Since InPlaceLabelMapFilter's can use an
@@ -160,24 +162,26 @@ protected:
    * an InPlaceFilter is not threaded (i.e. it provides an
    * implementation of GenerateData()), then this method (or
    * equivalent) must be called in GenerateData(). */
-  void AllocateOutputs() override;
+  void
+  AllocateOutputs() override;
 
   /**
    * Return the output label collection image, instead of the input as in the default
    * implementation
    */
-  InputImageType * GetLabelMap() override
+  InputImageType *
+  GetLabelMap() override
   {
     return this->GetOutput();
   }
 
 private:
-  bool m_InPlace{true};
+  bool m_InPlace{ true };
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkInPlaceLabelMapFilter.hxx"
+#  include "itkInPlaceLabelMapFilter.hxx"
 #endif
 
 #endif

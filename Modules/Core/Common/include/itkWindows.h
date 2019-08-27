@@ -20,14 +20,14 @@
 #ifndef itkWindows_h
 #define itkWindows_h
 #if defined(_MSC_VER) || defined(__MINGW32__) // if on Windows
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-#ifdef WIN32_LEAN_AND_MEAN
-#undef WIN32_LEAN_AND_MEAN
-#endif
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <winbase.h>
+#  ifndef NOMINMAX
+#    define NOMINMAX
+#  endif
+#  ifdef WIN32_LEAN_AND_MEAN
+#    undef WIN32_LEAN_AND_MEAN
+#  endif
+#  define WIN32_LEAN_AND_MEAN
+#  include <windows.h>
+#  include <winbase.h>
 #endif
 #endif // _MSC_VER

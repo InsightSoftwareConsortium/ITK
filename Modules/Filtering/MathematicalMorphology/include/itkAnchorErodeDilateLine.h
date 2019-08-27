@@ -33,22 +33,24 @@ namespace itk
  * proportion of the time.
  * \ingroup ITKMathematicalMorphology
  */
-template< typename TInputPix, typename TCompare >
+template <typename TInputPix, typename TCompare>
 class ITK_TEMPLATE_EXPORT AnchorErodeDilateLine
 {
 public:
   /** Some convenient type alias. */
   using InputImagePixelType = TInputPix;
 
-  void DoLine(std::vector<TInputPix> & buffer, std::vector<TInputPix> & inbuffer,
-              unsigned bufflength);
+  void
+  DoLine(std::vector<TInputPix> & buffer, std::vector<TInputPix> & inbuffer, unsigned bufflength);
 
-  void SetSize(unsigned int size)
+  void
+  SetSize(unsigned int size)
   {
     m_Size = size;
   }
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const;
 
   AnchorErodeDilateLine();
   ~AnchorErodeDilateLine() = default;
@@ -56,55 +58,58 @@ public:
 private:
   unsigned int m_Size;
 
-  using HistogramType = Function::MorphologyHistogram< InputImagePixelType, TCompare >;
+  using HistogramType = Function::MorphologyHistogram<InputImagePixelType, TCompare>;
 
-  bool StartLine(std::vector<TInputPix> & buffer,
-                 std::vector<TInputPix> & inbuffer,
-                 InputImagePixelType & Extreme,
-                 int & outLeftP,
-                 int & outRightP,
-                 int & inLeftP,
-                 int & inRightP,
-                 int middle);
+  bool
+  StartLine(std::vector<TInputPix> & buffer,
+            std::vector<TInputPix> & inbuffer,
+            InputImagePixelType &    Extreme,
+            int &                    outLeftP,
+            int &                    outRightP,
+            int &                    inLeftP,
+            int &                    inRightP,
+            int                      middle);
 
-  void FinishLine(std::vector<TInputPix> & buffer,
-                  std::vector<TInputPix> & inbuffer,
-                  InputImagePixelType & Extreme,
-                  int & outLeftP,
-                  int & outRightP,
-                  int & inLeftP,
-                  int & inRightP,
-                  int middle);
+  void
+  FinishLine(std::vector<TInputPix> & buffer,
+             std::vector<TInputPix> & inbuffer,
+             InputImagePixelType &    Extreme,
+             int &                    outLeftP,
+             int &                    outRightP,
+             int &                    inLeftP,
+             int &                    inRightP,
+             int                      middle);
 
-  bool UseVectorBasedHistogram()
+  bool
+  UseVectorBasedHistogram()
   {
     // bool, short and char are acceptable for vector based algorithm: they do
     // not require
     // too much memory. Other types are not usable with that algorithm
-    return typeid( InputImagePixelType ) == typeid( unsigned char )
-           || typeid( InputImagePixelType ) == typeid( signed char )
-           || typeid( InputImagePixelType ) == typeid( unsigned short )
-           || typeid( InputImagePixelType ) == typeid( signed short )
-           || typeid( InputImagePixelType ) == typeid( bool );
+    return typeid(InputImagePixelType) == typeid(unsigned char) || typeid(InputImagePixelType) == typeid(signed char) ||
+           typeid(InputImagePixelType) == typeid(unsigned short) ||
+           typeid(InputImagePixelType) == typeid(signed short) || typeid(InputImagePixelType) == typeid(bool);
   }
 
-  inline bool StrictCompare( const InputImagePixelType & a, const InputImagePixelType & b )
-    {
+  inline bool
+  StrictCompare(const InputImagePixelType & a, const InputImagePixelType & b)
+  {
     TCompare compare;
-    return compare( a, b );
-    }
+    return compare(a, b);
+  }
 
-  inline bool Compare( const InputImagePixelType & a, const InputImagePixelType & b )
-    {
+  inline bool
+  Compare(const InputImagePixelType & a, const InputImagePixelType & b)
+  {
     TCompare compare;
-    return compare( a, b ) || Math::AlmostEquals(a, b);
-    }
+    return compare(a, b) || Math::AlmostEquals(a, b);
+  }
 
 }; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAnchorErodeDilateLine.hxx"
+#  include "itkAnchorErodeDilateLine.hxx"
 #endif
 
 #endif

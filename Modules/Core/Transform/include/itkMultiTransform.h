@@ -59,10 +59,10 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template
-<typename TParametersValueType=double, unsigned int NDimensions=3, unsigned int NSubDimensions=NDimensions>
-class ITK_TEMPLATE_EXPORT MultiTransform :
-  public Transform<TParametersValueType, NDimensions, NSubDimensions>
+template <typename TParametersValueType = double,
+          unsigned int NDimensions = 3,
+          unsigned int NSubDimensions = NDimensions>
+class ITK_TEMPLATE_EXPORT MultiTransform : public Transform<TParametersValueType, NDimensions, NSubDimensions>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultiTransform);
@@ -74,10 +74,10 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( MultiTransform, Transform );
+  itkTypeMacro(MultiTransform, Transform);
 
   /** Sub transform type **/
-  using TransformType = Transform<TParametersValueType, NSubDimensions, NSubDimensions >;
+  using TransformType = Transform<TParametersValueType, NSubDimensions, NSubDimensions>;
   using TransformTypePointer = typename TransformType::Pointer;
 
   /* Types common to both container and sub transforms */
@@ -147,95 +147,105 @@ public:
   /** Add transforms to the queue, as stack.
    *  Most-recently added transform is always at back of queue, index N-1.
    */
-  virtual void AddTransform( TransformType *t  )
+  virtual void
+  AddTransform(TransformType * t)
   {
-    this->PushBackTransform( t );
+    this->PushBackTransform(t);
   }
 
   /** Same as AddTransform */
-  virtual void AppendTransform( TransformType *t  )
+  virtual void
+  AppendTransform(TransformType * t)
   {
-    this->AddTransform( t );
+    this->AddTransform(t);
   }
 
   /** Add transform to the front of the stack */
-  virtual void PrependTransform( TransformType *t  )
+  virtual void
+  PrependTransform(TransformType * t)
   {
-    this->PushFrontTransform( t );
+    this->PushFrontTransform(t);
   }
 
   /** Remove transform from the back of the queue, index N-1 */
-  virtual void RemoveTransform()
+  virtual void
+  RemoveTransform()
   {
     this->PopBackTransform();
   }
 
   /** Get transforms at the front and the back of the queue */
-  virtual const
-  TransformType * GetFrontTransform() const
+  virtual const TransformType *
+  GetFrontTransform() const
   {
     return this->m_TransformQueue.front().GetPointer();
   }
 
-  virtual const
-  TransformType * GetBackTransform() const
+  virtual const TransformType *
+  GetBackTransform() const
   {
     return this->m_TransformQueue.back().GetPointer();
   }
 
-  virtual const
-  TransformTypePointer GetNthTransform( SizeValueType n ) const
+  virtual const TransformTypePointer
+  GetNthTransform(SizeValueType n) const
   {
-    //NOTE: By returning a smart pointer type, the use of this function can
+    // NOTE: By returning a smart pointer type, the use of this function can
     //      be a significant bottleneck in multithreaded applications.
     return this->m_TransformQueue[n];
   }
 
   /** Get the Nth transform.
    * \warning No bounds checking is performed. */
-  virtual
-  TransformType * GetNthTransformModifiablePointer( const SizeValueType n ) const
+  virtual TransformType *
+  GetNthTransformModifiablePointer(const SizeValueType n) const
   {
     return this->m_TransformQueue[n].GetPointer();
   }
 
-  virtual const
-  TransformType * GetNthTransformConstPointer( const SizeValueType n ) const
+  virtual const TransformType *
+  GetNthTransformConstPointer(const SizeValueType n) const
   {
     return this->m_TransformQueue[n].GetPointer();
   }
 
   /** Access transform queue */
-  virtual const TransformQueueType & GetTransformQueue() const
+  virtual const TransformQueueType &
+  GetTransformQueue() const
   {
     return this->m_TransformQueue;
   }
 
   /** Misc. functionality */
-  virtual bool IsTransformQueueEmpty() const
+  virtual bool
+  IsTransformQueueEmpty() const
   {
     return this->m_TransformQueue.empty();
   }
 
   /** Return the number of sub-transforms. */
-  virtual SizeValueType GetNumberOfTransforms() const
+  virtual SizeValueType
+  GetNumberOfTransforms() const
   {
     return static_cast<SizeValueType>(this->m_TransformQueue.size());
   }
 
   /** Clear the transform queue. */
-  virtual void ClearTransformQueue()
+  virtual void
+  ClearTransformQueue()
   {
     this->m_TransformQueue.clear();
     this->Modified();
   }
 
   /** If all sub-transforms are linear, then the multi-transform is linear. */
-  bool IsLinear() const override;
+  bool
+  IsLinear() const override;
 
   /** If all sub-transforms are of the same category, return that category.
    * Otherwise return UnknownTransformCategory. */
-  TransformCategoryType GetTransformCategory() const override;
+  TransformCategoryType
+  GetTransformCategory() const override;
 
   /** Get/Set Parameter functions work on all sub-transforms.
       The parameter data from each sub-transform is
@@ -244,68 +254,82 @@ public:
       so the returned array is ordered in the same way. That is,
       first sub-transform to be added is returned first in the
       parameter array.*/
-  const ParametersType & GetParameters() const override;
+  const ParametersType &
+  GetParameters() const override;
 
   /* SetParameters for all sub-transforms.
    * See GetParameters() for parameter ordering. */
-  void  SetParameters(const ParametersType & p) override;
+  void
+  SetParameters(const ParametersType & p) override;
 
   /* GetFixedParameters for all sub-transforms.
    * See GetParameters() for parameter ordering. */
-  const FixedParametersType & GetFixedParameters() const override;
+  const FixedParametersType &
+  GetFixedParameters() const override;
 
   /* SetFixedParameters for all sub-transforms.
    * See GetParameters() for parameter ordering. */
-  void SetFixedParameters(const FixedParametersType & fixedParameters) override;
+  void
+  SetFixedParameters(const FixedParametersType & fixedParameters) override;
 
   /* Get total number of parameters. Sum of all sub-transforms. */
-  NumberOfParametersType GetNumberOfParameters() const override;
+  NumberOfParametersType
+  GetNumberOfParameters() const override;
 
   /* Get total number of local parameters, the sum of all sub-transforms. */
-  NumberOfParametersType GetNumberOfLocalParameters() const override;
+  NumberOfParametersType
+  GetNumberOfLocalParameters() const override;
 
   /* Get total number of fixed parameters, the sum of all sub-transforms. */
-  NumberOfParametersType GetNumberOfFixedParameters() const override;
+  NumberOfParametersType
+  GetNumberOfFixedParameters() const override;
 
   /** Update the transform's parameters by the values in \c update.
    * See GetParameters() for parameter ordering. */
-  void UpdateTransformParameters( const DerivativeType & update, ScalarType  factor = 1.0 ) override;
+  void
+  UpdateTransformParameters(const DerivativeType & update, ScalarType factor = 1.0) override;
 
   /** Returns a boolean indicating whether it is possible or not to compute the
    * inverse of this current Transform. If it is possible, then the inverse of
    * the transform is returned in the inverseTransform variable passed by the user.
    * The inverse consists of the inverse of each sub-transform, in the same order
    * as the forward transforms. */
-  bool GetInverse( Self *inverse ) const;
+  bool
+  GetInverse(Self * inverse) const;
 
   /** Flatten the transform queue such that there are no nested composite transforms. */
-//TODO - what do we need here?
-//  virtual void FlattenTransformQueue();
+  // TODO - what do we need here?
+  //  virtual void FlattenTransformQueue();
 
 protected:
   MultiTransform();
   ~MultiTransform() override = default;
-  void PrintSelf( std::ostream& os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void PushFrontTransform( TransformTypePointer t  )
+  virtual void
+  PushFrontTransform(TransformTypePointer t)
   {
-    this->m_TransformQueue.push_front( t );
+    this->m_TransformQueue.push_front(t);
     this->Modified();
   }
 
-  virtual void PushBackTransform( TransformTypePointer t  )
+  virtual void
+  PushBackTransform(TransformTypePointer t)
   {
-    this->m_TransformQueue.push_back( t );
+    this->m_TransformQueue.push_back(t);
     this->Modified();
   }
 
-  virtual void PopFrontTransform()
+  virtual void
+  PopFrontTransform()
   {
     this->m_TransformQueue.pop_front();
     this->Modified();
   }
 
-  virtual void PopBackTransform()
+  virtual void
+  PopBackTransform()
   {
     this->m_TransformQueue.pop_back();
     this->Modified();
@@ -315,14 +339,14 @@ protected:
   mutable TransformQueueType m_TransformQueue;
 
   /** Cache to save time returning the number of local parameters */
-  mutable NumberOfParametersType  m_NumberOfLocalParameters;
-  mutable ModifiedTimeType        m_LocalParametersUpdateTime;
+  mutable NumberOfParametersType m_NumberOfLocalParameters;
+  mutable ModifiedTimeType       m_LocalParametersUpdateTime;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMultiTransform.hxx"
+#  include "itkMultiTransform.hxx"
 #endif
 
 #endif // itkMultiTransform_h

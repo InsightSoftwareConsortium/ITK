@@ -29,14 +29,15 @@
  * be within differenceTolerance of the fitError.
  */
 
-int itkCumulativeGaussianOptimizerTest(int, char* [] )
+int
+itkCumulativeGaussianOptimizerTest(int, char *[])
 {
-  double mean                = 3; // Mean of the Cumulative Gaussian.
-                                  // Ranges from 0 to N-1, where N is numberOfSamples.
-  double standardDeviation   = 2; // Standard deviation of the Cumulative Gaussian.
-  double lowerAsymptote      = -10; // Lower asymptotic value of the Cumulative Gaussian.
-  int    numberOfSamples     = 9; // Number of data samples.
-  double upperAsymptote      = 10; // Upper asymptotic value of the Cumulative Gaussian.
+  double mean = 3;                    // Mean of the Cumulative Gaussian.
+                                      // Ranges from 0 to N-1, where N is numberOfSamples.
+  double standardDeviation = 2;       // Standard deviation of the Cumulative Gaussian.
+  double lowerAsymptote = -10;        // Lower asymptotic value of the Cumulative Gaussian.
+  int    numberOfSamples = 9;         // Number of data samples.
+  double upperAsymptote = 10;         // Upper asymptotic value of the Cumulative Gaussian.
   double differenceTolerance = 1e-20; // Tolerance allowed for the difference between Gaussian iterations.
 
   // Typedef and initialization for the Cumulative Gaussian Optimizer.
@@ -48,8 +49,8 @@ int itkCumulativeGaussianOptimizerTest(int, char* [] )
   CostFunctionType::Pointer costFunction = CostFunctionType::New();
 
   // Declare and initialize the data array.
-  //CostFunctionType::MeasureType * cumGaussianArray = new CostFunctionType::MeasureType();
-  //cumGaussianArray->SetSize(numberOfSamples);
+  // CostFunctionType::MeasureType * cumGaussianArray = new CostFunctionType::MeasureType();
+  // cumGaussianArray->SetSize(numberOfSamples);
 
   // Set the parameters.
   CostFunctionType::ParametersType parameters;
@@ -87,14 +88,12 @@ int itkCumulativeGaussianOptimizerTest(int, char* [] )
 
   // The test passes if the difference between the given parameters and estimated parameters
   // is less than or equal to 0.1.
-  if( std::fabs(optimizer->GetComputedMean() - mean) <= 0.1 &&
+  if (std::fabs(optimizer->GetComputedMean() - mean) <= 0.1 &&
       std::fabs(optimizer->GetComputedStandardDeviation() - standardDeviation) <= 0.1 &&
       std::fabs(optimizer->GetUpperAsymptote() - upperAsymptote) <= 0.1 &&
       std::fabs(optimizer->GetLowerAsymptote() - lowerAsymptote) <= 0.1)
-    {
-    std::cerr << std::endl
-      << "Test Passed with a Fit Error of " << optimizer->GetFitError()
-      << std::endl << std::endl;
+  {
+    std::cerr << std::endl << "Test Passed with a Fit Error of " << optimizer->GetFitError() << std::endl << std::endl;
 
     // Print out the resulting parameters.
     std::cerr << "Fitted mean = " << optimizer->GetComputedMean() << std::endl;
@@ -103,12 +102,10 @@ int itkCumulativeGaussianOptimizerTest(int, char* [] )
     std::cerr << "Fitted lower intensity = " << optimizer->GetLowerAsymptote() << std::endl;
     std::cout << "[TEST DONE]" << std::endl;
     return EXIT_SUCCESS;
-    }
+  }
   else
-    {
-    std::cerr << std::endl
-      << "Test Failed with a Fit Error of " << optimizer->GetFitError()
-      << std::endl << std::endl;
+  {
+    std::cerr << std::endl << "Test Failed with a Fit Error of " << optimizer->GetFitError() << std::endl << std::endl;
 
     // Print out the resulting parameters.
     std::cerr << "Fitted mean = " << optimizer->GetComputedMean() << std::endl;
@@ -117,6 +114,5 @@ int itkCumulativeGaussianOptimizerTest(int, char* [] )
     std::cerr << "Fitted lower asymptote = " << optimizer->GetLowerAsymptote() << std::endl;
 
     return EXIT_FAILURE;
-    }
-
+  }
 }

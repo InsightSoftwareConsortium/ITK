@@ -19,12 +19,13 @@
 #define itkRegionConstrainedSubsampler_hxx
 #include "itkRegionConstrainedSubsampler.h"
 
-namespace itk {
-namespace Statistics {
+namespace itk
+{
+namespace Statistics
+{
 
 template <typename TSample, typename TRegion>
-RegionConstrainedSubsampler<TSample, TRegion>
-::RegionConstrainedSubsampler()
+RegionConstrainedSubsampler<TSample, TRegion>::RegionConstrainedSubsampler()
 {
   this->m_RequestMaximumNumberOfResults = true;
   this->m_RegionConstraintInitialized = false;
@@ -33,99 +34,89 @@ RegionConstrainedSubsampler<TSample, TRegion>
 
 template <typename TSample, typename TRegion>
 typename LightObject::Pointer
-RegionConstrainedSubsampler<TSample, TRegion>
-::InternalClone() const
+RegionConstrainedSubsampler<TSample, TRegion>::InternalClone() const
 {
   typename LightObject::Pointer loPtr = Superclass::InternalClone();
 
-  typename Self::Pointer rval =
-    dynamic_cast<Self *>(loPtr.GetPointer());
-  if(rval.IsNull())
-    {
-    itkExceptionMacro(<< "downcast to type "
-                      << this->GetNameOfClass()
-                      << " failed.");
-    }
+  typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
+  if (rval.IsNull())
+  {
+    itkExceptionMacro(<< "downcast to type " << this->GetNameOfClass() << " failed.");
+  }
 
   if (this->GetRegionConstraintInitialized())
-    {
+  {
     rval->SetRegionConstraint(this->GetRegionConstraint());
-    }
+  }
   else
-    {
+  {
     rval->m_RegionConstraintInitialized = false;
-    }
+  }
   if (this->GetSampleRegionInitialized())
-    {
+  {
     rval->SetSampleRegion(this->GetSampleRegion());
-    }
+  }
   else
-    {
+  {
     rval->m_SampleRegionInitialized = false;
-    }
+  }
   return loPtr;
 }
 
 template <typename TSample, typename TRegion>
 void
-RegionConstrainedSubsampler<TSample, TRegion>
-::SetSampleRegion(const RegionType& region)
+RegionConstrainedSubsampler<TSample, TRegion>::SetSampleRegion(const RegionType & region)
 {
   itkDebugMacro("setting sample region to " << region);
-  if (this->m_SampleRegion != region ||
-      !(this->m_SampleRegionInitialized))
-    {
+  if (this->m_SampleRegion != region || !(this->m_SampleRegionInitialized))
+  {
     this->m_SampleRegion = region;
     this->m_SampleRegionInitialized = true;
     this->Modified();
-    }
+  }
 }
 
 template <typename TSample, typename TRegion>
 void
-RegionConstrainedSubsampler<TSample, TRegion>
-::SetRegionConstraint(const RegionType& region)
+RegionConstrainedSubsampler<TSample, TRegion>::SetRegionConstraint(const RegionType & region)
 {
   itkDebugMacro("setting region constraint to " << region);
-  if (this->m_RegionConstraint != region ||
-      !(this->m_RegionConstraintInitialized))
-    {
+  if (this->m_RegionConstraint != region || !(this->m_RegionConstraintInitialized))
+  {
     this->m_RegionConstraint = region;
     this->m_RegionConstraintInitialized = true;
     this->Modified();
-    }
+  }
 }
 
 template <typename TSample, typename TRegion>
 void
-RegionConstrainedSubsampler<TSample, TRegion>
-::PrintSelf(std::ostream& os, Indent indent) const
+RegionConstrainedSubsampler<TSample, TRegion>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   if (m_SampleRegionInitialized)
-    {
-    os << indent << "Sample region initialized as: "
-       << m_SampleRegion << std::endl;
-    }
+  {
+    os << indent << "Sample region initialized as: " << m_SampleRegion << std::endl;
+  }
   else
-    {
+  {
     os << indent << "Sample region not initialized yet." << std::endl;
-    }
+  }
 
   if (m_RegionConstraintInitialized)
-    {
+  {
     os << indent << "Using region constraint: " << m_RegionConstraint << std::endl;
-    }
+  }
   else
-    {
+  {
     os << indent << "Region constraint has not been initialized!" << std::endl;
-    }
+  }
 
   os << std::endl;
 }
 
-}// end namespace Statistics
-}// end namespace itk
+} // end namespace Statistics
+} // end namespace itk
 
 #endif

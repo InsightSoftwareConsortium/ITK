@@ -48,7 +48,7 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKThresholding
  */
-template <typename THistogram, typename TOutput=double>
+template <typename THistogram, typename TOutput = double>
 class ITK_TEMPLATE_EXPORT MaximumEntropyThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
@@ -73,14 +73,15 @@ public:
 protected:
   MaximumEntropyThresholdCalculator() = default;
   ~MaximumEntropyThresholdCalculator() override = default;
-  void GenerateData() override;
+  void
+  GenerateData() override;
 };
 
 } // end namespace itk
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMaximumEntropyThresholdCalculator.hxx"
+#  include "itkMaximumEntropyThresholdCalculator.hxx"
 #endif
 
 #endif

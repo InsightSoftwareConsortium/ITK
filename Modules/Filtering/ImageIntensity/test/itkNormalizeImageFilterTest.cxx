@@ -23,36 +23,37 @@
 #include "itkStreamingImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
 
-int itkNormalizeImageFilterTest(int, char* [] )
+int
+itkNormalizeImageFilterTest(int, char *[])
 {
   std::cout << "itkNormalizeImageFilterTest Start" << std::endl;
 
-  using ShortImage = itk::Image<short,3>;
-  using FloatImage = itk::Image<float,3>;
+  using ShortImage = itk::Image<short, 3>;
+  using FloatImage = itk::Image<float, 3>;
 
   // Generate a real image
   using SourceType = itk::RandomImageSource<ShortImage>;
-  SourceType::Pointer source = SourceType::New();
-  ShortImage::SizeValueType randomSize[3] = {18, 17, 67};
+  SourceType::Pointer       source = SourceType::New();
+  ShortImage::SizeValueType randomSize[3] = { 18, 17, 67 };
 
-  source->SetSize( randomSize );
+  source->SetSize(randomSize);
   float minValue = -1000.0;
-  float maxValue =  1000.0;
+  float maxValue = 1000.0;
 
-  source->SetMin( static_cast<ShortImage::PixelType>( minValue ) );
-  source->SetMax( static_cast<ShortImage::PixelType>( maxValue ) );
+  source->SetMin(static_cast<ShortImage::PixelType>(minValue));
+  source->SetMax(static_cast<ShortImage::PixelType>(maxValue));
 
-  using NormalizeType = itk::NormalizeImageFilter<ShortImage,FloatImage>;
-  NormalizeType::Pointer normalize = NormalizeType::New();
+  using NormalizeType = itk::NormalizeImageFilter<ShortImage, FloatImage>;
+  NormalizeType::Pointer   normalize = NormalizeType::New();
   itk::SimpleFilterWatcher watch(normalize, "Streaming");
 
   normalize->SetInput(source->GetOutput());
 
-  using StreamingType = itk::StreamingImageFilter<FloatImage,FloatImage>;
+  using StreamingType = itk::StreamingImageFilter<FloatImage, FloatImage>;
   StreamingType::Pointer streaming = StreamingType::New();
 
   streaming->SetNumberOfStreamDivisions(5);
-  streaming->SetInput (normalize->GetOutput());
+  streaming->SetInput(normalize->GetOutput());
   streaming->Update();
 
   // Force the filter to re-execute

@@ -29,72 +29,67 @@ namespace itk
 /**
  * Constructor
  */
-template< typename TInputImage, typename TCoordRep >
-MedianImageFunction< TInputImage, TCoordRep >
-::MedianImageFunction()
-{
-}
+template <typename TInputImage, typename TCoordRep>
+MedianImageFunction<TInputImage, TCoordRep>::MedianImageFunction()
+{}
 
 
 /**
  *
  */
-template< typename TInputImage, typename TCoordRep >
+template <typename TInputImage, typename TCoordRep>
 void
-MedianImageFunction< TInputImage, TCoordRep >
-::PrintSelf(std::ostream & os, Indent indent) const
+MedianImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
-  os << indent << "NeighborhoodRadius: "  << m_NeighborhoodRadius << std::endl;
+  os << indent << "NeighborhoodRadius: " << m_NeighborhoodRadius << std::endl;
 }
 
 /**
  *
  */
-template< typename TInputImage, typename TCoordRep >
-typename MedianImageFunction< TInputImage, TCoordRep >
-::OutputType
-MedianImageFunction< TInputImage, TCoordRep >
-::EvaluateAtIndex(const IndexType & index) const
+template <typename TInputImage, typename TCoordRep>
+typename MedianImageFunction<TInputImage, TCoordRep>::OutputType
+MedianImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const
 {
   unsigned int i;
 
-  if ( !this->GetInputImage() )
-    {
-    return ( NumericTraits< OutputType >::max() );
-    }
+  if (!this->GetInputImage())
+  {
+    return (NumericTraits<OutputType>::max());
+  }
 
-  if ( !this->IsInsideBuffer(index) )
-    {
-    return ( NumericTraits< OutputType >::max() );
-    }
+  if (!this->IsInsideBuffer(index))
+  {
+    return (NumericTraits<OutputType>::max());
+  }
 
   // Create an N-d neighborhood kernel, using a zeroflux boundary condition
   typename InputImageType::SizeType kernelSize;
-  kernelSize.Fill( m_NeighborhoodRadius );
+  kernelSize.Fill(m_NeighborhoodRadius);
 
-  ConstNeighborhoodIterator< InputImageType >
-  it( kernelSize, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion() );
+  ConstNeighborhoodIterator<InputImageType> it(
+    kernelSize, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());
 
   // Set the iterator at the desired location
   it.SetLocation(index);
 
   // We have to copy the pixels so we can run std::nth_element.
-  std::vector< InputPixelType > pixels;
-  typename std::vector< InputPixelType >::iterator medianIterator;
+  std::vector<InputPixelType>                    pixels;
+  typename std::vector<InputPixelType>::iterator medianIterator;
 
   // Walk the neighborhood
-  for ( i = 0; i < it.Size(); ++i )
-    {
-    pixels.push_back( it.GetPixel(i) );
-    }
+  for (i = 0; i < it.Size(); ++i)
+  {
+    pixels.push_back(it.GetPixel(i));
+  }
 
   // Get the median value
   unsigned int medianPosition = it.Size() / 2;
   medianIterator = pixels.begin() + medianPosition;
-  std::nth_element( pixels.begin(), medianIterator, pixels.end() );
+  std::nth_element(pixels.begin(), medianIterator, pixels.end());
 
-  return ( *medianIterator );
+  return (*medianIterator);
 }
 } // namespace itk
 

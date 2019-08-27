@@ -58,7 +58,8 @@ namespace fem
 
 
 template <typename TFixedImage, typename TMovingImage, typename TMaskImage, typename TMesh, typename TDeformationField>
-class ITK_TEMPLATE_EXPORT PhysicsBasedNonRigidRegistrationMethod : public ImageToImageFilter<TMovingImage, TDeformationField>
+class ITK_TEMPLATE_EXPORT PhysicsBasedNonRigidRegistrationMethod
+  : public ImageToImageFilter<TMovingImage, TDeformationField>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PhysicsBasedNonRigidRegistrationMethod);
@@ -72,7 +73,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( PhysicsBasedNonRigidRegistrationMethod, ImageToImageFilter );
+  itkTypeMacro(PhysicsBasedNonRigidRegistrationMethod, ImageToImageFilter);
 
   using MovingImageType = TMovingImage;
   using FixedImageType = TFixedImage;
@@ -83,19 +84,20 @@ public:
   static constexpr unsigned int ImageDimension = FixedImageType::ImageDimension;
 
   /** Not input specific type alias */
-  using ImageRegionType = ImageRegion< ImageDimension >;
-  using ImageSizeType = Size< ImageDimension >;
-  using ImageIndexType = Index< ImageDimension >;
+  using ImageRegionType = ImageRegion<ImageDimension>;
+  using ImageSizeType = Size<ImageDimension>;
+  using ImageIndexType = Index<ImageDimension>;
 
   /** Typedefs for the components filters. */
-  using FeatureSelectionFilterType = MaskFeaturePointSelectionFilter< MovingImageType, MaskImageType >;
-  using BlockMatchingFilterType = BlockMatchingImageFilter< FixedImageType, MovingImageType >;
+  using FeatureSelectionFilterType = MaskFeaturePointSelectionFilter<MovingImageType, MaskImageType>;
+  using BlockMatchingFilterType = BlockMatchingImageFilter<FixedImageType, MovingImageType>;
   using FEMFilterType = FEMScatteredDataPointSetToImageFilter<
     typename BlockMatchingFilterType::DisplacementsType,
     MeshType,
     DeformationFieldType,
     typename BlockMatchingFilterType::SimilaritiesType,
-    typename FeatureSelectionFilterType::FeaturePointsType >;// tensors are optional pixel values of feature points pointset
+    typename FeatureSelectionFilterType::FeaturePointsType>; // tensors are optional pixel values of feature points
+                                                             // pointset
 
   /** set fraction of eligible points to select */
   itkSetMacro(SelectFraction, double);
@@ -145,32 +147,30 @@ public:
   /* Currently only the 3D implementation is available due to a narrow
      definition of the filter in the original proposal
      and lack of available resources. */
-  itkConceptMacro( FixedImageDimensionShouldBe3,
-                   ( Concept::SameDimension< TFixedImage::ImageDimension, 3u > ) );
-  itkConceptMacro( MovingImageDimensionShouldBe3,
-                   ( Concept::SameDimension< TMovingImage::ImageDimension, 3u > ) );
-  itkConceptMacro( MaskImageDimensionShouldBe3,
-                   ( Concept::SameDimension< TMaskImage::ImageDimension, 3u > ) );
-  itkConceptMacro( MeshDimensionShouldBe3,
-                   ( Concept::SameDimension< TMesh::PointType::PointDimension, 3u > ) );
-  itkConceptMacro( DeformationFieldImageDimensionShouldBe3,
-                   ( Concept::SameDimension< TDeformationField::ImageDimension, 3u > ) );
+  itkConceptMacro(FixedImageDimensionShouldBe3, (Concept::SameDimension<TFixedImage::ImageDimension, 3u>));
+  itkConceptMacro(MovingImageDimensionShouldBe3, (Concept::SameDimension<TMovingImage::ImageDimension, 3u>));
+  itkConceptMacro(MaskImageDimensionShouldBe3, (Concept::SameDimension<TMaskImage::ImageDimension, 3u>));
+  itkConceptMacro(MeshDimensionShouldBe3, (Concept::SameDimension<TMesh::PointType::PointDimension, 3u>));
+  itkConceptMacro(DeformationFieldImageDimensionShouldBe3,
+                  (Concept::SameDimension<TDeformationField::ImageDimension, 3u>));
   // End concept checking
 #endif
 
 protected:
   PhysicsBasedNonRigidRegistrationMethod();
   ~PhysicsBasedNonRigidRegistrationMethod() override;
-  void PrintSelf( std::ostream & os, Indent indent ) const override;
-  void GenerateData() override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  GenerateData() override;
 
 private:
-  double         m_SelectFraction;
-  unsigned int   m_NonConnectivity;
-  ImageSizeType  m_BlockRadius;
-  ImageSizeType  m_SearchRadius;
-  unsigned int   m_ApproximationSteps;
-  unsigned int   m_OutlierRejectionSteps;
+  double        m_SelectFraction;
+  unsigned int  m_NonConnectivity;
+  ImageSizeType m_BlockRadius;
+  ImageSizeType m_SearchRadius;
+  unsigned int  m_ApproximationSteps;
+  unsigned int  m_OutlierRejectionSteps;
 
   typename FeatureSelectionFilterType::Pointer m_FeatureSelectionFilter;
   typename BlockMatchingFilterType::Pointer    m_BlockMatchingFilter;
@@ -180,7 +180,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPhysicsBasedNonRigidRegistrationMethod.hxx"
+#  include "itkPhysicsBasedNonRigidRegistrationMethod.hxx"
 #endif
 
 #endif

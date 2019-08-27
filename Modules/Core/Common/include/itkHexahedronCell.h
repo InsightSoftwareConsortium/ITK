@@ -40,8 +40,10 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template< typename TCellInterface >
-class ITK_TEMPLATE_EXPORT HexahedronCell:public TCellInterface, private HexahedronCellTopology
+template <typename TCellInterface>
+class ITK_TEMPLATE_EXPORT HexahedronCell
+  : public TCellInterface
+  , private HexahedronCellTopology
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(HexahedronCell);
@@ -54,15 +56,15 @@ public:
   itkTypeMacro(HexahedronCell, CellInterface);
 
   /** The type of boundary for this triangle's vertices. */
-  using VertexType = VertexCell< TCellInterface >;
+  using VertexType = VertexCell<TCellInterface>;
   using VertexAutoPointer = typename VertexType::SelfAutoPointer;
 
   /** The type of boundary for this triangle's edges. */
-  using EdgeType = LineCell< TCellInterface >;
+  using EdgeType = LineCell<TCellInterface>;
   using EdgeAutoPointer = typename EdgeType::SelfAutoPointer;
 
   /** The type of boundary for this hexahedron's faces. */
-  using FaceType = QuadrilateralCell< TCellInterface >;
+  using FaceType = QuadrilateralCell<TCellInterface>;
   using FaceAutoPointer = typename FaceType::SelfAutoPointer;
 
   /** Hexahedron-specific topology numbers. */
@@ -73,48 +75,70 @@ public:
   static constexpr unsigned int CellDimension = 3;
 
   /** Implement the standard CellInterface. */
-  CellGeometry GetType() const override
-  { return Superclass::HEXAHEDRON_CELL; }
-  void MakeCopy(CellAutoPointer &) const override;
+  CellGeometry
+  GetType() const override
+  {
+    return Superclass::HEXAHEDRON_CELL;
+  }
+  void
+  MakeCopy(CellAutoPointer &) const override;
 
-  unsigned int GetDimension() const override;
+  unsigned int
+  GetDimension() const override;
 
-  unsigned int GetNumberOfPoints() const override;
+  unsigned int
+  GetNumberOfPoints() const override;
 
-  CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const override;
+  CellFeatureCount
+  GetNumberOfBoundaryFeatures(int dimension) const override;
 
-  bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) override;
-  void SetPointIds(PointIdConstIterator first) override;
+  bool
+  GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) override;
+  void
+  SetPointIds(PointIdConstIterator first) override;
 
-  void SetPointIds(PointIdConstIterator first, PointIdConstIterator last) override;
+  void
+  SetPointIds(PointIdConstIterator first, PointIdConstIterator last) override;
 
-  void SetPointId(int localId, PointIdentifier) override;
-  PointIdIterator      PointIdsBegin() override;
+  void
+  SetPointId(int localId, PointIdentifier) override;
+  PointIdIterator
+  PointIdsBegin() override;
 
-  PointIdConstIterator PointIdsBegin() const override;
+  PointIdConstIterator
+  PointIdsBegin() const override;
 
-  PointIdIterator      PointIdsEnd() override;
+  PointIdIterator
+  PointIdsEnd() override;
 
-  PointIdConstIterator PointIdsEnd() const override;
+  PointIdConstIterator
+  PointIdsEnd() const override;
 
   /** Hexahedron-specific interface. */
-  virtual CellFeatureCount GetNumberOfVertices() const;
+  virtual CellFeatureCount
+  GetNumberOfVertices() const;
 
-  virtual CellFeatureCount GetNumberOfEdges() const;
+  virtual CellFeatureCount
+  GetNumberOfEdges() const;
 
-  virtual CellFeatureCount GetNumberOfFaces() const;
+  virtual CellFeatureCount
+  GetNumberOfFaces() const;
 
-  virtual bool GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
-  virtual bool GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
-  virtual bool GetFace(CellFeatureIdentifier, FaceAutoPointer &);
+  virtual bool
+  GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
+  virtual bool
+  GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
+  virtual bool
+  GetFace(CellFeatureIdentifier, FaceAutoPointer &);
 
   /** Evaluate the position inside the cell */
-  bool EvaluatePosition(CoordRepType *,
-                                PointsContainer *,
-                                CoordRepType *,
-                                CoordRepType[],
-                                double *,
-                                InterpolationWeightType *) override;
+  bool
+  EvaluatePosition(CoordRepType *,
+                   PointsContainer *,
+                   CoordRepType *,
+                   CoordRepType[],
+                   double *,
+                   InterpolationWeightType *) override;
 
   /** Visitor interface */
   itkCellVisitMacro(Superclass::HEXAHEDRON_CELL);
@@ -124,21 +148,24 @@ protected:
   PointIdentifier m_PointIds[NumberOfPoints];
 
   void
-  InterpolationDerivs( CoordRepType pcoords[Self::CellDimension],
-                       CoordRepType derivs[Self::CellDimension * Self::NumberOfPoints] );
+  InterpolationDerivs(CoordRepType pcoords[Self::CellDimension],
+                      CoordRepType derivs[Self::CellDimension * Self::NumberOfPoints]);
   void
-  InterpolationFunctions( CoordRepType pcoords[Self::CellDimension], InterpolationWeightType sf[Self::NumberOfPoints] );
+  InterpolationFunctions(CoordRepType pcoords[Self::CellDimension], InterpolationWeightType sf[Self::NumberOfPoints]);
   void
-  EvaluateLocation( int& itkNotUsed( subId ), PointsContainer* points, CoordRepType pcoords[Self::CellDimension],
-                    CoordRepType x[Self::CellDimension], InterpolationWeightType* weights );
+  EvaluateLocation(int &                     itkNotUsed(subId),
+                   PointsContainer *         points,
+                   CoordRepType              pcoords[Self::CellDimension],
+                   CoordRepType              x[Self::CellDimension],
+                   InterpolationWeightType * weights);
 
 public:
   HexahedronCell()
   {
-    for ( unsigned int i = 0; i < Self::NumberOfPoints; i++ )
-      {
-      m_PointIds[i] = NumericTraits< PointIdentifier >::max();
-      }
+    for (unsigned int i = 0; i < Self::NumberOfPoints; i++)
+    {
+      m_PointIds[i] = NumericTraits<PointIdentifier>::max();
+    }
   }
 
   ~HexahedronCell() override = default;
@@ -146,7 +173,7 @@ public:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHexahedronCell.hxx"
+#  include "itkHexahedronCell.hxx"
 #endif
 
 #endif

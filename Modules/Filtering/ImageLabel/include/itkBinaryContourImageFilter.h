@@ -44,15 +44,15 @@ namespace itk
  * \ingroup ITKImageLabel
  *
  * \sphinx
- * \sphinxexample{Filtering/ImageLabel/ExtractBoundariesOfConnectedRegionsInBinaryImage,Extract Boundaries Of Connected Regions In Binary Image}
- * \sphinxexample{Filtering/ImageLabel/ExtractBoundariesOfBlobsInBinaryImage,Extract Inner And Outer Boundaries Of Blobs In Binary Image}
- * \endsphinx
+ * \sphinxexample{Filtering/ImageLabel/ExtractBoundariesOfConnectedRegionsInBinaryImage,Extract Boundaries Of Connected
+ * Regions In Binary Image} \sphinxexample{Filtering/ImageLabel/ExtractBoundariesOfBlobsInBinaryImage,Extract Inner And
+ * Outer Boundaries Of Blobs In Binary Image} \endsphinx
  */
 
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT BinaryContourImageFilter:
-  public InPlaceImageFilter< TInputImage, TOutputImage >
-  , protected ScanlineFilterCommon< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT BinaryContourImageFilter
+  : public InPlaceImageFilter<TInputImage, TOutputImage>
+  , protected ScanlineFilterCommon<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryContourImageFilter);
@@ -61,9 +61,9 @@ public:
    * Standard "Self" & Superclass typedef.
    */
   using Self = BinaryContourImageFilter;
-  using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InPlaceImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using Superclass::Register;
   using Superclass::UnRegister;
 
@@ -124,51 +124,57 @@ public:
   itkGetConstMacro(ForegroundValue, InputImagePixelType);
 
 protected:
-
   BinaryContourImageFilter();
   ~BinaryContourImageFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
-  void AfterThreadedGenerateData() override;
+  void
+  AfterThreadedGenerateData() override;
 
-  void DynamicThreadedGenerateData(const RegionType& outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
 
-  void ThreadedIntegrateData(const RegionType& outputRegionForThread);
+  void
+  ThreadedIntegrateData(const RegionType & outputRegionForThread);
 
   /** BinaryContourImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
    * \sa ProcessObject::GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** BinaryContourImageFilter will produce all of the output.
    * Therefore it must provide an implementation of
    * EnlargeOutputRequestedRegion().
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
-  void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) ) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
-  using ScanlineFunctions = ScanlineFilterCommon< TInputImage, TOutputImage >;
+  using ScanlineFunctions = ScanlineFilterCommon<TInputImage, TOutputImage>;
 
-  using InternalLabelType         = typename ScanlineFunctions::InternalLabelType;
-  using OutSizeType               = typename ScanlineFunctions::OutSizeType;
-  using RunLength                 = typename ScanlineFunctions::RunLength;
-  using LineEncodingType          = typename ScanlineFunctions::LineEncodingType;
-  using LineEncodingIterator      = typename ScanlineFunctions::LineEncodingIterator;
+  using InternalLabelType = typename ScanlineFunctions::InternalLabelType;
+  using OutSizeType = typename ScanlineFunctions::OutSizeType;
+  using RunLength = typename ScanlineFunctions::RunLength;
+  using LineEncodingType = typename ScanlineFunctions::LineEncodingType;
+  using LineEncodingIterator = typename ScanlineFunctions::LineEncodingIterator;
   using LineEncodingConstIterator = typename ScanlineFunctions::LineEncodingConstIterator;
-  using OffsetVectorType          = typename ScanlineFunctions::OffsetVectorType;
+  using OffsetVectorType = typename ScanlineFunctions::OffsetVectorType;
   using OffsetVectorConstIterator = typename ScanlineFunctions::OffsetVectorConstIterator;
-  using LineMapType               = typename ScanlineFunctions::LineMapType;
-  using UnionFindType             = typename ScanlineFunctions::UnionFindType;
-  using ConsecutiveVectorType     = typename ScanlineFunctions::ConsecutiveVectorType;
+  using LineMapType = typename ScanlineFunctions::LineMapType;
+  using UnionFindType = typename ScanlineFunctions::UnionFindType;
+  using ConsecutiveVectorType = typename ScanlineFunctions::ConsecutiveVectorType;
 
 private:
-
-  LineMapType     m_ForegroundLineMap;
-  LineMapType     m_BackgroundLineMap;
+  LineMapType m_ForegroundLineMap;
+  LineMapType m_BackgroundLineMap;
 
   InputImagePixelType  m_ForegroundValue;
   OutputImagePixelType m_BackgroundValue;
@@ -176,7 +182,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryContourImageFilter.hxx"
+#  include "itkBinaryContourImageFilter.hxx"
 #endif
 
 #endif

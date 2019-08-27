@@ -35,228 +35,245 @@ namespace itk
 {
 namespace Functor
 {
-template< typename TLabelObject >
+template <typename TLabelObject>
 class NumberOfPixelsLabelObjectAccessor
 {
 public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = SizeValueType;
 
-  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  inline AttributeValueType
+  operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetNumberOfPixels();
   }
 };
 
-template< typename TLabelObject >
+template <typename TLabelObject>
 class BoundingBoxLabelObjectAccessor
 {
 public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = typename LabelObjectType::RegionType;
 
-  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  inline AttributeValueType
+  operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetBoundingBox();
   }
 };
 
-template< typename TLabelObject >
+template <typename TLabelObject>
 class PhysicalSizeLabelObjectAccessor
 {
 public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  inline AttributeValueType
+  operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetPhysicalSize();
   }
 };
 
-template< typename TLabelObject >
+template <typename TLabelObject>
 class NumberOfPixelsOnBorderLabelObjectAccessor
 {
 public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = SizeValueType;
 
-  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  inline AttributeValueType
+  operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetNumberOfPixelsOnBorder();
   }
 };
 
-template< typename TLabelObject >
+template <typename TLabelObject>
 class PerimeterOnBorderLabelObjectAccessor
 {
 public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  inline AttributeValueType
+  operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetPerimeterOnBorder();
   }
 };
 
-template< typename TLabelObject >
+template <typename TLabelObject>
 class CentroidLabelObjectAccessor
 {
 public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = typename LabelObjectType::CentroidType;
 
-  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  inline AttributeValueType
+  operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetCentroid();
   }
 };
 
-template< typename TLabelObject >
+template <typename TLabelObject>
 class FeretDiameterLabelObjectAccessor
 {
 public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  inline AttributeValueType
+  operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetFeretDiameter();
   }
 };
 
-template< typename TLabelObject >
+template <typename TLabelObject>
 class PrincipalMomentsLabelObjectAccessor
 {
 public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = typename LabelObjectType::VectorType;
 
-  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  inline AttributeValueType
+  operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetPrincipalMoments();
   }
 };
 
-template< typename TLabelObject >
+template <typename TLabelObject>
 class PrincipalAxesLabelObjectAccessor
 {
 public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = typename LabelObjectType::MatrixType;
 
-  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  inline AttributeValueType
+  operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetPrincipalAxes();
   }
 };
 
-template< typename TLabelObject >
+template <typename TLabelObject>
 class ElongationLabelObjectAccessor
 {
 public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  inline AttributeValueType
+  operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetElongation();
   }
 };
 
-template< typename TLabelObject >
+template <typename TLabelObject>
 class PerimeterLabelObjectAccessor
 {
 public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  inline AttributeValueType
+  operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetPerimeter();
   }
 };
 
-template< typename TLabelObject >
+template <typename TLabelObject>
 class RoundnessLabelObjectAccessor
 {
 public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  inline AttributeValueType
+  operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetRoundness();
   }
 };
 
-template< typename TLabelObject >
+template <typename TLabelObject>
 class EquivalentSphericalRadiusLabelObjectAccessor
 {
 public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  inline AttributeValueType
+  operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetEquivalentSphericalRadius();
   }
 };
 
-template< typename TLabelObject >
+template <typename TLabelObject>
 class EquivalentSphericalPerimeterLabelObjectAccessor
 {
 public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  inline AttributeValueType
+  operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetEquivalentSphericalPerimeter();
   }
 };
 
-template< typename TLabelObject >
+template <typename TLabelObject>
 class EquivalentEllipsoidDiameterLabelObjectAccessor
 {
 public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = typename LabelObjectType::VectorType;
 
-  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  inline AttributeValueType
+  operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetEquivalentEllipsoidDiameter();
   }
 };
 
-template< typename TLabelObject >
+template <typename TLabelObject>
 class FlatnessLabelObjectAccessor
 {
 public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  inline AttributeValueType
+  operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetFlatness();
   }
 };
 
-template< typename TLabelObject >
+template <typename TLabelObject>
 class PerimeterOnBorderRatioLabelObjectAccessor
 {
 public:
   using LabelObjectType = TLabelObject;
   using AttributeValueType = double;
 
-  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  inline AttributeValueType
+  operator()(const LabelObjectType * labelObject) const
   {
     return labelObject->GetPerimeterOnBorderRatio();
   }
 };
 
-}
+} // namespace Functor
 } // end namespace itk
 
 #endif

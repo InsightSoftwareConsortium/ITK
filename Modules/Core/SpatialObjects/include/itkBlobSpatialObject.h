@@ -44,31 +44,28 @@ namespace itk
  * \sphinxexample{Core/SpatialObjects/Blob,Blob}
  * \endsphinx
  */
-template< unsigned int TDimension = 3 >
-class ITK_TEMPLATE_EXPORT BlobSpatialObject:
-  public PointBasedSpatialObject<  TDimension,
-           SpatialObjectPoint< TDimension > >
+template <unsigned int TDimension = 3>
+class ITK_TEMPLATE_EXPORT BlobSpatialObject : public PointBasedSpatialObject<TDimension, SpatialObjectPoint<TDimension>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BlobSpatialObject);
 
   using Self = BlobSpatialObject;
-  using Superclass = PointBasedSpatialObject< TDimension,
-          SpatialObjectPoint< TDimension > >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = PointBasedSpatialObject<TDimension, SpatialObjectPoint<TDimension>>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using ScalarType = double;
 
-  using BlobPointType = SpatialObjectPoint< TDimension >;
-  using BlobPointListType = std::vector< BlobPointType >;
+  using BlobPointType = SpatialObjectPoint<TDimension>;
+  using BlobPointListType = std::vector<BlobPointType>;
 
   using PointType = typename Superclass::PointType;
   using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
   using TransformType = typename Superclass::TransformType;
   using BoundingBoxType = typename Superclass::BoundingBoxType;
-  using PointContainerType = VectorContainer< IdentifierType, PointType >;
-  using PointContainerPointer = SmartPointer< PointContainerType >;
+  using PointContainerType = VectorContainer<IdentifierType, PointType>;
+  using PointContainerPointer = SmartPointer<PointContainerType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -77,20 +74,20 @@ public:
   itkTypeMacro(BlobSpatialObject, SpatialObject);
 
 protected:
-
   BlobSpatialObject();
   ~BlobSpatialObject() override = default;
 
   /** Method to print the object. */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typename LightObject::Pointer InternalClone() const override;
-
+  typename LightObject::Pointer
+  InternalClone() const override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBlobSpatialObject.hxx"
+#  include "itkBlobSpatialObject.hxx"
 #endif
 
 #endif // itkBlobSpatialObject_h

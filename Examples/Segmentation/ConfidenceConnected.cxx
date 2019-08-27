@@ -101,15 +101,16 @@
 #include "itkImageFileWriter.h"
 
 
-int main( int argc, char *argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 5 )
-    {
+  if (argc < 5)
+  {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage  outputImage seedX seedY " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //  Software Guide : BeginLatex
@@ -123,27 +124,26 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   using InternalPixelType = float;
   constexpr unsigned int Dimension = 2;
-  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
+  using InternalImageType = itk::Image<InternalPixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
   using OutputPixelType = unsigned char;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using CastingFilterType =
-      itk::CastImageFilter< InternalImageType, OutputImageType >;
+  using CastingFilterType = itk::CastImageFilter<InternalImageType, OutputImageType>;
   CastingFilterType::Pointer caster = CastingFilterType::New();
 
 
   // We instantiate reader and writer types
   //
-  using ReaderType = itk::ImageFileReader< InternalImageType >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<InternalImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
 
   //  Software Guide : BeginLatex
@@ -155,7 +155,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using CurvatureFlowImageFilterType =
-      itk::CurvatureFlowImageFilter< InternalImageType, InternalImageType >;
+    itk::CurvatureFlowImageFilter<InternalImageType, InternalImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -167,8 +167,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  CurvatureFlowImageFilterType::Pointer smoothing =
-                         CurvatureFlowImageFilterType::New();
+  CurvatureFlowImageFilterType::Pointer smoothing = CurvatureFlowImageFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -180,8 +179,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ConnectedFilterType = itk::ConfidenceConnectedImageFilter<
-            InternalImageType, InternalImageType>;
+  using ConnectedFilterType =
+    itk::ConfidenceConnectedImageFilter<InternalImageType, InternalImageType>;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -192,8 +191,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ConnectedFilterType::Pointer confidenceConnected
-                                                 = ConnectedFilterType::New();
+  ConnectedFilterType::Pointer confidenceConnected = ConnectedFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -208,10 +206,10 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  smoothing->SetInput( reader->GetOutput() );
-  confidenceConnected->SetInput( smoothing->GetOutput() );
-  caster->SetInput( confidenceConnected->GetOutput() );
-  writer->SetInput( caster->GetOutput() );
+  smoothing->SetInput(reader->GetOutput());
+  confidenceConnected->SetInput(smoothing->GetOutput());
+  caster->SetInput(confidenceConnected->GetOutput());
+  writer->SetInput(caster->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -225,8 +223,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  smoothing->SetNumberOfIterations( 5 );
-  smoothing->SetTimeStep( 0.125 );
+  smoothing->SetNumberOfIterations(5);
+  smoothing->SetTimeStep(0.125);
   // Software Guide : EndCodeSnippet
 
 
@@ -247,7 +245,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  confidenceConnected->SetMultiplier( 2.5 );
+  confidenceConnected->SetMultiplier(2.5);
   // Software Guide : EndCodeSnippet
 
 
@@ -269,7 +267,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  confidenceConnected->SetNumberOfIterations( 5 );
+  confidenceConnected->SetNumberOfIterations(5);
   // Software Guide : EndCodeSnippet
 
 
@@ -285,7 +283,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  confidenceConnected->SetReplaceValue( 255 );
+  confidenceConnected->SetReplaceValue(255);
   // Software Guide : EndCodeSnippet
 
 
@@ -304,14 +302,14 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  InternalImageType::IndexType  index;
+  InternalImageType::IndexType index;
 
-  index[0] = std::stoi( argv[3] );
-  index[1] = std::stoi( argv[4] );
+  index[0] = std::stoi(argv[3]);
+  index[1] = std::stoi(argv[4]);
 
 
   // Software Guide : BeginCodeSnippet
-  confidenceConnected->SetSeed( index );
+  confidenceConnected->SetSeed(index);
   // Software Guide : EndCodeSnippet
 
 
@@ -325,7 +323,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  confidenceConnected->SetInitialNeighborhoodRadius( 2 );
+  confidenceConnected->SetInitialNeighborhoodRadius(2);
   // Software Guide : EndCodeSnippet
 
 
@@ -339,17 +337,18 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excep )
-    {
+  }
+  catch (itk::ExceptionObject & excep)
+  {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 
+  // clang-format off
   //  Software Guide : BeginLatex
   //
   //  Let's now run this example using as input the image
@@ -385,6 +384,7 @@ int main( int argc, char *argv[] )
   //  accepted region will extend.
   //
   //  Software Guide : EndLatex
+  //  clang-format on
 
 
   return EXIT_SUCCESS;

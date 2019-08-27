@@ -28,85 +28,84 @@ template <typename TPixel>
 class RawImageReaderAndWriter
 {
 public:
-
   using PixelType = unsigned char;
 
-  using RawImageIOType = itk::RawImageIO< PixelType, 2 >;
+  using RawImageIOType = itk::RawImageIO<PixelType, 2>;
 
-  using ImageType = itk::Image< PixelType, 2 >;
+  using ImageType = itk::Image<PixelType, 2>;
 
 public:
-
   RawImageReaderAndWriter()
-    {
+  {
     m_Image = ImageType::New();
 
-    typename ImageType::RegionType     region;
-    typename ImageType::SizeType       size;
-    typename ImageType::IndexType      start;
+    typename ImageType::RegionType region;
+    typename ImageType::SizeType   size;
+    typename ImageType::IndexType  start;
 
     start.Fill(0);
-    size[0] = 16;  // To fill the range of 8 bits image
+    size[0] = 16; // To fill the range of 8 bits image
     size[1] = 16;
 
-    region.SetSize( size );
-    region.SetIndex( start );
+    region.SetSize(size);
+    region.SetIndex(start);
 
-    m_Image->SetRegions( region );
+    m_Image->SetRegions(region);
     m_Image->Allocate();
 
-    PixelType value = itk::NumericTraits< PixelType >::ZeroValue();
+    PixelType value = itk::NumericTraits<PixelType>::ZeroValue();
 
     // Fill the image with incremental values.
-    using IteratorType = itk::ImageRegionIterator< ImageType >;
-    IteratorType it( m_Image, region );
+    using IteratorType = itk::ImageRegionIterator<ImageType>;
+    IteratorType it(m_Image, region);
 
     it.GoToBegin();
 
-    while( !it.IsAtEnd() )
-      {
-      it.Set( value );
+    while (!it.IsAtEnd())
+    {
+      it.Set(value);
       ++value;
       ++it;
-      }
+    }
 
     m_Error = false;
+  }
 
-    }
+  void
+  Write()
+  {
+    using WriterType = itk::ImageFileWriter<ImageType>;
+    WriterType::Pointer writer = WriterType::New();
 
-  void Write()
-    {
-    using WriterType = itk::ImageFileWriter< ImageType >;
-    WriterType::Pointer  writer  = WriterType::New();
-
-    writer->SetFileName( m_FileName.c_str() );
-    writer->SetInput( m_Image );
+    writer->SetFileName(m_FileName.c_str());
+    writer->SetInput(m_Image);
 
     RawImageIOType::Pointer rawImageIO = RawImageIOType::New();
-    writer->SetImageIO( rawImageIO );
+    writer->SetImageIO(rawImageIO);
 
     writer->Update();
-    }
+  }
 
-  void Read()
-    {
-    using ReaderType = itk::ImageFileReader< ImageType >;
-    ReaderType::Pointer  reader  = ReaderType::New();
-    reader->SetFileName( m_FileName.c_str() );
+  void
+  Read()
+  {
+    using ReaderType = itk::ImageFileReader<ImageType>;
+    ReaderType::Pointer reader = ReaderType::New();
+    reader->SetFileName(m_FileName.c_str());
 
     RawImageIOType::Pointer rawImageIO = RawImageIOType::New();
-    reader->SetImageIO( rawImageIO );
+    reader->SetImageIO(rawImageIO);
 
-    unsigned int dim[2] = {16,16};
-    double spacing[2] = {1.0, 1.0};
-    double origin[2] = {0.0,0.0};
+    unsigned int dim[2] = { 16, 16 };
+    double       spacing[2] = { 1.0, 1.0 };
+    double       origin[2] = { 0.0, 0.0 };
 
-    for(unsigned int i=0; i<2; i++)
-      {
-      rawImageIO->SetDimensions(i,dim[i]);
-      rawImageIO->SetSpacing(i,spacing[i]);
-      rawImageIO->SetOrigin(i,origin[i]);
-      }
+    for (unsigned int i = 0; i < 2; i++)
+    {
+      rawImageIO->SetDimensions(i, dim[i]);
+      rawImageIO->SetSpacing(i, spacing[i]);
+      rawImageIO->SetOrigin(i, origin[i]);
+    }
 
     rawImageIO->SetHeaderSize(0);
     rawImageIO->SetByteOrderToLittleEndian();
@@ -120,59 +119,58 @@ public:
     //
     // Verify the content of the image.
     //
-    using ConstIteratorType = itk::ImageRegionConstIterator< ImageType >;
+    using ConstIteratorType = itk::ImageRegionConstIterator<ImageType>;
 
-    ConstIteratorType it1( m_Image, m_Image->GetLargestPossibleRegion() );
-    ConstIteratorType it2( image, image->GetLargestPossibleRegion() );
+    ConstIteratorType it1(m_Image, m_Image->GetLargestPossibleRegion());
+    ConstIteratorType it2(image, image->GetLargestPossibleRegion());
 
     it1.GoToBegin();
     it2.GoToBegin();
 
     m_Error = false;
 
-    while( it1.IsAtEnd() )
+    while (it1.IsAtEnd())
+    {
+      if (it1.Get() != it2.Get())
       {
-      if( it1.Get() != it2.Get() )
-        {
         m_Error = true;
         break;
-        }
+      }
       ++it1;
       ++it2;
-      }
-
-
     }
+  }
 
-  void SetFileName( const std::string & filename )
-    {
+  void
+  SetFileName(const std::string & filename)
+  {
     m_FileName = filename;
-    }
+  }
 
-  bool GetError() const
-    {
+  bool
+  GetError() const
+  {
     return m_Error;
-    }
+  }
 
 private:
-
   std::string m_FileName;
 
   typename ImageType::Pointer m_Image;
 
   bool m_Error;
-
 };
 
-int itkRawImageIOTest5(int argc, char*argv[])
+int
+itkRawImageIOTest5(int argc, char * argv[])
 {
 
-  if(argc < 2)
-    {
+  if (argc < 2)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " TemporaryDirectoryName" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   std::string directory = argv[1];
@@ -184,128 +182,127 @@ int itkRawImageIOTest5(int argc, char*argv[])
   std::cout << "Testing for pixel type = char " << std::endl;
 
 
-  RawImageReaderAndWriter< char >   tester1;
+  RawImageReaderAndWriter<char> tester1;
 
 
   std::string filename = directory + "/RawImageIOTest5a.raw";
 
-  tester1.SetFileName( filename );
+  tester1.SetFileName(filename);
 
 
   try
-    {
+  {
     tester1.Write();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception caught while writing char type." << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   try
-    {
+  {
     tester1.Read();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception caught while reading char type." << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( tester1.GetError() )
-    {
+  if (tester1.GetError())
+  {
     std::cerr << "Error while comparing the char type images." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //
   // Test the pixel type = "signed char"
   //
   std::cout << "Testing for pixel type = signed char " << std::endl;
 
-  RawImageReaderAndWriter< signed char >   tester2;
+  RawImageReaderAndWriter<signed char> tester2;
 
   filename = directory + "/RawImageIOTest5b.raw";
 
-  tester2.SetFileName( filename );
+  tester2.SetFileName(filename);
 
 
   try
-    {
+  {
     tester2.Write();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception caught while writing signed char type." << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   try
-    {
+  {
     tester2.Read();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception caught while reading signed char type." << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( tester2.GetError() )
-    {
+  if (tester2.GetError())
+  {
     std::cerr << "Error while comparing the signed char type images." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //
   // Test the pixel type = "unsigned char"
   //
   std::cout << "Testing for pixel type = unsigned char " << std::endl;
 
-  RawImageReaderAndWriter< unsigned char >   tester3;
+  RawImageReaderAndWriter<unsigned char> tester3;
 
 
   filename = directory + "/RawImageIOTest5c.raw";
 
-  tester3.SetFileName( filename );
+  tester3.SetFileName(filename);
 
 
   try
-    {
+  {
     tester3.Write();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception caught while writing unsigned char type." << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   try
-    {
+  {
     tester3.Read();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception caught while reading unsigned char type." << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( tester3.GetError() )
-    {
+  if (tester3.GetError())
+  {
     std::cerr << "Error while comparing the unsigned char type images." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test PASSED !!" << std::endl << std::endl;
 
   return EXIT_SUCCESS;
-
 }

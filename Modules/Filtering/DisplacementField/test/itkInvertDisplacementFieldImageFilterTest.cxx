@@ -19,7 +19,8 @@
 #include "itkInvertDisplacementFieldImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
-int itkInvertDisplacementFieldImageFilterTest( int, char * [] )
+int
+itkInvertDisplacementFieldImageFilterTest(int, char *[])
 {
   constexpr unsigned int ImageDimension = 2;
 
@@ -33,50 +34,50 @@ int itkInvertDisplacementFieldImageFilterTest( int, char * [] )
   DisplacementFieldType::DirectionType direction;
 
   direction.SetIdentity();
-  origin.Fill( 0.0 );
-  spacing.Fill( 0.5 );
-  size.Fill( 100 );
+  origin.Fill(0.0);
+  spacing.Fill(0.5);
+  size.Fill(100);
 
-  VectorType ones( 1 );
+  VectorType ones(1);
 
   DisplacementFieldType::Pointer field = DisplacementFieldType::New();
-  field->SetOrigin( origin );
-  field->SetSpacing( spacing );
-  field->SetRegions( size );
-  field->SetDirection( direction );
+  field->SetOrigin(origin);
+  field->SetSpacing(spacing);
+  field->SetRegions(size);
+  field->SetDirection(direction);
   field->Allocate();
-  field->FillBuffer( ones );
+  field->FillBuffer(ones);
 
-  const VectorType zeroVector( 0.0 );
+  const VectorType zeroVector(0.0);
 
-  //make sure boundary does not move
+  // make sure boundary does not move
   float weight1 = 1.0;
 
   const DisplacementFieldType::RegionType region = field->GetLargestPossibleRegion();
-  const DisplacementFieldType::IndexType startIndex = region.GetIndex();
+  const DisplacementFieldType::IndexType  startIndex = region.GetIndex();
 
-  itk::ImageRegionIteratorWithIndex<DisplacementFieldType> ItF( field, field->GetLargestPossibleRegion() );
-  for( ItF.GoToBegin(); !ItF.IsAtEnd(); ++ItF )
-    {
+  itk::ImageRegionIteratorWithIndex<DisplacementFieldType> ItF(field, field->GetLargestPossibleRegion());
+  for (ItF.GoToBegin(); !ItF.IsAtEnd(); ++ItF)
+  {
     DisplacementFieldType::IndexType index = ItF.GetIndex();
-    bool isOnBoundary = false;
-    for ( unsigned int d = 0; d < ImageDimension; d++ )
+    bool                             isOnBoundary = false;
+    for (unsigned int d = 0; d < ImageDimension; d++)
+    {
+      if (index[d] == startIndex[d] || index[d] == static_cast<int>(size[d]) - startIndex[d] - 1)
       {
-      if( index[d] == startIndex[d] || index[d] == static_cast<int>( size[d] ) - startIndex[d] - 1 )
-        {
         isOnBoundary = true;
         break;
-        }
-      }
-    if( isOnBoundary )
-      {
-      ItF.Set( zeroVector );
-      }
-    else
-      {
-      ItF.Set( ItF.Get() * weight1 );
       }
     }
+    if (isOnBoundary)
+    {
+      ItF.Set(zeroVector);
+    }
+    else
+    {
+      ItF.Set(ItF.Get() * weight1);
+    }
+  }
 
   unsigned int numberOfIterations = 50;
   float        maxTolerance = 0.1;
@@ -84,45 +85,45 @@ int itkInvertDisplacementFieldImageFilterTest( int, char * [] )
 
   using InverterType = itk::InvertDisplacementFieldImageFilter<DisplacementFieldType>;
   InverterType::Pointer inverter = InverterType::New();
-  inverter->SetInput( field );
-  inverter->SetMaximumNumberOfIterations( numberOfIterations );
-  inverter->SetMeanErrorToleranceThreshold( meanTolerance );
-  inverter->SetMaxErrorToleranceThreshold( maxTolerance );
-  inverter->SetEnforceBoundaryCondition( false );
+  inverter->SetInput(field);
+  inverter->SetMaximumNumberOfIterations(numberOfIterations);
+  inverter->SetMeanErrorToleranceThreshold(meanTolerance);
+  inverter->SetMaxErrorToleranceThreshold(maxTolerance);
+  inverter->SetEnforceBoundaryCondition(false);
   std::cout << "number of iterations: " << inverter->GetMaximumNumberOfIterations() << std::endl;
   std::cout << "mean error tolerance: " << inverter->GetMeanErrorToleranceThreshold() << std::endl;
   std::cout << "max error tolerance: " << inverter->GetMaxErrorToleranceThreshold() << std::endl;
 
   try
-    {
+  {
     inverter->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
-    }
+  }
 
   DisplacementFieldType::IndexType index;
   index[0] = 30;
   index[1] = 30;
 
-  VectorType v = inverter->GetOutput()->GetPixel( index );
+  VectorType v = inverter->GetOutput()->GetPixel(index);
   VectorType delta = v + ones;
-  if( delta.GetNorm() > 0.05 )
-    {
+  if (delta.GetNorm() > 0.05)
+  {
     std::cerr << "Failed to find proper inverse." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( inverter->GetMeanErrorNorm() > inverter->GetMeanErrorToleranceThreshold() &&
-    inverter->GetMaxErrorNorm() > inverter->GetMaxErrorToleranceThreshold() )
-    {
+  if (inverter->GetMeanErrorNorm() > inverter->GetMeanErrorToleranceThreshold() &&
+      inverter->GetMaxErrorNorm() > inverter->GetMaxErrorToleranceThreshold())
+  {
     std::cerr << "Failed to converge properly." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  inverter->Print( std::cout, 3 );
+  inverter->Print(std::cout, 3);
 
   return EXIT_SUCCESS;
 }

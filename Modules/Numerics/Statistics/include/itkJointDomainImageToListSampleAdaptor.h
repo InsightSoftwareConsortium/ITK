@@ -36,23 +36,23 @@ namespace Statistics
  * \sa JointDomainImageToListSampleAdaptor
  * \ingroup ITKStatistics
  */
-template< typename TImage >
-struct ImageJointDomainTraits {
+template <typename TImage>
+struct ImageJointDomainTraits
+{
   using Self = ImageJointDomainTraits;
-  using PixelTraitsType = PixelTraits< typename TImage::PixelType >;
+  using PixelTraitsType = PixelTraits<typename TImage::PixelType>;
   using RangeDomainMeasurementType = typename PixelTraitsType::ValueType;
 
   static constexpr unsigned int ImageDimension = TImage::ImageDimension;
   static constexpr unsigned int Dimension = TImage::ImageDimension + PixelTraitsType::Dimension;
 
   using CoordinateRepType = float;
-  using PointType = Point< CoordinateRepType, Self::ImageDimension >;
-  using JoinTraitsType = JoinTraits< RangeDomainMeasurementType, CoordinateRepType >;
+  using PointType = Point<CoordinateRepType, Self::ImageDimension>;
+  using JoinTraitsType = JoinTraits<RangeDomainMeasurementType, CoordinateRepType>;
   using MeasurementType = typename JoinTraitsType::ValueType;
 
-  using MeasurementVectorType =
-      FixedArray< MeasurementType, Self::Dimension >;
-};  // end of ImageJointDomainTraits
+  using MeasurementVectorType = FixedArray<MeasurementType, Self::Dimension>;
+}; // end of ImageJointDomainTraits
 
 /** \class JointDomainImageToListSampleAdaptor
  *  \brief This adaptor returns measurement vectors composed of an
@@ -84,9 +84,9 @@ struct ImageJointDomainTraits {
  * \ingroup ITKStatistics
  */
 
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT JointDomainImageToListSampleAdaptor:
-  public ListSample< typename ImageJointDomainTraits< TImage >::MeasurementVectorType >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT JointDomainImageToListSampleAdaptor
+  : public ListSample<typename ImageJointDomainTraits<TImage>::MeasurementVectorType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(JointDomainImageToListSampleAdaptor);
@@ -94,13 +94,12 @@ public:
   /** Standard class type aliases */
   using Self = JointDomainImageToListSampleAdaptor;
 
-  using Superclass = ListSample<
-    typename ImageJointDomainTraits< TImage >::MeasurementVectorType >;
+  using Superclass = ListSample<typename ImageJointDomainTraits<TImage>::MeasurementVectorType>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  using ImageJointDomainTraitsType = ImageJointDomainTraits< TImage >;
+  using ImageJointDomainTraitsType = ImageJointDomainTraits<TImage>;
 
   using MeasurementVectorType = typename ImageJointDomainTraitsType::MeasurementVectorType;
   using MeasurementType = typename ImageJointDomainTraitsType::MeasurementType;
@@ -127,8 +126,8 @@ public:
 
   /** Image type alias */
   using ImageType = TImage;
-  using ImageIteratorType = ImageRegionIterator< ImageType >;
-  using ImageConstIteratorType = ImageRegionConstIterator< ImageType >;
+  using ImageIteratorType = ImageRegionIterator<ImageType>;
+  using ImageConstIteratorType = ImageRegionConstIterator<ImageType>;
 
   using ImagePointer = typename ImageType::Pointer;
   using ImageConstPointer = typename ImageType::ConstPointer;
@@ -140,34 +139,40 @@ public:
   using ValueType = MeasurementVectorType;
 
   /** Method to set the image */
-  void SetImage(const TImage *image);
+  void
+  SetImage(const TImage * image);
 
   /** Method to get the image */
-  const TImage * GetImage() const;
+  const TImage *
+  GetImage() const;
 
   /** returns the number of measurement vectors in this container */
-  InstanceIdentifier Size() const override;
+  InstanceIdentifier
+  Size() const override;
 
   /** Get frequency */
-  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const override;
+  AbsoluteFrequencyType
+  GetFrequency(InstanceIdentifier id) const override;
 
   /** Get total frequency */
-  TotalAbsoluteFrequencyType GetTotalFrequency() const override;
+  TotalAbsoluteFrequencyType
+  GetTotalFrequency() const override;
 
-  static constexpr unsigned int RangeDomainDimension = itk::PixelTraits< typename TImage::PixelType >::Dimension;
+  static constexpr unsigned int RangeDomainDimension = itk::PixelTraits<typename TImage::PixelType>::Dimension;
 
-  using RangeDomainMeasurementVectorType = FixedArray< RangeDomainMeasurementType,
-                      Self::RangeDomainDimension >;
+  using RangeDomainMeasurementVectorType = FixedArray<RangeDomainMeasurementType, Self::RangeDomainDimension>;
 
-  using InstanceIdentifierVectorType = std::vector< InstanceIdentifier >;
-  using NormalizationFactorsType = FixedArray< float, Self::MeasurementVectorSize >;
+  using InstanceIdentifierVectorType = std::vector<InstanceIdentifier>;
+  using NormalizationFactorsType = FixedArray<float, Self::MeasurementVectorSize>;
 
   /** Sets the normalization factors */
-  void SetNormalizationFactors(NormalizationFactorsType & factors);
+  void
+  SetNormalizationFactors(NormalizationFactorsType & factors);
 
   /** Gets the measurement vector specified by the instance
    * identifier. This method overrides superclass method. */
-  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const override;
+  const MeasurementVectorType &
+  GetMeasurementVector(InstanceIdentifier id) const override;
 
   /** Method to set UsePixelContainer flag */
   itkSetMacro(UsePixelContainer, bool);
@@ -184,114 +189,117 @@ public:
   {
     friend class JointDomainImageToListSampleAdaptor;
 
-public:
-
-    ConstIterator(const JointDomainImageToListSampleAdaptor *adaptor)
-    {
-      *this = adaptor->Begin();
-    }
+  public:
+    ConstIterator(const JointDomainImageToListSampleAdaptor * adaptor) { *this = adaptor->Begin(); }
 
     ConstIterator(const ConstIterator & iter)
     {
       m_InstanceIdentifier = iter.m_InstanceIdentifier;
-      m_Adaptor            = iter.m_Adaptor;
+      m_Adaptor = iter.m_Adaptor;
     }
 
-    ConstIterator & operator=(const ConstIterator & iter)
+    ConstIterator &
+    operator=(const ConstIterator & iter)
     {
       m_InstanceIdentifier = iter.m_InstanceIdentifier;
       return *this;
     }
 
-    AbsoluteFrequencyType GetFrequency() const
+    AbsoluteFrequencyType
+    GetFrequency() const
     {
       return 1;
     }
 
-    const MeasurementVectorType & GetMeasurementVector() const
+    const MeasurementVectorType &
+    GetMeasurementVector() const
     {
       m_MeasurementVectorCache = m_Adaptor->GetMeasurementVector(m_InstanceIdentifier);
       return this->m_MeasurementVectorCache;
     }
 
-    InstanceIdentifier GetInstanceIdentifier() const
+    InstanceIdentifier
+    GetInstanceIdentifier() const
     {
       return m_InstanceIdentifier;
     }
 
-    ConstIterator & operator++()
+    ConstIterator &
+    operator++()
     {
       ++m_InstanceIdentifier;
       return *this;
     }
 
-    bool operator!=(const ConstIterator & it)
+    bool
+    operator!=(const ConstIterator & it)
     {
-      return ( m_InstanceIdentifier != it.m_InstanceIdentifier );
+      return (m_InstanceIdentifier != it.m_InstanceIdentifier);
     }
 
-    bool operator==(const ConstIterator & it)
+    bool
+    operator==(const ConstIterator & it)
     {
-      return ( m_InstanceIdentifier == it.m_InstanceIdentifier );
+      return (m_InstanceIdentifier == it.m_InstanceIdentifier);
     }
 
-protected:
+  protected:
     // This method should only be available to the ListSample class
-    ConstIterator(
-      const JointDomainImageToListSampleAdaptor *adaptor,
-      InstanceIdentifier iid)
+    ConstIterator(const JointDomainImageToListSampleAdaptor * adaptor, InstanceIdentifier iid)
     {
       m_Adaptor = adaptor;
       m_InstanceIdentifier = iid;
     }
 
-private:
+  private:
     ConstIterator() = delete;
-    mutable MeasurementVectorType              m_MeasurementVectorCache;
-    InstanceIdentifier                         m_InstanceIdentifier;
-    const JointDomainImageToListSampleAdaptor *m_Adaptor;
+    mutable MeasurementVectorType               m_MeasurementVectorCache;
+    InstanceIdentifier                          m_InstanceIdentifier;
+    const JointDomainImageToListSampleAdaptor * m_Adaptor;
   };
 
   /** \class Iterator
    * \brief Iterator
    * \ingroup ITKStatistics
    */
-  class Iterator:public ConstIterator
+  class Iterator : public ConstIterator
   {
     friend class JointDomainImageToListSampleAdaptor;
 
-public:
-
-    Iterator(Self *adaptor):ConstIterator(adaptor)
+  public:
+    Iterator(Self * adaptor)
+      : ConstIterator(adaptor)
     {}
 
-    Iterator(const Iterator & iter):ConstIterator(iter)
+    Iterator(const Iterator & iter)
+      : ConstIterator(iter)
     {}
 
-    Iterator & operator=(const Iterator & iter)
+    Iterator &
+    operator=(const Iterator & iter)
     {
       this->ConstIterator::operator=(iter);
       return *this;
     }
 
-protected:
-    Iterator(
-      const JointDomainImageToListSampleAdaptor *adaptor,
-      InstanceIdentifier iid):ConstIterator(adaptor, iid)
+  protected:
+    Iterator(const JointDomainImageToListSampleAdaptor * adaptor, InstanceIdentifier iid)
+      : ConstIterator(adaptor, iid)
     {}
 
-private:
+  private:
     // To ensure const-correctness these method must not be in the public API.
     // The are purposly not implemented, since they should never be called.
     Iterator() = delete;
-    Iterator(const Self *adaptor) = delete;
+    Iterator(const Self * adaptor) = delete;
     Iterator(const ConstIterator & it) = delete;
-    ConstIterator & operator=(const ConstIterator & it) = delete;
-
+    ConstIterator &
+    operator=(const ConstIterator & it) = delete;
   };
 
   /** returns an iterator that points to the beginning of the container */
-  Iterator Begin()
+  Iterator
+  Begin()
   {
     Iterator iter(this, 0);
 
@@ -299,15 +307,17 @@ private:
   }
 
   /** returns an iterator that points to the end of the container */
-  Iterator End()
+  Iterator
+  End()
   {
-    Iterator iter( this, m_Image->GetPixelContainer()->Size() );
+    Iterator iter(this, m_Image->GetPixelContainer()->Size());
 
     return iter;
   }
 
   /** returns an iterator that points to the beginning of the container */
-  ConstIterator Begin() const
+  ConstIterator
+  Begin() const
   {
     ConstIterator iter(this, 0);
 
@@ -315,9 +325,10 @@ private:
   }
 
   /** returns an iterator that points to the end of the container */
-  ConstIterator End() const
+  ConstIterator
+  End() const
   {
-    ConstIterator iter( this, m_Image->GetPixelContainer()->Size() );
+    ConstIterator iter(this, m_Image->GetPixelContainer()->Size());
 
     return iter;
   }
@@ -325,7 +336,8 @@ private:
 protected:
   JointDomainImageToListSampleAdaptor();
   ~JointDomainImageToListSampleAdaptor() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   NormalizationFactorsType                 m_NormalizationFactors;
@@ -337,12 +349,12 @@ private:
   bool                                     m_UsePixelContainer;
 
   PixelContainerConstPointer m_PixelContainer;
-};  // end of class JointDomainImageToListSampleAdaptor
+}; // end of class JointDomainImageToListSampleAdaptor
 } // end of namespace Statistics
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkJointDomainImageToListSampleAdaptor.hxx"
+#  include "itkJointDomainImageToListSampleAdaptor.hxx"
 #endif
 
 #endif

@@ -19,7 +19,8 @@
 #include "itkLightObject.h"
 
 // Excersise the LightObject methods
-int itkLightObjectTest(int, char* [] )
+int
+itkLightObjectTest(int, char *[])
 {
 
 
@@ -33,7 +34,7 @@ int itkLightObjectTest(int, char* [] )
   std::cout << "sizeof(itk::LightObject) = " << sizeof(ObjectType) << std::endl;
 
   std::cout << "Printing LightObject: " << std::endl;
-  light->Print( std::cout );
+  light->Print(std::cout);
 
   std::cout << "Printing LightObject via operator: " << *light << std::endl;
 
@@ -42,34 +43,34 @@ int itkLightObjectTest(int, char* [] )
   std::cout << counts1 << std::endl;
 
   { // initialize scope for a SmartPointer
-      ObjectType::Pointer secondreference = light;
-      const int counts2 = light->GetReferenceCount();
-      if( counts2 != counts1+1 )
-        {
-        std::cerr << "Problem in Reference counting increment" << std::endl;
-        std::cout << "Test FAILED !" << std::endl;
-        return EXIT_FAILURE;
-        }
-      else
-        {
-        std::cout << "After assignment to another SmartPointer" << std::endl;
-        std::cout << "reference count is:  " << counts2 << std::endl;
-        }
+    ObjectType::Pointer secondreference = light;
+    const int           counts2 = light->GetReferenceCount();
+    if (counts2 != counts1 + 1)
+    {
+      std::cerr << "Problem in Reference counting increment" << std::endl;
+      std::cout << "Test FAILED !" << std::endl;
+      return EXIT_FAILURE;
+    }
+    else
+    {
+      std::cout << "After assignment to another SmartPointer" << std::endl;
+      std::cout << "reference count is:  " << counts2 << std::endl;
+    }
   } // terminate the scope for the SmartPointer. Reference count should
     // decrement at this point.
 
   const int counts3 = light->GetReferenceCount();
-  if( counts3 != counts1 )
-    {
+  if (counts3 != counts1)
+  {
     std::cerr << "Problem in Reference counting decrement" << std::endl;
     std::cout << "Test FAILED !" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   else
-    {
+  {
     std::cout << "After destroying one SmartPointer" << std::endl;
     std::cout << "reference count is:  " << counts3 << std::endl;
-    }
+  }
 
   std::cout << "Test PASSED !" << std::endl;
 

@@ -40,7 +40,7 @@ namespace itk
  * \ingroup DataAccess
  * \ingroup ITKCommon
  */
-template< typename TObjectType >
+template <typename TObjectType>
 class WeakPointer
 {
 public:
@@ -48,105 +48,132 @@ public:
   using ObjectType = TObjectType;
 
   /** Constructor.  */
-  WeakPointer ()
-  { m_Pointer = nullptr; }
+  WeakPointer() { m_Pointer = nullptr; }
 
   /** Copy constructor.  */
-  WeakPointer (const WeakPointer< ObjectType > & p) = default;
+  WeakPointer(const WeakPointer<ObjectType> & p) = default;
 
   /** Move constructor */
-  WeakPointer (WeakPointer< ObjectType > && p) = default;
+  WeakPointer(WeakPointer<ObjectType> && p) = default;
 
   /** Constructor to pointer p.  */
-  WeakPointer (ObjectType *p):m_Pointer(p) {}
+  WeakPointer(ObjectType * p)
+    : m_Pointer(p)
+  {}
 
   /** Destructor.  */
-  ~WeakPointer () = default;
+  ~WeakPointer() = default;
 
   /** Overload operator ->.  */
-  ObjectType * operator->() const
-  { return m_Pointer; }
+  ObjectType * operator->() const { return m_Pointer; }
 
   /** Return pointer to object.  */
-  operator ObjectType *() const
-        { return m_Pointer; }
+  operator ObjectType *() const { return m_Pointer; }
 
   /** Template comparison operators. */
-  template< typename R >
-  bool operator==(R r) const
+  template <typename R>
+  bool
+  operator==(R r) const
   {
-    return ( m_Pointer == (ObjectType *)r );
+    return (m_Pointer == (ObjectType *)r);
   }
 
-  template< typename R >
-  bool operator!=(R r) const
+  template <typename R>
+  bool
+  operator!=(R r) const
   {
-    return ( m_Pointer != (ObjectType *)r );
+    return (m_Pointer != (ObjectType *)r);
   }
 
   /** Access function to pointer. */
-  ObjectType * GetPointer() const
-  { return m_Pointer; }
+  ObjectType *
+  GetPointer() const
+  {
+    return m_Pointer;
+  }
 
   /** Test if the pointer is not NULL. */
-  bool IsNotNull() const
-  { return m_Pointer != nullptr; }
+  bool
+  IsNotNull() const
+  {
+    return m_Pointer != nullptr;
+  }
 
   /** Test if the pointer is NULL. */
-  bool IsNull() const
-  { return m_Pointer == nullptr; }
+  bool
+  IsNull() const
+  {
+    return m_Pointer == nullptr;
+  }
 
   /** Comparison of pointers. Less than comparison.  */
-  bool operator<(const WeakPointer & r) const
-  { return (void *)m_Pointer < (void *)r.m_Pointer; }
+  bool
+  operator<(const WeakPointer & r) const
+  {
+    return (void *)m_Pointer < (void *)r.m_Pointer;
+  }
 
   /** Comparison of pointers. Greater than comparison.  */
-  bool operator>(const WeakPointer & r) const
-  { return (void *)m_Pointer > (void *)r.m_Pointer; }
+  bool
+  operator>(const WeakPointer & r) const
+  {
+    return (void *)m_Pointer > (void *)r.m_Pointer;
+  }
 
   /** Comparison of pointers. Less than or equal to comparison.  */
-  bool operator<=(const WeakPointer & r) const
-  { return (void *)m_Pointer <= (void *)r.m_Pointer; }
+  bool
+  operator<=(const WeakPointer & r) const
+  {
+    return (void *)m_Pointer <= (void *)r.m_Pointer;
+  }
 
   /** Comparison of pointers. Greater than or equal to comparison.  */
-  bool operator>=(const WeakPointer & r) const
-  { return (void *)m_Pointer >= (void *)r.m_Pointer; }
+  bool
+  operator>=(const WeakPointer & r) const
+  {
+    return (void *)m_Pointer >= (void *)r.m_Pointer;
+  }
 
   /** Overload operator assignment.  */
   // cppcheck-suppress operatorEqVarError
-  WeakPointer & operator=(const WeakPointer & r) = default;
+  WeakPointer &
+  operator=(const WeakPointer & r) = default;
 
-  WeakPointer & operator=(WeakPointer && r) = default;
+  WeakPointer &
+  operator=(WeakPointer && r) = default;
 
   /** Overload operator assignment.  */
-  WeakPointer & operator=(ObjectType *r)
+  WeakPointer &
+  operator=(ObjectType * r)
   {
     m_Pointer = r;
     return *this;
   }
 
   /** Function to print object pointed to.  */
-  ObjectType * Print(std::ostream & os) const
+  ObjectType *
+  Print(std::ostream & os) const
   {
-    if( this->IsNull() )
-      {
+    if (this->IsNull())
+    {
       os << "(null)";
-      }
+    }
     else
-      {
+    {
       // This prints the object pointed to by the pointer
-      ( *m_Pointer ).Print(os);
-      }
+      (*m_Pointer).Print(os);
+    }
     return m_Pointer;
   }
 
 private:
   /** The pointer to the object referred to by this smart pointer. */
-  ObjectType *m_Pointer;
+  ObjectType * m_Pointer;
 };
 
-template< typename T >
-std::ostream & operator<<(std::ostream & os, WeakPointer< T > p)
+template <typename T>
+std::ostream &
+operator<<(std::ostream & os, WeakPointer<T> p)
 {
   p.Print(os);
   return os;

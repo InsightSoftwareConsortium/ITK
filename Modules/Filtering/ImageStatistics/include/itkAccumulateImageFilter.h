@@ -50,17 +50,17 @@ namespace itk
  * \ingroup   IntensityImageFilters     SingleThreaded
  * \ingroup ITKImageStatistics
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT AccumulateImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT AccumulateImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AccumulateImageFilter);
 
   /** Standard class type aliases. */
   using Self = AccumulateImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -70,14 +70,14 @@ public:
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;
-  using InputImagePointer = typename    InputImageType::Pointer;
-  using InputImageRegionType = typename    InputImageType::RegionType;
-  using InputImagePixelType = typename    InputImageType::PixelType;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
   using OutputImageType = TOutputImage;
-  using OutputImagePointer = typename     OutputImageType::Pointer;
-  using OutputImageRegionType = typename     OutputImageType::RegionType;
-  using OutputImagePixelType = typename     OutputImageType::PixelType;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** ImageDimension enumeration */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
@@ -87,9 +87,7 @@ public:
       dimension must be one less than that of the input. */
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( ImageDimensionCheck,
-                   ( Concept::SameDimension< Self::InputImageDimension,
-                                             Self::OutputImageDimension > ) );
+  itkConceptMacro(ImageDimensionCheck, (Concept::SameDimension<Self::InputImageDimension, Self::OutputImageDimension>));
   // End concept checking
 #endif
 
@@ -111,19 +109,23 @@ public:
 protected:
   AccumulateImageFilter();
   ~AccumulateImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Apply changes to the output image information. */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** Apply changes to the input image requested region. */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** This method implements the actual accumulation of the image.
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   unsigned int m_AccumulateDimension;
@@ -132,7 +134,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAccumulateImageFilter.hxx"
+#  include "itkAccumulateImageFilter.hxx"
 #endif
 
 #endif

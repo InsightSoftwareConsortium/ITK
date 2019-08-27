@@ -25,12 +25,11 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-ShiftScaleImageFilter< TInputImage, TOutputImage >
-::ShiftScaleImageFilter()
+template <typename TInputImage, typename TOutputImage>
+ShiftScaleImageFilter<TInputImage, TOutputImage>::ShiftScaleImageFilter()
 {
-  m_Shift = NumericTraits< RealType >::ZeroValue();
-  m_Scale = NumericTraits< RealType >::OneValue();
+  m_Shift = NumericTraits<RealType>::ZeroValue();
+  m_Scale = NumericTraits<RealType>::OneValue();
   m_UnderflowCount = 0;
   m_OverflowCount = 0;
   m_ThreadUnderflow.SetSize(1);
@@ -40,10 +39,9 @@ ShiftScaleImageFilter< TInputImage, TOutputImage >
   this->DynamicMultiThreadingOff();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ShiftScaleImageFilter< TInputImage, TOutputImage >
-::BeforeThreadedGenerateData()
+ShiftScaleImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
@@ -56,10 +54,9 @@ ShiftScaleImageFilter< TInputImage, TOutputImage >
   m_OutputImage = this->GetOutput();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ShiftScaleImageFilter< TInputImage, TOutputImage >
-::AfterThreadedGenerateData()
+ShiftScaleImageFilter<TInputImage, TOutputImage>::AfterThreadedGenerateData()
 {
   ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
@@ -67,64 +64,63 @@ ShiftScaleImageFilter< TInputImage, TOutputImage >
   m_OverflowCount = 0;
 
   // Accumulate counts for each thread
-  for ( ThreadIdType i = 0; i < numberOfThreads; i++ )
-    {
+  for (ThreadIdType i = 0; i < numberOfThreads; i++)
+  {
     m_UnderflowCount += m_ThreadUnderflow[i];
     m_OverflowCount += m_ThreadOverflow[i];
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ShiftScaleImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+ShiftScaleImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread,
+  ThreadIdType                  threadId)
 {
   RealType value;
 
-  ImageRegionConstIterator< TInputImage > it (this->m_InputImage, outputRegionForThread);
-  ImageRegionIterator< TOutputImage >     ot (this->m_OutputImage, outputRegionForThread);
+  ImageRegionConstIterator<TInputImage> it(this->m_InputImage, outputRegionForThread);
+  ImageRegionIterator<TOutputImage>     ot(this->m_OutputImage, outputRegionForThread);
 
   // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
 
   // shift and scale the input pixels
-  while ( !it.IsAtEnd() )
+  while (!it.IsAtEnd())
+  {
+    value = (static_cast<RealType>(it.Get()) + m_Shift) * m_Scale;
+    if (value < NumericTraits<OutputImagePixelType>::NonpositiveMin())
     {
-    value = ( static_cast< RealType >( it.Get() ) + m_Shift ) * m_Scale;
-    if ( value < NumericTraits< OutputImagePixelType >::NonpositiveMin() )
-      {
-      ot.Set ( NumericTraits< OutputImagePixelType >::NonpositiveMin() );
+      ot.Set(NumericTraits<OutputImagePixelType>::NonpositiveMin());
       m_ThreadUnderflow[threadId]++;
-      }
-    else if ( value > NumericTraits< OutputImagePixelType >::max() )
-      {
-      ot.Set ( NumericTraits< OutputImagePixelType >::max() );
+    }
+    else if (value > NumericTraits<OutputImagePixelType>::max())
+    {
+      ot.Set(NumericTraits<OutputImagePixelType>::max());
       m_ThreadOverflow[threadId]++;
-      }
+    }
     else
-      {
-      ot.Set( static_cast< OutputImagePixelType >( value ) );
-      }
+    {
+      ot.Set(static_cast<OutputImagePixelType>(value));
+    }
     ++it;
     ++ot;
 
     progress.CompletedPixel();
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ShiftScaleImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+ShiftScaleImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Shift: "  << m_Shift << std::endl;
-  os << indent << "Scale: "  << m_Scale << std::endl;
+  os << indent << "Shift: " << m_Shift << std::endl;
+  os << indent << "Scale: " << m_Scale << std::endl;
   os << indent << "Computed values follow:" << std::endl;
-  os << indent << "UnderflowCount: "  << m_UnderflowCount << std::endl;
-  os << indent << "OverflowCount: "  << m_OverflowCount << std::endl;
+  os << indent << "UnderflowCount: " << m_UnderflowCount << std::endl;
+  os << indent << "OverflowCount: " << m_OverflowCount << std::endl;
 }
 } // end namespace itk
 #endif

@@ -25,56 +25,54 @@
 namespace itk
 {
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>
-::IntegrateVelocityField()
+TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>::IntegrateVelocityField()
 {
-  if( this->GetVelocityField() )
-    {
-    using IntegratorType = TimeVaryingVelocityFieldIntegrationImageFilter
-      <VelocityFieldType, DisplacementFieldType>;
+  if (this->GetVelocityField())
+  {
+    using IntegratorType = TimeVaryingVelocityFieldIntegrationImageFilter<VelocityFieldType, DisplacementFieldType>;
 
     typename IntegratorType::Pointer integrator = IntegratorType::New();
-    integrator->SetInput( this->GetVelocityField() );
-    integrator->SetLowerTimeBound( this->GetLowerTimeBound() );
-    integrator->SetUpperTimeBound( this->GetUpperTimeBound() );
+    integrator->SetInput(this->GetVelocityField());
+    integrator->SetLowerTimeBound(this->GetLowerTimeBound());
+    integrator->SetUpperTimeBound(this->GetUpperTimeBound());
 
-    if( this->GetVelocityFieldInterpolator() )
-      {
-      integrator->SetVelocityFieldInterpolator( this->GetModifiableVelocityFieldInterpolator() );
-      }
+    if (this->GetVelocityFieldInterpolator())
+    {
+      integrator->SetVelocityFieldInterpolator(this->GetModifiableVelocityFieldInterpolator());
+    }
 
-    integrator->SetNumberOfIntegrationSteps( this->GetNumberOfIntegrationSteps() );
+    integrator->SetNumberOfIntegrationSteps(this->GetNumberOfIntegrationSteps());
     integrator->Update();
 
     typename DisplacementFieldType::Pointer displacementField = integrator->GetOutput();
     displacementField->DisconnectPipeline();
 
-    this->SetDisplacementField( displacementField );
-    this->GetModifiableInterpolator()->SetInputImage( displacementField );
+    this->SetDisplacementField(displacementField);
+    this->GetModifiableInterpolator()->SetInputImage(displacementField);
 
     typename IntegratorType::Pointer inverseIntegrator = IntegratorType::New();
-    inverseIntegrator->SetInput( this->GetVelocityField() );
-    inverseIntegrator->SetLowerTimeBound( this->GetUpperTimeBound() );
-    inverseIntegrator->SetUpperTimeBound( this->GetLowerTimeBound() );
-    if( !this->GetVelocityFieldInterpolator() )
-      {
-      inverseIntegrator->SetVelocityFieldInterpolator( this->GetModifiableVelocityFieldInterpolator() );
-      }
+    inverseIntegrator->SetInput(this->GetVelocityField());
+    inverseIntegrator->SetLowerTimeBound(this->GetUpperTimeBound());
+    inverseIntegrator->SetUpperTimeBound(this->GetLowerTimeBound());
+    if (!this->GetVelocityFieldInterpolator())
+    {
+      inverseIntegrator->SetVelocityFieldInterpolator(this->GetModifiableVelocityFieldInterpolator());
+    }
 
-    inverseIntegrator->SetNumberOfIntegrationSteps( this->GetNumberOfIntegrationSteps() );
+    inverseIntegrator->SetNumberOfIntegrationSteps(this->GetNumberOfIntegrationSteps());
     inverseIntegrator->Update();
 
     typename DisplacementFieldType::Pointer inverseDisplacementField = inverseIntegrator->GetOutput();
     inverseDisplacementField->DisconnectPipeline();
 
-    this->SetInverseDisplacementField( inverseDisplacementField );
-    }
+    this->SetInverseDisplacementField(inverseDisplacementField);
+  }
   else
-    {
-    itkExceptionMacro( "The velocity field does not exist." );
-    }
+  {
+    itkExceptionMacro("The velocity field does not exist.");
+  }
 }
 
 } // namespace itk

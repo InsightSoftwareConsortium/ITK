@@ -24,28 +24,25 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TMaskImage, typename TOutputImage >
-KappaSigmaThresholdImageFilter< TInputImage, TMaskImage, TOutputImage >
-::KappaSigmaThresholdImageFilter() :
-  m_MaskValue( NumericTraits<MaskPixelType>::max() ),
-  m_Threshold( NumericTraits<InputPixelType>::ZeroValue() ),
-  m_InsideValue( NumericTraits<OutputPixelType>::max() ),
-  m_OutsideValue( NumericTraits<OutputPixelType>::ZeroValue() )
-{
-}
+template <typename TInputImage, typename TMaskImage, typename TOutputImage>
+KappaSigmaThresholdImageFilter<TInputImage, TMaskImage, TOutputImage>::KappaSigmaThresholdImageFilter()
+  : m_MaskValue(NumericTraits<MaskPixelType>::max())
+  , m_Threshold(NumericTraits<InputPixelType>::ZeroValue())
+  , m_InsideValue(NumericTraits<OutputPixelType>::max())
+  , m_OutsideValue(NumericTraits<OutputPixelType>::ZeroValue())
+{}
 
-template< typename TInputImage, typename TMaskImage, typename TOutputImage >
+template <typename TInputImage, typename TMaskImage, typename TOutputImage>
 void
-KappaSigmaThresholdImageFilter< TInputImage, TMaskImage, TOutputImage >
-::GenerateData()
+KappaSigmaThresholdImageFilter<TInputImage, TMaskImage, TOutputImage>::GenerateData()
 {
   typename ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   // Compute the Threshold for the input image
   typename CalculatorType::Pointer thresholdImageCalculator = CalculatorType::New();
-  thresholdImageCalculator->SetImage( this->GetInput() );
-  thresholdImageCalculator->SetMask( this->GetMaskImage() );
+  thresholdImageCalculator->SetImage(this->GetInput());
+  thresholdImageCalculator->SetMask(this->GetMaskImage());
   thresholdImageCalculator->SetMaskValue(m_MaskValue);
   thresholdImageCalculator->SetSigmaFactor(m_SigmaFactor);
   thresholdImageCalculator->SetNumberOfIterations(m_NumberOfIterations);
@@ -53,45 +50,45 @@ KappaSigmaThresholdImageFilter< TInputImage, TMaskImage, TOutputImage >
 
   m_Threshold = thresholdImageCalculator->GetOutput();
 
-  typename BinaryThresholdImageFilter< TInputImage, TOutputImage >::Pointer threshold =
-    BinaryThresholdImageFilter< TInputImage, TOutputImage >::New();
+  typename BinaryThresholdImageFilter<TInputImage, TOutputImage>::Pointer threshold =
+    BinaryThresholdImageFilter<TInputImage, TOutputImage>::New();
 
   progress->RegisterInternalFilter(threshold, .5f);
-  threshold->GraftOutput ( this->GetOutput() );
-  threshold->SetInput ( this->GetInput() );
+  threshold->GraftOutput(this->GetOutput());
+  threshold->SetInput(this->GetInput());
   threshold->SetLowerThreshold(m_Threshold);
-  threshold->SetInsideValue (m_InsideValue);
-  threshold->SetOutsideValue (m_OutsideValue);
+  threshold->SetInsideValue(m_InsideValue);
+  threshold->SetOutsideValue(m_OutsideValue);
   threshold->Update();
 
-  this->GraftOutput( threshold->GetOutput() );
+  this->GraftOutput(threshold->GetOutput());
 }
 
-template< typename TInputImage, typename TMaskImage, typename TOutputImage >
+template <typename TInputImage, typename TMaskImage, typename TOutputImage>
 void
-KappaSigmaThresholdImageFilter< TInputImage, TMaskImage, TOutputImage >
-::GenerateInputRequestedRegion()
+KappaSigmaThresholdImageFilter<TInputImage, TMaskImage, TOutputImage>::GenerateInputRequestedRegion()
 {
-  const_cast< TInputImage * >( this->GetInput() )->SetRequestedRegionToLargestPossibleRegion();
+  const_cast<TInputImage *>(this->GetInput())->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< typename TInputImage, typename TMaskImage, typename TOutputImage >
+template <typename TInputImage, typename TMaskImage, typename TOutputImage>
 void
-KappaSigmaThresholdImageFilter< TInputImage, TMaskImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+KappaSigmaThresholdImageFilter<TInputImage, TMaskImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Threshold: " << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_Threshold )
+  os << indent << "Threshold: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold)
      << std::endl;
-  os << indent << "MaskValue: " << static_cast< typename NumericTraits< MaskPixelType >::PrintType >( m_MaskValue )
+  os << indent << "MaskValue: " << static_cast<typename NumericTraits<MaskPixelType>::PrintType>(m_MaskValue)
      << std::endl;
   os << indent << "SigmaFactor: " << m_SigmaFactor << std::endl;
   os << indent << "NumberOfIterations: " << this->m_NumberOfIterations << std::endl;
-  os << indent << "Inside value: "
-     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( this->m_InsideValue ) << std::endl;
-  os << indent << "Outside value: "
-     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( this->m_OutsideValue ) << std::endl;
+  os << indent
+     << "Inside value: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->m_InsideValue)
+     << std::endl;
+  os << indent
+     << "Outside value: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->m_OutsideValue)
+     << std::endl;
 }
 } // end namespace itk
 #endif

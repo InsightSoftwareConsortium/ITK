@@ -39,19 +39,17 @@ public:
   using OutputComponentType = typename OutputConvertTraits::ComponentType;
 
   /** General method converts from one type to another. */
-  static void Convert(InputPixelType* inputData,
-                      int inputNumberOfComponents,
-                      VariableLengthVector<T>* outputData ,
-                      size_t size);
+  static void
+  Convert(InputPixelType * inputData, int inputNumberOfComponents, VariableLengthVector<T> * outputData, size_t size);
 
 private:
   ConvertPixelBuffer() = delete;
   ~ConvertPixelBuffer() = delete;
 };
-} //namespace ITK
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkConvertVariableLengthVectorPixelBuffer.hxx"
+#  include "itkConvertVariableLengthVectorPixelBuffer.hxx"
 #endif
 
 #endif // itkConvertVariableLengthVectorPixelBuffer_h

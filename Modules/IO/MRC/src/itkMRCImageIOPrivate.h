@@ -35,7 +35,7 @@ namespace itk
 namespace
 {
 
-const char *const magicMAP = "MAP ";
+const char * const magicMAP = "MAP ";
 
 ///////////////////////////////////////////////////
 
@@ -48,59 +48,60 @@ const char *const magicMAP = "MAP ";
 /// Uses the < operator to determin ordering
 /// If first == last then return is pair(first,first);
 /// otherwise is it pair(min, max)
-template< typename TInputIter >
-inline std::pair< TInputIter, TInputIter > min_max_element(TInputIter first, TInputIter last)
+template <typename TInputIter>
+inline std::pair<TInputIter, TInputIter>
+min_max_element(TInputIter first, TInputIter last)
 {
-  std::pair< TInputIter, TInputIter > result(first, first);
+  std::pair<TInputIter, TInputIter> result(first, first);
 
-  if ( first == last )
-    {
+  if (first == last)
+  {
     return result;
-    }
+  }
 
-  while ( ++first != last )
-    {
+  while (++first != last)
+  {
     TInputIter prev = first;
-    if ( ++first == last )
+    if (++first == last)
+    {
+      if (*prev < *(result.first))
       {
-      if ( *prev < *( result.first ) )
-        {
         result.first = prev;
-        }
-      if ( *( result.second ) < *prev )
-        {
+      }
+      if (*(result.second) < *prev)
+      {
         result.second = prev;
-        }
+      }
       break;
-      }
-    else if ( *first < *prev )
+    }
+    else if (*first < *prev)
+    {
+      if (*first < *(result.first))
       {
-      if ( *first < *( result.first ) )
-        {
         result.first = first;
-        }
-      if ( *( result.second ) < *prev )
-        {
-        result.second = prev;
-        }
       }
-    else
+      if (*(result.second) < *prev)
       {
-      if ( *prev < *( result.first ) )
-        {
-        result.first = prev;
-        }
-      if ( *( result.second ) < *first )
-        {
-        result.second = first;
-        }
+        result.second = prev;
       }
     }
+    else
+    {
+      if (*prev < *(result.first))
+      {
+        result.first = prev;
+      }
+      if (*(result.second) < *first)
+      {
+        result.second = first;
+      }
+    }
+  }
   return result;
 }
 
 } // end anonymous namespace
 
-} // end itk namespace
+} // namespace itk
 
-#endif //itkMRCImageIOPrivate_h
+#endif // itkMRCImageIOPrivate_h

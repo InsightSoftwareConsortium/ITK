@@ -36,17 +36,16 @@ namespace itk
  * \ingroup DataSources
  * \ingroup ITKImageSources
  */
-template< typename TOutputImage >
-class ITK_TEMPLATE_EXPORT GenerateImageSource
-  : public ImageSource< TOutputImage >
+template <typename TOutputImage>
+class ITK_TEMPLATE_EXPORT GenerateImageSource : public ImageSource<TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GenerateImageSource);
 
   using Self = GenerateImageSource;
-  using Superclass = ImageSource< TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self>;
+  using Superclass = ImageSource<TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Output image type alias */
   using OutputImageType = TOutputImage;
@@ -111,7 +110,8 @@ public:
   itkGetConstReferenceMacro(StartIndex, IndexType);
 
   /** Helper method to set the output parameters based on an image. */
-  void SetOutputParametersFromImage(const ReferenceImageBaseType *image);
+  void
+  SetOutputParametersFromImage(const ReferenceImageBaseType * image);
 
   /** Set a reference image to use to define the output information.
    *  By default, output information is specificed through the
@@ -126,24 +126,25 @@ public:
 protected:
   GenerateImageSource();
   ~GenerateImageSource() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
 private:
-  SizeType      m_Size;          //size of the output image
+  SizeType      m_Size; // size of the output image
   SpacingType   m_Spacing;
   PointType     m_Origin;
   DirectionType m_Direction;
   IndexType     m_StartIndex;
   bool          m_UseReferenceImage{ false };
-
 };
 
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGenerateImageSource.hxx"
+#  include "itkGenerateImageSource.hxx"
 #endif
 
-#endif //itkGenerateImageSource_h
+#endif // itkGenerateImageSource_h

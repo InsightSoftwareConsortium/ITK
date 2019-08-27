@@ -33,18 +33,18 @@ namespace itk
  *  \sa MetaConverterBase
  *  \ingroup ITKSpatialObjects
  */
-template< unsigned int NDimensions = 3 >
-class MetaImageMaskConverter :
-    public MetaImageConverter< NDimensions, unsigned char, ImageMaskSpatialObject< NDimensions > >
+template <unsigned int NDimensions = 3>
+class MetaImageMaskConverter
+  : public MetaImageConverter<NDimensions, unsigned char, ImageMaskSpatialObject<NDimensions>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaImageMaskConverter);
 
   /** Standard class type aliases */
   using Self = MetaImageMaskConverter;
-  using Superclass = MetaImageConverter< NDimensions, unsigned char >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MetaImageConverter<NDimensions, unsigned char>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -53,7 +53,8 @@ public:
   itkTypeMacro(MetaImageMaskConverter, MetaImageConverter);
 
 protected:
-  const char *GetMetaObjectSubType() override
+  const char *
+  GetMetaObjectSubType() override
   {
     return "Mask";
   }

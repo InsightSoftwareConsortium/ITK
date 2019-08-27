@@ -62,17 +62,17 @@ namespace itk
  *
  * \ingroup ITKReview
  */
-template< typename TInputImage, typename TFeatureImage, typename TSharedData >
-class ITK_TEMPLATE_EXPORT ScalarRegionBasedLevelSetFunction:
-  public RegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
+template <typename TInputImage, typename TFeatureImage, typename TSharedData>
+class ITK_TEMPLATE_EXPORT ScalarRegionBasedLevelSetFunction
+  : public RegionBasedLevelSetFunction<TInputImage, TFeatureImage, TSharedData>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarRegionBasedLevelSetFunction);
 
   using Self = ScalarRegionBasedLevelSetFunction;
-  using Superclass = RegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = RegionBasedLevelSetFunction<TInputImage, TFeatureImage, TSharedData>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   // itkNewMacro() is not provided since this is an abstract class.
 
@@ -110,46 +110,52 @@ public:
   using SharedDataType = typename Superclass::SharedDataType;
   using SharedDataPointer = typename Superclass::SharedDataPointer;
 
-  using ImageIteratorType = ImageRegionIteratorWithIndex< InputImageType >;
-  using ConstImageIteratorType = ImageRegionConstIteratorWithIndex< InputImageType >;
-  using FeatureImageIteratorType = ImageRegionIteratorWithIndex< FeatureImageType >;
-  using ConstFeatureIteratorType = ImageRegionConstIterator< FeatureImageType >;
+  using ImageIteratorType = ImageRegionIteratorWithIndex<InputImageType>;
+  using ConstImageIteratorType = ImageRegionConstIteratorWithIndex<InputImageType>;
+  using FeatureImageIteratorType = ImageRegionIteratorWithIndex<FeatureImageType>;
+  using ConstFeatureIteratorType = ImageRegionConstIterator<FeatureImageType>;
 
-  using ListPixelType = std::list< unsigned int >;
+  using ListPixelType = std::list<unsigned int>;
   using ListPixelConstIterator = typename ListPixelType::const_iterator;
   using ListPixelIterator = typename ListPixelType::iterator;
-  using ListImageType =
-      Image< ListPixelType, Self::ImageDimension >;
+  using ListImageType = Image<ListPixelType, Self::ImageDimension>;
 
   /** \brief Performs the narrow-band update of the Heaviside function for each
   voxel. The characteristic function of each region is recomputed (note the
   shared data which contains information from the other level sets). Using the
   new H values, the previous c_i are updated. */
-  void UpdatePixel(const unsigned int & idx,
-                   NeighborhoodIterator< TInputImage > & iterator,
-                   InputPixelType & newValue,
-                   bool & status);
+  void
+  UpdatePixel(const unsigned int &                idx,
+              NeighborhoodIterator<TInputImage> & iterator,
+              InputPixelType &                    newValue,
+              bool &                              status);
 
 protected:
-  ScalarRegionBasedLevelSetFunction():Superclass(){}
-  ~ScalarRegionBasedLevelSetFunction() override{}
+  ScalarRegionBasedLevelSetFunction()
+    : Superclass()
+  {}
+  ~ScalarRegionBasedLevelSetFunction() override {}
 
-  ScalarValueType ComputeOverlapParameters(const FeatureIndexType & featIndex,
-                                           ScalarValueType & product) override;
+  ScalarValueType
+  ComputeOverlapParameters(const FeatureIndexType & featIndex, ScalarValueType & product) override;
 
   // update the background and foreground constants for pixel updates
   // Called only when sparse filters are used to prevent iteration through the
   // entire image
-  virtual void UpdateSharedDataInsideParameters(const unsigned int & iId,
-                                                const FeaturePixelType & iVal, const ScalarValueType & iChange) = 0;
+  virtual void
+  UpdateSharedDataInsideParameters(const unsigned int &     iId,
+                                   const FeaturePixelType & iVal,
+                                   const ScalarValueType &  iChange) = 0;
 
-  virtual void UpdateSharedDataOutsideParameters(const unsigned int & iId,
-                                                 const FeaturePixelType & iVal, const ScalarValueType & iChange) = 0;
+  virtual void
+  UpdateSharedDataOutsideParameters(const unsigned int &     iId,
+                                    const FeaturePixelType & iVal,
+                                    const ScalarValueType &  iChange) = 0;
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarRegionBasedLevelSetFunction.hxx"
+#  include "itkScalarRegionBasedLevelSetFunction.hxx"
 #endif
 
 #endif

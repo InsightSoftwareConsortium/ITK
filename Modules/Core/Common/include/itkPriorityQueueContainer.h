@@ -32,8 +32,7 @@ namespace itk
 // this will let us define our own wrapper with different behavior.
 // As an example we define below a wrapper for a min sorted or max sorted
 // queue.
-template< typename TElement,
-          typename TElementIdentifier = IdentifierType >
+template <typename TElement, typename TElementIdentifier = IdentifierType>
 class ITK_TEMPLATE_EXPORT ElementWrapperInterface
 {
 public:
@@ -45,15 +44,17 @@ public:
   ElementWrapperInterface() = default;
   virtual ~ElementWrapperInterface() = default;
 
-  virtual ElementIdentifierType GetLocation(const ElementType & element) const = 0;
+  virtual ElementIdentifierType
+  GetLocation(const ElementType & element) const = 0;
 
-  virtual void SetLocation(ElementType & element, const ElementIdentifierType & identifier) = 0;
+  virtual void
+  SetLocation(ElementType & element, const ElementIdentifierType & identifier) = 0;
 
-  virtual bool is_less(const ElementType & element1,
-                       const ElementType & element2) const = 0;
+  virtual bool
+  is_less(const ElementType & element1, const ElementType & element2) const = 0;
 
-  virtual bool is_greater(const ElementType & element1,
-                          const ElementType & element2) const = 0;
+  virtual bool
+  is_greater(const ElementType & element1, const ElementType & element2) const = 0;
 };
 // ------------------------------------------------------------------------
 
@@ -64,8 +65,7 @@ public:
 // around pointers to items.  It follows the ElementWrapperInterface and thus
 // can be used in the queue.
 //
-template< typename TElementWrapperPointer,
-          typename TElementIdentifier = IdentifierType >
+template <typename TElementWrapperPointer, typename TElementIdentifier = IdentifierType>
 class ITK_TEMPLATE_EXPORT ElementWrapperPointerInterface
 {
 public:
@@ -77,16 +77,17 @@ public:
   ElementWrapperPointerInterface() = default;
   virtual ~ElementWrapperPointerInterface() = default;
 
-  TElementIdentifier GetLocation(const ElementWrapperPointerType & element) const;
+  TElementIdentifier
+  GetLocation(const ElementWrapperPointerType & element) const;
 
-  void SetLocation(ElementWrapperPointerType & element,
-                   const ElementIdentifierType & identifier);
+  void
+  SetLocation(ElementWrapperPointerType & element, const ElementIdentifierType & identifier);
 
-  virtual bool is_less(const ElementWrapperPointerType & element1,
-               const ElementWrapperPointerType & element2) const;
+  virtual bool
+  is_less(const ElementWrapperPointerType & element1, const ElementWrapperPointerType & element2) const;
 
-  virtual bool is_greater(const ElementWrapperPointerType & element1,
-                  const ElementWrapperPointerType & element2) const;
+  virtual bool
+  is_greater(const ElementWrapperPointerType & element1, const ElementWrapperPointerType & element2) const;
 };
 // ------------------------------------------------------------------------
 
@@ -99,22 +100,13 @@ public:
 // set according to the size of the vector you want to create.
 //
 // this implementation is used for min sorted priorityqueue
-template<
-  typename TElement,
-  typename TElementPriority = double,
-  typename TElementIdentifier = IdentifierType
-  >
-class ITK_TEMPLATE_EXPORT MinPriorityQueueElementWrapper:
-  public ElementWrapperInterface<
-    MinPriorityQueueElementWrapper< TElement,
-                                    TElementPriority,
-                                    TElementIdentifier >,
-    TElementIdentifier
-    >
+template <typename TElement, typename TElementPriority = double, typename TElementIdentifier = IdentifierType>
+class ITK_TEMPLATE_EXPORT MinPriorityQueueElementWrapper
+  : public ElementWrapperInterface<MinPriorityQueueElementWrapper<TElement, TElementPriority, TElementIdentifier>,
+                                   TElementIdentifier>
 {
 public:
-  using Superclass = MinPriorityQueueElementWrapper< TElement,
-    TElementPriority, TElementIdentifier >;
+  using Superclass = MinPriorityQueueElementWrapper<TElement, TElementPriority, TElementIdentifier>;
   using ElementType = TElement;
   using ElementPriorityType = TElementPriority;
   using ElementIdentifierType = TElementIdentifier;
@@ -125,29 +117,33 @@ public:
 
   MinPriorityQueueElementWrapper();
 
-  MinPriorityQueueElementWrapper(ElementType element,
-                                 ElementPriorityType priority);
+  MinPriorityQueueElementWrapper(ElementType element, ElementPriorityType priority);
 
   ~MinPriorityQueueElementWrapper() override = default;
 
-  bool operator>(const MinPriorityQueueElementWrapper & other) const;
+  bool
+  operator>(const MinPriorityQueueElementWrapper & other) const;
 
-  bool operator<(const MinPriorityQueueElementWrapper & other) const;
+  bool
+  operator<(const MinPriorityQueueElementWrapper & other) const;
 
-  bool operator==(const MinPriorityQueueElementWrapper & other) const;
+  bool
+  operator==(const MinPriorityQueueElementWrapper & other) const;
 
-  ElementIdentifierType GetLocation(const MinPriorityQueueElementWrapper & element) const override;
+  ElementIdentifierType
+  GetLocation(const MinPriorityQueueElementWrapper & element) const override;
 
-  void SetLocation(MinPriorityQueueElementWrapper & element,
-                   const ElementIdentifierType & identifier) override;
+  void
+  SetLocation(MinPriorityQueueElementWrapper & element, const ElementIdentifierType & identifier) override;
 
   // still virtual to be able to overload it in the Max flavor
-  bool is_less(const MinPriorityQueueElementWrapper & element1,
-                       const MinPriorityQueueElementWrapper & element2) const override;
+  bool
+  is_less(const MinPriorityQueueElementWrapper & element1,
+          const MinPriorityQueueElementWrapper & element2) const override;
 
-  bool is_greater(const MinPriorityQueueElementWrapper & element1,
-                          const MinPriorityQueueElementWrapper & element2) const override;
-
+  bool
+  is_greater(const MinPriorityQueueElementWrapper & element1,
+             const MinPriorityQueueElementWrapper & element2) const override;
 };
 // ------------------------------------------------------------------------
 
@@ -156,43 +152,33 @@ public:
 // this implementation is used for max sorted priorityqueue
 // most of the job is already done, just need to overload the less
 // and greater ops.
-template<
-  typename TElement,
-  typename TElementPriority = double,
-  typename TElementIdentifier = IdentifierType
-  >
-class ITK_TEMPLATE_EXPORT MaxPriorityQueueElementWrapper:
-  public MinPriorityQueueElementWrapper< TElement,
-                                         TElementPriority,
-                                         TElementIdentifier >
+template <typename TElement, typename TElementPriority = double, typename TElementIdentifier = IdentifierType>
+class ITK_TEMPLATE_EXPORT MaxPriorityQueueElementWrapper
+  : public MinPriorityQueueElementWrapper<TElement, TElementPriority, TElementIdentifier>
 {
 public:
   using ElementType = TElement;
   using ElementPriorityType = TElementPriority;
   using ElementIdentifierType = TElementIdentifier;
 
-  using Superclass = MinPriorityQueueElementWrapper< ElementType,
-                                          ElementPriorityType,
-                                          ElementIdentifierType >;
+  using Superclass = MinPriorityQueueElementWrapper<ElementType, ElementPriorityType, ElementIdentifierType>;
   MaxPriorityQueueElementWrapper();
 
-  MaxPriorityQueueElementWrapper(ElementType element,
-                                 ElementPriorityType priority);
+  MaxPriorityQueueElementWrapper(ElementType element, ElementPriorityType priority);
 
   ~MaxPriorityQueueElementWrapper() override = default;
 
-  virtual bool is_less(const MaxPriorityQueueElementWrapper & element1,
-               const MaxPriorityQueueElementWrapper & element2) const;
+  virtual bool
+  is_less(const MaxPriorityQueueElementWrapper & element1, const MaxPriorityQueueElementWrapper & element2) const;
 
-  bool is_less(const Superclass & element1,
-               const Superclass & element2) const override;
+  bool
+  is_less(const Superclass & element1, const Superclass & element2) const override;
 
-  virtual bool is_greater(const MaxPriorityQueueElementWrapper & element1,
-                  const MaxPriorityQueueElementWrapper & element2) const;
+  virtual bool
+  is_greater(const MaxPriorityQueueElementWrapper & element1, const MaxPriorityQueueElementWrapper & element2) const;
 
-  bool is_greater(const Superclass & element1,
-                  const Superclass & element2) const override;
-
+  bool
+  is_greater(const Superclass & element1, const Superclass & element2) const override;
 };
 // ------------------------------------------------------------------------
 
@@ -200,20 +186,17 @@ public:
 // ------------------------------------------------------------------------
 // finally, implement the priority queue itself on top of an
 // itk::VectorContainer
-template<
-  typename TElementWrapper,
-  typename TElementWrapperInterface,
-  typename TElementPriority = double,
-  typename TElementIdentifier = IdentifierType
-  >
-class ITK_TEMPLATE_EXPORT PriorityQueueContainer:
-  public VectorContainer< TElementIdentifier, TElementWrapper >
+template <typename TElementWrapper,
+          typename TElementWrapperInterface,
+          typename TElementPriority = double,
+          typename TElementIdentifier = IdentifierType>
+class ITK_TEMPLATE_EXPORT PriorityQueueContainer : public VectorContainer<TElementIdentifier, TElementWrapper>
 {
 public:
   using Self = PriorityQueueContainer;
-  using Superclass = VectorContainer< TElementIdentifier, TElementWrapper >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = VectorContainer<TElementIdentifier, TElementWrapper>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using ElementIdentifierType = TElementIdentifier;
   using ElementWrapperType = TElementWrapper;
@@ -225,94 +208,107 @@ public:
   PriorityQueueContainer();
   ~PriorityQueueContainer() override = default;
 
-  template< typename TInputIterator >
-  PriorityQueueContainer(TInputIterator first, TInputIterator last):
-    Superclass()
+  template <typename TInputIterator>
+  PriorityQueueContainer(TInputIterator first, TInputIterator last)
+    : Superclass()
   {
     TInputIterator it = first;
-    while( it != last )
-      {
-      this->Push( *it );
+    while (it != last)
+    {
+      this->Push(*it);
       ++it;
-      }
+    }
   }
 
 public:
   itkNewMacro(Self);
   itkTypeMacro(PriorityQueueContainer, VectorContainer);
 
-  //void Reserve( ElementIdentifier NbOfElementsToStore )
+  // void Reserve( ElementIdentifier NbOfElementsToStore )
   //{ this->Superclass->Reserve( NbOfElementsToStore ); }
-  //void Squeeze( ) { this->Superclass->Squeeze( ); }
-  void Clear();
-  bool Empty() const;
-  void Push(ElementWrapperType element);
+  // void Squeeze( ) { this->Superclass->Squeeze( ); }
+  void
+  Clear();
+  bool
+  Empty() const;
+  void
+  Push(ElementWrapperType element);
 
-  const ElementWrapperType & Peek() const;
+  const ElementWrapperType &
+  Peek() const;
 
-  void Pop();
+  void
+  Pop();
 
   /** Update element in container.
     \return true if the element is in the priority queue
     \return false else */
-  bool Update( const ElementWrapperType& element);
+  bool
+  Update(const ElementWrapperType & element);
 
   /** Delete element in the container.
     \return true if the element is in the priority queue
     \return false else */
-  bool DeleteElement( const ElementWrapperType& element);
+  bool
+  DeleteElement(const ElementWrapperType & element);
 
 protected:
-
   // One instance of the interface to deal with the functions calls
   ElementInterfaceType m_Interface;
 
-  inline ElementWrapperType & GetElementAtLocation( const ElementIdentifierType & identifier )
+  inline ElementWrapperType &
+  GetElementAtLocation(const ElementIdentifierType & identifier)
   {
     return this->operator[](identifier);
   }
 
-  inline const ElementWrapperType & GetElementAtLocation(const ElementIdentifierType & identifier) const
+  inline const ElementWrapperType &
+  GetElementAtLocation(const ElementIdentifierType & identifier) const
   {
     return this->operator[](identifier);
   }
 
-  inline void SetElementAtLocation(const ElementIdentifierType & identifier,
-                                   ElementWrapperType& element)
+  inline void
+  SetElementAtLocation(const ElementIdentifierType & identifier, ElementWrapperType & element)
   {
     this->operator[](identifier) = element;
     m_Interface.SetLocation(element, identifier);
   }
 
-  inline ElementIdentifierType GetParent(const ElementIdentifierType & identifier) const
+  inline ElementIdentifierType
+  GetParent(const ElementIdentifierType & identifier) const
   {
-    return ( ( identifier - 1 ) >> 1 );
+    return ((identifier - 1) >> 1);
   }
 
-  inline ElementIdentifierType GetLeft(const ElementIdentifierType & identifier) const
+  inline ElementIdentifierType
+  GetLeft(const ElementIdentifierType & identifier) const
   {
-    return ( ( identifier << 1 ) + 1 );
+    return ((identifier << 1) + 1);
   }
 
-  inline ElementIdentifierType GetRight(const ElementIdentifierType & identifier) const
+  inline ElementIdentifierType
+  GetRight(const ElementIdentifierType & identifier) const
   {
-    return ( ( identifier << 1 ) + 2 );
+    return ((identifier << 1) + 2);
   }
 
-  inline bool HasParent( const ElementIdentifierType& iId ) const
-    {
-    return ( iId > 0 );
-    }
+  inline bool
+  HasParent(const ElementIdentifierType & iId) const
+  {
+    return (iId > 0);
+  }
 
-  void UpdateUpTree(const ElementIdentifierType & identifier);
+  void
+  UpdateUpTree(const ElementIdentifierType & identifier);
 
 
-  void UpdateDownTree(const ElementIdentifierType & identifier);
-
+  void
+  UpdateDownTree(const ElementIdentifierType & identifier);
 };
 // ------------------------------------------------------------------------
 
-}
+} // namespace itk
 
 #include "itkPriorityQueueContainer.hxx"
 #endif

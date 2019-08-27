@@ -23,15 +23,16 @@
 #include "itkTestingMacros.h"
 
 
-int itkLoggerOutputTest( int argc, char *argv [] )
+int
+itkLoggerOutputTest(int argc, char * argv[])
 {
   try
-    {
+  {
     if (argc < 2)
-      {
+    {
       std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename" << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
 
     // Create an ITK StdStreamLogOutputs
@@ -63,7 +64,7 @@ int itkLoggerOutputTest( int argc, char *argv [] )
     // Create an ITK LoggerOutput and then test it.
     itk::LoggerOutput::Pointer pOver = itk::LoggerOutput::New();
     pOver->OverrideITKWindow();
-    pOver->SetLogger(logger);  // redirect messages from ITK OutputWindow -> logger2
+    pOver->SetLogger(logger); // redirect messages from ITK OutputWindow -> logger2
 
     // test message for ITK OutputWindow
     itk::OutputWindow::GetInstance()->DisplayText("** This is from ITK OutputWindow **\n");
@@ -71,13 +72,12 @@ int itkLoggerOutputTest( int argc, char *argv [] )
     itk::OutputWindow::GetInstance()->DisplayWarningText("** This is from ITK OutputWindow **\n");
     itk::OutputWindow::GetInstance()->DisplayErrorText("** This is from ITK OutputWindow **\n");
     itk::OutputWindow::GetInstance()->DisplayGenericOutputText("** This is from ITK OutputWindow **\n");
-
-    }
-  catch(...)
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Exception catched !!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "[PASSED]" << std::endl;
   return EXIT_SUCCESS;

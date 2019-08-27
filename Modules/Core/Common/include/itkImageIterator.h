@@ -61,8 +61,8 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT ImageIterator:public ImageConstIterator< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ImageIterator : public ImageConstIterator<TImage>
 {
 public:
   /** Standard class type aliases. */
@@ -75,7 +75,7 @@ public:
   static constexpr unsigned int ImageIteratorDimension = TImage::ImageDimension;
 
   /** Define the superclass */
-  using Superclass = ImageConstIterator< TImage >;
+  using Superclass = ImageConstIterator<TImage>;
 
   /** Inherit types from the superclass */
   using IndexType = typename Superclass::IndexType;
@@ -102,50 +102,53 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageIterator(TImage *ptr, const RegionType & region);
+  ImageIterator(TImage * ptr, const RegionType & region);
 
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
-  Self & operator=(const Self & it);
+  Self &
+  operator=(const Self & it);
 
   /** Set the pixel value */
-  void Set(const PixelType & value) const
+  void
+  Set(const PixelType & value) const
   {
     // const_cast is needed here because m_Buffer is declared as a const
     // pointer in the superclass which is the ConstIterator.
-    this->m_PixelAccessorFunctor.Set(
-      *( const_cast< InternalPixelType * >( this->m_Buffer ) + this->m_Offset ), value);
+    this->m_PixelAccessorFunctor.Set(*(const_cast<InternalPixelType *>(this->m_Buffer) + this->m_Offset), value);
   }
 
   /** Return a reference to the pixel
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  PixelType & Value()
+  PixelType &
+  Value()
   {
     // const_cast is needed here because m_Buffer is declared as a const
     // pointer in the superclass which is the ConstIterator.
-    return *( const_cast< InternalPixelType * >( this->m_Buffer ) + this->m_Offset );
+    return *(const_cast<InternalPixelType *>(this->m_Buffer) + this->m_Offset);
   }
 
   /** Get the image that this iterator walks. */
-  ImageType * GetImage() const
+  ImageType *
+  GetImage() const
   {
     // const_cast is needed here because m_Image is declared as a const pointer
     // in the base class which is the ConstIterator.
-    return const_cast< ImageType * >( this->m_Image.GetPointer() );
+    return const_cast<ImageType *>(this->m_Image.GetPointer());
   }
 
 protected:
-
   /** This constructor is declared protected in order to enforce
     const-correctness */
-  ImageIterator(const ImageConstIterator< TImage > & it);
-  Self & operator=(const ImageConstIterator< TImage > & it);
+  ImageIterator(const ImageConstIterator<TImage> & it);
+  Self &
+  operator=(const ImageConstIterator<TImage> & it);
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageIterator.hxx"
+#  include "itkImageIterator.hxx"
 #endif
 
 #endif

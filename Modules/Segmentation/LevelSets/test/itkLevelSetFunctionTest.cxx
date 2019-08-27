@@ -33,52 +33,54 @@
  *
  */
 
-namespace LSFT { // local namespace for helper test functions
+namespace LSFT
+{ // local namespace for helper test functions
 
 const unsigned int HEIGHT = (256);
-const unsigned int WIDTH  = (256);
+const unsigned int WIDTH = (256);
 
-#define RADIUS (std::min(HEIGHT, WIDTH)/4)
+#define RADIUS (std::min(HEIGHT, WIDTH) / 4)
 
 // Distance transform function for circle
-float circle(unsigned x, unsigned y)
+float
+circle(unsigned x, unsigned y)
 {
   float dis;
-  dis = (x - (float)WIDTH/2.0)*(x - (float)WIDTH/2.0)
-    + (y - (float)HEIGHT/2.0)*(y - (float)HEIGHT/2.0);
+  dis = (x - (float)WIDTH / 2.0) * (x - (float)WIDTH / 2.0) + (y - (float)HEIGHT / 2.0) * (y - (float)HEIGHT / 2.0);
   dis = RADIUS - std::sqrt(dis);
   return dis;
 }
 
 // Distance transform function for square
-float square(unsigned x, unsigned y)
+float
+square(unsigned x, unsigned y)
 {
   float X, Y;
-  X = std::fabs(x - (float)WIDTH/2.0);
-  Y = std::fabs(y - (float)HEIGHT/2.0);
+  X = std::fabs(x - (float)WIDTH / 2.0);
+  Y = std::fabs(y - (float)HEIGHT / 2.0);
   float dis;
-  if (!((X > RADIUS)&&(Y > RADIUS)))
+  if (!((X > RADIUS) && (Y > RADIUS)))
     dis = RADIUS - std::max(X, Y);
   else
-    dis = -std::sqrt((X - RADIUS)*(X - RADIUS) +  (Y - RADIUS)*(Y - RADIUS));
+    dis = -std::sqrt((X - RADIUS) * (X - RADIUS) + (Y - RADIUS) * (Y - RADIUS));
   return dis;
 }
 
 // Evaluates a function at each pixel in the itk image
-void evaluate_function(::itk::Image<float, 2> *im,
-                       float (*f)(unsigned int, unsigned int) )
+void
+evaluate_function(::itk::Image<float, 2> * im, float (*f)(unsigned int, unsigned int))
 
 {
   ::itk::Image<float, 2>::IndexType idx;
   for (unsigned int x = 0; x < WIDTH; ++x)
-    {
+  {
     idx[0] = x;
     for (unsigned int y = 0; y < HEIGHT; ++y)
-      {
+    {
       idx[1] = y;
-      im->SetPixel(idx, f(x, y) );
-      }
+      im->SetPixel(idx, f(x, y));
     }
+  }
 }
 
 
@@ -88,19 +90,22 @@ void evaluate_function(::itk::Image<float, 2> *im,
  *
  * See LevelSetFunction for more information.
  */
-class MorphFunction : public ::itk::LevelSetFunction< ::itk::Image<float, 2> >
+class MorphFunction : public ::itk::LevelSetFunction<::itk::Image<float, 2>>
 {
 public:
-  void SetDistanceTransform (::itk::Image<float, 2> *d)
-    { m_DistanceTransform = d; }
+  void
+  SetDistanceTransform(::itk::Image<float, 2> * d)
+  {
+    m_DistanceTransform = d;
+  }
 
   using Self = MorphFunction;
 
-  using Superclass = ::itk::LevelSetFunction< ::itk::Image<float, 2> >;
+  using Superclass = ::itk::LevelSetFunction<::itk::Image<float, 2>>;
   using RadiusType = Superclass::RadiusType;
   using GlobalDataStruct = Superclass::GlobalDataStruct;
 
-   /**
+  /**
    * Smart pointer support for this class.
    */
   using Pointer = ::itk::SmartPointer<Self>;
@@ -109,7 +114,7 @@ public:
   /**
    * Run-time type information (and related methods)
    */
-  itkTypeMacro( MorphFunction, LevelSetFunction );
+  itkTypeMacro(MorphFunction, LevelSetFunction);
 
   /**
    * Method for creation through the object factory.
@@ -120,28 +125,24 @@ protected:
   ~MorphFunction() override = default;
 
   MorphFunction()
-    {
-      RadiusType r;
-      r[0] = r[1] = 1;
-      Superclass::Initialize(r);
-    }
+  {
+    RadiusType r;
+    r[0] = r[1] = 1;
+    Superclass::Initialize(r);
+  }
 
 private:
   ::itk::Image<float, 2>::Pointer m_DistanceTransform;
-  ScalarValueType PropagationSpeed(
-                            const NeighborhoodType& neighborhood,
-                            const FloatOffsetType &,
-                            GlobalDataStruct *
-                          ) const override
-    {
-      ::itk::Index<2> idx = neighborhood.GetIndex();
-      return m_DistanceTransform->GetPixel(idx);
-    }
+  ScalarValueType
+  PropagationSpeed(const NeighborhoodType & neighborhood, const FloatOffsetType &, GlobalDataStruct *) const override
+  {
+    ::itk::Index<2> idx = neighborhood.GetIndex();
+    return m_DistanceTransform->GetPixel(idx);
+  }
 };
 
 
-class MorphFilter : public
-::itk::DenseFiniteDifferenceImageFilter< ::itk::Image<float, 2>, ::itk::Image<float, 2> >
+class MorphFilter : public ::itk::DenseFiniteDifferenceImageFilter<::itk::Image<float, 2>, ::itk::Image<float, 2>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MorphFilter);
@@ -157,7 +158,7 @@ public:
   /**
    * Run-time type information (and related methods)
    */
-  itkTypeMacro( MorphFilter, DenseFiniteDifferenceImageFilter );
+  itkTypeMacro(MorphFilter, DenseFiniteDifferenceImageFilter);
 
   /**
    * Method for creation through the object factory.
@@ -166,52 +167,57 @@ public:
 
   itkSetMacro(Iterations, unsigned int);
 
-  void SetDistanceTransform(::itk::Image<float, 2> *im)
+  void
+  SetDistanceTransform(::itk::Image<float, 2> * im)
+  {
+    auto * func = dynamic_cast<MorphFunction *>(this->GetDifferenceFunction().GetPointer());
+    if (func == nullptr)
     {
-    auto * func = dynamic_cast<MorphFunction *>( this->GetDifferenceFunction().GetPointer());
-    if( func == nullptr )
-      {
       itkGenericExceptionMacro("MorphFunction cast failed");
-      }
-    func->SetDistanceTransform(im);
     }
+    func->SetDistanceTransform(im);
+  }
 
 protected:
   ~MorphFilter() override = default;
   MorphFilter()
-    {
-      MorphFunction::Pointer p = MorphFunction::New();
-      p->SetPropagationWeight(-1.0);
-      p->SetAdvectionWeight(0.0);
-      p->SetCurvatureWeight(1.0);
-      this->SetDifferenceFunction(p);
-      m_Iterations = 0;
-    }
+  {
+    MorphFunction::Pointer p = MorphFunction::New();
+    p->SetPropagationWeight(-1.0);
+    p->SetAdvectionWeight(0.0);
+    p->SetCurvatureWeight(1.0);
+    this->SetDifferenceFunction(p);
+    m_Iterations = 0;
+  }
 
 private:
   unsigned int m_Iterations;
 
-  bool Halt() override
-    {
-      if (this->GetElapsedIterations() == m_Iterations) return true;
-      else return false;
-    }
+  bool
+  Halt() override
+  {
+    if (this->GetElapsedIterations() == m_Iterations)
+      return true;
+    else
+      return false;
+  }
 };
 
 } // end of namespace LSFT
 
-int itkLevelSetFunctionTest(int, char* [] )
+int
+itkLevelSetFunctionTest(int, char *[])
 {
   using ImageType = ::itk::Image<float, 2>;
 
-  constexpr int n = 100;  // Number of iterations
+  constexpr int n = 100; // Number of iterations
 
   ImageType::Pointer im_init = ImageType::New();
   ImageType::Pointer im_target = ImageType::New();
 
   ImageType::RegionType r;
-  ImageType::SizeType   sz = {{LSFT::HEIGHT, LSFT::WIDTH}};
-  ImageType::IndexType  idx = {{0,0}};
+  ImageType::SizeType   sz = { { LSFT::HEIGHT, LSFT::WIDTH } };
+  ImageType::IndexType  idx = { { 0, 0 } };
   r.SetSize(sz);
   r.SetIndex(idx);
 
@@ -229,15 +235,13 @@ int itkLevelSetFunctionTest(int, char* [] )
   LSFT::evaluate_function(im_init, LSFT::circle);
   LSFT::evaluate_function(im_target, LSFT::square);
 
-  itk::ImageRegionIterator<ImageType> itr(im_target,
-                                          im_target->GetRequestedRegion());
+  itk::ImageRegionIterator<ImageType> itr(im_target, im_target->GetRequestedRegion());
 
   // Squash level sets everywhere but near the zero set.
-  for (itr.GoToBegin(); ! itr.IsAtEnd(); ++itr)
-    {
-    itr.Value() = itr.Value() /std::sqrt((5.0f +itk::Math::sqr(itr.Value())));
-
-    }
+  for (itr.GoToBegin(); !itr.IsAtEnd(); ++itr)
+  {
+    itr.Value() = itr.Value() / std::sqrt((5.0f + itk::Math::sqr(itr.Value())));
+  }
 
   LSFT::MorphFilter::Pointer mf = LSFT::MorphFilter::New();
   mf->SetDistanceTransform(im_target);

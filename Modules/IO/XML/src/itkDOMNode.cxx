@@ -23,23 +23,21 @@
 namespace itk
 {
 
-DOMNode::DOMNode()
-{
-}
+DOMNode::DOMNode() {}
 
 void
-DOMNode::SetParent( DOMNode* node )
+DOMNode::SetParent(DOMNode * node)
 {
   this->m_Parent = node;
 }
 
-DOMNode*
+DOMNode *
 DOMNode::GetParent()
 {
   return this->m_Parent;
 }
 
-const DOMNode*
+const DOMNode *
 DOMNode::GetParent() const
 {
   return this->m_Parent;
@@ -47,82 +45,82 @@ DOMNode::GetParent() const
 
 /** Retrieve an attribute by key (return an empty string if not found). */
 std::string
-DOMNode::GetAttribute( const std::string& key ) const
+DOMNode::GetAttribute(const std::string & key) const
 {
   // "id" is a special attribute
-  if ( StringTools::MatchWith(key,"id") )
-    {
+  if (StringTools::MatchWith(key, "id"))
+  {
     return this->GetID();
-    }
+  }
 
-  auto i = this->m_Attributes.find( key );
-  if ( i == this->m_Attributes.end() )
-    {
+  auto i = this->m_Attributes.find(key);
+  if (i == this->m_Attributes.end())
+  {
     return "";
-    }
+  }
   else
-    {
+  {
     return i->second;
-    }
+  }
 }
 
 /** Check whether has an attribute. */
 bool
-DOMNode::HasAttribute( const std::string& key ) const
+DOMNode::HasAttribute(const std::string & key) const
 {
-  auto i = this->m_Attributes.find( key );
-  return ( i != this->m_Attributes.end() );
+  auto i = this->m_Attributes.find(key);
+  return (i != this->m_Attributes.end());
 }
 
 /** Add or replace an attribute. */
 void
-DOMNode::SetAttribute( const std::string& key, const std::string& value )
+DOMNode::SetAttribute(const std::string & key, const std::string & value)
 {
   // "id" is a special attribute
-  if ( StringTools::MatchWith(key,"id") )
-    {
-    this->SetID( value );
+  if (StringTools::MatchWith(key, "id"))
+  {
+    this->SetID(value);
     return;
-    }
+  }
 
-  auto i = this->m_Attributes.find( key );
-  if ( i == this->m_Attributes.end() )
-    {
+  auto i = this->m_Attributes.find(key);
+  if (i == this->m_Attributes.end())
+  {
     // add a new attribute
     this->m_Attributes[key] = value;
     // keep track of the adding order
-    i = this->m_Attributes.find( key );
-    this->m_OrderedAttributes.push_back( &(*i) );
-    }
+    i = this->m_Attributes.find(key);
+    this->m_OrderedAttributes.push_back(&(*i));
+  }
   else
-    {
+  {
     // replace an existing attribute
     i->second = value;
-    }
+  }
 }
 
 /** Remove an attribute by key (throw exception if not found). */
 void
-DOMNode::RemoveAttribute( const std::string& key )
+DOMNode::RemoveAttribute(const std::string & key)
 {
-  auto i = this->m_Attributes.find( key );
-  if ( i == this->m_Attributes.end() )
-    {
-    itkExceptionMacro( "attribute does not exist" );
-    }
+  auto i = this->m_Attributes.find(key);
+  if (i == this->m_Attributes.end())
+  {
+    itkExceptionMacro("attribute does not exist");
+  }
 
   // remove it from the ordered container first
-  for ( auto j = this->m_OrderedAttributes.begin(); j != this->m_OrderedAttributes.end(); ++j )
+  for (auto j = this->m_OrderedAttributes.begin(); j != this->m_OrderedAttributes.end(); ++j)
+  {
+    if ((*j)->first == key)
     {
-    if ( (*j)->first == key )
-      {
-      this->m_OrderedAttributes.erase( j );
+      this->m_OrderedAttributes.erase(j);
       break;
-      }
     }
+  }
 
   // then remove it from the map container
-  this->m_Attributes.erase( i );
+  this->m_Attributes.erase(i);
 }
 
 /**
@@ -130,22 +128,22 @@ DOMNode::RemoveAttribute( const std::string& key )
  * or alphabetic order of the attribute keys (keepOriginalOrder = false).
  */
 void
-DOMNode::GetAllAttributes( AttributesListType& output, bool keepOriginalOrder ) const
+DOMNode::GetAllAttributes(AttributesListType & output, bool keepOriginalOrder) const
 {
-  if ( keepOriginalOrder )
-    {
+  if (keepOriginalOrder)
+  {
     for (auto orderedAttribute : this->m_OrderedAttributes)
-      {
-      output.push_back( *orderedAttribute );
-      }
-    }
-  else
     {
-    for (const auto & attribute : this->m_Attributes)
-      {
-      output.push_back( attribute );
-      }
+      output.push_back(*orderedAttribute);
     }
+  }
+  else
+  {
+    for (const auto & attribute : this->m_Attributes)
+    {
+      output.push_back(attribute);
+    }
+  }
 }
 
 /** Remove all attributes. */
@@ -165,52 +163,52 @@ DOMNode::GetNumberOfChildren() const
 
 /** Return all children. */
 void
-DOMNode::GetAllChildren( ChildrenListType& output )
+DOMNode::GetAllChildren(ChildrenListType & output)
 {
-  for ( IdentifierType i = 0; i < static_cast<IdentifierType>(this->GetNumberOfChildren()); i++ )
-    {
-    DOMNode* node = this->GetChild( i );
-    output.push_back( node );
-    }
+  for (IdentifierType i = 0; i < static_cast<IdentifierType>(this->GetNumberOfChildren()); i++)
+  {
+    DOMNode * node = this->GetChild(i);
+    output.push_back(node);
+  }
 }
 
 /** Return all children for read-only access. */
 void
-DOMNode::GetAllChildren( ConstChildrenListType& output ) const
+DOMNode::GetAllChildren(ConstChildrenListType & output) const
 {
-  for ( IdentifierType i = 0; i < static_cast<IdentifierType>(this->GetNumberOfChildren()); i++ )
-    {
-    const DOMNode* node = this->GetChild( i );
-    output.push_back( node );
-    }
+  for (IdentifierType i = 0; i < static_cast<IdentifierType>(this->GetNumberOfChildren()); i++)
+  {
+    const DOMNode * node = this->GetChild(i);
+    output.push_back(node);
+  }
 }
 
 /** Return all children of a same tag name. */
 void
-DOMNode::GetChildren( const std::string& tag, ChildrenListType& output )
+DOMNode::GetChildren(const std::string & tag, ChildrenListType & output)
 {
-  for ( IdentifierType i = 0; i < static_cast<IdentifierType>(this->GetNumberOfChildren()); i++ )
+  for (IdentifierType i = 0; i < static_cast<IdentifierType>(this->GetNumberOfChildren()); i++)
+  {
+    DOMNode * node = this->GetChild(i);
+    if (tag == node->GetName())
     {
-    DOMNode* node = this->GetChild( i );
-    if ( tag == node->GetName() )
-      {
-      output.push_back( node );
-      }
+      output.push_back(node);
     }
+  }
 }
 
 /** Return all children of a same tag name for read-only access. */
 void
-DOMNode::GetChildren( const std::string& tag, ConstChildrenListType& output ) const
+DOMNode::GetChildren(const std::string & tag, ConstChildrenListType & output) const
 {
-  for ( IdentifierType i = 0; i < static_cast<IdentifierType>(this->GetNumberOfChildren()); i++ )
+  for (IdentifierType i = 0; i < static_cast<IdentifierType>(this->GetNumberOfChildren()); i++)
+  {
+    const DOMNode * node = this->GetChild(i);
+    if (tag == node->GetName())
     {
-    const DOMNode* node = this->GetChild( i );
-    if ( tag == node->GetName() )
-      {
-      output.push_back( node );
-      }
+      output.push_back(node);
     }
+  }
 }
 
 /** Remove all children. */
@@ -222,67 +220,67 @@ DOMNode::RemoveAllChildren()
 
 /** Add a child in front of another child (throw exception if not able to add). */
 void
-DOMNode::AddChild( DOMNode* node, IdentifierType i )
+DOMNode::AddChild(DOMNode * node, IdentifierType i)
 {
-  if ( this->m_Children.empty() )
-    {
-    this->AddChildAtEnd( node );
+  if (this->m_Children.empty())
+  {
+    this->AddChildAtEnd(node);
     return;
-    }
+  }
 
-  if ( node == nullptr || this->ShareRoot(node) )
-    {
-    itkExceptionMacro( "not able to add child" );
-    }
+  if (node == nullptr || this->ShareRoot(node))
+  {
+    itkExceptionMacro("not able to add child");
+  }
 
-  if ( i < 0 || i >= static_cast<IdentifierType>(this->m_Children.size()) )
-    {
-    itkExceptionMacro( "not able to add child" );
-    }
+  if (i < 0 || i >= static_cast<IdentifierType>(this->m_Children.size()))
+  {
+    itkExceptionMacro("not able to add child");
+  }
 
   node->m_Parent = this;
-  this->m_Children.insert( this->m_Children.begin()+i, Pointer(node) );
+  this->m_Children.insert(this->m_Children.begin() + i, Pointer(node));
 }
 
 /** Add a child in front of the children list (throw exception if not able to add). */
 void
-DOMNode::AddChildAtBegin( DOMNode* node )
+DOMNode::AddChildAtBegin(DOMNode * node)
 {
-  if ( node == nullptr || this->ShareRoot(node) )
-    {
-    itkExceptionMacro( "not able to add child" );
-    }
+  if (node == nullptr || this->ShareRoot(node))
+  {
+    itkExceptionMacro("not able to add child");
+  }
 
   node->m_Parent = this;
-  this->m_Children.insert( this->m_Children.begin(), Pointer(node) );
+  this->m_Children.insert(this->m_Children.begin(), Pointer(node));
 }
 
 /** Add a child at the end of the children list (throw exception if not able to add). */
 void
-DOMNode::AddChildAtEnd( DOMNode* node )
+DOMNode::AddChildAtEnd(DOMNode * node)
 {
-  if ( node == nullptr || this->ShareRoot(node) )
-    {
-    itkExceptionMacro( "not able to add child" );
-    }
+  if (node == nullptr || this->ShareRoot(node))
+  {
+    itkExceptionMacro("not able to add child");
+  }
 
   node->m_Parent = this;
-  this->m_Children.push_back( Pointer(node) );
+  this->m_Children.push_back(Pointer(node));
 }
 
 /** Replace a child (throw exception if not able to replace). */
 void
-DOMNode::SetChild( DOMNode* node, IdentifierType i )
+DOMNode::SetChild(DOMNode * node, IdentifierType i)
 {
-  if ( node == nullptr || this->ShareRoot(node) )
-    {
-    itkExceptionMacro( "not able to add child" );
-    }
+  if (node == nullptr || this->ShareRoot(node))
+  {
+    itkExceptionMacro("not able to add child");
+  }
 
-  if ( i < 0 || i >= static_cast<IdentifierType>(this->m_Children.size()) )
-    {
-    itkExceptionMacro( "not able to add child" );
-    }
+  if (i < 0 || i >= static_cast<IdentifierType>(this->m_Children.size()))
+  {
+    itkExceptionMacro("not able to add child");
+  }
 
   node->m_Parent = this;
   this->m_Children[i] = node;
@@ -290,15 +288,15 @@ DOMNode::SetChild( DOMNode* node, IdentifierType i )
 
 /** Remove a child by index (throw exception if out of range). */
 void
-DOMNode::RemoveChild( IdentifierType i )
+DOMNode::RemoveChild(IdentifierType i)
 {
-  if ( i < 0 || i >= static_cast<IdentifierType>(m_Children.size()) )
-    {
-    itkExceptionMacro( "not able to remove child" );
-    }
+  if (i < 0 || i >= static_cast<IdentifierType>(m_Children.size()))
+  {
+    itkExceptionMacro("not able to remove child");
+  }
 
   this->m_Children[i]->m_Parent = nullptr;
-  this->m_Children.erase( this->m_Children.begin() + i );
+  this->m_Children.erase(this->m_Children.begin() + i);
 }
 
 /** Remove all attributes and children. */
@@ -310,150 +308,152 @@ DOMNode::RemoveAllAttributesAndChildren()
 }
 
 /** Retrieve a child by index (return nullptr if out of range). */
-DOMNode*
-DOMNode::GetChild( IdentifierType i )
+DOMNode *
+DOMNode::GetChild(IdentifierType i)
 {
-  if ( i < 0 || i >= static_cast<IdentifierType>(this->m_Children.size()) )
-    {
+  if (i < 0 || i >= static_cast<IdentifierType>(this->m_Children.size()))
+  {
     return nullptr;
-    }
+  }
   else
-    {
-    return (DOMNode*)this->m_Children[i];
-    }
+  {
+    return (DOMNode *)this->m_Children[i];
+  }
 }
 
 /** Retrieve a child by index (return nullptr if out of range). */
-const DOMNode*
-DOMNode::GetChild( IdentifierType i ) const
+const DOMNode *
+DOMNode::GetChild(IdentifierType i) const
 {
   // just use the non-const version and return it as a const,
   // this is safe as the non-const version actually doesn't modify the internal state.
-  return const_cast<Self*>(this)->GetChild( i );
+  return const_cast<Self *>(this)->GetChild(i);
 }
 
-/** Retrieve a child by tag name and an index (multiple children can have a same tag name, return nullptr if no such child). */
-DOMNode*
-DOMNode::GetChild( const std::string& tag, IdentifierType i )
+/** Retrieve a child by tag name and an index (multiple children can have a same tag name, return nullptr if no such
+ * child). */
+DOMNode *
+DOMNode::GetChild(const std::string & tag, IdentifierType i)
 {
   IdentifierType k = 0;
-  for ( IdentifierType j = 0; j < static_cast<IdentifierType>(this->GetNumberOfChildren()); j++ )
+  for (IdentifierType j = 0; j < static_cast<IdentifierType>(this->GetNumberOfChildren()); j++)
+  {
+    DOMNode * node = this->GetChild(j);
+    if (tag == node->GetName())
     {
-    DOMNode* node = this->GetChild( j );
-    if ( tag == node->GetName() )
+      if (k++ == i)
       {
-      if ( k++ == i )
-        {
         return node;
-        }
       }
     }
+  }
   return nullptr;
 }
 
-/** Retrieve a child by tag name and an index (multiple children can have a same tag name, return nullptr if no such child). */
-const DOMNode*
-DOMNode::GetChild( const std::string& tag, IdentifierType i ) const
+/** Retrieve a child by tag name and an index (multiple children can have a same tag name, return nullptr if no such
+ * child). */
+const DOMNode *
+DOMNode::GetChild(const std::string & tag, IdentifierType i) const
 {
   // just use the non-const version and return it as a const,
   // this is safe as the non-const version actually doesn't modify the internal state.
-  return const_cast<Self*>(this)->GetChild( tag, i );
+  return const_cast<Self *>(this)->GetChild(tag, i);
 }
 
 /** Retrieve a child by its unique "id" attribute value (return nullptr if not found). */
-DOMNode*
-DOMNode::GetChildByID( const std::string& value )
+DOMNode *
+DOMNode::GetChildByID(const std::string & value)
 {
-  for ( IdentifierType j = 0; j < static_cast<IdentifierType>(this->GetNumberOfChildren()); j++ )
+  for (IdentifierType j = 0; j < static_cast<IdentifierType>(this->GetNumberOfChildren()); j++)
+  {
+    DOMNode * node = this->GetChild(j);
+    if (value == node->GetID())
     {
-    DOMNode* node = this->GetChild( j );
-    if ( value == node->GetID() )
-      {
       return node;
-      }
     }
+  }
   return nullptr;
 }
 
 /** Retrieve a child by its unique "id" attribute value (return nullptr if not found). */
-const DOMNode*
-DOMNode::GetChildByID( const std::string& value ) const
+const DOMNode *
+DOMNode::GetChildByID(const std::string & value) const
 {
   // just use the non-const version and return it as a const,
   // this is safe as the non-const version actually doesn't modify the internal state.
-  return const_cast<Self*>(this)->GetChildByID( value );
+  return const_cast<Self *>(this)->GetChildByID(value);
 }
 
 /** Retrieve an older or younger sibling by distance (return nullptr if no such sibling). */
-DOMNode*
-DOMNode::GetSibling( OffsetType i )
+DOMNode *
+DOMNode::GetSibling(OffsetType i)
 {
-  DOMNode* parent = this->GetParent();
+  DOMNode * parent = this->GetParent();
 
-  if ( parent == nullptr )
-    {
+  if (parent == nullptr)
+  {
     return nullptr;
-    }
+  }
 
   IdentifierType j;
-  for ( j = 0; j < static_cast<IdentifierType>(parent->GetNumberOfChildren()); j++ )
+  for (j = 0; j < static_cast<IdentifierType>(parent->GetNumberOfChildren()); j++)
+  {
+    if (parent->GetChild(j) == this)
     {
-    if ( parent->GetChild(j) == this )
-      {
       break;
-      }
     }
+  }
 
   j += i;
-  if ( j < 0 || j >= static_cast<IdentifierType>(parent->GetNumberOfChildren()) )
-    {
+  if (j < 0 || j >= static_cast<IdentifierType>(parent->GetNumberOfChildren()))
+  {
     return nullptr;
-    }
+  }
   else
-    {
+  {
     return parent->GetChild(j);
-    }
+  }
 }
 
 /** Retrieve an older or younger sibling by distance (return nullptr if no such sibling). */
-const DOMNode*
-DOMNode::GetSibling( OffsetType i ) const
+const DOMNode *
+DOMNode::GetSibling(OffsetType i) const
 {
   // just use the non-const version and return it as a const,
   // this is safe as the non-const version actually doesn't modify the internal state.
-  return const_cast<Self*>(this)->GetSibling( i );
+  return const_cast<Self *>(this)->GetSibling(i);
 }
 
 /** Return the root node. */
-DOMNode*
+DOMNode *
 DOMNode::GetRoot()
 {
-  DOMNode* node = this->GetParent();
+  DOMNode * node = this->GetParent();
 
-  if ( node == nullptr )
-    {
+  if (node == nullptr)
+  {
     return this;
-    }
+  }
   else
-    {
+  {
     return node->GetRoot();
-    }
+  }
 }
 
 /** Return the root node. */
-const DOMNode*
+const DOMNode *
 DOMNode::GetRoot() const
 {
   // just use the non-const version and return it as a const,
   // this is safe as the non-const version actually doesn't modify the internal state.
-  return const_cast<Self*>(this)->GetRoot();
+  return const_cast<Self *>(this)->GetRoot();
 }
 
 /** Test whether the input node and this node share the same root. */
 bool
-DOMNode::ShareRoot( const DOMNode* node ) const
+DOMNode::ShareRoot(const DOMNode * node) const
 {
-  return ( node != nullptr && node->GetRoot() == this->GetRoot() );
+  return (node != nullptr && node->GetRoot() == this->GetRoot());
 }
 
 /**
@@ -471,147 +471,147 @@ DOMNode::ShareRoot( const DOMNode* node ) const
  *
  * The method returns nullptr if queried node does not exist.
  */
-DOMNode*
-DOMNode::Find( const std::string& path )
+DOMNode *
+DOMNode::Find(const std::string & path)
 {
   std::string s;
 
   std::string rpath;
+  {
+    std::size_t pos = path.find_first_of('/');
+    if (pos == std::string::npos)
     {
-    std::size_t pos = path.find_first_of( '/' );
-    if ( pos == std::string::npos )
-      {
       s = path;
       rpath = "";
-      }
-    else
-      {
-      s = path.substr( 0, pos );
-      rpath = path.substr( pos+1 );
-      }
     }
+    else
+    {
+      s = path.substr(0, pos);
+      rpath = path.substr(pos + 1);
+    }
+  }
 
-  DOMNode* node = nullptr;
+  DOMNode * node = nullptr;
 
   // /<rpath>
-  if ( s.empty() )
-    {
+  if (s.empty())
+  {
     node = this->GetRoot();
-    }
+  }
 
   // if it is an unsigned integer number
-  else if ( s[0] >= '0' && s[0] <= '9' )
-    {
-    std::istringstream iss( s );
-    unsigned int i = 0;
+  else if (s[0] >= '0' && s[0] <= '9')
+  {
+    std::istringstream iss(s);
+    unsigned int       i = 0;
     iss >> i;
-    if ( !iss.fail() )
-      {
-      node = this->GetChild( IdentifierType(i) );
-      }
+    if (!iss.fail())
+    {
+      node = this->GetChild(IdentifierType(i));
     }
+  }
 
   // +[n]
-  else if ( s[0] == '+' )
+  else if (s[0] == '+')
+  {
+    if (s.size() > 1)
     {
-    if ( s.size() > 1 )
-      {
-      s = s.substr( 1 );
-      std::istringstream iss( s );
-      unsigned int i = 0;
+      s = s.substr(1);
+      std::istringstream iss(s);
+      unsigned int       i = 0;
       iss >> i;
-      if ( !iss.fail() )
-        {
-        node = this->GetSibling( OffsetType(i) );
-        }
-      }
-    else
+      if (!iss.fail())
       {
-      node = this->GetSibling( 1 );
+        node = this->GetSibling(OffsetType(i));
       }
     }
+    else
+    {
+      node = this->GetSibling(1);
+    }
+  }
 
   // -[n]
-  else if ( s[0] == '-' )
+  else if (s[0] == '-')
+  {
+    if (s.size() > 1)
     {
-    if ( s.size() > 1 )
-      {
-      s = s.substr( 1 );
-      std::istringstream iss( s );
-      unsigned int i = 0;
+      s = s.substr(1);
+      std::istringstream iss(s);
+      unsigned int       i = 0;
       iss >> i;
-      if ( !iss.fail() )
-        {
-        node = this->GetSibling( -OffsetType(i) );
-        }
-      }
-    else
+      if (!iss.fail())
       {
-      node = this->GetSibling( -1 );
+        node = this->GetSibling(-OffsetType(i));
       }
     }
+    else
+    {
+      node = this->GetSibling(-1);
+    }
+  }
 
   // :<id>
-  else if ( s[0] == ':' )
-    {
-    s = s.substr( 1 );
-    node = this->GetChildByID( s );
-    }
+  else if (s[0] == ':')
+  {
+    s = s.substr(1);
+    node = this->GetChildByID(s);
+  }
 
   // ..
-  else if ( s == ".." )
-    {
+  else if (s == "..")
+  {
     node = this->GetParent();
-    }
+  }
 
   // .
-  else if ( s == "." )
-    {
+  else if (s == ".")
+  {
     node = this;
-    }
+  }
 
   // <tag>[:n]
   else
+  {
+    std::size_t pos = s.find_first_of(':');
+    if (pos != std::string::npos)
     {
-    std::size_t pos = s.find_first_of( ':' );
-    if ( pos != std::string::npos )
-      {
-      std::string s2 = s.substr( pos+1 );
-      s = s.substr( 0, pos );
-      std::istringstream iss( s2 );
-      IdentifierType i = 0;
+      std::string s2 = s.substr(pos + 1);
+      s = s.substr(0, pos);
+      std::istringstream iss(s2);
+      IdentifierType     i = 0;
       iss >> i;
-      if ( !iss.fail() )
-        {
-        node = this->GetChild( s, i );
-        }
-      }
-    else
+      if (!iss.fail())
       {
-      node = this->GetChild( s );
+        node = this->GetChild(s, i);
       }
     }
+    else
+    {
+      node = this->GetChild(s);
+    }
+  }
 
-  if ( rpath.empty() || node == nullptr )
-    {
+  if (rpath.empty() || node == nullptr)
+  {
     return node;
-    }
+  }
   else
-    {
-    return node->Find( rpath );
-    }
+  {
+    return node->Find(rpath);
+  }
 }
 
 /**
  * The following function finds a child or sibling or relative using a query string or path.
  * The method returns nullptr if queried node does not exist.
  */
-const DOMNode*
-DOMNode::Find( const std::string& path ) const
+const DOMNode *
+DOMNode::Find(const std::string & path) const
 {
   // just use the non-const version and return it as a const,
   // this is safe as the non-const version actually doesn't modify the internal state.
-  return const_cast<Self*>(this)->Find( path );
+  return const_cast<Self *>(this)->Find(path);
 }
 
 /** Return the path of this node within its root, in the form of a query string that uses only indices. */
@@ -620,80 +620,80 @@ DOMNode::GetPath() const
 {
   std::string path = "";
 
-  const DOMNode* parent = this->GetParent();
-  if ( parent == nullptr )
-    {
+  const DOMNode * parent = this->GetParent();
+  if (parent == nullptr)
+  {
     return path;
-    }
+  }
 
-  for ( IdentifierType i = 0; i < static_cast<IdentifierType>(parent->GetNumberOfChildren()); i++ )
+  for (IdentifierType i = 0; i < static_cast<IdentifierType>(parent->GetNumberOfChildren()); i++)
+  {
+    if (parent->GetChild(i) == this)
     {
-    if ( parent->GetChild(i) == this )
-      {
       // set the global path
       path = parent->GetPath();
-      path.append( 1, '/' );
+      path.append(1, '/');
       // add the local path
       std::string s;
-      StringTools::FromData( s, i );
-      path.append( s );
+      StringTools::FromData(s, i);
+      path.append(s);
       // early exit as we've already found the path
       break;
-      }
     }
+  }
   return path;
 }
 
 /** Get a child and cast it to a text node (return nullptr if out of range or not a text node). */
-DOMTextNode*
-DOMNode::GetTextChild( IdentifierType i )
+DOMTextNode *
+DOMNode::GetTextChild(IdentifierType i)
 {
-  DOMNode* node = this->GetChild( i );
-  return dynamic_cast<DOMTextNode*>(node);
+  DOMNode * node = this->GetChild(i);
+  return dynamic_cast<DOMTextNode *>(node);
 }
 
 /** Get a child and cast it to a text node (return nullptr if out of range or not a text node). */
-const DOMTextNode*
-DOMNode::GetTextChild( IdentifierType i ) const
+const DOMTextNode *
+DOMNode::GetTextChild(IdentifierType i) const
 {
-  const DOMNode* node = this->GetChild( i );
-  return dynamic_cast<const DOMTextNode*>(node);
+  const DOMNode * node = this->GetChild(i);
+  return dynamic_cast<const DOMTextNode *>(node);
 }
 
 /** Generate a text node from a string and add/insert it as a child (see AddChild(node,i)). */
 void
-DOMNode::AddTextChild( const std::string& text, IdentifierType i )
+DOMNode::AddTextChild(const std::string & text, IdentifierType i)
 {
   DOMTextNode::Pointer tnode = DOMTextNode::New();
-  tnode->SetText( text );
-  this->AddChild( (DOMTextNode*)tnode, i );
+  tnode->SetText(text);
+  this->AddChild((DOMTextNode *)tnode, i);
 }
 
 /** Generate a text node from a string and add/insert in front of all children. */
 void
-DOMNode::AddTextChildAtBegin( const std::string& text )
+DOMNode::AddTextChildAtBegin(const std::string & text)
 {
   DOMTextNode::Pointer tnode = DOMTextNode::New();
-  tnode->SetText( text );
-  this->AddChildAtBegin( (DOMTextNode*)tnode );
+  tnode->SetText(text);
+  this->AddChildAtBegin((DOMTextNode *)tnode);
 }
 
 /** Generate a text node from a string and add/insert at the end of all children. */
 void
-DOMNode::AddTextChildAtEnd( const std::string& text )
+DOMNode::AddTextChildAtEnd(const std::string & text)
 {
   DOMTextNode::Pointer tnode = DOMTextNode::New();
-  tnode->SetText( text );
-  this->AddChildAtEnd( (DOMTextNode*)tnode );
+  tnode->SetText(text);
+  this->AddChildAtEnd((DOMTextNode *)tnode);
 }
 
 /** Generate a text node from a string and replace a child with it (see SetChild(node,i). */
 void
-DOMNode::SetTextChild( const std::string& text, IdentifierType i )
+DOMNode::SetTextChild(const std::string & text, IdentifierType i)
 {
   DOMTextNode::Pointer tnode = DOMTextNode::New();
-  tnode->SetText( text );
-  this->SetChild( (DOMTextNode*)tnode, i );
+  tnode->SetText(text);
+  this->SetChild((DOMTextNode *)tnode, i);
 }
 
 } // namespace itk

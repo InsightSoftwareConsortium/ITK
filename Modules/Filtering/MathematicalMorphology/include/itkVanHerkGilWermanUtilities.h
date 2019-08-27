@@ -31,32 +31,37 @@ namespace itk
  *
  * \ingroup ITKMathematicalMorphology
  */
-template< typename PixelType, typename TFunction >
-void FillReverseExt(std::vector<PixelType> & pixbuffer,
-                    std::vector<PixelType> & rExtBuffer,
-                    const unsigned int KernLen, unsigned len);
+template <typename PixelType, typename TFunction>
+void
+FillReverseExt(std::vector<PixelType> & pixbuffer,
+               std::vector<PixelType> & rExtBuffer,
+               const unsigned int       KernLen,
+               unsigned                 len);
 
-template< typename PixelType, typename TFunction >
-void FillForwardExt(std::vector<PixelType> & pixbuffer,
-                    std::vector<PixelType> & fExtBuffer,
-                    const unsigned int KernLen, unsigned len);
+template <typename PixelType, typename TFunction>
+void
+FillForwardExt(std::vector<PixelType> & pixbuffer,
+               std::vector<PixelType> & fExtBuffer,
+               const unsigned int       KernLen,
+               unsigned                 len);
 
-template< typename TImage, typename TBres, typename TFunction, typename TLine >
-void DoFace(typename TImage::ConstPointer input,
-            typename TImage::Pointer output,
-            typename TImage::PixelType border,
-            TLine line,
-            const typename TBres::OffsetArray LineOffsets,
-            const unsigned int KernLen,
-            std::vector<typename TImage::PixelType> & pixbuffer,
-            std::vector<typename TImage::PixelType> & fExtBuffer,
-            std::vector<typename TImage::PixelType> & rExtBuffer,
-            const typename TImage::RegionType AllImage,
-            const typename TImage::RegionType face);
+template <typename TImage, typename TBres, typename TFunction, typename TLine>
+void
+DoFace(typename TImage::ConstPointer             input,
+       typename TImage::Pointer                  output,
+       typename TImage::PixelType                border,
+       TLine                                     line,
+       const typename TBres::OffsetArray         LineOffsets,
+       const unsigned int                        KernLen,
+       std::vector<typename TImage::PixelType> & pixbuffer,
+       std::vector<typename TImage::PixelType> & fExtBuffer,
+       std::vector<typename TImage::PixelType> & rExtBuffer,
+       const typename TImage::RegionType         AllImage,
+       const typename TImage::RegionType         face);
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVanHerkGilWermanUtilities.hxx"
+#  include "itkVanHerkGilWermanUtilities.hxx"
 #endif
 
 #endif

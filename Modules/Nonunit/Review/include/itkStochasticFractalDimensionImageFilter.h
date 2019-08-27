@@ -49,20 +49,19 @@ namespace itk
  *
  * \ingroup ITKReview
  */
-template< typename TInputImage, typename TMaskImage = Image< unsigned char,
-                                                       TInputImage::ImageDimension >,
-          class TOutputImage = TInputImage >
-class ITK_TEMPLATE_EXPORT StochasticFractalDimensionImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage,
+          typename TMaskImage = Image<unsigned char, TInputImage::ImageDimension>,
+          class TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT StochasticFractalDimensionImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(StochasticFractalDimensionImageFilter);
 
   /** Standard class type aliases. */
   using Self = StochasticFractalDimensionImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -82,13 +81,15 @@ public:
   /** Set/Get the input mask image that will constraint the computation of the
    * fractal dimension to pixels that are on in the mask. This is intended to
    * reduce the computation time. */
-  void SetMaskImage(const MaskImageType *mask);
+  void
+  SetMaskImage(const MaskImageType * mask);
 
-  const MaskImageType * GetMaskImage() const;
+  const MaskImageType *
+  GetMaskImage() const;
 
   /** Type of the neighborhood iterator used to evaluate similarity between the
    * image pixels. */
-  using ConstNeighborhoodIteratorType = ConstNeighborhoodIterator< InputImageType >;
+  using ConstNeighborhoodIteratorType = ConstNeighborhoodIterator<InputImageType>;
   using RadiusType = typename ConstNeighborhoodIteratorType::RadiusType;
 
   /** Manhattan radius used for evaluating the fractal dimension. */
@@ -99,9 +100,11 @@ protected:
   StochasticFractalDimensionImageFilter();
   ~StochasticFractalDimensionImageFilter() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   RadiusType m_NeighborhoodRadius;
@@ -111,7 +114,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkStochasticFractalDimensionImageFilter.hxx"
+#  include "itkStochasticFractalDimensionImageFilter.hxx"
 #endif
 
 #endif

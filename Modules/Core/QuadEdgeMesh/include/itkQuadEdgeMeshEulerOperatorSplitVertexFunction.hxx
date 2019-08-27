@@ -22,51 +22,50 @@
 
 namespace itk
 {
-template< typename TMesh, typename TQEType >
-typename QuadEdgeMeshEulerOperatorSplitVertexFunction< TMesh, TQEType >::OutputType
-QuadEdgeMeshEulerOperatorSplitVertexFunction< TMesh, TQEType >::Evaluate(QEType *h, QEType *g)
+template <typename TMesh, typename TQEType>
+typename QuadEdgeMeshEulerOperatorSplitVertexFunction<TMesh, TQEType>::OutputType
+QuadEdgeMeshEulerOperatorSplitVertexFunction<TMesh, TQEType>::Evaluate(QEType * h, QEType * g)
 {
-  if ( !this->m_Mesh )
-    {
+  if (!this->m_Mesh)
+  {
     itkDebugMacro("No mesh present.");
-    return ( (QEType *)nullptr );
-    }
+    return ((QEType *)nullptr);
+  }
 
-  if ( ( h == (QEType *)nullptr ) || ( g == (QEType *)nullptr ) )
-    {
+  if ((h == (QEType *)nullptr) || (g == (QEType *)nullptr))
+  {
     itkDebugMacro("One or more argument(s) is(are) null.");
-    return ( (QEType *)nullptr );
-    }
+    return ((QEType *)nullptr);
+  }
 
-  if ( h == g )
-    {
+  if (h == g)
+  {
     itkDebugMacro("The two half-edges are the same. No antenna allowed.");
-    return ( (QEType *)nullptr );
-    }
+    return ((QEType *)nullptr);
+  }
 
-  if ( h->GetDestination() != g->GetDestination() )
-    {
+  if (h->GetDestination() != g->GetDestination())
+  {
     itkDebugMacro("The two half-edges must be incident to the same vertex.");
-    return ( (QEType *)nullptr );
-    }
+    return ((QEType *)nullptr);
+  }
 
   // delete the faces
-  this->m_Mesh->DeleteFace( h->GetRight() );
-  this->m_Mesh->DeleteFace( g->GetRight() );
+  this->m_Mesh->DeleteFace(h->GetRight());
+  this->m_Mesh->DeleteFace(g->GetRight());
 
   // splice to create a new point and disconnect the rings
-  this->m_NewPoint = this->m_Mesh->Splice( h->GetSym(), g->GetSym() );
+  this->m_NewPoint = this->m_Mesh->Splice(h->GetSym(), g->GetSym());
 
   // then add a new edge
-  QEType *ReturnedEdge = this->m_Mesh->AddEdge( g->GetDestination(),
-                                                h->GetDestination() );
+  QEType * ReturnedEdge = this->m_Mesh->AddEdge(g->GetDestination(), h->GetDestination());
 
   // Build two new faces
-  this->m_Mesh->AddFace( h->GetSym() );
-  this->m_Mesh->AddFace( g->GetSym() );
+  this->m_Mesh->AddFace(h->GetSym());
+  this->m_Mesh->AddFace(g->GetSym());
   this->m_Mesh->Modified();
 
-  return ( ReturnedEdge );
+  return (ReturnedEdge);
 }
 } // end namespace itk
 

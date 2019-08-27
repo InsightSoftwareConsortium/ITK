@@ -37,9 +37,8 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template<typename TTransform, typename TImage>
-class ITK_TEMPLATE_EXPORT BSplineTransformInitializer
-: public Object
+template <typename TTransform, typename TImage>
+class ITK_TEMPLATE_EXPORT BSplineTransformInitializer : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineTransformInitializer);
@@ -51,10 +50,10 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( BSplineTransformInitializer, Object );
+  itkTypeMacro(BSplineTransformInitializer, Object);
 
   /** Type of the transform to initialize. */
   using TransformType = TTransform;
@@ -81,40 +80,43 @@ public:
   static constexpr unsigned int SpaceDimension = TransformType::SpaceDimension;
 
   /** Set/Get the transform to be initialized. */
-  itkGetConstObjectMacro( Transform, TransformType );
-  itkSetObjectMacro( Transform, TransformType );
+  itkGetConstObjectMacro(Transform, TransformType);
+  itkSetObjectMacro(Transform, TransformType);
 
   /** Set/Get the image to initialize the domain. */
-  itkGetConstObjectMacro( Image, ImageType );
-  itkSetConstObjectMacro( Image, ImageType );
+  itkGetConstObjectMacro(Image, ImageType);
+  itkSetConstObjectMacro(Image, ImageType);
 
   /** Allow the user to set the mesh size of the transform via the initializer,
    * even though the initializer does not do anything with that information.
    * Default size is 1^ImageDimension. */
-  itkGetConstMacro( TransformDomainMeshSize, MeshSizeType );
-  void SetTransformDomainMeshSize( const MeshSizeType );
+  itkGetConstMacro(TransformDomainMeshSize, MeshSizeType);
+  void
+  SetTransformDomainMeshSize(const MeshSizeType);
 
   /** Initialize the transform using the specified transformation domain. */
-  virtual void InitializeTransform() const;
+  virtual void
+  InitializeTransform() const;
 
 protected:
   BSplineTransformInitializer();
   ~BSplineTransformInitializer() override = default;
 
-  void PrintSelf( std::ostream & os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ImagePointer                    m_Image;
-  TransformPointer                m_Transform;
+  ImagePointer     m_Image;
+  TransformPointer m_Transform;
 
-  MeshSizeType                    m_TransformDomainMeshSize;
-  bool                            m_SetTransformDomainMeshSizeViaInitializer{ false };
+  MeshSizeType m_TransformDomainMeshSize;
+  bool         m_SetTransformDomainMeshSizeViaInitializer{ false };
 
-}; //class BSplineTransformInitializer
-}  // namespace itk
+}; // class BSplineTransformInitializer
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBSplineTransformInitializer.hxx"
+#  include "itkBSplineTransformInitializer.hxx"
 #endif
 
 #endif /* itkBSplineTransformInitializer_h */

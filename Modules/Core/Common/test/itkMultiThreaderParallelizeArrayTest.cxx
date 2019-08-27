@@ -24,80 +24,74 @@
 class ShowProgress : public itk::Command
 {
 public:
-  itkNewMacro( ShowProgress );
+  itkNewMacro(ShowProgress);
 
   void
-  Execute( itk::Object* caller, const itk::EventObject& event ) override
+  Execute(itk::Object * caller, const itk::EventObject & event) override
   {
-    Execute( (const itk::Object*)caller, event );
+    Execute((const itk::Object *)caller, event);
   }
 
   void
-  Execute( const itk::Object* caller, const itk::EventObject& event ) override
+  Execute(const itk::Object * caller, const itk::EventObject & event) override
   {
-    if ( !itk::ProgressEvent().CheckEvent( &event ) )
-      {
+    if (!itk::ProgressEvent().CheckEvent(&event))
+    {
       return;
-      }
-    const auto* processObject = dynamic_cast< const itk::ProcessObject* >( caller );
-    if ( !processObject )
-      {
+    }
+    const auto * processObject = dynamic_cast<const itk::ProcessObject *>(caller);
+    if (!processObject)
+    {
       return;
-      }
+    }
     std::cout << " " << processObject->GetProgress();
   }
 };
 
 int
-itkMultiThreaderParallelizeArrayTest( int argc, char* argv[] )
+itkMultiThreaderParallelizeArrayTest(int argc, char * argv[])
 {
   itk::MultiThreaderBase::Pointer mt = itk::MultiThreaderBase::New();
-  if ( mt.IsNull() )
-    {
+  if (mt.IsNull())
+  {
     std::cerr << "MultiThreaderBase could not be instantiated!" << std::endl;
     return EXIT_FAILURE;
-    }
-  if ( argc >= 2 )
-    {
-    unsigned threadCount = static_cast< unsigned >( std::stoi( argv[1] ) );
-    mt->SetNumberOfWorkUnits( threadCount );
-    }
+  }
+  if (argc >= 2)
+  {
+    unsigned threadCount = static_cast<unsigned>(std::stoi(argv[1]));
+    mt->SetNumberOfWorkUnits(threadCount);
+  }
 
-  constexpr unsigned size = 1029;
-  std::vector< unsigned > vec( size );
+  constexpr unsigned    size = 1029;
+  std::vector<unsigned> vec(size);
 
-  using SomeProcessObject = itk::AbsImageFilter< itk::Image< char >, itk::Image< char > >;
+  using SomeProcessObject = itk::AbsImageFilter<itk::Image<char>, itk::Image<char>>;
   SomeProcessObject::Pointer progressPO = SomeProcessObject::New();
-  ShowProgress::Pointer showProgress = ShowProgress::New();
-  progressPO->AddObserver( itk::ProgressEvent(), showProgress );
+  ShowProgress::Pointer      showProgress = ShowProgress::New();
+  progressPO->AddObserver(itk::ProgressEvent(), showProgress);
   mt->ParallelizeArray(
-    1,
-    size,
-    [&vec]( int i )
-    {
-      vec[i] = i;
-    },
-    progressPO );
+    1, size, [&vec](int i) { vec[i] = i; }, progressPO);
 
   int result = EXIT_SUCCESS;
-  if ( vec[0] != 0 )
-    {
+  if (vec[0] != 0)
+  {
     std::cerr << "vec[0] was modified!" << std::endl;
     result = EXIT_FAILURE;
-    }
+  }
 
-  for ( unsigned i = 1; i < size; i++ )
+  for (unsigned i = 1; i < size; i++)
+  {
+    if (vec[i] != i)
     {
-    if ( vec[i] != i )
-      {
       std::cerr << "vec[" << i << "] is not " << i << ", but " << vec[i] << std::endl;
       result = EXIT_FAILURE;
-      }
     }
+  }
 
-  if ( result != EXIT_FAILURE )
-    {
+  if (result != EXIT_FAILURE)
+  {
     std::cout << "\nTest PASSED" << std::endl;
-    }
+  }
   return result;
 }

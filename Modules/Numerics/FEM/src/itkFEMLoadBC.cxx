@@ -24,43 +24,49 @@ namespace fem
 {
 
 // Overload the CreateAnother() method.
-::itk::LightObject::Pointer LoadBC::CreateAnother() const
+::itk::LightObject::Pointer
+LoadBC::CreateAnother() const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New();
+  Pointer                     copyPtr = Self::New();
 
   // Copy Load Contents
   copyPtr->m_DegreeOfFreedom = this->m_DegreeOfFreedom;
   copyPtr->m_Value = this->m_Value;
   copyPtr->m_Element = this->m_Element;
-  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+  copyPtr->SetGlobalNumber(this->GetGlobalNumber());
 
   smartPtr = static_cast<Pointer>(copyPtr);
 
   return smartPtr;
 }
 
-void LoadBC::SetDegreeOfFreedom(int dof)
+void
+LoadBC::SetDegreeOfFreedom(int dof)
 {
   this->m_DegreeOfFreedom = dof;
 }
 
-int LoadBC::GetDegreeOfFreedom() const
+int
+LoadBC::GetDegreeOfFreedom() const
 {
   return this->m_DegreeOfFreedom;
 }
 
-void LoadBC::SetValue(const vnl_vector<Element::Float> val)
+void
+LoadBC::SetValue(const vnl_vector<Element::Float> val)
 {
   this->m_Value = val;
 }
 
-vnl_vector<Element::Float> LoadBC::GetValue() const
+vnl_vector<Element::Float>
+LoadBC::GetValue() const
 {
   return this->m_Value;
 }
 
-void LoadBC::PrintSelf(std::ostream& os, Indent indent) const
+void
+LoadBC::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Element: " << this->m_Element << std::endl;

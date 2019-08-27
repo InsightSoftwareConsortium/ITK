@@ -32,9 +32,8 @@ namespace itk
  *
  * \ingroup ITKVideoFiltering
  */
-template<typename TInputVideoStream, typename TOutputVideoStream>
-class ITK_TEMPLATE_EXPORT FrameDifferenceVideoFilter :
-  public VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>
+template <typename TInputVideoStream, typename TOutputVideoStream>
+class ITK_TEMPLATE_EXPORT FrameDifferenceVideoFilter : public VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FrameDifferenceVideoFilter);
@@ -42,13 +41,11 @@ public:
   /** Standard class type aliases */
   using InputVideoStreamType = TInputVideoStream;
   using OutputVideoStreamType = TOutputVideoStream;
-  using Self = FrameDifferenceVideoFilter< InputVideoStreamType,
-                                   OutputVideoStreamType >;
-  using Superclass = VideoToVideoFilter< InputVideoStreamType,
-                              OutputVideoStreamType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using ConstWeakPointer = WeakPointer< const Self >;
+  using Self = FrameDifferenceVideoFilter<InputVideoStreamType, OutputVideoStreamType>;
+  using Superclass = VideoToVideoFilter<InputVideoStreamType, OutputVideoStreamType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using ConstWeakPointer = WeakPointer<const Self>;
 
   using InputFrameType = typename TInputVideoStream::FrameType;
   using InputPixelType = typename InputFrameType::PixelType;
@@ -62,32 +59,32 @@ public:
   itkTypeMacro(FrameDifferenceVideoFilter, VideoToVideoFilter);
 
   /** Get/Set the offset for computing frame differences. Defaults to 1. */
-  void SetFrameOffset(SizeValueType numFrames);
-  SizeValueType GetFrameOffset();
+  void
+  SetFrameOffset(SizeValueType numFrames);
+  SizeValueType
+  GetFrameOffset();
 
 protected:
-
   /** Constructor and Destructor */
   FrameDifferenceVideoFilter();
   ~FrameDifferenceVideoFilter() override = default;
 
   /** PrintSelf */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** FrameDifferenceVideoFilter is implemented as a temporal streaming and
    * spatially multithreaded filter, so we override ThreadedGenerateData */
-  void ThreadedGenerateData(
-                const OutputFrameSpatialRegionType& outputRegionForThread,
-                int threadId) override;
+  void
+  ThreadedGenerateData(const OutputFrameSpatialRegionType & outputRegionForThread, int threadId) override;
 
 private:
-
-};  // end class FrameDifferenceVideoFilter
+}; // end class FrameDifferenceVideoFilter
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFrameDifferenceVideoFilter.hxx"
+#  include "itkFrameDifferenceVideoFilter.hxx"
 #endif
 
 #endif

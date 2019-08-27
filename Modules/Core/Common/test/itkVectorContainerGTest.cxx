@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
- // First include the header file to be tested:
+// First include the header file to be tested:
 #include "itkVectorContainer.h"
 
 #include <gtest/gtest.h>
@@ -34,18 +34,17 @@ template class itk::VectorContainer<TestedElementIdentifierType, std::string>;
 
 namespace
 {
-  template <typename TElementIdentifier, typename TElement>
-  void ExpectContainerHasValueOfCreatedElementAtIdentifier(
-    const TElementIdentifier identifier,
-    const TElement value)
-  {
-    const auto vectorContainer = itk::VectorContainer<TElementIdentifier, TElement>::New();
+template <typename TElementIdentifier, typename TElement>
+void
+ExpectContainerHasValueOfCreatedElementAtIdentifier(const TElementIdentifier identifier, const TElement value)
+{
+  const auto vectorContainer = itk::VectorContainer<TElementIdentifier, TElement>::New();
 
-    vectorContainer->CreateElementAt(identifier) = value;
+  vectorContainer->CreateElementAt(identifier) = value;
 
-    EXPECT_EQ(vectorContainer->ElementAt(identifier), value);
-  }
+  EXPECT_EQ(vectorContainer->ElementAt(identifier), value);
 }
+} // namespace
 
 
 // Tests that a VectorContainer has the value of an element created by

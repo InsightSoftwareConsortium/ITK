@@ -119,13 +119,13 @@ namespace itk
  * \ingroup ITKCommon
  *
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT ImageRandomConstIteratorWithOnlyIndex:public ImageConstIteratorWithOnlyIndex< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ImageRandomConstIteratorWithOnlyIndex : public ImageConstIteratorWithOnlyIndex<TImage>
 {
 public:
   /** Standard class type aliases. */
   using Self = ImageRandomConstIteratorWithOnlyIndex;
-  using Superclass = ImageConstIteratorWithOnlyIndex< TImage >;
+  using Superclass = ImageConstIteratorWithOnlyIndex<TImage>;
 
   /** Inherit types from the superclass */
   using IndexType = typename Superclass::IndexType;
@@ -143,7 +143,7 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageRandomConstIteratorWithOnlyIndex(const ImageType *ptr, const RegionType & region);
+  ImageRandomConstIteratorWithOnlyIndex(const ImageType * ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageRandomConstIteratorWithOnlyIndex. Many routines return an ImageIterator, but for a
@@ -151,40 +151,45 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRandomConstIteratorWithOnlyIndex. */
-  ImageRandomConstIteratorWithOnlyIndex(const ImageConstIteratorWithOnlyIndex< TImage > & it)
+  ImageRandomConstIteratorWithOnlyIndex(const ImageConstIteratorWithOnlyIndex<TImage> & it)
   {
-    this->ImageConstIteratorWithOnlyIndex< TImage >::operator=(it);
+    this->ImageConstIteratorWithOnlyIndex<TImage>::operator=(it);
   }
 
   /** Move an iterator to the beginning of the region. */
-  void GoToBegin()
+  void
+  GoToBegin()
   {
     this->RandomJump();
     m_NumberOfSamplesDone = 0L;
   }
 
   /** Move an iterator to one position past the End of the region. */
-  void GoToEnd()
+  void
+  GoToEnd()
   {
     this->RandomJump();
     m_NumberOfSamplesDone = m_NumberOfSamplesRequested;
   }
 
   /** Is the iterator at the beginning of the region? */
-  bool IsAtBegin() const
+  bool
+  IsAtBegin() const
   {
-    return ( m_NumberOfSamplesDone == 0L );
+    return (m_NumberOfSamplesDone == 0L);
   }
 
   /** Is the iterator at the end of the region? */
-  bool IsAtEnd() const
+  bool
+  IsAtEnd() const
   {
-    return ( m_NumberOfSamplesDone >= m_NumberOfSamplesRequested );
+    return (m_NumberOfSamplesDone >= m_NumberOfSamplesRequested);
   }
 
   /** Increment (prefix) the selected dimension.
    * No bounds checking is performed. \sa GetIndex \sa operator-- */
-  Self & operator++()
+  Self &
+  operator++()
   {
     this->RandomJump();
     m_NumberOfSamplesDone++;
@@ -193,7 +198,8 @@ public:
 
   /** Decrement (prefix) the selected dimension.
    * No bounds checking is performed. \sa GetIndex \sa operator++ */
-  Self & operator--()
+  Self &
+  operator--()
   {
     this->RandomJump();
     m_NumberOfSamplesDone--;
@@ -201,17 +207,22 @@ public:
   }
 
   /** Set/Get number of random samples to get from the image region */
-  void SetNumberOfSamples(SizeValueType number);
+  void
+  SetNumberOfSamples(SizeValueType number);
 
-  SizeValueType GetNumberOfSamples() const;
+  SizeValueType
+  GetNumberOfSamples() const;
 
   /** Reinitialize the seed of the random number generator  */
-  void ReinitializeSeed();
+  void
+  ReinitializeSeed();
 
-  void ReinitializeSeed(int);
+  void
+  ReinitializeSeed(int);
 
 private:
-  void RandomJump();
+  void
+  RandomJump();
 
   using GeneratorPointer = typename Statistics::MersenneTwisterRandomVariateGenerator::Pointer;
   GeneratorPointer m_Generator;
@@ -222,7 +233,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageRandomConstIteratorWithOnlyIndex.hxx"
+#  include "itkImageRandomConstIteratorWithOnlyIndex.hxx"
 #endif
 
 #endif

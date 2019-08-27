@@ -65,7 +65,7 @@ namespace itk
  */
 
 template <unsigned int VDimension = 2>
-struct ITK_TEMPLATE_EXPORT  Size final
+struct ITK_TEMPLATE_EXPORT Size final
 {
 public:
   // Using the `rule of zero` to this aggregate type
@@ -82,52 +82,57 @@ public:
   static constexpr unsigned int Dimension = VDimension;
 
   /** Get the dimension. */
-  static constexpr unsigned int GetSizeDimension()
+  static constexpr unsigned int
+  GetSizeDimension()
   {
     return VDimension;
   }
 
   /** Add two sizes.  */
-  const Self operator+(const Self & vec) const
+  const Self
+  operator+(const Self & vec) const
   {
     Self result;
 
-    for( unsigned int i = 0; i < VDimension; i++ )
-      {
+    for (unsigned int i = 0; i < VDimension; i++)
+    {
       result[i] = m_InternalArray[i] + vec.m_InternalArray[i];
-      }
+    }
     return result;
   }
 
   /** Increment size by a size.  */
-  const Self & operator+=(const Self & vec)
+  const Self &
+  operator+=(const Self & vec)
   {
-    for( unsigned int i = 0; i < VDimension; i++ )
-      {
+    for (unsigned int i = 0; i < VDimension; i++)
+    {
       m_InternalArray[i] += vec.m_InternalArray[i];
-      }
+    }
     return *this;
   }
 
   /** Subtract two sizes.  */
-  const Self operator-(const Self & vec) const
+  const Self
+  operator-(const Self & vec) const
   {
     Self result;
 
-    for( unsigned int i = 0; i < VDimension; i++ )
-      {
+    for (unsigned int i = 0; i < VDimension; i++)
+    {
       result[i] = m_InternalArray[i] - vec.m_InternalArray[i];
-      }
+    }
     return result;
   }
 
   /** Decrement size by a size.  */
-  const Self & operator-=(const Self & vec)
+  const Self &
+  operator-=(const Self & vec)
   {
-    for( unsigned int i = 0; i < VDimension; i++ )
-      {
+    for (unsigned int i = 0; i < VDimension; i++)
+    {
       m_InternalArray[i] -= vec.m_InternalArray[i];
-      }
+    }
     return *this;
   }
 
@@ -136,26 +141,28 @@ public:
   {
     Self result;
 
-    for( unsigned int i = 0; i < VDimension; i++ )
-      {
+    for (unsigned int i = 0; i < VDimension; i++)
+    {
       result[i] = m_InternalArray[i] * vec.m_InternalArray[i];
-      }
+    }
     return result;
   }
 
   /** Multiply two sizes (elementwise product).  */
-  const Self & operator*=(const Self & vec)
+  const Self &
+  operator*=(const Self & vec)
   {
-    for( unsigned int i = 0; i < VDimension; i++ )
-      {
+    for (unsigned int i = 0; i < VDimension; i++)
+    {
       m_InternalArray[i] *= vec.m_InternalArray[i];
-      }
+    }
     return *this;
   }
 
   /** Get the size. This provides a read only pointer to the size.
    * \sa SetSize */
-  const SizeValueType * GetSize() const
+  const SizeValueType *
+  GetSize() const
   {
     return m_InternalArray;
   }
@@ -164,7 +171,8 @@ public:
    * Try to prototype this function so that val has to point to a block of
    * memory that is the appropriate size.
    *  \sa GetSize */
-  void SetSize(const SizeValueType val[VDimension])
+  void
+  SetSize(const SizeValueType val[VDimension])
   {
     std::copy_n(val, VDimension, m_InternalArray);
   }
@@ -175,7 +183,8 @@ public:
    * \warning No bound checking is performed.
    * \sa SetSize()
    * \sa GetElement() */
-  void SetElement(unsigned long element, SizeValueType val)
+  void
+  SetElement(unsigned long element, SizeValueType val)
   {
     m_InternalArray[element] = val;
   }
@@ -186,17 +195,19 @@ public:
    * \warning No bound checking is performed
    * \sa GetSize()
    * \sa SetElement() */
-  SizeValueType GetElement(unsigned long element) const
+  SizeValueType
+  GetElement(unsigned long element) const
   {
     return m_InternalArray[element];
   }
 
   /** Set one value for the index in all dimensions.  Useful for initializing
    * an offset to zero. */
-  void Fill(SizeValueType value)
+  void
+  Fill(SizeValueType value)
   {
     std::fill_n(begin(), size(), value);
-  }                                        // MATCH std::array assign, ITK Fill
+  } // MATCH std::array assign, ITK Fill
 
   /** Size is an "aggregate" class.  Its data is public (m_InternalArray)
    * allowing for fast and convenient instantiations/assignments.
@@ -212,7 +223,7 @@ public:
    *  copy the biggest chunks of memory when performing copies to or from the variables
    *  that have types that you have aligned this way.
    */
-  static_assert( VDimension > 0, "Error: Only positive value sized VDimension allowed" );
+  static_assert(VDimension > 0, "Error: Only positive value sized VDimension allowed");
   alignas(SizeValueType) SizeValueType m_InternalArray[VDimension];
 
   // ======================= Mirror the access pattern behavior of the std::array class
@@ -235,156 +246,175 @@ public:
    * Mirror behavior of the std::array manipulations
    * See std::array for documentation on these methods
    */
-  void assign(const value_type & newValue)
+  void
+  assign(const value_type & newValue)
   {
     std::fill_n(begin(), size(), newValue);
   }
 
-  void swap(Size & other)
+  void
+  swap(Size & other)
   {
     std::swap(m_InternalArray, other.m_InternalArray);
   }
 
-  iterator begin()
+  iterator
+  begin()
   {
     return iterator(&m_InternalArray[0]);
   }
 
-  const_iterator begin() const
+  const_iterator
+  begin() const
   {
     return const_iterator(&m_InternalArray[0]);
   }
 
-  iterator end()
+  iterator
+  end()
   {
     return iterator(&m_InternalArray[VDimension]);
   }
 
-  const_iterator end() const
+  const_iterator
+  end() const
   {
     return const_iterator(&m_InternalArray[VDimension]);
   }
 
-  reverse_iterator rbegin()
+  reverse_iterator
+  rbegin()
   {
-    return reverse_iterator(end() );
+    return reverse_iterator(end());
   }
 
-  const_reverse_iterator rbegin() const
+  const_reverse_iterator
+  rbegin() const
   {
-    return const_reverse_iterator(end() );
+    return const_reverse_iterator(end());
   }
 
-  reverse_iterator rend()
+  reverse_iterator
+  rend()
   {
-    return reverse_iterator(begin() );
+    return reverse_iterator(begin());
   }
 
-  const_reverse_iterator rend() const
+  const_reverse_iterator
+  rend() const
   {
-    return const_reverse_iterator(begin() );
+    return const_reverse_iterator(begin());
   }
 
-  constexpr size_type size() const
+  constexpr size_type
+  size() const
   {
     return VDimension;
   }
 
-  constexpr size_type max_size() const
+  constexpr size_type
+  max_size() const
   {
     return VDimension;
   }
 
-  constexpr bool empty() const
+  constexpr bool
+  empty() const
   {
     return false;
   }
 
-  reference operator[](size_type pos)
+  reference operator[](size_type pos) { return m_InternalArray[pos]; }
+
+  const_reference operator[](size_type pos) const { return m_InternalArray[pos]; }
+
+  reference
+  at(size_type pos)
   {
+    ExceptionThrowingBoundsCheck(pos);
     return m_InternalArray[pos];
   }
 
-  const_reference operator[](size_type pos) const
+  const_reference
+  at(size_type pos) const
   {
+    ExceptionThrowingBoundsCheck(pos);
     return m_InternalArray[pos];
   }
 
-  reference at(size_type pos)
-  {
-    ExceptionThrowingBoundsCheck(pos); return m_InternalArray[pos];
-  }
-
-  const_reference at(size_type pos) const
-  {
-    ExceptionThrowingBoundsCheck(pos); return m_InternalArray[pos];
-  }
-
-  reference front()
+  reference
+  front()
   {
     return *begin();
   }
 
-  const_reference front() const
+  const_reference
+  front() const
   {
     return *begin();
   }
 
-  reference back()
+  reference
+  back()
   {
     return VDimension ? *(end() - 1) : *end();
   }
 
-  const_reference back() const
+  const_reference
+  back() const
   {
     return VDimension ? *(end() - 1) : *end();
   }
 
-  SizeValueType * data()
+  SizeValueType *
+  data()
   {
     return &m_InternalArray[0];
   }
 
-  const SizeValueType * data() const
+  const SizeValueType *
+  data() const
   {
     return &m_InternalArray[0];
   }
 
 private:
-  void ExceptionThrowingBoundsCheck(size_type pos) const
+  void
+  ExceptionThrowingBoundsCheck(size_type pos) const
   {
-    if( pos >= VDimension )
-      {
+    if (pos >= VDimension)
+    {
       throw std::out_of_range("array::ExceptionThrowingBoundsCheck");
-      }
+    }
   }
 
 public:
-
   /** Returns a Size object, filled with the specified value for each element.
    */
-  static Self Filled(const SizeValueType value)
+  static Self
+  Filled(const SizeValueType value)
   {
     Self result;
     result.Fill(value);
     return result;
   }
 
-};  //------------ End struct Size
+}; //------------ End struct Size
 
 
 template <unsigned int VDimension>
-std::ostream & operator<<(std::ostream & os, const Size<VDimension> & obj)
+std::ostream &
+operator<<(std::ostream & os, const Size<VDimension> & obj)
 {
   os << "[";
-  for( unsigned int i = 0; i + 1 < VDimension; ++i )
-    {
+  for (unsigned int i = 0; i + 1 < VDimension; ++i)
+  {
     os << obj[i] << ", ";
-    }
-  if( VDimension >= 1 )
-    {
+  }
+  if (VDimension >= 1)
+  {
     os << obj[VDimension - 1];
-    }
+  }
   os << "]";
   return os;
 }
@@ -395,7 +425,7 @@ template <unsigned int VDimension>
 inline bool
 operator==(const Size<VDimension> & one, const Size<VDimension> & two)
 {
-  return std::equal(one.begin(), one.end(), two.begin() );
+  return std::equal(one.begin(), one.end(), two.begin());
 }
 
 template <unsigned int VDimension>
@@ -409,8 +439,7 @@ template <unsigned int VDimension>
 inline bool
 operator<(const Size<VDimension> & one, const Size<VDimension> & two)
 {
-  return std::lexicographical_compare(one.begin(), one.end(),
-                                      two.begin(), two.end() );
+  return std::lexicographical_compare(one.begin(), one.end(), two.begin(), two.end());
 }
 
 template <unsigned int VDimension>
@@ -443,7 +472,7 @@ swap(Size<VDimension> & one, Size<VDimension> & two)
 }
 
 // static constexpr definition explicitly needed in C++11
-template< unsigned int VDimension >
+template <unsigned int VDimension>
 constexpr unsigned int Size<VDimension>::Dimension;
 
 } // end namespace itk

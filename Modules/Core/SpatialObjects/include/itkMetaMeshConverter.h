@@ -30,22 +30,19 @@ namespace itk
  *  \sa MetaConverterBase
  *  \ingroup ITKSpatialObjects
  */
-template< unsigned int NDimensions = 3,
+template <unsigned int NDimensions = 3,
           typename PixelType = unsigned char,
-          typename TMeshTraits =
-            DefaultStaticMeshTraits< PixelType, NDimensions, NDimensions >
-          >
-class ITK_TEMPLATE_EXPORT MetaMeshConverter :
-    public MetaConverterBase< NDimensions >
+          typename TMeshTraits = DefaultStaticMeshTraits<PixelType, NDimensions, NDimensions>>
+class ITK_TEMPLATE_EXPORT MetaMeshConverter : public MetaConverterBase<NDimensions>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaMeshConverter);
 
   /** Standard class type aliases */
   using Self = MetaMeshConverter;
-  using Superclass = MetaConverterBase< NDimensions >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MetaConverterBase<NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -58,21 +55,24 @@ public:
   using MetaObjectType = typename Superclass::MetaObjectType;
 
   /** Specific class types for conversion */
-  using MeshType = itk::Mesh< PixelType, NDimensions, TMeshTraits >;
+  using MeshType = itk::Mesh<PixelType, NDimensions, TMeshTraits>;
   using MeshSpatialObjectType = MeshSpatialObject<MeshType>;
   using MeshSpatialObjectPointer = typename MeshSpatialObjectType::Pointer;
   using MeshSpatialObjectConstPointer = typename MeshSpatialObjectType::ConstPointer;
   using MeshMetaObjectType = MetaMesh;
 
   /** Convert the MetaObject to Spatial Object */
-  SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) override;
+  SpatialObjectPointer
+  MetaObjectToSpatialObject(const MetaObjectType * mo) override;
 
   /** Convert the SpatialObject to MetaObject */
-  MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject) override;
+  MetaObjectType *
+  SpatialObjectToMetaObject(const SpatialObjectType * spatialObject) override;
 
 protected:
   /** Create the specific MetaObject for this class */
-  MetaObjectType *CreateMetaObject() override;
+  MetaObjectType *
+  CreateMetaObject() override;
 
   MetaMeshConverter() = default;
   ~MetaMeshConverter() override = default;
@@ -80,7 +80,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkMetaMeshConverter.hxx"
+#  include "itkMetaMeshConverter.hxx"
 #endif
 
 #endif

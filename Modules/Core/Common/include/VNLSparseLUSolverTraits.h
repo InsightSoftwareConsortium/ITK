@@ -38,105 +38,124 @@
  *
  * \sa VNLIterativeSparseSolverTraits:w
  */
-template< typename T = double >
+template <typename T = double>
 class VNLSparseLUSolverTraits
 {
 public:
   using ValueType = T;
-  using MatrixType = vnl_sparse_matrix< ValueType >;
-  using VectorType = vnl_vector< ValueType >;
+  using MatrixType = vnl_sparse_matrix<ValueType>;
+  using VectorType = vnl_vector<ValueType>;
   using SolverType = vnl_sparse_lu;
 
   /** \return false (it is not a direct solver, it is an iterative solver) */
-  static bool IsDirectSolver()
+  static bool
+  IsDirectSolver()
   {
     return true;
   }
 
   /** \brief initialize a square sparse matrix of size iN x iN */
-  static MatrixType InitializeSparseMatrix(const unsigned int & iN)
+  static MatrixType
+  InitializeSparseMatrix(const unsigned int & iN)
   {
     return MatrixType(iN, iN);
   }
 
   /** \brief initialize a sparse matrix of size iRow x iCol */
-  static MatrixType InitializeSparseMatrix(const unsigned int & iRow, const unsigned int& iCol)
+  static MatrixType
+  InitializeSparseMatrix(const unsigned int & iRow, const unsigned int & iCol)
   {
     return MatrixType(iRow, iCol);
   }
 
   /** \brief initialize a vector of size iN */
-  static VectorType InitializeVector(const unsigned int & iN)
+  static VectorType
+  InitializeVector(const unsigned int & iN)
   {
     return VectorType(iN);
   }
 
   /** \brief iA[iR][iC] = iV */
-  static void FillMatrix(MatrixType & iA, const unsigned int & iR, const unsigned int & iC, const ValueType & iV)
+  static void
+  FillMatrix(MatrixType & iA, const unsigned int & iR, const unsigned int & iC, const ValueType & iV)
   {
     iA(iR, iC) = iV;
   }
 
   /** \brief iA[iR][iC] += iV */
-  static void AddToMatrix(MatrixType & iA, const unsigned int & iR, const unsigned int & iC, const ValueType & iV)
+  static void
+  AddToMatrix(MatrixType & iA, const unsigned int & iR, const unsigned int & iC, const ValueType & iV)
   {
     iA(iR, iC) += iV;
   }
 
   /** \brief Solve the linear system \f$ iA \cdot oX = iB \f$ */
-  static bool Solve(const MatrixType & iA, const VectorType & iB, VectorType & oX)
+  static bool
+  Solve(const MatrixType & iA, const VectorType & iB, VectorType & oX)
   {
-    SolverType solver( iA );
-    Solve( solver, iB, oX );
+    SolverType solver(iA);
+    Solve(solver, iB, oX);
 
     return true;
   }
 
-  /** \brief Solve the linear systems: \f$ iA \cdot oX = iBx \f$, \f$ iA \cdot oY = iBy \f$, \f$ iA \cdot oZ = iBz \f$ */
-  static bool Solve(const MatrixType & iA,
-             const VectorType & iBx, const VectorType & iBy, const VectorType & iBz,
-             VectorType & oX, VectorType & oY, VectorType & oZ )
+  /** \brief Solve the linear systems: \f$ iA \cdot oX = iBx \f$, \f$ iA \cdot oY = iBy \f$, \f$ iA \cdot oZ = iBz \f$
+   */
+  static bool
+  Solve(const MatrixType & iA,
+        const VectorType & iBx,
+        const VectorType & iBy,
+        const VectorType & iBz,
+        VectorType &       oX,
+        VectorType &       oY,
+        VectorType &       oZ)
   {
-    SolverType solver( iA );
-    Solve( solver, iBx, iBy, iBz, oX, oY, oZ );
+    SolverType solver(iA);
+    Solve(solver, iBx, iBy, iBz, oX, oY, oZ);
 
     return true;
   }
 
   /** \brief Solve the linear systems: \f$ iA \cdot oX = iBx \f$, \f$ iA \cdot oY = iBy \f$ */
-  static bool Solve(const MatrixType & iA,
-             const VectorType & iBx, const VectorType & iBy,
-             VectorType & oX, VectorType & oY)
+  static bool
+  Solve(const MatrixType & iA, const VectorType & iBx, const VectorType & iBy, VectorType & oX, VectorType & oY)
   {
-    SolverType solver( iA );
-    Solve( solver, iBx, iBy, oX, oY );
+    SolverType solver(iA);
+    Solve(solver, iBx, iBy, oX, oY);
 
     return true;
   }
 
   /** \brief Solve the linear system \f$ iA \cdot oX = iB \f$ factoring the internal matrix if needed */
-  static void Solve( SolverType & solver, const VectorType & iB, VectorType & oX )
+  static void
+  Solve(SolverType & solver, const VectorType & iB, VectorType & oX)
   {
-    oX = solver.solve( iB );
+    oX = solver.solve(iB);
   }
 
-  /** \brief Solve the linear systems: \f$ iA \cdot oX = iBx \f$, \f$ iA \cdot oY = iBy \f$, \f$ iA \cdot oZ = iBz \f$ factoring the internal matrix if needed */
-  static void Solve( SolverType & solver,
-             const VectorType & iBx, const VectorType & iBy, const VectorType & iBz,
-             VectorType & oX, VectorType & oY, VectorType & oZ )
+  /** \brief Solve the linear systems: \f$ iA \cdot oX = iBx \f$, \f$ iA \cdot oY = iBy \f$, \f$ iA \cdot oZ = iBz \f$
+   * factoring the internal matrix if needed */
+  static void
+  Solve(SolverType &       solver,
+        const VectorType & iBx,
+        const VectorType & iBy,
+        const VectorType & iBz,
+        VectorType &       oX,
+        VectorType &       oY,
+        VectorType &       oZ)
   {
-    oX = solver.solve( iBx );
-    oY = solver.solve( iBy );
-    oZ = solver.solve( iBz );
+    oX = solver.solve(iBx);
+    oY = solver.solve(iBy);
+    oZ = solver.solve(iBz);
   }
 
-  /** \brief Solve the linear systems: \f$ iA \cdot oX = iBx \f$, \f$ iA \cdot oY = iBy \f$ factoring the internal matrix if needed */
-  static void Solve( SolverType & solver,
-             const VectorType & iBx, const VectorType & iBy,
-             VectorType & oX, VectorType & oY )
+  /** \brief Solve the linear systems: \f$ iA \cdot oX = iBx \f$, \f$ iA \cdot oY = iBy \f$ factoring the internal
+   * matrix if needed */
+  static void
+  Solve(SolverType & solver, const VectorType & iBx, const VectorType & iBy, VectorType & oX, VectorType & oY)
   {
-    oX = solver.solve( iBx );
-    oY = solver.solve( iBy );
+    oX = solver.solve(iBx);
+    oY = solver.solve(iBy);
   }
 };
 

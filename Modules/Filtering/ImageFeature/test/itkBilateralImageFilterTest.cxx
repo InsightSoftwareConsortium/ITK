@@ -24,33 +24,33 @@
  * This program tests the FilterImageAnisotropicDiffusion object by driving it
  * with a null input and output.  Returns 0 on success and 1 on failure.
  */
-int itkBilateralImageFilterTest(int, char* [] )
+int
+itkBilateralImageFilterTest(int, char *[])
 {
   try
-    {
-      using ImageType = itk::Image<float, 2>;
+  {
+    using ImageType = itk::Image<float, 2>;
 
-      // Set up filter
-      itk::BilateralImageFilter<ImageType, ImageType>::Pointer
-        filter = itk::BilateralImageFilter<ImageType,
-        ImageType>::New();
-      filter->SetDomainSigma(2.0);
-      filter->SetDomainMu(2.5);
-      filter->SetRangeSigma(35.0f);
+    // Set up filter
+    itk::BilateralImageFilter<ImageType, ImageType>::Pointer filter =
+      itk::BilateralImageFilter<ImageType, ImageType>::New();
+    filter->SetDomainSigma(2.0);
+    filter->SetDomainMu(2.5);
+    filter->SetRangeSigma(35.0f);
 
-      // Run Test
-      itk::Size<2> sz;
-      sz[0] = 250;
-      sz[1] = 250;
-      itk::NullImageToImageFilterDriver< ImageType, ImageType > test1;
-      test1.SetImageSize(sz);
-      test1.SetFilter(filter);
-      test1.Execute();
-    }
-  catch(itk::ExceptionObject &err)
-    {
-      (&err)->Print(std::cerr);
-      return EXIT_FAILURE;
-    }
+    // Run Test
+    itk::Size<2> sz;
+    sz[0] = 250;
+    sz[1] = 250;
+    itk::NullImageToImageFilterDriver<ImageType, ImageType> test1;
+    test1.SetImageSize(sz);
+    test1.SetFilter(filter);
+    test1.Execute();
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    (&err)->Print(std::cerr);
+    return EXIT_FAILURE;
+  }
   return EXIT_SUCCESS;
 }

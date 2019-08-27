@@ -50,9 +50,9 @@ namespace itk
  * \ingroup Transforms
  * \ingroup ITKDisplacementField
  */
-template<typename TParametersValueType, unsigned int NDimensions>
-class ITK_TEMPLATE_EXPORT TimeVaryingVelocityFieldTransform :
-  public VelocityFieldTransform<TParametersValueType, NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
+class ITK_TEMPLATE_EXPORT TimeVaryingVelocityFieldTransform
+  : public VelocityFieldTransform<TParametersValueType, NDimensions>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingVelocityFieldTransform);
@@ -64,10 +64,10 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( TimeVaryingVelocityFieldTransform, VelocityFieldTransform );
+  itkTypeMacro(TimeVaryingVelocityFieldTransform, VelocityFieldTransform);
 
   /** New macro for creation of through a Smart Pointer */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** InverseTransform type. */
   using InverseTransformBasePointer = typename Superclass::InverseTransformBasePointer;
@@ -96,33 +96,38 @@ public:
   /** Derivative type */
   using DerivativeType = typename Superclass::DerivativeType;
 
-  using TransformPointer = typename Transform<TParametersValueType,NDimensions, NDimensions>::Pointer;
+  using TransformPointer = typename Transform<TParametersValueType, NDimensions, NDimensions>::Pointer;
 
   /** Get the time-varying velocity field. */
-#if ! defined ( ITK_LEGACY_REMOVE )
-  VelocityFieldType * GetTimeVaryingVelocityField()
-    {
+#if !defined(ITK_LEGACY_REMOVE)
+  VelocityFieldType *
+  GetTimeVaryingVelocityField()
+  {
     return this->GetModifiableVelocityField();
-    }
+  }
 #endif
-  VelocityFieldType * GetModifiableTimeVaryingVelocityField()
-    {
+  VelocityFieldType *
+  GetModifiableTimeVaryingVelocityField()
+  {
     return this->GetModifiableVelocityField();
-    }
-  const VelocityFieldType * GetTimeVaryingVelocityField() const
-    {
+  }
+  const VelocityFieldType *
+  GetTimeVaryingVelocityField() const
+  {
     return this->GetVelocityField();
-    }
+  }
 
   /** Set the time-varying velocity field.  */
-  virtual void SetTimeVaryingVelocityField( VelocityFieldType * field )
-    {
-    this->SetVelocityField( field );
-    }
+  virtual void
+  SetTimeVaryingVelocityField(VelocityFieldType * field)
+  {
+    this->SetVelocityField(field);
+  }
 
   /** Trigger the computation of the displacement field by integrating
    * the time-varying velocity field. */
-  void IntegrateVelocityField() override;
+  void
+  IntegrateVelocityField() override;
 
 protected:
   TimeVaryingVelocityFieldTransform() = default;
@@ -132,7 +137,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-# include "itkTimeVaryingVelocityFieldTransform.hxx"
+#  include "itkTimeVaryingVelocityFieldTransform.hxx"
 #endif
 
 #endif // itkTimeVaryingVelocityFieldTransform_h

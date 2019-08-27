@@ -29,28 +29,31 @@ namespace Functor
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< typename TInput1, typename TInput2, typename TInput3, typename TOutput >
+template <typename TInput1, typename TInput2, typename TInput3, typename TOutput>
 class ModulusSquare3
 {
 public:
   ModulusSquare3() = default;
   ~ModulusSquare3() = default;
-  bool operator!=(const ModulusSquare3 &) const
+  bool
+  operator!=(const ModulusSquare3 &) const
   {
     return false;
   }
 
-  bool operator==(const ModulusSquare3 & other) const
+  bool
+  operator==(const ModulusSquare3 & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput1 & A,
-                            const TInput2 & B,
-                            const TInput3 & C) const
-  { return static_cast<TOutput>( A * A + B * B + C * C ); }
+  inline TOutput
+  operator()(const TInput1 & A, const TInput2 & B, const TInput3 & C) const
+  {
+    return static_cast<TOutput>(A * A + B * B + C * C);
+  }
 };
-}
+} // namespace Functor
 
 /** \class TernaryMagnitudeSquaredImageFilter
  * \brief Compute the pixel-wise squared magnitude of three images.
@@ -62,41 +65,39 @@ public:
  * \ingroup IntensityImageFilters
  * \ingroup ITKImageIntensity
  */
-template< typename TInputImage1, typename TInputImage2,
-          typename TInputImage3, typename TOutputImage >
-class TernaryMagnitudeSquaredImageFilter:
-  public
-  TernaryFunctorImageFilter< TInputImage1, TInputImage2,
-                             TInputImage3, TOutputImage,
-                             Functor::ModulusSquare3<
-                               typename TInputImage1::PixelType,
-                               typename TInputImage2::PixelType,
-                               typename TInputImage3::PixelType,
-                               typename TOutputImage::PixelType >   >
+template <typename TInputImage1, typename TInputImage2, typename TInputImage3, typename TOutputImage>
+class TernaryMagnitudeSquaredImageFilter
+  : public TernaryFunctorImageFilter<TInputImage1,
+                                     TInputImage2,
+                                     TInputImage3,
+                                     TOutputImage,
+                                     Functor::ModulusSquare3<typename TInputImage1::PixelType,
+                                                             typename TInputImage2::PixelType,
+                                                             typename TInputImage3::PixelType,
+                                                             typename TOutputImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TernaryMagnitudeSquaredImageFilter);
 
   /** Standard class type aliases. */
   using Self = TernaryMagnitudeSquaredImageFilter;
-  using Superclass = TernaryFunctorImageFilter<
-    TInputImage1, TInputImage2,
-    TInputImage3, TOutputImage,
-    Functor::ModulusSquare3<
-      typename TInputImage1::PixelType,
-      typename TInputImage2::PixelType,
-      typename TInputImage3::PixelType,
-      typename TOutputImage::PixelType >   >;
+  using Superclass = TernaryFunctorImageFilter<TInputImage1,
+                                               TInputImage2,
+                                               TInputImage3,
+                                               TOutputImage,
+                                               Functor::ModulusSquare3<typename TInputImage1::PixelType,
+                                                                       typename TInputImage2::PixelType,
+                                                                       typename TInputImage3::PixelType,
+                                                                       typename TOutputImage::PixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(TernaryMagnitudeSquaredImageFilter,
-               TernaryFunctorImageFilter);
+  itkTypeMacro(TernaryMagnitudeSquaredImageFilter, TernaryFunctorImageFilter);
 
 protected:
   TernaryMagnitudeSquaredImageFilter() = default;

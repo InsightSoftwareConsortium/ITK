@@ -32,10 +32,10 @@
 
 #include "itkImageModelEstimatorBase.h"
 
-#define  ONEBAND           1
-#define  GLA_CONVERGED     1
-#define  GLA_NOT_CONVERGED 2
-#define  LBG_COMPLETED     3
+#define ONEBAND 1
+#define GLA_CONVERGED 1
+#define GLA_NOT_CONVERGED 2
+#define LBG_COMPLETED 3
 
 namespace itk
 {
@@ -126,21 +126,18 @@ namespace itk
  * \sphinxexample{Segmentation/Classifiers/KMeansClusterOfPixelsInImage,K Means Cluster Of Pixels In Image}
  * \endsphinx
  */
-template< typename TInputImage,
-          typename TMembershipFunction >
-class ITK_TEMPLATE_EXPORT ImageKmeansModelEstimator:
-  public ImageModelEstimatorBase< TInputImage, TMembershipFunction >
+template <typename TInputImage, typename TMembershipFunction>
+class ITK_TEMPLATE_EXPORT ImageKmeansModelEstimator : public ImageModelEstimatorBase<TInputImage, TMembershipFunction>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageKmeansModelEstimator);
 
   /** Standard class type aliases. */
   using Self = ImageKmeansModelEstimator;
-  using Superclass =
-      ImageModelEstimatorBase< TInputImage, TMembershipFunction >;
+  using Superclass = ImageModelEstimatorBase<TInputImage, TMembershipFunction>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -161,27 +158,32 @@ public:
   using InputImagePixelType = typename TInputImage::PixelType;
 
   /** Type definition for the input image iterator type. */
-  using InputImageIterator = ImageRegionIterator< TInputImage >;
+  using InputImageIterator = ImageRegionIterator<TInputImage>;
 
-  using InputImageConstIterator = ImageRegionConstIterator< TInputImage >;
+  using InputImageConstIterator = ImageRegionConstIterator<TInputImage>;
 
   /** Type definitions for the membership function . */
   using MembershipFunctionPointer = typename TMembershipFunction::Pointer;
 
   /** Type definition for a double matrix. */
-  using CodebookMatrixOfDoubleType = vnl_matrix< double >;
+  using CodebookMatrixOfDoubleType = vnl_matrix<double>;
 
   /** Type definition for an integer vector. */
-  using CodebookMatrixOfIntegerType = vnl_matrix< int >;
+  using CodebookMatrixOfIntegerType = vnl_matrix<int>;
 
   /** Set the cluster centers. */
-  void SetCodebook(CodebookMatrixOfDoubleType InCodebook);
+  void
+  SetCodebook(CodebookMatrixOfDoubleType InCodebook);
 
   /** Get the cluster centers. */
   itkGetConstMacro(Codebook, CodebookMatrixOfDoubleType);
 
   /** Get the optimized codebook or the centroids of the clusters. */
-  CodebookMatrixOfDoubleType GetOutCodebook() { return m_Codebook; }
+  CodebookMatrixOfDoubleType
+  GetOutCodebook()
+  {
+    return m_Codebook;
+  }
 
   /** Set the threshold parameter. */
   itkSetMacro(Threshold, double);
@@ -208,21 +210,29 @@ public:
   itkGetConstMacro(MaxSplitAttempts, int);
 
   /** Return the codebook/cluster centers. */
-  CodebookMatrixOfDoubleType GetKmeansResults() { return m_Centroid; }
+  CodebookMatrixOfDoubleType
+  GetKmeansResults()
+  {
+    return m_Centroid;
+  }
 
 protected:
   ImageKmeansModelEstimator();
   ~ImageKmeansModelEstimator() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Starts the image modelling process */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Allocate memory for the output model. */
-  void Allocate();
+  void
+  Allocate();
 
   /** Print out the results on the screen for visual feedback. */
-  void PrintKmeansAlgorithmResults();
+  void
+  PrintKmeansAlgorithmResults();
 
 private:
   /** A function that generates the cluster centers (model) corresponding to the
@@ -231,31 +241,35 @@ private:
    * determine the cluster centers or the Kmeans model. This is the
    * the base function to call the K-means classifier. */
 
-  void EstimateModels() override;
+  void
+  EstimateModels() override;
 
-  void EstimateKmeansModelParameters();
+  void
+  EstimateKmeansModelParameters();
 
   using ImageSizeType = typename TInputImage::SizeType;
 
   /** Set up the vector to store the image  data. */
   using InputPixelVectorType = typename TInputImage::PixelType::VectorType;
 
-  void Reallocate(int oldSize, int newSize);
+  void
+  Reallocate(int oldSize, int newSize);
 
-  //Local functions
-  int  WithCodebookUseGLA(); // GLA stands for the Generalized Lloyd Algorithm
+  // Local functions
+  int
+  WithCodebookUseGLA(); // GLA stands for the Generalized Lloyd Algorithm
 
-  int  WithoutCodebookUseLBG(); //LBG stands for the Lindo Buzo Gray Algorithm
+  int
+  WithoutCodebookUseLBG(); // LBG stands for the Lindo Buzo Gray Algorithm
 
-  void NearestNeighborSearchBasic(double *distortion);
+  void
+  NearestNeighborSearchBasic(double * distortion);
 
-  void SplitCodewords(int currentSize,
-                      int numDesired,
-                      int scale);
+  void
+  SplitCodewords(int currentSize, int numDesired, int scale);
 
-  void Perturb(double *oldCodeword,
-               int scale,
-               double *newCodeword);
+  void
+  Perturb(double * oldCodeword, int scale, double * newCodeword);
 
   CodebookMatrixOfDoubleType m_Codebook;
 
@@ -283,7 +297,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageKmeansModelEstimator.hxx"
+#  include "itkImageKmeansModelEstimator.hxx"
 #endif
 
 #endif

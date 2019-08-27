@@ -35,14 +35,14 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-class ITKStatistics_EXPORT MinimumDecisionRule:public DecisionRule
+class ITKStatistics_EXPORT MinimumDecisionRule : public DecisionRule
 {
 public:
   /** Standard class type aliases */
   using Self = MinimumDecisionRule;
   using Superclass = DecisionRule;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(MinimumDecisionRule, DecisionRule);
@@ -61,13 +61,14 @@ public:
    * Evaluate the decision rule, returning the class label associated
    * with the smallest discriminant score.
    */
-  ClassIdentifierType Evaluate(const MembershipVectorType & discriminantScores) const override;
+  ClassIdentifierType
+  Evaluate(const MembershipVectorType & discriminantScores) const override;
 
 protected:
   MinimumDecisionRule() = default;
   ~MinimumDecisionRule() override = default;
 
-};  // end of class
+}; // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 

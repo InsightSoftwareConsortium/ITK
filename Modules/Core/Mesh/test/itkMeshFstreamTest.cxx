@@ -20,13 +20,14 @@
 #include "itkMesh.h"
 #include "itkTestingMacros.h"
 
-int itkMeshFstreamTest(int argc, char* argv[] )
+int
+itkMeshFstreamTest(int argc, char * argv[])
 {
   if (argc < 2)
-    {
+  {
     std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::ofstream ofs;
   ofs.open(argv[1]);

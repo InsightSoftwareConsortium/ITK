@@ -50,102 +50,100 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-int main( int argc, char *argv[] )
+int
+main(int argc, char * argv[])
 {
   // Verify the number of parameters on the command line.
-  if ( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Missing parameters. " << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0]
-              << " inputImageFile numberOfSamples"
-              << std::endl;
-      return EXIT_FAILURE;
-    }
+    std::cerr << argv[0] << " inputImageFile numberOfSamples" << std::endl;
+    return EXIT_FAILURE;
+  }
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   constexpr unsigned int Dimension = 2;
 
   using PixelType = unsigned short;
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
   using ConstIteratorType = itk::ImageRandomConstIteratorWithIndex<ImageType>;
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ImageType::ConstPointer inputImage;
-  ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  ReaderType::Pointer     reader = ReaderType::New();
+  reader->SetFileName(argv[1]);
   try
-    {
+  {
     reader->Update();
     inputImage = reader->GetOutput();
-    }
-  catch ( itk::ExceptionObject &err)
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-// Software Guide : BeginLatex
-//
-// The input image has been read as \code{inputImage}.  We now create an
-// iterator with a number of samples set by command line argument. The call to
-// \code{ReinitializeSeed} seeds the random number generator.  The iterator is
-// initialized over the entire valid image region.
-//
-//  \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!SetNumberOfSamples()}
-//  \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!ReinitializeSeed()}
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The input image has been read as \code{inputImage}.  We now create an
+  // iterator with a number of samples set by command line argument. The call to
+  // \code{ReinitializeSeed} seeds the random number generator.  The iterator is
+  // initialized over the entire valid image region.
+  //
+  //  \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!SetNumberOfSamples()}
+  //  \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!ReinitializeSeed()}
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-  ConstIteratorType inputIt(  inputImage,  inputImage->GetRequestedRegion() );
-  inputIt.SetNumberOfSamples( ::std::stoi( argv[2]) );
+  // Software Guide : BeginCodeSnippet
+  ConstIteratorType inputIt(inputImage, inputImage->GetRequestedRegion());
+  inputIt.SetNumberOfSamples(::std::stoi(argv[2]));
   inputIt.ReinitializeSeed();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide: BeginLatex
-//
-// Now take the specified number of samples and calculate their average value.
-//
-// Software Guide : EndLatex
+  // Software Guide: BeginLatex
+  //
+  // Now take the specified number of samples and calculate their average value.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   float mean = 0.0f;
-  for ( inputIt.GoToBegin(); ! inputIt.IsAtEnd(); ++inputIt)
-    {
-    mean += static_cast<float>( inputIt.Get() );
-    }
-  mean = mean / ::std::stod( argv[2] );
+  for (inputIt.GoToBegin(); !inputIt.IsAtEnd(); ++inputIt)
+  {
+    mean += static_cast<float>(inputIt.Get());
+  }
+  mean = mean / ::std::stod(argv[2]);
 
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
   std::cout << "Mean estimate with " << argv[2] << " samples is " << mean << std::endl;
 
-// Software Guide : BeginLatex
-//
-// The following table shows the results
-// of running this example on several of the data files from
-// \code{Examples/Data} with a range of sample sizes.
-//
-// \begin{table}
-// \begin{center}
-// \begin{tabular}[]{rc|c|c|c}
-// & \multicolumn{4}{c}{\emph{Sample Size}} \\  & \code{\textbf{10}} & \code{\textbf{100}}
-// & \code{\textbf{1000}}
-// & \code{\textbf{10000}} \\ \cline{2-5}
-// \code{RatLungSlice1.mha} & 50.5 & 52.4 & 53.0 & 52.4 \\ \code{RatLungSlice2.mha}
-// & 46.7 & 47.5 & 47.4 & 47.6  \\ \code{BrainT1Slice.png}
-// & 47.2 & 64.1 & 68.0 & 67.8  \\ \end{tabular}
-// \itkcaption[ImageRandomConstIteratorWithIndex usage]{Estimates of mean image pixel
-// value using the ImageRandomConstIteratorWithIndex at different sample
-// sizes.}
-// \end{center}
-// \label{tab:ImageRandomConstIteratorWithIndexExample}
-// \end{table}
-//
-// \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!example of using|)}
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The following table shows the results
+  // of running this example on several of the data files from
+  // \code{Examples/Data} with a range of sample sizes.
+  //
+  // \begin{table}
+  // \begin{center}
+  // \begin{tabular}[]{rc|c|c|c}
+  // & \multicolumn{4}{c}{\emph{Sample Size}} \\  & \code{\textbf{10}} &
+  // \code{\textbf{100}} & \code{\textbf{1000}} & \code{\textbf{10000}} \\ \cline{2-5}
+  // \code{RatLungSlice1.mha} & 50.5 & 52.4 & 53.0 & 52.4 \\ \code{RatLungSlice2.mha}
+  // & 46.7 & 47.5 & 47.4 & 47.6  \\ \code{BrainT1Slice.png}
+  // & 47.2 & 64.1 & 68.0 & 67.8  \\ \end{tabular}
+  // \itkcaption[ImageRandomConstIteratorWithIndex usage]{Estimates of mean image pixel
+  // value using the ImageRandomConstIteratorWithIndex at different sample
+  // sizes.}
+  // \end{center}
+  // \label{tab:ImageRandomConstIteratorWithIndexExample}
+  // \end{table}
+  //
+  // \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!example of using|)}
+  // Software Guide : EndLatex
 
   return EXIT_SUCCESS;
 }

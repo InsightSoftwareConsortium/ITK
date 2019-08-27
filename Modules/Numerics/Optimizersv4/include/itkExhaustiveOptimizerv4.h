@@ -74,9 +74,9 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-template<typename TInternalComputationValueType>
-class ITK_TEMPLATE_EXPORT ExhaustiveOptimizerv4:
-  public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
+template <typename TInternalComputationValueType>
+class ITK_TEMPLATE_EXPORT ExhaustiveOptimizerv4
+  : public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExhaustiveOptimizerv4);
@@ -84,8 +84,8 @@ public:
   /** Standard "Self" type alias. */
   using Self = ExhaustiveOptimizerv4;
   using Superclass = ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -94,7 +94,7 @@ public:
   itkTypeMacro(ExhaustiveOptimizerv4, Superclass);
 
   /** Steps type */
-  using StepsType = Array< SizeValueType >;
+  using StepsType = Array<SizeValueType>;
 
   /** Measure type */
   using MeasureType = typename Superclass::MeasureType;
@@ -105,16 +105,20 @@ public:
   /** Scales type */
   using ScalesType = typename Superclass::ScalesType;
 
-  void StartOptimization(bool doOnlyInitialization = false) override;
+  void
+  StartOptimization(bool doOnlyInitialization = false) override;
 
   /** Start optimization */
-  void StartWalking();
+  void
+  StartWalking();
 
   /** Resume the optimization */
-  void ResumeWalking();
+  void
+  ResumeWalking();
 
   /** Stop optimization */
-  void StopWalking();
+  void
+  StopWalking();
 
   itkSetMacro(StepLength, double);
   itkSetMacro(NumberOfSteps, StepsType);
@@ -128,13 +132,16 @@ public:
   itkGetConstReferenceMacro(CurrentIndex, ParametersType);
 
   /** Get the reason for termination */
-  const std::string GetStopConditionDescription() const override;
+  const std::string
+  GetStopConditionDescription() const override;
 
   /**  Set the position to initialize the optimization. */
-  void SetInitialPosition(const ParametersType & param);
+  void
+  SetInitialPosition(const ParametersType & param);
 
   /** Get the position to initialize the optimization. */
-  ParametersType & GetInitialPosition()
+  ParametersType &
+  GetInitialPosition()
   {
     return m_InitialPosition;
   }
@@ -142,24 +149,27 @@ public:
 protected:
   ExhaustiveOptimizerv4();
   ~ExhaustiveOptimizerv4() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Advance to the next grid position. */
-  void AdvanceOneStep();
+  void
+  AdvanceOneStep();
 
-  void IncrementIndex(ParametersType & param);
+  void
+  IncrementIndex(ParametersType & param);
 
 protected:
-  ParametersType  m_InitialPosition;
-  MeasureType     m_CurrentValue;
-  StepsType       m_NumberOfSteps;
-  bool            m_Stop{false};
-  double          m_StepLength{1.0};
-  ParametersType  m_CurrentIndex;
-  MeasureType     m_MaximumMetricValue;
-  MeasureType     m_MinimumMetricValue;
-  ParametersType  m_MinimumMetricValuePosition;
-  ParametersType  m_MaximumMetricValuePosition;
+  ParametersType m_InitialPosition;
+  MeasureType    m_CurrentValue;
+  StepsType      m_NumberOfSteps;
+  bool           m_Stop{ false };
+  double         m_StepLength{ 1.0 };
+  ParametersType m_CurrentIndex;
+  MeasureType    m_MaximumMetricValue;
+  MeasureType    m_MinimumMetricValue;
+  ParametersType m_MinimumMetricValuePosition;
+  ParametersType m_MaximumMetricValuePosition;
 
 private:
   std::ostringstream m_StopConditionDescription;
@@ -167,7 +177,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkExhaustiveOptimizerv4.hxx"
+#  include "itkExhaustiveOptimizerv4.hxx"
 #endif
 
 #endif

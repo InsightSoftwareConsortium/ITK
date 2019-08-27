@@ -56,7 +56,7 @@ namespace itk
  * \ingroup OSSystemObjects
  * \ingroup ITKDeprecated
  */
-class ITKDeprecated_EXPORT FastMutexLock:public Object
+class ITKDeprecated_EXPORT FastMutexLock : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FastMutexLock);
@@ -64,8 +64,8 @@ public:
   /** Standard class type aliases. */
   using Self = FastMutexLock;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation. */
   itkNewMacro(Self);
@@ -74,37 +74,44 @@ public:
   itkTypeMacro(FastMutexLock, Object);
 
   /** Lock the itkFastMutexLock. */
-  void Lock();
+  void
+  Lock();
 
   /** Non-blocking Lock access.
    \return bool - true if lock is captured, false if it was already held by someone else.
    */
-  bool TryLock();
+  bool
+  TryLock();
 
   /** Unlock the FastMutexLock. */
-  void Unlock();
+  void
+  Unlock();
 
 protected:
   FastMutexLock() = default;
   ~FastMutexLock() override = default;
 
   SimpleFastMutexLock m_SimpleFastMutexLock;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 
-inline void FastMutexLock::Lock()
+inline void
+FastMutexLock::Lock()
 {
   m_SimpleFastMutexLock.Lock();
 }
 
-inline bool FastMutexLock::TryLock()
+inline bool
+FastMutexLock::TryLock()
 {
   return m_SimpleFastMutexLock.TryLock();
 }
 
-inline void FastMutexLock::Unlock()
+inline void
+FastMutexLock::Unlock()
 {
   m_SimpleFastMutexLock.Unlock();
 }
-} //end itk namespace
+} // namespace itk
 #endif

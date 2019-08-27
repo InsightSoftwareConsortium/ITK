@@ -22,209 +22,205 @@
 #include "itkLabelImageGaussianInterpolateImageFunction.h"
 
 
-int itkLabelImageGaussianInterpolateImageFunctionTest( int , char*[] )
- {
- int test_status = EXIT_SUCCESS;
- constexpr unsigned int Dimension = 2;
- using PixelType = unsigned short int; //Label images should be integer value types
- using ImageType = itk::Image< PixelType, Dimension >;
- using RegionType = ImageType::RegionType;
- using SizeType = RegionType::SizeType;
- using IndexType = ImageType::IndexType;
+int
+itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
+{
+  int                    test_status = EXIT_SUCCESS;
+  constexpr unsigned int Dimension = 2;
+  using PixelType = unsigned short int; // Label images should be integer value types
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using RegionType = ImageType::RegionType;
+  using SizeType = RegionType::SizeType;
+  using IndexType = ImageType::IndexType;
 
- using CoordRepType = float;
+  using CoordRepType = float;
 
- //The ImageSizeToCompute
- constexpr double FOV = 10.0;
- constexpr itk::IndexValueType small_xSize  = 3;
- constexpr itk::IndexValueType small_ySize  = 3;
- ImageType::Pointer small_image = ImageType::New();
-   {
-   RegionType region;
-     {
-     IndexType start;
-     start.Fill( 0 );
+  // The ImageSizeToCompute
+  constexpr double              FOV = 10.0;
+  constexpr itk::IndexValueType small_xSize = 3;
+  constexpr itk::IndexValueType small_ySize = 3;
+  ImageType::Pointer            small_image = ImageType::New();
+  {
+    RegionType region;
+    {
+      IndexType start;
+      start.Fill(0);
 
-     SizeType size;
-     size[0]= small_xSize;
-     size[1]= small_ySize;
-     region.SetSize( size );
-     region.SetIndex( start );
-     }
+      SizeType size;
+      size[0] = small_xSize;
+      size[1] = small_ySize;
+      region.SetSize(size);
+      region.SetIndex(start);
+    }
 
-   small_image->SetRegions( region );
-   small_image->Allocate();
+    small_image->SetRegions(region);
+    small_image->Allocate();
 
-     {
-     ImageType::SpacingType   spacing;
-     spacing.Fill( FOV/static_cast<double>(small_ySize) );
-     ImageType::PointType     origin;
-     origin.Fill( 0.5* FOV/static_cast<double>(small_ySize) );
+    {
+      ImageType::SpacingType spacing;
+      spacing.Fill(FOV / static_cast<double>(small_ySize));
+      ImageType::PointType origin;
+      origin.Fill(0.5 * FOV / static_cast<double>(small_ySize));
 
-     small_image->SetOrigin( origin );
-     small_image->SetSpacing( spacing );
-     }
-   small_image->Print( std::cout );
-   //
-   // Fill up the small_image values with the function
-   //
-   //   Intensity = f(x,y) = x + 3 * y
-   //
-   //
-   PixelType valarray[small_xSize][small_ySize] = {
-       {255,255,255},
-       {255,171,  7},
-       {  7,  7,  7}
-   };
+      small_image->SetOrigin(origin);
+      small_image->SetSpacing(spacing);
+    }
+    small_image->Print(std::cout);
+    //
+    // Fill up the small_image values with the function
+    //
+    //   Intensity = f(x,y) = x + 3 * y
+    //
+    //
+    PixelType valarray[small_xSize][small_ySize] = { { 255, 255, 255 }, { 255, 171, 7 }, { 7, 7, 7 } };
 
-   for (itk::IndexValueType y = 0; y < small_ySize; y++)
-     {
-     for (itk::IndexValueType x = 0; x < small_xSize; x++)
-       {
-       const IndexType index = { { x, y } };
-       const PixelType value = valarray[x][y];
-       small_image->SetPixel( index, value );
-       std::cout << value << " ";
-       }
-     std::cout << std::endl;
-     }
-   }
+    for (itk::IndexValueType y = 0; y < small_ySize; y++)
+    {
+      for (itk::IndexValueType x = 0; x < small_xSize; x++)
+      {
+        const IndexType index = { { x, y } };
+        const PixelType value = valarray[x][y];
+        small_image->SetPixel(index, value);
+        std::cout << value << " ";
+      }
+      std::cout << std::endl;
+    }
+  }
 
- using InterpolatorType =
-     itk::LabelImageGaussianInterpolateImageFunction< ImageType, CoordRepType >;
- InterpolatorType::Pointer interpolator = InterpolatorType::New();
- interpolator->SetInputImage( small_image );
-   {
-   double sigma[Dimension];
-   for(double & d : sigma)
-     {
-     d = 1.0;
-     }
-   constexpr double alpha = 1.0;
-   interpolator->SetParameters( sigma, alpha );
-   }
- interpolator->Print( std::cout, 3 );
+  using InterpolatorType = itk::LabelImageGaussianInterpolateImageFunction<ImageType, CoordRepType>;
+  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  interpolator->SetInputImage(small_image);
+  {
+    double sigma[Dimension];
+    for (double & d : sigma)
+    {
+      d = 1.0;
+    }
+    constexpr double alpha = 1.0;
+    interpolator->SetParameters(sigma, alpha);
+  }
+  interpolator->Print(std::cout, 3);
 
- if( interpolator->GetSigma()[0] != 1.0 ||
-     interpolator->GetSigma()[1] != 1.0 ||
-     interpolator->GetAlpha() != 1.0 )
-   {
-   std::cerr << "Parameters were not returned correctly." << std::endl;
-   }
+  if (interpolator->GetSigma()[0] != 1.0 || interpolator->GetSigma()[1] != 1.0 || interpolator->GetAlpha() != 1.0)
+  {
+    std::cerr << "Parameters were not returned correctly." << std::endl;
+  }
 
- //########################
- //Now check the results
- //The ImageSizeToCompute
- constexpr unsigned char default_background_value = 17;
- const itk::IndexValueType large_xSize = 5+1;
- constexpr itk::IndexValueType large_ySize  = 5;
- ImageType::Pointer large_image = ImageType::New();
-   {
-   RegionType region;
-     {
-     IndexType start;
-     start.Fill( 0 );
+  //########################
+  // Now check the results
+  // The ImageSizeToCompute
+  constexpr unsigned char       default_background_value = 17;
+  const itk::IndexValueType     large_xSize = 5 + 1;
+  constexpr itk::IndexValueType large_ySize = 5;
+  ImageType::Pointer            large_image = ImageType::New();
+  {
+    RegionType region;
+    {
+      IndexType start;
+      start.Fill(0);
 
-     SizeType size;
-     size[0]= large_xSize;
-     size[1]= large_ySize;
-     region.SetSize( size );
-     region.SetIndex( start );
-     }
+      SizeType size;
+      size[0] = large_xSize;
+      size[1] = large_ySize;
+      region.SetSize(size);
+      region.SetIndex(start);
+    }
 
-   large_image->SetRegions( region );
-   large_image->Allocate();
+    large_image->SetRegions(region);
+    large_image->Allocate();
 
-     {
-     ImageType::SpacingType   spacing;
-     spacing.Fill( FOV/static_cast<double>(large_ySize) );
-     ImageType::PointType     origin;
-     origin.Fill( 0.5* FOV/static_cast<double>(large_ySize) );
+    {
+      ImageType::SpacingType spacing;
+      spacing.Fill(FOV / static_cast<double>(large_ySize));
+      ImageType::PointType origin;
+      origin.Fill(0.5 * FOV / static_cast<double>(large_ySize));
 
-     large_image->SetOrigin( origin );
-     large_image->SetSpacing( spacing );
-     }
-   large_image->Print( std::cout );
-   //
-   // Fill up the large_image values with the function
-   //
-   //   Intensity = f(x,y) = x + 3 * y
-   //
-   //
-   /*
-At: [0, 0] computed value =  255 known_value = 255
-At: [1, 0] computed value =  255 known_value = 255
-At: [2, 0] computed value =  255 known_value = 255
-At: [3, 0] computed value =  7 known_value = 255
-At: [4, 0] computed value =  7 known_value = 7
-At: [5, 0] computed value =  17 known_value = 17
+      large_image->SetOrigin(origin);
+      large_image->SetSpacing(spacing);
+    }
+    large_image->Print(std::cout);
+    //
+    // Fill up the large_image values with the function
+    //
+    //   Intensity = f(x,y) = x + 3 * y
+    //
+    //
+    /*
+ At: [0, 0] computed value =  255 known_value = 255
+ At: [1, 0] computed value =  255 known_value = 255
+ At: [2, 0] computed value =  255 known_value = 255
+ At: [3, 0] computed value =  7 known_value = 255
+ At: [4, 0] computed value =  7 known_value = 7
+ At: [5, 0] computed value =  17 known_value = 17
 
-At: [0, 1] computed value =  255 known_value = 255
-At: [1, 1] computed value =  255 known_value = 255
-At: [2, 1] computed value =  255 known_value = 255
-At: [3, 1] computed value =  7 known_value = 7
-At: [4, 1] computed value =  7 known_value = 7
-At: [5, 1] computed value =  17 known_value = 17
+ At: [0, 1] computed value =  255 known_value = 255
+ At: [1, 1] computed value =  255 known_value = 255
+ At: [2, 1] computed value =  255 known_value = 255
+ At: [3, 1] computed value =  7 known_value = 7
+ At: [4, 1] computed value =  7 known_value = 7
+ At: [5, 1] computed value =  17 known_value = 17
 
-At: [0, 2] computed value =  255 known_value = 255
-At: [1, 2] computed value =  255 known_value = 255
-At: [2, 2] computed value =  171 known_value = 171
-At: [3, 2] computed value =  7 known_value = 7
-At: [4, 2] computed value =  7 known_value = 7
-At: [5, 2] computed value =  17 known_value = 17
+ At: [0, 2] computed value =  255 known_value = 255
+ At: [1, 2] computed value =  255 known_value = 255
+ At: [2, 2] computed value =  171 known_value = 171
+ At: [3, 2] computed value =  7 known_value = 7
+ At: [4, 2] computed value =  7 known_value = 7
+ At: [5, 2] computed value =  17 known_value = 17
 
-At: [0, 3] computed value =  255 known_value = 255
-At: [1, 3] computed value =  255 known_value = 255
-At: [2, 3] computed value =  7 known_value = 7
-At: [3, 3] computed value =  7 known_value = 7
-At: [4, 3] computed value =  7 known_value = 7
-At: [5, 3] computed value =  17 known_value = 17
+ At: [0, 3] computed value =  255 known_value = 255
+ At: [1, 3] computed value =  255 known_value = 255
+ At: [2, 3] computed value =  7 known_value = 7
+ At: [3, 3] computed value =  7 known_value = 7
+ At: [4, 3] computed value =  7 known_value = 7
+ At: [5, 3] computed value =  17 known_value = 17
 
-At: [0, 4] computed value =  255 known_value = 255
-At: [1, 4] computed value =  255 known_value = 7
-At: [2, 4] computed value =  7 known_value = 7
-At: [3, 4] computed value =  7 known_value = 7
-At: [4, 4] computed value =  7 known_value = 7
-At: [5, 4] computed value =  17 known_value = 17
-    */
+ At: [0, 4] computed value =  255 known_value = 255
+ At: [1, 4] computed value =  255 known_value = 7
+ At: [2, 4] computed value =  7 known_value = 7
+ At: [3, 4] computed value =  7 known_value = 7
+ At: [4, 4] computed value =  7 known_value = 7
+ At: [5, 4] computed value =  17 known_value = 17
+     */
 
-   PixelType valarray[large_xSize][large_ySize] = {
-       {255,255,255,255,255},
-       {255,255,255,255,255},
-       {255,255,171,  7,  7},
-       {  7,  7,  7,  7,  7},
-       {  7,  7,  7,  7,  7},
-       { default_background_value,default_background_value,default_background_value,default_background_value,default_background_value }
-   };
+    PixelType valarray[large_xSize][large_ySize] = { { 255, 255, 255, 255, 255 },
+                                                     { 255, 255, 255, 255, 255 },
+                                                     { 255, 255, 171, 7, 7 },
+                                                     { 7, 7, 7, 7, 7 },
+                                                     { 7, 7, 7, 7, 7 },
+                                                     { default_background_value,
+                                                       default_background_value,
+                                                       default_background_value,
+                                                       default_background_value,
+                                                       default_background_value } };
 
-   for (itk::IndexValueType y = 0; y < large_ySize; y++)
-     {
-     for (itk::IndexValueType x = 0; x < large_xSize; x++)
-       {
-       const IndexType index = { { x, y } };
-       const PixelType known_value = valarray[x][y];
-       ImageType::PointType physPoint;
-       large_image->TransformIndexToPhysicalPoint(index,physPoint);
-       if( interpolator->IsInsideBuffer( physPoint ) )
-           {
-           //test scalar small_image
-           const double computedValue = interpolator->Evaluate( physPoint );
-           large_image->SetPixel( index, static_cast< PixelType >( computedValue ) );
-           }
-       else
-         {
-         large_image->SetPixel( index, default_background_value );
-         }
-         if(large_image->GetPixel(index) != known_value)
-           {
-           test_status=EXIT_FAILURE;
-
-           }
-         std::cout << "At: " << index << " computed value =  " << large_image->GetPixel(index) << " known_value = " << known_value << std::endl;
-       }
-     std::cout << std::endl;
-     }
-   }
+    for (itk::IndexValueType y = 0; y < large_ySize; y++)
+    {
+      for (itk::IndexValueType x = 0; x < large_xSize; x++)
+      {
+        const IndexType      index = { { x, y } };
+        const PixelType      known_value = valarray[x][y];
+        ImageType::PointType physPoint;
+        large_image->TransformIndexToPhysicalPoint(index, physPoint);
+        if (interpolator->IsInsideBuffer(physPoint))
+        {
+          // test scalar small_image
+          const double computedValue = interpolator->Evaluate(physPoint);
+          large_image->SetPixel(index, static_cast<PixelType>(computedValue));
+        }
+        else
+        {
+          large_image->SetPixel(index, default_background_value);
+        }
+        if (large_image->GetPixel(index) != known_value)
+        {
+          test_status = EXIT_FAILURE;
+        }
+        std::cout << "At: " << index << " computed value =  " << large_image->GetPixel(index)
+                  << " known_value = " << known_value << std::endl;
+      }
+      std::cout << std::endl;
+    }
+  }
 #if 0
  constexpr double incr = 0.1;
  PointType point;
@@ -250,5 +246,5 @@ At: [5, 4] computed value =  17 known_value = 17
    }
 #endif
 
- return test_status;
+  return test_status;
 }

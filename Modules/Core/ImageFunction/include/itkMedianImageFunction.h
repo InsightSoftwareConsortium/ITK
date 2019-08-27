@@ -43,21 +43,19 @@ namespace itk
  * \sphinxexample{Core/ImageFunction/ComputeMedianOfImageAtPixel,Compute Median Of Image At Pixel}
  * \endsphinx
  */
-template< typename TInputImage, typename TCoordRep = float >
-class ITK_TEMPLATE_EXPORT MedianImageFunction:
-  public ImageFunction< TInputImage, typename TInputImage::PixelType,
-                        TCoordRep >
+template <typename TInputImage, typename TCoordRep = float>
+class ITK_TEMPLATE_EXPORT MedianImageFunction
+  : public ImageFunction<TInputImage, typename TInputImage::PixelType, TCoordRep>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MedianImageFunction);
 
   /** Standard class type aliases. */
   using Self = MedianImageFunction;
-  using Superclass = ImageFunction< TInputImage, typename TInputImage::PixelType,
-                         TCoordRep >;
+  using Superclass = ImageFunction<TInputImage, typename TInputImage::PixelType, TCoordRep>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MedianImageFunction, ImageFunction);
@@ -85,10 +83,12 @@ public:
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
   /** Evalulate the function at specified index */
-  OutputType EvaluateAtIndex(const IndexType & index) const override;
+  OutputType
+  EvaluateAtIndex(const IndexType & index) const override;
 
   /** Evaluate the function at non-integer positions */
-  OutputType Evaluate(const PointType & point) const override
+  OutputType
+  Evaluate(const PointType & point) const override
   {
     IndexType index;
 
@@ -96,8 +96,8 @@ public:
     return this->EvaluateAtIndex(index);
   }
 
-  OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex) const override
+  OutputType
+  EvaluateAtContinuousIndex(const ContinuousIndexType & cindex) const override
   {
     IndexType index;
 
@@ -107,22 +107,22 @@ public:
 
   /** Get/Set the radius of the neighborhood over which the
       statistics are evaluated */
-  itkSetMacro( NeighborhoodRadius, unsigned int );
-  itkGetConstReferenceMacro( NeighborhoodRadius, unsigned int );
+  itkSetMacro(NeighborhoodRadius, unsigned int);
+  itkGetConstReferenceMacro(NeighborhoodRadius, unsigned int);
 
 protected:
   MedianImageFunction();
   ~MedianImageFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  unsigned int m_NeighborhoodRadius{1};
-
+  unsigned int m_NeighborhoodRadius{ 1 };
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMedianImageFunction.hxx"
+#  include "itkMedianImageFunction.hxx"
 #endif
 
 #endif

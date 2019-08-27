@@ -43,10 +43,9 @@ namespace itk
  * \sphinxexample{Filtering/ImageIntensity/PixelDivisionOfTwoImages,Pixel Division Of Two Images}
  * \endsphinx
  */
-template< typename TInputImage1, typename TInputImage2, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT DivideImageFilter:
-  public
-  BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
+template <typename TInputImage1, typename TInputImage2, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT DivideImageFilter
+  : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DivideImageFilter);
@@ -59,16 +58,15 @@ public:
   /**
    * Standard "Superclass" type alias.
    */
-  using Superclass = BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >;
+  using Superclass = BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>;
 
   /**
    * Smart pointer type alias support
    */
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using FunctorType = Functor::Div< typename TInputImage1::PixelType,
-                                    typename TInputImage2::PixelType,
-                                    typename TOutputImage::PixelType >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using FunctorType =
+    Functor::Div<typename TInputImage1::PixelType, typename TInputImage2::PixelType, typename TOutputImage::PixelType>;
 
   /**
    * Method for creation through the object factory.
@@ -76,40 +74,40 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(DivideImageFilter,
-               BinaryGeneratorImageFilter);
+  itkTypeMacro(DivideImageFilter, BinaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( IntConvertibleToInput2Check,
-                   ( Concept::Convertible< int, typename TInputImage2::PixelType > ) );
-  itkConceptMacro( Input1Input2OutputDivisionOperatorsCheck,
-                   ( Concept::DivisionOperators< typename TInputImage1::PixelType,
-                                                 typename TInputImage2::PixelType,
-                                                 typename TOutputImage::PixelType > ) );
+  itkConceptMacro(IntConvertibleToInput2Check, (Concept::Convertible<int, typename TInputImage2::PixelType>));
+  itkConceptMacro(Input1Input2OutputDivisionOperatorsCheck,
+                  (Concept::DivisionOperators<typename TInputImage1::PixelType,
+                                              typename TInputImage2::PixelType,
+                                              typename TOutputImage::PixelType>));
   // End concept checking
 #endif
 
 protected:
   DivideImageFilter()
-    {
-#if !defined( ITK_WRAPPING_PARSER )
+  {
+#if !defined(ITK_WRAPPING_PARSER)
     Superclass::SetFunctor(FunctorType());
 #endif
-    }
+  }
 
   ~DivideImageFilter() override = default;
 
-  void VerifyPreconditions() ITKv5_CONST override
+  void
+  VerifyPreconditions() ITKv5_CONST override
   {
     Superclass::VerifyPreconditions();
 
-    const auto *input
-       = dynamic_cast< const typename Superclass::DecoratedInput2ImagePixelType * >( this->ProcessObject::GetInput(1) );
-    if( input != nullptr && itk::Math::AlmostEquals(input->Get(), itk::NumericTraits< typename TInputImage2::PixelType >::ZeroValue()) )
-      {
-      itkGenericExceptionMacro(<<"The constant value used as denominator should not be set to zero");
-      }
+    const auto * input =
+      dynamic_cast<const typename Superclass::DecoratedInput2ImagePixelType *>(this->ProcessObject::GetInput(1));
+    if (input != nullptr &&
+        itk::Math::AlmostEquals(input->Get(), itk::NumericTraits<typename TInputImage2::PixelType>::ZeroValue()))
+    {
+      itkGenericExceptionMacro(<< "The constant value used as denominator should not be set to zero");
+    }
   }
 };
 

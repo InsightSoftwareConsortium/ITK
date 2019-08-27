@@ -21,33 +21,33 @@
 
 #include <iostream>
 
-int itkVTKPolyDataReaderQuadEdgeMeshTest(int argc, char* argv[] )
+int
+itkVTKPolyDataReaderQuadEdgeMeshTest(int argc, char * argv[])
 {
-  if( argc != 2 )
-    {
-    std::cerr << "Usage: itkVTKPolyDataReaderTest inputFilename"
-      << std::endl;
+  if (argc != 2)
+  {
+    std::cerr << "Usage: itkVTKPolyDataReaderTest inputFilename" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using MeshType = itk::QuadEdgeMesh<float, 3>;
-  using ReaderType = itk::VTKPolyDataReader< MeshType >;
+  using ReaderType = itk::VTKPolyDataReader<MeshType>;
 
-  ReaderType::Pointer  polyDataReader = ReaderType::New();
+  ReaderType::Pointer polyDataReader = ReaderType::New();
 
   using PointType = ReaderType::PointType;
 
   polyDataReader->SetFileName(argv[1]);
 
   try
-    {
+  {
     polyDataReader->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Error during Update() " << std::endl;
     std::cerr << excp << std::endl;
-    }
+  }
 
   std::cout << "polyDataReader:" << std::endl;
   std::cout << polyDataReader << std::endl;
@@ -55,36 +55,36 @@ int itkVTKPolyDataReaderQuadEdgeMeshTest(int argc, char* argv[] )
   MeshType::Pointer mesh = polyDataReader->GetOutput();
 
   std::cout << "Using following MeshType :";
-  std::cout << mesh->GetNameOfClass( ) << std::endl;
+  std::cout << mesh->GetNameOfClass() << std::endl;
 
-  PointType  point;
+  PointType point;
 
   std::cout << "Testing itk::VTKPolyDataReader" << std::endl;
 
   unsigned int numberOfPoints = mesh->GetNumberOfPoints();
-  unsigned int numberOfCells  = mesh->GetNumberOfCells();
+  unsigned int numberOfCells = mesh->GetNumberOfCells();
 
   std::cout << "numberOfPoints= " << numberOfPoints << std::endl;
   std::cout << "numberOfCells= " << numberOfCells << std::endl;
 
-  if( !numberOfPoints )
-    {
+  if (!numberOfPoints)
+  {
     std::cerr << "ERROR: numberOfPoints= " << numberOfPoints << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( !numberOfCells )
-    {
+  if (!numberOfCells)
+  {
     std::cerr << "ERROR: numberOfCells= " << numberOfCells << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  for(unsigned int i=0; i<numberOfPoints; i++)
-    {
+  for (unsigned int i = 0; i < numberOfPoints; i++)
+  {
     // mesh->GetPoint(i, &point);
-    //std::cout << "Point[" << i << "]: " << point << std::endl;
-    }
+    // std::cout << "Point[" << i << "]: " << point << std::endl;
+  }
 
-  std::cout << "Test passed"<< std::endl;
+  std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;
 }

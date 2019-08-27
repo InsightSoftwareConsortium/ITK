@@ -22,62 +22,60 @@
 
 namespace itk
 {
-template< typename TImage >
+template <typename TImage>
 void
-LevelSetDomainPartitionImage< TImage >
-::SetLevelSetDomainRegionVector( const LevelSetDomainRegionVectorType& domain )
+LevelSetDomainPartitionImage<TImage>::SetLevelSetDomainRegionVector(const LevelSetDomainRegionVectorType & domain)
 {
   m_LevelSetDomainRegionVector = domain;
 }
 
-template< typename TImage >
-const typename LevelSetDomainPartitionImage< TImage >::LevelSetDomainRegionVectorType&
-LevelSetDomainPartitionImage< TImage >
-::GetLevelSetDomainRegionVector() const
+template <typename TImage>
+const typename LevelSetDomainPartitionImage<TImage>::LevelSetDomainRegionVectorType &
+LevelSetDomainPartitionImage<TImage>::GetLevelSetDomainRegionVector() const
 {
   return m_LevelSetDomainRegionVector;
 }
 
-template< typename TImage >
-void LevelSetDomainPartitionImage< TImage >
-::PopulateListDomain()
+template <typename TImage>
+void
+LevelSetDomainPartitionImage<TImage>::PopulateListDomain()
 {
   this->AllocateListDomain();
 
   const ListRegionType & region = this->m_ListDomain->GetLargestPossibleRegion();
-  ListIteratorType lIt(this->m_ListDomain, region);
+  ListIteratorType       lIt(this->m_ListDomain, region);
 
-  for ( lIt.GoToBegin(); !lIt.IsAtEnd(); ++lIt )
-    {
-    ListIndexType listIndex = lIt.GetIndex();
+  for (lIt.GoToBegin(); !lIt.IsAtEnd(); ++lIt)
+  {
+    ListIndexType      listIndex = lIt.GetIndex();
     IdentifierListType identifierList;
-    IdentifierType i = NumericTraits< IdentifierType >::ZeroValue();
-    while( i < this->m_NumberOfLevelSetFunctions )
+    IdentifierType     i = NumericTraits<IdentifierType>::ZeroValue();
+    while (i < this->m_NumberOfLevelSetFunctions)
+    {
+      if (this->m_LevelSetDomainRegionVector[i].IsInside(listIndex))
       {
-      if ( this->m_LevelSetDomainRegionVector[i].IsInside( listIndex ) )
-        {
         identifierList.push_back(i);
-        }
-      i++;
       }
-    lIt.Set(identifierList);
+      i++;
     }
+    lIt.Set(identifierList);
+  }
 }
 
-template< typename TImage >
-void LevelSetDomainPartitionImage< TImage >
-::AllocateListDomain()
+template <typename TImage>
+void
+LevelSetDomainPartitionImage<TImage>::AllocateListDomain()
 {
-  if( m_Image.IsNull() )
-    {
-    itkGenericExceptionMacro( "m_Image is null" );
-    }
+  if (m_Image.IsNull())
+  {
+    itkGenericExceptionMacro("m_Image is null");
+  }
   this->m_ListDomain = ListImageType::New();
-  this->m_ListDomain->CopyInformation( this->m_Image );
-  this->m_ListDomain->SetRegions( this->m_Image->GetLargestPossibleRegion() );
+  this->m_ListDomain->CopyInformation(this->m_Image);
+  this->m_ListDomain->SetRegions(this->m_Image->GetLargestPossibleRegion());
   this->m_ListDomain->Allocate();
 }
 
-} //end namespace itk
+} // end namespace itk
 
 #endif

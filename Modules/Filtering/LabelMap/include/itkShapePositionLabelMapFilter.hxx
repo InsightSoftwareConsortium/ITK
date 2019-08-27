@@ -22,11 +22,11 @@
 #include "itkLabelMapUtilities.h"
 #include "itkShapeLabelObjectAccessors.h"
 
-namespace itk {
+namespace itk
+{
 
 template <typename TImage>
-ShapePositionLabelMapFilter<TImage>
-::ShapePositionLabelMapFilter()
+ShapePositionLabelMapFilter<TImage>::ShapePositionLabelMapFilter()
 {
   m_Attribute = LabelObjectType::CENTROID;
 }
@@ -34,33 +34,32 @@ ShapePositionLabelMapFilter<TImage>
 
 template <typename TImage>
 void
-ShapePositionLabelMapFilter<TImage>
-::ThreadedProcessLabelObject( LabelObjectType * labelObject )
+ShapePositionLabelMapFilter<TImage>::ThreadedProcessLabelObject(LabelObjectType * labelObject)
 {
-  switch( m_Attribute )
-    {
+  switch (m_Attribute)
+  {
     case LabelObjectType::CENTROID:
-      {
-      using AccessorType = typename Functor::CentroidLabelObjectAccessor< LabelObjectType >;
+    {
+      using AccessorType = typename Functor::CentroidLabelObjectAccessor<LabelObjectType>;
       AccessorType accessor;
       this->TemplatedThreadedProcessLabelObject(accessor, true, labelObject);
       break;
-      }
+    }
     default:
       itkExceptionMacro(<< "Unknown attribute type");
       break;
-    }
+  }
 }
 
 template <typename TImage>
 void
-ShapePositionLabelMapFilter<TImage>
-::PrintSelf(std::ostream &os, Indent indent) const
+ShapePositionLabelMapFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Attribute: "  << LabelObjectType::GetNameFromAttribute(m_Attribute) << " (" << m_Attribute << ")" << std::endl;
+  os << indent << "Attribute: " << LabelObjectType::GetNameFromAttribute(m_Attribute) << " (" << m_Attribute << ")"
+     << std::endl;
 }
 
-}// end namespace itk
+} // end namespace itk
 #endif

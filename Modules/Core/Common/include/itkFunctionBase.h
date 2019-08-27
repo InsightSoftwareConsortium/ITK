@@ -40,8 +40,8 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< typename TInput, typename TOutput >
-class ITK_TEMPLATE_EXPORT FunctionBase:public Object
+template <typename TInput, typename TOutput>
+class ITK_TEMPLATE_EXPORT FunctionBase : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FunctionBase);
@@ -49,8 +49,8 @@ public:
   /** Standard class type aliases. */
   using Self = FunctionBase;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FunctionBase, Object);
@@ -62,10 +62,11 @@ public:
   using OutputType = TOutput;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate(const InputType & input) const = 0;
+  virtual OutputType
+  Evaluate(const InputType & input) const = 0;
 
 protected:
-  FunctionBase()= default;
+  FunctionBase() = default;
   ~FunctionBase() override = default;
 };
 } // end namespace itk

@@ -43,13 +43,15 @@ public:
   /** Standard class type aliases. */
   using Self = Bruker2dseqImageIOFactory;
   using Superclass = ObjectFactoryBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  const char * GetITKSourceVersion() const override;
+  const char *
+  GetITKSourceVersion() const override;
 
-  const char * GetDescription() const override;
+  const char *
+  GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -58,10 +60,10 @@ public:
   itkTypeMacro(Bruker2dseqImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory()
+  static void
+  RegisterOneFactory()
   {
-    Bruker2dseqImageIOFactory::Pointer factory =
-      Bruker2dseqImageIOFactory::New();
+    Bruker2dseqImageIOFactory::Pointer factory = Bruker2dseqImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(factory);
   }

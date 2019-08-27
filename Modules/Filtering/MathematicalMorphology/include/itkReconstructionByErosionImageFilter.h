@@ -51,26 +51,26 @@ namespace itk
  * \author Richard Beare. Department of Medicine, Monash University,
  * Melbourne, Australia.
  *
- * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter, ReconstructionByErosionImageFilter,
-OpeningByReconstructionImageFilter, ClosingByReconstructionImageFilter, ReconstructionImageFilter
+ * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter,
+ReconstructionByErosionImageFilter, OpeningByReconstructionImageFilter, ClosingByReconstructionImageFilter,
+ReconstructionImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup MathematicalMorphologyImageFilters
  * \ingroup ITKMathematicalMorphology
  */
 
-template< typename TInputImage, typename TOutputImage >
-class ReconstructionByErosionImageFilter:
-  public ReconstructionImageFilter< TInputImage, TOutputImage, std::less< typename TOutputImage::PixelType > >
+template <typename TInputImage, typename TOutputImage>
+class ReconstructionByErosionImageFilter
+  : public ReconstructionImageFilter<TInputImage, TOutputImage, std::less<typename TOutputImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ReconstructionByErosionImageFilter);
 
   using Self = ReconstructionByErosionImageFilter;
-  using Superclass = ReconstructionImageFilter<
-    TInputImage, TOutputImage, std::less< typename TOutputImage::PixelType > >;
+  using Superclass = ReconstructionImageFilter<TInputImage, TOutputImage, std::less<typename TOutputImage::PixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using MarkerImageType = TInputImage;
@@ -98,22 +98,18 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ReconstructionByErosionImageFilter,
-               ReconstructionImageFilter);
+  itkTypeMacro(ReconstructionByErosionImageFilter, ReconstructionImageFilter);
 
 protected:
-  ReconstructionByErosionImageFilter()
-  {
-    this->m_MarkerValue = NumericTraits< typename TOutputImage::PixelType >::max();
-  }
+  ReconstructionByErosionImageFilter() { this->m_MarkerValue = NumericTraits<typename TOutputImage::PixelType>::max(); }
 
   ~ReconstructionByErosionImageFilter() override = default;
-};                                                  // end
-                                                    //
-                                                    //
-                                                    //
-                                                    //
-                                                    // ReconstructionByErosionImageFilter
-}
+}; // end
+   //
+   //
+   //
+   //
+   // ReconstructionByErosionImageFilter
+} // namespace itk
 
 #endif

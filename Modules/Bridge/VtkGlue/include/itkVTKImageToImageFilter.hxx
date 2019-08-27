@@ -30,42 +30,39 @@ namespace itk
  * Constructor
  */
 template <typename TOutputImage>
-VTKImageToImageFilter<TOutputImage>
-::VTKImageToImageFilter()
+VTKImageToImageFilter<TOutputImage>::VTKImageToImageFilter()
 {
 
   m_Exporter = vtkImageExport::New();
 
-  this->SetUpdateInformationCallback( m_Exporter->GetUpdateInformationCallback());
-  this->SetPipelineModifiedCallback( m_Exporter->GetPipelineModifiedCallback());
-  this->SetWholeExtentCallback( m_Exporter->GetWholeExtentCallback());
-  this->SetSpacingCallback( m_Exporter->GetSpacingCallback());
-  this->SetOriginCallback( m_Exporter->GetOriginCallback());
+  this->SetUpdateInformationCallback(m_Exporter->GetUpdateInformationCallback());
+  this->SetPipelineModifiedCallback(m_Exporter->GetPipelineModifiedCallback());
+  this->SetWholeExtentCallback(m_Exporter->GetWholeExtentCallback());
+  this->SetSpacingCallback(m_Exporter->GetSpacingCallback());
+  this->SetOriginCallback(m_Exporter->GetOriginCallback());
 #if VTK_MAJOR_VERSION >= 9 || (VTK_MAJOR_VERSION == 8 && VTK_MINOR_VERSION >= 90)
-  this->SetDirectionCallback( m_Exporter->GetDirectionCallback());
+  this->SetDirectionCallback(m_Exporter->GetDirectionCallback());
 #endif
-  this->SetScalarTypeCallback( m_Exporter->GetScalarTypeCallback());
-  this->SetNumberOfComponentsCallback( m_Exporter->GetNumberOfComponentsCallback());
-  this->SetPropagateUpdateExtentCallback( m_Exporter->GetPropagateUpdateExtentCallback());
-  this->SetUpdateDataCallback( m_Exporter->GetUpdateDataCallback());
-  this->SetDataExtentCallback( m_Exporter->GetDataExtentCallback());
-  this->SetBufferPointerCallback( m_Exporter->GetBufferPointerCallback());
-  this->SetCallbackUserData( m_Exporter->GetCallbackUserData());
-
+  this->SetScalarTypeCallback(m_Exporter->GetScalarTypeCallback());
+  this->SetNumberOfComponentsCallback(m_Exporter->GetNumberOfComponentsCallback());
+  this->SetPropagateUpdateExtentCallback(m_Exporter->GetPropagateUpdateExtentCallback());
+  this->SetUpdateDataCallback(m_Exporter->GetUpdateDataCallback());
+  this->SetDataExtentCallback(m_Exporter->GetDataExtentCallback());
+  this->SetBufferPointerCallback(m_Exporter->GetBufferPointerCallback());
+  this->SetCallbackUserData(m_Exporter->GetCallbackUserData());
 }
 
 /**
  * Destructor
  */
 template <typename TOutputImage>
-VTKImageToImageFilter<TOutputImage>
-::~VTKImageToImageFilter()
+VTKImageToImageFilter<TOutputImage>::~VTKImageToImageFilter()
 {
-  if( m_Exporter )
-    {
+  if (m_Exporter)
+  {
     m_Exporter->Delete();
     m_Exporter = nullptr;
-    }
+  }
 }
 
 /**
@@ -73,13 +70,12 @@ VTKImageToImageFilter<TOutputImage>
  */
 template <typename TOutputImage>
 void
-VTKImageToImageFilter<TOutputImage>
-::SetInput( vtkImageData * inputImage )
+VTKImageToImageFilter<TOutputImage>::SetInput(vtkImageData * inputImage)
 {
 #if VTK_MAJOR_VERSION <= 5
-  m_Exporter->SetInput( inputImage );
+  m_Exporter->SetInput(inputImage);
 #else
-  m_Exporter->SetInputData( inputImage );
+  m_Exporter->SetInputData(inputImage);
 #endif
 }
 
@@ -88,8 +84,7 @@ VTKImageToImageFilter<TOutputImage>
  */
 template <typename TOutputImage>
 vtkImageExport *
-VTKImageToImageFilter<TOutputImage>
-::GetExporter() const
+VTKImageToImageFilter<TOutputImage>::GetExporter() const
 {
   return m_Exporter;
 }
@@ -99,8 +94,7 @@ VTKImageToImageFilter<TOutputImage>
  */
 template <typename TOutputImage>
 const typename VTKImageToImageFilter<TOutputImage>::Superclass *
-VTKImageToImageFilter<TOutputImage>
-::GetImporter() const
+VTKImageToImageFilter<TOutputImage>::GetImporter() const
 {
   return this;
 }

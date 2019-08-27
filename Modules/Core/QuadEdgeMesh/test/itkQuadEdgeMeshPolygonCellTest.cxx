@@ -21,7 +21,8 @@
 #include <iostream>
 
 
-int itkQuadEdgeMeshPolygonCellTest(int, char* [] )
+int
+itkQuadEdgeMeshPolygonCellTest(int, char *[])
 {
 
 
@@ -38,7 +39,7 @@ int itkQuadEdgeMeshPolygonCellTest(int, char* [] )
    * use the defaults for the other parameters.  Note that a cell's template
    * parameters must match those of the mesh into which it is inserted.
    */
-  using CellInterfaceType = itk::CellInterface< int, CellTraits >;
+  using CellInterfaceType = itk::CellInterface<int, CellTraits>;
   using PolygonCellType = itk::QuadEdgeMeshPolygonCell<CellInterfaceType>;
 
 
@@ -66,9 +67,8 @@ int itkQuadEdgeMeshPolygonCellTest(int, char* [] )
   /**
    * Define the 3d geometric positions for 8 points in a cube.
    */
-  MeshType::CoordRepType testPointCoords[8][3]
-    = { {0,0,0}, {9,0,0}, {9,0,9}, {0,0,9},
-        {0,9,0}, {9,9,0}, {9,9,9}, {0,9,9} };
+  MeshType::CoordRepType testPointCoords[8][3] = { { 0, 0, 0 }, { 9, 0, 0 }, { 9, 0, 9 }, { 0, 0, 9 },
+                                                   { 0, 9, 0 }, { 9, 9, 0 }, { 9, 9, 9 }, { 0, 9, 9 } };
 
   /**
    * Add our test points to the mesh.
@@ -76,16 +76,15 @@ int itkQuadEdgeMeshPolygonCellTest(int, char* [] )
    * Note that the constructor for Point is public, and takes an array
    * of coordinates for the point.
    */
-  for(int i=0; i < 8; ++i)
-    {
+  for (int i = 0; i < 8; ++i)
+  {
     mesh->SetPoint(i, PointType(testPointCoords[i]));
-    }
+  }
 
   /**
    * Specify the method used for allocating cells
    */
-  mesh->SetCellsAllocationMethod(
-          itk::MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell );
+  mesh->SetCellsAllocationMethod(itk::MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell);
 
   /**
    * Create the test cell. Note that testCell is a generic auto
@@ -93,35 +92,35 @@ int itkQuadEdgeMeshPolygonCellTest(int, char* [] )
    * different types of cells.
    */
   CellAutoPointer testCell;
-  auto * newcell = new PolygonCellType( 4 );
-  testCell.TakeOwnership( newcell ); // polymorphism
+  auto *          newcell = new PolygonCellType(4);
+  testCell.TakeOwnership(newcell); // polymorphism
 
   /**
    * List the points that the polygon will use from the mesh.
    */
-  PointIdentifier polygon1Points[4] = {0,1,2,3};
+  PointIdentifier polygon1Points[4] = { 0, 1, 2, 3 };
 
   /**
    * Assign the points to the tetrahedron through their identifiers.
    */
   testCell->SetPointIds(polygon1Points);
-  if( newcell->GetPointId( 18 ) != PointIdentifier(-1) )
-    {
+  if (newcell->GetPointId(18) != PointIdentifier(-1))
+  {
     std::cerr << "Get Point should have failed !" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test MakeCopy" << std::endl;
 
   CellAutoPointer anotherCell;
 
-  testCell->MakeCopy( anotherCell );
+  testCell->MakeCopy(anotherCell);
 
-  if( anotherCell->GetNumberOfPoints() != testCell->GetNumberOfPoints() )
-    {
+  if (anotherCell->GetNumberOfPoints() != testCell->GetNumberOfPoints())
+  {
     std::cerr << "Make Copy failed !" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   /**
    * Add the test cell to the mesh.
@@ -132,7 +131,7 @@ int itkQuadEdgeMeshPolygonCellTest(int, char* [] )
    * The cell address is still valid after a SetCell()
    * the second one create a new cell. The cell is deleted within SetCell()
    */
-  mesh->SetCell(0, testCell ); // Transfer ownership to the mesh
+  mesh->SetCell(0, testCell); // Transfer ownership to the mesh
   std::cout << "PolygonCell pointer = ";
   std::cout << (void const *)testCell.GetPointer() << std::endl;
   std::cout << "PolygonCell Owner   = " << testCell.IsOwner() << std::endl;

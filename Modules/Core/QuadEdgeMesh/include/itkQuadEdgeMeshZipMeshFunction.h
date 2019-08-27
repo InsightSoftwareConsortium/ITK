@@ -29,20 +29,19 @@ namespace itk
  * \ingroup QEMeshModifierFunctions
  * \ingroup ITKQuadEdgeMesh
  */
-template< typename TMesh, typename TQEType >
-class ITK_TEMPLATE_EXPORT QuadEdgeMeshZipMeshFunction:
-  public QuadEdgeMeshFunctionBase< TMesh, typename TQEType::OriginRefType >
+template <typename TMesh, typename TQEType>
+class ITK_TEMPLATE_EXPORT QuadEdgeMeshZipMeshFunction
+  : public QuadEdgeMeshFunctionBase<TMesh, typename TQEType::OriginRefType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshZipMeshFunction);
 
   /** Standard class type aliases. */
   using Self = QuadEdgeMeshZipMeshFunction;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  using Superclass = QuadEdgeMeshFunctionBase< TMesh,
-                                    typename TQEType::OriginRefType >;
+  using Superclass = QuadEdgeMeshFunctionBase<TMesh, typename TQEType::OriginRefType>;
 
   itkNewMacro(Self);
   /** Run-time type information (and related methods). */
@@ -58,10 +57,11 @@ public:
    * \return The OriginRefType of the point that will be removed during the
    * zipping process.
    */
-  virtual OutputType Evaluate(QEType *e);
+  virtual OutputType
+  Evaluate(QEType * e);
 
 protected:
-  QuadEdgeMeshZipMeshFunction()= default;
+  QuadEdgeMeshZipMeshFunction() = default;
   ~QuadEdgeMeshZipMeshFunction() override = default;
 };
 } // end namespace itk

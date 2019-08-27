@@ -90,17 +90,18 @@ public:
 #endif
 
   /**Get/Set the number of voxels/pixels in each dimension used
-    *during the mesh generation
-    */
-  itkGetMacro(PixelsPerElement, vnl_vector<unsigned int> );
-  itkSetMacro(PixelsPerElement, vnl_vector<unsigned int> );
-  void SetPixelsPerElement( unsigned int numPixels )
+   *during the mesh generation
+   */
+  itkGetMacro(PixelsPerElement, vnl_vector<unsigned int>);
+  itkSetMacro(PixelsPerElement, vnl_vector<unsigned int>);
+  void
+  SetPixelsPerElement(unsigned int numPixels)
   {
-    this->m_PixelsPerElement.fill( numPixels );
+    this->m_PixelsPerElement.fill(numPixels);
   }
 
   /**Get the number of element in each dimension of the generated mesh*/
-  itkGetMacro(NumberOfElements, vnl_vector<unsigned int> );
+  itkGetMacro(NumberOfElements, vnl_vector<unsigned int>);
 
   /**Get/Set the material used for the mesh */
   itkGetMacro(Material, MaterialPointerType);
@@ -112,19 +113,24 @@ public:
 
   /** Set/Get the image input of this process object.  */
   using Superclass::SetInput;
-  void SetInput( InputImageType *image);
+  void
+  SetInput(InputImageType * image);
 
-  void SetInput( unsigned int, InputImageType *image);
+  void
+  SetInput(unsigned int, InputImageType * image);
 
-  InputImageType * GetInput();
+  InputImageType *
+  GetInput();
 
-  InputImageType * GetInput(unsigned int idx);
+  InputImageType *
+  GetInput(unsigned int idx);
 
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
   /** Get the output data of this process object.  The output of this
    * function is not valid until an appropriate Update() method has
@@ -139,21 +145,27 @@ public:
    * types. Derived classes should have names get methods for these
    * outputs.
    */
-  FEMObjectType * GetOutput();
+  FEMObjectType *
+  GetOutput();
 
-  FEMObjectType * GetOutput(unsigned int idx);
+  FEMObjectType *
+  GetOutput(unsigned int idx);
 
 protected:
   ImageToRectilinearFEMObjectFilter();
   ~ImageToRectilinearFEMObjectFilter() override {}
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Method invoked by the pipeline in order to trigger mesh generation */
-  void  GenerateData() override;
+  void
+  GenerateData() override;
 
-  void Generate2DRectilinearMesh();
+  void
+  Generate2DRectilinearMesh();
 
-  void Generate3DRectilinearMesh();
+  void
+  Generate3DRectilinearMesh();
 
 private:
   vnl_vector<unsigned int> m_NumberOfElements;
@@ -165,7 +177,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToRectilinearFEMObjectFilter.hxx"
+#  include "itkImageToRectilinearFEMObjectFilter.hxx"
 #endif
 
 #endif // itkImageToRectilinearFEMObjectFilter_h

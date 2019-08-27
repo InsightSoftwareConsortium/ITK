@@ -44,18 +44,17 @@ namespace itk
  * \sa  PolylineMaskImageFilter
  * \ingroup ITKImageIntensity
  */
-template< typename TInputImage, typename TPolyline,
-          typename TOutputImage >
-class ITK_TEMPLATE_EXPORT PolylineMask2DImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TPolyline, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT PolylineMask2DImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolylineMask2DImageFilter);
 
   /** Standard class type aliases. */
   using Self = PolylineMask2DImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -84,20 +83,18 @@ public:
   using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** Read in image and polyline inputs */
-  void SetInput1(const InputImageType *image);
+  void
+  SetInput1(const InputImageType * image);
 
-  void SetInput2(const PolylineType *polyline);
+  void
+  SetInput2(const PolylineType * polyline);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< NDimensions, NOutputDimensions > ) );
-  itkConceptMacro( IntConvertibleOutputCheck,
-                   ( Concept::Convertible< int, OutputImagePixelType > ) );
-  itkConceptMacro( OutputEqualityComparableCheck,
-                   ( Concept::EqualityComparable< OutputImagePixelType > ) );
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< InputImagePixelType, OutputImagePixelType > ) );
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<NDimensions, NOutputDimensions>));
+  itkConceptMacro(IntConvertibleOutputCheck, (Concept::Convertible<int, OutputImagePixelType>));
+  itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputImagePixelType>));
+  itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
   // End concept checking
 #endif
 
@@ -105,12 +102,13 @@ protected:
   PolylineMask2DImageFilter();
   ~PolylineMask2DImageFilter() override = default;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPolylineMask2DImageFilter.hxx"
+#  include "itkPolylineMask2DImageFilter.hxx"
 #endif
 
 #endif

@@ -22,10 +22,9 @@
 
 namespace itk
 {
-template< typename TSparseImageType >
+template <typename TSparseImageType>
 void
-FiniteDifferenceSparseImageFunction< TSparseImageType >
-::PrintSelf(std::ostream & os, Indent indent) const
+FiniteDifferenceSparseImageFunction<TSparseImageType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

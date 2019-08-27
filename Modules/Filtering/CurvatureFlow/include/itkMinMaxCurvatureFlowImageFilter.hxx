@@ -27,26 +27,23 @@ namespace itk
 /**
  * Constructor
  */
-template< typename TInputImage, typename TOutputImage >
-MinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage >
-::MinMaxCurvatureFlowImageFilter()
+template <typename TInputImage, typename TOutputImage>
+MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::MinMaxCurvatureFlowImageFilter()
 {
   m_StencilRadius = 2;
 
   typename MinMaxCurvatureFlowFunctionType::Pointer cffp;
   cffp = MinMaxCurvatureFlowFunctionType::New();
 
-  this->SetDifferenceFunction( static_cast< FiniteDifferenceFunctionType * >(
-                                 cffp.GetPointer() ) );
+  this->SetDifferenceFunction(static_cast<FiniteDifferenceFunctionType *>(cffp.GetPointer()));
 }
 
 /*
  * Standard PrintSelf method.
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-MinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "StencilRadius: " << m_StencilRadius << std::endl;
@@ -55,18 +52,17 @@ MinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage >
 /*
  * Initialize the state of filter and equation before each iteration.
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-MinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage >
-::InitializeIteration()
+MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::InitializeIteration()
 {
   // update variables in the equation object
-  auto * f = dynamic_cast< MinMaxCurvatureFlowFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
+  auto * f = dynamic_cast<MinMaxCurvatureFlowFunctionType *>(this->GetDifferenceFunction().GetPointer());
 
-  if ( !f )
-    {
+  if (!f)
+  {
     itkExceptionMacro(<< "DifferenceFunction not of type MinMaxCurvatureFlowFunction");
-    }
+  }
 
   f->SetStencilRadius(m_StencilRadius);
   this->Superclass::InitializeIteration();

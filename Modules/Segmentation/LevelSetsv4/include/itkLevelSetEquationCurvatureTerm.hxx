@@ -23,100 +23,92 @@
 
 namespace itk
 {
-template< typename TInput, typename TLevelSetContainer, typename TCurvatureImage >
-LevelSetEquationCurvatureTerm< TInput, TLevelSetContainer, TCurvatureImage >
-::LevelSetEquationCurvatureTerm()
+template <typename TInput, typename TLevelSetContainer, typename TCurvatureImage>
+LevelSetEquationCurvatureTerm<TInput, TLevelSetContainer, TCurvatureImage>::LevelSetEquationCurvatureTerm()
 {
-  for( unsigned int i = 0; i < ImageDimension; i++ )
-    {
+  for (unsigned int i = 0; i < ImageDimension; i++)
+  {
     this->m_NeighborhoodScales[i] = 1.0;
-    }
+  }
   this->m_TermName = "Curvature term";
-  this->m_RequiredData.insert( "MeanCurvature" );
+  this->m_RequiredData.insert("MeanCurvature");
   this->m_UseCurvatureImage = false;
 }
 
-template< typename TInput, typename TLevelSetContainer, typename TCurvatureImage >
+template <typename TInput, typename TLevelSetContainer, typename TCurvatureImage>
 void
-LevelSetEquationCurvatureTerm< TInput, TLevelSetContainer, TCurvatureImage >
-::SetCurvatureImage( CurvatureImageType* iImage )
+LevelSetEquationCurvatureTerm<TInput, TLevelSetContainer, TCurvatureImage>::SetCurvatureImage(
+  CurvatureImageType * iImage)
 {
   m_CurvatureImage = iImage;
   m_UseCurvatureImage = true;
   this->Modified();
 }
 
-template< typename TInput, typename TLevelSetContainer, typename TCurvatureImage >
-typename LevelSetEquationCurvatureTerm< TInput, TLevelSetContainer, TCurvatureImage >::LevelSetOutputRealType
-LevelSetEquationCurvatureTerm< TInput, TLevelSetContainer, TCurvatureImage >
-::Value( const LevelSetInputIndexType& iP, const LevelSetDataType& iData )
+template <typename TInput, typename TLevelSetContainer, typename TCurvatureImage>
+typename LevelSetEquationCurvatureTerm<TInput, TLevelSetContainer, TCurvatureImage>::LevelSetOutputRealType
+LevelSetEquationCurvatureTerm<TInput, TLevelSetContainer, TCurvatureImage>::Value(const LevelSetInputIndexType & iP,
+                                                                                  const LevelSetDataType &       iData)
 {
   // MeanCurvature has should be computed by this point.
-  itkAssertInDebugAndIgnoreInReleaseMacro( iData.MeanCurvature.m_Computed == true );
+  itkAssertInDebugAndIgnoreInReleaseMacro(iData.MeanCurvature.m_Computed == true);
 
-  if( !m_UseCurvatureImage )
-    {
+  if (!m_UseCurvatureImage)
+  {
     return iData.MeanCurvature.m_Value;
-    }
+  }
   else
-    {
-    return m_CurvatureImage->GetPixel( iP ) * iData.MeanCurvature.m_Value;
-    }
+  {
+    return m_CurvatureImage->GetPixel(iP) * iData.MeanCurvature.m_Value;
+  }
 }
 
-template< typename TInput, typename TLevelSetContainer, typename TCurvatureImage >
+template <typename TInput, typename TLevelSetContainer, typename TCurvatureImage>
 void
-LevelSetEquationCurvatureTerm< TInput, TLevelSetContainer, TCurvatureImage >
-::InitializeParameters()
+LevelSetEquationCurvatureTerm<TInput, TLevelSetContainer, TCurvatureImage>::InitializeParameters()
 {
   this->SetUp();
 
-  if( m_UseCurvatureImage )
+  if (m_UseCurvatureImage)
+  {
+    if (m_CurvatureImage.IsNull())
     {
-    if( m_CurvatureImage.IsNull() )
-      {
-      itkGenericExceptionMacro( << "m_UseCurvatureImage is true and m_CurvatureImage is null" );
-      }
+      itkGenericExceptionMacro(<< "m_UseCurvatureImage is true and m_CurvatureImage is null");
     }
+  }
 }
 
-template< typename TInput, typename TLevelSetContainer, typename TCurvatureImage >
+template <typename TInput, typename TLevelSetContainer, typename TCurvatureImage>
 void
-LevelSetEquationCurvatureTerm< TInput, TLevelSetContainer, TCurvatureImage >
-::Initialize( const LevelSetInputIndexType& )
-{
-}
+LevelSetEquationCurvatureTerm<TInput, TLevelSetContainer, TCurvatureImage>::Initialize(const LevelSetInputIndexType &)
+{}
 
-template< typename TInput, typename TLevelSetContainer, typename TCurvatureImage >
+template <typename TInput, typename TLevelSetContainer, typename TCurvatureImage>
 void
-LevelSetEquationCurvatureTerm< TInput, TLevelSetContainer, TCurvatureImage >
-::Update()
-{
-}
+LevelSetEquationCurvatureTerm<TInput, TLevelSetContainer, TCurvatureImage>::Update()
+{}
 
-template< typename TInput, typename TLevelSetContainer, typename TCurvatureImage >
+template <typename TInput, typename TLevelSetContainer, typename TCurvatureImage>
 void
-LevelSetEquationCurvatureTerm< TInput, TLevelSetContainer, TCurvatureImage >
-::UpdatePixel( const LevelSetInputIndexType& itkNotUsed( iP ),
-               const LevelSetOutputRealType& itkNotUsed( oldValue ),
-               const LevelSetOutputRealType& itkNotUsed( newValue ) )
-{
-}
+LevelSetEquationCurvatureTerm<TInput, TLevelSetContainer, TCurvatureImage>::UpdatePixel(
+  const LevelSetInputIndexType & itkNotUsed(iP),
+  const LevelSetOutputRealType & itkNotUsed(oldValue),
+  const LevelSetOutputRealType & itkNotUsed(newValue))
+{}
 
-template< typename TInput, typename TLevelSetContainer, typename TCurvatureImage >
-typename LevelSetEquationCurvatureTerm< TInput, TLevelSetContainer, TCurvatureImage >::LevelSetOutputRealType
-LevelSetEquationCurvatureTerm< TInput, TLevelSetContainer, TCurvatureImage >
-::Value( const LevelSetInputIndexType& iP )
+template <typename TInput, typename TLevelSetContainer, typename TCurvatureImage>
+typename LevelSetEquationCurvatureTerm<TInput, TLevelSetContainer, TCurvatureImage>::LevelSetOutputRealType
+LevelSetEquationCurvatureTerm<TInput, TLevelSetContainer, TCurvatureImage>::Value(const LevelSetInputIndexType & iP)
 {
-  if( !m_UseCurvatureImage )
-    {
-    return this->m_CurrentLevelSetPointer->EvaluateMeanCurvature( iP );
-    }
+  if (!m_UseCurvatureImage)
+  {
+    return this->m_CurrentLevelSetPointer->EvaluateMeanCurvature(iP);
+  }
   else
-    {
-    return m_CurvatureImage->GetPixel( iP ) * this->m_CurrentLevelSetPointer->EvaluateMeanCurvature( iP );
-    }
+  {
+    return m_CurvatureImage->GetPixel(iP) * this->m_CurrentLevelSetPointer->EvaluateMeanCurvature(iP);
+  }
 }
 
-}
+} // namespace itk
 #endif

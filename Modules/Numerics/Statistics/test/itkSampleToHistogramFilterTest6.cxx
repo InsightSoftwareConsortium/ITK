@@ -20,7 +20,8 @@
 #include "itkHistogram.h"
 #include "itkSampleToHistogramFilter.h"
 
-int itkSampleToHistogramFilterTest6( int, char * [] )
+int
+itkSampleToHistogramFilterTest6(int, char *[])
 {
 
   constexpr unsigned int numberOfComponents = 3;
@@ -32,18 +33,16 @@ int itkSampleToHistogramFilterTest6( int, char * [] )
   // value overflow in the computation of the upper limit of the
   // final histogram bins.
   //
-  using VMeasurementType = float;  // float type for the samples
-  using HMeasurementType = float;  // float type for the histogram
+  using VMeasurementType = float; // float type for the samples
+  using HMeasurementType = float; // float type for the histogram
 
 
-  using MeasurementVectorType = itk::Array< VMeasurementType >;
-  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
+  using MeasurementVectorType = itk::Array<VMeasurementType>;
+  using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
-  using HistogramType = itk::Statistics::Histogram< HMeasurementType,
-          itk::Statistics::DenseFrequencyContainer2 >;
+  using HistogramType = itk::Statistics::Histogram<HMeasurementType, itk::Statistics::DenseFrequencyContainer2>;
 
-  using FilterType = itk::Statistics::SampleToHistogramFilter<
-    SampleType, HistogramType >;
+  using FilterType = itk::Statistics::SampleToHistogramFilter<SampleType, HistogramType>;
 
   using HistogramSizeType = FilterType::HistogramSizeType;
   using HistogramMeasurementVectorType = FilterType::HistogramMeasurementVectorType;
@@ -51,131 +50,130 @@ int itkSampleToHistogramFilterTest6( int, char * [] )
   FilterType::Pointer filter = FilterType::New();
   SampleType::Pointer sample = SampleType::New();
 
-  HistogramMeasurementVectorType minimum( numberOfComponents );
-  HistogramMeasurementVectorType maximum( numberOfComponents );
+  HistogramMeasurementVectorType minimum(numberOfComponents);
+  HistogramMeasurementVectorType maximum(numberOfComponents);
 
   minimum[0] = -17.5;
   minimum[1] = -19.5;
   minimum[2] = -24.5;
 
-  maximum[0] =  17.5;
-  maximum[1] =  19.5;
-  maximum[2] =  24.5;
+  maximum[0] = 17.5;
+  maximum[1] = 19.5;
+  maximum[2] = 24.5;
 
-  HistogramSizeType histogramSize( numberOfComponents );
+  HistogramSizeType histogramSize(numberOfComponents);
 
   histogramSize[0] = 36;
   histogramSize[1] = 40;
   histogramSize[2] = 50;
 
-  MeasurementVectorType measure( numberOfComponents );
+  MeasurementVectorType measure(numberOfComponents);
 
-  sample->SetMeasurementVectorSize( numberOfComponents );
+  sample->SetMeasurementVectorSize(numberOfComponents);
 
   // Populate the Sample
-  for( unsigned int i=0; i < histogramSize[0]; i++ )
+  for (unsigned int i = 0; i < histogramSize[0]; i++)
+  {
+    measure[0] = static_cast<VMeasurementType>(minimum[0] + i);
+    for (unsigned int j = 0; j < histogramSize[1]; j++)
     {
-    measure[0] = static_cast< VMeasurementType >( minimum[0] + i );
-    for( unsigned int j=0; j < histogramSize[1]; j++ )
+      measure[1] = static_cast<VMeasurementType>(minimum[1] + j);
+      for (unsigned int k = 0; k < histogramSize[2]; k++)
       {
-      measure[1] = static_cast< VMeasurementType >( minimum[1] + j );
-      for( unsigned int k=0; k < histogramSize[2]; k++ )
-        {
-        measure[2] = static_cast< VMeasurementType >( minimum[2] + k );
-        sample->PushBack( measure );
-        }
+        measure[2] = static_cast<VMeasurementType>(minimum[2] + k);
+        sample->PushBack(measure);
       }
     }
+  }
 
 
-  filter->SetInput( sample );
+  filter->SetInput(sample);
 
   // Test exception when calling Update() without having
   // defined the size of the histogram in the filter.
   try
-    {
+  {
     filter->Update();
     std::cerr << "Failure to throw expected exception due to lack";
     std::cerr << " of calling SetHistogramSize() in the filter ";
     return EXIT_FAILURE;
-    }
-  catch( itk::ExceptionObject & )
-    {
+  }
+  catch (itk::ExceptionObject &)
+  {
     std::cout << "Expected exception received" << std::endl;
-    }
+  }
 
 
   const HistogramType * histogram = filter->GetOutput();
 
-  if( histogram->Size() != 0 )
-    {
+  if (histogram->Size() != 0)
+  {
     std::cerr << "Histogram Size should have been zero" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
-  filter->SetHistogramSize( histogramSize );
+  filter->SetHistogramSize(histogramSize);
 
   try
-    {
+  {
     filter->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  const unsigned int expectedHistogramSize1 =
-    histogramSize[0] * histogramSize[1] * histogramSize[2];
+  const unsigned int expectedHistogramSize1 = histogramSize[0] * histogramSize[1] * histogramSize[2];
 
-  if( histogram->Size() != expectedHistogramSize1 )
-    {
+  if (histogram->Size() != expectedHistogramSize1)
+  {
     std::cerr << "Histogram Size error" << std::endl;
     std::cerr << "We expected " << expectedHistogramSize1 << std::endl;
     std::cerr << "We received " << histogram->Size() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   HistogramType::ConstIterator histogramItr = histogram->Begin();
   HistogramType::ConstIterator histogramEnd = histogram->End();
 
   constexpr unsigned int expectedFrequency1 = 1;
-  while( histogramItr != histogramEnd )
+  while (histogramItr != histogramEnd)
+  {
+    if (histogramItr.GetFrequency() != expectedFrequency1)
     {
-    if( histogramItr.GetFrequency() != expectedFrequency1 )
-      {
       std::cerr << "Histogram bin error for measure " << std::endl;
       std::cerr << histogramItr.GetMeasurementVector() << std::endl;
       std::cerr << "Expected frequency = " << expectedFrequency1 << std::endl;
       std::cerr << "Computed frequency = " << histogramItr.GetFrequency() << std::endl;
       return EXIT_FAILURE;
-      }
-    ++histogramItr;
     }
+    ++histogramItr;
+  }
 
   //
   // Add a sample that will exercise the overflow code
   //
-  measure[0] = itk::NumericTraits< VMeasurementType >::max();
-  measure[1] = itk::NumericTraits< VMeasurementType >::max();
-  measure[2] = itk::NumericTraits< VMeasurementType >::max();
+  measure[0] = itk::NumericTraits<VMeasurementType>::max();
+  measure[1] = itk::NumericTraits<VMeasurementType>::max();
+  measure[2] = itk::NumericTraits<VMeasurementType>::max();
 
-  sample->PushBack( measure );
+  sample->PushBack(measure);
   sample->Modified();
 
-  filter->SetAutoMinimumMaximum( true );
+  filter->SetAutoMinimumMaximum(true);
 
   try
-    {
+  {
     filter->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   std::cout << "Test passed." << std::endl;

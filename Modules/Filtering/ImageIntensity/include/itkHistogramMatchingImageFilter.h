@@ -71,18 +71,17 @@ namespace itk
  */
 /* THistogramMeasurement -- The precision level for which to do
   HistogramMeasurmenets */
-template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement = typename TInputImage::PixelType >
-class ITK_TEMPLATE_EXPORT HistogramMatchingImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage, typename THistogramMeasurement = typename TInputImage::PixelType>
+class ITK_TEMPLATE_EXPORT HistogramMatchingImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(HistogramMatchingImageFilter);
 
   /** Standard class type aliases. */
   using Self = HistogramMatchingImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -109,7 +108,7 @@ public:
   using OutputPixelType = typename OutputImageType::PixelType;
 
   /** Histogram related type alias. */
-  using HistogramType = Statistics::Histogram< THistogramMeasurement >;
+  using HistogramType = Statistics::Histogram<THistogramMeasurement>;
   using HistogramPointer = typename HistogramType::Pointer;
 
   /** Set and Get the source image */
@@ -157,12 +156,13 @@ public:
    * indicated by GenerateReferenceHistogramFromImage choice will be used
    * and the other object will be ignored.
    */
- itkSetMacro(GenerateReferenceHistogramFromImage, bool);
- itkGetConstMacro(GenerateReferenceHistogramFromImage, bool);
- itkBooleanMacro(GenerateReferenceHistogramFromImage);
+  itkSetMacro(GenerateReferenceHistogramFromImage, bool);
+  itkGetConstMacro(GenerateReferenceHistogramFromImage, bool);
+  itkBooleanMacro(GenerateReferenceHistogramFromImage);
 
- /** This filter requires all of the input to be in the buffer. */
-  void GenerateInputRequestedRegion() override;
+  /** This filter requires all of the input to be in the buffer. */
+  void
+  GenerateInputRequestedRegion() override;
 
   /** Methods to get the histograms of the source, reference, and
    * output. Objects are only valid after Update() has been called
@@ -172,33 +172,30 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( IntConvertibleToInputCheck,
-                   ( Concept::Convertible< int, InputPixelType > ) );
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< ImageDimension, OutputImageDimension > ) );
-  itkConceptMacro( DoubleConvertibleToInputCheck,
-                   ( Concept::Convertible< double, InputPixelType > ) );
-  itkConceptMacro( DoubleConvertibleToOutputCheck,
-                   ( Concept::Convertible< double, OutputPixelType > ) );
-  itkConceptMacro( InputConvertibleToDoubleCheck,
-                   ( Concept::Convertible< InputPixelType, double > ) );
-  itkConceptMacro( OutputConvertibleToDoubleCheck,
-                   ( Concept::Convertible< OutputPixelType, double > ) );
-  itkConceptMacro( SameTypeCheck,
-                   ( Concept::SameType< InputPixelType, OutputPixelType > ) );
+  itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputPixelType>));
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  itkConceptMacro(DoubleConvertibleToInputCheck, (Concept::Convertible<double, InputPixelType>));
+  itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, OutputPixelType>));
+  itkConceptMacro(InputConvertibleToDoubleCheck, (Concept::Convertible<InputPixelType, double>));
+  itkConceptMacro(OutputConvertibleToDoubleCheck, (Concept::Convertible<OutputPixelType, double>));
+  itkConceptMacro(SameTypeCheck, (Concept::SameType<InputPixelType, OutputPixelType>));
   // End concept checking
 #endif
 
 protected:
   HistogramMatchingImageFilter();
   ~HistogramMatchingImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
-  void AfterThreadedGenerateData() override;
+  void
+  AfterThreadedGenerateData() override;
 
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
   /** Override VerifyInputInformation() since this filter does not expect
@@ -206,33 +203,36 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() ITKv5_CONST override {}
+  void
+  VerifyInputInformation() ITKv5_CONST override
+  {}
 
-  void VerifyPreconditions() ITKv5_CONST override;
+  void
+  VerifyPreconditions() ITKv5_CONST override;
 
   /** Compute min, max and mean of an image. */
-  void ComputeMinMaxMean(const InputImageType *image,
-                         THistogramMeasurement & minValue,
-                         THistogramMeasurement & maxValue,
-                         THistogramMeasurement & meanValue);
-
- /**
-  * Construct a histogram from an image using only values in range of [minValue, maxValue].
-  * Values outside that range are ignored.
-  */
   void
-  ConstructHistogramFromIntensityRange(const InputImageType *image,
-                          HistogramType *histogram,
-                          const THistogramMeasurement minHistogramValidValue,
-                          const THistogramMeasurement maxHistogramValidValue,
-                          const THistogramMeasurement imageTrueMinValue,
-                          const THistogramMeasurement imageTrueMaxValue
-                          );
+  ComputeMinMaxMean(const InputImageType *  image,
+                    THistogramMeasurement & minValue,
+                    THistogramMeasurement & maxValue,
+                    THistogramMeasurement & meanValue);
+
+  /**
+   * Construct a histogram from an image using only values in range of [minValue, maxValue].
+   * Values outside that range are ignored.
+   */
+  void
+  ConstructHistogramFromIntensityRange(const InputImageType *      image,
+                                       HistogramType *             histogram,
+                                       const THistogramMeasurement minHistogramValidValue,
+                                       const THistogramMeasurement maxHistogramValidValue,
+                                       const THistogramMeasurement imageTrueMinValue,
+                                       const THistogramMeasurement imageTrueMaxValue);
 
 private:
-  SizeValueType m_NumberOfHistogramLevels{256};
-  SizeValueType m_NumberOfMatchPoints{1};
-  bool          m_ThresholdAtMeanIntensity{true};
+  SizeValueType m_NumberOfHistogramLevels{ 256 };
+  SizeValueType m_NumberOfMatchPoints{ 1 };
+  bool          m_ThresholdAtMeanIntensity{ true };
 
   THistogramMeasurement m_SourceMinValue;
   THistogramMeasurement m_SourceMaxValue;
@@ -243,19 +243,19 @@ private:
   HistogramPointer m_SourceHistogram;
   HistogramPointer m_OutputHistogram;
 
-  using TableType = vnl_matrix< double >;
+  using TableType = vnl_matrix<double>;
   TableType m_QuantileTable;
 
-  using GradientArrayType = vnl_vector< double >;
+  using GradientArrayType = vnl_vector<double>;
   GradientArrayType m_Gradients;
-  double            m_LowerGradient{0.0};
-  double            m_UpperGradient{0.0};
-  bool              m_GenerateReferenceHistogramFromImage{true};
+  double            m_LowerGradient{ 0.0 };
+  double            m_UpperGradient{ 0.0 };
+  bool              m_GenerateReferenceHistogramFromImage{ true };
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHistogramMatchingImageFilter.hxx"
+#  include "itkHistogramMatchingImageFilter.hxx"
 #endif
 
 #endif

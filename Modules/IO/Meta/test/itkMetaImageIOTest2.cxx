@@ -29,32 +29,34 @@
 namespace
 {
 
-int TestUnknowMetaDataBug( const std::string &fname )
+int
+TestUnknowMetaDataBug(const std::string & fname)
 {
   std::cout << "Testing for unknow meta data entry bug." << std::endl;
 
   try
-    {
+  {
     using PixelType = unsigned short;
     using ImageType = itk::Image<PixelType, 2>;
 
     ImageType::RegionType region;
-    ImageType::SizeType size = {{32,32}};
-    region.SetSize( size );
+    ImageType::SizeType   size = { { 32, 32 } };
+    region.SetSize(size);
 
     ImageType::Pointer image = ImageType::New();
-    image->SetRegions( region );
+    image->SetRegions(region);
     image->Allocate();
-    image->FillBuffer( 0 );
+    image->FillBuffer(0);
 
-    itk::MetaDataDictionary &dict = image->GetMetaDataDictionary();
+    itk::MetaDataDictionary & dict = image->GetMetaDataDictionary();
 
-    itk::EncapsulateMetaData<float>(dict,"ASimpleFloatInitalized",static_cast<float>(1.234560F));
-    itk::EncapsulateMetaData<std::complex<float> >(dict,"AnUnsuportedComplexInitalized",std::complex<float>(1.234560F));
+    itk::EncapsulateMetaData<float>(dict, "ASimpleFloatInitalized", static_cast<float>(1.234560F));
+    itk::EncapsulateMetaData<std::complex<float>>(
+      dict, "AnUnsuportedComplexInitalized", std::complex<float>(1.234560F));
 
     using Hasher = itk::Testing::HashImageFilter<ImageType>;
     Hasher::Pointer hasher = Hasher::New();
-    hasher->SetInput( image );
+    hasher->SetInput(image);
     hasher->InPlaceOff();
     hasher->Update();
 
@@ -65,40 +67,41 @@ int TestUnknowMetaDataBug( const std::string &fname )
     // Write image out
     itk::ImageFileWriter<ImageType>::Pointer writer;
     writer = itk::ImageFileWriter<ImageType>::New();
-    writer->SetInput( image );
-    writer->SetFileName( fname );
+    writer->SetInput(image);
+    writer->SetFileName(fname);
     writer->Update();
 
     itk::ImageFileReader<ImageType>::Pointer reader;
     reader = itk::ImageFileReader<ImageType>::New();
-    reader->SetFileName( fname );
+    reader->SetFileName(fname);
 
-    hasher->SetInput( reader->GetOutput() );
+    hasher->SetInput(reader->GetOutput());
     hasher->Update();
 
     std::string readHash = hasher->GetHash();
     std::cout << "\tRead hash: " << readHash << std::endl;
 
-    ITK_TEST_EXPECT_EQUAL( originalHash, readHash );
-    }
-  catch ( std::exception &e )
-    {
+    ITK_TEST_EXPECT_EQUAL(originalHash, readHash);
+  }
+  catch (std::exception & e)
+  {
     std::cerr << "Exception: " << e.what() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   return EXIT_SUCCESS;
 }
 
-}
+} // namespace
 
-int itkMetaImageIOTest2(int argc, char* argv[])
+int
+itkMetaImageIOTest2(int argc, char * argv[])
 {
-  if(argc < 2)
-    {
+  if (argc < 2)
+  {
     std::cerr << "Usage: " << argv[0] << " Output\n";
     return EXIT_FAILURE;
-    }
+  }
 
-  const bool pass = ( TestUnknowMetaDataBug( argv[1] ) == EXIT_SUCCESS );
+  const bool pass = (TestUnknowMetaDataBug(argv[1]) == EXIT_SUCCESS);
   return (pass ? EXIT_SUCCESS : EXIT_FAILURE);
 }

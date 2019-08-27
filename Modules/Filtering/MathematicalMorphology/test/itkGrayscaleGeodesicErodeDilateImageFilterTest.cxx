@@ -27,9 +27,10 @@
 // This test should produce the same results as the
 // itkHMaximaMinimaImageFilterTest.
 
-int itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char* argv [] )
+int
+itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char * argv[])
 {
-  if ( argc < 4 )
+  if (argc < 4)
   {
     std::cerr << "Missing arguments" << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Inputimage OutputImage Height" << std::endl;
@@ -37,49 +38,46 @@ int itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char* argv [] )
   }
   constexpr int Dimension = 2;
   using PixelType = unsigned char;
-  using InputImageType = itk::Image< PixelType, Dimension >;
-  using OutputImageType = itk::Image< PixelType, Dimension >;
+  using InputImageType = itk::Image<PixelType, Dimension>;
+  using OutputImageType = itk::Image<PixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  using ShiftFilterType =
-      itk::ShiftScaleImageFilter <InputImageType,InputImageType>;
-  using DilateFilterType = itk::GrayscaleGeodesicDilateImageFilter < InputImageType,
-                                                   OutputImageType >;
-  using ErodeFilterType = itk::GrayscaleGeodesicErodeImageFilter < InputImageType,
-                                                   OutputImageType >;
+  using ShiftFilterType = itk::ShiftScaleImageFilter<InputImageType, InputImageType>;
+  using DilateFilterType = itk::GrayscaleGeodesicDilateImageFilter<InputImageType, OutputImageType>;
+  using ErodeFilterType = itk::GrayscaleGeodesicErodeImageFilter<InputImageType, OutputImageType>;
 
-  ReaderType::Pointer           reader = ReaderType::New();
-  WriterType::Pointer           writer = WriterType::New();
-  ShiftFilterType::Pointer      shiftErode = ShiftFilterType::New();
-  ShiftFilterType::Pointer      shiftDilate = ShiftFilterType::New();
-  ErodeFilterType::Pointer      erode = ErodeFilterType::New();
-  DilateFilterType::Pointer     dilate = DilateFilterType::New();
+  ReaderType::Pointer       reader = ReaderType::New();
+  WriterType::Pointer       writer = WriterType::New();
+  ShiftFilterType::Pointer  shiftErode = ShiftFilterType::New();
+  ShiftFilterType::Pointer  shiftDilate = ShiftFilterType::New();
+  ErodeFilterType::Pointer  erode = ErodeFilterType::New();
+  DilateFilterType::Pointer dilate = DilateFilterType::New();
 
   // Create the reader and writer
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
   // Create the marker image for erosion
-  shiftDilate->SetInput( reader->GetOutput());
-  shiftDilate->SetShift( -1 * std::stoi(argv[3]) );
+  shiftDilate->SetInput(reader->GetOutput());
+  shiftDilate->SetShift(-1 * std::stoi(argv[3]));
 
   // Dilate
-  dilate->SetMarkerImage ( shiftDilate-> GetOutput() );
-  dilate->SetMaskImage ( reader->GetOutput() );
+  dilate->SetMarkerImage(shiftDilate->GetOutput());
+  dilate->SetMaskImage(reader->GetOutput());
   dilate->FullyConnectedOn();
 
   // Create the marker image for erode
-  shiftErode->SetInput( dilate->GetOutput());
-  shiftErode->SetShift( std::stoi(argv[3]) );
+  shiftErode->SetInput(dilate->GetOutput());
+  shiftErode->SetShift(std::stoi(argv[3]));
 
   // Erode
-  erode->SetMarkerImage ( shiftErode->GetOutput() );
-  erode->SetMaskImage ( dilate->GetOutput() );
+  erode->SetMarkerImage(shiftErode->GetOutput());
+  erode->SetMaskImage(dilate->GetOutput());
   erode->FullyConnectedOn();
 
-  writer->SetInput ( erode->GetOutput() );
+  writer->SetInput(erode->GetOutput());
 
   itk::SimpleFilterWatcher watchDilate(dilate);
   itk::SimpleFilterWatcher watchErode(erode);
@@ -89,10 +87,10 @@ int itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char* argv [] )
   {
     writer->Update();
   }
-  catch( itk::ExceptionObject & excp )
+  catch (itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught:" << excp << std::endl;
-    return  EXIT_FAILURE;
+    return EXIT_FAILURE;
   }
 
   return EXIT_SUCCESS;

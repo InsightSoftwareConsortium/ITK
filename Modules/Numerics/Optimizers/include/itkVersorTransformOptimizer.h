@@ -49,8 +49,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ITKOptimizers_EXPORT VersorTransformOptimizer:
-  public RegularStepGradientDescentBaseOptimizer
+class ITKOptimizers_EXPORT VersorTransformOptimizer : public RegularStepGradientDescentBaseOptimizer
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VersorTransformOptimizer);
@@ -58,23 +57,22 @@ public:
   /** Standard class type aliases. */
   using Self = VersorTransformOptimizer;
   using Superclass = RegularStepGradientDescentBaseOptimizer;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VersorTransformOptimizer,
-               RegularStepGradientDescentBaseOptimizer);
+  itkTypeMacro(VersorTransformOptimizer, RegularStepGradientDescentBaseOptimizer);
 
   /**  Versor Type  */
-  using VersorType = Versor< double >;
+  using VersorType = Versor<double>;
   using VectorType = VersorType::VectorType;
 
   /** Advance one step following the gradient direction. */
-  void StepAlongGradient(double factor,
-                                 const DerivativeType & transformedGradient) override;
+  void
+  StepAlongGradient(double factor, const DerivativeType & transformedGradient) override;
 
 protected:
   VersorTransformOptimizer() = default;

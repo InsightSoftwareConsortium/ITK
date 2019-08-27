@@ -20,10 +20,10 @@
 namespace itk
 {
 std::ostream &
-operator<<( std::ostream & out, const OrderType value )
+operator<<(std::ostream & out, const OrderType value)
 {
   const char * s = nullptr;
-  switch ( value )
+  switch (value)
   {
     case OrderType::OrderByValue:
       s = "OrderType::OrderByValue";

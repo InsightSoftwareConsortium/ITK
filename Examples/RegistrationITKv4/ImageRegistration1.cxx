@@ -67,49 +67,50 @@ public:
   using Self = CommandIterationUpdate;
   using Superclass = itk::Command;
   using Pointer = itk::SmartPointer<Self>;
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
 protected:
   CommandIterationUpdate() = default;
 
 public:
-
   using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
-  using OptimizerPointer = const OptimizerType*;
+  using OptimizerPointer = const OptimizerType *;
 
-  void Execute(itk::Object *caller, const itk::EventObject & event) override
+  void
+  Execute(itk::Object * caller, const itk::EventObject & event) override
   {
-    Execute( (const itk::Object *)caller, event);
+    Execute((const itk::Object *)caller, event);
   }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event) override
+  void
+  Execute(const itk::Object * object, const itk::EventObject & event) override
   {
-    auto optimizer = static_cast< OptimizerPointer >( object );
+    auto optimizer = static_cast<OptimizerPointer>(object);
 
-    if( ! itk::IterationEvent().CheckEvent( &event ) )
-      {
+    if (!itk::IterationEvent().CheckEvent(&event))
+    {
       return;
-      }
+    }
 
     std::cout << optimizer->GetCurrentIteration() << " = ";
     std::cout << optimizer->GetValue() << " : ";
     std::cout << optimizer->GetCurrentPosition() << std::endl;
   }
-
 };
 
 
-int main( int argc, char *argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << "outputImagefile [differenceImageAfter]";
     std::cerr << "[differenceImageBefore] [useEstimator]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   // Software Guide : BeginLatex
@@ -133,8 +134,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FixedImageType = itk::Image< PixelType, Dimension >;
-  using MovingImageType = itk::Image< PixelType, Dimension >;
+  using FixedImageType = itk::Image<PixelType, Dimension>;
+  using MovingImageType = itk::Image<PixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
 
@@ -146,7 +147,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using TransformType = itk::TranslationTransform< double, Dimension >;
+  using TransformType = itk::TranslationTransform<double, Dimension>;
   // Software Guide : EndCodeSnippet
 
 
@@ -171,24 +172,22 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using MetricType = itk::MeanSquaresImageToImageMetricv4<
-                                          FixedImageType,
-                                          MovingImageType >;
+  using MetricType =
+    itk::MeanSquaresImageToImageMetricv4<FixedImageType, MovingImageType>;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
   //
   //  The registration method type is instantiated using the types of the
   //  fixed and moving images as well as the output transform type. This class
-  //  is responsible for interconnecting all the components that we have described so far.
+  //  is responsible for interconnecting all the components that we have described so
+  //  far.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using RegistrationType = itk::ImageRegistrationMethodv4<
-                                    FixedImageType,
-                                    MovingImageType,
-                                    TransformType   >;
+  using RegistrationType =
+    itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -201,9 +200,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  MetricType::Pointer         metric        = MetricType::New();
-  OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  RegistrationType::Pointer   registration  = RegistrationType::New();
+  MetricType::Pointer       metric = MetricType::New();
+  OptimizerType::Pointer    optimizer = OptimizerType::New();
+  RegistrationType::Pointer registration = RegistrationType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -218,16 +217,17 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  registration->SetMetric(        metric        );
-  registration->SetOptimizer(     optimizer     );
+  registration->SetMetric(metric);
+  registration->SetOptimizer(optimizer);
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //
   //  In this example the transform object does not need to be created and passed to the
-  //  registration method like above since the registration filter will instantiate an internal
-  //  transform object using the transform type that is passed to it as a template parameter.
+  //  registration method like above since the registration filter will instantiate an
+  //  internal transform object using the transform type that is passed to it as a
+  //  template parameter.
   //
   //  Metric needs an interpolator to evaluate the intensities of the fixed and
   //  moving images at non-grid positions. The types of fixed and moving interpolators
@@ -236,13 +236,11 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FixedLinearInterpolatorType = itk::LinearInterpolateImageFunction<
-                                        FixedImageType,
-                                        double >;
+  using FixedLinearInterpolatorType =
+    itk::LinearInterpolateImageFunction<FixedImageType, double>;
 
-  using MovingLinearInterpolatorType = itk::LinearInterpolateImageFunction<
-                                        MovingImageType,
-                                        double >;
+  using MovingLinearInterpolatorType =
+    itk::LinearInterpolateImageFunction<MovingImageType, double>;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -262,17 +260,17 @@ int main( int argc, char *argv[] )
   MovingLinearInterpolatorType::Pointer movingInterpolator =
     MovingLinearInterpolatorType::New();
 
-  metric->SetFixedInterpolator(  fixedInterpolator  );
-  metric->SetMovingInterpolator(  movingInterpolator  );
+  metric->SetFixedInterpolator(fixedInterpolator);
+  metric->SetMovingInterpolator(movingInterpolator);
   // Software Guide : EndCodeSnippet
 
-  using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
-  using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
-  FixedImageReaderType::Pointer   fixedImageReader     = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer  movingImageReader    = MovingImageReaderType::New();
+  using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
+  using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
+  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
 
-  fixedImageReader->SetFileName(  argv[1] );
-  movingImageReader->SetFileName( argv[2] );
+  fixedImageReader->SetFileName(argv[1]);
+  movingImageReader->SetFileName(argv[2]);
 
 
   //  Software Guide : BeginLatex
@@ -284,8 +282,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  registration->SetFixedImage(    fixedImageReader->GetOutput()    );
-  registration->SetMovingImage(   movingImageReader->GetOutput()   );
+  registration->SetFixedImage(fixedImageReader->GetOutput());
+  registration->SetMovingImage(movingImageReader->GetOutput());
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -311,21 +309,21 @@ int main( int argc, char *argv[] )
   TransformType::Pointer movingInitialTransform = TransformType::New();
 
   TransformType::ParametersType initialParameters(
-    movingInitialTransform->GetNumberOfParameters() );
-  initialParameters[0] = 0.0;  // Initial offset in mm along X
-  initialParameters[1] = 0.0;  // Initial offset in mm along Y
+    movingInitialTransform->GetNumberOfParameters());
+  initialParameters[0] = 0.0; // Initial offset in mm along X
+  initialParameters[1] = 0.0; // Initial offset in mm along Y
 
-  movingInitialTransform->SetParameters( initialParameters );
+  movingInitialTransform->SetParameters(initialParameters);
 
-  registration->SetMovingInitialTransform( movingInitialTransform );
+  registration->SetMovingInitialTransform(movingInitialTransform);
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
   //
   //  In the registration filter this moving initial transform will be added to a
-  //  composite transform that already includes an instantiation of the output optimizable
-  //  transform; then, the resultant composite transform will be used by the optimizer to
-  //  evaluate the metric values at each iteration.
+  //  composite transform that already includes an instantiation of the output
+  //  optimizable transform; then, the resultant composite transform will be used by the
+  //  optimizer to evaluate the metric values at each iteration.
   //
   //  Despite this, the fixed initial transform does not contribute to the
   //  optimization process. It is only used to access the fixed image from the
@@ -334,25 +332,25 @@ int main( int argc, char *argv[] )
   //  Virtual images are a new concept added to the ITKv4 registration framework,
   //  which potentially lets us to do the registration process in a physical domain
   //  totally different from the fixed and moving image domains.
-  //  In fact, the region over which metric evaluation is performed is called virtual image
-  //  domain. This domain defines the resolution at which the evaluation is performed,
-  //  as well as the physical coordinate system.
+  //  In fact, the region over which metric evaluation is performed is called virtual
+  //  image domain. This domain defines the resolution at which the evaluation is
+  //  performed, as well as the physical coordinate system.
   //
-  //  The virtual reference domain is taken from the ``virtual image'' buffered region, and
-  //  the input images should be accessed from this reference space using the fixed and moving
-  //  initial transforms.
+  //  The virtual reference domain is taken from the ``virtual image'' buffered region,
+  //  and the input images should be accessed from this reference space using the fixed
+  //  and moving initial transforms.
   //
   //  The legacy intuitive registration framework can be considered as a special
   //  case where the virtual domain is the same as the fixed image domain. As this case
-  //  practically happens in most of the real life applications, the virtual image is set
-  //  to be the same as the fixed image by default. However, the user can define the virtual
-  //  domain differently than the fixed image domain by calling either \code{SetVirtualDomain}
-  //  or \code{SetVirtualDomainFromImage}.
+  //  practically happens in most of the real life applications, the virtual image is
+  //  set to be the same as the fixed image by default. However, the user can define the
+  //  virtual domain differently than the fixed image domain by calling either
+  //  \code{SetVirtualDomain} or \code{SetVirtualDomainFromImage}.
   //
-  //  In this example, like the most examples of this chapter, the virtual image is considered
-  //  the same as the fixed image. Since the registration process happens in the fixed image
-  //  physical domain, the fixed initial transform maintains its default value of identity and
-  //  does not need to be set.
+  //  In this example, like the most examples of this chapter, the virtual image is
+  //  considered the same as the fixed image. Since the registration process happens in
+  //  the fixed image physical domain, the fixed initial transform maintains its default
+  //  value of identity and does not need to be set.
   //
   //  However, a ``Hello World!'' example should show all the basics, so
   //  all the registration components are explicity set here.
@@ -364,19 +362,19 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  TransformType::Pointer   identityTransform = TransformType::New();
+  TransformType::Pointer identityTransform = TransformType::New();
   identityTransform->SetIdentity();
 
-  registration->SetFixedInitialTransform( identityTransform );
+  registration->SetFixedInitialTransform(identityTransform);
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
   //
   //  Note that the above process shows only one way of initializing the registration
-  //  configuration. Another option is to initialize the output optimizable transform directly.
-  //  In this approach, a transform object is created, initialized, and then passed to
-  //  the registration method via \code{SetInitialTransform()}. This approach is shown in
-  //  section~\ref{sec:RigidRegistrationIn2D}.
+  //  configuration. Another option is to initialize the output optimizable transform
+  //  directly. In this approach, a transform object is created, initialized, and then
+  //  passed to the registration method via \code{SetInitialTransform()}. This approach
+  //  is shown in section~\ref{sec:RigidRegistrationIn2D}.
   //
   //  At this point the registration method is ready for execution. The
   //  optimizer is the component that drives the execution of the
@@ -411,15 +409,17 @@ int main( int argc, char *argv[] )
   //  iterations.
   //
   //  In other gradient descent-based optimizers of the ITKv4 framework, such as
-  //  \doxygen{GradientDescentLineSearchOptimizerv4} and \doxygen{ConjugateGradientLineSearchOptimizerv4},
-  //  the convergence criteria are set via \code{SetMinimumConvergenceValue()} which is computed based on
-  //  the results of the last few iterations. The number of iterations involved in computations
-  //  are defined by the convergence window size via \code{SetConvergenceWindowSize()} which is shown
-  //  in later examples of this chapter.
+  //  \doxygen{GradientDescentLineSearchOptimizerv4} and
+  //  \doxygen{ConjugateGradientLineSearchOptimizerv4}, the convergence criteria are set
+  //  via \code{SetMinimumConvergenceValue()} which is computed based on the results of
+  //  the last few iterations. The number of iterations involved in computations are
+  //  defined by the convergence window size via \code{SetConvergenceWindowSize()} which
+  //  is shown in later examples of this chapter.
   //
-  //  Also note that unlike the previous versions, ITKv4 optimizers do not have a ``maximize/minimize''
-  //  option to modify the effect of the metric derivatives. Each assigned metric is assumed to
-  //  return a parameter derivative result that "improves" the optimization.
+  //  Also note that unlike the previous versions, ITKv4 optimizers do not have a
+  //  ``maximize/minimize'' option to modify the effect of the metric derivatives. Each
+  //  assigned metric is assumed to return a parameter derivative result that "improves"
+  //  the optimization.
   //
   //  \index{itk::Gradient\-Descent\-Optimizerv4\-Template!SetLearningRate()}
   //  \index{itk::Gradient\-Descent\-Optimizerv4\-Template!SetMinimumStepLength()}
@@ -428,26 +428,27 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetLearningRate( 4 );
-  optimizer->SetMinimumStepLength( 0.001 );
-  optimizer->SetRelaxationFactor( 0.5 );
+  optimizer->SetLearningRate(4);
+  optimizer->SetMinimumStepLength(0.001);
+  optimizer->SetRelaxationFactor(0.5);
   // Software Guide : EndCodeSnippet
 
   bool useEstimator = false;
-  if( argc > 6 )
-    {
+  if (argc > 6)
+  {
     useEstimator = std::stoi(argv[6]) != 0;
-    }
+  }
 
-  if( useEstimator )
-    {
-    using ScalesEstimatorType = itk::RegistrationParameterScalesFromPhysicalShift<MetricType>;
+  if (useEstimator)
+  {
+    using ScalesEstimatorType =
+      itk::RegistrationParameterScalesFromPhysicalShift<MetricType>;
     ScalesEstimatorType::Pointer scalesEstimator = ScalesEstimatorType::New();
-    scalesEstimator->SetMetric( metric );
-    scalesEstimator->SetTransformForward( true );
-    optimizer->SetScalesEstimator( scalesEstimator );
-    optimizer->SetDoEstimateLearningRateOnce( true );
-    }
+    scalesEstimator->SetMetric(metric);
+    scalesEstimator->SetTransformForward(true);
+    optimizer->SetScalesEstimator(scalesEstimator);
+    optimizer->SetDoEstimateLearningRateOnce(true);
+  }
 
 
   //  Software Guide : BeginLatex
@@ -462,13 +463,13 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetNumberOfIterations( 200 );
+  optimizer->SetNumberOfIterations(200);
   // Software Guide : EndCodeSnippet
 
 
   // Connect an observer
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
-  optimizer->AddObserver( itk::IterationEvent(), observer );
+  optimizer->AddObserver(itk::IterationEvent(), observer);
 
   //  Software Guide : BeginLatex
   //
@@ -486,16 +487,16 @@ int main( int argc, char *argv[] )
   constexpr unsigned int numberOfLevels = 1;
 
   RegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
-  shrinkFactorsPerLevel.SetSize( 1 );
+  shrinkFactorsPerLevel.SetSize(1);
   shrinkFactorsPerLevel[0] = 1;
 
   RegistrationType::SmoothingSigmasArrayType smoothingSigmasPerLevel;
-  smoothingSigmasPerLevel.SetSize( 1 );
+  smoothingSigmasPerLevel.SetSize(1);
   smoothingSigmasPerLevel[0] = 0;
 
-  registration->SetNumberOfLevels ( numberOfLevels );
-  registration->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
-  registration->SetShrinkFactorsPerLevel( shrinkFactorsPerLevel );
+  registration->SetNumberOfLevels(numberOfLevels);
+  registration->SetSmoothingSigmasPerLevel(smoothingSigmasPerLevel);
+  registration->SetShrinkFactorsPerLevel(shrinkFactorsPerLevel);
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -510,18 +511,18 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   try
-    {
+  {
     registration->Update();
     std::cout << "Optimizer stop condition: "
-    << registration->GetOptimizer()->GetStopConditionDescription()
-    << std::endl;
-    }
-  catch( itk::ExceptionObject & err )
-    {
+              << registration->GetOptimizer()->GetStopConditionDescription()
+              << std::endl;
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 
@@ -554,8 +555,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   TransformType::ParametersType finalParameters = transform->GetParameters();
-  const double TranslationAlongX = finalParameters[0];
-  const double TranslationAlongY = finalParameters[1];
+  const double                  TranslationAlongX = finalParameters[0];
+  const double                  TranslationAlongY = finalParameters[1];
   // Software Guide : EndCodeSnippet
 
 
@@ -590,10 +591,10 @@ int main( int argc, char *argv[] )
   // Print out results
   //
   std::cout << "Result = " << std::endl;
-  std::cout << " Translation X = " << TranslationAlongX  << std::endl;
-  std::cout << " Translation Y = " << TranslationAlongY  << std::endl;
+  std::cout << " Translation X = " << TranslationAlongX << std::endl;
+  std::cout << " Translation Y = " << TranslationAlongY << std::endl;
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
-  std::cout << " Metric value  = " << bestValue          << std::endl;
+  std::cout << " Metric value  = " << bestValue << std::endl;
 
 
   //  Software Guide : BeginLatex
@@ -646,14 +647,11 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using CompositeTransformType = itk::CompositeTransform<
-                                 double,
-                                 Dimension >;
+  using CompositeTransformType = itk::CompositeTransform<double, Dimension>;
   CompositeTransformType::Pointer outputCompositeTransform =
     CompositeTransformType::New();
-  outputCompositeTransform->AddTransform( movingInitialTransform );
-  outputCompositeTransform->AddTransform(
-    registration->GetModifiableTransform() );
+  outputCompositeTransform->AddTransform(movingInitialTransform);
+  outputCompositeTransform->AddTransform(registration->GetModifiableTransform());
   // Software Guide : EndCodeSnippet
 
 
@@ -669,9 +667,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ResampleFilterType = itk::ResampleImageFilter<
-                            MovingImageType,
-                            FixedImageType >;
+  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -684,7 +680,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   ResampleFilterType::Pointer resampler = ResampleFilterType::New();
-  resampler->SetInput( movingImageReader->GetOutput() );
+  resampler->SetInput(movingImageReader->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -703,7 +699,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  resampler->SetTransform( outputCompositeTransform );
+  resampler->SetTransform(outputCompositeTransform);
   // Software Guide : EndCodeSnippet
 
 
@@ -719,11 +715,11 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
-  resampler->SetSize( fixedImage->GetLargestPossibleRegion().GetSize() );
-  resampler->SetOutputOrigin(  fixedImage->GetOrigin() );
-  resampler->SetOutputSpacing( fixedImage->GetSpacing() );
-  resampler->SetOutputDirection( fixedImage->GetDirection() );
-  resampler->SetDefaultPixelValue( 100 );
+  resampler->SetSize(fixedImage->GetLargestPossibleRegion().GetSize());
+  resampler->SetOutputOrigin(fixedImage->GetOrigin());
+  resampler->SetOutputSpacing(fixedImage->GetSpacing());
+  resampler->SetOutputDirection(fixedImage->GetDirection());
+  resampler->SetDefaultPixelValue(100);
   // Software Guide : EndCodeSnippet
 
 
@@ -754,13 +750,11 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   using OutputPixelType = unsigned char;
 
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using CastFilterType = itk::CastImageFilter<
-                        FixedImageType,
-                        OutputImageType >;
+  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
 
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -772,12 +766,12 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  WriterType::Pointer      writer =  WriterType::New();
-  CastFilterType::Pointer  caster =  CastFilterType::New();
+  WriterType::Pointer     writer = WriterType::New();
+  CastFilterType::Pointer caster = CastFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
-  writer->SetFileName( argv[3] );
+  writer->SetFileName(argv[3]);
 
 
   //  Software Guide : BeginLatex
@@ -788,8 +782,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  caster->SetInput( resampler->GetOutput() );
-  writer->SetInput( caster->GetOutput()   );
+  caster->SetInput(resampler->GetOutput());
+  writer->SetInput(caster->GetOutput());
   writer->Update();
   // Software Guide : EndCodeSnippet
 
@@ -817,15 +811,13 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using DifferenceFilterType = itk::SubtractImageFilter<
-                                  FixedImageType,
-                                  FixedImageType,
-                                  FixedImageType >;
+  using DifferenceFilterType =
+    itk::SubtractImageFilter<FixedImageType, FixedImageType, FixedImageType>;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
-  difference->SetInput1( fixedImageReader->GetOutput() );
-  difference->SetInput2( resampler->GetOutput() );
+  difference->SetInput1(fixedImageReader->GetOutput());
+  difference->SetInput2(resampler->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -854,17 +846,16 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using RescalerType = itk::RescaleIntensityImageFilter<
-                                  FixedImageType,
-                                  OutputImageType >;
+  using RescalerType =
+    itk::RescaleIntensityImageFilter<FixedImageType, OutputImageType>;
 
   RescalerType::Pointer intensityRescaler = RescalerType::New();
 
-  intensityRescaler->SetInput( difference->GetOutput() );
-  intensityRescaler->SetOutputMinimum(   0 );
-  intensityRescaler->SetOutputMaximum( 255 );
+  intensityRescaler->SetInput(difference->GetOutput());
+  intensityRescaler->SetOutputMinimum(0);
+  intensityRescaler->SetOutputMaximum(255);
 
-  resampler->SetDefaultPixelValue( 1 );
+  resampler->SetDefaultPixelValue(1);
   // Software Guide : EndCodeSnippet
 
 
@@ -876,15 +867,15 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   WriterType::Pointer writer2 = WriterType::New();
-  writer2->SetInput( intensityRescaler->GetOutput() );
+  writer2->SetInput(intensityRescaler->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
-  if( argc > 4 )
-    {
-    writer2->SetFileName( argv[4] );
+  if (argc > 4)
+  {
+    writer2->SetFileName(argv[4]);
     writer2->Update();
-    }
+  }
 
 
   //  Software Guide : BeginLatex
@@ -901,15 +892,15 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  resampler->SetTransform( identityTransform );
+  resampler->SetTransform(identityTransform);
   // Software Guide : EndCodeSnippet
 
 
-  if( argc > 5 )
-    {
-    writer2->SetFileName( argv[5] );
+  if (argc > 5)
+  {
+    writer2->SetFileName(argv[5]);
     writer2->Update();
-    }
+  }
 
 
   //  Software Guide : BeginLatex
@@ -964,11 +955,12 @@ int main( int argc, char *argv[] )
   //  required.
   //  For example, direct initialization of the output optimizable transform is shown in
   //  section~\ref{sec:RigidRegistrationIn2D}. This method can simplify the registration
-  //  process in many cases. Also, multi-resolution and multistage registration approaches
-  //  are illustrated in sections~\ref{sec:MultiResolutionRegistration} and
+  //  process in many cases. Also, multi-resolution and multistage registration
+  //  approaches are illustrated in sections~\ref{sec:MultiResolutionRegistration} and
   //  ~\ref{sec:MultiStageRegistration}.
-  //  These examples illustrate the flexibility in the usage of ITKv4 registration method
-  //  framework that can help to provide faster and more reliable registration processes.
+  //  These examples illustrate the flexibility in the usage of ITKv4 registration
+  //  method framework that can help to provide faster and more reliable registration
+  //  processes.
   //
   //  Software Guide : EndLatex
 

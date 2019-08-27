@@ -22,66 +22,62 @@
 
 namespace itk
 {
-template< unsigned int NDimensions >
-typename MetaGroupConverter< NDimensions >::MetaObjectType *
-MetaGroupConverter< NDimensions>
-::CreateMetaObject()
+template <unsigned int NDimensions>
+typename MetaGroupConverter<NDimensions>::MetaObjectType *
+MetaGroupConverter<NDimensions>::CreateMetaObject()
 {
   return dynamic_cast<MetaObjectType *>(new GroupMetaObjectType);
 }
 
 /** Convert a metaGroup into an group SpatialObject  */
-template< unsigned int NDimensions >
-typename MetaGroupConverter< NDimensions >::SpatialObjectPointer
-MetaGroupConverter< NDimensions >
-::MetaObjectToSpatialObject(const MetaObjectType *mo)
+template <unsigned int NDimensions>
+typename MetaGroupConverter<NDimensions>::SpatialObjectPointer
+MetaGroupConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo)
 {
   const auto * group = dynamic_cast<const GroupMetaObjectType *>(mo);
-  if(group == nullptr)
-    {
-    itkExceptionMacro(<< "Can't convert MetaObject to MetaGroup" );
-    }
+  if (group == nullptr)
+  {
+    itkExceptionMacro(<< "Can't convert MetaObject to MetaGroup");
+  }
 
   GroupSpatialObjectPointer groupSO = GroupSpatialObjectType::New();
 
-  groupSO->GetProperty().SetName( group->Name() );
+  groupSO->GetProperty().SetName(group->Name());
   groupSO->GetProperty().SetRed(group->Color()[0]);
   groupSO->GetProperty().SetGreen(group->Color()[1]);
   groupSO->GetProperty().SetBlue(group->Color()[2]);
   groupSO->GetProperty().SetAlpha(group->Color()[3]);
-  groupSO->SetId( group->ID() );
-  groupSO->SetParentId( group->ParentID() );
+  groupSO->SetId(group->ID());
+  groupSO->SetParentId(group->ParentID());
   return groupSO.GetPointer();
 }
 
 /** Convert a group SpatialObject into a metaGroup */
-template< unsigned int NDimensions >
-typename MetaGroupConverter< NDimensions >::MetaObjectType *
-MetaGroupConverter< NDimensions >
-::SpatialObjectToMetaObject(const SpatialObjectType *so)
+template <unsigned int NDimensions>
+typename MetaGroupConverter<NDimensions>::MetaObjectType *
+MetaGroupConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so)
 {
-  GroupSpatialObjectConstPointer groupSO =
-    dynamic_cast<const GroupSpatialObjectType *>(so);
-  if(groupSO.IsNull())
-    {
+  GroupSpatialObjectConstPointer groupSO = dynamic_cast<const GroupSpatialObjectType *>(so);
+  if (groupSO.IsNull())
+  {
     itkExceptionMacro(<< "Can't downcast SpatialObject to GroupSpatialObject");
-    }
+  }
 
   auto * group = new GroupMetaObjectType(NDimensions);
 
   float color[4];
 
-  for ( unsigned int i = 0; i < 4; i++ )
-    {
+  for (unsigned int i = 0; i < 4; i++)
+  {
     color[i] = groupSO->GetProperty().GetColor()[i];
-    }
+  }
   group->Color(color);
 
-  if ( groupSO->GetParent() )
-    {
-    group->ParentID( groupSO->GetParent()->GetId() );
-    }
-  group->ID( groupSO->GetId() );
+  if (groupSO->GetParent())
+  {
+    group->ParentID(groupSO->GetParent()->GetId());
+  }
+  group->ID(groupSO->GetId());
 
   return group;
 }

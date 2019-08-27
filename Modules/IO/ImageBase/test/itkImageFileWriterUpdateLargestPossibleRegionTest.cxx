@@ -20,72 +20,73 @@
 #include "itkImageFileWriter.h"
 #include "itkTestingMacros.h"
 
-int itkImageFileWriterUpdateLargestPossibleRegionTest(int argc, char* argv[])
+int
+itkImageFileWriterUpdateLargestPossibleRegionTest(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input output" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // We remove the output file
   itksys::SystemTools::RemoveFile(argv[2]);
 
   using PixelType = unsigned char;
-  using ImageType = itk::Image<PixelType,2>;
+  using ImageType = itk::Image<PixelType, 2>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
   reader->Update();
 
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(reader->GetOutput());
-  writer->SetFileName( argv[2] );
+  writer->SetFileName(argv[2]);
 
   ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
-  ImageType::IndexType index = region.GetIndex();
-  ImageType::SizeType size = region.GetSize();
+  ImageType::IndexType  index = region.GetIndex();
+  ImageType::SizeType   size = region.GetSize();
 
   itk::ImageIORegion ioregion(2);
   ioregion.SetIndex(0, index[0]);
   ioregion.SetIndex(1, index[1]);
-  ioregion.SetSize(0, size[0]/2);
-  ioregion.SetSize(1, size[1]/2);
+  ioregion.SetSize(0, size[0] / 2);
+  ioregion.SetSize(1, size[1] / 2);
 
   writer->SetIORegion(ioregion);
 
   // using Update() should fail because the paste feature is not supported by the png writer
   int status = 1;
   try
-    {
+  {
     writer->Update();
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << "------------------ Caught expected exception!" << std::endl;
     std::cout << ex;
     status = 0;
-    }
+  }
   if (status)
-    {
+  {
     std::cout << "Failed to catch expected exception." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // but it should succeed with UpdateLargestPossibleRegion() because the paste region
   // is not used
   try
-    {
+  {
     writer->UpdateLargestPossibleRegion();
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

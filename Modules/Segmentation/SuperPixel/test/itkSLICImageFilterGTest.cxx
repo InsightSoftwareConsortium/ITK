@@ -29,34 +29,33 @@
 namespace
 {
 
-class SLICFixture
-  : public ::testing::Test
+class SLICFixture : public ::testing::Test
 {
 public:
-
   SLICFixture() = default;
   ~SLICFixture() override = default;
 
 protected:
+  void
+  SetUp() override
+  {
+    RegisterRequiredFactories();
+  }
 
-  void SetUp() override
-    {
-      RegisterRequiredFactories();
-    }
 
+  template <typename TImageType>
+  static std::string
+  MD5Hash(const TImageType * image)
+  {
 
-  template<typename TImageType>
-  static  std::string MD5Hash(const TImageType *image)
-    {
+    using HashFilter = itk::Testing::HashImageFilter<TImageType>;
+    typename HashFilter::Pointer hasher = HashFilter::New();
+    hasher->SetInput(image);
+    hasher->Update();
+    return hasher->GetHash();
+  }
 
-      using HashFilter = itk::Testing::HashImageFilter<TImageType>;
-      typename HashFilter::Pointer hasher = HashFilter::New();
-      hasher->SetInput( image );
-      hasher->Update();
-      return hasher->GetHash();
-    }
-
-  template<unsigned int D, typename TPixelType = unsigned short>
+  template <unsigned int D, typename TPixelType = unsigned short>
   struct FixtureUtilities
   {
     static const unsigned int Dimension = D;
@@ -69,24 +68,22 @@ protected:
     using FilterType = itk::SLICImageFilter<InputImageType, OutputImageType>;
 
     // Create a black image or empty
-    static typename InputImageType::Pointer CreateImage(unsigned int size = 100)
-      {
-        typename InputImageType::Pointer image = InputImageType::New();
+    static typename InputImageType::Pointer
+    CreateImage(unsigned int size = 100)
+    {
+      typename InputImageType::Pointer image = InputImageType::New();
 
-        typename InputImageType::SizeType imageSize;
-        imageSize.Fill(size);
-        image->SetRegions(typename InputImageType::RegionType(imageSize));
-        image->Allocate();
-        image->FillBuffer(0);
+      typename InputImageType::SizeType imageSize;
+      imageSize.Fill(size);
+      image->SetRegions(typename InputImageType::RegionType(imageSize));
+      image->Allocate();
+      image->FillBuffer(0);
 
-        return image;
-      }
-
-
+      return image;
+    }
   };
-
 };
-}
+} // namespace
 
 
 TEST_F(SLICFixture, SetGetPrint)
@@ -97,17 +94,17 @@ TEST_F(SLICFixture, SetGetPrint)
   auto filter = Utils::FilterType::New();
   filter->Print(std::cout);
 
-  typename Utils::FilterType::ConstPointer constfilter = (const Utils::FilterType*)(filter.GetPointer());
+  typename Utils::FilterType::ConstPointer constfilter = (const Utils::FilterType *)(filter.GetPointer());
 
   EXPECT_STREQ("SLICImageFilter", filter->GetNameOfClass());
-  EXPECT_STREQ("ImageToImageFilter",  filter->Superclass::GetNameOfClass());
+  EXPECT_STREQ("ImageToImageFilter", filter->Superclass::GetNameOfClass());
 
-  Utils::FilterType:: SuperGridSizeType gridSize3(3);
+  Utils::FilterType::SuperGridSizeType gridSize3(3);
   EXPECT_NO_THROW(filter->SetSuperGridSize(gridSize3));
   ITK_EXPECT_VECTOR_NEAR(gridSize3, filter->GetSuperGridSize(), 0);
 
   EXPECT_NO_THROW(filter->SetSuperGridSize(4));
-  ITK_EXPECT_VECTOR_NEAR(Utils::FilterType:: SuperGridSizeType(4), filter->GetSuperGridSize(), 0);
+  ITK_EXPECT_VECTOR_NEAR(Utils::FilterType::SuperGridSizeType(4), filter->GetSuperGridSize(), 0);
 
   EXPECT_NO_THROW(filter->SetMaximumNumberOfIterations(6));
   EXPECT_EQ(6, filter->GetMaximumNumberOfIterations());
@@ -131,7 +128,6 @@ TEST_F(SLICFixture, SetGetPrint)
 
   EXPECT_NO_THROW(filter->SetInitializationPerturbation(true));
   EXPECT_TRUE(filter->GetInitializationPerturbation());
-
 }
 
 TEST_F(SLICFixture, Blank2DImage)

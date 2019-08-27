@@ -45,9 +45,8 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT ImageToHistogramFilter
-  : public ImageSink<TImage>
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ImageToHistogramFilter : public ImageSink<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageToHistogramFilter);
@@ -55,8 +54,8 @@ public:
   /** Standard type alias */
   using Self = ImageToHistogramFilter;
   using Superclass = ImageSink<TImage>;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToHistogramFilter, ImageSink);
@@ -67,10 +66,10 @@ public:
   using ImageType = TImage;
   using PixelType = typename ImageType::PixelType;
   using RegionType = typename ImageType::RegionType;
-  using ValueType = typename NumericTraits< PixelType >::ValueType;
-  using ValueRealType = typename NumericTraits< ValueType >::RealType;
+  using ValueType = typename NumericTraits<PixelType>::ValueType;
+  using ValueRealType = typename NumericTraits<ValueType>::RealType;
 
-  using HistogramType = Histogram< ValueRealType >;
+  using HistogramType = Histogram<ValueRealType>;
   using HistogramPointer = typename HistogramType::Pointer;
   using HistogramConstPointer = typename HistogramType::ConstPointer;
   using HistogramSizeType = typename HistogramType::SizeType;
@@ -78,10 +77,11 @@ public:
   using HistogramMeasurementVectorType = typename HistogramType::MeasurementVectorType;
 
 public:
-
   /** Return the output histogram. */
-  const HistogramType * GetOutput() const;
-  HistogramType * GetOutput();
+  const HistogramType *
+  GetOutput() const;
+  HistogramType *
+  GetOutput();
 
   /** Type of DataObjects to use for Size inputs */
   using InputHistogramSizeObjectType = SimpleDataObjectDecorator<HistogramSizeType>;
@@ -94,7 +94,7 @@ public:
   using InputHistogramMeasurementVectorObjectType = SimpleDataObjectDecorator<HistogramMeasurementVectorType>;
 
   /** Type of DataObjects to use for AutoMinimumMaximum input */
-  using InputBooleanObjectType = SimpleDataObjectDecorator< bool >;
+  using InputBooleanObjectType = SimpleDataObjectDecorator<bool>;
 
   /** Methods for setting and getting the histogram size.  The histogram size
    * is encapsulated inside a decorator class. For this reason, it is possible
@@ -121,7 +121,8 @@ public:
 
   /** Method that facilitates the use of this filter in the internal
    * pipeline of another filter. */
-  virtual void GraftOutput(DataObject *output);
+  virtual void
+  GraftOutput(DataObject * output);
 
 
   // Change the acces from protected to public to expose streaming option
@@ -131,25 +132,32 @@ public:
 protected:
   ImageToHistogramFilter();
   ~ImageToHistogramFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void BeforeStreamedGenerateData() override;
-  void AfterStreamedGenerateData() override;
+  void
+  BeforeStreamedGenerateData() override;
+  void
+  AfterStreamedGenerateData() override;
 
   /** Method that construct the outputs */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObject::Pointer  MakeOutput(DataObjectPointerArraySizeType) override;
+  DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType) override;
 
   /* Override method to disable streaming when the minimum and
    * maximum need to be computed. */
-  unsigned int GetNumberOfInputRequestedRegions () override;
+  unsigned int
+  GetNumberOfInputRequestedRegions() override;
 
-  virtual void ThreadedStreamedGenerateData(const RegionType &) override;
-  virtual void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread );
+  virtual void
+  ThreadedStreamedGenerateData(const RegionType &) override;
+  virtual void
+  ThreadedComputeMinimumAndMaximum(const RegionType & inputRegionForThread);
 
 
-  virtual void ThreadedMergeHistogram( HistogramPointer &&histogram );
+  virtual void
+  ThreadedMergeHistogram(HistogramPointer && histogram);
 
   std::mutex m_Mutex;
 
@@ -159,15 +167,16 @@ protected:
   HistogramMeasurementVectorType m_Maximum;
 
 private:
-  void ApplyMarginalScale( HistogramMeasurementVectorType & min, HistogramMeasurementVectorType & max, HistogramSizeType & size );
-
-
+  void
+  ApplyMarginalScale(HistogramMeasurementVectorType & min,
+                     HistogramMeasurementVectorType & max,
+                     HistogramSizeType &              size);
 };
 } // end of namespace Statistics
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToHistogramFilter.hxx"
+#  include "itkImageToHistogramFilter.hxx"
 #endif
 
 #endif

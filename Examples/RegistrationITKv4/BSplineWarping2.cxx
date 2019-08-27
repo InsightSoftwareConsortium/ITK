@@ -46,41 +46,44 @@ public:
   using Self = CommandProgressUpdate;
   using Superclass = itk::Command;
   using Pointer = itk::SmartPointer<Self>;
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
 protected:
   CommandProgressUpdate() = default;
 
 public:
-  void Execute(itk::Object *caller, const itk::EventObject & event) override
-    {
-      Execute( (const itk::Object *)caller, event);
-    }
+  void
+  Execute(itk::Object * caller, const itk::EventObject & event) override
+  {
+    Execute((const itk::Object *)caller, event);
+  }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event) override
+  void
+  Execute(const itk::Object * object, const itk::EventObject & event) override
+  {
+    const auto * filter = static_cast<const itk::ProcessObject *>(object);
+    if (!itk::ProgressEvent().CheckEvent(&event))
     {
-      const auto * filter = static_cast< const itk::ProcessObject * >( object );
-      if( ! itk::ProgressEvent().CheckEvent( &event ) )
-        {
-        return;
-        }
-      std::cout << filter->GetProgress() << std::endl;
+      return;
     }
+    std::cout << filter->GetProgress() << std::endl;
+  }
 };
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
 
-  if( argc < 5 )
-    {
+  if (argc < 5)
+  {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " coefficientsFile fixedImage ";
     std::cerr << "movingImage deformedMovingImage" << std::endl;
     std::cerr << "[deformationField]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //  Software Guide : BeginLatex
   //
@@ -92,29 +95,29 @@ int main( int argc, char * argv[] )
   constexpr unsigned int ImageDimension = 3;
 
   using PixelType = unsigned char;
-  using FixedImageType = itk::Image< PixelType, ImageDimension >;
-  using MovingImageType = itk::Image< PixelType, ImageDimension >;
+  using FixedImageType = itk::Image<PixelType, ImageDimension>;
+  using MovingImageType = itk::Image<PixelType, ImageDimension>;
 
-  using FixedReaderType = itk::ImageFileReader< FixedImageType  >;
-  using MovingReaderType = itk::ImageFileReader< MovingImageType >;
+  using FixedReaderType = itk::ImageFileReader<FixedImageType>;
+  using MovingReaderType = itk::ImageFileReader<MovingImageType>;
 
-  using MovingWriterType = itk::ImageFileWriter< MovingImageType >;
+  using MovingWriterType = itk::ImageFileWriter<MovingImageType>;
   // Software Guide : EndCodeSnippet
 
 
   FixedReaderType::Pointer fixedReader = FixedReaderType::New();
-  fixedReader->SetFileName( argv[2] );
+  fixedReader->SetFileName(argv[2]);
 
   try
-    {
+  {
     fixedReader->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //  Software Guide : BeginLatex
   //
@@ -127,28 +130,26 @@ int main( int argc, char * argv[] )
   MovingReaderType::Pointer movingReader = MovingReaderType::New();
   MovingWriterType::Pointer movingWriter = MovingWriterType::New();
 
-  movingReader->SetFileName( argv[3] );
-  movingWriter->SetFileName( argv[4] );
+  movingReader->SetFileName(argv[3]);
+  movingWriter->SetFileName(argv[4]);
   // Software Guide : EndCodeSnippet
 
   FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
 
-  using FilterType = itk::ResampleImageFilter< MovingImageType,
-                                    FixedImageType  >;
+  using FilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   FilterType::Pointer resampler = FilterType::New();
 
-  using InterpolatorType = itk::LinearInterpolateImageFunction<
-                       MovingImageType, double >;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
-  resampler->SetInterpolator( interpolator );
+  resampler->SetInterpolator(interpolator);
 
-  FixedImageType::SpacingType   fixedSpacing    = fixedImage->GetSpacing();
-  FixedImageType::PointType     fixedOrigin     = fixedImage->GetOrigin();
-  FixedImageType::DirectionType fixedDirection  = fixedImage->GetDirection();
+  FixedImageType::SpacingType   fixedSpacing = fixedImage->GetSpacing();
+  FixedImageType::PointType     fixedOrigin = fixedImage->GetOrigin();
+  FixedImageType::DirectionType fixedDirection = fixedImage->GetDirection();
 
   //  Software Guide : BeginLatex
   //
@@ -158,20 +159,20 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  resampler->SetOutputSpacing( fixedSpacing );
-  resampler->SetOutputOrigin(  fixedOrigin  );
-  resampler->SetOutputDirection(  fixedDirection  );
+  resampler->SetOutputSpacing(fixedSpacing);
+  resampler->SetOutputOrigin(fixedOrigin);
+  resampler->SetOutputDirection(fixedDirection);
 
   FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
-  FixedImageType::SizeType   fixedSize =  fixedRegion.GetSize();
-  resampler->SetSize( fixedSize );
-  resampler->SetOutputStartIndex(  fixedRegion.GetIndex() );
+  FixedImageType::SizeType   fixedSize = fixedRegion.GetSize();
+  resampler->SetSize(fixedSize);
+  resampler->SetOutputStartIndex(fixedRegion.GetIndex());
   // Software Guide : EndCodeSnippet
 
 
-  resampler->SetInput( movingReader->GetOutput() );
+  resampler->SetInput(movingReader->GetOutput());
 
-  movingWriter->SetInput( resampler->GetOutput() );
+  movingWriter->SetInput(resampler->GetOutput());
 
 
   //  Software Guide : BeginLatex
@@ -187,14 +188,12 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int SpaceDimension = ImageDimension;
+  const unsigned int     SpaceDimension = ImageDimension;
   constexpr unsigned int SplineOrder = 3;
   using CoordinateRepType = double;
 
-  using TransformType = itk::BSplineTransform<
-                            CoordinateRepType,
-                            SpaceDimension,
-                            SplineOrder >;
+  using TransformType =
+    itk::BSplineTransform<CoordinateRepType, SpaceDimension, SplineOrder>;
 
   TransformType::Pointer bsplineTransform = TransformType::New();
   //  Software Guide : EndCodeSnippet
@@ -203,30 +202,28 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   constexpr unsigned int numberOfGridNodes = 8;
 
-  TransformType::PhysicalDimensionsType   fixedPhysicalDimensions;
-  TransformType::MeshSizeType             meshSize;
+  TransformType::PhysicalDimensionsType fixedPhysicalDimensions;
+  TransformType::MeshSizeType           meshSize;
 
-  for( unsigned int i=0; i< SpaceDimension; i++ )
-    {
-    fixedPhysicalDimensions[i] = fixedSpacing[i] * static_cast<double>(
-      fixedSize[i] - 1 );
-    }
-  meshSize.Fill( numberOfGridNodes - SplineOrder );
+  for (unsigned int i = 0; i < SpaceDimension; i++)
+  {
+    fixedPhysicalDimensions[i] =
+      fixedSpacing[i] * static_cast<double>(fixedSize[i] - 1);
+  }
+  meshSize.Fill(numberOfGridNodes - SplineOrder);
 
-  bsplineTransform->SetTransformDomainOrigin( fixedOrigin );
-  bsplineTransform->SetTransformDomainPhysicalDimensions(
-    fixedPhysicalDimensions );
-  bsplineTransform->SetTransformDomainMeshSize( meshSize );
-  bsplineTransform->SetTransformDomainDirection( fixedDirection );
+  bsplineTransform->SetTransformDomainOrigin(fixedOrigin);
+  bsplineTransform->SetTransformDomainPhysicalDimensions(fixedPhysicalDimensions);
+  bsplineTransform->SetTransformDomainMeshSize(meshSize);
+  bsplineTransform->SetTransformDomainDirection(fixedDirection);
 
 
   using ParametersType = TransformType::ParametersType;
-  const unsigned int numberOfParameters =
-               bsplineTransform->GetNumberOfParameters();
+  const unsigned int numberOfParameters = bsplineTransform->GetNumberOfParameters();
 
   const unsigned int numberOfNodes = numberOfParameters / SpaceDimension;
 
-  ParametersType parameters( numberOfParameters );
+  ParametersType parameters(numberOfParameters);
   //  Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -253,14 +250,14 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   std::ifstream infile;
 
-  infile.open( argv[1] );
+  infile.open(argv[1]);
 
-  for( unsigned int n=0; n < numberOfNodes; n++ )
-    {
-    infile >>  parameters[n];                  // X coordinate
-    infile >>  parameters[n+numberOfNodes];    // Y coordinate
-    infile >>  parameters[n+numberOfNodes*2];  // Z coordinate
-    }
+  for (unsigned int n = 0; n < numberOfNodes; n++)
+  {
+    infile >> parameters[n];                     // X coordinate
+    infile >> parameters[n + numberOfNodes];     // Y coordinate
+    infile >> parameters[n + numberOfNodes * 2]; // Z coordinate
+  }
 
   infile.close();
   //  Software Guide : EndCodeSnippet
@@ -273,12 +270,12 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  bsplineTransform->SetParameters( parameters );
+  bsplineTransform->SetParameters(parameters);
   //  Software Guide : EndCodeSnippet
 
-   CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();
+  CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();
 
-   resampler->AddObserver( itk::ProgressEvent(), observer );
+  resampler->AddObserver(itk::ProgressEvent(), observer);
 
 
   //  Software Guide : BeginLatex
@@ -291,89 +288,89 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  resampler->SetTransform( bsplineTransform );
+  resampler->SetTransform(bsplineTransform);
 
   try
-    {
+  {
     movingWriter->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   //  Software Guide : EndCodeSnippet
 
-  using VectorType = itk::Vector< float, ImageDimension >;
-  using DisplacementFieldType = itk::Image< VectorType, ImageDimension >;
+  using VectorType = itk::Vector<float, ImageDimension>;
+  using DisplacementFieldType = itk::Image<VectorType, ImageDimension>;
 
   DisplacementFieldType::Pointer field = DisplacementFieldType::New();
-  field->SetRegions( fixedRegion );
-  field->SetOrigin( fixedOrigin );
-  field->SetSpacing( fixedSpacing );
-  field->SetDirection( fixedDirection );
+  field->SetRegions(fixedRegion);
+  field->SetOrigin(fixedOrigin);
+  field->SetSpacing(fixedSpacing);
+  field->SetDirection(fixedDirection);
   field->Allocate();
 
-  using FieldIterator = itk::ImageRegionIterator< DisplacementFieldType >;
-  FieldIterator fi( field, fixedRegion );
+  using FieldIterator = itk::ImageRegionIterator<DisplacementFieldType>;
+  FieldIterator fi(field, fixedRegion);
 
   fi.GoToBegin();
 
-  TransformType::InputPointType  fixedPoint;
-  TransformType::OutputPointType movingPoint;
+  TransformType::InputPointType    fixedPoint;
+  TransformType::OutputPointType   movingPoint;
   DisplacementFieldType::IndexType index;
 
   VectorType displacement;
 
-  while( ! fi.IsAtEnd() )
-    {
+  while (!fi.IsAtEnd())
+  {
     index = fi.GetIndex();
-    field->TransformIndexToPhysicalPoint( index, fixedPoint );
-    movingPoint = bsplineTransform->TransformPoint( fixedPoint );
+    field->TransformIndexToPhysicalPoint(index, fixedPoint);
+    movingPoint = bsplineTransform->TransformPoint(fixedPoint);
     displacement = movingPoint - fixedPoint;
-    fi.Set( displacement );
+    fi.Set(displacement);
     ++fi;
-    }
+  }
 
-  using FieldWriterType = itk::ImageFileWriter< DisplacementFieldType >;
+  using FieldWriterType = itk::ImageFileWriter<DisplacementFieldType>;
   FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
 
-  fieldWriter->SetInput( field );
+  fieldWriter->SetInput(field);
 
-  if( argc >= 6 )
-    {
-    fieldWriter->SetFileName( argv[5] );
+  if (argc >= 6)
+  {
+    fieldWriter->SetFileName(argv[5]);
     try
-      {
+    {
       fieldWriter->Update();
-      }
-    catch( itk::ExceptionObject & excp )
-      {
+    }
+    catch (itk::ExceptionObject & excp)
+    {
       std::cerr << "Exception thrown " << std::endl;
       std::cerr << excp << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
-  if( argc >= 7 )
-    {
-    fieldWriter->SetFileName( argv[6] );
+  if (argc >= 7)
+  {
+    fieldWriter->SetFileName(argv[6]);
     try
-      {
+    {
       using TransformWriterType = itk::TransformFileWriter;
       TransformWriterType::Pointer transformWriter = TransformWriterType::New();
-      transformWriter->AddTransform( bsplineTransform );
-      transformWriter->SetFileName( argv[6] );
+      transformWriter->AddTransform(bsplineTransform);
+      transformWriter->SetFileName(argv[6]);
       transformWriter->Update();
-      }
-    catch( itk::ExceptionObject & excp )
-      {
+    }
+    catch (itk::ExceptionObject & excp)
+    {
       std::cerr << "Exception thrown " << std::endl;
       std::cerr << excp << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
   return EXIT_SUCCESS;
 }

@@ -50,15 +50,14 @@ template <typename T>
 class FEMP
 {
 public:
-
   /**
    * Default constructor makes sure that m_Data is 0,
    * to prevent problems when deleting m_Data object
    * on destruction.
    */
-  FEMP() : m_Data(0)
-  {
-  }
+  FEMP()
+    : m_Data(0)
+  {}
 
   /**
    * Copy constructor. Clone() method is called
@@ -66,19 +65,19 @@ public:
    */
   FEMP(const FEMP & x)
   {
-    if( x.m_Data )
-      {
+    if (x.m_Data)
+    {
 #ifdef USE_FEM_CLONE
-      m_Data = static_cast<T *>( x.m_Data->Clone().GetPointer() );
+      m_Data = static_cast<T *>(x.m_Data->Clone().GetPointer());
 #else
       std::cout << "Create Another" << std::endl;
-      m_Data = static_cast<T *>( x.m_Data->CreateAnother().GetPointer() );
+      m_Data = static_cast<T *>(x.m_Data->CreateAnother().GetPointer());
 #endif
-      }
+    }
     else
-      {
+    {
       m_Data = nullptr;
-      }
+    }
   }
 
   /**
@@ -87,51 +86,43 @@ public:
    * If you want to create a copy of object and take ownership of that,
    * use: FEMP(x->Clone()) instead of FEMP(x).
    */
-  explicit FEMP(typename T::Pointer x) : m_Data(std::move(x))
-  {
-  }
+  explicit FEMP(typename T::Pointer x)
+    : m_Data(std::move(x))
+  {}
 
   /**
    * Destructor of a special pointer class also destroys the actual object.
    */
-  ~FEMP()
-  {
-    m_Data = nullptr;
-  }
+  ~FEMP() { m_Data = nullptr; }
 
   /**
    * Asignment operator
    */
-  const FEMP<T> & operator=(const FEMP<T> & rhs);
+  const FEMP<T> &
+  operator=(const FEMP<T> & rhs);
 
   /**
    * Easy access to members of stored object
    */
-  typename T::Pointer operator->() const
-  {
-    return m_Data;
-  }
+  typename T::Pointer operator->() const { return m_Data; }
 
   /**
    * Dereferencing operator provides automatic conversion from
    * special to standard pointer to object
    */
-  operator T *() const
-    {
-    return m_Data;
-    }
+  operator T *() const { return m_Data; }
 
   /**
    * Return true if special pointer actually points
    * to a valid object and false otherwise.
    */
-  bool IsNULL() const
+  bool
+  IsNULL() const
   {
     return m_Data == 0;
   }
 
 private:
-
   /**
    * Pointer to actual object. Note that this could be a SmartPointer.
    */
@@ -139,11 +130,12 @@ private:
 };
 
 template <typename T>
-const FEMP<T> & FEMP<T>::operator=(const FEMP<T> & rhs)
+const FEMP<T> &
+FEMP<T>::operator=(const FEMP<T> & rhs)
 {
   /** Self assignments don't make sense. */
-  if( &rhs != this )
-    {
+  if (&rhs != this)
+  {
     /**
      * First destroy the existing object on the left hand side
      */
@@ -153,20 +145,19 @@ const FEMP<T> & FEMP<T>::operator=(const FEMP<T> & rhs)
      * Then clone the one on the right hand side
      * of the expression (if not nullptr).
      */
-    if( rhs.m_Data )
-      {
+    if (rhs.m_Data)
+    {
 #ifdef USE_FEM_CLONE
-      m_Data = static_cast<T *>( rhs.m_Data->Clone().GetPointer() );
+      m_Data = static_cast<T *>(rhs.m_Data->Clone().GetPointer());
 #else
-      m_Data = static_cast<T *>( rhs.m_Data->CreateAnother().GetPointer() );
+      m_Data = static_cast<T *>(rhs.m_Data->CreateAnother().GetPointer());
 #endif
-
-      }
-    else
-      {
-      m_Data = nullptr;
-      }
     }
+    else
+    {
+      m_Data = nullptr;
+    }
+  }
   return *this;
 }
 

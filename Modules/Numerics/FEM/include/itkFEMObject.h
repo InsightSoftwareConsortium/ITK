@@ -72,7 +72,7 @@ namespace fem
  */
 
 template <unsigned int VDimension = 3>
-class ITK_TEMPLATE_EXPORT  FEMObject : public DataObject
+class ITK_TEMPLATE_EXPORT FEMObject : public DataObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FEMObject);
@@ -124,7 +124,8 @@ public:
   using MaterialContainerIterator = typename MaterialContainerType::Iterator;
 
   // Copy the contents
-  void DeepCopy(FEMObject *Copy);
+  void
+  DeepCopy(FEMObject * Copy);
 
   // Get methods to get the entire VectorContainers for Elements, Nodes, Loads, and Materials
   itkGetModifiableObjectMacro(ElementContainer, ElementContainerType);
@@ -133,155 +134,206 @@ public:
   itkGetModifiableObjectMacro(MaterialContainer, MaterialContainerType);
 
   /** Get the Degrees of Freedom for the FE model */
-  unsigned int GetNumberOfDegreesOfFreedom() const
+  unsigned int
+  GetNumberOfDegreesOfFreedom() const
   {
     return m_NGFN;
   }
 
   /** Get the Degrees of Freedom for the FE model */
-  unsigned int GetNumberOfMultiFreedomConstraints() const
+  unsigned int
+  GetNumberOfMultiFreedomConstraints() const
   {
     return m_NMFC;
   }
 
   /** Get the Number of nodes in the FE mesh */
-  unsigned int GetNumberOfNodes() const
+  unsigned int
+  GetNumberOfNodes() const
   {
     return m_NodeContainer->Size();
   }
 
   /** Get the Number of elements in the FE mesh */
-  unsigned int GetNumberOfElements() const
+  unsigned int
+  GetNumberOfElements() const
   {
     return m_ElementContainer->Size();
   }
 
   /** Get the Number of Loads in the FE problem */
-  unsigned int GetNumberOfLoads() const
+  unsigned int
+  GetNumberOfLoads() const
   {
     return m_LoadContainer->Size();
   }
 
   /** Get the Number of Materials in the FE problem */
-  unsigned int GetNumberOfMaterials() const
+  unsigned int
+  GetNumberOfMaterials() const
   {
     return m_MaterialContainer->Size();
   }
 
   /**
-  * Add next element to the element array
-  */
-  void AddNextElement(Element::Pointer e);
+   * Add next element to the element array
+   */
+  void
+  AddNextElement(Element::Pointer e);
 
   /**
-  * Insert an element at the specified location
-  */
-  void InsertElement(Element::Pointer e, ElementIdentifier index);
+   * Insert an element at the specified location
+   */
+  void
+  InsertElement(Element::Pointer e, ElementIdentifier index);
 
   /**
-  * Add next node to the node array
-  */
-  void AddNextNode(Element::Node::Pointer e);
+   * Add next node to the node array
+   */
+  void
+  AddNextNode(Element::Node::Pointer e);
 
   /**
-  * Insert a node at the specified index location
-  */
-  void InsertNode(Element::Node::Pointer e, NodeIdentifier index);
+   * Insert a node at the specified index location
+   */
+  void
+  InsertNode(Element::Node::Pointer e, NodeIdentifier index);
 
   /**
    * Add next material data to the material array
    */
-  void AddNextMaterial(Material::Pointer mat)
+  void
+  AddNextMaterial(Material::Pointer mat)
   {
     this->AddNextMaterialInternal(mat);
   }
-  void AddNextMaterial(MaterialLinearElasticity::Pointer mat)
+  void
+  AddNextMaterial(MaterialLinearElasticity::Pointer mat)
   {
     this->AddNextMaterialInternal(mat);
   }
   /**
    * Insert material data at the specified index location
    */
-  void InsertMaterial(Material::Pointer e, MaterialIdentifier index);
+  void
+  InsertMaterial(Material::Pointer e, MaterialIdentifier index);
 
   /**
    * Add next load data to the load array
    */
-  void AddNextLoad(Load::Pointer ld)
-  { this->AddNextLoadInternal(ld); }
-  void AddNextLoad(LoadNode::Pointer ld)
-  { this->AddNextLoadInternal(ld); }
-  void AddNextLoad(LoadBCMFC::Pointer ld)
-  { this->AddNextLoadInternal(ld); }
-  void AddNextLoad(LoadBC::Pointer ld)
-  { this->AddNextLoadInternal(ld); }
-  void AddNextLoad(LoadEdge::Pointer ld)
-  { this->AddNextLoadInternal(ld); }
-  void AddNextLoad(LoadGravConst::Pointer ld)
-  { this->AddNextLoadInternal(ld); }
-  void AddNextLoad(LoadLandmark::Pointer ld)
-  { this->AddNextLoadInternal(ld); }
+  void
+  AddNextLoad(Load::Pointer ld)
+  {
+    this->AddNextLoadInternal(ld);
+  }
+  void
+  AddNextLoad(LoadNode::Pointer ld)
+  {
+    this->AddNextLoadInternal(ld);
+  }
+  void
+  AddNextLoad(LoadBCMFC::Pointer ld)
+  {
+    this->AddNextLoadInternal(ld);
+  }
+  void
+  AddNextLoad(LoadBC::Pointer ld)
+  {
+    this->AddNextLoadInternal(ld);
+  }
+  void
+  AddNextLoad(LoadEdge::Pointer ld)
+  {
+    this->AddNextLoadInternal(ld);
+  }
+  void
+  AddNextLoad(LoadGravConst::Pointer ld)
+  {
+    this->AddNextLoadInternal(ld);
+  }
+  void
+  AddNextLoad(LoadLandmark::Pointer ld)
+  {
+    this->AddNextLoadInternal(ld);
+  }
   /**
    * Insert material data at the specified index location
    */
-  void InsertLoad(Load::Pointer ld, LoadIdentifier index);
+  void
+  InsertLoad(Load::Pointer ld, LoadIdentifier index);
 
   /**
    * Get the element at the specified index location
    */
-  Element::ConstPointer GetElement(ElementIdentifier index) const;
-  Element::Pointer GetElement(ElementIdentifier index);
+  Element::ConstPointer
+  GetElement(ElementIdentifier index) const;
+  Element::Pointer
+  GetElement(ElementIdentifier index);
 
   /**
    * Get the element at with the specified global number
    */
-  Element::ConstPointer GetElementWithGlobalNumber(int globalNumber) const;
-  Element::Pointer GetElementWithGlobalNumber(int globalNumber);
+  Element::ConstPointer
+  GetElementWithGlobalNumber(int globalNumber) const;
+  Element::Pointer
+  GetElementWithGlobalNumber(int globalNumber);
 
   /**
    * Get the node at the specified index location
    */
-  Element::Node::Pointer GetNode(NodeIdentifier index);
-  Element::Node::ConstPointer GetNode(NodeIdentifier index) const;
+  Element::Node::Pointer
+  GetNode(NodeIdentifier index);
+  Element::Node::ConstPointer
+  GetNode(NodeIdentifier index) const;
 
   /**
    * Get the Node at with the specified global number
    */
-  Element::Node::Pointer GetNodeWithGlobalNumber(int globalNumber);
+  Element::Node::Pointer
+  GetNodeWithGlobalNumber(int globalNumber);
 
   /**
    * Get the material data at the specified index location
    */
-  Material::ConstPointer GetMaterial(MaterialIdentifier index) const;
-  Material::Pointer GetMaterial(MaterialIdentifier index);
+  Material::ConstPointer
+  GetMaterial(MaterialIdentifier index) const;
+  Material::Pointer
+  GetMaterial(MaterialIdentifier index);
 
   /**
    * Get the Material at with the specified global number
    */
-  Material::ConstPointer GetMaterialWithGlobalNumber(int globalNumber) const;
-  Material::Pointer GetMaterialWithGlobalNumber(int globalNumber);
+  Material::ConstPointer
+  GetMaterialWithGlobalNumber(int globalNumber) const;
+  Material::Pointer
+  GetMaterialWithGlobalNumber(int globalNumber);
 
   /**
    * Get the load data at the specified index location
    */
-  Load::ConstPointer GetLoad(LoadIdentifier index) const;
-  Load::Pointer GetLoad(LoadIdentifier index);
+  Load::ConstPointer
+  GetLoad(LoadIdentifier index) const;
+  Load::Pointer
+  GetLoad(LoadIdentifier index);
 
   /**
    * Get the Load at with the specified global number
    */
-  Load::Pointer GetLoadWithGlobalNumber(int globalNumber);
+  Load::Pointer
+  GetLoadWithGlobalNumber(int globalNumber);
 
   /**
    * Clear the entire model and return to an initial state
    */
-  void Clear();
+  void
+  Clear();
 
   /**
    * Renumber the nodes global number based on their current order
    * in the Node VectorContainer
    */
-  void RenumberNodeContainer();
+  void
+  RenumberNodeContainer();
 
   /**
    * This should be called when all nodes, elements, and loads
@@ -289,32 +341,37 @@ public:
    * degrees of freedom for the speficied system and the number of
    * multi freedom constraints on the system.
    */
-  void FinalizeMesh();
+  void
+  FinalizeMesh();
 
 protected:
   /** Constructor for use by New() method. */
   FEMObject();
   ~FEMObject() override;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
-    * Assign a global freedom numbers to each DOF in a system.
-    * This must be done before any other solve function can be called.
-    * This is called internally by FinalizeMesh()
-    */
-  void GenerateGFN();
+   * Assign a global freedom numbers to each DOF in a system.
+   * This must be done before any other solve function can be called.
+   * This is called internally by FinalizeMesh()
+   */
+  void
+  GenerateGFN();
 
   /**
    * Assign the number of multi freedom constraints on the system.
    * This must be done before any other solve function can be called.
    * This is called internally by FinalizeMesh()
    */
-  void GenerateMFC();
+  void
+  GenerateMFC();
 
-  void AddNextMaterialInternal(Material *mat);
+  void
+  AddNextMaterialInternal(Material * mat);
   /**
-  * Number of global degrees of freedom in a system
-  */
+   * Number of global degrees of freedom in a system
+   */
   unsigned int m_NGFN;
 
   /**
@@ -329,14 +386,15 @@ protected:
   MaterialContainerPointer m_MaterialContainer;
 
 private:
-  void AddNextLoadInternal(Load *l);
+  void
+  AddNextLoadInternal(Load * l);
 };
 
-}
-}
+} // namespace fem
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMObject.hxx"
+#  include "itkFEMObject.hxx"
 #endif
 
 #endif // itkFEMObject_h

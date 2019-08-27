@@ -20,18 +20,17 @@
 #include "itkQuadEdgeMeshEulerOperatorJoinVertexFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorsTestHelper.h"
 
-int itkQuadEdgeMeshEulerOperatorSplitVertexTest( int , char * [] )
+int
+itkQuadEdgeMeshEulerOperatorSplitVertexTest(int, char *[])
 {
 
-  using MeshType = itk::QuadEdgeMesh< double, 3 >;
+  using MeshType = itk::QuadEdgeMesh<double, 3>;
   using MeshPointer = MeshType::Pointer;
   using QEType = MeshType::QEType;
   using PointType = MeshType::PointType;
 
-  using SplitVertex =
-      itk::QuadEdgeMeshEulerOperatorSplitVertexFunction< MeshType, QEType>;
-  using JoinVertex =
-      itk::QuadEdgeMeshEulerOperatorJoinVertexFunction< MeshType, QEType>;
+  using SplitVertex = itk::QuadEdgeMeshEulerOperatorSplitVertexFunction<MeshType, QEType>;
+  using JoinVertex = itk::QuadEdgeMeshEulerOperatorJoinVertexFunction<MeshType, QEType>;
 
   /////////////////////////////////////////
   //
@@ -40,124 +39,115 @@ int itkQuadEdgeMeshEulerOperatorSplitVertexTest( int , char * [] )
   /////////////////////////////////////////
   std::cout << "Checking SplitVertex." << std::endl;
   MeshPointer mesh = MeshType::New();
-  CreateSquareTriangularMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>(mesh);
 
-  SplitVertex::Pointer splitVertex = SplitVertex::New( );
-  std::cout << "     " << "Test No Mesh Input";
-  if( splitVertex->Evaluate( (QEType*)1, (QEType*)1 ) )
-    {
+  SplitVertex::Pointer splitVertex = SplitVertex::New();
+  std::cout << "     "
+            << "Test No Mesh Input";
+  if (splitVertex->Evaluate((QEType *)1, (QEType *)1))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "OK" << std::endl;
 
   (void)splitVertex->GetNameOfClass();
 
-  splitVertex->SetInput( mesh );
-  std::cout << "     " << "Test No QE Input";
-  if( splitVertex->Evaluate( (QEType*)nullptr, (QEType*)nullptr ) )
-    {
+  splitVertex->SetInput(mesh);
+  std::cout << "     "
+            << "Test No QE Input";
+  if (splitVertex->Evaluate((QEType *)nullptr, (QEType *)nullptr))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "OK" << std::endl;
 
   std::cout << "     ";
   std::cout << "Split Vertex (Possible).";
-  if( !splitVertex->Evaluate( mesh->FindEdge(  5, 11 ),
-                              mesh->FindEdge( 17, 11 ) ) )
-    {
+  if (!splitVertex->Evaluate(mesh->FindEdge(5, 11), mesh->FindEdge(17, 11)))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // move the new point, for example along z axis for special effect :-D
-  PointType PtTmp = mesh->GetPoint( splitVertex->GetNewPointID( ) );
+  PointType PtTmp = mesh->GetPoint(splitVertex->GetNewPointID());
   PtTmp[2] = 1;
-  mesh->SetPoint( splitVertex->GetNewPointID( ), PtTmp );
+  mesh->SetPoint(splitVertex->GetNewPointID(), PtTmp);
   // Test
-  if( ! AssertTopologicalInvariants< MeshType >
-          ( mesh, 26, 57, 32, 1, 0 ) )
-    {
+  if (!AssertTopologicalInvariants<MeshType>(mesh, 26, 57, 32, 1, 0))
+  {
     std::cout << "FAILED, wrong topology" << std::endl;
     return EXIT_FAILURE;
-    }
-  if ( mesh->GetPoint( splitVertex->GetNewPointID( ) ).GetValence( ) != 4 )
-    {
-    std::cout << "FAILED, wrong valence of "
-    << mesh->GetPoint( splitVertex->GetNewPointID( ) ).GetValence( )
-    << " for vertex " << splitVertex->GetNewPointID( ) << "." << std::endl;
+  }
+  if (mesh->GetPoint(splitVertex->GetNewPointID()).GetValence() != 4)
+  {
+    std::cout << "FAILED, wrong valence of " << mesh->GetPoint(splitVertex->GetNewPointID()).GetValence()
+              << " for vertex " << splitVertex->GetNewPointID() << "." << std::endl;
     return EXIT_FAILURE;
-    }
-  if ( mesh->GetPoint( 11 ).GetValence( ) != 4 )
-    {
-    std::cout << "FAILED (for, wrong valence of "
-              << mesh->GetPoint( 11 ).GetValence( )
-              << " for vertex 11 )." << std::endl;
+  }
+  if (mesh->GetPoint(11).GetValence() != 4)
+  {
+    std::cout << "FAILED (for, wrong valence of " << mesh->GetPoint(11).GetValence() << " for vertex 11 )."
+              << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << ".OK" << std::endl;
-  //test antenna
-  CreateSquareTriangularMesh<MeshType>( mesh );
+  // test antenna
+  CreateSquareTriangularMesh<MeshType>(mesh);
   std::cout << "     ";
   std::cout << "Try to split antenna (impossible).";
 
-  splitVertex->SetInput( mesh );
-  if( splitVertex->Evaluate( mesh->FindEdge( 12, 17 ),
-                             mesh->FindEdge( 12, 17 ) ) )
-    {
+  splitVertex->SetInput(mesh);
+  if (splitVertex->Evaluate(mesh->FindEdge(12, 17), mesh->FindEdge(12, 17)))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << ".OK" << std::endl;
-  //test different dest( )
-  CreateSquareTriangularMesh<MeshType>( mesh );
+  // test different dest( )
+  CreateSquareTriangularMesh<MeshType>(mesh);
   std::cout << "     ";
   std::cout << "Test with args with different Dest( ) (Impossible).";
 
-  splitVertex->SetInput( mesh );
-  if( splitVertex->Evaluate( mesh->FindEdge(  5, 11 ),
-                              mesh->FindEdge(  5,  6 ) ) )
-    {
+  splitVertex->SetInput(mesh);
+  if (splitVertex->Evaluate(mesh->FindEdge(5, 11), mesh->FindEdge(5, 6)))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
-  if( ! AssertTopologicalInvariants< MeshType >
-          ( mesh, 25, 56, 32, 1, 0 ) )
-    {
+  }
+  if (!AssertTopologicalInvariants<MeshType>(mesh, 25, 56, 32, 1, 0))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
-  if ( mesh->GetPoint( 5 ).GetValence( ) != 4 )
-    {
-    std::cout << "FAILED, wrong valence of "
-    << mesh->GetPoint( 5 ).GetValence( )
-    << " for vertex 5." << std::endl;
+  }
+  if (mesh->GetPoint(5).GetValence() != 4)
+  {
+    std::cout << "FAILED, wrong valence of " << mesh->GetPoint(5).GetValence() << " for vertex 5." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << ".OK" << std::endl;
   std::cout << "Checking SplitVertex." << std::endl << std::endl;
 
   std::cout << "Checking JoinVertex( SplitVertex()) Invariance.";
 
-  CreateSquareTriangularMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>(mesh);
 
-  splitVertex->SetInput( mesh );
+  splitVertex->SetInput(mesh);
 
   JoinVertex::Pointer joinVertex = JoinVertex::New();
-  joinVertex->SetInput( mesh );
-  if( !joinVertex->Evaluate( splitVertex->Evaluate( mesh->FindEdge(  5, 11 ),
-                                                    mesh->FindEdge( 17, 11 ) )) )
-    {
+  joinVertex->SetInput(mesh);
+  if (!joinVertex->Evaluate(splitVertex->Evaluate(mesh->FindEdge(5, 11), mesh->FindEdge(17, 11))))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
-  mesh->DeletePoint( joinVertex->GetOldPointID( ) );
-  if( ! AssertTopologicalInvariants< MeshType >
-          ( mesh, 25, 56, 32, 1, 0 ) )
-    {
+  }
+  mesh->DeletePoint(joinVertex->GetOldPointID());
+  if (!AssertTopologicalInvariants<MeshType>(mesh, 25, 56, 32, 1, 0))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << ".OK" << std::endl << std::endl;
 
   return EXIT_SUCCESS;

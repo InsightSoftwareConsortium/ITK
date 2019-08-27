@@ -38,32 +38,35 @@ namespace itk
  *
  * \ingroup ITKImageLabel
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 class ScanlineFilterCommon
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScanlineFilterCommon);
 
   using Self = ScanlineFilterCommon;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  void Register() const
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  void
+  Register() const
   {
-    Object* obj = static_cast< Object* >( m_EnclosingFilter.GetPointer() );
+    Object * obj = static_cast<Object *>(m_EnclosingFilter.GetPointer());
     obj->Register();
   }
-  void UnRegister() const noexcept
+  void
+  UnRegister() const noexcept
   {
-    Object* obj = static_cast< Object* >( m_EnclosingFilter.GetPointer() );
+    Object * obj = static_cast<Object *>(m_EnclosingFilter.GetPointer());
     obj->UnRegister();
   }
-  static Pointer New()
+  static Pointer
+  New()
   {
-    Pointer smartPtr = ObjectFactory< Self >::Create();
-    if ( smartPtr == nullptr )
-      {
-      smartPtr = new Self( nullptr );
-      }
+    Pointer smartPtr = ObjectFactory<Self>::Create();
+    if (smartPtr == nullptr)
+    {
+      smartPtr = new Self(nullptr);
+    }
     smartPtr->UnRegister();
     return smartPtr;
   }
@@ -94,204 +97,209 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Concept checking -- input and output dimensions must be the same
-  itkConceptMacro( SameDimension,
-                   ( Concept::SameDimension< InputImageDimension,
-                                             OutputImageDimension > ) );
+  itkConceptMacro(SameDimension, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
 #endif
 
-  using EnclosingFilter = ImageToImageFilter< TInputImage, TOutputImage >;
+  using EnclosingFilter = ImageToImageFilter<TInputImage, TOutputImage>;
 
-  ScanlineFilterCommon(EnclosingFilter* enclosingFilter):
-    m_EnclosingFilter( enclosingFilter ),
-    m_FullyConnected( false )
-  {
-  }
+  ScanlineFilterCommon(EnclosingFilter * enclosingFilter)
+    : m_EnclosingFilter(enclosingFilter)
+    , m_FullyConnected(false)
+  {}
   ~ScanlineFilterCommon() = default;
 
 protected:
-
   using InternalLabelType = SizeValueType;
   using OutSizeType = typename TOutputImage::RegionType::SizeType;
 
   struct RunLength
   {
-    SizeValueType length;
+    SizeValueType                      length;
     typename InputImageType::IndexType where;
-    InternalLabelType label;
+    InternalLabelType                  label;
 
-    RunLength( SizeValueType iLength, const IndexType& iWhere,
-        InternalLabelType iLabel = 0 ) :
-      length( iLength ), where( iWhere ), label( iLabel ) {}
+    RunLength(SizeValueType iLength, const IndexType & iWhere, InternalLabelType iLabel = 0)
+      : length(iLength)
+      , where(iWhere)
+      , label(iLabel)
+    {}
   };
 
-  using LineEncodingType = std::vector< RunLength >;
+  using LineEncodingType = std::vector<RunLength>;
   using LineEncodingIterator = typename LineEncodingType::iterator;
   using LineEncodingConstIterator = typename LineEncodingType::const_iterator;
 
-  using OffsetVectorType = std::vector< OffsetValueType >;
+  using OffsetVectorType = std::vector<OffsetValueType>;
   using OffsetVectorConstIterator = typename OffsetVectorType::const_iterator;
 
-  using LineMapType = std::vector< LineEncodingType >;
+  using LineMapType = std::vector<LineEncodingType>;
 
-  using UnionFindType = std::vector< InternalLabelType >;
-  using ConsecutiveVectorType = std::vector< OutputPixelType >;
+  using UnionFindType = std::vector<InternalLabelType>;
+  using ConsecutiveVectorType = std::vector<OutputPixelType>;
 
-  SizeValueType IndexToLinearIndex( const IndexType& index ) const
+  SizeValueType
+  IndexToLinearIndex(const IndexType & index) const
   {
     SizeValueType linearIndex = 0;
     SizeValueType stride = 1;
-    RegionType requestedRegion = m_EnclosingFilter->GetOutput()->GetRequestedRegion();
+    RegionType    requestedRegion = m_EnclosingFilter->GetOutput()->GetRequestedRegion();
     // ignore x axis, which is always full size
-    for ( unsigned dim = 1; dim < ImageDimension; dim++ )
-      {
-      itkAssertOrThrowMacro( requestedRegion.GetIndex( dim ) <= index[dim],
-          "Index must be within the requested region!" );
-      linearIndex += ( index[dim] - requestedRegion.GetIndex( dim ) ) * stride;
-      stride *= requestedRegion.GetSize( dim );
-      }
+    for (unsigned dim = 1; dim < ImageDimension; dim++)
+    {
+      itkAssertOrThrowMacro(requestedRegion.GetIndex(dim) <= index[dim], "Index must be within the requested region!");
+      linearIndex += (index[dim] - requestedRegion.GetIndex(dim)) * stride;
+      stride *= requestedRegion.GetSize(dim);
+    }
     return linearIndex;
   }
 
-  void InitUnion(InternalLabelType numberOfLabels)
+  void
+  InitUnion(InternalLabelType numberOfLabels)
   {
-    m_UnionFind = UnionFindType( numberOfLabels + 1 );
+    m_UnionFind = UnionFindType(numberOfLabels + 1);
 
     typename LineMapType::iterator MapBegin, MapEnd, LineIt;
     MapBegin = m_LineMap.begin();
     MapEnd = m_LineMap.end();
     LineIt = MapBegin;
     InternalLabelType label = 1;
-    for ( LineIt = MapBegin; LineIt != MapEnd; ++LineIt )
-      {
+    for (LineIt = MapBegin; LineIt != MapEnd; ++LineIt)
+    {
       LineEncodingIterator cIt;
-      for ( cIt = LineIt->begin(); cIt != LineIt->end(); ++cIt )
-        {
+      for (cIt = LineIt->begin(); cIt != LineIt->end(); ++cIt)
+      {
         cIt->label = label;
         m_UnionFind[label] = label;
         label++;
-        }
       }
+    }
   }
 
-  InternalLabelType LookupSet(const InternalLabelType label)
+  InternalLabelType
+  LookupSet(const InternalLabelType label)
   {
     InternalLabelType l = label;
     while (l != m_UnionFind[l])
-      {
-      l = m_UnionFind[l]; //transitively sets equivalence
-      }
+    {
+      l = m_UnionFind[l]; // transitively sets equivalence
+    }
     return l;
   }
 
-  void LinkLabels(const InternalLabelType label1, const InternalLabelType label2)
+  void
+  LinkLabels(const InternalLabelType label1, const InternalLabelType label2)
   {
     std::lock_guard<std::mutex> mutexHolder(m_Mutex);
-    InternalLabelType E1 = this->LookupSet(label1);
-    InternalLabelType E2 = this->LookupSet(label2);
+    InternalLabelType           E1 = this->LookupSet(label1);
+    InternalLabelType           E2 = this->LookupSet(label2);
 
-    if ( E1 < E2 )
-      {
+    if (E1 < E2)
+    {
       m_UnionFind[E2] = E1;
-      }
+    }
     else
-      {
+    {
       m_UnionFind[E1] = E2;
-      }
+    }
   }
 
-  SizeValueType CreateConsecutive(OutputPixelType backgroundValue)
+  SizeValueType
+  CreateConsecutive(OutputPixelType backgroundValue)
   {
     const size_t N = m_UnionFind.size();
 
-    m_Consecutive = ConsecutiveVectorType( N );
-    m_Consecutive[ 0 ] = backgroundValue;
+    m_Consecutive = ConsecutiveVectorType(N);
+    m_Consecutive[0] = backgroundValue;
 
     OutputPixelType consecutiveLabel = 0;
-    SizeValueType count = 0;
+    SizeValueType   count = 0;
 
-    for ( size_t i = 1; i < N; i++ )
+    for (size_t i = 1; i < N; i++)
+    {
+      const auto label = static_cast<size_t>(m_UnionFind[i]);
+      if (label == i)
       {
-      const auto label = static_cast< size_t >( m_UnionFind[i] );
-      if ( label == i )
+        if (consecutiveLabel == backgroundValue)
         {
-        if ( consecutiveLabel == backgroundValue )
-          {
           ++consecutiveLabel;
-          }
+        }
         m_Consecutive[label] = consecutiveLabel;
         ++consecutiveLabel;
         ++count;
-        }
       }
+    }
     return count;
   }
 
-  bool CheckNeighbors(const OutputIndexType & A, const OutputIndexType & B) const
+  bool
+  CheckNeighbors(const OutputIndexType & A, const OutputIndexType & B) const
   {
     // This checks whether the line encodings are really neighbors. The first
     // dimension gets ignored because the encodings are along that axis.
-    for ( unsigned i = 1; i < OutputImageDimension; i++ )
+    for (unsigned i = 1; i < OutputImageDimension; i++)
+    {
+      if (Math::abs(A[i] - B[i]) > 1)
       {
-      if ( Math::abs(A[i] - B[i]) > 1 )
-        {
         return false;
-        }
       }
+    }
     return true;
   }
 
-  using CompareLinesCallback = std::function<void(
-    const LineEncodingConstIterator& currentRun,
-    const LineEncodingConstIterator& neighborRun,
-    OffsetValueType oStart,
-    OffsetValueType oLast
-    )>;
+  using CompareLinesCallback = std::function<void(const LineEncodingConstIterator & currentRun,
+                                                  const LineEncodingConstIterator & neighborRun,
+                                                  OffsetValueType                   oStart,
+                                                  OffsetValueType                   oLast)>;
 
-  void CompareLines(const LineEncodingType & current, const LineEncodingType & Neighbour,
-                    bool sameLineOffset, bool labelCompare, OutputPixelType background,
-                    CompareLinesCallback callback)
+  void
+  CompareLines(const LineEncodingType & current,
+               const LineEncodingType & Neighbour,
+               bool                     sameLineOffset,
+               bool                     labelCompare,
+               OutputPixelType          background,
+               CompareLinesCallback     callback)
   {
     bool sameLine = sameLineOffset;
-    if ( sameLineOffset )
-      {
+    if (sameLineOffset)
+    {
       OutputOffsetType Off = current[0].where - Neighbour[0].where;
 
-      for ( unsigned int i = 1; i < ImageDimension; i++ )
+      for (unsigned int i = 1; i < ImageDimension; i++)
+      {
+        if (Off[i] != 0)
         {
-        if ( Off[i] != 0 )
-          {
           sameLine = false;
           break;
-          }
         }
       }
+    }
 
     OffsetValueType offset = 0;
-    if ( m_FullyConnected || sameLine )
-      {
+    if (m_FullyConnected || sameLine)
+    {
       offset = 1;
-      }
+    }
 
     LineEncodingConstIterator nIt, mIt, cIt;
 
     mIt = Neighbour.begin(); // out marker iterator
 
-    for ( cIt = current.begin(); cIt != current.end(); ++cIt )
+    for (cIt = current.begin(); cIt != current.end(); ++cIt)
+    {
+      if (!labelCompare || cIt->label != InternalLabelType(background))
       {
-      if ( !labelCompare || cIt->label != InternalLabelType(background) )
-        {
-        OffsetValueType cStart = cIt->where[0];  // the start x position
+        OffsetValueType cStart = cIt->where[0]; // the start x position
         OffsetValueType cLast = cStart + cIt->length - 1;
 
         if (labelCompare)
-          {
+        {
           mIt = Neighbour.begin();
-          }
+        }
 
-        for ( nIt = mIt; nIt != Neighbour.end(); ++nIt )
+        for (nIt = mIt; nIt != Neighbour.end(); ++nIt)
+        {
+          if (!labelCompare || cIt->label != nIt->label)
           {
-          if ( !labelCompare || cIt->label != nIt->label )
-            {
             OffsetValueType nStart = nIt->where[0];
             OffsetValueType nLast = nStart + nIt->length - 1;
 
@@ -313,64 +321,65 @@ protected:
             OffsetValueType ee1 = nLast - offset;
             OffsetValueType ee2 = nLast + offset;
 
-            bool eq = false;
+            bool            eq = false;
             OffsetValueType oStart = 0;
             OffsetValueType oLast = 0;
 
             // the logic here can probably be improved a lot
-            if ( ( ss1 >= cStart ) && ( ee2 <= cLast ) )
-              {
+            if ((ss1 >= cStart) && (ee2 <= cLast))
+            {
               // case 1
               eq = true;
               oStart = ss1;
               oLast = ee2;
-              }
-            else if ( ( ss1 <= cStart ) && ( ee2 >= cLast ) )
-              {
+            }
+            else if ((ss1 <= cStart) && (ee2 >= cLast))
+            {
               // case 4
               eq = true;
               oStart = cStart;
               oLast = cLast;
-              }
-            else if ( ( ss1 <= cLast ) && ( ee2 >= cLast ) )
-              {
+            }
+            else if ((ss1 <= cLast) && (ee2 >= cLast))
+            {
               // case 2
               eq = true;
               oStart = ss1;
               oLast = cLast;
-              }
-            else if ( ( ss1 <= cStart ) && ( ee2 >= cStart ) )
-              {
+            }
+            else if ((ss1 <= cStart) && (ee2 >= cStart))
+            {
               // case 3
               eq = true;
               oStart = cStart;
               oLast = ee2;
-              }
+            }
 
-            if ( eq )
-              {
+            if (eq)
+            {
               callback(cIt, nIt, oStart, oLast);
-              if ( sameLineOffset && oStart == cStart && oLast == cLast )
-                {
+              if (sameLineOffset && oStart == cStart && oLast == cLast)
+              {
                 mIt = nIt;
                 break;
-                }
               }
+            }
 
-            if ( !sameLineOffset && ee1 >= cLast )
-              {
+            if (!sameLineOffset && ee1 >= cLast)
+            {
               // No point looking for more overlaps with the current run
               // because the neighbor run is either case 2 or 4
               mIt = nIt;
               break;
-              }
             }
           }
         }
       }
+    }
   }
 
-  void SetupLineOffsets(bool wholeNeighborhood)
+  void
+  SetupLineOffsets(bool wholeNeighborhood)
   {
     // Create a neighborhood so that we can generate a table of offsets
     // to "previous" line indexes
@@ -378,10 +387,10 @@ protected:
     // offset for us. All this messing around produces an array of
     // offsets that will be used to index the map
     typename TOutputImage::Pointer output = m_EnclosingFilter->GetOutput();
-    using PretendImageType = Image< OffsetValueType, TOutputImage::ImageDimension - 1 >;
+    using PretendImageType = Image<OffsetValueType, TOutputImage::ImageDimension - 1>;
     using PretendSizeType = typename PretendImageType::RegionType::SizeType;
     using PretendIndexType = typename PretendImageType::RegionType::IndexType;
-    using LineNeighborhoodType = ConstShapedNeighborhoodIterator< PretendImageType >;
+    using LineNeighborhoodType = ConstShapedNeighborhoodIterator<PretendImageType>;
 
     typename PretendImageType::Pointer fakeImage;
     fakeImage = PretendImageType::New();
@@ -392,10 +401,10 @@ protected:
 
     PretendSizeType PretendSize;
     // The first dimension has been collapsed
-    for ( SizeValueType i = 0; i < PretendSize.GetSizeDimension(); i++ )
-      {
+    for (SizeValueType i = 0; i < PretendSize.GetSizeDimension(); i++)
+    {
       PretendSize[i] = OutSize[i + 1];
-      }
+    }
 
     LineRegion.SetSize(PretendSize);
     fakeImage->SetRegions(LineRegion);
@@ -404,13 +413,13 @@ protected:
     LineNeighborhoodType lnit(kernelRadius, fakeImage, LineRegion);
 
     if (wholeNeighborhood)
-      {
+    {
       setConnectivity(&lnit, m_FullyConnected);
-      }
+    }
     else
-      {
+    {
       setConnectivityPrevious(&lnit, m_FullyConnected);
-      }
+    }
 
     typename LineNeighborhoodType::IndexListType ActiveIndexes;
     ActiveIndexes = lnit.GetActiveIndexList();
@@ -420,15 +429,15 @@ protected:
     PretendIndexType idx = LineRegion.GetIndex();
     OffsetValueType  offset = fakeImage->ComputeOffset(idx);
 
-    for ( LI = ActiveIndexes.begin(); LI != ActiveIndexes.end(); ++LI )
-      {
-      m_LineOffsets.push_back(fakeImage->ComputeOffset( idx + lnit.GetOffset(*LI) ) - offset);
-      }
+    for (LI = ActiveIndexes.begin(); LI != ActiveIndexes.end(); ++LI)
+    {
+      m_LineOffsets.push_back(fakeImage->ComputeOffset(idx + lnit.GetOffset(*LI)) - offset);
+    }
 
     if (wholeNeighborhood)
-      {
-      m_LineOffsets.push_back(0); //center pixel
-      }
+    {
+      m_LineOffsets.push_back(0); // center pixel
+    }
   }
 
   WeakPointer<EnclosingFilter> m_EnclosingFilter;
@@ -439,64 +448,61 @@ protected:
     SizeValueType lastLine;
   };
 
-  WorkUnitData CreateWorkUnitData( const RegionType& outputRegionForThread )
+  WorkUnitData
+  CreateWorkUnitData(const RegionType & outputRegionForThread)
   {
     const SizeValueType xsizeForThread = outputRegionForThread.GetSize()[0];
     const SizeValueType numberOfLines = outputRegionForThread.GetNumberOfPixels() / xsizeForThread;
 
-    const SizeValueType firstLine = this->IndexToLinearIndex( outputRegionForThread.GetIndex() );
+    const SizeValueType firstLine = this->IndexToLinearIndex(outputRegionForThread.GetIndex());
     const SizeValueType lastLine = firstLine + numberOfLines - 1;
 
     return WorkUnitData{ firstLine, lastLine };
   }
 
   /* Process the map and make appropriate entries in an equivalence table */
-  void ComputeEquivalence(const SizeValueType workUnitResultsIndex, bool strictlyLess)
+  void
+  ComputeEquivalence(const SizeValueType workUnitResultsIndex, bool strictlyLess)
   {
     const OffsetValueType linecount = m_LineMap.size();
-    WorkUnitData wud = m_WorkUnitResults[workUnitResultsIndex];
-    SizeValueType lastLine = wud.lastLine;
+    WorkUnitData          wud = m_WorkUnitResults[workUnitResultsIndex];
+    SizeValueType         lastLine = wud.lastLine;
     if (!strictlyLess)
-      {
+    {
       lastLine++;
-      //make sure we are not wrapping around
-      itkAssertInDebugAndIgnoreInReleaseMacro( lastLine >= wud.lastLine );
-      }
-    for ( SizeValueType thisIdx = wud.firstLine; thisIdx < lastLine; ++thisIdx )
+      // make sure we are not wrapping around
+      itkAssertInDebugAndIgnoreInReleaseMacro(lastLine >= wud.lastLine);
+    }
+    for (SizeValueType thisIdx = wud.firstLine; thisIdx < lastLine; ++thisIdx)
+    {
+      if (!m_LineMap[thisIdx].empty())
       {
-      if ( !m_LineMap[thisIdx].empty() )
-        {
         typename OffsetVectorType::const_iterator it = this->m_LineOffsets.begin();
-        while ( it != this->m_LineOffsets.end() )
-          {
-          OffsetValueType neighIdx = thisIdx + ( *it );
+        while (it != this->m_LineOffsets.end())
+        {
+          OffsetValueType neighIdx = thisIdx + (*it);
           // check if the neighbor is in the map
-          if ( neighIdx >= 0 && neighIdx < linecount && !m_LineMap[neighIdx].empty() )
-            {
+          if (neighIdx >= 0 && neighIdx < linecount && !m_LineMap[neighIdx].empty())
+          {
             // Now check whether they are really neighbors
             bool areNeighbors = this->CheckNeighbors(m_LineMap[thisIdx][0].where, m_LineMap[neighIdx][0].where);
-            if ( areNeighbors )
-              {
-              this->CompareLines(
-                m_LineMap[thisIdx],
-                m_LineMap[neighIdx],
-                false,
-                false,
-                0,
-                [this](
-                   const LineEncodingConstIterator& currentRun,
-                   const LineEncodingConstIterator& neighborRun,
-                   OffsetValueType,
-                   OffsetValueType)
-                {
-                  this->LinkLabels(neighborRun->label, currentRun->label);
-                });
-              }
+            if (areNeighbors)
+            {
+              this->CompareLines(m_LineMap[thisIdx],
+                                 m_LineMap[neighIdx],
+                                 false,
+                                 false,
+                                 0,
+                                 [this](const LineEncodingConstIterator & currentRun,
+                                        const LineEncodingConstIterator & neighborRun,
+                                        OffsetValueType,
+                                        OffsetValueType) { this->LinkLabels(neighborRun->label, currentRun->label); });
             }
-          ++it;
           }
+          ++it;
         }
       }
+    }
   }
 
 protected:
@@ -506,9 +512,9 @@ protected:
   ConsecutiveVectorType m_Consecutive;
   std::mutex            m_Mutex;
 
-  std::atomic< SizeValueType > m_NumberOfLabels;
-  std::deque< WorkUnitData >   m_WorkUnitResults;
-  LineMapType                  m_LineMap;
+  std::atomic<SizeValueType> m_NumberOfLabels;
+  std::deque<WorkUnitData>   m_WorkUnitResults;
+  LineMapType                m_LineMap;
 };
 } // end namespace itk
 

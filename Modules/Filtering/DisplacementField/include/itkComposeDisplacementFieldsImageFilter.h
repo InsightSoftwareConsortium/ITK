@@ -37,8 +37,7 @@ namespace itk
  */
 
 template <typename TInputImage, typename TOutputImage = TInputImage>
-class ITK_TEMPLATE_EXPORT ComposeDisplacementFieldsImageFilter
-  : public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT ComposeDisplacementFieldsImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComposeDisplacementFieldsImageFilter);
@@ -49,7 +48,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Extract dimension from input image. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
@@ -71,58 +70,61 @@ public:
 
   /** Other type alias */
   using RealType = typename VectorType::ComponentType;
-  using InterpolatorType = VectorInterpolateImageFunction
-    <InputFieldType, RealType>;
+  using InterpolatorType = VectorInterpolateImageFunction<InputFieldType, RealType>;
 
   /** Get the interpolator. */
-  itkGetModifiableObjectMacro( Interpolator, InterpolatorType );
+  itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
   /** Set the deformation field */
-  void SetDisplacementField( const InputFieldType *field )
+  void
+  SetDisplacementField(const InputFieldType * field)
+  {
+    itkDebugMacro("setting displacement field to " << field);
+    if (field != this->GetInput(0))
     {
-    itkDebugMacro( "setting displacement field to " << field );
-    if ( field != this->GetInput( 0 ) )
-      {
-      this->SetInput( 0, field );
+      this->SetInput(0, field);
       this->Modified();
-      if( !this->m_Interpolator.IsNull() )
-        {
-        this->m_Interpolator->SetInputImage( field );
-        }
+      if (!this->m_Interpolator.IsNull())
+      {
+        this->m_Interpolator->SetInputImage(field);
       }
     }
+  }
 
   /**
    * Get the deformation field.
    */
-  const InputFieldType* GetDisplacementField() const
-    {
-    return this->GetInput( 0 );
-    }
+  const InputFieldType *
+  GetDisplacementField() const
+  {
+    return this->GetInput(0);
+  }
 
   /** Set the warping field */
-  void SetWarpingField( const InputFieldType *field )
+  void
+  SetWarpingField(const InputFieldType * field)
+  {
+    itkDebugMacro("setting warping field to " << field);
+    if (field != this->GetInput(1))
     {
-    itkDebugMacro( "setting warping field to " << field );
-    if ( field != this->GetInput( 1 ) )
-      {
-      this->SetInput( 1, field );
-      }
+      this->SetInput(1, field);
     }
+  }
 
   /**
    * Get the warping field.
    */
-  const InputFieldType* GetWarpingField() const
-    {
-    return this->GetInput( 1 );
-    }
+  const InputFieldType *
+  GetWarpingField() const
+  {
+    return this->GetInput(1);
+  }
 
   /* Set the interpolator. */
-  virtual void SetInterpolator( InterpolatorType* interpolator );
+  virtual void
+  SetInterpolator(InterpolatorType * interpolator);
 
 protected:
-
   /** Constructor */
   ComposeDisplacementFieldsImageFilter();
 
@@ -130,25 +132,27 @@ protected:
   ~ComposeDisplacementFieldsImageFilter() override = default;
 
   /** Standard print self function **/
-  void PrintSelf( std::ostream& os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** preprocessing function */
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
   /** Multithreaded function which generates the output field. */
-  void DynamicThreadedGenerateData( const RegionType & ) override;
+  void
+  DynamicThreadedGenerateData(const RegionType &) override;
 
 
 private:
   /** The interpolator. */
-  typename InterpolatorType::Pointer             m_Interpolator;
-
+  typename InterpolatorType::Pointer m_Interpolator;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkComposeDisplacementFieldsImageFilter.hxx"
+#  include "itkComposeDisplacementFieldsImageFilter.hxx"
 #endif
 
 #endif

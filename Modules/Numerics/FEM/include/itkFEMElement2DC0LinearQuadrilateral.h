@@ -72,13 +72,18 @@ public:
    * Methods related to numeric integration
    */
 
-  enum { DefaultIntegrationOrder = 2 };
+  enum
+  {
+    DefaultIntegrationOrder = 2
+  };
 
   /** Get the Integration point and weight */
-  void GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const override;
+  void
+  GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const override;
 
   /** Get the number of integration points */
-  unsigned int GetNumberOfIntegrationPoints(unsigned int order) const override;
+  unsigned int
+  GetNumberOfIntegrationPoints(unsigned int order) const override;
 
   // ////////////////////////////////////////////////////////////////////////
   /**
@@ -86,30 +91,37 @@ public:
    */
 
   /** Return the shape functions used to interpolate across the element */
-  VectorType ShapeFunctions(const VectorType & pt) const override;
+  VectorType
+  ShapeFunctions(const VectorType & pt) const override;
 
   /** Return the shape functions derivatives in the shapeD matrix */
-  void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const override;
+  void
+  ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const override;
 
   /** Convert from global to local coordinates */
-  bool GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const override;
+  bool
+  GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const override;
 
   /** Interpolation Functions */
-  void InterpolationFunctions( const VectorType & pcoords, VectorType & sf) const;
+  void
+  InterpolationFunctions(const VectorType & pcoords, VectorType & sf) const;
 
   /** Interpolation Derivatives */
-  void InterpolationDerivs(const VectorType & pcoords, VectorType & derivs) const;
+  void
+  InterpolationDerivs(const VectorType & pcoords, VectorType & derivs) const;
 
   /** Return the determinate of a 2x2 matrix */
-  Float Determinant2x2(const VectorType & c1, const VectorType & c2) const;
+  Float
+  Determinant2x2(const VectorType & c1, const VectorType & c2) const;
 
 protected:
-  void PopulateEdgeIds() override;
+  void
+  PopulateEdgeIds() override;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
 };
 } // end namespace fem
 } // end namespace itk

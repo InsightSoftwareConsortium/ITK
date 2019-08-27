@@ -26,10 +26,9 @@ namespace watershed
 {
 
 
-template< typename TScalar >
+template <typename TScalar>
 void
-SegmentTree< TScalar >
-::Initialize()
+SegmentTree<TScalar>::Initialize()
 {
   //
   // We don't modify ourselves because the "ReleaseData" methods depend upon
@@ -43,10 +42,9 @@ SegmentTree< TScalar >
   this->Clear();
 }
 
-template< typename TScalar >
+template <typename TScalar>
 void
-SegmentTree< TScalar >
-::PrintSelf(std::ostream & os, Indent indent) const
+SegmentTree<TScalar>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

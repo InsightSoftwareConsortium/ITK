@@ -20,19 +20,21 @@
 /*
  * Main test entry function
  */
-int itkThreadedImageRegionPartitionerTest(int , char* [])
+int
+itkThreadedImageRegionPartitionerTest(int, char *[])
 {
   constexpr unsigned int Dimension = 2;
 
-  using ThreadedImageRegionPartitionerType = itk::ThreadedImageRegionPartitioner< Dimension >;
-  ThreadedImageRegionPartitionerType::Pointer threadedImageRegionPartitioner = ThreadedImageRegionPartitionerType::New();
+  using ThreadedImageRegionPartitionerType = itk::ThreadedImageRegionPartitioner<Dimension>;
+  ThreadedImageRegionPartitionerType::Pointer threadedImageRegionPartitioner =
+    ThreadedImageRegionPartitionerType::New();
 
   using ImageRegionType = ThreadedImageRegionPartitionerType::DomainType;
 
   using SizeType = ImageRegionType::SizeType;
   using IndexType = ImageRegionType::IndexType;
 
-  SizeType size;
+  SizeType  size;
   IndexType index;
 
   size.Fill(97);
@@ -40,50 +42,45 @@ int itkThreadedImageRegionPartitionerTest(int , char* [])
 
   ImageRegionType completeRegion;
 
-  completeRegion.SetSize( size );
-  completeRegion.SetIndex( index );
+  completeRegion.SetSize(size);
+  completeRegion.SetIndex(index);
 
   // Define the expected results
-  ImageRegionType expectedRegion;
-  std::vector< ImageRegionType > expectedSubRegions;
+  ImageRegionType              expectedRegion;
+  std::vector<ImageRegionType> expectedSubRegions;
   size[1] = 25;
-  expectedRegion.SetIndex( index );
-  expectedRegion.SetSize( size );
-  expectedSubRegions.push_back( expectedRegion );
+  expectedRegion.SetIndex(index);
+  expectedRegion.SetSize(size);
+  expectedSubRegions.push_back(expectedRegion);
 
   index[1] = 29;
-  expectedRegion.SetIndex( index );
-  expectedSubRegions.push_back( expectedRegion );
+  expectedRegion.SetIndex(index);
+  expectedSubRegions.push_back(expectedRegion);
 
   index[1] = 54;
-  expectedRegion.SetIndex( index );
-  expectedSubRegions.push_back( expectedRegion );
+  expectedRegion.SetIndex(index);
+  expectedSubRegions.push_back(expectedRegion);
 
   index[1] = 79;
-  expectedRegion.SetIndex( index );
-  size[1]  = 22;
-  expectedRegion.SetSize( size );
-  expectedSubRegions.push_back( expectedRegion );
+  expectedRegion.SetIndex(index);
+  size[1] = 22;
+  expectedRegion.SetSize(size);
+  expectedSubRegions.push_back(expectedRegion);
 
-  constexpr itk::ThreadIdType totalThreads  = 4;
-  ImageRegionType subRegion;
-  for( itk::ThreadIdType i = 0; i < totalThreads; ++i )
+  constexpr itk::ThreadIdType totalThreads = 4;
+  ImageRegionType             subRegion;
+  for (itk::ThreadIdType i = 0; i < totalThreads; ++i)
+  {
+    threadedImageRegionPartitioner->PartitionDomain(i, totalThreads, completeRegion, subRegion);
+    std::cout << "The resulting subregion for thread: " << i << " is : " << subRegion << std::endl;
+
+    if (expectedSubRegions[i] != subRegion)
     {
-    threadedImageRegionPartitioner->PartitionDomain( i,
-                                                     totalThreads,
-                                                     completeRegion,
-                                                     subRegion );
-    std::cout << "The resulting subregion for thread: " << i
-              << " is : " << subRegion << std::endl;
-
-    if( expectedSubRegions[i] != subRegion )
-      {
       std::cerr << "The calculated sub-region, " << subRegion
-                << " did not match the expected region: " << expectedSubRegions[i]
-                << std::endl;
+                << " did not match the expected region: " << expectedSubRegions[i] << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
   return EXIT_SUCCESS;
 }

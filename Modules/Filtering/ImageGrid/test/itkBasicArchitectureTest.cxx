@@ -27,90 +27,97 @@
 class ShowProgressObject
 {
 public:
-  ShowProgressObject(itk::ProcessObject* o)
-    {m_Process = o;}
-  void ShowProgress()
-    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
+  ShowProgressObject(itk::ProcessObject * o) { m_Process = o; }
+  void
+  ShowProgress()
+  {
+    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+  }
   itk::ProcessObject::Pointer m_Process;
 };
 
 class StartEndEvent
 {
 public:
-  void Start()
-    {std::cout << "start event" << std::endl;}
-  void End()
-    {std::cout << "end event " << std::endl;}
+  void
+  Start()
+  {
+    std::cout << "start event" << std::endl;
+  }
+  void
+  End()
+  {
+    std::cout << "end event " << std::endl;
+  }
 };
 
 
 class AllEvents
 {
 public:
-  void WatchEvents(itk::Object *caller, const itk::EventObject & event )
+  void
+  WatchEvents(itk::Object * caller, const itk::EventObject & event)
+  {
+    const char * eventName = nullptr;
+    if (typeid(event) == typeid(itk::DeleteEvent))
     {
-      const char* eventName = nullptr;
-      if( typeid( event ) == typeid( itk::DeleteEvent ) )
-        {
-        eventName = "DeleteEvent";
-        }
-      else if( typeid( event ) == typeid( itk::StartEvent ) )
-        {
-        eventName = "StartEvent";
-        }
-      else if( typeid( event ) == typeid( itk::EndEvent ) )
-        {
-        eventName = "EndEvent";
-        }
-      else if( typeid( event ) == typeid( itk::ProgressEvent ) )
-        {
-        auto * obj = dynamic_cast<itk::ProcessObject*>(caller);
-        std::cout << "AnyEvent Progress " << obj->GetProgress() << std::endl;
-        eventName = "ProgressEvent";
-          }
-      else if( typeid( event ) == typeid( itk::PickEvent ) )
-        {
-        eventName = "PickEvent";
-        }
-      else if( typeid( event ) == typeid( itk::StartPickEvent ) )
-        {
-        eventName = "StartPickEvent";
-        }
-      else if( typeid( event ) == typeid( itk::AbortCheckEvent ) )
-        {
-        eventName = "AbortCheckEvent";
-        }
-      else if( typeid( event ) == typeid( itk::ExitEvent ) )
-        {
-        eventName = "ExitEvent";
-        }
-      else
-        {
-        eventName = "UserEvent";
-        }
-      std::cout << "Event name: " << eventName << " Id: " << event.GetEventName() << std::endl;
+      eventName = "DeleteEvent";
     }
+    else if (typeid(event) == typeid(itk::StartEvent))
+    {
+      eventName = "StartEvent";
+    }
+    else if (typeid(event) == typeid(itk::EndEvent))
+    {
+      eventName = "EndEvent";
+    }
+    else if (typeid(event) == typeid(itk::ProgressEvent))
+    {
+      auto * obj = dynamic_cast<itk::ProcessObject *>(caller);
+      std::cout << "AnyEvent Progress " << obj->GetProgress() << std::endl;
+      eventName = "ProgressEvent";
+    }
+    else if (typeid(event) == typeid(itk::PickEvent))
+    {
+      eventName = "PickEvent";
+    }
+    else if (typeid(event) == typeid(itk::StartPickEvent))
+    {
+      eventName = "StartPickEvent";
+    }
+    else if (typeid(event) == typeid(itk::AbortCheckEvent))
+    {
+      eventName = "AbortCheckEvent";
+    }
+    else if (typeid(event) == typeid(itk::ExitEvent))
+    {
+      eventName = "ExitEvent";
+    }
+    else
+    {
+      eventName = "UserEvent";
+    }
+    std::cout << "Event name: " << eventName << " Id: " << event.GetEventName() << std::endl;
+  }
 };
 
 
-int itkBasicArchitectureTest(int, char* [] )
+int
+itkBasicArchitectureTest(int, char *[])
 {
   // Comment the following if you want to use the itk text output window
-  itk::OutputWindow::SetInstance( itk::TextOutput::New() );
+  itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
   // Uncomment the following if you want to see each message independently
   // itk::OutputWindow::GetInstance()->PromptUserOn();
 
-  std::cout << std::endl
-            << "Image dimension is " << itk::Image<float,5>::ImageDimension
-            << std::endl;
-  std::cout << "Image dimension is " << itk::Image<short,1>::ImageDimension
-            << std::endl;
+  std::cout << std::endl << "Image dimension is " << itk::Image<float, 5>::ImageDimension << std::endl;
+  std::cout << "Image dimension is " << itk::Image<short, 1>::ImageDimension << std::endl;
 
   // Begin by creating a simple pipeline. Use a scalar ss a pixel.
   //
   // Create a type alias to make the code more digestable
-  using FloatImage2DType = itk::Image<float,2>;
+  using FloatImage2DType = itk::Image<float, 2>;
 
   // Create a source object (in this case a random image generator).
   // The source object is templated on the output type.
@@ -124,21 +131,20 @@ int itkBasicArchitectureTest(int, char* [] )
   // add some callbacks to the start, progress, and end filter execution
   // methods. The filter is templated on the input and output data types.
   //
-  itk::ShrinkImageFilter<FloatImage2DType,FloatImage2DType>::Pointer shrink;
-  shrink = itk::ShrinkImageFilter<FloatImage2DType,FloatImage2DType>::New();
+  itk::ShrinkImageFilter<FloatImage2DType, FloatImage2DType>::Pointer shrink;
+  shrink = itk::ShrinkImageFilter<FloatImage2DType, FloatImage2DType>::New();
   shrink->SetInput(random->GetOutput());
   shrink->SetShrinkFactors(2);
 
   // Create a command to call ShowProgress when progress event is triggered
-  ShowProgressObject progressWatch(shrink);
+  ShowProgressObject                                    progressWatch(shrink);
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
   command = itk::SimpleMemberCommand<ShowProgressObject>::New();
-  command->SetCallbackFunction(&progressWatch,
-                               &ShowProgressObject::ShowProgress);
+  command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
   shrink->AddObserver(itk::ProgressEvent(), command);
 
   // Create a command to call StartEndEvent when start event is triggered
-  StartEndEvent startEndWatch;
+  StartEndEvent                                    startEndWatch;
   itk::SimpleMemberCommand<StartEndEvent>::Pointer start;
   start = itk::SimpleMemberCommand<StartEndEvent>::New();
   start->SetCallbackFunction(&startEndWatch, &StartEndEvent::Start);
@@ -151,16 +157,15 @@ int itkBasicArchitectureTest(int, char* [] )
   shrink->AddObserver(itk::EndEvent(), end);
 
   // Create a command that to call AnyEvent when event is fired
-  AllEvents allWatch;
+  AllEvents                              allWatch;
   itk::MemberCommand<AllEvents>::Pointer allEvents;
   allEvents = itk::MemberCommand<AllEvents>::New();
-  allEvents->SetCallbackFunction(&allWatch,
-                                 &AllEvents::WatchEvents);
+  allEvents->SetCallbackFunction(&allWatch, &AllEvents::WatchEvents);
   shrink->AddObserver(itk::AnyEvent(), allEvents);
   shrink->Update();
 
   // test RemoveObserver code
-  shrink->RemoveObserver( tag );
+  shrink->RemoveObserver(tag);
 
   return EXIT_SUCCESS;
 }

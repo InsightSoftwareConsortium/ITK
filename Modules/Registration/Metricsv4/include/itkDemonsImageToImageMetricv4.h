@@ -51,20 +51,22 @@ namespace itk
  * \sa itkImageToImageMetricv4
  * \ingroup ITKMetricsv4
  */
-template <typename TFixedImage, typename TMovingImage, typename TVirtualImage = TFixedImage,
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage = TFixedImage,
           typename TInternalComputationValueType = double,
-          typename TMetricTraits = DefaultImageToImageMetricTraitsv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType>
-          >
-class ITK_TEMPLATE_EXPORT DemonsImageToImageMetricv4 :
-  public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
+          typename TMetricTraits =
+            DefaultImageToImageMetricTraitsv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType>>
+class ITK_TEMPLATE_EXPORT DemonsImageToImageMetricv4
+  : public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DemonsImageToImageMetricv4);
 
   /** Standard class type aliases. */
   using Self = DemonsImageToImageMetricv4;
-  using Superclass = ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage,
-                             TInternalComputationValueType,TMetricTraits>;
+  using Superclass =
+    ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -104,7 +106,8 @@ public:
   static constexpr ImageDimensionType FixedImageDimension = TFixedImage::ImageDimension;
   static constexpr ImageDimensionType MovingImageDimension = TMovingImage::ImageDimension;
 
-  void Initialize() override;
+  void
+  Initialize() override;
 
   /** Accessors for the image intensity difference threshold use
    *  in derivative calculation */
@@ -120,33 +123,39 @@ protected:
   DemonsImageToImageMetricv4();
   ~DemonsImageToImageMetricv4() override = default;
 
-  friend class DemonsImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
-  friend class DemonsImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
-  using DemonsDenseGetValueAndDerivativeThreaderType =
-      DemonsImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
+  friend class DemonsImageToImageMetricv4GetValueAndDerivativeThreader<
+    ThreadedImageRegionPartitioner<Superclass::VirtualImageDimension>,
+    Superclass,
+    Self>;
+  friend class DemonsImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner,
+                                                                       Superclass,
+                                                                       Self>;
+  using DemonsDenseGetValueAndDerivativeThreaderType = DemonsImageToImageMetricv4GetValueAndDerivativeThreader<
+    ThreadedImageRegionPartitioner<Superclass::VirtualImageDimension>,
+    Superclass,
+    Self>;
   using DemonsSparseGetValueAndDerivativeThreaderType =
-      DemonsImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
+    DemonsImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner, Superclass, Self>;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
   /** Threshold below which the denominator term is considered zero.
    *  Fixed programatically in constructor. */
-  TInternalComputationValueType   m_DenominatorThreshold;
+  TInternalComputationValueType m_DenominatorThreshold;
 
   /** Threshold below which two intensity value are assumed to match. */
-  TInternalComputationValueType   m_IntensityDifferenceThreshold;
+  TInternalComputationValueType m_IntensityDifferenceThreshold;
 
   /* Used to normalize derivative calculation. Automatically calculated */
-  TInternalComputationValueType   m_Normalizer;
-
+  TInternalComputationValueType m_Normalizer;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDemonsImageToImageMetricv4.hxx"
+#  include "itkDemonsImageToImageMetricv4.hxx"
 #endif
 
 #endif

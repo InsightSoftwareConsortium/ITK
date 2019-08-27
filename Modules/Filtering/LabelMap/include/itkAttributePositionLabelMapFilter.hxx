@@ -33,48 +33,49 @@
  */
 
 
-namespace itk {
+namespace itk
+{
 
 template <typename TImage, typename TAttributeAccessor, bool VPhysicalPosition>
 void
-AttributePositionLabelMapFilter<TImage, TAttributeAccessor, VPhysicalPosition>
-::ThreadedProcessLabelObject( LabelObjectType * labelObject )
+AttributePositionLabelMapFilter<TImage, TAttributeAccessor, VPhysicalPosition>::ThreadedProcessLabelObject(
+  LabelObjectType * labelObject)
 {
   TAttributeAccessor accessor;
-  AttributeValueType position = accessor( labelObject );
+  AttributeValueType position = accessor(labelObject);
   // change it to an index position if it is physical
   IndexType idx;
-  if( VPhysicalPosition )
-    {
-    Point< double, ImageDimension > point;
+  if (VPhysicalPosition)
+  {
+    Point<double, ImageDimension> point;
     // copy the position to a point, required by TransformPhysicalPointToIndex
-    for( unsigned int i=0; i<ImageDimension; i++ )
-      {
-      point[i] = position[i];
-      }
-    idx = this->GetOutput()->TransformPhysicalPointToIndex( point );
-    }
-  else
+    for (unsigned int i = 0; i < ImageDimension; i++)
     {
-    // copy the position to the index, to avoid warnings
-    for( unsigned int i=0; i<ImageDimension; i++ )
-      {
-      idx[i] = position[i];
-      }
+      point[i] = position[i];
     }
+    idx = this->GetOutput()->TransformPhysicalPointToIndex(point);
+  }
+  else
+  {
+    // copy the position to the index, to avoid warnings
+    for (unsigned int i = 0; i < ImageDimension; i++)
+    {
+      idx[i] = position[i];
+    }
+  }
   // clear the label object
   labelObject->Clear();
   // and mark only the pixel we are interested in
-  labelObject->AddIndex( idx );
+  labelObject->AddIndex(idx);
 }
 
 template <typename TImage, typename TAttributeAccessor, bool VPhysicalPosition>
 void
-AttributePositionLabelMapFilter<TImage, TAttributeAccessor, VPhysicalPosition>
-::PrintSelf(std::ostream &os, Indent indent) const
+AttributePositionLabelMapFilter<TImage, TAttributeAccessor, VPhysicalPosition>::PrintSelf(std::ostream & os,
+                                                                                          Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
-}// end namespace itk
+} // end namespace itk
 #endif

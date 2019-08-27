@@ -29,67 +29,67 @@
 #include "itkDCMTKImageIO.h"
 #include "itkDCMTKSeriesFileNames.h"
 
-int itkDCMTKSeriesReadImageWrite( int argc, char* argv[] )
+int
+itkDCMTKSeriesReadImageWrite(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
-    std::cerr << "Usage: " << argv[0] <<
-      " DicomDirectory  outputFile" << std::endl;
+  if (argc < 3)
+  {
+    std::cerr << "Usage: " << argv[0] << " DicomDirectory  outputFile" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  using ImageType = itk::Image<unsigned short,3>;
-  using ReaderType = itk::ImageSeriesReader< ImageType >;
+  using ImageType = itk::Image<unsigned short, 3>;
+  using ReaderType = itk::ImageSeriesReader<ImageType>;
   using ImageIOType = itk::DCMTKImageIO;
   using SeriesFileNames = itk::DCMTKSeriesFileNames;
 
-  ImageIOType::Pointer dcmtkIO = ImageIOType::New();
+  ImageIOType::Pointer     dcmtkIO = ImageIOType::New();
   SeriesFileNames::Pointer it = SeriesFileNames::New();
 
-  it->SetInputDirectory( argv[1] );
+  it->SetInputDirectory(argv[1]);
 
   ReaderType::Pointer reader = ReaderType::New();
 
   const ReaderType::FileNamesContainer & fileNames = it->GetInputFileNames();
-  const unsigned int numberOfFileNames =  fileNames.size();
+  const unsigned int                     numberOfFileNames = fileNames.size();
   std::cout << numberOfFileNames << std::endl;
-  for(unsigned int fni = 0; fni < numberOfFileNames; ++fni)
-    {
+  for (unsigned int fni = 0; fni < numberOfFileNames; ++fni)
+  {
     std::cout << "filename # " << fni << " = ";
     std::cout << fileNames[fni] << std::endl;
-    }
+  }
 
-  reader->SetFileNames( fileNames );
-  reader->SetImageIO( dcmtkIO );
+  reader->SetFileNames(fileNames);
+  reader->SetImageIO(dcmtkIO);
 
   try
-    {
+  {
     reader->Update();
-    }
-  catch (itk::ExceptionObject &excp)
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown while writing the image" << std::endl;
     std::cerr << excp << std::endl;
 
     return EXIT_FAILURE;
-    }
+  }
 
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetFileName( argv[2] );
-  writer->SetInput( reader->GetOutput() );
+  writer->SetFileName(argv[2]);
+  writer->SetInput(reader->GetOutput());
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch (itk::ExceptionObject &excp)
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown while writing the image" << std::endl;
     std::cerr << excp << std::endl;
 
     return EXIT_FAILURE;
-    }
+  }
   return EXIT_SUCCESS;
 }

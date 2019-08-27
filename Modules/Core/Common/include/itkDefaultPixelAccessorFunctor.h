@@ -43,7 +43,7 @@ namespace itk
  * \sa DefaultVectorPixelAccessorFunctor
  * \ingroup ITKCommon
  */
-template< typename TImageType >
+template <typename TImageType>
 class DefaultPixelAccessorFunctor
 {
 public:
@@ -60,15 +60,17 @@ public:
    */
   template <typename UImageType>
   struct Rebind
-    {
-      using Type = DefaultPixelAccessorFunctor<UImageType>;
-    };
+  {
+    using Type = DefaultPixelAccessorFunctor<UImageType>;
+  };
 
 
-  static void SetVectorLength(ImageType *, VectorLengthType)
+  static void
+  SetVectorLength(ImageType *, VectorLengthType)
   {}
 
-  static VectorLengthType GetVectorLength(const ImageType *)
+  static VectorLengthType
+  GetVectorLength(const ImageType *)
   {
     return 1;
   }
@@ -77,7 +79,8 @@ public:
    * The type PixelAccessorType is obtained from the ImageType over which the iterators
    * are templated.
    * */
-  inline void SetPixelAccessor(const PixelAccessorType & accessor)
+  inline void
+  SetPixelAccessor(const PixelAccessorType & accessor)
   {
     m_PixelAccessor = accessor;
   }
@@ -85,22 +88,27 @@ public:
   /** Set the pointer index to the start of the buffer.
    * The method exists to maintain consistency in the API of the
    * DefaultPixelAccessorFunctor and the DefaultVectorPixelAccessorFunctor. */
-  inline void SetBegin( const InternalPixelType *itkNotUsed(begin) ) {}
+  inline void
+  SetBegin(const InternalPixelType * itkNotUsed(begin))
+  {}
 
   /** Set output using the value in input */
-  inline void Set(InternalPixelType & output, const ExternalPixelType & input) const
+  inline void
+  Set(InternalPixelType & output, const ExternalPixelType & input) const
   {
     m_PixelAccessor.Set(output, input);
   }
 
   /** Get the value from input */
-  inline ExternalPixelType Get(InternalPixelType & input) const
+  inline ExternalPixelType
+  Get(InternalPixelType & input) const
   {
     return m_PixelAccessor.Get(input);
   }
 
   /** Get a const reference to the pixel. */
-  inline const ExternalPixelType Get(const InternalPixelType & input) const
+  inline const ExternalPixelType
+  Get(const InternalPixelType & input) const
   {
     return m_PixelAccessor.Get(input);
   }
@@ -108,6 +116,6 @@ public:
 private:
   PixelAccessorType m_PixelAccessor; // The pixel accessor
 };
-}
+} // namespace itk
 
 #endif

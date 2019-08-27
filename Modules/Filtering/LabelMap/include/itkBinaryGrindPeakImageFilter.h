@@ -20,7 +20,8 @@
 
 #include "itkImageToImageFilter.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class BinaryGrindPeakImageFilter
  * \brief Remove the objects not connected to the boundary of the image.
@@ -41,9 +42,8 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template<typename TInputImage>
-class ITK_TEMPLATE_EXPORT BinaryGrindPeakImageFilter :
-    public ImageToImageFilter<TInputImage, TInputImage>
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT BinaryGrindPeakImageFilter : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryGrindPeakImageFilter);
@@ -74,8 +74,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryGrindPeakImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(BinaryGrindPeakImageFilter, ImageToImageFilter);
 
   /**
    * Set/Get whether the connected components are defined strictly by
@@ -89,8 +88,7 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro(InputOStreamWritableCheck,
-                  (Concept::OStreamWritable<InputImagePixelType>));
+  itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputImagePixelType>));
   // End concept checking
 #endif
 
@@ -111,33 +109,37 @@ public:
 protected:
   BinaryGrindPeakImageFilter();
   ~BinaryGrindPeakImageFilter() override = default;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** BinaryGrindPeakImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** BinaryGrindPeakImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   InputImagePixelType m_ForegroundValue;
 
   InputImagePixelType m_BackgroundValue;
 
-  bool                m_FullyConnected{ false };
+  bool m_FullyConnected{ false };
 
 }; // end of class
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryGrindPeakImageFilter.hxx"
+#  include "itkBinaryGrindPeakImageFilter.hxx"
 #endif
 
 #endif

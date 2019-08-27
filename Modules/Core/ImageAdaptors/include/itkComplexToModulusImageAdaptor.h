@@ -37,7 +37,7 @@ namespace Accessor
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< typename TInternalType, typename TExternalType >
+template <typename TInternalType, typename TExternalType>
 class ComplexToModulusPixelAccessor
 {
 public:
@@ -49,13 +49,16 @@ public:
    * representation of data. */
   using InternalType = TInternalType;
 
-  static inline void Set(TInternalType & output, const TExternalType & input)
-  { output = (TInternalType)( input ); }
-
-  static inline TExternalType Get(const TInternalType & input)
+  static inline void
+  Set(TInternalType & output, const TExternalType & input)
   {
-    return (TExternalType)( std::sqrt( input.real() * input.real()
-                                      + input.imag() * input.imag() ) );
+    output = (TInternalType)(input);
+  }
+
+  static inline TExternalType
+  Get(const TInternalType & input)
+  {
+    return (TExternalType)(std::sqrt(input.real() * input.real() + input.imag() * input.imag()));
   }
 };
 } // end namespace Accessor
@@ -70,24 +73,20 @@ public:
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< typename TImage, typename TOutputPixelType >
-class ComplexToModulusImageAdaptor:public
-  ImageAdaptor< TImage,
-                Accessor::ComplexToModulusPixelAccessor<
-                  typename TImage::PixelType,
-                  TOutputPixelType >   >
+template <typename TImage, typename TOutputPixelType>
+class ComplexToModulusImageAdaptor
+  : public ImageAdaptor<TImage, Accessor::ComplexToModulusPixelAccessor<typename TImage::PixelType, TOutputPixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToModulusImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = ComplexToModulusImageAdaptor;
-  using Superclass = ImageAdaptor< TImage, Accessor::ComplexToModulusPixelAccessor<
-                          typename TImage::PixelType,
-                          TOutputPixelType > >;
+  using Superclass =
+    ImageAdaptor<TImage, Accessor::ComplexToModulusPixelAccessor<typename TImage::PixelType, TOutputPixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

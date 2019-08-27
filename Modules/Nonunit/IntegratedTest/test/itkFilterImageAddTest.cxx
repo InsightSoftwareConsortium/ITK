@@ -19,7 +19,8 @@
 #include "itkAddImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
-int itkFilterImageAddTest(int, char* [] )
+int
+itkFilterImageAddTest(int, char *[])
 {
   // Define the dimension of the images
   constexpr unsigned int myDimension = 3;
@@ -39,8 +40,8 @@ int itkFilterImageAddTest(int, char* [] )
   using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create two images
-  myImageType1::Pointer inputImageA  = myImageType1::New();
-  myImageType2::Pointer inputImageB  = myImageType2::New();
+  myImageType1::Pointer inputImageA = myImageType1::New();
+  myImageType2::Pointer inputImageB = myImageType2::New();
 
   // Define their size, and start index
   mySizeType size;
@@ -54,19 +55,19 @@ int itkFilterImageAddTest(int, char* [] )
   start[2] = 0;
 
   myRegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
   // Initialize Image A
-  inputImageA->SetLargestPossibleRegion( region );
-  inputImageA->SetBufferedRegion( region );
-  inputImageA->SetRequestedRegion( region );
+  inputImageA->SetLargestPossibleRegion(region);
+  inputImageA->SetBufferedRegion(region);
+  inputImageA->SetRequestedRegion(region);
   inputImageA->Allocate();
 
   // Initialize Image B
-  inputImageB->SetLargestPossibleRegion( region );
-  inputImageB->SetBufferedRegion( region );
-  inputImageB->SetRequestedRegion( region );
+  inputImageB->SetLargestPossibleRegion(region);
+  inputImageB->SetBufferedRegion(region);
+  inputImageB->SetRequestedRegion(region);
   inputImageB->Allocate();
 
 
@@ -76,34 +77,31 @@ int itkFilterImageAddTest(int, char* [] )
   using myIteratorType3 = itk::ImageRegionIteratorWithIndex<myImageType3>;
 
   // Create one iterator for Image A (this is a light object)
-  myIteratorType1 it1( inputImageA, inputImageA->GetBufferedRegion() );
+  myIteratorType1 it1(inputImageA, inputImageA->GetBufferedRegion());
 
   // Initialize the content of Image A
   std::cout << "First operand " << std::endl;
-  while( !it1.IsAtEnd() )
+  while (!it1.IsAtEnd())
   {
-    it1.Set( 2.0 );
+    it1.Set(2.0);
     std::cout << it1.Get() << std::endl;
     ++it1;
   }
 
   // Create one iterator for Image B (this is a light object)
-  myIteratorType2 it2( inputImageB, inputImageB->GetBufferedRegion() );
+  myIteratorType2 it2(inputImageB, inputImageB->GetBufferedRegion());
 
   // Initialize the content of Image B
   std::cout << "Second operand " << std::endl;
-  while( !it2.IsAtEnd() )
+  while (!it2.IsAtEnd())
   {
-    it2.Set( 3.0 );
+    it2.Set(3.0);
     std::cout << it2.Get() << std::endl;
     ++it2;
   }
 
   // Declare the type for the ADD filter
-  using myFilterType = itk::AddImageFilter<
-                                myImageType1,
-                                myImageType2,
-                                myImageType3  >;
+  using myFilterType = itk::AddImageFilter<myImageType1, myImageType2, myImageType3>;
 
 
   // Create an ADD Filter
@@ -111,8 +109,8 @@ int itkFilterImageAddTest(int, char* [] )
 
 
   // Connect the input images
-  filter->SetInput1( inputImageA );
-  filter->SetInput2( inputImageB );
+  filter->SetInput1(inputImageA);
+  filter->SetInput2(inputImageB);
 
   // Get the Smart Pointer to the Filter Output
   myImageType3::Pointer outputImage = filter->GetOutput();
@@ -126,7 +124,7 @@ int itkFilterImageAddTest(int, char* [] )
 
   //  Print the content of the result image
   std::cout << " Result " << std::endl;
-  while( !it3.IsAtEnd() )
+  while (!it3.IsAtEnd())
   {
     std::cout << it3.Get() << std::endl;
     ++it3;

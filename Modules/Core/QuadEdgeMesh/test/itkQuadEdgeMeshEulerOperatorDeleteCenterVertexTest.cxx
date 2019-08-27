@@ -20,22 +20,21 @@
 #include "itkQuadEdgeMeshEulerOperatorCreateCenterVertexFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorsTestHelper.h"
 
-int itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int argc, char* argv[] )
+int
+itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int argc, char * argv[])
 {
   (void)argc;
   (void)argv;
 
-  using MeshType = itk::QuadEdgeMesh< double, 3 >;
+  using MeshType = itk::QuadEdgeMesh<double, 3>;
   using MeshPointer = MeshType::Pointer;
   using QEType = MeshType::QEType;
   using PointType = MeshType::PointType;
   using CellType = MeshType::CellType;
 
-  using DeleteCenterVertex = itk::QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction< MeshType,
-    QEType>;
+  using DeleteCenterVertex = itk::QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction<MeshType, QEType>;
 
-  using CreateCenterVertex = itk::QuadEdgeMeshEulerOperatorCreateCenterVertexFunction< MeshType,
-    QEType>;
+  using CreateCenterVertex = itk::QuadEdgeMeshEulerOperatorCreateCenterVertexFunction<MeshType, QEType>;
 
   /////////////////////////////////////////
   //
@@ -71,91 +70,97 @@ int itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int argc, char* argv[] )
   std::cout << "Checking DeleteCenterVertex." << std::endl;
 
   MeshPointer mesh = MeshType::New();
-  CreateSquareTriangularMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>(mesh);
 
-  DeleteCenterVertex::Pointer deleteCenterVertex = DeleteCenterVertex::New( );
-  std::cout << "     " << "Test No Mesh Input";
-  if( deleteCenterVertex->Evaluate( (QEType*)1 ) )
-    {
+  DeleteCenterVertex::Pointer deleteCenterVertex = DeleteCenterVertex::New();
+  std::cout << "     "
+            << "Test No Mesh Input";
+  if (deleteCenterVertex->Evaluate((QEType *)1))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "OK" << std::endl;
 
   (void)deleteCenterVertex->GetNameOfClass();
 
-  deleteCenterVertex->SetInput( mesh );
-  std::cout << "     " << "Test No QE Input";
-  if( deleteCenterVertex->Evaluate( (QEType*)nullptr ) )
-    {
+  deleteCenterVertex->SetInput(mesh);
+  std::cout << "     "
+            << "Test No QE Input";
+  if (deleteCenterVertex->Evaluate((QEType *)nullptr))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "OK" << std::endl;
 
-  deleteCenterVertex->SetInput( mesh );
-  std::cout << "     " << "Test one-ring not full (impossible)";
-  if( deleteCenterVertex->Evaluate( mesh->FindEdge( 15, 21 ) ) )
-    {
+  deleteCenterVertex->SetInput(mesh);
+  std::cout << "     "
+            << "Test one-ring not full (impossible)";
+  if (deleteCenterVertex->Evaluate(mesh->FindEdge(15, 21)))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "OK" << std::endl;
 
+  {
+    MeshPointer specialmesh = MeshType::New();
+    PointType   pts3[4];
+    pts3[0][0] = 0.0;
+    pts3[0][1] = 0.0;
+    pts3[0][2] = 0.0;
+    pts3[1][0] = 1.0;
+    pts3[1][1] = 0.0;
+    pts3[1][2] = 0.0;
+    pts3[2][0] = 0.0;
+    pts3[2][1] = 1.0;
+    pts3[2][2] = 0.0;
+    pts3[3][0] = 0.0;
+    pts3[3][1] = 0.0;
+    pts3[3][2] = 1.0;
+    for (int i = 0; i < 4; i++)
     {
-    MeshPointer  specialmesh = MeshType::New();
-    PointType pts3[4];
-    pts3[ 0][0] = 0.0;  pts3[ 0][1] = 0.0;  pts3[ 0][2] = 0.0;
-    pts3[ 1][0] = 1.0;  pts3[ 1][1] = 0.0;  pts3[ 1][2] = 0.0;
-    pts3[ 2][0] = 0.0;  pts3[ 2][1] = 1.0;  pts3[ 2][2] = 0.0;
-    pts3[ 3][0] = 0.0;  pts3[ 3][1] = 0.0;  pts3[ 3][2] = 1.0;
-    for(int i=0; i<4; i++)
-      {
-      specialmesh->SetPoint( i, pts3[i] );
-      }
-    int specialCells[12] =
-    {  0,  1,  2,
-       0,  2,  3,
-       3,  1,  0,
-       1,  3,  2 };
+      specialmesh->SetPoint(i, pts3[i]);
+    }
+    int specialCells[12] = { 0, 1, 2, 0, 2, 3, 3, 1, 0, 1, 3, 2 };
 
     CellType::CellAutoPointer cellpointer;
-    using QEPolygonCellType = itk::QuadEdgeMeshPolygonCell< CellType >;
-    QEPolygonCellType *poly;
-    for(int i=0; i<4; i++)
-      {
-      poly = new QEPolygonCellType( 3 );
-      cellpointer.TakeOwnership( poly );
-      cellpointer->SetPointId( 0, specialCells[3*i] );
-      cellpointer->SetPointId( 1, specialCells[3*i+1] );
-      cellpointer->SetPointId( 2, specialCells[3*i+2] );
-      specialmesh->SetCell( i, cellpointer );
-      }
-    deleteCenterVertex->SetInput( specialmesh );
+    using QEPolygonCellType = itk::QuadEdgeMeshPolygonCell<CellType>;
+    QEPolygonCellType * poly;
+    for (int i = 0; i < 4; i++)
+    {
+      poly = new QEPolygonCellType(3);
+      cellpointer.TakeOwnership(poly);
+      cellpointer->SetPointId(0, specialCells[3 * i]);
+      cellpointer->SetPointId(1, specialCells[3 * i + 1]);
+      cellpointer->SetPointId(2, specialCells[3 * i + 2]);
+      specialmesh->SetCell(i, cellpointer);
+    }
+    deleteCenterVertex->SetInput(specialmesh);
     std::cout << "     ";
     std::cout << "Delete a vertex of a non-collapsable mesh (impossible).";
-    if( deleteCenterVertex->Evaluate( specialmesh->FindEdge( 0, 1 ) ) )
-      {
+    if (deleteCenterVertex->Evaluate(specialmesh->FindEdge(0, 1)))
+    {
       std::cout << "FAILED." << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
-  deleteCenterVertex->SetInput( mesh );
+  deleteCenterVertex->SetInput(mesh);
   std::cout << "     ";
   std::cout << "Delete center vertex with internal 1-ring (possible).";
-  if( !deleteCenterVertex->Evaluate( mesh->FindEdge( 6, 12 ) ) )
-    {
+  if (!deleteCenterVertex->Evaluate(mesh->FindEdge(6, 12)))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
-  mesh->DeletePoint( deleteCenterVertex->GetOldPointID( ) );
-  if( ! AssertTopologicalInvariants< MeshType >
-          ( mesh, 24, 50, 27, 1, 0 ) )
-    {
+  }
+  mesh->DeletePoint(deleteCenterVertex->GetOldPointID());
+  if (!AssertTopologicalInvariants<MeshType>(mesh, 24, 50, 27, 1, 0))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << ".OK" << std::endl;
   // The initial configuration and numbering of simpleSquare.vtk:
   //    Vertices: 25 , Edges: 56, Faces: 32, Boundary = 1, Chi = 1
@@ -182,83 +187,80 @@ int itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int argc, char* argv[] )
   //    | /          | /          | /          | /          |
   //    0 ---------- 1 ---------- 2  --------- 3 ---------  4
   //
-  CreateSquareTriangularMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>(mesh);
   std::cout << "     ";
   std::cout << "Delete center vertex with border 1-ring (possible).";
-  deleteCenterVertex->SetInput( mesh );
-  if( !deleteCenterVertex->Evaluate( mesh->FindEdge( 17, 18 ) ) )
-    {
+  deleteCenterVertex->SetInput(mesh);
+  if (!deleteCenterVertex->Evaluate(mesh->FindEdge(17, 18)))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
-  mesh->DeletePoint( deleteCenterVertex->GetOldPointID( ) );
-  if( ! AssertTopologicalInvariants< MeshType >
-          ( mesh, 24, 50, 27, 1, 0 ) )
-    {
+  }
+  mesh->DeletePoint(deleteCenterVertex->GetOldPointID());
+  if (!AssertTopologicalInvariants<MeshType>(mesh, 24, 50, 27, 1, 0))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << ".OK" << std::endl;
   // test that border points can not be deleted.
-  CreateSquareTriangularMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>(mesh);
   std::cout << "     ";
   std::cout << "Check deleting a border vertex (impossible).";
 
-  deleteCenterVertex->SetInput( mesh );
-  if( deleteCenterVertex->Evaluate( mesh->FindEdge( 23, 24 ) ) )
-    {
+  deleteCenterVertex->SetInput(mesh);
+  if (deleteCenterVertex->Evaluate(mesh->FindEdge(23, 24)))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
-  if( ! AssertTopologicalInvariants< MeshType >
-          ( mesh, 25, 56, 32, 1, 0 ) )
-    {
+  }
+  if (!AssertTopologicalInvariants<MeshType>(mesh, 25, 56, 32, 1, 0))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << ".OK" << std::endl;
 
   // test that points including an hole in the 1-ring
   // can not be deleted.
-  CreateSquareTriangularMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>(mesh);
   std::cout << "     ";
   std::cout << "Check deleting a vertex around an hole (impossible).";
-  mesh->LightWeightDeleteEdge( mesh->FindEdge(  6, 12 ) );
-  deleteCenterVertex->SetInput( mesh );
-  if( deleteCenterVertex->Evaluate( mesh->FindEdge(  6,  7 ) ) )
-    {
+  mesh->LightWeightDeleteEdge(mesh->FindEdge(6, 12));
+  deleteCenterVertex->SetInput(mesh);
+  if (deleteCenterVertex->Evaluate(mesh->FindEdge(6, 7)))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
-  if( !AssertTopologicalInvariants< MeshType >
-          ( mesh, 25, 55, 30, 2, 0 ) )
-    {
+  }
+  if (!AssertTopologicalInvariants<MeshType>(mesh, 25, 55, 30, 2, 0))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << ".OK" << std::endl;
 
-  std::cout << "Checking DeleteCenterVertex." << "OK" << std::endl << std::endl;
+  std::cout << "Checking DeleteCenterVertex."
+            << "OK" << std::endl
+            << std::endl;
 
   std::cout << "Checking DeleteCenterVertex( CreateCenterVertex()) Invariance.";
 
   CreateCenterVertex::Pointer createCenterVertex = CreateCenterVertex::New();
-  createCenterVertex->SetInput( mesh );
+  createCenterVertex->SetInput(mesh);
 
-  CreateSquareTriangularMesh<MeshType>( mesh );
-  if( !deleteCenterVertex->Evaluate(
-    createCenterVertex->Evaluate( mesh->FindEdge( 0, 1 ) ) ) )
-    {
+  CreateSquareTriangularMesh<MeshType>(mesh);
+  if (!deleteCenterVertex->Evaluate(createCenterVertex->Evaluate(mesh->FindEdge(0, 1))))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
-  mesh->DeletePoint( deleteCenterVertex->GetOldPointID( ) );
-  if( ! AssertTopologicalInvariants< MeshType >
-          ( mesh, 25, 56, 32, 1, 0 ) )
-    {
+  }
+  mesh->DeletePoint(deleteCenterVertex->GetOldPointID());
+  if (!AssertTopologicalInvariants<MeshType>(mesh, 25, 56, 32, 1, 0))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << ".OK" << std::endl;
   return EXIT_SUCCESS;
 }

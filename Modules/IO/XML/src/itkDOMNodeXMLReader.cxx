@@ -29,76 +29,77 @@ namespace itk
  * and the calls are forwarded to the callback functions of DOMNodeXMLReader.
  */
 
-static void itkXMLParserStartElement( void* parser, const char* name, const char** atts )
+static void
+itkXMLParserStartElement(void * parser, const char * name, const char ** atts)
 {
   // Begin element handler that is registered with the XML_Parser.
   // This just casts the user data to a itkXMLParser and calls
   // StartElement.
-  static_cast<DOMNodeXMLReader*>(parser)->StartElement( name, atts );
+  static_cast<DOMNodeXMLReader *>(parser)->StartElement(name, atts);
 }
 
-static void itkXMLParserEndElement( void* parser, const char* name )
+static void
+itkXMLParserEndElement(void * parser, const char * name)
 {
   // End element handler that is registered with the XML_Parser.  This
   // just casts the user data to a itkXMLParser and calls EndElement.
-  static_cast<DOMNodeXMLReader*>(parser)->EndElement( name );
+  static_cast<DOMNodeXMLReader *>(parser)->EndElement(name);
 }
 
-static void itkXMLParserCharacterDataHandler( void* parser, const char* data, int length )
+static void
+itkXMLParserCharacterDataHandler(void * parser, const char * data, int length)
 {
   // Character data handler that is registered with the XML_Parser.
   // This just casts the user data to a itkXMLParser and calls
   // CharacterDataHandler.
-  static_cast<DOMNodeXMLReader*>(parser)->CharacterDataHandler( data, length );
+  static_cast<DOMNodeXMLReader *>(parser)->CharacterDataHandler(data, length);
 }
 
-DOMNodeXMLReader::DOMNodeXMLReader()
-{
-}
+DOMNodeXMLReader::DOMNodeXMLReader() {}
 
 /**
  * Function called by Update() or end-users to generate the output DOM object
  * from an input stream such as file, string, etc.
  */
 void
-DOMNodeXMLReader::Update( std::istream& is )
+DOMNodeXMLReader::Update(std::istream & is)
 {
-  if ( m_DOMNodeXML.IsNull() )
-    {
+  if (m_DOMNodeXML.IsNull())
+  {
     OutputType::Pointer temp = OutputType::New();
-    this->SetDOMNodeXML( temp );
-    }
+    this->SetDOMNodeXML(temp);
+  }
   m_DOMNodeXML->RemoveAllAttributesAndChildren();
   this->m_Context = nullptr;
 
   is >> std::noskipws;
   std::string s;
-  while ( true )
-    {
+  while (true)
+  {
     char c = 0;
     is >> c;
-    if ( !is.good() )
-      {
-      break;
-      }
-    s.append( 1, c );
-    }
-
-  XML_Parser parser = XML_ParserCreate( nullptr );
-  XML_SetElementHandler( parser, &itkXMLParserStartElement, &itkXMLParserEndElement );
-  XML_SetCharacterDataHandler( parser, &itkXMLParserCharacterDataHandler );
-  XML_SetUserData( parser, this );
-
-  bool ok = XML_Parse( parser, s.data(), static_cast<int>( s.size() ), false );
-  if ( !ok )
+    if (!is.good())
     {
-    ExceptionObject e( __FILE__, __LINE__ );
-    std::string message( XML_ErrorString(XML_GetErrorCode(parser)) );
-    e.SetDescription( message.c_str() );
-    throw e;
+      break;
     }
+    s.append(1, c);
+  }
 
-  XML_ParserFree( parser );
+  XML_Parser parser = XML_ParserCreate(nullptr);
+  XML_SetElementHandler(parser, &itkXMLParserStartElement, &itkXMLParserEndElement);
+  XML_SetCharacterDataHandler(parser, &itkXMLParserCharacterDataHandler);
+  XML_SetUserData(parser, this);
+
+  bool ok = XML_Parse(parser, s.data(), static_cast<int>(s.size()), false);
+  if (!ok)
+  {
+    ExceptionObject e(__FILE__, __LINE__);
+    std::string     message(XML_ErrorString(XML_GetErrorCode(parser)));
+    e.SetDescription(message.c_str());
+    throw e;
+  }
+
+  XML_ParserFree(parser);
 }
 
 /**
@@ -107,13 +108,13 @@ DOMNodeXMLReader::Update( std::istream& is )
 void
 DOMNodeXMLReader::Update()
 {
-  std::ifstream is( this->m_FileName.c_str() );
-  if ( !is.is_open() )
-    {
-    itkExceptionMacro( "failed openning the input XML file" );
-    }
+  std::ifstream is(this->m_FileName.c_str());
+  if (!is.is_open())
+  {
+    itkExceptionMacro("failed openning the input XML file");
+  }
 
-  this->Update( is );
+  this->Update(is);
 
   is.close();
 }
@@ -122,36 +123,36 @@ DOMNodeXMLReader::Update()
  * information.
  */
 void
-DOMNodeXMLReader::StartElement( const char* name, const char** atts )
+DOMNodeXMLReader::StartElement(const char * name, const char ** atts)
 {
-  OutputType* node = nullptr;
-  if ( this->m_Context )
-    {
+  OutputType * node = nullptr;
+  if (this->m_Context)
+  {
     OutputPointer node1 = OutputType::New();
-    node = (OutputType*)node1;
-    this->m_Context->AddChildAtEnd( node );
-    }
+    node = (OutputType *)node1;
+    this->m_Context->AddChildAtEnd(node);
+  }
   else
-    {
+  {
     node = this->m_DOMNodeXML;
-    }
+  }
 
-  node->SetName( name );
+  node->SetName(name);
 
   size_t i = 0;
-  while ( atts[i] )
+  while (atts[i])
+  {
+    std::string key(atts[i++]);
+    std::string value(atts[i++]);
+    if (StringTools::MatchWith(key, "id"))
     {
-    std::string key( atts[i++] );
-    std::string value( atts[i++] );
-    if ( StringTools::MatchWith(key,"id") )
-      {
-      node->SetID( value );
-      }
-    else
-      {
-      node->SetAttribute( key, value );
-      }
+      node->SetID(value);
     }
+    else
+    {
+      node->SetAttribute(key, value);
+    }
+  }
 
   this->m_Context = node;
 }
@@ -160,12 +161,12 @@ DOMNodeXMLReader::StartElement( const char* name, const char** atts )
  * encountered.
  */
 void
-DOMNodeXMLReader::EndElement( const char* name )
+DOMNodeXMLReader::EndElement(const char * name)
 {
-  if ( this->m_Context->GetName() != name )
-    {
-    itkExceptionMacro( "start/end tag names mismatch" );
-    }
+  if (this->m_Context->GetName() != name)
+  {
+    itkExceptionMacro("start/end tag names mismatch");
+  }
 
   this->m_Context = this->m_Context->GetParent();
 }
@@ -174,17 +175,17 @@ DOMNodeXMLReader::EndElement( const char* name )
  * for an XML element.
  */
 void
-DOMNodeXMLReader::CharacterDataHandler( const char* text, int len )
+DOMNodeXMLReader::CharacterDataHandler(const char * text, int len)
 {
-  std::string s( text, len );
+  std::string s(text, len);
 
-  StringTools::Trim( s );
-  if ( s.empty() )
-    {
+  StringTools::Trim(s);
+  if (s.empty())
+  {
     return;
-    }
+  }
 
-  this->m_Context->AddTextChildAtEnd( s );
+  this->m_Context->AddTextChildAtEnd(s);
 }
 
 } // namespace itk

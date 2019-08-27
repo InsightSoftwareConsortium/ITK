@@ -41,7 +41,7 @@ namespace itk
  *
  * \ingroup ITKIOJPEG2000
  */
-class ITKIOJPEG2000_EXPORT JPEG2000ImageIOFactory:public ObjectFactoryBase
+class ITKIOJPEG2000_EXPORT JPEG2000ImageIOFactory : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(JPEG2000ImageIOFactory);
@@ -49,23 +49,30 @@ public:
   /** Standard class type aliases. */
   using Self = JPEG2000ImageIOFactory;
   using Superclass = ObjectFactoryBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  const char * GetITKSourceVersion() const override;
+  const char *
+  GetITKSourceVersion() const override;
 
-  const char * GetDescription() const override;
+  const char *
+  GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
-  static JPEG2000ImageIOFactory * FactoryNew() { return new JPEG2000ImageIOFactory; }
+  static JPEG2000ImageIOFactory *
+  FactoryNew()
+  {
+    return new JPEG2000ImageIOFactory;
+  }
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(JPEG2000ImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory()
+  static void
+  RegisterOneFactory()
   {
     JPEG2000ImageIOFactory::Pointer factory = JPEG2000ImageIOFactory::New();
 

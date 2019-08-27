@@ -59,26 +59,24 @@ namespace itk
  * \ingroup DeformableImageRegistration MultiThreaded
  * \ingroup ITKPDEDeformableRegistration
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-class ITK_TEMPLATE_EXPORT DemonsRegistrationFilter:
-  public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
-                                          TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+class ITK_TEMPLATE_EXPORT DemonsRegistrationFilter
+  : public PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DemonsRegistrationFilter);
 
   /** Standard class type aliases. */
   using Self = DemonsRegistrationFilter;
-  using Superclass = PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DemonsRegistrationFilter,
-               PDEDeformableRegistrationFilter);
+  itkTypeMacro(DemonsRegistrationFilter, PDEDeformableRegistrationFilter);
 
   /** Inherit types from superclass. */
   using TimeStepType = typename Superclass::TimeStepType;
@@ -99,15 +97,16 @@ public:
   using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
 
   /** DemonsRegistrationFilterFunction type. */
-  using DemonsRegistrationFunctionType = DemonsRegistrationFunction< FixedImageType, MovingImageType,
-                                      DisplacementFieldType >;
+  using DemonsRegistrationFunctionType =
+    DemonsRegistrationFunction<FixedImageType, MovingImageType, DisplacementFieldType>;
 
   /** Get the metric value. The metric value is the mean square difference
    * in intensity between the fixed image and transforming moving image
    * computed over the the overlapping region between the two images.
    * This is value is only available for the previous iteration and
    * NOT the current iteration. */
-  virtual double GetMetric() const;
+  virtual double
+  GetMetric() const;
 
   /** Switch between using the fixed image and moving image gradient
    * for computing the displacement field updates. */
@@ -119,27 +118,34 @@ public:
    * intensity yields a match. When the intensities match between a
    * moving and fixed image pixel, the update vector (for that
    * iteration) will be the zero vector. Default is 0.001. */
-  virtual void SetIntensityDifferenceThreshold(double);
+  virtual void
+  SetIntensityDifferenceThreshold(double);
 
-  virtual double GetIntensityDifferenceThreshold() const;
+  virtual double
+  GetIntensityDifferenceThreshold() const;
 
 protected:
   DemonsRegistrationFilter();
   ~DemonsRegistrationFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the state of filter and equation before each iteration. */
-  void InitializeIteration() override;
+  void
+  InitializeIteration() override;
 
   /** Apply update. */
-  void ApplyUpdate(const TimeStepType& dt) override;
+  void
+  ApplyUpdate(const TimeStepType & dt) override;
 
   /** Override VerifyInputInformation() since this filter's inputs do
    * not need to occoupy the same physical space.
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() ITKv5_CONST override {}
+  void
+  VerifyInputInformation() ITKv5_CONST override
+  {}
 
 private:
   bool m_UseMovingImageGradient;
@@ -147,7 +153,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDemonsRegistrationFilter.hxx"
+#  include "itkDemonsRegistrationFilter.hxx"
 #endif
 
 #endif

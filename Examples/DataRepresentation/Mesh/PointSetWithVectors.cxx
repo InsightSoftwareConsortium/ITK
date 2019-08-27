@@ -39,14 +39,16 @@
 // Software Guide : EndCodeSnippet
 
 
-int main(int, char *[])
+int
+main(int, char *[])
 {
   //  Software Guide : BeginLatex
   //
   //  \begin{floatingfigure}[rlp]{6cm}
   //    \centering
   //    \includegraphics[width=4cm]{PointSetWithVectors}
-  //    \caption[PointSet with Vectors as PixelType]{Vectors as PixelType.\label{fig:PointSetWithVectors}}
+  //    \caption[PointSet with Vectors as PixelType]{Vectors as
+  //    PixelType.\label{fig:PointSetWithVectors}}
   //  \end{floatingfigure}
   //
   //  The \code{Vector} class is templated over the type used to represent
@@ -64,7 +66,7 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   constexpr unsigned int Dimension = 3;
-  using PixelType = itk::Vector< float, Dimension >;
+  using PixelType = itk::Vector<float, Dimension>;
   // Software Guide : EndCodeSnippet
 
 
@@ -76,8 +78,8 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using PointSetType = itk::PointSet< PixelType, Dimension >;
-  PointSetType::Pointer  pointSet = PointSetType::New();
+  using PointSetType = itk::PointSet<PixelType, Dimension>;
+  PointSetType::Pointer pointSet = PointSetType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -94,25 +96,25 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  PointSetType::PixelType   tangent;
-  PointSetType::PointType   point;
+  PointSetType::PixelType tangent;
+  PointSetType::PointType point;
 
-  unsigned int pointId =  0;
+  unsigned int     pointId = 0;
   constexpr double radius = 300.0;
 
-  for(unsigned int i=0; i<360; i++)
-    {
+  for (unsigned int i = 0; i < 360; i++)
+  {
     const double angle = i * itk::Math::pi / 180.0;
-    point[0] = radius * std::sin( angle );
-    point[1] = radius * std::cos( angle );
-    point[2] = 1.0;   // flat on the Z plane
-    tangent[0] =  std::cos(angle);
+    point[0] = radius * std::sin(angle);
+    point[1] = radius * std::cos(angle);
+    point[2] = 1.0; // flat on the Z plane
+    tangent[0] = std::cos(angle);
     tangent[1] = -std::sin(angle);
-    tangent[2] = 0.0;  // flat on the Z plane
-    pointSet->SetPoint( pointId, point );
-    pointSet->SetPointData( pointId, tangent );
+    tangent[2] = 0.0; // flat on the Z plane
+    pointSet->SetPoint(pointId, point);
+    pointSet->SetPointData(pointId, tangent);
     pointId++;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 
@@ -132,18 +134,18 @@ int main(int, char *[])
   // Software Guide : BeginCodeSnippet
   using PointDataIterator = PointSetType::PointDataContainer::ConstIterator;
   PointDataIterator pixelIterator = pointSet->GetPointData()->Begin();
-  PointDataIterator pixelEnd      = pointSet->GetPointData()->End();
+  PointDataIterator pixelEnd = pointSet->GetPointData()->End();
 
   using PointIterator = PointSetType::PointsContainer::Iterator;
   PointIterator pointIterator = pointSet->GetPoints()->Begin();
-  PointIterator pointEnd      = pointSet->GetPoints()->End();
+  PointIterator pointEnd = pointSet->GetPoints()->End();
 
-  while( pixelIterator != pixelEnd  && pointIterator != pointEnd )
-    {
+  while (pixelIterator != pixelEnd && pointIterator != pointEnd)
+  {
     pointIterator.Value() = pointIterator.Value() + pixelIterator.Value();
     ++pixelIterator;
     ++pointIterator;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 
@@ -175,12 +177,12 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   pointIterator = pointSet->GetPoints()->Begin();
-  pointEnd      = pointSet->GetPoints()->End();
-  while( pointIterator != pointEnd )
-    {
+  pointEnd = pointSet->GetPoints()->End();
+  while (pointIterator != pointEnd)
+  {
     std::cout << pointIterator.Value() << std::endl;
     ++pointIterator;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 

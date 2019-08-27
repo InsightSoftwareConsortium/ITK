@@ -80,8 +80,7 @@ namespace itk
  * \sphinxexample{Numerics/Optimizers/ExhaustiveOptimizer,Exhaustive Optimizer}
  * \endsphinx
  */
-class ITKOptimizers_EXPORT ExhaustiveOptimizer:
-  public SingleValuedNonLinearOptimizer
+class ITKOptimizers_EXPORT ExhaustiveOptimizer : public SingleValuedNonLinearOptimizer
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExhaustiveOptimizer);
@@ -89,23 +88,27 @@ public:
   /** Standard "Self" type alias. */
   using Self = ExhaustiveOptimizer;
   using Superclass = SingleValuedNonLinearOptimizer;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  using StepsType = Array< SizeValueType >;
+  using StepsType = Array<SizeValueType>;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ExhaustiveOptimizer, SingleValuedNonLinearOptimizer);
 
-  void    StartOptimization() override;
+  void
+  StartOptimization() override;
 
-  void StartWalking();
+  void
+  StartWalking();
 
-  void ResumeWalking();
+  void
+  ResumeWalking();
 
-  void StopWalking();
+  void
+  StopWalking();
 
   itkSetMacro(StepLength, double);
   itkSetMacro(NumberOfSteps, StepsType);
@@ -120,17 +123,21 @@ public:
   itkGetConstReferenceMacro(MaximumNumberOfIterations, SizeValueType);
 
   /** Get the reason for termination */
-  const std::string GetStopConditionDescription() const override;
+  const std::string
+  GetStopConditionDescription() const override;
 
 protected:
   ExhaustiveOptimizer();
   ~ExhaustiveOptimizer() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Advance to the next grid position. */
-  void AdvanceOneStep();
+  void
+  AdvanceOneStep();
 
-  void IncrementIndex(ParametersType & param);
+  void
+  IncrementIndex(ParametersType & param);
 
 protected:
   MeasureType m_CurrentValue;

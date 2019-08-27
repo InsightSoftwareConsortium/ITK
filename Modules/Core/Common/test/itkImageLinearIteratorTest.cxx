@@ -20,17 +20,18 @@
 
 #include "itkImageLinearIteratorWithIndex.h"
 
-int itkImageLinearIteratorTest(int, char* [] )
+int
+itkImageLinearIteratorTest(int, char *[])
 {
   std::cout << "Creating an image of indices" << std::endl;
 
   constexpr unsigned int ImageDimension = 3;
 
-  using PixelType = itk::Index< ImageDimension >;
+  using PixelType = itk::Index<ImageDimension>;
 
-  using ImageType = itk::Image< PixelType, ImageDimension >;
+  using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  ImageType::Pointer myImage = ImageType::New();
+  ImageType::Pointer      myImage = ImageType::New();
   ImageType::ConstPointer myConstImage = myImage;
 
   ImageType::SizeType size0;
@@ -43,579 +44,570 @@ int itkImageLinearIteratorTest(int, char* [] )
   start0.Fill(0);
 
   ImageType::RegionType region0;
-  region0.SetIndex( start0 );
-  region0.SetSize( size0 );
+  region0.SetIndex(start0);
+  region0.SetSize(size0);
 
-  myImage->SetLargestPossibleRegion( region0 );
-  myImage->SetBufferedRegion( region0 );
-  myImage->SetRequestedRegion( region0 );
+  myImage->SetLargestPossibleRegion(region0);
+  myImage->SetBufferedRegion(region0);
+  myImage->SetRequestedRegion(region0);
   myImage->Allocate();
 
-  using IteratorType = itk::ImageLinearIteratorWithIndex< ImageType >;
+  using IteratorType = itk::ImageLinearIteratorWithIndex<ImageType>;
 
-  using ConstIteratorType = itk::ImageLinearConstIteratorWithIndex< ImageType >;
+  using ConstIteratorType = itk::ImageLinearConstIteratorWithIndex<ImageType>;
 
-  IteratorType it( myImage, region0 );
+  IteratorType it(myImage, region0);
 
   it.GoToBegin();
-  it.SetDirection( 0 ); // 0=x, 1=y, 2=z
+  it.SetDirection(0); // 0=x, 1=y, 2=z
 
   ImageType::IndexType index0;
 
-  while( !it.IsAtEnd() )
+  while (!it.IsAtEnd())
+  {
+    while (!it.IsAtEndOfLine())
     {
-    while( !it.IsAtEndOfLine() )
-      {
       index0 = it.GetIndex();
-      it.Set( index0 );
+      it.Set(index0);
       ++it;
-      }
-    it.NextLine();
     }
+    it.NextLine();
+  }
 
   // Verification
-  IteratorType ot( myImage, region0 );
+  IteratorType ot(myImage, region0);
 
   ot.GoToBegin();
-  ot.SetDirection( 0 ); // 0=x, 1=y, 2=z
+  ot.SetDirection(0); // 0=x, 1=y, 2=z
 
   std::cout << "Verifying iterator... ";
 
-  while( !ot.IsAtEnd() )
+  while (!ot.IsAtEnd())
+  {
+    while (!ot.IsAtEndOfLine())
     {
-    while( !ot.IsAtEndOfLine() )
-      {
       index0 = ot.GetIndex();
-      if( ot.Get() != index0 )
-        {
-        std::cerr << "Values don't correspond to what was stored "
-                  << std::endl;
+      if (ot.Get() != index0)
+      {
+        std::cerr << "Values don't correspond to what was stored " << std::endl;
         std::cerr << "Test failed at index ";
         std::cerr << index0 << std::endl;
         return EXIT_FAILURE;
-        }
-      ++ot;
       }
-    ot.NextLine();
+      ++ot;
     }
+    ot.NextLine();
+  }
   std::cout << "   Done ! " << std::endl;
 
   // Verification
-  ConstIteratorType cot( myConstImage, region0 );
+  ConstIteratorType cot(myConstImage, region0);
 
   cot.GoToBegin();
-  cot.SetDirection( 0 ); // 0=x, 1=y, 2=z
+  cot.SetDirection(0); // 0=x, 1=y, 2=z
 
   std::cout << "Verifying const iterator... ";
 
-  while( !cot.IsAtEnd() )
+  while (!cot.IsAtEnd())
+  {
+    while (!cot.IsAtEndOfLine())
     {
-    while( !cot.IsAtEndOfLine() )
-      {
       index0 = cot.GetIndex();
-      if( cot.Get() != index0 )
-        {
-        std::cerr << "Values don't correspond to what was stored "
-                  << std::endl;
+      if (cot.Get() != index0)
+      {
+        std::cerr << "Values don't correspond to what was stored " << std::endl;
         std::cerr << "Test failed at index ";
-        std::cerr << index0 << " value is " << cot.Get() <<  std::endl;
+        std::cerr << index0 << " value is " << cot.Get() << std::endl;
         return EXIT_FAILURE;
-        }
-      ++cot;
       }
-    cot.NextLine();
+      ++cot;
     }
+    cot.NextLine();
+  }
   std::cout << "   Done ! " << std::endl;
 
   // Test GoToReverseBeginOfLine()
   cot.GoToBegin();
   cot.GoToReverseBeginOfLine();
   index0 = cot.GetIndex();
-  if( cot.Get() != index0 )
-    {
-    std::cerr << "Values don't correspond to what was stored "
-              << std::endl;
+  if (cot.Get() != index0)
+  {
+    std::cerr << "Values don't correspond to what was stored " << std::endl;
     std::cerr << "Test failed at index ";
-    std::cerr << index0 << " value is " << cot.Get() <<  std::endl;
+    std::cerr << index0 << " value is " << cot.Get() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   // Verification
   {
-  std::cout << "Verifying iterator in reverse direction... ";
+    std::cout << "Verifying iterator in reverse direction... ";
 
-  ImageType::IndexType start;
-  start[0] = 10;
-  start[1] = 20;
-  start[2] = 30;
+    ImageType::IndexType start;
+    start[0] = 10;
+    start[1] = 20;
+    start[2] = 30;
 
-  ImageType::SizeType size;
-  size[0] = 2;
-  size[1] = 3;
-  size[2] = 4;
+    ImageType::SizeType size;
+    size[0] = 2;
+    size[1] = 3;
+    size[2] = 4;
 
-  ImageType::RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+    ImageType::RegionType region;
+    region.SetIndex(start);
+    region.SetSize(size);
 
-  std::cout << "  IteratorType ior( myImage, region );" << std::endl;
-  IteratorType ior( myImage, region );
+    std::cout << "  IteratorType ior( myImage, region );" << std::endl;
+    IteratorType ior(myImage, region);
 
-  std::cout << "    GetIndex(): " << ior.GetIndex() << std::endl;
-  std::cout << "  ior.GoToReverseBegin();" << std::endl;
-  ior.GoToReverseBegin();
-  std::cout << "    GetIndex(): " << ior.GetIndex() << std::endl;
-  std::cout << "  ior.SetDirection( 0 ); // 0=x, 1=y, 2=z" << std::endl;
-  ior.SetDirection( 0 ); // 0=x, 1=y, 2=z
-  std::cout << " ior.GetDirection(): " << ior.GetDirection() << std::endl;
-  std::cout << "  while( !ior.IsAtReverseEnd() )" << std::endl;
-  while( !ior.IsAtReverseEnd() )
+    std::cout << "    GetIndex(): " << ior.GetIndex() << std::endl;
+    std::cout << "  ior.GoToReverseBegin();" << std::endl;
+    ior.GoToReverseBegin();
+    std::cout << "    GetIndex(): " << ior.GetIndex() << std::endl;
+    std::cout << "  ior.SetDirection( 0 ); // 0=x, 1=y, 2=z" << std::endl;
+    ior.SetDirection(0); // 0=x, 1=y, 2=z
+    std::cout << " ior.GetDirection(): " << ior.GetDirection() << std::endl;
+    std::cout << "  while( !ior.IsAtReverseEnd() )" << std::endl;
+    while (!ior.IsAtReverseEnd())
     {
-    std::cout << "    while( !ior.IsAtReverseEndOfLine() )" << std::endl;
-    std::cout << "    GetIndex(): " << ior.GetIndex() << std::endl;
-    while( !ior.IsAtReverseEndOfLine() )
-      {
-      index0 = ior.GetIndex();
-      if( ior.Get() != index0 )
-        {
-        std::cerr << "Values don't correspond to what was stored "
-                  << std::endl;
-        std::cerr << "Test failed at index ";
-        std::cerr << index0 << " value is " << ior.Get() <<  std::endl;
-        return EXIT_FAILURE;
-        }
-      std::cout << "      --ior;" << std::endl;
-      --ior;
+      std::cout << "    while( !ior.IsAtReverseEndOfLine() )" << std::endl;
       std::cout << "    GetIndex(): " << ior.GetIndex() << std::endl;
+      while (!ior.IsAtReverseEndOfLine())
+      {
+        index0 = ior.GetIndex();
+        if (ior.Get() != index0)
+        {
+          std::cerr << "Values don't correspond to what was stored " << std::endl;
+          std::cerr << "Test failed at index ";
+          std::cerr << index0 << " value is " << ior.Get() << std::endl;
+          return EXIT_FAILURE;
+        }
+        std::cout << "      --ior;" << std::endl;
+        --ior;
+        std::cout << "    GetIndex(): " << ior.GetIndex() << std::endl;
       }
-    std::cout << "    ior.PreviousLine();" << std::endl;
-    ior.PreviousLine();
-    std::cout << "    GetIndex(): " << ior.GetIndex() << std::endl;
+      std::cout << "    ior.PreviousLine();" << std::endl;
+      ior.PreviousLine();
+      std::cout << "    GetIndex(): " << ior.GetIndex() << std::endl;
     }
-  std::cout << "   Done ! " << std::endl;
+    std::cout << "   Done ! " << std::endl;
   }
 
   // Verification
   std::cout << "Verifying const iterator in reverse direction... ";
 
-  ConstIteratorType cor( myImage, region0 );
+  ConstIteratorType cor(myImage, region0);
 
   cor.GoToReverseBegin();
-  cor.SetDirection( 0 ); // 0=x, 1=y, 2=z
+  cor.SetDirection(0); // 0=x, 1=y, 2=z
 
-  while( !cor.IsAtReverseEnd() )
+  while (!cor.IsAtReverseEnd())
+  {
+    while (!cor.IsAtReverseEndOfLine())
     {
-    while( !cor.IsAtReverseEndOfLine() )
-      {
       index0 = cor.GetIndex();
-      if( cor.Get() != index0 )
-        {
-        std::cerr << "Values don't correspond to what was stored "
-                  << std::endl;
+      if (cor.Get() != index0)
+      {
+        std::cerr << "Values don't correspond to what was stored " << std::endl;
         std::cerr << "Test failed at index ";
-        std::cerr << index0 << " value is " << cor.Get() <<  std::endl;
+        std::cerr << index0 << " value is " << cor.Get() << std::endl;
         return EXIT_FAILURE;
-        }
-      --cor;
       }
-    cor.PreviousLine();
+      --cor;
     }
+    cor.PreviousLine();
+  }
   std::cout << "   Done ! " << std::endl;
 
 
   // Verification of GotoBeginOfLine() in the iterator
   {
-  std::cout << "Verifying  iterator GoToBeginOfLine()... ";
+    std::cout << "Verifying  iterator GoToBeginOfLine()... ";
 
-  ImageType::IndexType start;
-  start[0] = 10;
-  start[1] = 12;
-  start[2] = 14;
+    ImageType::IndexType start;
+    start[0] = 10;
+    start[1] = 12;
+    start[2] = 14;
 
-  ImageType::SizeType size;
-  size[0] = 11;
-  size[1] = 12;
-  size[2] = 13;
+    ImageType::SizeType size;
+    size[0] = 11;
+    size[1] = 12;
+    size[2] = 13;
 
-  ImageType::RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+    ImageType::RegionType region;
+    region.SetIndex(start);
+    region.SetSize(size);
 
-  IteratorType bot( myImage, region );
+    IteratorType bot(myImage, region);
 
-  bot.SetDirection( 0 ); // 0=x, 1=y, 2=z
-  bot.GoToBegin();
+    bot.SetDirection(0); // 0=x, 1=y, 2=z
+    bot.GoToBegin();
 
-  ImageType::IndexType testIndex;
-  testIndex = start;
-  testIndex[1] += 2; // advance two lines in Y
+    ImageType::IndexType testIndex;
+    testIndex = start;
+    testIndex[1] += 2; // advance two lines in Y
 
-  bot.NextLine(); // advance two lines in Y
-  bot.NextLine();
+    bot.NextLine(); // advance two lines in Y
+    bot.NextLine();
 
-  ++bot; // advance a bit along the line
-  ++bot;
-  ++bot;
-  ++bot;
+    ++bot; // advance a bit along the line
+    ++bot;
+    ++bot;
+    ++bot;
 
-  bot.GoToBeginOfLine(); // go back to the begin of the line
+    bot.GoToBeginOfLine(); // go back to the begin of the line
 
-  if( bot.GetIndex() != testIndex )
+    if (bot.GetIndex() != testIndex)
     {
-    std::cerr << "GoToBeginOfLine() test failed" << std::endl;
-    std::cerr << bot.GetIndex() << " should be" << testIndex << std::endl;
-    return EXIT_FAILURE;
+      std::cerr << "GoToBeginOfLine() test failed" << std::endl;
+      std::cerr << bot.GetIndex() << " should be" << testIndex << std::endl;
+      return EXIT_FAILURE;
     }
 
-  std::cout << "   Done ! " << std::endl;
+    std::cout << "   Done ! " << std::endl;
   }
 
 
   // Verification of GotoBeginOfLine() in the const iterator
   {
-  std::cout << "Verifying const iterator GoToBeginOfLine()... ";
+    std::cout << "Verifying const iterator GoToBeginOfLine()... ";
 
-  ImageType::IndexType start;
-  start[0] = 10;
-  start[1] = 12;
-  start[2] = 14;
+    ImageType::IndexType start;
+    start[0] = 10;
+    start[1] = 12;
+    start[2] = 14;
 
-  ImageType::SizeType size;
-  size[0] = 11;
-  size[1] = 12;
-  size[2] = 13;
+    ImageType::SizeType size;
+    size[0] = 11;
+    size[1] = 12;
+    size[2] = 13;
 
-  ImageType::RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+    ImageType::RegionType region;
+    region.SetIndex(start);
+    region.SetSize(size);
 
-  ConstIteratorType cbot( myImage, region );
+    ConstIteratorType cbot(myImage, region);
 
-  cbot.SetDirection( 0 ); // 0=x, 1=y, 2=z
-  cbot.GoToBegin();
+    cbot.SetDirection(0); // 0=x, 1=y, 2=z
+    cbot.GoToBegin();
 
-  ImageType::IndexType testIndex;
-  testIndex = start;
-  testIndex[1] += 2; // advance two lines in Y
+    ImageType::IndexType testIndex;
+    testIndex = start;
+    testIndex[1] += 2; // advance two lines in Y
 
-  cbot.NextLine(); // advance two lines in Y
-  cbot.NextLine();
+    cbot.NextLine(); // advance two lines in Y
+    cbot.NextLine();
 
-  ++cbot; // advance a bit along the line
-  ++cbot;
-  ++cbot;
-  ++cbot;
+    ++cbot; // advance a bit along the line
+    ++cbot;
+    ++cbot;
+    ++cbot;
 
-  cbot.GoToBeginOfLine(); // go back to the begin of the line
+    cbot.GoToBeginOfLine(); // go back to the begin of the line
 
-  if( cbot.GetIndex() != testIndex )
+    if (cbot.GetIndex() != testIndex)
     {
-    std::cerr << "GoToBeginOfLine() test failed" << std::endl;
-    std::cerr << cbot.GetIndex() << " should be" << testIndex << std::endl;
-    return EXIT_FAILURE;
+      std::cerr << "GoToBeginOfLine() test failed" << std::endl;
+      std::cerr << cbot.GetIndex() << " should be" << testIndex << std::endl;
+      return EXIT_FAILURE;
     }
 
-  std::cout << "   Done ! " << std::endl;
+    std::cout << "   Done ! " << std::endl;
   }
 
 
   // Verification of the Iterator in a subregion of the image
   {
-  std::cout << "Verifying Iterator in a Region smaller than the whole image... ";
+    std::cout << "Verifying Iterator in a Region smaller than the whole image... ";
 
-  ImageType::IndexType start;
-  start[0] = 10;
-  start[1] = 12;
-  start[2] = 14;
+    ImageType::IndexType start;
+    start[0] = 10;
+    start[1] = 12;
+    start[2] = 14;
 
-  ImageType::SizeType size;
-  size[0] = 11;
-  size[1] = 12;
-  size[2] = 13;
+    ImageType::SizeType size;
+    size[0] = 11;
+    size[1] = 12;
+    size[2] = 13;
 
-  ImageType::RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+    ImageType::RegionType region;
+    region.SetIndex(start);
+    region.SetSize(size);
 
-  IteratorType cbot( myImage, region );
+    IteratorType cbot(myImage, region);
 
-  cbot.SetDirection( 0 ); // 0=x, 1=y, 2=z
-  cbot.GoToBegin();
+    cbot.SetDirection(0); // 0=x, 1=y, 2=z
+    cbot.GoToBegin();
 
-  while( !cbot.IsAtEnd() )
+    while (!cbot.IsAtEnd())
     {
-    while( !cbot.IsAtEndOfLine() )
+      while (!cbot.IsAtEndOfLine())
       {
-      ImageType::IndexType index =  cbot.GetIndex();
-      ImageType::PixelType pixel =  cbot.Get();
+        ImageType::IndexType index = cbot.GetIndex();
+        ImageType::PixelType pixel = cbot.Get();
 
-      if( index != pixel )
+        if (index != pixel)
         {
-        std::cerr << "Iterator in region test failed" << std::endl;
-        std::cerr << pixel << " should be" << index << std::endl;
-        return EXIT_FAILURE;
+          std::cerr << "Iterator in region test failed" << std::endl;
+          std::cerr << pixel << " should be" << index << std::endl;
+          return EXIT_FAILURE;
         }
 
-      ++cbot;
+        ++cbot;
       }
-    cbot.NextLine();
+      cbot.NextLine();
     }
 
-  std::cout << "   Done ! " << std::endl;
+    std::cout << "   Done ! " << std::endl;
   }
 
 
   // Verification of the Const Iterator in a subregion of the image
   {
-  std::cout << "Verifying Const Iterator in a Region smaller than the whole image... ";
+    std::cout << "Verifying Const Iterator in a Region smaller than the whole image... ";
 
-  ImageType::IndexType start;
-  start[0] = 10;
-  start[1] = 12;
-  start[2] = 14;
+    ImageType::IndexType start;
+    start[0] = 10;
+    start[1] = 12;
+    start[2] = 14;
 
-  ImageType::SizeType size;
-  size[0] = 11;
-  size[1] = 12;
-  size[2] = 13;
+    ImageType::SizeType size;
+    size[0] = 11;
+    size[1] = 12;
+    size[2] = 13;
 
-  ImageType::RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+    ImageType::RegionType region;
+    region.SetIndex(start);
+    region.SetSize(size);
 
-  ConstIteratorType cbot( myImage, region );
+    ConstIteratorType cbot(myImage, region);
 
-  cbot.SetDirection( 0 ); // 0=x, 1=y, 2=z
-  cbot.GoToBegin();
+    cbot.SetDirection(0); // 0=x, 1=y, 2=z
+    cbot.GoToBegin();
 
-  while( !cbot.IsAtEnd() )
+    while (!cbot.IsAtEnd())
     {
-    while( !cbot.IsAtEndOfLine() )
+      while (!cbot.IsAtEndOfLine())
       {
-      ImageType::IndexType index =  cbot.GetIndex();
-      ImageType::PixelType pixel =  cbot.Get();
+        ImageType::IndexType index = cbot.GetIndex();
+        ImageType::PixelType pixel = cbot.Get();
 
-      if( index != pixel )
+        if (index != pixel)
         {
-        std::cerr << "Iterator in region test failed" << std::endl;
-        std::cerr << pixel << " should be" << index << std::endl;
-        return EXIT_FAILURE;
+          std::cerr << "Iterator in region test failed" << std::endl;
+          std::cerr << pixel << " should be" << index << std::endl;
+          return EXIT_FAILURE;
         }
 
-      ++cbot;
+        ++cbot;
       }
-    cbot.NextLine();
+      cbot.NextLine();
     }
 
-  std::cout << "   Done ! " << std::endl;
+    std::cout << "   Done ! " << std::endl;
   }
 
 
   // Verification of the Iterator NextLine() in the middle of a line
   {
-  std::cout << "Verifying Iterator NextLine() in the middle of a line";
+    std::cout << "Verifying Iterator NextLine() in the middle of a line";
 
-  ImageType::IndexType start;
-  start[0] = 10;
-  start[1] = 12;
-  start[2] = 14;
+    ImageType::IndexType start;
+    start[0] = 10;
+    start[1] = 12;
+    start[2] = 14;
 
-  ImageType::SizeType size;
-  size[0] = 11;
-  size[1] = 12;
-  size[2] = 13;
+    ImageType::SizeType size;
+    size[0] = 11;
+    size[1] = 12;
+    size[2] = 13;
 
-  ImageType::RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+    ImageType::RegionType region;
+    region.SetIndex(start);
+    region.SetSize(size);
 
-  std::cout << "    IteratorType cbot( myImage, region );" << std::endl;
-  IteratorType cbot( myImage, region );
+    std::cout << "    IteratorType cbot( myImage, region );" << std::endl;
+    IteratorType cbot(myImage, region);
 
-  std::cout << "    cbot.SetDirection( 0 ); // 0=x, 1=y, 2=z" << std::endl;
-  cbot.SetDirection( 0 ); // 0=x, 1=y, 2=z
-  std::cout << "    cbot.GoToBegin();" << std::endl;
-  cbot.GoToBegin();
-  std::cout << "    GetIndex(): " << cbot.GetIndex() << std::endl;
-  // go to the middle of the first line
-  std::cout << "    for(unsigned int i=0; ..." << std::endl;
-  for(unsigned int i=0; i<size[0]/2; i++)
+    std::cout << "    cbot.SetDirection( 0 ); // 0=x, 1=y, 2=z" << std::endl;
+    cbot.SetDirection(0); // 0=x, 1=y, 2=z
+    std::cout << "    cbot.GoToBegin();" << std::endl;
+    cbot.GoToBegin();
+    std::cout << "    GetIndex(): " << cbot.GetIndex() << std::endl;
+    // go to the middle of the first line
+    std::cout << "    for(unsigned int i=0; ..." << std::endl;
+    for (unsigned int i = 0; i < size[0] / 2; i++)
     {
-    std::cout << "      ++cbot;" << std::endl;
-    ++cbot;
-    std::cout << "      GetIndex(): " << cbot.GetIndex() << std::endl;
+      std::cout << "      ++cbot;" << std::endl;
+      ++cbot;
+      std::cout << "      GetIndex(): " << cbot.GetIndex() << std::endl;
     }
 
-  // go to next line
-  std::cout << "    cbot.NextLine();" << std::endl;
-  cbot.NextLine();
-  std::cout << "    GetIndex(): " << cbot.GetIndex() << std::endl;
+    // go to next line
+    std::cout << "    cbot.NextLine();" << std::endl;
+    cbot.NextLine();
+    std::cout << "    GetIndex(): " << cbot.GetIndex() << std::endl;
 
-  std::cout << "    const ImageType::IndexType testIndex = cbot.Get();" << std::endl;
-  const ImageType::IndexType testIndex = cbot.Get();
-  std::cout << "    if( cbot.GetIndex() != testIndex )" << std::endl;
-  if( cbot.GetIndex() != testIndex )
+    std::cout << "    const ImageType::IndexType testIndex = cbot.Get();" << std::endl;
+    const ImageType::IndexType testIndex = cbot.Get();
+    std::cout << "    if( cbot.GetIndex() != testIndex )" << std::endl;
+    if (cbot.GetIndex() != testIndex)
     {
-    std::cerr << "NextLine() test failed" << std::endl;
-    std::cerr << cbot.GetIndex() << " should be" << testIndex << std::endl;
-    return EXIT_FAILURE;
+      std::cerr << "NextLine() test failed" << std::endl;
+      std::cerr << cbot.GetIndex() << " should be" << testIndex << std::endl;
+      return EXIT_FAILURE;
     }
 
-  std::cout << "   Done ! " << std::endl;
-
+    std::cout << "   Done ! " << std::endl;
   }
 
   // Verification of the Iterator PreviousLine() in the middle of a line
   {
-  std::cout << "Verifying Iterator PreviousLine() in the middle of a line";
+    std::cout << "Verifying Iterator PreviousLine() in the middle of a line";
 
-  ImageType::IndexType start;
-  start[0] = 10;
-  start[1] = 12;
-  start[2] = 14;
+    ImageType::IndexType start;
+    start[0] = 10;
+    start[1] = 12;
+    start[2] = 14;
 
-  ImageType::SizeType size;
-  size[0] = 11;
-  size[1] = 12;
-  size[2] = 13;
+    ImageType::SizeType size;
+    size[0] = 11;
+    size[1] = 12;
+    size[2] = 13;
 
-  ImageType::RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+    ImageType::RegionType region;
+    region.SetIndex(start);
+    region.SetSize(size);
 
-  std::cout << "    IteratorType cbot( myImage, region );" << std::endl;
-  IteratorType cbot( myImage, region );
+    std::cout << "    IteratorType cbot( myImage, region );" << std::endl;
+    IteratorType cbot(myImage, region);
 
-  std::cout << "    cbot.SetDirection( 0 ); // 0=x, 1=y, 2=z" << std::endl;
-  cbot.SetDirection( 0 ); // 0=x, 1=y, 2=z
-  std::cout << "    cbot.GoToBegin();" << std::endl;
-  cbot.GoToBegin();
-  std::cout << "    GetIndex(): " << cbot.GetIndex() << std::endl;
-  // go to the middle of the second line
-  std::cout << "    for(unsigned int i=0; ..." << std::endl;
-  for(unsigned int i=0; i<size[0]+size[0]/2; i++)
-    {
-    std::cout << "      ++cbot;" << std::endl;
-    ++cbot;
-    std::cout << "      if(cbot.IsAtEndOfLine())" << std::endl;
-    if(cbot.IsAtEndOfLine())
-      {
-      std::cout << "        cbot.NextLine();" << std::endl;
-      cbot.NextLine();
-      }
+    std::cout << "    cbot.SetDirection( 0 ); // 0=x, 1=y, 2=z" << std::endl;
+    cbot.SetDirection(0); // 0=x, 1=y, 2=z
+    std::cout << "    cbot.GoToBegin();" << std::endl;
+    cbot.GoToBegin();
     std::cout << "    GetIndex(): " << cbot.GetIndex() << std::endl;
-    }
-
-  // go to previous line
-  std::cout << "    cbot.PreviousLine();" << std::endl;
-  cbot.PreviousLine();
-  std::cout << "    GetIndex(): " << cbot.GetIndex() << std::endl;
-
-  std::cout << "    const ImageType::IndexType testIndex = cbot.Get();" << std::endl;
-  const ImageType::IndexType testIndex = cbot.Get();
-  std::cout << "    if( cbot.GetIndex() != testIndex )" << std::endl;
-  if( cbot.GetIndex() != testIndex )
+    // go to the middle of the second line
+    std::cout << "    for(unsigned int i=0; ..." << std::endl;
+    for (unsigned int i = 0; i < size[0] + size[0] / 2; i++)
     {
-    std::cerr << "PreviousLine() test failed" << std::endl;
-    std::cerr << cbot.GetIndex() << " should be" << testIndex << std::endl;
-    return EXIT_FAILURE;
+      std::cout << "      ++cbot;" << std::endl;
+      ++cbot;
+      std::cout << "      if(cbot.IsAtEndOfLine())" << std::endl;
+      if (cbot.IsAtEndOfLine())
+      {
+        std::cout << "        cbot.NextLine();" << std::endl;
+        cbot.NextLine();
+      }
+      std::cout << "    GetIndex(): " << cbot.GetIndex() << std::endl;
     }
 
-  std::cout << "   Done ! " << std::endl;
+    // go to previous line
+    std::cout << "    cbot.PreviousLine();" << std::endl;
+    cbot.PreviousLine();
+    std::cout << "    GetIndex(): " << cbot.GetIndex() << std::endl;
 
+    std::cout << "    const ImageType::IndexType testIndex = cbot.Get();" << std::endl;
+    const ImageType::IndexType testIndex = cbot.Get();
+    std::cout << "    if( cbot.GetIndex() != testIndex )" << std::endl;
+    if (cbot.GetIndex() != testIndex)
+    {
+      std::cerr << "PreviousLine() test failed" << std::endl;
+      std::cerr << cbot.GetIndex() << " should be" << testIndex << std::endl;
+      return EXIT_FAILURE;
+    }
+
+    std::cout << "   Done ! " << std::endl;
   }
 
   // Verification of the ConstIterator NextLine() in the middle of a line
   {
-  std::cout << "Verifying ConstIterator NextLine() in the middle of a line";
+    std::cout << "Verifying ConstIterator NextLine() in the middle of a line";
 
-  ImageType::IndexType start;
-  start[0] = 10;
-  start[1] = 12;
-  start[2] = 14;
+    ImageType::IndexType start;
+    start[0] = 10;
+    start[1] = 12;
+    start[2] = 14;
 
-  ImageType::SizeType size;
-  size[0] = 11;
-  size[1] = 12;
-  size[2] = 13;
+    ImageType::SizeType size;
+    size[0] = 11;
+    size[1] = 12;
+    size[2] = 13;
 
-  ImageType::RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+    ImageType::RegionType region;
+    region.SetIndex(start);
+    region.SetSize(size);
 
-  ConstIteratorType cbot( myImage, region );
+    ConstIteratorType cbot(myImage, region);
 
-  cbot.SetDirection( 0 ); // 0=x, 1=y, 2=z
-  cbot.GoToBegin();
+    cbot.SetDirection(0); // 0=x, 1=y, 2=z
+    cbot.GoToBegin();
 
-  // go to the middle of the first line
-  for(unsigned int i=0; i<size[0]/2; i++)
+    // go to the middle of the first line
+    for (unsigned int i = 0; i < size[0] / 2; i++)
     {
-    ++cbot;
+      ++cbot;
     }
 
-  // go to next line
-  cbot.NextLine();
+    // go to next line
+    cbot.NextLine();
 
-  const ImageType::IndexType testIndex = cbot.Get();
-  if( cbot.GetIndex() != testIndex )
+    const ImageType::IndexType testIndex = cbot.Get();
+    if (cbot.GetIndex() != testIndex)
     {
-    std::cerr << "NextLine() test failed" << std::endl;
-    std::cerr << cbot.GetIndex() << " should be" << testIndex << std::endl;
-    return EXIT_FAILURE;
+      std::cerr << "NextLine() test failed" << std::endl;
+      std::cerr << cbot.GetIndex() << " should be" << testIndex << std::endl;
+      return EXIT_FAILURE;
     }
 
-  std::cout << "   Done ! " << std::endl;
-
+    std::cout << "   Done ! " << std::endl;
   }
 
   // Verification of the ConstIterator PreviousLine() in the middle of a line
   {
-  std::cout << "Verifying ConstIterator PreviousLine() in the middle of a line";
+    std::cout << "Verifying ConstIterator PreviousLine() in the middle of a line";
 
-  ImageType::IndexType start;
-  start[0] = 10;
-  start[1] = 12;
-  start[2] = 14;
+    ImageType::IndexType start;
+    start[0] = 10;
+    start[1] = 12;
+    start[2] = 14;
 
-  ImageType::SizeType size;
-  size[0] = 11;
-  size[1] = 12;
-  size[2] = 13;
+    ImageType::SizeType size;
+    size[0] = 11;
+    size[1] = 12;
+    size[2] = 13;
 
-  ImageType::RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+    ImageType::RegionType region;
+    region.SetIndex(start);
+    region.SetSize(size);
 
-  ConstIteratorType cbot( myImage, region );
+    ConstIteratorType cbot(myImage, region);
 
-  cbot.SetDirection( 0 ); // 0=x, 1=y, 2=z
-  cbot.GoToBegin();
+    cbot.SetDirection(0); // 0=x, 1=y, 2=z
+    cbot.GoToBegin();
 
-  // go to the middle of the second line
-  for(unsigned int i=0; i<size[0]+size[0]/2; i++)
+    // go to the middle of the second line
+    for (unsigned int i = 0; i < size[0] + size[0] / 2; i++)
     {
-    ++cbot;
-    if(cbot.IsAtEndOfLine())
+      ++cbot;
+      if (cbot.IsAtEndOfLine())
       {
-      cbot.NextLine();
+        cbot.NextLine();
       }
     }
 
-  // go to previous line
-  cbot.PreviousLine();
+    // go to previous line
+    cbot.PreviousLine();
 
-  const ImageType::IndexType testIndex = cbot.Get();
-  if( cbot.GetIndex() != testIndex )
+    const ImageType::IndexType testIndex = cbot.Get();
+    if (cbot.GetIndex() != testIndex)
     {
-    std::cerr << "PreviousLine() test failed" << std::endl;
-    std::cerr << cbot.GetIndex() << " should be" << testIndex << std::endl;
-    return EXIT_FAILURE;
+      std::cerr << "PreviousLine() test failed" << std::endl;
+      std::cerr << cbot.GetIndex() << " should be" << testIndex << std::endl;
+      return EXIT_FAILURE;
     }
 
-  std::cout << "   Done ! " << std::endl;
-
+    std::cout << "   Done ! " << std::endl;
   }
 
   std::cout << "Test passed" << std::endl;

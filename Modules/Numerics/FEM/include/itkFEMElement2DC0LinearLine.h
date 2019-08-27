@@ -50,16 +50,18 @@ public:
    * Methods related to numeric integration
    */
 
-  enum { DefaultIntegrationOrder = 1 };
+  enum
+  {
+    DefaultIntegrationOrder = 1
+  };
 
   /** Get the Integration point and weight */
-  void GetIntegrationPointAndWeight(unsigned int i,
-                                            VectorType & pt,
-                                            Float & w,
-                                            unsigned int order) const override;
+  void
+  GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const override;
 
   /** Get the number of integration points */
-  unsigned int GetNumberOfIntegrationPoints(unsigned int order) const override;
+  unsigned int
+  GetNumberOfIntegrationPoints(unsigned int order) const override;
 
   // ////////////////////////////////////////////////////////////////////////
   /**
@@ -67,18 +69,20 @@ public:
    */
 
   /** Return the shape functions used to interpolate across the element */
-  VectorType ShapeFunctions(const VectorType & pt) const override;
+  VectorType
+  ShapeFunctions(const VectorType & pt) const override;
 
   /** Return the shape functions derivatives in the shapeD matrix */
-  void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const override;
+  void
+  ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const override;
 
   /**
    * Get parametric/local coordinates given global coordinates. The function returns true if the
    * global coordinate is within the element else returns false.
    * For a line, line length*1e-4 is used as the tolerance
    */
-  bool GetLocalFromGlobalCoordinates(const VectorType & globalPt,
-                                             VectorType & localPt) const override;
+  bool
+  GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const override;
 
   /**
    * We need to provide our own implementation of calculating Jacobian,
@@ -89,22 +93,28 @@ public:
    *
    * Jacobian is a scalar for this element.
    */
-  void Jacobian(const VectorType & pt, MatrixType & J, const MatrixType *pshapeD = nullptr) const override;
+  void
+  Jacobian(const VectorType & pt, MatrixType & J, const MatrixType * pshapeD = nullptr) const override;
 
   /**
    * Distance of a point to a line.(Used in GetLocalFromGlobalCoordinates ).
    */
-  Float DistanceToLine(const VectorType & x, const VectorType & p1, const VectorType & p2, Float & t,
-                       VectorType & closestPoint) const;
+  Float
+  DistanceToLine(const VectorType & x,
+                 const VectorType & p1,
+                 const VectorType & p2,
+                 Float &            t,
+                 VectorType &       closestPoint) const;
 
 protected:
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void PopulateEdgeIds() override; // HACK:  Should PopulateEdgeIds
-                                      // be const or not in this
-                                      // hierarchy. Sometimes it is,
-                                      // sometimes it is not.
-
+  void
+  PopulateEdgeIds() override; // HACK:  Should PopulateEdgeIds
+                              // be const or not in this
+                              // hierarchy. Sometimes it is,
+                              // sometimes it is not.
 };
 } // end namespace fem
 } // end namespace itk

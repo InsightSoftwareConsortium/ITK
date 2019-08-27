@@ -27,14 +27,14 @@ MultipleLogOutput::MultipleLogOutput()
 
 MultipleLogOutput::~MultipleLogOutput()
 {
-//  this->Flush();
+  //  this->Flush();
 }
 
 /** Adds an output stream to the MultipleLogOutput for writing. */
 void
-MultipleLogOutput::AddLogOutput(OutputType *output)
+MultipleLogOutput::AddLogOutput(OutputType * output)
 {
-  this->m_Output.insert(output);   // insert the address
+  this->m_Output.insert(output); // insert the address
 }
 
 /** The Flush method flushes all the streams. */
@@ -44,49 +44,52 @@ MultipleLogOutput::Flush()
   auto itr = m_Output.begin();
   auto end = m_Output.end();
 
-  while ( itr != end )
-    {
-    ( *itr )->Flush();
+  while (itr != end)
+  {
+    (*itr)->Flush();
     ++itr;
-    }
+  }
 }
 
 /** Write to multiple outputs */
-void MultipleLogOutput::Write(double timestamp)
+void
+MultipleLogOutput::Write(double timestamp)
 {
   auto itr = m_Output.begin();
   auto end = m_Output.end();
 
-  while ( itr != end )
-    {
-    ( *itr )->Write(timestamp);
+  while (itr != end)
+  {
+    (*itr)->Write(timestamp);
     ++itr;
-    }
+  }
 }
 
 /** Write to multiple outputs */
-void MultipleLogOutput::Write(const std::string & content)
+void
+MultipleLogOutput::Write(const std::string & content)
 {
   auto itr = m_Output.begin();
   auto end = m_Output.end();
 
-  while ( itr != end )
-    {
-    ( *itr )->Write(content);
+  while (itr != end)
+  {
+    (*itr)->Write(content);
     ++itr;
-    }
+  }
 }
 
 /** Write to a buffer */
-void MultipleLogOutput::Write(const std::string & content, double timestamp)
+void
+MultipleLogOutput::Write(const std::string & content, double timestamp)
 {
   auto itr = m_Output.begin();
   auto end = m_Output.end();
 
-  while ( itr != end )
-    {
-    ( *itr )->Write(content, timestamp);
+  while (itr != end)
+  {
+    (*itr)->Write(content, timestamp);
     ++itr;
-    }
+  }
 }
-}
+} // namespace itk

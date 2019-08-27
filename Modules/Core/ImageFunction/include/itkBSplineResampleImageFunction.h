@@ -52,39 +52,37 @@ namespace itk
  * \ingroup ImageFunctions
  * \ingroup ITKImageFunction
  */
-template< typename TImageType, typename TCoordRep = float >
-class BSplineResampleImageFunction:
-  public BSplineInterpolateImageFunction<
-    TImageType, TCoordRep, typename TImageType::PixelType >
+template <typename TImageType, typename TCoordRep = float>
+class BSplineResampleImageFunction
+  : public BSplineInterpolateImageFunction<TImageType, TCoordRep, typename TImageType::PixelType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineResampleImageFunction);
 
   /** Standard class type aliases. */
   using Self = BSplineResampleImageFunction;
-  using Superclass = BSplineInterpolateImageFunction<
-    TImageType, TCoordRep, typename TImageType::PixelType >;
+  using Superclass = BSplineInterpolateImageFunction<TImageType, TCoordRep, typename TImageType::PixelType>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BSplineResampleImageFunction,
-               BSplineInterpolateImageFunction);
+  itkTypeMacro(BSplineResampleImageFunction, BSplineInterpolateImageFunction);
 
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);
 
   /** Set the input image representing the BSplineCoefficients */
-  void SetInputImage(const TImageType *inputData) override
+  void
+  SetInputImage(const TImageType * inputData) override
   {
     // bypass my superclass
-    this->InterpolateImageFunction< TImageType, TCoordRep >::SetInputImage(inputData);
+    this->InterpolateImageFunction<TImageType, TCoordRep>::SetInputImage(inputData);
     this->m_Coefficients = inputData;
-    if ( this->m_Coefficients.IsNotNull() )
-      {
+    if (this->m_Coefficients.IsNotNull())
+    {
       this->m_DataLength = this->m_Coefficients->GetBufferedRegion().GetSize();
-      }
+    }
   }
 
 protected:

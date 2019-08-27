@@ -23,11 +23,8 @@ namespace itk
 {
 FileListVideoIOFactory::FileListVideoIOFactory()
 {
-  this->RegisterOverride( "itkVideoIOBase",
-                          "itkFileListVideoIO",
-                          "FileList Video IO",
-                          true,
-                          CreateObjectFunction< FileListVideoIO >::New() );
+  this->RegisterOverride(
+    "itkVideoIOBase", "itkFileListVideoIO", "FileList Video IO", true, CreateObjectFunction<FileListVideoIO>::New());
 }
 
 FileListVideoIOFactory::~FileListVideoIOFactory() = default;
@@ -49,13 +46,14 @@ FileListVideoIOFactory::GetDescription() const
 
 static bool FileListVideoIOFactoryHasBeenRegistered;
 
-void FileListVideoIOFactoryRegister__Private()
+void
+FileListVideoIOFactoryRegister__Private()
 {
-  if( ! FileListVideoIOFactoryHasBeenRegistered )
-    {
+  if (!FileListVideoIOFactoryHasBeenRegistered)
+  {
     FileListVideoIOFactoryHasBeenRegistered = true;
     FileListVideoIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

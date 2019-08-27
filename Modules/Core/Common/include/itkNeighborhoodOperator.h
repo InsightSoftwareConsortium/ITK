@@ -65,15 +65,13 @@ namespace itk
  * \sphinxexample{Core/Common/DemonstrateAllOperators,Demonstrate All Operators}
  * \endsphinx
  */
-template< typename TPixel, unsigned int VDimension,
-          typename TAllocator = NeighborhoodAllocator< TPixel > >
-class ITK_TEMPLATE_EXPORT NeighborhoodOperator:
-  public Neighborhood< TPixel, VDimension, TAllocator >
+template <typename TPixel, unsigned int VDimension, typename TAllocator = NeighborhoodAllocator<TPixel>>
+class ITK_TEMPLATE_EXPORT NeighborhoodOperator : public Neighborhood<TPixel, VDimension, TAllocator>
 {
 public:
   /**  Standard class type aliases. */
   using Self = NeighborhoodOperator;
-  using Superclass = Neighborhood< TPixel, VDimension, TAllocator >;
+  using Superclass = Neighborhood<TPixel, VDimension, TAllocator>;
 
   itkTypeMacro(NeighborhoodOperator, NeighborhoodOperator);
 
@@ -84,19 +82,21 @@ public:
   using PixelType = TPixel;
 
   /** Slice iterator type alias support */
-  using SliceIteratorType = SliceIterator< TPixel, Self >;
+  using SliceIteratorType = SliceIterator<TPixel, Self>;
 
   /** Constructor. */
-  NeighborhoodOperator()
-  {  m_Direction = 0;  }
+  NeighborhoodOperator() { m_Direction = 0; }
 
   /** Copy constructor */
-  NeighborhoodOperator(const Self & orig):
-    Neighborhood< TPixel, VDimension, TAllocator >(orig)
-  {   m_Direction = orig.m_Direction;   }
+  NeighborhoodOperator(const Self & orig)
+    : Neighborhood<TPixel, VDimension, TAllocator>(orig)
+  {
+    m_Direction = orig.m_Direction;
+  }
 
   /** Assignment operator. */
-  Self & operator=(const Self & orig)
+  Self &
+  operator=(const Self & orig)
   {
     Superclass::operator=(orig);
     m_Direction = orig.m_Direction;
@@ -104,76 +104,90 @@ public:
   }
 
   /** Sets the dimensional direction of a directional operator. */
-  void SetDirection(const unsigned long & direction)
-  {  m_Direction = direction;   }
+  void
+  SetDirection(const unsigned long & direction)
+  {
+    m_Direction = direction;
+  }
 
   /** Returns the direction (dimension number) of a directional operator. */
-  unsigned long GetDirection() const
-  {  return m_Direction;  }
+  unsigned long
+  GetDirection() const
+  {
+    return m_Direction;
+  }
 
   /** Creates the operator with length only in the specified direction.
    * The radius of the operator will be 0 except along the axis on which
    * the operator will work.
    * \sa CreateToRadius \sa FillCenteredDirectional \sa SetDirection() \sa GetDirection() */
-  virtual void CreateDirectional();
+  virtual void
+  CreateDirectional();
 
   /** Creates the operator with a specified radius.  The spatial location of
    * the coefficients within the operator is defined by the subclass
    * implementation of the Fill method.
    * \sa CreateDirectional \sa Fill */
-  virtual void CreateToRadius(const SizeType &);
+  virtual void
+  CreateToRadius(const SizeType &);
 
   /** Creates the operator with a specified radius ("square", same length
    * on each side). The spatial location of the coefficients within the
    * operator is defined by the subclass implementation of the Fill method.
    * \sa CreateDirectional \sa Fill */
-  virtual void CreateToRadius(const SizeValueType);
+  virtual void
+  CreateToRadius(const SizeValueType);
 
   /** Reverses the direction of all axes of the operator by reversing the order
-    * of the coefficients. */
-  virtual void FlipAxes();
+   * of the coefficients. */
+  virtual void
+  FlipAxes();
 
   /** Prints some debugging information. */
-  void PrintSelf(std::ostream & os, Indent i) const override
+  void
+  PrintSelf(std::ostream & os, Indent i) const override
   {
-    os << i << "NeighborhoodOperator { this=" << this
-       << " Direction = " << m_Direction << " }" << std::endl;
-    Superclass::PrintSelf( os, i.GetNextIndent() );
+    os << i << "NeighborhoodOperator { this=" << this << " Direction = " << m_Direction << " }" << std::endl;
+    Superclass::PrintSelf(os, i.GetNextIndent());
   }
 
-  using PixelRealType = typename NumericTraits< TPixel >::RealType;
+  using PixelRealType = typename NumericTraits<TPixel>::RealType;
 
   /** Multiplies all of the coefficients of the kernel by a single scalar value.
-    */
+   */
   void ScaleCoefficients(PixelRealType);
 
 protected:
   /** Typedef support  for coefficient vector type.  Necessary
    * to fix bug in the microsoft VC++ compiler. */
-  using CoefficientVector = std::vector< PixelRealType >;
+  using CoefficientVector = std::vector<PixelRealType>;
 
   /** A subclass-specific algorithm that computes the coefficients
    * of the operator. */
-  virtual CoefficientVector GenerateCoefficients() = 0;
+  virtual CoefficientVector
+  GenerateCoefficients() = 0;
 
   /** A subclass-specific algorithm that positions the coefficients
    * spatially in the operator. */
-  virtual void Fill(const CoefficientVector &) = 0;
+  virtual void
+  Fill(const CoefficientVector &) = 0;
 
   /** A pre-defined Fill function that can be called by a subclass
    * Fill function to center coefficients along the axis specified
    * by the SetDirection method.  Useful for creating directional
    * operators, or centering coefficients in an N-dimensional
    * neighborhood. */
-  virtual void FillCenteredDirectional(const CoefficientVector &);
+  virtual void
+  FillCenteredDirectional(const CoefficientVector &);
 
   /** Initializes all the coefficients in the neighborhood to zero values */
-  void InitializeToZero()
+  void
+  InitializeToZero()
   {
-    for ( unsigned int i = 0; i < this->Size(); ++i )
-      {
-      this->operator[](i) = NumericTraits< PixelType >::ZeroValue();
-      }
+    for (unsigned int i = 0; i < this->Size(); ++i)
+    {
+      this->operator[](i) = NumericTraits<PixelType>::ZeroValue();
+    }
   }
 
 private:
@@ -183,7 +197,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNeighborhoodOperator.hxx"
+#  include "itkNeighborhoodOperator.hxx"
 #endif
 
 /*

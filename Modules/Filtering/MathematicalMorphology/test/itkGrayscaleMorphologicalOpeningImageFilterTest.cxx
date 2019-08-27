@@ -23,15 +23,16 @@
 #include "itkImageFileWriter.h"
 #include "itkTestingMacros.h"
 
-int itkGrayscaleMorphologicalOpeningImageFilterTest(int argc, char* argv [] )
+int
+itkGrayscaleMorphologicalOpeningImageFilterTest(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Missing arguments." << std::endl;
     std::cerr << "Usage: " << std::endl;
     std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImage outputImage " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Define the dimension of the images
   constexpr unsigned int Dimension = 2;
@@ -43,39 +44,36 @@ int itkGrayscaleMorphologicalOpeningImageFilterTest(int argc, char* argv [] )
   using ImageType = itk::Image<PixelType, Dimension>;
 
   // Declare the reader and writer
-  using ReaderType = itk::ImageFileReader< ImageType >;
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
 
   // Declare the type for the structuring element
-  using KernelType = itk::BinaryBallStructuringElement<
-                            PixelType, Dimension>;
+  using KernelType = itk::BinaryBallStructuringElement<PixelType, Dimension>;
 
   // Declare the type for the morphology Filter
-  using FilterType = itk::GrayscaleMorphologicalOpeningImageFilter<
-                           ImageType, ImageType, KernelType>;
+  using FilterType = itk::GrayscaleMorphologicalOpeningImageFilter<ImageType, ImageType, KernelType>;
 
   // Create the reader and writer
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, GrayscaleMorphologicalOpeningImageFilter,
-    KernelImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, GrayscaleMorphologicalOpeningImageFilter, KernelImageFilter);
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   // Connect the pipeline
-  filter->SetInput( reader->GetOutput() );
-  writer->SetInput( filter->GetOutput() );
+  filter->SetInput(reader->GetOutput());
+  writer->SetInput(filter->GetOutput());
 
   // Create the structuring element
-  KernelType ball;
+  KernelType           ball;
   KernelType::SizeType ballSize;
   ballSize[0] = 2;
   ballSize[1] = 2;
@@ -83,11 +81,10 @@ int itkGrayscaleMorphologicalOpeningImageFilterTest(int argc, char* argv [] )
   ball.CreateStructuringElement();
 
   // Connect the structuring element
-  filter->SetKernel( ball );
+  filter->SetKernel(ball);
 
   // Execute the filter
- ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
-
 }

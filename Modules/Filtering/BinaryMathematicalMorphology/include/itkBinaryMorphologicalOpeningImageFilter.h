@@ -55,25 +55,24 @@ namespace itk
  * \endsphinx
  */
 
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-class ITK_TEMPLATE_EXPORT BinaryMorphologicalOpeningImageFilter:
-  public KernelImageFilter< TInputImage, TOutputImage, TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+class ITK_TEMPLATE_EXPORT BinaryMorphologicalOpeningImageFilter
+  : public KernelImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMorphologicalOpeningImageFilter);
 
   /** Standard class type aliases. */
   using Self = BinaryMorphologicalOpeningImageFilter;
-  using Superclass = KernelImageFilter< TInputImage, TOutputImage, TKernel >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = KernelImageFilter<TInputImage, TOutputImage, TKernel>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryMorphologicalOpeningImageFilter,
-               KernelImageFilter);
+  itkTypeMacro(BinaryMorphologicalOpeningImageFilter, KernelImageFilter);
 
   using InputImageType = TInputImage;
   using OutputImageType = TOutputImage;
@@ -103,11 +102,13 @@ public:
 protected:
   BinaryMorphologicalOpeningImageFilter();
   ~BinaryMorphologicalOpeningImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleDilateImageFilter GrayscaleErodeImageFilter. */
-  void  GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   PixelType m_ForegroundValue;
@@ -117,7 +118,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryMorphologicalOpeningImageFilter.hxx"
+#  include "itkBinaryMorphologicalOpeningImageFilter.hxx"
 #endif
 
 #endif

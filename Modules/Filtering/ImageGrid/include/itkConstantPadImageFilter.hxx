@@ -27,27 +27,25 @@ namespace itk
 /**
  *
  */
-template< typename TInputImage, typename TOutputImage >
-ConstantPadImageFilter< TInputImage, TOutputImage >
-::ConstantPadImageFilter()
+template <typename TInputImage, typename TOutputImage>
+ConstantPadImageFilter<TInputImage, TOutputImage>::ConstantPadImageFilter()
 {
-  m_InternalBoundaryCondition.SetConstant( NumericTraits< OutputImagePixelType >::ZeroValue() );
-  this->InternalSetBoundaryCondition( &m_InternalBoundaryCondition );
+  m_InternalBoundaryCondition.SetConstant(NumericTraits<OutputImagePixelType>::ZeroValue());
+  this->InternalSetBoundaryCondition(&m_InternalBoundaryCondition);
 }
 
 /**
  *
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ConstantPadImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+ConstantPadImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Constant: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >
-    ( m_InternalBoundaryCondition.GetConstant() ) << std::endl;
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_InternalBoundaryCondition.GetConstant())
+     << std::endl;
 }
 
 } // end namespace itk

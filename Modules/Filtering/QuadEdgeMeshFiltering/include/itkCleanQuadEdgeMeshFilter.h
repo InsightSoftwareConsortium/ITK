@@ -32,18 +32,16 @@ namespace itk
  * \brief TODO
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< typename TInputMesh, typename TOutputMesh=TInputMesh >
-class ITK_TEMPLATE_EXPORT CleanQuadEdgeMeshFilter:
-  public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh = TInputMesh>
+class ITK_TEMPLATE_EXPORT CleanQuadEdgeMeshFilter : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CleanQuadEdgeMeshFilter);
 
   using Self = CleanQuadEdgeMeshFilter;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass =
-      QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(CleanQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
@@ -89,17 +87,15 @@ public:
 
   using OutputCellsContainerIterator = typename OutputMeshType::CellsContainerIterator;
 
-  using BoundingBoxType = BoundingBox< InputPointIdentifier, Self::PointDimension,
-                       InputCoordRepType, InputPointsContainer >;
+  using BoundingBoxType =
+    BoundingBox<InputPointIdentifier, Self::PointDimension, InputCoordRepType, InputPointsContainer>;
 
   using BoundingBoxPointer = typename BoundingBoxType::Pointer;
 
-  using CriterionType = MaxMeasureBoundCriterion< OutputMeshType >;
+  using CriterionType = MaxMeasureBoundCriterion<OutputMeshType>;
   using CriterionPointer = typename CriterionType::Pointer;
 
-  using DecimationType = SquaredEdgeLengthDecimationQuadEdgeMeshFilter< InputMeshType,
-                                                   InputMeshType,
-                                                   CriterionType >;
+  using DecimationType = SquaredEdgeLengthDecimationQuadEdgeMeshFilter<InputMeshType, InputMeshType, CriterionType>;
   using DecimationPointer = typename DecimationType::Pointer;
 
   /** TODO */
@@ -115,13 +111,17 @@ protected:
 
   ~CleanQuadEdgeMeshFilter() override = default;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  virtual void MergePoints( const InputCoordRepType absoluteToleranceSquared );
+  virtual void
+  MergePoints(const InputCoordRepType absoluteToleranceSquared);
 
-  virtual void CleanPoints();
+  virtual void
+  CleanPoints();
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   InputCoordRepType m_AbsoluteTolerance;
@@ -130,12 +130,11 @@ private:
   BoundingBoxPointer m_BoundingBox;
   CriterionPointer   m_Criterion;
   DecimationPointer  m_Decimation;
-
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCleanQuadEdgeMeshFilter.hxx"
+#  include "itkCleanQuadEdgeMeshFilter.hxx"
 #endif
 
 #endif

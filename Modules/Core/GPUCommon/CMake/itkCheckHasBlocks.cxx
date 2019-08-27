@@ -34,7 +34,8 @@
 // Macports gcc 4.9.2: Fails
 // Macports gcc 4.9.2: with native headers : Compiles
 
-int main()
+int
+main()
 {
   typedef int (^IntBlock)();
   return 0;

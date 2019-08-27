@@ -44,15 +44,11 @@ namespace itk
  * \ingroup ImageFunctions
  * \ingroup ITKDeprecated
  */
-template<
-  typename TInputImage,
-  typename TCoordRep = float >
-class ITK_TEMPLATE_EXPORT VectorCentralDifferenceImageFunction:
-  public ImageFunction< TInputImage,
-                        Matrix< double,
-                                TInputImage::PixelType::Dimension,
-                                TInputImage::ImageDimension >,
-                        TCoordRep >
+template <typename TInputImage, typename TCoordRep = float>
+class ITK_TEMPLATE_EXPORT VectorCentralDifferenceImageFunction
+  : public ImageFunction<TInputImage,
+                         Matrix<double, TInputImage::PixelType::Dimension, TInputImage::ImageDimension>,
+                         TCoordRep>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorCentralDifferenceImageFunction);
@@ -67,12 +63,9 @@ public:
 
   /** Standard class type aliases. */
   using Self = VectorCentralDifferenceImageFunction;
-  using Superclass = ImageFunction< TInputImage,
-                         Matrix< double, Self::Dimension,
-                                 Self::ImageDimension >,
-                         TCoordRep >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageFunction<TInputImage, Matrix<double, Self::Dimension, Self::ImageDimension>, TCoordRep>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VectorCentralDifferenceImageFunction, ImageFunction);
@@ -102,7 +95,8 @@ public:
    *
    *  ImageFunction::IsInsideBuffer() can be used to check bounds before
    *  calling the method. */
-  OutputType EvaluateAtIndex(const IndexType & index) const override;
+  OutputType
+  EvaluateAtIndex(const IndexType & index) const override;
 
   /** Evalulate the image derivative by central differencing at non-integer
    *  positions.
@@ -112,7 +106,8 @@ public:
    *
    *  ImageFunction::IsInsideBuffer() can be used to check bounds before
    *  calling the method. */
-  OutputType Evaluate(const PointType & point) const override
+  OutputType
+  Evaluate(const PointType & point) const override
   {
     IndexType index;
 
@@ -120,8 +115,8 @@ public:
     return this->EvaluateAtIndex(index);
   }
 
-  OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex) const override
+  OutputType
+  EvaluateAtContinuousIndex(const ContinuousIndexType & cindex) const override
   {
     IndexType index;
 
@@ -145,8 +140,9 @@ public:
 
 protected:
   VectorCentralDifferenceImageFunction();
-  ~VectorCentralDifferenceImageFunction() override{}
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  ~VectorCentralDifferenceImageFunction() override {}
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   // flag to take or not the image direction into account
@@ -156,7 +152,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorCentralDifferenceImageFunction.hxx"
+#  include "itkVectorCentralDifferenceImageFunction.hxx"
 #endif
 
 #endif

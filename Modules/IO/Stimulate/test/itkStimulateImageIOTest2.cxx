@@ -23,15 +23,16 @@
 
 // Specific ImageIO test
 
-int itkStimulateImageIOTest2( int argc, char* argv[] )
+int
+itkStimulateImageIOTest2(int argc, char * argv[])
 {
   // This test is usually run with the data file
   // Insight/Testing/Data/Input/BigEndian.spr
-  if( argc < 2)
-    {
+  if (argc < 2)
+  {
     std::cerr << "Usage: " << argv[0] << " filename\n";
     return EXIT_FAILURE;
-    }
+  }
 
   using PixelType = float;
   using myImage = itk::Image<PixelType, 3>;
@@ -39,25 +40,24 @@ int itkStimulateImageIOTest2( int argc, char* argv[] )
   itk::StimulateImageIO::Pointer io;
   io = itk::StimulateImageIO::New();
 
-  itk::ImageFileReader<myImage>::Pointer reader
-                                  = itk::ImageFileReader<myImage>::New();
+  itk::ImageFileReader<myImage>::Pointer reader = itk::ImageFileReader<myImage>::New();
 
   std::cout << "Filename: " << argv[1] << std::endl;
   reader->SetFileName(argv[1]);
   reader->SetImageIO(io);
   try
-    {
+  {
     reader->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cout << "Exception in file reader " << std::endl;
     std::cout << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   myImage::Pointer image = reader->GetOutput();
-  image->Print(std::cout );
+  image->Print(std::cout);
 
   myImage::RegionType region = image->GetLargestPossibleRegion();
   std::cout << "region " << region;
@@ -67,5 +67,4 @@ int itkStimulateImageIOTest2( int argc, char* argv[] )
 
 
   return EXIT_SUCCESS;
-
 }

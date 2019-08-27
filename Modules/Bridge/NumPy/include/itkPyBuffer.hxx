@@ -23,43 +23,43 @@
 namespace itk
 {
 
-template<class TImage>
+template <class TImage>
 PyObject *
-PyBuffer<TImage>
-::_GetArrayViewFromImage( ImageType * image)
+PyBuffer<TImage>::_GetArrayViewFromImage(ImageType * image)
 {
-  PyObject *                  memoryView    = NULL;
-  Py_buffer                   pyBuffer;
+  PyObject * memoryView = NULL;
+  Py_buffer  pyBuffer;
   memset(&pyBuffer, 0, sizeof(Py_buffer));
 
-  Py_ssize_t                  len           = 1;
-  size_t                      pixelSize     = sizeof(ComponentType);
-  int                         res           = 0;
+  Py_ssize_t len = 1;
+  size_t     pixelSize = sizeof(ComponentType);
+  int        res = 0;
 
-  if( !image )
-    {
+  if (!image)
+  {
     throw std::runtime_error("Input image is null");
-    }
+  }
 
   image->Update();
 
-  ComponentType *buffer =  const_cast < ComponentType *> (reinterpret_cast< const ComponentType* > ( image->GetBufferPointer() ) );
+  ComponentType * buffer =
+    const_cast<ComponentType *>(reinterpret_cast<const ComponentType *>(image->GetBufferPointer()));
 
-  void * itkImageBuffer = (void *)( buffer );
+  void * itkImageBuffer = (void *)(buffer);
 
   // Computing the length of data
   const int numberOfComponents = image->GetNumberOfComponentsPerPixel();
-  SizeType size = image->GetBufferedRegion().GetSize();
+  SizeType  size = image->GetBufferedRegion().GetSize();
 
-  for( unsigned int dim = 0; dim < ImageDimension; ++dim )
-    {
+  for (unsigned int dim = 0; dim < ImageDimension; ++dim)
+  {
     len *= size[dim];
-    }
+  }
 
   len *= numberOfComponents;
   len *= pixelSize;
 
-  res = PyBuffer_FillInfo(&pyBuffer, NULL, (void*)itkImageBuffer, len, 0, PyBUF_CONTIG);
+  res = PyBuffer_FillInfo(&pyBuffer, NULL, (void *)itkImageBuffer, len, 0, PyBUF_CONTIG);
   memoryView = PyMemoryView_FromBuffer(&pyBuffer);
 
   PyBuffer_Release(&pyBuffer);
@@ -67,105 +67,102 @@ PyBuffer<TImage>
   return memoryView;
 }
 
-template<class TImage>
+template <class TImage>
 const typename PyBuffer<TImage>::OutputImagePointer
-PyBuffer<TImage>
-::_GetImageViewFromArray( PyObject *arr, PyObject *shape, PyObject *numOfComponent)
+PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObject * numOfComponent)
 {
-  PyObject *                  shapeseq      = NULL;
-  PyObject *                  item          = NULL;
+  PyObject * shapeseq = NULL;
+  PyObject * item = NULL;
 
-  Py_ssize_t                  bufferLength;
-  Py_buffer                   pyBuffer;
+  Py_ssize_t bufferLength;
+  Py_buffer  pyBuffer;
   memset(&pyBuffer, 0, sizeof(Py_buffer));
 
-  SizeType size;
-  SizeType sizeFortran;
+  SizeType      size;
+  SizeType      sizeFortran;
   SizeValueType numberOfPixels = 1;
 
-  const void *                buffer;
+  const void * buffer;
 
-  long                        numberOfComponents= 1;
-  unsigned int                dimension     = 0;
+  long         numberOfComponents = 1;
+  unsigned int dimension = 0;
 
 
-  size_t                      pixelSize     = sizeof(ComponentType);
-  size_t                      len           = 1;
+  size_t pixelSize = sizeof(ComponentType);
+  size_t len = 1;
 
-  if(PyObject_GetBuffer(arr, &pyBuffer, PyBUF_ND | PyBUF_ANY_CONTIGUOUS ) == -1)
-    {
-    PyErr_SetString( PyExc_RuntimeError, "Cannot get an instance of NumPy array." );
+  if (PyObject_GetBuffer(arr, &pyBuffer, PyBUF_ND | PyBUF_ANY_CONTIGUOUS) == -1)
+  {
+    PyErr_SetString(PyExc_RuntimeError, "Cannot get an instance of NumPy array.");
     PyBuffer_Release(&pyBuffer);
     return nullptr;
-    }
+  }
   else
-    {
+  {
     bufferLength = pyBuffer.len;
     buffer = pyBuffer.buf;
-    }
+  }
   PyBuffer_Release(&pyBuffer);
 
-  shapeseq   = PySequence_Fast(shape, "expected sequence");
-  dimension  = PySequence_Size(shape);
+  shapeseq = PySequence_Fast(shape, "expected sequence");
+  dimension = PySequence_Size(shape);
 
   numberOfComponents = PyInt_AsLong(numOfComponent);
 
-  for( unsigned int i = 0; i < dimension; ++i )
-    {
-    item = PySequence_Fast_GET_ITEM(shapeseq,i);
+  for (unsigned int i = 0; i < dimension; ++i)
+  {
+    item = PySequence_Fast_GET_ITEM(shapeseq, i);
     size[i] = (SizeValueType)PyInt_AsLong(item);
     sizeFortran[dimension - 1 - i] = (SizeValueType)PyInt_AsLong(item);
     numberOfPixels *= size[i];
-    }
+  }
 
   bool isFortranContiguous = false;
-  if( pyBuffer.strides != NULL && pyBuffer.itemsize == pyBuffer.strides[0] )
-    {
+  if (pyBuffer.strides != NULL && pyBuffer.itemsize == pyBuffer.strides[0])
+  {
     isFortranContiguous = true;
-    }
+  }
 
-  len = numberOfPixels*numberOfComponents*pixelSize;
-  if ( bufferLength != len )
-    {
-    PyErr_SetString( PyExc_RuntimeError, "Size mismatch of image and Buffer." );
+  len = numberOfPixels * numberOfComponents * pixelSize;
+  if (bufferLength != len)
+  {
+    PyErr_SetString(PyExc_RuntimeError, "Size mismatch of image and Buffer.");
     PyBuffer_Release(&pyBuffer);
     Py_DECREF(shapeseq);
     return nullptr;
-    }
+  }
 
   IndexType start;
-  start.Fill( 0 );
+  start.Fill(0);
 
   RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
-  if( isFortranContiguous )
-    {
-    region.SetSize( sizeFortran );
-    }
+  region.SetIndex(start);
+  region.SetSize(size);
+  if (isFortranContiguous)
+  {
+    region.SetSize(sizeFortran);
+  }
   else
-    {
-    region.SetSize( size );
-    }
+  {
+    region.SetSize(size);
+  }
 
   PointType origin;
-  origin.Fill( 0.0 );
+  origin.Fill(0.0);
 
   SpacingType spacing;
-  spacing.Fill( 1.0 );
+  spacing.Fill(1.0);
 
-  using ImporterType = ImportImageFilter< PixelType, ImageDimension >;
+  using ImporterType = ImportImageFilter<PixelType, ImageDimension>;
   typename ImporterType::Pointer importer = ImporterType::New();
-  importer->SetRegion( region );
-  importer->SetOrigin( origin );
-  importer->SetSpacing( spacing );
+  importer->SetRegion(region);
+  importer->SetOrigin(origin);
+  importer->SetSpacing(spacing);
   const bool importImageFilterWillOwnTheBuffer = false;
 
   PixelType * data = (PixelType *)buffer;
 
-  importer->SetImportPointer( data,
-                              numberOfPixels,
-                              importImageFilterWillOwnTheBuffer );
+  importer->SetImportPointer(data, numberOfPixels, importImageFilterWillOwnTheBuffer);
 
   importer->Update();
   OutputImagePointer output = importer->GetOutput();

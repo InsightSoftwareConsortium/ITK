@@ -31,71 +31,68 @@ namespace itk
  */
 namespace Functor
 {
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 class ComplexToModulus
 {
 public:
   ComplexToModulus() = default;
   ~ComplexToModulus() = default;
-  bool operator!=(const ComplexToModulus &) const
+  bool
+  operator!=(const ComplexToModulus &) const
   {
     return false;
   }
 
-  bool operator==(const ComplexToModulus & other) const
+  bool
+  operator==(const ComplexToModulus & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput & A) const
+  inline TOutput
+  operator()(const TInput & A) const
   {
-    return (TOutput)( std::sqrt( A.real() * A.real()
-                                + A.imag() * A.imag() ) );
+    return (TOutput)(std::sqrt(A.real() * A.real() + A.imag() * A.imag()));
   }
 };
-}
+} // namespace Functor
 
-template< typename TInputImage, typename TOutputImage >
-class ComplexToModulusImageFilter:
-  public
-  UnaryGeneratorImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ComplexToModulusImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToModulusImageFilter);
 
   /** Standard class type aliases. */
   using Self = ComplexToModulusImageFilter;
-  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using FunctorType = Functor::ComplexToModulus< typename TInputImage::PixelType,
-                                                 typename TOutputImage::PixelType >;
+  using Superclass = UnaryGeneratorImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using FunctorType = Functor::ComplexToModulus<typename TInputImage::PixelType, typename TOutputImage::PixelType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ComplexToModulusImageFilter,
-               UnaryGeneratorImageFilter);
+  itkTypeMacro(ComplexToModulusImageFilter, UnaryGeneratorImageFilter);
 
   using InputPixelType = typename TInputImage::PixelType;
   using OutputPixelType = typename TOutputImage::PixelType;
-  using InputPixelValueType = typename NumericTraits< InputPixelType >::ValueType;
+  using InputPixelValueType = typename NumericTraits<InputPixelType>::ValueType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputMultiplyOperatorCheck,
-                   ( Concept::MultiplyOperator< InputPixelValueType > ) );
+  itkConceptMacro(InputMultiplyOperatorCheck, (Concept::MultiplyOperator<InputPixelValueType>));
   // End concept checking
 #endif
 
 protected:
   ComplexToModulusImageFilter()
-    {
-#if !defined( ITK_WRAPPING_PARSER )
-      Superclass::SetFunctor(FunctorType());
+  {
+#if !defined(ITK_WRAPPING_PARSER)
+    Superclass::SetFunctor(FunctorType());
 #endif
-    }
+  }
   ~ComplexToModulusImageFilter() override = default;
 };
 } // end namespace itk

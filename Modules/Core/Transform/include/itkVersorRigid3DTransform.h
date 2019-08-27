@@ -42,9 +42,8 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template<typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT VersorRigid3DTransform :
-  public VersorTransform<TParametersValueType>
+template <typename TParametersValueType = double>
+class ITK_TEMPLATE_EXPORT VersorRigid3DTransform : public VersorTransform<TParametersValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VersorRigid3DTransform);
@@ -105,9 +104,11 @@ public:
    * This is typically used by optimizers.
    * There are 6 parameters. The first three represent the
    * versor, the last three represent the translation. */
-  void SetParameters(const ParametersType & parameters) override;
+  void
+  SetParameters(const ParametersType & parameters) override;
 
-  const ParametersType & GetParameters() const override;
+  const ParametersType &
+  GetParameters() const override;
 
   /** Update the transform's parameters by the values in \c update.
    * \param update must be of the same length as returned by
@@ -116,13 +117,15 @@ public:
    * SetParameters is called at the end of this method, to allow the transform
    * to perform any required operations on the updated parameters - typically
    * a conversion to member variables for use in TransformPoint. */
-  void UpdateTransformParameters( const DerivativeType & update, TParametersValueType factor = 1.0 ) override;
+  void
+  UpdateTransformParameters(const DerivativeType & update, TParametersValueType factor = 1.0) override;
 
   /** This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
+  void
+  ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const override;
 
 protected:
   VersorRigid3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
@@ -130,12 +133,13 @@ protected:
   VersorRigid3DTransform();
   ~VersorRigid3DTransform() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
-};                                      // class VersorRigid3DTransform
-}  // namespace itk
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
+}; // class VersorRigid3DTransform
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVersorRigid3DTransform.hxx"
+#  include "itkVersorRigid3DTransform.hxx"
 #endif
 
 #endif /* itkVersorRigid3DTransform_h */

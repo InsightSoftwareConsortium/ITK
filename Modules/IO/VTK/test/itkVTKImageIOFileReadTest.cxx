@@ -21,60 +21,61 @@
 #include "itkVTKImageIO.h"
 #include "itkTestingMacros.h"
 
-template< class TImage >
-int ReadImage( const std::string fileName,
-               typename TImage::Pointer image )
+template <class TImage>
+int
+ReadImage(const std::string fileName, typename TImage::Pointer image)
 {
 
   using IOType = itk::VTKImageIO;
-  IOType::Pointer vtkIO                   =  IOType::New();
+  IOType::Pointer vtkIO = IOType::New();
 
   if (!vtkIO->CanReadFile(fileName.c_str()))
-    {
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   using ImageType = TImage;
-  using ImageReaderType = itk::ImageFileReader< ImageType >;
+  using ImageReaderType = itk::ImageFileReader<ImageType>;
 
   typename ImageReaderType::Pointer reader = ImageReaderType::New();
   reader->SetImageIO(vtkIO);
-  reader->SetFileName( fileName );
+  reader->SetFileName(fileName);
 
   try
-    {
+  {
     reader->Update();
-    }
-  catch( itk::ExceptionObject& e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  image->Graft( reader->GetOutput() );
+  image->Graft(reader->GetOutput());
 
   return EXIT_SUCCESS;
 }
 
-int itkVTKImageIOFileReadTest( int argc, char* argv[] )
+int
+itkVTKImageIOFileReadTest(int argc, char * argv[])
 {
-  if( argc != 3 )
-    {
-    std::cerr << "Usage: "<< std::endl;
+  if (argc != 3)
+  {
+    std::cerr << "Usage: " << std::endl;
     std::cerr << itkNameOfTestExecutableMacro(argv);
     std::cerr << "matrix.vtk ironProt.vtk";
     std::cerr << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Read matrix.vtk file
   using matrixImageType = itk::Image<float, 2>;
-  matrixImageType::Pointer matriximage     = matrixImageType::New();
+  matrixImageType::Pointer matriximage = matrixImageType::New();
 
-  if( ReadImage< matrixImageType >( argv[1], matriximage ) == EXIT_FAILURE)
-    {
+  if (ReadImage<matrixImageType>(argv[1], matriximage) == EXIT_FAILURE)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << matriximage << std::endl;
 
@@ -82,10 +83,10 @@ int itkVTKImageIOFileReadTest( int argc, char* argv[] )
   using ironProtImageType = itk::Image<unsigned char, 3>;
   ironProtImageType::Pointer ironProtimage = ironProtImageType::New();
 
-  if( ReadImage< ironProtImageType >( argv[2], ironProtimage ) == EXIT_FAILURE)
-    {
+  if (ReadImage<ironProtImageType>(argv[2], ironProtimage) == EXIT_FAILURE)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << ironProtimage << std::endl;
 

@@ -38,12 +38,7 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-template<
-  typename    TFixedImageType,
-  typename    TMovingImageType,
-  typename    TVirtualImageType,
-  typename TCoordRep = double
-  >
+template <typename TFixedImageType, typename TMovingImageType, typename TVirtualImageType, typename TCoordRep = double>
 class DefaultImageToImageMetricTraitsv4
 {
 public:
@@ -65,69 +60,56 @@ public:
   static constexpr ImageDimensionType MovingImageDimension = MovingImageType::ImageDimension;
   static constexpr ImageDimensionType VirtualImageDimension = VirtualImageType::ImageDimension;
 
-  using FixedImageGradientType = CovariantVector< CoordinateRepresentationType,
-                             Self::FixedImageDimension >;
-  using MovingImageGradientType = CovariantVector< CoordinateRepresentationType,
-                             Self::MovingImageDimension >;
+  using FixedImageGradientType = CovariantVector<CoordinateRepresentationType, Self::FixedImageDimension>;
+  using MovingImageGradientType = CovariantVector<CoordinateRepresentationType, Self::MovingImageDimension>;
 
-  using VirtualImageGradientType = CovariantVector< CoordinateRepresentationType,
-                             Self::VirtualImageDimension >;
+  using VirtualImageGradientType = CovariantVector<CoordinateRepresentationType, Self::VirtualImageDimension>;
 
   using FixedImageComponentGradientType = FixedImageGradientType;
   using MovingImageComponentGradientType = MovingImageGradientType;
   using VirtualImageComponentGradientType = VirtualImageGradientType;
 
-  using FixedImageGradientConvertType = DefaultConvertPixelTraits< FixedImageGradientType >;
-  using MovingImageGradientConvertType = DefaultConvertPixelTraits< MovingImageGradientType >;
+  using FixedImageGradientConvertType = DefaultConvertPixelTraits<FixedImageGradientType>;
+  using MovingImageGradientConvertType = DefaultConvertPixelTraits<MovingImageGradientType>;
 
   /** Type of the filter used to calculate the gradients. */
   using FixedRealType = typename NumericTraits<FixedImagePixelType>::RealType;
-  using FixedGradientPixelType = CovariantVector< FixedRealType,
-                           Self::FixedImageDimension >;
-  using FixedImageGradientImageType = Image< FixedGradientPixelType,
-                 Self::FixedImageDimension >;
+  using FixedGradientPixelType = CovariantVector<FixedRealType, Self::FixedImageDimension>;
+  using FixedImageGradientImageType = Image<FixedGradientPixelType, Self::FixedImageDimension>;
 
-  using FixedImageGradientFilterType =
-      ImageToImageFilter< FixedImageType, FixedImageGradientImageType >;
+  using FixedImageGradientFilterType = ImageToImageFilter<FixedImageType, FixedImageGradientImageType>;
 
   using MovingRealType = typename NumericTraits<MovingImagePixelType>::RealType;
-  using MovingGradientPixelType = CovariantVector< MovingRealType,
-                           Self::MovingImageDimension >;
-  using MovingImageGradientImageType = Image< MovingGradientPixelType,
-                 Self::MovingImageDimension >;
+  using MovingGradientPixelType = CovariantVector<MovingRealType, Self::MovingImageDimension>;
+  using MovingImageGradientImageType = Image<MovingGradientPixelType, Self::MovingImageDimension>;
 
-  using MovingImageGradientFilterType =
-      ImageToImageFilter< MovingImageType, MovingImageGradientImageType >;
+  using MovingImageGradientFilterType = ImageToImageFilter<MovingImageType, MovingImageGradientImageType>;
 
   /** Default image gradient filter types */
-  using DefaultFixedImageGradientFilter = GradientRecursiveGaussianImageFilter< FixedImageType,
-                                                FixedImageGradientImageType >;
-  using DefaultMovingImageGradientFilter = GradientRecursiveGaussianImageFilter< MovingImageType,
-                                                MovingImageGradientImageType >;
+  using DefaultFixedImageGradientFilter =
+    GradientRecursiveGaussianImageFilter<FixedImageType, FixedImageGradientImageType>;
+  using DefaultMovingImageGradientFilter =
+    GradientRecursiveGaussianImageFilter<MovingImageType, MovingImageGradientImageType>;
 
   /** Image gradient calculator types. The TOutput template parameter
    * is chosen to match that of CentralDiffererenceImageFunction. */
-  using FixedImageGradientCalculatorType = ImageFunction<FixedImageType,
-                        CovariantVector<double,
-                                  Self::FixedImageDimension >,
-                        CoordinateRepresentationType>;
-  using MovingImageGradientCalculatorType = ImageFunction<MovingImageType,
-                        CovariantVector<double,
-                                  Self::MovingImageDimension >,
-                        CoordinateRepresentationType>;
+  using FixedImageGradientCalculatorType =
+    ImageFunction<FixedImageType, CovariantVector<double, Self::FixedImageDimension>, CoordinateRepresentationType>;
+  using MovingImageGradientCalculatorType =
+    ImageFunction<MovingImageType, CovariantVector<double, Self::MovingImageDimension>, CoordinateRepresentationType>;
 
-  using DefaultFixedImageGradientCalculator = CentralDifferenceImageFunction<FixedImageType,
-                                         CoordinateRepresentationType>;
-  using DefaultMovingImageGradientCalculator = CentralDifferenceImageFunction<MovingImageType,
-                                         CoordinateRepresentationType>;
+  using DefaultFixedImageGradientCalculator =
+    CentralDifferenceImageFunction<FixedImageType, CoordinateRepresentationType>;
+  using DefaultMovingImageGradientCalculator =
+    CentralDifferenceImageFunction<MovingImageType, CoordinateRepresentationType>;
 
-  /** Only floating-point images are currently supported. To support integer images,
-   * several small changes must be made to use an internal floating-point type for
-   * computations rather than the image pixel type itself. */
-  #ifdef ITK_USE_CONCEPT_CHECKING
-  itkConceptMacro( OnlyDefinedForFloatingPointTypes0, ( itk::Concept::IsFloatingPoint<FixedRealType> ) );
-  itkConceptMacro( OnlyDefinedForFloatingPointTypes1, ( itk::Concept::IsFloatingPoint<MovingRealType> ) );
-  #endif // ITK_USE_CONCEPT_CHECKING
+/** Only floating-point images are currently supported. To support integer images,
+ * several small changes must be made to use an internal floating-point type for
+ * computations rather than the image pixel type itself. */
+#ifdef ITK_USE_CONCEPT_CHECKING
+  itkConceptMacro(OnlyDefinedForFloatingPointTypes0, (itk::Concept::IsFloatingPoint<FixedRealType>));
+  itkConceptMacro(OnlyDefinedForFloatingPointTypes1, (itk::Concept::IsFloatingPoint<MovingRealType>));
+#endif // ITK_USE_CONCEPT_CHECKING
 };
 } // end namespace itk
 

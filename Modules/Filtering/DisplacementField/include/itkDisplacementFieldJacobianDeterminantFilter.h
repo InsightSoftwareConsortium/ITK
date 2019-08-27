@@ -108,22 +108,20 @@ namespace itk
  * \author Torsten Rohlfing, Neuroscience Program, SRI International.
  * \ingroup ITKDisplacementField
  */
-template< typename TInputImage,
+template <typename TInputImage,
           typename TRealType = float,
-          typename TOutputImage = Image< TRealType,
-                                         TInputImage::ImageDimension >
-          >
-class ITK_TEMPLATE_EXPORT DisplacementFieldJacobianDeterminantFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+          typename TOutputImage = Image<TRealType, TInputImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT DisplacementFieldJacobianDeterminantFilter
+  : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DisplacementFieldJacobianDeterminantFilter);
 
   /** Standard class type aliases. */
   using Self = DisplacementFieldJacobianDeterminantFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -150,14 +148,12 @@ public:
 
   /** Define the data type and the vector of data type used in calculations. */
   using RealType = TRealType;
-  using RealVectorType =
-      Vector< TRealType, InputPixelType::Dimension >;
-  using RealVectorImageType =
-      Image< RealVectorType, TInputImage::ImageDimension >;
+  using RealVectorType = Vector<TRealType, InputPixelType::Dimension>;
+  using RealVectorImageType = Image<RealVectorType, TInputImage::ImageDimension>;
 
   /** Type of the iterator that will be used to move through the image.  Also
       the type which will be passed to the evaluate function */
-  using ConstNeighborhoodIteratorType = ConstNeighborhoodIterator< RealVectorImageType >;
+  using ConstNeighborhoodIteratorType = ConstNeighborhoodIterator<RealVectorImageType>;
   using RadiusType = typename ConstNeighborhoodIteratorType::RadiusType;
 
   /** Superclass type alias. */
@@ -171,32 +167,41 @@ public:
    * pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** Set the derivative weights according to the spacing of the input image
       (1/spacing). Use this option if you want to calculate the Jacobian
       determinant in the space in which the data was acquired. Default
       is ImageSpacingOn. */
-  void SetUseImageSpacingOn()
-  { this->SetUseImageSpacing(true); }
+  void
+  SetUseImageSpacingOn()
+  {
+    this->SetUseImageSpacing(true);
+  }
 
   /** Reset the derivative weights to ignore image spacing.  Use this option if
       you want to calculate the Jacobian determinant in the image space.
       Default is ImageSpacingOn. */
-  void SetUseImageSpacingOff()
-  { this->SetUseImageSpacing(false); }
+  void
+  SetUseImageSpacingOff()
+  {
+    this->SetUseImageSpacing(false);
+  }
 
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */
-  void SetUseImageSpacing(bool);
+  void
+  SetUseImageSpacing(bool);
 
   itkGetConstMacro(UseImageSpacing, bool);
 
-  using WeightsType = FixedArray< TRealType, ImageDimension >;
+  using WeightsType = FixedArray<TRealType, ImageDimension>;
 
   /** Directly Set/Get the array of weights used in the gradient calculations.
       Note that calling UseImageSpacingOn will clobber these values. */
-  void SetDerivativeWeights(const WeightsType &);
+  void
+  SetDerivativeWeights(const WeightsType &);
   itkGetConstReferenceMacro(DerivativeWeights, WeightsType);
 
 protected:
@@ -206,7 +211,8 @@ protected:
   /** Do any necessary casting/copying of the input data.  Input pixel types
      whose value types are not real number types must be cast to real number
      types. */
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
   /** DisplacementFieldJacobianDeterminantFilter can be implemented as a
    * multithreaded filter (we're only using vnl_det(), which is trivially
@@ -220,10 +226,12 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   using ImageBaseType = typename InputImageType::Superclass;
 
@@ -234,7 +242,8 @@ protected:
   itkGetConstReferenceMacro(NeighborhoodRadius, RadiusType);
   itkSetMacro(NeighborhoodRadius, RadiusType);
 
-  virtual TRealType EvaluateAtNeighborhood(const ConstNeighborhoodIteratorType & it) const;
+  virtual TRealType
+  EvaluateAtNeighborhood(const ConstNeighborhoodIteratorType & it) const;
 
   /** The weights used to scale partial derivatives during processing */
   WeightsType m_DerivativeWeights;
@@ -254,7 +263,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDisplacementFieldJacobianDeterminantFilter.hxx"
+#  include "itkDisplacementFieldJacobianDeterminantFilter.hxx"
 #endif
 
 #endif

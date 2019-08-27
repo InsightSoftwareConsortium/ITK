@@ -36,73 +36,99 @@ namespace Function
  * \sa MovingHistogramImageFilter
  * \ingroup ITKImageStatistics
  */
-template< class TInputPixel, class TOutputPixel >
+template <class TInputPixel, class TOutputPixel>
 class AdaptiveEqualizationHistogram
 {
 public:
-
   using RealType = float;
 
-  AdaptiveEqualizationHistogram()
-
-    {
-    }
+  AdaptiveEqualizationHistogram() {}
 
   // ~AdaptiveEqualizationHistogram()  {} default is ok
 
-  void AddPixel(const TInputPixel & p)
+  void
+  AddPixel(const TInputPixel & p)
   {
     m_Map[p]++;
   }
 
-  void RemovePixel(const TInputPixel & p)
+  void
+  RemovePixel(const TInputPixel & p)
   {
 
     // insert new item if one doesn't exist
-    typename MapType::iterator it = m_Map.find( p );
+    typename MapType::iterator it = m_Map.find(p);
 
-    itkAssertInDebugAndIgnoreInReleaseMacro( it != m_Map.end() );
+    itkAssertInDebugAndIgnoreInReleaseMacro(it != m_Map.end());
 
-    if ( --(it->second) == 0 )
-      {
-      m_Map.erase( it );
-      }
-
+    if (--(it->second) == 0)
+    {
+      m_Map.erase(it);
+    }
   }
 
-  TOutputPixel GetValue(const TInputPixel &pixel)
+  TOutputPixel
+  GetValue(const TInputPixel & pixel)
+  {
+
+    // Normalize input pixels to [-0.5 0.5] gray level.
+    // AdaptiveHistogramEqualization compute kernel components with
+    // float, but use double for accumulate and temporaries.
+    const double iscale = (double)m_Maximum - m_Minimum;
+
+    double                     sum = 0.0;
+    typename MapType::iterator itMap = m_Map.begin();
+    const RealType             u = ((double)pixel - m_Minimum) / iscale - 0.5;
+    while (itMap != m_Map.end())
     {
+      const RealType v = ((double)itMap->first - m_Minimum) / iscale - 0.5;
+      const double   ikernel = m_KernelSize - m_BoundaryCount;
+      sum += itMap->second * CumulativeFunction(u, v) / ikernel;
 
-      // Normalize input pixels to [-0.5 0.5] gray level.
-      // AdaptiveHistogramEqualization compute kernel components with
-      // float, but use double for accumulate and temporaries.
-      const double iscale = (double)m_Maximum - m_Minimum;
-
-      double sum = 0.0;
-      typename MapType::iterator itMap = m_Map.begin();
-      const RealType u = ( (double)pixel - m_Minimum ) / iscale - 0.5;
-      while ( itMap != m_Map.end() )
-        {
-        const RealType v =  ( (double)itMap->first - m_Minimum ) / iscale - 0.5;
-        const double ikernel =  m_KernelSize - m_BoundaryCount;
-        sum += itMap->second * CumulativeFunction(u,v) / ikernel;
-
-        ++itMap;
-        }
-
-      return (TOutputPixel)( iscale * ( sum + 0.5 ) + m_Minimum );
+      ++itMap;
     }
 
-  void AddBoundary() {++m_BoundaryCount;}
+    return (TOutputPixel)(iscale * (sum + 0.5) + m_Minimum);
+  }
 
-  void RemoveBoundary() {--m_BoundaryCount;}
+  void
+  AddBoundary()
+  {
+    ++m_BoundaryCount;
+  }
 
-  void SetAlpha( RealType alpha ) {m_Alpha=alpha;}
-  void SetBeta( RealType beta ) {m_Beta=beta;}
-  void SetKernelSize( RealType kernelSize ) {m_KernelSize=kernelSize;}
+  void
+  RemoveBoundary()
+  {
+    --m_BoundaryCount;
+  }
 
-  void SetMinimum( TInputPixel minimum ) {m_Minimum=minimum;}
-  void SetMaximum( TInputPixel maximum ) {m_Maximum=maximum;}
+  void
+  SetAlpha(RealType alpha)
+  {
+    m_Alpha = alpha;
+  }
+  void
+  SetBeta(RealType beta)
+  {
+    m_Beta = beta;
+  }
+  void
+  SetKernelSize(RealType kernelSize)
+  {
+    m_KernelSize = kernelSize;
+  }
+
+  void
+  SetMinimum(TInputPixel minimum)
+  {
+    m_Minimum = minimum;
+  }
+  void
+  SetMaximum(TInputPixel maximum)
+  {
+    m_Maximum = maximum;
+  }
 
 private:
   RealType m_Alpha;
@@ -112,27 +138,25 @@ private:
   TInputPixel m_Minimum;
   TInputPixel m_Maximum;
 
-  RealType CumulativeFunction(RealType u, RealType v)
+  RealType
+  CumulativeFunction(RealType u, RealType v)
   {
     // Calculate cumulative function
     const RealType s = itk::Math::sgn(u - v);
-    const RealType ad = itk::Math::abs( 2.0 * ( u - v ) );
+    const RealType ad = itk::Math::abs(2.0 * (u - v));
 
     return 0.5 * s * std::pow(ad, m_Alpha) - m_Beta * 0.5 * s * ad + m_Beta * u;
   }
 
 private:
-  using MapType = typename std::unordered_map< TInputPixel,
-                                     size_t,
-                                     StructHashFunction< TInputPixel > >;
+  using MapType = typename std::unordered_map<TInputPixel, size_t, StructHashFunction<TInputPixel>>;
 
 
-  MapType       m_Map;
-  size_t        m_BoundaryCount{0};
-
+  MapType m_Map;
+  size_t  m_BoundaryCount{ 0 };
 };
 
 } // end namespace Function
 } // end namespace itk
 
-#endif  // itkAdaptiveHistogramHistogram_h
+#endif // itkAdaptiveHistogramHistogram_h

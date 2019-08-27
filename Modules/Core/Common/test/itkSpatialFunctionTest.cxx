@@ -21,7 +21,8 @@
 // Spatial function stuff
 #include "itkSphereSpatialFunction.h"
 
-int itkSpatialFunctionTest(int, char* [] )
+int
+itkSpatialFunctionTest(int, char *[])
 {
   // Change this parameter (and the positions, below) to work in higher or lower dimensions
   constexpr unsigned int dim = 3;
@@ -34,12 +35,12 @@ int itkSpatialFunctionTest(int, char* [] )
   // Create and initialize a new sphere function
 
   TFunctionType::Pointer spatialFunc = TFunctionType::New();
-  spatialFunc->SetRadius( 5 );
+  spatialFunc->SetRadius(5);
 
   TFunctionPositionType center;
-  center[0]=10;
-  center[1]=10;
-  center[2]=10;
+  center[0] = 10;
+  center[1] = 10;
+  center[2] = 10;
   spatialFunc->SetCenter(center);
 
   // Test the Get macros as well
@@ -56,7 +57,7 @@ int itkSpatialFunctionTest(int, char* [] )
 
   // The function should have returned a value of 1, since the center is inside
   // the sphere
-  if(funcVal == 1)
+  if (funcVal == 1)
     return EXIT_SUCCESS;
   else
     return EXIT_FAILURE;

@@ -36,74 +36,66 @@
 namespace itk
 {
 
-template< typename TPixel, unsigned int VDimension, typename TAllocator >
+template <typename TPixel, unsigned int VDimension, typename TAllocator>
 void
-ImageKernelOperator< TPixel, VDimension, TAllocator >
-::SetImageKernel(const ImageType *kernel)
+ImageKernelOperator<TPixel, VDimension, TAllocator>::SetImageKernel(const ImageType * kernel)
 {
   m_ImageKernel = kernel;
 }
 
-template< typename TPixel, unsigned int VDimension, typename TAllocator >
-const typename ImageKernelOperator< TPixel, VDimension, TAllocator >::ImageType *
-ImageKernelOperator< TPixel, VDimension, TAllocator >
-::GetImageKernel() const
+template <typename TPixel, unsigned int VDimension, typename TAllocator>
+const typename ImageKernelOperator<TPixel, VDimension, TAllocator>::ImageType *
+ImageKernelOperator<TPixel, VDimension, TAllocator>::GetImageKernel() const
 {
   return m_ImageKernel;
 }
 
-template< typename TPixel, unsigned int VDimension, typename TAllocator >
-typename ImageKernelOperator< TPixel, VDimension, TAllocator >::CoefficientVector
-ImageKernelOperator< TPixel, VDimension, TAllocator >
-::GenerateCoefficients()
+template <typename TPixel, unsigned int VDimension, typename TAllocator>
+typename ImageKernelOperator<TPixel, VDimension, TAllocator>::CoefficientVector
+ImageKernelOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients()
 {
   // Check that the input image is fully buffered.
-  if ( m_ImageKernel->GetBufferedRegion() != m_ImageKernel->GetLargestPossibleRegion() )
-    {
-    itkExceptionMacro( << "ImageKernel is not fully buffered. " << std::endl
-                       << "Buffered region: " << m_ImageKernel->GetBufferedRegion()
-                       << std::endl
-                       << "Largest possible region: " << m_ImageKernel->GetLargestPossibleRegion()
-                       << std::endl
-                       << "You should call UpdateLargestPossibleRegion() on "
-                       << "the filter whose output is passed to "
-                       << "SetImageKernel()." );
-    }
+  if (m_ImageKernel->GetBufferedRegion() != m_ImageKernel->GetLargestPossibleRegion())
+  {
+    itkExceptionMacro(<< "ImageKernel is not fully buffered. " << std::endl
+                      << "Buffered region: " << m_ImageKernel->GetBufferedRegion() << std::endl
+                      << "Largest possible region: " << m_ImageKernel->GetLargestPossibleRegion() << std::endl
+                      << "You should call UpdateLargestPossibleRegion() on "
+                      << "the filter whose output is passed to "
+                      << "SetImageKernel().");
+  }
 
   // Check that the size of the kernel is odd in all dimensions.
-  for ( unsigned int i = 0; i < VDimension; i++)
+  for (unsigned int i = 0; i < VDimension; i++)
+  {
+    if (m_ImageKernel->GetLargestPossibleRegion().GetSize()[i] % 2 == 0)
     {
-    if ( m_ImageKernel->GetLargestPossibleRegion().GetSize()[i] % 2 == 0 )
-      {
-      itkExceptionMacro( << "ImageKernelOperator requires an input image "
-                         << "whose size is odd in all dimensions. The provided "
-                         << "image has size "
-                         << m_ImageKernel->GetLargestPossibleRegion().GetSize() );
-      }
+      itkExceptionMacro(<< "ImageKernelOperator requires an input image "
+                        << "whose size is odd in all dimensions. The provided "
+                        << "image has size " << m_ImageKernel->GetLargestPossibleRegion().GetSize());
     }
+  }
 
   CoefficientVector coeff;
 
-  ImageRegionConstIterator< ImageType > It( m_ImageKernel,
-                                            m_ImageKernel->GetLargestPossibleRegion() );
+  ImageRegionConstIterator<ImageType> It(m_ImageKernel, m_ImageKernel->GetLargestPossibleRegion());
 
-  for ( It.GoToBegin(); !It.IsAtEnd(); ++It )
-    {
-    coeff.push_back( It.Get() );
-    }
+  for (It.GoToBegin(); !It.IsAtEnd(); ++It)
+  {
+    coeff.push_back(It.Get());
+  }
 
   return coeff;
 }
 
-template< typename TPixel, unsigned int VDimension, typename TAllocator >
+template <typename TPixel, unsigned int VDimension, typename TAllocator>
 void
-ImageKernelOperator< TPixel, VDimension, TAllocator >
-::Fill(const CoefficientVector & coeff)
+ImageKernelOperator<TPixel, VDimension, TAllocator>::Fill(const CoefficientVector & coeff)
 {
   // Initialize all coefficients to zero
   this->InitializeToZero();
 
-  std::slice *temp_slice;
+  std::slice *                               temp_slice;
   typename CoefficientVector::const_iterator it;
 
   temp_slice = new std::slice(0, coeff.size(), 1);
@@ -114,10 +106,10 @@ ImageKernelOperator< TPixel, VDimension, TAllocator >
 
   // Copy the coefficients into the neighborhood, truncating them if there
   // are too many.
-  for ( data = data.Begin(); data < data.End(); ++data, ++it )
-    {
-    *data = static_cast< TPixel >( *it );
-    }
+  for (data = data.Begin(); data < data.End(); ++data, ++it)
+  {
+    *data = static_cast<TPixel>(*it);
+  }
 }
 } // end namespace itk
 

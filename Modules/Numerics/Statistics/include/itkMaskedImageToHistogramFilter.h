@@ -41,9 +41,8 @@ namespace Statistics
  * \endsphinx
  */
 
-template< typename TImage, typename TMaskImage >
-class ITK_TEMPLATE_EXPORT MaskedImageToHistogramFilter
-  : public ImageToHistogramFilter<TImage>
+template <typename TImage, typename TMaskImage>
+class ITK_TEMPLATE_EXPORT MaskedImageToHistogramFilter : public ImageToHistogramFilter<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MaskedImageToHistogramFilter);
@@ -51,8 +50,8 @@ public:
   /** Standard type alias */
   using Self = MaskedImageToHistogramFilter;
   using Superclass = ImageToHistogramFilter<TImage>;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MaskedImageToHistogramFilter, ImageToHistogramFilter);
@@ -63,10 +62,10 @@ public:
   using ImageType = TImage;
   using PixelType = typename ImageType::PixelType;
   using RegionType = typename ImageType::RegionType;
-  using ValueType = typename NumericTraits< PixelType >::ValueType;
-  using ValueRealType = typename NumericTraits< ValueType >::RealType;
+  using ValueType = typename NumericTraits<PixelType>::ValueType;
+  using ValueRealType = typename NumericTraits<ValueType>::RealType;
 
-  using HistogramType = Histogram< ValueRealType >;
+  using HistogramType = Histogram<ValueRealType>;
   using HistogramPointer = typename HistogramType::Pointer;
   using HistogramConstPointer = typename HistogramType::ConstPointer;
   using HistogramSizeType = typename HistogramType::SizeType;
@@ -89,14 +88,16 @@ protected:
   MaskedImageToHistogramFilter();
   ~MaskedImageToHistogramFilter() override = default;
 
-  void ThreadedStreamedGenerateData( const RegionType & inputRegionForThread ) override;
-  void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread) override;
+  void
+  ThreadedStreamedGenerateData(const RegionType & inputRegionForThread) override;
+  void
+  ThreadedComputeMinimumAndMaximum(const RegionType & inputRegionForThread) override;
 };
 } // end of namespace Statistics
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMaskedImageToHistogramFilter.hxx"
+#  include "itkMaskedImageToHistogramFilter.hxx"
 #endif
 
 #endif

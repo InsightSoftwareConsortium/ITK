@@ -21,7 +21,8 @@
 
 // Specific ImageIO test
 
-int itkNiftiImageIOTest9(int ac, char *av[])
+int
+itkNiftiImageIOTest9(int ac, char * av[])
 {
-  return RGBTest<itk::RGBPixel<unsigned char> >(ac,av);
+  return RGBTest<itk::RGBPixel<unsigned char>>(ac, av);
 }

@@ -24,9 +24,10 @@
 #include "itkTestingMacros.h"
 
 
-int itkInvertIntensityImageFilterTest( int argc, char * argv[] )
+int
+itkInvertIntensityImageFilterTest(int argc, char * argv[])
 {
-  if( argc < 3 )
+  if (argc < 3)
   {
     std::cerr << "Missing Arguments" << std::endl;
     std::cerr << "Usage: " << std::endl;
@@ -37,35 +38,33 @@ int itkInvertIntensityImageFilterTest( int argc, char * argv[] )
   constexpr unsigned int Dimension = 2;
 
   using PixelType = unsigned char;
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
-  using FilterType = itk::InvertIntensityImageFilter< ImageType, ImageType >;
+  using FilterType = itk::InvertIntensityImageFilter<ImageType, ImageType>;
   FilterType::Pointer filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, InvertIntensityImageFilter,
-    UnaryFunctorImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, InvertIntensityImageFilter, UnaryFunctorImageFilter);
 
-  itk::SimpleFilterWatcher watcher( filter );
+  itk::SimpleFilterWatcher watcher(filter);
 
-  FilterType::InputPixelType maximum =
-    itk::NumericTraits< FilterType::InputPixelType >::max();
-  filter->SetMaximum( maximum );
-  ITK_TEST_SET_GET_VALUE( maximum, filter->GetMaximum() );
+  FilterType::InputPixelType maximum = itk::NumericTraits<FilterType::InputPixelType>::max();
+  filter->SetMaximum(maximum);
+  ITK_TEST_SET_GET_VALUE(maximum, filter->GetMaximum());
 
   filter->SetFunctor(filter->GetFunctor());
 
-  filter->SetInput( reader->GetOutput() );
+  filter->SetInput(reader->GetOutput());
 
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(argv[2]);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
 }

@@ -23,15 +23,15 @@ ConditionVariable::ConditionVariable()
 {
   m_ConditionVariable.m_NumberOfWaiters = 0;
   m_ConditionVariable.m_WasBroadcast = 0;
-  m_ConditionVariable.m_Semaphore = CreateSemaphore(nullptr,         // no security
-                                                    0,            // initial value
-                                                    0x7fffffff,   // max count
-                                                    nullptr);        // unnamed
+  m_ConditionVariable.m_Semaphore = CreateSemaphore(nullptr,    // no security
+                                                    0,          // initial value
+                                                    0x7fffffff, // max count
+                                                    nullptr);   // unnamed
   InitializeCriticalSection(&m_ConditionVariable.m_NumberOfWaitersLock);
-  m_ConditionVariable.m_WaitersAreDone = CreateEvent(nullptr,            // no security
-                                                     FALSE,           // auto-reset
-                                                     FALSE,           // non-signaled initially
-                                                     nullptr);           // unnamed
+  m_ConditionVariable.m_WaitersAreDone = CreateEvent(nullptr,  // no security
+                                                     FALSE,    // auto-reset
+                                                     FALSE,    // non-signaled initially
+                                                     nullptr); // unnamed
 }
 
 ConditionVariable::~ConditionVariable()
@@ -41,37 +41,39 @@ ConditionVariable::~ConditionVariable()
   DeleteCriticalSection(&m_ConditionVariable.m_NumberOfWaitersLock);
 }
 
-void ConditionVariable::Signal()
+void
+ConditionVariable::Signal()
 {
   EnterCriticalSection(&m_ConditionVariable.m_NumberOfWaitersLock);
-  bool haveWaiters = ( m_ConditionVariable.m_NumberOfWaiters > 0 );
+  bool haveWaiters = (m_ConditionVariable.m_NumberOfWaiters > 0);
   LeaveCriticalSection(&m_ConditionVariable.m_NumberOfWaitersLock);
 
   // if there were not any waiters, then this is a no-op
-  if ( haveWaiters )
-    {
+  if (haveWaiters)
+  {
     ReleaseSemaphore(m_ConditionVariable.m_Semaphore, 1, 0);
-    }
+  }
 }
 
-void ConditionVariable::Broadcast()
+void
+ConditionVariable::Broadcast()
 {
   // This is needed to ensure that m_NumberOfWaiters and m_WasBroadcast are
   // consistent
   EnterCriticalSection(&m_ConditionVariable.m_NumberOfWaitersLock);
   bool haveWaiters = false;
 
-  if ( m_ConditionVariable.m_NumberOfWaiters > 0 )
-    {
+  if (m_ConditionVariable.m_NumberOfWaiters > 0)
+  {
     // We are broadcasting, even if there is just one waiter...
     // Record that we are broadcasting, which helps optimize Wait()
     // for the non-broadcast case
     m_ConditionVariable.m_WasBroadcast = 1;
     haveWaiters = true;
-    }
+  }
 
-  if ( haveWaiters )
-    {
+  if (haveWaiters)
+  {
     // Wake up all waiters atomically
     ReleaseSemaphore(m_ConditionVariable.m_Semaphore, m_ConditionVariable.m_NumberOfWaiters, 0);
 
@@ -83,14 +85,15 @@ void ConditionVariable::Broadcast()
     // This assignment is ok, even without the m_NumberOfWaitersLock held
     // because no other waiter threads can wake up to access it.
     m_ConditionVariable.m_WasBroadcast = 0;
-    }
+  }
   else
-    {
+  {
     LeaveCriticalSection(&m_ConditionVariable.m_NumberOfWaitersLock);
-    }
+  }
 }
 
-void ConditionVariable::Wait(SimpleMutexLock *mutex)
+void
+ConditionVariable::Wait(SimpleMutexLock * mutex)
 {
   // Avoid race conditions
   EnterCriticalSection(&m_ConditionVariable.m_NumberOfWaitersLock);
@@ -114,19 +117,18 @@ void ConditionVariable::Wait(SimpleMutexLock *mutex)
 
   // If we're the last waiter thread during this particular broadcast
   // then let the other threads proceed
-  if ( lastWaiter )
-    {
+  if (lastWaiter)
+  {
     // This call atomically signals the m_WaitersAreDone event and waits
     // until it can acquire the external mutex.  This is required to
     // ensure fairness
-    SignalObjectAndWait(m_ConditionVariable.m_WaitersAreDone, mutex->GetMutexLock(),
-                        INFINITE, FALSE);
-    }
+    SignalObjectAndWait(m_ConditionVariable.m_WaitersAreDone, mutex->GetMutexLock(), INFINITE, FALSE);
+  }
   else
-    {
+  {
     // Always regain the external mutex since that's the guarantee we
     // give to our callers
     WaitForSingleObject(mutex->GetMutexLock(), INFINITE);
-    }
+  }
 }
-} //end of namespace itk
+} // end of namespace itk

@@ -66,7 +66,7 @@ public:
   using Self = CommandIterationUpdate;
   using Superclass = itk::Command;
   using Pointer = itk::SmartPointer<Self>;
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
 protected:
   CommandIterationUpdate() = default;
@@ -75,28 +75,31 @@ public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
   using OptimizerPointer = const OptimizerType *;
 
-  void Execute(itk::Object *caller, const itk::EventObject & event) override
-    {
-    Execute( (const itk::Object *)caller, event);
-    }
+  void
+  Execute(itk::Object * caller, const itk::EventObject & event) override
+  {
+    Execute((const itk::Object *)caller, event);
+  }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event) override
+  void
+  Execute(const itk::Object * object, const itk::EventObject & event) override
+  {
+    auto optimizer = static_cast<OptimizerPointer>(object);
+    if (!itk::IterationEvent().CheckEvent(&event))
     {
-    auto optimizer = static_cast< OptimizerPointer >( object );
-    if( ! itk::IterationEvent().CheckEvent( &event ) )
-      {
       return;
-      }
+    }
     std::cout << optimizer->GetCurrentIteration() << "   ";
     std::cout << optimizer->GetValue() << "   ";
     std::cout << optimizer->GetCurrentPosition() << std::endl;
-    }
+  }
 };
 
-int main( int argc, char *argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
@@ -105,39 +108,37 @@ int main( int argc, char *argv[] )
     std::cerr << "[numberOfBins] [numberOfSamples]";
     std::cerr << "[useExplicitPDFderivatives ] " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
   using PixelType = float;
 
-  using FixedImageType = itk::Image< PixelType, Dimension >;
-  using MovingImageType = itk::Image< PixelType, Dimension >;
+  using FixedImageType = itk::Image<PixelType, Dimension>;
+  using MovingImageType = itk::Image<PixelType, Dimension>;
 
-  using TransformType = itk::TranslationTransform< double, Dimension >;
+  using TransformType = itk::TranslationTransform<double, Dimension>;
   using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
-  using RegistrationType = itk::ImageRegistrationMethodv4<
-                                    FixedImageType,
-                                    MovingImageType,
-                                    TransformType    >;
+  using RegistrationType =
+    itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
 
   //  Software Guide : BeginLatex
   //
   //  In this example the image types and all registration components,
-  //  except the metric, are declared as in Section \ref{sec:IntroductionImageRegistration}.
-  //  The Mattes mutual information metric type is instantiated using the image types.
+  //  except the metric, are declared as in Section
+  //  \ref{sec:IntroductionImageRegistration}. The Mattes mutual information metric type
+  //  is instantiated using the image types.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using MetricType = itk::MattesMutualInformationImageToImageMetricv4<
-    FixedImageType,
-    MovingImageType >;
+  using MetricType =
+    itk::MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType>;
   // Software Guide : EndCodeSnippet
 
-  OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  RegistrationType::Pointer   registration  = RegistrationType::New();
+  OptimizerType::Pointer    optimizer = OptimizerType::New();
+  RegistrationType::Pointer registration = RegistrationType::New();
 
-  registration->SetOptimizer(     optimizer     );
+  registration->SetOptimizer(optimizer);
 
 
   //  Software Guide : BeginLatex
@@ -149,7 +150,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   MetricType::Pointer metric = MetricType::New();
-  registration->SetMetric( metric  );
+  registration->SetMetric(metric);
   // Software Guide : EndCodeSnippet
 
 
@@ -168,14 +169,14 @@ int main( int argc, char *argv[] )
   unsigned int numberOfBins = 24;
   // Software Guide : EndCodeSnippet
 
-  if( argc > 7 )
-    {
-    numberOfBins = std::stoi( argv[7] );
-    }
+  if (argc > 7)
+  {
+    numberOfBins = std::stoi(argv[7]);
+  }
 
 
   // Software Guide : BeginCodeSnippet
-  metric->SetNumberOfHistogramBins( numberOfBins );
+  metric->SetNumberOfHistogramBins(numberOfBins);
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -187,22 +188,22 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  metric->SetUseMovingImageGradientFilter( false );
-  metric->SetUseFixedImageGradientFilter( false );
+  metric->SetUseMovingImageGradientFilter(false);
+  metric->SetUseFixedImageGradientFilter(false);
   // Software Guide : EndCodeSnippet
 
 
-  using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
-  using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
+  using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
+  using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
+  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
 
-  fixedImageReader->SetFileName(  argv[1] );
-  movingImageReader->SetFileName( argv[2] );
+  fixedImageReader->SetFileName(argv[1]);
+  movingImageReader->SetFileName(argv[2]);
 
-  registration->SetFixedImage(    fixedImageReader->GetOutput()    );
-  registration->SetMovingImage(   movingImageReader->GetOutput()   );
+  registration->SetFixedImage(fixedImageReader->GetOutput());
+  registration->SetMovingImage(movingImageReader->GetOutput());
 
 
   //  Software Guide : BeginLatex
@@ -218,9 +219,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetLearningRate( 8.00 );
-  optimizer->SetMinimumStepLength( 0.001 );
-  optimizer->SetNumberOfIterations( 200 );
+  optimizer->SetLearningRate(8.00);
+  optimizer->SetMinimumStepLength(0.001);
+  optimizer->SetNumberOfIterations(200);
   optimizer->ReturnBestParametersAndValueOn();
   // Software Guide : EndCodeSnippet
 
@@ -259,49 +260,50 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetRelaxationFactor( 0.8 );
+  optimizer->SetRelaxationFactor(0.8);
   // Software Guide : EndCodeSnippet
 
   // Create the Command observer and register it with the optimizer.
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
-  optimizer->AddObserver( itk::IterationEvent(), observer );
+  optimizer->AddObserver(itk::IterationEvent(), observer);
 
   // One level registration process without shrinking and smoothing.
   //
   constexpr unsigned int numberOfLevels = 1;
 
   RegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
-  shrinkFactorsPerLevel.SetSize( 1 );
+  shrinkFactorsPerLevel.SetSize(1);
   shrinkFactorsPerLevel[0] = 1;
 
   RegistrationType::SmoothingSigmasArrayType smoothingSigmasPerLevel;
-  smoothingSigmasPerLevel.SetSize( 1 );
+  smoothingSigmasPerLevel.SetSize(1);
   smoothingSigmasPerLevel[0] = 0;
 
-  registration->SetNumberOfLevels ( numberOfLevels );
-  registration->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
-  registration->SetShrinkFactorsPerLevel( shrinkFactorsPerLevel );
+  registration->SetNumberOfLevels(numberOfLevels);
+  registration->SetSmoothingSigmasPerLevel(smoothingSigmasPerLevel);
+  registration->SetShrinkFactorsPerLevel(shrinkFactorsPerLevel);
 
   // Software Guide : BeginLatex
   //
-  // Instead of using the whole virtual domain (usually fixed image domain) for the registration,
-  // we can use a spatial sampled point set by supplying an arbitrary point list over which to
-  // evaluate the metric. The point list is expected to be in the \emph{fixed} image domain, and
-  // the points are transformed into the \emph{virtual} domain internally as needed. The user can
-  // define the point set via \code{SetFixedSampledPointSet()}, and the point set is used
-  // by calling \code{SetUsedFixedSampledPointSet()}.
+  // Instead of using the whole virtual domain (usually fixed image domain) for the
+  // registration, we can use a spatial sampled point set by supplying an arbitrary
+  // point list over which to evaluate the metric. The point list is expected to be in
+  // the \emph{fixed} image domain, and the points are transformed into the
+  // \emph{virtual} domain internally as needed. The user can define the point set via
+  // \code{SetFixedSampledPointSet()}, and the point set is used by calling
+  // \code{SetUsedFixedSampledPointSet()}.
   //
   // Also, instead of dealing with the metric directly, the user may define
-  // the sampling percentage and sampling strategy for the registration framework at each level.
-  // In this case, the registration filter manages the sampling operation over the fixed image space
-  // based on the input strategy (REGULAR, RANDOM) and passes the sampled point set to the metric
-  // internally.
+  // the sampling percentage and sampling strategy for the registration framework at
+  // each level. In this case, the registration filter manages the sampling operation
+  // over the fixed image space based on the input strategy (REGULAR, RANDOM) and passes
+  // the sampled point set to the metric internally.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  RegistrationType::MetricSamplingStrategyType  samplingStrategy  =
+  RegistrationType::MetricSamplingStrategyType samplingStrategy =
     RegistrationType::RANDOM;
   // Software Guide : EndCodeSnippet
 
@@ -309,14 +311,14 @@ int main( int argc, char *argv[] )
   //
   // The number of spatial samples to be
   // used depends on the content of the image. If the images are smooth and do
-  // not contain many details, the number of spatial samples can usually be as low as $1\%$
-  // of the total number of pixels in the fixed image. On the other hand, if the images are
-  // detailed, it may be necessary to use a much higher proportion, such as $20\%$ to $50\%$.
-  // Increasing the number of samples improves the smoothness of the metric,
-  // and therefore helps when this metric is used in conjunction with
-  // optimizers that rely of the continuity of the metric values. The trade-off, of
-  // course, is that a larger number of samples results in longer computation
-  // times per every evaluation of the metric.
+  // not contain many details, the number of spatial samples can usually be as low as
+  // $1\%$ of the total number of pixels in the fixed image. On the other hand, if the
+  // images are detailed, it may be necessary to use a much higher proportion, such as
+  // $20\%$ to $50\%$. Increasing the number of samples improves the smoothness of the
+  // metric, and therefore helps when this metric is used in conjunction with optimizers
+  // that rely of the continuity of the metric values. The trade-off, of course, is that
+  // a larger number of samples results in longer computation times per every evaluation
+  // of the metric.
   //
   // One mechanism for bringing the metric to its limit is to disable the
   // sampling and use all the pixels present in the FixedImageRegion. This can
@@ -359,28 +361,28 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  registration->SetMetricSamplingStrategy( samplingStrategy );
-  registration->SetMetricSamplingPercentage( samplingPercentage );
+  registration->SetMetricSamplingStrategy(samplingStrategy);
+  registration->SetMetricSamplingPercentage(samplingPercentage);
 
-  registration->MetricSamplingReinitializeSeed( 121213 );
+  registration->MetricSamplingReinitializeSeed(121213);
   // Software Guide : EndCodeSnippet
 
   try
-    {
+  {
     registration->Update();
     std::cout << "Optimizer stop condition: "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   TransformType::ParametersType finalParameters =
-                            registration->GetOutput()->Get()->GetParameters();
+    registration->GetOutput()->Get()->GetParameters();
 
   double TranslationAlongX = finalParameters[0];
   double TranslationAlongY = finalParameters[1];
@@ -396,11 +398,12 @@ int main( int argc, char *argv[] )
   //
   std::cout << std::endl;
   std::cout << "Result = " << std::endl;
-  std::cout << " Translation X = " << TranslationAlongX  << std::endl;
-  std::cout << " Translation Y = " << TranslationAlongY  << std::endl;
+  std::cout << " Translation X = " << TranslationAlongX << std::endl;
+  std::cout << " Translation Y = " << TranslationAlongY << std::endl;
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
-  std::cout << " Metric value  = " << bestValue          << std::endl;
-  std::cout << " Stop Condition  = " << optimizer->GetStopConditionDescription() << std::endl;
+  std::cout << " Metric value  = " << bestValue << std::endl;
+  std::cout << " Stop Condition  = " << optimizer->GetStopConditionDescription()
+            << std::endl;
 
   //  Software Guide : BeginLatex
   //
@@ -416,10 +419,9 @@ int main( int argc, char *argv[] )
   //  \center
   //  \includegraphics[width=0.44\textwidth]{BrainT1SliceBorder20}
   //  \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceShifted13x17y}
-  //  \itkcaption[Multi-Modality Registration Inputs]{A T1 MRI (fixed image) and a proton
-  //  density MRI (moving image) are provided as input to the registration method.}
-  //  \label{fig:FixedMovingImageRegistration2}
-  //  \end{figure}
+  //  \itkcaption[Multi-Modality Registration Inputs]{A T1 MRI (fixed image) and a
+  //  proton density MRI (moving image) are provided as input to the registration
+  //  method.} \label{fig:FixedMovingImageRegistration2} \end{figure}
   //
   //  The second image is the result of intentionally translating the image
   //  \code{Brain\-Proton\-Density\-Slice\-Border20.png} by $(13,17)$
@@ -437,48 +439,44 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  using ResampleFilterType = itk::ResampleImageFilter<
-                            MovingImageType,
-                            FixedImageType >;
+  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
-  resample->SetTransform( registration->GetTransform() );
-  resample->SetInput( movingImageReader->GetOutput() );
+  resample->SetTransform(registration->GetTransform());
+  resample->SetInput(movingImageReader->GetOutput());
 
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   PixelType defaultPixelValue = 100;
 
-  if( argc > 4 )
-    {
-    defaultPixelValue = std::stoi( argv[4] );
-    }
+  if (argc > 4)
+  {
+    defaultPixelValue = std::stoi(argv[4]);
+  }
 
-  resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
-  resample->SetOutputOrigin(  fixedImage->GetOrigin() );
-  resample->SetOutputSpacing( fixedImage->GetSpacing() );
-  resample->SetOutputDirection( fixedImage->GetDirection() );
-  resample->SetDefaultPixelValue( defaultPixelValue );
+  resample->SetSize(fixedImage->GetLargestPossibleRegion().GetSize());
+  resample->SetOutputOrigin(fixedImage->GetOrigin());
+  resample->SetOutputSpacing(fixedImage->GetSpacing());
+  resample->SetOutputDirection(fixedImage->GetDirection());
+  resample->SetDefaultPixelValue(defaultPixelValue);
 
 
   using OutputPixelType = unsigned char;
 
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using CastFilterType = itk::CastImageFilter<
-                        FixedImageType,
-                        OutputImageType >;
+  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
 
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer      writer =  WriterType::New();
-  CastFilterType::Pointer  caster =  CastFilterType::New();
+  WriterType::Pointer     writer = WriterType::New();
+  CastFilterType::Pointer caster = CastFilterType::New();
 
-  writer->SetFileName( argv[3] );
+  writer->SetFileName(argv[3]);
 
-  caster->SetInput( resample->GetOutput() );
-  writer->SetInput( caster->GetOutput()   );
+  caster->SetInput(resample->GetOutput());
+  writer->SetInput(caster->GetOutput());
   writer->Update();
 
 
@@ -506,37 +504,37 @@ int main( int argc, char *argv[] )
   //
   // Generate checkerboards before and after registration
   //
-  using CheckerBoardFilterType = itk::CheckerBoardImageFilter< FixedImageType >;
+  using CheckerBoardFilterType = itk::CheckerBoardImageFilter<FixedImageType>;
 
   CheckerBoardFilterType::Pointer checker = CheckerBoardFilterType::New();
 
-  checker->SetInput1( fixedImage );
-  checker->SetInput2( resample->GetOutput() );
+  checker->SetInput1(fixedImage);
+  checker->SetInput2(resample->GetOutput());
 
-  caster->SetInput( checker->GetOutput() );
-  writer->SetInput( caster->GetOutput()   );
+  caster->SetInput(checker->GetOutput());
+  writer->SetInput(caster->GetOutput());
 
-  resample->SetDefaultPixelValue( 0 );
+  resample->SetDefaultPixelValue(0);
 
   // Before registration
   TransformType::Pointer identityTransform = TransformType::New();
   identityTransform->SetIdentity();
-  resample->SetTransform( identityTransform );
+  resample->SetTransform(identityTransform);
 
-  if( argc > 5 )
-    {
-    writer->SetFileName( argv[5] );
+  if (argc > 5)
+  {
+    writer->SetFileName(argv[5]);
     writer->Update();
-    }
+  }
 
 
   // After registration
-  resample->SetTransform( registration->GetTransform() );
-  if( argc > 6 )
-    {
-    writer->SetFileName( argv[6] );
+  resample->SetTransform(registration->GetTransform());
+  if (argc > 6)
+  {
+    writer->SetFileName(argv[6]);
     writer->Update();
-    }
+  }
 
 
   //  Software Guide : BeginLatex

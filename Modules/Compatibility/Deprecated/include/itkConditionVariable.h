@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef  itkConditionVariable_h
-#define  itkConditionVariable_h
+#ifndef itkConditionVariable_h
+#define itkConditionVariable_h
 
 #include "itkConfigure.h"
 #include "itkMutexLock.h"
@@ -55,7 +55,7 @@ namespace itk
  *
  * \ingroup ITKDeprecated
  */
-class ITKDeprecated_EXPORT ConditionVariable:public LightObject
+class ITKDeprecated_EXPORT ConditionVariable : public LightObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConditionVariable);
@@ -63,8 +63,8 @@ public:
   /** Standard class type aliases. */
   using Self = ConditionVariable;
   using Superclass = LightObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -75,13 +75,16 @@ public:
   /** Suspend execution of this thread until the condition is signaled. The
    *  argument is a SimpleMutex object that must be locked prior to calling
    *  this method.  */
-  void Wait(SimpleMutexLock *mutex);
+  void
+  Wait(SimpleMutexLock * mutex);
 
   /** Signal that the condition is true and release one waiting thread */
-  void Signal();
+  void
+  Signal();
 
   /** Signal that the condition is true and release all waiting threads */
-  void Broadcast();
+  void
+  Broadcast();
 
 protected:
   ConditionVariable();
@@ -89,7 +92,6 @@ protected:
 
 private:
   ConditionVariableType m_ConditionVariable;
-
 };
 } // end namespace itk
 

@@ -31,25 +31,24 @@
 namespace itk
 {
 
-template<typename TParametersValueType, unsigned int NDimensions>
-GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>
-::GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform() :
-  m_GaussianSpatialSmoothingVarianceForTheUpdateField(3.0),
-  m_GaussianSpatialSmoothingVarianceForTheTotalField(0.5),
-  m_GaussianTemporalSmoothingVarianceForTheUpdateField(0.25),
-  m_GaussianTemporalSmoothingVarianceForTheTotalField(0.0)
-{
-}
+template <typename TParametersValueType, unsigned int NDimensions>
+GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>::
+  GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform()
+  : m_GaussianSpatialSmoothingVarianceForTheUpdateField(3.0)
+  , m_GaussianSpatialSmoothingVarianceForTheTotalField(0.5)
+  , m_GaussianTemporalSmoothingVarianceForTheUpdateField(0.25)
+  , m_GaussianTemporalSmoothingVarianceForTheTotalField(0.0)
+{}
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>
-::UpdateTransformParameters( const DerivativeType & update, ScalarType factor )
+GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>::
+  UpdateTransformParameters(const DerivativeType & update, ScalarType factor)
 {
   TimeVaryingVelocityFieldPointer velocityField = this->GetModifiableVelocityField();
 
   const typename VelocityFieldType::RegionType & bufferedRegion = velocityField->GetBufferedRegion();
-  const SizeValueType numberOfPixels = bufferedRegion.GetNumberOfPixels();
+  const SizeValueType                            numberOfPixels = bufferedRegion.GetNumberOfPixels();
 
   using ImporterType = ImportImageFilter<DisplacementVectorType, NDimensions + 1>;
   const bool importFilterWillReleaseMemory = false;
@@ -58,87 +57,98 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType,
   // Smooth the update field
   //
   bool smoothUpdateField = true;
-  if( this->m_GaussianSpatialSmoothingVarianceForTheUpdateField <= 0.0 && this->m_GaussianTemporalSmoothingVarianceForTheUpdateField <= 0.0 )
-    {
-    itkDebugMacro( "Not smooothing the update field." );
+  if (this->m_GaussianSpatialSmoothingVarianceForTheUpdateField <= 0.0 &&
+      this->m_GaussianTemporalSmoothingVarianceForTheUpdateField <= 0.0)
+  {
+    itkDebugMacro("Not smooothing the update field.");
     smoothUpdateField = false;
-    }
-  if( smoothUpdateField )
-    {
-    itkDebugMacro( "Smooothing the update field." );
+  }
+  if (smoothUpdateField)
+  {
+    itkDebugMacro("Smooothing the update field.");
 
-    auto * updateFieldPointer = reinterpret_cast<DisplacementVectorType *>(
-                                  const_cast<DerivativeType &>(update).data_block() );
+    auto * updateFieldPointer =
+      reinterpret_cast<DisplacementVectorType *>(const_cast<DerivativeType &>(update).data_block());
 
     typename ImporterType::Pointer importer = ImporterType::New();
-    importer->SetImportPointer( updateFieldPointer, numberOfPixels, importFilterWillReleaseMemory );
-    importer->SetRegion( velocityField->GetBufferedRegion() );
-    importer->SetOrigin( velocityField->GetOrigin() );
-    importer->SetSpacing( velocityField->GetSpacing() );
-    importer->SetDirection( velocityField->GetDirection() );
+    importer->SetImportPointer(updateFieldPointer, numberOfPixels, importFilterWillReleaseMemory);
+    importer->SetRegion(velocityField->GetBufferedRegion());
+    importer->SetOrigin(velocityField->GetOrigin());
+    importer->SetSpacing(velocityField->GetSpacing());
+    importer->SetDirection(velocityField->GetDirection());
 
     TimeVaryingVelocityFieldPointer updateField = importer->GetOutput();
     updateField->Update();
     updateField->DisconnectPipeline();
 
-    TimeVaryingVelocityFieldPointer updateSmoothField = this->GaussianSmoothTimeVaryingVelocityField( updateField,
-      this->m_GaussianSpatialSmoothingVarianceForTheUpdateField, this->m_GaussianTemporalSmoothingVarianceForTheUpdateField );
+    TimeVaryingVelocityFieldPointer updateSmoothField =
+      this->GaussianSmoothTimeVaryingVelocityField(updateField,
+                                                   this->m_GaussianSpatialSmoothingVarianceForTheUpdateField,
+                                                   this->m_GaussianTemporalSmoothingVarianceForTheUpdateField);
 
-    ImageAlgorithm::Copy< VelocityFieldType, VelocityFieldType >( updateSmoothField, updateField, updateSmoothField->GetBufferedRegion(), updateField->GetBufferedRegion() );
-    }
+    ImageAlgorithm::Copy<VelocityFieldType, VelocityFieldType>(
+      updateSmoothField, updateField, updateSmoothField->GetBufferedRegion(), updateField->GetBufferedRegion());
+  }
 
   //
   // Add the update field to the current total field before (optionally)
   // smoothing the total field
   //
-  Superclass::UpdateTransformParameters( update, factor );
+  Superclass::UpdateTransformParameters(update, factor);
 
   //
   // Smooth the total field
   //
   bool smoothTotalField = true;
-  if( this->m_GaussianSpatialSmoothingVarianceForTheTotalField <= 0.0 && this->m_GaussianTemporalSmoothingVarianceForTheTotalField <= 0.0 )
-    {
-    itkDebugMacro( "Not smooothing the total field." );
+  if (this->m_GaussianSpatialSmoothingVarianceForTheTotalField <= 0.0 &&
+      this->m_GaussianTemporalSmoothingVarianceForTheTotalField <= 0.0)
+  {
+    itkDebugMacro("Not smooothing the total field.");
     smoothTotalField = false;
-    }
-  if( smoothTotalField )
-    {
-    itkDebugMacro( "Smooothing the total field." );
+  }
+  if (smoothTotalField)
+  {
+    itkDebugMacro("Smooothing the total field.");
 
     typename ImporterType::Pointer importer = ImporterType::New();
-    importer->SetImportPointer( velocityField->GetBufferPointer(), numberOfPixels, importFilterWillReleaseMemory );
-    importer->SetRegion( velocityField->GetBufferedRegion() );
-    importer->SetOrigin( velocityField->GetOrigin() );
-    importer->SetSpacing( velocityField->GetSpacing() );
-    importer->SetDirection( velocityField->GetDirection() );
+    importer->SetImportPointer(velocityField->GetBufferPointer(), numberOfPixels, importFilterWillReleaseMemory);
+    importer->SetRegion(velocityField->GetBufferedRegion());
+    importer->SetOrigin(velocityField->GetOrigin());
+    importer->SetSpacing(velocityField->GetSpacing());
+    importer->SetDirection(velocityField->GetDirection());
 
     TimeVaryingVelocityFieldPointer totalField = importer->GetOutput();
     totalField->Update();
     totalField->DisconnectPipeline();
 
-    TimeVaryingVelocityFieldPointer totalSmoothField = this->GaussianSmoothTimeVaryingVelocityField( totalField,
-      this->m_GaussianSpatialSmoothingVarianceForTheTotalField, this->m_GaussianTemporalSmoothingVarianceForTheTotalField );
+    TimeVaryingVelocityFieldPointer totalSmoothField =
+      this->GaussianSmoothTimeVaryingVelocityField(totalField,
+                                                   this->m_GaussianSpatialSmoothingVarianceForTheTotalField,
+                                                   this->m_GaussianTemporalSmoothingVarianceForTheTotalField);
 
-    ImageAlgorithm::Copy< VelocityFieldType, VelocityFieldType >( totalSmoothField, velocityField, totalSmoothField->GetBufferedRegion(), velocityField->GetBufferedRegion() );
-    }
+    ImageAlgorithm::Copy<VelocityFieldType, VelocityFieldType>(
+      totalSmoothField, velocityField, totalSmoothField->GetBufferedRegion(), velocityField->GetBufferedRegion());
+  }
 
   this->IntegrateVelocityField();
 }
 
-template<typename TParametersValueType, unsigned int NDimensions>
-typename GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>::TimeVaryingVelocityFieldPointer
-GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>
-::GaussianSmoothTimeVaryingVelocityField( VelocityFieldType *field, ScalarType spatialVariance, ScalarType temporalVariance )
+template <typename TParametersValueType, unsigned int NDimensions>
+typename GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType,
+                                                                    NDimensions>::TimeVaryingVelocityFieldPointer
+GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>::
+  GaussianSmoothTimeVaryingVelocityField(VelocityFieldType * field,
+                                         ScalarType          spatialVariance,
+                                         ScalarType          temporalVariance)
 {
-  if( spatialVariance <= 0.0 && temporalVariance <= 0.0 )
-    {
+  if (spatialVariance <= 0.0 && temporalVariance <= 0.0)
+  {
     return field;
-    }
+  }
 
   using DuplicatorType = ImageDuplicator<VelocityFieldType>;
   typename DuplicatorType::Pointer duplicator = DuplicatorType::New();
-  duplicator->SetInputImage( field );
+  duplicator->SetInputImage(field);
   duplicator->Update();
 
   TimeVaryingVelocityFieldPointer smoothField = duplicator->GetOutput();
@@ -146,92 +156,98 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType,
   using SmootherType = VectorNeighborhoodOperatorImageFilter<VelocityFieldType, VelocityFieldType>;
   typename SmootherType::Pointer smoother = SmootherType::New();
 
-  for( unsigned int d = 0; d < TimeVaryingVelocityFieldDimension; d++ )
-    {
+  for (unsigned int d = 0; d < TimeVaryingVelocityFieldDimension; d++)
+  {
     using GaussianType = GaussianOperator<DisplacementVectorValueType, NDimensions + 1>;
     GaussianType gaussian;
-    if( d < NDimensions )
-      {
-      gaussian.SetVariance( spatialVariance );
-      }
+    if (d < NDimensions)
+    {
+      gaussian.SetVariance(spatialVariance);
+    }
     else
-      {
-      gaussian.SetVariance( temporalVariance );
-      }
+    {
+      gaussian.SetVariance(temporalVariance);
+    }
 
-    if( gaussian.GetVariance() > 0.0 )
-      {
-      gaussian.SetMaximumError( 0.001 );
-      gaussian.SetDirection( d );
-      gaussian.SetMaximumKernelWidth( smoothField->GetRequestedRegion().GetSize()[d] );
+    if (gaussian.GetVariance() > 0.0)
+    {
+      gaussian.SetMaximumError(0.001);
+      gaussian.SetDirection(d);
+      gaussian.SetMaximumKernelWidth(smoothField->GetRequestedRegion().GetSize()[d]);
       gaussian.CreateDirectional();
 
-      smoother->SetOperator( gaussian );
-      smoother->SetInput( smoothField );
+      smoother->SetOperator(gaussian);
+      smoother->SetInput(smoothField);
 
       smoothField = smoother->GetOutput();
       smoothField->Update();
       smoothField->DisconnectPipeline();
-      }
     }
+  }
 
-  //make sure boundary does not move
+  // make sure boundary does not move
 
-  const DisplacementVectorType zeroVector( 0.0 );
+  const DisplacementVectorType zeroVector(0.0);
 
   ScalarType weight1 = 1.0;
-  if( spatialVariance < 0.5 )
-    {
-    weight1 = 1.0 - 1.0 * ( spatialVariance / 0.5 );
-    }
+  if (spatialVariance < 0.5)
+  {
+    weight1 = 1.0 - 1.0 * (spatialVariance / 0.5);
+  }
   ScalarType weight2 = 1.0 - weight1;
 
   using TimeVaryingVelocityFieldSizeType = typename VelocityFieldType::SizeType;
   using TimeVaryingVelocityFieldIndexType = typename VelocityFieldType::IndexType;
 
-  TimeVaryingVelocityFieldSizeType size = field->GetLargestPossibleRegion().GetSize();
+  TimeVaryingVelocityFieldSizeType  size = field->GetLargestPossibleRegion().GetSize();
   TimeVaryingVelocityFieldIndexType startIndex = field->GetLargestPossibleRegion().GetIndex();
 
-  ImageRegionIteratorWithIndex<VelocityFieldType> fieldIt( field, field->GetLargestPossibleRegion() );
-  ImageRegionConstIteratorWithIndex<VelocityFieldType> smoothedFieldIt( smoothField, smoothField->GetLargestPossibleRegion() );
-  for( fieldIt.GoToBegin(), smoothedFieldIt.GoToBegin(); !fieldIt.IsAtEnd(); ++fieldIt, ++smoothedFieldIt )
-    {
+  ImageRegionIteratorWithIndex<VelocityFieldType>      fieldIt(field, field->GetLargestPossibleRegion());
+  ImageRegionConstIteratorWithIndex<VelocityFieldType> smoothedFieldIt(smoothField,
+                                                                       smoothField->GetLargestPossibleRegion());
+  for (fieldIt.GoToBegin(), smoothedFieldIt.GoToBegin(); !fieldIt.IsAtEnd(); ++fieldIt, ++smoothedFieldIt)
+  {
     TimeVaryingVelocityFieldIndexType index = fieldIt.GetIndex();
 
     bool isOnBoundary = false;
-    for( unsigned int d = 0; d < NDimensions; d++ )
+    for (unsigned int d = 0; d < NDimensions; d++)
+    {
+      if (index[d] == startIndex[d] || index[d] == static_cast<IndexValueType>(size[d]) - startIndex[d] - 1)
       {
-      if( index[d] == startIndex[d] || index[d] == static_cast<IndexValueType>( size[d] ) - startIndex[d] - 1 )
-        {
         isOnBoundary = true;
         break;
-        }
-      }
-    if( isOnBoundary )
-      {
-      fieldIt.Set( zeroVector );
-      }
-    else
-      {
-      fieldIt.Set( smoothedFieldIt.Get() * weight1 + fieldIt.Get() * weight2 );
       }
     }
+    if (isOnBoundary)
+    {
+      fieldIt.Set(zeroVector);
+    }
+    else
+    {
+      fieldIt.Set(smoothedFieldIt.Get() * weight1 + fieldIt.Get() * weight2);
+    }
+  }
 
   return field;
 }
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>::
-PrintSelf( std::ostream& os, Indent indent ) const
+GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>::PrintSelf(
+  std::ostream & os,
+  Indent         indent) const
 {
-  Superclass::PrintSelf( os,indent );
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Gaussian smoothing parameters: " << std::endl
-     << indent << "Gaussian spatial smoothing variance for the update field: " << this->m_GaussianSpatialSmoothingVarianceForTheUpdateField << std::endl
-     << indent << "Gaussian temporal smoothing variance for the update field: " << this->m_GaussianTemporalSmoothingVarianceForTheUpdateField << std::endl
-     << indent << "Gaussian spatial smoothing variance for the total field: " << this->m_GaussianSpatialSmoothingVarianceForTheTotalField << std::endl
-     << indent << "Gaussian temporal smoothing variance for the total field: " << this->m_GaussianTemporalSmoothingVarianceForTheTotalField << std::endl
+     << indent << "Gaussian spatial smoothing variance for the update field: "
+     << this->m_GaussianSpatialSmoothingVarianceForTheUpdateField << std::endl
+     << indent << "Gaussian temporal smoothing variance for the update field: "
+     << this->m_GaussianTemporalSmoothingVarianceForTheUpdateField << std::endl
+     << indent << "Gaussian spatial smoothing variance for the total field: "
+     << this->m_GaussianSpatialSmoothingVarianceForTheTotalField << std::endl
+     << indent << "Gaussian temporal smoothing variance for the total field: "
+     << this->m_GaussianTemporalSmoothingVarianceForTheTotalField << std::endl
      << std::endl;
 }
 } // namespace itk

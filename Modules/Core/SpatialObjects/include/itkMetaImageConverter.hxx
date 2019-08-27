@@ -25,26 +25,23 @@
 
 namespace itk
 {
-template< unsigned int NDimensions, typename PixelType , typename TSpatialObjectType >
-typename MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >::MetaObjectType *
-MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >
-::CreateMetaObject()
+template <unsigned int NDimensions, typename PixelType, typename TSpatialObjectType>
+typename MetaImageConverter<NDimensions, PixelType, TSpatialObjectType>::MetaObjectType *
+MetaImageConverter<NDimensions, PixelType, TSpatialObjectType>::CreateMetaObject()
 {
   return dynamic_cast<MetaObjectType *>(new ImageMetaObjectType);
 }
 
-template< unsigned int NDimensions, typename PixelType , typename TSpatialObjectType >
+template <unsigned int NDimensions, typename PixelType, typename TSpatialObjectType>
 const char *
-MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >
-::GetMetaObjectSubType()
+MetaImageConverter<NDimensions, PixelType, TSpatialObjectType>::GetMetaObjectSubType()
 {
   return "Image";
 }
 
-template< unsigned int NDimensions, typename PixelType , typename TSpatialObjectType >
-typename MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >::ImageType::Pointer
-MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >
-::AllocateImage(const ImageMetaObjectType *image)
+template <unsigned int NDimensions, typename PixelType, typename TSpatialObjectType>
+typename MetaImageConverter<NDimensions, PixelType, TSpatialObjectType>::ImageType::Pointer
+MetaImageConverter<NDimensions, PixelType, TSpatialObjectType>::AllocateImage(const ImageMetaObjectType * image)
 {
   typename ImageType::Pointer rval = ImageType::New();
 
@@ -52,25 +49,25 @@ MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >
   using SpacingType = typename ImageType::SpacingType;
   using RegionType = typename ImageType::RegionType;
 
-  SizeType size;
+  SizeType    size;
   SpacingType spacing;
 
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
+  for (unsigned int i = 0; i < NDimensions; i++)
+  {
     size[i] = image->DimSize()[i];
-    if ( Math::ExactlyEquals(image->ElementSpacing()[i], NumericTraits< typename SpacingType::ValueType >::ZeroValue()) )
-      {
+    if (Math::ExactlyEquals(image->ElementSpacing()[i], NumericTraits<typename SpacingType::ValueType>::ZeroValue()))
+    {
       spacing[i] = 1;
-      }
-    else
-      {
-      spacing[i] = image->ElementSpacing()[i];
-      }
     }
+    else
+    {
+      spacing[i] = image->ElementSpacing()[i];
+    }
+  }
 
   RegionType region;
   region.SetSize(size);
-  itk::Index< NDimensions > zeroIndex;
+  itk::Index<NDimensions> zeroIndex;
   zeroIndex.Fill(0);
   region.SetIndex(zeroIndex);
   rval->SetLargestPossibleRegion(region);
@@ -82,53 +79,48 @@ MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >
 }
 
 /** Convert a metaImage into an ImageMaskSpatialObject  */
-template< unsigned int NDimensions, typename PixelType , typename TSpatialObjectType >
-typename MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >::SpatialObjectPointer
-MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >
-::MetaObjectToSpatialObject(const MetaObjectType *mo)
+template <unsigned int NDimensions, typename PixelType, typename TSpatialObjectType>
+typename MetaImageConverter<NDimensions, PixelType, TSpatialObjectType>::SpatialObjectPointer
+MetaImageConverter<NDimensions, PixelType, TSpatialObjectType>::MetaObjectToSpatialObject(const MetaObjectType * mo)
 {
   const auto * imageMO = dynamic_cast<const ImageMetaObjectType *>(mo);
 
-  if(imageMO == nullptr)
-    {
-    itkExceptionMacro(<< "Can't convert MetaObject to MetaImage" );
-    }
+  if (imageMO == nullptr)
+  {
+    itkExceptionMacro(<< "Can't convert MetaObject to MetaImage");
+  }
 
   ImageSpatialObjectPointer imageSO = ImageSpatialObjectType::New();
 
 
   typename ImageType::Pointer myImage = this->AllocateImage(imageMO);
 
-  itk::ImageRegionIteratorWithIndex< ImageType >
-    it(myImage,myImage->GetLargestPossibleRegion());
-  for ( unsigned int i = 0; !it.IsAtEnd(); i++, ++it )
-    {
-    it.Set(
-      static_cast< typename ImageType::PixelType >( imageMO->ElementData(i) ) );
-    }
+  itk::ImageRegionIteratorWithIndex<ImageType> it(myImage, myImage->GetLargestPossibleRegion());
+  for (unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
+  {
+    it.Set(static_cast<typename ImageType::PixelType>(imageMO->ElementData(i)));
+  }
 
   imageSO->SetImage(myImage);
-  imageSO->SetId( imageMO->ID() );
-  imageSO->SetParentId( imageMO->ParentID() );
-  imageSO->GetProperty().SetName( imageMO->Name() );
+  imageSO->SetId(imageMO->ID());
+  imageSO->SetParentId(imageMO->ParentID());
+  imageSO->GetProperty().SetName(imageMO->Name());
 
   return imageSO.GetPointer();
 }
 
 
 /** Convert an Image SpatialObject into a metaImage */
-template< unsigned int NDimensions, typename PixelType , typename TSpatialObjectType >
-typename MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >::MetaObjectType *
-MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >
-::SpatialObjectToMetaObject(const SpatialObjectType *so)
+template <unsigned int NDimensions, typename PixelType, typename TSpatialObjectType>
+typename MetaImageConverter<NDimensions, PixelType, TSpatialObjectType>::MetaObjectType *
+MetaImageConverter<NDimensions, PixelType, TSpatialObjectType>::SpatialObjectToMetaObject(const SpatialObjectType * so)
 {
-  const ImageSpatialObjectConstPointer imageSO =
-    dynamic_cast<const ImageSpatialObjectType *>(so);
+  const ImageSpatialObjectConstPointer imageSO = dynamic_cast<const ImageSpatialObjectType *>(so);
 
-  if(imageSO.IsNull())
-    {
+  if (imageSO.IsNull())
+  {
     itkExceptionMacro(<< "Can't downcast SpatialObject to ImageSpatialObject");
-    }
+  }
   using ImageConstPointer = typename ImageType::ConstPointer;
 
   ImageConstPointer SOImage = imageSO->GetImage();
@@ -136,44 +128,42 @@ MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >
   float spacing[NDimensions];
   int   size[NDimensions];
 
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
+  for (unsigned int i = 0; i < NDimensions; i++)
+  {
     size[i] = SOImage->GetLargestPossibleRegion().GetSize()[i];
     spacing[i] = SOImage->GetSpacing()[i];
-    }
+  }
 
-  auto * imageMO = new MetaImage( NDimensions, size,
-                   spacing, MET_GetPixelType( typeid( PixelType ) ) );
+  auto * imageMO = new MetaImage(NDimensions, size, spacing, MET_GetPixelType(typeid(PixelType)));
 
-  itk::ImageRegionConstIterator< ImageType > it( SOImage,
-                                                 SOImage->GetLargestPossibleRegion() );
-  for ( unsigned int i = 0; !it.IsAtEnd(); i++, ++it )
-    {
-    imageMO->ElementData( i, it.Get() );
-    }
+  itk::ImageRegionConstIterator<ImageType> it(SOImage, SOImage->GetLargestPossibleRegion());
+  for (unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
+  {
+    imageMO->ElementData(i, it.Get());
+  }
 
-  imageMO->ID( imageSO->GetId() );
+  imageMO->ID(imageSO->GetId());
   imageMO->BinaryData(true);
 
   imageMO->ElementDataFileName("LOCAL");
 
   imageMO->ObjectSubTypeName(this->GetMetaObjectSubType());
 
-  if ( this->GetWriteImagesInSeparateFile())
-    {
+  if (this->GetWriteImagesInSeparateFile())
+  {
     std::string filename = imageSO->GetProperty().GetName();
-    if ( filename.empty() )
-      {
+    if (filename.empty())
+    {
       std::cout << "Error: you should set the image name when using"
                 << " WriteImagesInSeparateFile." << std::endl;
       std::cout << "The image will be written locally." << std::endl;
-      }
-    else
-      {
-      filename += ".raw";
-      imageMO->ElementDataFileName( filename.c_str() );
-      }
     }
+    else
+    {
+      filename += ".raw";
+      imageMO->ElementDataFileName(filename.c_str());
+    }
+  }
   return imageMO;
 }
 

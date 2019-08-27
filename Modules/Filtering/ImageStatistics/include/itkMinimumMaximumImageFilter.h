@@ -44,9 +44,8 @@ namespace itk
  * \sa StatisticsImageFilter
  * \ingroup ITKImageStatistics
  */
-template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT MinimumMaximumImageFilter:
-  public ImageSink< TInputImage >
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT MinimumMaximumImageFilter : public ImageSink<TInputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MinimumMaximumImageFilter);
@@ -56,9 +55,9 @@ public:
 
   /** Standard class type aliases. */
   using Self = MinimumMaximumImageFilter;
-  using Superclass = ImageSink< TInputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageSink<TInputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Image related type alias. */
   using InputImagePointer = typename TInputImage::Pointer;
@@ -81,7 +80,7 @@ public:
   using InputImageType = TInputImage;
 
   /** Type of DataObjects used for scalar outputs */
-  using PixelObjectType = SimpleDataObjectDecorator< PixelType >;
+  using PixelObjectType = SimpleDataObjectDecorator<PixelType>;
 
   /** Return the computed Minimum. */
   itkGetDecoratedOutputMacro(Minimum, PixelType);
@@ -93,7 +92,8 @@ public:
    * output. */
   using DataObjectIdentifierType = ProcessObject::DataObjectIdentifierType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput( const DataObjectIdentifierType & name ) override;
+  DataObjectPointer
+  MakeOutput(const DataObjectIdentifierType & name) override;
 
 
   // Change the acces from protected to public to expose streaming option
@@ -102,28 +102,29 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( LessThanComparableCheck,
-                   ( Concept::LessThanComparable< PixelType > ) );
-  itkConceptMacro( GreaterThanComparableCheck,
-                   ( Concept::GreaterThanComparable< PixelType > ) );
-  itkConceptMacro( OStreamWritableCheck,
-                   ( Concept::OStreamWritable< PixelType > ) );
+  itkConceptMacro(LessThanComparableCheck, (Concept::LessThanComparable<PixelType>));
+  itkConceptMacro(GreaterThanComparableCheck, (Concept::GreaterThanComparable<PixelType>));
+  itkConceptMacro(OStreamWritableCheck, (Concept::OStreamWritable<PixelType>));
   // End concept checking
 #endif
 
 protected:
   MinimumMaximumImageFilter();
   ~MinimumMaximumImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize some accumulators before any chunks are processes */
-  void BeforeStreamedGenerateData() override;
+  void
+  BeforeStreamedGenerateData() override;
 
   /** Do final mean and variance computation from data accumulated in threads.
-    */
-  void AfterStreamedGenerateData() override;
+   */
+  void
+  AfterStreamedGenerateData() override;
 
-  void ThreadedStreamedGenerateData( const RegionType & ) override;
+  void
+  ThreadedStreamedGenerateData(const RegionType &) override;
 
 
   itkSetDecoratedOutputMacro(Minimum, PixelType);
@@ -138,7 +139,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMinimumMaximumImageFilter.hxx"
+#  include "itkMinimumMaximumImageFilter.hxx"
 #endif
 
 #endif

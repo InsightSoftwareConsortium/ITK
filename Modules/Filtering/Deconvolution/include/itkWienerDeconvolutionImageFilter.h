@@ -71,20 +71,20 @@ namespace itk
  * \ingroup ITKDeconvolution
  *
  */
-template< typename TInputImage, typename TKernelImage = TInputImage, typename TOutputImage = TInputImage, typename TInternalPrecision=double >
-class ITK_TEMPLATE_EXPORT WienerDeconvolutionImageFilter :
-  public InverseDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
+template <typename TInputImage,
+          typename TKernelImage = TInputImage,
+          typename TOutputImage = TInputImage,
+          typename TInternalPrecision = double>
+class ITK_TEMPLATE_EXPORT WienerDeconvolutionImageFilter
+  : public InverseDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(WienerDeconvolutionImageFilter);
 
   using Self = WienerDeconvolutionImageFilter;
-  using Superclass = InverseDeconvolutionImageFilter< TInputImage,
-                                           TKernelImage,
-                                           TOutputImage,
-                                           TInternalPrecision >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InverseDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -129,9 +129,11 @@ protected:
   ~WienerDeconvolutionImageFilter() override = default;
 
   /** This filter uses a minipipeline to compute the output. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void PrintSelf( std::ostream & os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   double m_NoiseVariance;
@@ -139,62 +141,69 @@ private:
 
 namespace Functor
 {
-template< typename TPixel >
+template <typename TPixel>
 class ITK_TEMPLATE_EXPORT WienerDeconvolutionFunctor
 {
 public:
   WienerDeconvolutionFunctor() {}
   ~WienerDeconvolutionFunctor() = default;
-  WienerDeconvolutionFunctor( const WienerDeconvolutionFunctor & f )
-    : m_NoisePowerSpectralDensityConstant( f.m_NoisePowerSpectralDensityConstant )
-    , m_KernelZeroMagnitudeThreshold( f.m_KernelZeroMagnitudeThreshold )
+  WienerDeconvolutionFunctor(const WienerDeconvolutionFunctor & f)
+    : m_NoisePowerSpectralDensityConstant(f.m_NoisePowerSpectralDensityConstant)
+    , m_KernelZeroMagnitudeThreshold(f.m_KernelZeroMagnitudeThreshold)
   {}
 
-  bool operator!=( const WienerDeconvolutionFunctor & ) const
+  bool
+  operator!=(const WienerDeconvolutionFunctor &) const
   {
     return false;
   }
-  bool operator==( const WienerDeconvolutionFunctor & other) const
+  bool
+  operator==(const WienerDeconvolutionFunctor & other) const
   {
     return !(*this != other);
   }
-  inline TPixel operator()(const TPixel & I, const TPixel & H) const
+  inline TPixel
+  operator()(const TPixel & I, const TPixel & H) const
   {
     TPixel Pn = m_NoisePowerSpectralDensityConstant;
 
     // We estimate the power spectral density of the output image to
     // be the same as the power spectral density of the blurred input
     // minus the power spectral density of the noise.
-    TPixel Pf = std::norm( I );
+    TPixel Pf = std::norm(I);
 
-    TPixel denominator = std::norm( H ) + ( Pn / (Pf - Pn) );
-    TPixel value = NumericTraits< TPixel >::ZeroValue();
-    if ( std::abs( denominator ) >= m_KernelZeroMagnitudeThreshold )
-      {
-      value = I * ( std::conj( H ) / denominator );
-      }
+    TPixel denominator = std::norm(H) + (Pn / (Pf - Pn));
+    TPixel value = NumericTraits<TPixel>::ZeroValue();
+    if (std::abs(denominator) >= m_KernelZeroMagnitudeThreshold)
+    {
+      value = I * (std::conj(H) / denominator);
+    }
 
     return value;
   }
 
   /** Set/get the constant defining the noise power spectral density
-  * constant. */
-  void SetNoisePowerSpectralDensityConstant(double constant)
+   * constant. */
+  void
+  SetNoisePowerSpectralDensityConstant(double constant)
   {
     m_NoisePowerSpectralDensityConstant = constant;
   }
-  double GetNoisePowerSpectralDensityConstant() const
+  double
+  GetNoisePowerSpectralDensityConstant() const
   {
     return m_NoisePowerSpectralDensityConstant;
   }
 
   /** Set/get the threshold value below which complex magnitudes are considered
    * to be zero. */
-  void SetKernelZeroMagnitudeThreshold(double mu)
+  void
+  SetKernelZeroMagnitudeThreshold(double mu)
   {
     m_KernelZeroMagnitudeThreshold = mu;
   }
-  double GetKernelZeroMagnitudeThreshold() const
+  double
+  GetKernelZeroMagnitudeThreshold() const
   {
     return m_KernelZeroMagnitudeThreshold;
   }
@@ -203,12 +212,12 @@ private:
   double m_NoisePowerSpectralDensityConstant = 0.0;
   double m_KernelZeroMagnitudeThreshold = 0.0;
 };
-} //namespace Functor
+} // namespace Functor
 
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWienerDeconvolutionImageFilter.hxx"
+#  include "itkWienerDeconvolutionImageFilter.hxx"
 #endif
 
 #endif

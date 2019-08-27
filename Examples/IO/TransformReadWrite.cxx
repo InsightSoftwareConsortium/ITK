@@ -37,34 +37,34 @@
 #include "itkCompositeTransform.h"
 #include "itkTransformFactory.h"
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "Usage: " << argv[0] << " transformFile" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   const char * transformFileName = argv[1];
 
   using ScalarType = double;
   constexpr unsigned int Dimension = 3;
 
-  using CompositeTransformType = itk::CompositeTransform< ScalarType, Dimension >;
+  using CompositeTransformType = itk::CompositeTransform<ScalarType, Dimension>;
   CompositeTransformType::Pointer composite = CompositeTransformType::New();
 
-  using AffineTransformType = itk::AffineTransform< ScalarType, Dimension >;
-  AffineTransformType::Pointer affine = AffineTransformType::New();
+  using AffineTransformType = itk::AffineTransform<ScalarType, Dimension>;
+  AffineTransformType::Pointer        affine = AffineTransformType::New();
   AffineTransformType::InputPointType cor;
   cor.Fill(12);
   affine->SetCenter(cor);
 
-  composite->AddTransform( affine );
+  composite->AddTransform(affine);
 
   constexpr unsigned int SplineOrder = 5;
   using BSplineTransformType =
-      itk::BSplineTransform< ScalarType, Dimension, SplineOrder >;
-  using BSplineTransformFType =
-      itk::BSplineTransform< float, Dimension, SplineOrder >;
+    itk::BSplineTransform<ScalarType, Dimension, SplineOrder>;
+  using BSplineTransformFType = itk::BSplineTransform<float, Dimension, SplineOrder>;
 
   // By default only BSpline transforms of order 3 are registered.
   // Manually register this order 5 bspline for both float and double
@@ -75,18 +75,18 @@ int main( int argc, char * argv[] )
   BSplineTransformType::Pointer bspline = BSplineTransformType::New();
 
   BSplineTransformType::OriginType origin;
-  origin.Fill( 100 );
+  origin.Fill(100);
   BSplineTransformType::PhysicalDimensionsType dimensions;
-  dimensions.Fill( 1.5 * 9.0 );
+  dimensions.Fill(1.5 * 9.0);
 
-  bspline->SetTransformDomainOrigin( origin );
-  bspline->SetTransformDomainPhysicalDimensions( dimensions );
+  bspline->SetTransformDomainOrigin(origin);
+  bspline->SetTransformDomainPhysicalDimensions(dimensions);
 
-  BSplineTransformType::ParametersType parameters( bspline->GetNumberOfParameters() );
-  bspline->SetParameters( parameters );
+  BSplineTransformType::ParametersType parameters(bspline->GetNumberOfParameters());
+  bspline->SetParameters(parameters);
   bspline->SetIdentity();
 
-  composite->AddTransform( bspline );
+  composite->AddTransform(bspline);
 
   // Software Guide : BeginLatex
   //
@@ -96,7 +96,7 @@ int main( int argc, char * argv[] )
   //
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  using TransformWriterType = itk::TransformFileWriterTemplate< ScalarType >;
+  using TransformWriterType = itk::TransformFileWriterTemplate<ScalarType>;
   TransformWriterType::Pointer writer = TransformWriterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -107,7 +107,7 @@ int main( int argc, char * argv[] )
   //
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  writer->SetInput( composite );
+  writer->SetInput(composite);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -118,20 +118,20 @@ int main( int argc, char * argv[] )
   //
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  writer->SetFileName( transformFileName );
+  writer->SetFileName(transformFileName);
   // Software Guide : EndCodeSnippet
   try
-    {
+  {
     // Software Guide : BeginCodeSnippet
     writer->Update();
     // Software Guide : EndCodeSnippet
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Error while saving the transforms" << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Software Guide : BeginLatex
   //
@@ -155,22 +155,22 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  reader->SetFileName( transformFileName );
+  reader->SetFileName(transformFileName);
   // Software Guide : EndCodeSnippet
 
   try
-    {
-  // Software Guide : BeginCodeSnippet
+  {
+    // Software Guide : BeginCodeSnippet
     reader->Update();
-  // Software Guide : EndCodeSnippet
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+    // Software Guide : EndCodeSnippet
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Error while reading the transform file" << std::endl;
     std::cerr << excp << std::endl;
     std::cerr << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Software Guide : BeginLatex
   //
@@ -196,15 +196,14 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ReadCompositeTransformType =
-      itk::CompositeTransform< ReadScalarType, Dimension >;
+  using ReadCompositeTransformType = itk::CompositeTransform<ReadScalarType, Dimension>;
   auto it = transforms->begin();
-  if( !strcmp((*it)->GetNameOfClass(),"CompositeTransform") )
-    {
-    ReadCompositeTransformType::Pointer compositeRead
-      = static_cast< ReadCompositeTransformType* >( (*it).GetPointer() );
+  if (!strcmp((*it)->GetNameOfClass(), "CompositeTransform"))
+  {
+    ReadCompositeTransformType::Pointer compositeRead =
+      static_cast<ReadCompositeTransformType *>((*it).GetPointer());
     compositeRead->Print(std::cout);
-    }
+  }
   //  Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;

@@ -34,31 +34,25 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TOutputImage >
-InvertIntensityImageFilter< TInputImage, TOutputImage >
-::InvertIntensityImageFilter() :
-  m_Maximum( NumericTraits< InputPixelType >::max() )
-{
-}
+template <typename TInputImage, typename TOutputImage>
+InvertIntensityImageFilter<TInputImage, TOutputImage>::InvertIntensityImageFilter()
+  : m_Maximum(NumericTraits<InputPixelType>::max())
+{}
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-InvertIntensityImageFilter< TInputImage, TOutputImage >
-::BeforeThreadedGenerateData()
+InvertIntensityImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   this->GetFunctor().SetMaximum(m_Maximum);
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-InvertIntensityImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+InvertIntensityImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Maximum: "
-     << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_Maximum )
-     << std::endl;
+  os << indent << "Maximum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Maximum) << std::endl;
 }
 } // end namespace itk
 

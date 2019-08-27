@@ -61,16 +61,16 @@
 //  $c()$ and $s()$. The $c$ kernel can be described as
 //
 //  \begin{equation}
-//  c(\mathbf{x},\mathbf{w}) = e^{(\frac{ {\left|| \mathbf{x} - \mathbf{w} \right||}^2 }{\sigma^2_c} )}
-//  \end{equation}
+//  c(\mathbf{x},\mathbf{w}) = e^{(\frac{ {\left|| \mathbf{x} - \mathbf{w} \right||}^2
+//  }{\sigma^2_c} )} \end{equation}
 //
 //  where $\sigma_c$ is provided by the user and defines how close pixel
 //  neighbors should be in order to be considered for the computation of the
 //  output value.  The $s$ kernel is given by
 //
 //  \begin{equation}
-//  s(f(\mathbf{x}),f(\mathbf{w})) = e^{(\frac{ {( f(\mathbf{x}) - f(\mathbf{w})}^2 }{\sigma^2_s} )}
-//  \end{equation}
+//  s(f(\mathbf{x}),f(\mathbf{w})) = e^{(\frac{ {( f(\mathbf{x}) - f(\mathbf{w})}^2
+//  }{\sigma^2_s} )} \end{equation}
 //
 //  where $\sigma_s$ is provided by the user and defines how close the
 //  neighbor's intensity be in order to be considered for the computation of
@@ -99,14 +99,16 @@
 // Software Guide : EndCodeSnippet
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 5 )
-    {
+  if (argc < 5)
+  {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFile  domainSigma  rangeSigma" << std::endl;
+    std::cerr << argv[0] << "  inputImageFile  outputImageFile  domainSigma  rangeSigma"
+              << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //  Software Guide : BeginLatex
@@ -119,12 +121,12 @@ int main( int argc, char * argv[] )
   using InputPixelType = unsigned char;
   using OutputPixelType = unsigned char;
 
-  using InputImageType = itk::Image< InputPixelType,  2 >;
-  using OutputImageType = itk::Image< OutputPixelType, 2 >;
+  using InputImageType = itk::Image<InputPixelType, 2>;
+  using OutputImageType = itk::Image<OutputPixelType, 2>;
   // Software Guide : EndCodeSnippet
 
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
 
 
   //  Software Guide : BeginLatex
@@ -139,14 +141,13 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::BilateralImageFilter<
-               InputImageType, OutputImageType >;
+  using FilterType = itk::BilateralImageFilter<InputImageType, OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
 
   //  Software Guide : BeginLatex
@@ -157,7 +158,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetInput( reader->GetOutput() );
+  filter->SetInput(reader->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -180,12 +181,12 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = InputImageType::ImageDimension;
-  double domainSigmas[ Dimension ];
-  for(double & domainSigma : domainSigmas)
-    {
-    domainSigma = std::stod( argv[3] );
-    }
-  const double rangeSigma = std::stod( argv[4] );
+  double             domainSigmas[Dimension];
+  for (double & domainSigma : domainSigmas)
+  {
+    domainSigma = std::stod(argv[3]);
+  }
+  const double rangeSigma = std::stod(argv[4]);
   // Software Guide : EndCodeSnippet
 
 
@@ -203,8 +204,8 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  filter->SetDomainSigma( domainSigmas );
-  filter->SetRangeSigma(  rangeSigma   );
+  filter->SetDomainSigma(domainSigmas);
+  filter->SetRangeSigma(rangeSigma);
   // Software Guide : EndCodeSnippet
 
 
@@ -217,20 +218,20 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   using WritePixelType = unsigned char;
-  using WriteImageType = itk::Image< WritePixelType, 2 >;
-  using RescaleFilterType = itk::RescaleIntensityImageFilter<
-               OutputImageType, WriteImageType >;
+  using WriteImageType = itk::Image<WritePixelType, 2>;
+  using RescaleFilterType =
+    itk::RescaleIntensityImageFilter<OutputImageType, WriteImageType>;
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
-  rescaler->SetOutputMinimum(   0 );
-  rescaler->SetOutputMaximum( 255 );
+  rescaler->SetOutputMinimum(0);
+  rescaler->SetOutputMaximum(255);
 
-  using WriterType = itk::ImageFileWriter< WriteImageType >;
+  using WriterType = itk::ImageFileWriter<WriteImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[2] );
+  writer->SetFileName(argv[2]);
 
   // Software Guide : BeginCodeSnippet
-  rescaler->SetInput( filter->GetOutput() );
-  writer->SetInput( rescaler->GetOutput() );
+  rescaler->SetInput(filter->GetOutput());
+  writer->SetInput(rescaler->GetOutput());
   writer->Update();
   // Software Guide : EndCodeSnippet
 

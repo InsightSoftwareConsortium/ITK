@@ -34,18 +34,16 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template<typename TParametersValueType=double,
-          unsigned int NDimensions=3>
-class ITK_TEMPLATE_EXPORT ElasticBodyReciprocalSplineKernelTransform:
-  public KernelTransform<TParametersValueType, NDimensions>
+template <typename TParametersValueType = double, unsigned int NDimensions = 3>
+class ITK_TEMPLATE_EXPORT ElasticBodyReciprocalSplineKernelTransform
+  : public KernelTransform<TParametersValueType, NDimensions>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ElasticBodyReciprocalSplineKernelTransform);
 
   /** Standard class type aliases. */
   using Self = ElasticBodyReciprocalSplineKernelTransform;
-  using Superclass = KernelTransform<TParametersValueType,
-                           NDimensions>;
+  using Superclass = KernelTransform<TParametersValueType, NDimensions>;
 
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -89,7 +87,8 @@ public:
 protected:
   ElasticBodyReciprocalSplineKernelTransform();
   ~ElasticBodyReciprocalSplineKernelTransform() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   using GMatrixType = typename Superclass::GMatrixType;
   /** Compute G(x)
@@ -102,7 +101,8 @@ protected:
    * r(x) = Euclidean norm = sqrt[x1^2 + x2^2 + x3^2]
    * \f[ r(x) = \sqrt{ x_1^2 + x_2^2 + x_3^2 }  \f]
    * I = identity matrix */
-  void ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const override;
+  void
+  ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const override;
 
   /** alpha, Poisson's ratio */
   TParametersValueType m_Alpha;
@@ -110,7 +110,7 @@ protected:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkElasticBodyReciprocalSplineKernelTransform.hxx"
+#  include "itkElasticBodyReciprocalSplineKernelTransform.hxx"
 #endif
 
 #endif // itkElasticBodyReciprocalSplineKernelTransform_h

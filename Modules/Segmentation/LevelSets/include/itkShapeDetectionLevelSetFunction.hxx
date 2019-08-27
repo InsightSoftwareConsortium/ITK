@@ -24,15 +24,15 @@
 
 namespace itk
 {
-template< typename TImageType, typename TFeatureImageType >
-void ShapeDetectionLevelSetFunction< TImageType, TFeatureImageType >
-::CalculateSpeedImage()
+template <typename TImageType, typename TFeatureImageType>
+void
+ShapeDetectionLevelSetFunction<TImageType, TFeatureImageType>::CalculateSpeedImage()
 {
   /* copy the feature image into the speed image */
-  ImageAlgorithm::Copy( this->GetFeatureImage(),
-                        this->GetSpeedImage(),
-                        this->GetFeatureImage()->GetRequestedRegion(),
-                        this->GetFeatureImage()->GetRequestedRegion() );
+  ImageAlgorithm::Copy(this->GetFeatureImage(),
+                       this->GetSpeedImage(),
+                       this->GetFeatureImage()->GetRequestedRegion(),
+                       this->GetFeatureImage()->GetRequestedRegion());
 }
 } // end namespace itk
 

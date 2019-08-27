@@ -74,19 +74,17 @@ namespace itk
  * \sphinxexample{Core/Common/CreateGaussianDerivativeKernel,Create Gaussian Derivative Kernel}
  * \endsphinx
  */
-template< typename TPixel, unsigned int VDimension = 2,
-          typename TAllocator = NeighborhoodAllocator< TPixel > >
-class ITK_TEMPLATE_EXPORT GaussianDerivativeOperator :
-  public NeighborhoodOperator< TPixel, VDimension, TAllocator >
+template <typename TPixel, unsigned int VDimension = 2, typename TAllocator = NeighborhoodAllocator<TPixel>>
+class ITK_TEMPLATE_EXPORT GaussianDerivativeOperator : public NeighborhoodOperator<TPixel, VDimension, TAllocator>
 {
 public:
   /** Standard class type aliases. */
   using Self = GaussianDerivativeOperator;
-  using Superclass = NeighborhoodOperator< TPixel, VDimension, TAllocator >;
+  using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
   /** Neighborhood operator types. */
-  using GaussianOperatorType = GaussianOperator< TPixel, VDimension, TAllocator >;
-  using DerivativeOperatorType = DerivativeOperator< TPixel, VDimension, TAllocator >;
+  using GaussianOperatorType = GaussianOperator<TPixel, VDimension, TAllocator>;
+  using DerivativeOperatorType = DerivativeOperator<TPixel, VDimension, TAllocator>;
 
   /** Constructor. */
   GaussianDerivativeOperator() = default;
@@ -95,7 +93,8 @@ public:
   GaussianDerivativeOperator(const Self & other);
 
   /** Assignment operator */
-  Self & operator=(const Self & other);
+  Self &
+  operator=(const Self & other);
 
 
   /** Set/Get the flag for calculating scale-space normalized
@@ -106,109 +105,155 @@ public:
    * algorithms such as blob detection. The scaling results in the
    * value of the derivatives being independent of the size of an
    * object. */
-  void SetNormalizeAcrossScale(bool flag) { m_NormalizeAcrossScale = flag; }
-  bool GetNormalizeAcrossScale() const { return m_NormalizeAcrossScale; }
+  void
+  SetNormalizeAcrossScale(bool flag)
+  {
+    m_NormalizeAcrossScale = flag;
+  }
+  bool
+  GetNormalizeAcrossScale() const
+  {
+    return m_NormalizeAcrossScale;
+  }
   itkBooleanMacro(NormalizeAcrossScale);
 
   /** Set/Get the variance of the Gaussian kernel.
    *
    */
-  void SetVariance(const double variance) { m_Variance = variance; }
-  double GetVariance() const { return m_Variance; }
+  void
+  SetVariance(const double variance)
+  {
+    m_Variance = variance;
+  }
+  double
+  GetVariance() const
+  {
+    return m_Variance;
+  }
 
   /** Set/Get the spacing for the direction of this kernel. */
-  void SetSpacing(const double spacing) { m_Spacing = spacing; }
-  double GetSpacing() const { return m_Spacing; }
+  void
+  SetSpacing(const double spacing)
+  {
+    m_Spacing = spacing;
+  }
+  double
+  GetSpacing() const
+  {
+    return m_Spacing;
+  }
 
   /** Set/Get the desired maximum error of the gaussian approximation.  Maximum
    * error is the difference between the area under the discrete Gaussian curve
    * and the area under the continuous Gaussian. Maximum error affects the
    * Gaussian operator size. The value is clamped between 0.00001 and 0.99999. */
-  void SetMaximumError(const double maxerror)
+  void
+  SetMaximumError(const double maxerror)
   {
     constexpr double Min = 0.00001;
-    const double Max = 1.0 - Min;
+    const double     Max = 1.0 - Min;
 
-    m_MaximumError = std::max( Min, std::min( Max, maxerror ) );
+    m_MaximumError = std::max(Min, std::min(Max, maxerror));
   }
-  double GetMaximumError() { return m_MaximumError; }
+  double
+  GetMaximumError()
+  {
+    return m_MaximumError;
+  }
 
   /** Sets/Get a limit for growth of the kernel.  Small maximum error values with
    *  large variances will yield very large kernel sizes.  This value can be
    *  used to truncate a kernel in such instances.  A warning will be given on
    *  truncation of the kernel. */
-  void SetMaximumKernelWidth(unsigned int n)
+  void
+  SetMaximumKernelWidth(unsigned int n)
   {
     m_MaximumKernelWidth = n;
   }
 
   /** Sets/Get the order of the derivative. */
-  void SetOrder(const unsigned int order) { m_Order = order;}
-  unsigned int GetOrder() const { return m_Order; }
+  void
+  SetOrder(const unsigned int order)
+  {
+    m_Order = order;
+  }
+  unsigned int
+  GetOrder() const
+  {
+    return m_Order;
+  }
 
   /** Prints member variables */
-  void PrintSelf(std::ostream & os, Indent i) const override;
+  void
+  PrintSelf(std::ostream & os, Indent i) const override;
 
 protected:
-
   using CoefficientVector = typename Superclass::CoefficientVector;
 
   /** Returns the value of the modified Bessel function I0(x) at a point x >= 0.
-    */
-  static double ModifiedBesselI0(double);
+   */
+  static double
+  ModifiedBesselI0(double);
 
   /** Returns the value of the modified Bessel function I1(x) at a point x,
    * x real.  */
-  static double ModifiedBesselI1(double);
+  static double
+  ModifiedBesselI1(double);
 
   /** Returns the value of the modified Bessel function Ik(x) at a point x>=0,
    * where k>=2. */
-  static double ModifiedBesselI(int, double);
+  static double
+  ModifiedBesselI(int, double);
 
   /** Calculates operator coefficients. */
-  CoefficientVector GenerateCoefficients() override;
+  CoefficientVector
+  GenerateCoefficients() override;
 
   /** Arranges coefficients spatially in the memory buffer. */
-  void Fill(const CoefficientVector & coeff) override
-  { this->FillCenteredDirectional(coeff); }
+  void
+  Fill(const CoefficientVector & coeff) override
+  {
+    this->FillCenteredDirectional(coeff);
+  }
 
 private:
-
   /* methods for generations of the coeeficients for a gaussian
    * operator of 0-order respecting the remaining parameters */
-  CoefficientVector GenerateGaussianCoefficients() const;
+  CoefficientVector
+  GenerateGaussianCoefficients() const;
 
   /** For compatibility with itkWarningMacro */
-  const char * GetNameOfClass() const override
+  const char *
+  GetNameOfClass() const override
   {
     return "itkGaussianDerivativeOperator";
   }
 
   /** Normalize derivatives across scale space */
-  bool m_NormalizeAcrossScale{true};
+  bool m_NormalizeAcrossScale{ true };
 
   /** Desired variance of the discrete Gaussian function. */
-  double m_Variance{1.0};
+  double m_Variance{ 1.0 };
 
   /** Difference between the areas under the curves of the continuous and
    * discrete Gaussian functions. */
-  double m_MaximumError{0.005};
+  double m_MaximumError{ 0.005 };
 
   /** Maximum kernel size allowed.  This value is used to truncate a kernel
    *  that has grown too large.  A warning is given when the specified maximum
    *  error causes the kernel to exceed this size. */
-  unsigned int m_MaximumKernelWidth{30};
+  unsigned int m_MaximumKernelWidth{ 30 };
 
   /** Order of the derivative. */
-  unsigned int m_Order{1};
+  unsigned int m_Order{ 1 };
 
   /** Spacing in the direction of this kernel. */
-  double m_Spacing{1.0};
+  double m_Spacing{ 1.0 };
 };
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGaussianDerivativeOperator.hxx"
+#  include "itkGaussianDerivativeOperator.hxx"
 #endif
 
 #endif

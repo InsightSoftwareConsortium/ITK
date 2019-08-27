@@ -27,17 +27,17 @@ namespace itk
 /**
  * Default constructor
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
-::FastSymmetricForcesDemonsRegistrationFunction()
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::
+  FastSymmetricForcesDemonsRegistrationFunction()
 {
   RadiusType   r;
   unsigned int j;
 
-  for ( j = 0; j < ImageDimension; j++ )
-    {
+  for (j = 0; j < ImageDimension; j++)
+  {
     r[j] = 0;
-    }
+  }
   this->SetRadius(r);
 
   m_TimeStep = 1.0;
@@ -48,30 +48,29 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDispl
   m_Normalizer = 0.0;
   m_FixedImageGradientCalculator = GradientCalculatorType::New();
 
-  typename DefaultInterpolatorType::Pointer interp =
-    DefaultInterpolatorType::New();
+  typename DefaultInterpolatorType::Pointer interp = DefaultInterpolatorType::New();
 
-  m_MovingImageInterpolator = static_cast< InterpolatorType * >(
-    interp.GetPointer() );
+  m_MovingImageInterpolator = static_cast<InterpolatorType *>(interp.GetPointer());
 
   m_WarpedMovingImageGradientCalculator = MovingGradientCalculatorType::New();
   m_MovingImageWarper = WarperType::New();
   m_MovingImageWarper->SetInterpolator(m_MovingImageInterpolator);
 
-  m_Metric = NumericTraits< double >::max();
+  m_Metric = NumericTraits<double>::max();
   m_SumOfSquaredDifference = 0.0;
   m_NumberOfPixelsProcessed = 0L;
-  m_RMSChange = NumericTraits< double >::max();
+  m_RMSChange = NumericTraits<double>::max();
   m_SumOfSquaredChange = 0.0;
 }
 
 /**
  * Standard "PrintSelf" method.
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
-FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
-::PrintSelf(std::ostream & os, Indent indent) const
+FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf(
+  std::ostream & os,
+  Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -99,10 +98,10 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDispl
 /**
  *
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
-FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
-::SetIntensityDifferenceThreshold(double threshold)
+FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::
+  SetIntensityDifferenceThreshold(double threshold)
 {
   m_IntensityDifferenceThreshold = threshold;
 }
@@ -110,10 +109,10 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDispl
 /**
  *
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 double
-FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
-::GetIntensityDifferenceThreshold() const
+FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::
+  GetIntensityDifferenceThreshold() const
 {
   return m_IntensityDifferenceThreshold;
 }
@@ -121,73 +120,72 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDispl
 /**
  * Set the function state values before each iteration
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
-FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
-::InitializeIteration()
+FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::InitializeIteration()
 {
-  if ( !this->GetMovingImage() || !this->GetFixedImage() || !m_MovingImageInterpolator )
-    {
+  if (!this->GetMovingImage() || !this->GetFixedImage() || !m_MovingImageInterpolator)
+  {
     itkExceptionMacro(<< "MovingImage, FixedImage and/or Interpolator not set");
-    }
+  }
 
   // cache fixed image information
   const PixelType fixedImageSpacing = this->GetFixedImage()->GetSpacing();
 
   // compute the normalizer
-  m_Normalizer      = 0.0;
-  for ( unsigned int k = 0; k < ImageDimension; k++ )
-    {
+  m_Normalizer = 0.0;
+  for (unsigned int k = 0; k < ImageDimension; k++)
+  {
     m_Normalizer += fixedImageSpacing[k] * fixedImageSpacing[k];
-    }
-  m_Normalizer /= static_cast< double >( ImageDimension );
+  }
+  m_Normalizer /= static_cast<double>(ImageDimension);
 
   // setup gradient calculator
-  m_FixedImageGradientCalculator->SetInputImage( this->GetFixedImage() );
+  m_FixedImageGradientCalculator->SetInputImage(this->GetFixedImage());
 
-  m_MovingImageWarper->SetOutputOrigin( this->GetFixedImage()->GetOrigin() );
-  m_MovingImageWarper->SetOutputSpacing( this->GetFixedImage()->GetSpacing() );
-  m_MovingImageWarper->SetOutputDirection( this->GetFixedImage()->GetDirection() );
-  m_MovingImageWarper->SetInput( this->GetMovingImage() );
-  m_MovingImageWarper->SetDisplacementField( this->GetDisplacementField() );
+  m_MovingImageWarper->SetOutputOrigin(this->GetFixedImage()->GetOrigin());
+  m_MovingImageWarper->SetOutputSpacing(this->GetFixedImage()->GetSpacing());
+  m_MovingImageWarper->SetOutputDirection(this->GetFixedImage()->GetDirection());
+  m_MovingImageWarper->SetInput(this->GetMovingImage());
+  m_MovingImageWarper->SetDisplacementField(this->GetDisplacementField());
   m_MovingImageWarper->Update();
-  m_WarpedMovingImageGradientCalculator->SetInputImage( this->m_MovingImageWarper->GetOutput() );
+  m_WarpedMovingImageGradientCalculator->SetInputImage(this->m_MovingImageWarper->GetOutput());
 
   // setup moving image interpolator for further access
-  m_MovingImageInterpolator->SetInputImage( this->GetMovingImage() );
+  m_MovingImageInterpolator->SetInputImage(this->GetMovingImage());
 
   // initialize metric computation variables
-  m_SumOfSquaredDifference  = 0.0;
+  m_SumOfSquaredDifference = 0.0;
   m_NumberOfPixelsProcessed = 0L;
-  m_SumOfSquaredChange      = 0.0;
+  m_SumOfSquaredChange = 0.0;
 }
 
 /**
  * Compute update at a non boundary neighbourhood
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-typename FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
-::PixelType
-FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
-::ComputeUpdate( const NeighborhoodType & it, void *gd,
-                 const FloatOffsetType & itkNotUsed(offset) )
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+typename FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PixelType
+FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
+  const NeighborhoodType & it,
+  void *                   gd,
+  const FloatOffsetType &  itkNotUsed(offset))
 {
-  auto * globalData = (GlobalDataStruct *)gd;
-  const IndexType   FirstIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex();
-  const IndexType   LastIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex()
-                                + this->GetFixedImage()->GetLargestPossibleRegion().GetSize();
+  auto *          globalData = (GlobalDataStruct *)gd;
+  const IndexType FirstIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex();
+  const IndexType LastIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex() +
+                              this->GetFixedImage()->GetLargestPossibleRegion().GetSize();
 
   const IndexType index = it.GetIndex();
 
   // Get fixed image related information
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
-  const auto fixedValue = (double)this->GetFixedImage()->GetPixel(index);
+  const auto                fixedValue = (double)this->GetFixedImage()->GetPixel(index);
   const CovariantVectorType fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
 
   // Get moving image related information
   // use warped moving image to get moving value and gradient fast(er).
-  const auto movingValue = (double)m_MovingImageWarper->GetOutput()->GetPixel(index);
+  const auto                movingValue = (double)m_MovingImageWarper->GetOutput()->GetPixel(index);
   const CovariantVectorType movingGradient = m_WarpedMovingImageGradientCalculator->EvaluateAtIndex(index);
 
   // unfortunately (since it's a little redundant) we still need the mapped
@@ -195,10 +193,10 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDispl
   PointType mappedCenterPoint;
 
   this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedCenterPoint);
-  for ( unsigned int dim = 0; dim < ImageDimension; dim++ )
-    {
+  for (unsigned int dim = 0; dim < ImageDimension; dim++)
+  {
     mappedCenterPoint[dim] += it.GetCenterPixel()[dim];
-    }
+  }
 
   /**
    * Compute Update.
@@ -215,74 +213,74 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDispl
    * where K = mean square spacing to compensate for the mismatch in units.
    */
   double fixedPlusMovingGradientSquaredMagnitude = 0;
-  for ( unsigned int dim = 0; dim < ImageDimension; dim++ )
-    {
+  for (unsigned int dim = 0; dim < ImageDimension; dim++)
+  {
     fixedPlusMovingGradientSquaredMagnitude += itk::Math::sqr(fixedGradient[dim] + movingGradient[dim]);
-    }
+  }
 
   const double speedValue = fixedValue - movingValue;
   const double denominator = itk::Math::sqr(speedValue) / m_Normalizer + fixedPlusMovingGradientSquaredMagnitude;
 
   PixelType update;
-  if ( itk::Math::abs(speedValue) < m_IntensityDifferenceThreshold || denominator < m_DenominatorThreshold )
-    {
+  if (itk::Math::abs(speedValue) < m_IntensityDifferenceThreshold || denominator < m_DenominatorThreshold)
+  {
     update.Fill(0.0);
-    }
+  }
   else
+  {
+    for (unsigned int j = 0; j < ImageDimension; j++)
     {
-    for ( unsigned int j = 0; j < ImageDimension; j++ )
-      {
-      update[j] = 2 * speedValue * ( movingGradient[j] + fixedGradient[j] ) / denominator;
-      }
+      update[j] = 2 * speedValue * (movingGradient[j] + fixedGradient[j]) / denominator;
     }
+  }
 
   // update the squared change value
   PointType newMappedCenterPoint;
   bool      IsOutsideRegion = false;
-  for ( unsigned int j = 0; j < ImageDimension; j++ )
+  for (unsigned int j = 0; j < ImageDimension; j++)
+  {
+    if (globalData)
     {
-    if ( globalData )
-      {
       globalData->m_SumOfSquaredChange += itk::Math::sqr(update[j]);
       newMappedCenterPoint[j] = mappedCenterPoint[j] + update[j];
-      if ( index[j] < ( FirstIndex[j] + 2 ) || index[j] > ( LastIndex[j] - 3 ) )
-        {
+      if (index[j] < (FirstIndex[j] + 2) || index[j] > (LastIndex[j] - 3))
+      {
         IsOutsideRegion = true;
-        }
       }
     }
+  }
 
   // update the metric with the latest deformable field
   double newMovingValue = 0;
-  if ( globalData )
-    {
+  if (globalData)
+  {
     // do not consider voxel on the border (2 voxels) as there are often
     // artefacts
     // which falsify the metric
-    if ( !IsOutsideRegion )
+    if (!IsOutsideRegion)
+    {
+      if (m_MovingImageInterpolator->IsInsideBuffer(newMappedCenterPoint))
       {
-      if ( m_MovingImageInterpolator->IsInsideBuffer(newMappedCenterPoint) )
-        {
         newMovingValue = m_MovingImageInterpolator->Evaluate(newMappedCenterPoint);
-        }
+      }
       else
-        {
+      {
         newMovingValue = 0;
-        }
+      }
       globalData->m_SumOfSquaredDifference += itk::Math::sqr(fixedValue - newMovingValue);
       globalData->m_NumberOfPixelsProcessed += 1;
-      }
     }
+  }
   return update;
 }
 
 /**
  * Update the metric and release the per-thread-global data.
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
-FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
-::ReleaseGlobalDataPointer(void *gd) const
+FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ReleaseGlobalDataPointer(
+  void * gd) const
 {
   auto * globalData = (GlobalDataStruct *)gd;
 
@@ -290,13 +288,11 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDispl
   m_SumOfSquaredDifference += globalData->m_SumOfSquaredDifference;
   m_NumberOfPixelsProcessed += globalData->m_NumberOfPixelsProcessed;
   m_SumOfSquaredChange += globalData->m_SumOfSquaredChange;
-  if ( m_NumberOfPixelsProcessed )
-    {
-    m_Metric = m_SumOfSquaredDifference
-               / static_cast< double >( m_NumberOfPixelsProcessed );
-    m_RMSChange = std::sqrt( m_SumOfSquaredChange
-                            / static_cast< double >( m_NumberOfPixelsProcessed ) );
-    }
+  if (m_NumberOfPixelsProcessed)
+  {
+    m_Metric = m_SumOfSquaredDifference / static_cast<double>(m_NumberOfPixelsProcessed);
+    m_RMSChange = std::sqrt(m_SumOfSquaredChange / static_cast<double>(m_NumberOfPixelsProcessed));
+  }
   m_MetricCalculationLock.unlock();
 
   delete globalData;

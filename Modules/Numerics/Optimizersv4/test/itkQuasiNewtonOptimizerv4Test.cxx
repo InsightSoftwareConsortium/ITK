@@ -35,44 +35,45 @@
  *  at each iteration according to the shift of each step.
  */
 
-template< typename TMovingTransform >
-int itkQuasiNewtonOptimizerv4TestTemplated(int numberOfIterations,
-                                                          double shiftOfStep,
-                                                          std::string scalesOption,
-                                                          bool usePhysicalSpaceForShift = true)
+template <typename TMovingTransform>
+int
+itkQuasiNewtonOptimizerv4TestTemplated(int         numberOfIterations,
+                                       double      shiftOfStep,
+                                       std::string scalesOption,
+                                       bool        usePhysicalSpaceForShift = true)
 {
   const unsigned int Dimension = TMovingTransform::SpaceDimension;
   using PixelType = double;
 
   // Fixed Image Type
-  using FixedImageType = itk::Image<PixelType,Dimension>;
+  using FixedImageType = itk::Image<PixelType, Dimension>;
 
   // Moving Image Type
-  using MovingImageType = itk::Image<PixelType,Dimension>;
+  using MovingImageType = itk::Image<PixelType, Dimension>;
 
   // Size Type
   using SizeType = typename MovingImageType::SizeType;
 
   // ImageSource
-  using ImageSourceType = typename itk::testhelper::ImageRegistrationMethodImageSource<
-                                  typename FixedImageType::PixelType,
-                                  typename MovingImageType::PixelType,
-                                  Dimension >;
+  using ImageSourceType =
+    typename itk::testhelper::ImageRegistrationMethodImageSource<typename FixedImageType::PixelType,
+                                                                 typename MovingImageType::PixelType,
+                                                                 Dimension>;
 
-  typename FixedImageType::ConstPointer    fixedImage;
-  typename MovingImageType::ConstPointer   movingImage;
-  typename ImageSourceType::Pointer        imageSource;
+  typename FixedImageType::ConstPointer  fixedImage;
+  typename MovingImageType::ConstPointer movingImage;
+  typename ImageSourceType::Pointer      imageSource;
 
-  imageSource   = ImageSourceType::New();
+  imageSource = ImageSourceType::New();
 
   SizeType size;
   size[0] = 100;
   size[1] = 100;
 
-  imageSource->GenerateImages( size );
+  imageSource->GenerateImages(size);
 
-  fixedImage    = imageSource->GetFixedImage();
-  movingImage   = imageSource->GetMovingImage();
+  fixedImage = imageSource->GetFixedImage();
+  movingImage = imageSource->GetMovingImage();
 
   // Transform for the moving image
   using MovingTransformType = TMovingTransform;
@@ -88,17 +89,16 @@ int itkQuasiNewtonOptimizerv4TestTemplated(int numberOfIterations,
   using ParametersType = typename MovingTransformType::ParametersType;
 
   // Metric
-  using MetricType = itk::MeanSquaresImageToImageMetricv4
-    < FixedImageType, MovingImageType, FixedImageType >;
+  using MetricType = itk::MeanSquaresImageToImageMetricv4<FixedImageType, MovingImageType, FixedImageType>;
   typename MetricType::Pointer metric = MetricType::New();
 
   // Assign images and transforms to the metric.
-  metric->SetFixedImage( fixedImage );
-  metric->SetMovingImage( movingImage );
-  metric->SetVirtualDomainFromImage( const_cast<FixedImageType *>(fixedImage.GetPointer()) );
+  metric->SetFixedImage(fixedImage);
+  metric->SetMovingImage(movingImage);
+  metric->SetVirtualDomainFromImage(const_cast<FixedImageType *>(fixedImage.GetPointer()));
 
-  metric->SetFixedTransform( fixedTransform );
-  metric->SetMovingTransform( movingTransform );
+  metric->SetFixedTransform(fixedTransform);
+  metric->SetMovingTransform(movingTransform);
 
   // Initialize the metric to prepare for use
   metric->Initialize();
@@ -107,83 +107,78 @@ int itkQuasiNewtonOptimizerv4TestTemplated(int numberOfIterations,
   using OptimizerType = itk::QuasiNewtonOptimizerv4;
   OptimizerType::Pointer optimizer = OptimizerType::New();
 
-  optimizer->SetMetric( metric );
-  optimizer->SetNumberOfIterations( numberOfIterations );
+  optimizer->SetMetric(metric);
+  optimizer->SetNumberOfIterations(numberOfIterations);
 
   // Instantiate an Observer to report the progress of the Optimization
-  using CommandIterationType = itk::CommandIterationUpdate< OptimizerType >;
+  using CommandIterationType = itk::CommandIterationUpdate<OptimizerType>;
   CommandIterationType::Pointer iterationCommand = CommandIterationType::New();
-  iterationCommand->SetOptimizer( optimizer );
+  iterationCommand->SetOptimizer(optimizer);
 
   // Optimizer parameter scales estimator
   typename itk::OptimizerParameterScalesEstimator::Pointer scalesEstimator;
 
-  using PhysicalShiftScalesEstimatorType = itk::RegistrationParameterScalesFromPhysicalShift< MetricType >;
-  using IndexShiftScalesEstimatorType = itk::RegistrationParameterScalesFromIndexShift< MetricType >;
-  using JacobianScalesEstimatorType = itk::RegistrationParameterScalesFromJacobian< MetricType >;
+  using PhysicalShiftScalesEstimatorType = itk::RegistrationParameterScalesFromPhysicalShift<MetricType>;
+  using IndexShiftScalesEstimatorType = itk::RegistrationParameterScalesFromIndexShift<MetricType>;
+  using JacobianScalesEstimatorType = itk::RegistrationParameterScalesFromJacobian<MetricType>;
 
   if (scalesOption.compare("shift") == 0)
+  {
+    if (usePhysicalSpaceForShift)
     {
-    if( usePhysicalSpaceForShift )
-      {
       std::cout << "Testing RegistrationParameterScalesFrom*Physical*Shift" << std::endl;
       typename PhysicalShiftScalesEstimatorType::Pointer shiftScalesEstimator = PhysicalShiftScalesEstimatorType::New();
       shiftScalesEstimator->SetMetric(metric);
-      shiftScalesEstimator->SetTransformForward(true); //default
+      shiftScalesEstimator->SetTransformForward(true); // default
       scalesEstimator = shiftScalesEstimator;
-      }
+    }
     else
-      {
+    {
       std::cout << "Testing RegistrationParameterScalesFrom*Index*Shift" << std::endl;
       typename IndexShiftScalesEstimatorType::Pointer shiftScalesEstimator = IndexShiftScalesEstimatorType::New();
       shiftScalesEstimator->SetMetric(metric);
-      shiftScalesEstimator->SetTransformForward(true); //default
+      shiftScalesEstimator->SetTransformForward(true); // default
       scalesEstimator = shiftScalesEstimator;
-      }
     }
+  }
   else
-    {
+  {
     std::cout << "Testing RegistrationParameterScalesFromJacobian" << std::endl;
-    typename JacobianScalesEstimatorType::Pointer jacobianScalesEstimator
-      = JacobianScalesEstimatorType::New();
+    typename JacobianScalesEstimatorType::Pointer jacobianScalesEstimator = JacobianScalesEstimatorType::New();
     jacobianScalesEstimator->SetMetric(metric);
     scalesEstimator = jacobianScalesEstimator;
-    }
+  }
 
   optimizer->SetScalesEstimator(scalesEstimator);
   // If SetTrustedStepScale is not called, it will use voxel spacing.
   optimizer->SetMaximumStepSizeInPhysicalUnits(shiftOfStep);
-  optimizer->SetMaximumNewtonStepSizeInPhysicalUnits(shiftOfStep*3.0);
+  optimizer->SetMaximumNewtonStepSizeInPhysicalUnits(shiftOfStep * 3.0);
 
-  std::cout << "Start optimization..." << std::endl
-            << "Number of iterations: " << numberOfIterations << std::endl;
+  std::cout << "Start optimization..." << std::endl << "Number of iterations: " << numberOfIterations << std::endl;
 
   try
-    {
+  {
     optimizer->StartOptimization();
-    }
-  catch( itk::ExceptionObject & e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error occurred during Optimization:" << std::endl;
     std::cout << e.GetLocation() << std::endl;
     std::cout << e.GetDescription() << std::endl;
-    std::cout << e.what()    << std::endl;
+    std::cout << e.what() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "...finished. " << std::endl
-            << "StopCondition: " << optimizer->GetStopConditionDescription()
-            << std::endl
-            << "Metric: NumberOfValidPoints: "
-            << metric->GetNumberOfValidPoints()
-            << std::endl;
+            << "StopCondition: " << optimizer->GetStopConditionDescription() << std::endl
+            << "Metric: NumberOfValidPoints: " << metric->GetNumberOfValidPoints() << std::endl;
 
   //
   // results
   //
-  ParametersType finalParameters  = movingTransform->GetParameters();
-  ParametersType fixedParameters  = movingTransform->GetFixedParameters();
+  ParametersType finalParameters = movingTransform->GetParameters();
+  ParametersType fixedParameters = movingTransform->GetFixedParameters();
   std::cout << "Estimated scales = " << optimizer->GetScales() << std::endl;
   std::cout << "finalParameters = " << finalParameters << std::endl;
   std::cout << "fixedParameters = " << fixedParameters << std::endl;
@@ -195,55 +190,56 @@ int itkQuasiNewtonOptimizerv4TestTemplated(int numberOfIterations,
 
   // We know that for the Affine transform the Translation parameters are at
   // the end of the list of parameters.
-  const unsigned int offsetOrder = finalParameters.Size()-actualParameters.Size();
+  const unsigned int offsetOrder = finalParameters.Size() - actualParameters.Size();
 
-  constexpr double tolerance = 1.0;  // equivalent to 1 pixel.
+  constexpr double tolerance = 1.0; // equivalent to 1 pixel.
 
-  for(unsigned int i=0; i<numbeOfParameters; i++)
-    {
+  for (unsigned int i = 0; i < numbeOfParameters; i++)
+  {
     // the parameters are negated in order to get the inverse transformation.
     // this only works for comparing translation parameters....
-    std::cout << finalParameters[i+offsetOrder] << " == " << -actualParameters[i] << std::endl;
-    if( itk::Math::abs ( finalParameters[i+offsetOrder] - (-actualParameters[i]) ) > tolerance )
-      {
+    std::cout << finalParameters[i + offsetOrder] << " == " << -actualParameters[i] << std::endl;
+    if (itk::Math::abs(finalParameters[i + offsetOrder] - (-actualParameters[i])) > tolerance)
+    {
       std::cout << "Tolerance exceeded at component " << i << std::endl;
       pass = false;
-      }
     }
+  }
 
-  if( !pass )
-    {
+  if (!pass)
+  {
     std::cout << "Test FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   else
-    {
+  {
     std::cout << "Test PASSED." << std::endl;
     return EXIT_SUCCESS;
-    }
+  }
 }
 
-int itkQuasiNewtonOptimizerv4Test(int argc, char ** const argv)
+int
+itkQuasiNewtonOptimizerv4Test(int argc, char ** const argv)
 {
-  if( argc > 3 )
-    {
+  if (argc > 3)
+  {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " [numberOfIterations=50 shiftOfStep=1] ";
     std::cerr << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   unsigned int numberOfIterations = 50;
-  double shiftOfStep = 1.0;
+  double       shiftOfStep = 1.0;
 
-  if( argc >= 2 )
-    {
-    numberOfIterations = std::stoi( argv[1] );
-    }
+  if (argc >= 2)
+  {
+    numberOfIterations = std::stoi(argv[1]);
+  }
   if (argc >= 3)
-    {
-    shiftOfStep = std::stod( argv[2] );
-    }
+  {
+    shiftOfStep = std::stod(argv[2]);
+  }
 
   constexpr unsigned int Dimension = 2;
 
@@ -253,16 +249,17 @@ int itkQuasiNewtonOptimizerv4Test(int argc, char ** const argv)
 
   std::cout << std::endl << "Optimizing translation transform with Jacobian scales" << std::endl;
   using TranslationTransformType = itk::TranslationTransform<double, Dimension>;
-  int ret2 = itkQuasiNewtonOptimizerv4TestTemplated<TranslationTransformType>(numberOfIterations, shiftOfStep, "jacobian");
+  int ret2 =
+    itkQuasiNewtonOptimizerv4TestTemplated<TranslationTransformType>(numberOfIterations, shiftOfStep, "jacobian");
 
-  if ( ret1 == EXIT_SUCCESS && ret2 == EXIT_SUCCESS )
-    {
+  if (ret1 == EXIT_SUCCESS && ret2 == EXIT_SUCCESS)
+  {
     std::cout << std::endl << "Tests PASSED." << std::endl;
     return EXIT_SUCCESS;
-    }
+  }
   else
-    {
+  {
     std::cout << std::endl << "Tests FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 }

@@ -18,7 +18,8 @@
 
 #include "itkTimeVaryingBSplineVelocityFieldTransform.h"
 
-int itkTimeVaryingBSplineVelocityFieldTransformTest( int, char* [] )
+int
+itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
 {
   using VectorType = itk::Vector<double, 3>;
   using DisplacementFieldType = itk::Image<VectorType, 3>;
@@ -28,39 +29,40 @@ int itkTimeVaryingBSplineVelocityFieldTransformTest( int, char* [] )
   constexpr unsigned int splineOrder = 3;
 
   TimeVaryingVelocityFieldControlPointLatticeType::PointType origin;
-  origin.Fill( -2.0 );
+  origin.Fill(-2.0);
 
   TimeVaryingVelocityFieldControlPointLatticeType::SpacingType spacing;
-  spacing.Fill( 2.0 );
+  spacing.Fill(2.0);
 
   TimeVaryingVelocityFieldControlPointLatticeType::SizeType size;
-  size.Fill( 25 );
+  size.Fill(25);
 
   VectorType displacement1;
-  displacement1.Fill( 0.1 );
+  displacement1.Fill(0.1);
 
   TimeVaryingVelocityFieldControlPointLatticeType::Pointer timeVaryingVelocityFieldControlPointLattice =
     TimeVaryingVelocityFieldControlPointLatticeType::New();
 
-  timeVaryingVelocityFieldControlPointLattice->SetOrigin( origin );
-  timeVaryingVelocityFieldControlPointLattice->SetSpacing( spacing );
-  timeVaryingVelocityFieldControlPointLattice->SetRegions( size );
+  timeVaryingVelocityFieldControlPointLattice->SetOrigin(origin);
+  timeVaryingVelocityFieldControlPointLattice->SetSpacing(spacing);
+  timeVaryingVelocityFieldControlPointLattice->SetRegions(size);
   timeVaryingVelocityFieldControlPointLattice->Allocate();
-  timeVaryingVelocityFieldControlPointLattice->FillBuffer( displacement1 );
+  timeVaryingVelocityFieldControlPointLattice->FillBuffer(displacement1);
 
-  using IntegratorType = itk::TimeVaryingVelocityFieldIntegrationImageFilter
-    <TimeVaryingVelocityFieldControlPointLatticeType, DisplacementFieldType>;
+  using IntegratorType =
+    itk::TimeVaryingVelocityFieldIntegrationImageFilter<TimeVaryingVelocityFieldControlPointLatticeType,
+                                                        DisplacementFieldType>;
 
   IntegratorType::Pointer integrator = IntegratorType::New();
-  integrator->SetInput( timeVaryingVelocityFieldControlPointLattice );
-  integrator->SetLowerTimeBound( 0.3 );
-  integrator->SetUpperTimeBound( 0.75 );
+  integrator->SetInput(timeVaryingVelocityFieldControlPointLattice);
+  integrator->SetLowerTimeBound(0.3);
+  integrator->SetUpperTimeBound(0.75);
   integrator->Update();
 
-  integrator->Print( std::cout, 3 );
+  integrator->Print(std::cout, 3);
 
   DisplacementFieldType::IndexType index;
-  index.Fill( 0 );
+  index.Fill(0);
   VectorType displacementPixel;
 
   // This integration should result in a constant image of value
@@ -68,99 +70,100 @@ int itkTimeVaryingBSplineVelocityFieldTransformTest( int, char* [] )
   // due to numerical computations
   const DisplacementFieldType * displacementField = integrator->GetOutput();
 
-  displacementPixel = displacementField->GetPixel( index );
+  displacementPixel = displacementField->GetPixel(index);
 
   std::cout << "Estimated forward displacement vector: " << displacementPixel << std::endl;
-  if( itk::Math::abs( displacementPixel[0] - 0.045 ) > 0.01 )
-    {
+  if (itk::Math::abs(displacementPixel[0] - 0.045) > 0.01)
+  {
     std::cerr << "Failed to produce the correct forward integration." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   IntegratorType::Pointer inverseIntegrator = IntegratorType::New();
-  inverseIntegrator->SetInput( timeVaryingVelocityFieldControlPointLattice );
-  inverseIntegrator->SetLowerTimeBound( 1.0 );
-  inverseIntegrator->SetUpperTimeBound( 0.0 );
+  inverseIntegrator->SetInput(timeVaryingVelocityFieldControlPointLattice);
+  inverseIntegrator->SetLowerTimeBound(1.0);
+  inverseIntegrator->SetUpperTimeBound(0.0);
   inverseIntegrator->Update();
 
   // This integration should result in a constant image of value
   // -( 0.1 * 1.0 - ( 0.1 * 0.0 ) ) = -0.1 with ~epsilon deviation
   // due to numerical computations
   const DisplacementFieldType * inverseField = inverseIntegrator->GetOutput();
-  displacementPixel = inverseField->GetPixel( index );
-  if( itk::Math::abs( displacementPixel[0] + 0.1 ) > 0.01 )
-    {
+  displacementPixel = inverseField->GetPixel(index);
+  if (itk::Math::abs(displacementPixel[0] + 0.1) > 0.01)
+  {
     std::cerr << "Failed to produce the correct inverse integration." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Now test the transform
 
-  TimeVaryingVelocityFieldType::PointType timeVaryingVelocityFieldOrigin;
-  TimeVaryingVelocityFieldType::SpacingType timeVaryingVelocityFieldSpacing;
-  TimeVaryingVelocityFieldType::SizeType timeVaryingVelocityFieldSize;
+  TimeVaryingVelocityFieldType::PointType     timeVaryingVelocityFieldOrigin;
+  TimeVaryingVelocityFieldType::SpacingType   timeVaryingVelocityFieldSpacing;
+  TimeVaryingVelocityFieldType::SizeType      timeVaryingVelocityFieldSize;
   TimeVaryingVelocityFieldType::DirectionType timeVaryingVelocityFieldDirection;
 
   timeVaryingVelocityFieldDirection.SetIdentity();
-  timeVaryingVelocityFieldSpacing.Fill( 1.0 );
-  for( unsigned int d = 0; d < 4; d++ )
-    {
-    float physicalDimensions = ( size[d] - splineOrder ) * spacing[d];
-    timeVaryingVelocityFieldSize[d] = static_cast<unsigned int>( physicalDimensions / timeVaryingVelocityFieldSpacing[d] + 1 );
-    timeVaryingVelocityFieldSpacing[d] = physicalDimensions / ( timeVaryingVelocityFieldSize[d] - 1 );
-    timeVaryingVelocityFieldOrigin[d] = origin[d] + spacing[d] * ( splineOrder - 1 ) * 0.5;
-    }
+  timeVaryingVelocityFieldSpacing.Fill(1.0);
+  for (unsigned int d = 0; d < 4; d++)
+  {
+    float physicalDimensions = (size[d] - splineOrder) * spacing[d];
+    timeVaryingVelocityFieldSize[d] =
+      static_cast<unsigned int>(physicalDimensions / timeVaryingVelocityFieldSpacing[d] + 1);
+    timeVaryingVelocityFieldSpacing[d] = physicalDimensions / (timeVaryingVelocityFieldSize[d] - 1);
+    timeVaryingVelocityFieldOrigin[d] = origin[d] + spacing[d] * (splineOrder - 1) * 0.5;
+  }
   timeVaryingVelocityFieldSize[3] = 5;
 
   using TransformType = itk::TimeVaryingBSplineVelocityFieldTransform<double, 3>;
   TransformType::Pointer transform = TransformType::New();
-  transform->SetLowerTimeBound( 0.0 );
-  transform->SetUpperTimeBound( 1.0 );
-  transform->SetSplineOrder( splineOrder );
-  transform->SetVelocityFieldOrigin( timeVaryingVelocityFieldOrigin );
-  transform->SetVelocityFieldDirection( timeVaryingVelocityFieldDirection );
-  transform->SetVelocityFieldSize( timeVaryingVelocityFieldSize );
-  transform->SetVelocityFieldSpacing( timeVaryingVelocityFieldSpacing );
-  transform->SetNumberOfIntegrationSteps( 10 );
-  transform->SetTimeVaryingVelocityFieldControlPointLattice( timeVaryingVelocityFieldControlPointLattice );
+  transform->SetLowerTimeBound(0.0);
+  transform->SetUpperTimeBound(1.0);
+  transform->SetSplineOrder(splineOrder);
+  transform->SetVelocityFieldOrigin(timeVaryingVelocityFieldOrigin);
+  transform->SetVelocityFieldDirection(timeVaryingVelocityFieldDirection);
+  transform->SetVelocityFieldSize(timeVaryingVelocityFieldSize);
+  transform->SetVelocityFieldSpacing(timeVaryingVelocityFieldSpacing);
+  transform->SetNumberOfIntegrationSteps(10);
+  transform->SetTimeVaryingVelocityFieldControlPointLattice(timeVaryingVelocityFieldControlPointLattice);
   transform->IntegrateVelocityField();
 
-  transform->Print( std::cout, 3 );
+  transform->Print(std::cout, 3);
 
   TransformType::InputPointType point;
-  point.Fill( 1.3 );
+  point.Fill(1.3);
 
   using OutputPointType = TransformType::OutputPointType;
-  OutputPointType transformedPoint = transform->TransformPoint( point );
+  OutputPointType transformedPoint = transform->TransformPoint(point);
 
-  std::cout << point << ", " << transformedPoint << transform->TransformPoint( point ) << std::endl;
+  std::cout << point << ", " << transformedPoint << transform->TransformPoint(point) << std::endl;
 
   VectorType displacement;
-  displacement.Fill( 0.1 );
+  displacement.Fill(0.1);
 
   point += displacement;
-  if( point.EuclideanDistanceTo( transformedPoint ) > 0.1 )
-    {
+  if (point.EuclideanDistanceTo(transformedPoint) > 0.1)
+  {
     std::cerr << "Failed to produce the expected transformed point." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   point -= displacement;
 
   TransformType::InputPointType point2;
-  point2.CastFrom( transformedPoint );
+  point2.CastFrom(transformedPoint);
 
   using InverseTransformBasePointer = TransformType::InverseTransformBasePointer;
   InverseTransformBasePointer inverseTransform = transform->GetInverseTransform();
 
-  transformedPoint = inverseTransform->TransformPoint( point2 );
+  transformedPoint = inverseTransform->TransformPoint(point2);
 
-  if( point.EuclideanDistanceTo( transformedPoint ) > 0.1 )
-    {
+  if (point.EuclideanDistanceTo(transformedPoint) > 0.1)
+  {
     std::cerr << "Failed to produce the expected inverse transformed point." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  transform->Print( std::cout, 3 );
+  transform->Print(std::cout, 3);
 
   return EXIT_SUCCESS;
 }

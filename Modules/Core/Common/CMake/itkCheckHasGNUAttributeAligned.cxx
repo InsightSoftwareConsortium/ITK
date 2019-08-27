@@ -12,7 +12,7 @@ struct A
 struct B
 {
   char b;
-} __attribute__ ((aligned (64)));
+} __attribute__((aligned(64)));
 
 
 // BUG DETECTION: This following usage may generate a segfault during
@@ -31,25 +31,30 @@ class foo
   {
     char a;
   };
-  using AlignedA = A __attribute__ ((aligned(64)));
-  AlignedA *AlignedElementsOfA;
+  using AlignedA = A __attribute__((aligned(64)));
+  AlignedA * AlignedElementsOfA;
 };
 
 
 // This structure will generate a compiler error if the template
 // argument is false
-template<bool t> struct OnlyTrue;
-template<> struct OnlyTrue<true> { static bool Result = true; };
+template <bool t>
+struct OnlyTrue;
+template <>
+struct OnlyTrue<true>
+{
+  static bool Result = true;
+};
 
 
-int main()
+int
+main()
 {
   foo<int> f;
 
-  using AlignedA = A __attribute__ ((aligned(64)));
+  using AlignedA = A __attribute__((aligned(64)));
 
-  return OnlyTrue<__alignof__( AlignedA ) == 64>::Result
-    && OnlyTrue<__alignof__( B ) == 64>::Result;
+  return OnlyTrue<__alignof__(AlignedA) == 64>::Result && OnlyTrue<__alignof__(B) == 64>::Result;
 
 
   return 0;

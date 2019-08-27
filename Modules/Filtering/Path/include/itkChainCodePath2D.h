@@ -47,8 +47,7 @@ namespace itk
  * \ingroup PathObjects
  * \ingroup ITKPath
  */
-class ITK_TEMPLATE_EXPORT ChainCodePath2D:public
-  ChainCodePath< 2 >
+class ITK_TEMPLATE_EXPORT ChainCodePath2D : public ChainCodePath<2>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ChainCodePath2D);
@@ -58,10 +57,10 @@ public:
 
   /** Standard class type aliases. */
   using Self = ChainCodePath2D;
-  using Superclass = ChainCodePath< 2 >;
+  using Superclass = ChainCodePath<2>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ChainCodePath2D, ChainCodePath);
@@ -72,28 +71,31 @@ public:
 
   /** The output type of this function is an Index */
   using OffsetType = OutputType;
-  using IndexType = Index< 2 >;
+  using IndexType = Index<2>;
 
   /** ChainCodeType is a usless relic of the parent class */
   using ChainCodeType = Superclass::ChainCodeType;
   using ChainCodeSizeType = Superclass::ChainCodeSizeType;
 
   /** ChainCodePath2D stores its data as a Freeman-encoded chain code */
-  using ChainCode2DType = std::vector< int >;
+  using ChainCode2DType = std::vector<int>;
 
   // Functions inherited from Path
 
   /** Evaluate the chaincode for the offset at the specified path-position. */
-  OutputType Evaluate(const InputType & input) const override;
+  OutputType
+  Evaluate(const InputType & input) const override;
 
   /** Like Evaluate(), but returns the index at the specified path-position. */
-  IndexType EvaluateToIndex(const InputType & input) const override;
+  IndexType
+  EvaluateToIndex(const InputType & input) const override;
 
   /** Increment the input variable passed by reference and return the offset
    * stored at the previous path-position.  If the chaincode is unable to be
    * incremented, input is not changed and an offset of zero is returned, which
    * may be used to check for the end of the chain code. */
-  OffsetType IncrementInput(InputType & input) const override;
+  OffsetType
+  IncrementInput(InputType & input) const override;
 
   // Functions specific to ChainCodePath and its descendents
 
@@ -101,61 +103,74 @@ public:
   itkNewMacro(Self);
 
   /** How many steps in the chaincode? */
-  ChainCodeSizeType NumberOfSteps() const override { return m_Chain2D.size(); }
+  ChainCodeSizeType
+  NumberOfSteps() const override
+  {
+    return m_Chain2D.size();
+  }
 
   /** Insert a new step into the chaincode at a specified position */
-  inline void InsertStep(InputType position, int encodedStep)
+  inline void
+  InsertStep(InputType position, int encodedStep)
   {
     m_Chain2D.insert(m_Chain2D.begin() + position, encodedStep);
     this->Modified();
   }
 
-  void InsertStep(InputType position, OffsetType step) override
+  void
+  InsertStep(InputType position, OffsetType step) override
   {
-    m_Chain2D.insert( m_Chain2D.begin() + position, EncodeOffset(step) );
+    m_Chain2D.insert(m_Chain2D.begin() + position, EncodeOffset(step));
     this->Modified();
   }
 
   /** Change the direction of a step in the chaincode */
-  inline void ChangeStep(InputType position, int encodedStep)
+  inline void
+  ChangeStep(InputType position, int encodedStep)
   {
     m_Chain2D[position] = encodedStep;
     this->Modified();
   }
 
-  void ChangeStep(InputType position, OffsetType step) override
+  void
+  ChangeStep(InputType position, OffsetType step) override
   {
     m_Chain2D[position] = EncodeOffset(step);
     this->Modified();
   }
 
   /** Remove all steps from the chain code */
-  void Clear() override
+  void
+  Clear() override
   {
     m_Chain2D.clear();
     this->Modified();
   }
 
-  std::string GetChainCodeAsString() const;
+  std::string
+  GetChainCodeAsString() const;
 
 protected:
   ChainCodePath2D();
   ~ChainCodePath2D() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Encode and Decode between an offset and a Freeman code */
-  inline int EncodeOffset(OffsetType step) const
+  inline int
+  EncodeOffset(OffsetType step) const
   {
     return m_FreemanCode[step[0] + 1][step[1] + 1];
   }
 
-  inline OffsetType DecodeOffset(int encodedStep) const
+  inline OffsetType
+  DecodeOffset(int encodedStep) const
   {
     return m_ReverseFreemanCode[encodedStep];
   }
 
 private:
-  ChainCode2DType m_Chain2D;    // the Freeman-encoded chain code
+  ChainCode2DType m_Chain2D; // the Freeman-encoded chain code
 
   // FreemanCode[][] implements a lookup table for converting offsets to a
   // Freeman code.  Within each dimension, the only allowable offset values are

@@ -25,14 +25,15 @@
 namespace
 {
 
-template<typename  TInputImageType >
-int itkVotingBinaryImageFilterTestImp( const std::string &infname,
-                                       const std::string &outfname,
-                                       itk::SizeValueType radius,
-                                       long foregroundValue,
-                                       long backgroundValue,
-                                       unsigned int birthThreshold = 1,
-                                       unsigned int survivalThreshold = 1)
+template <typename TInputImageType>
+int
+itkVotingBinaryImageFilterTestImp(const std::string & infname,
+                                  const std::string & outfname,
+                                  itk::SizeValueType  radius,
+                                  long                foregroundValue,
+                                  long                backgroundValue,
+                                  unsigned int        birthThreshold = 1,
+                                  unsigned int        survivalThreshold = 1)
 {
   using InputImageType = TInputImageType;
   using OutputImageType = TInputImageType;
@@ -45,31 +46,31 @@ int itkVotingBinaryImageFilterTestImp( const std::string &infname,
   using FilterType = itk::VotingBinaryImageFilter<InputImageType, OutputImageType>;
 
   typename ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( infname );
+  reader->SetFileName(infname);
 
   typename FilterType::Pointer filter = FilterType::New();
 
-  filter->SetInput( reader->GetOutput() );
+  filter->SetInput(reader->GetOutput());
 
   typename FilterType::InputSizeType R;
-  R.Fill( itk::Math::CastWithRangeCheck<itk::SizeValueType>(radius) );
-  filter->SetRadius( R );
+  R.Fill(itk::Math::CastWithRangeCheck<itk::SizeValueType>(radius));
+  filter->SetRadius(R);
 
-  filter->SetForegroundValue( itk::Math::CastWithRangeCheck<InputPixelType>( foregroundValue ) );
-  filter->SetBackgroundValue( itk::Math::CastWithRangeCheck<InputPixelType>( backgroundValue ) );
-  filter->SetBirthThreshold( birthThreshold );
-  filter->SetSurvivalThreshold( survivalThreshold );
+  filter->SetForegroundValue(itk::Math::CastWithRangeCheck<InputPixelType>(foregroundValue));
+  filter->SetBackgroundValue(itk::Math::CastWithRangeCheck<InputPixelType>(backgroundValue));
+  filter->SetBirthThreshold(birthThreshold);
+  filter->SetSurvivalThreshold(survivalThreshold);
 
-  ITK_TEST_SET_GET_VALUE( R, filter->GetRadius() );
-  ITK_TEST_SET_GET_VALUE( itk::Math::CastWithRangeCheck<InputPixelType>( foregroundValue ), filter->GetForegroundValue() );
-  ITK_TEST_SET_GET_VALUE( itk::Math::CastWithRangeCheck<InputPixelType>( backgroundValue ), filter->GetBackgroundValue() );
-  ITK_TEST_SET_GET_VALUE( birthThreshold, filter->GetBirthThreshold() );
-  ITK_TEST_SET_GET_VALUE( survivalThreshold, filter->GetSurvivalThreshold() );
+  ITK_TEST_SET_GET_VALUE(R, filter->GetRadius());
+  ITK_TEST_SET_GET_VALUE(itk::Math::CastWithRangeCheck<InputPixelType>(foregroundValue), filter->GetForegroundValue());
+  ITK_TEST_SET_GET_VALUE(itk::Math::CastWithRangeCheck<InputPixelType>(backgroundValue), filter->GetBackgroundValue());
+  ITK_TEST_SET_GET_VALUE(birthThreshold, filter->GetBirthThreshold());
+  ITK_TEST_SET_GET_VALUE(survivalThreshold, filter->GetSurvivalThreshold());
 
   typename WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( outfname );
-  writer->SetNumberOfStreamDivisions( 5 );
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(outfname);
+  writer->SetNumberOfStreamDivisions(5);
   writer->Update();
 
   std::cout << filter;
@@ -77,67 +78,75 @@ int itkVotingBinaryImageFilterTestImp( const std::string &infname,
   return EXIT_SUCCESS;
 }
 
-}
+} // namespace
 
 
-int itkVotingBinaryImageFilterTest(int argc, char* argv[] )
+int
+itkVotingBinaryImageFilterTest(int argc, char * argv[])
 {
 
-  if ( argc < 6 )
+  if (argc < 6)
   {
     std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Inputimage OutputImage radius ForegroundValue BackgroundValue" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " Inputimage OutputImage radius ForegroundValue BackgroundValue" << std::endl;
     return EXIT_FAILURE;
   }
 
-  const std::string infname = argv[1];
-  const std::string outfname = argv[2];
-  const unsigned int radius = std::stoi( argv[3] );
-  const long foregroundValue = atol( argv[4] );
-  const long backgroundValue = atol( argv[5] );
+  const std::string  infname = argv[1];
+  const std::string  outfname = argv[2];
+  const unsigned int radius = std::stoi(argv[3]);
+  const long         foregroundValue = atol(argv[4]);
+  const long         backgroundValue = atol(argv[5]);
 
 
   itk::ImageIOBase::Pointer iobase =
-    itk::ImageIOFactory::CreateImageIO( infname.c_str(), itk::ImageIOFactory::FileModeType::ReadMode);
+    itk::ImageIOFactory::CreateImageIO(infname.c_str(), itk::ImageIOFactory::FileModeType::ReadMode);
 
-  if ( iobase.IsNull() )
-    {
-    itkGenericExceptionMacro( "Unable to determine ImageIO reader for \"" << infname << "\"" );
-    }
+  if (iobase.IsNull())
+  {
+    itkGenericExceptionMacro("Unable to determine ImageIO reader for \"" << infname << "\"");
+  }
 
 
-  //const itk::ImageIOBase::IOPixelType pixelType = iobase->GetPixelType();
+  // const itk::ImageIOBase::IOPixelType pixelType = iobase->GetPixelType();
   const itk::ImageIOBase::IOComponentType componentType = iobase->GetComponentType();
-  const unsigned int dimension = iobase->GetNumberOfDimensions();
+  const unsigned int                      dimension = iobase->GetNumberOfDimensions();
 
-  using TestImageType = itk::Image<short,3>;
+  using TestImageType = itk::Image<short, 3>;
   using FilterType = itk::VotingBinaryImageFilter<TestImageType, TestImageType>;
 
   FilterType::Pointer filter = FilterType::New();
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, VotingBinaryImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, VotingBinaryImageFilter, ImageToImageFilter);
 
-  switch(componentType)
-    {
+  switch (componentType)
+  {
     case itk::ImageIOBase::CHAR:
     case itk::ImageIOBase::UCHAR:
     case itk::ImageIOBase::SHORT:
-      if ( dimension == 2 )
-        return itkVotingBinaryImageFilterTestImp< itk::Image<short, 2> >( infname, outfname, radius, foregroundValue, backgroundValue );
-      else if ( dimension == 3 )
-        return itkVotingBinaryImageFilterTestImp< itk::Image<short, 3> >( infname, outfname, radius, foregroundValue, backgroundValue );
+      if (dimension == 2)
+        return itkVotingBinaryImageFilterTestImp<itk::Image<short, 2>>(
+          infname, outfname, radius, foregroundValue, backgroundValue);
+      else if (dimension == 3)
+        return itkVotingBinaryImageFilterTestImp<itk::Image<short, 3>>(
+          infname, outfname, radius, foregroundValue, backgroundValue);
       break;
     case itk::ImageIOBase::USHORT:
     case itk::ImageIOBase::INT:
-      if ( dimension == 2 )
-        return itkVotingBinaryImageFilterTestImp< itk::Image<int, 2> >( infname, outfname, radius, foregroundValue, backgroundValue );
-      else if ( dimension == 3 )
-        return itkVotingBinaryImageFilterTestImp< itk::Image<int, 3> >( infname, outfname, radius, foregroundValue, backgroundValue );
+      if (dimension == 2)
+        return itkVotingBinaryImageFilterTestImp<itk::Image<int, 2>>(
+          infname, outfname, radius, foregroundValue, backgroundValue);
+      else if (dimension == 3)
+        return itkVotingBinaryImageFilterTestImp<itk::Image<int, 3>>(
+          infname, outfname, radius, foregroundValue, backgroundValue);
       break;
     case itk::ImageIOBase::UINT:
-      if ( dimension == 2 )
-        return itkVotingBinaryImageFilterTestImp< itk::Image<unsigned int, 2> >( infname, outfname, radius, foregroundValue, backgroundValue );
-      else if ( dimension == 3 )
-        return itkVotingBinaryImageFilterTestImp< itk::Image<unsigned int, 3> >( infname, outfname, radius, foregroundValue, backgroundValue );
+      if (dimension == 2)
+        return itkVotingBinaryImageFilterTestImp<itk::Image<unsigned int, 2>>(
+          infname, outfname, radius, foregroundValue, backgroundValue);
+      else if (dimension == 3)
+        return itkVotingBinaryImageFilterTestImp<itk::Image<unsigned int, 3>>(
+          infname, outfname, radius, foregroundValue, backgroundValue);
       break;
     case itk::ImageIOBase::ULONG:
     case itk::ImageIOBase::LONG:
@@ -147,8 +156,8 @@ int itkVotingBinaryImageFilterTest(int argc, char* argv[] )
     case itk::ImageIOBase::DOUBLE:
     case itk::ImageIOBase::UNKNOWNCOMPONENTTYPE:
     default:
-      itkGenericExceptionMacro( "Input image is a real, long, long long, or an unknown component type" );
-    }
+      itkGenericExceptionMacro("Input image is a real, long, long long, or an unknown component type");
+  }
 
   std::cerr << "Unexcpected program flow!" << std::endl;
   return EXIT_FAILURE;

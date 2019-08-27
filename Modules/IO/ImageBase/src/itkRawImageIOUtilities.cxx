@@ -21,174 +21,173 @@
 namespace
 {
 
-template < typename TStrongType >
+template <typename TStrongType>
 void
-_WriteRawBytesAfterSwappingUtility( const void * buffer, std::ofstream & file, itk::ImageIOBase::ByteOrder byteOrder,
-                                    itk::SizeValueType numberOfBytes, itk::SizeValueType numberOfComponents )
+_WriteRawBytesAfterSwappingUtility(const void *                buffer,
+                                   std::ofstream &             file,
+                                   itk::ImageIOBase::ByteOrder byteOrder,
+                                   itk::SizeValueType          numberOfBytes,
+                                   itk::SizeValueType          numberOfComponents)
 {
 
-  using InternalByteSwapperType = itk::ByteSwapper< TStrongType >;
-  const itk::SizeValueType numberOfPixels = numberOfBytes / ( sizeof( TStrongType ) );
-  if ( byteOrder == itk::ImageIOBase::LittleEndian && InternalByteSwapperType::SystemIsBigEndian() )
+  using InternalByteSwapperType = itk::ByteSwapper<TStrongType>;
+  const itk::SizeValueType numberOfPixels = numberOfBytes / (sizeof(TStrongType));
+  if (byteOrder == itk::ImageIOBase::LittleEndian && InternalByteSwapperType::SystemIsBigEndian())
   {
     TStrongType * tempBuffer = new TStrongType[numberOfPixels];
-    memcpy( (char *)tempBuffer, buffer, numberOfBytes );
-    InternalByteSwapperType::SwapRangeFromSystemToLittleEndian( (TStrongType *)tempBuffer, numberOfComponents );
-    file.write( (char *)tempBuffer, numberOfBytes );
+    memcpy((char *)tempBuffer, buffer, numberOfBytes);
+    InternalByteSwapperType::SwapRangeFromSystemToLittleEndian((TStrongType *)tempBuffer, numberOfComponents);
+    file.write((char *)tempBuffer, numberOfBytes);
     delete[] tempBuffer;
   }
-  else if ( byteOrder == itk::ImageIOBase::BigEndian && InternalByteSwapperType::SystemIsLittleEndian() )
+  else if (byteOrder == itk::ImageIOBase::BigEndian && InternalByteSwapperType::SystemIsLittleEndian())
   {
     TStrongType * tempBuffer = new TStrongType[numberOfPixels];
-    memcpy( (char *)tempBuffer, buffer, numberOfBytes );
-    InternalByteSwapperType::SwapRangeFromSystemToBigEndian( (TStrongType *)tempBuffer, numberOfComponents );
-    file.write( (char *)tempBuffer, numberOfBytes );
+    memcpy((char *)tempBuffer, buffer, numberOfBytes);
+    InternalByteSwapperType::SwapRangeFromSystemToBigEndian((TStrongType *)tempBuffer, numberOfComponents);
+    file.write((char *)tempBuffer, numberOfBytes);
     delete[] tempBuffer;
   }
   else
   {
-    file.write( static_cast< const char * >( buffer ), numberOfBytes );
+    file.write(static_cast<const char *>(buffer), numberOfBytes);
   }
 }
 
-template < typename TStrongType >
+template <typename TStrongType>
 void
-_ReadRawBytesAfterSwappingUtility( void * buffer, itk::ImageIOBase::ByteOrder byteOrder, itk::SizeValueType numberOfComponents )
+_ReadRawBytesAfterSwappingUtility(void *                      buffer,
+                                  itk::ImageIOBase::ByteOrder byteOrder,
+                                  itk::SizeValueType          numberOfComponents)
 {
-  using InternalByteSwapperType = itk::ByteSwapper< TStrongType >;
-  if ( byteOrder == itk::ImageIOBase::LittleEndian )
+  using InternalByteSwapperType = itk::ByteSwapper<TStrongType>;
+  if (byteOrder == itk::ImageIOBase::LittleEndian)
   {
-    InternalByteSwapperType::SwapRangeFromSystemToLittleEndian( (TStrongType *)buffer, numberOfComponents );
+    InternalByteSwapperType::SwapRangeFromSystemToLittleEndian((TStrongType *)buffer, numberOfComponents);
   }
-  else if ( byteOrder == itk::ImageIOBase::BigEndian )
+  else if (byteOrder == itk::ImageIOBase::BigEndian)
   {
-    InternalByteSwapperType::SwapRangeFromSystemToBigEndian( (TStrongType *)buffer, numberOfComponents );
+    InternalByteSwapperType::SwapRangeFromSystemToBigEndian((TStrongType *)buffer, numberOfComponents);
   }
 }
-}
+} // namespace
 
 namespace itk
 {
 
 void
-WriteRawBytesAfterSwapping( ImageIOBase::IOComponentType componentType,
-                const void * buffer,
-                std::ofstream & file,
-                ImageIOBase::ByteOrder byteOrder,
-                SizeValueType numberOfBytes,
-                SizeValueType numberOfComponents )
+WriteRawBytesAfterSwapping(ImageIOBase::IOComponentType componentType,
+                           const void *                 buffer,
+                           std::ofstream &              file,
+                           ImageIOBase::ByteOrder       byteOrder,
+                           SizeValueType                numberOfBytes,
+                           SizeValueType                numberOfComponents)
 {
-    // Swap bytes if necessary
-    if ( componentType == ImageIOBase::IOComponentType::USHORT )
-    {
-      _WriteRawBytesAfterSwappingUtility< unsigned short >( buffer, file, byteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( componentType == ImageIOBase::IOComponentType::SHORT )
-    {
-      _WriteRawBytesAfterSwappingUtility< short >( buffer, file, byteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( componentType == ImageIOBase::IOComponentType::CHAR )
-    {
-      _WriteRawBytesAfterSwappingUtility< char >( buffer, file, byteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( componentType == ImageIOBase::IOComponentType::UCHAR )
-    {
-      _WriteRawBytesAfterSwappingUtility< unsigned char >(
-        buffer, file, byteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( componentType == ImageIOBase::IOComponentType::UINT )
-    {
-      _WriteRawBytesAfterSwappingUtility< unsigned int >(
-        buffer, file, byteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( componentType == ImageIOBase::IOComponentType::INT )
-    {
-      _WriteRawBytesAfterSwappingUtility< int >( buffer, file, byteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( componentType == ImageIOBase::IOComponentType::LONG )
-    {
-      _WriteRawBytesAfterSwappingUtility< long >( buffer, file, byteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( componentType == ImageIOBase::IOComponentType::LONGLONG )
-    {
-      _WriteRawBytesAfterSwappingUtility< long long >(
-        buffer, file, byteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( componentType == ImageIOBase::IOComponentType::ULONG )
-    {
-      _WriteRawBytesAfterSwappingUtility< unsigned long >(
-        buffer, file, byteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( componentType == ImageIOBase::IOComponentType::ULONGLONG )
-    {
-      _WriteRawBytesAfterSwappingUtility< unsigned long long >(
-        buffer, file, byteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( componentType == ImageIOBase::IOComponentType::FLOAT )
-    {
-      _WriteRawBytesAfterSwappingUtility< float >( buffer, file, byteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( componentType == ImageIOBase::IOComponentType::DOUBLE )
-    {
-      _WriteRawBytesAfterSwappingUtility< double >( buffer, file, byteOrder, numberOfBytes, numberOfComponents );
-    }
+  // Swap bytes if necessary
+  if (componentType == ImageIOBase::IOComponentType::USHORT)
+  {
+    _WriteRawBytesAfterSwappingUtility<unsigned short>(buffer, file, byteOrder, numberOfBytes, numberOfComponents);
+  }
+  else if (componentType == ImageIOBase::IOComponentType::SHORT)
+  {
+    _WriteRawBytesAfterSwappingUtility<short>(buffer, file, byteOrder, numberOfBytes, numberOfComponents);
+  }
+  else if (componentType == ImageIOBase::IOComponentType::CHAR)
+  {
+    _WriteRawBytesAfterSwappingUtility<char>(buffer, file, byteOrder, numberOfBytes, numberOfComponents);
+  }
+  else if (componentType == ImageIOBase::IOComponentType::UCHAR)
+  {
+    _WriteRawBytesAfterSwappingUtility<unsigned char>(buffer, file, byteOrder, numberOfBytes, numberOfComponents);
+  }
+  else if (componentType == ImageIOBase::IOComponentType::UINT)
+  {
+    _WriteRawBytesAfterSwappingUtility<unsigned int>(buffer, file, byteOrder, numberOfBytes, numberOfComponents);
+  }
+  else if (componentType == ImageIOBase::IOComponentType::INT)
+  {
+    _WriteRawBytesAfterSwappingUtility<int>(buffer, file, byteOrder, numberOfBytes, numberOfComponents);
+  }
+  else if (componentType == ImageIOBase::IOComponentType::LONG)
+  {
+    _WriteRawBytesAfterSwappingUtility<long>(buffer, file, byteOrder, numberOfBytes, numberOfComponents);
+  }
+  else if (componentType == ImageIOBase::IOComponentType::LONGLONG)
+  {
+    _WriteRawBytesAfterSwappingUtility<long long>(buffer, file, byteOrder, numberOfBytes, numberOfComponents);
+  }
+  else if (componentType == ImageIOBase::IOComponentType::ULONG)
+  {
+    _WriteRawBytesAfterSwappingUtility<unsigned long>(buffer, file, byteOrder, numberOfBytes, numberOfComponents);
+  }
+  else if (componentType == ImageIOBase::IOComponentType::ULONGLONG)
+  {
+    _WriteRawBytesAfterSwappingUtility<unsigned long long>(buffer, file, byteOrder, numberOfBytes, numberOfComponents);
+  }
+  else if (componentType == ImageIOBase::IOComponentType::FLOAT)
+  {
+    _WriteRawBytesAfterSwappingUtility<float>(buffer, file, byteOrder, numberOfBytes, numberOfComponents);
+  }
+  else if (componentType == ImageIOBase::IOComponentType::DOUBLE)
+  {
+    _WriteRawBytesAfterSwappingUtility<double>(buffer, file, byteOrder, numberOfBytes, numberOfComponents);
+  }
 }
 
 void
-ReadRawBytesAfterSwapping( ImageIOBase::IOComponentType componentType,
-                void * buffer,
-                ImageIOBase::ByteOrder byteOrder,
-                SizeValueType numberOfComponents )
+ReadRawBytesAfterSwapping(ImageIOBase::IOComponentType componentType,
+                          void *                       buffer,
+                          ImageIOBase::ByteOrder       byteOrder,
+                          SizeValueType                numberOfComponents)
 {
   // Swap bytes if necessary
-  if ( componentType == ImageIOBase::IOComponentType::USHORT )
+  if (componentType == ImageIOBase::IOComponentType::USHORT)
   {
-    _ReadRawBytesAfterSwappingUtility< unsigned short >( buffer, byteOrder, numberOfComponents );
+    _ReadRawBytesAfterSwappingUtility<unsigned short>(buffer, byteOrder, numberOfComponents);
   }
-  else if ( componentType == ImageIOBase::IOComponentType::SHORT )
+  else if (componentType == ImageIOBase::IOComponentType::SHORT)
   {
-    _ReadRawBytesAfterSwappingUtility< short >( buffer, byteOrder, numberOfComponents );
+    _ReadRawBytesAfterSwappingUtility<short>(buffer, byteOrder, numberOfComponents);
   }
-  else if ( componentType == ImageIOBase::IOComponentType::CHAR )
+  else if (componentType == ImageIOBase::IOComponentType::CHAR)
   {
-    _ReadRawBytesAfterSwappingUtility< char >( buffer, byteOrder, numberOfComponents );
+    _ReadRawBytesAfterSwappingUtility<char>(buffer, byteOrder, numberOfComponents);
   }
-  else if ( componentType == ImageIOBase::IOComponentType::UCHAR )
+  else if (componentType == ImageIOBase::IOComponentType::UCHAR)
   {
-    _ReadRawBytesAfterSwappingUtility< unsigned char >( buffer, byteOrder, numberOfComponents );
+    _ReadRawBytesAfterSwappingUtility<unsigned char>(buffer, byteOrder, numberOfComponents);
   }
-  else if ( componentType == ImageIOBase::IOComponentType::UINT )
+  else if (componentType == ImageIOBase::IOComponentType::UINT)
   {
-    _ReadRawBytesAfterSwappingUtility< unsigned int >( buffer, byteOrder, numberOfComponents );
+    _ReadRawBytesAfterSwappingUtility<unsigned int>(buffer, byteOrder, numberOfComponents);
   }
-  else if ( componentType == ImageIOBase::IOComponentType::INT )
+  else if (componentType == ImageIOBase::IOComponentType::INT)
   {
-    _ReadRawBytesAfterSwappingUtility< int >( buffer, byteOrder, numberOfComponents );
+    _ReadRawBytesAfterSwappingUtility<int>(buffer, byteOrder, numberOfComponents);
   }
-  else if ( componentType == ImageIOBase::IOComponentType::LONG )
+  else if (componentType == ImageIOBase::IOComponentType::LONG)
   {
-    _ReadRawBytesAfterSwappingUtility< long >( buffer, byteOrder, numberOfComponents );
+    _ReadRawBytesAfterSwappingUtility<long>(buffer, byteOrder, numberOfComponents);
   }
-  else if ( componentType == ImageIOBase::IOComponentType::LONGLONG )
+  else if (componentType == ImageIOBase::IOComponentType::LONGLONG)
   {
-    _ReadRawBytesAfterSwappingUtility< long long >( buffer, byteOrder, numberOfComponents );
+    _ReadRawBytesAfterSwappingUtility<long long>(buffer, byteOrder, numberOfComponents);
   }
-  else if ( componentType == ImageIOBase::IOComponentType::ULONG )
+  else if (componentType == ImageIOBase::IOComponentType::ULONG)
   {
-    _ReadRawBytesAfterSwappingUtility< unsigned long >( buffer, byteOrder, numberOfComponents );
+    _ReadRawBytesAfterSwappingUtility<unsigned long>(buffer, byteOrder, numberOfComponents);
   }
-  else if ( componentType == ImageIOBase::IOComponentType::ULONGLONG )
+  else if (componentType == ImageIOBase::IOComponentType::ULONGLONG)
   {
-    _ReadRawBytesAfterSwappingUtility< unsigned long long >( buffer, byteOrder, numberOfComponents );
+    _ReadRawBytesAfterSwappingUtility<unsigned long long>(buffer, byteOrder, numberOfComponents);
   }
-  else if ( componentType == ImageIOBase::IOComponentType::FLOAT )
+  else if (componentType == ImageIOBase::IOComponentType::FLOAT)
   {
-    _ReadRawBytesAfterSwappingUtility< float >( buffer, byteOrder, numberOfComponents );
+    _ReadRawBytesAfterSwappingUtility<float>(buffer, byteOrder, numberOfComponents);
   }
-  else if ( componentType == ImageIOBase::IOComponentType::DOUBLE )
+  else if (componentType == ImageIOBase::IOComponentType::DOUBLE)
   {
-    _ReadRawBytesAfterSwappingUtility< double >( buffer, byteOrder, numberOfComponents );
+    _ReadRawBytesAfterSwappingUtility<double>(buffer, byteOrder, numberOfComponents);
   }
-
 }
-}
+} // namespace itk

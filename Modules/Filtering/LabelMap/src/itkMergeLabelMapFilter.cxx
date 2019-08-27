@@ -21,10 +21,10 @@ namespace itk
 {
 /**Define how to print enumerations */
 std::ostream &
-operator<<( std::ostream & out, const ChoiceMethod value )
+operator<<(std::ostream & out, const ChoiceMethod value)
 {
   const char * s = 0;
-  switch ( value )
+  switch (value)
   {
     case ChoiceMethod::KEEP:
       s = "ChoiceMethod::KEEP";

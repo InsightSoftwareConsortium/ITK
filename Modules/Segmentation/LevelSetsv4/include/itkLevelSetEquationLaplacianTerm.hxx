@@ -23,80 +23,72 @@
 
 namespace itk
 {
-template< typename TInput, typename TLevelSetContainer >
-LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
-::LevelSetEquationLaplacianTerm()
+template <typename TInput, typename TLevelSetContainer>
+LevelSetEquationLaplacianTerm<TInput, TLevelSetContainer>::LevelSetEquationLaplacianTerm()
 {
   this->m_TermName = "Laplacian term";
-  this->m_RequiredData.insert( "Laplacian" );
+  this->m_RequiredData.insert("Laplacian");
 }
 
-template< typename TInput, typename TLevelSetContainer >
+template <typename TInput, typename TLevelSetContainer>
 void
-LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
-::InitializeParameters()
+LevelSetEquationLaplacianTerm<TInput, TLevelSetContainer>::InitializeParameters()
 {
   this->SetUp();
 }
 
-template< typename TInput, typename TLevelSetContainer >
+template <typename TInput, typename TLevelSetContainer>
 void
-LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
-::Initialize( const LevelSetInputIndexType& )
-{
-}
+LevelSetEquationLaplacianTerm<TInput, TLevelSetContainer>::Initialize(const LevelSetInputIndexType &)
+{}
 
-template< typename TInput, typename TLevelSetContainer >
+template <typename TInput, typename TLevelSetContainer>
 void
-LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
-::Update()
-{
-}
+LevelSetEquationLaplacianTerm<TInput, TLevelSetContainer>::Update()
+{}
 
-template< typename TInput, typename TLevelSetContainer >
+template <typename TInput, typename TLevelSetContainer>
 void
-LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
-::UpdatePixel( const LevelSetInputIndexType& itkNotUsed( iP ),
-               const LevelSetOutputRealType& itkNotUsed( oldValue ),
-               const LevelSetOutputRealType& itkNotUsed( newValue ) )
+LevelSetEquationLaplacianTerm<TInput, TLevelSetContainer>::UpdatePixel(
+  const LevelSetInputIndexType & itkNotUsed(iP),
+  const LevelSetOutputRealType & itkNotUsed(oldValue),
+  const LevelSetOutputRealType & itkNotUsed(newValue))
+{}
+
+template <typename TInput, typename TLevelSetContainer>
+typename LevelSetEquationLaplacianTerm<TInput, TLevelSetContainer>::LevelSetOutputRealType
+LevelSetEquationLaplacianTerm<TInput, TLevelSetContainer>::LaplacianSpeed(
+  const LevelSetInputIndexType & itkNotUsed(iP)) const
 {
+  return NumericTraits<LevelSetOutputRealType>::OneValue();
 }
 
-template< typename TInput, typename TLevelSetContainer >
-typename LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >::LevelSetOutputRealType
-LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
-::LaplacianSpeed( const LevelSetInputIndexType& itkNotUsed(iP) ) const
+template <typename TInput, typename TLevelSetContainer>
+typename LevelSetEquationLaplacianTerm<TInput, TLevelSetContainer>::LevelSetOutputRealType
+LevelSetEquationLaplacianTerm<TInput, TLevelSetContainer>::Value(const LevelSetInputIndexType & iP)
 {
-  return NumericTraits< LevelSetOutputRealType >::OneValue();
-}
+  LevelSetOutputRealType laplacian = this->m_CurrentLevelSetPointer->EvaluateLaplacian(iP);
 
-template< typename TInput, typename TLevelSetContainer >
-typename LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >::LevelSetOutputRealType
-LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
-::Value( const LevelSetInputIndexType& iP )
-{
-  LevelSetOutputRealType laplacian = this->m_CurrentLevelSetPointer->EvaluateLaplacian( iP );
-
-  laplacian *= this->LaplacianSpeed( iP );
+  laplacian *= this->LaplacianSpeed(iP);
 
   return laplacian;
 }
 
-template< typename TInput, typename TLevelSetContainer >
-typename LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >::LevelSetOutputRealType
-LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
-::Value( const LevelSetInputIndexType& iP, const LevelSetDataType& iData )
+template <typename TInput, typename TLevelSetContainer>
+typename LevelSetEquationLaplacianTerm<TInput, TLevelSetContainer>::LevelSetOutputRealType
+LevelSetEquationLaplacianTerm<TInput, TLevelSetContainer>::Value(const LevelSetInputIndexType & iP,
+                                                                 const LevelSetDataType &       iData)
 {
   // Laplacian should be computed by this point.
-  itkAssertInDebugAndIgnoreInReleaseMacro( iData.Laplacian.m_Computed == true );
+  itkAssertInDebugAndIgnoreInReleaseMacro(iData.Laplacian.m_Computed == true);
 
   LevelSetOutputRealType laplacian = iData.Laplacian.m_Value;
 
-  laplacian *= this->LaplacianSpeed( iP );
+  laplacian *= this->LaplacianSpeed(iP);
 
   return laplacian;
 }
 
-}
+} // namespace itk
 
 #endif

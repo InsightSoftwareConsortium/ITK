@@ -22,9 +22,12 @@
 #include "itkPromoteType.h"
 
 /// \cond HIDE_META_PROGRAMMING
-namespace itk {
-namespace Details {
-namespace op {
+namespace itk
+{
+namespace Details
+{
+namespace op
+{
 /** Root Binary Operation Concept.
  * All binary operations are expected to inherit from this type.
  * These types will help to implement binary operations between arrays (\c
@@ -37,55 +40,68 @@ namespace op {
  * \sa \c itk::VariableLengthVector
  * \sa \c itk::VariableLengthVectorExpression
  */
-struct BinaryOperationConcept { };
+struct BinaryOperationConcept
+{};
 
 /** Addition operation.
  * The result type will be automatically promototed to the best type.
  * \ingroup ITKCommon
  */
 struct Plus : BinaryOperationConcept
-  {
+{
   template <typename T1, typename T2>
-    static typename mpl::PromoteType<T1, T2>::Type Apply(T1 const& lhs, T2 const& rhs)
-      { return lhs + rhs; }
-  };
+  static typename mpl::PromoteType<T1, T2>::Type
+  Apply(T1 const & lhs, T2 const & rhs)
+  {
+    return lhs + rhs;
+  }
+};
 
 /** Subtraction operation.
  * The result type will be automatically promototed to the best type.
  * \ingroup ITKCommon
  */
 struct Sub : BinaryOperationConcept
-  {
+{
   template <typename T1, typename T2>
-    static typename mpl::PromoteType<T1, T2>::Type Apply(T1 const& lhs, T2 const& rhs)
-      { return lhs - rhs; }
-  };
+  static typename mpl::PromoteType<T1, T2>::Type
+  Apply(T1 const & lhs, T2 const & rhs)
+  {
+    return lhs - rhs;
+  }
+};
 
 /** Multiplication operation.
  * The result type will be automatically promototed to the best type.
  * \ingroup ITKCommon
  */
 struct Mult : BinaryOperationConcept
-  {
+{
   template <typename T1, typename T2>
-    static typename mpl::PromoteType<T1, T2>::Type Apply(T1 const& lhs, T2 const& rhs)
-      { return lhs * rhs; }
-  };
+  static typename mpl::PromoteType<T1, T2>::Type
+  Apply(T1 const & lhs, T2 const & rhs)
+  {
+    return lhs * rhs;
+  }
+};
 
 /** Division operation.
  * The result type will be automatically promototed to the best type.
  * \ingroup ITKCommon
  */
 struct Div : BinaryOperationConcept
-  {
+{
   template <typename T1, typename T2>
-    static typename mpl::PromoteType<T1, T2>::Type Apply(T1 const& lhs, T2 const& rhs)
-      { return lhs / rhs; }
-  };
+  static typename mpl::PromoteType<T1, T2>::Type
+  Apply(T1 const & lhs, T2 const & rhs)
+  {
+    return lhs / rhs;
+  }
+};
 
-} // itk::Details::op namespace
-} // itk::Details namespace
-} // itk namespace
+} // namespace op
+} // namespace Details
+} // namespace itk
 /// \endcond
 
 #endif // itkBinaryOperationConcept_h

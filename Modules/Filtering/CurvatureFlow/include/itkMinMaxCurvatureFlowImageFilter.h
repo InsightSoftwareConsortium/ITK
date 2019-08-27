@@ -78,18 +78,17 @@ namespace itk
  * \sphinxexample{Filtering/CurvatureFlow/SmoothRGBImageUsingMinMaxCurvatureFlow,SmoothRGBImageUsingMinMaxCurvatureFlow}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT MinMaxCurvatureFlowImageFilter:
-  public CurvatureFlowImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT MinMaxCurvatureFlowImageFilter : public CurvatureFlowImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MinMaxCurvatureFlowImageFilter);
 
   /** Standard class type aliases. */
   using Self = MinMaxCurvatureFlowImageFilter;
-  using Superclass = CurvatureFlowImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = CurvatureFlowImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -118,42 +117,38 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( UnsignedLongConvertibleToOutputCheck,
-                   ( Concept::Convertible< unsigned long, typename TOutputImage::PixelType > ) );
-  itkConceptMacro( OutputLessThanComparableCheck,
-                   ( Concept::LessThanComparable< typename TOutputImage::PixelType > ) );
-  itkConceptMacro( LongConvertibleToOutputCheck,
-                   ( Concept::Convertible< long, typename TOutputImage::PixelType > ) );
-  itkConceptMacro( OutputDoubleComparableCheck,
-                   ( Concept::Comparable< typename TOutputImage::PixelType, double > ) );
-  itkConceptMacro( OutputDoubleMultiplyAndAssignOperatorCheck,
-                   ( Concept::MultiplyAndAssignOperator< typename TOutputImage::PixelType,
-                                                         double > ) );
-  itkConceptMacro( OutputGreaterThanUnsignedLongCheck,
-                   ( Concept::GreaterThanComparable< typename TOutputImage::PixelType,
-                                                     unsigned long > ) );
-  itkConceptMacro( UnsignedLongOutputAditiveOperatorsCheck,
-                   ( Concept::AdditiveOperators< unsigned long,
-                                                 typename TOutputImage::PixelType > ) );
+  itkConceptMacro(UnsignedLongConvertibleToOutputCheck,
+                  (Concept::Convertible<unsigned long, typename TOutputImage::PixelType>));
+  itkConceptMacro(OutputLessThanComparableCheck, (Concept::LessThanComparable<typename TOutputImage::PixelType>));
+  itkConceptMacro(LongConvertibleToOutputCheck, (Concept::Convertible<long, typename TOutputImage::PixelType>));
+  itkConceptMacro(OutputDoubleComparableCheck, (Concept::Comparable<typename TOutputImage::PixelType, double>));
+  itkConceptMacro(OutputDoubleMultiplyAndAssignOperatorCheck,
+                  (Concept::MultiplyAndAssignOperator<typename TOutputImage::PixelType, double>));
+  itkConceptMacro(OutputGreaterThanUnsignedLongCheck,
+                  (Concept::GreaterThanComparable<typename TOutputImage::PixelType, unsigned long>));
+  itkConceptMacro(UnsignedLongOutputAditiveOperatorsCheck,
+                  (Concept::AdditiveOperators<unsigned long, typename TOutputImage::PixelType>));
   // End concept checking
 #endif
 
 protected:
   MinMaxCurvatureFlowImageFilter();
   ~MinMaxCurvatureFlowImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the state of filter and equation before each iteration.
    * Progress feeback is implemented as part of this method. */
-  void InitializeIteration() override;
+  void
+  InitializeIteration() override;
 
 private:
   RadiusValueType m_StencilRadius;
 };
-} // end namspace itk
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMinMaxCurvatureFlowImageFilter.hxx"
+#  include "itkMinMaxCurvatureFlowImageFilter.hxx"
 #endif
 
 #endif

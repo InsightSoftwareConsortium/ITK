@@ -28,10 +28,9 @@ namespace itk
  *
  */
 template <typename TInputImage, typename TOutputImage>
-ZeroFluxNeumannPadImageFilter< TInputImage, TOutputImage >
-::ZeroFluxNeumannPadImageFilter()
+ZeroFluxNeumannPadImageFilter<TInputImage, TOutputImage>::ZeroFluxNeumannPadImageFilter()
 {
-  this->InternalSetBoundaryCondition( &m_InternalBoundaryCondition );
+  this->InternalSetBoundaryCondition(&m_InternalBoundaryCondition);
 }
 
 } // end namespace itk

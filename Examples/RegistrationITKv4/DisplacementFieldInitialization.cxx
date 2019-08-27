@@ -45,71 +45,68 @@
 #include <fstream>
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
 
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " landmarksFile fixedImage outputDisplacementField"
-              << std::endl;
+    std::cerr << " landmarksFile fixedImage outputDisplacementField" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
   using VectorComponentType = float;
 
-  using VectorType = itk::Vector< VectorComponentType, Dimension >;
+  using VectorType = itk::Vector<VectorComponentType, Dimension>;
 
-  using DisplacementFieldType = itk::Image< VectorType,  Dimension >;
+  using DisplacementFieldType = itk::Image<VectorType, Dimension>;
 
 
   using PixelType = unsigned char;
-  using FixedImageType = itk::Image< PixelType, Dimension >;
+  using FixedImageType = itk::Image<PixelType, Dimension>;
 
-  using FixedReaderType = itk::ImageFileReader< FixedImageType >;
+  using FixedReaderType = itk::ImageFileReader<FixedImageType>;
 
 
   FixedReaderType::Pointer fixedReader = FixedReaderType::New();
 
-  fixedReader->SetFileName( argv[2] );
+  fixedReader->SetFileName(argv[2]);
 
   try
-    {
+  {
     fixedReader->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
-  using FilterType =
-    itk::LandmarkDisplacementFieldSource<DisplacementFieldType>;
+  using FilterType = itk::LandmarkDisplacementFieldSource<DisplacementFieldType>;
 
   FilterType::Pointer filter = FilterType::New();
 
-  filter->SetOutputSpacing( fixedImage->GetSpacing() );
-  filter->SetOutputOrigin(  fixedImage->GetOrigin() );
-  filter->SetOutputRegion(  fixedImage->GetLargestPossibleRegion() );
-  filter->SetOutputDirection( fixedImage->GetDirection() );
+  filter->SetOutputSpacing(fixedImage->GetSpacing());
+  filter->SetOutputOrigin(fixedImage->GetOrigin());
+  filter->SetOutputRegion(fixedImage->GetLargestPossibleRegion());
+  filter->SetOutputDirection(fixedImage->GetDirection());
 
   //  Create source and target landmarks.
   //
   using LandmarkContainerType = FilterType::LandmarkContainer;
   using LandmarkPointType = FilterType::LandmarkPointType;
 
-  LandmarkContainerType::Pointer sourceLandmarks
-                                               = LandmarkContainerType::New();
-  LandmarkContainerType::Pointer targetLandmarks
-                                               = LandmarkContainerType::New();
-  std::ifstream pointsFile;
-  pointsFile.open( argv[1] );
+  LandmarkContainerType::Pointer sourceLandmarks = LandmarkContainerType::New();
+  LandmarkContainerType::Pointer targetLandmarks = LandmarkContainerType::New();
+  std::ifstream                  pointsFile;
+  pointsFile.open(argv[1]);
 
   LandmarkPointType sourcePoint;
   pointsFile >> sourcePoint;
@@ -117,47 +114,47 @@ int main( int argc, char * argv[] )
   pointsFile >> targetPoint;
 
   unsigned int pointId = 0;
-  while( !pointsFile.fail() )
-    {
-    sourceLandmarks->InsertElement( pointId, sourcePoint );
-    targetLandmarks->InsertElement( pointId, targetPoint );
+  while (!pointsFile.fail())
+  {
+    sourceLandmarks->InsertElement(pointId, sourcePoint);
+    targetLandmarks->InsertElement(pointId, targetPoint);
     pointId++;
 
     pointsFile >> sourcePoint;
     pointsFile >> targetPoint;
-    }
+  }
   pointsFile.close();
-  filter->SetSourceLandmarks( sourceLandmarks );
-  filter->SetTargetLandmarks( targetLandmarks );
+  filter->SetSourceLandmarks(sourceLandmarks);
+  filter->SetTargetLandmarks(targetLandmarks);
 
   try
-    {
+  {
     filter->UpdateLargestPossibleRegion();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Write an image for regression testing
-  using WriterType = itk::ImageFileWriter<  DisplacementFieldType  >;
+  using WriterType = itk::ImageFileWriter<DisplacementFieldType>;
 
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput (  filter->GetOutput() );
-  writer->SetFileName( argv[3] );
-  filter->Print( std::cout );
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(argv[3]);
+  filter->Print(std::cout);
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown by writer" << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   return EXIT_SUCCESS;
-//  Software Guide : EndLatex
+  //  Software Guide : EndLatex
 }

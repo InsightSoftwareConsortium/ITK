@@ -24,9 +24,8 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage, typename TFunction  >
-UnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
-::UnaryFunctorImageFilter()
+template <typename TInputImage, typename TOutputImage, typename TFunction>
+UnaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>::UnaryFunctorImageFilter()
 {
   this->SetNumberOfRequiredInputs(1);
   this->InPlaceOff();
@@ -42,50 +41,47 @@ UnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
  *
  * \sa ProcessObject::GenerateOutputInformaton()
  */
-template< typename TInputImage, typename TOutputImage, typename TFunction >
+template <typename TInputImage, typename TOutputImage, typename TFunction>
 void
-UnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
-::GenerateOutputInformation()
+UnaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>::GenerateOutputInformation()
 {
   // do not call the superclass' implementation of this method since
   // this filter allows the input the output to be of different dimensions
 
   // get pointers to the input and output
-  OutputImageType *outputPtr = this->GetOutput();
-  const InputImageType *inputPtr  = this->GetInput();
+  OutputImageType *      outputPtr = this->GetOutput();
+  const InputImageType * inputPtr = this->GetInput();
 
-  if ( !outputPtr || !inputPtr )
-    {
+  if (!outputPtr || !inputPtr)
+  {
     return;
-    }
+  }
 
   // Set the output image largest possible region.  Use a RegionCopier
   // so that the input and output images can be different dimensions.
   OutputImageRegionType outputLargestPossibleRegion;
-  this->CallCopyInputRegionToOutputRegion( outputLargestPossibleRegion,
-                                           inputPtr->GetLargestPossibleRegion() );
+  this->CallCopyInputRegionToOutputRegion(outputLargestPossibleRegion, inputPtr->GetLargestPossibleRegion());
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 
-  ImageToImageFilterDetail::ImageInformationCopier<Superclass::OutputImageDimension,
-                                                   Superclass::InputImageDimension>
+  ImageToImageFilterDetail::ImageInformationCopier<Superclass::OutputImageDimension, Superclass::InputImageDimension>
     informationCopier;
   informationCopier(outputPtr, inputPtr);
 }
 
 
-template< typename TInputImage, typename TOutputImage, typename TFunction  >
+template <typename TInputImage, typename TOutputImage, typename TFunction>
 void
-UnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+UnaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
-  const typename OutputImageRegionType::SizeType &regionSize = outputRegionForThread.GetSize();
+  const typename OutputImageRegionType::SizeType & regionSize = outputRegionForThread.GetSize();
 
-  if( regionSize[0] == 0 )
-    {
+  if (regionSize[0] == 0)
+  {
     return;
-    }
-  const TInputImage *inputPtr = this->GetInput();
-  TOutputImage *outputPtr = this->GetOutput(0);
+  }
+  const TInputImage * inputPtr = this->GetInput();
+  TOutputImage *      outputPtr = this->GetOutput(0);
 
   // Define the portion of the input to walk for this thread, using
   // the CallCopyOutputRegionToInputRegion method allows for the input
@@ -94,22 +90,22 @@ UnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
-  ImageScanlineConstIterator< TInputImage > inputIt(inputPtr, inputRegionForThread);
-  ImageScanlineIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
+  ImageScanlineConstIterator<TInputImage> inputIt(inputPtr, inputRegionForThread);
+  ImageScanlineIterator<TOutputImage>     outputIt(outputPtr, outputRegionForThread);
 
   inputIt.GoToBegin();
   outputIt.GoToBegin();
-  while ( !inputIt.IsAtEnd() )
+  while (!inputIt.IsAtEnd())
+  {
+    while (!inputIt.IsAtEndOfLine())
     {
-    while ( !inputIt.IsAtEndOfLine() )
-      {
-      outputIt.Set( m_Functor( inputIt.Get() ) );
+      outputIt.Set(m_Functor(inputIt.Get()));
       ++inputIt;
       ++outputIt;
-      }
+    }
     inputIt.NextLine();
     outputIt.NextLine();
-    }
+  }
 }
 } // end namespace itk
 

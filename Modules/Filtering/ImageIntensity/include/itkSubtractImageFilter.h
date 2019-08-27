@@ -63,46 +63,42 @@ namespace itk
  * \sphinxexample{Filtering/ImageIntensity/SubtractConstantFromEveryPixel,Subtract Constant From Every Pixel}
  * \endsphinx
  */
-template< typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1 >
-class SubtractImageFilter:
-  public
-  BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
+template <typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1>
+class SubtractImageFilter : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SubtractImageFilter);
 
   /** Standard class type aliases. */
   using Self = SubtractImageFilter;
-  using Superclass = BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using FunctorType = Functor::Sub2< typename TInputImage1::PixelType,
-                                     typename TInputImage2::PixelType,
-                                     typename TOutputImage::PixelType >;
+  using Superclass = BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using FunctorType =
+    Functor::Sub2<typename TInputImage1::PixelType, typename TInputImage2::PixelType, typename TOutputImage::PixelType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(SubtractImageFilter,
-               BinaryGeneratorImageFilter);
+  itkTypeMacro(SubtractImageFilter, BinaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( Input1Input2OutputAdditiveOperatorsCheck,
-                   ( Concept::AdditiveOperators< typename TInputImage1::PixelType,
-                                                 typename TInputImage2::PixelType,
-                                                 typename TOutputImage::PixelType > ) );
+  itkConceptMacro(Input1Input2OutputAdditiveOperatorsCheck,
+                  (Concept::AdditiveOperators<typename TInputImage1::PixelType,
+                                              typename TInputImage2::PixelType,
+                                              typename TOutputImage::PixelType>));
   // End concept checking
 #endif
 
 protected:
   SubtractImageFilter()
-    {
-#if !defined( ITK_WRAPPING_PARSER )
-      Superclass::SetFunctor(FunctorType());
+  {
+#if !defined(ITK_WRAPPING_PARSER)
+    Superclass::SetFunctor(FunctorType());
 #endif
-    }
+  }
 
   ~SubtractImageFilter() override = default;
 };

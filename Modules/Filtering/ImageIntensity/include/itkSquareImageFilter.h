@@ -35,70 +35,68 @@ namespace itk
 
 namespace Functor
 {
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 class Square
 {
 public:
-  using RealType = typename NumericTraits< TInput >::RealType;
+  using RealType = typename NumericTraits<TInput>::RealType;
   Square() = default;
   ~Square() = default;
-  bool operator!=(const Square &) const
+  bool
+  operator!=(const Square &) const
   {
     return false;
   }
 
-  bool operator==(const Square & other) const
+  bool
+  operator==(const Square & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput & A) const
+  inline TOutput
+  operator()(const TInput & A) const
   {
-    const auto ra = static_cast< RealType >( A );
+    const auto ra = static_cast<RealType>(A);
 
-    return static_cast< TOutput >( ra * ra );
+    return static_cast<TOutput>(ra * ra);
   }
 };
-}
-template< typename TInputImage, typename TOutputImage >
-class SquareImageFilter:
-  public
-  UnaryGeneratorImageFilter< TInputImage, TOutputImage  >
+} // namespace Functor
+template <typename TInputImage, typename TOutputImage>
+class SquareImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SquareImageFilter);
 
   /** Standard class type aliases. */
   using Self = SquareImageFilter;
-  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using FunctorType = Functor::Square< typename TInputImage::PixelType,
-                                       typename TOutputImage::PixelType >;
+  using Superclass = UnaryGeneratorImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using FunctorType = Functor::Square<typename TInputImage::PixelType, typename TOutputImage::PixelType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(SquareImageFilter,
-               UnaryGeneratorImageFilter);
+  itkTypeMacro(SquareImageFilter, UnaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TInputImage::PixelType > ) );
-  itkConceptMacro( RealTypeMultiplyOperatorCheck,
-                   ( Concept::MultiplyOperator< typename NumericTraits< typename TInputImage::PixelType >::RealType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TInputImage::PixelType>));
+  itkConceptMacro(RealTypeMultiplyOperatorCheck,
+                  (Concept::MultiplyOperator<typename NumericTraits<typename TInputImage::PixelType>::RealType>));
   // End concept checking
 #endif
 
 protected:
   SquareImageFilter()
-    {
-#if !defined( ITK_WRAPPING_PARSER )
-      Superclass::SetFunctor(FunctorType());
+  {
+#if !defined(ITK_WRAPPING_PARSER)
+    Superclass::SetFunctor(FunctorType());
 #endif
-    }
+  }
 
   ~SquareImageFilter() override = default;
 };

@@ -27,85 +27,85 @@
 #include <itkTestingComparisonImageFilter.h>
 #include "itkMetaImageIO.h"
 
-template< typename PixelType, unsigned int Dimension>
-int ReadWriteCompare(PixelType value, std::string type)
+template <typename PixelType, unsigned int Dimension>
+int
+ReadWriteCompare(PixelType value, std::string type)
 {
   std::cout << "Testing: " << type << std::endl;
   using ImageType = itk::Image<PixelType, 3>;
-  const char *filename = "test.mha";
-  typename ImageType::SpacingType spacing;
-  typename ImageType::PointType origin;
+  const char *                      filename = "test.mha";
+  typename ImageType::SpacingType   spacing;
+  typename ImageType::PointType     origin;
   typename ImageType::DirectionType direction;
-  typename ImageType::SizeType size;
-  //Allocate Images
+  typename ImageType::SizeType      size;
+  // Allocate Images
   direction[0][1] = 1;
   direction[1][0] = -1;
   direction[0][0] = 0;
   direction[1][1] = 0;
-  for( size_t ii = 0; ii < Dimension; ii++)
+  for (size_t ii = 0; ii < Dimension; ii++)
   {
     spacing[ii] = 0.12;
     origin[ii] = 3.2;
     size[ii] = 10;
   }
   typename ImageType::RegionType region(size);
-  typename ImageType::Pointer img =
-    itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(region, spacing);
-  { //Fill in entire image
-    itk::ImageRegionIterator<ImageType> ri(img,region);
+  typename ImageType::Pointer    img = itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(region, spacing);
+  { // Fill in entire image
+    itk::ImageRegionIterator<ImageType> ri(img, region);
     try
-      {
-        while(!ri.IsAtEnd())
-          {
-            ri.Set( value );
-            ++ri;
-          }
-      }
-    catch ( itk::ExceptionObject & ex )
-      {
-        std::cerr << "Error filling array" << ex << std::endl;
-        return EXIT_FAILURE;
-      }
-  }
-  try
     {
-    itk::IOTestHelper::WriteImage<ImageType,itk::MetaImageIO>(img,std::string(filename));
+      while (!ri.IsAtEnd())
+      {
+        ri.Set(value);
+        ++ri;
+      }
     }
-  catch ( itk::ExceptionObject & ex )
+    catch (itk::ExceptionObject & ex)
     {
-      std::string message;
-      message = "Problem found while writing image ";
-      message += filename;
-      message += "\n";
-      message += ex.GetLocation();
-      message += "\n";
-      message += ex.GetDescription();
-      std::cerr << message << std::endl;
-      itk::IOTestHelper::Remove(filename);
+      std::cerr << "Error filling array" << ex << std::endl;
       return EXIT_FAILURE;
     }
+  }
+  try
+  {
+    itk::IOTestHelper::WriteImage<ImageType, itk::MetaImageIO>(img, std::string(filename));
+  }
+  catch (itk::ExceptionObject & ex)
+  {
+    std::string message;
+    message = "Problem found while writing image ";
+    message += filename;
+    message += "\n";
+    message += ex.GetLocation();
+    message += "\n";
+    message += ex.GetDescription();
+    std::cerr << message << std::endl;
+    itk::IOTestHelper::Remove(filename);
+    return EXIT_FAILURE;
+  }
 
   typename ImageType::Pointer input;
   try
-    {
+  {
     input = itk::IOTestHelper::ReadImage<ImageType>(std::string(filename));
-    }
-  catch (itk::ExceptionObject &e)
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     e.Print(std::cerr);
     itk::IOTestHelper::Remove(filename);
     return EXIT_FAILURE;
-    }
+  }
 
   // Now compare the two images
-  using DiffType = itk::Testing::ComparisonImageFilter<ImageType,ImageType>;
+  using DiffType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
   typename DiffType::Pointer diff = DiffType::New();
   diff->SetValidInput(img);
   diff->SetTestInput(input);
-  diff->SetDifferenceThreshold( itk::NumericTraits<PixelType>::Zero );
-  diff->SetToleranceRadius( 0 );
+  diff->SetDifferenceThreshold(itk::NumericTraits<PixelType>::Zero);
+  diff->SetToleranceRadius(0);
   diff->UpdateLargestPossibleRegion();
-  if( diff->GetTotalDifference() > 0 )
+  if (diff->GetTotalDifference() > 0)
   {
     std::cerr << "Image created and image read are different" << std::endl;
     itk::IOTestHelper::Remove(filename);
@@ -115,24 +115,25 @@ int ReadWriteCompare(PixelType value, std::string type)
   return EXIT_SUCCESS;
 }
 
-int testMetaImage(int , char * [])
-  {
+int
+testMetaImage(int, char *[])
+{
 
   MetaImage tIm(8, 8, 1, 2, MET_CHAR);
   MetaImage tImCopy(&tIm);
 
   int i;
-  for(i=0; i<64; i++)
+  for (i = 0; i < 64; i++)
     tIm.ElementData(i, i);
 
-  for(i=0; i<64; i++)
+  for (i = 0; i < 64; i++)
+  {
+    if (itk::Math::NotExactlyEquals(i, tIm.ElementData(i)))
     {
-    if(itk::Math::NotExactlyEquals(i, tIm.ElementData(i)))
-      {
       std::cout << "Assigned Element Values Maintained: FAIL" << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
   tIm.Write("test.mha");
   tIm.PrintInfo();
@@ -152,21 +153,21 @@ int testMetaImage(int , char * [])
   std::cout << "SequenceID = " << tIm2.SequenceID() << std::endl;
   std::cout << "SequenceID[0] = " << tIm2.SequenceID(im2Zero) << std::endl;
   auto * sequID = new float[2];
-  sequID[0]=1;
-  sequID[1]=1;
+  sequID[0] = 1;
+  sequID[1] = 1;
   tIm2.SequenceID(sequID);
   delete[] sequID;
-  tIm2.SequenceID(0,1.0f);
+  tIm2.SequenceID(0, 1.0f);
 
   std::cout << "ElementSizeValid = " << tIm2.ElementSizeValid() << std::endl;
   tIm2.ElementSizeValid(tIm2.ElementSizeValid());
   std::cout << "ElementSize = " << tIm2.ElementSize() << std::endl;
   std::cout << "ElementSize(0) = " << tIm2.ElementSize(im2Zero) << std::endl;
 
-  tIm2.ElementSize(0,1.0f);
+  tIm2.ElementSize(0, 1.0f);
   auto * elmtSize = new float[2];
-  elmtSize[0]=1;
-  elmtSize[1]=2;
+  elmtSize[0] = 1;
+  elmtSize[1] = 2;
   tIm2.ElementSize(elmtSize);
   delete[] elmtSize;
 
@@ -191,25 +192,25 @@ int testMetaImage(int , char * [])
   std::cout << "Element Data: " << tIm2.ElementData() << std::endl;
 
   std::cout << "Testing ConvertElementDataTo: ";
-  if(tIm2.ConvertElementDataTo(MET_CHAR,0,255))
-    {
+  if (tIm2.ConvertElementDataTo(MET_CHAR, 0, 255))
+  {
     std::cout << "[PASSED]" << std::endl;
-    }
+  }
   else
-    {
+  {
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   tIm2.PrintInfo();
-  for(i=0; i<64; i++)
+  for (i = 0; i < 64; i++)
+  {
+    if (itk::Math::NotExactlyEquals(i, tIm.ElementData(i)))
     {
-    if(itk::Math::NotExactlyEquals(i, tIm.ElementData(i)))
-      {
       std::cout << "Read Element Values: FAIL" << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
 
   tIm2.AutoFreeElementData(tIm2.AutoFreeElementData());
@@ -222,76 +223,76 @@ int testMetaImage(int , char * [])
 
   // testing metaImageUtils
   std::string modality;
-  if(!MET_ImageModalityToString(MET_MOD_CT,modality))
-    {
-      std::cout << "MET_ImageModalityToString: FAIL" << std::endl;
-      return EXIT_FAILURE;
-    }
+  if (!MET_ImageModalityToString(MET_MOD_CT, modality))
+  {
+    std::cout << "MET_ImageModalityToString: FAIL" << std::endl;
+    return EXIT_FAILURE;
+  }
   else
-    {
+  {
     std::cout << "Modality  = " << modality << std::endl;
-    }
+  }
 
-  //Testing Append function
+  // Testing Append function
   std::cout << "Testing Append:";
 
-  if(tIm2.Append("test.mha"))
-    {
+  if (tIm2.Append("test.mha"))
+  {
     std::cout << " [PASSED]" << std::endl;
-    }
+  }
   else
-    {
+  {
     std::cout << " [FAILED]" << std::endl;
-    }
+  }
 
   itksys::SystemTools::RemoveFile("test.mha");
 
   // Testing all pixel types
-  if( ReadWriteCompare<unsigned char,3>( static_cast<unsigned char>(12), "unsigned char" ) )
+  if (ReadWriteCompare<unsigned char, 3>(static_cast<unsigned char>(12), "unsigned char"))
   {
     return EXIT_FAILURE;
   }
-  if( ReadWriteCompare<char,3>( static_cast<char>(-8), "char" ) )
+  if (ReadWriteCompare<char, 3>(static_cast<char>(-8), "char"))
   {
     return EXIT_FAILURE;
   }
-  if( ReadWriteCompare<unsigned short,3>( static_cast<unsigned short>(8192) , "unsigned short" ) )
+  if (ReadWriteCompare<unsigned short, 3>(static_cast<unsigned short>(8192), "unsigned short"))
   {
     return EXIT_FAILURE;
   }
-  if( ReadWriteCompare<short,3>( static_cast<short>(-16384) , "short" ) )
+  if (ReadWriteCompare<short, 3>(static_cast<short>(-16384), "short"))
   {
     return EXIT_FAILURE;
   }
-  if( ReadWriteCompare<unsigned int,3>( static_cast<unsigned int>(2718281) , "unsigned int" ) )
+  if (ReadWriteCompare<unsigned int, 3>(static_cast<unsigned int>(2718281), "unsigned int"))
   {
     return EXIT_FAILURE;
   }
-  if( ReadWriteCompare<int,3>( static_cast<int>(-3141592), "int" ) )
+  if (ReadWriteCompare<int, 3>(static_cast<int>(-3141592), "int"))
   {
     return EXIT_FAILURE;
   }
-  if( ReadWriteCompare<unsigned long,3>( static_cast<unsigned long>(27182818), "unsigned long" ) )
+  if (ReadWriteCompare<unsigned long, 3>(static_cast<unsigned long>(27182818), "unsigned long"))
   {
     return EXIT_FAILURE;
   }
-  if( ReadWriteCompare<long,3>( static_cast<long>(-31415926), "long" ) )
+  if (ReadWriteCompare<long, 3>(static_cast<long>(-31415926), "long"))
   {
     return EXIT_FAILURE;
   }
-  if( ReadWriteCompare<unsigned long long,3>( static_cast<unsigned long long>(8589934592ull), "unsigned long long" ) )
+  if (ReadWriteCompare<unsigned long long, 3>(static_cast<unsigned long long>(8589934592ull), "unsigned long long"))
   {
     return EXIT_FAILURE;
   }
-  if( ReadWriteCompare<long long,3>( static_cast<long long>(-8589934592ll), "long long" ) )
+  if (ReadWriteCompare<long long, 3>(static_cast<long long>(-8589934592ll), "long long"))
   {
     return EXIT_FAILURE;
   }
-  if( ReadWriteCompare<float,3>( static_cast<float>(1.23456), "float" ) )
+  if (ReadWriteCompare<float, 3>(static_cast<float>(1.23456), "float"))
   {
     return EXIT_FAILURE;
   }
-  if( ReadWriteCompare<double,3>( static_cast<double>(7.891011121314), "double" ) )
+  if (ReadWriteCompare<double, 3>(static_cast<double>(7.891011121314), "double"))
   {
     return EXIT_FAILURE;
   }
@@ -299,4 +300,4 @@ int testMetaImage(int , char * [])
   std::cout << "[DONE]" << std::endl;
 
   return EXIT_SUCCESS;
-  }
+}

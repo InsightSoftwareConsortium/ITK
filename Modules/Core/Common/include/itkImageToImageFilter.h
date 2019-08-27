@@ -104,18 +104,19 @@ namespace itk
  * \sphinxexample{Core/Common/FilterImageUsingMultipleThreads,Filter Image Using Multiple Threads}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT ImageToImageFilter:public ImageSource< TOutputImage >,
-  private ImageToImageFilterCommon
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT ImageToImageFilter
+  : public ImageSource<TOutputImage>
+  , private ImageToImageFilterCommon
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageFilter);
 
   /** Standard class type aliases. */
   using Self = ImageToImageFilter;
-  using Superclass = ImageSource< TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageSource<TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToImageFilter, ImageSource);
@@ -137,13 +138,17 @@ public:
 
   /** Set/Get the image input of this process object.  */
   using Superclass::SetInput;
-  virtual void SetInput(const InputImageType *image);
+  virtual void
+  SetInput(const InputImageType * image);
 
-  virtual void SetInput(unsigned int, const TInputImage *image);
+  virtual void
+  SetInput(unsigned int, const TInputImage * image);
 
-  const InputImageType * GetInput() const;
+  const InputImageType *
+  GetInput() const;
 
-  const InputImageType * GetInput(unsigned int idx) const;
+  const InputImageType *
+  GetInput(unsigned int idx) const;
 
   /** Push/Pop the input of this process object. These methods allow a
    * filter to model its input vector as a queue or stack.  These
@@ -164,29 +169,33 @@ public:
    * and popping inputs allow the application to temporarily replace
    * an input to a filter.
    */
-  virtual void PushBackInput(const InputImageType *image);
+  virtual void
+  PushBackInput(const InputImageType * image);
 
-  void PopBackInput() override;
+  void
+  PopBackInput() override;
 
-  virtual void PushFrontInput(const InputImageType *image);
+  virtual void
+  PushFrontInput(const InputImageType * image);
 
-  void PopFrontInput() override;
+  void
+  PopFrontInput() override;
 
   /** get/set the Coordinate tolerance
    *  This tolerance is used when comparing the space defined
    *  by the input images.  ITK has a requirement that multiple input
    *  images be congruent in space by default.
    */
-  itkSetMacro(CoordinateTolerance,double);
-  itkGetConstMacro(CoordinateTolerance,double);
+  itkSetMacro(CoordinateTolerance, double);
+  itkGetConstMacro(CoordinateTolerance, double);
 
   /** get/set the direction tolerance
    *  This tolerance is used to make sure that all input
    *  images are oriented the same before performing the filter's
    *  transformations.
    */
-  itkSetMacro(DirectionTolerance,double);
-  itkGetConstMacro(DirectionTolerance,double);
+  itkSetMacro(DirectionTolerance, double);
+  itkGetConstMacro(DirectionTolerance, double);
 
   /** get/set the global default direction tolerance
    *
@@ -210,9 +219,10 @@ public:
 
 protected:
   ImageToImageFilter();
-  ~ImageToImageFilter() override {};
+  ~ImageToImageFilter() override{};
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** \brief Verifies that the input images occupy the same physical
    * space and the each index is at the same physical location.
@@ -233,7 +243,8 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() ITKv5_CONST override;
+  void
+  VerifyInputInformation() ITKv5_CONST override;
 
   /** What is the input requested region that is required to produce
    * the output requested region? The base assumption for image
@@ -259,19 +270,18 @@ protected:
    *
    * \sa ProcessObject::GenerateInputRequestedRegion(),
    *     ImageSource::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** Typedef for the region copier function object that converts an
    * input region to an output region. */
-  using InputToOutputRegionCopierType = ImageToImageFilterDetail::ImageRegionCopier<
-                                                       Self::OutputImageDimension,
-                                                       Self::InputImageDimension >;
+  using InputToOutputRegionCopierType =
+    ImageToImageFilterDetail::ImageRegionCopier<Self::OutputImageDimension, Self::InputImageDimension>;
 
   /** Typedef for the region copier function object that converts an
    * output region to an input region. */
-  using OutputToInputRegionCopierType = ImageToImageFilterDetail::ImageRegionCopier<
-                                                       Self::InputImageDimension,
-                                                       Self::OutputImageDimension >;
+  using OutputToInputRegionCopierType =
+    ImageToImageFilterDetail::ImageRegionCopier<Self::InputImageDimension, Self::OutputImageDimension>;
 
   /** This function calls the actual region copier to do the mapping
    * from output image space to input image space.  It uses a Function
@@ -308,8 +318,8 @@ protected:
    * output image, the filter can control "where" in the input image
    * the output subimage is extracted (as opposed to mapping to first
    * few dimensions of the input). */
-  virtual void CallCopyOutputRegionToInputRegion(InputImageRegionType & destRegion,
-                                                 const OutputImageRegionType & srcRegion);
+  virtual void
+  CallCopyOutputRegionToInputRegion(InputImageRegionType & destRegion, const OutputImageRegionType & srcRegion);
 
   /** This function calls the actual region copier to do the mapping
    * from input image space to output image space.  It uses a Function
@@ -341,8 +351,8 @@ protected:
    *
    * If a filter needs a different default behavior, it can override
    * this method. */
-  virtual void CallCopyInputRegionToOutputRegion(OutputImageRegionType & destRegion,
-                                                 const InputImageRegionType & srcRegion);
+  virtual void
+  CallCopyInputRegionToOutputRegion(OutputImageRegionType & destRegion, const InputImageRegionType & srcRegion);
 
   /**
    * PushBackInput(), PushFronInput() in the public section force the
@@ -352,10 +362,16 @@ protected:
    * the versions from ProcessObject to avoid warnings about hiding
    * methods from the superclass.
    */
-  void PushBackInput(const DataObject *input) override
-  { Superclass::PushBackInput(input); }
-  void PushFrontInput(const DataObject *input) override
-  { Superclass::PushFrontInput(input); }
+  void
+  PushBackInput(const DataObject * input) override
+  {
+    Superclass::PushBackInput(input);
+  }
+  void
+  PushFrontInput(const DataObject * input) override
+  {
+    Superclass::PushFrontInput(input);
+  }
 
 private:
   /**
@@ -368,7 +384,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToImageFilter.hxx"
+#  include "itkImageToImageFilter.hxx"
 #endif
 
 #endif

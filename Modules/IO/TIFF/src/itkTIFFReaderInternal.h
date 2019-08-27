@@ -30,40 +30,44 @@ class ITKIOTIFF_HIDDEN TIFFReaderInternal
 {
 public:
   TIFFReaderInternal();
-  int Initialize();
+  int
+  Initialize();
 
-  void Clean();
+  void
+  Clean();
 
-  int CanRead();
+  int
+  CanRead();
 
-  int Open(const char *filename);
+  int
+  Open(const char * filename);
 
-  TIFF *         m_Image;
-  bool           m_IsOpen;
-  uint32_t       m_Width;
-  uint32_t       m_Height;
-  uint16_t       m_NumberOfPages;
-  uint16_t       m_CurrentPage;
-  uint16_t       m_SamplesPerPixel;
-  uint16_t       m_Compression;
-  uint16_t       m_BitsPerSample;
-  uint16_t       m_Photometrics;
-  bool           m_HasValidPhotometricInterpretation;
-  uint16_t       m_PlanarConfig;
-  uint16_t       m_Orientation;
-  uint32_t       m_TileRows;
-  uint32_t       m_TileColumns;
-  uint32_t       m_TileWidth;
-  uint32_t       m_TileHeight;
-  uint32_t       m_NumberOfTiles;
-  uint32_t       m_SubFiles;
-  uint32_t       m_IgnoredSubFiles;
-  uint16_t       m_ResolutionUnit;
-  float          m_XResolution;
-  float          m_YResolution;
-  uint16_t       m_SampleFormat;
+  TIFF *   m_Image;
+  bool     m_IsOpen;
+  uint32_t m_Width;
+  uint32_t m_Height;
+  uint16_t m_NumberOfPages;
+  uint16_t m_CurrentPage;
+  uint16_t m_SamplesPerPixel;
+  uint16_t m_Compression;
+  uint16_t m_BitsPerSample;
+  uint16_t m_Photometrics;
+  bool     m_HasValidPhotometricInterpretation;
+  uint16_t m_PlanarConfig;
+  uint16_t m_Orientation;
+  uint32_t m_TileRows;
+  uint32_t m_TileColumns;
+  uint32_t m_TileWidth;
+  uint32_t m_TileHeight;
+  uint32_t m_NumberOfTiles;
+  uint32_t m_SubFiles;
+  uint32_t m_IgnoredSubFiles;
+  uint16_t m_ResolutionUnit;
+  float    m_XResolution;
+  float    m_YResolution;
+  uint16_t m_SampleFormat;
 };
 
-}
+} // namespace itk
 
 #endif // itkTIFFReaderInternal_h

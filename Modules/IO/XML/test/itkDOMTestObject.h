@@ -33,8 +33,8 @@ public:
   /** Standard class type aliases. */
   using Self = DOMTestObject;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -43,12 +43,12 @@ public:
   itkTypeMacro(DOMTestObject, Object);
 
   /** Functions to set/get foo value. */
-  itkSetMacro( FooValue, std::string );
-  itkGetConstMacro( FooValue, std::string );
+  itkSetMacro(FooValue, std::string);
+  itkGetConstMacro(FooValue, std::string);
 
   /** Functions to set/get foo file name. */
-  itkSetMacro( FooFileName, std::string );
-  itkGetConstMacro( FooFileName, std::string );
+  itkSetMacro(FooFileName, std::string);
+  itkGetConstMacro(FooFileName, std::string);
 
 private:
   DOMTestObject() = default;

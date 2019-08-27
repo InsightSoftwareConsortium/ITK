@@ -60,8 +60,8 @@ namespace itk
  * \ingroup LabeledImageObject
  * \ingroup ITKLabelMap
  */
-template< typename TLabel, unsigned int VImageDimension >
-class ITK_TEMPLATE_EXPORT LabelObject:public LightObject
+template <typename TLabel, unsigned int VImageDimension>
+class ITK_TEMPLATE_EXPORT LabelObject : public LightObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelObject);
@@ -70,9 +70,9 @@ public:
   using Self = LabelObject;
   using Superclass = LightObject;
   using LabelObjectType = Self;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using ConstWeakPointer = WeakPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using ConstWeakPointer = WeakPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -82,61 +82,73 @@ public:
 
   static constexpr unsigned int ImageDimension = VImageDimension;
 
-  using IndexType = Index< VImageDimension >;
-  using OffsetType = Offset< VImageDimension >;
+  using IndexType = Index<VImageDimension>;
+  using OffsetType = Offset<VImageDimension>;
   using LabelType = TLabel;
-  using LineType = LabelObjectLine< VImageDimension >;
+  using LineType = LabelObjectLine<VImageDimension>;
   using LengthType = typename LineType::LengthType;
   using AttributeType = unsigned int;
   using SizeValueType = itk::SizeValueType;
 
   static constexpr AttributeType LABEL = 0;
 
-  static AttributeType GetAttributeFromName(const std::string & s);
+  static AttributeType
+  GetAttributeFromName(const std::string & s);
 
-  static std::string GetNameFromAttribute(const AttributeType & a);
+  static std::string
+  GetNameFromAttribute(const AttributeType & a);
 
   /**
    * Set/Get the label associated with the object.
    */
-  const LabelType & GetLabel() const;
+  const LabelType &
+  GetLabel() const;
 
-  void SetLabel(const LabelType & label);
+  void
+  SetLabel(const LabelType & label);
 
   /**
    * Return true if the object contain the given index and false otherwise.
    * Worst case complexity is O(L) where L is the number of lines in the object.
    */
-  bool HasIndex(const IndexType & idx) const;
+  bool
+  HasIndex(const IndexType & idx) const;
 
   /**
    * Add an index to the object. If the index is already in the object, the index can
    * be found several time in the object.
    */
-  void AddIndex(const IndexType & idx);
+  void
+  AddIndex(const IndexType & idx);
 
   /**
    * Remove an index to the object. Depending on the configuration, it can either
    * reduce the size of the corresponding line, add one more line, remove the line
    * from the line container.
    */
-  bool RemoveIndex(const IndexType & idx );
+  bool
+  RemoveIndex(const IndexType & idx);
 
   /**
    * Add a new line to the object, without any check.
    */
-  void AddLine(const IndexType & idx, const LengthType & length);
+  void
+  AddLine(const IndexType & idx, const LengthType & length);
 
   /**
    * Add a new line to the object, without any check.
    */
-  void AddLine(const LineType & line);
+  void
+  AddLine(const LineType & line);
 
-  SizeValueType GetNumberOfLines() const;
+  SizeValueType
+  GetNumberOfLines() const;
 
-  const LineType & GetLine(SizeValueType i) const;
+  const LineType &
+  GetLine(SizeValueType i) const;
 
-  LineType & GetLine(SizeValueType i);
+  LineType &
+  GetLine(SizeValueType i);
 
   /**
    * Returns the number of pixels contained in the object.
@@ -145,41 +157,50 @@ public:
    * there is no duplication in the line container. One way to
    * ensure this (at a cost) is to call the Optimize method.
    */
-  SizeValueType Size() const;
+  SizeValueType
+  Size() const;
 
   /**
    * Returns true if there no line in the container (and thus no pixel in
    * the object.
    */
-  bool Empty() const;
+  bool
+  Empty() const;
 
-  void Clear();
+  void
+  Clear();
 
   /**
    * Get the index of the ith pixel associated with the object.
    * Valid indices are from 0 to LabelObject->GetSize() - 1.
    */
-  IndexType GetIndex(SizeValueType i) const;
+  IndexType
+  GetIndex(SizeValueType i) const;
 
   /** Copy the lines of another node to this one */
-  template< typename TSourceLabelObject >
-  void CopyLinesFrom(const TSourceLabelObject *src);
+  template <typename TSourceLabelObject>
+  void
+  CopyLinesFrom(const TSourceLabelObject * src);
 
   /** Copy the label and the attributes of another node to this one */
-  template< typename TSourceLabelObject >
-  void CopyAttributesFrom(const TSourceLabelObject *src);
+  template <typename TSourceLabelObject>
+  void
+  CopyAttributesFrom(const TSourceLabelObject * src);
 
   /** Copy the lines, the label and the attributes from another node. */
-  template< typename TSourceLabelObject >
-  void CopyAllFrom(const TSourceLabelObject *src);
+  template <typename TSourceLabelObject>
+  void
+  CopyAllFrom(const TSourceLabelObject * src);
 
   /** Reorder the lines, merge the touching lines and ensure that no
    * pixel is covered by two lines
    */
-  void Optimize();
+  void
+  Optimize();
 
   /** Shift the object position */
-  void Shift( OffsetType offset );
+  void
+  Shift(OffsetType offset);
 
   /** \class ConstLineIterator
    * \brief A forward iterator over the lines of a LabelObject
@@ -188,10 +209,9 @@ public:
   class ConstLineIterator
   {
   public:
-
     ConstLineIterator() = default;
 
-    ConstLineIterator(const Self *lo)
+    ConstLineIterator(const Self * lo)
     {
       m_Begin = lo->m_LineContainer.begin();
       m_End = lo->m_LineContainer.end();
@@ -205,7 +225,8 @@ public:
       m_End = iter.m_End;
     }
 
-    ConstLineIterator & operator=(const ConstLineIterator & iter)
+    ConstLineIterator &
+    operator=(const ConstLineIterator & iter)
     {
       m_Iterator = iter.m_Iterator;
       m_Begin = iter.m_Begin;
@@ -213,46 +234,53 @@ public:
       return *this;
     }
 
-    const LineType & GetLine() const
+    const LineType &
+    GetLine() const
     {
       return *m_Iterator;
     }
 
-    ConstLineIterator operator++(int)
+    ConstLineIterator
+    operator++(int)
     {
       ConstLineIterator tmp = *this;
       ++(*this);
       return tmp;
     }
 
-    ConstLineIterator & operator++()
+    ConstLineIterator &
+    operator++()
     {
       ++m_Iterator;
       return *this;
     }
 
-  bool operator==(const ConstLineIterator & iter) const
+    bool
+    operator==(const ConstLineIterator & iter) const
     {
-    return m_Iterator == iter.m_Iterator && m_Begin == iter.m_Begin && m_End == iter.m_End;
+      return m_Iterator == iter.m_Iterator && m_Begin == iter.m_Begin && m_End == iter.m_End;
     }
 
-  bool operator!=(const ConstLineIterator & iter) const
+    bool
+    operator!=(const ConstLineIterator & iter) const
     {
-    return !( *this == iter );
+      return !(*this == iter);
     }
 
-  void GoToBegin()
+    void
+    GoToBegin()
     {
       m_Iterator = m_Begin;
     }
 
-    bool IsAtEnd() const
+    bool
+    IsAtEnd() const
     {
       return m_Iterator == m_End;
     }
 
   private:
-    using LineContainerType = typename std::deque< LineType >;
+    using LineContainerType = typename std::deque<LineType>;
     using InternalIteratorType = typename LineContainerType::const_iterator;
     InternalIteratorType m_Iterator;
     InternalIteratorType m_Begin;
@@ -266,16 +294,15 @@ public:
   class ConstIndexIterator
   {
   public:
+    ConstIndexIterator()
+      : m_Iterator()
+      , m_Begin()
+      , m_End()
+    {
+      m_Index.Fill(0);
+    }
 
-    ConstIndexIterator():
-      m_Iterator(),
-      m_Begin(),
-      m_End()
-        {
-        m_Index.Fill(0);
-        }
-
-    ConstIndexIterator(const Self *lo)
+    ConstIndexIterator(const Self * lo)
     {
       m_Begin = lo->m_LineContainer.begin();
       m_End = lo->m_LineContainer.end();
@@ -290,7 +317,8 @@ public:
       m_End = iter.m_End;
     }
 
-    ConstIndexIterator & operator=(const ConstIndexIterator & iter)
+    ConstIndexIterator &
+    operator=(const ConstIndexIterator & iter)
     {
       m_Iterator = iter.m_Iterator;
       m_Index = iter.m_Index;
@@ -299,67 +327,74 @@ public:
       return *this;
     }
 
-    const IndexType & GetIndex() const
+    const IndexType &
+    GetIndex() const
     {
       return m_Index;
     }
 
-    ConstIndexIterator & operator++()
+    ConstIndexIterator &
+    operator++()
     {
       m_Index[0]++;
-      if( m_Index[0] >= m_Iterator->GetIndex()[0] + (OffsetValueType)m_Iterator->GetLength() )
-        {
+      if (m_Index[0] >= m_Iterator->GetIndex()[0] + (OffsetValueType)m_Iterator->GetLength())
+      {
         // we've reached the end of the line - go to the next one
         ++m_Iterator;
         NextValidLine();
-        }
+      }
       return *this;
     }
 
-    ConstIndexIterator operator++(int)
+    ConstIndexIterator
+    operator++(int)
     {
       ConstIndexIterator tmp = *this;
       ++(*this);
       return tmp;
     }
 
-    bool operator==(const ConstIndexIterator & iter) const
+    bool
+    operator==(const ConstIndexIterator & iter) const
     {
       return m_Index == iter.m_Index && m_Iterator == iter.m_Iterator && m_Begin == iter.m_Begin && m_End == iter.m_End;
     }
 
-    bool operator!=(const ConstIndexIterator & iter) const
+    bool
+    operator!=(const ConstIndexIterator & iter) const
     {
-      return !( *this == iter );
+      return !(*this == iter);
     }
 
-    void GoToBegin()
+    void
+    GoToBegin()
     {
       m_Iterator = m_Begin;
       m_Index.Fill(0);
       NextValidLine();
     }
 
-    bool IsAtEnd() const
+    bool
+    IsAtEnd() const
     {
       return m_Iterator == m_End;
     }
 
   private:
-
-    using LineContainerType = typename std::deque< LineType >;
+    using LineContainerType = typename std::deque<LineType>;
     using InternalIteratorType = typename LineContainerType::const_iterator;
-    void NextValidLine()
+    void
+    NextValidLine()
     {
       // search for the next valid position
-      while( m_Iterator != m_End && m_Iterator->GetLength() == 0 )
-        {
+      while (m_Iterator != m_End && m_Iterator->GetLength() == 0)
+      {
         ++m_Iterator;
-        }
-      if( m_Iterator != m_End )
-        {
+      }
+      if (m_Iterator != m_End)
+      {
         m_Index = m_Iterator->GetIndex();
-        }
+      }
     }
 
     InternalIteratorType m_Iterator;
@@ -370,10 +405,11 @@ public:
 
 protected:
   LabelObject();
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  using LineContainerType = typename std::deque< LineType >;
+  using LineContainerType = typename std::deque<LineType>;
 
   LineContainerType m_LineContainer;
   LabelType         m_Label;
@@ -381,7 +417,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelObject.hxx"
+#  include "itkLabelObject.hxx"
 #endif
 
 #endif

@@ -24,9 +24,10 @@
 
 #include <iostream>
 
-namespace itkMeshTestTypes {
-  // this namespace helps to isolate the types defined blow
-  // when all the code is included in the test driver.
+namespace itkMeshTestTypes
+{
+// this namespace helps to isolate the types defined blow
+// when all the code is included in the test driver.
 
 /**
  * Some type alias to make things easier.
@@ -45,7 +46,7 @@ using CellTraits = MeshType::CellTraits;
  * use the defaults for the other parameters.  Note that a cell's template
  * parameters must match those of the mesh into which it is inserted.
  */
-using CellInterfaceType = itk::CellInterface< int, CellTraits >;
+using CellInterfaceType = itk::CellInterface<int, CellTraits>;
 using LineCellType = itk::LineCell<CellInterfaceType>;
 using TetraCellType = itk::TetrahedronCell<CellInterfaceType>;
 using HexaCellType = itk::HexahedronCell<CellInterfaceType>;
@@ -77,11 +78,11 @@ class CountClass
 {
 public:
   CountClass()
-    {
-      m_Tetra =0;
-      m_QuadraticEdgeCell =0;
-      m_QuadraticTriangleCellType =0;
-    }
+  {
+    m_Tetra = 0;
+    m_QuadraticEdgeCell = 0;
+    m_QuadraticTriangleCellType = 0;
+  }
   int m_Tetra;
   int m_QuadraticEdgeCell;
   int m_QuadraticTriangleCellType;
@@ -93,52 +94,47 @@ public:
 class VisitCells
 {
 public:
-  void SetCountClass(CountClass* c)
-    {
-      m_CountClass = c;
-    }
+  void
+  SetCountClass(CountClass * c)
+  {
+    m_CountClass = c;
+  }
 
-  void Visit(unsigned long , TetraCellType*)
-    {
-      m_CountClass->m_Tetra++;
-    }
-  void Visit(unsigned long , QuadraticEdgeCellType*)
-    {
-      m_CountClass->m_QuadraticEdgeCell++;
-    }
+  void
+  Visit(unsigned long, TetraCellType *)
+  {
+    m_CountClass->m_Tetra++;
+  }
+  void
+  Visit(unsigned long, QuadraticEdgeCellType *)
+  {
+    m_CountClass->m_QuadraticEdgeCell++;
+  }
 
-  void Visit(unsigned long , QuadraticTriangleCellType*)
-    {
-      m_CountClass->m_QuadraticTriangleCellType++;
-    }
+  void
+  Visit(unsigned long, QuadraticTriangleCellType *)
+  {
+    m_CountClass->m_QuadraticTriangleCellType++;
+  }
   virtual ~VisitCells() = default;
 
-  CountClass* m_CountClass;
-  VisitCells()
-  {
-    m_CountClass = nullptr;
-  }
+  CountClass * m_CountClass;
+  VisitCells() { m_CountClass = nullptr; }
 };
 
-using TetraCellVisitor = itk::CellInterfaceVisitorImplementation<
-  int, MeshType::CellTraits,
-  TetraCellType,
-  VisitCells>;
+using TetraCellVisitor = itk::CellInterfaceVisitorImplementation<int, MeshType::CellTraits, TetraCellType, VisitCells>;
 
-using QuadraticEdgeCellVisitor = itk::CellInterfaceVisitorImplementation<
-  int, MeshType::CellTraits,
-  QuadraticEdgeCellType,
-  VisitCells>;
+using QuadraticEdgeCellVisitor =
+  itk::CellInterfaceVisitorImplementation<int, MeshType::CellTraits, QuadraticEdgeCellType, VisitCells>;
 
-using QuadraticTriangleCellVisitor = itk::CellInterfaceVisitorImplementation<
-  int, MeshType::CellTraits,
-  QuadraticTriangleCellType,
-  VisitCells>;
+using QuadraticTriangleCellVisitor =
+  itk::CellInterfaceVisitorImplementation<int, MeshType::CellTraits, QuadraticTriangleCellType, VisitCells>;
 
-}
+} // namespace itkMeshTestTypes
 
 
-int itkMeshTest(int, char* [] )
+int
+itkMeshTest(int, char *[])
 {
 
   using namespace itkMeshTestTypes; // open the namespace here.
@@ -150,19 +146,18 @@ int itkMeshTest(int, char* [] )
   /**
    * Define the 3d geometric positions for 8 points in a cube.
    */
-  MeshType::CoordRepType testPointCoords[8][3]
-    = { {0,0,0}, {9,0,0}, {9,0,9}, {0,0,9},
-        {0,9,0}, {9,9,0}, {9,9,9}, {0,9,9} };
+  MeshType::CoordRepType testPointCoords[8][3] = { { 0, 0, 0 }, { 9, 0, 0 }, { 9, 0, 9 }, { 0, 0, 9 },
+                                                   { 0, 9, 0 }, { 9, 9, 0 }, { 9, 9, 9 }, { 0, 9, 9 } };
 
   /**
    * List the points that the tetrahedron will use from the mesh.
    */
-  MeshType::PointIdentifier tetraPoints[4] = {0,1,2,4};
+  MeshType::PointIdentifier tetraPoints[4] = { 0, 1, 2, 4 };
 
   /**
    * List the points that the hexahedron will use from the mesh.
    */
-  MeshType::PointIdentifier hexaPoints[8] = {0,1,2,3,4,5,6,7};
+  MeshType::PointIdentifier hexaPoints[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
 
 
   /**
@@ -177,15 +172,15 @@ int itkMeshTest(int, char* [] )
    * Note that the constructor for Point is public, and takes an array
    * of coordinates for the point.
    */
-  for(int i=0; i < 8; ++i)
-    {
+  for (int i = 0; i < 8; ++i)
+  {
     mesh->SetPoint(i, PointType(testPointCoords[i]));
-    }
+  }
 
   /**
    * Specify the method used for allocating cells
    */
-   mesh->SetCellsAllocationMethod( itk::MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell );
+  mesh->SetCellsAllocationMethod(itk::MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell);
 
   /**
    * Create the test cell. Note that testCell is a generic auto
@@ -193,7 +188,7 @@ int itkMeshTest(int, char* [] )
    * different types of cells.
    */
   CellAutoPointer testCell;
-  testCell.TakeOwnership(  new TetraCellType ); // polymorphism
+  testCell.TakeOwnership(new TetraCellType); // polymorphism
 
   /**
    * Assign the points to the tetrahedron through their identifiers.
@@ -204,93 +199,92 @@ int itkMeshTest(int, char* [] )
    * Add the test cell to the mesh.
    * mesh->SetCell(cellId, cell)
    */
-  mesh->SetCell(0, testCell ); // Transfer ownership to the mesh
+  mesh->SetCell(0, testCell); // Transfer ownership to the mesh
   std::cout << "TetrahedronCell pointer = " << (void const *)testCell.GetPointer() << std::endl;
   std::cout << "TetrahedronCell Owner   = " << testCell.IsOwner() << std::endl;
 
   /**
    * Create another test cell.
    */
-  testCell.TakeOwnership( new HexaCellType ); // polymorphism
+  testCell.TakeOwnership(new HexaCellType); // polymorphism
   testCell->SetPointIds(hexaPoints);
-  mesh->SetCell(1, testCell ); // Internally transfers ownership to the mesh
+  mesh->SetCell(1, testCell); // Internally transfers ownership to the mesh
 
 
   CellAutoPointer hexaCell;
-  if(  mesh->GetCell(1, hexaCell) )
-    {
+  if (mesh->GetCell(1, hexaCell))
+  {
     std::cout << "Hexahedron cell recovered" << std::endl;
     std::cout << "GetNameOfClass()    = " << hexaCell->GetNameOfClass() << std::endl;
     std::cout << "GetNumberOfPoints() = " << hexaCell->GetNumberOfPoints() << std::endl;
-    }
+  }
   else
-    {
+  {
     std::cout << "Failure: hexahedron cell was not recovered" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   CellAutoPointer cellPointer0;
   /**
    * Try getting one of the hexahedron's faces.
    */
-  const bool faceExists = mesh->GetCellBoundaryFeature(
-                2,    // Topological dimension of boundary.
-                1,    // CellIdentifier.
-                0,    // CellFeatureIdentifier
-                cellPointer0 ); // CellPointer to return the result
+  const bool faceExists = mesh->GetCellBoundaryFeature(2,             // Topological dimension of boundary.
+                                                       1,             // CellIdentifier.
+                                                       0,             // CellFeatureIdentifier
+                                                       cellPointer0); // CellPointer to return the result
 
-  std::cout << typeid( cellPointer0 ).name() << std::endl;
-  std::cout << typeid( cellPointer0 ).name() << std::endl;
+  std::cout << typeid(cellPointer0).name() << std::endl;
+  std::cout << typeid(cellPointer0).name() << std::endl;
   std::cout << "GetCellBoundaryFeature() return AutoPointer owner = " << cellPointer0.IsOwner() << std::endl;
 
   HexaCellType::FaceType * quad;
   try
-    {
-    quad = dynamic_cast<HexaCellType::FaceType *>(  cellPointer0.GetPointer() );
+  {
+    quad = dynamic_cast<HexaCellType::FaceType *>(cellPointer0.GetPointer());
     std::cout << "Quad face recovered " << std::endl;
     std::cout << quad->GetNameOfClass() << std::endl;
-    }
-  catch(...)
-    {
+  }
+  catch (...)
+  {
     std::cout << "CellPointer cannot be down-cast to a QuadCellType" << std::endl;
     quad = nullptr;
-    }
-  if( quad )
-    {
+  }
+  if (quad)
+  {
     std::cout << "CellPointer was safely down-casted to a QuadCellType" << std::endl;
-    }
+  }
 
-  if( faceExists )
-    {
+  if (faceExists)
+  {
     std::cout << cellPointer0->GetNumberOfPoints() << std::endl;
     std::cout << cellPointer0->GetNameOfClass() << std::endl;
-    }
+  }
   else
-    {
+  {
     std::cout << "Hexahedron face couldn't be extracted " << std::endl;
-    }
+  }
 
   /**
    * Allocate an explicit boundary line.
    */
   CellAutoPointer boundLine;
-  boundLine.TakeOwnership(  new LineCellType );
+  boundLine.TakeOwnership(new LineCellType);
 
   /**
    * We don't want the hexahedron to consider the tetrahedron a neighbor
    * across its first edge, so don't add the tetrahedron as a using cell.
    */
   boundLine->AddUsingCell(1);
-  boundLine->SetPointId(0,0);
-  boundLine->SetPointId(1,1);
+  boundLine->SetPointId(0, 0);
+  boundLine->SetPointId(1, 1);
 
-  mesh->SetCell( 2,             // New ID for new cell
-                 boundLine);    // New cell being added
+  mesh->SetCell(2,          // New ID for new cell
+                boundLine); // New cell being added
 
   mesh->SetBoundaryAssignment(1,  // Topological dimension.
-            1,                    // CellIdentifier
-            0,                    // CellFeatureIdentifier
-            2);                   // Cell ID of boundary
+                              1,  // CellIdentifier
+                              0,  // CellFeatureIdentifier
+                              2); // Cell ID of boundary
   std::cout << "boundLine.IsOwner() = " << boundLine.IsOwner() << std::endl;
   std::cout << "boundLine.GetPointer() = " << boundLine.GetPointer() << std::endl;
 
@@ -299,26 +293,25 @@ int itkMeshTest(int, char* [] )
    * This should be the test tetrahedron, except that we have done an
    * explicit assignment which removes this.
    */
-  std::set<MeshType::CellIdentifier>  neighborSet;
+  std::set<MeshType::CellIdentifier>           neighborSet;
   std::set<MeshType::CellIdentifier>::iterator cell;
-  mesh->GetCellBoundaryFeatureNeighbors(
-    1,              // Topological dimension of feature.
-    1,              // CellIdentifier
-    0,              // CellFeatureIdentifier
-    &neighborSet); // Where to put result.
+  mesh->GetCellBoundaryFeatureNeighbors(1,             // Topological dimension of feature.
+                                        1,             // CellIdentifier
+                                        0,             // CellFeatureIdentifier
+                                        &neighborSet); // Where to put result.
 
   std::cout << "Neighbors (hex edge 0):" << std::endl;
-  for(cell = neighborSet.begin(); cell != neighborSet.end(); ++cell)
-    {
+  for (cell = neighborSet.begin(); cell != neighborSet.end(); ++cell)
+  {
     std::cout << "Id " << *cell << ": ";
     CellAutoPointer cellPointer;
 
-    if( mesh->GetCell( *cell, cellPointer ) )
-      {
+    if (mesh->GetCell(*cell, cellPointer))
+    {
       std::cout << cellPointer->GetNameOfClass();
-      }
-    std::cout << std::endl;
     }
+    std::cout << std::endl;
+  }
 
   /**
    * Try querying the for the number of neighbors the hexahedron has
@@ -327,13 +320,12 @@ int itkMeshTest(int, char* [] )
    * triangles that bound the 3D cells haven't been added, so they
    * don't show up as additional neighbors.)
    */
-  int numberOfNeighbors = mesh->GetCellBoundaryFeatureNeighbors(
-    1,              // Topological dimension of feature.
-    1,              // CellIdentifier
-    1,              // CellFeatureIdentifier
-    nullptr);          // We don't want the neighbors themselves (yet)
-  std::cout << "Number of neighbors (hex edge 1): "
-            << numberOfNeighbors << ". " << std::endl;
+  int numberOfNeighbors =
+    mesh->GetCellBoundaryFeatureNeighbors(1,        // Topological dimension of feature.
+                                          1,        // CellIdentifier
+                                          1,        // CellFeatureIdentifier
+                                          nullptr); // We don't want the neighbors themselves (yet)
+  std::cout << "Number of neighbors (hex edge 1): " << numberOfNeighbors << ". " << std::endl;
 
   /**
    * Try getting the hexahedron's neighbor through its second edge.
@@ -343,24 +335,23 @@ int itkMeshTest(int, char* [] )
    * the two points defining the edge and are therefore considered
    * neighbors.)
    */
-  mesh->GetCellBoundaryFeatureNeighbors(
-    1,              // Topological dimension of feature.
-    1,              // CellIdentifier
-    1,              // CellFeatureIdentifier
-    &neighborSet);  // Where to put result.
+  mesh->GetCellBoundaryFeatureNeighbors(1,             // Topological dimension of feature.
+                                        1,             // CellIdentifier
+                                        1,             // CellFeatureIdentifier
+                                        &neighborSet); // Where to put result.
 
   std::cout << "Neighbors (hex edge 1):" << std::endl;
-  for(cell = neighborSet.begin(); cell != neighborSet.end(); ++cell)
-    {
+  for (cell = neighborSet.begin(); cell != neighborSet.end(); ++cell)
+  {
     std::cout << "Id " << *cell << ": ";
     CellAutoPointer cellPointer;
 
-    if( mesh->GetCell(*cell, cellPointer) )
-      {
+    if (mesh->GetCell(*cell, cellPointer))
+    {
       std::cout << cellPointer->GetNameOfClass();
-      }
-    std::cout << std::endl;
     }
+    std::cout << std::endl;
+  }
 
 
   /**
@@ -368,24 +359,23 @@ int itkMeshTest(int, char* [] )
    * This should be the test hexahedron. The boundaries are implicit
    * as in the previous example.
    */
-  mesh->GetCellBoundaryFeatureNeighbors(
-    1,              // Topological dimension of feature.
-    0,              // CellIdentifier
-    3,              // CellFeatureIdentifier
-    &neighborSet); // Where to put result.
+  mesh->GetCellBoundaryFeatureNeighbors(1,             // Topological dimension of feature.
+                                        0,             // CellIdentifier
+                                        3,             // CellFeatureIdentifier
+                                        &neighborSet); // Where to put result.
 
   std::cout << "Neighbors (tet edge 3):" << std::endl;
-  for(cell = neighborSet.begin(); cell != neighborSet.end(); ++cell)
-    {
+  for (cell = neighborSet.begin(); cell != neighborSet.end(); ++cell)
+  {
     std::cout << "Id " << *cell << ": ";
     CellAutoPointer cellPointer;
 
-    if( mesh->GetCell(*cell, cellPointer) )
-      {
+    if (mesh->GetCell(*cell, cellPointer))
+    {
       std::cout << cellPointer->GetNameOfClass();
-      }
-    std::cout << std::endl;
     }
+    std::cout << std::endl;
+  }
 
   /**
    * Create a higher order  test cell.
@@ -400,64 +390,63 @@ int itkMeshTest(int, char* [] )
     mesh->GetCell(2, cellToDelete);
     cellToDelete.TakeOwnership();
 
-    testCell.TakeOwnership( new QuadraticEdgeCellType ); // polymorphism
+    testCell.TakeOwnership(new QuadraticEdgeCellType); // polymorphism
 
-    MeshType::PointIdentifier quadraticEdgePoints[3] = {0,1,2};
+    MeshType::PointIdentifier quadraticEdgePoints[3] = { 0, 1, 2 };
     testCell->SetPointIds(quadraticEdgePoints);
-    mesh->SetCell(2, testCell ); // Internally transfers ownership to the mesh
+    mesh->SetCell(2, testCell); // Internally transfers ownership to the mesh
 
     CellAutoPointer quadraticdEdgeCell;
-    if(  mesh->GetCell(2, quadraticdEdgeCell) )
-      {
+    if (mesh->GetCell(2, quadraticdEdgeCell))
+    {
       std::cout << "Quadratic Edge cell recovered" << std::endl;
       std::cout << "GetNameOfClass()    = " << quadraticdEdgeCell->GetNameOfClass() << std::endl;
       std::cout << "GetNumberOfPoints() = " << quadraticdEdgeCell->GetNumberOfPoints() << std::endl;
-      }
+    }
     else
-      {
+    {
       std::cout << "Failure: QuadraticEdge cell was not recovered" << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
     CellAutoPointer vertexPointer;
     /**
      * Try getting one of the QuadraticEdge's vertices.
      */
-    const bool vertexExists = mesh->GetCellBoundaryFeature(
-                  0,    // Topological dimension of boundary.
-                  2,    // CellIdentifier.
-                  0,    // CellFeatureIdentifier
-                  vertexPointer ); // CellPointer to return the result
+    const bool vertexExists = mesh->GetCellBoundaryFeature(0,              // Topological dimension of boundary.
+                                                           2,              // CellIdentifier.
+                                                           0,              // CellFeatureIdentifier
+                                                           vertexPointer); // CellPointer to return the result
 
-    std::cout << typeid( vertexPointer ).name() << std::endl;
-    std::cout << typeid( vertexPointer ).name() << std::endl;
+    std::cout << typeid(vertexPointer).name() << std::endl;
+    std::cout << typeid(vertexPointer).name() << std::endl;
     std::cout << "GetCellBoundaryFeature() return AutoPointer owner = " << vertexPointer.IsOwner() << std::endl;
 
     QuadraticEdgeCellType::VertexType * vertex;
     try
-      {
-      vertex = dynamic_cast<QuadraticEdgeCellType::VertexType *>(  vertexPointer.GetPointer() );
+    {
+      vertex = dynamic_cast<QuadraticEdgeCellType::VertexType *>(vertexPointer.GetPointer());
       std::cout << "Vertex from the QuadraticEdge recovered " << std::endl;
       std::cout << vertex->GetNameOfClass() << std::endl;
-      }
-    catch(...)
-      {
+    }
+    catch (...)
+    {
       std::cout << "CellPointer cannot be down-cast to a VertexCellType" << std::endl;
       vertex = nullptr;
-      }
-    if( vertex )
-      {
+    }
+    if (vertex)
+    {
       std::cout << "CellPointer was safely down-casted to a VertexCellType" << std::endl;
-      }
-    if( vertexExists )
-      {
+    }
+    if (vertexExists)
+    {
       std::cout << "Vertex number of points = " << vertexPointer->GetNumberOfPoints() << std::endl;
       std::cout << "Vertex name of class    = " << vertexPointer->GetNameOfClass() << std::endl;
-      }
+    }
     else
-      {
+    {
       std::cout << "Vertex of the QuadraticEdge couldn't be extracted " << std::endl;
-      }
+    }
   } // end of local scope for this part of the test.
 
 
@@ -476,25 +465,25 @@ int itkMeshTest(int, char* [] )
 
     // Now we can construct a new cell and overwrite the id
     testCell.TakeOwnership(new QuadraticTriangleCellType); // polymorphism;
-    MeshType::PointIdentifier quadraticTrianglePoints[6] = {0,1,2,3,4,5};
+    MeshType::PointIdentifier quadraticTrianglePoints[6] = { 0, 1, 2, 3, 4, 5 };
     testCell->SetPointIds(quadraticTrianglePoints);
-    mesh->SetCell(2, testCell ); // Internally transfers ownership to the mesh
-    std::cout << "QuadraticTriangleCell pointer = " << (void*)testCell.GetPointer() << std::endl;
+    mesh->SetCell(2, testCell); // Internally transfers ownership to the mesh
+    std::cout << "QuadraticTriangleCell pointer = " << (void *)testCell.GetPointer() << std::endl;
     std::cout << "QuadraticTriangleCell Owner   = " << testCell.IsOwner() << std::endl;
 
     CellAutoPointer quadraticdTriangleCell;
 
-    if(  mesh->GetCell(2, quadraticdTriangleCell) )
-      {
+    if (mesh->GetCell(2, quadraticdTriangleCell))
+    {
       std::cout << "Quadratic Triangle cell recovered" << std::endl;
       std::cout << "GetNameOfClass()    = " << quadraticdTriangleCell->GetNameOfClass() << std::endl;
       std::cout << "GetNumberOfPoints() = " << quadraticdTriangleCell->GetNumberOfPoints() << std::endl;
-      }
+    }
     else
-      {
+    {
       std::cout << "Failure: QuadraticTriangle cell was not recovered" << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
 
     CellAutoPointer vertexPointer;
@@ -502,95 +491,93 @@ int itkMeshTest(int, char* [] )
     /**
      * Try getting one of the QuadraticTriangle's vertices.
      */
-    const bool vertexExists = mesh->GetCellBoundaryFeature(
-                  0,    // Topological dimension of boundary.
-                  2,    // CellIdentifier.
-                  0,    // CellFeatureIdentifier
-                  vertexPointer ); // CellPointer to return the result
+    const bool vertexExists = mesh->GetCellBoundaryFeature(0,              // Topological dimension of boundary.
+                                                           2,              // CellIdentifier.
+                                                           0,              // CellFeatureIdentifier
+                                                           vertexPointer); // CellPointer to return the result
 
-    std::cout << typeid( vertexPointer ).name() << std::endl;
-    std::cout << typeid( vertexPointer ).name() << std::endl;
+    std::cout << typeid(vertexPointer).name() << std::endl;
+    std::cout << typeid(vertexPointer).name() << std::endl;
     std::cout << "GetCellBoundaryFeature() return AutoPointer owner = " << vertexPointer.IsOwner() << std::endl;
 
     QuadraticTriangleCellType::VertexType * vertex;
     try
-      {
-      vertex = dynamic_cast<QuadraticTriangleCellType::VertexType *>(  vertexPointer.GetPointer() );
+    {
+      vertex = dynamic_cast<QuadraticTriangleCellType::VertexType *>(vertexPointer.GetPointer());
       std::cout << "Vertex from the QuadraticTriangle recovered " << std::endl;
       std::cout << vertex->GetNameOfClass() << std::endl;
-      }
-    catch(...)
-      {
+    }
+    catch (...)
+    {
       std::cout << "CellPointer cannot be down-cast to a VertexCellType" << std::endl;
       vertex = nullptr;
-      }
-    if( vertex )
-      {
+    }
+    if (vertex)
+    {
       std::cout << "CellPointer was safely down-casted to a VertexCellType" << std::endl;
-      }
-    if( vertexExists )
-      {
+    }
+    if (vertexExists)
+    {
       std::cout << "Vertex number of points = " << vertexPointer->GetNumberOfPoints() << std::endl;
       std::cout << "Vertex name of class    = " << vertexPointer->GetNameOfClass() << std::endl;
-      }
+    }
     else
-      {
+    {
       std::cout << "Vertex of the QuadraticTriangle couldn't be extracted " << std::endl;
-      }
+    }
 
     /**
      * Try getting one of the QuadraticTriangle's edges.
      */
     CellAutoPointer edgePointer;
-    const bool edgeExists = mesh->GetCellBoundaryFeature(
-                  1,    // Topological dimension of boundary.
-                  2,    // CellIdentifier.
-                  0,    // CellFeatureIdentifier
-                  edgePointer ); // CellPointer to return the result
+    const bool      edgeExists = mesh->GetCellBoundaryFeature(1,            // Topological dimension of boundary.
+                                                         2,            // CellIdentifier.
+                                                         0,            // CellFeatureIdentifier
+                                                         edgePointer); // CellPointer to return the result
 
-    std::cout << typeid( edgePointer ).name() << std::endl;
-    std::cout << typeid( edgePointer ).name() << std::endl;
+    std::cout << typeid(edgePointer).name() << std::endl;
+    std::cout << typeid(edgePointer).name() << std::endl;
     std::cout << "GetCellBoundaryFeature() return AutoPointer owner = " << edgePointer.IsOwner() << std::endl;
 
     QuadraticTriangleCellType::EdgeType * edge;
     try
-      {
-      edge = dynamic_cast<QuadraticTriangleCellType::EdgeType *>(  edgePointer.GetPointer() );
+    {
+      edge = dynamic_cast<QuadraticTriangleCellType::EdgeType *>(edgePointer.GetPointer());
       std::cout << "Vertex from the QuadraticTriangle recovered " << std::endl;
       std::cout << edge->GetNameOfClass() << std::endl;
-      }
-    catch(...)
-      {
+    }
+    catch (...)
+    {
       std::cout << "CellPointer cannot be down-cast to a VertexCellType" << std::endl;
       edge = nullptr;
-      }
-    if( edge )
-      {
+    }
+    if (edge)
+    {
       std::cout << "CellPointer was safely down-casted to a VertexCellType" << std::endl;
-      }
-    if( edgeExists )
-      {
+    }
+    if (edgeExists)
+    {
       std::cout << "Edge number of points = " << edgePointer->GetNumberOfPoints() << std::endl;
       std::cout << "Edge name of class    = " << edgePointer->GetNameOfClass() << std::endl;
 
       // Evaluate The Shape functions for a particular parametric point
       CellType::ParametricCoordArrayType parametricCoordinates(1);
-      CellType::ShapeFunctionsArrayType  weights( edgePointer->GetNumberOfPoints() );
+      CellType::ShapeFunctionsArrayType  weights(edgePointer->GetNumberOfPoints());
       parametricCoordinates[0] = 0.25;
-      edgePointer->EvaluateShapeFunctions( parametricCoordinates, weights );
+      edgePointer->EvaluateShapeFunctions(parametricCoordinates, weights);
       std::cout << "Shape Function weights = " << weights << std::endl;
-      }
+    }
     else
-      {
+    {
       std::cerr << "Edge of the QuadraticTriangle couldn't be extracted " << std::endl;
-      }
+    }
   } // end of local scope for this part of the test.
 
   /**
    * Compute the bounding box of the mesh
    */
-  using BoundingBox = itk::BoundingBox<MeshType::PointIdentifier,MeshType::PointDimension,
-    MeshType::CoordRepType,MeshType::PointsContainer>;
+  using BoundingBox = itk::
+    BoundingBox<MeshType::PointIdentifier, MeshType::PointDimension, MeshType::CoordRepType, MeshType::PointsContainer>;
 
   BoundingBox::Pointer bbox(BoundingBox::New());
   bbox->SetPoints(mesh->GetPoints());
@@ -599,8 +586,7 @@ int itkMeshTest(int, char* [] )
   /**
    * Set up some visitors
    */
-  MeshType::CellType::MultiVisitor::Pointer mv =
-    MeshType::CellType::MultiVisitor::New();
+  MeshType::CellType::MultiVisitor::Pointer mv = MeshType::CellType::MultiVisitor::New();
   /**
    * Create a class to hold the counts of each cell type
    */
@@ -634,19 +620,19 @@ int itkMeshTest(int, char* [] )
 
   // Exercising the Graft method
   MeshType::Pointer newMesh = MeshType::New();
-  newMesh->Graft( mesh );
+  newMesh->Graft(mesh);
 
-  if( newMesh->GetNumberOfPoints() != mesh->GetNumberOfPoints() )
-    {
+  if (newMesh->GetNumberOfPoints() != mesh->GetNumberOfPoints())
+  {
     std::cerr << "Graft failed !, different number of points" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( newMesh->GetNumberOfCells() != mesh->GetNumberOfCells() )
-    {
+  if (newMesh->GetNumberOfCells() != mesh->GetNumberOfCells())
+  {
     std::cerr << "Graft failed !, different number of cells" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   std::cout << newMesh << std::endl;

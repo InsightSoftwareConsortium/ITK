@@ -22,13 +22,14 @@
 
 // Specific ImageIO test
 
-int itkNrrdVectorImageReadTest( int ac, char* av[] )
+int
+itkNrrdVectorImageReadTest(int ac, char * av[])
 {
-  if(ac < 1)
-    {
+  if (ac < 1)
+  {
     std::cerr << "Usage: " << av[0] << " Input\n";
     return EXIT_FAILURE;
-    }
+  }
 
   using PixelType = itk::Vector<float, 4>;
   using myImage = itk::Image<PixelType, 3>;
@@ -37,37 +38,37 @@ int itkNrrdVectorImageReadTest( int ac, char* av[] )
 
   ReaderType::Pointer reader = ReaderType::New();
 
-  reader->SetImageIO( itk::NrrdImageIO::New() );
+  reader->SetImageIO(itk::NrrdImageIO::New());
 
   reader->SetFileName(av[1]);
 
   try
-    {
+  {
     reader->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "exception in file reader " << std::endl;
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  myImage::Pointer image = reader->GetOutput();
+  myImage::Pointer   image = reader->GetOutput();
   myImage::IndexType coord;
-  PixelType sample;
+  PixelType          sample;
 
   // The test image has been constructed so that the vector coefficients
   // coincide with sample coordinates
-  double err = 0;
+  double       err = 0;
   unsigned int idx = 0;
-  for (unsigned int zi=0; zi<5; zi++)
-    {
+  for (unsigned int zi = 0; zi < 5; zi++)
+  {
     coord[2] = zi;
-    for (unsigned int yi=0; yi<5; yi++)
-      {
+    for (unsigned int yi = 0; yi < 5; yi++)
+    {
       coord[1] = yi;
-      for (unsigned int xi=0; xi<5; xi++)
-        {
+      for (unsigned int xi = 0; xi < 5; xi++)
+      {
         coord[0] = xi;
         sample = image->GetPixel(coord);
         err += std::fabs(sample[0] - coord[0]);
@@ -75,18 +76,17 @@ int itkNrrdVectorImageReadTest( int ac, char* av[] )
         err += std::fabs(sample[2] - coord[2]);
         err += std::fabs(sample[3] - idx);
         idx++;
-        }
       }
     }
+  }
 
   if (err)
-    {
+  {
     std::cout << "test FAILED because values not as expected\n";
     return EXIT_FAILURE;
-    }
+  }
   else
-    {
+  {
     return EXIT_SUCCESS;
-    }
-
+  }
 }

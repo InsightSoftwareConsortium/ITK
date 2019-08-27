@@ -25,36 +25,37 @@
 /** This test verifies that the direction cosines
  *  computed in itkDCMTKImageIO are orthogonal
  */
-int itkDCMTKImageIOOrthoDirTest(int ac, char* av[])
+int
+itkDCMTKImageIOOrthoDirTest(int ac, char * av[])
 {
 
-  if(ac < 2)
-    {
+  if (ac < 2)
+  {
     std::cerr << "Usage: " << av[0] << " DicomImage\n";
     return EXIT_FAILURE;
-    }
+  }
 
   using InputPixelType = short;
-  using InputImageType = itk::Image< InputPixelType, 3 >;
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using InputImageType = itk::Image<InputPixelType, 3>;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
   using ImageIOType = itk::DCMTKImageIO;
 
   ImageIOType::Pointer dcmImageIO = ImageIOType::New();
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( av[1] );
-  reader->SetImageIO( dcmImageIO );
+  reader->SetFileName(av[1]);
+  reader->SetImageIO(dcmImageIO);
 
   try
-    {
+  {
     reader->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "exception in file reader " << std::endl;
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   InputImageType::DirectionType directionCosines;
   directionCosines = reader->GetOutput()->GetDirection();
@@ -64,16 +65,15 @@ int itkDCMTKImageIOOrthoDirTest(int ac, char* av[])
   itk::Versor<itk::SpacePrecisionType> rotation;
 
   try
-    {
+  {
     rotation.Set(directionCosines);
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "exception setting matrix" << std::endl;
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
-
 }

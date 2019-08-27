@@ -31,68 +31,70 @@
 
 #include "itkIOCommon.h"
 
-enum GE_PANE_STRUCT {
-  GE_AXIAL   = 2,
+enum GE_PANE_STRUCT
+{
+  GE_AXIAL = 2,
   GE_SAGITTAL = 4,
   GE_CORONAL = 8
-  };
+};
 
-struct GEImageHeader {
+struct GEImageHeader
+{
   short int examNumber;
   short int seriesNumber;
   short int numberOfEchoes;
   short int echoNumber;
   short int imageNumber;
-  float sliceLocation;
-  float sliceThickness;
-  float sliceGap;
-  float TI;
-  float TE;
-  float TE2;
-  float TR;
+  float     sliceLocation;
+  float     sliceThickness;
+  float     sliceGap;
+  float     TI;
+  float     TE;
+  float     TE2;
+  float     TR;
   short int flipAngle;
-  int NEX;
-  float xFOV;
-  float yFOV;
-  float centerR;
-  float centerA;
-  float centerS;
-  float normR;
-  float normA;
-  float normS;
-  float tlhcR;
-  float tlhcA;
-  float tlhcS;
-  float trhcR;
-  float trhcA;
-  float trhcS;
-  float brhcR;
-  float brhcA;
-  float brhcS;
+  int       NEX;
+  float     xFOV;
+  float     yFOV;
+  float     centerR;
+  float     centerA;
+  float     centerS;
+  float     normR;
+  float     normA;
+  float     normS;
+  float     tlhcR;
+  float     tlhcA;
+  float     tlhcS;
+  float     trhcR;
+  float     trhcA;
+  float     trhcS;
+  float     brhcR;
+  float     brhcA;
+  float     brhcS;
 
   short int acqXsize;
   short int acqYsize;
   short int frequencyDir;
-  char scanner[16];
-  char pulseSequence[128]; //Needs to be at least 65 for seimens vision
-  char patientId[32];
-  char scanId[32];
-  char name[64];
-  char date[32];
+  char      scanner[16];
+  char      pulseSequence[128]; // Needs to be at least 65 for seimens vision
+  char      patientId[32];
+  char      scanId[32];
+  char      name[64];
+  char      date[32];
   short int imageXsize;
   short int imageYsize;
-  float imageXres;
-  float imageYres;
-  //itk::IOCommon::ValidAnalyzeOrientationFlags imagePlane;
-  //itk::IOCommon::ValidOriginFlags origin;
+  float     imageXres;
+  float     imageYres;
+  // itk::IOCommon::ValidAnalyzeOrientationFlags imagePlane;
+  // itk::IOCommon::ValidOriginFlags origin;
   itk::SpatialOrientation::ValidCoordinateOrientationFlags coordinateOrientation;
-  short int numberOfSlices;
-  short int offset;
-  char filename[itk::IOCommon::ITK_MAXPATHLEN + 1];
-  char hospital[35];
-  char modality[4];
-  short int imagesPerSlice;
-  short int turboFactor; //This is only relevant for the geADW image format, but
+  short int                                                numberOfSlices;
+  short int                                                offset;
+  char                                                     filename[itk::IOCommon::ITK_MAXPATHLEN + 1];
+  char                                                     hospital[35];
+  char                                                     modality[4];
+  short int                                                imagesPerSlice;
+  short int turboFactor; // This is only relevant for the geADW image format, but
                          // is put here for convenience
 };
 #endif

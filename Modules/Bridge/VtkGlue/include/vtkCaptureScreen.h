@@ -24,56 +24,57 @@
 #include "vtkWindowToImageFilter.h"
 #include "vtkRenderWindow.h"
 
-template < typename TImageWriter >
+template <typename TImageWriter>
 class vtkCaptureScreen
-  {
+{
 public:
   using ImageWriterType = TImageWriter;
 
-  vtkCaptureScreen( vtkRenderWindow* iRenderer ) : m_Renderer ( iRenderer )
-    {}
+  vtkCaptureScreen(vtkRenderWindow * iRenderer)
+    : m_Renderer(iRenderer)
+  {}
 
-  vtkCaptureScreen() : m_Renderer( nullptr )
-    {}
+  vtkCaptureScreen()
+    : m_Renderer(nullptr)
+  {}
 
-  ~vtkCaptureScreen( )
-    {}
+  ~vtkCaptureScreen() {}
 
-  void operator( ) ( const std::string& iFileName ) const
-    {
-    Capture( m_Renderer, iFileName );
-    }
+  void
+  operator()(const std::string & iFileName) const
+  {
+    Capture(m_Renderer, iFileName);
+  }
 
-  void operator( ) ( vtkRenderWindow* iRenderer,
-                     const std::string& iFileName ) const
-    {
+  void
+  operator()(vtkRenderWindow * iRenderer, const std::string & iFileName) const
+  {
     m_Renderer = iRenderer;
-    Capture( m_Renderer, iFileName );
+    Capture(m_Renderer, iFileName);
+  }
+
+private:
+  vtkCaptureScreen(const vtkCaptureScreen &);
+  void
+  operator=(const vtkCaptureScreen &);
+
+  vtkRenderWindow * m_Renderer;
+
+  void
+  Capture(vtkRenderWindow * iRenderer, const std::string & iFileName) const
+  {
+    if (iRenderer)
+    {
+      vtkSmartPointer<vtkWindowToImageFilter> Dumper = vtkSmartPointer<vtkWindowToImageFilter>::New();
+      Dumper->SetInput(iRenderer);
+      Dumper->Update();
+
+      vtkSmartPointer<ImageWriterType> writer = vtkSmartPointer<ImageWriterType>::New();
+      writer->SetFileName(iFileName.c_str());
+      writer->SetInputConnection(Dumper->GetOutputPort());
+      writer->Write();
     }
-
-  private:
-    vtkCaptureScreen ( const vtkCaptureScreen& );
-    void operator = ( const vtkCaptureScreen& );
-
-    vtkRenderWindow* m_Renderer;
-
-    void Capture( vtkRenderWindow* iRenderer,
-                  const std::string& iFileName ) const
-      {
-      if( iRenderer )
-        {
-        vtkSmartPointer< vtkWindowToImageFilter > Dumper =
-            vtkSmartPointer< vtkWindowToImageFilter >::New( );
-        Dumper->SetInput( iRenderer );
-        Dumper->Update( );
-
-        vtkSmartPointer< ImageWriterType > writer =
-            vtkSmartPointer< ImageWriterType >::New( );
-        writer->SetFileName ( iFileName.c_str( ) );
-        writer->SetInputConnection ( Dumper->GetOutputPort( ) );
-        writer->Write( );
-        }
-      }
-  };
+  }
+};
 
 #endif

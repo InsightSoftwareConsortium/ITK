@@ -47,18 +47,17 @@ namespace itk
  * \ingroup ITKReview
  */
 
-template< typename TInputImage, typename TGradientImage = TInputImage, typename TOutputImage = TInputImage >
-class ITK_TEMPLATE_EXPORT RobustAutomaticThresholdImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TGradientImage = TInputImage, typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT RobustAutomaticThresholdImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RobustAutomaticThresholdImageFilter);
 
   /** Standard Self type alias */
   using Self = RobustAutomaticThresholdImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -87,8 +86,7 @@ public:
   using OutputIndexType = typename TOutputImage::IndexType;
   using OutputImageRegionType = typename TOutputImage::RegionType;
 
-  using CalculatorType =
-      RobustAutomaticThresholdCalculator< TInputImage, TGradientImage >;
+  using CalculatorType = RobustAutomaticThresholdCalculator<TInputImage, TGradientImage>;
 
   /** Image related type alias. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
@@ -116,34 +114,36 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputComparableCheck,
-                   ( Concept::Comparable< OutputPixelType > ) );
-  itkConceptMacro( OutputOStreamWritableCheck,
-                   ( Concept::OStreamWritable< OutputPixelType > ) );
+  itkConceptMacro(OutputComparableCheck, (Concept::Comparable<OutputPixelType>));
+  itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<OutputPixelType>));
   // End concept checking
 #endif
 
   /** Set the gradient image */
-  void SetGradientImage(GradientImageType *input)
+  void
+  SetGradientImage(GradientImageType * input)
   {
     // Process object is not const-correct so the const casting is required.
-    this->SetNthInput( 1, const_cast< GradientImageType * >( input ) );
+    this->SetNthInput(1, const_cast<GradientImageType *>(input));
   }
 
   /** Get the gradient image */
-  GradientImageType * GetGradientImage()
+  GradientImageType *
+  GetGradientImage()
   {
-    return static_cast< GradientImageType * >( const_cast< DataObject * >( this->ProcessObject::GetInput(1) ) );
+    return static_cast<GradientImageType *>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
   }
 
   /** Set the input image */
-  void SetInput1(TInputImage *input)
+  void
+  SetInput1(TInputImage * input)
   {
     this->SetInput(input);
   }
 
   /** Set the gradient image */
-  void SetInput2(GradientImageType *input)
+  void
+  SetInput2(GradientImageType * input)
   {
     this->SetGradientImage(input);
   }
@@ -151,11 +151,14 @@ public:
 protected:
   RobustAutomaticThresholdImageFilter();
   ~RobustAutomaticThresholdImageFilter() override {}
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   double          m_Pow;
@@ -166,7 +169,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRobustAutomaticThresholdImageFilter.hxx"
+#  include "itkRobustAutomaticThresholdImageFilter.hxx"
 #endif
 
 #endif

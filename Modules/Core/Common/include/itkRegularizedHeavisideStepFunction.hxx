@@ -22,29 +22,27 @@
 
 namespace itk
 {
-template< typename TInput, typename TOutput >
-RegularizedHeavisideStepFunction< TInput, TOutput >
-::RegularizedHeavisideStepFunction() : Superclass(),
-  m_Epsilon( NumericTraits< RealType >::OneValue() ),
-  m_OneOverEpsilon( NumericTraits< RealType >::OneValue() )
+template <typename TInput, typename TOutput>
+RegularizedHeavisideStepFunction<TInput, TOutput>::RegularizedHeavisideStepFunction()
+  : Superclass()
+  , m_Epsilon(NumericTraits<RealType>::OneValue())
+  , m_OneOverEpsilon(NumericTraits<RealType>::OneValue())
 {}
 
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 void
-RegularizedHeavisideStepFunction< TInput, TOutput >
-::SetEpsilon(const RealType & ieps)
+RegularizedHeavisideStepFunction<TInput, TOutput>::SetEpsilon(const RealType & ieps)
 {
-  if ( ieps > NumericTraits< RealType >::epsilon() )
-    {
+  if (ieps > NumericTraits<RealType>::epsilon())
+  {
     this->m_Epsilon = ieps;
     m_OneOverEpsilon = 1.0 / ieps;
-    }
+  }
   else
-    {
-    itkGenericExceptionMacro("ERROR: Epsilon needs to be greater than "
-                               << NumericTraits< RealType >::epsilon() );
-    }
+  {
+    itkGenericExceptionMacro("ERROR: Epsilon needs to be greater than " << NumericTraits<RealType>::epsilon());
+  }
 }
-}
+} // namespace itk
 
 #endif

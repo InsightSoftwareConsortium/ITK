@@ -18,9 +18,9 @@
 #include "itkInverseFFTImageFilter.h"
 
 #ifndef itkFFTWInverseFFTImageFilter_h
-#define itkFFTWInverseFFTImageFilter_h
+#  define itkFFTWInverseFFTImageFilter_h
 
-#include "itkFFTWCommon.h"
+#  include "itkFFTWCommon.h"
 
 namespace itk
 {
@@ -45,9 +45,9 @@ namespace itk
  *
  * \sa FFTWGlobalConfiguration
  */
-template< typename TInputImage, typename TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
-class ITK_TEMPLATE_EXPORT FFTWInverseFFTImageFilter:
-  public InverseFFTImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage,
+          typename TOutputImage = Image<typename TInputImage::PixelType::value_type, TInputImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT FFTWInverseFFTImageFilter : public InverseFFTImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FFTWInverseFFTImageFilter);
@@ -61,16 +61,16 @@ public:
   using OutputSizeType = typename OutputImageType::SizeType;
 
   using Self = FFTWInverseFFTImageFilter;
-  using Superclass = InverseFFTImageFilter< InputImageType, OutputImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InverseFFTImageFilter<InputImageType, OutputImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** The proxy type is a wrapper for the FFTW API since the proxy is
    * only defined over double and float, trying to use any other pixel
    * type is unsupported, as is trying to use double if only the float
    * FFTW version is configured in, or float if only double is
    * configured. */
-  using FFTWProxyType = typename fftw::Proxy< OutputPixelType >;
+  using FFTWProxyType = typename fftw::Proxy<OutputPixelType>;
 
   using OutputImageRegionType = typename OutputImageType::RegionType;
 
@@ -78,8 +78,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FFTWInverseFFTImageFilter,
-               InverseFFTImageFilter);
+  itkTypeMacro(FFTWInverseFFTImageFilter, InverseFFTImageFilter);
 
   /** Define the image dimension. */
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
@@ -93,48 +92,53 @@ public:
    * This has no effect with ITK_USE_CUFFTW.
    * /sa FFTWGlobalConfiguration
    */
-  virtual void SetPlanRigor( const int & value )
+  virtual void
+  SetPlanRigor(const int & value)
   {
-#ifndef ITK_USE_CUFFTW
+#  ifndef ITK_USE_CUFFTW
     // Use that method to check the value.
-    FFTWGlobalConfiguration::GetPlanRigorName( value );
-#endif
-    if( m_PlanRigor != value )
-      {
+    FFTWGlobalConfiguration::GetPlanRigorName(value);
+#  endif
+    if (m_PlanRigor != value)
+    {
       m_PlanRigor = value;
       this->Modified();
-      }
+    }
   }
-  itkGetConstReferenceMacro( PlanRigor, int );
-  void SetPlanRigor( const std::string & name )
+  itkGetConstReferenceMacro(PlanRigor, int);
+  void
+  SetPlanRigor(const std::string & name)
   {
-#ifndef ITK_USE_CUFFTW
-    this->SetPlanRigor( FFTWGlobalConfiguration::GetPlanRigorValue( name ) );
-#endif
+#  ifndef ITK_USE_CUFFTW
+    this->SetPlanRigor(FFTWGlobalConfiguration::GetPlanRigorValue(name));
+#  endif
   }
 
-  SizeValueType GetSizeGreatestPrimeFactor() const override;
+  SizeValueType
+  GetSizeGreatestPrimeFactor() const override;
 
 protected:
   FFTWInverseFFTImageFilter();
   ~FFTWInverseFFTImageFilter() override {}
 
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
-  void DynamicThreadedGenerateData(const OutputImageRegionType& outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   int m_PlanRigor;
-
 };
 
 
 } // namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFFTWInverseFFTImageFilter.hxx"
-#endif
+#  ifndef ITK_MANUAL_INSTANTIATION
+#    include "itkFFTWInverseFFTImageFilter.hxx"
+#  endif
 
-#endif //itkFFTWInverseFFTImageFilter_h
+#endif // itkFFTWInverseFFTImageFilter_h

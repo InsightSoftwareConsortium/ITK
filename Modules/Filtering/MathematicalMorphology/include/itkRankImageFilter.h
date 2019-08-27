@@ -65,28 +65,32 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 
-template< typename TInputImage, typename TOutputImage, typename TKernel =
-            FlatStructuringElement< TInputImage::ImageDimension > >
-class ITK_TEMPLATE_EXPORT RankImageFilter:
-  public MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel,
-                                     Function::RankHistogram< typename TInputImage::PixelType > >
+template <typename TInputImage,
+          typename TOutputImage,
+          typename TKernel = FlatStructuringElement<TInputImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT RankImageFilter
+  : public MovingHistogramImageFilter<TInputImage,
+                                      TOutputImage,
+                                      TKernel,
+                                      Function::RankHistogram<typename TInputImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RankImageFilter);
 
   /** Standard class type aliases. */
   using Self = RankImageFilter;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel,
-                                      Function::RankHistogram< typename TInputImage::PixelType > >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = MovingHistogramImageFilter<TInputImage,
+                                                TOutputImage,
+                                                TKernel,
+                                                Function::RankHistogram<typename TInputImage::PixelType>>;
 
   /** Standard New method. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(RankImageFilter,
-               MovingHistogramImageFilter);
+  itkTypeMacro(RankImageFilter, MovingHistogramImageFilter);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;
@@ -117,7 +121,7 @@ public:
   itkSetClampMacro(Rank, float, 0.0, 1.0);
   itkGetConstMacro(Rank, float)
 
-  bool GetUseVectorBasedAlgorithm() const
+    bool GetUseVectorBasedAlgorithm() const
   {
     return HistogramType::UseVectorBasedAlgorithm();
   }
@@ -126,9 +130,11 @@ protected:
   RankImageFilter();
   ~RankImageFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void ConfigureHistogram( HistogramType & histogram ) override;
+  void
+  ConfigureHistogram(HistogramType & histogram) override;
 
 private:
   float m_Rank;
@@ -136,7 +142,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRankImageFilter.hxx"
+#  include "itkRankImageFilter.hxx"
 #endif
 
 #endif

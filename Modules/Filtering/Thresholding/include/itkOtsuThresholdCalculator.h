@@ -40,7 +40,7 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKThresholding
  */
-template <typename THistogram, typename TOutput=double>
+template <typename THistogram, typename TOutput = double>
 class ITK_TEMPLATE_EXPORT OtsuThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
@@ -69,7 +69,8 @@ public:
   itkBooleanMacro(ReturnBinMidpoint);
 
   /** for backward compatibility. Update() should be preferred. */
-  void Compute()
+  void
+  Compute()
   {
     this->Update();
   }
@@ -81,15 +82,17 @@ protected:
     m_OtsuMultipleThresholdsCalculator = OtsuMultipleThresholdsCalculator<THistogram>::New();
   }
   ~OtsuThresholdCalculator() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
-  void GenerateData() override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  GenerateData() override;
 
 private:
   typename OtsuMultipleThresholdsCalculator<THistogram>::Pointer m_OtsuMultipleThresholdsCalculator;
 #if defined(ITKV4_COMPATIBILITY)
-  bool                m_ReturnBinMidpoint{ true };
+  bool m_ReturnBinMidpoint{ true };
 #else
-  bool                m_ReturnBinMidpoint{ false };
+  bool m_ReturnBinMidpoint{ false };
 #endif
 };
 
@@ -97,7 +100,7 @@ private:
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkOtsuThresholdCalculator.hxx"
+#  include "itkOtsuThresholdCalculator.hxx"
 #endif
 
 #endif

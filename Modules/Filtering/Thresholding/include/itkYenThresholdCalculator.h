@@ -52,7 +52,7 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKThresholding
  */
-template <typename THistogram, typename TOutput=double>
+template <typename THistogram, typename TOutput = double>
 class ITK_TEMPLATE_EXPORT YenThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
@@ -77,14 +77,15 @@ public:
 protected:
   YenThresholdCalculator() = default;
   ~YenThresholdCalculator() override = default;
-  void GenerateData() override;
+  void
+  GenerateData() override;
 };
 
 } // end namespace itk
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkYenThresholdCalculator.hxx"
+#  include "itkYenThresholdCalculator.hxx"
 #endif
 
 #endif

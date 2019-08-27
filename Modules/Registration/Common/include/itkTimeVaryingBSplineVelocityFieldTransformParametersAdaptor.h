@@ -62,9 +62,9 @@ namespace itk
  *
  * \ingroup ITKRegistrationCommon
  */
-template<typename TTransform>
+template <typename TTransform>
 class ITK_TEMPLATE_EXPORT TimeVaryingBSplineVelocityFieldTransformParametersAdaptor
-: public TransformParametersAdaptor<TTransform>
+  : public TransformParametersAdaptor<TTransform>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingBSplineVelocityFieldTransformParametersAdaptor);
@@ -76,10 +76,10 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( TimeVaryingBSplineVelocityFieldTransformParametersAdaptor, TransformParametersAdaptor );
+  itkTypeMacro(TimeVaryingBSplineVelocityFieldTransformParametersAdaptor, TransformParametersAdaptor);
 
   /** Typedefs associated with the transform */
   using TransformType = TTransform;
@@ -89,8 +89,10 @@ public:
   using FixedParametersType = typename TransformType::FixedParametersType;
   using FixedParametersValueType = typename TransformType::FixedParametersValueType;
 
-  using TimeVaryingVelocityFieldControlPointLatticeType = typename TransformType::TimeVaryingVelocityFieldControlPointLatticeType;
-  using TimeVaryingVelocityFieldControlPointLatticePointer = typename TimeVaryingVelocityFieldControlPointLatticeType::Pointer;
+  using TimeVaryingVelocityFieldControlPointLatticeType =
+    typename TransformType::TimeVaryingVelocityFieldControlPointLatticeType;
+  using TimeVaryingVelocityFieldControlPointLatticePointer =
+    typename TimeVaryingVelocityFieldControlPointLatticeType::Pointer;
   using RegionType = typename TimeVaryingVelocityFieldControlPointLatticeType::RegionType;
   using IndexType = typename TimeVaryingVelocityFieldControlPointLatticeType::IndexType;
   using VectorType = typename TimeVaryingVelocityFieldControlPointLatticeType::PixelType;
@@ -105,110 +107,125 @@ public:
   static constexpr unsigned int TotalDimension = TransformType::Dimension + 1;
 
   /** Set spline order (usually from transform) */
-  itkSetMacro( SplineOrder, SizeValueType );
+  itkSetMacro(SplineOrder, SizeValueType);
 
   /** Get spline order (usually from transform) */
-  itkGetConstMacro( SplineOrder, SizeValueType );
+  itkGetConstMacro(SplineOrder, SizeValueType);
 
   /** Alternative method for setting the required mesh size. */
-  void SetRequiredTransformDomainMeshSize( const MeshSizeType & );
+  void
+  SetRequiredTransformDomainMeshSize(const MeshSizeType &);
 
   /** Get the required mesh size. */
-  itkGetConstReferenceMacro( RequiredTransformDomainMeshSize, MeshSizeType );
+  itkGetConstReferenceMacro(RequiredTransformDomainMeshSize, MeshSizeType);
 
   /** Alternative method for setting the required sampled size. */
-  void SetRequiredTransformDomainSize( const SizeType & );
+  void
+  SetRequiredTransformDomainSize(const SizeType &);
 
   /** Get the required domain size. */
-  itkGetConstReferenceMacro( RequiredTransformDomainSize, SizeType );
+  itkGetConstReferenceMacro(RequiredTransformDomainSize, SizeType);
 
   /** Alternative method for setting the required sampled spacing. */
-  void SetRequiredTransformDomainSpacing( const SpacingType & );
+  void
+  SetRequiredTransformDomainSpacing(const SpacingType &);
 
   /** Get the required domain spacing. */
-  itkGetConstReferenceMacro( RequiredTransformDomainSpacing, SpacingType );
+  itkGetConstReferenceMacro(RequiredTransformDomainSpacing, SpacingType);
 
   /** Alternative method for setting the required origin. */
-  void SetRequiredTransformDomainOrigin( const OriginType & );
+  void
+  SetRequiredTransformDomainOrigin(const OriginType &);
 
   /** Get the required origin. */
-  itkGetConstReferenceMacro( RequiredTransformDomainOrigin, OriginType );
+  itkGetConstReferenceMacro(RequiredTransformDomainOrigin, OriginType);
 
   /** Alternative method for setting the required direction. */
-  void SetRequiredTransformDomainDirection( const DirectionType & );
+  void
+  SetRequiredTransformDomainDirection(const DirectionType &);
 
   /** Get the required direction. */
-  itkGetConstReferenceMacro( RequiredTransformDomainDirection, DirectionType );
+  itkGetConstReferenceMacro(RequiredTransformDomainDirection, DirectionType);
 
   /** Get the required control point lattice origin. */
-  const OriginType GetRequiredControlPointLatticeOrigin() const
-    {
+  const OriginType
+  GetRequiredControlPointLatticeOrigin() const
+  {
     OriginType requiredLatticeOrigin;
-    for( SizeValueType i = 0; i < TotalDimension; i++ )
-      {
+    for (SizeValueType i = 0; i < TotalDimension; i++)
+    {
       requiredLatticeOrigin[i] = this->m_RequiredFixedParameters[TotalDimension + i];
-      }
-    return requiredLatticeOrigin;
     }
+    return requiredLatticeOrigin;
+  }
 
   /** Get the required control point lattice spacing. */
-  const SpacingType GetRequiredControlPointLatticeSpacing() const
-    {
+  const SpacingType
+  GetRequiredControlPointLatticeSpacing() const
+  {
     SpacingType requiredLatticeSpacing;
-    for( SizeValueType i = 0; i < TotalDimension; i++ )
-      {
-      FixedParametersValueType domainPhysicalDimensions = static_cast<FixedParametersValueType>( this->m_RequiredTransformDomainSize[i] - 1.0 ) *
+    for (SizeValueType i = 0; i < TotalDimension; i++)
+    {
+      FixedParametersValueType domainPhysicalDimensions =
+        static_cast<FixedParametersValueType>(this->m_RequiredTransformDomainSize[i] - 1.0) *
         this->m_RequiredTransformDomainSpacing[i];
-      requiredLatticeSpacing[i] = domainPhysicalDimensions / static_cast<FixedParametersValueType>( this->m_RequiredTransformDomainMeshSize[i] );
-      }
-    return requiredLatticeSpacing;
+      requiredLatticeSpacing[i] =
+        domainPhysicalDimensions / static_cast<FixedParametersValueType>(this->m_RequiredTransformDomainMeshSize[i]);
     }
+    return requiredLatticeSpacing;
+  }
 
   /** Get the required control point lattice size. */
-  const SizeType GetRequiredControlPointLatticeSize() const
-    {
+  const SizeType
+  GetRequiredControlPointLatticeSize() const
+  {
     SizeType requiredLatticeSize;
-    for( SizeValueType i = 0; i < TotalDimension; i++ )
-      {
-      requiredLatticeSize[i] = static_cast<SizeValueType>( this->m_RequiredFixedParameters[i] );
-      }
-    return requiredLatticeSize;
+    for (SizeValueType i = 0; i < TotalDimension; i++)
+    {
+      requiredLatticeSize[i] = static_cast<SizeValueType>(this->m_RequiredFixedParameters[i]);
     }
+    return requiredLatticeSize;
+  }
 
   /** Get the required control point lattice direction. */
-  const DirectionType GetRequiredControlPointLatticeDirection() const
-    {
+  const DirectionType
+  GetRequiredControlPointLatticeDirection() const
+  {
     return this->m_RequiredTransformDomainDirection;
-    }
+  }
 
   /** Initialize the transform using the specified fixed parameters */
-  void AdaptTransformParameters() override;
+  void
+  AdaptTransformParameters() override;
 
-  void SetRequiredFixedParameters( const FixedParametersType ) override;
+  void
+  SetRequiredFixedParameters(const FixedParametersType) override;
 
 protected:
   TimeVaryingBSplineVelocityFieldTransformParametersAdaptor();
   ~TimeVaryingBSplineVelocityFieldTransformParametersAdaptor() override = default;
 
-  void PrintSelf( std::ostream& os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** Helper function to set m_RequiredFixedParameters */
-  void UpdateRequiredFixedParameters();
+  void
+  UpdateRequiredFixedParameters();
 
-  MeshSizeType                               m_RequiredTransformDomainMeshSize;
-  OriginType                                 m_RequiredTransformDomainOrigin;
-  DirectionType                              m_RequiredTransformDomainDirection;
-  SpacingType                                m_RequiredTransformDomainSpacing;
-  SizeType                                   m_RequiredTransformDomainSize;
+  MeshSizeType  m_RequiredTransformDomainMeshSize;
+  OriginType    m_RequiredTransformDomainOrigin;
+  DirectionType m_RequiredTransformDomainDirection;
+  SpacingType   m_RequiredTransformDomainSpacing;
+  SizeType      m_RequiredTransformDomainSize;
 
-  SizeValueType                              m_SplineOrder;
+  SizeValueType m_SplineOrder;
 
-}; //class TimeVaryingBSplineVelocityFieldTransformParametersAdaptor
-}  // namespace itk
+}; // class TimeVaryingBSplineVelocityFieldTransformParametersAdaptor
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTimeVaryingBSplineVelocityFieldTransformParametersAdaptor.hxx"
+#  include "itkTimeVaryingBSplineVelocityFieldTransformParametersAdaptor.hxx"
 #endif
 
 #endif /* itkTimeVaryingBSplineVelocityFieldTransformParametersAdaptor_h */

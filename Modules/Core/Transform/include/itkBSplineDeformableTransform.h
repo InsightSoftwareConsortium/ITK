@@ -109,18 +109,16 @@ outputPoint = transform->TransformPoint( inputPoint );
  * \sphinxexample{Registration/ImageRegistrationMethodBSpline,Global Registration Of Two Images (BSpline)}
  * \endsphinx
  */
-template<typename TParametersValueType=double,
-          unsigned int NDimensions = 3,
-          unsigned int VSplineOrder = 3>
-class ITK_TEMPLATE_EXPORT BSplineDeformableTransform :
-  public BSplineBaseTransform<TParametersValueType,NDimensions,VSplineOrder>
+template <typename TParametersValueType = double, unsigned int NDimensions = 3, unsigned int VSplineOrder = 3>
+class ITK_TEMPLATE_EXPORT BSplineDeformableTransform
+  : public BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineDeformableTransform);
 
   /** Standard class type aliases. */
   using Self = BSplineDeformableTransform;
-  using Superclass = BSplineBaseTransform<TParametersValueType,NDimensions,VSplineOrder>;
+  using Superclass = BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -130,21 +128,22 @@ public:
   // explicitly.
   // TODO: shouldn't it be done with the Clone() method?
   itkSimpleNewMacro(Self);
-  ::itk::LightObject::Pointer CreateAnother() const override
-    {
+  ::itk::LightObject::Pointer
+  CreateAnother() const override
+  {
     ::itk::LightObject::Pointer smartPtr;
-    Pointer copyPtr = Self::New().GetPointer();
-    //THE FOLLOWING LINE IS DIFFERENT FROM THE DEFAULT MACRO!
-    copyPtr->m_BulkTransform =  this->GetBulkTransform();
-    smartPtr = static_cast<Pointer>( copyPtr );
+    Pointer                     copyPtr = Self::New().GetPointer();
+    // THE FOLLOWING LINE IS DIFFERENT FROM THE DEFAULT MACRO!
+    copyPtr->m_BulkTransform = this->GetBulkTransform();
+    smartPtr = static_cast<Pointer>(copyPtr);
     return smartPtr;
-    }
+  }
 
   /** implement type-specific clone method*/
   itkCloneMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( BSplineDeformableTransform, BSplineBaseTransform );
+  itkTypeMacro(BSplineDeformableTransform, BSplineBaseTransform);
 
   /** Dimension of the domain space. */
   static constexpr unsigned int SpaceDimension = NDimensions;
@@ -182,8 +181,8 @@ public:
   using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
 
   /** Standard coordinate point type for this class. */
-  using InputPointType = Point <TParametersValueType, Self::SpaceDimension >;
-  using OutputPointType = Point <TParametersValueType, Self::SpaceDimension >;
+  using InputPointType = Point<TParametersValueType, Self::SpaceDimension>;
+  using OutputPointType = Point<TParametersValueType, Self::SpaceDimension>;
 
 
   /** This method sets the fixed parameters of the transform.
@@ -202,7 +201,8 @@ public:
    * itkTransformReader/Writer I/O filters.
    *
    */
-  void SetFixedParameters( const FixedParametersType & parameters ) override;
+  void
+  SetFixedParameters(const FixedParametersType & parameters) override;
 
   /** Parameters as SpaceDimension number of images. */
   using ImageType = typename Superclass::ImageType;
@@ -220,7 +220,8 @@ public:
    * Warning: use either the SetParameters() or SetCoefficientImages()
    * API. Mixing the two modes may results in unexpected results.
    */
-  void SetCoefficientImages( const CoefficientImageArray & images ) override;
+  void
+  SetCoefficientImages(const CoefficientImageArray & images) override;
 
   /** Typedefs for specifying the extent of the grid. */
   using RegionType = typename Superclass::RegionType;
@@ -249,16 +250,23 @@ public:
    * ( i * this->GetNumberOfParametersPerDimension() ) to the indices array.
    */
   using Superclass::TransformPoint;
-  void TransformPoint( const InputPointType & inputPoint, OutputPointType & outputPoint,
-    WeightsType & weights, ParameterIndexArrayType & indices, bool & inside ) const override;
+  void
+  TransformPoint(const InputPointType &    inputPoint,
+                 OutputPointType &         outputPoint,
+                 WeightsType &             weights,
+                 ParameterIndexArrayType & indices,
+                 bool &                    inside) const override;
 
-  void ComputeJacobianWithRespectToParameters( const InputPointType &, JacobianType & ) const override;
+  void
+  ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType &) const override;
 
   /** Return the number of parameters that completely define the Transfom */
-  NumberOfParametersType GetNumberOfParameters() const override;
+  NumberOfParametersType
+  GetNumberOfParameters() const override;
 
   /** Return the number of parameters per dimension */
-  NumberOfParametersType GetNumberOfParametersPerDimension() const override;
+  NumberOfParametersType
+  GetNumberOfParametersPerDimension() const override;
 
   using PhysicalDimensionsType = typename Superclass::SpacingType;
   using PixelType = typename Superclass::PixelType;
@@ -266,32 +274,34 @@ public:
   using MeshSizeType = typename Superclass::MeshSizeType;
 
   /** Function to specify the transform domain origin. */
-  virtual void SetGridOrigin( const OriginType & );
+  virtual void
+  SetGridOrigin(const OriginType &);
 
   /** Function to retrieve the transform domain origin. */
-  itkGetConstMacro( GridOrigin, OriginType );
+  itkGetConstMacro(GridOrigin, OriginType);
 
   /** This method specifies the grid spacing or resolution. */
-  virtual void SetGridSpacing( const SpacingType & );
+  virtual void
+  SetGridSpacing(const SpacingType &);
 
   /** This method retrieve the grid spacing or resolution. */
-  itkGetConstMacro( GridSpacing, SpacingType );
+  itkGetConstMacro(GridSpacing, SpacingType);
 
   /** Function to specify the transform domain direction. */
-  virtual void SetGridDirection( const DirectionType & );
+  virtual void
+  SetGridDirection(const DirectionType &);
 
   /** Function to retrieve the transform domain direction. */
-  itkGetConstMacro( GridDirection, DirectionType );
+  itkGetConstMacro(GridDirection, DirectionType);
 
   /** Function to specify the transform domain mesh size. */
-  virtual void SetGridRegion( const RegionType & );
+  virtual void
+  SetGridRegion(const RegionType &);
 
   /** Function to retrieve the transform domain mesh size. */
-  itkGetConstMacro( GridRegion, RegionType );
+  itkGetConstMacro(GridRegion, RegionType);
 
-  using BulkTransformType = Transform<TParametersValueType,
-                    Self::SpaceDimension,
-                    Self::SpaceDimension>;
+  using BulkTransformType = Transform<TParametersValueType, Self::SpaceDimension, Self::SpaceDimension>;
   using BulkTransformPointer = typename BulkTransformType::ConstPointer;
   /** This method specifies the bulk transform to be applied.
    * The default is the identity transform.
@@ -304,30 +314,36 @@ public:
 
 protected:
   /** Print contents of an BSplineDeformableTransform. */
-  void PrintSelf( std::ostream & os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   BSplineDeformableTransform();
   ~BSplineDeformableTransform() override = default;
 
 private:
-
   /** Construct control point grid size from transform domain information */
-  void SetFixedParametersGridSizeFromTransformDomainInformation() const override;
+  void
+  SetFixedParametersGridSizeFromTransformDomainInformation() const override;
 
   /** Construct control point grid origin from transform domain information */
-  void SetFixedParametersGridOriginFromTransformDomainInformation() const override;
+  void
+  SetFixedParametersGridOriginFromTransformDomainInformation() const override;
 
   /** Construct control point grid spacing from transform domain information */
-  void SetFixedParametersGridSpacingFromTransformDomainInformation() const override;
+  void
+  SetFixedParametersGridSpacingFromTransformDomainInformation() const override;
 
   /** Construct control point grid direction from transform domain information */
-  void SetFixedParametersGridDirectionFromTransformDomainInformation() const override;
+  void
+  SetFixedParametersGridDirectionFromTransformDomainInformation() const override;
 
   /** Construct control point grid size from transform domain information */
-  void SetCoefficientImageInformationFromFixedParameters() override;
+  void
+  SetCoefficientImageInformationFromFixedParameters() override;
 
   /** Check if a continuous index is inside the valid region. */
-  bool InsideValidRegion( ContinuousIndexType & ) const override;
+  bool
+  InsideValidRegion(ContinuousIndexType &) const override;
 
   /** The variables defining the coefficient grid domain for the
    * InternalParametersBuffer are taken from the m_CoefficientImages[0]
@@ -353,13 +369,14 @@ private:
   IndexType     m_ValidRegionLast;
   IndexType     m_ValidRegionFirst;
 
-  void UpdateValidGridRegion();
+  void
+  UpdateValidGridRegion();
 
 }; // class BSplineDeformableTransform
-}  // namespace itk
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBSplineDeformableTransform.hxx"
+#  include "itkBSplineDeformableTransform.hxx"
 #endif
 
 #endif /* itkBSplineDeformableTransform_h */

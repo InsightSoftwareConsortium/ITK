@@ -31,68 +31,75 @@ namespace Functor
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< typename TInput, typename TMask, typename TOutput = TInput >
+template <typename TInput, typename TMask, typename TOutput = TInput>
 class MaskNegatedInput
 {
 public:
-  using AccumulatorType = typename NumericTraits< TInput >::AccumulateType;
+  using AccumulatorType = typename NumericTraits<TInput>::AccumulateType;
 
   MaskNegatedInput()
-    : m_OutsideValue(NumericTraits< TOutput >::ZeroValue())
-    , m_MaskingValue(NumericTraits< TMask >::ZeroValue())
-  {
-  }
+    : m_OutsideValue(NumericTraits<TOutput>::ZeroValue())
+    , m_MaskingValue(NumericTraits<TMask>::ZeroValue())
+  {}
   ~MaskNegatedInput() = default;
-  bool operator!=(const MaskNegatedInput &) const
+  bool
+  operator!=(const MaskNegatedInput &) const
   {
     return false;
   }
 
-  bool operator==(const MaskNegatedInput & other) const
+  bool
+  operator==(const MaskNegatedInput & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput & A, const TMask & B) const
+  inline TOutput
+  operator()(const TInput & A, const TMask & B) const
   {
-    if ( B != m_MaskingValue )
-      {
+    if (B != m_MaskingValue)
+    {
       return m_OutsideValue;
-      }
+    }
     else
-      {
-      return static_cast< TOutput >( A );
-      }
+    {
+      return static_cast<TOutput>(A);
+    }
   }
 
   /** Method to explicitly set the outside value of the mask */
-  void SetOutsideValue(const TOutput & outsideValue)
+  void
+  SetOutsideValue(const TOutput & outsideValue)
   {
     m_OutsideValue = outsideValue;
   }
 
   /** Method to get the outside value of the mask */
-  const TOutput & GetOutsideValue() const
+  const TOutput &
+  GetOutsideValue() const
   {
     return m_OutsideValue;
   }
 
   /** Method to explicitly set the masking value of the mask */
-  void SetMaskingValue(const TMask & maskingValue)
+  void
+  SetMaskingValue(const TMask & maskingValue)
   {
     m_MaskingValue = maskingValue;
   }
 
   /** Method to get the outside value of the mask */
-  const TMask & GetMaskingValue() const
+  const TMask &
+  GetMaskingValue() const
   {
     return m_MaskingValue;
   }
+
 private:
   TOutput m_OutsideValue;
   TMask   m_MaskingValue;
 };
-}
+} // namespace Functor
 
 /** \class MaskNegatedImageFilter
  * \brief Mask an image with the negation (or logical compliment) of a mask.
@@ -128,61 +135,61 @@ private:
  * \sphinxexample{Filtering/ImageIntensity/InverseOfMaskToImage,Inverse Of Mask To Image}
  * \endsphinx
  */
-template< typename TInputImage, typename TMaskImage, typename TOutputImage = TInputImage >
-class MaskNegatedImageFilter:
-  public
-  BinaryGeneratorImageFilter< TInputImage, TMaskImage, TOutputImage >
+template <typename TInputImage, typename TMaskImage, typename TOutputImage = TInputImage>
+class MaskNegatedImageFilter : public BinaryGeneratorImageFilter<TInputImage, TMaskImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MaskNegatedImageFilter);
 
   /** Standard class type aliases. */
   using Self = MaskNegatedImageFilter;
-  using Superclass = BinaryGeneratorImageFilter< TInputImage, TMaskImage, TOutputImage >;
+  using Superclass = BinaryGeneratorImageFilter<TInputImage, TMaskImage, TOutputImage>;
 
-  using FunctorType = Functor::MaskNegatedInput< typename TInputImage::PixelType,
-                                                 typename TMaskImage::PixelType,
-                                                 typename TOutputImage::PixelType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using FunctorType = Functor::
+    MaskNegatedInput<typename TInputImage::PixelType, typename TMaskImage::PixelType, typename TOutputImage::PixelType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MaskNegatedImageFilter,
-               BinaryGeneratorImageFilter);
+  itkTypeMacro(MaskNegatedImageFilter, BinaryGeneratorImageFilter);
 
   /** Typedefs **/
   using MaskImageType = TMaskImage;
 
   /** Method to explicitly set the outside value of the mask. Defaults to 0 */
-  void SetOutsideValue(const typename TOutputImage::PixelType & outsideValue)
+  void
+  SetOutsideValue(const typename TOutputImage::PixelType & outsideValue)
   {
-    if ( Math::NotExactlyEquals(this->GetOutsideValue(), outsideValue) )
-      {
+    if (Math::NotExactlyEquals(this->GetOutsideValue(), outsideValue))
+    {
       this->Modified();
       this->GetFunctor().SetOutsideValue(outsideValue);
-      }
+    }
   }
 
-  const typename TOutputImage::PixelType & GetOutsideValue() const
+  const typename TOutputImage::PixelType &
+  GetOutsideValue() const
   {
     return this->GetFunctor().GetOutsideValue();
   }
 
   /** Method to explicitly set the masking value of the mask. Defaults to 0 */
-  void SetMaskingValue(const typename TMaskImage::PixelType & maskingValue)
+  void
+  SetMaskingValue(const typename TMaskImage::PixelType & maskingValue)
   {
-    if ( this->GetMaskingValue() != maskingValue )
-      {
+    if (this->GetMaskingValue() != maskingValue)
+    {
       this->GetFunctor().SetMaskingValue(maskingValue);
       this->Modified();
-      }
+    }
   }
 
   /** Method to get the masking value of the mask. */
-  const typename TMaskImage::PixelType & GetMaskingValue() const
+  const typename TMaskImage::PixelType &
+  GetMaskingValue() const
   {
     return this->GetFunctor().GetMaskingValue();
   }
@@ -191,24 +198,24 @@ public:
    *  the original value of the input image while non-zero pixels in
    *  the mask will be set to the "OutsideValue".
    */
-  void SetMaskImage(const MaskImageType *maskImage)
+  void
+  SetMaskImage(const MaskImageType * maskImage)
   {
     // Process object is not const-correct so the const casting is required.
-    this->SetNthInput( 1, const_cast< MaskImageType * >( maskImage ) );
+    this->SetNthInput(1, const_cast<MaskImageType *>(maskImage));
   }
 
-  const MaskImageType * GetMaskImage()
+  const MaskImageType *
+  GetMaskImage()
   {
-    return static_cast<const MaskImageType*>(this->ProcessObject::GetInput(1));
+    return static_cast<const MaskImageType *>(this->ProcessObject::GetInput(1));
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( MaskEqualityComparableCheck,
-                   ( Concept::EqualityComparable< typename TMaskImage::PixelType > ) );
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< typename TInputImage::PixelType,
-                                           typename TOutputImage::PixelType > ) );
+  itkConceptMacro(MaskEqualityComparableCheck, (Concept::EqualityComparable<typename TMaskImage::PixelType>));
+  itkConceptMacro(InputConvertibleToOutputCheck,
+                  (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));
   // End concept checking
 #endif
 
@@ -216,22 +223,28 @@ protected:
   MaskNegatedImageFilter() = default;
   ~MaskNegatedImageFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-    os << indent << "OutsideValue: "  << this->GetOutsideValue() << std::endl;
+    os << indent << "OutsideValue: " << this->GetOutsideValue() << std::endl;
   }
 
-  void BeforeThreadedGenerateData() override
-    {
-      this->SetFunctor(this->GetFunctor());
-    }
+  void
+  BeforeThreadedGenerateData() override
+  {
+    this->SetFunctor(this->GetFunctor());
+  }
 
 private:
   itkGetConstReferenceMacro(Functor, FunctorType);
-  FunctorType & GetFunctor() { return m_Functor; }
+  FunctorType &
+  GetFunctor()
+  {
+    return m_Functor;
+  }
 
-  FunctorType    m_Functor;
+  FunctorType m_Functor;
 };
 } // end namespace itk
 

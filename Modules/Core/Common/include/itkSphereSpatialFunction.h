@@ -31,18 +31,17 @@ namespace itk
  * \ingroup SpatialFunctions
  * \ingroup ITKCommon
  */
-template< unsigned int VImageDimension = 3, typename TInput = Point< double, VImageDimension > >
-class ITK_TEMPLATE_EXPORT SphereSpatialFunction:
-  public InteriorExteriorSpatialFunction< VImageDimension, TInput >
+template <unsigned int VImageDimension = 3, typename TInput = Point<double, VImageDimension>>
+class ITK_TEMPLATE_EXPORT SphereSpatialFunction : public InteriorExteriorSpatialFunction<VImageDimension, TInput>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SphereSpatialFunction);
 
   /** Standard class type aliases. */
-  using Self = SphereSpatialFunction< VImageDimension, TInput >;
-  using Superclass = InteriorExteriorSpatialFunction< VImageDimension, TInput >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Self = SphereSpatialFunction<VImageDimension, TInput>;
+  using Superclass = InteriorExteriorSpatialFunction<VImageDimension, TInput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -57,7 +56,8 @@ public:
   using OutputType = typename Superclass::OutputType;
 
   /** Evaluates the function at a given position */
-  OutputType Evaluate(const InputType & position) const override;
+  OutputType
+  Evaluate(const InputType & position) const override;
 
   /** Get and set the center of the sphere. */
   itkGetConstMacro(Center, InputType);
@@ -70,7 +70,8 @@ public:
 protected:
   SphereSpatialFunction();
   ~SphereSpatialFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** The center of the sphere (of the same type as Input). */
@@ -82,7 +83,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSphereSpatialFunction.hxx"
+#  include "itkSphereSpatialFunction.hxx"
 #endif
 
 #endif

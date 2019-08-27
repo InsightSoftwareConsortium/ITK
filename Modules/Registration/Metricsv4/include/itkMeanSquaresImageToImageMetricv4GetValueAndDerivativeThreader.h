@@ -29,22 +29,23 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-template < typename TDomainPartitioner, typename TImageToImageMetric, typename TMeanSquaresMetric >
+template <typename TDomainPartitioner, typename TImageToImageMetric, typename TMeanSquaresMetric>
 class ITK_TEMPLATE_EXPORT MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader
-  : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
+  : public ImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader);
 
   /** Standard class type aliases. */
   using Self = MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader;
-  using Superclass = ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro( MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader, ImageToImageMetricv4GetValueAndDerivativeThreader );
+  itkTypeMacro(MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader,
+               ImageToImageMetricv4GetValueAndDerivativeThreader);
 
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   using DomainType = typename Superclass::DomainType;
   using AssociateType = typename Superclass::AssociateType;
@@ -69,24 +70,24 @@ protected:
   /** This function computes the local voxel-wise contribution of
    *  the metric to the global integral of the metric/derivative.
    */
-  bool ProcessPoint(
-        const VirtualIndexType &          virtualIndex,
-        const VirtualPointType &          virtualPoint,
-        const FixedImagePointType &       mappedFixedPoint,
-        const FixedImagePixelType &       mappedFixedPixelValue,
-        const FixedImageGradientType &    mappedFixedImageGradient,
-        const MovingImagePointType &      mappedMovingPoint,
-        const MovingImagePixelType &      mappedMovingPixelValue,
-        const MovingImageGradientType &   mappedMovingImageGradient,
-        MeasureType &                     metricValueReturn,
-        DerivativeType &                  localDerivativeReturn,
-        const ThreadIdType                threadId ) const override;
+  bool
+  ProcessPoint(const VirtualIndexType &        virtualIndex,
+               const VirtualPointType &        virtualPoint,
+               const FixedImagePointType &     mappedFixedPoint,
+               const FixedImagePixelType &     mappedFixedPixelValue,
+               const FixedImageGradientType &  mappedFixedImageGradient,
+               const MovingImagePointType &    mappedMovingPoint,
+               const MovingImagePixelType &    mappedMovingPixelValue,
+               const MovingImageGradientType & mappedMovingImageGradient,
+               MeasureType &                   metricValueReturn,
+               DerivativeType &                localDerivativeReturn,
+               const ThreadIdType              threadId) const override;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader.hxx"
+#  include "itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader.hxx"
 #endif
 
 #endif

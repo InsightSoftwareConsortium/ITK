@@ -48,55 +48,57 @@
 //  The following section of code implements a Command observer
 //  that will monitor the evolution of the registration process.
 //
-  class CommandIterationUpdate : public itk::Command
-  {
-  public:
-    using Self = CommandIterationUpdate;
-    using Superclass = itk::Command;
-    using Pointer = itk::SmartPointer<CommandIterationUpdate>;
-    itkNewMacro( CommandIterationUpdate );
-  protected:
-    CommandIterationUpdate() = default;
-
-    using InternalImageType = itk::Image< float, 2 >;
-    using VectorPixelType = itk::Vector< float, 2 >;
-    using DisplacementFieldType = itk::Image<  VectorPixelType, 2 >;
-
-    using RegistrationFilterType = itk::DemonsRegistrationFilter<
-                                InternalImageType,
-                                InternalImageType,
-                                DisplacementFieldType>;
-
-  public:
-
-    void Execute(itk::Object *caller, const itk::EventObject & event) override
-      {
-        Execute( (const itk::Object *)caller, event);
-      }
-
-    void Execute(const itk::Object * object, const itk::EventObject & event) override
-      {
-         const auto * filter = static_cast< const RegistrationFilterType * >( object );
-        if( !(itk::IterationEvent().CheckEvent( &event )) )
-          {
-          return;
-          }
-        std::cout << filter->GetMetric() << std::endl;
-      }
-  };
-
-
-int main( int argc, char *argv[] )
+class CommandIterationUpdate : public itk::Command
 {
-  if( argc < 4 )
+public:
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<CommandIterationUpdate>;
+  itkNewMacro(CommandIterationUpdate);
+
+protected:
+  CommandIterationUpdate() = default;
+
+  using InternalImageType = itk::Image<float, 2>;
+  using VectorPixelType = itk::Vector<float, 2>;
+  using DisplacementFieldType = itk::Image<VectorPixelType, 2>;
+
+  using RegistrationFilterType = itk::DemonsRegistrationFilter<InternalImageType,
+                                                               InternalImageType,
+                                                               DisplacementFieldType>;
+
+public:
+  void
+  Execute(itk::Object * caller, const itk::EventObject & event) override
+  {
+    Execute((const itk::Object *)caller, event);
+  }
+
+  void
+  Execute(const itk::Object * object, const itk::EventObject & event) override
+  {
+    const auto * filter = static_cast<const RegistrationFilterType *>(object);
+    if (!(itk::IterationEvent().CheckEvent(&event)))
     {
+      return;
+    }
+    std::cout << filter->GetMetric() << std::endl;
+  }
+};
+
+
+int
+main(int argc, char * argv[])
+{
+  if (argc < 4)
+  {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile " << std::endl;
     std::cerr << " [outputDisplacementFieldFile] " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Software Guide : BeginLatex
   //
@@ -108,19 +110,19 @@ int main( int argc, char *argv[] )
   constexpr unsigned int Dimension = 2;
   using PixelType = unsigned short;
 
-  using FixedImageType = itk::Image< PixelType, Dimension >;
-  using MovingImageType = itk::Image< PixelType, Dimension >;
+  using FixedImageType = itk::Image<PixelType, Dimension>;
+  using MovingImageType = itk::Image<PixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
   // Set up the file readers
-  using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
-  using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
+  using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
+  using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer fixedImageReader   = FixedImageReaderType::New();
+  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
 
-  fixedImageReader->SetFileName( argv[1] );
-  movingImageReader->SetFileName( argv[2] );
+  fixedImageReader->SetFileName(argv[1]);
+  movingImageReader->SetFileName(argv[2]);
 
 
   // Software Guide : BeginLatex
@@ -134,18 +136,16 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using InternalPixelType = float;
-  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
-  using FixedImageCasterType = itk::CastImageFilter< FixedImageType,
-                                InternalImageType >;
-  using MovingImageCasterType = itk::CastImageFilter< MovingImageType,
-                                InternalImageType >;
+  using InternalImageType = itk::Image<InternalPixelType, Dimension>;
+  using FixedImageCasterType = itk::CastImageFilter<FixedImageType, InternalImageType>;
+  using MovingImageCasterType =
+    itk::CastImageFilter<MovingImageType, InternalImageType>;
 
-  FixedImageCasterType::Pointer fixedImageCaster = FixedImageCasterType::New();
-  MovingImageCasterType::Pointer movingImageCaster
-                                                = MovingImageCasterType::New();
+  FixedImageCasterType::Pointer  fixedImageCaster = FixedImageCasterType::New();
+  MovingImageCasterType::Pointer movingImageCaster = MovingImageCasterType::New();
 
-  fixedImageCaster->SetInput( fixedImageReader->GetOutput() );
-  movingImageCaster->SetInput( movingImageReader->GetOutput() );
+  fixedImageCaster->SetInput(fixedImageReader->GetOutput());
+  movingImageCaster->SetInput(movingImageReader->GetOutput());
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -167,9 +167,8 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using MatchingFilterType = itk::HistogramMatchingImageFilter<
-                                    InternalImageType,
-                                    InternalImageType >;
+  using MatchingFilterType =
+    itk::HistogramMatchingImageFilter<InternalImageType, InternalImageType>;
   MatchingFilterType::Pointer matcher = MatchingFilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -186,8 +185,8 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  matcher->SetInput( movingImageCaster->GetOutput() );
-  matcher->SetReferenceImage( fixedImageCaster->GetOutput() );
+  matcher->SetInput(movingImageCaster->GetOutput());
+  matcher->SetReferenceImage(fixedImageCaster->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -203,8 +202,8 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  matcher->SetNumberOfHistogramLevels( 1024 );
-  matcher->SetNumberOfMatchPoints( 7 );
+  matcher->SetNumberOfHistogramLevels(1024);
+  matcher->SetNumberOfMatchPoints(7);
   // Software Guide : EndCodeSnippet
 
 
@@ -232,12 +231,11 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using VectorPixelType = itk::Vector< float, Dimension >;
-  using DisplacementFieldType = itk::Image<  VectorPixelType, Dimension >;
-  using RegistrationFilterType = itk::DemonsRegistrationFilter<
-                                InternalImageType,
-                                InternalImageType,
-                                DisplacementFieldType>;
+  using VectorPixelType = itk::Vector<float, Dimension>;
+  using DisplacementFieldType = itk::Image<VectorPixelType, Dimension>;
+  using RegistrationFilterType = itk::DemonsRegistrationFilter<InternalImageType,
+                                                               InternalImageType,
+                                                               DisplacementFieldType>;
   RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -245,7 +243,7 @@ int main( int argc, char *argv[] )
   // Create the Command observer and register it with the registration filter.
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
-  filter->AddObserver( itk::IterationEvent(), observer );
+  filter->AddObserver(itk::IterationEvent(), observer);
 
 
   // Software Guide : BeginLatex
@@ -260,8 +258,8 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetFixedImage( fixedImageCaster->GetOutput() );
-  filter->SetMovingImage( matcher->GetOutput() );
+  filter->SetFixedImage(fixedImageCaster->GetOutput());
+  filter->SetMovingImage(matcher->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -277,8 +275,8 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetNumberOfIterations( 50 );
-  filter->SetStandardDeviations( 1.0 );
+  filter->SetNumberOfIterations(50);
+  filter->SetStandardDeviations(1.0);
   // Software Guide : EndCodeSnippet
 
 
@@ -297,9 +295,9 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   //
   // The \doxygen{ResampleImageFilter} can be used to warp the moving image with
-  // the output deformation field. The default interpolator of the \doxygen{ResampleImageFilter},
-  // is used but specification of the output image spacing and origin
-  // are required.
+  // the output deformation field. The default interpolator of the
+  // \doxygen{ResampleImageFilter}, is used but specification of the output image
+  // spacing and origin are required.
   //
   // \index{itk::ResampleImageFilter}
   // \index{itk::ResampleImageFilter!SetInput()}
@@ -311,17 +309,18 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using OutputPixelType = unsigned char;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
   using InterpolatorPrecisionType = double;
-  using WarperType =
-    itk::ResampleImageFilter< MovingImageType, OutputImageType,
-                              InterpolatorPrecisionType, float >;
+  using WarperType = itk::ResampleImageFilter<MovingImageType,
+                                              OutputImageType,
+                                              InterpolatorPrecisionType,
+                                              float>;
   WarperType::Pointer warper = WarperType::New();
 
-  warper->SetInput( movingImageReader->GetOutput() );
+  warper->SetInput(movingImageReader->GetOutput());
   warper->UseReferenceImageOn();
-  warper->SetReferenceImage( fixedImageReader->GetOutput() );
+  warper->SetReferenceImage(fixedImageReader->GetOutput());
 
   // Software Guide : EndCodeSnippet
 
@@ -341,19 +340,19 @@ int main( int argc, char *argv[] )
   using DisplacementFieldTransformType =
     itk::DisplacementFieldTransform<InternalPixelType, Dimension>;
   auto displacementTransform = DisplacementFieldTransformType::New();
-  displacementTransform->SetDisplacementField( filter->GetOutput() );
+  displacementTransform->SetDisplacementField(filter->GetOutput());
 
-  warper->SetTransform( displacementTransform );
+  warper->SetTransform(displacementTransform);
   // Software Guide : EndCodeSnippet
 
 
   // Write warped image out to file
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer      writer =  WriterType::New();
+  WriterType::Pointer writer = WriterType::New();
 
-  writer->SetFileName( argv[3] );
-  writer->SetInput( warper->GetOutput() );
+  writer->SetFileName(argv[3]);
+  writer->SetInput(warper->GetOutput());
   writer->Update();
 
 
@@ -390,110 +389,107 @@ int main( int argc, char *argv[] )
   //
   // Software Guide : EndLatex
 
-  if( argc > 4 ) // if a fourth line argument has been provided...
+  if (argc > 4) // if a fourth line argument has been provided...
+  {
+
+    // Software Guide : BeginCodeSnippet
+    using FieldWriterType = itk::ImageFileWriter<DisplacementFieldType>;
+    FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
+    fieldWriter->SetFileName(argv[4]);
+    fieldWriter->SetInput(filter->GetOutput());
+
+    fieldWriter->Update();
+    // Software Guide : EndCodeSnippet
+
+    // Software Guide : BeginLatex
+    //
+    // Note that the file format used for writing the deformation field must be
+    // capable of representing multiple components per pixel. This is the case
+    // for the MetaImage and VTK file formats for example.
+    //
+    // Software Guide : EndLatex
+  }
+
+
+  if (argc > 5) // if a fifth line argument has been provided...
+  {
+
+    using VectorImage2DType = DisplacementFieldType;
+    using Vector2DType = DisplacementFieldType::PixelType;
+
+    VectorImage2DType::ConstPointer vectorImage2D = filter->GetOutput();
+
+    VectorImage2DType::RegionType region2D = vectorImage2D->GetBufferedRegion();
+    VectorImage2DType::IndexType  index2D = region2D.GetIndex();
+    VectorImage2DType::SizeType   size2D = region2D.GetSize();
+
+
+    using Vector3DType = itk::Vector<float, 3>;
+    using VectorImage3DType = itk::Image<Vector3DType, 3>;
+
+    using VectorImage3DWriterType = itk::ImageFileWriter<VectorImage3DType>;
+
+    VectorImage3DWriterType::Pointer writer3D = VectorImage3DWriterType::New();
+
+    VectorImage3DType::Pointer vectorImage3D = VectorImage3DType::New();
+
+    VectorImage3DType::RegionType region3D;
+    VectorImage3DType::IndexType  index3D;
+    VectorImage3DType::SizeType   size3D;
+
+    index3D[0] = index2D[0];
+    index3D[1] = index2D[1];
+    index3D[2] = 0;
+
+    size3D[0] = size2D[0];
+    size3D[1] = size2D[1];
+    size3D[2] = 1;
+
+    region3D.SetSize(size3D);
+    region3D.SetIndex(index3D);
+
+    vectorImage3D->SetRegions(region3D);
+    vectorImage3D->Allocate();
+
+    using Iterator2DType = itk::ImageRegionConstIterator<VectorImage2DType>;
+
+    using Iterator3DType = itk::ImageRegionIterator<VectorImage3DType>;
+
+    Iterator2DType it2(vectorImage2D, region2D);
+    Iterator3DType it3(vectorImage3D, region3D);
+
+    it2.GoToBegin();
+    it3.GoToBegin();
+
+    Vector2DType vector2D;
+    Vector3DType vector3D;
+
+    vector3D[2] = 0; // set Z component to zero.
+
+    while (!it2.IsAtEnd())
     {
-
-  // Software Guide : BeginCodeSnippet
-  using FieldWriterType = itk::ImageFileWriter< DisplacementFieldType >;
-  FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
-  fieldWriter->SetFileName( argv[4] );
-  fieldWriter->SetInput( filter->GetOutput() );
-
-  fieldWriter->Update();
-  // Software Guide : EndCodeSnippet
-
-  // Software Guide : BeginLatex
-  //
-  // Note that the file format used for writing the deformation field must be
-  // capable of representing multiple components per pixel. This is the case
-  // for the MetaImage and VTK file formats for example.
-  //
-  // Software Guide : EndLatex
-
+      vector2D = it2.Get();
+      vector3D[0] = vector2D[0];
+      vector3D[1] = vector2D[1];
+      it3.Set(vector3D);
+      ++it2;
+      ++it3;
     }
 
 
-  if( argc > 5 ) // if a fifth line argument has been provided...
+    writer3D->SetInput(vectorImage3D);
+
+    writer3D->SetFileName(argv[5]);
+
+    try
     {
-
-  using VectorImage2DType = DisplacementFieldType;
-  using Vector2DType = DisplacementFieldType::PixelType;
-
-  VectorImage2DType::ConstPointer vectorImage2D = filter->GetOutput();
-
-  VectorImage2DType::RegionType  region2D = vectorImage2D->GetBufferedRegion();
-  VectorImage2DType::IndexType   index2D  = region2D.GetIndex();
-  VectorImage2DType::SizeType    size2D   = region2D.GetSize();
-
-
-  using Vector3DType = itk::Vector< float,       3 >;
-  using VectorImage3DType = itk::Image< Vector3DType, 3 >;
-
-  using VectorImage3DWriterType = itk::ImageFileWriter< VectorImage3DType >;
-
-  VectorImage3DWriterType::Pointer writer3D = VectorImage3DWriterType::New();
-
-  VectorImage3DType::Pointer vectorImage3D = VectorImage3DType::New();
-
-  VectorImage3DType::RegionType  region3D;
-  VectorImage3DType::IndexType   index3D;
-  VectorImage3DType::SizeType    size3D;
-
-  index3D[0] = index2D[0];
-  index3D[1] = index2D[1];
-  index3D[2] = 0;
-
-  size3D[0]  = size2D[0];
-  size3D[1]  = size2D[1];
-  size3D[2]  = 1;
-
-  region3D.SetSize( size3D );
-  region3D.SetIndex( index3D );
-
-  vectorImage3D->SetRegions( region3D );
-  vectorImage3D->Allocate();
-
-  using Iterator2DType = itk::ImageRegionConstIterator< VectorImage2DType >;
-
-  using Iterator3DType = itk::ImageRegionIterator< VectorImage3DType >;
-
-  Iterator2DType  it2( vectorImage2D, region2D );
-  Iterator3DType  it3( vectorImage3D, region3D );
-
-  it2.GoToBegin();
-  it3.GoToBegin();
-
-  Vector2DType vector2D;
-  Vector3DType vector3D;
-
-  vector3D[2] = 0; // set Z component to zero.
-
-  while( !it2.IsAtEnd() )
-    {
-    vector2D = it2.Get();
-    vector3D[0] = vector2D[0];
-    vector3D[1] = vector2D[1];
-    it3.Set( vector3D );
-    ++it2;
-    ++it3;
+      writer3D->Update();
     }
-
-
-  writer3D->SetInput( vectorImage3D );
-
-  writer3D->SetFileName( argv[5] );
-
-  try
+    catch (itk::ExceptionObject & excp)
     {
-    writer3D->Update();
+      std::cerr << excp << std::endl;
+      return EXIT_FAILURE;
     }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-    }
-
-
   }
 
   return EXIT_SUCCESS;

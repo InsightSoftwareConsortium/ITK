@@ -22,34 +22,32 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-UnsharpMaskLevelSetImageFilter< TInputImage, TOutputImage >
-::UnsharpMaskLevelSetImageFilter()
+template <typename TInputImage, typename TOutputImage>
+UnsharpMaskLevelSetImageFilter<TInputImage, TOutputImage>::UnsharpMaskLevelSetImageFilter()
 {
   RadiusType radius;
 
-  for ( unsigned int j = 0; j < Self::ImageDimension; j++ )
-    {
+  for (unsigned int j = 0; j < Self::ImageDimension; j++)
+  {
     radius[j] = 1;
-    }
+  }
 
   m_Function = FunctionType::New();
   this->SetLevelSetFunction(m_Function);
-  this->SetNumberOfLayers( this->GetMinimumNumberOfLayers() );
+  this->SetNumberOfLayers(this->GetMinimumNumberOfLayers());
 
-  this->SetNormalProcessType (0);          // isotropic diffusion
+  this->SetNormalProcessType(0);           // isotropic diffusion
   this->SetNormalProcessUnsharpFlag(true); // unsharp masking on
-  this->SetNormalProcessUnsharpWeight (1);
+  this->SetNormalProcessUnsharpWeight(1);
   this->SetMaxNormalIteration(25);
   this->SetMaxRefitIteration(100);
   m_MaxFilterIteration = 99;
   m_Function->Initialize(radius);
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-UnsharpMaskLevelSetImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+UnsharpMaskLevelSetImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "MaxFilterIteration: " << m_MaxFilterIteration << std::endl;

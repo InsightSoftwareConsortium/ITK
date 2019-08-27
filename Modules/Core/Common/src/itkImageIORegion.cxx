@@ -20,8 +20,7 @@
 
 namespace itk
 {
-ImageIORegion
-::ImageIORegion()
+ImageIORegion ::ImageIORegion()
 {
   m_ImageDimension = 2;
   m_Index.resize(2);
@@ -30,11 +29,9 @@ ImageIORegion
   std::fill(m_Size.begin(), m_Size.end(), 0);
 }
 
-ImageIORegion
-::~ImageIORegion() = default;
+ImageIORegion ::~ImageIORegion() = default;
 
-ImageIORegion
-::ImageIORegion(unsigned int dimension)
+ImageIORegion ::ImageIORegion(unsigned int dimension)
 {
   m_ImageDimension = dimension;
   m_Index.resize(m_ImageDimension);
@@ -43,8 +40,8 @@ ImageIORegion
   std::fill(m_Size.begin(), m_Size.end(), 0);
 }
 
-ImageIORegion
-::ImageIORegion(const Self & region):Region()
+ImageIORegion ::ImageIORegion(const Self & region)
+  : Region()
 {
   m_Index = region.m_Index;
   m_Size = region.m_Size;
@@ -52,15 +49,15 @@ ImageIORegion
 }
 
 void
-ImageIORegion
-::operator=(const Self & region)
+ImageIORegion ::operator=(const Self & region)
 {
   m_Index = region.m_Index;
   m_Size = region.m_Size;
   m_ImageDimension = region.m_ImageDimension;
 }
 
-std::ostream & operator<<(std::ostream & os, const ImageIORegion & region)
+std::ostream &
+operator<<(std::ostream & os, const ImageIORegion & region)
 {
   region.Print(os);
   return os;
@@ -68,23 +65,20 @@ std::ostream & operator<<(std::ostream & os, const ImageIORegion & region)
 
 /** Set the index defining the corner of the region. */
 void
-ImageIORegion
-::SetIndex(const IndexType & index)
+ImageIORegion ::SetIndex(const IndexType & index)
 {
   m_Index = index;
 }
 
 /** Get index defining the corner of the region. */
 const ImageIORegion::IndexType &
-ImageIORegion
-::GetIndex() const
+ImageIORegion ::GetIndex() const
 {
   return m_Index;
 }
 
 ImageIORegion::IndexType &
-ImageIORegion
-::GetModifiableIndex()
+ImageIORegion ::GetModifiableIndex()
 {
   return m_Index;
 }
@@ -93,195 +87,180 @@ ImageIORegion
 /** Set the size of the region. This plus the index determines the
  * rectangular shape, or extent, of the region. */
 void
-ImageIORegion
-::SetSize(const SizeType & size)
+ImageIORegion ::SetSize(const SizeType & size)
 {
   m_Size = size;
 }
 
 /** Get the size of the region. */
 const ImageIORegion::SizeType &
-ImageIORegion
-::GetSize() const
+ImageIORegion ::GetSize() const
 {
   return m_Size;
 }
 
 ImageIORegion::SizeType &
-ImageIORegion
-::GetModifiableSize()
+ImageIORegion ::GetModifiableSize()
 {
   return m_Size;
 }
 
 unsigned int
-ImageIORegion
-::GetImageDimension() const
+ImageIORegion ::GetImageDimension() const
 {
   return m_ImageDimension;
 }
 
 ImageIORegion::RegionType
-ImageIORegion
-::GetRegionType() const
+ImageIORegion ::GetRegionType() const
 {
   return Superclass::ITK_STRUCTURED_REGION;
 }
 
 unsigned int
-ImageIORegion
-::GetRegionDimension() const
+ImageIORegion ::GetRegionDimension() const
 {
   unsigned int dim = 0;
 
-  for ( unsigned int i = 0; i < m_ImageDimension; i++ )
+  for (unsigned int i = 0; i < m_ImageDimension; i++)
+  {
+    if (m_Size[i] > 1)
     {
-    if ( m_Size[i] > 1 ) { dim++; }
+      dim++;
     }
+  }
   return dim;
 }
 
 ImageIORegion::SizeValueType
-ImageIORegion
-::GetSize(unsigned long i) const
+ImageIORegion ::GetSize(unsigned long i) const
 {
-  if ( i >= m_Size.size() )
-    {
+  if (i >= m_Size.size())
+  {
     itkExceptionMacro("Invalid index in GetSize()");
-    }
+  }
   return m_Size[i];
 }
 
 ImageIORegion::IndexValueType
-ImageIORegion
-::GetIndex(unsigned long i) const
+ImageIORegion ::GetIndex(unsigned long i) const
 {
-  if ( i >= m_Index.size() )
-    {
+  if (i >= m_Index.size())
+  {
     itkExceptionMacro("Invalid index in GetIndex()");
-    }
+  }
   return m_Index[i];
 }
 
 void
-ImageIORegion
-::SetSize(const unsigned long i, SizeValueType size)
+ImageIORegion ::SetSize(const unsigned long i, SizeValueType size)
 {
-  if ( i >= m_Size.size() )
-    {
+  if (i >= m_Size.size())
+  {
     itkExceptionMacro("Invalid index in SetSize()");
-    }
+  }
   m_Size[i] = size;
 }
 
 void
-ImageIORegion
-::SetIndex(const unsigned long i, IndexValueType idx)
+ImageIORegion ::SetIndex(const unsigned long i, IndexValueType idx)
 {
-  if ( i >= m_Index.size() )
-    {
+  if (i >= m_Index.size())
+  {
     itkExceptionMacro("Invalid index in SetIndex()");
-    }
+  }
   m_Index[i] = idx;
 }
 
 bool
-ImageIORegion
-::IsInside(const IndexType & index) const
+ImageIORegion ::IsInside(const IndexType & index) const
 {
-  if ( m_ImageDimension != index.size() )
-    {
+  if (m_ImageDimension != index.size())
+  {
     return false;
-    }
-  for ( unsigned int i = 0; i < m_ImageDimension; i++ )
+  }
+  for (unsigned int i = 0; i < m_ImageDimension; i++)
+  {
+    if (index[i] < m_Index[i])
     {
-    if ( index[i] < m_Index[i] )
-      {
       return false;
-      }
-    if ( static_cast< SizeValueType >( index[i] - m_Index[i] ) >= m_Size[i] )
-      {
-      return false;
-      }
     }
+    if (static_cast<SizeValueType>(index[i] - m_Index[i]) >= m_Size[i])
+    {
+      return false;
+    }
+  }
   return true;
 }
 
 /** Test if a region (the argument) is completly inside of this region */
 bool
-ImageIORegion
-::IsInside(const Self & region) const
+ImageIORegion ::IsInside(const Self & region) const
 {
   IndexType beginCorner = region.GetIndex();
 
-  if ( !this->IsInside(beginCorner) )
-    {
+  if (!this->IsInside(beginCorner))
+  {
     return false;
-    }
+  }
   IndexType endCorner(region.m_ImageDimension);
   SizeType  size = region.GetSize();
-  for ( unsigned int i = 0; i < m_ImageDimension; i++ )
-    {
+  for (unsigned int i = 0; i < m_ImageDimension; i++)
+  {
     endCorner[i] = beginCorner[i] + size[i] - 1;
-    }
-  if ( !this->IsInside(endCorner) )
-    {
+  }
+  if (!this->IsInside(endCorner))
+  {
     return false;
-    }
+  }
   return true;
 }
 
 /** Get the number of pixels contained in this region. This just
-   * multiplies the size components. */
+ * multiplies the size components. */
 ImageIORegion::SizeValueType
-ImageIORegion
-::GetNumberOfPixels() const
+ImageIORegion ::GetNumberOfPixels() const
 {
   size_t numPixels = 1;
 
-  for ( unsigned int d = 0; d < this->GetImageDimension(); ++d )
-    {
+  for (unsigned int d = 0; d < this->GetImageDimension(); ++d)
+  {
     numPixels *= m_Size[d];
-    }
+  }
 
   return Math::CastWithRangeCheck<ImageIORegion::SizeValueType>(numPixels);
 }
 
 bool
-ImageIORegion
-::operator==(const Self & region) const
+ImageIORegion ::operator==(const Self & region) const
 {
-  return (m_Index == region.m_Index) &&
-    (m_Size == region.m_Size) &&
-    (m_ImageDimension == region.m_ImageDimension);
+  return (m_Index == region.m_Index) && (m_Size == region.m_Size) && (m_ImageDimension == region.m_ImageDimension);
 }
 
 /** Compare two regions. */
 bool
-ImageIORegion
-::operator!=(const Self & region) const
+ImageIORegion ::operator!=(const Self & region) const
 {
   return !(*this == region);
 }
 
 void
-ImageIORegion
-::PrintSelf(std::ostream & os, Indent indent) const
+ImageIORegion ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Dimension: " << this->GetImageDimension() << std::endl;
   os << indent << "Index: ";
   for (const auto i : this->GetIndex())
-    {
+  {
     os << i << " ";
-    }
+  }
   os << std::endl;
   os << indent << "Size: ";
   for (const auto k : this->GetSize())
-    {
+  {
     os << k << " ";
-    }
+  }
   os << std::endl;
 }
-} //namespace itk
+} // namespace itk

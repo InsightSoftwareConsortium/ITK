@@ -39,126 +39,114 @@
 namespace itk
 {
 
-template< typename TImage >
-ThresholdImageFilter< TImage >
-::ThresholdImageFilter() :
-  m_OutsideValue( NumericTraits< PixelType >::ZeroValue() ),
-  m_Lower( NumericTraits< PixelType >::NonpositiveMin() ),
-  m_Upper( NumericTraits< PixelType >::max() )
+template <typename TImage>
+ThresholdImageFilter<TImage>::ThresholdImageFilter()
+  : m_OutsideValue(NumericTraits<PixelType>::ZeroValue())
+  , m_Lower(NumericTraits<PixelType>::NonpositiveMin())
+  , m_Upper(NumericTraits<PixelType>::max())
 {
   this->InPlaceOff();
   this->DynamicMultiThreadingOn();
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-ThresholdImageFilter< TImage >
-::ThresholdAbove(const PixelType & thresh)
+ThresholdImageFilter<TImage>::ThresholdAbove(const PixelType & thresh)
 {
-  if ( Math::NotExactlyEquals(m_Upper, thresh)
-       || m_Lower > NumericTraits< PixelType >::NonpositiveMin() )
-    {
-    m_Lower = NumericTraits< PixelType >::NonpositiveMin();
+  if (Math::NotExactlyEquals(m_Upper, thresh) || m_Lower > NumericTraits<PixelType>::NonpositiveMin())
+  {
+    m_Lower = NumericTraits<PixelType>::NonpositiveMin();
     m_Upper = thresh;
     this->Modified();
-    }
+  }
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-ThresholdImageFilter< TImage >
-::ThresholdBelow(const PixelType & thresh)
+ThresholdImageFilter<TImage>::ThresholdBelow(const PixelType & thresh)
 {
-  if ( Math::NotExactlyEquals(m_Lower, thresh) || m_Upper < NumericTraits< PixelType >::max() )
-    {
+  if (Math::NotExactlyEquals(m_Lower, thresh) || m_Upper < NumericTraits<PixelType>::max())
+  {
     m_Lower = thresh;
-    m_Upper = NumericTraits< PixelType >::max();
+    m_Upper = NumericTraits<PixelType>::max();
     this->Modified();
-    }
+  }
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-ThresholdImageFilter< TImage >
-::ThresholdOutside(const PixelType & lower, const PixelType & upper)
+ThresholdImageFilter<TImage>::ThresholdOutside(const PixelType & lower, const PixelType & upper)
 {
-  if ( lower > upper )
-    {
+  if (lower > upper)
+  {
     itkExceptionMacro(<< "Lower threshold cannot be greater than upper threshold.");
     return;
-    }
+  }
 
-  if ( Math::NotExactlyEquals(m_Lower, lower) || Math::NotExactlyEquals(m_Upper, upper) )
-    {
+  if (Math::NotExactlyEquals(m_Lower, lower) || Math::NotExactlyEquals(m_Upper, upper))
+  {
     m_Lower = lower;
     m_Upper = upper;
     this->Modified();
-    }
+  }
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-ThresholdImageFilter< TImage >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+ThresholdImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   const SizeValueType size0 = outputRegionForThread.GetSize(0);
-  if( size0 == 0 )
-    {
+  if (size0 == 0)
+  {
     return;
-    }
+  }
 
   // Get the input and output pointers
-  InputImagePointer  inputPtr  = this->GetInput();
+  InputImagePointer  inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput(0);
 
   // Define/declare an iterator that will walk the output region for this
   // thread.
-  using InputIterator = ImageScanlineConstIterator< TImage >;
-  using OutputIterator = ImageScanlineIterator< TImage >;
+  using InputIterator = ImageScanlineConstIterator<TImage>;
+  using OutputIterator = ImageScanlineIterator<TImage>;
 
   InputIterator  inIt(inputPtr, outputRegionForThread);
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
   // Walk the regions; threshold each pixel
-  while ( !outIt.IsAtEnd() )
+  while (!outIt.IsAtEnd())
+  {
+    while (!outIt.IsAtEndOfLine())
     {
-    while ( !outIt.IsAtEndOfLine() )
-      {
       const PixelType value = inIt.Get();
-      if ( m_Lower <= value && value <= m_Upper )
-        {
+      if (m_Lower <= value && value <= m_Upper)
+      {
         // Pixel passes to output unchanged and is replaced by m_OutsideValue in
         // the inverse output image
-        outIt.Set( inIt.Get() );
-        }
+        outIt.Set(inIt.Get());
+      }
       else
-        {
+      {
         outIt.Set(m_OutsideValue);
-        }
+      }
       ++inIt;
       ++outIt;
-      }
+    }
     inIt.NextLine();
     outIt.NextLine();
-    }
+  }
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-ThresholdImageFilter< TImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+ThresholdImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "OutsideValue: "
-     << static_cast< typename NumericTraits< PixelType >::PrintType >( m_OutsideValue )
+  os << indent << "OutsideValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_OutsideValue)
      << std::endl;
-  os << indent << "Lower: "
-     << static_cast< typename NumericTraits< PixelType >::PrintType >( m_Lower )
-     << std::endl;
-  os << indent << "Upper: "
-     << static_cast< typename NumericTraits< PixelType >::PrintType >( m_Upper )
-     << std::endl;
+  os << indent << "Lower: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Lower) << std::endl;
+  os << indent << "Upper: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Upper) << std::endl;
 }
 } // end namespace itk
 

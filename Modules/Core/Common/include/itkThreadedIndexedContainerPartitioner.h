@@ -42,17 +42,16 @@ namespace itk
  * \sa IndexedContainerInterface
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT ThreadedIndexedContainerPartitioner
-  : public ThreadedDomainPartitioner< Index<2> >
+class ITKCommon_EXPORT ThreadedIndexedContainerPartitioner : public ThreadedDomainPartitioner<Index<2>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ThreadedIndexedContainerPartitioner);
 
   /** Standard class type aliases. */
   using Self = ThreadedIndexedContainerPartitioner;
-  using Superclass = ThreadedDomainPartitioner< Index<2> >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ThreadedDomainPartitioner<Index<2>>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -79,10 +78,11 @@ public:
    * \c subIndexRange are undefined.
    */
 
-  ThreadIdType PartitionDomain(const ThreadIdType threadId,
-                           const ThreadIdType requestedTotal,
-                           const DomainType& completeIndexRange,
-                           DomainType& subIndexRange) const override;
+  ThreadIdType
+  PartitionDomain(const ThreadIdType threadId,
+                  const ThreadIdType requestedTotal,
+                  const DomainType & completeIndexRange,
+                  DomainType &       subIndexRange) const override;
 
 protected:
   ThreadedIndexedContainerPartitioner();

@@ -33,13 +33,14 @@ using std::ofstream;
 using std::ifstream;
 
 //
-int itkFEMLoadPointTestUser(int, char *[])
+int
+itkFEMLoadPointTestUser(int, char *[])
 {
 
-  //Need to register default FEM object types,
-  //and setup SpatialReader to recognize FEM types
-  //which is all currently done as a HACK in
-  //the initializaiton of the itk::FEMFactoryBase::GetFactory()
+  // Need to register default FEM object types,
+  // and setup SpatialReader to recognize FEM types
+  // which is all currently done as a HACK in
+  // the initializaiton of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
   using FEMObjectType = itk::fem::FEMObject<2>;
@@ -98,11 +99,11 @@ int itkFEMLoadPointTestUser(int, char *[])
     itk::fem::Element2DC0LinearQuadrilateralMembrane::New();
 
   e0->SetGlobalNumber(0);
-  e0->SetNode( 0, femObject->GetNode(0) );
-  e0->SetNode( 1, femObject->GetNode(1) );
-  e0->SetNode( 2, femObject->GetNode(2) );
-  e0->SetNode( 3, femObject->GetNode(3) );
-  e0->SetMaterial( femObject->GetMaterial(0).GetPointer() );
+  e0->SetNode(0, femObject->GetNode(0));
+  e0->SetNode(1, femObject->GetNode(1));
+  e0->SetNode(2, femObject->GetNode(2));
+  e0->SetNode(3, femObject->GetNode(3));
+  e0->SetMaterial(femObject->GetMaterial(0).GetPointer());
 
   femObject->AddNextElement(e0);
 
@@ -111,26 +112,26 @@ int itkFEMLoadPointTestUser(int, char *[])
   l1->SetElement(e0);
   l1->SetGlobalNumber(0);
   l1->SetDegreeOfFreedom(0);
-  l1->SetValue( vnl_vector<double>(1, 0.0) );
-  femObject->AddNextLoad( l1 );
+  l1->SetValue(vnl_vector<double>(1, 0.0));
+  femObject->AddNextLoad(l1);
 
 
   itk::fem::LoadPoint::Pointer lm0 = itk::fem::LoadPoint::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( lm0, LoadPoint, LoadElement );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(lm0, LoadPoint, LoadElement);
 
   lm0->SetGlobalNumber(1);
   vnl_vector<double> pt1(2);
   pt1[0] = 0.5;
   pt1[1] = 0.5;
   // it is assumed that source is same as the point.
-  lm0->SetPoint( pt1 );
-  ITK_TEST_SET_GET_VALUE( pt1, lm0->GetPoint() );
+  lm0->SetPoint(pt1);
+  ITK_TEST_SET_GET_VALUE(pt1, lm0->GetPoint());
 
   pt1[0] = 0.0;
   pt1[1] = 1.0;
-  lm0->SetForce( pt1 );
-  ITK_TEST_SET_GET_VALUE( pt1, lm0->GetForce() );
+  lm0->SetForce(pt1);
+  ITK_TEST_SET_GET_VALUE(pt1, lm0->GetForce());
 
   femObject->AddNextLoad(lm0);
 
@@ -145,38 +146,37 @@ int itkFEMLoadPointTestUser(int, char *[])
   // Solvers being tested
   int numsolvers = 3;
 
-  for( int s = 0; s < numsolvers; s++ )
+  for (int s = 0; s < numsolvers; s++)
+  {
+    if (s == 2)
     {
-    if( s == 2 )
-      {
       // Itpack
       std::cout << "Using LinearSystemWrapperItpack" << std::endl;
       lsw_itpack.SetMaximumNonZeroValuesInMatrix(1000);
       solver->SetLinearSystemWrapper(&lsw_itpack);
-      }
-    else if( s == 1 )
-      {
+    }
+    else if (s == 1)
+    {
       // Dense VNL
       std::cout << "Using LinearSystemWrapperDenseVNL" << std::endl;
       solver->SetLinearSystemWrapper(&lsw_dvnl);
-      }
+    }
     else
-      {
+    {
       // Sparse VNL - default
       std::cout << "Using LinearSystemWrapperVNL" << std::endl;
       solver->SetLinearSystemWrapper(&lsw_vnl);
-      }
+    }
 
     solver->Update();
 
-    int numDOF = femObject->GetNumberOfDegreesOfFreedom();
+    int               numDOF = femObject->GetNumberOfDegreesOfFreedom();
     vnl_vector<float> soln(numDOF);
-    for( int i = 0; i < numDOF; i++ )
-      {
+    for (int i = 0; i < numDOF; i++)
+    {
       soln[i] = solver->GetSolution(i);
-      }
-
     }
+  }
 
   std::cout << "Test PASSED!\n";
   return EXIT_SUCCESS;

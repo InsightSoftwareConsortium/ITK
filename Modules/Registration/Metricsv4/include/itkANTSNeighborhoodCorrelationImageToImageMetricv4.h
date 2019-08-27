@@ -21,7 +21,8 @@
 #include "itkImageToImageMetricv4.h"
 #include "itkANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class ANTSNeighborhoodCorrelationImageToImageMetricv4
  *
@@ -90,20 +91,22 @@ namespace itk {
  *
  * \ingroup ITKMetricsv4
  */
-template<typename TFixedImage, typename TMovingImage, typename TVirtualImage = TFixedImage,
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage = TFixedImage,
           typename TInternalComputationValueType = double,
-          typename TMetricTraits = DefaultImageToImageMetricTraitsv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType>
-          >
-class ITK_TEMPLATE_EXPORT ANTSNeighborhoodCorrelationImageToImageMetricv4 :
-  public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
+          typename TMetricTraits =
+            DefaultImageToImageMetricTraitsv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType>>
+class ITK_TEMPLATE_EXPORT ANTSNeighborhoodCorrelationImageToImageMetricv4
+  : public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ANTSNeighborhoodCorrelationImageToImageMetricv4);
 
   /** Standard class type aliases. */
   using Self = ANTSNeighborhoodCorrelationImageToImageMetricv4;
-  using Superclass = ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage,
-                             TInternalComputationValueType,TMetricTraits>;
+  using Superclass =
+    ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -164,21 +167,34 @@ public:
   itkGetMacro(Radius, RadiusType);
   itkGetConstMacro(Radius, RadiusType);
 
-  void Initialize() override;
+  void
+  Initialize() override;
 
 protected:
   ANTSNeighborhoodCorrelationImageToImageMetricv4();
   ~ANTSNeighborhoodCorrelationImageToImageMetricv4() override = default;
 
-  friend class ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass, Self >;
+  friend class ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
+    ThreadedImageRegionPartitioner<VirtualImageDimension>,
+    Superclass,
+    Self>;
   using ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreaderType =
-      ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass, Self >;
+    ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
+      ThreadedImageRegionPartitioner<VirtualImageDimension>,
+      Superclass,
+      Self>;
 
-  friend class ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
+  friend class ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
+    ThreadedIndexedContainerPartitioner,
+    Superclass,
+    Self>;
   using ANTSNeighborhoodCorrelationImageToImageMetricv4SparseGetValueAndDerivativeThreaderType =
-      ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
+    ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner,
+                                                                                 Superclass,
+                                                                                 Self>;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   // Radius of the neighborhood window centered at each pixel
@@ -188,7 +204,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.hxx"
+#  include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.hxx"
 #endif
 
 #endif

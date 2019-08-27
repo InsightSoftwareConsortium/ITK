@@ -45,18 +45,17 @@ namespace itk
  * \sphinxexample{Filtering/ImageGrid/PadAnImageWithAConstant,Pad An Image With A Constant}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT ConstantPadImageFilter:
-  public PadImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT ConstantPadImageFilter : public PadImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConstantPadImageFilter);
 
   /** Standard class type aliases. */
   using Self = ConstantPadImageFilter;
-  using Superclass = PadImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = PadImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -83,44 +82,43 @@ public:
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Set/Get the pad value.  Default is Zero. */
-  void SetConstant( OutputImagePixelType constant )
+  void
+  SetConstant(OutputImagePixelType constant)
   {
-    if ( Math::NotExactlyEquals(constant, m_InternalBoundaryCondition.GetConstant()) )
-      {
-      m_InternalBoundaryCondition.SetConstant( constant );
+    if (Math::NotExactlyEquals(constant, m_InternalBoundaryCondition.GetConstant()))
+    {
+      m_InternalBoundaryCondition.SetConstant(constant);
       this->Modified();
-      }
+    }
   }
-  OutputImagePixelType GetConstant() const
+  OutputImagePixelType
+  GetConstant() const
   {
     return m_InternalBoundaryCondition.GetConstant();
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputEqualityComparableCheck,
-                   ( Concept::EqualityComparable< OutputImagePixelType > ) );
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< InputImagePixelType, OutputImagePixelType > ) );
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< ImageDimension, OutputImageDimension > ) );
-  itkConceptMacro( OutputOStreamWritableCheck,
-                   ( Concept::OStreamWritable< OutputImagePixelType > ) );
+  itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputImagePixelType>));
+  itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<OutputImagePixelType>));
   // End concept checking
 #endif
 
 protected:
   ConstantPadImageFilter();
   ~ConstantPadImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ConstantBoundaryCondition< TInputImage, TOutputImage > m_InternalBoundaryCondition;
+  ConstantBoundaryCondition<TInputImage, TOutputImage> m_InternalBoundaryCondition;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkConstantPadImageFilter.hxx"
+#  include "itkConstantPadImageFilter.hxx"
 #endif
 
 #endif

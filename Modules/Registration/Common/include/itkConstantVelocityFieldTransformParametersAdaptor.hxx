@@ -28,179 +28,174 @@
 namespace itk
 {
 
-template<typename TTransform>
-ConstantVelocityFieldTransformParametersAdaptor<TTransform>
-::ConstantVelocityFieldTransformParametersAdaptor()
+template <typename TTransform>
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>::ConstantVelocityFieldTransformParametersAdaptor()
 {
-  this->m_RequiredFixedParameters.SetSize( ConstantVelocityFieldDimension * ( ConstantVelocityFieldDimension + 3 ) );
-  this->m_RequiredFixedParameters.Fill( 0.0 );
+  this->m_RequiredFixedParameters.SetSize(ConstantVelocityFieldDimension * (ConstantVelocityFieldDimension + 3));
+  this->m_RequiredFixedParameters.Fill(0.0);
 }
 
-template<typename TTransform>
+template <typename TTransform>
 void
-ConstantVelocityFieldTransformParametersAdaptor<TTransform>
-::SetRequiredSize( const SizeType & size )
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>::SetRequiredSize(const SizeType & size)
 {
   bool isModified = false;
-  for( SizeValueType d = 0; d < ConstantVelocityFieldDimension; d++ )
+  for (SizeValueType d = 0; d < ConstantVelocityFieldDimension; d++)
+  {
+    if (Math::NotExactlyEquals(this->m_RequiredFixedParameters[d], size[d]))
     {
-    if( Math::NotExactlyEquals(this->m_RequiredFixedParameters[d], size[d]) )
-      {
       isModified = true;
-      }
+    }
     this->m_RequiredFixedParameters[d] = size[d];
-    }
+  }
 
-  if( isModified )
-    {
-    itkDebugMacro( "Setting size to " << size );
+  if (isModified)
+  {
+    itkDebugMacro("Setting size to " << size);
     this->Modified();
-    }
+  }
 }
 
-template<typename TTransform>
+template <typename TTransform>
 const typename ConstantVelocityFieldTransformParametersAdaptor<TTransform>::SizeType
-ConstantVelocityFieldTransformParametersAdaptor<TTransform>
-::GetRequiredSize() const
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredSize() const
 {
   SizeType size;
-  for( SizeValueType d = 0; d < ConstantVelocityFieldDimension; d++ )
-    {
-    size[d] = static_cast<SizeValueType>( this->m_RequiredFixedParameters[d] );
-    }
+  for (SizeValueType d = 0; d < ConstantVelocityFieldDimension; d++)
+  {
+    size[d] = static_cast<SizeValueType>(this->m_RequiredFixedParameters[d]);
+  }
   return size;
 }
 
-template<typename TTransform>
+template <typename TTransform>
 void
-ConstantVelocityFieldTransformParametersAdaptor<TTransform>
-::SetRequiredOrigin( const PointType & origin )
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>::SetRequiredOrigin(const PointType & origin)
 {
   bool isModified = false;
-  for( SizeValueType d = 0; d < ConstantVelocityFieldDimension; d++ )
+  for (SizeValueType d = 0; d < ConstantVelocityFieldDimension; d++)
+  {
+    if (Math::NotExactlyEquals(this->m_RequiredFixedParameters[ConstantVelocityFieldDimension + d], origin[d]))
     {
-    if( Math::NotExactlyEquals(this->m_RequiredFixedParameters[ConstantVelocityFieldDimension + d], origin[d]) )
-      {
       isModified = true;
-      }
+    }
     this->m_RequiredFixedParameters[ConstantVelocityFieldDimension + d] = origin[d];
-    }
+  }
 
-  if( isModified )
-    {
-    itkDebugMacro( "Setting origin to " << origin );
+  if (isModified)
+  {
+    itkDebugMacro("Setting origin to " << origin);
     this->Modified();
-    }
+  }
 }
 
-template<typename TTransform>
+template <typename TTransform>
 const typename ConstantVelocityFieldTransformParametersAdaptor<TTransform>::PointType
-ConstantVelocityFieldTransformParametersAdaptor<TTransform>
-::GetRequiredOrigin() const
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredOrigin() const
 {
   PointType origin;
-  for( SizeValueType d = 0; d < ConstantVelocityFieldDimension; d++ )
-    {
+  for (SizeValueType d = 0; d < ConstantVelocityFieldDimension; d++)
+  {
     origin[d] = this->m_RequiredFixedParameters[ConstantVelocityFieldDimension + d];
-    }
+  }
   return origin;
 }
 
-template<typename TTransform>
+template <typename TTransform>
 void
-ConstantVelocityFieldTransformParametersAdaptor<TTransform>
-::SetRequiredSpacing( const SpacingType & spacing )
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>::SetRequiredSpacing(const SpacingType & spacing)
 {
   bool isModified = false;
-  for( SizeValueType d = 0; d < ConstantVelocityFieldDimension; d++ )
+  for (SizeValueType d = 0; d < ConstantVelocityFieldDimension; d++)
+  {
+    if (Math::NotExactlyEquals(this->m_RequiredFixedParameters[2 * ConstantVelocityFieldDimension + d], spacing[d]))
     {
-    if( Math::NotExactlyEquals(this->m_RequiredFixedParameters[2*ConstantVelocityFieldDimension + d], spacing[d]) )
-      {
       isModified = true;
-      }
-    this->m_RequiredFixedParameters[2*ConstantVelocityFieldDimension + d] = spacing[d];
     }
+    this->m_RequiredFixedParameters[2 * ConstantVelocityFieldDimension + d] = spacing[d];
+  }
 
-  if( isModified )
-    {
-    itkDebugMacro( "Setting spacing to " << spacing );
+  if (isModified)
+  {
+    itkDebugMacro("Setting spacing to " << spacing);
     this->Modified();
-    }
+  }
 }
 
-template<typename TTransform>
+template <typename TTransform>
 const typename ConstantVelocityFieldTransformParametersAdaptor<TTransform>::SpacingType
-ConstantVelocityFieldTransformParametersAdaptor<TTransform>
-::GetRequiredSpacing() const
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredSpacing() const
 {
   SpacingType spacing;
-  for( SizeValueType d = 0; d < ConstantVelocityFieldDimension; d++ )
-    {
-    spacing[d] = this->m_RequiredFixedParameters[2*ConstantVelocityFieldDimension + d];
-    }
+  for (SizeValueType d = 0; d < ConstantVelocityFieldDimension; d++)
+  {
+    spacing[d] = this->m_RequiredFixedParameters[2 * ConstantVelocityFieldDimension + d];
+  }
   return spacing;
 }
 
-template<typename TTransform>
+template <typename TTransform>
 void
-ConstantVelocityFieldTransformParametersAdaptor<TTransform>
-::SetRequiredDirection( const DirectionType & direction )
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>::SetRequiredDirection(const DirectionType & direction)
 {
   bool isModified = false;
-  for( SizeValueType di = 0; di < ConstantVelocityFieldDimension; di++ )
+  for (SizeValueType di = 0; di < ConstantVelocityFieldDimension; di++)
+  {
+    for (SizeValueType dj = 0; dj < ConstantVelocityFieldDimension; dj++)
     {
-    for( SizeValueType dj = 0; dj < ConstantVelocityFieldDimension; dj++ )
+      if (Math::NotExactlyEquals(this->m_RequiredFixedParameters[3 * ConstantVelocityFieldDimension +
+                                                                 (di * ConstantVelocityFieldDimension + dj)],
+                                 direction[di][dj]))
       {
-      if( Math::NotExactlyEquals(this->m_RequiredFixedParameters[3 * ConstantVelocityFieldDimension + ( di * ConstantVelocityFieldDimension + dj )], direction[di][dj]) )
-        {
         isModified = true;
-        }
-      this->m_RequiredFixedParameters[3 * ConstantVelocityFieldDimension + ( di * ConstantVelocityFieldDimension + dj )] = direction[di][dj];
       }
+      this->m_RequiredFixedParameters[3 * ConstantVelocityFieldDimension + (di * ConstantVelocityFieldDimension + dj)] =
+        direction[di][dj];
     }
+  }
 
-  if( isModified )
-    {
-    itkDebugMacro( "Setting direction to " << direction );
+  if (isModified)
+  {
+    itkDebugMacro("Setting direction to " << direction);
     this->Modified();
-    }
+  }
 }
 
-template<typename TTransform>
+template <typename TTransform>
 const typename ConstantVelocityFieldTransformParametersAdaptor<TTransform>::DirectionType
-ConstantVelocityFieldTransformParametersAdaptor<TTransform>
-::GetRequiredDirection() const
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredDirection() const
 {
   DirectionType direction;
-  for( SizeValueType di = 0; di < ConstantVelocityFieldDimension; di++ )
+  for (SizeValueType di = 0; di < ConstantVelocityFieldDimension; di++)
+  {
+    for (SizeValueType dj = 0; dj < ConstantVelocityFieldDimension; dj++)
     {
-    for( SizeValueType dj = 0; dj < ConstantVelocityFieldDimension; dj++ )
-      {
-      direction[di][dj] = this->m_RequiredFixedParameters[3 * ConstantVelocityFieldDimension + ( di * ConstantVelocityFieldDimension + dj )];
-      }
+      direction[di][dj] =
+        this
+          ->m_RequiredFixedParameters[3 * ConstantVelocityFieldDimension + (di * ConstantVelocityFieldDimension + dj)];
     }
+  }
   return direction;
 }
 
-template<typename TTransform>
+template <typename TTransform>
 void
-ConstantVelocityFieldTransformParametersAdaptor<TTransform>
-::AdaptTransformParameters()
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>::AdaptTransformParameters()
 {
-  if( !this->m_Transform )
-    {
-    itkExceptionMacro( "Transform has not been set." );
+  if (!this->m_Transform)
+  {
+    itkExceptionMacro("Transform has not been set.");
     return;
-    }
+  }
 
-  if( this->m_RequiredFixedParameters == this->m_Transform->GetFixedParameters() )
-    {
+  if (this->m_RequiredFixedParameters == this->m_Transform->GetFixedParameters())
+  {
     return;
-    }
+  }
 
-  const SizeType newFieldSize = this->GetRequiredSize();
-  const PointType newFieldOrigin = this->GetRequiredOrigin();
-  const SpacingType newFieldSpacing = this->GetRequiredSpacing();
+  const SizeType      newFieldSize = this->GetRequiredSize();
+  const PointType     newFieldOrigin = this->GetRequiredOrigin();
+  const SpacingType   newFieldSpacing = this->GetRequiredSpacing();
   const DirectionType newFieldDirection = this->GetRequiredDirection();
 
   using IdentityTransformType = IdentityTransform<ParametersValueType, ConstantVelocityFieldDimension>;
@@ -209,26 +204,26 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 
   using LinearInterpolatorType = LinearInterpolateImageFunction<ConstantVelocityFieldType, ParametersValueType>;
   typename LinearInterpolatorType::Pointer interpolator = LinearInterpolatorType::New();
-  interpolator->SetInputImage( this->m_Transform->GetConstantVelocityField() );
+  interpolator->SetInputImage(this->m_Transform->GetConstantVelocityField());
 
   using ResamplerType = ResampleImageFilter<ConstantVelocityFieldType, ConstantVelocityFieldType, ParametersValueType>;
   typename ResamplerType::Pointer resampler = ResamplerType::New();
-  resampler->SetInput( this->m_Transform->GetConstantVelocityField() );
-  resampler->SetOutputDirection( newFieldDirection );
-  resampler->SetOutputOrigin( newFieldOrigin );
-  resampler->SetOutputSpacing( newFieldSpacing );
-  resampler->SetSize( newFieldSize );
-  resampler->SetTransform( identityTransform );
-  resampler->SetInterpolator( interpolator );
+  resampler->SetInput(this->m_Transform->GetConstantVelocityField());
+  resampler->SetOutputDirection(newFieldDirection);
+  resampler->SetOutputOrigin(newFieldOrigin);
+  resampler->SetOutputSpacing(newFieldSpacing);
+  resampler->SetSize(newFieldSize);
+  resampler->SetTransform(identityTransform);
+  resampler->SetInterpolator(interpolator);
 
   typename ConstantVelocityFieldType::Pointer newConstantVelocityField = resampler->GetOutput();
   newConstantVelocityField->Update();
   newConstantVelocityField->DisconnectPipeline();
 
-  this->m_Transform->SetConstantVelocityField( newConstantVelocityField );
+  this->m_Transform->SetConstantVelocityField(newConstantVelocityField);
   this->m_Transform->IntegrateVelocityField();
 }
 
-}  // namespace itk
+} // namespace itk
 
 #endif

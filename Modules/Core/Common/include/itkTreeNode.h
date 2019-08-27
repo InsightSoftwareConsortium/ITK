@@ -39,18 +39,18 @@ namespace itk
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
-template< typename TValue >
-class ITK_TEMPLATE_EXPORT TreeNode:public Object
+template <typename TValue>
+class ITK_TEMPLATE_EXPORT TreeNode : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TreeNode);
 
   /** Standard type alias */
   using Superclass = Object;
-  using Self = TreeNode< TValue >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using ChildrenListType = std::vector< Pointer >;
+  using Self = TreeNode<TValue>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using ChildrenListType = std::vector<Pointer>;
   using ChildIdentifier = ::itk::OffsetValueType;
 
   /** Method for creation through the object factory. */
@@ -60,78 +60,97 @@ public:
   itkTypeMacro(TreeNode, Object);
 
   /** Get the value of the node */
-  const TValue & Get() const;
+  const TValue &
+  Get() const;
 
   /** Set the current value of the node */
-  TValue Set(const TValue data);
+  TValue
+  Set(const TValue data);
 
   /** Get the child node */
-  Self * GetChild(ChildIdentifier number) const;
+  Self *
+  GetChild(ChildIdentifier number) const;
 
   /** Get the parent node */
-  Self * GetParent() const;
+  Self *
+  GetParent() const;
 
   /** Return true if the node has children */
-  bool HasChildren() const;
+  bool
+  HasChildren() const;
 
   /** Return true if the node has a parent */
-  bool HasParent() const;
+  bool
+  HasParent() const;
 
   /** Set the parent of the node */
-  void SetParent(Self *n);
+  void
+  SetParent(Self * n);
 
   /** Return the number of children */
-  ChildIdentifier CountChildren() const;
+  ChildIdentifier
+  CountChildren() const;
 
   /** Remove a node from the node */
-  bool Remove(Self *n);
+  bool
+  Remove(Self * n);
 
   /** Get the number of children given a name and depth */
-  ChildIdentifier GetNumberOfChildren(unsigned int depth = 0, char *name = nullptr) const;
+  ChildIdentifier
+  GetNumberOfChildren(unsigned int depth = 0, char * name = nullptr) const;
 
   /** Replace a given child by a new one */
-  bool ReplaceChild(Self *oldChild, Self *newChild);
+  bool
+  ReplaceChild(Self * oldChild, Self * newChild);
 
   /** Return the child position given a node */
-  ChildIdentifier ChildPosition(const Self *node) const;
+  ChildIdentifier
+  ChildPosition(const Self * node) const;
 
   /** Return the child position given a value */
-  ChildIdentifier ChildPosition(TValue node) const;
+  ChildIdentifier
+  ChildPosition(TValue node) const;
 
   /** Add a child to the node */
-  void AddChild(Self *node);
+  void
+  AddChild(Self * node);
 
   /** Add a child to the node and specify the number in the children list */
-  virtual void AddChild(ChildIdentifier number, Self *node);
+  virtual void
+  AddChild(ChildIdentifier number, Self * node);
 
   /** Get the children list */
-#if !defined( ITK_WRAPPING_PARSER )
-  virtual ChildrenListType * GetChildren(unsigned int depth = 0, char *name = nullptr) const;
+#if !defined(ITK_WRAPPING_PARSER)
+  virtual ChildrenListType *
+  GetChildren(unsigned int depth = 0, char * name = nullptr) const;
 
 #endif
 
   /** Get the internal list of children */
-#if !defined( ITK_WRAPPING_PARSER )
-  virtual ChildrenListType & GetChildrenList() { return m_Children; }
+#if !defined(ITK_WRAPPING_PARSER)
+  virtual ChildrenListType &
+  GetChildrenList()
+  {
+    return m_Children;
+  }
 #endif
 
   /** Set the data of the node */
-  //virtual void SetData(TValue data) {m_Data = data;}
+  // virtual void SetData(TValue data) {m_Data = data;}
 
 protected:
-
   TreeNode() = default;
   ~TreeNode() override;
 
   TValue m_Data;
-  Self *m_Parent{nullptr};
+  Self * m_Parent{ nullptr };
 
   ChildrenListType m_Children;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTreeNode.hxx"
+#  include "itkTreeNode.hxx"
 #endif
 
 #endif

@@ -22,30 +22,26 @@
 
 namespace itk
 {
-template< typename TImage >
-ImageSliceIteratorWithIndex< TImage >
-::ImageSliceIteratorWithIndex(ImageType *ptr, const RegionType & region):
-  ImageSliceConstIteratorWithIndex< TImage >(ptr, region)
+template <typename TImage>
+ImageSliceIteratorWithIndex<TImage>::ImageSliceIteratorWithIndex(ImageType * ptr, const RegionType & region)
+  : ImageSliceConstIteratorWithIndex<TImage>(ptr, region)
 {}
 
-template< typename TImage >
-ImageSliceIteratorWithIndex< TImage >
-::ImageSliceIteratorWithIndex(const ImageIteratorWithIndex< TImage > & it):
-  ImageSliceConstIteratorWithIndex< TImage >(it)
+template <typename TImage>
+ImageSliceIteratorWithIndex<TImage>::ImageSliceIteratorWithIndex(const ImageIteratorWithIndex<TImage> & it)
+  : ImageSliceConstIteratorWithIndex<TImage>(it)
 {}
 
-template< typename TImage >
-ImageSliceIteratorWithIndex< TImage >
-::ImageSliceIteratorWithIndex(const ImageSliceConstIteratorWithIndex< TImage > & it):
-  ImageSliceConstIteratorWithIndex< TImage >(it)
+template <typename TImage>
+ImageSliceIteratorWithIndex<TImage>::ImageSliceIteratorWithIndex(const ImageSliceConstIteratorWithIndex<TImage> & it)
+  : ImageSliceConstIteratorWithIndex<TImage>(it)
 {}
 
-template< typename TImage >
-ImageSliceIteratorWithIndex< TImage > &
-ImageSliceIteratorWithIndex< TImage >
-::operator=(const ImageSliceConstIteratorWithIndex< TImage > & it)
+template <typename TImage>
+ImageSliceIteratorWithIndex<TImage> &
+ImageSliceIteratorWithIndex<TImage>::operator=(const ImageSliceConstIteratorWithIndex<TImage> & it)
 {
-  this->ImageSliceConstIteratorWithIndex< TImage >::operator=(it);
+  this->ImageSliceConstIteratorWithIndex<TImage>::operator=(it);
   return *this;
 }
 } // end namespace itk

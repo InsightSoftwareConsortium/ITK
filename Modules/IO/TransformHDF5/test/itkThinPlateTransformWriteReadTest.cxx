@@ -35,14 +35,15 @@
 #include "itkHDF5TransformIO.h"
 #include <itkTransformFactory.h>
 
-template<typename TransformType>
-static int ReadWriteTest(const char * const fileName)
+template <typename TransformType>
+static int
+ReadWriteTest(const char * const fileName)
 {
   const double epsilon = 1e-12;
   using ParametersValueType = typename TransformType::ScalarType;
 
   // Create transform
-  typename TransformType::Pointer     transform       = TransformType::New();
+  typename TransformType::Pointer transform = TransformType::New();
   using PointType = typename TransformType::InputPointType;
   using PointsIteratorType = typename TransformType::PointsIterator;
   using PointSetType = typename TransformType::PointSetType;
@@ -55,8 +56,8 @@ static int ReadWriteTest(const char * const fileName)
   typename PointSetType::Pointer sourceLandmarks = PointSetType::New();
   typename PointSetType::Pointer targetLandmarks = PointSetType::New();
 
-  sourceLandmarks->GetPoints()->Reserve( 4 );
-  targetLandmarks->GetPoints()->Reserve( 4 );
+  sourceLandmarks->GetPoints()->Reserve(4);
+  targetLandmarks->GetPoints()->Reserve(4);
 
   // Create landmark sets
   PointsIteratorType sourceit = sourceLandmarks->GetPoints()->Begin();
@@ -65,92 +66,93 @@ static int ReadWriteTest(const char * const fileName)
   PointsIteratorType sourceend = sourceLandmarks->GetPoints()->End();
 
   for (int i = 0; i < 2; i++)
-    {
+  {
     for (int j = 0; j < 2; j++)
-      {
+    {
       sourcePoint[0] = j;
       sourcePoint[1] = i;
       sourceit.Value() = sourcePoint;
-      targetPoint[0] = 3*j;
-      targetPoint[1] = 3*i;
+      targetPoint[0] = 3 * j;
+      targetPoint[1] = 3 * i;
       targetit.Value() = targetPoint;
       sourceit++;
       targetit++;
-      }
     }
+  }
 
-  transform->SetSourceLandmarks( sourceLandmarks );
-  transform->SetTargetLandmarks( targetLandmarks );
+  transform->SetSourceLandmarks(sourceLandmarks);
+  transform->SetTargetLandmarks(targetLandmarks);
   transform->ComputeWMatrix();
 
   sourceit = sourceLandmarks->GetPoints()->Begin();
   targetit = targetLandmarks->GetPoints()->Begin();
 
   sourceend = sourceLandmarks->GetPoints()->End();
-  while( sourceit != sourceend )
-    {
+  while (sourceit != sourceend)
+  {
     sourcePoint = sourceit.Value();
     targetPoint = targetit.Value();
     mappedPoint = transform->TransformPoint(sourcePoint);
     std::cout << sourcePoint << " : " << targetPoint;
     std::cout << " warps to: " << mappedPoint << std::endl;
-    if( mappedPoint.EuclideanDistanceTo( targetPoint ) > epsilon )
-      {
+    if (mappedPoint.EuclideanDistanceTo(targetPoint) > epsilon)
+    {
       return EXIT_FAILURE;
-      }
+    }
     ++sourceit;
     ++targetit;
-    }
+  }
 
   // Write transform to file
   using TransformWriterType = typename itk::TransformFileWriterTemplate<ParametersValueType>;
   typename TransformWriterType::Pointer transformWriter = TransformWriterType::New();
-  transformWriter->SetFileName( fileName );
-  transformWriter->AddTransform( transform );
-  ITK_TRY_EXPECT_NO_EXCEPTION( transformWriter->Update() );
+  transformWriter->SetFileName(fileName);
+  transformWriter->AddTransform(transform);
+  ITK_TRY_EXPECT_NO_EXCEPTION(transformWriter->Update());
 
   // Read transform file
   using TransformReaderType = typename itk::TransformFileReaderTemplate<ParametersValueType>;
   typename TransformReaderType::Pointer transformReader = TransformReaderType::New();
   transformReader->SetFileName(fileName);
-  ITK_TRY_EXPECT_NO_EXCEPTION( transformReader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(transformReader->Update());
 
   // Compare read transform results with expected results
   const typename TransformReaderType::TransformListType * list = transformReader->GetTransformList();
-  if ( list->size() != 1 )
-    {
+  if (list->size() != 1)
+  {
     std::cerr << "Failure: There should be only one transform in the file!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  auto * readTransform = static_cast<TransformType*>(list->front().GetPointer());
+  auto * readTransform = static_cast<TransformType *>(list->front().GetPointer());
   sourceit = sourceLandmarks->GetPoints()->Begin();
   targetit = targetLandmarks->GetPoints()->Begin();
   sourceend = sourceLandmarks->GetPoints()->End();
-  while( sourceit != sourceend )
-    {
+  while (sourceit != sourceend)
+  {
     sourcePoint = sourceit.Value();
     targetPoint = targetit.Value();
     mappedPoint = readTransform->TransformPoint(sourcePoint);
     std::cout << sourcePoint << " : " << targetPoint;
     std::cout << " warps to: " << mappedPoint << std::endl;
-    if( mappedPoint.EuclideanDistanceTo( targetPoint ) > epsilon )
-      {
+    if (mappedPoint.EuclideanDistanceTo(targetPoint) > epsilon)
+    {
       return EXIT_FAILURE;
-      }
+    }
     ++sourceit;
     ++targetit;
-    }
+  }
   return EXIT_SUCCESS;
 }
 
-int itkThinPlateTransformWriteReadTest( int argc, char *argv[] )
+int
+itkThinPlateTransformWriteReadTest(int argc, char * argv[])
 {
-  if( argc != 2 )
-    {
+  if (argc != 2)
+  {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputDirectory" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   itksys::SystemTools::ChangeDirectory(argv[1]);
 
@@ -168,7 +170,7 @@ int itkThinPlateTransformWriteReadTest( int argc, char *argv[] )
   itk::TransformFactory<VSTransform2DType>::RegisterTransform();
 
   // Register transform IO used to save the transforms
-  itk::ObjectFactoryBase::RegisterFactory(itk::HDF5TransformIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory(itk::HDF5TransformIOFactory::New());
 
   // Run tests
   int resultEBS = ReadWriteTest<EBSTransform2DType>("ElasticBodySplineKernelTransform_double_2.h5");
@@ -178,14 +180,10 @@ int itkThinPlateTransformWriteReadTest( int argc, char *argv[] )
   int resultVS = ReadWriteTest<VSTransform2DType>("VolumeSplineKernelTransform_double_2.h5");
 
   // Check results
-  if( resultEBS != EXIT_SUCCESS
-   || resultEBRS != EXIT_SUCCESS
-   || resultTPS != EXIT_SUCCESS
-   || resultTPR2 != EXIT_SUCCESS
-   || resultVS != EXIT_SUCCESS
-   )
-   {
-     return EXIT_FAILURE;
-   }
-   return EXIT_SUCCESS;
+  if (resultEBS != EXIT_SUCCESS || resultEBRS != EXIT_SUCCESS || resultTPS != EXIT_SUCCESS ||
+      resultTPR2 != EXIT_SUCCESS || resultVS != EXIT_SUCCESS)
+  {
+    return EXIT_FAILURE;
+  }
+  return EXIT_SUCCESS;
 }

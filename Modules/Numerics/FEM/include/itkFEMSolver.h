@@ -132,28 +132,35 @@ public:
   itkGetMacro(Direction, InterpolationGridDirectionType);
 
   /** Returns the time step used for dynamic problems. */
-  virtual Float GetTimeStep() const;
+  virtual Float
+  GetTimeStep() const;
 
   /**
    * Sets the time step used for dynamic problems.
    *
    * \param dt New time step.
    */
-  virtual void SetTimeStep(Float dt);
+  virtual void
+  SetTimeStep(Float dt);
 
   /** Returns the Solution for the specified nodal point. */
-  Float GetSolution(unsigned int i, unsigned int which = 0);
+  Float
+  GetSolution(unsigned int i, unsigned int which = 0);
 
   /** Set/Get the image input of this process object.
    * Connect one of the operands for pixel-wise addition. */
   using Superclass::SetInput;
-  virtual void SetInput( FEMObjectType *fem);
+  virtual void
+  SetInput(FEMObjectType * fem);
 
-  virtual void SetInput( unsigned int, FEMObjectType * fem);
+  virtual void
+  SetInput(unsigned int, FEMObjectType * fem);
 
-  FEMObjectType * GetInput();
+  FEMObjectType *
+  GetInput();
 
-  FEMObjectType * GetInput(unsigned int idx);
+  FEMObjectType *
+  GetInput(unsigned int idx);
 
   /**
    * Returns the pointer to the element which contains global point pt.
@@ -163,10 +170,12 @@ public:
    * \note Interpolation grid must be initializes before you can
    *       call this function.
    */
-  const Element * GetElementAtPoint(const VectorType & pt) const;
+  const Element *
+  GetElementAtPoint(const VectorType & pt) const;
 
   /** Get the total deformation energy using the chosen solution */
-  Float GetDeformationEnergy(unsigned int SolutionIndex = 0);
+  Float
+  GetDeformationEnergy(unsigned int SolutionIndex = 0);
 
   /**
    * Sets the LinearSystemWrapper object that will be used when solving
@@ -182,14 +191,16 @@ public:
    *       should also be destroyed outside. Solver class will not destroy it
    *       when the Solver object is destroyed.
    */
-  void SetLinearSystemWrapper(LinearSystemWrapper::Pointer ls);
+  void
+  SetLinearSystemWrapper(LinearSystemWrapper::Pointer ls);
 
   /**
    * Gets the LinearSystemWrapper object.
    *
    * \sa SetLinearSystemWrapper
    */
-  LinearSystemWrapper::Pointer GetLinearSystemWrapper()
+  LinearSystemWrapper::Pointer
+  GetLinearSystemWrapper()
   {
     return m_LinearSystem;
   }
@@ -208,18 +219,21 @@ public:
    *
    * \sa GetInterpolationGrid
    */
-  void InitializeInterpolationGrid(const InterpolationGridSizeType & size, const InterpolationGridPointType & bb1,
-                                   const InterpolationGridPointType & bb2);
+  void
+  InitializeInterpolationGrid(const InterpolationGridSizeType &  size,
+                              const InterpolationGridPointType & bb1,
+                              const InterpolationGridPointType & bb2);
 
   /** Same as InitializeInterpolationGrid(size, {0,0...}, size); */
-  void InitializeInterpolationGrid(const InterpolationGridSizeType & size)
+  void
+  InitializeInterpolationGrid(const InterpolationGridSizeType & size)
   {
     InterpolationGridPointType bb1;
 
     bb1.Fill(0.0);
 
     InterpolationGridPointType bb2;
-    for( unsigned int i = 0; i < FEMDimension; i++ )
+    for (unsigned int i = 0; i < FEMDimension; i++)
     {
       bb2[i] = size[i] - 1.0;
     }
@@ -227,11 +241,12 @@ public:
   }
 
   /** Initialize the interpolation grid, over the domain specified by the
-  * user. */
-  void InitializeInterpolationGrid(const InterpolationGridRegionType & region,
-                                   const InterpolationGridPointType & origin,
-                                   const InterpolationGridSpacingType & spacing,
-                                   const InterpolationGridDirectionType & direction);
+   * user. */
+  void
+  InitializeInterpolationGrid(const InterpolationGridRegionType &    region,
+                              const InterpolationGridPointType &     origin,
+                              const InterpolationGridSpacingType &   spacing,
+                              const InterpolationGridDirectionType & direction);
 
   /**
    * Returns pointer to interpolation grid, which is an itk::Image of pointers
@@ -243,7 +258,8 @@ public:
    * \note Physical coordinates in an image correspond to the global
    *       coordinate system in which the mesh (nodes) are.
    */
-  const InterpolationGridType * GetInterpolationGrid() const
+  const InterpolationGridType *
+  GetInterpolationGrid() const
   {
     return m_InterpolationGrid.GetPointer();
   }
@@ -268,18 +284,22 @@ public:
    * types. Derived classes should have names get methods for these
    * outputs.
    */
-  FEMObjectType * GetOutput();
+  FEMObjectType *
+  GetOutput();
 
-  FEMObjectType * GetOutput(unsigned int idx);
+  FEMObjectType *
+  GetOutput(unsigned int idx);
 
 protected:
   Solver();
   ~Solver() override;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */
-  void  GenerateData() override;
+  void
+  GenerateData() override;
 
 
   /**
@@ -293,7 +313,8 @@ protected:
   // void GenerateGFN();
 
   /** Assemble the master stiffness matrix (also apply the MFCs to K). */
-  void AssembleK();
+  void
+  AssembleK();
 
   /**
    * This function is called before assembling the matrices. You can
@@ -301,14 +322,16 @@ protected:
    *
    * \param N Size of the matrix.
    */
-  virtual void InitializeMatrixForAssembly(unsigned int N);
+  virtual void
+  InitializeMatrixForAssembly(unsigned int N);
 
   /**
    * This function is called after the assebly has been completed.
    * In this class it is only used to apply the BCs. You may however
    * use it to perform other stuff in derived solver classes.
    */
-  virtual void FinalizeMatrixAfterAssembly()
+  virtual void
+  FinalizeMatrixAfterAssembly()
   {
     // Apply the boundary conditions to the K matrix
     this->ApplyBC();
@@ -320,7 +343,8 @@ protected:
    * assemble many matrices and may also do some funky stuff to them, this
    * function is and can be overriden in a derived solver class.
    */
-  virtual void AssembleElementMatrix(Element::Pointer e);
+  virtual void
+  AssembleElementMatrix(Element::Pointer e);
 
   /**
    * Add the contribution of the landmark-containing elements to the
@@ -329,7 +353,8 @@ protected:
    * also do some funky stuff to them, this function is virtual and
    * can be overriden in a derived solver class.
    */
-  virtual void AssembleLandmarkContribution(Element::ConstPointer e, float);
+  virtual void
+  AssembleLandmarkContribution(Element::ConstPointer e, float);
 
   /**
    * Apply the boundary conditions to the system.
@@ -344,7 +369,8 @@ protected:
    *            normally used with isotropic elements to specify the
    *            dimension in which the DOF is fixed.
    */
-  void ApplyBC(int dim = 0, unsigned int matrix = 0);
+  void
+  ApplyBC(int dim = 0, unsigned int matrix = 0);
 
   /**
    * Assemble the master force vector.
@@ -353,29 +379,35 @@ protected:
    *            normally used with isotropic elements to specify the
    *            dimension for which the master force vector should be assembled.
    */
-  void AssembleF(int dim = 0);
+  void
+  AssembleF(int dim = 0);
 
   /** Decompose matrix using svd, qr, etc. if needed. */
-  void DecomposeK();
+  void
+  DecomposeK();
 
   /** Solve for the displacement vector u. May be overriden in derived
-  * classes. */
-  virtual void RunSolver();
+   * classes. */
+  virtual void
+  RunSolver();
 
   /**
    * Copy solution vector u to the corresponding nodal values, which are
    * stored in node objects). This is standard post processing of the solution.
    */
-  void UpdateDisplacements();
+  void
+  UpdateDisplacements();
 
   /** Fill the interpolation grid based on the current deformed grid. */
-  void FillInterpolationGrid();
+  void
+  FillInterpolationGrid();
 
   /**
    * Performs any initialization needed for LinearSystemWrapper
    * object i.e. sets the maximum number of matrices and vectors.
    */
-  virtual void InitializeLinearSystemWrapper();
+  virtual void
+  InitializeLinearSystemWrapper();
 
   /** Number of global degrees of freedom in a system. */
   unsigned int m_NGFN;
@@ -390,7 +422,7 @@ protected:
   LinearSystemWrapper::Pointer m_LinearSystem;
 
   /** LinearSystemWrapperVNL object that is used by default in Solver class. */
-  LinearSystemWrapperVNL       m_LinearSystemVNL;
+  LinearSystemWrapperVNL m_LinearSystemVNL;
 
   /**
    * An Image of pointers to Element objects that represents a grid used
@@ -403,17 +435,16 @@ protected:
 
 private:
   /** Properties of the interpolation grid. */
-  InterpolationGridRegionType       m_Region;
-  InterpolationGridPointType        m_Origin;
-  InterpolationGridSpacingType      m_Spacing;
-  InterpolationGridDirectionType    m_Direction;
-
+  InterpolationGridRegionType    m_Region;
+  InterpolationGridPointType     m_Origin;
+  InterpolationGridSpacingType   m_Spacing;
+  InterpolationGridDirectionType m_Direction;
 };
-}  // end namespace fem
-}  // end namespace itk
+} // end namespace fem
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMSolver.hxx"
+#  include "itkFEMSolver.hxx"
 #endif
 
 #endif // itkFEMSolver_h

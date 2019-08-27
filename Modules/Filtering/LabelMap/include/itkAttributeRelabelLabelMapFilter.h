@@ -21,7 +21,8 @@
 #include "itkInPlaceLabelMapFilter.h"
 #include "itkAttributeLabelObject.h"
 
-namespace itk {
+namespace itk
+{
 /** \class AttributeRelabelLabelMapFilter
  * \brief relabel objects according to their shape attributes
  *
@@ -39,10 +40,10 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template<typename TImage, typename TAttributeAccessor=
-    typename Functor::AttributeLabelObjectAccessor< typename TImage::LabelObjectType > >
-class ITK_TEMPLATE_EXPORT AttributeRelabelLabelMapFilter :
-    public InPlaceLabelMapFilter<TImage>
+template <typename TImage,
+          typename TAttributeAccessor =
+            typename Functor::AttributeLabelObjectAccessor<typename TImage::LabelObjectType>>
+class ITK_TEMPLATE_EXPORT AttributeRelabelLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AttributeRelabelLabelMapFilter);
@@ -71,17 +72,16 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(AttributeRelabelLabelMapFilter,
-               InPlaceLabelMapFilter);
+  itkTypeMacro(AttributeRelabelLabelMapFilter, InPlaceLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-/*  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<InputImagePixelType>));
-  itkConceptMacro(IntConvertibleToInputCheck,
-    (Concept::Convertible<int, InputImagePixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<InputImagePixelType>));*/
+  /*  itkConceptMacro(InputEqualityComparableCheck,
+      (Concept::EqualityComparable<InputImagePixelType>));
+    itkConceptMacro(IntConvertibleToInputCheck,
+      (Concept::Convertible<int, InputImagePixelType>));
+    itkConceptMacro(InputOStreamWritableCheck,
+      (Concept::OStreamWritable<InputImagePixelType>));*/
   // End concept checking
 #endif
 
@@ -90,41 +90,51 @@ public:
    * the highest attribute values are labeled first. Set ReverseOrdering to true
    * make the one with the smallest attributes be labeled first.
    */
-  itkSetMacro( ReverseOrdering, bool );
-  itkGetConstReferenceMacro( ReverseOrdering, bool );
-  itkBooleanMacro( ReverseOrdering );
+  itkSetMacro(ReverseOrdering, bool);
+  itkGetConstReferenceMacro(ReverseOrdering, bool);
+  itkBooleanMacro(ReverseOrdering);
 
 protected:
   AttributeRelabelLabelMapFilter();
   ~AttributeRelabelLabelMapFilter() override = default;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   class ReverseComparator
-    {
-    public:
-    bool operator()( const typename LabelObjectType::Pointer & a, const typename LabelObjectType::Pointer & b )
-      {
-      return m_Accessor( a ) < m_Accessor( b );
-      }
-    ReverseComparator(): m_Accessor() {}
-    private:
-     AttributeAccessorType m_Accessor;
-    };
-
-  class Comparator
-    {
+  {
   public:
-    bool operator()( const typename LabelObjectType::Pointer & a, const typename LabelObjectType::Pointer & b )
-      {
-      return m_Accessor( a ) > m_Accessor( b );
-      }
-    Comparator(): m_Accessor() {}
+    bool
+    operator()(const typename LabelObjectType::Pointer & a, const typename LabelObjectType::Pointer & b)
+    {
+      return m_Accessor(a) < m_Accessor(b);
+    }
+    ReverseComparator()
+      : m_Accessor()
+    {}
+
   private:
     AttributeAccessorType m_Accessor;
-    };
+  };
+
+  class Comparator
+  {
+  public:
+    bool
+    operator()(const typename LabelObjectType::Pointer & a, const typename LabelObjectType::Pointer & b)
+    {
+      return m_Accessor(a) > m_Accessor(b);
+    }
+    Comparator()
+      : m_Accessor()
+    {}
+
+  private:
+    AttributeAccessorType m_Accessor;
+  };
 
 private:
   bool m_ReverseOrdering;
@@ -134,7 +144,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAttributeRelabelLabelMapFilter.hxx"
+#  include "itkAttributeRelabelLabelMapFilter.hxx"
 #endif
 
 #endif

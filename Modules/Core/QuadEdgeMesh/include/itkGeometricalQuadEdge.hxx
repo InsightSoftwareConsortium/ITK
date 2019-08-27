@@ -25,52 +25,47 @@ namespace itk
 {
 /**
  */
-template< typename TVRef, typename TFRef,
-          typename TPrimalData, typename TDualData, bool PrimalDual >
-const typename GeometricalQuadEdge< TVRef, TFRef,
-                                    TPrimalData, TDualData, PrimalDual >::OriginRefType
-GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::m_NoPoint =
-  std::numeric_limits< OriginRefType >::max();
+template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualData, bool PrimalDual>
+const typename GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::OriginRefType
+  GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::m_NoPoint =
+    std::numeric_limits<OriginRefType>::max();
 
 /**
  *   Constructor
  */
-template< typename TVRef, typename TFRef,
-          typename TPrimalData, typename TDualData, bool PrimalDual >
-GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
-::GeometricalQuadEdge() :
-  m_Origin(m_NoPoint),
-  m_Data(),
-  m_LineCellIdent(0)
-{
-}
+template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualData, bool PrimalDual>
+GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::GeometricalQuadEdge()
+  : m_Origin(m_NoPoint)
+  , m_Data()
+  , m_LineCellIdent(0)
+{}
 
 /**
  */
-template< typename TVRef, typename TFRef,
-          typename TPrimalData, typename TDualData, bool PrimalDual >
-bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::SetLnextRingWithSameLeftFace(
+template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualData, bool PrimalDual>
+bool
+GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::SetLnextRingWithSameLeftFace(
   const DualOriginRefType faceGeom,
-  int maxSize)
+  int                     maxSize)
 {
 #ifndef NDEBUG
-  if ( !this->IsLnextSharingSameFace(maxSize) )
-    {
+  if (!this->IsLnextSharingSameFace(maxSize))
+  {
     itkQEDebugMacro("Lnext() edges do NOT share the same Left().");
-    return ( false );
-    }
+    return (false);
+  }
 #endif
 
   IteratorGeom it = this->BeginGeomLnext();
 
-  while ( maxSize && ( it != this->EndGeomLnext() ) )
-    {
+  while (maxSize && (it != this->EndGeomLnext()))
+  {
     it.Value()->SetLeft(faceGeom);
     it++;
     maxSize--;
-    }
+  }
 
-  return ( true );
+  return (true);
 }
 
 /**
@@ -79,11 +74,11 @@ bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::Se
  * @return Returns true when the Lnext() ring is the one of a triangle.
  *         Returns false otherwise.
  */
-template< typename TVRef, typename TFRef,
-          typename TPrimalData, typename TDualData, bool PrimalDual >
-bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::IsLnextOfTriangle()
+template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualData, bool PrimalDual>
+bool
+GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsLnextOfTriangle()
 {
-  return ( this->IsLnextSharingSameFace(3) );
+  return (this->IsLnextSharingSameFace(3));
 }
 
 /**
@@ -93,19 +88,17 @@ bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::Is
  * @return Returns true when "this" edge and the incoming argument are
  *         in the same Onext() ring. Returns false otherwise.
  */
-template< typename TVRef, typename TFRef,
-          typename TPrimalData, typename TDualData, bool PrimalDual >
-bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::IsInOnextRing(Self *b)
+template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualData, bool PrimalDual>
+bool
+GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsInOnextRing(Self * b)
 {
-  for ( IteratorGeom it  = this->BeginGeomOnext();
-        it != this->EndGeomOnext();
-        it++ )
+  for (IteratorGeom it = this->BeginGeomOnext(); it != this->EndGeomOnext(); it++)
+  {
+    if (b == it.Value())
     {
-    if ( b == it.Value() )
-      {
       return true;
-      }
     }
+  }
   return false;
 }
 
@@ -116,19 +109,17 @@ bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::Is
  * @return Returns true when "this" edge and the incoming argument are
  *         in the same Lnext() ring. Returns false otherwise.
  */
-template< typename TVRef, typename TFRef,
-          typename TPrimalData, typename TDualData, bool PrimalDual >
-bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::IsInLnextRing(Self *b)
+template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualData, bool PrimalDual>
+bool
+GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsInLnextRing(Self * b)
 {
-  for ( IteratorGeom it  = this->BeginGeomLnext();
-        it != this->EndGeomLnext();
-        it++ )
+  for (IteratorGeom it = this->BeginGeomLnext(); it != this->EndGeomLnext(); it++)
+  {
+    if (b == it.Value())
     {
-    if ( b == it.Value() )
-      {
       return true;
-      }
     }
+  }
   return false;
 }
 
@@ -138,21 +129,22 @@ bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::Is
  *        Onext() ring have a face set on both their Left() and Right()
  *        side.
  */
-template< typename TVRef, typename TFRef,
-          typename TPrimalData, typename TDualData, bool PrimalDual >
+template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualData, bool PrimalDual>
 bool
-GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
-::IsOriginInternal() const
+GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsOriginInternal() const
 {
   ConstIteratorGeom it = this->BeginGeomOnext();
 
-  while ( it != this->EndGeomOnext() )
-    {
+  while (it != this->EndGeomOnext())
+  {
     using QuadEdgeType = typename ConstIteratorGeom::QuadEdgeType;
-    const QuadEdgeType *value = it.Value();
-    if ( !value->IsInternal() ) { return false; }
-    ++it;
+    const QuadEdgeType * value = it.Value();
+    if (!value->IsInternal())
+    {
+      return false;
     }
+    ++it;
+  }
   return true;
 }
 
@@ -163,14 +155,14 @@ GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
  * @return Returns true when the Lnext() ring share THE same
  *         Left() faces. Return false otherwise.
  */
-template< typename TVRef, typename TFRef,
-          typename TPrimalData, typename TDualData, bool PrimalDual >
-bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::IsLnextSharingSameFace(int maxSize)
+template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualData, bool PrimalDual>
+bool
+GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsLnextSharingSameFace(int maxSize)
 {
   IteratorGeom it = this->BeginGeomLnext();
 
-  while ( maxSize && ( it != this->EndGeomLnext() ) )
-    {
+  while (maxSize && (it != this->EndGeomLnext()))
+  {
     // The condition isn't complicated: if left faces aren't set,
     // continue, if just one is set return false, if both are set
     // check if the face is the same
@@ -203,28 +195,27 @@ bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::Is
     //     }
     // }
     //
-    if ( !( facesAreNotSet || ( facesAreSet && facesAreTheSame ) ) )
-      {
-      return ( false );
-      }
+    if (!(facesAreNotSet || (facesAreSet && facesAreTheSame)))
+    {
+      return (false);
+    }
     it++;
     maxSize--;
-    }
+  }
 
-  if ( it != this->EndGeomLnext() )
-    {
+  if (it != this->EndGeomLnext())
+  {
     // The Lnext ring is bigger than the caller expected
-    return ( false );
-    }
-  return ( true );
+    return (false);
+  }
+  return (true);
 }
 
 /**
  */
-template< typename TVRef, typename TFRef,
-          typename TPrimalData, typename TDualData, bool PrimalDual >
-typename GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::Self *
-GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::GetNextBorderEdgeWithUnsetLeft(Self *edgeTest)
+template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualData, bool PrimalDual>
+typename GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::Self *
+GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::GetNextBorderEdgeWithUnsetLeft(Self * edgeTest)
 {
   // Definition: an edge is said to be a boundary edge when it is adjacent to
   // noface i.e. when at least one of the faces edge->GetLeft() or
@@ -302,46 +293,46 @@ GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::GetNext
   //
 
   // Be sure the Onext ring isn't already full
-  if ( this->IsOriginInternal() )
-    {
+  if (this->IsOriginInternal())
+  {
     itkQEDebugMacro("Internal point.");
-    return ( nullptr );
-    }
+    return (nullptr);
+  }
 
   // Update reference
-  edgeTest = ( !edgeTest ) ? this : edgeTest;
+  edgeTest = (!edgeTest) ? this : edgeTest;
 
   // On efficiency purposes
-  if ( edgeTest->IsIsolated() )
-    {
-    return ( edgeTest );
-    }
+  if (edgeTest->IsIsolated())
+  {
+    return (edgeTest);
+  }
 
   // Ok, no more special cases
-  IteratorGeom it   = edgeTest->BeginGeomOnext();
-  IteratorGeom end  = edgeTest->EndGeomOnext();
+  IteratorGeom it = edgeTest->BeginGeomOnext();
+  IteratorGeom end = edgeTest->EndGeomOnext();
 
-  while ( it != end )
+  while (it != end)
+  {
+    if (!it.Value()->IsLeftSet())
     {
-    if ( !it.Value()->IsLeftSet() )
-      {
-      return ( it.Value() );
-      }
-    it++;
+      return (it.Value());
     }
+    it++;
+  }
 
   // No border edge found
   itkQEDebugMacro("Unfound border edge.");
-  return ( nullptr );
+  return (nullptr);
 }
 
 /**
  */
-template< typename TVRef, typename TFRef,
-          typename TPrimalData, typename TDualData, bool PrimalDual >
-bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::InsertAfterNextBorderEdgeWithUnsetLeft(
-  Self *isol,
-  Self *hint)
+template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualData, bool PrimalDual>
+bool
+GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::InsertAfterNextBorderEdgeWithUnsetLeft(
+  Self * isol,
+  Self * hint)
 {
   // When the geometry of isol is set it must match the
   // one of "this" Origin(). If the geometry is not set, we assume
@@ -379,36 +370,31 @@ bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::In
   // |      1    |         1      |           1              |    0   |
   // +-----------+----------------+--------------------------+--------+
   //
-  if ( !(   !( IsOriginSet() || isol->IsOriginSet() )
-            || ( IsOriginSet()
-                 && isol->IsOriginSet()
-                 && ( m_Origin == isol->m_Origin ) )
-            )
-       )
-    {
+  if (!(!(IsOriginSet() || isol->IsOriginSet()) ||
+        (IsOriginSet() && isol->IsOriginSet() && (m_Origin == isol->m_Origin))))
+  {
     itkQEDebugMacro("Isolated Origin() differs from this Origin.");
-    return ( false );
-    }
+    return (false);
+  }
 
   // Find out if this point has some room left for edge insertion:
-  Self *edgeAfter = this->GetNextBorderEdgeWithUnsetLeft(hint);
-  if ( !edgeAfter )
-    {
+  Self * edgeAfter = this->GetNextBorderEdgeWithUnsetLeft(hint);
+  if (!edgeAfter)
+  {
     itkQEDebugMacro("This point is yet surrounded by faces.");
-    return ( false );
-    }
+    return (false);
+  }
 
   // Normally, an edge was found
   edgeAfter->Splice(isol);
-  return ( true );
+  return (true);
 }
 
 /**
  */
-template< typename TVRef, typename TFRef,
-          typename TPrimalData, typename TDualData, bool PrimalDual >
-bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::ReorderOnextRingBeforeAddFace(
-  Self *second)
+template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualData, bool PrimalDual>
+bool
+GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::ReorderOnextRingBeforeAddFace(Self * second)
 {
   // Assume "this->Originv()" is a boundary point P that is thrice adjacent
   // to noface and consider the given situation is the one depicted by
@@ -548,97 +534,95 @@ bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::Re
   //                NO FACE     |      \                             //
   //                            p-------p                            //
   //
-  Self *first = this;
+  Self * first = this;
 
   // Making sure point adjacency is correct:
-  if ( first->GetOrigin() != second->GetOrigin() )
-    {
+  if (first->GetOrigin() != second->GetOrigin())
+  {
     itkQEDebugMacro("Edges not adjacent at same point!");
-    return ( false );
-    }
+    return (false);
+  }
 
-  if ( first->GetOnext() == second )
-    {
-    return ( true );
-    }
+  if (first->GetOnext() == second)
+  {
+    return (true);
+  }
 
-  if ( first->IsLeftSet() )
-    {
+  if (first->IsLeftSet())
+  {
     itkQEDebugMacro("First should NOT have a left face.");
-    return ( false );
-    }
+    return (false);
+  }
 
   // Second is an internal edge.
-  if ( second->IsInternal() )
-    {
-    return ( false );
-    }
+  if (second->IsInternal())
+  {
+    return (false);
+  }
 
-  Self *bsplice; // Does not require initialisation;
+  Self * bsplice; // Does not require initialisation;
   // Disconnect the triangles containing second:
-  if ( second->IsLeftSet() )
-    {
+  if (second->IsLeftSet())
+  {
     bsplice = second->GetNextBorderEdgeWithUnsetLeft();
     second->GetOprev()->Splice(bsplice);
-    }
+  }
   else
-    {
+  {
     // Orientation is localy clockwise:
     bsplice = second;
     second->GetOprev()->Splice(bsplice);
-    }
+  }
 
   // Reconnect second after first:
   first->Splice(bsplice);
-  return ( true );
+  return (true);
 }
 
 // ---------------------------------------------------------------------
-template< typename TVRef, typename TFRef,
-          typename TPrimalData, typename TDualData, bool PrimalDual >
-void GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::Disconnect()
+template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualData, bool PrimalDual>
+void
+GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::Disconnect()
 {
-  if ( this->IsDisconnected() )
-    {
+  if (this->IsDisconnected())
+  {
     return;
-    }
+  }
 
   // Update faces if the edge isn't a wire
-  if ( this->IsAtBorder() )
-    {
-    Self *       e = ( this->IsRightSet() ) ? this->GetSym() : this;
+  if (this->IsAtBorder())
+  {
+    Self *       e = (this->IsRightSet()) ? this->GetSym() : this;
     IteratorGeom it = e->BeginGeomLnext();
-    while ( it != e->EndGeomLnext() )
-      {
+    while (it != e->EndGeomLnext())
+    {
       it.Value()->UnsetLeft();
       it++;
-      }
     }
-  else if ( this->IsInternal() )
-    {
+  }
+  else if (this->IsInternal())
+  {
     // Consolidate face
     DualOriginRefType face = this->GetRight();
-    for ( IteratorGeom it  = this->BeginGeomLnext();
-          it != this->EndGeomLnext();
-          it++ )
-      {
+    for (IteratorGeom it = this->BeginGeomLnext(); it != this->EndGeomLnext(); it++)
+    {
       it.Value()->SetLeft(face);
-      }
     }
+  }
 
   // Hint edges
-  Self *e0 = this->GetOprev();
-  Self *e1 = this->GetLnext();
+  Self * e0 = this->GetOprev();
+  Self * e1 = this->GetLnext();
 
   // Disconnect entries
-  if ( !this->IsOriginDisconnected() )
-    {
+  if (!this->IsOriginDisconnected())
+  {
     e0->Splice(this);
-    }
-  if ( !this->IsDestinationDisconnected() )
-    {
-    e1->Splice( this->GetSym() );
-    }
+  }
+  if (!this->IsDestinationDisconnected())
+  {
+    e1->Splice(this->GetSym());
+  }
 
   // Normally, this edge is converted to a simple wire
   this->UnsetOrigin();
@@ -648,62 +632,54 @@ void GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::Di
 }
 
 // ---------------------------------------------------------------------
-template< typename TVRef, typename TFRef,
-          typename TPrimalData, typename TDualData, bool PrimalDual >
+template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualData, bool PrimalDual>
 bool
-GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
-::IsOriginSet() const
+GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsOriginSet() const
 {
-  return ( this->m_Origin != m_NoPoint );
+  return (this->m_Origin != m_NoPoint);
 }
 
 // ---------------------------------------------------------------------
-template< typename TVRef, typename TFRef,
-          typename TPrimalData, typename TDualData, bool PrimalDual >
+template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualData, bool PrimalDual>
 bool
-GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
-::IsDestinationSet() const
+GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsDestinationSet() const
 {
-  const Self *p1 = this->GetSym();
+  const Self * p1 = this->GetSym();
 
-  if ( p1 == nullptr )
-    {
+  if (p1 == nullptr)
+  {
     return false; // FIXME: Is this the right answer ?
-    }
+  }
 
   return p1->IsOriginSet();
 }
 
 // ---------------------------------------------------------------------
-template< typename TVRef, typename TFRef,
-          typename TPrimalData, typename TDualData, bool PrimalDual >
+template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualData, bool PrimalDual>
 bool
-GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
-::IsRightSet() const
+GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsRightSet() const
 {
-  const DualType *p1 = this->GetRot();
+  const DualType * p1 = this->GetRot();
 
-  if ( p1 == nullptr )
-    {
-    return false;  // FIXME: Is this the right answer ?
-    }
+  if (p1 == nullptr)
+  {
+    return false; // FIXME: Is this the right answer ?
+  }
 
   return p1->IsOriginSet();
 }
 
 // ---------------------------------------------------------------------
-template< typename TVRef, typename TFRef,
-          typename TPrimalData, typename TDualData, bool PrimalDual >
+template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualData, bool PrimalDual>
 bool
-GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
-::IsLeftSet() const
+GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsLeftSet() const
 {
-  const DualType *p1 = this->GetInvRot();
+  const DualType * p1 = this->GetInvRot();
 
-  if ( p1 == nullptr )
-    {
-    return false;  // FIXME: Is this the right answer ?
-    }
+  if (p1 == nullptr)
+  {
+    return false; // FIXME: Is this the right answer ?
+  }
 
   return p1->IsOriginSet();
 }

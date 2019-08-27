@@ -43,26 +43,26 @@ namespace itk
  *
  * \ingroup ITKGPUAnisotropicSmoothing
  */
-template< typename TInputImage, typename TOutputImage, typename TParentImageFilter =
-            GradientAnisotropicDiffusionImageFilter< TInputImage, TOutputImage > >
-class GPUGradientAnisotropicDiffusionImageFilter :
-  public GPUAnisotropicDiffusionImageFilter< TInputImage, TOutputImage, TParentImageFilter >
+template <typename TInputImage,
+          typename TOutputImage,
+          typename TParentImageFilter = GradientAnisotropicDiffusionImageFilter<TInputImage, TOutputImage>>
+class GPUGradientAnisotropicDiffusionImageFilter
+  : public GPUAnisotropicDiffusionImageFilter<TInputImage, TOutputImage, TParentImageFilter>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUGradientAnisotropicDiffusionImageFilter);
 
   /** Standard class type aliases. */
   using Self = GPUGradientAnisotropicDiffusionImageFilter;
-  using GPUSuperclass = GPUAnisotropicDiffusionImageFilter< TInputImage, TOutputImage, TParentImageFilter >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using GPUSuperclass = GPUAnisotropicDiffusionImageFilter<TInputImage, TOutputImage, TParentImageFilter>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard method for creation through object factory. */
   itkNewMacro(Self);
 
   /** Run-time class information. */
-  itkTypeMacro(GPUGradientAnisotropicDiffusionImageFilter,
-               GPUAnisotropicDiffusionImageFilter);
+  itkTypeMacro(GPUGradientAnisotropicDiffusionImageFilter, GPUAnisotropicDiffusionImageFilter);
 
   /** Extract information from the superclass. */
   using UpdateBufferType = typename GPUSuperclass::UpdateBufferType;
@@ -72,8 +72,7 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( UpdateBufferHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename UpdateBufferType::PixelType > ) );
+  itkConceptMacro(UpdateBufferHasNumericTraitsCheck, (Concept::HasNumericTraits<typename UpdateBufferType::PixelType>));
   // End concept checking
 #endif
 
@@ -81,8 +80,8 @@ protected:
   GPUGradientAnisotropicDiffusionImageFilter()
   {
     // Set DiffusionFunction
-    typename GPUGradientNDAnisotropicDiffusionFunction< UpdateBufferType >::Pointer p =
-      GPUGradientNDAnisotropicDiffusionFunction< UpdateBufferType >::New();
+    typename GPUGradientNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer p =
+      GPUGradientNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
     this->SetDifferenceFunction(p);
   }
 
@@ -106,10 +105,14 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  const char* GetITKSourceVersion() const override {
+  const char *
+  GetITKSourceVersion() const override
+  {
     return ITK_SOURCE_VERSION;
   }
-  const char* GetDescription() const override {
+  const char *
+  GetDescription() const override
+  {
     return "A Factory for GPUGradientAnisotropicDiffusionImageFilter";
   }
 
@@ -120,7 +123,8 @@ public:
   itkTypeMacro(GPUGradientAnisotropicDiffusionImageFilterFactory, itk::ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory()
+  static void
+  RegisterOneFactory()
   {
     GPUGradientAnisotropicDiffusionImageFilterFactory::Pointer factory =
       GPUGradientAnisotropicDiffusionImageFilterFactory::New();
@@ -129,48 +133,46 @@ public:
   }
 
 private:
-
-#define GradientAnisotropicDiffusionImageFilterTypeMacro(ipt,opt,dm) \
-    { \
-    using InputImageType = itk::Image<ipt,dm>; \
-    using OutputImageType = itk::Image<opt,dm>; \
-    this->RegisterOverride( \
-      typeid(itk::GradientAnisotropicDiffusionImageFilter<InputImageType,OutputImageType>).name(), \
-      typeid(itk::GPUGradientAnisotropicDiffusionImageFilter<InputImageType,OutputImageType>).name(), \
-      "GPU GradientAnisotropicDiffusionImageFilter Override", \
-      true, \
-      itk::CreateObjectFunction<GPUGradientAnisotropicDiffusionImageFilter<InputImageType,OutputImageType> >::New() ); \
-    }
+#define GradientAnisotropicDiffusionImageFilterTypeMacro(ipt, opt, dm)                                                 \
+  {                                                                                                                    \
+    using InputImageType = itk::Image<ipt, dm>;                                                                        \
+    using OutputImageType = itk::Image<opt, dm>;                                                                       \
+    this->RegisterOverride(                                                                                            \
+      typeid(itk::GradientAnisotropicDiffusionImageFilter<InputImageType, OutputImageType>).name(),                    \
+      typeid(itk::GPUGradientAnisotropicDiffusionImageFilter<InputImageType, OutputImageType>).name(),                 \
+      "GPU GradientAnisotropicDiffusionImageFilter Override",                                                          \
+      true,                                                                                                            \
+      itk::CreateObjectFunction<GPUGradientAnisotropicDiffusionImageFilter<InputImageType, OutputImageType>>::New());  \
+  }
 
   GPUGradientAnisotropicDiffusionImageFilterFactory()
   {
-    if( IsGPUAvailable() )
-      {
+    if (IsGPUAvailable())
+    {
       GradientAnisotropicDiffusionImageFilterTypeMacro(unsigned char, float, 1);
       GradientAnisotropicDiffusionImageFilterTypeMacro(char, float, 1);
-      GradientAnisotropicDiffusionImageFilterTypeMacro(float,float,1);
-      GradientAnisotropicDiffusionImageFilterTypeMacro(int,double,1);
-      GradientAnisotropicDiffusionImageFilterTypeMacro(unsigned int,double,1);
-      GradientAnisotropicDiffusionImageFilterTypeMacro(double,double,1);
+      GradientAnisotropicDiffusionImageFilterTypeMacro(float, float, 1);
+      GradientAnisotropicDiffusionImageFilterTypeMacro(int, double, 1);
+      GradientAnisotropicDiffusionImageFilterTypeMacro(unsigned int, double, 1);
+      GradientAnisotropicDiffusionImageFilterTypeMacro(double, double, 1);
 
       GradientAnisotropicDiffusionImageFilterTypeMacro(unsigned char, float, 2);
       GradientAnisotropicDiffusionImageFilterTypeMacro(char, float, 2);
-      GradientAnisotropicDiffusionImageFilterTypeMacro(float,float,2);
-      GradientAnisotropicDiffusionImageFilterTypeMacro(int,double,2);
-      GradientAnisotropicDiffusionImageFilterTypeMacro(unsigned int,double,2);
-      GradientAnisotropicDiffusionImageFilterTypeMacro(double,double,2);
+      GradientAnisotropicDiffusionImageFilterTypeMacro(float, float, 2);
+      GradientAnisotropicDiffusionImageFilterTypeMacro(int, double, 2);
+      GradientAnisotropicDiffusionImageFilterTypeMacro(unsigned int, double, 2);
+      GradientAnisotropicDiffusionImageFilterTypeMacro(double, double, 2);
 
       GradientAnisotropicDiffusionImageFilterTypeMacro(unsigned char, float, 3);
       GradientAnisotropicDiffusionImageFilterTypeMacro(char, float, 3);
-      GradientAnisotropicDiffusionImageFilterTypeMacro(float,float,3);
-      GradientAnisotropicDiffusionImageFilterTypeMacro(int,double,3);
-      GradientAnisotropicDiffusionImageFilterTypeMacro(unsigned int,double,3);
-      GradientAnisotropicDiffusionImageFilterTypeMacro(double,double,3);
-      }
+      GradientAnisotropicDiffusionImageFilterTypeMacro(float, float, 3);
+      GradientAnisotropicDiffusionImageFilterTypeMacro(int, double, 3);
+      GradientAnisotropicDiffusionImageFilterTypeMacro(unsigned int, double, 3);
+      GradientAnisotropicDiffusionImageFilterTypeMacro(double, double, 3);
+    }
   }
-
 };
 
-} // end namspace itk
+} // namespace itk
 
 #endif

@@ -35,18 +35,16 @@
 namespace itk
 {
 
-template< typename TPixel, unsigned int VImageDimension >
-Image< TPixel, VImageDimension >
-::Image()
+template <typename TPixel, unsigned int VImageDimension>
+Image<TPixel, VImageDimension>::Image()
 {
   m_Buffer = PixelContainer::New();
 }
 
 
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 void
-Image< TPixel, VImageDimension >
-::Allocate(bool initializePixels)
+Image<TPixel, VImageDimension>::Allocate(bool initializePixels)
 {
   SizeValueType num;
 
@@ -57,10 +55,9 @@ Image< TPixel, VImageDimension >
 }
 
 
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 void
-Image< TPixel, VImageDimension >
-::Initialize()
+Image<TPixel, VImageDimension>::Initialize()
 {
   //
   // We don't modify ourselves because the "ReleaseData" methods depend upon
@@ -77,103 +74,93 @@ Image< TPixel, VImageDimension >
 }
 
 
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 void
-Image< TPixel, VImageDimension >
-::FillBuffer(const TPixel & value)
+Image<TPixel, VImageDimension>::FillBuffer(const TPixel & value)
 {
-  const SizeValueType numberOfPixels =
-    this->GetBufferedRegion().GetNumberOfPixels();
+  const SizeValueType numberOfPixels = this->GetBufferedRegion().GetNumberOfPixels();
 
-  std::fill_n( &( *m_Buffer )[0], numberOfPixels, value );
+  std::fill_n(&(*m_Buffer)[0], numberOfPixels, value);
 }
 
 
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 void
-Image< TPixel, VImageDimension >
-::SetPixelContainer(PixelContainer *container)
+Image<TPixel, VImageDimension>::SetPixelContainer(PixelContainer * container)
 {
-  if ( m_Buffer != container )
-    {
+  if (m_Buffer != container)
+  {
     m_Buffer = container;
     this->Modified();
-    }
+  }
 }
 
 
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 void
-Image< TPixel, VImageDimension >
-::Graft(const Self *image)
+Image<TPixel, VImageDimension>::Graft(const Self * image)
 {
   // call the superclass' implementation
   Superclass::Graft(image);
 
-  if ( image )
-    {
-      // Now copy anything remaining that is needed
-      this->SetPixelContainer( const_cast< PixelContainer * >
-                               ( image->GetPixelContainer() ) );
-    }
+  if (image)
+  {
+    // Now copy anything remaining that is needed
+    this->SetPixelContainer(const_cast<PixelContainer *>(image->GetPixelContainer()));
+  }
 }
 
 
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 void
-Image< TPixel, VImageDimension >
-::Graft(const DataObject *data)
+Image<TPixel, VImageDimension>::Graft(const DataObject * data)
 {
-  if ( data )
-    {
+  if (data)
+  {
     // Attempt to cast data to an Image
-    const auto * const imgData = dynamic_cast< const Self * >( data );
+    const auto * const imgData = dynamic_cast<const Self *>(data);
 
-    if ( imgData != nullptr )
-      {
-        this->Graft(imgData);
-      }
-    else
-      {
-      // pointer could not be cast back down
-      itkExceptionMacro( << "itk::Image::Graft() cannot cast "
-                         << typeid( data ).name() << " to "
-                         << typeid( const Self * ).name() );
-      }
+    if (imgData != nullptr)
+    {
+      this->Graft(imgData);
     }
+    else
+    {
+      // pointer could not be cast back down
+      itkExceptionMacro(<< "itk::Image::Graft() cannot cast " << typeid(data).name() << " to "
+                        << typeid(const Self *).name());
+    }
+  }
 }
 
 
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 void
-Image< TPixel, VImageDimension >
-::ComputeIndexToPhysicalPointMatrices()
+Image<TPixel, VImageDimension>::ComputeIndexToPhysicalPointMatrices()
 {
   this->Superclass::ComputeIndexToPhysicalPointMatrices();
 }
 
 
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 unsigned int
-Image< TPixel, VImageDimension >
-::GetNumberOfComponentsPerPixel() const
+Image<TPixel, VImageDimension>::GetNumberOfComponentsPerPixel() const
 {
   // use the GetLength() method which works with variable length arrays,
   // to make it work with as much pixel types as possible
   PixelType p;
-  return NumericTraits< PixelType >::GetLength(p);
+  return NumericTraits<PixelType>::GetLength(p);
 }
 
 
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 void
-Image< TPixel, VImageDimension >
-::PrintSelf(std::ostream & os, Indent indent) const
+Image<TPixel, VImageDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "PixelContainer: " << std::endl;
-  m_Buffer->Print( os, indent.GetNextIndent() );
+  m_Buffer->Print(os, indent.GetNextIndent());
 
   // m_Origin and m_Spacing are printed in the Superclass
 }

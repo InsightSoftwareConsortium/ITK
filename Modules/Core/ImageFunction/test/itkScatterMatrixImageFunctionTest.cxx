@@ -19,33 +19,34 @@
 
 #include "itkScatterMatrixImageFunction.h"
 
-int itkScatterMatrixImageFunctionTest(int, char* [] )
+int
+itkScatterMatrixImageFunctionTest(int, char *[])
 {
 
   constexpr unsigned int Dimension = 3;
   using PixelComponentType = unsigned char;
   constexpr unsigned int VectorDimension = 4;
 
-  using PixelType = itk::FixedArray< PixelComponentType, VectorDimension >;
-  using ImageType = itk::Image< PixelType, Dimension >;
-  using FunctionType = itk::ScatterMatrixImageFunction< ImageType >;
+  using PixelType = itk::FixedArray<PixelComponentType, VectorDimension>;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using FunctionType = itk::ScatterMatrixImageFunction<ImageType>;
 
   // Create and allocate the image
-  ImageType::Pointer      image = ImageType::New();
-  ImageType::SizeType     size;
-  ImageType::IndexType    start;
-  ImageType::RegionType   region;
+  ImageType::Pointer    image = ImageType::New();
+  ImageType::SizeType   size;
+  ImageType::IndexType  start;
+  ImageType::RegionType region;
 
   size[0] = 20;
   size[1] = 20;
   size[2] = 20;
 
-  start.Fill( 0 );
+  start.Fill(0);
 
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
-  image->SetRegions( region );
+  image->SetRegions(region);
   image->Allocate();
 
   ImageType::PixelType initialValue;
@@ -55,23 +56,23 @@ int itkScatterMatrixImageFunctionTest(int, char* [] )
   initialValue[2] = 17;
   initialValue[3] = 19;
 
-  image->FillBuffer( initialValue );
+  image->FillBuffer(initialValue);
 
   FunctionType::Pointer function = FunctionType::New();
 
-  function->SetInputImage( image );
+  function->SetInputImage(image);
 
-  function->SetNeighborhoodRadius( 5 );
+  function->SetNeighborhoodRadius(5);
 
-  ImageType::IndexType    index;
+  ImageType::IndexType index;
 
   index[0] = 10;
   index[1] = 10;
   index[2] = 10;
 
-  FunctionType::OutputType  scatterMatrix;
+  FunctionType::OutputType scatterMatrix;
 
-  scatterMatrix = function->EvaluateAtIndex( index );
+  scatterMatrix = function->EvaluateAtIndex(index);
   std::cout << "function->EvaluateAtIndex( index ): " << scatterMatrix << std::endl;
 
   // Test Evaluate
@@ -101,19 +102,18 @@ int itkScatterMatrixImageFunctionTest(int, char* [] )
 
   // since the input image is constant
   // the should be equal to the initial value
-  for( unsigned int ix=0; ix<VectorDimension; ix++ )
+  for (unsigned int ix = 0; ix < VectorDimension; ix++)
+  {
+    for (unsigned int iy = 0; iy < VectorDimension; iy++)
     {
-    for( unsigned int iy=0; iy<VectorDimension; iy++ )
+      if (itk::Math::abs(initialValue[ix] * initialValue[iy] - scatterMatrix[ix][iy]) > 10e-7)
       {
-      if( itk::Math::abs( initialValue[ix] * initialValue[iy] - scatterMatrix[ix][iy] ) > 10e-7 )
-        {
         std::cerr << "Error in scatterMatrix computation" << std::endl;
         return EXIT_FAILURE;
-        }
       }
     }
+  }
 
   std::cout << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
-
 }

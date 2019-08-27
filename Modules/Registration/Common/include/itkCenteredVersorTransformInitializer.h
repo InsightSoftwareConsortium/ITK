@@ -36,24 +36,19 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  * \ingroup ITKTransform
  */
-template< typename TFixedImage,
-          typename TMovingImage >
-class ITK_TEMPLATE_EXPORT CenteredVersorTransformInitializer:
-  public CenteredTransformInitializer<
-    VersorRigid3DTransform< double >,
-    TFixedImage, TMovingImage >
+template <typename TFixedImage, typename TMovingImage>
+class ITK_TEMPLATE_EXPORT CenteredVersorTransformInitializer
+  : public CenteredTransformInitializer<VersorRigid3DTransform<double>, TFixedImage, TMovingImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CenteredVersorTransformInitializer);
 
   /** Standard class type aliases. */
   using Self = CenteredVersorTransformInitializer;
-  using Superclass = CenteredTransformInitializer<
-    VersorRigid3DTransform< double >,
-    TFixedImage, TMovingImage >;
+  using Superclass = CenteredTransformInitializer<VersorRigid3DTransform<double>, TFixedImage, TMovingImage>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -86,7 +81,8 @@ public:
   using OutputVectorType = typename Superclass::OutputVectorType;
 
   /** Initialize the transform using data from the images */
-  void InitializeTransform() override;
+  void
+  InitializeTransform() override;
 
   /** Enable the use of the principal axes of each image to compute an
    * initial rotation that will align them. */
@@ -98,15 +94,16 @@ protected:
   CenteredVersorTransformInitializer();
   ~CenteredVersorTransformInitializer() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   bool m_ComputeRotation;
-}; //class CenteredVersorTransformInitializer
-}  // namespace itk
+}; // class CenteredVersorTransformInitializer
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCenteredVersorTransformInitializer.hxx"
+#  include "itkCenteredVersorTransformInitializer.hxx"
 #endif
 
 #endif /* itkCenteredVersorTransformInitializer_h */

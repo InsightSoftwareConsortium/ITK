@@ -23,12 +23,12 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkMath.h"
 
-//namespace{
+// namespace{
 //// The following class is used to support callbacks
 //// on the filter in the pipeline that follows later
-//class ShowProgressObject
+// class ShowProgressObject
 //{
-//public:
+// public:
 //  ShowProgressObject(itk::ProcessObject* o)
 //    {m_Process = o;}
 //  void ShowProgress()
@@ -37,35 +37,34 @@
 //};
 //}
 
-int itkFastMarchingUpwindGradientBaseTest(int, char* [] )
+int
+itkFastMarchingUpwindGradientBaseTest(int, char *[])
 {
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
   // create a fastmarching object
   using PixelType = float;
-  constexpr unsigned Dimension  = 2;
+  constexpr unsigned Dimension = 2;
 
-  using FloatImageType = itk::Image< PixelType, Dimension >;
+  using FloatImageType = itk::Image<PixelType, Dimension>;
 
-  using CriterionType =
-      itk::FastMarchingReachedTargetNodesStoppingCriterion< FloatImageType, FloatImageType >;
+  using CriterionType = itk::FastMarchingReachedTargetNodesStoppingCriterion<FloatImageType, FloatImageType>;
 
   CriterionType::Pointer criterion = CriterionType::New();
 
-  using FloatFMType = itk::FastMarchingUpwindGradientImageFilterBase<
-      FloatImageType, FloatImageType >;
+  using FloatFMType = itk::FastMarchingUpwindGradientImageFilterBase<FloatImageType, FloatImageType>;
 
   FloatFMType::Pointer marcher = FloatFMType::New();
 
-//   ShowProgressObject progressWatch(marcher);
-//   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
-//   command = itk::SimpleMemberCommand<ShowProgressObject>::New();
-//   command->SetCallbackFunction(&progressWatch,
-//                                &ShowProgressObject::ShowProgress);
-//   marcher->AddObserver( itk::ProgressEvent(), command);
+  //   ShowProgressObject progressWatch(marcher);
+  //   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
+  //   command = itk::SimpleMemberCommand<ShowProgressObject>::New();
+  //   command->SetCallbackFunction(&progressWatch,
+  //                                &ShowProgressObject::ShowProgress);
+  //   marcher->AddObserver( itk::ProgressEvent(), command);
 
-  itk::SimpleFilterWatcher MarcherWatcher( marcher );
+  itk::SimpleFilterWatcher MarcherWatcher(marcher);
 
   using NodeType = FloatFMType::NodeType;
   using NodePairType = FloatFMType::NodePairType;
@@ -75,15 +74,15 @@ int itkFastMarchingUpwindGradientBaseTest(int, char* [] )
   // setup alive points
   NodePairContainerType::Pointer AlivePoints = NodePairContainerType::New();
 
-  FloatImageType::OffsetType offset0 = {{28,35}};
+  FloatImageType::OffsetType offset0 = { { 28, 35 } };
 
   itk::Index<2> index;
   index.Fill(0);
 
-  AlivePoints->push_back( NodePairType( index + offset0, 0. ) );
-  AlivePoints->push_back( NodePairType( index + offset0, 42. ) );
+  AlivePoints->push_back(NodePairType(index + offset0, 0.));
+  AlivePoints->push_back(NodePairType(index + offset0, 42.));
 
-  marcher->SetAlivePoints( AlivePoints );
+  marcher->SetAlivePoints(AlivePoints);
 
   // setup trial points
   NodePairContainerType::Pointer TrialPoints = NodePairContainerType::New();
@@ -92,138 +91,133 @@ int itkFastMarchingUpwindGradientBaseTest(int, char* [] )
   index += offset0;
 
   index[0] += 1;
-  TrialPoints->push_back( NodePairType( index, 1. ) );
+  TrialPoints->push_back(NodePairType(index, 1.));
 
   index[0] -= 1;
   index[1] += 1;
-  TrialPoints->push_back( NodePairType( index, 1. ) );
+  TrialPoints->push_back(NodePairType(index, 1.));
 
   index[0] -= 1;
   index[1] -= 1;
-  TrialPoints->push_back( NodePairType( index, 1. ) );
+  TrialPoints->push_back(NodePairType(index, 1.));
 
   index[0] += 1;
   index[1] -= 1;
-  TrialPoints->push_back( NodePairType( index, 1. ) );
+  TrialPoints->push_back(NodePairType(index, 1.));
 
-  index.Fill( 300 ); // this node is out of range
-  TrialPoints->push_back( NodePairType( index, 42. ) );
+  index.Fill(300); // this node is out of range
+  TrialPoints->push_back(NodePairType(index, 42.));
 
-  marcher->SetTrialPoints( TrialPoints );
+  marcher->SetTrialPoints(TrialPoints);
 
   // specify the size of the output image
-  FloatImageType::SizeType size = {{64,64}};
-  marcher->SetOutputSize( size );
+  FloatImageType::SizeType size = { { 64, 64 } };
+  marcher->SetOutputSize(size);
 
   // setup a speed image of ones
-  FloatImageType::Pointer speedImage = FloatImageType::New();
+  FloatImageType::Pointer    speedImage = FloatImageType::New();
   FloatImageType::RegionType region;
-  region.SetSize( size );
-  speedImage->SetLargestPossibleRegion( region );
-  speedImage->SetBufferedRegion( region );
+  region.SetSize(size);
+  speedImage->SetLargestPossibleRegion(region);
+  speedImage->SetBufferedRegion(region);
   speedImage->Allocate();
 
-  itk::ImageRegionIterator<FloatImageType>
-    speedIter( speedImage, speedImage->GetBufferedRegion() );
+  itk::ImageRegionIterator<FloatImageType> speedIter(speedImage, speedImage->GetBufferedRegion());
 
-  while ( !speedIter.IsAtEnd() )
-    {
-    speedIter.Set( 1.0 );
+  while (!speedIter.IsAtEnd())
+  {
+    speedIter.Set(1.0);
     ++speedIter;
-    }
+  }
 
-//  speedImage->Print( std::cout );
-  marcher->SetInput( speedImage );
+  //  speedImage->Print( std::cout );
+  marcher->SetInput(speedImage);
 
   // check the results
   using FloatGradientImage = FloatFMType::GradientImageType;
   using GradientPixelType = FloatGradientImage::PixelType;
-  FloatGradientImage::Pointer gradientOutput = marcher->GetGradientImage();
-  itk::ImageRegionIterator<FloatGradientImage>
-    iterator( gradientOutput, gradientOutput->GetBufferedRegion() );
+  FloatGradientImage::Pointer                  gradientOutput = marcher->GetGradientImage();
+  itk::ImageRegionIterator<FloatGradientImage> iterator(gradientOutput, gradientOutput->GetBufferedRegion());
 
   bool passed = true;
 
-  while ( !iterator.IsAtEnd() )
-    {
+  while (!iterator.IsAtEnd())
+  {
     FloatGradientImage::IndexType tempIndex;
-    double distance;
-    GradientPixelType outputPixel;
+    double                        distance;
+    GradientPixelType             outputPixel;
 
     tempIndex = iterator.GetIndex();
     tempIndex -= offset0;
     distance = 0.0;
-    for ( int j = 0; j < 2; j++ )
-      {
+    for (int j = 0; j < 2; j++)
+    {
       distance += tempIndex[j] * tempIndex[j];
-      }
-    distance = std::sqrt( distance );
+    }
+    distance = std::sqrt(distance);
 
     outputPixel = iterator.Get();
 
-    auto outputPixelNorm = (double) outputPixel.GetNorm();
+    auto outputPixelNorm = (double)outputPixel.GetNorm();
 
     if (itk::Math::AlmostEquals(distance, 0.0))
-      {
+    {
       continue;
-      }
+    }
 
     // for test to pass, gradient vectors must have norm = 1
     // (equal to the rhs of the Eikonal equation)
     // and must be oriented radially from the seed point
 
     double dot = 0.0;
-    for ( int j = 0; j < 2; j++ )
-      {
+    for (int j = 0; j < 2; j++)
+    {
       dot += tempIndex[j] / distance * outputPixel[j];
-      }
+    }
 
-    if ( ( outputPixelNorm < 0.9999 ) ||
-         ( outputPixelNorm > 1.0001 ) ||
-         ( dot < 0.99 ) || ( dot > 1.01 ) )
-      {
+    if ((outputPixelNorm < 0.9999) || (outputPixelNorm > 1.0001) || (dot < 0.99) || (dot > 1.01))
+    {
       std::cout << iterator.GetIndex() << " ";
       std::cout << outputPixelNorm << " ";
       std::cout << dot << std::endl;
       passed = false;
-      }
+    }
 
     ++iterator;
-    }
+  }
 
   // Set up target points.
   // The algorithm will stop when it reaches these points.
   // This point is closest to the AlivePoint:
-  constexpr FloatImageType::OffsetType offset1 = {{50,50}};
-  constexpr FloatImageType::OffsetType offset2 = {{40,40}};
+  constexpr FloatImageType::OffsetType offset1 = { { 50, 50 } };
+  constexpr FloatImageType::OffsetType offset2 = { { 40, 40 } };
   // This point is farthest from the AlivePoint:
-  constexpr FloatImageType::OffsetType offset3 = {{0,0}};
-  const std::vector< FloatImageType::OffsetType > targetOffsets{
-        offset1, offset2, offset3 };
+  constexpr FloatImageType::OffsetType          offset3 = { { 0, 0 } };
+  const std::vector<FloatImageType::OffsetType> targetOffsets{ offset1, offset2, offset3 };
 
-  std::vector< NodeType > TargetNodes;
-  for(const auto targetOffset : targetOffsets)
-    {
-    TargetNodes.push_back( index + targetOffset );
-    }
-  criterion->SetTargetNodes( TargetNodes );
+  std::vector<NodeType> TargetNodes;
+  for (const auto targetOffset : targetOffsets)
+  {
+    TargetNodes.push_back(index + targetOffset);
+  }
+  criterion->SetTargetNodes(TargetNodes);
 
   // Stop the algorithm when ONE of the targets has been reached.
-  criterion->SetTargetCondition( CriterionType::OneTarget );
+  criterion->SetTargetCondition(CriterionType::OneTarget);
 
-  marcher->SetStoppingCriterion( criterion );
+  marcher->SetStoppingCriterion(criterion);
 
   marcher->Update();
 
 
-  if ( passed )
-    {
+  if (passed)
+  {
     std::cout << "Fast Marching Upwind Gradient test passed" << std::endl;
     return EXIT_SUCCESS;
-    }
+  }
   else
-    {
+  {
     std::cout << "Fast Marching Upwind Gradient test failed" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 }

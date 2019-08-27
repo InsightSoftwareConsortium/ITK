@@ -22,25 +22,24 @@ namespace itk
 namespace Statistics
 {
 MaximumDecisionRule::ClassIdentifierType
-MaximumDecisionRule
-::Evaluate(const MembershipVectorType & discriminantScores) const
+MaximumDecisionRule ::Evaluate(const MembershipVectorType & discriminantScores) const
 {
   ClassIdentifierType maxIndex = 0;
 
   if (!discriminantScores.empty())
-    {
-    MembershipValueType  max = discriminantScores[0];
+  {
+    MembershipValueType max = discriminantScores[0];
     ClassIdentifierType i;
 
-    for ( i = 1; i < discriminantScores.size(); i++ )
+    for (i = 1; i < discriminantScores.size(); i++)
+    {
+      if (discriminantScores[i] > max)
       {
-      if ( discriminantScores[i] > max )
-        {
         max = discriminantScores[i];
         maxIndex = i;
-        }
       }
     }
+  }
   return maxIndex;
 }
 } // end of namespace Statistics

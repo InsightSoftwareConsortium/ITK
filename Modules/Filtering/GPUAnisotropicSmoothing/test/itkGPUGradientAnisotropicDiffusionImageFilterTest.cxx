@@ -1,20 +1,20 @@
 /*=========================================================================
-*
-*  Copyright Insight Software Consortium
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*         http://www.apache.org/licenses/LICENSE-2.0.txt
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-*
-*=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 
 /**
  * Test program for GPUGradientAnisotropicDiffusionImageFilter class
@@ -32,27 +32,28 @@
 #include "itkGPUImageToImageFilter.h"
 #include "itkGPUGradientAnisotropicDiffusionImageFilter.h"
 
-template< unsigned int VImageDimension >
-int runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string& inFile, const std::string& outFile)
+template <unsigned int VImageDimension>
+int
+runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string & inFile, const std::string & outFile)
 {
   using InputPixelType = float;
   using OutputPixelType = float;
 
-  using InputImageType = itk::GPUImage< InputPixelType,  VImageDimension >;
-  using OutputImageType = itk::GPUImage< OutputPixelType, VImageDimension >;
+  using InputImageType = itk::GPUImage<InputPixelType, VImageDimension>;
+  using OutputImageType = itk::GPUImage<OutputPixelType, VImageDimension>;
 
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   typename ReaderType::Pointer reader = ReaderType::New();
   typename WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( inFile );
-  writer->SetFileName( outFile );
+  reader->SetFileName(inFile);
+  writer->SetFileName(outFile);
 
   // Create CPU/GPU anistorpic diffusion filter
-  using CPUAnisoDiffFilterType = itk::GradientAnisotropicDiffusionImageFilter< InputImageType, OutputImageType >;
-  using GPUAnisoDiffFilterType = itk::GPUGradientAnisotropicDiffusionImageFilter< InputImageType, OutputImageType >;
+  using CPUAnisoDiffFilterType = itk::GradientAnisotropicDiffusionImageFilter<InputImageType, OutputImageType>;
+  using GPUAnisoDiffFilterType = itk::GPUGradientAnisotropicDiffusionImageFilter<InputImageType, OutputImageType>;
 
   typename CPUAnisoDiffFilterType::Pointer CPUFilter = CPUAnisoDiffFilterType::New();
   typename GPUAnisoDiffFilterType::Pointer GPUFilter = GPUAnisoDiffFilterType::New();
@@ -69,43 +70,44 @@ int runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string& inFile,
   nThreadVec.push_back(8);
   nThreadVec.push_back(128);
 
-  for(unsigned int idx = 0; idx < nThreadVec.size(); idx++)
+  for (unsigned int idx = 0; idx < nThreadVec.size(); idx++)
   {
-    int nThreads = nThreadVec[idx];
+    int            nThreads = nThreadVec[idx];
     itk::TimeProbe cputimer;
     cputimer.Start();
 
-    CPUFilter->SetNumberOfWorkUnits( nThreads );
+    CPUFilter->SetNumberOfWorkUnits(nThreads);
 
-    CPUFilter->SetInput( reader->GetOutput() );
-    CPUFilter->SetNumberOfIterations( 10 );
-    CPUFilter->SetTimeStep( 0.0625 );//125 );
-    CPUFilter->SetConductanceParameter( 3.0 );
+    CPUFilter->SetInput(reader->GetOutput());
+    CPUFilter->SetNumberOfIterations(10);
+    CPUFilter->SetTimeStep(0.0625); // 125 );
+    CPUFilter->SetConductanceParameter(3.0);
     CPUFilter->UseImageSpacingOn();
     CPUFilter->Update();
 
     cputimer.Stop();
 
     std::cout << "CPU Anisotropic diffusion took " << cputimer.GetMean() << " seconds with "
-              << CPUFilter->GetNumberOfWorkUnits() << " threads.\n" << std::endl;
+              << CPUFilter->GetNumberOfWorkUnits() << " threads.\n"
+              << std::endl;
 
     // -------
 
-    if (idx == nThreadVec.size()-1)
+    if (idx == nThreadVec.size() - 1)
     {
       itk::TimeProbe gputimer;
       gputimer.Start();
 
-      GPUFilter->SetInput( reader->GetOutput() );
-      GPUFilter->SetNumberOfIterations( 10 );
-      GPUFilter->SetTimeStep( 0.0625 );//125 );
-      GPUFilter->SetConductanceParameter( 3.0 );
+      GPUFilter->SetInput(reader->GetOutput());
+      GPUFilter->SetNumberOfIterations(10);
+      GPUFilter->SetTimeStep(0.0625); // 125 );
+      GPUFilter->SetConductanceParameter(3.0);
       GPUFilter->UseImageSpacingOn();
       try
       {
         GPUFilter->Update();
       }
-      catch (itk::ExceptionObject& excp)
+      catch (itk::ExceptionObject & excp)
       {
         std::cout << "Caught exception during GPUFilter->Update() " << excp << std::endl;
         return EXIT_FAILURE;
@@ -115,7 +117,7 @@ int runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string& inFile,
       {
         GPUFilter->GetOutput()->UpdateBuffers(); // synchronization point
       }
-      catch (itk::ExceptionObject& excp)
+      catch (itk::ExceptionObject & excp)
       {
         std::cout << "Caught exception during GPUFilter->GetOutput()->UpdateBuffers() " << excp << std::endl;
         return EXIT_FAILURE;
@@ -129,25 +131,27 @@ int runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string& inFile,
       // RMS Error check
       // ---------------
 
-      double diff = 0;
-      unsigned int nPix = 0;
-      itk::ImageRegionIterator<OutputImageType> cit(CPUFilter->GetOutput(), CPUFilter->GetOutput()->GetLargestPossibleRegion());
-      itk::ImageRegionIterator<OutputImageType> git(GPUFilter->GetOutput(), GPUFilter->GetOutput()->GetLargestPossibleRegion());
+      double                                    diff = 0;
+      unsigned int                              nPix = 0;
+      itk::ImageRegionIterator<OutputImageType> cit(CPUFilter->GetOutput(),
+                                                    CPUFilter->GetOutput()->GetLargestPossibleRegion());
+      itk::ImageRegionIterator<OutputImageType> git(GPUFilter->GetOutput(),
+                                                    GPUFilter->GetOutput()->GetLargestPossibleRegion());
 
-      for(cit.GoToBegin(), git.GoToBegin(); !cit.IsAtEnd(); ++cit, ++git)
+      for (cit.GoToBegin(), git.GoToBegin(); !cit.IsAtEnd(); ++cit, ++git)
       {
         double err = (double)(cit.Get()) - (double)(git.Get());
-        diff += err*err;
+        diff += err * err;
         nPix++;
       }
-      writer->SetInput( GPUFilter->GetOutput() ); // copy GPU->CPU implicilty
+      writer->SetInput(GPUFilter->GetOutput()); // copy GPU->CPU implicilty
 
       // execute pipeline filter and write output
       writer->Update();
 
       if (nPix > 0)
       {
-        double RMSError = sqrt( diff / (double)nPix );
+        double RMSError = sqrt(diff / (double)nPix);
         std::cout << "RMS Error : " << RMSError << std::endl;
         double RMSThreshold = 2.5e-6;
         if (itk::Math::isnan(RMSError))
@@ -167,43 +171,43 @@ int runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string& inFile,
         return EXIT_FAILURE;
       }
     }
-
   }
 
-  GPUFilter = nullptr; // explicit GPU object destruction test
+  GPUFilter = nullptr;                                      // explicit GPU object destruction test
   itk::GPUContextManager::GetInstance()->DestroyInstance(); // GPUContextManager singleton destruction test
   return EXIT_SUCCESS;
 }
 
-int itkGPUGradientAnisotropicDiffusionImageFilterTest(int argc, char *argv[])
+int
+itkGPUGradientAnisotropicDiffusionImageFilterTest(int argc, char * argv[])
 {
-  if(!itk::IsGPUAvailable())
+  if (!itk::IsGPUAvailable())
   {
     std::cerr << "OpenCL-enabled GPU is not present." << std::endl;
     return EXIT_FAILURE;
   }
 
-  if( argc <  3 )
+  if (argc < 3)
   {
     std::cerr << "Error: missing arguments" << std::endl;
     std::cerr << "inputfile outputfile [num_dimensions]" << std::endl;
     return EXIT_FAILURE;
   }
 
-  std::string inFile( argv[1] );
-  std::string outFile( argv[2] );
+  std::string inFile(argv[1]);
+  std::string outFile(argv[2]);
 
   unsigned int dim = 3;
-  if( argc >= 4 )
+  if (argc >= 4)
   {
-    dim = std::stoi( argv[3] );
+    dim = std::stoi(argv[3]);
   }
 
-  if( dim == 2 )
+  if (dim == 2)
   {
     return runGPUGradientAnisotropicDiffusionImageFilterTest<2>(inFile, outFile);
   }
-  else if( dim == 3 )
+  else if (dim == 3)
   {
     return runGPUGradientAnisotropicDiffusionImageFilterTest<3>(inFile, outFile);
   }

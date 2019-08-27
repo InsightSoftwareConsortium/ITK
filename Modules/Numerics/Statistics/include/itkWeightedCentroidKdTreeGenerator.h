@@ -62,18 +62,17 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< typename TSample >
-class ITK_TEMPLATE_EXPORT WeightedCentroidKdTreeGenerator:
-  public KdTreeGenerator< TSample >
+template <typename TSample>
+class ITK_TEMPLATE_EXPORT WeightedCentroidKdTreeGenerator : public KdTreeGenerator<TSample>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(WeightedCentroidKdTreeGenerator);
 
   /** Standard class type aliases */
   using Self = WeightedCentroidKdTreeGenerator;
-  using Superclass = KdTreeGenerator< TSample >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = KdTreeGenerator<TSample>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(WeightedCentroidKdTreeGenerator, KdTreeGenerator);
@@ -96,27 +95,27 @@ protected:
   /** Destructor */
   ~WeightedCentroidKdTreeGenerator() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Nonterminal node generation routine */
-  KdTreeNodeType * GenerateNonterminalNode(unsigned int beginIndex,
-                                                   unsigned int endIndex,
-                                                   MeasurementVectorType
-                                                   & lowerBound,
-                                                   MeasurementVectorType
-                                                   & upperBound,
-                                                   unsigned int level) override;
+  KdTreeNodeType *
+  GenerateNonterminalNode(unsigned int            beginIndex,
+                          unsigned int            endIndex,
+                          MeasurementVectorType & lowerBound,
+                          MeasurementVectorType & upperBound,
+                          unsigned int            level) override;
 
 private:
   MeasurementVectorType m_TempLowerBound;
   MeasurementVectorType m_TempUpperBound;
   MeasurementVectorType m_TempMean;
-};  // end of class
+}; // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWeightedCentroidKdTreeGenerator.hxx"
+#  include "itkWeightedCentroidKdTreeGenerator.hxx"
 #endif
 
 #endif

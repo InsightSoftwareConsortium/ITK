@@ -46,14 +46,15 @@
 // Software Guide : EndCodeSnippet
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile  sigma " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //  Software Guide : BeginLatex
@@ -76,12 +77,12 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using InputImageType = itk::Image< InputPixelType,  2 >;
-  using OutputImageType = itk::Image< OutputPixelType, 2 >;
+  using InputImageType = itk::Image<InputPixelType, 2>;
+  using OutputImageType = itk::Image<OutputPixelType, 2>;
   // Software Guide : EndCodeSnippet
 
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
 
 
   //  Software Guide : BeginLatex
@@ -96,13 +97,13 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::SmoothingRecursiveGaussianImageFilter<
-                        InputImageType, OutputImageType >;
+  using FilterType =
+    itk::SmoothingRecursiveGaussianImageFilter<InputImageType, OutputImageType>;
   // Software Guide : EndCodeSnippet
 
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
 
   //  Software Guide : BeginLatex
@@ -130,7 +131,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetNormalizeAcrossScale( false );
+  filter->SetNormalizeAcrossScale(false);
   // Software Guide : EndCodeSnippet
 
 
@@ -143,7 +144,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetInput( reader->GetOutput() );
+  filter->SetInput(reader->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -160,10 +161,10 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double sigma = std::stod( argv[3] );
+  const double sigma = std::stod(argv[3]);
 
   // Software Guide : BeginCodeSnippet
-  filter->SetSigma( sigma );
+  filter->SetSigma(sigma);
   // Software Guide : EndCodeSnippet
 
 
@@ -182,19 +183,19 @@ int main( int argc, char * argv[] )
 
 
   using WritePixelType = unsigned char;
-  using WriteImageType = itk::Image< WritePixelType, 2 >;
-  using RescaleFilterType = itk::RescaleIntensityImageFilter<
-                   OutputImageType, WriteImageType >;
+  using WriteImageType = itk::Image<WritePixelType, 2>;
+  using RescaleFilterType =
+    itk::RescaleIntensityImageFilter<OutputImageType, WriteImageType>;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
-  rescaler->SetOutputMinimum(   0 );
-  rescaler->SetOutputMaximum( 255 );
+  rescaler->SetOutputMinimum(0);
+  rescaler->SetOutputMaximum(255);
 
-  using WriterType = itk::ImageFileWriter< WriteImageType >;
+  using WriterType = itk::ImageFileWriter<WriteImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[2] );
-  rescaler->SetInput( filter->GetOutput() );
-  writer->SetInput( rescaler->GetOutput() );
+  writer->SetFileName(argv[2]);
+  rescaler->SetInput(filter->GetOutput());
+  writer->SetInput(rescaler->GetOutput());
   writer->Update();
 
 
@@ -205,8 +206,8 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.44\textwidth]{SmoothingRecursiveGaussianImageFilterOutput3}
   // \includegraphics[width=0.44\textwidth]{SmoothingRecursiveGaussianImageFilterOutput5}
   // \itkcaption[SmoothingRecursiveGaussianImageFilter output]{Effect of the
-  // SmoothingRecursiveGaussianImageFilter on a slice from a MRI proton density image of the brain.}
-  // \label{fig:SmoothingRecursiveGaussianImageFilterInputOutput}
+  // SmoothingRecursiveGaussianImageFilter on a slice from a MRI proton density image of
+  // the brain.} \label{fig:SmoothingRecursiveGaussianImageFilterInputOutput}
   // \end{figure}
   //
   //  Figure \ref{fig:SmoothingRecursiveGaussianImageFilterInputOutput}

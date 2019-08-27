@@ -36,14 +36,14 @@ namespace itk
 
 
 template <class TInputImage, class TOutputImage>
-class PyImageFilter : public ImageToImageFilter<TInputImage,TOutputImage>
+class PyImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PyImageFilter);
 
   /** Standard class type aliases. */
   using Self = PyImageFilter;
-  using Superclass = ImageToImageFilter<TInputImage,TOutputImage>;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -55,36 +55,37 @@ public:
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;
-  using InputImagePointer = typename    InputImageType::Pointer;
-  using InputImageRegionType = typename    InputImageType::RegionType;
-  using InputImagePixelType = typename    InputImageType::PixelType;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
   using OutputImageType = TOutputImage;
-  using OutputImagePointer = typename     OutputImageType::Pointer;
-  using OutputImageRegionType = typename     OutputImageType::RegionType;
-  using OutputImagePixelType = typename     OutputImageType::PixelType;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** ImageDimension enumeration */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
 
-  void SetPyGenerateData(PyObject *obj);
+  void
+  SetPyGenerateData(PyObject * obj);
 
 protected:
   PyImageFilter();
   virtual ~PyImageFilter();
-  virtual void GenerateData();
+  virtual void
+  GenerateData();
 
 private:
-  PyObject *m_Object;
-
+  PyObject * m_Object;
 };
 
 } // end namespace itk
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPyImageFilter.hxx"
+#  include "itkPyImageFilter.hxx"
 #endif
 
 #endif // _itkPyImageFilter_h

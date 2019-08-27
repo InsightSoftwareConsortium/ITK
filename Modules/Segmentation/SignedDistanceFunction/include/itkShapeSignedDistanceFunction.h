@@ -48,20 +48,18 @@ namespace itk
  *
  * \ingroup ITKSignedDistanceFunction
  */
-template< typename TCoordRep, unsigned int VSpaceDimension >
-class ShapeSignedDistanceFunction:
-  public SpatialFunction< double, VSpaceDimension, Point< TCoordRep, VSpaceDimension > >
+template <typename TCoordRep, unsigned int VSpaceDimension>
+class ShapeSignedDistanceFunction : public SpatialFunction<double, VSpaceDimension, Point<TCoordRep, VSpaceDimension>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShapeSignedDistanceFunction);
 
   /** Standard class type aliases. */
   using Self = ShapeSignedDistanceFunction;
-  using Superclass = SpatialFunction< double, VSpaceDimension,
-                           Point< TCoordRep, VSpaceDimension > >;
+  using Superclass = SpatialFunction<double, VSpaceDimension, Point<TCoordRep, VSpaceDimension>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ShapeSignedDistanceFunction, SpatialFunction);
@@ -82,37 +80,49 @@ public:
   using PointType = InputType;
 
   /** Type of the shape parameters. */
-  using ParametersType = OptimizerParameters< double >;
+  using ParametersType = OptimizerParameters<double>;
 
   /** A shape is defined by a set of shape parameters. */
-  virtual void SetParameters(const ParametersType &) = 0;
+  virtual void
+  SetParameters(const ParametersType &) = 0;
 
-  virtual ParametersType & GetParameters()
-  { return m_Parameters; }
-  virtual unsigned int GetNumberOfShapeParameters() const = 0;
+  virtual ParametersType &
+  GetParameters()
+  {
+    return m_Parameters;
+  }
+  virtual unsigned int
+  GetNumberOfShapeParameters() const = 0;
 
-  virtual unsigned int GetNumberOfPoseParameters() const = 0;
+  virtual unsigned int
+  GetNumberOfPoseParameters() const = 0;
 
-  virtual unsigned int GetNumberOfParameters() const
-  { return this->GetNumberOfShapeParameters() + this->GetNumberOfPoseParameters(); }
+  virtual unsigned int
+  GetNumberOfParameters() const
+  {
+    return this->GetNumberOfShapeParameters() + this->GetNumberOfPoseParameters();
+  }
 
   /** Evaluate the signed distance from a shape at a given position. */
-  OutputType Evaluate(const PointType & point) const override = 0;
+  OutputType
+  Evaluate(const PointType & point) const override = 0;
 
   /** Initialize must be called before the first call of SetParameters() or
    Evaluate() to allow the class to validate any inputs. */
-  virtual void Initialize() {}
+  virtual void
+  Initialize()
+  {}
 
 protected:
-
   ShapeSignedDistanceFunction() = default;
 
   ~ShapeSignedDistanceFunction() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-//FIX    os << indent << "Parameters: " << m_Parameters << std::endl;
+    // FIX    os << indent << "Parameters: " << m_Parameters << std::endl;
   }
 
   ParametersType m_Parameters;

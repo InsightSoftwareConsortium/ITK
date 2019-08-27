@@ -43,25 +43,19 @@ namespace itk
  * \ingroup Functions ImageInterpolators
  * \ingroup ITKCommon
  */
-template<
-  typename TCoordRep = float,
-  unsigned int VSpaceDimension = 2,
-  unsigned int VSplineOrder = 3
-  >
-class ITK_TEMPLATE_EXPORT BSplineInterpolationWeightFunction:
-  public FunctionBase< ContinuousIndex< TCoordRep, VSpaceDimension >,
-                       Array< double > >
+template <typename TCoordRep = float, unsigned int VSpaceDimension = 2, unsigned int VSplineOrder = 3>
+class ITK_TEMPLATE_EXPORT BSplineInterpolationWeightFunction
+  : public FunctionBase<ContinuousIndex<TCoordRep, VSpaceDimension>, Array<double>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineInterpolationWeightFunction);
 
   /** Standard class type aliases. */
   using Self = BSplineInterpolationWeightFunction;
-  using Superclass = FunctionBase< ContinuousIndex< TCoordRep, VSpaceDimension >,
-                        Array< double > >;
+  using Superclass = FunctionBase<ContinuousIndex<TCoordRep, VSpaceDimension>, Array<double>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through the object factory. */
   itkNewMacro(Self);
@@ -76,18 +70,19 @@ public:
   static constexpr unsigned int SplineOrder = VSplineOrder;
 
   /** OutputType type alias support. */
-  using WeightsType = Array< double >;
+  using WeightsType = Array<double>;
 
   /** Index and size type alias support. */
-  using IndexType = Index< VSpaceDimension >;
-  using SizeType = Size< VSpaceDimension >;
+  using IndexType = Index<VSpaceDimension>;
+  using SizeType = Size<VSpaceDimension>;
 
   /** ContinuousIndex type alias support. */
-  using ContinuousIndexType = ContinuousIndex< TCoordRep, VSpaceDimension >;
+  using ContinuousIndexType = ContinuousIndex<TCoordRep, VSpaceDimension>;
 
   /** Evaluate the weights at specified ContinuousIndex position.
    * Subclasses must provide this method. */
-  WeightsType Evaluate(const ContinuousIndexType & index) const override;
+  WeightsType
+  Evaluate(const ContinuousIndexType & index) const override;
 
   /** Evaluate the weights at specified ContinuousIndex position.
    * The weights are returned in the user specified container.
@@ -97,8 +92,8 @@ public:
    * On return, startIndex contains the start index of the
    * support region over which the weights are defined.
    */
-  virtual void Evaluate(const ContinuousIndexType & index,
-                        WeightsType & weights, IndexType & startIndex) const;
+  virtual void
+  Evaluate(const ContinuousIndexType & index, WeightsType & weights, IndexType & startIndex) const;
 
   /** Get support region size. */
   itkGetConstMacro(SupportSize, SizeType);
@@ -109,7 +104,8 @@ public:
 protected:
   BSplineInterpolationWeightFunction();
   ~BSplineInterpolationWeightFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** Number of weights. */
@@ -119,13 +115,13 @@ private:
   SizeType m_SupportSize;
 
   /** Lookup table type. */
-  using TableType = Array2D< unsigned int >;
+  using TableType = Array2D<unsigned int>;
 
   /** Table mapping linear offset to indices. */
   TableType m_OffsetToIndexTable;
 
   /** Interpolation kernel type. */
-  using KernelType = BSplineKernelFunction< Self::SplineOrder >;
+  using KernelType = BSplineKernelFunction<Self::SplineOrder>;
 
   /** Interpolation kernel. */
   typename KernelType::Pointer m_Kernel;
@@ -133,7 +129,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBSplineInterpolationWeightFunction.hxx"
+#  include "itkBSplineInterpolationWeightFunction.hxx"
 #endif
 
 #endif

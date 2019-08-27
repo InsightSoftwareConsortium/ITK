@@ -36,7 +36,8 @@
  *
  */
 
-int itkPointSetToImageRegistrationTest( int, char* [] )
+int
+itkPointSetToImageRegistrationTest(int, char *[])
 {
   constexpr unsigned int ImageDimension = 2;
 
@@ -44,73 +45,68 @@ int itkPointSetToImageRegistrationTest( int, char* [] )
 
   using CoordinateRepresentationType = double;
 
-  using MovingImageType = itk::Image< PixelType, ImageDimension >;
-  using FixedImageType = itk::Image< PixelType, ImageDimension >;
+  using MovingImageType = itk::Image<PixelType, ImageDimension>;
+  using FixedImageType = itk::Image<PixelType, ImageDimension>;
 
-  using ImageSourceType = itk::testhelper::ImageRegistrationMethodImageSource<
-    PixelType,
-    PixelType,
-    ImageDimension >;
+  using ImageSourceType = itk::testhelper::ImageRegistrationMethodImageSource<PixelType, PixelType, ImageDimension>;
 
   ImageSourceType::Pointer imageSource = ImageSourceType::New();
 
-  itk::Size< ImageDimension > size;
+  itk::Size<ImageDimension> size;
   size[0] = 100;
   size[1] = 100;
 
-  imageSource->GenerateImages( size );
+  imageSource->GenerateImages(size);
 
   // Create the two images
   MovingImageType::ConstPointer movingImage = imageSource->GetMovingImage();
-  FixedImageType::ConstPointer  fixedImage  = imageSource->GetFixedImage();
+  FixedImageType::ConstPointer  fixedImage = imageSource->GetFixedImage();
 
   // Create the point set and load it with data by sampling
   // the fixed image.
   //
-  using FixedPointSetType = itk::PointSet< float, ImageDimension >;
+  using FixedPointSetType = itk::PointSet<float, ImageDimension>;
   FixedPointSetType::Pointer fixedPointSet = FixedPointSetType::New();
 
   constexpr unsigned int numberOfPoints = 10000;
 
-  fixedPointSet->SetPointData( FixedPointSetType::PointDataContainer::New() );
+  fixedPointSet->SetPointData(FixedPointSetType::PointDataContainer::New());
 
-  fixedPointSet->GetPoints()->Reserve( numberOfPoints );
-  fixedPointSet->GetPointData()->Reserve( numberOfPoints );
+  fixedPointSet->GetPoints()->Reserve(numberOfPoints);
+  fixedPointSet->GetPointData()->Reserve(numberOfPoints);
 
-  using ImageIteratorType = itk::ImageRegionConstIterator< FixedImageType >;
+  using ImageIteratorType = itk::ImageRegionConstIterator<FixedImageType>;
 
-  ImageIteratorType it( fixedImage, fixedImage->GetBufferedRegion() );
+  ImageIteratorType it(fixedImage, fixedImage->GetBufferedRegion());
 
-  const unsigned int skip =
-    fixedImage->GetBufferedRegion().GetNumberOfPixels() / numberOfPoints;
+  const unsigned int skip = fixedImage->GetBufferedRegion().GetNumberOfPixels() / numberOfPoints;
 
   unsigned int counter = 0;
 
   FixedPointSetType::PointIdentifier pointId = 0;
-  FixedPointSetType::PointType  point;
+  FixedPointSetType::PointType       point;
 
   it.GoToBegin();
-  while( !it.IsAtEnd() )
+  while (!it.IsAtEnd())
+  {
+    if (counter == 0)
     {
-    if( counter == 0 )
-      {
-      fixedImage->TransformIndexToPhysicalPoint( it.GetIndex(), point );
-      fixedPointSet->SetPoint( pointId, point );
-      fixedPointSet->SetPointData( pointId, it.Get() );
+      fixedImage->TransformIndexToPhysicalPoint(it.GetIndex(), point);
+      fixedPointSet->SetPoint(pointId, point);
+      fixedPointSet->SetPointData(pointId, it.Get());
       ++pointId;
-      if( pointId == numberOfPoints )
-        {
+      if (pointId == numberOfPoints)
+      {
         break;
-        }
-      counter = skip;
       }
+      counter = skip;
+    }
     --counter;
     ++it;
-    }
+  }
 
   // Set up the Metric
-  using MetricType = itk::NormalizedCorrelationPointSetToImageMetric< FixedPointSetType,
-    MovingImageType >;
+  using MetricType = itk::NormalizedCorrelationPointSetToImageMetric<FixedPointSetType, MovingImageType>;
 
   using TransformBaseType = MetricType::TransformType;
   using ParametersType = TransformBaseType::ParametersType;
@@ -118,13 +114,11 @@ int itkPointSetToImageRegistrationTest( int, char* [] )
   MetricType::Pointer metric = MetricType::New();
 
   // Set up the Transform
-  using TransformType = itk::TranslationTransform< CoordinateRepresentationType,
-    ImageDimension >;
+  using TransformType = itk::TranslationTransform<CoordinateRepresentationType, ImageDimension>;
   TransformType::Pointer transform = TransformType::New();
 
   // Set up the Interpolator
-  using InterpolatorType =
-      itk::LinearInterpolateImageFunction< MovingImageType, double >;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   // Set up the Optimizer
@@ -132,70 +126,67 @@ int itkPointSetToImageRegistrationTest( int, char* [] )
   OptimizerType::Pointer optimizer = OptimizerType::New();
 
   // Set up the Registration method
-  using RegistrationType = itk::PointSetToImageRegistrationMethod< FixedPointSetType,
-    MovingImageType >;
+  using RegistrationType = itk::PointSetToImageRegistrationMethod<FixedPointSetType, MovingImageType>;
 
   RegistrationType::Pointer registration = RegistrationType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( registration, PointSetToImageRegistrationMethod,
-    ProcessObject );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(registration, PointSetToImageRegistrationMethod, ProcessObject);
 
-  using CommandIterationType = itk::CommandIterationUpdate< OptimizerType >;
+  using CommandIterationType = itk::CommandIterationUpdate<OptimizerType>;
 
   // Instantiate an Observer to report the progress of the Optimization
   CommandIterationType::Pointer iterationCommand = CommandIterationType::New();
-  iterationCommand->SetOptimizer( optimizer );
+  iterationCommand->SetOptimizer(optimizer);
 
   // Scale the translation components of the Transform in the Optimizer
-  OptimizerType::ScalesType scales( transform->GetNumberOfParameters() );
-  scales.Fill( 1.0 );
+  OptimizerType::ScalesType scales(transform->GetNumberOfParameters());
+  scales.Fill(1.0);
 
-  unsigned long   numberOfIterations =   50;
-  double          maximumStepLenght  =  1.0;  // no step will be larger than this
-  double          minimumStepLenght  =  0.01;
-  double          gradientTolerance  =  1e-6; // convergence criterion
+  unsigned long numberOfIterations = 50;
+  double        maximumStepLenght = 1.0; // no step will be larger than this
+  double        minimumStepLenght = 0.01;
+  double        gradientTolerance = 1e-6; // convergence criterion
 
-  optimizer->SetScales( scales );
-  optimizer->SetNumberOfIterations( numberOfIterations );
-  optimizer->SetMinimumStepLength( minimumStepLenght );
-  optimizer->SetMaximumStepLength( maximumStepLenght );
-  optimizer->SetGradientMagnitudeTolerance( gradientTolerance );
+  optimizer->SetScales(scales);
+  optimizer->SetNumberOfIterations(numberOfIterations);
+  optimizer->SetMinimumStepLength(minimumStepLenght);
+  optimizer->SetMaximumStepLength(maximumStepLenght);
+  optimizer->SetGradientMagnitudeTolerance(gradientTolerance);
   optimizer->MinimizeOn();
 
   // Connect all the components required for the registration
-  registration->SetMetric( metric );
-  ITK_TEST_SET_GET_VALUE( metric, registration->GetMetric() );
+  registration->SetMetric(metric);
+  ITK_TEST_SET_GET_VALUE(metric, registration->GetMetric());
 
-  registration->SetOptimizer( optimizer );
-  ITK_TEST_SET_GET_VALUE( optimizer, registration->GetOptimizer() );
+  registration->SetOptimizer(optimizer);
+  ITK_TEST_SET_GET_VALUE(optimizer, registration->GetOptimizer());
 
-  registration->SetTransform( transform );
-  ITK_TEST_SET_GET_VALUE( transform, registration->GetTransform() );
+  registration->SetTransform(transform);
+  ITK_TEST_SET_GET_VALUE(transform, registration->GetTransform());
 
-  registration->SetFixedPointSet( fixedPointSet );
-  ITK_TEST_SET_GET_VALUE( fixedPointSet, registration->GetFixedPointSet() );
+  registration->SetFixedPointSet(fixedPointSet);
+  ITK_TEST_SET_GET_VALUE(fixedPointSet, registration->GetFixedPointSet());
 
-  registration->SetMovingImage( movingImage );
-  ITK_TEST_SET_GET_VALUE( movingImage, registration->GetMovingImage() );
+  registration->SetMovingImage(movingImage);
+  ITK_TEST_SET_GET_VALUE(movingImage, registration->GetMovingImage());
 
-  registration->SetInterpolator( interpolator );
-  ITK_TEST_SET_GET_VALUE( interpolator, registration->GetInterpolator() );
+  registration->SetInterpolator(interpolator);
+  ITK_TEST_SET_GET_VALUE(interpolator, registration->GetInterpolator());
 
   // Set up transform parameters
-  ParametersType parameters( transform->GetNumberOfParameters() );
+  ParametersType parameters(transform->GetNumberOfParameters());
 
   // Initialize the offset/vector part
-  for( unsigned int k = 0; k < parameters.size(); k++ )
-    {
+  for (unsigned int k = 0; k < parameters.size(); k++)
+  {
     parameters[k] = 0.0f;
-    }
-  transform->SetParameters( parameters );
-  registration->SetInitialTransformParameters( transform->GetParameters() );
-  ITK_TEST_SET_GET_VALUE( transform->GetParameters(),
-    registration->GetInitialTransformParameters() );
+  }
+  transform->SetParameters(parameters);
+  registration->SetInitialTransformParameters(transform->GetParameters());
+  ITK_TEST_SET_GET_VALUE(transform->GetParameters(), registration->GetInitialTransformParameters());
 
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( registration->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(registration->Update());
 
 
   // Print the last transform parameters to improve coverage
@@ -205,10 +196,10 @@ int itkPointSetToImageRegistrationTest( int, char* [] )
   const unsigned int numberOfParameters = parameters.Size();
 
   std::cout << "Last Transform Parameters: " << std::endl;
-  for( unsigned int i = 0; i < numberOfParameters; ++i )
-    {
+  for (unsigned int i = 0; i < numberOfParameters; ++i)
+  {
     std::cout << finalParameters[i] << std::endl;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

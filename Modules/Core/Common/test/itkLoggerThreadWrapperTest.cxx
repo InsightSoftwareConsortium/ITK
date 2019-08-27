@@ -34,7 +34,7 @@
 
 struct ThreadDataStruct
 {
-  itk::LoggerBase* logger;
+  itk::LoggerBase * logger;
 };
 using ThreadDataVec = std::vector<ThreadDataStruct>;
 
@@ -47,74 +47,76 @@ public:
   using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( SimpleLogger, Object );
+  itkTypeMacro(SimpleLogger, Object);
 
   /** New macro for creation of through a Smart Pointer */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
-  std::string BuildFormattedEntry(PriorityLevelType level, std::string const & content) override
-    {
+  std::string
+  BuildFormattedEntry(PriorityLevelType level, std::string const & content) override
+  {
     std::string HeaderLevelStart("");
     std::string HeaderLevelStop("");
-    switch(level)
-      {
-    case PriorityLevelType::MUSTFLUSH:
-      HeaderLevelStart=("<H1>");
-      HeaderLevelStop=("</H1>");
-      break;
-    case PriorityLevelType::FATAL:
-      HeaderLevelStart=("<H2>");
-      HeaderLevelStop=("</H2>");
-      break;
-    case PriorityLevelType::CRITICAL:
-      HeaderLevelStart=("<H3>");
-      HeaderLevelStop=("</H3>");
-      break;
-    case PriorityLevelType::WARNING:
-      HeaderLevelStart=("<H4>");
-      HeaderLevelStop=("</H4>");
-      break;
-    case PriorityLevelType::INFO:
-      HeaderLevelStart=("<H5>");
-      HeaderLevelStop=("</H5>");
-      break;
-    case PriorityLevelType::DEBUG:
-      HeaderLevelStart=("<H6>");
-      HeaderLevelStop=("</H6>");
-      break;
-    case PriorityLevelType::NOTSET:
-      HeaderLevelStart=("<H7>");
-      HeaderLevelStop=("</H7>");
-      break;
-      }
-    return HeaderLevelStart + content + HeaderLevelStop;
+    switch (level)
+    {
+      case PriorityLevelType::MUSTFLUSH:
+        HeaderLevelStart = ("<H1>");
+        HeaderLevelStop = ("</H1>");
+        break;
+      case PriorityLevelType::FATAL:
+        HeaderLevelStart = ("<H2>");
+        HeaderLevelStop = ("</H2>");
+        break;
+      case PriorityLevelType::CRITICAL:
+        HeaderLevelStart = ("<H3>");
+        HeaderLevelStop = ("</H3>");
+        break;
+      case PriorityLevelType::WARNING:
+        HeaderLevelStart = ("<H4>");
+        HeaderLevelStop = ("</H4>");
+        break;
+      case PriorityLevelType::INFO:
+        HeaderLevelStart = ("<H5>");
+        HeaderLevelStop = ("</H5>");
+        break;
+      case PriorityLevelType::DEBUG:
+        HeaderLevelStart = ("<H6>");
+        HeaderLevelStop = ("</H6>");
+        break;
+      case PriorityLevelType::NOTSET:
+        HeaderLevelStart = ("<H7>");
+        HeaderLevelStop = ("</H7>");
+        break;
     }
+    return HeaderLevelStart + content + HeaderLevelStop;
+  }
 
 protected:
   /** Constructor */
   SimpleLogger() = default;
   /** Destructor */
   ~SimpleLogger() override = default;
-};  // class Logger
+}; // class Logger
 
-ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ThreadedGenerateLogMessages2(void* arg)
+ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
+ThreadedGenerateLogMessages2(void * arg)
 {
-  const auto* threadInfo = static_cast<itk::MultiThreaderBase::WorkUnitInfo*>(arg);
+  const auto * threadInfo = static_cast<itk::MultiThreaderBase::WorkUnitInfo *>(arg);
   if (threadInfo)
-    {
+  {
     const unsigned int threadId = threadInfo->WorkUnitID;
-    std::string threadPrefix;
-      {
+    std::string        threadPrefix;
+    {
       std::ostringstream msg;
       msg << "<Thread " << threadId << "> ";
       threadPrefix = msg.str();
-      }
+    }
 
-    const ThreadDataVec* dataVec = static_cast<ThreadDataVec*>(threadInfo->UserData);
+    const ThreadDataVec * dataVec = static_cast<ThreadDataVec *>(threadInfo->UserData);
     if (dataVec)
-      {
+    {
       const ThreadDataStruct threadData = (*dataVec)[threadId];
-        {
+      {
         std::ostringstream msg;
         msg << threadPrefix << "unpacked arg\n";
         threadData.logger->Write(itk::LoggerBase::PriorityLevelType::INFO, msg.str());
@@ -122,46 +124,53 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ThreadedGenerateLogMessages2(void* ar
         msg.str("");
         msg << threadPrefix << "Done logging\n";
         threadData.logger->Write(itk::LoggerBase::PriorityLevelType::INFO, msg.str());
-        //std::cout << msg.str() << std::endl;
-        }
-      // do stuff
-      } else {
-        std::cerr << "ERROR: UserData was not of type ThreadDataVec*" << std::endl;
-        return ITK_THREAD_RETURN_DEFAULT_VALUE;
+        // std::cout << msg.str() << std::endl;
       }
-    } else {
-      std::cerr << "ERROR: arg was not of type itk::MultiThreaderBase::WorkUnitInfo*" << std::endl;
+      // do stuff
+    }
+    else
+    {
+      std::cerr << "ERROR: UserData was not of type ThreadDataVec*" << std::endl;
       return ITK_THREAD_RETURN_DEFAULT_VALUE;
     }
+  }
+  else
+  {
+    std::cerr << "ERROR: arg was not of type itk::MultiThreaderBase::WorkUnitInfo*" << std::endl;
+    return ITK_THREAD_RETURN_DEFAULT_VALUE;
+  }
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
-ThreadDataVec create_threaded_data2(int num_threads, itk::LoggerBase* logger)
+ThreadDataVec
+create_threaded_data2(int num_threads, itk::LoggerBase * logger)
 {
   ThreadDataVec threadData;
   for (int ii = 0; ii < num_threads; ++ii)
-    {
+  {
     threadData.push_back(ThreadDataStruct());
     threadData[ii].logger = logger;
-    }
+  }
   return threadData;
 }
 
-int itkLoggerThreadWrapperTest( int argc, char * argv[] )
+int
+itkLoggerThreadWrapperTest(int argc, char * argv[])
 {
   try
-    {
+  {
     if (argc < 2)
-      {
-      std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename [num threads, default = 10]" << std::endl;
+    {
+      std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename [num threads, default = 10]"
+                << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
     int numthreads = 10;
     if (argc > 2)
-      {
+    {
       numthreads = std::stoi(argv[2]);
-      }
+    }
 
     // Create an ITK StdStreamLogOutputs
     itk::StdStreamLogOutput::Pointer coutput = itk::StdStreamLogOutput::New();
@@ -201,7 +210,8 @@ int itkLoggerThreadWrapperTest( int argc, char * argv[] )
     // Logging by the itkLogMacroStatic from a class with itk::ThreadLogger
     itk::Testing::LogTester::logStatic(&tester);
 
-    std::cout << "  The printed order of 'Messages ##' below might not be predictable because of multi-threaded logging" << std::endl;
+    std::cout << "  The printed order of 'Messages ##' below might not be predictable because of multi-threaded logging"
+              << std::endl;
     std::cout << "  But the logged messages will be in order." << std::endl;
     std::cout << "  Each line is an atom for synchronization." << std::endl;
     // Writing by the logger
@@ -218,7 +228,7 @@ int itkLoggerThreadWrapperTest( int argc, char * argv[] )
     std::cout << "  Flushing by the ThreadLogger is synchronized." << std::endl;
 
     std::cout << "Beginning multi-threaded portion of test." << std::endl;
-    ThreadDataVec threadData = create_threaded_data2(numthreads, logger);
+    ThreadDataVec                   threadData = create_threaded_data2(numthreads, logger);
     itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
     itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(numthreads + 10);
     threader->SetNumberOfWorkUnits(numthreads);
@@ -267,12 +277,12 @@ int itkLoggerThreadWrapperTest( int argc, char * argv[] )
     logger2->SetPriorityLevel(itk::LoggerBase::PriorityLevelType::INFO);
     logger2->SetLevelForFlushing(itk::LoggerBase::PriorityLevelType::CRITICAL);
     logger2->Flush();
-    }
-  catch(...)
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Exception catched !!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "[PASSED]" << std::endl;
   return EXIT_SUCCESS;

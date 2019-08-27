@@ -37,19 +37,18 @@ namespace itk
  *
  *  \ingroup ITKQuadEdgeMeshFiltering
  */
-template< class TInputMesh, class TOutputMesh, class TSolverTraits >
-class ITK_TEMPLATE_EXPORT LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints:
-  public LaplacianDeformationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
+template <class TInputMesh, class TOutputMesh, class TSolverTraits>
+class ITK_TEMPLATE_EXPORT LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints
+  : public LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints);
 
   /** Basic types. */
   using Self = LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints;
-  using Superclass = LaplacianDeformationQuadEdgeMeshFilter< TInputMesh,
-                                            TOutputMesh, TSolverTraits >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Input types. */
   using InputMeshType = TInputMesh;
@@ -70,14 +69,13 @@ public:
   using VectorType = typename Superclass::VectorType;
 
   itkNewMacro(Self);
-  itkTypeMacro(LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints,
-               LaplacianDeformationQuadEdgeMeshFilter);
+  itkTypeMacro(LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints, LaplacianDeformationQuadEdgeMeshFilter);
 
 protected:
-
   LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints() = default;
   ~LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   using OutputMapPointIdentifier = typename Superclass::OutputMapPointIdentifier;
   using OutputMapPointIdentifierIterator = typename Superclass::OutputMapPointIdentifierIterator;
@@ -90,15 +88,18 @@ protected:
   using RowConstIterator = typename Superclass::RowConstIterator;
   using RowIterator = typename Superclass::RowIterator;
 
-  void ComputeVertexIdMapping() override;
+  void
+  ComputeVertexIdMapping() override;
 
   /**
    *  \brief Fill matrix iM and vectors Bx and m_By depending on if one
    *  vertex is on the border or not.
    */
-  void FillMatrix(MatrixType & iM, VectorType & iBx, VectorType & iBy, VectorType & iBz);
+  void
+  FillMatrix(MatrixType & iM, VectorType & iBx, VectorType & iBy, VectorType & iBz);
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 };
 } // end namespace itk
 

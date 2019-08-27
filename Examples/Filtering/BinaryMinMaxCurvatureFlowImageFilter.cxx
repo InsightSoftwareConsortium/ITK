@@ -74,17 +74,18 @@
 #include "itkBinaryMinMaxCurvatureFlowImageFilter.h"
 // Software Guide : EndCodeSnippet
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
 
 
-  if( argc < 7 )
-    {
+  if (argc < 7)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile  ";
     std::cerr << "numberOfIterations  timeStep  stencilRadius  threshold" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //  Software Guide : BeginLatex
@@ -98,11 +99,11 @@ int main( int argc, char * argv[] )
   using InputPixelType = float;
   using OutputPixelType = float;
 
-  using InputImageType = itk::Image< InputPixelType,  2 >;
-  using OutputImageType = itk::Image< OutputPixelType, 2 >;
+  using InputImageType = itk::Image<InputPixelType, 2>;
+  using OutputImageType = itk::Image<OutputPixelType, 2>;
   // Software Guide : EndCodeSnippet
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
 
 
   //  Software Guide : BeginLatex
@@ -118,15 +119,15 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::BinaryMinMaxCurvatureFlowImageFilter<
-               InputImageType, OutputImageType >;
+  using FilterType =
+    itk::BinaryMinMaxCurvatureFlowImageFilter<InputImageType, OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
 
   //  Software Guide : BeginLatex
@@ -137,19 +138,19 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetInput( reader->GetOutput() );
+  filter->SetInput(reader->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
-  const unsigned int numberOfIterations = std::stoi( argv[3] );
+  const unsigned int numberOfIterations = std::stoi(argv[3]);
 
-  const double       timeStep = std::stod( argv[4] );
+  const double timeStep = std::stod(argv[4]);
 
   using RadiusType = FilterType::RadiusValueType;
 
-  const RadiusType radius = atol( argv[5] );
+  const RadiusType radius = atol(argv[5]);
 
-  const double threshold = std::stod( argv[6] );
+  const double threshold = std::stod(argv[6]);
 
 
   //  Software Guide : BeginLatex
@@ -173,11 +174,11 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetTimeStep( timeStep );
-  filter->SetNumberOfIterations( numberOfIterations );
+  filter->SetTimeStep(timeStep);
+  filter->SetNumberOfIterations(numberOfIterations);
 
-  filter->SetStencilRadius( radius );
-  filter->SetThreshold( threshold );
+  filter->SetStencilRadius(radius);
+  filter->SetThreshold(threshold);
 
   filter->Update();
   // Software Guide : EndCodeSnippet
@@ -196,26 +197,26 @@ int main( int argc, char * argv[] )
 
   using WritePixelType = unsigned char;
 
-  using WriteImageType = itk::Image< WritePixelType, 2 >;
+  using WriteImageType = itk::Image<WritePixelType, 2>;
 
-  using RescaleFilterType = itk::RescaleIntensityImageFilter<
-               OutputImageType, WriteImageType >;
+  using RescaleFilterType =
+    itk::RescaleIntensityImageFilter<OutputImageType, WriteImageType>;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 
-  rescaler->SetOutputMinimum(   0 );
-  rescaler->SetOutputMaximum( 255 );
+  rescaler->SetOutputMinimum(0);
+  rescaler->SetOutputMaximum(255);
 
 
-  using WriterType = itk::ImageFileWriter< WriteImageType >;
+  using WriterType = itk::ImageFileWriter<WriteImageType>;
 
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetFileName( argv[2] );
+  writer->SetFileName(argv[2]);
 
 
-  rescaler->SetInput( filter->GetOutput() );
-  writer->SetInput( rescaler->GetOutput() );
+  rescaler->SetInput(filter->GetOutput());
+  writer->SetInput(rescaler->GetOutput());
   writer->Update();
 
 
@@ -240,5 +241,4 @@ int main( int argc, char * argv[] )
 
 
   return EXIT_SUCCESS;
-
 }

@@ -49,8 +49,8 @@ namespace itk
  * \ingroup PathObjects
  * \ingroup ITKPath
  */
-template< typename TInput, typename TOutput, unsigned int VDimension >
-class ITK_TEMPLATE_EXPORT Path: public DataObject
+template <typename TInput, typename TOutput, unsigned int VDimension>
+class ITK_TEMPLATE_EXPORT Path : public DataObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Path);
@@ -58,8 +58,8 @@ public:
   /** Standard class type aliases. */
   using Self = Path;
   using Superclass = DataObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Path dimension. The dimension of a path is fixed at construction. */
   static constexpr unsigned int PathDimension = VDimension;
@@ -74,30 +74,34 @@ public:
   using OutputType = TOutput;
 
   /** All paths must be mapable to index space */
-  using IndexType = Index<  VDimension >;
-  using OffsetType = Offset< VDimension >;
+  using IndexType = Index<VDimension>;
+  using OffsetType = Offset<VDimension>;
 
   /** Where does the path begin?  For most types of paths, the path will begin
    * at zero.  This value can be overridden in children, and is necessary for
    * iterators to know how to go to the beginning of a path. */
-  virtual inline InputType StartOfInput() const
+  virtual inline InputType
+  StartOfInput() const
   {
-    return NumericTraits< InputType >::ZeroValue();
+    return NumericTraits<InputType>::ZeroValue();
   }
 
   /** Where does the path end (what is the last valid input value)?  This value
    * is sometimes used by IncrementInput() to go to the end of a path. */
-  virtual inline InputType EndOfInput() const
+  virtual inline InputType
+  EndOfInput() const
   {
-    return NumericTraits< InputType >::OneValue();
+    return NumericTraits<InputType>::OneValue();
   }
 
   /** Evaluate the path at specified location along the path.
-    * Return data is the path's "natural" format. */
-  virtual OutputType Evaluate(const InputType & input) const = 0;
+   * Return data is the path's "natural" format. */
+  virtual OutputType
+  Evaluate(const InputType & input) const = 0;
 
   /** Like Evaluate(), except always returns an index */
-  virtual IndexType EvaluateToIndex(const InputType & input) const = 0;
+  virtual IndexType
+  EvaluateToIndex(const InputType & input) const = 0;
 
   /** Increment the input variable passed by reference such that the
    * ND index of the path moves to its next vertex-connected
@@ -107,26 +111,28 @@ public:
    * is returned. Children are not required to implement general
    * bounds checking, but are required to return an offset of zero
    * when trying to increment from the final valid input value. */
-  virtual OffsetType IncrementInput(InputType & input) const = 0;
+  virtual OffsetType
+  IncrementInput(InputType & input) const = 0;
 
 protected:
   Path();
   ~Path() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   itkGetConstMacro(ZeroOffset, OffsetType);
   itkGetConstMacro(ZeroIndex, IndexType);
 
 private:
   // These "constants" are initialized in the constructor
-  OffsetType m_ZeroOffset;  // = 0 for all dimensions
-  IndexType  m_ZeroIndex;   // = 0 for all dimensions
+  OffsetType m_ZeroOffset; // = 0 for all dimensions
+  IndexType  m_ZeroIndex;  // = 0 for all dimensions
 };
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPath.hxx"
+#  include "itkPath.hxx"
 #endif
 
 #endif

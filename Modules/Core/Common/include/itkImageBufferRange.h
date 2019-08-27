@@ -1,26 +1,26 @@
 /*=========================================================================
-*
-*  Copyright Insight Software Consortium
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*         http://www.apache.org/licenses/LICENSE-2.0.txt
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-*
-*=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 
 #ifndef itkImageBufferRange_h
 #define itkImageBufferRange_h
 
 #include <cassert>
-#include <cstddef> // For ptrdiff_t.
+#include <cstddef>  // For ptrdiff_t.
 #include <iterator> // For random_access_iterator_tag.
 #include <limits>
 #include <type_traits> // For conditional, is_same, and is_const.
@@ -71,7 +71,7 @@ namespace Experimental
  * \ingroup ImageIterators
  * \ingroup ITKCommon
  */
-template<typename TImage>
+template <typename TImage>
 class ImageBufferRange final
 {
 private:
@@ -92,10 +92,11 @@ private:
   // Tells whether or not this range is using a pointer as iterator.
   constexpr static bool UsingPointerAsIterator = SupportsDirectPixelAccess;
 
-  struct EmptyAccessorFunctor {};
+  struct EmptyAccessorFunctor
+  {};
 
-  using OptionalAccessorFunctorType = typename std::conditional<SupportsDirectPixelAccess,
-    EmptyAccessorFunctor, AccessorFunctorType>::type;
+  using OptionalAccessorFunctorType =
+    typename std::conditional<SupportsDirectPixelAccess, EmptyAccessorFunctor, AccessorFunctorType>::type;
 
   // PixelProxy: internal class that aims to act like a reference to a pixel:
   // It acts either like 'PixelType &' or like 'const PixelType &', depending
@@ -104,7 +105,9 @@ private:
   // Note: the extra TDummy argument aims to fix AppleClang 6.0.0.6000056 error
   // "explicit specialization of 'PixelProxy'"and GCC 5.4.0 error "explicit
   // specialization in non-namespace scope".
-  template <bool VIsConst, typename TDummy = void> class PixelProxy {};
+  template <bool VIsConst, typename TDummy = void>
+  class PixelProxy
+  {};
 
   // PixelProxy specialization for const pixel types:
   // acts like 'const PixelType &'
@@ -113,7 +116,7 @@ private:
   {
   private:
     // Reference to the internal representation of the pixel, located in the image buffer.
-    const InternalPixelType& m_InternalPixel;
+    const InternalPixelType & m_InternalPixel;
 
     // The accessor functor of the image.
     const AccessorFunctorType m_AccessorFunctor;
@@ -121,35 +124,27 @@ private:
   public:
     // Deleted member functions:
     PixelProxy() = delete;
-    PixelProxy& operator=(const PixelProxy&) = delete;
+    PixelProxy &
+    operator=(const PixelProxy &) = delete;
 
     // Explicitly-defaulted member functions:
-    PixelProxy(const PixelProxy&) ITK_NOEXCEPT = default;
+    PixelProxy(const PixelProxy &) ITK_NOEXCEPT = default;
     ~PixelProxy() = default;
 
     // Constructor, called directly by operator*() of the iterator class.
-    PixelProxy(
-      const InternalPixelType& internalPixel,
-      const AccessorFunctorType& accessorFunctor) ITK_NOEXCEPT
-      :
-    m_InternalPixel{ internalPixel },
-    m_AccessorFunctor(accessorFunctor)
-    {
-    }
+    PixelProxy(const InternalPixelType & internalPixel, const AccessorFunctorType & accessorFunctor) ITK_NOEXCEPT
+      : m_InternalPixel{ internalPixel }
+      , m_AccessorFunctor(accessorFunctor)
+    {}
 
     // Allows implicit conversion from non-const to const proxy.
-    PixelProxy(const PixelProxy<false>& pixelProxy) ITK_NOEXCEPT
-      :
-    m_InternalPixel{ pixelProxy.m_InternalPixel },
-    m_AccessorFunctor{ pixelProxy.m_AccessorFunctor }
-    {
-    }
+    PixelProxy(const PixelProxy<false> & pixelProxy) ITK_NOEXCEPT
+      : m_InternalPixel{ pixelProxy.m_InternalPixel }
+      , m_AccessorFunctor{ pixelProxy.m_AccessorFunctor }
+    {}
 
     // Conversion operator.
-    operator PixelType() const ITK_NOEXCEPT
-    {
-      return m_AccessorFunctor.Get(m_InternalPixel);
-    }
+    operator PixelType() const ITK_NOEXCEPT { return m_AccessorFunctor.Get(m_InternalPixel); }
   };
 
 
@@ -164,7 +159,7 @@ private:
     friend class PixelProxy<true>;
 
     // Reference to the internal representation of the pixel, located in the image buffer.
-    InternalPixelType& m_InternalPixel;
+    InternalPixelType & m_InternalPixel;
 
     // The accessor functor of the image.
     const AccessorFunctorType m_AccessorFunctor;
@@ -175,33 +170,28 @@ private:
 
     // Explicitly-defaulted member functions:
     ~PixelProxy() = default;
-    PixelProxy(const PixelProxy&) ITK_NOEXCEPT = default;
+    PixelProxy(const PixelProxy &) ITK_NOEXCEPT = default;
 
     // Constructor, called directly by operator*() of the iterator class.
-    explicit PixelProxy(
-      InternalPixelType& internalPixel,
-      const AccessorFunctorType& accessorFunctor) ITK_NOEXCEPT
-      :
-    m_InternalPixel{ internalPixel },
-    m_AccessorFunctor(accessorFunctor)
-    {
-    }
+    explicit PixelProxy(InternalPixelType & internalPixel, const AccessorFunctorType & accessorFunctor) ITK_NOEXCEPT
+      : m_InternalPixel{ internalPixel }
+      , m_AccessorFunctor(accessorFunctor)
+    {}
 
     // Conversion operator.
-    operator PixelType() const ITK_NOEXCEPT
-    {
-      return m_AccessorFunctor.Get(m_InternalPixel);
-    }
+    operator PixelType() const ITK_NOEXCEPT { return m_AccessorFunctor.Get(m_InternalPixel); }
 
     // Operator to assign a pixel value to the proxy.
-    PixelProxy& operator=(const PixelType& pixelValue) ITK_NOEXCEPT
+    PixelProxy &
+    operator=(const PixelType & pixelValue) ITK_NOEXCEPT
     {
       m_AccessorFunctor.Set(m_InternalPixel, pixelValue);
       return *this;
     }
 
     // Copy-assignment operator.
-    PixelProxy& operator=(const PixelProxy& pixelProxy) ITK_NOEXCEPT
+    PixelProxy &
+    operator=(const PixelProxy & pixelProxy) ITK_NOEXCEPT
     {
       // Note that this assignment operator only copies the pixel value.
       // That is the normal behavior when a reference is assigned to another.
@@ -211,7 +201,8 @@ private:
     }
 
 
-    friend void swap(PixelProxy lhs, PixelProxy rhs) ITK_NOEXCEPT
+    friend void
+    swap(PixelProxy lhs, PixelProxy rhs) ITK_NOEXCEPT
     {
       const auto lhsPixelValue = lhs.m_AccessorFunctor.Get(lhs.m_InternalPixel);
       const auto rhsPixelValue = rhs.m_AccessorFunctor.Get(rhs.m_InternalPixel);
@@ -252,7 +243,8 @@ private:
 
     static constexpr bool IsImageTypeConst = std::is_const<QualifiedImageType>::value;
 
-    using QualifiedInternalPixelType = typename std::conditional<IsImageTypeConst, const InternalPixelType, InternalPixelType>::type;
+    using QualifiedInternalPixelType =
+      typename std::conditional<IsImageTypeConst, const InternalPixelType, InternalPixelType>::type;
 
     // Pixel type class that is either 'const' or non-const qualified, depending on QualifiedImageType.
     using QualifiedPixelType = typename std::conditional<IsImageTypeConst, const PixelType, PixelType>::type;
@@ -262,7 +254,7 @@ private:
     class PixelReferenceWrapper final
     {
     public:
-      QualifiedPixelType& m_Pixel;
+      QualifiedPixelType & m_Pixel;
 
       // Wraps the pixel reference that is specified by the first argument.
       // Note: the second parameter is unused, but it is there just to support
@@ -270,19 +262,12 @@ private:
       // PixelReferenceWrapper or PixelProxy, interchangeable, in a generic way.
       // (PixelProxy has an explicit constructor for which the second parameter
       // is its essential AccessorFunctor parameter!)
-      explicit PixelReferenceWrapper(
-        QualifiedPixelType& pixel,
-        EmptyAccessorFunctor itkNotUsed(accessorFunctor)) ITK_NOEXCEPT
-        :
-      m_Pixel(pixel)
-      {
-      }
+      explicit PixelReferenceWrapper(QualifiedPixelType & pixel,
+                                     EmptyAccessorFunctor itkNotUsed(accessorFunctor)) ITK_NOEXCEPT : m_Pixel(pixel)
+      {}
 
       // Converts implicitly to a reference to the pixel.
-      operator QualifiedPixelType&() const ITK_NOEXCEPT
-      {
-        return m_Pixel;
-      }
+      operator QualifiedPixelType &() const ITK_NOEXCEPT { return m_Pixel; }
     };
 
 
@@ -292,28 +277,26 @@ private:
     OptionalAccessorFunctorType m_OptionalAccessorFunctor;
 
     // Pointer to the current pixel.
-    QualifiedInternalPixelType* m_InternalPixelPointer = nullptr;
+    QualifiedInternalPixelType * m_InternalPixelPointer = nullptr;
 
     // Private constructor, used to create the begin and the end iterator of a range.
     // Only used by its friend class ImageBufferRange.
-    QualifiedIterator(
-      const OptionalAccessorFunctorType& accessorFunctor,
-      QualifiedInternalPixelType* const internalPixelPointer) ITK_NOEXCEPT
+    QualifiedIterator(const OptionalAccessorFunctorType & accessorFunctor,
+                      QualifiedInternalPixelType * const  internalPixelPointer) ITK_NOEXCEPT
       :
-    // Note: Use parentheses instead of curly braces to initialize data members,
-    // to avoid AppleClang 6.0.0.6000056 compilation error, "no viable conversion..."
-    m_OptionalAccessorFunctor(accessorFunctor),
-    m_InternalPixelPointer{ internalPixelPointer }
-    {
-    }
+      // Note: Use parentheses instead of curly braces to initialize data members,
+      // to avoid AppleClang 6.0.0.6000056 compilation error, "no viable conversion..."
+      m_OptionalAccessorFunctor(accessorFunctor)
+      , m_InternalPixelPointer{ internalPixelPointer }
+    {}
 
   public:
     // Types conforming the iterator requirements of the C++ standard library:
     using difference_type = std::ptrdiff_t;
     using value_type = PixelType;
-    using reference = typename std::conditional< SupportsDirectPixelAccess,
-      QualifiedPixelType&, PixelProxy<IsImageTypeConst>>::type;
-    using pointer = QualifiedPixelType*;
+    using reference =
+      typename std::conditional<SupportsDirectPixelAccess, QualifiedPixelType &, PixelProxy<IsImageTypeConst>>::type;
+    using pointer = QualifiedPixelType *;
     using iterator_category = std::random_access_iterator_tag;
 
 
@@ -331,14 +314,13 @@ private:
 
     /** Constructor that allows implicit conversion from non-const to const
      * iterator. Also serves as copy-constructor of a non-const iterator.  */
-    QualifiedIterator(const QualifiedIterator<false>& arg) ITK_NOEXCEPT
+    QualifiedIterator(const QualifiedIterator<false> & arg) ITK_NOEXCEPT
       :
       // Note: Use parentheses instead of curly braces to initialize data members,
       // to avoid AppleClang 6.0.0.6000056 compilation error, "no viable conversion..."
-      m_OptionalAccessorFunctor(arg.m_OptionalAccessorFunctor),
-      m_InternalPixelPointer{ arg.m_InternalPixelPointer }
-    {
-    }
+      m_OptionalAccessorFunctor(arg.m_OptionalAccessorFunctor)
+      , m_InternalPixelPointer{ arg.m_InternalPixelPointer }
+    {}
 
 
     /**  Returns a reference to the current pixel. */
@@ -346,15 +328,15 @@ private:
     {
       assert(m_InternalPixelPointer != nullptr);
 
-      using PixelWrapper = typename std::conditional<SupportsDirectPixelAccess,
-        PixelReferenceWrapper, reference>::type;
+      using PixelWrapper = typename std::conditional<SupportsDirectPixelAccess, PixelReferenceWrapper, reference>::type;
 
       return PixelWrapper{ *m_InternalPixelPointer, m_OptionalAccessorFunctor };
     }
 
 
     /** Prefix increment ('++it'). */
-    QualifiedIterator& operator++() ITK_NOEXCEPT
+    QualifiedIterator &
+    operator++() ITK_NOEXCEPT
     {
       assert(m_InternalPixelPointer != nullptr);
       ++m_InternalPixelPointer;
@@ -364,7 +346,8 @@ private:
 
     /** Postfix increment ('it++').
      * \note Usually prefix increment ('++it') is preferable. */
-    QualifiedIterator operator++(int) ITK_NOEXCEPT
+    QualifiedIterator
+    operator++(int) ITK_NOEXCEPT
     {
       auto result = *this;
       ++(*this);
@@ -373,7 +356,8 @@ private:
 
 
     /** Prefix decrement ('--it'). */
-    QualifiedIterator& operator--() ITK_NOEXCEPT
+    QualifiedIterator &
+    operator--() ITK_NOEXCEPT
     {
       assert(m_InternalPixelPointer != nullptr);
       --m_InternalPixelPointer;
@@ -383,7 +367,8 @@ private:
 
     /** Postfix increment ('it--').
      * \note  Usually prefix increment ('--it') is preferable. */
-    QualifiedIterator operator--(int) ITK_NOEXCEPT
+    QualifiedIterator
+    operator--(int) ITK_NOEXCEPT
     {
       auto result = *this;
       --(*this);
@@ -394,14 +379,16 @@ private:
     /** Returns (it1 == it2) for iterators it1 and it2. Note that these iterators
      * should be from the same range. This operator does not support comparing iterators
      * from different ranges. */
-    friend bool operator==(const QualifiedIterator& lhs, const QualifiedIterator& rhs) ITK_NOEXCEPT
+    friend bool
+    operator==(const QualifiedIterator & lhs, const QualifiedIterator & rhs) ITK_NOEXCEPT
     {
       return lhs.m_InternalPixelPointer == rhs.m_InternalPixelPointer;
     }
 
 
     /** Returns (it1 != it2) for iterators it1 and it2. */
-    friend bool operator!=(const QualifiedIterator& lhs, const QualifiedIterator& rhs) ITK_NOEXCEPT
+    friend bool
+    operator!=(const QualifiedIterator & lhs, const QualifiedIterator & rhs) ITK_NOEXCEPT
     {
       // Implemented just like the corresponding std::rel_ops operator.
       return !(lhs == rhs);
@@ -409,14 +396,16 @@ private:
 
 
     /** Returns (it1 < it2) for iterators it1 and it2. */
-    friend bool operator<(const QualifiedIterator& lhs, const QualifiedIterator& rhs) ITK_NOEXCEPT
+    friend bool
+    operator<(const QualifiedIterator & lhs, const QualifiedIterator & rhs) ITK_NOEXCEPT
     {
       return lhs.m_InternalPixelPointer < rhs.m_InternalPixelPointer;
     }
 
 
     /** Returns (it1 > it2) for iterators it1 and it2. */
-    friend bool operator>(const QualifiedIterator& lhs, const QualifiedIterator& rhs) ITK_NOEXCEPT
+    friend bool
+    operator>(const QualifiedIterator & lhs, const QualifiedIterator & rhs) ITK_NOEXCEPT
     {
       // Implemented just like the corresponding std::rel_ops operator.
       return rhs < lhs;
@@ -424,7 +413,8 @@ private:
 
 
     /** Returns (it1 <= it2) for iterators it1 and it2. */
-    friend bool operator<=(const QualifiedIterator& lhs, const QualifiedIterator& rhs) ITK_NOEXCEPT
+    friend bool
+    operator<=(const QualifiedIterator & lhs, const QualifiedIterator & rhs) ITK_NOEXCEPT
     {
       // Implemented just like the corresponding std::rel_ops operator.
       return !(rhs < lhs);
@@ -432,7 +422,8 @@ private:
 
 
     /** Returns (it1 >= it2) for iterators it1 and it2. */
-    friend bool operator>=(const QualifiedIterator& lhs, const QualifiedIterator& rhs) ITK_NOEXCEPT
+    friend bool
+    operator>=(const QualifiedIterator & lhs, const QualifiedIterator & rhs) ITK_NOEXCEPT
     {
       // Implemented just like the corresponding std::rel_ops operator.
       return !(lhs < rhs);
@@ -440,77 +431,76 @@ private:
 
 
     /** Does (it += d) for iterator 'it' and integer value 'n'. */
-    friend QualifiedIterator& operator+=(QualifiedIterator& it, const difference_type n) ITK_NOEXCEPT
+    friend QualifiedIterator &
+    operator+=(QualifiedIterator & it, const difference_type n) ITK_NOEXCEPT
     {
       it.m_InternalPixelPointer += n;
       return it;
     }
 
     /** Does (it -= d) for iterator 'it' and integer value 'n'. */
-    friend QualifiedIterator& operator-=(QualifiedIterator& it, const difference_type n) ITK_NOEXCEPT
+    friend QualifiedIterator &
+    operator-=(QualifiedIterator & it, const difference_type n) ITK_NOEXCEPT
     {
       it += (-n);
       return it;
     }
 
     /** Returns (it1 - it2) for iterators it1 and it2. */
-    friend difference_type operator-(const QualifiedIterator& lhs, const QualifiedIterator& rhs) ITK_NOEXCEPT
+    friend difference_type
+    operator-(const QualifiedIterator & lhs, const QualifiedIterator & rhs) ITK_NOEXCEPT
     {
       return lhs.m_InternalPixelPointer - rhs.m_InternalPixelPointer;
     }
 
 
     /** Returns (it + n) for iterator 'it' and integer value 'n'. */
-    friend QualifiedIterator operator+(QualifiedIterator it, const difference_type n) ITK_NOEXCEPT
+    friend QualifiedIterator
+    operator+(QualifiedIterator it, const difference_type n) ITK_NOEXCEPT
     {
       return it += n;
     }
 
 
     /** Returns (n + it) for iterator 'it' and integer value 'n'. */
-    friend QualifiedIterator operator+(const difference_type n, QualifiedIterator it) ITK_NOEXCEPT
+    friend QualifiedIterator
+    operator+(const difference_type n, QualifiedIterator it) ITK_NOEXCEPT
     {
       return it += n;
     }
 
 
     /** Returns (it - n) for iterator 'it' and integer value 'n'. */
-    friend QualifiedIterator operator-(QualifiedIterator it, const difference_type n) ITK_NOEXCEPT
+    friend QualifiedIterator
+    operator-(QualifiedIterator it, const difference_type n) ITK_NOEXCEPT
     {
       return it += (-n);
     }
 
 
     /** Returns it[n] for iterator 'it' and integer value 'n'. */
-    reference operator[](const difference_type n) const ITK_NOEXCEPT
-    {
-      return *(*this + n);
-    }
+    reference operator[](const difference_type n) const ITK_NOEXCEPT { return *(*this + n); }
 
 
     /** Explicitly-defaulted assignment operator. */
-    QualifiedIterator& operator=(const QualifiedIterator&) ITK_NOEXCEPT = default;
+    QualifiedIterator &
+    operator=(const QualifiedIterator &) ITK_NOEXCEPT = default;
   };
 
   static constexpr bool IsImageTypeConst = std::is_const<TImage>::value;
 
-  using QualifiedInternalPixelType = typename std::conditional<IsImageTypeConst, const InternalPixelType, InternalPixelType>::type;
+  using QualifiedInternalPixelType =
+    typename std::conditional<IsImageTypeConst, const InternalPixelType, InternalPixelType>::type;
 
   class AccessorFunctorInitializer final
   {
   private:
-    ImageType& m_Image;
-  public:
-    explicit AccessorFunctorInitializer(ImageType& image) ITK_NOEXCEPT
-      :
-      m_Image(image)
-    {
-    }
+    ImageType & m_Image;
 
-    operator EmptyAccessorFunctor() const ITK_NOEXCEPT
-    {
-      return {};
-    }
+  public:
+    explicit AccessorFunctorInitializer(ImageType & image) ITK_NOEXCEPT : m_Image(image) {}
+
+    operator EmptyAccessorFunctor() const ITK_NOEXCEPT { return {}; }
 
     operator AccessorFunctorType() const ITK_NOEXCEPT
     {
@@ -527,30 +517,25 @@ private:
   class IteratorInitializer final
   {
   private:
-    OptionalAccessorFunctorType m_OptionalAccessorFunctor;
-    QualifiedInternalPixelType* m_InternalPixelPointer;
+    OptionalAccessorFunctorType  m_OptionalAccessorFunctor;
+    QualifiedInternalPixelType * m_InternalPixelPointer;
+
   public:
-    explicit IteratorInitializer(
-      OptionalAccessorFunctorType optionalAccessorFunctor,
-      QualifiedInternalPixelType* internalPixelPointer) ITK_NOEXCEPT
-      :
-      m_OptionalAccessorFunctor(optionalAccessorFunctor),
-      m_InternalPixelPointer(internalPixelPointer)
-    {
-    }
+    explicit IteratorInitializer(OptionalAccessorFunctorType  optionalAccessorFunctor,
+                                 QualifiedInternalPixelType * internalPixelPointer) ITK_NOEXCEPT
+      : m_OptionalAccessorFunctor(optionalAccessorFunctor)
+      , m_InternalPixelPointer(internalPixelPointer)
+    {}
 
     // Converts to a 'QualifiedIterator' object.
     template <bool VIsConst>
     operator QualifiedIterator<VIsConst>() const ITK_NOEXCEPT
     {
-      return QualifiedIterator<VIsConst>{m_OptionalAccessorFunctor, m_InternalPixelPointer};
+      return QualifiedIterator<VIsConst>{ m_OptionalAccessorFunctor, m_InternalPixelPointer };
     }
 
     // Converts to a raw pixel pointer.
-    operator QualifiedInternalPixelType*() const ITK_NOEXCEPT
-    {
-      return m_InternalPixelPointer;
-    }
+    operator QualifiedInternalPixelType *() const ITK_NOEXCEPT { return m_InternalPixelPointer; }
   };
 
 
@@ -560,16 +545,16 @@ private:
   OptionalAccessorFunctorType m_OptionalAccessorFunctor;
 
   // Pointer to the buffer of the image.
-  QualifiedInternalPixelType* m_ImageBufferPointer = nullptr;
+  QualifiedInternalPixelType * m_ImageBufferPointer = nullptr;
 
   // Image size.
   SizeValueType m_NumberOfPixels = 0;
 
 public:
-  using const_iterator = typename std::conditional<UsingPointerAsIterator,
-    const InternalPixelType*, QualifiedIterator<true>>::type;
-  using iterator = typename std::conditional<UsingPointerAsIterator,
-    QualifiedInternalPixelType*, QualifiedIterator<IsImageTypeConst>>::type;
+  using const_iterator =
+    typename std::conditional<UsingPointerAsIterator, const InternalPixelType *, QualifiedIterator<true>>::type;
+  using iterator = typename std::
+    conditional<UsingPointerAsIterator, QualifiedInternalPixelType *, QualifiedIterator<IsImageTypeConst>>::type;
   using reverse_iterator = std::reverse_iterator<iterator>;
   using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
@@ -584,85 +569,96 @@ public:
 
   /** Specifies a range of the pixels of an image.
    */
-  explicit ImageBufferRange(ImageType& image)
-    :
-  // Note: Use parentheses instead of curly braces to initialize data members,
-  // to avoid AppleClang 6.0.0.6000056 compile errors, "no viable conversion..."
-  m_OptionalAccessorFunctor(AccessorFunctorInitializer{ image }),
-  m_ImageBufferPointer{ image.ImageType::GetBufferPointer() },
-  m_NumberOfPixels{ image.ImageType::GetBufferedRegion().GetNumberOfPixels() }
-  {
-  }
+  explicit ImageBufferRange(ImageType & image)
+    : // Note: Use parentheses instead of curly braces to initialize data members,
+      // to avoid AppleClang 6.0.0.6000056 compile errors, "no viable conversion..."
+    m_OptionalAccessorFunctor(AccessorFunctorInitializer{ image })
+    , m_ImageBufferPointer{ image.ImageType::GetBufferPointer() }
+    , m_NumberOfPixels{ image.ImageType::GetBufferedRegion().GetNumberOfPixels() }
+  {}
 
 
   /** Returns an iterator to the first pixel. */
-  iterator begin() const ITK_NOEXCEPT
+  iterator
+  begin() const ITK_NOEXCEPT
   {
     return IteratorInitializer{ m_OptionalAccessorFunctor, m_ImageBufferPointer };
   }
 
   /** Returns an 'end iterator' for this range. */
-  iterator end() const ITK_NOEXCEPT
+  iterator
+  end() const ITK_NOEXCEPT
   {
-    return IteratorInitializer{ m_OptionalAccessorFunctor, m_ImageBufferPointer + m_NumberOfPixels, };
+    return IteratorInitializer{
+      m_OptionalAccessorFunctor,
+      m_ImageBufferPointer + m_NumberOfPixels,
+    };
   }
 
   /** Returns a const iterator to the first pixel.
    * Provides only read-only access to the pixel data. */
-  const_iterator cbegin() const ITK_NOEXCEPT
+  const_iterator
+  cbegin() const ITK_NOEXCEPT
   {
     return this->begin();
   }
 
   /** Returns a const 'end iterator' for this range. */
-  const_iterator cend() const ITK_NOEXCEPT
+  const_iterator
+  cend() const ITK_NOEXCEPT
   {
     return this->end();
   }
 
   /** Returns a reverse 'begin iterator' for this range. */
-  reverse_iterator rbegin() const ITK_NOEXCEPT
+  reverse_iterator
+  rbegin() const ITK_NOEXCEPT
   {
     return reverse_iterator(this->end());
   }
 
   /** Returns a reverse 'end iterator' for this range. */
-  reverse_iterator rend() const ITK_NOEXCEPT
+  reverse_iterator
+  rend() const ITK_NOEXCEPT
   {
     return reverse_iterator(this->begin());
   }
 
   /** Returns a const reverse 'begin iterator' for this range. */
-  const_reverse_iterator crbegin() const ITK_NOEXCEPT
+  const_reverse_iterator
+  crbegin() const ITK_NOEXCEPT
   {
     return this->rbegin();
   }
 
   /** Returns a const reverse 'end iterator' for this range. */
-  const_reverse_iterator crend() const ITK_NOEXCEPT
+  const_reverse_iterator
+  crend() const ITK_NOEXCEPT
   {
     return this->rend();
   }
 
 
   /** Returns the size of the range, that is the number of pixels. */
-  std::size_t size() const ITK_NOEXCEPT
+  std::size_t
+  size() const ITK_NOEXCEPT
   {
     return m_NumberOfPixels;
   }
 
 
   /** Tells whether the range is empty. */
-  bool empty() const ITK_NOEXCEPT
+  bool
+  empty() const ITK_NOEXCEPT
   {
     return m_NumberOfPixels == 0;
   }
 
 
   /** Subscript operator. Allows random access, to the nth pixel.
-  * \note The return type QualifiedIterator<false>::reference is equivalent to
-  * iterator::reference.
-  */
+   * \note The return type QualifiedIterator<false>::reference is equivalent to
+   * iterator::reference.
+   */
   typename QualifiedIterator<false>::reference operator[](const std::size_t n) const ITK_NOEXCEPT
   {
     assert(n < this->size());
@@ -676,8 +672,9 @@ public:
  * Returns an empty range when the specified argument is a nullptr (which
  * is a valid use case).
  */
-template<typename TImage>
-ImageBufferRange<TImage> MakeImageBufferRange(TImage* const image)
+template <typename TImage>
+ImageBufferRange<TImage>
+MakeImageBufferRange(TImage * const image)
 {
   if (image == nullptr)
   {
@@ -685,7 +682,7 @@ ImageBufferRange<TImage> MakeImageBufferRange(TImage* const image)
   }
   else
   {
-    return ImageBufferRange<TImage>{*image};
+    return ImageBufferRange<TImage>{ *image };
   }
 }
 

@@ -32,22 +32,18 @@ namespace itk
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< typename TImage >
-class AddImageAdaptor:public
-  ImageAdaptor< TImage,
-                Accessor::AddPixelAccessor< typename TImage::PixelType >   >
+template <typename TImage>
+class AddImageAdaptor : public ImageAdaptor<TImage, Accessor::AddPixelAccessor<typename TImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AddImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = AddImageAdaptor;
-  using Superclass = ImageAdaptor< TImage,
-                        Accessor::AddPixelAccessor<
-                          typename TImage::PixelType > >;
+  using Superclass = ImageAdaptor<TImage, Accessor::AddPixelAccessor<typename TImage::PixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using PixelType = typename TImage::PixelType;
 
@@ -58,12 +54,18 @@ public:
   itkNewMacro(Self);
 
   /** Set the value to be added to image pixels */
-  void SetValue(const PixelType newvalue)
-  { this->GetPixelAccessor().SetValue(newvalue); }
+  void
+  SetValue(const PixelType newvalue)
+  {
+    this->GetPixelAccessor().SetValue(newvalue);
+  }
 
   /** Get the value to be added to image pixels */
-  PixelType GetValue() const
-  { return this->GetPixelAccessor().GetValue(); }
+  PixelType
+  GetValue() const
+  {
+    return this->GetPixelAccessor().GetValue();
+  }
 
 protected:
   AddImageAdaptor() = default;

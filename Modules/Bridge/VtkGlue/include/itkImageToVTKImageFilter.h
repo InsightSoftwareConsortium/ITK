@@ -42,7 +42,7 @@ namespace itk
  * \sphinxexample{IO/itkVtkImageConvertDICOM,Uses a custom user matrix to align the image with DICOM physical space}
  * \endsphinx
  */
-template <typename TInputImage >
+template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT ImageToVTKImageFilter : public ProcessObject
 {
 public:
@@ -64,47 +64,54 @@ public:
   using InputImageType = TInputImage;
   using InputImagePointer = typename InputImageType::ConstPointer;
 
-  using ExporterFilterType = VTKImageExport< InputImageType>;
+  using ExporterFilterType = VTKImageExport<InputImageType>;
   using ExporterFilterPointer = typename ExporterFilterType::Pointer;
 
   /** Get the output in the form of a vtkImage.
       This call is delegated to the internal vtkImageImporter filter  */
-  vtkImageData *  GetOutput() const;
+  vtkImageData *
+  GetOutput() const;
 
   /** Set the input in the form of an itk::Image */
   using Superclass::SetInput;
-  void SetInput( const InputImageType * );
-  InputImageType * GetInput();
+  void
+  SetInput(const InputImageType *);
+  InputImageType *
+  GetInput();
 
   /** Return the internal VTK image importer filter.
       This is intended to facilitate users the access
       to methods in the importer */
-  vtkImageImport * GetImporter() const;
+  vtkImageImport *
+  GetImporter() const;
 
   /** Return the internal ITK image exporter filter.
       This is intended to facilitate users the access
       to methods in the exporter */
-  ExporterFilterType * GetExporter() const;
+  ExporterFilterType *
+  GetExporter() const;
 
   /** This call delegates the update to the importer */
-  void Update() override;
+  void
+  Update() override;
 
   /** This call delegates the update to the importer */
-  void UpdateLargestPossibleRegion() override;
+  void
+  UpdateLargestPossibleRegion() override;
 
 protected:
   ImageToVTKImageFilter();
   ~ImageToVTKImageFilter() override;
 
 private:
-  ExporterFilterPointer       m_Exporter;
-  vtkImageImport *            m_Importer;
+  ExporterFilterPointer m_Exporter;
+  vtkImageImport *      m_Importer;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToVTKImageFilter.hxx"
+#  include "itkImageToVTKImageFilter.hxx"
 #endif
 
 #endif

@@ -56,32 +56,34 @@ namespace itk
  * \ingroup ITKReview
  *
  * \sphinx
- * \sphinxexample{Nonunit/Review/MultiphaseChanAndVeseSparseFieldLevelSetSegmentation,Multiphase Chan And Vese Sparse Field Level Set Segmentation}
- * \sphinxexample{Nonunit/Review/SinglephaseChanAndVeseSparseFieldLevelSetSegmentation,Single-phase Chan And Vese Sparse Field Level Set Segmentation}
- * \sphinxexample{Nonunit/Review/SinglephaseChanAndVeseSparseFieldLevelSetSegmentation2,Single-phase Chan And Vese Dense Field Level Set Segmentation}
- * \endsphinx
+ * \sphinxexample{Nonunit/Review/MultiphaseChanAndVeseSparseFieldLevelSetSegmentation,Multiphase Chan And Vese Sparse
+ * Field Level Set Segmentation}
+ * \sphinxexample{Nonunit/Review/SinglephaseChanAndVeseSparseFieldLevelSetSegmentation,Single-phase Chan And Vese Sparse
+ * Field Level Set Segmentation}
+ * \sphinxexample{Nonunit/Review/SinglephaseChanAndVeseSparseFieldLevelSetSegmentation2,Single-phase Chan And Vese Dense
+ * Field Level Set Segmentation} \endsphinx
  */
-template< typename TInputImage, typename TFeatureImage, typename TOutputImage,
-          typename TFunction = ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage >,
+template <typename TInputImage,
+          typename TFeatureImage,
+          typename TOutputImage,
+          typename TFunction = ScalarChanAndVeseLevelSetFunction<TInputImage, TFeatureImage>,
           class TSharedData = typename TFunction::SharedDataType,
-          typename TIdCell = unsigned int >
-class ITK_TEMPLATE_EXPORT ScalarChanAndVeseSparseLevelSetImageFilter:
-  public MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
-                                                      TOutputImage, TFunction, TIdCell >
+          typename TIdCell = unsigned int>
+class ITK_TEMPLATE_EXPORT ScalarChanAndVeseSparseLevelSetImageFilter
+  : public MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell>
 {
 public:
   using Self = ScalarChanAndVeseSparseLevelSetImageFilter;
-  using Superclass = MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
-                                                       TFeatureImage, TOutputImage, TFunction, TIdCell >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass =
+    MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ScalarChanAndVeseSparseLevelSetImageFilter,
-               MultiphaseSparseFiniteDifferenceImageFilter);
+  itkTypeMacro(ScalarChanAndVeseSparseLevelSetImageFilter, MultiphaseSparseFiniteDifferenceImageFilter);
 
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
@@ -115,19 +117,19 @@ public:
   using SharedDataType = TSharedData;
   using SharedDataPointer = typename SharedDataType::Pointer;
 
-  using ROIFilterType = RegionOfInterestImageFilter< FeatureImageType, FeatureImageType >;
+  using ROIFilterType = RegionOfInterestImageFilter<FeatureImageType, FeatureImageType>;
   using ROIFilterPointer = typename ROIFilterType::Pointer;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< OutputPixelType > ) );
+  itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelType>));
   // End concept checking
 #endif
 
   /** Set/Get the feature image to be used for speed function of the level set
    *  equation.  Equivalent to calling Set/GetInput(1, ..) */
-  virtual void SetFeatureImage(const FeatureImagePointer f)
+  virtual void
+  SetFeatureImage(const FeatureImagePointer f)
   {
     this->SetInput(f);
   }
@@ -143,18 +145,23 @@ protected:
 
   SharedDataPointer m_SharedData;
 
-  void Initialize() override;
+  void
+  Initialize() override;
 
-  void InitializeIteration() override;
+  void
+  InitializeIteration() override;
 
-  void UpdatePixel(unsigned int functionIndex,
-                           unsigned int idx, NeighborhoodIterator< InputImageType > & iterator,
-                           ValueType & newValue, bool & status) override;
+  void
+  UpdatePixel(unsigned int                           functionIndex,
+              unsigned int                           idx,
+              NeighborhoodIterator<InputImageType> & iterator,
+              ValueType &                            newValue,
+              bool &                                 status) override;
 };
-} //end namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarChanAndVeseSparseLevelSetImageFilter.hxx"
+#  include "itkScalarChanAndVeseSparseLevelSetImageFilter.hxx"
 #endif
 
 #endif

@@ -58,18 +58,17 @@ namespace itk
  * \endsphinx
  */
 
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT DiscreteGaussianImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT DiscreteGaussianImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteGaussianImageFilter);
 
   /** Standard class type aliases. */
   using Self = DiscreteGaussianImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -97,7 +96,7 @@ public:
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Typedef of double containers */
-  using ArrayType = FixedArray< double, Self::ImageDimension >;
+  using ArrayType = FixedArray<double, Self::ImageDimension>;
 
   /** The variance for the discrete Gaussian kernel.  Sets the variance
    * independently for each dimension, but
@@ -129,72 +128,84 @@ public:
 
   /** Convenience Set methods for setting all dimensional parameters
    *  to the same values. */
-  void SetVariance(const typename ArrayType::ValueType v)
+  void
+  SetVariance(const typename ArrayType::ValueType v)
   {
     m_Variance.Fill(v);
     this->Modified();
   }
 
-  void SetMaximumError(const typename ArrayType::ValueType v)
+  void
+  SetMaximumError(const typename ArrayType::ValueType v)
   {
     m_MaximumError.Fill(v);
     this->Modified();
   }
 
-  void SetVariance(const double *v)
+  void
+  SetVariance(const double * v)
   {
     ArrayType dv;
 
-    for ( unsigned int i = 0; i < ImageDimension; i++ )
-      {
+    for (unsigned int i = 0; i < ImageDimension; i++)
+    {
       dv[i] = v[i];
-      }
+    }
     this->SetVariance(dv);
   }
 
-  void SetVariance(const float *v)
+  void
+  SetVariance(const float * v)
   {
     ArrayType dv;
 
-    for ( unsigned int i = 0; i < ImageDimension; i++ )
-      {
+    for (unsigned int i = 0; i < ImageDimension; i++)
+    {
       dv[i] = v[i];
-      }
+    }
     this->SetVariance(dv);
   }
 
-  void SetMaximumError(const double *v)
+  void
+  SetMaximumError(const double * v)
   {
     ArrayType dv;
 
-    for ( unsigned int i = 0; i < ImageDimension; i++ )
-      {
+    for (unsigned int i = 0; i < ImageDimension; i++)
+    {
       dv[i] = v[i];
-      }
+    }
     this->SetMaximumError(dv);
   }
 
-  void SetMaximumError(const float *v)
+  void
+  SetMaximumError(const float * v)
   {
     ArrayType dv;
 
-    for ( unsigned int i = 0; i < ImageDimension; i++ )
-      {
+    for (unsigned int i = 0; i < ImageDimension; i++)
+    {
       dv[i] = v[i];
-      }
+    }
     this->SetMaximumError(dv);
   }
 
   /** Use the image spacing information in calculations. Use this option if you
    *  want to specify Gaussian variance in real world units.  Default is
    *   ImageSpacingOn. */
-  void SetUseImageSpacingOn()
-  { this->SetUseImageSpacing(true); }
+  void
+  SetUseImageSpacingOn()
+  {
+    this->SetUseImageSpacing(true);
+  }
 
   /** Ignore the image spacing. Use this option if you want to specify Gaussian
       variance in pixels.  Default is ImageSpacingOn. */
-  void SetUseImageSpacingOff()
-  { this->SetUseImageSpacing(false); }
+  void
+  SetUseImageSpacingOff()
+  {
+    this->SetUseImageSpacing(false);
+  }
 
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */
@@ -219,13 +230,13 @@ public:
    * provide an implementation for GenerateInputRequestedRegion() in
    * order to inform the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
 
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< OutputPixelValueType > ) );
+  itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelValueType>));
 
   // End concept checking
 #endif
@@ -241,14 +252,16 @@ protected:
   }
 
   ~DiscreteGaussianImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all
    * calculations to an NeighborhoodOperatorImageFilter.  Since the
    * NeighborhoodOperatorImageFilter is multithreaded, this filter is
    * multithreaded by default. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   /** The variance of the gaussian blurring kernel in each dimensional
@@ -269,12 +282,11 @@ private:
 
   /** Flag to indicate whether to use image spacing */
   bool m_UseImageSpacing;
-
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDiscreteGaussianImageFilter.hxx"
+#  include "itkDiscreteGaussianImageFilter.hxx"
 #endif
 
 #endif

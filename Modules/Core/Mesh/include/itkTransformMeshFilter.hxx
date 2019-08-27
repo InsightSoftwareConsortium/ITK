@@ -26,9 +26,8 @@ namespace itk
 /**
  *
  */
-template< typename TInputMesh, typename TOutputMesh, typename TTransform >
-TransformMeshFilter< TInputMesh, TOutputMesh, TTransform >
-::TransformMeshFilter()
+template <typename TInputMesh, typename TOutputMesh, typename TTransform>
+TransformMeshFilter<TInputMesh, TOutputMesh, TTransform>::TransformMeshFilter()
 {
   m_Transform = nullptr; // has to be provided by the user.
 }
@@ -36,25 +35,23 @@ TransformMeshFilter< TInputMesh, TOutputMesh, TTransform >
 /**
  *
  */
-template< typename TInputMesh, typename TOutputMesh, typename TTransform >
+template <typename TInputMesh, typename TOutputMesh, typename TTransform>
 void
-TransformMeshFilter< TInputMesh, TOutputMesh, TTransform >
-::PrintSelf(std::ostream & os, Indent indent) const
+TransformMeshFilter<TInputMesh, TOutputMesh, TTransform>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  if ( m_Transform )
-    {
+  if (m_Transform)
+  {
     os << indent << "Transform: " << m_Transform << std::endl;
-    }
+  }
 }
 
 /**
  * This method causes the filter to generate its output.
  */
-template< typename TInputMesh, typename TOutputMesh, typename TTransform >
+template <typename TInputMesh, typename TOutputMesh, typename TTransform>
 void
-TransformMeshFilter< TInputMesh, TOutputMesh, TTransform >
-::GenerateData()
+TransformMeshFilter<TInputMesh, TOutputMesh, TTransform>::GenerateData()
 {
   using InputPointsContainer = typename TInputMesh::PointsContainer;
   using OutputPointsContainer = typename TOutputMesh::PointsContainer;
@@ -62,44 +59,43 @@ TransformMeshFilter< TInputMesh, TOutputMesh, TTransform >
   using InputPointsContainerConstPointer = typename TInputMesh::PointsContainerConstPointer;
   using OutputPointsContainerPointer = typename TOutputMesh::PointsContainerPointer;
 
-  const InputMeshType *inputMesh   =  this->GetInput();
-  OutputMeshPointer    outputMesh   =  this->GetOutput();
+  const InputMeshType * inputMesh = this->GetInput();
+  OutputMeshPointer     outputMesh = this->GetOutput();
 
-  if ( !inputMesh )
-    {
+  if (!inputMesh)
+  {
     itkExceptionMacro(<< "Missing Input Mesh");
-    }
+  }
 
-  if ( !outputMesh )
-    {
+  if (!outputMesh)
+  {
     itkExceptionMacro(<< "Missing Output Mesh");
-    }
+  }
 
-  if ( !m_Transform )
-    {
+  if (!m_Transform)
+  {
     itkExceptionMacro(<< "Missing Input Transform");
-    }
+  }
 
-  outputMesh->SetBufferedRegion( outputMesh->GetRequestedRegion() );
+  outputMesh->SetBufferedRegion(outputMesh->GetRequestedRegion());
 
-  InputPointsContainerConstPointer inPoints  = inputMesh->GetPoints();
+  InputPointsContainerConstPointer inPoints = inputMesh->GetPoints();
   OutputPointsContainerPointer     outPoints = outputMesh->GetPoints();
 
-  outPoints->Reserve( inputMesh->GetNumberOfPoints() );
-  outPoints->Squeeze();  // in case the previous mesh had
-                         // allocated a larger memory
+  outPoints->Reserve(inputMesh->GetNumberOfPoints());
+  outPoints->Squeeze(); // in case the previous mesh had
+                        // allocated a larger memory
 
-  typename InputPointsContainer::ConstIterator inputPoint  = inPoints->Begin();
-  typename OutputPointsContainer::Iterator outputPoint = outPoints->Begin();
+  typename InputPointsContainer::ConstIterator inputPoint = inPoints->Begin();
+  typename OutputPointsContainer::Iterator     outputPoint = outPoints->Begin();
 
-  while ( inputPoint != inPoints->End() )
-    {
-    outputPoint.Value() =
-      m_Transform->TransformPoint( inputPoint.Value() );
+  while (inputPoint != inPoints->End())
+  {
+    outputPoint.Value() = m_Transform->TransformPoint(inputPoint.Value());
 
     ++inputPoint;
     ++outputPoint;
-    }
+  }
 
   // Create duplicate references to the rest of data on the mesh
   this->CopyInputMeshToOutputMeshPointData();
@@ -113,11 +109,10 @@ TransformMeshFilter< TInputMesh, TOutputMesh, TTransform >
 
   unsigned int maxDimension = TInputMesh::MaxTopologicalDimension;
 
-  for ( unsigned int dim = 0; dim < maxDimension; dim++ )
-    {
-    outputMesh->SetBoundaryAssignments( dim,
-                                        inputMesh->GetBoundaryAssignments(dim) );
-    }
+  for (unsigned int dim = 0; dim < maxDimension; dim++)
+  {
+    outputMesh->SetBoundaryAssignments(dim, inputMesh->GetBoundaryAssignments(dim));
+  }
 }
 } // end namespace itk
 

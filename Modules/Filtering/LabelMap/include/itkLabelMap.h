@@ -66,18 +66,18 @@ namespace itk
  * \sphinxexample{Filtering/LabelMap/RemoveLabelsFromLabelMa,Remove Labels From Label Map}
  * \endsphinx
  */
-template< typename TLabelObject >
-class ITK_TEMPLATE_EXPORT LabelMap:public ImageBase< TLabelObject::ImageDimension >
+template <typename TLabelObject>
+class ITK_TEMPLATE_EXPORT LabelMap : public ImageBase<TLabelObject::ImageDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelMap);
 
   /** Standard class type aliases */
   using Self = LabelMap;
-  using Superclass = ImageBase< TLabelObject::ImageDimension >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using ConstWeakPointer = WeakPointer< const Self >;
+  using Superclass = ImageBase<TLabelObject::ImageDimension>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using ConstWeakPointer = WeakPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -103,8 +103,8 @@ public:
   using PixelType = LabelType;
 
   /** types used to expose labels only and label objects only */
-  using LabelVectorType = std::vector< LabelType >;
-  using LabelObjectVectorType = std::vector< LabelObjectPointerType >;
+  using LabelVectorType = std::vector<LabelType>;
+  using LabelObjectVectorType = std::vector<LabelObjectPointerType>;
 
   /** Index type alias support An index is used to access pixel values. */
   using IndexType = typename Superclass::IndexType;
@@ -119,7 +119,7 @@ public:
   using DirectionType = typename Superclass::DirectionType;
 
   /** Region type alias support A region is used to specify a subset of an image.
-    */
+   */
   using RegionType = typename Superclass::RegionType;
 
   /** Spacing type alias support  Spacing holds the size of a pixel.  The
@@ -135,27 +135,33 @@ public:
 
   /** Restore the data object to its initial state. This means releasing
    * memory. */
-  void Initialize() override;
+  void
+  Initialize() override;
 
   /**  */
-  void Allocate(bool initialize = false) override;
+  void
+  Allocate(bool initialize = false) override;
 
-  virtual void Graft(const Self *imgData);
+  virtual void
+  Graft(const Self * imgData);
 
   /**
    * Return the LabelObject with the label given in parameter.
    * This method throws an exception if the label doesn't exist in this image,
    * or if the label is the background one.
    */
-  LabelObjectType * GetLabelObject(const LabelType & label);
-  const LabelObjectType * GetLabelObject(const LabelType & label) const;
+  LabelObjectType *
+  GetLabelObject(const LabelType & label);
+  const LabelObjectType *
+  GetLabelObject(const LabelType & label) const;
 
   /**
    * Return true is the image contains the label given in parameter and false
    * otherwise. If the label is the background one, true is also returned, so
    * this method may not be a good enough test before calling GetLabelObject().
    */
-  bool HasLabel(const LabelType label) const;
+  bool
+  HasLabel(const LabelType label) const;
 
   /**
    * Return the LabelObject with at the position given in parameter.
@@ -163,8 +169,10 @@ public:
    * inefficient.
    * This method throws an exception if the index doesn't exist in this image.
    */
-  LabelObjectType * GetNthLabelObject(const SizeValueType & pos);
-  const LabelObjectType * GetNthLabelObject(const SizeValueType & pos) const;
+  LabelObjectType *
+  GetNthLabelObject(const SizeValueType & pos);
+  const LabelObjectType *
+  GetNthLabelObject(const SizeValueType & pos) const;
 
   /**
    * Return the pixel value at a given index in the image. If the given index
@@ -173,7 +181,8 @@ public:
    * has a worst case complexity of O(L) where L is the number of lines in the
    * image - use it with care.
    */
-  const LabelType & GetPixel(const IndexType & idx) const;
+  const LabelType &
+  GetPixel(const IndexType & idx) const;
 
   /**
    * \brief Set the pixel value at a given index in the image.
@@ -184,7 +193,8 @@ public:
    * The complexity of this method is at best O(L) where L is the number of lines
    * in the image - usit with care.
    */
-  void SetPixel(const IndexType & idx, const LabelType & label);
+  void
+  SetPixel(const IndexType & idx, const LabelType & label);
 
   /**
    * Add index \c idx to the label object whose label is \c label. If no label object
@@ -193,13 +203,15 @@ public:
    * lines in the image. However, the execution time will be quite low if the
    * pixels are set in the image in raster mode.
    */
-  void AddPixel(const IndexType & idx, const LabelType & label);
+  void
+  AddPixel(const IndexType & idx, const LabelType & label);
 
   /**
    * Remove index \c idx from the label object which has the label \c label.
    * If the label object gets empty, it is being removed from the container.
    */
-  void RemovePixel(const IndexType & idx, const LabelType & label);
+  void
+  RemovePixel(const IndexType & idx, const LabelType & label);
 
   /**
    * Set a full line in the image. If no label object has this label in the image,
@@ -208,56 +220,66 @@ public:
    * contain several time the same pixel after have run that method.
    * This method runs in constant time.
    */
-  void SetLine(const IndexType & idx, const LengthType & length, const LabelType & label);
+  void
+  SetLine(const IndexType & idx, const LengthType & length, const LabelType & label);
 
   /**
    * Return the label object at a given index. This method
    * has a worst case complexity of O(L) where L is the number of lines in the
    * image - use it with care.
    */
-  LabelObjectType * GetLabelObject(const IndexType & idx) const;
+  LabelObjectType *
+  GetLabelObject(const IndexType & idx) const;
 
   /**
    * Add a label object to the image. If a label object already has the label,
    * it is overiden.
    */
-  void AddLabelObject(LabelObjectType *labelObject);
+  void
+  AddLabelObject(LabelObjectType * labelObject);
 
   /**
    * Add a label object to the image. The label of the label object is
    * ignored, and a new label is given to the label object.
    */
-  void PushLabelObject(LabelObjectType *labelObject);
+  void
+  PushLabelObject(LabelObjectType * labelObject);
 
   /**
    * Remove a label object.
    */
-  void RemoveLabelObject(LabelObjectType *labelObject);
+  void
+  RemoveLabelObject(LabelObjectType * labelObject);
 
   /**
    * Remove a label object.
    */
-  void RemoveLabel(const LabelType & label);
+  void
+  RemoveLabel(const LabelType & label);
 
   /**
    * Remove all the labels in the image
    */
-  void ClearLabels();
+  void
+  ClearLabels();
 
   /**
    * Return the numbner of label objects in the image
    */
-  typename Self::SizeValueType GetNumberOfLabelObjects() const;
+  typename Self::SizeValueType
+  GetNumberOfLabelObjects() const;
 
   /**
    * Return the labels of the label objects available in the label map
    */
-  LabelVectorType GetLabels() const;
+  LabelVectorType
+  GetLabels() const;
 
   /**
    * Return the the label objects available in the label map
    */
-  LabelObjectVectorType GetLabelObjects() const;
+  LabelObjectVectorType
+  GetLabelObjects() const;
 
   /**
    * Set/Get the background label
@@ -269,9 +291,11 @@ public:
    * Print all the objects stored in that collection - a convenient method
    * for prototyping.
    */
-  void PrintLabelObjects(std::ostream & os) const;
+  void
+  PrintLabelObjects(std::ostream & os) const;
 
-  void PrintLabelObjects() const
+  void
+  PrintLabelObjects() const
   {
     this->PrintLabelObjects(std::cerr);
   }
@@ -279,7 +303,8 @@ public:
   /**
    * Optimize the line representation of all the lable objects referenced in the LabelMap
    */
-  void Optimize();
+  void
+  Optimize();
 
   /** \class ConstIterator
    * \brief A forward iterator over the LabelObjects of a LabelMap
@@ -288,10 +313,9 @@ public:
   class ConstIterator
   {
   public:
-
     ConstIterator() = default;
 
-    ConstIterator(const Self *lm)
+    ConstIterator(const Self * lm)
     {
       m_Begin = lm->m_LabelObjectContainer.begin();
       m_End = lm->m_LabelObjectContainer.end();
@@ -305,7 +329,8 @@ public:
       m_End = iter.m_End;
     }
 
-    ConstIterator & operator=(const ConstIterator & iter)
+    ConstIterator &
+    operator=(const ConstIterator & iter)
     {
       m_Iterator = iter.m_Iterator;
       m_Begin = iter.m_Begin;
@@ -313,51 +338,59 @@ public:
       return *this;
     }
 
-    const LabelObjectType * GetLabelObject() const
+    const LabelObjectType *
+    GetLabelObject() const
     {
       return m_Iterator->second;
     }
 
-    const LabelType & GetLabel() const
+    const LabelType &
+    GetLabel() const
     {
       return m_Iterator->first;
     }
 
-    ConstIterator operator++(int)
+    ConstIterator
+    operator++(int)
     {
       ConstIterator tmp = *this;
       ++(*this);
       return tmp;
     }
 
-    ConstIterator & operator++()
+    ConstIterator &
+    operator++()
     {
       ++m_Iterator;
       return *this;
     }
 
-  bool operator==(const ConstIterator & iter) const
+    bool
+    operator==(const ConstIterator & iter) const
     {
-    return m_Iterator == iter.m_Iterator && m_Begin == iter.m_Begin && m_End == iter.m_End;
+      return m_Iterator == iter.m_Iterator && m_Begin == iter.m_Begin && m_End == iter.m_End;
     }
 
-  bool operator!=(const ConstIterator & iter) const
+    bool
+    operator!=(const ConstIterator & iter) const
     {
-    return !( *this == iter );
+      return !(*this == iter);
     }
 
-  void GoToBegin()
+    void
+    GoToBegin()
     {
       m_Iterator = m_Begin;
     }
 
-    bool IsAtEnd() const
+    bool
+    IsAtEnd() const
     {
       return m_Iterator == m_End;
     }
 
   private:
-    using InternalIteratorType = typename std::map< LabelType, LabelObjectPointerType >::const_iterator;
+    using InternalIteratorType = typename std::map<LabelType, LabelObjectPointerType>::const_iterator;
     InternalIteratorType m_Iterator;
     InternalIteratorType m_Begin;
     InternalIteratorType m_End;
@@ -370,10 +403,9 @@ public:
   class Iterator
   {
   public:
-
     Iterator() = default;
 
-    Iterator(Self *lm)
+    Iterator(Self * lm)
     {
       m_Begin = lm->m_LabelObjectContainer.begin();
       m_End = lm->m_LabelObjectContainer.end();
@@ -387,7 +419,8 @@ public:
       m_End = iter.m_End;
     }
 
-    Iterator & operator=(const Iterator & iter)
+    Iterator &
+    operator=(const Iterator & iter)
     {
       m_Iterator = iter.m_Iterator;
       m_Begin = iter.m_Begin;
@@ -395,51 +428,59 @@ public:
       return *this;
     }
 
-    LabelObjectType * GetLabelObject()
+    LabelObjectType *
+    GetLabelObject()
     {
       return m_Iterator->second;
     }
 
-    const LabelType & GetLabel() const
+    const LabelType &
+    GetLabel() const
     {
       return m_Iterator->first;
     }
 
-    Iterator operator++(int)
+    Iterator
+    operator++(int)
     {
       Iterator tmp = *this;
       ++(*this);
       return tmp;
     }
 
-    Iterator & operator++()
+    Iterator &
+    operator++()
     {
       ++m_Iterator;
       return *this;
     }
 
-  bool operator==(const Iterator & iter) const
+    bool
+    operator==(const Iterator & iter) const
     {
-    return m_Iterator == iter.m_Iterator && m_Begin == iter.m_Begin && m_End == iter.m_End;
+      return m_Iterator == iter.m_Iterator && m_Begin == iter.m_Begin && m_End == iter.m_End;
     }
 
-  bool operator!=(const Iterator & iter) const
+    bool
+    operator!=(const Iterator & iter) const
     {
-    return !( *this == iter );
+      return !(*this == iter);
     }
 
-  void GoToBegin()
+    void
+    GoToBegin()
     {
       m_Iterator = m_Begin;
     }
 
-    bool IsAtEnd() const
+    bool
+    IsAtEnd() const
     {
       return m_Iterator == m_End;
     }
 
   private:
-    using InternalIteratorType = typename std::map< LabelType, LabelObjectPointerType >::iterator;
+    using InternalIteratorType = typename std::map<LabelType, LabelObjectPointerType>::iterator;
     InternalIteratorType m_Iterator;
     InternalIteratorType m_Begin;
     InternalIteratorType m_End;
@@ -450,31 +491,31 @@ public:
 protected:
   LabelMap();
   ~LabelMap() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
-  void Graft(const DataObject *data) override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  Graft(const DataObject * data) override;
   using Superclass::Graft;
 
 private:
   /** the LabelObject container type */
-  using LabelObjectContainerType = std::map< LabelType, LabelObjectPointerType >;
+  using LabelObjectContainerType = std::map<LabelType, LabelObjectPointerType>;
   using LabelObjectContainerIterator = typename LabelObjectContainerType::iterator;
   using LabelObjectContainerConstIterator = typename LabelObjectContainerType::const_iterator;
 
   LabelObjectContainerType m_LabelObjectContainer;
   LabelType                m_BackgroundValue;
 
-  void AddPixel( const LabelObjectContainerIterator& it,
-                 const IndexType& idx,
-                 const LabelType& iLabel );
+  void
+  AddPixel(const LabelObjectContainerIterator & it, const IndexType & idx, const LabelType & iLabel);
 
-  void RemovePixel( const LabelObjectContainerIterator& it,
-                    const IndexType& idx,
-                    bool iEmitModifiedEvent );
+  void
+  RemovePixel(const LabelObjectContainerIterator & it, const IndexType & idx, bool iEmitModifiedEvent);
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelMap.hxx"
+#  include "itkLabelMap.hxx"
 #endif
 
 #endif

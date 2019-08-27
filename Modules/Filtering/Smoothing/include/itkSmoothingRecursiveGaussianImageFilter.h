@@ -45,52 +45,48 @@ namespace itk
  *
  */
 
-template< typename TInputImage,
-          typename TOutputImage = TInputImage >
-class ITK_TEMPLATE_EXPORT SmoothingRecursiveGaussianImageFilter:
-  public InPlaceImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT SmoothingRecursiveGaussianImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SmoothingRecursiveGaussianImageFilter);
 
   /** Standard class type aliases. */
   using Self = SmoothingRecursiveGaussianImageFilter;
-  using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InPlaceImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Pixel type alias. */
   using InputImageType = TInputImage;
   using OutputImageType = TOutputImage;
   using PixelType = typename TInputImage::PixelType;
-  using RealType = typename NumericTraits< PixelType >::RealType;
-  using ScalarRealType = typename NumericTraits< PixelType >::ScalarRealType;
+  using RealType = typename NumericTraits<PixelType>::RealType;
+  using ScalarRealType = typename NumericTraits<PixelType>::ScalarRealType;
 
   /** Runtime information support. */
-  itkTypeMacro(SmoothingRecursiveGaussianImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(SmoothingRecursiveGaussianImageFilter, ImageToImageFilter);
 
   /** Image dimension. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Define the type for the sigma array. */
-  using SigmaArrayType = FixedArray< ScalarRealType,
-                      Self::ImageDimension >;
+  using SigmaArrayType = FixedArray<ScalarRealType, Self::ImageDimension>;
 
   /** Define the image type for internal computations.
    * RealType is usually 'double' in NumericTraits.
    * Here we prefer float in order to save memory. */
-  using InternalRealType = typename NumericTraits< PixelType >::FloatType;
+  using InternalRealType = typename NumericTraits<PixelType>::FloatType;
   using RealImageType = typename InputImageType::template Rebind<InternalRealType>::Type;
 
   /** Typedef for the first Gaussian smoothing in the pipeline. */
-  using FirstGaussianFilterType = RecursiveGaussianImageFilter< InputImageType, RealImageType >;
+  using FirstGaussianFilterType = RecursiveGaussianImageFilter<InputImageType, RealImageType>;
 
   /** Typedef for the internal Gaussian smoothing filter. */
-  using InternalGaussianFilterType = RecursiveGaussianImageFilter< RealImageType, RealImageType >;
+  using InternalGaussianFilterType = RecursiveGaussianImageFilter<RealImageType, RealImageType>;
 
   /** Typedef for the casting image filter. */
-  using CastingFilterType = CastImageFilter< RealImageType, OutputImageType >;
+  using CastingFilterType = CastImageFilter<RealImageType, OutputImageType>;
 
   /** Pointer to the internal Gaussian filter. */
   using InternalGaussianFilterPointer = typename InternalGaussianFilterType::Pointer;
@@ -111,32 +107,39 @@ public:
    * Sigma is measured in the units of image spacing. You may use the method
    * SetSigma to set the same value across each axis or use the method
    * SetSigmaArray if you need different values along each axis. */
-  void SetSigmaArray(const SigmaArrayType & sigmas);
-  void SetSigma(ScalarRealType sigma);
+  void
+  SetSigmaArray(const SigmaArrayType & sigmas);
+  void
+  SetSigma(ScalarRealType sigma);
 
   /** Get the Sigma value. */
-  SigmaArrayType GetSigmaArray() const;
+  SigmaArrayType
+  GetSigmaArray() const;
 
   /** Get the Sigma scalar. If the Sigma is anisotropic, we will just
    * return the Sigma along the first dimension. */
-  ScalarRealType GetSigma() const;
+  ScalarRealType
+  GetSigma() const;
 
   /** Set/Get the flag for normalizing the Gaussian over scale-space.
    * This method does not effect the output of this filter.
    *
    * \sa RecursiveGaussianImageFilter::SetNormalizeAcrossScale */
-  void SetNormalizeAcrossScale(bool normalizeInScaleSpace);
+  void
+  SetNormalizeAcrossScale(bool normalizeInScaleSpace);
   itkGetConstMacro(NormalizeAcrossScale, bool);
-  itkBooleanMacro( NormalizeAcrossScale );
+  itkBooleanMacro(NormalizeAcrossScale);
 
-  void SetNumberOfWorkUnits(ThreadIdType nb) override;
+  void
+  SetNumberOfWorkUnits(ThreadIdType nb) override;
 
-  bool CanRunInPlace() const override;
+  bool
+  CanRunInPlace() const override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   // This concept does not work with variable length vector images
-  //itkConceptMacro( InputHasNumericTraitsCheck,
+  // itkConceptMacro( InputHasNumericTraitsCheck,
   //( Concept::HasNumericTraits< PixelType > ) );
   // End concept checking
 #endif
@@ -144,9 +147,11 @@ public:
 protected:
   SmoothingRecursiveGaussianImageFilter();
   ~SmoothingRecursiveGaussianImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** SmoothingRecursiveGaussianImageFilter needs all of the input to produce an
    * output. Therefore, SmoothingRecursiveGaussianImageFilter needs to provide
@@ -154,10 +159,12 @@ protected:
    * the pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   // Override since the filter produces the entire dataset
-  void EnlargeOutputRequestedRegion(DataObject *output) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
 private:
   InternalGaussianFilterPointer m_SmoothingFilters[ImageDimension - 1];
@@ -171,7 +178,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSmoothingRecursiveGaussianImageFilter.hxx"
+#  include "itkSmoothingRecursiveGaussianImageFilter.hxx"
 #endif
 
 #endif

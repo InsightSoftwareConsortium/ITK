@@ -31,48 +31,46 @@ namespace itk
 /**
  *
  */
-template< typename TInputImage, typename TOutputImage >
-PadImageFilter< TInputImage, TOutputImage >
-::PadImageFilter()
+template <typename TInputImage, typename TOutputImage>
+PadImageFilter<TInputImage, TOutputImage>::PadImageFilter()
 {
-  for ( unsigned int j = 0; j < ImageDimension; j++ )
-    {
+  for (unsigned int j = 0; j < ImageDimension; j++)
+  {
     m_PadLowerBound[j] = 0;
     m_PadUpperBound[j] = 0;
-    }
+  }
 }
 
 /**
  *
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-PadImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+PadImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Output Pad Lower Bounds: [";
 
-  if ( ImageDimension >= 1 )
-    {
+  if (ImageDimension >= 1)
+  {
     os << m_PadLowerBound[0];
-    }
-  for ( unsigned int j = 1; j < ImageDimension; j++ )
-    {
+  }
+  for (unsigned int j = 1; j < ImageDimension; j++)
+  {
     os << ", " << m_PadLowerBound[j];
-    }
+  }
   os << "]" << std::endl;
 
   os << indent << "Output Pad Upper Bounds: [";
-  if ( ImageDimension >= 1 )
-    {
+  if (ImageDimension >= 1)
+  {
     os << m_PadUpperBound[0];
-    }
-  for ( unsigned int j = 1; j < ImageDimension; j++ )
-    {
+  }
+  for (unsigned int j = 1; j < ImageDimension; j++)
+  {
     os << ", " << m_PadUpperBound[j];
-    }
+  }
   os << "]" << std::endl;
 }
 
@@ -85,39 +83,38 @@ PadImageFilter< TInputImage, TOutputImage >
  *
  * \sa ProcessObject::GenerateOutputInformaton()
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-PadImageFilter< TInputImage, TOutputImage >
-::GenerateOutputInformation()
+PadImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
-  typename Superclass::InputImageConstPointer inputPtr  = this->GetInput();
-  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
+  typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
+  typename Superclass::OutputImagePointer     outputPtr = this->GetOutput();
 
-  if ( !outputPtr || !inputPtr )
-    {
+  if (!outputPtr || !inputPtr)
+  {
     return;
-    }
+  }
 
   // we need to compute the output image size, and the
   // output image start index
-  unsigned int i;
-  typename TOutputImage::SizeType outputSize;
+  unsigned int                     i;
+  typename TOutputImage::SizeType  outputSize;
   typename TOutputImage::IndexType outputStartIndex;
-  typename TInputImage::SizeType inputSize;
-  typename TInputImage::IndexType inputStartIndex;
+  typename TInputImage::SizeType   inputSize;
+  typename TInputImage::IndexType  inputStartIndex;
 
   inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
-  for ( i = 0; i < TOutputImage::ImageDimension; i++ )
-    {
+  for (i = 0; i < TOutputImage::ImageDimension; i++)
+  {
     outputSize[i] = inputSize[i] + m_PadLowerBound[i] + m_PadUpperBound[i];
-    outputStartIndex[i] = inputStartIndex[i] - static_cast< OffsetValueType >( m_PadLowerBound[i] );
-    }
+    outputStartIndex[i] = inputStartIndex[i] - static_cast<OffsetValueType>(m_PadLowerBound[i]);
+  }
 
   typename TOutputImage::RegionType outputLargestPossibleRegion;
   outputLargestPossibleRegion.SetSize(outputSize);

@@ -38,30 +38,27 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-template< unsigned int TDimension = 3,
-  class TSpatialObjectPointType = TubeSpatialObjectPoint< TDimension > >
-class ITK_TEMPLATE_EXPORT TubeSpatialObject:
-  public PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
+template <unsigned int TDimension = 3, class TSpatialObjectPointType = TubeSpatialObjectPoint<TDimension>>
+class ITK_TEMPLATE_EXPORT TubeSpatialObject : public PointBasedSpatialObject<TDimension, TSpatialObjectPointType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TubeSpatialObject);
 
   using Self = TubeSpatialObject;
-  using Superclass = PointBasedSpatialObject< TDimension,
-          TSpatialObjectPointType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = PointBasedSpatialObject<TDimension, TSpatialObjectPointType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using ScalarType = double;
 
   using TubePointType = TSpatialObjectPointType;
-  using TubePointListType = std::vector< TubePointType >;
+  using TubePointListType = std::vector<TubePointType>;
 
   using PointType = typename Superclass::PointType;
   using TransformType = typename Superclass::TransformType;
   using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
-  using PointContainerType = VectorContainer< IdentifierType, PointType >;
-  using PointContainerPointer = SmartPointer< PointContainerType >;
+  using PointContainerType = VectorContainer<IdentifierType, PointType>;
+  using PointContainerPointer = SmartPointer<PointContainerType>;
   using VectorType = typename Superclass::VectorType;
   using CovariantVectorType = typename Superclass::CovariantVectorType;
   using BoundingBoxType = typename Superclass::BoundingBoxType;
@@ -74,18 +71,20 @@ public:
 
   /** Reset the spatial object to its initial condition, yet preserves
    *   Id, Parent, and Child information */
-  void Clear( void ) override;
+  void
+  Clear(void) override;
 
   /** Set the type of tube end-type: false = flat, true = rounded */
   itkSetMacro(EndRounded, bool);
   itkGetConstMacro(EndRounded, bool);
 
   /** Calculate the normalized tangent */
-  bool ComputeTangentAndNormals();
+  bool
+  ComputeTangentAndNormals();
 
   /** Remove duplicate points */
-  unsigned int RemoveDuplicatePointsInObjectSpace(
-    double minSpacingInObjectSpace = 0 );
+  unsigned int
+  RemoveDuplicatePointsInObjectSpace(double minSpacingInObjectSpace = 0);
 
   /** Set the parent point which corresponds to the
    *  position of the point in the parent's points list */
@@ -104,35 +103,37 @@ public:
   itkGetConstMacro(Root, bool);
 
   /** Returns true if the point is inside the tube, false otherwise. */
-  bool IsInsideInObjectSpace(const PointType & point) const override;
+  bool
+  IsInsideInObjectSpace(const PointType & point) const override;
 
   /* Avoid hiding the overload that supports depth and name arguments */
   using Superclass::IsInsideInObjectSpace;
 
 protected:
-
   /** Compute the boundaries of the tube. */
-  void ComputeMyBoundingBox() override;
+  void
+  ComputeMyBoundingBox() override;
 
   TubeSpatialObject();
   ~TubeSpatialObject() override = default;
 
   /** Method to print the object. */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typename LightObject::Pointer InternalClone() const override;
+  typename LightObject::Pointer
+  InternalClone() const override;
 
 private:
   int  m_ParentPoint;
   bool m_EndRounded;
   bool m_Root;
-
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTubeSpatialObject.hxx"
+#  include "itkTubeSpatialObject.hxx"
 #endif
 
 #endif // itkTubeSpatialObject_h

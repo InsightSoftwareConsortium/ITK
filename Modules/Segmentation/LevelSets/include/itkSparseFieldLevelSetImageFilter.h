@@ -32,13 +32,13 @@ namespace itk
  * lists of indices and other values.
  * \ingroup ITKLevelSets
  */
-template< typename TValue >
+template <typename TValue>
 class ITK_TEMPLATE_EXPORT SparseFieldLevelSetNode
 {
 public:
-  TValue               m_Value;
-  SparseFieldLevelSetNode *Next;
-  SparseFieldLevelSetNode *Previous;
+  TValue                    m_Value;
+  SparseFieldLevelSetNode * Next;
+  SparseFieldLevelSetNode * Previous;
 };
 
 /**
@@ -69,7 +69,7 @@ public:
  *
  * \ingroup ITKLevelSets
  */
-template< typename TNeighborhoodType >
+template <typename TNeighborhoodType>
 class ITK_TEMPLATE_EXPORT SparseFieldCityBlockNeighborList
 {
 public:
@@ -78,31 +78,47 @@ public:
   using RadiusType = typename NeighborhoodType::RadiusType;
   static constexpr unsigned int Dimension = NeighborhoodType::Dimension;
 
-  const RadiusType & GetRadius() const
-  { return m_Radius; }
+  const RadiusType &
+  GetRadius() const
+  {
+    return m_Radius;
+  }
 
-  const unsigned int & GetArrayIndex(unsigned int i) const
-  { return m_ArrayIndex[i]; }
+  const unsigned int &
+  GetArrayIndex(unsigned int i) const
+  {
+    return m_ArrayIndex[i];
+  }
 
-  const OffsetType & GetNeighborhoodOffset(unsigned int i) const
-  { return m_NeighborhoodOffset[i]; }
+  const OffsetType &
+  GetNeighborhoodOffset(unsigned int i) const
+  {
+    return m_NeighborhoodOffset[i];
+  }
 
-  const unsigned int & GetSize() const
-  { return m_Size; }
+  const unsigned int &
+  GetSize() const
+  {
+    return m_Size;
+  }
 
-  int GetStride(unsigned int i)
-  { return m_StrideTable[i]; }
+  int
+  GetStride(unsigned int i)
+  {
+    return m_StrideTable[i];
+  }
 
   SparseFieldCityBlockNeighborList();
   ~SparseFieldCityBlockNeighborList() = default;
 
-  void Print(std::ostream & os) const;
+  void
+  Print(std::ostream & os) const;
 
 private:
-  unsigned int                m_Size;
-  RadiusType                  m_Radius;
-  std::vector< unsigned int > m_ArrayIndex;
-  std::vector< OffsetType >   m_NeighborhoodOffset;
+  unsigned int              m_Size;
+  RadiusType                m_Radius;
+  std::vector<unsigned int> m_ArrayIndex;
+  std::vector<OffsetType>   m_NeighborhoodOffset;
 
   /** An internal table for keeping track of stride lengths in a neighborhood,
       i.e. the memory offsets between pixels along each dimensional axis. */
@@ -224,18 +240,17 @@ private:
  *
  * \ingroup ITKLevelSets
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT SparseFieldLevelSetImageFilter:
-  public FiniteDifferenceImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT SparseFieldLevelSetImageFilter : public FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SparseFieldLevelSetImageFilter);
 
   /** Standard class type aliases */
   using Self = SparseFieldLevelSetImageFilter;
-  using Superclass = FiniteDifferenceImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = FiniteDifferenceImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /**Typedefs from the superclass */
   using TimeStepType = typename Superclass::TimeStepType;
@@ -259,29 +274,28 @@ public:
   using ValueType = typename OutputImageType::ValueType;
 
   /** Node type used in sparse field layer lists. */
-  using LayerNodeType = SparseFieldLevelSetNode< IndexType >;
+  using LayerNodeType = SparseFieldLevelSetNode<IndexType>;
 
   /** A list type used in the algorithm. */
-  using LayerType = SparseFieldLayer< LayerNodeType >;
+  using LayerType = SparseFieldLayer<LayerNodeType>;
   using LayerPointerType = typename LayerType::Pointer;
 
   /** A type for a list of LayerPointerTypes */
-  using LayerListType = std::vector< LayerPointerType >;
+  using LayerListType = std::vector<LayerPointerType>;
 
   /** Type used for storing status information */
   using StatusType = signed char;
 
   /** The type of the image used to index status information.  Necessary for
    *  the internals of the algorithm. */
-  using StatusImageType =
-      Image< StatusType, Self::ImageDimension >;
+  using StatusImageType = Image<StatusType, Self::ImageDimension>;
 
   /** Memory pre-allocator used to manage layer nodes in a multi-threaded
    *  environment. */
-  using LayerNodeStorageType = ObjectStore< LayerNodeType >;
+  using LayerNodeStorageType = ObjectStore<LayerNodeType>;
 
   /** Container type used to store updates to the active layer. */
-  using UpdateBufferType = std::vector< ValueType >;
+  using UpdateBufferType = std::vector<ValueType>;
 
   /** Set/Get the number of layers to use in the sparse field.  Argument is the
    *  number of layers on ONE side of the active layer, so the total layers in
@@ -307,82 +321,98 @@ public:
   itkGetConstMacro(InterpolateSurfaceLocation, bool);
 
   /** See Get/SetInterpolateSurfaceLocation */
-  void InterpolateSurfaceLocationOn()
-  { this->SetInterpolateSurfaceLocation(true); }
-  void InterpolateSurfaceLocationOff()
-  { this->SetInterpolateSurfaceLocation(false); }
+  void
+  InterpolateSurfaceLocationOn()
+  {
+    this->SetInterpolateSurfaceLocation(true);
+  }
+  void
+  InterpolateSurfaceLocationOff()
+  {
+    this->SetInterpolateSurfaceLocation(false);
+  }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputEqualityComparableCheck,
-                   ( Concept::EqualityComparable< typename TOutputImage::PixelType > ) );
-  itkConceptMacro( DoubleConvertibleToOutputCheck,
-                   ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
-  itkConceptMacro( OutputOStreamWritableCheck,
-                   ( Concept::OStreamWritable< typename TOutputImage::PixelType > ) );
+  itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<typename TOutputImage::PixelType>));
+  itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, typename TOutputImage::PixelType>));
+  itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<typename TOutputImage::PixelType>));
   // End concept checking
 #endif
 
 protected:
   SparseFieldLevelSetImageFilter();
   ~SparseFieldLevelSetImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**This function allows a subclass to override the way in which updates to
    * output values are applied during each iteration.  The default simply
    * follows the standard finite difference scheme of scaling the change by the
    * timestep and adding to the value of the previous iteration. */
-  inline virtual ValueType CalculateUpdateValue(
-    const IndexType & itkNotUsed(idx),
-    const TimeStepType & dt,
-    const ValueType & value,
-    const ValueType & change)
-  { return ( value + dt * change ); }
+  inline virtual ValueType
+  CalculateUpdateValue(const IndexType &    itkNotUsed(idx),
+                       const TimeStepType & dt,
+                       const ValueType &    value,
+                       const ValueType &    change)
+  {
+    return (value + dt * change);
+  }
 
   /**This method packages the output(s) into a consistent format.  The default
    * implementation produces a volume with the final solution values in the
    * sparse field, and inside and outside values elsewhere as appropriate. */
-  void PostProcessOutput() override;
+  void
+  PostProcessOutput() override;
 
   /**This method pre-processes pixels inside and outside the sparse field
    * layers.  The default is to set them to positive and negative values,
    * respectively. This is not necessary as part of the calculations, but
    * produces a more intuitive output for the user. */
-  virtual void InitializeBackgroundPixels();
+  virtual void
+  InitializeBackgroundPixels();
 
   /** Constructs the sparse field layers and initializes their values. */
-  void Initialize() override;
+  void
+  Initialize() override;
 
   /** Copies the input to the output image.  Processing occurs on the output
    * image, so the data type of the output image determines the precision of
    * the calculations (i.e. double or float).  This method overrides the
    * parent class method to do some additional processing. */
-  void CopyInputToOutput() override;
+  void
+  CopyInputToOutput() override;
 
   /** Reserves memory in the update buffer. Called before each iteration. */
-  void AllocateUpdateBuffer() override;
+  void
+  AllocateUpdateBuffer() override;
 
   /** Applies the update buffer values to the active layer and reconstructs the
    *  sparse field layers for the next iteration. */
-  void ApplyUpdate(const TimeStepType& dt) override;
+  void
+  ApplyUpdate(const TimeStepType & dt) override;
 
   /** Traverses the active layer list and calculates the change at these
    *  indices to be applied in the current iteration. */
-  TimeStepType CalculateChange() override;
+  TimeStepType
+  CalculateChange() override;
 
   /** Initializes a layer of the sparse field using a previously initialized
    * layer. Builds the list of nodes in m_Layer[to] using m_Layer[from].
    * Marks values in the m_StatusImage. */
-  void ConstructLayer(StatusType from, StatusType to);
+  void
+  ConstructLayer(StatusType from, StatusType to);
 
   /** Constructs the active layer and initialize the first layers inside and
    * outside of the active layer.  The active layer defines the position of the
    * zero level set by its values, which are constrained within a range around
    *  zero. */
-  void ConstructActiveLayer();
+  void
+  ConstructActiveLayer();
 
   /** Initializes the values of the active layer set. */
-  void InitializeActiveLayerValues();
+  void
+  InitializeActiveLayerValues();
 
   /** Adjusts the values in a single layer "to" using values in a neighboring
    *  layer "from".  The list of indices in "to" are traversed and assigned
@@ -391,38 +421,42 @@ protected:
    *  greater than the number of layers). "InOrOut" == 1 indicates this
    *  propagation is inwards (more negative).  "InOrOut" == 2 indicates this
    *  propagation is outwards (more positive). */
-  void PropagateLayerValues(StatusType from, StatusType to,
-                            StatusType promote, int InOrOut);
+  void
+  PropagateLayerValues(StatusType from, StatusType to, StatusType promote, int InOrOut);
 
   /** Adjusts the values associated with all the index layers of the sparse
    * field by propagating out one layer at a time from the active set. This
    * method also takes care of deleting nodes from the layers which have been
    * marked in the status image as having been moved to other layers. */
-  void PropagateAllLayerValues();
+  void
+  PropagateAllLayerValues();
 
   /** Updates the active layer values using m_UpdateBuffer. Also creates an
    *  "up" and "down" list for promotion/demotion of indices leaving the
    *  active set. */
-  void UpdateActiveLayerValues(TimeStepType dt, LayerType *StatusUpList,
-                               LayerType *StatusDownList);
+  void
+  UpdateActiveLayerValues(TimeStepType dt, LayerType * StatusUpList, LayerType * StatusDownList);
 
   /** */
-  void ProcessStatusList(LayerType *InputList, LayerType *OutputList,
-                         StatusType ChangeToStatus, StatusType SearchForStatus);
+  void
+  ProcessStatusList(LayerType * InputList,
+                    LayerType * OutputList,
+                    StatusType  ChangeToStatus,
+                    StatusType  SearchForStatus);
 
   /** */
-  void ProcessOutsideList(LayerType *OutsideList, StatusType ChangeToStatus);
+  void
+  ProcessOutsideList(LayerType * OutsideList, StatusType ChangeToStatus);
 
   itkGetConstMacro(ValueZero, ValueType);
   itkGetConstMacro(ValueOne, ValueType);
 
   /** Connectivity information for examining neighbor pixels.   */
-  SparseFieldCityBlockNeighborList< NeighborhoodIterator< OutputImageType > >
-  m_NeighborList;
+  SparseFieldCityBlockNeighborList<NeighborhoodIterator<OutputImageType>> m_NeighborList;
 
   /** The constant gradient to maintain between isosurfaces in the
       sparse-field of the level-set image.  This value defaults to 1.0 */
-  double m_ConstantGradientValue{1.0};
+  double m_ConstantGradientValue{ 1.0 };
 
   /** Multiplicative identity of the ValueType. */
   static ValueType m_ValueOne;
@@ -458,14 +492,14 @@ protected:
   /** An array which contains all of the layers needed in the sparse
    * field. Layers are organized as follows: m_Layer[0] = active layer,
    * m_Layer[i:odd] = inside layer (i+1)/2, m_Layer[i:even] = outside layer i/2
-  */
+   */
   LayerListType m_Layers;
 
   /** The number of layers to use in the sparse field.  Sparse field will
    * consist of m_NumberOfLayers layers on both sides of a single active layer.
    * This active layer is the interface of interest, i.e. the zero
    * level set. */
-  unsigned int m_NumberOfLayers{2};
+  unsigned int m_NumberOfLayers{ 2 };
 
   /** An image of status values used internally by the algorithm. */
   typename StatusImageType::Pointer m_StatusImage;
@@ -489,20 +523,20 @@ protected:
       surface location when calculating change at each active layer node.  By
       default this is turned on. Subclasses which do not sample propagation
       (speed), advection, or curvature terms should turn this flag off. */
-  bool m_InterpolateSurfaceLocation{true};
+  bool m_InterpolateSurfaceLocation{ true };
 
-  const InputImageType *m_InputImage;
-  OutputImageType      *m_OutputImage;
+  const InputImageType * m_InputImage;
+  OutputImageType *      m_OutputImage;
 
 private:
   /** This flag is true when methods need to check boundary conditions and
       false when methods do not need to check for boundary conditions. */
-  bool m_BoundsCheckingActive{false};
+  bool m_BoundsCheckingActive{ false };
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSparseFieldLevelSetImageFilter.hxx"
+#  include "itkSparseFieldLevelSetImageFilter.hxx"
 #endif
 
 #endif

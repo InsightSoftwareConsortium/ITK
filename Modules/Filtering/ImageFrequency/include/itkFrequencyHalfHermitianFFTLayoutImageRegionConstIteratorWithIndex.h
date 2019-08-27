@@ -28,8 +28,8 @@ namespace itk
  * location.
  *
  * This class is a specialization of ImageRegionConstIteratorWithIndex,
- * adding method GetFrequencyBins to give the frequency bins corresponding to image indices, and GetFrequency to get the frequency of the bin.
- * The frequency bins depends on the image size.
+ * adding method GetFrequencyBins to give the frequency bins corresponding to image indices, and GetFrequency to get the
+ * frequency of the bin. The frequency bins depends on the image size.
  *
  * The default assumes that the image to iterate over is
  * the output of a forward FFT filter, where the first index corresponds to 0 frequency, and Nyquist Frequencies are
@@ -115,14 +115,14 @@ namespace itk
  * \ingroup ITKImageFrequency
  *
  */
-template< typename TImage >
-class FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex:
-  public ImageRegionConstIteratorWithIndex< TImage >
+template <typename TImage>
+class FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex
+  : public ImageRegionConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class type alias. */
   using Self = FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex;
-  using Superclass = ImageRegionConstIteratorWithIndex< TImage >;
+  using Superclass = ImageRegionConstIteratorWithIndex<TImage>;
 
   /** Types inherited from the Superclass */
   using IndexType = typename Superclass::IndexType;
@@ -139,8 +139,8 @@ public:
   using FrequencyType = typename ImageType::SpacingType;
   using FrequencyValueType = typename ImageType::SpacingValueType;
   /** Default constructor. Needed since we provide a cast constructor. */
-  FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex() :
-    ImageRegionConstIteratorWithIndex< TImage >()
+  FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex()
+    : ImageRegionConstIteratorWithIndex<TImage>()
 
   {
     this->Init();
@@ -148,10 +148,9 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex(
-    const TImage *ptr, const RegionType & region) :
-    ImageRegionConstIteratorWithIndex< TImage >(ptr, region),
-    m_ActualXDimensionIsOdd(false)
+  FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex(const TImage * ptr, const RegionType & region)
+    : ImageRegionConstIteratorWithIndex<TImage>(ptr, region)
+    , m_ActualXDimensionIsOdd(false)
   {
     this->Init();
   }
@@ -162,10 +161,9 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionIteratorWithIndex. */
-  explicit FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex(
-    const Superclass & it) :
-    ImageRegionConstIteratorWithIndex< TImage >(it),
-    m_ActualXDimensionIsOdd(false)
+  explicit FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex(const Superclass & it)
+    : ImageRegionConstIteratorWithIndex<TImage>(it)
+    , m_ActualXDimensionIsOdd(false)
   {
     this->Init();
   }
@@ -177,21 +175,22 @@ public:
    * f = [0, 1, ...,   N/2-1,     -N/2, ..., -1]  if N is even
    * f = [0, 1, ..., (N-1)/2, -(N-1)/2, ..., -1]  if N is odd
    */
-  IndexType GetFrequencyBin() const
+  IndexType
+  GetFrequencyBin() const
   {
     IndexType freqInd;
     freqInd.Fill(0);
     for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
-      {
+    {
       if (this->m_PositionIndex[dim] <= m_LargestPositiveFrequencyIndex[dim])
-        {
+      {
         freqInd[dim] = this->m_PositionIndex[dim] - this->m_MinIndex[dim];
-        }
-      else //  -. From -N/2 + 1 (Nyquist if even) to -1 (-df in frequency)
-        {
-        freqInd[dim] = this->m_PositionIndex[dim] - (this->m_MaxIndex[dim] + 1);
-        }
       }
+      else //  -. From -N/2 + 1 (Nyquist if even) to -1 (-df in frequency)
+      {
+        freqInd[dim] = this->m_PositionIndex[dim] - (this->m_MaxIndex[dim] + 1);
+      }
+    }
     return freqInd;
   }
 
@@ -214,28 +213,29 @@ public:
    * Where FrequencySpacing = samplingFrequency / N;
    *   and samplingFrequency = 1.0 / inputImageSpatialDomainSpacing;
    */
-  FrequencyType GetFrequency() const
+  FrequencyType
+  GetFrequency() const
   {
     FrequencyType freq;
     IndexType     freqInd = this->GetFrequencyBin();
 
     for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
-      {
-      freq[dim] = this->m_FrequencyOrigin[dim]
-        + this->m_FrequencySpacing[dim] * freqInd[dim];
-      }
+    {
+      freq[dim] = this->m_FrequencyOrigin[dim] + this->m_FrequencySpacing[dim] * freqInd[dim];
+    }
     return freq;
   }
 
-  FrequencyValueType GetFrequencyModuloSquare() const
+  FrequencyValueType
+  GetFrequencyModuloSquare() const
   {
     FrequencyValueType w2(0);
-    FrequencyType      w( this->GetFrequency() );
+    FrequencyType      w(this->GetFrequency());
 
     for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
-      {
+    {
       w2 += w[dim] * w[dim];
-      }
+    }
     return w2;
   }
 
@@ -270,15 +270,15 @@ public:
    * To compute the right frequency spacing and the original size,
    * this information has to be provided.
    */
-  void SetActualXDimensionIsOdd(bool value)
-    {
+  void
+  SetActualXDimensionIsOdd(bool value)
+  {
     this->m_ActualXDimensionIsOdd = value;
-    SizeType sizeImage =
-      this->m_Image->GetLargestPossibleRegion().GetSize();
-    auto size_estimated = 2 * ( sizeImage[0] - 1);
+    SizeType sizeImage = this->m_Image->GetLargestPossibleRegion().GetSize();
+    auto     size_estimated = 2 * (sizeImage[0] - 1);
     size_estimated += this->GetActualXDimensionIsOdd() ? 1 : 0;
     this->m_FrequencySpacing[0] = 1.0 / (this->m_Image->GetSpacing()[0] * size_estimated);
-    }
+  }
   itkGetMacro(ActualXDimensionIsOdd, bool);
   itkBooleanMacro(ActualXDimensionIsOdd);
 
@@ -286,35 +286,32 @@ private:
   /** Calculate Nyquist frequency index (m_LargestPositiveFrequencyIndex), Min/Max indices from LargestPossibleRegion.
    * Also sets FrequencySpacing and FrequencyOrigin.
    * Called by constructors.  */
-  void Init()
+  void
+  Init()
   {
-    SizeType sizeImage =
-      this->m_Image->GetLargestPossibleRegion().GetSize();
-    this->m_MinIndex =
-      this->m_Image->GetLargestPossibleRegion().GetIndex();
-    this->m_MaxIndex =
-      this->m_Image->GetLargestPossibleRegion().GetUpperIndex();
+    SizeType sizeImage = this->m_Image->GetLargestPossibleRegion().GetSize();
+    this->m_MinIndex = this->m_Image->GetLargestPossibleRegion().GetIndex();
+    this->m_MaxIndex = this->m_Image->GetLargestPossibleRegion().GetUpperIndex();
     for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
-      {
-      this->m_LargestPositiveFrequencyIndex[dim] = static_cast<FrequencyValueType>(
-          this->m_MinIndex[dim] + sizeImage[dim] / 2 );
+    {
+      this->m_LargestPositiveFrequencyIndex[dim] =
+        static_cast<FrequencyValueType>(this->m_MinIndex[dim] + sizeImage[dim] / 2);
       // Set frequency metadata.
       // Origin of frequencies is zero after a FFT.
       this->m_FrequencyOrigin[dim] = 0.0;
       // SamplingFrequency = 1.0 / SpatialImageSpacing
       // Freq_BinSize = SamplingFrequency / Size
       this->m_FrequencySpacing[dim] = 1.0 / (this->m_Image->GetSpacing()[dim] * sizeImage[dim]);
-      }
+    }
     // Corrections for Hermitian
     // The fastest index has no negative frequencies.
-    this->m_LargestPositiveFrequencyIndex[0] = static_cast<FrequencyValueType>(
-          this->m_MaxIndex[0]);
+    this->m_LargestPositiveFrequencyIndex[0] = static_cast<FrequencyValueType>(this->m_MaxIndex[0]);
     // In fastest dimension only:
     // Size_estimated_original = 2 * (Size_current - 1 )
     // Where size_current is the size of the output of RealToHalfHermitianFFT
     // Ex: Size Original = 10, Current = 6, Estimated = 10.
     //     Size Original = 11, Current = 6, Estimated = 10.
-    auto size_estimated = 2 * ( sizeImage[0] - 1);
+    auto size_estimated = 2 * (sizeImage[0] - 1);
     size_estimated += this->GetActualXDimensionIsOdd() ? 1 : 0;
     this->m_FrequencySpacing[0] = 1.0 / (this->m_Image->GetSpacing()[0] * size_estimated);
   }
@@ -324,7 +321,7 @@ private:
   IndexType     m_MaxIndex;
   FrequencyType m_FrequencyOrigin;
   FrequencyType m_FrequencySpacing;
-  bool          m_ActualXDimensionIsOdd{false};
+  bool          m_ActualXDimensionIsOdd{ false };
 };
 } // end namespace itk
 #endif

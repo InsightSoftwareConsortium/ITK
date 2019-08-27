@@ -20,57 +20,53 @@
 #include "itkNiftiImageIOTest.h"
 
 
-template <typename PixelType,unsigned TType>
+template <typename PixelType, unsigned TType>
 int
 SlopeInterceptTest()
 {
   //
   // fill out a nifti image and write it.
-  const char *filename = "SlopeIntercept.nii";
+  const char *  filename = "SlopeIntercept.nii";
   nifti_image * niftiImage = nifti_simple_init_nim();
-  niftiImage->fname = (char *)malloc(strlen(filename)+1);
-  if(niftiImage->fname == nullptr)
-    {
-    std::cerr << "Failed to allocate memory for filename, length requested "
-              << strlen(filename) + 1 << std::endl;
+  niftiImage->fname = (char *)malloc(strlen(filename) + 1);
+  if (niftiImage->fname == nullptr)
+  {
+    std::cerr << "Failed to allocate memory for filename, length requested " << strlen(filename) + 1 << std::endl;
     return EXIT_FAILURE;
-    }
-  strcpy(niftiImage->fname,filename);
+  }
+  strcpy(niftiImage->fname, filename);
   niftiImage->nifti_type = 1;
-  niftiImage->iname = (char *)malloc(strlen(filename)+1);
+  niftiImage->iname = (char *)malloc(strlen(filename) + 1);
   if (niftiImage->iname == nullptr)
-    {
+  {
     free(niftiImage->fname);
-    std::cerr << "Failed to allocate memory for filename, length requested "
-              << strlen(filename) + 1 << std::endl;
+    std::cerr << "Failed to allocate memory for filename, length requested " << strlen(filename) + 1 << std::endl;
     return EXIT_FAILURE;
-    }
-  strcpy(niftiImage->iname,filename);
-  niftiImage->dim[0] =
-  niftiImage->ndim = 3;
+  }
+  strcpy(niftiImage->iname, filename);
+  niftiImage->dim[0] = niftiImage->ndim = 3;
   niftiImage->nx = niftiImage->dim[1] = 8;
   niftiImage->ny = niftiImage->dim[2] = 8;
   niftiImage->nz = niftiImage->dim[3] = 4;
   niftiImage->nvox = 256;
-  niftiImage->dx = niftiImage->pixdim[1] =
-  niftiImage->dy = niftiImage->pixdim[2] =
-  niftiImage->dz = niftiImage->pixdim[3] = 1.0;
+  niftiImage->dx = niftiImage->pixdim[1] = niftiImage->dy = niftiImage->pixdim[2] = niftiImage->dz =
+    niftiImage->pixdim[3] = 1.0;
   niftiImage->nu = 1;
   niftiImage->datatype = TType;
   niftiImage->nbyper = sizeof(PixelType);
-  niftiImage->scl_slope = 1.0/256.0;
+  niftiImage->scl_slope = 1.0 / 256.0;
   niftiImage->scl_inter = 0.0;
   niftiImage->sform_code = NIFTI_XFORM_SCANNER_ANAT;
   niftiImage->qform_code = NIFTI_XFORM_ALIGNED_ANAT;
   niftiImage->qfac = 1;
   mat44 matrix;
-  for(unsigned i = 0; i < 4; i++)
+  for (unsigned i = 0; i < 4; i++)
+  {
+    for (unsigned j = 0; j < 4; j++)
     {
-    for(unsigned j = 0; j < 4; j++)
-      {
       matrix.m[i][j] = (i == j) ? 1.0 : 0.0;
-      }
     }
+  }
   niftiImage->qto_xyz = matrix;
   niftiImage->sto_xyz = matrix;
   niftiImage->sto_ijk = matrix;
@@ -87,46 +83,45 @@ SlopeInterceptTest()
                          nullptr,
                          &(niftiImage->qfac));
   niftiImage->data = malloc(sizeof(PixelType) * 256);
-  for(unsigned i = 0; i < 256; i++)
-    {
+  for (unsigned i = 0; i < 256; i++)
+  {
     static_cast<PixelType *>(niftiImage->data)[i] = i;
-    }
+  }
   nifti_image_write(niftiImage);
   nifti_image_free(niftiImage);
   //
   // read the image back in
-  using ImageType = typename itk::Image<float,3>;
+  using ImageType = typename itk::Image<float, 3>;
   typename ImageType::Pointer image;
   try
-    {
+  {
     image = itk::IOTestHelper::ReadImage<ImageType>(std::string(filename));
-    }
-  catch(...)
-    {
+  }
+  catch (...)
+  {
     itk::IOTestHelper::Remove(filename);
     return EXIT_FAILURE;
-    }
+  }
   using IteratorType = typename itk::ImageRegionIterator<ImageType>;
-  IteratorType it(image,image->GetLargestPossibleRegion());
+  IteratorType it(image, image->GetLargestPossibleRegion());
   it.GoToBegin();
   double maxerror = 0.0;
-  for(unsigned i = 0; i < 256; i++,++it)
+  for (unsigned i = 0; i < 256; i++, ++it)
+  {
+    if (it.IsAtEnd())
     {
-    if(it.IsAtEnd())
-      {
       return EXIT_FAILURE;
-      }
-    if(!Equal(it.Value(),static_cast<float>(i)/256.0))
-      {
+    }
+    if (!Equal(it.Value(), static_cast<float>(i) / 256.0))
+    {
       //      return EXIT_FAILURE;
-      double error = std::abs(it.Value() -
-                             (static_cast<double>(i)/256.0));
-      if(error > maxerror)
-        {
+      double error = std::abs(it.Value() - (static_cast<double>(i) / 256.0));
+      if (error > maxerror)
+      {
         maxerror = error;
-        }
       }
     }
+  }
   std::cerr << "Max error " << maxerror << std::endl;
   itk::IOTestHelper::Remove(filename);
   return maxerror > 0.00001 ? EXIT_FAILURE : EXIT_SUCCESS;
@@ -138,10 +133,10 @@ SlopeInterceptWriteTest()
 {
   //
   // fill out an image and write it as nifti.
-  const char *filename = "SlopeIntercept.nii";
-  using OutputImageType = itk::Image<PixelType,3>;
+  const char * filename = "SlopeIntercept.nii";
+  using OutputImageType = itk::Image<PixelType, 3>;
   typename OutputImageType::RegionType region;
-  typename OutputImageType::IndexType start;
+  typename OutputImageType::IndexType  start;
   start[0] = 0;
   start[1] = 0;
   start[2] = 0;
@@ -155,68 +150,66 @@ SlopeInterceptWriteTest()
   outputimage->SetRegions(region);
   outputimage->Allocate();
   using OutputIteratorType = itk::ImageRegionIterator<OutputImageType>;
-  OutputIteratorType itout(outputimage,outputimage->GetLargestPossibleRegion());
+  OutputIteratorType itout(outputimage, outputimage->GetLargestPossibleRegion());
   itout.GoToBegin();
-  for(unsigned i = 0; i < 256; i++,++itout)
+  for (unsigned i = 0; i < 256; i++, ++itout)
+  {
+    if (itout.IsAtEnd())
     {
-    if(itout.IsAtEnd())
-      {
       return EXIT_FAILURE;
-      }
-    itout.Set(static_cast<PixelType>(i));
     }
+    itout.Set(static_cast<PixelType>(i));
+  }
   using WriterType = itk::ImageFileWriter<OutputImageType>;
   typename WriterType::Pointer writer = WriterType::New();
-  itk::NiftiImageIO::Pointer niftiImageIO(itk::NiftiImageIO::New());
-  niftiImageIO->SetRescaleSlope(1.0/256.0);
+  itk::NiftiImageIO::Pointer   niftiImageIO(itk::NiftiImageIO::New());
+  niftiImageIO->SetRescaleSlope(1.0 / 256.0);
   niftiImageIO->SetRescaleIntercept(-10.0);
   writer->SetImageIO(niftiImageIO);
   writer->SetFileName(filename);
   writer->SetInput(outputimage);
   try
-    {
+  {
     writer->Update();
-    }
-  catch (itk::ExceptionObject &err)
-    {
-    std::cerr << "Exception Object caught: " << std::endl
-              << err << std::endl;
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    std::cerr << "Exception Object caught: " << std::endl << err << std::endl;
     throw;
-    }
+  }
   //
   // read the image back in
-  using ImageType = itk::Image<float,3>;
+  using ImageType = itk::Image<float, 3>;
   typename ImageType::Pointer image;
   try
-    {
+  {
     image = itk::IOTestHelper::ReadImage<ImageType>(std::string(filename));
-    }
-  catch(...)
-    {
+  }
+  catch (...)
+  {
     itk::IOTestHelper::Remove(filename);
     return EXIT_FAILURE;
-    }
+  }
   using IteratorType = itk::ImageRegionIterator<ImageType>;
-  IteratorType it(image,image->GetLargestPossibleRegion());
+  IteratorType it(image, image->GetLargestPossibleRegion());
   it.GoToBegin();
   double maxerror = 0.0;
-  for(unsigned i = 0; i < 256; i++,++it)
+  for (unsigned i = 0; i < 256; i++, ++it)
+  {
+    if (it.IsAtEnd())
     {
-    if(it.IsAtEnd())
-      {
       return EXIT_FAILURE;
-      }
-    if(!Equal(it.Value(),static_cast<float>(i)/256.0-10.0))
-      {
+    }
+    if (!Equal(it.Value(), static_cast<float>(i) / 256.0 - 10.0))
+    {
       //      return EXIT_FAILURE;
-      double error = std::abs(it.Value() -
-                             (static_cast<double>(i)/256.0-10.0));
-      if(error > maxerror)
-        {
+      double error = std::abs(it.Value() - (static_cast<double>(i) / 256.0 - 10.0));
+      if (error > maxerror)
+      {
         maxerror = error;
-        }
       }
     }
+  }
   std::cerr << "Max error " << maxerror << std::endl;
   itk::IOTestHelper::Remove(filename);
   return maxerror > 0.00001 ? EXIT_FAILURE : EXIT_SUCCESS;
@@ -224,27 +217,28 @@ SlopeInterceptWriteTest()
 
 //
 // test vector images
-int itkNiftiImageIOTest5(int ac, char* av[])
+int
+itkNiftiImageIOTest5(int ac, char * av[])
 {
   //
   // first argument is passing in the writable directory to do all testing
-  if(ac > 1)
-    {
-    char *testdir = *++av;
+  if (ac > 1)
+  {
+    char * testdir = *++av;
     itksys::SystemTools::ChangeDirectory(testdir);
-    }
+  }
   else
-    {
+  {
     return EXIT_FAILURE;
-    }
+  }
   int success(0);
-  success |= SlopeInterceptTest<unsigned char,NIFTI_TYPE_UINT8>();
-  success |= SlopeInterceptTest<short,NIFTI_TYPE_INT16>();
-  success |= SlopeInterceptTest<unsigned short,NIFTI_TYPE_UINT16>();
-  success |= SlopeInterceptTest<int,NIFTI_TYPE_INT32>();
-  success |= SlopeInterceptTest<unsigned int,NIFTI_TYPE_UINT32>();
-  success |= SlopeInterceptTest<long long,NIFTI_TYPE_INT64>();
-  success |= SlopeInterceptTest<unsigned long long,NIFTI_TYPE_UINT64>();
+  success |= SlopeInterceptTest<unsigned char, NIFTI_TYPE_UINT8>();
+  success |= SlopeInterceptTest<short, NIFTI_TYPE_INT16>();
+  success |= SlopeInterceptTest<unsigned short, NIFTI_TYPE_UINT16>();
+  success |= SlopeInterceptTest<int, NIFTI_TYPE_INT32>();
+  success |= SlopeInterceptTest<unsigned int, NIFTI_TYPE_UINT32>();
+  success |= SlopeInterceptTest<long long, NIFTI_TYPE_INT64>();
+  success |= SlopeInterceptTest<unsigned long long, NIFTI_TYPE_UINT64>();
   success |= SlopeInterceptWriteTest<unsigned char>();
   success |= SlopeInterceptWriteTest<short>();
   success |= SlopeInterceptWriteTest<unsigned short>();

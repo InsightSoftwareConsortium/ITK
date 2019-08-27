@@ -24,29 +24,30 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkFlatStructuringElement.h"
 
-int itkGrayscaleMorphologicalClosingImageFilterTest2(int ac, char* av[] )
+int
+itkGrayscaleMorphologicalClosingImageFilterTest2(int ac, char * av[])
 {
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  if(ac < 7)
-    {
+  if (ac < 7)
+  {
     std::cerr << "Usage: " << av[0] << " InputImage BASIC HISTO ANCHOR VHGW SafeBorder" << std::endl;
     return -1;
-    }
+  }
 
   unsigned int const dim = 2;
   using ImageType = itk::Image<unsigned char, dim>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader  = ReaderType::New();
+  ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(av[1]);
 
   // Create a filter
   using SRType = itk::FlatStructuringElement<dim>;
-  using FilterType = itk::GrayscaleMorphologicalClosingImageFilter< ImageType, ImageType, SRType >;
+  using FilterType = itk::GrayscaleMorphologicalClosingImageFilter<ImageType, ImageType, SRType>;
   FilterType::Pointer filter = FilterType::New();
-  filter->SetInput( reader->GetOutput() );
+  filter->SetInput(reader->GetOutput());
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
@@ -54,61 +55,61 @@ int itkGrayscaleMorphologicalClosingImageFilterTest2(int ac, char* av[] )
 
   // test default values
   RadiusType r1;
-  r1.Fill( 1 );
-  if ( filter->GetRadius() != r1 )
-    {
+  r1.Fill(1);
+  if (filter->GetRadius() != r1)
+  {
     std::cerr << "Wrong default Radius: " << filter->GetRadius() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if ( filter->GetAlgorithm() != FilterType::HISTO )
-    {
+  if (filter->GetAlgorithm() != FilterType::HISTO)
+  {
     std::cerr << "Wrong default algorithm." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if ( filter->GetSafeBorder() != true )
-    {
+  if (filter->GetSafeBorder() != true)
+  {
     std::cerr << "Wrong default safe border." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   try
-    {
-    filter->SetRadius( 20 );
-    filter->SetSafeBorder( std::stoi(av[6]) );
+  {
+    filter->SetRadius(20);
+    filter->SetSafeBorder(std::stoi(av[6]));
 
-    using WriterType = itk::ImageFileWriter< ImageType >;
+    using WriterType = itk::ImageFileWriter<ImageType>;
     WriterType::Pointer writer = WriterType::New();
-    writer->SetInput( filter->GetOutput() );
+    writer->SetInput(filter->GetOutput());
 
-    filter->SetAlgorithm( FilterType::BASIC );
-    writer->SetFileName( av[2] );
+    filter->SetAlgorithm(FilterType::BASIC);
+    writer->SetFileName(av[2]);
     writer->Update();
 
-    filter->SetAlgorithm( FilterType::HISTO );
-    writer->SetFileName( av[3] );
+    filter->SetAlgorithm(FilterType::HISTO);
+    writer->SetFileName(av[3]);
     writer->Update();
 
-    filter->SetAlgorithm( FilterType::ANCHOR );
-    writer->SetFileName( av[4] );
+    filter->SetAlgorithm(FilterType::ANCHOR);
+    writer->SetFileName(av[4]);
     writer->Update();
 
-    filter->SetAlgorithm( FilterType::VHGW );
-    writer->SetFileName( av[5] );
+    filter->SetAlgorithm(FilterType::VHGW);
+    writer->SetFileName(av[5]);
     writer->Update();
-    }
-  catch (itk::ExceptionObject& e)
-    {
-    std::cerr << "Exception detected: "  << e.GetDescription();
+  }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "Exception detected: " << e.GetDescription();
     return EXIT_FAILURE;
-    }
+  }
 
   // Generate test image
   using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( av[2] );
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(av[2]);
   writer->Update();
 
   return EXIT_SUCCESS;

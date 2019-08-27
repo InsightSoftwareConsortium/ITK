@@ -105,21 +105,17 @@ namespace itk
  * \ingroup PyramidImageFilter MultiThreaded Streamed
  * \ingroup ITKRegistrationCommon
  */
-template<
-  typename TInputImage,
-  typename TOutputImage
-  >
-class ITK_TEMPLATE_EXPORT MultiResolutionPyramidImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT MultiResolutionPyramidImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultiResolutionPyramidImageFilter);
 
   /** Standard class type aliases. */
   using Self = MultiResolutionPyramidImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -128,7 +124,7 @@ public:
   itkTypeMacro(MultiResolutionPyramidImageFilter, ImageToImageFilter);
 
   /** ScheduleType type alias support */
-  using ScheduleType = Array2D< unsigned int >;
+  using ScheduleType = Array2D<unsigned int>;
 
   /** ImageDimension enumeration. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
@@ -147,7 +143,8 @@ public:
    * 2^(nlevel - 1) for all dimension. These shrink factors are halved for
    * subsequent levels.  The number of levels is clamped to a minimum value
    * of 1.  All shrink factors are also clamped to a minimum value of 1. */
-  virtual void SetNumberOfLevels(unsigned int num);
+  virtual void
+  SetNumberOfLevels(unsigned int num);
 
   /** Get the number of multi-resolution levels. */
   itkGetConstMacro(NumberOfLevels, unsigned int);
@@ -158,7 +155,8 @@ public:
    * subsequent levels. This function will clamp shrink factors to satisify
    * this condition.  All shrink factors less than one will also be clamped
    * to the value of 1. */
-  virtual void SetSchedule(const ScheduleType & schedule);
+  virtual void
+  SetSchedule(const ScheduleType & schedule);
 
   /** Get the multi-resolution schedule. */
   itkGetConstReferenceMacro(Schedule, ScheduleType);
@@ -167,17 +165,21 @@ public:
    * level. The schedule is then populated with defaults values obtained by
    * halving the factors at the previous level.  All shrink factors are
    * clamped to a minimum value of 1. */
-  virtual void SetStartingShrinkFactors(unsigned int factor);
+  virtual void
+  SetStartingShrinkFactors(unsigned int factor);
 
-  virtual void SetStartingShrinkFactors(const unsigned int *factors);
+  virtual void
+  SetStartingShrinkFactors(const unsigned int * factors);
 
   /** Get the starting shrink factors */
-  const unsigned int * GetStartingShrinkFactors() const;
+  const unsigned int *
+  GetStartingShrinkFactors() const;
 
   /** Test if the schedule is downward divisible. This method returns true if
    * at every level, the shrink factors are divisble by the shrink factors at
    * the next level. */
-  static bool IsScheduleDownwardDivisible(const ScheduleType & schedule);
+  static bool
+  IsScheduleDownwardDivisible(const ScheduleType & schedule);
 
   /** MultiResolutionPyramidImageFilter produces images which are of
    * different resolution and different pixel spacing than its input image.
@@ -185,13 +187,15 @@ public:
    * implementation for GenerateOutputInformation() in order to inform the
    * pipeline execution model.  The original documentation of this method is
    * below.  \sa ProcessObject::GenerateOutputInformaton() */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** Given one output whose requested region has been set, this method sets
    * the requested region for the remaining output images.  The original
    * documentation of this method is below.  \sa
    * ProcessObject::GenerateOutputRequestedRegion(); */
-  void GenerateOutputRequestedRegion(DataObject *output) override;
+  void
+  GenerateOutputRequestedRegion(DataObject * output) override;
 
   /** MultiResolutionPyramidImageFilter requires a larger input requested
    * region than the output requested regions to accommodate the shrinkage and
@@ -199,7 +203,8 @@ public:
    * to provide an implementation for GenerateInputRequestedRegion().  The
    * original documentation of this method is below.  \sa
    * ProcessObject::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   itkSetMacro(MaximumError, double);
   itkGetConstReferenceMacro(MaximumError, double);
@@ -210,20 +215,20 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< ImageDimension, OutputImageDimension > ) );
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TOutputImage::PixelType > ) );
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TOutputImage::PixelType>));
   // End concept checking
 #endif
 
 protected:
   MultiResolutionPyramidImageFilter();
   ~MultiResolutionPyramidImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate the output data. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   double m_MaximumError;
 
@@ -235,7 +240,7 @@ protected:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMultiResolutionPyramidImageFilter.hxx"
+#  include "itkMultiResolutionPyramidImageFilter.hxx"
 #endif
 
 #endif

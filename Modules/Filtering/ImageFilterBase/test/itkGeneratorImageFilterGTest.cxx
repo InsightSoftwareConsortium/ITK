@@ -27,56 +27,59 @@
 namespace
 {
 
-template<unsigned int D, typename TPixelType = float>
-  struct Utilities
+template <unsigned int D, typename TPixelType = float>
+struct Utilities
+{
+  static const unsigned int Dimension = D;
+
+  using PixelType = TPixelType;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using IndexType = typename ImageType::IndexType;
+
+  static typename ImageType::Pointer
+  CreateImage()
   {
-    static const unsigned int Dimension = D;
+    typename ImageType::Pointer image = ImageType::New();
 
-    using PixelType = TPixelType;
-    using ImageType = itk::Image<PixelType, Dimension>;
-    using IndexType = typename ImageType::IndexType;
+    typename ImageType::SizeType imageSize;
+    imageSize.Fill(5);
+    image->SetRegions(typename ImageType::RegionType(imageSize));
+    image->Allocate();
 
-    static typename ImageType::Pointer CreateImage()
-      {
-        typename ImageType::Pointer image = ImageType::New();
+    PixelType value = itk::NumericTraits<PixelType>::Zero;
 
-        typename ImageType::SizeType imageSize;
-        imageSize.Fill(5);
-        image->SetRegions(typename ImageType::RegionType(imageSize));
-        image->Allocate();
+    itk::ImageRegionIterator<ImageType> iter;
 
-        PixelType value = itk::NumericTraits<PixelType>::Zero;
+    while (!iter.IsAtEnd())
+    {
+      iter.Set(++value);
+      ++iter;
+    }
 
-        itk::ImageRegionIterator<ImageType> iter;
+    return image;
+  }
 
-        while ( !iter.IsAtEnd() )
-          {
-          iter.Set(++value);
-          ++iter;
-          }
+  static TPixelType
+  MyUnaryFunction(const TPixelType & p)
+  {
+    return p + 10;
+  }
 
-        return image;
-      }
+  static TPixelType
+  MyBinaryFunction1(TPixelType p1, TPixelType p2)
+  {
+    return p1 + 3 * p2;
+  }
 
-    static TPixelType MyUnaryFunction(const TPixelType &p)
-      {
-        return p + 10;
-      }
-
-    static TPixelType MyBinaryFunction1( TPixelType p1, TPixelType p2)
-      {
-        return p1+3*p2;
-      }
-
-    static TPixelType MyBinaryFunction2(const TPixelType &p1, const TPixelType &p2)
-      {
-        return p1*2 + p2;
-      }
-
+  static TPixelType
+  MyBinaryFunction2(const TPixelType & p1, const TPixelType & p2)
+  {
+    return p1 * 2 + p2;
+  }
 };
 
 
-}
+} // namespace
 
 
 TEST(UnaryGeneratorImageFilter, SetGetBasic)
@@ -91,11 +94,10 @@ TEST(UnaryGeneratorImageFilter, SetGetBasic)
   FilterType::Pointer filter = FilterType::New();
   filter->Print(std::cout);
 
-  FilterType::ConstPointer constFilter = (const FilterType*)(filter.GetPointer());
+  FilterType::ConstPointer constFilter = (const FilterType *)(filter.GetPointer());
 
   EXPECT_STREQ("UnaryGeneratorImageFilter", filter->GetNameOfClass());
-  EXPECT_STREQ("InPlaceImageFilter",  filter->Superclass::GetNameOfClass());
-
+  EXPECT_STREQ("InPlaceImageFilter", filter->Superclass::GetNameOfClass());
 }
 
 TEST(BinaryGeneratorImageFilter, SetGetBasic)
@@ -111,17 +113,17 @@ TEST(BinaryGeneratorImageFilter, SetGetBasic)
   filter->Print(std::cout);
 
 
-  FilterType::ConstPointer constFilter = (const FilterType*)(filter.GetPointer());
+  FilterType::ConstPointer constFilter = (const FilterType *)(filter.GetPointer());
 
   EXPECT_STREQ("BinaryGeneratorImageFilter", filter->GetNameOfClass());
-  EXPECT_STREQ("InPlaceImageFilter",  filter->Superclass::GetNameOfClass());
+  EXPECT_STREQ("InPlaceImageFilter", filter->Superclass::GetNameOfClass());
 
 
-  EXPECT_NO_THROW( filter->SetConstant1( 2.0 ) );
+  EXPECT_NO_THROW(filter->SetConstant1(2.0));
   EXPECT_EQ(2.0, filter->GetConstant1());
 
 
-  EXPECT_NO_THROW( filter->SetConstant2( 4.0 ) );
+  EXPECT_NO_THROW(filter->SetConstant2(4.0));
   EXPECT_EQ(4.0, filter->GetConstant2());
 }
 
@@ -148,7 +150,7 @@ TEST(UnaryGeneratorImageFilter, SetFunctor)
   idx.Fill(0);
 
   // Test with C style function pointer
-  filter->SetFunctor( static_cast<ValueFunctionType*>(std::cos) );
+  filter->SetFunctor(static_cast<ValueFunctionType *>(std::cos));
 
   EXPECT_NO_THROW(filter->Update());
 
@@ -158,7 +160,7 @@ TEST(UnaryGeneratorImageFilter, SetFunctor)
   EXPECT_NEAR(1.0, outputImage->GetPixel(idx), 1e-8);
 
 
-  filter->SetFunctor( Utils::MyUnaryFunction );
+  filter->SetFunctor(Utils::MyUnaryFunction);
   EXPECT_NO_THROW(filter->Update());
 
   outputImage = filter->GetOutput();
@@ -167,18 +169,18 @@ TEST(UnaryGeneratorImageFilter, SetFunctor)
   EXPECT_NEAR(10.0, outputImage->GetPixel(idx), 1e-8);
 
   // test with std::functional
-  std::function<float(float)> func1 = static_cast<ValueFunctionType*>(std::sin);
+  std::function<float(float)> func1 = static_cast<ValueFunctionType *>(std::sin);
 
-  filter->SetFunctor( func1 );
+  filter->SetFunctor(func1);
   EXPECT_NO_THROW(filter->Update());
   ASSERT_TRUE(outputImage.IsNotNull());
 
   EXPECT_NEAR(0.0, outputImage->GetPixel(idx), 1e-8);
 
 
-  std::function<float(const float&)> func2 = static_cast<ConstRefFunctionType*>(Utils::MyUnaryFunction);
+  std::function<float(const float &)> func2 = static_cast<ConstRefFunctionType *>(Utils::MyUnaryFunction);
 
-  filter->SetFunctor( func2 );
+  filter->SetFunctor(func2);
   EXPECT_NO_THROW(filter->Update());
   ASSERT_TRUE(outputImage.IsNotNull());
 
@@ -186,12 +188,11 @@ TEST(UnaryGeneratorImageFilter, SetFunctor)
 
 
   // test with C++ lambda function
-  filter->SetFunctor( [](const float &v) { return v+2.0;});
+  filter->SetFunctor([](const float & v) { return v + 2.0; });
   EXPECT_NO_THROW(filter->Update());
   ASSERT_TRUE(outputImage.IsNotNull());
 
   EXPECT_NEAR(2.0, outputImage->GetPixel(idx), 1e-8);
-
 }
 
 
@@ -219,7 +220,7 @@ TEST(BinaryGeneratorImageFilter, SetFunctor)
   idx.Fill(0);
 
   // Test with C style function pointer
-  filter->SetFunctor( Utils::MyBinaryFunction1  );
+  filter->SetFunctor(Utils::MyBinaryFunction1);
   EXPECT_NO_THROW(filter->Update());
 
   outputImage = filter->GetOutput();
@@ -228,7 +229,7 @@ TEST(BinaryGeneratorImageFilter, SetFunctor)
   EXPECT_NEAR(7.0, outputImage->GetPixel(idx), 1e-8);
 
 
-  filter->SetFunctor( Utils::MyBinaryFunction2 );
+  filter->SetFunctor(Utils::MyBinaryFunction2);
   EXPECT_NO_THROW(filter->Update());
 
   outputImage = filter->GetOutput();
@@ -239,16 +240,16 @@ TEST(BinaryGeneratorImageFilter, SetFunctor)
   // test with std::functional
   std::function<float(float, float)> func1 = Utils::MyBinaryFunction1;
 
-  filter->SetFunctor( func1 );
+  filter->SetFunctor(func1);
   EXPECT_NO_THROW(filter->Update());
   ASSERT_TRUE(outputImage.IsNotNull());
 
   EXPECT_NEAR(7.0, outputImage->GetPixel(idx), 1e-8);
 
 
-  std::function<float(const float&, const float &)> func2 = Utils::MyBinaryFunction2;
+  std::function<float(const float &, const float &)> func2 = Utils::MyBinaryFunction2;
 
-  filter->SetFunctor( func2 );
+  filter->SetFunctor(func2);
   EXPECT_NO_THROW(filter->Update());
   ASSERT_TRUE(outputImage.IsNotNull());
 
@@ -256,10 +257,9 @@ TEST(BinaryGeneratorImageFilter, SetFunctor)
 
 
   // test with C++ lambda function
-  filter->SetFunctor( [](const float &v1, const float &v2) { return v1*v2;});
+  filter->SetFunctor([](const float & v1, const float & v2) { return v1 * v2; });
   EXPECT_NO_THROW(filter->Update());
   ASSERT_TRUE(outputImage.IsNotNull());
 
   EXPECT_NEAR(2.0, outputImage->GetPixel(idx), 1e-8);
-
 }

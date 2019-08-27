@@ -30,8 +30,9 @@
  */
 
 
-template<typename DataType>
-bool DoRegistration ()
+template <typename DataType>
+bool
+DoRegistration()
 {
 
   bool pass = true;
@@ -39,174 +40,164 @@ bool DoRegistration ()
   constexpr unsigned int dimension = 2;
 
   // Fixed Image Type
-  using FixedImageType = itk::Image<DataType,dimension>;
+  using FixedImageType = itk::Image<DataType, dimension>;
 
   // Moving Image Type
-  using MovingImageType = itk::Image<DataType,dimension>;
+  using MovingImageType = itk::Image<DataType, dimension>;
 
   // Size Type
   using SizeType = typename MovingImageType::SizeType;
 
   // Transform Type
-  using TransformType = itk::AffineTransform< double, dimension >;
+  using TransformType = itk::AffineTransform<double, dimension>;
   using ParametersType = typename TransformType::ParametersType;
 
   using FixedImagePixelType = typename FixedImageType::PixelType;
   using MovingImagePixelType = typename MovingImageType::PixelType;
 
   // ImageSource
-  using ImageSourceType = itk::testhelper::ImageRegistrationMethodImageSource<
-                                  FixedImagePixelType,
-                                  MovingImagePixelType,
-                                  dimension >;
+  using ImageSourceType =
+    itk::testhelper::ImageRegistrationMethodImageSource<FixedImagePixelType, MovingImagePixelType, dimension>;
   // Transform Type
-  using TransformType = itk::AffineTransform< double, dimension >;
+  using TransformType = itk::AffineTransform<double, dimension>;
   using ParametersType = typename TransformType::ParametersType;
 
   // Optimizer Type
   using OptimizerType = itk::GradientDescentOptimizer;
 
   // Metric Type
-  using MetricType = itk::MeanSquaresImageToImageMetric<
-                                    FixedImageType,
-                                    MovingImageType >;
+  using MetricType = itk::MeanSquaresImageToImageMetric<FixedImageType, MovingImageType>;
 
   // Interpolation technique
-  using InterpolatorType = itk:: LinearInterpolateImageFunction<
-                                    MovingImageType,
-                                    double >;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
 
   // Registration Method
-  using RegistrationType = itk::ImageRegistrationMethod<
-                                    FixedImageType,
-                                    MovingImageType >;
+  using RegistrationType = itk::ImageRegistrationMethod<FixedImageType, MovingImageType>;
 
   using CommandIterationType = itk::CommandIterationUpdate<OptimizerType>;
 
 
-  typename MetricType::Pointer         metric        = MetricType::New();
-  typename TransformType::Pointer      transform     = TransformType::New();
-  typename OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  typename InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
-  typename RegistrationType::Pointer   registration  = RegistrationType::New();
+  typename MetricType::Pointer       metric = MetricType::New();
+  typename TransformType::Pointer    transform = TransformType::New();
+  typename OptimizerType::Pointer    optimizer = OptimizerType::New();
+  typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  typename RegistrationType::Pointer registration = RegistrationType::New();
 
-  typename ImageSourceType::Pointer    imageSource   = ImageSourceType::New();
+  typename ImageSourceType::Pointer imageSource = ImageSourceType::New();
 
   SizeType size;
   size[0] = 100;
   size[1] = 100;
 
-  imageSource->GenerateImages( size );
+  imageSource->GenerateImages(size);
 
-  typename FixedImageType::ConstPointer     fixedImage    = imageSource->GetFixedImage();
-  typename MovingImageType::ConstPointer    movingImage   = imageSource->GetMovingImage();
+  typename FixedImageType::ConstPointer  fixedImage = imageSource->GetFixedImage();
+  typename MovingImageType::ConstPointer movingImage = imageSource->GetMovingImage();
 
   //
   // Connect all the components required for Registratio
   //
-  registration->SetMetric(        metric        );
-  registration->SetOptimizer(     optimizer     );
-  registration->SetTransform(     transform     );
-  registration->SetFixedImage(    fixedImage    );
-  registration->SetMovingImage(   movingImage   );
-  registration->SetInterpolator(  interpolator  );
+  registration->SetMetric(metric);
+  registration->SetOptimizer(optimizer);
+  registration->SetTransform(transform);
+  registration->SetFixedImage(fixedImage);
+  registration->SetMovingImage(movingImage);
+  registration->SetInterpolator(interpolator);
 
 
   // Select the Region of Interest over which the Metric will be computed
   // Registration time will be proportional to the number of pixels in this region.
-  metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
+  metric->SetFixedImageRegion(fixedImage->GetBufferedRegion());
 
   // Instantiate an Observer to report the progress of the Optimization
   CommandIterationType::Pointer iterationCommand = CommandIterationType::New();
-  iterationCommand->SetOptimizer(  optimizer );
+  iterationCommand->SetOptimizer(optimizer);
 
   // Scale the translation components of the Transform in the Optimizer
-  OptimizerType::ScalesType scales( transform->GetNumberOfParameters() );
-  scales.Fill( 1.0 );
+  OptimizerType::ScalesType scales(transform->GetNumberOfParameters());
+  scales.Fill(1.0);
 
 
-  unsigned long   numberOfIterations =  100;
-  double          translationScale   = 1e-6;
-  double          learningRate       = 1e-8;
+  unsigned long numberOfIterations = 100;
+  double        translationScale = 1e-6;
+  double        learningRate = 1e-8;
 
-  for( unsigned int i=0; i<dimension; i++)
-    {
-    scales[ i + dimension * dimension ] = translationScale;
-    }
+  for (unsigned int i = 0; i < dimension; i++)
+  {
+    scales[i + dimension * dimension] = translationScale;
+  }
 
-  optimizer->SetScales( scales );
-  optimizer->SetLearningRate( learningRate );
-  optimizer->SetNumberOfIterations( numberOfIterations );
+  optimizer->SetScales(scales);
+  optimizer->SetLearningRate(learningRate);
+  optimizer->SetNumberOfIterations(numberOfIterations);
   optimizer->MinimizeOn();
 
   // Start from an Identity transform (in a normal case, the user
   // can probably provide a better guess than the identity...
   transform->SetIdentity();
-  registration->SetInitialTransformParameters( transform->GetParameters() );
+  registration->SetInitialTransformParameters(transform->GetParameters());
 
   // Initialize the internal connections of the registration method.
   // This can potentially throw an exception
   try
-    {
+  {
     registration->Update();
-    }
-  catch( itk::ExceptionObject & e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cerr << e << std::endl;
     pass = false;
-    }
+  }
 
   ParametersType actualParameters = imageSource->GetActualParameters();
-  ParametersType finalParameters  = registration->GetLastTransformParameters();
+  ParametersType finalParameters = registration->GetLastTransformParameters();
 
   const unsigned int numbeOfParameters = actualParameters.Size();
 
   // We know that for the Affine transform the Translation parameters are at
   // the end of the list of parameters.
-  const unsigned int offsetOrder = finalParameters.Size()-actualParameters.Size();
-  constexpr double tolerance = 1.0;  // equivalent to 1 pixel.
+  const unsigned int offsetOrder = finalParameters.Size() - actualParameters.Size();
+  constexpr double   tolerance = 1.0; // equivalent to 1 pixel.
 
-  for(unsigned int i=0; i<numbeOfParameters; i++)
-    {
+  for (unsigned int i = 0; i < numbeOfParameters; i++)
+  {
     // the parameters are negated in order to get the inverse transformation.
     // this only works for comparing translation parameters....
-    std::cout << finalParameters[i+offsetOrder] << " == " << -actualParameters[i] << std::endl;
-    if( itk::Math::abs ( finalParameters[i+offsetOrder] - (-actualParameters[i]) ) > tolerance )
-      {
+    std::cout << finalParameters[i + offsetOrder] << " == " << -actualParameters[i] << std::endl;
+    if (itk::Math::abs(finalParameters[i + offsetOrder] - (-actualParameters[i])) > tolerance)
+    {
       std::cout << "Tolerance exceeded at component " << i << std::endl;
       pass = false;
-      }
     }
+  }
 
   return pass;
-
 }
-int itkImageRegistrationMethodTest_16(int itkNotUsed(argc), char*[] itkNotUsed(argv) )
+int
+itkImageRegistrationMethodTest_16(int itkNotUsed(argc), char *[] itkNotUsed(argv))
 {
-  bool result_uc, result_c, result_us, result_s,
-    result_ui, result_i, result_ul, result_l,
-    result_f, result_d;
+  bool result_uc, result_c, result_us, result_s, result_ui, result_i, result_ul, result_l, result_f, result_d;
   result_uc = DoRegistration<unsigned char>();
-  result_c  = DoRegistration<char>();
+  result_c = DoRegistration<char>();
   result_us = DoRegistration<unsigned short>();
-  result_s  = DoRegistration<short>();
+  result_s = DoRegistration<short>();
   result_ui = DoRegistration<unsigned int>();
   result_i = DoRegistration<int>();
   result_ul = DoRegistration<unsigned long>();
-  result_l  = DoRegistration<long>();
-  result_f  = DoRegistration<float>();
-  result_d  = DoRegistration<double>();
+  result_l = DoRegistration<long>();
+  result_f = DoRegistration<float>();
+  result_d = DoRegistration<double>();
 
   std::cout << "<unsigned char>:  " << result_uc << std::endl;
-  std::cout << "<char>:           " << result_c  << std::endl;
+  std::cout << "<char>:           " << result_c << std::endl;
   std::cout << "<unsigned short>: " << result_us << std::endl;
-  std::cout << "<short>:          " << result_s  << std::endl;
+  std::cout << "<short>:          " << result_s << std::endl;
   std::cout << "<unsigned int>:   " << result_ui << std::endl;
-  std::cout << "<int>:            " << result_i  << std::endl;
+  std::cout << "<int>:            " << result_i << std::endl;
   std::cout << "<unsigned long>:  " << result_ul << std::endl;
-  std::cout << "<long>:           " << result_l  << std::endl;
-  std::cout << "<float>:          " << result_f  << std::endl;
-  std::cout << "<double>:         " << result_d  << std::endl;
+  std::cout << "<long>:           " << result_l << std::endl;
+  std::cout << "<float>:          " << result_f << std::endl;
+  std::cout << "<double>:         " << result_d << std::endl;
 
   return EXIT_SUCCESS;
 }

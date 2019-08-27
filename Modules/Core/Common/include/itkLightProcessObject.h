@@ -69,7 +69,7 @@ namespace itk
  * \ingroup DataProcessing
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT LightProcessObject:public Object
+class ITKCommon_EXPORT LightProcessObject : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LightProcessObject);
@@ -77,8 +77,8 @@ public:
   /** Standard class type aliases. */
   using Self = LightProcessObject;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -110,18 +110,23 @@ public:
   /** Update the progress of the process object. If a ProgressMethod exists,
    * executes it.  Then set the Progress ivar to amount. The parameter amount
    * should range between (0,1).  */
-  void UpdateProgress(float amount);
+  void
+  UpdateProgress(float amount);
 
   /** Actually generate new output.  */
-  virtual void UpdateOutputData();
+  virtual void
+  UpdateOutputData();
 
 protected:
   LightProcessObject();
   ~LightProcessObject() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This method causes the filter to generate its output. */
-  virtual void GenerateData() {}
+  virtual void
+  GenerateData()
+  {}
 
 private:
   /**

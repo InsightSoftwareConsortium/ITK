@@ -26,86 +26,79 @@
 namespace itk
 {
 
-template< typename TInputImage >
-FullToHalfHermitianImageFilter< TInputImage >
-::FullToHalfHermitianImageFilter()
+template <typename TInputImage>
+FullToHalfHermitianImageFilter<TInputImage>::FullToHalfHermitianImageFilter()
 {
   this->SetActualXDimensionIsOdd(false);
   this->DynamicMultiThreadingOn();
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-FullToHalfHermitianImageFilter< TInputImage >
-::GenerateOutputInformation()
+FullToHalfHermitianImageFilter<TInputImage>::GenerateOutputInformation()
 {
   // Call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
 
   // Get pointers to the input and output
   typename InputImageType::ConstPointer inputPtr = this->GetInput();
-  typename OutputImageType::Pointer outputPtr = this->GetOutput();
+  typename OutputImageType::Pointer     outputPtr = this->GetOutput();
 
-  if ( !inputPtr || !outputPtr )
-    {
+  if (!inputPtr || !outputPtr)
+  {
     return;
-    }
+  }
 
-  const typename InputImageType::SizeType &   inputSize =
-    inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename InputImageType::IndexType &  inputStartIndex =
-    inputPtr->GetLargestPossibleRegion().GetIndex();
+  const typename InputImageType::SizeType &  inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename InputImageType::IndexType & inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
-  typename OutputImageType::SizeType outputSize;
+  typename OutputImageType::SizeType  outputSize;
   typename OutputImageType::IndexType outputStartIndex;
 
-  for ( unsigned int i = 0; i < OutputImageType::ImageDimension; i++ )
-    {
+  for (unsigned int i = 0; i < OutputImageType::ImageDimension; i++)
+  {
     outputSize[i] = inputSize[i];
     outputStartIndex[i] = inputStartIndex[i];
-    }
-  outputSize[0] = ( inputSize[0] / 2 ) + 1;
+  }
+  outputSize[0] = (inputSize[0] / 2) + 1;
 
   typename OutputImageType::RegionType outputLargestPossibleRegion;
-  outputLargestPossibleRegion.SetSize( outputSize );
-  outputLargestPossibleRegion.SetIndex( outputStartIndex );
+  outputLargestPossibleRegion.SetSize(outputSize);
+  outputLargestPossibleRegion.SetIndex(outputStartIndex);
 
-  outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
-  this->SetActualXDimensionIsOdd( inputSize[0] % 2 != 0 );
+  outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
+  this->SetActualXDimensionIsOdd(inputSize[0] % 2 != 0);
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-FullToHalfHermitianImageFilter< TInputImage >
-::GenerateInputRequestedRegion()
+FullToHalfHermitianImageFilter<TInputImage>::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
 
   // Get pointers to the input and output
-  typename InputImageType::Pointer inputPtr  =
-    const_cast< InputImageType * >( this->GetInput() );
-  if ( inputPtr )
-    {
+  typename InputImageType::Pointer inputPtr = const_cast<InputImageType *>(this->GetInput());
+  if (inputPtr)
+  {
     inputPtr->SetRequestedRegionToLargestPossibleRegion();
-    }
+  }
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-FullToHalfHermitianImageFilter< TInputImage >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+FullToHalfHermitianImageFilter<TInputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   typename InputImageType::ConstPointer inputPtr = this->GetInput();
-  typename OutputImageType::Pointer outputPtr = this->GetOutput();
+  typename OutputImageType::Pointer     outputPtr = this->GetOutput();
 
-  if ( !inputPtr || !outputPtr )
-    {
+  if (!inputPtr || !outputPtr)
+  {
     return;
-    }
+  }
 
   // Copy the non-reflected region.
-  ImageAlgorithm::Copy( inputPtr.GetPointer(), outputPtr.GetPointer(),
-                        outputRegionForThread, outputRegionForThread );
+  ImageAlgorithm::Copy(inputPtr.GetPointer(), outputPtr.GetPointer(), outputRegionForThread, outputRegionForThread);
 }
 
 } // end namespace itk

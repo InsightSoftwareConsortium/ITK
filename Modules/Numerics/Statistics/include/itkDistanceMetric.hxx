@@ -24,43 +24,40 @@ namespace itk
 {
 namespace Statistics
 {
-template< typename TVector >
-DistanceMetric< TVector >
-::DistanceMetric()
+template <typename TVector>
+DistanceMetric<TVector>::DistanceMetric()
 {
-  //If the measurment vector type is non-resizable type,
-  //initialize the vector size to it.
+  // If the measurment vector type is non-resizable type,
+  // initialize the vector size to it.
   MeasurementVectorType vector;
 
-  if ( !MeasurementVectorTraits::IsResizable(vector) )
-    {
-    MeasurementVectorSizeType defaultLength =
-      NumericTraits<MeasurementVectorType>::GetLength(vector);
+  if (!MeasurementVectorTraits::IsResizable(vector))
+  {
+    MeasurementVectorSizeType defaultLength = NumericTraits<MeasurementVectorType>::GetLength(vector);
 
     this->m_MeasurementVectorSize = defaultLength;
     this->m_Origin.SetSize(this->m_MeasurementVectorSize);
-    }
+  }
   else
-    {
-    //otherwise initialize it to zero
+  {
+    // otherwise initialize it to zero
     this->m_MeasurementVectorSize = 0;
-    }
+  }
   m_Origin.Fill(0.0);
 }
 
-template< typename TVector >
+template <typename TVector>
 void
-DistanceMetric< TVector >
-::SetOrigin(const OriginType & x)
+DistanceMetric<TVector>::SetOrigin(const OriginType & x)
 {
-  if ( this->m_MeasurementVectorSize != 0 )
+  if (this->m_MeasurementVectorSize != 0)
+  {
+    if (x.Size() != this->m_MeasurementVectorSize)
     {
-    if ( x.Size() != this->m_MeasurementVectorSize )
-      {
       itkExceptionMacro(<< "Size of the origin must be same as the length of"
                         << " each measurement vector.");
-      }
     }
+  }
 
   this->m_MeasurementVectorSize = x.Size();
   m_Origin.SetSize(this->m_MeasurementVectorSize);
@@ -68,10 +65,9 @@ DistanceMetric< TVector >
   this->Modified();
 }
 
-template< typename TVector >
+template <typename TVector>
 void
-DistanceMetric< TVector >
-::PrintSelf(std::ostream & os, Indent indent) const
+DistanceMetric<TVector>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Origin: " << this->GetOrigin() << std::endl;

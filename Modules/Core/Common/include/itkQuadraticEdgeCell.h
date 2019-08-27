@@ -33,8 +33,8 @@ namespace itk
  * \ingroup MeshObjects
  * \ingroup ITKCommon
  */
-template< typename TCellInterface >
-class ITK_TEMPLATE_EXPORT QuadraticEdgeCell:public TCellInterface
+template <typename TCellInterface>
+class ITK_TEMPLATE_EXPORT QuadraticEdgeCell : public TCellInterface
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadraticEdgeCell);
@@ -47,7 +47,7 @@ public:
   itkTypeMacro(QuadraticEdgeCell, CellInterface);
 
   /** The type of boundary for this lines's vertices. */
-  using VertexType = VertexCell< TCellInterface >;
+  using VertexType = VertexCell<TCellInterface>;
   using VertexAutoPointer = typename VertexType::SelfAutoPointer;
 
   /** QuadraticEdge-specific topology numbers. */
@@ -56,54 +56,70 @@ public:
   static constexpr unsigned int CellDimension = 1;
 
   /** Implement the standard CellInterface. */
-  CellGeometry GetType() const override
-  { return Superclass::QUADRATIC_EDGE_CELL; }
-  void MakeCopy(CellAutoPointer &) const override;
+  CellGeometry
+  GetType() const override
+  {
+    return Superclass::QUADRATIC_EDGE_CELL;
+  }
+  void
+  MakeCopy(CellAutoPointer &) const override;
 
-  unsigned int GetDimension() const override;
+  unsigned int
+  GetDimension() const override;
 
-  unsigned int GetNumberOfPoints() const override;
+  unsigned int
+  GetNumberOfPoints() const override;
 
-  CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const override;
+  CellFeatureCount
+  GetNumberOfBoundaryFeatures(int dimension) const override;
 
-  bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) override;
-  void SetPointIds(PointIdConstIterator first) override;
+  bool
+  GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) override;
+  void
+  SetPointIds(PointIdConstIterator first) override;
 
-  void SetPointIds(PointIdConstIterator first,
-                           PointIdConstIterator last) override;
+  void
+  SetPointIds(PointIdConstIterator first, PointIdConstIterator last) override;
 
-  void SetPointId(int localId, PointIdentifier) override;
-  PointIdIterator      PointIdsBegin() override;
+  void
+  SetPointId(int localId, PointIdentifier) override;
+  PointIdIterator
+  PointIdsBegin() override;
 
-  PointIdConstIterator PointIdsBegin() const override;
+  PointIdConstIterator
+  PointIdsBegin() const override;
 
-  PointIdIterator      PointIdsEnd() override;
+  PointIdIterator
+  PointIdsEnd() override;
 
-  PointIdConstIterator PointIdsEnd() const override;
+  PointIdConstIterator
+  PointIdsEnd() const override;
 
   /** QuadraticEdge-specific interface. */
-  virtual CellFeatureCount GetNumberOfVertices() const;
+  virtual CellFeatureCount
+  GetNumberOfVertices() const;
 
-  virtual bool GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
+  virtual bool
+  GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
 
   /** Visitor interface */
   itkCellVisitMacro(Superclass::QUADRATIC_EDGE_CELL);
 
   QuadraticEdgeCell()
   {
-    for ( PointIdentifier i = 0; i < Self::NumberOfPoints; i++ )
-      {
-      m_PointIds[i] = NumericTraits< PointIdentifier >::max();
-      }
+    for (PointIdentifier i = 0; i < Self::NumberOfPoints; i++)
+    {
+      m_PointIds[i] = NumericTraits<PointIdentifier>::max();
+    }
   }
 
   ~QuadraticEdgeCell() override = default;
 
   /** Given the parametric coordinates of a point in the cell
    * returned the values of its ShapeFunctions */
-  void EvaluateShapeFunctions(
-    const ParametricCoordArrayType & parametricCoordinates,
-    ShapeFunctionsArrayType  & weights) const override;
+  void
+  EvaluateShapeFunctions(const ParametricCoordArrayType & parametricCoordinates,
+                         ShapeFunctionsArrayType &        weights) const override;
 
 protected:
   /** Store number of points needed for a line segment. */
@@ -112,7 +128,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuadraticEdgeCell.hxx"
+#  include "itkQuadraticEdgeCell.hxx"
 #endif
 
 #endif

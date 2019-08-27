@@ -30,7 +30,6 @@ namespace itk
 class DataObjectConstIterator
 {
 public:
-
   using DataObjectIdentifierType = DataObject::DataObjectIdentifierType;
 
   DataObjectConstIterator() = default;
@@ -42,59 +41,68 @@ public:
     m_End = iter.m_End;
   }
 
-  DataObjectConstIterator & operator=(const DataObjectConstIterator & iter)
+  DataObjectConstIterator &
+  operator=(const DataObjectConstIterator & iter)
   {
-    if(this != &iter)
-      {
+    if (this != &iter)
+    {
       m_Iterator = iter.m_Iterator;
       m_Begin = iter.m_Begin;
       m_End = iter.m_End;
-      }
+    }
     return *this;
   }
 
-  const DataObject * GetDataObject() const
+  const DataObject *
+  GetDataObject() const
   {
     return m_Iterator->second;
   }
 
-  const DataObjectIdentifierType & GetName() const
+  const DataObjectIdentifierType &
+  GetName() const
   {
     return m_Iterator->first;
   }
 
-  DataObjectConstIterator operator++(int)
+  DataObjectConstIterator
+  operator++(int)
   {
     DataObjectConstIterator tmp = *this;
     ++(*this);
     return tmp;
   }
 
-  DataObjectConstIterator & operator++()
+  DataObjectConstIterator &
+  operator++()
   {
     ++m_Iterator;
     return *this;
   }
 
-  bool operator==(const DataObjectConstIterator & iter) const
-    {
+  bool
+  operator==(const DataObjectConstIterator & iter) const
+  {
     return m_Iterator == iter.m_Iterator && m_Begin == iter.m_Begin && m_End == iter.m_End;
-    }
+  }
 
-  bool operator!=(const DataObjectConstIterator & iter) const
-    {
-    return !( *this == iter );
-    }
+  bool
+  operator!=(const DataObjectConstIterator & iter) const
+  {
+    return !(*this == iter);
+  }
 
-  void GoToBegin()
-    {
-      m_Iterator = m_Begin;
-    }
+  void
+  GoToBegin()
+  {
+    m_Iterator = m_Begin;
+  }
 
-    bool IsAtEnd() const
-    {
-      return m_Iterator == m_End;
-    }
+  bool
+  IsAtEnd() const
+  {
+    return m_Iterator == m_End;
+  }
 
 protected:
   using InternalIteratorType = ProcessObject::DataObjectPointerMap::const_iterator;
@@ -102,5 +110,5 @@ protected:
   InternalIteratorType m_Begin;
   InternalIteratorType m_End;
 };
-}
+} // namespace itk
 #endif

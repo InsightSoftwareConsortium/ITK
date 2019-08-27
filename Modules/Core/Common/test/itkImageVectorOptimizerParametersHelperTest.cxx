@@ -21,32 +21,32 @@
 #include "itkTestingMacros.h"
 #include "itkMath.h"
 
-namespace{
+namespace
+{
 
 using ValueType = double;
-constexpr itk::SizeValueType                            ImageDimension  = 2;
-constexpr itk::SizeValueType                            VectorDimension  = 4;
-using VectorPixelType = itk::Vector< ValueType, VectorDimension >;
-using ImageVectorType = itk::Image< VectorPixelType, ImageDimension >;
+constexpr itk::SizeValueType ImageDimension = 2;
+constexpr itk::SizeValueType VectorDimension = 4;
+using VectorPixelType = itk::Vector<ValueType, VectorDimension>;
+using ImageVectorType = itk::Image<VectorPixelType, ImageDimension>;
 using ImageVectorPointer = ImageVectorType::Pointer;
 using RegionType = ImageVectorType::RegionType;
 using SizeType = RegionType::SizeType;
 using IndexType = ImageVectorType::IndexType;
 using VectorPixelContainer = ImageVectorType::PixelContainer;
-using OptimizerParametersType = itk::OptimizerParameters< ValueType >;
-using ImageVectorOptimizerParametersHelperType = itk::ImageVectorOptimizerParametersHelper<
-                                                   ValueType, VectorDimension, ImageDimension >;
+using OptimizerParametersType = itk::OptimizerParameters<ValueType>;
+using ImageVectorOptimizerParametersHelperType =
+  itk::ImageVectorOptimizerParametersHelper<ValueType, VectorDimension, ImageDimension>;
 
-int testMemoryAccess( OptimizerParametersType& params,
-                      ImageVectorPointer imageOfVectors,
-                      itk::SizeValueType dimLength )
+int
+testMemoryAccess(OptimizerParametersType & params, ImageVectorPointer imageOfVectors, itk::SizeValueType dimLength)
 {
   int result = EXIT_SUCCESS;
 
   for (itk::SizeValueType y = 0; y < dimLength; y++)
-    {
+  {
     for (itk::SizeValueType x = 0; x < dimLength; x++)
-      {
+    {
       IndexType index;
       index[0] = x;
       index[1] = y;
@@ -54,59 +54,58 @@ int testMemoryAccess( OptimizerParametersType& params,
       // The image index returns a N-dim vector, so have to check each
       // element against the values returned by parameter object.
       itk::OffsetValueType offset = (x + y * dimLength) * VectorDimension;
-      VectorPixelType vectorpixel = imageOfVectors->GetPixel( index );
-      for(itk::SizeValueType ind=0; ind < VectorDimension; ind++)
+      VectorPixelType      vectorpixel = imageOfVectors->GetPixel(index);
+      for (itk::SizeValueType ind = 0; ind < VectorDimension; ind++)
+      {
+        ValueType paramsValue = params[offset + ind];
+        if (itk::Math::NotExactlyEquals(vectorpixel[ind], paramsValue))
         {
-        ValueType paramsValue = params[offset+ind];
-        if( itk::Math::NotExactlyEquals(vectorpixel[ind], paramsValue) )
-          {
           std::cout << "VectorImage pixel value does not match params value."
-                    << "vectorpixel[" << ind << "]: " << vectorpixel[ind]
-                    << std::endl
-                    << "params[" << offset+ind << "]: "
-                    << paramsValue << std::endl;
+                    << "vectorpixel[" << ind << "]: " << vectorpixel[ind] << std::endl
+                    << "params[" << offset + ind << "]: " << paramsValue << std::endl;
           result = EXIT_FAILURE;
-          }
         }
       }
     }
+  }
   return result;
 }
 
-}
+} // namespace
 
 /******************************************************/
 
-int itkImageVectorOptimizerParametersHelperTest(int, char *[])
+int
+itkImageVectorOptimizerParametersHelperTest(int, char *[])
 {
   int result = EXIT_SUCCESS;
 
   ImageVectorPointer imageOfVectors = ImageVectorType::New();
 
   IndexType start;
-  start.Fill( 0 );
+  start.Fill(0);
 
-  SizeType size;
+  SizeType      size;
   constexpr int dimLength = 3;
-  size.Fill( dimLength );
+  size.Fill(dimLength);
 
   RegionType region;
-  region.SetSize( size );
-  region.SetIndex( start );
+  region.SetSize(size);
+  region.SetIndex(start);
 
-  imageOfVectors->SetRegions( region );
+  imageOfVectors->SetRegions(region);
   imageOfVectors->Allocate();
 
-  ImageVectorType::PointType     origin;
-  ImageVectorType::SpacingType   spacing;
+  ImageVectorType::PointType   origin;
+  ImageVectorType::SpacingType spacing;
 
-  origin.Fill( 0.0 );
-  spacing.Fill( 1.0 );
+  origin.Fill(0.0);
+  spacing.Fill(1.0);
 
-  imageOfVectors->SetOrigin( origin );
-  imageOfVectors->SetSpacing( spacing );
+  imageOfVectors->SetOrigin(origin);
+  imageOfVectors->SetSpacing(spacing);
 
-  ValueType vectorinitvalues[VectorDimension] = {0.0, 0.1, 0.2, 0.3};
+  ValueType       vectorinitvalues[VectorDimension] = { 0.0, 0.1, 0.2, 0.3 };
   VectorPixelType vectorvalues(vectorinitvalues);
 
   //
@@ -116,49 +115,49 @@ int itkImageVectorOptimizerParametersHelperTest(int, char *[])
   //
   //
   for (int y = 0; y < dimLength; y++)
-    {
+  {
     for (int x = 0; x < dimLength; x++)
-      {
+    {
       IndexType index;
       index[0] = x;
       index[1] = y;
 
       const ValueType value = x + y * dimLength;
 
-      VectorPixelType & vectorpixel = imageOfVectors->GetPixel( index );
-      vectorpixel.Fill( value );
+      VectorPixelType & vectorpixel = imageOfVectors->GetPixel(index);
+      vectorpixel.Fill(value);
       vectorpixel += vectorvalues;
 
       std::cout << value << " ";
-      }
-    std::cout << std::endl;
     }
+    std::cout << std::endl;
+  }
 
   // Create a parameter object and assign the ImageVector helper.
   OptimizerParametersType params;
-  auto * imageVectorParamsHelper = new ImageVectorOptimizerParametersHelperType;
-  //Assign the helper to the parameter object.
-  //OptimizerParameters object will manage the helper once its been set.
-  params.SetHelper( imageVectorParamsHelper );
-  //Set the image in the helper. It will point the parameter data pointer
+  auto *                  imageVectorParamsHelper = new ImageVectorOptimizerParametersHelperType;
+  // Assign the helper to the parameter object.
+  // OptimizerParameters object will manage the helper once its been set.
+  params.SetHelper(imageVectorParamsHelper);
+  // Set the image in the helper. It will point the parameter data pointer
   // to the image data.
-  params.SetParametersObject( imageOfVectors );
+  params.SetParametersObject(imageOfVectors);
 
-  result = testMemoryAccess( params, imageOfVectors, dimLength );
+  result = testMemoryAccess(params, imageOfVectors, dimLength);
 
-  //Test MoveDataPointer
-  itk::Array<ValueType> array( imageOfVectors->GetPixelContainer()->Size() );
+  // Test MoveDataPointer
+  itk::Array<ValueType> array(imageOfVectors->GetPixelContainer()->Size());
   array.Fill(1.23);
-  params.MoveDataPointer( array.data_block() );
+  params.MoveDataPointer(array.data_block());
 
-  //Test null image pointer
-  params.SetParametersObject( nullptr );
-  ITK_TRY_EXPECT_EXCEPTION( params.MoveDataPointer( array.data_block() ) );
+  // Test null image pointer
+  params.SetParametersObject(nullptr);
+  ITK_TRY_EXPECT_EXCEPTION(params.MoveDataPointer(array.data_block()));
 
-  //Test setting an image of wrong type
+  // Test setting an image of wrong type
   using BadImageType = itk::Image<char, 2>;
   BadImageType::Pointer badImage = BadImageType::New();
-  ITK_TRY_EXPECT_EXCEPTION( params.SetParametersObject( badImage ) );
+  ITK_TRY_EXPECT_EXCEPTION(params.SetParametersObject(badImage));
 
   return result;
 }

@@ -43,26 +43,24 @@ namespace itk
  *
  *  \ingroup ITKLevelSetsv4
  */
-template< typename TInput, // Input image or mesh
-          typename TLevelSetContainer >
-class ITK_TEMPLATE_EXPORT LevelSetEquationChanAndVeseInternalTerm :
-    public LevelSetEquationTermBase< TInput, TLevelSetContainer >
+template <typename TInput, // Input image or mesh
+          typename TLevelSetContainer>
+class ITK_TEMPLATE_EXPORT LevelSetEquationChanAndVeseInternalTerm
+  : public LevelSetEquationTermBase<TInput, TLevelSetContainer>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationChanAndVeseInternalTerm);
 
   using Self = LevelSetEquationChanAndVeseInternalTerm;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = LevelSetEquationTermBase< TInput,
-                                    TLevelSetContainer >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = LevelSetEquationTermBase<TInput, TLevelSetContainer>;
 
   /** Method for creation through object factory */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro( LevelSetEquationChanAndVeseInternalTerm,
-                LevelSetEquationTermBase );
+  itkTypeMacro(LevelSetEquationChanAndVeseInternalTerm, LevelSetEquationTermBase);
 
   using InputImageType = typename Superclass::InputImageType;
   using InputImagePointer = typename Superclass::InputImagePointer;
@@ -88,32 +86,36 @@ public:
   using DomainMapImageFilterType = typename Superclass::DomainMapImageFilterType;
   using CacheImageType = typename Superclass::CacheImageType;
 
-  itkSetMacro( Mean, InputPixelRealType );
-  itkGetMacro( Mean, InputPixelRealType );
+  itkSetMacro(Mean, InputPixelRealType);
+  itkGetMacro(Mean, InputPixelRealType);
 
   /** Update the term parameter values at end of iteration */
-  void Update() override;
+  void
+  Update() override;
 
   /** Initialize parameters in the terms prior to an iteration */
-  void InitializeParameters() override;
+  void
+  InitializeParameters() override;
 
   /** Initialize term parameters in the dense case by computing for each pixel location */
-  void Initialize( const LevelSetInputIndexType& inputIndex ) override;
+  void
+  Initialize(const LevelSetInputIndexType & inputIndex) override;
 
   /** Compute the product of Heaviside functions in the multi-levelset cases */
-  virtual void ComputeProduct( const LevelSetInputIndexType& inputPixel,
-                              LevelSetOutputRealType& prod );
+  virtual void
+  ComputeProduct(const LevelSetInputIndexType & inputPixel, LevelSetOutputRealType & prod);
 
   /** Compute the product of Heaviside functions in the multi-levelset cases
    *  except the current levelset */
-  virtual void ComputeProductTerm( const LevelSetInputIndexType& ,
-                                  LevelSetOutputRealType& )
+  virtual void
+  ComputeProductTerm(const LevelSetInputIndexType &, LevelSetOutputRealType &)
   {}
 
   /** Supply updates at pixels to keep the term parameters always updated */
-  void UpdatePixel( const LevelSetInputIndexType& inputPixel,
-                           const LevelSetOutputRealType & oldValue,
-                           const LevelSetOutputRealType & newValue ) override;
+  void
+  UpdatePixel(const LevelSetInputIndexType & inputPixel,
+              const LevelSetOutputRealType & oldValue,
+              const LevelSetOutputRealType & newValue) override;
 
 protected:
   LevelSetEquationChanAndVeseInternalTerm();
@@ -122,25 +124,26 @@ protected:
 
   /** Returns the term contribution for a given location inputPixel, i.e.
    *  \f$ \omega_i( p ) \f$. */
-  LevelSetOutputRealType Value( const LevelSetInputIndexType& inputPixel ) override;
+  LevelSetOutputRealType
+  Value(const LevelSetInputIndexType & inputPixel) override;
 
   /** Returns the term contribution for a given location inputPixel, i.e.
    *  \f$ \omega_i( p ) \f$. */
-  LevelSetOutputRealType Value( const LevelSetInputIndexType& inputPixel,
-                                        const LevelSetDataType& data ) override;
+  LevelSetOutputRealType
+  Value(const LevelSetInputIndexType & inputPixel, const LevelSetDataType & data) override;
 
   /** Accumulate contribution to term parameters from a given pixel */
-  void Accumulate( const InputPixelType& inputPixel,
-                   const LevelSetOutputRealType& heavisideValue );
+  void
+  Accumulate(const InputPixelType & inputPixel, const LevelSetOutputRealType & heavisideValue);
 
-  InputPixelRealType      m_Mean;
-  InputPixelRealType      m_TotalValue;
-  LevelSetOutputRealType  m_TotalH;
+  InputPixelRealType     m_Mean;
+  InputPixelRealType     m_TotalValue;
+  LevelSetOutputRealType m_TotalH;
 };
 
-}
+} // namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetEquationChanAndVeseInternalTerm.hxx"
+#  include "itkLevelSetEquationChanAndVeseInternalTerm.hxx"
 #endif
 
 #endif

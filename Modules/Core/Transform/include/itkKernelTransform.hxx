@@ -22,8 +22,9 @@
 namespace itk
 {
 
-template<typename TParametersValueType, unsigned int NDimensions>
-KernelTransform<TParametersValueType, NDimensions>::KernelTransform() : Superclass(NDimensions)
+template <typename TParametersValueType, unsigned int NDimensions>
+KernelTransform<TParametersValueType, NDimensions>::KernelTransform()
+  : Superclass(NDimensions)
 // the second NDimensions is associated is provided as
 // a tentative number for initializing the Jacobian.
 // The matrix can be resized at run time so this number
@@ -33,53 +34,53 @@ KernelTransform<TParametersValueType, NDimensions>::KernelTransform() : Supercla
   this->m_I.set_identity();
   this->m_SourceLandmarks = PointSetType::New();
   this->m_TargetLandmarks = PointSetType::New();
-  this->m_Displacements   = VectorSetType::New();
+  this->m_Displacements = VectorSetType::New();
   this->m_WMatrixComputed = false;
 
   this->m_Stiffness = 0.0;
 }
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-KernelTransform<TParametersValueType, NDimensions>::SetSourceLandmarks(PointSetType *landmarks)
+KernelTransform<TParametersValueType, NDimensions>::SetSourceLandmarks(PointSetType * landmarks)
 {
   itkDebugMacro("setting SourceLandmarks to " << landmarks);
-  if( this->m_SourceLandmarks != landmarks )
-    {
+  if (this->m_SourceLandmarks != landmarks)
+  {
     this->m_SourceLandmarks = landmarks;
     this->UpdateParameters();
     this->Modified();
-    }
+  }
 }
 
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-KernelTransform<TParametersValueType, NDimensions>::SetTargetLandmarks(PointSetType *landmarks)
+KernelTransform<TParametersValueType, NDimensions>::SetTargetLandmarks(PointSetType * landmarks)
 {
   itkDebugMacro("setting TargetLandmarks to " << landmarks);
-  if( this->m_TargetLandmarks != landmarks )
-    {
+  if (this->m_TargetLandmarks != landmarks)
+  {
     this->m_TargetLandmarks = landmarks;
     this->UpdateParameters();
     this->Modified();
-    }
+  }
 }
 
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-KernelTransform<TParametersValueType, NDimensions>::ComputeG( const InputVectorType &,
-                                                     GMatrixType & itkNotUsed(gmatrix) ) const
+KernelTransform<TParametersValueType, NDimensions>::ComputeG(const InputVectorType &,
+                                                             GMatrixType & itkNotUsed(gmatrix)) const
 {
   itkExceptionMacro(<< "ComputeG(vector,gmatrix) must be reimplemented"
                     << " in subclasses of KernelTransform.");
 }
 
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 const typename KernelTransform<TParametersValueType, NDimensions>::GMatrixType &
-KernelTransform<TParametersValueType, NDimensions>::ComputeReflexiveG(PointsIterator) const
+  KernelTransform<TParametersValueType, NDimensions>::ComputeReflexiveG(PointsIterator) const
 {
   m_GMatrix.fill(NumericTraits<TParametersValueType>::ZeroValue());
   m_GMatrix.fill_diagonal(m_Stiffness);
@@ -88,64 +89,62 @@ KernelTransform<TParametersValueType, NDimensions>::ComputeReflexiveG(PointsIter
 }
 
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-KernelTransform<TParametersValueType, NDimensions>::ComputeDeformationContribution(const InputPointType  & thisPoint,
-                                                                      OutputPointType & result) const
+KernelTransform<TParametersValueType, NDimensions>::ComputeDeformationContribution(const InputPointType & thisPoint,
+                                                                                   OutputPointType &      result) const
 {
   /*
    * Default implementation of the the method. This can be overloaded
    * in transforms whose kernel produce diagonal G matrices.
    */
-  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks
-    ->GetNumberOfPoints();
+  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
 
-  PointsIterator sp  = this->m_SourceLandmarks->GetPoints()->Begin();
+  PointsIterator sp = this->m_SourceLandmarks->GetPoints()->Begin();
 
   GMatrixType Gmatrix;
 
-  for( unsigned int lnd = 0; lnd < numberOfLandmarks; lnd++ )
-    {
+  for (unsigned int lnd = 0; lnd < numberOfLandmarks; lnd++)
+  {
     this->ComputeG(thisPoint - sp->Value(), Gmatrix);
-    for( unsigned int dim = 0; dim < NDimensions; dim++ )
+    for (unsigned int dim = 0; dim < NDimensions; dim++)
+    {
+      for (unsigned int odim = 0; odim < NDimensions; odim++)
       {
-      for( unsigned int odim = 0; odim < NDimensions; odim++ )
-        {
         result[odim] += Gmatrix(dim, odim) * m_DMatrix(dim, lnd);
-        }
       }
-    ++sp;
     }
+    ++sp;
+  }
 }
 
 
-template<typename TParametersValueType, unsigned int NDimensions>
-void KernelTransform<TParametersValueType, NDimensions>
-::ComputeD()
+template <typename TParametersValueType, unsigned int NDimensions>
+void
+KernelTransform<TParametersValueType, NDimensions>::ComputeD()
 {
-  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks
-    ->GetNumberOfPoints();
+  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
 
-  PointsIterator sp  = this->m_SourceLandmarks->GetPoints()->Begin();
-  PointsIterator tp  = this->m_TargetLandmarks->GetPoints()->Begin();
+  PointsIterator sp = this->m_SourceLandmarks->GetPoints()->Begin();
+  PointsIterator tp = this->m_TargetLandmarks->GetPoints()->Begin();
   PointsIterator end = this->m_SourceLandmarks->GetPoints()->End();
 
   this->m_Displacements->Reserve(numberOfLandmarks);
   typename VectorSetType::Iterator vt = this->m_Displacements->Begin();
 
-  while( sp != end )
-    {
+  while (sp != end)
+  {
     vt->Value() = tp->Value() - sp->Value();
     ++vt;
     ++sp;
     ++tp;
-    }
+  }
 }
 
 
-template<typename TParametersValueType, unsigned int NDimensions>
-void KernelTransform<TParametersValueType, NDimensions>
-::ComputeWMatrix()
+template <typename TParametersValueType, unsigned int NDimensions>
+void
+KernelTransform<TParametersValueType, NDimensions>::ComputeWMatrix()
 {
   using SVDSolverType = vnl_svd<TParametersValueType>;
 
@@ -158,57 +157,50 @@ void KernelTransform<TParametersValueType, NDimensions>
 }
 
 
-template<typename TParametersValueType, unsigned int NDimensions>
-void KernelTransform<TParametersValueType, NDimensions>
-::ComputeL()
+template <typename TParametersValueType, unsigned int NDimensions>
+void
+KernelTransform<TParametersValueType, NDimensions>::ComputeL()
 {
-  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks
-    ->GetNumberOfPoints();
+  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
 
-  vnl_matrix<TParametersValueType> O2(NDimensions * ( NDimensions + 1 ),
-                             NDimensions * ( NDimensions + 1 ), 0);
+  vnl_matrix<TParametersValueType> O2(NDimensions * (NDimensions + 1), NDimensions * (NDimensions + 1), 0);
 
   this->ComputeP();
   this->ComputeK();
 
-  this->m_LMatrix.set_size(
-    NDimensions * ( numberOfLandmarks + NDimensions + 1 ),
-    NDimensions * ( numberOfLandmarks + NDimensions + 1 ) );
+  this->m_LMatrix.set_size(NDimensions * (numberOfLandmarks + NDimensions + 1),
+                           NDimensions * (numberOfLandmarks + NDimensions + 1));
 
   this->m_LMatrix.fill(0.0);
 
   this->m_LMatrix.update(this->m_KMatrix, 0, 0);
-  this->m_LMatrix.update( this->m_PMatrix, 0, this->m_KMatrix.columns() );
-  this->m_LMatrix.update(this->m_PMatrix.transpose(),
-                         this->m_KMatrix.rows(), 0);
-  this->m_LMatrix.update( O2, this->m_KMatrix.rows(),
-                          this->m_KMatrix.columns() );
+  this->m_LMatrix.update(this->m_PMatrix, 0, this->m_KMatrix.columns());
+  this->m_LMatrix.update(this->m_PMatrix.transpose(), this->m_KMatrix.rows(), 0);
+  this->m_LMatrix.update(O2, this->m_KMatrix.rows(), this->m_KMatrix.columns());
 }
 
 
-template<typename TParametersValueType, unsigned int NDimensions>
-void KernelTransform<TParametersValueType, NDimensions>
-::ComputeK()
+template <typename TParametersValueType, unsigned int NDimensions>
+void
+KernelTransform<TParametersValueType, NDimensions>::ComputeK()
 {
-  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks
-    ->GetNumberOfPoints();
-  GMatrixType G;
+  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
+  GMatrixType     G;
 
   this->ComputeD();
 
-  this->m_KMatrix.set_size(NDimensions * numberOfLandmarks,
-                           NDimensions * numberOfLandmarks);
+  this->m_KMatrix.set_size(NDimensions * numberOfLandmarks, NDimensions * numberOfLandmarks);
 
   this->m_KMatrix.fill(0.0);
 
-  PointsIterator p1  = this->m_SourceLandmarks->GetPoints()->Begin();
+  PointsIterator p1 = this->m_SourceLandmarks->GetPoints()->Begin();
   PointsIterator end = this->m_SourceLandmarks->GetPoints()->End();
 
   // K matrix is symmetric, so only evaluate the upper triangle and
   // store the values in bot the upper and lower triangle
   unsigned int i = 0;
-  while( p1 != end )
-    {
+  while (p1 != end)
+  {
     PointsIterator p2 = p1; // start at the diagonal element
     unsigned int   j = i;
 
@@ -219,8 +211,8 @@ void KernelTransform<TParametersValueType, NDimensions>
     ++j;
 
     // Compute the upper (and copy into lower) triangular part of K
-    while( p2 != end )
-      {
+    while (p2 != end)
+    {
       const InputVectorType s = p1.Value() - p2.Value();
       this->ComputeG(s, G);
       // write value in upper and lower triangle of matrix
@@ -228,112 +220,105 @@ void KernelTransform<TParametersValueType, NDimensions>
       this->m_KMatrix.update(G, j * NDimensions, i * NDimensions);
       ++p2;
       ++j;
-      }
+    }
 
     ++p1;
     ++i;
-    }
+  }
 }
 
 
-template<typename TParametersValueType, unsigned int NDimensions>
-void KernelTransform<TParametersValueType, NDimensions>
-::ComputeP()
+template <typename TParametersValueType, unsigned int NDimensions>
+void
+KernelTransform<TParametersValueType, NDimensions>::ComputeP()
 {
-  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks
-    ->GetNumberOfPoints();
-  IMatrixType    I;
-  IMatrixType    temp;
-  InputPointType p;
+  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
+  IMatrixType     I;
+  IMatrixType     temp;
+  InputPointType  p;
 
-  p.Fill( NumericTraits<ScalarType>::ZeroValue() );
+  p.Fill(NumericTraits<ScalarType>::ZeroValue());
 
   I.set_identity();
-  this->m_PMatrix.set_size( NDimensions * numberOfLandmarks,
-                            NDimensions * ( NDimensions + 1 ) );
+  this->m_PMatrix.set_size(NDimensions * numberOfLandmarks, NDimensions * (NDimensions + 1));
   this->m_PMatrix.fill(0.0);
-  for( unsigned long i = 0; i < numberOfLandmarks; i++ )
-    {
+  for (unsigned long i = 0; i < numberOfLandmarks; i++)
+  {
     this->m_SourceLandmarks->GetPoint(i, &p);
-    for( unsigned int j = 0; j < NDimensions; j++ )
-      {
+    for (unsigned int j = 0; j < NDimensions; j++)
+    {
       temp = I * p[j];
       this->m_PMatrix.update(temp, i * NDimensions, j * NDimensions);
-      }
-    this->m_PMatrix.update(I, i * NDimensions, NDimensions * NDimensions);
     }
+    this->m_PMatrix.update(I, i * NDimensions, NDimensions * NDimensions);
+  }
 }
 
 
-template<typename TParametersValueType, unsigned int NDimensions>
-void KernelTransform<TParametersValueType, NDimensions>
-::ComputeY()
+template <typename TParametersValueType, unsigned int NDimensions>
+void
+KernelTransform<TParametersValueType, NDimensions>::ComputeY()
 {
-  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks
-    ->GetNumberOfPoints();
+  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
 
-  typename VectorSetType::ConstIterator displacement =
-    this->m_Displacements->Begin();
+  typename VectorSetType::ConstIterator displacement = this->m_Displacements->Begin();
 
-  this->m_YMatrix.set_size(NDimensions * ( numberOfLandmarks + NDimensions + 1 ), 1);
+  this->m_YMatrix.set_size(NDimensions * (numberOfLandmarks + NDimensions + 1), 1);
 
   this->m_YMatrix.fill(0.0);
-  for( unsigned int i = 0; i < numberOfLandmarks; i++ )
+  for (unsigned int i = 0; i < numberOfLandmarks; i++)
+  {
+    for (unsigned int j = 0; j < NDimensions; j++)
     {
-    for( unsigned int j = 0; j < NDimensions; j++ )
-      {
       this->m_YMatrix.put(i * NDimensions + j, 0, displacement.Value()[j]);
-      }
+    }
     ++displacement;
-    }
-  for( unsigned int i = 0; i < NDimensions * ( NDimensions + 1 ); i++ )
-    {
+  }
+  for (unsigned int i = 0; i < NDimensions * (NDimensions + 1); i++)
+  {
     this->m_YMatrix.put(numberOfLandmarks * NDimensions + i, 0, 0);
-    }
+  }
 }
 
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-KernelTransform<TParametersValueType, NDimensions>
-::ReorganizeW()
+KernelTransform<TParametersValueType, NDimensions>::ReorganizeW()
 {
-  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks
-    ->GetNumberOfPoints();
+  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
 
   // The deformable (non-affine) part of the registration goes here
   this->m_DMatrix.set_size(NDimensions, numberOfLandmarks);
   unsigned int ci = 0;
-  for( unsigned int lnd = 0; lnd < numberOfLandmarks; lnd++ )
+  for (unsigned int lnd = 0; lnd < numberOfLandmarks; lnd++)
+  {
+    for (unsigned int dim = 0; dim < NDimensions; dim++)
     {
-    for( unsigned int dim = 0; dim < NDimensions; dim++ )
-      {
       this->m_DMatrix(dim, lnd) = this->m_WMatrix(ci++, 0);
-      }
     }
+  }
   // This matrix holds the rotational part of the Affine component
-  for( unsigned int j = 0; j < NDimensions; j++ )
+  for (unsigned int j = 0; j < NDimensions; j++)
+  {
+    for (unsigned int i = 0; i < NDimensions; i++)
     {
-    for( unsigned int i = 0; i < NDimensions; i++ )
-      {
       this->m_AMatrix(i, j) = this->m_WMatrix(ci++, 0);
-      }
     }
+  }
   // This vector holds the translational part of the Affine component
-  for( unsigned int k = 0; k < NDimensions; k++ )
-    {
+  for (unsigned int k = 0; k < NDimensions; k++)
+  {
     this->m_BVector(k) = this->m_WMatrix(ci++, 0);
-    }
+  }
 
   // release WMatrix memory by assigning a small one.
   this->m_WMatrix = WMatrixType(1, 1);
 }
 
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 typename KernelTransform<TParametersValueType, NDimensions>::OutputPointType
-KernelTransform<TParametersValueType, NDimensions>
-::TransformPoint(const InputPointType & thisPoint) const
+KernelTransform<TParametersValueType, NDimensions>::TransformPoint(const InputPointType & thisPoint) const
 {
   OutputPointType result;
 
@@ -341,31 +326,32 @@ KernelTransform<TParametersValueType, NDimensions>
 
   result.Fill(NumericTraits<ValueType>::ZeroValue());
 
-  //TODO:  It is unclear if the following line is needed.
+  // TODO:  It is unclear if the following line is needed.
   this->ComputeDeformationContribution(thisPoint, result);
 
   // Add the rotational part of the Affine component
-  for( unsigned int j = 0; j < NDimensions; j++ )
+  for (unsigned int j = 0; j < NDimensions; j++)
+  {
+    for (unsigned int i = 0; i < NDimensions; i++)
     {
-    for( unsigned int i = 0; i < NDimensions; i++ )
-      {
       result[i] += this->m_AMatrix(i, j) * thisPoint[j];
-      }
     }
+  }
   // This vector holds the translational part of the Affine component
-  for( unsigned int k = 0; k < NDimensions; k++ )
-    {
+  for (unsigned int k = 0; k < NDimensions; k++)
+  {
     result[k] += this->m_BVector(k) + thisPoint[k];
-    }
+  }
 
   return result;
 }
 
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-KernelTransform<TParametersValueType, NDimensions>
-::ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType & jacobian) const
+KernelTransform<TParametersValueType, NDimensions>::ComputeJacobianWithRespectToParameters(
+  const InputPointType &,
+  JacobianType & jacobian) const
 {
   jacobian.Fill(0.0);
 
@@ -377,10 +363,9 @@ KernelTransform<TParametersValueType, NDimensions>
 }
 
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-KernelTransform<TParametersValueType, NDimensions>
-::SetParameters(const ParametersType & parameters)
+KernelTransform<TParametersValueType, NDimensions>::SetParameters(const ParametersType & parameters)
 {
   // Set the parameters
   // NOTE that in this transformation both the Source and Target
@@ -390,16 +375,15 @@ KernelTransform<TParametersValueType, NDimensions>
   // registration.
 
   // Save parameters. Needed for proper operation of TransformUpdateParameters.
-  if( &parameters != &(this->m_Parameters) )
-    {
-    const size_t parameterSize = this->GetParameters().Size();
-    const NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::ZeroValue();
-    this->CopyInParameters( &( parameters.data_block() )[offset],
-                              &( parameters.data_block() )[offset] + parameterSize );
-    }
+  if (&parameters != &(this->m_Parameters))
+  {
+    const size_t                 parameterSize = this->GetParameters().Size();
+    const NumberOfParametersType offset = NumericTraits<NumberOfParametersType>::ZeroValue();
+    this->CopyInParameters(&(parameters.data_block())[offset], &(parameters.data_block())[offset] + parameterSize);
+  }
 
   typename PointsContainer::Pointer landmarks = PointsContainer::New();
-  const unsigned int numberOfLandmarks =  parameters.Size() / NDimensions;
+  const unsigned int                numberOfLandmarks = parameters.Size() / NDimensions;
   landmarks->Reserve(numberOfLandmarks);
 
   PointsIterator itr = landmarks->Begin();
@@ -408,16 +392,16 @@ KernelTransform<TParametersValueType, NDimensions>
   InputPointType landMark;
 
   unsigned int pcounter = 0;
-  while( itr != end )
+  while (itr != end)
+  {
+    for (unsigned int dim = 0; dim < NDimensions; dim++)
     {
-    for( unsigned int dim = 0; dim < NDimensions; dim++ )
-      {
       landMark[dim] = parameters[pcounter];
       ++pcounter;
-      }
+    }
     itr.Value() = landMark;
     ++itr;
-    }
+  }
 
   this->m_SourceLandmarks->SetPoints(landmarks);
 
@@ -427,10 +411,9 @@ KernelTransform<TParametersValueType, NDimensions>
 }
 
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-KernelTransform<TParametersValueType, NDimensions>
-::SetFixedParameters(const FixedParametersType & parameters)
+KernelTransform<TParametersValueType, NDimensions>::SetFixedParameters(const FixedParametersType & parameters)
 {
   // Set the fixed parameters
   // Since the API of the SetParameters() function sets the
@@ -439,7 +422,7 @@ KernelTransform<TParametersValueType, NDimensions>
   // I/O mechanism to be supported.
 
   typename PointsContainer::Pointer landmarks = PointsContainer::New();
-  const unsigned int numberOfLandmarks =  parameters.Size() / NDimensions;
+  const unsigned int                numberOfLandmarks = parameters.Size() / NDimensions;
 
   landmarks->Reserve(numberOfLandmarks);
 
@@ -449,109 +432,101 @@ KernelTransform<TParametersValueType, NDimensions>
   InputPointType landMark;
 
   unsigned int pcounter = 0;
-  while( itr != end )
+  while (itr != end)
+  {
+    for (unsigned int dim = 0; dim < NDimensions; dim++)
     {
-    for( unsigned int dim = 0; dim < NDimensions; dim++ )
-      {
       landMark[dim] = parameters[pcounter];
       ++pcounter;
-      }
+    }
     itr.Value() = landMark;
     ++itr;
-    }
+  }
 
   this->m_TargetLandmarks->SetPoints(landmarks);
 }
 
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-KernelTransform<TParametersValueType, NDimensions>
-::UpdateParameters() const
+KernelTransform<TParametersValueType, NDimensions>::UpdateParameters() const
 {
-  this->m_Parameters = ParametersType(this->m_SourceLandmarks
-                                      ->GetNumberOfPoints()
-                                      * NDimensions);
+  this->m_Parameters = ParametersType(this->m_SourceLandmarks->GetNumberOfPoints() * NDimensions);
 
   PointsIterator itr = this->m_SourceLandmarks->GetPoints()->Begin();
   PointsIterator end = this->m_SourceLandmarks->GetPoints()->End();
 
   unsigned int pcounter = 0;
-  while( itr != end )
-    {
+  while (itr != end)
+  {
     InputPointType landmark = itr.Value();
-    for( unsigned int dim = 0; dim < NDimensions; dim++ )
-      {
+    for (unsigned int dim = 0; dim < NDimensions; dim++)
+    {
       this->m_Parameters[pcounter] = landmark[dim];
       ++pcounter;
-      }
-    ++itr;
     }
+    ++itr;
+  }
 }
 
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 const typename KernelTransform<TParametersValueType, NDimensions>::ParametersType &
-KernelTransform<TParametersValueType, NDimensions>
-::GetParameters() const
+KernelTransform<TParametersValueType, NDimensions>::GetParameters() const
 {
   this->UpdateParameters();
   return this->m_Parameters;
 }
 
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 const typename KernelTransform<TParametersValueType, NDimensions>::FixedParametersType &
-KernelTransform<TParametersValueType, NDimensions>
-::GetFixedParameters() const
+KernelTransform<TParametersValueType, NDimensions>::GetFixedParameters() const
 {
   // Get the fixed parameters
   // This returns the target landmark locations
   // This was added to support the Transform Reader/Writer mechanism
-  this->m_FixedParameters = ParametersType(this->m_TargetLandmarks
-                                           ->GetNumberOfPoints()
-                                           * NDimensions);
+  this->m_FixedParameters = ParametersType(this->m_TargetLandmarks->GetNumberOfPoints() * NDimensions);
 
   PointsIterator itr = this->m_TargetLandmarks->GetPoints()->Begin();
   PointsIterator end = this->m_TargetLandmarks->GetPoints()->End();
 
   unsigned int pcounter = 0;
-  while( itr != end )
-    {
+  while (itr != end)
+  {
     InputPointType landmark = itr.Value();
-    for( unsigned int dim = 0; dim < NDimensions; dim++ )
-      {
+    for (unsigned int dim = 0; dim < NDimensions; dim++)
+    {
       this->m_FixedParameters[pcounter] = landmark[dim];
       ++pcounter;
-      }
-    ++itr;
     }
+    ++itr;
+  }
 
   return this->m_FixedParameters;
 }
 
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-KernelTransform<TParametersValueType, NDimensions>
-::PrintSelf(std::ostream & os, Indent indent) const
+KernelTransform<TParametersValueType, NDimensions>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  if( this->m_SourceLandmarks )
-    {
+  if (this->m_SourceLandmarks)
+  {
     os << indent << "SourceLandmarks: " << std::endl;
-    this->m_SourceLandmarks->Print( os, indent.GetNextIndent() );
-    }
-  if( this->m_TargetLandmarks )
-    {
+    this->m_SourceLandmarks->Print(os, indent.GetNextIndent());
+  }
+  if (this->m_TargetLandmarks)
+  {
     os << indent << "TargetLandmarks: " << std::endl;
-    this->m_TargetLandmarks->Print( os, indent.GetNextIndent() );
-    }
-  if( this->m_Displacements )
-    {
+    this->m_TargetLandmarks->Print(os, indent.GetNextIndent());
+  }
+  if (this->m_Displacements)
+  {
     os << indent << "Displacements: " << std::endl;
-    this->m_Displacements->Print( os, indent.GetNextIndent() );
-    }
+    this->m_Displacements->Print(os, indent.GetNextIndent());
+  }
   os << indent << "Stiffness: " << this->m_Stiffness << std::endl;
 }
 

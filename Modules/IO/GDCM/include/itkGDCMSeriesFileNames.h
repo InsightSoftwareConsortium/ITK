@@ -50,10 +50,10 @@ namespace itk
  * \ingroup ITKIOGDCM
  */
 /** \todo: remove these from the itk:: namespace */
-using FilenamesContainer = std::vector< std::string >;
-using SerieUIDContainer = std::vector< std::string >;
+using FilenamesContainer = std::vector<std::string>;
+using SerieUIDContainer = std::vector<std::string>;
 
-class ITKIOGDCM_EXPORT GDCMSeriesFileNames:public ProcessObject
+class ITKIOGDCM_EXPORT GDCMSeriesFileNames : public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GDCMSeriesFileNames);
@@ -61,7 +61,7 @@ public:
   /** Standard class type aliases. */
   using Self = GDCMSeriesFileNames;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
 
   /** Type of the container that holds the file names in the series. */
   using FileNamesContainerType = FilenamesContainer;
@@ -78,13 +78,16 @@ public:
   /* -------- Define the API for GDCMSeriesFileNames ----------- */
 
   /** Set the directory that contains the DICOM series. */
-  void SetInputDirectory(const char *name);
+  void
+  SetInputDirectory(const char * name);
 
   /** Set the directory that contains the DICOM series. */
-  void SetInputDirectory(std::string const & name);
+  void
+  SetInputDirectory(std::string const & name);
 
   /** Set the directory that contains the DICOM series. */
-  void SetDirectory(std::string const & name)
+  void
+  SetDirectory(std::string const & name)
   {
     SetInputDirectory(name);
   }
@@ -92,10 +95,12 @@ public:
   /** Returns a vector containing the series' file names. The file
    * names are ordered by the strategy define in header.
    * No sorting is done based on UID */
-  const FileNamesContainerType & GetInputFileNames();
+  const FileNamesContainerType &
+  GetInputFileNames();
 
   /** Set the directory where the output DICOM serie should be written. */
-  void SetOutputDirectory(std::string const & name)
+  void
+  SetOutputDirectory(std::string const & name)
   {
     m_OutputDirectory = name;
     this->Modified();
@@ -106,7 +111,8 @@ public:
    * This could be dangerous if the writing has changed 3rd position
    * or some other DICOM tag in the header
    */
-  const FileNamesContainerType & GetOutputFileNames();
+  const FileNamesContainerType &
+  GetOutputFileNames();
 
   /** Returns a vector containing the series' file names. The file
    * names are ordered by the strategy define in header.
@@ -114,14 +120,16 @@ public:
    * specified.  An extended UID may be returned/used if
    * SetUseSeriesDetails(true) has been called.
    */
-  const FileNamesContainerType & GetFileNames(const std::string serie);
+  const FileNamesContainerType &
+  GetFileNames(const std::string serie);
 
   /** Returns a vector containing all the UIDs found when parsing the
    * direcory specified via SetDirectory. If no direcory is specified
    * return an empty vector.  An extended UID may be returned/used if
    * SetUseSeriesDetails(true) has been called.
    */
-  const SeriesUIDContainerType & GetSeriesUIDs();
+  const SeriesUIDContainerType &
+  GetSeriesUIDs();
 
   /** Recursively parse the input directory.
    * Must be set before the call to SetInputDirectory(). */
@@ -133,13 +141,15 @@ public:
    *   and SeriesName to identify when a single SeriesUID contains
    *   multiple 3D volumes - as can occur with perfusion and DTI imaging
    */
-  void SetUseSeriesDetails(bool useSeriesDetails);
+  void
+  SetUseSeriesDetails(bool useSeriesDetails);
 
   /** Returns true if using additional series information such as ProtocolName
    *   and SeriesName to identify when a single SeriesUID contains
    *   multiple 3D volumes - as can occur with perfusion and DTI imaging
    */
-  bool GetUseSeriesDetails()
+  bool
+  GetUseSeriesDetails()
   {
     return m_UseSeriesDetails;
   }
@@ -150,7 +160,8 @@ public:
    * series. Format for tag is "group|element" of a DICOM tag.
    * \warning User need to set SetUseSeriesDetails(true)
    */
-  void AddSeriesRestriction(const std::string & tag)
+  void
+  AddSeriesRestriction(const std::string & tag)
   {
     m_SerieHelper->AddRestriction(tag);
   }
@@ -174,7 +185,8 @@ public:
 protected:
   GDCMSeriesFileNames();
   ~GDCMSeriesFileNames() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** Contains the input directory where the DICOM serie is found */
@@ -188,7 +200,7 @@ private:
   FileNamesContainerType m_OutputFileNames;
 
   /** Internal structure to order serie from one directory */
-  gdcm::SerieHelper *m_SerieHelper;
+  gdcm::SerieHelper * m_SerieHelper;
 
   /** Internal structure to keep the list of series UIDs */
   SeriesUIDContainerType m_SeriesUIDs;
@@ -198,6 +210,6 @@ private:
   bool m_LoadSequences;
   bool m_LoadPrivateTags;
 };
-} //namespace ITK
+} // namespace itk
 
 #endif // itkGDCMSeriesFileNames_h

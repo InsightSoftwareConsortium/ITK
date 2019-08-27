@@ -42,15 +42,17 @@ SimpleMutexLock::~SimpleMutexLock()
 }
 
 // Lock the MutexLock
-void SimpleMutexLock::Lock()
+void
+SimpleMutexLock::Lock()
 {
   pthread_mutex_lock(&m_MutexLock);
 }
 //
 // Lock the MutexLock
-bool SimpleMutexLock::TryLock()
+bool
+SimpleMutexLock::TryLock()
 {
-  const bool lockCaptured = ( pthread_mutex_trylock(&m_MutexLock) == 0 );
+  const bool lockCaptured = (pthread_mutex_trylock(&m_MutexLock) == 0);
   /*
    * non-blocking lock of mutex
    * - if mutex is not already locked, you will obtain the lock & own the mutex, and return 0 immediately
@@ -60,9 +62,10 @@ bool SimpleMutexLock::TryLock()
 }
 
 // Unlock the MutexLock
-void SimpleMutexLock::Unlock()
+void
+SimpleMutexLock::Unlock()
 {
   pthread_mutex_unlock(&m_MutexLock);
 }
 
-} //end namespace itk
+} // end namespace itk

@@ -48,9 +48,8 @@ namespace itk
  * \sa ForwardFFTImageFilter
  * \ingroup ITKFFT
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT ComplexToComplexFFTImageFilter:
-  public ImageToImageFilter< TImage, TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ComplexToComplexFFTImageFilter : public ImageToImageFilter<TImage, TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToComplexFFTImageFilter);
@@ -62,9 +61,9 @@ public:
 
   /** Standard class type aliases. */
   using Self = ComplexToComplexFFTImageFilter;
-  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
@@ -72,17 +71,19 @@ public:
   itkTypeMacro(ComplexToComplexFFTImageFilter, ImageToImageFilter);
 
   /** Customized object creation methods that support configuration-based
-    * selection of FFT implementation.
-    *
-    * Default implementation is FFTW.
-    */
-  static Pointer New();
+   * selection of FFT implementation.
+   *
+   * Default implementation is FFTW.
+   */
+  static Pointer
+  New();
 
   /** Transform Direction */
-  enum TransformDirectionType {
+  enum TransformDirectionType
+  {
     FORWARD = 1,
     INVERSE = 2
-    };
+  };
 
   /** Image type type alias support */
   using ImageSizeType = typename ImageType::SizeType;
@@ -95,10 +96,12 @@ public:
   itkGetConstMacro(TransformDirection, TransformDirectionType);
 
 protected:
-  ComplexToComplexFFTImageFilter():
-    m_TransformDirection( FORWARD ) {}
+  ComplexToComplexFFTImageFilter()
+    : m_TransformDirection(FORWARD)
+  {}
 
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
 private:
   TransformDirectionType m_TransformDirection;
@@ -107,7 +110,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkComplexToComplexFFTImageFilter.hxx"
+#  include "itkComplexToComplexFFTImageFilter.hxx"
 #endif
 
 #endif

@@ -44,8 +44,8 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 
-template< typename TFixedPointSet,  typename TMovingImage >
-class ITK_TEMPLATE_EXPORT PointSetToImageMetric:public SingleValuedCostFunction
+template <typename TFixedPointSet, typename TMovingImage>
+class ITK_TEMPLATE_EXPORT PointSetToImageMetric : public SingleValuedCostFunction
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToImageMetric);
@@ -53,8 +53,8 @@ public:
   /** Standard class type aliases. */
   using Self = PointSetToImageMetric;
   using Superclass = SingleValuedCostFunction;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Type used for representing point components  */
   using CoordinateRepresentationType = Superclass::ParametersValueType;
@@ -79,9 +79,8 @@ public:
   using PointDataIterator = typename FixedPointSetType::PointDataContainer::ConstIterator;
 
   /**  Type of the Transform Base class */
-  using TransformType = Transform< CoordinateRepresentationType,
-                     Self::MovingImageDimension,
-                     Self::FixedPointSetDimension >;
+  using TransformType =
+    Transform<CoordinateRepresentationType, Self::MovingImageDimension, Self::FixedPointSetDimension>;
 
   using TransformPointer = typename TransformType::Pointer;
   using InputPointType = typename TransformType::InputPointType;
@@ -90,19 +89,14 @@ public:
   using TransformJacobianType = typename TransformType::JacobianType;
 
   /**  Type of the Interpolator Base class */
-  using InterpolatorType = InterpolateImageFunction<
-    MovingImageType,
-    CoordinateRepresentationType >;
+  using InterpolatorType = InterpolateImageFunction<MovingImageType, CoordinateRepresentationType>;
 
   /** Gaussian filter to compute the gradient of the Moving Image */
-  using RealType = typename NumericTraits< MovingImagePixelType >::RealType;
-  using GradientPixelType = CovariantVector< RealType,
-                           Self::MovingImageDimension >;
-  using GradientImageType = Image< GradientPixelType,
-                 Self::MovingImageDimension >;
-  using GradientImagePointer = SmartPointer< GradientImageType >;
-  using GradientImageFilterType = GradientRecursiveGaussianImageFilter< MovingImageType,
-                                                GradientImageType >;
+  using RealType = typename NumericTraits<MovingImagePixelType>::RealType;
+  using GradientPixelType = CovariantVector<RealType, Self::MovingImageDimension>;
+  using GradientImageType = Image<GradientPixelType, Self::MovingImageDimension>;
+  using GradientImagePointer = SmartPointer<GradientImageType>;
+  using GradientImageFilterType = GradientRecursiveGaussianImageFilter<MovingImageType, GradientImageType>;
 
   using GradientImageFilterPointer = typename GradientImageFilterType::Pointer;
 
@@ -144,7 +138,8 @@ public:
   itkGetConstReferenceMacro(NumberOfPixelsCounted, SizeValueType);
 
   /** Set the parameters defining the Transform. */
-  void SetTransformParameters(const ParametersType & parameters) const;
+  void
+  SetTransformParameters(const ParametersType & parameters) const;
 
   /** Set/Get the flag for computing the image gradient.
    *  When ON the metric derivative is computed using the Jacobian of the
@@ -157,17 +152,22 @@ public:
   itkGetConstReferenceMacro(ComputeGradient, bool);
 
   /** Return the number of parameters required by the Transform */
-  unsigned int GetNumberOfParameters() const override
-  { return m_Transform->GetNumberOfParameters(); }
+  unsigned int
+  GetNumberOfParameters() const override
+  {
+    return m_Transform->GetNumberOfParameters();
+  }
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly     */
-  virtual void Initialize();
+  virtual void
+  Initialize();
 
 protected:
   PointSetToImageMetric();
   ~PointSetToImageMetric() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   mutable SizeValueType m_NumberOfPixelsCounted;
 
@@ -186,7 +186,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPointSetToImageMetric.hxx"
+#  include "itkPointSetToImageMetric.hxx"
 #endif
 
 #endif

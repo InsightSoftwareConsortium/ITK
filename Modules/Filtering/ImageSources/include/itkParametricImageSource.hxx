@@ -23,15 +23,13 @@
 namespace itk
 {
 
-template< typename TOutputImage >
+template <typename TOutputImage>
 void
-ParametricImageSource< TOutputImage >
-::PrintSelf(std::ostream& os, Indent indent) const
+ParametricImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NumberOfParameters: " << this->GetNumberOfParameters()
-     << std::endl;
+  os << indent << "NumberOfParameters: " << this->GetNumberOfParameters() << std::endl;
 }
 } // end namespace itk
 

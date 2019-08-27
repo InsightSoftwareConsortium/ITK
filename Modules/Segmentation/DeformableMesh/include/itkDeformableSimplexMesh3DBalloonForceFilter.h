@@ -38,30 +38,30 @@
 namespace itk
 {
 /** \class DeformableSimplexMesh3DBalloonForceFilter
-  * \brief
-  * Additional to its superclass this model adds an balloon force component to the
-  * internal forces.
-  *
-  * The balloon force can be scaled, by setting the parameter kappa.
-  *
-  * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
-  *
-  * \ingroup ITKDeformableMesh
-  */
-template< typename TInputMesh, typename TOutputMesh >
-class ITK_TEMPLATE_EXPORT DeformableSimplexMesh3DBalloonForceFilter:public DeformableSimplexMesh3DFilter< TInputMesh,
-                                                                                                 TOutputMesh >
+ * \brief
+ * Additional to its superclass this model adds an balloon force component to the
+ * internal forces.
+ *
+ * The balloon force can be scaled, by setting the parameter kappa.
+ *
+ * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
+ *
+ * \ingroup ITKDeformableMesh
+ */
+template <typename TInputMesh, typename TOutputMesh>
+class ITK_TEMPLATE_EXPORT DeformableSimplexMesh3DBalloonForceFilter
+  : public DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
 {
 public:
   /** Standard "Self" type alias. */
   using Self = DeformableSimplexMesh3DBalloonForceFilter;
 
   /** Standard "Superclass" type alias. */
-  using Superclass = DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >;
+  using Superclass = DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>;
 
   /** Smart pointer type alias support */
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method of creation through the object factory. */
   itkNewMacro(Self);
@@ -83,7 +83,7 @@ public:
 
   using PixelType = typename InputMeshType::PixelType;
 
-  using GradientIntensityImageType = Image< PixelType, 3 >;
+  using GradientIntensityImageType = Image<PixelType, 3>;
   using GradientIntensityImagePointer = typename GradientIntensityImageType::Pointer;
 
   itkSetMacro(Kappa, double);
@@ -92,18 +92,20 @@ public:
 protected:
   DeformableSimplexMesh3DBalloonForceFilter();
   ~DeformableSimplexMesh3DBalloonForceFilter() override = default;
-  DeformableSimplexMesh3DBalloonForceFilter(const Self &)
+  DeformableSimplexMesh3DBalloonForceFilter(const Self &) {}
+
+  void
+  operator=(const Self &)
   {}
 
-  void operator=(const Self &)
-  {}
-
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * Compute the external force component
    */
-  void ComputeExternalForce(SimplexMeshGeometry *data,const GradientImageType *gradientImage) override;
+  void
+  ComputeExternalForce(SimplexMeshGeometry * data, const GradientImageType * gradientImage) override;
 
   /** Parameters definitions. */
 
@@ -115,7 +117,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDeformableSimplexMesh3DBalloonForceFilter.hxx"
+#  include "itkDeformableSimplexMesh3DBalloonForceFilter.hxx"
 #endif
 
 #endif // itkDeformableSimplexMesh3DBalloonForceFilter_h

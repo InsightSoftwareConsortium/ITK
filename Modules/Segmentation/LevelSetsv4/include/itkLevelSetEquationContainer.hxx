@@ -24,141 +24,128 @@
 
 namespace itk
 {
-template< typename TTermContainer >
+template <typename TTermContainer>
 void
-LevelSetEquationContainer< TTermContainer >
-::AddEquation( const LevelSetIdentifierType& iId,
-               TermContainerType * iEquation )
+LevelSetEquationContainer<TTermContainer>::AddEquation(const LevelSetIdentifierType & iId,
+                                                       TermContainerType *            iEquation)
 {
-  if ( iEquation )
+  if (iEquation)
+  {
+    if (this->m_LevelSetContainer.IsNotNull())
     {
-    if( this->m_LevelSetContainer.IsNotNull() )
-      {
-      iEquation->SetLevelSetContainer( this->m_LevelSetContainer );
-      }
+      iEquation->SetLevelSetContainer(this->m_LevelSetContainer);
+    }
     else
-      {
-      if( ! iEquation->GetLevelSetContainer() )
-        {
-        itkGenericExceptionMacro( << "m_LevelSetContainer and iEquation->GetLevelSetContainer() are nullptr" );
-        }
-      }
-    this->m_Container[iId] = iEquation;
-    if( iEquation->GetInput() )
-      {
-      this->m_Input = iEquation->GetModifiableInput();
-      }
-    this->Modified();
-    }
-  else
     {
-    itkGenericExceptionMacro( <<"Term supplied is null" );
+      if (!iEquation->GetLevelSetContainer())
+      {
+        itkGenericExceptionMacro(<< "m_LevelSetContainer and iEquation->GetLevelSetContainer() are nullptr");
+      }
     }
+    this->m_Container[iId] = iEquation;
+    if (iEquation->GetInput())
+    {
+      this->m_Input = iEquation->GetModifiableInput();
+    }
+    this->Modified();
+  }
+  else
+  {
+    itkGenericExceptionMacro(<< "Term supplied is null");
+  }
 }
 
-template< typename TTermContainer >
-typename LevelSetEquationContainer< TTermContainer >::TermContainerType*
-LevelSetEquationContainer< TTermContainer >
-::GetEquation( const LevelSetIdentifierType& iId ) const
+template <typename TTermContainer>
+typename LevelSetEquationContainer<TTermContainer>::TermContainerType *
+LevelSetEquationContainer<TTermContainer>::GetEquation(const LevelSetIdentifierType & iId) const
 {
-  if( this->m_Container.empty() )
-    {
-    itkGenericExceptionMacro( << "m_Container is empty" );
-    }
+  if (this->m_Container.empty())
+  {
+    itkGenericExceptionMacro(<< "m_Container is empty");
+  }
 
-  auto it = this->m_Container.find( iId );
-  if( it == this->m_Container.end() )
-    {
-    itkGenericExceptionMacro( <<"this equation " << iId << " does not exist" );
-    }
+  auto it = this->m_Container.find(iId);
+  if (it == this->m_Container.end())
+  {
+    itkGenericExceptionMacro(<< "this equation " << iId << " does not exist");
+  }
   return it->second;
 }
 
-template< typename TTermContainer >
-typename LevelSetEquationContainer< TTermContainer >::Iterator
-LevelSetEquationContainer< TTermContainer >::Begin()
+template <typename TTermContainer>
+typename LevelSetEquationContainer<TTermContainer>::Iterator
+LevelSetEquationContainer<TTermContainer>::Begin()
 {
-  return Iterator( m_Container.begin() );
+  return Iterator(m_Container.begin());
 }
 
-template< typename TTermContainer >
-typename LevelSetEquationContainer< TTermContainer >::Iterator
-LevelSetEquationContainer< TTermContainer >::End()
+template <typename TTermContainer>
+typename LevelSetEquationContainer<TTermContainer>::Iterator
+LevelSetEquationContainer<TTermContainer>::End()
 {
-  return Iterator( m_Container.end() );
+  return Iterator(m_Container.end());
 }
 
-template< typename TTermContainer >
-typename LevelSetEquationContainer< TTermContainer >::ConstIterator
-LevelSetEquationContainer< TTermContainer >::Begin() const
+template <typename TTermContainer>
+typename LevelSetEquationContainer<TTermContainer>::ConstIterator
+LevelSetEquationContainer<TTermContainer>::Begin() const
 {
-  return ConstIterator( m_Container.begin() );
+  return ConstIterator(m_Container.begin());
 }
 
-template< typename TTermContainer >
-typename LevelSetEquationContainer< TTermContainer >::ConstIterator
-LevelSetEquationContainer< TTermContainer >::End() const
+template <typename TTermContainer>
+typename LevelSetEquationContainer<TTermContainer>::ConstIterator
+LevelSetEquationContainer<TTermContainer>::End() const
 {
-  return ConstIterator( m_Container.end() );
+  return ConstIterator(m_Container.end());
 }
 
-template< typename TTermContainer >
+template <typename TTermContainer>
 void
-LevelSetEquationContainer< TTermContainer >
-::UpdateInternalEquationTerms()
+LevelSetEquationContainer<TTermContainer>::UpdateInternalEquationTerms()
 {
-  for( auto it = this->m_Container.begin();
-    it != this->m_Container.end();
-    ++it )
-    {
-    (it->second )->Update();
-    }
-}
-
-template< typename TTermContainer >
-void
-LevelSetEquationContainer< TTermContainer >
-::UpdatePixel( const LevelSetInputIndexType& iP,
-               const LevelSetOutputRealType & oldValue,
-               const LevelSetOutputRealType & newValue )
-{
-  for( MapContainerIterator it = this->m_Container.begin();
-    it != this->m_Container.end(); ++it )
-    {
-    (it->second )->UpdatePixel( iP, oldValue, newValue );
-    }
-}
-
-template< typename TTermContainer >
-void
-LevelSetEquationContainer< TTermContainer >
-::InitializeParameters()
-{
-  for( auto it = this->m_Container.begin();
-    it != this->m_Container.end();
-    ++it )
-    {
-    (it->second )->InitializeParameters();
-    }
+  for (auto it = this->m_Container.begin(); it != this->m_Container.end(); ++it)
+  {
+    (it->second)->Update();
   }
+}
 
-template< typename TTermContainer >
-typename LevelSetEquationContainer< TTermContainer >::LevelSetOutputRealType
-LevelSetEquationContainer< TTermContainer >
-::ComputeCFLContribution() const
+template <typename TTermContainer>
+void
+LevelSetEquationContainer<TTermContainer>::UpdatePixel(const LevelSetInputIndexType & iP,
+                                                       const LevelSetOutputRealType & oldValue,
+                                                       const LevelSetOutputRealType & newValue)
 {
-  LevelSetOutputRealType oValue = NumericTraits< LevelSetOutputRealType >::max();
+  for (MapContainerIterator it = this->m_Container.begin(); it != this->m_Container.end(); ++it)
+  {
+    (it->second)->UpdatePixel(iP, oldValue, newValue);
+  }
+}
 
-  for( auto it = this->m_Container.begin();
-       it != this->m_Container.end();
-       ++it )
-    {
-    oValue = std::min( oValue, ( it->second )->ComputeCFLContribution() );
-    }
+template <typename TTermContainer>
+void
+LevelSetEquationContainer<TTermContainer>::InitializeParameters()
+{
+  for (auto it = this->m_Container.begin(); it != this->m_Container.end(); ++it)
+  {
+    (it->second)->InitializeParameters();
+  }
+}
+
+template <typename TTermContainer>
+typename LevelSetEquationContainer<TTermContainer>::LevelSetOutputRealType
+LevelSetEquationContainer<TTermContainer>::ComputeCFLContribution() const
+{
+  LevelSetOutputRealType oValue = NumericTraits<LevelSetOutputRealType>::max();
+
+  for (auto it = this->m_Container.begin(); it != this->m_Container.end(); ++it)
+  {
+    oValue = std::min(oValue, (it->second)->ComputeCFLContribution());
+  }
 
   return oValue;
 }
 
-}
+} // namespace itk
 
 #endif // itkLevelSetEquationContainer_hxx

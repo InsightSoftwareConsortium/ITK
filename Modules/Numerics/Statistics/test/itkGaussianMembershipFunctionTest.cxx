@@ -19,14 +19,14 @@
 #include <iostream>
 #include "itkGaussianMembershipFunction.h"
 
-int itkGaussianMembershipFunctionTest(int, char* [] )
+int
+itkGaussianMembershipFunctionTest(int, char *[])
 {
   constexpr unsigned int MeasurementVectorSize = 1;
 
-  using MeasurementVectorType = itk::FixedArray<
-    float, MeasurementVectorSize >;
+  using MeasurementVectorType = itk::FixedArray<float, MeasurementVectorSize>;
 
-  using MembershipFunctionType = itk::Statistics::GaussianMembershipFunction< MeasurementVectorType >;
+  using MembershipFunctionType = itk::Statistics::GaussianMembershipFunction<MeasurementVectorType>;
   using MeasurementVectorSizeType = MembershipFunctionType::MeasurementVectorSizeType;
 
   MembershipFunctionType::Pointer function = MembershipFunctionType::New();
@@ -34,71 +34,71 @@ int itkGaussianMembershipFunctionTest(int, char* [] )
 
   function->Print(std::cout);
 
-  function->SetMeasurementVectorSize( MeasurementVectorSize ); // for code coverage
+  function->SetMeasurementVectorSize(MeasurementVectorSize); // for code coverage
 
-  if( function->GetMeasurementVectorSize() != MeasurementVectorSize )
-    {
+  if (function->GetMeasurementVectorSize() != MeasurementVectorSize)
+  {
     std::cerr << "GetMeasurementVectorSize() Failed !" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  //Test if an exception will be thrown if we try to resize the measurement vector
-  //size
+  // Test if an exception will be thrown if we try to resize the measurement vector
+  // size
   std::cout << "***" << std::endl;
   std::cout << "Exception TEST: " << std::endl;
   try
-    {
+  {
     MeasurementVectorSizeType measurementVector2 = MeasurementVectorSize + 1;
-    function->SetMeasurementVectorSize( measurementVector2 );
+    function->SetMeasurementVectorSize(measurementVector2);
     std::cerr << "Exception should have been thrown since we are trying to resize\
-                  non-resizeable measurement vector type " << std::endl;
-    //return EXIT_FAILURE;
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+                  non-resizeable measurement vector type "
+              << std::endl;
+    // return EXIT_FAILURE;
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Caughted expected exception: " << excp << std::endl;
-    }
+  }
 
 
-  //Test if the membership function value computed is correct
+  // Test if the membership function value computed is correct
   MembershipFunctionType::MeanVectorType mean;
-  ::itk::NumericTraits<MembershipFunctionType::MeanVectorType>::SetLength( mean,
-    MeasurementVectorSize);
+  ::itk::NumericTraits<MembershipFunctionType::MeanVectorType>::SetLength(mean, MeasurementVectorSize);
   mean[0] = 1.5;
-  function->SetMean( mean );
+  function->SetMean(mean);
 
   constexpr double tolerance = 0.001;
 
-  if( std::fabs( function->GetMean()[0] - mean[0]) > tolerance )
-    {
+  if (std::fabs(function->GetMean()[0] - mean[0]) > tolerance)
+  {
     std::cerr << "Error in GetMean() method" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   MembershipFunctionType::CovarianceMatrixType covariance;
-  covariance.SetSize(MeasurementVectorSize,MeasurementVectorSize);
+  covariance.SetSize(MeasurementVectorSize, MeasurementVectorSize);
   covariance.SetIdentity();
-  function->SetCovariance( covariance );
+  function->SetCovariance(covariance);
 
-  if( function->GetCovariance() != covariance )
-    {
-    std::cerr<< "Get/SetCovariance() failure \n" << std::endl;
+  if (function->GetCovariance() != covariance)
+  {
+    std::cerr << "Get/SetCovariance() failure \n" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   MeasurementVectorType measurement;
-  ::itk::NumericTraits<MeasurementVectorType>::SetLength( measurement, MeasurementVectorSize);
+  ::itk::NumericTraits<MeasurementVectorType>::SetLength(measurement, MeasurementVectorSize);
   measurement[0] = 1.5;
 
   double trueValue = 0.3989;
-  double distanceComputed = function->Evaluate( measurement );
+  double distanceComputed = function->Evaluate(measurement);
 
-  if( std::fabs( distanceComputed - trueValue) > tolerance )
-    {
-    std::cerr << "Distance computed not correct: " << "truevalue= " << trueValue
-              << ", ComputedValue=" << distanceComputed << std::endl;
+  if (std::fabs(distanceComputed - trueValue) > tolerance)
+  {
+    std::cerr << "Distance computed not correct: "
+              << "truevalue= " << trueValue << ", ComputedValue=" << distanceComputed << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

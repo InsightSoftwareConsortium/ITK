@@ -33,31 +33,30 @@ constexpr unsigned int Dimension = 3;
 using PixelType = float;
 
 // Declare the types of the images
-using InputImageType = itk::Image< PixelType, Dimension >;
-using OutputImageType = itk::Image< PixelType, Dimension >;
+using InputImageType = itk::Image<PixelType, Dimension>;
+using OutputImageType = itk::Image<PixelType, Dimension>;
 
 // Declare the type of the index to access images
-using IndexType = itk::Index< Dimension >;
+using IndexType = itk::Index<Dimension>;
 
 // Declare the type of the size
-using SizeType = itk::Size< Dimension >;
+using SizeType = itk::Size<Dimension>;
 
 // Declare the type of the Region
-using RegionType = itk::ImageRegion< Dimension >;
+using RegionType = itk::ImageRegion<Dimension>;
 
 // Declare the type of the Iterators
-using InImageIteratorType = itk::ImageRegionIteratorWithIndex< InputImageType >;
-using OutImageIteratorType = itk::ImageRegionIteratorWithIndex< OutputImageType >;
+using InImageIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
+using OutImageIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
 // Declare the type for the itk::NaryMaximumImageFilter filter
-using FilterType = itk::NaryMaximumImageFilter<
-                              InputImageType,
-                              OutputImageType >;
+using FilterType = itk::NaryMaximumImageFilter<InputImageType, OutputImageType>;
 
 // Function for image initialization
-void InitializeImage( InputImageType * image, double value )
+void
+InitializeImage(InputImageType * image, double value)
 {
-  InputImageType::Pointer inputImage( image );
+  InputImageType::Pointer inputImage(image);
 
   // Define their size, and start index
   SizeType size;
@@ -69,34 +68,35 @@ void InitializeImage( InputImageType * image, double value )
   start.Fill(0);
 
   RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
-  inputImage->SetLargestPossibleRegion( region );
-  inputImage->SetBufferedRegion( region );
-  inputImage->SetRequestedRegion( region );
+  inputImage->SetLargestPossibleRegion(region);
+  inputImage->SetBufferedRegion(region);
+  inputImage->SetRequestedRegion(region);
   inputImage->Allocate();
 
-  InImageIteratorType it( inputImage, inputImage->GetRequestedRegion() );
+  InImageIteratorType it(inputImage, inputImage->GetRequestedRegion());
 
   it.GoToBegin();
-  while( !it.IsAtEnd() )
-    {
-    it.Set( value );
+  while (!it.IsAtEnd())
+  {
+    it.Set(value);
     ++it;
-    }
+  }
 }
 
 // Function for image printing
-void PrintImage( InputImageType * image, const char *)
+void
+PrintImage(InputImageType * image, const char *)
 {
   // Create an iterator for going through the image
-  InImageIteratorType it( image, image->GetRequestedRegion() );
+  InImageIteratorType it(image, image->GetRequestedRegion());
 
   it.GoToBegin();
 
   // Print the content of the image
-  while( !it.IsAtEnd() )
+  while (!it.IsAtEnd())
   {
     std::cout << it.Get() << std::endl;
     ++it;
@@ -106,7 +106,8 @@ void PrintImage( InputImageType * image, const char *)
 } // end namespace NaryMaximumImageFilterTest
 
 
-int itkNaryMaximumImageFilterTest( int, char* [] )
+int
+itkNaryMaximumImageFilterTest(int, char *[])
 {
 
   // It is safe to open the namespace here because
@@ -119,23 +120,22 @@ int itkNaryMaximumImageFilterTest( int, char* [] )
 
   static constexpr int minValue = 12;
   static constexpr int maxValue = 13;
-  InitializeImage( inputImageA, minValue );
-  InitializeImage( inputImageB, maxValue );
+  InitializeImage(inputImageA, minValue);
+  InitializeImage(inputImageB, maxValue);
 
-  PrintImage( inputImageA, "Input image A" );
-  PrintImage( inputImageB, "Input image B" );
+  PrintImage(inputImageA, "Input image A");
+  PrintImage(inputImageB, "Input image B");
 
   // Create the  itk::NaryMaximumImageFilter filter
   FilterType::Pointer filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, NaryMaximumImageFilter,
-    NaryFunctorImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, NaryMaximumImageFilter, NaryFunctorImageFilter);
 
   // Set the input images
-  filter->SetInput( 0, inputImageA );
-  filter->SetInput( 1, inputImageB );
+  filter->SetInput(0, inputImageA);
+  filter->SetInput(1, inputImageB);
 
-  filter->SetFunctor( filter->GetFunctor() );
+  filter->SetFunctor(filter->GetFunctor());
 
   // Execute the filter
   filter->Update();
@@ -143,39 +143,39 @@ int itkNaryMaximumImageFilterTest( int, char* [] )
   // Get the filter output
   OutputImageType::Pointer outputImage = filter->GetOutput();
 
-  PrintImage( outputImage, "Resulting image 1" );
+  PrintImage(outputImage, "Resulting image 1");
 
-  OutImageIteratorType it( outputImage, outputImage->GetRequestedRegion() );
+  OutImageIteratorType it(outputImage, outputImage->GetRequestedRegion());
   it.GoToBegin();
-  while( !it.IsAtEnd() )
+  while (!it.IsAtEnd())
   {
-    if( itk::Math::NotExactlyEquals( it.Get(), maxValue ) )
-      {
+    if (itk::Math::NotExactlyEquals(it.Get(), maxValue))
+    {
       std::cerr << "Test Failed!" << std::endl;
       return EXIT_FAILURE;
-      }
+    }
     ++it;
   }
 
   // Now try it the other way
-  InitializeImage( inputImageA, minValue );
-  InitializeImage( inputImageB, maxValue );
+  InitializeImage(inputImageA, minValue);
+  InitializeImage(inputImageB, maxValue);
 
-  filter->SetInput( 1, inputImageA );
-  filter->SetInput( 0, inputImageB );
+  filter->SetInput(1, inputImageA);
+  filter->SetInput(0, inputImageB);
 
   filter->InPlaceOff(); // let's make sure this works too, while we're at it...
 
   // Execute the filter
   filter->Update();
 
-  PrintImage( outputImage, "Resulting image 2" );
+  PrintImage(outputImage, "Resulting image 2");
 
-  OutImageIteratorType it2( outputImage, outputImage->GetRequestedRegion() );
+  OutImageIteratorType it2(outputImage, outputImage->GetRequestedRegion());
   it2.GoToBegin();
-  while( !it2.IsAtEnd() )
+  while (!it2.IsAtEnd())
   {
-    if( itk::Math::NotExactlyEquals( it2.Get(), maxValue ) )
+    if (itk::Math::NotExactlyEquals(it2.Get(), maxValue))
     {
       std::cerr << "Test Failed!" << std::endl;
       return EXIT_FAILURE;

@@ -23,95 +23,95 @@
 /** There are some weird circular #include dependencies between TreeChangeEvent
  * and TreeIteratorBase that cause the HeaderTest to fail without these forward
  * declarations. */
-template< typename TTreeType >
+template <typename TTreeType>
 class ITK_TEMPLATE_EXPORT TreeNodeChangeEvent;
 
-template< typename TTreeType >
+template <typename TTreeType>
 class ITK_TEMPLATE_EXPORT TreeAddEvent;
 
-template< typename TTreeType >
+template <typename TTreeType>
 class ITK_TEMPLATE_EXPORT TreePruneEvent;
 
-template< typename TTreeType >
+template <typename TTreeType>
 class ITK_TEMPLATE_EXPORT TreeRemoveEvent;
 
 namespace itk
 {
 /** Constructor */
-template< typename TTreeType >
-TreeIteratorBase< TTreeType >::TreeIteratorBase(TTreeType *tree, const TreeNodeType *start)
+template <typename TTreeType>
+TreeIteratorBase<TTreeType>::TreeIteratorBase(TTreeType * tree, const TreeNodeType * start)
 {
-  if ( start )
-    {
+  if (start)
+  {
     m_Root = start;
-    }
+  }
   else
-    {
-    m_Root = dynamic_cast< const TreeNodeType * >( tree->GetRoot() );
-    }
+  {
+    m_Root = dynamic_cast<const TreeNodeType *>(tree->GetRoot());
+  }
 
-  m_Position = const_cast< TreeNodeType * >( m_Root );
+  m_Position = const_cast<TreeNodeType *>(m_Root);
   m_Tree = tree;
   m_Begin = m_Position;
   m_End = nullptr;
 }
 
 /** Constructor */
-template< typename TTreeType >
-TreeIteratorBase< TTreeType >::TreeIteratorBase(const TTreeType *tree, const TreeNodeType *start)
+template <typename TTreeType>
+TreeIteratorBase<TTreeType>::TreeIteratorBase(const TTreeType * tree, const TreeNodeType * start)
 {
-  if ( start )
-    {
+  if (start)
+  {
     m_Root = start;
-    }
+  }
   else
-    {
-    m_Root = const_cast< TreeNodeType * >( dynamic_cast< const TreeNodeType * >( tree->GetRoot() ) );
-    }
-  m_Position = const_cast< TreeNodeType * >( m_Root );
-  m_Tree = const_cast< TTreeType * >( tree );
+  {
+    m_Root = const_cast<TreeNodeType *>(dynamic_cast<const TreeNodeType *>(tree->GetRoot()));
+  }
+  m_Position = const_cast<TreeNodeType *>(m_Root);
+  m_Tree = const_cast<TTreeType *>(tree);
   m_Begin = m_Position;
   m_End = nullptr;
 }
 
 /** Return the current value of the node */
-template< typename TTreeType >
-const typename TreeIteratorBase< TTreeType >::ValueType &
-TreeIteratorBase< TTreeType >::Get() const
+template <typename TTreeType>
+const typename TreeIteratorBase<TTreeType>::ValueType &
+TreeIteratorBase<TTreeType>::Get() const
 {
   return m_Position->Get();
 }
 
 /** Set the current value of the node */
-template< typename TTreeType >
+template <typename TTreeType>
 void
-TreeIteratorBase< TTreeType >::Set(ValueType element)
+TreeIteratorBase<TTreeType>::Set(ValueType element)
 {
-//  itkAssertInDebugAndIgnoreInReleaseMacro(m_Position);
+  //  itkAssertInDebugAndIgnoreInReleaseMacro(m_Position);
   m_Position->Set(element);
   m_Tree->Modified();
-  m_Tree->InvokeEvent( TreeNodeChangeEvent< TTreeType >(*this) );
+  m_Tree->InvokeEvent(TreeNodeChangeEvent<TTreeType>(*this));
 }
 
 /** Add a value to the node. This creates a new child node */
-template< typename TTreeType >
+template <typename TTreeType>
 bool
-TreeIteratorBase< TTreeType >::Add(ValueType element)
+TreeIteratorBase<TTreeType>::Add(ValueType element)
 {
-  if ( m_Position == nullptr && m_Root == nullptr )
-    {
-    bool returnValue = const_cast< TTreeType * >( m_Tree )->SetRoot(element);
+  if (m_Position == nullptr && m_Root == nullptr)
+  {
+    bool returnValue = const_cast<TTreeType *>(m_Tree)->SetRoot(element);
     // signal AddEvent for self
-    m_Root = dynamic_cast< const TreeNodeType * >( const_cast< TTreeType * >( m_Tree )->GetRoot() );
-    m_Position =  const_cast< TreeNodeType * >( m_Root );
+    m_Root = dynamic_cast<const TreeNodeType *>(const_cast<TTreeType *>(m_Tree)->GetRoot());
+    m_Position = const_cast<TreeNodeType *>(m_Root);
     m_Tree->Modified();
-    m_Tree->InvokeEvent( TreeAddEvent< TTreeType >(*this) );
+    m_Tree->InvokeEvent(TreeAddEvent<TTreeType>(*this));
     return returnValue;
-    }
-  else if ( m_Position == nullptr )
-    {
+  }
+  else if (m_Position == nullptr)
+  {
     return false;
-    }
+  }
 
   typename TreeNodeType::Pointer node = TreeNodeType::New();
   node->Set(element);
@@ -119,98 +119,98 @@ TreeIteratorBase< TTreeType >::Add(ValueType element)
   m_Tree->Modified();
 
   // signal AddEvent for new child
-  TreeIteratorBase< TTreeType > *childIterator = Clone();
-  childIterator->m_Position = dynamic_cast< TreeNodeType * >( m_Position->GetChild( m_Position->ChildPosition(node) ) );
+  TreeIteratorBase<TTreeType> * childIterator = Clone();
+  childIterator->m_Position = dynamic_cast<TreeNodeType *>(m_Position->GetChild(m_Position->ChildPosition(node)));
   // signal "child has been added deleted"
-  m_Tree->InvokeEvent( TreeAddEvent< TTreeType >(*childIterator) );
+  m_Tree->InvokeEvent(TreeAddEvent<TTreeType>(*childIterator));
   delete childIterator;
 
   return true;
 }
 
 /** Add a new element at a given position */
-template< typename TTreeType >
+template <typename TTreeType>
 bool
-TreeIteratorBase< TTreeType >::Add(int itkNotUsed(childPosition), ValueType element)
+TreeIteratorBase<TTreeType>::Add(int itkNotUsed(childPosition), ValueType element)
 {
-  if ( m_Position )
-    {
+  if (m_Position)
+  {
     typename TreeNodeType::Pointer node = TreeNodeType::New();
     node->Set(element);
     m_Position->AddChild(node);
     m_Tree->Modified();
 
     // signal AddEvent
-    TreeIteratorBase< TTreeType > *childIterator = Clone();
-    childIterator->m_Position = dynamic_cast< TreeNodeType * >( m_Position->GetChild( m_Position->ChildPosition(node) ) );
+    TreeIteratorBase<TTreeType> * childIterator = Clone();
+    childIterator->m_Position = dynamic_cast<TreeNodeType *>(m_Position->GetChild(m_Position->ChildPosition(node)));
     // signal "child has been added deleted"
-    m_Tree->InvokeEvent( TreeAddEvent< TTreeType >(*childIterator) );
+    m_Tree->InvokeEvent(TreeAddEvent<TTreeType>(*childIterator));
     delete childIterator;
 
     return true;
-    }
+  }
   return false;
 }
 
 /** Return true if the current pointed node is a leaf */
-template< typename TTreeType >
+template <typename TTreeType>
 bool
-TreeIteratorBase< TTreeType >::IsLeaf() const
+TreeIteratorBase<TTreeType>::IsLeaf() const
 {
-  return !( m_Position->HasChildren() );
+  return !(m_Position->HasChildren());
 }
 
 /** Return true if the current pointed node is a root */
-template< typename TTreeType >
+template <typename TTreeType>
 bool
-TreeIteratorBase< TTreeType >::IsRoot() const
+TreeIteratorBase<TTreeType>::IsRoot() const
 {
-  if ( m_Root == nullptr )
-    {
+  if (m_Root == nullptr)
+  {
     return false;
-    }
+  }
 
-  if ( m_Position == m_Root )
-    {
+  if (m_Position == m_Root)
+  {
     return true;
-    }
+  }
   return false;
 }
 
 /** Add a subtree  */
-template< typename TTreeType >
+template <typename TTreeType>
 bool
-TreeIteratorBase< TTreeType >::Add(TTreeType & subTree)
+TreeIteratorBase<TTreeType>::Add(TTreeType & subTree)
 {
-  if ( subTree.Count() == 0 )
-    {
+  if (subTree.Count() == 0)
+  {
     return false;
-    }
+  }
 
-  if ( !subTree.GetRoot() )
-    {
+  if (!subTree.GetRoot())
+  {
     return false;
-    }
+  }
 
-  if ( m_Root == nullptr )
-    {
-    m_Root = static_cast< const TreeNodeType * >( subTree.GetRoot() );
-    }
+  if (m_Root == nullptr)
+  {
+    m_Root = static_cast<const TreeNodeType *>(subTree.GetRoot());
+  }
   else
+  {
+    if (m_Position == nullptr)
     {
-    if ( m_Position == nullptr )
-      {
       return false;
-      }
-    m_Position->AddChild( const_cast< TreeNodeType * >( static_cast< const TreeNodeType * >( subTree.GetRoot() ) ) );
     }
+    m_Position->AddChild(const_cast<TreeNodeType *>(static_cast<const TreeNodeType *>(subTree.GetRoot())));
+  }
   return true;
 }
 
 /** Return the subtree */
-template< typename TTreeType >
+template <typename TTreeType>
 TTreeType *
-TreeIteratorBase< TTreeType >::GetSubTree() const
+TreeIteratorBase<TTreeType>::GetSubTree() const
 {
   typename TTreeType::Pointer tree = TTreeType::New();
   tree->SetRoot(m_Position);
@@ -219,122 +219,122 @@ TreeIteratorBase< TTreeType >::GetSubTree() const
 }
 
 /** Return true of the current node has a child */
-template< typename TTreeType >
+template <typename TTreeType>
 bool
-TreeIteratorBase< TTreeType >::HasChild(int number) const
+TreeIteratorBase<TTreeType>::HasChild(int number) const
 {
-  if ( m_Position == nullptr )
-    {
+  if (m_Position == nullptr)
+  {
     return false;
-    }
-  if ( m_Position->GetChild(number) != nullptr )
-    {
+  }
+  if (m_Position->GetChild(number) != nullptr)
+  {
     return true;
-    }
+  }
   return false;
 }
 
 /** Return the current position of the child */
-template< typename TTreeType >
+template <typename TTreeType>
 int
-TreeIteratorBase< TTreeType >::ChildPosition(ValueType element) const
+TreeIteratorBase<TTreeType>::ChildPosition(ValueType element) const
 {
-  if ( !m_Position )
-    {
+  if (!m_Position)
+  {
     return -1;
-    }
+  }
   return m_Position->ChildPosition(element);
 }
 
 /** Remove a child */
-template< typename TTreeType >
+template <typename TTreeType>
 bool
-TreeIteratorBase< TTreeType >::RemoveChild(int number)
+TreeIteratorBase<TTreeType>::RemoveChild(int number)
 {
-  if ( !HasChild(number) )
-    {
+  if (!HasChild(number))
+  {
     return false;
-    }
-  auto * child = dynamic_cast< TreeNodeType * >( m_Position->GetChild(number) );
+  }
+  auto * child = dynamic_cast<TreeNodeType *>(m_Position->GetChild(number));
 
-  if ( child != nullptr )
-    {
+  if (child != nullptr)
+  {
     // signal PruneEvent (node plus all children are removed)
-    TreeIteratorBase< TTreeType > *childIterator = Clone();
+    TreeIteratorBase<TTreeType> * childIterator = Clone();
     childIterator->m_Position = child;
     // signal "child has been added deleted"
-    m_Tree->InvokeEvent( TreePruneEvent< TTreeType >(*childIterator) );
+    m_Tree->InvokeEvent(TreePruneEvent<TTreeType>(*childIterator));
     delete childIterator;
 
     // and really remove child (and subitems)
-    const_cast< TreeNodeType * >( m_Position )->Remove(child);
+    const_cast<TreeNodeType *>(m_Position)->Remove(child);
     m_Tree->Modified();
     return true;
-    }
+  }
   return false;
 }
 
 /** Count the number of children */
-template< typename TTreeType >
+template <typename TTreeType>
 int
-TreeIteratorBase< TTreeType >::CountChildren() const
+TreeIteratorBase<TTreeType>::CountChildren() const
 {
-  if ( m_Position == nullptr )
-    {
+  if (m_Position == nullptr)
+  {
     return -1;
-    }
+  }
   return m_Position->CountChildren();
 }
 
 /** Return true of the pointed node has a parent */
-template< typename TTreeType >
+template <typename TTreeType>
 bool
-TreeIteratorBase< TTreeType >::HasParent() const
+TreeIteratorBase<TTreeType>::HasParent() const
 {
-  return ( m_Position != nullptr && m_Position->GetParent() != nullptr );
+  return (m_Position != nullptr && m_Position->GetParent() != nullptr);
 }
 
 /** Disconnect the tree */
-template< typename TTreeType >
+template <typename TTreeType>
 bool
-TreeIteratorBase< TTreeType >::Disconnect()
+TreeIteratorBase<TTreeType>::Disconnect()
 {
-  if ( m_Position == nullptr )
-    {
+  if (m_Position == nullptr)
+  {
     return false;
-    }
+  }
 
-  if ( m_Position->HasParent() == false )
-    {
+  if (m_Position->HasParent() == false)
+  {
     return false;
-    }
+  }
 
-  //keep node alive just a bit longer
+  // keep node alive just a bit longer
   typename TreeNodeType::Pointer position = m_Position;
 
-  auto * parent = dynamic_cast< TreeNodeType * >( m_Position->GetParent() );
-  parent->Remove( const_cast< TreeNodeType * >( m_Position ) );
+  auto * parent = dynamic_cast<TreeNodeType *>(m_Position->GetParent());
+  parent->Remove(const_cast<TreeNodeType *>(m_Position));
   m_Tree->Modified();
 
-  while ( m_Position->CountChildren() > 0 )
-    {
+  while (m_Position->CountChildren() > 0)
+  {
     // always add first child in list, because AddChild() removes the added node
     // from
     // its former parent (== m_position)
-    auto * child = dynamic_cast< TreeNodeType * >( m_Position->GetChild(0) );
+    auto * child = dynamic_cast<TreeNodeType *>(m_Position->GetChild(0));
     parent->AddChild(child);
-    }
+  }
 
-  m_Tree->InvokeEvent( TreeRemoveEvent< TTreeType >(*this) );
+  m_Tree->InvokeEvent(TreeRemoveEvent<TTreeType>(*this));
 
   m_Position = nullptr;
   return true;
 }
 
 /** Return the children list */
-template< typename TTreeType >
-TreeIteratorBase< TTreeType > *
-TreeIteratorBase< TTreeType >::Children()
+template <typename TTreeType>
+TreeIteratorBase<TTreeType> *
+TreeIteratorBase<TTreeType>::Children()
 {
   itkGenericOutputMacro("Not implemented yet");
   ::itk::ExceptionObject e_(__FILE__, __LINE__, "Not implemented yet", ITK_LOCATION);
@@ -343,21 +343,22 @@ TreeIteratorBase< TTreeType >::Children()
 }
 
 /** Return the first parent found */
-template< typename TTreeType >
-const typename TreeIteratorBase< TTreeType >::TreeNodeType *
-TreeIteratorBase< TTreeType >::GetParent() const
+template <typename TTreeType>
+const typename TreeIteratorBase<TTreeType>::TreeNodeType *
+TreeIteratorBase<TTreeType>::GetParent() const
 {
-  if ( m_Position == nullptr )
-    {
+  if (m_Position == nullptr)
+  {
     return nullptr;
-    }
+  }
 
   return m_Position->GetParent();
 }
 
 /** Return the list of parents */
-template< typename TTreeType >
-TreeIteratorBase< TTreeType > *TreeIteratorBase< TTreeType >::Parents()
+template <typename TTreeType>
+TreeIteratorBase<TTreeType> *
+TreeIteratorBase<TTreeType>::Parents()
 {
   itkGenericOutputMacro("Not implemented yet");
   ::itk::ExceptionObject e_(__FILE__, __LINE__, "Not implemented yet", ITK_LOCATION);
@@ -366,150 +367,154 @@ TreeIteratorBase< TTreeType > *TreeIteratorBase< TTreeType >::Parents()
 }
 
 /** Go to a child */
-template< typename TTreeType >
-bool TreeIteratorBase< TTreeType >::GoToChild(ChildIdentifier number)
+template <typename TTreeType>
+bool
+TreeIteratorBase<TTreeType>::GoToChild(ChildIdentifier number)
 {
-  if ( m_Position == nullptr )
-    {
+  if (m_Position == nullptr)
+  {
     return false;
-    }
+  }
 
-  auto * next = dynamic_cast< TreeNodeType * >( m_Position->GetChild(number) );
+  auto * next = dynamic_cast<TreeNodeType *>(m_Position->GetChild(number));
 
-  if ( next == nullptr )
-    {
+  if (next == nullptr)
+  {
     return false;
-    }
+  }
   m_Position = next;
   return true;
 }
 
 /** Go to a parent */
-template< typename TTreeType >
-bool TreeIteratorBase< TTreeType >::GoToParent()
+template <typename TTreeType>
+bool
+TreeIteratorBase<TTreeType>::GoToParent()
 {
-  if ( m_Position == nullptr )
-    {
+  if (m_Position == nullptr)
+  {
     return false;
-    }
+  }
 
-  if ( !m_Position->HasParent() )
-    {
+  if (!m_Position->HasParent())
+  {
     return false;
-    }
+  }
 
-  m_Position = dynamic_cast< TreeNodeType * >( m_Position->GetParent() );
+  m_Position = dynamic_cast<TreeNodeType *>(m_Position->GetParent());
   return true;
 }
 
 /** Get a child given a number */
-template< typename TTreeType >
-TreeIteratorBase< TTreeType > *TreeIteratorBase< TTreeType >::GetChild(int number) const
+template <typename TTreeType>
+TreeIteratorBase<TTreeType> *
+TreeIteratorBase<TTreeType>::GetChild(int number) const
 {
-  if ( !m_Position )
-    {
+  if (!m_Position)
+  {
     return nullptr;
-    }
+  }
 
-  auto * child = dynamic_cast< TreeNodeType * >( m_Position->GetChild(number) );
+  auto * child = dynamic_cast<TreeNodeType *>(m_Position->GetChild(number));
 
-  if ( !child )
-    {
+  if (!child)
+  {
     return nullptr;
-    }
-//    return new WalkTreeIterator<ValueType,P>( child, m_Root, m_Tree, getType()
-// );
+  }
+  //    return new WalkTreeIterator<ValueType,P>( child, m_Root, m_Tree, getType()
+  // );
   return nullptr;
 }
 
 /** Count the number of nodes from the beginning */
-template< typename TTreeType >
-int TreeIteratorBase< TTreeType >::Count()
+template <typename TTreeType>
+int
+TreeIteratorBase<TTreeType>::Count()
 {
   int size = 0;
 
   this->GoToBegin();
-  if ( !m_Position->HasChildren() )
-    {
+  if (!m_Position->HasChildren())
+  {
     return 0;
-    }
-  while ( this->Next() )
-    {
+  }
+  while (this->Next())
+  {
     size++;
-    }
+  }
   return size;
 }
 
 /** Get the node pointed by the iterator */
-template< typename TTreeType >
-typename TreeIteratorBase< TTreeType >::TreeNodeType *
-TreeIteratorBase< TTreeType >::GetNode()
+template <typename TTreeType>
+typename TreeIteratorBase<TTreeType>::TreeNodeType *
+TreeIteratorBase<TTreeType>::GetNode()
 {
-  return const_cast< TreeNodeType * >( m_Position );
+  return const_cast<TreeNodeType *>(m_Position);
 }
 
 /** Get the node pointed by the iterator */
-template< typename TTreeType >
-const typename TreeIteratorBase< TTreeType >::TreeNodeType *
-TreeIteratorBase< TTreeType >::GetNode() const
+template <typename TTreeType>
+const typename TreeIteratorBase<TTreeType>::TreeNodeType *
+TreeIteratorBase<TTreeType>::GetNode() const
 {
   return m_Position;
 }
 
 /** Get the root */
-template< typename TTreeType >
-typename TreeIteratorBase< TTreeType >::TreeNodeType *
-TreeIteratorBase< TTreeType >::GetRoot()
+template <typename TTreeType>
+typename TreeIteratorBase<TTreeType>::TreeNodeType *
+TreeIteratorBase<TTreeType>::GetRoot()
 {
-  return const_cast< TreeNodeType * >( m_Root );
+  return const_cast<TreeNodeType *>(m_Root);
 }
 
 /** Get the root (const) */
-template< typename TTreeType >
-const typename TreeIteratorBase< TTreeType >::TreeNodeType *
-TreeIteratorBase< TTreeType >::GetRoot() const
+template <typename TTreeType>
+const typename TreeIteratorBase<TTreeType>::TreeNodeType *
+TreeIteratorBase<TTreeType>::GetRoot() const
 {
   return m_Root;
 }
 
 /** Remove a specific node (and its child nodes!) */
-template< typename TTreeType >
+template <typename TTreeType>
 bool
-TreeIteratorBase< TTreeType >::Remove()
+TreeIteratorBase<TTreeType>::Remove()
 {
-  if ( m_Position == nullptr )
-    {
+  if (m_Position == nullptr)
+  {
     return false;
-    }
+  }
 
-  //keep node alive just a bit longer (for the notification)
+  // keep node alive just a bit longer (for the notification)
   typename TreeNodeType::Pointer position = m_Position;
 
-  if ( m_Position->HasParent() )
-    {
-    TreeNodeType *parent = m_Position->GetParent();
+  if (m_Position->HasParent())
+  {
+    TreeNodeType * parent = m_Position->GetParent();
     // removes this node (and implicitly all children, too)
     parent->Remove(m_Position);
-    }
-  else if ( m_Root == m_Position )
-    {
+  }
+  else if (m_Root == m_Position)
+  {
     m_Root = nullptr;
-    m_Tree->SetRoot( (TreeNodeType *)nullptr );
+    m_Tree->SetRoot((TreeNodeType *)nullptr);
     // this won't do anything if root is already != nullptr  ==> root cannot be
     // removed
-    }
+  }
 
   m_Position->SetParent(nullptr); // we don't have a parent anymore
-  m_Tree->InvokeEvent( TreePruneEvent< TTreeType >(*this) );
-  while ( m_Position->CountChildren() > 0 )  // remove all children
-    {
-    //always remove first child (id 0)
-    auto * child = dynamic_cast< TreeNodeType * >( m_Position->GetChild(0) );
+  m_Tree->InvokeEvent(TreePruneEvent<TTreeType>(*this));
+  while (m_Position->CountChildren() > 0) // remove all children
+  {
+    // always remove first child (id 0)
+    auto * child = dynamic_cast<TreeNodeType *>(m_Position->GetChild(0));
     m_Position->Remove(child);
-    }
+  }
 
   position = nullptr;
-  m_Position = nullptr;  // Smart pointer, deletes *m_Position
+  m_Position = nullptr; // Smart pointer, deletes *m_Position
 
   m_Tree->Modified();
 
@@ -517,9 +522,9 @@ TreeIteratorBase< TTreeType >::Remove()
 }
 
 /** Return the tree */
-template< typename TTreeType >
+template <typename TTreeType>
 TTreeType *
-TreeIteratorBase< TTreeType >::GetTree() const
+TreeIteratorBase<TTreeType>::GetTree() const
 {
   return m_Tree;
 }

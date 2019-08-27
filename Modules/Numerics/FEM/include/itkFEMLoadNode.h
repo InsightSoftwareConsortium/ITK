@@ -56,42 +56,47 @@ public:
   using Float = Element::Node::Float;
 
   /**
-    * Set the force acting at the node
-    */
-  void SetForce(const vnl_vector<Float> force);
+   * Set the force acting at the node
+   */
+  void
+  SetForce(const vnl_vector<Float> force);
 
   /**
-  * Get the force acting at the node
-  */
-  vnl_vector<Float> GetForce() const;
+   * Get the force acting at the node
+   */
+  vnl_vector<Float>
+  GetForce() const;
 
   /**
    * Set the node number on which the load is being applied.
    */
-  void SetNode(int num);
+  void
+  SetNode(int num);
 
   /**
    * Get the node number on which the load is being applied.
    */
-  int GetNode() const;
+  int
+  GetNode() const;
 
-  LoadNode():
-    m_Point(0)
-  {
-  }                             // default constructor
-  LoadNode(Element::ConstPointer element_, unsigned int pt_, vnl_vector<Float> F_) :
-    m_Point(pt_), m_Force(F_)
+  LoadNode()
+    : m_Point(0)
+  {} // default constructor
+  LoadNode(Element::ConstPointer element_, unsigned int pt_, vnl_vector<Float> F_)
+    : m_Point(pt_)
+    , m_Force(F_)
   {
     this->m_Element = element_;
   }
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
-  ::itk::LightObject::Pointer CreateAnother() const override;
+  ::itk::LightObject::Pointer
+  CreateAnother() const override;
 
 protected:
-
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * Point within the element on which the force acts.

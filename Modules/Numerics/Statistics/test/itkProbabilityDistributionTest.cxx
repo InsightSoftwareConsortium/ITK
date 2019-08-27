@@ -18,8 +18,10 @@
 
 #include "itkProbabilityDistribution.h"
 
-namespace itk {
-namespace Statistics {
+namespace itk
+{
+namespace Statistics
+{
 
 class ProbabilityDistributionTestingHelper : public ProbabilityDistribution
 {
@@ -33,29 +35,75 @@ public:
 
   itkNewMacro(Self);
 
-  SizeValueType GetNumberOfParameters() const override { return 42; }
-  double EvaluatePDF(double ) const override { return 42.0; }
-  double EvaluatePDF(double , const ParametersType&) const override { return 42.0; }
-  double EvaluateCDF(double ) const override { return 42.0; }
-  double EvaluateCDF(double , const ParametersType&) const override { return 42.0; }
-  double EvaluateInverseCDF(double ) const override  { return 42.0; }
-  double EvaluateInverseCDF(double , const ParametersType&) const override  { return 42.0; }
-  bool HasMean() const override { return true; }
-  bool HasVariance() const override { return true; }
-  double GetMean() const override { return 42.0; }
-  double GetVariance() const override { return 42.0; }
+  SizeValueType
+  GetNumberOfParameters() const override
+  {
+    return 42;
+  }
+  double
+  EvaluatePDF(double) const override
+  {
+    return 42.0;
+  }
+  double
+  EvaluatePDF(double, const ParametersType &) const override
+  {
+    return 42.0;
+  }
+  double
+  EvaluateCDF(double) const override
+  {
+    return 42.0;
+  }
+  double
+  EvaluateCDF(double, const ParametersType &) const override
+  {
+    return 42.0;
+  }
+  double
+  EvaluateInverseCDF(double) const override
+  {
+    return 42.0;
+  }
+  double
+  EvaluateInverseCDF(double, const ParametersType &) const override
+  {
+    return 42.0;
+  }
+  bool
+  HasMean() const override
+  {
+    return true;
+  }
+  bool
+  HasVariance() const override
+  {
+    return true;
+  }
+  double
+  GetMean() const override
+  {
+    return 42.0;
+  }
+  double
+  GetVariance() const override
+  {
+    return 42.0;
+  }
 
-  void RunTests()
-    {
+  void
+  RunTests()
+  {
     std::cout << "Superclass name = " << this->Superclass::GetNameOfClass() << std::endl;
     std::cout << "Parameters = " << this->Superclass::GetParameters() << std::endl;
-    }
+  }
 };
 
-}
-}
+} // namespace Statistics
+} // namespace itk
 
-int itkProbabilityDistributionTest(int, char* [] )
+int
+itkProbabilityDistributionTest(int, char *[])
 {
   std::cout << "itkProbabilityDistributionTest Test \n \n";
 
@@ -68,7 +116,7 @@ int itkProbabilityDistributionTest(int, char* [] )
   std::cout << "HasVariance()    = " << distributionFunction->HasVariance() << std::endl;
   std::cout << "Number of parameters = " << distributionFunction->GetNumberOfParameters() << std::endl;
 
-  distributionFunction->Print( std::cout );
+  distributionFunction->Print(std::cout);
 
   distributionFunction->RunTests();
 

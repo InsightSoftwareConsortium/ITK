@@ -43,19 +43,24 @@ public:
   /** Standard class type aliases. */
   using Self = VideoIOFactory;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** \class IOModeType
    * \ingroup ITKVideoIO
    * Mode in which the VideoIO is intended to be used */
-  enum class IOModeType : uint8_t { ReadFileMode, ReadCameraMode, WriteMode };
+  enum class IOModeType : uint8_t
+  {
+    ReadFileMode,
+    ReadCameraMode,
+    WriteMode
+  };
 #if !defined(ITK_LEGACY_REMOVE)
-        //We need to expose the enum values at the class level
-        // for backwards compatibility
-        static constexpr IOModeType ReadFileMode = IOModeType::ReadFileMode;
-        static constexpr IOModeType ReadCameraMode = IOModeType::ReadCameraMode;
-        static constexpr IOModeType WriteMode = IOModeType::WriteMode;
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr IOModeType ReadFileMode = IOModeType::ReadFileMode;
+  static constexpr IOModeType ReadCameraMode = IOModeType::ReadCameraMode;
+  static constexpr IOModeType WriteMode = IOModeType::WriteMode;
 #endif
   /** Runtime type information (and related methods). **/
   itkTypeMacro(VideoIOFactory, Object);
@@ -65,7 +70,8 @@ public:
    *        a string containing an integer to use for a cameraID if reading
    *        from a camera
    */
-  static VideoIOBase::Pointer CreateVideoIO( IOModeType mode, const char* arg );
+  static VideoIOBase::Pointer
+  CreateVideoIO(IOModeType mode, const char * arg);
 
 protected:
   VideoIOFactory();
@@ -73,7 +79,8 @@ protected:
 };
 
 // Define how to print enumeration
-extern ITKVideoIO_EXPORT std::ostream& operator<<(std::ostream& out, const VideoIOFactory::IOModeType value);
+extern ITKVideoIO_EXPORT std::ostream &
+                         operator<<(std::ostream & out, const VideoIOFactory::IOModeType value);
 
 } // end namespace itk
 

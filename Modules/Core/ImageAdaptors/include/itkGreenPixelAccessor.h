@@ -37,7 +37,7 @@ namespace itk
  * \ingroup ITKImageAdaptors
  */
 
-template< typename T >
+template <typename T>
 class GreenPixelAccessor
 {
 public:
@@ -50,24 +50,32 @@ public:
 
   /** Internal type alias. It defines the internal real
    * representation of data */
-  using InternalType = RGBPixel< T >;
+  using InternalType = RGBPixel<T>;
 
   /** Write access to the Green component */
-  inline void Set(InternalType & output, const ExternalType & input) const
-  { output.SetGreen(input); }
+  inline void
+  Set(InternalType & output, const ExternalType & input) const
+  {
+    output.SetGreen(input);
+  }
 
   /** Read access to the Green component */
-  inline const ExternalType & Get(const InternalType & input) const
-  { return input.GetGreen(); }
+  inline const ExternalType &
+  Get(const InternalType & input) const
+  {
+    return input.GetGreen();
+  }
 
-  bool operator!=(const Self & ) const
+  bool
+  operator!=(const Self &) const
   {
     return false;
   }
 
-  bool operator==(const Self & other) const
+  bool
+  operator==(const Self & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 };
 } // end namespace itk

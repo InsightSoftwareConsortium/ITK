@@ -19,7 +19,8 @@
 #include "itkAnisotropicFourthOrderLevelSetImageFilter.h"
 #include <iostream>
 
-int itkAnisotropicFourthOrderLevelSetImageFilterTest(int, char* [] )
+int
+itkAnisotropicFourthOrderLevelSetImageFilterTest(int, char *[])
 {
   using ImageType = itk::Image<float, 2>;
   using IndexType = ImageType::IndexType;
@@ -27,8 +28,8 @@ int itkAnisotropicFourthOrderLevelSetImageFilterTest(int, char* [] )
   ImageType::Pointer im_init = ImageType::New();
 
   ImageType::RegionType r;
-  ImageType::SizeType   sz = {{128, 128}};
-  ImageType::IndexType  idx = {{0,0}};
+  ImageType::SizeType   sz = { { 128, 128 } };
+  ImageType::IndexType  idx = { { 0, 0 } };
   r.SetSize(sz);
   r.SetIndex(idx);
 
@@ -39,34 +40,31 @@ int itkAnisotropicFourthOrderLevelSetImageFilterTest(int, char* [] )
 
   IndexType index;
 
-  for ( index[0]=0; index[0] < 128; index[0]++ )
-    for ( index[1]=0; index[1] < 128; index[1]++ )
+  for (index[0] = 0; index[0] < 128; index[0]++)
+    for (index[1] = 0; index[1] < 128; index[1]++)
+    {
+      if ((index[0] >= 32) && (index[0] <= 96) && (index[1] >= 32) && (index[1] <= 96))
       {
-      if ( (index[0]>=32) && (index[0]<=96) &&
-           (index[1]>=32) && (index[1]<=96) )
-        {
-        im_init->SetPixel (index, static_cast<float>(-1));
-
-        }
-      else
-        {
-        im_init->SetPixel (index, static_cast<float>(1));
-        }
+        im_init->SetPixel(index, static_cast<float>(-1));
       }
+      else
+      {
+        im_init->SetPixel(index, static_cast<float>(1));
+      }
+    }
 
-  using FilterType = itk::AnisotropicFourthOrderLevelSetImageFilter<ImageType,
-    ImageType>;
+  using FilterType = itk::AnisotropicFourthOrderLevelSetImageFilter<ImageType, ImageType>;
   FilterType::Pointer filter = FilterType::New();
-  filter->SetMaxFilterIteration (2);
+  filter->SetMaxFilterIteration(2);
   filter->SetMaxNormalIteration(5);
   filter->SetNormalProcessConductance(0.5);
 
   filter->SetInput(im_init);
   filter->SetRMSChangeNormalProcessTrigger(0.1);
-  std::cout<<"max iteration = "<<(filter->GetMaxFilterIteration())<<"\n";
-  std::cout<<"Starting processing.\n";
+  std::cout << "max iteration = " << (filter->GetMaxFilterIteration()) << "\n";
+  std::cout << "Starting processing.\n";
   filter->Update();
   filter->Print(std::cout);
-  std::cout<<"Passed.\n";
+  std::cout << "Passed.\n";
   return EXIT_SUCCESS;
 }

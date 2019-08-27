@@ -22,11 +22,13 @@
 #include "itkTestDriverInclude.h"
 
 #ifdef __EMSCRIPTEN__
-#include <emscripten.h>
+#  include <emscripten.h>
 #endif
 
-void RegisterRequiredFactories();
+void
+RegisterRequiredFactories();
 
-void ProcessArgumentsAndRegisterRequiredFactories(int *ac, ArgumentStringType *av);
+void
+ProcessArgumentsAndRegisterRequiredFactories(int * ac, ArgumentStringType * av);
 
 #endif

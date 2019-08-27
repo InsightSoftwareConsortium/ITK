@@ -79,34 +79,35 @@ namespace itk
  * \ingroup CannotBeStreamed
  * \ingroup ITKImageGrid
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT BSplineCenteredL2ResampleImageFilterBase:
-  public BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT BSplineCenteredL2ResampleImageFilterBase
+  : public BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineCenteredL2ResampleImageFilterBase);
 
   /** Standard class type aliases. */
   using Self = BSplineCenteredL2ResampleImageFilterBase;
-  using Superclass = BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineCenteredL2ResampleImageFilterBase, BSplineCenteredResampleImageFilterBase);
 
 protected:
-
-  void InitializePyramidSplineFilter(int SplineOrder) override;
+  void
+  InitializePyramidSplineFilter(int SplineOrder) override;
 
   BSplineCenteredL2ResampleImageFilterBase() = default;
   ~BSplineCenteredL2ResampleImageFilterBase() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBSplineCenteredL2ResampleImageFilterBase.hxx"
+#  include "itkBSplineCenteredL2ResampleImageFilterBase.hxx"
 #endif
 
 #endif

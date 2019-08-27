@@ -57,25 +57,23 @@ namespace itk
  * \ingroup ImageEnhancement
  * \ingroup ITKAnisotropicSmoothing
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT GradientNDAnisotropicDiffusionFunction:
-  public ScalarAnisotropicDiffusionFunction< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT GradientNDAnisotropicDiffusionFunction : public ScalarAnisotropicDiffusionFunction<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GradientNDAnisotropicDiffusionFunction);
 
   /** Standard class type aliases. */
   using Self = GradientNDAnisotropicDiffusionFunction;
-  using Superclass = ScalarAnisotropicDiffusionFunction< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ScalarAnisotropicDiffusionFunction<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(GradientNDAnisotropicDiffusionFunction,
-               ScalarAnisotropicDiffusionFunction);
+  itkTypeMacro(GradientNDAnisotropicDiffusionFunction, ScalarAnisotropicDiffusionFunction);
 
   /** Inherit some parameters from the superclass type. */
   using ImageType = typename Superclass::ImageType;
@@ -92,16 +90,17 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Compute the equation value. */
-  PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
-                                  void *globalData,
-                                  const FloatOffsetType & offset = FloatOffsetType(0.0)
-                                  ) override;
+  PixelType
+  ComputeUpdate(const NeighborhoodType & neighborhood,
+                void *                   globalData,
+                const FloatOffsetType &  offset = FloatOffsetType(0.0)) override;
 
   /** This method is called prior to each iteration of the solver. */
-  void InitializeIteration() override
+  void
+  InitializeIteration() override
   {
-    m_K = static_cast< PixelType >( this->GetAverageGradientMagnitudeSquared()
-                                    * this->GetConductanceParameter() * this->GetConductanceParameter() * -2.0f );
+    m_K = static_cast<PixelType>(this->GetAverageGradientMagnitudeSquared() * this->GetConductanceParameter() *
+                                 this->GetConductanceParameter() * -2.0f);
   }
 
 protected:
@@ -109,7 +108,7 @@ protected:
   ~GradientNDAnisotropicDiffusionFunction() override = default;
 
   /** Inner product function. */
-  NeighborhoodInnerProduct< ImageType > m_InnerProduct;
+  NeighborhoodInnerProduct<ImageType> m_InnerProduct;
 
   /** Slices for the ND neighborhood. */
   std::slice x_slice[ImageDimension];
@@ -117,7 +116,7 @@ protected:
   std::slice xd_slice[ImageDimension][ImageDimension];
 
   /** Derivative operator. */
-  DerivativeOperator< PixelType, Self::ImageDimension > m_DerivativeOperator;
+  DerivativeOperator<PixelType, Self::ImageDimension> m_DerivativeOperator;
 
   /** Modified global average gradient magnitude term. */
   PixelType m_K;
@@ -130,7 +129,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGradientNDAnisotropicDiffusionFunction.hxx"
+#  include "itkGradientNDAnisotropicDiffusionFunction.hxx"
 #endif
 
 #endif

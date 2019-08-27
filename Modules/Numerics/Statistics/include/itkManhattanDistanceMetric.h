@@ -33,16 +33,15 @@ namespace Statistics
  *
  * \ingroup ITKStatistics
  */
-template< typename TVector >
-class ITK_TEMPLATE_EXPORT ManhattanDistanceMetric:
-  public DistanceMetric< TVector >
+template <typename TVector>
+class ITK_TEMPLATE_EXPORT ManhattanDistanceMetric : public DistanceMetric<TVector>
 {
 public:
   /** Standard "Self" type alias. */
   using Self = ManhattanDistanceMetric;
-  using Superclass = DistanceMetric< TVector >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = DistanceMetric<TVector>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using MeasurementVectorType = typename Superclass::MeasurementVectorType;
 
@@ -55,20 +54,22 @@ public:
   itkNewMacro(Self);
 
   /** Gets the distance between the origin and x */
-  double Evaluate(const MeasurementVectorType & x) const override;
+  double
+  Evaluate(const MeasurementVectorType & x) const override;
 
   /** Gets the distance between x1 and x2 */
-  double Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const override;
+  double
+  Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const override;
 
 protected:
   ManhattanDistanceMetric() = default;
   ~ManhattanDistanceMetric() override = default;
-};  // end of class
+}; // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkManhattanDistanceMetric.hxx"
+#  include "itkManhattanDistanceMetric.hxx"
 #endif
 
 #endif

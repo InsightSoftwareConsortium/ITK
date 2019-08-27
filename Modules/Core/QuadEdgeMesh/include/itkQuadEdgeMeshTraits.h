@@ -39,9 +39,12 @@ namespace itk
  *  \sa DefaultStaticMeshTraits
  * \ingroup ITKQuadEdgeMesh
  */
-template< typename TPixel, unsigned int VPointDimension,
-          typename TPData, typename TDData,
-          typename TCoordRep = float, typename TInterpolationWeight = float >
+template <typename TPixel,
+          unsigned int VPointDimension,
+          typename TPData,
+          typename TDData,
+          typename TCoordRep = float,
+          typename TInterpolationWeight = float>
 class QuadEdgeMeshTraits
 {
 public:
@@ -60,15 +63,14 @@ public:
 
   using CellFeatureIdentifier = unsigned char; // made small in purpose
 
-  using UsingCellsContainer = std::set< CellIdentifier >;
-  using PointCellLinksContainer = std::set< CellIdentifier >;
+  using UsingCellsContainer = std::set<CellIdentifier>;
+  using PointCellLinksContainer = std::set<CellIdentifier>;
 
   /** Quad edge type alias. */
   using PrimalDataType = TPData;
   using DualDataType = TDData;
-  using QEPrimal = GeometricalQuadEdge< PointIdentifier, CellIdentifier,
-                               PrimalDataType, DualDataType >;
-  //using QEType = QEPrimal;
+  using QEPrimal = GeometricalQuadEdge<PointIdentifier, CellIdentifier, PrimalDataType, DualDataType>;
+  // using QEType = QEPrimal;
   using QEDual = typename QEPrimal::DualType;
   // FOR LEO using QEType = typename QEPrimal::Superclass;
   // FOR LEO using QEDual = typename QEPrimal::Dual;
@@ -77,33 +79,36 @@ public:
 
   /** The type of point used for hashing.  This should never change from
    * this setting, regardless of the mesh type. */
-  using PointHashType = Point< CoordRepType, VPointDimension >;
+  using PointHashType = Point<CoordRepType, VPointDimension>;
 
   /** Points have an entry in the Onext ring */
-  using PointType = QuadEdgeMeshPoint< CoordRepType, VPointDimension, QEPrimal >;
-  using PointsContainer = MapContainer< PointIdentifier, PointType >;
+  using PointType = QuadEdgeMeshPoint<CoordRepType, VPointDimension, QEPrimal>;
+  using PointsContainer = MapContainer<PointIdentifier, PointType>;
 
   /** Standard cell interface. */
-  using CellTraits = QuadEdgeMeshCellTraitsInfo<
-    VPointDimension, CoordRepType,
-    InterpolationWeightType, PointIdentifier,
-    CellIdentifier,          CellFeatureIdentifier,
-    PointType,               PointsContainer,
-    UsingCellsContainer,     QEPrimal >;
+  using CellTraits = QuadEdgeMeshCellTraitsInfo<VPointDimension,
+                                                CoordRepType,
+                                                InterpolationWeightType,
+                                                PointIdentifier,
+                                                CellIdentifier,
+                                                CellFeatureIdentifier,
+                                                PointType,
+                                                PointsContainer,
+                                                UsingCellsContainer,
+                                                QEPrimal>;
 
-  using CellType = CellInterface< CellPixelType, CellTraits >;
+  using CellType = CellInterface<CellPixelType, CellTraits>;
   using CellAutoPointer = typename CellType::CellAutoPointer;
 
   /** Containers types. */
-  using CellLinksContainer = MapContainer< PointIdentifier,
-                        PointCellLinksContainer >;
-  using CellsContainer = MapContainer< CellIdentifier, CellType * >;
-  using PointDataContainer = MapContainer< PointIdentifier, PixelType >;
-  using CellDataContainer = MapContainer< CellIdentifier, CellPixelType >;
+  using CellLinksContainer = MapContainer<PointIdentifier, PointCellLinksContainer>;
+  using CellsContainer = MapContainer<CellIdentifier, CellType *>;
+  using PointDataContainer = MapContainer<PointIdentifier, PixelType>;
+  using CellDataContainer = MapContainer<CellIdentifier, CellPixelType>;
 
   /** Other useful types. */
   using VectorType = typename PointType::VectorType;
 };
-}
+} // namespace itk
 
 #endif

@@ -26,9 +26,8 @@ namespace itk
 /**
  * Constructor
  */
-template< typename TInputChainCodePath, typename TOutputFourierSeriesPath >
-ChainCodeToFourierSeriesPathFilter< TInputChainCodePath, TOutputFourierSeriesPath >
-::ChainCodeToFourierSeriesPathFilter()
+template <typename TInputChainCodePath, typename TOutputFourierSeriesPath>
+ChainCodeToFourierSeriesPathFilter<TInputChainCodePath, TOutputFourierSeriesPath>::ChainCodeToFourierSeriesPathFilter()
 {
   this->SetNumberOfRequiredInputs(1);
   m_NumberOfHarmonics = 8;
@@ -37,10 +36,9 @@ ChainCodeToFourierSeriesPathFilter< TInputChainCodePath, TOutputFourierSeriesPat
 /**
  * GenerateData Performs the reflection
  */
-template< typename TInputChainCodePath, typename TOutputFourierSeriesPath >
+template <typename TInputChainCodePath, typename TOutputFourierSeriesPath>
 void
-ChainCodeToFourierSeriesPathFilter< TInputChainCodePath, TOutputFourierSeriesPath >
-::GenerateData()
+ChainCodeToFourierSeriesPathFilter<TInputChainCodePath, TOutputFourierSeriesPath>::GenerateData()
 {
   IndexType           index;
   VectorType          indexVector;
@@ -48,17 +46,17 @@ ChainCodeToFourierSeriesPathFilter< TInputChainCodePath, TOutputFourierSeriesPat
   VectorType          sinCoefficient;
   OutputPathInputType theta;
 
-  size_t               numSteps;
-  unsigned int numHarmonics = m_NumberOfHarmonics;        // private copy
+  size_t       numSteps;
+  unsigned int numHarmonics = m_NumberOfHarmonics; // private copy
   int          dimension = OffsetType::GetOffsetDimension();
 
-  typename Superclass::InputPathConstPointer inputPtr  = this->GetInput();
-  typename Superclass::OutputPathPointer outputPtr = this->GetOutput(0);
+  typename Superclass::InputPathConstPointer inputPtr = this->GetInput();
+  typename Superclass::OutputPathPointer     outputPtr = this->GetOutput(0);
 
-  //outputPtr->SetRequestedRegion( inputPtr->GetRequestedRegion() );
-  //outputPtr->SetBufferedRegion( inputPtr->GetBufferedRegion() );
-  //outputPtr->SetLargestPossibleRegion( inputPtr->GetLargestPossibleRegion() );
-  //outputPtr->Allocate();  // Allocate() is an Image function
+  // outputPtr->SetRequestedRegion( inputPtr->GetRequestedRegion() );
+  // outputPtr->SetBufferedRegion( inputPtr->GetBufferedRegion() );
+  // outputPtr->SetLargestPossibleRegion( inputPtr->GetLargestPossibleRegion() );
+  // outputPtr->Allocate();  // Allocate() is an Image function
 
   numSteps = inputPtr->NumberOfSteps();
   outputPtr->Clear();
@@ -66,44 +64,44 @@ ChainCodeToFourierSeriesPathFilter< TInputChainCodePath, TOutputFourierSeriesPat
   const double nPI = 4.0 * std::atan(1.0);
 
   // Adjust our private copy of numHarmonics if necessary
-  if ( numHarmonics <= 1 )
-    {
+  if (numHarmonics <= 1)
+  {
     numHarmonics = 2;
-    }
-  else if ( numHarmonics * 2 > numSteps )
-    {
+  }
+  else if (numHarmonics * 2 > numSteps)
+  {
     numHarmonics = numSteps / 2;
-    }
+  }
 
-  for ( unsigned n = 0; n < numHarmonics; n++ )
-    {
+  for (unsigned n = 0; n < numHarmonics; n++)
+  {
     index = inputPtr->GetStart();
     cosCoefficient.Fill(0.0);
     sinCoefficient.Fill(0.0);
 
-    for ( InputPathInputType step = 0; step < numSteps; step++ )
-      {
+    for (InputPathInputType step = 0; step < numSteps; step++)
+    {
       index += inputPtr->Evaluate(step);
-      theta = 2 * n * nPI * ( double(step + 1) ) / numSteps;
+      theta = 2 * n * nPI * (double(step + 1)) / numSteps;
 
       // turn the current index into a vector
-      for ( int d = 0; d < dimension; d++ )
-        {
+      for (int d = 0; d < dimension; d++)
+      {
         indexVector[d] = index[d];
-        }
-
-      cosCoefficient += indexVector * ( std::cos(theta) / numSteps );
-      sinCoefficient += indexVector * ( std::sin(theta) / numSteps );
       }
 
-    outputPtr->AddHarmonic(cosCoefficient, sinCoefficient);
+      cosCoefficient += indexVector * (std::cos(theta) / numSteps);
+      sinCoefficient += indexVector * (std::sin(theta) / numSteps);
     }
+
+    outputPtr->AddHarmonic(cosCoefficient, sinCoefficient);
+  }
 }
 
-template< typename TInputChainCodePath, typename TOutputFourierSeriesPath >
+template <typename TInputChainCodePath, typename TOutputFourierSeriesPath>
 void
-ChainCodeToFourierSeriesPathFilter< TInputChainCodePath, TOutputFourierSeriesPath >
-::PrintSelf(std::ostream & os, Indent indent) const
+ChainCodeToFourierSeriesPathFilter<TInputChainCodePath, TOutputFourierSeriesPath>::PrintSelf(std::ostream & os,
+                                                                                             Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

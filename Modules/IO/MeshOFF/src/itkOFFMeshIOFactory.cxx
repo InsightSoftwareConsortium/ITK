@@ -24,33 +24,24 @@
 namespace itk
 {
 void
-OFFMeshIOFactory
-::PrintSelf(std::ostream &, Indent) const
+OFFMeshIOFactory ::PrintSelf(std::ostream &, Indent) const
 {}
 
-OFFMeshIOFactory
-::OFFMeshIOFactory()
+OFFMeshIOFactory ::OFFMeshIOFactory()
 {
-  this->RegisterOverride( "itkMeshIOBase",
-                         "itkOFFMeshIO",
-                         "OFF Mesh IO",
-                         true,
-                         CreateObjectFunction< OFFMeshIO >::New() );
+  this->RegisterOverride("itkMeshIOBase", "itkOFFMeshIO", "OFF Mesh IO", true, CreateObjectFunction<OFFMeshIO>::New());
 }
 
-OFFMeshIOFactory
-::~OFFMeshIOFactory() = default;
+OFFMeshIOFactory ::~OFFMeshIOFactory() = default;
 
 const char *
-OFFMeshIOFactory
-::GetITKSourceVersion() const
+OFFMeshIOFactory ::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char *
-OFFMeshIOFactory
-::GetDescription() const
+OFFMeshIOFactory ::GetDescription() const
 {
   return "OFF Mesh IO Factory, allows the loading of OFF mesh into insight";
 }
@@ -59,13 +50,14 @@ OFFMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool OFFMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMeshOFF_EXPORT OFFMeshIOFactoryRegister__Private()
+void ITKIOMeshOFF_EXPORT
+     OFFMeshIOFactoryRegister__Private()
 {
-  if( ! OFFMeshIOFactoryHasBeenRegistered )
-    {
+  if (!OFFMeshIOFactoryHasBeenRegistered)
+  {
     OFFMeshIOFactoryHasBeenRegistered = true;
     OFFMeshIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

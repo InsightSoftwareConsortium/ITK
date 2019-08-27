@@ -29,7 +29,7 @@ namespace itk
  *
  * \ingroup ITKVideoBridgeOpenCV
  */
-class ITKVideoBridgeOpenCV_EXPORT OpenCVVideoIOFactory: public ObjectFactoryBase
+class ITKVideoBridgeOpenCV_EXPORT OpenCVVideoIOFactory : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(OpenCVVideoIOFactory);
@@ -37,13 +37,15 @@ public:
   /** Standard class type aliases. */
   using Self = OpenCVVideoIOFactory;
   using Superclass = ObjectFactoryBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char * GetITKSourceVersion() const;
+  virtual const char *
+  GetITKSourceVersion() const;
 
-  virtual const char * GetDescription() const;
+  virtual const char *
+  GetDescription() const;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -52,7 +54,8 @@ public:
   itkTypeMacro(OpenCVVideoIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory()
+  static void
+  RegisterOneFactory()
   {
     OpenCVVideoIOFactory::Pointer OpenCVFactory = OpenCVVideoIOFactory::New();
 

@@ -24,23 +24,24 @@
 #include "itkTestingMacros.h"
 
 
-int itkLandmarkDisplacementFieldSourceTest( int argc, char * argv[] )
+int
+itkLandmarkDisplacementFieldSourceTest(int argc, char * argv[])
 {
 
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " landmarksFile outputImage" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
   using VectorComponentType = float;
 
-  using VectorType = itk::Vector< VectorComponentType, Dimension >;
+  using VectorType = itk::Vector<VectorComponentType, Dimension>;
 
-  using DisplacementFieldType = itk::Image< VectorType,  Dimension >;
+  using DisplacementFieldType = itk::Image<VectorType, Dimension>;
 
   using FilterType = itk::LandmarkDisplacementFieldSource<DisplacementFieldType>;
 
@@ -49,14 +50,14 @@ int itkLandmarkDisplacementFieldSourceTest( int argc, char * argv[] )
   itk::SimpleFilterWatcher watcher(filter);
 
   DisplacementFieldType::SpacingType spacing;
-  spacing.Fill( 1.0 );
+  spacing.Fill(1.0);
 
   DisplacementFieldType::PointType origin;
-  origin.Fill( 0.0 );
+  origin.Fill(0.0);
 
-  DisplacementFieldType::RegionType     region;
-  DisplacementFieldType::SizeType       size;
-  DisplacementFieldType::IndexType      start;
+  DisplacementFieldType::RegionType region;
+  DisplacementFieldType::SizeType   size;
+  DisplacementFieldType::IndexType  start;
 
   size[0] = 128;
   size[1] = 128;
@@ -64,17 +65,17 @@ int itkLandmarkDisplacementFieldSourceTest( int argc, char * argv[] )
   start[0] = 0;
   start[1] = 0;
 
-  region.SetSize( size );
-  region.SetIndex( start );
+  region.SetSize(size);
+  region.SetIndex(start);
 
   DisplacementFieldType::DirectionType direction;
   direction.SetIdentity();
 
 
-  filter->SetOutputSpacing( spacing );
-  filter->SetOutputOrigin( origin );
-  filter->SetOutputRegion( region );
-  filter->SetOutputDirection( direction );
+  filter->SetOutputSpacing(spacing);
+  filter->SetOutputOrigin(origin);
+  filter->SetOutputRegion(region);
+  filter->SetOutputDirection(direction);
 
   //  Create source and target landmarks.
   //
@@ -88,61 +89,59 @@ int itkLandmarkDisplacementFieldSourceTest( int argc, char * argv[] )
   LandmarkPointType targetPoint;
 
   std::ifstream pointsFile;
-  pointsFile.open( argv[1] );
+  pointsFile.open(argv[1]);
 
   unsigned int pointId = 0;
 
   pointsFile >> sourcePoint;
   pointsFile >> targetPoint;
 
-  while( !pointsFile.fail() )
-    {
-    sourceLandmarks->InsertElement( pointId, sourcePoint );
-    targetLandmarks->InsertElement( pointId, targetPoint );
+  while (!pointsFile.fail())
+  {
+    sourceLandmarks->InsertElement(pointId, sourcePoint);
+    targetLandmarks->InsertElement(pointId, targetPoint);
     pointId++;
 
     std::cout << sourcePoint << "  -->> " << targetPoint << std::endl;
 
     pointsFile >> sourcePoint;
     pointsFile >> targetPoint;
-
-    }
+  }
 
   pointsFile.close();
 
 
-  filter->SetSourceLandmarks( sourceLandmarks );
-  filter->SetTargetLandmarks( targetLandmarks );
+  filter->SetSourceLandmarks(sourceLandmarks);
+  filter->SetTargetLandmarks(targetLandmarks);
 
   try
-    {
+  {
     filter->UpdateLargestPossibleRegion();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
-    }
+  }
 
   // Write an image for regression testing
-  using WriterType = itk::ImageFileWriter<  DisplacementFieldType  >;
+  using WriterType = itk::ImageFileWriter<DisplacementFieldType>;
 
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetInput (filter->GetOutput());
-  writer->SetFileName( argv[2] );
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(argv[2]);
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown by writer" << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
-
 }

@@ -28,84 +28,79 @@
 
 namespace itk
 {
-template< typename TImageType, typename TFeatureImageType >
+template <typename TImageType, typename TFeatureImageType>
 void
-CurvesLevelSetFunction< TImageType, TFeatureImageType >
-::Initialize(const RadiusType & r)
+CurvesLevelSetFunction<TImageType, TFeatureImageType>::Initialize(const RadiusType & r)
 {
   Superclass::Initialize(r);
 
-  this->SetAdvectionWeight(NumericTraits< ScalarValueType >::OneValue());
-  this->SetPropagationWeight(NumericTraits< ScalarValueType >::OneValue());
-  this->SetCurvatureWeight(NumericTraits< ScalarValueType >::OneValue());
+  this->SetAdvectionWeight(NumericTraits<ScalarValueType>::OneValue());
+  this->SetPropagationWeight(NumericTraits<ScalarValueType>::OneValue());
+  this->SetCurvatureWeight(NumericTraits<ScalarValueType>::OneValue());
 }
 
-template< typename TImageType, typename TFeatureImageType >
-void CurvesLevelSetFunction< TImageType, TFeatureImageType >
-::CalculateSpeedImage()
+template <typename TImageType, typename TFeatureImageType>
+void
+CurvesLevelSetFunction<TImageType, TFeatureImageType>::CalculateSpeedImage()
 {
   /* copy the feature image into the speed image */
-  ImageAlgorithm::Copy( this->GetFeatureImage(),
-                        this->GetSpeedImage(),
-                        this->GetFeatureImage()->GetRequestedRegion(),
-                        this->GetFeatureImage()->GetRequestedRegion() );
-
+  ImageAlgorithm::Copy(this->GetFeatureImage(),
+                       this->GetSpeedImage(),
+                       this->GetFeatureImage()->GetRequestedRegion(),
+                       this->GetFeatureImage()->GetRequestedRegion());
 }
 
-template< typename TImageType, typename TFeatureImageType >
-void CurvesLevelSetFunction< TImageType, TFeatureImageType >
-::CalculateAdvectionImage()
+template <typename TImageType, typename TFeatureImageType>
+void
+CurvesLevelSetFunction<TImageType, TFeatureImageType>::CalculateAdvectionImage()
 {
   /* compute the gradient of the feature image. */
 
   typename VectorImageType::Pointer gradientImage;
 
-  if ( Math::NotAlmostEquals( m_DerivativeSigma, NumericTraits< float >::ZeroValue() ) )
-    {
-    using DerivativeFilterType =
-        GradientRecursiveGaussianImageFilter< FeatureImageType, VectorImageType >;
+  if (Math::NotAlmostEquals(m_DerivativeSigma, NumericTraits<float>::ZeroValue()))
+  {
+    using DerivativeFilterType = GradientRecursiveGaussianImageFilter<FeatureImageType, VectorImageType>;
 
     typename DerivativeFilterType::Pointer derivative = DerivativeFilterType::New();
-    derivative->SetInput( this->GetFeatureImage() );
+    derivative->SetInput(this->GetFeatureImage());
     derivative->SetSigma(m_DerivativeSigma);
     derivative->Update();
 
     gradientImage = derivative->GetOutput();
-    }
+  }
   else
-    {
-    using DerivativeFilterType = GradientImageFilter< FeatureImageType >;
+  {
+    using DerivativeFilterType = GradientImageFilter<FeatureImageType>;
 
     typename DerivativeFilterType::Pointer derivative = DerivativeFilterType::New();
-    derivative->SetInput( this->GetFeatureImage() );
+    derivative->SetInput(this->GetFeatureImage());
     derivative->SetUseImageSpacingOn();
     derivative->Update();
 
     using DerivativeOutputImageType = typename DerivativeFilterType::OutputImageType;
-    using GradientCasterType = CastImageFilter< DerivativeOutputImageType, VectorImageType >;
+    using GradientCasterType = CastImageFilter<DerivativeOutputImageType, VectorImageType>;
 
     typename GradientCasterType::Pointer caster = GradientCasterType::New();
-    caster->SetInput( derivative->GetOutput() );
+    caster->SetInput(derivative->GetOutput());
     caster->Update();
 
     gradientImage = caster->GetOutput();
-    }
+  }
 
   /* copy negative gradient into the advection image. */
-  ImageRegionIterator< VectorImageType >
-  dit( gradientImage, this->GetFeatureImage()->GetRequestedRegion() );
-  ImageRegionIterator< VectorImageType >
-  ait( this->GetAdvectionImage(), this->GetFeatureImage()->GetRequestedRegion() );
+  ImageRegionIterator<VectorImageType> dit(gradientImage, this->GetFeatureImage()->GetRequestedRegion());
+  ImageRegionIterator<VectorImageType> ait(this->GetAdvectionImage(), this->GetFeatureImage()->GetRequestedRegion());
 
-  for ( dit.GoToBegin(), ait.GoToBegin(); !dit.IsAtEnd(); ++dit, ++ait )
-    {
+  for (dit.GoToBegin(), ait.GoToBegin(); !dit.IsAtEnd(); ++dit, ++ait)
+  {
     typename VectorImageType::PixelType v = dit.Get();
-    for ( unsigned int j = 0; j < ImageDimension; j++ )
-      {
+    for (unsigned int j = 0; j < ImageDimension; j++)
+    {
       v[j] *= -1.0L;
-      }
-    ait.Set(v);
     }
+    ait.Set(v);
+  }
 }
 } // end namespace itk
 

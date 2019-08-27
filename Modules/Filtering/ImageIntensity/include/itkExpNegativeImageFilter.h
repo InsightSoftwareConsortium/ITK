@@ -31,39 +31,44 @@ namespace Functor
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 class ExpNegative
 {
 public:
   ExpNegative() { m_Factor = 1.0; }
   ~ExpNegative() = default;
 
-  bool operator!=(const ExpNegative & other) const
+  bool
+  operator!=(const ExpNegative & other) const
   {
-    if ( Math::NotExactlyEquals(m_Factor, other.m_Factor) )
-      {
+    if (Math::NotExactlyEquals(m_Factor, other.m_Factor))
+    {
       return true;
-      }
+    }
     return false;
   }
 
-  bool operator==(const ExpNegative & other) const
+  bool
+  operator==(const ExpNegative & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput & A) const
+  inline TOutput
+  operator()(const TInput & A) const
   {
-    return static_cast< TOutput >( std::exp( -m_Factor * static_cast< double >( A ) ) );
+    return static_cast<TOutput>(std::exp(-m_Factor * static_cast<double>(A)));
   }
 
   /** Sets the value 'K' used in the function evaluation exp(-K.x). */
-  void SetFactor(double factor)
+  void
+  SetFactor(double factor)
   {
     m_Factor = factor;
   }
 
-  double GetFactor() const
+  double
+  GetFactor() const
   {
     return m_Factor;
   }
@@ -71,7 +76,7 @@ public:
 private:
   double m_Factor;
 };
-}
+} // namespace Functor
 
 /** \class ExpNegativeImageFilter
  * \brief Computes the function exp(-K.x) for each input pixel.
@@ -85,54 +90,52 @@ private:
  *
  * \ingroup ITKImageIntensity
  */
-template< typename TInputImage, typename TOutputImage >
-class ExpNegativeImageFilter:
-  public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::ExpNegative<
-                             typename TInputImage::PixelType,
-                             typename TOutputImage::PixelType >   >
+template <typename TInputImage, typename TOutputImage>
+class ExpNegativeImageFilter
+  : public UnaryFunctorImageFilter<
+      TInputImage,
+      TOutputImage,
+      Functor::ExpNegative<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExpNegativeImageFilter);
 
   /** Standard class type aliases. */
   using Self = ExpNegativeImageFilter;
-  using Superclass = UnaryFunctorImageFilter<
-    TInputImage, TOutputImage,
-    Functor::ExpNegative< typename TInputImage::PixelType,
-                          typename TOutputImage::PixelType > >;
+  using Superclass =
+    UnaryFunctorImageFilter<TInputImage,
+                            TOutputImage,
+                            Functor::ExpNegative<typename TInputImage::PixelType, typename TOutputImage::PixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ExpNegativeImageFilter,
-               UnaryFunctorImageFilter);
+  itkTypeMacro(ExpNegativeImageFilter, UnaryFunctorImageFilter);
 
-  void SetFactor(double factor)
+  void
+  SetFactor(double factor)
   {
-    if ( factor == this->GetFunctor().GetFactor() )
-      {
+    if (factor == this->GetFunctor().GetFactor())
+    {
       return;
-      }
+    }
     this->GetFunctor().SetFactor(factor);
     this->Modified();
   }
-  double GetFactor() const
+  double
+  GetFactor() const
   {
     return this->GetFunctor().GetFactor();
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputConvertibleToDoubleCheck,
-                   ( Concept::Convertible< typename TInputImage::PixelType, double > ) );
-  itkConceptMacro( DoubleConvertibleToOutputCheck,
-                   ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
+  itkConceptMacro(InputConvertibleToDoubleCheck, (Concept::Convertible<typename TInputImage::PixelType, double>));
+  itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, typename TOutputImage::PixelType>));
   // End concept checking
 #endif
 

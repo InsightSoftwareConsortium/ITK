@@ -78,11 +78,11 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using PixelType = float;
-  using MeshType = itk::Mesh< PixelType, 3 >;
+  using MeshType = itk::Mesh<PixelType, 3>;
 
   using PointType = MeshType::PointType;
 
-  using MeshSourceType = itk::AutomaticTopologyMeshSource< MeshType >;
+  using MeshSourceType = itk::AutomaticTopologyMeshSource<MeshType>;
   using IdentifierArrayType = MeshSourceType::IdentifierArrayType;
 
   MeshSourceType::Pointer meshSource;
@@ -100,12 +100,10 @@ main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  meshSource->AddTetrahedron(
-    meshSource->AddPoint( -1, -1, -1 ),
-    meshSource->AddPoint(  1,  1, -1 ),
-    meshSource->AddPoint(  1, -1,  1 ),
-    meshSource->AddPoint( -1,  1,  1 )
-  );
+  meshSource->AddTetrahedron(meshSource->AddPoint(-1, -1, -1),
+                             meshSource->AddPoint(1, 1, -1),
+                             meshSource->AddPoint(1, -1, 1),
+                             meshSource->AddPoint(-1, 1, 1));
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -144,28 +142,28 @@ main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  PointType p;
-  IdentifierArrayType idArray( 4 );
+  PointType           p;
+  IdentifierArrayType idArray(4);
 
-  p[ 0 ] = -2;
-  p[ 1 ] = -2;
-  p[ 2 ] = -2;
-  idArray[ 0 ] = meshSource->AddPoint( p );
+  p[0] = -2;
+  p[1] = -2;
+  p[2] = -2;
+  idArray[0] = meshSource->AddPoint(p);
 
-  p[ 0 ] =  2;
-  p[ 1 ] =  2;
-  p[ 2 ] = -2;
-  idArray[ 1 ] = meshSource->AddPoint( p );
+  p[0] = 2;
+  p[1] = 2;
+  p[2] = -2;
+  idArray[1] = meshSource->AddPoint(p);
 
-  p[ 0 ] =  2;
-  p[ 1 ] = -2;
-  p[ 2 ] =  2;
-  idArray[ 2 ] = meshSource->AddPoint( p );
+  p[0] = 2;
+  p[1] = -2;
+  p[2] = 2;
+  idArray[2] = meshSource->AddPoint(p);
 
-  p[ 0 ] = -2;
-  p[ 1 ] =  2;
-  p[ 2 ] =  2;
-  idArray[ 3 ] = meshSource->AddPoint( p );
+  p[0] = -2;
+  p[1] = 2;
+  p[2] = 2;
+  idArray[3] = meshSource->AddPoint(p);
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -176,10 +174,10 @@ main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  meshSource->AddTriangle( idArray[0], idArray[1], idArray[2] );
-  meshSource->AddTriangle( idArray[1], idArray[2], idArray[3] );
-  meshSource->AddTriangle( idArray[2], idArray[3], idArray[0] );
-  meshSource->AddTriangle( idArray[3], idArray[0], idArray[1] );
+  meshSource->AddTriangle(idArray[0], idArray[1], idArray[2]);
+  meshSource->AddTriangle(idArray[1], idArray[2], idArray[3]);
+  meshSource->AddTriangle(idArray[2], idArray[3], idArray[0]);
+  meshSource->AddTriangle(idArray[3], idArray[0], idArray[1]);
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -220,5 +218,4 @@ main(int, char *[])
   //  Software Guide : EndLatex
 
   return EXIT_SUCCESS;
-
 }

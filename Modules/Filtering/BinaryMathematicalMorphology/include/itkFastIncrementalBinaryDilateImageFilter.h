@@ -48,9 +48,8 @@ namespace itk
  * \sa BinaryDilateImageFilter
  * \ingroup ITKBinaryMathematicalMorphology
  */
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-class FastIncrementalBinaryDilateImageFilter:
-  public BinaryDilateImageFilter< TInputImage, TOutputImage, TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+class FastIncrementalBinaryDilateImageFilter : public BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FastIncrementalBinaryDilateImageFilter);
@@ -69,10 +68,9 @@ public:
 
   /** Standard class type aliases. */
   using Self = FastIncrementalBinaryDilateImageFilter;
-  using Superclass =
-      BinaryDilateImageFilter< InputImageType, OutputImageType, KernelType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = BinaryDilateImageFilter<InputImageType, OutputImageType, KernelType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

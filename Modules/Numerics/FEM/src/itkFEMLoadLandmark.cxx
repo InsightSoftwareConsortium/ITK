@@ -24,10 +24,11 @@ namespace fem
 {
 
 // Overload the CreateAnother() method.
-::itk::LightObject::Pointer LoadLandmark::CreateAnother() const
+::itk::LightObject::Pointer
+LoadLandmark::CreateAnother() const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New();
+  Pointer                     copyPtr = Self::New();
 
   // Copy Load Contents
   copyPtr->m_Eta = this->m_Eta;
@@ -36,11 +37,11 @@ namespace fem
   copyPtr->m_Source = this->m_Source;
   copyPtr->m_Force = this->m_Force;
   copyPtr->m_Solution = this->m_Solution;
-  for(auto i : this->m_Element)
-    {
-    copyPtr->AddNextElement( i );
-    }
-  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+  for (auto i : this->m_Element)
+  {
+    copyPtr->AddNextElement(i);
+  }
+  copyPtr->SetGlobalNumber(this->GetGlobalNumber());
 
   smartPtr = static_cast<Pointer>(copyPtr);
 
@@ -50,17 +51,18 @@ namespace fem
 /**
  * Find the Element to which the LoadLandmark belongs
  */
-Element::ConstPointer LoadLandmark::GetAssignedElement(Element::ArrayType1::Pointer elements)
+Element::ConstPointer
+LoadLandmark::GetAssignedElement(Element::ArrayType1::Pointer elements)
 {
   int numElements = elements->Size();
-  for( int n = 0; n < numElements; n++ )
-    {
+  for (int n = 0; n < numElements; n++)
+  {
     Element::Pointer nel = elements->GetElement(n);
-    if( (nel )->GetLocalFromGlobalCoordinates(m_Source, this->m_Point) )
-      {
+    if ((nel)->GetLocalFromGlobalCoordinates(m_Source, this->m_Point))
+    {
       return dynamic_cast<const Element *>(nel.GetPointer());
-      }
     }
+  }
 
   return nullptr;
 }
@@ -69,27 +71,28 @@ Element::ConstPointer LoadLandmark::GetAssignedElement(Element::ArrayType1::Poin
  * Find the Element to which the LoadLandmark belongs
  */
 
-bool LoadLandmark::AssignToElement(Element::ArrayType::Pointer elements)
+bool
+LoadLandmark::AssignToElement(Element::ArrayType::Pointer elements)
 {
   bool isFound = false;
 
   // Compute & store the local coordinates of the undeformed point and
   // the pointer to the element
-  for( Element::ArrayType::const_iterator n = elements->begin();
-       n != elements->end() && !isFound; ++n )
+  for (Element::ArrayType::const_iterator n = elements->begin(); n != elements->end() && !isFound; ++n)
+  {
+    if ((*n)->GetLocalFromGlobalCoordinates(m_Source, this->m_Point))
     {
-    if( ( *n )->GetLocalFromGlobalCoordinates(m_Source, this->m_Point) )
-      {
       isFound = true;
-      //std::cout << "Found: " << ( *n ) << std::endl;
+      // std::cout << "Found: " << ( *n ) << std::endl;
       this->m_Element[0] = *n;
-      }
     }
+  }
 
   return isFound;
 }
 
-bool LoadLandmark::AssignToElement(Element::ArrayType1::Pointer elements)
+bool
+LoadLandmark::AssignToElement(Element::ArrayType1::Pointer elements)
 {
   bool isFound = false;
 
@@ -97,32 +100,34 @@ bool LoadLandmark::AssignToElement(Element::ArrayType1::Pointer elements)
   // the pointer of the element
 
   int numElements = elements->Size();
-  for( int n = 0;
-       n < numElements && !isFound; n++ )
-    {
+  for (int n = 0; n < numElements && !isFound; n++)
+  {
     Element::Pointer nel = elements->GetElement(n);
-    if( (nel )->GetLocalFromGlobalCoordinates(m_Source, this->m_Point) )
-      {
+    if ((nel)->GetLocalFromGlobalCoordinates(m_Source, this->m_Point))
+    {
       isFound = true;
-      //std::cout << "Found: " << nel << std::endl;
+      // std::cout << "Found: " << nel << std::endl;
       this->m_Element[0] = nel;
-      }
     }
+  }
 
   return isFound;
 }
 
-void LoadLandmark::SetEta(double e)
+void
+LoadLandmark::SetEta(double e)
 {
   this->m_Eta = e;
 }
 
-double LoadLandmark::GetEta() const
+double
+LoadLandmark::GetEta() const
 {
   return this->m_Eta;
 }
 
-void LoadLandmark::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
+void
+LoadLandmark::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
 {
   const unsigned int NnDOF = element->GetNumberOfDegreesOfFreedomPerNode();
   const unsigned int Nnodes = element->GetNumberOfNodes();
@@ -132,7 +137,7 @@ void LoadLandmark::ApplyLoad(Element::ConstPointer element, Element::VectorType 
   Element::VectorType new_source(NnDOF, 0.0);
   Element::VectorType shapeF;
 
-  Fe.set_size( element->GetNumberOfDegreesOfFreedom() );
+  Fe.set_size(element->GetNumberOfDegreesOfFreedom());
   Fe.fill(0.0);
 
   // Retrieve the local coordinate at which the force acts
@@ -143,41 +148,42 @@ void LoadLandmark::ApplyLoad(Element::ConstPointer element, Element::VectorType 
 
   // Determine the displacement at point pt
   constexpr unsigned int TotalSolutionIndex = 1;
-  disp = element->InterpolateSolution(pt, ( *sol ), TotalSolutionIndex);
+  disp = element->InterpolateSolution(pt, (*sol), TotalSolutionIndex);
 
   // Convert the source to global coordinates
   new_source = this->GetSource() + disp;
 
   // Calculate the new force
   this->SetForce(disp);
-  force =  ( this->GetTarget() - new_source ) / this->GetEta();
+  force = (this->GetTarget() - new_source) / this->GetEta();
 
   //  std::cout << " disp " << disp <<  std::endl;
   // force /= std::sqrt(fmag);
-  new_source = ( this->GetTarget() - new_source );
+  new_source = (this->GetTarget() - new_source);
   //  std::cout << " force = " << force <<  " distance  " <<
   // new_source.magnitude() << std::endl;
 
   Element::Float curdist = new_source.magnitude();
-  if( curdist < 1.0 )
-    {
+  if (curdist < 1.0)
+  {
     force.fill(0.0);
-    }
-  //std::cout <<  " LM distance  " << curdist << std::endl;
+  }
+  // std::cout <<  " LM distance  " << curdist << std::endl;
 
   // "Integrate" at the location of the point load
   shapeF = element->ShapeFunctions(pt);
   // Calculate the equivalent nodal loads
-  for( unsigned int n = 0; n < Nnodes; n++ )
+  for (unsigned int n = 0; n < Nnodes; n++)
+  {
+    for (unsigned int d = 0; d < NnDOF; d++)
     {
-    for( unsigned int d = 0; d < NnDOF; d++ )
-      {
       Fe[n * NnDOF + d] += shapeF[n] * force[d];
-      }
     }
+  }
 }
 
-void LoadLandmark::PrintSelf(std::ostream& os, Indent indent) const
+void
+LoadLandmark::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Eta: " << this->m_Eta << std::endl;

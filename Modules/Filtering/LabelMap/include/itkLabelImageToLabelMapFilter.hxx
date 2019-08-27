@@ -25,156 +25,150 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-LabelImageToLabelMapFilter< TInputImage, TOutputImage >
-::LabelImageToLabelMapFilter()
+template <typename TInputImage, typename TOutputImage>
+LabelImageToLabelMapFilter<TInputImage, TOutputImage>::LabelImageToLabelMapFilter()
 {
-  m_BackgroundValue = NumericTraits< OutputImagePixelType >::NonpositiveMin();
+  m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
   this->DynamicMultiThreadingOff();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelImageToLabelMapFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+LabelImageToLabelMapFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast< InputImageType * >( this->GetInput() );
-  if ( !input )
-    {
+  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  if (!input)
+  {
     return;
-    }
-  input->SetRequestedRegion( input->GetLargestPossibleRegion() );
+  }
+  input->SetRequestedRegion(input->GetLargestPossibleRegion());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelImageToLabelMapFilter< TInputImage, TOutputImage >
-::EnlargeOutputRequestedRegion(DataObject *)
+LabelImageToLabelMapFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelImageToLabelMapFilter< TInputImage, TOutputImage >
-::BeforeThreadedGenerateData()
+LabelImageToLabelMapFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   // init the temp images - one per thread
-  m_TemporaryImages.resize( this->GetNumberOfWorkUnits() );
+  m_TemporaryImages.resize(this->GetNumberOfWorkUnits());
 
-  for ( ThreadIdType i = 0; i < this->GetNumberOfWorkUnits(); i++ )
+  for (ThreadIdType i = 0; i < this->GetNumberOfWorkUnits(); i++)
+  {
+    if (i == 0)
     {
-    if ( i == 0 )
-      {
       // the first one is the output image
       m_TemporaryImages[0] = this->GetOutput();
-      }
+    }
     else
-      {
+    {
       // the other must be created
       m_TemporaryImages[i] = OutputImageType::New();
-      }
+    }
 
     // set the minimum data needed to create the objects properly
     m_TemporaryImages[i]->SetBackgroundValue(m_BackgroundValue);
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelImageToLabelMapFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & regionForThread, ThreadIdType threadId)
+LabelImageToLabelMapFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
+  const OutputImageRegionType & regionForThread,
+  ThreadIdType                  threadId)
 {
-  ProgressReporter progress( this, threadId, regionForThread.GetNumberOfPixels() );
+  ProgressReporter progress(this, threadId, regionForThread.GetNumberOfPixels());
 
-  using InputLineIteratorType = ImageLinearConstIteratorWithIndex< InputImageType >;
+  using InputLineIteratorType = ImageLinearConstIteratorWithIndex<InputImageType>;
   InputLineIteratorType it(this->GetInput(), regionForThread);
   it.SetDirection(0);
 
-  for ( it.GoToBegin(); !it.IsAtEnd(); it.NextLine() )
-    {
+  for (it.GoToBegin(); !it.IsAtEnd(); it.NextLine())
+  {
     it.GoToBeginOfLine();
 
-    while ( !it.IsAtEndOfLine() )
-      {
+    while (!it.IsAtEndOfLine())
+    {
       /** todo: use .Value() here? */
       const InputImagePixelType & value = it.Get();
 
-      if ( value != static_cast< InputImagePixelType >( m_BackgroundValue ) )
-        {
+      if (value != static_cast<InputImagePixelType>(m_BackgroundValue))
+      {
         // We've hit the start of a run
-        IndexType idx = it.GetIndex();
-        LengthType      length = 1;
+        IndexType  idx = it.GetIndex();
+        LengthType length = 1;
         ++it;
-        while ( !it.IsAtEndOfLine() && it.Get() == value )
-          {
+        while (!it.IsAtEndOfLine() && it.Get() == value)
+        {
           ++length;
           ++it;
-          }
+        }
         // create the run length object to go in the vector
         m_TemporaryImages[threadId]->SetLine(idx, length, value);
-        }
+      }
       else
-        {
+      {
         // go the the next pixel
         ++it;
-        }
       }
     }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelImageToLabelMapFilter< TInputImage, TOutputImage >
-::AfterThreadedGenerateData()
+LabelImageToLabelMapFilter<TInputImage, TOutputImage>::AfterThreadedGenerateData()
 {
-  OutputImageType *output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
 
   // merge the lines from the temporary images in the output image
   // don't use the first image - that's the output image
-  for ( ThreadIdType i = 1; i < this->GetNumberOfWorkUnits(); i++ )
+  for (ThreadIdType i = 1; i < this->GetNumberOfWorkUnits(); i++)
+  {
+    for (typename OutputImageType::Iterator it(m_TemporaryImages[i]); !it.IsAtEnd(); ++it)
     {
-    for ( typename OutputImageType::Iterator it( m_TemporaryImages[i] );
-          ! it.IsAtEnd();
-          ++it )
+      LabelObjectType * labelObject = it.GetLabelObject();
+      if (output->HasLabel(labelObject->GetLabel()))
       {
-      LabelObjectType *labelObject = it.GetLabelObject();
-      if ( output->HasLabel( labelObject->GetLabel() ) )
-        {
         // merge the lines in the output's object
-        LabelObjectType * lo = output->GetLabelObject( labelObject->GetLabel() );
-        typename LabelObjectType::ConstLineIterator lit( labelObject );
-        while( ! lit.IsAtEnd() )
-          {
-          lo->AddLine( lit.GetLine() );
-          ++lit;
-          }
-        }
-      else
+        LabelObjectType *                           lo = output->GetLabelObject(labelObject->GetLabel());
+        typename LabelObjectType::ConstLineIterator lit(labelObject);
+        while (!lit.IsAtEnd())
         {
-        // simply take the object
-        output->AddLabelObject(labelObject);
+          lo->AddLine(lit.GetLine());
+          ++lit;
         }
       }
+      else
+      {
+        // simply take the object
+        output->AddLabelObject(labelObject);
+      }
     }
+  }
 
   // release the data in the temp images
   m_TemporaryImages.clear();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelImageToLabelMapFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+LabelImageToLabelMapFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "BackgroundValue: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_BackgroundValue ) << std::endl;
+  os << indent
+     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
+     << std::endl;
 }
 } // end namespace itk
 #endif

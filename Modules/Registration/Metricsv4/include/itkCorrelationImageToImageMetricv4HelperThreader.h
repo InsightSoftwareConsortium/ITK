@@ -32,22 +32,22 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-template < typename TDomainPartitioner, typename TImageToImageMetric, typename TCorrelationMetric >
+template <typename TDomainPartitioner, typename TImageToImageMetric, typename TCorrelationMetric>
 class ITK_TEMPLATE_EXPORT CorrelationImageToImageMetricv4HelperThreader
-  : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
+  : public ImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CorrelationImageToImageMetricv4HelperThreader);
 
   /** Standard class type aliases. */
   using Self = CorrelationImageToImageMetricv4HelperThreader;
-  using Superclass = ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro( CorrelationImageToImageMetricv4HelperThreader, ImageToImageMetricv4GetValueAndDerivativeThreader );
+  itkTypeMacro(CorrelationImageToImageMetricv4HelperThreader, ImageToImageMetricv4GetValueAndDerivativeThreader);
 
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   using DomainType = typename Superclass::DomainType;
   using AssociateType = typename Superclass::AssociateType;
@@ -76,7 +76,8 @@ protected:
   ~CorrelationImageToImageMetricv4HelperThreader() override;
 
   /** Overload: Resize and initialize per thread objects. */
-  void BeforeThreadedExecution() override;
+  void
+  BeforeThreadedExecution() override;
 
   /** Overload:
    * Collects the results from each thread and sums them.  Results are stored
@@ -85,7 +86,8 @@ protected:
    * m_NumberOfValidPoints, to average the value sum, and to average
    * derivative sums for global transforms only (i.e. transforms without local
    * support).  */
-  void AfterThreadedExecution() override;
+  void
+  AfterThreadedExecution() override;
 
 
   /* Overload: don't need to compute the image gradients and store derivatives
@@ -94,40 +96,41 @@ protected:
    * in turn calls \c TransformAndEvaluateFixedPoint, \c
    * TransformAndEvaluateMovingPoint, and \c ProcessPoint.
    */
-  bool ProcessVirtualPoint( const VirtualIndexType & virtualIndex,
-                                    const VirtualPointType & virtualPoint,
-                                    const ThreadIdType threadId ) override;
+  bool
+  ProcessVirtualPoint(const VirtualIndexType & virtualIndex,
+                      const VirtualPointType & virtualPoint,
+                      const ThreadIdType       threadId) override;
 
 
   /**
    * Not using. All processing is done in ProcessVirtualPoint.
    */
-  bool ProcessPoint(
-        const VirtualIndexType &          ,
-        const VirtualPointType &          ,
-        const FixedImagePointType &       ,
-        const FixedImagePixelType &       ,
-        const FixedImageGradientType &    ,
-        const MovingImagePointType &      ,
-        const MovingImagePixelType &      ,
-        const MovingImageGradientType &   ,
-        MeasureType &                     ,
-        DerivativeType &                  ,
-        const ThreadIdType                 ) const override
+  bool
+  ProcessPoint(const VirtualIndexType &,
+               const VirtualPointType &,
+               const FixedImagePointType &,
+               const FixedImagePixelType &,
+               const FixedImageGradientType &,
+               const MovingImagePointType &,
+               const MovingImagePixelType &,
+               const MovingImageGradientType &,
+               MeasureType &,
+               DerivativeType &,
+               const ThreadIdType) const override
   {
     return false;
   }
 
 private:
   struct CorrelationMetricPerThreadStruct
-    {
+  {
     InternalComputationValueType FixSum;
     InternalComputationValueType MovSum;
-    };
-  itkPadStruct( ITK_CACHE_LINE_ALIGNMENT, CorrelationMetricPerThreadStruct,
-                                          PaddedCorrelationMetricPerThreadStruct);
-  itkAlignedTypedef( ITK_CACHE_LINE_ALIGNMENT, PaddedCorrelationMetricPerThreadStruct,
-                                               AlignedCorrelationMetricPerThreadStruct );
+  };
+  itkPadStruct(ITK_CACHE_LINE_ALIGNMENT, CorrelationMetricPerThreadStruct, PaddedCorrelationMetricPerThreadStruct);
+  itkAlignedTypedef(ITK_CACHE_LINE_ALIGNMENT,
+                    PaddedCorrelationMetricPerThreadStruct,
+                    AlignedCorrelationMetricPerThreadStruct);
   /* per thread variables for correlation and its derivatives */
   mutable AlignedCorrelationMetricPerThreadStruct * m_CorrelationMetricPerThreadVariables;
 
@@ -139,7 +142,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCorrelationImageToImageMetricv4HelperThreader.hxx"
+#  include "itkCorrelationImageToImageMetricv4HelperThreader.hxx"
 #endif
 
 #endif

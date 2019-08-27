@@ -79,7 +79,7 @@ namespace itk
  * \endsphinx
  */
 class InternalHeader;
-class ITKIOGDCM_EXPORT GDCMImageIO:public ImageIOBase
+class ITKIOGDCM_EXPORT GDCMImageIO : public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GDCMImageIO);
@@ -87,7 +87,7 @@ public:
   /** Standard class type aliases. */
   using Self = GDCMImageIO;
   using Superclass = ImageIOBase;
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -99,13 +99,16 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  bool CanReadFile(const char *) override;
+  bool
+  CanReadFile(const char *) override;
 
   /** Set the spacing and dimesion information for the current filename. */
-  void ReadImageInformation() override;
+  void
+  ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void Read(void *buffer) override;
+  void
+  Read(void * buffer) override;
 
   /** Set/Get the original component type of the image. This differs from
    * ComponentType which may change as a function of rescale slope and
@@ -117,15 +120,18 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. GDCM triggers on ".dcm" and ".dicom". */
-  bool CanWriteFile(const char *) override;
+  bool
+  CanWriteFile(const char *) override;
 
   /** Writes the spacing and dimensions of the image.
    * Assumes SetFileName has been called with a valid file name. */
-  void WriteImageInformation() override;
+  void
+  WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegion has been set properly. */
-  void Write(const void *buffer) override;
+  void
+  Write(const void * buffer) override;
 
   /** Macro to access Rescale Slope and Rescale Intercept. Which are
    * needed to rescale properly image when needed. User then need to
@@ -158,50 +164,67 @@ public:
   itkGetConstMacro(LoadPrivateTags, bool);
   itkBooleanMacro(LoadPrivateTags);
 
-#if defined( ITKIO_DEPRECATED_GDCM1_API )
+#if defined(ITKIO_DEPRECATED_GDCM1_API)
   /** Convenience methods to query patient information and scanner
    * information. These methods are here for compatibility with the
    * DICOMImageIO2 class and as such should not be used in any new code.
    * They rely on properly preallocated buffer, which is not a good practice.
    * Instead user are encourage to use directly the GetValueFromTag function
    */
-  void GetPatientName(char *name);
+  void
+  GetPatientName(char * name);
 
-  void GetPatientID(char *id);
+  void
+  GetPatientID(char * id);
 
-  void GetPatientSex(char *sex);
+  void
+  GetPatientSex(char * sex);
 
-  void GetPatientAge(char *age);
+  void
+  GetPatientAge(char * age);
 
-  void GetStudyID(char *id);
+  void
+  GetStudyID(char * id);
 
-  void GetPatientDOB(char *dob);
+  void
+  GetPatientDOB(char * dob);
 
-  void GetStudyDescription(char *desc);
+  void
+  GetStudyDescription(char * desc);
 
-  void GetBodyPart(char *part);
+  void
+  GetBodyPart(char * part);
 
-  void GetNumberOfSeriesInStudy(char *series);
+  void
+  GetNumberOfSeriesInStudy(char * series);
 
-  void GetNumberOfStudyRelatedSeries(char *series);
+  void
+  GetNumberOfStudyRelatedSeries(char * series);
 
-  void GetStudyDate(char *date);
+  void
+  GetStudyDate(char * date);
 
-  void GetModality(char *modality);
+  void
+  GetModality(char * modality);
 
-  void GetManufacturer(char *manu);
+  void
+  GetManufacturer(char * manu);
 
-  void GetInstitution(char *ins);
+  void
+  GetInstitution(char * ins);
 
-  void GetModel(char *model);
+  void
+  GetModel(char * model);
 
-  void GetScanOptions(char *options);
+  void
+  GetScanOptions(char * options);
 #endif
 
   /** More general method to retrieve an arbitrary DICOM value based
    * on a DICOM Tag (eg "0123|45ef").
    */
-  bool GetValueFromTag(const std::string & tag, std::string & value);
+  bool
+  GetValueFromTag(const std::string & tag, std::string & value);
 
   /** Method for consulting the DICOM dictionary and recovering the text
    * description of a field using its numeric tag represented as a string.  If
@@ -209,10 +232,10 @@ public:
    * false and the value "Unknown " in the labelId. If the tagkey is found then
    * this static method returns true and the actual string descriptor of the
    * tagkey is returned in the variable labelId. */
-  static bool GetLabelFromTag(const std::string & tag,
-                              std::string & labelId);
+  static bool
+  GetLabelFromTag(const std::string & tag, std::string & labelId);
 
-#if defined( ITKIO_DEPRECATED_GDCM1_API )
+#if defined(ITKIO_DEPRECATED_GDCM1_API)
   /** A DICOM file can contains multiple binary stream that can be very long
    * For example an Overlay on the image. Most of the time user do not want to load
    * this binary structure in memory since it can consume lot of memory. Therefore
@@ -220,17 +243,29 @@ public:
    * This method allow advanced user to force the reading of such field
    * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x
    */
-  virtual void SetMaxSizeLoadEntry( const long ) {}
+  virtual void
+  SetMaxSizeLoadEntry(const long)
+  {}
 
   /** Parse any sequences in the DICOM file. Defaults to the value of
    *  LoadSequencesDefault. Loading DICOM files is faster when
    *  sequences are not needed.
    * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x
    */
-  virtual void SetLoadSequences( const bool ) {}
-  virtual bool GetLoadSequences () const { return true; }
-  virtual void LoadSequencesOn () {}
-  virtual void LoadSequencesOff () {}
+  virtual void
+  SetLoadSequences(const bool)
+  {}
+  virtual bool
+  GetLoadSequences() const
+  {
+    return true;
+  }
+  virtual void
+  LoadSequencesOn()
+  {}
+  virtual void
+  LoadSequencesOff()
+  {}
 
   /** Global method to define the default value for
    * LoadSequences. When instances of GDCMImageIO are created, the
@@ -240,10 +275,20 @@ public:
    * particular ImageIO object on the readers. Default is false.
    * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x
    */
-  static void SetLoadSequencesDefault(bool) {}
-  static void LoadSequencesDefaultOn() {}
-  static void LoadSequencesDefaultOff() {}
-  static bool GetLoadSequencesDefault() { return true; }
+  static void
+  SetLoadSequencesDefault(bool)
+  {}
+  static void
+  LoadSequencesDefaultOn()
+  {}
+  static void
+  LoadSequencesDefaultOff()
+  {}
+  static bool
+  GetLoadSequencesDefault()
+  {
+    return true;
+  }
 
   /** Global method to define the default value for
    * LoadPrivateTags. When instances of GDCMImageIO are created, the
@@ -253,37 +298,56 @@ public:
    * particular ImageIO object on the readers. Default is false.
    * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x
    */
-  static void SetLoadPrivateTagsDefault(bool) {}
-  static void LoadPrivateTagsDefaultOn() {}
-  static void LoadPrivateTagsDefaultOff() {}
-  static bool GetLoadPrivateTagsDefault() { return true; }
+  static void
+  SetLoadPrivateTagsDefault(bool)
+  {}
+  static void
+  LoadPrivateTagsDefaultOn()
+  {}
+  static void
+  LoadPrivateTagsDefaultOff()
+  {}
+  static bool
+  GetLoadPrivateTagsDefault()
+  {
+    return true;
+  }
 #endif
 
   /** \class TCompressionType
    *
    * \ingroup ITKIOGDCM
    * Set/Get a compression type to use. */
-  enum class TCompressionType : uint8_t{ JPEG = 0, JPEG2000, JPEGLS, RLE };
+  enum class TCompressionType : uint8_t
+  {
+    JPEG = 0,
+    JPEG2000,
+    JPEGLS,
+    RLE
+  };
 #if !defined(ITK_LEGACY_REMOVE)
-        //We need to expose the enum values at the class level
-        // for backwards compatibility
-        static constexpr TCompressionType JPEG = TCompressionType::JPEG;
-        static constexpr TCompressionType JPEG2000 = TCompressionType::JPEG2000;
-        static constexpr TCompressionType JPEGLS = TCompressionType::JPEGLS;
-        static constexpr TCompressionType RLE = TCompressionType::RLE;
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr TCompressionType JPEG = TCompressionType::JPEG;
+  static constexpr TCompressionType JPEG2000 = TCompressionType::JPEG2000;
+  static constexpr TCompressionType JPEGLS = TCompressionType::JPEGLS;
+  static constexpr TCompressionType RLE = TCompressionType::RLE;
 #endif
 
   itkSetEnumMacro(CompressionType, TCompressionType);
   itkGetEnumMacro(CompressionType, TCompressionType);
 
-  void InternalSetCompressor(const std::string &_compressor ) override;
+  void
+  InternalSetCompressor(const std::string & _compressor) override;
 
 protected:
   GDCMImageIO();
   ~GDCMImageIO() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void InternalReadImageInformation();
+  void
+  InternalReadImageInformation();
 
   double m_RescaleSlope;
   double m_RescaleIntercept;
@@ -298,7 +362,7 @@ protected:
   bool m_LoadPrivateTags;
 
 private:
-#if defined( ITKIO_DEPRECATED_GDCM1_API )
+#if defined(ITKIO_DEPRECATED_GDCM1_API)
   std::string m_PatientName;
   std::string m_PatientID;
   std::string m_PatientDOB;
@@ -327,7 +391,8 @@ private:
 };
 
 // Define how to print enumeration
-extern ITKIOGDCM_EXPORT std::ostream& operator<<(std::ostream& out, const GDCMImageIO::TCompressionType value);
+extern ITKIOGDCM_EXPORT std::ostream &
+                        operator<<(std::ostream & out, const GDCMImageIO::TCompressionType value);
 
 } // end namespace itk
 

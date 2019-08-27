@@ -32,18 +32,18 @@ http://graphviz.sourcearchive.com/documentation/2.16/gvrender__pango_8c-source.h
 /* _GNU_SOURCE is needed (supposedly) for the feenableexcept
  * prototype to be defined in fenv.h on GNU systems.
  * Presumably it will do no harm on other systems.
-*/
-#ifndef _GNU_SOURCE
-#define _GNU_SOURCE
-#endif
+ */
+#  ifndef _GNU_SOURCE
+#    define _GNU_SOURCE
+#  endif
 
 /* We are not supposed to need __USE_GNU, but I can't see
  * how to get the prototype for fedisableexcept from
  * /usr/include/fenv.h without it.
-*/
-#ifndef __USE_GNU
-#define __USE_GNU
-#endif
+ */
+#  ifndef __USE_GNU
+#    define __USE_GNU
+#  endif
 /* END quote */
 #endif // LINUX
 
@@ -56,14 +56,14 @@ http://graphviz.sourcearchive.com/documentation/2.16/gvrender__pango_8c-source.h
 // Define ITK_FEENABLEEXCEPT_NOOP if feenableexcept and fedisableexcept functions
 // should be do nothing (beside of returning zero).
 #if defined(__sun) || defined(__EMSCRIPTEN__)
-#define ITK_FEENABLEEXCEPT_NOOP
+#  define ITK_FEENABLEEXCEPT_NOOP
 #endif
 
 #if defined(__APPLE__)
-#include "TargetConditionals.h"
-#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-#define ITK_FEENABLEEXCEPT_NOOP
-#endif
+#  include "TargetConditionals.h"
+#  if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+#    define ITK_FEENABLEEXCEPT_NOOP
+#  endif
 #endif
 
 // Considering the following macros:
@@ -82,7 +82,8 @@ http://graphviz.sourcearchive.com/documentation/2.16/gvrender__pango_8c-source.h
 //
 // * ITK_HAS_FPE_CAPABILITY      : (a) If defined, enable catching of the different types
 //                                      of floating point exceptions.
-//                                 (b) If not defined, display "FloatingPointExceptions are not supported on this platform.".
+//                                 (b) If not defined, display "FloatingPointExceptions are not supported on this
+//                                 platform.".
 //                                     Then, depending on the value of FloatingPointExceptions::GetExceptionAction(),
 //                                     it aborts or exits
 //
@@ -97,33 +98,33 @@ http://graphviz.sourcearchive.com/documentation/2.16/gvrender__pango_8c-source.h
 
 #if defined(ITK_FEENABLEEXCEPT_NOOP)
 static int
-itk_feenableexcept (unsigned int /*excepts*/)
+itk_feenableexcept(unsigned int /*excepts*/)
 {
   return 0;
 }
 static int
-itk_fedisableexcept (unsigned int /*excepts*/)
+itk_fedisableexcept(unsigned int /*excepts*/)
 {
   return 0;
 }
-#define ITK_HAS_FPE_CAPABILITY
+#  define ITK_HAS_FPE_CAPABILITY
 
 #elif defined(ITK_HAS_FEENABLEEXCEPT)
-#define itk_feenableexcept feenableexcept
-#define itk_fedisableexcept fedisableexcept
-#define ITK_HAS_FPE_CAPABILITY
-#define ITK_FPE_USE_SIGNAL_HANDLER
+#  define itk_feenableexcept feenableexcept
+#  define itk_fedisableexcept fedisableexcept
+#  define ITK_HAS_FPE_CAPABILITY
+#  define ITK_FPE_USE_SIGNAL_HANDLER
 
 #elif defined(ITK_HAS_FEGETENV) && defined(ITK_HAS_FESETENV)
-#include "itkFloatingPointExceptions_unix_feenableexcept_using_fegetenv.cxx"
-#define ITK_HAS_FPE_CAPABILITY
-#define ITK_FPE_USE_SIGNAL_HANDLER
+#  include "itkFloatingPointExceptions_unix_feenableexcept_using_fegetenv.cxx"
+#  define ITK_HAS_FPE_CAPABILITY
+#  define ITK_FPE_USE_SIGNAL_HANDLER
 
 #endif
 
 // Implementation of signal handler used below
 #if defined(ITK_FPE_USE_SIGNAL_HANDLER)
-#include "itkFloatingPointExceptions_unix_signalhandler.cxx"
+#  include "itkFloatingPointExceptions_unix_signalhandler.cxx"
 #endif
 
 #include <cstring> // memset
@@ -132,22 +133,21 @@ namespace itk
 {
 
 void
-FloatingPointExceptions
-::Enable()
+FloatingPointExceptions ::Enable()
 {
   itkInitGlobalsMacro(PimplGlobals);
 #if defined(ITK_HAS_FPE_CAPABILITY)
-  itk_feenableexcept (FE_DIVBYZERO);
-  itk_feenableexcept (FE_INVALID);
-#if defined(ITK_FPE_USE_SIGNAL_HANDLER)
+  itk_feenableexcept(FE_DIVBYZERO);
+  itk_feenableexcept(FE_INVALID);
+#  if defined(ITK_FPE_USE_SIGNAL_HANDLER)
   struct sigaction act;
-  memset(&act,0,sizeof(struct sigaction));
+  memset(&act, 0, sizeof(struct sigaction));
   act.sa_sigaction = fhdl;
   sigemptyset(&act.sa_mask);
   act.sa_flags = SA_SIGINFO;
-  sigaction(SIGFPE,&act,nullptr);
-#endif
- FloatingPointExceptions::m_PimplGlobals->m_Enabled = true;
+  sigaction(SIGFPE, &act, nullptr);
+#  endif
+  FloatingPointExceptions::m_PimplGlobals->m_Enabled = true;
   (void)itkFloatingPointExceptionsNotSupported; // avoid unused-function warning
 #else
   itkFloatingPointExceptionsNotSupported();
@@ -155,21 +155,20 @@ FloatingPointExceptions
 }
 
 void
-FloatingPointExceptions
-::Disable()
+FloatingPointExceptions ::Disable()
 {
   itkInitGlobalsMacro(PimplGlobals);
 #if defined(ITK_HAS_FPE_CAPABILITY)
-  itk_fedisableexcept (FE_DIVBYZERO);
-  itk_fedisableexcept (FE_INVALID);
+  itk_fedisableexcept(FE_DIVBYZERO);
+  itk_fedisableexcept(FE_INVALID);
   FloatingPointExceptions::m_PimplGlobals->m_Enabled = false;
 #else
   itkFloatingPointExceptionsNotSupported();
 #endif
 }
 
-bool FloatingPointExceptions
-::HasFloatingPointExceptionsSupport()
+bool
+FloatingPointExceptions ::HasFloatingPointExceptionsSupport()
 {
   itkInitGlobalsMacro(PimplGlobals);
 #if defined(ITK_HAS_FPE_CAPABILITY)
@@ -179,4 +178,4 @@ bool FloatingPointExceptions
 #endif
 }
 
-} // end of itk namespace
+} // namespace itk

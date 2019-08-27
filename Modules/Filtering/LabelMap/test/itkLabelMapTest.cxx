@@ -21,20 +21,21 @@
 #include "itkLabelObject.h"
 #include "itkTestingMacros.h"
 
-int itkLabelMapTest(int argc, char * argv[])
+int
+itkLabelMapTest(int argc, char * argv[])
 {
 
-  if( argc != 1 )
-    {
+  if (argc != 1)
+  {
     std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << "" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int dim = 3;
 
-  using LabelObjectType = itk::LabelObject< unsigned long, dim >;
+  using LabelObjectType = itk::LabelObject<unsigned long, dim>;
   using IndexType = LabelObjectType::IndexType;
-  using LabelMapType = itk::LabelMap< LabelObjectType >;
+  using LabelMapType = itk::LabelMap<LabelObjectType>;
   using RegionType = LabelMapType::RegionType;
   using SizeType = LabelMapType::SizeType;
   using LabelObjectVectorType = LabelMapType::LabelObjectVectorType;
@@ -46,7 +47,7 @@ int itkLabelMapTest(int argc, char * argv[])
   sizeIn[0] = 10;
   sizeIn[1] = 20;
   sizeIn[2] = 30;
-  map->SetRegions( sizeIn );
+  map->SetRegions(sizeIn);
   map->Allocate();
 
   RegionType regionIn;
@@ -54,7 +55,7 @@ int itkLabelMapTest(int argc, char * argv[])
 
   RegionType regionOut;
   regionOut = map->GetRequestedRegion();
-  itkAssertOrThrowMacro ( (regionOut == regionIn), "SetRegions (size) failed");
+  itkAssertOrThrowMacro((regionOut == regionIn), "SetRegions (size) failed");
   map->Initialize();
 
   IndexType index;
@@ -68,19 +69,19 @@ int itkLabelMapTest(int argc, char * argv[])
 
   regionIn.SetIndex(index);
   regionIn.SetSize(sizeIn);
-  map->SetRegions( regionIn );
+  map->SetRegions(regionIn);
   map->Allocate();
 
   regionOut = map->GetRequestedRegion();
-  itkAssertOrThrowMacro ( (regionOut == regionIn), "SetRegions (region) failed");
+  itkAssertOrThrowMacro((regionOut == regionIn), "SetRegions (region) failed");
 
   LabelMapType::Pointer mapGraft = LabelMapType::New();
-  mapGraft->Graft( map );
+  mapGraft->Graft(map);
   regionOut = mapGraft->GetRequestedRegion();
-  itkAssertOrThrowMacro ( (regionOut == regionIn), "Graft failed");
+  itkAssertOrThrowMacro((regionOut == regionIn), "Graft failed");
 
   mapGraft->SetBackgroundValue(255);
-  itkAssertOrThrowMacro( (mapGraft->GetBackgroundValue() == 255), "Set/GetBackground failed.");
+  itkAssertOrThrowMacro((mapGraft->GetBackgroundValue() == 255), "Set/GetBackground failed.");
 
   LabelObjectType::Pointer lo = LabelObjectType::New();
   lo->SetLabel(1);
@@ -89,84 +90,84 @@ int itkLabelMapTest(int argc, char * argv[])
   idx[0] = 1;
   idx[1] = 20;
   idx[2] = 30;
-  lo->AddLine( idx, 10 );
+  lo->AddLine(idx, 10);
 
   idx[0] = 5;
-  lo->AddLine( idx, 10 );
+  lo->AddLine(idx, 10);
 
   idx[0] = 5;
   idx[1] = 0;
   idx[2] = 0;
-  lo->AddLine( idx, 10 );
+  lo->AddLine(idx, 10);
 
   idx[0] = 5;
   idx[1] = 0;
   idx[2] = 1;
-  lo->AddLine( idx, 10 );
+  lo->AddLine(idx, 10);
 
   idx[0] = 5;
   idx[1] = 1;
   idx[2] = 0;
-  lo->AddLine( idx, 10 );
+  lo->AddLine(idx, 10);
 
   idx[0] = 0;
   idx[1] = 1;
   idx[2] = 1;
-  lo->AddLine( idx, 10 );
+  lo->AddLine(idx, 10);
 
   idx[0] = 10;
   idx[1] = 1;
   idx[2] = 1;
-  lo->AddLine( idx, 1 );
+  lo->AddLine(idx, 1);
 
   LabelObjectType::Pointer loCheck;
 
   map->AddLabelObject(lo);
   loCheck = map->GetLabelObject(idx);
-  itkAssertOrThrowMacro ( (loCheck == lo), "Add/GetLabelObject failed");
+  itkAssertOrThrowMacro((loCheck == lo), "Add/GetLabelObject failed");
 
   LabelObjectVectorType loVector;
   loVector = map->GetLabelObjects();
-  itkAssertOrThrowMacro ( (loVector[0] == lo), "GetLabelObjects failed");
+  itkAssertOrThrowMacro((loVector[0] == lo), "GetLabelObjects failed");
 
   LabelVectorType loLabels;
   loLabels = map->GetLabels();
-  itkAssertOrThrowMacro ( (loLabels[0] == 1), "GetLabels failed");
+  itkAssertOrThrowMacro((loLabels[0] == 1), "GetLabels failed");
 
   LabelObjectType::Pointer lo2 = LabelObjectType::New();
 
   idx[0] = 1;
   idx[1] = 21;
   idx[2] = 30;
-  lo2->AddLine( idx, 10 );
+  lo2->AddLine(idx, 10);
 
 
   map->PushLabelObject(lo2);
   loCheck = map->GetLabelObject(idx);
-  itkAssertOrThrowMacro ( (loCheck == lo2), "Push/GetLabelObject failed");
+  itkAssertOrThrowMacro((loCheck == lo2), "Push/GetLabelObject failed");
 
   idx[0] = 1;
   idx[1] = 21;
   idx[2] = 31;
-  map->SetPixel( idx, 3 );
+  map->SetPixel(idx, 3);
 
   idx[0] = 1;
   idx[1] = 21;
   idx[2] = 32;
-  map->SetLine( idx, 11, 3);
+  map->SetLine(idx, 11, 3);
 
   idx[0] = 2;
   idx[1] = 21;
   idx[2] = 32;
-  itkAssertOrThrowMacro ( (map->GetPixel(idx) == 3), "SetPixel/SetLine/GetPixel failed");
+  itkAssertOrThrowMacro((map->GetPixel(idx) == 3), "SetPixel/SetLine/GetPixel failed");
 
-  itkAssertOrThrowMacro ( (map->GetNumberOfLabelObjects() == 3), "GetNumberOfLabelObjects failed");
-  itkAssertOrThrowMacro ( map->HasLabel(1), "HasLabel failed");
+  itkAssertOrThrowMacro((map->GetNumberOfLabelObjects() == 3), "GetNumberOfLabelObjects failed");
+  itkAssertOrThrowMacro(map->HasLabel(1), "HasLabel failed");
 
   loCheck = map->GetNthLabelObject(1);
-  itkAssertOrThrowMacro ( (loCheck == lo2), "GetNthLabelObject failed");
+  itkAssertOrThrowMacro((loCheck == lo2), "GetNthLabelObject failed");
 
-  itkAssertOrThrowMacro ( (map->GetPixel(idx) == 3), "SetPixel/SetLine/GetPixel failed");
+  itkAssertOrThrowMacro((map->GetPixel(idx) == 3), "SetPixel/SetLine/GetPixel failed");
 
   map->Print(std::cout);
 
@@ -174,11 +175,11 @@ int itkLabelMapTest(int argc, char * argv[])
 
   map->Optimize();
 
-  map->RemoveLabelObject( lo );
+  map->RemoveLabelObject(lo);
   map->RemoveLabel(2);
-  itkAssertOrThrowMacro ( (map->GetNumberOfLabelObjects() == 1), "Remove LabelObject/Label failed");
+  itkAssertOrThrowMacro((map->GetNumberOfLabelObjects() == 1), "Remove LabelObject/Label failed");
   map->ClearLabels();
-  itkAssertOrThrowMacro ( (map->GetNumberOfLabelObjects() == 0), "ClearLabels failed");
+  itkAssertOrThrowMacro((map->GetNumberOfLabelObjects() == 0), "ClearLabels failed");
 
   return EXIT_SUCCESS;
 }

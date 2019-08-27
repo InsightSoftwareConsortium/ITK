@@ -101,6 +101,6 @@ using ThreadIdType = unsigned int;
 /** Type to count and reference the modification time of objects */
 using ModifiedTimeType = SizeValueType;
 
-}
+} // namespace itk
 
-#endif  /* itkIntTypes_h */
+#endif /* itkIntTypes_h */

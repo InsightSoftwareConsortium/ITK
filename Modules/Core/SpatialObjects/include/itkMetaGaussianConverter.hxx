@@ -23,34 +23,32 @@
 namespace itk
 {
 
-template< unsigned int NDimensions >
-typename MetaGaussianConverter< NDimensions >::MetaObjectType *
-MetaGaussianConverter< NDimensions>
-::CreateMetaObject()
+template <unsigned int NDimensions>
+typename MetaGaussianConverter<NDimensions>::MetaObjectType *
+MetaGaussianConverter<NDimensions>::CreateMetaObject()
 {
   return dynamic_cast<MetaObjectType *>(new GaussianMetaObjectType);
 }
 
 /** Convert a metaGaussian into a gaussian SpatialObject  */
-template< unsigned int NDimensions >
-typename MetaGaussianConverter< NDimensions >::SpatialObjectPointer
-MetaGaussianConverter< NDimensions >
-::MetaObjectToSpatialObject(const MetaObjectType *mo)
+template <unsigned int NDimensions>
+typename MetaGaussianConverter<NDimensions>::SpatialObjectPointer
+MetaGaussianConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo)
 {
   const auto * metaGaussian = dynamic_cast<const GaussianMetaObjectType *>(mo);
-  if(metaGaussian == nullptr)
-    {
-    itkExceptionMacro(<< "Can't convert MetaObject to MetaGaussian" );
-    }
+  if (metaGaussian == nullptr)
+  {
+    itkExceptionMacro(<< "Can't convert MetaObject to MetaGaussian");
+  }
 
   GaussianSpatialObjectPointer gaussianSO = GaussianSpatialObjectType::New();
 
   gaussianSO->SetMaximum(metaGaussian->Maximum());
   gaussianSO->SetRadiusInObjectSpace(metaGaussian->Radius());
   gaussianSO->SetSigmaInObjectSpace(metaGaussian->Sigma());
-  gaussianSO->GetProperty().SetName( metaGaussian->Name());
+  gaussianSO->GetProperty().SetName(metaGaussian->Name());
   gaussianSO->SetId(metaGaussian->ID());
-  gaussianSO->SetParentId( metaGaussian->ParentID() );
+  gaussianSO->SetParentId(metaGaussian->ParentID());
   gaussianSO->GetProperty().SetRed(metaGaussian->Color()[0]);
   gaussianSO->GetProperty().SetGreen(metaGaussian->Color()[1]);
   gaussianSO->GetProperty().SetBlue(metaGaussian->Color()[2]);
@@ -60,32 +58,30 @@ MetaGaussianConverter< NDimensions >
 }
 
 /** Convert a gaussian SpatialObject into a metaGaussian */
-template< unsigned int NDimensions >
-typename MetaGaussianConverter< NDimensions >::MetaObjectType *
-MetaGaussianConverter< NDimensions >
-::SpatialObjectToMetaObject(const SpatialObjectType *so)
+template <unsigned int NDimensions>
+typename MetaGaussianConverter<NDimensions>::MetaObjectType *
+MetaGaussianConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so)
 {
-  GaussianSpatialObjectConstPointer gaussianSO =
-    dynamic_cast<const GaussianSpatialObjectType *>(so);
-  auto * metaGaussian = new GaussianMetaObjectType;
-  if(gaussianSO.IsNull())
-    {
+  GaussianSpatialObjectConstPointer gaussianSO = dynamic_cast<const GaussianSpatialObjectType *>(so);
+  auto *                            metaGaussian = new GaussianMetaObjectType;
+  if (gaussianSO.IsNull())
+  {
     itkExceptionMacro(<< "Can't downcast SpatialObject to GaussianSpatialObject");
-    }
+  }
 
-  if ( gaussianSO->GetParent() )
-    {
-    metaGaussian->ParentID( gaussianSO->GetParent()->GetId() );
-    }
+  if (gaussianSO->GetParent())
+  {
+    metaGaussian->ParentID(gaussianSO->GetParent()->GetId());
+  }
   metaGaussian->Maximum(gaussianSO->GetMaximum());
   metaGaussian->Radius(gaussianSO->GetRadiusInObjectSpace());
   metaGaussian->Sigma(gaussianSO->GetSigmaInObjectSpace());
   metaGaussian->ID(gaussianSO->GetId());
   metaGaussian->BinaryData(true);
   metaGaussian->Color(gaussianSO->GetProperty().GetRed(),
-    gaussianSO->GetProperty().GetGreen(),
-    gaussianSO->GetProperty().GetBlue(),
-    gaussianSO->GetProperty().GetAlpha());
+                      gaussianSO->GetProperty().GetGreen(),
+                      gaussianSO->GetProperty().GetBlue(),
+                      gaussianSO->GetProperty().GetAlpha());
 
   return metaGaussian;
 }

@@ -35,11 +35,8 @@ namespace itk
  * \ingroup ITKWatersheds
  */
 
-template< typename TInputImage, typename TOutputImage = Image< IdentifierType, TInputImage::ImageDimension >  >
-class ITK_TEMPLATE_EXPORT TobogganImageFilter:
-  public ImageToImageFilter<
-    TInputImage,
-    TOutputImage>
+template <typename TInputImage, typename TOutputImage = Image<IdentifierType, TInputImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT TobogganImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TobogganImageFilter);
@@ -63,7 +60,10 @@ public:
   using InputImagePixelType = typename InputImageType::PixelType;
 
   /** Dimension of the input and output images. */
-  enum { ImageDimension = InputImageType::ImageDimension };
+  enum
+  {
+    ImageDimension = InputImageType::ImageDimension
+  };
 
   /** Other convenient type alias   */
   using RegionType = typename InputImageType::RegionType;
@@ -74,13 +74,13 @@ public:
   using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** Standard super class type alias support */
-  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
+  using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
 
   /** Typedef support for the input image scalar value type. */
   using ScalarType = typename InputImageType::PixelType;
 
   /** Smart pointer type alias support  */
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(TobogganImageFilter, ImageToImageFilter);
@@ -89,33 +89,35 @@ public:
   itkNewMacro(Self);
 
   /** Standard process object method.  This filter is not multithreaded. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
-  void EnlargeOutputRequestedRegion(DataObject *) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject *) override;
 
   /** Neighborhood iterator type */
-  using NeighborhoodIteratorType = ConstNeighborhoodIterator<Image<float, 2> >;
+  using NeighborhoodIteratorType = ConstNeighborhoodIterator<Image<float, 2>>;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( LessThanComparableCheck,
-                   ( Concept::LessThanComparable< InputImagePixelType > ) );
-  itkConceptMacro( OStreamWritableCheck,
-                   ( Concept::OStreamWritable< InputImagePixelType > ) );
+  itkConceptMacro(LessThanComparableCheck, (Concept::LessThanComparable<InputImagePixelType>));
+  itkConceptMacro(OStreamWritableCheck, (Concept::OStreamWritable<InputImagePixelType>));
   // End concept checking
 #endif
 
 protected:
   TobogganImageFilter() = default;
   ~TobogganImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
-};                                   // end of class
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
+}; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTobogganImageFilter.hxx"
+#  include "itkTobogganImageFilter.hxx"
 #endif
 
 #endif

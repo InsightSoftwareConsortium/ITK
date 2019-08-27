@@ -28,30 +28,28 @@ namespace itk
  * \ingroup ITKConvolution
  * Output region mode type enumeration
  */
-enum class ConvolutionImageFilterOutputRegionType : uint8_t{
-        SAME = 0,
-        VALID
+enum class ConvolutionImageFilterOutputRegionType : uint8_t
+{
+  SAME = 0,
+  VALID
 };
 
-    /** \class ConvolutionImageFilterBase
+/** \class ConvolutionImageFilterBase
  * \brief Abstract base class for the convolution image filters.
  *
  * \ingroup ITKConvolution
  * \sa ConvolutionImageFilter FFTConvolutionImageFilter
  */
-template< typename TInputImage,
-          typename TKernelImage = TInputImage,
-          typename TOutputImage = TInputImage >
-class ITK_TEMPLATE_EXPORT ConvolutionImageFilterBase :
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TKernelImage = TInputImage, typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT ConvolutionImageFilterBase : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConvolutionImageFilterBase);
 
   using Self = ConvolutionImageFilterBase;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information ( and related methods ) */
   itkTypeMacro(ConvolutionImageFilterBase, ImageToImageFilter);
@@ -77,9 +75,9 @@ public:
   using KernelRegionType = typename KernelImageType::RegionType;
 
   /** Typedef to describe the boundary condition. */
-  using BoundaryConditionType = ImageBoundaryCondition< TInputImage >;
+  using BoundaryConditionType = ImageBoundaryCondition<TInputImage>;
   using BoundaryConditionPointerType = BoundaryConditionType *;
-  using DefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition< TInputImage >;
+  using DefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition<TInputImage>;
 
   /** Set/get the boundary condition. */
   itkSetMacro(BoundaryCondition, BoundaryConditionPointerType);
@@ -98,10 +96,10 @@ public:
   /** Reverse compatibility for enumerations */
   using OutputRegionModeType = ConvolutionImageFilterOutputRegionType;
 #if !defined(ITK_LEGACY_REMOVE)
-    //We need to expose the enum values at the class level
-    // for backwards compatibility
-    static constexpr OutputRegionModeType SAME = OutputRegionModeType::SAME;
-    static constexpr OutputRegionModeType VALID = OutputRegionModeType::VALID;
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr OutputRegionModeType SAME = OutputRegionModeType::SAME;
+  static constexpr OutputRegionModeType VALID = OutputRegionModeType::VALID;
 #endif
 
   /** Sets the output region mode. If set to SAME, the output region
@@ -115,25 +113,31 @@ public:
    * region. Default output region mode is SAME. */
   itkSetEnumMacro(OutputRegionMode, OutputRegionModeType);
   itkGetEnumMacro(OutputRegionMode, OutputRegionModeType);
-  virtual void SetOutputRegionModeToSame();
-  virtual void SetOutputRegionModeToValid();
+  virtual void
+  SetOutputRegionModeToSame();
+  virtual void
+  SetOutputRegionModeToValid();
 
 protected:
   ConvolutionImageFilterBase();
   ~ConvolutionImageFilterBase() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** The largest possible output region may differ from the largest
    * possible input region. */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** Get the valid region of the convolution. */
-  OutputRegionType GetValidRegion() const;
+  OutputRegionType
+  GetValidRegion() const;
 
   /** Default superclass implementation ensures that input images
    * occupy same physical space. This is not needed for this filter. */
-  void VerifyInputInformation() ITKv5_CONST override {};
+  void
+  VerifyInputInformation() ITKv5_CONST override{};
 
 private:
   bool m_Normalize{ false };
@@ -145,11 +149,12 @@ private:
 };
 
 /** Define how to print enumerations */
-extern ITKConvolution_EXPORT std::ostream& operator<<(std::ostream& out, const ConvolutionImageFilterOutputRegionType value);
+extern ITKConvolution_EXPORT std::ostream &
+                             operator<<(std::ostream & out, const ConvolutionImageFilterOutputRegionType value);
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkConvolutionImageFilterBase.hxx"
+#  include "itkConvolutionImageFilterBase.hxx"
 #endif
 
 #endif

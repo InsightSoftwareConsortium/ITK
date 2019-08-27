@@ -30,72 +30,73 @@ namespace
 // we validate the results against just converting the numbers to
 // doubles. This will work for all integers less then 32-bit but is
 // not always exact with larger integers.
-template < typename T1, typename T2 >
-bool DoCastWithRangeCheckTestVerify( const T2 value, const T1 = 0 )
+template <typename T1, typename T2>
+bool
+DoCastWithRangeCheckTestVerify(const T2 value, const T1 = 0)
 {
   T1 ret;
   // tying to convert T2 to T1
   try
-    {
-    ret = itk::Math::CastWithRangeCheck<T1>( value );
+  {
+    ret = itk::Math::CastWithRangeCheck<T1>(value);
     // value should match
-    if ( itk::Math::NotExactlyEquals(double(ret), double(value)) )
-      {
-      std::cout << "casting error with input value: "
-                << static_cast<typename itk::NumericTraits<T2>::PrintType>(value)
-                << " output value: "
-                << static_cast<typename itk::NumericTraits<T1>::PrintType>(ret) << std::endl;
-      return false;
-      }
-    }
-  catch(...)
+    if (itk::Math::NotExactlyEquals(double(ret), double(value)))
     {
+      std::cout << "casting error with input value: " << static_cast<typename itk::NumericTraits<T2>::PrintType>(value)
+                << " output value: " << static_cast<typename itk::NumericTraits<T1>::PrintType>(ret) << std::endl;
+      return false;
+    }
+  }
+  catch (...)
+  {
     // conversion should result in some overflow problem
-    auto retCheck =  static_cast<T1>( value );
-    if ( itk::Math::ExactlyEquals(double(retCheck), double(value)) )
-      {
+    auto retCheck = static_cast<T1>(value);
+    if (itk::Math::ExactlyEquals(double(retCheck), double(value)))
+    {
       std::cout << "unexpected exception with value: " << value << std::endl;
       return false;
-      }
-
     }
+  }
 
 
   return true;
 }
 
 
-template < typename T1, typename T2 >
-bool DoCastWithRangeCheckTestExulstive( const T1* = nullptr, const T2* = nullptr )
+template <typename T1, typename T2>
+bool
+DoCastWithRangeCheckTestExulstive(const T1 * = nullptr, const T2 * = nullptr)
 {
   // test convert T2 to T1
   bool pass = true;
-  for (T2 i = itk::NumericTraits<T2>::NonpositiveMin(); i != itk::NumericTraits<T2>::max(); ++i )
-    {
-    pass &= DoCastWithRangeCheckTestVerify<T1, T2>( i );
-    }
+  for (T2 i = itk::NumericTraits<T2>::NonpositiveMin(); i != itk::NumericTraits<T2>::max(); ++i)
+  {
+    pass &= DoCastWithRangeCheckTestVerify<T1, T2>(i);
+  }
 
   return pass;
 }
 
-template < typename T1, typename T2 >
-bool DoCastWithRangeCheckTest( const T1* = nullptr, const T2* = nullptr )
+template <typename T1, typename T2>
+bool
+DoCastWithRangeCheckTest(const T1 * = nullptr, const T2 * = nullptr)
 {
   int minus_one = -1;
 
   // test convert T2 to T1
   bool pass = true;
-  pass &= DoCastWithRangeCheckTestVerify<T1, T2>( itk::NumericTraits<T2>::NonpositiveMin() );
-  pass &= DoCastWithRangeCheckTestVerify<T1, T2>( itk::NumericTraits<T2>::max() );
-  pass &= DoCastWithRangeCheckTestVerify<T1, T2>( itk::NumericTraits<T2>::ZeroValue() );
-  pass &= DoCastWithRangeCheckTestVerify<T1, T2>( itk::NumericTraits<T2>::OneValue() );
-  pass &= DoCastWithRangeCheckTestVerify<T1, T2>( static_cast<T2>(itk::NumericTraits<T2>::OneValue()*minus_one) );
+  pass &= DoCastWithRangeCheckTestVerify<T1, T2>(itk::NumericTraits<T2>::NonpositiveMin());
+  pass &= DoCastWithRangeCheckTestVerify<T1, T2>(itk::NumericTraits<T2>::max());
+  pass &= DoCastWithRangeCheckTestVerify<T1, T2>(itk::NumericTraits<T2>::ZeroValue());
+  pass &= DoCastWithRangeCheckTestVerify<T1, T2>(itk::NumericTraits<T2>::OneValue());
+  pass &= DoCastWithRangeCheckTestVerify<T1, T2>(static_cast<T2>(itk::NumericTraits<T2>::OneValue() * minus_one));
 
   return pass;
 }
 
-template < typename T1 >
-bool DoCastWithRangeCheckTestForTypes( const T1* = nullptr )
+template <typename T1>
+bool
+DoCastWithRangeCheckTestForTypes(const T1 * = nullptr)
 {
   // call method for all type to be converted to type T1
   bool pass = true;
@@ -117,20 +118,21 @@ bool DoCastWithRangeCheckTestForTypes( const T1* = nullptr )
 
 } // end namespace
 
-int itkMathCastWithRangeCheckTest( int, char *[] )
+int
+itkMathCastWithRangeCheckTest(int, char *[])
 {
   bool pass = true;
 
-   try
-    {
-    itk::Math::CastWithRangeCheck<short, int>( int(itk::NumericTraits<short>::max())+10 );
+  try
+  {
+    itk::Math::CastWithRangeCheck<short, int>(int(itk::NumericTraits<short>::max()) + 10);
     pass = false;
-    std::cout << "failed to through exception with " <<  int(itk::NumericTraits<short>::max())+10 << " to int ";
-    }
-   catch( ... )
-     {
-     std::cout << "caught exception as expected" << std::endl;
-     }
+    std::cout << "failed to through exception with " << int(itk::NumericTraits<short>::max()) + 10 << " to int ";
+  }
+  catch (...)
+  {
+    std::cout << "caught exception as expected" << std::endl;
+  }
 
 
   DoCastWithRangeCheckTestExulstive<signed char, unsigned char>();
@@ -158,5 +160,4 @@ int itkMathCastWithRangeCheckTest( int, char *[] )
     return EXIT_SUCCESS;
   else
     return EXIT_FAILURE;
-
 }

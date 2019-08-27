@@ -30,28 +30,25 @@
 namespace itk
 {
 // Construct a new SimpleMutexLock
-SimpleFastMutexLock::SimpleFastMutexLock()
-{
-}
+SimpleFastMutexLock::SimpleFastMutexLock() {}
 
 // Destruct the SimpleMutexVariable
-SimpleFastMutexLock::~SimpleFastMutexLock()
-{
-}
+SimpleFastMutexLock::~SimpleFastMutexLock() {}
 
 // Lock the FastMutexLock
-void SimpleFastMutexLock::Lock() const
-{
-}
+void
+SimpleFastMutexLock::Lock() const
+{}
 
 // Non-blocking TryLock the FastMutexLock
-bool SimpleFastMutexLock::TryLock() const
+bool
+SimpleFastMutexLock::TryLock() const
 {
   return true;
 }
 
 // Unlock the FastMutexLock
-void SimpleFastMutexLock::Unlock() const
-{
-}
-} //end namespace itk
+void
+SimpleFastMutexLock::Unlock() const
+{}
+} // end namespace itk

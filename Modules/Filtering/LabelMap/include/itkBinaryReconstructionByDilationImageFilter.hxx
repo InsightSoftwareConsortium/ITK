@@ -22,90 +22,82 @@
 #include "itkProgressAccumulator.h"
 
 
-namespace itk {
+namespace itk
+{
 
-template<typename TInputImage>
-BinaryReconstructionByDilationImageFilter<TInputImage>
-::BinaryReconstructionByDilationImageFilter()
+template <typename TInputImage>
+BinaryReconstructionByDilationImageFilter<TInputImage>::BinaryReconstructionByDilationImageFilter()
 {
   m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
   m_ForegroundValue = NumericTraits<OutputImagePixelType>::max();
   m_FullyConnected = false;
-  this->SetPrimaryInputName( "MarkerImage" );
-  this->AddRequiredInputName( "MaskImage", 1 );
+  this->SetPrimaryInputName("MarkerImage");
+  this->AddRequiredInputName("MaskImage", 1);
 }
 
-template<typename TInputImage>
+template <typename TInputImage>
 void
-BinaryReconstructionByDilationImageFilter<TInputImage>
-::SetMarkerImage( const InputImageType * input )
+BinaryReconstructionByDilationImageFilter<TInputImage>::SetMarkerImage(const InputImageType * input)
 {
   // Process object is not const-correct, so the const casting is required.
-  this->ProcessObject::SetInput( "MarkerImage", const_cast< InputImageType * >( input ));
+  this->ProcessObject::SetInput("MarkerImage", const_cast<InputImageType *>(input));
 }
 
-template<typename TInputImage>
+template <typename TInputImage>
 typename BinaryReconstructionByDilationImageFilter<TInputImage>::InputImageType *
-BinaryReconstructionByDilationImageFilter<TInputImage>
-::GetMarkerImage()
+BinaryReconstructionByDilationImageFilter<TInputImage>::GetMarkerImage()
 {
-  return static_cast<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput( "MarkerImage" )));
+  return static_cast<InputImageType *>(const_cast<DataObject *>(this->ProcessObject::GetInput("MarkerImage")));
 }
 
-template<typename TInputImage>
+template <typename TInputImage>
 void
-BinaryReconstructionByDilationImageFilter<TInputImage>
-::SetMaskImage( const InputImageType * input )
+BinaryReconstructionByDilationImageFilter<TInputImage>::SetMaskImage(const InputImageType * input)
 {
   // Process object is not const-correct, so the const casting is required.
-  this->ProcessObject::SetInput( "MaskImage", const_cast< InputImageType * >( input ));
+  this->ProcessObject::SetInput("MaskImage", const_cast<InputImageType *>(input));
 }
 
-template<typename TInputImage>
+template <typename TInputImage>
 typename BinaryReconstructionByDilationImageFilter<TInputImage>::InputImageType *
-BinaryReconstructionByDilationImageFilter<TInputImage>
-::GetMaskImage()
+BinaryReconstructionByDilationImageFilter<TInputImage>::GetMaskImage()
 {
-  return static_cast<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput( "MaskImage" )));
+  return static_cast<InputImageType *>(const_cast<DataObject *>(this->ProcessObject::GetInput("MaskImage")));
 }
 
-template<typename TInputImage>
+template <typename TInputImage>
 void
-BinaryReconstructionByDilationImageFilter<TInputImage>
-::GenerateInputRequestedRegion()
+BinaryReconstructionByDilationImageFilter<TInputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
   InputImagePointer input = const_cast<InputImageType *>(this->GetMarkerImage());
-  if( input )
-    {
-    input->SetRequestedRegion( input->GetLargestPossibleRegion() );
-    }
+  if (input)
+  {
+    input->SetRequestedRegion(input->GetLargestPossibleRegion());
+  }
 
   input = const_cast<InputImageType *>(this->GetMaskImage());
-  if( input )
-    {
-    input->SetRequestedRegion( input->GetLargestPossibleRegion() );
-    }
+  if (input)
+  {
+    input->SetRequestedRegion(input->GetLargestPossibleRegion());
+  }
 }
 
 
-template<typename TInputImage>
+template <typename TInputImage>
 void
-BinaryReconstructionByDilationImageFilter<TInputImage>
-::EnlargeOutputRequestedRegion(DataObject *)
+BinaryReconstructionByDilationImageFilter<TInputImage>::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()
-    ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
 }
 
 
-template<typename TInputImage>
+template <typename TInputImage>
 void
-BinaryReconstructionByDilationImageFilter<TInputImage>
-::GenerateData()
+BinaryReconstructionByDilationImageFilter<TInputImage>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
@@ -115,51 +107,54 @@ BinaryReconstructionByDilationImageFilter<TInputImage>
   this->AllocateOutputs();
 
   typename LabelizerType::Pointer labelizer = LabelizerType::New();
-  labelizer->SetInput( this->GetMaskImage() );
-  labelizer->SetInputForegroundValue( m_ForegroundValue );
-  labelizer->SetOutputBackgroundValue( m_BackgroundValue );
-  labelizer->SetFullyConnected( m_FullyConnected );
-  labelizer->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  labelizer->SetInput(this->GetMaskImage());
+  labelizer->SetInputForegroundValue(m_ForegroundValue);
+  labelizer->SetOutputBackgroundValue(m_BackgroundValue);
+  labelizer->SetFullyConnected(m_FullyConnected);
+  labelizer->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(labelizer, .25f);
 
   typename ReconstructionType::Pointer reconstruction = ReconstructionType::New();
-  reconstruction->SetInput( labelizer->GetOutput() );
-  reconstruction->SetMarkerImage( this->GetMarkerImage() );
-  reconstruction->SetForegroundValue( m_ForegroundValue );
-  reconstruction->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  reconstruction->SetInput(labelizer->GetOutput());
+  reconstruction->SetMarkerImage(this->GetMarkerImage());
+  reconstruction->SetForegroundValue(m_ForegroundValue);
+  reconstruction->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(reconstruction, .25f);
 
   typename OpeningType::Pointer opening = OpeningType::New();
-  opening->SetInput( reconstruction->GetOutput() );
-  opening->SetLambda( true );
-  opening->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  opening->SetInput(reconstruction->GetOutput());
+  opening->SetLambda(true);
+  opening->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(opening, .25f);
 
   typename BinarizerType::Pointer binarizer = BinarizerType::New();
-  binarizer->SetInput( opening->GetOutput() );
-  binarizer->SetForegroundValue( m_ForegroundValue );
-  binarizer->SetBackgroundValue( m_BackgroundValue );
-  binarizer->SetBackgroundImage( this->GetMaskImage() );
-  binarizer->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  binarizer->SetInput(opening->GetOutput());
+  binarizer->SetForegroundValue(m_ForegroundValue);
+  binarizer->SetBackgroundValue(m_BackgroundValue);
+  binarizer->SetBackgroundImage(this->GetMaskImage());
+  binarizer->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(binarizer, .5f);
 
-  binarizer->GraftOutput( this->GetOutput() );
+  binarizer->GraftOutput(this->GetOutput());
   binarizer->Update();
-  this->GraftOutput( binarizer->GetOutput() );
+  this->GraftOutput(binarizer->GetOutput());
 }
 
 
-template<typename TInputImage>
+template <typename TInputImage>
 void
-BinaryReconstructionByDilationImageFilter<TInputImage>
-::PrintSelf(std::ostream &os, Indent indent) const
+BinaryReconstructionByDilationImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
-  os << indent << "BackgroundValue: "  << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue) << std::endl;
-  os << indent << "ForegroundValue: "  << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ForegroundValue) << std::endl;
+  os << indent << "FullyConnected: " << m_FullyConnected << std::endl;
+  os << indent
+     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
+     << std::endl;
+  os << indent
+     << "ForegroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ForegroundValue)
+     << std::endl;
 }
 
-}// end namespace itk
+} // end namespace itk
 #endif

@@ -46,22 +46,17 @@ namespace itk
  * \ingroup LevelSetSegmentation
  * \ingroup ITKLevelSets
  */
-template<
-  typename TLevelSet,
-  typename TAuxValue = float,
-  unsigned int VAuxDimension = 1
-  >
-class ITK_TEMPLATE_EXPORT ExtensionVelocitiesImageFilter:
-  public ReinitializeLevelSetImageFilter< TLevelSet >
+template <typename TLevelSet, typename TAuxValue = float, unsigned int VAuxDimension = 1>
+class ITK_TEMPLATE_EXPORT ExtensionVelocitiesImageFilter : public ReinitializeLevelSetImageFilter<TLevelSet>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExtensionVelocitiesImageFilter);
 
   /** Standard class type aliases. */
   using Self = ExtensionVelocitiesImageFilter;
-  using Superclass = ReinitializeLevelSetImageFilter< TLevelSet >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ReinitializeLevelSetImageFilter<TLevelSet>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -70,7 +65,7 @@ public:
   itkTypeMacro(ExtensionVelocitiesImageFilter, ReinitializeLevelSetImageFilter);
 
   /** The type of level set and the pointer type. */
-  using LevelSetType = LevelSetTypeDefault< TLevelSet >;
+  using LevelSetType = LevelSetTypeDefault<TLevelSet>;
   using LevelSetPointer = typename LevelSetType::LevelSetPointer;
   using LevelSetConstPointer = typename LevelSetType::LevelSetConstPointer;
   using PixelType = typename LevelSetType::PixelType;
@@ -82,8 +77,7 @@ public:
   static constexpr unsigned int SetDimension = LevelSetType::SetDimension;
 
   /** AuxVarType type alias support */
-  using AuxVarType = AuxVarTypeDefault< TAuxValue, VAuxDimension,
-                             Self::SetDimension >;
+  using AuxVarType = AuxVarTypeDefault<TAuxValue, VAuxDimension, Self::SetDimension>;
   using AuxValueType = typename AuxVarType::AuxValueType;
   using AuxValueVectorType = typename AuxVarType::AuxValueVectorType;
   using AuxValueContainer = typename AuxVarType::AuxValueContainer;
@@ -95,19 +89,20 @@ public:
   static constexpr unsigned int AuxDimension = VAuxDimension;
 
   /** Set/Get one of the input velocity images to be extended. */
-  void SetInputVelocityImage(const AuxImageType *ptr, unsigned int idx = 0);
+  void
+  SetInputVelocityImage(const AuxImageType * ptr, unsigned int idx = 0);
 
-  const AuxImageType * GetInputVelocityImage(unsigned int idx = 0);
+  const AuxImageType *
+  GetInputVelocityImage(unsigned int idx = 0);
 
   /** Get one of the extended velocity images. */
-  AuxImageType * GetOutputVelocityImage(unsigned int idx = 0);
+  AuxImageType *
+  GetOutputVelocityImage(unsigned int idx = 0);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( AuxValueHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< TAuxValue > ) );
-  itkConceptMacro( LevelSetOStreamWritableCheck,
-                   ( Concept::OStreamWritable< PixelType > ) );
+  itkConceptMacro(AuxValueHasNumericTraitsCheck, (Concept::HasNumericTraits<TAuxValue>));
+  itkConceptMacro(LevelSetOStreamWritableCheck, (Concept::OStreamWritable<PixelType>));
   // End concept checking
 #endif
 
@@ -115,21 +110,25 @@ protected:
   ExtensionVelocitiesImageFilter();
   ~ExtensionVelocitiesImageFilter() override = default;
 
-  void GenerateDataFull() override;
+  void
+  GenerateDataFull() override;
 
-  void GenerateDataNarrowBand() override;
+  void
+  GenerateDataNarrowBand() override;
 
-  void AllocateOutput() override;
+  void
+  AllocateOutput() override;
 
-  void EnlargeOutputRequestedRegion(DataObject *) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject *) override;
 
 private:
   /** Internal type alias. */
-  using SpeedImageType = Image< float, Self::SetDimension >;
+  using SpeedImageType = Image<float, Self::SetDimension>;
 
-  using LocatorType = LevelSetVelocityNeighborhoodExtractor< TLevelSet, TAuxValue, VAuxDimension >;
-  using FastMarchingImageFilterType = FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension,
-                                            SpeedImageType >;
+  using LocatorType = LevelSetVelocityNeighborhoodExtractor<TLevelSet, TAuxValue, VAuxDimension>;
+  using FastMarchingImageFilterType =
+    FastMarchingExtensionImageFilter<TLevelSet, TAuxValue, VAuxDimension, SpeedImageType>;
 
   typename LocatorType::Pointer m_Locator;
 
@@ -138,7 +137,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkExtensionVelocitiesImageFilter.hxx"
+#  include "itkExtensionVelocitiesImageFilter.hxx"
 #endif
 
 #endif

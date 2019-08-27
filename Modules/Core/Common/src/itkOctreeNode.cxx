@@ -21,10 +21,10 @@
 namespace itk
 {
 /*
-     * ====================================================================================
-     * ====================================================================================
-     * ====================================================================================
-     */
+ * ====================================================================================
+ * ====================================================================================
+ * ====================================================================================
+ */
 OctreeNode::OctreeNode()
 {
   m_Parent = nullptr;
@@ -36,43 +36,48 @@ OctreeNode::~OctreeNode()
   this->RemoveChildren();
 }
 
-OctreeNode & OctreeNode::GetChild(const enum LeafIdentifier ChildID) const
+OctreeNode &
+OctreeNode::GetChild(const enum LeafIdentifier ChildID) const
 {
   return *m_Branch->GetLeaf(ChildID);
 }
 
-OctreeNode & OctreeNode::GetChild(const enum LeafIdentifier ChildID)
+OctreeNode &
+OctreeNode::GetChild(const enum LeafIdentifier ChildID)
 {
   return *m_Branch->GetLeaf(ChildID);
 }
 
-long int OctreeNode::GetColor() const
+long int
+OctreeNode::GetColor() const
 {
-  if ( m_Parent != nullptr )
-    {
-    const long int x =  m_Branch - m_Parent->GetColorTable();
+  if (m_Parent != nullptr)
+  {
+    const long int x = m_Branch - m_Parent->GetColorTable();
 
     //
     // you'll want to indicate that the branch
     // is a subtree and not in fact a color.
-    if ( x >= 0 && x < m_Parent->GetColorTableSize() )
-      {
+    if (x >= 0 && x < m_Parent->GetColorTableSize())
+    {
       return x;
-      }
     }
+  }
   return -1;
 }
 
-void OctreeNode::SetColor(int color)
+void
+OctreeNode::SetColor(int color)
 {
-  if ( m_Parent != nullptr )
-    {
+  if (m_Parent != nullptr)
+  {
     this->RemoveChildren();
-    m_Branch = const_cast< OctreeNodeBranch * >( m_Parent->GetColorTable() ) + color;
-    }
+    m_Branch = const_cast<OctreeNodeBranch *>(m_Parent->GetColorTable()) + color;
+  }
 }
 
-void OctreeNode::SetBranch(OctreeNodeBranch *NewBranch)
+void
+OctreeNode::SetBranch(OctreeNodeBranch * NewBranch)
 {
   this->RemoveChildren();
   m_Branch = NewBranch;
@@ -83,35 +88,37 @@ void OctreeNode::SetBranch(OctreeNodeBranch *NewBranch)
  * \param void
  * \return  bool true if this node is colored
  */
-bool OctreeNode::IsNodeColored() const
+bool
+OctreeNode::IsNodeColored() const
 {
-  if ( m_Parent != nullptr )
-    {
-    const OctreeNodeBranch *colorTable = m_Parent->GetColorTable();
-    const OctreeNodeBranch *first = &( colorTable[0] );
-    const OctreeNodeBranch *last = &( colorTable[m_Parent->GetColorTableSize() - 1] );
+  if (m_Parent != nullptr)
+  {
+    const OctreeNodeBranch * colorTable = m_Parent->GetColorTable();
+    const OctreeNodeBranch * first = &(colorTable[0]);
+    const OctreeNodeBranch * last = &(colorTable[m_Parent->GetColorTableSize() - 1]);
 
     return this->m_Branch >= first && this->m_Branch <= last;
-    }
+  }
   else
-    {
+  {
     return false;
-    }
+  }
 }
 
-void OctreeNode::RemoveChildren()
+void
+OctreeNode::RemoveChildren()
 {
-  if ( !this->IsNodeColored() )
-    {
+  if (!this->IsNodeColored())
+  {
     delete m_Branch;
-    if ( m_Parent != nullptr )
-      {
-      m_Branch = &( const_cast< OctreeNodeBranch * >( m_Parent->GetColorTable() )[0] );
-      }
-    else
-      {
-      m_Branch =  nullptr;
-      }
+    if (m_Parent != nullptr)
+    {
+      m_Branch = &(const_cast<OctreeNodeBranch *>(m_Parent->GetColorTable())[0]);
     }
+    else
+    {
+      m_Branch = nullptr;
+    }
+  }
 }
-} //End of itk Namespace
+} // namespace itk

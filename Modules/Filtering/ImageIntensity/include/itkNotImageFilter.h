@@ -52,13 +52,11 @@ namespace itk
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  */
-template< typename TInputImage, typename TOutputImage >
-class NotImageFilter:
-  public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::NOT<
-                             typename TInputImage::PixelType,
-                             typename TOutputImage::PixelType >   >
+template <typename TInputImage, typename TOutputImage>
+class NotImageFilter
+  : public UnaryFunctorImageFilter<TInputImage,
+                                   TOutputImage,
+                                   Functor::NOT<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 
 {
 public:
@@ -66,51 +64,53 @@ public:
 
   /** Standard class type aliases. */
   using Self = NotImageFilter;
-  using Superclass = UnaryFunctorImageFilter<
-    TInputImage, TOutputImage,
-    Functor::NOT<
-      typename TInputImage::PixelType,
-      typename TOutputImage::PixelType > >;
+  using Superclass =
+    UnaryFunctorImageFilter<TInputImage,
+                            TOutputImage,
+                            Functor::NOT<typename TInputImage::PixelType, typename TOutputImage::PixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(NotImageFilter,
-               UnaryFunctorImageFilter);
+  itkTypeMacro(NotImageFilter, UnaryFunctorImageFilter);
 
   /** Set/Get the value used to mark the false pixels of the result of
-    * the operator. Defaults to 0 */
-  void SetBackgroundValue(const typename TOutputImage::PixelType & backgroundValue)
+   * the operator. Defaults to 0 */
+  void
+  SetBackgroundValue(const typename TOutputImage::PixelType & backgroundValue)
   {
-    if ( Math::NotExactlyEquals(this->GetBackgroundValue(), backgroundValue) )
-      {
+    if (Math::NotExactlyEquals(this->GetBackgroundValue(), backgroundValue))
+    {
       this->Modified();
       this->GetFunctor().SetBackgroundValue(backgroundValue);
-      }
+    }
   }
-  typename TOutputImage::PixelType GetBackgroundValue() const
+  typename TOutputImage::PixelType
+  GetBackgroundValue() const
   {
     return this->GetFunctor().GetBackgroundValue();
   }
 
 
   /** Set/Get the value used to mark the false pixels of the result of
-    * the operator. Defaults to 1 */
-  void SetForegroundValue(const typename TOutputImage::PixelType & foregroundValue)
+   * the operator. Defaults to 1 */
+  void
+  SetForegroundValue(const typename TOutputImage::PixelType & foregroundValue)
   {
     std::cout << "this->GetForegroundValue(): " << this->GetForegroundValue()
-              <<  "  foregroundValue: " <<  foregroundValue << std::endl;
-    if ( Math::NotExactlyEquals(this->GetForegroundValue(), foregroundValue) )
-      {
+              << "  foregroundValue: " << foregroundValue << std::endl;
+    if (Math::NotExactlyEquals(this->GetForegroundValue(), foregroundValue))
+    {
       this->Modified();
       this->GetFunctor().SetForegroundValue(foregroundValue);
-      }
+    }
   }
-  typename TOutputImage::PixelType GetForegroundValue() const
+  typename TOutputImage::PixelType
+  GetForegroundValue() const
   {
     return this->GetFunctor().GetForegroundValue();
   }
@@ -118,14 +118,9 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< typename TInputImage::PixelType,
-                                           bool > ) );
-  itkConceptMacro( OutputConvertibleToOutputCheck,
-                   ( Concept::Convertible< bool,
-                                           typename TOutputImage::PixelType > ) );
-  itkConceptMacro( InputNotOperatorCheck,
-                   ( Concept::NotOperator< typename TInputImage::PixelType > ) );
+  itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<typename TInputImage::PixelType, bool>));
+  itkConceptMacro(OutputConvertibleToOutputCheck, (Concept::Convertible<bool, typename TOutputImage::PixelType>));
+  itkConceptMacro(InputNotOperatorCheck, (Concept::NotOperator<typename TInputImage::PixelType>));
   // End concept checking
 #endif
 

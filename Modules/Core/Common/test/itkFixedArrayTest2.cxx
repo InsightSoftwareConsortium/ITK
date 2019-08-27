@@ -22,7 +22,8 @@
 #include <cstring>
 #include <cstring>
 
-int itkFixedArrayTest2(int, char* [] )
+int
+itkFixedArrayTest2(int, char *[])
 {
   // Define the number of elements in the array
   const unsigned int nelements = 10000000L;
@@ -33,104 +34,104 @@ int itkFixedArrayTest2(int, char* [] )
   // Declare a simple timer
   clock_t t;
 
-  using ArrayType = itk::FixedArray<double,2>;
+  using ArrayType = itk::FixedArray<double, 2>;
 
   // Declare an array of nelements FixedArray
   // and add a small margin to play with pointers
   // but not map outside the allocated memory
-  auto * vec = new ArrayType[nelements+8];
+  auto * vec = new ArrayType[nelements + 8];
 
   // Fill it up with zeros
-  memset(vec,0,(nelements+8)*sizeof(ArrayType));
+  memset(vec, 0, (nelements + 8) * sizeof(ArrayType));
 
 
   // Display the alignment of the array
-  std::cout << "Initial alignment: " << (((size_t)vec)& 7) << "\n";
+  std::cout << "Initial alignment: " << (((size_t)vec) & 7) << "\n";
 
   // Start a simple experiment
   t = clock();
   double acc1 = 0.0;
 
-  for (unsigned int i=0;i<nrun;++i)
+  for (unsigned int i = 0; i < nrun; ++i)
+  {
+    for (unsigned int j = 0; j < nelements; ++j)
     {
-    for (unsigned int j=0;j<nelements;++j)
-      {
       acc1 += vec[j][0];
-      }
     }
+  }
 
   // Get the final timing and display it
-  t=clock() - t;
+  t = clock() - t;
 
-  const double time1 = (t*1000.0) / CLOCKS_PER_SEC;
+  const double time1 = (t * 1000.0) / CLOCKS_PER_SEC;
 
-  std::cout << "Initial execution time: "
-            << time1 << "ms\n";
+  std::cout << "Initial execution time: " << time1 << "ms\n";
 
 
   // We now force an 8 bytes aligned array
 
   // Cast the pointer to char to play with bytes
-  auto * p = reinterpret_cast<char*>( vec );
+  auto * p = reinterpret_cast<char *>(vec);
 
   // Move the char pointer until it is aligned on 8 bytes
-  while ( ( (size_t)p ) % 8 )
-    {
+  while (((size_t)p) % 8)
+  {
     ++p;
-    }
+  }
 
   // Cast the 8 bytes aligned pointer back to the original type
-  auto * vec2 = reinterpret_cast<ArrayType*>( p );
+  auto * vec2 = reinterpret_cast<ArrayType *>(p);
 
   // Make sure the new pointer is well aligned by
   // displaying the alignment
-  std::cout << "New alignment: " << (((size_t)vec2)& 7) << "\n";
+  std::cout << "New alignment: " << (((size_t)vec2) & 7) << "\n";
 
   // Start the simple experiment on the 8 byte aligned array
   t = clock();
   double acc2 = 0.0;
 
-  for (unsigned int i=0;i<nrun;++i)
+  for (unsigned int i = 0; i < nrun; ++i)
+  {
+    for (unsigned int j = 0; j < nelements; ++j)
     {
-    for (unsigned int j=0;j<nelements;++j)
-      {
       acc2 += vec2[j][0];
-      }
     }
+  }
 
   // Get the final timing and display it
   t = clock() - t;
 
-  const double time2 = (t*1000.0) / CLOCKS_PER_SEC;
+  const double time2 = (t * 1000.0) / CLOCKS_PER_SEC;
 
-  std::cout << "Execution time: "
-            << time2 << "ms\n";
+  std::cout << "Execution time: " << time2 << "ms\n";
 
 
   // Free up the memory
   delete[] vec;
 
-  const double ratio = 100.0 * ( time1 - time2 ) / time2;
+  const double ratio = 100.0 * (time1 - time2) / time2;
 
-  const bool sameptr = (vec==vec2);
-  if (sameptr) std::cout << "Same pointers: true" <<std::endl;
-  else std::cout << "Same pointers: false" <<std::endl;
+  const bool sameptr = (vec == vec2);
+  if (sameptr)
+    std::cout << "Same pointers: true" << std::endl;
+  else
+    std::cout << "Same pointers: false" << std::endl;
 
   std::cout << "Performance ratio = " << ratio << "%" << std::endl;
 
-  if( !sameptr && ratio > 20.0 ) // tolerates only 20%
-    {
+  if (!sameptr && ratio > 20.0) // tolerates only 20%
+  {
     std::cerr << "Performance degraded below tolerance" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   // Make sure we do something with the sums otherwise everything
   // could be optimized away by the compiler
-  if( acc1 == 0.0 && acc2 == 0.0 )
-    {
+  if (acc1 == 0.0 && acc2 == 0.0)
+  {
     return EXIT_SUCCESS;
-    }
+  }
 
   return EXIT_FAILURE;
 }

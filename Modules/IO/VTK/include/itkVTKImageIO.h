@@ -46,8 +46,7 @@ namespace itk
  *
  * \ingroup ITKIOVTK
  */
-class ITKIOVTK_EXPORT VTKImageIO:
-  public StreamingImageIOBase
+class ITKIOVTK_EXPORT VTKImageIO : public StreamingImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageIO);
@@ -55,8 +54,8 @@ public:
   /** Standard class type aliases. */
   using Self = VTKImageIO;
   using Superclass = StreamingImageIOBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -64,96 +63,117 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(VTKImageIO, StreamingImageIOBase);
 
-// see super class for documentation
+  // see super class for documentation
   //
   // overidden to return true only when supported
-  bool CanStreamWrite() override;
+  bool
+  CanStreamWrite() override;
 
   // see super class for documentation
   //
   // overidden to return true only when supported
-  bool CanStreamRead() override;
+  bool
+  CanStreamRead() override;
 
 
   /*-------- This part of the interface deals with reading data. ------ */
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  bool CanReadFile(const char *) override;
+  bool
+  CanReadFile(const char *) override;
 
   /** Set the spacing and dimesion information for the current filename. */
-  void ReadImageInformation() override;
+  void
+  ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void Read(void *buffer) override;
+  void
+  Read(void * buffer) override;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  bool CanWriteFile(const char *) override;
+  bool
+  CanWriteFile(const char *) override;
 
   /** Writes the spacing and dimensions of the image.
    * Assumes SetFileName has been called with a valid file name. */
-  void WriteImageInformation() override {}
+  void
+  WriteImageInformation() override
+  {}
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegion has been set properly. */
-  void Write(const void *buffer) override;
+  void
+  Write(const void * buffer) override;
 
   /** returns the header size, if it is unknown it will return 0 */
-  SizeType GetHeaderSize() const override { return this->m_HeaderSize; }
+  SizeType
+  GetHeaderSize() const override
+  {
+    return this->m_HeaderSize;
+  }
 
 protected:
   VTKImageIO();
   ~VTKImageIO() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void InternalReadImageInformation(std::ifstream & file);
+  void
+  InternalReadImageInformation(std::ifstream & file);
 
   // Internal function to get next line from a given file (*.vtk)
-  int GetNextLine(std::ifstream& ifs, std::string& line, bool lowerCase = true, SizeValueType count= 0);
+  int
+  GetNextLine(std::ifstream & ifs, std::string & line, bool lowerCase = true, SizeValueType count = 0);
 
-  void WriteImageInformation(const void *buffer);
+  void
+  WriteImageInformation(const void * buffer);
 
-  void ReadHeaderSize(std::ifstream & file);
+  void
+  ReadHeaderSize(std::ifstream & file);
 
   /** Convenient method to read a buffer as ASCII text. */
-  void ReadBufferAsASCII(std::istream & os, void *buffer,
-                         IOComponentType ctype,
-                         SizeType numberOfBytesToBeRead) override;
+  void
+  ReadBufferAsASCII(std::istream & os, void * buffer, IOComponentType ctype, SizeType numberOfBytesToBeRead) override;
 
   /** Convenient method to write a buffer as ASCII text. */
-  void WriteBufferAsASCII(std::ostream & os, const void *buffer,
-                          IOComponentType ctype,
-                          SizeType numberOfBytesToWrite) override;
+  void
+  WriteBufferAsASCII(std::ostream &  os,
+                     const void *    buffer,
+                     IOComponentType ctype,
+                     SizeType        numberOfBytesToWrite) override;
 
   /** We have a special method to read symmetric second rank tensors because
    * the VTK file format expands the symmetry and only supports 3D tensors. */
-  virtual void ReadSymmetricTensorBufferAsBinary(std::istream& os,
-    void *buffer,
-    StreamingImageIOBase::SizeType num);
+  virtual void
+  ReadSymmetricTensorBufferAsBinary(std::istream & os, void * buffer, StreamingImageIOBase::SizeType num);
 
   /** We have a special method to write symmetric second rank tensors because
    * the VTK file format expands the symmetry and only supports 3D tensors. */
-  virtual void WriteSymmetricTensorBufferAsBinary(std::ostream& os,
-    const void *buffer,
-    StreamingImageIOBase::SizeType num);
+  virtual void
+  WriteSymmetricTensorBufferAsBinary(std::ostream & os, const void * buffer, StreamingImageIOBase::SizeType num);
 
 private:
-  void SetPixelTypeFromString(const std::string & pixelType);
+  void
+              SetPixelTypeFromString(const std::string & pixelType);
   std::string GetComponentTypeAsString(IOComponentType);
 
   /** Return the number of pixels in the IOregion. */
-  SizeType GetIORegionSizeInPixels() const;
+  SizeType
+  GetIORegionSizeInPixels() const;
 
   /** Return the number of bytes in the IOregion. */
-  SizeType GetIORegionSizeInBytes() const;
+  SizeType
+  GetIORegionSizeInBytes() const;
 
   /** Return the number of pixels times the number
    * of components in the IOregion. */
-  SizeType GetIORegionSizeInComponents() const;
+  SizeType
+  GetIORegionSizeInComponents() const;
 
   SizeType m_HeaderSize;
 };

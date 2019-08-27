@@ -43,27 +43,24 @@ namespace itk
  *  \tparam TLevelSetContainer Level set function container type
  *  \ingroup ITKLevelSetsv4
  */
-template< typename TInput, // Input image or mesh
+template <typename TInput, // Input image or mesh
           typename TLevelSetContainer,
-          typename TCurvatureImage = TInput >
-class ITK_TEMPLATE_EXPORT LevelSetEquationCurvatureTerm :
-    public LevelSetEquationTermBase< TInput, TLevelSetContainer >
+          typename TCurvatureImage = TInput>
+class ITK_TEMPLATE_EXPORT LevelSetEquationCurvatureTerm : public LevelSetEquationTermBase<TInput, TLevelSetContainer>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationCurvatureTerm);
 
   using Self = LevelSetEquationCurvatureTerm;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass =
-      LevelSetEquationTermBase< TInput, TLevelSetContainer >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = LevelSetEquationTermBase<TInput, TLevelSetContainer>;
 
   /** Method for creation through object factory */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro( LevelSetEquationCurvatureTerm,
-                LevelSetEquationTermBase );
+  itkTypeMacro(LevelSetEquationCurvatureTerm, LevelSetEquationTermBase);
 
   using InputImageType = typename Superclass::InputImageType;
   using InputImagePointer = typename Superclass::InputImagePointer;
@@ -94,33 +91,38 @@ public:
   /** Set/Get the propagation image. By default, if no PropagationImage has
   been set, it casts the input image and uses it in the term contribution
   calculation. */
-  void SetCurvatureImage( CurvatureImageType* CurvatureImage );
-  itkGetModifiableObjectMacro(CurvatureImage, CurvatureImageType );
+  void
+  SetCurvatureImage(CurvatureImageType * CurvatureImage);
+  itkGetModifiableObjectMacro(CurvatureImage, CurvatureImageType);
 
-  itkSetMacro( UseCurvatureImage, bool );
-  itkGetMacro( UseCurvatureImage, bool );
-  itkBooleanMacro( UseCurvatureImage );
+  itkSetMacro(UseCurvatureImage, bool);
+  itkGetMacro(UseCurvatureImage, bool);
+  itkBooleanMacro(UseCurvatureImage);
 
   /** Neighborhood radius type */
-  using DefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition< InputImageType >;
-  using RadiusType = typename ConstNeighborhoodIterator< InputImageType >::RadiusType;
-  using NeighborhoodType = ConstNeighborhoodIterator< InputImageType, DefaultBoundaryConditionType >;
+  using DefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition<InputImageType>;
+  using RadiusType = typename ConstNeighborhoodIterator<InputImageType>::RadiusType;
+  using NeighborhoodType = ConstNeighborhoodIterator<InputImageType, DefaultBoundaryConditionType>;
 
-  using NeighborhoodScalesType = Vector< LevelSetOutputRealType, Self::ImageDimension >;
+  using NeighborhoodScalesType = Vector<LevelSetOutputRealType, Self::ImageDimension>;
 
   /** Update the term parameter values at end of iteration */
-  void Update() override;
+  void
+  Update() override;
 
   /** Initialize the parameters in the terms prior to an iteration */
-  void InitializeParameters() override;
+  void
+  InitializeParameters() override;
 
   /** Initialize term parameters in the dense case by computing for each pixel location */
-  void Initialize( const LevelSetInputIndexType& ) override;
+  void
+  Initialize(const LevelSetInputIndexType &) override;
 
   /** Supply updates at pixels to keep the term parameters always updated */
-  void UpdatePixel( const LevelSetInputIndexType& iP,
-                            const LevelSetOutputRealType& oldValue,
-                            const LevelSetOutputRealType& newValue ) override;
+  void
+  UpdatePixel(const LevelSetInputIndexType & iP,
+              const LevelSetOutputRealType & oldValue,
+              const LevelSetOutputRealType & newValue) override;
 
 protected:
   LevelSetEquationCurvatureTerm();
@@ -129,23 +131,25 @@ protected:
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */
-  LevelSetOutputRealType Value( const LevelSetInputIndexType& iP ) override;
+  LevelSetOutputRealType
+  Value(const LevelSetInputIndexType & iP) override;
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */
-  LevelSetOutputRealType Value( const LevelSetInputIndexType& iP, const LevelSetDataType& iData ) override;
+  LevelSetOutputRealType
+  Value(const LevelSetInputIndexType & iP, const LevelSetDataType & iData) override;
 
-  LevelSetOutputRealType  m_NeighborhoodScales[ImageDimension];
+  LevelSetOutputRealType m_NeighborhoodScales[ImageDimension];
 
   CurvatureImagePointer m_CurvatureImage;
 
   bool m_UseCurvatureImage;
 };
 
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetEquationCurvatureTerm.hxx"
+#  include "itkLevelSetEquationCurvatureTerm.hxx"
 #endif
 
 #endif

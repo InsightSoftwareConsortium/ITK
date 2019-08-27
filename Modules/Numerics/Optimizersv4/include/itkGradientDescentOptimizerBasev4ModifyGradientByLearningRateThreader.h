@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template<typename TInternalComputationValueType>
+template <typename TInternalComputationValueType>
 class ITK_FORWARD_EXPORT GradientDescentOptimizerBasev4Template;
 
 /** \class GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate
@@ -32,43 +32,45 @@ class ITK_FORWARD_EXPORT GradientDescentOptimizerBasev4Template;
  * \ingroup ITKOptimizersv4
  */
 
-template<typename TInternalComputationValueType>
+template <typename TInternalComputationValueType>
 class ITK_TEMPLATE_EXPORT GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate
-  : public DomainThreader< ThreadedIndexedContainerPartitioner, GradientDescentOptimizerBasev4Template<TInternalComputationValueType> >
+  : public DomainThreader<ThreadedIndexedContainerPartitioner,
+                          GradientDescentOptimizerBasev4Template<TInternalComputationValueType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate);
 
   /** Standard class type aliases. */
   using Self = GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate;
-  using Superclass = DomainThreader< ThreadedIndexedContainerPartitioner,
-                          GradientDescentOptimizerBasev4Template<TInternalComputationValueType> >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = DomainThreader<ThreadedIndexedContainerPartitioner,
+                                    GradientDescentOptimizerBasev4Template<TInternalComputationValueType>>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro( GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate, DomainThreader );
+  itkTypeMacro(GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate, DomainThreader);
 
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   using DomainType = typename Superclass::DomainType;
   using AssociateType = typename Superclass::AssociateType;
   using IndexRangeType = DomainType;
 
 protected:
-  void ThreadedExecution( const IndexRangeType & subrange,
-                                  const ThreadIdType threadId ) override;
+  void
+  ThreadedExecution(const IndexRangeType & subrange, const ThreadIdType threadId) override;
 
   GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate() = default;
   ~GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate() override = default;
 };
 
 /** This helps to meet backward compatibility */
-using GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader = GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate<double>;
+using GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader =
+  GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate<double>;
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader.hxx"
+#  include "itkGradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader.hxx"
 #endif
 
 #endif

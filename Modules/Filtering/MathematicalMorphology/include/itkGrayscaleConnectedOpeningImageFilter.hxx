@@ -26,50 +26,45 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-GrayscaleConnectedOpeningImageFilter< TInputImage, TOutputImage >
-::GrayscaleConnectedOpeningImageFilter()
+template <typename TInputImage, typename TOutputImage>
+GrayscaleConnectedOpeningImageFilter<TInputImage, TOutputImage>::GrayscaleConnectedOpeningImageFilter()
 
 {
-  m_Seed.Fill(NumericTraits< typename InputImageIndexType::OffsetValueType >::ZeroValue());
+  m_Seed.Fill(NumericTraits<typename InputImageIndexType::OffsetValueType>::ZeroValue());
   m_FullyConnected = false;
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-GrayscaleConnectedOpeningImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+GrayscaleConnectedOpeningImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast< InputImageType * >( this->GetInput() );
-  if ( input )
-    {
-    input->SetRequestedRegion( input->GetLargestPossibleRegion() );
-    }
+  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  if (input)
+  {
+    input->SetRequestedRegion(input->GetLargestPossibleRegion());
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-GrayscaleConnectedOpeningImageFilter< TInputImage, TOutputImage >
-::EnlargeOutputRequestedRegion(DataObject *)
+GrayscaleConnectedOpeningImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()
-  ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-GrayscaleConnectedOpeningImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+GrayscaleConnectedOpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Allocate the output
   this->AllocateOutputs();
 
 
-  OutputImageType *outputImage = this->GetOutput();
+  OutputImageType *      outputImage = this->GetOutput();
   const InputImageType * inputImage = this->GetInput();
 
   // construct a marker image to manipulate using reconstruction by
@@ -79,9 +74,9 @@ GrayscaleConnectedOpeningImageFilter< TInputImage, TOutputImage >
   //
 
   // compute the minimum pixel value in the input
-  typename MinimumMaximumImageCalculator< TInputImage >::Pointer calculator =
-    MinimumMaximumImageCalculator< TInputImage >::New();
-  calculator->SetImage( inputImage );
+  typename MinimumMaximumImageCalculator<TInputImage>::Pointer calculator =
+    MinimumMaximumImageCalculator<TInputImage>::New();
+  calculator->SetImage(inputImage);
   calculator->ComputeMinimum();
 
   InputImagePixelType minValue;
@@ -91,19 +86,18 @@ GrayscaleConnectedOpeningImageFilter< TInputImage, TOutputImage >
   InputImagePixelType seedValue;
   seedValue = inputImage->GetPixel(m_Seed);
 
-  if ( minValue == seedValue )
-    {
-    itkWarningMacro(
-      <<
-      "GrayscaleConnectedClosingImageFilter: pixel value at seed point matches minimum value in image.  Resulting image will have a constant value.");
+  if (minValue == seedValue)
+  {
+    itkWarningMacro(<< "GrayscaleConnectedClosingImageFilter: pixel value at seed point matches minimum value in "
+                       "image.  Resulting image will have a constant value.");
     outputImage->FillBuffer(minValue);
     return;
-    }
+  }
 
   // allocate a marker image
   InputImagePointer markerPtr = InputImageType::New();
-  markerPtr->SetRegions( inputImage->GetRequestedRegion() );
-  markerPtr->CopyInformation( inputImage );
+  markerPtr->SetRegions(inputImage->GetRequestedRegion());
+  markerPtr->CopyInformation(inputImage);
   markerPtr->Allocate();
 
   // fill the marker image with the maximum value from the input
@@ -115,9 +109,8 @@ GrayscaleConnectedOpeningImageFilter< TInputImage, TOutputImage >
   // Delegate to a geodesic dilation filter.
   //
   //
-  typename ReconstructionByDilationImageFilter< TInputImage, TInputImage >::Pointer
-  dilate =
-    ReconstructionByDilationImageFilter< TInputImage, TInputImage >::New();
+  typename ReconstructionByDilationImageFilter<TInputImage, TInputImage>::Pointer dilate =
+    ReconstructionByDilationImageFilter<TInputImage, TInputImage>::New();
 
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
@@ -125,14 +118,14 @@ GrayscaleConnectedOpeningImageFilter< TInputImage, TOutputImage >
   progress->RegisterInternalFilter(dilate, 1.0f);
 
   // set up the dilate filter
-  //dilate->RunOneIterationOff();             // run to convergence
+  // dilate->RunOneIterationOff();             // run to convergence
   dilate->SetMarkerImage(markerPtr);
-  dilate->SetMaskImage( inputImage );
+  dilate->SetMaskImage(inputImage);
   dilate->SetFullyConnected(m_FullyConnected);
 
   // graft our output to the dilate filter to force the proper regions
   // to be generated
-  dilate->GraftOutput( outputImage );
+  dilate->GraftOutput(outputImage);
 
   // reconstruction by dilation
   dilate->Update();
@@ -140,20 +133,18 @@ GrayscaleConnectedOpeningImageFilter< TInputImage, TOutputImage >
   // graft the output of the dilate filter back onto this filter's
   // output. this is needed to get the appropriate regions passed
   // back.
-  this->GraftOutput( dilate->GetOutput() );
+  this->GraftOutput(dilate->GetOutput());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-GrayscaleConnectedOpeningImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+GrayscaleConnectedOpeningImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Seed point: " << m_Seed << std::endl;
-  os << indent << "Number of iterations used to produce current output: "
-     << m_NumberOfIterationsUsed << std::endl;
-  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
+  os << indent << "Number of iterations used to produce current output: " << m_NumberOfIterationsUsed << std::endl;
+  os << indent << "FullyConnected: " << m_FullyConnected << std::endl;
 }
 } // end namespace itk
 #endif

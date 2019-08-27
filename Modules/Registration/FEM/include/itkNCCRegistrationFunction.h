@@ -49,27 +49,24 @@ namespace itk
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ITKFEMRegistration
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-class ITK_TEMPLATE_EXPORT NCCRegistrationFunction:
-  public PDEDeformableRegistrationFunction< TFixedImage,
-                                            TMovingImage, TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+class ITK_TEMPLATE_EXPORT NCCRegistrationFunction
+  : public PDEDeformableRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(NCCRegistrationFunction);
 
   /** Standard class type aliases. */
   using Self = NCCRegistrationFunction;
-  using Superclass = PDEDeformableRegistrationFunction< TFixedImage,
-                                             TMovingImage, TDisplacementField >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = PDEDeformableRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NCCRegistrationFunction,
-               PDEDeformableRegistrationFunction);
+  itkTypeMacro(NCCRegistrationFunction, PDEDeformableRegistrationFunction);
 
   /** MovingImage image type. */
   using MovingImageType = typename Superclass::MovingImageType;
@@ -93,72 +90,88 @@ public:
   using PixelType = typename Superclass::PixelType;
   using RadiusType = typename Superclass::RadiusType;
   using NeighborhoodType = typename Superclass::NeighborhoodType;
-//  using BoundaryNeighborhoodType = typename Superclass::NeighborhoodType;
+  //  using BoundaryNeighborhoodType = typename Superclass::NeighborhoodType;
   using FloatOffsetType = typename Superclass::FloatOffsetType;
   using TimeStepType = typename Superclass::TimeStepType;
 
   /** Interpolator type. */
   using CoordRepType = double;
-  using InterpolatorType = InterpolateImageFunction< MovingImageType, CoordRepType >;
+  using InterpolatorType = InterpolateImageFunction<MovingImageType, CoordRepType>;
 
   using InterpolatorPointer = typename InterpolatorType::Pointer;
   using PointType = typename InterpolatorType::PointType;
-  using DefaultInterpolatorType =
-      LinearInterpolateImageFunction< MovingImageType, CoordRepType >;
+  using DefaultInterpolatorType = LinearInterpolateImageFunction<MovingImageType, CoordRepType>;
 
   /** Covariant vector type. */
-  using CovariantVectorType = CovariantVector< double, Self::ImageDimension >;
+  using CovariantVectorType = CovariantVector<double, Self::ImageDimension>;
 
   /** Gradient calculator type. */
-  using GradientCalculatorType = CentralDifferenceImageFunction< FixedImageType >;
+  using GradientCalculatorType = CentralDifferenceImageFunction<FixedImageType>;
   using GradientCalculatorPointer = typename GradientCalculatorType::Pointer;
 
   /** Set the moving image interpolator. */
-  void SetMovingImageInterpolator(InterpolatorType *ptr)
-    { m_MovingImageInterpolator = ptr; }
+  void
+  SetMovingImageInterpolator(InterpolatorType * ptr)
+  {
+    m_MovingImageInterpolator = ptr;
+  }
 
   /** Get the moving image interpolator. */
-  InterpolatorType * GetMovingImageInterpolator()
-    { return m_MovingImageInterpolator; }
+  InterpolatorType *
+  GetMovingImageInterpolator()
+  {
+    return m_MovingImageInterpolator;
+  }
 
   /** This class uses a constant timestep of 1. */
-  TimeStepType ComputeGlobalTimeStep( void *itkNotUsed(GlobalData) ) const override
-    { return m_TimeStep; }
+  TimeStepType
+  ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const override
+  {
+    return m_TimeStep;
+  }
 
   /** Return a pointer to a global data structure that is passed to
    * this object from the solver at each calculation. */
-  void * GetGlobalDataPointer() const override
-    {
+  void *
+  GetGlobalDataPointer() const override
+  {
     auto * global = new GlobalDataStruct();
 
     return global;
-    }
+  }
 
   /** Release memory for global data structure. */
-  void ReleaseGlobalDataPointer(void *GlobalData) const override
-    { delete (GlobalDataStruct *)GlobalData; }
+  void
+  ReleaseGlobalDataPointer(void * GlobalData) const override
+  {
+    delete (GlobalDataStruct *)GlobalData;
+  }
 
   /** Set the object's state before each iteration. */
-  void InitializeIteration() override;
+  void
+  InitializeIteration() override;
 
   /** Compute update at a non boundary neighbourhood.
    * This method is called by a finite difference solver image filter at each
    * pixel that does not lie on a data set boundary. */
-  PixelType  ComputeUpdate( const NeighborhoodType & neighborhood,
-                                    void *globalData,
-                                    const FloatOffsetType & offset = FloatOffsetType(0.0) ) override;
+  PixelType
+  ComputeUpdate(const NeighborhoodType & neighborhood,
+                void *                   globalData,
+                const FloatOffsetType &  offset = FloatOffsetType(0.0)) override;
 
 protected:
   NCCRegistrationFunction();
   ~NCCRegistrationFunction() override {}
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** FixedImage image neighborhood iterator type. */
-  using FixedImageNeighborhoodIteratorType = ConstNeighborhoodIterator< FixedImageType >;
+  using FixedImageNeighborhoodIteratorType = ConstNeighborhoodIterator<FixedImageType>;
 
   /** A global data type for this class of equation. Used to store
    * iterators for the fixed image. */
-  struct GlobalDataStruct {
+  struct GlobalDataStruct
+  {
     FixedImageNeighborhoodIteratorType m_FixedImageIterator;
   };
 
@@ -183,7 +196,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNCCRegistrationFunction.hxx"
+#  include "itkNCCRegistrationFunction.hxx"
 #endif
 
 #endif

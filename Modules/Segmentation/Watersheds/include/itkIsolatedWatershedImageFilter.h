@@ -37,25 +37,23 @@ namespace itk
  * \ingroup ITKWatersheds
  */
 
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT IsolatedWatershedImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT IsolatedWatershedImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(IsolatedWatershedImageFilter);
 
   /** Standard class type aliases. */
   using Self = IsolatedWatershedImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods).  */
-  itkTypeMacro(IsolatedWatershedImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(IsolatedWatershedImageFilter, ImageToImageFilter);
 
   using InputImageType = TInputImage;
   using InputImagePointer = typename InputImageType::Pointer;
@@ -73,9 +71,10 @@ public:
   using RealPixelType = typename NumericTraits<InputImagePixelType>::RealType;
   using RealImageType = Image<RealPixelType, TInputImage::ImageDimension>;
 
-  using WatershedType = WatershedImageFilter< RealImageType >;
-  using GradientMagnitudeType = GradientMagnitudeImageFilter< InputImageType, RealImageType >;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  using WatershedType = WatershedImageFilter<RealImageType>;
+  using GradientMagnitudeType = GradientMagnitudeImageFilter<InputImageType, RealImageType>;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Set seed point 1. This seed will be isolated from Seed2 (if
    *  possible). All pixels connected to this seed will be replaced
@@ -133,18 +132,22 @@ protected:
   double m_UpperValueLimit;
 
   // Override since the filter needs all the data for the algorithm
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   // Override since the filter produces the entire dataset
-  void EnlargeOutputRequestedRegion(DataObject *output) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
-  void VerifyInputInformation() ITKv5_CONST override;
-  void GenerateData() override;
+  void
+  VerifyInputInformation() ITKv5_CONST override;
+  void
+  GenerateData() override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkIsolatedWatershedImageFilter.hxx"
+#  include "itkIsolatedWatershedImageFilter.hxx"
 #endif
 
 #endif

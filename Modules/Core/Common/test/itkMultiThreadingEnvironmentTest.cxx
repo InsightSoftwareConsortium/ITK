@@ -18,26 +18,27 @@
 
 #include "itkMultiThreaderBase.h"
 
-int itkMultiThreadingEnvironmentTest(int argc, char* argv[])
+int
+itkMultiThreadingEnvironmentTest(int argc, char * argv[])
 {
   // Choose a number of threads.
-  if( argc != 2 )
-    {
+  if (argc != 2)
+  {
     std::cout << "ERROR: KNOWN VALUE REQUIRED" << std::endl;
     return EXIT_FAILURE;
-    }
-  const auto requiredValue = static_cast<unsigned int>( std::stoi( argv[1] ) );
+  }
+  const auto requiredValue = static_cast<unsigned int>(std::stoi(argv[1]));
 
   itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
-  if(threader.IsNull())
-    {
+  if (threader.IsNull())
+  {
     return EXIT_FAILURE;
-    }
-  if( itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() != requiredValue )
-    {
-    std::cout << "ERROR: Wrong number of maximum number of threads set from environment. "
-      << requiredValue << " != " << itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() << std::endl;
+  }
+  if (itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() != requiredValue)
+  {
+    std::cout << "ERROR: Wrong number of maximum number of threads set from environment. " << requiredValue
+              << " != " << itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   return EXIT_SUCCESS;
 }

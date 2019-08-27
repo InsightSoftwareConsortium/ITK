@@ -51,18 +51,17 @@ namespace itk
  * \ingroup ITKDistanceMap
  */
 
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT FastChamferDistanceImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT FastChamferDistanceImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FastChamferDistanceImageFilter);
 
   /** Standard class type aliases. */
   using Self = FastChamferDistanceImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -99,11 +98,11 @@ public:
   using InputImagePointer = typename InputImageType::ConstPointer;
 
   /** NarrowBand container */
-  using BandNodeType = BandNode< IndexType, PixelType >;
-  using NarrowBandType = NarrowBand< BandNodeType >;
+  using BandNodeType = BandNode<IndexType, PixelType>;
+  using NarrowBandType = NarrowBand<BandNodeType>;
   using NarrowBandPointer = typename NarrowBandType::Pointer;
 
-  using WeightsType = FixedArray< float, ImageDimension >;
+  using WeightsType = FixedArray<float, ImageDimension>;
 
   /** coefficients of the Chamfer distance for each kind of neighbor. */
   itkSetMacro(Weights, WeightsType);
@@ -114,49 +113,47 @@ public:
   itkGetConstMacro(MaximumDistance, float);
 
   /** */
-  void SetRegionToProcess(const RegionType & r);
+  void
+  SetRegionToProcess(const RegionType & r);
 
-  RegionType GetRegionToProcess() const;
+  RegionType
+  GetRegionToProcess() const;
 
-  void SetNarrowBand(NarrowBandType *ptr);
+  void
+  SetNarrowBand(NarrowBandType * ptr);
 
-  NarrowBandPointer GetNarrowBand() const;
+  NarrowBandPointer
+  GetNarrowBand() const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< ImageDimension, OutputImageDimension > ) );
-  itkConceptMacro( SameTypeCheck,
-                   ( Concept::SameType< PixelType, typename TOutputImage::PixelType > ) );
-  itkConceptMacro( FloatConvertibleToPixelTypeCheck,
-                   ( Concept::Convertible< float, PixelType > ) );
-  itkConceptMacro( PixelTypeConvertibleToFloatCheck,
-                   ( Concept::Convertible< PixelType, float > ) );
-  itkConceptMacro( PixelTypeGreaterThanFloatCheck,
-                   ( Concept::GreaterThanComparable< PixelType, float > ) );
-  itkConceptMacro( PixelTypeLessThanFloatCheck,
-                   ( Concept::LessThanComparable< PixelType, float > ) );
-  itkConceptMacro( PixelTypeFloatAdditiveOperatorsCheck,
-                   ( Concept::AdditiveOperators< PixelType, float, float > ) );
-  itkConceptMacro( FloatGreaterThanPixelTypeCheck,
-                   ( Concept::GreaterThanComparable< float, PixelType > ) );
-  itkConceptMacro( FloatLessThanPixelTypeCheck,
-                   ( Concept::LessThanComparable< float, PixelType > ) );
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  itkConceptMacro(SameTypeCheck, (Concept::SameType<PixelType, typename TOutputImage::PixelType>));
+  itkConceptMacro(FloatConvertibleToPixelTypeCheck, (Concept::Convertible<float, PixelType>));
+  itkConceptMacro(PixelTypeConvertibleToFloatCheck, (Concept::Convertible<PixelType, float>));
+  itkConceptMacro(PixelTypeGreaterThanFloatCheck, (Concept::GreaterThanComparable<PixelType, float>));
+  itkConceptMacro(PixelTypeLessThanFloatCheck, (Concept::LessThanComparable<PixelType, float>));
+  itkConceptMacro(PixelTypeFloatAdditiveOperatorsCheck, (Concept::AdditiveOperators<PixelType, float, float>));
+  itkConceptMacro(FloatGreaterThanPixelTypeCheck, (Concept::GreaterThanComparable<float, PixelType>));
+  itkConceptMacro(FloatLessThanPixelTypeCheck, (Concept::LessThanComparable<float, PixelType>));
   // End concept checking
 #endif
 
 protected:
   FastChamferDistanceImageFilter();
   ~FastChamferDistanceImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Compute a Signed Chamfer Distance Map up to the specified maximal
   distance in n dimensions */
-  void GenerateDataND();
+  void
+  GenerateDataND();
 
   /** Compute a Signed Chamfer Distance Map up to the specified maximal
   distance */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   float m_MaximumDistance;
@@ -169,10 +166,10 @@ private:
   /** Region in the image to process.  */
   RegionType m_RegionToProcess;
 }; // end of FastChamferDistanceImageFilter class
-} //end namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFastChamferDistanceImageFilter.hxx"
+#  include "itkFastChamferDistanceImageFilter.hxx"
 #endif
 
 #endif

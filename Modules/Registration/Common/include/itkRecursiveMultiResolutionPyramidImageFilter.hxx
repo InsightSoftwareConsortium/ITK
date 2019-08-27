@@ -34,9 +34,8 @@ namespace itk
 /**
  * Constructor
  */
-template< typename TInputImage, typename TOutputImage >
-RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
-::RecursiveMultiResolutionPyramidImageFilter()
+template <typename TInputImage, typename TOutputImage>
+RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::RecursiveMultiResolutionPyramidImageFilter()
 {
   this->Superclass::m_UseShrinkImageFilter = true;
 }
@@ -44,32 +43,31 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 /**
  * GenerateData
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  if ( !this->IsScheduleDownwardDivisible( this->GetSchedule() ) )
-    {
+  if (!this->IsScheduleDownwardDivisible(this->GetSchedule()))
+  {
     // use the Superclass implementation
     this->Superclass::GenerateData();
     return;
-    }
+  }
 
   // Get the input and output pointers
   InputImageConstPointer inputPtr = this->GetInput();
 
   // Create caster, smoother and resampleShrink filters
-  using CasterType = CastImageFilter< TInputImage, TOutputImage >;
-  using CopierType = CastImageFilter< TOutputImage, TOutputImage >;
-  using SmootherType = DiscreteGaussianImageFilter< TOutputImage, TOutputImage >;
+  using CasterType = CastImageFilter<TInputImage, TOutputImage>;
+  using CopierType = CastImageFilter<TOutputImage, TOutputImage>;
+  using SmootherType = DiscreteGaussianImageFilter<TOutputImage, TOutputImage>;
 
-  using ImageToImageType = ImageToImageFilter< TOutputImage, TOutputImage >;
-  using ResampleShrinkerType = ResampleImageFilter< TOutputImage, TOutputImage >;
-  using ShrinkerType = ShrinkImageFilter< TOutputImage, TOutputImage >;
+  using ImageToImageType = ImageToImageFilter<TOutputImage, TOutputImage>;
+  using ResampleShrinkerType = ResampleImageFilter<TOutputImage, TOutputImage>;
+  using ShrinkerType = ShrinkImageFilter<TOutputImage, TOutputImage>;
 
-  typename CasterType::Pointer caster   = CasterType::New();
-  typename CopierType::Pointer copier   = CopierType::New();
+  typename CasterType::Pointer   caster = CasterType::New();
+  typename CopierType::Pointer   copier = CopierType::New();
   typename SmootherType::Pointer smoother = SmootherType::New();
 
   typename ImageToImageType::Pointer shrinkerFilter;
@@ -77,53 +75,48 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   // only one of these pointers is going to be valid, depending on the
   // value of UseShrinkImageFilter flag
   typename ResampleShrinkerType::Pointer resampleShrinker;
-  typename ShrinkerType::Pointer shrinker;
+  typename ShrinkerType::Pointer         shrinker;
 
-  if ( this->GetUseShrinkImageFilter() )
-    {
+  if (this->GetUseShrinkImageFilter())
+  {
     shrinker = ShrinkerType::New();
     shrinkerFilter = shrinker.GetPointer();
-    }
+  }
   else
-    {
+  {
     resampleShrinker = ResampleShrinkerType::New();
-    using LinearInterpolatorType =
-        itk::LinearInterpolateImageFunction< OutputImageType, double >;
-    typename LinearInterpolatorType::Pointer interpolator =
-      LinearInterpolatorType::New();
-    using IdentityTransformType =
-        itk::IdentityTransform< double, OutputImageType::ImageDimension >;
-    typename IdentityTransformType::Pointer identityTransform =
-      IdentityTransformType::New();
+    using LinearInterpolatorType = itk::LinearInterpolateImageFunction<OutputImageType, double>;
+    typename LinearInterpolatorType::Pointer interpolator = LinearInterpolatorType::New();
+    using IdentityTransformType = itk::IdentityTransform<double, OutputImageType::ImageDimension>;
+    typename IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
     resampleShrinker->SetInterpolator(interpolator);
     resampleShrinker->SetDefaultPixelValue(0);
     resampleShrinker->SetTransform(identityTransform);
     shrinkerFilter = resampleShrinker.GetPointer();
-    }
+  }
 
   int          ilevel;
   unsigned int idim;
   unsigned int factors[ImageDimension];
   double       variance[ImageDimension];
 
-  bool               allOnes;
-  OutputImagePointer outputPtr;
-  OutputImagePointer swapPtr;
+  bool                              allOnes;
+  OutputImagePointer                outputPtr;
+  OutputImagePointer                swapPtr;
   typename TOutputImage::RegionType LPRegion;
 
   smoother->SetUseImageSpacing(false);
-  smoother->SetMaximumError( this->GetMaximumError() );
-  shrinkerFilter->SetInput( smoother->GetOutput() );
+  smoother->SetMaximumError(this->GetMaximumError());
+  shrinkerFilter->SetInput(smoother->GetOutput());
 
   // recursively compute outputs starting from the last one
-  for ( ilevel = this->GetNumberOfLevels() - 1; ilevel > -1; ilevel-- )
-    {
-    this->UpdateProgress( 1.0 - static_cast< float >( 1 + ilevel )
-                          / static_cast< float >( this->GetNumberOfLevels() ) );
+  for (ilevel = this->GetNumberOfLevels() - 1; ilevel > -1; ilevel--)
+  {
+    this->UpdateProgress(1.0 - static_cast<float>(1 + ilevel) / static_cast<float>(this->GetNumberOfLevels()));
 
     // Allocate memory for each output
     outputPtr = this->GetOutput(ilevel);
-    outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
+    outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
     outputPtr->Allocate();
 
     // cached a copy of the largest possible region
@@ -131,91 +124,89 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 
     // Check shrink factors and compute variances
     allOnes = true;
-    for ( idim = 0; idim < ImageDimension; idim++ )
+    for (idim = 0; idim < ImageDimension; idim++)
+    {
+      if (ilevel == static_cast<int>(this->GetNumberOfLevels()) - 1)
       {
-      if ( ilevel == static_cast< int >( this->GetNumberOfLevels() ) - 1 )
-        {
         factors[idim] = this->GetSchedule()[ilevel][idim];
-        }
-      else
-        {
-        factors[idim] = this->GetSchedule()[ilevel][idim]
-                        / this->GetSchedule()[ilevel + 1][idim];
-        }
-      variance[idim] = itk::Math::sqr( 0.5
-                                     * static_cast< float >( factors[idim] ) );
-      if ( factors[idim] != 1 )
-        {
-        allOnes = false;
-        }
-      else
-        {
-        variance[idim] = 0.0;
-        }
       }
-
-    if ( allOnes && ilevel == static_cast< int >( this->GetNumberOfLevels() ) - 1 )
+      else
       {
+        factors[idim] = this->GetSchedule()[ilevel][idim] / this->GetSchedule()[ilevel + 1][idim];
+      }
+      variance[idim] = itk::Math::sqr(0.5 * static_cast<float>(factors[idim]));
+      if (factors[idim] != 1)
+      {
+        allOnes = false;
+      }
+      else
+      {
+        variance[idim] = 0.0;
+      }
+    }
+
+    if (allOnes && ilevel == static_cast<int>(this->GetNumberOfLevels()) - 1)
+    {
       // just copy the input over
       caster->SetInput(inputPtr);
       caster->GraftOutput(outputPtr);
       // ensure only the requested region is updated
       caster->UpdateOutputInformation();
-      caster->GetOutput()->SetRequestedRegion( outputPtr->GetRequestedRegion() );
+      caster->GetOutput()->SetRequestedRegion(outputPtr->GetRequestedRegion());
       caster->GetOutput()->PropagateRequestedRegion();
       caster->GetOutput()->UpdateOutputData();
 
       swapPtr = caster->GetOutput();
-      }
-    else if ( allOnes )
-      {
+    }
+    else if (allOnes)
+    {
       // just copy the data over
       copier->SetInput(swapPtr);
       copier->GraftOutput(outputPtr);
       // ensure only the requested region is updated
       copier->GetOutput()->UpdateOutputInformation();
-      copier->GetOutput()->SetRequestedRegion( outputPtr->GetRequestedRegion() );
+      copier->GetOutput()->SetRequestedRegion(outputPtr->GetRequestedRegion());
       copier->GetOutput()->PropagateRequestedRegion();
       copier->GetOutput()->UpdateOutputData();
 
       swapPtr = copier->GetOutput();
-      }
+    }
     else
+    {
+      if (ilevel == static_cast<int>(this->GetNumberOfLevels()) - 1)
       {
-      if ( ilevel == static_cast< int >( this->GetNumberOfLevels() ) - 1 )
-        {
         // use caster -> smoother -> shrinker piepline
         caster->SetInput(inputPtr);
-        smoother->SetInput( caster->GetOutput() );
-        }
+        smoother->SetInput(caster->GetOutput());
+      }
       else
-        {
+      {
         // use smoother -> shrinker pipeline
         smoother->SetInput(swapPtr);
-        }
+      }
 
       smoother->SetVariance(variance);
 
       //      shrinker->SetShrinkFactors( factors );
       //      shrinker->GraftOutput( outputPtr );
-      if ( !this->GetUseShrinkImageFilter() )
-        {
+      if (!this->GetUseShrinkImageFilter())
+      {
         resampleShrinker->SetOutputParametersFromImage(outputPtr);
-        }
+      }
       else
-        {
+      {
         shrinker->SetShrinkFactors(factors);
-        }
+      }
       shrinkerFilter->GraftOutput(outputPtr);
       shrinkerFilter->Modified();
       // ensure only the requested region is updated
       shrinkerFilter->GetOutput()->UpdateOutputInformation();
-      shrinkerFilter->GetOutput()->SetRequestedRegion( outputPtr->GetRequestedRegion() );
+      shrinkerFilter->GetOutput()->SetRequestedRegion(outputPtr->GetRequestedRegion());
       shrinkerFilter->GetOutput()->PropagateRequestedRegion();
       shrinkerFilter->GetOutput()->UpdateOutputData();
 
       swapPtr = shrinkerFilter->GetOutput();
-      }
+    }
 
     // graft pipeline output back onto this filter's output
     swapPtr->SetLargestPossibleRegion(LPRegion);
@@ -223,16 +214,15 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 
     // disconnect from pipeline to stop cycle
     swapPtr->DisconnectPipeline();
-    }
+  }
 }
 
 /**
  * PrintSelf method
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
@@ -240,29 +230,28 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 /*
  * GenerateOutputRequestedRegion
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
-::GenerateOutputRequestedRegion(DataObject *ptr)
+RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateOutputRequestedRegion(DataObject * ptr)
 {
   // call the superclass's implementation of this method
   Superclass::GenerateOutputRequestedRegion(ptr);
 
-  auto * refOutputPtr = itkDynamicCastInDebugMode< TOutputImage * >( ptr );
-  if ( !refOutputPtr )
-    {
+  auto * refOutputPtr = itkDynamicCastInDebugMode<TOutputImage *>(ptr);
+  if (!refOutputPtr)
+  {
     itkExceptionMacro(<< "Could not cast ptr to TOutputImage*.");
-    }
+  }
 
   // find the index for this output
   unsigned int refLevel;
-  refLevel = static_cast<unsigned int>( refOutputPtr->GetSourceOutputIndex() );
+  refLevel = static_cast<unsigned int>(refOutputPtr->GetSourceOutputIndex());
 
   using OutputPixelType = typename TOutputImage::PixelType;
-  using OperatorType = GaussianOperator< OutputPixelType, ImageDimension >;
+  using OperatorType = GaussianOperator<OutputPixelType, ImageDimension>;
 
   auto * oper = new OperatorType;
-  oper->SetMaximumError( this->GetMaximumError() );
+  oper->SetMaximumError(this->GetMaximumError());
 
   using SizeType = typename OutputImageType::SizeType;
   using IndexType = typename OutputImageType::IndexType;
@@ -278,94 +267,86 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   IndexType  requestedIndex;
 
   // compute requested regions for lower levels
-  for ( ilevel = refLevel + 1; ilevel < static_cast< int >( this->GetNumberOfLevels() );
-        ilevel++ )
-    {
+  for (ilevel = refLevel + 1; ilevel < static_cast<int>(this->GetNumberOfLevels()); ilevel++)
+  {
     requestedRegion = this->GetOutput(ilevel - 1)->GetRequestedRegion();
     requestedSize = requestedRegion.GetSize();
     requestedIndex = requestedRegion.GetIndex();
 
-    for ( idim = 0; idim < static_cast< int >( ImageDimension ); idim++ )
-      {
+    for (idim = 0; idim < static_cast<int>(ImageDimension); idim++)
+    {
       factors[idim] = this->GetSchedule()[ilevel - 1][idim] / this->GetSchedule()[ilevel][idim];
 
       // take into account shrink component
-      requestedSize[idim] *= static_cast< SizeValueType >( factors[idim] );
-      requestedIndex[idim] *= static_cast< IndexValueType >( factors[idim] );
+      requestedSize[idim] *= static_cast<SizeValueType>(factors[idim]);
+      requestedIndex[idim] *= static_cast<IndexValueType>(factors[idim]);
 
       // take into account smoothing component
-      if ( factors[idim] > 1 )
-        {
+      if (factors[idim] > 1)
+      {
         oper->SetDirection(idim);
-        oper->SetVariance( itk::Math::sqr( 0.5
-                                         * static_cast< float >( factors[idim] ) ) );
+        oper->SetVariance(itk::Math::sqr(0.5 * static_cast<float>(factors[idim])));
         oper->CreateDirectional();
         radius[idim] = oper->GetRadius()[idim];
-        }
-      else
-        {
-        radius[idim] = 0;
-        }
       }
+      else
+      {
+        radius[idim] = 0;
+      }
+    }
 
     requestedRegion.SetSize(requestedSize);
     requestedRegion.SetIndex(requestedIndex);
     requestedRegion.PadByRadius(radius);
-    requestedRegion.Crop( this->GetOutput(ilevel)->
-                          GetLargestPossibleRegion() );
+    requestedRegion.Crop(this->GetOutput(ilevel)->GetLargestPossibleRegion());
 
     this->GetOutput(ilevel)->SetRequestedRegion(requestedRegion);
-    }
+  }
 
   // compute requested regions for higher levels
-  for ( ilevel = refLevel - 1; ilevel > -1; ilevel-- )
-    {
+  for (ilevel = refLevel - 1; ilevel > -1; ilevel--)
+  {
     requestedRegion = this->GetOutput(ilevel + 1)->GetRequestedRegion();
     requestedSize = requestedRegion.GetSize();
     requestedIndex = requestedRegion.GetIndex();
 
-    for ( idim = 0; idim < static_cast< int >( ImageDimension ); idim++ )
-      {
+    for (idim = 0; idim < static_cast<int>(ImageDimension); idim++)
+    {
       factors[idim] = this->GetSchedule()[ilevel][idim] / this->GetSchedule()[ilevel + 1][idim];
 
       // take into account smoothing component
-      if ( factors[idim] > 1 )
-        {
+      if (factors[idim] > 1)
+      {
         oper->SetDirection(idim);
-        oper->SetVariance( itk::Math::sqr( 0.5
-                                         * static_cast< float >( factors[idim] ) ) );
+        oper->SetVariance(itk::Math::sqr(0.5 * static_cast<float>(factors[idim])));
         oper->CreateDirectional();
         radius[idim] = oper->GetRadius()[idim];
-        }
+      }
       else
-        {
+      {
         radius[idim] = 0;
-        }
+      }
 
-      requestedSize[idim] -= static_cast< SizeValueType >(
-        2 * radius[idim] );
+      requestedSize[idim] -= static_cast<SizeValueType>(2 * radius[idim]);
       requestedIndex[idim] += radius[idim];
 
       // take into account shrink component
-      requestedSize[idim] = static_cast< SizeValueType >( std::floor(
-                                                            static_cast< double >( requestedSize[idim] )
-                                                            / static_cast< double >( factors[idim] ) ) );
-      if ( requestedSize[idim] < 1 )
-        {
+      requestedSize[idim] = static_cast<SizeValueType>(
+        std::floor(static_cast<double>(requestedSize[idim]) / static_cast<double>(factors[idim])));
+      if (requestedSize[idim] < 1)
+      {
         requestedSize[idim] = 1;
-        }
-      requestedIndex[idim] = static_cast< IndexValueType >( std::ceil(
-                                                              static_cast< double >( requestedIndex[idim] )
-                                                              / static_cast< double >( factors[idim] ) ) );
       }
+      requestedIndex[idim] = static_cast<IndexValueType>(
+        std::ceil(static_cast<double>(requestedIndex[idim]) / static_cast<double>(factors[idim])));
+    }
 
     requestedRegion.SetSize(requestedSize);
     requestedRegion.SetIndex(requestedIndex);
-    requestedRegion.Crop( this->GetOutput(ilevel)->
-                          GetLargestPossibleRegion() );
+    requestedRegion.Crop(this->GetOutput(ilevel)->GetLargestPossibleRegion());
 
     this->GetOutput(ilevel)->SetRequestedRegion(requestedRegion);
-    }
+  }
 
   // clean up
   delete oper;
@@ -374,21 +355,19 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 /**
  * GenerateInputRequestedRegion
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  InputImagePointer inputPtr =
-    const_cast< InputImageType * >( this->GetInput() );
-  if ( !inputPtr )
-    {
+  InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());
+  if (!inputPtr)
+  {
     itkExceptionMacro(<< "Input has not been set.");
-    }
+  }
 
   // compute baseIndex and baseSize
   using SizeType = typename OutputImageType::SizeType;
@@ -401,18 +380,18 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   RegionType   baseRegion;
 
   unsigned int idim;
-  for ( idim = 0; idim < ImageDimension; idim++ )
-    {
+  for (idim = 0; idim < ImageDimension; idim++)
+  {
     unsigned int factor = this->GetSchedule()[refLevel][idim];
-    baseIndex[idim] *= static_cast< IndexValueType >( factor );
-    baseSize[idim] *= static_cast< SizeValueType >( factor );
-    }
+    baseIndex[idim] *= static_cast<IndexValueType>(factor);
+    baseSize[idim] *= static_cast<SizeValueType>(factor);
+  }
   baseRegion.SetIndex(baseIndex);
   baseRegion.SetSize(baseSize);
 
   // compute requirements for the smoothing part
   using OutputPixelType = typename TOutputImage::PixelType;
-  using OperatorType = GaussianOperator< OutputPixelType, ImageDimension >;
+  using OperatorType = GaussianOperator<OutputPixelType, ImageDimension>;
 
   auto * oper = new OperatorType;
 
@@ -421,25 +400,24 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   RegionType inputRequestedRegion = baseRegion;
   refLevel = 0;
 
-  for ( idim = 0; idim < TInputImage::ImageDimension; idim++ )
-    {
+  for (idim = 0; idim < TInputImage::ImageDimension; idim++)
+  {
     oper->SetDirection(idim);
-    oper->SetVariance( itk::Math::sqr( 0.5 * static_cast< float >(
-                                       this->GetSchedule()[refLevel][idim] ) ) );
-    oper->SetMaximumError( this->GetMaximumError() );
+    oper->SetVariance(itk::Math::sqr(0.5 * static_cast<float>(this->GetSchedule()[refLevel][idim])));
+    oper->SetMaximumError(this->GetMaximumError());
     oper->CreateDirectional();
     radius[idim] = oper->GetRadius()[idim];
-    if ( this->GetSchedule()[refLevel][idim] <= 1 )
-      {
+    if (this->GetSchedule()[refLevel][idim] <= 1)
+    {
       radius[idim] = 0;
-      }
     }
+  }
   delete oper;
 
   inputRequestedRegion.PadByRadius(radius);
 
   // make sure the requested region is within the largest possible
-  inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() );
+  inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion());
 
   // set the input requested region
   inputPtr->SetRequestedRegion(inputRequestedRegion);

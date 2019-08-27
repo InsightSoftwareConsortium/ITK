@@ -25,18 +25,17 @@ namespace itk
 {
 namespace Functor
 {
-template< typename TScalar >
-ScalarToRGBPixelFunctor< TScalar >
-::ScalarToRGBPixelFunctor()
+template <typename TScalar>
+ScalarToRGBPixelFunctor<TScalar>::ScalarToRGBPixelFunctor()
 {
   m_ColorIndex[0] = 0;
   m_ColorIndex[1] = 0;
   m_ColorIndex[2] = 0;
-  const auto scalarSize = static_cast< unsigned int >( sizeof( ScalarType ) );
-  for ( unsigned int i = 0; i < scalarSize && i < 3; ++i )
-    {
+  const auto scalarSize = static_cast<unsigned int>(sizeof(ScalarType));
+  for (unsigned int i = 0; i < scalarSize && i < 3; ++i)
+  {
     m_ColorIndex[i] = i;
-    }
+  }
 
 #ifdef ITK_WORDS_BIGENDIAN
   m_UseMSBForHashing = true;
@@ -45,32 +44,31 @@ ScalarToRGBPixelFunctor< TScalar >
 #endif
 }
 
-template< typename TScalar >
-typename ScalarToRGBPixelFunctor< TScalar >::RGBPixelType
-ScalarToRGBPixelFunctor< TScalar >
-::operator()(const TScalar & v) const
+template <typename TScalar>
+typename ScalarToRGBPixelFunctor<TScalar>::RGBPixelType
+ScalarToRGBPixelFunctor<TScalar>::operator()(const TScalar & v) const
 {
-  TScalar        buf = v;
-  const auto * bytes = reinterpret_cast<const unsigned char *>( &buf );
+  TScalar      buf = v;
+  const auto * bytes = reinterpret_cast<const unsigned char *>(&buf);
 
-  if ( this->m_UseMSBForHashing == true )
-    {   // swap bytes
+  if (this->m_UseMSBForHashing == true)
+  { // swap bytes
     // always swap regardless of system endianness
-    if(ByteSwapper< TScalar >::SystemIsBigEndian())
-      {
-      ByteSwapper< TScalar >::SwapFromSystemToLittleEndian(&buf);
-      }
-    else
-      {
-      ByteSwapper< TScalar >::SwapFromSystemToBigEndian(&buf);
-      }
+    if (ByteSwapper<TScalar>::SystemIsBigEndian())
+    {
+      ByteSwapper<TScalar>::SwapFromSystemToLittleEndian(&buf);
     }
+    else
+    {
+      ByteSwapper<TScalar>::SwapFromSystemToBigEndian(&buf);
+    }
+  }
 
   RGBPixelType ans;
 
-  ans[0] = static_cast< RGBComponentType >(   bytes[m_ColorIndex[0]] * 3 );
-  ans[1] = static_cast< RGBComponentType >( ( bytes[m_ColorIndex[0]] + bytes[m_ColorIndex[1]] ) * 5 );
-  ans[2] = static_cast< RGBComponentType >( ( bytes[m_ColorIndex[0]] + bytes[m_ColorIndex[2]] ) );
+  ans[0] = static_cast<RGBComponentType>(bytes[m_ColorIndex[0]] * 3);
+  ans[1] = static_cast<RGBComponentType>((bytes[m_ColorIndex[0]] + bytes[m_ColorIndex[1]]) * 5);
+  ans[2] = static_cast<RGBComponentType>((bytes[m_ColorIndex[0]] + bytes[m_ColorIndex[2]]));
 
   return ans;
 }

@@ -71,20 +71,17 @@ namespace itk
  * \ingroup ClassificationFilters
  * \ingroup ITKClassifiers
  */
-template< typename TInputImage,
-          typename TMembershipFunction,
-          typename TTrainingImage >
-class ITK_TEMPLATE_EXPORT ImageGaussianModelEstimator:
-  public ImageModelEstimatorBase< TInputImage, TMembershipFunction >
+template <typename TInputImage, typename TMembershipFunction, typename TTrainingImage>
+class ITK_TEMPLATE_EXPORT ImageGaussianModelEstimator : public ImageModelEstimatorBase<TInputImage, TMembershipFunction>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageGaussianModelEstimator);
 
   /** Standard class type aliases. */
   using Self = ImageGaussianModelEstimator;
-  using Superclass = ImageModelEstimatorBase< TInputImage, TMembershipFunction >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageModelEstimatorBase<TInputImage, TMembershipFunction>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -111,10 +108,10 @@ public:
   using TrainingImagePixelType = typename TTrainingImage::PixelType;
 
   /** Type definitions for the iterators for the input and training images. */
-  using InputImageIterator = ImageRegionIterator< TInputImage >;
-  using InputImageConstIterator = ImageRegionConstIterator< TInputImage >;
-  using TrainingImageIterator = ImageRegionIterator< TTrainingImage >;
-  using TrainingImageConstIterator = ImageRegionConstIterator< TTrainingImage >;
+  using InputImageIterator = ImageRegionIterator<TInputImage>;
+  using InputImageConstIterator = ImageRegionConstIterator<TInputImage>;
+  using TrainingImageIterator = ImageRegionIterator<TTrainingImage>;
+  using TrainingImageConstIterator = ImageRegionConstIterator<TTrainingImage>;
 
   /** Type definitions for the membership function . */
   using MembershipFunctionType = TMembershipFunction;
@@ -127,36 +124,40 @@ public:
 protected:
   ImageGaussianModelEstimator();
   ~ImageGaussianModelEstimator() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Starts the image modelling process */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
-  using MatrixType = vnl_matrix< double >;
+  using MatrixType = vnl_matrix<double>;
 
   using InputImageSizeType = typename TInputImage::SizeType;
 
   /** Dimension of each individual pixel vector. */
   static constexpr unsigned int VectorDimension = InputImagePixelType::Dimension;
 
-  MatrixType  m_NumberOfSamples;
-  MatrixType  m_Means;
-  MatrixType *m_Covariance{nullptr};
+  MatrixType   m_NumberOfSamples;
+  MatrixType   m_Means;
+  MatrixType * m_Covariance{ nullptr };
 
   TrainingImagePointer m_TrainingImage;
 
   /** A function that generates the
    * model based on the training input data.
    * Achieves the goal of training the classifier. */
-  void EstimateModels() override;
+  void
+  EstimateModels() override;
 
-  void EstimateGaussianModelParameters();
+  void
+  EstimateGaussianModelParameters();
 }; // class ImageGaussianModelEstimator
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageGaussianModelEstimator.hxx"
+#  include "itkImageGaussianModelEstimator.hxx"
 #endif
 
 #endif

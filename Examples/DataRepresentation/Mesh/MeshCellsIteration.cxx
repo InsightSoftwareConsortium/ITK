@@ -37,128 +37,137 @@
 #include "itkTetrahedronCell.h"
 
 
-int main(int, char *[])
+int
+main(int, char *[])
 {
   using PixelType = float;
-  using MeshType = itk::Mesh< PixelType, 3 >;
+  using MeshType = itk::Mesh<PixelType, 3>;
 
   using CellType = MeshType::CellType;
 
-  using VertexType = itk::VertexCell< CellType >;
-  using LineType = itk::LineCell< CellType >;
-  using TriangleType = itk::TriangleCell< CellType >;
-  using TetrahedronType = itk::TetrahedronCell< CellType >;
+  using VertexType = itk::VertexCell<CellType>;
+  using LineType = itk::LineCell<CellType>;
+  using TriangleType = itk::TriangleCell<CellType>;
+  using TetrahedronType = itk::TetrahedronCell<CellType>;
 
-  MeshType::Pointer  mesh = MeshType::New();
+  MeshType::Pointer mesh = MeshType::New();
 
 
   // Creating the points and inserting them in the mesh
   //
-  MeshType::PointType   point0;
-  MeshType::PointType   point1;
-  MeshType::PointType   point2;
-  MeshType::PointType   point3;
+  MeshType::PointType point0;
+  MeshType::PointType point1;
+  MeshType::PointType point2;
+  MeshType::PointType point3;
 
-  point0[0] = -1; point0[1] = -1; point0[2] = -1;
-  point1[0] =  1; point1[1] =  1; point1[2] = -1;
-  point2[0] =  1; point2[1] = -1; point2[2] =  1;
-  point3[0] = -1; point3[1] =  1; point3[2] =  1;
+  point0[0] = -1;
+  point0[1] = -1;
+  point0[2] = -1;
+  point1[0] = 1;
+  point1[1] = 1;
+  point1[2] = -1;
+  point2[0] = 1;
+  point2[1] = -1;
+  point2[2] = 1;
+  point3[0] = -1;
+  point3[1] = 1;
+  point3[2] = 1;
 
-  mesh->SetPoint( 0, point0 );
-  mesh->SetPoint( 1, point1 );
-  mesh->SetPoint( 2, point2 );
-  mesh->SetPoint( 3, point3 );
+  mesh->SetPoint(0, point0);
+  mesh->SetPoint(1, point1);
+  mesh->SetPoint(2, point2);
+  mesh->SetPoint(3, point3);
 
 
   // Creating and associating the Tetrahedron
   //
   CellType::CellAutoPointer cellpointer;
 
-  cellpointer.TakeOwnership( new TetrahedronType );
-  cellpointer->SetPointId( 0, 0 );
-  cellpointer->SetPointId( 1, 1 );
-  cellpointer->SetPointId( 2, 2 );
-  cellpointer->SetPointId( 3, 3 );
-  mesh->SetCell( 0, cellpointer );
+  cellpointer.TakeOwnership(new TetrahedronType);
+  cellpointer->SetPointId(0, 0);
+  cellpointer->SetPointId(1, 1);
+  cellpointer->SetPointId(2, 2);
+  cellpointer->SetPointId(3, 3);
+  mesh->SetCell(0, cellpointer);
 
 
   // Creating and associating the Triangles
   //
-  cellpointer.TakeOwnership( new TriangleType );
-  cellpointer->SetPointId( 0, 0 );
-  cellpointer->SetPointId( 1, 1 );
-  cellpointer->SetPointId( 2, 2 );
-  mesh->SetCell( 1, cellpointer );
+  cellpointer.TakeOwnership(new TriangleType);
+  cellpointer->SetPointId(0, 0);
+  cellpointer->SetPointId(1, 1);
+  cellpointer->SetPointId(2, 2);
+  mesh->SetCell(1, cellpointer);
 
-  cellpointer.TakeOwnership( new TriangleType );
-  cellpointer->SetPointId( 0, 0 );
-  cellpointer->SetPointId( 1, 2 );
-  cellpointer->SetPointId( 2, 3 );
-  mesh->SetCell( 2, cellpointer );
+  cellpointer.TakeOwnership(new TriangleType);
+  cellpointer->SetPointId(0, 0);
+  cellpointer->SetPointId(1, 2);
+  cellpointer->SetPointId(2, 3);
+  mesh->SetCell(2, cellpointer);
 
-  cellpointer.TakeOwnership( new TriangleType );
-  cellpointer->SetPointId( 0, 0 );
-  cellpointer->SetPointId( 1, 3 );
-  cellpointer->SetPointId( 2, 1 );
-  mesh->SetCell( 3, cellpointer );
+  cellpointer.TakeOwnership(new TriangleType);
+  cellpointer->SetPointId(0, 0);
+  cellpointer->SetPointId(1, 3);
+  cellpointer->SetPointId(2, 1);
+  mesh->SetCell(3, cellpointer);
 
-  cellpointer.TakeOwnership( new TriangleType );
-  cellpointer->SetPointId( 0, 3 );
-  cellpointer->SetPointId( 1, 2 );
-  cellpointer->SetPointId( 2, 1 );
-  mesh->SetCell( 4, cellpointer );
+  cellpointer.TakeOwnership(new TriangleType);
+  cellpointer->SetPointId(0, 3);
+  cellpointer->SetPointId(1, 2);
+  cellpointer->SetPointId(2, 1);
+  mesh->SetCell(4, cellpointer);
 
 
   // Creating and associating the Edges
   //
-  cellpointer.TakeOwnership( new LineType );
-  cellpointer->SetPointId( 0, 0 );
-  cellpointer->SetPointId( 1, 1 );
-  mesh->SetCell( 5, cellpointer );
+  cellpointer.TakeOwnership(new LineType);
+  cellpointer->SetPointId(0, 0);
+  cellpointer->SetPointId(1, 1);
+  mesh->SetCell(5, cellpointer);
 
-  cellpointer.TakeOwnership( new LineType );
-  cellpointer->SetPointId( 0, 1 );
-  cellpointer->SetPointId( 1, 2 );
-  mesh->SetCell( 6, cellpointer );
+  cellpointer.TakeOwnership(new LineType);
+  cellpointer->SetPointId(0, 1);
+  cellpointer->SetPointId(1, 2);
+  mesh->SetCell(6, cellpointer);
 
-  cellpointer.TakeOwnership( new LineType );
-  cellpointer->SetPointId( 0, 2 );
-  cellpointer->SetPointId( 1, 0 );
-  mesh->SetCell( 7, cellpointer );
+  cellpointer.TakeOwnership(new LineType);
+  cellpointer->SetPointId(0, 2);
+  cellpointer->SetPointId(1, 0);
+  mesh->SetCell(7, cellpointer);
 
-  cellpointer.TakeOwnership( new LineType );
-  cellpointer->SetPointId( 0, 1 );
-  cellpointer->SetPointId( 1, 3 );
-  mesh->SetCell( 8, cellpointer );
+  cellpointer.TakeOwnership(new LineType);
+  cellpointer->SetPointId(0, 1);
+  cellpointer->SetPointId(1, 3);
+  mesh->SetCell(8, cellpointer);
 
-  cellpointer.TakeOwnership( new LineType );
-  cellpointer->SetPointId( 0, 3 );
-  cellpointer->SetPointId( 1, 2 );
-  mesh->SetCell( 9, cellpointer );
+  cellpointer.TakeOwnership(new LineType);
+  cellpointer->SetPointId(0, 3);
+  cellpointer->SetPointId(1, 2);
+  mesh->SetCell(9, cellpointer);
 
-  cellpointer.TakeOwnership( new LineType );
-  cellpointer->SetPointId( 0, 3 );
-  cellpointer->SetPointId( 1, 0 );
-  mesh->SetCell( 10, cellpointer );
+  cellpointer.TakeOwnership(new LineType);
+  cellpointer->SetPointId(0, 3);
+  cellpointer->SetPointId(1, 0);
+  mesh->SetCell(10, cellpointer);
 
 
   // Creating and associating the Vertices
   //
-  cellpointer.TakeOwnership( new VertexType );
-  cellpointer->SetPointId( 0, 0 );
-  mesh->SetCell( 11, cellpointer );
+  cellpointer.TakeOwnership(new VertexType);
+  cellpointer->SetPointId(0, 0);
+  mesh->SetCell(11, cellpointer);
 
-  cellpointer.TakeOwnership( new VertexType );
-  cellpointer->SetPointId( 0, 1 );
-  mesh->SetCell( 12, cellpointer );
+  cellpointer.TakeOwnership(new VertexType);
+  cellpointer->SetPointId(0, 1);
+  mesh->SetCell(12, cellpointer);
 
-  cellpointer.TakeOwnership( new VertexType );
-  cellpointer->SetPointId( 0, 2 );
-  mesh->SetCell( 13, cellpointer );
+  cellpointer.TakeOwnership(new VertexType);
+  cellpointer->SetPointId(0, 2);
+  mesh->SetCell(13, cellpointer);
 
-  cellpointer.TakeOwnership( new VertexType );
-  cellpointer->SetPointId( 0, 3 );
-  mesh->SetCell( 14, cellpointer );
+  cellpointer.TakeOwnership(new VertexType);
+  cellpointer->SetPointId(0, 3);
+  mesh->SetCell(14, cellpointer);
 
 
   std::cout << "# Points= " << mesh->GetNumberOfPoints() << std::endl;
@@ -183,14 +192,14 @@ int main(int, char *[])
   using CellIterator = MeshType::CellsContainer::ConstIterator;
 
   CellIterator cellIterator = mesh->GetCells()->Begin();
-  CellIterator cellEnd      = mesh->GetCells()->End();
+  CellIterator cellEnd = mesh->GetCells()->End();
 
-  while( cellIterator != cellEnd )
-    {
+  while (cellIterator != cellEnd)
+  {
     CellType * cell = cellIterator.Value();
     std::cout << cell->GetNumberOfPoints() << std::endl;
     ++cellIterator;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 
@@ -226,20 +235,20 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   cellIterator = mesh->GetCells()->Begin();
-  cellEnd      = mesh->GetCells()->End();
+  cellEnd = mesh->GetCells()->End();
 
-  while( cellIterator != cellEnd )
-    {
+  while (cellIterator != cellEnd)
+  {
     CellType * cell = cellIterator.Value();
-    if( cell->GetType() == CellType::LINE_CELL )
-      {
-      auto * line = static_cast<LineType *>( cell );
+    if (cell->GetType() == CellType::LINE_CELL)
+    {
+      auto * line = static_cast<LineType *>(cell);
       std::cout << "dimension = " << line->GetDimension();
       std::cout << " # points = " << line->GetNumberOfPoints();
       std::cout << std::endl;
-      }
-    ++cellIterator;
     }
+    ++cellIterator;
+  }
   // Software Guide : EndCodeSnippet
 
 
@@ -256,47 +265,47 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   cellIterator = mesh->GetCells()->Begin();
-  cellEnd      = mesh->GetCells()->End();
+  cellEnd = mesh->GetCells()->End();
 
-  while( cellIterator != cellEnd )
-    {
+  while (cellIterator != cellEnd)
+  {
     CellType * cell = cellIterator.Value();
-    switch( cell->GetType() )
-      {
+    switch (cell->GetType())
+    {
       case CellType::VERTEX_CELL:
-        {
+      {
         std::cout << "VertexCell : " << std::endl;
-        auto * line = dynamic_cast<VertexType *>( cell );
-        std::cout << "dimension = " << line->GetDimension()      << std::endl;
+        auto * line = dynamic_cast<VertexType *>(cell);
+        std::cout << "dimension = " << line->GetDimension() << std::endl;
         std::cout << "# points  = " << line->GetNumberOfPoints() << std::endl;
         break;
-        }
+      }
       case CellType::LINE_CELL:
-        {
+      {
         std::cout << "LineCell : " << std::endl;
-        auto * line = dynamic_cast<LineType *>( cell );
-        std::cout << "dimension = " << line->GetDimension()      << std::endl;
+        auto * line = dynamic_cast<LineType *>(cell);
+        std::cout << "dimension = " << line->GetDimension() << std::endl;
         std::cout << "# points  = " << line->GetNumberOfPoints() << std::endl;
         break;
-        }
+      }
       case CellType::TRIANGLE_CELL:
-        {
+      {
         std::cout << "TriangleCell : " << std::endl;
-        auto * line = dynamic_cast<TriangleType *>( cell );
-        std::cout << "dimension = " << line->GetDimension()      << std::endl;
+        auto * line = dynamic_cast<TriangleType *>(cell);
+        std::cout << "dimension = " << line->GetDimension() << std::endl;
         std::cout << "# points  = " << line->GetNumberOfPoints() << std::endl;
         break;
-        }
+      }
       default:
-        {
+      {
         std::cout << "Cell with more than three points" << std::endl;
-        std::cout << "dimension = " << cell->GetDimension()      << std::endl;
+        std::cout << "dimension = " << cell->GetDimension() << std::endl;
         std::cout << "# points  = " << cell->GetNumberOfPoints() << std::endl;
         break;
-        }
       }
-    ++cellIterator;
     }
+    ++cellIterator;
+  }
   // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;

@@ -42,15 +42,16 @@
 // Software Guide : EndCodeSnippet
 
 
-int main( int argc, char * argv [] )
+int
+main(int argc, char * argv[])
 {
   // Verify the number of parameters in the command line
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " inputImageFile  outputImageFile " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Software Guide : BeginLatex
   //
@@ -61,7 +62,7 @@ int main( int argc, char * argv [] )
   // Software Guide : BeginCodeSnippet
   constexpr unsigned int VectorDimension = 3;
 
-  using PixelType = itk::Vector< float, VectorDimension >;
+  using PixelType = itk::Vector<float, VectorDimension>;
   // Software Guide : EndCodeSnippet
 
 
@@ -75,7 +76,7 @@ int main( int argc, char * argv [] )
   // Software Guide : BeginCodeSnippet
   constexpr unsigned int ImageDimension = 2;
 
-  using ImageType = itk::Image< PixelType, ImageDimension >;
+  using ImageType = itk::Image<PixelType, ImageDimension>;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -86,8 +87,8 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ReaderType = itk::ImageFileReader< ImageType >;
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -102,8 +103,8 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
   // Software Guide : EndCodeSnippet
 
 
@@ -115,7 +116,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  writer->SetInput( reader->GetOutput() );
+  writer->SetInput(reader->GetOutput());
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -129,15 +130,15 @@ int main( int argc, char * argv [] )
 
   // Software Guide : BeginCodeSnippet
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

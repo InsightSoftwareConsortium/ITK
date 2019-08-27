@@ -58,16 +58,15 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< typename TVector >
-class ITK_TEMPLATE_EXPORT MahalanobisDistanceMembershipFunction:
-  public MembershipFunctionBase< TVector >
+template <typename TVector>
+class ITK_TEMPLATE_EXPORT MahalanobisDistanceMembershipFunction : public MembershipFunctionBase<TVector>
 {
 public:
   /** Standard class type aliases */
   using Self = MahalanobisDistanceMembershipFunction;
-  using Superclass = MembershipFunctionBase< TVector >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MembershipFunctionBase<TVector>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Strandard macros */
   itkTypeMacro(MahalanobisDistanceMembershipFunction, MembershipFunctionBase);
@@ -84,15 +83,16 @@ public:
 
   /** Type of the mean vector. RealType on a vector-type is the same
    * vector-type but with a real element type.  */
-  using MeasurementVectorRealType = typename itk::NumericTraits< MeasurementVectorType >::RealType;
+  using MeasurementVectorRealType = typename itk::NumericTraits<MeasurementVectorType>::RealType;
   using MeanVectorType = MeasurementVectorRealType;
 
   /** Type of the covariance matrix */
-  using CovarianceMatrixType = VariableSizeMatrix< double >;
+  using CovarianceMatrixType = VariableSizeMatrix<double>;
 
   /** Set the mean used in the Mahalanobis distance. Mean is a vector type
    * similar to the measurement type but with a real element type.  */
-  void SetMean(const MeanVectorType & mean);
+  void
+  SetMean(const MeanVectorType & mean);
 
   /** Get the mean of the Mahalanobis distance. Mean is a vector type
    * similar to the measurement type but with a real element type. */
@@ -101,7 +101,8 @@ public:
   /** Set the covariance matrix. Covariance matrix is a
    * VariableSizeMatrix of doubles. The inverse of the covariance
    * matrix is calculated whenever the covaraince matrix is changed. */
-  void SetCovariance(const CovarianceMatrixType & cov);
+  void
+  SetCovariance(const CovarianceMatrixType & cov);
 
   /** Get the covariance matrix. Covariance matrix is a
    * VariableSizeMatrix of doubles. */
@@ -112,21 +113,24 @@ public:
    * prescribed mean and covariance. Note that the Mahalanobis
    * distance is not a probability density. The square of the
    * distance is returned. */
-  double Evaluate(const MeasurementVectorType & measurement) const override;
+  double
+  Evaluate(const MeasurementVectorType & measurement) const override;
 
   /** Method to clone a membership function, i.e. create a new instance of
    * the same type of membership function and configure its ivars to
    * match. */
-  typename LightObject::Pointer InternalClone() const override;
+  typename LightObject::Pointer
+  InternalClone() const override;
 
 protected:
   MahalanobisDistanceMembershipFunction();
   ~MahalanobisDistanceMembershipFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  MeanVectorType       m_Mean;               // mean
-  CovarianceMatrixType m_Covariance;         // covariance matrix
+  MeanVectorType       m_Mean;       // mean
+  CovarianceMatrixType m_Covariance; // covariance matrix
 
   // inverse covariance matrix. automatically calculated
   // when covariace matirx is set.
@@ -139,7 +143,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMahalanobisDistanceMembershipFunction.hxx"
+#  include "itkMahalanobisDistanceMembershipFunction.hxx"
 #endif
 
 #endif

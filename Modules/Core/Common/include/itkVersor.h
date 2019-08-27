@@ -46,7 +46,7 @@ namespace itk
  * \sa Matrix
  * \ingroup ITKCommon
  */
-template< typename T >
+template <typename T>
 class ITK_TEMPLATE_EXPORT Versor
 {
 public:
@@ -58,33 +58,35 @@ public:
   using ValueType = T;
 
   /** Type used for computations on the versor components */
-  using RealType = typename NumericTraits< ValueType >::RealType;
+  using RealType = typename NumericTraits<ValueType>::RealType;
 
   /** Vector type used to represent the axis. */
-  using VectorType = Vector< T, 3 >;
+  using VectorType = Vector<T, 3>;
 
   /** Point type.  */
-  using PointType = Point< T, 3 >;
+  using PointType = Point<T, 3>;
 
   /** CovariantVector type.  */
-  using CovariantVectorType = CovariantVector< T, 3 >;
+  using CovariantVectorType = CovariantVector<T, 3>;
 
   /** Vnl Vector type.  */
-  using VnlVectorType = vnl_vector_fixed< T, 3 >;
+  using VnlVectorType = vnl_vector_fixed<T, 3>;
 
   /** Vnl Quaternion type.  */
-  using VnlQuaternionType = vnl_quaternion< T >;
+  using VnlQuaternionType = vnl_quaternion<T>;
 
   /** Type of the rotation matrix equivalent to the Versor */
-  using MatrixType = Matrix< T, 3, 3 >;
+  using MatrixType = Matrix<T, 3, 3>;
 
   /** Get a vnl_quaternion with a copy of the internal memory block. */
-  vnl_quaternion< T > GetVnlQuaternion() const;
+  vnl_quaternion<T>
+  GetVnlQuaternion() const;
 
   /** Set the Versor from a Quaternion
    \warning After assignment, the corresponding quaternion will
             be normalized in order to get a consistent Versor.  */
-  void Set(const VnlQuaternionType &);
+  void
+  Set(const VnlQuaternionType &);
 
   /** Set the Versor from Quaternion components.
    \warning After assignment, the corresponding quaternion will be normalized
@@ -103,7 +105,8 @@ public:
    simultaneously change the signs of all the Versor components, the rotation
    that it represents remains unchanged.
    */
-  void Set(T x, T y, T z, T w);
+  void
+  Set(T x, T y, T z, T w);
 
   /** Default constructor creates a null versor
    * (representing 0 degrees  rotation). */
@@ -113,100 +116,133 @@ public:
   Versor(const Self & v);
 
   /** Assignment operator =.  Copy the versor argument. */
-  const Self & operator=(const Self & v);
+  const Self &
+  operator=(const Self & v);
 
   /** Composition operator *=.  Compose the current versor
    * with the operand and store the result in the current
    * versor. */
-  const Self & operator*=(const Self & v);
+  const Self &
+  operator*=(const Self & v);
 
   /** Division operator /=.  Divide the current versor
    * with the operand and store the result in the current
    * versor. This is equivalent to compose the Versor with
    * the reciprocal of the operand \sa GetReciprocal */
-  const Self & operator/=(const Self & v);
+  const Self &
+  operator/=(const Self & v);
 
   /** Get Tensor part of the Versor.
    * Given that Versors are normalized quaternions this value
    * is expected to be 1.0 always  */
-  ValueType GetTensor() const;
+  ValueType
+  GetTensor() const;
 
   /** Normalize the Versor.
    * Given that Versors are normalized quaternions this method
    * is provided only for convinience when it is suspected that
    * a versor could be out of the unit sphere.   */
-  void Normalize();
+  void
+  Normalize();
 
   /** Get Conjugate versor.  Returns the versor that produce
    * a rotation by the same angle but in opposite direction. */
-  Self GetConjugate() const;
+  Self
+  GetConjugate() const;
 
   /** Get Reciprocal versor.  Returns the versor that composed
    * with this one will result in a scalar operator equals to 1.
    * It is also equivalent to 1/this. */
-  Self GetReciprocal() const;
+  Self
+  GetReciprocal() const;
 
   /** Versor operator*.  Performs the composition of two versors.
    * this operation is NOT commutative. */
-  Self operator *(const Self & vec) const;
+  Self operator*(const Self & vec) const;
 
   /** Versor operator/.  Performs the division of two versors. */
-  Self operator/(const Self & vec) const;
+  Self
+  operator/(const Self & vec) const;
 
   /** Versor operator==  Performs the comparison between two versors.
    * this operation uses an arbitrary threshold for the comparison.  */
-  bool operator==(const Self & vec) const;
+  bool
+  operator==(const Self & vec) const;
 
   /** Versor operator!=  Performs the comparison between two versors.
    * this operation uses an arbitrary threshold for the comparison.  */
-  bool operator!=(const Self & vec) const;
+  bool
+  operator!=(const Self & vec) const;
 
   /** Returns the Scalar part. */
-  ValueType GetScalar() const;
+  ValueType
+  GetScalar() const;
 
   /** Returns the X component. */
-  ValueType GetX() const { return m_X; }
+  ValueType
+  GetX() const
+  {
+    return m_X;
+  }
 
   /** Returns the Y component. */
-  ValueType GetY() const { return m_Y; }
+  ValueType
+  GetY() const
+  {
+    return m_Y;
+  }
 
   /** Returns the Z component. */
-  ValueType GetZ() const { return m_Z; }
+  ValueType
+  GetZ() const
+  {
+    return m_Z;
+  }
 
   /** Returns the W component. */
-  ValueType GetW() const { return m_W; }
+  ValueType
+  GetW() const
+  {
+    return m_W;
+  }
 
   /** Returns the rotation angle in radians.  */
-  ValueType GetAngle() const;
+  ValueType
+  GetAngle() const;
 
   /** Returns the axis of the rotation.
    * It is a unit vector parallel to the axis. */
-  VectorType GetAxis() const;
+  VectorType
+  GetAxis() const;
 
   /** Returns the Right part
    * It is a vector part of the Versor. It is
    * called Right because it is equivalent to
    * a right angle rotation. */
-  VectorType GetRight() const;
+  VectorType
+  GetRight() const;
 
   /** Set the versor using a vector and angle
    * the unit vector parallel to the given vector
    * will be used. The angle is expected in radians. */
-  void Set(const VectorType & axis, ValueType angle);
+  void
+  Set(const VectorType & axis, ValueType angle);
 
   /** Set the versor using an orthogonal matrix.
    *  Based on code from:
    *  http://www.euclideanspace.com/maths/geometry/rotations/
    *  conversions/matrixToQuaternion/index.htm
    */
-  void Set(const MatrixType & m);
+  void
+  Set(const MatrixType & m);
 
   /** Set the versor using the right part.
    * the magnitude of the vector given is assumed to
    * be equal to std::sin(angle/2).
    * This method will compute internally the scalar
    * part that preserve the Versor as a unit quaternion. */
-  void Set(const VectorType & axis);
+  void
+  Set(const VectorType & axis);
 
   /** Sets a rotation around the X axis using the parameter
    * as angle in radians. This is a method provided for
@@ -214,7 +250,8 @@ public:
    * this methods is not cumulative with any value previously
    * stored in the Versor.
    * \sa Set \sa SetRotationAroundY \sa SetRotationAroundZ */
-  void SetRotationAroundX(ValueType angle);
+  void
+  SetRotationAroundX(ValueType angle);
 
   /** Sets a rotation around the Y axis using the parameter
    * as angle in radians. This is a method provided for
@@ -222,7 +259,8 @@ public:
    * this methods is not cumulative with any value previously
    * stored in the Versor.
    * \sa Set \sa SetRotationAroundX \sa SetRotationAroundZ */
-  void SetRotationAroundY(ValueType angle);
+  void
+  SetRotationAroundY(ValueType angle);
 
   /** Sets a rotation around the Y axis using the parameter
    * as angle in radians. This is a method provided for
@@ -230,49 +268,61 @@ public:
    * this methods is not cumulative with any value previously
    * stored in the Versor.
    * \sa Set \sa SetRotationAroundX \sa SetRotationAroundY */
-  void SetRotationAroundZ(ValueType angle);
+  void
+  SetRotationAroundZ(ValueType angle);
 
   /** Reset the values so the versor is equivalent to an identity
    *  transformation. This is equivalent to set a zero angle */
-  void SetIdentity();
+  void
+  SetIdentity();
 
   /** Transform a vector. */
-  VectorType Transform(const VectorType & v) const;
+  VectorType
+  Transform(const VectorType & v) const;
 
   /** Transform a covariant vector.  */
-  CovariantVectorType Transform(const CovariantVectorType & v) const;
+  CovariantVectorType
+  Transform(const CovariantVectorType & v) const;
 
   /** Transform a point. */
-  PointType Transform(const PointType & v) const;
+  PointType
+  Transform(const PointType & v) const;
 
   /** Transform a vnl_vector. */
-  VnlVectorType Transform(const VnlVectorType & v) const;
+  VnlVectorType
+  Transform(const VnlVectorType & v) const;
 
   /** Get the matrix representation. */
-  MatrixType GetMatrix() const;
+  MatrixType
+  GetMatrix() const;
 
   /** Get the Square root of the unit quaternion. */
-  Self SquareRoot() const;
+  Self
+  SquareRoot() const;
 
   /** Compute the Exponential of the unit quaternion
    * Exponentiation by a factor is equivalent to
    * multiplication of the rotation angle of the quaternion. */
-  Self Exponential(ValueType exponent) const;
+  Self
+  Exponential(ValueType exponent) const;
 
 private:
   /** use different epsilon for float and double */
-  static inline ValueType Epsilon(double *)
-    {
-      return 1e-10;
-    }
-  static inline ValueType Epsilon(float *)
-    {
-      return 1e-7;
-    }
-  static inline ValueType Epsilon()
-    {
-      return Epsilon((ValueType *)nullptr);
-    }
+  static inline ValueType
+  Epsilon(double *)
+  {
+    return 1e-10;
+  }
+  static inline ValueType
+  Epsilon(float *)
+  {
+    return 1e-7;
+  }
+  static inline ValueType
+  Epsilon()
+  {
+    return Epsilon((ValueType *)nullptr);
+  }
 
   /** Component parallel to x axis.  */
   ValueType m_X;
@@ -287,9 +337,9 @@ private:
   ValueType m_W;
 };
 
-template< typename T >
-std::ostream & operator<<(std::ostream & os,
-                                     const Versor< T > & v)
+template <typename T>
+std::ostream &
+operator<<(std::ostream & os, const Versor<T> & v)
 {
   os << "[ ";
   os << v.GetX() << ", " << v.GetY() << ", ";
@@ -297,13 +347,13 @@ std::ostream & operator<<(std::ostream & os,
   return os;
 }
 
-template< typename T >
-std::istream & operator>>(std::istream & is,
-                                     Versor< T > & v);
+template <typename T>
+std::istream &
+operator>>(std::istream & is, Versor<T> & v);
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVersor.hxx"
+#  include "itkVersor.hxx"
 #endif
 
 #endif

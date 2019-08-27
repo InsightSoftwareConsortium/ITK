@@ -31,11 +31,11 @@
 #include "itkTIFFImageIO.h"
 #include "itkVTKImageIO.h"
 
-int itkIOPrintTest(int , char* [])
+int
+itkIOPrintTest(int, char *[])
 {
-  using ImageType = itk::Image<unsigned char,2>;
-  itk::ImageFileReader<ImageType>::Pointer reader =
-    itk::ImageFileReader<ImageType>::New();
+  using ImageType = itk::Image<unsigned char, 2>;
+  itk::ImageFileReader<ImageType>::Pointer reader = itk::ImageFileReader<ImageType>::New();
 
   itk::PNGImageIO::Pointer PNGio;
   PNGio = itk::PNGImageIO::New();

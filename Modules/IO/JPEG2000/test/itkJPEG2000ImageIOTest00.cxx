@@ -19,13 +19,14 @@
 #include "itkJPEG2000ImageIO.h"
 
 
-int itkJPEG2000ImageIOTest00( int /*argc */, char * /*argv*/[] )
+int
+itkJPEG2000ImageIOTest00(int /*argc */, char * /*argv*/[])
 {
   itk::JPEG2000ImageIO::Pointer imageIO = itk::JPEG2000ImageIO::New();
 
   std::cout << "ClassName = " << imageIO->GetNameOfClass() << std::endl;
 
-  imageIO->Print( std::cout );
+  imageIO->Print(std::cout);
 
   return EXIT_SUCCESS;
 }

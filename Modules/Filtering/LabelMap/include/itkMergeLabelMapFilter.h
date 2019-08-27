@@ -28,15 +28,16 @@ namespace itk
 #  define TEMPINPLACELABELMAPSTRICT STRICT
 #  undef STRICT
 #endif
-    /**\class ChoiceMethod
-     *  \ingroup ITKLabelMap
-     */
-    enum class ChoiceMethod : uint8_t {
-        KEEP = 0,
-        AGGREGATE = 1,
-        PACK = 2,
-        STRICT = 3
-    };
+/**\class ChoiceMethod
+ *  \ingroup ITKLabelMap
+ */
+enum class ChoiceMethod : uint8_t
+{
+  KEEP = 0,
+  AGGREGATE = 1,
+  PACK = 2,
+  STRICT = 3
+};
 #ifdef TEMPINPLACELABELMAPSTRICT
 #  define STRICT TEMPINPLACELABELMAPSTRICT
 #  undef TEMPINPLACELABELMAPSTRICT
@@ -72,18 +73,17 @@ namespace itk
  * \sphinxexample{Filtering/LabelMap/MergeLabelMaps,Merge LabelMaps}
  * \endsphinx
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT MergeLabelMapFilter:
-  public InPlaceLabelMapFilter< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT MergeLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MergeLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = MergeLabelMapFilter;
-  using Superclass = InPlaceLabelMapFilter< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InPlaceLabelMapFilter<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using ImageType = TImage;
@@ -115,18 +115,18 @@ public:
 #endif
 
 #ifdef STRICT
-#undef STRICT
+#  undef STRICT
 #endif
 
   /** Enables backwards compatibility for enum values */
   using MethodChoice = ChoiceMethod;
 #if !defined(ITK_LEGACY_REMOVE)
-        //We need to expose the enum values at the class level
-        // for backwards compatibility
-        static constexpr MethodChoice KEEP = MethodChoice::KEEP;
-        static constexpr MethodChoice AGGREGATE = MethodChoice::AGGREGATE;
-        static constexpr MethodChoice PACK = MethodChoice::PACK;
-        static constexpr MethodChoice STRICT = MethodChoice::STRICT;
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr MethodChoice KEEP = MethodChoice::KEEP;
+  static constexpr MethodChoice AGGREGATE = MethodChoice::AGGREGATE;
+  static constexpr MethodChoice PACK = MethodChoice::PACK;
+  static constexpr MethodChoice STRICT = MethodChoice::STRICT;
 #endif
 
   /** Set/Get the method used to merge the label maps */
@@ -137,29 +137,36 @@ protected:
   MergeLabelMapFilter();
   ~MergeLabelMapFilter() override = default;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   MethodChoice m_Method;
 
 private:
-  void MergeWithKeep();
+  void
+  MergeWithKeep();
 
-  void MergeWithAggregate();
+  void
+  MergeWithAggregate();
 
-  void MergeWithPack();
+  void
+  MergeWithPack();
 
-  void MergeWithStrict();
+  void
+  MergeWithStrict();
 }; // end of class
 
 /** Define how to print enumerations */
-extern ITKLabelMap_EXPORT std::ostream& operator<<(std::ostream& out, const ChoiceMethod value);
+extern ITKLabelMap_EXPORT std::ostream &
+                          operator<<(std::ostream & out, const ChoiceMethod value);
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMergeLabelMapFilter.hxx"
+#  include "itkMergeLabelMapFilter.hxx"
 #endif
 
 #endif

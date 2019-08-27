@@ -21,84 +21,76 @@
 
 namespace itk
 {
-template< typename TInputImage >
+template <typename TInputImage>
 void
-WatershedImageFilter< TInputImage >
-::SetThreshold(double val)
+WatershedImageFilter<TInputImage>::SetThreshold(double val)
 {
-  if ( val < 0.0 )
-    {
+  if (val < 0.0)
+  {
     val = 0.0;
-    }
-  else if ( val > 1.0 )
-    {
+  }
+  else if (val > 1.0)
+  {
     val = 1.0;
-    }
+  }
 
-CLANG_PRAGMA_PUSH
-CLANG_SUPPRESS_Wfloat_equal
-  if ( val != m_Threshold )
-CLANG_PRAGMA_POP
-    {
+  CLANG_PRAGMA_PUSH
+  CLANG_SUPPRESS_Wfloat_equal if (val != m_Threshold) CLANG_PRAGMA_POP
+  {
     m_Threshold = val;
     m_Segmenter->SetThreshold(m_Threshold);
 
     m_ThresholdChanged = true;
     this->Modified();
-    }
+  }
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-WatershedImageFilter< TInputImage >
-::SetLevel(double val)
+WatershedImageFilter<TInputImage>::SetLevel(double val)
 {
-  if ( val < 0.0 )
-    {
+  if (val < 0.0)
+  {
     val = 0.0;
-    }
-  else if ( val > 1.0 )
-    {
+  }
+  else if (val > 1.0)
+  {
     val = 1.0;
-    }
+  }
 
-CLANG_PRAGMA_PUSH    \
-CLANG_SUPPRESS_Wfloat_equal   \
-  if ( val != m_Level )
-CLANG_PRAGMA_POP    \
-    {
+  CLANG_PRAGMA_PUSH
+  CLANG_SUPPRESS_Wfloat_equal if (val != m_Level) CLANG_PRAGMA_POP
+  {
     m_Level = val;
     m_TreeGenerator->SetFloodLevel(m_Level);
     m_Relabeler->SetFloodLevel(m_Level);
 
     m_LevelChanged = true;
     this->Modified();
-    }
+  }
 }
 
-template< typename TInputImage >
-WatershedImageFilter< TInputImage >
-::WatershedImageFilter()
+template <typename TInputImage>
+WatershedImageFilter<TInputImage>::WatershedImageFilter()
 {
   // Set up the mini-pipeline for the first execution.
-  m_Segmenter    = watershed::Segmenter< InputImageType >::New();
-  m_TreeGenerator = watershed::SegmentTreeGenerator< ScalarType >::New();
-  m_Relabeler    = watershed::Relabeler< ScalarType, ImageDimension >::New();
+  m_Segmenter = watershed::Segmenter<InputImageType>::New();
+  m_TreeGenerator = watershed::SegmentTreeGenerator<ScalarType>::New();
+  m_Relabeler = watershed::Relabeler<ScalarType, ImageDimension>::New();
 
   m_Segmenter->SetDoBoundaryAnalysis(false);
   m_Segmenter->SetSortEdgeLists(true);
-  m_Segmenter->SetThreshold( this->GetThreshold() );
+  m_Segmenter->SetThreshold(this->GetThreshold());
 
-  m_TreeGenerator->SetInputSegmentTable( m_Segmenter->GetSegmentTable() );
+  m_TreeGenerator->SetInputSegmentTable(m_Segmenter->GetSegmentTable());
   m_TreeGenerator->SetMerge(false);
-  m_TreeGenerator->SetFloodLevel( this->GetLevel() );
+  m_TreeGenerator->SetFloodLevel(this->GetLevel());
 
-  m_Relabeler->SetInputSegmentTree( m_TreeGenerator->GetOutputSegmentTree() );
-  m_Relabeler->SetInputImage( m_Segmenter->GetOutputImage() );
-  m_Relabeler->SetFloodLevel( this->GetLevel() );
+  m_Relabeler->SetInputSegmentTree(m_TreeGenerator->GetOutputSegmentTree());
+  m_Relabeler->SetInputImage(m_Segmenter->GetOutputImage());
+  m_Relabeler->SetFloodLevel(this->GetLevel());
 
-  WatershedMiniPipelineProgressCommand::Pointer c =
-    WatershedMiniPipelineProgressCommand::New();
+  WatershedMiniPipelineProgressCommand::Pointer c = WatershedMiniPipelineProgressCommand::New();
   c->SetFilter(this);
   c->SetNumberOfFilters(3);
 
@@ -111,19 +103,17 @@ WatershedImageFilter< TInputImage >
   m_ThresholdChanged = true;
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-WatershedImageFilter< TInputImage >
-::EnlargeOutputRequestedRegion(DataObject *data)
+WatershedImageFilter<TInputImage>::EnlargeOutputRequestedRegion(DataObject * data)
 {
   Superclass::EnlargeOutputRequestedRegion(data);
   data->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-WatershedImageFilter< TInputImage >
-::PrepareOutputs()
+WatershedImageFilter<TInputImage>::PrepareOutputs()
 {
   // call the superclass' method to clear out the outputs
   Superclass::PrepareOutputs();
@@ -140,16 +130,14 @@ WatershedImageFilter< TInputImage >
   // Relabeler need to re-execute.  Plus, the
   // HighestCalculatedFloodLevel must be reset on the Tree Generator
   //
-  if ( m_InputChanged
-       || ( this->GetInput()->GetPipelineMTime() > m_GenerateDataMTime )
-       || m_ThresholdChanged )
-    {
+  if (m_InputChanged || (this->GetInput()->GetPipelineMTime() > m_GenerateDataMTime) || m_ThresholdChanged)
+  {
     m_Segmenter->PrepareOutputs();
     m_TreeGenerator->PrepareOutputs();
     m_Relabeler->PrepareOutputs();
 
     m_TreeGenerator->SetHighestCalculatedFloodLevel(0.0);
-    }
+  }
 
   // If the flood level changed but is below the Tree
   // Generator::HighestCalculatedFloodLevel, then only the Relabeler
@@ -159,46 +147,42 @@ WatershedImageFilter< TInputImage >
   // Generator::HighestCalculatedFloodLevel, then the Tree Generator +
   // Relabeler must execute.
   //
-  if ( m_LevelChanged )
+  if (m_LevelChanged)
+  {
+    if (m_Level <= m_TreeGenerator->GetHighestCalculatedFloodLevel())
     {
-    if ( m_Level <= m_TreeGenerator->GetHighestCalculatedFloodLevel() )
-      {
       m_Relabeler->PrepareOutputs();
-      }
+    }
     else
-      {
+    {
       m_TreeGenerator->PrepareOutputs();
       m_Relabeler->PrepareOutputs();
-      }
     }
+  }
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-WatershedImageFilter< TInputImage >
-::GenerateData()
+WatershedImageFilter<TInputImage>::GenerateData()
 {
   // Set the largest possible region in the segmenter
-  m_Segmenter->SetLargestPossibleRegion( this->GetInput()
-                                         ->GetLargestPossibleRegion() );
-  m_Segmenter->GetOutputImage()
-  ->SetRequestedRegion( this->GetInput()->GetLargestPossibleRegion() );
+  m_Segmenter->SetLargestPossibleRegion(this->GetInput()->GetLargestPossibleRegion());
+  m_Segmenter->GetOutputImage()->SetRequestedRegion(this->GetInput()->GetLargestPossibleRegion());
 
   // Setup the progress command
   WatershedMiniPipelineProgressCommand::Pointer c =
-    dynamic_cast< WatershedMiniPipelineProgressCommand * >(
-      m_TreeGenerator->GetCommand(m_ObserverTag) );
+    dynamic_cast<WatershedMiniPipelineProgressCommand *>(m_TreeGenerator->GetCommand(m_ObserverTag));
   c->SetCount(0.0);
   c->SetNumberOfFilters(3);
 
   // Graft our output on the relabeler
-  m_Relabeler->GraftOutput( this->GetOutput() );
+  m_Relabeler->GraftOutput(this->GetOutput());
 
   // Update the mini-pipeline
   m_Relabeler->Update();
 
   // Graft the output of the relabeler back on this filter
-  this->GraftOutput( m_Relabeler->GetOutputImage() );
+  this->GraftOutput(m_Relabeler->GetOutputImage());
 
   // Keep track of when we last executed
   m_GenerateDataMTime.Modified();
@@ -209,10 +193,9 @@ WatershedImageFilter< TInputImage >
   m_ThresholdChanged = false;
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-WatershedImageFilter< TInputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+WatershedImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Threshold: " << m_Threshold << std::endl;

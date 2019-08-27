@@ -20,7 +20,7 @@
 
 #include "itkPathToPathFilter.h"
 #include "itkOffset.h"
-//Templates require interfaces conforming to itkPath.h and itkChainCodePath.h
+// Templates require interfaces conforming to itkPath.h and itkChainCodePath.h
 
 namespace itk
 {
@@ -37,20 +37,19 @@ namespace itk
  * \ingroup PathFilters
  * \ingroup ITKPath
  */
-template< typename TInputChainCodePath, typename TOutputFourierSeriesPath >
-class ITK_TEMPLATE_EXPORT ChainCodeToFourierSeriesPathFilter:public
-  PathToPathFilter< TInputChainCodePath, TOutputFourierSeriesPath >
+template <typename TInputChainCodePath, typename TOutputFourierSeriesPath>
+class ITK_TEMPLATE_EXPORT ChainCodeToFourierSeriesPathFilter
+  : public PathToPathFilter<TInputChainCodePath, TOutputFourierSeriesPath>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ChainCodeToFourierSeriesPathFilter);
 
   /** Standard class type aliases. */
   using Self = ChainCodeToFourierSeriesPathFilter;
-  using Superclass = PathToPathFilter< TInputChainCodePath,
-                            TOutputFourierSeriesPath >;
+  using Superclass = PathToPathFilter<TInputChainCodePath, TOutputFourierSeriesPath>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -78,12 +77,13 @@ public:
    * harmonics will always be calculated.*/
   itkSetMacro(NumberOfHarmonics, unsigned int)
 
-protected:
-  ChainCodeToFourierSeriesPathFilter();
+    protected : ChainCodeToFourierSeriesPathFilter();
   ~ChainCodeToFourierSeriesPathFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   unsigned int m_NumberOfHarmonics;
@@ -91,7 +91,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkChainCodeToFourierSeriesPathFilter.hxx"
+#  include "itkChainCodeToFourierSeriesPathFilter.hxx"
 #endif
 
 #endif

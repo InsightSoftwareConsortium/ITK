@@ -23,45 +23,46 @@
 #include "itkMath.h"
 
 
-namespace{
+namespace
+{
 // The following class is used to support callbacks
 // on the filter in the pipeline that follows later
 class ShowProgressObject
 {
 public:
-  ShowProgressObject(itk::ProcessObject* o)
-    {m_Process = o;}
-  void ShowProgress()
-    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
+  ShowProgressObject(itk::ProcessObject * o) { m_Process = o; }
+  void
+  ShowProgress()
+  {
+    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+  }
   itk::ProcessObject::Pointer m_Process;
 };
-}
+} // namespace
 
-int itkFastMarchingExtensionImageFilterTest(int, char* [] )
+int
+itkFastMarchingExtensionImageFilterTest(int, char *[])
 {
   // create a fastmarching object
   constexpr unsigned int Dimension = 2;
   using PixelType = float;
 
-  using FloatImageType = itk::Image< PixelType, Dimension >;
+  using FloatImageType = itk::Image<PixelType, Dimension>;
 
-  using CriterionType =
-      itk::FastMarchingThresholdStoppingCriterion< FloatImageType, FloatImageType >;
+  using CriterionType = itk::FastMarchingThresholdStoppingCriterion<FloatImageType, FloatImageType>;
   CriterionType::Pointer criterion = CriterionType::New();
-  criterion->SetThreshold( 100. );
+  criterion->SetThreshold(100.);
 
-  using MarcherType = itk::FastMarchingExtensionImageFilterBase<
-      FloatImageType, FloatImageType, unsigned char, 1 >;
+  using MarcherType = itk::FastMarchingExtensionImageFilterBase<FloatImageType, FloatImageType, unsigned char, 1>;
 
   MarcherType::Pointer marcher = MarcherType::New();
-  marcher->SetStoppingCriterion( criterion );
+  marcher->SetStoppingCriterion(criterion);
 
-  ShowProgressObject progressWatch(marcher);
+  ShowProgressObject                                    progressWatch(marcher);
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
   command = itk::SimpleMemberCommand<ShowProgressObject>::New();
-  command->SetCallbackFunction(&progressWatch,
-                               &ShowProgressObject::ShowProgress);
-  marcher->AddObserver( itk::ProgressEvent(), command);
+  command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
+  marcher->AddObserver(itk::ProgressEvent(), command);
 
 
   bool passed;
@@ -73,17 +74,17 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
   // setup alive points
   NodePairContainerType::Pointer AlivePoints = NodePairContainerType::New();
 
-  FloatImageType::OffsetType offset0 = {{28,35}};
+  FloatImageType::OffsetType offset0 = { { 28, 35 } };
 
   itk::Index<2> index;
   index.Fill(0);
 
-  AlivePoints->push_back( NodePairType( index + offset0, 0. ) );
+  AlivePoints->push_back(NodePairType(index + offset0, 0.));
 
-  index.Fill( 200 );
-  AlivePoints->push_back( NodePairType( index, 42. ) );
+  index.Fill(200);
+  AlivePoints->push_back(NodePairType(index, 42.));
 
-  marcher->SetAlivePoints( AlivePoints );
+  marcher->SetAlivePoints(AlivePoints);
 
 
   // setup trial points
@@ -93,60 +94,62 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
   index += offset0;
 
   index[0] += 1;
-  TrialPoints->push_back( NodePairType( index, 1. ) );
+  TrialPoints->push_back(NodePairType(index, 1.));
 
   index[0] -= 1;
   index[1] += 1;
-  TrialPoints->push_back( NodePairType( index, 1. ) );
+  TrialPoints->push_back(NodePairType(index, 1.));
 
   index[0] -= 1;
   index[1] -= 1;
-  TrialPoints->push_back( NodePairType( index, 1. ) );
+  TrialPoints->push_back(NodePairType(index, 1.));
 
   index[0] += 1;
   index[1] -= 1;
-  TrialPoints->push_back( NodePairType( index, 1. ) );
+  TrialPoints->push_back(NodePairType(index, 1.));
 
-  index.Fill( 300 ); // this node is out of range
-  TrialPoints->push_back( NodePairType( index, 42. ) );
+  index.Fill(300); // this node is out of range
+  TrialPoints->push_back(NodePairType(index, 42.));
 
-  marcher->SetTrialPoints( TrialPoints );
+  marcher->SetTrialPoints(TrialPoints);
 
   // specify the size of the output image
-  FloatImageType::SizeType size = {{64,64}};
-  marcher->SetOutputSize( size );
+  FloatImageType::SizeType size = { { 64, 64 } };
+  marcher->SetOutputSize(size);
 
   // setup a speed image of ones
-  FloatImageType::Pointer speedImage = FloatImageType::New();
+  FloatImageType::Pointer    speedImage = FloatImageType::New();
   FloatImageType::RegionType region;
-  region.SetSize( size );
-  speedImage->SetLargestPossibleRegion( region );
-  speedImage->SetBufferedRegion( region );
+  region.SetSize(size);
+  speedImage->SetLargestPossibleRegion(region);
+  speedImage->SetBufferedRegion(region);
   speedImage->Allocate();
 
-  itk::ImageRegionIterator<FloatImageType>
-    speedIter( speedImage, speedImage->GetBufferedRegion() );
-  while ( !speedIter.IsAtEnd() )
-    {
-    speedIter.Set( 1.0 );
+  itk::ImageRegionIterator<FloatImageType> speedIter(speedImage, speedImage->GetBufferedRegion());
+  while (!speedIter.IsAtEnd())
+  {
+    speedIter.Set(1.0);
     ++speedIter;
-    }
+  }
 
-  marcher->SetInput( speedImage );
+  marcher->SetInput(speedImage);
 
   // deliberately cause an exception by not setting AuxAliveValues
   passed = false;
   try
-    {
+  {
     marcher->Update();
-    }
-  catch ( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     passed = true;
     marcher->ResetPipeline();
     std::cout << err << std::endl;
-    }
-  if ( !passed ) { return EXIT_FAILURE; }
+  }
+  if (!passed)
+  {
+    return EXIT_FAILURE;
+  }
 
   using VectorType = MarcherType::AuxValueVectorType;
   using AuxValueContainerType = MarcherType::AuxValueContainerType;
@@ -154,160 +157,168 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
   AuxValueContainerType::Pointer auxAliveValues = AuxValueContainerType::New();
 
   // deliberately cause an exception setting AuxAliveValues of the wrong size
-  marcher->SetAuxiliaryAliveValues( auxAliveValues );
+  marcher->SetAuxiliaryAliveValues(auxAliveValues);
 
   passed = false;
   try
-    {
+  {
     marcher->Update();
-    }
-  catch ( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     passed = true;
     marcher->ResetPipeline();
     std::cout << err << std::endl;
-    }
-  if ( !passed ) { return EXIT_FAILURE; }
+  }
+  if (!passed)
+  {
+    return EXIT_FAILURE;
+  }
 
 
   VectorType vector;
   vector[0] = 48;
 
-  auxAliveValues->push_back( vector );
-  auxAliveValues->push_back( vector );
+  auxAliveValues->push_back(vector);
+  auxAliveValues->push_back(vector);
 
-  marcher->SetAuxiliaryAliveValues( auxAliveValues );
+  marcher->SetAuxiliaryAliveValues(auxAliveValues);
 
   // deliberately cause an exception by not setting AuxTrialValues
   passed = false;
   try
-    {
+  {
     marcher->Update();
-    }
-  catch ( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     passed = true;
     marcher->ResetPipeline();
     std::cout << err << std::endl;
-    }
-  if ( !passed ) { return EXIT_FAILURE; }
+  }
+  if (!passed)
+  {
+    return EXIT_FAILURE;
+  }
 
   AuxValueContainerType::Pointer auxTrialValues = AuxValueContainerType::New();
 
   // deliberately cause an exception setting AuxTrialValues of the wrong size
-  marcher->SetAuxiliaryTrialValues( auxTrialValues );
+  marcher->SetAuxiliaryTrialValues(auxTrialValues);
 
   passed = false;
   try
-    {
+  {
     marcher->Update();
-    }
-  catch ( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     passed = true;
     marcher->ResetPipeline();
     std::cout << err << std::endl;
-    }
-  if ( !passed ) { return EXIT_FAILURE; }
+  }
+  if (!passed)
+  {
+    return EXIT_FAILURE;
+  }
 
 
-  auxTrialValues->push_back( vector );
-  auxTrialValues->push_back( vector );
-  auxTrialValues->push_back( vector );
-  auxTrialValues->push_back( vector );
-  auxTrialValues->push_back( vector );
+  auxTrialValues->push_back(vector);
+  auxTrialValues->push_back(vector);
+  auxTrialValues->push_back(vector);
+  auxTrialValues->push_back(vector);
+  auxTrialValues->push_back(vector);
 
-  marcher->SetAuxiliaryTrialValues( auxTrialValues );
+  marcher->SetAuxiliaryTrialValues(auxTrialValues);
 
   // run the algorithm
   passed = true;
   try
-    {
+  {
     marcher->Update();
-    }
-  catch ( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     passed = false;
     marcher->ResetPipeline();
     std::cout << err << std::endl;
-    }
-  if ( !passed ) { return EXIT_FAILURE; }
+  }
+  if (!passed)
+  {
+    return EXIT_FAILURE;
+  }
 
 
   // check the results
   passed = true;
-  FloatImageType::Pointer output = marcher->GetOutput();
-  itk::ImageRegionIterator<FloatImageType>
-    iterator( output, output->GetBufferedRegion() );
+  FloatImageType::Pointer                  output = marcher->GetOutput();
+  itk::ImageRegionIterator<FloatImageType> iterator(output, output->GetBufferedRegion());
 
   using AuxImageType = MarcherType::AuxImageType;
-  AuxImageType::Pointer auxImage = marcher->GetAuxiliaryImage(0);
-  itk::ImageRegionIterator<AuxImageType>
-    auxIterator( auxImage, auxImage->GetBufferedRegion() );
+  AuxImageType::Pointer                  auxImage = marcher->GetAuxiliaryImage(0);
+  itk::ImageRegionIterator<AuxImageType> auxIterator(auxImage, auxImage->GetBufferedRegion());
 
-  while( !iterator.IsAtEnd() )
-    {
+  while (!iterator.IsAtEnd())
+  {
     FloatImageType::IndexType tempIndex;
-    double distance;
-    float outputValue;
+    double                    distance;
+    float                     outputValue;
 
     tempIndex = iterator.GetIndex();
     tempIndex -= offset0;
     distance = 0.0;
-    for ( int j = 0; j < 2; j++ )
-      {
+    for (int j = 0; j < 2; j++)
+    {
       distance += tempIndex[j] * tempIndex[j];
-      }
-    distance = std::sqrt( distance );
+    }
+    distance = std::sqrt(distance);
 
-    outputValue = (float) iterator.Get();
+    outputValue = (float)iterator.Get();
 
-    if ( itk::Math::NotAlmostEquals( distance, 0.0 ) )
+    if (itk::Math::NotAlmostEquals(distance, 0.0))
+    {
+      if (itk::Math::abs(outputValue) / distance > 1.42)
       {
-      if ( itk::Math::abs( outputValue ) / distance > 1.42 )
-        {
         std::cout << iterator.GetIndex() << " ";
-        std::cout << itk::Math::abs( outputValue ) / distance << " ";
-        std::cout << itk::Math::abs( outputValue ) << " " << distance << std::endl;
+        std::cout << itk::Math::abs(outputValue) / distance << " ";
+        std::cout << itk::Math::abs(outputValue) << " " << distance << std::endl;
         passed = false;
         break;
-        }
-
-      if ( auxIterator.Get() != vector[0] )
-        {
-        std::cout << auxIterator.GetIndex()
-                  << " got aux value of " << (double) auxIterator.Get()
-                  << " but it should be  " << (double) vector[0]
-                  << std::endl;
-        passed = false;
-        break;
-        }
       }
+
+      if (auxIterator.Get() != vector[0])
+      {
+        std::cout << auxIterator.GetIndex() << " got aux value of " << (double)auxIterator.Get()
+                  << " but it should be  " << (double)vector[0] << std::endl;
+        passed = false;
+        break;
+      }
+    }
     ++iterator;
     ++auxIterator;
-    }
+  }
 
   // Exercise other member functions
-  //std::cout << "Auxiliary alive values: " << marcher->GetAuxiliaryAliveValues();
+  // std::cout << "Auxiliary alive values: " << marcher->GetAuxiliaryAliveValues();
   std::cout << std::endl;
 
-  //std::cout << "Auxiliary trial values: " << marcher->GetAuxiliaryTrialValues();
+  // std::cout << "Auxiliary trial values: " << marcher->GetAuxiliaryTrialValues();
   std::cout << std::endl;
 
-  marcher->Print( std::cout );
+  marcher->Print(std::cout);
 
-  if ( marcher->GetAuxiliaryImage(2) )
-    {
+  if (marcher->GetAuxiliaryImage(2))
+  {
     std::cout << "GetAuxiliaryImage(2) should have returned nullptr";
     std::cout << std::endl;
     passed = false;
-    }
+  }
 
-  if ( passed )
-    {
+  if (passed)
+  {
     std::cout << "Fast Marching test passed" << std::endl;
     return EXIT_SUCCESS;
-    }
+  }
   std::cout << "Fast Marching test failed" << std::endl;
   return EXIT_FAILURE;
 }

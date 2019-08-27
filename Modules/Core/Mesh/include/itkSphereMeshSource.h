@@ -37,17 +37,17 @@ namespace itk
  * deform ability.
  * \ingroup ITKMesh
  */
-template< typename TOutputMesh >
-class ITK_TEMPLATE_EXPORT SphereMeshSource:public MeshSource< TOutputMesh >
+template <typename TOutputMesh>
+class ITK_TEMPLATE_EXPORT SphereMeshSource : public MeshSource<TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SphereMeshSource);
 
   /** Standard "Self" type alias. */
   using Self = SphereMeshSource;
-  using Superclass = MeshSource< TOutputMesh >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MeshSource<TOutputMesh>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -69,8 +69,8 @@ public:
 
   /** Define the triangular cell types which forms the surface of the model
    * and will be used in FEM application. */
-  using CellInterfaceType = CellInterface< OPixelType, CellTraits >;
-  using TriCellType = TriangleCell< CellInterfaceType >;
+  using CellInterfaceType = CellInterface<OPixelType, CellTraits>;
+  using TriCellType = TriangleCell<CellInterfaceType>;
   using TriCellAutoPointer = typename TriCellType::SelfAutoPointer;
   using CellAutoPointer = typename TriCellType::CellAutoPointer;
 
@@ -80,7 +80,7 @@ public:
   itkSetMacro(ResolutionY, unsigned int);
 
   itkSetMacro(Center, OPointType);
-  itkSetMacro(Scale,  OPointType);
+  itkSetMacro(Scale, OPointType);
 
   itkSetMacro(Squareness1, double);
   itkSetMacro(Squareness2, double);
@@ -88,9 +88,11 @@ public:
 protected:
   SphereMeshSource();
   ~SphereMeshSource() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** model center */
   OPointType m_Center;
@@ -108,6 +110,6 @@ protected:
 };
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSphereMeshSource.hxx"
+#  include "itkSphereMeshSource.hxx"
 #endif
 #endif

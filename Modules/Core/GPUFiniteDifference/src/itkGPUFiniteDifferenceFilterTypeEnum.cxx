@@ -20,10 +20,10 @@
 namespace itk
 {
 std::ostream &
-operator<<( std::ostream & out, const GPUFiniteDifferenceFilterTypeEnum value )
+operator<<(std::ostream & out, const GPUFiniteDifferenceFilterTypeEnum value)
 {
   const char * s = 0;
-  switch ( value )
+  switch (value)
   {
     case GPUFiniteDifferenceFilterTypeEnum::UNINITIALIZED:
       s = "GPUFiniteDifferenceImageFilter<TInputImage,TOutputImage,TParentImageFilter>::FilterStateType::UNINITIALIZED";

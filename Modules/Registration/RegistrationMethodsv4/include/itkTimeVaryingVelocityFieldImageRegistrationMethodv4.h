@@ -80,31 +80,32 @@ namespace itk
  *
  * \ingroup ITKRegistrationMethodsv4
  */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform =
-  GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<double, TFixedImage::ImageDimension>,
-  typename TVirtualImage = TFixedImage,
-  typename TPointSet = PointSet<unsigned int, TFixedImage::ImageDimension> >
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TOutputTransform =
+            GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<double, TFixedImage::ImageDimension>,
+          typename TVirtualImage = TFixedImage,
+          typename TPointSet = PointSet<unsigned int, TFixedImage::ImageDimension>>
 class ITK_TEMPLATE_EXPORT TimeVaryingVelocityFieldImageRegistrationMethodv4
-: public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
+  : public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingVelocityFieldImageRegistrationMethodv4);
 
   /** Standard class type aliases. */
   using Self = TimeVaryingVelocityFieldImageRegistrationMethodv4;
-  using Superclass = ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform,
-                                                       TVirtualImage, TPointSet>;
+  using Superclass = ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** ImageDimension constants */
   static constexpr unsigned int ImageDimension = TFixedImage::ImageDimension;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( TimeVaryingVelocityFieldImageRegistrationMethodv4, ImageRegistrationMethodv4 );
+  itkTypeMacro(TimeVaryingVelocityFieldImageRegistrationMethodv4, ImageRegistrationMethodv4);
 
   /** Input type alias for the images and transforms. */
   using FixedImageType = TFixedImage;
@@ -140,47 +141,51 @@ public:
   using NumberOfIterationsArrayType = Array<SizeValueType>;
 
   /** Set/Get the learning rate. */
-  itkSetMacro( LearningRate, RealType );
-  itkGetConstMacro( LearningRate, RealType );
+  itkSetMacro(LearningRate, RealType);
+  itkGetConstMacro(LearningRate, RealType);
 
- /** Set/Get the number of iterations per level. */
-  itkSetMacro( NumberOfIterationsPerLevel, NumberOfIterationsArrayType );
-  itkGetConstMacro( NumberOfIterationsPerLevel, NumberOfIterationsArrayType );
+  /** Set/Get the number of iterations per level. */
+  itkSetMacro(NumberOfIterationsPerLevel, NumberOfIterationsArrayType);
+  itkGetConstMacro(NumberOfIterationsPerLevel, NumberOfIterationsArrayType);
 
   /** Set/Get the convergence threshold */
-  itkSetMacro( ConvergenceThreshold, RealType );
-  itkGetConstMacro( ConvergenceThreshold, RealType );
+  itkSetMacro(ConvergenceThreshold, RealType);
+  itkGetConstMacro(ConvergenceThreshold, RealType);
 
   /** Set/Get the convergence window size */
-  itkSetMacro( ConvergenceWindowSize, unsigned int );
-  itkGetConstMacro( ConvergenceWindowSize, unsigned int );
+  itkSetMacro(ConvergenceWindowSize, unsigned int);
+  itkGetConstMacro(ConvergenceWindowSize, unsigned int);
 
 protected:
   TimeVaryingVelocityFieldImageRegistrationMethodv4();
   ~TimeVaryingVelocityFieldImageRegistrationMethodv4() override = default;
-  void PrintSelf( std::ostream & os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Perform the registration. */
-  void  GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Multithreaded function which calculates the norm of the velocity field. */
-  void ThreadedGenerateData( const RegionType &, ThreadIdType );
+  void
+  ThreadedGenerateData(const RegionType &, ThreadIdType);
 
   /** Handle optimization internally */
-  virtual void StartOptimization();
+  virtual void
+  StartOptimization();
 
 private:
-  RealType                                                        m_LearningRate;
+  RealType m_LearningRate;
 
-  RealType                                                        m_ConvergenceThreshold;
-  unsigned int                                                    m_ConvergenceWindowSize{ 10 };
+  RealType     m_ConvergenceThreshold;
+  unsigned int m_ConvergenceWindowSize{ 10 };
 
-  NumberOfIterationsArrayType                                     m_NumberOfIterationsPerLevel;
+  NumberOfIterationsArrayType m_NumberOfIterationsPerLevel;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTimeVaryingVelocityFieldImageRegistrationMethodv4.hxx"
+#  include "itkTimeVaryingVelocityFieldImageRegistrationMethodv4.hxx"
 #endif
 
 #endif

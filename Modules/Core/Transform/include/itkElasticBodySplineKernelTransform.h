@@ -36,18 +36,15 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template<typename TParametersValueType=double,
-          unsigned int NDimensions=3>
-class ITK_TEMPLATE_EXPORT ElasticBodySplineKernelTransform:
-  public KernelTransform<TParametersValueType, NDimensions>
+template <typename TParametersValueType = double, unsigned int NDimensions = 3>
+class ITK_TEMPLATE_EXPORT ElasticBodySplineKernelTransform : public KernelTransform<TParametersValueType, NDimensions>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ElasticBodySplineKernelTransform);
 
   /** Standard class type aliases. */
   using Self = ElasticBodySplineKernelTransform;
-  using Superclass = KernelTransform<TParametersValueType,
-                           NDimensions>;
+  using Superclass = KernelTransform<TParametersValueType, NDimensions>;
 
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -91,7 +88,8 @@ public:
 protected:
   ElasticBodySplineKernelTransform();
   ~ElasticBodySplineKernelTransform() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   using GMatrixType = typename Superclass::GMatrixType;
   /** Compute G(x)
@@ -105,7 +103,8 @@ protected:
    * \f[ r(x) = \sqrt{ x_1^2 + x_2^2 + x_3^2 }  \f]
    * I = identity matrix
    */
-  void ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const override;
+  void
+  ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const override;
 
   /** alpha,  Alpha is related to Poisson's Ratio (\f$\nu\f$) as
    * \f$ \alpha = 12 ( 1 - \nu ) - 1\f$
@@ -115,7 +114,7 @@ protected:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkElasticBodySplineKernelTransform.hxx"
+#  include "itkElasticBodySplineKernelTransform.hxx"
 #endif
 
 #endif // itkElasticBodySplineKernelTransform_h

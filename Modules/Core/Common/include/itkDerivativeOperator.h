@@ -62,16 +62,13 @@ namespace itk
  * \sphinxexample{Core/Common/CreateDerivativeKernel,Create Derivative Kernel}
  * \endsphinx
  */
-template< typename TPixel, unsigned int VDimension = 2,
-          typename TAllocator = NeighborhoodAllocator< TPixel > >
-class ITK_TEMPLATE_EXPORT DerivativeOperator:
-  public NeighborhoodOperator< TPixel, VDimension, TAllocator >
+template <typename TPixel, unsigned int VDimension = 2, typename TAllocator = NeighborhoodAllocator<TPixel>>
+class ITK_TEMPLATE_EXPORT DerivativeOperator : public NeighborhoodOperator<TPixel, VDimension, TAllocator>
 {
 public:
   /** Standard class type aliases. */
   using Self = DerivativeOperator;
-  using Superclass = NeighborhoodOperator<
-    TPixel, VDimension, TAllocator >;
+  using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
   using PixelType = typename Superclass::PixelType;
   using PixelRealType = typename Superclass::PixelRealType;
@@ -80,36 +77,44 @@ public:
   DerivativeOperator() {}
 
   /** Copy constructor. */
-  DerivativeOperator(const Self & other):
-    NeighborhoodOperator< TPixel, VDimension, TAllocator >(other)
-  { m_Order = other.m_Order;  }
+  DerivativeOperator(const Self & other)
+    : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other)
+  {
+    m_Order = other.m_Order;
+  }
 
   /** Assignment operator */
-  Self & operator=(const Self & other)
+  Self &
+  operator=(const Self & other)
   {
-    if(this != &other)
-      {
+    if (this != &other)
+    {
       Superclass::operator=(other);
       m_Order = other.m_Order;
-      }
+    }
     return *this;
   }
 
   /** Sets the order of the derivative. */
-  void SetOrder(const unsigned int & order)
+  void
+  SetOrder(const unsigned int & order)
   {
     this->m_Order = order;
   }
 
   /** Returns the order of the derivative. */
-  unsigned int GetOrder() const { return m_Order; }
+  unsigned int
+  GetOrder() const
+  {
+    return m_Order;
+  }
 
   /** Prints some debugging information */
-  void PrintSelf(std::ostream & os, Indent i) const override
+  void
+  PrintSelf(std::ostream & os, Indent i) const override
   {
-    os << i << "DerivativeOperator { this=" << this
-       << ", m_Order = " << m_Order << "}" << std::endl;
-    Superclass::PrintSelf( os, i.GetNextIndent() );
+    os << i << "DerivativeOperator { this=" << this << ", m_Order = " << m_Order << "}" << std::endl;
+    Superclass::PrintSelf(os, i.GetNextIndent());
   }
 
 protected:
@@ -118,20 +123,24 @@ protected:
   using CoefficientVector = typename Superclass::CoefficientVector;
 
   /** Calculates operator coefficients. */
-  CoefficientVector GenerateCoefficients() override;
+  CoefficientVector
+  GenerateCoefficients() override;
 
   /** Arranges coefficients spatially in the memory buffer. */
-  void Fill(const CoefficientVector & coeff) override
-  {   Superclass::FillCenteredDirectional(coeff);  }
+  void
+  Fill(const CoefficientVector & coeff) override
+  {
+    Superclass::FillCenteredDirectional(coeff);
+  }
 
 private:
   /** Order of the derivative. */
-  unsigned int m_Order{1};
+  unsigned int m_Order{ 1 };
 };
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDerivativeOperator.hxx"
+#  include "itkDerivativeOperator.hxx"
 #endif
 
 #endif

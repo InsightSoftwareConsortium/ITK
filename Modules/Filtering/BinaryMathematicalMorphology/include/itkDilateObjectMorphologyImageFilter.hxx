@@ -22,19 +22,17 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-DilateObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
-::DilateObjectMorphologyImageFilter()
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+DilateObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DilateObjectMorphologyImageFilter()
 {
-  m_DilateBoundaryCondition.SetConstant(
-    NumericTraits< PixelType >::NonpositiveMin() );
+  m_DilateBoundaryCondition.SetConstant(NumericTraits<PixelType>::NonpositiveMin());
   this->OverrideBoundaryCondition(&m_DilateBoundaryCondition);
 }
 
-template< typename TInputImage, typename TOutputImage, typename TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
-DilateObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
-::Evaluate(OutputNeighborhoodIteratorType & nit, const KernelType & kernel)
+DilateObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::Evaluate(OutputNeighborhoodIteratorType & nit,
+                                                                                const KernelType &               kernel)
 {
   unsigned int             i;
   KernelIteratorType       kernel_it;
@@ -42,19 +40,18 @@ DilateObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 
   bool valid = true;
 
-  for ( i = 0, kernel_it = kernel.Begin(); kernel_it < kernelEnd; ++kernel_it, ++i )
+  for (i = 0, kernel_it = kernel.Begin(); kernel_it < kernelEnd; ++kernel_it, ++i)
+  {
+    if (*kernel_it)
     {
-    if ( *kernel_it )
-      {
       nit.SetPixel(i, this->GetObjectValue(), valid);
-      }
     }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage, typename TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
-DilateObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
-::PrintSelf(std::ostream & os, Indent indent) const
+DilateObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

@@ -41,23 +41,24 @@ public:
 
   /** Delete the time stamp if it was created. */
   ~GlobalSingletonIndexInitializer()
-    {
-      delete m_GlobalSingletonIndex;
-      m_GlobalSingletonIndex = nullptr;
-    }
+  {
+    delete m_GlobalSingletonIndex;
+    m_GlobalSingletonIndex = nullptr;
+  }
 
   /** Create the GlobalSingletonIndex if needed and return it. */
-  static SingletonIndex * GetGlobalSingletonIndex()
+  static SingletonIndex *
+  GetGlobalSingletonIndex()
+  {
+    if (m_GlobalSingletonIndex == nullptr)
     {
-    if ( m_GlobalSingletonIndex == nullptr )
-      {
       m_GlobalSingletonIndex = new SingletonIndex;
       // To avoid being optimized out. The compiler does not like this
       // statement at a higher scope.
       Unused(initializedGlobalSingletonIndex);
-      }
-    return m_GlobalSingletonIndex;
     }
+    return m_GlobalSingletonIndex;
+  }
 
 private:
   static SingletonIndex * m_GlobalSingletonIndex;
@@ -80,43 +81,42 @@ GlobalSingletonIndexInitializer::SingletonIndex * GlobalSingletonIndexInitialize
 namespace itk
 {
 void *
-SingletonIndex
-::GetGlobalInstancePrivate( const char *globalName )
+SingletonIndex ::GetGlobalInstancePrivate(const char * globalName)
 {
   SingletonData::iterator it;
   it = m_GlobalObjects.find(globalName);
   if (it == m_GlobalObjects.end())
-    {
+  {
     return nullptr;
-    }
+  }
   return std::get<0>(it->second);
 }
 
 // If globalName is already registered remove it from map,
 // otherwise global is added to the singleton index under globalName
 bool
-SingletonIndex
-::SetGlobalInstancePrivate( const char * globalName, void * global, std::function<void(void*)> func, std::function<void(void)> deleteFunc)
+SingletonIndex ::SetGlobalInstancePrivate(const char *                globalName,
+                                          void *                      global,
+                                          std::function<void(void *)> func,
+                                          std::function<void(void)>   deleteFunc)
 {
   m_GlobalObjects.erase(globalName);
-  m_GlobalObjects.insert(std::make_pair(globalName, std::make_tuple(global, func, deleteFunc) ) );
+  m_GlobalObjects.insert(std::make_pair(globalName, std::make_tuple(global, func, deleteFunc)));
   return true;
 }
 
 SingletonIndex *
-SingletonIndex
-::GetInstance()
+SingletonIndex ::GetInstance()
 {
-  if( m_Instance == nullptr )
-    {
+  if (m_Instance == nullptr)
+  {
     m_Instance = GlobalSingletonIndexInitializer::GetGlobalSingletonIndex();
-    }
+  }
   return m_Instance;
 }
 
 void
-SingletonIndex
-::SetInstance(Self *instance)
+SingletonIndex ::SetInstance(Self * instance)
 {
   m_Instance = instance;
 }
@@ -124,10 +124,10 @@ SingletonIndex
 
 SingletonIndex::~SingletonIndex()
 {
-  for(auto &pair: m_GlobalObjects)
-    {
+  for (auto & pair : m_GlobalObjects)
+  {
     std::get<2>(pair.second)();
-    }
+  }
 }
 
 SingletonIndex::Self * SingletonIndex::m_Instance;

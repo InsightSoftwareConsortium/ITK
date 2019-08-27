@@ -24,37 +24,28 @@
 namespace itk
 {
 void
-BYUMeshIOFactory
-::PrintSelf(std::ostream &, Indent) const
+BYUMeshIOFactory ::PrintSelf(std::ostream &, Indent) const
 {}
 
 
-BYUMeshIOFactory
-::BYUMeshIOFactory()
+BYUMeshIOFactory ::BYUMeshIOFactory()
 {
-  this->RegisterOverride( "itkMeshIOBase",
-                         "itkBYUMeshIO",
-                         "BYU Mesh IO",
-                         true,
-                         CreateObjectFunction< BYUMeshIO >::New() );
+  this->RegisterOverride("itkMeshIOBase", "itkBYUMeshIO", "BYU Mesh IO", true, CreateObjectFunction<BYUMeshIO>::New());
 }
 
 
-BYUMeshIOFactory
-::~BYUMeshIOFactory() = default;
+BYUMeshIOFactory ::~BYUMeshIOFactory() = default;
 
 
 const char *
-BYUMeshIOFactory
-::GetITKSourceVersion() const
+BYUMeshIOFactory ::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
 
 const char *
-BYUMeshIOFactory
-::GetDescription() const
+BYUMeshIOFactory ::GetDescription() const
 {
   return "BYU Mesh IO Factory, allows the loading of BYU mesh into insight";
 }
@@ -63,13 +54,14 @@ BYUMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool BYUMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMeshBYU_EXPORT BYUMeshIOFactoryRegister__Private()
+void ITKIOMeshBYU_EXPORT
+     BYUMeshIOFactoryRegister__Private()
 {
-  if( ! BYUMeshIOFactoryHasBeenRegistered )
-    {
+  if (!BYUMeshIOFactoryHasBeenRegistered)
+  {
     BYUMeshIOFactoryHasBeenRegistered = true;
     BYUMeshIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

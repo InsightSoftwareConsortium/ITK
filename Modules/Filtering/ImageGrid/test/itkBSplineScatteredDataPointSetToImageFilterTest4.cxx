@@ -30,7 +30,8 @@
  * image.  We write the output to an image for
  * comparison.
  */
-int itkBSplineScatteredDataPointSetToImageFilterTest4( int, char * [] )
+int
+itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
 {
   constexpr unsigned int ParametricDimension = 3;
   constexpr unsigned int DataDimension = 3;
@@ -47,11 +48,11 @@ int itkBSplineScatteredDataPointSetToImageFilterTest4( int, char * [] )
   using FilterType = itk::BSplineScatteredDataPointSetToImageFilter<PointSetType, VectorImageType>;
 
   VectorImageType::SizeType size;
-  size.Fill( 100 );
+  size.Fill(100);
   VectorImageType::PointType origin;
-  origin.Fill( 0 );
+  origin.Fill(0);
   VectorImageType::SpacingType spacing;
-  spacing.Fill( 1 );
+  spacing.Fill(1);
   VectorImageType::DirectionType direction;
   direction.SetIdentity();
 
@@ -77,15 +78,15 @@ int itkBSplineScatteredDataPointSetToImageFilterTest4( int, char * [] )
   landmarkInSecondImage1[2] = 5.0;
 
   RealType weight1 = 1.0;
-  weights->InsertElement( 0, weight1 );
+  weights->InsertElement(0, weight1);
 
   VectorType vector1;
-  for( unsigned int d = 0; d < DataDimension; d++ )
-    {
+  for (unsigned int d = 0; d < DataDimension; d++)
+  {
     vector1[d] = landmarkInSecondImage1[d] - landmarkInFirstImage1[d];
-    }
-  pointSet->SetPoint( 0, landmarkInFirstImage1 );
-  pointSet->SetPointData( 0, vector1 );
+  }
+  pointSet->SetPoint(0, landmarkInFirstImage1);
+  pointSet->SetPointData(0, vector1);
 
   // Create second landmark pair
   PointType landmarkInFirstImage2;
@@ -100,15 +101,15 @@ int itkBSplineScatteredDataPointSetToImageFilterTest4( int, char * [] )
   landmarkInSecondImage2[2] = 45.0;
 
   RealType weight2 = 3.0;
-  weights->InsertElement( 1, weight2 );
+  weights->InsertElement(1, weight2);
 
   VectorType vector2;
-  for( unsigned int d = 0; d < DataDimension; d++ )
-    {
+  for (unsigned int d = 0; d < DataDimension; d++)
+  {
     vector2[d] = landmarkInSecondImage2[d] - landmarkInFirstImage2[d];
-    }
-  pointSet->SetPoint( 1, landmarkInFirstImage2 );
-  pointSet->SetPointData( 1, vector2 );
+  }
+  pointSet->SetPoint(1, landmarkInFirstImage2);
+  pointSet->SetPointData(1, vector2);
 
   // Create third landmark pair
   PointType landmarkInFirstImage3;
@@ -123,53 +124,52 @@ int itkBSplineScatteredDataPointSetToImageFilterTest4( int, char * [] )
   landmarkInSecondImage3[2] = 45.0;
 
   RealType weight3 = 0.5;
-  weights->InsertElement( 2, weight3 );
+  weights->InsertElement(2, weight3);
 
   VectorType vector3;
-  for( unsigned int d = 0; d < DataDimension; d++ )
-    {
+  for (unsigned int d = 0; d < DataDimension; d++)
+  {
     vector3[d] = landmarkInSecondImage3[d] - landmarkInFirstImage3[d];
-    }
-  pointSet->SetPoint( 2, landmarkInFirstImage3 );
-  pointSet->SetPointData( 2, vector3 );
+  }
+  pointSet->SetPoint(2, landmarkInFirstImage3);
+  pointSet->SetPointData(2, vector3);
 
   // Now fit the displacement
 
   FilterType::Pointer filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineScatteredDataPointSetToImageFilter,
-    PointSetToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BSplineScatteredDataPointSetToImageFilter, PointSetToImageFilter);
 
   // Define the parametric domain.
-  filter->SetOrigin( origin );
-  filter->SetSpacing( spacing );
-  filter->SetSize( size );
-  filter->SetDirection( direction );
-  filter->SetInput( pointSet );
-  filter->SetPointWeights( weights );
+  filter->SetOrigin(origin);
+  filter->SetSpacing(spacing);
+  filter->SetSize(size);
+  filter->SetDirection(direction);
+  filter->SetInput(pointSet);
+  filter->SetPointWeights(weights);
 
   // we normally don't need the sampled b-spline object
   // so we should turn this off but since we want to
   // compare, we need to have it on.
   // we only need the control point lattice to
   // set as input in the bspline transform.
-  filter->SetGenerateOutputImage( true );
+  filter->SetGenerateOutputImage(true);
 
   // Define the rest of the B-spline parameters.
   // Note that some are transferred to the B-spline
   // transform.  Specifically, this includes the final
   // number of control points and the spline order.
-  filter->SetSplineOrder( SplineOrder );
+  filter->SetSplineOrder(SplineOrder);
   FilterType::ArrayType ncps;
-  ncps.Fill( 4 );
-  filter->SetNumberOfControlPoints( ncps );
-  filter->SetNumberOfLevels( 3 );
+  ncps.Fill(4);
+  filter->SetNumberOfControlPoints(ncps);
+  filter->SetNumberOfLevels(3);
   FilterType::ArrayType close;
-  close.Fill( 0 );
-  filter->SetCloseDimension( close );
+  close.Fill(0);
+  filter->SetCloseDimension(close);
 
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
 
   // Instantiate the BSpline transform
@@ -180,61 +180,61 @@ int itkBSplineScatteredDataPointSetToImageFilterTest4( int, char * [] )
   using CoefficientImageType = TransformType::ImageType;
 
   TransformType::CoefficientImageArray coefficientImages;
-  for( unsigned int j = 0; j < DataDimension; j++ )
-    {
+  for (unsigned int j = 0; j < DataDimension; j++)
+  {
     using SelectorType = itk::VectorIndexSelectionCastImageFilter<VectorImageType, CoefficientImageType>;
     SelectorType::Pointer selector = SelectorType::New();
-    selector->SetInput( filter->GetPhiLattice() );
-    selector->SetIndex( j );
+    selector->SetInput(filter->GetPhiLattice());
+    selector->SetIndex(j);
 
     coefficientImages[j] = selector->GetOutput();
     coefficientImages[j]->Update();
     coefficientImages[j]->DisconnectPipeline();
-    }
+  }
 
-  transform->SetCoefficientImages( coefficientImages );
+  transform->SetCoefficientImages(coefficientImages);
 
   using InputPointType = TransformType::InputPointType;
   using OutputPointType = TransformType::OutputPointType;
 
   InputPointType inputPoint;
-  inputPoint.Fill( 50.0 );
+  inputPoint.Fill(50.0);
 
-  OutputPointType outputPoint = transform->TransformPoint( inputPoint );
+  OutputPointType outputPoint = transform->TransformPoint(inputPoint);
 
   // Now instantiate an interpolator to get an approximation of what
   // the transform should produce
 
   using InterpolatorType = itk::VectorLinearInterpolateImageFunction<VectorImageType>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  interpolator->SetInputImage( filter->GetOutput() );
+  interpolator->SetInputImage(filter->GetOutput());
 
   VectorImageType::PointType testPoint;
-  testPoint.CastFrom( inputPoint );
+  testPoint.CastFrom(inputPoint);
 
-  VectorType vector = interpolator->Evaluate( testPoint );
-  RealType testDistance = vector.GetNorm();
-  RealType approximateDistance = inputPoint.EuclideanDistanceTo( outputPoint );
+  VectorType vector = interpolator->Evaluate(testPoint);
+  RealType   testDistance = vector.GetNorm();
+  RealType   approximateDistance = inputPoint.EuclideanDistanceTo(outputPoint);
 
   VectorImageType::PointType approximateOutputPoint;
-  for( unsigned int d = 0; d < DataDimension; d++ )
-    {
+  for (unsigned int d = 0; d < DataDimension; d++)
+  {
     approximateOutputPoint[d] = testPoint[d] + vector[d];
-    }
+  }
 
   std::cout << "Input point " << inputPoint << std::endl;
   std::cout << "True output point " << outputPoint << std::endl;
   std::cout << "Approximate output point " << approximateOutputPoint << std::endl;
 
-  if( itk::Math::abs( testDistance - approximateDistance ) > 0.0001 )
-    {
+  if (itk::Math::abs(testDistance - approximateDistance) > 0.0001)
+  {
     std::cerr << "Didn't return correct distance." << std::endl;
 
     std::cerr << "true distance: " << testDistance << std::endl;
     std::cerr << "Approximate distance: " << approximateDistance << std::endl;
 
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

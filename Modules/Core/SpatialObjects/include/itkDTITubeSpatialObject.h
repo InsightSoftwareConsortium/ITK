@@ -38,28 +38,26 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-template< unsigned int TDimension = 3 >
-class ITK_TEMPLATE_EXPORT DTITubeSpatialObject:
-  public TubeSpatialObject< TDimension,
-                            DTITubeSpatialObjectPoint< TDimension >  >
+template <unsigned int TDimension = 3>
+class ITK_TEMPLATE_EXPORT DTITubeSpatialObject
+  : public TubeSpatialObject<TDimension, DTITubeSpatialObjectPoint<TDimension>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DTITubeSpatialObject);
 
   using Self = DTITubeSpatialObject;
-  using Superclass = TubeSpatialObject< TDimension,
-          DTITubeSpatialObjectPoint< TDimension > >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = TubeSpatialObject<TDimension, DTITubeSpatialObjectPoint<TDimension>>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  using DTITubePointType = DTITubeSpatialObjectPoint< TDimension >;
-  using DTITubePointListType = std::vector< DTITubePointType >;
+  using DTITubePointType = DTITubeSpatialObjectPoint<TDimension>;
+  using DTITubePointListType = std::vector<DTITubePointType>;
 
   using PointType = typename Superclass::PointType;
   using TransformType = typename Superclass::TransformType;
   using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
-  using PointContainerType = VectorContainer< IdentifierType, PointType >;
-  using PointContainerPointer = SmartPointer< PointContainerType >;
+  using PointContainerType = VectorContainer<IdentifierType, PointType>;
+  using PointContainerPointer = SmartPointer<PointContainerType>;
   using VectorType = typename Superclass::VectorType;
   using CovariantVectorType = typename Superclass::CovariantVectorType;
   using BoundingBoxType = typename Superclass::BoundingBoxType;
@@ -71,20 +69,20 @@ public:
   itkTypeMacro(DTITubeSpatialObject, TubeSpatialObject);
 
 protected:
-
   DTITubeSpatialObject();
   ~DTITubeSpatialObject() override = default;
 
   /** Method to print the object.*/
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typename LightObject::Pointer InternalClone() const override;
-
+  typename LightObject::Pointer
+  InternalClone() const override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDTITubeSpatialObject.hxx"
+#  include "itkDTITubeSpatialObject.hxx"
 #endif
 
 #endif // itkDTITubeSpatialObject_h

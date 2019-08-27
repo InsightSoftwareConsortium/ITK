@@ -23,43 +23,42 @@
 namespace itk
 {
 
-template< typename TImage >
+template <typename TImage>
 void
-ImageScanlineConstIterator< TImage >
-::Increment()
+ImageScanlineConstIterator<TImage>::Increment()
 {
   // increment to the next scanline
 
   // Get the index of the last pixel on the span (row)
-  IndexType ind = this->m_Image->ComputeIndex( static_cast< OffsetValueType >( m_SpanEndOffset -1 ) );
+  IndexType ind = this->m_Image->ComputeIndex(static_cast<OffsetValueType>(m_SpanEndOffset - 1));
 
-  const IndexType &startIndex = this->m_Region.GetIndex();
-  const SizeType &size = this->m_Region.GetSize();
+  const IndexType & startIndex = this->m_Region.GetIndex();
+  const SizeType &  size = this->m_Region.GetSize();
 
   // Check to see if we are past the last pixel in the region
   // Note that ++ind[0] moves to the next pixel along the row.
   ++ind[0];
-  bool done = ( ind[0] == startIndex[0] + static_cast< IndexValueType >( size[0] ) );
-  for ( unsigned int i = 1; done && i < ImageIteratorDimension; ++i )
-    {
-    done = ( ind[i] == startIndex[i] + static_cast< IndexValueType >( size[i] ) - 1 );
-    }
+  bool done = (ind[0] == startIndex[0] + static_cast<IndexValueType>(size[0]));
+  for (unsigned int i = 1; done && i < ImageIteratorDimension; ++i)
+  {
+    done = (ind[i] == startIndex[i] + static_cast<IndexValueType>(size[i]) - 1);
+  }
 
- // if the iterator is outside the region (but not past region begin) then
+  // if the iterator is outside the region (but not past region begin) then
   // we need to wrap around the region
   unsigned int dim = 0;
-  if ( !done )
+  if (!done)
+  {
+    while (((dim + 1) < ImageIteratorDimension) &&
+           (ind[dim] > startIndex[dim] + static_cast<IndexValueType>(size[dim]) - 1))
     {
-    while ( ( ( dim + 1 ) < ImageIteratorDimension )
-            && ( ind[dim] > startIndex[dim] +  static_cast< IndexValueType >( size[dim] ) - 1 ) )
-      {
       ind[dim] = startIndex[dim];
       ind[++dim]++;
-      }
     }
+  }
 
   this->m_Offset = this->m_Image->ComputeOffset(ind);
-  m_SpanEndOffset = this->m_Offset + static_cast< OffsetValueType >( size[0] );
+  m_SpanEndOffset = this->m_Offset + static_cast<OffsetValueType>(size[0]);
   m_SpanBeginOffset = this->m_Offset;
 }
 

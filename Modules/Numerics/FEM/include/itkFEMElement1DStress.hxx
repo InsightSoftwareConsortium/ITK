@@ -27,10 +27,10 @@ namespace itk
 namespace fem
 {
 template <typename TBaseClass>
-Element1DStress<TBaseClass>
-::Element1DStress() : Superclass(), m_mat(nullptr)
-{
-}
+Element1DStress<TBaseClass>::Element1DStress()
+  : Superclass()
+  , m_mat(nullptr)
+{}
 
 // ////////////////////////////////////////////////////////////////////////
 /**
@@ -39,8 +39,7 @@ Element1DStress<TBaseClass>
 
 template <typename TBaseClass>
 void
-Element1DStress<TBaseClass>
-::GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const
+Element1DStress<TBaseClass>::GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const
 {
   B.set_size(1, 2);
 
@@ -51,8 +50,7 @@ Element1DStress<TBaseClass>
 
 template <typename TBaseClass>
 void
-Element1DStress<TBaseClass>
-::GetMaterialMatrix(MatrixType & D) const
+Element1DStress<TBaseClass>::GetMaterialMatrix(MatrixType & D) const
 {
   D.set_size(1, 1);
   D.fill(0.0);
@@ -63,8 +61,7 @@ Element1DStress<TBaseClass>
 
 template <typename TBaseClass>
 void
-Element1DStress<TBaseClass>
-::GetStiffnessMatrix(MatrixType & Ke) const
+Element1DStress<TBaseClass>::GetStiffnessMatrix(MatrixType & Ke) const
 {
   const unsigned int Ndims = this->GetNumberOfSpatialDimensions();
   const unsigned int Nn = this->GetNumberOfNodes();
@@ -80,13 +77,13 @@ Element1DStress<TBaseClass>
 
   VectorType d = this->GetNodeCoordinates(1) - this->GetNodeCoordinates(0);
   d = d / d.magnitude();
-  for( unsigned int i = 0; i < Ndims; i++ )
+  for (unsigned int i = 0; i < Ndims; i++)
+  {
+    for (unsigned int n = 0; n < Nn; n++)
     {
-    for( unsigned int n = 0; n < Nn; n++ )
-      {
       T[n][n * Ndims + i] = d[i];
-      }
     }
+  }
 
   // Apply the nodal displacement transformation matrix to original
   // element stiffness matrix to obtain the element stiffness
@@ -96,8 +93,7 @@ Element1DStress<TBaseClass>
 
 template <typename TBaseClass>
 void
-Element1DStress<TBaseClass>
-::PrintSelf(std::ostream& os, Indent indent) const
+Element1DStress<TBaseClass>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Young Modulus: " << this->m_mat << std::endl;

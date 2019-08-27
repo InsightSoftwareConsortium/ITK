@@ -29,14 +29,15 @@
 #include "itkResampleImageFilter.h"
 #include "itkWarpImageFilter.h"
 
-int itkTransformToDisplacementFieldFilterTest1( int argc, char *argv[] )
+int
+itkTransformToDisplacementFieldFilterTest1(int argc, char * argv[])
 {
-  if ( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "Usage: ";
     std::cerr << argv[0] << "<resampledImageFileName> <displacementFieldFileName>" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   const char * resampledImageFileName = argv[1];
   const char * displacementFieldFileName = argv[2];
 
@@ -45,19 +46,17 @@ int itkTransformToDisplacementFieldFilterTest1( int argc, char *argv[] )
   using ScalarPixelType = float;
   using CoordRepresentationType = double;
 
-  using ImageType = itk::Image<
-    ScalarPixelType, Dimension>;
-  using VectorPixelType = itk::Vector<
-    ScalarPixelType, Dimension>;
+  using ImageType = itk::Image<ScalarPixelType, Dimension>;
+  using VectorPixelType = itk::Vector<ScalarPixelType, Dimension>;
 
-  using DisplacementFieldImageType = itk::Image<
-    VectorPixelType, Dimension>;
+  using DisplacementFieldImageType = itk::Image<VectorPixelType, Dimension>;
 
   using TransformType = itk::Euler3DTransform<CoordRepresentationType>;
 
   using ParametersType = TransformType::ParametersType;
 
-  using DisplacementFieldGeneratorType = itk::TransformToDisplacementFieldFilter< DisplacementFieldImageType, CoordRepresentationType>;
+  using DisplacementFieldGeneratorType =
+    itk::TransformToDisplacementFieldFilter<DisplacementFieldImageType, CoordRepresentationType>;
   using WarpImageType = itk::WarpImageFilter<ImageType, ImageType, DisplacementFieldImageType>;
 
   using SizeType = ImageType::SizeType;
@@ -70,7 +69,7 @@ int itkTransformToDisplacementFieldFilterTest1( int argc, char *argv[] )
 
   /** Create input image. */
   SizeType size;
-  size.Fill( 24 );
+  size.Fill(24);
   IndexType index;
   index.Fill(0);
   SpacingType spacing;
@@ -103,34 +102,34 @@ int itkTransformToDisplacementFieldFilterTest1( int argc, char *argv[] )
   image->SetSpacing(spacing);
   image->SetOrigin(origin);
   image->SetDirection(inputDirection);
-  image->FillBuffer( itk::NumericTraits< ScalarPixelType >::ZeroValue() );
+  image->FillBuffer(itk::NumericTraits<ScalarPixelType>::ZeroValue());
 
   float     incrValue = 100.0;
   IndexType pixelIndex;
-  for ( unsigned int i = 0; i < size[0]; i++ )
+  for (unsigned int i = 0; i < size[0]; i++)
+  {
+    for (unsigned int j = 0; j < size[1]; j++)
     {
-    for ( unsigned int j = 0; j < size[1]; j++ )
+      for (unsigned int k = 0; k < size[2]; k++)
       {
-      for ( unsigned int k = 0; k < size[2]; k++ )
-        {
         pixelIndex[0] = i;
         pixelIndex[1] = j;
         pixelIndex[2] = k;
-        if ( ( i > 4 ) && ( i < 20 ) )
+        if ((i > 4) && (i < 20))
+        {
+          if (j > 6 && j < 18)
           {
-          if ( j > 6 && j < 18 )
-            {
             image->SetPixel(pixelIndex, incrValue);
             incrValue += 1;
-            }
           }
+        }
         else
-          {
+        {
           image->SetPixel(pixelIndex, 0.0);
-          }
         }
       }
     }
+  }
 
   /** Set Output information. */
   IndexType outputIndex;
@@ -151,103 +150,100 @@ int itkTransformToDisplacementFieldFilterTest1( int argc, char *argv[] )
   DirectionType outputDirection = inputDirection;
 
   /** Create transforms. */
-  TransformType::Pointer eulerTransform
-    = TransformType::New();
-    {
+  TransformType::Pointer eulerTransform = TransformType::New();
+  {
     /** Set the options. */
     IndexType imageCenter;
     imageCenter.Fill(11);
     PointType centerPoint;
     image->TransformIndexToPhysicalPoint(imageCenter, centerPoint);
-    eulerTransform->SetCenter( centerPoint );
+    eulerTransform->SetCenter(centerPoint);
 
     /** Create and set parameters. */
-    ParametersType parameters( eulerTransform->GetNumberOfParameters() );
-    parameters[0] =   9.0 * (itk::Math::pi) / 180.0;
-    parameters[1] =   6.0 * (itk::Math::pi) / 180.0;
-    parameters[2] =   3.0 * (itk::Math::pi) / 180.0;
-    parameters[3] =  -40;
-    parameters[4] =  -15.0;
-    parameters[5] =  35.0;
-    eulerTransform->SetParameters( parameters );
-    }
+    ParametersType parameters(eulerTransform->GetNumberOfParameters());
+    parameters[0] = 9.0 * (itk::Math::pi) / 180.0;
+    parameters[1] = 6.0 * (itk::Math::pi) / 180.0;
+    parameters[2] = 3.0 * (itk::Math::pi) / 180.0;
+    parameters[3] = -40;
+    parameters[4] = -15.0;
+    parameters[5] = 35.0;
+    eulerTransform->SetParameters(parameters);
+  }
 
   /** Use ResampleImageFilter to get transformed image. */
-  using ResampleImageFilter = itk::ResampleImageFilter<ImageType,
-    ImageType>;
+  using ResampleImageFilter = itk::ResampleImageFilter<ImageType, ImageType>;
   ResampleImageFilter::Pointer resample = ResampleImageFilter::New();
   resample->SetInput(image);
   resample->SetTransform(eulerTransform);
-  resample->SetSize( outputRegion.GetSize() );
-  resample->SetOutputStartIndex( outputRegion.GetIndex() );
+  resample->SetSize(outputRegion.GetSize());
+  resample->SetOutputStartIndex(outputRegion.GetIndex());
   resample->SetOutputSpacing(outputSpacing);
   resample->SetOutputOrigin(outputOrigin);
   resample->SetOutputDirection(outputDirection);
   resample->Update();
 
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer1 = WriterType::New();
-  writer1->SetInput( resample->GetOutput() );
-  writer1->SetFileName( resampledImageFileName );
+  writer1->SetInput(resample->GetOutput());
+  writer1->SetFileName(resampledImageFileName);
   try
-    {
+  {
     writer1->Update();
-    }
-  catch ( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "Exception detected while writing image " << resampledImageFileName;
-    std::cerr << " : "  << err << std::endl;
+    std::cerr << " : " << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   /** Create an setup deformation field generator. */
-  DisplacementFieldGeneratorType::Pointer defGenerator
-    = DisplacementFieldGeneratorType::New();
+  DisplacementFieldGeneratorType::Pointer defGenerator = DisplacementFieldGeneratorType::New();
   defGenerator->UseReferenceImageOn();
   defGenerator->SetReferenceImage(resample->GetOutput());
-  defGenerator->SetTransform( eulerTransform );
+  defGenerator->SetTransform(eulerTransform);
   try
-    {
+  {
     defGenerator->Update();
-    }
-  catch ( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "Exception detected while generating deformation field";
-    std::cerr << " : "  << err << std::endl;
+    std::cerr << " : " << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   /** Use WarpImageFilter with deformation field. */
   WarpImageType::Pointer warper = WarpImageType::New();
-  warper->SetOutputSize( outputRegion.GetSize() );
-  warper->SetOutputStartIndex( outputRegion.GetIndex() );
+  warper->SetOutputSize(outputRegion.GetSize());
+  warper->SetOutputStartIndex(outputRegion.GetIndex());
   warper->SetOutputSpacing(outputSpacing);
   warper->SetOutputOrigin(outputOrigin);
   warper->SetOutputDirection(outputDirection);
-  warper->SetDisplacementField( defGenerator->GetOutput() );
-  warper->SetInput( image );
+  warper->SetDisplacementField(defGenerator->GetOutput());
+  warper->SetInput(image);
   try
-    {
-    warper->Update( );
-    }
-  catch ( itk::ExceptionObject & err )
-    {
+  {
+    warper->Update();
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "Exception detected while warping image";
-    std::cerr << " : "  << err << std::endl;
+    std::cerr << " : " << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   WriterType::Pointer writer2 = WriterType::New();
-  writer2->SetInput( warper->GetOutput() );
-  writer2->SetFileName( displacementFieldFileName );
+  writer2->SetInput(warper->GetOutput());
+  writer2->SetFileName(displacementFieldFileName);
   try
-    {
+  {
     writer2->Update();
-    }
-  catch ( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "Exception detected while writing image " << displacementFieldFileName;
-    std::cerr << " : "  << err << std::endl;
+    std::cerr << " : " << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

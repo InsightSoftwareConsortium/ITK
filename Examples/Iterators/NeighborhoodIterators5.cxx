@@ -56,37 +56,36 @@
 //
 // Software Guide : EndLatex
 
-int main( int argc, char ** argv )
+int
+main(int argc, char ** argv)
 {
-  if ( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Missing parameters. " << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0]
-              << " inputImageFile outputImageFile sigma"
-              << std::endl;
+    std::cerr << argv[0] << " inputImageFile outputImageFile sigma" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using PixelType = float;
-  using ImageType = itk::Image< PixelType, 2 >;
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ImageType = itk::Image<PixelType, 2>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
-  using NeighborhoodIteratorType = itk::ConstNeighborhoodIterator< ImageType >;
-  using IteratorType = itk::ImageRegionIterator< ImageType>;
+  using NeighborhoodIteratorType = itk::ConstNeighborhoodIterator<ImageType>;
+  using IteratorType = itk::ImageRegionIterator<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
   try
-    {
+  {
     reader->Update();
-    }
-  catch ( itk::ExceptionObject &err)
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   ImageType::Pointer output = ImageType::New();
   output->SetRegions(reader->GetOutput()->GetRequestedRegion());
@@ -94,121 +93,121 @@ int main( int argc, char ** argv )
 
   itk::NeighborhoodInnerProduct<ImageType> innerProduct;
 
-  using FaceCalculatorType = itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>;
+  using FaceCalculatorType =
+    itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>;
 
-  FaceCalculatorType faceCalculator;
-  FaceCalculatorType::FaceListType faceList;
+  FaceCalculatorType                         faceCalculator;
+  FaceCalculatorType::FaceListType           faceList;
   FaceCalculatorType::FaceListType::iterator fit;
 
-  IteratorType out;
+  IteratorType             out;
   NeighborhoodIteratorType it;
 
-// Software Guide: BeginLatex
-//
-// The first difference between this example and the previous example is that
-// the Gaussian operator is only initialized once.  Its direction is not
-// important because it is only a 1D array of coefficients.
-//
-// Software Guide: EndLatex
+  // Software Guide: BeginLatex
+  //
+  // The first difference between this example and the previous example is that
+  // the Gaussian operator is only initialized once.  Its direction is not
+  // important because it is only a 1D array of coefficients.
+  //
+  // Software Guide: EndLatex
 
-// Software Guide : BeginCodeSnippet
-  itk::GaussianOperator< PixelType, 2 > gaussianOperator;
+  // Software Guide : BeginCodeSnippet
+  itk::GaussianOperator<PixelType, 2> gaussianOperator;
   gaussianOperator.SetDirection(0);
-  gaussianOperator.SetVariance( ::std::stod(argv[3]) * ::std::stod(argv[3]) );
+  gaussianOperator.SetVariance(::std::stod(argv[3]) * ::std::stod(argv[3]));
   gaussianOperator.CreateDirectional();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Next we need to define a radius for the iterator.  The radius in all
-// directions matches that of the single extent of the Gaussian operator,
-// defining a square neighborhood.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Next we need to define a radius for the iterator.  The radius in all
+  // directions matches that of the single extent of the Gaussian operator,
+  // defining a square neighborhood.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   NeighborhoodIteratorType::RadiusType radius;
-  radius.Fill( gaussianOperator.GetRadius()[0] );
-// Software Guide EndCodeSnippet
+  radius.Fill(gaussianOperator.GetRadius()[0]);
+  // Software Guide EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// The inner product and face calculator are defined for the main processing
-// loop as before, but now the iterator is reinitialized each iteration with
-// the square \code{radius} instead of the radius of the operator.  The
-// inner product is taken using a slice along the axial direction corresponding
-// to the current iteration.  Note the use of \code{GetSlice()} to return the
-// proper slice from the iterator itself.  \code{GetSlice()} can only be used
-// to return the slice along the complete extent of the axial direction of a
-// neighborhood.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The inner product and face calculator are defined for the main processing
+  // loop as before, but now the iterator is reinitialized each iteration with
+  // the square \code{radius} instead of the radius of the operator.  The
+  // inner product is taken using a slice along the axial direction corresponding
+  // to the current iteration.  Note the use of \code{GetSlice()} to return the
+  // proper slice from the iterator itself.  \code{GetSlice()} can only be used
+  // to return the slice along the complete extent of the axial direction of a
+  // neighborhood.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   ImageType::Pointer input = reader->GetOutput();
   faceList = faceCalculator(input, output->GetRequestedRegion(), radius);
 
   for (unsigned int i = 0; i < ImageType::ImageDimension; ++i)
+  {
+    for (fit = faceList.begin(); fit != faceList.end(); ++fit)
     {
-    for ( fit=faceList.begin(); fit != faceList.end(); ++fit )
+      it = NeighborhoodIteratorType(radius, input, *fit);
+      out = IteratorType(output, *fit);
+      for (it.GoToBegin(), out.GoToBegin(); !it.IsAtEnd(); ++it, ++out)
       {
-      it = NeighborhoodIteratorType( radius, input, *fit );
-      out = IteratorType( output, *fit );
-      for (it.GoToBegin(), out.GoToBegin(); ! it.IsAtEnd(); ++it, ++out)
-        {
-        out.Set( innerProduct(it.GetSlice(i), it, gaussianOperator) );
-        }
+        out.Set(innerProduct(it.GetSlice(i), it, gaussianOperator));
       }
+    }
 
     // Swap the input and output buffers
     if (i != ImageType::ImageDimension - 1)
-      {
+    {
       ImageType::Pointer tmp = input;
       input = output;
       output = tmp;
-      }
     }
-// Software Guide : EndCodeSnippet
+  }
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// This technique produces exactly the same results as the previous example.  A
-// little experimentation, however, will reveal that it is less efficient since
-// the neighborhood iterator is keeping track of extra, unused pixel locations
-// for each iteration, while the previous example only references those pixels
-// that it needs.  In cases, however, where an algorithm takes multiple
-// derivatives or convolution products over the same neighborhood, slice-based
-// processing can increase efficiency and simplify the implementation.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // This technique produces exactly the same results as the previous example.  A
+  // little experimentation, however, will reveal that it is less efficient since
+  // the neighborhood iterator is keeping track of extra, unused pixel locations
+  // for each iteration, while the previous example only references those pixels
+  // that it needs.  In cases, however, where an algorithm takes multiple
+  // derivatives or convolution products over the same neighborhood, slice-based
+  // processing can increase efficiency and simplify the implementation.
+  //
+  // Software Guide : EndLatex
 
   using WritePixelType = unsigned char;
-  using WriteImageType = itk::Image< WritePixelType, 2 >;
-  using WriterType = itk::ImageFileWriter< WriteImageType >;
+  using WriteImageType = itk::Image<WritePixelType, 2>;
+  using WriterType = itk::ImageFileWriter<WriteImageType>;
 
-  using RescaleFilterType = itk::RescaleIntensityImageFilter< ImageType,
-    WriteImageType >;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<ImageType, WriteImageType>;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 
-  rescaler->SetOutputMinimum(   0 );
-  rescaler->SetOutputMaximum( 255 );
+  rescaler->SetOutputMinimum(0);
+  rescaler->SetOutputMaximum(255);
   rescaler->SetInput(output);
 
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[2] );
-  writer->SetInput( rescaler->GetOutput() );
+  writer->SetFileName(argv[2]);
+  writer->SetInput(rescaler->GetOutput());
   try
-    {
+  {
     writer->Update();
-    }
-  catch ( itk::ExceptionObject &err)
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

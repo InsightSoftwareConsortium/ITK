@@ -22,14 +22,13 @@
 
 namespace itk
 {
-template< typename TTreeType >
-class InOrderTreeIterator:public TreeIteratorBase< TTreeType >
+template <typename TTreeType>
+class InOrderTreeIterator : public TreeIteratorBase<TTreeType>
 {
 public:
-
   /** Typedefs */
   using Self = InOrderTreeIterator;
-  using Superclass = TreeIteratorBase< TTreeType >;
+  using Superclass = TreeIteratorBase<TTreeType>;
   using TreeType = TTreeType;
   using ValueType = typename TTreeType::ValueType;
   using TreeNodeType = typename Superclass::TreeNodeType;
@@ -37,134 +36,139 @@ public:
 
   /** Constructors */
   InOrderTreeIterator(TreeType & start);
-  InOrderTreeIterator(TreeType *tree, TreeNodeType *start = nullptr);
+  InOrderTreeIterator(TreeType * tree, TreeNodeType * start = nullptr);
 
   /** Get the type of iterator */
-  NodeType GetType() const override;
+  NodeType
+  GetType() const override;
 
   /** Clone function */
-  TreeIteratorBase< TTreeType > * Clone() override;
+  TreeIteratorBase<TTreeType> *
+  Clone() override;
 
 protected:
-
   /** Return the next node */
-  const ValueType & Next() override;
+  const ValueType &
+  Next() override;
 
   /** Return true if the next node exists */
-  bool HasNext() const override;
+  bool
+  HasNext() const override;
 
 private:
-
   /** Find the next node */
-  const TreeNodeType * FindNextNode() const;
+  const TreeNodeType *
+  FindNextNode() const;
 };
 
 /** Constructor */
-template< typename TTreeType >
-InOrderTreeIterator< TTreeType >::InOrderTreeIterator(TTreeType & start):
-  TreeIteratorBase< TTreeType >(start)
+template <typename TTreeType>
+InOrderTreeIterator<TTreeType>::InOrderTreeIterator(TTreeType & start)
+  : TreeIteratorBase<TTreeType>(start)
 {}
 
 /** Constructor */
-template< typename TTreeType >
-InOrderTreeIterator< TTreeType >::InOrderTreeIterator(TTreeType *tree, TreeNodeType *start):
-  TreeIteratorBase< TTreeType >(tree, start)
+template <typename TTreeType>
+InOrderTreeIterator<TTreeType>::InOrderTreeIterator(TTreeType * tree, TreeNodeType * start)
+  : TreeIteratorBase<TTreeType>(tree, start)
 {}
 
 /** Get the type of the iterator */
-template< typename TTreeType >
-typename InOrderTreeIterator< TTreeType >::NodeType
-InOrderTreeIterator< TTreeType >::GetType() const
+template <typename TTreeType>
+typename InOrderTreeIterator<TTreeType>::NodeType
+InOrderTreeIterator<TTreeType>::GetType() const
 {
   return TreeIteratorBaseNodeType::INORDER;
 }
 
 /** Return true if the next node exists */
-template< typename TTreeType >
-bool InOrderTreeIterator< TTreeType >::HasNext() const
+template <typename TTreeType>
+bool
+InOrderTreeIterator<TTreeType>::HasNext() const
 {
-  if ( const_cast< TreeNodeType * >( FindNextNode() ) != nullptr )
-    {
+  if (const_cast<TreeNodeType *>(FindNextNode()) != nullptr)
+  {
     return true;
-    }
+  }
   return false;
 }
 
 /** Return the next node */
-template< typename TTreeType >
-const typename InOrderTreeIterator< TTreeType >::ValueType &
-InOrderTreeIterator< TTreeType >::Next()
+template <typename TTreeType>
+const typename InOrderTreeIterator<TTreeType>::ValueType &
+InOrderTreeIterator<TTreeType>::Next()
 {
-  this->m_Position =  const_cast< TreeNodeType * >( FindNextNode() );
+  this->m_Position = const_cast<TreeNodeType *>(FindNextNode());
   return this->m_Position->Get();
 }
 
 /** Find the next node */
-template< typename TTreeType >
-const typename InOrderTreeIterator< TTreeType >::TreeNodeType *
-InOrderTreeIterator< TTreeType >::FindNextNode() const
+template <typename TTreeType>
+const typename InOrderTreeIterator<TTreeType>::TreeNodeType *
+InOrderTreeIterator<TTreeType>::FindNextNode() const
 {
-  if ( this->m_Position == nullptr )
-    {
+  if (this->m_Position == nullptr)
+  {
     return nullptr;
-    }
+  }
 
-  if ( this->m_Position->HasChildren() )
-    {
+  if (this->m_Position->HasChildren())
+  {
     return this->m_Position->GetChild(0);
-    }
+  }
 
-  if ( !this->m_Position->HasParent() )
-    {
+  if (!this->m_Position->HasParent())
+  {
     return nullptr;
-    }
+  }
 
-  TreeNodeType *child = this->m_Position;
-  TreeNodeType *parent = this->m_Position->GetParent();
+  TreeNodeType * child = this->m_Position;
+  TreeNodeType * parent = this->m_Position->GetParent();
 
   int childPosition = parent->ChildPosition(child);
   int lastChildPosition = parent->CountChildren() - 1;
 
-  while ( childPosition < lastChildPosition )
+  while (childPosition < lastChildPosition)
+  {
+    TreeNodeType * help = parent->GetChild(childPosition + 1);
+    if (help != nullptr)
     {
-    TreeNodeType *help = parent->GetChild(childPosition + 1);
-    if ( help != nullptr )
-      {
       return help;
-      }
-    childPosition++;
     }
+    childPosition++;
+  }
 
-  while ( parent->HasParent() )
-    {
+  while (parent->HasParent())
+  {
     child = parent;
     parent = parent->GetParent();
 
     // Subtree
-    if ( parent->ChildPosition(this->m_Root) >= 0 )
-      {
+    if (parent->ChildPosition(this->m_Root) >= 0)
+    {
       return nullptr;
-      }
+    }
     childPosition = parent->ChildPosition(child);
     lastChildPosition = parent->CountChildren() - 1;
 
-    while ( childPosition < lastChildPosition )
+    while (childPosition < lastChildPosition)
+    {
+      TreeNodeType * help = parent->GetChild(childPosition + 1);
+      if (help != nullptr)
       {
-      TreeNodeType *help = parent->GetChild(childPosition + 1);
-      if ( help != nullptr )
-        {
         return help;
-        }
       }
     }
+  }
   return nullptr;
 }
 
 /** Clone function */
-template< typename TTreeType >
-TreeIteratorBase< TTreeType > *InOrderTreeIterator< TTreeType >::Clone()
+template <typename TTreeType>
+TreeIteratorBase<TTreeType> *
+InOrderTreeIterator<TTreeType>::Clone()
 {
-  auto * clone = new InOrderTreeIterator( const_cast< TTreeType * >( this->m_Tree ) );
+  auto * clone = new InOrderTreeIterator(const_cast<TTreeType *>(this->m_Tree));
 
   *clone = *this;
   return clone;

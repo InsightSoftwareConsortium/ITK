@@ -42,31 +42,32 @@ namespace itk
  *
  * \ingroup ITKRegistrationMethodsv4
  */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform =
-  BSplineSmoothingOnUpdateDisplacementFieldTransform<double, TFixedImage::ImageDimension>,
-  typename TVirtualImage = TFixedImage,
-  typename TPointSet = PointSet<unsigned int, TFixedImage::ImageDimension> >
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TOutputTransform =
+            BSplineSmoothingOnUpdateDisplacementFieldTransform<double, TFixedImage::ImageDimension>,
+          typename TVirtualImage = TFixedImage,
+          typename TPointSet = PointSet<unsigned int, TFixedImage::ImageDimension>>
 class ITK_TEMPLATE_EXPORT BSplineSyNImageRegistrationMethod
-: public SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
+  : public SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineSyNImageRegistrationMethod);
 
   /** Standard class type aliases. */
   using Self = BSplineSyNImageRegistrationMethod;
-  using Superclass = SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
-                                                       TVirtualImage, TPointSet>;
+  using Superclass = SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** ImageDimension constants */
   static constexpr unsigned int ImageDimension = TFixedImage::ImageDimension;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( BSplineSyNImageRegistrationMethod, SyNImageRegistrationMethod );
+  itkTypeMacro(BSplineSyNImageRegistrationMethod, SyNImageRegistrationMethod);
 
   /** Input type alias for the images. */
   using FixedImageType = TFixedImage;
@@ -132,21 +133,32 @@ protected:
   ~BSplineSyNImageRegistrationMethod() override = default;
 
   /** Handle optimization internally */
-  void StartOptimization() override;
+  void
+  StartOptimization() override;
 
-  void InitializeRegistrationAtEachLevel( const SizeValueType ) override;
+  void
+  InitializeRegistrationAtEachLevel(const SizeValueType) override;
 
-  DisplacementFieldPointer ComputeUpdateField( const FixedImagesContainerType, const PointSetsContainerType,
-    const TransformBaseType *, const MovingImagesContainerType, const PointSetsContainerType,
-    const TransformBaseType *, const FixedImageMasksContainerType, const MovingImageMasksContainerType,
-    MeasureType & ) override;
-  virtual DisplacementFieldPointer BSplineSmoothDisplacementField( const DisplacementFieldType *,
-    const ArrayType &, const WeightedMaskImageType *, const BSplinePointSetType * );
+  DisplacementFieldPointer
+  ComputeUpdateField(const FixedImagesContainerType,
+                     const PointSetsContainerType,
+                     const TransformBaseType *,
+                     const MovingImagesContainerType,
+                     const PointSetsContainerType,
+                     const TransformBaseType *,
+                     const FixedImageMasksContainerType,
+                     const MovingImageMasksContainerType,
+                     MeasureType &) override;
+  virtual DisplacementFieldPointer
+  BSplineSmoothDisplacementField(const DisplacementFieldType *,
+                                 const ArrayType &,
+                                 const WeightedMaskImageType *,
+                                 const BSplinePointSetType *);
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBSplineSyNImageRegistrationMethod.hxx"
+#  include "itkBSplineSyNImageRegistrationMethod.hxx"
 #endif
 
 #endif

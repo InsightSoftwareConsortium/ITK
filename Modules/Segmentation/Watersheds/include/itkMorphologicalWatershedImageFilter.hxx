@@ -28,46 +28,41 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TOutputImage >
-MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
-::MorphologicalWatershedImageFilter() :
-  m_Level( NumericTraits< InputImagePixelType >::ZeroValue() )
-{
-}
+template <typename TInputImage, typename TOutputImage>
+MorphologicalWatershedImageFilter<TInputImage, TOutputImage>::MorphologicalWatershedImageFilter()
+  : m_Level(NumericTraits<InputImagePixelType>::ZeroValue())
+{}
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+MorphologicalWatershedImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  auto * input = const_cast< InputImageType * >( this->GetInput() );
-  if ( !input )
-    {
+  auto * input = const_cast<InputImageType *>(this->GetInput());
+  if (!input)
+  {
     return;
-    }
-  input->SetRequestedRegion( input->GetLargestPossibleRegion() );
+  }
+  input->SetRequestedRegion(input->GetLargestPossibleRegion());
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
-::EnlargeOutputRequestedRegion(DataObject *)
+MorphologicalWatershedImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject *)
 {
   OutputImageType * output = this->GetOutput();
-  output->SetRequestedRegion( output->GetLargestPossibleRegion() );
+  output->SetRequestedRegion(output->GetLargestPossibleRegion());
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+MorphologicalWatershedImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
@@ -80,83 +75,78 @@ MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
   const InputImageType * input = this->GetInput();
 
   // h-minima filter to remove the smallest minima
-  using HMinimaType = HMinimaImageFilter< TInputImage, TInputImage >;
+  using HMinimaType = HMinimaImageFilter<TInputImage, TInputImage>;
   typename HMinimaType::Pointer hmin;
 
   // Delegate to a R-Min filter to find the regional minima
-  using RMinType = RegionalMinimaImageFilter< TInputImage, TOutputImage >;
+  using RMinType = RegionalMinimaImageFilter<TInputImage, TOutputImage>;
   typename RMinType::Pointer rmin = RMinType::New();
-  rmin->SetInput( input );
+  rmin->SetInput(input);
   rmin->SetFullyConnected(m_FullyConnected);
-  rmin->SetBackgroundValue(NumericTraits< OutputImagePixelType >::ZeroValue());
-  rmin->SetForegroundValue( NumericTraits< OutputImagePixelType >::max() );
+  rmin->SetBackgroundValue(NumericTraits<OutputImagePixelType>::ZeroValue());
+  rmin->SetForegroundValue(NumericTraits<OutputImagePixelType>::max());
 
   // label the components
-  using ConnectedCompType =
-      ConnectedComponentImageFilter< TOutputImage, TOutputImage >;
+  using ConnectedCompType = ConnectedComponentImageFilter<TOutputImage, TOutputImage>;
   typename ConnectedCompType::Pointer label = ConnectedCompType::New();
   label->SetFullyConnected(m_FullyConnected);
-  label->SetInput( rmin->GetOutput() );
+  label->SetInput(rmin->GetOutput());
 
   // the watershed
-  typedef
-  MorphologicalWatershedFromMarkersImageFilter< TInputImage, TOutputImage >
-  WatershedType;
-  typename WatershedType::Pointer wshed = WatershedType::New();
-  wshed->SetInput( input );
-  wshed->SetMarkerImage( label->GetOutput() );
+  typedef MorphologicalWatershedFromMarkersImageFilter<TInputImage, TOutputImage> WatershedType;
+  typename WatershedType::Pointer                                                 wshed = WatershedType::New();
+  wshed->SetInput(input);
+  wshed->SetMarkerImage(label->GetOutput());
   wshed->SetFullyConnected(m_FullyConnected);
   wshed->SetMarkWatershedLine(m_MarkWatershedLine);
 
-  if ( m_Level != NumericTraits< InputImagePixelType >::ZeroValue() )
-    {
+  if (m_Level != NumericTraits<InputImagePixelType>::ZeroValue())
+  {
     // insert a h-minima filter to remove the smallest minima
     //
     hmin = HMinimaType::New();
-    hmin->SetInput( input );
+    hmin->SetInput(input);
     hmin->SetHeight(m_Level);
     hmin->SetFullyConnected(m_FullyConnected);
     // replace the input of the r-min filter
-    rmin->SetInput( hmin->GetOutput() );
+    rmin->SetInput(hmin->GetOutput());
 
     progress->RegisterInternalFilter(hmin, 0.4f);
     progress->RegisterInternalFilter(rmin, 0.1f);
     progress->RegisterInternalFilter(label, .2f);
     progress->RegisterInternalFilter(wshed, .3f);
-    }
+  }
   else
-    {
+  {
     // don't insert the h-minima to save some ressources
     progress->RegisterInternalFilter(rmin, 0.167f);
     progress->RegisterInternalFilter(label, .333f);
     progress->RegisterInternalFilter(wshed, .5f);
-    }
+  }
 
   // run the algorithm
   // graft our output to the watershed filter to force the proper regions
   // to be generated
-  wshed->GraftOutput( this->GetOutput() );
+  wshed->GraftOutput(this->GetOutput());
 
   wshed->Update();
 
   // graft the output of the watershed filter back onto this filter's
   // output. this is needed to get the appropriate regions passed
   // back.
-  this->GraftOutput( wshed->GetOutput() );
+  this->GraftOutput(wshed->GetOutput());
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+MorphologicalWatershedImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
-  os << indent << "MarkWatershedLine: "  << m_MarkWatershedLine << std::endl;
-  os << indent << "Level: "
-     << static_cast< typename NumericTraits< InputImagePixelType >::PrintType >( m_Level )
+  os << indent << "FullyConnected: " << m_FullyConnected << std::endl;
+  os << indent << "MarkWatershedLine: " << m_MarkWatershedLine << std::endl;
+  os << indent << "Level: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Level)
      << std::endl;
 }
 

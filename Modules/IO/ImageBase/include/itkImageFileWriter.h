@@ -30,24 +30,26 @@ namespace itk
  * \class ImageFileWriterException
  * \ingroup ITKIOImageBase
  */
-class ITKIOImageBase_EXPORT ImageFileWriterException:public ExceptionObject
+class ITKIOImageBase_EXPORT ImageFileWriterException : public ExceptionObject
 {
 public:
   /** Run-time information. */
   itkTypeMacro(ImageFileWriterException, ExceptionObject);
 
   /** Constructor. */
-  ImageFileWriterException(const char *file, unsigned int line,
-                           const char *message = "Error in IO",
-                           const char *loc = "Unknown"):
-    ExceptionObject(file, line, message, loc)
+  ImageFileWriterException(const char * file,
+                           unsigned int line,
+                           const char * message = "Error in IO",
+                           const char * loc = "Unknown")
+    : ExceptionObject(file, line, message, loc)
   {}
 
   /** Constructor. */
-  ImageFileWriterException(const std::string & file, unsigned int line,
-                           const char *message = "Error in IO",
-                           const char *loc = "Unknown"):
-    ExceptionObject(file, line, message, loc)
+  ImageFileWriterException(const std::string & file,
+                           unsigned int        line,
+                           const char *        message = "Error in IO",
+                           const char *        loc = "Unknown")
+    : ExceptionObject(file, line, message, loc)
   {}
 
   /** Has to have empty throw(). */
@@ -80,8 +82,8 @@ public:
  * \sphinxexample{IO/ImageBase/WriteAnImage,Write An image}
  * \endsphinx
  */
-template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT ImageFileWriter:public ProcessObject
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT ImageFileWriter : public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageFileWriter);
@@ -89,8 +91,8 @@ public:
   /** Standard class type aliases. */
   using Self = ImageFileWriter;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -106,11 +108,14 @@ public:
 
   /** Set/Get the image input of this writer.  */
   using Superclass::SetInput;
-  void SetInput(const InputImageType *input);
+  void
+  SetInput(const InputImageType * input);
 
-  const InputImageType * GetInput();
+  const InputImageType *
+  GetInput();
 
-  const InputImageType * GetInput(unsigned int idx);
+  const InputImageType *
+  GetInput(unsigned int idx);
 
   /** Specify the name of the output file to write. */
   itkSetStringMacro(FileName);
@@ -126,13 +131,14 @@ public:
    * correct choice and will allow a file to be created regardless of
    * the file extension. If the factory has set the ImageIO, the
    * extension must be supported by the specified ImageIO. */
-  void SetImageIO(ImageIOBase *io)
+  void
+  SetImageIO(ImageIOBase * io)
   {
-    if ( this->m_ImageIO != io )
-      {
+    if (this->m_ImageIO != io)
+    {
       this->Modified();
       this->m_ImageIO = io;
-      }
+    }
     m_FactorySpecifiedImageIO = false;
   }
   itkGetModifiableObjectMacro(ImageIO, ImageIOBase);
@@ -144,13 +150,16 @@ public:
    * IORegion. If not set, then then the whole image is written.  Note
    * that the region will be cropped to fit the input image's
    * LargestPossibleRegion. */
-  virtual void Write();
+  virtual void
+  Write();
 
   /** Specify the region to write. If left nullptr, then the whole image
    * is written. */
-  void SetIORegion(const ImageIORegion & region);
+  void
+  SetIORegion(const ImageIORegion & region);
 
-  const ImageIORegion & GetIORegion() const
+  const ImageIORegion &
+  GetIORegion() const
   {
     return m_PasteIORegion;
   }
@@ -162,7 +171,8 @@ public:
 
   /** Aliased to the Write() method to be consistent with the rest of the
    * pipeline. */
-  void Update() override
+  void
+  Update() override
   {
     this->Write();
   }
@@ -172,7 +182,8 @@ public:
    * Updates the pipeline, streaming it the NumberOfStreamDivisions times.
    * Existing PasteIORegion is reset.
    */
-  void UpdateLargestPossibleRegion() override
+  void
+  UpdateLargestPossibleRegion() override
   {
     m_PasteIORegion = ImageIORegion(TInputImage::ImageDimension);
     m_UserSpecifiedIORegion = false;
@@ -186,8 +197,8 @@ public:
 
   /** Set the compression level. \sa ImageIOBase for details.
    * Set to a negative number to use ImageIO's default compression level. */
-  itkSetMacro( CompressionLevel, int );
-  itkGetConstReferenceMacro( CompressionLevel, int );
+  itkSetMacro(CompressionLevel, int);
+  itkGetConstReferenceMacro(CompressionLevel, int);
 
   /** By default the MetaDataDictionary is taken from the input image and
    *  passed to the ImageIO. In some cases, however, a user may prefer to
@@ -202,10 +213,12 @@ public:
 protected:
   ImageFileWriter() = default;
   ~ImageFileWriter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Does the real work. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   std::string m_FileName;
@@ -225,11 +238,11 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageFileWriter.hxx"
+#  include "itkImageFileWriter.hxx"
 #endif
 
 #ifdef ITK_IO_FACTORY_REGISTER_MANAGER
-#include "itkImageIOFactoryRegisterManager.h"
+#  include "itkImageIOFactoryRegisterManager.h"
 #endif
 
 #endif // itkImageFileWriter_h

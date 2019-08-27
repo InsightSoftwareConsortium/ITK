@@ -62,9 +62,9 @@ namespace itk
  * \sphinxexample{Filtering/BinaryMathematicalMorphology/DilateABinaryImage,Dilate A Binary Image}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-class ITK_TEMPLATE_EXPORT BinaryDilateImageFilter:
-  public BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+class ITK_TEMPLATE_EXPORT BinaryDilateImageFilter
+  : public BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryDilateImageFilter);
@@ -83,11 +83,10 @@ public:
 
   /** Standard class type aliases. */
   using Self = BinaryDilateImageFilter;
-  using Superclass = BinaryMorphologyImageFilter< InputImageType, OutputImageType,
-                                       KernelType >;
+  using Superclass = BinaryMorphologyImageFilter<InputImageType, OutputImageType, KernelType>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -101,7 +100,7 @@ public:
   /** Image type alias support */
   using InputPixelType = typename InputImageType::PixelType;
   using OutputPixelType = typename OutputImageType::PixelType;
-  using InputRealType = typename NumericTraits< InputPixelType >::RealType;
+  using InputRealType = typename NumericTraits<InputPixelType>::RealType;
   using OffsetType = typename InputImageType::OffsetType;
   using IndexType = typename InputImageType::IndexType;
 
@@ -112,21 +111,29 @@ public:
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of PixelType. This is an alias to the
    * ForegroundValue in the superclass. */
-  void SetDilateValue(const InputPixelType & value)
-  { this->SetForegroundValue(value); }
+  void
+  SetDilateValue(const InputPixelType & value)
+  {
+    this->SetForegroundValue(value);
+  }
 
   /** Get the value in the image considered as "foreground". Defaults to
    * maximum value of PixelType. This is an alias to the
    * ForegroundValue in the superclass. */
-  InputPixelType GetDilateValue() const
-  { return this->GetForegroundValue(); }
+  InputPixelType
+  GetDilateValue() const
+  {
+    return this->GetForegroundValue();
+  }
 
 protected:
   BinaryDilateImageFilter();
   ~BinaryDilateImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   // type inherited from the superclass
   using NeighborIndexContainer = typename Superclass::NeighborIndexContainer;
@@ -134,7 +141,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryDilateImageFilter.hxx"
+#  include "itkBinaryDilateImageFilter.hxx"
 #endif
 
 #endif

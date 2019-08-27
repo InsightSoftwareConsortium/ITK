@@ -21,101 +21,102 @@
 #include "itkImageRegionIteratorWithIndex.h"
 
 
-int itkReflectiveImageRegionIteratorTest(int, char* [] )
+int
+itkReflectiveImageRegionIteratorTest(int, char *[])
 {
   std::cout << "Creating an image" << std::endl;
   constexpr unsigned int Dimension = 4;
   using PixelType = itk::Index<Dimension>;
-  using ImageType = itk::Image<PixelType,Dimension>;
-  using ImageVisitsType = itk::Image<int,Dimension>;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using ImageVisitsType = itk::Image<int, Dimension>;
 
   using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
   using IteratorVisitsType = itk::ImageRegionIteratorWithIndex<ImageVisitsType>;
 
   ImageType::Pointer myImage = ImageType::New();
 
-  ImageType::SizeType size = {{4,4,4,4}};
+  ImageType::SizeType size = { { 4, 4, 4, 4 } };
 
   ImageType::IndexType start;
   start.Fill(0);
 
   ImageType::RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
-  myImage->SetLargestPossibleRegion( region );
-  myImage->SetBufferedRegion( region );
-  myImage->SetRequestedRegion( region );
+  myImage->SetLargestPossibleRegion(region);
+  myImage->SetBufferedRegion(region);
+  myImage->SetRequestedRegion(region);
   myImage->Allocate();
 
   ImageVisitsType::Pointer visitImage = ImageVisitsType::New();
 
-  visitImage->SetLargestPossibleRegion( region );
-  visitImage->SetRequestedRegion( region );
-  visitImage->SetBufferedRegion( region );
+  visitImage->SetLargestPossibleRegion(region);
+  visitImage->SetRequestedRegion(region);
+  visitImage->SetBufferedRegion(region);
   visitImage->Allocate();
 
-  IteratorType        nit( myImage,    region );
-  IteratorVisitsType  vit( visitImage, region );
+  IteratorType       nit(myImage, region);
+  IteratorVisitsType vit(visitImage, region);
 
   // Store information on the Image
   std::cout << "Storing data in the image ... " << std::endl;
   nit.GoToBegin();
   vit.GoToBegin();
-  while( !nit.IsAtEnd() )
-    {
+  while (!nit.IsAtEnd())
+  {
     // set the pixel index as value
-    nit.Set( nit.GetIndex() );
+    nit.Set(nit.GetIndex());
     // Set the number of visits to zero
-    vit.Set( itk::NumericTraits< ImageVisitsType::PixelType >::ZeroValue() );
+    vit.Set(itk::NumericTraits<ImageVisitsType::PixelType>::ZeroValue());
     ++nit;
     ++vit;
-    }
+  }
 
 
   using ReflectiveIteratorType = itk::ReflectiveImageRegionConstIterator<ImageType>;
-  ReflectiveIteratorType rit( myImage, region );
+  ReflectiveIteratorType rit(myImage, region);
 
   using ReflectiveVisitsIteratorType = itk::ReflectiveImageRegionIterator<ImageVisitsType>;
 
-  ReflectiveVisitsIteratorType rvt( visitImage, region );
+  ReflectiveVisitsIteratorType rvt(visitImage, region);
 
   // Verification
   std::cout << "Verifying the reflective iterator... " << std::endl;
 
   rit.GoToBegin();
   rvt.GoToBegin();
-  while( !rit.IsAtEnd() )
-    {
-    PixelType value = rit.Get();
+  while (!rit.IsAtEnd())
+  {
+    PixelType            value = rit.Get();
     ImageType::IndexType index = rit.GetIndex();
-    rvt.Set( rvt.Get() + 1 );
-    if( value != index )
-      {
+    rvt.Set(rvt.Get() + 1);
+    if (value != index)
+    {
       std::cerr << "Error :  at Index " << index << std::endl;
       std::cerr << "It is pointing to " << value << std::endl;
-      }
+    }
     ++rit;
     ++rvt;
-    }
+  }
 
 
   // Each element should be visited 2 ^ # of dimensions
   // each left shift = multiply by 2
-  int visits = ( 1 << (ImageType::ImageDimension));
+  int visits = (1 << (ImageType::ImageDimension));
   int failed = 0;
 
   // Verify the number of visits
   vit.GoToBegin();
-  while( !vit.IsAtEnd() )
-    {
+  while (!vit.IsAtEnd())
+  {
     if (vit.Get() != visits)
-      {
+    {
       std::cout << vit.GetIndex() << " should not = " << vit.Get() << std::endl;
       failed++;
-      }
-    ++vit;
     }
+    ++vit;
+  }
 
   std::cout << std::endl;
 
@@ -123,41 +124,38 @@ int itkReflectiveImageRegionIteratorTest(int, char* [] )
   // to by the iterator.  These should obviously always be the same.
   // But this test exposes a bug in the code that has been fixed.
   ImageType::OffsetType voffset;
-  for ( unsigned int dim = 0; dim < Dimension; dim++ )
+  for (unsigned int dim = 0; dim < Dimension; dim++)
+  {
+    if (region.GetSize()[dim] > 1)
     {
-    if ( region.GetSize()[dim] > 1 )
-      {
       voffset[dim] = 1;
-      }
-    else
-      {
-      voffset[dim] = 0;
-      }
     }
+    else
+    {
+      voffset[dim] = 0;
+    }
+  }
   rit.SetBeginOffset(voffset);
   rit.SetEndOffset(voffset);
 
-  for( rit.GoToBegin(); !rit.IsAtEnd(); ++rit )
+  for (rit.GoToBegin(); !rit.IsAtEnd(); ++rit)
   {
-    if( rit.Get() != myImage->GetPixel( rit.GetIndex() ) )
+    if (rit.Get() != myImage->GetPixel(rit.GetIndex()))
     {
-      std::cerr << "Error: pixel value returned by iterator is "
-          << rit.Get()
-          << ", but pixel value defined by image at the same index is "
-          << myImage->GetPixel( rit.GetIndex() )
-          << std::endl;
+      std::cerr << "Error: pixel value returned by iterator is " << rit.Get()
+                << ", but pixel value defined by image at the same index is " << myImage->GetPixel(rit.GetIndex())
+                << std::endl;
       failed = 1;
     }
   }
 
-  if ( failed )
-    {
+  if (failed)
+  {
     std::cout << "      FAILED !" << std::endl << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   std::cout << "      PASSED !" << std::endl << std::endl;
   return EXIT_SUCCESS;
-
 }

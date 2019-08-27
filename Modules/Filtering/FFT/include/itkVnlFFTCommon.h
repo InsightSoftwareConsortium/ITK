@@ -35,28 +35,27 @@ struct VnlFFTCommon
 
   /** Vnl's FFT supports discrete Fourier transforms for images whose
   sizes have a prime factorization consisting of 2's, 3's, and 5's. */
-  template< typename TSizeValue >
-  static bool IsDimensionSizeLegal(TSizeValue n);
+  template <typename TSizeValue>
+  static bool
+  IsDimensionSizeLegal(TSizeValue n);
 
   static constexpr SizeValueType GREATEST_PRIME_FACTOR = 5;
 
   /** Convenience struct for computing the discrete Fourier
   Transform. */
-  template< typename TImage >
-  struct VnlFFTTransform:
-    public vnl_fft_base< TImage::ImageDimension, typename TImage::PixelType >
+  template <typename TImage>
+  struct VnlFFTTransform : public vnl_fft_base<TImage::ImageDimension, typename TImage::PixelType>
   {
-    using Base = vnl_fft_base< TImage::ImageDimension, typename TImage::PixelType >;
+    using Base = vnl_fft_base<TImage::ImageDimension, typename TImage::PixelType>;
 
     //: constructor takes size of signal.
     VnlFFTTransform(const typename TImage::SizeType & s);
   };
-
 };
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVnlFFTCommon.hxx"
+#  include "itkVnlFFTCommon.hxx"
 #endif
 
 #endif // itkVnlFFTCommon_h

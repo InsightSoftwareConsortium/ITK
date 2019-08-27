@@ -35,11 +35,12 @@ namespace itk
  *
  * Definition of types of operations for LoggerThreadWrapper.
  */
-enum class LoggerThreadWrapperOperationType : uint8_t {
-    SET_PRIORITY_LEVEL,
-    SET_LEVEL_FOR_FLUSHING,
-    ADD_LOG_OUTPUT,
-    WRITE
+enum class LoggerThreadWrapperOperationType : uint8_t
+{
+  SET_PRIORITY_LEVEL,
+  SET_LEVEL_FOR_FLUSHING,
+  ADD_LOG_OUTPUT,
+  WRITE
 };
 
 /** \class LoggerThreadWrapper
@@ -52,15 +53,14 @@ enum class LoggerThreadWrapperOperationType : uint8_t {
  * \ingroup ITKCommon
  */
 
-template< typename SimpleLoggerType >
-class ITK_TEMPLATE_EXPORT LoggerThreadWrapper:public SimpleLoggerType
+template <typename SimpleLoggerType>
+class ITK_TEMPLATE_EXPORT LoggerThreadWrapper : public SimpleLoggerType
 {
 public:
-
   using Self = LoggerThreadWrapper;
   using Superclass = SimpleLoggerType;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(LoggerThreadWrapper, SimpleLoggerType);
@@ -73,8 +73,10 @@ public:
   using DelayType = unsigned int;
 
 #if !defined(ITK_LEGACY_REMOVE)
-  static constexpr LoggerThreadWrapperOperationType SET_PRIORITY_LEVEL = LoggerThreadWrapperOperationType::SET_PRIORITY_LEVEL;
-  static constexpr LoggerThreadWrapperOperationType SET_LEVEL_FOR_FLUSHING = LoggerThreadWrapperOperationType::SET_LEVEL_FOR_FLUSHING;
+  static constexpr LoggerThreadWrapperOperationType SET_PRIORITY_LEVEL =
+    LoggerThreadWrapperOperationType::SET_PRIORITY_LEVEL;
+  static constexpr LoggerThreadWrapperOperationType SET_LEVEL_FOR_FLUSHING =
+    LoggerThreadWrapperOperationType::SET_LEVEL_FOR_FLUSHING;
   static constexpr LoggerThreadWrapperOperationType ADD_LOG_OUTPUT = LoggerThreadWrapperOperationType::ADD_LOG_OUTPUT;
   static constexpr LoggerThreadWrapperOperationType WRITE = LoggerThreadWrapperOperationType::WRITE;
 #endif
@@ -82,36 +84,44 @@ public:
   /** Set the priority level for the current logger. Only messages that have
    * priorities equal or greater than the one set here will be posted to the
    * current outputs */
-  void SetPriorityLevel(PriorityLevelType level) override;
+  void
+  SetPriorityLevel(PriorityLevelType level) override;
 
   /** Get the priority level for the current logger. Only messages that have
    * priorities equal or greater than the one set here will be posted to the
    * current outputs */
-  PriorityLevelType GetPriorityLevel() const override;
+  PriorityLevelType
+  GetPriorityLevel() const override;
 
-  void SetLevelForFlushing(PriorityLevelType level) override;
+  void
+  SetLevelForFlushing(PriorityLevelType level) override;
 
-  PriorityLevelType GetLevelForFlushing() const override;
+  PriorityLevelType
+  GetLevelForFlushing() const override;
 
-/** Set the delay in milliseconds between checks to see if there are any
- *  low priority messages to be processed.
- */
-  virtual void SetDelay(DelayType delay);
+  /** Set the delay in milliseconds between checks to see if there are any
+   *  low priority messages to be processed.
+   */
+  virtual void
+  SetDelay(DelayType delay);
 
-/** Get the delay in milliseconds between checks to see if there are any
- *  low priority messages to be processed.
- */
-  virtual DelayType GetDelay() const;
+  /** Get the delay in milliseconds between checks to see if there are any
+   *  low priority messages to be processed.
+   */
+  virtual DelayType
+  GetDelay() const;
 
   /** Registers another output stream with the multiple output. */
-  void AddLogOutput(OutputType *output) override;
+  void
+  AddLogOutput(OutputType * output) override;
 
-  void Write(PriorityLevelType level, std::string const & content) override;
+  void
+  Write(PriorityLevelType level, std::string const & content) override;
 
-  void Flush() override;
+  void
+  Flush() override;
 
 protected:
-
   /** Constructor */
   LoggerThreadWrapper();
 
@@ -119,19 +129,20 @@ protected:
   ~LoggerThreadWrapper() override;
 
   /** Print contents of a LoggerThreadWrapper */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void ThreadFunction();
+  void
+  ThreadFunction();
 
 private:
+  using OperationContainerType = std::queue<LoggerThreadWrapperOperationType>;
 
-  using OperationContainerType = std::queue< LoggerThreadWrapperOperationType >;
+  using MessageContainerType = std::queue<std::string>;
 
-  using MessageContainerType = std::queue< std::string >;
+  using LevelContainerType = std::queue<PriorityLevelType>;
 
-  using LevelContainerType = std::queue< PriorityLevelType >;
-
-  using OutputContainerType = std::queue< typename OutputType::Pointer >;
+  using OutputContainerType = std::queue<typename OutputType::Pointer>;
 
   std::thread m_Thread;
 
@@ -149,15 +160,16 @@ private:
 
   DelayType m_Delay;
 
-};  // class LoggerThreadWrapper
+}; // class LoggerThreadWrapper
 
 // Define how to print enumeration
-extern ITKCommon_EXPORT std::ostream& operator<<(std::ostream& out, const LoggerThreadWrapperOperationType value);
+extern ITKCommon_EXPORT std::ostream &
+                        operator<<(std::ostream & out, const LoggerThreadWrapperOperationType value);
 
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLoggerThreadWrapper.hxx"
+#  include "itkLoggerThreadWrapper.hxx"
 #endif
 
-#endif  // itkLoggerThreadWrapper_h
+#endif // itkLoggerThreadWrapper_h

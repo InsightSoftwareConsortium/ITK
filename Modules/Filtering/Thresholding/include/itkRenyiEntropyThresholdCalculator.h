@@ -47,7 +47,7 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKThresholding
  */
-template <typename THistogram, typename TOutput=double>
+template <typename THistogram, typename TOutput = double>
 class ITK_TEMPLATE_EXPORT RenyiEntropyThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
@@ -70,44 +70,54 @@ public:
   using OutputType = TOutput;
 
 protected:
-  RenyiEntropyThresholdCalculator() { m_FirstBin = 0; m_LastBin = 0; m_Size = 0; }
+  RenyiEntropyThresholdCalculator()
+  {
+    m_FirstBin = 0;
+    m_LastBin = 0;
+    m_Size = 0;
+  }
   ~RenyiEntropyThresholdCalculator() override = default;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   using TotalAbsoluteFrequencyType = typename HistogramType::TotalAbsoluteFrequencyType;
   using AbsoluteFrequencyType = typename HistogramType::AbsoluteFrequencyType;
   using InstanceIdentifier = typename HistogramType::InstanceIdentifier;
   using SizeValueType = typename HistogramType::SizeValueType;
 
-  InstanceIdentifier MaxEntropyThresholding( const HistogramType* histogram,
-                                             const std::vector< double >& normHisto,
-                                             const std::vector< double >& P1,
-                                             const std::vector< double >& P2 );
+  InstanceIdentifier
+  MaxEntropyThresholding(const HistogramType *       histogram,
+                         const std::vector<double> & normHisto,
+                         const std::vector<double> & P1,
+                         const std::vector<double> & P2);
 
-  InstanceIdentifier MaxEntropyThresholding2( const HistogramType* histogram,
-                                              const std::vector< double >& normHisto,
-                                              const std::vector< double >& P1,
-                                              const std::vector< double >& P2 );
+  InstanceIdentifier
+  MaxEntropyThresholding2(const HistogramType *       histogram,
+                          const std::vector<double> & normHisto,
+                          const std::vector<double> & P1,
+                          const std::vector<double> & P2);
 
-  InstanceIdentifier MaxEntropyThresholding3( const HistogramType* histogram,
-                                              const std::vector< double >& normHisto,
-                                              const std::vector< double >& P1,
-                                              const std::vector< double >& P2 );
+  InstanceIdentifier
+  MaxEntropyThresholding3(const HistogramType *       histogram,
+                          const std::vector<double> & normHisto,
+                          const std::vector<double> & P1,
+                          const std::vector<double> & P2);
 
 private:
-  InstanceIdentifier  m_FirstBin;
-  InstanceIdentifier  m_LastBin;
-  SizeValueType       m_Size;
+  InstanceIdentifier m_FirstBin;
+  InstanceIdentifier m_LastBin;
+  SizeValueType      m_Size;
 };
 
 } // end namespace itk
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRenyiEntropyThresholdCalculator.hxx"
+#  include "itkRenyiEntropyThresholdCalculator.hxx"
 #endif
 
 #endif

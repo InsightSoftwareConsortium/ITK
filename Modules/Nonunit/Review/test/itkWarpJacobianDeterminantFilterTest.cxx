@@ -19,13 +19,14 @@
 #include "itkDisplacementFieldJacobianDeterminantFilter.h"
 
 
-int itkWarpJacobianDeterminantFilterTest(int, char* [] )
+int
+itkWarpJacobianDeterminantFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
   constexpr unsigned int ImageDimension = 3;
 
-  using DeformationPixelType = itk::Vector< double, ImageDimension >;
+  using DeformationPixelType = itk::Vector<double, ImageDimension>;
   using OutputPixelType = unsigned char;
 
   // Declare the types of the images
@@ -33,8 +34,8 @@ int itkWarpJacobianDeterminantFilterTest(int, char* [] )
   using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 
   // Declare Iterator types apropriated for each image
-  using DeformationIteratorType = itk::ImageRegionIteratorWithIndex< DisplacementFieldType >;
-  using OutputIteratorType = itk::ImageRegionIteratorWithIndex< OutputImageType >;
+  using DeformationIteratorType = itk::ImageRegionIteratorWithIndex<DisplacementFieldType>;
+  using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
 
   // Declare the type of the index to access images
@@ -47,7 +48,7 @@ int itkWarpJacobianDeterminantFilterTest(int, char* [] )
   using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create two images
-  DisplacementFieldType ::Pointer inputDisplacementField  = DisplacementFieldType ::New();
+  DisplacementFieldType ::Pointer inputDisplacementField = DisplacementFieldType ::New();
 
   // Define their size, and start index
   SizeType size;
@@ -61,33 +62,32 @@ int itkWarpJacobianDeterminantFilterTest(int, char* [] )
   start[2] = 0;
 
   RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
   // Initialize Image A
-  inputDisplacementField->SetLargestPossibleRegion( region );
-  inputDisplacementField->SetBufferedRegion( region );
-  inputDisplacementField->SetRequestedRegion( region );
+  inputDisplacementField->SetLargestPossibleRegion(region);
+  inputDisplacementField->SetBufferedRegion(region);
+  inputDisplacementField->SetRequestedRegion(region);
   inputDisplacementField->Allocate();
 
   // Create one iterator for the Input Image (this is a light object)
-  DeformationIteratorType it( inputDisplacementField, inputDisplacementField->GetBufferedRegion() );
+  DeformationIteratorType it(inputDisplacementField, inputDisplacementField->GetBufferedRegion());
 
   // Initialize the content of Image A
   DeformationPixelType vectorValue;
-  vectorValue.Fill( 5.0 ); // FIXME: replace with something more interesting...
+  vectorValue.Fill(5.0); // FIXME: replace with something more interesting...
 
   it.GoToBegin();
-  while( !it.IsAtEnd() )
-    {
-    it.Set( vectorValue );
+  while (!it.IsAtEnd())
+  {
+    it.Set(vectorValue);
     std::cout << it.Get() << std::endl;
     ++it;
-    }
+  }
 
   // Declare the type for the Log filter
-  using FilterType = itk::DisplacementFieldJacobianDeterminantFilter<
-    DisplacementFieldType, float, OutputImageType  >;
+  using FilterType = itk::DisplacementFieldJacobianDeterminantFilter<DisplacementFieldType, float, OutputImageType>;
 
 
   // Create one Filter
@@ -95,7 +95,7 @@ int itkWarpJacobianDeterminantFilterTest(int, char* [] )
 
 
   // Connect the input images
-  filter->SetInput( inputDisplacementField );
+  filter->SetInput(inputDisplacementField);
 
   // Execute the filter
   filter->Update();
@@ -111,15 +111,15 @@ int itkWarpJacobianDeterminantFilterTest(int, char* [] )
 
   ot.GoToBegin();
   it.GoToBegin();
-  while( !ot.IsAtEnd() )
-    {
-    DeformationPixelType input  = it.Get();
-    OutputPixelType output = ot.Get();
+  while (!ot.IsAtEnd())
+  {
+    DeformationPixelType input = it.Get();
+    OutputPixelType      output = ot.Get();
     std::cout << input << " => ";
-    std::cout << output  << std::endl;
+    std::cout << output << std::endl;
     ++ot;
     ++it;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

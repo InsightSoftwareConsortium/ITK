@@ -63,31 +63,31 @@ namespace itk
  *
  * \ingroup ITKRegistrationMethodsv4
  */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform =
-  DisplacementFieldTransform<double, TFixedImage::ImageDimension>,
-  typename TVirtualImage = TFixedImage,
-  typename TPointSet = PointSet<unsigned int, TFixedImage::ImageDimension> >
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TOutputTransform = DisplacementFieldTransform<double, TFixedImage::ImageDimension>,
+          typename TVirtualImage = TFixedImage,
+          typename TPointSet = PointSet<unsigned int, TFixedImage::ImageDimension>>
 class ITK_TEMPLATE_EXPORT SyNImageRegistrationMethod
-: public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
+  : public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SyNImageRegistrationMethod);
 
   /** Standard class type aliases. */
   using Self = SyNImageRegistrationMethod;
-  using Superclass = ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform,
-                                                       TVirtualImage, TPointSet>;
+  using Superclass = ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** ImageDimension constants */
   static constexpr unsigned int ImageDimension = TFixedImage::ImageDimension;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( SyNImageRegistrationMethod, SimpleImageRegistrationMethod );
+  itkTypeMacro(SyNImageRegistrationMethod, SimpleImageRegistrationMethod);
 
   /** Input type alias for the images. */
   using FixedImageType = TFixedImage;
@@ -145,103 +145,123 @@ public:
   using NumberOfIterationsArrayType = Array<SizeValueType>;
 
   /** Set/Get the learning rate. */
-  itkSetMacro( LearningRate, RealType );
-  itkGetConstMacro( LearningRate, RealType );
+  itkSetMacro(LearningRate, RealType);
+  itkGetConstMacro(LearningRate, RealType);
 
   /** Set/Get the number of iterations per level. */
-  itkSetMacro( NumberOfIterationsPerLevel, NumberOfIterationsArrayType );
-  itkGetConstMacro( NumberOfIterationsPerLevel, NumberOfIterationsArrayType );
+  itkSetMacro(NumberOfIterationsPerLevel, NumberOfIterationsArrayType);
+  itkGetConstMacro(NumberOfIterationsPerLevel, NumberOfIterationsArrayType);
 
   /** Set/Get the convergence threshold */
-  itkSetMacro( ConvergenceThreshold, RealType );
-  itkGetConstMacro( ConvergenceThreshold, RealType );
+  itkSetMacro(ConvergenceThreshold, RealType);
+  itkGetConstMacro(ConvergenceThreshold, RealType);
 
   /** Set/Get the convergence window size */
-  itkSetMacro( ConvergenceWindowSize, unsigned int );
-  itkGetConstMacro( ConvergenceWindowSize, unsigned int );
+  itkSetMacro(ConvergenceWindowSize, unsigned int);
+  itkGetConstMacro(ConvergenceWindowSize, unsigned int);
 
   /** Let the user control whether we compute metric derivatives in the downsampled or full-res space.
    *  The default is 'true' --- classic SyN --- but there may be advantages to the other approach.
    *  Classic SyN did not have this possibility. This implementation will let us explore the question.
    */
-  itkSetMacro( DownsampleImagesForMetricDerivatives, bool );
-  itkGetConstMacro( DownsampleImagesForMetricDerivatives, bool );
+  itkSetMacro(DownsampleImagesForMetricDerivatives, bool);
+  itkGetConstMacro(DownsampleImagesForMetricDerivatives, bool);
 
   /** Allow the user to average the gradients in the mid-point domain. Default false.
    *  One might choose to do this to further reduce bias.
    */
-  itkSetMacro( AverageMidPointGradients, bool );
-  itkGetConstMacro( AverageMidPointGradients, bool );
+  itkSetMacro(AverageMidPointGradients, bool);
+  itkGetConstMacro(AverageMidPointGradients, bool);
 
   /**
    * Get/Set the Gaussian smoothing variance for the update field.
    */
-  itkSetMacro( GaussianSmoothingVarianceForTheUpdateField, RealType );
-  itkGetConstReferenceMacro( GaussianSmoothingVarianceForTheUpdateField, RealType );
+  itkSetMacro(GaussianSmoothingVarianceForTheUpdateField, RealType);
+  itkGetConstReferenceMacro(GaussianSmoothingVarianceForTheUpdateField, RealType);
 
   /**
    * Get/Set the Gaussian smoothing variance for the total field.
    */
-  itkSetMacro( GaussianSmoothingVarianceForTheTotalField, RealType );
-  itkGetConstReferenceMacro( GaussianSmoothingVarianceForTheTotalField, RealType );
+  itkSetMacro(GaussianSmoothingVarianceForTheTotalField, RealType);
+  itkGetConstReferenceMacro(GaussianSmoothingVarianceForTheTotalField, RealType);
 
   /** Get modifiable FixedToMiddle and MovingToMidle transforms to save the current state of the registration. */
-  itkGetModifiableObjectMacro( FixedToMiddleTransform, OutputTransformType );
-  itkGetModifiableObjectMacro( MovingToMiddleTransform, OutputTransformType );
+  itkGetModifiableObjectMacro(FixedToMiddleTransform, OutputTransformType);
+  itkGetModifiableObjectMacro(MovingToMiddleTransform, OutputTransformType);
 
   /** Set FixedToMiddle and MovingToMidle transforms to restore the registration from a saved state. */
-  itkSetObjectMacro( FixedToMiddleTransform, OutputTransformType);
-  itkSetObjectMacro( MovingToMiddleTransform, OutputTransformType);
+  itkSetObjectMacro(FixedToMiddleTransform, OutputTransformType);
+  itkSetObjectMacro(MovingToMiddleTransform, OutputTransformType);
 
 protected:
   SyNImageRegistrationMethod();
   ~SyNImageRegistrationMethod() override = default;
-  void PrintSelf( std::ostream & os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Perform the registration. */
-  void  GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Handle optimization internally */
-  virtual void StartOptimization();
+  virtual void
+  StartOptimization();
 
   /**
    * Initialize by setting the interconnects between the components. Need to override
    * in the SyN class since we need to "adapt" the \c m_InverseTransform
    */
-  void InitializeRegistrationAtEachLevel( const SizeValueType ) override;
+  void
+  InitializeRegistrationAtEachLevel(const SizeValueType) override;
 
-  virtual DisplacementFieldPointer ComputeUpdateField( const FixedImagesContainerType, const PointSetsContainerType,
-    const TransformBaseType *, const MovingImagesContainerType, const PointSetsContainerType,
-    const TransformBaseType *, const FixedImageMasksContainerType, const MovingImageMasksContainerType, MeasureType & );
-  virtual DisplacementFieldPointer ComputeMetricGradientField( const FixedImagesContainerType,
-    const PointSetsContainerType, const TransformBaseType *, const MovingImagesContainerType,
-    const PointSetsContainerType, const TransformBaseType *, const FixedImageMasksContainerType,
-    const MovingImageMasksContainerType, MeasureType & );
+  virtual DisplacementFieldPointer
+  ComputeUpdateField(const FixedImagesContainerType,
+                     const PointSetsContainerType,
+                     const TransformBaseType *,
+                     const MovingImagesContainerType,
+                     const PointSetsContainerType,
+                     const TransformBaseType *,
+                     const FixedImageMasksContainerType,
+                     const MovingImageMasksContainerType,
+                     MeasureType &);
+  virtual DisplacementFieldPointer
+  ComputeMetricGradientField(const FixedImagesContainerType,
+                             const PointSetsContainerType,
+                             const TransformBaseType *,
+                             const MovingImagesContainerType,
+                             const PointSetsContainerType,
+                             const TransformBaseType *,
+                             const FixedImageMasksContainerType,
+                             const MovingImageMasksContainerType,
+                             MeasureType &);
 
-  virtual DisplacementFieldPointer ScaleUpdateField( const DisplacementFieldType * );
-  virtual DisplacementFieldPointer GaussianSmoothDisplacementField( const DisplacementFieldType *, const RealType );
-  virtual DisplacementFieldPointer InvertDisplacementField( const DisplacementFieldType *, const DisplacementFieldType * = nullptr );
+  virtual DisplacementFieldPointer
+  ScaleUpdateField(const DisplacementFieldType *);
+  virtual DisplacementFieldPointer
+  GaussianSmoothDisplacementField(const DisplacementFieldType *, const RealType);
+  virtual DisplacementFieldPointer
+  InvertDisplacementField(const DisplacementFieldType *, const DisplacementFieldType * = nullptr);
 
-  RealType                                                        m_LearningRate{ 0.25 };
+  RealType m_LearningRate{ 0.25 };
 
-  OutputTransformPointer                                          m_MovingToMiddleTransform{ nullptr };
-  OutputTransformPointer                                          m_FixedToMiddleTransform{ nullptr };
+  OutputTransformPointer m_MovingToMiddleTransform{ nullptr };
+  OutputTransformPointer m_FixedToMiddleTransform{ nullptr };
 
-  RealType                                                        m_ConvergenceThreshold{ static_cast<RealType>(1.0e-6) };
-  unsigned int                                                    m_ConvergenceWindowSize{ 10 };
+  RealType     m_ConvergenceThreshold{ static_cast<RealType>(1.0e-6) };
+  unsigned int m_ConvergenceWindowSize{ 10 };
 
-  NumberOfIterationsArrayType                                     m_NumberOfIterationsPerLevel;
-  bool                                                            m_DownsampleImagesForMetricDerivatives{ true };
-  bool                                                            m_AverageMidPointGradients{ false };
+  NumberOfIterationsArrayType m_NumberOfIterationsPerLevel;
+  bool                        m_DownsampleImagesForMetricDerivatives{ true };
+  bool                        m_AverageMidPointGradients{ false };
 
 private:
-  RealType                                                        m_GaussianSmoothingVarianceForTheUpdateField{ 3.0 };
-  RealType                                                        m_GaussianSmoothingVarianceForTheTotalField{ 0.5 };
+  RealType m_GaussianSmoothingVarianceForTheUpdateField{ 3.0 };
+  RealType m_GaussianSmoothingVarianceForTheTotalField{ 0.5 };
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSyNImageRegistrationMethod.hxx"
+#  include "itkSyNImageRegistrationMethod.hxx"
 #endif
 
 #endif

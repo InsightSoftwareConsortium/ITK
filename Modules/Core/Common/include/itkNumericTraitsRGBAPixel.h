@@ -39,39 +39,37 @@ namespace itk
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
-template< typename T >
-class NumericTraits< RGBAPixel< T > >
+template <typename T>
+class NumericTraits<RGBAPixel<T>>
 {
 private:
-
-  using ElementAbsType = typename NumericTraits< T >::AbsType;
-  using ElementAccumulateType = typename NumericTraits< T >::AccumulateType;
-  using ElementFloatType = typename NumericTraits< T >::FloatType;
-  using ElementPrintType = typename NumericTraits< T >::PrintType;
-  using ElementRealType = typename NumericTraits< T >::RealType;
+  using ElementAbsType = typename NumericTraits<T>::AbsType;
+  using ElementAccumulateType = typename NumericTraits<T>::AccumulateType;
+  using ElementFloatType = typename NumericTraits<T>::FloatType;
+  using ElementPrintType = typename NumericTraits<T>::PrintType;
+  using ElementRealType = typename NumericTraits<T>::RealType;
 
 public:
-
   /** Return the type of the native component type. */
   using ValueType = T;
 
-  using Self = RGBAPixel< T >;
+  using Self = RGBAPixel<T>;
 
   /** Unsigned component type */
-  using AbsType = RGBAPixel< ElementAbsType >;
+  using AbsType = RGBAPixel<ElementAbsType>;
 
   /** Accumulation of addition and multiplication. */
-  using AccumulateType = RGBAPixel< ElementAccumulateType >;
+  using AccumulateType = RGBAPixel<ElementAccumulateType>;
 
   /** Typedef for operations that use floating point instead of real precision
-    */
-  using FloatType = RGBAPixel< ElementFloatType >;
+   */
+  using FloatType = RGBAPixel<ElementFloatType>;
 
   /** Return the type that can be printed. */
-  using PrintType = RGBAPixel< ElementPrintType >;
+  using PrintType = RGBAPixel<ElementPrintType>;
 
   /** Type for real-valued scalar operations. */
-  using RealType = RGBAPixel< ElementRealType >;
+  using RealType = RGBAPixel<ElementRealType>;
 
   /** Type for real-valued scalar operations. */
   using ScalarRealType = ElementRealType;
@@ -84,97 +82,112 @@ public:
    * \note minimum value for floating pointer types is defined as
    * minimum positive normalize value.
    */
-  static const Self max(const Self &)
+  static const Self
+  max(const Self &)
   {
-    return Self( NumericTraits< T >::max() );
+    return Self(NumericTraits<T>::max());
   }
 
-  static const Self min(const Self &)
+  static const Self
+  min(const Self &)
   {
-    return Self( NumericTraits< T >::min() );
+    return Self(NumericTraits<T>::min());
   }
 
-  static const Self max()
+  static const Self
+  max()
   {
-    return Self( NumericTraits< T >::max() );
+    return Self(NumericTraits<T>::max());
   }
 
-  static const Self min()
+  static const Self
+  min()
   {
-    return Self( NumericTraits< T >::min() );
+    return Self(NumericTraits<T>::min());
   }
 
-  static const Self NonpositiveMin()
+  static const Self
+  NonpositiveMin()
   {
-    return Self ( NumericTraits< ValueType >::NonpositiveMin() );
+    return Self(NumericTraits<ValueType>::NonpositiveMin());
   }
 
-  static const Self ZeroValue()
+  static const Self
+  ZeroValue()
   {
-    return Self(NumericTraits< T >::ZeroValue());
+    return Self(NumericTraits<T>::ZeroValue());
   }
 
-  static const Self OneValue()
+  static const Self
+  OneValue()
   {
-    return Self(NumericTraits< T >::OneValue());
+    return Self(NumericTraits<T>::OneValue());
   }
 
-  static const Self NonpositiveMin(const Self &)
+  static const Self
+  NonpositiveMin(const Self &)
   {
     return NonpositiveMin();
   }
 
-  static const Self ZeroValue(const Self &)
+  static const Self
+  ZeroValue(const Self &)
   {
     return ZeroValue();
   }
 
-  static const Self OneValue(const Self &)
+  static const Self
+  OneValue(const Self &)
   {
     return OneValue();
   }
 
-  static constexpr bool IsSigned = NumericTraits< ValueType >::IsSigned;
-  static constexpr bool IsInteger = NumericTraits< ValueType >::IsInteger;
-  static constexpr bool IsComplex = NumericTraits< ValueType >::IsComplex;
+  static constexpr bool IsSigned = NumericTraits<ValueType>::IsSigned;
+  static constexpr bool IsInteger = NumericTraits<ValueType>::IsInteger;
+  static constexpr bool IsComplex = NumericTraits<ValueType>::IsComplex;
 
   /** RGBA pixels must have 4 components, so the size cannot be
    *  set to anything besides 4.  If called with size of 4, this
    *  function will fill the pixel with zeros. */
-  static void SetLength(RGBAPixel< T > & m, const unsigned int s)
+  static void
+  SetLength(RGBAPixel<T> & m, const unsigned int s)
   {
-    if ( s != 4 )
-      {
+    if (s != 4)
+    {
       itkGenericExceptionMacro(<< "Cannot set the size of a RGBAPixel to anything other "
-                               "than 4.");
-      }
-    m.Fill(NumericTraits< T >::ZeroValue());
+                                  "than 4.");
+    }
+    m.Fill(NumericTraits<T>::ZeroValue());
   }
 
   /** Return the dimensionality of the pixel. Always returns 4. */
-  static unsigned int GetLength(const RGBAPixel< T > &)
+  static unsigned int
+  GetLength(const RGBAPixel<T> &)
   {
     return 4;
   }
 
   /** Return the dimensionality of the pixel. Always returns 4. */
-  static unsigned int GetLength()
+  static unsigned int
+  GetLength()
   {
     return 4;
   }
 
-  static void AssignToArray( const Self & v, MeasurementVectorType & mv )
+  static void
+  AssignToArray(const Self & v, MeasurementVectorType & mv)
   {
     mv = v;
   }
 
-  template<typename TArray>
-  static void AssignToArray( const Self & v, TArray & mv )
+  template <typename TArray>
+  static void
+  AssignToArray(const Self & v, TArray & mv)
   {
-    for( unsigned int i=0; i<4; i++ )
-      {
+    for (unsigned int i = 0; i < 4; i++)
+    {
       mv[i] = v[i];
-      }
+    }
   }
 
   /** \note: the functions are preferred over the member variables as

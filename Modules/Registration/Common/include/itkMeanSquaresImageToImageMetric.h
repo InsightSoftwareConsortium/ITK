@@ -35,18 +35,17 @@ namespace itk
  * \sphinxexample{Registration/Common/ComputeMeanSquareBetweenTwoImages,Compute Mean Squares Metric Between Two Images}
  * \endsphinx
  */
-template< typename TFixedImage, typename TMovingImage >
-class ITK_TEMPLATE_EXPORT MeanSquaresImageToImageMetric:
-  public ImageToImageMetric< TFixedImage, TMovingImage >
+template <typename TFixedImage, typename TMovingImage>
+class ITK_TEMPLATE_EXPORT MeanSquaresImageToImageMetric : public ImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquaresImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = MeanSquaresImageToImageMetric;
-  using Superclass = ImageToImageMetric< TFixedImage, TMovingImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageMetric<TFixedImage, TMovingImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -86,39 +85,42 @@ public:
    *  (2) uniformly select NumberOfSpatialSamples within
    *      the FixedImageRegion, and
    *  (3) allocate memory for pdf data structures. */
-  void Initialize() override;
+  void
+  Initialize() override;
 
   /**  Get the value. */
-  MeasureType GetValue(const ParametersType & parameters) const override;
+  MeasureType
+  GetValue(const ParametersType & parameters) const override;
 
   /** Get the derivatives of the match measure. */
-  void GetDerivative(const ParametersType & parameters,
-                     DerivativeType & Derivative) const override;
+  void
+  GetDerivative(const ParametersType & parameters, DerivativeType & Derivative) const override;
 
   /**  Get the value and derivatives for single valued optimizers. */
-  void GetValueAndDerivative(const ParametersType & parameters,
-                             MeasureType & Value,
-                             DerivativeType & Derivative) const override;
+  void
+  GetValueAndDerivative(const ParametersType & parameters,
+                        MeasureType &          Value,
+                        DerivativeType &       Derivative) const override;
 
 protected:
-
   MeanSquaresImageToImageMetric();
   ~MeanSquaresImageToImageMetric() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
+  bool
+  GetValueThreadProcessSample(ThreadIdType                 threadId,
+                              SizeValueType                fixedImageSample,
+                              const MovingImagePointType & mappedPoint,
+                              double                       movingImageValue) const override;
 
-  bool GetValueThreadProcessSample(ThreadIdType threadId,
-                                   SizeValueType fixedImageSample,
-                                   const MovingImagePointType & mappedPoint,
-                                   double movingImageValue) const override;
-
-  bool GetValueAndDerivativeThreadProcessSample(ThreadIdType threadId,
-                                                SizeValueType fixedImageSample,
-                                                const MovingImagePointType & mappedPoint,
-                                                double movingImageValue,
-                                                const ImageDerivativesType &
-                                                movingImageGradientValue) const override;
+  bool
+  GetValueAndDerivativeThreadProcessSample(ThreadIdType                 threadId,
+                                           SizeValueType                fixedImageSample,
+                                           const MovingImagePointType & mappedPoint,
+                                           double                       movingImageValue,
+                                           const ImageDerivativesType & movingImageGradientValue) const override;
 
   struct PerThreadS
   {
@@ -127,13 +129,13 @@ private:
     DerivativeType        m_MSEDerivative;
   };
 
-  itkAlignedTypedef( 64, PerThreadS, AlignedPerThreadType );
-  AlignedPerThreadType *m_PerThread;
+  itkAlignedTypedef(64, PerThreadS, AlignedPerThreadType);
+  AlignedPerThreadType * m_PerThread;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeanSquaresImageToImageMetric.hxx"
+#  include "itkMeanSquaresImageToImageMetric.hxx"
 #endif
 
 #endif

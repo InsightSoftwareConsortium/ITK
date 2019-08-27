@@ -35,25 +35,24 @@ namespace itk
  *    \ingroup RegistrationMetrics
  * \ingroup ITKRegistrationCommon
  */
-template< typename TFixedImage, typename TMovingImage >
-class ITK_TEMPLATE_EXPORT MeanSquaresHistogramImageToImageMetric:
-  public HistogramImageToImageMetric< TFixedImage, TMovingImage >
+template <typename TFixedImage, typename TMovingImage>
+class ITK_TEMPLATE_EXPORT MeanSquaresHistogramImageToImageMetric
+  : public HistogramImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquaresHistogramImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = MeanSquaresHistogramImageToImageMetric;
-  using Superclass = HistogramImageToImageMetric< TFixedImage, TMovingImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = HistogramImageToImageMetric<TFixedImage, TMovingImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MeanSquaresHistogramImageToImageMetric,
-               HistogramImageToImageMetric);
+  itkTypeMacro(MeanSquaresHistogramImageToImageMetric, HistogramImageToImageMetric);
 
   /** Types transferred from the base class */
   using RealType = typename Superclass::RealType;
@@ -78,16 +77,17 @@ public:
 protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
-  MeanSquaresHistogramImageToImageMetric()= default;
+  MeanSquaresHistogramImageToImageMetric() = default;
   ~MeanSquaresHistogramImageToImageMetric() override = default;
 
   /** Evaluates the sum of squared differences from the histogram. */
-  MeasureType EvaluateMeasure(HistogramType & histogram) const override;
+  MeasureType
+  EvaluateMeasure(HistogramType & histogram) const override;
 };
 } // End namespace itk.
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeanSquaresHistogramImageToImageMetric.hxx"
+#  include "itkMeanSquaresHistogramImageToImageMetric.hxx"
 #endif
 
 #endif // itkMeanSquaresHistogramImageToImageMetric_h

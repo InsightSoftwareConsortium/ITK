@@ -25,33 +25,33 @@
 
 
 template <typename TVector>
-bool testVector( const TVector & v1, const TVector & v2 )
+bool
+testVector(const TVector & v1, const TVector & v2)
 {
-  bool pass = true;
+  bool         pass = true;
   const double tolerance = 1e-10;
 
-  for( unsigned int i = 0; i < v1.Size() && i < v2.Size(); i++ )
+  for (unsigned int i = 0; i < v1.Size() && i < v2.Size(); i++)
+  {
+    if (!itk::Math::FloatAlmostEqual(v1[i], v2[i], 10, tolerance))
     {
-    if( !itk::Math::FloatAlmostEqual( v1[i], v2[i], 10, tolerance ) )
-      {
       pass = false;
-      }
     }
+  }
   return pass;
 }
 
-int itkDisplacementFieldTransformCloneTest( int, char *[] )
+int
+itkDisplacementFieldTransformCloneTest(int, char *[])
 {
   constexpr unsigned int Dimensions = 3;
 
   using ParametersValueType = double;
-  using DisplacementTransformType =
-      itk::DisplacementFieldTransform< ParametersValueType, Dimensions >;
+  using DisplacementTransformType = itk::DisplacementFieldTransform<ParametersValueType, Dimensions>;
   using FieldType = DisplacementTransformType::DisplacementFieldType;
 
   // Create a displacement field transform
-  DisplacementTransformType::Pointer displacementTransform =
-    DisplacementTransformType::New();
+  DisplacementTransformType::Pointer displacementTransform = DisplacementTransformType::New();
 
   FieldType::Pointer field = FieldType::New();
 
@@ -59,66 +59,59 @@ int itkDisplacementFieldTransformCloneTest( int, char *[] )
   FieldType::IndexType  start;
   FieldType::RegionType region;
   int                   dimLength = 20;
-  size.Fill( dimLength );
-  start.Fill( 0 );
-  region.SetSize( size );
-  region.SetIndex( start );
-  field->SetRegions( region );
+  size.Fill(dimLength);
+  start.Fill(0);
+  region.SetSize(size);
+  region.SetIndex(start);
+  field->SetRegions(region);
   field->Allocate();
 
   DisplacementTransformType::OutputVectorType zeroVector;
-  zeroVector.Fill( 1 );
-  field->FillBuffer( zeroVector );
-  displacementTransform->SetDisplacementField( field );
+  zeroVector.Fill(1);
+  field->FillBuffer(zeroVector);
+  displacementTransform->SetDisplacementField(field);
 
-  DisplacementTransformType::Pointer displacementTransformClone =
-    displacementTransform->Clone();
+  DisplacementTransformType::Pointer displacementTransformClone = displacementTransform->Clone();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( displacementTransformClone,
-    DisplacementFieldTransform, Transform );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(displacementTransformClone, DisplacementFieldTransform, Transform);
 
 
-  if( displacementTransformClone.IsNull() )
-    {
+  if (displacementTransformClone.IsNull())
+  {
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Failed downcast to displacement transform.";
     return EXIT_FAILURE;
-    }
+  }
 
-  if( !testVector( displacementTransform->GetFixedParameters(),
-                 displacementTransformClone->GetFixedParameters() ) )
-    {
+  if (!testVector(displacementTransform->GetFixedParameters(), displacementTransformClone->GetFixedParameters()))
+  {
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Fixed parameters of clone do not match original." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  FieldType::ConstPointer originalField =
-    displacementTransform->GetDisplacementField();
-  FieldType::ConstPointer cloneField =
-    displacementTransformClone->GetDisplacementField();
+  FieldType::ConstPointer originalField = displacementTransform->GetDisplacementField();
+  FieldType::ConstPointer cloneField = displacementTransformClone->GetDisplacementField();
 
-  itk::ImageRegionConstIterator< FieldType > originalIt( originalField,
-    originalField->GetLargestPossibleRegion() );
-  itk::ImageRegionConstIterator< FieldType > cloneIt( cloneField,
-    cloneField->GetLargestPossibleRegion() );
+  itk::ImageRegionConstIterator<FieldType> originalIt(originalField, originalField->GetLargestPossibleRegion());
+  itk::ImageRegionConstIterator<FieldType> cloneIt(cloneField, cloneField->GetLargestPossibleRegion());
 
-  for(; !originalIt.IsAtEnd() && !cloneIt.IsAtEnd(); ++originalIt, ++cloneIt )
+  for (; !originalIt.IsAtEnd() && !cloneIt.IsAtEnd(); ++originalIt, ++cloneIt)
+  {
+    if (!testVector(originalIt.Value(), cloneIt.Value()))
     {
-    if( !testVector( originalIt.Value(), cloneIt.Value() ) )
-      {
       std::cerr << "Test failed!" << std::endl;
       std::cerr << "Displacement Field voxel mismatch" << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
-  if( !originalIt.IsAtEnd() || !cloneIt.IsAtEnd() )
-    {
+  if (!originalIt.IsAtEnd() || !cloneIt.IsAtEnd())
+  {
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Displacment field size mismatch" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;

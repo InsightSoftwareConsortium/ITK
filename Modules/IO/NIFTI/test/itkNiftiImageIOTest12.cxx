@@ -20,56 +20,57 @@
 #include "itkTestingHashImageFilter.h"
 #include "itkTestingMacros.h"
 
-int itkNiftiImageIOTest12(int ac, char* av[])
+int
+itkNiftiImageIOTest12(int ac, char * av[])
 {
   //
   // first argument is passing in the writable directory to do all testing
-  if(ac > 1) {
-    char *testdir = *++av;
+  if (ac > 1)
+  {
+    char * testdir = *++av;
     --ac;
     itksys::SystemTools::ChangeDirectory(testdir);
   }
-  if(ac != 2)
+  if (ac != 2)
     return EXIT_FAILURE;
 
 
-  char *arg1 = av[1];
+  char * arg1 = av[1];
 
   // make large RGB Image
 
-  using ImageType = itk::VectorImage<unsigned char, 3 >;
+  using ImageType = itk::VectorImage<unsigned char, 3>;
 
   ImageType::RegionType region;
-  ImageType::SizeType size = {{2024, 1024, 1024}};
-  region.SetSize( size );
+  ImageType::SizeType   size = { { 2024, 1024, 1024 } };
+  region.SetSize(size);
 
   ImageType::Pointer image = ImageType::New();
-  image->SetRegions( region );
+  image->SetRegions(region);
   image->SetNumberOfComponentsPerPixel(3);
   image->Allocate();
 
-  { //Fill in entire image
+  { // Fill in entire image
 
-  ImageType::PixelType value(3);
+    ImageType::PixelType value(3);
 
-  itk::ImageRegionIterator<ImageType> ri(image,region);
-  while(!ri.IsAtEnd())
+    itk::ImageRegionIterator<ImageType> ri(image, region);
+    while (!ri.IsAtEnd())
     {
-    ImageType::IndexType idx = ri.GetIndex();
+      ImageType::IndexType idx = ri.GetIndex();
 
-    value[0] = idx[0]%256;
-    value[1] = idx[1]%256;
-    value[2] = idx[2]%256;
+      value[0] = idx[0] % 256;
+      value[1] = idx[1] % 256;
+      value[2] = idx[2] % 256;
 
-    ri.Set( value );
-    ++ri;
+      ri.Set(value);
+      ++ri;
     }
-
   }
 
   using Hasher = itk::Testing::HashImageFilter<ImageType>;
   Hasher::Pointer hasher = Hasher::New();
-  hasher->SetInput( image );
+  hasher->SetInput(image);
   hasher->InPlaceOff();
   hasher->Update();
 
@@ -78,23 +79,20 @@ int itkNiftiImageIOTest12(int ac, char* av[])
   std::cout << "Original image hash: " << originalHash << std::endl;
 
   try
-    {
-    itk::IOTestHelper::WriteImage<ImageType,itk::NiftiImageIO>(image,arg1);
+  {
+    itk::IOTestHelper::WriteImage<ImageType, itk::NiftiImageIO>(image, arg1);
 
-    image = itk::IOTestHelper::ReadImage<ImageType>( arg1 );
-    hasher->SetInput( image );
+    image = itk::IOTestHelper::ReadImage<ImageType>(arg1);
+    hasher->SetInput(image);
     hasher->Update();
 
     std::string readHash = hasher->GetHash();
     std::cout << "Read hash: " << readHash << std::endl;
 
-    ITK_TEST_EXPECT_EQUAL( originalHash, readHash );
-
-    }
+    ITK_TEST_EXPECT_EQUAL(originalHash, readHash);
+  }
   catch (itk::ExceptionObject &)
-    {
-    }
+  {}
 
   return EXIT_SUCCESS;
-
 }

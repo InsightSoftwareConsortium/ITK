@@ -23,11 +23,8 @@ namespace itk
 {
 JPEGImageIOFactory::JPEGImageIOFactory()
 {
-  this->RegisterOverride( "itkImageIOBase",
-                          "itkJPEGImageIO",
-                          "JPEG Image IO",
-                          true,
-                          CreateObjectFunction< JPEGImageIO >::New() );
+  this->RegisterOverride(
+    "itkImageIOBase", "itkJPEGImageIO", "JPEG Image IO", true, CreateObjectFunction<JPEGImageIO>::New());
 }
 
 JPEGImageIOFactory::~JPEGImageIOFactory() = default;
@@ -49,13 +46,14 @@ JPEGImageIOFactory::GetDescription() const
 
 static bool JPEGImageIOFactoryHasBeenRegistered;
 
-void ITKIOJPEG_EXPORT JPEGImageIOFactoryRegister__Private()
+void ITKIOJPEG_EXPORT
+     JPEGImageIOFactoryRegister__Private()
 {
-  if( ! JPEGImageIOFactoryHasBeenRegistered )
-    {
+  if (!JPEGImageIOFactoryHasBeenRegistered)
+  {
     JPEGImageIOFactoryHasBeenRegistered = true;
     JPEGImageIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

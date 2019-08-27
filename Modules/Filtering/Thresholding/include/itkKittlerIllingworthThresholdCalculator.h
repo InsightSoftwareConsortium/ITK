@@ -28,10 +28,9 @@ namespace itk
  * \brief Computes the KittlerIllingworth's threshold for an image.
  *
  * Kittler and J. Illingworth, "Minimum error thresholding," Pattern Recognition, vol. 19, pp. 41-47, 1986.
- * C. A. Glasbey, "An analysis of histogram-based thresholding algorithms," CVGIP: Graphical Models and Image Processing, vol. 55, pp. 532-537, 1993.
- * Original Matlab code Copyright (C) 2004 Antti Niemisto
- * See http://www.cs.tut.fi/~ant/histthresh/ for an excellent slide presentation
- * and the original Matlab code.
+ * C. A. Glasbey, "An analysis of histogram-based thresholding algorithms," CVGIP: Graphical Models and Image
+ * Processing, vol. 55, pp. 532-537, 1993. Original Matlab code Copyright (C) 2004 Antti Niemisto See
+ * http://www.cs.tut.fi/~ant/histthresh/ for an excellent slide presentation and the original Matlab code.
  *
  * This class is templated over the input histogram type.
  * \warning This calculator assumes that the input histogram has only one dimension.
@@ -47,8 +46,9 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKThresholding
  */
-template <typename THistogram, typename TOutput=double>
-class ITK_TEMPLATE_EXPORT KittlerIllingworthThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
+template <typename THistogram, typename TOutput = double>
+class ITK_TEMPLATE_EXPORT KittlerIllingworthThresholdCalculator
+  : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(KittlerIllingworthThresholdCalculator);
@@ -73,7 +73,8 @@ protected:
   KittlerIllingworthThresholdCalculator() = default;
   ~KittlerIllingworthThresholdCalculator() override = default;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   using TotalAbsoluteFrequencyType = typename HistogramType::TotalAbsoluteFrequencyType;
   using AbsoluteFrequencyType = typename HistogramType::AbsoluteFrequencyType;
@@ -81,18 +82,21 @@ protected:
   using SizeValueType = typename HistogramType::SizeValueType;
 
 private:
-  IndexValueType Mean();
-  double A( InstanceIdentifier j);
-  double B( InstanceIdentifier j);
-  double C( InstanceIdentifier j);
-
+  IndexValueType
+  Mean();
+  double
+  A(InstanceIdentifier j);
+  double
+  B(InstanceIdentifier j);
+  double
+  C(InstanceIdentifier j);
 };
 
 } // end namespace itk
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkKittlerIllingworthThresholdCalculator.hxx"
+#  include "itkKittlerIllingworthThresholdCalculator.hxx"
 #endif
 
 #endif

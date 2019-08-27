@@ -47,15 +47,14 @@ namespace itk
  * \ingroup ITKOptimizers
  */
 
-class ITKOptimizers_EXPORT FRPROptimizer:
-  public PowellOptimizer
+class ITKOptimizers_EXPORT FRPROptimizer : public PowellOptimizer
 {
 public:
   /** Standard "Self" type alias. */
   using Self = FRPROptimizer;
   using Superclass = PowellOptimizer;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using ParametersType = SingleValuedNonLinearOptimizer::ParametersType;
 
@@ -74,40 +73,44 @@ public:
   itkGetConstMacro(UseUnitLengthGradient, bool);
 
   /** Start optimization. */
-  void StartOptimization() override;
+  void
+  StartOptimization() override;
 
   /** Set it to the Fletch-Reeves optimizer */
-  void SetToFletchReeves();
+  void
+  SetToFletchReeves();
 
   /** Set it to the Fletch-Reeves optimizer */
-  void SetToPolakRibiere();
+  void
+  SetToPolakRibiere();
 
 protected:
   FRPROptimizer();
   ~FRPROptimizer() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Get the value of the n-dimensional cost function at this scalar step
    * distance along the current line direction from the current line origin.
    * Line origin and distances are set via SetLine */
-  virtual void GetValueAndDerivative(ParametersType & p, double *val,
-                                     ParametersType *xi);
+  virtual void
+  GetValueAndDerivative(ParametersType & p, double * val, ParametersType * xi);
 
-  virtual void   LineOptimize(ParametersType *p, ParametersType & xi,
-                              double *val);
+  virtual void
+  LineOptimize(ParametersType * p, ParametersType & xi, double * val);
 
-  virtual void   LineOptimize(ParametersType *p, ParametersType & xi,
-                              double *val,
-                              ParametersType & tempCoord);
+  virtual void
+  LineOptimize(ParametersType * p, ParametersType & xi, double * val, ParametersType & tempCoord);
 
 private:
   FRPROptimizer(const FRPROptimizer &) = delete;
 
-  typedef enum {
+  typedef enum
+  {
     FletchReeves,
     PolakRibiere
-    }               OptimizationType;
+  } OptimizationType;
 
   OptimizationType m_OptimizationType;
 

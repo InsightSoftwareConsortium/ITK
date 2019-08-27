@@ -41,8 +41,7 @@ namespace itk
  * \ingroup ITKOptimizers
  */
 
-class ITKOptimizers_EXPORT SPSAOptimizer:
-  public SingleValuedNonLinearOptimizer
+class ITKOptimizers_EXPORT SPSAOptimizer : public SingleValuedNonLinearOptimizer
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SPSAOptimizer);
@@ -50,8 +49,8 @@ public:
   /** Standard class type aliases. */
   using Self = SPSAOptimizer;
   using Superclass = SingleValuedNonLinearOptimizer;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -63,39 +62,46 @@ public:
    *
    * \ingroup ITKOptimizers
    * Codes of stopping conditions */
-  enum class StopConditionType : uint8_t {
-      Unknown,
-      MaximumNumberOfIterations,
-      BelowTolerance,
-      MetricError
+  enum class StopConditionType : uint8_t
+  {
+    Unknown,
+    MaximumNumberOfIterations,
+    BelowTolerance,
+    MetricError
   };
 #if !defined(ITK_LEGACY_REMOVE)
-        //We need to expose the enum values at the class level
-        // for backwards compatibility
-        static constexpr StopConditionType Unknown = StopConditionType::Unknown;
-        static constexpr StopConditionType MaximumNumberOfIterations = StopConditionType::MaximumNumberOfIterations;
-        static constexpr StopConditionType BelowTolerance = StopConditionType::BelowTolerance;
-        static constexpr StopConditionType MetricError = StopConditionType::MetricError;
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr StopConditionType Unknown = StopConditionType::Unknown;
+  static constexpr StopConditionType MaximumNumberOfIterations = StopConditionType::MaximumNumberOfIterations;
+  static constexpr StopConditionType BelowTolerance = StopConditionType::BelowTolerance;
+  static constexpr StopConditionType MetricError = StopConditionType::MetricError;
 #endif
   /** Advance one step following the gradient direction. */
-  virtual void AdvanceOneStep();
+  virtual void
+  AdvanceOneStep();
 
   /** Start optimization. */
-  void StartOptimization() override;
+  void
+  StartOptimization() override;
 
   /** Resume previously stopped optimization with current parameters
    * \sa StopOptimization. */
-  void ResumeOptimization();
+  void
+  ResumeOptimization();
 
   /** Stop optimization.
    * \sa ResumeOptimization */
-  void StopOptimization();
+  void
+  StopOptimization();
 
   /** Get the cost function value at the current position. */
-  virtual MeasureType GetValue() const;
+  virtual MeasureType
+  GetValue() const;
 
   /** Get the cost function value at any position */
-  virtual MeasureType GetValue(const ParametersType & parameters) const;
+  virtual MeasureType
+  GetValue(const ParametersType & parameters) const;
 
   /** Guess the parameters a and A. This function needs the
    * number of GradientEstimates used for estimating a and A and
@@ -110,9 +116,8 @@ public:
    * Algorithm for Stochastic Optimization", IEEE Trans. Aerosp. Electron.
    * Syst. 34(3), 817-823.
    */
-  virtual void GuessParameters(
-    SizeValueType numberOfGradientEstimates,
-    double initialStepSize);
+  virtual void
+  GuessParameters(SizeValueType numberOfGradientEstimates, double initialStepSize);
 
   /** Get the current iteration number. */
   itkGetConstMacro(CurrentIteration, SizeValueType);
@@ -133,15 +138,31 @@ public:
   itkSetMacro(Sa, double);
   itkGetConstMacro(Sa, double);
   // For backward compatibility
-  void Seta(double a) { SetSa(a); }
-  double Geta() { return GetSa(); }
+  void
+  Seta(double a)
+  {
+    SetSa(a);
+  }
+  double
+  Geta()
+  {
+    return GetSa();
+  }
 
   /** Set/Get c. */
   itkSetMacro(Sc, double);
   itkGetConstMacro(Sc, double);
   // For backward compatibility
-  void Setc(double c) { SetSc(c); }
-  double Getc() { return GetSc(); }
+  void
+  Setc(double c)
+  {
+    SetSc(c);
+  }
+  double
+  Getc()
+  {
+    return GetSc();
+  }
 
   /** Set/Get A. */
   itkSetMacro(A, double);
@@ -159,14 +180,26 @@ public:
   itkGetConstMacro(Maximize, bool);
   itkSetMacro(Maximize, bool);
   itkBooleanMacro(Maximize);
-  bool GetMinimize() const
-  { return !m_Maximize; }
-  void SetMinimize(bool v)
-  { this->SetMaximize(!v); }
-  void MinimizeOn()
-  { this->MaximizeOff(); }
-  void MinimizeOff()
-  { this->MaximizeOn(); }
+  bool
+  GetMinimize() const
+  {
+    return !m_Maximize;
+  }
+  void
+  SetMinimize(bool v)
+  {
+    this->SetMaximize(!v);
+  }
+  void
+  MinimizeOn()
+  {
+    this->MaximizeOff();
+  }
+  void
+  MinimizeOff()
+  {
+    this->MaximizeOn();
+  }
 
   /** Set/Get the number of perturbation used to construct
    * a gradient estimate g_k.
@@ -206,15 +239,16 @@ public:
   itkGetConstMacro(Tolerance, double);
 
   /** Get the reason for termination */
-  const std::string GetStopConditionDescription() const override;
+  const std::string
+  GetStopConditionDescription() const override;
 
 protected:
-
   SPSAOptimizer();
   ~SPSAOptimizer() override = default;
 
   /** PrintSelf method. */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Variables updated during optimization */
   DerivativeType m_Gradient;
@@ -223,7 +257,7 @@ protected:
 
   DerivativeType m_Delta;
 
-  bool m_Stop{false};
+  bool m_Stop{ false };
 
   StopConditionType m_StopCondition;
 
@@ -235,27 +269,28 @@ protected:
   Statistics::MersenneTwisterRandomVariateGenerator::Pointer m_Generator;
 
   /** Method to compute the learning rate at iteration k (a_k). */
-  virtual double Compute_a(SizeValueType k) const;
+  virtual double
+  Compute_a(SizeValueType k) const;
 
   /**
    * Method to compute the gain factor for the perturbation
    * at iteration k (c_k).
    */
-  virtual double Compute_c(SizeValueType k) const;
+  virtual double
+  Compute_c(SizeValueType k) const;
 
   /** Method to generate a perturbation vector. Takes scales into account. */
-  virtual void GenerateDelta(const unsigned int spaceDimension);
+  virtual void
+  GenerateDelta(const unsigned int spaceDimension);
 
   /**
    * Compute the gradient at a position. m_NumberOfPerturbations are used,
    * and scales are taken into account.
    */
-  virtual void ComputeGradient(
-    const ParametersType & parameters,
-    DerivativeType & gradient);
+  virtual void
+  ComputeGradient(const ParametersType & parameters, DerivativeType & gradient);
 
 private:
-
   /** Settings.*/
   SizeValueType m_MinimumNumberOfIterations;
   SizeValueType m_MaximumNumberOfIterations;
@@ -274,7 +309,8 @@ private:
 }; // end class SPSAOptimizer
 
 // Define how to print enumeration
-extern ITKOptimizers_EXPORT std::ostream& operator<<(std::ostream& out, const SPSAOptimizer::StopConditionType value);
+extern ITKOptimizers_EXPORT std::ostream &
+                            operator<<(std::ostream & out, const SPSAOptimizer::StopConditionType value);
 
 } // end namespace itk
 

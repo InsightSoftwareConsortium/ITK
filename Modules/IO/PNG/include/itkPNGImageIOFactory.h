@@ -29,7 +29,7 @@ namespace itk
  * \brief Create instances of PNGImageIO objects using an object factory.
  * \ingroup ITKIOPNG
  */
-class ITKIOPNG_EXPORT PNGImageIOFactory:public ObjectFactoryBase
+class ITKIOPNG_EXPORT PNGImageIOFactory : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PNGImageIOFactory);
@@ -37,22 +37,29 @@ public:
   /** Standard class type aliases. */
   using Self = PNGImageIOFactory;
   using Superclass = ObjectFactoryBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  const char * GetITKSourceVersion() const override;
+  const char *
+  GetITKSourceVersion() const override;
 
-  const char * GetDescription() const override;
+  const char *
+  GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
-  static PNGImageIOFactory * FactoryNew() { return new PNGImageIOFactory; }
+  static PNGImageIOFactory *
+  FactoryNew()
+  {
+    return new PNGImageIOFactory;
+  }
   /** Run-time type information (and related methods). */
   itkTypeMacro(PNGImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory()
+  static void
+  RegisterOneFactory()
   {
     PNGImageIOFactory::Pointer pngFactory = PNGImageIOFactory::New();
 

@@ -41,18 +41,17 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT StatisticsRelabelLabelMapFilter:
-  public ShapeRelabelLabelMapFilter< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT StatisticsRelabelLabelMapFilter : public ShapeRelabelLabelMapFilter<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsRelabelLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = StatisticsRelabelLabelMapFilter;
-  using Superclass = ShapeRelabelLabelMapFilter< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ShapeRelabelLabelMapFilter<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using ImageType = TImage;
@@ -71,8 +70,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(StatisticsRelabelLabelMapFilter,
-               ShapeRelabelLabelMapFilter);
+  itkTypeMacro(StatisticsRelabelLabelMapFilter, ShapeRelabelLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -89,12 +87,13 @@ protected:
   StatisticsRelabelLabelMapFilter();
   ~StatisticsRelabelLabelMapFilter() override = default;
 
-  void GenerateData() override;
-};                                               // end of class
+  void
+  GenerateData() override;
+}; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkStatisticsRelabelLabelMapFilter.hxx"
+#  include "itkStatisticsRelabelLabelMapFilter.hxx"
 #endif
 
 #endif

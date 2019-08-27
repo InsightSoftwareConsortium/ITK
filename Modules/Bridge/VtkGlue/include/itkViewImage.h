@@ -33,11 +33,10 @@ namespace itk
  *
  * \ingroup ITKVtkGlue
  */
-template< typename TImage >
+template <typename TImage>
 class ViewImage
 {
 public:
-
   using ImageType = TImage;
   /**
    * Static function to visualize 2D and 3D images.
@@ -47,14 +46,15 @@ public:
    * \param windowWidth Width of the visualization window.
    * \param windowHeight Height of the visualization window.
    */
-  static void View(const ImageType* img,
-      const std::string& windowTitle = "itkView",
-      size_t windowWidth = 600,
-      size_t windowHeight = 600);
+  static void
+  View(const ImageType *   img,
+       const std::string & windowTitle = "itkView",
+       size_t              windowWidth = 600,
+       size_t              windowHeight = 600);
 };
-}// namespace itk
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkViewImage.hxx"
+#  include "itkViewImage.hxx"
 #endif
 #endif

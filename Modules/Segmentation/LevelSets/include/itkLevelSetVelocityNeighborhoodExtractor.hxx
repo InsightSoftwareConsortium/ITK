@@ -26,50 +26,43 @@ namespace itk
 /**
  *
  */
-template< typename TLevelSet, typename TAuxValue,
-          unsigned int VAuxDimension >
-LevelSetVelocityNeighborhoodExtractor< TLevelSet, TAuxValue, VAuxDimension >
-::LevelSetVelocityNeighborhoodExtractor()
+template <typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension>
+LevelSetVelocityNeighborhoodExtractor<TLevelSet, TAuxValue, VAuxDimension>::LevelSetVelocityNeighborhoodExtractor()
 {
   m_AuxInsideValues = nullptr;
   m_AuxOutsideValues = nullptr;
-  for ( unsigned int i = 0; i < VAuxDimension; ++i )
-    {
+  for (unsigned int i = 0; i < VAuxDimension; ++i)
+  {
     m_AuxImage[i] = nullptr;
-    }
+  }
 }
 
 /*
  *
  */
-template< typename TLevelSet, typename TAuxValue,
-          unsigned int VAuxDimension >
+template <typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension>
 void
-LevelSetVelocityNeighborhoodExtractor< TLevelSet, TAuxValue, VAuxDimension >
-::PrintSelf(std::ostream & os, Indent indent) const
+LevelSetVelocityNeighborhoodExtractor<TLevelSet, TAuxValue, VAuxDimension>::PrintSelf(std::ostream & os,
+                                                                                      Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Input aux image: [";
   unsigned int j;
-  for ( j = 0; j + 1 < VAuxDimension; j++ )
-    {
+  for (j = 0; j + 1 < VAuxDimension; j++)
+  {
     os << m_AuxImage[j].GetPointer() << ", ";
-    }
+  }
   os << m_AuxImage[j].GetPointer() << "]" << std::endl;
-  os << indent << "AuxInsideValues: "
-     << m_AuxInsideValues.GetPointer() << std::endl;
-  os << indent << "AuxOutsideValues: "
-     << m_AuxOutsideValues.GetPointer() << std::endl;
+  os << indent << "AuxInsideValues: " << m_AuxInsideValues.GetPointer() << std::endl;
+  os << indent << "AuxOutsideValues: " << m_AuxOutsideValues.GetPointer() << std::endl;
 }
 
 /*
  *
  */
-template< typename TLevelSet, typename TAuxValue,
-          unsigned int VAuxDimension >
+template <typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension>
 void
-LevelSetVelocityNeighborhoodExtractor< TLevelSet, TAuxValue, VAuxDimension >
-::Initialize()
+LevelSetVelocityNeighborhoodExtractor<TLevelSet, TAuxValue, VAuxDimension>::Initialize()
 {
   this->Superclass::Initialize();
 
@@ -81,51 +74,48 @@ LevelSetVelocityNeighborhoodExtractor< TLevelSet, TAuxValue, VAuxDimension >
 /*
  *
  */
-template< typename TLevelSet, typename TAuxValue,
-          unsigned int VAuxDimension >
+template <typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension>
 double
-LevelSetVelocityNeighborhoodExtractor< TLevelSet, TAuxValue, VAuxDimension >
-::CalculateDistance(
-  Index & index)
+LevelSetVelocityNeighborhoodExtractor<TLevelSet, TAuxValue, VAuxDimension>::CalculateDistance(Index & index)
 {
   double distance = this->Superclass::CalculateDistance(index);
 
-  if ( distance >= this->GetLargeValue() )
-    {
+  if (distance >= this->GetLargeValue())
+  {
     return distance;
-    }
+  }
 
   double             centerValue[VAuxDimension];
   AuxValueType       auxPixel;
   AuxValueVectorType auxVector;
 
-  for ( unsigned int k = 0; k < VAuxDimension; k++ )
-    {
+  for (unsigned int k = 0; k < VAuxDimension; k++)
+  {
     auxPixel = m_AuxImage[k]->GetPixel(index);
     centerValue[k] = (double)auxPixel;
-    }
+  }
 
   // if distance is zero, insert point in inside container
-  if ( this->GetLastPointIsInside() )
+  if (this->GetLastPointIsInside())
+  {
+    for (unsigned int k = 0; k < VAuxDimension; k++)
     {
-    for ( unsigned int k = 0; k < VAuxDimension; k++ )
-      {
       auxVector[k] = centerValue[k];
-      }
+    }
 
     m_AuxInsideValues->InsertElement(m_AuxInsideValues->Size(), auxVector);
 
     return distance;
-    }
+  }
 
-  double denom = 0.0;
-  double numer[VAuxDimension];
+  double                        denom = 0.0;
+  double                        numer[VAuxDimension];
   typename Superclass::NodeType neighNode;
 
-  for ( unsigned int k = 0; k < VAuxDimension; k++ )
-    {
+  for (unsigned int k = 0; k < VAuxDimension; k++)
+  {
     numer[k] = 0.0;
-    }
+  }
 
   // The extend velcoity value is a weighted value of
   // the speed values at point used in the computation
@@ -135,38 +125,36 @@ LevelSetVelocityNeighborhoodExtractor< TLevelSet, TAuxValue, VAuxDimension >
   // of distance along the grid line to the zero set
   // crossing.
 
-  for ( unsigned int j = 0; j < SetDimension; j++ )
-    {
+  for (unsigned int j = 0; j < SetDimension; j++)
+  {
     neighNode = this->GetNodeUsedInCalculation(j);
-    if ( neighNode.GetValue() >= this->GetLargeValue() )
-      {
+    if (neighNode.GetValue() >= this->GetLargeValue())
+    {
       break;
-      }
-
-    denom += 1.0 / itk::Math::sqr( (double)neighNode.GetValue() );
-    for ( unsigned int k = 0; k < VAuxDimension; k++ )
-      {
-      auxPixel = m_AuxImage[k]->GetPixel( neighNode.GetIndex() );
-      numer[k] += (double)( auxPixel ) / itk::Math::sqr( (double)neighNode.GetValue() );
-      }
     }
 
-  for ( unsigned int k = 0; k < VAuxDimension; k++ )
+    denom += 1.0 / itk::Math::sqr((double)neighNode.GetValue());
+    for (unsigned int k = 0; k < VAuxDimension; k++)
     {
+      auxPixel = m_AuxImage[k]->GetPixel(neighNode.GetIndex());
+      numer[k] += (double)(auxPixel) / itk::Math::sqr((double)neighNode.GetValue());
+    }
+  }
+
+  for (unsigned int k = 0; k < VAuxDimension; k++)
+  {
     numer[k] /= denom;
     auxVector[k] = numer[k];
-    }
+  }
 
-  if ( this->GetLastPointIsInside() )
-    {
-    m_AuxInsideValues->InsertElement(
-      m_AuxInsideValues->Size(), auxVector);
-    }
+  if (this->GetLastPointIsInside())
+  {
+    m_AuxInsideValues->InsertElement(m_AuxInsideValues->Size(), auxVector);
+  }
   else
-    {
-    m_AuxOutsideValues->InsertElement(
-      m_AuxOutsideValues->Size(), auxVector);
-    }
+  {
+    m_AuxOutsideValues->InsertElement(m_AuxOutsideValues->Size(), auxVector);
+  }
 
   return distance;
 }

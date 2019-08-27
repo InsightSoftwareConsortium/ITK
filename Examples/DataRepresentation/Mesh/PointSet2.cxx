@@ -29,9 +29,10 @@
 
 #include "itkPointSet.h"
 
-int main(int, char *[])
+int
+main(int, char *[])
 {
-  using PointSetType = itk::PointSet< unsigned short, 3 >;
+  using PointSetType = itk::PointSet<unsigned short, 3>;
 
   //  Software Guide : BeginLatex
   //
@@ -87,8 +88,12 @@ int main(int, char *[])
   using PointType = PointSetType::PointType;
   PointType p0;
   PointType p1;
-  p0[0] = -1.0; p0[1] = 0.0; p0[2] = 0.0; // Point 0 = {-1,0,0 }
-  p1[0] =  1.0; p1[1] = 0.0; p1[2] = 0.0; // Point 1 = { 1,0,0 }
+  p0[0] = -1.0;
+  p0[1] = 0.0;
+  p0[2] = 0.0; // Point 0 = {-1,0,0 }
+  p1[0] = 1.0;
+  p1[1] = 0.0;
+  p1[2] = 0.0; // Point 1 = { 1,0,0 }
   // Software Guide : EndCodeSnippet
 
 
@@ -107,33 +112,32 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   unsigned int pointId = 0;
-  points->InsertElement( pointId++ , p0 );
-  points->InsertElement( pointId++ , p1 );
+  points->InsertElement(pointId++, p0);
+  points->InsertElement(pointId++, p1);
   // Software Guide : EndCodeSnippet
 
-  PointSetType::Pointer  pointSet = PointSetType::New();
+  PointSetType::Pointer pointSet = PointSetType::New();
 
   //  Software Guide : BeginLatex
   //
-  //  Finally, the \code{PointsContainer} can be assigned to the \code{PointSet}. This will
-  //  substitute any previously existing \code{PointsContainer} assigned to the \code{PointSet}. The
-  //  assignment is done using the \code{SetPoints()} method.
+  //  Finally, the \code{PointsContainer} can be assigned to the \code{PointSet}. This
+  //  will substitute any previously existing \code{PointsContainer} assigned to the
+  //  \code{PointSet}. The assignment is done using the \code{SetPoints()} method.
   //
   //  \index{itk::PointSet!SetPoints()}
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  pointSet->SetPoints( points );
+  pointSet->SetPoints(points);
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //
-  //  The \code{PointsContainer} object can be obtained from the \code{PointSet} using the
-  //  \code{GetPoints()} method.  This method returns a pointer
-  //  to the actual container owned by the PointSet which is then assigned to
-  //  a \code{SmartPointer}.
+  //  The \code{PointsContainer} object can be obtained from the \code{PointSet} using
+  //  the \code{GetPoints()} method.  This method returns a pointer to the actual
+  //  container owned by the PointSet which is then assigned to a \code{SmartPointer}.
   //
   //  \index{itk::PointSet!GetPoints()}
   //  \index{PointsContainer!Pointer}
@@ -142,7 +146,7 @@ int main(int, char *[])
 
 
   // Software Guide : BeginCodeSnippet
-  PointsContainer::Pointer  points2 = pointSet->GetPoints();
+  PointsContainer::Pointer points2 = pointSet->GetPoints();
   // Software Guide : EndCodeSnippet
 
 
@@ -176,7 +180,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  PointsIterator  pointIterator = points->Begin();
+  PointsIterator pointIterator = points->Begin();
   // Software Guide : EndCodeSnippet
 
 
@@ -197,12 +201,12 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   PointsIterator end = points->End();
-  while( pointIterator != end )
-    {
-    PointType p = pointIterator.Value();   // access the point
-    std::cout << p << std::endl;           // print the point
-    ++pointIterator;                       // advance to next point
-    }
+  while (pointIterator != end)
+  {
+    PointType p = pointIterator.Value(); // access the point
+    std::cout << p << std::endl;         // print the point
+    ++pointIterator;                     // advance to next point
+  }
   // Software Guide : EndCodeSnippet
 
 

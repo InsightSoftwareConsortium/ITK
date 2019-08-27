@@ -32,8 +32,7 @@ namespace itk
  *
  * \ingroup ITKOptimizers
  */
-class ITKOptimizers_EXPORT SingleValuedNonLinearOptimizer:
-  public NonLinearOptimizer
+class ITKOptimizers_EXPORT SingleValuedNonLinearOptimizer : public NonLinearOptimizer
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SingleValuedNonLinearOptimizer);
@@ -41,15 +40,14 @@ public:
   /** Standard "Self" type alias. */
   using Self = SingleValuedNonLinearOptimizer;
   using Superclass = NonLinearOptimizer;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SingleValuedNonLinearOptimizer,
-               NonLinearOptimizer);
+  itkTypeMacro(SingleValuedNonLinearOptimizer, NonLinearOptimizer);
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */
@@ -68,18 +66,21 @@ public:
   using DerivativeType = CostFunctionType::DerivativeType;
 
   /** Set the cost function. */
-  virtual void SetCostFunction(CostFunctionType *costFunction);
+  virtual void
+  SetCostFunction(CostFunctionType * costFunction);
 
   /** Get the cost function. */
   itkGetModifiableObjectMacro(CostFunction, CostFunctionType);
 
   /** Get the cost function value at the given parameters. */
-  MeasureType GetValue(const ParametersType & parameters) const;
+  MeasureType
+  GetValue(const ParametersType & parameters) const;
 
 protected:
   SingleValuedNonLinearOptimizer();
   ~SingleValuedNonLinearOptimizer() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   CostFunctionPointer m_CostFunction;
 };

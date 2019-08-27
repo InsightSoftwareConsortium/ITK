@@ -44,7 +44,7 @@ namespace itk
  * \ingroup RegionGrowingSegmentation
  * \ingroup ITKKLMRegionGrowing
  */
-class ITKKLMRegionGrowing_EXPORT SegmentationRegion:public Object
+class ITKKLMRegionGrowing_EXPORT SegmentationRegion : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SegmentationRegion);
@@ -52,8 +52,8 @@ public:
   /** Standard class type aliases. */
   using Self = SegmentationRegion;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -67,7 +67,9 @@ public:
   /** Define a virtual SegmentationRegion function that is meant to be
    * used in derived classes if some operation needs to be
    * performed on a region object. */
-  virtual void ApplySegmentationRegion(){}
+  virtual void
+  ApplySegmentationRegion()
+  {}
 
   /** Set/Get the region with parameter values
    * defining the region. */
@@ -81,11 +83,12 @@ public:
 protected:
   SegmentationRegion();
   ~SegmentationRegion() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  RegionLabelType m_RegionLabel{0};
-  double          m_RegionArea{0};
+  RegionLabelType m_RegionLabel{ 0 };
+  double          m_RegionArea{ 0 };
 };
 } // end namespace itk
 

@@ -31,71 +31,69 @@ namespace itk
  */
 namespace Functor
 {
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 class ComplexToImaginary
 {
 public:
   ComplexToImaginary() = default;
   ~ComplexToImaginary() = default;
-  bool operator!=(const ComplexToImaginary &) const
+  bool
+  operator!=(const ComplexToImaginary &) const
   {
     return false;
   }
 
-  bool operator==(const ComplexToImaginary & other) const
+  bool
+  operator==(const ComplexToImaginary & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput & A) const
+  inline TOutput
+  operator()(const TInput & A) const
   {
-    return static_cast<TOutput>( A.imag() );
+    return static_cast<TOutput>(A.imag());
   }
 };
-}
+} // namespace Functor
 
-template< typename TInputImage, typename TOutputImage >
-class ComplexToImaginaryImageFilter:
-  public
-  UnaryGeneratorImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ComplexToImaginaryImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToImaginaryImageFilter);
 
   /** Standard class type aliases. */
   using Self = ComplexToImaginaryImageFilter;
-  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
+  using Superclass = UnaryGeneratorImageFilter<TInputImage, TOutputImage>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using FunctorType = Functor::ComplexToImaginary< typename TInputImage::PixelType,
-                                                   typename TOutputImage::PixelType >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using FunctorType = Functor::ComplexToImaginary<typename TInputImage::PixelType, typename TOutputImage::PixelType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ComplexToImaginaryImageFilter,
-               UnaryGeneratorImageFilter);
+  itkTypeMacro(ComplexToImaginaryImageFilter, UnaryGeneratorImageFilter);
 
   using InputPixelType = typename TInputImage::PixelType;
   using OutputPixelType = typename TOutputImage::PixelType;
-  using InputPixelValueType = typename NumericTraits< InputPixelType >::ValueType;
+  using InputPixelValueType = typename NumericTraits<InputPixelType>::ValueType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< InputPixelValueType, OutputPixelType > ) );
+  itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelValueType, OutputPixelType>));
   // End concept checking
 #endif
 
 protected:
   ComplexToImaginaryImageFilter()
-    {
-#if !defined( ITK_WRAPPING_PARSER )
-      Superclass::SetFunctor(FunctorType());
+  {
+#if !defined(ITK_WRAPPING_PARSER)
+    Superclass::SetFunctor(FunctorType());
 #endif
-    }
+  }
   ~ComplexToImaginaryImageFilter() override = default;
 };
 } // end namespace itk

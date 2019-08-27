@@ -48,18 +48,18 @@ namespace itk
  * \ingroup ITKDisplacementField
  */
 
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT IterativeInverseDisplacementFieldImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT IterativeInverseDisplacementFieldImageFilter
+  : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(IterativeInverseDisplacementFieldImageFilter);
 
   /** Standard class type aliases. */
   using Self = IterativeInverseDisplacementFieldImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -83,13 +83,13 @@ public:
 
   using TimeType = TimeProbe;
 
-  using InputConstIterator = ImageRegionConstIterator< InputImageType >;
-  using InputIterator = ImageRegionIterator< InputImageType >;
-  using OutputIterator = ImageRegionIterator< OutputImageType >;
+  using InputConstIterator = ImageRegionConstIterator<InputImageType>;
+  using InputIterator = ImageRegionIterator<InputImageType>;
+  using OutputIterator = ImageRegionIterator<OutputImageType>;
 
-  using VectorWarperType = WarpVectorImageFilter< TOutputImage, TInputImage, TOutputImage >;
+  using VectorWarperType = WarpVectorImageFilter<TOutputImage, TInputImage, TOutputImage>;
 
-  using FieldInterpolatorType = VectorLinearInterpolateImageFunction< TInputImage, double >;
+  using FieldInterpolatorType = VectorLinearInterpolateImageFunction<TInputImage, double>;
   using FieldInterpolatorPointer = typename FieldInterpolatorType::Pointer;
   using FieldInterpolatorOutputType = typename FieldInterpolatorType::OutputType;
 
@@ -105,11 +105,10 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< OutputImageValueType > ) );
+  itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputImageValueType>));
 
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< TInputImage::ImageDimension, TOutputImage::ImageDimension > ) );
+  itkConceptMacro(SameDimensionCheck,
+                  (Concept::SameDimension<TInputImage::ImageDimension, TOutputImage::ImageDimension>));
   // End concept checking
 #endif
 
@@ -117,9 +116,11 @@ protected:
   IterativeInverseDisplacementFieldImageFilter();
   ~IterativeInverseDisplacementFieldImageFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   unsigned int m_NumberOfIterations;
 
@@ -129,7 +130,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkIterativeInverseDisplacementFieldImageFilter.hxx"
+#  include "itkIterativeInverseDisplacementFieldImageFilter.hxx"
 #endif
 
 #endif

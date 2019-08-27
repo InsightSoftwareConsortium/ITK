@@ -22,109 +22,101 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TKernelImage, typename TOutputImage >
-ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
-::ConvolutionImageFilterBase() :
-  m_OutputRegionMode( ConvolutionImageFilterOutputRegionType::SAME )
+template <typename TInputImage, typename TKernelImage, typename TOutputImage>
+ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::ConvolutionImageFilterBase()
+  : m_OutputRegionMode(ConvolutionImageFilterOutputRegionType::SAME)
 {
   this->AddRequiredInputName("KernelImage");
 
   m_BoundaryCondition = &m_DefaultBoundaryCondition;
 }
 
-template< typename TInputImage, typename TKernelImage, typename TOutputImage >
+template <typename TInputImage, typename TKernelImage, typename TOutputImage>
 void
-ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
-::GenerateOutputInformation()
+ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::GenerateOutputInformation()
 {
   // Call the superclass' implementation of this method. Default
   // behavior corresponds to SAME output region mode.
   Superclass::GenerateOutputInformation();
 
-  if ( m_OutputRegionMode == ConvolutionImageFilterOutputRegionType::VALID )
-    {
+  if (m_OutputRegionMode == ConvolutionImageFilterOutputRegionType::VALID)
+  {
     OutputRegionType validRegion = this->GetValidRegion();
 
     typename OutputImageType::Pointer outputPtr = this->GetOutput();
-    outputPtr->SetLargestPossibleRegion( validRegion );
-    }
+    outputPtr->SetLargestPossibleRegion(validRegion);
+  }
 }
 
-template< typename TInputImage, typename TKernelImage, typename TOutputImage >
-typename ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >::OutputRegionType
-ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
-::GetValidRegion() const
+template <typename TInputImage, typename TKernelImage, typename TOutputImage>
+typename ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::OutputRegionType
+ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::GetValidRegion() const
 {
-  typename InputImageType::ConstPointer inputPtr  = this->GetInput();
+  typename InputImageType::ConstPointer inputPtr = this->GetInput();
 
   InputRegionType inputLargestPossibleRegion = inputPtr->GetLargestPossibleRegion();
 
   OutputIndexType validIndex = inputLargestPossibleRegion.GetIndex();
-  OutputSizeType validSize = inputLargestPossibleRegion.GetSize();
+  OutputSizeType  validSize = inputLargestPossibleRegion.GetSize();
 
   // Shrink the output largest possible region by the kernel radius.
   KernelSizeType kernelSize = this->GetKernelImage()->GetLargestPossibleRegion().GetSize();
   KernelSizeType radius;
-  for ( unsigned int i = 0; i < ImageDimension; ++i )
-    {
+  for (unsigned int i = 0; i < ImageDimension; ++i)
+  {
     radius[i] = kernelSize[i] / 2;
-    if ( validSize[i] < 2*radius[i] )
-      {
+    if (validSize[i] < 2 * radius[i])
+    {
       validIndex[i] = 0;
       validSize[i] = 0;
-      }
+    }
     else
-      {
-      validIndex[i] = validIndex[i] + static_cast< typename OutputIndexType::IndexValueType >
-        ( radius[i] );
-      validSize[i] = validSize[i] - 2*radius[i];
+    {
+      validIndex[i] = validIndex[i] + static_cast<typename OutputIndexType::IndexValueType>(radius[i]);
+      validSize[i] = validSize[i] - 2 * radius[i];
 
       // If the kernel is has an even size in one dimension, then we
       // need to expand the image size by one and subtract one from
       // the index in that dimension to account for the zero-padding
       // on the low-index side of the image.
-      if ( kernelSize[i] % 2 == 0 )
-        {
+      if (kernelSize[i] % 2 == 0)
+      {
         validIndex[i] -= 1;
         validSize[i] += 1;
-        }
       }
     }
+  }
 
-  OutputRegionType validRegion( validIndex, validSize );
+  OutputRegionType validRegion(validIndex, validSize);
 
   return validRegion;
 }
 
-template< typename TInputImage, typename TKernelImage, typename TOutputImage >
+template <typename TInputImage, typename TKernelImage, typename TOutputImage>
 void
-ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
-::SetOutputRegionModeToSame()
+ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::SetOutputRegionModeToSame()
 {
-  this->SetOutputRegionMode( ConvolutionImageFilterOutputRegionType::SAME );
+  this->SetOutputRegionMode(ConvolutionImageFilterOutputRegionType::SAME);
 }
 
-template< typename TInputImage, typename TKernelImage, typename TOutputImage >
+template <typename TInputImage, typename TKernelImage, typename TOutputImage>
 void
-ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
-::SetOutputRegionModeToValid()
+ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::SetOutputRegionModeToValid()
 {
-  this->SetOutputRegionMode( ConvolutionImageFilterOutputRegionType::VALID );
+  this->SetOutputRegionMode(ConvolutionImageFilterOutputRegionType::VALID);
 }
 
-template< typename TInputImage, typename TKernelImage, typename TOutputImage >
+template <typename TInputImage, typename TKernelImage, typename TOutputImage>
 void
-ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf( os, indent );
+  Superclass::PrintSelf(os, indent);
 
-  os << indent << "Normalize: "  << m_Normalize << std::endl;
-  os << indent << "BoundaryCondition: "
-     << m_BoundaryCondition->GetNameOfClass() << std::endl;
+  os << indent << "Normalize: " << m_Normalize << std::endl;
+  os << indent << "BoundaryCondition: " << m_BoundaryCondition->GetNameOfClass() << std::endl;
   os << indent << "OutputRegionMode: ";
-  switch ( m_OutputRegionMode )
-    {
+  switch (m_OutputRegionMode)
+  {
     case OutputRegionModeType::SAME:
       os << "SAME";
       break;
@@ -136,8 +128,8 @@ ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
     default:
       os << "unknown";
       break;
-    }
+  }
   os << std::endl;
 }
-}
+} // namespace itk
 #endif

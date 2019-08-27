@@ -40,28 +40,28 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-template<typename TFixedPointSet, typename TMovingPointSet = TFixedPointSet,
-  class TInternalComputationValueType = double>
-class ITK_TEMPLATE_EXPORT ExpectationBasedPointSetToPointSetMetricv4:
-  public PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
+template <typename TFixedPointSet,
+          typename TMovingPointSet = TFixedPointSet,
+          class TInternalComputationValueType = double>
+class ITK_TEMPLATE_EXPORT ExpectationBasedPointSetToPointSetMetricv4
+  : public PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExpectationBasedPointSetToPointSetMetricv4);
 
   /** Standard class type aliases. */
   using Self = ExpectationBasedPointSetToPointSetMetricv4;
-  using Superclass = PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet,
-    TInternalComputationValueType>;
+  using Superclass = PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  itkSimpleNewMacro( Self );
+  itkSimpleNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( ExpectationBasedPointSetToPointSetMetricv4, PointSetToPointSetMetricv4 );
+  itkTypeMacro(ExpectationBasedPointSetToPointSetMetricv4, PointSetToPointSetMetricv4);
 
-   /** Types transferred from the base class */
+  /** Types transferred from the base class */
   using MeasureType = typename Superclass::MeasureType;
   using DerivativeType = typename Superclass::DerivativeType;
   using LocalDerivativeType = typename Superclass::LocalDerivativeType;
@@ -74,68 +74,75 @@ public:
   /**
    * Calculates the local metric value for a single point.
    */
-  MeasureType GetLocalNeighborhoodValue( const PointType &, const PixelType & pixel = 0 ) const override;
+  MeasureType
+  GetLocalNeighborhoodValue(const PointType &, const PixelType & pixel = 0) const override;
 
   /**
    * Calculates the local value and derivative for a single point.
    */
-  void GetLocalNeighborhoodValueAndDerivative( const PointType &,
-    MeasureType &, LocalDerivativeType &, const PixelType & pixel = 0 ) const override;
+  void
+  GetLocalNeighborhoodValueAndDerivative(const PointType &,
+                                         MeasureType &,
+                                         LocalDerivativeType &,
+                                         const PixelType & pixel = 0) const override;
 
   /**
    * Each point is associated with a Gaussian characterized by m_PointSetSigma
    * which provides a sense of scale for determining the similarity between two
    * point sets.  Default = 1.0.
    */
-  itkSetMacro( PointSetSigma, CoordRepType );
+  itkSetMacro(PointSetSigma, CoordRepType);
 
   /** Get the point set sigma function */
-  itkGetConstMacro( PointSetSigma, CoordRepType );
+  itkGetConstMacro(PointSetSigma, CoordRepType);
 
   /**
    * Set the neighborhood size used to evaluate the measurement at each
    * point.  Default = 50.
    */
-  itkSetMacro( EvaluationKNeighborhood, unsigned int );
+  itkSetMacro(EvaluationKNeighborhood, unsigned int);
 
   /**
    * Get the neighborhood size used to evaluate the measurement at each
    * point.  Default = 50.
    */
-  itkGetConstMacro( EvaluationKNeighborhood, unsigned int );
+  itkGetConstMacro(EvaluationKNeighborhood, unsigned int);
 
-  void Initialize() override;
+  void
+  Initialize() override;
 
   /** Clone method will clone the existing instance of this type,
    *  including its internal member variables. */
-  typename LightObject::Pointer InternalClone() const override;
+  typename LightObject::Pointer
+  InternalClone() const override;
 
 protected:
   ExpectationBasedPointSetToPointSetMetricv4();
   ~ExpectationBasedPointSetToPointSetMetricv4() override = default;
 
-  bool RequiresFixedPointsLocator() const override
-    {
+  bool
+  RequiresFixedPointsLocator() const override
+  {
     return false;
-    }
+  }
 
   /** PrintSelf function */
-  void PrintSelf( std::ostream & os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   using VectorType = typename PointType::VectorType;
   using NeighborsIterator = typename NeighborsIdentifierType::const_iterator;
 
-  CoordRepType                               m_PointSetSigma;
-  MeasureType                                m_PreFactor;
-  MeasureType                                m_Denominator;
-  unsigned int                               m_EvaluationKNeighborhood{ 50 };
-
+  CoordRepType m_PointSetSigma;
+  MeasureType  m_PreFactor;
+  MeasureType  m_Denominator;
+  unsigned int m_EvaluationKNeighborhood{ 50 };
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkExpectationBasedPointSetToPointSetMetricv4.hxx"
+#  include "itkExpectationBasedPointSetToPointSetMetricv4.hxx"
 #endif
 
 #endif

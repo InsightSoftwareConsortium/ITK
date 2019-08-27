@@ -35,19 +35,20 @@
  *   the solution is the vector | 2 -2 |
  *
  */
-class ConjugateGradientLineSearchOptimizerv4TestMetric
-  : public itk::ObjectToObjectMetricBase
+class ConjugateGradientLineSearchOptimizerv4TestMetric : public itk::ObjectToObjectMetricBase
 {
 public:
-
   using Self = ConjugateGradientLineSearchOptimizerv4TestMetric;
   using Superclass = itk::ObjectToObjectMetricBase;
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
-  itkNewMacro( Self );
-  itkTypeMacro( ConjugateGradientLineSearchOptimizerv4TestMetric, ObjectToObjectMetricBase );
+  itkNewMacro(Self);
+  itkTypeMacro(ConjugateGradientLineSearchOptimizerv4TestMetric, ObjectToObjectMetricBase);
 
-  enum { SpaceDimension=2 };
+  enum
+  {
+    SpaceDimension = 2
+  };
 
   using ParametersType = Superclass::ParametersType;
   using ParametersValueType = Superclass::ParametersValueType;
@@ -57,22 +58,25 @@ public:
   ConjugateGradientLineSearchOptimizerv4TestMetric()
   {
     m_Iterations = 0;
-    m_Parameters.SetSize( SpaceDimension );
-    m_Parameters.Fill( 0 );
+    m_Parameters.SetSize(SpaceDimension);
+    m_Parameters.Fill(0);
   }
 
-  void Initialize() throw ( itk::ExceptionObject ) override {}
+  void
+  Initialize() throw(itk::ExceptionObject) override
+  {}
 
-  void GetDerivative( DerivativeType & derivative ) const override
+  void
+  GetDerivative(DerivativeType & derivative) const override
   {
     MeasureType value;
-    GetValueAndDerivative( value, derivative );
+    GetValueAndDerivative(value, derivative);
   }
 
-  void GetValueAndDerivative( MeasureType & value,
-                              DerivativeType & derivative ) const override
+  void
+  GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const override
   {
-    if( derivative.Size() != 2 )
+    if (derivative.Size() != 2)
       derivative.SetSize(2);
 
     double x = m_Parameters[0];
@@ -82,7 +86,7 @@ public:
     std::cout << x << " ";
     std::cout << y << ") = " << std::endl;
 
-    value = 0.5*(3*x*x+4*x*y+6*y*y) - 2*x + 8*y;
+    value = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
     std::cout << "value: " << value << std::endl;
 
@@ -90,79 +94,84 @@ public:
      * and adds it to the transform after scaling. So instead of
      * setting a 'minimize' option in the gradient, we return
      * a minimizing derivative. */
-    derivative[0] = -( 3 * x + 2 * y -2 );
-    derivative[1] = -( 2 * x + 6 * y +8 );
+    derivative[0] = -(3 * x + 2 * y - 2);
+    derivative[1] = -(2 * x + 6 * y + 8);
     std::cout << "derivative: " << derivative << " iteration " << m_Iterations << std::endl;
     m_Iterations++;
   }
 
-  MeasureType  GetValue() const override
+  MeasureType
+  GetValue() const override
   {
     double x = m_Parameters[0];
     double y = m_Parameters[1];
 
-    MeasureType value = 0.5*(3*x*x+4*x*y+6*y*y) - 2*x + 8*y;
+    MeasureType value = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
     return value;
   }
 
-  void UpdateTransformParameters( const DerivativeType & update, ParametersValueType ) override
+  void
+  UpdateTransformParameters(const DerivativeType & update, ParametersValueType) override
   {
     m_Parameters += update;
   }
 
-  unsigned int GetNumberOfParameters() const override
+  unsigned int
+  GetNumberOfParameters() const override
   {
     return SpaceDimension;
   }
 
-  unsigned int GetNumberOfLocalParameters() const override
+  unsigned int
+  GetNumberOfLocalParameters() const override
   {
     return SpaceDimension;
   }
 
-  bool HasLocalSupport() const override
-    {
+  bool
+  HasLocalSupport() const override
+  {
     return false;
-    }
+  }
 
   /* These Set/Get methods are only needed for this test derivation that
    * isn't using a transform */
-  void SetParameters( ParametersType & parameters ) override
+  void
+  SetParameters(ParametersType & parameters) override
   {
     m_Parameters = parameters;
   }
 
-  const ParametersType & GetParameters() const override
+  const ParametersType &
+  GetParameters() const override
   {
     return m_Parameters;
   }
 
 private:
-
-  ParametersType        m_Parameters;
-  mutable unsigned int  m_Iterations;
-
+  ParametersType       m_Parameters;
+  mutable unsigned int m_Iterations;
 };
 
 ///////////////////////////////////////////////////////////
-int ConjugateGradientLineSearchOptimizerv4RunTest(
-  itk::ConjugateGradientLineSearchOptimizerv4::Pointer & itkOptimizer )
+int
+ConjugateGradientLineSearchOptimizerv4RunTest(itk::ConjugateGradientLineSearchOptimizerv4::Pointer & itkOptimizer)
 {
   try
-    {
+  {
     std::cout << "currentPosition before optimization: " << itkOptimizer->GetCurrentPosition() << std::endl;
     itkOptimizer->StartOptimization();
     std::cout << "currentPosition after optimization: " << itkOptimizer->GetCurrentPosition() << std::endl;
-    }
-  catch( itk::ExceptionObject & e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation()    << std::endl;
+    std::cout << "Location    = " << e.GetLocation() << std::endl;
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using ParametersType = ConjugateGradientLineSearchOptimizerv4TestMetric::ParametersType;
   ParametersType finalPosition = itkOptimizer->GetMetric()->GetParameters();
@@ -174,21 +183,22 @@ int ConjugateGradientLineSearchOptimizerv4RunTest(
   // check results to see if it is within range
   //
   double trueParameters[2] = { 2, -2 };
-  for( unsigned int j = 0; j < 2; j++ )
+  for (unsigned int j = 0; j < 2; j++)
+  {
+    if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
     {
-    if( itk::Math::abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
-      {
       std::cerr << "Results do not match: " << std::endl
                 << "expected: " << trueParameters[0] << ", " << trueParameters[1] << std::endl
                 << "returned: " << finalPosition << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
   return EXIT_SUCCESS;
 }
 ///////////////////////////////////////////////////////////
-int itkConjugateGradientLineSearchOptimizerv4Test(int, char* [] )
+int
+itkConjugateGradientLineSearchOptimizerv4Test(int, char *[])
 {
   std::cout << "Gradient Descent Object Optimizer Test ";
   std::cout << std::endl << std::endl;
@@ -198,66 +208,66 @@ int itkConjugateGradientLineSearchOptimizerv4Test(int, char* [] )
   using ScalesType = OptimizerType::ScalesType;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
+  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
 
   // Declaration of the Metric
-  ConjugateGradientLineSearchOptimizerv4TestMetric::Pointer metric = ConjugateGradientLineSearchOptimizerv4TestMetric::New();
+  ConjugateGradientLineSearchOptimizerv4TestMetric::Pointer metric =
+    ConjugateGradientLineSearchOptimizerv4TestMetric::New();
 
-  itkOptimizer->SetMetric( metric );
+  itkOptimizer->SetMetric(metric);
 
   using ParametersType = ConjugateGradientLineSearchOptimizerv4TestMetric::ParametersType;
 
-  const unsigned int spaceDimension =
-                      metric->GetNumberOfParameters();
+  const unsigned int spaceDimension = metric->GetNumberOfParameters();
 
   // We start not so far from  | 2 -2 |
-  ParametersType  initialPosition( spaceDimension );
+  ParametersType initialPosition(spaceDimension);
 
-  initialPosition[0] =  100;
+  initialPosition[0] = 100;
   initialPosition[1] = -100;
-  metric->SetParameters( initialPosition );
+  metric->SetParameters(initialPosition);
 
-  itkOptimizer->SetLearningRate( 0.1 );
-  itkOptimizer->SetNumberOfIterations( 50 );
+  itkOptimizer->SetLearningRate(0.1);
+  itkOptimizer->SetNumberOfIterations(50);
 
   // test the optimization
   std::cout << "Test optimization 1:" << std::endl;
-  if( ConjugateGradientLineSearchOptimizerv4RunTest( itkOptimizer ) == EXIT_FAILURE )
-    {
+  if (ConjugateGradientLineSearchOptimizerv4RunTest(itkOptimizer) == EXIT_FAILURE)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   //
   // test with non-idenity scales
   //
   std::cout << "Test optimization with non-identity scales:" << std::endl;
-  metric->SetParameters( initialPosition );
-  ScalesType scales( metric->GetNumberOfLocalParameters() );
+  metric->SetParameters(initialPosition);
+  ScalesType scales(metric->GetNumberOfLocalParameters());
   scales.Fill(0.5);
-  itkOptimizer->SetScales( scales );
-  itkOptimizer->SetLowerLimit( 0 );
-  itkOptimizer->SetUpperLimit( 5 );
-  itkOptimizer->SetEpsilon( 1.e-4 );
-  itkOptimizer->SetMaximumLineSearchIterations( 5 );
-  metric->SetParameters( initialPosition );
-  if( ConjugateGradientLineSearchOptimizerv4RunTest( itkOptimizer ) == EXIT_FAILURE )
-    {
+  itkOptimizer->SetScales(scales);
+  itkOptimizer->SetLowerLimit(0);
+  itkOptimizer->SetUpperLimit(5);
+  itkOptimizer->SetEpsilon(1.e-4);
+  itkOptimizer->SetMaximumLineSearchIterations(5);
+  metric->SetParameters(initialPosition);
+  if (ConjugateGradientLineSearchOptimizerv4RunTest(itkOptimizer) == EXIT_FAILURE)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test optimization with few linear search iterations:" << std::endl;
   scales.Fill(0.5);
-  itkOptimizer->SetMaximumLineSearchIterations( 2 );
-  itkOptimizer->SetScales( scales );
-  itkOptimizer->SetLearningRate( 0.5 );
-  itkOptimizer->SetLowerLimit( 0 );
-  itkOptimizer->SetUpperLimit( 1 );
-  itkOptimizer->SetEpsilon( 1.e-4 );
-  metric->SetParameters( initialPosition );
-  if( ConjugateGradientLineSearchOptimizerv4RunTest( itkOptimizer ) == EXIT_FAILURE )
-    {
+  itkOptimizer->SetMaximumLineSearchIterations(2);
+  itkOptimizer->SetScales(scales);
+  itkOptimizer->SetLearningRate(0.5);
+  itkOptimizer->SetLowerLimit(0);
+  itkOptimizer->SetUpperLimit(1);
+  itkOptimizer->SetEpsilon(1.e-4);
+  metric->SetParameters(initialPosition);
+  if (ConjugateGradientLineSearchOptimizerv4RunTest(itkOptimizer) == EXIT_FAILURE)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   // Exercise various member functions
   std::cout << "LearningRate: " << itkOptimizer->GetLearningRate();
@@ -265,31 +275,30 @@ int itkConjugateGradientLineSearchOptimizerv4Test(int, char* [] )
   std::cout << "NumberOfIterations: " << itkOptimizer->GetNumberOfIterations();
   std::cout << std::endl;
 
-  itkOptimizer->Print( std::cout );
+  itkOptimizer->Print(std::cout);
   std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
 
   OptimizerType::Pointer badOptimizer = OptimizerType::New();
-  bool caught=false;
+  bool                   caught = false;
   try
-    {
+  {
     badOptimizer->GetCurrentPosition();
-    }
-  catch( itk::ExceptionObject & e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cout << "Caught expected exception!";
     std::cout << e << std::endl;
     caught = true;
-    }
+  }
 
   if (!caught)
-    {
+  {
     std::cout << "Failed to catch expected exception! " << std::endl;
     return EXIT_FAILURE;
-    }
-  std::cout <<  "Printing self.. " << std::endl;
-  std::cout << itkOptimizer  << std::endl;
+  }
+  std::cout << "Printing self.. " << std::endl;
+  std::cout << itkOptimizer << std::endl;
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
 }

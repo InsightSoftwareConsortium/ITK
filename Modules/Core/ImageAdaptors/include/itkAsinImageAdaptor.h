@@ -37,11 +37,10 @@ namespace Accessor
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< typename TInternalType, typename TExternalType >
+template <typename TInternalType, typename TExternalType>
 class AsinPixelAccessor
 {
 public:
-
   /** External type alias. It defines the external aspect
    *  that this class will exhibit. */
   using ExternalType = TExternalType;
@@ -50,11 +49,17 @@ public:
    * representation of data. */
   using InternalType = TInternalType;
 
-  static inline void Set(TInternalType & output, const TExternalType & input)
-  { output = (TInternalType)std::asin( (double)input ); }
+  static inline void
+  Set(TInternalType & output, const TExternalType & input)
+  {
+    output = (TInternalType)std::asin((double)input);
+  }
 
-  static inline TExternalType Get(const TInternalType & input)
-  { return (TExternalType)std::asin( (double)input ); }
+  static inline TExternalType
+  Get(const TInternalType & input)
+  {
+    return (TExternalType)std::asin((double)input);
+  }
 };
 } // end namespace Accessor
 
@@ -68,23 +73,19 @@ public:
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< typename TImage, typename TOutputPixelType >
-class AsinImageAdaptor:public
-  ImageAdaptor< TImage,
-                Accessor::AsinPixelAccessor<
-                  typename TImage::PixelType,
-                  TOutputPixelType >   >
+template <typename TImage, typename TOutputPixelType>
+class AsinImageAdaptor
+  : public ImageAdaptor<TImage, Accessor::AsinPixelAccessor<typename TImage::PixelType, TOutputPixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AsinImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = AsinImageAdaptor;
-  using Superclass = ImageAdaptor< TImage,
-                        Accessor::AsinPixelAccessor< typename TImage::PixelType, TOutputPixelType > >;
+  using Superclass = ImageAdaptor<TImage, Accessor::AsinPixelAccessor<typename TImage::PixelType, TOutputPixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(AsinImageAdaptor, ImageAdaptor);

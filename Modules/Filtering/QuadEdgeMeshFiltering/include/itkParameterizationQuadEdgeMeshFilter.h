@@ -21,7 +21,8 @@
 #include "itkBorderQuadEdgeMeshFilter.h"
 #include "itkQuadEdgeMeshParamMatrixCoefficients.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class ParameterizationQuadEdgeMeshFilter
  *
@@ -49,22 +50,21 @@ namespace itk {
  * \ingroup ITKQuadEdgeMeshFiltering
  *
  * \sphinx
- * \sphinxexample{Filtering/QuadEdgeMeshFiltering/ComputePlanarParameterizationOfAMesh,Compute Planar Parameterization Of A Mesh}
- * \endsphinx
+ * \sphinxexample{Filtering/QuadEdgeMeshFiltering/ComputePlanarParameterizationOfAMesh,Compute Planar Parameterization
+ * Of A Mesh} \endsphinx
  */
-template< typename TInputMesh, typename TOutputMesh, typename TSolverTraits >
-class ITK_TEMPLATE_EXPORT ParameterizationQuadEdgeMeshFilter:
-  public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh, typename TSolverTraits>
+class ITK_TEMPLATE_EXPORT ParameterizationQuadEdgeMeshFilter
+  : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ParameterizationQuadEdgeMeshFilter);
 
   /** Basic types. */
   using Self = ParameterizationQuadEdgeMeshFilter;
-  using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh,
-                                            TOutputMesh >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Input types. */
   using InputMeshType = TInputMesh;
@@ -92,7 +92,7 @@ public:
 
   using InputQEIterator = typename InputQEType::IteratorGeom;
 
-  using InputMapPointIdentifier = std::map< InputPointIdentifier, InputPointIdentifier >;
+  using InputMapPointIdentifier = std::map<InputPointIdentifier, InputPointIdentifier>;
   using InputMapPointIdentifierIterator = typename InputMapPointIdentifier::iterator;
 
   /** Output types. */
@@ -114,14 +114,14 @@ public:
   using MatrixType = typename SolverTraits::MatrixType;
   using VectorType = typename SolverTraits::VectorType;
 
-  using MeshBorderTransform = BorderQuadEdgeMeshFilter< InputMeshType, InputMeshType >;
+  using MeshBorderTransform = BorderQuadEdgeMeshFilter<InputMeshType, InputMeshType>;
   using MeshBorderTransformPointer = typename MeshBorderTransform::Pointer;
 
-  using CoefficientsComputation = MatrixCoefficients< InputMeshType >;
+  using CoefficientsComputation = MatrixCoefficients<InputMeshType>;
 
 public:
-
-  void SetCoefficientsMethod(CoefficientsComputation *iMethod)
+  void
+  SetCoefficientsMethod(CoefficientsComputation * iMethod)
   {
     this->m_CoefficientsMethod = iMethod;
   }
@@ -133,12 +133,12 @@ public:
   itkGetModifiableObjectMacro(BorderTransform, MeshBorderTransform);
 
 protected:
-
   ParameterizationQuadEdgeMeshFilter();
   ~ParameterizationQuadEdgeMeshFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  CoefficientsComputation *m_CoefficientsMethod;
+  CoefficientsComputation * m_CoefficientsMethod;
 
   MeshBorderTransformPointer m_BorderTransform;
 
@@ -150,9 +150,10 @@ protected:
   // in m_InternalPtList
   InputMapPointIdentifier m_InternalPtMap;
 
-  std::vector< OutputPointType > m_Border;
+  std::vector<OutputPointType> m_Border;
 
-  void CopyToOutputBorder();
+  void
+  CopyToOutputBorder();
 
   /**
    *  \brief From the list of all vertices from the input mesh InputList
@@ -163,7 +164,8 @@ protected:
    *  \note I consider ids of points are well chosen (from 0 to
    *        NumberOfPoints)
    */
-  void ComputeListOfInteriorVertices();
+  void
+  ComputeListOfInteriorVertices();
 
   /**
    *  \brief Fill matrix iM and vectors Bx and m_By depending on if one
@@ -172,7 +174,8 @@ protected:
    *  \param[in,out] ioBx
    *  \param[in,out] ioBy
    */
-  void FillMatrix(MatrixType & iM, VectorType & ioBx, VectorType & ioBy);
+  void
+  FillMatrix(MatrixType & iM, VectorType & ioBx, VectorType & ioBy);
 
   /**
    *  \brief Solve linears systems : \f$ iM \cdot oX = iBx \f$ and
@@ -184,16 +187,17 @@ protected:
    *  \param[out] oX
    *  \param[out] oY
    */
-  void SolveLinearSystems(const MatrixType & iM,
-                          const VectorType & iBx,
-                          const VectorType & iBy,
-                          VectorType & oX,
-                          VectorType & oY);
+  void
+  SolveLinearSystems(const MatrixType & iM,
+                     const VectorType & iBx,
+                     const VectorType & iBy,
+                     VectorType &       oX,
+                     VectorType &       oY);
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
-
 };
 } // end namespace itk
 

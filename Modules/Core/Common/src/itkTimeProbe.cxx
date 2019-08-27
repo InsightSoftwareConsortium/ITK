@@ -19,18 +19,16 @@
 
 namespace itk
 {
-TimeProbe
-::TimeProbe():ResourceProbe< TimeStampType, TimeStampType >("Time", "s")
+TimeProbe ::TimeProbe()
+  : ResourceProbe<TimeStampType, TimeStampType>("Time", "s")
 {
-  m_RealTimeClock   = RealTimeClock::New();
+  m_RealTimeClock = RealTimeClock::New();
 }
 
-TimeProbe
-::~TimeProbe() = default;
+TimeProbe ::~TimeProbe() = default;
 
 TimeProbe::TimeStampType
-TimeProbe
-::GetInstantValue() const
+TimeProbe ::GetInstantValue() const
 {
   return m_RealTimeClock->GetTimeInSeconds();
 }

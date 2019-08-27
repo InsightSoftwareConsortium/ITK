@@ -22,15 +22,16 @@
 #include "itkImageFileWriter.h"
 
 
-int itkJPEG2000ImageIOTest04( int argc, char * argv[] )
+int
+itkJPEG2000ImageIOTest04(int argc, char * argv[])
 {
   // Verify the number of parameters in the command line
-  if( argc < 5 )
-    {
+  if (argc < 5)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " inputImageFile J2KOutputImageFile tileSizeX tileSizeY" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //  Register the factory
   itk::JPEG2000ImageIOFactory::RegisterOneFactory();
@@ -40,36 +41,36 @@ int itkJPEG2000ImageIOTest04( int argc, char * argv[] )
   using PixelType = itk::RGBPixel<unsigned char>;
   constexpr unsigned int Dimension = 2;
 
-  using InputImageType = itk::Image< PixelType,  Dimension >;
-  using OutputImageType = itk::Image< PixelType, Dimension >;
+  using InputImageType = itk::Image<PixelType, Dimension>;
+  using OutputImageType = itk::Image<PixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
   using IOBaseType = itk::JPEG2000ImageIO;
 
   IOBaseType::Pointer base = IOBaseType::New();
-  base->SetTileSize( std::stoi( argv[3] ), std::stoi( argv[4] ) );
+  base->SetTileSize(std::stoi(argv[3]), std::stoi(argv[4]));
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  const std::string inputFilename  = argv[1];
+  const std::string inputFilename = argv[1];
   const std::string outputFilename = argv[2];
 
-  reader->SetFileName( inputFilename  );
-  writer->SetFileName( outputFilename );
+  reader->SetFileName(inputFilename);
+  writer->SetFileName(outputFilename);
 
-  writer->SetInput( reader->GetOutput() );
-  writer->SetImageIO( base );
+  writer->SetInput(reader->GetOutput());
+  writer->SetImageIO(base);
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   return EXIT_SUCCESS;
 }

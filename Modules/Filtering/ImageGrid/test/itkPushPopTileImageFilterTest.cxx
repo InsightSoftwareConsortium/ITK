@@ -21,27 +21,34 @@
 #include "itkImageSeriesWriter.h"
 #include "itkTestingMacros.h"
 
-int itkPushPopTileImageFilterTest(int argc, char *argv[] )
+int
+itkPushPopTileImageFilterTest(int argc, char * argv[])
 {
 
   using PixelType = itk::RGBPixel<unsigned char>;
-  enum { InputImageDimension = 2 };
-  enum { OutputImageDimension = 2 };
+  enum
+  {
+    InputImageDimension = 2
+  };
+  enum
+  {
+    OutputImageDimension = 2
+  };
 
-  using InputImageType = itk::Image<PixelType,InputImageDimension>;
-  using OutputImageType = itk::Image<PixelType,OutputImageDimension>;
-  using ImageReaderType = itk::ImageFileReader< InputImageType >;
-  using TilerType = itk::TileImageFilter<InputImageType,OutputImageType>;
+  using InputImageType = itk::Image<PixelType, InputImageDimension>;
+  using OutputImageType = itk::Image<PixelType, OutputImageDimension>;
+  using ImageReaderType = itk::ImageFileReader<InputImageType>;
+  using TilerType = itk::TileImageFilter<InputImageType, OutputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   if (argc != 6)
-    {
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << itkNameOfTestExecutableMacro(argv) << "  input1 input2 input3 input4 output" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  itk::FixedArray<unsigned int,2> layout;
+  itk::FixedArray<unsigned int, 2> layout;
   layout[0] = 4;
   layout[1] = 1;
 
@@ -52,7 +59,7 @@ int itkPushPopTileImageFilterTest(int argc, char *argv[] )
   TilerType::Pointer tiler4 = TilerType::New();
   TilerType::Pointer tiler = TilerType::New();
 
-  unsigned char yellow[3] = {255, 255, 127};
+  unsigned char                yellow[3] = { 255, 255, 127 };
   itk::RGBPixel<unsigned char> fillPixel = yellow;
 
   tiler1->SetDefaultPixelValue(fillPixel);
@@ -65,16 +72,16 @@ int itkPushPopTileImageFilterTest(int argc, char *argv[] )
   tiler4->SetLayout(layout);
 
   int f = 0;
-  for (int i=1; i < argc - 1; i++)
-    {
+  for (int i = 1; i < argc - 1; i++)
+  {
     ImageReaderType::Pointer reader = ImageReaderType::New();
-    reader->SetFileName (argv[i]);
+    reader->SetFileName(argv[i]);
     reader->Update();
-    tiler1->SetInput(f,reader->GetOutput());
-    tiler2->SetInput(f,reader->GetOutput());
-    tiler3->SetInput(f,reader->GetOutput());
-    tiler4->SetInput(f++,reader->GetOutput());
-    }
+    tiler1->SetInput(f, reader->GetOutput());
+    tiler2->SetInput(f, reader->GetOutput());
+    tiler3->SetInput(f, reader->GetOutput());
+    tiler4->SetInput(f++, reader->GetOutput());
+  }
 
   InputImageType::ConstPointer image;
 
@@ -100,21 +107,19 @@ int itkPushPopTileImageFilterTest(int argc, char *argv[] )
 
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetFileName(  argv[argc-1] );
+  writer->SetFileName(argv[argc - 1]);
 
   try
-    {
+  {
     writer->SetInput(tiler->GetOutput());
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Error while writing file." << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-
-    }
+  }
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
 }

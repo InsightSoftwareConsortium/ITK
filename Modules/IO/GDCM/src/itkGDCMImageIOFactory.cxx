@@ -23,21 +23,20 @@ namespace itk
 {
 GDCMImageIOFactory::GDCMImageIOFactory()
 {
-  this->RegisterOverride( "itkImageIOBase",
-                          "itkGDCMImageIO",
-                          "GDCM Image IO",
-                          true,
-                          CreateObjectFunction< GDCMImageIO >::New() );
+  this->RegisterOverride(
+    "itkImageIOBase", "itkGDCMImageIO", "GDCM Image IO", true, CreateObjectFunction<GDCMImageIO>::New());
 }
 
 GDCMImageIOFactory::~GDCMImageIOFactory() = default;
 
-const char * GDCMImageIOFactory::GetITKSourceVersion() const
+const char *
+GDCMImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
-const char * GDCMImageIOFactory::GetDescription() const
+const char *
+GDCMImageIOFactory::GetDescription() const
 {
   return "GDCM ImageIO Factory, allows the loading of DICOM images into Insight";
 }
@@ -47,13 +46,14 @@ const char * GDCMImageIOFactory::GetDescription() const
 
 static bool GDCMImageIOFactoryHasBeenRegistered;
 
-void ITKIOGDCM_EXPORT GDCMImageIOFactoryRegister__Private()
+void ITKIOGDCM_EXPORT
+     GDCMImageIOFactoryRegister__Private()
 {
-  if( ! GDCMImageIOFactoryHasBeenRegistered )
-    {
+  if (!GDCMImageIOFactoryHasBeenRegistered)
+  {
     GDCMImageIOFactoryHasBeenRegistered = true;
     GDCMImageIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

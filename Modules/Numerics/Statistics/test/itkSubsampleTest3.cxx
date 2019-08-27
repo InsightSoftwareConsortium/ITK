@@ -20,119 +20,113 @@
 #include "itkListSample.h"
 #include "itkSubsample.h"
 
-int itkSubsampleTest3(int, char* [] )
+int
+itkSubsampleTest3(int, char *[])
 {
   std::cout << "MeanSampleFilter test \n \n";
 
   constexpr unsigned int MeasurementVectorSize = 2;
   constexpr unsigned int numberOfMeasurementVectors = 5;
-  unsigned int                        counter;
+  unsigned int           counter;
 
-  using MeasurementVectorType = itk::FixedArray<
-    float, MeasurementVectorSize >;
+  using MeasurementVectorType = itk::FixedArray<float, MeasurementVectorSize>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
   SampleType::Pointer sample = SampleType::New();
 
-  sample->SetMeasurementVectorSize( MeasurementVectorSize );
+  sample->SetMeasurementVectorSize(MeasurementVectorSize);
 
-  MeasurementVectorType               measure;
+  MeasurementVectorType measure;
 
-  //reset counter
+  // reset counter
   counter = 0;
 
-  while ( counter < numberOfMeasurementVectors )
+  while (counter < numberOfMeasurementVectors)
+  {
+    for (unsigned int i = 0; i < MeasurementVectorSize; i++)
     {
-    for( unsigned int i=0; i<MeasurementVectorSize; i++)
-      {
       measure[i] = counter;
-      }
-    sample->PushBack( measure );
-    counter++;
     }
+    sample->PushBack(measure);
+    counter++;
+  }
 
-  using SubsampleType = itk::Statistics::Subsample< SampleType >;
+  using SubsampleType = itk::Statistics::Subsample<SampleType>;
 
   SubsampleType::Pointer subsample = SubsampleType::New();
 
-  subsample->SetSample( sample );
+  subsample->SetSample(sample);
 
-  //Initialize the subsample with all the samples
+  // Initialize the subsample with all the samples
   subsample->InitializeWithAllInstances();
 
   using FilterType = itk::Statistics::MeanSampleFilter<SubsampleType>;
 
   FilterType::Pointer filter = FilterType::New();
 
-  filter->SetInput( subsample );
+  filter->SetInput(subsample);
 
   try
-    {
+  {
     filter->Update();
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception caught: " << excp << std::endl;
-    }
+  }
 
   const FilterType::MeasurementVectorDecoratedType * decorator = filter->GetOutput();
-  FilterType::MeasurementVectorType    meanOutput  = decorator->Get();
+  FilterType::MeasurementVectorType                  meanOutput = decorator->Get();
 
   FilterType::MeasurementVectorType mean;
 
   mean[0] = 2.0;
   mean[1] = 2.0;
 
-  std::cout << meanOutput[0] << " " << mean[0] << " "
-            << meanOutput[1] << " " << mean[1] << " " << std::endl;
+  std::cout << meanOutput[0] << " " << mean[0] << " " << meanOutput[1] << " " << mean[1] << " " << std::endl;
 
-  FilterType::MeasurementVectorType::ValueType    epsilon = 1e-6;
+  FilterType::MeasurementVectorType::ValueType epsilon = 1e-6;
 
-  if ( ( std::abs( meanOutput[0] - mean[0]) > epsilon )  ||
-       ( std::abs( meanOutput[1] - mean[1]) > epsilon ))
-    {
+  if ((std::abs(meanOutput[0] - mean[0]) > epsilon) || (std::abs(meanOutput[1] - mean[1]) > epsilon))
+  {
     std::cerr << "The result is not what is expected" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  //Clear and  repopulate the subsample container
+  // Clear and  repopulate the subsample container
   subsample->Clear();
 
   // add only the first half of instances of the sample
-  for (SampleType::InstanceIdentifier id = 0;
-       id < static_cast< SampleType::InstanceIdentifier >
-         (sample->Size() / 2);
+  for (SampleType::InstanceIdentifier id = 0; id < static_cast<SampleType::InstanceIdentifier>(sample->Size() / 2);
        id++)
-    {
+  {
     subsample->AddInstance(id);
-    }
+  }
 
   std::cout << "Subsample size: " << subsample->Size() << std::endl;
 
   try
-    {
+  {
     filter->Update();
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception caught: " << excp << std::endl;
-    }
+  }
 
-  decorator   = filter->GetOutput();
-  meanOutput  = decorator->Get();
+  decorator = filter->GetOutput();
+  meanOutput = decorator->Get();
 
   mean[0] = 0.5;
   mean[1] = 0.5;
 
-  std::cout << meanOutput[0] << " " << mean[0] << " "
-            << meanOutput[1] << " " << mean[1] << " " << std::endl;
+  std::cout << meanOutput[0] << " " << mean[0] << " " << meanOutput[1] << " " << mean[1] << " " << std::endl;
 
-  if ( ( std::abs( meanOutput[0] - mean[0]) > epsilon )  ||
-       ( std::abs( meanOutput[1] - mean[1]) > epsilon ))
-    {
+  if ((std::abs(meanOutput[0] - mean[0]) > epsilon) || (std::abs(meanOutput[1] - mean[1]) > epsilon))
+  {
     std::cerr << "The result is not what is expected" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

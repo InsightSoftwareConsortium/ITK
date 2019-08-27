@@ -33,9 +33,8 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template<typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT CenteredEuler3DTransform :
-  public Euler3DTransform<TParametersValueType>
+template <typename TParametersValueType = double>
+class ITK_TEMPLATE_EXPORT CenteredEuler3DTransform : public Euler3DTransform<TParametersValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CenteredEuler3DTransform);
@@ -93,7 +92,8 @@ public:
    * axes (X,Y,Z), the next three parameters represent the coordinates of the
    * center of rotation and the last three parameters represent the
    * translation. */
-  void SetParameters(const ParametersType & parameters) override;
+  void
+  SetParameters(const ParametersType & parameters) override;
 
   /** Get the parameters that uniquely define the transform
    * This is typically used by optimizers. There are nine parameters. The first
@@ -101,19 +101,23 @@ public:
    * axes (X,Y,Z), the next three parameters represent the coordinates of the
    * center of rotation and the last three parameters represent the
    * translation. */
-  const ParametersType & GetParameters() const override;
+  const ParametersType &
+  GetParameters() const override;
 
   /** This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
+  void
+  ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const override;
 
   /** Get an inverse of this transform. */
-  bool GetInverse(Self *inverse) const;
+  bool
+  GetInverse(Self * inverse) const;
 
   /** Return an inverse of this transform. */
-  InverseTransformBasePointer GetInverseTransform() const override;
+  InverseTransformBasePointer
+  GetInverseTransform() const override;
 
 protected:
   CenteredEuler3DTransform();
@@ -124,12 +128,13 @@ protected:
   /**
    * Print contents of an CenteredEuler3DTransform
    */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
-};                                        // class CenteredEuler3DTransform
-}  // namespace itk
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
+}; // class CenteredEuler3DTransform
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCenteredEuler3DTransform.hxx"
+#  include "itkCenteredEuler3DTransform.hxx"
 #endif
 
 #endif /* itkCenteredEuler3DTransform_h */

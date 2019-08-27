@@ -27,92 +27,90 @@
 /* This test checks that a lower-left bitmap and an upper-left bitmap
  * representing the same grayscale image contains the same data.
  */
-int itkBMPImageIOTest3( int argc, char* argv[] )
+int
+itkBMPImageIOTest3(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << argv[0] << " lowerLeftImage upperLeftImage" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
   using PixelType = unsigned char;
 
-  using ImageType = itk::Image< PixelType, Dimension >;
-  using ReaderType = itk::ImageFileReader< ImageType >;
-  using IteratorType = itk::ImageRegionConstIterator< ImageType >;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using IteratorType = itk::ImageRegionConstIterator<ImageType>;
 
 
   ReaderType::Pointer lowerLeftImageReader = ReaderType::New();
 
   itk::BMPImageIO::Pointer lowerLeftImageIO = itk::BMPImageIO::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( lowerLeftImageIO, BMPImageIO, ImageIOBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(lowerLeftImageIO, BMPImageIO, ImageIOBase);
 
-  lowerLeftImageReader->SetImageIO( lowerLeftImageIO );
-  lowerLeftImageReader->SetFileName( argv[1] );
+  lowerLeftImageReader->SetImageIO(lowerLeftImageIO);
+  lowerLeftImageReader->SetFileName(argv[1]);
 
   ReaderType::Pointer upperLeftImageReader = ReaderType::New();
 
   itk::BMPImageIO::Pointer upperLeftImageIO = itk::BMPImageIO::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( lowerLeftImageIO, BMPImageIO, ImageIOBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(lowerLeftImageIO, BMPImageIO, ImageIOBase);
 
-  upperLeftImageReader->SetImageIO( upperLeftImageIO );
-  upperLeftImageReader->SetFileName( argv[2] );
+  upperLeftImageReader->SetImageIO(upperLeftImageIO);
+  upperLeftImageReader->SetFileName(argv[2]);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( lowerLeftImageReader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(lowerLeftImageReader->Update());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( upperLeftImageReader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(upperLeftImageReader->Update());
 
 
-  if( !lowerLeftImageIO->GetFileLowerLeft() )
-    {
+  if (!lowerLeftImageIO->GetFileLowerLeft())
+  {
     std::cout << "Test failed!" << std::endl;
-    std::cout << "Expecting a lower-left bitmap, got an upper-left."
-      << std::endl;
+    std::cout << "Expecting a lower-left bitmap, got an upper-left." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( upperLeftImageIO->GetFileLowerLeft() )
-    {
+  if (upperLeftImageIO->GetFileLowerLeft())
+  {
     std::cout << "Test failed!" << std::endl;
-    std::cout << "Expecting an upper-left bitmap, got a lower-left."
-      << std::endl;
+    std::cout << "Expecting an upper-left bitmap, got a lower-left." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
-  ImageType::RegionType loweLeftImageRegion =
-    lowerLeftImageReader->GetOutput()->GetLargestPossibleRegion();
-  ImageType::RegionType upperLeftImageRegion =
-    upperLeftImageReader->GetOutput()->GetLargestPossibleRegion();
+  ImageType::RegionType loweLeftImageRegion = lowerLeftImageReader->GetOutput()->GetLargestPossibleRegion();
+  ImageType::RegionType upperLeftImageRegion = upperLeftImageReader->GetOutput()->GetLargestPossibleRegion();
 
-  if( loweLeftImageRegion != upperLeftImageRegion )
-    {
+  if (loweLeftImageRegion != upperLeftImageRegion)
+  {
     std::cout << "Test failed!" << std::endl;
     std::cout << "The images must have the same size." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  IteratorType it1( lowerLeftImageReader->GetOutput(), loweLeftImageRegion );
-  IteratorType it2( upperLeftImageReader->GetOutput(), upperLeftImageRegion );
+  IteratorType it1(lowerLeftImageReader->GetOutput(), loweLeftImageRegion);
+  IteratorType it2(upperLeftImageReader->GetOutput(), upperLeftImageRegion);
 
   it1.GoToBegin();
   it2.GoToBegin();
-  while( !it1.IsAtEnd() )
+  while (!it1.IsAtEnd())
+  {
+    if (it1.Value() != it2.Value())
     {
-    if( it1.Value() != it2.Value() )
-      {
       std::cout << "Test failed!" << std::endl;
       std::cout << "An image stored in a lower-left bitmap is different than \
-                   the same image stored in a upper-left bitmap." << std::endl;
+                   the same image stored in a upper-left bitmap."
+                << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
     ++it1;
     ++it2;
-    }
+  }
 
   std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;

@@ -43,18 +43,17 @@ namespace itk
  *NormalVectorDiffusionFunction for an example.
  * \ingroup ITKFiniteDifference
  */
-template< typename TSparseImageType >
-class ITK_TEMPLATE_EXPORT FiniteDifferenceSparseImageFunction:
-  public FiniteDifferenceFunction< TSparseImageType >
+template <typename TSparseImageType>
+class ITK_TEMPLATE_EXPORT FiniteDifferenceSparseImageFunction : public FiniteDifferenceFunction<TSparseImageType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FiniteDifferenceSparseImageFunction);
 
   /** Standard class type alias. */
   using Self = FiniteDifferenceSparseImageFunction;
-  using Superclass = FiniteDifferenceFunction< TSparseImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = FiniteDifferenceFunction<TSparseImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(FiniteDifferenceSparseImageFunction, FiniteDifferenceFunction);
@@ -83,19 +82,18 @@ public:
    *  class because we need to work with neighborhoods of pointers to data
    *  variables instead of neighborhoods of data directly. This function is
    *  replaced by the ComputeSparseUpdate function. */
-  PixelType ComputeUpdate(const NeighborhoodType &,
-                                  void *,
-                                  const FloatOffsetType &) override
+  PixelType
+  ComputeUpdate(const NeighborhoodType &, void *, const FloatOffsetType &) override
   {
-    return static_cast< PixelType >( nullptr );
+    return static_cast<PixelType>(nullptr);
   }
 
   /** The update called from the FiniteDifferenceSparseImageFilter. This
       function replaces the ComputeUpdate function. */
   virtual NodeDataType
-  ComputeSparseUpdate( NeighborhoodType & neighborhood,
-                       void *globalData,
-                       const FloatOffsetType & offset = FloatOffsetType(0.0) ) const = 0;
+  ComputeSparseUpdate(NeighborhoodType &      neighborhood,
+                      void *                  globalData,
+                      const FloatOffsetType & offset = FloatOffsetType(0.0)) const = 0;
 
   /** This function provides support for a 2 step update computation that
    *  avoids repetitive computation. FiniteDifferenceSparseImageFilter first
@@ -106,17 +104,20 @@ public:
    *  the above examples are stored in the nodes of the SparseImage
    *  itself. Therefore, this function will have to know about the NodeType it
    *  is dealing with. This function does nothing by default. */
-  virtual void PrecomputeSparseUpdate(NeighborhoodType &) const {}
+  virtual void
+  PrecomputeSparseUpdate(NeighborhoodType &) const
+  {}
 
 protected:
   FiniteDifferenceSparseImageFunction() = default;
   ~FiniteDifferenceSparseImageFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFiniteDifferenceSparseImageFunction.hxx"
+#  include "itkFiniteDifferenceSparseImageFunction.hxx"
 #endif
 
 #endif

@@ -18,29 +18,30 @@
 
 #include "itkFEMFactoryBase.h"
 
-int main(int argc, char * *argv)
+int
+main(int argc, char ** argv)
 {
-  //Need to register default FEM object types,
-  //and setup SpatialReader to recognize FEM types
-  //which is all currently done as a HACK in
-  //the initializaiton of the itk::FEMFactoryBase::GetFactory()
+  // Need to register default FEM object types,
+  // and setup SpatialReader to recognize FEM types
+  // which is all currently done as a HACK in
+  // the initializaiton of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
 
   itk::FEMFactoryBase::RegisterDefaultTypes();
   itk::FEMFactoryBase::Pointer factory = itk::FEMFactoryBase::New();
-  itk::ObjectFactoryBase::RegisterFactory( factory );
+  itk::ObjectFactoryBase::RegisterFactory(factory);
 
-  itk::LightObject::Pointer newborn = factory->CreateInstance( argv[1] );
-  if( newborn )
-    {
-    newborn->Print( std::cout );
-    }
+  itk::LightObject::Pointer newborn = factory->CreateInstance(argv[1]);
+  if (newborn)
+  {
+    newborn->Print(std::cout);
+  }
   else
-    {
+  {
     std::cout << "Do not know how to create object : " << argv[1] << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

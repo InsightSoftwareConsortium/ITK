@@ -27,26 +27,24 @@
 namespace itk
 {
 /** Print self method */
-template< typename TInputImage, typename TOutput >
+template <typename TInputImage, typename TOutput>
 void
-NeighborhoodOperatorImageFunction< TInputImage, TOutput >
-::PrintSelf(std::ostream & os, Indent indent) const
+NeighborhoodOperatorImageFunction<TInputImage, TOutput>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
   os << indent << "Applying Operator Function:" << std::endl;
 }
 
 /** Evaluate the function at the specifed point */
-template< typename TInputImage, typename TOutput >
+template <typename TInputImage, typename TOutput>
 TOutput
-NeighborhoodOperatorImageFunction< TInputImage, TOutput >
-::EvaluateAtIndex(const IndexType & index) const
+NeighborhoodOperatorImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType & index) const
 {
-  NeighborhoodInnerProduct< InputImageType, TOutput, TOutput > smartInnerProduct;
+  NeighborhoodInnerProduct<InputImageType, TOutput, TOutput> smartInnerProduct;
 
-  const TInputImage* const image = this->GetInputImage();
+  const TInputImage * const image = this->GetInputImage();
   assert(image != nullptr);
-  ConstNeighborhoodIterator< InputImageType > bit( m_Operator.GetRadius(), image, image->GetRequestedRegion() );
+  ConstNeighborhoodIterator<InputImageType> bit(m_Operator.GetRadius(), image, image->GetRequestedRegion());
   bit.SetLocation(index);
 
   return smartInnerProduct(bit, m_Operator);

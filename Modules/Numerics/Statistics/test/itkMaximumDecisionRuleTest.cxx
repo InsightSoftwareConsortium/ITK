@@ -21,7 +21,8 @@
 #include "itkMaximumDecisionRule.h"
 
 
-int itkMaximumDecisionRuleTest(int,char *[] )
+int
+itkMaximumDecisionRuleTest(int, char *[])
 {
 
   std::cout << "==================================" << std::endl;
@@ -31,30 +32,30 @@ int itkMaximumDecisionRuleTest(int,char *[] )
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
   DecisionRuleType::MembershipVectorType discriminantScores;
-  discriminantScores.resize( 3 );
+  discriminantScores.resize(3);
 
   discriminantScores[0] = 0.0;
   discriminantScores[1] = 1.0;
   discriminantScores[2] = 2.0;
 
-  if ( decisionRule->Evaluate( discriminantScores ) != 2 )
-    {
+  if (decisionRule->Evaluate(discriminantScores) != 2)
+  {
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   DecisionRuleType::MembershipVectorType discriminantScores2;
-  discriminantScores2.resize( 3 );
+  discriminantScores2.resize(3);
 
   discriminantScores2[0] = 0.0;
   discriminantScores2[1] = 1.0;
   discriminantScores2[2] = 2.0;
 
-  if ( decisionRule->Evaluate( discriminantScores2 ) != 2 )
-    {
+  if (decisionRule->Evaluate(discriminantScores2) != 2)
+  {
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "[SUCCEEDED]" << std::endl;
 

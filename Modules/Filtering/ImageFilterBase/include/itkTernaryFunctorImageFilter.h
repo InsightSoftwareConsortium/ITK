@@ -35,19 +35,21 @@ namespace itk
  * \ingroup IntensityImageFilters MultiThreaded
  * \ingroup ITKImageFilterBase
  */
-template< typename TInputImage1, typename TInputImage2,
-          typename TInputImage3, typename TOutputImage, typename TFunction    >
-class ITK_TEMPLATE_EXPORT TernaryFunctorImageFilter:
-  public InPlaceImageFilter< TInputImage1, TOutputImage >
+template <typename TInputImage1,
+          typename TInputImage2,
+          typename TInputImage3,
+          typename TOutputImage,
+          typename TFunction>
+class ITK_TEMPLATE_EXPORT TernaryFunctorImageFilter : public InPlaceImageFilter<TInputImage1, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TernaryFunctorImageFilter);
 
   /** Standard class type aliases. */
   using Self = TernaryFunctorImageFilter;
-  using Superclass = InPlaceImageFilter< TInputImage1, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InPlaceImageFilter<TInputImage1, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -75,25 +77,33 @@ public:
   using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** Connect one of the operands for pixel-wise addition. */
-  void SetInput1(const TInputImage1 *image1);
+  void
+  SetInput1(const TInputImage1 * image1);
 
   /** Connect one of the operands for pixel-wise addition. */
-  void SetInput2(const TInputImage2 *image2);
+  void
+  SetInput2(const TInputImage2 * image2);
 
   /** Connect one of the operands for pixel-wise addition. */
-  void SetInput3(const TInputImage3 *image3);
+  void
+  SetInput3(const TInputImage3 * image3);
 
   /** Get the functor object.  The functor is returned by reference.
    * (Functors do not have to derive from itk::LightObject, so they do
    * not necessarily have a reference count. So we cannot return a
    * SmartPointer). */
-  FunctorType & GetFunctor() { return m_Functor; }
+  FunctorType &
+  GetFunctor()
+  {
+    return m_Functor;
+  }
 
   /** Get the functor object.  The functor is returned by reference.
    * (Functors do not have to derive from itk::LightObject, so they do
    * not necessarily have a reference count. So we cannot return a
    * SmartPointer.) */
-  const FunctorType & GetFunctor() const
+  const FunctorType &
+  GetFunctor() const
   {
     return m_Functor;
   }
@@ -104,13 +114,14 @@ public:
    * This method requires an operator==() be defined on the functor
    * (or the compiler's default implementation of operator==() being
    * appropriate). */
-  void SetFunctor(const FunctorType & functor)
+  void
+  SetFunctor(const FunctorType & functor)
   {
-    if ( !( functor == m_Functor ) )
-      {
+    if (!(functor == m_Functor))
+    {
       m_Functor = functor;
       this->Modified();
-      }
+    }
   }
 
   /** Image dimensions */
@@ -121,12 +132,9 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( SameDimensionCheck1,
-                   ( Concept::SameDimension< Input1ImageDimension, Input2ImageDimension > ) );
-  itkConceptMacro( SameDimensionCheck2,
-                   ( Concept::SameDimension< Input1ImageDimension, Input3ImageDimension > ) );
-  itkConceptMacro( SameDimensionCheck3,
-                   ( Concept::SameDimension< Input1ImageDimension, OutputImageDimension > ) );
+  itkConceptMacro(SameDimensionCheck1, (Concept::SameDimension<Input1ImageDimension, Input2ImageDimension>));
+  itkConceptMacro(SameDimensionCheck2, (Concept::SameDimension<Input1ImageDimension, Input3ImageDimension>));
+  itkConceptMacro(SameDimensionCheck3, (Concept::SameDimension<Input1ImageDimension, OutputImageDimension>));
   // End concept checking
 #endif
 
@@ -136,7 +144,8 @@ protected:
 
   /** Validate the presence of all three inputs. If one or more inputs
    * are missing, throw an exception. */
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
   /** TernaryFunctorImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a DynamicThreadedGenerateData() routine
@@ -148,7 +157,8 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
 private:
@@ -157,7 +167,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTernaryFunctorImageFilter.hxx"
+#  include "itkTernaryFunctorImageFilter.hxx"
 #endif
 
 #endif

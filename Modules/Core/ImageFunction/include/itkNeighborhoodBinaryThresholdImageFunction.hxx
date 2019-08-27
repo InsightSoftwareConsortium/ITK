@@ -27,9 +27,8 @@ namespace itk
 /**
  * Constructor
  */
-template< typename TInputImage, typename TCoordRep >
-NeighborhoodBinaryThresholdImageFunction< TInputImage, TCoordRep >
-::NeighborhoodBinaryThresholdImageFunction()
+template <typename TInputImage, typename TCoordRep>
+NeighborhoodBinaryThresholdImageFunction<TInputImage, TCoordRep>::NeighborhoodBinaryThresholdImageFunction()
 {
   m_Radius.Fill(1);
 }
@@ -37,10 +36,9 @@ NeighborhoodBinaryThresholdImageFunction< TInputImage, TCoordRep >
 /**
  *
  */
-template< typename TInputImage, typename TCoordRep >
+template <typename TInputImage, typename TCoordRep>
 void
-NeighborhoodBinaryThresholdImageFunction< TInputImage, TCoordRep >
-::PrintSelf(std::ostream & os, Indent indent) const
+NeighborhoodBinaryThresholdImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
 
@@ -50,24 +48,23 @@ NeighborhoodBinaryThresholdImageFunction< TInputImage, TCoordRep >
 /**
  *
  */
-template< typename TInputImage, typename TCoordRep >
+template <typename TInputImage, typename TCoordRep>
 bool
-NeighborhoodBinaryThresholdImageFunction< TInputImage, TCoordRep >
-::EvaluateAtIndex(const IndexType & index) const
+NeighborhoodBinaryThresholdImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const
 {
-  if ( !this->GetInputImage() )
-    {
-    return ( false );
-    }
+  if (!this->GetInputImage())
+  {
+    return (false);
+  }
 
-  if ( !this->IsInsideBuffer(index) )
-    {
-    return ( false );
-    }
+  if (!this->IsInsideBuffer(index))
+  {
+    return (false);
+  }
 
   // Create an N-d neighborhood kernel, using a zeroflux boundary condition
-  ConstNeighborhoodIterator< InputImageType >
-  it( m_Radius, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion() );
+  ConstNeighborhoodIterator<InputImageType> it(
+    m_Radius, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());
 
   // Set the iterator at the desired location
   it.SetLocation(index);
@@ -78,17 +75,17 @@ NeighborhoodBinaryThresholdImageFunction< TInputImage, TCoordRep >
   PixelType          upper = this->GetUpper();
   PixelType          value;
   const unsigned int size = it.Size();
-  for ( unsigned int i = 0; i < size; ++i )
-    {
+  for (unsigned int i = 0; i < size; ++i)
+  {
     value = it.GetPixel(i);
-    if ( lower > value || value > upper )
-      {
+    if (lower > value || value > upper)
+    {
       allInside = false;
       break;
-      }
     }
+  }
 
-  return ( allInside );
+  return (allInside);
 }
 } // end namespace itk
 

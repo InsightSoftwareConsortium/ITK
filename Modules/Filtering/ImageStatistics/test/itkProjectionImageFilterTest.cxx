@@ -35,33 +35,38 @@ template <typename TInputPixel, typename TOutputPixel>
 class BinaryAccumulator
 {
 public:
-  BinaryAccumulator( unsigned long ) : m_IsForeground(false) {}
-  ~BinaryAccumulator()= default;
+  BinaryAccumulator(unsigned long)
+    : m_IsForeground(false)
+  {}
+  ~BinaryAccumulator() = default;
 
-  inline void Initialize()
-    {
+  inline void
+  Initialize()
+  {
     m_IsForeground = false;
-    }
+  }
 
-  inline void operator()( const TInputPixel &input )
+  inline void
+  operator()(const TInputPixel & input)
+  {
+    if (input == 100)
     {
-    if( input == 100 )
-      {
       m_IsForeground = true;
-      }
     }
+  }
 
-  inline TOutputPixel GetValue()
+  inline TOutputPixel
+  GetValue()
+  {
+    if (m_IsForeground)
     {
-    if( m_IsForeground )
-      {
       return 100;
-      }
-    else
-      {
-      return 0;
-      }
     }
+    else
+    {
+      return 0;
+    }
+  }
 
   bool m_IsForeground;
 };
@@ -70,66 +75,65 @@ public:
 } // end namespace ProjectionImageFilterNamespace
 } // end namespace itk
 
-int itkProjectionImageFilterTest(int argc, char * argv[])
+int
+itkProjectionImageFilterTest(int argc, char * argv[])
 {
-  if( argc < 5 )
-    {
+  if (argc < 5)
+  {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " InputImage OutputImage Foreground Background" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr int dim = 3;
 
   using PixelType = unsigned char;
-  using ImageType = itk::Image< PixelType, dim >;
+  using ImageType = itk::Image<PixelType, dim>;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
   // produce an image with 3 labels: 0 (background), 100 and 200
 
-  using LabelerType = itk::ThresholdLabelerImageFilter< ImageType, ImageType >;
+  using LabelerType = itk::ThresholdLabelerImageFilter<ImageType, ImageType>;
   LabelerType::Pointer labeler = LabelerType::New();
-  labeler->SetInput( reader->GetOutput() );
+  labeler->SetInput(reader->GetOutput());
   LabelerType::RealThresholdVector thresholds;
-  thresholds.push_back( 100 );
-  thresholds.push_back( 200 );
-  labeler->SetRealThresholds( thresholds );
+  thresholds.push_back(100);
+  thresholds.push_back(200);
+  labeler->SetRealThresholds(thresholds);
 
-  using ChangeType = itk::ChangeLabelImageFilter< ImageType, ImageType >;
+  using ChangeType = itk::ChangeLabelImageFilter<ImageType, ImageType>;
   ChangeType::Pointer change = ChangeType::New();
-  change->SetInput( labeler->GetOutput() );
-  change->SetChange( 1, 100 );
-  change->SetChange( 2, 200 );
+  change->SetInput(labeler->GetOutput());
+  change->SetChange(1, 100);
+  change->SetChange(2, 200);
 
-  using FunctionType = itk::ProjectionImageFilterNamespace::Function::BinaryAccumulator<
-    PixelType, PixelType>;
+  using FunctionType = itk::ProjectionImageFilterNamespace::Function::BinaryAccumulator<PixelType, PixelType>;
 
-  using FilterType = itk::ProjectionImageFilter<
-    ImageType, ImageType, FunctionType >;
+  using FilterType = itk::ProjectionImageFilter<ImageType, ImageType, FunctionType>;
 
   FilterType::Pointer filter = FilterType::New();
-  filter->SetInput( change->GetOutput() );
+  filter->SetInput(change->GetOutput());
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(argv[2]);
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

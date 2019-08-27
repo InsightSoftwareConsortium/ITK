@@ -30,12 +30,11 @@ namespace itk
 class ITKIOMeta_EXPORT MetaArrayReader : public LightProcessObject
 {
 public:
-
   /** SmartPointer type alias support */
   using Self = MetaArrayReader;
   using Superclass = LightProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -51,57 +50,65 @@ public:
 
   /** Get a pointer to the MetaArray so that its options, such as adding
    *  comments and user-defined fields, can be changed. */
-  MetaArray * GetMetaArrayPointer();
+  MetaArray *
+  GetMetaArrayPointer();
 
   /** Specify the buffer (already allocated) into which data should be read. */
-  void SetBuffer(void *_buffer);
+  void
+  SetBuffer(void * _buffer);
 
   /** Read the Array in MetaIO format. */
-  void Update();
+  void
+  Update();
 
   /** Return the MetaIO type that corresponds to the element type. */
-  MET_ValueEnumType GetDataType() const
+  MET_ValueEnumType
+  GetDataType() const
   {
     return m_MetaArray.ElementType();
   }
 
   /** Size is used by itkArray and VariableLengthVector. */
-  int Size() const
+  int
+  Size() const
   {
     return m_MetaArray.Length();
   }
 
   /** GetNumberOfElements is used by itkArray and VariableLengthVector. */
-  int GetNumberOfElements() const
+  int
+  GetNumberOfElements() const
   {
     return m_MetaArray.Length();
   }
 
   /** GetVectorDimension is used by itkVector. */
-  int GetVectorDimension() const
+  int
+  GetVectorDimension() const
   {
     return m_MetaArray.Length();
   }
 
   /** GetNumberOfComponents is used by itkVector and itkCovariantVector. */
-  int GetNumberOfComponents() const
+  int
+  GetNumberOfComponents() const
   {
     return m_MetaArray.Length();
   }
 
   /** GetCovariantVectorDimension is used by itkVector. */
-  int GetCovariantVectorDimension() const
+  int
+  GetCovariantVectorDimension() const
   {
     return m_MetaArray.Length();
   }
 
   /** GetElement is used by itkArray, itkFixedArray, and VariableLengthVector. */
-  template< typename TValue >
-  inline void GetElement(TValue & value, unsigned int i,
-    unsigned int channel = 0) const
+  template <typename TValue>
+  inline void
+  GetElement(TValue & value, unsigned int i, unsigned int channel = 0) const
   {
-    value = static_cast< TValue >( m_MetaArray.ElementData(
-      i * m_MetaArray.ElementNumberOfChannels() + channel) );
+    value = static_cast<TValue>(m_MetaArray.ElementData(i * m_MetaArray.ElementNumberOfChannels() + channel));
   }
 
   /** Get an itkArray.
@@ -112,57 +119,54 @@ public:
    *  MetaArrayReader is destroyed. Otherwise, the buffer (and therefore
    *  the validity of the dat ain the Array) is destroyed when the
    *  MetaArrayReader is dstroyed. */
-  template< typename TValue >
-  void GetOutput(MET_ValueEnumType _metaElementType,
-                 Array< TValue > *_array,
-                 bool _letArrayManageData = true)
+  template <typename TValue>
+  void
+  GetOutput(MET_ValueEnumType _metaElementType, Array<TValue> * _array, bool _letArrayManageData = true)
   {
-    if ( m_MetaArray.ElementType() != _metaElementType )
-      {
+    if (m_MetaArray.ElementType() != _metaElementType)
+    {
       m_MetaArray.ConvertElementDataTo(_metaElementType);
-      }
-    _array->SetData( (TValue *)( m_MetaArray.ElementData() ),
-                     m_MetaArray.Length(),
-                     _letArrayManageData );
-    if ( _letArrayManageData )
-      {
+    }
+    _array->SetData((TValue *)(m_MetaArray.ElementData()), m_MetaArray.Length(), _letArrayManageData);
+    if (_letArrayManageData)
+    {
       m_MetaArray.AutoFreeElementData(false);
-      }
+    }
   }
 
   /** Get an itkFixedArray. */
-  template< typename TValue, unsigned int VLength >
-  bool GetOutput(MET_ValueEnumType itkNotUsed(_metaElementType),
-                 FixedArray< TValue, VLength > *_array)
+  template <typename TValue, unsigned int VLength>
+  bool
+  GetOutput(MET_ValueEnumType itkNotUsed(_metaElementType), FixedArray<TValue, VLength> * _array)
   {
-    if ( static_cast< int >( VLength ) <= m_MetaArray.Length() )
-      {
+    if (static_cast<int>(VLength) <= m_MetaArray.Length())
+    {
       unsigned int i;
-      for ( i = 0; i < VLength; i++ )
-        {
-        this->GetElement( ( *_array )[i], i );
-        }
-      return true;
+      for (i = 0; i < VLength; i++)
+      {
+        this->GetElement((*_array)[i], i);
       }
+      return true;
+    }
     return false;
   }
 
   /** Get an itkVectort.
    *  Specify the MetaType of the elements of the itkVector and provide
    *  a pointer to the itkVector into which the data should be copied. */
-  template< typename TValue, unsigned int VLength >
-  bool GetOutput(MET_ValueEnumType itkNotUsed(_metaElementType),
-                 Vector< TValue, VLength > *_vector)
+  template <typename TValue, unsigned int VLength>
+  bool
+  GetOutput(MET_ValueEnumType itkNotUsed(_metaElementType), Vector<TValue, VLength> * _vector)
   {
-    if ( static_cast< int >( VLength ) <= m_MetaArray.Length() )
-      {
+    if (static_cast<int>(VLength) <= m_MetaArray.Length())
+    {
       unsigned int i;
-      for ( i = 0; i < VLength; i++ )
-        {
-        this->GetElement( ( *_vector )[i], i );
-        }
-      return true;
+      for (i = 0; i < VLength; i++)
+      {
+        this->GetElement((*_vector)[i], i);
       }
+      return true;
+    }
     return false;
   }
 
@@ -170,19 +174,19 @@ public:
    *  Specify the MetaType of the elements of the itkCovariantVector and
    *  provide a pointer to the itkCovariantVector into which the data
    *  should be copied. */
-  template< typename TValue, unsigned int VLength >
-  bool GetOutput(MET_ValueEnumType itkNotUsed(_metaElementType),
-                 CovariantVector< TValue, VLength > *_vector)
+  template <typename TValue, unsigned int VLength>
+  bool
+  GetOutput(MET_ValueEnumType itkNotUsed(_metaElementType), CovariantVector<TValue, VLength> * _vector)
   {
-    if ( static_cast< int >( VLength ) <= m_MetaArray.Length() )
-      {
+    if (static_cast<int>(VLength) <= m_MetaArray.Length())
+    {
       unsigned int i;
-      for ( i = 0; i < VLength; i++ )
-        {
-        this->GetElement( ( *_vector )[i], i );
-        }
-      return true;
+      for (i = 0; i < VLength; i++)
+      {
+        this->GetElement((*_vector)[i], i);
       }
+      return true;
+    }
     return false;
   }
 
@@ -195,22 +199,21 @@ public:
    *  MetaArrayReader is destroyed. Otherwise, the buffer (and therefore
    *  the validity of the dat ain the VariableLengthVector) is destroyed
    *  when the MetaArrayReader is dstroyed. */
-  template< typename TValue >
-  void GetOutput(MET_ValueEnumType _metaElementType,
-                 VariableLengthVector< TValue > *_vector,
-                 bool _letVectorManageData = true)
+  template <typename TValue>
+  void
+  GetOutput(MET_ValueEnumType              _metaElementType,
+            VariableLengthVector<TValue> * _vector,
+            bool                           _letVectorManageData = true)
   {
-    if ( m_MetaArray.ElementType() != _metaElementType )
-      {
+    if (m_MetaArray.ElementType() != _metaElementType)
+    {
       m_MetaArray.ConvertElementDataTo(_metaElementType);
-      }
-    _vector->SetData( (TValue *)( m_MetaArray.ElementData() ),
-                      m_MetaArray.Length(),
-                      _letVectorManageData );
-    if ( _letVectorManageData )
-      {
+    }
+    _vector->SetData((TValue *)(m_MetaArray.ElementData()), m_MetaArray.Length(), _letVectorManageData);
+    if (_letVectorManageData)
+    {
       m_MetaArray.AutoFreeElementData(false);
-      }
+    }
   }
 
   /** Get an itkArray of Arrays, itk::Array< itk::Array<short> >.
@@ -218,41 +221,39 @@ public:
    *  Specify the MetaType of the elements of the Array< Array< * > > and
    *  provide a pointer to the Array of arrays. Elements are copied
    *  into the array of arrays. */
-  template< typename TValue >
-  void GetMultiChannelOutput(MET_ValueEnumType _metaElementType,
-                             Array< TValue > *_array)
+  template <typename TValue>
+  void
+  GetMultiChannelOutput(MET_ValueEnumType _metaElementType, Array<TValue> * _array)
   {
-    if ( m_MetaArray.ElementType() != _metaElementType )
-      {
+    if (m_MetaArray.ElementType() != _metaElementType)
+    {
       m_MetaArray.ConvertElementDataTo(_metaElementType);
-      }
+    }
     int rows = m_MetaArray.Length();
     int cols = m_MetaArray.ElementNumberOfChannels();
     _array->SetSize(rows);
-    for ( int i = 0; i < rows; i++ )
+    for (int i = 0; i < rows; i++)
+    {
+      (*_array)[i].SetSize(cols);
+      for (int j = 0; j < cols; j++)
       {
-      ( *_array )[i].SetSize(cols);
-      for ( int j = 0; j < cols; j++ )
-        {
-        ( *_array )[i][j] = static_cast< typename TValue::ValueType >
-                            ( m_MetaArray.ElementData(i * cols + j) );
-        }
+        (*_array)[i][j] = static_cast<typename TValue::ValueType>(m_MetaArray.ElementData(i * cols + j));
       }
+    }
   }
 
 protected:
-
   MetaArrayReader();
   ~MetaArrayReader() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
   MetaArray m_MetaArray;
 
   std::string m_FileName;
 
-  void *m_Buffer{ nullptr };
+  void * m_Buffer{ nullptr };
 };
 } // namespace itk
 

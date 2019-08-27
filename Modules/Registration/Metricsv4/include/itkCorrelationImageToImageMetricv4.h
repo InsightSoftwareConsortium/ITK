@@ -69,20 +69,22 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-template <typename TFixedImage, typename TMovingImage, typename TVirtualImage = TFixedImage,
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage = TFixedImage,
           typename TInternalComputationValueType = double,
-          typename TMetricTraits = DefaultImageToImageMetricTraitsv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType>
-          >
-class ITK_TEMPLATE_EXPORT CorrelationImageToImageMetricv4 :
-  public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
+          typename TMetricTraits =
+            DefaultImageToImageMetricTraitsv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType>>
+class ITK_TEMPLATE_EXPORT CorrelationImageToImageMetricv4
+  : public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CorrelationImageToImageMetricv4);
 
   /** Standard class type aliases. */
   using Self = CorrelationImageToImageMetricv4;
-  using Superclass = ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage,
-                             TInternalComputationValueType,TMetricTraits>;
+  using Superclass =
+    ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -113,8 +115,8 @@ public:
 
   /* Image dimension accessors */
   static constexpr typename TVirtualImage::ImageDimensionType VirtualImageDimension = TVirtualImage::ImageDimension;
-  static constexpr typename TFixedImage::ImageDimensionType FixedImageDimension = TFixedImage::ImageDimension;
-  static constexpr typename TMovingImage::ImageDimensionType MovingImageDimension = TMovingImage::ImageDimension;
+  static constexpr typename TFixedImage::ImageDimensionType   FixedImageDimension = TFixedImage::ImageDimension;
+  static constexpr typename TMovingImage::ImageDimensionType  MovingImageDimension = TMovingImage::ImageDimension;
 
 protected:
   CorrelationImageToImageMetricv4();
@@ -124,27 +126,45 @@ protected:
    * \c GetValueAndDerivative. This is distinct from Initialize, which
    * is called only once before a number of iterations, e.g. before
    * a registration loop. */
-  void InitializeForIteration() const override;
+  void
+  InitializeForIteration() const override;
 
-  friend class ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Self >;
-  friend class ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedIndexedContainerPartitioner, Self >;
-  friend class ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Self >;
-  friend class ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Self >;
+  friend class ImageToImageMetricv4GetValueAndDerivativeThreaderBase<
+    ThreadedImageRegionPartitioner<Superclass::VirtualImageDimension>,
+    Self>;
+  friend class ImageToImageMetricv4GetValueAndDerivativeThreaderBase<ThreadedIndexedContainerPartitioner, Self>;
+  friend class ImageToImageMetricv4GetValueAndDerivativeThreader<
+    ThreadedImageRegionPartitioner<Superclass::VirtualImageDimension>,
+    Self>;
+  friend class ImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner, Self>;
 
-  friend class CorrelationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
-  friend class CorrelationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
+  friend class CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
+    ThreadedImageRegionPartitioner<Superclass::VirtualImageDimension>,
+    Superclass,
+    Self>;
+  friend class CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner,
+                                                                            Superclass,
+                                                                            Self>;
   using CorrelationDenseGetValueAndDerivativeThreaderType =
-      CorrelationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
+    CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
+      ThreadedImageRegionPartitioner<Superclass::VirtualImageDimension>,
+      Superclass,
+      Self>;
   using CorrelationSparseGetValueAndDerivativeThreaderType =
-      CorrelationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
+    CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner, Superclass, Self>;
 
-  friend class CorrelationImageToImageMetricv4HelperThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
-  friend class CorrelationImageToImageMetricv4HelperThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
+  friend class CorrelationImageToImageMetricv4HelperThreader<
+    ThreadedImageRegionPartitioner<Superclass::VirtualImageDimension>,
+    Superclass,
+    Self>;
+  friend class CorrelationImageToImageMetricv4HelperThreader<ThreadedIndexedContainerPartitioner, Superclass, Self>;
 
   using CorrelationHelperDenseThreaderType =
-      CorrelationImageToImageMetricv4HelperThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
+    CorrelationImageToImageMetricv4HelperThreader<ThreadedImageRegionPartitioner<Superclass::VirtualImageDimension>,
+                                                  Superclass,
+                                                  Self>;
   using CorrelationHelperSparseThreaderType =
-      CorrelationImageToImageMetricv4HelperThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
+    CorrelationImageToImageMetricv4HelperThreader<ThreadedIndexedContainerPartitioner, Superclass, Self>;
 
   typename CorrelationHelperDenseThreaderType::Pointer  m_HelperDenseThreader;
   typename CorrelationHelperSparseThreaderType::Pointer m_HelperSparseThreader;
@@ -155,13 +175,14 @@ protected:
   mutable MeasureType m_AverageFix;
   mutable MeasureType m_AverageMov;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCorrelationImageToImageMetricv4.hxx"
+#  include "itkCorrelationImageToImageMetricv4.hxx"
 #endif
 
 #endif

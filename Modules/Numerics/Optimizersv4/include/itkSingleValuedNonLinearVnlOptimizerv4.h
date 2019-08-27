@@ -34,8 +34,7 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-class ITKOptimizersv4_EXPORT SingleValuedNonLinearVnlOptimizerv4 :
-    public ObjectToObjectOptimizerBaseTemplate<double>
+class ITKOptimizersv4_EXPORT SingleValuedNonLinearVnlOptimizerv4 : public ObjectToObjectOptimizerBaseTemplate<double>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SingleValuedNonLinearVnlOptimizerv4);
@@ -43,17 +42,17 @@ public:
   /** Standard class type aliases. */
   using Self = SingleValuedNonLinearVnlOptimizerv4;
   using Superclass = ObjectToObjectOptimizerBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SingleValuedNonLinearVnlOptimizerv4, ObjectToObjectOptimizerBase)
 
-  /** Command observer that will interact with the ITKVNL cost-function
-   * adaptor in order to generate iteration events. This will allow to overcome
-   * the limitation of VNL optimizers not offering callbacks for every
-   * iteration */
-  using CommandType = ReceptorMemberCommand< Self >;
+    /** Command observer that will interact with the ITKVNL cost-function
+     * adaptor in order to generate iteration events. This will allow to overcome
+     * the limitation of VNL optimizers not offering callbacks for every
+     * iteration */
+    using CommandType = ReceptorMemberCommand<Self>;
 
   using MetricType = Superclass::MetricType;
   using DerivativeType = Superclass::DerivativeType;
@@ -66,7 +65,8 @@ public:
   /** Stop condition internal string type */
   using StopConditionDescriptionType = Superclass::StopConditionDescriptionType;
 
-  void StartOptimization(bool doOnlyInitialization = false) override;
+  void
+  StartOptimization(bool doOnlyInitialization = false) override;
 
   /** Set the metric (cost function). This method has to be overloaded
    *  by derived classes because the CostFunctionAdaptor requires
@@ -74,7 +74,8 @@ public:
    *  number of parameters is obtained at run-time from the itkObjectToObjectMetric.
    *  As a consequence each derived optimizer should construct its own
    *  CostFunctionAdaptor when overloading this method  */
-  void SetMetric(MetricType *metric) override = 0;
+  void
+  SetMetric(MetricType * metric) override = 0;
 
   /** Return Cached Values. These method have the advantage of not triggering a
    * recomputation of the metric value, but it has the disadvantage of returning
@@ -85,7 +86,8 @@ public:
   itkGetConstReferenceMacro(CachedCurrentPosition, ParametersType);
 
   /** Get the reason for termination */
-  const StopConditionReturnStringType GetStopConditionDescription() const override = 0;
+  const StopConditionReturnStringType
+  GetStopConditionDescription() const override = 0;
 
 protected:
   SingleValuedNonLinearVnlOptimizerv4();
@@ -93,18 +95,23 @@ protected:
 
   using CostFunctionAdaptorType = SingleValuedVnlCostFunctionAdaptorv4;
 
-  void SetCostFunctionAdaptor(CostFunctionAdaptorType *adaptor);
+  void
+  SetCostFunctionAdaptor(CostFunctionAdaptorType * adaptor);
 
-  const CostFunctionAdaptorType * GetCostFunctionAdaptor() const;
+  const CostFunctionAdaptorType *
+  GetCostFunctionAdaptor() const;
 
-  CostFunctionAdaptorType * GetCostFunctionAdaptor();
+  CostFunctionAdaptorType *
+  GetCostFunctionAdaptor();
 
   /** The purpose of this method is to get around the lack of
    *  const-correctness in VNL cost-functions and optimizers */
-  CostFunctionAdaptorType * GetNonConstCostFunctionAdaptor() const;
+  CostFunctionAdaptorType *
+  GetNonConstCostFunctionAdaptor() const;
 
   /** Print out internal state */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** The purpose of this method is to get around the lack of iteration reporting
@@ -113,9 +120,10 @@ private:
    * here are produce PER EVALUATION of the metric, not per real iteration of the
    * vnl optimizer. Optimizers that evaluate the metric multiple times at each
    * iteration will generate a lot more of Iteration events here. */
-  void IterationReport(const EventObject & event);
+  void
+  IterationReport(const EventObject & event);
 
-  CostFunctionAdaptorType *m_CostFunctionAdaptor;
+  CostFunctionAdaptorType * m_CostFunctionAdaptor;
 
   CommandType::Pointer m_Command;
 

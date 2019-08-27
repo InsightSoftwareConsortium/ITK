@@ -22,22 +22,23 @@
 
 namespace itk
 {
-void HDF5TransformIOFactory::PrintSelf(std::ostream &, Indent) const
+void
+HDF5TransformIOFactory::PrintSelf(std::ostream &, Indent) const
 {}
 
 HDF5TransformIOFactory::HDF5TransformIOFactory()
 {
-  this->RegisterOverride( "itkTransformIOBaseTemplate",
-                          "itkHDF5TransformIO",
-                          "HD5 Transform float IO",
-                          true,
-                          CreateObjectFunction< HDF5TransformIOTemplate< float > >::New() );
+  this->RegisterOverride("itkTransformIOBaseTemplate",
+                         "itkHDF5TransformIO",
+                         "HD5 Transform float IO",
+                         true,
+                         CreateObjectFunction<HDF5TransformIOTemplate<float>>::New());
 
-  this->RegisterOverride( "itkTransformIOBaseTemplate",
-                          "itkHDF5TransformIO",
-                          "HD5 Transform double IO",
-                          true,
-                          CreateObjectFunction< HDF5TransformIOTemplate< double > >::New() );
+  this->RegisterOverride("itkTransformIOBaseTemplate",
+                         "itkHDF5TransformIO",
+                         "HD5 Transform double IO",
+                         true,
+                         CreateObjectFunction<HDF5TransformIOTemplate<double>>::New());
 }
 
 HDF5TransformIOFactory::~HDF5TransformIOFactory() = default;
@@ -59,12 +60,13 @@ HDF5TransformIOFactory::GetDescription() const
 // DO NOT CALL DIRECTLY.
 static bool HDF5TransformIOFactoryHasBeenRegistered;
 
-void ITKIOTransformHDF5_EXPORT HDF5TransformIOFactoryRegister__Private()
+void ITKIOTransformHDF5_EXPORT
+     HDF5TransformIOFactoryRegister__Private()
 {
-  if( ! HDF5TransformIOFactoryHasBeenRegistered )
-    {
+  if (!HDF5TransformIOFactoryHasBeenRegistered)
+  {
     HDF5TransformIOFactoryHasBeenRegistered = true;
     HDF5TransformIOFactory::RegisterOneFactory();
-    }
+  }
 }
 } // end namespace itk

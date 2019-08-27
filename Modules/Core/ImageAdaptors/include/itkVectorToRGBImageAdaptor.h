@@ -31,24 +31,19 @@ namespace itk
  *
  * \ingroup ITKImageAdaptors
  */
-template< typename TImage >
-class VectorToRGBImageAdaptor:public
-  ImageAdaptor< TImage,
-                Accessor::VectorToRGBPixelAccessor<
-                  typename TImage::PixelType::ValueType
-                  > >
+template <typename TImage>
+class VectorToRGBImageAdaptor
+  : public ImageAdaptor<TImage, Accessor::VectorToRGBPixelAccessor<typename TImage::PixelType::ValueType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorToRGBImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = VectorToRGBImageAdaptor;
-  using Superclass = ImageAdaptor< TImage,
-                        Accessor::VectorToRGBPixelAccessor<
-                          typename TImage::PixelType::ValueType > >;
+  using Superclass = ImageAdaptor<TImage, Accessor::VectorToRGBPixelAccessor<typename TImage::PixelType::ValueType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

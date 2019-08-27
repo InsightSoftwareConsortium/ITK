@@ -22,13 +22,13 @@
 
 namespace itk
 {
-template<typename TInternalComputationValueType>
+template <typename TInternalComputationValueType>
 void
-GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate<TInternalComputationValueType>
-::ThreadedExecution( const IndexRangeType & subrange,
-                      const ThreadIdType itkNotUsed(threadId) )
+GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate<TInternalComputationValueType>::ThreadedExecution(
+  const IndexRangeType & subrange,
+  const ThreadIdType     itkNotUsed(threadId))
 {
-  this->m_Associate->ModifyGradientByScalesOverSubRange( subrange );
+  this->m_Associate->ModifyGradientByScalesOverSubRange(subrange);
 }
 
 } // end namespace itk

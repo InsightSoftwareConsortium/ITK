@@ -57,19 +57,18 @@ namespace itk
  * \sphinxexample{Filtering/LabelMap/LabelBinaryRegionsAndGetProperties,Label Binary Regions And Get Properties}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage =
-            LabelMap< ShapeLabelObject< SizeValueType, TInputImage::ImageDimension > > >
-class ITK_TEMPLATE_EXPORT BinaryImageToShapeLabelMapFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage,
+          typename TOutputImage = LabelMap<ShapeLabelObject<SizeValueType, TInputImage::ImageDimension>>>
+class ITK_TEMPLATE_EXPORT BinaryImageToShapeLabelMapFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToShapeLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = BinaryImageToShapeLabelMapFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;
@@ -90,10 +89,9 @@ public:
   static constexpr unsigned int OutputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
-  using LabelizerType = BinaryImageToLabelMapFilter< InputImageType, OutputImageType >;
-  using ShapeLabelFilterOutput =
-      Image< typename OutputImageType::PixelType, Self::OutputImageDimension >;
-  using LabelObjectValuatorType = ShapeLabelMapFilter< TOutputImage, ShapeLabelFilterOutput >;
+  using LabelizerType = BinaryImageToLabelMapFilter<InputImageType, OutputImageType>;
+  using ShapeLabelFilterOutput = Image<typename OutputImageType::PixelType, Self::OutputImageDimension>;
+  using LabelObjectValuatorType = ShapeLabelMapFilter<TOutputImage, ShapeLabelFilterOutput>;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -112,12 +110,9 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputEqualityComparableCheck,
-                   ( Concept::EqualityComparable< InputImagePixelType > ) );
-  itkConceptMacro( IntConvertibleToInputCheck,
-                   ( Concept::Convertible< int, InputImagePixelType > ) );
-  itkConceptMacro( InputOStreamWritableCheck,
-                   ( Concept::OStreamWritable< InputImagePixelType > ) );
+  itkConceptMacro(InputEqualityComparableCheck, (Concept::EqualityComparable<InputImagePixelType>));
+  itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputImagePixelType>));
+  itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputImagePixelType>));
   // End concept checking
 #endif
 
@@ -163,18 +158,22 @@ public:
 protected:
   BinaryImageToShapeLabelMapFilter();
   ~BinaryImageToShapeLabelMapFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** BinaryImageToShapeLabelMapFilter needs the entire input be available.
    * Thus, it needs to provide an implementation of GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** BinaryImageToShapeLabelMapFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
   /** Single-threaded version of GenerateData.
    * This filter delegates to GrayscaleGeodesicErodeImageFilter. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   bool                 m_FullyConnected;
@@ -187,7 +186,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryImageToShapeLabelMapFilter.hxx"
+#  include "itkBinaryImageToShapeLabelMapFilter.hxx"
 #endif
 
 #endif

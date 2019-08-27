@@ -48,53 +48,51 @@ namespace itk
 
 namespace Functor
 {
-template< typename TInputPixel >
+template <typename TInputPixel>
 class MedianAccumulator
 {
 public:
-  MedianAccumulator( SizeValueType size)
-  {
-    m_Values.reserve(size);
-  }
+  MedianAccumulator(SizeValueType size) { m_Values.reserve(size); }
 
-  ~MedianAccumulator()= default;
+  ~MedianAccumulator() = default;
 
-  inline void Initialize()
+  inline void
+  Initialize()
   {
     m_Values.clear();
   }
 
-  inline void operator()(const TInputPixel & input)
+  inline void
+  operator()(const TInputPixel & input)
   {
     m_Values.push_back(input);
   }
 
-  inline TInputPixel GetValue()
+  inline TInputPixel
+  GetValue()
   {
-    auto medianIterator = m_Values.begin() +  m_Values.size() / 2;
-    std::nth_element( m_Values.begin(), medianIterator, m_Values.end() );
+    auto medianIterator = m_Values.begin() + m_Values.size() / 2;
+    std::nth_element(m_Values.begin(), medianIterator, m_Values.end());
     return *medianIterator;
   }
 
-  std::vector< TInputPixel > m_Values;
+  std::vector<TInputPixel> m_Values;
 };
-} // end namespace Function
+} // namespace Functor
 
-template< typename TInputImage, typename TOutputImage >
-class MedianProjectionImageFilter:public
-  ProjectionImageFilter< TInputImage, TOutputImage,
-                         Functor::MedianAccumulator< typename TInputImage::PixelType > >
+template <typename TInputImage, typename TOutputImage>
+class MedianProjectionImageFilter
+  : public ProjectionImageFilter<TInputImage, TOutputImage, Functor::MedianAccumulator<typename TInputImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MedianProjectionImageFilter);
 
   using Self = MedianProjectionImageFilter;
-  using Superclass = ProjectionImageFilter< TInputImage, TOutputImage,
-                                 Functor::MedianAccumulator<
-                                   typename TInputImage::PixelType > >;
+  using Superclass =
+    ProjectionImageFilter<TInputImage, TOutputImage, Functor::MedianAccumulator<typename TInputImage::PixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Runtime information support. */
   itkTypeMacro(MedianProjectionImageFilter, ProjectionImageFilter);
@@ -110,7 +108,7 @@ public:
 protected:
   MedianProjectionImageFilter() = default;
   ~MedianProjectionImageFilter() override = default;
-};                                           // end MedianProjectionImageFilter
-} //end namespace itk
+}; // end MedianProjectionImageFilter
+} // end namespace itk
 
 #endif

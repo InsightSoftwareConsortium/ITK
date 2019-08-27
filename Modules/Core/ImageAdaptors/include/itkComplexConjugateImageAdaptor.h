@@ -31,21 +31,23 @@ namespace Accessor
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< typename TComplexType >
+template <typename TComplexType>
 class ComplexConjugatePixelAccessor
 {
 public:
   using ExternalType = TComplexType;
   using InternalType = TComplexType;
 
-  static inline void Set(TComplexType & output, const TComplexType & input)
+  static inline void
+  Set(TComplexType & output, const TComplexType & input)
   {
-    output = std::conj( input );
+    output = std::conj(input);
   }
 
-  static inline TComplexType Get(const TComplexType & input)
+  static inline TComplexType
+  Get(const TComplexType & input)
   {
-    return std::conj( input );
+    return std::conj(input);
   }
 };
 } // end namespace Accessor
@@ -56,21 +58,19 @@ public:
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< typename TImage >
-class ComplexConjugateImageAdaptor:public
-  ImageAdaptor< TImage,
-                Accessor::ComplexConjugatePixelAccessor< typename TImage::PixelType > >
+template <typename TImage>
+class ComplexConjugateImageAdaptor
+  : public ImageAdaptor<TImage, Accessor::ComplexConjugatePixelAccessor<typename TImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComplexConjugateImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = ComplexConjugateImageAdaptor;
-  using Superclass = ImageAdaptor< TImage, Accessor::ComplexConjugatePixelAccessor<
-                          typename TImage::PixelType > >;
+  using Superclass = ImageAdaptor<TImage, Accessor::ComplexConjugatePixelAccessor<typename TImage::PixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -80,10 +80,9 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking. */
-  itkConceptMacro( InputConvertibleToComplex,
-                   ( Concept::Convertible<
-                       std::complex< typename NumericTraits< typename TImage::PixelType >::ValueType >,
-                     typename TImage::PixelType > ) );
+  itkConceptMacro(InputConvertibleToComplex,
+                  (Concept::Convertible<std::complex<typename NumericTraits<typename TImage::PixelType>::ValueType>,
+                                        typename TImage::PixelType>));
   // End concept checking. */
 #endif
 

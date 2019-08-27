@@ -32,10 +32,10 @@ namespace itk
 /**
  * Definition of FancyString-based manipulators without parameters.
  */
-inline FancyString&
-operator<<( FancyString& s, void (*mf)(FancyString&) )
+inline FancyString &
+operator<<(FancyString & s, void (*mf)(FancyString &))
 {
-  (*mf)( s );
+  (*mf)(s);
   return s;
 }
 
@@ -43,7 +43,7 @@ operator<<( FancyString& s, void (*mf)(FancyString&) )
  * Manipulator to clear all characters in a FancyString.
  */
 inline void
-ClearContent( FancyString& input )
+ClearContent(FancyString & input)
 {
   input.ClearContent();
 }
@@ -61,11 +61,11 @@ ClearContent( FancyString& input )
  *
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < typename T >
-FancyString&
-FancyString::ToData( std::vector<T>& outputData, int count )
+template <typename T>
+FancyString &
+FancyString::ToData(std::vector<T> & outputData, int count)
 {
-  StringTools::ToData( this->m_Value, outputData, count );
+  StringTools::ToData(this->m_Value, outputData, count);
   return *this;
 }
 
@@ -73,11 +73,11 @@ FancyString::ToData( std::vector<T>& outputData, int count )
  * Functions to convert a vector of type std::vector<T> to a string.
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < typename T >
-FancyString&
-FancyString::FromData( const std::vector<T>& inputData )
+template <typename T>
+FancyString &
+FancyString::FromData(const std::vector<T> & inputData)
 {
-  StringTools::FromData( this->m_Value, inputData );
+  StringTools::FromData(this->m_Value, inputData);
   return *this;
 }
 
@@ -94,11 +94,11 @@ FancyString::FromData( const std::vector<T>& inputData )
  *
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < typename T >
-FancyString&
-FancyString::ToData( Array<T>& outputData, int count )
+template <typename T>
+FancyString &
+FancyString::ToData(Array<T> & outputData, int count)
 {
-  StringTools::ToData( this->m_Value, outputData, count );
+  StringTools::ToData(this->m_Value, outputData, count);
   return *this;
 }
 
@@ -106,11 +106,11 @@ FancyString::ToData( Array<T>& outputData, int count )
  * Functions to convert an array of type itk::Array<T> to a string.
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < typename T >
-FancyString&
-FancyString::FromData( const Array<T>& inputData )
+template <typename T>
+FancyString &
+FancyString::FromData(const Array<T> & inputData)
 {
-  StringTools::FromData( this->m_Value, inputData );
+  StringTools::FromData(this->m_Value, inputData);
   return *this;
 }
 
@@ -122,11 +122,11 @@ FancyString::FromData( const Array<T>& inputData )
  * Functions to convert a string to a value of basic data type.
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < typename T >
-FancyString&
-FancyString::ToData( T& outputData )
+template <typename T>
+FancyString &
+FancyString::ToData(T & outputData)
 {
-  StringTools::ToData( this->m_Value, outputData );
+  StringTools::ToData(this->m_Value, outputData);
   return *this;
 }
 
@@ -134,11 +134,11 @@ FancyString::ToData( T& outputData )
  * Functions to convert a value of basic data type to a string.
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < typename T >
-FancyString&
-FancyString::FromData( const T& inputData )
+template <typename T>
+FancyString &
+FancyString::FromData(const T & inputData)
 {
-  StringTools::FromData( this->m_Value, inputData );
+  StringTools::FromData(this->m_Value, inputData);
   return *this;
 }
 
@@ -156,20 +156,22 @@ namespace itk
  * Number of elements to read is given by data.size().
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < typename T >
-FancyString& operator>>( FancyString& s, std::vector<T>& data )
+template <typename T>
+FancyString &
+operator>>(FancyString & s, std::vector<T> & data)
 {
-  return s.ToData( data, 0 );
+  return s.ToData(data, 0);
 }
 
 /**
  * Functions to convert a vector of type std::vector<T> to a string.
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < typename T >
-FancyString& operator<<( FancyString& s, const std::vector<T>& data )
+template <typename T>
+FancyString &
+operator<<(FancyString & s, const std::vector<T> & data)
 {
-  return s.FromData( data );
+  return s.FromData(data);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -181,20 +183,22 @@ FancyString& operator<<( FancyString& s, const std::vector<T>& data )
  * Number of elements to read is given by data.GetSize().
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < typename T >
-FancyString& operator>>( FancyString& s, Array<T>& data )
+template <typename T>
+FancyString &
+operator>>(FancyString & s, Array<T> & data)
 {
-  return s.ToData( data, 0 );
+  return s.ToData(data, 0);
 }
 
 /**
  * Functions to convert an array of type itk::Array<T> to a string.
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < typename T >
-FancyString& operator<<( FancyString& s, const Array<T>& data )
+template <typename T>
+FancyString &
+operator<<(FancyString & s, const Array<T> & data)
 {
-  return s.FromData( data );
+  return s.FromData(data);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -205,20 +209,22 @@ FancyString& operator<<( FancyString& s, const Array<T>& data )
  * Functions to convert a string to a value of basic data type.
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < typename T >
-FancyString& operator>>( FancyString& s, T& data )
+template <typename T>
+FancyString &
+operator>>(FancyString & s, T & data)
 {
-  return s.ToData( data );
+  return s.ToData(data);
 }
 
 /**
  * Functions to convert a value of basic data type to a string.
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < typename T >
-FancyString& operator<<( FancyString& s, const T& data )
+template <typename T>
+FancyString &
+operator<<(FancyString & s, const T & data)
 {
-  return s.FromData( data );
+  return s.FromData(data);
 }
 
 } // namespace itk

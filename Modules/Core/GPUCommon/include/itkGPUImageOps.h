@@ -45,7 +45,6 @@ public:
 private:
   GPUImageOps();
   virtual ~GPUImageOps();
-
 };
 
 

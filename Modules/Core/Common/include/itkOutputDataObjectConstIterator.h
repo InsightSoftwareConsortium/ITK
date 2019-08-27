@@ -27,23 +27,22 @@ namespace itk
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  * \ingroup ITKCommon
  */
-class OutputDataObjectConstIterator: public DataObjectConstIterator
+class OutputDataObjectConstIterator : public DataObjectConstIterator
 {
 public:
-
-  OutputDataObjectConstIterator( const ProcessObject * process )
+  OutputDataObjectConstIterator(const ProcessObject * process)
   {
     m_Begin = process->m_Outputs.begin();
     m_End = process->m_Outputs.end();
     m_Iterator = m_Begin;
   }
 
-  const DataObject * GetOutput() const
+  const DataObject *
+  GetOutput() const
   {
     return m_Iterator->second;
   }
-
 };
 
-}
+} // namespace itk
 #endif

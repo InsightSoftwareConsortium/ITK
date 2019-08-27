@@ -28,120 +28,108 @@ namespace itk
 /**
  * Constructor
  */
-template< typename TInputImage, typename TOutputImage >
-NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
-::NeighborhoodConnectedImageFilter()
+template <typename TInputImage, typename TOutputImage>
+NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>::NeighborhoodConnectedImageFilter()
 {
-  m_Lower = NumericTraits< InputImagePixelType >::NonpositiveMin();
-  m_Upper = NumericTraits< InputImagePixelType >::max();
-  m_ReplaceValue = NumericTraits< OutputImagePixelType >::OneValue();
+  m_Lower = NumericTraits<InputImagePixelType>::NonpositiveMin();
+  m_Upper = NumericTraits<InputImagePixelType>::max();
+  m_ReplaceValue = NumericTraits<OutputImagePixelType>::OneValue();
   m_Radius.Fill(1);
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
-::ClearSeeds()
+NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>::ClearSeeds()
 {
-  if ( !this->m_Seeds.empty() )
-    {
+  if (!this->m_Seeds.empty())
+  {
     this->m_Seeds.clear();
     this->Modified();
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
-::SetSeed(const IndexType & seed)
+NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>::SetSeed(const IndexType & seed)
 {
   this->ClearSeeds();
-  this->AddSeed (seed);
+  this->AddSeed(seed);
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
-::AddSeed(const IndexType & seed)
+NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>::AddSeed(const IndexType & seed)
 {
-  this->m_Seeds.push_back (seed);
+  this->m_Seeds.push_back(seed);
   this->Modified();
 }
 
 /**
  * Standard PrintSelf method.
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
-  os << indent << "Upper: "
-     << static_cast< typename NumericTraits< InputImagePixelType >::PrintType >( m_Upper )
+  os << indent << "Upper: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Upper)
      << std::endl;
-  os << indent << "Lower: "
-     << static_cast< typename NumericTraits< InputImagePixelType >::PrintType >( m_Lower )
+  os << indent << "Lower: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Lower)
      << std::endl;
-  os << indent << "ReplaceValue: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_ReplaceValue )
+  os << indent
+     << "ReplaceValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
      << std::endl;
   os << indent << "Radius: " << m_Radius << std::endl;
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
-  if ( this->GetInput() )
-    {
-    InputImagePointer image =
-      const_cast< InputImageType * >( this->GetInput() );
+  if (this->GetInput())
+  {
+    InputImagePointer image = const_cast<InputImageType *>(this->GetInput());
     image->SetRequestedRegionToLargestPossibleRegion();
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
-::EnlargeOutputRequestedRegion(DataObject *output)
+NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * output)
 {
   Superclass::EnlargeOutputRequestedRegion(output);
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  typename Superclass::InputImageConstPointer inputImage  = this->GetInput();
-  typename Superclass::OutputImagePointer outputImage = this->GetOutput();
+  typename Superclass::InputImageConstPointer inputImage = this->GetInput();
+  typename Superclass::OutputImagePointer     outputImage = this->GetOutput();
 
   // Zero the output
-  outputImage->SetBufferedRegion( outputImage->GetRequestedRegion() );
+  outputImage->SetBufferedRegion(outputImage->GetRequestedRegion());
   outputImage->Allocate();
-  outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::ZeroValue());
+  outputImage->FillBuffer(NumericTraits<OutputImagePixelType>::ZeroValue());
 
-  using FunctionType = NeighborhoodBinaryThresholdImageFunction< InputImageType >;
-  using IteratorType = FloodFilledImageFunctionConditionalIterator< OutputImageType, FunctionType >;
+  using FunctionType = NeighborhoodBinaryThresholdImageFunction<InputImageType>;
+  using IteratorType = FloodFilledImageFunctionConditionalIterator<OutputImageType, FunctionType>;
 
   typename FunctionType::Pointer function = FunctionType::New();
-  function->SetInputImage (inputImage);
-  function->ThresholdBetween (m_Lower, m_Upper);
-  function->SetRadius (m_Radius);
-  IteratorType it = IteratorType (outputImage, function, m_Seeds);
+  function->SetInputImage(inputImage);
+  function->ThresholdBetween(m_Lower, m_Upper);
+  function->SetRadius(m_Radius);
+  IteratorType it = IteratorType(outputImage, function, m_Seeds);
 
-  ProgressReporter progress( this, 0,
-                             outputImage->GetRequestedRegion().GetNumberOfPixels() );
-  while ( !it.IsAtEnd() )
-    {
+  ProgressReporter progress(this, 0, outputImage->GetRequestedRegion().GetNumberOfPixels());
+  while (!it.IsAtEnd())
+  {
     it.Set(m_ReplaceValue);
     ++it;
     progress.CompletedPixel();
-    }
+  }
 }
 } // end namespace itk
 

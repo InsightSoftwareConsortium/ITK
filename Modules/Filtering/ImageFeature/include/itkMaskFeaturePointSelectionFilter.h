@@ -55,20 +55,20 @@ namespace itk
  * \ingroup ITKImageFeature
  */
 
-template<
-  typename TImage,
-  typename TMask = TImage,
-  typename TFeatures = PointSet< Matrix< SpacePrecisionType, TImage::ImageDimension, TImage::ImageDimension>, TImage::ImageDimension > >
-class ITK_TEMPLATE_EXPORT MaskFeaturePointSelectionFilter: public ImageToMeshFilter< TImage, TFeatures >
+template <typename TImage,
+          typename TMask = TImage,
+          typename TFeatures = PointSet<Matrix<SpacePrecisionType, TImage::ImageDimension, TImage::ImageDimension>,
+                                        TImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT MaskFeaturePointSelectionFilter : public ImageToMeshFilter<TImage, TFeatures>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MaskFeaturePointSelectionFilter);
 
   /** Standard class type aliases. */
-  using Superclass = ImageToMeshFilter< TImage, TFeatures >;
+  using Superclass = ImageToMeshFilter<TImage, TFeatures>;
   using Self = MaskFeaturePointSelectionFilter;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -79,10 +79,10 @@ public:
   static constexpr unsigned ImageDimension = 3u;
 
   /** Not input specific type alias */
-  using RegionType = ImageRegion< ImageDimension >;
-  using SizeType = Size< ImageDimension >;
-  using IndexType = Index< ImageDimension >;
-  using OffsetType = Offset< ImageDimension >;
+  using RegionType = ImageRegion<ImageDimension>;
+  using SizeType = Size<ImageDimension>;
+  using IndexType = Index<ImageDimension>;
+  using OffsetType = Offset<ImageDimension>;
 
   /** Image type alias */
   using ImageType = TImage;
@@ -134,39 +134,39 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( ImageDimensionShouldBe3,
-                   ( Concept::SameDimension< TImage::ImageDimension, 3u > ) );
-  itkConceptMacro( MaskDimensionShouldBe3,
-                   ( Concept::SameDimension< TMask::ImageDimension, 3u > ) );
-  itkConceptMacro( PointDimensionShouldBe3,
-                   ( Concept::SameDimension< TFeatures::PointType::PointDimension, 3u > ) );
+  itkConceptMacro(ImageDimensionShouldBe3, (Concept::SameDimension<TImage::ImageDimension, 3u>));
+  itkConceptMacro(MaskDimensionShouldBe3, (Concept::SameDimension<TMask::ImageDimension, 3u>));
+  itkConceptMacro(PointDimensionShouldBe3, (Concept::SameDimension<TFeatures::PointType::PointDimension, 3u>));
   // End concept checking
 #endif
 
 protected:
   MaskFeaturePointSelectionFilter();
   ~MaskFeaturePointSelectionFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Compute the connectivity offsets so that points can be excluded during
    * the execution of the filter. This method must be called after invoking
    * SetNonConnectivity().
    */
-  void ComputeConnectivityOffsets();
+  void
+  ComputeConnectivityOffsets();
 
 private:
-  unsigned                   m_NonConnectivity;
-  std::vector< OffsetType >  m_NonConnectivityOffsets;
-  SizeType                   m_BlockRadius;
-  double                     m_SelectFraction;
-  bool                       m_ComputeStructureTensors;
+  unsigned                m_NonConnectivity;
+  std::vector<OffsetType> m_NonConnectivityOffsets;
+  SizeType                m_BlockRadius;
+  double                  m_SelectFraction;
+  bool                    m_ComputeStructureTensors;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMaskFeaturePointSelectionFilter.hxx"
+#  include "itkMaskFeaturePointSelectionFilter.hxx"
 #endif
 
 #endif

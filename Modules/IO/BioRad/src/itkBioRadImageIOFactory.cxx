@@ -33,11 +33,8 @@ namespace itk
 {
 BioRadImageIOFactory::BioRadImageIOFactory()
 {
-  this->RegisterOverride( "itkImageIOBase",
-                          "itkBioRadImageIO",
-                          "BioRad Image IO",
-                          true,
-                          CreateObjectFunction< BioRadImageIO >::New() );
+  this->RegisterOverride(
+    "itkImageIOBase", "itkBioRadImageIO", "BioRad Image IO", true, CreateObjectFunction<BioRadImageIO>::New());
 }
 
 BioRadImageIOFactory::~BioRadImageIOFactory() = default;
@@ -59,13 +56,14 @@ BioRadImageIOFactory::GetDescription() const
 
 static bool BioRadImageIOFactoryHasBeenRegistered;
 
-void ITKIOBioRad_EXPORT BioRadImageIOFactoryRegister__Private()
+void ITKIOBioRad_EXPORT
+     BioRadImageIOFactoryRegister__Private()
 {
-  if( ! BioRadImageIOFactoryHasBeenRegistered )
-    {
+  if (!BioRadImageIOFactoryHasBeenRegistered)
+  {
     BioRadImageIOFactoryHasBeenRegistered = true;
     BioRadImageIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

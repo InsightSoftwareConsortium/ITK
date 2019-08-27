@@ -25,43 +25,44 @@
 
 // Take as input any kind of image (typically RAW) and will create a valid
 // DICOM MR image out of the raw image.
-int itkGDCMImageIOTest2(int argc, char *argv[] )
+int
+itkGDCMImageIOTest2(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << argv[0] << " InputFile OutputDicomRoot\n";
     return EXIT_FAILURE;
-    }
-  const char *input = argv[1];
-  const char *output = argv[2];
-  using ImageType = itk::Image<unsigned char,3>;
+  }
+  const char * input = argv[1];
+  const char * output = argv[2];
+  using ImageType = itk::Image<unsigned char, 3>;
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(input);
   try
-    {
+  {
     reader->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "exception in file writer " << std::endl;
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   itk::GDCMImageIO::Pointer dicomIO = itk::GDCMImageIO::New();
-  //reader->GetOutput()->Print(std::cout);
+  // reader->GetOutput()->Print(std::cout);
 
   itk::MetaDataDictionary & dict = dicomIO->GetMetaDataDictionary();
-  std::string tagkey, value;
+  std::string               tagkey, value;
   tagkey = "0002|0002";
   value = "1.2.840.10008.5.1.4.1.1.4"; // Media Storage SOP Class UID
-  itk::EncapsulateMetaData<std::string>(dict, tagkey, value );
+  itk::EncapsulateMetaData<std::string>(dict, tagkey, value);
   tagkey = "0008|0060"; // Modality
   value = "MR";
-  itk::EncapsulateMetaData<std::string>(dict, tagkey, value );
+  itk::EncapsulateMetaData<std::string>(dict, tagkey, value);
   tagkey = "0008|0008"; // Image Type
   value = "DERIVED\\SECONDARY";
   itk::EncapsulateMetaData<std::string>(dict, tagkey, value);
@@ -121,43 +122,43 @@ int itkGDCMImageIOTest2(int argc, char *argv[] )
   writer->UseCompressionOn();
   writer->SetFileName(output_j2k.c_str());
   try
-    {
+  {
     writer->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "exception in file writer " << std::endl;
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Save as JPEG Lossless
   dicomIO->SetCompressionType(itk::GDCMImageIO::TCompressionType::JPEG);
   writer->SetFileName(output_jpll.c_str());
   try
-    {
+  {
     writer->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "exception in file writer " << std::endl;
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Save as raw
   writer->UseCompressionOff();
   writer->SetFileName(output_raw.c_str());
   try
-    {
+  {
     writer->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "exception in file writer " << std::endl;
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

@@ -23,9 +23,8 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TFeatureImage, typename TOutputType >
-ShapeDetectionLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
-::ShapeDetectionLevelSetImageFilter()
+template <typename TInputImage, typename TFeatureImage, typename TOutputType>
+ShapeDetectionLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::ShapeDetectionLevelSetImageFilter()
 {
   /* Instantiate a shape detection function and set it as the segmentation
     function. */
@@ -37,29 +36,28 @@ ShapeDetectionLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
   this->InterpolateSurfaceLocationOff();
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputType>
 void
-ShapeDetectionLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
-::PrintSelf(std::ostream & os, Indent indent) const
+ShapeDetectionLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::PrintSelf(std::ostream & os,
+                                                                                      Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  itkPrintSelfObjectMacro( ShapeDetectionFunction );
+  itkPrintSelfObjectMacro(ShapeDetectionFunction);
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputType>
 void
-ShapeDetectionLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
-::GenerateData()
+ShapeDetectionLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::GenerateData()
 {
   // Make sure the SpeedImage is setup for the case when PropagationScaling
   // is zero while CurvatureScaling is non-zero
-  if ( this->GetSegmentationFunction()
-       && Math::NotExactlyEquals(this->GetSegmentationFunction()->GetCurvatureWeight(), 0)
-       && Math::ExactlyEquals(this->GetSegmentationFunction()->GetPropagationWeight(), 0) )
-    {
+  if (this->GetSegmentationFunction() &&
+      Math::NotExactlyEquals(this->GetSegmentationFunction()->GetCurvatureWeight(), 0) &&
+      Math::ExactlyEquals(this->GetSegmentationFunction()->GetPropagationWeight(), 0))
+  {
     this->GetSegmentationFunction()->AllocateSpeedImage();
     this->GetSegmentationFunction()->CalculateSpeedImage();
-    }
+  }
 
   // Continue with Superclass implementation
   Superclass::GenerateData();

@@ -23,69 +23,62 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TCoordRep >
-BinaryThresholdImageFunction< TInputImage, TCoordRep >
-::BinaryThresholdImageFunction()
+template <typename TInputImage, typename TCoordRep>
+BinaryThresholdImageFunction<TInputImage, TCoordRep>::BinaryThresholdImageFunction()
 {
-  m_Lower = NumericTraits< PixelType >::NonpositiveMin();
-  m_Upper = NumericTraits< PixelType >::max();
+  m_Lower = NumericTraits<PixelType>::NonpositiveMin();
+  m_Upper = NumericTraits<PixelType>::max();
 }
 
 /**
  * Values greater than or equal to the value are inside
  */
-template< typename TInputImage, typename TCoordRep >
+template <typename TInputImage, typename TCoordRep>
 void
-BinaryThresholdImageFunction< TInputImage, TCoordRep >
-::ThresholdAbove(PixelType thresh)
+BinaryThresholdImageFunction<TInputImage, TCoordRep>::ThresholdAbove(PixelType thresh)
 {
-  if ( Math::NotExactlyEquals(m_Lower, thresh)
-       || Math::NotExactlyEquals(m_Upper, NumericTraits< PixelType >::max()) )
-    {
+  if (Math::NotExactlyEquals(m_Lower, thresh) || Math::NotExactlyEquals(m_Upper, NumericTraits<PixelType>::max()))
+  {
     m_Lower = thresh;
-    m_Upper = NumericTraits< PixelType >::max();
+    m_Upper = NumericTraits<PixelType>::max();
     this->Modified();
-    }
+  }
 }
 
 /**
  * The values less than or equal to the value are inside
  */
-template< typename TInputImage, typename TCoordRep >
+template <typename TInputImage, typename TCoordRep>
 void
-BinaryThresholdImageFunction< TInputImage, TCoordRep >
-::ThresholdBelow(PixelType thresh)
+BinaryThresholdImageFunction<TInputImage, TCoordRep>::ThresholdBelow(PixelType thresh)
 {
-  if ( Math::NotExactlyEquals(m_Lower, NumericTraits< PixelType >::NonpositiveMin())
-       || Math::NotExactlyEquals(m_Upper, thresh) )
-    {
-    m_Lower = NumericTraits< PixelType >::NonpositiveMin();
+  if (Math::NotExactlyEquals(m_Lower, NumericTraits<PixelType>::NonpositiveMin()) ||
+      Math::NotExactlyEquals(m_Upper, thresh))
+  {
+    m_Lower = NumericTraits<PixelType>::NonpositiveMin();
     m_Upper = thresh;
     this->Modified();
-    }
+  }
 }
 
 /**
  * The values less than or equal to the value are inside
  */
-template< typename TInputImage, typename TCoordRep >
+template <typename TInputImage, typename TCoordRep>
 void
-BinaryThresholdImageFunction< TInputImage, TCoordRep >
-::ThresholdBetween(PixelType lower, PixelType upper)
+BinaryThresholdImageFunction<TInputImage, TCoordRep>::ThresholdBetween(PixelType lower, PixelType upper)
 {
-  if ( Math::NotExactlyEquals(m_Lower, lower)
-       || Math::NotExactlyEquals(m_Upper, upper) )
-    {
+  if (Math::NotExactlyEquals(m_Lower, lower) || Math::NotExactlyEquals(m_Upper, upper))
+  {
     m_Lower = lower;
     m_Upper = upper;
     this->Modified();
-    }
+  }
 }
 
-template< typename TInputImage, typename TCoordRep >
+template <typename TInputImage, typename TCoordRep>
 void
-BinaryThresholdImageFunction< TInputImage, TCoordRep >
-::PrintSelf(std::ostream & os, Indent indent) const
+BinaryThresholdImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

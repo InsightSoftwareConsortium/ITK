@@ -20,10 +20,10 @@
 namespace itk
 {
 std::ostream &
-operator<<( std::ostream & out, const RotationPlaneType value )
+operator<<(std::ostream & out, const RotationPlaneType value)
 {
   const char * s = nullptr;
-  switch ( value )
+  switch (value)
   {
     case RotationPlaneType::RotateInXZPlane:
       s = "FrustumSpatialFunction< VDimension, TInput >::FrustumRotationPlaneType::RotateInXZPlane";

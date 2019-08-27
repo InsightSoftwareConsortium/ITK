@@ -51,47 +51,43 @@ namespace itk
  * \sphinxexample{Filtering/ImageIntensity/BinaryXORTwoImages,Binary XOR Two Images}
  * \endsphinx
  */
-template< typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1 >
-class XorImageFilter:
-  public
-  BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
+template <typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1>
+class XorImageFilter : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(XorImageFilter);
 
   /** Standard class type aliases. */
   using Self = XorImageFilter;
-  using Superclass = BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >;
+  using Superclass = BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using FunctorType = Functor::XOR< typename TInputImage1::PixelType,
-                                    typename TInputImage2::PixelType,
-                                    typename TOutputImage::PixelType >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using FunctorType =
+    Functor::XOR<typename TInputImage1::PixelType, typename TInputImage2::PixelType, typename TOutputImage::PixelType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(XorImageFilter,
-               BinaryGeneratorImageFilter);
+  itkTypeMacro(XorImageFilter, BinaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( Input1Input2OutputBitwiseOperatorsCheck,
-                   ( Concept::BitwiseOperators< typename TInputImage1::PixelType,
-                                                typename TInputImage2::PixelType,
-                                                typename TOutputImage::PixelType > ) );
+  itkConceptMacro(Input1Input2OutputBitwiseOperatorsCheck,
+                  (Concept::BitwiseOperators<typename TInputImage1::PixelType,
+                                             typename TInputImage2::PixelType,
+                                             typename TOutputImage::PixelType>));
   // End concept checking
 #endif
 
 protected:
   XorImageFilter()
-    {
-#if !defined( ITK_WRAPPING_PARSER )
-      Superclass::SetFunctor(FunctorType());
+  {
+#if !defined(ITK_WRAPPING_PARSER)
+    Superclass::SetFunctor(FunctorType());
 #endif
-    }
+  }
 
   ~XorImageFilter() override = default;
 };

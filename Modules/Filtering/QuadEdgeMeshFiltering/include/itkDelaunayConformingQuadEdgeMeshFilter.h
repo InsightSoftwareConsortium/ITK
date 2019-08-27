@@ -33,17 +33,16 @@ namespace itk
  *
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< typename TInputMesh, typename TOutputMesh=TInputMesh >
-class ITK_TEMPLATE_EXPORT DelaunayConformingQuadEdgeMeshFilter:
-  public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh = TInputMesh>
+class ITK_TEMPLATE_EXPORT DelaunayConformingQuadEdgeMeshFilter
+  : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   /** Basic types. */
   using Self = DelaunayConformingQuadEdgeMeshFilter;
-  using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh,
-                                            TOutputMesh >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Input types. */
   using InputMeshType = TInputMesh;
@@ -95,29 +94,28 @@ public:
   itkGetConstMacro(NumberOfEdgeFlips, SizeValueType);
 
 public:
-  using OutputEdgeCellListType = std::list< OutputEdgeCellType * >;
+  using OutputEdgeCellListType = std::list<OutputEdgeCellType *>;
   using OutputEdgeCellListIterator = typename OutputEdgeCellListType::iterator;
 
   using CriterionValueType = double;
-  using PriorityType = std::pair< bool, CriterionValueType >;
+  using PriorityType = std::pair<bool, CriterionValueType>;
 
-  using PriorityQueueItemType = MaxPriorityQueueElementWrapper<
-    OutputEdgeCellType *, PriorityType, long >;
+  using PriorityQueueItemType = MaxPriorityQueueElementWrapper<OutputEdgeCellType *, PriorityType, long>;
 
-  using PriorityQueueType = PriorityQueueContainer< PriorityQueueItemType *,
-                                  ElementWrapperPointerInterface< PriorityQueueItemType * >,
-                                  PriorityType,
-                                  long >;
+  using PriorityQueueType = PriorityQueueContainer<PriorityQueueItemType *,
+                                                   ElementWrapperPointerInterface<PriorityQueueItemType *>,
+                                                   PriorityType,
+                                                   long>;
 
   using PriorityQueuePointer = typename PriorityQueueType::Pointer;
-  using QueueMapType = std::map< OutputEdgeCellType *, PriorityQueueItemType * >;
+  using QueueMapType = std::map<OutputEdgeCellType *, PriorityQueueItemType *>;
   using QueueMapIterator = typename QueueMapType::iterator;
 
-  using FlipEdgeFunctionType = QuadEdgeMeshEulerOperatorFlipEdgeFunction<
-    OutputMeshType, OutputQEType >;
+  using FlipEdgeFunctionType = QuadEdgeMeshEulerOperatorFlipEdgeFunction<OutputMeshType, OutputQEType>;
   using FlipEdgeFunctionPointer = typename FlipEdgeFunctionType::Pointer;
 
-  void SetListOfConstrainedEdges(const OutputEdgeCellListType & iList)
+  void
+  SetListOfConstrainedEdges(const OutputEdgeCellListType & iList)
   {
     m_ListOfConstrainedEdges = iList;
   }
@@ -125,7 +123,8 @@ public:
 protected:
   DelaunayConformingQuadEdgeMeshFilter();
   ~DelaunayConformingQuadEdgeMeshFilter() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   OutputEdgeCellListType m_ListOfConstrainedEdges;
   PriorityQueuePointer   m_PriorityQueue;
@@ -134,14 +133,17 @@ protected:
   SizeValueType           m_NumberOfEdgeFlips;
   FlipEdgeFunctionPointer m_FlipEdge;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void InitializePriorityQueue();
+  void
+  InitializePriorityQueue();
 
-  void Process();
+  void
+  Process();
 
   inline CriterionValueType
-  Dyer07Criterion(OutputMeshType *iMesh, OutputQEType *iEdge) const
+  Dyer07Criterion(OutputMeshType * iMesh, OutputQEType * iEdge) const
   {
     OutputPointIdentifier id1 = iEdge->GetOrigin();
     OutputPointIdentifier id2 = iEdge->GetDestination();
@@ -164,49 +166,49 @@ protected:
     OutputCoordRepType sq_norm2A = v2A * v2A;
     OutputCoordRepType sq_norm2B = v2B * v2B;
 
-    auto dotA = static_cast< CriterionValueType >( v1A * v2A );
-    auto dotB = static_cast< CriterionValueType >( v1B * v2B );
-    auto den  = static_cast< CriterionValueType >( sq_norm1A * sq_norm2A );
+    auto dotA = static_cast<CriterionValueType>(v1A * v2A);
+    auto dotB = static_cast<CriterionValueType>(v1B * v2B);
+    auto den = static_cast<CriterionValueType>(sq_norm1A * sq_norm2A);
 
-    if ( den != 0. )
-      {
+    if (den != 0.)
+    {
       dotA /= std::sqrt(den);
-      }
+    }
 
-    if ( dotA > 1. )
-      {
+    if (dotA > 1.)
+    {
       dotA = 1.;
-      }
+    }
 
-    if ( dotA < -1. )
-      {
+    if (dotA < -1.)
+    {
       dotA = -1.;
-      }
+    }
 
-    den = static_cast< CriterionValueType >( sq_norm1B * sq_norm2B );
+    den = static_cast<CriterionValueType>(sq_norm1B * sq_norm2B);
 
-    if ( den != 0. )
-      {
+    if (den != 0.)
+    {
       dotB /= std::sqrt(den);
-      }
+    }
 
-    if ( dotB > 1. )
-      {
+    if (dotB > 1.)
+    {
       dotB = 1.;
-      }
+    }
 
-    if ( dotB < -1. )
-      {
+    if (dotB < -1.)
+    {
       dotB = -1.;
-      }
+    }
 
-    return ( std::acos(dotA) + std::acos(dotB) - itk::Math::pi );
+    return (std::acos(dotA) + std::acos(dotB) - itk::Math::pi);
   }
 
 private:
-
   DelaunayConformingQuadEdgeMeshFilter(const Self &) = delete;
-  void operator=(const Self &) = delete;
+  void
+  operator=(const Self &) = delete;
 };
 } // end namespace itk
 

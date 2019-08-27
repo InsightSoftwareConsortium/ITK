@@ -21,58 +21,61 @@
 #include "itkBresenhamLine.h"
 
 
-int itkBresenhamLineTest( int, char * [] )
+int
+itkBresenhamLineTest(int, char *[])
 {
   {
-  // Test BuildLine(Vector, distance)
-  itk::Vector<float, 2> v;
-  v[0] = 1;
-  v[1] = 1;
+    // Test BuildLine(Vector, distance)
+    itk::Vector<float, 2> v;
+    v[0] = 1;
+    v[1] = 1;
 
-  itk::BresenhamLine<2> line;
-  std::vector< itk::Offset<2> > offsets = line.BuildLine(v, 4);
+    itk::BresenhamLine<2>       line;
+    std::vector<itk::Offset<2>> offsets = line.BuildLine(v, 4);
 
-  if(offsets.size() != 4)
+    if (offsets.size() != 4)
     {
-    std::cerr << "Test failed! 'offsets' should be length 4 and it is " << offsets.size() << std::endl;
-    return EXIT_FAILURE;
+      std::cerr << "Test failed! 'offsets' should be length 4 and it is " << offsets.size() << std::endl;
+      return EXIT_FAILURE;
     }
 
-  for(int i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++)
     {
-    if(offsets[i][0] != i || offsets[i][1] != i)
+      if (offsets[i][0] != i || offsets[i][1] != i)
       {
-      std::cerr << "Test failed! offsets[" << i << "] should be (" << i << ", " << i << ") and it is " << offsets[i] << std::endl;
-      return EXIT_FAILURE;
+        std::cerr << "Test failed! offsets[" << i << "] should be (" << i << ", " << i << ") and it is " << offsets[i]
+                  << std::endl;
+        return EXIT_FAILURE;
       }
     }
   }
 
   {
-  // Test BuildLine(Index, Index)
-  itk::Index<2> p0;
-  p0[0] = 0;
-  p0[1] = 0;
+    // Test BuildLine(Index, Index)
+    itk::Index<2> p0;
+    p0[0] = 0;
+    p0[1] = 0;
 
-  itk::Index<2> p1;
-  p1[0] = 3;
-  p1[1] = 3;
+    itk::Index<2> p1;
+    p1[0] = 3;
+    p1[1] = 3;
 
-  itk::BresenhamLine<2> line;
-  std::vector< itk::Index<2> > indices = line.BuildLine(p0, p1);
+    itk::BresenhamLine<2>      line;
+    std::vector<itk::Index<2>> indices = line.BuildLine(p0, p1);
 
-  if(indices.size() != 4)
+    if (indices.size() != 4)
     {
-    std::cerr << "Test failed! 'indices' should be length 4 and it is " << indices.size() << std::endl;
-    return EXIT_FAILURE;
+      std::cerr << "Test failed! 'indices' should be length 4 and it is " << indices.size() << std::endl;
+      return EXIT_FAILURE;
     }
 
-  for(int i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++)
     {
-    if(indices[i][0] != i || indices[i][1] != i)
+      if (indices[i][0] != i || indices[i][1] != i)
       {
-      std::cerr << "Test failed! indices[" << i << "] should be (" << i << ", " << i << ") and it is " << indices[i] << std::endl;
-      return EXIT_FAILURE;
+        std::cerr << "Test failed! indices[" << i << "] should be (" << i << ", " << i << ") and it is " << indices[i]
+                  << std::endl;
+        return EXIT_FAILURE;
       }
     }
   }

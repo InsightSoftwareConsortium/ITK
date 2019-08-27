@@ -22,8 +22,10 @@
 #include "itkSample.h"
 #include "itkSubsample.h"
 
-namespace itk {
-namespace Statistics {
+namespace itk
+{
+namespace Statistics
+{
 /** \class SubsamplerBase
  * \brief This is the base subsampler class which defines the subsampler API.
  *
@@ -42,7 +44,7 @@ namespace Statistics {
  * \ingroup ITKStatistics
  */
 
-template < typename TSample >
+template <typename TSample>
 class ITK_TEMPLATE_EXPORT SubsamplerBase : public Object
 {
 public:
@@ -93,7 +95,8 @@ public:
 
   /** Specify whether the subsampler should return all possible
    * matches. */
-  virtual void RequestMaximumNumberOfResults()
+  virtual void
+  RequestMaximumNumberOfResults()
   {
     if (!this->m_RequestMaximumNumberOfResults)
     {
@@ -107,8 +110,8 @@ public:
    * them as a Subsample.  The definition of similar will be subclass-
    * specific.  And could mean spatial similarity or feature similarity
    * etc.  */
-  virtual void Search(const InstanceIdentifier& query,
-                      SubsamplePointer& results) = 0;
+  virtual void
+  Search(const InstanceIdentifier & query, SubsamplePointer & results) = 0;
 
 protected:
   /**
@@ -116,12 +119,14 @@ protected:
    * This does a complete copy of the subsampler state
    * to the new subsampler
    */
-  typename LightObject::Pointer InternalClone() const override;
+  typename LightObject::Pointer
+  InternalClone() const override;
 
   SubsamplerBase();
   ~SubsamplerBase() override = default;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   SampleConstPointer m_Sample;
   bool               m_RequestMaximumNumberOfResults;
@@ -133,7 +138,7 @@ protected:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSubsamplerBase.hxx"
+#  include "itkSubsamplerBase.hxx"
 #endif
 
 #endif

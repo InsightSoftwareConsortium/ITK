@@ -56,28 +56,32 @@ public:
   /**
    * Get an Array with the content of the vnl vector
    */
-  static PyObject * _GetArrayViewFromVnlVector( VectorType * vector);
+  static PyObject *
+  _GetArrayViewFromVnlVector(VectorType * vector);
 
   /**
    * Get a vnl vector from a Python array
    */
-  static const VectorType _GetVnlVectorFromArray( PyObject *arr, PyObject *shape);
+  static const VectorType
+  _GetVnlVectorFromArray(PyObject * arr, PyObject * shape);
 
   /**
    * Get an Array with the content of the vnl matrix
    */
-  static PyObject * _GetArrayViewFromVnlMatrix( MatrixType * matrix);
+  static PyObject *
+  _GetArrayViewFromVnlMatrix(MatrixType * matrix);
 
   /**
    * Get a vnl matrix from a Python array
    */
-  static const MatrixType _GetVnlMatrixFromArray( PyObject *arr, PyObject *shape);
+  static const MatrixType
+  _GetVnlMatrixFromArray(PyObject * arr, PyObject * shape);
 };
 
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPyVnl.hxx"
+#  include "itkPyVnl.hxx"
 #endif
 
 #endif // _itkPyVnl_h

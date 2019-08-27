@@ -21,7 +21,8 @@
 #include "itkImageToImageFilter.h"
 #include "itkConceptChecking.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class NormalizeToConstantImageFilter
  *
@@ -51,9 +52,8 @@ namespace itk {
  * \sphinxexample{Filtering/ImageIntensity/ScalePixelSumToConstant,Scale All Pixel's Sum To Constant}
  * \endsphinx
  */
-template<typename TInputImage, typename TOutputImage>
-class ITK_TEMPLATE_EXPORT NormalizeToConstantImageFilter :
-    public ImageToImageFilter<TInputImage, TOutputImage>
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT NormalizeToConstantImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(NormalizeToConstantImageFilter);
@@ -98,21 +98,22 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro(InputHasPixelTraitsCheck,
-    (Concept::HasPixelTraits<InputImagePixelType>));
-  itkConceptMacro(InputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<InputImagePixelType>));
+  itkConceptMacro(InputHasPixelTraitsCheck, (Concept::HasPixelTraits<InputImagePixelType>));
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputImagePixelType>));
   // End concept checking
 #endif
 
 protected:
   NormalizeToConstantImageFilter();
   ~NormalizeToConstantImageFilter() override = default;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   RealType m_Constant;
@@ -121,7 +122,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNormalizeToConstantImageFilter.hxx"
+#  include "itkNormalizeToConstantImageFilter.hxx"
 #endif
 
 #endif

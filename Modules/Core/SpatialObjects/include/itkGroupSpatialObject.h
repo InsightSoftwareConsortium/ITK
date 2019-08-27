@@ -35,17 +35,16 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-template< unsigned int TDimension = 3 >
-class ITK_TEMPLATE_EXPORT GroupSpatialObject:
-  public SpatialObject< TDimension >
+template <unsigned int TDimension = 3>
+class ITK_TEMPLATE_EXPORT GroupSpatialObject : public SpatialObject<TDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GroupSpatialObject);
 
   using Self = GroupSpatialObject;
-  using Superclass = SpatialObject< TDimension >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SpatialObject<TDimension>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using ScalarType = double;
 
   /** Method for creation through the object factory. */
@@ -55,20 +54,20 @@ public:
   itkTypeMacro(GroupSpatialObject, SpatialObject);
 
 protected:
-
   GroupSpatialObject();
   ~GroupSpatialObject() override = default;
 
   /** Method to print the object.*/
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typename LightObject::Pointer InternalClone() const override;
-
+  typename LightObject::Pointer
+  InternalClone() const override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGroupSpatialObject.hxx"
+#  include "itkGroupSpatialObject.hxx"
 #endif
 
 #endif // itkGroupSpatialObject_h

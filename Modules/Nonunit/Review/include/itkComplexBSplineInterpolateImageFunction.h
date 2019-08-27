@@ -40,9 +40,9 @@ namespace itk
  * \ingroup ImageInterpolators
  * \ingroup ITKReview
  */
-template< typename TImageType, typename TCoordRep = double, typename TCoefficientType = double >
-class ITK_TEMPLATE_EXPORT ComplexBSplineInterpolateImageFunction:
-  public InterpolateImageFunction< TImageType, TCoordRep >
+template <typename TImageType, typename TCoordRep = double, typename TCoefficientType = double>
+class ITK_TEMPLATE_EXPORT ComplexBSplineInterpolateImageFunction
+  : public InterpolateImageFunction<TImageType, TCoordRep>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComplexBSplineInterpolateImageFunction);
@@ -50,11 +50,11 @@ public:
   /** Standard class type alias. */
   using Self = ComplexBSplineInterpolateImageFunction;
   /** Standard class type alias. */
-  using Superclass = InterpolateImageFunction< TImageType, TCoordRep >;
+  using Superclass = InterpolateImageFunction<TImageType, TCoordRep>;
   /** Standard class type alias. */
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
   /** Standard class type alias. */
-  using ConstPointer = SmartPointer< const Self >;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ComplexBSplineInterpolateImageFunction, InterpolateImageFunction);
@@ -84,59 +84,63 @@ public:
   using PointType = typename Superclass::PointType;
 
   /** Internal Real and imaginary image type */
-  using InternalImageType = Image< double, Self::ImageDimension >;
+  using InternalImageType = Image<double, Self::ImageDimension>;
 
   /** Complex to Real filter type */
-  using RealFilterType = ComplexToRealImageFilter< InputImageType, InternalImageType >;
-  using ImaginaryFilterType = ComplexToImaginaryImageFilter< InputImageType, InternalImageType >;
+  using RealFilterType = ComplexToRealImageFilter<InputImageType, InternalImageType>;
+  using ImaginaryFilterType = ComplexToImaginaryImageFilter<InputImageType, InternalImageType>;
 
   /** Underlying real BSpline interpolator */
-  using InterpolatorType = BSplineInterpolateImageFunction< InternalImageType, TCoordRep, TCoefficientType >;
+  using InterpolatorType = BSplineInterpolateImageFunction<InternalImageType, TCoordRep, TCoefficientType>;
 
   /** Evaluate the function at a ContinuousIndex position.
-  *
-  * Returns the B-Spline interpolated image intensity at a
-  * specified point position. No bounds checking is done.
-  * The point is assumed to lie within the image buffer.
-  *
-  * ImageFunction::IsInsideBuffer() can be used to check bounds before
-  * calling the method. */
-  OutputType EvaluateAtContinuousIndex(const ContinuousIndexType & index) const override;
+   *
+   * Returns the B-Spline interpolated image intensity at a
+   * specified point position. No bounds checking is done.
+   * The point is assumed to lie within the image buffer.
+   *
+   * ImageFunction::IsInsideBuffer() can be used to check bounds before
+   * calling the method. */
+  OutputType
+  EvaluateAtContinuousIndex(const ContinuousIndexType & index) const override;
 
   /** Derivative type alias support */
-/*  using CovariantVectorType = CovariantVector< OutputType, Self::ImageDimension  >;
+  /*  using CovariantVectorType = CovariantVector< OutputType, Self::ImageDimension  >;
 
-  CovariantVectorType EvaluateDerivative( const PointType & point ) const
-  {
-   ContinuousIndexType index;
-   this->GetInputImage()->TransformPhysicalPointToContinuousIndex( point, index );
-   return ( this->EvaluateDerivativeAtContinuousIndex( index ) );
-  }
+    CovariantVectorType EvaluateDerivative( const PointType & point ) const
+    {
+     ContinuousIndexType index;
+     this->GetInputImage()->TransformPhysicalPointToContinuousIndex( point, index );
+     return ( this->EvaluateDerivativeAtContinuousIndex( index ) );
+    }
 
-  CovariantVectorType EvaluateDerivativeAtContinuousIndex( const ContinuousIndexType & x ) const;
-*/
+    CovariantVectorType EvaluateDerivativeAtContinuousIndex( const ContinuousIndexType & x ) const;
+  */
 
   /** Get/Sets the Spline Order, supports 0th - 5th order splines. The default
-  *  is a 3rd order spline. */
-  void SetSplineOrder(unsigned int SplineOrder);
+   *  is a 3rd order spline. */
+  void
+  SetSplineOrder(unsigned int SplineOrder);
 
   itkGetConstMacro(SplineOrder, int);
 
   /** Set the input image.  This must be set by the user, after setting the
     spline order! */
-  void SetInputImage(const TImageType *inputData) override;
+  void
+  SetInputImage(const TImageType * inputData) override;
 
   SizeType
   GetRadius() const override
   {
-    return SizeType::Filled( m_SplineOrder + 1 );
+    return SizeType::Filled(m_SplineOrder + 1);
   }
 
 protected:
   ComplexBSplineInterpolateImageFunction();
   ~ComplexBSplineInterpolateImageFunction() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   unsigned int m_SplineOrder;
@@ -148,10 +152,10 @@ private:
 
   typename ImaginaryFilterType::Pointer m_ImaginaryFilter;
 }; // class
-} // namespace
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkComplexBSplineInterpolateImageFunction.hxx"
+#  include "itkComplexBSplineInterpolateImageFunction.hxx"
 #endif
 
 #endif

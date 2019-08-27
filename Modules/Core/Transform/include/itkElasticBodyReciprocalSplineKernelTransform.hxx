@@ -21,41 +21,41 @@
 
 namespace itk
 {
-template<typename TParametersValueType, unsigned int NDimensions>
-ElasticBodyReciprocalSplineKernelTransform<TParametersValueType, NDimensions>::ElasticBodyReciprocalSplineKernelTransform()
+template <typename TParametersValueType, unsigned int NDimensions>
+ElasticBodyReciprocalSplineKernelTransform<TParametersValueType,
+                                           NDimensions>::ElasticBodyReciprocalSplineKernelTransform()
 {
   // Alpha = 8 ( 1 - \nu ) - 1
-  m_Alpha = 8.0 * ( 1.0 - .25 ) - 1;
+  m_Alpha = 8.0 * (1.0 - .25) - 1;
 }
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-ElasticBodyReciprocalSplineKernelTransform<TParametersValueType, NDimensions>
-::ComputeG(const InputVectorType & x, GMatrixType & gmatrix) const
+ElasticBodyReciprocalSplineKernelTransform<TParametersValueType, NDimensions>::ComputeG(const InputVectorType & x,
+                                                                                        GMatrixType & gmatrix) const
 {
-  const TParametersValueType r       = x.GetNorm();
-  const TParametersValueType factor  =
-    ( r > 1e-8 ) ? ( -1.0 / r ) : NumericTraits<TParametersValueType>::ZeroValue();
-  const TParametersValueType radial  = m_Alpha * r;
+  const TParametersValueType r = x.GetNorm();
+  const TParametersValueType factor = (r > 1e-8) ? (-1.0 / r) : NumericTraits<TParametersValueType>::ZeroValue();
+  const TParametersValueType radial = m_Alpha * r;
 
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
+  for (unsigned int i = 0; i < NDimensions; i++)
+  {
     const typename InputVectorType::ValueType xi = x[i] * factor;
     // G is symmetric
-    for ( unsigned int j = 0; j < i; j++ )
-      {
+    for (unsigned int j = 0; j < i; j++)
+    {
       const TParametersValueType value = xi * x[j];
       gmatrix[i][j] = value;
       gmatrix[j][i] = value;
-      }
-    gmatrix[i][i] =  radial + xi * x[i];
     }
+    gmatrix[i][i] = radial + xi * x[i];
+  }
 }
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-ElasticBodyReciprocalSplineKernelTransform<TParametersValueType, NDimensions>
-::PrintSelf(std::ostream & os, Indent indent) const
+ElasticBodyReciprocalSplineKernelTransform<TParametersValueType, NDimensions>::PrintSelf(std::ostream & os,
+                                                                                         Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "m_Alpha: " << m_Alpha << std::endl;

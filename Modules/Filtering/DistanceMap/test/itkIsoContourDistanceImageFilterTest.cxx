@@ -26,113 +26,113 @@
 
 // For debugging
 
-namespace{
+namespace
+{
 // The following class is used to support callbacks
 // on the filter in the pipeline that follows later
 class ShowProgressObject
 {
 public:
-  ShowProgressObject(itk::ProcessObject* o)
-    {m_Process = o;}
-  void ShowProgress()
-    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
+  ShowProgressObject(itk::ProcessObject * o) { m_Process = o; }
+  void
+  ShowProgress()
+  {
+    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+  }
   itk::ProcessObject::Pointer m_Process;
 };
 
 // simple signed distance function
 template <typename TPoint>
 double
-SimpleSignedDistance( const TPoint & p )
+SimpleSignedDistance(const TPoint & p)
 {
   TPoint center;
-  center.Fill( 50 );
+  center.Fill(50);
   double radius = 19.5;
 
   double accum = 0.0;
-  for( unsigned int j = 0; j < TPoint::PointDimension; j++ )
-    {
-    accum += itk::Math::sqr( p[j] - static_cast< double >( center[j] ) );
-    }
-  accum = std::sqrt( accum );
-  return ( accum - radius );
-
+  for (unsigned int j = 0; j < TPoint::PointDimension; j++)
+  {
+    accum += itk::Math::sqr(p[j] - static_cast<double>(center[j]));
+  }
+  accum = std::sqrt(accum);
+  return (accum - radius);
 }
 
-}
+} // namespace
 
-int itkIsoContourDistanceImageFilterTest(int, char* [] )
+int
+itkIsoContourDistanceImageFilterTest(int, char *[])
 {
   constexpr unsigned int ImageDimension = 2;
   using PixelType = float;
 
-  using ImageType = itk::Image<PixelType,ImageDimension>;
-  using OutputImageType = itk::Image<unsigned char,ImageDimension>;
-  using PointType = itk::Point<double,ImageDimension>;
+  using ImageType = itk::Image<PixelType, ImageDimension>;
+  using OutputImageType = itk::Image<unsigned char, ImageDimension>;
+  using PointType = itk::Point<double, ImageDimension>;
 
   // Fill an input image with simple signed distance function
-  ImageType::Pointer image = ImageType::New();
+  ImageType::Pointer  image = ImageType::New();
   ImageType::SizeType size;
-  size.Fill( 128 );
-  ImageType::RegionType region( size );
+  size.Fill(128);
+  ImageType::RegionType region(size);
 
-  image->SetRegions( region );
+  image->SetRegions(region);
   image->Allocate();
 
   using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
-  Iterator iter( image, region );
+  Iterator iter(image, region);
   iter.GoToBegin();
 
-  while( !iter.IsAtEnd() )
-    {
+  while (!iter.IsAtEnd())
+  {
     PointType point;
-    image->TransformIndexToPhysicalPoint( iter.GetIndex(), point );
-    iter.Set( SimpleSignedDistance( point ) );
+    image->TransformIndexToPhysicalPoint(iter.GetIndex(), point);
+    iter.Set(SimpleSignedDistance(point));
     ++iter;
-    }
+  }
 
   // Squash up the level sets by mulitplying with a scalar
-  using MultiplierType = itk::ShiftScaleImageFilter<ImageType,ImageType>;
+  using MultiplierType = itk::ShiftScaleImageFilter<ImageType, ImageType>;
   MultiplierType::Pointer multiplier = MultiplierType::New();
-  multiplier->SetInput( image );
-  multiplier->SetScale( 0.5 );
-  //multiplier->SetShift( 0.0 );
+  multiplier->SetInput(image);
+  multiplier->SetScale(0.5);
+  // multiplier->SetShift( 0.0 );
 
   // Set up  image filter
-  using IsoContourType = itk::IsoContourDistanceImageFilter<ImageType,ImageType>;
+  using IsoContourType = itk::IsoContourDistanceImageFilter<ImageType, ImageType>;
   IsoContourType::Pointer isocontour = IsoContourType::New();
-  isocontour->SetInput( multiplier->GetOutput() );
+  isocontour->SetInput(multiplier->GetOutput());
   isocontour->SetFarValue(10);
   //  isocontour->SetNumberOfWorkUnits(8);
 
-  if( itk::Math::NotAlmostEquals( isocontour->GetFarValue(), 10 ) )
-    {
+  if (itk::Math::NotAlmostEquals(isocontour->GetFarValue(), 10))
+  {
     std::cout << "isocontour->GetFarValue() != 10" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  ShowProgressObject progressWatch(isocontour);
+  ShowProgressObject                                    progressWatch(isocontour);
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
   command = itk::SimpleMemberCommand<ShowProgressObject>::New();
-  command->SetCallbackFunction(&progressWatch,
-                               &ShowProgressObject::ShowProgress);
-  isocontour->AddObserver( itk::ProgressEvent(), command);
+  command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
+  isocontour->AddObserver(itk::ProgressEvent(), command);
 
   // For debugging
-  using CastFilterType = itk::RescaleIntensityImageFilter<
-                                ImageType,
-                                OutputImageType >;
+  using CastFilterType = itk::RescaleIntensityImageFilter<ImageType, OutputImageType>;
   CastFilterType::Pointer caster = CastFilterType::New();
   caster->SetInput(isocontour->GetOutput());
 
   try
-    {
+  {
     caster->Update();
-    }
-  catch (itk::ExceptionObject &err)
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     (&err)->Print(std::cerr);
     return EXIT_FAILURE;
-    }
+  }
 
   // Create narrowband
   using BandNodeType = IsoContourType::BandNodeType;
@@ -144,14 +144,14 @@ int itkIsoContourDistanceImageFilterTest(int, char* [] )
 
   iter.GoToBegin();
   while (!iter.IsAtEnd())
-    {
+  {
     if (itk::Math::abs(iter.Get()) < 5)
-      {
-      node.m_Index=iter.GetIndex();
+    {
+      node.m_Index = iter.GetIndex();
       band->PushBack(node);
-      }
-    ++iter;
     }
+    ++iter;
+  }
 
   // Run isocontour with narrowband
   isocontour->NarrowBandingOn();
@@ -159,25 +159,25 @@ int itkIsoContourDistanceImageFilterTest(int, char* [] )
   isocontour->SetNarrowBand(band);
 
   try
-    {
+  {
     isocontour->Update();
-    }
-  catch (itk::ExceptionObject &err)
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     (&err)->Print(std::cerr);
     return EXIT_FAILURE;
-    }
+  }
 
   // Check if inside/outside points remain the same after reinitialization
-  using CheckerType = itk::MultiplyImageFilter<ImageType,ImageType,ImageType>;
+  using CheckerType = itk::MultiplyImageFilter<ImageType, ImageType, ImageType>;
   CheckerType::Pointer checker = CheckerType::New();
-  checker->SetInput1( image );
-  checker->SetInput2( isocontour->GetOutput() );
+  checker->SetInput1(image);
+  checker->SetInput2(isocontour->GetOutput());
   checker->Update();
 
   using CalculatorType = itk::MinimumMaximumImageCalculator<ImageType>;
   CalculatorType::Pointer calculator = CalculatorType::New();
-  calculator->SetImage( checker->GetOutput() );
+  calculator->SetImage(checker->GetOutput());
   calculator->Compute();
   double minValue = calculator->GetMinimum();
   double maxValue = calculator->GetMaximum();
@@ -185,20 +185,20 @@ int itkIsoContourDistanceImageFilterTest(int, char* [] )
   std::cout << "Min. product = " << minValue << std::endl;
   std::cout << "Max. product = " << maxValue << std::endl;
 
-  if ( minValue < 0.0 )
-    {
+  if (minValue < 0.0)
+  {
     std::cout << "Inside/Outside mismatch at ";
     std::cout << calculator->GetIndexOfMinimum() << std::endl;
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Exercise other member functions
-  isocontour->Print( std::cout );
+  isocontour->Print(std::cout);
 
   // Exercise the narrowband version
-  isocontour->SetLevelSetValue( 1.0 );
-  isocontour->SetLevelSetValue( 0.0 );
+  isocontour->SetLevelSetValue(1.0);
+  isocontour->SetLevelSetValue(0.0);
   isocontour->NarrowBandingOff();
   isocontour->Update();
 
@@ -207,11 +207,10 @@ int itkIsoContourDistanceImageFilterTest(int, char* [] )
   std::cout << "Narrow banding = " << isocontour->GetNarrowBanding() << std::endl;
 
   // We will use the output narrowband from the last run as the input narrowband
-  //isocontour->SetInputNarrowBand( nodes );
-  //isocontour->Update();
+  // isocontour->SetInputNarrowBand( nodes );
+  // isocontour->Update();
 
 
   std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;
-
 }

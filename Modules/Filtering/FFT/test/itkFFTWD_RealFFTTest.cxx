@@ -26,78 +26,85 @@
 // different dimensions in the test function based on the second
 // template argument and the size of these dimensions are taken from
 // the array.The data types used are float and double.
-int itkFFTWD_RealFFTTest(int, char *[])
+int
+itkFFTWD_RealFFTTest(int, char *[])
 {
-  using ImageD1 = itk::Image< double, 1>;
-  using ImageCD1 = itk::Image< std::complex<double>, 1>;
-  using ImageD2 = itk::Image< double, 2>;
-  using ImageCD2 = itk::Image< std::complex<double>, 2>;
-  using ImageD3 = itk::Image< double, 3>;
-  using ImageCD3 = itk::Image< std::complex<double>, 3>;
+  using ImageD1 = itk::Image<double, 1>;
+  using ImageCD1 = itk::Image<std::complex<double>, 1>;
+  using ImageD2 = itk::Image<double, 2>;
+  using ImageCD2 = itk::Image<std::complex<double>, 2>;
+  using ImageD3 = itk::Image<double, 3>;
+  using ImageCD3 = itk::Image<std::complex<double>, 3>;
 
-#ifndef ITK_USE_CUFFTW
+#  ifndef ITK_USE_CUFFTW
   std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetWriteWisdomCache() << std::endl;
   std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetReadWisdomCache() << std::endl;
   std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetPlanRigor() << std::endl;
-  std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetWisdomCacheBase()  << std::endl;
+  std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetWisdomCacheBase() << std::endl;
   std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetWisdomFileDefaultBaseName() << std::endl;
-#endif
+#  endif
 
-  unsigned int SizeOfDimensions1[] = { 4,4,4 };
-  unsigned int SizeOfDimensions2[] = { 3,5,4 };
-  int rval = 0;
+  unsigned int SizeOfDimensions1[] = { 4, 4, 4 };
+  unsigned int SizeOfDimensions2[] = { 3, 5, 4 };
+  int          rval = 0;
 
   std::cerr << "FFTWD:double,1 (4,4,4)" << std::endl;
-  if((test_fft<double,1,
-      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD1> ,
-      itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD1> >(SizeOfDimensions1)) != 0)
+  if ((test_fft<double,
+                1,
+                itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD1>,
+                itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD1>>(SizeOfDimensions1)) != 0)
     rval++;
   std::cerr << "FFTWD:double,2 (4,4,4)" << std::endl;
-  if((test_fft<double,2,
-      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD2> ,
-      itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD2> >(SizeOfDimensions1)) != 0)
+  if ((test_fft<double,
+                2,
+                itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD2>,
+                itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD2>>(SizeOfDimensions1)) != 0)
     rval++;
   std::cerr << "FFTWD:double,3 (4,4,4)" << std::endl;
-  if((test_fft<double,3,
-      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD3> ,
-      itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD3> >(SizeOfDimensions1)) != 0)
+  if ((test_fft<double,
+                3,
+                itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD3>,
+                itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD3>>(SizeOfDimensions1)) != 0)
     rval++;
   std::cerr << "FFTWD:double,1 (3,5,4)" << std::endl;
-  if((test_fft<double,1,
-      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD1> ,
-      itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD1> >(SizeOfDimensions2)) != 0)
+  if ((test_fft<double,
+                1,
+                itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD1>,
+                itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD1>>(SizeOfDimensions2)) != 0)
     rval++;
   std::cerr << "FFTWD:double,2 (3,5,4)" << std::endl;
-  if((test_fft<double,2,
-      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD2> ,
-      itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD2> >(SizeOfDimensions2)) != 0)
+  if ((test_fft<double,
+                2,
+                itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD2>,
+                itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD2>>(SizeOfDimensions2)) != 0)
     rval++;
   std::cerr << "FFTWD:double,3 (3,5,4)" << std::endl;
-  if((test_fft<double,3,
-      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD3> ,
-      itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD3> >(SizeOfDimensions2)) != 0)
+  if ((test_fft<double,
+                3,
+                itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD3>,
+                itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD3>>(SizeOfDimensions2)) != 0)
     rval++;
 
   // Exercise the plan rigor methods
-  itk::FFTWRealToHalfHermitianForwardFFTImageFilter< ImageD3 >::Pointer fft =
-    itk::FFTWRealToHalfHermitianForwardFFTImageFilter< ImageD3 >::New();
-  fft->SetPlanRigor( FFTW_ESTIMATE );
-  if ( fft->GetPlanRigor() != FFTW_ESTIMATE )
-    {
+  itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD3>::Pointer fft =
+    itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD3>::New();
+  fft->SetPlanRigor(FFTW_ESTIMATE);
+  if (fft->GetPlanRigor() != FFTW_ESTIMATE)
+  {
     std::cerr << "Plan rigor read from FFT filter is not FFTW_ESTIMATE." << std::endl;
     return 0;
-    }
-  fft->SetPlanRigor( FFTW_MEASURE );
+  }
+  fft->SetPlanRigor(FFTW_MEASURE);
 
-  itk::FFTWHalfHermitianToRealInverseFFTImageFilter< ImageCD3 >::Pointer ifft =
-    itk::FFTWHalfHermitianToRealInverseFFTImageFilter< ImageCD3 >::New();
-  ifft->SetPlanRigor( FFTW_ESTIMATE );
-  if ( ifft->GetPlanRigor() != FFTW_ESTIMATE )
-    {
+  itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD3>::Pointer ifft =
+    itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD3>::New();
+  ifft->SetPlanRigor(FFTW_ESTIMATE);
+  if (ifft->GetPlanRigor() != FFTW_ESTIMATE)
+  {
     std::cerr << "Plan rigor read from FFT filter is not FFTW_ESTIMATE." << std::endl;
     return 0;
-    }
-  ifft->SetPlanRigor( FFTW_MEASURE );
+  }
+  ifft->SetPlanRigor(FFTW_MEASURE);
 
   fft->Print(std::cout);
   ifft->Print(std::cout);

@@ -19,16 +19,19 @@
 #include "itkIsConvertible.h"
 #include "itkStaticAssert.h"
 
-struct Base {};
-struct Child : Base {};
+struct Base
+{};
+struct Child : Base
+{};
 
-int itkIsConvertible(int, char*[])
+int
+itkIsConvertible(int, char *[])
 {
   itkStaticAssert((itk::IsConvertible<char, double>::Value), "Unit test failed");
-  itkStaticAssert((! itk::IsConvertible<char, char*>::Value), "Unit test failed");
+  itkStaticAssert((!itk::IsConvertible<char, char *>::Value), "Unit test failed");
 
-  itkStaticAssert((itk::IsConvertible<Child*, void*>::Value), "Unit test failed");
-  itkStaticAssert((!itk::IsConvertible<void*, Child*>::Value), "Unit test failed");
+  itkStaticAssert((itk::IsConvertible<Child *, void *>::Value), "Unit test failed");
+  itkStaticAssert((!itk::IsConvertible<void *, Child *>::Value), "Unit test failed");
 
   return EXIT_SUCCESS;
 }

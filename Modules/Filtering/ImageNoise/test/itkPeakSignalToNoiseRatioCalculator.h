@@ -32,7 +32,7 @@ namespace itk
  *
  * \ingroup ITKImageNoise
  */
-template < class TInputImage >
+template <class TInputImage>
 class ITK_TEMPLATE_EXPORT PeakSignalToNoiseRatioCalculator : public Object
 {
 public:
@@ -62,50 +62,55 @@ public:
   using InputPixelType = typename InputImageType::PixelType;
 
   /** Set the input image. */
-  virtual void SetImage( const InputImageType * image )
+  virtual void
+  SetImage(const InputImageType * image)
   {
-    if ( m_Image != image )
-      {
+    if (m_Image != image)
+    {
       m_Image = image;
       this->Modified();
       m_Valid = false;
-      }
+    }
   }
 
-  virtual void SetNoisyImage( const InputImageType * image )
+  virtual void
+  SetNoisyImage(const InputImageType * image)
   {
-    if ( m_NoisyImage != image )
-      {
+    if (m_NoisyImage != image)
+    {
       m_NoisyImage = image;
       this->Modified();
       m_Valid = false;
-      }
+    }
   }
 
-  void Compute();
+  void
+  Compute();
 
-  const double & GetOutput() const;
+  const double &
+  GetOutput() const;
 
 protected:
   PeakSignalToNoiseRatioCalculator();
   ~PeakSignalToNoiseRatioCalculator() override = default;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  bool   m_Valid;                              // Have moments been computed
-                                               // yet?
+  bool m_Valid; // Have moments been computed
+                // yet?
   double m_Output;
 
   InputImageConstPointer m_Image;
   InputImageConstPointer m_NoisyImage;
 
-};  // class PeakSignalToNoiseRatioCalculator
+}; // class PeakSignalToNoiseRatioCalculator
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPeakSignalToNoiseRatioCalculator.hxx"
+#  include "itkPeakSignalToNoiseRatioCalculator.hxx"
 #endif
 
 #endif /* itkPeakSignalToNoiseRatioCalculator_h */

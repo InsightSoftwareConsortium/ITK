@@ -28,30 +28,30 @@ namespace itk
 namespace Testing
 {
 
-template<typename TImageType>
-HashImageFilter<TImageType>::HashImageFilter() :
-  m_HashFunction(MD5)
+template <typename TImageType>
+HashImageFilter<TImageType>::HashImageFilter()
+  : m_HashFunction(MD5)
 {
   // create data object
-  this->ProcessObject::SetNthOutput( 1, this->MakeOutput(1).GetPointer() );
+  this->ProcessObject::SetNthOutput(1, this->MakeOutput(1).GetPointer());
 
   this->InPlaceOn();
 }
 
 
-template<typename TImageType>
+template <typename TImageType>
 typename HashImageFilter<TImageType>::DataObjectPointer
 HashImageFilter<TImageType>::MakeOutput(DataObjectPointerArraySizeType idx)
 {
-  if ( idx == 1 )
-    {
+  if (idx == 1)
+  {
     return HashObjectType::New().GetPointer();
-    }
+  }
   return Superclass::MakeOutput(idx);
 }
 
 
-template<typename TImageType>
+template <typename TImageType>
 void
 HashImageFilter<TImageType>::AfterThreadedGenerateData()
 {
@@ -62,71 +62,71 @@ HashImageFilter<TImageType>::AfterThreadedGenerateData()
   using ValueType = typename NumericTraits<PixelType>::ValueType;
   using Swapper = itk::ByteSwapper<ValueType>;
 
-  itksysMD5 *md5 = itksysMD5_New();
-  itksysMD5_Initialize( md5 );
+  itksysMD5 * md5 = itksysMD5_New();
+  itksysMD5_Initialize(md5);
 
   try
-    {
+  {
     typename ImageType::ConstPointer input = this->GetInput();
 
     // make a good guess about the number of components in each pixel
-    size_t numberOfComponent =   sizeof(PixelType) / sizeof(ValueType );
+    size_t numberOfComponent = sizeof(PixelType) / sizeof(ValueType);
 
-    if ( strcmp(input->GetNameOfClass(), "VectorImage") == 0 )
-      {
+    if (strcmp(input->GetNameOfClass(), "VectorImage") == 0)
+    {
       // spacial case for VectorImages
       numberOfComponent = ImageType::AccessorFunctorType::GetVectorLength(input);
-      }
-    else if ( sizeof(PixelType) % sizeof(ValueType) != 0 )
-      {
+    }
+    else if (sizeof(PixelType) % sizeof(ValueType) != 0)
+    {
       itkExceptionMacro("Unsupported data type for hashing!");
-      }
+    }
 
     // we feel bad about accessing the data this way
-    auto * buffer = static_cast<ValueType*>( const_cast<void*>((const void *)input->GetBufferPointer()) );
+    auto * buffer = static_cast<ValueType *>(const_cast<void *>((const void *)input->GetBufferPointer()));
 
     typename ImageType::RegionType largestRegion = input->GetBufferedRegion();
-    const size_t numberOfValues = largestRegion.GetNumberOfPixels()*numberOfComponent;
+    const size_t                   numberOfValues = largestRegion.GetNumberOfPixels() * numberOfComponent;
 
 
     // Possible byte swap so we always calculate on little endian data
-    if ( Swapper::SystemIsBigEndian() )
-      {
-      Swapper::SwapRangeFromSystemToLittleEndian ( buffer, static_cast<typename Swapper::BufferSizeType> ( numberOfValues ) );
-      }
+    if (Swapper::SystemIsBigEndian())
+    {
+      Swapper::SwapRangeFromSystemToLittleEndian(buffer, static_cast<typename Swapper::BufferSizeType>(numberOfValues));
+    }
 
-    itksysMD5_Append( md5, (unsigned char*)buffer, static_cast<int>( numberOfValues*sizeof(ValueType) ) );
+    itksysMD5_Append(md5, (unsigned char *)buffer, static_cast<int>(numberOfValues * sizeof(ValueType)));
 
-    if ( Swapper::SystemIsBigEndian() )
-      {
-      Swapper::SwapRangeFromSystemToLittleEndian ( buffer, static_cast<typename Swapper::BufferSizeType> ( numberOfValues ) );
-      }
+    if (Swapper::SystemIsBigEndian())
+    {
+      Swapper::SwapRangeFromSystemToLittleEndian(buffer, static_cast<typename Swapper::BufferSizeType>(numberOfValues));
+    }
 
     ////////
     // NOTE: THIS IS NOT A nullptr TERMINATED STRING!!!
     ////////
     const size_t DigestSize = 32u;
-    char Digest[DigestSize];
+    char         Digest[DigestSize];
 
-    itksysMD5_FinalizeHex( md5, Digest );
+    itksysMD5_FinalizeHex(md5, Digest);
 
-    this->GetHashOutput()->Set( std::string(Digest, DigestSize) );
-    }
-  catch (... )
-    {
+    this->GetHashOutput()->Set(std::string(Digest, DigestSize));
+  }
+  catch (...)
+  {
     // free all resources when an exception occours
-    itksysMD5_Delete( md5 );
+    itksysMD5_Delete(md5);
     throw;
-    }
+  }
 
   // free resources
-  itksysMD5_Delete( md5 );
+  itksysMD5_Delete(md5);
 }
 
 
-template<typename TImageType>
+template <typename TImageType>
 void
-HashImageFilter<TImageType>::EnlargeOutputRequestedRegion(DataObject *data)
+HashImageFilter<TImageType>::EnlargeOutputRequestedRegion(DataObject * data)
 {
   Superclass::EnlargeOutputRequestedRegion(data);
 
@@ -136,7 +136,7 @@ HashImageFilter<TImageType>::EnlargeOutputRequestedRegion(DataObject *data)
 }
 
 
-template<typename TImageType>
+template <typename TImageType>
 void
 HashImageFilter<TImageType>::PrintSelf(std::ostream & os, Indent indent) const
 {

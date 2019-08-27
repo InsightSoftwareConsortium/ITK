@@ -23,29 +23,27 @@
 
 namespace itk
 {
-template< typename TInput, typename TOutput >
-HeavisideStepFunction< TInput, TOutput >
-::HeavisideStepFunction() : Superclass()
+template <typename TInput, typename TOutput>
+HeavisideStepFunction<TInput, TOutput>::HeavisideStepFunction()
+  : Superclass()
 {}
 
-template< typename TInput, typename TOutput >
-typename HeavisideStepFunction< TInput, TOutput >::OutputType
-HeavisideStepFunction< TInput, TOutput >
-::Evaluate(const InputType & input) const
+template <typename TInput, typename TOutput>
+typename HeavisideStepFunction<TInput, TOutput>::OutputType
+HeavisideStepFunction<TInput, TOutput>::Evaluate(const InputType & input) const
 {
-  return ( input >= NumericTraits< InputType >::ZeroValue() ) ?
-          NumericTraits< OutputType >::OneValue() : NumericTraits< OutputType >::ZeroValue();
+  return (input >= NumericTraits<InputType>::ZeroValue()) ? NumericTraits<OutputType>::OneValue()
+                                                          : NumericTraits<OutputType>::ZeroValue();
 }
 
-template< typename TInput, typename TOutput >
-typename HeavisideStepFunction< TInput, TOutput >::OutputType
-HeavisideStepFunction< TInput, TOutput >
-::EvaluateDerivative(const InputType & input) const
+template <typename TInput, typename TOutput>
+typename HeavisideStepFunction<TInput, TOutput>::OutputType
+HeavisideStepFunction<TInput, TOutput>::EvaluateDerivative(const InputType & input) const
 {
-  return ( Math::ExactlyEquals(input, NumericTraits< InputType >::ZeroValue()) ) ?
-    NumericTraits< OutputType >::OneValue() : NumericTraits< OutputType >::ZeroValue();
+  return (Math::ExactlyEquals(input, NumericTraits<InputType>::ZeroValue())) ? NumericTraits<OutputType>::OneValue()
+                                                                             : NumericTraits<OutputType>::ZeroValue();
 }
 
-}
+} // namespace itk
 
 #endif // itkHeavisideStepFunction_hxx

@@ -44,21 +44,22 @@ namespace itk
 class ITKMesh_EXPORT SimplexMeshGeometry
 {
 public:
-
-  using PointType = itk::Point< double, 3 >;
-  using VectorType = itk::Vector< double, 3 >;
-  using CovariantVectorType = itk::CovariantVector< double, 3 >;
-  using IndexArray = itk::FixedArray< IdentifierType, 3 >;
-  using PointArray = itk::FixedArray< PointType, 3 >;
-  using NeighborSetType = std::set< IdentifierType >;
+  using PointType = itk::Point<double, 3>;
+  using VectorType = itk::Vector<double, 3>;
+  using CovariantVectorType = itk::CovariantVector<double, 3>;
+  using IndexArray = itk::FixedArray<IdentifierType, 3>;
+  using PointArray = itk::FixedArray<PointType, 3>;
+  using NeighborSetType = std::set<IdentifierType>;
 
   SimplexMeshGeometry();
 
   ~SimplexMeshGeometry();
 
-  void CopyFrom( const SimplexMeshGeometry & input );
+  void
+  CopyFrom(const SimplexMeshGeometry & input);
 
-  void CopyNeigborSet( const NeighborSetType * nset );
+  void
+  CopyNeigborSet(const NeighborSetType * nset);
 
   /** Definition of some attributes for
    * faster deformable model computation
@@ -131,7 +132,7 @@ public:
   double phi;
 
   /* stores the neighbor set */
-  NeighborSetType *neighborSet;
+  NeighborSetType * neighborSet;
 
   /* stores multiplier for interactive deformable model filter */
   double multiplier;
@@ -142,10 +143,11 @@ public:
    * Computes the center and radius of the circum circle of the
    * three neighbor points and of the circum sphere
    */
-  void ComputeGeometry();
+  void
+  ComputeGeometry();
 
 protected:
 }; // end of class SimplexMeshGeometry
-} //end of namespace itk
+} // end of namespace itk
 
 #endif

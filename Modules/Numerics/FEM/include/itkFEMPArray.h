@@ -37,7 +37,7 @@ namespace fem
  * \ingroup ITKFEM
  */
 template <typename T>
-class FEMPArray : public std::vector<FEMP<T> >
+class FEMPArray : public std::vector<FEMP<T>>
 {
 public:
   /**
@@ -48,7 +48,7 @@ public:
   /**
    * Standard Superclass typedef
    */
-  using Superclass = std::vector<FEMP<T> >;
+  using Superclass = std::vector<FEMP<T>>;
 
   /**
    * Dumb pointer type alias support
@@ -66,25 +66,29 @@ public:
   /**
    * Finds and returns a pointer to the object with specific global number
    */
-  ClassTypePointer Find(int gn);
+  ClassTypePointer
+  Find(int gn);
 
-  ClassTypeConstPointer Find(int gn) const;
+  ClassTypeConstPointer
+  Find(int gn) const;
 
   /**
    * Returns a pointer to i-th object stored in an array (not a pointer to FEMP of that object).
    */
-  ClassTypePointer operator()(int i)
+  ClassTypePointer
+  operator()(int i)
   {
-    return &( *this->operator[](i) );
+    return &(*this->operator[](i));
   }
 
   /**
    * Returns a pointer to i-th object stored in an array (not a pointer to FEMP of that object).
    * This function works on the const arrays.
    */
-  ClassTypeConstPointer operator()(int i) const
+  ClassTypeConstPointer
+  operator()(int i) const
   {
-    return &( *this->operator[](i) );
+    return &(*this->operator[](i));
   }
 
   /**
@@ -92,8 +96,8 @@ public:
    * This speeds up finding object by global number a lot. The function returns
    * total number of objects in an array.
    */
-  int Renumber();
-
+  int
+  Renumber();
 };
 
 /**
@@ -103,29 +107,29 @@ template <typename T>
 typename FEMPArray<T>::ClassTypePointer
 FEMPArray<T>::Find(int gn)
 {
-  auto it   = this->begin();
+  auto it = this->begin();
   auto iend = this->end();
-  while( it != iend )
+  while (it != iend)
+  {
+    if ((*it)->GetGlobalNumber() == gn)
     {
-    if( ( *it )->GetGlobalNumber() == gn )
-      {
       break;
-      }
-    it++;
     }
+    it++;
+  }
 
-  if( it == this->end() )
-    {
+  if (it == this->end())
+  {
     /**
      * We din't find an object with that GN...
      */
-    throw FEMExceptionObjectNotFound(__FILE__, __LINE__, "FEMPArray::Find() const", typeid( T ).name(), gn);
-    }
+    throw FEMExceptionObjectNotFound(__FILE__, __LINE__, "FEMPArray::Find() const", typeid(T).name(), gn);
+  }
 
   /**
    * Return a pointer to the found object.
    */
-  return &( *( *it ) );
+  return &(*(*it));
 }
 
 /**
@@ -137,41 +141,42 @@ FEMPArray<T>::Find(int gn) const
 {
   using ConstIterator = typename Superclass::const_iterator;
 
-  ConstIterator it   = this->begin();
+  ConstIterator it = this->begin();
   ConstIterator iend = this->end();
-  while( it != iend )
+  while (it != iend)
+  {
+    if ((*it)->GetGlobalNumber() == gn)
     {
-    if( ( *it )->GetGlobalNumber() == gn )
-      {
       break;
-      }
-    it++;
     }
+    it++;
+  }
 
-  if( it == this->end() )
-    {
+  if (it == this->end())
+  {
     /**
      * We din't find an object with that GN...
      */
-    throw FEMExceptionObjectNotFound(__FILE__, __LINE__, "FEMPArray::Find() const", typeid( T ).name(), gn);
-    }
+    throw FEMExceptionObjectNotFound(__FILE__, __LINE__, "FEMPArray::Find() const", typeid(T).name(), gn);
+  }
 
   /**
    * Return a pointer to the found object.
    */
-  return &( *( *it ) );
+  return &(*(*it));
 }
 
 template <typename T>
-int FEMPArray<T>::Renumber()
+int
+FEMPArray<T>::Renumber()
 {
   typename Superclass::iterator i;
-  int j = 0;
-  for( i = this->begin(); i != this->end(); i++ )
-    {
-    ( *i )->SetGlobalNumber(j);
+  int                           j = 0;
+  for (i = this->begin(); i != this->end(); i++)
+  {
+    (*i)->SetGlobalNumber(j);
     j++;
-    }
+  }
 
   return j;
 }

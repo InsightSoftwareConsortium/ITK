@@ -25,37 +25,39 @@
 namespace itk
 {
 /** \class AnchorUtilities
-* \brief functionality in common for anchor openings/closings and
-* erosions/dilation
-*
-*
-* \ingroup ITKMathematicalMorphology
-*/
-template< typename TImage, typename TBres, typename TLine >
-int ComputeStartEnd(const typename TImage::IndexType StartIndex,
-                    const TLine line,
-                    const float tol,
-                    const typename TBres::OffsetArray LineOffsets,
-                    const typename TImage::RegionType AllImage,
-                    unsigned & start,
-                    unsigned & end);
+ * \brief functionality in common for anchor openings/closings and
+ * erosions/dilation
+ *
+ *
+ * \ingroup ITKMathematicalMorphology
+ */
+template <typename TImage, typename TBres, typename TLine>
+int
+ComputeStartEnd(const typename TImage::IndexType  StartIndex,
+                const TLine                       line,
+                const float                       tol,
+                const typename TBres::OffsetArray LineOffsets,
+                const typename TImage::RegionType AllImage,
+                unsigned &                        start,
+                unsigned &                        end);
 
-template< typename TImage, typename TBres, typename TAnchor, typename TLine >
-void DoAnchorFace(const TImage * input,
-                  TImage * output,
-                  typename TImage::PixelType border,
-                  TLine line,
-                  TAnchor & AnchorLine,
-                  typename TBres::OffsetArray LineOffsets,
-                  std::vector<typename TImage::PixelType> & inbuffer,
-                  std::vector<typename TImage::PixelType> & outbuffer,
-                  const typename TImage::RegionType AllImage,
-                  const typename TImage::RegionType face);
+template <typename TImage, typename TBres, typename TAnchor, typename TLine>
+void
+DoAnchorFace(const TImage *                            input,
+             TImage *                                  output,
+             typename TImage::PixelType                border,
+             TLine                                     line,
+             TAnchor &                                 AnchorLine,
+             typename TBres::OffsetArray               LineOffsets,
+             std::vector<typename TImage::PixelType> & inbuffer,
+             std::vector<typename TImage::PixelType> & outbuffer,
+             const typename TImage::RegionType         AllImage,
+             const typename TImage::RegionType         face);
 
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAnchorUtilities.hxx"
+#  include "itkAnchorUtilities.hxx"
 #endif
 
 #endif

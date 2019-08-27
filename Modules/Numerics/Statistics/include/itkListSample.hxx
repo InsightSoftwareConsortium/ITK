@@ -24,132 +24,118 @@ namespace itk
 {
 namespace Statistics
 {
-template< typename TMeasurementVector >
+template <typename TMeasurementVector>
 void
-ListSample< TMeasurementVector >
-::Resize(InstanceIdentifier newsize)
+ListSample<TMeasurementVector>::Resize(InstanceIdentifier newsize)
 {
   this->m_InternalContainer.resize(newsize);
 }
 
-template< typename TMeasurementVector >
+template <typename TMeasurementVector>
 void
-ListSample< TMeasurementVector >
-::Clear()
+ListSample<TMeasurementVector>::Clear()
 {
   this->m_InternalContainer.clear();
 }
 
-template< typename TMeasurementVector >
+template <typename TMeasurementVector>
 void
-ListSample< TMeasurementVector >
-::PushBack(const MeasurementVectorType & mv)
+ListSample<TMeasurementVector>::PushBack(const MeasurementVectorType & mv)
 {
-  if ( this->GetMeasurementVectorSize() != NumericTraits<MeasurementVectorType>::GetLength(mv) )
-    {
+  if (this->GetMeasurementVectorSize() != NumericTraits<MeasurementVectorType>::GetLength(mv))
+  {
     itkExceptionMacro("MeasurementVectorSize: " << this->GetMeasurementVectorSize()
-      << " doesn't match input measurement vector length: " << NumericTraits<MeasurementVectorType>::GetLength(mv));
-    }
+                                                << " doesn't match input measurement vector length: "
+                                                << NumericTraits<MeasurementVectorType>::GetLength(mv));
+  }
   this->m_InternalContainer.push_back(mv);
 }
 
-template< typename TMeasurementVector >
-typename ListSample< TMeasurementVector >::InstanceIdentifier
-ListSample< TMeasurementVector >
-::Size() const
+template <typename TMeasurementVector>
+typename ListSample<TMeasurementVector>::InstanceIdentifier
+ListSample<TMeasurementVector>::Size() const
 {
-  return static_cast< InstanceIdentifier >(
-           this->m_InternalContainer.size() );
+  return static_cast<InstanceIdentifier>(this->m_InternalContainer.size());
 }
 
-template< typename TMeasurementVector >
-typename ListSample< TMeasurementVector >::TotalAbsoluteFrequencyType
-ListSample< TMeasurementVector >
-::GetTotalFrequency() const
+template <typename TMeasurementVector>
+typename ListSample<TMeasurementVector>::TotalAbsoluteFrequencyType
+ListSample<TMeasurementVector>::GetTotalFrequency() const
 {
   // Since the entries are unique, the total
   // frequency is equal to the numbe of entries.
   return this->Size();
 }
 
-template< typename TMeasurementVector >
-const typename ListSample< TMeasurementVector >::MeasurementVectorType &
-ListSample< TMeasurementVector >
-::GetMeasurementVector(InstanceIdentifier instanceId) const
+template <typename TMeasurementVector>
+const typename ListSample<TMeasurementVector>::MeasurementVectorType &
+ListSample<TMeasurementVector>::GetMeasurementVector(InstanceIdentifier instanceId) const
 {
-  if ( instanceId < m_InternalContainer.size() )
-    {
+  if (instanceId < m_InternalContainer.size())
+  {
     return m_InternalContainer[instanceId];
-    }
+  }
   itkExceptionMacro("MeasurementVector " << instanceId << " does not exist");
 }
 
-template< typename TMeasurementVector >
+template <typename TMeasurementVector>
 void
-ListSample< TMeasurementVector >
-::SetMeasurement(InstanceIdentifier instanceId,
-                 unsigned int dim,
-                 const MeasurementType & value)
+ListSample<TMeasurementVector>::SetMeasurement(InstanceIdentifier      instanceId,
+                                               unsigned int            dim,
+                                               const MeasurementType & value)
 {
-  if ( instanceId < m_InternalContainer.size() )
-    {
+  if (instanceId < m_InternalContainer.size())
+  {
     m_InternalContainer[instanceId][dim] = value;
-    }
+  }
 }
 
-template< typename TMeasurementVector >
+template <typename TMeasurementVector>
 void
-ListSample< TMeasurementVector >
-::SetMeasurementVector(InstanceIdentifier instanceId,
-                       const MeasurementVectorType & mv)
+ListSample<TMeasurementVector>::SetMeasurementVector(InstanceIdentifier instanceId, const MeasurementVectorType & mv)
 {
-  if ( instanceId < m_InternalContainer.size() )
-    {
+  if (instanceId < m_InternalContainer.size())
+  {
     m_InternalContainer[instanceId] = mv;
-    }
+  }
 }
 
-template< typename TMeasurementVector >
-typename ListSample< TMeasurementVector >::AbsoluteFrequencyType
-ListSample< TMeasurementVector >
-::GetFrequency(InstanceIdentifier instanceId) const
+template <typename TMeasurementVector>
+typename ListSample<TMeasurementVector>::AbsoluteFrequencyType
+ListSample<TMeasurementVector>::GetFrequency(InstanceIdentifier instanceId) const
 {
-  if ( instanceId < m_InternalContainer.size() )
-    {
+  if (instanceId < m_InternalContainer.size())
+  {
     return 1;
-    }
+  }
   else
-    {
+  {
     return 0;
-    }
+  }
 }
 
-template< typename TMeasurementVector >
+template <typename TMeasurementVector>
 void
-ListSample< TMeasurementVector >
-::Graft(const DataObject *thatObject)
+ListSample<TMeasurementVector>::Graft(const DataObject * thatObject)
 {
   this->Superclass::Graft(thatObject);
 
-  const auto * thatConst = dynamic_cast< const Self * >( thatObject );
-  if ( thatConst )
-    {
-    auto * that = const_cast< Self * >( thatConst );
+  const auto * thatConst = dynamic_cast<const Self *>(thatObject);
+  if (thatConst)
+  {
+    auto * that = const_cast<Self *>(thatConst);
     this->m_InternalContainer = that->m_InternalContainer;
-    }
+  }
 }
 
-template< typename TMeasurementVector >
+template <typename TMeasurementVector>
 void
-ListSample< TMeasurementVector >
-::PrintSelf(std::ostream & os, Indent indent) const
+ListSample<TMeasurementVector>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Internal Data Container: "
-     << &m_InternalContainer << std::endl;
-  os << indent << "Number of samples: "
-     << this->m_InternalContainer.size() << std::endl;
+  os << indent << "Internal Data Container: " << &m_InternalContainer << std::endl;
+  os << indent << "Number of samples: " << this->m_InternalContainer.size() << std::endl;
 }
 } // end of namespace Statistics
 } // end of namespace itk

@@ -43,27 +43,24 @@ namespace itk
  *  \tparam TLevelSetContainer Level set function container type
  *  \ingroup ITKLevelSetsv4
  */
-template< typename TInput, // Input image or mesh
+template <typename TInput, // Input image or mesh
           typename TLevelSetContainer,
-          typename TPropagationImage = TInput >
-class ITK_TEMPLATE_EXPORT LevelSetEquationPropagationTerm :
-    public LevelSetEquationTermBase< TInput, TLevelSetContainer >
+          typename TPropagationImage = TInput>
+class ITK_TEMPLATE_EXPORT LevelSetEquationPropagationTerm : public LevelSetEquationTermBase<TInput, TLevelSetContainer>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationPropagationTerm);
 
   using Self = LevelSetEquationPropagationTerm;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass =
-      LevelSetEquationTermBase< TInput, TLevelSetContainer >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = LevelSetEquationTermBase<TInput, TLevelSetContainer>;
 
   /** Method for creation through object factory */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro( LevelSetEquationPropagationTerm,
-                LevelSetEquationTermBase );
+  itkTypeMacro(LevelSetEquationPropagationTerm, LevelSetEquationTermBase);
 
   using InputImageType = typename Superclass::InputImageType;
   using InputImagePointer = typename Superclass::InputImagePointer;
@@ -91,31 +88,35 @@ public:
   using PropagationImagePointer = typename PropagationImageType::Pointer;
 
   /** Neighborhood radius type */
-  using DefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition< InputImageType >;
-  using RadiusType = typename ConstNeighborhoodIterator< InputImageType >::RadiusType;
-  using NeighborhoodType = ConstNeighborhoodIterator< InputImageType, DefaultBoundaryConditionType >;
+  using DefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition<InputImageType>;
+  using RadiusType = typename ConstNeighborhoodIterator<InputImageType>::RadiusType;
+  using NeighborhoodType = ConstNeighborhoodIterator<InputImageType, DefaultBoundaryConditionType>;
 
-  using NeighborhoodScalesType = Vector< LevelSetOutputRealType, Self::ImageDimension >;
+  using NeighborhoodScalesType = Vector<LevelSetOutputRealType, Self::ImageDimension>;
 
   /** Set/Get the propagation image. By default, if no PropagationImage has
   been set, it casts the input image and uses it in the term contribution
   calculation. */
-  itkSetObjectMacro( PropagationImage, PropagationImageType );
-  itkGetModifiableObjectMacro(PropagationImage, PropagationImageType );
+  itkSetObjectMacro(PropagationImage, PropagationImageType);
+  itkGetModifiableObjectMacro(PropagationImage, PropagationImageType);
 
   /** \todo to be documented. */
-  void Update() override;
+  void
+  Update() override;
 
   /** Initialize the parameters in the terms prior to an iteration */
-  void InitializeParameters() override;
+  void
+  InitializeParameters() override;
 
   /** \todo to be documented. */
-  void Initialize( const LevelSetInputIndexType& ) override;
+  void
+  Initialize(const LevelSetInputIndexType &) override;
 
   /** Supply updates at pixels to keep the term parameters always updated */
-  void UpdatePixel( const LevelSetInputIndexType& iP,
-                            const LevelSetOutputRealType& oldValue,
-                            const LevelSetOutputRealType& newValue ) override;
+  void
+  UpdatePixel(const LevelSetInputIndexType & iP,
+              const LevelSetOutputRealType & oldValue,
+              const LevelSetOutputRealType & newValue) override;
 
 protected:
   LevelSetEquationPropagationTerm();
@@ -126,19 +127,21 @@ protected:
 
   /** Return the spatial speed dependence a given pixel location
    * Usually, it is constant across the image domain */
-  LevelSetOutputRealType PropagationSpeed( const LevelSetInputIndexType& iP ) const;
+  LevelSetOutputRealType
+  PropagationSpeed(const LevelSetInputIndexType & iP) const;
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */
-  LevelSetOutputRealType Value( const LevelSetInputIndexType& iP ) override;
-  LevelSetOutputRealType Value( const LevelSetInputIndexType& iP,
-                                        const LevelSetDataType& iData ) override;
+  LevelSetOutputRealType
+  Value(const LevelSetInputIndexType & iP) override;
+  LevelSetOutputRealType
+  Value(const LevelSetInputIndexType & iP, const LevelSetDataType & iData) override;
 };
 
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetEquationPropagationTerm.hxx"
+#  include "itkLevelSetEquationPropagationTerm.hxx"
 #endif
 
 #endif

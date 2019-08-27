@@ -31,17 +31,16 @@
 
 namespace itk
 {
-template< typename TInputImage >
+template <typename TInputImage>
 void
-PadLabelMapFilter< TInputImage >
-::GenerateOutputInformation()
+PadLabelMapFilter<TInputImage>::GenerateOutputInformation()
 {
-  const TInputImage *inputPtr = this->GetInput();
+  const TInputImage * inputPtr = this->GetInput();
 
-  if ( !inputPtr )
-    {
+  if (!inputPtr)
+  {
     return;
-    }
+  }
 
   // Compute the new region size.
   RegionType croppedRegion;
@@ -54,7 +53,7 @@ PadLabelMapFilter< TInputImage >
   SizeType originalPadSize = m_UpperBoundaryPadSize + m_LowerBoundaryPadSize;
 
   index = inputIndex - m_LowerBoundaryPadSize;
-  size = inputSize + ( originalPadSize );
+  size = inputSize + (originalPadSize);
 
   croppedRegion.SetSize(size);
   croppedRegion.SetIndex(index);
@@ -65,10 +64,9 @@ PadLabelMapFilter< TInputImage >
   Superclass::GenerateOutputInformation();
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-PadLabelMapFilter< TInputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+PadLabelMapFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

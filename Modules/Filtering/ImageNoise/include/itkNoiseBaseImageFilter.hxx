@@ -25,8 +25,7 @@ namespace itk
 {
 
 template <class TInputImage, class TOutputImage>
-NoiseBaseImageFilter<TInputImage, TOutputImage>
-::NoiseBaseImageFilter()
+NoiseBaseImageFilter<TInputImage, TOutputImage>::NoiseBaseImageFilter()
 
 {
   Self::SetSeed();
@@ -36,47 +35,43 @@ NoiseBaseImageFilter<TInputImage, TOutputImage>
 
 template <class TInputImage, class TOutputImage>
 void
-NoiseBaseImageFilter<TInputImage, TOutputImage>
-::SetSeed()
+NoiseBaseImageFilter<TInputImage, TOutputImage>::SetSeed()
 {
   time_t t;
 
   time(&t);
-  this->SetSeed(Hash(t,clock() ) );
+  this->SetSeed(Hash(t, clock()));
 }
 
 template <class TInputImage, class TOutputImage>
 typename NoiseBaseImageFilter<TInputImage, TOutputImage>::OutputImagePixelType
-NoiseBaseImageFilter<TInputImage, TOutputImage>
-::ClampCast(const double &value)
+NoiseBaseImageFilter<TInputImage, TOutputImage>::ClampCast(const double & value)
 {
-  if (value >= (double)NumericTraits<OutputImagePixelType>::max() )
-    {
+  if (value >= (double)NumericTraits<OutputImagePixelType>::max())
+  {
     return NumericTraits<OutputImagePixelType>::max();
-    }
-  else if(value <= (double)NumericTraits<OutputImagePixelType>::NonpositiveMin() )
-    {
+  }
+  else if (value <= (double)NumericTraits<OutputImagePixelType>::NonpositiveMin())
+  {
     return NumericTraits<OutputImagePixelType>::NonpositiveMin();
-    }
+  }
   else if (NumericTraits<OutputImagePixelType>::is_integer)
-    {
+  {
     return Math::Round<OutputImagePixelType>(value);
-    }
+  }
   else
-    {
+  {
     return static_cast<OutputImagePixelType>(value);
-    }
+  }
 }
 
 template <class TInputImage, class TOutputImage>
 void
-NoiseBaseImageFilter<TInputImage, TOutputImage>
-::PrintSelf(std::ostream &os, Indent indent) const
+NoiseBaseImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Seed: "
-    << static_cast<typename NumericTraits<uint32_t>::PrintType>( m_Seed ) << std::endl;
+  os << indent << "Seed: " << static_cast<typename NumericTraits<uint32_t>::PrintType>(m_Seed) << std::endl;
 }
 } // end namespace itk
 

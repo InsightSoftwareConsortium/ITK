@@ -24,93 +24,87 @@
 namespace itk
 {
 
-template< typename TOutput, unsigned int VDimension >
-WhitakerSparseLevelSetImage< TOutput, VDimension >
-::WhitakerSparseLevelSetImage()
+template <typename TOutput, unsigned int VDimension>
+WhitakerSparseLevelSetImage<TOutput, VDimension>::WhitakerSparseLevelSetImage()
 {
   this->InitializeLayers();
   this->InitializeInternalLabelList();
 }
 
-template< typename TOutput, unsigned int VDimension >
-typename WhitakerSparseLevelSetImage< TOutput, VDimension >::OutputType
-WhitakerSparseLevelSetImage< TOutput, VDimension >
-::Evaluate( const InputType& inputIndex ) const
+template <typename TOutput, unsigned int VDimension>
+typename WhitakerSparseLevelSetImage<TOutput, VDimension>::OutputType
+WhitakerSparseLevelSetImage<TOutput, VDimension>::Evaluate(const InputType & inputIndex) const
 {
   InputType mapIndex = inputIndex - this->m_DomainOffset;
-  auto layerIt = this->m_Layers.begin();
+  auto      layerIt = this->m_Layers.begin();
 
   auto rval = static_cast<OutputType>(ZeroLayer());
 
-  while( layerIt != this->m_Layers.end() )
+  while (layerIt != this->m_Layers.end())
+  {
+    auto it = (layerIt->second).find(mapIndex);
+    if (it != (layerIt->second).end())
     {
-    auto it = ( layerIt->second ).find( mapIndex );
-    if( it != ( layerIt->second ).end() )
-      {
       rval = it->second;
       break;
-      }
+    }
 
     ++layerIt;
-    }
+  }
   // if layer not found, look using label map
-  if(layerIt == this->m_Layers.end())
+  if (layerIt == this->m_Layers.end())
+  {
+    if (this->m_LabelMap.IsNotNull())
     {
-    if( this->m_LabelMap.IsNotNull() )
+      if (this->m_LabelMap->GetLabelObject(MinusThreeLayer())->HasIndex(mapIndex))
       {
-      if( this->m_LabelMap->GetLabelObject( MinusThreeLayer() )->HasIndex( mapIndex ) )
-        {
-        rval = static_cast<OutputType>( MinusThreeLayer() );
-        }
-      else
-        {
-        char status = this->m_LabelMap->GetPixel( mapIndex );
-        if( status == this->PlusThreeLayer() )
-          {
-          rval = static_cast<OutputType>( this->PlusThreeLayer() );
-          }
-        else
-          {
-          itkGenericExceptionMacro( <<"status "
-                                    << static_cast< int >( status )
-                                    << " should be 3 or -3" );
-          }
-        }
+        rval = static_cast<OutputType>(MinusThreeLayer());
       }
-    else
+      else
       {
-      itkGenericExceptionMacro( <<"Note: m_LabelMap is nullptr"  );
+        char status = this->m_LabelMap->GetPixel(mapIndex);
+        if (status == this->PlusThreeLayer())
+        {
+          rval = static_cast<OutputType>(this->PlusThreeLayer());
+        }
+        else
+        {
+          itkGenericExceptionMacro(<< "status " << static_cast<int>(status) << " should be 3 or -3");
+        }
       }
     }
+    else
+    {
+      itkGenericExceptionMacro(<< "Note: m_LabelMap is nullptr");
+    }
+  }
   return rval;
 }
 
 
-template< typename TOutput, unsigned int VDimension >
+template <typename TOutput, unsigned int VDimension>
 void
-WhitakerSparseLevelSetImage< TOutput, VDimension >
-::InitializeLayers()
+WhitakerSparseLevelSetImage<TOutput, VDimension>::InitializeLayers()
 {
   this->m_Layers.clear();
-  this->m_Layers[ MinusTwoLayer() ] = LayerType();
-  this->m_Layers[ MinusOneLayer() ] = LayerType();
-  this->m_Layers[ ZeroLayer()     ] = LayerType();
-  this->m_Layers[ PlusOneLayer()  ] = LayerType();
-  this->m_Layers[ PlusTwoLayer()  ] = LayerType();
+  this->m_Layers[MinusTwoLayer()] = LayerType();
+  this->m_Layers[MinusOneLayer()] = LayerType();
+  this->m_Layers[ZeroLayer()] = LayerType();
+  this->m_Layers[PlusOneLayer()] = LayerType();
+  this->m_Layers[PlusTwoLayer()] = LayerType();
 }
 
 
-template< typename TOutput, unsigned int VDimension >
+template <typename TOutput, unsigned int VDimension>
 void
-WhitakerSparseLevelSetImage< TOutput, VDimension >
-::InitializeInternalLabelList()
+WhitakerSparseLevelSetImage<TOutput, VDimension>::InitializeInternalLabelList()
 {
   this->m_InternalLabelList.clear();
-  this->m_InternalLabelList.push_back( MinusThreeLayer() );
-  this->m_InternalLabelList.push_back( MinusTwoLayer() );
-  this->m_InternalLabelList.push_back( MinusOneLayer() );
-  this->m_InternalLabelList.push_back( ZeroLayer() );
+  this->m_InternalLabelList.push_back(MinusThreeLayer());
+  this->m_InternalLabelList.push_back(MinusTwoLayer());
+  this->m_InternalLabelList.push_back(MinusOneLayer());
+  this->m_InternalLabelList.push_back(ZeroLayer());
 }
-}
+} // namespace itk
 
 #endif // itkWhitakerSparseLevelSetImage_hxx

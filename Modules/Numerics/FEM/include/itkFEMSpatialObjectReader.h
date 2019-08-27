@@ -29,18 +29,17 @@ namespace itk
  *
  * \ingroup ITKFEM
  */
-template< unsigned int NDimensions = 3,
+template <unsigned int NDimensions = 3,
           typename PixelType = unsigned char,
-          typename TMeshTraits = DefaultStaticMeshTraits< PixelType, NDimensions, NDimensions >
-          >
-class FEMSpatialObjectReader : public SpatialObjectReader<NDimensions,PixelType,TMeshTraits>
+          typename TMeshTraits = DefaultStaticMeshTraits<PixelType, NDimensions, NDimensions>>
+class FEMSpatialObjectReader : public SpatialObjectReader<NDimensions, PixelType, TMeshTraits>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FEMSpatialObjectReader);
 
   using Self = FEMSpatialObjectReader;
-  using Superclass = SpatialObjectReader<NDimensions,PixelType,TMeshTraits>;
-  using Pointer = SmartPointer< Self >;
+  using Superclass = SpatialObjectReader<NDimensions, PixelType, TMeshTraits>;
+  using Pointer = SmartPointer<Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Superclass, Self);
@@ -53,19 +52,14 @@ protected:
 
   FEMSpatialObjectReader();
   ~FEMSpatialObjectReader() override {}
-
 };
 
-template< unsigned int NDimensions,
-          typename PixelType,
-          typename TMeshTraits >
-FEMSpatialObjectReader< NDimensions, PixelType, TMeshTraits >
-::FEMSpatialObjectReader()
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
+FEMSpatialObjectReader<NDimensions, PixelType, TMeshTraits>::FEMSpatialObjectReader()
 {
-  this->RegisterMetaConverter("FEMObject","FEMObjectSpatialObject",
-                              MetaFEMObjectConverter<NDimensions>::New());
+  this->RegisterMetaConverter("FEMObject", "FEMObjectSpatialObject", MetaFEMObjectConverter<NDimensions>::New());
 }
 
-}
+} // namespace itk
 
 #endif // itkFEMSpatialObjectReader_h

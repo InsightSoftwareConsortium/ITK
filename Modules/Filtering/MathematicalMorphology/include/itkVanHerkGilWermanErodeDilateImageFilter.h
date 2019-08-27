@@ -25,7 +25,8 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TOutputImage, typename TKernel > class KernelImageFilter;
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+class KernelImageFilter;
 
 /**
  * \class VanHerkGilWermanErodeDilateImageFilter
@@ -37,19 +38,17 @@ template< typename TInputImage, typename TOutputImage, typename TKernel > class 
  * morphology classes in itk.
  * \ingroup ITKMathematicalMorphology
  */
-template< typename TImage, typename TKernel, typename TFunction1 >
-class ITK_TEMPLATE_EXPORT VanHerkGilWermanErodeDilateImageFilter:
-  public KernelImageFilter< TImage, TImage, TKernel >
+template <typename TImage, typename TKernel, typename TFunction1>
+class ITK_TEMPLATE_EXPORT VanHerkGilWermanErodeDilateImageFilter : public KernelImageFilter<TImage, TImage, TKernel>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VanHerkGilWermanErodeDilateImageFilter);
 
   /** Standard class type aliases. */
   using Self = VanHerkGilWermanErodeDilateImageFilter;
-  using Superclass =
-      KernelImageFilter< TImage, TImage, TKernel >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = KernelImageFilter<TImage, TImage, TKernel>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   /** Kernel type alias. */
@@ -71,8 +70,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(VanHerkGilWermanErodeDilateImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(VanHerkGilWermanErodeDilateImageFilter, ImageToImageFilter);
 
   /** Set/Get the boundary value. */
   itkSetMacro(Boundary, InputImagePixelType);
@@ -81,23 +79,25 @@ public:
 protected:
   VanHerkGilWermanErodeDilateImageFilter();
   ~VanHerkGilWermanErodeDilateImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Multi-thread version GenerateData. */
-  void DynamicThreadedGenerateData(const InputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const InputImageRegionType & outputRegionForThread) override;
 
 
   // should be set by the meta filter
   InputImagePixelType m_Boundary;
 
 private:
-  using BresType = BresenhamLine< Self::InputImageDimension >;
+  using BresType = BresenhamLine<Self::InputImageDimension>;
 
 }; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVanHerkGilWermanErodeDilateImageFilter.hxx"
+#  include "itkVanHerkGilWermanErodeDilateImageFilter.hxx"
 #endif
 
 #endif

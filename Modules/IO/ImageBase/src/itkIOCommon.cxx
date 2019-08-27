@@ -19,41 +19,41 @@
 
 namespace itk
 {
-const char *const ITK_OnDiskStorageTypeName = "ITK_OnDiskStorageTypeName";
-const char *const ITK_ImageFileBaseName = "ITK_ImageFileBaseName";
-const char *const ITK_VoxelUnits = "ITK_VoxelUnits";
-const char *const ITK_OnDiskBitPerPixel = "ITK_OnDiskBitPerPixel";
-const char *const SPM_ROI_SCALE = "SPM_ROI_SCALE";
-const char *const ITK_FileNotes = "ITK_FileNotes";
-const char *const ITK_Origin = "ITK_Origin";
-const char *const ITK_Spacing = "ITK_Spacing";
-const char *const ITK_ZDirection = "ITK_ZDirection";
-const char *const ITK_FileOriginator = "ITK_FileOriginator";
-const char *const ITK_OriginationDate = "ITK_OriginationDate";
-const char *const ITK_PatientID = "ITK_PatientID";
-const char *const ITK_ExperimentDate = "ITK_ExperimentDate";
-const char *const ITK_ExperimentTime = "ITK_ExperimentTime";
-const char *const ITK_InputFilterName = "ITK_InputFilterName";
-const char *const ITK_NumberOfDimensions = "ITK_NumberOfDimensions";
-const char *const ITK_PatientName = "ITK_PatientName";
-const char *const ITK_ScanID = "ITK_ScanID";
-const char *const ITK_ImageType = "ITK_ImageType";
-const char *const ROI_NAME = "ROI_NAME";
-const char *const ROI_X_SIZE = "ROI_X_SIZE";
-const char *const ROI_X_RESOLUTION = "ROI_X_RESOLUTION";
-const char *const ROI_Y_SIZE = "ROI_Y_SIZE";
-const char *const ROI_Y_RESOLUTION = "ROI_Y_RESOLUTION";
-const char *const ROI_Z_SIZE = "ROI_Z_SIZE";
-const char *const ROI_Z_RESOLUTION = "ROI_Z_RESOLUTION";
-const char *const ROI_NUM_SEGMENTS = "ROI_NUM_SEGMENTS";
-const char *const ROI_PLANE = "ROI_PLANE";
-const char *const ROI_SCAN_ID = "ROI_SCAN_ID";
+const char * const ITK_OnDiskStorageTypeName = "ITK_OnDiskStorageTypeName";
+const char * const ITK_ImageFileBaseName = "ITK_ImageFileBaseName";
+const char * const ITK_VoxelUnits = "ITK_VoxelUnits";
+const char * const ITK_OnDiskBitPerPixel = "ITK_OnDiskBitPerPixel";
+const char * const SPM_ROI_SCALE = "SPM_ROI_SCALE";
+const char * const ITK_FileNotes = "ITK_FileNotes";
+const char * const ITK_Origin = "ITK_Origin";
+const char * const ITK_Spacing = "ITK_Spacing";
+const char * const ITK_ZDirection = "ITK_ZDirection";
+const char * const ITK_FileOriginator = "ITK_FileOriginator";
+const char * const ITK_OriginationDate = "ITK_OriginationDate";
+const char * const ITK_PatientID = "ITK_PatientID";
+const char * const ITK_ExperimentDate = "ITK_ExperimentDate";
+const char * const ITK_ExperimentTime = "ITK_ExperimentTime";
+const char * const ITK_InputFilterName = "ITK_InputFilterName";
+const char * const ITK_NumberOfDimensions = "ITK_NumberOfDimensions";
+const char * const ITK_PatientName = "ITK_PatientName";
+const char * const ITK_ScanID = "ITK_ScanID";
+const char * const ITK_ImageType = "ITK_ImageType";
+const char * const ROI_NAME = "ROI_NAME";
+const char * const ROI_X_SIZE = "ROI_X_SIZE";
+const char * const ROI_X_RESOLUTION = "ROI_X_RESOLUTION";
+const char * const ROI_Y_SIZE = "ROI_Y_SIZE";
+const char * const ROI_Y_RESOLUTION = "ROI_Y_RESOLUTION";
+const char * const ROI_Z_SIZE = "ROI_Z_SIZE";
+const char * const ROI_Z_RESOLUTION = "ROI_Z_RESOLUTION";
+const char * const ROI_NUM_SEGMENTS = "ROI_NUM_SEGMENTS";
+const char * const ROI_PLANE = "ROI_PLANE";
+const char * const ROI_SCAN_ID = "ROI_SCAN_ID";
 
-std::string IOCommon
-::AtomicPixelTypeToString(const AtomicPixelType pixelType)
+std::string
+IOCommon ::AtomicPixelTypeToString(const AtomicPixelType pixelType)
 {
-  switch ( pixelType )
-    {
+  switch (pixelType)
+  {
     case ITK_UCHAR:
       return "unsigned char";
 
@@ -86,47 +86,46 @@ std::string IOCommon
 
     default:
       return "unknown";
-    }
+  }
 }
 
-unsigned int IOCommon
-::ComputeSizeOfAtomicPixelType(const AtomicPixelType pixelType)
+unsigned int
+IOCommon ::ComputeSizeOfAtomicPixelType(const AtomicPixelType pixelType)
 {
-  switch ( pixelType )
-    {
+  switch (pixelType)
+  {
     case ITK_CHAR:
-      return static_cast< unsigned int >( sizeof( char ) );
+      return static_cast<unsigned int>(sizeof(char));
 
     case ITK_UCHAR:
-      return static_cast< unsigned int >( sizeof( unsigned char ) );
+      return static_cast<unsigned int>(sizeof(unsigned char));
 
     case ITK_SHORT:
-      return static_cast< unsigned int >( sizeof( short ) );
+      return static_cast<unsigned int>(sizeof(short));
 
     case ITK_USHORT:
-      return static_cast< unsigned int >( sizeof( unsigned short ) );
+      return static_cast<unsigned int>(sizeof(unsigned short));
 
     case ITK_INT:
-      return static_cast< unsigned int >( sizeof( int ) );
+      return static_cast<unsigned int>(sizeof(int));
 
     case ITK_UINT:
-      return static_cast< unsigned int >( sizeof( unsigned int ) );
+      return static_cast<unsigned int>(sizeof(unsigned int));
 
     case ITK_LONG:
-      return static_cast< unsigned int >( sizeof( long ) );
+      return static_cast<unsigned int>(sizeof(long));
 
     case ITK_ULONG:
-      return static_cast< unsigned int >( sizeof( unsigned long ) );
+      return static_cast<unsigned int>(sizeof(unsigned long));
 
     case ITK_FLOAT:
-      return static_cast< unsigned int >( sizeof( float ) );
+      return static_cast<unsigned int>(sizeof(float));
 
     case ITK_DOUBLE:
-      return static_cast< unsigned int >( sizeof( double ) );
+      return static_cast<unsigned int>(sizeof(double));
 
     default:
-      return static_cast< unsigned int >( sizeof( char ) );
-
-    }
+      return static_cast<unsigned int>(sizeof(char));
+  }
 }
 } // namespace itk

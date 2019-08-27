@@ -27,45 +27,40 @@
 #include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
 #include "itkVersorTransformOptimizer.h"
 
-int itkNumericsPrintTest(int , char* [])
+int
+itkNumericsPrintTest(int, char *[])
 {
-  itk::AmoebaOptimizer::Pointer AmoebaOptimizerObj =
-    itk::AmoebaOptimizer::New();
+  itk::AmoebaOptimizer::Pointer AmoebaOptimizerObj = itk::AmoebaOptimizer::New();
   std::cout << "----------AmoebaOptimizer " << AmoebaOptimizerObj;
 
   auto * CacheableScalarFunctionObj = new itk::CacheableScalarFunction;
   std::cout << "----------CacheableScalarFunction " << CacheableScalarFunctionObj;
   delete CacheableScalarFunctionObj;
 
-  itk::ConjugateGradientOptimizer::Pointer ConjugateGradientOptimizerObj =
-    itk::ConjugateGradientOptimizer::New();
+  itk::ConjugateGradientOptimizer::Pointer ConjugateGradientOptimizerObj = itk::ConjugateGradientOptimizer::New();
   std::cout << "----------ConjugateGradientOptimizer " << ConjugateGradientOptimizerObj;
 
-  itk::CumulativeGaussianOptimizer::Pointer CumulativeGaussianOptimizerObj =
-    itk::CumulativeGaussianOptimizer::New();
+  itk::CumulativeGaussianOptimizer::Pointer CumulativeGaussianOptimizerObj = itk::CumulativeGaussianOptimizer::New();
   std::cout << "----------CumulativeGaussianOptimizer " << CumulativeGaussianOptimizerObj;
 
   itk::CumulativeGaussianCostFunction::Pointer CumulativeGaussianCostFunctionObj =
     itk::CumulativeGaussianCostFunction::New();
   std::cout << "----------CumulativeGaussianCostFunction " << CumulativeGaussianCostFunctionObj;
 
-  itk::GradientDescentOptimizer::Pointer GradientDescentOptimizerObj =
-    itk::GradientDescentOptimizer::New();
+  itk::GradientDescentOptimizer::Pointer GradientDescentOptimizerObj = itk::GradientDescentOptimizer::New();
   std::cout << "----------GradientDescentOptimizer " << GradientDescentOptimizerObj;
 
-  itk::LBFGSOptimizer::Pointer LBFGSOptimizerObj =
-    itk::LBFGSOptimizer::New();
+  itk::LBFGSOptimizer::Pointer LBFGSOptimizerObj = itk::LBFGSOptimizer::New();
   std::cout << "----------LBFGSOptimizer " << LBFGSOptimizerObj;
 
-  itk::LevenbergMarquardtOptimizer::Pointer LevenbergMarquardtOptimizerObj =
-    itk::LevenbergMarquardtOptimizer::New();
+  itk::LevenbergMarquardtOptimizer::Pointer LevenbergMarquardtOptimizerObj = itk::LevenbergMarquardtOptimizer::New();
   std::cout << "----------LevenbergMarquardtOptimizer " << LevenbergMarquardtOptimizerObj;
 
   using PolynomialType = itk::MultivariateLegendrePolynomial;
-  constexpr unsigned int dimension = 3;
-  constexpr unsigned int degree = 3;
+  constexpr unsigned int         dimension = 3;
+  constexpr unsigned int         degree = 3;
   PolynomialType::DomainSizeType domainSize(dimension);
-  auto * MultivariateLegendrePolynomialObj = new itk::MultivariateLegendrePolynomial(dimension,degree,domainSize);
+  auto * MultivariateLegendrePolynomialObj = new itk::MultivariateLegendrePolynomial(dimension, degree, domainSize);
   std::cout << "----------MultivariateLegendrePolynomial " << *MultivariateLegendrePolynomialObj;
   delete MultivariateLegendrePolynomialObj;
 
@@ -73,13 +68,13 @@ int itkNumericsPrintTest(int , char* [])
     itk::OnePlusOneEvolutionaryOptimizer::New();
   std::cout << "----------OnePlusOneEvolutionaryOptimizer " << OnePlusOneEvolutionaryOptimizerObj;
 
-  itk::Optimizer::Pointer OptimizerObj =
-    itk::Optimizer::New();
+  itk::Optimizer::Pointer OptimizerObj = itk::Optimizer::New();
   std::cout << "----------Optimizer " << OptimizerObj;
 
   itk::QuaternionRigidTransformGradientDescentOptimizer::Pointer QuaternionRigidTransformGradientDescentOptimizerObj =
     itk::QuaternionRigidTransformGradientDescentOptimizer::New();
-  std::cout << "----------QuaternionRigidTransformGradientDescentOptimizer " << QuaternionRigidTransformGradientDescentOptimizerObj;
+  std::cout << "----------QuaternionRigidTransformGradientDescentOptimizer "
+            << QuaternionRigidTransformGradientDescentOptimizerObj;
 
   itk::RegularStepGradientDescentBaseOptimizer::Pointer RegularStepGradientDescentBaseOptimizerObj =
     itk::RegularStepGradientDescentBaseOptimizer::New();
@@ -93,8 +88,7 @@ int itkNumericsPrintTest(int , char* [])
   std::cout << "----------SingleValuedVnlCostFunctionAdaptor " << SingleValuedVnlCostFunctionAdaptorObj;
   delete SingleValuedVnlCostFunctionAdaptorObj;
 
-  itk::VersorTransformOptimizer::Pointer VersorTransformOptimizerObj =
-    itk::VersorTransformOptimizer::New();
+  itk::VersorTransformOptimizer::Pointer VersorTransformOptimizerObj = itk::VersorTransformOptimizer::New();
   std::cout << "----------VersorTransformOptimizer " << VersorTransformOptimizerObj;
 
   return 0;

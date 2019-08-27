@@ -82,8 +82,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ITKOptimizers_EXPORT LBFGSOptimizer:
-  public SingleValuedNonLinearVnlOptimizer
+class ITKOptimizers_EXPORT LBFGSOptimizer : public SingleValuedNonLinearVnlOptimizer
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSOptimizer);
@@ -91,8 +90,8 @@ public:
   /** Standard "Self" type alias. */
   using Self = LBFGSOptimizer;
   using Superclass = SingleValuedNonLinearVnlOptimizer;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -101,30 +100,35 @@ public:
   itkTypeMacro(LBFGSOptimizer, SingleValuedNonLinearVnlOptimizer);
 
   /** InternalParameters type alias. */
-  using InternalParametersType = vnl_vector< double >;
+  using InternalParametersType = vnl_vector<double>;
 
   /** Internal optimizer type. */
   using InternalOptimizerType = vnl_lbfgs;
 
   /** Method for getting access to the internal optimizer. */
-  vnl_lbfgs * GetOptimizer();
+  vnl_lbfgs *
+  GetOptimizer();
 
   /** Start optimization with an initial value. */
-  void StartOptimization() override;
+  void
+  StartOptimization() override;
 
   /** Plug in a Cost Function into the optimizer  */
-  void SetCostFunction(SingleValuedCostFunction *costFunction) override;
+  void
+  SetCostFunction(SingleValuedCostFunction * costFunction) override;
 
   /** Set/Get the optimizer trace flag. If set to true, the optimizer
    * prints out information every iteration.
    */
-  virtual void SetTrace(bool flag);
+  virtual void
+  SetTrace(bool flag);
 
   itkGetMacro(Trace, bool);
   itkBooleanMacro(Trace);
 
   /** Set/Get the maximum number of function evaluations allowed. */
-  virtual void SetMaximumNumberOfFunctionEvaluations(unsigned int n);
+  virtual void
+  SetMaximumNumberOfFunctionEvaluations(unsigned int n);
 
   itkGetMacro(MaximumNumberOfFunctionEvaluations, unsigned int);
 
@@ -133,7 +137,8 @@ public:
    * be found. The optimization terminates when:
    * ||G|| < gtol max(1,||X||) where ||.|| denotes the Euclidean norm.
    */
-  virtual void SetGradientConvergenceTolerance(double gtol);
+  virtual void
+  SetGradientConvergenceTolerance(double gtol);
 
   itkGetMacro(GradientConvergenceTolerance, double);
 
@@ -143,7 +148,8 @@ public:
    * respect to the cost of the iterations it may be advantageous to set
    * the value to a small value (say 0.1).
    */
-  virtual void SetLineSearchAccuracy(double tol);
+  virtual void
+  SetLineSearchAccuracy(double tol);
 
   itkGetMacro(LineSearchAccuracy, double);
 
@@ -151,20 +157,24 @@ public:
    * with a default value of 1.0 which determines the stpe size in the line
    * search.
    */
-  virtual void SetDefaultStepLength(double stp);
+  virtual void
+  SetDefaultStepLength(double stp);
 
   itkGetMacro(DefaultStepLength, double);
 
   /** Return Current Value */
-  MeasureType GetValue() const;
+  MeasureType
+  GetValue() const;
 
   /** Get the reason for termination */
-  const std::string GetStopConditionDescription() const override;
+  const std::string
+  GetStopConditionDescription() const override;
 
 protected:
   LBFGSOptimizer();
   ~LBFGSOptimizer() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 

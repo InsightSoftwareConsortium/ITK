@@ -26,10 +26,9 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-HardConnectedComponentImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   unsigned int i;
   int          p;
@@ -38,16 +37,16 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
 
   using LabelType = unsigned short;
 
-  auto * equivalenceTable = new LabelType[NumericTraits < LabelType > ::max()];
+  auto *    equivalenceTable = new LabelType[NumericTraits<LabelType>::max()];
   LabelType label = 0;
   LabelType maxLabel = 0;
   IndexType index;
   SizeType  size;
 
   typename ListType::iterator iter;
-  RegionType region;
+  RegionType                  region;
 
-  TOutputImage * output = this->GetOutput();
+  TOutputImage *      output = this->GetOutput();
   const TInputImage * input = this->GetInput();
 
   size = input->GetLargestPossibleRegion().GetSize();
@@ -59,141 +58,143 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
   output->SetRequestedRegion(region);
   output->Allocate();
 
-  ImageRegionConstIterator< TInputImage > it( input, input->GetRequestedRegion() );
-  ImageRegionIterator< TOutputImage >     ot( output, output->GetRequestedRegion() );
+  ImageRegionConstIterator<TInputImage> it(input, input->GetRequestedRegion());
+  ImageRegionIterator<TOutputImage>     ot(output, output->GetRequestedRegion());
 
-  ProgressReporter progress( this, 0, output->GetRequestedRegion().GetNumberOfPixels() );
+  ProgressReporter progress(this, 0, output->GetRequestedRegion().GetNumberOfPixels());
   it.GoToBegin();
   ot.GoToBegin();
-  for (; !it.IsAtEnd(); ++it, ++ot )
+  for (; !it.IsAtEnd(); ++it, ++ot)
+  {
+    if (Math::NotExactlyEquals(it.Get(),
+                               NumericTraits<typename ImageRegionConstIterator<TInputImage>::PixelType>::ZeroValue()))
     {
-    if ( Math::NotExactlyEquals(it.Get(), NumericTraits< typename ImageRegionConstIterator< TInputImage >::PixelType >::ZeroValue()) )
-      {
-      ot.Set( NumericTraits< typename TOutputImage::PixelType >::max() );
-      }
-    else
-      {
-      ot.Set( NumericTraits< typename TOutputImage::PixelType >::ZeroValue() );
-      }
+      ot.Set(NumericTraits<typename TOutputImage::PixelType>::max());
     }
+    else
+    {
+      ot.Set(NumericTraits<typename TOutputImage::PixelType>::ZeroValue());
+    }
+  }
   equivalenceTable[0] = 0;
   ot.GoToBegin();
-  for (; !ot.IsAtEnd(); ++ot )
+  for (; !ot.IsAtEnd(); ++ot)
+  {
+    if (ot.Get())
     {
-    if ( ot.Get() )
+      for (i = 0; i < ImageDimension; i++)
       {
-      for ( i = 0; i < ImageDimension; i++ )
-        {
         IndexType currentIndex = ot.GetIndex();
         currentIndex[i] = currentIndex[i] - 1;
-        if ( currentIndex[i] < 0 )
-          {
+        if (currentIndex[i] < 0)
+        {
           label = 0;
-          }
+        }
         else
+        {
+          label = static_cast<LabelType>(output->GetPixel(currentIndex));
+        }
+        if (label)
+        {
+          if (ot.Get() == NumericTraits<OutputPixelType>::max())
           {
-          label = static_cast< LabelType >( output->GetPixel(currentIndex) );
-          }
-        if ( label )
-          {
-          if ( ot.Get() == NumericTraits< OutputPixelType >::max() )
-            {
             ot.Set(label);
-            }
-          else if ( ( ot.Get() != label )
-                    && ( equivalenceTable[static_cast< LabelType >( ot.Get() )]
-                         != equivalenceTable[label] ) )
+          }
+          else if ((ot.Get() != label) &&
+                   (equivalenceTable[static_cast<LabelType>(ot.Get())] != equivalenceTable[label]))
+          {
+            if (equivalenceTable[static_cast<LabelType>(ot.Get())] > equivalenceTable[label])
             {
-            if ( equivalenceTable[static_cast< LabelType >( ot.Get() )] > equivalenceTable[label] )
+              q = equivalenceTable[static_cast<LabelType>(ot.Get())];
+              for (p = q; p <= maxLabel; p++)
               {
-              q = equivalenceTable[static_cast< LabelType >( ot.Get() )];
-              for ( p = q; p <= maxLabel; p++ )
+                if (equivalenceTable[p] == q)
                 {
-                if ( equivalenceTable[p] == q )
-                  {
                   equivalenceTable[p] = equivalenceTable[label];
-                  }
                 }
               }
+            }
             else
-              {
+            {
               q = equivalenceTable[label];
-              for ( p = q; p <= maxLabel; p++ )
+              for (p = q; p <= maxLabel; p++)
+              {
+                if (equivalenceTable[p] == q)
                 {
-                if ( equivalenceTable[p] == q )
-                  {
-                  equivalenceTable[p] = equivalenceTable[static_cast< LabelType >( ot.Get() )];
-                  }
+                  equivalenceTable[p] = equivalenceTable[static_cast<LabelType>(ot.Get())];
                 }
               }
             }
           }
         }
-      if ( ot.Get() == NumericTraits< OutputPixelType >::max() )
-        {
+      }
+      if (ot.Get() == NumericTraits<OutputPixelType>::max())
+      {
         ++maxLabel;
         equivalenceTable[maxLabel] = maxLabel;
         ot.Set(maxLabel);
-        if ( maxLabel == NumericTraits< LabelType >::max() )
-          {
+        if (maxLabel == NumericTraits<LabelType>::max())
+        {
           return;
-          }
         }
       }
+    }
     progress.CompletedPixel();
-    }
+  }
 
-  for ( p = 1; p <= maxLabel; p++ )
+  for (p = 1; p <= maxLabel; p++)
+  {
+    for (m = p; (m <= maxLabel) && (equivalenceTable[m] != p); m++)
     {
-    for ( m = p; ( m <= maxLabel ) && ( equivalenceTable[m] != p ); m++ )
-                                                                   {}
-    if ( m > maxLabel )
+    }
+    if (m > maxLabel)
+    {
+      for (m = p; (m <= maxLabel) && (equivalenceTable[m] < p); m++)
       {
-      for ( m = p; ( m <= maxLabel ) && ( equivalenceTable[m] < p ); m++ )
-                                                                    {}
-      if ( m <= maxLabel )
+      }
+      if (m <= maxLabel)
+      {
+        for (i = m; i <= maxLabel; i++)
         {
-        for ( i = m; i <= maxLabel; i++ )
+          if (equivalenceTable[i] == m)
           {
-          if ( equivalenceTable[i] == m )
-            {
             equivalenceTable[i] = p;
-            }
           }
         }
       }
     }
+  }
 
-  auto * flags = new unsigned char[NumericTraits < LabelType > ::max()];
+  auto * flags = new unsigned char[NumericTraits<LabelType>::max()];
   memset(flags, 0, maxLabel + 1);
-  for ( iter = m_Seeds.begin(); iter != m_Seeds.end(); iter++ )
-    {
+  for (iter = m_Seeds.begin(); iter != m_Seeds.end(); iter++)
+  {
     const IndexType currentIndex = *iter;
-    m = equivalenceTable[static_cast< LabelType >( output->GetPixel(currentIndex) )];
-    for ( i = m; i <= maxLabel; i++ )
+    m = equivalenceTable[static_cast<LabelType>(output->GetPixel(currentIndex))];
+    for (i = m; i <= maxLabel; i++)
+    {
+      if (equivalenceTable[i] == m)
       {
-      if ( equivalenceTable[i] == m )
-        {
         flags[i] = 1;
-        }
       }
     }
+  }
 
   ot.GoToBegin();
-  if ( m_Seeds.empty() )
+  if (m_Seeds.empty())
+  {
+    for (; !ot.IsAtEnd(); ++ot)
     {
-    for (; !ot.IsAtEnd(); ++ot )
-      {
-      ot.Set(equivalenceTable[static_cast< LabelType >( ot.Get() )]);
-      }
+      ot.Set(equivalenceTable[static_cast<LabelType>(ot.Get())]);
     }
+  }
   else
+  {
+    for (; !ot.IsAtEnd(); ++ot)
     {
-    for (; !ot.IsAtEnd(); ++ot )
-      {
-      ot.Set(flags[static_cast< LabelType >( ot.Get() )]);
-      }
+      ot.Set(flags[static_cast<LabelType>(ot.Get())]);
     }
+  }
   delete[] equivalenceTable;
   delete[] flags;
 }

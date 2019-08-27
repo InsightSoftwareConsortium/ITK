@@ -30,59 +30,65 @@
 namespace itk
 {
 /** Send a string to display. */
-void LoggerOutput::DisplayText(const char *t)
+void
+LoggerOutput::DisplayText(const char * t)
 {
-  if ( this->m_Logger )
-    {
+  if (this->m_Logger)
+  {
     this->m_Logger->Write(LoggerBase::PriorityLevelType::INFO, t);
-    }
+  }
 }
 
 /** Send a string as an error message to display.
  * The default implementation calls DisplayText() but subclasses
  * could present this message differently. */
-void LoggerOutput::DisplayErrorText(const char *t)
+void
+LoggerOutput::DisplayErrorText(const char * t)
 {
-  if ( this->m_Logger )
-    {
+  if (this->m_Logger)
+  {
     this->m_Logger->Write(LoggerBase::PriorityLevelType::CRITICAL, t);
-    }
+  }
 }
 
 /** Send a string as a warningmessage to display.
  * The default implementation calls DisplayText() but subclasses
  * could present this message differently. */
-void LoggerOutput::DisplayWarningText(const char *t)
+void
+LoggerOutput::DisplayWarningText(const char * t)
 {
-  if ( this->m_Logger )
-    {
+  if (this->m_Logger)
+  {
     this->m_Logger->Write(LoggerBase::PriorityLevelType::WARNING, t);
-    }
+  }
 }
 
 /** Send a string as a message to display.
  * The default implementation calls DisplayText() but subclasses
  * could present this message differently. */
-void LoggerOutput::DisplayGenericOutputText(const char *t)
+void
+LoggerOutput::DisplayGenericOutputText(const char * t)
 {
-  if ( this->m_Logger )
-    {
+  if (this->m_Logger)
+  {
     this->m_Logger->Write(LoggerBase::PriorityLevelType::INFO, t);
-    }
+  }
 }
 
 /** Send a string as a debug message to display.
  * The default implementation calls DisplayText() but subclasses
  * could present this message differently. */
-void LoggerOutput::DisplayDebugText(const char *t)
+void
+LoggerOutput::DisplayDebugText(const char * t)
 {
-  if ( this->m_Logger )
-    {
+  if (this->m_Logger)
+  {
     this->m_Logger->Write(LoggerBase::PriorityLevelType::DEBUG, t);
-    }
+  }
 }
 
-void LoggerOutput::PrintSelf(std::ostream & os, Indent indent) const
+void
+LoggerOutput::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Logger: " << m_Logger << std::endl;

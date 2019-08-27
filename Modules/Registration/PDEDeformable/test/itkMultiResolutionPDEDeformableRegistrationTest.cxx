@@ -33,204 +33,208 @@ namespace
 class ShowProgressPDEObject
 {
 public:
-  ShowProgressPDEObject(itk::ProcessObject* o) :
-    m_Process(o),
-    m_Prefix("")
-    {
-    }
-  void ShowProgress()
-    {
-    std::cout <<  m_Prefix;
+  ShowProgressPDEObject(itk::ProcessObject * o)
+    : m_Process(o)
+    , m_Prefix("")
+  {}
+  void
+  ShowProgress()
+  {
+    std::cout << m_Prefix;
     std::cout << "Progress " << m_Process->GetProgress() << std::endl;
-    }
-  void ShowIteration()
-    {
+  }
+  void
+  ShowIteration()
+  {
     std::cout << "Level Completed" << std::endl;
-    }
+  }
   itk::ProcessObject::Pointer m_Process;
   std::string                 m_Prefix;
 };
 
-template<typename TRegistration>
+template <typename TRegistration>
 class PDERegistrationController
 {
 public:
-  PDERegistrationController(TRegistration* o)
-    {m_Process = o;}
-  void ShowProgress()
+  PDERegistrationController(TRegistration * o) { m_Process = o; }
+  void
+  ShowProgress()
+  {
+    if (m_Process->GetCurrentLevel() == 3)
     {
-    if ( m_Process->GetCurrentLevel() == 3 )
-      { m_Process->StopRegistration(); }
+      m_Process->StopRegistration();
     }
+  }
   typename TRegistration::Pointer m_Process;
 };
 
-}
+} // namespace
 
 
 // Template function to fill in an image with a value
 template <typename TImage>
 void
-FillImage(
-TImage * image,
-typename TImage::PixelType value )
+FillImage(TImage * image, typename TImage::PixelType value)
 {
 
   using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
-  Iterator it( image, image->GetBufferedRegion() );
+  Iterator it(image, image->GetBufferedRegion());
   it.GoToBegin();
 
-  while( !it.IsAtEnd() )
-    {
-    it.Set( value );
+  while (!it.IsAtEnd())
+  {
+    it.Set(value);
     ++it;
-    }
-
+  }
 }
 
 
 // Template function to fill in an image with a circle.
 template <typename TImage>
 void
-FillWithCircle(
-TImage * image,
-double * center,
-double radius,
-typename TImage::PixelType foregnd,
-typename TImage::PixelType backgnd )
+FillWithCircle(TImage *                   image,
+               double *                   center,
+               double                     radius,
+               typename TImage::PixelType foregnd,
+               typename TImage::PixelType backgnd)
 {
 
- using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
- Iterator it( image, image->GetBufferedRegion() );
- it.GoToBegin();
+  using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
+  Iterator it(image, image->GetBufferedRegion());
+  it.GoToBegin();
 
- typename TImage::IndexType index;
- double r2 = itk::Math::sqr( radius );
+  typename TImage::IndexType index;
+  double                     r2 = itk::Math::sqr(radius);
 
- while( !it.IsAtEnd() )
+  while (!it.IsAtEnd())
   {
     index = it.GetIndex();
     double distance = 0;
-    for( unsigned int j = 0; j < TImage::ImageDimension; j++ )
-      {
-      distance += itk::Math::sqr((double) index[j] - center[j]);
-      }
-    if( distance <= r2 ) it.Set( foregnd );
-    else it.Set( backgnd );
+    for (unsigned int j = 0; j < TImage::ImageDimension; j++)
+    {
+      distance += itk::Math::sqr((double)index[j] - center[j]);
+    }
+    if (distance <= r2)
+      it.Set(foregnd);
+    else
+      it.Set(backgnd);
     ++it;
   }
-
 }
 
 
 // Template function to copy image regions
 template <typename TImage>
 void
-CopyImageBuffer(
-TImage *input,
-TImage *output )
+CopyImageBuffer(TImage * input, TImage * output)
 {
   using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
-  Iterator outIt( output, output->GetBufferedRegion() );
-  for( Iterator inIt( input, output->GetBufferedRegion() ); !inIt.IsAtEnd(); ++inIt, ++outIt )
-    {
-    outIt.Set( inIt.Get() );
-    }
-
+  Iterator outIt(output, output->GetBufferedRegion());
+  for (Iterator inIt(input, output->GetBufferedRegion()); !inIt.IsAtEnd(); ++inIt, ++outIt)
+  {
+    outIt.Set(inIt.Get());
+  }
 }
 
-int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
+int
+itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
 {
 
   using PixelType = unsigned char;
-  enum {ImageDimension = 2};
-  using ImageType = itk::Image<PixelType,ImageDimension>;
-  using VectorType = itk::Vector<float,ImageDimension>;
-  using FieldType = itk::Image<VectorType,ImageDimension>;
+  enum
+  {
+    ImageDimension = 2
+  };
+  using ImageType = itk::Image<PixelType, ImageDimension>;
+  using VectorType = itk::Vector<float, ImageDimension>;
+  using FieldType = itk::Image<VectorType, ImageDimension>;
   using IndexType = ImageType::IndexType;
   using SizeType = ImageType::SizeType;
   using RegionType = ImageType::RegionType;
 
-  if(argc < 2)
-    {
+  if (argc < 2)
+  {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " WarpedImage\n";
     return -1;
-    }
+  }
 
   //--------------------------------------------------------
   std::cout << "Generate input images and initial field";
   std::cout << std::endl;
 
   SizeType size;
-  size.Fill( 256 );
+  size.Fill(256);
   size[1] = 251;
 
   IndexType index;
-  index.Fill( 0 );
+  index.Fill(0);
   index[0] = 3;
 
   RegionType region;
-  region.SetSize( size );
-  region.SetIndex( index );
+  region.SetSize(size);
+  region.SetIndex(index);
 
   ImageType::PointType origin;
-  origin.Fill( 0.0 );
+  origin.Fill(0.0);
   origin[0] = 0.8;
 
   ImageType::SpacingType spacing;
-  spacing.Fill( 1.0 );
+  spacing.Fill(1.0);
   spacing[1] = 1.2;
 
   ImageType::Pointer moving = ImageType::New();
   ImageType::Pointer fixed = ImageType::New();
   FieldType::Pointer initField = FieldType::New();
 
-  moving->SetLargestPossibleRegion( region );
-  moving->SetBufferedRegion( region );
+  moving->SetLargestPossibleRegion(region);
+  moving->SetBufferedRegion(region);
   moving->Allocate();
-  moving->SetOrigin( origin );
-  moving->SetSpacing( spacing );
+  moving->SetOrigin(origin);
+  moving->SetSpacing(spacing);
 
-  fixed->SetLargestPossibleRegion( region );
-  fixed->SetBufferedRegion( region );
+  fixed->SetLargestPossibleRegion(region);
+  fixed->SetBufferedRegion(region);
   fixed->Allocate();
-  fixed->SetOrigin( origin );
-  fixed->SetSpacing( spacing );
+  fixed->SetOrigin(origin);
+  fixed->SetSpacing(spacing);
 
-  initField->SetLargestPossibleRegion( region );
-  initField->SetBufferedRegion( region );
+  initField->SetLargestPossibleRegion(region);
+  initField->SetBufferedRegion(region);
   initField->Allocate();
-  initField->SetOrigin( origin );
-  initField->SetSpacing( spacing );
+  initField->SetOrigin(origin);
+  initField->SetSpacing(spacing);
 
-  double center[ImageDimension];
-  double radius;
+  double    center[ImageDimension];
+  double    radius;
   PixelType fgnd = 250;
   PixelType bgnd = 15;
 
   // fill moving with circle
-  center[0] = 128; center[1] = 128; radius = 60;
-  FillWithCircle<ImageType>( moving, center, radius, fgnd, bgnd );
+  center[0] = 128;
+  center[1] = 128;
+  radius = 60;
+  FillWithCircle<ImageType>(moving, center, radius, fgnd, bgnd);
 
   // fill fixed with circle
-  center[0] = 115; center[1] = 120; radius = 65;
-  FillWithCircle<ImageType>( fixed, center, radius, fgnd, bgnd );
+  center[0] = 115;
+  center[1] = 120;
+  radius = 65;
+  FillWithCircle<ImageType>(fixed, center, radius, fgnd, bgnd);
 
   // fill initial deformation with zero vectors
   VectorType zeroVec;
-  zeroVec.Fill( 0.0 );
-  FillImage<FieldType>( initField, zeroVec );
+  zeroVec.Fill(0.0);
+  FillImage<FieldType>(initField, zeroVec);
 
   //----------------------------------------------------------------
   std::cout << "Run registration." << std::endl;
 
-  using RegistrationType = itk::MultiResolutionPDEDeformableRegistration<ImageType,
-    ImageType, FieldType>;
+  using RegistrationType = itk::MultiResolutionPDEDeformableRegistration<ImageType, ImageType, FieldType>;
 
   RegistrationType::Pointer registrator = RegistrationType::New();
 
-  registrator->SetMovingImage( moving );
-  registrator->SetFixedImage( fixed );
+  registrator->SetMovingImage(moving);
+  registrator->SetFixedImage(fixed);
   registrator->GetModifiableFixedImagePyramid()->UseShrinkImageFilterOn();
   registrator->GetModifiableMovingImagePyramid()->UseShrinkImageFilterOn();
 
@@ -239,38 +243,34 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
   numIterations[0] = 64;
 
   unsigned int ilevel;
-  for( ilevel = 1; ilevel < numLevel; ilevel++ )
-    {
-    numIterations[ilevel] = numIterations[ilevel-1]/2;
-    }
+  for (ilevel = 1; ilevel < numLevel; ilevel++)
+  {
+    numIterations[ilevel] = numIterations[ilevel - 1] / 2;
+  }
 
-  registrator->SetNumberOfLevels( numLevel );
-  registrator->SetNumberOfIterations( numIterations );
+  registrator->SetNumberOfLevels(numLevel);
+  registrator->SetNumberOfIterations(numIterations);
 
   registrator->Print(std::cout);
 
   using CommandType = itk::SimpleMemberCommand<ShowProgressPDEObject>;
 
   ShowProgressPDEObject progressWatch(registrator);
-  CommandType::Pointer command = CommandType::New();
-  command->SetCallbackFunction(&progressWatch,
-                               &ShowProgressPDEObject::ShowIteration);
-  registrator->AddObserver(itk::IterationEvent(), command );
+  CommandType::Pointer  command = CommandType::New();
+  command->SetCallbackFunction(&progressWatch, &ShowProgressPDEObject::ShowIteration);
+  registrator->AddObserver(itk::IterationEvent(), command);
 
   PDERegistrationController<RegistrationType> controller(registrator);
-  using ControllerType = itk::SimpleMemberCommand<PDERegistrationController<RegistrationType> >;
+  using ControllerType = itk::SimpleMemberCommand<PDERegistrationController<RegistrationType>>;
   ControllerType::Pointer controllerCommand = ControllerType::New();
-  controllerCommand->SetCallbackFunction(
-    &controller, &PDERegistrationController<RegistrationType>::ShowProgress );
-  registrator->AddObserver(itk::ProgressEvent(), controllerCommand );
+  controllerCommand->SetCallbackFunction(&controller, &PDERegistrationController<RegistrationType>::ShowProgress);
+  registrator->AddObserver(itk::ProgressEvent(), controllerCommand);
 
-  ShowProgressPDEObject innerWatch(registrator->GetModifiableRegistrationFilter() );
+  ShowProgressPDEObject innerWatch(registrator->GetModifiableRegistrationFilter());
   innerWatch.m_Prefix = "    ";
   CommandType::Pointer innerCommand = CommandType::New();
-  innerCommand->SetCallbackFunction(&innerWatch,
-                               &ShowProgressPDEObject::ShowProgress);
-  registrator->GetRegistrationFilter()->
-    AddObserver(itk::ProgressEvent(), innerCommand);
+  innerCommand->SetCallbackFunction(&innerWatch, &ShowProgressPDEObject::ShowProgress);
+  registrator->GetRegistrationFilter()->AddObserver(itk::ProgressEvent(), innerCommand);
 
   // make registration inplace
   registrator->GetModifiableRegistrationFilter()->InPlaceOn();
@@ -281,49 +281,45 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
   // -------------------------------------------------------
   std::cout << "Warp moving image" << std::endl;
 
-  using WarperType = itk::WarpImageFilter<ImageType,ImageType,FieldType>;
+  using WarperType = itk::WarpImageFilter<ImageType, ImageType, FieldType>;
   WarperType::Pointer warper = WarperType::New();
 
   using CoordRepType = WarperType::CoordRepType;
-  using InterpolatorType =
-      itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>;
+  using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType, CoordRepType>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
 
-  warper->SetInput( moving );
-  warper->SetDisplacementField( registrator->GetOutput() );
-  warper->SetInterpolator( interpolator );
-  warper->SetOutputSpacing( fixed->GetSpacing() );
-  warper->SetOutputOrigin( fixed->GetOrigin() );
+  warper->SetInput(moving);
+  warper->SetDisplacementField(registrator->GetOutput());
+  warper->SetInterpolator(interpolator);
+  warper->SetOutputSpacing(fixed->GetSpacing());
+  warper->SetOutputOrigin(fixed->GetOrigin());
 
   warper->Update();
 
   using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( warper->GetOutput() );
-  writer->SetFileName( argv[1] );
+  writer->SetInput(warper->GetOutput());
+  writer->SetFileName(argv[1]);
   writer->Update();
 
   // ---------------------------------------------------------
   std::cout << "Compare warped moving and fixed." << std::endl;
 
   // compare the warp and fixed images
-  itk::ImageRegionIterator<ImageType> fixedIter( fixed,
-      fixed->GetBufferedRegion() );
-  itk::ImageRegionIterator<ImageType> warpedIter( warper->GetOutput(),
-      warper->GetOutput()->GetBufferedRegion() );
+  itk::ImageRegionIterator<ImageType> fixedIter(fixed, fixed->GetBufferedRegion());
+  itk::ImageRegionIterator<ImageType> warpedIter(warper->GetOutput(), warper->GetOutput()->GetBufferedRegion());
 
   unsigned int numPixelsDifferent = 0;
-  while( !fixedIter.IsAtEnd() )
+  while (!fixedIter.IsAtEnd())
+  {
+    if (itk::Math::abs(fixedIter.Get() - warpedIter.Get()) > 0.1 * itk::Math::abs(fgnd - bgnd))
     {
-    if( itk::Math::abs( fixedIter.Get() - warpedIter.Get() ) >
-        0.1 * itk::Math::abs( fgnd - bgnd ) )
-      {
       numPixelsDifferent++;
-      }
+    }
     ++fixedIter;
     ++warpedIter;
-    }
+  }
 
   std::cout << "Number of pixels different: " << numPixelsDifferent;
   std::cout << std::endl;
@@ -331,21 +327,20 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
   //-------------------------------------------------------------
   std::cout << "Test when last shrink factors are not ones." << std::endl;
 
-  registrator->SetNumberOfLevels( 1 );
-  registrator->GetModifiableFixedImagePyramid()->SetStartingShrinkFactors( 2 );
+  registrator->SetNumberOfLevels(1);
+  registrator->GetModifiableFixedImagePyramid()->SetStartingShrinkFactors(2);
 
   unsigned int n = 5;
-  registrator->SetNumberOfIterations( &n );
+  registrator->SetNumberOfIterations(&n);
 
   registrator->Update();
 
-  if( registrator->GetOutput()->GetBufferedRegion() !=
-   fixed->GetBufferedRegion() )
-    {
+  if (registrator->GetOutput()->GetBufferedRegion() != fixed->GetBufferedRegion())
+  {
     std::cout << "Deformation field should be the same size as fixed";
     std::cout << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Exercise Get Methods
   std::cout << "RegistrationFilter: " << registrator->GetRegistrationFilter() << std::endl;
@@ -364,96 +359,95 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
   InternalRegistrationType::Pointer demons = registrator->GetModifiableRegistrationFilter();
 
   try
-    {
+  {
     passed = false;
     std::cout << "Set RegistrationFilter to nullptr" << std::endl;
-    registrator->SetRegistrationFilter( nullptr );
+    registrator->SetRegistrationFilter(nullptr);
     registrator->Update();
-    }
-  catch( itk::ExceptionObject& err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cout << err << std::endl;
     passed = true;
     registrator->ResetPipeline();
-    registrator->SetRegistrationFilter( demons );
-    }
+    registrator->SetRegistrationFilter(demons);
+  }
 
-  if ( !passed )
-    {
+  if (!passed)
+  {
     std::cout << "Test failed" << std::endl;
-    }
+  }
 
   using FixedImagePyramidType = RegistrationType::FixedImagePyramidType;
   FixedImagePyramidType::Pointer fixedPyramid = registrator->GetModifiableFixedImagePyramid();
 
   try
-    {
+  {
     passed = false;
     std::cout << "Set FixedImagePyramid to nullptr" << std::endl;
-    registrator->SetFixedImagePyramid( nullptr );
+    registrator->SetFixedImagePyramid(nullptr);
     registrator->Update();
-    }
-  catch( itk::ExceptionObject& err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cout << err << std::endl;
     passed = true;
     registrator->ResetPipeline();
-    registrator->SetFixedImagePyramid( fixedPyramid );
-    }
+    registrator->SetFixedImagePyramid(fixedPyramid);
+  }
 
-  if ( !passed )
-    {
+  if (!passed)
+  {
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
-   }
+  }
 
   using MovingImagePyramidType = RegistrationType::MovingImagePyramidType;
   MovingImagePyramidType::Pointer movingPyramid = registrator->GetModifiableMovingImagePyramid();
 
   try
-    {
+  {
     passed = false;
     std::cout << "Set MovingImagePyramid to nullptr" << std::endl;
-    registrator->SetMovingImagePyramid( nullptr );
+    registrator->SetMovingImagePyramid(nullptr);
     registrator->Update();
-    }
-  catch( itk::ExceptionObject& err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cout << err << std::endl;
     passed = true;
     registrator->ResetPipeline();
-    registrator->SetMovingImagePyramid( movingPyramid );
-    }
+    registrator->SetMovingImagePyramid(movingPyramid);
+  }
 
-  if ( !passed )
-    {
+  if (!passed)
+  {
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   try
-    {
+  {
     passed = false;
     std::cout << "Set FixedImage to nullptr" << std::endl;
-    registrator->SetFixedImage( nullptr );
+    registrator->SetFixedImage(nullptr);
     registrator->Update();
-    }
-  catch( itk::ExceptionObject& err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cout << err << std::endl;
     passed = true;
     registrator->ResetPipeline();
-    registrator->SetFixedImage( fixed );
-    }
+    registrator->SetFixedImage(fixed);
+  }
 
-  if ( !passed )
-    {
+  if (!passed)
+  {
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;
-
 }

@@ -61,29 +61,36 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 
-template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel =
-            FlatStructuringElement< TInputImage::ImageDimension > >
-class ITK_TEMPLATE_EXPORT MaskedRankImageFilter:
-  public MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel,
-                                           Function::RankHistogram< typename TInputImage::PixelType > >
+template <typename TInputImage,
+          typename TMaskImage,
+          typename TOutputImage,
+          typename TKernel = FlatStructuringElement<TInputImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT MaskedRankImageFilter
+  : public MaskedMovingHistogramImageFilter<TInputImage,
+                                            TMaskImage,
+                                            TOutputImage,
+                                            TKernel,
+                                            Function::RankHistogram<typename TInputImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MaskedRankImageFilter);
 
   /** Standard class type aliases. */
   using Self = MaskedRankImageFilter;
-  using Superclass = MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel,
-                                            Function::RankHistogram< typename TInputImage::PixelType > >;
+  using Superclass = MaskedMovingHistogramImageFilter<TInputImage,
+                                                      TMaskImage,
+                                                      TOutputImage,
+                                                      TKernel,
+                                                      Function::RankHistogram<typename TInputImage::PixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MaskedRankImageFilter,
-               MovingHistogramImageFilter);
+  itkTypeMacro(MaskedRankImageFilter, MovingHistogramImageFilter);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;
@@ -114,7 +121,7 @@ public:
   itkSetClampMacro(Rank, float, 0.0, 1.0);
   itkGetConstMacro(Rank, float)
 
-  bool GetUseVectorBasedAlgorithm() const
+    bool GetUseVectorBasedAlgorithm() const
   {
     return HistogramType::UseVectorBasedAlgorithm();
   }
@@ -123,9 +130,11 @@ protected:
   MaskedRankImageFilter();
   ~MaskedRankImageFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void ConfigureHistogram( HistogramType & histogram ) override;
+  void
+  ConfigureHistogram(HistogramType & histogram) override;
 
 private:
   float m_Rank;
@@ -133,7 +142,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMaskedRankImageFilter.hxx"
+#  include "itkMaskedRankImageFilter.hxx"
 #endif
 
 #endif

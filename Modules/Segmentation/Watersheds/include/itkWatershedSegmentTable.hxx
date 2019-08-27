@@ -24,49 +24,53 @@ namespace itk
 {
 namespace watershed
 {
-template< typename TScalar >
-void SegmentTable< TScalar >
-::PruneEdgeLists(ScalarType maximum_saliency)
+template <typename TScalar>
+void
+SegmentTable<TScalar>::PruneEdgeLists(ScalarType maximum_saliency)
 {
   Iterator it;
 
   typename edge_list_t::iterator e;
-  for ( it = this->Begin(); it != this->End(); ++it )
+  for (it = this->Begin(); it != this->End(); ++it)
+  {
+    for (e = (*it).second.edge_list.begin(); e != (*it).second.edge_list.end(); e++)
     {
-    for ( e = ( *it ).second.edge_list.begin();
-          e != ( *it ).second.edge_list.end();
-          e++ )
-      {
-      if ( ( e->height - ( *it ).second.min ) > maximum_saliency )
-        {   // dump the rest of the list, assumes list is sorted
+      if ((e->height - (*it).second.min) > maximum_saliency)
+      { // dump the rest of the list, assumes list is sorted
         e++;
-        ( *it ).second.edge_list.erase( e, ( *it ).second.edge_list.end() );
-        break;  // through with this segment
-        }
+        (*it).second.edge_list.erase(e, (*it).second.edge_list.end());
+        break; // through with this segment
       }
     }
+  }
 }
 
-template< typename TScalar >
-void SegmentTable< TScalar >
-::SortEdgeLists()
+template <typename TScalar>
+void
+SegmentTable<TScalar>::SortEdgeLists()
 {
   Iterator it;
 
-  for ( it = this->Begin(); it != this->End(); ++it )
-    {
-    ( *it ).second.edge_list.sort();
-    }
+  for (it = this->Begin(); it != this->End(); ++it)
+  {
+    (*it).second.edge_list.sort();
+  }
 }
 
-template< typename TScalar >
-bool SegmentTable< TScalar >
-::Add(IdentifierType a, const segment_t & t)
+template <typename TScalar>
+bool
+SegmentTable<TScalar>::Add(IdentifierType a, const segment_t & t)
 {
-  std::pair< Iterator, bool > result;
-  result = m_HashMap.insert( ValueType(a, t) );
-  if ( result.second == false ) { return false; }
-  else { return true; }
+  std::pair<Iterator, bool> result;
+  result = m_HashMap.insert(ValueType(a, t));
+  if (result.second == false)
+  {
+    return false;
+  }
+  else
+  {
+    return true;
+  }
 }
 } // end namespace watershed
 } // end namespace itk

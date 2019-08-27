@@ -51,18 +51,17 @@ namespace itk
  * \ingroup ITKImageFilterBase MultiThreaded
  *
  */
-template< typename TInputImage, typename TOutputImage >
-class UnaryGeneratorImageFilter:
-    public InPlaceImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class UnaryGeneratorImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(UnaryGeneratorImageFilter);
 
   /** Standard class typedefs. */
   using Self = UnaryGeneratorImageFilter;
-  using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InPlaceImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -80,26 +79,30 @@ public:
   using OutputImageRegionType = typename OutputImageType::RegionType;
   using OutputImagePixelType = typename OutputImageType::PixelType;
 
-  using ConstRefFunctionType = OutputImagePixelType (const InputImagePixelType &);
-  using ValueFunctionType = OutputImagePixelType (InputImagePixelType);
+  using ConstRefFunctionType = OutputImagePixelType(const InputImagePixelType &);
+  using ValueFunctionType = OutputImagePixelType(InputImagePixelType);
 
 
-#if !defined( ITK_WRAPPING_PARSER )
+#if !defined(ITK_WRAPPING_PARSER)
   /** Set the pixel functor by an std::function wrapper
    *
    * The functor defines an operation done per pixel.
    */
-  void SetFunctor( const std::function<ConstRefFunctionType> &f)
+  void
+  SetFunctor(const std::function<ConstRefFunctionType> & f)
   {
-    m_DynamicThreadedGenerateDataFunction = [this, f](const OutputImageRegionType & outputRegionForThread)
-      { return this->DynamicThreadedGenerateDataWithFunctor(f, outputRegionForThread); };
+    m_DynamicThreadedGenerateDataFunction = [this, f](const OutputImageRegionType & outputRegionForThread) {
+      return this->DynamicThreadedGenerateDataWithFunctor(f, outputRegionForThread);
+    };
 
     this->Modified();
   }
- void SetFunctor( const std::function<ValueFunctionType> &f)
+  void
+  SetFunctor(const std::function<ValueFunctionType> & f)
   {
-    m_DynamicThreadedGenerateDataFunction = [this, f](const OutputImageRegionType & outputRegionForThread)
-      { return this->DynamicThreadedGenerateDataWithFunctor(f, outputRegionForThread); };
+    m_DynamicThreadedGenerateDataFunction = [this, f](const OutputImageRegionType & outputRegionForThread) {
+      return this->DynamicThreadedGenerateDataWithFunctor(f, outputRegionForThread);
+    };
 
     this->Modified();
   }
@@ -109,17 +112,21 @@ public:
    *
    * The functor defines an operation done per pixel.
    */
-  void SetFunctor( ConstRefFunctionType *funcPointer)
+  void
+  SetFunctor(ConstRefFunctionType * funcPointer)
   {
-    m_DynamicThreadedGenerateDataFunction = [this, funcPointer](const OutputImageRegionType & outputRegionForThread)
-      { return this->DynamicThreadedGenerateDataWithFunctor(funcPointer, outputRegionForThread); };
+    m_DynamicThreadedGenerateDataFunction = [this, funcPointer](const OutputImageRegionType & outputRegionForThread) {
+      return this->DynamicThreadedGenerateDataWithFunctor(funcPointer, outputRegionForThread);
+    };
 
     this->Modified();
   }
-  void SetFunctor( ValueFunctionType *funcPointer)
+  void
+  SetFunctor(ValueFunctionType * funcPointer)
   {
-    m_DynamicThreadedGenerateDataFunction = [this, funcPointer](const OutputImageRegionType & outputRegionForThread)
-      { return this->DynamicThreadedGenerateDataWithFunctor(funcPointer, outputRegionForThread); };
+    m_DynamicThreadedGenerateDataFunction = [this, funcPointer](const OutputImageRegionType & outputRegionForThread) {
+      return this->DynamicThreadedGenerateDataWithFunctor(funcPointer, outputRegionForThread);
+    };
 
     this->Modified();
   }
@@ -133,10 +140,12 @@ public:
    * operator() method which accept arguments of InputImagePixelType.
    */
   template <typename TFunctor>
-  void SetFunctor( const TFunctor & functor)
+  void
+  SetFunctor(const TFunctor & functor)
   {
-    m_DynamicThreadedGenerateDataFunction = [this, functor](const OutputImageRegionType & outputRegionForThread)
-      { return this->DynamicThreadedGenerateDataWithFunctor(functor, outputRegionForThread); };
+    m_DynamicThreadedGenerateDataFunction = [this, functor](const OutputImageRegionType & outputRegionForThread) {
+      return this->DynamicThreadedGenerateDataWithFunctor(functor, outputRegionForThread);
+    };
 
     this->Modified();
   }
@@ -154,7 +163,8 @@ protected:
    * below.
    *
    * \sa ProcessObject::GenerateOutputInformaton()  */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
 
   /** UnaryGeneratorImageFilter is implemented as a multithreaded filter.
@@ -167,8 +177,10 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   template <typename TFunctor>
-  void DynamicThreadedGenerateDataWithFunctor(const TFunctor &, const OutputImageRegionType & outputRegionForThread);
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateDataWithFunctor(const TFunctor &, const OutputImageRegionType & outputRegionForThread);
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
   std::function<void(const OutputImageRegionType &)> m_DynamicThreadedGenerateDataFunction;
@@ -176,7 +188,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkUnaryGeneratorImageFilter.hxx"
+#  include "itkUnaryGeneratorImageFilter.hxx"
 #endif
 
 #endif

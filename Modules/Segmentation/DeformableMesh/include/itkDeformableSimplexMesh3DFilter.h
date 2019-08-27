@@ -41,39 +41,39 @@
 namespace itk
 {
 /** \class DeformableSimplexMesh3DFilter
-  * \brief Three-dimensional deformable model for image segmentation
-  *
-  * DeformableSimplexMesh3DFilter is a discrete three-dimensional deformable model, which
-  * can be used to deform a 3-D SimplexMesh.
-  *
-  * The mesh deformation is constrained by internal forces. The interal force can be scaled
-  * via SetAlpha (typical values are 0.01 < alpha < 0.3). The external force is derived from
-  * the image one wants to delineate. Therefore an image of type GradientImageType needs to
-  * be set by calling SetGradientImage(...). The external forces are scaled
-  * via SetBeta (typical values are 0.01 < beta < 1). One still needs to play around with
-  * these values.
-  *
-  * To control the smoothness of the mesh a rigidity parameter can be adjusted. Low values (1 or 0)
-  * allow areas with high curvature. Higher values (around 7 or 8) will make the mesh smoother.
-  *
-  * By setting the gamma parameter the regularity of the mesh is controlled. Low values (< 0.03)
-  * produce more regular mesh. Higher values ( 0.3 < gamma < 0.2) will allow to move the vertices to
-  * regions of higher curvature.
-  *
-  * This approach for segmentation follows that of Delingette et al. (1997).
-  *
-  * This filter currently assumes that the spacing of the input image is 1.
-  *
-  * The user has to set the number of iterations for mesh evolution.
-  *
-  * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
-  *
-  * \ingroup MeshFilters
-  * \ingroup MeshSegmentation
-  * \ingroup ITKDeformableMesh
-  */
-template< typename TInputMesh, typename TOutputMesh >
-class ITK_TEMPLATE_EXPORT DeformableSimplexMesh3DFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
+ * \brief Three-dimensional deformable model for image segmentation
+ *
+ * DeformableSimplexMesh3DFilter is a discrete three-dimensional deformable model, which
+ * can be used to deform a 3-D SimplexMesh.
+ *
+ * The mesh deformation is constrained by internal forces. The interal force can be scaled
+ * via SetAlpha (typical values are 0.01 < alpha < 0.3). The external force is derived from
+ * the image one wants to delineate. Therefore an image of type GradientImageType needs to
+ * be set by calling SetGradientImage(...). The external forces are scaled
+ * via SetBeta (typical values are 0.01 < beta < 1). One still needs to play around with
+ * these values.
+ *
+ * To control the smoothness of the mesh a rigidity parameter can be adjusted. Low values (1 or 0)
+ * allow areas with high curvature. Higher values (around 7 or 8) will make the mesh smoother.
+ *
+ * By setting the gamma parameter the regularity of the mesh is controlled. Low values (< 0.03)
+ * produce more regular mesh. Higher values ( 0.3 < gamma < 0.2) will allow to move the vertices to
+ * regions of higher curvature.
+ *
+ * This approach for segmentation follows that of Delingette et al. (1997).
+ *
+ * This filter currently assumes that the spacing of the input image is 1.
+ *
+ * The user has to set the number of iterations for mesh evolution.
+ *
+ * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
+ *
+ * \ingroup MeshFilters
+ * \ingroup MeshSegmentation
+ * \ingroup ITKDeformableMesh
+ */
+template <typename TInputMesh, typename TOutputMesh>
+class ITK_TEMPLATE_EXPORT DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DeformableSimplexMesh3DFilter);
@@ -82,11 +82,11 @@ public:
   using Self = DeformableSimplexMesh3DFilter;
 
   /** Standard "Superclass" type alias. */
-  using Superclass = MeshToMeshFilter< TInputMesh, TOutputMesh >;
+  using Superclass = MeshToMeshFilter<TInputMesh, TOutputMesh>;
 
   /** Smart pointer type alias support */
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method of creation through the object factory. */
   itkNewMacro(Self);
@@ -105,14 +105,14 @@ public:
   /** Other definitions. */
   using PointType = typename SimplexMeshGeometry::PointType;
   using VectorType = typename PointType::VectorType;
-  using CovariantVectorType = CovariantVector< typename VectorType::ValueType, 3 >;
+  using CovariantVectorType = CovariantVector<typename VectorType::ValueType, 3>;
   using PixelType = typename InputMeshType::PixelType;
 
   /** Image and Image iterator definition. */
-  using GradientType = CovariantVector< PixelType, 3 >;
-  using GradientImageType = Image< GradientType, 3 >;
-  using BinaryOutput = Image< unsigned char, 3 >;
-  using MagnitudeOutput = Image< float, 3 >;
+  using GradientType = CovariantVector<PixelType, 3>;
+  using GradientImageType = Image<GradientType, 3>;
+  using BinaryOutput = Image<unsigned char, 3>;
+  using MagnitudeOutput = Image<float, 3>;
 
   using GradientImagePointer = typename GradientImageType::Pointer;
   using GradientIndexType = typename GradientImageType::IndexType;
@@ -130,9 +130,9 @@ public:
   using InputNeighbors = typename InputMeshType::NeighborListType;
   using InputNeighborsIterator = typename InputMeshType::NeighborListType::iterator;
 
-  using NeighborSetType = std::set< IdentifierType >;
-  using IndexSetType = std::set< IdentifierType >;
-  using VertexNeighborListType = itk::MapContainer< IdentifierType, NeighborSetType >;
+  using NeighborSetType = std::set<IdentifierType>;
+  using IndexSetType = std::set<IdentifierType>;
+  using VertexNeighborListType = itk::MapContainer<IdentifierType, NeighborSetType>;
   using NeighborSetIterator = typename NeighborSetType::iterator;
   using IndexSetIterator = typename IndexSetType::iterator;
 
@@ -147,12 +147,14 @@ public:
   /**
    *  Setter for gradient image
    */
-  void SetGradient( const GradientImageType * gradientImage );
+  void
+  SetGradient(const GradientImageType * gradientImage);
 
   /**
    *  Getter for gradient image
    */
-  const GradientImageType * GetGradient() const;
+  const GradientImageType *
+  GetGradient() const;
 
   /**
    * Set number of iterations for deformation process
@@ -204,63 +206,74 @@ public:
 protected:
   DeformableSimplexMesh3DFilter();
   ~DeformableSimplexMesh3DFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /**
    * Initializes the datastructures necessary for mesh
    * deformation with the values from the passed input
    * mesh.
    */
-  virtual void Initialize();
+  virtual void
+  Initialize();
 
   /**
    * Compute geometric properties like curvature and
    * normals, which are necessary for the computation
    * of the internal force components for each point of the mesh.
    */
-  virtual void ComputeGeometry();
+  virtual void
+  ComputeGeometry();
 
   /**
    * Computes the displacement of each point. Therefore
    * internal and external forces are computed and multiplied
    * by the constants (alpha and beta) set by the user.
    */
-  virtual void ComputeDisplacement();
+  virtual void
+  ComputeDisplacement();
 
   /**
    * Compute the internal force component
    */
-  virtual void ComputeInternalForce(SimplexMeshGeometry *data);
+  virtual void
+  ComputeInternalForce(SimplexMeshGeometry * data);
 
   /**
    * Compute the external force component
    * Pass in the gradient image, to avoid inner loop calls to GetGradient()
    */
-  virtual void ComputeExternalForce(SimplexMeshGeometry *data, const GradientImageType *gradient);
+  virtual void
+  ComputeExternalForce(SimplexMeshGeometry * data, const GradientImageType * gradient);
 
   /**
    * At the and of the deformation the output mesh is created
    * by creating a new mesh
    */
-  virtual void ComputeOutput();
+  virtual void
+  ComputeOutput();
 
   /**
    * Method updates the reference metrics for each mesh point
    */
-  virtual void UpdateReferenceMetrics();
+  virtual void
+  UpdateReferenceMetrics();
 
   /**
    *  L function implemented following the paper of Delingette
    */
-  bool L_Func(const double r, const double d, const double phi, double & output);
+  bool
+  L_Func(const double r, const double d, const double phi, double & output);
 
   /**
    *  Method computes the barycentric coordinates of the passed point
    */
-  PointType ComputeBarycentricCoordinates(PointType p, SimplexMeshGeometry *data);
+  PointType
+  ComputeBarycentricCoordinates(PointType p, SimplexMeshGeometry * data);
 
   /** Parameters definitions. */
 
@@ -317,7 +330,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDeformableSimplexMesh3DFilter.hxx"
+#  include "itkDeformableSimplexMesh3DFilter.hxx"
 #endif
 
-#endif //itkDeformableSimplexMesh3DFilter_h
+#endif // itkDeformableSimplexMesh3DFilter_h

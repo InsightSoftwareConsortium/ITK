@@ -34,18 +34,17 @@ namespace itk
  *
  * \ingroup ITKGPUAnisotropicSmoothing
  */
-template< typename TImage >
-class GPUAnisotropicDiffusionFunction :
-  public GPUFiniteDifferenceFunction< TImage >
+template <typename TImage>
+class GPUAnisotropicDiffusionFunction : public GPUFiniteDifferenceFunction<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUAnisotropicDiffusionFunction);
 
   /** Standard class type aliases. */
   using Self = GPUAnisotropicDiffusionFunction;
-  using Superclass = GPUFiniteDifferenceFunction< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = GPUFiniteDifferenceFunction<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(GPUAnisotropicDiffusionFunction, GPUFiniteDifferenceFunction);
@@ -67,59 +66,69 @@ public:
       in the output image (intermediate solution). The average gradient magnitude
       value is typically used in the anisotropic diffusion equations to
       calibrate the conductance term. */
-  virtual void GPUCalculateAverageGradientMagnitudeSquared(ImageType *) = 0;
+  virtual void
+  GPUCalculateAverageGradientMagnitudeSquared(ImageType *) = 0;
 
   /** Set/Get the time step. For this class of anisotropic diffusion filters,
       the time-step is supplied by the user and remains fixed for all
       updates. */
-  void SetTimeStep(const TimeStepType & t)
+  void
+  SetTimeStep(const TimeStepType & t)
   {
     m_TimeStep = t;
   }
 
-  const TimeStepType & GetTimeStep() const
+  const TimeStepType &
+  GetTimeStep() const
   {
     return m_TimeStep;
   }
 
   /** Set/Get the conductance parameter.  The conductance parameter. */
-  void SetConductanceParameter(const double & c)
+  void
+  SetConductanceParameter(const double & c)
   {
     m_ConductanceParameter = c;
   }
 
-  const double & GetConductanceParameter() const
+  const double &
+  GetConductanceParameter() const
   {
     return m_ConductanceParameter;
   }
 
   /** Set/Get the average gradient magnitude squared. */
-  const double & GetAverageGradientMagnitudeSquared() const
+  const double &
+  GetAverageGradientMagnitudeSquared() const
   {
     return m_AverageGradientMagnitudeSquared;
   }
 
-  void SetAverageGradientMagnitudeSquared(const double & c)
+  void
+  SetAverageGradientMagnitudeSquared(const double & c)
   {
     m_AverageGradientMagnitudeSquared = c;
   }
 
   /** Returns the time step supplied by the user.  We don't need to use the
    * global data supplied since we are returning a fixed value.  */
-  TimeStepType ComputeGlobalTimeStep( void *itkNotUsed(GlobalData) ) const override
+  TimeStepType
+  ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const override
   {
     return this->GetTimeStep();
   }
 
   /** The anisotropic diffusion classes don't use this particular parameter
    * so it's safe to return a null value. */
-  void * GetGlobalDataPointer() const override
+  void *
+  GetGlobalDataPointer() const override
   {
     return nullptr;
   }
 
   /** Does nothing.  No global data is used in this class of equations.   */
-  void ReleaseGlobalDataPointer( void *itkNotUsed(GlobalData) ) const override
+  void
+  ReleaseGlobalDataPointer(void * itkNotUsed(GlobalData)) const override
   {
     /* do nothing */
   }
@@ -128,18 +137,18 @@ protected:
   GPUAnisotropicDiffusionFunction()
   {
     m_AverageGradientMagnitudeSquared = 0.0;
-    m_ConductanceParameter     = 1.0;     // default value
-    m_TimeStep                 = 0.125f;  // default value
+    m_ConductanceParameter = 1.0; // default value
+    m_TimeStep = 0.125f;          // default value
   }
 
   ~GPUAnisotropicDiffusionFunction() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const override
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "TimeStep: " << m_TimeStep << std::endl;
-    os << indent << "ConductanceParameter: " << m_ConductanceParameter
-       << std::endl;
+    os << indent << "ConductanceParameter: " << m_ConductanceParameter << std::endl;
   }
 
   // GPU buffer for Computing Average Squared Gradient Magnitude

@@ -37,14 +37,13 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT ThreadLogger:public Logger
+class ITKCommon_EXPORT ThreadLogger : public Logger
 {
 public:
-
   using Self = ThreadLogger;
   using Superclass = Logger;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ThreadLogger, Logger);
@@ -66,42 +65,49 @@ public:
     ADD_LOG_OUTPUT,
     WRITE,
     FLUSH
-  }
-  OperationType;
+  } OperationType;
 
   /** Set the priority level for the current logger. Only messages that have
    * priorities equal or greater than the one set here will be posted to the
    * current outputs. */
-  void SetPriorityLevel(PriorityLevelType level) override;
+  void
+  SetPriorityLevel(PriorityLevelType level) override;
 
   /** Get the priority level for the current logger. Only messages that have
    * priorities equal or greater than the one set here will be posted to the
    * current outputs. */
-  PriorityLevelType GetPriorityLevel() const override;
+  PriorityLevelType
+  GetPriorityLevel() const override;
 
-  void SetLevelForFlushing(PriorityLevelType level) override;
+  void
+  SetLevelForFlushing(PriorityLevelType level) override;
 
-  PriorityLevelType GetLevelForFlushing() const override;
+  PriorityLevelType
+  GetLevelForFlushing() const override;
 
-/** Set the delay in milliseconds between checks to see if there are any
- *  low priority messages to be processed.
- */
-  virtual void SetDelay(DelayType delay);
+  /** Set the delay in milliseconds between checks to see if there are any
+   *  low priority messages to be processed.
+   */
+  virtual void
+  SetDelay(DelayType delay);
 
-/** Get the delay in milliseconds between checks to see if there are any
- *  low priority messages to be processed.
- */
-  virtual DelayType GetDelay() const;
+  /** Get the delay in milliseconds between checks to see if there are any
+   *  low priority messages to be processed.
+   */
+  virtual DelayType
+  GetDelay() const;
 
   /** Registers another output stream with the multiple output. */
-  void AddLogOutput(OutputType *output) override;
+  void
+  AddLogOutput(OutputType * output) override;
 
-  void Write(PriorityLevelType level, std::string const & content) override;
+  void
+  Write(PriorityLevelType level, std::string const & content) override;
 
-  void Flush() override;
+  void
+  Flush() override;
 
 protected:
-
   /** Constructor */
   ThreadLogger();
 
@@ -109,21 +115,23 @@ protected:
   ~ThreadLogger() override;
 
   /** Print contents of a ThreadLogger */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void ThreadFunction();
+  void
+  ThreadFunction();
 
 private:
+  void
+  InternalFlush();
 
-  void InternalFlush();
+  using OperationContainerType = std::queue<OperationType>;
 
-  using OperationContainerType = std::queue< OperationType >;
+  using MessageContainerType = std::queue<std::string>;
 
-  using MessageContainerType = std::queue< std::string >;
+  using LevelContainerType = std::queue<PriorityLevelType>;
 
-  using LevelContainerType = std::queue< PriorityLevelType >;
-
-  using OutputContainerType = std::queue< OutputType::Pointer >;
+  using OutputContainerType = std::queue<OutputType::Pointer>;
 
   std::thread m_Thread;
 
@@ -141,7 +149,7 @@ private:
 
   DelayType m_Delay;
 
-};  // class ThreadLogger
+}; // class ThreadLogger
 } // namespace itk
 
-#endif  // itkThreadLogger_h
+#endif // itkThreadLogger_h

@@ -58,14 +58,17 @@
 #include "itkRescaleIntensityImageFilter.h"
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFile  sigma [RescaledOutputImageFile] " << std::endl;
+    std::cerr << argv[0]
+              << "  inputImageFile  outputImageFile  sigma [RescaledOutputImageFile] "
+              << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //  Software Guide : BeginLatex
@@ -87,12 +90,12 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using InputImageType = itk::Image< InputPixelType,  2 >;
-  using OutputImageType = itk::Image< OutputPixelType, 2 >;
+  using InputImageType = itk::Image<InputPixelType, 2>;
+  using OutputImageType = itk::Image<OutputPixelType, 2>;
   // Software Guide : EndCodeSnippet
 
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
 
 
   //  Software Guide : BeginLatex
@@ -105,13 +108,12 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::RecursiveGaussianImageFilter<
-                        InputImageType, OutputImageType >;
+  using FilterType = itk::RecursiveGaussianImageFilter<InputImageType, OutputImageType>;
   // Software Guide : EndCodeSnippet
 
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
 
   //  Software Guide : BeginLatex
@@ -150,11 +152,11 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filterX1->SetDirection( 0 );   // 0 --> X direction
-  filterY1->SetDirection( 1 );   // 1 --> Y direction
+  filterX1->SetDirection(0); // 0 --> X direction
+  filterY1->SetDirection(1); // 1 --> Y direction
 
-  filterX2->SetDirection( 0 );   // 0 --> X direction
-  filterY2->SetDirection( 1 );   // 1 --> Y direction
+  filterX2->SetDirection(0); // 0 --> X direction
+  filterY2->SetDirection(1); // 1 --> Y direction
   // Software Guide : EndCodeSnippet
 
 
@@ -175,11 +177,11 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filterX1->SetOrder( itk::EnumGaussianOrderType::ZeroOrder );
-  filterY1->SetOrder( itk::EnumGaussianOrderType::SecondOrder );
+  filterX1->SetOrder(itk::EnumGaussianOrderType::ZeroOrder);
+  filterY1->SetOrder(itk::EnumGaussianOrderType::SecondOrder);
 
-  filterX2->SetOrder( itk::EnumGaussianOrderType::SecondOrder );
-  filterY2->SetOrder( itk::EnumGaussianOrderType::ZeroOrder );
+  filterX2->SetOrder(itk::EnumGaussianOrderType::SecondOrder);
+  filterY2->SetOrder(itk::EnumGaussianOrderType::ZeroOrder);
   // Software Guide : EndCodeSnippet
 
 
@@ -216,10 +218,10 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   const bool normalizeAcrossScale = false;
-  filterX1->SetNormalizeAcrossScale( normalizeAcrossScale );
-  filterY1->SetNormalizeAcrossScale( normalizeAcrossScale );
-  filterX2->SetNormalizeAcrossScale( normalizeAcrossScale );
-  filterY2->SetNormalizeAcrossScale( normalizeAcrossScale );
+  filterX1->SetNormalizeAcrossScale(normalizeAcrossScale);
+  filterY1->SetNormalizeAcrossScale(normalizeAcrossScale);
+  filterX2->SetNormalizeAcrossScale(normalizeAcrossScale);
+  filterY2->SetNormalizeAcrossScale(normalizeAcrossScale);
   // Software Guide : EndCodeSnippet
 
 
@@ -238,11 +240,11 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filterX1->SetInput( reader->GetOutput() );
-  filterY1->SetInput( filterX1->GetOutput() );
+  filterX1->SetInput(reader->GetOutput());
+  filterY1->SetInput(filterX1->GetOutput());
 
-  filterY2->SetInput( reader->GetOutput() );
-  filterX2->SetInput( filterY2->GetOutput() );
+  filterY2->SetInput(reader->GetOutput());
+  filterX2->SetInput(filterY2->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -259,13 +261,13 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double sigma = std::stod( argv[3] );
+  const double sigma = std::stod(argv[3]);
 
   // Software Guide : BeginCodeSnippet
-  filterX1->SetSigma( sigma );
-  filterY1->SetSigma( sigma );
-  filterX2->SetSigma( sigma );
-  filterY2->SetSigma( sigma );
+  filterX1->SetSigma(sigma);
+  filterY1->SetSigma(sigma);
+  filterX2->SetSigma(sigma);
+  filterY2->SetSigma(sigma);
   // Software Guide : EndCodeSnippet
 
 
@@ -279,15 +281,13 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using AddFilterType = itk::AddImageFilter<
-                OutputImageType,
-                OutputImageType,
-                OutputImageType >;
+  using AddFilterType =
+    itk::AddImageFilter<OutputImageType, OutputImageType, OutputImageType>;
 
   AddFilterType::Pointer addFilter = AddFilterType::New();
 
-  addFilter->SetInput1( filterY1->GetOutput() );
-  addFilter->SetInput2( filterX2->GetOutput() );
+  addFilter->SetInput1(filterY1->GetOutput());
+  addFilter->SetInput2(filterX2->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -300,15 +300,15 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   try
-    {
+  {
     addFilter->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cout << "ExceptionObject caught !" << std::endl;
     std::cout << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 
@@ -322,15 +322,15 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   using WritePixelType = float;
 
-  using WriteImageType = itk::Image< WritePixelType, 2 >;
+  using WriteImageType = itk::Image<WritePixelType, 2>;
 
-  using WriterType = itk::ImageFileWriter< WriteImageType >;
+  using WriterType = itk::ImageFileWriter<WriteImageType>;
 
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetInput( addFilter->GetOutput() );
+  writer->SetInput(addFilter->GetOutput());
 
-  writer->SetFileName( argv[2] );
+  writer->SetFileName(argv[2]);
 
   writer->Update();
   // Software Guide : EndCodeSnippet
@@ -354,23 +354,23 @@ int main( int argc, char * argv[] )
   // Rescale float outputs to png for inclusion in the Software guide
   //
   if (argc > 4)
-    {
+  {
     using CharPixelType = unsigned char;
     using CharImageType = itk::Image<CharPixelType, 2>;
 
     using RescaleFilterType =
-          itk::RescaleIntensityImageFilter< OutputImageType, CharImageType>;
+      itk::RescaleIntensityImageFilter<OutputImageType, CharImageType>;
 
     RescaleFilterType::Pointer rescale = RescaleFilterType::New();
-    rescale->SetInput( addFilter->GetOutput() );
-    rescale->SetOutputMinimum(   0 );
-    rescale->SetOutputMaximum( 255 );
-    using CharWriterType = itk::ImageFileWriter< CharImageType >;
+    rescale->SetInput(addFilter->GetOutput());
+    rescale->SetOutputMinimum(0);
+    rescale->SetOutputMaximum(255);
+    using CharWriterType = itk::ImageFileWriter<CharImageType>;
     CharWriterType::Pointer charWriter = CharWriterType::New();
-    charWriter->SetFileName( argv[4] );
-    charWriter->SetInput( rescale->GetOutput() );
+    charWriter->SetFileName(argv[4]);
+    charWriter->SetInput(rescale->GetOutput());
     charWriter->Update();
-    }
+  }
 
 
   return EXIT_SUCCESS;

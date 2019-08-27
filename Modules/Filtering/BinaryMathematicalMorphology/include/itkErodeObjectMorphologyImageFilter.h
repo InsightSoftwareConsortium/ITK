@@ -42,18 +42,18 @@ namespace itk
  * \ingroup ImageEnhancement MathematicalMorphologyImageFilters
  * \ingroup ITKBinaryMathematicalMorphology
  */
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-class ITK_TEMPLATE_EXPORT ErodeObjectMorphologyImageFilter:
-  public ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+class ITK_TEMPLATE_EXPORT ErodeObjectMorphologyImageFilter
+  : public ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ErodeObjectMorphologyImageFilter);
 
   /** Standard class type aliases. */
   using Self = ErodeObjectMorphologyImageFilter;
-  using Superclass = ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method */
   itkNewMacro(Self);
@@ -70,21 +70,23 @@ public:
   /** Kernel (structuring element) iterator */
   using KernelIteratorType = typename KernelType::ConstIterator;
 
-  using OutputNeighborhoodIteratorType = NeighborhoodIterator< TOutputImage >;
+  using OutputNeighborhoodIteratorType = NeighborhoodIterator<TOutputImage>;
 
   /** Default boundary condition type */
   using DefaultBoundaryConditionType = typename Superclass::DefaultBoundaryConditionType;
 
   /** Set the object's value. Added for API consistency with itkBinaryErode
     filter */
-  void SetErodeValue(PixelType objectValue)
+  void
+  SetErodeValue(PixelType objectValue)
   {
     this->SetObjectValue(objectValue);
   }
 
   /** Set the object's value. Added for API consistency with itkBinaryErode
     filter */
-  PixelType GetErodeValue()
+  PixelType
+  GetErodeValue()
   {
     return this->GetObjectValue();
   }
@@ -100,22 +102,22 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( KernelGreaterThanComparableCheck,
-                   ( Concept::GreaterThanComparable< KernelPixelType > ) );
+  itkConceptMacro(KernelGreaterThanComparableCheck, (Concept::GreaterThanComparable<KernelPixelType>));
   // End concept checking
 #endif
 
 protected:
   ErodeObjectMorphologyImageFilter();
   ~ErodeObjectMorphologyImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Apply the kernel to the neighborhood given.
    *
    * All values in neighborhood covered by the kernel will be set to the
    * background value.  */
-  void Evaluate(OutputNeighborhoodIteratorType & nit,
-                const KernelType & kernel) override;
+  void
+  Evaluate(OutputNeighborhoodIteratorType & nit, const KernelType & kernel) override;
 
 private:
   PixelType m_BackgroundValue;
@@ -127,7 +129,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkErodeObjectMorphologyImageFilter.hxx"
+#  include "itkErodeObjectMorphologyImageFilter.hxx"
 #endif
 
 #endif

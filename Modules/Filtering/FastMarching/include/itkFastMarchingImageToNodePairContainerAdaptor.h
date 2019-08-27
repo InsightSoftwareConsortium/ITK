@@ -45,18 +45,17 @@ namespace itk
  * \sa FastMarchingBase
  *
  * \ingroup ITKFastMarching
-*/
-template< typename TInput, typename TOutput, typename TImage >
-class ITK_TEMPLATE_EXPORT FastMarchingImageToNodePairContainerAdaptor :
-    public Object
-  {
+ */
+template <typename TInput, typename TOutput, typename TImage>
+class ITK_TEMPLATE_EXPORT FastMarchingImageToNodePairContainerAdaptor : public Object
+{
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingImageToNodePairContainerAdaptor);
 
   using Self = FastMarchingImageToNodePairContainerAdaptor;
   using Superclass = LightObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
 
   /** Method for creation through the object factory. */
@@ -65,7 +64,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(FastMarchingImageToNodePairContainerAdaptor, LightObject);
 
-  using Traits = FastMarchingTraits< TInput, TOutput >;
+  using Traits = FastMarchingTraits<TInput, TOutput>;
   using NodePairType = typename Traits::NodePairType;
   using NodePairContainerType = typename Traits::NodePairContainerType;
   using NodePairContainerPointer = typename Traits::NodePairContainerPointer;
@@ -82,12 +81,14 @@ public:
   /** \brief Set one Alive Image.
     \note Only pixels with non null values are considered as
     FastMarchingTraitsBase::Alive points.*/
-  void SetAliveImage( const ImageType* iImage );
+  void
+  SetAliveImage(const ImageType * iImage);
 
   /** \brief Set one Trial Image.
     \note Only pixels with non null values are considered as
     FastMarchingTraitsBase::Trialpoints.*/
-  void SetTrialImage( const ImageType* iImage );
+  void
+  SetTrialImage(const ImageType * iImage);
 
   /** \brief Set one Forbidden Image.
     There are two possible behaviors here depending on
@@ -99,28 +100,32 @@ public:
 
     \li else (m_IsForbiddenImageBinaryMask is \c fasle) non null values
     represents FastMarchingTraitsBase::Forbidden points*/
-  void SetForbiddenImage( const ImageType* iImage );
+  void
+  SetForbiddenImage(const ImageType * iImage);
 
-  itkSetMacro( IsForbiddenImageBinaryMask, bool );
-  itkBooleanMacro( IsForbiddenImageBinaryMask );
+  itkSetMacro(IsForbiddenImageBinaryMask, bool);
+  itkBooleanMacro(IsForbiddenImageBinaryMask);
 
   /** \brief Get resulting Alive Points container*/
-  NodePairContainerType* GetAlivePoints();
+  NodePairContainerType *
+  GetAlivePoints();
 
   /** \brief Get resulting Trial Points container*/
-  NodePairContainerType* GetTrialPoints();
+  NodePairContainerType *
+  GetTrialPoints();
 
   /** \brief Get resulting Forbidden Points container*/
-  NodePairContainerType* GetForbiddenPoints();
+  NodePairContainerType *
+  GetForbiddenPoints();
 
-  itkSetMacro( AliveValue, OutputPixelType );
-  itkSetMacro( TrialValue, OutputPixelType );
+  itkSetMacro(AliveValue, OutputPixelType);
+  itkSetMacro(TrialValue, OutputPixelType);
 
   /** \brief Perform the conversion. */
-  void Update();
+  void
+  Update();
 
 protected:
-
   /** \brief Constructor */
   FastMarchingImageToNodePairContainerAdaptor();
 
@@ -140,17 +145,17 @@ protected:
 
   bool m_IsForbiddenImageBinaryMask{ false };
 
-  virtual void GenerateData();
+  virtual void
+  GenerateData();
 
   /** */
   void
-  SetPointsFromImage( const ImageType* image, const LabelType& iLabel,
-    const OutputPixelType& iValue );
-  };
-}
+  SetPointsFromImage(const ImageType * image, const LabelType & iLabel, const OutputPixelType & iValue);
+};
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFastMarchingImageToNodePairContainerAdaptor.hxx"
+#  include "itkFastMarchingImageToNodePairContainerAdaptor.hxx"
 #endif
 
 #endif // itkFastMarchingImageToNodePairContainerAdaptor_h

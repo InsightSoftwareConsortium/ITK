@@ -33,17 +33,17 @@ namespace itk
  * \ingroup ITKPath
  */
 
-template< typename TInputPath, typename TOutputPath >
-class ITK_TEMPLATE_EXPORT PathToPathFilter:public PathSource< TOutputPath >
+template <typename TInputPath, typename TOutputPath>
+class ITK_TEMPLATE_EXPORT PathToPathFilter : public PathSource<TOutputPath>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PathToPathFilter);
 
   /** Standard class type aliases. */
   using Self = PathToPathFilter;
-  using Superclass = PathSource< TOutputPath >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = PathSource<TOutputPath>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -58,19 +58,24 @@ public:
 
   /** Set/Get the path input of this process object.  */
   using Superclass::SetInput;
-  virtual void SetInput(const InputPathType *path);
+  virtual void
+  SetInput(const InputPathType * path);
 
-  virtual void SetInput(unsigned int, const TInputPath *path);
+  virtual void
+  SetInput(unsigned int, const TInputPath * path);
 
-  const InputPathType * GetInput();
+  const InputPathType *
+  GetInput();
 
-  const InputPathType * GetInput(unsigned int idx);
+  const InputPathType *
+  GetInput(unsigned int idx);
 
 protected:
   PathToPathFilter();
   ~PathToPathFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** What is the input requested region that is required to produce the output
    * requested region?  Up till and including now, the base assumption is that
@@ -79,12 +84,13 @@ protected:
    * its first step.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPathToPathFilter.hxx"
+#  include "itkPathToPathFilter.hxx"
 #endif
 
 #endif

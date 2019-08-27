@@ -20,36 +20,37 @@
 #include "itkSobelEdgeDetectionImageFilter.h"
 #include "itkNullImageToImageFilterDriver.hxx"
 
-inline std::ostream& operator<<(std::ostream &o, const itk::Vector<float, 3> &v)
+inline std::ostream &
+operator<<(std::ostream & o, const itk::Vector<float, 3> & v)
 {
-  o << "["<< v[0] << " " << v[1] << " " << v[2] << "]";
+  o << "[" << v[0] << " " << v[1] << " " << v[2] << "]";
   return o;
 }
 
-int itkSobelEdgeDetectionImageFilterTest(int , char *[] )
+int
+itkSobelEdgeDetectionImageFilterTest(int, char *[])
 {
   try
-    {
-      using ImageType = itk::Image<float, 2>;
+  {
+    using ImageType = itk::Image<float, 2>;
 
-      // Set up filter
-      itk::SobelEdgeDetectionImageFilter<ImageType, ImageType>::Pointer
-        filter =
-        itk::SobelEdgeDetectionImageFilter<ImageType, ImageType>::New();
+    // Set up filter
+    itk::SobelEdgeDetectionImageFilter<ImageType, ImageType>::Pointer filter =
+      itk::SobelEdgeDetectionImageFilter<ImageType, ImageType>::New();
 
-      // Run Test
-      itk::Size<2> sz;
-      sz[0] = 100;
-      sz[1] = 100;
-      itk::NullImageToImageFilterDriver< ImageType, ImageType > test1;
-      test1.SetImageSize(sz);
-      test1.SetFilter(filter);
-      test1.Execute();
-    }
-  catch(itk::ExceptionObject &err)
-    {
-      (&err)->Print(std::cerr);
-      return EXIT_FAILURE;
-    }
+    // Run Test
+    itk::Size<2> sz;
+    sz[0] = 100;
+    sz[1] = 100;
+    itk::NullImageToImageFilterDriver<ImageType, ImageType> test1;
+    test1.SetImageSize(sz);
+    test1.SetFilter(filter);
+    test1.Execute();
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    (&err)->Print(std::cerr);
+    return EXIT_FAILURE;
+  }
   return EXIT_SUCCESS;
 }

@@ -37,15 +37,15 @@ namespace itk
  *
  * \ingroup ITKVideoIO
  */
-template< typename TOutputVideoStream >
-class ITK_TEMPLATE_EXPORT VideoFileReader : public VideoSource< TOutputVideoStream >
+template <typename TOutputVideoStream>
+class ITK_TEMPLATE_EXPORT VideoFileReader : public VideoSource<TOutputVideoStream>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VideoFileReader);
 
   /** Standard class type aliases. */
   using Self = VideoFileReader;
-  using Superclass = VideoSource< TOutputVideoStream >;
+  using Superclass = VideoSource<TOutputVideoStream>;
   using Pointer = SmartPointer<Self>;
   using VideoStreamType = TOutputVideoStream;
   using VideoStreamPointer = typename VideoStreamType::Pointer;
@@ -85,42 +85,52 @@ public:
   itkGetMacro(IFrameSafe, bool);
 
   /** Set up the output information */
-  void UpdateOutputInformation() override;
+  void
+  UpdateOutputInformation() override;
 
   /** Set the internal VideoIOBase pointer. This will generally be called by
    * the object that creates the RingBuffer (e.g. itk::VideoFileReader) */
-  void SetVideoIO(VideoIOBase* videoIO);
+  void
+  SetVideoIO(VideoIOBase * videoIO);
 
   /** Get the current position as frame, ratio, or MSec */
-  FrameOffsetType GetCurrentPositionFrame();
+  FrameOffsetType
+  GetCurrentPositionFrame();
 
-  TemporalRatioType GetCurrentPositionRatio();
+  TemporalRatioType
+  GetCurrentPositionRatio();
 
-  TemporalOffsetType GetCurrentPositionMSec();
+  TemporalOffsetType
+  GetCurrentPositionMSec();
 
   /** Get number of frames */
-  FrameOffsetType GetNumberOfFrames();
+  FrameOffsetType
+  GetNumberOfFrames();
 
   /** Get framerate */
-  TemporalRatioType GetFramesPerSecond();
+  TemporalRatioType
+  GetFramesPerSecond();
 
 protected:
-
   VideoFileReader();
   ~VideoFileReader() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Override TemporalStreamingGenerateData to generate output a single frame.
    * We don't override ThreadedGenerateData because we read whole frames one at
    * a time. As such, we have to handle the allocation of the frames here. */
-  void TemporalStreamingGenerateData() override;
+  void
+  TemporalStreamingGenerateData() override;
 
   /** Convert buffer for output */
-  void DoConvertBuffer(void* inputData, FrameOffsetType frameNumber);
+  void
+  DoConvertBuffer(void * inputData, FrameOffsetType frameNumber);
 
   /** Set up the VideoIO using VideoIOFactory
    * Warning: this will overwrite any currently set VideoIO */
-  void InitializeVideoIO();
+  void
+  InitializeVideoIO();
 
 private:
   /** The file to read */
@@ -141,7 +151,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVideoFileReader.hxx"
+#  include "itkVideoFileReader.hxx"
 #endif
 
 #endif

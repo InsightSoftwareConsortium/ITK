@@ -25,9 +25,9 @@ namespace itk
 /**
  * Constructor
  */
-template< typename TImageType, typename TCoordRep, typename TCoefficientType >
-ComplexBSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
-::ComplexBSplineInterpolateImageFunction()
+template <typename TImageType, typename TCoordRep, typename TCoefficientType>
+ComplexBSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::
+  ComplexBSplineInterpolateImageFunction()
 {
   m_RealInterpolator = InterpolatorType::New();
   m_ImaginaryInterpolator = InterpolatorType::New();
@@ -41,9 +41,10 @@ ComplexBSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType 
 /**
  * Standard "PrintSelf" method
  */
-template< typename TImageType, typename TCoordRep, typename TCoefficientType >
-void ComplexBSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
-::PrintSelf(std::ostream & os, Indent indent) const
+template <typename TImageType, typename TCoordRep, typename TCoefficientType>
+void
+ComplexBSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::PrintSelf(std::ostream & os,
+                                                                                           Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Spline Order: " << m_SplineOrder << std::endl;
@@ -53,42 +54,42 @@ void ComplexBSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficient
   os << indent << "Complex to Imaginary Filter: " << m_ImaginaryFilter << std::endl;
 }
 
-template< typename TImageType, typename TCoordRep, typename TCoefficientType >
-void ComplexBSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
-::SetInputImage(const TImageType *inputData)
+template <typename TImageType, typename TCoordRep, typename TCoefficientType>
+void
+ComplexBSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetInputImage(
+  const TImageType * inputData)
 {
-  if ( inputData )
-    {
+  if (inputData)
+  {
     m_RealFilter->SetInput(inputData);
     m_ImaginaryFilter->SetInput(inputData);
 
-    m_RealInterpolator->SetInputImage( m_RealFilter->GetOutput() );
-    m_ImaginaryInterpolator->SetInputImage( m_ImaginaryFilter->GetOutput() );
+    m_RealInterpolator->SetInputImage(m_RealFilter->GetOutput());
+    m_ImaginaryInterpolator->SetInputImage(m_ImaginaryFilter->GetOutput());
 
     Superclass::SetInputImage(inputData);
-    }
+  }
 }
 
-template< typename TImageType, typename TCoordRep, typename TCoefficientType >
-void ComplexBSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
-::SetSplineOrder(unsigned int SplineOrder)
+template <typename TImageType, typename TCoordRep, typename TCoefficientType>
+void
+ComplexBSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetSplineOrder(
+  unsigned int SplineOrder)
 {
   m_SplineOrder = SplineOrder;
   m_RealInterpolator->SetSplineOrder(SplineOrder);
   m_ImaginaryInterpolator->SetSplineOrder(SplineOrder);
 }
 
-template< typename TImageType, typename TCoordRep, typename TCoefficientType >
-typename ComplexBSplineInterpolateImageFunction< TImageType, TCoordRep,
-                                                 TCoefficientType >::OutputType ComplexBSplineInterpolateImageFunction<
-  TImageType, TCoordRep, TCoefficientType >
-::EvaluateAtContinuousIndex(const ContinuousIndexType & x) const
+template <typename TImageType, typename TCoordRep, typename TCoefficientType>
+typename ComplexBSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::OutputType
+ComplexBSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::EvaluateAtContinuousIndex(
+  const ContinuousIndexType & x) const
 {
-  typename InterpolatorType::OutputType realPart =
-    m_RealInterpolator->EvaluateAtContinuousIndex(x);
-  typename InterpolatorType::OutputType imagPart =
-    m_ImaginaryInterpolator->EvaluateAtContinuousIndex(x);
-  using ReturnType = typename ComplexBSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >::OutputType;
+  typename InterpolatorType::OutputType realPart = m_RealInterpolator->EvaluateAtContinuousIndex(x);
+  typename InterpolatorType::OutputType imagPart = m_ImaginaryInterpolator->EvaluateAtContinuousIndex(x);
+  using ReturnType =
+    typename ComplexBSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::OutputType;
 
   return ReturnType(realPart, imagPart);
 }

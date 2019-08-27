@@ -51,7 +51,8 @@
 #include "itkPointSet.h"
 // Software Guide : EndCodeSnippet
 
-int main(int, char *[])
+int
+main(int, char *[])
 {
   //  Software Guide : BeginLatex
   //
@@ -69,7 +70,7 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   constexpr unsigned int Dimension = 3;
-  using PixelType = itk::CovariantVector< float, Dimension >;
+  using PixelType = itk::CovariantVector<float, Dimension>;
   // Software Guide : EndCodeSnippet
 
 
@@ -81,8 +82,8 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using PointSetType = itk::PointSet< PixelType, Dimension >;
-  PointSetType::Pointer  pointSet = PointSetType::New();
+  using PointSetType = itk::PointSet<PixelType, Dimension>;
+  PointSetType::Pointer pointSet = PointSetType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -98,25 +99,25 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  PointSetType::PixelType   gradient;
-  PointSetType::PointType   point;
+  PointSetType::PixelType gradient;
+  PointSetType::PointType point;
 
-  unsigned int pointId =  0;
+  unsigned int     pointId = 0;
   constexpr double radius = 300.0;
 
-  for(unsigned int i=0; i<360; i++)
-    {
+  for (unsigned int i = 0; i < 360; i++)
+  {
     const double angle = i * std::atan(1.0) / 45.0;
-    point[0] = radius * std::sin( angle );
-    point[1] = radius * std::cos( angle );
-    point[2] = 1.0;   // flat on the Z plane
-    gradient[0] =  std::sin(angle);
-    gradient[1] =  std::cos(angle);
-    gradient[2] = 0.0;  // flat on the Z plane
-    pointSet->SetPoint( pointId, point );
-    pointSet->SetPointData( pointId, gradient );
+    point[0] = radius * std::sin(angle);
+    point[1] = radius * std::cos(angle);
+    point[2] = 1.0; // flat on the Z plane
+    gradient[0] = std::sin(angle);
+    gradient[1] = std::cos(angle);
+    gradient[2] = 0.0; // flat on the Z plane
+    pointSet->SetPoint(pointId, point);
+    pointSet->SetPointData(pointId, gradient);
     pointId++;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 
@@ -139,24 +140,24 @@ int main(int, char *[])
   // Software Guide : BeginCodeSnippet
   using PointDataIterator = PointSetType::PointDataContainer::ConstIterator;
   PointDataIterator pixelIterator = pointSet->GetPointData()->Begin();
-  PointDataIterator pixelEnd      = pointSet->GetPointData()->End();
+  PointDataIterator pixelEnd = pointSet->GetPointData()->End();
 
   using PointIterator = PointSetType::PointsContainer::Iterator;
   PointIterator pointIterator = pointSet->GetPoints()->Begin();
-  PointIterator pointEnd      = pointSet->GetPoints()->End();
+  PointIterator pointEnd = pointSet->GetPoints()->End();
 
-  while( pixelIterator != pixelEnd  && pointIterator != pointEnd )
-    {
-    point    = pointIterator.Value();
+  while (pixelIterator != pixelEnd && pointIterator != pointEnd)
+  {
+    point = pointIterator.Value();
     gradient = pixelIterator.Value();
-    for(unsigned int i=0; i<Dimension; i++)
-      {
+    for (unsigned int i = 0; i < Dimension; i++)
+    {
       point[i] += gradient[i];
-      }
+    }
     pointIterator.Value() = point;
     ++pixelIterator;
     ++pointIterator;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 
@@ -182,12 +183,12 @@ int main(int, char *[])
   //  We can finally visit all the points and print out the new values.
   //
   pointIterator = pointSet->GetPoints()->Begin();
-  pointEnd      = pointSet->GetPoints()->End();
-  while( pointIterator != pointEnd )
-    {
+  pointEnd = pointSet->GetPoints()->End();
+  while (pointIterator != pointEnd)
+  {
     std::cout << pointIterator.Value() << std::endl;
     ++pointIterator;
-    }
+  }
 
 
   return EXIT_SUCCESS;

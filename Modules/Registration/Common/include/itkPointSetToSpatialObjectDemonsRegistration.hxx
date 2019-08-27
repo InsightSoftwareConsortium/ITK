@@ -25,21 +25,21 @@ namespace itk
 /**
  * Constructor
  */
-template< typename TFixedPointSet, typename TMovingSpatialObject >
-PointSetToSpatialObjectDemonsRegistration< TFixedPointSet, TMovingSpatialObject >
-::PointSetToSpatialObjectDemonsRegistration()
+template <typename TFixedPointSet, typename TMovingSpatialObject>
+PointSetToSpatialObjectDemonsRegistration<TFixedPointSet,
+                                          TMovingSpatialObject>::PointSetToSpatialObjectDemonsRegistration()
 {
-  m_FixedPointSet           = nullptr; // has to be provided by the user.
-  m_MovingSpatialObject     = nullptr; // has to be provided by the user.
+  m_FixedPointSet = nullptr;       // has to be provided by the user.
+  m_MovingSpatialObject = nullptr; // has to be provided by the user.
 }
 
 /**
  * PrintSelf
  */
-template< typename TFixedPointSet, typename TMovingSpatialObject >
+template <typename TFixedPointSet, typename TMovingSpatialObject>
 void
-PointSetToSpatialObjectDemonsRegistration< TFixedPointSet, TMovingSpatialObject >
-::PrintSelf(std::ostream & os, Indent indent) const
+PointSetToSpatialObjectDemonsRegistration<TFixedPointSet, TMovingSpatialObject>::PrintSelf(std::ostream & os,
+                                                                                           Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Fixed PointSet: " << m_FixedPointSet.GetPointer() << std::endl;

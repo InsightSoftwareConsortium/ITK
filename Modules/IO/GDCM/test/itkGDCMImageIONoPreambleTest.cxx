@@ -24,50 +24,52 @@
 /** This test verifies itkGDCMImageIO can read
  *  DICOM files that contain no preamble
  */
-int itkGDCMImageIONoPreambleTest(int argc, char *argv[] )
+int
+itkGDCMImageIONoPreambleTest(int argc, char * argv[])
 {
-  if(argc < 2)
-    {
+  if (argc < 2)
+  {
     std::cerr << "Usage: " << argv[0] << " DicomImage\n";
     return EXIT_FAILURE;
-    }
+  }
 
   using InputPixelType = short;
-  using InputImageType = itk::Image< InputPixelType, 3 >;
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using InputImageType = itk::Image<InputPixelType, 3>;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
   using ImageIOType = itk::GDCMImageIO;
 
   ImageIOType::Pointer dcmImageIO = ImageIOType::New();
-  bool canRead = dcmImageIO->CanReadFile( argv[1] );
+  bool                 canRead = dcmImageIO->CanReadFile(argv[1]);
   if (!canRead)
-    {
+  {
     std::cerr << "Cannot read file " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
-  reader->SetImageIO( dcmImageIO );
+  reader->SetFileName(argv[1]);
+  reader->SetImageIO(dcmImageIO);
 
   try
-    {
+  {
     reader->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "exception in file reader " << std::endl;
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   InputImageType::SizeType extentSize;
   extentSize = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
-  std::cout << "Read image dimensions: (" << extentSize[0] << ", " << extentSize[1] << ", "  << extentSize[2] << ")" << std::endl;
+  std::cout << "Read image dimensions: (" << extentSize[0] << ", " << extentSize[1] << ", " << extentSize[2] << ")"
+            << std::endl;
   if (extentSize[0] == 0 || extentSize[1] == 0 || extentSize[2] == 0)
-    {
+  {
     std::cerr << "File read but empty " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

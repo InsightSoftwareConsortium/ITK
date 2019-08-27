@@ -28,110 +28,105 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-SimpleContourExtractorImageFilter< TInputImage, TOutputImage >
-::SimpleContourExtractorImageFilter() :
-  m_InputForegroundValue( NumericTraits< InputPixelType >::max() ),
-  m_InputBackgroundValue( NumericTraits< InputPixelType >::ZeroValue() ),
-  m_OutputForegroundValue( NumericTraits< OutputPixelType >::max() ),
-  m_OutputBackgroundValue( NumericTraits< OutputPixelType >::ZeroValue() )
+template <typename TInputImage, typename TOutputImage>
+SimpleContourExtractorImageFilter<TInputImage, TOutputImage>::SimpleContourExtractorImageFilter()
+  : m_InputForegroundValue(NumericTraits<InputPixelType>::max())
+  , m_InputBackgroundValue(NumericTraits<InputPixelType>::ZeroValue())
+  , m_OutputForegroundValue(NumericTraits<OutputPixelType>::max())
+  , m_OutputBackgroundValue(NumericTraits<OutputPixelType>::ZeroValue())
 {
   this->DynamicMultiThreadingOn();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-SimpleContourExtractorImageFilter< TInputImage, TOutputImage >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+SimpleContourExtractorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   unsigned int i;
 
-  ZeroFluxNeumannBoundaryCondition< InputImageType > nbc;
+  ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
 
-  ConstNeighborhoodIterator< InputImageType > bit;
-  ImageRegionIterator< OutputImageType >      it;
+  ConstNeighborhoodIterator<InputImageType> bit;
+  ImageRegionIterator<OutputImageType>      it;
 
   // Allocate output
-  typename OutputImageType::Pointer output = this->GetOutput();
-  typename  InputImageType::ConstPointer input  = this->GetInput();
+  typename OutputImageType::Pointer     output = this->GetOutput();
+  typename InputImageType::ConstPointer input = this->GetInput();
 
   // Find the data-set boundary "faces"
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType faceList;
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType > bC;
-  faceList = bC( input, outputRegionForThread, this->GetRadius() );
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                        bC;
+  faceList = bC(input, outputRegionForThread, this->GetRadius());
 
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType::iterator fit;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
 
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
-  for ( fit = faceList.begin(); fit != faceList.end(); ++fit )
-    {
-    bit = ConstNeighborhoodIterator< InputImageType >(this->GetRadius(),
-                                                      input, *fit);
+  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
+  {
+    bit = ConstNeighborhoodIterator<InputImageType>(this->GetRadius(), input, *fit);
     unsigned int neighborhoodSize = bit.Size();
-    it = ImageRegionIterator< OutputImageType >(output, *fit);
+    it = ImageRegionIterator<OutputImageType>(output, *fit);
 
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 
     bool bIsOnContour;
 
-    while ( !bit.IsAtEnd() )
-      {
+    while (!bit.IsAtEnd())
+    {
       // first test
       // if current pixel is not on, let's continue
-      if ( bit.GetCenterPixel() == m_InputForegroundValue )
-        {
+      if (bit.GetCenterPixel() == m_InputForegroundValue)
+      {
         bIsOnContour = false;
 
-        for ( i = 0; i < neighborhoodSize; ++i )
-          {
+        for (i = 0; i < neighborhoodSize; ++i)
+        {
           // second test if at least one neighbour pixel is off
           // the center pixel belongs to contour
-          if ( bit.GetPixel(i) == m_InputBackgroundValue )
-            {
+          if (bit.GetPixel(i) == m_InputBackgroundValue)
+          {
             bIsOnContour = true;
             break;
-            }
           }
+        }
 
         // set pixel center pixel value weither it is or not on contour
-        if ( bIsOnContour )
-          {
-          it.Set(m_OutputForegroundValue);
-          }
-        else
-          {
-          it.Set(m_OutputBackgroundValue);
-          }
-        }
-      else
+        if (bIsOnContour)
         {
-        it.Set(m_OutputBackgroundValue);
+          it.Set(m_OutputForegroundValue);
         }
+        else
+        {
+          it.Set(m_OutputBackgroundValue);
+        }
+      }
+      else
+      {
+        it.Set(m_OutputBackgroundValue);
+      }
 
       ++bit;
       ++it;
-      }
     }
+  }
 }
 
-template< typename TInputImage, typename TOutput >
+template <typename TInputImage, typename TOutput>
 void
-SimpleContourExtractorImageFilter< TInputImage, TOutput >
-::PrintSelf(
-  std::ostream & os,
-  Indent indent) const
+SimpleContourExtractorImageFilter<TInputImage, TOutput>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Input Foreground Value: "
-     << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_InputForegroundValue ) << std::endl;
+     << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputForegroundValue) << std::endl;
   os << indent << "Input Background Value: "
-     << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_InputBackgroundValue ) << std::endl;
+     << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputBackgroundValue) << std::endl;
   os << indent << "Output Foreground Value: "
-     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( m_OutputForegroundValue ) << std::endl;
+     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutputForegroundValue) << std::endl;
   os << indent << "Output Background Value: "
-     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( m_OutputBackgroundValue ) << std::endl;
+     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutputBackgroundValue) << std::endl;
 }
 } // end namespace itk
 

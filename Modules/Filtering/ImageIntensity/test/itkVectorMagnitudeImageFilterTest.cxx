@@ -19,7 +19,8 @@
 #include "itkVectorMagnitudeImageFilter.h"
 #include "itkImageRegionIterator.h"
 
-int itkVectorMagnitudeImageFilterTest(int, char* [] )
+int
+itkVectorMagnitudeImageFilterTest(int, char *[])
 {
   // Declare the type of the pixels
   using VectorPixelType = itk::CovariantVector<float, 3>;
@@ -35,11 +36,11 @@ int itkVectorMagnitudeImageFilterTest(int, char* [] )
   VectorImageType::IndexType start;
   start.Fill(0);
 
-  VectorImageType::RegionType region(start,size);
+  VectorImageType::RegionType region(start, size);
 
   // Construct an image
   VectorImageType::Pointer image = VectorImageType::New();
-  image->SetRegions( region );
+  image->SetRegions(region);
   image->Allocate();
 
   // Create a default pixel
@@ -53,28 +54,26 @@ int itkVectorMagnitudeImageFilterTest(int, char* [] )
   using VectorIteratorType = itk::ImageRegionIterator<VectorImageType>;
 
   // Create an iterator for the image
-  VectorIteratorType imageIterator( image, image->GetRequestedRegion() );
+  VectorIteratorType imageIterator(image, image->GetRequestedRegion());
 
   // Declare the vector magnitude image filter
-  using myMagnitudeFilterType = itk::VectorMagnitudeImageFilter<
-                                  VectorImageType,
-                                  FloatImageType >;
+  using myMagnitudeFilterType = itk::VectorMagnitudeImageFilter<VectorImageType, FloatImageType>;
 
   // Create the filter
   myMagnitudeFilterType::Pointer magnitude = myMagnitudeFilterType::New();
 
-  magnitude->SetInput( image );
+  magnitude->SetInput(image);
 
   // Now compute the magnitude of the gradient
   try
-    {
+  {
     magnitude->Update();
-    }
-  catch(...)
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Exception thrown during Update() " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Get the filter output
   FloatImageType::Pointer outputImage = magnitude->GetOutput();
@@ -83,25 +82,24 @@ int itkVectorMagnitudeImageFilterTest(int, char* [] )
   using myOutputIteratorType = itk::ImageRegionIterator<FloatImageType>;
 
   // Create an iterator for going through the output image
-  myOutputIteratorType outputIterator( outputImage,
-                            outputImage->GetBufferedRegion() );
+  myOutputIteratorType outputIterator(outputImage, outputImage->GetBufferedRegion());
 
   // Compare the result image to the known result
 
   outputIterator.GoToBegin();
   imageIterator.GoToBegin();
-  while( !outputIterator.IsAtEnd() )
-    {
+  while (!outputIterator.IsAtEnd())
+  {
     // Check if the magnitude of each pixel is 6.0 (to a small tolerance)
-    if(itk::Math::abs(outputIterator.Get() - 6.0) > 1e-5)
-      {
-      std::cerr << "Every pixel magnitude should be 6! This pixel is "
-                << imageIterator.Get() << " and has magnitude " << outputIterator.Get() << std::endl;
+    if (itk::Math::abs(outputIterator.Get() - 6.0) > 1e-5)
+    {
+      std::cerr << "Every pixel magnitude should be 6! This pixel is " << imageIterator.Get() << " and has magnitude "
+                << outputIterator.Get() << std::endl;
       return EXIT_FAILURE;
-      }
+    }
     ++outputIterator;
     ++imageIterator;
-    }
+  }
 
   std::cout << std::endl << "Test PASSED !! " << std::endl;
 

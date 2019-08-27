@@ -44,24 +44,25 @@ namespace itk
  * \ingroup ITKImageFilterBase
  *
  * \sphinx
- * \sphinxexample{Filtering/ImageFilterBase/ApplyKernelToEveryPixelInNonZeroImage,Apply Kernel To Every Pixel In Non-Zero Image}
- * \endsphinx
+ * \sphinxexample{Filtering/ImageFilterBase/ApplyKernelToEveryPixelInNonZeroImage,Apply Kernel To Every Pixel In
+ * Non-Zero Image} \endsphinx
  */
-template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TOperatorValueType =
-            typename TOutputImage::PixelType >
-class ITK_TEMPLATE_EXPORT MaskNeighborhoodOperatorImageFilter:
-  public NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType >
+template <typename TInputImage,
+          typename TMaskImage,
+          typename TOutputImage,
+          typename TOperatorValueType = typename TOutputImage::PixelType>
+class ITK_TEMPLATE_EXPORT MaskNeighborhoodOperatorImageFilter
+  : public NeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MaskNeighborhoodOperatorImageFilter);
 
   /** Standard "Self" & Superclass type alias. */
   using Self = MaskNeighborhoodOperatorImageFilter;
-  using Superclass = NeighborhoodOperatorImageFilter<
-    TInputImage, TOutputImage, TOperatorValueType >;
+  using Superclass = NeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -73,10 +74,10 @@ public:
    * of the two images is assumed to be the same. */
   using OutputPixelType = typename TOutputImage::PixelType;
   using OutputInternalPixelType = typename TOutputImage::InternalPixelType;
-  using InputPixelType = typename  TInputImage::PixelType;
-  using InputInternalPixelType = typename  TInputImage::InternalPixelType;
-  using MaskPixelType = typename   TMaskImage::PixelType;
-  using MaskInternalPixelType = typename   TMaskImage::InternalPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using InputInternalPixelType = typename TInputImage::InternalPixelType;
+  using MaskPixelType = typename TMaskImage::PixelType;
+  using MaskInternalPixelType = typename TMaskImage::InternalPixelType;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
@@ -104,12 +105,14 @@ public:
   /** Set the mask image. Using a mask is optional.  When a mask is
    * specified, the normalized correlation is only calculated for
    * those pixels under the mask. */
-  void SetMaskImage(const TMaskImage *mask);
+  void
+  SetMaskImage(const TMaskImage * mask);
 
   /** Get the mask image. Using a mask is optional.  When a mask is
    * specified, the normalized correlation is only calculated for
    * those pixels under the mask. */
-  const TMaskImage * GetMaskImage() const;
+  const TMaskImage *
+  GetMaskImage() const;
 
   /** Set the output value for the pixels that are not under the mask.
    * Defaults to zero.
@@ -133,33 +136,30 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputEqualityComparableCheck,
-                   ( Concept::EqualityComparable< OutputPixelType > ) );
-  itkConceptMacro( SameDimensionCheck1,
-                   ( Concept::SameDimension< InputImageDimension, ImageDimension > ) );
-  itkConceptMacro( SameDimensionCheck2,
-                   ( Concept::SameDimension< InputImageDimension, MaskImageDimension > ) );
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< InputPixelType, OutputPixelType > ) );
-  itkConceptMacro( OperatorConvertibleToOutputCheck,
-                   ( Concept::Convertible< OperatorValueType, OutputPixelType > ) );
-  itkConceptMacro( OutputOStreamWritable,
-                   ( Concept::OStreamWritable< OutputPixelType > ) );
+  itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputPixelType>));
+  itkConceptMacro(SameDimensionCheck1, (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  itkConceptMacro(SameDimensionCheck2, (Concept::SameDimension<InputImageDimension, MaskImageDimension>));
+  itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelType, OutputPixelType>));
+  itkConceptMacro(OperatorConvertibleToOutputCheck, (Concept::Convertible<OperatorValueType, OutputPixelType>));
+  itkConceptMacro(OutputOStreamWritable, (Concept::OStreamWritable<OutputPixelType>));
   // End concept checking
 #endif
 
 protected:
-  MaskNeighborhoodOperatorImageFilter():m_DefaultValue(NumericTraits< OutputPixelType >::ZeroValue())
-    {}
+  MaskNeighborhoodOperatorImageFilter()
+    : m_DefaultValue(NumericTraits<OutputPixelType>::ZeroValue())
+  {}
   ~MaskNeighborhoodOperatorImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** MaskNeighborhoodOperatorImageFilter needs to request enough of an
    * input image to account for template size.  The input requested
    * region is expanded by the radius of the template.  If the request
    * extends past the LargestPossibleRegion for the input, the request
    * is cropped by the LargestPossibleRegion. */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** MaskNeighborhoodOperatorImageFilter can be implemented as a
    * multithreaded filter.  Therefore, this implementation provides a
@@ -172,17 +172,18 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
 private:
   OutputPixelType m_DefaultValue;
-  bool            m_UseDefaultValue{true};
+  bool            m_UseDefaultValue{ true };
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMaskNeighborhoodOperatorImageFilter.hxx"
+#  include "itkMaskNeighborhoodOperatorImageFilter.hxx"
 #endif
 
 #endif

@@ -22,14 +22,13 @@
 
 namespace itk
 {
-template< typename TTreeType >
-class ITK_TEMPLATE_EXPORT ChildTreeIterator:public TreeIteratorBase< TTreeType >
+template <typename TTreeType>
+class ITK_TEMPLATE_EXPORT ChildTreeIterator : public TreeIteratorBase<TTreeType>
 {
 public:
-
   /** Typedefs */
   using Self = ChildTreeIterator;
-  using Superclass = TreeIteratorBase< TTreeType >;
+  using Superclass = TreeIteratorBase<TTreeType>;
   using TreeType = TTreeType;
   using ValueType = typename TTreeType::ValueType;
   using TreeNodeType = typename Superclass::TreeNodeType;
@@ -37,54 +36,59 @@ public:
   using NodeType = typename Superclass::NodeType;
 
   /** Constructor */
-  ChildTreeIterator(TreeType *tree, const TreeNodeType *start = nullptr);
+  ChildTreeIterator(TreeType * tree, const TreeNodeType * start = nullptr);
 
   /** Constructor */
-  ChildTreeIterator(const TreeIteratorBase< TTreeType > & iterator);
+  ChildTreeIterator(const TreeIteratorBase<TTreeType> & iterator);
 
   /** Get the type of the iterator */
-  NodeType GetType() const override;
+  NodeType
+  GetType() const override;
 
   /** Go to a specific child node */
-  bool GoToChild(ChildIdentifier number = 0) override;
+  bool
+  GoToChild(ChildIdentifier number = 0) override;
 
   /** Go to a parent node */
-  bool GoToParent() override;
+  bool
+  GoToParent() override;
 
   /** Clone function */
-  TreeIteratorBase< TTreeType > * Clone() override;
+  TreeIteratorBase<TTreeType> *
+  Clone() override;
 
   /** operator = */
-  Self & operator=(Superclass & iterator)
+  Self &
+  operator=(Superclass & iterator)
   {
-    if(this != &iterator)
-      {
+    if (this != &iterator)
+    {
       Superclass::operator=(iterator);
-      auto & it = static_cast< ChildTreeIterator< TTreeType > & >( iterator );
+      auto &      it = static_cast<ChildTreeIterator<TTreeType> &>(iterator);
       m_ListPosition = it.m_ListPosition;
       m_ParentNode = it.m_ParentNode;
-      }
+    }
     return *this;
   }
 
 protected:
-
   /** Get the next value */
-  const ValueType & Next() override;
+  const ValueType &
+  Next() override;
 
   /** Return true if the next value exists */
-  bool HasNext() const override;
+  bool
+  HasNext() const override;
 
 private:
-
-  mutable ChildIdentifier  m_ListPosition;
-  TreeNodeType *           m_ParentNode;
+  mutable ChildIdentifier m_ListPosition;
+  TreeNodeType *          m_ParentNode;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkChildTreeIterator.hxx"
+#  include "itkChildTreeIterator.hxx"
 #endif
 
 #endif

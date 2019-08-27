@@ -58,11 +58,12 @@ public:
    * Defines the default behavior for printing out this element
    * \param os An output stream
    */
-  virtual void Print(std::ostream & os) const;
+  virtual void
+  Print(std::ostream & os) const;
 
   // Declare the datastructure that will be used to hold the
   // dictionary.
-  using MetaDataDictionaryMapType = std::map< std::string, MetaDataObjectBase::Pointer >;
+  using MetaDataDictionaryMapType = std::map<std::string, MetaDataObjectBase::Pointer>;
   using Iterator = MetaDataDictionaryMapType::iterator;
   using ConstIterator = MetaDataDictionaryMapType::const_iterator;
 
@@ -72,8 +73,10 @@ public:
   MetaDataDictionary(const MetaDataDictionary &);
   MetaDataDictionary(MetaDataDictionary &&) = default;
   // operator =
-  MetaDataDictionary & operator=(const MetaDataDictionary &);
-  MetaDataDictionary & operator=(MetaDataDictionary &&) = default;
+  MetaDataDictionary &
+  operator=(const MetaDataDictionary &);
+  MetaDataDictionary &
+  operator=(MetaDataDictionary &&) = default;
 
   // Destructor
   virtual ~MetaDataDictionary();
@@ -81,7 +84,8 @@ public:
   /** Returns a vector of keys to the key/value entries in the
    * dictionary.  Iterate through the dictionary using these keys.
    */
-  std::vector< std::string > GetKeys() const;
+  std::vector<std::string>
+  GetKeys() const;
 
   // Implement map's api. On some Micorsoft compilers, stl containers
   // cannot be exported. This causes problems when building DLL's.
@@ -94,11 +98,15 @@ public:
   // If the key does not exist then nullptr is returned.
   const MetaDataObjectBase * operator[](const std::string &) const;
 
-  const MetaDataObjectBase * Get(const std::string &) const;
-  void Set(const std::string &, MetaDataObjectBase * );
-  bool HasKey(const std::string &) const;
+  const MetaDataObjectBase *
+  Get(const std::string &) const;
+  void
+  Set(const std::string &, MetaDataObjectBase *);
+  bool
+  HasKey(const std::string &) const;
 
-  bool Erase(const std::string&);
+  bool
+  Erase(const std::string &);
 
   /** \warning the following functions SHOULD NOT be used with
    * the visual studio 6 compiler since iterator outside of the dll
@@ -106,36 +114,46 @@ public:
 
   /** Returns an iterator to the beginning of the map */
   // Blacklisted by igenerator.py
-  Iterator  Begin();
+  Iterator
+  Begin();
   // Blacklisted by igenerator.py
-  ConstIterator  Begin() const;
+  ConstIterator
+  Begin() const;
 
   /** Returns an iterator to the end of the map */
   // Blacklisted by igenerator.py
-  Iterator  End();
+  Iterator
+  End();
   // Blacklisted by igenerator.py
-  ConstIterator  End() const;
+  ConstIterator
+  End() const;
 
   /** Returns an iterator matching the string key */
-  Iterator  Find(const std::string & key);
+  Iterator
+  Find(const std::string & key);
 
-  ConstIterator  Find(const std::string & key) const;
+  ConstIterator
+  Find(const std::string & key) const;
 
   /** remove all MetaObjects from dictionary */
-  void Clear();
+  void
+  Clear();
 
-  void Swap( MetaDataDictionary &other );
+  void
+  Swap(MetaDataDictionary & other);
 
 private:
-  bool MakeUnique(void);
+  bool
+  MakeUnique(void);
 
   std::shared_ptr<MetaDataDictionaryMapType> m_Dictionary;
 };
 
-inline void swap(MetaDataDictionary &a, MetaDataDictionary &b )
+inline void
+swap(MetaDataDictionary & a, MetaDataDictionary & b)
 {
   a.Swap(b);
 }
 
-}
+} // namespace itk
 #endif // itkMetaDataDictionary_h

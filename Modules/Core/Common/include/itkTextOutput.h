@@ -24,14 +24,14 @@
 namespace itk
 {
 // this class is used to send output to stdout and not the itk window
-class ITKCommon_EXPORT TextOutput:public OutputWindow
+class ITKCommon_EXPORT TextOutput : public OutputWindow
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TextOutput);
 
   using Self = TextOutput;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(TextOutput, OutputWindow);
@@ -39,13 +39,16 @@ public:
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(TextOutput);
 
-  void DisplayText(const char *s) override
-  { std::cout << s << std::endl; }
+  void
+  DisplayText(const char * s) override
+  {
+    std::cout << s << std::endl;
+  }
 
 protected:
   TextOutput();
   ~TextOutput() override;
 };
-}
+} // namespace itk
 
 #endif

@@ -23,11 +23,10 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TFeatureImage, typename TOutputImage >
-LabelImageToStatisticsLabelMapFilter< TInputImage, TFeatureImage, TOutputImage >
-::LabelImageToStatisticsLabelMapFilter()
+template <typename TInputImage, typename TFeatureImage, typename TOutputImage>
+LabelImageToStatisticsLabelMapFilter<TInputImage, TFeatureImage, TOutputImage>::LabelImageToStatisticsLabelMapFilter()
 {
-  m_BackgroundValue = NumericTraits< OutputImagePixelType >::NonpositiveMin();
+  m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
   m_ComputeFeretDiameter = false;
   m_ComputePerimeter = true;
   m_NumberOfBins = 128;
@@ -35,35 +34,32 @@ LabelImageToStatisticsLabelMapFilter< TInputImage, TFeatureImage, TOutputImage >
   this->SetNumberOfRequiredInputs(2);
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputImage >
+template <typename TInputImage, typename TFeatureImage, typename TOutputImage>
 void
-LabelImageToStatisticsLabelMapFilter< TInputImage, TFeatureImage, TOutputImage >
-::GenerateInputRequestedRegion()
+LabelImageToStatisticsLabelMapFilter<TInputImage, TFeatureImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast< InputImageType * >( this->GetInput() );
-  if ( input )
-    {
-    input->SetRequestedRegion( input->GetLargestPossibleRegion() );
-    }
+  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  if (input)
+  {
+    input->SetRequestedRegion(input->GetLargestPossibleRegion());
+  }
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputImage >
+template <typename TInputImage, typename TFeatureImage, typename TOutputImage>
 void
-LabelImageToStatisticsLabelMapFilter< TInputImage, TFeatureImage, TOutputImage >
-::EnlargeOutputRequestedRegion(DataObject *)
+LabelImageToStatisticsLabelMapFilter<TInputImage, TFeatureImage, TOutputImage>::EnlargeOutputRequestedRegion(
+  DataObject *)
 {
-  this->GetOutput()
-  ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputImage >
+template <typename TInputImage, typename TFeatureImage, typename TOutputImage>
 void
-LabelImageToStatisticsLabelMapFilter< TInputImage, TFeatureImage, TOutputImage >
-::GenerateData()
+LabelImageToStatisticsLabelMapFilter<TInputImage, TFeatureImage, TOutputImage>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
@@ -74,35 +70,36 @@ LabelImageToStatisticsLabelMapFilter< TInputImage, TFeatureImage, TOutputImage >
   this->AllocateOutputs();
 
   typename LabelizerType::Pointer labelizer = LabelizerType::New();
-  labelizer->SetInput( this->GetInput() );
+  labelizer->SetInput(this->GetInput());
   labelizer->SetBackgroundValue(m_BackgroundValue);
-  labelizer->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  labelizer->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(labelizer, .5f);
 
   typename LabelObjectValuatorType::Pointer valuator = LabelObjectValuatorType::New();
-  valuator->SetInput( labelizer->GetOutput() );
-  valuator->SetFeatureImage( this->GetFeatureImage() );
-  valuator->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  valuator->SetInput(labelizer->GetOutput());
+  valuator->SetFeatureImage(this->GetFeatureImage());
+  valuator->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   valuator->SetComputePerimeter(m_ComputePerimeter);
   valuator->SetComputeFeretDiameter(m_ComputeFeretDiameter);
   valuator->SetComputeHistogram(m_ComputeHistogram);
   valuator->SetNumberOfBins(m_NumberOfBins);
   progress->RegisterInternalFilter(valuator, .5f);
 
-  valuator->GraftOutput( this->GetOutput() );
+  valuator->GraftOutput(this->GetOutput());
   valuator->Update();
-  this->GraftOutput( valuator->GetOutput() );
+  this->GraftOutput(valuator->GetOutput());
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputImage >
+template <typename TInputImage, typename TFeatureImage, typename TOutputImage>
 void
-LabelImageToStatisticsLabelMapFilter< TInputImage, TFeatureImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+LabelImageToStatisticsLabelMapFilter<TInputImage, TFeatureImage, TOutputImage>::PrintSelf(std::ostream & os,
+                                                                                          Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "BackgroundValue: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_BackgroundValue ) << std::endl;
+  os << indent
+     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
+     << std::endl;
   os << indent << "ComputeFeretDiameter: " << m_ComputeFeretDiameter << std::endl;
   os << indent << "ComputePerimeter: " << m_ComputePerimeter << std::endl;
   os << indent << "ComputeHistogram: " << m_ComputeHistogram << std::endl;

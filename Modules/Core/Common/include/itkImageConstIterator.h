@@ -80,7 +80,7 @@ namespace itk
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \ingroup ITKCommon
  */
-template< typename TImage >
+template <typename TImage>
 class ITK_TEMPLATE_EXPORT ImageConstIterator
 {
 public:
@@ -130,10 +130,10 @@ public:
 
   /** Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor. */
-  ImageConstIterator():
-    m_Region(),
-    m_PixelAccessor(),
-    m_PixelAccessorFunctor()
+  ImageConstIterator()
+    : m_Region()
+    , m_PixelAccessor()
+    , m_PixelAccessorFunctor()
   {
     m_Image = nullptr;
     m_Buffer = nullptr;
@@ -150,7 +150,7 @@ public:
    * handle to the image is properly reference counted. */
   ImageConstIterator(const Self & it)
   {
-    m_Image = it.m_Image;     // copy the smart pointer
+    m_Image = it.m_Image; // copy the smart pointer
 
     m_Region = it.m_Region;
 
@@ -165,8 +165,7 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageConstIterator(const ImageType *ptr,
-                     const RegionType & region)
+  ImageConstIterator(const ImageType * ptr, const RegionType & region)
   {
     m_Image = ptr;
     m_Buffer = m_Image->GetBufferPointer();
@@ -180,11 +179,12 @@ public:
 
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
-  Self & operator=(const Self & it)
+  Self &
+  operator=(const Self & it)
   {
-    if(this != &it)
-      {
-      m_Image = it.m_Image;     // copy the smart pointer
+    if (this != &it)
+    {
+      m_Image = it.m_Image; // copy the smart pointer
       m_Region = it.m_Region;
 
       m_Buffer = it.m_Buffer;
@@ -194,51 +194,55 @@ public:
       m_PixelAccessor = it.m_PixelAccessor;
       m_PixelAccessorFunctor = it.m_PixelAccessorFunctor;
       m_PixelAccessorFunctor.SetBegin(m_Buffer);
-      }
+    }
     return *this;
   }
 
   /** Set the region of the image to iterate over. */
-  virtual void SetRegion(const RegionType & region)
+  virtual void
+  SetRegion(const RegionType & region)
   {
     m_Region = region;
 
-    if ( region.GetNumberOfPixels() > 0 ) // If region is non-empty
-      {
+    if (region.GetNumberOfPixels() > 0) // If region is non-empty
+    {
       const RegionType & bufferedRegion = m_Image->GetBufferedRegion();
-      itkAssertOrThrowMacro( ( bufferedRegion.IsInside(m_Region) ),
-                             "Region " << m_Region << " is outside of buffered region " << bufferedRegion );
-      }
+      itkAssertOrThrowMacro((bufferedRegion.IsInside(m_Region)),
+                            "Region " << m_Region << " is outside of buffered region " << bufferedRegion);
+    }
 
     // Compute the start offset
-    m_Offset = m_Image->ComputeOffset( m_Region.GetIndex() );
+    m_Offset = m_Image->ComputeOffset(m_Region.GetIndex());
     m_BeginOffset = m_Offset;
 
     // Compute the end offset. If any component of m_Region.GetSize()
     // is zero, the region is not valid and we set the EndOffset
     // to be same as BeginOffset so that iterator end condition is met
     // immediately.
-    IndexType ind( m_Region.GetIndex() );
-    SizeType  size( m_Region.GetSize() );
-    if ( m_Region.GetNumberOfPixels() == 0 )
-      {
+    IndexType ind(m_Region.GetIndex());
+    SizeType  size(m_Region.GetSize());
+    if (m_Region.GetNumberOfPixels() == 0)
+    {
       // region is empty, probably has a size of 0 along one dimension
       m_EndOffset = m_BeginOffset;
-      }
+    }
     else
+    {
+      for (unsigned int i = 0; i < TImage::ImageDimension; ++i)
       {
-      for ( unsigned int i = 0; i < TImage::ImageDimension; ++i )
-        {
-        ind[i] += ( static_cast< IndexValueType >( size[i] ) - 1 );
-        }
+        ind[i] += (static_cast<IndexValueType>(size[i]) - 1);
+      }
       m_EndOffset = m_Image->ComputeOffset(ind);
       m_EndOffset++;
-      }
+    }
   }
 
   /** Get the dimension (size) of the index. */
-  static unsigned int GetImageIteratorDimension()
-  { return TImage::ImageDimension; }
+  static unsigned int
+  GetImageIteratorDimension()
+  {
+    return TImage::ImageDimension;
+  }
 
   /** Comparison operator. Two iterators are the same if they "point to" the
    * same memory location */
@@ -246,7 +250,7 @@ public:
   operator!=(const Self & it) const
   {
     // two iterators are the same if they "point to" the same memory location
-    return ( m_Buffer + m_Offset ) != ( it.m_Buffer + it.m_Offset );
+    return (m_Buffer + m_Offset) != (it.m_Buffer + it.m_Offset);
   }
 
   /** Comparison operator. Two iterators are the same if they "point to" the
@@ -255,7 +259,7 @@ public:
   operator==(const Self & it) const
   {
     // two iterators are the same if they "point to" the same memory location
-    return ( m_Buffer + m_Offset ) == ( it.m_Buffer + it.m_Offset );
+    return (m_Buffer + m_Offset) == (it.m_Buffer + it.m_Offset);
   }
 
   /** Comparison operator. An iterator is "less than" another if it "points to"
@@ -265,7 +269,7 @@ public:
   {
     // an iterator is "less than" another if it "points to" a lower
     // memory location
-    return ( m_Buffer + m_Offset ) <= ( it.m_Buffer + it.m_Offset );
+    return (m_Buffer + m_Offset) <= (it.m_Buffer + it.m_Offset);
   }
 
   /** Comparison operator. An iterator is "less than" another if it "points to"
@@ -275,7 +279,7 @@ public:
   {
     // an iterator is "less than" another if it "points to" a lower
     // memory location
-    return ( m_Buffer + m_Offset ) < ( it.m_Buffer + it.m_Offset );
+    return (m_Buffer + m_Offset) < (it.m_Buffer + it.m_Offset);
   }
 
   /** Comparison operator. An iterator is "greater than" another if it
@@ -285,7 +289,7 @@ public:
   {
     // an iterator is "greater than" another if it "points to" a higher
     // memory location
-    return ( m_Buffer + m_Offset ) >= ( it.m_Buffer + it.m_Offset );
+    return (m_Buffer + m_Offset) >= (it.m_Buffer + it.m_Offset);
   }
 
   /** Comparison operator. An iterator is "greater than" another if it
@@ -295,78 +299,100 @@ public:
   {
     // an iterator is "greater than" another if it "points to" a higher
     // memory location
-    return ( m_Buffer + m_Offset ) > ( it.m_Buffer + it.m_Offset );
+    return (m_Buffer + m_Offset) > (it.m_Buffer + it.m_Offset);
   }
 
   /** Get the index. This provides a read only reference to the index.
    * This causes the index to be calculated from pointer arithmetic and is
    * therefore an expensive operation.
    * \sa SetIndex */
-  const IndexType GetIndex() const
-  { return m_Image->ComputeIndex( static_cast< OffsetValueType >( m_Offset ) );  }
+  const IndexType
+  GetIndex() const
+  {
+    return m_Image->ComputeIndex(static_cast<OffsetValueType>(m_Offset));
+  }
 
   /** Set the index. No bounds checking is performed.
    * \sa GetIndex */
-  virtual void SetIndex(const IndexType & ind)
-  { m_Offset = m_Image->ComputeOffset(ind); }
+  virtual void
+  SetIndex(const IndexType & ind)
+  {
+    m_Offset = m_Image->ComputeOffset(ind);
+  }
 
   /** Get the region that this iterator walks. ImageConstIterators know the
    * beginning and the end of the region of the image to iterate over. */
-  const RegionType & GetRegion() const
-  { return m_Region; }
+  const RegionType &
+  GetRegion() const
+  {
+    return m_Region;
+  }
 
   /** Get the image that this iterator walks. */
-  const ImageType * GetImage() const
-  { return m_Image.GetPointer(); }
+  const ImageType *
+  GetImage() const
+  {
+    return m_Image.GetPointer();
+  }
 
   /** Get the pixel value */
-  PixelType Get() const
-  { return m_PixelAccessorFunctor.Get( *( m_Buffer + m_Offset ) ); }
+  PixelType
+  Get() const
+  {
+    return m_PixelAccessorFunctor.Get(*(m_Buffer + m_Offset));
+  }
 
   /** Return a const reference to the pixel
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  const PixelType & Value() const
-  { return *( m_Buffer + m_Offset ); }
+  const PixelType &
+  Value() const
+  {
+    return *(m_Buffer + m_Offset);
+  }
 
   /** Move an iterator to the beginning of the region. "Begin" is
    * defined as the first pixel in the region. */
-  void GoToBegin()
+  void
+  GoToBegin()
   {
     m_Offset = m_BeginOffset;
   }
 
   /** Move an iterator to the end of the region. "End" is defined as
    * one pixel past the last pixel of the region. */
-  void GoToEnd()
+  void
+  GoToEnd()
   {
     m_Offset = m_EndOffset;
   }
 
   /** Is the iterator at the beginning of the region? "Begin" is defined
    * as the first pixel in the region. */
-  bool IsAtBegin() const
+  bool
+  IsAtBegin() const
   {
-    return ( m_Offset == m_BeginOffset );
+    return (m_Offset == m_BeginOffset);
   }
 
   /** Is the iterator at the end of the region? "End" is defined as one
    * pixel past the last pixel of the region. */
-  bool IsAtEnd() const
+  bool
+  IsAtEnd() const
   {
-    return ( m_Offset == m_EndOffset );
+    return (m_Offset == m_EndOffset);
   }
 
-protected: //made protected so other iterators can access
+protected: // made protected so other iterators can access
   typename TImage::ConstWeakPointer m_Image;
 
-  RegionType m_Region;                             // region to iterate over
+  RegionType m_Region; // region to iterate over
 
   OffsetValueType m_Offset;
   OffsetValueType m_BeginOffset; // offset to first pixel in region
   OffsetValueType m_EndOffset;   // offset to one pixel past last pixel in region
 
-  const InternalPixelType *m_Buffer;
+  const InternalPixelType * m_Buffer;
 
   AccessorType        m_PixelAccessor;
   AccessorFunctorType m_PixelAccessorFunctor;

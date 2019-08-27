@@ -28,15 +28,17 @@
  *
  * itkLoad() is C (not C++) function.
  */
-extern "C" {
-  ITKIOImageBase_EXPORT itk::ObjectFactoryBase* itkLoad();
+extern "C"
+{
+  ITKIOImageBase_EXPORT itk::ObjectFactoryBase *
+                        itkLoad();
 }
 
 
-itk::ObjectFactoryBase* itkLoad()
+itk::ObjectFactoryBase *
+itkLoad()
 {
-  static itk::FileFreeImageIOFactory::Pointer f
-    = itk::FileFreeImageIOFactory::New();
+  static itk::FileFreeImageIOFactory::Pointer f = itk::FileFreeImageIOFactory::New();
   return f;
 }
 
@@ -52,17 +54,15 @@ FileFreeImageIOFactory::FileFreeImageIOFactory()
                          CreateObjectFunction<FileFreeImageIO>::New());
 }
 
-FileFreeImageIOFactory::~FileFreeImageIOFactory()
-{
-}
+FileFreeImageIOFactory::~FileFreeImageIOFactory() {}
 
-const char*
+const char *
 FileFreeImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
-const char*
+const char *
 FileFreeImageIOFactory::GetDescription() const
 {
   return "ImageIO that creates an in-memory file from a text description";

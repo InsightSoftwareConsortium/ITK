@@ -38,23 +38,25 @@ Directory::~Directory()
 /**
  *
  */
-void Directory::PrintSelf(std::ostream & os, Indent indent) const
+void
+Directory::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Directory for: " << m_Internal->GetPath() << "\n";
   os << indent << "Contains the following files:\n";
   indent = indent.GetNextIndent();
   unsigned long numFiles = m_Internal->GetNumberOfFiles();
-  for ( unsigned long i = 0; i < numFiles; ++i )
-    {
+  for (unsigned long i = 0; i < numFiles; ++i)
+  {
     os << indent << m_Internal->GetFile(i) << "\n";
-    }
+  }
 }
 
 /**
  *
  */
-bool Directory::Load(const char *dir)
+bool
+Directory::Load(const char * dir)
 {
   return m_Internal->Load(dir);
 }
@@ -62,7 +64,8 @@ bool Directory::Load(const char *dir)
 /**
  *
  */
-std::vector< std::string >::size_type Directory::GetNumberOfFiles()
+std::vector<std::string>::size_type
+Directory::GetNumberOfFiles()
 {
   return m_Internal->GetNumberOfFiles();
 }
@@ -70,7 +73,8 @@ std::vector< std::string >::size_type Directory::GetNumberOfFiles()
 /**
  *
  */
-const char * Directory::GetFile(unsigned int index)
+const char *
+Directory::GetFile(unsigned int index)
 {
   return m_Internal->GetFile(index);
 }

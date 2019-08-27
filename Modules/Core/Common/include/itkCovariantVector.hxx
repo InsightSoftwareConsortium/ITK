@@ -24,183 +24,165 @@
 
 namespace itk
 {
-template< typename T, unsigned int TVectorDimension >
-CovariantVector< T, TVectorDimension >
-::CovariantVector(const ValueType & r)
-  :
-  Superclass{ r }
-{
-}
+template <typename T, unsigned int TVectorDimension>
+CovariantVector<T, TVectorDimension>::CovariantVector(const ValueType & r)
+  : Superclass{ r }
+{}
 
-template< typename T, unsigned int NVectorDimension >
-CovariantVector< T, NVectorDimension > &
-CovariantVector< T, NVectorDimension >
-::operator=(const ValueType r[NVectorDimension])
+template <typename T, unsigned int NVectorDimension>
+CovariantVector<T, NVectorDimension> &
+CovariantVector<T, NVectorDimension>::operator=(const ValueType r[NVectorDimension])
 {
   BaseArray::operator=(r);
   return *this;
 }
 
-template< typename T, unsigned int NVectorDimension >
-const typename CovariantVector< T, NVectorDimension >::Self &
-CovariantVector< T, NVectorDimension >
-::operator+=(const Self & vec)
+template <typename T, unsigned int NVectorDimension>
+const typename CovariantVector<T, NVectorDimension>::Self &
+CovariantVector<T, NVectorDimension>::operator+=(const Self & vec)
 {
-  for ( unsigned int i = 0; i < NVectorDimension; i++ )
-    {
-    ( *this )[i] += vec[i];
-    }
+  for (unsigned int i = 0; i < NVectorDimension; i++)
+  {
+    (*this)[i] += vec[i];
+  }
   return *this;
 }
 
-template< typename T, unsigned int NVectorDimension >
-const typename CovariantVector< T, NVectorDimension >::Self &
-CovariantVector< T, NVectorDimension >
-::operator-=(const Self & vec)
+template <typename T, unsigned int NVectorDimension>
+const typename CovariantVector<T, NVectorDimension>::Self &
+CovariantVector<T, NVectorDimension>::operator-=(const Self & vec)
 {
-  for ( unsigned int i = 0; i < NVectorDimension; i++ )
-    {
-    ( *this )[i] -= vec[i];
-    }
+  for (unsigned int i = 0; i < NVectorDimension; i++)
+  {
+    (*this)[i] -= vec[i];
+  }
   return *this;
 }
 
-template< typename T, unsigned int NVectorDimension >
-CovariantVector< T, NVectorDimension >
-CovariantVector< T, NVectorDimension >
-::operator-() const
+template <typename T, unsigned int NVectorDimension>
+CovariantVector<T, NVectorDimension>
+CovariantVector<T, NVectorDimension>::operator-() const
 {
   Self result;
 
-  for ( unsigned int i = 0; i < NVectorDimension; i++ )
-    {
-    result[i] = -( *this )[i];
-    }
+  for (unsigned int i = 0; i < NVectorDimension; i++)
+  {
+    result[i] = -(*this)[i];
+  }
   return result;
 }
 
-template< typename T, unsigned int NVectorDimension >
-typename CovariantVector< T, NVectorDimension >::Self
-CovariantVector< T, NVectorDimension >
-::operator+(const Self & vec) const
+template <typename T, unsigned int NVectorDimension>
+typename CovariantVector<T, NVectorDimension>::Self
+CovariantVector<T, NVectorDimension>::operator+(const Self & vec) const
 {
   Self result;
 
-  for ( unsigned int i = 0; i < NVectorDimension; i++ )
-    {
-    result[i] = ( *this )[i] + vec[i];
-    }
+  for (unsigned int i = 0; i < NVectorDimension; i++)
+  {
+    result[i] = (*this)[i] + vec[i];
+  }
   return result;
 }
 
-template< typename T, unsigned int NVectorDimension >
-typename CovariantVector< T, NVectorDimension >::Self
-CovariantVector< T, NVectorDimension >
-::operator-(const Self & vec)  const
+template <typename T, unsigned int NVectorDimension>
+typename CovariantVector<T, NVectorDimension>::Self
+CovariantVector<T, NVectorDimension>::operator-(const Self & vec) const
 {
   Self result;
 
-  for ( unsigned int i = 0; i < NVectorDimension; i++ )
-    {
-    result[i] = ( *this )[i] - vec[i];
-    }
+  for (unsigned int i = 0; i < NVectorDimension; i++)
+  {
+    result[i] = (*this)[i] - vec[i];
+  }
   return result;
 }
 
-template< typename T, unsigned int NVectorDimension >
-typename CovariantVector< T, NVectorDimension >::ValueType
-CovariantVector< T, NVectorDimension >
-::operator*(const Self & other) const
+template <typename T, unsigned int NVectorDimension>
+typename CovariantVector<T, NVectorDimension>::ValueType CovariantVector<T, NVectorDimension>::operator*(
+  const Self & other) const
 {
-  typename NumericTraits< T >::AccumulateType value = NumericTraits< T >::ZeroValue();
-  for ( unsigned int i = 0; i < NVectorDimension; i++ )
-    {
-    value += ( *this )[i] * other[i];
-    }
-  return static_cast< ValueType >( value );
+  typename NumericTraits<T>::AccumulateType value = NumericTraits<T>::ZeroValue();
+  for (unsigned int i = 0; i < NVectorDimension; i++)
+  {
+    value += (*this)[i] * other[i];
+  }
+  return static_cast<ValueType>(value);
 }
 
-template< typename T, unsigned int NVectorDimension >
-typename CovariantVector< T, NVectorDimension >::ValueType
-CovariantVector< T, NVectorDimension >
-::operator*(const Vector< T, NVectorDimension > & other) const
+template <typename T, unsigned int NVectorDimension>
+typename CovariantVector<T, NVectorDimension>::ValueType CovariantVector<T, NVectorDimension>::operator*(
+  const Vector<T, NVectorDimension> & other) const
 {
-  typename NumericTraits< T >::AccumulateType value = NumericTraits< T >::ZeroValue();
-  for ( unsigned int i = 0; i < NVectorDimension; i++ )
-    {
-    value += ( *this )[i] * other[i];
-    }
+  typename NumericTraits<T>::AccumulateType value = NumericTraits<T>::ZeroValue();
+  for (unsigned int i = 0; i < NVectorDimension; i++)
+  {
+    value += (*this)[i] * other[i];
+  }
   return value;
 }
 
-template< typename T, unsigned int NVectorDimension >
-typename CovariantVector< T, NVectorDimension >::RealValueType
-CovariantVector< T, NVectorDimension >
-::GetSquaredNorm() const
+template <typename T, unsigned int NVectorDimension>
+typename CovariantVector<T, NVectorDimension>::RealValueType
+CovariantVector<T, NVectorDimension>::GetSquaredNorm() const
 {
-  RealValueType sum = NumericTraits< RealValueType >::ZeroValue();
+  RealValueType sum = NumericTraits<RealValueType>::ZeroValue();
 
-  for ( unsigned int i = 0; i < NVectorDimension; i++ )
-    {
-    const RealValueType value = ( *this )[i];
+  for (unsigned int i = 0; i < NVectorDimension; i++)
+  {
+    const RealValueType value = (*this)[i];
     sum += value * value;
-    }
+  }
   return sum;
 }
 
-template< typename T, unsigned int NVectorDimension >
-typename CovariantVector< T, NVectorDimension >::RealValueType
-CovariantVector< T, NVectorDimension >
-::GetNorm() const
+template <typename T, unsigned int NVectorDimension>
+typename CovariantVector<T, NVectorDimension>::RealValueType
+CovariantVector<T, NVectorDimension>::GetNorm() const
 {
-  return std::sqrt( this->GetSquaredNorm() );
+  return std::sqrt(this->GetSquaredNorm());
 }
 
-template< typename T, unsigned int NVectorDimension >
-typename CovariantVector< T, NVectorDimension >::RealValueType
-CovariantVector< T, NVectorDimension >
-::Normalize()
+template <typename T, unsigned int NVectorDimension>
+typename CovariantVector<T, NVectorDimension>::RealValueType
+CovariantVector<T, NVectorDimension>::Normalize()
 {
   const RealValueType norm = this->GetNorm();
 
-  for ( unsigned int i = 0; i < NVectorDimension; i++ )
-    {
-    ( *this )[i] /= norm;
-    }
+  for (unsigned int i = 0; i < NVectorDimension; i++)
+  {
+    (*this)[i] /= norm;
+  }
 
   return norm;
 }
 
-template< typename T, unsigned int NVectorDimension >
+template <typename T, unsigned int NVectorDimension>
 void
-CovariantVector< T, NVectorDimension >
-::SetVnlVector(const vnl_vector< T > & v)
+CovariantVector<T, NVectorDimension>::SetVnlVector(const vnl_vector<T> & v)
 {
-  for ( unsigned int i = 0; i < v.size(); i++ )
-    {
-    ( *this )[i] = v(i);
-    }
+  for (unsigned int i = 0; i < v.size(); i++)
+  {
+    (*this)[i] = v(i);
+  }
 }
 
-template< typename T, unsigned int NVectorDimension >
-vnl_vector_ref< T >
-CovariantVector< T, NVectorDimension >
-::GetVnlVector()
+template <typename T, unsigned int NVectorDimension>
+vnl_vector_ref<T>
+CovariantVector<T, NVectorDimension>::GetVnlVector()
 {
-  return vnl_vector_ref< T >( NVectorDimension, this->GetDataPointer() );
+  return vnl_vector_ref<T>(NVectorDimension, this->GetDataPointer());
 }
 
-template< typename T, unsigned int NVectorDimension >
-vnl_vector< T >
-CovariantVector< T, NVectorDimension >
-::GetVnlVector() const
+template <typename T, unsigned int NVectorDimension>
+vnl_vector<T>
+CovariantVector<T, NVectorDimension>::GetVnlVector() const
 {
   // Return a vector_ref<>.  This will be automatically converted to a
   // vnl_vector<>.  We have to use a const_cast<> which would normally
   // be prohibited in a const method, but it is safe to do here
   // because the cast to vnl_vector<> will ultimately copy the data.
-  return vnl_vector_ref< T >( NVectorDimension,
-                              const_cast< T * >( this->GetDataPointer() ) );
+  return vnl_vector_ref<T>(NVectorDimension, const_cast<T *>(this->GetDataPointer()));
 }
 
 } // end namespace itk

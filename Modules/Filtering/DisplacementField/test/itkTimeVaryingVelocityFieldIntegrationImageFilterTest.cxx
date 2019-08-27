@@ -18,70 +18,70 @@
 
 #include "itkTimeVaryingVelocityFieldIntegrationImageFilter.h"
 
-int itkTimeVaryingVelocityFieldIntegrationImageFilterTest( int, char* [] )
+int
+itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int, char *[])
 {
   using VectorType = itk::Vector<double, 3>;
   using DisplacementFieldType = itk::Image<VectorType, 3>;
   using TimeVaryingVelocityFieldType = itk::Image<VectorType, 4>;
 
   TimeVaryingVelocityFieldType::PointType origin;
-  origin.Fill( 0.0 );
+  origin.Fill(0.0);
 
   TimeVaryingVelocityFieldType::SpacingType spacing;
-  spacing.Fill( 2.0 );
+  spacing.Fill(2.0);
 
   TimeVaryingVelocityFieldType::SizeType size;
-  size.Fill( 25 );
+  size.Fill(25);
 
   VectorType displacement1;
-  displacement1.Fill( 0.1 );
+  displacement1.Fill(0.1);
 
-  TimeVaryingVelocityFieldType::Pointer timeVaryingVelocityField =
-    TimeVaryingVelocityFieldType::New();
+  TimeVaryingVelocityFieldType::Pointer timeVaryingVelocityField = TimeVaryingVelocityFieldType::New();
 
-  timeVaryingVelocityField->SetOrigin( origin );
-  timeVaryingVelocityField->SetSpacing( spacing );
-  timeVaryingVelocityField->SetRegions( size );
+  timeVaryingVelocityField->SetOrigin(origin);
+  timeVaryingVelocityField->SetSpacing(spacing);
+  timeVaryingVelocityField->SetRegions(size);
   timeVaryingVelocityField->Allocate();
-  timeVaryingVelocityField->FillBuffer( displacement1 );
+  timeVaryingVelocityField->FillBuffer(displacement1);
 
 
-  using IntegratorType = itk::TimeVaryingVelocityFieldIntegrationImageFilter
-    <TimeVaryingVelocityFieldType, DisplacementFieldType>;
+  using IntegratorType =
+    itk::TimeVaryingVelocityFieldIntegrationImageFilter<TimeVaryingVelocityFieldType, DisplacementFieldType>;
   IntegratorType::Pointer integrator = IntegratorType::New();
-  integrator->SetInput( timeVaryingVelocityField );
-  integrator->SetLowerTimeBound( 0.3 );
-  integrator->SetUpperTimeBound( 0.75 );
-  integrator->SetNumberOfIntegrationSteps( 10 );
+  integrator->SetInput(timeVaryingVelocityField);
+  integrator->SetLowerTimeBound(0.3);
+  integrator->SetUpperTimeBound(0.75);
+  integrator->SetNumberOfIntegrationSteps(10);
   integrator->Update();
 
-  integrator->Print( std::cout, 3 );
+  integrator->Print(std::cout, 3);
 
   DisplacementFieldType::IndexType index;
-  index.Fill( 0 );
+  index.Fill(0);
   VectorType displacement;
 
   IntegratorType::Pointer inverseIntegrator = IntegratorType::New();
-  inverseIntegrator->SetInput( timeVaryingVelocityField );
-  inverseIntegrator->SetLowerTimeBound( 1.0 );
-  inverseIntegrator->SetUpperTimeBound( 0.0 );
-  inverseIntegrator->SetNumberOfIntegrationSteps( 10 );
+  inverseIntegrator->SetInput(timeVaryingVelocityField);
+  inverseIntegrator->SetLowerTimeBound(1.0);
+  inverseIntegrator->SetUpperTimeBound(0.0);
+  inverseIntegrator->SetNumberOfIntegrationSteps(10);
   inverseIntegrator->Update();
 
   // This integration should result in a constant image of value
   // -( 0.1 * 1.0 - ( 0.1 * 0.0 ) ) = -0.1 with ~epsilon deviation
   // due to numerical computations
   const DisplacementFieldType * inverseField = inverseIntegrator->GetOutput();
-  displacement = inverseField->GetPixel( index );
+  displacement = inverseField->GetPixel(index);
 
   std::cout << "Estimated inverse displacement vector: " << displacement << std::endl;
-  if( itk::Math::abs( displacement[0] + 0.101852 ) > 0.01 )
-    {
+  if (itk::Math::abs(displacement[0] + 0.101852) > 0.01)
+  {
     std::cerr << "Failed to produce the correct inverse integration." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  inverseIntegrator->Print( std::cout, 3 );
+  inverseIntegrator->Print(std::cout, 3);
 
   std::cout << inverseIntegrator->GetNameOfClass() << std::endl;
 
@@ -90,14 +90,14 @@ int itkTimeVaryingVelocityFieldIntegrationImageFilterTest( int, char* [] )
   // due to numerical computations
   const DisplacementFieldType * displacementField = integrator->GetOutput();
 
-  displacement = displacementField->GetPixel( index );
+  displacement = displacementField->GetPixel(index);
 
   std::cout << "Estimated forward displacement vector: " << displacement << std::endl;
-  if( itk::Math::abs( displacement[0] - 0.045 ) > 0.0001 )
-    {
+  if (itk::Math::abs(displacement[0] - 0.045) > 0.0001)
+  {
     std::cerr << "Failed to produce the correct forward integration." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

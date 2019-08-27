@@ -32,43 +32,45 @@
 #include <cstdio>
 #include <iomanip>
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFileBase numberOfSlices" << std::endl;
+    std::cerr << argv[0] << "  inputImageFile  outputImageFileBase numberOfSlices"
+              << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   using InputPixelType = float;
   using OutputPixelType = float;
-  using InputImageType = itk::Image< InputPixelType,  2 >;
-  using OutputImageType = itk::Image< OutputPixelType, 2 >;
+  using InputImageType = itk::Image<InputPixelType, 2>;
+  using OutputImageType = itk::Image<OutputPixelType, 2>;
 
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
 
-  using FilterType = itk::LaplacianRecursiveGaussianImageFilter<
-                        InputImageType, OutputImageType >;
+  using FilterType =
+    itk::LaplacianRecursiveGaussianImageFilter<InputImageType, OutputImageType>;
 
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
   FilterType::Pointer laplacian = FilterType::New();
 
-  laplacian->SetNormalizeAcrossScale( true );
+  laplacian->SetNormalizeAcrossScale(true);
 
-  laplacian->SetInput( reader->GetOutput() );
+  laplacian->SetInput(reader->GetOutput());
 
 
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetInput( laplacian->GetOutput() );
+  writer->SetInput(laplacian->GetOutput());
 
 
   //  Software Guide : BeginLatex
@@ -82,19 +84,17 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   int numberOfSlices = std::stoi(argv[3]);
-  for( int slice=0; slice < numberOfSlices; slice++ )
-    {
+  for (int slice = 0; slice < numberOfSlices; slice++)
+  {
     std::ostringstream filename;
-    filename << argv[2]
-             << std::setfill('0') << std::setw(3) << slice
-             << ".mhd";
-    writer->SetFileName( filename.str() );
+    filename << argv[2] << std::setfill('0') << std::setw(3) << slice << ".mhd";
+    writer->SetFileName(filename.str());
 
-    const float sigma = static_cast< float >( slice ) / 10.0 + 1.0;
+    const float sigma = static_cast<float>(slice) / 10.0 + 1.0;
 
-    laplacian->SetSigma( sigma );
+    laplacian->SetSigma(sigma);
     writer->Update();
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 

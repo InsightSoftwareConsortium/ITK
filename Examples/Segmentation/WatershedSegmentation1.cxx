@@ -63,15 +63,18 @@
 #include "itkCastImageFilter.h"
 #include "itkScalarToRGBPixelFunctor.h"
 
-int main( int argc, char *argv[] )
+int
+main(int argc, char * argv[])
 {
-  if (argc < 8 )
-    {
+  if (argc < 8)
+  {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImage outputImage conductanceTerm diffusionIterations lowerThreshold outputScaleLevel gradientMode " << std::endl;
+    std::cerr << " inputImage outputImage conductanceTerm diffusionIterations "
+                 "lowerThreshold outputScaleLevel gradientMode "
+              << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Software Guide : BeginLatex
   //
@@ -85,12 +88,12 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using RGBPixelType = itk::RGBPixel< unsigned char >;
-  using RGBImageType = itk::Image< RGBPixelType, 2 >;
-  using VectorPixelType = itk::Vector< float, 3 >;
-  using VectorImageType = itk::Image< VectorPixelType, 2 >;
-  using LabeledImageType = itk::Image< itk::IdentifierType, 2 >;
-  using ScalarImageType = itk::Image< float, 2 >;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
+  using RGBImageType = itk::Image<RGBPixelType, 2>;
+  using VectorPixelType = itk::Vector<float, 3>;
+  using VectorImageType = itk::Image<VectorPixelType, 2>;
+  using LabeledImageType = itk::Image<itk::IdentifierType, 2>;
+  using ScalarImageType = itk::Image<float, 2>;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -101,11 +104,11 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FileReaderType = itk::ImageFileReader< RGBImageType >;
-  using CastFilterType = itk::CastImageFilter< RGBImageType, VectorImageType >;
+  using FileReaderType = itk::ImageFileReader<RGBImageType>;
+  using CastFilterType = itk::CastImageFilter<RGBImageType, VectorImageType>;
   using DiffusionFilterType =
-    itk::VectorGradientAnisotropicDiffusionImageFilter<
-                        VectorImageType, VectorImageType >;
+    itk::VectorGradientAnisotropicDiffusionImageFilter<VectorImageType,
+                                                       VectorImageType>;
   using GradientMagnitudeFilterType =
     itk::VectorGradientMagnitudeImageFilter<VectorImageType>;
   using WatershedFilterType = itk::WatershedImageFilter<ScalarImageType>;
@@ -134,8 +137,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   DiffusionFilterType::Pointer diffusion = DiffusionFilterType::New();
-  diffusion->SetNumberOfIterations( std::stoi(argv[4]) );
-  diffusion->SetConductanceParameter( std::stod(argv[3]) );
+  diffusion->SetNumberOfIterations(std::stoi(argv[4]));
+  diffusion->SetConductanceParameter(std::stod(argv[3]));
   diffusion->SetTimeStep(0.125);
   // Software Guide : EndCodeSnippet
 
@@ -148,8 +151,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  GradientMagnitudeFilterType::Pointer
-    gradient = GradientMagnitudeFilterType::New();
+  GradientMagnitudeFilterType::Pointer gradient = GradientMagnitudeFilterType::New();
   gradient->SetUsePrincipleComponents(std::stoi(argv[7]));
   // Software Guide : EndCodeSnippet
 
@@ -165,8 +167,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   WatershedFilterType::Pointer watershed = WatershedFilterType::New();
-  watershed->SetLevel( std::stod(argv[6]) );
-  watershed->SetThreshold( std::stod(argv[5]) );
+  watershed->SetLevel(std::stod(argv[6]));
+  watershed->SetThreshold(std::stod(argv[5]));
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -186,11 +188,9 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ColormapFunctorType =
-    itk::Functor::ScalarToRGBPixelFunctor<unsigned long>;
+  using ColormapFunctorType = itk::Functor::ScalarToRGBPixelFunctor<unsigned long>;
   using ColormapFilterType =
-    itk::UnaryFunctorImageFilter<LabeledImageType,
-                                 RGBImageType, ColormapFunctorType>;
+    itk::UnaryFunctorImageFilter<LabeledImageType, RGBImageType, ColormapFunctorType>;
   ColormapFilterType::Pointer colormapper = ColormapFilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -215,14 +215,14 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch (itk::ExceptionObject &e)
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

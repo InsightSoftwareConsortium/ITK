@@ -35,9 +35,10 @@ namespace itk
  *
  * \ingroup ITKQuadEdgeMesh
  */
-template< typename TCellInterface >
-class ITK_TEMPLATE_EXPORT QuadEdgeMeshLineCell:
-  public TCellInterface, public TCellInterface::CellTraits::QuadEdgeType
+template <typename TCellInterface>
+class ITK_TEMPLATE_EXPORT QuadEdgeMeshLineCell
+  : public TCellInterface
+  , public TCellInterface::CellTraits::QuadEdgeType
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshLineCell);
@@ -45,8 +46,8 @@ public:
   /** Standard class type aliases. */
   // itkCellCommonTypedefs
   using Self = QuadEdgeMeshLineCell;
-  using ConstSelfAutoPointer = AutoPointer< const Self >;
-  using SelfAutoPointer = AutoPointer< Self >;
+  using ConstSelfAutoPointer = AutoPointer<const Self>;
+  using SelfAutoPointer = AutoPointer<Self>;
   using RawPointer = Self *;
   using ConstRawPointer = const Self *;
 
@@ -96,7 +97,11 @@ public:
   itkTypeMacro(QuadEdgeMeshLineCell, TCellInterface);
 
   // accessor to the new QEGeom link that replaces now inheritance.
-  QEType * GetQEGeom() const { return ( m_QuadEdgeGeom ); }
+  QEType *
+  GetQEGeom() const
+  {
+    return (m_QuadEdgeGeom);
+  }
 
 public:
   /** Object memory management methods. */
@@ -104,100 +109,121 @@ public:
   ~QuadEdgeMeshLineCell() override;
 
   /** Accessors for m_Identifier. */
-  void SetIdent(CellIdentifier cid);
+  void
+  SetIdent(CellIdentifier cid);
 
-  CellIdentifier GetIdent();
+  CellIdentifier
+  GetIdent();
 
   /** TCellInterface abstract methods definition. */
-  void Accept(CellIdentifier cellId, MultiVisitor *mv) override;
+  void
+  Accept(CellIdentifier cellId, MultiVisitor * mv) override;
 
-  CellGeometry GetType() const override;
+  CellGeometry
+  GetType() const override;
 
   /** Topology related methods. */
-  static int GetTopologyId();
+  static int
+  GetTopologyId();
 
-  unsigned int GetDimension() const override;
+  unsigned int
+  GetDimension() const override;
 
-  unsigned int GetNumberOfPoints() const override;
+  unsigned int
+  GetNumberOfPoints() const override;
 
-  CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const override;
+  CellFeatureCount
+  GetNumberOfBoundaryFeatures(int dimension) const override;
 
-  bool GetBoundaryFeature(int dimension,
-                                  CellFeatureIdentifier cellId,
-                                  CellAutoPointer & cell) override;
+  bool
+  GetBoundaryFeature(int dimension, CellFeatureIdentifier cellId, CellAutoPointer & cell) override;
 
   /** Useless methods. */
-  void MakeCopy(CellAutoPointer & cell) const override
+  void
+  MakeCopy(CellAutoPointer & cell) const override
   {
     cell.TakeOwnership(new Self);
-    cell->SetPointId( 0, this->GetQEGeom()->GetOrigin() );
-    cell->SetPointId( 1, this->GetQEGeom()->GetDestination() );
+    cell->SetPointId(0, this->GetQEGeom()->GetOrigin());
+    cell->SetPointId(1, this->GetQEGeom()->GetDestination());
   }
 
   /** ITK Cell API - Iterator-related methods.
    *  The Set methods will work, not the Get.
    *  Hopefully never used ...
    */
-  void SetPointIds(PointIdConstIterator first) override;
+  void
+  SetPointIds(PointIdConstIterator first) override;
 
-  void SetPointIds(PointIdConstIterator first,
-                           PointIdConstIterator last) override;
+  void
+  SetPointIds(PointIdConstIterator first, PointIdConstIterator last) override;
 
-  void SetPointId(int localId, PointIdentifier pId) override;
+  void
+  SetPointId(int localId, PointIdentifier pId) override;
 
-  PointIdIterator PointIdsBegin() override
+  PointIdIterator
+  PointIdsBegin() override
   {
     SynchronizePointsAPI();
     return &m_PointIds[0];
   }
 
-  PointIdIterator PointIdsEnd() override
+  PointIdIterator
+  PointIdsEnd() override
   {
     SynchronizePointsAPI();
-    return ( &m_PointIds[1] + 1 );
+    return (&m_PointIds[1] + 1);
   }
 
-  PointIdConstIterator GetPointIds() const override
+  PointIdConstIterator
+  GetPointIds() const override
   {
     SynchronizePointsAPI();
     return &m_PointIds[0];
   }
 
-  PointIdConstIterator PointIdsBegin() const override
+  PointIdConstIterator
+  PointIdsBegin() const override
   {
     SynchronizePointsAPI();
     return &m_PointIds[0];
   }
 
-  PointIdConstIterator PointIdsEnd() const override
+  PointIdConstIterator
+  PointIdsEnd() const override
   {
     SynchronizePointsAPI();
-    return ( &m_PointIds[1] + 1 );
+    return (&m_PointIds[1] + 1);
   }
 
   /** helper for backward compatibility */
-  void SynchronizePointsAPI() const
+  void
+  SynchronizePointsAPI() const
   {
     m_PointIds[0] = GetQEGeom()->GetOrigin();
     m_PointIds[1] = GetQEGeom()->GetDestination();
   }
 
   /** QuadEdge internal flavor of cell API */
-  virtual void InternalSetPointIds(PointIdInternalConstIterator first);
+  virtual void
+  InternalSetPointIds(PointIdInternalConstIterator first);
 
-  virtual void InternalSetPointIds(
-    PointIdInternalConstIterator first,
-    PointIdInternalConstIterator last);
+  virtual void
+  InternalSetPointIds(PointIdInternalConstIterator first, PointIdInternalConstIterator last);
 
-  virtual PointIdInternalIterator InternalPointIdsBegin();
+  virtual PointIdInternalIterator
+  InternalPointIdsBegin();
 
-  virtual PointIdInternalIterator InternalPointIdsEnd();
+  virtual PointIdInternalIterator
+  InternalPointIdsEnd();
 
-  virtual PointIdInternalConstIterator InternalGetPointIds() const;
+  virtual PointIdInternalConstIterator
+  InternalGetPointIds() const;
 
-  virtual PointIdInternalConstIterator InternalPointIdsBegin() const;
+  virtual PointIdInternalConstIterator
+  InternalPointIdsBegin() const;
 
-  virtual PointIdInternalConstIterator InternalPointIdsEnd() const;
+  virtual PointIdInternalConstIterator
+  InternalPointIdsEnd() const;
 
 private:
   /**
@@ -211,7 +237,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuadEdgeMeshLineCell.hxx"
+#  include "itkQuadEdgeMeshLineCell.hxx"
 #endif
 
 #endif

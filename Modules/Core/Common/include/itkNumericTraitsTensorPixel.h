@@ -40,39 +40,37 @@ namespace itk
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
-template< typename T, unsigned int D >
-class NumericTraits< SymmetricSecondRankTensor< T, D > >
+template <typename T, unsigned int D>
+class NumericTraits<SymmetricSecondRankTensor<T, D>>
 {
 private:
-
-  using ElementAbsType = typename NumericTraits< T >::AbsType;
-  using ElementAccumulateType = typename NumericTraits< T >::AccumulateType;
-  using ElementFloatType = typename NumericTraits< T >::FloatType;
-  using ElementPrintType = typename NumericTraits< T >::PrintType;
-  using ElementRealType = typename NumericTraits< T >::RealType;
+  using ElementAbsType = typename NumericTraits<T>::AbsType;
+  using ElementAccumulateType = typename NumericTraits<T>::AccumulateType;
+  using ElementFloatType = typename NumericTraits<T>::FloatType;
+  using ElementPrintType = typename NumericTraits<T>::PrintType;
+  using ElementRealType = typename NumericTraits<T>::RealType;
 
 public:
-
   /** Return the type of the native component type. */
   using ValueType = T;
 
-  using Self = SymmetricSecondRankTensor< T, D >;
+  using Self = SymmetricSecondRankTensor<T, D>;
 
   /** Unsigned component type */
-  using AbsType = SymmetricSecondRankTensor< ElementAbsType, D >;
+  using AbsType = SymmetricSecondRankTensor<ElementAbsType, D>;
 
   /** Accumulation of addition and multiplication. */
-  using AccumulateType = SymmetricSecondRankTensor< ElementAccumulateType, D >;
+  using AccumulateType = SymmetricSecondRankTensor<ElementAccumulateType, D>;
 
   /** Typedef for operations that use floating point instead of real precision
-    */
-  using FloatType = SymmetricSecondRankTensor< ElementFloatType, D >;
+   */
+  using FloatType = SymmetricSecondRankTensor<ElementFloatType, D>;
 
   /** Return the type that can be printed. */
-  using PrintType = SymmetricSecondRankTensor< ElementPrintType, D >;
+  using PrintType = SymmetricSecondRankTensor<ElementPrintType, D>;
 
   /** Type for real-valued scalar operations. */
-  using RealType = SymmetricSecondRankTensor< ElementRealType, D >;
+  using RealType = SymmetricSecondRankTensor<ElementRealType, D>;
 
   /** Type for real-valued scalar operations. */
   using ScalarRealType = ElementRealType;
@@ -85,99 +83,114 @@ public:
    * \note minimum value for floating pointer types is defined as
    * minimum positive normalize value.
    */
-  static const Self max(const Self &)
+  static const Self
+  max(const Self &)
   {
-    return Self( NumericTraits< T >::max() );
+    return Self(NumericTraits<T>::max());
   }
 
-  static const Self min(const Self &)
+  static const Self
+  min(const Self &)
   {
-    return Self( NumericTraits< T >::min() );
+    return Self(NumericTraits<T>::min());
   }
 
-  static const Self max()
+  static const Self
+  max()
   {
-    return Self( NumericTraits< T >::max() );
+    return Self(NumericTraits<T>::max());
   }
 
-  static const Self min()
+  static const Self
+  min()
   {
-    return Self( NumericTraits< T >::min() );
+    return Self(NumericTraits<T>::min());
   }
 
-  static const Self NonpositiveMin()
+  static const Self
+  NonpositiveMin()
   {
-    return Self( NumericTraits< T >::NonpositiveMin() );
+    return Self(NumericTraits<T>::NonpositiveMin());
   }
 
-  static const Self ZeroValue()
+  static const Self
+  ZeroValue()
   {
-    return Self( NumericTraits< T >::ZeroValue() );
+    return Self(NumericTraits<T>::ZeroValue());
   }
 
-  static const Self OneValue()
+  static const Self
+  OneValue()
   {
-    return Self( NumericTraits< T >::OneValue() );
+    return Self(NumericTraits<T>::OneValue());
   }
 
-  static const Self NonpositiveMin(const Self &)
+  static const Self
+  NonpositiveMin(const Self &)
   {
     return NonpositiveMin();
   }
 
-  static const Self ZeroValue(const Self &)
+  static const Self
+  ZeroValue(const Self &)
   {
     return ZeroValue();
   }
 
-  static const Self OneValue(const Self &)
+  static const Self
+  OneValue(const Self &)
   {
     return OneValue();
   }
 
-  static constexpr bool IsSigned = NumericTraits< ValueType >::IsSigned;
-  static constexpr bool IsInteger = NumericTraits< ValueType >::IsInteger;
-  static constexpr bool IsComplex = NumericTraits< ValueType >::IsComplex;
+  static constexpr bool IsSigned = NumericTraits<ValueType>::IsSigned;
+  static constexpr bool IsInteger = NumericTraits<ValueType>::IsInteger;
+  static constexpr bool IsComplex = NumericTraits<ValueType>::IsComplex;
 
   /** Fixed length vectors cannot be resized, so an exception will
    *  be thrown if the input size is not valid.  Here, the size refers
    *  to the dimensionality of the unerlying FixedArray, not the
    *  tensor dimensionality. */
-  static void SetLength(SymmetricSecondRankTensor< T, D > & m, const unsigned int s)
+  static void
+  SetLength(SymmetricSecondRankTensor<T, D> & m, const unsigned int s)
   {
-    if ( s != D *( D + 1 ) / 2 )
-      {
+    if (s != D * (D + 1) / 2)
+    {
       itkGenericExceptionMacro(<< "Cannot set the size of a SymmetricSecondRankTensor "
-                               "of dimension " << D << " ( = size of "
-                               << D *( D + 1 ) / 2 << ") to " << s);
-      }
-    m.Fill(NumericTraits< T >::ZeroValue());
+                                  "of dimension "
+                               << D << " ( = size of " << D * (D + 1) / 2 << ") to " << s);
+    }
+    m.Fill(NumericTraits<T>::ZeroValue());
   }
 
   /** Return the size of the underlying FixedArray. */
-  static unsigned int GetLength(const SymmetricSecondRankTensor< T, D > &)
+  static unsigned int
+  GetLength(const SymmetricSecondRankTensor<T, D> &)
   {
     return GetLength();
   }
 
   /** Return the size of the underlying FixedArray. */
-  static unsigned int GetLength()
+  static unsigned int
+  GetLength()
   {
-    return D *( D + 1 ) / 2;
+    return D * (D + 1) / 2;
   }
 
-  static void AssignToArray( const Self & v, MeasurementVectorType & mv )
+  static void
+  AssignToArray(const Self & v, MeasurementVectorType & mv)
   {
     mv = v;
   }
 
-  template<typename TArray>
-  static void AssignToArray( const Self & v, TArray & mv )
+  template <typename TArray>
+  static void
+  AssignToArray(const Self & v, TArray & mv)
   {
-    for( unsigned int i=0; i<GetLength(); i++ )
-      {
+    for (unsigned int i = 0; i < GetLength(); i++)
+    {
       mv[i] = v[i];
-      }
+    }
   }
 
   /** \note: the functions are preferred over the member variables as

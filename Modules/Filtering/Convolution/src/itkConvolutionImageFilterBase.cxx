@@ -21,10 +21,10 @@ namespace itk
 {
 /** Define how to print enumerations */
 std::ostream &
-operator<<( std::ostream & out, const ConvolutionImageFilterOutputRegionType value )
+operator<<(std::ostream & out, const ConvolutionImageFilterOutputRegionType value)
 {
   const char * s = nullptr;
-  switch ( value )
+  switch (value)
   {
     case ConvolutionImageFilterOutputRegionType::SAME:
       s = "ConvolutionImageFilterOutputRegionType::SAME";

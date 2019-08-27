@@ -58,18 +58,17 @@ namespace itk
  * \ingroup MultiThreaded
  * \ingroup ITKDistanceMap
  */
-template< typename TInputImage1, typename TInputImage2 >
-class ITK_TEMPLATE_EXPORT HausdorffDistanceImageFilter:
-  public ImageToImageFilter< TInputImage1, TInputImage1 >
+template <typename TInputImage1, typename TInputImage2>
+class ITK_TEMPLATE_EXPORT HausdorffDistanceImageFilter : public ImageToImageFilter<TInputImage1, TInputImage1>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(HausdorffDistanceImageFilter);
 
   /** Standard Self type alias */
   using Self = HausdorffDistanceImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage1, TInputImage1 >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage1, TInputImage1>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -96,23 +95,27 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage1::ImageDimension;
 
   /** Type to use form computations. */
-  using RealType = typename NumericTraits< InputImage1PixelType >::RealType;
+  using RealType = typename NumericTraits<InputImage1PixelType>::RealType;
 
   /** Set the first input. */
-  void SetInput1(const InputImage1Type *image);
+  void
+  SetInput1(const InputImage1Type * image);
 
   /** Set the second input. */
-  void SetInput2(const InputImage2Type *image);
+  void
+  SetInput2(const InputImage2Type * image);
 
   /** Get the first input. */
-  const InputImage1Type * GetInput1();
+  const InputImage1Type *
+  GetInput1();
 
   /** Get the second input. */
-  const InputImage2Type * GetInput2();
+  const InputImage2Type *
+  GetInput2();
 
   /** Set if image spacing should be used in computing distances. */
   itkSetMacro(UseImageSpacing, bool);
-  itkGetConstMacro( UseImageSpacing, bool );
+  itkGetConstMacro(UseImageSpacing, bool);
 
   /** Return the computed Hausdorff distance. */
   itkGetConstMacro(HausdorffDistance, RealType);
@@ -120,24 +123,27 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( Input1HasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputImage1PixelType > ) );
+  itkConceptMacro(Input1HasNumericTraitsCheck, (Concept::HasNumericTraits<InputImage1PixelType>));
   // End concept checking
 #endif
 
 protected:
   HausdorffDistanceImageFilter();
   ~HausdorffDistanceImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** GenerateData. */
-  void  GenerateData() override;
+  void
+  GenerateData() override;
 
   // Override since the filter needs all the data for the algorithm
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   // Override since the filter produces all of its output
-  void EnlargeOutputRequestedRegion(DataObject *data) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * data) override;
 
 private:
   RealType m_HausdorffDistance;
@@ -147,7 +153,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHausdorffDistanceImageFilter.hxx"
+#  include "itkHausdorffDistanceImageFilter.hxx"
 #endif
 
 #endif

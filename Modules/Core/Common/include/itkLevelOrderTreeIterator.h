@@ -30,80 +30,88 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< typename TTreeType >
-class ITK_TEMPLATE_EXPORT LevelOrderTreeIterator:public TreeIteratorBase< TTreeType >
+template <typename TTreeType>
+class ITK_TEMPLATE_EXPORT LevelOrderTreeIterator : public TreeIteratorBase<TTreeType>
 {
 public:
-
   /** Typedefs */
   using Self = LevelOrderTreeIterator;
-  using Superclass = TreeIteratorBase< TTreeType >;
+  using Superclass = TreeIteratorBase<TTreeType>;
   using TreeType = TTreeType;
   using ValueType = typename TTreeType::ValueType;
   using TreeNodeType = typename Superclass::TreeNodeType;
   using NodeType = typename Superclass::NodeType;
 
   /** Constructor with end level specification */
-  LevelOrderTreeIterator(TreeType *tree, int endLevel = INT_MAX, const TreeNodeType *start = nullptr);
+  LevelOrderTreeIterator(TreeType * tree, int endLevel = INT_MAX, const TreeNodeType * start = nullptr);
 
   /** Constructor with end level specification */
-  LevelOrderTreeIterator(TreeType *tree, int startLevel, int endLevel, const TreeNodeType *start = nullptr);
+  LevelOrderTreeIterator(TreeType * tree, int startLevel, int endLevel, const TreeNodeType * start = nullptr);
 
   ~LevelOrderTreeIterator() override = default;
 
   /** Get the type of the iterator */
-  NodeType GetType() const override;
+  NodeType
+  GetType() const override;
 
   /** Get the start level */
-  int GetStartLevel() const;
+  int
+  GetStartLevel() const;
 
   /** Get the end level */
-  int GetEndLevel() const;
+  int
+  GetEndLevel() const;
 
   /** Get the current level */
-  int GetLevel() const;
+  int
+  GetLevel() const;
 
   /** Clone function */
-  TreeIteratorBase< TTreeType > * Clone() override;
+  TreeIteratorBase<TTreeType> *
+  Clone() override;
 
   /** operator = */
-  const Self & operator=(const Self & iterator)
+  const Self &
+  operator=(const Self & iterator)
   {
-    if(this != &iterator)
-      {
+    if (this != &iterator)
+    {
       this->Superclass::operator=(iterator);
       m_StartLevel = iterator.m_StartLevel;
       m_EndLevel = iterator.m_EndLevel;
       m_Queue = iterator.m_Queue;
-      }
+    }
     return *this;
   }
 
 protected:
-
   /** Return the next node */
-  const ValueType & Next() override;
+  const ValueType &
+  Next() override;
 
   /** Return true if the next node exists */
-  bool HasNext() const override;
+  bool
+  HasNext() const override;
 
 private:
+  const TreeNodeType *
+  FindNextNode() const;
 
-  const TreeNodeType * FindNextNode() const;
+  const TreeNodeType *
+  FindNextNodeHelp() const;
 
-  const TreeNodeType * FindNextNodeHelp() const;
+  int
+  GetLevel(const TreeNodeType * node) const;
 
-  int GetLevel(const TreeNodeType *node) const;
-
-  int                                        m_StartLevel;
-  int                                        m_EndLevel;
-  mutable std::queue< const TreeNodeType * > m_Queue;
+  int                                      m_StartLevel;
+  int                                      m_EndLevel;
+  mutable std::queue<const TreeNodeType *> m_Queue;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelOrderTreeIterator.hxx"
+#  include "itkLevelOrderTreeIterator.hxx"
 #endif
 
 #endif

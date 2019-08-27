@@ -30,18 +30,17 @@ namespace itk
  *  \sa MetaConverterBase
  *  \ingroup ITKSpatialObjects
  */
-template< unsigned int NDimensions = 3 >
-class ITK_TEMPLATE_EXPORT MetaTubeConverter :
-    public MetaConverterBase< NDimensions >
+template <unsigned int NDimensions = 3>
+class ITK_TEMPLATE_EXPORT MetaTubeConverter : public MetaConverterBase<NDimensions>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaTubeConverter);
 
   /** Standard class type aliases */
   using Self = MetaTubeConverter;
-  using Superclass = MetaConverterBase< NDimensions >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MetaConverterBase<NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -60,14 +59,17 @@ public:
   using TubeMetaObjectType = MetaTube;
 
   /** Convert the MetaObject to Spatial Object */
-  SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) override;
+  SpatialObjectPointer
+  MetaObjectToSpatialObject(const MetaObjectType * mo) override;
 
   /** Convert the SpatialObject to MetaObject */
-  MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject) override;
+  MetaObjectType *
+  SpatialObjectToMetaObject(const SpatialObjectType * spatialObject) override;
 
 protected:
   /** Create the specific MetaObject for this class */
-  MetaObjectType *CreateMetaObject() override;
+  MetaObjectType *
+  CreateMetaObject() override;
 
   MetaTubeConverter() = default;
   ~MetaTubeConverter() override = default;
@@ -76,7 +78,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkMetaTubeConverter.hxx"
+#  include "itkMetaTubeConverter.hxx"
 #endif
 
 #endif

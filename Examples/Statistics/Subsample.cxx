@@ -58,7 +58,8 @@
 #include "itkVector.h"
 // Software Guide : EndCodeSnippet
 
-int main()
+int
+main()
 {
   // Software Guide : BeginLatex
   //
@@ -69,9 +70,9 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using MeasurementVectorType = itk::Vector< float, 3 >;
-  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
-  SampleType::Pointer sample = SampleType::New();
+  using MeasurementVectorType = itk::Vector<float, 3>;
+  using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
+  SampleType::Pointer   sample = SampleType::New();
   MeasurementVectorType mv;
   mv[0] = 1.0;
   mv[1] = 2.0;
@@ -121,12 +122,12 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using SubsampleType = itk::Statistics::Subsample< SampleType >;
+  using SubsampleType = itk::Statistics::Subsample<SampleType>;
   SubsampleType::Pointer subsample = SubsampleType::New();
-  subsample->SetSample( sample );
+  subsample->SetSample(sample);
 
-  subsample->AddInstance( 0UL );
-  subsample->AddInstance( 2UL );
+  subsample->AddInstance(0UL);
+  subsample->AddInstance(2UL);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -138,16 +139,13 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   SubsampleType::Iterator iter = subsample->Begin();
-  while ( iter != subsample->End() )
-    {
+  while (iter != subsample->End())
+  {
     std::cout << "instance identifier = " << iter.GetInstanceIdentifier()
-              << "\t measurement vector = "
-              << iter.GetMeasurementVector()
-              << "\t frequency = "
-              << iter.GetFrequency()
-              << std::endl;
+              << "\t measurement vector = " << iter.GetMeasurementVector()
+              << "\t frequency = " << iter.GetFrequency() << std::endl;
     ++iter;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 
@@ -175,14 +173,12 @@ int main()
   // Software Guide : BeginCodeSnippet
   subsample->Swap(0, 1);
 
-  for ( int index = 0; index < subsample->Size(); ++index )
-    {
-    std::cout << "instance identifier = "
-              << subsample->GetInstanceIdentifier(index)
+  for (int index = 0; index < subsample->Size(); ++index)
+  {
+    std::cout << "instance identifier = " << subsample->GetInstanceIdentifier(index)
               << "\t measurement vector = "
-              << subsample->GetMeasurementVectorByIndex(index)
-              << std::endl;
-    }
+              << subsample->GetMeasurementVectorByIndex(index) << std::endl;
+  }
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -198,8 +194,7 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   std::cout << "Size = " << subsample->Size() << std::endl;
-  std::cout << "Total frequency = "
-            << subsample->GetTotalFrequency() << std::endl;
+  std::cout << "Total frequency = " << subsample->GetTotalFrequency() << std::endl;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -213,8 +208,7 @@ int main()
   // Software Guide : BeginCodeSnippet
   subsample->Clear();
   std::cout << "Size = " << subsample->Size() << std::endl;
-  std::cout << "Total frequency = "
-            << subsample->GetTotalFrequency() << std::endl;
+  std::cout << "Total frequency = " << subsample->GetTotalFrequency() << std::endl;
   // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;

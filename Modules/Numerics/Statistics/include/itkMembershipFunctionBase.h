@@ -53,18 +53,17 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< typename TVector >
-class ITK_TEMPLATE_EXPORT MembershipFunctionBase:
-  public FunctionBase< TVector, double >
+template <typename TVector>
+class ITK_TEMPLATE_EXPORT MembershipFunctionBase : public FunctionBase<TVector, double>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MembershipFunctionBase);
 
   /** Standard class type aliases */
   using Self = MembershipFunctionBase;
-  using Superclass = FunctionBase< TVector, double >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = FunctionBase<TVector, double>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
   itkTypeMacro(MembershipFunctionBase, FunctionBase);
@@ -78,7 +77,8 @@ public:
   /** Method to get membership score (discriminant score) of an entity
    * or measurement. Evaluate() maps from a vector measurement type
    * to a real number. */
-  double Evaluate(const MeasurementVectorType & x) const override = 0;
+  double
+  Evaluate(const MeasurementVectorType & x) const override = 0;
 
   /** Set the length of the measurement vector. If this membership
    * function is templated over a vector type that can be resized,
@@ -87,40 +87,39 @@ public:
    * thrown. Subclasses may have to override this method if a change
    * in vector size requires invalidating other instance variables,
    * e.g. covariance matrices, mean vectors, etc. */
-  virtual void SetMeasurementVectorSize(MeasurementVectorSizeType s)
+  virtual void
+  SetMeasurementVectorSize(MeasurementVectorSizeType s)
   {
     // Test whether the vector type is resizable or not
     MeasurementVectorType m;
 
-    if ( MeasurementVectorTraits::IsResizable(m) )
-      {
+    if (MeasurementVectorTraits::IsResizable(m))
+    {
       // then this is a resizable vector type
       //
       // if the new size is the same as the previou size, just return
-      if ( s == this->m_MeasurementVectorSize )
-        {
+      if (s == this->m_MeasurementVectorSize)
+      {
         return;
-        }
+      }
       else
-        {
+      {
         this->m_MeasurementVectorSize = s;
         this->Modified();
-        }
       }
+    }
     else
-      {
+    {
       // If this is a non-resizable vector type
       MeasurementVectorType     m3;
-      MeasurementVectorSizeType defaultLength =
-        NumericTraits<MeasurementVectorType>::GetLength(m3);
+      MeasurementVectorSizeType defaultLength = NumericTraits<MeasurementVectorType>::GetLength(m3);
       // and the new length is different from the default one, then throw an
       // exception
-      if ( defaultLength != s )
-        {
-        itkExceptionMacro(
-          "Attempting to change the measurement vector size of a non-resizable vector type" );
-        }
+      if (defaultLength != s)
+      {
+        itkExceptionMacro("Attempting to change the measurement vector size of a non-resizable vector type");
       }
+    }
   }
 
   /** Get the length of the measurement vector */
@@ -129,23 +128,22 @@ public:
 protected:
   MembershipFunctionBase()
   {
-    m_MeasurementVectorSize = NumericTraits<MeasurementVectorType>::GetLength(
-      MeasurementVectorType() );
+    m_MeasurementVectorSize = NumericTraits<MeasurementVectorType>::GetLength(MeasurementVectorType());
   }
 
   ~MembershipFunctionBase() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-    os << indent << "Length of measurement vectors: "
-       << m_MeasurementVectorSize << std::endl;
+    os << indent << "Length of measurement vectors: " << m_MeasurementVectorSize << std::endl;
   }
 
 private:
   MeasurementVectorSizeType m_MeasurementVectorSize;
 
-};  // end of class
+}; // end of class
 } // end of namespace Statistics
 } // end namespace itk
 

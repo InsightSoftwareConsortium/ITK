@@ -24,49 +24,45 @@
 
 namespace itk
 {
-template< typename TInputImage,
+template <typename TInputImage,
           typename TFeatureImage,
           typename TOutputImage,
           typename TFiniteDifferenceFunction,
-          typename TIdCell >
+          typename TIdCell>
 void
-MultiphaseFiniteDifferenceImageFilter< TInputImage,
-                                       TFeatureImage,
-                                       TOutputImage,
-                                       TFiniteDifferenceFunction,
-                                       TIdCell >
-::GenerateData()
+MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFiniteDifferenceFunction, TIdCell>::
+  GenerateData()
 {
-  if ( !this->m_FunctionCount )
-    {
+  if (!this->m_FunctionCount)
+  {
     itkExceptionMacro("Number of level set functions not specified. "
                       << "Please set using SetFunctionCount()");
-    }
+  }
 
-  if ( !this->m_InitializedState )
-    {
+  if (!this->m_InitializedState)
+  {
     // Set the coefficients for the deriviatives
     double       coeffs[ImageDimension];
     unsigned int i;
-    if ( m_UseImageSpacing )
+    if (m_UseImageSpacing)
+    {
+      for (i = 0; i < ImageDimension; i++)
       {
-      for ( i = 0; i < ImageDimension; i++ )
-        {
         coeffs[i] = 1.0 / m_LevelSet[0]->GetSpacing()[i];
-        }
       }
+    }
     else
+    {
+      for (i = 0; i < ImageDimension; i++)
       {
-      for ( i = 0; i < ImageDimension; i++ )
-        {
         coeffs[i] = 1.0;
-        }
       }
+    }
 
-    for ( IdCellType id = 0; id <  this->m_FunctionCount; id++ )
-      {
+    for (IdCellType id = 0; id < this->m_FunctionCount; id++)
+    {
       this->m_DifferenceFunctions[id]->SetScaleCoefficients(coeffs);
-      }
+    }
 
     // Allocate the output image -- inherited method
     this->AllocateOutputs();
@@ -83,7 +79,7 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
     this->AllocateUpdateBuffer();
 
     this->SetInitializedState(true);
-    }
+  }
 
   // Iterative algorithm
   TimeStepType dt;
@@ -91,10 +87,10 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
   // An optional method for precalculating global values, or setting
   // up for the next iteration
   this->InitializeIteration();
-  this->m_RMSChange = NumericTraits< double >::max();
+  this->m_RMSChange = NumericTraits<double>::max();
 
-  while ( !this->Halt() )
-    {
+  while (!this->Halt())
+  {
     dt = this->CalculateChange();
 
     this->ApplyUpdate(dt);
@@ -102,23 +98,23 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
     this->m_ElapsedIterations++;
 
     // Invoke the iteration event.
-    this->InvokeEvent( IterationEvent() );
+    this->InvokeEvent(IterationEvent());
 
-    if ( this->GetAbortGenerateData() )
-      {
-      this->InvokeEvent( IterationEvent() );
+    if (this->GetAbortGenerateData())
+    {
+      this->InvokeEvent(IterationEvent());
       this->ResetPipeline();
       throw ProcessAborted(__FILE__, __LINE__);
-      }
+    }
 
     this->InitializeIteration();
-    }
+  }
 
   // Reset the state once execution is completed
-  if ( !this->m_ManualReinitialization )
-    {
+  if (!this->m_ManualReinitialization)
+  {
     this->SetInitializedState(true);
-    }
+  }
 
   // Any further processing of the solution can be done here.
   this->PostProcessOutput();
@@ -127,36 +123,31 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
 /**
  *
  */
-template< typename TInputImage,
+template <typename TInputImage,
           typename TFeatureImage,
           typename TOutputImage,
           typename TFiniteDifferenceFunction,
-          typename TIdCell >
+          typename TIdCell>
 void
-MultiphaseFiniteDifferenceImageFilter< TInputImage,
-                                       TFeatureImage,
-                                       TOutputImage,
-                                       TFiniteDifferenceFunction,
-                                       TIdCell >
-::GenerateInputRequestedRegion()
+MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFiniteDifferenceFunction, TIdCell>::
+  GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   // copy the output requested region to the input requested region
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input
-  FeatureImagePointer inputPtr  =
-    const_cast< FeatureImageType * >( this->GetInput(0) );
+  FeatureImagePointer inputPtr = const_cast<FeatureImageType *>(this->GetInput(0));
 
-  if ( inputPtr.IsNull() )
-    {
+  if (inputPtr.IsNull())
+  {
     return;
-    }
+  }
 
-  if ( this->m_DifferenceFunctions[0].IsNull() )
-    {
+  if (this->m_DifferenceFunctions[0].IsNull())
+  {
     return;
-    }
+  }
 
   // Get the size of the neighborhood on which we are going to operate.  This
   // radius is supplied by the difference function we are using.
@@ -177,13 +168,13 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
   inputRequestedRegion.PadByRadius(radius);
 
   // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() ) )
-    {
+  if (inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()))
+  {
     inputPtr->SetRequestedRegion(inputRequestedRegion);
     return;
-    }
+  }
   else
-    {
+  {
     // Couldn't crop the region (requested region is outside the largest
     // possible region).  Throw an exception.
 
@@ -197,127 +188,117 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
                      "largest possible region.");
     e.SetDataObject(inputPtr);
     throw e;
-    }
+  }
 }
 
-template< typename TInputImage,
+template <typename TInputImage,
           typename TFeatureImage,
           typename TOutputImage,
           typename TFiniteDifferenceFunction,
-          typename TIdCell >
-typename MultiphaseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
-                                                TOutputImage, TFiniteDifferenceFunction, TIdCell >::TimeStepType
-MultiphaseFiniteDifferenceImageFilter< TInputImage,
-                                       TFeatureImage,
-                                       TOutputImage,
-                                       TFiniteDifferenceFunction,
-                                       TIdCell >
-::ResolveTimeStep(const TimeStepVectorType & timeStepList,
-                  const std::vector< bool > & valid)
+          typename TIdCell>
+typename MultiphaseFiniteDifferenceImageFilter<TInputImage,
+                                               TFeatureImage,
+                                               TOutputImage,
+                                               TFiniteDifferenceFunction,
+                                               TIdCell>::TimeStepType
+MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFiniteDifferenceFunction, TIdCell>::
+  ResolveTimeStep(const TimeStepVectorType & timeStepList, const std::vector<bool> & valid)
 {
-  TimeStepType oMin = NumericTraits< TimeStepType >::ZeroValue();
+  TimeStepType        oMin = NumericTraits<TimeStepType>::ZeroValue();
   const SizeValueType size = timeStepList.size();
 
-  if ( size == valid.size() )
-    {
-    bool   flag = false;
+  if (size == valid.size())
+  {
+    bool          flag = false;
     SizeValueType k = 0;
     SizeValueType i;
 
-    for ( i = 0; i < size; ++i )
+    for (i = 0; i < size; ++i)
+    {
+      if (valid[i])
       {
-      if ( valid[i] )
-        {
         oMin = timeStepList[i];
         k = i;
         flag = true;
         break;
-        }
-      }
-
-    if ( !flag )
-      {
-      itkExceptionMacro("No Values");
-      }
-
-    // find minimum value
-    for ( i = k; i < size; ++i )
-      {
-      if ( valid[i] && ( timeStepList[i] < oMin ) )
-        {
-        oMin = timeStepList[i];
-        }
       }
     }
+
+    if (!flag)
+    {
+      itkExceptionMacro("No Values");
+    }
+
+    // find minimum value
+    for (i = k; i < size; ++i)
+    {
+      if (valid[i] && (timeStepList[i] < oMin))
+      {
+        oMin = timeStepList[i];
+      }
+    }
+  }
 
   return oMin;
 }
 
-template< typename TInputImage,
+template <typename TInputImage,
           typename TFeatureImage,
           typename TOutputImage,
           typename TFiniteDifferenceFunction,
-          typename TIdCell >
+          typename TIdCell>
 bool
-MultiphaseFiniteDifferenceImageFilter< TInputImage,
-                                       TFeatureImage,
-                                       TOutputImage,
-                                       TFiniteDifferenceFunction,
-                                       TIdCell >
-::Halt()
+MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFiniteDifferenceFunction, TIdCell>::
+  Halt()
 {
   float progress = 0.;
 
-  if ( this->m_NumberOfIterations != 0 )
-    {
-    progress = static_cast< float >( this->GetElapsedIterations() )
-               / static_cast< float >( this->m_NumberOfIterations );
-    }
+  if (this->m_NumberOfIterations != 0)
+  {
+    progress = static_cast<float>(this->GetElapsedIterations()) / static_cast<float>(this->m_NumberOfIterations);
+  }
   this->UpdateProgress(progress);
 
-  return ( ( this->GetElapsedIterations() >= this->m_NumberOfIterations )
-           || ( this->GetMaximumRMSError() >= this->m_RMSChange ) );
+  return ((this->GetElapsedIterations() >= this->m_NumberOfIterations) ||
+          (this->GetMaximumRMSError() >= this->m_RMSChange));
 }
 
-template< typename TInputImage,
+template <typename TInputImage,
           typename TFeatureImage,
           typename TOutputImage,
           typename TFiniteDifferenceFunction,
-          typename TIdCell >
+          typename TIdCell>
 void
-MultiphaseFiniteDifferenceImageFilter< TInputImage,
-                                       TFeatureImage,
-                                       TOutputImage,
-                                       TFiniteDifferenceFunction,
-                                       TIdCell >
-::PrintSelf(std::ostream & os, Indent indent) const
+MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFiniteDifferenceFunction, TIdCell>::
+  PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "ElapsedIterations: " << this->m_ElapsedIterations << std::endl;
-  os << indent << "UseImageSpacing: " << ( m_UseImageSpacing ? "On" : "Off" ) << std::endl;
-  os << indent << "State: " <<  this->m_InitializedState << std::endl;
+  os << indent << "UseImageSpacing: " << (m_UseImageSpacing ? "On" : "Off") << std::endl;
+  os << indent << "State: " << this->m_InitializedState << std::endl;
   os << indent << "MaximumRMSError: " << m_MaximumRMSError << std::endl;
   os << indent << "NumberOfIterations: " << this->m_NumberOfIterations << std::endl;
   os << indent << "ManualReinitialization: " << this->m_ManualReinitialization << std::endl;
   os << indent << "RMSChange: " << m_RMSChange << std::endl;
   os << std::endl;
 
-  if (  this->m_FunctionCount )
+  if (this->m_FunctionCount)
+  {
+    if (this->m_DifferenceFunctions[0])
     {
-    if ( this->m_DifferenceFunctions[0] )
-      {
       os << indent << "DifferenceFunction: " << std::endl;
-      for ( IdCellType i = 0; i <  this->m_FunctionCount; ++i )
-        {
-        this->m_DifferenceFunctions[i]->Print( os, indent.GetNextIndent() );
-        }
+      for (IdCellType i = 0; i < this->m_FunctionCount; ++i)
+      {
+        this->m_DifferenceFunctions[i]->Print(os, indent.GetNextIndent());
       }
     }
+  }
   else
-    {
-    os << indent << "DifferenceFunction: " << "(None)" << std::endl;
-    }
+  {
+    os << indent << "DifferenceFunction: "
+       << "(None)" << std::endl;
+  }
 
   os << std::endl;
 }

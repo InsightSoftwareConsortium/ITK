@@ -52,17 +52,15 @@ namespace itk
  * \endsphinx
  */
 
-template<typename TInputImage, typename TOutputImage, typename TMaskImage=TOutputImage>
-class LiThresholdImageFilter :
-    public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
+template <typename TInputImage, typename TOutputImage, typename TMaskImage = TOutputImage>
+class LiThresholdImageFilter : public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LiThresholdImageFilter);
 
   /** Standard Self type alias */
   using Self = LiThresholdImageFilter;
-  using Superclass = HistogramThresholdImageFilter<TInputImage,TOutputImage,
-                                        TMaskImage>;
+  using Superclass = HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -96,17 +94,14 @@ public:
   using MaskImageRegionType = typename MaskImageType::RegionType;
 
   using HistogramType = typename Superclass::HistogramType;
-  using CalculatorType = LiThresholdCalculator< HistogramType, InputPixelType >;
+  using CalculatorType = LiThresholdCalculator<HistogramType, InputPixelType>;
 
   /** Image related type alias. */
   static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
   static constexpr unsigned int OutputImageDimension = OutputImageType::ImageDimension;
 
 protected:
-  LiThresholdImageFilter()
-    {
-    this->SetCalculator( CalculatorType::New() );
-    }
+  LiThresholdImageFilter() { this->SetCalculator(CalculatorType::New()); }
   ~LiThresholdImageFilter() override = default;
 };
 

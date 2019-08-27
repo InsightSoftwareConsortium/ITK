@@ -67,28 +67,31 @@ public:
   using OutputType = TOutput;
   using DecoratedOutputType = SimpleDataObjectDecorator<OutputType>;
 
-  void SetInput( const HistogramType * input )
+  void
+  SetInput(const HistogramType * input)
   {
     // Process object is not const-correct so the const_cast is required here
-    this->ProcessObject::SetNthInput( 0, const_cast< HistogramType * >( input ) );
+    this->ProcessObject::SetNthInput(0, const_cast<HistogramType *>(input));
   }
 
-  const HistogramType * GetInput() const
+  const HistogramType *
+  GetInput() const
   {
-    if ( this->GetNumberOfInputs() < 1 )
-      {
+    if (this->GetNumberOfInputs() < 1)
+    {
       return nullptr;
-      }
-    return static_cast< const HistogramType * >( this->ProcessObject::GetInput(0) );
+    }
+    return static_cast<const HistogramType *>(this->ProcessObject::GetInput(0));
   }
 
-  DecoratedOutputType * GetOutput()
+  DecoratedOutputType *
+  GetOutput()
   {
-    if ( this->GetNumberOfOutputs() < 1 )
-      {
+    if (this->GetNumberOfOutputs() < 1)
+    {
       return nullptr;
-      }
-    return static_cast< DecoratedOutputType * >( this->ProcessObject::GetOutput(0) );
+    }
+    return static_cast<DecoratedOutputType *>(this->ProcessObject::GetOutput(0));
   }
 
   using Superclass::MakeOutput;
@@ -97,20 +100,21 @@ public:
     return DecoratedOutputType::New().GetPointer();
   }
 
-  const OutputType & GetThreshold()
+  const OutputType &
+  GetThreshold()
   {
-    if ( this->GetNumberOfOutputs() < 1 )
-      {
-      itkExceptionMacro(<<"No output available.");
-      }
-    return static_cast< DecoratedOutputType * >( this->ProcessObject::GetOutput(0) )->Get();
+    if (this->GetNumberOfOutputs() < 1)
+    {
+      itkExceptionMacro(<< "No output available.");
+    }
+    return static_cast<DecoratedOutputType *>(this->ProcessObject::GetOutput(0))->Get();
   }
 
 protected:
   HistogramThresholdCalculator()
   {
     this->ProcessObject::SetNumberOfRequiredOutputs(1);
-    this->ProcessObject::SetNthOutput( 0, this->MakeOutput(0) );
+    this->ProcessObject::SetNthOutput(0, this->MakeOutput(0));
   }
   ~HistogramThresholdCalculator() override = default;
   using ProcessObject::SetInput;

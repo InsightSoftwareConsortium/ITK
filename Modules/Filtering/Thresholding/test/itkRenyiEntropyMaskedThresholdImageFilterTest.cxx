@@ -23,30 +23,30 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
-int itkRenyiEntropyMaskedThresholdImageFilterTest(int argc, char* argv[] )
+int
+itkRenyiEntropyMaskedThresholdImageFilterTest(int argc, char * argv[])
 {
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputImageFile maskImageFile outputImageFile";
     std::cerr << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   using InputPixelType = short;
   using OutputPixelType = unsigned char;
 
-  using InputImageType = itk::Image< InputPixelType,  2 >;
-  using OutputImageType = itk::Image< OutputPixelType, 2 >;
+  using InputImageType = itk::Image<InputPixelType, 2>;
+  using OutputImageType = itk::Image<OutputPixelType, 2>;
 
-  using FilterType = itk::RenyiEntropyThresholdImageFilter<
-    InputImageType, OutputImageType, OutputImageType >;
+  using FilterType = itk::RenyiEntropyThresholdImageFilter<InputImageType, OutputImageType, OutputImageType>;
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
-  using MaskReaderType = itk::ImageFileReader< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using MaskReaderType = itk::ImageFileReader<OutputImageType>;
 
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   FilterType::Pointer filter = FilterType::New();
@@ -57,24 +57,23 @@ int itkRenyiEntropyMaskedThresholdImageFilterTest(int argc, char* argv[] )
 
   itk::SimpleFilterWatcher watcher(filter);
 
-  filter->SetInsideValue( 255 );
-  ITK_TEST_SET_GET_VALUE( 255, filter->GetInsideValue() );
+  filter->SetInsideValue(255);
+  ITK_TEST_SET_GET_VALUE(255, filter->GetInsideValue());
 
-  filter->SetOutsideValue( 0 );
-  ITK_TEST_SET_GET_VALUE( 0, filter->GetOutsideValue() );
+  filter->SetOutsideValue(0);
+  ITK_TEST_SET_GET_VALUE(0, filter->GetOutsideValue());
 
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
   maskreader->SetFileName(argv[2]);
-  filter->SetInput( reader->GetOutput() );
-  filter->SetMaskImage( maskreader->GetOutput() );
+  filter->SetInput(reader->GetOutput());
+  filter->SetMaskImage(maskreader->GetOutput());
   // filter->SetNumberOfHistogramBins (std::stoi(argv[3]));
-  writer->SetInput( filter->GetOutput() );
+  writer->SetInput(filter->GetOutput());
 
   filter->Update();
   std::cout << "Computed Threshold is: "
-            << itk::NumericTraits<FilterType::InputPixelType>::PrintType(filter->GetThreshold())
-            << std::endl;
-  writer->SetFileName( argv[3] );
+            << itk::NumericTraits<FilterType::InputPixelType>::PrintType(filter->GetThreshold()) << std::endl;
+  writer->SetFileName(argv[3]);
   writer->Update();
 
   return EXIT_SUCCESS;

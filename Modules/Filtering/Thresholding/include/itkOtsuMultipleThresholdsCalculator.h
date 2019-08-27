@@ -45,47 +45,48 @@ namespace itk
  * \ingroup ITKThresholding
  */
 
-template< typename TInputHistogram >
-class ITK_TEMPLATE_EXPORT OtsuMultipleThresholdsCalculator:
-  public HistogramAlgorithmBase< TInputHistogram >
+template <typename TInputHistogram>
+class ITK_TEMPLATE_EXPORT OtsuMultipleThresholdsCalculator : public HistogramAlgorithmBase<TInputHistogram>
 {
 public:
   /**Standard class type aliases. */
   using Self = OtsuMultipleThresholdsCalculator;
-  using Superclass = HistogramAlgorithmBase< TInputHistogram >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = HistogramAlgorithmBase<TInputHistogram>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using MeasurementType = typename TInputHistogram::MeasurementType;
   using FrequencyType = typename TInputHistogram::AbsoluteFrequencyType;
 
-  using MeanType = typename NumericTraits< MeasurementType >::RealType;
-  using VarianceType = typename NumericTraits< MeasurementType >::RealType;
-  using WeightType = typename NumericTraits< MeasurementType >::RealType;
+  using MeanType = typename NumericTraits<MeasurementType>::RealType;
+  using VarianceType = typename NumericTraits<MeasurementType>::RealType;
+  using WeightType = typename NumericTraits<MeasurementType>::RealType;
 
-  using MeanVectorType = std::vector< MeanType >;
-  using FrequencyVectorType = std::vector< FrequencyType >;
-  using WeightVectorType = std::vector< WeightType >;
+  using MeanVectorType = std::vector<MeanType>;
+  using FrequencyVectorType = std::vector<FrequencyType>;
+  using WeightVectorType = std::vector<WeightType>;
 
   using InstanceIdentifierType = typename TInputHistogram::InstanceIdentifier;
-  using InstanceIdentifierVectorType = std::vector< InstanceIdentifierType >;
+  using InstanceIdentifierVectorType = std::vector<InstanceIdentifierType>;
 
   /**Standard Macros */
   itkTypeMacro(OtsuMultipleThresholdsCalculator, HistogramAlgorithmsBase);
   itkNewMacro(Self);
 
   /** Typedef for the thresholds output */
-  using OutputType = std::vector< MeasurementType >;
+  using OutputType = std::vector<MeasurementType>;
 
   /** Returns the thresholds vector */
-  const OutputType & GetOutput();
+  const OutputType &
+  GetOutput();
 
   /** Set/Get the number of thresholds. */
-  itkSetClampMacro( NumberOfThresholds, SizeValueType, 1, NumericTraits< SizeValueType >::max() );
+  itkSetClampMacro(NumberOfThresholds, SizeValueType, 1, NumericTraits<SizeValueType>::max());
   itkGetConstMacro(NumberOfThresholds, SizeValueType);
 
   /** Calculates Otsu's thresholds and saves them. */
-  void Compute() override;
+  void
+  Compute() override;
 
   /** Set/Get the use of valley emphasis. Default is false. */
   itkSetMacro(ValleyEmphasis, bool);
@@ -102,29 +103,30 @@ public:
 protected:
   OtsuMultipleThresholdsCalculator();
   ~OtsuMultipleThresholdsCalculator() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Increment the thresholds of one position along the histogram. */
-  bool IncrementThresholds(InstanceIdentifierVectorType & thresholdIds,
-                           MeanType totalMean,
-                           MeanVectorType & classMean,
-                           FrequencyVectorType & classFrequency);
+  bool
+  IncrementThresholds(InstanceIdentifierVectorType & thresholdIds,
+                      MeanType                       totalMean,
+                      MeanVectorType &               classMean,
+                      FrequencyVectorType &          classFrequency);
 
 private:
-
   SizeValueType m_NumberOfThresholds{ 1 };
   OutputType    m_Output;
   bool          m_ValleyEmphasis{ false };
 #if defined(ITKV4_COMPATIBILITY)
-  bool                m_ReturnBinMidpoint{ true };
+  bool m_ReturnBinMidpoint{ true };
 #else
-  bool                m_ReturnBinMidpoint{ false };
+  bool m_ReturnBinMidpoint{ false };
 #endif
 };
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkOtsuMultipleThresholdsCalculator.hxx"
+#  include "itkOtsuMultipleThresholdsCalculator.hxx"
 #endif
 
 #endif

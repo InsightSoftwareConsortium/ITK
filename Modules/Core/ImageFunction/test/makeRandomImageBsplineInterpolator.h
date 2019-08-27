@@ -21,8 +21,9 @@
 
 #include "itkBSplineResampleImageFunction.h"
 #include "itkRandomImageSource.h"
-template<typename BSplineInterpolatorFunctionType>
-typename BSplineInterpolatorFunctionType::Pointer makeRandomImageInterpolator(const int SplineOrder)
+template <typename BSplineInterpolatorFunctionType>
+typename BSplineInterpolatorFunctionType::Pointer
+makeRandomImageInterpolator(const int SplineOrder)
 {
   using ImageType = typename BSplineInterpolatorFunctionType::InputImageType;
 
@@ -30,38 +31,38 @@ typename BSplineInterpolatorFunctionType::Pointer makeRandomImageInterpolator(co
 
   using SourceType = itk::RandomImageSource<ImageType>;
   typename SourceType::Pointer source = SourceType::New();
-    {
+  {
     using DirectionType = typename ImageType::DirectionType;
-    DirectionType  nonTrivialDirection;
+    DirectionType nonTrivialDirection;
 
     nonTrivialDirection[0][0] = 0;
     nonTrivialDirection[0][1] = -1;
     nonTrivialDirection[1][0] = 1;
     nonTrivialDirection[1][1] = 0;
     std::cout << "DIRECTION\n" << nonTrivialDirection << std::endl;
-    source->SetDirection( nonTrivialDirection );
-    }
-    {
+    source->SetDirection(nonTrivialDirection);
+  }
+  {
     using SpacingType = typename ImageType::SpacingType;
-    SpacingType    spacing;
-    spacing.Fill( 2.0 );
-    source->SetSpacing( spacing );
-    }
-    {
+    SpacingType spacing;
+    spacing.Fill(2.0);
+    source->SetSpacing(spacing);
+  }
+  {
     using PointType = typename ImageType::PointType;
-    PointType      origin;
-    origin.Fill ( 10.0 );
-    source->SetOrigin( origin );
-    }
-    {
+    PointType origin;
+    origin.Fill(10.0);
+    source->SetOrigin(origin);
+  }
+  {
     using SizeType = typename ImageType::SizeType;
-    SizeType       size;
-    size.Fill( 32 );
-    source->SetSize( size );
-    }
+    SizeType size;
+    size.Fill(32);
+    source->SetSize(size);
+  }
 
-  source->SetMin( 0.0 );
-  source->SetMax( 10.0 );
+  source->SetMin(0.0);
+  source->SetMax(10.0);
   source->Update();
   typename ImageType::Pointer randImage = source->GetOutput();
 
@@ -69,8 +70,8 @@ typename BSplineInterpolatorFunctionType::Pointer makeRandomImageInterpolator(co
 
   typename BSplineInterpolatorFunctionType::Pointer interpolator = BSplineInterpolatorFunctionType::New();
 
-  interpolator->SetSplineOrder( SplineOrder );
-  interpolator->SetInputImage( randImage );
+  interpolator->SetSplineOrder(SplineOrder);
+  interpolator->SetInputImage(randImage);
   return interpolator;
 }
 

@@ -25,71 +25,68 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TGradientImage, typename TOutputImage >
-RobustAutomaticThresholdImageFilter< TInputImage, TGradientImage, TOutputImage >
-::RobustAutomaticThresholdImageFilter() :
-  m_Pow( 1 ),
-  m_Threshold( NumericTraits< InputPixelType >::ZeroValue() ),
-  m_InsideValue( NumericTraits< OutputPixelType >::max() ),
-  m_OutsideValue( NumericTraits< OutputPixelType >::ZeroValue() )
+template <typename TInputImage, typename TGradientImage, typename TOutputImage>
+RobustAutomaticThresholdImageFilter<TInputImage, TGradientImage, TOutputImage>::RobustAutomaticThresholdImageFilter()
+  : m_Pow(1)
+  , m_Threshold(NumericTraits<InputPixelType>::ZeroValue())
+  , m_InsideValue(NumericTraits<OutputPixelType>::max())
+  , m_OutsideValue(NumericTraits<OutputPixelType>::ZeroValue())
 {
   this->SetNumberOfRequiredInputs(2);
 }
 
-template< typename TInputImage, typename TGradientImage, typename TOutputImage >
+template <typename TInputImage, typename TGradientImage, typename TOutputImage>
 void
-RobustAutomaticThresholdImageFilter< TInputImage, TGradientImage, TOutputImage >
-::GenerateData()
+RobustAutomaticThresholdImageFilter<TInputImage, TGradientImage, TOutputImage>::GenerateData()
 {
   typename ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   // Compute the Threshold for the input image
   typename CalculatorType::Pointer thresholdCalculator = CalculatorType::New();
-  thresholdCalculator->SetInput( this->GetInput() );
-  thresholdCalculator->SetGradient( this->GetGradientImage() );
+  thresholdCalculator->SetInput(this->GetInput());
+  thresholdCalculator->SetGradient(this->GetGradientImage());
   thresholdCalculator->SetPow(m_Pow);
   thresholdCalculator->Compute();
 
   m_Threshold = thresholdCalculator->GetOutput();
 
-  typename BinaryThresholdImageFilter< TInputImage, TOutputImage >::Pointer threshold =
-    BinaryThresholdImageFilter< TInputImage, TOutputImage >::New();
+  typename BinaryThresholdImageFilter<TInputImage, TOutputImage>::Pointer threshold =
+    BinaryThresholdImageFilter<TInputImage, TOutputImage>::New();
 
-  progress->RegisterInternalFilter( threshold, 1 );
-  threshold->GraftOutput( this->GetOutput() );
-  threshold->SetInput( this->GetInput() );
-  threshold->SetLowerThreshold( m_Threshold );
-  threshold->SetInsideValue( m_InsideValue );
-  threshold->SetOutsideValue( m_OutsideValue );
+  progress->RegisterInternalFilter(threshold, 1);
+  threshold->GraftOutput(this->GetOutput());
+  threshold->SetInput(this->GetInput());
+  threshold->SetLowerThreshold(m_Threshold);
+  threshold->SetInsideValue(m_InsideValue);
+  threshold->SetOutsideValue(m_OutsideValue);
   threshold->Update();
 
-  this->GraftOutput( threshold->GetOutput() );
+  this->GraftOutput(threshold->GetOutput());
 }
 
-template< typename TInputImage, typename TGradientImage, typename TOutputImage >
+template <typename TInputImage, typename TGradientImage, typename TOutputImage>
 void
-RobustAutomaticThresholdImageFilter< TInputImage, TGradientImage, TOutputImage >
-::GenerateInputRequestedRegion()
+RobustAutomaticThresholdImageFilter<TInputImage, TGradientImage, TOutputImage>::GenerateInputRequestedRegion()
 {
-  const_cast< TInputImage * >( this->GetInput() )->SetRequestedRegionToLargestPossibleRegion();
-  const_cast< TGradientImage * >( this->GetGradientImage() )->SetRequestedRegionToLargestPossibleRegion();
+  const_cast<TInputImage *>(this->GetInput())->SetRequestedRegionToLargestPossibleRegion();
+  const_cast<TGradientImage *>(this->GetGradientImage())->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< typename TInputImage, typename TGradientImage, typename TOutputImage >
+template <typename TInputImage, typename TGradientImage, typename TOutputImage>
 void
-RobustAutomaticThresholdImageFilter< TInputImage, TGradientImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+RobustAutomaticThresholdImageFilter<TInputImage, TGradientImage, TOutputImage>::PrintSelf(std::ostream & os,
+                                                                                          Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Threshold: " << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_Threshold )
+  os << indent << "Threshold: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold)
      << std::endl;
   os << indent << "Pow: " << m_Pow << std::endl;
-  os << indent << "OutsideValue: "
-     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( m_OutsideValue ) << std::endl;
-  os << indent << "InsideValue: "
-     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( m_InsideValue ) << std::endl;
+  os << indent << "OutsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutsideValue)
+     << std::endl;
+  os << indent << "InsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_InsideValue)
+     << std::endl;
 }
 } // end namespace itk
 #endif

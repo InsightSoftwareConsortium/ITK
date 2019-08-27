@@ -57,9 +57,9 @@ namespace itk
  * \ingroup PathObjects
  * \ingroup ITKPath
  */
-template< unsigned int VDimension >
-class ITK_TEMPLATE_EXPORT ParametricPath:public
-  Path< double, ContinuousIndex< SpacePrecisionType, VDimension >, VDimension >
+template <unsigned int VDimension>
+class ITK_TEMPLATE_EXPORT ParametricPath
+  : public Path<double, ContinuousIndex<SpacePrecisionType, VDimension>, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ParametricPath);
@@ -67,11 +67,11 @@ public:
   /** Standard class type aliases. */
   using Self = ParametricPath;
   /** All paths must be mapable to index space */
-  using ContinuousIndexType = ContinuousIndex< SpacePrecisionType,VDimension >;
-  using Superclass = Path< double, ContinuousIndexType, VDimension >;
+  using ContinuousIndexType = ContinuousIndex<SpacePrecisionType, VDimension>;
+  using Superclass = Path<double, ContinuousIndexType, VDimension>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ParametricPath, Path);
@@ -82,13 +82,14 @@ public:
   /** Output type */
   using OutputType = typename Superclass::OutputType;
 
-  using IndexType = Index<  VDimension >;
-  using OffsetType = Offset< VDimension >;
-  using VectorType = Vector< double, VDimension >;
+  using IndexType = Index<VDimension>;
+  using OffsetType = Offset<VDimension>;
+  using VectorType = Vector<double, VDimension>;
 
   /** Return the nearest index to the parametric path at the specified location.
    * This is a wrapper to Evaluate(). */
-  IndexType EvaluateToIndex(const InputType & input) const override;
+  IndexType
+  EvaluateToIndex(const InputType & input) const override;
 
   /** Increment the input variable passed by reference such that the ND index of
    * the path  moves to its next vertex-connected (8-connected in 2D) neighbor.
@@ -105,23 +106,24 @@ public:
    * WARNING:  This default implementation REQUIRES that the ND endpoint of
    * the path be either unique or coincident only with the startpoint, since it
    * uses the endpoint as a stopping condition. */
-  OffsetType IncrementInput(InputType & input) const override;
+  OffsetType
+  IncrementInput(InputType & input) const override;
 
   /** Evaluate the first derivative of the ND output with respect to the 1D
-    * input.  This is a very simple and naive numerical derivative, and it
-    * should be overloaded with a proper closed-form derivative function in
-    * all children.  Nevertheless, users who need to create their own parametric
-    * classes for their private research need not reimplement this function if
-    * their work does not need the derivative operator. */
-  virtual VectorType EvaluateDerivative(const InputType & input) const;
+   * input.  This is a very simple and naive numerical derivative, and it
+   * should be overloaded with a proper closed-form derivative function in
+   * all children.  Nevertheless, users who need to create their own parametric
+   * classes for their private research need not reimplement this function if
+   * their work does not need the derivative operator. */
+  virtual VectorType
+  EvaluateDerivative(const InputType & input) const;
 
-  itkSetMacro(DefaultInputStepSize, InputType)
-  itkGetConstReferenceMacro(DefaultInputStepSize, InputType)
+  itkSetMacro(DefaultInputStepSize, InputType) itkGetConstReferenceMacro(DefaultInputStepSize, InputType)
 
-protected:
-  ParametricPath();
+    protected : ParametricPath();
   ~ParametricPath() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Default 1D input increment amount to trace along the path.  Also, the
    * value used by the defualt implementation of EvaluateDerivative() for
@@ -139,7 +141,7 @@ protected:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkParametricPath.hxx"
+#  include "itkParametricPath.hxx"
 #endif
 
 #endif // itkParametricPath.h

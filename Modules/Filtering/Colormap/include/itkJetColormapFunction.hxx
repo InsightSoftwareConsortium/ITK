@@ -24,25 +24,24 @@ namespace itk
 {
 namespace Function
 {
-template< typename TScalar, typename TRGBPixel >
-typename JetColormapFunction< TScalar, TRGBPixel >::RGBPixelType
-JetColormapFunction< TScalar, TRGBPixel >
-::operator()(const TScalar & v) const
+template <typename TScalar, typename TRGBPixel>
+typename JetColormapFunction<TScalar, TRGBPixel>::RGBPixelType
+JetColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const
 {
   // Map the input scalar between [0, 1].
   RealType value = this->RescaleInputValue(v);
 
   // Apply the color mapping.
-  RealType red = -itk::Math::abs( 3.95 * ( value - 0.7460 ) ) + 1.5;
+  RealType red = -itk::Math::abs(3.95 * (value - 0.7460)) + 1.5;
 
   red = std::min(red, 1.0);
   red = std::max(0.0, red);
 
-  RealType green = -itk::Math::abs( 3.95 * ( value - 0.492 ) ) + 1.5;
+  RealType green = -itk::Math::abs(3.95 * (value - 0.492)) + 1.5;
   green = std::min(green, 1.0);
   green = std::max(0.0, green);
 
-  RealType blue = -itk::Math::abs( 3.95 * ( value - 0.2385 ) ) + 1.5;
+  RealType blue = -itk::Math::abs(3.95 * (value - 0.2385)) + 1.5;
   blue = std::min(blue, 1.0);
   blue = std::max(0.0, blue);
 

@@ -25,63 +25,60 @@
 
 namespace itk
 {
-template< typename TImageType, typename TFrequencyIterator >
-UnaryFrequencyDomainFilter< TImageType, TFrequencyIterator >
-::UnaryFrequencyDomainFilter()
+template <typename TImageType, typename TFrequencyIterator>
+UnaryFrequencyDomainFilter<TImageType, TFrequencyIterator>::UnaryFrequencyDomainFilter()
 
 {
   this->InPlaceOff();
   this->DynamicMultiThreadingOn();
-  this->SetFunctor( []( FrequencyIteratorType& ) { } ); // no-op functor
+  this->SetFunctor([](FrequencyIteratorType &) {}); // no-op functor
 }
 
-template< typename TImageType, typename TFrequencyIterator >
+template <typename TImageType, typename TFrequencyIterator>
 void
-UnaryFrequencyDomainFilter< TImageType, TFrequencyIterator >
-::PrintSelf(std::ostream & os, Indent indent) const
+UnaryFrequencyDomainFilter<TImageType, TFrequencyIterator>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ActualXDimensionIsOdd? " << ( this->m_ActualXDimensionIsOdd ? "Yes" : "No " ) << std::endl;
+  os << indent << "ActualXDimensionIsOdd? " << (this->m_ActualXDimensionIsOdd ? "Yes" : "No ") << std::endl;
 }
 
-template< typename TImageType, typename TFrequencyIterator >
+template <typename TImageType, typename TFrequencyIterator>
 void
-UnaryFrequencyDomainFilter< TImageType, TFrequencyIterator >
-::DynamicThreadedGenerateData( const ImageRegionType & outputRegionForThread )
+UnaryFrequencyDomainFilter<TImageType, TFrequencyIterator>::DynamicThreadedGenerateData(
+  const ImageRegionType & outputRegionForThread)
 {
   m_DynamicThreadedGenerateDataFunction(outputRegionForThread);
 }
 
-template< typename TInputImage, typename TFrequencyIterator >
-template< typename TFunctor >
+template <typename TInputImage, typename TFrequencyIterator>
+template <typename TFunctor>
 void
-UnaryFrequencyDomainFilter< TInputImage, TFrequencyIterator >
-::DynamicThreadedGenerateDataWithFunctor(
-    const TFunctor &functor,
-    const ImageRegionType& outputRegionForThread )
+UnaryFrequencyDomainFilter<TInputImage, TFrequencyIterator>::DynamicThreadedGenerateDataWithFunctor(
+  const TFunctor &        functor,
+  const ImageRegionType & outputRegionForThread)
 {
-  const ImageType* inputPtr = this->GetInput();
-  ImageType* outputPtr = this->GetOutput();
+  const ImageType * inputPtr = this->GetInput();
+  ImageType *       outputPtr = this->GetOutput();
 
   // Define the portion of the input to walk for this thread
   ImageRegionType inputRegionForThread;
-  this->CallCopyOutputRegionToInputRegion( inputRegionForThread, outputRegionForThread );
-  if ( !this->GetRunningInPlace() )
-    {
+  this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
+  if (!this->GetRunningInPlace())
+  {
     // copy the input pixel to the output
-    ImageAlgorithm::Copy( inputPtr, outputPtr, inputRegionForThread, outputRegionForThread );
-    }
+    ImageAlgorithm::Copy(inputPtr, outputPtr, inputRegionForThread, outputRegionForThread);
+  }
 
   FrequencyIteratorType freqIt(outputPtr, outputRegionForThread);
   // Only for HalfHermitian Iterator this option changes frequency spacing
   freqIt.SetActualXDimensionIsOdd(this->GetActualXDimensionIsOdd());
   freqIt.GoToBegin();
-  while ( !freqIt.IsAtEnd() )
-    {
-    functor( freqIt );
+  while (!freqIt.IsAtEnd())
+  {
+    functor(freqIt);
     ++freqIt;
-    }
+  }
 }
 
 } // end namespace itk

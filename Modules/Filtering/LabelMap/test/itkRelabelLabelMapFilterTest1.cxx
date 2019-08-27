@@ -26,46 +26,47 @@
 #include "itkTestingMacros.h"
 
 
-int itkRelabelLabelMapFilterTest1(int argc, char * argv[])
+int
+itkRelabelLabelMapFilterTest1(int argc, char * argv[])
 {
 
-  if( argc != 3 )
-    {
+  if (argc != 3)
+  {
     std::cerr << "usage: " << argv[0] << " input output" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr int dim = 2;
 
-  using ImageType = itk::Image< unsigned char, dim >;
+  using ImageType = itk::Image<unsigned char, dim>;
 
-  using LabelObjectType = itk::LabelObject< unsigned char, dim >;
-  using LabelMapType = itk::LabelMap< LabelObjectType >;
+  using LabelObjectType = itk::LabelObject<unsigned char, dim>;
+  using LabelMapType = itk::LabelMap<LabelObjectType>;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
-  using I2LType = itk::LabelImageToLabelMapFilter< ImageType, LabelMapType>;
+  using I2LType = itk::LabelImageToLabelMapFilter<ImageType, LabelMapType>;
   I2LType::Pointer i2l = I2LType::New();
-  i2l->SetInput( reader->GetOutput() );
+  i2l->SetInput(reader->GetOutput());
 
-  using ChangeType = itk::RelabelLabelMapFilter< LabelMapType >;
+  using ChangeType = itk::RelabelLabelMapFilter<LabelMapType>;
   ChangeType::Pointer change = ChangeType::New();
-  change->SetInput( i2l->GetOutput() );
+  change->SetInput(i2l->GetOutput());
   itk::SimpleFilterWatcher watcher6(change, "filter");
 
-  using L2IType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
+  using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   L2IType::Pointer l2i = L2IType::New();
-  l2i->SetInput( change->GetOutput() );
+  l2i->SetInput(change->GetOutput());
 
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( l2i->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(l2i->GetOutput());
+  writer->SetFileName(argv[2]);
   writer->UseCompressionOn();
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
 }

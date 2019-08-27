@@ -23,69 +23,64 @@
 
 namespace itk
 {
-template< typename TImage, typename TOperator, typename TComputation >
-typename NeighborhoodInnerProduct< TImage, TOperator, TComputation >::OutputPixelType
-NeighborhoodInnerProduct< TImage, TOperator, TComputation >
-::Compute(
-  const ConstNeighborhoodIterator< TImage > & it,
-  const OperatorType & op,
-  const unsigned start,
-  const unsigned stride)
+template <typename TImage, typename TOperator, typename TComputation>
+typename NeighborhoodInnerProduct<TImage, TOperator, TComputation>::OutputPixelType
+NeighborhoodInnerProduct<TImage, TOperator, TComputation>::Compute(const ConstNeighborhoodIterator<TImage> & it,
+                                                                   const OperatorType &                      op,
+                                                                   const unsigned                            start,
+                                                                   const unsigned                            stride)
 {
   typename OperatorType::ConstIterator o_it;
 
   using InputPixelType = typename TImage::PixelType;
-  using InputPixelRealType = typename NumericTraits< InputPixelType >::RealType;
-  using AccumulateRealType = typename NumericTraits< InputPixelRealType >::AccumulateType;
+  using InputPixelRealType = typename NumericTraits<InputPixelType>::RealType;
+  using AccumulateRealType = typename NumericTraits<InputPixelRealType>::AccumulateType;
 
-  AccumulateRealType sum = NumericTraits< AccumulateRealType >::ZeroValue();
+  AccumulateRealType sum = NumericTraits<AccumulateRealType>::ZeroValue();
 
   using OutputPixelValueType = typename NumericTraits<OutputPixelType>::ValueType;
 
   o_it = op.Begin();
   const typename OperatorType::ConstIterator op_end = op.End();
 
-  for ( unsigned int i = start; o_it < op_end; i += stride, ++o_it )
-    {
-    sum += static_cast< AccumulateRealType >(
-      static_cast< OutputPixelValueType >( *o_it ) *
-      static_cast< InputPixelRealType >( it.GetPixel(i) ) );
-    }
+  for (unsigned int i = start; o_it < op_end; i += stride, ++o_it)
+  {
+    sum += static_cast<AccumulateRealType>(static_cast<OutputPixelValueType>(*o_it) *
+                                           static_cast<InputPixelRealType>(it.GetPixel(i)));
+  }
 
-  return static_cast< OutputPixelType >( sum );
+  return static_cast<OutputPixelType>(sum);
 }
 
-template< typename TImage, typename TOperator, typename TComputation >
-typename NeighborhoodInnerProduct< TImage, TOperator, TComputation >::OutputPixelType
-NeighborhoodInnerProduct< TImage, TOperator, TComputation >
-::Compute(
+template <typename TImage, typename TOperator, typename TComputation>
+typename NeighborhoodInnerProduct<TImage, TOperator, TComputation>::OutputPixelType
+NeighborhoodInnerProduct<TImage, TOperator, TComputation>::Compute(
   /*           const ImageBoundaryCondition<TImage> *,*/
   const NeighborhoodType & N,
-  const OperatorType & op,
-  const unsigned start,
-  const unsigned stride)
+  const OperatorType &     op,
+  const unsigned           start,
+  const unsigned           stride)
 {
   typename OperatorType::ConstIterator o_it;
 
   using InputPixelType = typename TImage::PixelType;
-  using InputPixelRealType = typename NumericTraits< InputPixelType >::RealType;
-  using AccumulateRealType = typename NumericTraits< InputPixelRealType >::AccumulateType;
+  using InputPixelRealType = typename NumericTraits<InputPixelType>::RealType;
+  using AccumulateRealType = typename NumericTraits<InputPixelRealType>::AccumulateType;
 
-  AccumulateRealType sum = NumericTraits< AccumulateRealType >::ZeroValue();
+  AccumulateRealType sum = NumericTraits<AccumulateRealType>::ZeroValue();
 
   using OutputPixelValueType = typename NumericTraits<OutputPixelType>::ValueType;
 
   o_it = op.Begin();
   const typename OperatorType::ConstIterator op_end = op.End();
 
-  for ( unsigned int i = start; o_it < op_end; i += stride, ++o_it )
-    {
-    sum += static_cast< AccumulateRealType >(
-      static_cast< OutputPixelValueType >( *o_it ) *
-      static_cast< InputPixelRealType >( N[i] ) );
-    }
+  for (unsigned int i = start; o_it < op_end; i += stride, ++o_it)
+  {
+    sum +=
+      static_cast<AccumulateRealType>(static_cast<OutputPixelValueType>(*o_it) * static_cast<InputPixelRealType>(N[i]));
+  }
 
-  return static_cast< OutputPixelType >( sum );
+  return static_cast<OutputPixelType>(sum);
 }
 } // end namespace itk
 #endif

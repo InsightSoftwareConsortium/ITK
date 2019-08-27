@@ -22,9 +22,8 @@
 
 namespace itk
 {
-template< typename TFixedImage, typename TMovingImage >
-CenteredVersorTransformInitializer< TFixedImage, TMovingImage >
-::CenteredVersorTransformInitializer()
+template <typename TFixedImage, typename TMovingImage>
+CenteredVersorTransformInitializer<TFixedImage, TMovingImage>::CenteredVersorTransformInitializer()
 {
   // Force to use Moments computation since we need here the second
   // order moments in order to estimate a rotation
@@ -33,36 +32,34 @@ CenteredVersorTransformInitializer< TFixedImage, TMovingImage >
   this->m_ComputeRotation = false;
 }
 
-template< typename TFixedImage, typename TMovingImage >
+template <typename TFixedImage, typename TMovingImage>
 void
-CenteredVersorTransformInitializer< TFixedImage, TMovingImage >
-::InitializeTransform()
+CenteredVersorTransformInitializer<TFixedImage, TMovingImage>::InitializeTransform()
 {
   // Compute moments and initialize center of rotation and translation
   this->Superclass::InitializeTransform();
 
-  if ( this->m_ComputeRotation )
-    {
+  if (this->m_ComputeRotation)
+  {
     using FixedMatrixType = typename Superclass::FixedImageCalculatorType::MatrixType;
     using MovingMatrixType = typename Superclass::MovingImageCalculatorType::MatrixType;
 
-    FixedMatrixType  fixedPrincipalAxis  = this->GetFixedCalculator()->GetPrincipalAxes();
+    FixedMatrixType  fixedPrincipalAxis = this->GetFixedCalculator()->GetPrincipalAxes();
     MovingMatrixType movingPrincipalAxis = this->GetMovingCalculator()->GetPrincipalAxes();
 
     MovingMatrixType rotationMatrix = movingPrincipalAxis * fixedPrincipalAxis.GetInverse();
 
     this->GetModifiableTransform()->SetMatrix(rotationMatrix);
-    }
+  }
 }
 
-template< typename TFixedImage, typename TMovingImage >
+template <typename TFixedImage, typename TMovingImage>
 void
-CenteredVersorTransformInitializer< TFixedImage, TMovingImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+CenteredVersorTransformInitializer<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
   os << indent << "Compute Rotation " << this->m_ComputeRotation << std::endl;
 }
-}  // namespace itk
+} // namespace itk
 
 #endif /* itkCenteredVersorTransformInitializer_hxx */

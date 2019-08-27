@@ -46,25 +46,25 @@ namespace itk
  *  \f$ U \f$ and lower threshold \f$ L \f$ according to the following formula.
  *
  * \par
- *  \f$  f(x) = \left\{ \begin{array}{ll} g(x) - L & \mbox{if $(g)x < (U-L)/2 + L$} \\ U - g(x) & \mbox{otherwise} \end{array} \right. \f$
+ *  \f$  f(x) = \left\{ \begin{array}{ll} g(x) - L & \mbox{if $(g)x < (U-L)/2 + L$} \\ U - g(x) & \mbox{otherwise}
+ * \end{array} \right. \f$
  *
  * \sa SegmentationLevelSetImageFunction
  *  \sa ThresholdSegmentationLevelSetImageFilter
  * \ingroup ITKLevelSets
  */
-template< typename TImageType, typename TFeatureImageType = TImageType >
-class ITK_TEMPLATE_EXPORT ThresholdSegmentationLevelSetFunction:
-  public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
+template <typename TImageType, typename TFeatureImageType = TImageType>
+class ITK_TEMPLATE_EXPORT ThresholdSegmentationLevelSetFunction
+  : public SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ThresholdSegmentationLevelSetFunction);
 
   /** Standard class type aliases. */
   using Self = ThresholdSegmentationLevelSetFunction;
-  using Superclass =
-      SegmentationLevelSetFunction< TImageType, TFeatureImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SegmentationLevelSetFunction<TImageType, TFeatureImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using FeatureImageType = TFeatureImageType;
 
   /** Method for creation through the object factory. */
@@ -83,34 +83,50 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Set/Get threshold values */
-  void SetUpperThreshold(FeatureScalarType f)
-  { m_UpperThreshold = f; }
-  FeatureScalarType GetUpperThreshold() const
-  { return m_UpperThreshold; }
-  void SetLowerThreshold(FeatureScalarType f)
-  { m_LowerThreshold = f; }
-  FeatureScalarType GetLowerThreshold() const
-  { return m_LowerThreshold; }
+  void
+  SetUpperThreshold(FeatureScalarType f)
+  {
+    m_UpperThreshold = f;
+  }
+  FeatureScalarType
+  GetUpperThreshold() const
+  {
+    return m_UpperThreshold;
+  }
+  void
+  SetLowerThreshold(FeatureScalarType f)
+  {
+    m_LowerThreshold = f;
+  }
+  FeatureScalarType
+  GetLowerThreshold() const
+  {
+    return m_LowerThreshold;
+  }
 
-  void CalculateSpeedImage() override;
+  void
+  CalculateSpeedImage() override;
 
-  void Initialize(const RadiusType & r) override
+  void
+  Initialize(const RadiusType & r) override
   {
     Superclass::Initialize(r);
 
-    this->SetAdvectionWeight(NumericTraits< ScalarValueType >::ZeroValue());
-    this->SetPropagationWeight(-1.0 * NumericTraits< ScalarValueType >::OneValue());
-    this->SetCurvatureWeight(NumericTraits< ScalarValueType >::OneValue());
+    this->SetAdvectionWeight(NumericTraits<ScalarValueType>::ZeroValue());
+    this->SetPropagationWeight(-1.0 * NumericTraits<ScalarValueType>::OneValue());
+    this->SetCurvatureWeight(NumericTraits<ScalarValueType>::OneValue());
   }
 
   /** Set/Get the weight applied to the edge (Laplacian) attractor in the speed
    *  term function. Zero will turn this term off. */
-  void SetEdgeWeight(const ScalarValueType p)
+  void
+  SetEdgeWeight(const ScalarValueType p)
   {
     m_EdgeWeight = p;
   }
 
-  ScalarValueType GetEdgeWeight() const
+  ScalarValueType
+  GetEdgeWeight() const
   {
     return m_EdgeWeight;
   }
@@ -118,12 +134,14 @@ public:
   /** Anisotropic diffusion is applied to the FeatureImage before calculatign
    * the Laplacian (edge) term. This method sets/gets the smoothing
    * conductance. */
-  void SetSmoothingConductance(const ScalarValueType p)
+  void
+  SetSmoothingConductance(const ScalarValueType p)
   {
     m_SmoothingConductance = p;
   }
 
-  ScalarValueType GetSmoothingConductance() const
+  ScalarValueType
+  GetSmoothingConductance() const
   {
     return m_SmoothingConductance;
   }
@@ -131,12 +149,14 @@ public:
   /** Anisotropic diffusion is applied to the FeatureImage before calculating
    * the Laplacian (edge) term. This method sets/gets the number of diffusion
    * iterations. */
-  void SetSmoothingIterations(const int p)
+  void
+  SetSmoothingIterations(const int p)
   {
     m_SmoothingIterations = p;
   }
 
-  int GetSmoothingIterations() const
+  int
+  GetSmoothingIterations() const
   {
     return m_SmoothingIterations;
   }
@@ -144,12 +164,14 @@ public:
   /** Anisotropic diffusion is applied to the FeatureImage before calculating
    * the Laplacian (edge) term. This method sets/gets the diffusion time
    * step. */
-  void SetSmoothingTimeStep(const ScalarValueType i)
+  void
+  SetSmoothingTimeStep(const ScalarValueType i)
   {
     m_SmoothingTimeStep = i;
   }
 
-  ScalarValueType GetSmoothingTimeStep() const
+  ScalarValueType
+  GetSmoothingTimeStep() const
   {
     return m_SmoothingTimeStep;
   }
@@ -157,8 +179,8 @@ public:
 protected:
   ThresholdSegmentationLevelSetFunction()
   {
-    m_UpperThreshold = NumericTraits< FeatureScalarType >::max();
-    m_LowerThreshold = NumericTraits< FeatureScalarType >::NonpositiveMin();
+    m_UpperThreshold = NumericTraits<FeatureScalarType>::max();
+    m_LowerThreshold = NumericTraits<FeatureScalarType>::NonpositiveMin();
     this->SetAdvectionWeight(0.0);
     this->SetPropagationWeight(1.0);
     this->SetCurvatureWeight(1.0);
@@ -170,7 +192,8 @@ protected:
 
   ~ThresholdSegmentationLevelSetFunction() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "UpperThreshold: " << m_UpperThreshold << std::endl;
@@ -191,7 +214,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkThresholdSegmentationLevelSetFunction.hxx"
+#  include "itkThresholdSegmentationLevelSetFunction.hxx"
 #endif
 
 #endif

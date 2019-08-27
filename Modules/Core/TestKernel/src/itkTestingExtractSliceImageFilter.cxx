@@ -23,10 +23,10 @@ namespace Testing
 {
 /** Define how to print enumerations */
 std::ostream &
-operator<<( std::ostream & out, const TestExtractSliceImageFilterCollapseStrategy value )
+operator<<(std::ostream & out, const TestExtractSliceImageFilterCollapseStrategy value)
 {
   const char * s = nullptr;
-  switch ( value )
+  switch (value)
   {
     case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN:
       s = "TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN";

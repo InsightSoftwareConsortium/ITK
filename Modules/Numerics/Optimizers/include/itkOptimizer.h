@@ -35,7 +35,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ITKOptimizers_EXPORT Optimizer:public Object
+class ITKOptimizers_EXPORT Optimizer : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Optimizer);
@@ -43,8 +43,8 @@ public:
   /** Standard class type aliases. */
   using Self = Optimizer;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -54,7 +54,7 @@ public:
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */
-  using ParametersType = OptimizerParameters< double >;
+  using ParametersType = OptimizerParameters<double>;
 
   /**  Scale type.
    *  This array defines scale to be applied to parameters before
@@ -62,16 +62,18 @@ public:
    *  map to a more convenient space. In particular this is
    *  used to normalize parameter spaces in which some parameters
    *  have a different dynamic range.   */
-  using ScalesType = Array< double >;
+  using ScalesType = Array<double>;
 
   /**  Set the position to initialize the optimization. */
-  virtual void SetInitialPosition(const ParametersType & param);
+  virtual void
+  SetInitialPosition(const ParametersType & param);
 
   /** Get the position to initialize the optimization. */
   itkGetConstReferenceMacro(InitialPosition, ParametersType);
 
   /** Set current parameters scaling. */
-  void SetScales(const ScalesType & scales);
+  void
+  SetScales(const ScalesType & scales);
 
   /** Get current parameters scaling. */
   itkGetConstReferenceMacro(Scales, ScalesType);
@@ -81,18 +83,23 @@ public:
   itkGetConstReferenceMacro(CurrentPosition, ParametersType);
 
   /** Start optimization. */
-  virtual void StartOptimization() {}
+  virtual void
+  StartOptimization()
+  {}
 
   /** Get the reason for termination */
-  virtual const std::string GetStopConditionDescription() const;
+  virtual const std::string
+  GetStopConditionDescription() const;
 
 protected:
   Optimizer();
   ~Optimizer() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Set the current position. */
-  virtual void SetCurrentPosition(const ParametersType & param);
+  virtual void
+  SetCurrentPosition(const ParametersType & param);
 
   bool m_ScalesInitialized{ false };
 

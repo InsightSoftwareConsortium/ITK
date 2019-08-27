@@ -22,139 +22,123 @@
 
 namespace itk
 {
-template< typename TTransform, typename TFixedImage, typename TMovingImage >
-CenteredTransformInitializer< TTransform, TFixedImage, TMovingImage >
-::CenteredTransformInitializer()
+template <typename TTransform, typename TFixedImage, typename TMovingImage>
+CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage>::CenteredTransformInitializer()
 {
-  m_FixedCalculator  = FixedImageCalculatorType::New();
+  m_FixedCalculator = FixedImageCalculatorType::New();
   m_MovingCalculator = MovingImageCalculatorType::New();
   m_UseMoments = false;
 }
 
-template< typename TTransform, typename TFixedImage, typename TMovingImage >
+template <typename TTransform, typename TFixedImage, typename TMovingImage>
 void
-CenteredTransformInitializer< TTransform, TFixedImage, TMovingImage >
-::InitializeTransform()
+CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage>::InitializeTransform()
 {
   // Sanity check
-  if ( !m_FixedImage )
-    {
+  if (!m_FixedImage)
+  {
     itkExceptionMacro("Fixed Image has not been set");
     return;
-    }
-  if ( !m_MovingImage )
-    {
+  }
+  if (!m_MovingImage)
+  {
     itkExceptionMacro("Moving Image has not been set");
     return;
-    }
-  if ( !m_Transform )
-    {
+  }
+  if (!m_Transform)
+  {
     itkExceptionMacro("Transform has not been set");
     return;
-    }
+  }
 
   // If images come from filters, then update those filters.
-  if ( m_FixedImage->GetSource() )
-    {
+  if (m_FixedImage->GetSource())
+  {
     m_FixedImage->GetSource()->Update();
-    }
-  if ( m_MovingImage->GetSource() )
-    {
+  }
+  if (m_MovingImage->GetSource())
+  {
     m_MovingImage->GetSource()->Update();
-    }
+  }
 
   InputPointType   rotationCenter;
   OutputVectorType translationVector;
 
-  if ( m_UseMoments )
-    {
+  if (m_UseMoments)
+  {
     m_FixedCalculator->SetImage(m_FixedImage);
     m_FixedCalculator->Compute();
 
     m_MovingCalculator->SetImage(m_MovingImage);
     m_MovingCalculator->Compute();
 
-    typename FixedImageCalculatorType::VectorType fixedCenter =
-      m_FixedCalculator->GetCenterOfGravity();
+    typename FixedImageCalculatorType::VectorType fixedCenter = m_FixedCalculator->GetCenterOfGravity();
 
-    typename MovingImageCalculatorType::VectorType movingCenter =
-      m_MovingCalculator->GetCenterOfGravity();
+    typename MovingImageCalculatorType::VectorType movingCenter = m_MovingCalculator->GetCenterOfGravity();
 
-    for ( unsigned int i = 0; i < InputSpaceDimension; i++ )
-      {
-      rotationCenter[i]    = fixedCenter[i];
-      translationVector[i] = movingCenter[i] - fixedCenter[i];
-      }
-    }
-  else
+    for (unsigned int i = 0; i < InputSpaceDimension; i++)
     {
+      rotationCenter[i] = fixedCenter[i];
+      translationVector[i] = movingCenter[i] - fixedCenter[i];
+    }
+  }
+  else
+  {
     // Here use the geometrical center of each image.
 
-    const typename FixedImageType::RegionType & fixedRegion =
-      m_FixedImage->GetLargestPossibleRegion();
-    const typename FixedImageType::IndexType & fixedIndex =
-      fixedRegion.GetIndex();
-    const typename FixedImageType::SizeType & fixedSize =
-      fixedRegion.GetSize();
+    const typename FixedImageType::RegionType & fixedRegion = m_FixedImage->GetLargestPossibleRegion();
+    const typename FixedImageType::IndexType &  fixedIndex = fixedRegion.GetIndex();
+    const typename FixedImageType::SizeType &   fixedSize = fixedRegion.GetSize();
 
     InputPointType centerFixedPoint;
 
     using CoordRepType = typename InputPointType::ValueType;
 
-    using ContinuousIndexType = ContinuousIndex< CoordRepType,
-                             InputSpaceDimension >;
+    using ContinuousIndexType = ContinuousIndex<CoordRepType, InputSpaceDimension>;
 
     using ContinuousIndexValueType = typename ContinuousIndexType::ValueType;
 
     ContinuousIndexType centerFixedIndex;
 
-    for ( unsigned int k = 0; k < InputSpaceDimension; k++ )
-      {
-      centerFixedIndex[k] =
-        static_cast< ContinuousIndexValueType >( fixedIndex[k] )
-        + static_cast< ContinuousIndexValueType >( fixedSize[k] - 1 ) / 2.0;
-      }
+    for (unsigned int k = 0; k < InputSpaceDimension; k++)
+    {
+      centerFixedIndex[k] = static_cast<ContinuousIndexValueType>(fixedIndex[k]) +
+                            static_cast<ContinuousIndexValueType>(fixedSize[k] - 1) / 2.0;
+    }
 
-    m_FixedImage->TransformContinuousIndexToPhysicalPoint(
-      centerFixedIndex, centerFixedPoint);
+    m_FixedImage->TransformContinuousIndexToPhysicalPoint(centerFixedIndex, centerFixedPoint);
 
-    const typename MovingImageType::RegionType & movingRegion =
-      m_MovingImage->GetLargestPossibleRegion();
-    const typename MovingImageType::IndexType & movingIndex =
-      movingRegion.GetIndex();
-    const typename MovingImageType::SizeType & movingSize =
-      movingRegion.GetSize();
+    const typename MovingImageType::RegionType & movingRegion = m_MovingImage->GetLargestPossibleRegion();
+    const typename MovingImageType::IndexType &  movingIndex = movingRegion.GetIndex();
+    const typename MovingImageType::SizeType &   movingSize = movingRegion.GetSize();
 
     InputPointType centerMovingPoint;
 
     ContinuousIndexType centerMovingIndex;
 
-    for ( unsigned int m = 0; m < InputSpaceDimension; m++ )
-      {
-      centerMovingIndex[m] =
-        static_cast< ContinuousIndexValueType >( movingIndex[m] )
-        + static_cast< ContinuousIndexValueType >( movingSize[m] - 1 ) / 2.0;
-      }
-
-    m_MovingImage->TransformContinuousIndexToPhysicalPoint(
-      centerMovingIndex, centerMovingPoint);
-
-    for ( unsigned int i = 0; i < InputSpaceDimension; i++ )
-      {
-      rotationCenter[i]    = centerFixedPoint[i];
-      translationVector[i] = centerMovingPoint[i] - centerFixedPoint[i];
-      }
+    for (unsigned int m = 0; m < InputSpaceDimension; m++)
+    {
+      centerMovingIndex[m] = static_cast<ContinuousIndexValueType>(movingIndex[m]) +
+                             static_cast<ContinuousIndexValueType>(movingSize[m] - 1) / 2.0;
     }
+
+    m_MovingImage->TransformContinuousIndexToPhysicalPoint(centerMovingIndex, centerMovingPoint);
+
+    for (unsigned int i = 0; i < InputSpaceDimension; i++)
+    {
+      rotationCenter[i] = centerFixedPoint[i];
+      translationVector[i] = centerMovingPoint[i] - centerFixedPoint[i];
+    }
+  }
 
   m_Transform->SetCenter(rotationCenter);
 
   m_Transform->SetTranslation(translationVector);
 }
 
-template< typename TTransform, typename TFixedImage, typename TMovingImage >
+template <typename TTransform, typename TFixedImage, typename TMovingImage>
 void
-CenteredTransformInitializer< TTransform, TFixedImage, TMovingImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -165,8 +149,7 @@ CenteredTransformInitializer< TTransform, TFixedImage, TMovingImage >
   os << indent << "UseMoments  = " << m_UseMoments << std::endl;
   itkPrintSelfObjectMacro(MovingCalculator);
   itkPrintSelfObjectMacro(FixedCalculator)
-
 }
-}  // namespace itk
+} // namespace itk
 
 #endif /* itkCenteredTransformInitializer_hxx */

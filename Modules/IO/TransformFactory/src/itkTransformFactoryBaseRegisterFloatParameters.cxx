@@ -20,13 +20,13 @@
 namespace itk
 {
 
-void TransformFactoryBase::RegisterTransformFactoryFloatParameters()
+void
+TransformFactoryBase::RegisterTransformFactoryFloatParameters()
 {
   //
   // float Parameters
   //
   Self::RegisterTransformFactory<float>();
-
 }
 
 } // end namespace itk

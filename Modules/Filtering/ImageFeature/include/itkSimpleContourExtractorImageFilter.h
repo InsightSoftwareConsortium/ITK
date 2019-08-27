@@ -25,32 +25,31 @@
 namespace itk
 {
 /** \class SimpleContourExtractorImageFilter
-* \brief Computes an image of contours which will be the contour
-* of the first image.
-*
-* A pixel of the source image is considered to belong to the contour
-* if its pixel value is equal to the input foreground value and it
-* has in its neighborhood at least one pixel which its pixel value is
-* equal to the input background value. The output image will have
-* pixels which will be set to the output foreground value if they
-* belong to the contour, otherwise they will be set to the output
-* background value.
-*
-* The neighborhood "radius" is set thanks to the radius params.
-* \sphinx
-* \sphinxexample{Filtering/ImageFeature/ExtractContoursFromImage,Extract Contours From Image}
-* \endsphinx
-* \sa Image
-* \sa Neighborhood
-* \sa NeighborhoodOperator
-* \sa NeighborhoodIterator
-*
-* \ingroup IntensityImageFilters
-  * \ingroup ITKImageFeature
-*/
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT SimpleContourExtractorImageFilter:
-  public BoxImageFilter< TInputImage, TOutputImage >
+ * \brief Computes an image of contours which will be the contour
+ * of the first image.
+ *
+ * A pixel of the source image is considered to belong to the contour
+ * if its pixel value is equal to the input foreground value and it
+ * has in its neighborhood at least one pixel which its pixel value is
+ * equal to the input background value. The output image will have
+ * pixels which will be set to the output foreground value if they
+ * belong to the contour, otherwise they will be set to the output
+ * background value.
+ *
+ * The neighborhood "radius" is set thanks to the radius params.
+ * \sphinx
+ * \sphinxexample{Filtering/ImageFeature/ExtractContoursFromImage,Extract Contours From Image}
+ * \endsphinx
+ * \sa Image
+ * \sa Neighborhood
+ * \sa NeighborhoodOperator
+ * \sa NeighborhoodIterator
+ *
+ * \ingroup IntensityImageFilters
+ * \ingroup ITKImageFeature
+ */
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT SimpleContourExtractorImageFilter : public BoxImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SimpleContourExtractorImageFilter);
@@ -65,9 +64,9 @@ public:
 
   /** Standard class type aliases. */
   using Self = SimpleContourExtractorImageFilter;
-  using Superclass = BoxImageFilter< InputImageType, OutputImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = BoxImageFilter<InputImageType, OutputImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -78,7 +77,7 @@ public:
   /** Image type alias support */
   using InputPixelType = typename InputImageType::PixelType;
   using OutputPixelType = typename OutputImageType::PixelType;
-  using InputRealType = typename NumericTraits< InputPixelType >::RealType;
+  using InputRealType = typename NumericTraits<InputPixelType>::RealType;
 
   using InputImageRegionType = typename InputImageType::RegionType;
   using OutputImageRegionType = typename OutputImageType::RegionType;
@@ -119,17 +118,16 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputPixelType > ) );
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< OutputPixelType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
+  itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelType>));
   // End concept checking
 #endif
 
 protected:
   SimpleContourExtractorImageFilter();
   ~SimpleContourExtractorImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** SimpleContourExtractorImageFilter can be implemented as a
    *  multithreaded filter. Therefore, this implementation provides a
@@ -143,7 +141,8 @@ protected:
    *  \sa ImageToImageFilter::ThreadedGenerateData(),
    *      ImageToImageFilter::GenerateData()
    */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
 private:
@@ -155,7 +154,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSimpleContourExtractorImageFilter.hxx"
+#  include "itkSimpleContourExtractorImageFilter.hxx"
 #endif
 
 #endif

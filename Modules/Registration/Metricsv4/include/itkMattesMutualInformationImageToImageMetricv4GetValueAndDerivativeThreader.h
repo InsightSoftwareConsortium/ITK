@@ -31,22 +31,23 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-template < typename TDomainPartitioner, typename TImageToImageMetric, typename TMattesMutualInformationMetric >
+template <typename TDomainPartitioner, typename TImageToImageMetric, typename TMattesMutualInformationMetric>
 class ITK_TEMPLATE_EXPORT MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader
-  : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
+  : public ImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader);
 
   /** Standard class type aliases. */
   using Self = MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader;
-  using Superclass = ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro( MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader, ImageToImageMetricv4GetValueAndDerivativeThreader );
+  itkTypeMacro(MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader,
+               ImageToImageMetricv4GetValueAndDerivativeThreader);
 
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   using DomainType = typename Superclass::DomainType;
   using AssociateType = typename Superclass::AssociateType;
@@ -81,41 +82,44 @@ public:
   using JointPDFDerivativesSizeType = typename TMattesMutualInformationMetric::JointPDFDerivativesSizeType;
 
   using CubicBSplineFunctionType = typename TMattesMutualInformationMetric::CubicBSplineFunctionType;
-  using CubicBSplineDerivativeFunctionType = typename TMattesMutualInformationMetric::CubicBSplineDerivativeFunctionType;
+  using CubicBSplineDerivativeFunctionType =
+    typename TMattesMutualInformationMetric::CubicBSplineDerivativeFunctionType;
 
   using JacobianType = typename TMattesMutualInformationMetric::JacobianType;
 
 protected:
-  MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader() :
-    m_MattesAssociate(nullptr)
+  MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader()
+    : m_MattesAssociate(nullptr)
   {}
 
-  void BeforeThreadedExecution() override;
+  void
+  BeforeThreadedExecution() override;
 
-  void AfterThreadedExecution() override;
+  void
+  AfterThreadedExecution() override;
 
   /** This function computes the local voxel-wise contribution of
    *  the metric to the global integral of the metric/derivative.
    */
-  bool ProcessPoint(
-        const VirtualIndexType &          virtualIndex,
-        const VirtualPointType &          virtualPoint,
-        const FixedImagePointType &       mappedFixedPoint,
-        const FixedImagePixelType &       mappedFixedPixelValue,
-        const FixedImageGradientType &    mappedFixedImageGradient,
-        const MovingImagePointType &      mappedMovingPoint,
-        const MovingImagePixelType &      mappedMovingPixelValue,
-        const MovingImageGradientType &   mappedMovingImageGradient,
-        MeasureType &                     metricValueReturn,
-        DerivativeType &                  localDerivativeReturn,
-        const ThreadIdType                threadId ) const override;
+  bool
+  ProcessPoint(const VirtualIndexType &        virtualIndex,
+               const VirtualPointType &        virtualPoint,
+               const FixedImagePointType &     mappedFixedPoint,
+               const FixedImagePixelType &     mappedFixedPixelValue,
+               const FixedImageGradientType &  mappedFixedImageGradient,
+               const MovingImagePointType &    mappedMovingPoint,
+               const MovingImagePixelType &    mappedMovingPixelValue,
+               const MovingImageGradientType & mappedMovingImageGradient,
+               MeasureType &                   metricValueReturn,
+               DerivativeType &                localDerivativeReturn,
+               const ThreadIdType              threadId) const override;
 
   /** Compute PDF derivative contribution for each parameter of a displacement field. */
-  virtual void ComputePDFDerivativesLocalSupportTransform(
-                             const JacobianType &            jacobian,
-                             const MovingImageGradientType & movingGradient,
-                             const PDFValueType &            cubicBSplineDerivativeValue,
-                             DerivativeValueType *           localSupportDerivativeResultPtr) const;
+  virtual void
+  ComputePDFDerivativesLocalSupportTransform(const JacobianType &            jacobian,
+                                             const MovingImageGradientType & movingGradient,
+                                             const PDFValueType &            cubicBSplineDerivativeValue,
+                                             DerivativeValueType *           localSupportDerivativeResultPtr) const;
 
 private:
   /** Internal pointer to the Mattes metric object in use by this threader.
@@ -126,7 +130,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader.hxx"
+#  include "itkMattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader.hxx"
 #endif
 
 #endif

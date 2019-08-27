@@ -17,7 +17,8 @@
  *=========================================================================*/
 #include "itkMultiLabelSTAPLEImageFilter.h"
 
-int itkMultiLabelSTAPLEImageFilterTest(int, char* [] )
+int
+itkMultiLabelSTAPLEImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
@@ -32,8 +33,8 @@ int itkMultiLabelSTAPLEImageFilterTest(int, char* [] )
   const unsigned int dataImageC[8] = { 0, 2, 2, 3, 5, 5, 6, 8 };
 
   // Correct combinations of input images
-  const unsigned int combinationABC[8] =            { 0, 1, 2, 3, 4, 5, 6, 9 };
-  const unsigned int combinationAB[8] =             { 8, 1, 8, 8, 4, 8, 8, 8 };
+  const unsigned int combinationABC[8] = { 0, 1, 2, 3, 4, 5, 6, 9 };
+  const unsigned int combinationAB[8] = { 8, 1, 8, 8, 4, 8, 8, 8 };
   const unsigned int combinationABundecided255[8] = { 8, 1, 8, 8, 4, 8, 8, 8 };
 
   // Declare the type of the index to access images
@@ -61,7 +62,7 @@ int itkMultiLabelSTAPLEImageFilterTest(int, char* [] )
   myImageTypePointer inputImageC = myImageType::New();
 
   myRegionType region;
-    {
+  {
     // Define their size, and start index
     mySizeType size;
     size[0] = 2;
@@ -73,47 +74,46 @@ int itkMultiLabelSTAPLEImageFilterTest(int, char* [] )
     start[1] = 0;
     start[2] = 0;
 
-    region.SetIndex( start );
-    region.SetSize( size );
-    }
+    region.SetIndex(start);
+    region.SetSize(size);
+  }
 
   // Initialize Image A
-  inputImageA->SetLargestPossibleRegion( region );
-  inputImageA->SetBufferedRegion( region );
-  inputImageA->SetRequestedRegion( region );
+  inputImageA->SetLargestPossibleRegion(region);
+  inputImageA->SetBufferedRegion(region);
+  inputImageA->SetRequestedRegion(region);
   inputImageA->Allocate();
 
-  myIteratorType it =
-    myIteratorType( inputImageA, inputImageA->GetBufferedRegion() );
+  myIteratorType it = myIteratorType(inputImageA, inputImageA->GetBufferedRegion());
 
-  for( unsigned int i = 0; i < 8; ++i, ++it )
-    {
-    it.Set( dataImageA[i] );
-    }
+  for (unsigned int i = 0; i < 8; ++i, ++it)
+  {
+    it.Set(dataImageA[i]);
+  }
 
   // Initialize Image B
-  inputImageB->SetLargestPossibleRegion( region );
-  inputImageB->SetBufferedRegion( region );
-  inputImageB->SetRequestedRegion( region );
+  inputImageB->SetLargestPossibleRegion(region);
+  inputImageB->SetBufferedRegion(region);
+  inputImageB->SetRequestedRegion(region);
   inputImageB->Allocate();
 
-  it = myIteratorType( inputImageB, inputImageB->GetBufferedRegion() );
-  for( unsigned int i = 0; i < 8; ++i, ++it )
-    {
-    it.Set( dataImageB[i] );
-    }
+  it = myIteratorType(inputImageB, inputImageB->GetBufferedRegion());
+  for (unsigned int i = 0; i < 8; ++i, ++it)
+  {
+    it.Set(dataImageB[i]);
+  }
 
   // Initialize Image C
-  inputImageC->SetLargestPossibleRegion( region );
-  inputImageC->SetBufferedRegion( region );
-  inputImageC->SetRequestedRegion( region );
+  inputImageC->SetLargestPossibleRegion(region);
+  inputImageC->SetBufferedRegion(region);
+  inputImageC->SetRequestedRegion(region);
   inputImageC->Allocate();
 
-  it = myIteratorType( inputImageC, inputImageC->GetBufferedRegion() );
-  for( unsigned int i = 0; i < 8; ++i, ++it )
-    {
-    it.Set( dataImageC[i] );
-    }
+  it = myIteratorType(inputImageC, inputImageC->GetBufferedRegion());
+  for (unsigned int i = 0; i < 8; ++i, ++it)
+  {
+    it.Set(dataImageC[i]);
+  }
 
   // Create an LabelVoting Filter
   myFilterTypePointer filter = myFilterType::New();
@@ -124,28 +124,26 @@ int itkMultiLabelSTAPLEImageFilterTest(int, char* [] )
   // = test first two input images with undecided label set to 255 = //
 
   // Connect the first two input images
-  filter->SetInput( 0, inputImageA );
-  filter->SetInput( 1, inputImageB );
+  filter->SetInput(0, inputImageA);
+  filter->SetInput(1, inputImageB);
 
   // Set label for undecided pixels
-  filter->SetLabelForUndecidedPixels( 255 );
+  filter->SetLabelForUndecidedPixels(255);
 
   // Execute the filter
   filter->Update();
 
   // compare to correct results
-  it = myIteratorType( outputImage, outputImage->GetBufferedRegion() );
-  for( unsigned int i = 0; i < 8; ++i, ++it )
+  it = myIteratorType(outputImage, outputImage->GetBufferedRegion());
+  for (unsigned int i = 0; i < 8; ++i, ++it)
+  {
+    if (combinationABundecided255[i] != it.Get())
     {
-    if( combinationABundecided255[i] != it.Get() )
-      {
       std::cout << "Incorrect result using images A,B and undecided=255: "
-                << "i = " << i
-                << ", correct = " << combinationABundecided255[i]
-                << ", got = " << it.Get() << "\n";
+                << "i = " << i << ", correct = " << combinationABundecided255[i] << ", got = " << it.Get() << "\n";
       return EXIT_FAILURE;
-      }
     }
+  }
 
   // =========== test first two input images ============ //
 
@@ -156,45 +154,43 @@ int itkMultiLabelSTAPLEImageFilterTest(int, char* [] )
   filter->Update();
 
   // compare to correct results
-  it = myIteratorType( outputImage, outputImage->GetBufferedRegion() );
-  for( unsigned int i = 0; i < 8; ++i, ++it )
+  it = myIteratorType(outputImage, outputImage->GetBufferedRegion());
+  for (unsigned int i = 0; i < 8; ++i, ++it)
+  {
+    if (combinationAB[i] != it.Get())
     {
-    if( combinationAB[i] != it.Get() )
-      {
-      std::cout << "Incorrect result using images A,B: i = " << i
-                << ", correct = " << combinationAB[i]
+      std::cout << "Incorrect result using images A,B: i = " << i << ", correct = " << combinationAB[i]
                 << ", got = " << it.Get() << "\n";
       return EXIT_FAILURE;
-      }
     }
+  }
 
   // =========== test all three input images ============ //
 
   // connect third input image
-  filter->SetInput( 2, inputImageC );
+  filter->SetInput(2, inputImageC);
 
   // Execute the filter
   filter->Update();
 
   // compare to correct results
-  it = myIteratorType( outputImage, outputImage->GetBufferedRegion() );
-  for( unsigned int i = 0; i < 8; ++i, ++it )
+  it = myIteratorType(outputImage, outputImage->GetBufferedRegion());
+  for (unsigned int i = 0; i < 8; ++i, ++it)
+  {
+    if (combinationABC[i] != it.Get())
     {
-    if( combinationABC[i] != it.Get() )
-      {
-      std::cout << "Incorrect result using images A,B,C: i = " << i
-                << ", correct = " << combinationABC[i]
+      std::cout << "Incorrect result using images A,B,C: i = " << i << ", correct = " << combinationABC[i]
                 << ", got = " << it.Get() << "\n";
       return EXIT_FAILURE;
-      }
     }
+  }
 
-  filter->Print( std::cout, 3 );
+  filter->Print(std::cout, 3);
 
   std::cout << "Prior probabilities: " << filter->GetPriorProbabilities() << std::endl;
-  std::cout << "Confusion matrix 0 " << std::endl << filter->GetConfusionMatrix( 0 ) << std::endl;
-  std::cout << "Confusion matrix 1 " << std::endl << filter->GetConfusionMatrix( 1 ) << std::endl;
-  std::cout << "Confusion matrix 2 " << std::endl << filter->GetConfusionMatrix( 2 ) << std::endl;
+  std::cout << "Confusion matrix 0 " << std::endl << filter->GetConfusionMatrix(0) << std::endl;
+  std::cout << "Confusion matrix 1 " << std::endl << filter->GetConfusionMatrix(1) << std::endl;
+  std::cout << "Confusion matrix 2 " << std::endl << filter->GetConfusionMatrix(2) << std::endl;
 
   std::cout << "Success!\n";
 

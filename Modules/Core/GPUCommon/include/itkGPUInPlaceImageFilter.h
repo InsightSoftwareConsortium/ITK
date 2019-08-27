@@ -33,19 +33,21 @@ namespace itk
  *
  * \ingroup ITKGPUCommon
  */
-template< typename TInputImage, typename TOutputImage = TInputImage, typename TParentImageFilter =
-            InPlaceImageFilter< TInputImage, TOutputImage > >
-class ITK_TEMPLATE_EXPORT GPUInPlaceImageFilter : public GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >
+template <typename TInputImage,
+          typename TOutputImage = TInputImage,
+          typename TParentImageFilter = InPlaceImageFilter<TInputImage, TOutputImage>>
+class ITK_TEMPLATE_EXPORT GPUInPlaceImageFilter
+  : public GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUInPlaceImageFilter);
 
   /** Standard class type aliases. */
   using Self = GPUInPlaceImageFilter;
-  using GPUSuperclass = GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >;
+  using GPUSuperclass = GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>;
   using CPUSuperclass = TParentImageFilter;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GPUInPlaceImageFilter, GPUImageToImageFilter);
@@ -71,7 +73,8 @@ protected:
   GPUInPlaceImageFilter();
   ~GPUInPlaceImageFilter() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** The GenerateData method normally allocates the buffers for all
    * of the outputs of a filter. Since InPlaceImageFilter's can use an
@@ -85,7 +88,8 @@ protected:
    * an InPlaceFilter is not threaded (i.e. it provides an
    * implementation of GenerateData()), then this method (or
    * equivalent) must be called in GenerateData(). */
-  void AllocateOutputs() override;
+  void
+  AllocateOutputs() override;
 
   /** InPlaceImageFilter may transfer ownership of the input bulk data
    * to the output object.  Once the output object owns the bulk data
@@ -96,13 +100,14 @@ protected:
    * releases the input that it has overwritten.
    *
    * \sa ProcessObject::ReleaseInputs() */
-  void ReleaseInputs() override;
+  void
+  ReleaseInputs() override;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGPUInPlaceImageFilter.hxx"
+#  include "itkGPUInPlaceImageFilter.hxx"
 #endif
 
 #endif

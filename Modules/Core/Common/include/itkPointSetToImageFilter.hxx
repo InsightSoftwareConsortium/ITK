@@ -28,87 +28,75 @@
 namespace itk
 {
 
-template< typename TInputPointSet, typename TOutputImage >
-PointSetToImageFilter< TInputPointSet, TOutputImage >
-::PointSetToImageFilter()
+template <typename TInputPointSet, typename TOutputImage>
+PointSetToImageFilter<TInputPointSet, TOutputImage>::PointSetToImageFilter()
 {
   this->SetNumberOfRequiredInputs(1);
   this->m_Size.Fill(0);
   this->m_Origin.Fill(0.0);
   this->m_Spacing.Fill(1.0);
   this->m_Direction.SetIdentity();
-  this->m_InsideValue = NumericTraits< ValueType >::OneValue();
-  this->m_OutsideValue = NumericTraits< ValueType >::ZeroValue();
+  this->m_InsideValue = NumericTraits<ValueType>::OneValue();
+  this->m_OutsideValue = NumericTraits<ValueType>::ZeroValue();
 }
 
-template< typename TInputPointSet, typename TOutputImage >
+template <typename TInputPointSet, typename TOutputImage>
 void
-PointSetToImageFilter< TInputPointSet, TOutputImage >
-::SetInput(const InputPointSetType *input)
+PointSetToImageFilter<TInputPointSet, TOutputImage>::SetInput(const InputPointSetType * input)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( 0,
-                                    const_cast< InputPointSetType * >( input ) );
+  this->ProcessObject::SetNthInput(0, const_cast<InputPointSetType *>(input));
 }
 
 /** Connect one of the operands  */
-template< typename TInputPointSet, typename TOutputImage >
+template <typename TInputPointSet, typename TOutputImage>
 void
-PointSetToImageFilter< TInputPointSet, TOutputImage >
-::SetInput(unsigned int index, const TInputPointSet *pointset)
+PointSetToImageFilter<TInputPointSet, TOutputImage>::SetInput(unsigned int index, const TInputPointSet * pointset)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( index,
-                                    const_cast< TInputPointSet * >( pointset ) );
+  this->ProcessObject::SetNthInput(index, const_cast<TInputPointSet *>(pointset));
 }
 
 /** Get the input point-set */
-template< typename TInputPointSet, typename TOutputImage >
-const typename PointSetToImageFilter< TInputPointSet, TOutputImage >::InputPointSetType *
-PointSetToImageFilter< TInputPointSet, TOutputImage >
-::GetInput()
+template <typename TInputPointSet, typename TOutputImage>
+const typename PointSetToImageFilter<TInputPointSet, TOutputImage>::InputPointSetType *
+PointSetToImageFilter<TInputPointSet, TOutputImage>::GetInput()
 {
-  return itkDynamicCastInDebugMode< const TInputPointSet * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode<const TInputPointSet *>(this->GetPrimaryInput());
 }
 
 /** Get the input point-set */
-template< typename TInputPointSet, typename TOutputImage >
-const typename PointSetToImageFilter< TInputPointSet, TOutputImage >::InputPointSetType *
-PointSetToImageFilter< TInputPointSet, TOutputImage >
-::GetInput(unsigned int idx)
+template <typename TInputPointSet, typename TOutputImage>
+const typename PointSetToImageFilter<TInputPointSet, TOutputImage>::InputPointSetType *
+PointSetToImageFilter<TInputPointSet, TOutputImage>::GetInput(unsigned int idx)
 {
-  return itkDynamicCastInDebugMode< const TInputPointSet * >
-         ( this->ProcessObject::GetInput(idx) );
+  return itkDynamicCastInDebugMode<const TInputPointSet *>(this->ProcessObject::GetInput(idx));
 }
 
-template< typename TInputPointSet, typename TOutputImage >
+template <typename TInputPointSet, typename TOutputImage>
 void
-PointSetToImageFilter< TInputPointSet, TOutputImage >
-::SetSpacing(const float *v)
+PointSetToImageFilter<TInputPointSet, TOutputImage>::SetSpacing(const float * v)
 {
   this->SetSpacing(SpacingType(v));
 }
 
-template< typename TInputPointSet, typename TOutputImage >
+template <typename TInputPointSet, typename TOutputImage>
 void
-PointSetToImageFilter< TInputPointSet, TOutputImage >
-::SetSpacing(const double *v)
+PointSetToImageFilter<TInputPointSet, TOutputImage>::SetSpacing(const double * v)
 {
   this->SetSpacing(SpacingType(v));
 }
 
-template< typename TInputPointSet, typename TOutputImage >
+template <typename TInputPointSet, typename TOutputImage>
 void
-PointSetToImageFilter< TInputPointSet, TOutputImage >
-::SetOrigin(const float *v)
+PointSetToImageFilter<TInputPointSet, TOutputImage>::SetOrigin(const float * v)
 {
   this->SetOrigin(PointType(v));
 }
 
-template< typename TInputPointSet, typename TOutputImage >
+template <typename TInputPointSet, typename TOutputImage>
 void
-PointSetToImageFilter< TInputPointSet, TOutputImage >
-::SetOrigin(const double *v)
+PointSetToImageFilter<TInputPointSet, TOutputImage>::SetOrigin(const double * v)
 {
   this->SetOrigin(PointType(v));
 }
@@ -116,37 +104,35 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
 //----------------------------------------------------------------------------
 
 /** Update */
-template< typename TInputPointSet, typename TOutputImage >
+template <typename TInputPointSet, typename TOutputImage>
 void
-PointSetToImageFilter< TInputPointSet, TOutputImage >
-::GenerateData()
+PointSetToImageFilter<TInputPointSet, TOutputImage>::GenerateData()
 {
   unsigned int i;
 
   itkDebugMacro(<< "PointSetToImageFilter::Update() called");
 
   // Get the input and output pointers
-  const InputPointSetType *InputPointSet  = this->GetInput();
-  OutputImagePointer       OutputImage = this->GetOutput();
+  const InputPointSetType * InputPointSet = this->GetInput();
+  OutputImagePointer        OutputImage = this->GetOutput();
 
   // Generate the image
   double   origin[InputPointSetDimension];
   SizeType size;
 
-  using BoundingBoxType = BoundingBox<
-    typename InputPointSetType::PointIdentifier,
-    InputPointSetDimension,
-    typename InputPointSetType::CoordRepType,
-    typename InputPointSetType::PointsContainer>;
+  using BoundingBoxType = BoundingBox<typename InputPointSetType::PointIdentifier,
+                                      InputPointSetDimension,
+                                      typename InputPointSetType::CoordRepType,
+                                      typename InputPointSetType::PointsContainer>;
   typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
-  bb->SetPoints( InputPointSet->GetPoints() );
+  bb->SetPoints(InputPointSet->GetPoints());
   bb->ComputeBoundingBox();
 
-  for ( i = 0; i < InputPointSetDimension; i++ )
-    {
-    size[i] = static_cast<SizeValueType>( bb->GetBounds()[2 * i + 1] - bb->GetBounds()[2 * i] );
-    origin[i] = 0; //bb->GetBounds()[2*i];
-    }
+  for (i = 0; i < InputPointSetDimension; i++)
+  {
+    size[i] = static_cast<SizeValueType>(bb->GetBounds()[2 * i + 1] - bb->GetBounds()[2 * i]);
+    origin[i] = 0; // bb->GetBounds()[2*i];
+  }
 
   typename OutputImageType::RegionType region;
 
@@ -156,23 +142,23 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
   // PointSet's bounding box will be used as default.
 
   bool specified = false;
-  for ( i = 0; i < OutputImageDimension; i++ )
+  for (i = 0; i < OutputImageDimension; i++)
+  {
+    if (m_Size[i] != NumericTraits<SizeValueType>::ZeroValue())
     {
-    if ( m_Size[i] != NumericTraits<SizeValueType>::ZeroValue() )
-      {
       specified = true;
       break;
-      }
     }
+  }
 
-  if ( specified )
-    {
+  if (specified)
+  {
     region.SetSize(m_Size);
-    }
+  }
   else
-    {
+  {
     region.SetSize(size);
-    }
+  }
 
   OutputImage->SetRegions(region);
 
@@ -182,37 +168,38 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
   // the point-set is used as default.
 
   specified = false;
-  for ( i = 0; i < OutputImageDimension; i++ )
+  for (i = 0; i < OutputImageDimension; i++)
+  {
+    if (Math::NotExactlyEquals(m_Spacing[i],
+                               NumericTraits<typename NumericTraits<SpacingType>::ValueType>::ZeroValue()))
     {
-    if ( Math::NotExactlyEquals(m_Spacing[i], NumericTraits<typename NumericTraits<SpacingType>::ValueType>::ZeroValue()) )
-      {
       specified = true;
       break;
-      }
     }
+  }
 
-  if ( specified )
-    {
-    OutputImage->SetSpacing(this->m_Spacing);         // set spacing
-    }
+  if (specified)
+  {
+    OutputImage->SetSpacing(this->m_Spacing); // set spacing
+  }
 
   specified = false;
-  for ( i = 0; i < OutputImageDimension; i++ )
+  for (i = 0; i < OutputImageDimension; i++)
+  {
+    if (Math::NotExactlyEquals(m_Origin[i], NumericTraits<typename NumericTraits<PointType>::ValueType>::ZeroValue()))
     {
-    if ( Math::NotExactlyEquals(m_Origin[i], NumericTraits<typename NumericTraits<PointType>::ValueType>::ZeroValue()) )
-      {
       specified = true;
       break;
-      }
     }
+  }
 
-  if ( specified )
+  if (specified)
+  {
+    for (i = 0; i < OutputImageDimension; i++)
     {
-    for ( i = 0; i < OutputImageDimension; i++ )
-      {
-      origin[i] = m_Origin[i];         // set origin
-      }
+      origin[i] = m_Origin[i]; // set origin
     }
+  }
 
   OutputImage->SetOrigin(origin);         //   and origin
   OutputImage->SetDirection(m_Direction); //   and Direction
@@ -225,33 +212,30 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
 
   typename OutputImageType::IndexType index;
 
-  while ( pointItr != pointEnd )
+  while (pointItr != pointEnd)
+  {
+    if (OutputImage->TransformPhysicalPointToIndex(pointItr.Value(), index))
     {
-    if ( OutputImage->TransformPhysicalPointToIndex(pointItr.Value(), index) )
-      {
       OutputImage->SetPixel(index, m_InsideValue);
-      }
-    ++pointItr;
     }
+    ++pointItr;
+  }
 
   itkDebugMacro(<< "PointSetToImageFilter::Update() finished");
 } // end update function
 
-template< typename TInputPointSet, typename TOutputImage >
+template <typename TInputPointSet, typename TOutputImage>
 void
-PointSetToImageFilter< TInputPointSet, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+PointSetToImageFilter<TInputPointSet, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Size : " << m_Size << std::endl;
   os << indent << "Origin: " << m_Origin << std::endl;
   os << indent << "Spacing: " << m_Spacing << std::endl;
   os << indent << "Direction: " << m_Direction << std::endl;
-  os << indent << "Inside Value : "
-     << static_cast< typename NumericTraits< ValueType >::PrintType >( m_InsideValue )
+  os << indent << "Inside Value : " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_InsideValue)
      << std::endl;
-  os << indent << "Outside Value : "
-     << static_cast< typename NumericTraits< ValueType >::PrintType >( m_OutsideValue )
+  os << indent << "Outside Value : " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_OutsideValue)
      << std::endl;
 }
 } // end namespace itk

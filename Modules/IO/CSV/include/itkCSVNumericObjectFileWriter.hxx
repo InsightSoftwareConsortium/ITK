@@ -28,8 +28,7 @@
 namespace itk
 {
 template <typename TValue, unsigned int NRows, unsigned int NColumns>
-CSVNumericObjectFileWriter<TValue,NRows, NColumns>
-::CSVNumericObjectFileWriter()
+CSVNumericObjectFileWriter<TValue, NRows, NColumns>::CSVNumericObjectFileWriter()
 {
   this->m_FieldDelimiterCharacter = ',';
   this->m_InputObject = nullptr;
@@ -37,204 +36,182 @@ CSVNumericObjectFileWriter<TValue,NRows, NColumns>
 
 template <typename TValue, unsigned int NRows, unsigned int NColumns>
 void
-CSVNumericObjectFileWriter<TValue,NRows,NColumns>
-::SetInput(const vnlMatrixType* obj)
+CSVNumericObjectFileWriter<TValue, NRows, NColumns>::SetInput(const vnlMatrixType * obj)
 {
-  this->m_InputObject = const_cast<TValue * >( obj->data_block() );
+  this->m_InputObject = const_cast<TValue *>(obj->data_block());
   this->m_Rows = obj->rows();
   this->m_Columns = obj->cols();
 }
 
 template <typename TValue, unsigned int NRows, unsigned int NColumns>
 void
-CSVNumericObjectFileWriter<TValue,NRows,NColumns>
-::SetInput(const vnlFixedMatrixType* obj)
+CSVNumericObjectFileWriter<TValue, NRows, NColumns>::SetInput(const vnlFixedMatrixType * obj)
 {
-  this->m_InputObject = const_cast<TValue * >( obj->data_block() );
+  this->m_InputObject = const_cast<TValue *>(obj->data_block());
   this->m_Rows = obj->rows();
   this->m_Columns = obj->cols();
 }
 
 template <typename TValue, unsigned int NRows, unsigned int NColumns>
 void
-CSVNumericObjectFileWriter<TValue,NRows,NColumns>
-::SetInput(const itkMatrixType* obj)
+CSVNumericObjectFileWriter<TValue, NRows, NColumns>::SetInput(const itkMatrixType * obj)
 {
-  this->m_InputObject = const_cast<TValue * >(
-    obj->GetVnlMatrix().data_block() );
+  this->m_InputObject = const_cast<TValue *>(obj->GetVnlMatrix().data_block());
   this->m_Rows = obj->RowDimensions;
   this->m_Columns = obj->ColumnDimensions;
 }
 
 template <typename TValue, unsigned int NRows, unsigned int NColumns>
 void
-CSVNumericObjectFileWriter<TValue,NRows,NColumns>
-::ColumnHeadersPushBack(const std::string & header)
+CSVNumericObjectFileWriter<TValue, NRows, NColumns>::ColumnHeadersPushBack(const std::string & header)
 {
   this->m_ColumnHeaders.push_back(header);
 }
 
 template <typename TValue, unsigned int NRows, unsigned int NColumns>
 void
-CSVNumericObjectFileWriter<TValue,NRows,NColumns>
-::RowHeadersPushBack(const std::string & header)
+CSVNumericObjectFileWriter<TValue, NRows, NColumns>::RowHeadersPushBack(const std::string & header)
 {
   this->m_RowHeaders.push_back(header);
 }
 
 template <typename TValue, unsigned int NRows, unsigned int NColumns>
 void
-CSVNumericObjectFileWriter<TValue,NRows,NColumns>
-::SetColumnHeaders(const StringVectorType & columnheaders)
+CSVNumericObjectFileWriter<TValue, NRows, NColumns>::SetColumnHeaders(const StringVectorType & columnheaders)
 {
   this->m_ColumnHeaders = columnheaders;
 }
 
 template <typename TValue, unsigned int NRows, unsigned int NColumns>
 void
-CSVNumericObjectFileWriter<TValue,NRows,NColumns>
-::SetRowHeaders(const StringVectorType & rowheaders)
+CSVNumericObjectFileWriter<TValue, NRows, NColumns>::SetRowHeaders(const StringVectorType & rowheaders)
 {
   this->m_RowHeaders = rowheaders;
 }
 
-template <typename TValue,unsigned int NRows, unsigned int NColumns>
+template <typename TValue, unsigned int NRows, unsigned int NColumns>
 void
-CSVNumericObjectFileWriter<TValue,NRows,NColumns>
-::PrepareForWriting()
+CSVNumericObjectFileWriter<TValue, NRows, NColumns>::PrepareForWriting()
 {
   // throw an exception if no filename is provided
-  if ( this->m_FileName.empty() )
-    {
-    itkExceptionMacro( << "A filename for writing was not specified!" );
-    }
+  if (this->m_FileName.empty())
+  {
+    itkExceptionMacro(<< "A filename for writing was not specified!");
+  }
 
   // throw an exception if no input object is provided
-  if ( this->m_InputObject == nullptr )
-    {
-    itkExceptionMacro( << "An input object was not specified!" );
-    }
+  if (this->m_InputObject == nullptr)
+  {
+    itkExceptionMacro(<< "An input object was not specified!");
+  }
 
   // output a warning if the number of row headers and number of rows in the
   // object are not the same
-  if ( !this->m_RowHeaders.empty()
-       && (this->m_RowHeaders.size() != this->m_Rows) )
-    {
+  if (!this->m_RowHeaders.empty() && (this->m_RowHeaders.size() != this->m_Rows))
+  {
     itkWarningMacro(<< "Warning: The number of row headers and the number of rows in"
-              << " the input object is not consistent.");
-    }
+                    << " the input object is not consistent.");
+  }
 
   // output a warning if the number of column headers and number of columns in
   // the object are not the same
-  if( !this->m_ColumnHeaders.empty() )
+  if (!this->m_ColumnHeaders.empty())
+  {
+    if (!this->m_RowHeaders.empty() && this->m_ColumnHeaders.size() != (this->m_Columns + 1))
     {
-    if ( !this->m_RowHeaders.empty()
-         && this->m_ColumnHeaders.size() != (this->m_Columns+1) )
-      {
       itkWarningMacro(<< "Warning: The number of column headers and the number of"
                       << " columns in the input object is not consistent.");
-      }
-    if ( this->m_RowHeaders.empty()
-         && this->m_ColumnHeaders.size() != this->m_Columns )
-      {
-      itkWarningMacro(<< "Warning: The number of column headers and the number of"
-                      << " columns in the input object is not consistent.");
-      }
     }
+    if (this->m_RowHeaders.empty() && this->m_ColumnHeaders.size() != this->m_Columns)
+    {
+      itkWarningMacro(<< "Warning: The number of column headers and the number of"
+                      << " columns in the input object is not consistent.");
+    }
+  }
 }
 
 template <typename TValue, unsigned int NRows, unsigned int NColumns>
 void
-CSVNumericObjectFileWriter<TValue,NRows,NColumns>
-::Write()
+CSVNumericObjectFileWriter<TValue, NRows, NColumns>::Write()
 {
   this->PrepareForWriting();
 
   std::ofstream outputStream(this->m_FileName.c_str());
-  if ( outputStream.fail() )
-    {
-      itkExceptionMacro(
-        "The file " << this->m_FileName <<" cannot be opened for writing!"
-        << std::endl
-        << "Reason: "
-        << itksys::SystemTools::GetLastSystemError() );
-    }
+  if (outputStream.fail())
+  {
+    itkExceptionMacro("The file " << this->m_FileName << " cannot be opened for writing!" << std::endl
+                                  << "Reason: " << itksys::SystemTools::GetLastSystemError());
+  }
 
   try
+  {
+    if (!this->m_ColumnHeaders.empty())
     {
-    if ( !this->m_ColumnHeaders.empty() )
-      {
       for (unsigned int i = 0; i < this->m_ColumnHeaders.size(); i++)
-        {
-        outputStream << this->m_ColumnHeaders[i];
-        if ( i < this->m_ColumnHeaders.size() - 1 )
-          {
-          outputStream << this->m_FieldDelimiterCharacter;
-          }
-        }
-      outputStream << std::endl;
-      }
-    for (unsigned int i = 0; i < this->m_Rows; i++)
       {
-      if ( !this->m_RowHeaders.empty() )
+        outputStream << this->m_ColumnHeaders[i];
+        if (i < this->m_ColumnHeaders.size() - 1)
         {
-        if ( i < this->m_RowHeaders.size() )
-          {
-          outputStream << this->m_RowHeaders[i]
-                       << this->m_FieldDelimiterCharacter;
-          }
+          outputStream << this->m_FieldDelimiterCharacter;
         }
+      }
+      outputStream << std::endl;
+    }
+    for (unsigned int i = 0; i < this->m_Rows; i++)
+    {
+      if (!this->m_RowHeaders.empty())
+      {
+        if (i < this->m_RowHeaders.size())
+        {
+          outputStream << this->m_RowHeaders[i] << this->m_FieldDelimiterCharacter;
+        }
+      }
 
       for (unsigned int j = 0; j < this->m_Columns; j++)
-        {
-        outputStream << std::setprecision(std::numeric_limits
-                                          <TValue>::digits10)
-                     << *(this->m_InputObject++);
+      {
+        outputStream << std::setprecision(std::numeric_limits<TValue>::digits10) << *(this->m_InputObject++);
 
         if (j < this->m_Columns - 1)
-          {
+        {
           outputStream << this->m_FieldDelimiterCharacter;
-          }
         }
-      outputStream << std::endl;
       }
+      outputStream << std::endl;
     }
-  catch (itk::ExceptionObject& exp)
-    {
+  }
+  catch (itk::ExceptionObject & exp)
+  {
     std::cerr << "Exception caught! " << std::endl;
     std::cerr << exp << std::endl;
     outputStream.close();
     throw exp;
-    }
+  }
   catch (...)
-    {
+  {
     outputStream.close();
     throw;
-    }
+  }
 
   outputStream.close();
 }
 
 template <typename TValue, unsigned int NRows, unsigned int NColumns>
 void
-CSVNumericObjectFileWriter<TValue,NRows,NColumns>
-::Update()
+CSVNumericObjectFileWriter<TValue, NRows, NColumns>::Update()
 {
   this->Write();
 }
 
 template <typename TValue, unsigned int NRows, unsigned int NColumns>
 void
-CSVNumericObjectFileWriter<TValue,NRows,NColumns>
-::PrintSelf(std::ostream& os, Indent indent) const
+CSVNumericObjectFileWriter<TValue, NRows, NColumns>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
   os << indent << "File name: " << this->m_FileName << std::endl;
-  os << indent << "Field Delimiter Character: "
-     << this->m_FieldDelimiterCharacter << std::endl;
+  os << indent << "Field Delimiter Character: " << this->m_FieldDelimiterCharacter << std::endl;
 }
 
 
-} //end namespace itk
+} // end namespace itk
 
 #endif

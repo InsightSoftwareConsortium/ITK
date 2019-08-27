@@ -45,15 +45,14 @@ namespace itk
  *
  * \ingroup ITKDeprecated
  */
-class ITKDeprecated_EXPORT Barrier
-  : public LightObject
+class ITKDeprecated_EXPORT Barrier : public LightObject
 {
 public:
   /** Standard class type aliases. */
   using Self = Barrier;
   using Superclass = LightObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -64,20 +63,22 @@ public:
   /** Creates a new system variable used to implement the barrier.  The
       argument to this method is the number of threads that must Wait() on the
       barrier before it is cleared. */
-  void Initialize(unsigned int);
+  void
+  Initialize(unsigned int);
 
   /** A thread calling this method waits until m_NumberOfThreads have called
    *  Wait() on the barrier.  When the final expected thread calls Wait(), all
    *  threads are released. */
-  void Wait();
+  void
+  Wait();
 
 private:
   Barrier();
   ~Barrier() override;
 
-  unsigned int            m_NumberArrived{0};
-  unsigned int            m_NumberExpected{0};
-  unsigned int            m_Generation{0}; // Allows successive waits
+  unsigned int            m_NumberArrived{ 0 };
+  unsigned int            m_NumberExpected{ 0 };
+  unsigned int            m_Generation{ 0 }; // Allows successive waits
   std::condition_variable m_ConditionVariable;
   std::mutex              m_Mutex;
 };

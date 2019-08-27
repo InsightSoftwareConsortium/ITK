@@ -43,7 +43,6 @@ public:
   virtual ~HexahedronCellTopology();
 
 protected:
-
   /** Hexahedron topology data. */
   static const int m_Edges[12][2];
   static const int m_Faces[6][4];

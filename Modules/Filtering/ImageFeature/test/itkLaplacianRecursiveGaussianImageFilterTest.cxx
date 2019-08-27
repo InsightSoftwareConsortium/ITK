@@ -24,98 +24,91 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
-int itkLaplacianRecursiveGaussianImageFilterTest(int argc, char* argv[])
+int
+itkLaplacianRecursiveGaussianImageFilterTest(int argc, char * argv[])
 {
-  if( argc < 3)
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImage outputImage " << std::endl;
     return -1;
-    }
+  }
 
-  const char * inputFilename  = argv[1];
+  const char * inputFilename = argv[1];
   const char * outputFilename = argv[2];
 
-  using CharPixelType = unsigned char;  //IO
-  using RealPixelType = double;  //Operations
+  using CharPixelType = unsigned char; // IO
+  using RealPixelType = double;        // Operations
 
   constexpr unsigned int Dimension = 2;
 
   using CharImageType = itk::Image<CharPixelType, Dimension>;
   using RealImageType = itk::Image<RealPixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader< CharImageType >;
-  using WriterType = itk::ImageFileWriter< CharImageType >;
+  using ReaderType = itk::ImageFileReader<CharImageType>;
+  using WriterType = itk::ImageFileWriter<CharImageType>;
 
   using CastToRealFilterType = itk::CastImageFilter<CharImageType, RealImageType>;
   using CastToCharFilterType = itk::CastImageFilter<RealImageType, CharImageType>;
 
   using RescaleFilter = itk::RescaleIntensityImageFilter<RealImageType, RealImageType>;
 
-  using LaplacianFilter = itk::LaplacianRecursiveGaussianImageFilter<
-                              RealImageType,
-                              RealImageType >;
+  using LaplacianFilter = itk::LaplacianRecursiveGaussianImageFilter<RealImageType, RealImageType>;
 
-  { //Instantiate a 6D image for testing purposes
-  using HighDImageType = itk::Image<RealPixelType, 6>;
-  using LaplacianFilterHighDType = itk::LaplacianRecursiveGaussianImageFilter<
-                              HighDImageType,
-                              HighDImageType >;
-  LaplacianFilterHighDType::Pointer nDTest = LaplacianFilterHighDType::New();
+  { // Instantiate a 6D image for testing purposes
+    using HighDImageType = itk::Image<RealPixelType, 6>;
+    using LaplacianFilterHighDType = itk::LaplacianRecursiveGaussianImageFilter<HighDImageType, HighDImageType>;
+    LaplacianFilterHighDType::Pointer nDTest = LaplacianFilterHighDType::New();
   }
 
-  using ZeroCrossingFilter = itk::ZeroCrossingImageFilter<
-                              RealImageType,
-                              RealImageType>;
+  using ZeroCrossingFilter = itk::ZeroCrossingImageFilter<RealImageType, RealImageType>;
 
-  //Setting the IO
+  // Setting the IO
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
   CastToRealFilterType::Pointer toReal = CastToRealFilterType::New();
   CastToCharFilterType::Pointer toChar = CastToCharFilterType::New();
-  RescaleFilter::Pointer rescale = RescaleFilter::New();
+  RescaleFilter::Pointer        rescale = RescaleFilter::New();
 
-  //Setting the ITK pipeline filter
+  // Setting the ITK pipeline filter
 
-  LaplacianFilter::Pointer lapFilter = LaplacianFilter::New();
-  itk::SimpleFilterWatcher watcher(lapFilter);
+  LaplacianFilter::Pointer    lapFilter = LaplacianFilter::New();
+  itk::SimpleFilterWatcher    watcher(lapFilter);
   ZeroCrossingFilter::Pointer zeroFilter = ZeroCrossingFilter::New();
 
-  reader->SetFileName( inputFilename  );
-  writer->SetFileName( outputFilename );
+  reader->SetFileName(inputFilename);
+  writer->SetFileName(outputFilename);
 
-  //The output of an edge filter is 0 or 1
-  rescale->SetOutputMinimum(   0 );
-  rescale->SetOutputMaximum( 255 );
+  // The output of an edge filter is 0 or 1
+  rescale->SetOutputMinimum(0);
+  rescale->SetOutputMaximum(255);
 
-  toReal->SetInput( reader->GetOutput() );
-  toChar->SetInput( rescale->GetOutput() );
-  writer->SetInput( toChar->GetOutput() );
+  toReal->SetInput(reader->GetOutput());
+  toChar->SetInput(rescale->GetOutput());
+  writer->SetInput(toChar->GetOutput());
 
-  //Edge Detection by Laplacian Image Filter:
+  // Edge Detection by Laplacian Image Filter:
 
-  lapFilter->SetInput( toReal->GetOutput() );
-  lapFilter->SetSigma( 2.0 );
-  zeroFilter->SetInput( lapFilter->GetOutput() );
-  rescale->SetInput( zeroFilter->GetOutput() );
+  lapFilter->SetInput(toReal->GetOutput());
+  lapFilter->SetSigma(2.0);
+  zeroFilter->SetInput(lapFilter->GetOutput());
+  rescale->SetInput(zeroFilter->GetOutput());
 
   // Test itkGetMacro
   bool bNormalizeAcrossScale = lapFilter->GetNormalizeAcrossScale();
-  std::cout << "lapFilter->GetNormalizeAcrossScale(): "
-            << bNormalizeAcrossScale << std::endl;
+  std::cout << "lapFilter->GetNormalizeAcrossScale(): " << bNormalizeAcrossScale << std::endl;
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cout << "ExceptionObject caught !" << std::endl;
     std::cout << err << std::endl;
     return -1;
-    }
+  }
 
   return EXIT_SUCCESS;
-
 }

@@ -47,19 +47,17 @@ namespace itk
  *
  * \ingroup ITKMathematicalMorphology
  */
-template< typename TImage, typename TKernel, typename TCompare1, typename TCompare2 >
-class ITK_TEMPLATE_EXPORT AnchorOpenCloseImageFilter:
-  public KernelImageFilter< TImage, TImage, TKernel >
+template <typename TImage, typename TKernel, typename TCompare1, typename TCompare2>
+class ITK_TEMPLATE_EXPORT AnchorOpenCloseImageFilter : public KernelImageFilter<TImage, TImage, TKernel>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AnchorOpenCloseImageFilter);
 
   /** Standard class type aliases. */
   using Self = AnchorOpenCloseImageFilter;
-  using Superclass =
-      KernelImageFilter< TImage, TImage, TKernel >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = KernelImageFilter<TImage, TImage, TKernel>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   /** Kernel type alias. */
@@ -80,52 +78,54 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(AnchorOpenCloseImageFilter,
-               KernelImageFilter);
+  itkTypeMacro(AnchorOpenCloseImageFilter, KernelImageFilter);
 
 protected:
   AnchorOpenCloseImageFilter();
   ~AnchorOpenCloseImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Multi-thread version GenerateData. */
-  void  DynamicThreadedGenerateData(const InputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const InputImageRegionType & outputRegionForThread) override;
 
 
   InputImagePixelType m_Boundary1;
   InputImagePixelType m_Boundary2;
 
 private:
-  using BresType = BresenhamLine< Self::InputImageDimension >;
+  using BresType = BresenhamLine<Self::InputImageDimension>;
   using BresOffsetArray = typename BresType::OffsetArray;
 
   // the class that operates on lines -- does the opening in one
   // operation. The classes following are named on the assumption that
   // we are doing an opening
 
-//  using AnchorLineOpenType = AnchorOpenCloseLine<InputImagePixelType, THistogramCompare,
-// TFunction1, TFunction2>;
-  using AnchorLineOpenType = AnchorOpenCloseLine< InputImagePixelType, TCompare1 >;
+  //  using AnchorLineOpenType = AnchorOpenCloseLine<InputImagePixelType, THistogramCompare,
+  // TFunction1, TFunction2>;
+  using AnchorLineOpenType = AnchorOpenCloseLine<InputImagePixelType, TCompare1>;
 
-  using AnchorLineErodeType = AnchorErodeDilateLine< InputImagePixelType, TCompare1 >;
+  using AnchorLineErodeType = AnchorErodeDilateLine<InputImagePixelType, TCompare1>;
 
   // the class that does the dilation
-  using AnchorLineDilateType = AnchorErodeDilateLine< InputImagePixelType, TCompare2 >;
+  using AnchorLineDilateType = AnchorErodeDilateLine<InputImagePixelType, TCompare2>;
 
-  void DoFaceOpen(InputImageConstPointer input,
-                  InputImagePointer output,
-                  InputImagePixelType border,
-                  KernelLType line,
-                  AnchorLineOpenType & AnchorLineOpen,
-                  const BresOffsetArray LineOffsets,
-                  std::vector<InputImagePixelType> & outbuffer,
-                  const InputImageRegionType AllImage,
-                  const InputImageRegionType face);
+  void
+  DoFaceOpen(InputImageConstPointer             input,
+             InputImagePointer                  output,
+             InputImagePixelType                border,
+             KernelLType                        line,
+             AnchorLineOpenType &               AnchorLineOpen,
+             const BresOffsetArray              LineOffsets,
+             std::vector<InputImagePixelType> & outbuffer,
+             const InputImageRegionType         AllImage,
+             const InputImageRegionType         face);
 }; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAnchorOpenCloseImageFilter.hxx"
+#  include "itkAnchorOpenCloseImageFilter.hxx"
 #endif
 
 #endif

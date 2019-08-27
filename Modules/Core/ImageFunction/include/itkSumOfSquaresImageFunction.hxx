@@ -25,59 +25,55 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TCoordRep >
-SumOfSquaresImageFunction< TInputImage, TCoordRep >
-::SumOfSquaresImageFunction()
+template <typename TInputImage, typename TCoordRep>
+SumOfSquaresImageFunction<TInputImage, TCoordRep>::SumOfSquaresImageFunction()
 {
   this->m_NeighborhoodRadius = 1;
   this->m_NeighborhoodSize = 1;
 }
 
-template< typename TInputImage, typename TCoordRep >
-typename SumOfSquaresImageFunction< TInputImage, TCoordRep >
-::RealType
-SumOfSquaresImageFunction< TInputImage, TCoordRep >
-::EvaluateAtIndex(const IndexType & index) const
+template <typename TInputImage, typename TCoordRep>
+typename SumOfSquaresImageFunction<TInputImage, TCoordRep>::RealType
+SumOfSquaresImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const
 {
   RealType sumOfSquares;
 
-  sumOfSquares = NumericTraits< RealType >::ZeroValue();
+  sumOfSquares = NumericTraits<RealType>::ZeroValue();
 
-  if ( !this->GetInputImage() )
-    {
-    return ( NumericTraits< RealType >::max() );
-    }
+  if (!this->GetInputImage())
+  {
+    return (NumericTraits<RealType>::max());
+  }
 
-  if ( !this->IsInsideBuffer(index) )
-    {
-    return ( NumericTraits< RealType >::max() );
-    }
+  if (!this->IsInsideBuffer(index))
+  {
+    return (NumericTraits<RealType>::max());
+  }
 
   // Create an N-d neighborhood kernel, using a zeroflux boundary condition
   typename InputImageType::SizeType kernelSize;
   kernelSize.Fill(m_NeighborhoodRadius);
 
-  ConstNeighborhoodIterator< InputImageType >
-  it( kernelSize, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion() );
+  ConstNeighborhoodIterator<InputImageType> it(
+    kernelSize, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());
 
   // Set the iterator at the desired location
   it.SetLocation(index);
 
   // Walk the neighborhood
   const unsigned int size = it.Size();
-  for ( unsigned int i = 0; i < size; ++i )
-    {
-    const auto value = static_cast< RealType >( it.GetPixel(i) );
+  for (unsigned int i = 0; i < size; ++i)
+  {
+    const auto value = static_cast<RealType>(it.GetPixel(i));
     sumOfSquares += value * value;
-    }
+  }
 
-  return ( sumOfSquares );
+  return (sumOfSquares);
 }
 
-template< typename TInputImage, typename TCoordRep >
+template <typename TInputImage, typename TCoordRep>
 void
-SumOfSquaresImageFunction< TInputImage, TCoordRep >
-::PrintSelf(std::ostream & os, Indent indent) const
+SumOfSquaresImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
 

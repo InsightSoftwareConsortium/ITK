@@ -43,7 +43,7 @@ namespace Dimension2
 
 constexpr unsigned int Dimension = 2;
 
-using ImageBaseType = itk::ImageBase< Dimension>;
+using ImageBaseType = itk::ImageBase<Dimension>;
 
 
 using SizeType = ImageBaseType::SizeType;
@@ -53,37 +53,37 @@ using DirectionType = ImageBaseType::DirectionType;
 using VectorType = ImageBaseType::SpacingType;
 using RegionType = ImageBaseType::RegionType;
 
-inline static PointType MakePoint(PointType::ValueType p1,
-                           PointType::ValueType p2)
+inline static PointType
+MakePoint(PointType::ValueType p1, PointType::ValueType p2)
 {
-  const PointType::ValueType a[] = {p1,p2};
-  PointType point(a);
+  const PointType::ValueType a[] = { p1, p2 };
+  PointType                  point(a);
   return point;
 }
 
-inline static VectorType MakeVector(VectorType::ValueType v1,
-                             VectorType::ValueType v2)
+inline static VectorType
+MakeVector(VectorType::ValueType v1, VectorType::ValueType v2)
 {
-  const VectorType::ValueType a[] = {v1,v2};
-  VectorType vector(a);
+  const VectorType::ValueType a[] = { v1, v2 };
+  VectorType                  vector(a);
   return vector;
 }
 
-inline static IndexType MakeIndex(IndexType::IndexValueType i1,
-                           IndexType::IndexValueType i2)
+inline static IndexType
+MakeIndex(IndexType::IndexValueType i1, IndexType::IndexValueType i2)
 {
-  IndexType idx = {{i1,i2}};
+  IndexType idx = { { i1, i2 } };
   return idx;
 }
 
-inline static SizeType MakeSize(SizeType::SizeValueType s1,
-                         SizeType::SizeValueType s2)
+inline static SizeType
+MakeSize(SizeType::SizeValueType s1, SizeType::SizeValueType s2)
 {
-  SizeType size = {{s1,s2}};
+  SizeType size = { { s1, s2 } };
   return size;
 }
 
-}  // end namespace Dimension2
+} // end namespace Dimension2
 
 
 /** \namespace itk::GTest::TypedefsAndConstructors::Dimension3
@@ -95,7 +95,7 @@ namespace Dimension3
 
 constexpr unsigned int Dimension = 3;
 
-using ImageBaseType = itk::ImageBase< Dimension>;
+using ImageBaseType = itk::ImageBase<Dimension>;
 
 
 using SizeType = ImageBaseType::SizeType;
@@ -105,37 +105,33 @@ using DirectionType = ImageBaseType::DirectionType;
 using VectorType = ImageBaseType::SpacingType;
 using RegionType = ImageBaseType::RegionType;
 
-inline static PointType MakePoint(PointType::ValueType p1,
-                                  PointType::ValueType p2,
-                                  PointType::ValueType p3)
+inline static PointType
+MakePoint(PointType::ValueType p1, PointType::ValueType p2, PointType::ValueType p3)
 {
-  const PointType::ValueType a[] = {p1,p2,p3};
-  PointType point(a);
+  const PointType::ValueType a[] = { p1, p2, p3 };
+  PointType                  point(a);
   return point;
 }
 
-inline static VectorType MakeVector(VectorType::ValueType v1,
-                             VectorType::ValueType v2,
-                             VectorType::ValueType v3)
+inline static VectorType
+MakeVector(VectorType::ValueType v1, VectorType::ValueType v2, VectorType::ValueType v3)
 {
-  const VectorType::ValueType a[] = {v1,v2,v3};
-  VectorType vector(a);
+  const VectorType::ValueType a[] = { v1, v2, v3 };
+  VectorType                  vector(a);
   return vector;
 }
 
-inline static IndexType MakeIndex(IndexType::IndexValueType i1,
-                           IndexType::IndexValueType i2,
-                           IndexType::IndexValueType i3)
+inline static IndexType
+MakeIndex(IndexType::IndexValueType i1, IndexType::IndexValueType i2, IndexType::IndexValueType i3)
 {
-  IndexType idx = {{i1,i2,i3}};
+  IndexType idx = { { i1, i2, i3 } };
   return idx;
 }
 
-inline static SizeType MakeSize(SizeType::SizeValueType s1,
-                         SizeType::SizeValueType s2,
-                         SizeType::SizeValueType s3)
+inline static SizeType
+MakeSize(SizeType::SizeValueType s1, SizeType::SizeValueType s2, SizeType::SizeValueType s3)
 {
-  SizeType size = {{s1,s2,s3}};
+  SizeType size = { { s1, s2, s3 } };
   return size;
 }
 

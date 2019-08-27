@@ -34,17 +34,16 @@ namespace itk
  * \ingroup DataSources
  * \ingroup ITKImageSources
  */
-template< typename TOutputImage >
-class ITK_TEMPLATE_EXPORT PhysicalPointImageSource
-  : public GenerateImageSource< TOutputImage >
+template <typename TOutputImage>
+class ITK_TEMPLATE_EXPORT PhysicalPointImageSource : public GenerateImageSource<TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PhysicalPointImageSource);
 
   using Self = PhysicalPointImageSource;
-  using Superclass = GenerateImageSource< TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self>;
+  using Superclass = GenerateImageSource<TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Output image type alias */
   using OutputImageType = TOutputImage;
@@ -64,21 +63,19 @@ public:
   itkNewMacro(Self);
 
 protected:
-  PhysicalPointImageSource( )
-  {
-    this->DynamicMultiThreadingOn();
-  };
+  PhysicalPointImageSource() { this->DynamicMultiThreadingOn(); };
   ~PhysicalPointImageSource() override = default;
 
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
-  void DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
-
+  void
+  DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPhysicalPointImageSource.hxx"
+#  include "itkPhysicalPointImageSource.hxx"
 #endif
 
 #endif

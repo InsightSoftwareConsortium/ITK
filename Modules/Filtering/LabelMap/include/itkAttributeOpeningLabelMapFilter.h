@@ -21,7 +21,8 @@
 #include "itkInPlaceLabelMapFilter.h"
 #include "itkAttributeLabelObject.h"
 
-namespace itk {
+namespace itk
+{
 /** \class AttributeOpeningLabelMapFilter
  * \brief remove the objects according to the value of their attribute
  *
@@ -39,10 +40,10 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template<typename TImage, typename TAttributeAccessor=
-    typename Functor::AttributeLabelObjectAccessor< typename TImage::LabelObjectType > >
-class ITK_TEMPLATE_EXPORT AttributeOpeningLabelMapFilter :
-    public InPlaceLabelMapFilter<TImage>
+template <typename TImage,
+          typename TAttributeAccessor =
+            typename Functor::AttributeLabelObjectAccessor<typename TImage::LabelObjectType>>
+class ITK_TEMPLATE_EXPORT AttributeOpeningLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AttributeOpeningLabelMapFilter);
@@ -72,17 +73,16 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(AttributeOpeningLabelMapFilter,
-               InPlaceLabelMapFilter);
+  itkTypeMacro(AttributeOpeningLabelMapFilter, InPlaceLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-/*  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<InputImagePixelType>));
-  itkConceptMacro(IntConvertibleToInputCheck,
-    (Concept::Convertible<int, InputImagePixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<InputImagePixelType>));*/
+  /*  itkConceptMacro(InputEqualityComparableCheck,
+      (Concept::EqualityComparable<InputImagePixelType>));
+    itkConceptMacro(IntConvertibleToInputCheck,
+      (Concept::Convertible<int, InputImagePixelType>));
+    itkConceptMacro(InputOStreamWritableCheck,
+      (Concept::OStreamWritable<InputImagePixelType>));*/
   // End concept checking
 #endif
 
@@ -98,17 +98,19 @@ public:
    * to true make this filter remove the object with an attribute value greater
    * than Lambda instead.
    */
-  itkGetConstMacro( ReverseOrdering, bool );
-  itkSetMacro( ReverseOrdering, bool );
-  itkBooleanMacro( ReverseOrdering );
+  itkGetConstMacro(ReverseOrdering, bool);
+  itkSetMacro(ReverseOrdering, bool);
+  itkBooleanMacro(ReverseOrdering);
 
 protected:
   AttributeOpeningLabelMapFilter();
   ~AttributeOpeningLabelMapFilter() override = default;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   AttributeValueType m_Lambda;
@@ -119,7 +121,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAttributeOpeningLabelMapFilter.hxx"
+#  include "itkAttributeOpeningLabelMapFilter.hxx"
 #endif
 
 #endif

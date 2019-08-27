@@ -33,9 +33,8 @@
 
 namespace itk
 {
-template< typename TElementIdentifier, typename TElement >
-ImportImageContainer< TElementIdentifier, TElement >
-::ImportImageContainer()
+template <typename TElementIdentifier, typename TElement>
+ImportImageContainer<TElementIdentifier, TElement>::ImportImageContainer()
 {
   m_ImportPointer = nullptr;
   m_ContainerManageMemory = true;
@@ -43,9 +42,8 @@ ImportImageContainer< TElementIdentifier, TElement >
   m_Size = 0;
 }
 
-template< typename TElementIdentifier, typename TElement >
-ImportImageContainer< TElementIdentifier, TElement >
-::~ImportImageContainer()
+template <typename TElementIdentifier, typename TElement>
+ImportImageContainer<TElementIdentifier, TElement>::~ImportImageContainer()
 {
   DeallocateManagedMemory();
 }
@@ -54,19 +52,18 @@ ImportImageContainer< TElementIdentifier, TElement >
  * Tell the container to allocate enough memory to allow at least
  * as many elements as the size given to be stored.
  */
-template< typename TElementIdentifier, typename TElement >
+template <typename TElementIdentifier, typename TElement>
 void
-ImportImageContainer< TElementIdentifier, TElement >
-::Reserve(ElementIdentifier size, const bool UseDefaultConstructor )
+ImportImageContainer<TElementIdentifier, TElement>::Reserve(ElementIdentifier size, const bool UseDefaultConstructor)
 {
   // Reserve has a Resize semantics. We keep it that way for
   // backwards compatibility .
   // See https://www.itk.org/Bug/view.php?id=2893 for details
-  if ( m_ImportPointer )
+  if (m_ImportPointer)
+  {
+    if (size > m_Capacity)
     {
-    if ( size > m_Capacity )
-      {
-      TElement *temp = this->AllocateElements(size, UseDefaultConstructor);
+      TElement * temp = this->AllocateElements(size, UseDefaultConstructor);
       // only copy the portion of the data used in the old buffer
       std::copy_n(m_ImportPointer, m_Size, temp);
 
@@ -77,36 +74,35 @@ ImportImageContainer< TElementIdentifier, TElement >
       m_Capacity = size;
       m_Size = size;
       this->Modified();
-      }
+    }
     else
-      {
+    {
       m_Size = size;
       this->Modified();
-      }
     }
+  }
   else
-    {
+  {
     m_ImportPointer = this->AllocateElements(size, UseDefaultConstructor);
     m_Capacity = size;
     m_Size = size;
     m_ContainerManageMemory = true;
     this->Modified();
-    }
+  }
 }
 
 /**
  * Tell the container to try to minimize its memory usage for storage of
  * the current number of elements.
  */
-template< typename TElementIdentifier, typename TElement >
+template <typename TElementIdentifier, typename TElement>
 void
-ImportImageContainer< TElementIdentifier, TElement >
-::Squeeze()
+ImportImageContainer<TElementIdentifier, TElement>::Squeeze()
 {
-  if ( m_ImportPointer )
+  if (m_ImportPointer)
+  {
+    if (m_Size < m_Capacity)
     {
-    if ( m_Size < m_Capacity )
-      {
       const TElementIdentifier size = m_Size;
       TElement *               temp = this->AllocateElements(size, false);
       std::copy_n(m_ImportPointer, m_Size, temp);
@@ -119,27 +115,26 @@ ImportImageContainer< TElementIdentifier, TElement >
       m_Size = size;
 
       this->Modified();
-      }
     }
+  }
 }
 
 /**
  * Tell the container to try to minimize its memory usage for storage of
  * the current number of elements.
  */
-template< typename TElementIdentifier, typename TElement >
+template <typename TElementIdentifier, typename TElement>
 void
-ImportImageContainer< TElementIdentifier, TElement >
-::Initialize()
+ImportImageContainer<TElementIdentifier, TElement>::Initialize()
 {
-  if ( m_ImportPointer )
-    {
+  if (m_ImportPointer)
+  {
     DeallocateManagedMemory();
 
     m_ContainerManageMemory = true;
 
     this->Modified();
-    }
+  }
 }
 
 /**
@@ -150,11 +145,11 @@ ImportImageContainer< TElementIdentifier, TElement >
  * "LetContainerManageMemory" is true, then this class will free the
  * memory when this object is destroyed.
  */
-template< typename TElementIdentifier, typename TElement >
+template <typename TElementIdentifier, typename TElement>
 void
-ImportImageContainer< TElementIdentifier, TElement >
-::SetImportPointer(TElement *ptr, TElementIdentifier num,
-                   bool LetContainerManageMemory)
+ImportImageContainer<TElementIdentifier, TElement>::SetImportPointer(TElement *         ptr,
+                                                                     TElementIdentifier num,
+                                                                     bool               LetContainerManageMemory)
 {
   DeallocateManagedMemory();
   m_ImportPointer = ptr;
@@ -165,65 +160,62 @@ ImportImageContainer< TElementIdentifier, TElement >
   this->Modified();
 }
 
-template< typename TElementIdentifier, typename TElement >
-TElement *ImportImageContainer< TElementIdentifier, TElement >
-::AllocateElements(ElementIdentifier size, bool UseDefaultConstructor ) const
+template <typename TElementIdentifier, typename TElement>
+TElement *
+ImportImageContainer<TElementIdentifier, TElement>::AllocateElements(ElementIdentifier size,
+                                                                     bool              UseDefaultConstructor) const
 {
   // Encapsulate all image memory allocation here to throw an
   // exception when memory allocation fails even when the compiler
   // does not do this by default.
-  TElement *data;
+  TElement * data;
 
   try
+  {
+    if (UseDefaultConstructor)
     {
-    if ( UseDefaultConstructor )
-      {
-      data = new TElement[size](); //POD types initialized to 0, others use default constructor.
-      }
+      data = new TElement[size](); // POD types initialized to 0, others use default constructor.
+    }
     else
-      {
-      data = new TElement[size]; //Faster but uninitialized
-      }
-    }
-  catch ( ... )
     {
+      data = new TElement[size]; // Faster but uninitialized
+    }
+  }
+  catch (...)
+  {
     data = nullptr;
-    }
-  if ( !data )
-    {
+  }
+  if (!data)
+  {
     // We cannot construct an error string here because we may be out
     // of memory.  Do not use the exception macro.
-    throw MemoryAllocationError(__FILE__, __LINE__,
-                                "Failed to allocate memory for image.",
-                                ITK_LOCATION);
-    }
+    throw MemoryAllocationError(__FILE__, __LINE__, "Failed to allocate memory for image.", ITK_LOCATION);
+  }
   return data;
 }
 
-template< typename TElementIdentifier, typename TElement >
-void ImportImageContainer< TElementIdentifier, TElement >
-::DeallocateManagedMemory()
+template <typename TElementIdentifier, typename TElement>
+void
+ImportImageContainer<TElementIdentifier, TElement>::DeallocateManagedMemory()
 {
   // Encapsulate all image memory deallocation here
-  if ( m_ContainerManageMemory )
-    {
+  if (m_ContainerManageMemory)
+  {
     delete[] m_ImportPointer;
-    }
+  }
   m_ImportPointer = nullptr;
   m_Capacity = 0;
   m_Size = 0;
 }
 
-template< typename TElementIdentifier, typename TElement >
+template <typename TElementIdentifier, typename TElement>
 void
-ImportImageContainer< TElementIdentifier, TElement >
-::PrintSelf(std::ostream & os, Indent indent) const
+ImportImageContainer<TElementIdentifier, TElement>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Pointer: " << static_cast< void * >( m_ImportPointer ) << std::endl;
-  os << indent << "Container manages memory: "
-     << ( m_ContainerManageMemory ? "true" : "false" ) << std::endl;
+  os << indent << "Pointer: " << static_cast<void *>(m_ImportPointer) << std::endl;
+  os << indent << "Container manages memory: " << (m_ContainerManageMemory ? "true" : "false") << std::endl;
   os << indent << "Size: " << m_Size << std::endl;
   os << indent << "Capacity: " << m_Capacity << std::endl;
 }

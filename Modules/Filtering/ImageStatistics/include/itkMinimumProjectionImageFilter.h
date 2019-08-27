@@ -44,50 +44,53 @@ namespace itk
 
 namespace Functor
 {
-template< typename TInputPixel >
+template <typename TInputPixel>
 class MinimumAccumulator
 {
 public:
-  MinimumAccumulator( SizeValueType ) {}
-  ~MinimumAccumulator()= default;
+  MinimumAccumulator(SizeValueType) {}
+  ~MinimumAccumulator() = default;
 
-  inline void Initialize()
+  inline void
+  Initialize()
   {
-    m_Minimum = NumericTraits< TInputPixel >::max();
+    m_Minimum = NumericTraits<TInputPixel>::max();
   }
 
-  inline void operator()(const TInputPixel & input)
+  inline void
+  operator()(const TInputPixel & input)
   {
     m_Minimum = std::min(m_Minimum, input);
   }
 
-  inline TInputPixel GetValue()
+  inline TInputPixel
+  GetValue()
   {
     return m_Minimum;
   }
 
   TInputPixel m_Minimum;
 };
-} // end namespace Function
+} // namespace Functor
 
-template< typename TInputImage, typename TOutputImage >
-class MinimumProjectionImageFilter:public
-  ProjectionImageFilter< TInputImage, TOutputImage,
-                         Functor::MinimumAccumulator< typename TInputImage::PixelType > >
+template <typename TInputImage, typename TOutputImage>
+class MinimumProjectionImageFilter
+  : public ProjectionImageFilter<TInputImage,
+                                 TOutputImage,
+                                 Functor::MinimumAccumulator<typename TInputImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MinimumProjectionImageFilter);
 
   using Self = MinimumProjectionImageFilter;
-  using Superclass = ProjectionImageFilter< TInputImage, TOutputImage,
-                                 Functor::MinimumAccumulator<
-                                   typename TInputImage::PixelType > >;
+  using Superclass =
+    ProjectionImageFilter<TInputImage, TOutputImage, Functor::MinimumAccumulator<typename TInputImage::PixelType>>;
 
   using InputImageType = TInputImage;
   using InputPixelType = typename InputImageType::PixelType;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Runtime information support. */
   itkTypeMacro(MinimumProjectionImageFilter, ProjectionImageFilter);
@@ -97,18 +100,16 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputPixelTypeGreaterThanComparable,
-                   ( Concept::LessThanComparable< InputPixelType > ) );
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputPixelType > ) );
+  itkConceptMacro(InputPixelTypeGreaterThanComparable, (Concept::LessThanComparable<InputPixelType>));
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
   // End concept checking
 #endif
 
 protected:
   MinimumProjectionImageFilter() = default;
   ~MinimumProjectionImageFilter() override = default;
-};                                            // end
-                                              // MinimumProjectionImageFilter
-} //end namespace itk
+}; // end
+   // MinimumProjectionImageFilter
+} // end namespace itk
 
 #endif

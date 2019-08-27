@@ -38,7 +38,7 @@ namespace itk
  *  \ingroup IOFilters
  * \ingroup ITKIOMeta
  */
-class ITKIOMeta_EXPORT MetaImageIO:public ImageIOBase
+class ITKIOMeta_EXPORT MetaImageIO : public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaImageIO);
@@ -46,7 +46,7 @@ public:
   /** Standard class type aliases. */
   using Self = MetaImageIO;
   using Superclass = ImageIOBase;
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -59,7 +59,8 @@ public:
    * while others can support 2D, 3D, or even n-D. This method returns
    * true/false as to whether the ImageIO can support the dimension
    * indicated. */
-  bool SupportsDimension(unsigned long) override
+  bool
+  SupportsDimension(unsigned long) override
   {
     return true;
   }
@@ -68,37 +69,46 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  bool CanReadFile(const char *) override;
+  bool
+  CanReadFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void ReadImageInformation() override;
+  void
+  ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void Read(void *buffer) override;
+  void
+  Read(void * buffer) override;
 
-  MetaImage * GetMetaImagePointer();
+  MetaImage *
+  GetMetaImagePointer();
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
-  bool CanWriteFile(const char *) override;
+  bool
+  CanWriteFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void WriteImageInformation() override;
+  void
+  WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  void Write(const void *buffer) override;
+  void
+  Write(const void * buffer) override;
 
   /** Set the filename for the Data file. Setting this will make the
       Writer to use the non-Local mode and save header and data in
       independent files */
-  virtual void SetDataFileName(const char *filename);
+  virtual void
+  SetDataFileName(const char * filename);
 
   /** set the precision in the MetaImage member
    */
-  virtual void SetDoublePrecision(unsigned int precision)
+  virtual void
+  SetDoublePrecision(unsigned int precision)
   {
     m_MetaImage.SetDoublePrecision(precision);
   }
@@ -111,25 +121,26 @@ public:
   GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requested) const override;
 
   unsigned int
-  GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSplits,
+  GetActualNumberOfSplitsForWriting(unsigned int          numberOfRequestedSplits,
                                     const ImageIORegion & pasteRegion,
                                     const ImageIORegion & largestPossibleRegion) override;
 
   ImageIORegion
-  GetSplitRegionForWriting(unsigned int ithPiece,
-                           unsigned int numberOfActualSplits,
+  GetSplitRegionForWriting(unsigned int          ithPiece,
+                           unsigned int          numberOfActualSplits,
                            const ImageIORegion & pasteRegion,
                            const ImageIORegion & largestPossibleRegion) override;
 
   /** Determine if the ImageIO can stream reading from this
    *  file. Only time cannot stream read/write is if compression is used.
    *  CanRead must be called prior to this function. */
-  bool CanStreamRead() override
+  bool
+  CanStreamRead() override
   {
-    if ( m_MetaImage.CompressedData() )
-      {
+    if (m_MetaImage.CompressedData())
+    {
       return false;
-      }
+    }
     return true;
   }
 
@@ -138,12 +149,13 @@ public:
    *  Assumes file passes a CanRead call and its pixels are of the same
    *  type as the template of the writer. Can verify by first calling
    *  CanRead and then CanStreamRead prior to calling CanStreamWrite. */
-  bool CanStreamWrite() override
+  bool
+  CanStreamWrite() override
   {
-    if ( this->GetUseCompression() )
-      {
+    if (this->GetUseCompression())
+    {
       return false;
-      }
+    }
     return true;
   }
 
@@ -163,13 +175,16 @@ public:
    * This function is not thread safe.
    * Default value after static initialization is 17.
    */
-  static void SetDefaultDoublePrecision(unsigned int precision);
-  static unsigned int GetDefaultDoublePrecision();
+  static void
+  SetDefaultDoublePrecision(unsigned int precision);
+  static unsigned int
+  GetDefaultDoublePrecision();
 
 protected:
   MetaImageIO();
   ~MetaImageIO() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** Only used to synchronize the global variable across static libraries.*/

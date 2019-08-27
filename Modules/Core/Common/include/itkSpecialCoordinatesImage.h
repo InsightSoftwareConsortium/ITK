@@ -91,18 +91,18 @@ namespace itk
  * \ingroup ImageObjects
  * \ingroup ITKCommon
  */
-template< typename TPixel, unsigned int VImageDimension = 2 >
-class ITK_TEMPLATE_EXPORT SpecialCoordinatesImage:public ImageBase< VImageDimension >
+template <typename TPixel, unsigned int VImageDimension = 2>
+class ITK_TEMPLATE_EXPORT SpecialCoordinatesImage : public ImageBase<VImageDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpecialCoordinatesImage);
 
   /** Standard class type aliases */
   using Self = SpecialCoordinatesImage;
-  using Superclass = ImageBase< VImageDimension >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using ConstWeakPointer = WeakPointer< const Self >;
+  using Superclass = ImageBase<VImageDimension>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using ConstWeakPointer = WeakPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -127,12 +127,12 @@ public:
 
   /** Accessor type that convert data between internal and external
    *  representations.  */
-  using AccessorType = DefaultPixelAccessor< PixelType >;
+  using AccessorType = DefaultPixelAccessor<PixelType>;
 
   /** Accessor functor to choose between accessors: DefaultPixelAccessor for
    * the Image, and DefaultVectorPixelAccessor for the vector image. The
    * functor provides a generic API between the two accessors. */
-  using AccessorFunctorType = DefaultPixelAccessorFunctor< Self >;
+  using AccessorFunctorType = DefaultPixelAccessorFunctor<Self>;
 
   /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel type
@@ -150,10 +150,10 @@ public:
   using SizeType = typename Superclass::SizeType;
 
   /** Container used to store pixels in the image. */
-  using PixelContainer = ImportImageContainer< SizeValueType, PixelType >;
+  using PixelContainer = ImportImageContainer<SizeValueType, PixelType>;
 
   /** Region type alias support A region is used to specify a subset of an image.
-    */
+   */
   using RegionType = typename Superclass::RegionType;
 
   /** Spacing type alias support  Spacing holds the "fake" size of a pixel, making
@@ -172,45 +172,51 @@ public:
 
   /** Allocate the image memory. The size of the image must
    * already be set, e.g. by calling SetRegions(). */
-  void Allocate(bool initialize=false) override;
+  void
+  Allocate(bool initialize = false) override;
 
   /** Restore the data object to its initial state. This means releasing
    * memory. */
-  void Initialize() override;
+  void
+  Initialize() override;
 
   /** Fill the image buffer with a value.  Be sure to call Allocate()
    * first. */
-  void FillBuffer(const TPixel & value);
+  void
+  FillBuffer(const TPixel & value);
 
   /** \brief Set a pixel value.
    *
    * Allocate() needs to have been called first -- for efficiency,
    * this function does not check that the image has actually been
    * allocated yet. */
-  void SetPixel(const IndexType & index, const TPixel & value)
+  void
+  SetPixel(const IndexType & index, const TPixel & value)
   {
     OffsetValueType offset = this->FastComputeOffset(index);
-    ( *m_Buffer )[offset] = value;
+    (*m_Buffer)[offset] = value;
   }
 
   /** \brief Get a pixel (read only version).
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
-  const TPixel & GetPixel(const IndexType & index) const
+  const TPixel &
+  GetPixel(const IndexType & index) const
   {
     OffsetValueType offset = this->FastComputeOffset(index);
-    return ( ( *m_Buffer )[offset] );
+    return ((*m_Buffer)[offset]);
   }
 
   /** \brief Get a reference to a pixel (e.g. for editing).
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
-  TPixel & GetPixel(const IndexType & index)
+  TPixel &
+  GetPixel(const IndexType & index)
   {
     OffsetValueType offset = this->FastComputeOffset(index);
-    return ( ( *m_Buffer )[offset] );
+    return ((*m_Buffer)[offset]);
   }
 
   /** \brief Access a pixel. This version can be an lvalue.
@@ -227,35 +233,72 @@ public:
 
   /** Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class. */
-  TPixel * GetBufferPointer() { return m_Buffer ? m_Buffer->GetBufferPointer() : nullptr; }
-  const TPixel * GetBufferPointer() const { return m_Buffer ? m_Buffer->GetBufferPointer() : nullptr; }
+  TPixel *
+  GetBufferPointer()
+  {
+    return m_Buffer ? m_Buffer->GetBufferPointer() : nullptr;
+  }
+  const TPixel *
+  GetBufferPointer() const
+  {
+    return m_Buffer ? m_Buffer->GetBufferPointer() : nullptr;
+  }
 
   /** Return a pointer to the container. */
-  PixelContainer * GetPixelContainer() { return m_Buffer.GetPointer(); }
+  PixelContainer *
+  GetPixelContainer()
+  {
+    return m_Buffer.GetPointer();
+  }
 
-  const PixelContainer * GetPixelContainer() const { return m_Buffer.GetPointer(); }
+  const PixelContainer *
+  GetPixelContainer() const
+  {
+    return m_Buffer.GetPointer();
+  }
 
   /** Set the container to use. Note that this does not cause the
    * DataObject to be modified. */
-  void SetPixelContainer(PixelContainer *container);
+  void
+  SetPixelContainer(PixelContainer * container);
 
   /** Return the Pixel Accessor object */
-  AccessorType GetPixelAccessor() { return AccessorType(); }
+  AccessorType
+  GetPixelAccessor()
+  {
+    return AccessorType();
+  }
 
   /** Return the Pixel Accesor object */
-  const AccessorType GetPixelAccessor() const { return AccessorType(); }
+  const AccessorType
+  GetPixelAccessor() const
+  {
+    return AccessorType();
+  }
 
   /** These functions do NOTHING!  They exist only to not break the pipeline.
    * It is vital that the user specify any and all physical-spacing parameters
    * to the output of a normal filter which is being used to output a
    * special-coordinates image.  Filters designed to produce a particular kind
    * of special-coordinates image should do this automatically. */
-  void SetSpacing(const SpacingType &) override {}
-  void SetSpacing(const double[VImageDimension]) override {}
-  void SetSpacing(const float[VImageDimension]) override {}
-  void SetOrigin(const PointType) override {}
-  void SetOrigin(const double[VImageDimension]) override {}
-  void SetOrigin(const float[VImageDimension]) override {}
+  void
+  SetSpacing(const SpacingType &) override
+  {}
+  void
+  SetSpacing(const double[VImageDimension]) override
+  {}
+  void
+  SetSpacing(const float[VImageDimension]) override
+  {}
+  void
+  SetOrigin(const PointType) override
+  {}
+  void
+  SetOrigin(const double[VImageDimension]) override
+  {}
+  void
+  SetOrigin(const float[VImageDimension]) override
+  {}
 
   /* It is ILLEGAL in C++ to make a templated member function virtual! */
   /* Therefore, we must just let templates take care of everything.    */
@@ -283,7 +326,8 @@ public:
 
 protected:
   SpecialCoordinatesImage();
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   ~SpecialCoordinatesImage() override = default;
 
@@ -294,7 +338,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpecialCoordinatesImage.hxx"
+#  include "itkSpecialCoordinatesImage.hxx"
 #endif
 
 #endif

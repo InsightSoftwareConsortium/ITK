@@ -27,11 +27,12 @@
 #include "itkLabelMapToBinaryImageFilter.h"
 
 
-namespace itk {
+namespace itk
+{
 
 /** \class BinaryReconstructionByDilationImageFilter
  *
-* \brief binary reconstruction by dilation of an image
+ * \brief binary reconstruction by dilation of an image
  *
  * Reconstruction by dilation operates on a "marker" image and a "mask"
  * image, and is defined as the dilation of the marker image with
@@ -51,9 +52,9 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template<typename TInputImage>
-class ITK_TEMPLATE_EXPORT BinaryReconstructionByDilationImageFilter :
-    public ImageToImageFilter<TInputImage, TInputImage>
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT BinaryReconstructionByDilationImageFilter
+  : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryReconstructionByDilationImageFilter);
@@ -81,19 +82,18 @@ public:
   static constexpr unsigned int OutputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
-  using LabelObjectType = AttributeLabelObject< SizeValueType, ImageDimension, bool>;
-  using LabelMapType = LabelMap< LabelObjectType >;
-  using LabelizerType = BinaryImageToLabelMapFilter< InputImageType, LabelMapType >;
-  using ReconstructionType = BinaryReconstructionLabelMapFilter< LabelMapType, InputImageType >;
-  using OpeningType = AttributeOpeningLabelMapFilter< LabelMapType >;
-  using BinarizerType = LabelMapToBinaryImageFilter< LabelMapType, OutputImageType >;
+  using LabelObjectType = AttributeLabelObject<SizeValueType, ImageDimension, bool>;
+  using LabelMapType = LabelMap<LabelObjectType>;
+  using LabelizerType = BinaryImageToLabelMapFilter<InputImageType, LabelMapType>;
+  using ReconstructionType = BinaryReconstructionLabelMapFilter<LabelMapType, InputImageType>;
+  using OpeningType = AttributeOpeningLabelMapFilter<LabelMapType>;
+  using BinarizerType = LabelMapToBinaryImageFilter<LabelMapType, OutputImageType>;
 
   /** Standard New method. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryReconstructionByDilationImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(BinaryReconstructionByDilationImageFilter, ImageToImageFilter);
 
   /**
    * Set/Get whether the connected components are defined strictly by
@@ -107,12 +107,9 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<InputImagePixelType>));
-  itkConceptMacro(IntConvertibleToInputCheck,
-    (Concept::Convertible<int, InputImagePixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<InputImagePixelType>));
+  itkConceptMacro(InputEqualityComparableCheck, (Concept::EqualityComparable<InputImagePixelType>));
+  itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputImagePixelType>));
+  itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputImagePixelType>));
   // End concept checking
 #endif
 
@@ -130,34 +127,42 @@ public:
   itkSetMacro(ForegroundValue, OutputImagePixelType);
   itkGetConstMacro(ForegroundValue, OutputImagePixelType);
 
-   /** Set the marker image */
-  void SetMarkerImage( const InputImageType *input );
+  /** Set the marker image */
+  void
+  SetMarkerImage(const InputImageType * input);
 
   /** Get the marker image */
-  InputImageType * GetMarkerImage();
+  InputImageType *
+  GetMarkerImage();
 
-   /** Set the mask image */
-  void SetMaskImage( const InputImageType *input );
+  /** Set the mask image */
+  void
+  SetMaskImage(const InputImageType * input);
 
   /** Get the mask image */
-  InputImageType * GetMaskImage();
+  InputImageType *
+  GetMaskImage();
 
 protected:
   BinaryReconstructionByDilationImageFilter();
   ~BinaryReconstructionByDilationImageFilter() override = default;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** BinaryReconstructionByDilationImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** BinaryReconstructionByDilationImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   bool                 m_FullyConnected;
@@ -168,7 +173,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryReconstructionByDilationImageFilter.hxx"
+#  include "itkBinaryReconstructionByDilationImageFilter.hxx"
 #endif
 
 #endif

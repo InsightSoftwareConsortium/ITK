@@ -28,9 +28,8 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-BilateralImageFilter< TInputImage, TOutputImage >
-::BilateralImageFilter()
+template <typename TInputImage, typename TOutputImage>
+BilateralImageFilter<TInputImage, TOutputImage>::BilateralImageFilter()
 {
   this->m_Radius.Fill(1);
   this->m_AutomaticKernelSize = true;
@@ -40,58 +39,54 @@ BilateralImageFilter< TInputImage, TOutputImage >
   this->m_NumberOfRangeGaussianSamples = 100;
   this->m_DynamicRange = 0.0;
   this->m_DynamicRangeUsed = 0.0;
-  this->m_DomainMu = 2.5;  // keep small to keep kernels small
-  this->m_RangeMu = 4.0;   // can be bigger then DomainMu since we only
-                           // index into a single table
+  this->m_DomainMu = 2.5; // keep small to keep kernels small
+  this->m_RangeMu = 4.0;  // can be bigger then DomainMu since we only
+                          // index into a single table
   this->DynamicMultiThreadingOn();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-BilateralImageFilter< TInputImage, TOutputImage >
-::SetRadius(const SizeValueType i)
+BilateralImageFilter<TInputImage, TOutputImage>::SetRadius(const SizeValueType i)
 {
   m_Radius.Fill(i);
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-BilateralImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+BilateralImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method. this should
   // copy the output requested region to the input requested region
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  typename Superclass::InputImagePointer inputPtr =
-    const_cast< TInputImage * >( this->GetInput() );
+  typename Superclass::InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
 
-  if ( !inputPtr )
-    {
+  if (!inputPtr)
+  {
     return;
-    }
+  }
 
   // Pad the image by 2.5*sigma in all directions
   typename TInputImage::SizeType radius;
-  unsigned int i;
+  unsigned int                   i;
 
-  if ( m_AutomaticKernelSize )
+  if (m_AutomaticKernelSize)
+  {
+    for (i = 0; i < ImageDimension; i++)
     {
-    for ( i = 0; i < ImageDimension; i++ )
-      {
-      radius[i] =
-        ( typename TInputImage::SizeType::SizeValueType )
-        std::ceil(m_DomainMu * m_DomainSigma[i] / this->GetInput()->GetSpacing()[i]);
-      }
+      radius[i] = (typename TInputImage::SizeType::SizeValueType)std::ceil(m_DomainMu * m_DomainSigma[i] /
+                                                                           this->GetInput()->GetSpacing()[i]);
     }
+  }
   else
+  {
+    for (i = 0; i < ImageDimension; i++)
     {
-    for ( i = 0; i < ImageDimension; i++ )
-      {
       radius[i] = m_Radius[i];
-      }
     }
+  }
 
   // get a copy of the input requested region (should equal the output
   // requested region)
@@ -102,13 +97,13 @@ BilateralImageFilter< TInputImage, TOutputImage >
   inputRequestedRegion.PadByRadius(radius);
 
   // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() ) )
-    {
+  if (inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()))
+  {
     inputPtr->SetRequestedRegion(inputRequestedRegion);
     return;
-    }
+  }
   else
-    {
+  {
     // Couldn't crop the region (requested region is outside the largest
     // possible region).  Throw an exception.
 
@@ -121,13 +116,12 @@ BilateralImageFilter< TInputImage, TOutputImage >
     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
     e.SetDataObject(inputPtr);
     throw e;
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-BilateralImageFilter< TInputImage, TOutputImage >
-::BeforeThreadedGenerateData()
+BilateralImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   // Build a small image of the N-dimensional Gaussian used for domain filter
   //
@@ -138,46 +132,45 @@ BilateralImageFilter< TInputImage, TOutputImage >
   typename InputImageType::SizeType radius;
   typename InputImageType::SizeType domainKernelSize;
 
-  const InputImageType *inputImage = this->GetInput();
+  const InputImageType * inputImage = this->GetInput();
 
   const typename InputImageType::SpacingType inputSpacing = inputImage->GetSpacing();
-  const typename InputImageType::PointType inputOrigin  = inputImage->GetOrigin();
+  const typename InputImageType::PointType   inputOrigin = inputImage->GetOrigin();
 
-  if ( m_AutomaticKernelSize )
+  if (m_AutomaticKernelSize)
+  {
+    for (i = 0; i < ImageDimension; i++)
     {
-    for ( i = 0; i < ImageDimension; i++ )
-      {
       radius[i] =
-        ( typename TInputImage::SizeType::SizeValueType )
-        std::ceil(m_DomainMu * m_DomainSigma[i] / inputSpacing[i]);
+        (typename TInputImage::SizeType::SizeValueType)std::ceil(m_DomainMu * m_DomainSigma[i] / inputSpacing[i]);
       domainKernelSize[i] = 2 * radius[i] + 1;
-      }
     }
+  }
   else
+  {
+    for (i = 0; i < ImageDimension; i++)
     {
-    for ( i = 0; i < ImageDimension; i++ )
-      {
       radius[i] = m_Radius[i];
       domainKernelSize[i] = 2 * radius[i] + 1;
-      }
     }
+  }
 
-  typename GaussianImageSource< GaussianImageType >::Pointer gaussianImage;
-  typename GaussianImageSource< GaussianImageType >::ArrayType mean;
-  typename GaussianImageSource< GaussianImageType >::ArrayType sigma;
+  typename GaussianImageSource<GaussianImageType>::Pointer   gaussianImage;
+  typename GaussianImageSource<GaussianImageType>::ArrayType mean;
+  typename GaussianImageSource<GaussianImageType>::ArrayType sigma;
 
-  gaussianImage = GaussianImageSource< GaussianImageType >::New();
-  gaussianImage->SetSize( domainKernelSize );
+  gaussianImage = GaussianImageSource<GaussianImageType>::New();
+  gaussianImage->SetSize(domainKernelSize);
   gaussianImage->SetSpacing(inputSpacing);
   gaussianImage->SetOrigin(inputOrigin);
   gaussianImage->SetScale(1.0);
   gaussianImage->SetNormalized(true);
 
-  for ( i = 0; i < ImageDimension; i++ )
-    {
+  for (i = 0; i < ImageDimension; i++)
+  {
     mean[i] = inputSpacing[i] * radius[i] + inputOrigin[i]; // center pixel pos
     sigma[i] = m_DomainSigma[i];
-    }
+  }
   gaussianImage->SetSigma(sigma);
   gaussianImage->SetMean(mean);
 
@@ -186,30 +179,26 @@ BilateralImageFilter< TInputImage, TOutputImage >
   // copy this small Gaussian image into a neighborhood
   m_GaussianKernel.SetRadius(radius);
 
-  KernelIteratorType                       kernel_it;
-  ImageRegionIterator< GaussianImageType > git =
-    ImageRegionIterator< GaussianImageType >( gaussianImage->GetOutput(),
-                                              gaussianImage->GetOutput()
-                                              ->GetBufferedRegion() );
+  KernelIteratorType                     kernel_it;
+  ImageRegionIterator<GaussianImageType> git =
+    ImageRegionIterator<GaussianImageType>(gaussianImage->GetOutput(), gaussianImage->GetOutput()->GetBufferedRegion());
   double norm = 0.0;
-  for ( git.GoToBegin(); !git.IsAtEnd(); ++git )
-    {
+  for (git.GoToBegin(); !git.IsAtEnd(); ++git)
+  {
     norm += git.Get();
-    }
-  for ( git.GoToBegin(), kernel_it = m_GaussianKernel.Begin(); !git.IsAtEnd();
-        ++git, ++kernel_it )
-    {
+  }
+  for (git.GoToBegin(), kernel_it = m_GaussianKernel.Begin(); !git.IsAtEnd(); ++git, ++kernel_it)
+  {
     *kernel_it = git.Get() / norm;
-    }
+  }
 
   // Build a lookup table for the range gaussian
 
   auto localInput = TInputImage::New();
-  localInput->Graft( this->GetInput() );
+  localInput->Graft(this->GetInput());
 
   // First, determine the min and max intensity range
-  typename StatisticsImageFilter< TInputImage >::Pointer statistics =
-    StatisticsImageFilter< TInputImage >::New();
+  typename StatisticsImageFilter<TInputImage>::Pointer statistics = StatisticsImageFilter<TInputImage>::New();
 
   statistics->SetInput(localInput);
   statistics->Update();
@@ -227,118 +216,109 @@ BilateralImageFilter< TInputImage, TOutputImage >
   double tableDelta;
   double v;
 
-  m_DynamicRange = ( static_cast< double >( statistics->GetMaximum() )
-                     - static_cast< double >( statistics->GetMinimum() ) );
+  m_DynamicRange = (static_cast<double>(statistics->GetMaximum()) - static_cast<double>(statistics->GetMinimum()));
 
   m_DynamicRangeUsed = m_RangeMu * m_RangeSigma;
 
-  tableDelta = m_DynamicRangeUsed
-               / static_cast< double >( m_NumberOfRangeGaussianSamples );
+  tableDelta = m_DynamicRangeUsed / static_cast<double>(m_NumberOfRangeGaussianSamples);
 
   // Finally, build the table
   m_RangeGaussianTable.resize(m_NumberOfRangeGaussianSamples);
-  for ( i = 0, v = 0.0; i < m_NumberOfRangeGaussianSamples;
-        ++i, v += tableDelta )
-    {
+  for (i = 0, v = 0.0; i < m_NumberOfRangeGaussianSamples; ++i, v += tableDelta)
+  {
     m_RangeGaussianTable[i] = std::exp(-0.5 * v * v / rangeVariance) / rangeGaussianDenom;
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-BilateralImageFilter< TInputImage, TOutputImage >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+BilateralImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
-  typename TInputImage::ConstPointer input = this->GetInput();
-  typename TOutputImage::Pointer output = this->GetOutput();
+  typename TInputImage::ConstPointer   input = this->GetInput();
+  typename TOutputImage::Pointer       output = this->GetOutput();
   typename TInputImage::IndexValueType i;
-  const double  rangeDistanceThreshold = m_DynamicRangeUsed;
+  const double                         rangeDistanceThreshold = m_DynamicRangeUsed;
 
-  ZeroFluxNeumannBoundaryCondition< TInputImage > BC;
+  ZeroFluxNeumannBoundaryCondition<TInputImage> BC;
 
   // Find the boundary "faces"
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType faceList;
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType > fC;
-  faceList = fC( this->GetInput(), outputRegionForThread,
-                 m_GaussianKernel.GetRadius() );
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                        fC;
+  faceList = fC(this->GetInput(), outputRegionForThread, m_GaussianKernel.GetRadius());
 
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType::iterator fit;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
 
   OutputPixelRealType centerPixel;
-  OutputPixelRealType val, tableArg, normFactor, rangeGaussian,
-                      rangeDistance, pixel, gaussianProduct;
+  OutputPixelRealType val, tableArg, normFactor, rangeGaussian, rangeDistance, pixel, gaussianProduct;
 
-  const double distanceToTableIndex =
-    static_cast< double >( m_NumberOfRangeGaussianSamples ) / m_DynamicRangeUsed;
+  const double distanceToTableIndex = static_cast<double>(m_NumberOfRangeGaussianSamples) / m_DynamicRangeUsed;
 
   // Process all the faces, the NeighborhoodIterator will deteremine
   // whether a specified region needs to use the boundary conditions or
   // not.
-  NeighborhoodIteratorType               b_iter;
-  ImageRegionIterator< OutputImageType > o_iter;
-  KernelConstIteratorType                k_it;
-  KernelConstIteratorType                kernelEnd = m_GaussianKernel.End();
+  NeighborhoodIteratorType             b_iter;
+  ImageRegionIterator<OutputImageType> o_iter;
+  KernelConstIteratorType              k_it;
+  KernelConstIteratorType              kernelEnd = m_GaussianKernel.End();
 
-  for ( fit = faceList.begin(); fit != faceList.end(); ++fit )
-    {
+  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
+  {
     // walk the boundary face and the corresponding section of the output
-    b_iter = NeighborhoodIteratorType(m_GaussianKernel.GetRadius(),
-                                      this->GetInput(), *fit);
+    b_iter = NeighborhoodIteratorType(m_GaussianKernel.GetRadius(), this->GetInput(), *fit);
     b_iter.OverrideBoundaryCondition(&BC);
-    o_iter = ImageRegionIterator< OutputImageType >(this->GetOutput(), *fit);
+    o_iter = ImageRegionIterator<OutputImageType>(this->GetOutput(), *fit);
 
-    while ( !b_iter.IsAtEnd() )
-      {
+    while (!b_iter.IsAtEnd())
+    {
       // Setup
-      centerPixel = static_cast< OutputPixelRealType >( b_iter.GetCenterPixel() );
+      centerPixel = static_cast<OutputPixelRealType>(b_iter.GetCenterPixel());
       val = 0.0;
       normFactor = 0.0;
 
       // Walk the neighborhood of the input and the kernel
-      for ( i = 0, k_it = m_GaussianKernel.Begin(); k_it < kernelEnd;
-            ++k_it, ++i )
-        {
+      for (i = 0, k_it = m_GaussianKernel.Begin(); k_it < kernelEnd; ++k_it, ++i)
+      {
         // range distance between neighborhood pixel and neighborhood center
-        pixel = static_cast< OutputPixelRealType >( b_iter.GetPixel(i) );
+        pixel = static_cast<OutputPixelRealType>(b_iter.GetPixel(i));
         rangeDistance = pixel - centerPixel;
         // flip sign if needed
-        if ( rangeDistance < 0.0 )
-          {
+        if (rangeDistance < 0.0)
+        {
           rangeDistance *= -1.0;
-          }
+        }
 
         // if the range distance is close enough, then use the pixel
-        if ( rangeDistance < rangeDistanceThreshold )
-          {
+        if (rangeDistance < rangeDistanceThreshold)
+        {
           // look up the range gaussian in a table
           tableArg = rangeDistance * distanceToTableIndex;
-          rangeGaussian = m_RangeGaussianTable[Math::Floor < SizeValueType > ( tableArg )];
+          rangeGaussian = m_RangeGaussianTable[Math::Floor<SizeValueType>(tableArg)];
 
           // normalization factor so filter integrates to one
           // (product of the domain and the range gaussian)
-          gaussianProduct = ( *k_it ) * rangeGaussian;
+          gaussianProduct = (*k_it) * rangeGaussian;
           normFactor += gaussianProduct;
 
           // Input Image * Domain Gaussian * Range Gaussian
           val += pixel * gaussianProduct;
-          }
         }
+      }
       // normalize the value
       val /= normFactor;
 
       // store the filtered value
-      o_iter.Set( static_cast< OutputPixelType >( val ) );
+      o_iter.Set(static_cast<OutputPixelType>(val));
 
       ++b_iter;
       ++o_iter;
-      }
     }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-BilateralImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+BilateralImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

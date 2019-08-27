@@ -62,9 +62,8 @@ namespace itk
  * \sphinxexample{Filtering/DistanceMap/MaurerDistanceMapOfBinary,Maurer Distance Map Of Binary Image}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT SignedMaurerDistanceMapImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT SignedMaurerDistanceMapImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SignedMaurerDistanceMapImageFilter);
@@ -83,19 +82,16 @@ public:
 
   /** Standard class type aliases. */
   using Self = SignedMaurerDistanceMapImageFilter;
-  using Superclass = ImageToImageFilter<
-    InputImageType,
-    OutputImageType >;
+  using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(SignedMaurerDistanceMapImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(SignedMaurerDistanceMapImageFilter, ImageToImageFilter);
 
   using InputRegionType = typename InputImageType::RegionType;
   using OutputRegionType = typename OutputImageType::RegionType;
@@ -160,40 +156,44 @@ protected:
   SignedMaurerDistanceMapImageFilter();
   ~SignedMaurerDistanceMapImageFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  unsigned int SplitRequestedRegion(unsigned int i, unsigned int num,
-    OutputImageRegionType & splitRegion) override;
+  unsigned int
+  SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType & splitRegion) override;
 
-  void ThreadedGenerateData(const OutputImageRegionType &, ThreadIdType ) override;
+  void
+  ThreadedGenerateData(const OutputImageRegionType &, ThreadIdType) override;
 
-  void DynamicThreadedGenerateData( const OutputImageRegionType & ) override
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType &) override
   {
     itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
   }
 
 private:
-  void Voronoi(unsigned int, OutputIndexType idx, OutputImageType *output );
-  bool Remove(OutputPixelType, OutputPixelType, OutputPixelType,
-              OutputPixelType, OutputPixelType, OutputPixelType);
+  void
+       Voronoi(unsigned int, OutputIndexType idx, OutputImageType * output);
+  bool Remove(OutputPixelType, OutputPixelType, OutputPixelType, OutputPixelType, OutputPixelType, OutputPixelType);
 
   InputPixelType   m_BackgroundValue;
   InputSpacingType m_Spacing;
 
-  unsigned int m_CurrentDimension{0};
+  unsigned int m_CurrentDimension{ 0 };
 
-  bool m_InsideIsPositive{false};
-  bool m_UseImageSpacing{true};
-  bool m_SquaredDistance{false};
+  bool m_InsideIsPositive{ false };
+  bool m_UseImageSpacing{ true };
+  bool m_SquaredDistance{ false };
 
-  const InputImageType *m_InputCache;
+  const InputImageType * m_InputCache;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSignedMaurerDistanceMapImageFilter.hxx"
+#  include "itkSignedMaurerDistanceMapImageFilter.hxx"
 #endif
 
 #endif

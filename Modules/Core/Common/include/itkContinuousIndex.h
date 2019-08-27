@@ -42,16 +42,16 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< typename TCoordRep = double, unsigned int VIndexDimension = 2 >
-class ContinuousIndex:public Point< TCoordRep, VIndexDimension >
+template <typename TCoordRep = double, unsigned int VIndexDimension = 2>
+class ContinuousIndex : public Point<TCoordRep, VIndexDimension>
 {
   static_assert(std::is_floating_point<TCoordRep>::value,
-    "The coordinates of a continuous index must be represented by floating point numbers.");
+                "The coordinates of a continuous index must be represented by floating point numbers.");
 
 public:
   /** Standard class type aliases. */
   using Self = ContinuousIndex;
-  using Superclass = Point< TCoordRep, VIndexDimension >;
+  using Superclass = Point<TCoordRep, VIndexDimension>;
 
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an Point.   */
@@ -62,7 +62,7 @@ public:
   static constexpr unsigned int IndexDimension = VIndexDimension;
 
   /** Corresponding discrete index type */
-  using IndexType = Index< VIndexDimension >;
+  using IndexType = Index<VIndexDimension>;
 
   /** The Array type from which this Vector is derived. */
   using BaseArray = typename Superclass::BaseArray;
@@ -73,20 +73,24 @@ public:
   ContinuousIndex() = default;
   ContinuousIndex(const ContinuousIndex &) = default;
   ContinuousIndex(ContinuousIndex &&) = default;
-  ContinuousIndex & operator=(const ContinuousIndex &) = default;
-  ContinuousIndex & operator=(ContinuousIndex &&) = default;
+  ContinuousIndex &
+  operator=(const ContinuousIndex &) = default;
+  ContinuousIndex &
+  operator=(ContinuousIndex &&) = default;
   ~ContinuousIndex() = default;
 
   /** Pass-through constructor to the Point base class. */
-  ContinuousIndex(const ValueType r[IndexDimension]):Superclass(r) {}
+  ContinuousIndex(const ValueType r[IndexDimension])
+    : Superclass(r)
+  {}
 
   /** Construct from discrete index type */
   ContinuousIndex(const IndexType & index)
   {
-    for ( unsigned int i = 0; i < VIndexDimension; i++ )
-      {
-      ( *this )[i] = static_cast<TCoordRep>(index[i]);
-      }
+    for (unsigned int i = 0; i < VIndexDimension; i++)
+    {
+      (*this)[i] = static_cast<TCoordRep>(index[i]);
+    }
   }
 };
 } // namespace itk

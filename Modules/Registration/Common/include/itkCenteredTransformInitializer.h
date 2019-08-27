@@ -57,10 +57,8 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  * \ingroup ITKTransform
  */
-template< typename TTransform,
-          typename TFixedImage,
-          typename TMovingImage >
-class ITK_TEMPLATE_EXPORT CenteredTransformInitializer:public Object
+template <typename TTransform, typename TFixedImage, typename TMovingImage>
+class ITK_TEMPLATE_EXPORT CenteredTransformInitializer : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CenteredTransformInitializer);
@@ -68,8 +66,8 @@ public:
   /** Standard class type aliases. */
   using Self = CenteredTransformInitializer;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -93,8 +91,8 @@ public:
   using MovingImagePointer = typename MovingImageType::ConstPointer;
 
   /** Moment calculators */
-  using FixedImageCalculatorType = ImageMomentsCalculator< FixedImageType >;
-  using MovingImageCalculatorType = ImageMomentsCalculator< MovingImageType >;
+  using FixedImageCalculatorType = ImageMomentsCalculator<FixedImageType>;
+  using MovingImageCalculatorType = ImageMomentsCalculator<MovingImageType>;
 
   using FixedImageCalculatorPointer = typename FixedImageCalculatorType::Pointer;
   using MovingImageCalculatorPointer = typename MovingImageCalculatorType::Pointer;
@@ -109,21 +107,30 @@ public:
   using OutputVectorType = typename TransformType::OutputVectorType;
 
   /** Set the transform to be initialized */
-  itkSetObjectMacro(Transform,   TransformType);
+  itkSetObjectMacro(Transform, TransformType);
 
   /** Set the fixed image used in the registration process */
-  itkSetConstObjectMacro(FixedImage,  FixedImageType);
+  itkSetConstObjectMacro(FixedImage, FixedImageType);
 
   /** Set the moving image used in the registration process */
   itkSetConstObjectMacro(MovingImage, MovingImageType);
 
   /** Initialize the transform using data from the images */
-  virtual void InitializeTransform();
+  virtual void
+  InitializeTransform();
 
   /** Select between using the geometrical center of the images or
       using the center of mass given by the image intensities. */
-  void GeometryOn() { m_UseMoments = false; }
-  void MomentsOn()  { m_UseMoments = true; }
+  void
+  GeometryOn()
+  {
+    m_UseMoments = false;
+  }
+  void
+  MomentsOn()
+  {
+    m_UseMoments = true;
+  }
 
   /** Get() access to the moments calculators */
   itkGetModifiableObjectMacro(FixedCalculator, FixedImageCalculatorType);
@@ -133,7 +140,8 @@ protected:
   CenteredTransformInitializer();
   ~CenteredTransformInitializer() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   itkGetModifiableObjectMacro(Transform, TransformType);
 
@@ -148,11 +156,11 @@ private:
 
   FixedImageCalculatorPointer  m_FixedCalculator;
   MovingImageCalculatorPointer m_MovingCalculator;
-}; //class CenteredTransformInitializer
-}  // namespace itk
+}; // class CenteredTransformInitializer
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCenteredTransformInitializer.hxx"
+#  include "itkCenteredTransformInitializer.hxx"
 #endif
 
 #endif /* itkCenteredTransformInitializer_h */

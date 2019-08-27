@@ -20,11 +20,10 @@
 namespace itk
 {
 OrthogonallyCorrected2DParametricPath::OutputType
-OrthogonallyCorrected2DParametricPath
-::Evaluate(const InputType & inputValue) const
+OrthogonallyCorrected2DParametricPath ::Evaluate(const InputType & inputValue) const
 {
-  InputType input = inputValue;                         // we may want to remap
-                                                        // the input
+  InputType input = inputValue; // we may want to remap
+                                // the input
   InputType                         inputRange;
   InputType                         normalizedInput;
   OutputType                        output;
@@ -36,29 +35,27 @@ OrthogonallyCorrected2DParametricPath
   numOrthogonalCorrections = m_OrthogonalCorrectionTable->Size();
 
   // If the original path is closed, then tail input is remapped to head input
-  if ( m_OriginalPath->EvaluateToIndex( m_OriginalPath->EndOfInput() )  ==
-       m_OriginalPath->EvaluateToIndex( m_OriginalPath->StartOfInput() ) )
+  if (m_OriginalPath->EvaluateToIndex(m_OriginalPath->EndOfInput()) ==
+      m_OriginalPath->EvaluateToIndex(m_OriginalPath->StartOfInput()))
+  {
+    if (input >= m_OriginalPath->EndOfInput())
     {
-    if ( input >= m_OriginalPath->EndOfInput() )
-      {
       // use the starting input value instead of the ending input value
       input = m_OriginalPath->StartOfInput();
-      }
     }
+  }
 
   inputRange = m_OriginalPath->EndOfInput() - m_OriginalPath->StartOfInput();
-  normalizedInput = ( input - m_OriginalPath->StartOfInput() ) / inputRange;
+  normalizedInput = (input - m_OriginalPath->StartOfInput()) / inputRange;
   output.Fill(0);
 
   // Find the linearly interpolated offset error value for this exact time.
   softOrthogonalCorrectionTableIndex = normalizedInput * numOrthogonalCorrections;
-  Correction1 = m_OrthogonalCorrectionTable->ElementAt(
-    int(softOrthogonalCorrectionTableIndex) );
-  Correction2 = m_OrthogonalCorrectionTable->ElementAt(
-    int(softOrthogonalCorrectionTableIndex + 1) % numOrthogonalCorrections);
-  Correction = Correction1 + ( Correction2 - Correction1 )
-               * ( softOrthogonalCorrectionTableIndex
-                   - int(softOrthogonalCorrectionTableIndex) );
+  Correction1 = m_OrthogonalCorrectionTable->ElementAt(int(softOrthogonalCorrectionTableIndex));
+  Correction2 =
+    m_OrthogonalCorrectionTable->ElementAt(int(softOrthogonalCorrectionTableIndex + 1) % numOrthogonalCorrections);
+  Correction = Correction1 + (Correction2 - Correction1) *
+                               (softOrthogonalCorrectionTableIndex - int(softOrthogonalCorrectionTableIndex));
 
   // Find the direction of the offset
   originalDerivative = m_OriginalPath->EvaluateDerivative(input);
@@ -72,24 +69,22 @@ OrthogonallyCorrected2DParametricPath
 }
 
 void
-OrthogonallyCorrected2DParametricPath
-::SetOriginalPath(const OriginalPathType *originalPath)
+OrthogonallyCorrected2DParametricPath ::SetOriginalPath(const OriginalPathType * originalPath)
 {
   itkDebugMacro("setting OriginalPath to " << originalPath);
-  if ( this->m_OriginalPath != originalPath )
-    {
+  if (this->m_OriginalPath != originalPath)
+  {
     this->m_OriginalPath = originalPath;
     // This is the important line that is not in itkSetObjectMacro
     this->m_DefaultInputStepSize = m_OriginalPath->GetDefaultInputStepSize();
     this->Modified();
-    }
+  }
 }
 
 /**
  * Constructor
  */
-OrthogonallyCorrected2DParametricPath
-::OrthogonallyCorrected2DParametricPath()
+OrthogonallyCorrected2DParametricPath ::OrthogonallyCorrected2DParametricPath()
 {
   m_OriginalPath = nullptr;
   m_OrthogonalCorrectionTable = OrthogonalCorrectionTableType::New();
@@ -99,11 +94,10 @@ OrthogonallyCorrected2DParametricPath
  * Standard "PrintSelf" method
  */
 void
-OrthogonallyCorrected2DParametricPath
-::PrintSelf(std::ostream & os, Indent indent) const
+OrthogonallyCorrected2DParametricPath ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Original Path:  " << m_OriginalPath << std::endl;
   os << indent << "Correction Table:  " << m_OrthogonalCorrectionTable << std::endl;
 }
-} // end namespaceitk
+} // namespace itk

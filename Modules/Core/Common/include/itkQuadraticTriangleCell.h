@@ -34,8 +34,10 @@ namespace itk
  * \ingroup MeshObjects
  * \ingroup ITKCommon
  */
-template< typename TCellInterface >
-class ITK_TEMPLATE_EXPORT QuadraticTriangleCell:public TCellInterface, private QuadraticTriangleCellTopology
+template <typename TCellInterface>
+class ITK_TEMPLATE_EXPORT QuadraticTriangleCell
+  : public TCellInterface
+  , private QuadraticTriangleCellTopology
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadraticTriangleCell);
@@ -48,11 +50,11 @@ public:
   itkTypeMacro(QuadraticTriangleCell, CellInterface);
 
   /** The type of boundary for this triangle's vertices. */
-  using VertexType = VertexCell< TCellInterface >;
+  using VertexType = VertexCell<TCellInterface>;
   using VertexAutoPointer = typename VertexType::SelfAutoPointer;
 
   /** The type of boundary for this triangle's edges. */
-  using EdgeType = QuadraticEdgeCell< TCellInterface >;
+  using EdgeType = QuadraticEdgeCell<TCellInterface>;
   using EdgeAutoPointer = typename EdgeType::SelfAutoPointer;
 
   /** Triangle-specific topology numbers. */
@@ -62,38 +64,56 @@ public:
   static constexpr unsigned int CellDimension = 2;
 
   /** Implement the standard CellInterface. */
-  CellGeometry GetType() const override
-  { return Superclass::QUADRATIC_TRIANGLE_CELL; }
-  void MakeCopy(CellAutoPointer &) const override;
+  CellGeometry
+  GetType() const override
+  {
+    return Superclass::QUADRATIC_TRIANGLE_CELL;
+  }
+  void
+  MakeCopy(CellAutoPointer &) const override;
 
-  unsigned int GetDimension() const override;
+  unsigned int
+  GetDimension() const override;
 
-  unsigned int GetNumberOfPoints() const override;
+  unsigned int
+  GetNumberOfPoints() const override;
 
-  CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const override;
+  CellFeatureCount
+  GetNumberOfBoundaryFeatures(int dimension) const override;
 
-  bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) override;
-  void SetPointIds(PointIdConstIterator first) override;
+  bool
+  GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) override;
+  void
+  SetPointIds(PointIdConstIterator first) override;
 
-  void SetPointIds(PointIdConstIterator first,
-                           PointIdConstIterator last) override;
+  void
+  SetPointIds(PointIdConstIterator first, PointIdConstIterator last) override;
 
-  void SetPointId(int localId, PointIdentifier) override;
-  PointIdIterator      PointIdsBegin() override;
+  void
+  SetPointId(int localId, PointIdentifier) override;
+  PointIdIterator
+  PointIdsBegin() override;
 
-  PointIdConstIterator PointIdsBegin() const override;
+  PointIdConstIterator
+  PointIdsBegin() const override;
 
-  PointIdIterator      PointIdsEnd() override;
+  PointIdIterator
+  PointIdsEnd() override;
 
-  PointIdConstIterator PointIdsEnd() const override;
+  PointIdConstIterator
+  PointIdsEnd() const override;
 
   /** Triangle-specific interface. */
-  virtual CellFeatureCount GetNumberOfVertices() const;
+  virtual CellFeatureCount
+  GetNumberOfVertices() const;
 
-  virtual CellFeatureCount GetNumberOfEdges() const;
+  virtual CellFeatureCount
+  GetNumberOfEdges() const;
 
-  virtual bool GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
-  virtual bool GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
+  virtual bool
+  GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
+  virtual bool
+  GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
 
   /** Cell visitor interface. */
   itkCellVisitMacro(Superclass::QUADRATIC_TRIANGLE_CELL);
@@ -101,17 +121,17 @@ public:
   /** Given the parametric coordinates of a point in the cell
    *  determine the value of its Shape Functions
    *  returned through an itkArray<InterpolationWeightType>).  */
-  void EvaluateShapeFunctions(
-    const ParametricCoordArrayType & parametricCoordinates,
-    ShapeFunctionsArrayType  & weights) const override;
+  void
+  EvaluateShapeFunctions(const ParametricCoordArrayType & parametricCoordinates,
+                         ShapeFunctionsArrayType &        weights) const override;
 
 public:
   QuadraticTriangleCell()
   {
-    for ( PointIdentifier i = 0; i < Self::NumberOfPoints; i++ )
-      {
-      m_PointIds[i] = NumericTraits< PointIdentifier >::max();
-      }
+    for (PointIdentifier i = 0; i < Self::NumberOfPoints; i++)
+    {
+      m_PointIds[i] = NumericTraits<PointIdentifier>::max();
+    }
   }
 
   ~QuadraticTriangleCell() override = default;
@@ -123,7 +143,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuadraticTriangleCell.hxx"
+#  include "itkQuadraticTriangleCell.hxx"
 #endif
 
 #endif

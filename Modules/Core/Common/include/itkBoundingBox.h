@@ -62,14 +62,11 @@ namespace itk
  * \ingroup ITKCommon
  *
  */
-template<
-  typename TPointIdentifier = IdentifierType,
-  unsigned int VPointDimension = 3,
-  typename TCoordRep = float,
-  typename TPointsContainer =
-    VectorContainer< TPointIdentifier, Point< TCoordRep, VPointDimension > >
-  >
-class ITK_TEMPLATE_EXPORT BoundingBox:public Object
+template <typename TPointIdentifier = IdentifierType,
+          unsigned int VPointDimension = 3,
+          typename TCoordRep = float,
+          typename TPointsContainer = VectorContainer<TPointIdentifier, Point<TCoordRep, VPointDimension>>>
+class ITK_TEMPLATE_EXPORT BoundingBox : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BoundingBox);
@@ -77,8 +74,8 @@ public:
   /** Standard class type aliases. */
   using Self = BoundingBox;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(BoundingBox, Object);
@@ -96,8 +93,8 @@ public:
   using PointsContainerPointer = typename PointsContainer::Pointer;
   using PointsContainerConstPointer = typename PointsContainer::ConstPointer;
 
-  using PointType = Point< CoordRepType, VPointDimension >;
-  using BoundsArrayType = FixedArray< CoordRepType, VPointDimension *2 >;
+  using PointType = Point<CoordRepType, VPointDimension>;
+  using BoundsArrayType = FixedArray<CoordRepType, VPointDimension * 2>;
 
   /** Hold on to the dimensions specified by the template parameters. */
   static constexpr unsigned int PointDimension = VPointDimension;
@@ -109,93 +106,108 @@ public:
   /** Set/Get the points from which the bounding box should be computed. The
    * bounding box is cached and is not recomputed if the points are not
    * changed. */
-  void SetPoints(const PointsContainer *);
+  void
+  SetPoints(const PointsContainer *);
 
-  const PointsContainer * GetPoints() const;
+  const PointsContainer *
+  GetPoints() const;
 
   /** Compute and return the corners of the bounding box.
    *\note This function returns the same points as the legacy member function
    * `GetCorners()`, but it is `const`, and it avoids dynamic memory allocation
    * by using `std::array`.
-  */
-  std::array<PointType, NumberOfCorners> ComputeCorners() const;
+   */
+  std::array<PointType, NumberOfCorners>
+  ComputeCorners() const;
 
   /** Compute and return the corners of the bounding box */
-  itkLegacyMacro( const PointsContainer * GetCorners() );
+  itkLegacyMacro(const PointsContainer * GetCorners());
 
   /** Method that actually computes bounding box. */
-  bool ComputeBoundingBox() const;
+  bool
+  ComputeBoundingBox() const;
 
   /** Get the bounding box.  This method should only be invoked after
- * ComputeBoundingBox(), otherwise the Bounds values will not be up to date.
- * Note that many methods in this class invoke ComputeBoundingBox() internally,
- * for example GetMinimum(), GetMaximum(), GetCenter(), GetDiagonalLength2().
- * Therefore it is safe to invoke GetBounds() after any of those methods. */
+   * ComputeBoundingBox(), otherwise the Bounds values will not be up to date.
+   * Note that many methods in this class invoke ComputeBoundingBox() internally,
+   * for example GetMinimum(), GetMaximum(), GetCenter(), GetDiagonalLength2().
+   * Therefore it is safe to invoke GetBounds() after any of those methods. */
   itkGetConstReferenceMacro(Bounds, BoundsArrayType);
 
   /** Get the center of the bounding box. Returns a point at the origin
    *  when the bounding box object is just default-initialized. */
-  PointType GetCenter() const;
+  PointType
+  GetCenter() const;
 
   /** Get the minimum point of the bounding box. Returns a point at the origin
    *  when the bounding box object is just default-initialized. */
-  PointType GetMinimum() const;
+  PointType
+  GetMinimum() const;
 
   /** Set the minimum point of the bounding box. May not be valid for the given
    * set of points.   Will be preserved until this filter's (i.e., the point
    * set's) modified time changes. */
-  void      SetMinimum(const PointType &);
+  void
+  SetMinimum(const PointType &);
 
   /** Get the maximum point of the bounding box. Returns a point at the origin
    *  when the bounding box object is just default-initialized. */
-  PointType GetMaximum() const;
+  PointType
+  GetMaximum() const;
 
   /** Set the maximum point of the bounding box. May not be valid for the given
    * set of points.   Will be preserved until this filter's (i.e., the point
    * set's) modified time changes. */
-  void      SetMaximum(const PointType &);
+  void
+  SetMaximum(const PointType &);
 
   /** Adjust bounds (if necessary) as if the given point was in the set
    * of points being considered.   Does not add the given point to the set.
    * Therefore, this point not considered in future computeboundingbox/gets
    * once the point set is changed. */
-  void ConsiderPoint(const PointType &);
+  void
+  ConsiderPoint(const PointType &);
 
   /** Get the length squared of the diagonal of the bounding box.
    * Returns zero if bounding box cannot be computed. Note that the
    * Accumulate type is used to represent the length. */
-  using AccumulateType = typename NumericTraits< CoordRepType >::AccumulateType;
-  AccumulateType GetDiagonalLength2() const;
+  using AccumulateType = typename NumericTraits<CoordRepType>::AccumulateType;
+  AccumulateType
+  GetDiagonalLength2() const;
 
   /** Method that checks if a point is inside the bounding box. */
-  bool IsInside(const PointType &) const;
+  bool
+  IsInside(const PointType &) const;
 
   /** Method Compute the Modified Time based on changed to the components. */
-  ModifiedTimeType GetMTime() const override;
+  ModifiedTimeType
+  GetMTime() const override;
 
   /** Duplicates this bounding box */
-  Pointer DeepCopy() const;
+  Pointer
+  DeepCopy() const;
 
 protected:
   BoundingBox();
   ~BoundingBox() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   using ConstIterator = typename PointsContainer::ConstIterator;
 
 private:
   PointsContainerConstPointer m_PointsContainer;
 #if !defined(ITK_LEGACY_REMOVE)
-  PointsContainerPointer      m_CornersContainer{ PointsContainer::New() };
+  PointsContainerPointer m_CornersContainer{ PointsContainer::New() };
 #endif
-  mutable BoundsArrayType     m_Bounds;
-  mutable TimeStamp           m_BoundsMTime; // The last time the bounds
-                                             // were computed.
+  mutable BoundsArrayType m_Bounds;
+  mutable TimeStamp       m_BoundsMTime; // The last time the bounds
+                                         // were computed.
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBoundingBox.hxx"
+#  include "itkBoundingBox.hxx"
 #endif
 
 #endif

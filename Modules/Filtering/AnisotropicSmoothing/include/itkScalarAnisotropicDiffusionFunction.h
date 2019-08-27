@@ -37,18 +37,17 @@ namespace itk
  * \ingroup ImageEnhancement
  * \ingroup ITKAnisotropicSmoothing
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT ScalarAnisotropicDiffusionFunction:
-  public AnisotropicDiffusionFunction< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ScalarAnisotropicDiffusionFunction : public AnisotropicDiffusionFunction<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarAnisotropicDiffusionFunction);
 
   /** Standard class type aliases. */
   using Self = ScalarAnisotropicDiffusionFunction;
-  using Superclass = AnisotropicDiffusionFunction< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = AnisotropicDiffusionFunction<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Inherit some parameters from the superclass type. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
@@ -62,10 +61,10 @@ public:
   using TimeStepType = typename Superclass::TimeStepType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ScalarAnisotropicDiffusionFunction,
-               AnisotropicDiffusionFunction);
+  itkTypeMacro(ScalarAnisotropicDiffusionFunction, AnisotropicDiffusionFunction);
 
-  void CalculateAverageGradientMagnitudeSquared(TImage *) override;
+  void
+  CalculateAverageGradientMagnitudeSquared(TImage *) override;
 
 protected:
   ScalarAnisotropicDiffusionFunction() = default;
@@ -74,7 +73,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarAnisotropicDiffusionFunction.hxx"
+#  include "itkScalarAnisotropicDiffusionFunction.hxx"
 #endif
 
 #endif

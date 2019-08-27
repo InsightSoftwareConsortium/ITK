@@ -49,7 +49,8 @@
 #include "itkVector.h"
 // Software Guide : EndCodeSnippet
 
-int main()
+int
+main()
 {
   // Software Guide : BeginLatex
   //
@@ -63,24 +64,23 @@ int main()
   // Software Guide : BeginCodeSnippet
   using MeasurementType = int;
   constexpr unsigned int MeasurementVectorLength = 2;
-  using MeasurementVectorType =
-      itk::Vector< MeasurementType , MeasurementVectorLength >;
-  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
+  using MeasurementVectorType = itk::Vector<MeasurementType, MeasurementVectorLength>;
+  using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
   SampleType::Pointer sample = SampleType::New();
-  sample->SetMeasurementVectorSize( MeasurementVectorLength );
+  sample->SetMeasurementVectorSize(MeasurementVectorLength);
 
   MeasurementVectorType mv;
   for (unsigned int i = 1; i < 6; ++i)
-    {
+  {
     for (unsigned int j = 0; j < 2; ++j)
-      {
-      mv[j] = ( MeasurementType ) i;
-      }
-    for (unsigned int j = 0; j < i; ++j)
-      {
-      sample->PushBack(mv);
-      }
+    {
+      mv[j] = (MeasurementType)i;
     }
+    for (unsigned int j = 0; j < i; ++j)
+    {
+      sample->PushBack(mv);
+    }
+  }
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -97,16 +97,16 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using SamplerType = itk::Statistics::NeighborhoodSampler< SampleType >;
+  using SamplerType = itk::Statistics::NeighborhoodSampler<SampleType>;
   SamplerType::Pointer sampler = SamplerType::New();
 
-  sampler->SetInputSample( sample );
-  SamplerType::CenterType center( MeasurementVectorLength );
+  sampler->SetInputSample(sample);
+  SamplerType::CenterType center(MeasurementVectorLength);
   center[0] = 3;
   center[1] = 3;
   double radius = 1.5;
-  sampler->SetCenter( &center );
-  sampler->SetRadius( &radius );
+  sampler->SetCenter(&center);
+  sampler->SetRadius(&radius);
   sampler->Update();
 
   SamplerType::OutputType::Pointer output = sampler->GetOutput();
@@ -123,17 +123,14 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   SamplerType::OutputType::Iterator iter = output->Begin();
-  while ( iter != output->End() )
-    {
+  while (iter != output->End())
+  {
     std::cout << "instance identifier = " << iter.GetInstanceIdentifier()
-              << "\t measurement vector = "
-              << iter.GetMeasurementVector()
-              << "\t frequency = "
-              << iter.GetFrequency() << std::endl;
+              << "\t measurement vector = " << iter.GetMeasurementVector()
+              << "\t frequency = " << iter.GetFrequency() << std::endl;
     ++iter;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;
-
 }

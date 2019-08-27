@@ -42,18 +42,17 @@ namespace itk
  * \ingroup ImageFilters
  * \ingroup ITKMesh
  */
-template< typename TInputImage, typename TOutputMesh >
-class ITK_TEMPLATE_EXPORT ImageToParametricSpaceFilter:
-  public ImageToMeshFilter< TInputImage, TOutputMesh >
+template <typename TInputImage, typename TOutputMesh>
+class ITK_TEMPLATE_EXPORT ImageToParametricSpaceFilter : public ImageToMeshFilter<TInputImage, TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageToParametricSpaceFilter);
 
   /** Standard class type aliases. */
   using Self = ImageToParametricSpaceFilter;
-  using Superclass = ImageToMeshFilter< TInputImage, TOutputMesh >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToMeshFilter<TInputImage, TOutputMesh>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -83,10 +82,12 @@ public:
   static constexpr unsigned int PointDimension = TOutputMesh::PointDimension;
 
   /** Some type alias associated with the output mesh. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Prepare the output. */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** Select if the indices of input image pixels will be
    * stored as data at each one of the mesh points.
@@ -98,7 +99,8 @@ public:
 protected:
   ImageToParametricSpaceFilter();
   ~ImageToParametricSpaceFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** This variable defines if the indices of input image pixels
@@ -108,7 +110,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToParametricSpaceFilter.hxx"
+#  include "itkImageToParametricSpaceFilter.hxx"
 #endif
 
 #endif

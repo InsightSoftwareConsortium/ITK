@@ -22,26 +22,27 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkTestingMacros.h"
 
-int itkTernaryOperatorImageFilterTest( int, char* [] )
+int
+itkTernaryOperatorImageFilterTest(int, char *[])
 {
 
   //
   // Test the functor
   //
 
-  itk::Functor::TernaryOperator< bool, short, short, short > func;
+  itk::Functor::TernaryOperator<bool, short, short, short> func;
 
-  if( ( true ? 12 : 37 ) != func( true, 12, 37 ) )
-    {
+  if ((true ? 12 : 37) != func(true, 12, 37))
+  {
     std::cerr << "Incorrect value returned: true ? 12 : 37." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( ( false ? 12 : 37 ) != func( false, 12, 37 ) )
-    {
+  if ((false ? 12 : 37) != func(false, 12, 37))
+  {
     std::cerr << "Incorrect value returned: false ? 12 : 37." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //
   // Check the image filter
@@ -63,73 +64,71 @@ int itkTernaryOperatorImageFilterTest( int, char* [] )
   using MaskPixelType = bool;
   using GrayPixelType = short;
 
-  using MaskImageType = itk::Image< MaskPixelType, ImageDimension >;
-  using GrayImageType = itk::Image< GrayPixelType, ImageDimension >;
+  using MaskImageType = itk::Image<MaskPixelType, ImageDimension>;
+  using GrayImageType = itk::Image<GrayPixelType, ImageDimension>;
 
   MaskImageType::IndexType origin;
-  origin.Fill( 0 );
+  origin.Fill(0);
   MaskImageType::SizeType size;
-  size.Fill( 20 );
+  size.Fill(20);
   MaskImageType::RegionType region(origin, size);
 
   MaskImageType::Pointer mask = MaskImageType::New();
-  mask->SetRegions( region );
+  mask->SetRegions(region);
   mask->Allocate();
-  mask->FillBuffer( false );
+  mask->FillBuffer(false);
 
   // Checkerboard the mask
-  using MaskItType = itk::ImageRegionIteratorWithIndex< MaskImageType >;
-  MaskItType maskIt( mask, mask->GetLargestPossibleRegion() );
+  using MaskItType = itk::ImageRegionIteratorWithIndex<MaskImageType>;
+  MaskItType maskIt(mask, mask->GetLargestPossibleRegion());
   for (maskIt.GoToBegin(); !maskIt.IsAtEnd(); ++maskIt)
-    {
+  {
     if (maskIt.GetIndex()[0] + maskIt.GetIndex()[1] % 2 == 0)
-      maskIt.Set( true );
-    }
+      maskIt.Set(true);
+  }
 
-  constexpr short val1 = 25;
+  constexpr short        val1 = 25;
   GrayImageType::Pointer image1 = GrayImageType::New();
-  image1->SetRegions( region );
+  image1->SetRegions(region);
   image1->Allocate();
-  image1->FillBuffer( val1 );
+  image1->FillBuffer(val1);
 
-  constexpr short val2 = 123;
+  constexpr short        val2 = 123;
   GrayImageType::Pointer image2 = GrayImageType::New();
-  image2->SetRegions( region );
+  image2->SetRegions(region);
   image2->Allocate();
-  image2->FillBuffer( val2 );
+  image2->FillBuffer(val2);
 
-  using TernaryType =
-      itk::TernaryOperatorImageFilter< MaskImageType, GrayImageType >;
+  using TernaryType = itk::TernaryOperatorImageFilter<MaskImageType, GrayImageType>;
   TernaryType::Pointer tern = TernaryType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( tern, TernaryOperatorImageFilter,
-    TernaryFunctorImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(tern, TernaryOperatorImageFilter, TernaryFunctorImageFilter);
 
-  tern->SetInput1( mask );
-  tern->SetInput2( image1 );
-  tern->SetInput3( image2 );
+  tern->SetInput1(mask);
+  tern->SetInput2(image1);
+  tern->SetInput3(image2);
   tern->Update();
 
   GrayImageType::Pointer output = GrayImageType::New();
-  output->Graft( tern->GetOutput() );
+  output->Graft(tern->GetOutput());
 
   // Even indices should be equal to val1 (the value of the second input)
   // Odd indices should be equal to val2 (the value of the third input)
-  using GrayItType = itk::ImageRegionIteratorWithIndex< GrayImageType >;
-  GrayItType outIt( output, output->GetLargestPossibleRegion() );
-  for( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt )
-    {
+  using GrayItType = itk::ImageRegionIteratorWithIndex<GrayImageType>;
+  GrayItType outIt(output, output->GetLargestPossibleRegion());
+  for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
+  {
     if (outIt.GetIndex()[0] + outIt.GetIndex()[1] % 2 == 0 && outIt.Get() != val1)
-      {
+    {
       std::cerr << "Error: Value should be " << val1 << " but was " << outIt.Get() << std::endl;
       return EXIT_FAILURE;
-      }
+    }
     if (outIt.GetIndex()[0] + outIt.GetIndex()[1] % 2 == 1 && outIt.Get() != val2)
-      {
+    {
       std::cerr << "Error: Value should be " << val2 << " but was " << outIt.Get() << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
   return EXIT_SUCCESS;
 }

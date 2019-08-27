@@ -23,28 +23,29 @@
 #include "itkTestingMacros.h"
 
 
-int itkFlipImageFilterTest( int argc, char* argv[] )
+int
+itkFlipImageFilterTest(int argc, char * argv[])
 {
-  if( argc != 2 )
-    {
+  if (argc != 2)
+  {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " FlipAboutOrigin" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
   constexpr unsigned int ImageDimension = 3;
   using PixelType = unsigned char;
-  using ImageType = itk::Image< PixelType, ImageDimension >;
-  using FlipperType = itk::FlipImageFilter< ImageType >;
+  using ImageType = itk::Image<PixelType, ImageDimension>;
+  using FlipperType = itk::FlipImageFilter<ImageType>;
 
   // Define a small input image
-  ImageType::IndexType index = {{ 10, 20, 30 }};
-  ImageType::SizeType size = {{ 5, 4, 3 }};
+  ImageType::IndexType  index = { { 10, 20, 30 } };
+  ImageType::SizeType   size = { { 5, 4, 3 } };
   ImageType::RegionType region;
-  region.SetSize( size );
-  region.SetIndex( index );
+  region.SetSize(size);
+  region.SetIndex(index);
 
   ImageType::SpacingType spacing;
   spacing[0] = 1.1;
@@ -56,103 +57,101 @@ int itkFlipImageFilterTest( int argc, char* argv[] )
   origin[2] = 0.3;
 
   ImageType::Pointer inputImage = ImageType::New();
-  inputImage->SetLargestPossibleRegion( region );
-  inputImage->SetBufferedRegion( region );
+  inputImage->SetLargestPossibleRegion(region);
+  inputImage->SetBufferedRegion(region);
   inputImage->Allocate();
 
-  inputImage->SetSpacing( spacing );
-  inputImage->SetOrigin( origin );
+  inputImage->SetSpacing(spacing);
+  inputImage->SetOrigin(origin);
 
-  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
-  IteratorType inputIter( inputImage, inputImage->GetBufferedRegion() );
+  using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
+  IteratorType inputIter(inputImage, inputImage->GetBufferedRegion());
 
   PixelType counter = 0;
-  while( !inputIter.IsAtEnd() )
-    {
-    inputIter.Set( counter );
+  while (!inputIter.IsAtEnd())
+  {
+    inputIter.Set(counter);
     ++counter;
     ++inputIter;
-    }
+  }
 
 
   // Flip the image
   FlipperType::Pointer flipper = FlipperType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( flipper, FlipImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(flipper, FlipImageFilter, ImageToImageFilter);
 
-  itk::SimpleFilterWatcher watcher( flipper, "FlipImageFilter" );
+  itk::SimpleFilterWatcher watcher(flipper, "FlipImageFilter");
 
-  bool bArray[ImageDimension] = { true, false, true };
-  FlipperType::FlipAxesArrayType flipAxes( bArray );
+  bool                           bArray[ImageDimension] = { true, false, true };
+  FlipperType::FlipAxesArrayType flipAxes(bArray);
 
-  flipper->SetFlipAxes( flipAxes );
-  ITK_TEST_SET_GET_VALUE( flipAxes, flipper->GetFlipAxes() );
+  flipper->SetFlipAxes(flipAxes);
+  ITK_TEST_SET_GET_VALUE(flipAxes, flipper->GetFlipAxes());
 
-  auto flipAboutOrigin = static_cast< bool >( std::stoi( argv[1] ) );
-  ITK_TEST_SET_GET_BOOLEAN( flipper, FlipAboutOrigin, flipAboutOrigin );
+  auto flipAboutOrigin = static_cast<bool>(std::stoi(argv[1]));
+  ITK_TEST_SET_GET_BOOLEAN(flipper, FlipAboutOrigin, flipAboutOrigin);
 
-  flipper->SetInput( inputImage );
+  flipper->SetInput(inputImage);
 
   flipper->Update();
 
   // Check the output
   ImageType::Pointer outputImage = flipper->GetOutput();
 
-  const ImageType::SpacingType& inputSpacing  = inputImage->GetSpacing();
-  const ImageType::PointType&   inputOrigin   = inputImage->GetOrigin();
-  const ImageType::SpacingType& outputSpacing = outputImage->GetSpacing();
-  const ImageType::PointType&   outputOrigin  = outputImage->GetOrigin();
+  const ImageType::SpacingType & inputSpacing = inputImage->GetSpacing();
+  const ImageType::PointType &   inputOrigin = inputImage->GetOrigin();
+  const ImageType::SpacingType & outputSpacing = outputImage->GetSpacing();
+  const ImageType::PointType &   outputOrigin = outputImage->GetOrigin();
 
   using IndexType = ImageType::IndexType;
   using IndexValueType = IndexType::IndexValueType;
 
   inputIter.GoToBegin();
   bool passed = true;
-  while( !inputIter.IsAtEnd() )
-    {
+  while (!inputIter.IsAtEnd())
+  {
     IndexType inputIndex = inputIter.GetIndex();
     IndexType outputIndex;
 
-    for( unsigned int j = 0; j < ImageDimension; j++ )
+    for (unsigned int j = 0; j < ImageDimension; j++)
+    {
+      if (flipAxes[j])
       {
-      if( flipAxes[j] )
-        {
         int sign = flipAboutOrigin ? -1 : 1;
 
-        ImageType::PointType::ValueType temp = sign * (
-          static_cast<double>( inputIndex[j] ) * inputSpacing[j] + inputOrigin[j] );
+        ImageType::PointType::ValueType temp =
+          sign * (static_cast<double>(inputIndex[j]) * inputSpacing[j] + inputOrigin[j]);
 
-        ImageType::PointType::ValueType outputPoint = flipAboutOrigin ?
-          temp - outputOrigin[j] : outputOrigin[j] - temp;
+        ImageType::PointType::ValueType outputPoint = flipAboutOrigin ? temp - outputOrigin[j] : outputOrigin[j] - temp;
 
-        outputIndex[j] = itk::Math::Round< IndexValueType >( outputPoint / outputSpacing[j] );
-        }
-      else
-        {
-        outputIndex[j] = inputIndex[j];
-        }
+        outputIndex[j] = itk::Math::Round<IndexValueType>(outputPoint / outputSpacing[j]);
       }
-
-    if( inputIter.Get() != outputImage->GetPixel( outputIndex ) )
+      else
       {
+        outputIndex[j] = inputIndex[j];
+      }
+    }
+
+    if (inputIter.Get() != outputImage->GetPixel(outputIndex))
+    {
       passed = false;
       std::cout << "Mismatch at index: in: " << inputIndex;
       std::cout << "; out: " << outputIndex << std::endl;
-      std::cout << "Expected pixel value: "
-        << itk::NumericTraits< IteratorType::PixelType >::PrintType( inputIter.Get() )
-        << ", but got: "
-        << itk::NumericTraits< IteratorType::PixelType >::PrintType(
-        outputImage->GetPixel( outputIndex ) ) << std::endl;
-      }
+      std::cout << "Expected pixel value: " << itk::NumericTraits<IteratorType::PixelType>::PrintType(inputIter.Get())
+                << ", but got: "
+                << itk::NumericTraits<IteratorType::PixelType>::PrintType(outputImage->GetPixel(outputIndex))
+                << std::endl;
+    }
 
     ++inputIter;
-    }
+  }
 
-  if( !passed )
-    {
+  if (!passed)
+  {
     std::cout << "Test failed!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;

@@ -27,34 +27,34 @@ namespace itk
 
 /** Utility function for writing RAW bytes */
 extern void
-WriteRawBytesAfterSwapping( ImageIOBase::IOComponentType componentType,
-    const void * buffer,
-    std::ofstream & file,
-    ImageIOBase::ByteOrder byteOrder,
-    SizeValueType numberOfBytes,
-    SizeValueType numberOfComponents );
+WriteRawBytesAfterSwapping(ImageIOBase::IOComponentType componentType,
+                           const void *                 buffer,
+                           std::ofstream &              file,
+                           ImageIOBase::ByteOrder       byteOrder,
+                           SizeValueType                numberOfBytes,
+                           SizeValueType                numberOfComponents);
 
 /** Utility function for reading RAW bytes */
 extern void
-ReadRawBytesAfterSwapping( ImageIOBase::IOComponentType componentType,
-    void * buffer,
-    ImageIOBase::ByteOrder byteOrder,
-    SizeValueType numberOfComponents );
+ReadRawBytesAfterSwapping(ImageIOBase::IOComponentType componentType,
+                          void *                       buffer,
+                          ImageIOBase::ByteOrder       byteOrder,
+                          SizeValueType                numberOfComponents);
 
 
-template< typename TPixel, unsigned int VImageDimension >
-RawImageIO< TPixel, VImageDimension >::RawImageIO():
-  ImageIOBase()
+template <typename TPixel, unsigned int VImageDimension>
+RawImageIO<TPixel, VImageDimension>::RawImageIO()
+  : ImageIOBase()
 {
   this->SetNumberOfComponents(1);
-  this->SetPixelTypeInfo( static_cast<const PixelType *>(nullptr) );
+  this->SetPixelTypeInfo(static_cast<const PixelType *>(nullptr));
   this->SetNumberOfDimensions(VImageDimension);
 
-  for ( unsigned int idx = 0; idx < VImageDimension; ++idx )
-    {
+  for (unsigned int idx = 0; idx < VImageDimension; ++idx)
+  {
     m_Spacing.insert(m_Spacing.begin() + idx, 1.0);
     m_Origin.insert(m_Origin.begin() + idx, 0.0);
-    }
+  }
 
   m_HeaderSize = 0;
   m_ManualHeaderSize = false;
@@ -66,8 +66,9 @@ RawImageIO< TPixel, VImageDimension >::RawImageIO():
   m_FileType = Binary;
 }
 
-template< typename TPixel, unsigned int VImageDimension >
-void RawImageIO< TPixel, VImageDimension >::PrintSelf(std::ostream & os, Indent indent) const
+template <typename TPixel, unsigned int VImageDimension>
+void
+RawImageIO<TPixel, VImageDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -75,118 +76,115 @@ void RawImageIO< TPixel, VImageDimension >::PrintSelf(std::ostream & os, Indent 
   os << indent << "FileDimensionality: " << m_FileDimensionality << std::endl;
 }
 
-template< typename TPixel, unsigned int VImageDimension >
-SizeValueType RawImageIO< TPixel, VImageDimension >::GetHeaderSize()
+template <typename TPixel, unsigned int VImageDimension>
+SizeValueType
+RawImageIO<TPixel, VImageDimension>::GetHeaderSize()
 {
   std::ifstream file;
 
-  if ( m_FileName.empty() )
-    {
+  if (m_FileName.empty())
+  {
     itkExceptionMacro(<< "A FileName must be specified.");
-    }
+  }
 
-  if ( !m_ManualHeaderSize )
+  if (!m_ManualHeaderSize)
+  {
+    if (m_FileType == ASCII)
     {
-    if ( m_FileType == ASCII )
-      {
-      return 0;                          //cannot determine it
-      }
+      return 0; // cannot determine it
+    }
     this->ComputeStrides();
 
     // make sure we figure out a filename to open
-    this->OpenFileForReading( file, m_FileName );
+    this->OpenFileForReading(file, m_FileName);
 
     // Get the size of the header from the size of the image
     file.seekg(0, std::ios::end);
 
-    m_HeaderSize = static_cast<SizeValueType>(
-      static_cast<typename ::itk::intmax_t>( file.tellg() )
-      - static_cast<typename ::itk::intmax_t>( this->m_Strides[m_FileDimensionality + 1] )
-    );
-    }
+    m_HeaderSize =
+      static_cast<SizeValueType>(static_cast<typename ::itk::intmax_t>(file.tellg()) -
+                                 static_cast<typename ::itk::intmax_t>(this->m_Strides[m_FileDimensionality + 1]));
+  }
 
   return m_HeaderSize;
 }
 
-template< typename TPixel, unsigned int VImageDimension >
-void RawImageIO< TPixel, VImageDimension >
-::SetHeaderSize(SizeValueType size)
+template <typename TPixel, unsigned int VImageDimension>
+void
+RawImageIO<TPixel, VImageDimension>::SetHeaderSize(SizeValueType size)
 {
-  if ( size != m_HeaderSize )
-    {
+  if (size != m_HeaderSize)
+  {
     m_HeaderSize = size;
     this->Modified();
-    }
+  }
   m_ManualHeaderSize = true;
 }
 
-template< typename TPixel, unsigned int VImageDimension >
-void RawImageIO< TPixel, VImageDimension >
-::Read(void *buffer)
+template <typename TPixel, unsigned int VImageDimension>
+void
+RawImageIO<TPixel, VImageDimension>::Read(void * buffer)
 {
   std::ifstream file;
 
   // Open the file
-  this->OpenFileForReading( file, m_FileName );
+  this->OpenFileForReading(file, m_FileName);
   this->ComputeStrides();
 
   // Offset into file
   SizeValueType streamStart = this->GetHeaderSize();
-  file.seekg( (OffsetValueType)streamStart, std::ios::beg );
-  if ( file.fail() )
-    {
+  file.seekg((OffsetValueType)streamStart, std::ios::beg);
+  if (file.fail())
+  {
     itkExceptionMacro(<< "File seek failed");
-    }
+  }
 
-  const auto numberOfBytesToBeRead = static_cast< SizeValueType >( this->GetImageSizeInBytes() );
+  const auto numberOfBytesToBeRead = static_cast<SizeValueType>(this->GetImageSizeInBytes());
 
   itkDebugMacro(<< "Reading " << numberOfBytesToBeRead << " bytes");
 
   const auto componentType = this->GetComponentType();
-  if ( m_FileType == Binary )
+  if (m_FileType == Binary)
+  {
+    if (!this->ReadBufferAsBinary(file, buffer, numberOfBytesToBeRead))
     {
-    if ( !this->ReadBufferAsBinary(file, buffer, numberOfBytesToBeRead) )
-      {
-      itkExceptionMacro(<< "Read failed: Wanted "
-                        << numberOfBytesToBeRead
-                        << " bytes, but read "
-                        << file.gcount() << " bytes.");
-      }
+      itkExceptionMacro(<< "Read failed: Wanted " << numberOfBytesToBeRead << " bytes, but read " << file.gcount()
+                        << " bytes.");
     }
+  }
   else
-    {
-    this->ReadBufferAsASCII( file, buffer, this->GetComponentType(),
-                             this->GetImageSizeInComponents() );
-    }
+  {
+    this->ReadBufferAsASCII(file, buffer, this->GetComponentType(), this->GetImageSizeInComponents());
+  }
 
-  itkDebugMacro( << "Reading Done" );
+  itkDebugMacro(<< "Reading Done");
   const SizeValueType numberOfComponents = this->GetImageSizeInComponents();
-  ReadRawBytesAfterSwapping(componentType, buffer, m_ByteOrder, numberOfComponents );
+  ReadRawBytesAfterSwapping(componentType, buffer, m_ByteOrder, numberOfComponents);
 }
 
-template< typename TPixel, unsigned int VImageDimension >
-bool RawImageIO< TPixel, VImageDimension >
-::CanWriteFile(const char *fname)
+template <typename TPixel, unsigned int VImageDimension>
+bool
+RawImageIO<TPixel, VImageDimension>::CanWriteFile(const char * fname)
 {
   std::string filename(fname);
 
-  if ( filename.empty() )
-    {
+  if (filename.empty())
+  {
     return false;
-    }
+  }
 
   return true;
 }
 
-template< typename TPixel, unsigned int VImageDimension >
-void RawImageIO< TPixel, VImageDimension >
-::Write(const void *buffer)
+template <typename TPixel, unsigned int VImageDimension>
+void
+RawImageIO<TPixel, VImageDimension>::Write(const void * buffer)
 {
   std::ofstream file;
 
   // Open the file
   //
-  this->OpenFileForWriting( file, m_FileName );
+  this->OpenFileForWriting(file, m_FileName);
 
   // Set up for reading
   this->ComputeStrides();
@@ -194,16 +192,15 @@ void RawImageIO< TPixel, VImageDimension >
   // Actually do the writing
   //
   const auto componentType = this->GetComponentType();
-  if ( m_FileType == ASCII )
-    {
-    this->WriteBufferAsASCII( file, buffer, componentType,
-                              this->GetImageSizeInComponents() );
-    }
-  else //binary
-    {
+  if (m_FileType == ASCII)
+  {
+    this->WriteBufferAsASCII(file, buffer, componentType, this->GetImageSizeInComponents());
+  }
+  else // binary
+  {
     const SizeValueType numberOfBytes = this->GetImageSizeInBytes();
     const SizeValueType numberOfComponents = this->GetImageSizeInComponents();
-    WriteRawBytesAfterSwapping( componentType, buffer, file, m_ByteOrder, numberOfBytes, numberOfComponents );
+    WriteRawBytesAfterSwapping(componentType, buffer, file, m_ByteOrder, numberOfBytes, numberOfComponents);
   }
 }
 } // namespace itk

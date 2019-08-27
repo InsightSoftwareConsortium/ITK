@@ -23,49 +23,50 @@
 #include "itkJoinImageFilter.h"
 #include "itkHistogramToEntropyImageFilter.h"
 
-int itkHistogramToEntropyImageFilterTest2( int argc, char * argv [] )
+int
+itkHistogramToEntropyImageFilterTest2(int argc, char * argv[])
 {
 
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Missing command line arguments" << std::endl;
     std::cerr << "Usage :  " << argv[0] << " inputScalarImageFileName outputImage" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   constexpr unsigned int Dimension = 2;
   using PixelComponentType = unsigned char;
 
-  using ScalarImageType = itk::Image< PixelComponentType, Dimension >;
-  using ReaderType = itk::ImageFileReader< ScalarImageType >;
+  using ScalarImageType = itk::Image<PixelComponentType, Dimension>;
+  using ReaderType = itk::ImageFileReader<ScalarImageType>;
 
   ReaderType::Pointer reader1 = ReaderType::New();
   ReaderType::Pointer reader2 = ReaderType::New();
 
-  reader1->SetFileName( argv[1] );
-  reader2->SetFileName( argv[2] );
+  reader1->SetFileName(argv[1]);
+  reader2->SetFileName(argv[2]);
 
   try
-    {
+  {
     reader1->Update();
     reader2->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Problem encoutered while reading image file : " << argv[1] << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  using JoinFilterType = itk::JoinImageFilter< ScalarImageType, ScalarImageType >;
+  using JoinFilterType = itk::JoinImageFilter<ScalarImageType, ScalarImageType>;
 
   JoinFilterType::Pointer joinFilter = JoinFilterType::New();
 
   using ArrayImageType = JoinFilterType::OutputImageType;
 
-  joinFilter->SetInput1( reader1->GetOutput() );
-  joinFilter->SetInput2( reader2->GetOutput() );
+  joinFilter->SetInput1(reader1->GetOutput());
+  joinFilter->SetInput2(reader2->GetOutput());
 
   using HistogramFilterType = itk::Statistics::ImageToHistogramFilter<ArrayImageType>;
 
@@ -73,19 +74,19 @@ int itkHistogramToEntropyImageFilterTest2( int argc, char * argv [] )
 
   constexpr unsigned int NumberOfComponents = 2;
 
-  itk::MinimumMaximumImageFilter<ScalarImageType>::Pointer minmaxFilter
-    = itk::MinimumMaximumImageFilter<ScalarImageType>::New();
+  itk::MinimumMaximumImageFilter<ScalarImageType>::Pointer minmaxFilter =
+    itk::MinimumMaximumImageFilter<ScalarImageType>::New();
 
-  HistogramMeasurementVectorType imageMin( NumberOfComponents );
-  HistogramMeasurementVectorType imageMax( NumberOfComponents );
+  HistogramMeasurementVectorType imageMin(NumberOfComponents);
+  HistogramMeasurementVectorType imageMax(NumberOfComponents);
 
-  minmaxFilter->SetInput( reader1->GetOutput() );
+  minmaxFilter->SetInput(reader1->GetOutput());
   minmaxFilter->Update();
 
   imageMin[0] = minmaxFilter->GetMinimum();
   imageMax[0] = minmaxFilter->GetMaximum();
 
-  minmaxFilter->SetInput( reader2->GetOutput() );
+  minmaxFilter->SetInput(reader2->GetOutput());
   minmaxFilter->Update();
 
   imageMin[1] = minmaxFilter->GetMinimum();
@@ -94,19 +95,19 @@ int itkHistogramToEntropyImageFilterTest2( int argc, char * argv [] )
 
   HistogramFilterType::Pointer histogramFilter = HistogramFilterType::New();
 
-  histogramFilter->SetInput( joinFilter->GetOutput() );
+  histogramFilter->SetInput(joinFilter->GetOutput());
 
-  HistogramFilterType::HistogramSizeType numberOfBins( NumberOfComponents );
+  HistogramFilterType::HistogramSizeType numberOfBins(NumberOfComponents);
 
-  numberOfBins[0] = static_cast<unsigned int>( imageMax[0] - imageMin[0] + 1 );
-  numberOfBins[1] = static_cast<unsigned int>( imageMax[1] - imageMin[1] + 1 );
+  numberOfBins[0] = static_cast<unsigned int>(imageMax[0] - imageMin[0] + 1);
+  numberOfBins[1] = static_cast<unsigned int>(imageMax[1] - imageMin[1] + 1);
 
-  histogramFilter->SetHistogramSize( numberOfBins );
+  histogramFilter->SetHistogramSize(numberOfBins);
 
   histogramFilter->SetMarginalScale(1.0);
 
-  histogramFilter->SetHistogramBinMinimum( imageMin );
-  histogramFilter->SetHistogramBinMaximum( imageMax );
+  histogramFilter->SetHistogramBinMinimum(imageMin);
+  histogramFilter->SetHistogramBinMaximum(imageMax);
 
   histogramFilter->Update();
 
@@ -114,29 +115,29 @@ int itkHistogramToEntropyImageFilterTest2( int argc, char * argv [] )
   using HistogramType = HistogramFilterType::HistogramType;
   const HistogramType * histogram = histogramFilter->GetOutput();
 
-  using HistogramToImageFilterType = itk::HistogramToEntropyImageFilter< HistogramType >;
+  using HistogramToImageFilterType = itk::HistogramToEntropyImageFilter<HistogramType>;
   HistogramToImageFilterType::Pointer histogramToImageFilter = HistogramToImageFilterType::New();
 
-  histogramToImageFilter->SetInput( histogram );
+  histogramToImageFilter->SetInput(histogram);
 
   using OutputImageType = HistogramToImageFilterType::OutputImageType;
 
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetFileName( argv[3] );
+  writer->SetFileName(argv[3]);
 
-  writer->SetInput( histogramToImageFilter->GetOutput() );
+  writer->SetInput(histogramToImageFilter->GetOutput());
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

@@ -19,35 +19,33 @@
 #include "itkNumericSeriesFileNames.h"
 #include "itksys/SystemTools.hxx"
 
-int itkNumericSeriesFileNamesTest(int, char* [])
+int
+itkNumericSeriesFileNamesTest(int, char *[])
 {
 
   itk::NumericSeriesFileNames::Pointer fit = itk::NumericSeriesFileNames::New();
   fit->SetStartIndex(10);
   fit->SetEndIndex(20);
   fit->SetIncrementIndex(2);
-  fit->SetSeriesFormat ("foo.%0200d.png");
+  fit->SetSeriesFormat("foo.%0200d.png");
 
-  std::vector<std::string> names = fit->GetFileNames();
+  std::vector<std::string>           names = fit->GetFileNames();
   std::vector<std::string>::iterator nit;
 
-  for (nit = names.begin();
-       nit != names.end();
-       ++nit)
-    {
+  for (nit = names.begin(); nit != names.end(); ++nit)
+  {
     // Check for filename truncation
     if (itksys::SystemTools::GetFilenameLastExtension(*nit) != ".png")
-      {
-      std::cerr << "Generated file name: " << *nit
-                << " does not have the proper extension" << " .png"
+    {
+      std::cerr << "Generated file name: " << *nit << " does not have the proper extension"
+                << " .png"
                 << " and may have been truncated." << std::endl;
       return EXIT_FAILURE;
-      }
-    std::cout << "File: " << (*nit).c_str() << std::endl;
     }
+    std::cout << "File: " << (*nit).c_str() << std::endl;
+  }
 
   std::cout << fit;
 
   return EXIT_SUCCESS;
-
 }

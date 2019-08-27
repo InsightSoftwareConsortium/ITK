@@ -24,32 +24,30 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-OtsuMultipleThresholdsImageFilter< TInputImage, TOutputImage >
-::OtsuMultipleThresholdsImageFilter() :
-  m_LabelOffset( NumericTraits< OutputPixelType >::ZeroValue() )
+template <typename TInputImage, typename TOutputImage>
+OtsuMultipleThresholdsImageFilter<TInputImage, TOutputImage>::OtsuMultipleThresholdsImageFilter()
+  : m_LabelOffset(NumericTraits<OutputPixelType>::ZeroValue())
 
 {
   m_Thresholds.clear();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-OtsuMultipleThresholdsImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+OtsuMultipleThresholdsImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   typename ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   // Create a histogram of the image intensities
   typename HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
-  histogramGenerator->SetInput( this->GetInput() );
+  histogramGenerator->SetInput(this->GetInput());
   histogramGenerator->SetNumberOfBins(m_NumberOfHistogramBins);
   histogramGenerator->Compute();
 
   // Compute the multiple Otsu Thresholds for the input image
   typename OtsuCalculatorType::Pointer otsuHistogramThresholdCalculator = OtsuCalculatorType::New();
-  otsuHistogramThresholdCalculator->SetInputHistogram( histogramGenerator->GetOutput() );
+  otsuHistogramThresholdCalculator->SetInputHistogram(histogramGenerator->GetOutput());
   otsuHistogramThresholdCalculator->SetNumberOfThresholds(m_NumberOfThresholds);
   otsuHistogramThresholdCalculator->SetValleyEmphasis(m_ValleyEmphasis);
   otsuHistogramThresholdCalculator->SetReturnBinMidpoint(m_ReturnBinMidpoint);
@@ -57,36 +55,34 @@ OtsuMultipleThresholdsImageFilter< TInputImage, TOutputImage >
 
   m_Thresholds = otsuHistogramThresholdCalculator->GetOutput();
 
-  typename ThresholdLabelerImageFilter< TInputImage, TOutputImage >::Pointer threshold =
-    ThresholdLabelerImageFilter< TInputImage, TOutputImage >::New();
+  typename ThresholdLabelerImageFilter<TInputImage, TOutputImage>::Pointer threshold =
+    ThresholdLabelerImageFilter<TInputImage, TOutputImage>::New();
 
   progress->RegisterInternalFilter(threshold, 1.0f);
-  threshold->GraftOutput ( this->GetOutput() );
-  threshold->SetInput ( this->GetInput() );
+  threshold->GraftOutput(this->GetOutput());
+  threshold->SetInput(this->GetInput());
   threshold->SetRealThresholds(m_Thresholds);
   threshold->SetLabelOffset(m_LabelOffset);
   threshold->Update();
 
-  this->GraftOutput( threshold->GetOutput() );
+  this->GraftOutput(threshold->GetOutput());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-OtsuMultipleThresholdsImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+OtsuMultipleThresholdsImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
-  auto * input = const_cast< TInputImage * >( this->GetInput() );
+  auto * input = const_cast<TInputImage *>(this->GetInput());
 
-  if( input )
-    {
+  if (input)
+  {
     input->SetRequestedRegionToLargestPossibleRegion();
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-OtsuMultipleThresholdsImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+OtsuMultipleThresholdsImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -94,12 +90,11 @@ OtsuMultipleThresholdsImageFilter< TInputImage, TOutputImage >
   os << indent << "NumberOfThresholds: " << m_NumberOfThresholds << std::endl;
   os << indent << "LabelOffset: " << m_LabelOffset << std::endl;
   os << indent << "Thresholds: " << std::endl;
-  for( SizeValueType j = 0; j < m_Thresholds.size(); j++ )
-    {
+  for (SizeValueType j = 0; j < m_Thresholds.size(); j++)
+  {
     os << "\tThreshold #" << j << ": "
-       << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_Thresholds[j] )
-       << std::endl;
-    }
+       << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Thresholds[j]) << std::endl;
+  }
 }
 } // end namespace itk
 #endif

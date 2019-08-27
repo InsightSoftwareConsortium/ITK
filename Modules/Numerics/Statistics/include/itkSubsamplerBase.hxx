@@ -19,34 +19,31 @@
 #define itkSubsamplerBase_hxx
 #include "itkSubsamplerBase.h"
 
-namespace itk {
-namespace Statistics {
+namespace itk
+{
+namespace Statistics
+{
 
 template <typename TSample>
-SubsamplerBase<TSample>
-::SubsamplerBase()
+SubsamplerBase<TSample>::SubsamplerBase()
 {
   m_Sample = nullptr;
   m_RequestMaximumNumberOfResults = true;
   m_CanSelectQuery = true;
-  m_Seed =  0;
+  m_Seed = 0;
 }
 
 template <typename TSample>
 typename LightObject::Pointer
-SubsamplerBase<TSample>
-::InternalClone() const
+SubsamplerBase<TSample>::InternalClone() const
 {
   typename LightObject::Pointer loPtr = Superclass::InternalClone();
 
-  typename Self::Pointer rval =
-    dynamic_cast<Self *>(loPtr.GetPointer());
-  if(rval.IsNull())
-    {
-    itkExceptionMacro(<< "downcast to type "
-                      << this->GetNameOfClass()
-                      << " failed.");
-    }
+  typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
+  if (rval.IsNull())
+  {
+    itkExceptionMacro(<< "downcast to type " << this->GetNameOfClass() << " failed.");
+  }
   rval->SetSample(this->GetSample());
   rval->m_RequestMaximumNumberOfResults = this->m_RequestMaximumNumberOfResults;
   rval->m_CanSelectQuery = this->m_CanSelectQuery;
@@ -56,13 +53,11 @@ SubsamplerBase<TSample>
 
 template <typename TSample>
 void
-SubsamplerBase<TSample>
-::PrintSelf(std::ostream& os, Indent indent) const
+SubsamplerBase<TSample>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Request maximum number of results: " << m_RequestMaximumNumberOfResults
-     << std::endl;
+  os << indent << "Request maximum number of results: " << m_RequestMaximumNumberOfResults << std::endl;
   os << indent << "Can select query index during search: " << m_CanSelectQuery << std::endl;
   os << indent << "seed: " << m_Seed << std::endl;
 
@@ -78,7 +73,7 @@ SubsamplerBase<TSample>
   os << std::endl;
 }
 
-}// end namespace Statistics
-}// end namespace itk
+} // end namespace Statistics
+} // end namespace itk
 
 #endif

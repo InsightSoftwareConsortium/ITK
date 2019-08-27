@@ -52,18 +52,17 @@ namespace itk
  * \sphinxexample{Filtering/Path/DataStructureForPieceWiseLinearCurve,Data Structure For Piece-Wise Linear Curve}
  * \endsphinx
  */
-template< unsigned int VDimension >
-class ITK_TEMPLATE_EXPORT PolyLineParametricPath:public
-  ParametricPath< VDimension >
+template <unsigned int VDimension>
+class ITK_TEMPLATE_EXPORT PolyLineParametricPath : public ParametricPath<VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolyLineParametricPath);
 
   /** Standard class type aliases. */
   using Self = PolyLineParametricPath;
-  using Superclass = ParametricPath< VDimension >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ParametricPath<VDimension>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PolyLineParametricPath, ParametricPath);
@@ -76,26 +75,28 @@ public:
 
   /** Basic data-structure types used */
   using ContinuousIndexType = typename Superclass::ContinuousIndexType;
-  using IndexType = Index<  VDimension >;
-  using OffsetType = Offset< VDimension >;
-  using PointType = Point< double, VDimension >;
-  using VectorType = Vector< double, VDimension >;
+  using IndexType = Index<VDimension>;
+  using OffsetType = Offset<VDimension>;
+  using PointType = Point<double, VDimension>;
+  using VectorType = Vector<double, VDimension>;
   using VertexType = ContinuousIndexType;
-  using VertexListType = VectorContainer< unsigned, VertexType >;
+  using VertexListType = VectorContainer<unsigned, VertexType>;
   using VertexListPointer = typename VertexListType::Pointer;
 
   /** Return the location of the parametric path at the specified location. */
-  OutputType Evaluate(const InputType & input) const override;
+  OutputType
+  Evaluate(const InputType & input) const override;
 
   ///** Evaluate the first derivative of the ND output with respect to the 1D
   //  * input.  This is an exact, algebraic function. */
-  //virtual VectorType EvaluateDerivative(const InputType & input) const;
+  // virtual VectorType EvaluateDerivative(const InputType & input) const;
 
   /** Add a vertex (and a connecting line segment to the previous vertex).
    * Adding a vertex has the additional effect of extending the domain of the
    * PolyLineParametricPath by 1.0 (each pair of consecutive verticies is
    * separated by one unit of input). */
-  inline void AddVertex(const ContinuousIndexType & vertex)
+  inline void
+  AddVertex(const ContinuousIndexType & vertex)
   {
     m_VertexList->InsertElement(m_VertexList->Size(), vertex);
     this->Modified();
@@ -104,7 +105,8 @@ public:
   /** Where does the path end?  This value is necessary for IncrementInput() to
    * know how to go to the end of a path.  Since each line segment covers one
    * unit of input, this is the number of verticies - 1. */
-  InputType EndOfInput() const override
+  InputType
+  EndOfInput() const override
   {
     return m_VertexList->Size() - 1;
   }
@@ -113,7 +115,8 @@ public:
   itkNewMacro(Self);
 
   /** Needed for Pipelining */
-  void Initialize() override
+  void
+  Initialize() override
   {
     m_VertexList->Initialize();
   }
@@ -125,17 +128,20 @@ public:
    *  the next pixel along the path to visit by using the instantaneous
    *  partial derivatives to calculate the timestep needed to move along the
    *  path by one pixel */
-  OffsetType IncrementInput(InputType & input) const override;
+  OffsetType
+  IncrementInput(InputType & input) const override;
 
   /** This function overrides the superclass EvaluateDerivative and instead
    *  calculates the instantaneous derivative of input by taking the index
    *  of the previous and next integral timepoints and subtracting them */
-  VectorType EvaluateDerivative(const InputType & input) const override;
+  VectorType
+  EvaluateDerivative(const InputType & input) const override;
 
 protected:
   PolyLineParametricPath();
   ~PolyLineParametricPath() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   VertexListPointer m_VertexList;
@@ -143,7 +149,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPolyLineParametricPath.hxx"
+#  include "itkPolyLineParametricPath.hxx"
 #endif
 
 #endif

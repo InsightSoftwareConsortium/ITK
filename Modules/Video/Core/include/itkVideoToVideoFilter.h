@@ -40,8 +40,8 @@ namespace itk
  *
  * \ingroup ITKVideoCore
  */
-template< typename TInputVideoStream, typename TOutputVideoStream >
-class ITK_TEMPLATE_EXPORT VideoToVideoFilter : public VideoSource< TOutputVideoStream >
+template <typename TInputVideoStream, typename TOutputVideoStream>
+class ITK_TEMPLATE_EXPORT VideoToVideoFilter : public VideoSource<TOutputVideoStream>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VideoToVideoFilter);
@@ -49,12 +49,11 @@ public:
   /** Standard class type aliases */
   using InputVideoStreamType = TInputVideoStream;
   using OutputVideoStreamType = TOutputVideoStream;
-  using Self = VideoToVideoFilter< InputVideoStreamType,
-                              OutputVideoStreamType >;
-  using Superclass = VideoSource< OutputVideoStreamType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using ConstWeakPointer = WeakPointer< const Self >;
+  using Self = VideoToVideoFilter<InputVideoStreamType, OutputVideoStreamType>;
+  using Superclass = VideoSource<OutputVideoStreamType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using ConstWeakPointer = WeakPointer<const Self>;
 
   /** Superclass type alias */
   using OutputFrameType = typename Superclass::OutputFrameType;
@@ -77,14 +76,18 @@ public:
 
   /** Set the input VideoStream for this temporal process object */
   using Superclass::SetInput;
-  virtual void SetInput( const InputVideoStreamType* videoStream);
+  virtual void
+  SetInput(const InputVideoStreamType * videoStream);
 
-  virtual void SetInput( unsigned int idx, const InputVideoStreamType* videoStream);
+  virtual void
+  SetInput(unsigned int idx, const InputVideoStreamType * videoStream);
 
   /** Get the input VideoSream for this temporal process object */
-  const InputVideoStreamType* GetInput() const;
+  const InputVideoStreamType *
+  GetInput() const;
 
-  const InputVideoStreamType* GetInput(unsigned int idx) const;
+  const InputVideoStreamType *
+  GetInput(unsigned int idx) const;
 
   /** Extend UpdateOutputInformation to propagate largest possible spatial
    * region as well as temporal region. The default implementation here will
@@ -92,48 +95,53 @@ public:
    * largest spatial region of each of the output frames. This will need to be
    * overwritten for filters that need different behavior (eg: need edge pixels
    * or different spatial regions for different frames) */
-  void UpdateOutputInformation() override;
+  void
+  UpdateOutputInformation() override;
 
 protected:
-
   /** Get a non-const version of the input for internal use when setting
    * input's requested regions. This is the only time input should be modified
    */
-  InputVideoStreamType* GetInput();
+  InputVideoStreamType *
+  GetInput();
 
-  InputVideoStreamType* GetInput(unsigned int idx);
+  InputVideoStreamType *
+  GetInput(unsigned int idx);
 
   /** Override GenerateOutputRequestedRegion to handle the case where no
    * requested spatial region has been set for the frames. By default, we set
    * the requested spatial region of each frame to be its largest possible
    * spatial region. */
-  void GenerateOutputRequestedRegion(DataObject* output) override;
+  void
+  GenerateOutputRequestedRegion(DataObject * output) override;
 
   /** Extend the default implementation of GenerateInputRequestedRegion from
    * TemporalProcessObject to propagate spatial regions as well as temporal
    * regions. This default implementation takes the requested spatial region
    * from the first requested output frame and applies it to all of the
    * requested input frames. */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** Method that gets called before individual temporal requests are
    * dispatched by GenerateData. The default implementation makes sure that
    * the input's buffer can hold enough frames for a single input request. */
-  void BeforeTemporalStreamingGenerateData() override;
+  void
+  BeforeTemporalStreamingGenerateData() override;
 
   VideoToVideoFilter();
   ~VideoToVideoFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
-};  // end class VideoToVideoFilter
+}; // end class VideoToVideoFilter
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVideoToVideoFilter.hxx"
+#  include "itkVideoToVideoFilter.hxx"
 #endif
 
 #endif

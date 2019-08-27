@@ -19,7 +19,8 @@
 #include "itkBSplineTransform.h"
 #include "itkBSplineTransformParametersAdaptor.h"
 
-int itkBSplineTransformParametersAdaptorTest(int, char * [] )
+int
+itkBSplineTransformParametersAdaptorTest(int, char *[])
 {
   constexpr unsigned int SpaceDimension = 3;
   constexpr unsigned int SplineOrder = 3;
@@ -32,15 +33,15 @@ int itkBSplineTransformParametersAdaptorTest(int, char * [] )
 
   using OriginType = TransformType::OriginType;
   OriginType origin;
-  origin.Fill( 5.0 );
+  origin.Fill(5.0);
 
   using PhysicalDimensionsType = TransformType::PhysicalDimensionsType;
   PhysicalDimensionsType dimensions;
-  dimensions.Fill( 100 );
+  dimensions.Fill(100);
 
   using MeshSizeType = TransformType::MeshSizeType;
   MeshSizeType meshSize;
-  meshSize.Fill( 10 );
+  meshSize.Fill(10);
 
   using DirectionType = TransformType::DirectionType;
   DirectionType direction;
@@ -50,33 +51,33 @@ int itkBSplineTransformParametersAdaptorTest(int, char * [] )
    * Instantiate a transform
    */
   TransformType::Pointer transform = TransformType::New();
-  transform->SetTransformDomainOrigin( origin );
-  transform->SetTransformDomainPhysicalDimensions( dimensions );
-  transform->SetTransformDomainMeshSize( meshSize );
-  transform->SetTransformDomainDirection( direction );
+  transform->SetTransformDomainOrigin(origin);
+  transform->SetTransformDomainPhysicalDimensions(dimensions);
+  transform->SetTransformDomainMeshSize(meshSize);
+  transform->SetTransformDomainDirection(direction);
 
   /**
    * Allocate memory for the parameters
    */
   using ParametersType = TransformType::ParametersType;
   unsigned long  numberOfParameters = transform->GetNumberOfParameters();
-  ParametersType parameters( numberOfParameters );
-  parameters.Fill( itk::NumericTraits<ParametersType::ValueType>::ZeroValue());
+  ParametersType parameters(numberOfParameters);
+  parameters.Fill(itk::NumericTraits<ParametersType::ValueType>::ZeroValue());
 
   /**
    * Set the parameters in the transform
    */
-  transform->SetParameters( parameters );
+  transform->SetParameters(parameters);
 
   using CoefficientImageType = TransformType::ImageType;
   CoefficientImageType::IndexType index;
-  index.Fill( 5 );
-  transform->GetCoefficientImages()[0]->SetPixel( index, 5.0 );
+  index.Fill(5);
+  transform->GetCoefficientImages()[0]->SetPixel(index, 5.0);
 
   TransformType::InputPointType point;
-  point.Fill( 50.0 );
+  point.Fill(50.0);
 
-  TransformType::OutputPointType outputPointBeforeAdapt = transform->TransformPoint( point );
+  TransformType::OutputPointType outputPointBeforeAdapt = transform->TransformPoint(point);
 
 
   /**
@@ -86,73 +87,71 @@ int itkBSplineTransformParametersAdaptorTest(int, char * [] )
    */
 
   TransformType::MeshSizeType requiredMeshSize;
-  for( unsigned int d = 0; d < SpaceDimension; d++ )
-    {
-    requiredMeshSize[d] = ( d + 1 ) * meshSize[d];
-    }
+  for (unsigned int d = 0; d < SpaceDimension; d++)
+  {
+    requiredMeshSize[d] = (d + 1) * meshSize[d];
+  }
 
-  TransformType::SizeType gridSizeBefore =
-    transform->GetCoefficientImages()[0]->GetLargestPossibleRegion().GetSize();
+  TransformType::SizeType gridSizeBefore = transform->GetCoefficientImages()[0]->GetLargestPossibleRegion().GetSize();
 
   using AdaptorType = itk::BSplineTransformParametersAdaptor<TransformType>;
   AdaptorType::Pointer adaptor = AdaptorType::New();
-  adaptor->SetTransform( transform );
-  adaptor->SetRequiredTransformDomainMeshSize( requiredMeshSize );
-  adaptor->SetRequiredTransformDomainOrigin( transform->GetTransformDomainOrigin() );
-  adaptor->SetRequiredTransformDomainDirection( transform->GetTransformDomainDirection() );
-  adaptor->SetRequiredTransformDomainPhysicalDimensions( transform->GetTransformDomainPhysicalDimensions() );
+  adaptor->SetTransform(transform);
+  adaptor->SetRequiredTransformDomainMeshSize(requiredMeshSize);
+  adaptor->SetRequiredTransformDomainOrigin(transform->GetTransformDomainOrigin());
+  adaptor->SetRequiredTransformDomainDirection(transform->GetTransformDomainDirection());
+  adaptor->SetRequiredTransformDomainPhysicalDimensions(transform->GetTransformDomainPhysicalDimensions());
   try
-    {
+  {
     adaptor->AdaptTransformParameters();
-    }
-  catch(...)
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Error in adapting transform." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   ParametersType fixedParameters = adaptor->GetRequiredFixedParameters();
   std::cout << "Fixed parameters: " << fixedParameters << std::endl;
-  adaptor->SetRequiredFixedParameters( fixedParameters );
+  adaptor->SetRequiredFixedParameters(fixedParameters);
 
-  if( adaptor->GetRequiredTransformDomainMeshSize() != transform->GetTransformDomainMeshSize() )
-    {
+  if (adaptor->GetRequiredTransformDomainMeshSize() != transform->GetTransformDomainMeshSize())
+  {
     std::cerr << "required transform domain mesh size conversion is incorrect." << std::endl;
     return EXIT_FAILURE;
-    }
-  if( adaptor->GetRequiredTransformDomainOrigin() != transform->GetTransformDomainOrigin() )
-    {
+  }
+  if (adaptor->GetRequiredTransformDomainOrigin() != transform->GetTransformDomainOrigin())
+  {
     std::cerr << "required transform domain origin conversion is incorrect." << std::endl;
     return EXIT_FAILURE;
-    }
-  if( adaptor->GetRequiredTransformDomainDirection() != transform->GetTransformDomainDirection() )
-    {
+  }
+  if (adaptor->GetRequiredTransformDomainDirection() != transform->GetTransformDomainDirection())
+  {
     std::cerr << "required transform domain direction conversion is incorrect." << std::endl;
     return EXIT_FAILURE;
-    }
-  if( adaptor->GetRequiredTransformDomainPhysicalDimensions() != transform->GetTransformDomainPhysicalDimensions() )
-    {
+  }
+  if (adaptor->GetRequiredTransformDomainPhysicalDimensions() != transform->GetTransformDomainPhysicalDimensions())
+  {
     std::cerr << "required transform domain physical dimensions conversion is incorrect." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  TransformType::SizeType gridSizeAfter =
-    transform->GetCoefficientImages()[0]->GetLargestPossibleRegion().GetSize();
+  TransformType::SizeType gridSizeAfter = transform->GetCoefficientImages()[0]->GetLargestPossibleRegion().GetSize();
 
-  TransformType::OutputPointType outputPointAfterAdapt = transform->TransformPoint( point );
+  TransformType::OutputPointType outputPointAfterAdapt = transform->TransformPoint(point);
 
   std::cout << "Grid size before: " << gridSizeBefore << std::endl;
   std::cout << "Grid size after: " << gridSizeAfter << std::endl;
   std::cout << point << " to (before) " << outputPointBeforeAdapt << std::endl;
   std::cout << point << " to (after) " << outputPointAfterAdapt << std::endl;
 
-  if( outputPointBeforeAdapt.EuclideanDistanceTo( outputPointAfterAdapt ) > 1e-6 )
-    {
+  if (outputPointBeforeAdapt.EuclideanDistanceTo(outputPointAfterAdapt) > 1e-6)
+  {
     std::cerr << "output points don't match up before and after adapt call." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  adaptor->Print( std::cout, 5 );
+  adaptor->Print(std::cout, 5);
 
   return EXIT_SUCCESS;
 }

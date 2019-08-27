@@ -37,11 +37,9 @@ namespace itk
  * \sphinxexample{Core/Transform/ScaleAnImage,Scale An Image}
  * \endsphinx
  */
-template<typename TParametersValueType=float,
-          unsigned int NDimensions=3>
-class ITK_TEMPLATE_EXPORT ScaleTransform : public MatrixOffsetTransformBase<TParametersValueType,
-                                                        NDimensions,
-                                                        NDimensions>
+template <typename TParametersValueType = float, unsigned int NDimensions = 3>
+class ITK_TEMPLATE_EXPORT ScaleTransform
+  : public MatrixOffsetTransformBase<TParametersValueType, NDimensions, NDimensions>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScaleTransform);
@@ -104,22 +102,26 @@ public:
    *  specified by the user. The parameters are organized as scale[i] =
    *  parameter[i]. That means that in 3D the scale parameters for the coordinates
    *  {x,y,z} are {parameter[0], parameter[1], parameter[2]} respectively */
-  void SetParameters(const ParametersType & parameters) override;
+  void
+  SetParameters(const ParametersType & parameters) override;
 
   /** Get the parameters that uniquely define the transform This is typically
    * used by optimizers during the process of image registration.  The parameters
    * are organized as {scale X, scale Y, scale Z } = { parameter[0],
    * parameter[1], parameter[2] } respectively */
-  const ParametersType & GetParameters() const override;
+  const ParametersType &
+  GetParameters() const override;
 
   /** Get the Jacobian matrix. */
-  void ComputeJacobianWithRespectToParameters(const InputPointType & point, JacobianType & j) const override;
+  void
+  ComputeJacobianWithRespectToParameters(const InputPointType & point, JacobianType & j) const override;
 
   /** Get the jacobian with respect to position, which simply is the
    *  matrix because the transform is position-invariant.
    *  jac will be resized as needed, but it will be more efficient if
    *  it is already properly sized. */
-  void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianPositionType & jac) const override;
+  void
+  ComputeJacobianWithRespectToPosition(const InputPointType & x, JacobianPositionType & jac) const override;
   using Superclass::ComputeJacobianWithRespectToPosition;
 
   /** Set the factors of an Scale Transform
@@ -130,57 +132,72 @@ public:
    * to be applied to each one of the coordinaates. For example, in 3D,
    * scale[0] corresponds to X, scale[1] corresponds to Y and scale[2]
    * corresponds to Z. */
-  void SetScale(const ScaleType & scale);
+  void
+  SetScale(const ScaleType & scale);
 
-  void ComputeMatrix() override;
+  void
+  ComputeMatrix() override;
 
   /** Compose with another ScaleTransform. */
-  void Compose(const Self *other, bool pre = false);
+  void
+  Compose(const Self * other, bool pre = false);
 
   /** Compose this transform transformation with another scaling.
    * The pre argument is irrelevant here since scale transforms are commutative,
    * pre and postcomposition are therefore equivalent. */
-  void Scale(const ScaleType & scale, bool pre = false);
+  void
+  Scale(const ScaleType & scale, bool pre = false);
 
   /** Transform by a scale transformation
    * This method applies the scale transform given by self to a
    * given point or vector, returning the transformed point or
    * vector. */
-  OutputPointType     TransformPoint(const InputPointType  & point) const override;
+  OutputPointType
+  TransformPoint(const InputPointType & point) const override;
 
   using Superclass::TransformVector;
-  OutputVectorType    TransformVector(const InputVectorType & vector) const override;
+  OutputVectorType
+  TransformVector(const InputVectorType & vector) const override;
 
-  OutputVnlVectorType TransformVector(const InputVnlVectorType & vector) const override;
+  OutputVnlVectorType
+  TransformVector(const InputVnlVectorType & vector) const override;
 
   using Superclass::TransformCovariantVector;
-  OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType & vector) const override;
+  OutputCovariantVectorType
+  TransformCovariantVector(const InputCovariantVectorType & vector) const override;
 
   /** Back transform by a scale transformation
    * This method finds the point or vector that maps to a given
    * point or vector under the scale transformation defined by
    * self.  If no such point exists, an exception is thrown. */
-  inline InputPointType     BackTransform(const OutputPointType  & point) const;
+  inline InputPointType
+  BackTransform(const OutputPointType & point) const;
 
-  inline InputVectorType    BackTransform(const OutputVectorType & vector) const;
+  inline InputVectorType
+  BackTransform(const OutputVectorType & vector) const;
 
-  inline InputVnlVectorType BackTransform(const OutputVnlVectorType & vector) const;
+  inline InputVnlVectorType
+  BackTransform(const OutputVnlVectorType & vector) const;
 
-  inline InputCovariantVectorType BackTransform(const OutputCovariantVectorType & vector) const;
+  inline InputCovariantVectorType
+  BackTransform(const OutputCovariantVectorType & vector) const;
 
   /** Find inverse of a scale transformation
    * This method creates and returns a new ScaleTransform object
    * which is the inverse of self.  If self is not invertible,
    * false is returned. */
-  bool GetInverse(Self *inverse) const;
+  bool
+  GetInverse(Self * inverse) const;
 
   /** Return an inverse of this transform. */
-  InverseTransformBasePointer GetInverseTransform() const override;
+  InverseTransformBasePointer
+  GetInverseTransform() const override;
 
   /** Set the transformation to an Identity
    *
    * This sets all the scales to 1.0 */
-  void SetIdentity() override;
+  void
+  SetIdentity() override;
 
   /** Get access to scale values */
   itkGetConstReferenceMacro(Scale, ScaleType);
@@ -193,17 +210,18 @@ protected:
   ~ScaleTransform() override = default;
 
   /** Print contents of an ScaleTransform */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ScaleType m_Scale;    // Scales of the transformation
+  ScaleType m_Scale; // Scales of the transformation
 
-};                         // class ScaleTransform
+}; // class ScaleTransform
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScaleTransform.hxx"
+#  include "itkScaleTransform.hxx"
 #endif
 
 #endif /* itkScaleTransform_h */

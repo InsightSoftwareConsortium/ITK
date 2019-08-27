@@ -42,18 +42,17 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT StatisticsKeepNObjectsLabelMapFilter:
-  public ShapeKeepNObjectsLabelMapFilter< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT StatisticsKeepNObjectsLabelMapFilter : public ShapeKeepNObjectsLabelMapFilter<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsKeepNObjectsLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = StatisticsKeepNObjectsLabelMapFilter;
-  using Superclass = ShapeKeepNObjectsLabelMapFilter< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ShapeKeepNObjectsLabelMapFilter<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using ImageType = TImage;
@@ -72,8 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(StatisticsKeepNObjectsLabelMapFilter,
-               ShapeKeepNObjectsLabelMapFilter);
+  itkTypeMacro(StatisticsKeepNObjectsLabelMapFilter, ShapeKeepNObjectsLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -90,12 +88,13 @@ protected:
   StatisticsKeepNObjectsLabelMapFilter();
   ~StatisticsKeepNObjectsLabelMapFilter() override = default;
 
-  void GenerateData() override;
-};                                                    // end of class
+  void
+  GenerateData() override;
+}; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkStatisticsKeepNObjectsLabelMapFilter.hxx"
+#  include "itkStatisticsKeepNObjectsLabelMapFilter.hxx"
 #endif
 
 #endif

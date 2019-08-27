@@ -25,10 +25,10 @@
 namespace itk
 {
 /** \class BYUMeshIOFactory
-   * \brief Create instances of BYUMeshIO objects using an object factory.
-   * \ingroup ITKIOMeshBYU
-   */
-class ITKIOMeshBYU_EXPORT BYUMeshIOFactory:public ObjectFactoryBase
+ * \brief Create instances of BYUMeshIO objects using an object factory.
+ * \ingroup ITKIOMeshBYU
+ */
+class ITKIOMeshBYU_EXPORT BYUMeshIOFactory : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BYUMeshIOFactory);
@@ -36,13 +36,15 @@ public:
   /** Standard class type aliases. */
   using Self = BYUMeshIOFactory;
   using Superclass = ObjectFactoryBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  const char * GetITKSourceVersion() const override;
+  const char *
+  GetITKSourceVersion() const override;
 
-  const char * GetDescription() const override;
+  const char *
+  GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -51,18 +53,20 @@ public:
   itkTypeMacro(BYUMeshIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory()
-    {
+  static void
+  RegisterOneFactory()
+  {
     BYUMeshIOFactory::Pointer byuFactory = BYUMeshIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(byuFactory);
-    }
+  }
 
 protected:
   BYUMeshIOFactory();
   ~BYUMeshIOFactory() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 
 } // end namespace itk

@@ -26,9 +26,8 @@ namespace itk
 {
 
 template <typename TFixedImage, typename TMovingImage>
-KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
-::KappaStatisticImageToImageMetric() :
-  m_ForegroundValue( 255 )
+KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::KappaStatisticImageToImageMetric()
+  : m_ForegroundValue(255)
 
 {
   this->SetComputeGradient(true);
@@ -36,8 +35,7 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
 
 template <typename TFixedImage, typename TMovingImage>
 typename KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
-KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
-::GetValue(const TransformParametersType & parameters) const
+KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const TransformParametersType & parameters) const
 {
   itkDebugMacro("GetValue( " << parameters << " ) ");
 
@@ -46,24 +44,24 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
   // Get the fixed image
   //
   FixedImageConstPointer fixedImage = this->m_FixedImage;
-  if( !fixedImage )
-    {
+  if (!fixedImage)
+  {
     itkExceptionMacro(<< "Fixed image has not been assigned");
-    }
+  }
 
   // Get an iterator over the fixed image
   //
   using FixedIteratorType = ImageRegionConstIteratorWithIndex<FixedImageType>;
   typename FixedImageType::IndexType fixedIndex;
-  FixedIteratorType fi( fixedImage, fixedImage->GetBufferedRegion() );
+  FixedIteratorType                  fi(fixedImage, fixedImage->GetBufferedRegion());
 
   // Get the moving image
   //
   MovingImageConstPointer movingImage = this->m_MovingImage;
-  if( !movingImage )
-    {
+  if (!movingImage)
+  {
     itkExceptionMacro(<< "Moving image has not been assigned");
-    }
+  }
 
   // The metric computation requires using the following:
   // - 'measure': the value of the metric.
@@ -75,109 +73,104 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
   // and moving image.
   //
   MeasureType measure;
-  MeasureType intersection         = NumericTraits<MeasureType>::ZeroValue();
+  MeasureType intersection = NumericTraits<MeasureType>::ZeroValue();
   MeasureType movingForegroundArea = NumericTraits<MeasureType>::ZeroValue();
-  MeasureType fixedForegroundArea  = NumericTraits<MeasureType>::ZeroValue();
+  MeasureType fixedForegroundArea = NumericTraits<MeasureType>::ZeroValue();
 
   // Compute fixedForegroundArea, movingForegroundArea, and
   // intersection. Loop over the fixed image.
   //
-  while( !fi.IsAtEnd() )
-    {
+  while (!fi.IsAtEnd())
+  {
     fixedIndex = fi.GetIndex();
 
     InputPointType fixedInputPoint;
     fixedImage->TransformIndexToPhysicalPoint(fixedIndex, fixedInputPoint);
 
-    if( this->m_FixedImageMask
-      && !this->m_FixedImageMask->IsInsideInWorldSpace(fixedInputPoint) )
-      {
+    if (this->m_FixedImageMask && !this->m_FixedImageMask->IsInsideInWorldSpace(fixedInputPoint))
+    {
       ++fi;
       continue;
-      }
+    }
 
     const RealType fixedValue = fi.Get();
 
     // Increment 'fixedForegroundArea'
     //
     //
-    if( Math::AlmostEquals( fixedValue, m_ForegroundValue ) )
-      {
+    if (Math::AlmostEquals(fixedValue, m_ForegroundValue))
+    {
       fixedForegroundArea++;
-      }
+    }
 
     // Get the point in the transformed moving image corresponding to
     // the point in the fixed image (physical coordinates)
     //
     //
-    OutputPointType
-      transformedPoint = this->m_Transform->TransformPoint(fixedInputPoint);
+    OutputPointType transformedPoint = this->m_Transform->TransformPoint(fixedInputPoint);
 
-    if( this->m_MovingImageMask
-      && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint) )
-      {
+    if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint))
+    {
       ++fi;
       continue;
-      }
+    }
 
     // Compute movingForegroundArea and intersection
     //
     //
-    if( this->m_Interpolator->IsInsideBuffer(transformedPoint) )
-      {
+    if (this->m_Interpolator->IsInsideBuffer(transformedPoint))
+    {
       const RealType movingValue = this->m_Interpolator->Evaluate(transformedPoint);
-      if( Math::AlmostEquals( movingValue, m_ForegroundValue ) )
-        {
+      if (Math::AlmostEquals(movingValue, m_ForegroundValue))
+      {
         movingForegroundArea++;
-        }
-      if( Math::AlmostEquals( movingValue, m_ForegroundValue ) &&
-          Math::AlmostEquals( fixedValue, m_ForegroundValue ) )
-        {
-        intersection++;
-        }
       }
-    ++fi;
+      if (Math::AlmostEquals(movingValue, m_ForegroundValue) && Math::AlmostEquals(fixedValue, m_ForegroundValue))
+      {
+        intersection++;
+      }
     }
+    ++fi;
+  }
 
   // Compute the final metric value
   //
   //
-  if( !m_Complement )
-    {
-    measure = 2.0 * ( intersection ) / ( fixedForegroundArea + movingForegroundArea );
-    }
+  if (!m_Complement)
+  {
+    measure = 2.0 * (intersection) / (fixedForegroundArea + movingForegroundArea);
+  }
   else
-    {
-    measure = 1.0 - 2.0 * ( intersection ) / ( fixedForegroundArea + movingForegroundArea );
-    }
+  {
+    measure = 1.0 - 2.0 * (intersection) / (fixedForegroundArea + movingForegroundArea);
+  }
 
   return measure;
 }
 
 template <typename TFixedImage, typename TMovingImage>
 void
-KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
-::GetDerivative(const TransformParametersType & parameters,
-                DerivativeType & derivative) const
+KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const TransformParametersType & parameters,
+                                                                           DerivativeType & derivative) const
 {
   itkDebugMacro("GetDerivative( " << parameters << " ) ");
 
-  if( !this->GetGradientImage() )
-    {
+  if (!this->GetGradientImage())
+  {
     itkExceptionMacro(<< "The gradient image is null, maybe you forgot to call Initialize()");
-    }
+  }
 
   FixedImageConstPointer fixedImage = this->m_FixedImage;
-  if( !fixedImage )
-    {
+  if (!fixedImage)
+  {
     itkExceptionMacro(<< "Fixed image has not been assigned");
-    }
+  }
 
   const unsigned int ImageDimension = FixedImageType::ImageDimension;
 
   using FixedIteratorType = ImageRegionConstIteratorWithIndex<FixedImageType>;
 
-  FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
+  FixedIteratorType ti(fixedImage, this->GetFixedImageRegion());
 
   typename FixedImageType::IndexType index;
 
@@ -201,67 +194,59 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
   int movingArea = 0;
   int intersection = 0;
 
-  TransformJacobianType jacobian(TFixedImage::ImageDimension,
-                                 this->m_Transform->GetNumberOfParameters());
+  TransformJacobianType jacobian(TFixedImage::ImageDimension, this->m_Transform->GetNumberOfParameters());
   TransformJacobianType jacobianCache;
 
   ti.GoToBegin();
-  while( !ti.IsAtEnd() )
-    {
+  while (!ti.IsAtEnd())
+  {
     index = ti.GetIndex();
 
     InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
-    if( this->m_FixedImageMask
-      && !this->m_FixedImageMask->IsInsideInWorldSpace(inputPoint) )
-      {
+    if (this->m_FixedImageMask && !this->m_FixedImageMask->IsInsideInWorldSpace(inputPoint))
+    {
       ++ti;
       continue;
-      }
+    }
 
     const RealType fixedValue = ti.Value();
-    if( Math::AlmostEquals( fixedValue, m_ForegroundValue ) )
-      {
+    if (Math::AlmostEquals(fixedValue, m_ForegroundValue))
+    {
       fixedArea++;
-      }
+    }
 
     OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
-    if( this->m_MovingImageMask
-      && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint) )
-      {
+    if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint))
+    {
       ++ti;
       continue;
+    }
+
+    if (this->m_Interpolator->IsInsideBuffer(transformedPoint))
+    {
+      const RealType movingValue = this->m_Interpolator->Evaluate(transformedPoint);
+
+      if (Math::AlmostEquals(movingValue, m_ForegroundValue))
+      {
+        movingArea++;
       }
 
-    if( this->m_Interpolator->IsInsideBuffer(transformedPoint) )
+      if (Math::AlmostEquals(movingValue, m_ForegroundValue) && Math::AlmostEquals(fixedValue, m_ForegroundValue))
       {
-      const RealType movingValue  = this->m_Interpolator->Evaluate(transformedPoint);
-
-      if( Math::AlmostEquals( movingValue, m_ForegroundValue ) )
-        {
-        movingArea++;
-        }
-
-      if( Math::AlmostEquals( movingValue, m_ForegroundValue )
-       && Math::AlmostEquals( fixedValue, m_ForegroundValue ) )
-        {
         intersection++;
-        }
+      }
 
-      this->m_Transform->
-        ComputeJacobianWithRespectToParametersCachedTemporaries(inputPoint,
-                                                                jacobian,
-                                                                jacobianCache);
+      this->m_Transform->ComputeJacobianWithRespectToParametersCachedTemporaries(inputPoint, jacobian, jacobianCache);
 
       this->m_NumberOfPixelsCounted++;
 
       // Get the gradient by NearestNeighboorInterpolation:
       // which is equivalent to round up the point components.
       using CoordRepType = typename OutputPointType::CoordRepType;
-      using MovingImageContinuousIndexType =
-          ContinuousIndex<CoordRepType, MovingImageType::ImageDimension>;
+      using MovingImageContinuousIndexType = ContinuousIndex<CoordRepType, MovingImageType::ImageDimension>;
 
       MovingImageContinuousIndexType tempIndex;
       this->m_MovingImage->TransformPhysicalPointToContinuousIndex(transformedPoint, tempIndex);
@@ -270,123 +255,120 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
       mappedIndex.CopyWithRound(tempIndex);
 
       const GradientPixelType gradient = this->m_GradientImage->GetPixel(mappedIndex);
-      for( unsigned int par = 0; par < ParametersDimension; par++ )
+      for (unsigned int par = 0; par < ParametersDimension; par++)
+      {
+        for (unsigned int dim = 0; dim < ImageDimension; dim++)
         {
-        for( unsigned int dim = 0; dim < ImageDimension; dim++ )
-          {
           sum2[par] += jacobian(dim, par) * gradient[dim];
-          if( Math::AlmostEquals( fixedValue, m_ForegroundValue ) )
-            {
+          if (Math::AlmostEquals(fixedValue, m_ForegroundValue))
+          {
             sum1[par] += 2.0 * jacobian(dim, par) * gradient[dim];
-            }
           }
         }
       }
+    }
     ++ti;
-    }
+  }
 
-  if( !this->m_NumberOfPixelsCounted )
-    {
+  if (!this->m_NumberOfPixelsCounted)
+  {
     itkExceptionMacro(<< "All the points mapped to outside of the moving image");
-    }
+  }
   else
-    {
+  {
     double areaSum = double(fixedArea) + double(movingArea);
-    for( unsigned int par = 0; par < ParametersDimension; par++ )
-      {
-      derivative[par] = -( areaSum * sum1[par] - 2.0 * intersection * sum2[par] ) / ( areaSum * areaSum );
-      }
+    for (unsigned int par = 0; par < ParametersDimension; par++)
+    {
+      derivative[par] = -(areaSum * sum1[par] - 2.0 * intersection * sum2[par]) / (areaSum * areaSum);
     }
+  }
 }
 
 template <typename TFixedImage, typename TMovingImage>
 void
-KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
-::ComputeGradient()
+KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::ComputeGradient()
 {
   const unsigned int dim = MovingImageType::ImageDimension;
 
   typename GradientImageType::Pointer tempGradientImage = GradientImageType::New();
-  tempGradientImage->SetRegions( this->m_MovingImage->GetBufferedRegion().GetSize() );
+  tempGradientImage->SetRegions(this->m_MovingImage->GetBufferedRegion().GetSize());
   tempGradientImage->Allocate();
   tempGradientImage->Update();
 
   using GradientIteratorType = ImageRegionIteratorWithIndex<GradientImageType>;
   using MovingIteratorType = ImageRegionConstIteratorWithIndex<MovingImageType>;
 
-  GradientIteratorType git( tempGradientImage, tempGradientImage->GetBufferedRegion() );
-  MovingIteratorType   mit( this->m_MovingImage, this->m_MovingImage->GetBufferedRegion() );
+  GradientIteratorType git(tempGradientImage, tempGradientImage->GetBufferedRegion());
+  MovingIteratorType   mit(this->m_MovingImage, this->m_MovingImage->GetBufferedRegion());
 
   git.GoToBegin();
   mit.GoToBegin();
 
-  typename MovingImageType::IndexType minusIndex;
-  typename MovingImageType::IndexType plusIndex;
-  typename MovingImageType::IndexType currIndex;
+  typename MovingImageType::IndexType   minusIndex;
+  typename MovingImageType::IndexType   plusIndex;
+  typename MovingImageType::IndexType   currIndex;
   typename GradientImageType::PixelType tempGradPixel;
-  typename MovingImageType::SizeType movingSize = this->m_MovingImage->GetBufferedRegion().GetSize();
-  while( !mit.IsAtEnd() )
-    {
+  typename MovingImageType::SizeType    movingSize = this->m_MovingImage->GetBufferedRegion().GetSize();
+  while (!mit.IsAtEnd())
+  {
     currIndex = mit.GetIndex();
     minusIndex = mit.GetIndex();
     plusIndex = mit.GetIndex();
-    for( unsigned int i = 0; i < dim; i++ )
+    for (unsigned int i = 0; i < dim; i++)
+    {
+      if ((currIndex[i] == 0) ||
+          (static_cast<typename MovingImageType::SizeType::SizeValueType>(currIndex[i]) == (movingSize[i] - 1)))
       {
-      if( ( currIndex[i] == 0 )
-          || ( static_cast<typename MovingImageType::SizeType::SizeValueType>( currIndex[i] ) == ( movingSize[i] - 1 ) ) )
-        {
         tempGradPixel[i] = 0;
-        }
+      }
       else
-        {
+      {
         minusIndex[i] = currIndex[i] - 1;
         plusIndex[i] = currIndex[i] + 1;
-        auto minusVal = double( this->m_MovingImage->GetPixel(minusIndex) );
-        auto plusVal  = double( this->m_MovingImage->GetPixel(plusIndex) );
-        if( Math::NotAlmostEquals( minusVal, m_ForegroundValue ) &&
-            Math::AlmostEquals( plusVal, m_ForegroundValue ) )
-          {
+        auto minusVal = double(this->m_MovingImage->GetPixel(minusIndex));
+        auto plusVal = double(this->m_MovingImage->GetPixel(plusIndex));
+        if (Math::NotAlmostEquals(minusVal, m_ForegroundValue) && Math::AlmostEquals(plusVal, m_ForegroundValue))
+        {
           tempGradPixel[i] = 1;
-          }
-        else if( Math::AlmostEquals( minusVal, m_ForegroundValue ) &&
-                 Math::NotAlmostEquals( plusVal, m_ForegroundValue ) )
-          {
-          tempGradPixel[i] = -1;
-          }
-        else
-          {
-          tempGradPixel[i] = 0;
-          }
         }
-      minusIndex = currIndex;
-      plusIndex  = currIndex;
+        else if (Math::AlmostEquals(minusVal, m_ForegroundValue) && Math::NotAlmostEquals(plusVal, m_ForegroundValue))
+        {
+          tempGradPixel[i] = -1;
+        }
+        else
+        {
+          tempGradPixel[i] = 0;
+        }
       }
+      minusIndex = currIndex;
+      plusIndex = currIndex;
+    }
     git.Set(tempGradPixel);
     ++git;
     ++mit;
-    }
+  }
 
   this->m_GradientImage = tempGradientImage;
 }
 
 template <typename TFixedImage, typename TMovingImage>
 void
-KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
-::GetValueAndDerivative(const TransformParametersType & parameters,
-                        MeasureType & Value, DerivativeType  & Derivative) const
+KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
+  const TransformParametersType & parameters,
+  MeasureType &                   Value,
+  DerivativeType &                Derivative) const
 {
-  Value      = this->GetValue(parameters);
+  Value = this->GetValue(parameters);
   this->GetDerivative(parameters, Derivative);
 }
 
 template <typename TFixedImage, typename TMovingImage>
 void
-KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
-::PrintSelf(std::ostream & os, Indent indent) const
+KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Complement: "      << ( m_Complement ? "On" : "Off" ) << std::endl;
+  os << indent << "Complement: " << (m_Complement ? "On" : "Off") << std::endl;
   os << indent << "ForegroundValue: " << m_ForegroundValue << std::endl;
 }
 

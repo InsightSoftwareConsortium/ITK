@@ -21,14 +21,13 @@
 #include "itkTestingMacros.h"
 #include <iostream>
 
-int itkImageRegionSplitterSlowDimensionTest(int, char*[])
+int
+itkImageRegionSplitterSlowDimensionTest(int, char *[])
 {
 
-  itk::ImageRegionSplitterSlowDimension::Pointer splitter =
-    itk::ImageRegionSplitterSlowDimension::New();
+  itk::ImageRegionSplitterSlowDimension::Pointer splitter = itk::ImageRegionSplitterSlowDimension::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( splitter,
-    ImageRegionSplitterSlowDimension, ImageRegionSplitterBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(splitter, ImageRegionSplitterSlowDimension, ImageRegionSplitterBase);
 
   itk::ImageRegion<2> region;
   region.SetSize(0, 10);
@@ -39,14 +38,14 @@ int itkImageRegionSplitterSlowDimensionTest(int, char*[])
 
   const itk::ImageRegion<2> lpRegion = region;
 
-  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 1 ), 1 );
-  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 2 ), 2 );
-  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 3 ), 3 );
-  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 4 ), 4 );
-  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 7 ), 6 );
-  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 11 ), 11 );
-  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 12 ), 11 );
-  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 99 ), 11 );
+  ITK_TEST_EXPECT_EQUAL(splitter->GetNumberOfSplits(lpRegion, 1), 1);
+  ITK_TEST_EXPECT_EQUAL(splitter->GetNumberOfSplits(lpRegion, 2), 2);
+  ITK_TEST_EXPECT_EQUAL(splitter->GetNumberOfSplits(lpRegion, 3), 3);
+  ITK_TEST_EXPECT_EQUAL(splitter->GetNumberOfSplits(lpRegion, 4), 4);
+  ITK_TEST_EXPECT_EQUAL(splitter->GetNumberOfSplits(lpRegion, 7), 6);
+  ITK_TEST_EXPECT_EQUAL(splitter->GetNumberOfSplits(lpRegion, 11), 11);
+  ITK_TEST_EXPECT_EQUAL(splitter->GetNumberOfSplits(lpRegion, 12), 11);
+  ITK_TEST_EXPECT_EQUAL(splitter->GetNumberOfSplits(lpRegion, 99), 11);
 
 
   region = lpRegion;

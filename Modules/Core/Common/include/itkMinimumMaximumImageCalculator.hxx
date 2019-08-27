@@ -25,124 +25,114 @@
 namespace itk
 {
 
-template< typename TInputImage >
-MinimumMaximumImageCalculator< TInputImage >
-::MinimumMaximumImageCalculator()
+template <typename TInputImage>
+MinimumMaximumImageCalculator<TInputImage>::MinimumMaximumImageCalculator()
 {
   m_Image = TInputImage::New();
-  m_Maximum = NumericTraits< PixelType >::NonpositiveMin();
-  m_Minimum = NumericTraits< PixelType >::max();
+  m_Maximum = NumericTraits<PixelType>::NonpositiveMin();
+  m_Minimum = NumericTraits<PixelType>::max();
   m_IndexOfMinimum.Fill(0);
   m_IndexOfMaximum.Fill(0);
   m_RegionSetByUser = false;
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-MinimumMaximumImageCalculator< TInputImage >
-::Compute()
+MinimumMaximumImageCalculator<TInputImage>::Compute()
 {
-  if ( !m_RegionSetByUser )
-    {
+  if (!m_RegionSetByUser)
+  {
     m_Region = m_Image->GetRequestedRegion();
-    }
+  }
 
-  ImageRegionConstIteratorWithIndex< TInputImage > it(m_Image, m_Region);
-  m_Maximum = NumericTraits< PixelType >::NonpositiveMin();
-  m_Minimum = NumericTraits< PixelType >::max();
+  ImageRegionConstIteratorWithIndex<TInputImage> it(m_Image, m_Region);
+  m_Maximum = NumericTraits<PixelType>::NonpositiveMin();
+  m_Minimum = NumericTraits<PixelType>::max();
 
-  while ( !it.IsAtEnd() )
-    {
+  while (!it.IsAtEnd())
+  {
     const PixelType value = it.Get();
-    if ( value > m_Maximum )
-      {
+    if (value > m_Maximum)
+    {
       m_Maximum = value;
       m_IndexOfMaximum = it.GetIndex();
-      }
-    if ( value < m_Minimum )
-      {
+    }
+    if (value < m_Minimum)
+    {
       m_Minimum = value;
       m_IndexOfMinimum = it.GetIndex();
-      }
-    ++it;
     }
+    ++it;
+  }
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-MinimumMaximumImageCalculator< TInputImage >
-::ComputeMinimum()
+MinimumMaximumImageCalculator<TInputImage>::ComputeMinimum()
 {
-  if ( !m_RegionSetByUser )
-    {
+  if (!m_RegionSetByUser)
+  {
     m_Region = m_Image->GetRequestedRegion();
-    }
-  ImageRegionConstIteratorWithIndex< TInputImage > it(m_Image, m_Region);
-  m_Minimum = NumericTraits< PixelType >::max();
+  }
+  ImageRegionConstIteratorWithIndex<TInputImage> it(m_Image, m_Region);
+  m_Minimum = NumericTraits<PixelType>::max();
 
-  while ( !it.IsAtEnd() )
-    {
+  while (!it.IsAtEnd())
+  {
     const PixelType value = it.Get();
-    if ( value < m_Minimum )
-      {
+    if (value < m_Minimum)
+    {
       m_Minimum = value;
       m_IndexOfMinimum = it.GetIndex();
-      }
-    ++it;
     }
+    ++it;
+  }
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-MinimumMaximumImageCalculator< TInputImage >
-::ComputeMaximum()
+MinimumMaximumImageCalculator<TInputImage>::ComputeMaximum()
 {
-  if ( !m_RegionSetByUser )
-    {
+  if (!m_RegionSetByUser)
+  {
     m_Region = m_Image->GetRequestedRegion();
-    }
-  ImageRegionConstIteratorWithIndex< TInputImage > it(m_Image, m_Region);
-  m_Maximum = NumericTraits< PixelType >::NonpositiveMin();
+  }
+  ImageRegionConstIteratorWithIndex<TInputImage> it(m_Image, m_Region);
+  m_Maximum = NumericTraits<PixelType>::NonpositiveMin();
 
-  while ( !it.IsAtEnd() )
-    {
+  while (!it.IsAtEnd())
+  {
     const PixelType value = it.Get();
-    if ( value > m_Maximum )
-      {
+    if (value > m_Maximum)
+    {
       m_Maximum = value;
       m_IndexOfMaximum = it.GetIndex();
-      }
-    ++it;
     }
+    ++it;
+  }
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-MinimumMaximumImageCalculator< TInputImage >
-::SetRegion(const RegionType & region)
+MinimumMaximumImageCalculator<TInputImage>::SetRegion(const RegionType & region)
 {
   m_Region = region;
   m_RegionSetByUser = true;
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-MinimumMaximumImageCalculator< TInputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+MinimumMaximumImageCalculator<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Minimum: "
-     << static_cast< typename NumericTraits< PixelType >::PrintType >( m_Minimum )
-     << std::endl;
-  os << indent << "Maximum: "
-     << static_cast< typename NumericTraits< PixelType >::PrintType >( m_Maximum )
-     << std::endl;
+  os << indent << "Minimum: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Minimum) << std::endl;
+  os << indent << "Maximum: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Maximum) << std::endl;
   os << indent << "Index of Minimum: " << m_IndexOfMinimum << std::endl;
   os << indent << "Index of Maximum: " << m_IndexOfMaximum << std::endl;
-  itkPrintSelfObjectMacro( Image );
+  itkPrintSelfObjectMacro(Image);
   os << indent << "Region: " << std::endl;
-  m_Region.Print( os, indent.GetNextIndent() );
+  m_Region.Print(os, indent.GetNextIndent());
   os << indent << "Region set by User: " << m_RegionSetByUser << std::endl;
 }
 } // end namespace itk

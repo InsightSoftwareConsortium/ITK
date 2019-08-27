@@ -21,7 +21,8 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
-int itkCropImageFilterTest( int, char* [] )
+int
+itkCropImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
@@ -31,69 +32,67 @@ int itkCropImageFilterTest( int, char* [] )
   using PixelType = short;
 
   // Declare the types of the images
-  using ImageType = itk::Image< PixelType, ImageDimension >;
+  using ImageType = itk::Image<PixelType, ImageDimension>;
 
   ImageType::Pointer inputImage = ImageType::New();
 
   // Fill in the image
-  ImageType::IndexType  index = {{0, 0}};
-  ImageType::SizeType   size = {{8, 12}};
+  ImageType::IndexType  index = { { 0, 0 } };
+  ImageType::SizeType   size = { { 8, 12 } };
   ImageType::RegionType region;
 
-  region.SetSize( size );
-  region.SetIndex( index );
-  inputImage->SetLargestPossibleRegion( region );
-  inputImage->SetBufferedRegion( region );
+  region.SetSize(size);
+  region.SetIndex(index);
+  inputImage->SetLargestPossibleRegion(region);
+  inputImage->SetBufferedRegion(region);
   inputImage->Allocate();
 
-  itk::ImageRegionIterator< ImageType > iterator( inputImage, region );
+  itk::ImageRegionIterator<ImageType> iterator(inputImage, region);
 
   short i = 0;
-  for(; !iterator.IsAtEnd(); ++iterator, ++i)
-    {
-      iterator.Set( i );
-    }
+  for (; !iterator.IsAtEnd(); ++iterator, ++i)
+  {
+    iterator.Set(i);
+  }
 
   // Create the filter
-  itk::CropImageFilter< ImageType, ImageType >::Pointer cropFilter =
-    itk::CropImageFilter< ImageType, ImageType >::New();
+  itk::CropImageFilter<ImageType, ImageType>::Pointer cropFilter = itk::CropImageFilter<ImageType, ImageType>::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( cropFilter, CropImageFilter,
-    ExtractImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(cropFilter, CropImageFilter, ExtractImageFilter);
 
-  itk::SimpleFilterWatcher watcher( cropFilter );
+  itk::SimpleFilterWatcher watcher(cropFilter);
 
-  cropFilter->SetInput( inputImage );
+  cropFilter->SetInput(inputImage);
 
   ImageType::RegionType requestedRegion;
 
-  ImageType::SizeType extractSize = {{8, 12}};
+  ImageType::SizeType extractSize = { { 8, 12 } };
   extractSize[0] = 1;
   extractSize[1] = 1;
 
-  cropFilter->SetBoundaryCropSize( extractSize );
+  cropFilter->SetBoundaryCropSize(extractSize);
 
-  cropFilter->SetUpperBoundaryCropSize( extractSize );
-  ITK_TEST_SET_GET_VALUE( extractSize, cropFilter->GetUpperBoundaryCropSize() );
+  cropFilter->SetUpperBoundaryCropSize(extractSize);
+  ITK_TEST_SET_GET_VALUE(extractSize, cropFilter->GetUpperBoundaryCropSize());
 
-  cropFilter->SetLowerBoundaryCropSize( extractSize );
-  ITK_TEST_SET_GET_VALUE( extractSize, cropFilter->GetLowerBoundaryCropSize() );
+  cropFilter->SetLowerBoundaryCropSize(extractSize);
+  ITK_TEST_SET_GET_VALUE(extractSize, cropFilter->GetLowerBoundaryCropSize());
 
   cropFilter->UpdateLargestPossibleRegion();
 
   requestedRegion = cropFilter->GetOutput()->GetRequestedRegion();
 
-  if( cropFilter->GetOutput()->GetLargestPossibleRegion().GetSize()[0] != 6
-      || cropFilter->GetOutput()->GetLargestPossibleRegion().GetSize()[1] != 10 )
-    {
-      return EXIT_FAILURE;
-    }
+  if (cropFilter->GetOutput()->GetLargestPossibleRegion().GetSize()[0] != 6 ||
+      cropFilter->GetOutput()->GetLargestPossibleRegion().GetSize()[1] != 10)
+  {
+    return EXIT_FAILURE;
+  }
 
-  if( cropFilter->GetOutput()->GetLargestPossibleRegion().GetIndex()[0] != 1
-      || cropFilter->GetOutput()->GetLargestPossibleRegion().GetIndex()[1] != 1 )
-    {
-      return EXIT_FAILURE;
-    }
+  if (cropFilter->GetOutput()->GetLargestPossibleRegion().GetIndex()[0] != 1 ||
+      cropFilter->GetOutput()->GetLargestPossibleRegion().GetIndex()[1] != 1)
+  {
+    return EXIT_FAILURE;
+  }
 
   return EXIT_SUCCESS;
 }

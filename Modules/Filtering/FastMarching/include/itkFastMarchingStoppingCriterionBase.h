@@ -31,7 +31,7 @@ namespace itk
 
   \ingroup ITKFastMarching
   */
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 class FastMarchingStoppingCriterionBase : public StoppingCriterionBase
 {
 public:
@@ -39,9 +39,9 @@ public:
 
   using Self = FastMarchingStoppingCriterionBase;
   using Superclass = StoppingCriterionBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Traits = FastMarchingTraits< TInput, TOutput >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Traits = FastMarchingTraits<TInput, TOutput>;
 
   using NodeType = typename Traits::NodeType;
   using OutputPixelType = typename Traits::OutputPixelType;
@@ -53,29 +53,33 @@ public:
   itkTypeMacro(FastMarchingStoppingCriterionBase, StoppingCriterionBase);
 
   /** Reinitialize internal values. */
-  void Reinitialize()
-    {
-    m_CurrentValue  = NumericTraits< OutputPixelType >::ZeroValue();
-    m_PreviousValue = NumericTraits< OutputPixelType >::ZeroValue();
+  void
+  Reinitialize()
+  {
+    m_CurrentValue = NumericTraits<OutputPixelType>::ZeroValue();
+    m_PreviousValue = NumericTraits<OutputPixelType>::ZeroValue();
 
     this->Reset();
-    }
+  }
 
-  void SetCurrentNodePair( const NodePairType& iNodePair )
-    {
-    this->SetCurrentNode( iNodePair.GetNode() );
-    this->SetCurrentValue( iNodePair.GetValue() );
-    }
-
-  itkSetObjectMacro( Domain, OutputDomainType );
-  itkGetModifiableObjectMacro(Domain, OutputDomainType );
-
- protected:
-  /** Constructor */
-  FastMarchingStoppingCriterionBase() : Superclass(), m_Domain( nullptr )
+  void
+  SetCurrentNodePair(const NodePairType & iNodePair)
   {
-    m_CurrentValue = NumericTraits< OutputPixelType >::ZeroValue();
-    m_PreviousValue = NumericTraits< OutputPixelType >::ZeroValue();
+    this->SetCurrentNode(iNodePair.GetNode());
+    this->SetCurrentValue(iNodePair.GetValue());
+  }
+
+  itkSetObjectMacro(Domain, OutputDomainType);
+  itkGetModifiableObjectMacro(Domain, OutputDomainType);
+
+protected:
+  /** Constructor */
+  FastMarchingStoppingCriterionBase()
+    : Superclass()
+    , m_Domain(nullptr)
+  {
+    m_CurrentValue = NumericTraits<OutputPixelType>::ZeroValue();
+    m_PreviousValue = NumericTraits<OutputPixelType>::ZeroValue();
   }
 
   /** Destructor */
@@ -88,17 +92,20 @@ public:
 
   /** Inherited classes must implement this method and make sure member variables
   got reinitialized. */
-  virtual void Reset() = 0;
+  virtual void
+  Reset() = 0;
 
   /** Set the Current Node */
-  virtual void SetCurrentNode( const NodeType& iNode ) = 0;
+  virtual void
+  SetCurrentNode(const NodeType & iNode) = 0;
 
   /** Set the Current Value */
-  virtual void SetCurrentValue( const OutputPixelType& iValue )
-    {
+  virtual void
+  SetCurrentValue(const OutputPixelType & iValue)
+  {
     m_PreviousValue = m_CurrentValue;
     m_CurrentValue = iValue;
-    }
+  }
 };
-}
+} // namespace itk
 #endif

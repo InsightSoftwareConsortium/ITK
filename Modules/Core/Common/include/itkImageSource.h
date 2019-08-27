@@ -63,9 +63,10 @@ namespace itk
  * \sphinxexample{Core/Common/ProduceImageProgrammatically,Produce Image Programmatically}
  * \endsphinx
  */
-template< typename TOutputImage >
+template <typename TOutputImage>
 class ITK_TEMPLATE_EXPORT ImageSource
-  : public ProcessObject, private ImageSourceCommon
+  : public ProcessObject
+  , private ImageSourceCommon
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageSource);
@@ -73,8 +74,8 @@ public:
   /** Standard class type aliases. */
   using Self = ImageSource;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Smart Pointer type to a DataObject. */
   using DataObjectPointer = DataObject::Pointer;
@@ -141,10 +142,13 @@ public:
    * types. Derived classes should have names get methods for these
    * outputs.
    */
-  OutputImageType * GetOutput();
-  const OutputImageType * GetOutput() const;
+  OutputImageType *
+  GetOutput();
+  const OutputImageType *
+  GetOutput() const;
 
-  OutputImageType * GetOutput(unsigned int idx);
+  OutputImageType *
+  GetOutput(unsigned int idx);
 
   /** Graft the specified DataObject onto this ProcessObject's output.
    * This method grabs a handle to the specified DataObject's bulk
@@ -184,14 +188,16 @@ public:
    * filter's pipeline mechanism must be consistent with what the
    * mini-pipeline will do).
    *  */
-  virtual void GraftOutput(DataObject *output);
+  virtual void
+  GraftOutput(DataObject * output);
 
   /** Graft the specified data object onto this ProcessObject's named
    * output. This is similar to the GraftOutput method except it
    * allows you to specify which output is affected.
    * See the GraftOutput for general usage information.
    */
-  virtual void GraftOutput(const DataObjectIdentifierType & key, DataObject *output);
+  virtual void
+  GraftOutput(const DataObjectIdentifierType & key, DataObject * output);
 
   /** Graft the specified data object onto this ProcessObject's idx'th
    * output. This is similar to the GraftOutput method except it
@@ -199,7 +205,8 @@ public:
    * must be a valid output number (less than
    * ProcessObject::GetNumberOfIndexedOutputs()). See the GraftOutput for
    * general usage information. */
-  virtual void GraftNthOutput(unsigned int idx, DataObject *output);
+  virtual void
+  GraftNthOutput(unsigned int idx, DataObject * output);
 
   /** Make a DataObject of the correct type to used as the specified
    * output.  Every ProcessObject subclass must be able to create a
@@ -214,8 +221,10 @@ public:
    * SmartPointer to a DataObject. If a subclass of ImageSource has
    * multiple outputs of different types, then that class must provide
    * an implementation of MakeOutput(). */
-  ProcessObject::DataObjectPointer MakeOutput(ProcessObject::DataObjectPointerArraySizeType idx) override;
-  ProcessObject::DataObjectPointer MakeOutput(const ProcessObject::DataObjectIdentifierType &) override;
+  ProcessObject::DataObjectPointer
+  MakeOutput(ProcessObject::DataObjectPointerArraySizeType idx) override;
+  ProcessObject::DataObjectPointer
+  MakeOutput(const ProcessObject::DataObjectIdentifierType &) override;
 
 protected:
   ImageSource();
@@ -236,12 +245,14 @@ protected:
    * DynamicThreadedGenerateData() instead.
    *
    * \sa ThreadedGenerateData() */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Many filters do special management of image buffer and threading,
    *  so this method provides just the multi-threaded invocation part
    *  of GenerateData() method. */
-  void ClassicMultiThread(ThreadFunctionType callbackFunction);
+  void
+  ClassicMultiThread(ThreadFunctionType callbackFunction);
 
   /** If an imaging filter can be implemented as a multithreaded
    * algorithm, the filter will provide an implementation of
@@ -284,16 +295,18 @@ protected:
    * in a single thread being reused to process multiple work units.
    *
    * \sa GenerateData(), SplitRequestedRegion() */
-  virtual void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
-  virtual void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread);
+  virtual void
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
+  virtual void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread);
 
   /** The GenerateData method normally allocates the buffers for all of the
    * outputs of a filter. Some filters may want to override this default
    * behavior. For example, a filter may have multiple outputs with
    * varying resolution. Or a filter may want to process data in place by
    * grafting its input to its output. */
-  virtual void AllocateOutputs();
+  virtual void
+  AllocateOutputs();
 
   /** If an imaging filter needs to perform processing after the buffer
    * has been allocated but before threads are spawned, the filter can
@@ -305,7 +318,9 @@ protected:
    *      4) Call AfterThreadedGenerateData()
    * Note that this flow of control is only available if a filter provides
    * a ThreadedGenerateData() method and NOT a GenerateData() method. */
-  virtual void BeforeThreadedGenerateData() {}
+  virtual void
+  BeforeThreadedGenerateData()
+  {}
 
   /** If an imaging filter needs to perform processing after all
    * processing threads have completed, the filter can can provide an
@@ -317,14 +332,17 @@ protected:
    *      4) Call AfterThreadedGenerateData()
    * Note that this flow of control is only available if a filter provides
    * a ThreadedGenerateData() method and NOT a GenerateData() method. */
-  virtual void AfterThreadedGenerateData() {}
+  virtual void
+  AfterThreadedGenerateData()
+  {}
 
   /** \brief Returns the default image region splitter
    *
    * This is an adapter function from the private common base class to
    * the interface of this class.
    */
-  static const ImageRegionSplitterBase* GetGlobalDefaultSplitter()
+  static const ImageRegionSplitterBase *
+  GetGlobalDefaultSplitter()
   {
     return ImageSourceCommon::GetGlobalDefaultSplitter();
   }
@@ -339,7 +357,8 @@ protected:
    * desired this method should be overridden to return the
    * appropriate object.
    */
-  virtual const ImageRegionSplitterBase* GetImageRegionSplitter() const;
+  virtual const ImageRegionSplitterBase *
+  GetImageRegionSplitter() const;
 
   /** Split the output's RequestedRegion into "pieces" pieces, returning
    * region "i" as "splitRegion". This method is called concurrently
@@ -355,13 +374,14 @@ protected:
    *
    * \sa GetImageRegionSplitter
    **/
-  virtual
-  unsigned int SplitRequestedRegion(unsigned int i, unsigned int pieces, OutputImageRegionType & splitRegion);
+  virtual unsigned int
+  SplitRequestedRegion(unsigned int i, unsigned int pieces, OutputImageRegionType & splitRegion);
 
   /** Static function used as a "callback" by the classic MultiThreader.
-  * The threading library will call this routine for each thread,
-  * which will delegate the control to ThreadedGenerateData(). */
-  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ThreaderCallback(void *arg);
+   * The threading library will call this routine for each thread,
+   * which will delegate the control to ThreadedGenerateData(). */
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
+  ThreaderCallback(void * arg);
 
   /** Internal structure used for passing image data into the threading library */
   struct ThreadStruct
@@ -369,7 +389,8 @@ protected:
     Pointer Filter;
   };
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Whether to use classic multi-threading infrastructure (OFF by default).
    * Classic multi-threading uses derived class' ImageRegionSplitter,
@@ -383,7 +404,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageSource.hxx"
+#  include "itkImageSource.hxx"
 #endif
 
 #endif

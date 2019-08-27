@@ -50,11 +50,10 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template< typename TType >
+template <typename TType>
 class ITK_TEMPLATE_EXPORT DefaultPixelAccessor
 {
 public:
-
   DefaultPixelAccessor() = default;
   ~DefaultPixelAccessor() = default;
 
@@ -67,16 +66,25 @@ public:
   using InternalType = TType;
 
   /** Set the pixel. */
-  inline void Set(TType & output, const TType & input) const
-  { output = input; }
+  inline void
+  Set(TType & output, const TType & input) const
+  {
+    output = input;
+  }
 
   /** Get the pixel. */
-  inline TType & Get(TType & input) const
-  { return input; }
+  inline TType &
+  Get(TType & input) const
+  {
+    return input;
+  }
 
   /** Get a const reference to the pixel. */
-  inline const TType & Get(const TType & input) const
-  { return input; }
+  inline const TType &
+  Get(const TType & input) const
+  {
+    return input;
+  }
 };
 } // end namespace itk
 

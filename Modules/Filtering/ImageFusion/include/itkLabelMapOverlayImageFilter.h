@@ -22,10 +22,11 @@
 #include "itkLabelOverlayFunctor.h"
 #include "itkRGBPixel.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class LabelMapOverlayImageFilter
-* \brief Apply a colormap to a label map and superimpose it on an image.
+ * \brief Apply a colormap to a label map and superimpose it on an image.
  *
  * Apply a colormap to a label map and put it on top of the feature
  * image. The feature image is typically the image from which the labeling was
@@ -51,10 +52,11 @@ namespace itk {
  * \sphinx
  * \sphinxexample{Filtering/ImageFusion/ColorLabeledRegions,Color Labeled Regions In Image}
  * \endsphinx
-*/
-template<typename TLabelMap, typename TFeatureImage, typename TOutputImage=Image< RGBPixel< typename TFeatureImage::PixelType >, TFeatureImage::ImageDimension > >
-class ITK_TEMPLATE_EXPORT LabelMapOverlayImageFilter :
-    public LabelMapFilter<TLabelMap, TOutputImage>
+ */
+template <typename TLabelMap,
+          typename TFeatureImage,
+          typename TOutputImage = Image<RGBPixel<typename TFeatureImage::PixelType>, TFeatureImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT LabelMapOverlayImageFilter : public LabelMapFilter<TLabelMap, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapOverlayImageFilter);
@@ -90,7 +92,8 @@ public:
   using SizeType = typename OutputImageType::SizeType;
   using RegionType = typename OutputImageType::RegionType;
 
-  using FunctorType = typename Functor::LabelOverlayFunctor<FeatureImagePixelType, LabelMapPixelType, OutputImagePixelType>;
+  using FunctorType =
+    typename Functor::LabelOverlayFunctor<FeatureImagePixelType, LabelMapPixelType, OutputImagePixelType>;
 
   /** ImageDimension constants */
   static constexpr unsigned int InputImageDimension = TLabelMap::ImageDimension;
@@ -101,53 +104,65 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LabelMapOverlayImageFilter,
-               ImageToImageFilter);
-
-   /** Set the feature image */
-  void SetFeatureImage(const TFeatureImage *input)
-    {
-    // Process object is not const-correct so the const casting is required.
-    this->SetNthInput( 1, const_cast<TFeatureImage *>(input) );
-    }
-
-  /** Get the feature image */
-  const FeatureImageType * GetFeatureImage()
-    {
-    return static_cast<FeatureImageType*>((this->ProcessObject::GetInput(1)));
-    }
-
-   /** Set the input image */
-  void SetInput1(const TLabelMap *input)
-    {
-    this->SetInput( input );
-    }
+  itkTypeMacro(LabelMapOverlayImageFilter, ImageToImageFilter);
 
   /** Set the feature image */
-  void SetInput2(const TFeatureImage *input)
-    {
-    this->SetFeatureImage( input );
-    }
+  void
+  SetFeatureImage(const TFeatureImage * input)
+  {
+    // Process object is not const-correct so the const casting is required.
+    this->SetNthInput(1, const_cast<TFeatureImage *>(input));
+  }
+
+  /** Get the feature image */
+  const FeatureImageType *
+  GetFeatureImage()
+  {
+    return static_cast<FeatureImageType *>((this->ProcessObject::GetInput(1)));
+  }
+
+  /** Set the input image */
+  void
+  SetInput1(const TLabelMap * input)
+  {
+    this->SetInput(input);
+  }
+
+  /** Set the feature image */
+  void
+  SetInput2(const TFeatureImage * input)
+  {
+    this->SetFeatureImage(input);
+  }
 
   /** Set/Get the opacity of the colored label image. The value must be
    * between 0 and 1
    */
-  itkSetMacro( Opacity, double );
-  itkGetConstReferenceMacro( Opacity, double );
+  itkSetMacro(Opacity, double);
+  itkGetConstReferenceMacro(Opacity, double);
 
   /** Set/Get the overlay functor - defaults to a reasonable set of colors.
    * This can be used to apply a different colormap.
    */
-  virtual void SetFunctor(const FunctorType& functor)
+  virtual void
+  SetFunctor(const FunctorType & functor)
   {
-    if ( m_Functor != functor )
-      {
+    if (m_Functor != functor)
+    {
       m_Functor = functor;
       this->Modified();
-      }
+    }
   }
-  FunctorType &       GetFunctor() { return m_Functor; }
-  const FunctorType & GetFunctor() const { return m_Functor; }
+  FunctorType &
+  GetFunctor()
+  {
+    return m_Functor;
+  }
+  const FunctorType &
+  GetFunctor() const
+  {
+    return m_Functor;
+  }
 
 protected:
   LabelMapOverlayImageFilter();
@@ -156,37 +171,45 @@ protected:
   /** LabelMapOverlayImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** LabelMapOverlayImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
-  //part of a compile error workaround for GCC 4.8.5-28 (Red Hat) from 20150623
-  void SuperclassDynamicTGD(const OutputImageRegionType & outputRegion)
+  // part of a compile error workaround for GCC 4.8.5-28 (Red Hat) from 20150623
+  void
+  SuperclassDynamicTGD(const OutputImageRegionType & outputRegion)
   {
     Superclass::DynamicThreadedGenerateData(outputRegion);
   }
 
-  void ThreadedProcessLabelObject( LabelObjectType * labelObject ) override;
+  void
+  ThreadedProcessLabelObject(LabelObjectType * labelObject) override;
 
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  double                    m_Opacity;
-  FunctorType               m_Functor;
+  double      m_Opacity;
+  FunctorType m_Functor;
 
 }; // end of class
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelMapOverlayImageFilter.hxx"
+#  include "itkLabelMapOverlayImageFilter.hxx"
 #endif
 
 #endif

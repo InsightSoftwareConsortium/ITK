@@ -19,20 +19,23 @@
 #include <iostream>
 #include "itkMembershipFunctionBase.h"
 
-namespace itk {
-namespace Statistics {
-namespace MembershipFunctionBaseTest {
+namespace itk
+{
+namespace Statistics
+{
+namespace MembershipFunctionBaseTest
+{
 
 template <typename TMeasurementVector>
-class MyMembershipFunctionBase : public MembershipFunctionBase< TMeasurementVector >
+class MyMembershipFunctionBase : public MembershipFunctionBase<TMeasurementVector>
 {
 public:
   /** Standard class type alias. */
   using Self = MyMembershipFunctionBase;
 
-  using Superclass = MembershipFunctionBase< TMeasurementVector >;
+  using Superclass = MembershipFunctionBase<TMeasurementVector>;
 
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
 
   using ConstPointer = SmartPointer<const Self>;
 
@@ -43,28 +46,30 @@ public:
   itkNewMacro(Self);
 
   /** Evaluate membership score */
-  double Evaluate(const TMeasurementVector & ) const override
-    {
+  double
+  Evaluate(const TMeasurementVector &) const override
+  {
     double score;
     score = 1;
     return score;
-    }
-
+  }
 };
 
-}
-}
-}
+} // namespace MembershipFunctionBaseTest
+} // namespace Statistics
+} // namespace itk
 
 /* Test MembershipFunctionBase using a resizable vector type */
-int itkMembershipFunctionBaseTest2(int, char* [] )
+int
+itkMembershipFunctionBaseTest2(int, char *[])
 {
 
   constexpr unsigned int MeasurementVectorSize = 3;
 
-  using MeasurementVectorType = itk::Array< float>;
+  using MeasurementVectorType = itk::Array<float>;
 
-  using MembershipFunctionBaseType = itk::Statistics::MembershipFunctionBaseTest::MyMembershipFunctionBase<MeasurementVectorType>;
+  using MembershipFunctionBaseType =
+    itk::Statistics::MembershipFunctionBaseTest::MyMembershipFunctionBase<MeasurementVectorType>;
 
   MembershipFunctionBaseType::Pointer function = MembershipFunctionBaseType::New();
 
@@ -73,30 +78,30 @@ int itkMembershipFunctionBaseTest2(int, char* [] )
 
   function->Print(std::cout);
 
-  function->SetMeasurementVectorSize( MeasurementVectorSize );
-  if( function->GetMeasurementVectorSize() != MeasurementVectorSize )
-    {
+  function->SetMeasurementVectorSize(MeasurementVectorSize);
+  if (function->GetMeasurementVectorSize() != MeasurementVectorSize)
+  {
     std::cerr << "Set/GetMeasurementVectorSize() Failed !" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  //Test if it is possible to reset the vector size
-  function->SetMeasurementVectorSize( MeasurementVectorSize );
-  if( function->GetMeasurementVectorSize() != MeasurementVectorSize )
-    {
+  // Test if it is possible to reset the vector size
+  function->SetMeasurementVectorSize(MeasurementVectorSize);
+  if (function->GetMeasurementVectorSize() != MeasurementVectorSize)
+  {
     std::cerr << "Set/GetMeasurementVectorSize() Failed !" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  //test if it is possible to change the measurement vector size
+  // test if it is possible to change the measurement vector size
   MembershipFunctionBaseType::MeasurementVectorSizeType newSize = 5;
-  function->SetMeasurementVectorSize( newSize ); // for code coverage
+  function->SetMeasurementVectorSize(newSize); // for code coverage
 
-  if( function->GetMeasurementVectorSize() != newSize )
-    {
+  if (function->GetMeasurementVectorSize() != newSize)
+  {
     std::cerr << "Set/GetMeasurementVectorSize() Failed !" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

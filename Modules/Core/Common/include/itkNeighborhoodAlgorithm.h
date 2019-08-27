@@ -28,47 +28,49 @@ namespace itk
 namespace NeighborhoodAlgorithm
 {
 /** \class ImageBoundaryFacesCalculator
-*   \brief Splits an image into a main region and several "face" regions
-*          which are used to handle computations on the boundary of an image.
-*
-* Splitting the image into the necessary regions is an easy task when you use
-* the ImageBoundaryFacesCalculator.  The face
-* calculator is so named because it returns a list of the "faces" of the ND
-* dataset.  Faces are those regions whose pixels all lie within a distance \f$d\f$
-* from the boundary, where \f$d\f$ is the radius of the neighborhood stencil used
-* for the numerical calculations. In other words, faces are those regions
-* where a neighborhood iterator of radius \f$d\f$ will always overlap the boundary
-* of the image. The face calculator also returns the single \em inner
-* region, in which out-of-bounds values are never required and bounds checking
-* is not necessary.
-*
-* \image html FaceBoundaryCalculator.png "Example regions produced by the calculator."
-*
-* First we find center (non-boundary) region 0.
-* then find the face on the lower side of the 0th dimension (Region 1).
-* Next we find the face opposite to that face (Region 2).
-* Then we find the face between region 1 and region 2 on
-* the lower side of the 1th dimension.(region 3).
-* Finally we find the face opposite to face 3 (region 4).
-*
-* \note The first region contained in faceList should be the
-* non-boundary region, if there is one. The existence of a
-* non-boundary region depends on the relative location of
-* regionToProcess and bufferedRegion. The non-boundary regions (if
-* any) are the remaining faces in faceList.
-*
-* \ingroup ITKCommon
-*/
-template< typename TImage >
-struct ImageBoundaryFacesCalculator {
-  using RadiusType = typename NeighborhoodIterator< TImage >::RadiusType;
+ *   \brief Splits an image into a main region and several "face" regions
+ *          which are used to handle computations on the boundary of an image.
+ *
+ * Splitting the image into the necessary regions is an easy task when you use
+ * the ImageBoundaryFacesCalculator.  The face
+ * calculator is so named because it returns a list of the "faces" of the ND
+ * dataset.  Faces are those regions whose pixels all lie within a distance \f$d\f$
+ * from the boundary, where \f$d\f$ is the radius of the neighborhood stencil used
+ * for the numerical calculations. In other words, faces are those regions
+ * where a neighborhood iterator of radius \f$d\f$ will always overlap the boundary
+ * of the image. The face calculator also returns the single \em inner
+ * region, in which out-of-bounds values are never required and bounds checking
+ * is not necessary.
+ *
+ * \image html FaceBoundaryCalculator.png "Example regions produced by the calculator."
+ *
+ * First we find center (non-boundary) region 0.
+ * then find the face on the lower side of the 0th dimension (Region 1).
+ * Next we find the face opposite to that face (Region 2).
+ * Then we find the face between region 1 and region 2 on
+ * the lower side of the 1th dimension.(region 3).
+ * Finally we find the face opposite to face 3 (region 4).
+ *
+ * \note The first region contained in faceList should be the
+ * non-boundary region, if there is one. The existence of a
+ * non-boundary region depends on the relative location of
+ * regionToProcess and bufferedRegion. The non-boundary regions (if
+ * any) are the remaining faces in faceList.
+ *
+ * \ingroup ITKCommon
+ */
+template <typename TImage>
+struct ImageBoundaryFacesCalculator
+{
+  using RadiusType = typename NeighborhoodIterator<TImage>::RadiusType;
   using RegionType = typename TImage::RegionType;
   using IndexType = typename TImage::IndexType;
   using SizeType = typename TImage::SizeType;
-  using FaceListType = std::list< RegionType >;
+  using FaceListType = std::list<RegionType>;
   static constexpr unsigned int ImageDimension = TImage::ImageDimension;
 
-  FaceListType operator()(const TImage *, RegionType, RadiusType);
+  FaceListType
+  operator()(const TImage *, RegionType, RadiusType);
 };
 
 /** \class CalculateOutputWrapOffsetModifiers
@@ -80,16 +82,18 @@ struct ImageBoundaryFacesCalculator {
  * BufferedRegion sizes.
  * \ingroup ITKCommon
  */
-template< typename TImage >
-struct CalculateOutputWrapOffsetModifiers {
-  using OffsetType = Offset< TImage::ImageDimension >;
-  OffsetType operator()(TImage *, TImage *) const;
+template <typename TImage>
+struct CalculateOutputWrapOffsetModifiers
+{
+  using OffsetType = Offset<TImage::ImageDimension>;
+  OffsetType
+  operator()(TImage *, TImage *) const;
 };
 } // end namespace NeighborhoodAlgorithm
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNeighborhoodAlgorithm.hxx"
+#  include "itkNeighborhoodAlgorithm.hxx"
 #endif
 
 #endif

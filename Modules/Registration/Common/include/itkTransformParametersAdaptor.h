@@ -51,21 +51,23 @@ namespace itk
  *
  * \ingroup ITKRegistrationCommon
  */
-template<typename TTransform>
+template <typename TTransform>
 class TransformParametersAdaptor
-: public TransformParametersAdaptorBase< Transform<typename TTransform::ScalarType, TTransform::InputSpaceDimension, TTransform::OutputSpaceDimension> >
+  : public TransformParametersAdaptorBase<
+      Transform<typename TTransform::ScalarType, TTransform::InputSpaceDimension, TTransform::OutputSpaceDimension>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TransformParametersAdaptor);
 
   /** Standard class type aliases. */
   using Self = TransformParametersAdaptor;
-  using Superclass = TransformParametersAdaptorBase<Transform<typename TTransform::ScalarType, TTransform::InputSpaceDimension, TTransform::OutputSpaceDimension> >;
+  using Superclass = TransformParametersAdaptorBase<
+    Transform<typename TTransform::ScalarType, TTransform::InputSpaceDimension, TTransform::OutputSpaceDimension>>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( TransformParametersAdaptor, TransformParametersAdaptorBase );
+  itkTypeMacro(TransformParametersAdaptor, TransformParametersAdaptorBase);
 
   /** Typedefs associated with the transform */
 
@@ -78,50 +80,55 @@ public:
   using FixedParametersType = typename Superclass::FixedParametersType;
 
   /** Set the transform to be adapted */
-  itkSetObjectMacro( Transform, TransformType );
+  itkSetObjectMacro(Transform, TransformType);
 
-  void SetTransform( TransformBaseType * _arg, void * ) override
-    {
-      auto * tx = dynamic_cast<TransformType *>(_arg);
-      itkAssertOrThrowMacro( tx != nullptr, "Unable to convert Transform to require concrete transform!" );
-      this->SetTransform(tx);
-    }
+  void
+  SetTransform(TransformBaseType * _arg, void *) override
+  {
+    auto * tx = dynamic_cast<TransformType *>(_arg);
+    itkAssertOrThrowMacro(tx != nullptr, "Unable to convert Transform to require concrete transform!");
+    this->SetTransform(tx);
+  }
 
   /** New macro for creation of through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Set the fixed parameters */
-  void SetRequiredFixedParameters( const FixedParametersType fixedParameters ) override
+  void
+  SetRequiredFixedParameters(const FixedParametersType fixedParameters) override
+  {
+    itkDebugMacro("setting RequiredFixedParameters to " << fixedParameters);
+    if (this->m_RequiredFixedParameters != fixedParameters)
     {
-    itkDebugMacro("setting RequiredFixedParameters to " << fixedParameters );
-    if ( this->m_RequiredFixedParameters != fixedParameters )
-      {
       this->m_RequiredFixedParameters = fixedParameters;
       this->Modified();
-      }
     }
+  }
 
   /** Get the fixed parameters */
-  const FixedParametersType & GetRequiredFixedParameters() const override
-    {
+  const FixedParametersType &
+  GetRequiredFixedParameters() const override
+  {
     return this->m_RequiredFixedParameters;
-    }
+  }
 
   /** Initialize the transform using the specified fixed parameters */
-  void AdaptTransformParameters() override {};
+  void
+  AdaptTransformParameters() override{};
 
 protected:
   TransformParametersAdaptor() = default;
   ~TransformParametersAdaptor() override = default;
 
-  void PrintSelf( std::ostream & os, Indent indent ) const override
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
-    Superclass::PrintSelf( os, indent );
-    itkPrintSelfObjectMacro( Transform );
+    Superclass::PrintSelf(os, indent);
+    itkPrintSelfObjectMacro(Transform);
   }
 
-  TransformPointer                           m_Transform;
-}; //class TransformParametersAdaptor
-}  // namespace itk
+  TransformPointer m_Transform;
+}; // class TransformParametersAdaptor
+} // namespace itk
 
 #endif /* itkTransformParametersAdaptor_h */

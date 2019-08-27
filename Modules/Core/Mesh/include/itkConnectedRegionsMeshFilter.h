@@ -46,9 +46,8 @@ namespace itk
  * \ingroup ITKMesh
  */
 
-template< typename TInputMesh, typename TOutputMesh >
-class ITK_TEMPLATE_EXPORT ConnectedRegionsMeshFilter:
-  public MeshToMeshFilter< TInputMesh, TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh>
+class ITK_TEMPLATE_EXPORT ConnectedRegionsMeshFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConnectedRegionsMeshFilter);
@@ -61,13 +60,13 @@ public:
   /**
    * Standard "Superclass" type alias.
    */
-  using Superclass = MeshToMeshFilter< TInputMesh, TOutputMesh >;
+  using Superclass = MeshToMeshFilter<TInputMesh, TOutputMesh>;
 
   /**
    * Smart pointer type alias support
    */
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /**
    * Method for creation through the object factory.
@@ -106,12 +105,15 @@ public:
    * Different modes of operation. Use these to specify
    * how to extract the regions.
    */
-  enum { PointSeededRegions = 0,
-         CellSeededRegions = 1,
-         SpecifiedRegions = 2,
-         LargestRegion = 3,
-         AllRegions = 4,
-         ClosestPointRegion = 5 };
+  enum
+  {
+    PointSeededRegions = 0,
+    CellSeededRegions = 1,
+    SpecifiedRegions = 2,
+    LargestRegion = 3,
+    AllRegions = 4,
+    ClosestPointRegion = 5
+  };
 
   /**
    * Methods specify mode of operation for the filter. Note that
@@ -122,32 +124,38 @@ public:
   itkSetMacro(ExtractionMode, int);
   itkGetConstMacro(ExtractionMode, int);
 
-  void SetExtractionModeToPointSeededRegions()
+  void
+  SetExtractionModeToPointSeededRegions()
   {
     this->SetExtractionMode(Self::PointSeededRegions);
   }
 
-  void SetExtractionModeToCellSeededRegions()
+  void
+  SetExtractionModeToCellSeededRegions()
   {
     this->SetExtractionMode(Self::CellSeededRegions);
   }
 
-  void SetExtractionModeToSpecifiedRegions()
+  void
+  SetExtractionModeToSpecifiedRegions()
   {
     this->SetExtractionMode(Self::SpecifiedRegions);
   }
 
-  void SetExtractionModeToLargestRegion()
+  void
+  SetExtractionModeToLargestRegion()
   {
     this->SetExtractionMode(Self::LargestRegion);
   }
 
-  void SetExtractionModeToAllRegions()
+  void
+  SetExtractionModeToAllRegions()
   {
     this->SetExtractionMode(Self::AllRegions);
   }
 
-  void SetExtractionModeToClosestPointRegion()
+  void
+  SetExtractionModeToClosestPointRegion()
   {
     this->SetExtractionMode(Self::ClosestPointRegion);
   }
@@ -155,7 +163,8 @@ public:
   /**
    * Initialize list of point ids/cell ids used to seed regions.
    */
-  void InitializeSeedList()
+  void
+  InitializeSeedList()
   {
     this->Modified();
     m_SeedList.clear();
@@ -164,7 +173,8 @@ public:
   /**
    * Add a seed id (point or cell id). Note: ids are 0-offset.
    */
-  void AddSeed(IdentifierType id)
+  void
+  AddSeed(IdentifierType id)
   {
     this->Modified();
     m_SeedList.push_back(id);
@@ -173,12 +183,14 @@ public:
   /**
    * Delete a seed id (point or cell id). Note: ids are 0-offset.
    */
-  void DeleteSeed(IdentifierType id);
+  void
+  DeleteSeed(IdentifierType id);
 
   /**
    * Initialize list of region ids to extract.
    */
-  void InitializeSpecifiedRegionList()
+  void
+  InitializeSpecifiedRegionList()
   {
     this->Modified();
     m_RegionList.clear();
@@ -187,7 +199,8 @@ public:
   /**
    * Add a region id to extract. Note: ids are 0-offset.
    */
-  void AddSpecifiedRegion(IdentifierType id)
+  void
+  AddSpecifiedRegion(IdentifierType id)
   {
     this->Modified();
     m_RegionList.push_back(id);
@@ -196,22 +209,25 @@ public:
   /**
    * Delete a region id to extract. Note: ids are 0-offset.
    */
-  void DeleteSpecifiedRegion(IdentifierType id);
+  void
+  DeleteSpecifiedRegion(IdentifierType id);
 
   /**
    * Use to specify x-y-z point coordinates when extracting the region
    * closest to a specified point.
    */
-  void SetClosestPoint(InputMeshPointType & p)
+  void
+  SetClosestPoint(InputMeshPointType & p)
   {
-    if ( m_ClosestPoint != p )
-      {
+    if (m_ClosestPoint != p)
+    {
       m_ClosestPoint = p;
       this->Modified();
-      }
+    }
   }
 
-  InputMeshPointType & GetClosestPoint(InputMeshPointType &)
+  InputMeshPointType &
+  GetClosestPoint(InputMeshPointType &)
   {
     return m_ClosestPoint;
   }
@@ -219,40 +235,42 @@ public:
   /**
    * Obtain the number of connected regions.
    */
-  SizeValueType GetNumberOfExtractedRegions()
+  SizeValueType
+  GetNumberOfExtractedRegions()
   {
     return m_RegionList.size();
   }
 
 protected:
-
   ConnectedRegionsMeshFilter();
   ~ConnectedRegionsMeshFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void PropagateConnectedWave();
+  void
+  PropagateConnectedWave();
 
 private:
+  int                         m_ExtractionMode;
+  InputMeshPointType          m_ClosestPoint;
+  std::vector<IdentifierType> m_SeedList;
+  std::vector<IdentifierType> m_RegionList;
+  std::vector<SizeValueType>  m_RegionSizes;
 
-  int                            m_ExtractionMode;
-  InputMeshPointType             m_ClosestPoint;
-  std::vector< IdentifierType >  m_SeedList;
-  std::vector< IdentifierType >  m_RegionList;
-  std::vector< SizeValueType >   m_RegionSizes;
-
-  std::vector< OffsetValueType > m_Visited;
-  SizeValueType                  m_NumberOfCellsInRegion;
-  IdentifierType                 m_RegionNumber;
-  std::vector< IdentifierType > *m_Wave{nullptr};
-  std::vector< IdentifierType > *m_Wave2{nullptr};
+  std::vector<OffsetValueType>  m_Visited;
+  SizeValueType                 m_NumberOfCellsInRegion;
+  IdentifierType                m_RegionNumber;
+  std::vector<IdentifierType> * m_Wave{ nullptr };
+  std::vector<IdentifierType> * m_Wave2{ nullptr };
 }; // class declaration
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkConnectedRegionsMeshFilter.hxx"
+#  include "itkConnectedRegionsMeshFilter.hxx"
 #endif
 
 #endif

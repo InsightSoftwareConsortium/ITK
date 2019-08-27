@@ -34,131 +34,133 @@
 namespace itk
 {
 
-template< typename TInputVectorImage, typename TLabelsType,
-          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
-BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
-                               TPosteriorsPrecisionType, TPriorsPrecisionType >
-::BayesianClassifierImageFilter() :
-  m_SmoothingFilter( nullptr )
+template <typename TInputVectorImage,
+          typename TLabelsType,
+          typename TPosteriorsPrecisionType,
+          typename TPriorsPrecisionType>
+BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisionType, TPriorsPrecisionType>::
+  BayesianClassifierImageFilter()
+  : m_SmoothingFilter(nullptr)
 
 {
-  this->SetNumberOfRequiredOutputs( 2 );
-  PosteriorsImagePointer p =
-    static_cast< PosteriorsImageType * >( this->MakeOutput(1).GetPointer() );
-  this->SetNthOutput( 1, p.GetPointer() );
+  this->SetNumberOfRequiredOutputs(2);
+  PosteriorsImagePointer p = static_cast<PosteriorsImageType *>(this->MakeOutput(1).GetPointer());
+  this->SetNthOutput(1, p.GetPointer());
 }
 
-template< typename TInputVectorImage, typename TLabelsType,
-          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
+template <typename TInputVectorImage,
+          typename TLabelsType,
+          typename TPosteriorsPrecisionType,
+          typename TPriorsPrecisionType>
 void
-BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
-                               TPosteriorsPrecisionType, TPriorsPrecisionType >
-::GenerateData()
+BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisionType, TPriorsPrecisionType>::
+  GenerateData()
 {
   // Set up input image
-  const InputImageType *membershipImage = this->GetInput();
+  const InputImageType * membershipImage = this->GetInput();
 
   // Set up general parameters
   const unsigned int numberOfClasses = membershipImage->GetVectorLength();
 
-  if ( numberOfClasses == 0 )
-    {
+  if (numberOfClasses == 0)
+  {
     itkExceptionMacro("The number of components in the input Membership image is Zero !");
     return;
-    }
+  }
 
   this->AllocateOutputs();
 
   this->ComputeBayesRule();
 
-  if ( m_UserProvidedSmoothingFilter )
-    {
+  if (m_UserProvidedSmoothingFilter)
+  {
     this->NormalizeAndSmoothPosteriors();
-    }
+  }
 
   this->ClassifyBasedOnPosteriors();
 }
 
-template< typename TInputVectorImage, typename TLabelsType,
-          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
-typename BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
-                                        TPosteriorsPrecisionType, TPriorsPrecisionType >
-::PosteriorsImageType *
-BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
-                               TPosteriorsPrecisionType, TPriorsPrecisionType >
-::GetPosteriorImage()
+template <typename TInputVectorImage,
+          typename TLabelsType,
+          typename TPosteriorsPrecisionType,
+          typename TPriorsPrecisionType>
+typename BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisionType, TPriorsPrecisionType>::
+  PosteriorsImageType *
+  BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisionType, TPriorsPrecisionType>::
+    GetPosteriorImage()
 {
-  auto * ptr = dynamic_cast< PosteriorsImageType * >(
-    this->ProcessObject::GetOutput(1) );
+  auto * ptr = dynamic_cast<PosteriorsImageType *>(this->ProcessObject::GetOutput(1));
 
   return ptr;
 }
 
-template< typename TInputVectorImage, typename TLabelsType,
-          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
-typename BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
-                                        TPosteriorsPrecisionType, TPriorsPrecisionType >
-::DataObjectPointer
-BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
-                               TPosteriorsPrecisionType, TPriorsPrecisionType >
-::MakeOutput(DataObjectPointerArraySizeType idx)
+template <typename TInputVectorImage,
+          typename TLabelsType,
+          typename TPosteriorsPrecisionType,
+          typename TPriorsPrecisionType>
+typename BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisionType, TPriorsPrecisionType>::
+  DataObjectPointer
+  BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisionType, TPriorsPrecisionType>::
+    MakeOutput(DataObjectPointerArraySizeType idx)
 {
-  if  ( idx == 1 )
-    {
+  if (idx == 1)
+  {
     return PosteriorsImageType::New().GetPointer();
-    }
+  }
   return Superclass::MakeOutput(idx);
 }
 
-template< typename TInputVectorImage, typename TLabelsType,
-          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
+template <typename TInputVectorImage,
+          typename TLabelsType,
+          typename TPosteriorsPrecisionType,
+          typename TPriorsPrecisionType>
 void
-BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
-                               TPosteriorsPrecisionType, TPriorsPrecisionType >
-::GenerateOutputInformation()
+BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisionType, TPriorsPrecisionType>::
+  GenerateOutputInformation()
 {
   Superclass::GenerateOutputInformation();
 
-  if ( !this->GetPosteriorImage() )
-    {
+  if (!this->GetPosteriorImage())
+  {
     return;
-    }
+  }
 
   // The vector length is part of the output information that must be
   // updated here
-  this->GetPosteriorImage()->SetVectorLength( this->GetInput()->GetVectorLength() );
+  this->GetPosteriorImage()->SetVectorLength(this->GetInput()->GetVectorLength());
 }
 
-template< typename TInputVectorImage, typename TLabelsType,
-          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
+template <typename TInputVectorImage,
+          typename TLabelsType,
+          typename TPosteriorsPrecisionType,
+          typename TPriorsPrecisionType>
 void
-BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
-                               TPosteriorsPrecisionType, TPriorsPrecisionType >
-::ComputeBayesRule()
+BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisionType, TPriorsPrecisionType>::
+  ComputeBayesRule()
 {
   itkDebugMacro(<< "Computing Bayes Rule");
-  const InputImageType *membershipImage = this->GetInput();
+  const InputImageType * membershipImage = this->GetInput();
 
-  ImageRegionType imageRegion  = membershipImage->GetBufferedRegion();
+  ImageRegionType imageRegion = membershipImage->GetBufferedRegion();
 
-  if ( m_UserProvidedPriors )
+  if (m_UserProvidedPriors)
+  {
+    const auto * priorsImage = dynamic_cast<const PriorsImageType *>(this->GetInput(1));
+
+    if (priorsImage == nullptr)
     {
-    const auto * priorsImage = dynamic_cast< const PriorsImageType * >( this->GetInput(1) );
-
-    if ( priorsImage == nullptr )
-      {
       itkExceptionMacro("Second input type does not correspond to expected Priors Image Type");
-      }
+    }
 
-    auto * posteriorsImage = dynamic_cast< PosteriorsImageType * >( this->GetPosteriorImage() );
+    auto * posteriorsImage = dynamic_cast<PosteriorsImageType *>(this->GetPosteriorImage());
 
-    if ( posteriorsImage == nullptr )
-      {
+    if (posteriorsImage == nullptr)
+    {
       itkExceptionMacro("Second output type does not correspond to expected Posteriors Image Type");
-      }
+    }
 
     InputImageIteratorType      itrMembershipImage(membershipImage, imageRegion);
-    PriorsImageIteratorType     itrPriorsImage(priorsImage,     imageRegion);
+    PriorsImageIteratorType     itrPriorsImage(priorsImage, imageRegion);
     PosteriorsImageIteratorType itrPosteriorsImage(posteriorsImage, imageRegion);
 
     itrMembershipImage.GoToBegin();
@@ -168,30 +170,29 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
 
     itkDebugMacro(<< "Computing Bayes Rule nclasses in membershipImage: " << numberOfClasses);
 
-    while ( !itrMembershipImage.IsAtEnd() )
-      {
+    while (!itrMembershipImage.IsAtEnd())
+    {
       PosteriorsPixelType       posteriors(numberOfClasses);
-      const PriorsPixelType     priors      = itrPriorsImage.Get();
+      const PriorsPixelType     priors = itrPriorsImage.Get();
       const MembershipPixelType memberships = itrMembershipImage.Get();
-      for ( unsigned int i = 0; i < numberOfClasses; i++ )
-        {
-        posteriors[i] =
-          static_cast< TPosteriorsPrecisionType >( memberships[i] * priors[i] );
-        }
+      for (unsigned int i = 0; i < numberOfClasses; i++)
+      {
+        posteriors[i] = static_cast<TPosteriorsPrecisionType>(memberships[i] * priors[i]);
+      }
       itrPosteriorsImage.Set(posteriors);
       ++itrMembershipImage;
       ++itrPriorsImage;
       ++itrPosteriorsImage;
-      }
     }
+  }
   else
-    {
-    auto * posteriorsImage = dynamic_cast< PosteriorsImageType * >( this->GetPosteriorImage() );
+  {
+    auto * posteriorsImage = dynamic_cast<PosteriorsImageType *>(this->GetPosteriorImage());
 
-    if ( posteriorsImage == nullptr )
-      {
+    if (posteriorsImage == nullptr)
+    {
       itkExceptionMacro("Second output type does not correspond to expected Posteriors Image Type");
-      }
+    }
 
     InputImageIteratorType      itrMembershipImage(membershipImage, imageRegion);
     PosteriorsImageIteratorType itrPosteriorsImage(posteriorsImage, imageRegion);
@@ -199,103 +200,102 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
     itrMembershipImage.GoToBegin();
     itrPosteriorsImage.GoToBegin();
 
-    while ( !itrMembershipImage.IsAtEnd() )
-      {
-      itrPosteriorsImage.Set( itrMembershipImage.Get() );
+    while (!itrMembershipImage.IsAtEnd())
+    {
+      itrPosteriorsImage.Set(itrMembershipImage.Get());
       ++itrMembershipImage;
       ++itrPosteriorsImage;
-      }
     }
+  }
 }
 
-template< typename TInputVectorImage, typename TLabelsType,
-          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
+template <typename TInputVectorImage,
+          typename TLabelsType,
+          typename TPosteriorsPrecisionType,
+          typename TPriorsPrecisionType>
 void
-BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
-                               TPosteriorsPrecisionType, TPriorsPrecisionType >
-::SetSmoothingFilter(SmoothingFilterType *smoothingFilter)
+BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisionType, TPriorsPrecisionType>::
+  SetSmoothingFilter(SmoothingFilterType * smoothingFilter)
 {
   this->m_SmoothingFilter = smoothingFilter;
   this->m_UserProvidedSmoothingFilter = true;
   this->Modified();
 }
 
-template< typename TInputVectorImage, typename TLabelsType,
-          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
+template <typename TInputVectorImage,
+          typename TLabelsType,
+          typename TPosteriorsPrecisionType,
+          typename TPriorsPrecisionType>
 void
-BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
-                               TPosteriorsPrecisionType, TPriorsPrecisionType >
-::SetPriors(const PriorsImageType *priors)
+BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisionType, TPriorsPrecisionType>::
+  SetPriors(const PriorsImageType * priors)
 {
-  this->ProcessObject::SetNthInput( 1, const_cast< PriorsImageType * >( priors ) );
+  this->ProcessObject::SetNthInput(1, const_cast<PriorsImageType *>(priors));
   this->m_UserProvidedPriors = true;
   this->Modified();
 }
 
-template< typename TInputVectorImage, typename TLabelsType,
-          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
+template <typename TInputVectorImage,
+          typename TLabelsType,
+          typename TPosteriorsPrecisionType,
+          typename TPriorsPrecisionType>
 void
-BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
-                               TPosteriorsPrecisionType, TPriorsPrecisionType >
-::NormalizeAndSmoothPosteriors()
+BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisionType, TPriorsPrecisionType>::
+  NormalizeAndSmoothPosteriors()
 {
-  PosteriorsImageIteratorType itrPosteriorImage(
-    this->GetPosteriorImage(), this->GetPosteriorImage()->GetBufferedRegion() );
+  PosteriorsImageIteratorType itrPosteriorImage(this->GetPosteriorImage(),
+                                                this->GetPosteriorImage()->GetBufferedRegion());
 
   PosteriorsPixelType p;
   const unsigned int  numberOfClasses = this->GetPosteriorImage()->GetVectorLength();
 
-  for ( unsigned int iter = 0; iter < m_NumberOfSmoothingIterations; iter++ )
-    {
+  for (unsigned int iter = 0; iter < m_NumberOfSmoothingIterations; iter++)
+  {
     itrPosteriorImage.GoToBegin();
-    while ( !itrPosteriorImage.IsAtEnd() )
-      {
+    while (!itrPosteriorImage.IsAtEnd())
+    {
       p = itrPosteriorImage.Get();
 
       // Normalize P so the probability across components sums to 1
       TPosteriorsPrecisionType probability = 0;
-      for ( unsigned int i = 0; i < numberOfClasses; i++ )
-        {
+      for (unsigned int i = 0; i < numberOfClasses; i++)
+      {
         probability += p[i];
-        }
+      }
       // Two approaches available:
       // a) treat divide by zero as exception.
       // b) consider norm({0, 0,...}) = 0,
       // Option (b) was implemented
       if (probability > 0)
-        {
+      {
         p /= probability;
-        }
+      }
       itrPosteriorImage.Set(p);
       ++itrPosteriorImage;
-      }
+    }
 
-    for ( unsigned int componentToExtract = 0; componentToExtract < numberOfClasses; componentToExtract++ )
-      {
+    for (unsigned int componentToExtract = 0; componentToExtract < numberOfClasses; componentToExtract++)
+    {
       // Create an auxiliary image to store one component of the vector image.
       // Smoothing filters typically can't handle multi-component images, so we
       // will extract each component and smooth it.
-      typename ExtractedComponentImageType::Pointer extractedComponentImage =
-        ExtractedComponentImageType::New();
-      extractedComponentImage->CopyInformation( this->GetPosteriorImage() );
-      extractedComponentImage->SetBufferedRegion(
-        this->GetPosteriorImage()->GetBufferedRegion() );
-      extractedComponentImage->SetRequestedRegion(
-        this->GetPosteriorImage()->GetRequestedRegion() );
+      typename ExtractedComponentImageType::Pointer extractedComponentImage = ExtractedComponentImageType::New();
+      extractedComponentImage->CopyInformation(this->GetPosteriorImage());
+      extractedComponentImage->SetBufferedRegion(this->GetPosteriorImage()->GetBufferedRegion());
+      extractedComponentImage->SetRequestedRegion(this->GetPosteriorImage()->GetRequestedRegion());
       extractedComponentImage->Allocate();
-      using IteratorType = itk::ImageRegionIterator< ExtractedComponentImageType >;
+      using IteratorType = itk::ImageRegionIterator<ExtractedComponentImageType>;
 
       itrPosteriorImage.GoToBegin();
-      IteratorType it( extractedComponentImage,
-                       extractedComponentImage->GetBufferedRegion() );
+      IteratorType it(extractedComponentImage, extractedComponentImage->GetBufferedRegion());
 
       it.GoToBegin();
-      while ( !itrPosteriorImage.IsAtEnd() )
-        {
+      while (!itrPosteriorImage.IsAtEnd())
+      {
         it.Set(itrPosteriorImage.Get()[componentToExtract]);
         ++it;
         ++itrPosteriorImage;
-        }
+      }
 
       m_SmoothingFilter->SetInput(extractedComponentImage);
       m_SmoothingFilter->Modified(); // Force an update
@@ -303,40 +303,40 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
 
       itrPosteriorImage.GoToBegin();
 
-      IteratorType sit( m_SmoothingFilter->GetOutput(),
-                        m_SmoothingFilter->GetOutput()->GetBufferedRegion() );
+      IteratorType sit(m_SmoothingFilter->GetOutput(), m_SmoothingFilter->GetOutput()->GetBufferedRegion());
       sit.GoToBegin();
-      while ( !itrPosteriorImage.IsAtEnd() )
-        {
+      while (!itrPosteriorImage.IsAtEnd())
+      {
         PosteriorsPixelType posteriorPixel = itrPosteriorImage.Get();
         posteriorPixel[componentToExtract] = sit.Get();
         itrPosteriorImage.Set(posteriorPixel);
         ++sit;
         ++itrPosteriorImage;
-        }
       }
     }
+  }
 }
 
-template< typename TInputVectorImage, typename TLabelsType,
-          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
+template <typename TInputVectorImage,
+          typename TLabelsType,
+          typename TPosteriorsPrecisionType,
+          typename TPriorsPrecisionType>
 void
-BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
-                               TPosteriorsPrecisionType, TPriorsPrecisionType >
-::ClassifyBasedOnPosteriors()
+BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisionType, TPriorsPrecisionType>::
+  ClassifyBasedOnPosteriors()
 {
   OutputImagePointer labels = this->GetOutput();
 
-  ImageRegionType imageRegion  = labels->GetBufferedRegion();
+  ImageRegionType imageRegion = labels->GetBufferedRegion();
 
-  auto * posteriorsImage = dynamic_cast< PosteriorsImageType * >( this->GetPosteriorImage() );
+  auto * posteriorsImage = dynamic_cast<PosteriorsImageType *>(this->GetPosteriorImage());
 
-  if ( posteriorsImage == nullptr )
-    {
+  if (posteriorsImage == nullptr)
+  {
     itkExceptionMacro("Second output type does not correspond to expected Posteriors Image Type");
-    }
+  }
 
-  OutputImageIteratorType     itrLabelsImage(labels,         imageRegion);
+  OutputImageIteratorType     itrLabelsImage(labels, imageRegion);
   PosteriorsImageIteratorType itrPosteriorsImage(posteriorsImage, imageRegion);
 
   DecisionRulePointer decisionRule = DecisionRuleType::New();
@@ -344,31 +344,28 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
   itrLabelsImage.GoToBegin();
   itrPosteriorsImage.GoToBegin();
 
-  typename PosteriorsImageType::PixelType posteriorsPixel;
+  typename PosteriorsImageType::PixelType         posteriorsPixel;
   typename DecisionRuleType::MembershipVectorType posteriorsVector;
   posteriorsPixel = itrPosteriorsImage.Get();
-  posteriorsVector.reserve( posteriorsPixel.Size() );
-  posteriorsVector.insert(posteriorsVector.begin(),
-                          posteriorsPixel.Size(), 0.0);
-  while ( !itrLabelsImage.IsAtEnd() )
-    {
+  posteriorsVector.reserve(posteriorsPixel.Size());
+  posteriorsVector.insert(posteriorsVector.begin(), posteriorsPixel.Size(), 0.0);
+  while (!itrLabelsImage.IsAtEnd())
+  {
     posteriorsPixel = itrPosteriorsImage.Get();
-    std::copy_n(posteriorsPixel.GetDataPointer(),
-                posteriorsPixel.Size(),
-                posteriorsVector.begin() );
-    itrLabelsImage.Set( static_cast< TLabelsType >(
-                          decisionRule->Evaluate( posteriorsVector ) ) );
+    std::copy_n(posteriorsPixel.GetDataPointer(), posteriorsPixel.Size(), posteriorsVector.begin());
+    itrLabelsImage.Set(static_cast<TLabelsType>(decisionRule->Evaluate(posteriorsVector)));
     ++itrLabelsImage;
     ++itrPosteriorsImage;
-    }
+  }
 }
 
-template< typename TInputVectorImage, typename TLabelsType,
-          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
+template <typename TInputVectorImage,
+          typename TLabelsType,
+          typename TPosteriorsPrecisionType,
+          typename TPriorsPrecisionType>
 void
-BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
-                               TPosteriorsPrecisionType, TPriorsPrecisionType >
-::PrintSelf(std::ostream & os, Indent indent) const
+BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisionType, TPriorsPrecisionType>::
+  PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

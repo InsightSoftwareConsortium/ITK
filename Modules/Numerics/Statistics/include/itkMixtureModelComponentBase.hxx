@@ -24,9 +24,8 @@ namespace itk
 {
 namespace Statistics
 {
-template< typename TSample >
-MixtureModelComponentBase< TSample >
-::MixtureModelComponentBase()
+template <typename TSample>
+MixtureModelComponentBase<TSample>::MixtureModelComponentBase()
 {
   m_Sample = nullptr;
   m_MembershipFunction = nullptr;
@@ -34,143 +33,130 @@ MixtureModelComponentBase< TSample >
   m_ParametersModified = true;
 }
 
-template< typename TSample >
+template <typename TSample>
 void
-MixtureModelComponentBase< TSample >
-::PrintSelf(std::ostream & os, Indent indent) const
+MixtureModelComponentBase<TSample>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Sample: ";
-  if ( m_Sample != nullptr )
-    {
+  if (m_Sample != nullptr)
+  {
     os << m_Sample << std::endl;
-    }
+  }
   else
-    {
+  {
     os << "not set." << std::endl;
-    }
+  }
 
   os << indent << "Membership Function: ";
-  if ( m_MembershipFunction != nullptr )
-    {
+  if (m_MembershipFunction != nullptr)
+  {
     os << m_MembershipFunction << std::endl;
-    }
+  }
   else
-    {
+  {
     os << "not instantiated yet." << std::endl;
-    }
+  }
 
   os << indent << "Weights Array: ";
   os << m_Weights << std::endl;
 
-  os << indent << "Parameters are modified: " << m_ParametersModified
-     << std::endl;
+  os << indent << "Parameters are modified: " << m_ParametersModified << std::endl;
 }
 
-template< typename TSample >
+template <typename TSample>
 void
-MixtureModelComponentBase< TSample >
-::SetSample(const TSample *sample)
+MixtureModelComponentBase<TSample>::SetSample(const TSample * sample)
 {
   m_Sample = sample;
-  m_Weights = WeightArrayType( m_Sample->Size() );
+  m_Weights = WeightArrayType(m_Sample->Size());
 }
 
-template< typename TSample >
+template <typename TSample>
 const TSample *
-MixtureModelComponentBase< TSample >
-::GetSample() const
+MixtureModelComponentBase<TSample>::GetSample() const
 {
   return m_Sample;
 }
 
-template< typename TSample >
+template <typename TSample>
 void
-MixtureModelComponentBase< TSample >
-::SetParameters(const ParametersType & parameters)
+MixtureModelComponentBase<TSample>::SetParameters(const ParametersType & parameters)
 {
-  if ( m_Parameters != parameters )
-    {
+  if (m_Parameters != parameters)
+  {
     m_Parameters = parameters;
     this->AreParametersModified(true);
-    }
+  }
 }
 
-template< typename TSample >
+template <typename TSample>
 bool
-MixtureModelComponentBase< TSample >
-::AreParametersModified()
+MixtureModelComponentBase<TSample>::AreParametersModified()
 {
   return m_ParametersModified;
 }
 
-template< typename TSample >
+template <typename TSample>
 void
-MixtureModelComponentBase< TSample >
-::AreParametersModified(bool flag)
+MixtureModelComponentBase<TSample>::AreParametersModified(bool flag)
 {
   m_ParametersModified = flag;
 }
 
-template< typename TSample >
+template <typename TSample>
 void
-MixtureModelComponentBase< TSample >
-::SetMembershipFunction(MembershipFunctionType *function)
+MixtureModelComponentBase<TSample>::SetMembershipFunction(MembershipFunctionType * function)
 {
   m_MembershipFunction = function;
 }
 
-template< typename TSample >
-typename MixtureModelComponentBase< TSample >::MembershipFunctionType *
-MixtureModelComponentBase< TSample >
-::GetMembershipFunction()
+template <typename TSample>
+typename MixtureModelComponentBase<TSample>::MembershipFunctionType *
+MixtureModelComponentBase<TSample>::GetMembershipFunction()
 {
   return m_MembershipFunction;
 }
 
-template< typename TSample >
+template <typename TSample>
 inline double
-MixtureModelComponentBase< TSample >
-::Evaluate(MeasurementVectorType & measurements)
+MixtureModelComponentBase<TSample>::Evaluate(MeasurementVectorType & measurements)
 {
   return m_MembershipFunction->Evaluate(measurements);
 }
 
-template< typename TSample >
+template <typename TSample>
 inline void
-MixtureModelComponentBase< TSample >
-::SetWeight(unsigned int index, double value)
+MixtureModelComponentBase<TSample>::SetWeight(unsigned int index, double value)
 {
-  if ( index < m_Weights.size() )
-    {
-    ( m_Weights )[index] = value;
-    }
+  if (index < m_Weights.size())
+  {
+    (m_Weights)[index] = value;
+  }
   else
-    {
+  {
     itkExceptionMacro("Weight array is not allocated.");
-    }
+  }
 }
 
-template< typename TSample >
+template <typename TSample>
 inline double
-MixtureModelComponentBase< TSample >
-::GetWeight(unsigned int index) const
+MixtureModelComponentBase<TSample>::GetWeight(unsigned int index) const
 {
-  if ( index < m_Weights.Size() )
-    {
+  if (index < m_Weights.Size())
+  {
     return m_Weights[index];
-    }
+  }
   else
-    {
+  {
     itkExceptionMacro("Weight array is not allocated.");
-    }
+  }
 }
 
-template< typename TSample >
+template <typename TSample>
 void
-MixtureModelComponentBase< TSample >
-::Update()
+MixtureModelComponentBase<TSample>::Update()
 {
   this->GenerateData();
 }

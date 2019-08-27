@@ -61,26 +61,28 @@ public:
   using ImagePointer = typename ImageType::Pointer;
   using ComponentType = typename DefaultConvertPixelTraits<PixelType>::ComponentType;
 
-   /** Image dimension. */
+  /** Image dimension. */
   static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
-  using OutputImagePointer = typename Image< PixelType, ImageDimension >::Pointer;
+  using OutputImagePointer = typename Image<PixelType, ImageDimension>::Pointer;
 
   /**
    * Get an Array with the content of the image buffer
    */
-  static PyObject * _GetArrayViewFromImage( ImageType * image);
+  static PyObject *
+  _GetArrayViewFromImage(ImageType * image);
 
   /**
    * Get an ITK image from a Python array
    */
-  static const OutputImagePointer _GetImageViewFromArray( PyObject *arr, PyObject *shape, PyObject *numOfComponent);
+  static const OutputImagePointer
+  _GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObject * numOfComponent);
 };
 
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPyBuffer.hxx"
+#  include "itkPyBuffer.hxx"
 #endif
 
 #endif // _itkPyBuffer_h

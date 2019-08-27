@@ -53,18 +53,17 @@ namespace itk
  * \ingroup DataSources
  * \ingroup ITKImageSources
  */
-template< typename TOutputImage >
-class ITK_TEMPLATE_EXPORT GridImageSource
-   :public GenerateImageSource< TOutputImage >
+template <typename TOutputImage>
+class ITK_TEMPLATE_EXPORT GridImageSource : public GenerateImageSource<TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GridImageSource);
 
   /** Standard class type aliases. */
   using Self = GridImageSource;
-  using Superclass = GenerateImageSource< TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = GenerateImageSource<TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GridImageSource, GenerateImageSource);
@@ -88,12 +87,10 @@ public:
 
   using KernelFunctionType = KernelFunctionBase<double>;
   /** Other convenient types. */
-  using ArrayType =
-      FixedArray< RealType, Self::ImageDimension >;
-  using BoolArrayType =
-      FixedArray< bool, Self::ImageDimension >;
-  using PixelArrayType = vnl_vector< RealType >;
-  using PixelArrayContainerType = VectorContainer< SizeValueType, PixelArrayType >;
+  using ArrayType = FixedArray<RealType, Self::ImageDimension>;
+  using BoolArrayType = FixedArray<bool, Self::ImageDimension>;
+  using PixelArrayType = vnl_vector<RealType>;
+  using PixelArrayContainerType = VectorContainer<SizeValueType, PixelArrayType>;
 
   /** Set/Get kernel function used to create the grid. */
   itkSetObjectMacro(KernelFunction, KernelFunctionType);
@@ -123,12 +120,15 @@ public:
 protected:
   GridImageSource();
   ~GridImageSource() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void DynamicThreadedGenerateData(const ImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const ImageRegionType & outputRegionForThread) override;
 
 
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
 private:
   /** Internal variable to speed up the calculation of pixel values. */
@@ -149,7 +149,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGridImageSource.hxx"
+#  include "itkGridImageSource.hxx"
 #endif
 
 #endif

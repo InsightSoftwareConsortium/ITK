@@ -62,8 +62,8 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< typename T >
-class ITK_TEMPLATE_EXPORT DataObjectDecorator:public DataObject
+template <typename T>
+class ITK_TEMPLATE_EXPORT DataObjectDecorator : public DataObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DataObjectDecorator);
@@ -71,8 +71,8 @@ public:
   /** Standard type alias. */
   using Self = DataObjectDecorator;
   using Superclass = DataObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Typedef for the component type (object being decorated) */
   using ComponentType = T;
@@ -86,19 +86,24 @@ public:
   itkTypeMacro(DataObjectDecorator, DataObject);
 
   /** Set the contained object */
-  virtual void Set( const ComponentType *val);
+  virtual void
+  Set(const ComponentType * val);
 
   /** Get the contained object */
-  virtual const ComponentType * Get() const;
-  virtual ComponentType * GetModifiable();
+  virtual const ComponentType *
+  Get() const;
+  virtual ComponentType *
+  GetModifiable();
 
   /** The most recent MTime of this object and the held component */
-  ModifiedTimeType GetMTime() const override;
+  ModifiedTimeType
+  GetMTime() const override;
 
   /** Restore the data object to its initial state. This means
    *  releasing the help component.
    */
-  void Initialize() override;
+  void
+  Initialize() override;
 
   /** \brief Graft the content of one decorator onto another
    *
@@ -106,8 +111,10 @@ public:
    * then the component pointer is copies to that both decorators
    * refer to the same object.
    */
-  void Graft( const DataObject * ) override;
-  void Graft( const Self * decorator );
+  void
+  Graft(const DataObject *) override;
+  void
+  Graft(const Self * decorator);
 
   /** Method to aid in dynamic Graft of polymorphic types.
    *
@@ -115,30 +122,31 @@ public:
    * template parameter must be provided.
    */
   template <typename TOther>
-  void Graft( const DataObjectDecorator<TOther> * decorator )
+  void
+  Graft(const DataObjectDecorator<TOther> * decorator)
+  {
+    auto * component = const_cast<ComponentType *>(dynamic_cast<const ComponentType *>(decorator->Get()));
+    if (!component)
     {
-      auto * component = const_cast< ComponentType * >( dynamic_cast< const ComponentType * >( decorator->Get() ) );
-      if ( !component  )
-        {
-        return;
-        }
-      this->Set( component );
+      return;
     }
+    this->Set(component);
+  }
 
 protected:
   DataObjectDecorator() = default;
   ~DataObjectDecorator() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 protected:
-
 private:
   ComponentPointer m_Component;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDataObjectDecorator.hxx"
+#  include "itkDataObjectDecorator.hxx"
 #endif
 
 #endif

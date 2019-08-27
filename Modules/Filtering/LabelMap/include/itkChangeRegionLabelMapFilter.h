@@ -52,17 +52,17 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT ChangeRegionLabelMapFilter:public InPlaceLabelMapFilter< TInputImage >
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT ChangeRegionLabelMapFilter : public InPlaceLabelMapFilter<TInputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ChangeRegionLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = ChangeRegionLabelMapFilter;
-  using Superclass = InPlaceLabelMapFilter< TInputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InPlaceLabelMapFilter<TInputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ChangeRegionLabelMapFilter, InPlaceImageFilter);
@@ -105,17 +105,23 @@ protected:
   ChangeRegionLabelMapFilter() = default;
   ~ChangeRegionLabelMapFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void ThreadedProcessLabelObject(LabelObjectType *labelObject) override;
+  void
+  ThreadedProcessLabelObject(LabelObjectType * labelObject) override;
 
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   OutputImageRegionType m_Region;
@@ -123,7 +129,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkChangeRegionLabelMapFilter.hxx"
+#  include "itkChangeRegionLabelMapFilter.hxx"
 #endif
 
 #endif

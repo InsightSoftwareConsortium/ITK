@@ -24,43 +24,38 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-NormalizeImageFilter< TInputImage, TOutputImage >
-::NormalizeImageFilter()
+template <typename TInputImage, typename TOutputImage>
+NormalizeImageFilter<TInputImage, TOutputImage>::NormalizeImageFilter()
 {
   m_StatisticsFilter = nullptr;
-  m_StatisticsFilter = StatisticsImageFilter< TInputImage >::New();
-  m_ShiftScaleFilter = ShiftScaleImageFilter< TInputImage, TOutputImage >::New();
+  m_StatisticsFilter = StatisticsImageFilter<TInputImage>::New();
+  m_ShiftScaleFilter = ShiftScaleImageFilter<TInputImage, TOutputImage>::New();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-NormalizeImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+NormalizeImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
-  if ( this->GetInput() )
-    {
-    InputImagePointer image =
-      const_cast< typename Superclass::InputImageType * >( this->GetInput() );
+  if (this->GetInput())
+  {
+    InputImagePointer image = const_cast<typename Superclass::InputImageType *>(this->GetInput());
     image->SetRequestedRegionToLargestPossibleRegion();
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-NormalizeImageFilter< TInputImage, TOutputImage >
-::Modified() const
+NormalizeImageFilter<TInputImage, TOutputImage>::Modified() const
 {
   Superclass::Modified();
   m_StatisticsFilter->Modified();
   m_ShiftScaleFilter->Modified();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-NormalizeImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+NormalizeImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
 
@@ -72,22 +67,22 @@ NormalizeImageFilter< TInputImage, TOutputImage >
   // Gather statistics
 
   auto localInput = TInputImage::New();
-  localInput->Graft( this->GetInput() );
+  localInput->Graft(this->GetInput());
 
-  m_StatisticsFilter->SetInput( localInput );
+  m_StatisticsFilter->SetInput(localInput);
   m_StatisticsFilter->Update();
 
   // Set the parameters for Shift
-  m_ShiftScaleFilter->SetShift( -m_StatisticsFilter->GetMean() );
-  m_ShiftScaleFilter->SetScale( NumericTraits< typename StatisticsImageFilter< TInputImage >::RealType >::OneValue()
-                                / m_StatisticsFilter->GetSigma() );
-  m_ShiftScaleFilter->SetInput( localInput );
+  m_ShiftScaleFilter->SetShift(-m_StatisticsFilter->GetMean());
+  m_ShiftScaleFilter->SetScale(NumericTraits<typename StatisticsImageFilter<TInputImage>::RealType>::OneValue() /
+                               m_StatisticsFilter->GetSigma());
+  m_ShiftScaleFilter->SetInput(localInput);
 
-  m_ShiftScaleFilter->GraftOutput( this->GetOutput() );
+  m_ShiftScaleFilter->GraftOutput(this->GetOutput());
   m_ShiftScaleFilter->Update();
 
   // Graft the mini pipeline output to this filters output
-  this->GraftOutput( m_ShiftScaleFilter->GetOutput() );
+  this->GraftOutput(m_ShiftScaleFilter->GetOutput());
 }
 } // end namespace itk
 

@@ -56,18 +56,17 @@ namespace itk
  *
  * \ingroup ITKImageFeature
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT HessianToObjectnessMeasureImageFilter:public
-  ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT HessianToObjectnessMeasureImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(HessianToObjectnessMeasureImageFilter);
 
   /** Standard class type aliases. */
   using Self = HessianToObjectnessMeasureImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using InputImageType = typename Superclass::InputImageType;
   using OutputImageType = typename Superclass::OutputImageType;
@@ -79,7 +78,7 @@ public:
   static constexpr unsigned int ImageDimension = InputImageType ::ImageDimension;
 
   using EigenValueType = double;
-  using EigenValueArrayType = itk::FixedArray< EigenValueType, Self::ImageDimension >;
+  using EigenValueArrayType = itk::FixedArray<EigenValueType, Self::ImageDimension>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -124,18 +123,21 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( DoubleConvertibleToOutputCheck, ( Concept::Convertible< double, OutputPixelType > ) );
+  itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, OutputPixelType>));
   // End concept checking
 #endif
 
 protected:
   HessianToObjectnessMeasureImageFilter();
   ~HessianToObjectnessMeasureImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void VerifyPreconditions() ITKv5_CONST override;
+  void
+  VerifyPreconditions() ITKv5_CONST override;
 
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
 private:
@@ -143,24 +145,26 @@ private:
   // |e1|<=|e2|<=...<=|eN|
   //
   // Returns ( abs(a) < abs(b) )
-  struct AbsLessCompare {
-    bool operator()(EigenValueType a, EigenValueType b)
+  struct AbsLessCompare
+  {
+    bool
+    operator()(EigenValueType a, EigenValueType b)
     {
       return itk::Math::abs(a) < itk::Math::abs(b);
     }
   };
 
-  double       m_Alpha{0.5};
-  double       m_Beta{0.5};
-  double       m_Gamma{5.0};
-  unsigned int m_ObjectDimension{1};
-  bool         m_BrightObject{true};
-  bool         m_ScaleObjectnessMeasure{true};
+  double       m_Alpha{ 0.5 };
+  double       m_Beta{ 0.5 };
+  double       m_Gamma{ 5.0 };
+  unsigned int m_ObjectDimension{ 1 };
+  bool         m_BrightObject{ true };
+  bool         m_ScaleObjectnessMeasure{ true };
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHessianToObjectnessMeasureImageFilter.hxx"
+#  include "itkHessianToObjectnessMeasureImageFilter.hxx"
 #endif
 
 #endif

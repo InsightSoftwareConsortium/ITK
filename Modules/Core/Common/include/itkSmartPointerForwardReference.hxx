@@ -23,184 +23,165 @@
 namespace itk
 {
 //----------------------------------------------------------------------------
-template< typename T >
-SmartPointerForwardReference< T >
-::SmartPointerForwardReference (const SmartPointerForwardReference< T > & p)
+template <typename T>
+SmartPointerForwardReference<T>::SmartPointerForwardReference(const SmartPointerForwardReference<T> & p)
 {
   m_Pointer = p.m_Pointer;
   this->Register();
 }
 
 //----------------------------------------------------------------------------
-template< typename T >
-SmartPointerForwardReference< T >
-::SmartPointerForwardReference (const WeakPointer< T > & p)
+template <typename T>
+SmartPointerForwardReference<T>::SmartPointerForwardReference(const WeakPointer<T> & p)
 {
   m_Pointer = p.GetPointer();
   this->Register();
 }
 
 //----------------------------------------------------------------------------
-template< typename T >
-SmartPointerForwardReference< T >
-::SmartPointerForwardReference (T *p)
+template <typename T>
+SmartPointerForwardReference<T>::SmartPointerForwardReference(T * p)
 {
   m_Pointer = p;
   this->Register();
 }
 
 //----------------------------------------------------------------------------
-template< typename T >
-SmartPointerForwardReference< T >
-::~SmartPointerForwardReference ()
+template <typename T>
+SmartPointerForwardReference<T>::~SmartPointerForwardReference()
 {
   this->UnRegister();
 }
 
 //----------------------------------------------------------------------------
-template< typename T >
+template <typename T>
+T * SmartPointerForwardReference<T>::operator->() const
+{
+  return m_Pointer;
+}
+
+//----------------------------------------------------------------------------
+template <typename T>
+SmartPointerForwardReference<T>::operator T *() const
+{
+  return m_Pointer;
+}
+
+//----------------------------------------------------------------------------
+template <typename T>
 T *
-SmartPointerForwardReference< T >
-::operator->() const
+SmartPointerForwardReference<T>::GetPointer() const
 {
   return m_Pointer;
 }
 
 //----------------------------------------------------------------------------
-template< typename T >
-SmartPointerForwardReference< T >
-::operator T *() const
-{
-  return m_Pointer;
-}
-
-//----------------------------------------------------------------------------
-template< typename T >
-T *
-SmartPointerForwardReference< T >
-::GetPointer() const
-{
-  return m_Pointer;
-}
-
-//----------------------------------------------------------------------------
-template< typename T >
+template <typename T>
 bool
-SmartPointerForwardReference< T >
-::operator<(const SmartPointerForwardReference & r)
+SmartPointerForwardReference<T>::operator<(const SmartPointerForwardReference & r)
 {
   return (void *)m_Pointer < (void *)r.m_Pointer;
 }
 
 //----------------------------------------------------------------------------
-template< typename T >
+template <typename T>
 bool
-SmartPointerForwardReference< T >
-::operator>(const SmartPointerForwardReference & r)
+SmartPointerForwardReference<T>::operator>(const SmartPointerForwardReference & r)
 {
   return (void *)m_Pointer > (void *)r.m_Pointer;
 }
 
 //----------------------------------------------------------------------------
-template< typename T >
+template <typename T>
 bool
-SmartPointerForwardReference< T >
-::operator<=(const SmartPointerForwardReference & r)
+SmartPointerForwardReference<T>::operator<=(const SmartPointerForwardReference & r)
 {
   return (void *)m_Pointer <= (void *)r.m_Pointer;
 }
 
 //----------------------------------------------------------------------------
-template< typename T >
+template <typename T>
 bool
-SmartPointerForwardReference< T >
-::operator>=(const SmartPointerForwardReference & r)
+SmartPointerForwardReference<T>::operator>=(const SmartPointerForwardReference & r)
 {
   return (void *)m_Pointer >= (void *)r.m_Pointer;
 }
 
 //----------------------------------------------------------------------------
-template< typename T >
-SmartPointerForwardReference< T > &
-SmartPointerForwardReference< T >
-::operator=(const SmartPointerForwardReference & r)
+template <typename T>
+SmartPointerForwardReference<T> &
+SmartPointerForwardReference<T>::operator=(const SmartPointerForwardReference & r)
 {
-  return this->operator=( r.GetPointer() );
+  return this->operator=(r.GetPointer());
 }
 
 //----------------------------------------------------------------------------
-template< typename T >
-SmartPointerForwardReference< T > &
-SmartPointerForwardReference< T >
-::operator=(SmartPointerForwardReference && r)
+template <typename T>
+SmartPointerForwardReference<T> &
+SmartPointerForwardReference<T>::operator=(SmartPointerForwardReference && r)
 {
-  if(this != &r)
-    {
+  if (this != &r)
+  {
     this->UnRegister();
     this->m_Pointer = r.m_Pointer;
     r.m_Pointer = nullptr;
-    }
+  }
   return *this;
 }
 
 //----------------------------------------------------------------------------
-template< typename T >
-SmartPointerForwardReference< T > &
-SmartPointerForwardReference< T >
-::operator=(const WeakPointer< T > & r)
+template <typename T>
+SmartPointerForwardReference<T> &
+SmartPointerForwardReference<T>::operator=(const WeakPointer<T> & r)
 {
-  return this->operator=( r.GetPointer() );
+  return this->operator=(r.GetPointer());
 }
 
 //----------------------------------------------------------------------------
-template< typename T >
-SmartPointerForwardReference< T > &
-SmartPointerForwardReference< T >
-::operator=(T *r)
+template <typename T>
+SmartPointerForwardReference<T> &
+SmartPointerForwardReference<T>::operator=(T * r)
 {
-  if ( m_Pointer != r )
-    {
+  if (m_Pointer != r)
+  {
     SmartPointerForwardReference tmp(m_Pointer);
     *this = std::move(tmp);
-    }
+  }
 
   return *this;
 }
 
 //----------------------------------------------------------------------------
-template< typename T >
+template <typename T>
 T *
-SmartPointerForwardReference< T >
-::Print(std::ostream & os) const
+SmartPointerForwardReference<T>::Print(std::ostream & os) const
 {
   // This prints the object pointed to by the pointer
-  ( *m_Pointer ).Print(os);
+  (*m_Pointer).Print(os);
   return m_Pointer;
 }
 
 //----------------------------------------------------------------------------
-template< typename T >
+template <typename T>
 void
-SmartPointerForwardReference< T >
-::Register()
+SmartPointerForwardReference<T>::Register()
 {
-  if ( m_Pointer )
-    {
+  if (m_Pointer)
+  {
     m_Pointer->Register();
-    }
+  }
 }
 
 //----------------------------------------------------------------------------
-template< typename T >
+template <typename T>
 void
-SmartPointerForwardReference< T >
-::UnRegister() noexcept
+SmartPointerForwardReference<T>::UnRegister() noexcept
 {
-  if ( m_Pointer )
-    {
+  if (m_Pointer)
+  {
     m_Pointer->UnRegister();
-    }
+  }
 }
-} //end namespace
+} // namespace itk
 
 #endif

@@ -32,61 +32,53 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TOutputPath >
-ImageToPathFilter< TInputImage, TOutputPath >
-::ImageToPathFilter()
+template <typename TInputImage, typename TOutputPath>
+ImageToPathFilter<TInputImage, TOutputPath>::ImageToPathFilter()
 {
   // Modify superclass default values, can be overridden by subclasses
   this->SetNumberOfRequiredInputs(1);
 }
 
-template< typename TInputImage, typename TOutputPath >
+template <typename TInputImage, typename TOutputPath>
 void
-ImageToPathFilter< TInputImage, TOutputPath >
-::SetInput(const InputImageType *input)
+ImageToPathFilter<TInputImage, TOutputPath>::SetInput(const InputImageType * input)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( 0,
-                                    const_cast< InputImageType * >( input ) );
+  this->ProcessObject::SetNthInput(0, const_cast<InputImageType *>(input));
 }
 
 
 /**
  * Connect one of the operands for pixel-wise addition
  */
-template< typename TInputImage, typename TOutputPath >
+template <typename TInputImage, typename TOutputPath>
 void
-ImageToPathFilter< TInputImage, TOutputPath >
-::SetInput(unsigned int index, const TInputImage *image)
+ImageToPathFilter<TInputImage, TOutputPath>::SetInput(unsigned int index, const TInputImage * image)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( index,
-                                    const_cast< TInputImage * >( image ) );
+  this->ProcessObject::SetNthInput(index, const_cast<TInputImage *>(image));
 }
 
 
-template< typename TInputImage, typename TOutputPath >
-const typename ImageToPathFilter< TInputImage, TOutputPath >::InputImageType *
-ImageToPathFilter< TInputImage, TOutputPath >
-::GetInput()
+template <typename TInputImage, typename TOutputPath>
+const typename ImageToPathFilter<TInputImage, TOutputPath>::InputImageType *
+ImageToPathFilter<TInputImage, TOutputPath>::GetInput()
 {
-  return itkDynamicCastInDebugMode< const TInputImage * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode<const TInputImage *>(this->GetPrimaryInput());
 }
 
 
-template< typename TInputImage, typename TOutputPath >
-const typename ImageToPathFilter< TInputImage, TOutputPath >::InputImageType *
-ImageToPathFilter< TInputImage, TOutputPath >
-::GetInput(unsigned int idx)
+template <typename TInputImage, typename TOutputPath>
+const typename ImageToPathFilter<TInputImage, TOutputPath>::InputImageType *
+ImageToPathFilter<TInputImage, TOutputPath>::GetInput(unsigned int idx)
 {
-  return itkDynamicCastInDebugMode< const TInputImage * >( this->ProcessObject::GetInput(idx) );
+  return itkDynamicCastInDebugMode<const TInputImage *>(this->ProcessObject::GetInput(idx));
 }
 
 
-template< typename TInputImage, typename TOutputPath >
+template <typename TInputImage, typename TOutputPath>
 void
-ImageToPathFilter< TInputImage, TOutputPath >
-::PrintSelf(std::ostream & os, Indent indent) const
+ImageToPathFilter<TInputImage, TOutputPath>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

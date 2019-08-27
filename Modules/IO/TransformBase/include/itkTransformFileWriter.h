@@ -26,17 +26,17 @@
 
 namespace itk
 {
-  /** \class TransformFileWriterTemplate
-   *
-   * \brief TODO
-   * \ingroup ITKIOTransformBase
-   *
-   * \sphinx
-   * \sphinxexample{IO/TransformBase/WriteTransformToFile,Write Transform From File}
-   * \endsphinx
-   */
-template<typename TParametersValueType>
-class ITKIOTransformBase_TEMPLATE_EXPORT TransformFileWriterTemplate:public LightProcessObject
+/** \class TransformFileWriterTemplate
+ *
+ * \brief TODO
+ * \ingroup ITKIOTransformBase
+ *
+ * \sphinx
+ * \sphinxexample{IO/TransformBase/WriteTransformToFile,Write Transform From File}
+ * \endsphinx
+ */
+template <typename TParametersValueType>
+class ITKIOTransformBase_TEMPLATE_EXPORT TransformFileWriterTemplate : public LightProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TransformFileWriterTemplate);
@@ -68,13 +68,17 @@ public:
   itkGetStringMacro(FileName);
 
   /** Set/Get the write mode (append/overwrite) for the Filter */
-  void SetAppendOff();
+  void
+  SetAppendOff();
 
-  void SetAppendOn();
+  void
+  SetAppendOn();
 
-  void SetAppendMode(bool mode);
+  void
+  SetAppendMode(bool mode);
 
-  bool GetAppendMode();
+  bool
+  GetAppendMode();
 
   /** Set/Get a boolean to use the compression or not. */
   itkSetMacro(UseCompression, bool);
@@ -82,36 +86,41 @@ public:
   itkBooleanMacro(UseCompression);
 
   /** Set/Get the input transform to write */
-  void SetInput(const Object *transform);
+  void
+  SetInput(const Object * transform);
 
-  const TransformType * GetInput();
+  const TransformType *
+  GetInput();
 
   /** Add a transform to be written */
-  void AddTransform(const Object *transform);
+  void
+  AddTransform(const Object * transform);
 
   /** Write out the transform */
-  void Update();
+  void
+  Update();
 
   /** Set/Get the TransformIO class used internally to read to transform. */
-  itkSetObjectMacro( TransformIO, TransformIOType );
-  itkGetConstObjectMacro( TransformIO, TransformIOType );
+  itkSetObjectMacro(TransformIO, TransformIOType);
+  itkGetConstObjectMacro(TransformIO, TransformIOType);
 
 protected:
   TransformFileWriterTemplate();
   ~TransformFileWriterTemplate() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  void PushBackTransformList(const Object *transObj);
+  void
+  PushBackTransformList(const Object * transObj);
 
-  std::string                       m_FileName;
-  ConstTransformListType            m_TransformList;
-  bool                              m_AppendMode;
+  std::string            m_FileName;
+  ConstTransformListType m_TransformList;
+  bool                   m_AppendMode;
   /** Should we compress the data? */
   bool                              m_UseCompression;
   typename TransformIOType::Pointer m_TransformIO;
-
 };
 
 /** This helps to meet backward compatibility */
@@ -121,15 +130,19 @@ ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
 /** Declare specializations */
-template<> void ITKIOTransformBase_TEMPLATE_EXPORT TransformFileWriterTemplate< double >::PushBackTransformList(const Object *transObj);
-template<> void ITKIOTransformBase_TEMPLATE_EXPORT TransformFileWriterTemplate< float >::PushBackTransformList(const Object *transObj);
+template <>
+void ITKIOTransformBase_TEMPLATE_EXPORT
+     TransformFileWriterTemplate<double>::PushBackTransformList(const Object * transObj);
+template <>
+void ITKIOTransformBase_TEMPLATE_EXPORT
+     TransformFileWriterTemplate<float>::PushBackTransformList(const Object * transObj);
 
 ITK_GCC_PRAGMA_DIAG_POP()
 
 } // namespace itk
 
 #ifdef ITK_IO_FACTORY_REGISTER_MANAGER
-#include "itkTransformIOFactoryRegisterManager.h"
+#  include "itkTransformIOFactoryRegisterManager.h"
 #endif
 
 // Note: Explicit instantiation is done in itkTransformFileWriterSpecializations.cxx
@@ -146,24 +159,24 @@ ITK_GCC_PRAGMA_DIAG_POP()
 //            need to be considered. This code *MUST* be *OUTSIDE* the header
 //            guards.
 //
-#  if defined( ITKIOTransformBase_EXPORTS )
+#if defined(ITKIOTransformBase_EXPORTS)
 //   We are building this library
-#    define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_TEMPLATE_EXPORT
-#  else
+#  define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_TEMPLATE_EXPORT
+#else
 //   We are using this library
-#    define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_EXPORT
-#  endif
+#  define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_EXPORT
+#endif
 namespace itk
 {
 
 ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
-extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformFileWriterTemplate< double >;
-extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformFileWriterTemplate< float >;
+extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformFileWriterTemplate<double>;
+extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformFileWriterTemplate<float>;
 
 ITK_GCC_PRAGMA_DIAG_POP()
 
 } // end namespace itk
-#  undef ITKIOTransformBase_EXPORT_EXPLICIT
+#undef ITKIOTransformBase_EXPORT_EXPLICIT
 #endif

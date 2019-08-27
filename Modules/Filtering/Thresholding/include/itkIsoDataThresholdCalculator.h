@@ -50,7 +50,7 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKThresholding
  */
-template <typename THistogram, typename TOutput=double>
+template <typename THistogram, typename TOutput = double>
 class ITK_TEMPLATE_EXPORT IsoDataThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
@@ -75,7 +75,8 @@ public:
 protected:
   IsoDataThresholdCalculator() = default;
   ~IsoDataThresholdCalculator() override = default;
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   using SizeValueType = typename HistogramType::SizeValueType;
   using InstanceIdentifier = typename HistogramType::InstanceIdentifier;
@@ -85,7 +86,7 @@ protected:
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkIsoDataThresholdCalculator.hxx"
+#  include "itkIsoDataThresholdCalculator.hxx"
 #endif
 
 #endif

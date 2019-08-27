@@ -66,8 +66,8 @@ public:
   /** Standard class type aliases. */
   using Self = DOMNodeXMLWriter;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -85,19 +85,21 @@ public:
   itkGetStringMacro(FileName);
 
   /** Get/Set the input DOM object to be written. */
-  itkSetConstObjectMacro( Input, InputType );
-  itkGetConstObjectMacro(Input, InputType );
+  itkSetConstObjectMacro(Input, InputType);
+  itkGetConstObjectMacro(Input, InputType);
 
   /**
    * Function called by Update() or end-users to write the input DOM object
    * to an output stream such as file, string, console, etc.
    */
-  void Update( std::ostream& os, std::string indent = "" );
+  void
+  Update(std::ostream & os, std::string indent = "");
 
   /**
    * Function called by end-users to write the input DOM object to the output XML file.
    */
-  virtual void Update();
+  virtual void
+  Update();
 
 protected:
   DOMNodeXMLWriter();
@@ -116,11 +118,12 @@ private:
 } // namespace itk
 
 /** The operator "<<" is overloaded such that a DOM object can be conveniently write to an output stream. */
-inline std::ostream& operator<<( std::ostream& os, const itk::DOMNode& object )
+inline std::ostream &
+operator<<(std::ostream & os, const itk::DOMNode & object)
 {
   itk::DOMNodeXMLWriter::Pointer writer = itk::DOMNodeXMLWriter::New();
-  writer->SetInput( &object );
-  writer->Update( os );
+  writer->SetInput(&object);
+  writer->Update(os);
   return os;
 }
 

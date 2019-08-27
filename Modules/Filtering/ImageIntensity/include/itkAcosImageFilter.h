@@ -30,28 +30,31 @@ namespace Functor
  * \brief Computes the Acos of a pixel.
  * \ingroup ITKImageIntensity
  */
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 class Acos
 {
 public:
   Acos() = default;
   ~Acos() = default;
-  bool operator!=(const Acos &) const
+  bool
+  operator!=(const Acos &) const
   {
     return false;
   }
 
-  bool operator==(const Acos & other) const
+  bool
+  operator==(const Acos & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput & A) const
+  inline TOutput
+  operator()(const TInput & A) const
   {
-    return static_cast< TOutput >( std::acos( static_cast< double >( A ) ) );
+    return static_cast<TOutput>(std::acos(static_cast<double>(A)));
   }
 };
-}
+} // namespace Functor
 
 /** \class AcosImageFilter
  * \brief Computes the inverse cosine of each pixel.
@@ -75,46 +78,40 @@ public:
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  */
-template< typename TInputImage, typename TOutputImage >
-class AcosImageFilter:
-  public
-  UnaryGeneratorImageFilter< TInputImage, TOutputImage  >
+template <typename TInputImage, typename TOutputImage>
+class AcosImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AcosImageFilter);
 
   /** Standard class type aliases. */
   using Self = AcosImageFilter;
-  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using FunctorType = Functor::Acos< typename TInputImage::PixelType,
-                                     typename TOutputImage::PixelType >;
+  using Superclass = UnaryGeneratorImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using FunctorType = Functor::Acos<typename TInputImage::PixelType, typename TOutputImage::PixelType>;
 
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(AcosImageFilter,
-               UnaryGeneratorImageFilter);
+  itkTypeMacro(AcosImageFilter, UnaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputCovertibleToDoubleCheck,
-                   ( Concept::Convertible< typename TInputImage::PixelType, double > ) );
-  itkConceptMacro( DoubleConvertibleToOutputCheck,
-                   ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
+  itkConceptMacro(InputCovertibleToDoubleCheck, (Concept::Convertible<typename TInputImage::PixelType, double>));
+  itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, typename TOutputImage::PixelType>));
   // End concept checking
 #endif
 
 protected:
   AcosImageFilter()
-    {
-#if !defined( ITK_WRAPPING_PARSER )
-      Superclass::SetFunctor(FunctorType());
+  {
+#if !defined(ITK_WRAPPING_PARSER)
+    Superclass::SetFunctor(FunctorType());
 #endif
-    }
+  }
 
   ~AcosImageFilter() override = default;
 };

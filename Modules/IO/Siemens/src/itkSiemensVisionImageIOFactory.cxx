@@ -21,16 +21,17 @@
 
 namespace itk
 {
-void SiemensVisionImageIOFactory::PrintSelf(std::ostream &, Indent) const
+void
+SiemensVisionImageIOFactory::PrintSelf(std::ostream &, Indent) const
 {}
 
 SiemensVisionImageIOFactory::SiemensVisionImageIOFactory()
 {
-  this->RegisterOverride( "itkImageIOBase",
-                          "itkSiemensVisionImageIO",
-                          "SiemensVision Image IO",
-                          true,
-                          CreateObjectFunction< SiemensVisionImageIO >::New() );
+  this->RegisterOverride("itkImageIOBase",
+                         "itkSiemensVisionImageIO",
+                         "SiemensVision Image IO",
+                         true,
+                         CreateObjectFunction<SiemensVisionImageIO>::New());
 }
 
 SiemensVisionImageIOFactory::~SiemensVisionImageIOFactory() = default;
@@ -52,13 +53,14 @@ SiemensVisionImageIOFactory::GetDescription() const
 
 static bool SiemensVisionImageIOFactoryHasBeenRegistered;
 
-void ITKIOSiemens_EXPORT SiemensVisionImageIOFactoryRegister__Private()
+void ITKIOSiemens_EXPORT
+     SiemensVisionImageIOFactoryRegister__Private()
 {
-  if( ! SiemensVisionImageIOFactoryHasBeenRegistered )
-    {
+  if (!SiemensVisionImageIOFactoryHasBeenRegistered)
+  {
     SiemensVisionImageIOFactoryHasBeenRegistered = true;
     SiemensVisionImageIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

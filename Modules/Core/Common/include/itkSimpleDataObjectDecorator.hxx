@@ -36,54 +36,51 @@ namespace itk
 /**
  *
  */
-template< typename T >
-SimpleDataObjectDecorator< T >
-::SimpleDataObjectDecorator()
+template <typename T>
+SimpleDataObjectDecorator<T>::SimpleDataObjectDecorator()
 {
-#if defined( __GNUC__ ) && ( __GNUC__ > 6 )
-ITK_GCC_PRAGMA_DIAG_PUSH()
-ITK_GCC_PRAGMA_DIAG(ignored "-Wmaybe-uninitialized")
-#endif // defined( __GNUC__ ) && ( __GNUC__ > 6 )
+#if defined(__GNUC__) && (__GNUC__ > 6)
+  ITK_GCC_PRAGMA_DIAG_PUSH()
+  ITK_GCC_PRAGMA_DIAG(ignored "-Wmaybe-uninitialized")
+#endif                                 // defined( __GNUC__ ) && ( __GNUC__ > 6 )
   this->m_Component = ComponentType(); // initialize here to avoid Purify UMR
-#if defined( __GNUC__ ) && ( __GNUC__ > 6 )
-ITK_GCC_PRAGMA_DIAG_POP()
-#endif // defined( __GNUC__ ) && ( __GNUC__ > 6 )
-  this->m_Initialized = false;         // Still needed since not all objects
-                                       // are initialized at construction time.
-                                       // for example the itkArray.
+#if defined(__GNUC__) && (__GNUC__ > 6)
+  ITK_GCC_PRAGMA_DIAG_POP()
+#endif                         // defined( __GNUC__ ) && ( __GNUC__ > 6 )
+  this->m_Initialized = false; // Still needed since not all objects
+                               // are initialized at construction time.
+                               // for example the itkArray.
 }
 
 /**
  *
  */
-template< typename T >
+template <typename T>
 void
-SimpleDataObjectDecorator< T >
-::Set(const T & val)
+SimpleDataObjectDecorator<T>::Set(const T & val)
 {
-  if ( !this->m_Initialized || ( Math::NotExactlyEquals(this->m_Component, val) ) )
-    {
+  if (!this->m_Initialized || (Math::NotExactlyEquals(this->m_Component, val)))
+  {
     this->m_Component = val;
     this->m_Initialized = true;
     this->Modified();
-    }
+  }
 }
 
 /**
  *
  */
-template< typename T >
+template <typename T>
 void
-SimpleDataObjectDecorator< T >
-::PrintSelf(std::ostream & os, Indent indent) const
+SimpleDataObjectDecorator<T>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  // This is necessary to avoid linker warnings on MacOS
-  #if !defined(ITK_PRIVATE_DYNAMIC_CAST)
+// This is necessary to avoid linker warnings on MacOS
+#if !defined(ITK_PRIVATE_DYNAMIC_CAST)
   os << indent << "Component  : unknown" << std::endl;
-  #else
-  os << indent << "Component  : " << typeid( this->m_Component ).name() << std::endl;
-  #endif
+#else
+  os << indent << "Component  : " << typeid(this->m_Component).name() << std::endl;
+#endif
   os << indent << "Initialized: " << this->m_Initialized << std::endl;
 }
 } // end namespace itk

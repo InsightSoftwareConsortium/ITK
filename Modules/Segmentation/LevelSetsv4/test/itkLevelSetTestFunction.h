@@ -32,36 +32,38 @@ namespace itk
  *
  * \f$ f(x,y) = \sqrt{ (x-5)(x-5) + (y-4)(y-4) } - 3 \f$
  */
-template< typename TPixel >
-class ITK_TEMPLATE_EXPORT LevelSetTestFunction: public LightObject
+template <typename TPixel>
+class ITK_TEMPLATE_EXPORT LevelSetTestFunction : public LightObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetTestFunction);
 
   using Self = LevelSetTestFunction;
   using Superclass = LightObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro( LevelSetTestFunction, LightObject );
+  itkTypeMacro(LevelSetTestFunction, LightObject);
 
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   static constexpr unsigned int Dimension = 2;
 
   using PixelType = TPixel;
 
-  using ImageType = Image< PixelType, Dimension >;
+  using ImageType = Image<PixelType, Dimension>;
   using IndexType = typename ImageType::IndexType;
   using PointType = typename ImageType::PointType;
 
-  using OutputRealType = typename NumericTraits< PixelType >::RealType;
-  using GradientType = CovariantVector< OutputRealType, Dimension >;
-  using HessianType = Matrix< OutputRealType, Dimension >;
+  using OutputRealType = typename NumericTraits<PixelType>::RealType;
+  using GradientType = CovariantVector<OutputRealType, Dimension>;
+  using HessianType = Matrix<OutputRealType, Dimension>;
 
-  OutputRealType Evaluate( const PointType & point ) const;
+  OutputRealType
+  Evaluate(const PointType & point) const;
 
-  GradientType   EvaluateGradient( const PointType & point ) const;
+  GradientType
+  EvaluateGradient(const PointType & point) const;
 
 protected:
   LevelSetTestFunction() = default;
@@ -70,7 +72,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetTestFunction.hxx"
+#  include "itkLevelSetTestFunction.hxx"
 #endif
 
 #endif

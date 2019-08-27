@@ -24,23 +24,24 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType, typename TOutputImage >
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType, typename TOutputImage>
 void
-NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>::PrintSelf(
+  std::ostream & os,
+  Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "m_ReverseExpansionDirection = " << m_ReverseExpansionDirection << std::endl;
   os << indent << "m_SegmentationFunction = " << m_SegmentationFunction << std::endl;
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType, typename TOutputImage >
-NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType, TOutputImage >
-::NarrowBandLevelSetImageFilter()
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType, typename TOutputImage>
+NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>::
+  NarrowBandLevelSetImageFilter()
 {
   this->SetNumberOfRequiredInputs(2);
-  //this->SetNarrowBandInnerRadius();
-  //this->SetNarrowBandTotalRadius();
+  // this->SetNarrowBandInnerRadius();
+  // this->SetNarrowBandTotalRadius();
   m_SegmentationFunction = nullptr;
 
   m_IsoFilter = IsoFilterType::New();
@@ -53,91 +54,91 @@ NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType, TOu
   m_ReverseExpansionDirection = false;
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType, typename TOutputImage >
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType, typename TOutputImage>
 void
-NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType, TOutputImage >
-::SetSegmentationFunction(SegmentationFunctionType *s)
+NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>::SetSegmentationFunction(
+  SegmentationFunctionType * s)
 {
   unsigned int i;
 
   m_SegmentationFunction = s;
 
   typename SegmentationFunctionType::RadiusType r;
-  for ( i = 0; i < Self::ImageDimension; ++i )
-    {
+  for (i = 0; i < Self::ImageDimension; ++i)
+  {
     r[i] = 1;
-    }
+  }
 
   m_SegmentationFunction->Initialize(r);
   this->SetDifferenceFunction(m_SegmentationFunction);
   this->Modified();
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType, typename TOutputImage >
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType, typename TOutputImage>
 void
-NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType, TOutputImage >
-::GenerateData()
+NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>::GenerateData()
 {
-  if ( m_SegmentationFunction == nullptr )
-        { itkExceptionMacro("No finite difference function was specified."); }
+  if (m_SegmentationFunction == nullptr)
+  {
+    itkExceptionMacro("No finite difference function was specified.");
+  }
 
   // A positive speed value causes surface expansion, the opposite of the
   // default.  Flip the sign of the propagation and advection weights.
-  if ( m_ReverseExpansionDirection == true )
-    {
+  if (m_ReverseExpansionDirection == true)
+  {
     this->GetSegmentationFunction()->ReverseExpansionDirection();
-    }
+  }
 
   // Allocate the images from which speeds will be sampled.
-  if ( Math::NotExactlyEquals(this->GetSegmentationFunction()->GetPropagationWeight(), 0) )
-    {
+  if (Math::NotExactlyEquals(this->GetSegmentationFunction()->GetPropagationWeight(), 0))
+  {
     m_SegmentationFunction->AllocateSpeedImage();
     m_SegmentationFunction->CalculateSpeedImage();
-    }
-  if ( Math::NotExactlyEquals(this->GetSegmentationFunction()->GetAdvectionWeight(), 0) )
-    {
+  }
+  if (Math::NotExactlyEquals(this->GetSegmentationFunction()->GetAdvectionWeight(), 0))
+  {
     m_SegmentationFunction->AllocateAdvectionImage();
     m_SegmentationFunction->CalculateAdvectionImage();
-    }
+  }
 
   // Start the solver
   Superclass::GenerateData();
 
   // Reset all the signs of the weights.
-  if ( m_ReverseExpansionDirection == true )
-    {
+  if (m_ReverseExpansionDirection == true)
+  {
     this->GetSegmentationFunction()->ReverseExpansionDirection();
-    }
+  }
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType, typename TOutputImage >
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType, typename TOutputImage>
 void
-NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType, TOutputImage >
-::CreateNarrowBand()
+NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>::CreateNarrowBand()
 {
   typename OutputImageType::Pointer levelset = this->GetOutput();
 
-  if ( !this->m_NarrowBand->Empty() )
-    {
-    m_IsoFilter->SetNarrowBand( this->m_NarrowBand.GetPointer() );
-    m_IsoFilter->NarrowBandingOn(); //Maybe we should check that the NarrowBand
+  if (!this->m_NarrowBand->Empty())
+  {
+    m_IsoFilter->SetNarrowBand(this->m_NarrowBand.GetPointer());
+    m_IsoFilter->NarrowBandingOn(); // Maybe we should check that the NarrowBand
                                     // exits.
-    }
+  }
   else
-    {
+  {
     m_IsoFilter->NarrowBandingOff();
-    }
+  }
 
   m_IsoFilter->SetFarValue(this->m_NarrowBand->GetTotalRadius() + 1);
   m_IsoFilter->SetInput(levelset);
   m_IsoFilter->Update();
 
-  m_ChamferFilter->SetInput( m_IsoFilter->GetOutput() );
+  m_ChamferFilter->SetInput(m_IsoFilter->GetOutput());
   m_ChamferFilter->SetMaximumDistance(this->m_NarrowBand->GetTotalRadius() + 1);
-  m_ChamferFilter->SetNarrowBand( this->m_NarrowBand.GetPointer() );
+  m_ChamferFilter->SetNarrowBand(this->m_NarrowBand.GetPointer());
   m_ChamferFilter->Update();
 
-  this->GraftOutput( m_ChamferFilter->GetOutput() );
+  this->GraftOutput(m_ChamferFilter->GetOutput());
   m_IsoFilter->SetInput(nullptr);
   m_ChamferFilter->SetInput(nullptr);
 }

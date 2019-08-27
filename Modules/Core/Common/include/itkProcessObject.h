@@ -132,7 +132,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT ProcessObject:public Object
+class ITKCommon_EXPORT ProcessObject : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ProcessObject);
@@ -140,8 +140,8 @@ public:
   /** Standard class type aliases. */
   using Self = ProcessObject;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ProcessObject, Object);
@@ -153,12 +153,12 @@ public:
   // using ConstDataObjectPointerArray = std::vector< const DataObject * >;
 
   /** STL array of pointer to the data objects */
-  using DataObjectPointerArray = std::vector< DataObjectPointer >;
+  using DataObjectPointerArray = std::vector<DataObjectPointer>;
 
   using DataObjectIdentifierType = DataObject::DataObjectIdentifierType;
 
   /** STL array of data object names */
-  using NameArray = std::vector< DataObjectIdentifierType >;
+  using NameArray = std::vector<DataObjectIdentifierType>;
 
   //** Type of general multi-threader interface */
   using MultiThreaderType = MultiThreaderBase;
@@ -168,20 +168,24 @@ public:
    * The names are ordered lexicographically, and match the order of the
    * data object produced by GetInputs().
    */
-  NameArray GetInputNames() const;
+  NameArray
+  GetInputNames() const;
 
   /** Return an array with the names of the required inputs. */
-  NameArray GetRequiredInputNames() const;
+  NameArray
+  GetRequiredInputNames() const;
 
   /** \brief Return an array of DataObjects with the defined named inputs.
    *
    * The order of the inputs matches the order of the input names produced
    * by GetInputNames().
    */
-  DataObjectPointerArray GetInputs();
+  DataObjectPointerArray
+  GetInputs();
 
   /** Return true if the input with this name is defined */
-  bool HasInput( const DataObjectIdentifierType & key ) const;
+  bool
+  HasInput(const DataObjectIdentifierType & key) const;
 
   using DataObjectPointerArraySizeType = DataObjectPointerArray::size_type;
 
@@ -195,30 +199,36 @@ public:
    * \sa GetNumberOfValidRequiredInputs
    * \sa GetNumberOfIndexedInputs
    */
-  DataObjectPointerArraySizeType GetNumberOfInputs() const;
+  DataObjectPointerArraySizeType
+  GetNumberOfInputs() const;
 
   /** \brief Get the size of the output container. */
-  DataObjectPointerArraySizeType GetNumberOfOutputs() const;
+  DataObjectPointerArraySizeType
+  GetNumberOfOutputs() const;
 
   /** \brief Return an array with the defined names of the outputs.
    *
    * The names are ordered lexicographically, and match the order of the
    * data object produced by GetOutputs()
    */
-  NameArray GetOutputNames() const;
+  NameArray
+  GetOutputNames() const;
 
   /** \brief Return an array with the defined named outputs.
    *
    * The order of the outputs match the order of the input names produced
    * by GetOutputNames().
    */
-  DataObjectPointerArray GetOutputs();
+  DataObjectPointerArray
+  GetOutputs();
 
   /** \brief Return true if the output with this name is defined. */
-  bool HasOutput( const DataObjectIdentifierType & key ) const;
+  bool
+  HasOutput(const DataObjectIdentifierType & key) const;
 
   /** \brief Return an array with all the indexed inputs. */
-  DataObjectPointerArray GetIndexedInputs();
+  DataObjectPointerArray
+  GetIndexedInputs();
 
   /** \brief Get the number of defined Indexed inputs.
    *
@@ -233,7 +243,8 @@ public:
    * \sa GetNumberOfInputs
    * \sa GetNumberOfValidRequiredInputs
    */
-  DataObjectPointerArraySizeType GetNumberOfIndexedInputs() const;
+  DataObjectPointerArraySizeType
+  GetNumberOfIndexedInputs() const;
 
   /** \brief Get the number of valid \b indexed inputs.
    *
@@ -244,13 +255,16 @@ public:
    * \sa GetNumberOfInputs
    * \sa GetNumberOfIndexedInputs
    */
-  virtual DataObjectPointerArraySizeType GetNumberOfValidRequiredInputs() const;
+  virtual DataObjectPointerArraySizeType
+  GetNumberOfValidRequiredInputs() const;
 
   /** \brief Return an array with the indexed outputs. */
-  DataObjectPointerArray GetIndexedOutputs();
+  DataObjectPointerArray
+  GetIndexedOutputs();
 
   /** \brief The number of defined Indexed outputs. */
-  DataObjectPointerArraySizeType GetNumberOfIndexedOutputs() const;
+  DataObjectPointerArraySizeType
+  GetNumberOfIndexedOutputs() const;
 
   /** \brief Make a DataObject of the correct type to used as the specified output.
    *
@@ -267,7 +281,8 @@ public:
    * this method to create the correct type of image and mesh respectively.
    * If a filter has multiple outputs of different types, then that
    * filter must provide an implementation of MakeOutput(). */
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx);
+  virtual DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType idx);
 
   /** \brief Set the AbortGenerateData flag for the process object.
    *
@@ -294,8 +309,9 @@ public:
    * if it doesn't need to.
    * Thus, we implement the SetClampMacro directly without the call to
    * Modified. */
-#if ! defined ( ITK_LEGACY_REMOVE )
-  void SetProgress(float progress)
+#if !defined(ITK_LEGACY_REMOVE)
+  void
+  SetProgress(float progress)
   {
     // Clamp the value to be between 0 and 1.
     m_Progress = std::max(progress, 0.0f);
@@ -315,8 +331,9 @@ public:
    * Sets the Progress ivar to amount and invokes any observers for
    * the ProgressEvent. The parameter amount should be in [0,1] and is
    * the cumulative (not incremental) progress.
-    */
-  void UpdateProgress(float progress);
+   */
+  void
+  UpdateProgress(float progress);
 
   /** \brief Bring this filter up-to-date.
    *
@@ -339,7 +356,8 @@ public:
    * a filter always to produce its largest possible region, users should
    * call UpdateLargestPossibleRegion() instead.
    */
-  virtual void Update();
+  virtual void
+  Update();
 
   /** \brief Sets the output requested region to the largest possible
    * region and updates.
@@ -349,8 +367,9 @@ public:
    * a user wants to update the same output region as a previous call
    * to Update() or a previous call to UpdateLargestPossibleRegion(),
    * then they should call the method Update().
-    */
-  virtual void UpdateLargestPossibleRegion();
+   */
+  virtual void
+  UpdateLargestPossibleRegion();
 
   /** \brief Update the information describing the output data.
    *
@@ -367,14 +386,17 @@ public:
    * Superclass::GenerateOutputInformation() prior to changing the
    * information.
    */
-  virtual void UpdateOutputInformation();
+  virtual void
+  UpdateOutputInformation();
 
   /** Send the requested region information back up the pipeline (to the
    * filters that precede this one). */
-  virtual void PropagateRequestedRegion(DataObject *output);
+  virtual void
+  PropagateRequestedRegion(DataObject * output);
 
   /** Actually generate new output  */
-  virtual void UpdateOutputData(DataObject *output);
+  virtual void
+  UpdateOutputData(DataObject * output);
 
   /** Give the process object a chance to indictate that it will produce more
    * output than it was requested to produce. For example, many imaging
@@ -384,16 +406,19 @@ public:
    * the output requested region to the size they will produce.  By default,
    * a process object does not modify the size of the output requested
    * region.
-    */
-  virtual void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ){}
+   */
+  virtual void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output))
+  {}
 
   /** \brief Reset the pipeline.
    *
    * If an exception is thrown during an Update(),
    * the pipeline may be in an inconsistent state.  This method clears
    * the internal state of the pipeline so Update() can be called.
-    */
-  virtual void ResetPipeline();
+   */
+  virtual void
+  ResetPipeline();
 
   /** \brief Make a DataObject of the correct type to used as the specified output.
    *
@@ -411,17 +436,28 @@ public:
    * If a filter has multiple outputs of different types, then that
    * filter must provide an implementation of MakeOutput().
    */
-  virtual DataObjectPointer MakeOutput( const DataObjectIdentifierType & );
+  virtual DataObjectPointer
+  MakeOutput(const DataObjectIdentifierType &);
 
   /** Turn on/off the flags to control whether the bulk data belonging
    * to the outputs of this ProcessObject are released after being
    * used by a downstream ProcessObject. Default value is off. Another
    * options for controlling memory utilization is the
    * ReleaseDataBeforeUpdateFlag. */
-  virtual void SetReleaseDataFlag(bool flag);
-  virtual bool GetReleaseDataFlag() const;
-  void ReleaseDataFlagOn() { this->SetReleaseDataFlag(true); }
-  void ReleaseDataFlagOff() { this->SetReleaseDataFlag(false); }
+  virtual void
+  SetReleaseDataFlag(bool flag);
+  virtual bool
+  GetReleaseDataFlag() const;
+  void
+  ReleaseDataFlagOn()
+  {
+    this->SetReleaseDataFlag(true);
+  }
+  void
+  ReleaseDataFlagOff()
+  {
+    this->SetReleaseDataFlag(false);
+  }
 
   /** Turn on/off the flags to control whether the bulk data belonging
    * to the outputs of this ProcessObject are released/reallocated
@@ -443,24 +479,22 @@ public:
   itkSetClampMacro(NumberOfWorkUnits, ThreadIdType, 1, ITK_MAX_THREADS);
   itkGetConstReferenceMacro(NumberOfWorkUnits, ThreadIdType);
 
-#if !defined( ITK_LEGACY_REMOVE ) || defined( ITKV4_COMPATIBILITY )
-  itkLegacyMacro(void SetNumberOfThreads(ThreadIdType count))
-  {
-    this->SetNumberOfWorkUnits(count);
-  }
+#if !defined(ITK_LEGACY_REMOVE) || defined(ITKV4_COMPATIBILITY)
+  itkLegacyMacro(void SetNumberOfThreads(ThreadIdType count)) { this->SetNumberOfWorkUnits(count); }
 
-  itkLegacyMacro(ThreadIdType GetNumberOfThreads() const)
-  {
-    return this->GetNumberOfWorkUnits();
-  }
+  itkLegacyMacro(ThreadIdType GetNumberOfThreads() const) { return this->GetNumberOfWorkUnits(); }
 #endif // !ITK_LEGACY_REMOVE
 
   /** Return the multithreader used by this class. */
-  MultiThreaderType * GetMultiThreader() const
-  { return m_MultiThreader; }
+  MultiThreaderType *
+  GetMultiThreader() const
+  {
+    return m_MultiThreader;
+  }
 
   /** Set the multithreader used by this class. */
-  void SetMultiThreader(MultiThreaderType* threader);
+  void
+  SetMultiThreader(MultiThreaderType * threader);
 
   /** An opportunity to deallocate a ProcessObject's bulk data
    *  storage. Some filters may wish to reuse existing bulk data
@@ -468,13 +502,15 @@ public:
    *  sequences. The default implementation calls Initialize() on each
    *  output. DataObject::Initialize() frees its bulk data by default.
    */
-  virtual void PrepareOutputs();
+  virtual void
+  PrepareOutputs();
 
 protected:
   ProcessObject();
   ~ProcessObject() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   //
   // Input Methods
@@ -484,27 +520,38 @@ protected:
    *
    * nullptr is returned if the name or indexed input is undefined.
    */
-  DataObject * GetInput(const DataObjectIdentifierType & key);
-  const DataObject * GetInput(const DataObjectIdentifierType & key) const;
+  DataObject *
+  GetInput(const DataObjectIdentifierType & key);
+  const DataObject *
+  GetInput(const DataObjectIdentifierType & key) const;
 
   /** Method used internally for getting an indexed input.
    */
-  DataObject * GetInput(DataObjectPointerArraySizeType idx)
-  { return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second.GetPointer() : nullptr; }
-  const DataObject * GetInput(DataObjectPointerArraySizeType idx) const
-  { return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second.GetPointer() : nullptr; }
+  DataObject *
+  GetInput(DataObjectPointerArraySizeType idx)
+  {
+    return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second.GetPointer() : nullptr;
+  }
+  const DataObject *
+  GetInput(DataObjectPointerArraySizeType idx) const
+  {
+    return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second.GetPointer() : nullptr;
+  }
 
   /** \brief Protected method for setting indexed and named inputs.
    *
    * Subclasses make use of them for setting input. As this method
    * only used the base DataObject pointer, derived classes should
    * expose a type check methods.
-    */
-  virtual void SetInput(const DataObjectIdentifierType & key, DataObject *input);
-  virtual void SetNthInput(DataObjectPointerArraySizeType num, DataObject *input);
+   */
+  virtual void
+  SetInput(const DataObjectIdentifierType & key, DataObject * input);
+  virtual void
+  SetNthInput(DataObjectPointerArraySizeType num, DataObject * input);
 
   /** Sets first nullptr indexed input, appends to the end otherwise */
-  virtual void AddInput(DataObject *input);
+  virtual void
+  AddInput(DataObject * input);
 
   /** \brief Push/Pop an indexed input of this process object.
    *
@@ -514,10 +561,14 @@ protected:
    * filters with different types of inputs.  These routines follow
    * the semantics of STL.
    */
-  virtual void PushBackInput(const DataObject *input);
-  virtual void PopBackInput();
-  virtual void PushFrontInput(const DataObject *input);
-  virtual void PopFrontInput();
+  virtual void
+  PushBackInput(const DataObject * input);
+  virtual void
+  PopBackInput();
+  virtual void
+  PushFrontInput(const DataObject * input);
+  virtual void
+  PopFrontInput();
 
   /** \brief Remove an input.
    *
@@ -525,22 +576,34 @@ protected:
    *  inputs will be reduced by one. Otherwise, if the input is
    *  required or indexed it will be set to nullptr.
    */
-  virtual void RemoveInput(const DataObjectIdentifierType & key);
+  virtual void
+               RemoveInput(const DataObjectIdentifierType & key);
   virtual void RemoveInput(DataObjectPointerArraySizeType);
 
   /** Return the main input */
-  DataObject * GetPrimaryInput()
-  { return m_IndexedInputs[0]->second; }
-  const DataObject * GetPrimaryInput() const
-  { return m_IndexedInputs[0]->second; }
+  DataObject *
+  GetPrimaryInput()
+  {
+    return m_IndexedInputs[0]->second;
+  }
+  const DataObject *
+  GetPrimaryInput() const
+  {
+    return m_IndexedInputs[0]->second;
+  }
 
   /** Set/Get the name associated with the Primary input.  Defaults to "Primary". */
-  virtual void SetPrimaryInputName(const DataObjectIdentifierType & key);
-  virtual const char *GetPrimaryInputName() const
-  { return this->m_IndexedInputs[0]->first.c_str(); }
+  virtual void
+  SetPrimaryInputName(const DataObjectIdentifierType & key);
+  virtual const char *
+  GetPrimaryInputName() const
+  {
+    return this->m_IndexedInputs[0]->first.c_str();
+  }
 
   /** Set the main input */
-  virtual void SetPrimaryInput(DataObject *input);
+  virtual void
+  SetPrimaryInput(DataObject * input);
 
   /** \brief Define the number of indexed inputs defined.
    *
@@ -548,7 +611,8 @@ protected:
    * nullptr. If the size is reduced then the input definition is
    * removed entirely from the named input entries and index inputs.
    */
-  void SetNumberOfIndexedInputs(DataObjectPointerArraySizeType num);
+  void
+  SetNumberOfIndexedInputs(DataObjectPointerArraySizeType num);
 
   /** \brief Set the number of required \b indexed inputs.
    *
@@ -567,16 +631,19 @@ protected:
    *
    * The named input remains defined or set afterwards.
    */
-  bool RemoveRequiredInputName( const DataObjectIdentifierType & );
+  bool
+  RemoveRequiredInputName(const DataObjectIdentifierType &);
 
   /** \brief Query if the named input is required by name. */
-  bool IsRequiredInputName( const DataObjectIdentifierType & ) const;
+  bool
+  IsRequiredInputName(const DataObjectIdentifierType &) const;
 
   /** \brief Set all required named inputs.
    *
    * All named inputs remain defined or set.
    */
-  void SetRequiredInputNames( const NameArray & );
+  void
+  SetRequiredInputNames(const NameArray &);
 
   /** \brief Define a required named input and optionally associate it
    * with a numbered index.
@@ -588,8 +655,10 @@ protected:
    * value, then that value will be used. Otherwise if the specified
    * index has a non-null value, then that will be the value set.
    */
-  bool AddRequiredInputName( const DataObjectIdentifierType & );
-  bool AddRequiredInputName( const DataObjectIdentifierType &, DataObjectPointerArraySizeType idx );
+  bool
+  AddRequiredInputName(const DataObjectIdentifierType &);
+  bool
+  AddRequiredInputName(const DataObjectIdentifierType &, DataObjectPointerArraySizeType idx);
 
   /** \brief Define a named input that is not required  and optionally
    *  associate with a numbered index.
@@ -601,8 +670,10 @@ protected:
    * value, then that value will be used. Otherwise if the specified
    * index has a non-null value, then that will be the value set.
    */
-  void AddOptionalInputName( const DataObjectIdentifierType & );
-  void AddOptionalInputName( const DataObjectIdentifierType &, DataObjectPointerArraySizeType idx );
+  void
+  AddOptionalInputName(const DataObjectIdentifierType &);
+  void
+  AddOptionalInputName(const DataObjectIdentifierType &, DataObjectPointerArraySizeType idx);
 
 
   //
@@ -610,54 +681,81 @@ protected:
   //
 
   /** Return an output */
-  DataObject * GetOutput(const DataObjectIdentifierType & key);
-  const DataObject * GetOutput(const DataObjectIdentifierType & key) const;
+  DataObject *
+  GetOutput(const DataObjectIdentifierType & key);
+  const DataObject *
+  GetOutput(const DataObjectIdentifierType & key) const;
 
   /** Set/Get the name associated with the Primary output.  Defaults to "Primary". */
-  virtual void SetPrimaryOutputName(const DataObjectIdentifierType & key);
-  virtual const char *GetPrimaryOutputName() const
-  { return this->m_IndexedOutputs[0]->first.c_str(); }
+  virtual void
+  SetPrimaryOutputName(const DataObjectIdentifierType & key);
+  virtual const char *
+  GetPrimaryOutputName() const
+  {
+    return this->m_IndexedOutputs[0]->first.c_str();
+  }
 
   /** Method used internally for getting an indexed output. */
-  DataObject * GetOutput(DataObjectPointerArraySizeType idx);
-  const DataObject * GetOutput(DataObjectPointerArraySizeType idx) const;
+  DataObject *
+  GetOutput(DataObjectPointerArraySizeType idx);
+  const DataObject *
+  GetOutput(DataObjectPointerArraySizeType idx) const;
 
   /** Set an output */
-  virtual void SetOutput(const DataObjectIdentifierType & key, DataObject *output);
+  virtual void
+  SetOutput(const DataObjectIdentifierType & key, DataObject * output);
 
   /** Remove an output */
-  virtual void RemoveOutput(const DataObjectIdentifierType & key);
+  virtual void
+  RemoveOutput(const DataObjectIdentifierType & key);
 
   /** Return the main output */
-  DataObject * GetPrimaryOutput()
-  { return m_IndexedOutputs[0]->second; }
-  const DataObject * GetPrimaryOutput() const
-  { return m_IndexedOutputs[0]->second; }
+  DataObject *
+  GetPrimaryOutput()
+  {
+    return m_IndexedOutputs[0]->second;
+  }
+  const DataObject *
+  GetPrimaryOutput() const
+  {
+    return m_IndexedOutputs[0]->second;
+  }
 
   /** Set the main output */
-  virtual void SetPrimaryOutput(DataObject *output);
+  virtual void
+  SetPrimaryOutput(DataObject * output);
 
   /** Protected methods for setting outputs.
    * Subclasses make use of them for getting output. */
-  virtual void SetNthOutput(DataObjectPointerArraySizeType num, DataObject *output);
+  virtual void
+  SetNthOutput(DataObjectPointerArraySizeType num, DataObject * output);
 
-  virtual void AddOutput(DataObject *output);
+  virtual void
+  AddOutput(DataObject * output);
 
-  virtual void RemoveOutput(DataObjectPointerArraySizeType idx);
+  virtual void
+  RemoveOutput(DataObjectPointerArraySizeType idx);
 
   itkSetMacro(NumberOfRequiredOutputs, DataObjectPointerArraySizeType);
   itkGetConstReferenceMacro(NumberOfRequiredOutputs, DataObjectPointerArraySizeType);
 
   /** Called to allocate the output array.  Copies old outputs. */
-  void SetNumberOfIndexedOutputs(DataObjectPointerArraySizeType num);
+  void
+  SetNumberOfIndexedOutputs(DataObjectPointerArraySizeType num);
 
 
-  DataObjectIdentifierType MakeNameFromInputIndex( DataObjectPointerArraySizeType idx ) const;
-  DataObjectIdentifierType MakeNameFromOutputIndex( DataObjectPointerArraySizeType idx ) const;
-  DataObjectPointerArraySizeType MakeIndexFromInputName( const DataObjectIdentifierType & name ) const;
-  DataObjectPointerArraySizeType MakeIndexFromOutputName( const DataObjectIdentifierType & name ) const;
-  bool IsIndexedInputName( const DataObjectIdentifierType & ) const;
-  bool IsIndexedOutputName( const DataObjectIdentifierType & ) const;
+  DataObjectIdentifierType
+  MakeNameFromInputIndex(DataObjectPointerArraySizeType idx) const;
+  DataObjectIdentifierType
+  MakeNameFromOutputIndex(DataObjectPointerArraySizeType idx) const;
+  DataObjectPointerArraySizeType
+  MakeIndexFromInputName(const DataObjectIdentifierType & name) const;
+  DataObjectPointerArraySizeType
+  MakeIndexFromOutputName(const DataObjectIdentifierType & name) const;
+  bool
+  IsIndexedInputName(const DataObjectIdentifierType &) const;
+  bool
+  IsIndexedOutputName(const DataObjectIdentifierType &) const;
 
   //
   // Pipeline Methods
@@ -674,7 +772,8 @@ protected:
    * NumberOfRequiredInputs are set and not null.
    *
    */
-  virtual void VerifyPreconditions() ITKv5_CONST;
+  virtual void
+  VerifyPreconditions() ITKv5_CONST;
 
   /** \brief Verifies that the inputs meta-data is consistent and valid
    * for continued execution of the pipeline, throws an exception if
@@ -686,7 +785,8 @@ protected:
    * check if all the inputs are in the same coordinate frame.
    *
    */
-  virtual void VerifyInputInformation() ITKv5_CONST;
+  virtual void
+  VerifyInputInformation() ITKv5_CONST;
 
   /** What is the input requested region that is required to produce the
    * output requested region? By default, the largest possible region is
@@ -701,7 +801,8 @@ protected:
    * the input largest possible region (i.e. implementations of this method
    * should crop the input requested region at the boundaries of the input
    * largest possible region). */
-  virtual void GenerateInputRequestedRegion();
+  virtual void
+  GenerateInputRequestedRegion();
 
   /** Given one output whose requested region has been set, how should
    * the requested regions for the remaining outputs of the process object
@@ -714,7 +815,8 @@ protected:
    * Note that a filter producing multiple outputs of different types is
    * required to override this method.  The default implementation
    * can only correctly handle multiple outputs of the same type. */
-  virtual void GenerateOutputRequestedRegion(DataObject *output);
+  virtual void
+  GenerateOutputRequestedRegion(DataObject * output);
 
   /** Generate the information describing the output data. The default
    * implementation of this method will copy information from the input to
@@ -726,15 +828,19 @@ protected:
    * information values they need (i.e. GenerateOutputInformation() should
    * call Superclass::GenerateOutputInformation() prior to changing the
    * information. */
-  virtual void GenerateOutputInformation();
+  virtual void
+  GenerateOutputInformation();
 
   /** This method causes the filter to generate its output. */
-  virtual void GenerateData() {}
+  virtual void
+  GenerateData()
+  {}
 
   /** Called to allocate the input array.  Copies old inputs. */
   /** Propagate a call to ResetPipeline() up the pipeline. Called only from
    * DataObject. */
-  virtual void PropagateResetPipeline();
+  virtual void
+  PropagateResetPipeline();
 
   /** A filter may need to release its input's bulk data after it has
    * finished calculating a new output. The filter may need to release
@@ -747,7 +853,8 @@ protected:
    *
    * \sa InPlaceImageFilter::ReleaseInputs()
    */
-  virtual void ReleaseInputs();
+  virtual void
+  ReleaseInputs();
 
   /**
    * Cache the state of any ReleaseDataFlag's on the inputs. While the
@@ -757,12 +864,14 @@ protected:
    * filter finishes, we restore the state of the ReleaseDataFlag's
    * before the call to ReleaseInputs().
    */
-  virtual void CacheInputReleaseDataFlags();
+  virtual void
+  CacheInputReleaseDataFlags();
 
   /**
    * Restore the cached input ReleaseDataFlags.
    */
-  virtual void RestoreInputReleaseDataFlags();
+  virtual void
+  RestoreInputReleaseDataFlags();
 
   /** These ivars are made protected so filters like itkStreamingImageFilter
    * can access them directly. */
@@ -775,28 +884,29 @@ protected:
   TimeStamp m_OutputInformationMTime;
 
 private:
-  DataObjectIdentifierType MakeNameFromIndex( DataObjectPointerArraySizeType ) const;
-  DataObjectPointerArraySizeType MakeIndexFromName( const DataObjectIdentifierType & ) const;
+  DataObjectIdentifierType MakeNameFromIndex(DataObjectPointerArraySizeType) const;
+  DataObjectPointerArraySizeType
+  MakeIndexFromName(const DataObjectIdentifierType &) const;
 
   /** STL map to store the named inputs and outputs */
-  using DataObjectPointerMap = std::map< DataObjectIdentifierType, DataObjectPointer >;
+  using DataObjectPointerMap = std::map<DataObjectIdentifierType, DataObjectPointer>;
 
 
   /** Named input and outputs containers */
-  DataObjectPointerMap   m_Inputs;
-  DataObjectPointerMap   m_Outputs;
+  DataObjectPointerMap m_Inputs;
+  DataObjectPointerMap m_Outputs;
 
-  std::vector< DataObjectPointerMap::iterator > m_IndexedInputs;
-  std::vector< DataObjectPointerMap::iterator > m_IndexedOutputs;
+  std::vector<DataObjectPointerMap::iterator> m_IndexedInputs;
+  std::vector<DataObjectPointerMap::iterator> m_IndexedOutputs;
 
   /** An array that caches the ReleaseDataFlags of the inputs */
-  std::map< DataObjectIdentifierType, bool > m_CachedInputReleaseDataFlags;
+  std::map<DataObjectIdentifierType, bool> m_CachedInputReleaseDataFlags;
 
-  DataObjectPointerArraySizeType  m_NumberOfRequiredInputs;
-  DataObjectPointerArraySizeType  m_NumberOfRequiredOutputs;
+  DataObjectPointerArraySizeType m_NumberOfRequiredInputs;
+  DataObjectPointerArraySizeType m_NumberOfRequiredOutputs;
 
   /** STL map to store the named inputs and outputs */
-  using NameSet = std::set< DataObjectIdentifierType >;
+  using NameSet = std::set<DataObjectIdentifierType>;
 
   /** The required inputs */
   NameSet m_RequiredInputNames;

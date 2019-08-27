@@ -31,14 +31,14 @@
 #include "itkGDCMSeriesFileNames.h"
 #include "itkTestingMacros.h"
 
-int itkGDCMSeriesMissingDicomTagTest( int argc, char* argv[] )
+int
+itkGDCMSeriesMissingDicomTagTest(int argc, char * argv[])
 {
-  if( argc < 2)
-    {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) <<
-      " DicomDirectory" << std::endl;
+  if (argc < 2)
+  {
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " DicomDirectory" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

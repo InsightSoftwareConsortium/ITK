@@ -29,9 +29,9 @@ namespace itk
  *
  * \ingroup ITKRegistrationCommon
  */
-template<typename TTransform>
+template <typename TTransform>
 class ITK_TEMPLATE_EXPORT BSplineExponentialDiffeomorphicTransformParametersAdaptor
-: public ConstantVelocityFieldTransformParametersAdaptor<TTransform>
+  : public ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineExponentialDiffeomorphicTransformParametersAdaptor);
@@ -43,11 +43,11 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( BSplineExponentialDiffeomorphicTransformParametersAdaptor,
-    BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor );
+  itkTypeMacro(BSplineExponentialDiffeomorphicTransformParametersAdaptor,
+               BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor);
 
   using TransformType = TTransform;
   using ScalarType = typename TransformType::ScalarType;
@@ -64,7 +64,8 @@ public:
    * Default = 4 control points in each dimension for a mesh size of 1 in each
    * dimension.
    */
-  virtual void SetNumberOfControlPointsForTheConstantVelocityField( const ArrayType & );
+  virtual void
+  SetNumberOfControlPointsForTheConstantVelocityField(const ArrayType &);
 
   /**
    * Get the control point grid size defining the B-spline estimate of the
@@ -73,7 +74,7 @@ public:
    * Default = 4 control points in each dimension for a mesh size of 1 in each
    * dimension.
    */
-  itkGetConstMacro( NumberOfControlPointsForTheConstantVelocityField, ArrayType );
+  itkGetConstMacro(NumberOfControlPointsForTheConstantVelocityField, ArrayType);
 
   /**
    * Set the control point grid size defining the B-spline estimate of the
@@ -82,7 +83,8 @@ public:
    * Default = 4 control points in each dimension for a mesh size of 1 in each
    * dimension.
    */
-  virtual void SetNumberOfControlPointsForTheUpdateField( const ArrayType & );
+  virtual void
+  SetNumberOfControlPointsForTheUpdateField(const ArrayType &);
 
   /**
    * Get the control point grid size defining the B-spline estimate of the
@@ -91,7 +93,7 @@ public:
    * Default = 4 control points in each dimension for a mesh size of 1 in each
    * dimension.
    */
-  itkGetConstMacro( NumberOfControlPointsForTheUpdateField, ArrayType );
+  itkGetConstMacro(NumberOfControlPointsForTheUpdateField, ArrayType);
 
   /**
    * Set the velocity field mesh size which is used to specify the control point
@@ -99,7 +101,8 @@ public:
    * difference between the control point grid size and the spline order, i.e.
    * meshSize = controlPointGridSize - SplineOrder.
    */
-  void SetMeshSizeForTheConstantVelocityField( const ArrayType & );
+  void
+  SetMeshSizeForTheConstantVelocityField(const ArrayType &);
 
   /**
    * Set the update field mesh size which is used to specify the control point
@@ -107,31 +110,34 @@ public:
    * difference between the control point grid size and the spline order, i.e.
    * meshSize = controlPointGridSize - SplineOrder.
    */
-  void SetMeshSizeForTheUpdateField( const ArrayType & );
+  void
+  SetMeshSizeForTheUpdateField(const ArrayType &);
 
   /**
    * Change the displacement field fixed parameters
    */
-  void AdaptTransformParameters() override;
+  void
+  AdaptTransformParameters() override;
 
 protected:
   BSplineExponentialDiffeomorphicTransformParametersAdaptor();
   ~BSplineExponentialDiffeomorphicTransformParametersAdaptor() override = default;
 
-  void PrintSelf( std::ostream & os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ArrayType                   m_NumberOfControlPointsForTheConstantVelocityField;
-  ModifiedTimeType            m_NumberOfControlPointsForTheConstantVelocityFieldSetTime;
+  ArrayType        m_NumberOfControlPointsForTheConstantVelocityField;
+  ModifiedTimeType m_NumberOfControlPointsForTheConstantVelocityFieldSetTime;
 
-  ArrayType                   m_NumberOfControlPointsForTheUpdateField;
-  ModifiedTimeType            m_NumberOfControlPointsForTheUpdateFieldSetTime;
+  ArrayType        m_NumberOfControlPointsForTheUpdateField;
+  ModifiedTimeType m_NumberOfControlPointsForTheUpdateFieldSetTime;
 
-}; //class BSplineExponentialDiffeomorphicTransformParametersAdaptor
-}  // namespace itk
+}; // class BSplineExponentialDiffeomorphicTransformParametersAdaptor
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBSplineExponentialDiffeomorphicTransformParametersAdaptor.hxx"
+#  include "itkBSplineExponentialDiffeomorphicTransformParametersAdaptor.hxx"
 #endif
 
 #endif /* itkBSplineExponentialDiffeomorphicTransformParametersAdaptor_h */

@@ -19,88 +19,91 @@
 #include "itkSimilarityIndexImageFilter.h"
 #include "itkMath.h"
 
-int itkSimilarityIndexImageFilterTest(int, char* [] )
+int
+itkSimilarityIndexImageFilterTest(int, char *[])
 {
 
   using Pixel1Type = unsigned char;
   using Pixel2Type = float;
-  enum { ImageDimension = 2 };
+  enum
+  {
+    ImageDimension = 2
+  };
 
-  using Image1Type = itk::Image<Pixel1Type,ImageDimension>;
-  using Image2Type = itk::Image<Pixel2Type,ImageDimension>;
+  using Image1Type = itk::Image<Pixel1Type, ImageDimension>;
+  using Image2Type = itk::Image<Pixel2Type, ImageDimension>;
 
   Image1Type::Pointer image1 = Image1Type::New();
   Image2Type::Pointer image2 = Image2Type::New();
 
   Image1Type::SizeType size;
-  size.Fill( 8 );
+  size.Fill(8);
 
-  image1->SetRegions( size );
-  image2->SetRegions( size );
+  image1->SetRegions(size);
+  image2->SetRegions(size);
 
   image1->Allocate();
   image2->Allocate();
 
   unsigned long numOfPixels = image1->GetBufferedRegion().GetNumberOfPixels();
   unsigned long lower1 = 0;
-  unsigned long upper1 = (unsigned long) ( (double)numOfPixels * 0.75 ) - 1;
-  auto lower2 = (unsigned long) ( (double)numOfPixels * 0.25 );
+  unsigned long upper1 = (unsigned long)((double)numOfPixels * 0.75) - 1;
+  auto          lower2 = (unsigned long)((double)numOfPixels * 0.25);
   unsigned long upper2 = numOfPixels - 1;
 
-  itk::ImageRegionIterator<Image1Type> it1( image1, image1->GetBufferedRegion() );
-  itk::ImageRegionIterator<Image2Type> it2( image2, image2->GetBufferedRegion() );
-  unsigned long count = 0;
+  itk::ImageRegionIterator<Image1Type> it1(image1, image1->GetBufferedRegion());
+  itk::ImageRegionIterator<Image2Type> it2(image2, image2->GetBufferedRegion());
+  unsigned long                        count = 0;
 
-  while( !it1.IsAtEnd() || !it2.IsAtEnd() )
+  while (!it1.IsAtEnd() || !it2.IsAtEnd())
+  {
+
+    if (!it1.IsAtEnd())
     {
-
-    if ( !it1.IsAtEnd() )
+      if (lower1 <= count && count <= upper1)
       {
-      if ( lower1 <= count && count <= upper1 )
-        {
-        it1.Set( 5 );
-        }
+        it1.Set(5);
+      }
       else
-        {
-        it1.Set( 0 );
-        }
+      {
+        it1.Set(0);
+      }
       ++it1;
-      }
+    }
 
-    if ( !it2.IsAtEnd() )
+    if (!it2.IsAtEnd())
+    {
+      if (lower2 <= count && count <= upper2)
       {
-      if ( lower2 <= count && count <= upper2 )
-        {
-        it2.Set( 7.2 );
-        }
-      else
-        {
-        it2.Set( 0 );
-        }
-      ++it2;
+        it2.Set(7.2);
       }
+      else
+      {
+        it2.Set(0);
+      }
+      ++it2;
+    }
 
     ++count;
+  }
 
-    }
-
-  using FilterType = itk::SimilarityIndexImageFilter<Image1Type,Image2Type>;
+  using FilterType = itk::SimilarityIndexImageFilter<Image1Type, Image2Type>;
   FilterType::Pointer filter = FilterType::New();
 
-  filter->SetInput1( image1 );
-  filter->SetInput2( image2 );
+  filter->SetInput1(image1);
+  filter->SetInput2(image2);
 
   try
-    {
+  {
     filter->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cout << "Caught an unexpected exception" << std::endl;
     std::cout << err;
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   filter->Print(std::cout);
 
@@ -111,37 +114,36 @@ int itkSimilarityIndexImageFilterTest(int, char* [] )
   std::cout << " True index: " << trueOverlap << std::endl;
   std::cout << " Computed index: " << overlap << std::endl;
 
-  if ( itk::Math::abs( trueOverlap - overlap ) > 0.1 )
-    {
+  if (itk::Math::abs(trueOverlap - overlap) > 0.1)
+  {
     std::cout << "Test failed. " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // test case where both images are zero
- Image1Type::Pointer image3 = Image1Type::New();
- Image2Type::Pointer image4 = Image2Type::New();
+  Image1Type::Pointer image3 = Image1Type::New();
+  Image2Type::Pointer image4 = Image2Type::New();
 
- image3->SetRegions( image1->GetBufferedRegion() );
- image3->Allocate();
- image3->FillBuffer( 0 );
+  image3->SetRegions(image1->GetBufferedRegion());
+  image3->Allocate();
+  image3->FillBuffer(0);
 
- image4->SetRegions( image2->GetBufferedRegion() );
- image4->Allocate();
- image4->FillBuffer( 0 );
+  image4->SetRegions(image2->GetBufferedRegion());
+  image4->Allocate();
+  image4->FillBuffer(0);
 
- filter->SetInput1( image3 );
- filter->SetInput2( image4 );
- filter->Update();
+  filter->SetInput1(image3);
+  filter->SetInput2(image4);
+  filter->Update();
 
- if ( itk::Math::NotExactlyEquals(filter->GetSimilarityIndex(), 0) )
-    {
+  if (itk::Math::NotExactlyEquals(filter->GetSimilarityIndex(), 0))
+  {
     std::cout << "Overlap: " << filter->GetSimilarityIndex() << std::endl;
     std::cout << "Zero overlap expected." << std::endl;
     std::cout << "Test failed. " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test passed. " << std::endl;
   return EXIT_SUCCESS;
-
 }

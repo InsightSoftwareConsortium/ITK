@@ -23,11 +23,12 @@
 #include "itkVectorImage.h"
 #include "itkShiftScaleImageFilter.h"
 
-int itkImageDuplicatorTest(int, char* [] )
+int
+itkImageDuplicatorTest(int, char *[])
 {
-  using ImageType = itk::Image<float,3>;
+  using ImageType = itk::Image<float, 3>;
   ImageType::RegionType region;
-  ImageType::SizeType size;
+  ImageType::SizeType   size;
   size[0] = 10;
   size[1] = 20;
   size[2] = 30;
@@ -37,248 +38,251 @@ int itkImageDuplicatorTest(int, char* [] )
   region.SetIndex(index);
 
   {
-  /** Create an image image */
-  std::cout << "Creating simulated image: ";
-  ImageType::Pointer m_Image = ImageType::New();
-  m_Image->SetRegions( region );
-  m_Image->Allocate(true); // initialize buffer to zero
+    /** Create an image image */
+    std::cout << "Creating simulated image: ";
+    ImageType::Pointer m_Image = ImageType::New();
+    m_Image->SetRegions(region);
+    m_Image->Allocate(true); // initialize buffer to zero
 
-  itk::ImageRegionIterator<ImageType> it(m_Image,region);
-  it.GoToBegin();
+    itk::ImageRegionIterator<ImageType> it(m_Image, region);
+    it.GoToBegin();
 
-  float i = 0;
-  while(!it.IsAtEnd())
+    float i = 0;
+    while (!it.IsAtEnd())
     {
-    it.Set(i);
-    i++;
-    ++it;
+      it.Set(i);
+      i++;
+      ++it;
     }
 
-  using ShiftType = itk::ShiftScaleImageFilter<ImageType, ImageType>;
-  ShiftType::Pointer shift = ShiftType::New();
-  shift->SetInput( m_Image );
-  shift->SetShift( 0.0 );
-  shift->SetScale( 1.0 );
-  shift->Update(); // need to update before duplicator can run
+    using ShiftType = itk::ShiftScaleImageFilter<ImageType, ImageType>;
+    ShiftType::Pointer shift = ShiftType::New();
+    shift->SetInput(m_Image);
+    shift->SetShift(0.0);
+    shift->SetScale(1.0);
+    shift->Update(); // need to update before duplicator can run
 
-  std::cout << "[DONE]" << std::endl;
+    std::cout << "[DONE]" << std::endl;
 
-  // Test the duplicator
-  std::cout << "Testing duplicator with float images: ";
-  using DuplicatorType = itk::ImageDuplicator<ImageType>;
-  DuplicatorType::Pointer duplicator = DuplicatorType::New();
+    // Test the duplicator
+    std::cout << "Testing duplicator with float images: ";
+    using DuplicatorType = itk::ImageDuplicator<ImageType>;
+    DuplicatorType::Pointer duplicator = DuplicatorType::New();
 
-  duplicator->SetInputImage(shift->GetOutput());
-  duplicator->Update();
-  ImageType::Pointer ImageCopy = duplicator->GetOutput();
+    duplicator->SetInputImage(shift->GetOutput());
+    duplicator->Update();
+    ImageType::Pointer ImageCopy = duplicator->GetOutput();
 
 
-  itk::ImageRegionIterator<ImageType> it2(ImageCopy,ImageCopy->GetLargestPossibleRegion());
-  it2.GoToBegin();
+    itk::ImageRegionIterator<ImageType> it2(ImageCopy, ImageCopy->GetLargestPossibleRegion());
+    it2.GoToBegin();
 
-  i = 0;
-  while(!it2.IsAtEnd())
+    i = 0;
+    while (!it2.IsAtEnd())
     {
-    if(itk::Math::NotAlmostEquals(it2.Get(), i))
+      if (itk::Math::NotAlmostEquals(it2.Get(), i))
       {
-      std::cout << "Error: Pixel value mismatched: " << it2.Get() << " vs. " << i << std::endl;
-      return EXIT_FAILURE;
+        std::cout << "Error: Pixel value mismatched: " << it2.Get() << " vs. " << i << std::endl;
+        return EXIT_FAILURE;
       }
-    i++;
-    ++it2;
+      i++;
+      ++it2;
     }
 
-  std::cout << "[DONE]" << std::endl;
+    std::cout << "[DONE]" << std::endl;
 
-  /** Test duplicator after modifying the bulk data of the input */
-  std::cout << "Modifying input, testing duplicator again: ";
-  shift->SetShift(1);
-  shift->Update(); // need to update before duplicator
-  duplicator->Update();
-  ImageCopy = duplicator->GetOutput();
+    /** Test duplicator after modifying the bulk data of the input */
+    std::cout << "Modifying input, testing duplicator again: ";
+    shift->SetShift(1);
+    shift->Update(); // need to update before duplicator
+    duplicator->Update();
+    ImageCopy = duplicator->GetOutput();
 
-  itk::ImageRegionIterator<ImageType> it2b(ImageCopy,ImageCopy->GetLargestPossibleRegion());
-  it2b.GoToBegin();
-  i = 0;
-  while(!it2b.IsAtEnd())
+    itk::ImageRegionIterator<ImageType> it2b(ImageCopy, ImageCopy->GetLargestPossibleRegion());
+    it2b.GoToBegin();
+    i = 0;
+    while (!it2b.IsAtEnd())
     {
-    if(itk::Math::NotAlmostEquals(it2b.Get(), i+1))
+      if (itk::Math::NotAlmostEquals(it2b.Get(), i + 1))
       {
-      std::cout << "Error: Pixel value mismatched: " << it2b.Get() << " vs. " << i+1 << std::endl;
-      return EXIT_FAILURE;
+        std::cout << "Error: Pixel value mismatched: " << it2b.Get() << " vs. " << i + 1 << std::endl;
+        return EXIT_FAILURE;
       }
-    i++;
-    ++it2b;
+      i++;
+      ++it2b;
     }
 
-  std::cout << "[DONE]" << std::endl;
+    std::cout << "[DONE]" << std::endl;
 
-  /** Test duplicator after modifying the bulk data of the input */
-  std::cout << "Rerunning duplicator with no changes: ";
-  shift->Update(); // need to update before duplicator
-  duplicator->Update();
-  ImageCopy = duplicator->GetOutput();
+    /** Test duplicator after modifying the bulk data of the input */
+    std::cout << "Rerunning duplicator with no changes: ";
+    shift->Update(); // need to update before duplicator
+    duplicator->Update();
+    ImageCopy = duplicator->GetOutput();
 
-  itk::ImageRegionIterator<ImageType> it2c(ImageCopy,ImageCopy->GetLargestPossibleRegion());
-  it2c.GoToBegin();
-  i = 0;
-  while(!it2c.IsAtEnd())
+    itk::ImageRegionIterator<ImageType> it2c(ImageCopy, ImageCopy->GetLargestPossibleRegion());
+    it2c.GoToBegin();
+    i = 0;
+    while (!it2c.IsAtEnd())
     {
-    if(itk::Math::NotAlmostEquals( it2c.Get(), i+1 ))
+      if (itk::Math::NotAlmostEquals(it2c.Get(), i + 1))
       {
-      std::cout << "Error: Pixel value mismatched: " << it2c.Get() << " vs. " << i+1 << std::endl;
-      return EXIT_FAILURE;
+        std::cout << "Error: Pixel value mismatched: " << it2c.Get() << " vs. " << i + 1 << std::endl;
+        return EXIT_FAILURE;
       }
-    i++;
-    ++it2c;
+      i++;
+      ++it2c;
     }
 
-  std::cout << "[DONE]" << std::endl;
+    std::cout << "[DONE]" << std::endl;
   }
 
   {
-  /** Create an RGB image image */
-  using RGBImageType = itk::Image<itk::RGBPixel<unsigned char>,3>;
-  std::cout << "Creating simulated image: ";
-  RGBImageType::Pointer m_RGBImage = RGBImageType::New();
-  m_RGBImage->SetRegions( region );
-  m_RGBImage->Allocate();
+    /** Create an RGB image image */
+    using RGBImageType = itk::Image<itk::RGBPixel<unsigned char>, 3>;
+    std::cout << "Creating simulated image: ";
+    RGBImageType::Pointer m_RGBImage = RGBImageType::New();
+    m_RGBImage->SetRegions(region);
+    m_RGBImage->Allocate();
 
-  itk::ImageRegionIterator<RGBImageType> it3(m_RGBImage,region);
-  it3.GoToBegin();
+    itk::ImageRegionIterator<RGBImageType> it3(m_RGBImage, region);
+    it3.GoToBegin();
 
-  unsigned char r = 0;
-  unsigned char g = 1;
-  unsigned char b = 2;
+    unsigned char r = 0;
+    unsigned char g = 1;
+    unsigned char b = 2;
 
-  while(!it3.IsAtEnd())
+    while (!it3.IsAtEnd())
     {
-    itk::RGBPixel<unsigned char> pixel;
-    pixel.SetRed(r);
-    pixel.SetGreen(g);
-    pixel.SetBlue(b);
-    it3.Set(pixel);
-    r++;
-    if(r==255)
+      itk::RGBPixel<unsigned char> pixel;
+      pixel.SetRed(r);
+      pixel.SetGreen(g);
+      pixel.SetBlue(b);
+      it3.Set(pixel);
+      r++;
+      if (r == 255)
       {
-      r=0;
+        r = 0;
       }
-    g++;
-    if(g==255)
+      g++;
+      if (g == 255)
       {
-      g=0;
+        g = 0;
       }
-    b++;
-    if(b==255)
+      b++;
+      if (b == 255)
       {
-      b=0;
+        b = 0;
       }
-    ++it3;
+      ++it3;
     }
 
-  std::cout << "[DONE]" << std::endl;
+    std::cout << "[DONE]" << std::endl;
 
-  // Test the duplicator
-
-
-  std::cout << "Testing duplicator with RGB images: ";
-  using RGBDuplicatorType = itk::ImageDuplicator<RGBImageType>;
-  RGBDuplicatorType::Pointer RGBduplicator = RGBDuplicatorType::New();
-
-  RGBduplicator->SetInputImage(m_RGBImage);
-  RGBduplicator->Update();
-  RGBImageType::Pointer RGBImageCopy = RGBduplicator->GetOutput();
+    // Test the duplicator
 
 
-  itk::ImageRegionIterator<RGBImageType> it4(RGBImageCopy,RGBImageCopy->GetLargestPossibleRegion());
-  it3.GoToBegin();
+    std::cout << "Testing duplicator with RGB images: ";
+    using RGBDuplicatorType = itk::ImageDuplicator<RGBImageType>;
+    RGBDuplicatorType::Pointer RGBduplicator = RGBDuplicatorType::New();
 
-  r = 0;
-  g = 1;
-  b = 2;
+    RGBduplicator->SetInputImage(m_RGBImage);
+    RGBduplicator->Update();
+    RGBImageType::Pointer RGBImageCopy = RGBduplicator->GetOutput();
 
-  while(!it4.IsAtEnd())
+
+    itk::ImageRegionIterator<RGBImageType> it4(RGBImageCopy, RGBImageCopy->GetLargestPossibleRegion());
+    it3.GoToBegin();
+
+    r = 0;
+    g = 1;
+    b = 2;
+
+    while (!it4.IsAtEnd())
     {
 
-    itk::RGBPixel<unsigned char> pixel = it4.Get();
-    if(pixel.GetRed() != r)
+      itk::RGBPixel<unsigned char> pixel = it4.Get();
+      if (pixel.GetRed() != r)
       {
-      std::cout << "Error: Pixel R value mismatched: " << (float)pixel.GetRed()  << " vs. " << (float)r << std::endl;
-      return EXIT_FAILURE;
+        std::cout << "Error: Pixel R value mismatched: " << (float)pixel.GetRed() << " vs. " << (float)r << std::endl;
+        return EXIT_FAILURE;
       }
-    if(pixel.GetGreen() != g)
+      if (pixel.GetGreen() != g)
       {
-      std::cout << "Error: Pixel G value mismatched: " << (float)pixel.GetGreen()  << " vs. " << (float)g << std::endl;
-      return EXIT_FAILURE;
+        std::cout << "Error: Pixel G value mismatched: " << (float)pixel.GetGreen() << " vs. " << (float)g << std::endl;
+        return EXIT_FAILURE;
       }
-    if(pixel.GetBlue() != b)
+      if (pixel.GetBlue() != b)
       {
-      std::cout << "Error: Pixel B value mismatched: " << (float)pixel.GetBlue()  << " vs. " << (float)b << std::endl;
-      return EXIT_FAILURE;
+        std::cout << "Error: Pixel B value mismatched: " << (float)pixel.GetBlue() << " vs. " << (float)b << std::endl;
+        return EXIT_FAILURE;
       }
-    r++;
-    if(r==255)
+      r++;
+      if (r == 255)
       {
-      r=0;
+        r = 0;
       }
-    g++;
-    if(g==255)
+      g++;
+      if (g == 255)
       {
-      g=0;
+        g = 0;
       }
-    b++;
-    if(b==255)
+      b++;
+      if (b == 255)
       {
-      b=0;
+        b = 0;
       }
-    ++it4;
+      ++it4;
     }
 
-  std::cout << "[DONE]" << std::endl;
+    std::cout << "[DONE]" << std::endl;
   }
 
 
   {
-  constexpr unsigned int Dimension = 3;
-  const unsigned int VectorLength = 2 * Dimension;
-  using PixelType = float;
-  using VectorImageType = itk::VectorImage< PixelType, Dimension >;
+    constexpr unsigned int Dimension = 3;
+    const unsigned int     VectorLength = 2 * Dimension;
+    using PixelType = float;
+    using VectorImageType = itk::VectorImage<PixelType, Dimension>;
 
-  VectorImageType::Pointer vectorImage = VectorImageType::New();
-  itk::VariableLengthVector< PixelType > f( VectorLength );
-  for( unsigned int i=0; i<VectorLength; i++ ) { f[i] = i; }
-  vectorImage->SetVectorLength( VectorLength );
-  vectorImage->SetRegions( region );
-  vectorImage->Allocate();
-  vectorImage->FillBuffer( f );
-
-  // Test the duplicator
-  std::cout << "Testing duplicator with Vector images: ";
-  using VectorDuplicatorType = itk::ImageDuplicator<VectorImageType>;
-  VectorDuplicatorType::Pointer Vectorduplicator = VectorDuplicatorType::New();
-
-  Vectorduplicator->SetInputImage(vectorImage);
-  Vectorduplicator->Update();
-  VectorImageType::Pointer vectorImageCopy = Vectorduplicator->GetOutput();
-
-  itk::ImageRegionIterator<VectorImageType> it3(vectorImage,vectorImage->GetLargestPossibleRegion());
-  itk::ImageRegionIterator<VectorImageType> it4(vectorImageCopy,vectorImageCopy->GetLargestPossibleRegion());
-  it3.GoToBegin();
-  it4.GoToBegin();
-
-  while(!it4.IsAtEnd())
+    VectorImageType::Pointer             vectorImage = VectorImageType::New();
+    itk::VariableLengthVector<PixelType> f(VectorLength);
+    for (unsigned int i = 0; i < VectorLength; i++)
     {
-    itk::VariableLengthVector< PixelType > pixel4 = it4.Get();
-    itk::VariableLengthVector< PixelType > pixel3 = it3.Get();
-    if(pixel4 != pixel3 )
+      f[i] = i;
+    }
+    vectorImage->SetVectorLength(VectorLength);
+    vectorImage->SetRegions(region);
+    vectorImage->Allocate();
+    vectorImage->FillBuffer(f);
+
+    // Test the duplicator
+    std::cout << "Testing duplicator with Vector images: ";
+    using VectorDuplicatorType = itk::ImageDuplicator<VectorImageType>;
+    VectorDuplicatorType::Pointer Vectorduplicator = VectorDuplicatorType::New();
+
+    Vectorduplicator->SetInputImage(vectorImage);
+    Vectorduplicator->Update();
+    VectorImageType::Pointer vectorImageCopy = Vectorduplicator->GetOutput();
+
+    itk::ImageRegionIterator<VectorImageType> it3(vectorImage, vectorImage->GetLargestPossibleRegion());
+    itk::ImageRegionIterator<VectorImageType> it4(vectorImageCopy, vectorImageCopy->GetLargestPossibleRegion());
+    it3.GoToBegin();
+    it4.GoToBegin();
+
+    while (!it4.IsAtEnd())
+    {
+      itk::VariableLengthVector<PixelType> pixel4 = it4.Get();
+      itk::VariableLengthVector<PixelType> pixel3 = it3.Get();
+      if (pixel4 != pixel3)
       {
-      return EXIT_FAILURE;
+        return EXIT_FAILURE;
       }
-    ++it4;
-    ++it3;
+      ++it4;
+      ++it3;
     }
 
-  std::cout << "[DONE]" << std::endl;
+    std::cout << "[DONE]" << std::endl;
   }
   return EXIT_SUCCESS;
 }

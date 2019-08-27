@@ -45,55 +45,55 @@
 #include "itkImageFileWriter.h"
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputRGBImageFile  outputGrayscaleImageFile " << std::endl;
+    std::cerr << argv[0] << "  inputRGBImageFile  outputGrayscaleImageFile "
+              << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
 
-  using InputPixelType = itk::RGBPixel< unsigned char >;
-  using InputImageType = itk::Image< InputPixelType, Dimension >;
-  using OutputImageType = itk::Image< unsigned char,  Dimension >;
+  using InputPixelType = itk::RGBPixel<unsigned char>;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<unsigned char, Dimension>;
 
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
 
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
 
-  using FilterType = itk::RGBToLuminanceImageFilter<
-                                 InputImageType,
-                                 OutputImageType >;
+  using FilterType = itk::RGBToLuminanceImageFilter<InputImageType, OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
 
-  filter->SetInput( reader->GetOutput() );
+  filter->SetInput(reader->GetOutput());
 
 
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetInput( filter->GetOutput() );
+  writer->SetInput(filter->GetOutput());
 
-  writer->SetFileName( argv[2] );
+  writer->SetFileName(argv[2]);
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception Thrown" << std::endl;
     std::cerr << excp << std::endl;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

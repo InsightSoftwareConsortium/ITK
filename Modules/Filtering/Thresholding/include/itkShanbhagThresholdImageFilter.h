@@ -48,17 +48,15 @@ namespace itk
  * \ingroup ITKThresholding
  */
 
-template<typename TInputImage, typename TOutputImage, typename TMaskImage=TOutputImage>
-class ShanbhagThresholdImageFilter :
-    public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
+template <typename TInputImage, typename TOutputImage, typename TMaskImage = TOutputImage>
+class ShanbhagThresholdImageFilter : public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShanbhagThresholdImageFilter);
 
   /** Standard Self type alias */
   using Self = ShanbhagThresholdImageFilter;
-  using Superclass = HistogramThresholdImageFilter<TInputImage,TOutputImage,
-                                        TMaskImage>;
+  using Superclass = HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -92,17 +90,14 @@ public:
   using MaskImageRegionType = typename MaskImageType::RegionType;
 
   using HistogramType = typename Superclass::HistogramType;
-  using CalculatorType = ShanbhagThresholdCalculator< HistogramType, InputPixelType >;
+  using CalculatorType = ShanbhagThresholdCalculator<HistogramType, InputPixelType>;
 
   /** Image related type alias. */
   static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
   static constexpr unsigned int OutputImageDimension = OutputImageType::ImageDimension;
 
 protected:
-  ShanbhagThresholdImageFilter()
-    {
-    this->SetCalculator( CalculatorType::New() );
-    }
+  ShanbhagThresholdImageFilter() { this->SetCalculator(CalculatorType::New()); }
   ~ShanbhagThresholdImageFilter() override = default;
 };
 

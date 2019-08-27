@@ -28,19 +28,17 @@ namespace itk
 namespace Testing
 {
 
-template< typename TInputImage, typename TOutputImage >
-ExtractSliceImageFilter< TInputImage, TOutputImage >
-::ExtractSliceImageFilter():
-  m_DirectionCollaspeStrategy(TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN)
+template <typename TInputImage, typename TOutputImage>
+ExtractSliceImageFilter<TInputImage, TOutputImage>::ExtractSliceImageFilter()
+  : m_DirectionCollaspeStrategy(TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN)
 {
   this->DynamicMultiThreadingOn();
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ExtractSliceImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+ExtractSliceImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -50,11 +48,11 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ExtractSliceImageFilter< TInputImage, TOutputImage >
-::CallCopyOutputRegionToInputRegion(InputImageRegionType & destRegion,
-                                    const OutputImageRegionType & srcRegion)
+ExtractSliceImageFilter<TInputImage, TOutputImage>::CallCopyOutputRegionToInputRegion(
+  InputImageRegionType &        destRegion,
+  const OutputImageRegionType & srcRegion)
 {
   ExtractSliceImageFilterRegionCopierType extractImageRegionCopier;
 
@@ -62,17 +60,17 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ExtractSliceImageFilter< TInputImage, TOutputImage >
-::SetExtractionRegion(InputImageRegionType extractRegion)
+ExtractSliceImageFilter<TInputImage, TOutputImage>::SetExtractionRegion(InputImageRegionType extractRegion)
 {
-  static_assert(InputImageDimension >= OutputImageDimension, "InputImageDimension must be greater than OutputImageDimension");
+  static_assert(InputImageDimension >= OutputImageDimension,
+                "InputImageDimension must be greater than OutputImageDimension");
   m_ExtractionRegion = extractRegion;
 
-  unsigned int         nonzeroSizeCount = 0;
-  InputImageSizeType   inputSize = extractRegion.GetSize();
-  OutputImageSizeType  outputSize;
+  unsigned int        nonzeroSizeCount = 0;
+  InputImageSizeType  inputSize = extractRegion.GetSize();
+  OutputImageSizeType outputSize;
   outputSize.Fill(0);
   OutputImageIndexType outputIndex;
   outputIndex.Fill(0);
@@ -81,26 +79,25 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
    * check to see if the number of non-zero entries in the extraction region
    * matches the number of dimensions in the output image.
    */
-  for ( unsigned int i = 0; i < InputImageDimension; ++i )
+  for (unsigned int i = 0; i < InputImageDimension; ++i)
+  {
+    if (inputSize[i])
     {
-    if ( inputSize[i] )
-      {
       if (nonzeroSizeCount < OutputImageDimension)
-        {
+      {
         outputSize[nonzeroSizeCount] = inputSize[i];
         outputIndex[nonzeroSizeCount] = extractRegion.GetIndex()[i];
-        }
-      nonzeroSizeCount++;
       }
+      nonzeroSizeCount++;
     }
-  if ( nonzeroSizeCount != OutputImageDimension )
-    {
+  }
+  if (nonzeroSizeCount != OutputImageDimension)
+  {
     itkExceptionMacro("The number of zero sized dimensions in the input image Extraction Region\n"
                       << "is not consistent with the dimensionality of the output image.\n"
-                      << "Expected the extraction region size ("<< extractRegion.GetSize()
-                      << ") to contain " << InputImageDimension-OutputImageDimension
-                      << " zero sized dimensions to collapse." );
-    }
+                      << "Expected the extraction region size (" << extractRegion.GetSize() << ") to contain "
+                      << InputImageDimension - OutputImageDimension << " zero sized dimensions to collapse.");
+  }
 
   m_OutputImageRegion.SetSize(outputSize);
   m_OutputImageRegion.SetIndex(outputIndex);
@@ -108,199 +105,189 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ExtractSliceImageFilter< TInputImage, TOutputImage >
-::GenerateOutputInformation()
+ExtractSliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 {
   // do not call the superclass' implementation of this method since
   // this filter allows the input and the output to be of different dimensions
 
   // get pointers to the input and output
-  TOutputImage      * outputPtr = this->GetOutput();
-  const TInputImage * inputPtr  = this->GetInput();
+  TOutputImage *      outputPtr = this->GetOutput();
+  const TInputImage * inputPtr = this->GetInput();
 
-  if ( !outputPtr || !inputPtr )
-    {
+  if (!outputPtr || !inputPtr)
+  {
     return;
-    }
+  }
 
   // Set the output image size to the same value as the extraction region.
   outputPtr->SetLargestPossibleRegion(m_OutputImageRegion);
 
   // Set the output spacing and origin
-  const ImageBase< InputImageDimension > *phyData;
+  const ImageBase<InputImageDimension> * phyData;
 
-  phyData =
-    dynamic_cast< const ImageBase< InputImageDimension > * >( this->GetInput() );
+  phyData = dynamic_cast<const ImageBase<InputImageDimension> *>(this->GetInput());
 
-  if ( phyData == nullptr )
-    {
+  if (phyData == nullptr)
+  {
     // pointer could not be cast back down
-    itkExceptionMacro( << "itk::ExtractSliceImageFilter::GenerateOutputInformation "
-                       << "cannot cast input to "
-                       << typeid( ImageBase< InputImageDimension > * ).name() );
-    }
+    itkExceptionMacro(<< "itk::ExtractSliceImageFilter::GenerateOutputInformation "
+                      << "cannot cast input to " << typeid(ImageBase<InputImageDimension> *).name());
+  }
   // Copy what we can from the image from spacing and origin of the input
   // This logic needs to be augmented with logic that select which
   // dimensions to copy
 
-  const typename InputImageType::SpacingType &
-    inputSpacing = inputPtr->GetSpacing();
-  const typename InputImageType::DirectionType &
-    inputDirection = inputPtr->GetDirection();
-  const typename InputImageType::PointType &
-    inputOrigin = inputPtr->GetOrigin();
+  const typename InputImageType::SpacingType &   inputSpacing = inputPtr->GetSpacing();
+  const typename InputImageType::DirectionType & inputDirection = inputPtr->GetDirection();
+  const typename InputImageType::PointType &     inputOrigin = inputPtr->GetOrigin();
 
-  typename OutputImageType::SpacingType outputSpacing;
+  typename OutputImageType::SpacingType   outputSpacing;
   typename OutputImageType::DirectionType outputDirection;
-  typename OutputImageType::PointType outputOrigin;
+  typename OutputImageType::PointType     outputOrigin;
   outputOrigin.Fill(0.0);
 
-  if ( static_cast< unsigned int >( OutputImageDimension ) >
-       static_cast< unsigned int >( InputImageDimension ) )
-    {
+  if (static_cast<unsigned int>(OutputImageDimension) > static_cast<unsigned int>(InputImageDimension))
+  {
     // copy the input to the output and fill the rest of the
     // output with zeros.
-    for ( unsigned int i = 0; i < InputImageDimension; ++i )
-      {
+    for (unsigned int i = 0; i < InputImageDimension; ++i)
+    {
       outputSpacing[i] = inputSpacing[i];
       outputOrigin[i] = inputOrigin[i];
-      for ( unsigned int dim = 0; dim < InputImageDimension; ++dim )
-        {
-        outputDirection[i][dim] = inputDirection[i][dim];
-        }
-      }
-    for (unsigned int i=InputImageDimension; i < OutputImageDimension; ++i )
+      for (unsigned int dim = 0; dim < InputImageDimension; ++dim)
       {
-      outputSpacing[i] = 1.0;
-      outputOrigin[i] = 0.0;
-      for ( unsigned int dim = 0; dim < InputImageDimension; ++dim )
-        {
-        outputDirection[i][dim] = 0.0;
-        }
-      outputDirection[i][i] = 1.0;
+        outputDirection[i][dim] = inputDirection[i][dim];
       }
     }
-  else
+    for (unsigned int i = InputImageDimension; i < OutputImageDimension; ++i)
     {
+      outputSpacing[i] = 1.0;
+      outputOrigin[i] = 0.0;
+      for (unsigned int dim = 0; dim < InputImageDimension; ++dim)
+      {
+        outputDirection[i][dim] = 0.0;
+      }
+      outputDirection[i][i] = 1.0;
+    }
+  }
+  else
+  {
     // copy the non-collapsed part of the input spacing and origing to the
     // output
     outputDirection.SetIdentity();
     int nonZeroCount = 0;
-    for ( unsigned int i = 0; i < InputImageDimension; ++i )
+    for (unsigned int i = 0; i < InputImageDimension; ++i)
+    {
+      if (m_ExtractionRegion.GetSize()[i])
       {
-      if ( m_ExtractionRegion.GetSize()[i] )
-        {
         outputSpacing[nonZeroCount] = inputSpacing[i];
         outputOrigin[nonZeroCount] = inputOrigin[i];
         int nonZeroCount2 = 0;
-        for ( unsigned int dim = 0; dim < InputImageDimension; ++dim )
+        for (unsigned int dim = 0; dim < InputImageDimension; ++dim)
+        {
+          if (m_ExtractionRegion.GetSize()[dim])
           {
-          if ( m_ExtractionRegion.GetSize()[dim] )
-            {
-            outputDirection[nonZeroCount][nonZeroCount2] =
-              inputDirection[nonZeroCount][dim];
+            outputDirection[nonZeroCount][nonZeroCount2] = inputDirection[nonZeroCount][dim];
             ++nonZeroCount2;
-            }
           }
-        nonZeroCount++;
         }
+        nonZeroCount++;
       }
     }
+  }
   // if the filter changes from a higher to a lower dimension, or
   // if, after rebuilding the direction cosines, there's a zero
   // length cosine vector, reset the directions to identity.
-  switch(m_DirectionCollaspeStrategy)
-    {
+  switch (m_DirectionCollaspeStrategy)
+  {
     case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY:
     {
-    outputDirection.SetIdentity();
+      outputDirection.SetIdentity();
     }
     break;
     case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX:
     {
-    if ( vnl_determinant( outputDirection.GetVnlMatrix() ) == 0.0 )
+      if (vnl_determinant(outputDirection.GetVnlMatrix()) == 0.0)
       {
-      itkExceptionMacro( << "Invalid submatrix extracted for collapsed direction." );
+        itkExceptionMacro(<< "Invalid submatrix extracted for collapsed direction.");
       }
     }
     break;
     case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS:
     {
-    if ( vnl_determinant( outputDirection.GetVnlMatrix() ) == 0.0 )
+      if (vnl_determinant(outputDirection.GetVnlMatrix()) == 0.0)
       {
-      outputDirection.SetIdentity();
+        outputDirection.SetIdentity();
       }
     }
     break;
     case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN:
     default:
     {
-    itkExceptionMacro( << "It is required that the strategy for collapsing the direction matrix be explicitly specified. "
-                       << "Set with either myfilter->SetDirectionCollapseToIdentity() or myfilter->SetDirectionCollapseToSubmatrix() "
-                       << typeid( ImageBase< InputImageDimension > * ).name() );
+      itkExceptionMacro(
+        << "It is required that the strategy for collapsing the direction matrix be explicitly specified. "
+        << "Set with either myfilter->SetDirectionCollapseToIdentity() or myfilter->SetDirectionCollapseToSubmatrix() "
+        << typeid(ImageBase<InputImageDimension> *).name());
     }
-    }
+  }
 
   // set the spacing and origin
   outputPtr->SetSpacing(outputSpacing);
   outputPtr->SetDirection(outputDirection);
   outputPtr->SetOrigin(outputOrigin);
-  outputPtr->SetNumberOfComponentsPerPixel(
-    inputPtr->GetNumberOfComponentsPerPixel() );
+  outputPtr->SetNumberOfComponentsPerPixel(inputPtr->GetNumberOfComponentsPerPixel());
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ExtractSliceImageFilter< TInputImage, TOutputImage >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+ExtractSliceImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
 
   itkDebugMacro(<< "Actually executing");
 
   // Get the input and output pointers
   const TInputImage * inputPtr = this->GetInput();
-  TOutputImage     * outputPtr = this->GetOutput();
+  TOutputImage *      outputPtr = this->GetOutput();
 
   // Define the portion of the input to walk for this thread
   InputImageRegionType inputRegionForThread;
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
-  using OutputIterator = ImageRegionIterator< TOutputImage >;
-  using InputIterator = ImageRegionConstIterator< TInputImage >;
+  using OutputIterator = ImageRegionIterator<TOutputImage>;
+  using InputIterator = ImageRegionConstIterator<TInputImage>;
 
   OutputIterator outIt(outputPtr, outputRegionForThread);
   InputIterator  inIt(inputPtr, inputRegionForThread);
 
   // walk the output region, and sample the input image
-  while ( !outIt.IsAtEnd() )
-    {
+  while (!outIt.IsAtEnd())
+  {
     // copy the input pixel to the output
-    outIt.Set( static_cast< OutputImagePixelType >( inIt.Get() ) );
+    outIt.Set(static_cast<OutputImagePixelType>(inIt.Get()));
     ++outIt;
     ++inIt;
-    }
+  }
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ExtractSliceImageFilter< TInputImage, TOutputImage >
-::SetInput(const TInputImage *input)
+ExtractSliceImageFilter<TInputImage, TOutputImage>::SetInput(const TInputImage * input)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( 0, const_cast< TInputImage * >( input ) );
+  this->ProcessObject::SetNthInput(0, const_cast<TInputImage *>(input));
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 const TInputImage *
-ExtractSliceImageFilter< TInputImage, TOutputImage >
-::GetInput() const
+ExtractSliceImageFilter<TInputImage, TOutputImage>::GetInput() const
 {
-  return itkDynamicCastInDebugMode< const TInputImage * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode<const TInputImage *>(this->GetPrimaryInput());
 }
 
 } // end namespace Testing

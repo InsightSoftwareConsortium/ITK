@@ -21,12 +21,13 @@
 #include "itkPolyLineParametricPath.h"
 #include "itkTestingMacros.h"
 
-int itkOrthogonallyCorrected2DParametricPathTest( int, char*[] )
+int
+itkOrthogonallyCorrected2DParametricPathTest(int, char *[])
 {
   constexpr unsigned int Dimension = 2;
 
   using PathType = itk::OrthogonallyCorrected2DParametricPath;
-  using OriginalPathType = itk::PolyLineParametricPath< Dimension >;
+  using OriginalPathType = itk::PolyLineParametricPath<Dimension>;
   using InputType = PathType::InputType;
   using OffsetType = PathType::OffsetType;
   using VertexType = OriginalPathType::VertexType;
@@ -35,73 +36,70 @@ int itkOrthogonallyCorrected2DParametricPathTest( int, char*[] )
 
   bool passed = true;
 
-  InputType   input;
-  OffsetType  offset;
-  VertexType  v;
+  InputType  input;
+  OffsetType offset;
+  VertexType v;
 
   // Original Path
   OriginalPathType::Pointer originalPath = OriginalPathType::New();
-  v.Fill( 2 );
-  originalPath->AddVertex( v );
+  v.Fill(2);
+  originalPath->AddVertex(v);
   v[0] = 4;
   v[1] = 13;
-  originalPath->AddVertex( v );
+  originalPath->AddVertex(v);
   v[0] = 12;
   v[1] = 14;
-  originalPath->AddVertex( v );
+  originalPath->AddVertex(v);
   v[0] = 13;
   v[1] = 3;
-  originalPath->AddVertex( v );
-  v.Fill( 2 );
-  originalPath->AddVertex( v );
+  originalPath->AddVertex(v);
+  v.Fill(2);
+  originalPath->AddVertex(v);
 
   // 24 Alternating offsets
   OrthogonalCorrectionTablePointer correctionTable = OrthogonalCorrectionTableType::New();
-  for( int i = 0; i < 24; ++i )
-    {
-    correctionTable->InsertElement( i, 1 - (i%2) ); // alternates 1, 0
-    }
+  for (int i = 0; i < 24; ++i)
+  {
+    correctionTable->InsertElement(i, 1 - (i % 2)); // alternates 1, 0
+  }
 
   // Create the corrected path
   PathType::Pointer path = PathType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( path, OrthogonallyCorrected2DParametricPath,
-    ParametricPath );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(path, OrthogonallyCorrected2DParametricPath, ParametricPath);
 
-  path->SetOriginalPath( originalPath );
-  path->SetOrthogonalCorrectionTable( correctionTable );
+  path->SetOriginalPath(originalPath);
+  path->SetOrthogonalCorrectionTable(correctionTable);
 
   // Test the corrected path
 
-  std::cout << "Evaluating at 0, 0.5, and 3.99999:  " << path->Evaluate( 0 ) << ", "
-       << path->Evaluate( 0.5 ) << ", " << path->Evaluate( 3.99999 ) << std::endl;
+  std::cout << "Evaluating at 0, 0.5, and 3.99999:  " << path->Evaluate(0) << ", " << path->Evaluate(0.5) << ", "
+            << path->Evaluate(3.99999) << std::endl;
 
-  std::cout << "Evaluating to an index at 0, 0.5, and 1.0: "
-       << path->EvaluateToIndex( 0 ) << ", " << path->EvaluateToIndex( 0.5 )
-       << ", " << path->EvaluateToIndex( 0.0 ) << std::endl;
-  if( int( 0.5 + 1000 * ( path->Evaluate( 0.0 ) )[0]) != 1016 ||
-      int( 0.5 + 1000 * ( path->Evaluate( 0.0 ) )[1]) != 2179 )
-    {
+  std::cout << "Evaluating to an index at 0, 0.5, and 1.0: " << path->EvaluateToIndex(0) << ", "
+            << path->EvaluateToIndex(0.5) << ", " << path->EvaluateToIndex(0.0) << std::endl;
+  if (int(0.5 + 1000 * (path->Evaluate(0.0))[0]) != 1016 || int(0.5 + 1000 * (path->Evaluate(0.0))[1]) != 2179)
+  {
     std::cout << "OrthogonallyCorrected2DParametricPathTest:  EvaluateToIndex() Failed" << std::endl;
     passed = false;
-    }
+  }
 
   input = 0;
-  offset = path->IncrementInput( input );
+  offset = path->IncrementInput(input);
   std::cout << "Incrementing the input from 0 to " << input << ": " << offset << std::endl;
 
   input = 0.5;
-  offset = path->IncrementInput( input );
+  offset = path->IncrementInput(input);
   std::cout << "Incrementing the input from 0.5 to " << input << ": " << offset << std::endl;
 
-  if( passed )
-    {
+  if (passed)
+  {
     std::cout << "Test passed" << std::endl;
     return EXIT_SUCCESS;
-    }
+  }
   else
-    {
+  {
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 }

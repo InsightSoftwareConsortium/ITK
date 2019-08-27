@@ -27,18 +27,17 @@ namespace itk
  * \brief
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< typename TInput, typename TOutput, typename TCriterion >
-class ITK_TEMPLATE_EXPORT SquaredEdgeLengthDecimationQuadEdgeMeshFilter:
-  public EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >
+template <typename TInput, typename TOutput, typename TCriterion>
+class ITK_TEMPLATE_EXPORT SquaredEdgeLengthDecimationQuadEdgeMeshFilter
+  : public EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SquaredEdgeLengthDecimationQuadEdgeMeshFilter);
 
   using Self = SquaredEdgeLengthDecimationQuadEdgeMeshFilter;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = EdgeDecimationQuadEdgeMeshFilter<
-    TInput, TOutput, TCriterion >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(SquaredEdgeLengthDecimationQuadEdgeMeshFilter, EdgeDecimationQuadEdgeMeshFilter);
@@ -82,16 +81,17 @@ protected:
    * \param[in] iEdge
    * \return measure value, here the squared edge length
    */
-  MeasureType MeasureEdge(OutputQEType *iEdge) override
-    {
+  MeasureType
+  MeasureEdge(OutputQEType * iEdge) override
+  {
     OutputPointIdentifier id_org = iEdge->GetOrigin();
     OutputPointIdentifier id_dest = iEdge->GetDestination();
 
     OutputPointType org = this->m_OutputMesh->GetPoint(id_org);
     OutputPointType dest = this->m_OutputMesh->GetPoint(id_dest);
 
-    return static_cast< MeasureType >( org.SquaredEuclideanDistanceTo(dest) );
-    }
+    return static_cast<MeasureType>(org.SquaredEuclideanDistanceTo(dest));
+  }
 
   // keep the start of this documentation text on very first comment line,
   // it prevents a Doxygen bug
@@ -100,9 +100,10 @@ protected:
    * \param[in] iEdge
    * \return the optimal point location
    */
-  OutputPointType Relocate(OutputQEType *iEdge) override;
+  OutputPointType
+  Relocate(OutputQEType * iEdge) override;
 };
-}
+} // namespace itk
 
 #include "itkSquaredEdgeLengthDecimationQuadEdgeMeshFilter.hxx"
 #endif

@@ -54,19 +54,18 @@ namespace itk
  *  \sa MahalanobisDistanceMembershipFunction
  * \ingroup ITKLevelSets
  */
-template< typename TImageType, typename TFeatureImageType >
-class ITK_TEMPLATE_EXPORT VectorThresholdSegmentationLevelSetFunction:
-  public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
+template <typename TImageType, typename TFeatureImageType>
+class ITK_TEMPLATE_EXPORT VectorThresholdSegmentationLevelSetFunction
+  : public SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorThresholdSegmentationLevelSetFunction);
 
   /** Standard class type aliases. */
   using Self = VectorThresholdSegmentationLevelSetFunction;
-  using Superclass =
-      SegmentationLevelSetFunction< TImageType, TFeatureImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SegmentationLevelSetFunction<TImageType, TFeatureImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using FeatureImageType = TFeatureImageType;
 
   /** Method for creation through the object factory. */
@@ -88,38 +87,58 @@ public:
   using FeatureImagePixelType = typename FeatureImageType::PixelType;
   static constexpr unsigned int NumberOfComponents = FeatureImagePixelType::Dimension;
 
-  using MahalanobisFunctionType = Statistics::MahalanobisDistanceMembershipFunction< FeatureScalarType >;
+  using MahalanobisFunctionType = Statistics::MahalanobisDistanceMembershipFunction<FeatureScalarType>;
   using MahalanobisFunctionPointer = typename MahalanobisFunctionType::Pointer;
   using MeanVectorType = typename MahalanobisFunctionType::MeanVectorType;
   using CovarianceMatrixType = typename MahalanobisFunctionType::CovarianceMatrixType;
 
   /** Set/Get mean and covariance */
-  void SetMean(const MeanVectorType & mean) {  m_Mahalanobis->SetMean(mean); }
-  const MeanVectorType & GetMean() const {  return m_Mahalanobis->GetMean(); }
+  void
+  SetMean(const MeanVectorType & mean)
+  {
+    m_Mahalanobis->SetMean(mean);
+  }
+  const MeanVectorType &
+  GetMean() const
+  {
+    return m_Mahalanobis->GetMean();
+  }
 
-  void SetCovariance(const CovarianceMatrixType & cov) { m_Mahalanobis->SetCovariance(cov); }
-  const CovarianceMatrixType & GetCovariance() const { return m_Mahalanobis->GetCovariance(); }
+  void
+  SetCovariance(const CovarianceMatrixType & cov)
+  {
+    m_Mahalanobis->SetCovariance(cov);
+  }
+  const CovarianceMatrixType &
+  GetCovariance() const
+  {
+    return m_Mahalanobis->GetCovariance();
+  }
 
   /** Set/Get the threshold value for the MahanalobisDistance */
-  void SetThreshold(ScalarValueType thr)
+  void
+  SetThreshold(ScalarValueType thr)
   {
     m_Threshold = thr;
   }
 
-  ScalarValueType GetThreshold()
+  ScalarValueType
+  GetThreshold()
   {
     return m_Threshold;
   }
 
-  void CalculateSpeedImage() override;
+  void
+  CalculateSpeedImage() override;
 
-  void Initialize(const RadiusType & r) override
+  void
+  Initialize(const RadiusType & r) override
   {
     Superclass::Initialize(r);
 
-    this->SetAdvectionWeight(NumericTraits< ScalarValueType >::ZeroValue());
-    this->SetPropagationWeight(-1.0 * NumericTraits< ScalarValueType >::OneValue());
-    this->SetCurvatureWeight(NumericTraits< ScalarValueType >::OneValue());
+    this->SetAdvectionWeight(NumericTraits<ScalarValueType>::ZeroValue());
+    this->SetPropagationWeight(-1.0 * NumericTraits<ScalarValueType>::OneValue());
+    this->SetCurvatureWeight(NumericTraits<ScalarValueType>::OneValue());
   }
 
 protected:
@@ -128,8 +147,8 @@ protected:
     MeanVectorType       mean(NumberOfComponents);
     CovarianceMatrixType covariance(NumberOfComponents, NumberOfComponents);
 
-    mean.Fill(NumericTraits< typename FeatureScalarType::ValueType >::ZeroValue());
-    covariance.Fill(NumericTraits< typename FeatureScalarType::ValueType >::ZeroValue());
+    mean.Fill(NumericTraits<typename FeatureScalarType::ValueType>::ZeroValue());
+    covariance.Fill(NumericTraits<typename FeatureScalarType::ValueType>::ZeroValue());
 
     m_Mahalanobis = MahalanobisFunctionType::New();
     m_Mahalanobis->SetMean(mean);
@@ -142,7 +161,8 @@ protected:
 
   ~VectorThresholdSegmentationLevelSetFunction() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "MahalanobisFunction: " << m_Mahalanobis << std::endl;
@@ -155,7 +175,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorThresholdSegmentationLevelSetFunction.hxx"
+#  include "itkVectorThresholdSegmentationLevelSetFunction.hxx"
 #endif
 
 #endif

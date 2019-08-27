@@ -37,14 +37,14 @@ namespace itk
  * \tparam TImage         Type of image on which the class operates.
  * \tparam TOperator      The value type of the operator (defaults to
  * the image pixel type).
-* \tparam TComputation   The value type used as the return type of the
+ * \tparam TComputation   The value type used as the return type of the
  * inner product calculation (defaults to the operator type).
  *
  * \ingroup Operators
  * \ingroup ITKCommon
  */
 
-template< typename TImage, typename TOperator = typename TImage::PixelType, typename TComputation = TOperator >
+template <typename TImage, typename TOperator = typename TImage::PixelType, typename TComputation = TOperator>
 class ITK_TEMPLATE_EXPORT NeighborhoodInnerProduct
 {
 public:
@@ -60,47 +60,40 @@ public:
   static constexpr unsigned int ImageDimension = TImage::ImageDimension;
 
   /** Operator type alias */
-  using OperatorType = Neighborhood< OperatorPixelType,
-                        Self::ImageDimension >;
+  using OperatorType = Neighborhood<OperatorPixelType, Self::ImageDimension>;
 
-  using NeighborhoodType = Neighborhood< ImagePixelType,
-                        Self::ImageDimension >;
+  using NeighborhoodType = Neighborhood<ImagePixelType, Self::ImageDimension>;
 
-  static OutputPixelType Compute(
-    const ConstNeighborhoodIterator< TImage > & it,
-    const OperatorType & op,
-    const unsigned start = 0,
-    const unsigned stride = 1);
+  static OutputPixelType
+  Compute(const ConstNeighborhoodIterator<TImage> & it,
+          const OperatorType &                      op,
+          const unsigned                            start = 0,
+          const unsigned                            stride = 1);
 
-  static OutputPixelType Compute(
-    const NeighborhoodType & N,
-    const OperatorType & op,
-    const unsigned start = 0,
-    const unsigned stride = 1);
+  static OutputPixelType
+  Compute(const NeighborhoodType & N, const OperatorType & op, const unsigned start = 0, const unsigned stride = 1);
 
   /** Reference oeprator. */
-  OutputPixelType operator()(const std::slice & s,
-                             const ConstNeighborhoodIterator< TImage > & it,
-                             const OperatorType & op) const
+  OutputPixelType
+  operator()(const std::slice & s, const ConstNeighborhoodIterator<TImage> & it, const OperatorType & op) const
   {
     return Self::Compute(it, op, s.start(), s.stride());
   }
 
-  OutputPixelType operator()(const ConstNeighborhoodIterator< TImage > & it,
-                             const OperatorType & op) const
+  OutputPixelType
+  operator()(const ConstNeighborhoodIterator<TImage> & it, const OperatorType & op) const
   {
     return Self::Compute(it, op);
   }
 
-  OutputPixelType operator()(const std::slice & s,
-                             const NeighborhoodType & N,
-                             const OperatorType & op) const
+  OutputPixelType
+  operator()(const std::slice & s, const NeighborhoodType & N, const OperatorType & op) const
   {
     return Self::Compute(N, op, s.start(), s.stride());
   }
 
-  OutputPixelType operator()(const NeighborhoodType & N,
-                             const OperatorType & op) const
+  OutputPixelType
+  operator()(const NeighborhoodType & N, const OperatorType & op) const
   {
     return Self::Compute(N, op);
   }
@@ -108,7 +101,7 @@ public:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNeighborhoodInnerProduct.hxx"
+#  include "itkNeighborhoodInnerProduct.hxx"
 #endif
 
 /*

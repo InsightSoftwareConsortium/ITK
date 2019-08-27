@@ -31,8 +31,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ITKOptimizers_EXPORT ConjugateGradientOptimizer:
-  public SingleValuedNonLinearVnlOptimizer
+class ITKOptimizers_EXPORT ConjugateGradientOptimizer : public SingleValuedNonLinearVnlOptimizer
 
 {
 public:
@@ -41,8 +40,8 @@ public:
   /** Standard class type aliases. */
   using Self = ConjugateGradientOptimizer;
   using Superclass = SingleValuedNonLinearVnlOptimizer;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -51,27 +50,33 @@ public:
   itkTypeMacro(ConjugateGradientOptimizer, SingleValuedNonLinearOptimizer);
 
   /** InternalParameters type alias. */
-  using InternalParametersType = vnl_vector< double >;
+  using InternalParametersType = vnl_vector<double>;
 
   /** Internal Optimizer Type */
   using InternalOptimizerType = vnl_conjugate_gradient;
 
   /** Method for getting access to the internal optimizer */
-  vnl_conjugate_gradient * GetOptimizer();
+  vnl_conjugate_gradient *
+  GetOptimizer();
 
   /** Start optimization with an initial value. */
-  void StartOptimization() override;
+  void
+  StartOptimization() override;
 
   /** Plug in a Cost Function into the optimizer  */
-  void SetCostFunction(SingleValuedCostFunction *costFunction) override;
+  void
+  SetCostFunction(SingleValuedCostFunction * costFunction) override;
 
   /** Return the number of iterations performed so far */
-  SizeValueType GetNumberOfIterations() const;
+  SizeValueType
+  GetNumberOfIterations() const;
 
-  SizeValueType GetCurrentIteration() const;
+  SizeValueType
+  GetCurrentIteration() const;
 
   /** Return Current Value */
-  MeasureType GetValue() const;
+  MeasureType
+  GetValue() const;
 
 protected:
   ConjugateGradientOptimizer();
@@ -81,8 +86,8 @@ protected:
 
 private:
   /**  The vnl optimization method for conjugate gradient. */
-  bool                   m_OptimizerInitialized;
-  InternalOptimizerType *m_VnlOptimizer;
+  bool                    m_OptimizerInitialized;
+  InternalOptimizerType * m_VnlOptimizer;
 };
 } // end namespace itk
 

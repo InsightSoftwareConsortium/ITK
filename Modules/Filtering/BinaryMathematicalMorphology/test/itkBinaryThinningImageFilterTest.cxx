@@ -22,56 +22,57 @@
 #include "itkImageFileWriter.h"
 #include "itkTestingMacros.h"
 
-int itkBinaryThinningImageFilterTest(int argc, char* argv[] )
+int
+itkBinaryThinningImageFilterTest(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputImageFile outputImageFile";
     std::cerr << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using InputPixelType = short;
   using OutputPixelType = unsigned char;
 
-  using InputImageType = itk::Image< InputPixelType,  2 >;
-  using OutputImageType = itk::Image< OutputPixelType, 2 >;
+  using InputImageType = itk::Image<InputPixelType, 2>;
+  using OutputImageType = itk::Image<OutputPixelType, 2>;
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
-  using ThinningType = itk::BinaryThinningImageFilter< InputImageType, InputImageType >;
-  using RescaleType = itk::RescaleIntensityImageFilter< InputImageType, OutputImageType >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using ThinningType = itk::BinaryThinningImageFilter<InputImageType, InputImageType>;
+  using RescaleType = itk::RescaleIntensityImageFilter<InputImageType, OutputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  ReaderType::Pointer   reader = ReaderType::New();
   ThinningType::Pointer thinning = ThinningType::New();
-  RescaleType::Pointer rescaler = RescaleType::New();
-  WriterType::Pointer writer = WriterType::New();
+  RescaleType::Pointer  rescaler = RescaleType::New();
+  WriterType::Pointer   writer = WriterType::New();
 
   // Set up the reader
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
   // Set up the filter parameters.
-  thinning->SetInput( reader->GetOutput() );
+  thinning->SetInput(reader->GetOutput());
 
   // Rescale the image so that it can be seen.
-  rescaler->SetInput( thinning->GetOutput() );
+  rescaler->SetInput(thinning->GetOutput());
   rescaler->SetOutputMinimum(0);
   rescaler->SetOutputMaximum(255);
 
   // Write out the test image
-  writer->SetFileName( argv[2] );
-  writer->SetInput( rescaler->GetOutput() );
+  writer->SetFileName(argv[2]);
+  writer->SetInput(rescaler->GetOutput());
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excep )
-    {
+  }
+  catch (itk::ExceptionObject & excep)
+  {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

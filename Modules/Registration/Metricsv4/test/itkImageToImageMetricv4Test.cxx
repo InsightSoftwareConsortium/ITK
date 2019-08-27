@@ -36,22 +36,20 @@
 
 /** \class TestImageToImageGetValueAndDerivativeThreader
  * \brief Processes points for ImageToImageTest calculation. */
-template < typename TDomainPartitioner, typename TImageToImageMetricv4 >
+template <typename TDomainPartitioner, typename TImageToImageMetricv4>
 class TestImageToImageGetValueAndDerivativeThreader
-  : public itk::ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetricv4 >
+  : public itk::ImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetricv4>
 {
 public:
   /** Standard class type aliases. */
   using Self = TestImageToImageGetValueAndDerivativeThreader;
-  using Superclass =
-      itk::ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetricv4 >;
-  using Pointer = itk::SmartPointer< Self >;
-  using ConstPointer = itk::SmartPointer< const Self >;
+  using Superclass = itk::ImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetricv4>;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
-  itkTypeMacro( TestImageToImageGetValueAndDerivativeThreader,
-    ImageToImageMetricv4GetValueAndDerivativeThreader );
+  itkTypeMacro(TestImageToImageGetValueAndDerivativeThreader, ImageToImageMetricv4GetValueAndDerivativeThreader);
 
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   using DomainType = typename Superclass::DomainType;
   using AssociateType = typename Superclass::AssociateType;
@@ -71,53 +69,50 @@ protected:
   TestImageToImageGetValueAndDerivativeThreader() = default;
 
   /* Provide the worker routine to process each point */
-  bool ProcessPoint(
-        const VirtualIndexType &          itkNotUsed(virtualIndex),
-        const VirtualPointType &          itkNotUsed(virtualPoint),
-        const FixedImagePointType &       itkNotUsed(mappedFixedPoint),
-        const FixedImagePixelType &       mappedFixedPixelValue,
-        const FixedImageGradientType &    mappedFixedImageGradient,
-        const MovingImagePointType &      itkNotUsed(mappedMovingPoint),
-        const MovingImagePixelType &      mappedMovingPixelValue,
-        const MovingImageGradientType &   mappedMovingImageGradient,
-        MeasureType &                     metricValueResult,
-        DerivativeType &                  localDerivativeReturn,
-        const itk::ThreadIdType           itkNotUsed(threadId) ) const override
-    {
+  bool
+  ProcessPoint(const VirtualIndexType &        itkNotUsed(virtualIndex),
+               const VirtualPointType &        itkNotUsed(virtualPoint),
+               const FixedImagePointType &     itkNotUsed(mappedFixedPoint),
+               const FixedImagePixelType &     mappedFixedPixelValue,
+               const FixedImageGradientType &  mappedFixedImageGradient,
+               const MovingImagePointType &    itkNotUsed(mappedMovingPoint),
+               const MovingImagePixelType &    mappedMovingPixelValue,
+               const MovingImageGradientType & mappedMovingImageGradient,
+               MeasureType &                   metricValueResult,
+               DerivativeType &                localDerivativeReturn,
+               const itk::ThreadIdType         itkNotUsed(threadId)) const override
+  {
     /* Just return some test values that can verify proper mechanics */
     metricValueResult = mappedFixedPixelValue + mappedMovingPixelValue;
 
-    //Only do derivative calculations when it is requested in the metric.
-    if ( this->GetComputeDerivative() )
+    // Only do derivative calculations when it is requested in the metric.
+    if (this->GetComputeDerivative())
+    {
+      for (unsigned int par = 0; par < this->m_Associate->GetNumberOfLocalParameters(); par++)
       {
-      for ( unsigned int par = 0; par < this->m_Associate->GetNumberOfLocalParameters(); par++ )
-        {
         double sum = 0.0;
-        for ( unsigned int dim = 0; dim < TImageToImageMetricv4::MovingImageDimension; dim++ )
-          {
+        for (unsigned int dim = 0; dim < TImageToImageMetricv4::MovingImageDimension; dim++)
+        {
           sum += mappedMovingImageGradient[dim] + mappedFixedImageGradient[dim];
-          }
-        localDerivativeReturn[par] = sum;
         }
-      // Return true if the point was used in evaluation
+        localDerivativeReturn[par] = sum;
       }
-      return true;
+      // Return true if the point was used in evaluation
     }
-
+    return true;
+  }
 };
 
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage>
-class ImageToImageMetricv4TestMetric
-  : public itk::ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+template <typename TFixedImage, typename TMovingImage, typename TVirtualImage>
+class ImageToImageMetricv4TestMetric : public itk::ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageMetricv4TestMetric);
 
   /** Standard class type aliases. */
   using Self = ImageToImageMetricv4TestMetric;
-  using Superclass = itk::ImageToImageMetricv4<TFixedImage, TMovingImage,
-                                        TVirtualImage>;
+  using Superclass = itk::ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>;
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
 
@@ -142,89 +137,91 @@ public:
   using VirtualPointSetType = typename Superclass::VirtualPointSetType;
 
   static constexpr typename TVirtualImage::ImageDimensionType VirtualImageDimension = TVirtualImage::ImageDimension;
-  static constexpr typename TMovingImage::ImageDimensionType MovingImageDimension = TMovingImage::ImageDimension;
+  static constexpr typename TMovingImage::ImageDimensionType  MovingImageDimension = TMovingImage::ImageDimension;
 
 protected:
-  friend class TestImageToImageGetValueAndDerivativeThreader<itk::ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass >;
-  friend class TestImageToImageGetValueAndDerivativeThreader<itk::ThreadedIndexedContainerPartitioner, Superclass >;
+  friend class TestImageToImageGetValueAndDerivativeThreader<itk::ThreadedImageRegionPartitioner<VirtualImageDimension>,
+                                                             Superclass>;
+  friend class TestImageToImageGetValueAndDerivativeThreader<itk::ThreadedIndexedContainerPartitioner, Superclass>;
 
-  using DenseThreaderType = TestImageToImageGetValueAndDerivativeThreader<itk::ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass >;
-  using SparseThreaderType = TestImageToImageGetValueAndDerivativeThreader<itk::ThreadedIndexedContainerPartitioner, Superclass >;
+  using DenseThreaderType =
+    TestImageToImageGetValueAndDerivativeThreader<itk::ThreadedImageRegionPartitioner<VirtualImageDimension>,
+                                                  Superclass>;
+  using SparseThreaderType =
+    TestImageToImageGetValueAndDerivativeThreader<itk::ThreadedIndexedContainerPartitioner, Superclass>;
 
   ImageToImageMetricv4TestMetric()
-    {
+  {
     /* We need threader object instances. */
-    this->m_DenseGetValueAndDerivativeThreader  = DenseThreaderType::New();
+    this->m_DenseGetValueAndDerivativeThreader = DenseThreaderType::New();
     this->m_SparseGetValueAndDerivativeThreader = SparseThreaderType::New();
-    }
+  }
   ~ImageToImageMetricv4TestMetric() override = default;
 
-  void PrintSelf(std::ostream& stream, itk::Indent indent) const override
+  void
+  PrintSelf(std::ostream & stream, itk::Indent indent) const override
   {
-    Superclass::PrintSelf( stream, indent );
+    Superclass::PrintSelf(stream, indent);
   }
 }; // Metric ///////////////////////////////////////////////////
 
 template <typename TVector>
-bool ImageToImageMetricv4TestTestArray(
-                                      const TVector & v1, const TVector & v2 )
+bool
+ImageToImageMetricv4TestTestArray(const TVector & v1, const TVector & v2)
 {
-  bool pass=true;
-  for ( unsigned int i = 0; i < v1.Size(); i++ )
-    {
+  bool pass = true;
+  for (unsigned int i = 0; i < v1.Size(); i++)
+  {
     const double epsilon = 1e-10;
-    if( std::fabs( v1[i] - v2[i] ) > epsilon )
-      pass=false;
-    }
+    if (std::fabs(v1[i] - v2[i]) > epsilon)
+      pass = false;
+  }
   return pass;
 }
 
 
-//Global types
+// Global types
 constexpr unsigned int ImageToImageMetricv4TestImageDimensionality = 2;
-using ImageToImageMetricv4TestImageType = itk::Image< double, ImageToImageMetricv4TestImageDimensionality >;
-using ImageToImageMetricv4TestMetricType = ImageToImageMetricv4TestMetric<
-                                        ImageToImageMetricv4TestImageType,
-                                        ImageToImageMetricv4TestImageType,
-                                        ImageToImageMetricv4TestImageType>;
+using ImageToImageMetricv4TestImageType = itk::Image<double, ImageToImageMetricv4TestImageDimensionality>;
+using ImageToImageMetricv4TestMetricType = ImageToImageMetricv4TestMetric<ImageToImageMetricv4TestImageType,
+                                                                          ImageToImageMetricv4TestImageType,
+                                                                          ImageToImageMetricv4TestImageType>;
 using ImageToImageMetricv4TestMetricPointer = ImageToImageMetricv4TestMetricType::Pointer;
 //
 // Compute truth values for the identity-transform tests
 //
-void ImageToImageMetricv4TestComputeIdentityTruthValues(
-       const ImageToImageMetricv4TestMetricPointer & metric,
-       const ImageToImageMetricv4TestImageType::Pointer & fixedImage,
-       const ImageToImageMetricv4TestImageType::Pointer & movingImage,
-       ImageToImageMetricv4TestMetricType::MeasureType& truthValue,
-       ImageToImageMetricv4TestMetricType::DerivativeType& truthDerivative )
+void
+ImageToImageMetricv4TestComputeIdentityTruthValues(const ImageToImageMetricv4TestMetricPointer &        metric,
+                                                   const ImageToImageMetricv4TestImageType::Pointer &   fixedImage,
+                                                   const ImageToImageMetricv4TestImageType::Pointer &   movingImage,
+                                                   ImageToImageMetricv4TestMetricType::MeasureType &    truthValue,
+                                                   ImageToImageMetricv4TestMetricType::DerivativeType & truthDerivative)
 {
   // Make sure the metric is initialized
   std::cout << "truth values: Initialize" << std::endl;
   metric->Initialize();
   // Call once to setup gradient images if applicable
-  ImageToImageMetricv4TestMetricType::MeasureType     tempValue;
-  ImageToImageMetricv4TestMetricType::DerivativeType  tempDerivative;
+  ImageToImageMetricv4TestMetricType::MeasureType    tempValue;
+  ImageToImageMetricv4TestMetricType::DerivativeType tempDerivative;
 
-  metric->GetValueAndDerivative( tempValue, tempDerivative );
+  metric->GetValueAndDerivative(tempValue, tempDerivative);
 
   // Determine truth values
   std::cout << "truth values: GetValueAndDerivative" << std::endl;
   truthValue = 0;
-  truthDerivative.SetSize( metric->GetNumberOfParameters() );
-  truthDerivative.Fill( 0 );
+  truthDerivative.SetSize(metric->GetNumberOfParameters());
+  truthDerivative.Fill(0);
 
   using MovingTransformType = ImageToImageMetricv4TestMetricType::MovingTransformType;
 
-  itk::ImageRegionIterator<ImageToImageMetricv4TestImageType>
-                     itFixed( fixedImage, fixedImage->GetRequestedRegion() );
-  itk::ImageRegionIterator<ImageToImageMetricv4TestImageType>
-                     itMoving( movingImage, movingImage->GetRequestedRegion() );
+  itk::ImageRegionIterator<ImageToImageMetricv4TestImageType> itFixed(fixedImage, fixedImage->GetRequestedRegion());
+  itk::ImageRegionIterator<ImageToImageMetricv4TestImageType> itMoving(movingImage, movingImage->GetRequestedRegion());
   itFixed.GoToBegin();
   itMoving.GoToBegin();
   unsigned int count = 0;
   std::cout << "truth values: Iterate over region" << std::endl;
-  while( !itFixed.IsAtEnd() && !itMoving.IsAtEnd() )
-    {
+  while (!itFixed.IsAtEnd() && !itMoving.IsAtEnd())
+  {
     truthValue += itFixed.Get() + itMoving.Get();
 
     // Get the image derivatives.
@@ -233,68 +230,71 @@ void ImageToImageMetricv4TestComputeIdentityTruthValues(
     // NOTE: relying on the metric's gradient image isn't a
     // complete test, but it does test the rest of the mechanics.
     ImageToImageMetricv4TestMetricType::MovingImageGradientType movingImageDerivative;
-    ImageToImageMetricv4TestMetricType::FixedImageGradientType fixedImageDerivative;
-    if( metric->GetUseFixedImageGradientFilter() )
-      {
-      ImageToImageMetricv4TestMetricType::FixedImageGradientImageType::ConstPointer fixedGradientImage = metric->GetFixedImageGradientImage();
-      fixedImageDerivative = fixedGradientImage->GetPixel( itFixed.GetIndex() );
-      }
+    ImageToImageMetricv4TestMetricType::FixedImageGradientType  fixedImageDerivative;
+    if (metric->GetUseFixedImageGradientFilter())
+    {
+      ImageToImageMetricv4TestMetricType::FixedImageGradientImageType::ConstPointer fixedGradientImage =
+        metric->GetFixedImageGradientImage();
+      fixedImageDerivative = fixedGradientImage->GetPixel(itFixed.GetIndex());
+    }
     else
-      {
-      using FixedGradientCalculatorPointer = ImageToImageMetricv4TestMetricType::FixedImageGradientCalculatorType::ConstPointer;
+    {
+      using FixedGradientCalculatorPointer =
+        ImageToImageMetricv4TestMetricType::FixedImageGradientCalculatorType::ConstPointer;
       FixedGradientCalculatorPointer fixedGradientCalculator = metric->GetFixedImageGradientCalculator();
       ImageToImageMetricv4TestMetricType::FixedImagePointType point;
-      fixedImage->TransformIndexToPhysicalPoint( itFixed.GetIndex(), point );
-      fixedImageDerivative = fixedGradientCalculator->Evaluate( point );
+      fixedImage->TransformIndexToPhysicalPoint(itFixed.GetIndex(), point);
+      fixedImageDerivative = fixedGradientCalculator->Evaluate(point);
       // We can skip the call to TransformCovariantVector since we're
       // working with identity transforms only.
-      }
-    if( metric->GetUseMovingImageGradientFilter() )
-      {
-      ImageToImageMetricv4TestMetricType::MovingImageGradientImageType::ConstPointer movingGradientImage = metric->GetMovingImageGradientImage();
-      movingImageDerivative = movingGradientImage->GetPixel( itMoving.GetIndex() );
-      }
+    }
+    if (metric->GetUseMovingImageGradientFilter())
+    {
+      ImageToImageMetricv4TestMetricType::MovingImageGradientImageType::ConstPointer movingGradientImage =
+        metric->GetMovingImageGradientImage();
+      movingImageDerivative = movingGradientImage->GetPixel(itMoving.GetIndex());
+    }
     else
-      {
-      using MovingGradientCalculatorPointer = ImageToImageMetricv4TestMetricType::MovingImageGradientCalculatorType::ConstPointer;
-      MovingGradientCalculatorPointer     movingGradientCalculator;
+    {
+      using MovingGradientCalculatorPointer =
+        ImageToImageMetricv4TestMetricType::MovingImageGradientCalculatorType::ConstPointer;
+      MovingGradientCalculatorPointer movingGradientCalculator;
       movingGradientCalculator = metric->GetMovingImageGradientCalculator();
       ImageToImageMetricv4TestMetricType::FixedImagePointType point;
-      movingImage->TransformIndexToPhysicalPoint( itMoving.GetIndex(), point );
-      movingImageDerivative = movingGradientCalculator->Evaluate( point );
-      }
+      movingImage->TransformIndexToPhysicalPoint(itMoving.GetIndex(), point);
+      movingImageDerivative = movingGradientCalculator->Evaluate(point);
+    }
 
-    for ( unsigned int par = 0;
-          par < metric->GetNumberOfLocalParameters(); par++ )
-      {
+    for (unsigned int par = 0; par < metric->GetNumberOfLocalParameters(); par++)
+    {
       double sum = 0.0;
-      for ( unsigned int dim = 0;
-              dim < ImageToImageMetricv4TestImageDimensionality; dim++ )
-        {
+      for (unsigned int dim = 0; dim < ImageToImageMetricv4TestImageDimensionality; dim++)
+      {
         sum += movingImageDerivative[dim] + fixedImageDerivative[dim];
-        }
-
-      if( metric->GetMovingTransform()->GetTransformCategory() == MovingTransformType::TransformCategoryType::DisplacementField )
-        {
-        truthDerivative[ count * metric->GetNumberOfLocalParameters() + par ]
-                                                                        = sum;
-        }
-      else
-        {
-        truthDerivative[par] += sum;
-        }
       }
+
+      if (metric->GetMovingTransform()->GetTransformCategory() ==
+          MovingTransformType::TransformCategoryType::DisplacementField)
+      {
+        truthDerivative[count * metric->GetNumberOfLocalParameters() + par] = sum;
+      }
+      else
+      {
+        truthDerivative[par] += sum;
+      }
+    }
     count++;
     ++itFixed;
     ++itMoving;
-    }
+  }
 
   // Take the averages
   truthValue /= metric->GetNumberOfValidPoints();
-  if( metric->GetMovingTransform()->GetTransformCategory() != MovingTransformType::TransformCategoryType::DisplacementField )
-    {
+  if (metric->GetMovingTransform()->GetTransformCategory() !=
+      MovingTransformType::TransformCategoryType::DisplacementField)
+  {
     truthDerivative /= metric->GetNumberOfValidPoints();
-    }
+  }
 }
 
 ////////////////////////////////////////////////////////////
@@ -304,247 +304,225 @@ void ImageToImageMetricv4TestComputeIdentityTruthValues(
 // Useful for establishing a relative truth for multiple runs.
 // Otherwise, this will compare the results of calling the metric
 // with truthValue and truthDerivative.
-int ImageToImageMetricv4TestRunSingleTest(
-       const ImageToImageMetricv4TestMetricPointer & metric,
-       ImageToImageMetricv4TestMetricType::MeasureType& truthValue,
-       ImageToImageMetricv4TestMetricType::DerivativeType& truthDerivative,
-       itk::SizeValueType expectedNumberOfPoints,
-       bool setTruthValues )
+int
+ImageToImageMetricv4TestRunSingleTest(const ImageToImageMetricv4TestMetricPointer &        metric,
+                                      ImageToImageMetricv4TestMetricType::MeasureType &    truthValue,
+                                      ImageToImageMetricv4TestMetricType::DerivativeType & truthDerivative,
+                                      itk::SizeValueType                                   expectedNumberOfPoints,
+                                      bool                                                 setTruthValues)
 {
   int result = EXIT_SUCCESS;
 
-  ImageToImageMetricv4TestMetricType::MeasureType valueReturn1, valueReturn2;
+  ImageToImageMetricv4TestMetricType::MeasureType    valueReturn1, valueReturn2;
   ImageToImageMetricv4TestMetricType::DerivativeType derivativeReturn;
 
   // Initialize.
   try
-    {
+  {
     metric->Initialize();
-    }
-  catch( itk::ExceptionObject & exc )
-    {
-    std::cerr << "Caught unexpected exception during Initialize: "
-              << exc;
+  }
+  catch (itk::ExceptionObject & exc)
+  {
+    std::cerr << "Caught unexpected exception during Initialize: " << exc;
     return EXIT_FAILURE;
-    }
+  }
 
   // Evaluate using GetValue
   try
-    {
+  {
     valueReturn1 = metric->GetValue();
-    }
-  catch( itk::ExceptionObject & exc )
-    {
-    std::cerr << "Caught unexpected exception during GetValue: "
-              << exc;
+  }
+  catch (itk::ExceptionObject & exc)
+  {
+    std::cerr << "Caught unexpected exception during GetValue: " << exc;
     return EXIT_FAILURE;
-    }
+  }
 
   // Re-initialize.
   try
-    {
+  {
     metric->Initialize();
-    }
-  catch( itk::ExceptionObject & exc )
-    {
-    std::cerr << "Caught unexpected exception during re-initialize: "
-              << exc;
+  }
+  catch (itk::ExceptionObject & exc)
+  {
+    std::cerr << "Caught unexpected exception during re-initialize: " << exc;
     return EXIT_FAILURE;
-    }
+  }
   // Evaluate using GetValueAndDerivative
   try
-    {
-    metric->GetValueAndDerivative( valueReturn2, derivativeReturn );
-    }
-  catch( itk::ExceptionObject & exc )
-    {
-    std::cerr << "Caught unexpected exception during GetValueAndDerivative: "
-              << exc;
+  {
+    metric->GetValueAndDerivative(valueReturn2, derivativeReturn);
+  }
+  catch (itk::ExceptionObject & exc)
+  {
+    std::cerr << "Caught unexpected exception during GetValueAndDerivative: " << exc;
     return EXIT_FAILURE;
-    }
+  }
 
   // Test same value returned by different methods
   std::cout << "Check Value return values..." << std::endl;
-  if( itk::Math::NotExactlyEquals(valueReturn1, valueReturn2) )
-    {
-    std::cerr << "Results for Value don't match: " << valueReturn1
-              << ", " << valueReturn2 << std::endl;
+  if (itk::Math::NotExactlyEquals(valueReturn1, valueReturn2))
+  {
+    std::cerr << "Results for Value don't match: " << valueReturn1 << ", " << valueReturn2 << std::endl;
     result = EXIT_FAILURE;
-    }
+  }
 
   // Check number of threads and valid points
-  std::cout << "--Number of threads used: "
-            << metric->GetNumberOfWorkUnitsUsed() << std::endl;
-  if( metric->GetNumberOfValidPoints() != ( expectedNumberOfPoints ) )
-    {
-    std::cerr << "Expected number of valid points to be "
-              << expectedNumberOfPoints
-              << " but instead got " << metric->GetNumberOfValidPoints()
-              << std::endl;
+  std::cout << "--Number of threads used: " << metric->GetNumberOfWorkUnitsUsed() << std::endl;
+  if (metric->GetNumberOfValidPoints() != (expectedNumberOfPoints))
+  {
+    std::cerr << "Expected number of valid points to be " << expectedNumberOfPoints << " but instead got "
+              << metric->GetNumberOfValidPoints() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Return or verify results
-  if( setTruthValues )
-    {
+  if (setTruthValues)
+  {
     truthValue = valueReturn2;
     truthDerivative = derivativeReturn;
-    }
+  }
   else
-    {
+  {
     // Verify results
     const double epsilon = 1e-10;
-    if( std::fabs( truthValue - valueReturn2 ) > epsilon )
-      {
+    if (std::fabs(truthValue - valueReturn2) > epsilon)
+    {
       std::cerr << "-FAILED- truthValue does not equal value: " << std::endl
                 << "truthValue: " << truthValue << std::endl
                 << "value: " << valueReturn2 << std::endl;
       result = EXIT_FAILURE;
-
-      }
-    if( ! ImageToImageMetricv4TestTestArray( truthDerivative, derivativeReturn ) )
-      {
-      std::cerr << "-FAILED- truthDerivative does not equal derivatives:"
-                << std::endl
+    }
+    if (!ImageToImageMetricv4TestTestArray(truthDerivative, derivativeReturn))
+    {
+      std::cerr << "-FAILED- truthDerivative does not equal derivatives:" << std::endl
                 << "truthDerivative: " << truthDerivative << std::endl
                 << "derivatives: " << derivativeReturn << std::endl;
       result = EXIT_FAILURE;
-      }
     }
+  }
   return result;
 }
 
 ////////////////////////////////////////////////////////////
-int itkImageToImageMetricv4Test(int, char ** const)
+int
+itkImageToImageMetricv4Test(int, char ** const)
 {
   bool origGlobalWarningValue = itk::Object::GetGlobalWarningDisplay();
-  itk::Object::SetGlobalWarningDisplay( true );
+  itk::Object::SetGlobalWarningDisplay(true);
 
   using DimensionSizeType = unsigned int;
-  constexpr DimensionSizeType imageSize  = 4;
+  constexpr DimensionSizeType imageSize = 4;
 
-  ImageToImageMetricv4TestImageType::SizeType       size = {{imageSize, imageSize}};
-  ImageToImageMetricv4TestImageType::IndexType      index = {{0,0}};
-  ImageToImageMetricv4TestImageType::RegionType     region;
-  region.SetSize( size );
-  region.SetIndex( index );
-  ImageToImageMetricv4TestImageType::SpacingType    spacing;
+  ImageToImageMetricv4TestImageType::SizeType   size = { { imageSize, imageSize } };
+  ImageToImageMetricv4TestImageType::IndexType  index = { { 0, 0 } };
+  ImageToImageMetricv4TestImageType::RegionType region;
+  region.SetSize(size);
+  region.SetIndex(index);
+  ImageToImageMetricv4TestImageType::SpacingType spacing;
   spacing.Fill(1.0);
-  ImageToImageMetricv4TestImageType::PointType      origin;
+  ImageToImageMetricv4TestImageType::PointType origin;
   origin.Fill(0);
-  ImageToImageMetricv4TestImageType::DirectionType  direction;
+  ImageToImageMetricv4TestImageType::DirectionType direction;
   direction.SetIdentity();
 
   // Create simple test images.
-  ImageToImageMetricv4TestImageType::Pointer fixedImage =
-                                  ImageToImageMetricv4TestImageType::New();
-  fixedImage->SetRegions( region );
-  fixedImage->SetSpacing( spacing );
-  fixedImage->SetOrigin( origin );
-  fixedImage->SetDirection( direction );
+  ImageToImageMetricv4TestImageType::Pointer fixedImage = ImageToImageMetricv4TestImageType::New();
+  fixedImage->SetRegions(region);
+  fixedImage->SetSpacing(spacing);
+  fixedImage->SetOrigin(origin);
+  fixedImage->SetDirection(direction);
   fixedImage->Allocate();
 
-  ImageToImageMetricv4TestImageType::Pointer movingImage =
-                                  ImageToImageMetricv4TestImageType::New();
-  movingImage->SetRegions( region );
-  movingImage->SetSpacing( spacing );
-  movingImage->SetOrigin( origin );
-  movingImage->SetDirection( direction );
+  ImageToImageMetricv4TestImageType::Pointer movingImage = ImageToImageMetricv4TestImageType::New();
+  movingImage->SetRegions(region);
+  movingImage->SetSpacing(spacing);
+  movingImage->SetOrigin(origin);
+  movingImage->SetDirection(direction);
   movingImage->Allocate();
 
   // Fill images
-  itk::ImageRegionIterator<ImageToImageMetricv4TestImageType>
-                                                  itFixed( fixedImage, region );
+  itk::ImageRegionIterator<ImageToImageMetricv4TestImageType> itFixed(fixedImage, region);
   itFixed.GoToBegin();
   unsigned int count = 1;
-  while( !itFixed.IsAtEnd() )
-    {
-    itFixed.Set( count * count );
+  while (!itFixed.IsAtEnd())
+  {
+    itFixed.Set(count * count);
     count++;
     ++itFixed;
-    }
-  itk::ImageRegionIteratorWithIndex<ImageToImageMetricv4TestImageType>
-                                                itMoving( movingImage, region );
+  }
+  itk::ImageRegionIteratorWithIndex<ImageToImageMetricv4TestImageType> itMoving(movingImage, region);
   itMoving.GoToBegin();
   count = 1;
-  while( !itMoving.IsAtEnd() )
-    {
-    itMoving.Set( count * count / 2.0 );
+  while (!itMoving.IsAtEnd())
+  {
+    itMoving.Set(count * count / 2.0);
     count++;
     ++itMoving;
-    }
+  }
 
   // Transforms
-  using FixedTransformType = itk::TranslationTransform<double,
-                               ImageToImageMetricv4TestImageDimensionality>;
-  using MovingTransformType = itk::TranslationTransform<double,
-                               ImageToImageMetricv4TestImageDimensionality>;
-  FixedTransformType::Pointer fixedTransform = FixedTransformType::New();
+  using FixedTransformType = itk::TranslationTransform<double, ImageToImageMetricv4TestImageDimensionality>;
+  using MovingTransformType = itk::TranslationTransform<double, ImageToImageMetricv4TestImageDimensionality>;
+  FixedTransformType::Pointer  fixedTransform = FixedTransformType::New();
   MovingTransformType::Pointer movingTransform = MovingTransformType::New();
   fixedTransform->SetIdentity();
   movingTransform->SetIdentity();
 
   // The simplistic test metric
-  ImageToImageMetricv4TestMetricPointer
-                        metric = ImageToImageMetricv4TestMetricType::New();
+  ImageToImageMetricv4TestMetricPointer metric = ImageToImageMetricv4TestMetricType::New();
 
   // Assign images and transforms.
   // By not setting a virtual domain image or virtual domain settings,
   // the metric will use the fixed image for the virtual domain.
-  metric->SetFixedImage( fixedImage );
-  metric->SetMovingImage( movingImage );
-  metric->SetFixedTransform( fixedTransform );
-  metric->SetMovingTransform( movingTransform );
+  metric->SetFixedImage(fixedImage);
+  metric->SetMovingImage(movingImage);
+  metric->SetFixedTransform(fixedTransform);
+  metric->SetMovingTransform(movingTransform);
   // Tell the metric to compute image gradients for both fixed and moving.
-  metric->SetGradientSource(
-          itk::SourceTypeOfGradient::GRADIENT_SOURCE_BOTH );
+  metric->SetGradientSource(itk::SourceTypeOfGradient::GRADIENT_SOURCE_BOTH);
 
   // Enable ITK debugging output
-  metric->SetDebug( false );
+  metric->SetDebug(false);
 
   // Evaluate the metric and verify results, using identity transforms.
   // Test with different numbers of threads.
   // Run through all the permutations image gradient calculation method.
-  ImageToImageMetricv4TestMetricType::MeasureType     truthValue;
-  ImageToImageMetricv4TestMetricType::DerivativeType  truthDerivative;
-  for( itk::ThreadIdType numberOfThreads = 1; numberOfThreads < 6;
-                                                            numberOfThreads++ )
+  ImageToImageMetricv4TestMetricType::MeasureType    truthValue;
+  ImageToImageMetricv4TestMetricType::DerivativeType truthDerivative;
+  for (itk::ThreadIdType numberOfThreads = 1; numberOfThreads < 6; numberOfThreads++)
+  {
+    metric->SetMaximumNumberOfWorkUnits(numberOfThreads);
+    for (signed char useMovingFilter = 1; useMovingFilter >= 0; --useMovingFilter)
     {
-    metric->SetMaximumNumberOfWorkUnits( numberOfThreads );
-    for( signed char useMovingFilter = 1;
-            useMovingFilter >= 0; --useMovingFilter )
+      for (signed char useFixedFilter = 1; useFixedFilter >= 0; --useFixedFilter)
       {
-        for( signed char useFixedFilter = 1;
-                useFixedFilter >= 0; --useFixedFilter )
-        {
-        //Have to recompute new truth values for each permutation of
+        // Have to recompute new truth values for each permutation of
         // image gradient calculation options.
         bool computeNewTruthValues = true;
-        metric->SetUseFixedImageGradientFilter( useFixedFilter == 1 );
-        metric->SetUseMovingImageGradientFilter( useMovingFilter == 1 );
+        metric->SetUseFixedImageGradientFilter(useFixedFilter == 1);
+        metric->SetUseMovingImageGradientFilter(useMovingFilter == 1);
         std::cout << "**********************************" << std::endl;
-        if( computeNewTruthValues )
-          {
-          ImageToImageMetricv4TestComputeIdentityTruthValues( metric, fixedImage, movingImage, truthValue, truthDerivative );
-          }
-        std::cout << "* Testing with identity transforms..."
-                  << std::endl;
-        if( ImageToImageMetricv4TestRunSingleTest( metric, truthValue, truthDerivative, imageSize * imageSize, false )
-                                                          != EXIT_SUCCESS )
-          {
+        if (computeNewTruthValues)
+        {
+          ImageToImageMetricv4TestComputeIdentityTruthValues(
+            metric, fixedImage, movingImage, truthValue, truthDerivative);
+        }
+        std::cout << "* Testing with identity transforms..." << std::endl;
+        if (ImageToImageMetricv4TestRunSingleTest(metric, truthValue, truthDerivative, imageSize * imageSize, false) !=
+            EXIT_SUCCESS)
+        {
           std::cerr << "----------------------------" << std::endl
                     << "Failed for these settings: " << std::endl
-                    << "Use gradient filter for: fixed, moving: "
-                    << metric->GetUseFixedImageGradientFilter()
-                    << ", "
+                    << "Use gradient filter for: fixed, moving: " << metric->GetUseFixedImageGradientFilter() << ", "
                     << metric->GetUseMovingImageGradientFilter() << std::endl
                     << "----------------------------" << std::endl;
           return EXIT_FAILURE;
-          }
-        computeNewTruthValues = false;
         }
-      } // loop through permutations
-    } // loop thru # of threads
+        computeNewTruthValues = false;
+      }
+    } // loop through permutations
+  }   // loop thru # of threads
 
 
   // Test that non-overlapping images will generate a warning
@@ -552,19 +530,19 @@ int itkImageToImageMetricv4Test(int, char ** const)
   MovingTransformType::ParametersType parameters(2);
   parameters[0] = 1000;
   parameters[1] = 1000;
-  movingTransform->SetParameters( parameters );
+  movingTransform->SetParameters(parameters);
   ImageToImageMetricv4TestMetricType::MeasureType expectedMetricMax;
   expectedMetricMax = itk::NumericTraits<ImageToImageMetricv4TestMetricType::MeasureType>::max();
   std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
-  if( ImageToImageMetricv4TestRunSingleTest( metric, truthValue, truthDerivative, 0, true ) != EXIT_SUCCESS ||
-      itk::Math::NotAlmostEquals( metric->GetValue(), expectedMetricMax ) )
-    {
+  if (ImageToImageMetricv4TestRunSingleTest(metric, truthValue, truthDerivative, 0, true) != EXIT_SUCCESS ||
+      itk::Math::NotAlmostEquals(metric->GetValue(), expectedMetricMax))
+  {
     std::cerr << "Failed testing for non-overlapping images. " << std::endl
               << "  Number of valid points: " << metric->GetNumberOfValidPoints() << std::endl
               << "  Metric value: " << metric->GetValue() << std::endl
               << "  Expected metric max value: " << expectedMetricMax << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   movingTransform->SetIdentity();
 
   //
@@ -572,61 +550,54 @@ int itkImageToImageMetricv4Test(int, char ** const)
   //
 
   // Create a displacement field transform
-  using DisplacementTransformType = itk::DisplacementFieldTransform<double,
-                              ImageToImageMetricv4TestImageDimensionality>;
-  DisplacementTransformType::Pointer displacementTransform =
-      DisplacementTransformType::New();
+  using DisplacementTransformType =
+    itk::DisplacementFieldTransform<double, ImageToImageMetricv4TestImageDimensionality>;
+  DisplacementTransformType::Pointer displacementTransform = DisplacementTransformType::New();
   using FieldType = DisplacementTransformType::DisplacementFieldType;
-  FieldType::Pointer field = FieldType::New(); //This is based on itk::Image
+  FieldType::Pointer field = FieldType::New(); // This is based on itk::Image
 
-  FieldType::SizeType defsize;
-  FieldType::IndexType start;
+  FieldType::SizeType   defsize;
+  FieldType::IndexType  start;
   FieldType::RegionType defregion;
-  defsize.Fill( imageSize );
-  start.Fill( 0 );
-  defregion.SetSize( defsize );
-  defregion.SetIndex( start );
-  field->SetRegions( defregion );
+  defsize.Fill(imageSize);
+  start.Fill(0);
+  defregion.SetSize(defsize);
+  defregion.SetIndex(start);
+  field->SetRegions(defregion);
   field->Allocate();
   // Fill it with 0's
   DisplacementTransformType::OutputVectorType zeroVector;
-  zeroVector.Fill( 0 );
-  field->FillBuffer( zeroVector );
+  zeroVector.Fill(0);
+  field->FillBuffer(zeroVector);
   // Assign to transform
-  displacementTransform->SetDisplacementField( field );
+  displacementTransform->SetDisplacementField(field);
 
   // Assign it to the metric
-  metric->SetMovingTransform( displacementTransform );
+  metric->SetMovingTransform(displacementTransform);
 
   fixedTransform->SetIdentity();
-  metric->SetFixedTransform( fixedTransform );
+  metric->SetFixedTransform(fixedTransform);
 
-  metric->SetUseFixedImageGradientFilter( true );
-  metric->SetUseMovingImageGradientFilter( true );
+  metric->SetUseFixedImageGradientFilter(true);
+  metric->SetUseMovingImageGradientFilter(true);
   // Tell the metric to compute image gradients for both fixed and moving.
-  metric->SetGradientSource(
-          itk::SourceTypeOfGradient::GRADIENT_SOURCE_BOTH );
+  metric->SetGradientSource(itk::SourceTypeOfGradient::GRADIENT_SOURCE_BOTH);
 
-  //Evaluate the metric
-  std::cout
-    << "* Testing with identity DisplacementFieldTransform for moving image..."
-    << std::endl;
-  ImageToImageMetricv4TestComputeIdentityTruthValues(
-                                                metric, fixedImage, movingImage,
-                                                truthValue, truthDerivative );
-  if( ImageToImageMetricv4TestRunSingleTest( metric,
-                      truthValue, truthDerivative,
-                      imageSize * imageSize, false ) != EXIT_SUCCESS )
-    {
+  // Evaluate the metric
+  std::cout << "* Testing with identity DisplacementFieldTransform for moving image..." << std::endl;
+  ImageToImageMetricv4TestComputeIdentityTruthValues(metric, fixedImage, movingImage, truthValue, truthDerivative);
+  if (ImageToImageMetricv4TestRunSingleTest(metric, truthValue, truthDerivative, imageSize * imageSize, false) !=
+      EXIT_SUCCESS)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   // Test that using a displacemet field that does not match the virtual
   // domain space will throw an exception.
-  field->SetSpacing( fixedImage->GetSpacing() * -1.0 );
+  field->SetSpacing(fixedImage->GetSpacing() * -1.0);
   std::cout << "Testing with displacement field in different space than "
             << "fixed image:" << std::endl;
-  ITK_TRY_EXPECT_EXCEPTION( metric->Initialize() );
+  ITK_TRY_EXPECT_EXCEPTION(metric->Initialize());
 
   //
   // Test with sampled point-set
@@ -634,56 +605,52 @@ int itkImageToImageMetricv4Test(int, char ** const)
   std::cout << "Testing with sampled point-set:" << std::endl;
   fixedTransform->SetIdentity();
   movingTransform->SetIdentity();
-  metric->SetMovingTransform( movingTransform );
-  metric->SetFixedTransform( fixedTransform );
-  metric->SetGradientSource(
-          itk::SourceTypeOfGradient::GRADIENT_SOURCE_BOTH );
-  metric->SetUseFixedImageGradientFilter( false );
-  metric->SetUseMovingImageGradientFilter( false );
+  metric->SetMovingTransform(movingTransform);
+  metric->SetFixedTransform(fixedTransform);
+  metric->SetGradientSource(itk::SourceTypeOfGradient::GRADIENT_SOURCE_BOTH);
+  metric->SetUseFixedImageGradientFilter(false);
+  metric->SetUseMovingImageGradientFilter(false);
 
   // create a point set, size of image for basic testing
   using PointSetType = ImageToImageMetricv4TestMetricType::FixedSampledPointSetType;
 
   using PointType = PointSetType::PointType;
-  PointSetType::CoordRepType          testPointCoords[2];
-  PointSetType::Pointer               pset(PointSetType::New());
+  PointSetType::CoordRepType testPointCoords[2];
+  PointSetType::Pointer      pset(PointSetType::New());
 
   std::cout << "Creating point set..." << std::endl;
   DimensionSizeType ind = 0;
-  for( DimensionSizeType i=0; i < imageSize; i++ )
+  for (DimensionSizeType i = 0; i < imageSize; i++)
+  {
+    for (DimensionSizeType j = 0; j < imageSize; j++)
     {
-    for( DimensionSizeType j=0; j < imageSize; j++ )
-      {
       testPointCoords[0] = i;
       testPointCoords[1] = j;
       pset->SetPoint(ind, PointType(testPointCoords));
       ind++;
-      }
     }
+  }
 
   std::cout << "Setting point set..." << std::endl;
-  metric->SetFixedSampledPointSet( pset );
-  metric->SetUseSampledPointSet( true );
+  metric->SetFixedSampledPointSet(pset);
+  metric->SetUseSampledPointSet(true);
   std::cout << "Testing metric outpute..." << std::endl;
-  ImageToImageMetricv4TestComputeIdentityTruthValues(
-                                                metric, fixedImage, movingImage,
-                                                truthValue, truthDerivative );
-  if( ImageToImageMetricv4TestRunSingleTest( metric,
-                      truthValue, truthDerivative,
-                      imageSize * imageSize, false ) != EXIT_SUCCESS )
-    {
+  ImageToImageMetricv4TestComputeIdentityTruthValues(metric, fixedImage, movingImage, truthValue, truthDerivative);
+  if (ImageToImageMetricv4TestRunSingleTest(metric, truthValue, truthDerivative, imageSize * imageSize, false) !=
+      EXIT_SUCCESS)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   // exercise methods.
-  metric->SetUseFloatingPointCorrection( false );
-  metric->SetFloatingPointCorrectionResolution( 1 );
+  metric->SetUseFloatingPointCorrection(false);
+  metric->SetFloatingPointCorrectionResolution(1);
 
-  //exercise PrintSelf
+  // exercise PrintSelf
   std::cout << std::endl << "PrintSelf: " << std::endl;
-  metric->Print( std::cout );
+  metric->Print(std::cout);
 
-  itk::Object::SetGlobalWarningDisplay( origGlobalWarningValue );
+  itk::Object::SetGlobalWarningDisplay(origGlobalWarningValue);
 
   return EXIT_SUCCESS;
 }

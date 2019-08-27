@@ -32,7 +32,8 @@ using PointType = PointSet::PointType;
  * The point set that is created consists of a 100 random points.
  */
 
-int itkPointSetTest(int, char* [] )
+int
+itkPointSetTest(int, char *[])
 {
   /**
    * Define the 3d geometric positions for 8 points in a cube.
@@ -52,22 +53,19 @@ int itkPointSetTest(int, char* [] )
    */
 
   try
+  {
+    for (int i = 0; i < 100; ++i)
     {
-    for(int i=0; i < 100; ++i)
-      {
-      testPointCoords[0] = (PointSet::CoordRepType)
-        vnl_sample_uniform((double)-1.0,(double)1.0);
-      testPointCoords[1] = (PointSet::CoordRepType)
-        vnl_sample_uniform((double)-1.0,(double)1.0);
-      testPointCoords[2] = (PointSet::CoordRepType)
-        vnl_sample_uniform((double)-1.0,(double)1.0);
+      testPointCoords[0] = (PointSet::CoordRepType)vnl_sample_uniform((double)-1.0, (double)1.0);
+      testPointCoords[1] = (PointSet::CoordRepType)vnl_sample_uniform((double)-1.0, (double)1.0);
+      testPointCoords[2] = (PointSet::CoordRepType)vnl_sample_uniform((double)-1.0, (double)1.0);
       pset->SetPoint(i, PointType(testPointCoords));
-      }
     }
-  catch(...)
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Error setting points." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   return EXIT_SUCCESS;
 }

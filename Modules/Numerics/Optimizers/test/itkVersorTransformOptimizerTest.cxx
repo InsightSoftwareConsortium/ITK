@@ -44,7 +44,6 @@
 class versorCostFunction : public itk::SingleValuedCostFunction
 {
 public:
-
   using Self = versorCostFunction;
   using Superclass = itk::SingleValuedCostFunction;
   using Pointer = itk::SmartPointer<Self>;
@@ -52,28 +51,29 @@ public:
 
   using TransformType = itk::VersorTransform<double>;
 
-  itkNewMacro( Self );
-  itkTypeMacro( versorCostFunction, SingleValuedCostFunction );
+  itkNewMacro(Self);
+  itkTypeMacro(versorCostFunction, SingleValuedCostFunction);
 
-  enum { SpaceDimension = 3 };
+  enum
+  {
+    SpaceDimension = 3
+  };
 
   using ParametersType = Superclass::ParametersType;
   using DerivativeType = Superclass::DerivativeType;
 
-  using VersorType = itk::Versor< double >;
+  using VersorType = itk::Versor<double>;
   using AxisType = VersorType::VectorType;
-  using VectorType = itk::Vector< double,  SpaceDimension >;
+  using VectorType = itk::Vector<double, SpaceDimension>;
 
   using MeasureType = double;
 
 
-  versorCostFunction()
-  {
-    m_Transform = TransformType::New();
-  }
+  versorCostFunction() { m_Transform = TransformType::New(); }
 
 
-  MeasureType GetValue( const ParametersType & parameters ) const override
+  MeasureType
+  GetValue(const ParametersType & parameters) const override
   {
 
     std::cout << "GetValue( " << parameters << " ) = ";
@@ -90,41 +90,40 @@ public:
     B[2] = 0;
 
     VectorType rightPart;
-    for(unsigned int i=0; i<3; i++)
-      {
+    for (unsigned int i = 0; i < 3; i++)
+    {
       rightPart[i] = parameters[i];
-      }
+    }
 
     VersorType versor;
-    versor.Set( rightPart );
+    versor.Set(rightPart);
 
-    m_Transform->SetRotation( versor );
+    m_Transform->SetRotation(versor);
 
-    const VectorType C = m_Transform->TransformVector( B );
+    const VectorType C = m_Transform->TransformVector(B);
 
     MeasureType measure = A * C;
 
     std::cout << measure << std::endl;
 
     return measure;
-
   }
 
-  void GetDerivative( const ParametersType & parameters,
-                            DerivativeType & derivative  ) const override
+  void
+  GetDerivative(const ParametersType & parameters, DerivativeType & derivative) const override
   {
 
     VectorType rightPart;
-    for(unsigned int i=0; i<3; i++)
-      {
+    for (unsigned int i = 0; i < 3; i++)
+    {
       rightPart[i] = parameters[i];
-      }
+    }
 
     VersorType currentVersor;
-    currentVersor.Set( rightPart );
+    currentVersor.Set(rightPart);
 
 
-    const MeasureType baseValue =  this->GetValue( parameters );
+    const MeasureType baseValue = this->GetValue(parameters);
 
     VersorType versorX;
     VersorType versorY;
@@ -132,9 +131,9 @@ public:
 
     constexpr double deltaAngle = 0.00175; // in radians = about 0.1 degree
 
-    versorX.SetRotationAroundX( deltaAngle );
-    versorY.SetRotationAroundY( deltaAngle );
-    versorZ.SetRotationAroundZ( deltaAngle );
+    versorX.SetRotationAroundX(deltaAngle);
+    versorY.SetRotationAroundY(deltaAngle);
+    versorZ.SetRotationAroundZ(deltaAngle);
 
     VersorType plusdDeltaX = currentVersor * versorX;
     VersorType plusdDeltaY = currentVersor * versorY;
@@ -156,29 +155,28 @@ public:
     parametersPlustDeltaZ[1] = plusdDeltaZ.GetY();
     parametersPlustDeltaZ[2] = plusdDeltaZ.GetZ();
 
-    const MeasureType turnXValue = this->GetValue( parametersPlustDeltaX );
-    const MeasureType turnYValue = this->GetValue( parametersPlustDeltaY );
-    const MeasureType turnZValue = this->GetValue( parametersPlustDeltaZ );
+    const MeasureType turnXValue = this->GetValue(parametersPlustDeltaX);
+    const MeasureType turnYValue = this->GetValue(parametersPlustDeltaY);
+    const MeasureType turnZValue = this->GetValue(parametersPlustDeltaZ);
 
-    derivative = DerivativeType( SpaceDimension );
-    derivative[0] = ( turnXValue - baseValue ) / deltaAngle;
-    derivative[1] = ( turnYValue - baseValue ) / deltaAngle;
-    derivative[2] = ( turnZValue - baseValue ) / deltaAngle;
-
+    derivative = DerivativeType(SpaceDimension);
+    derivative[0] = (turnXValue - baseValue) / deltaAngle;
+    derivative[1] = (turnYValue - baseValue) / deltaAngle;
+    derivative[2] = (turnZValue - baseValue) / deltaAngle;
   }
 
-  unsigned int GetNumberOfParameters() const override
-    {
+  unsigned int
+  GetNumberOfParameters() const override
+  {
     return SpaceDimension;
-    }
+  }
 
 private:
-
-  mutable   TransformType::Pointer  m_Transform;
-
+  mutable TransformType::Pointer m_Transform;
 };
 
-int itkVersorTransformOptimizerTest(int, char* [] )
+int
+itkVersorTransformOptimizerTest(int, char *[])
 {
   std::cout << "VersorTransform Optimizer Test ";
   std::cout << std::endl << std::endl;
@@ -189,14 +187,14 @@ int itkVersorTransformOptimizerTest(int, char* [] )
 
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
+  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
 
 
   // Declaration of the CostFunction adaptor
   versorCostFunction::Pointer costFunction = versorCostFunction::New();
 
 
-  itkOptimizer->SetCostFunction( costFunction );
+  itkOptimizer->SetCostFunction(costFunction);
 
 
   using ParametersType = versorCostFunction::ParametersType;
@@ -205,59 +203,59 @@ int itkVersorTransformOptimizerTest(int, char* [] )
 
   // We start with a null rotation
   VersorType::VectorType axis;
-  axis[0] =  1.0f;
-  axis[1] =  0.0f;
-  axis[2] =  0.0f;
+  axis[0] = 1.0f;
+  axis[1] = 0.0f;
+  axis[2] = 0.0f;
 
   VersorType::ValueType angle = 0.0f;
 
   VersorType initialRotation;
-  initialRotation.Set( axis, angle );
+  initialRotation.Set(axis, angle);
 
   const unsigned int spaceDimensions = costFunction->GetNumberOfParameters();
 
-  ParametersType  initialPosition( spaceDimensions );
+  ParametersType initialPosition(spaceDimensions);
   initialPosition[0] = initialRotation.GetX();
   initialPosition[1] = initialRotation.GetY();
   initialPosition[2] = initialRotation.GetZ();
 
-  ScalesType    parametersScale( spaceDimensions );
+  ScalesType parametersScale(spaceDimensions);
   parametersScale[0] = 1.0;
   parametersScale[1] = 1.0;
   parametersScale[2] = 1.0;
 
   itkOptimizer->MaximizeOn();
-  itkOptimizer->SetScales( parametersScale );
-  itkOptimizer->SetGradientMagnitudeTolerance( 1e-15 );
-  itkOptimizer->SetMaximumStepLength( 0.1745 ); // About 10 deegres
-  itkOptimizer->SetMinimumStepLength( 1e-9 );
-  itkOptimizer->SetNumberOfIterations( 10 );
+  itkOptimizer->SetScales(parametersScale);
+  itkOptimizer->SetGradientMagnitudeTolerance(1e-15);
+  itkOptimizer->SetMaximumStepLength(0.1745); // About 10 deegres
+  itkOptimizer->SetMinimumStepLength(1e-9);
+  itkOptimizer->SetNumberOfIterations(10);
 
-  itkOptimizer->SetInitialPosition( initialPosition );
+  itkOptimizer->SetInitialPosition(initialPosition);
 
   try
-    {
+  {
     itkOptimizer->StartOptimization();
-    }
-  catch( itk::ExceptionObject & e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation()    << std::endl;
+    std::cout << "Location    = " << e.GetLocation() << std::endl;
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  ParametersType finalPosition( spaceDimensions );
+  ParametersType finalPosition(spaceDimensions);
   finalPosition = itkOptimizer->GetCurrentPosition();
 
-  VersorType finalRotation;
+  VersorType             finalRotation;
   VersorType::VectorType finalRightPart;
-  for(unsigned int i=0; i< spaceDimensions; i++)
-    {
+  for (unsigned int i = 0; i < spaceDimensions; i++)
+  {
     finalRightPart[i] = finalPosition[i];
-    }
-  finalRotation.Set( finalRightPart );
+  }
+  finalRotation.Set(finalRightPart);
   std::cout << "Solution        = (" << finalRotation << ")" << std::endl;
 
   //
@@ -269,12 +267,12 @@ int itkVersorTransformOptimizerTest(int, char* [] )
 
   VersorType::VectorType trueAxis;
   VersorType::ValueType  trueAngle;
-  trueAxis[0]  = 1.0f;
-  trueAxis[1]  = 0.0f;
-  trueAxis[2]  = 0.0f;
-  trueAngle = 2.0 * std::atan( 1.0f );
+  trueAxis[0] = 1.0f;
+  trueAxis[1] = 0.0f;
+  trueAxis[2] = 0.0f;
+  trueAngle = 2.0 * std::atan(1.0f);
   VersorType trueRotation;
-  trueRotation.Set( trueAxis, trueAngle );
+  trueRotation.Set(trueAxis, trueAngle);
 
   ParametersType trueParameters(spaceDimensions);
   trueParameters[0] = trueRotation.GetX();
@@ -283,23 +281,20 @@ int itkVersorTransformOptimizerTest(int, char* [] )
 
   std::cout << "True Parameters = " << trueParameters << std::endl;
 
-  VersorType ratio = finalRotation * trueRotation.GetReciprocal();
+  VersorType                  ratio = finalRotation * trueRotation.GetReciprocal();
   const VersorType::ValueType cosHalfAngle = ratio.GetW();
-  const VersorType::ValueType cosHalfAngleSquare =
-                                          cosHalfAngle * cosHalfAngle;
-  if( cosHalfAngleSquare < 0.95 )
-    {
+  const VersorType::ValueType cosHalfAngleSquare = cosHalfAngle * cosHalfAngle;
+  if (cosHalfAngleSquare < 0.95)
+  {
     pass = false;
-    }
+  }
 
-  if( !pass )
-    {
+  if (!pass)
+  {
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
-
 }

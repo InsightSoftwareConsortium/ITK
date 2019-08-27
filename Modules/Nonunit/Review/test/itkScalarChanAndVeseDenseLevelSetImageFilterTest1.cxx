@@ -18,37 +18,40 @@
 
 #include "itkScalarChanAndVeseDenseLevelSetImageFilter.h"
 
-int itkScalarChanAndVeseDenseLevelSetImageFilterTest1( int, char* [] )
+int
+itkScalarChanAndVeseDenseLevelSetImageFilterTest1(int, char *[])
 {
   constexpr unsigned int Dimension = 3;
 
   using PixelType = double;
-  using ImageType = itk::Image< PixelType, Dimension >;
-  using FeatureImageType = itk::Image< float, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using FeatureImageType = itk::Image<float, Dimension>;
   using OutputImageType = ImageType;
 
-  using DataHelperType = itk::ScalarChanAndVeseLevelSetFunctionData< ImageType, FeatureImageType >;
+  using DataHelperType = itk::ScalarChanAndVeseLevelSetFunctionData<ImageType, FeatureImageType>;
 
   using SharedDataHelperType =
-      itk::ConstrainedRegionBasedLevelSetFunctionSharedData< ImageType, FeatureImageType, DataHelperType >;
+    itk::ConstrainedRegionBasedLevelSetFunctionSharedData<ImageType, FeatureImageType, DataHelperType>;
 
-  using RegionBasedLevelSetFunctionType = itk::ScalarChanAndVeseLevelSetFunction<
-    ImageType, FeatureImageType, SharedDataHelperType >;
+  using RegionBasedLevelSetFunctionType =
+    itk::ScalarChanAndVeseLevelSetFunction<ImageType, FeatureImageType, SharedDataHelperType>;
 
   RegionBasedLevelSetFunctionType::Pointer function = RegionBasedLevelSetFunctionType::New();
-  if( function.IsNull() )
-    {
+  if (function.IsNull())
+  {
     return EXIT_FAILURE;
-    }
+  }
 
-  using FilterType = itk::ScalarChanAndVeseDenseLevelSetImageFilter<
-    ImageType, FeatureImageType, OutputImageType,
-    RegionBasedLevelSetFunctionType, SharedDataHelperType >;
+  using FilterType = itk::ScalarChanAndVeseDenseLevelSetImageFilter<ImageType,
+                                                                    FeatureImageType,
+                                                                    OutputImageType,
+                                                                    RegionBasedLevelSetFunctionType,
+                                                                    SharedDataHelperType>;
 
   FilterType::Pointer filter = FilterType::New();
 
   std::cout << "GetNameOfClass() = " << filter->GetNameOfClass() << std::endl;
-  filter->Print( std::cout );
+  filter->Print(std::cout);
 
   return EXIT_SUCCESS;
 }

@@ -42,15 +42,14 @@ namespace itk
  * \ingroup ITKCommon
  */
 template <unsigned int VDimension>
-class ITK_TEMPLATE_EXPORT ThreadedImageRegionPartitioner
-  : public ThreadedDomainPartitioner< ImageRegion<VDimension> >
+class ITK_TEMPLATE_EXPORT ThreadedImageRegionPartitioner : public ThreadedDomainPartitioner<ImageRegion<VDimension>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ThreadedImageRegionPartitioner);
 
   /** Standard class type aliases. */
   using Self = ThreadedImageRegionPartitioner;
-  using Superclass = ThreadedDomainPartitioner<ImageRegion<VDimension> >;
+  using Superclass = ThreadedDomainPartitioner<ImageRegion<VDimension>>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -81,10 +80,11 @@ public:
    * \c subRegion are undefined.
    */
 
-  ThreadIdType PartitionDomain(const ThreadIdType threadId,
-                           const ThreadIdType requestedTotal,
-                           const DomainType& completeRegion,
-                           DomainType& subRegion) const override;
+  ThreadIdType
+  PartitionDomain(const ThreadIdType threadId,
+                  const ThreadIdType requestedTotal,
+                  const DomainType & completeRegion,
+                  DomainType &       subRegion) const override;
 
 protected:
   ThreadedImageRegionPartitioner();
@@ -99,7 +99,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-# include "itkThreadedImageRegionPartitioner.hxx"
+#  include "itkThreadedImageRegionPartitioner.hxx"
 #endif
 
 #endif

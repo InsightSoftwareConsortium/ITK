@@ -25,35 +25,37 @@
  * Helper function to prevent compiler's unused variable warning.
  */
 template <typename T>
-void IgnoreUnusedVariable(const T&)
-{
-}
+void
+IgnoreUnusedVariable(const T &)
+{}
 
 struct eqstr
 {
-  bool operator()(const char* s1, const char* s2) const
+  bool
+  operator()(const char * s1, const char * s2) const
   {
     return strcmp(s1, s2) == 0;
   }
 };
 
-void lookup(const std::unordered_set<const char*, std::hash<const char*>, eqstr>& Set,
-            const char* word)
+void
+lookup(const std::unordered_set<const char *, std::hash<const char *>, eqstr> & Set, const char * word)
 {
-  std::unordered_set<const char*, std::hash<const char*>, eqstr>::const_iterator it
-    = Set.find(word);
-  std::cout << word << ": "
-       << (it != Set.end() ? "present" : "not present")
-       << std::endl;
+  std::unordered_set<const char *, std::hash<const char *>, eqstr>::const_iterator it = Set.find(word);
+  std::cout << word << ": " << (it != Set.end() ? "present" : "not present") << std::endl;
 }
 
-inline void println(const char *s)
-{ std::cout << std::endl << s << std::endl; }
+inline void
+println(const char * s)
+{
+  std::cout << std::endl << s << std::endl;
+}
 
-int itkHashTableTest(int, char* [] )
+int
+itkHashTableTest(int, char *[])
 {
   println("Testing std::hash");
-  std::hash<const char*> H;
+  std::hash<const char *> H;
   std::cout << "foo -> " << H("foo") << std::endl;
   std::cout << "bar -> " << H("bar") << std::endl;
   std::hash<int> H1;
@@ -64,7 +66,7 @@ int itkHashTableTest(int, char* [] )
   std::cout << "Z -> " << H2('Z') << std::endl;
 
   println("Testing std::unordered_set");
-  using HashSetType = std::unordered_set<const char*, std::hash<const char*>, eqstr>;
+  using HashSetType = std::unordered_set<const char *, std::hash<const char *>, eqstr>;
   HashSetType Set;
   Set.insert("kiwi");
   Set.insert("plum");
@@ -83,20 +85,21 @@ int itkHashTableTest(int, char* [] )
   Set.max_size();
   // CppCheck gives us a warning if the return value isn't used.
   // This is to prevent the user from calling empty() when they mean clear().
-  if (Set.empty()) std::cout << "Set is empty." << std::endl;
+  if (Set.empty())
+    std::cout << "Set is empty." << std::endl;
   Set.bucket_count();
   Set.rehash(50);
   Set.insert("the horror");
   Set.count("apple");
   Set.find("kiwi");
-  HashSetType::iterator hsh_it = Set.begin();
+  HashSetType::iterator       hsh_it = Set.begin();
   HashSetType::const_iterator hst_const_it;
   hst_const_it = Set.end();
   HashSetType SetCopy;
   SetCopy = Set;
 
   println("Testing std::unordered_map");
-  using HashMapType = std::unordered_map<const char*, int, std::hash<const char*>, eqstr>;
+  using HashMapType = std::unordered_map<const char *, int, std::hash<const char *>, eqstr>;
 
   HashMapType months;
   months["january"] = 31;
@@ -123,14 +126,15 @@ int itkHashTableTest(int, char* [] )
   months.max_size();
   // CppCheck gives us a warning if the return value isn't used.
   // This is to prevent the user from calling empty() when they mean clear().
-  if (months.empty()) std::cout << "Set is empty." << std::endl;
+  if (months.empty())
+    std::cout << "Set is empty." << std::endl;
   months.bucket_count();
   months.rehash(50);
   HashMapType::value_type p("psychotic break", 2);
   months.insert(p);
   months.count("january");
   months.find("june");
-  HashMapType::iterator map_it = months.begin();
+  HashMapType::iterator       map_it = months.begin();
   HashMapType::const_iterator map_const_it;
   map_const_it = months.end();
   HashMapType MapCopy;

@@ -23,21 +23,22 @@
 #include "itkTestingMacros.h"
 
 
-int itkMultipleLogOutputTest( int argc, char *argv [] )
+int
+itkMultipleLogOutputTest(int argc, char * argv[])
 {
   try
-    {
+  {
     if (argc < 2)
-      {
+    {
       std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename" << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
 
     // Create an ITK StdStreamLogOutput
     itk::StdStreamLogOutput::Pointer coutput = itk::StdStreamLogOutput::New();
     itk::StdStreamLogOutput::Pointer foutput = itk::StdStreamLogOutput::New();
-    itk::MultipleLogOutput::Pointer m_output = itk::MultipleLogOutput::New();
+    itk::MultipleLogOutput::Pointer  m_output = itk::MultipleLogOutput::New();
 
     std::cout << "Testing itk::MultipleLogOutput" << std::endl;
     coutput->SetStream(std::cout);
@@ -53,12 +54,12 @@ int itkMultipleLogOutputTest( int argc, char *argv [] )
     m_output->Write("This is the test message.\n");
     m_output->Write("This is the second test message.\n", 1.2345);
     m_output->Flush();
-    }
-  catch(...)
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Exception catched !!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "[PASSED]" << std::endl;
   return EXIT_SUCCESS;

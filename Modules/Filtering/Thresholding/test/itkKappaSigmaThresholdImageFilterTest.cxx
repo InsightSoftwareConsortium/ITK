@@ -23,16 +23,17 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
-int itkKappaSigmaThresholdImageFilterTest(int argc, char* argv[] )
+int
+itkKappaSigmaThresholdImageFilterTest(int argc, char * argv[])
 {
 
-  if( argc < 5 )
-    {
+  if (argc < 5)
+  {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputImageFile outputImageFile iterations sigmaFactor";
     std::cerr << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using InputPixelType = unsigned char;
   using MaskPixelType = unsigned char;
@@ -40,16 +41,15 @@ int itkKappaSigmaThresholdImageFilterTest(int argc, char* argv[] )
 
   constexpr unsigned int Dimension = 2;
 
-  using InputImageType = itk::Image< InputPixelType,  Dimension >;
-  using MaskImageType = itk::Image< MaskPixelType,   Dimension >;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using MaskImageType = itk::Image<MaskPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using FilterType = itk::KappaSigmaThresholdImageFilter<
-    InputImageType, MaskImageType, OutputImageType >;
+  using FilterType = itk::KappaSigmaThresholdImageFilter<InputImageType, MaskImageType, OutputImageType>;
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
 
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   FilterType::Pointer filter = FilterType::New();
@@ -57,17 +57,17 @@ int itkKappaSigmaThresholdImageFilterTest(int argc, char* argv[] )
 
   itk::SimpleFilterWatcher watcher(filter);
 
-  reader->SetFileName( argv[1] );
-  filter->SetInput( reader->GetOutput() );
-  writer->SetInput( filter->GetOutput() );
+  reader->SetFileName(argv[1]);
+  filter->SetInput(reader->GetOutput());
+  writer->SetInput(filter->GetOutput());
 
-  filter->SetOutsideValue( 0 );
-  filter->SetInsideValue( 255 );
-  filter->SetMaskValue( 255 );
-  filter->SetSigmaFactor( std::stod( argv[3] ) );
-  filter->SetNumberOfIterations( std::stoi( argv[4] ) );
+  filter->SetOutsideValue(0);
+  filter->SetInsideValue(255);
+  filter->SetMaskValue(255);
+  filter->SetSigmaFactor(std::stod(argv[3]));
+  filter->SetNumberOfIterations(std::stoi(argv[4]));
 
-  filter->Print( std::cout );
+  filter->Print(std::cout);
 
   std::cout << " GetOutsideValue()       = " << filter->GetOutsideValue() << std::endl;
   std::cout << " GetInsideValue()        = " << filter->GetInsideValue() << std::endl;
@@ -79,7 +79,7 @@ int itkKappaSigmaThresholdImageFilterTest(int argc, char* argv[] )
 
   std::cout << "Computed Threshold is: " << filter->GetThreshold() << std::endl;
 
-  writer->SetFileName( argv[2] );
+  writer->SetFileName(argv[2]);
   writer->Update();
 
   return EXIT_SUCCESS;

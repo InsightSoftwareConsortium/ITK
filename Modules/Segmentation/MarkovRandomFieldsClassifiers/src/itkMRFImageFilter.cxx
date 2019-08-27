@@ -20,10 +20,10 @@
 namespace itk
 {
 std::ostream &
-operator<<( std::ostream & out, const MRFStopType value )
+operator<<(std::ostream & out, const MRFStopType value)
 {
   const char * s = nullptr;
-  switch ( value )
+  switch (value)
   {
     case MRFStopType::MaximumNumberOfIterations:
       s = "MRFStopType::MaximumNumberOfIterations";

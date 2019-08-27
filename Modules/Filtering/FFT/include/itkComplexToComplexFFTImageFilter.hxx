@@ -34,74 +34,70 @@
 
 #include "itkVnlComplexToComplexFFTImageFilter.h"
 
-#if defined( ITK_USE_FFTWD ) || defined( ITK_USE_FFTWF )
-#include "itkFFTWComplexToComplexFFTImageFilter.h"
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+#  include "itkFFTWComplexToComplexFFTImageFilter.h"
 #endif
 
 namespace itk
 {
 
-template< typename TSelfPointer, typename TImage, typename TPixel >
+template <typename TSelfPointer, typename TImage, typename TPixel>
 struct DispatchFFTW_Complex_New
 {
-  static TSelfPointer Apply()
-    {
-      return VnlComplexToComplexFFTImageFilter< TImage >
-        ::New().GetPointer();
-    }
+  static TSelfPointer
+  Apply()
+  {
+    return VnlComplexToComplexFFTImageFilter<TImage>::New().GetPointer();
+  }
 };
 
 #ifdef ITK_USE_FFTWD
-template< typename TSelfPointer, typename TImage >
-struct DispatchFFTW_Complex_New< TSelfPointer, TImage, double >
+template <typename TSelfPointer, typename TImage>
+struct DispatchFFTW_Complex_New<TSelfPointer, TImage, double>
 {
-  static TSelfPointer Apply()
-    {
-      return FFTWComplexToComplexFFTImageFilter< TImage >
-        ::New().GetPointer();
-    }
+  static TSelfPointer
+  Apply()
+  {
+    return FFTWComplexToComplexFFTImageFilter<TImage>::New().GetPointer();
+  }
 };
 #endif
 
 #ifdef ITK_USE_FFTWF
-template< typename TSelfPointer, typename TImage >
-struct DispatchFFTW_Complex_New< TSelfPointer, TImage, float >
+template <typename TSelfPointer, typename TImage>
+struct DispatchFFTW_Complex_New<TSelfPointer, TImage, float>
 {
-  static TSelfPointer Apply()
-    {
-      return FFTWComplexToComplexFFTImageFilter< TImage >
-        ::New().GetPointer();
-    }
+  static TSelfPointer
+  Apply()
+  {
+    return FFTWComplexToComplexFFTImageFilter<TImage>::New().GetPointer();
+  }
 };
 #endif
 
-template< typename TImage >
-typename ComplexToComplexFFTImageFilter< TImage >::Pointer
-ComplexToComplexFFTImageFilter< TImage >
-::New()
+template <typename TImage>
+typename ComplexToComplexFFTImageFilter<TImage>::Pointer
+ComplexToComplexFFTImageFilter<TImage>::New()
 {
-  Pointer smartPtr = ObjectFactory< Self >::Create();
+  Pointer smartPtr = ObjectFactory<Self>::Create();
 
-  if ( smartPtr.IsNull() )
-    {
-    smartPtr = DispatchFFTW_Complex_New< Pointer, TImage,
-                                         typename NumericTraits< typename TImage::PixelType >::ValueType >
-      ::Apply();
-    }
+  if (smartPtr.IsNull())
+  {
+    smartPtr =
+      DispatchFFTW_Complex_New<Pointer, TImage, typename NumericTraits<typename TImage::PixelType>::ValueType>::Apply();
+  }
 
   return smartPtr;
 }
 
 
-template< typename TImage >
+template <typename TImage>
 void
-ComplexToComplexFFTImageFilter< TImage >
-::GenerateInputRequestedRegion()
+ComplexToComplexFFTImageFilter<TImage>::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
   // get pointers to the input and output
-  typename InputImageType::Pointer input  =
-    const_cast< InputImageType * >( this->GetInput() );
+  typename InputImageType::Pointer input = const_cast<InputImageType *>(this->GetInput());
   input->SetRequestedRegionToLargestPossibleRegion();
 }
 

@@ -66,11 +66,12 @@ public:
   itkSimpleNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Element2DC0LinearQuadrilateralStrain, Element2DStrain<Element2DC0LinearQuadrilateral> );
+  itkTypeMacro(Element2DC0LinearQuadrilateralStrain, Element2DStrain<Element2DC0LinearQuadrilateral>);
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
-  ::itk::LightObject::Pointer CreateAnother() const override;
+  ::itk::LightObject::Pointer
+  CreateAnother() const override;
 
   /**
    * Default constructor only clears the internal storage
@@ -81,18 +82,18 @@ public:
    * Construct an element by specifying pointers to
    * 4 points and a material.
    */
-  Element2DC0LinearQuadrilateralStrain(NodeIDType n1_,
-                                       NodeIDType n2_,
-                                       NodeIDType n3_,
-                                       NodeIDType n4_,
+  Element2DC0LinearQuadrilateralStrain(NodeIDType             n1_,
+                                       NodeIDType             n2_,
+                                       NodeIDType             n3_,
+                                       NodeIDType             n4_,
                                        Material::ConstPointer p_);
 
 protected:
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
-};  // class Element2DC0LinearQuadrilateralStrain
+}; // class Element2DC0LinearQuadrilateralStrain
 } // end namespace fem
 } // end namespace itk
 

@@ -32,19 +32,19 @@ namespace itk
 
 /** \class MINCTransformIOTemplate
  *
-* \brief Read and write transforms in Minc XFM Format
-*
-* \author Vladimir S. FONOV
-*         Brain Imaging Center, Montreal Neurological Institute, McGill University, Montreal Canada 2012
-*
-* \ingroup ITKIOTransformMINC
-*/
-template<typename TParametersValueType>
-class ITKIOTransformMINC_EXPORT MINCTransformIOTemplate: public TransformIOBaseTemplate<TParametersValueType>
+ * \brief Read and write transforms in Minc XFM Format
+ *
+ * \author Vladimir S. FONOV
+ *         Brain Imaging Center, Montreal Neurological Institute, McGill University, Montreal Canada 2012
+ *
+ * \ingroup ITKIOTransformMINC
+ */
+template <typename TParametersValueType>
+class ITKIOTransformMINC_EXPORT MINCTransformIOTemplate : public TransformIOBaseTemplate<TParametersValueType>
 {
 public:
   using Self = MINCTransformIOTemplate;
-  using Superclass = TransformIOBaseTemplate< TParametersValueType >;
+  using Superclass = TransformIOBaseTemplate<TParametersValueType>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -60,21 +60,25 @@ public:
   using OffsetType = typename MatrixOffsetTransformBaseType::OffsetType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( MINCTransformIOTemplate, TransformIOBaseTemplate );
-  itkNewMacro( Self );
+  itkTypeMacro(MINCTransformIOTemplate, TransformIOBaseTemplate);
+  itkNewMacro(Self);
 
   /** Determine the file type. Returns true if this ImageIO can read the
-  * file specified. */
-  bool CanReadFile( const char * fileName ) override;
+   * file specified. */
+  bool
+  CanReadFile(const char * fileName) override;
 
   /** Determine the file type. Returns true if this ImageIO can write the
-  * file specified. */
-  bool CanWriteFile( const char * fileName ) override;
+   * file specified. */
+  bool
+  CanWriteFile(const char * fileName) override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void Read() override;
+  void
+  Read() override;
 
-  void Write() override;
+  void
+  Write() override;
 
 protected:
   MINCTransformIOTemplate();
@@ -84,13 +88,17 @@ protected:
   bool                  m_XFM_initialized;
 
 private:
-  void _cleanup();
-  void WriteOneTransform(const int transformIndex,
-                         const TransformType *transform,
-                         std::vector<VIO_General_transform> &_xfm,
-                         const char * xfm_file_base,int & serial);
+  void
+  _cleanup();
+  void
+  WriteOneTransform(const int                            transformIndex,
+                    const TransformType *                transform,
+                    std::vector<VIO_General_transform> & _xfm,
+                    const char *                         xfm_file_base,
+                    int &                                serial);
 
-  void ReadOneTransform(VIO_General_transform *xfm);
+  void
+  ReadOneTransform(VIO_General_transform * xfm);
 };
 
 /** This helps to meet backward compatibility */
@@ -112,24 +120,24 @@ using MINCTransformIO = MINCTransformIOTemplate<double>;
 //            need to be considered. This code *MUST* be *OUTSIDE* the header
 //            guards.
 //
-#  if defined( ITKIOTransformMINC_EXPORTS )
+#if defined(ITKIOTransformMINC_EXPORTS)
 //   We are building this library
-#    define ITKIOTransformMINC_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
-#  else
+#  define ITKIOTransformMINC_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
+#else
 //   We are using this library
-#    define ITKIOTransformMINC_EXPORT_EXPLICIT ITKIOTransformMINC_EXPORT
-#  endif
+#  define ITKIOTransformMINC_EXPORT_EXPLICIT ITKIOTransformMINC_EXPORT
+#endif
 namespace itk
 {
 
 ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
-  extern template class ITKIOTransformMINC_EXPORT_EXPLICIT MINCTransformIOTemplate< double >;
-extern template class ITKIOTransformMINC_EXPORT_EXPLICIT MINCTransformIOTemplate< float >;
+extern template class ITKIOTransformMINC_EXPORT_EXPLICIT MINCTransformIOTemplate<double>;
+extern template class ITKIOTransformMINC_EXPORT_EXPLICIT MINCTransformIOTemplate<float>;
 
 ITK_GCC_PRAGMA_DIAG_POP()
 
 } // end namespace itk
-#  undef ITKIOTransformMINC_EXPORT_EXPLICIT
+#undef ITKIOTransformMINC_EXPORT_EXPLICIT
 #endif

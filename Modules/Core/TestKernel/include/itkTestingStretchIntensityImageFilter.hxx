@@ -38,155 +38,133 @@ namespace itk
 namespace Testing
 {
 
-template< typename TInputImage, typename TOutputImage >
-StretchIntensityImageFilter< TInputImage, TOutputImage >
-::StretchIntensityImageFilter() :
-  m_Scale( 1.0 ),
-  m_Shift( 0.0 ),
-  m_InputMinimum( NumericTraits< InputPixelType >::max() ),
-  m_InputMaximum( NumericTraits< InputPixelType >::ZeroValue() ),
-  m_OutputMinimum( NumericTraits< OutputPixelType >::NonpositiveMin() ),
-  m_OutputMaximum( NumericTraits< OutputPixelType >::max() )
+template <typename TInputImage, typename TOutputImage>
+StretchIntensityImageFilter<TInputImage, TOutputImage>::StretchIntensityImageFilter()
+  : m_Scale(1.0)
+  , m_Shift(0.0)
+  , m_InputMinimum(NumericTraits<InputPixelType>::max())
+  , m_InputMaximum(NumericTraits<InputPixelType>::ZeroValue())
+  , m_OutputMinimum(NumericTraits<OutputPixelType>::NonpositiveMin())
+  , m_OutputMaximum(NumericTraits<OutputPixelType>::max())
 {
   this->DynamicMultiThreadingOn();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-StretchIntensityImageFilter< TInputImage, TOutputImage >
-::BeforeThreadedGenerateData()
+StretchIntensityImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  if ( m_OutputMinimum > m_OutputMaximum )
-    {
+  if (m_OutputMinimum > m_OutputMaximum)
+  {
     itkExceptionMacro(<< "Minimum output value cannot be greater than Maximum output value.");
     return;
-    }
+  }
 
   const TInputImage * inputImage = this->GetInput();
 
-  ImageRegionConstIteratorWithIndex< TInputImage > it( inputImage, inputImage->GetBufferedRegion() );
+  ImageRegionConstIteratorWithIndex<TInputImage> it(inputImage, inputImage->GetBufferedRegion());
 
-  m_InputMaximum = NumericTraits< InputPixelType >::NonpositiveMin();
-  m_InputMinimum = NumericTraits< InputPixelType >::max();
+  m_InputMaximum = NumericTraits<InputPixelType>::NonpositiveMin();
+  m_InputMinimum = NumericTraits<InputPixelType>::max();
 
-  while ( !it.IsAtEnd() )
-    {
+  while (!it.IsAtEnd())
+  {
     const InputPixelType value = it.Get();
-    if ( value > m_InputMaximum )
-      {
+    if (value > m_InputMaximum)
+    {
       m_InputMaximum = value;
-      }
-    if ( value < m_InputMinimum )
-      {
+    }
+    if (value < m_InputMinimum)
+    {
       m_InputMinimum = value;
-      }
+    }
     ++it;
-    }
+  }
 
-  if (itk::Math::abs( m_InputMaximum - m_InputMinimum ) >
-      itk::Math::abs( NumericTraits< InputPixelType >::epsilon() ) )
-    {
-    m_Scale =
-      ( static_cast< RealType >( m_OutputMaximum )
-        - static_cast< RealType >( m_OutputMinimum ) )
-      / ( static_cast< RealType >( m_InputMaximum )
-          - static_cast< RealType >( m_InputMinimum ) );
-    }
-  else if ( m_InputMaximum > NumericTraits< InputPixelType >::epsilon() )
-    {
-    m_Scale =
-      ( static_cast< RealType >( m_OutputMaximum )
-        - static_cast< RealType >( m_OutputMinimum ) )
-      / static_cast< RealType >( m_InputMaximum );
-    }
+  if (itk::Math::abs(m_InputMaximum - m_InputMinimum) > itk::Math::abs(NumericTraits<InputPixelType>::epsilon()))
+  {
+    m_Scale = (static_cast<RealType>(m_OutputMaximum) - static_cast<RealType>(m_OutputMinimum)) /
+              (static_cast<RealType>(m_InputMaximum) - static_cast<RealType>(m_InputMinimum));
+  }
+  else if (m_InputMaximum > NumericTraits<InputPixelType>::epsilon())
+  {
+    m_Scale = (static_cast<RealType>(m_OutputMaximum) - static_cast<RealType>(m_OutputMinimum)) /
+              static_cast<RealType>(m_InputMaximum);
+  }
   else
-    {
+  {
     m_Scale = 0.0;
-    }
+  }
 
-  m_Shift =
-    static_cast< RealType >( m_OutputMinimum )
-    - static_cast< RealType >( m_InputMinimum ) * m_Scale;
-
+  m_Shift = static_cast<RealType>(m_OutputMinimum) - static_cast<RealType>(m_InputMinimum) * m_Scale;
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-StretchIntensityImageFilter< TInputImage, TOutputImage >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+StretchIntensityImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
-  const TInputImage *  inputPtr = this->GetInput();
-  TOutputImage      *  outputPtr = this->GetOutput(0);
+  const TInputImage * inputPtr = this->GetInput();
+  TOutputImage *      outputPtr = this->GetOutput(0);
 
-  InputImageRegionType    inputRegionForThread = outputRegionForThread;
+  InputImageRegionType inputRegionForThread = outputRegionForThread;
 
-  ImageRegionConstIterator< TInputImage > inputIt(inputPtr, inputRegionForThread);
-  ImageRegionIterator< TOutputImage >     outputIt(outputPtr, outputRegionForThread);
+  ImageRegionConstIterator<TInputImage> inputIt(inputPtr, inputRegionForThread);
+  ImageRegionIterator<TOutputImage>     outputIt(outputPtr, outputRegionForThread);
 
   inputIt.GoToBegin();
   outputIt.GoToBegin();
 
-  while ( !inputIt.IsAtEnd() )
-    {
+  while (!inputIt.IsAtEnd())
+  {
     const InputPixelType x = inputIt.Get();
-    const RealType value = static_cast< RealType >( x ) * m_Scale + m_Shift;
+    const RealType       value = static_cast<RealType>(x) * m_Scale + m_Shift;
 
-    auto result = Math::Round< OutputPixelType >( value );
+    auto result = Math::Round<OutputPixelType>(value);
 
-    result = ( result > m_OutputMaximum ) ? m_OutputMaximum : result;
-    result = ( result < m_OutputMinimum ) ? m_OutputMinimum : result;
+    result = (result > m_OutputMaximum) ? m_OutputMaximum : result;
+    result = (result < m_OutputMinimum) ? m_OutputMinimum : result;
 
-    outputIt.Set( result );
+    outputIt.Set(result);
 
     ++inputIt;
     ++outputIt;
-    }
+  }
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-StretchIntensityImageFilter< TInputImage, TOutputImage >
-::SetInput(const TInputImage *input)
+StretchIntensityImageFilter<TInputImage, TOutputImage>::SetInput(const TInputImage * input)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( 0, const_cast< TInputImage * >( input ) );
+  this->ProcessObject::SetNthInput(0, const_cast<TInputImage *>(input));
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 const TInputImage *
-StretchIntensityImageFilter< TInputImage, TOutputImage >
-::GetInput() const
+StretchIntensityImageFilter<TInputImage, TOutputImage>::GetInput() const
 {
-  return itkDynamicCastInDebugMode< const TInputImage * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode<const TInputImage *>(this->GetPrimaryInput());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-StretchIntensityImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+StretchIntensityImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Scale: "
-     << static_cast< typename NumericTraits< RealType >::PrintType >( m_Scale )
-     << std::endl;
-  os << indent << "Shift: "
-     << static_cast< typename NumericTraits< RealType >::PrintType >( m_Shift )
-     << std::endl;
+  os << indent << "Scale: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_Scale) << std::endl;
+  os << indent << "Shift: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_Shift) << std::endl;
 
-  os << indent << "Input Minimum: "
-     << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_InputMinimum )
+  os << indent << "Input Minimum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputMinimum)
      << std::endl;
-  os << indent << "Input Maximum: "
-     << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_InputMaximum )
+  os << indent << "Input Maximum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputMaximum)
      << std::endl;
-  os << indent << "Output Minimum: "
-     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( m_OutputMinimum )
+  os << indent << "Output Minimum: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutputMinimum)
      << std::endl;
-  os << indent << "Output Maximum: "
-     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( m_OutputMaximum )
+  os << indent << "Output Maximum: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutputMaximum)
      << std::endl;
 }
 } // end namespace Testing

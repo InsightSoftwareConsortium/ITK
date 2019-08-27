@@ -39,10 +39,8 @@ namespace itk
  * \sphinxexample{Registration/Common/MutualInformation,Mutual Information}
  * \endsphinx
  */
-template<typename TParametersValueType=double,
-           unsigned int NDimensions = 3>
-class ITK_TEMPLATE_EXPORT TranslationTransform :
-  public Transform<TParametersValueType, NDimensions, NDimensions>
+template <typename TParametersValueType = double, unsigned int NDimensions = 3>
+class ITK_TEMPLATE_EXPORT TranslationTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TranslationTransform);
@@ -104,85 +102,106 @@ public:
 
   /** This method returns the value of the offset of the
    * TranslationTransform. */
-  const OutputVectorType & GetOffset() const
+  const OutputVectorType &
+  GetOffset() const
   {
     return m_Offset;
   }
 
   /** This method sets the parameters for the transform
    * value specified by the user. */
-  void SetParameters(const ParametersType & parameters) override;
+  void
+  SetParameters(const ParametersType & parameters) override;
 
   /** Get the Transformation Parameters. */
-  const ParametersType & GetParameters() const override;
+  const ParametersType &
+  GetParameters() const override;
 
   /** Set offset of an Translation Transform.
    * This method sets the offset of an TranslationTransform to a
    * value specified by the user. */
-  void SetOffset(const OutputVectorType & offset)
+  void
+  SetOffset(const OutputVectorType & offset)
   {
-    m_Offset = offset; return;
+    m_Offset = offset;
+    return;
   }
 
   /** Compose with another TranslationTransform. */
-  void Compose(const Self *other, bool pre = false);
+  void
+  Compose(const Self * other, bool pre = false);
 
   /** Compose affine transformation with a translation.
    * This method modifies self to include a translation of the
    * origin.  The translation is precomposed with self if pre is
    * true, and postcomposed otherwise. */
-  void Translate(const OutputVectorType & offset, bool pre = false);
+  void
+  Translate(const OutputVectorType & offset, bool pre = false);
 
   /** Transform by an affine transformation.
    * This method applies the affine transform given by self to a
    * given point or vector, returning the transformed point or
    * vector. */
-  OutputPointType     TransformPoint(const InputPointType  & point) const override;
+  OutputPointType
+  TransformPoint(const InputPointType & point) const override;
 
   using Superclass::TransformVector;
-  OutputVectorType    TransformVector(const InputVectorType & vector) const override;
+  OutputVectorType
+  TransformVector(const InputVectorType & vector) const override;
 
-  OutputVnlVectorType TransformVector(const InputVnlVectorType & vector) const override;
+  OutputVnlVectorType
+  TransformVector(const InputVnlVectorType & vector) const override;
 
   using Superclass::TransformCovariantVector;
-  OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType & vector) const override;
+  OutputCovariantVectorType
+  TransformCovariantVector(const InputCovariantVectorType & vector) const override;
 
   /** This method finds the point or vector that maps to a given
    * point or vector under the affine transformation defined by
    * self.  If no such point exists, an exception is thrown. */
-  inline InputPointType    BackTransform(const OutputPointType  & point) const;
+  inline InputPointType
+  BackTransform(const OutputPointType & point) const;
 
-  inline InputVectorType   BackTransform(const OutputVectorType & vector) const;
+  inline InputVectorType
+  BackTransform(const OutputVectorType & vector) const;
 
-  inline InputVnlVectorType BackTransform(const OutputVnlVectorType & vector) const;
+  inline InputVnlVectorType
+  BackTransform(const OutputVnlVectorType & vector) const;
 
-  inline InputCovariantVectorType BackTransform(const OutputCovariantVectorType & vector) const;
+  inline InputCovariantVectorType
+  BackTransform(const OutputCovariantVectorType & vector) const;
 
   /** Find inverse of an affine transformation.
    * This method creates and returns a new TranslationTransform object
    * which is the inverse of self.  If self is not invertible,
    * false is returned.  */
-  bool GetInverse(Self *inverse) const;
+  bool
+  GetInverse(Self * inverse) const;
 
   /** Return an inverse of this transform. */
-  InverseTransformBasePointer GetInverseTransform() const override;
+  InverseTransformBasePointer
+  GetInverseTransform() const override;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
-  void ComputeJacobianWithRespectToParameters(const InputPointType & point, JacobianType & j) const override;
+  void
+  ComputeJacobianWithRespectToParameters(const InputPointType & point, JacobianType & j) const override;
 
 
   /** Get the jacobian with respect to position, which simply is an identity
    *  jacobian because the transform is position-invariant.
    *  jac will be resized as needed, but it will be more efficient if
    *  it is already properly sized. */
-  void ComputeJacobianWithRespectToPosition(const InputPointType & x, JacobianPositionType & jac) const override;
+  void
+  ComputeJacobianWithRespectToPosition(const InputPointType & x, JacobianPositionType & jac) const override;
   using Superclass::ComputeJacobianWithRespectToPosition;
 
   /** Set the parameters to the IdentityTransform */
-  void SetIdentity();
+  void
+  SetIdentity();
 
   /** Return the number of parameters that completely define the Transfom  */
-  NumberOfParametersType GetNumberOfParameters() const override
+  NumberOfParametersType
+  GetNumberOfParameters() const override
   {
     return NDimensions;
   }
@@ -192,7 +211,8 @@ public:
    *
    * \f[ T( a*P + b*Q ) = a * T(P) + b * T(Q) \f]
    */
-  bool IsLinear() const override
+  bool
+  IsLinear() const override
   {
     return true;
   }
@@ -200,7 +220,8 @@ public:
   /** Indicates the category transform.
    *  e.g. an affine transform, or a local one, e.g. a deformation field.
    */
-  TransformCategoryType GetTransformCategory() const override
+  TransformCategoryType
+  GetTransformCategory() const override
   {
     return Self::TransformCategoryType::Linear;
   }
@@ -208,14 +229,15 @@ public:
   /** Set the fixed parameters and update internal transformation.
    * The Translation Transform does not require fixed parameters,
    * therefore the implementation of this method is a null operation. */
-  void SetFixedParameters(const FixedParametersType &) override
-  {
-  }
+  void
+  SetFixedParameters(const FixedParametersType &) override
+  {}
 
   /** Get the Fixed Parameters. The TranslationTransform does not
    * require Fixed parameters, therefore this method returns an
    * parameters array of size zero. */
-  const FixedParametersType & GetFixedParameters() const override
+  const FixedParametersType &
+  GetFixedParameters() const override
   {
     this->m_FixedParameters.SetSize(0);
     return this->m_FixedParameters;
@@ -225,7 +247,8 @@ protected:
   TranslationTransform();
   ~TranslationTransform() override = default;
   /** Print contents of an TranslationTransform. */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   JacobianType     m_IdentityJacobian;
@@ -233,45 +256,41 @@ private:
 };                           // class TranslationTransform
 
 // Back transform a point
-template<typename TParametersValueType, unsigned int NDimensions>
-inline
-typename TranslationTransform<TParametersValueType, NDimensions>::InputPointType
+template <typename TParametersValueType, unsigned int NDimensions>
+inline typename TranslationTransform<TParametersValueType, NDimensions>::InputPointType
 TranslationTransform<TParametersValueType, NDimensions>::BackTransform(const OutputPointType & point) const
 {
   return point - m_Offset;
 }
 
 // Back transform a vector
-template<typename TParametersValueType, unsigned int NDimensions>
-inline
-typename TranslationTransform<TParametersValueType, NDimensions>::InputVectorType
+template <typename TParametersValueType, unsigned int NDimensions>
+inline typename TranslationTransform<TParametersValueType, NDimensions>::InputVectorType
 TranslationTransform<TParametersValueType, NDimensions>::BackTransform(const OutputVectorType & vect) const
 {
   return vect;
 }
 
 // Back transform a vnl_vector
-template<typename TParametersValueType, unsigned int NDimensions>
-inline
-typename TranslationTransform<TParametersValueType, NDimensions>::InputVnlVectorType
+template <typename TParametersValueType, unsigned int NDimensions>
+inline typename TranslationTransform<TParametersValueType, NDimensions>::InputVnlVectorType
 TranslationTransform<TParametersValueType, NDimensions>::BackTransform(const OutputVnlVectorType & vect) const
 {
   return vect;
 }
 
 // Back Transform a CovariantVector
-template<typename TParametersValueType, unsigned int NDimensions>
-inline
-typename TranslationTransform<TParametersValueType, NDimensions>::InputCovariantVectorType
+template <typename TParametersValueType, unsigned int NDimensions>
+inline typename TranslationTransform<TParametersValueType, NDimensions>::InputCovariantVectorType
 TranslationTransform<TParametersValueType, NDimensions>::BackTransform(const OutputCovariantVectorType & vect) const
 {
   return vect;
 }
 
-}  // namespace itk
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTranslationTransform.hxx"
+#  include "itkTranslationTransform.hxx"
 #endif
 
 #endif /* itkTranslationTransform_h */

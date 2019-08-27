@@ -26,56 +26,56 @@
 
 // Specific ImageIO test
 
-int itkDCMTKRGBImageIOTest(int ac, char* av[])
+int
+itkDCMTKRGBImageIOTest(int ac, char * av[])
 {
 
-  if(ac < 3)
-    {
+  if (ac < 3)
+  {
     std::cerr << "Usage: " << av[0] << " DicomImage OutputImage\n";
     return EXIT_FAILURE;
-    }
+  }
 
   using PixelType = itk::RGBPixel<unsigned char>;
-  using InputImageType = itk::Image< PixelType, 2 >;
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using InputImageType = itk::Image<PixelType, 2>;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
 
   using ImageIOType = itk::DCMTKImageIO;
   ImageIOType::Pointer dcmtkImageIO = ImageIOType::New();
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( av[1] );
-  reader->SetImageIO( dcmtkImageIO );
+  reader->SetFileName(av[1]);
+  reader->SetImageIO(dcmtkImageIO);
 
   try
-    {
+  {
     reader->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "exception in file reader " << std::endl;
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  using WriteImageType = itk::Image< PixelType, 2 >;
-  using Writer2Type = itk::ImageFileWriter< WriteImageType >;
+  using WriteImageType = itk::Image<PixelType, 2>;
+  using Writer2Type = itk::ImageFileWriter<WriteImageType>;
   Writer2Type::Pointer writer2 = Writer2Type::New();
-  writer2->SetFileName( av[2] );
-  writer2->SetInput( reader->GetOutput() );
+  writer2->SetFileName(av[2]);
+  writer2->SetInput(reader->GetOutput());
 
   try
-    {
+  {
     writer2->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "exception in file writer " << std::endl;
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  dcmtkImageIO->Print( std::cout );
+  dcmtkImageIO->Print(std::cout);
 
   return EXIT_SUCCESS;
-
 }

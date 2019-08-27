@@ -23,57 +23,51 @@
 
 namespace itk
 {
-template< typename T >
-VariableSizeMatrix< T >
-::VariableSizeMatrix(unsigned int rows, unsigned int cols):
-  m_Matrix(rows, cols) {}
+template <typename T>
+VariableSizeMatrix<T>::VariableSizeMatrix(unsigned int rows, unsigned int cols)
+  : m_Matrix(rows, cols)
+{}
 
 /**
  *  Product by a Vector
  */
-template< typename T >
-Array< T >
-VariableSizeMatrix< T >
-::operator*(const Array< T > & vect) const
+template <typename T>
+Array<T> VariableSizeMatrix<T>::operator*(const Array<T> & vect) const
 {
   unsigned int rows = this->Rows();
   unsigned int cols = this->Cols();
 
-  if ( vect.Size() != cols )
-    {
-    itkGenericExceptionMacro( << "Matrix with " << this->Cols() << " columns cannot be "
-                              << "multiplied with array of length: " << vect.Size() );
-    }
+  if (vect.Size() != cols)
+  {
+    itkGenericExceptionMacro(<< "Matrix with " << this->Cols() << " columns cannot be "
+                             << "multiplied with array of length: " << vect.Size());
+  }
 
-  Array< T > result(rows);
-  for ( unsigned int r = 0; r < rows; r++ )
+  Array<T> result(rows);
+  for (unsigned int r = 0; r < rows; r++)
+  {
+    T sum = NumericTraits<T>::ZeroValue();
+    for (unsigned int c = 0; c < cols; c++)
     {
-    T sum = NumericTraits< T >::ZeroValue();
-    for ( unsigned int c = 0; c < cols; c++ )
-      {
       sum += m_Matrix(r, c) * vect[c];
-      }
-    result[r] = sum;
     }
+    result[r] = sum;
+  }
   return result;
 }
 
 /**
  *  Product by a matrix
  */
-template< typename T >
-VariableSizeMatrix< T >
-VariableSizeMatrix< T >
-::operator*(const Self & matrix) const
+template <typename T>
+VariableSizeMatrix<T> VariableSizeMatrix<T>::operator*(const Self & matrix) const
 {
-  if ( this->Cols() != matrix.Rows() )
-    {
-    itkGenericExceptionMacro(<< "Matrix with size ("
-                             << this->Rows() << ","
-                             << this->Cols()
-                             << ") cannot be multiplied by matrix with size ("
-                             << matrix.Rows() << "," << matrix.Cols() << ")");
-    }
+  if (this->Cols() != matrix.Rows())
+  {
+    itkGenericExceptionMacro(<< "Matrix with size (" << this->Rows() << "," << this->Cols()
+                             << ") cannot be multiplied by matrix with size (" << matrix.Rows() << "," << matrix.Cols()
+                             << ")");
+  }
   Self result;
   result = m_Matrix * matrix.m_Matrix;
   return result;
@@ -82,131 +76,120 @@ VariableSizeMatrix< T >
 /**
  *  Matrix Addition
  */
-template< typename T >
-VariableSizeMatrix< T >
-VariableSizeMatrix< T >
-::operator+(const Self & matrix) const
+template <typename T>
+VariableSizeMatrix<T>
+VariableSizeMatrix<T>::operator+(const Self & matrix) const
 {
-  if ( ( matrix.Rows() != this->Rows() )
-       || ( matrix.Cols() != this->Cols() ) )
-    {
-    itkGenericExceptionMacro(<< "Matrix with size (" << matrix.Rows() << ","
-                             << matrix.Cols() << ") cannot be added to a matrix with size ("
-                             << this->Rows() << "," << this->Cols() << ")");
-    }
+  if ((matrix.Rows() != this->Rows()) || (matrix.Cols() != this->Cols()))
+  {
+    itkGenericExceptionMacro(<< "Matrix with size (" << matrix.Rows() << "," << matrix.Cols()
+                             << ") cannot be added to a matrix with size (" << this->Rows() << "," << this->Cols()
+                             << ")");
+  }
 
-  Self result( this->Rows(), this->Cols() );
-  for ( unsigned int r = 0; r < this->Rows(); r++ )
+  Self result(this->Rows(), this->Cols());
+  for (unsigned int r = 0; r < this->Rows(); r++)
+  {
+    for (unsigned int c = 0; c < this->Cols(); c++)
     {
-    for ( unsigned int c = 0; c < this->Cols(); c++ )
-      {
       result.m_Matrix(r, c) = m_Matrix(r, c) + matrix.m_Matrix(r, c);
-      }
     }
+  }
   return result;
 }
 
 /**
  *  Matrix Addition in-place
  */
-template< typename T >
-const VariableSizeMatrix< T > &
-VariableSizeMatrix< T >
-::operator+=(const Self & matrix)
+template <typename T>
+const VariableSizeMatrix<T> &
+VariableSizeMatrix<T>::operator+=(const Self & matrix)
 {
-  if ( ( matrix.Rows() != this->Rows() )
-       || ( matrix.Cols() != this->Cols() ) )
-    {
-    itkGenericExceptionMacro(<< "Matrix with size (" << matrix.Rows() << ","
-                             << matrix.Cols() << ") cannot be added to a matrix with size ("
-                             << this->Rows() << "," << this->Cols() << ")");
-    }
+  if ((matrix.Rows() != this->Rows()) || (matrix.Cols() != this->Cols()))
+  {
+    itkGenericExceptionMacro(<< "Matrix with size (" << matrix.Rows() << "," << matrix.Cols()
+                             << ") cannot be added to a matrix with size (" << this->Rows() << "," << this->Cols()
+                             << ")");
+  }
 
-  for ( unsigned int r = 0; r < this->Rows(); r++ )
+  for (unsigned int r = 0; r < this->Rows(); r++)
+  {
+    for (unsigned int c = 0; c < this->Cols(); c++)
     {
-    for ( unsigned int c = 0; c < this->Cols(); c++ )
-      {
       m_Matrix(r, c) += matrix.m_Matrix(r, c);
-      }
     }
+  }
   return *this;
 }
 
 /**
  *  Matrix Subtraction
  */
-template< typename T >
-VariableSizeMatrix< T >
-VariableSizeMatrix< T >
-::operator-(const Self & matrix) const
+template <typename T>
+VariableSizeMatrix<T>
+VariableSizeMatrix<T>::operator-(const Self & matrix) const
 {
-  if ( ( matrix.Rows() != this->Rows() )
-       || ( matrix.Cols() != this->Cols() ) )
-    {
-    itkGenericExceptionMacro(<< "Matrix with size (" << matrix.Rows() << ","
-                             << matrix.Cols() << ") cannot be subtracted from matrix with size ("
-                             << this->Rows() << "," << this->Cols() << ")");
-    }
+  if ((matrix.Rows() != this->Rows()) || (matrix.Cols() != this->Cols()))
+  {
+    itkGenericExceptionMacro(<< "Matrix with size (" << matrix.Rows() << "," << matrix.Cols()
+                             << ") cannot be subtracted from matrix with size (" << this->Rows() << "," << this->Cols()
+                             << ")");
+  }
 
-  Self result( this->Rows(), this->Cols() );
-  for ( unsigned int r = 0; r < this->Rows(); r++ )
+  Self result(this->Rows(), this->Cols());
+  for (unsigned int r = 0; r < this->Rows(); r++)
+  {
+    for (unsigned int c = 0; c < this->Cols(); c++)
     {
-    for ( unsigned int c = 0; c < this->Cols(); c++ )
-      {
       result.m_Matrix(r, c) = m_Matrix(r, c) - matrix.m_Matrix(r, c);
-      }
     }
+  }
   return result;
 }
 
 /**
  *  Matrix subtraction in-place
  */
-template< typename T >
-const VariableSizeMatrix< T > &
-VariableSizeMatrix< T >
-::operator-=(const Self & matrix)
+template <typename T>
+const VariableSizeMatrix<T> &
+VariableSizeMatrix<T>::operator-=(const Self & matrix)
 {
-  if ( ( matrix.Rows() != this->Rows() )
-       || ( matrix.Cols() != this->Cols() ) )
-    {
-    itkGenericExceptionMacro(<< "Matrix with size (" << matrix.Rows() << ","
-                             << matrix.Cols() << ") cannot be subtracted from matrix with size ("
-                             << this->Rows() << "," << this->Cols() << ")");
-    }
+  if ((matrix.Rows() != this->Rows()) || (matrix.Cols() != this->Cols()))
+  {
+    itkGenericExceptionMacro(<< "Matrix with size (" << matrix.Rows() << "," << matrix.Cols()
+                             << ") cannot be subtracted from matrix with size (" << this->Rows() << "," << this->Cols()
+                             << ")");
+  }
 
-  for ( unsigned int r = 0; r < this->Rows(); r++ )
+  for (unsigned int r = 0; r < this->Rows(); r++)
+  {
+    for (unsigned int c = 0; c < this->Cols(); c++)
     {
-    for ( unsigned int c = 0; c < this->Cols(); c++ )
-      {
       m_Matrix(r, c) -= matrix.m_Matrix(r, c);
-      }
     }
+  }
   return *this;
 }
 
-template< typename T >
-VariableSizeMatrix< T > &
-VariableSizeMatrix< T >
-::operator-()
+template <typename T>
+VariableSizeMatrix<T> &
+VariableSizeMatrix<T>::operator-()
 {
-  for ( unsigned int r = 0; r < this->Rows(); r++ )
+  for (unsigned int r = 0; r < this->Rows(); r++)
+  {
+    for (unsigned int c = 0; c < this->Cols(); c++)
     {
-    for ( unsigned int c = 0; c < this->Cols(); c++ )
-      {
       m_Matrix(r, c) = -m_Matrix(r, c);
-      }
     }
+  }
   return *this;
 }
 
 /**
  *  Product by a vnl_matrix
  */
-template< typename T >
-vnl_matrix< T >
-VariableSizeMatrix< T >
-::operator*(const vnl_matrix< T > & matrix) const
+template <typename T>
+vnl_matrix<T> VariableSizeMatrix<T>::operator*(const vnl_matrix<T> & matrix) const
 {
   return m_Matrix * matrix;
 }
@@ -214,10 +197,9 @@ VariableSizeMatrix< T >
 /**
  *  Product by a matrix
  */
-template< typename T >
+template <typename T>
 void
-VariableSizeMatrix< T >
-::operator*=(const Self & matrix)
+VariableSizeMatrix<T>::operator*=(const Self & matrix)
 {
   m_Matrix *= matrix.m_Matrix;
 }
@@ -225,10 +207,9 @@ VariableSizeMatrix< T >
 /**
  *  Product by a vnl_matrix
  */
-template< typename T >
+template <typename T>
 void
-VariableSizeMatrix< T >
-::operator*=(const vnl_matrix< T > & matrix)
+VariableSizeMatrix<T>::operator*=(const vnl_matrix<T> & matrix)
 {
   m_Matrix *= matrix;
 }
@@ -236,10 +217,8 @@ VariableSizeMatrix< T >
 /**
  *  Product by a vnl_vector
  */
-template< typename T >
-vnl_vector< T >
-VariableSizeMatrix< T >
-::operator*(const vnl_vector< T > & vc) const
+template <typename T>
+vnl_vector<T> VariableSizeMatrix<T>::operator*(const vnl_vector<T> & vc) const
 {
   return m_Matrix * vc;
 }

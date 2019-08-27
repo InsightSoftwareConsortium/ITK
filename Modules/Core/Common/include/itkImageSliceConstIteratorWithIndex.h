@@ -109,13 +109,13 @@ namespace itk
  * \sa ImageConstIteratorWithIndex
  * \ingroup ITKCommon
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT ImageSliceConstIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ImageSliceConstIteratorWithIndex : public ImageConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class type aliases. */
   using Self = ImageSliceConstIteratorWithIndex;
-  using Superclass = ImageConstIteratorWithIndex< TImage >;
+  using Superclass = ImageConstIteratorWithIndex<TImage>;
 
   /** Inherit types from the superclass */
   using IndexType = typename Superclass::IndexType;
@@ -130,19 +130,19 @@ public:
   using AccessorType = typename Superclass::AccessorType;
 
   /** Default constructor. Needed since we provide a cast constructor. */
-  ImageSliceConstIteratorWithIndex():ImageConstIteratorWithIndex< TImage >() {}
+  ImageSliceConstIteratorWithIndex()
+    : ImageConstIteratorWithIndex<TImage>()
+  {}
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageSliceConstIteratorWithIndex(const ImageType *ptr,
-                                   const RegionType & region):
-    ImageConstIteratorWithIndex< TImage >(ptr, region),
-    m_PixelJump(0),
-    m_LineJump(0),
-    m_Direction_A(0),
-    m_Direction_B(1)
-  {
-  }
+  ImageSliceConstIteratorWithIndex(const ImageType * ptr, const RegionType & region)
+    : ImageConstIteratorWithIndex<TImage>(ptr, region)
+    , m_PixelJump(0)
+    , m_LineJump(0)
+    , m_Direction_A(0)
+    , m_Direction_B(1)
+  {}
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageSliceConstIteratorWithIndex. Many routines return an ImageIterator, but for a
@@ -150,55 +150,70 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageSliceConstIteratorWithIndex. */
-  ImageSliceConstIteratorWithIndex(const ImageConstIteratorWithIndex< TImage > & it)
-  { this->ImageConstIteratorWithIndex< TImage >::operator=(it); }
+  ImageSliceConstIteratorWithIndex(const ImageConstIteratorWithIndex<TImage> & it)
+  {
+    this->ImageConstIteratorWithIndex<TImage>::operator=(it);
+  }
 
   /** Go to the next line
    * \sa operator++ \sa EndOfLine \sa End \sa NextSlice */
-  void NextLine();
+  void
+  NextLine();
 
   /** Go to the first pixel of the current slice */
-  void GoToBeginOfSlice();
+  void
+  GoToBeginOfSlice();
 
   /** Go to the next slice
    * \sa operator++ \sa EndOfLine \sa End */
-  void NextSlice();
+  void
+  NextSlice();
 
   /** Go to the next line
    * \sa operator-- \sa BeginOfLine \sa BeginOfSlice \sa Begin */
-  void PreviousLine();
+  void
+  PreviousLine();
 
   /** Go to the next slice
    * \sa operator-- \sa BeginOfLine \sa BeginOfSlice \sa Begin */
-  void PreviousSlice();
+  void
+  PreviousSlice();
 
   /** Test if the index is at the end of line */
-  bool IsAtEndOfLine() const;
+  bool
+  IsAtEndOfLine() const;
 
   /** Test if the index is at the end of the slice */
-  bool IsAtEndOfSlice() const;
+  bool
+  IsAtEndOfSlice() const;
 
   /** Test if the index is at the begin of line */
-  bool IsAtReverseEndOfLine() const;
+  bool
+  IsAtReverseEndOfLine() const;
 
   /** Test if the index is at the begin of the slice */
-  bool IsAtReverseEndOfSlice() const;
+  bool
+  IsAtReverseEndOfSlice() const;
 
   /** Set the fastest direction of movement */
-  void SetFirstDirection(unsigned int direction);
+  void
+  SetFirstDirection(unsigned int direction);
 
   /** Set the second fastest direction of movement */
-  void SetSecondDirection(unsigned int direction);
+  void
+  SetSecondDirection(unsigned int direction);
 
   /** Increment (prefix) the selected dimension.
    * No bounds checking is performed.
    * \sa operator-- \sa GetIndex */
-  inline Self & operator++();
+  inline Self &
+  operator++();
 
   /** Decrement (prefix) the selected dimension.
    * No bounds checking is performed.
    * \sa operator++ \sa GetIndex */
-  inline Self & operator--();
+  inline Self &
+  operator--();
 
 private:
   SizeValueType m_PixelJump;
@@ -209,7 +224,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageSliceConstIteratorWithIndex.hxx"
+#  include "itkImageSliceConstIteratorWithIndex.hxx"
 #endif
 
 #endif

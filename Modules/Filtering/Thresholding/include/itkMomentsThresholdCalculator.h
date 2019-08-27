@@ -44,7 +44,7 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKThresholding
  */
-template <typename THistogram, typename TOutput=double>
+template <typename THistogram, typename TOutput = double>
 class ITK_TEMPLATE_EXPORT MomentsThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
@@ -69,14 +69,15 @@ public:
 protected:
   MomentsThresholdCalculator() = default;
   ~MomentsThresholdCalculator() override = default;
-  void GenerateData() override;
+  void
+  GenerateData() override;
 };
 
 } // end namespace itk
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMomentsThresholdCalculator.hxx"
+#  include "itkMomentsThresholdCalculator.hxx"
 #endif
 
 #endif

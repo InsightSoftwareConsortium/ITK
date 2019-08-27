@@ -24,146 +24,141 @@
 namespace itk
 {
 
-template< typename TIdentifier, typename TLevelSet >
-const typename
-LevelSetContainerBase< TIdentifier, TLevelSet >::LevelSetContainerType&
-LevelSetContainerBase< TIdentifier, TLevelSet >::GetContainer() const
+template <typename TIdentifier, typename TLevelSet>
+const typename LevelSetContainerBase<TIdentifier, TLevelSet>::LevelSetContainerType &
+LevelSetContainerBase<TIdentifier, TLevelSet>::GetContainer() const
 {
   return m_Container;
 }
 
-template< typename TIdentifier, typename TLevelSet >
+template <typename TIdentifier, typename TLevelSet>
 void
-LevelSetContainerBase< TIdentifier, TLevelSet >
-::SetContainer(const LevelSetContainerType &iContainer)
+LevelSetContainerBase<TIdentifier, TLevelSet>::SetContainer(const LevelSetContainerType & iContainer)
 {
   m_Container = iContainer;
 }
 
-template< typename TIdentifier, typename TLevelSet >
-typename LevelSetContainerBase< TIdentifier, TLevelSet >::Iterator
-LevelSetContainerBase< TIdentifier, TLevelSet >::Begin()
+template <typename TIdentifier, typename TLevelSet>
+typename LevelSetContainerBase<TIdentifier, TLevelSet>::Iterator
+LevelSetContainerBase<TIdentifier, TLevelSet>::Begin()
 {
-  return Iterator( m_Container.begin() );
+  return Iterator(m_Container.begin());
 }
 
-template< typename TIdentifier, typename TLevelSet >
-typename LevelSetContainerBase< TIdentifier, TLevelSet >::ConstIterator
-LevelSetContainerBase< TIdentifier, TLevelSet >::Begin() const
+template <typename TIdentifier, typename TLevelSet>
+typename LevelSetContainerBase<TIdentifier, TLevelSet>::ConstIterator
+LevelSetContainerBase<TIdentifier, TLevelSet>::Begin() const
 {
-  return ConstIterator( m_Container.begin() );
+  return ConstIterator(m_Container.begin());
 }
 
-template< typename TIdentifier, typename TLevelSet >
-typename LevelSetContainerBase< TIdentifier, TLevelSet >::Iterator
-LevelSetContainerBase< TIdentifier, TLevelSet >::End()
+template <typename TIdentifier, typename TLevelSet>
+typename LevelSetContainerBase<TIdentifier, TLevelSet>::Iterator
+LevelSetContainerBase<TIdentifier, TLevelSet>::End()
 {
-  return Iterator( m_Container.end() );
+  return Iterator(m_Container.end());
 }
 
-template< typename TIdentifier, typename TLevelSet >
-typename LevelSetContainerBase< TIdentifier, TLevelSet >::ConstIterator
-LevelSetContainerBase< TIdentifier, TLevelSet >::End() const
+template <typename TIdentifier, typename TLevelSet>
+typename LevelSetContainerBase<TIdentifier, TLevelSet>::ConstIterator
+LevelSetContainerBase<TIdentifier, TLevelSet>::End() const
 {
-  return ConstIterator( m_Container.end() );
+  return ConstIterator(m_Container.end());
 }
 
-template< typename TIdentifier, typename TLevelSet >
-typename LevelSetContainerBase< TIdentifier, TLevelSet >::LevelSetIdentifierType
-LevelSetContainerBase< TIdentifier, TLevelSet >::Size() const
+template <typename TIdentifier, typename TLevelSet>
+typename LevelSetContainerBase<TIdentifier, TLevelSet>::LevelSetIdentifierType
+LevelSetContainerBase<TIdentifier, TLevelSet>::Size() const
 {
-  return static_cast< LevelSetIdentifierType >( m_Container.size() );
+  return static_cast<LevelSetIdentifierType>(m_Container.size());
 }
 
-template< typename TIdentifier, typename TLevelSet >
-typename LevelSetContainerBase< TIdentifier, TLevelSet >::LevelSetPointer
-LevelSetContainerBase< TIdentifier, TLevelSet >
-::GetLevelSet( const LevelSetIdentifierType& iId ) const
+template <typename TIdentifier, typename TLevelSet>
+typename LevelSetContainerBase<TIdentifier, TLevelSet>::LevelSetPointer
+LevelSetContainerBase<TIdentifier, TLevelSet>::GetLevelSet(const LevelSetIdentifierType & iId) const
 {
-  auto it = m_Container.find( iId );
+  auto it = m_Container.find(iId);
 
-  if( it != m_Container.end() )
-    {
+  if (it != m_Container.end())
+  {
     return it->second;
-    }
+  }
   else
-    {
+  {
     return nullptr;
-    }
+  }
 }
 
-template< typename TIdentifier, typename TLevelSet >
-bool LevelSetContainerBase< TIdentifier, TLevelSet >
-::AddLevelSet( const LevelSetIdentifierType& iId,
-               LevelSetType * iLevelSet,
-               const bool iForce )
+template <typename TIdentifier, typename TLevelSet>
+bool
+LevelSetContainerBase<TIdentifier, TLevelSet>::AddLevelSet(const LevelSetIdentifierType & iId,
+                                                           LevelSetType *                 iLevelSet,
+                                                           const bool                     iForce)
 {
-  if( iForce )
-    {
+  if (iForce)
+  {
     m_Container[iId] = iLevelSet;
     this->Modified();
     return true;
-    }
+  }
   else
+  {
+    if (m_Container.empty())
     {
-    if( m_Container.empty() )
-      {
-      m_Container.insert( LevelSetPairType( iId, iLevelSet ) );
+      m_Container.insert(LevelSetPairType(iId, iLevelSet));
       this->Modified();
       return true;
-      }
+    }
     else
-      {
-      auto it = m_Container.find( iId );
+    {
+      auto it = m_Container.find(iId);
 
-      if( it != m_Container.end() )
-        {
+      if (it != m_Container.end())
+      {
         return false;
-        }
+      }
       else
-        {
-        m_Container.insert( LevelSetPairType( iId, iLevelSet ) );
+      {
+        m_Container.insert(LevelSetPairType(iId, iLevelSet));
         this->Modified();
         return true;
-        }
       }
     }
+  }
 }
 
-template< typename TIdentifier, typename TLevelSet >
+template <typename TIdentifier, typename TLevelSet>
 bool
-LevelSetContainerBase< TIdentifier, TLevelSet >
-::RemoveLevelSet( const LevelSetIdentifierType& iId )
+LevelSetContainerBase<TIdentifier, TLevelSet>::RemoveLevelSet(const LevelSetIdentifierType & iId)
 {
-  auto it = m_Container.find( iId );
+  auto it = m_Container.find(iId);
 
-  if( it != m_Container.end() )
-    {
+  if (it != m_Container.end())
+  {
     it->second = nullptr;
-    m_Container.erase( it );
+    m_Container.erase(it);
 
     this->Modified();
 
     return true;
-    }
+  }
   else
-    {
+  {
     return false;
-    }
+  }
 }
 
-template< typename TIdentifier, typename TLevelSet >
+template <typename TIdentifier, typename TLevelSet>
 bool
-LevelSetContainerBase< TIdentifier, TLevelSet >
-::HasDomainMap() const
+LevelSetContainerBase<TIdentifier, TLevelSet>::HasDomainMap() const
 {
-  if( !this->m_DomainMapFilter.IsNull() && !this->m_DomainMapFilter->GetDomainMap().empty() )
-    {
+  if (!this->m_DomainMapFilter.IsNull() && !this->m_DomainMapFilter->GetDomainMap().empty())
+  {
     return true;
-    }
+  }
   return false;
 }
 
-}
+} // namespace itk
 
 #endif // itkLevelSetContainerBase_hxx

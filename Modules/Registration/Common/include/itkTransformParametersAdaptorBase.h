@@ -51,9 +51,8 @@ namespace itk
  *
  * \ingroup ITKRegistrationCommon
  */
-template<typename TTransform>
-class TransformParametersAdaptorBase
-: public Object
+template <typename TTransform>
+class TransformParametersAdaptorBase : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TransformParametersAdaptorBase);
@@ -65,7 +64,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( TransformParametersAdaptorBase, Object );
+  itkTypeMacro(TransformParametersAdaptorBase, Object);
 
   /** Typedefs associated with the transform */
   using TransformBaseType = TTransform;
@@ -77,29 +76,32 @@ public:
 
   // note: the void pointer is use to ensure this method has lower
   // overloaded priority and avoid an ambiguous overloaded method
-  virtual void SetTransform( TransformBaseType *_arg, void * priorityLower = nullptr ) = 0;
+  virtual void
+  SetTransform(TransformBaseType * _arg, void * priorityLower = nullptr) = 0;
 
   /** Set the fixed parameters */
-  itkSetMacro( RequiredFixedParameters, FixedParametersType );
+  itkSetMacro(RequiredFixedParameters, FixedParametersType);
 
   /** Get the fixed parameters */
-  itkGetConstReferenceMacro( RequiredFixedParameters, FixedParametersType );
+  itkGetConstReferenceMacro(RequiredFixedParameters, FixedParametersType);
 
   /** Initialize the transform using the specified fixed parameters */
-  virtual void AdaptTransformParameters() = 0;
+  virtual void
+  AdaptTransformParameters() = 0;
 
 protected:
   TransformParametersAdaptorBase() = default;
   ~TransformParametersAdaptorBase() override = default;
 
-  void PrintSelf( std::ostream & os, Indent indent ) const override
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
-    Superclass::PrintSelf( os, indent );
+    Superclass::PrintSelf(os, indent);
     os << "Fixed parameters" << this->m_RequiredFixedParameters << std::endl;
   }
 
   FixedParametersType m_RequiredFixedParameters;
-}; //class TransformParametersAdaptorBase
-}  // namespace itk
+}; // class TransformParametersAdaptorBase
+} // namespace itk
 
 #endif /* itkTransformParametersAdaptorBase_h */

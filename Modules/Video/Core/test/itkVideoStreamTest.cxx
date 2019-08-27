@@ -21,12 +21,13 @@
 // Set up type alias
 static constexpr unsigned int Dimension = 2;
 using PixelType = unsigned char;
-using FrameType = itk::Image< PixelType, Dimension >;
-using VideoType = itk::VideoStream< FrameType >;
+using FrameType = itk::Image<PixelType, Dimension>;
+using VideoType = itk::VideoStream<FrameType>;
 using SizeValueType = itk::SizeValueType;
 
 /** Set up a spatial region with the given dimensions */
-FrameType::RegionType SetUpSpatialRegion(unsigned int x, unsigned int y)
+FrameType::RegionType
+SetUpSpatialRegion(unsigned int x, unsigned int y)
 {
   FrameType::RegionType            out;
   FrameType::RegionType::SizeType  size;
@@ -34,16 +35,17 @@ FrameType::RegionType SetUpSpatialRegion(unsigned int x, unsigned int y)
 
   size[0] = x;
   size[1] = y;
-  start.Fill( 0 );
-  out.SetSize( size );
-  out.SetIndex( start );
+  start.Fill(0);
+  out.SetSize(size);
+  out.SetIndex(start);
   return out;
 }
 
 /**
  * Test the basic functionality of temporal data objects
  */
-int itkVideoStreamTest( int, char* [] )
+int
+itkVideoStreamTest(int, char *[])
 {
   //////
   // Test Instantiation and grafting
@@ -54,27 +56,27 @@ int itkVideoStreamTest( int, char* [] )
 
   // Check dimension
   if (video1->GetFrameDimension() != Dimension)
-    {
+  {
     std::cerr << "GetFrameDimesion failed" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   if (VideoType::FrameDimension != Dimension)
-    {
+  {
     std::cerr << "VideoType::FrameDimension failed" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Create a second VideoStream
   VideoType::Pointer video2 = VideoType::New();
 
   // Use GetFrameBuffer and SetFrameBuffer to make video1 point to the same
   // buffer as video2
-  video1->SetFrameBuffer(video2->GetFrameBuffer() );
-  if (video1->GetFrameBuffer() != video2->GetFrameBuffer() )
-    {
+  video1->SetFrameBuffer(video2->GetFrameBuffer());
+  if (video1->GetFrameBuffer() != video2->GetFrameBuffer())
+  {
     std::cerr << "Failed to properly Get/Set frame buffer" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Reset video1
   video1 = VideoType::New();
@@ -100,10 +102,10 @@ int itkVideoStreamTest( int, char* [] )
   // Check that number of buffers got set right
   frameBuffer = video2->GetFrameBuffer();
   if (frameBuffer->GetNumberOfBuffers() != 4)
-    {
+  {
     std::cerr << "Number of buffers not correctly set" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Test appending frames to video2
   FrameType::Pointer frame1 = FrameType::New();
@@ -118,42 +120,40 @@ int itkVideoStreamTest( int, char* [] )
   FrameType::Pointer outFrame2 = video2->GetFrame(1);
   FrameType::Pointer outFrame3 = video2->GetFrame(2);
   if (outFrame3 != frame3 || outFrame2 != frame2 || outFrame1 != frame1)
-    {
+  {
     std::cerr << "Frames not retreived correctly" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Make sure frames actually got buffered
-  if (!frameBuffer->BufferIsFull(0) ||
-      !frameBuffer->BufferIsFull(1) ||
-      !frameBuffer->BufferIsFull(2) ||
-      frameBuffer->BufferIsFull(3) )
-    {
+  if (!frameBuffer->BufferIsFull(0) || !frameBuffer->BufferIsFull(1) || !frameBuffer->BufferIsFull(2) ||
+      frameBuffer->BufferIsFull(3))
+  {
     std::cerr << "Frames not correctly appended" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Graft video2 onto video1 and check results
   video1->Graft(video2);
   if (video1->GetLargestPossibleTemporalRegion() != video2->GetLargestPossibleTemporalRegion() ||
       video1->GetRequestedTemporalRegion() != video2->GetRequestedTemporalRegion() ||
-      video1->GetBufferedTemporalRegion() != video2->GetBufferedTemporalRegion() )
-    {
+      video1->GetBufferedTemporalRegion() != video2->GetBufferedTemporalRegion())
+  {
     std::cerr << "Graft failed to copy meta information" << std::endl;
     return EXIT_FAILURE;
-    }
-  if (video1->GetFrameBuffer() != video2->GetFrameBuffer() )
-    {
+  }
+  if (video1->GetFrameBuffer() != video2->GetFrameBuffer())
+  {
     std::cerr << "Graft failed to graft frame buffer" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // For good measure, make sure that video1's frame buffer has 4 buffers
   if (video1->GetFrameBuffer()->GetNumberOfBuffers() != 4)
-    {
+  {
     std::cerr << "Problem with graft's handling of frame buffer" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //////
   // Test Initialization, region setting, and allocation
@@ -165,11 +165,11 @@ int itkVideoStreamTest( int, char* [] )
   VideoType::TemporalRegionType temporalRegion;
   SizeValueType                 startFrame = 0;
   SizeValueType                 numFrames = 5;
-  temporalRegion.SetFrameStart( startFrame );
-  temporalRegion.SetFrameDuration( numFrames );
-  video1->SetLargestPossibleTemporalRegion( temporalRegion );
-  video1->SetRequestedTemporalRegion( temporalRegion );
-  video1->SetBufferedTemporalRegion( temporalRegion );
+  temporalRegion.SetFrameStart(startFrame);
+  temporalRegion.SetFrameDuration(numFrames);
+  video1->SetLargestPossibleTemporalRegion(temporalRegion);
+  video1->SetRequestedTemporalRegion(temporalRegion);
+  video1->SetBufferedTemporalRegion(temporalRegion);
 
   // Initialize all frames in the buffered temporal region
   video1->InitializeEmptyFrames();
@@ -178,32 +178,29 @@ int itkVideoStreamTest( int, char* [] )
   FrameType::RegionType largestSpatialRegion = SetUpSpatialRegion(100, 100);
   FrameType::RegionType requestedSpatialRegion = SetUpSpatialRegion(40, 40);
   FrameType::RegionType bufferedSpatialRegion = SetUpSpatialRegion(50, 40);
-  video1->SetAllLargestPossibleSpatialRegions( largestSpatialRegion );
-  video1->SetAllRequestedSpatialRegions( requestedSpatialRegion );
-  video1->SetAllBufferedSpatialRegions( bufferedSpatialRegion );
+  video1->SetAllLargestPossibleSpatialRegions(largestSpatialRegion);
+  video1->SetAllRequestedSpatialRegions(requestedSpatialRegion);
+  video1->SetAllBufferedSpatialRegions(bufferedSpatialRegion);
 
   // Make sure regions were set correctly
   for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
-    {
+  {
     if (video1->GetFrameLargestPossibleSpatialRegion(i) != largestSpatialRegion)
-      {
-      std::cerr << "Frame " << i << " largest possible spatial region not set correctly"
-                << std::endl;
+    {
+      std::cerr << "Frame " << i << " largest possible spatial region not set correctly" << std::endl;
       return EXIT_FAILURE;
-      }
-    if (video1->GetFrameRequestedSpatialRegion(i) != requestedSpatialRegion)
-      {
-      std::cerr << "Frame " << i << " requested spatial region not set correctly"
-                << std::endl;
-      return EXIT_FAILURE;
-      }
-    if (video1->GetFrameBufferedSpatialRegion(i) != bufferedSpatialRegion)
-      {
-      std::cerr << "Frame " << i << " buffered spatial region not set correctly"
-                << std::endl;
-      return EXIT_FAILURE;
-      }
     }
+    if (video1->GetFrameRequestedSpatialRegion(i) != requestedSpatialRegion)
+    {
+      std::cerr << "Frame " << i << " requested spatial region not set correctly" << std::endl;
+      return EXIT_FAILURE;
+    }
+    if (video1->GetFrameBufferedSpatialRegion(i) != bufferedSpatialRegion)
+    {
+      std::cerr << "Frame " << i << " buffered spatial region not set correctly" << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
 
   // Allocate memory for the frames
   video1->Allocate();
@@ -213,19 +210,19 @@ int itkVideoStreamTest( int, char* [] )
   idx[0] = 49;
   idx[1] = 39;
   for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
-    {
-    FrameType* frame = video1->GetFrame(i);
+  {
+    FrameType * frame = video1->GetFrame(i);
     frame->SetPixel(idx, i);
-    }
+  }
   for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
-    {
-    FrameType* frame = video1->GetFrame(i);
+  {
+    FrameType * frame = video1->GetFrame(i);
     if (frame->GetPixel(idx) != i)
-      {
+    {
       std::cerr << "Error setting/getting pixel for frame " << i << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
   //////
   // Test InitializeNewFrames with larger requested region. Make sure buffered
@@ -238,14 +235,14 @@ int itkVideoStreamTest( int, char* [] )
   video1->InitializeEmptyFrames();
 
   for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
-    {
-    FrameType* frame = video1->GetFrame(i);
+  {
+    FrameType * frame = video1->GetFrame(i);
     if (frame->GetPixel(idx) != i)
-      {
+    {
       std::cerr << "Error setting/getting pixel for frame " << i << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
   //////
   // Test meta data caching
@@ -255,10 +252,10 @@ int itkVideoStreamTest( int, char* [] )
   video1 = VideoType::New();
   itk::TemporalRegion tempReg = video1->GetLargestPossibleTemporalRegion();
   if (tempReg.GetFrameStart() != 0 || tempReg.GetFrameDuration() != 0)
-    {
+  {
     std::cerr << "video1 initialized with non-empty temporal region" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Set the cached meta-data for a non-buffered frame
   FrameType::RegionType            spatReg;
@@ -289,35 +286,35 @@ int itkVideoStreamTest( int, char* [] )
 
   // Check retrieval while still unbuffered
   if (video1->GetFrameLargestPossibleSpatialRegion(0) != spatReg)
-    {
+  {
     std::cerr << "video1 LargestPossibleSpatialRegion not cached correctly" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   if (video1->GetFrameRequestedSpatialRegion(0) != spatReg)
-    {
+  {
     std::cerr << "video1 RequestedSpatialRegion not cached correctly" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   if (video1->GetFrameBufferedSpatialRegion(0) != spatReg)
-    {
+  {
     std::cerr << "video1 BufferedSpatialRegion not cached correctly" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   if (video1->GetFrameSpacing(0) != space)
-    {
+  {
     std::cerr << "video1 Spacing not cached correctly" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   if (video1->GetFrameOrigin(0) != orgn)
-    {
+  {
     std::cerr << "video1 Origin not cached correctly" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   if (video1->GetFrameDirection(0) != direction)
-    {
+  {
     std::cerr << "video1 Direction not cached correctly" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Check meta data after frame initialized
   tempReg.SetFrameStart(0);
@@ -326,38 +323,37 @@ int itkVideoStreamTest( int, char* [] )
   video1->SetRequestedTemporalRegion(tempReg);
   video1->SetBufferedTemporalRegion(tempReg);
   video1->InitializeEmptyFrames();
-  FrameType* frame = video1->GetFrame(0);
+  FrameType * frame = video1->GetFrame(0);
   if (frame->GetLargestPossibleRegion() != spatReg)
-    {
+  {
     std::cerr << "frame LargestPossibleRegion not initialized correctly" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   if (frame->GetRequestedRegion() != spatReg)
-    {
+  {
     std::cerr << "frame RequestedRegion not initialized correctly" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   if (frame->GetBufferedRegion() != spatReg)
-    {
+  {
     std::cerr << "frame BufferedRegion not initialized correctly" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   if (frame->GetSpacing() != space)
-    {
+  {
     std::cerr << "frame Spacing not initialized correctly" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   if (frame->GetOrigin() != orgn)
-    {
+  {
     std::cerr << "frame Origin not initialized correctly" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   if (frame->GetDirection() != direction)
-    {
+  {
     std::cerr << "frame Direction not initialized correctly" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
-
 }

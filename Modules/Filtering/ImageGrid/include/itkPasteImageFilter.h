@@ -45,18 +45,17 @@ namespace itk
  * \sphinxexample{Filtering/ImageGrid/RunImageFilterOnRegionOfImage,Run Image Filter On Region Of Image}
  * \endsphinx
  */
-template< typename TInputImage, typename TSourceImage = TInputImage, typename TOutputImage = TInputImage >
-class ITK_TEMPLATE_EXPORT PasteImageFilter:
-  public InPlaceImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TSourceImage = TInputImage, typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT PasteImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PasteImageFilter);
 
   /** Standard class type aliases. */
   using Self = PasteImageFilter;
-  using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InPlaceImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -126,7 +125,8 @@ public:
    * then the first input is copied to the output.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
 
   /** Override VerifyInputInformation() since this filter's inputs do
@@ -134,12 +134,15 @@ public:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() ITKv5_CONST override {}
+  void
+  VerifyInputInformation() ITKv5_CONST override
+  {}
 
 protected:
   PasteImageFilter();
   ~PasteImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** PasteImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a DynamicThreadedGenerateData()
@@ -150,7 +153,8 @@ protected:
    * parameter "outputRegionForThread"
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
   SourceImageRegionType m_SourceRegion;
@@ -160,7 +164,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPasteImageFilter.hxx"
+#  include "itkPasteImageFilter.hxx"
 #endif
 
 #endif

@@ -27,17 +27,16 @@ namespace itk
 /**
  * Default constructor
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
-::DemonsRegistrationFunction()
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::DemonsRegistrationFunction()
 {
   RadiusType   r;
   unsigned int j;
 
-  for ( j = 0; j < ImageDimension; j++ )
-    {
+  for (j = 0; j < ImageDimension; j++)
+  {
     r[j] = 0;
-    }
+  }
   this->SetRadius(r);
 
   m_TimeStep = 1.0;
@@ -45,21 +44,19 @@ DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   m_IntensityDifferenceThreshold = 0.001;
   this->SetMovingImage(nullptr);
   this->SetFixedImage(nullptr);
-  //m_FixedImageSpacing.Fill( 1.0 );
-  //m_FixedImageOrigin.Fill( 0.0 );
+  // m_FixedImageSpacing.Fill( 1.0 );
+  // m_FixedImageOrigin.Fill( 0.0 );
   m_Normalizer = 1.0;
   m_FixedImageGradientCalculator = GradientCalculatorType::New();
 
-  typename DefaultInterpolatorType::Pointer interp =
-    DefaultInterpolatorType::New();
+  typename DefaultInterpolatorType::Pointer interp = DefaultInterpolatorType::New();
 
-  m_MovingImageInterpolator = static_cast< InterpolatorType * >(
-    interp.GetPointer() );
+  m_MovingImageInterpolator = static_cast<InterpolatorType *>(interp.GetPointer());
 
-  m_Metric = NumericTraits< double >::max();
+  m_Metric = NumericTraits<double>::max();
   m_SumOfSquaredDifference = 0.0;
   m_NumberOfPixelsProcessed = 0L;
-  m_RMSChange = NumericTraits< double >::max();
+  m_RMSChange = NumericTraits<double>::max();
   m_SumOfSquaredChange = 0.0;
 
   m_MovingImageGradientCalculator = MovingImageGradientCalculatorType::New();
@@ -69,10 +66,10 @@ DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /**
  * Standard "PrintSelf" method.
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
-DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
-::PrintSelf(std::ostream & os, Indent indent) const
+DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf(std::ostream & os,
+                                                                                     Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -103,10 +100,10 @@ DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /**
  *
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
-DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
-::SetIntensityDifferenceThreshold(double threshold)
+DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::SetIntensityDifferenceThreshold(
+  double threshold)
 {
   m_IntensityDifferenceThreshold = threshold;
 }
@@ -114,10 +111,9 @@ DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /**
  *
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 double
-DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
-::GetIntensityDifferenceThreshold() const
+DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::GetIntensityDifferenceThreshold() const
 {
   return m_IntensityDifferenceThreshold;
 }
@@ -125,92 +121,91 @@ DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /**
  * Set the function state values before each iteration
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
-DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
-::InitializeIteration()
+DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::InitializeIteration()
 {
-  if ( !this->GetMovingImage() || !this->GetFixedImage() || !m_MovingImageInterpolator )
-    {
+  if (!this->GetMovingImage() || !this->GetFixedImage() || !m_MovingImageInterpolator)
+  {
     itkExceptionMacro(<< "MovingImage, FixedImage and/or Interpolator not set");
-    }
+  }
 
   // cache fixed image information
-  SpacingType fixedImageSpacing    = this->GetFixedImage()->GetSpacing();
+  SpacingType fixedImageSpacing = this->GetFixedImage()->GetSpacing();
   m_ZeroUpdateReturn.Fill(0.0);
 
   // compute the normalizer
-  m_Normalizer      = 0.0;
-  for ( unsigned int k = 0; k < ImageDimension; k++ )
-    {
+  m_Normalizer = 0.0;
+  for (unsigned int k = 0; k < ImageDimension; k++)
+  {
     m_Normalizer += fixedImageSpacing[k] * fixedImageSpacing[k];
-    }
-  m_Normalizer /= static_cast< double >( ImageDimension );
+  }
+  m_Normalizer /= static_cast<double>(ImageDimension);
 
   // setup gradient calculator
-  m_FixedImageGradientCalculator->SetInputImage( this->GetFixedImage() );
-  m_MovingImageGradientCalculator->SetInputImage( this->GetMovingImage() );
+  m_FixedImageGradientCalculator->SetInputImage(this->GetFixedImage());
+  m_MovingImageGradientCalculator->SetInputImage(this->GetMovingImage());
 
   // setup moving image interpolator
-  m_MovingImageInterpolator->SetInputImage( this->GetMovingImage() );
+  m_MovingImageInterpolator->SetInputImage(this->GetMovingImage());
 
   // initialize metric computation variables
-  m_SumOfSquaredDifference  = 0.0;
+  m_SumOfSquaredDifference = 0.0;
   m_NumberOfPixelsProcessed = 0L;
-  m_SumOfSquaredChange      = 0.0;
+  m_SumOfSquaredChange = 0.0;
 }
 
 /**
  * Compute update at a specify neighbourhood
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-typename DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
-::PixelType
-DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
-::ComputeUpdate( const NeighborhoodType & it, void *gd,
-                 const FloatOffsetType & itkNotUsed(offset) )
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+typename DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PixelType
+DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
+  const NeighborhoodType & it,
+  void *                   gd,
+  const FloatOffsetType &  itkNotUsed(offset))
 {
   // Get fixed image related information
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
   const IndexType index = it.GetIndex();
-  const auto fixedValue = (double)this->GetFixedImage()->GetPixel(index);
+  const auto      fixedValue = (double)this->GetFixedImage()->GetPixel(index);
 
   // Get moving image related information
   PointType mappedPoint;
 
   this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);
-  for ( unsigned int j = 0; j < ImageDimension; j++ )
-    {
+  for (unsigned int j = 0; j < ImageDimension; j++)
+  {
     mappedPoint[j] += it.GetCenterPixel()[j];
-    }
+  }
 
   double movingValue;
-  if ( m_MovingImageInterpolator->IsInsideBuffer(mappedPoint) )
-    {
+  if (m_MovingImageInterpolator->IsInsideBuffer(mappedPoint))
+  {
     movingValue = m_MovingImageInterpolator->Evaluate(mappedPoint);
-    }
+  }
   else
-    {
+  {
     return m_ZeroUpdateReturn;
-    }
+  }
 
   CovariantVectorType gradient;
   // Compute the gradient of either fixed or moving image
-  if ( !m_UseMovingImageGradient )
-    {
+  if (!m_UseMovingImageGradient)
+  {
     gradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
-    }
+  }
   else
-    {
+  {
     gradient = m_MovingImageGradientCalculator->Evaluate(mappedPoint);
-    }
+  }
 
   double gradientSquaredMagnitude = 0;
-  for ( unsigned int j = 0; j < ImageDimension; j++ )
-    {
+  for (unsigned int j = 0; j < ImageDimension; j++)
+  {
     gradientSquaredMagnitude += itk::Math::sqr(gradient[j]);
-    }
+  }
 
   /**
    * Compute Update.
@@ -228,40 +223,37 @@ DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 
   // update the metric
   auto * globalData = (GlobalDataStruct *)gd;
-  if ( globalData )
-    {
+  if (globalData)
+  {
     globalData->m_SumOfSquaredDifference += sqr_speedValue;
     globalData->m_NumberOfPixelsProcessed += 1;
-    }
+  }
 
-  const double denominator = sqr_speedValue / m_Normalizer
-                             + gradientSquaredMagnitude;
+  const double denominator = sqr_speedValue / m_Normalizer + gradientSquaredMagnitude;
 
-  if ( itk::Math::abs(speedValue) < m_IntensityDifferenceThreshold
-       || denominator < m_DenominatorThreshold )
-    {
+  if (itk::Math::abs(speedValue) < m_IntensityDifferenceThreshold || denominator < m_DenominatorThreshold)
+  {
     return m_ZeroUpdateReturn;
-    }
+  }
 
   PixelType update;
-  for ( unsigned int j = 0; j < ImageDimension; j++ )
-    {
+  for (unsigned int j = 0; j < ImageDimension; j++)
+  {
     update[j] = speedValue * gradient[j] / denominator;
-    if ( globalData )
-      {
+    if (globalData)
+    {
       globalData->m_SumOfSquaredChange += itk::Math::sqr(update[j]);
-      }
     }
+  }
   return update;
 }
 
 /**
  * Update the metric and release the per-thread-global data.
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
-DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
-::ReleaseGlobalDataPointer(void *gd) const
+DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ReleaseGlobalDataPointer(void * gd) const
 {
   auto * globalData = (GlobalDataStruct *)gd;
 
@@ -269,13 +261,11 @@ DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   m_SumOfSquaredDifference += globalData->m_SumOfSquaredDifference;
   m_NumberOfPixelsProcessed += globalData->m_NumberOfPixelsProcessed;
   m_SumOfSquaredChange += globalData->m_SumOfSquaredChange;
-  if ( m_NumberOfPixelsProcessed )
-    {
-    m_Metric = m_SumOfSquaredDifference
-               / static_cast< double >( m_NumberOfPixelsProcessed );
-    m_RMSChange = std::sqrt( m_SumOfSquaredChange
-                            / static_cast< double >( m_NumberOfPixelsProcessed ) );
-    }
+  if (m_NumberOfPixelsProcessed)
+  {
+    m_Metric = m_SumOfSquaredDifference / static_cast<double>(m_NumberOfPixelsProcessed);
+    m_RMSChange = std::sqrt(m_SumOfSquaredChange / static_cast<double>(m_NumberOfPixelsProcessed));
+  }
   m_MetricCalculationLock.unlock();
 
   delete globalData;

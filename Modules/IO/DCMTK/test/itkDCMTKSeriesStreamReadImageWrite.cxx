@@ -33,27 +33,29 @@
 ///
 /// Also it is check to see if the u an v are both less then
 /// epsilon for the type
-static bool IsEqualTolerant(const float lm, const float rm, double tol) {
+static bool
+IsEqualTolerant(const float lm, const float rm, double tol)
+{
   tol = std::fabs(tol);
   float temp = std::fabs(lm - rm);
-  return  temp <= tol*std::fabs(lm) ||
-    temp <= tol*std::fabs(rm) ||
-    (std::fabs(lm) < std::numeric_limits<float>::epsilon() &&
-     std::fabs(rm) < std::numeric_limits<float>::epsilon());
- }
+  return temp <= tol * std::fabs(lm) || temp <= tol * std::fabs(rm) ||
+         (std::fabs(lm) < std::numeric_limits<float>::epsilon() &&
+          std::fabs(rm) < std::numeric_limits<float>::epsilon());
+}
 
-int itkDCMTKSeriesStreamReadImageWrite( int argc, char* argv[] )
+int
+itkDCMTKSeriesStreamReadImageWrite(int argc, char * argv[])
 {
-  if( argc < 6 )
-    {
+  if (argc < 6)
+  {
     std::cerr << "Usage: " << argv[0];
     std::cerr << " DicomDirectory  outputFile ";
     std::cerr << " spacingX spacingY spacingZ [ force-no-streaming 1|0]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  using ImageType = itk::Image<unsigned short,3>;
-  using ReaderType = itk::ImageSeriesReader< ImageType >;
+  using ImageType = itk::Image<unsigned short, 3>;
+  using ReaderType = itk::ImageSeriesReader<ImageType>;
   using ImageIOType = itk::DCMTKImageIO;
   using SeriesFileNames = itk::DCMTKSeriesFileNames;
 
@@ -68,87 +70,86 @@ int itkDCMTKSeriesStreamReadImageWrite( int argc, char* argv[] )
 
 
   bool forceNoStreaming = true;
-  if( argc > 6 )
+  if (argc > 6)
+  {
+    if (std::stoi(argv[6]) != 1)
     {
-    if( std::stoi(argv[6]) != 1 )
-      {
       forceNoStreaming = false;
-      }
     }
+  }
 
   bool expectedToStream = !forceNoStreaming;
 
-  ImageIOType::Pointer gdcmIO = ImageIOType::New();
+  ImageIOType::Pointer     gdcmIO = ImageIOType::New();
   SeriesFileNames::Pointer filenameGenerator = SeriesFileNames::New();
-  filenameGenerator->SetInputDirectory( argv[1] );
+  filenameGenerator->SetInputDirectory(argv[1]);
 
   ReaderType::Pointer reader = ReaderType::New();
 
-  const ReaderType::FileNamesContainer & filenames =
-    filenameGenerator->GetInputFileNames();
+  const ReaderType::FileNamesContainer & filenames = filenameGenerator->GetInputFileNames();
 
-  reader->SetFileNames( filenames );
-  reader->SetImageIO( gdcmIO );
+  reader->SetFileNames(filenames);
+  reader->SetImageIO(gdcmIO);
 
 
   using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
   MonitorFilter::Pointer monitor = MonitorFilter::New();
-  monitor->SetInput( reader->GetOutput() );
+  monitor->SetInput(reader->GetOutput());
 
   using StreamingFilter = itk::StreamingImageFilter<ImageType, ImageType>;
   StreamingFilter::Pointer streamer = StreamingFilter::New();
-  streamer->SetInput( monitor->GetOutput() );
-  streamer->SetNumberOfStreamDivisions( numberOfDataPieces );
+  streamer->SetInput(monitor->GetOutput());
+  streamer->SetNumberOfStreamDivisions(numberOfDataPieces);
 
   try
+  {
+    if (forceNoStreaming)
     {
-    if( forceNoStreaming )
-      {
       // no streaming
       reader->UseStreamingOff();
       streamer->Update();
-      }
+    }
     else
-      {
+    {
       // stream based on the number of z-slices
       reader->UseStreamingOn();
       reader->UpdateOutputInformation();
       numberOfDataPieces = reader->GetOutput()->GetLargestPossibleRegion().GetSize()[2];
-      streamer->SetNumberOfStreamDivisions( numberOfDataPieces );
+      streamer->SetNumberOfStreamDivisions(numberOfDataPieces);
       streamer->Update();
-      }
     }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     std::cerr << monitor;
     return EXIT_FAILURE;
-    }
+  }
 
   // verify things executed as expected
   bool passed = true;
-  if( expectedToStream )
+  if (expectedToStream)
+  {
+    if (!monitor->VerifyAllInputCanStream(numberOfDataPieces))
     {
-    if( !monitor->VerifyAllInputCanStream(numberOfDataPieces) )
-      {
       passed = false;
-      }
     }
+  }
   else
+  {
+    if (!monitor->VerifyAllInputCanNotStream())
     {
-    if( !monitor->VerifyAllInputCanNotStream() )
-      {
       passed = false;
-      }
     }
+  }
 
-  if( !passed )
-    {
+  if (!passed)
+  {
     std::cerr << monitor << std::endl;
     std::cerr << "pipeline did not execute as expected!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Origin: " << reader->GetOutput()->GetOrigin() << std::endl;
   std::cout << "direction: " << reader->GetOutput()->GetDirection() << std::endl;
@@ -159,33 +160,33 @@ int itkDCMTKSeriesStreamReadImageWrite( int argc, char* argv[] )
   ImageType::SpacingType spacing = reader->GetOutput()->GetSpacing();
 
   // we only give 4 bits of tolerance, IEEE float a 24-bit mantissa
-  const double percentTolerance = 1.0 / double ( (unsigned int)(1) << 18);
+  const double percentTolerance = 1.0 / double((unsigned int)(1) << 18);
 
   if (!IsEqualTolerant(spacing[0], expectedSpacing[0], percentTolerance) ||
       !IsEqualTolerant(spacing[1], expectedSpacing[1], percentTolerance) ||
       !IsEqualTolerant(spacing[2], expectedSpacing[2], percentTolerance))
-    {
+  {
     std::cerr << "Spacing does not match expected" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetFileName( argv[2] );
-  writer->SetInput( reader->GetOutput() );
+  writer->SetFileName(argv[2]);
+  writer->SetInput(reader->GetOutput());
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch (itk::ExceptionObject &excp)
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown while writing the image" << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

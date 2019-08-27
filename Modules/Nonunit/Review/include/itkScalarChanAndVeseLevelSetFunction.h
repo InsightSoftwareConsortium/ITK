@@ -65,26 +65,29 @@ namespace itk
  * \ingroup ITKReview
  *
  * \sphinx
- * \sphinxexample{Nonunit/Review/MultiphaseChanAndVeseSparseFieldLevelSetSegmentation,Multiphase Chan And Vese Sparse Field Level Set Segmentation}
- * \sphinxexample{Nonunit/Review/SinglephaseChanAndVeseSparseFieldLevelSetSegmentation,Single-phase Chan And Vese Sparse Field Level Set Segmentation}
- * \sphinxexample{Nonunit/Review/SinglephaseChanAndVeseSparseFieldLevelSetSegmentation2,Single-phase Chan And Vese Dense Field Level Set Segmentation}
- * \endsphinx
+ * \sphinxexample{Nonunit/Review/MultiphaseChanAndVeseSparseFieldLevelSetSegmentation,Multiphase Chan And Vese Sparse
+ * Field Level Set Segmentation}
+ * \sphinxexample{Nonunit/Review/SinglephaseChanAndVeseSparseFieldLevelSetSegmentation,Single-phase Chan And Vese Sparse
+ * Field Level Set Segmentation}
+ * \sphinxexample{Nonunit/Review/SinglephaseChanAndVeseSparseFieldLevelSetSegmentation2,Single-phase Chan And Vese Dense
+ * Field Level Set Segmentation} \endsphinx
  */
-template< typename TInputImage,
+template <typename TInputImage,
           typename TFeatureImage,
-          typename TSharedData = ConstrainedRegionBasedLevelSetFunctionSharedData< TInputImage, TFeatureImage,
-                                                                                ScalarChanAndVeseLevelSetFunctionData<
-                                                                                  TInputImage, TFeatureImage > > >
-class ITK_TEMPLATE_EXPORT ScalarChanAndVeseLevelSetFunction:
-  public ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
+          typename TSharedData = ConstrainedRegionBasedLevelSetFunctionSharedData<
+            TInputImage,
+            TFeatureImage,
+            ScalarChanAndVeseLevelSetFunctionData<TInputImage, TFeatureImage>>>
+class ITK_TEMPLATE_EXPORT ScalarChanAndVeseLevelSetFunction
+  : public ScalarRegionBasedLevelSetFunction<TInputImage, TFeatureImage, TSharedData>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarChanAndVeseLevelSetFunction);
 
   using Self = ScalarChanAndVeseLevelSetFunction;
-  using Superclass = ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ScalarRegionBasedLevelSetFunction<TInputImage, TFeatureImage, TSharedData>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -134,29 +137,37 @@ public:
   using ListImageType = typename Superclass::ListImageType;
 
 protected:
-  ScalarChanAndVeseLevelSetFunction():Superclass() {}
-  ~ScalarChanAndVeseLevelSetFunction() override{}
+  ScalarChanAndVeseLevelSetFunction()
+    : Superclass()
+  {}
+  ~ScalarChanAndVeseLevelSetFunction() override {}
 
-  void ComputeParameters() override;
+  void
+  ComputeParameters() override;
 
-  void UpdateSharedDataParameters() override;
+  void
+  UpdateSharedDataParameters() override;
 
-  ScalarValueType ComputeInternalTerm(const FeaturePixelType & iValue,
-                                      const FeatureIndexType & iIdx) override;
+  ScalarValueType
+  ComputeInternalTerm(const FeaturePixelType & iValue, const FeatureIndexType & iIdx) override;
 
-  ScalarValueType ComputeExternalTerm(const FeaturePixelType & iValue,
-                                      const FeatureIndexType & iIdx) override;
+  ScalarValueType
+  ComputeExternalTerm(const FeaturePixelType & iValue, const FeatureIndexType & iIdx) override;
 
-  void UpdateSharedDataInsideParameters(const unsigned int & iId,
-                                        const FeaturePixelType & iVal, const ScalarValueType & iChange) override;
+  void
+  UpdateSharedDataInsideParameters(const unsigned int &     iId,
+                                   const FeaturePixelType & iVal,
+                                   const ScalarValueType &  iChange) override;
 
-  void UpdateSharedDataOutsideParameters(const unsigned int & iId,
-                                         const FeaturePixelType & iVal, const ScalarValueType & iChange) override;
+  void
+  UpdateSharedDataOutsideParameters(const unsigned int &     iId,
+                                    const FeaturePixelType & iVal,
+                                    const ScalarValueType &  iChange) override;
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarChanAndVeseLevelSetFunction.hxx"
+#  include "itkScalarChanAndVeseLevelSetFunction.hxx"
 #endif
 
 #endif

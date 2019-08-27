@@ -27,69 +27,70 @@
 
 #include "itkTestingMacros.h"
 
-int itkBinaryReconstructionLabelMapFilterTest(int argc, char * argv[])
+int
+itkBinaryReconstructionLabelMapFilterTest(int argc, char * argv[])
 {
-  if( argc != 5 )
-    {
+  if (argc != 5)
+  {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " input marker output";
     std::cerr << " fg";
     std::cerr << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int dim = 3;
 
   using PixelType = unsigned char;
 
-  using ImageType = itk::Image< PixelType, dim >;
+  using ImageType = itk::Image<PixelType, dim>;
 
-  using AttributeLabelObjectType = itk::AttributeLabelObject< PixelType, dim, bool >;
-  using LabelMapType = itk::LabelMap< AttributeLabelObjectType >;
+  using AttributeLabelObjectType = itk::AttributeLabelObject<PixelType, dim, bool>;
+  using LabelMapType = itk::LabelMap<AttributeLabelObjectType>;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
-  using I2LType = itk::LabelImageToLabelMapFilter< ImageType, LabelMapType>;
+  using I2LType = itk::LabelImageToLabelMapFilter<ImageType, LabelMapType>;
   I2LType::Pointer i2l = I2LType::New();
-  i2l->SetInput( reader->GetOutput() );
+  i2l->SetInput(reader->GetOutput());
 
   ReaderType::Pointer reader2 = ReaderType::New();
-  reader2->SetFileName( argv[2] );
+  reader2->SetFileName(argv[2]);
 
-  using LabelReconstructionType = itk::BinaryReconstructionLabelMapFilter< LabelMapType, ImageType >;
+  using LabelReconstructionType = itk::BinaryReconstructionLabelMapFilter<LabelMapType, ImageType>;
   LabelReconstructionType::Pointer reconstruction = LabelReconstructionType::New();
 
-  //testing get and set macros for Lambda
-  int fg = std::stoi( argv[4] );
-  reconstruction->SetForegroundValue( fg );
-  ITK_TEST_SET_GET_VALUE( fg , reconstruction->GetForegroundValue() );
+  // testing get and set macros for Lambda
+  int fg = std::stoi(argv[4]);
+  reconstruction->SetForegroundValue(fg);
+  ITK_TEST_SET_GET_VALUE(fg, reconstruction->GetForegroundValue());
 
-  reconstruction->SetInput( i2l->GetOutput() );
-  reconstruction->SetMarkerImage( reader2->GetOutput() );
+  reconstruction->SetInput(i2l->GetOutput());
+  reconstruction->SetMarkerImage(reader2->GetOutput());
 
   itk::SimpleFilterWatcher watcher(reconstruction, "filter");
   reconstruction->Update();
   reconstruction->GetOutput()->PrintLabelObjects();
 
-  using LabelOpeningType = itk::AttributeSelectionLabelMapFilter< LabelMapType >;
+  using LabelOpeningType = itk::AttributeSelectionLabelMapFilter<LabelMapType>;
   LabelOpeningType::Pointer opening = LabelOpeningType::New();
-  opening->SetInput( reconstruction->GetOutput() );
+  opening->SetInput(reconstruction->GetOutput());
   opening->SetAttribute(true);
 
-  using L2IType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
+  using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   L2IType::Pointer l2i = L2IType::New();
-  l2i->SetInput( opening->GetOutput() );
+  l2i->SetInput(opening->GetOutput());
 
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( l2i->GetOutput() );
-  writer->SetFileName( argv[3] );
+  writer->SetInput(l2i->GetOutput());
+  writer->SetFileName(argv[3]);
   writer->UseCompressionOn();
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
 }

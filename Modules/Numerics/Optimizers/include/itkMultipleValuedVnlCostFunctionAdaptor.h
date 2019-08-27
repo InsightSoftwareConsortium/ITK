@@ -34,19 +34,17 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ITKOptimizers_EXPORT MultipleValuedVnlCostFunctionAdaptor:
-  public vnl_least_squares_function
+class ITKOptimizers_EXPORT MultipleValuedVnlCostFunctionAdaptor : public vnl_least_squares_function
 {
 public:
-
   /** InternalParametersType type alias. */
-  using InternalParametersType = vnl_vector< double >;
+  using InternalParametersType = vnl_vector<double>;
 
   /** InternalMeasureType type alias. */
-  using InternalMeasureType = vnl_vector< double >;
+  using InternalMeasureType = vnl_vector<double>;
 
   /** InternalGradientType type alias. */
-  using InternalDerivativeType = vnl_matrix< double >;
+  using InternalDerivativeType = vnl_matrix<double>;
 
   /** MeasureType of the MultipleValuedCostFunction */
   using MeasureType = MultipleValuedCostFunction::MeasureType;
@@ -58,79 +56,95 @@ public:
   using DerivativeType = MultipleValuedCostFunction::DerivativeType;
 
   /** Scales type alias */
-  using ScalesType = Array< double >;
+  using ScalesType = Array<double>;
 
   /** Constructor with size */
-  MultipleValuedVnlCostFunctionAdaptor(unsigned int spaceDimension,
-                                       unsigned int numberOfValues);
+  MultipleValuedVnlCostFunctionAdaptor(unsigned int spaceDimension, unsigned int numberOfValues);
 
   /** Set the CostFunction deriving from MultipleValuedCostFunction */
-  void SetCostFunction(MultipleValuedCostFunction *costFunction)
-  { m_CostFunction = costFunction; }
+  void
+  SetCostFunction(MultipleValuedCostFunction * costFunction)
+  {
+    m_CostFunction = costFunction;
+  }
 
   /** Get the CostFunction deriving from MultipleValuedCostFunction */
-  const MultipleValuedCostFunction * GetCostFunction() const
-  { return m_CostFunction; }
+  const MultipleValuedCostFunction *
+  GetCostFunction() const
+  {
+    return m_CostFunction;
+  }
 
   /**  Delegate computation of the value to the CostFunction. */
-  void f(const InternalParametersType & inparameters,
-                 InternalMeasureType    & measures) override;
+  void
+  f(const InternalParametersType & inparameters, InternalMeasureType & measures) override;
 
   /**  Delegate computation of the gradient to the costFunction.  */
-  void gradf(const InternalParametersType   & inparameters,
-                     InternalDerivativeType   & gradient) override;
+  void
+  gradf(const InternalParametersType & inparameters, InternalDerivativeType & gradient) override;
 
   /**  Delegate computation of value and gradient to the costFunction.     */
-  virtual void compute(const InternalParametersType   & x,
-                       InternalMeasureType      *f,
-                       InternalDerivativeType   *g);
+  virtual void
+  compute(const InternalParametersType & x, InternalMeasureType * f, InternalDerivativeType * g);
 
   /**  Convert external derviative measures  into internal type */
-  void ConvertExternalToInternalGradient(
-    const DerivativeType         & input,
-    InternalDerivativeType & output);
+  void
+  ConvertExternalToInternalGradient(const DerivativeType & input, InternalDerivativeType & output);
 
   /**  Convert external measures  into internal type */
-  void ConvertExternalToInternalMeasures(
-    const MeasureType         & input,
-    InternalMeasureType & output);
+  void
+  ConvertExternalToInternalMeasures(const MeasureType & input, InternalMeasureType & output);
 
   /**  Define if the Cost function should provide a customized
        Gradient computation or the gradient can be computed internally
        using a default approach  */
-  void SetUseGradient(bool);
+  void
+  SetUseGradient(bool);
 
-  void UseGradientOn()  { this->SetUseGradient(true); }
-  void UseGradientOff() { this->SetUseGradient(false); }
-  bool GetUseGradient() const;
+  void
+  UseGradientOn()
+  {
+    this->SetUseGradient(true);
+  }
+  void
+  UseGradientOff()
+  {
+    this->SetUseGradient(false);
+  }
+  bool
+  GetUseGradient() const;
 
   /** Set current parameters scaling. */
-  void SetScales(const ScalesType & scales);
+  void
+  SetScales(const ScalesType & scales);
 
   /** This AddObserver method allows to simulate that this class derives from
    * an itkObject for the purpose of reporting iteration events. The goal of
    * this method is to allow ITK-vnl optimizer adaptors to get iteration events
    * despite the fact that VNL does not provide callbacks. */
-  unsigned long AddObserver(const EventObject & event, Command *) const;
+  unsigned long
+  AddObserver(const EventObject & event, Command *) const;
 
   /** Return the value of the last evaluation to the value of the cost function.
    *  Note that this method DOES NOT triggers a computation of the function or
    *  the derivatives, it only returns previous values. Therefore the values here
    *  are only valid after you invoke the f() or gradf() methods. */
-  const MeasureType & GetCachedValue() const;
+  const MeasureType &
+  GetCachedValue() const;
 
-  const DerivativeType & GetCachedDerivative() const;
+  const DerivativeType &
+  GetCachedDerivative() const;
 
-  const ParametersType & GetCachedCurrentParameters() const;
+  const ParametersType &
+  GetCachedCurrentParameters() const;
 
 protected:
-
   /** This method is intended to be called by the derived classes in order to
    * notify of an iteration event to any Command/Observers */
-  void ReportIteration(const EventObject & event) const;
+  void
+  ReportIteration(const EventObject & event) const;
 
 private:
-
   /** Get current parameters scaling. */
   itkGetConstReferenceMacro(InverseScales, ScalesType);
 
@@ -143,7 +157,7 @@ private:
   mutable MeasureType    m_CachedValue;
   mutable DerivativeType m_CachedDerivative;
   mutable ParametersType m_CachedCurrentParameters;
-};  // end of Class CostFunction
+}; // end of Class CostFunction
 } // end namespace itk
 
 #endif

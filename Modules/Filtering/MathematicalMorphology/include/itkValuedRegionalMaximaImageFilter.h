@@ -55,24 +55,25 @@ namespace itk
  * \sphinxexample{Filtering/MathematicalMorphology/ValuedRegionalMaximaImage,Valued Regional Maxima Image}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class ValuedRegionalMaximaImageFilter:
-  public
-  ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage,
-                                    std::greater< typename TInputImage::PixelType >,
-                                    std::greater< typename TOutputImage::PixelType >  >
+template <typename TInputImage, typename TOutputImage>
+class ValuedRegionalMaximaImageFilter
+  : public ValuedRegionalExtremaImageFilter<TInputImage,
+                                            TOutputImage,
+                                            std::greater<typename TInputImage::PixelType>,
+                                            std::greater<typename TOutputImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ValuedRegionalMaximaImageFilter);
 
   using Self = ValuedRegionalMaximaImageFilter;
 
-  using Superclass = ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage,
-                                            std::greater< typename TInputImage::PixelType >,
-                                            std::greater< typename TOutputImage::PixelType > >;
+  using Superclass = ValuedRegionalExtremaImageFilter<TInputImage,
+                                                      TOutputImage,
+                                                      std::greater<typename TInputImage::PixelType>,
+                                                      std::greater<typename TOutputImage::PixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using InputImageType = TInputImage;
   using InputImagePixelType = typename InputImageType::PixelType;
@@ -85,25 +86,21 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputPixelTypeComparable,
-                   ( Concept::GreaterThanComparable< InputImagePixelType > ) );
-  itkConceptMacro( InputHasPixelTraitsCheck,
-                   ( Concept::HasPixelTraits< InputImagePixelType > ) );
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputImagePixelType > ) );
+  itkConceptMacro(InputPixelTypeComparable, (Concept::GreaterThanComparable<InputImagePixelType>));
+  itkConceptMacro(InputHasPixelTraitsCheck, (Concept::HasPixelTraits<InputImagePixelType>));
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputImagePixelType>));
   // End concept checking
 #endif
 
 protected:
   ValuedRegionalMaximaImageFilter()
   {
-    this->SetMarkerValue(
-      NumericTraits< typename TOutputImage::PixelType >::NonpositiveMin() );
+    this->SetMarkerValue(NumericTraits<typename TOutputImage::PixelType>::NonpositiveMin());
   }
 
   ~ValuedRegionalMaximaImageFilter() override = default;
-};                                               // end
-                                                 // ValuedRegionalMaximaImageFilter
-} //end namespace itk
+}; // end
+   // ValuedRegionalMaximaImageFilter
+} // end namespace itk
 
 #endif

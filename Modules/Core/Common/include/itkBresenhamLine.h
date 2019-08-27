@@ -25,35 +25,37 @@
 namespace itk
 {
 /* a simple class that will return an array of indexes that are
-* offsets along the line. The line will be described by a vector and a
-* length */
+ * offsets along the line. The line will be described by a vector and a
+ * length */
 
-template< unsigned int VDimension >
+template <unsigned int VDimension>
 class ITK_TEMPLATE_EXPORT BresenhamLine
 {
 public:
   using Self = BresenhamLine;
   // This defines the line direction
-  using LType = Vector< float, VDimension >;
-  using OffsetType = Offset< VDimension >;
-  using IndexType = Index< VDimension >;
-  using OffsetArray = std::vector< OffsetType >;
-  using IndexArray = std::vector< IndexType >;
+  using LType = Vector<float, VDimension>;
+  using OffsetType = Offset<VDimension>;
+  using IndexType = Index<VDimension>;
+  using OffsetArray = std::vector<OffsetType>;
+  using IndexArray = std::vector<IndexType>;
 
   // constructurs
-  BresenhamLine()= default;
-  ~BresenhamLine()= default;
+  BresenhamLine() = default;
+  ~BresenhamLine() = default;
 
   /** Build a line in a specified Direction. */
-  OffsetArray BuildLine(LType Direction, unsigned int length);
+  OffsetArray
+  BuildLine(LType Direction, unsigned int length);
 
   /** Build a line between two pixels. */
-  IndexArray BuildLine(IndexType p0, IndexType p1);
+  IndexArray
+  BuildLine(IndexType p0, IndexType p1);
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBresenhamLine.hxx"
+#  include "itkBresenhamLine.hxx"
 #endif
 
 #endif

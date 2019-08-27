@@ -28,27 +28,29 @@
 namespace itk
 {
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::ImageToImageMetricv4()
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  ImageToImageMetricv4()
 {
   /* Interpolators. Default to linear. */
-  using FixedLinearInterpolatorType = LinearInterpolateImageFunction< FixedImageType,
-                                          CoordinateRepresentationType >;
-  using MovingLinearInterpolatorType = LinearInterpolateImageFunction< MovingImageType,
-                                          CoordinateRepresentationType >;
-  this->m_FixedInterpolator  = FixedLinearInterpolatorType::New();
+  using FixedLinearInterpolatorType = LinearInterpolateImageFunction<FixedImageType, CoordinateRepresentationType>;
+  using MovingLinearInterpolatorType = LinearInterpolateImageFunction<MovingImageType, CoordinateRepresentationType>;
+  this->m_FixedInterpolator = FixedLinearInterpolatorType::New();
   this->m_MovingInterpolator = MovingLinearInterpolatorType::New();
 
   /* Setup default gradient filter. It gets initialized with default
    * parameters during Initialize. */
-  this->m_DefaultFixedImageGradientFilter  = DefaultFixedImageGradientFilter::New();
+  this->m_DefaultFixedImageGradientFilter = DefaultFixedImageGradientFilter::New();
   this->m_DefaultMovingImageGradientFilter = DefaultMovingImageGradientFilter::New();
-  this->m_FixedImageGradientFilter         = this->m_DefaultFixedImageGradientFilter;
-  this->m_MovingImageGradientFilter        = this->m_DefaultMovingImageGradientFilter;
+  this->m_FixedImageGradientFilter = this->m_DefaultFixedImageGradientFilter;
+  this->m_MovingImageGradientFilter = this->m_DefaultMovingImageGradientFilter;
 
   /* Interpolators for image gradient filters */
-  this->m_FixedImageGradientInterpolator  = FixedImageGradientInterpolatorType::New();
+  this->m_FixedImageGradientInterpolator = FixedImageGradientInterpolatorType::New();
   this->m_MovingImageGradientInterpolator = MovingImageGradientInterpolatorType::New();
 
   /* Setup default gradient image function */
@@ -61,10 +63,10 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   this->m_MovingImageGradientCalculator = this->m_DefaultMovingImageGradientCalculator;
 
   /* Setup default options assuming dense-sampling */
-  this->m_UseFixedImageGradientFilter  = true;
+  this->m_UseFixedImageGradientFilter = true;
   this->m_UseMovingImageGradientFilter = true;
-  this->m_UseSampledPointSet      = false;
-  this->m_UseVirtualSampledPointSet      = false;
+  this->m_UseSampledPointSet = false;
+  this->m_UseVirtualSampledPointSet = false;
 
   this->m_FloatingPointCorrectionResolution = 1e6;
   this->m_UseFloatingPointCorrection = false;
@@ -77,47 +79,51 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   this->m_ComputeDerivative = false;
 }
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::Initialize()
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  Initialize()
 {
   itkDebugMacro("Initialize entered");
 
   /* Verify things are connected */
-  if ( this->m_FixedImage.IsNull() )
-    {
+  if (this->m_FixedImage.IsNull())
+  {
     itkExceptionMacro(<< "FixedImage is not present");
-    }
-  if ( this->m_MovingImage.IsNull() )
-    {
+  }
+  if (this->m_MovingImage.IsNull())
+  {
     itkExceptionMacro(<< "MovingImage is not present");
-    }
-  if ( this->m_FixedTransform.IsNull() )
-    {
+  }
+  if (this->m_FixedTransform.IsNull())
+  {
     itkExceptionMacro(<< "FixedTransform is not present");
-    }
-  if ( this->m_MovingTransform.IsNull() )
-    {
+  }
+  if (this->m_MovingTransform.IsNull())
+  {
     itkExceptionMacro(<< "MovingTransform is not present");
-    }
+  }
 
   // If the image is provided by a source, update the source.
-  if ( this->m_MovingImage->GetSource() )
-    {
+  if (this->m_MovingImage->GetSource())
+  {
     this->m_MovingImage->GetSource()->Update();
-    }
+  }
 
   // If the image is provided by a source, update the source.
-  if ( this->m_FixedImage->GetSource() )
-    {
+  if (this->m_FixedImage->GetSource())
+  {
     this->m_FixedImage->GetSource()->Update();
-    }
+  }
 
   /* If a virtual image has not been set or created,
    * create one from fixed image settings */
-  if( ! this->m_UserHasSetVirtualDomain )
-    {
+  if (!this->m_UserHasSetVirtualDomain)
+  {
     /* Instantiate a virtual image, but do not call Allocate to allocate
      * the data, to save memory. We don't need data. We'll simply be iterating
      * over the image to get indecies and transform to points.
@@ -125,12 +131,12 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
      * that prevents accidental access of data. */
     /* Just copy information from fixed image */
     VirtualImagePointer image = VirtualImageType::New();
-    image->CopyInformation( this->m_FixedImage );
+    image->CopyInformation(this->m_FixedImage);
     /* CopyInformation does not copy buffered region */
-    image->SetBufferedRegion( this->m_FixedImage->GetBufferedRegion() );
-    image->SetRequestedRegion( this->m_FixedImage->GetRequestedRegion() );
-    this->SetVirtualDomainFromImage( image );
-    }
+    image->SetBufferedRegion(this->m_FixedImage->GetBufferedRegion());
+    image->SetRequestedRegion(this->m_FixedImage->GetRequestedRegion());
+    this->SetVirtualDomainFromImage(image);
+  }
 
   /*
    * Superclass Initialize.
@@ -140,29 +146,29 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
 
   /* Map the fixed samples into the virtual domain and store in
    * a seperate point set. */
-  if( this->m_UseSampledPointSet && !this->m_UseVirtualSampledPointSet)
-    {
+  if (this->m_UseSampledPointSet && !this->m_UseVirtualSampledPointSet)
+  {
     this->MapFixedSampledPointSetToVirtual();
-    }
+  }
 
   /* Inititialize interpolators. */
   itkDebugMacro("Initialize Interpolators");
-  this->m_FixedInterpolator->SetInputImage( this->m_FixedImage );
-  this->m_MovingInterpolator->SetInputImage( this->m_MovingImage );
+  this->m_FixedInterpolator->SetInputImage(this->m_FixedImage);
+  this->m_MovingInterpolator->SetInputImage(this->m_MovingImage);
 
   /* Setup for image gradient calculations. */
-  if( ! this->m_UseFixedImageGradientFilter )
-    {
+  if (!this->m_UseFixedImageGradientFilter)
+  {
     itkDebugMacro("Initialize FixedImageGradientCalculator");
     this->m_FixedImageGradientImage = nullptr;
     this->m_FixedImageGradientCalculator->SetInputImage(this->m_FixedImage);
-    }
-  if( ! this->m_UseMovingImageGradientFilter )
-    {
+  }
+  if (!this->m_UseMovingImageGradientFilter)
+  {
     itkDebugMacro("Initialize MovingImageGradientCalculator");
     this->m_MovingImageGradientImage = nullptr;
     this->m_MovingImageGradientCalculator->SetInputImage(this->m_MovingImage);
-    }
+  }
 
   /* Initialize default gradient image filters. */
   itkDebugMacro("InitializeDefaultFixedImageGradientFilter");
@@ -174,24 +180,29 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
    * and the metric is set to use fixed image gradients,
    * then we need to calculate the gradient image.
    * We only need to compute once. */
-  if ( this->GetGradientSourceIncludesFixed() && this->m_UseFixedImageGradientFilter )
-    {
+  if (this->GetGradientSourceIncludesFixed() && this->m_UseFixedImageGradientFilter)
+  {
     itkDebugMacro("Initialize: ComputeFixedImageGradientFilterImage");
     this->ComputeFixedImageGradientFilterImage();
-    }
+  }
 
   /* Compute gradient image for moving image. */
-  if( this->GetGradientSourceIncludesMoving() && this->m_UseMovingImageGradientFilter )
-    {
+  if (this->GetGradientSourceIncludesMoving() && this->m_UseMovingImageGradientFilter)
+  {
     itkDebugMacro("Initialize: ComputeMovingImageGradientFilterImage");
     this->ComputeMovingImageGradientFilterImage();
-    }
+  }
 }
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
-typename ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::MeasureType
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::GetValue() const
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
+typename ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  MeasureType
+  ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+    GetValue() const
 {
   this->m_ComputeDerivative = false;
 
@@ -207,19 +218,27 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   return this->m_Value;
 }
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::GetDerivative( DerivativeType & derivative ) const
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  GetDerivative(DerivativeType & derivative) const
 {
   MeasureType value;
-  this->GetValueAndDerivative( value, derivative );
+  this->GetValueAndDerivative(value, derivative);
 }
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const
 {
   this->m_ComputeDerivative = true;
 
@@ -234,92 +253,107 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   value = this->m_Value;
 }
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::GetValueAndDerivativeExecute() const
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  GetValueAndDerivativeExecute() const
 {
-  if( this->m_UseSampledPointSet ) // sparse sampling
-    {
+  if (this->m_UseSampledPointSet) // sparse sampling
+  {
     SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
-    if( numberOfPoints < 1 )
-      {
+    if (numberOfPoints < 1)
+    {
       itkExceptionMacro("VirtualSampledPointSet must have 1 or more points.");
-      }
-    typename ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Self >::DomainType range;
+    }
+    typename ImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner, Self>::DomainType
+      range;
     range[0] = 0;
     range[1] = numberOfPoints - 1;
-    this->m_SparseGetValueAndDerivativeThreader->Execute( const_cast< Self* >(this), range );
-    }
+    this->m_SparseGetValueAndDerivativeThreader->Execute(const_cast<Self *>(this), range);
+  }
   else // dense sampling
-    {
-    this->m_DenseGetValueAndDerivativeThreader->Execute( const_cast< Self* >(this), this->GetVirtualRegion() );
-    }
+  {
+    this->m_DenseGetValueAndDerivativeThreader->Execute(const_cast<Self *>(this), this->GetVirtualRegion());
+  }
 }
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::InitializeForIteration() const
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  InitializeForIteration() const
 {
-  if( this->m_ComputeDerivative )
-    {
+  if (this->m_ComputeDerivative)
+  {
     /* This size always comes from the active transform */
     const NumberOfParametersType globalDerivativeSize = this->GetNumberOfParameters();
-    if( this->m_DerivativeResult->GetSize() != globalDerivativeSize )
-      {
-      this->m_DerivativeResult->SetSize( globalDerivativeSize );
-      }
-    /* Clear derivative final result. */
-    this->m_DerivativeResult->Fill( NumericTraits< DerivativeValueType >::ZeroValue() );
+    if (this->m_DerivativeResult->GetSize() != globalDerivativeSize)
+    {
+      this->m_DerivativeResult->SetSize(globalDerivativeSize);
     }
+    /* Clear derivative final result. */
+    this->m_DerivativeResult->Fill(NumericTraits<DerivativeValueType>::ZeroValue());
+  }
 }
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 bool
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::TransformAndEvaluateFixedPoint(
-                         const VirtualPointType & virtualPoint,
-                         FixedImagePointType & mappedFixedPoint,
-                         FixedImagePixelType & mappedFixedPixelValue ) const
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  TransformAndEvaluateFixedPoint(const VirtualPointType & virtualPoint,
+                                 FixedImagePointType &    mappedFixedPoint,
+                                 FixedImagePixelType &    mappedFixedPixelValue) const
 {
   bool pointIsValid = true;
   mappedFixedPixelValue = NumericTraits<FixedImagePixelType>::ZeroValue();
 
   // map the point into fixed space
-  this->LocalTransformPoint(virtualPoint,mappedFixedPoint);
+  this->LocalTransformPoint(virtualPoint, mappedFixedPoint);
 
   // check against the mask if one is assigned
-  if ( this->m_FixedImageMask )
-    {
+  if (this->m_FixedImageMask)
+  {
     // Check if mapped point is within the support region of the fixed image
     // mask
-    pointIsValid = this->m_FixedImageMask->IsInsideInWorldSpace( mappedFixedPoint );
-    if( ! pointIsValid )
-      {
+    pointIsValid = this->m_FixedImageMask->IsInsideInWorldSpace(mappedFixedPoint);
+    if (!pointIsValid)
+    {
       return pointIsValid;
-      }
     }
+  }
 
   // Check if mapped point is inside image buffer
   pointIsValid = this->m_FixedInterpolator->IsInsideBuffer(mappedFixedPoint);
 
   // Evaluate
-  if( pointIsValid )
-    {
+  if (pointIsValid)
+  {
     mappedFixedPixelValue = this->m_FixedInterpolator->Evaluate(mappedFixedPoint);
-    }
+  }
 
   return pointIsValid;
 }
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 bool
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::TransformAndEvaluateMovingPoint(
-                         const VirtualPointType & virtualPoint,
-                         MovingImagePointType & mappedMovingPoint,
-                         MovingImagePixelType & mappedMovingPixelValue ) const
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  TransformAndEvaluateMovingPoint(const VirtualPointType & virtualPoint,
+                                  MovingImagePointType &   mappedMovingPoint,
+                                  MovingImagePixelType &   mappedMovingPixelValue) const
 {
   bool pointIsValid = true;
   mappedMovingPixelValue = NumericTraits<MovingImagePixelType>::ZeroValue();
@@ -334,256 +368,305 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   localVirtualPoint.CastFrom(virtualPoint);
   localMappedMovingPoint.CastFrom(mappedMovingPoint);
 
-  localMappedMovingPoint = this->m_MovingTransform->TransformPoint( localVirtualPoint );
+  localMappedMovingPoint = this->m_MovingTransform->TransformPoint(localVirtualPoint);
   mappedMovingPoint.CastFrom(localMappedMovingPoint);
 
   // check against the mask if one is assigned
-  if ( this->m_MovingImageMask )
-    {
+  if (this->m_MovingImageMask)
+  {
     // Check if mapped point is within the support region of the fixed image
     // mask
-    pointIsValid = this->m_MovingImageMask->IsInsideInWorldSpace(
-      mappedMovingPoint );
-    if( ! pointIsValid )
-      {
+    pointIsValid = this->m_MovingImageMask->IsInsideInWorldSpace(mappedMovingPoint);
+    if (!pointIsValid)
+    {
       return pointIsValid;
-      }
     }
+  }
 
   // Check if mapped point is inside image buffer
   pointIsValid = this->m_MovingInterpolator->IsInsideBuffer(mappedMovingPoint);
 
   // Evaluate
-  if( pointIsValid )
-    {
-    mappedMovingPixelValue = this->m_MovingInterpolator->Evaluate( mappedMovingPoint );
-    }
+  if (pointIsValid)
+  {
+    mappedMovingPixelValue = this->m_MovingInterpolator->Evaluate(mappedMovingPoint);
+  }
 
   return pointIsValid;
 }
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::ComputeFixedImageGradientAtPoint( const FixedImagePointType & mappedPoint, FixedImageGradientType & gradient ) const
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  ComputeFixedImageGradientAtPoint(const FixedImagePointType & mappedPoint, FixedImageGradientType & gradient) const
 {
-  if ( this->m_UseFixedImageGradientFilter )
+  if (this->m_UseFixedImageGradientFilter)
+  {
+    if (!this->GetGradientSourceIncludesFixed())
     {
-    if( ! this->GetGradientSourceIncludesFixed() )
-      {
-      itkExceptionMacro("Attempted to retrieve fixed image gradient from gradient image filter, "
-                        "but GradientSource does not include 'fixed', and thus the gradient image has not been calculated.");
-      }
-    gradient = m_FixedImageGradientInterpolator->Evaluate( mappedPoint );
+      itkExceptionMacro(
+        "Attempted to retrieve fixed image gradient from gradient image filter, "
+        "but GradientSource does not include 'fixed', and thus the gradient image has not been calculated.");
     }
+    gradient = m_FixedImageGradientInterpolator->Evaluate(mappedPoint);
+  }
   else
-    {
+  {
     // if not using the gradient image
-    gradient = this->m_FixedImageGradientCalculator->Evaluate( mappedPoint );
-    }
+    gradient = this->m_FixedImageGradientCalculator->Evaluate(mappedPoint);
+  }
 }
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::ComputeMovingImageGradientAtPoint( const MovingImagePointType & mappedPoint, MovingImageGradientType & gradient ) const
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  ComputeMovingImageGradientAtPoint(const MovingImagePointType & mappedPoint, MovingImageGradientType & gradient) const
 {
-  if ( this->m_UseMovingImageGradientFilter )
+  if (this->m_UseMovingImageGradientFilter)
+  {
+    if (!this->GetGradientSourceIncludesMoving())
     {
-    if( ! this->GetGradientSourceIncludesMoving() )
-      {
-      itkExceptionMacro("Attempted to retrieve moving image gradient from gradient image filter, "
-                        "but GradientSource does not include 'moving', and thus the gradient image has not been calculated.");
-      }
-    gradient = m_MovingImageGradientInterpolator->Evaluate( mappedPoint );
+      itkExceptionMacro(
+        "Attempted to retrieve moving image gradient from gradient image filter, "
+        "but GradientSource does not include 'moving', and thus the gradient image has not been calculated.");
     }
+    gradient = m_MovingImageGradientInterpolator->Evaluate(mappedPoint);
+  }
   else
-    {
+  {
     // if not using the gradient image
     gradient = this->m_MovingImageGradientCalculator->Evaluate(mappedPoint);
-    }
+  }
 }
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::ComputeFixedImageGradientFilterImage()
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  ComputeFixedImageGradientFilterImage()
 {
-  this->m_FixedImageGradientFilter->SetInput( this->m_FixedImage );
+  this->m_FixedImageGradientFilter->SetInput(this->m_FixedImage);
   this->m_FixedImageGradientFilter->Update();
   this->m_FixedImageGradientImage = this->m_FixedImageGradientFilter->GetOutput();
-  this->m_FixedImageGradientInterpolator->SetInputImage( this->m_FixedImageGradientImage );
+  this->m_FixedImageGradientInterpolator->SetInputImage(this->m_FixedImageGradientImage);
 }
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::ComputeMovingImageGradientFilterImage() const
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  ComputeMovingImageGradientFilterImage() const
 {
-  this->m_MovingImageGradientFilter->SetInput( this->m_MovingImage );
+  this->m_MovingImageGradientFilter->SetInput(this->m_MovingImage);
   this->m_MovingImageGradientFilter->Update();
   this->m_MovingImageGradientImage = this->m_MovingImageGradientFilter->GetOutput();
-  this->m_MovingImageGradientInterpolator->SetInputImage( this->m_MovingImageGradientImage );
+  this->m_MovingImageGradientInterpolator->SetInputImage(this->m_MovingImageGradientImage);
 }
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::InitializeDefaultFixedImageGradientFilter()
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  InitializeDefaultFixedImageGradientFilter()
 {
   const typename FixedImageType::SpacingType & spacing = this->m_FixedImage->GetSpacing();
-  double maximumSpacing = 0.0;
-  for ( ImageDimensionType i = 0; i < FixedImageDimension; i++ )
+  double                                       maximumSpacing = 0.0;
+  for (ImageDimensionType i = 0; i < FixedImageDimension; i++)
+  {
+    if (spacing[i] > maximumSpacing)
     {
-    if ( spacing[i] > maximumSpacing )
-      {
       maximumSpacing = spacing[i];
-      }
     }
-  this->m_DefaultFixedImageGradientFilter->SetSigma( maximumSpacing );
-  this->m_DefaultFixedImageGradientFilter->SetNormalizeAcrossScale( true );
-  this->m_DefaultFixedImageGradientFilter->SetNumberOfWorkUnits( this->GetMaximumNumberOfWorkUnits() );
-  this->m_DefaultFixedImageGradientFilter->SetUseImageDirection( true );
+  }
+  this->m_DefaultFixedImageGradientFilter->SetSigma(maximumSpacing);
+  this->m_DefaultFixedImageGradientFilter->SetNormalizeAcrossScale(true);
+  this->m_DefaultFixedImageGradientFilter->SetNumberOfWorkUnits(this->GetMaximumNumberOfWorkUnits());
+  this->m_DefaultFixedImageGradientFilter->SetUseImageDirection(true);
 }
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::InitializeDefaultMovingImageGradientFilter()
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  InitializeDefaultMovingImageGradientFilter()
 {
   const typename MovingImageType::SpacingType & spacing = this->m_MovingImage->GetSpacing();
-  double maximumSpacing = 0.0;
-  for ( ImageDimensionType i = 0; i < MovingImageDimension; i++ )
+  double                                        maximumSpacing = 0.0;
+  for (ImageDimensionType i = 0; i < MovingImageDimension; i++)
+  {
+    if (spacing[i] > maximumSpacing)
     {
-    if ( spacing[i] > maximumSpacing )
-      {
       maximumSpacing = spacing[i];
-      }
     }
+  }
   this->m_DefaultMovingImageGradientFilter->SetSigma(maximumSpacing);
   this->m_DefaultMovingImageGradientFilter->SetNormalizeAcrossScale(true);
   this->m_DefaultMovingImageGradientFilter->SetNumberOfWorkUnits(this->GetMaximumNumberOfWorkUnits());
   this->m_DefaultMovingImageGradientFilter->SetUseImageDirection(true);
 }
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::SetMaximumNumberOfWorkUnits( const ThreadIdType number )
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  SetMaximumNumberOfWorkUnits(const ThreadIdType number)
 {
-  if( number != this->m_SparseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads() )
-    {
-    this->m_SparseGetValueAndDerivativeThreader->SetMaximumNumberOfThreads( number );
+  if (number != this->m_SparseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads())
+  {
+    this->m_SparseGetValueAndDerivativeThreader->SetMaximumNumberOfThreads(number);
     this->Modified();
-    }
-  if( number != this->m_DenseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads() )
-    {
-    this->m_DenseGetValueAndDerivativeThreader->SetMaximumNumberOfThreads( number );
+  }
+  if (number != this->m_DenseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads())
+  {
+    this->m_DenseGetValueAndDerivativeThreader->SetMaximumNumberOfThreads(number);
     this->Modified();
-    }
+  }
 }
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 ThreadIdType
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::GetMaximumNumberOfWorkUnits() const
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  GetMaximumNumberOfWorkUnits() const
 {
-  if( this->m_UseSampledPointSet )
-    {
+  if (this->m_UseSampledPointSet)
+  {
     return this->m_SparseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads();
-    }
-  return  this->m_DenseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads();
+  }
+  return this->m_DenseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads();
 }
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 ThreadIdType
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::GetNumberOfWorkUnitsUsed() const
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  GetNumberOfWorkUnitsUsed() const
 {
-  if( this->m_UseSampledPointSet )
-    {
+  if (this->m_UseSampledPointSet)
+  {
     return this->m_SparseGetValueAndDerivativeThreader->GetNumberOfWorkUnitsUsed();
-    }
+  }
   else
-    {
+  {
     return this->m_DenseGetValueAndDerivativeThreader->GetNumberOfWorkUnitsUsed();
-    }
+  }
 }
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::MapFixedSampledPointSetToVirtual()
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  MapFixedSampledPointSetToVirtual()
 {
   this->m_VirtualSampledPointSet = VirtualPointSetType::New();
   this->m_VirtualSampledPointSet->Initialize();
 
   using PointsContainer = typename FixedSampledPointSetType::PointsContainer;
-  typename PointsContainer::ConstPointer
-    points = this->m_FixedSampledPointSet->GetPoints();
-  if( points.IsNull() )
-    {
+  typename PointsContainer::ConstPointer points = this->m_FixedSampledPointSet->GetPoints();
+  if (points.IsNull())
+  {
     itkExceptionMacro("Fixed Sample point set is empty.");
-    }
+  }
   typename PointsContainer::ConstIterator fixedIt = points->Begin();
 
-  typename FixedTransformType::InverseTransformBasePointer
-    inverseTransform = this->m_FixedTransform->GetInverseTransform();
-  if( inverseTransform.IsNull() )
-    {
+  typename FixedTransformType::InverseTransformBasePointer inverseTransform =
+    this->m_FixedTransform->GetInverseTransform();
+  if (inverseTransform.IsNull())
+  {
     itkExceptionMacro("Unable to get inverse transform for mapping sampled "
                       " point set.");
-    }
+  }
 
   this->m_NumberOfSkippedFixedSampledPoints = 0;
   SizeValueType virtualIndex = 0;
-  while( fixedIt != points->End() )
-    {
-    typename FixedSampledPointSetType::PointType point = inverseTransform->TransformPoint( fixedIt.Value() );
-    typename VirtualImageType::IndexType tempIndex;
+  while (fixedIt != points->End())
+  {
+    typename FixedSampledPointSetType::PointType point = inverseTransform->TransformPoint(fixedIt.Value());
+    typename VirtualImageType::IndexType         tempIndex;
     /* Verify that the point is valid. We may be working with a resized virtual domain,
      * and a fixed sampled point list that was created before the resizing. */
-    if( this->TransformPhysicalPointToVirtualIndex( point, tempIndex ) )
-      {
-      this->m_VirtualSampledPointSet->SetPoint( virtualIndex, point );
-      virtualIndex++;
-      }
-    else
-      {
-      this->m_NumberOfSkippedFixedSampledPoints++;
-      }
-    ++fixedIt;
-    }
-  if( this->m_VirtualSampledPointSet->GetNumberOfPoints() == 0 )
+    if (this->TransformPhysicalPointToVirtualIndex(point, tempIndex))
     {
+      this->m_VirtualSampledPointSet->SetPoint(virtualIndex, point);
+      virtualIndex++;
+    }
+    else
+    {
+      this->m_NumberOfSkippedFixedSampledPoints++;
+    }
+    ++fixedIt;
+  }
+  if (this->m_VirtualSampledPointSet->GetNumberOfPoints() == 0)
+  {
     itkExceptionMacro("The virtual sampled point set has zero points because "
                       "no fixed sampled points were within the virtual "
                       "domain after mapping. There are no points to evaulate.");
-    }
+  }
 }
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 SizeValueType
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::GetNumberOfDomainPoints() const
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
+  GetNumberOfDomainPoints() const
 {
-  if( this->m_UseSampledPointSet )
-    {
-    //The virtual sampled point set holds the actual points
+  if (this->m_UseSampledPointSet)
+  {
+    // The virtual sampled point set holds the actual points
     // over which we're evaluating over.
     return this->m_VirtualSampledPointSet->GetNumberOfPoints();
-    }
+  }
   else
-    {
+  {
     typename VirtualImageType::RegionType region = this->GetVirtualRegion();
     return region.GetNumberOfPixels();
-    }
+  }
 }
 
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::PrintSelf(std::ostream& os, Indent indent) const
+ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::PrintSelf(
+  std::ostream & os,
+  Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -593,15 +676,14 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
      << indent << "UseFloatingPointCorrection: " << this->GetUseFloatingPointCorrection() << std::endl
      << indent << "FloatingPointCorrectionResolution: " << this->GetFloatingPointCorrectionResolution() << std::endl;
 
-  itkPrintSelfObjectMacro( FixedImage );
-  itkPrintSelfObjectMacro( MovingImage );
-  itkPrintSelfObjectMacro( FixedTransform );
-  itkPrintSelfObjectMacro( MovingTransform );
-  itkPrintSelfObjectMacro( FixedImageMask );
-  itkPrintSelfObjectMacro( MovingImageMask );
-
+  itkPrintSelfObjectMacro(FixedImage);
+  itkPrintSelfObjectMacro(MovingImage);
+  itkPrintSelfObjectMacro(FixedTransform);
+  itkPrintSelfObjectMacro(MovingTransform);
+  itkPrintSelfObjectMacro(FixedImageMask);
+  itkPrintSelfObjectMacro(MovingImageMask);
 }
 
-}//namespace itk
+} // namespace itk
 
 #endif

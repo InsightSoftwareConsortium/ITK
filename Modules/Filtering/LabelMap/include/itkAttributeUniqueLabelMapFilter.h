@@ -21,7 +21,8 @@
 #include "itkInPlaceLabelMapFilter.h"
 #include "itkAttributeLabelObject.h"
 
-namespace itk {
+namespace itk
+{
 /** \class AttributeUniqueLabelMapFilter
  * \brief Make sure that the objects are not overlapping
  *
@@ -42,10 +43,10 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template<typename TImage, typename TAttributeAccessor=
-    typename Functor::AttributeLabelObjectAccessor< typename TImage::LabelObjectType > >
-class ITK_TEMPLATE_EXPORT AttributeUniqueLabelMapFilter :
-    public InPlaceLabelMapFilter<TImage>
+template <typename TImage,
+          typename TAttributeAccessor =
+            typename Functor::AttributeLabelObjectAccessor<typename TImage::LabelObjectType>>
+class ITK_TEMPLATE_EXPORT AttributeUniqueLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AttributeUniqueLabelMapFilter);
@@ -76,17 +77,16 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(AttributeUniqueLabelMapFilter,
-               InPlaceLabelMapFilter);
+  itkTypeMacro(AttributeUniqueLabelMapFilter, InPlaceLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-/*  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<InputImagePixelType>));
-  itkConceptMacro(IntConvertibleToInputCheck,
-    (Concept::Convertible<int, InputImagePixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<InputImagePixelType>));*/
+  /*  itkConceptMacro(InputEqualityComparableCheck,
+      (Concept::EqualityComparable<InputImagePixelType>));
+    itkConceptMacro(IntConvertibleToInputCheck,
+      (Concept::Convertible<int, InputImagePixelType>));
+    itkConceptMacro(InputOStreamWritableCheck,
+      (Concept::OStreamWritable<InputImagePixelType>));*/
   // End concept checking
 #endif
 
@@ -95,60 +95,63 @@ public:
    * the highest attribute values are labeled first. Set ReverseOrdering to true
    * make the one with the smallest attributes be labeled first.
    */
-  itkSetMacro( ReverseOrdering, bool );
-  itkGetConstReferenceMacro( ReverseOrdering, bool );
-  itkBooleanMacro( ReverseOrdering );
+  itkSetMacro(ReverseOrdering, bool);
+  itkGetConstReferenceMacro(ReverseOrdering, bool);
+  itkBooleanMacro(ReverseOrdering);
 
 protected:
   AttributeUniqueLabelMapFilter();
   ~AttributeUniqueLabelMapFilter() override = default;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   bool m_ReverseOrdering;
 
 private:
   struct LineOfLabelObject
-    {
+  {
     using LineType = typename LabelObjectType::LineType;
 
-    LineOfLabelObject( const LineType l, LabelObjectType * lo )
-      {
+    LineOfLabelObject(const LineType l, LabelObjectType * lo)
+    {
       this->line = l;
       this->labelObject = lo;
-      }
+    }
     LineType          line;
     LabelObjectType * labelObject;
-    };
+  };
 
   class LineOfLabelObjectComparator
+  {
+  public:
+    bool
+    operator()(const LineOfLabelObject & lla, const LineOfLabelObject & llb)
     {
-    public:
-      bool operator()( const LineOfLabelObject & lla, const LineOfLabelObject & llb )
+      for (int i = ImageDimension - 1; i >= 0; i--)
+      {
+        if (lla.line.GetIndex()[i] > llb.line.GetIndex()[i])
         {
-        for( int i=ImageDimension-1; i>=0; i-- )
-          {
-          if( lla.line.GetIndex()[i] > llb.line.GetIndex()[i] )
-            {
-            return true;
-            }
-          else if( lla.line.GetIndex()[i] < llb.line.GetIndex()[i] )
-            {
-            return false;
-            }
-          }
-        return false;
+          return true;
         }
-    };
+        else if (lla.line.GetIndex()[i] < llb.line.GetIndex()[i])
+        {
+          return false;
+        }
+      }
+      return false;
+    }
+  };
 
 }; // end of class
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAttributeUniqueLabelMapFilter.hxx"
+#  include "itkAttributeUniqueLabelMapFilter.hxx"
 #endif
 
 #endif

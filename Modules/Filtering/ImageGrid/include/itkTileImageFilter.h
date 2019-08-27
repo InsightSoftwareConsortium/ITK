@@ -47,18 +47,17 @@ namespace itk
  * \endsphinx
  */
 
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT TileImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT TileImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TileImageFilter);
 
   /** Standard Self type alias */
   using Self = TileImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -92,16 +91,16 @@ public:
    */
   class TileInfo
   {
-public:
-    int                   m_ImageNumber{-1};
+  public:
+    int                   m_ImageNumber{ -1 };
     OutputImageRegionType m_Region;
     TileInfo() {}
   };
 
-  using TileImageType = Image< TileInfo, Self::OutputImageDimension >;
+  using TileImageType = Image<TileInfo, Self::OutputImageDimension>;
 
   /** LayoutArray type. */
-  using LayoutArrayType = FixedArray< unsigned int, Self::OutputImageDimension >;
+  using LayoutArrayType = FixedArray<unsigned int, Self::OutputImageDimension>;
 
   /** Set/Get the layout of the tiles. If the last Layout value is 0,
    * the filter will compute a value that will acoomodate all of the
@@ -119,12 +118,9 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputEqualityComparableCheck,
-                   ( Concept::EqualityComparable< OutputPixelType > ) );
-  itkConceptMacro( SameTypeCheck,
-                   ( Concept::SameType< InputPixelType, OutputPixelType > ) );
-  itkConceptMacro( OutputOStreamWritableCheck,
-                   ( Concept::OStreamWritable< OutputPixelType > ) );
+  itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputPixelType>));
+  itkConceptMacro(SameTypeCheck, (Concept::SameType<InputPixelType, OutputPixelType>));
+  itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<OutputPixelType>));
   // End concept checking
 #endif
 
@@ -132,20 +128,25 @@ protected:
   TileImageFilter();
   ~TileImageFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Override VerifyInputInformation() since this filter's inputs do
    * not need to occoupy the same physical space.
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() ITKv5_CONST override;
+  void
+  VerifyInputInformation() ITKv5_CONST override;
 
 private:
   typename TileImageType::Pointer m_TileImage;
@@ -157,7 +158,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTileImageFilter.hxx"
+#  include "itkTileImageFilter.hxx"
 #endif
 
 #endif

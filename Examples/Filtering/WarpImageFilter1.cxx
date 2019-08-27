@@ -37,14 +37,16 @@
 // Software Guide : EndCodeSnippet
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  inputDisplacementField  outputImageFile" << std::endl;
+    std::cerr << argv[0] << "  inputImageFile  inputDisplacementField  outputImageFile"
+              << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
 
@@ -62,16 +64,16 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   using VectorComponentType = float;
-  using VectorPixelType = itk::Vector< VectorComponentType, Dimension >;
-  using DisplacementFieldType = itk::Image< VectorPixelType,  Dimension >;
+  using VectorPixelType = itk::Vector<VectorComponentType, Dimension>;
+  using DisplacementFieldType = itk::Image<VectorPixelType, Dimension>;
 
   using PixelType = unsigned char;
-  using ImageType = itk::Image< PixelType,  Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
   // Software Guide : BeginLatex
   //
@@ -81,22 +83,21 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FieldReaderType = itk::ImageFileReader< DisplacementFieldType >;
+  using FieldReaderType = itk::ImageFileReader<DisplacementFieldType>;
   // Software Guide : EndCodeSnippet
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[3] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[3]);
 
   // Software Guide : BeginCodeSnippet
   FieldReaderType::Pointer fieldReader = FieldReaderType::New();
-  fieldReader->SetFileName( argv[2] );
+  fieldReader->SetFileName(argv[2]);
   fieldReader->Update();
 
-  DisplacementFieldType::ConstPointer deformationField =
-                                                      fieldReader->GetOutput();
+  DisplacementFieldType::ConstPointer deformationField = fieldReader->GetOutput();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -107,9 +108,7 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::WarpImageFilter< ImageType,
-                                ImageType,
-                                DisplacementFieldType  >;
+  using FilterType = itk::WarpImageFilter<ImageType, ImageType, DisplacementFieldType>;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -125,12 +124,11 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using InterpolatorType = itk::LinearInterpolateImageFunction<
-                       ImageType, double >;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, double>;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
-  filter->SetInterpolator( interpolator );
+  filter->SetInterpolator(interpolator);
   // Software Guide : EndCodeSnippet
 
   // SoftwareGuide : BeginLatex
@@ -141,26 +139,25 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetOutputSpacing( deformationField->GetSpacing() );
-  filter->SetOutputOrigin(  deformationField->GetOrigin() );
-  filter->SetOutputDirection(  deformationField->GetDirection() );
+  filter->SetOutputSpacing(deformationField->GetSpacing());
+  filter->SetOutputOrigin(deformationField->GetOrigin());
+  filter->SetOutputDirection(deformationField->GetDirection());
 
-  filter->SetDisplacementField( deformationField );
+  filter->SetDisplacementField(deformationField);
   // Software Guide : EndCodeSnippet
 
-  filter->SetInput( reader->GetOutput() );
-  writer->SetInput( filter->GetOutput() );
+  filter->SetInput(reader->GetOutput());
+  writer->SetInput(filter->GetOutput());
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
-    }
+  }
 
   return EXIT_SUCCESS;
-
 }

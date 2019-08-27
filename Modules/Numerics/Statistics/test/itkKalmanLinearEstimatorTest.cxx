@@ -29,11 +29,12 @@
  *
  */
 
-int itkKalmanLinearEstimatorTest(int, char* [] )
+int
+itkKalmanLinearEstimatorTest(int, char *[])
 {
 
 
-  using KalmanFilterType = itk::KalmanLinearEstimator<double,6>;
+  using KalmanFilterType = itk::KalmanLinearEstimator<double, 6>;
 
   using VectorType = KalmanFilterType::VectorType;
   using ValueType = KalmanFilterType::ValueType;
@@ -43,10 +44,10 @@ int itkKalmanLinearEstimatorTest(int, char* [] )
   filter.ClearEstimation();
   filter.SetVariance(1.0);
 
-  ValueType     measure;
-  VectorType    predictor;
+  ValueType  measure;
+  VectorType predictor;
 
-  VectorType    planeEquation;
+  VectorType planeEquation;
 
   planeEquation(0) = 9.0;
   planeEquation(1) = 6.0;
@@ -57,32 +58,31 @@ int itkKalmanLinearEstimatorTest(int, char* [] )
 
   constexpr unsigned int N = 10;
 
-  predictor(5)  =  1.0;
-  for(unsigned int ax=0; ax < N; ax++)
+  predictor(5) = 1.0;
+  for (unsigned int ax = 0; ax < N; ax++)
+  {
+    predictor(0) = ax;
+    for (unsigned int bx = 0; bx < N; bx++)
     {
-    predictor(0)  = ax;
-    for(unsigned int bx=0; bx < N; bx++)
+      predictor(1) = bx;
+      for (unsigned int cx = 0; cx < N; cx++)
       {
-      predictor(1)  = bx;
-      for(unsigned int cx=0; cx < N; cx++)
+        predictor(2) = cx;
+        for (unsigned int dx = 0; dx < N; dx++)
         {
-        predictor(2)  = cx;
-        for(unsigned int dx=0; dx < N; dx++)
+          predictor(3) = dx;
+          for (unsigned int ex = 0; ex < N; ex++)
           {
-          predictor(3)  = dx;
-          for(unsigned int ex=0; ex < N; ex++)
-            {
-            predictor(4)  =  ex;
+            predictor(4) = ex;
 
-            measure = dot_product( predictor, planeEquation );
+            measure = dot_product(predictor, planeEquation);
 
-            filter.UpdateWithNewMeasure(measure,predictor);
-
-            }
+            filter.UpdateWithNewMeasure(measure, predictor);
           }
         }
       }
     }
+  }
 
   VectorType estimation = filter.GetEstimator();
 
@@ -93,7 +93,7 @@ int itkKalmanLinearEstimatorTest(int, char* [] )
   std::cout << estimation;
 
   VectorType error = estimation - planeEquation;
-  ValueType errorMagnitude =  dot_product( error, error );
+  ValueType  errorMagnitude = dot_product(error, error);
 
   std::cout << std::endl << "Errors : " << std::endl;
   std::cout << error;
@@ -110,19 +110,17 @@ int itkKalmanLinearEstimatorTest(int, char* [] )
 
   const float tolerance = 1e-4;
 
-  if( errorMagnitude > tolerance )
-    {
+  if (errorMagnitude > tolerance)
+  {
     pass = false;
-    }
+  }
 
-  if( !pass )
-    {
+  if (!pass)
+  {
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
-
 }

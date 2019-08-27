@@ -32,16 +32,15 @@ namespace Statistics
  * \sa ManhattanDistanceMetric
  * \ingroup ITKStatistics
  */
-template< typename TVector >
-class ITK_TEMPLATE_EXPORT EuclideanSquareDistanceMetric:
-  public DistanceMetric< TVector >
+template <typename TVector>
+class ITK_TEMPLATE_EXPORT EuclideanSquareDistanceMetric : public DistanceMetric<TVector>
 {
 public:
   /** Standard "Self" type alias. */
   using Self = EuclideanSquareDistanceMetric;
-  using Superclass = DistanceMetric< TVector >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = DistanceMetric<TVector>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
   using MeasurementVectorType = typename Superclass::MeasurementVectorType;
@@ -53,20 +52,22 @@ public:
   itkNewMacro(Self);
 
   /** Gets the distance between the origin and x */
-  double Evaluate(const MeasurementVectorType & x) const override;
+  double
+  Evaluate(const MeasurementVectorType & x) const override;
 
   /** Gets the distance between x1 and x2 */
-  double Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const override;
+  double
+  Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const override;
 
 protected:
   EuclideanSquareDistanceMetric() = default;
   ~EuclideanSquareDistanceMetric() override = default;
-};  // end of class
+}; // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkEuclideanSquareDistanceMetric.hxx"
+#  include "itkEuclideanSquareDistanceMetric.hxx"
 #endif
 
 #endif

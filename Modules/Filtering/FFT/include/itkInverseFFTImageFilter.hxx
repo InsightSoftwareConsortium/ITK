@@ -21,94 +21,88 @@
 
 #include "itkVnlInverseFFTImageFilter.h"
 
-#if defined( ITK_USE_FFTWD ) || defined( ITK_USE_FFTWF )
-#include "itkFFTWInverseFFTImageFilter.h"
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+#  include "itkFFTWInverseFFTImageFilter.h"
 #endif
 
 namespace itk
 {
 
 // Partial specialization allows avoiding runtime type choice
-template< typename TSelfPointer, typename TInputImage, typename TOutputImage, typename TPixel >
+template <typename TSelfPointer, typename TInputImage, typename TOutputImage, typename TPixel>
 struct Dispatch_Inverse_New
 {
-  static TSelfPointer Apply()
-    {
-      return VnlInverseFFTImageFilter< TInputImage, TOutputImage >
-        ::New().GetPointer();
-    }
+  static TSelfPointer
+  Apply()
+  {
+    return VnlInverseFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer();
+  }
 };
 
 #ifdef ITK_USE_FFTWD
-template < typename TSelfPointer, typename TInputImage, typename TOutputImage >
-struct Dispatch_Inverse_New< TSelfPointer, TInputImage, TOutputImage, double >
+template <typename TSelfPointer, typename TInputImage, typename TOutputImage>
+struct Dispatch_Inverse_New<TSelfPointer, TInputImage, TOutputImage, double>
 {
-  static TSelfPointer Apply()
-    {
-      return FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
-        ::New().GetPointer();
-    }
+  static TSelfPointer
+  Apply()
+  {
+    return FFTWInverseFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer();
+  }
 };
 #endif
 
 #ifdef ITK_USE_FFTWF
-template< typename TSelfPointer, typename TInputImage, typename TOutputImage >
-struct Dispatch_Inverse_New< TSelfPointer, TInputImage, TOutputImage, float >
+template <typename TSelfPointer, typename TInputImage, typename TOutputImage>
+struct Dispatch_Inverse_New<TSelfPointer, TInputImage, TOutputImage, float>
 {
-  static TSelfPointer Apply()
-    {
-      return FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
-        ::New().GetPointer();
-    }
+  static TSelfPointer
+  Apply()
+  {
+    return FFTWInverseFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer();
+  }
 };
 #endif
 
-template< typename TInputImage, typename TOutputImage >
-typename InverseFFTImageFilter< TInputImage, TOutputImage >::Pointer
-InverseFFTImageFilter< TInputImage, TOutputImage >
-::New()
+template <typename TInputImage, typename TOutputImage>
+typename InverseFFTImageFilter<TInputImage, TOutputImage>::Pointer
+InverseFFTImageFilter<TInputImage, TOutputImage>::New()
 {
-  Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
+  Pointer smartPtr = ::itk::ObjectFactory<Self>::Create();
 
-  if ( smartPtr.IsNull() )
-    {
+  if (smartPtr.IsNull())
+  {
     smartPtr = Dispatch_Inverse_New<Pointer, TInputImage, TOutputImage, OutputPixelType>::Apply();
-    }
+  }
 
   return smartPtr;
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-InverseFFTImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+InverseFFTImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
   // get pointers to the input and output
-  typename InputImageType::Pointer inputPtr  =
-    const_cast< InputImageType * >( this->GetInput() );
-  if ( inputPtr )
-    {
+  typename InputImageType::Pointer inputPtr = const_cast<InputImageType *>(this->GetInput());
+  if (inputPtr)
+  {
     inputPtr->SetRequestedRegionToLargestPossibleRegion();
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-InverseFFTImageFilter< TInputImage, TOutputImage >
-::EnlargeOutputRequestedRegion(DataObject *)
+InverseFFTImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()
-    ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 SizeValueType
-InverseFFTImageFilter< TInputImage, TOutputImage >
-::GetSizeGreatestPrimeFactor() const
+InverseFFTImageFilter<TInputImage, TOutputImage>::GetSizeGreatestPrimeFactor() const
 {
   return 2;
 }
 
-}
+} // namespace itk
 #endif

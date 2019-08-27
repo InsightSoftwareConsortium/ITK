@@ -23,41 +23,36 @@
 namespace itk
 {
 // Constructor with default arguments
-template<typename TParametersValueType>
-VersorRigid3DTransform<TParametersValueType>
-::VersorRigid3DTransform() :
-  Superclass(ParametersDimension)
-{
-}
+template <typename TParametersValueType>
+VersorRigid3DTransform<TParametersValueType>::VersorRigid3DTransform()
+  : Superclass(ParametersDimension)
+{}
 
 // Constructor with arguments
-template<typename TParametersValueType>
-VersorRigid3DTransform<TParametersValueType>::VersorRigid3DTransform(unsigned int paramDim) :
-  Superclass(paramDim)
-{
-}
+template <typename TParametersValueType>
+VersorRigid3DTransform<TParametersValueType>::VersorRigid3DTransform(unsigned int paramDim)
+  : Superclass(paramDim)
+{}
 
 // Constructor with arguments
-template<typename TParametersValueType>
-VersorRigid3DTransform<TParametersValueType>::VersorRigid3DTransform(const MatrixType & matrix,
-                                                            const OutputVectorType & offset) :
-  Superclass(matrix, offset)
-{
-}
+template <typename TParametersValueType>
+VersorRigid3DTransform<TParametersValueType>::VersorRigid3DTransform(const MatrixType &       matrix,
+                                                                     const OutputVectorType & offset)
+  : Superclass(matrix, offset)
+{}
 
 // Set Parameters
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-VersorRigid3DTransform<TParametersValueType>
-::SetParameters(const ParametersType & parameters)
+VersorRigid3DTransform<TParametersValueType>::SetParameters(const ParametersType & parameters)
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
 
   // Save parameters. Needed for proper operation of TransformUpdateParameters.
-  if( &parameters != &(this->m_Parameters) )
-    {
+  if (&parameters != &(this->m_Parameters))
+  {
     this->m_Parameters = parameters;
-    }
+  }
 
   // Transfer the versor part
 
@@ -69,22 +64,22 @@ VersorRigid3DTransform<TParametersValueType>
   axis[1] = parameters[1];
   norm += parameters[2] * parameters[2];
   axis[2] = parameters[2];
-  if( norm > 0 )
-    {
+  if (norm > 0)
+  {
     norm = std::sqrt(norm);
-    }
+  }
 
   double epsilon = 1e-10;
-  if( norm >= 1.0 - epsilon )
-    {
-    axis = axis / ( norm + epsilon * norm );
-    }
+  if (norm >= 1.0 - epsilon)
+  {
+    axis = axis / (norm + epsilon * norm);
+  }
   VersorType newVersor;
   newVersor.Set(axis);
   this->SetVarVersor(newVersor);
   this->ComputeMatrix();
 
-  itkDebugMacro( << "Versor is now " << this->GetVersor() );
+  itkDebugMacro(<< "Versor is now " << this->GetVersor());
 
   // Transfer the translation part
   TranslationType newTranslation;
@@ -110,11 +105,10 @@ VersorRigid3DTransform<TParametersValueType>
 // p[3:5} = translation components
 //
 
-template<typename TParametersValueType>
-const typename VersorRigid3DTransform<TParametersValueType>::ParametersType
-& VersorRigid3DTransform<TParametersValueType>
-::GetParameters() const
-  {
+template <typename TParametersValueType>
+const typename VersorRigid3DTransform<TParametersValueType>::ParametersType &
+VersorRigid3DTransform<TParametersValueType>::GetParameters() const
+{
   itkDebugMacro(<< "Getting parameters ");
 
   this->m_Parameters[0] = this->GetVersor().GetX();
@@ -129,21 +123,22 @@ const typename VersorRigid3DTransform<TParametersValueType>::ParametersType
   itkDebugMacro(<< "After getting parameters " << this->m_Parameters);
 
   return this->m_Parameters;
-  }
+}
 
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-VersorRigid3DTransform<TParametersValueType>
-::UpdateTransformParameters( const DerivativeType & update, TParametersValueType factor )
+VersorRigid3DTransform<TParametersValueType>::UpdateTransformParameters(const DerivativeType & update,
+                                                                        TParametersValueType   factor)
 {
   SizeValueType numberOfParameters = this->GetNumberOfParameters();
 
-  if( update.Size() != numberOfParameters )
-    {
-    itkExceptionMacro("Parameter update size, " << update.Size() << ", must "
-                      " be same as transform parameter size, "
-                      << numberOfParameters << std::endl);
-    }
+  if (update.Size() != numberOfParameters)
+  {
+    itkExceptionMacro("Parameter update size, " << update.Size()
+                                                << ", must "
+                                                   " be same as transform parameter size, "
+                                                << numberOfParameters << std::endl);
+  }
 
   /* Make sure m_Parameters is updated to reflect the current values in
    * the transform's other parameter-related variables. This is effective for
@@ -157,10 +152,10 @@ VersorRigid3DTransform<TParametersValueType>
 
   VectorType rightPart;
 
-  for ( unsigned int i = 0; i < 3; i++ )
-    {
+  for (unsigned int i = 0; i < 3; i++)
+  {
     rightPart[i] = this->m_Parameters[i];
-    }
+  }
 
   VersorType currentRotation;
   currentRotation.Set(rightPart);
@@ -180,17 +175,17 @@ VersorRigid3DTransform<TParametersValueType>
   // of a particular length along the versor gradient
   // direction.
 
-  VersorType gradientRotation;
+  VersorType                 gradientRotation;
   const TParametersValueType norm = axis.GetNorm();
   if (Math::FloatAlmostEqual<TParametersValueType>(norm, 0.0))
-    {
+  {
     axis[2] = 1;
     gradientRotation.Set(axis, 0.0);
-    }
+  }
   else
-    {
+  {
     gradientRotation.Set(axis, factor * norm);
-    }
+  }
 
   //
   // Composing the currentRotation with the gradientRotation
@@ -198,7 +193,7 @@ VersorRigid3DTransform<TParametersValueType>
   //
   VersorType newRotation = currentRotation * gradientRotation;
 
-  ParametersType newParameters( numberOfParameters );
+  ParametersType newParameters(numberOfParameters);
 
   newParameters[0] = newRotation.GetX();
   newParameters[1] = newRotation.GetY();
@@ -206,10 +201,10 @@ VersorRigid3DTransform<TParametersValueType>
 
   // Optimize the non-versor parameters as the
   // RegularStepGradientDescentOptimizer
-  for ( unsigned int k = 3; k < numberOfParameters; k++ )
-    {
+  for (unsigned int k = 3; k < numberOfParameters; k++)
+  {
     newParameters[k] = this->m_Parameters[k] + update[k] * factor;
-    }
+  }
 
   /* Call SetParameters with the updated parameters.
    * SetParameters in most transforms is used to assign the input params
@@ -219,17 +214,17 @@ VersorRigid3DTransform<TParametersValueType>
    * a threaded implementation, SetParameters doesn't do this, and is
    * optimized to not copy the input parameters when == m_Parameters.
    */
-  this->SetParameters( newParameters );
+  this->SetParameters(newParameters);
 
   /* Call Modified, following behavior of other transform when their
    * parameters change, e.g. MatrixOffsetTransformBase */
   this->Modified();
 }
 
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-VersorRigid3DTransform<TParametersValueType>
-::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+VersorRigid3DTransform<TParametersValueType>::ComputeJacobianWithRespectToParameters(const InputPointType & p,
+                                                                                     JacobianType & jacobian) const
 {
   using ValueType = typename VersorType::ValueType;
 
@@ -239,7 +234,7 @@ VersorRigid3DTransform<TParametersValueType>
   const ValueType vz = this->GetVersor().GetZ();
   const ValueType vw = this->GetVersor().GetW();
 
-  jacobian.SetSize( 3, this->GetNumberOfLocalParameters() );
+  jacobian.SetSize(3, this->GetNumberOfLocalParameters());
   jacobian.Fill(0.0);
 
   const double px = p[0] - this->GetCenter()[0];
@@ -261,26 +256,17 @@ VersorRigid3DTransform<TParametersValueType>
   const double vzw = vz * vw;
 
   // compute Jacobian with respect to quaternion parameters
-  jacobian[0][0] = 2.0 * ( ( vyw + vxz ) * py + ( vzw - vxy ) * pz )
-    / vw;
-  jacobian[1][0] = 2.0 * ( ( vyw - vxz ) * px   - 2 * vxw   * py + ( vxx - vww ) * pz )
-    / vw;
-  jacobian[2][0] = 2.0 * ( ( vzw + vxy ) * px + ( vww - vxx ) * py   - 2 * vxw   * pz )
-    / vw;
+  jacobian[0][0] = 2.0 * ((vyw + vxz) * py + (vzw - vxy) * pz) / vw;
+  jacobian[1][0] = 2.0 * ((vyw - vxz) * px - 2 * vxw * py + (vxx - vww) * pz) / vw;
+  jacobian[2][0] = 2.0 * ((vzw + vxy) * px + (vww - vxx) * py - 2 * vxw * pz) / vw;
 
-  jacobian[0][1] = 2.0 * ( -2 * vyw  * px + ( vxw + vyz ) * py + ( vww - vyy ) * pz )
-    / vw;
-  jacobian[1][1] = 2.0 * ( ( vxw - vyz ) * px                + ( vzw + vxy ) * pz )
-    / vw;
-  jacobian[2][1] = 2.0 * ( ( vyy - vww ) * px + ( vzw - vxy ) * py   - 2 * vyw   * pz )
-    / vw;
+  jacobian[0][1] = 2.0 * (-2 * vyw * px + (vxw + vyz) * py + (vww - vyy) * pz) / vw;
+  jacobian[1][1] = 2.0 * ((vxw - vyz) * px + (vzw + vxy) * pz) / vw;
+  jacobian[2][1] = 2.0 * ((vyy - vww) * px + (vzw - vxy) * py - 2 * vyw * pz) / vw;
 
-  jacobian[0][2] = 2.0 * ( -2 * vzw  * px + ( vzz - vww ) * py + ( vxw - vyz ) * pz )
-    / vw;
-  jacobian[1][2] = 2.0 * ( ( vww - vzz ) * px   - 2 * vzw   * py + ( vyw + vxz ) * pz )
-    / vw;
-  jacobian[2][2] = 2.0 * ( ( vxw + vyz ) * px + ( vyw - vxz ) * py )
-    / vw;
+  jacobian[0][2] = 2.0 * (-2 * vzw * px + (vzz - vww) * py + (vxw - vyz) * pz) / vw;
+  jacobian[1][2] = 2.0 * ((vww - vzz) * px - 2 * vzw * py + (vyw + vxz) * pz) / vw;
+  jacobian[2][2] = 2.0 * ((vxw + vyz) * px + (vyw - vxz) * py) / vw;
 
   jacobian[0][3] = 1.0;
   jacobian[1][4] = 1.0;
@@ -288,13 +274,13 @@ VersorRigid3DTransform<TParametersValueType>
 }
 
 // Print self
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
 VersorRigid3DTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
-} // namespace
+} // namespace itk
 
 #endif

@@ -21,7 +21,8 @@
 #include <iostream>
 
 //
-int itkFEMElement3DMembraneTest(int, char *[])
+int
+itkFEMElement3DMembraneTest(int, char *[])
 {
 
   using ElementType = itk::fem::Element;
@@ -98,10 +99,10 @@ int itkFEMElement3DMembraneTest(int, char *[])
   e0->SetNode(5, n5);
   e0->SetNode(6, n6);
   e0->SetNode(7, n7);
-  if (  dynamic_cast<ElasticityType *>( m.GetPointer() ))
-    {
-    e0->SetMaterial( dynamic_cast<ElasticityType *>( m.GetPointer() ) );
-    }
+  if (dynamic_cast<ElasticityType *>(m.GetPointer()))
+  {
+    e0->SetMaterial(dynamic_cast<ElasticityType *>(m.GetPointer()));
+  }
 
   ElementType::MatrixType D, Me;
 

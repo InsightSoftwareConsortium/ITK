@@ -28,22 +28,19 @@ namespace itk
  * Contains the location and description of the error, as well as
  * the text that should be returned by itk::ExceptionObject::what().
  */
-class ExceptionObject::ExceptionData:public ReferenceCounterInterface
+class ExceptionObject::ExceptionData : public ReferenceCounterInterface
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExceptionData);
 
 protected:
   // Constructor. Might throw an exception.
-  ExceptionData(
-    std::string  file, unsigned int line,
-    std::string  description,
-    std::string  location):
-    m_Location(std::move(location)),
-    m_Description(std::move(description)),
-    m_File(std::move(file)),
-    m_Line(line)
-    {
+  ExceptionData(std::string file, unsigned int line, std::string description, std::string location)
+    : m_Location(std::move(location))
+    , m_Description(std::move(description))
+    , m_File(std::move(file))
+    , m_Line(line)
+  {
     std::ostringstream loc;
 
     loc << ":" << m_Line << ":\n";
@@ -51,7 +48,7 @@ protected:
     m_What += loc.str();
     m_What += m_Description;
     m_WhatPointer = m_What.c_str();
-    }
+  }
 
 private:
   friend class ExceptionObject;
@@ -77,20 +74,20 @@ private:
  * an exception within the constructor of ExceptionData won't trigger the destruction
  * of LightObject.
  */
-class ExceptionObject::ReferenceCountedExceptionData:public ExceptionData, public LightObject
+class ExceptionObject::ReferenceCountedExceptionData
+  : public ExceptionData
+  , public LightObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ReferenceCountedExceptionData);
 
   using Self = ReferenceCountedExceptionData;
-  using ConstPointer = SmartPointer< const Self >;
-  static ConstPointer ConstNew(
-    const std::string & file, unsigned int line,
-    const std::string & description,
-    const std::string & location)
+  using ConstPointer = SmartPointer<const Self>;
+  static ConstPointer
+  ConstNew(const std::string & file, unsigned int line, const std::string & description, const std::string & location)
   {
-    ConstPointer      smartPtr;
-    const Self *const rawPtr = new Self(file, line, description, location);
+    ConstPointer       smartPtr;
+    const Self * const rawPtr = new Self(file, line, description, location);
 
     smartPtr = rawPtr;
     rawPtr->LightObject::UnRegister();
@@ -98,28 +95,30 @@ public:
   }
 
   /** Increase the reference count (mark as used by another object).
-    * Delegates the counting to its LightObject superclass  */
-  void Register() const override
+   * Delegates the counting to its LightObject superclass  */
+  void
+  Register() const override
   {
     this->LightObject::Register();
   }
 
   /** Decrease the reference count (release by another object).
-    * Delegates the counting to its LightObject superclass  */
-  void UnRegister() const noexcept override
+   * Delegates the counting to its LightObject superclass  */
+  void
+  UnRegister() const noexcept override
   {
     this->LightObject::UnRegister();
   }
 
 private:
   // Constructor. Might throw an exception.
-  ReferenceCountedExceptionData(
-    const std::string & file, unsigned int line,
-    const std::string & description,
-    const std::string & location):
-    ExceptionData(file, line, description, location),
-    LightObject()
-         {}
+  ReferenceCountedExceptionData(const std::string & file,
+                                unsigned int        line,
+                                const std::string & description,
+                                const std::string & location)
+    : ExceptionData(file, line, description, location)
+    , LightObject()
+  {}
 
   // Destructor. Only invoked via LightObject::UnRegister(), when its reference
   // count drops to zero.
@@ -131,26 +130,23 @@ ExceptionObject::ExceptionObject() noexcept
   // The default construction never throws an exception.
 }
 
-ExceptionObject::ExceptionObject(
-  const char *file,
-  unsigned int lineNumber,
-  const char *desc,
-  const char *loc):
-  m_ExceptionData( ReferenceCountedExceptionData::ConstNew(file == nullptr ? "":file, lineNumber, desc == nullptr ? "":desc, loc ==
-                                                               nullptr ? "":loc) )
+ExceptionObject::ExceptionObject(const char * file, unsigned int lineNumber, const char * desc, const char * loc)
+  : m_ExceptionData(ReferenceCountedExceptionData::ConstNew(file == nullptr ? "" : file,
+                                                            lineNumber,
+                                                            desc == nullptr ? "" : desc,
+                                                            loc == nullptr ? "" : loc))
 {}
 
-ExceptionObject::ExceptionObject(
-  const std::string & file,
-  unsigned int lineNumber,
-  const std::string & desc,
-  const std::string & loc):
-  m_ExceptionData( ReferenceCountedExceptionData::ConstNew(file, lineNumber, desc, loc) )
+ExceptionObject::ExceptionObject(const std::string & file,
+                                 unsigned int        lineNumber,
+                                 const std::string & desc,
+                                 const std::string & loc)
+  : m_ExceptionData(ReferenceCountedExceptionData::ConstNew(file, lineNumber, desc, loc))
 {}
 
-ExceptionObject::ExceptionObject(const ExceptionObject & orig) noexcept:
-  Superclass(orig),
-  m_ExceptionData(orig.m_ExceptionData)
+ExceptionObject::ExceptionObject(const ExceptionObject & orig) noexcept
+  : Superclass(orig)
+  , m_ExceptionData(orig.m_ExceptionData)
 {
   // This copy construction never throws, because it just copies the smart
   // pointer.
@@ -172,7 +168,7 @@ ExceptionObject::GetExceptionData() const
   // been
   // used instead, which only does compile time checking. But we expect the
   // runtime overhead of this particular dynamic_cast to be insignificant.
-  const auto * thisData = dynamic_cast< const ExceptionData * >( this->m_ExceptionData.GetPointer() );
+  const auto * thisData = dynamic_cast<const ExceptionData *>(this->m_ExceptionData.GetPointer());
 
   return thisData;
 }
@@ -203,21 +199,19 @@ ExceptionObject::operator==(const ExceptionObject & orig)
 {
   // operator== is reimplemented, but it still behaves like the previous
   // version, from ITK 3.6.0.
-  const ExceptionData *const thisData = this->GetExceptionData();
-  const ExceptionData *const origData = orig.GetExceptionData();
+  const ExceptionData * const thisData = this->GetExceptionData();
+  const ExceptionData * const origData = orig.GetExceptionData();
 
-  if ( thisData == origData )
-    {
+  if (thisData == origData)
+  {
     return true;
-    }
+  }
   else
-    {
-    return ( thisData != nullptr ) && ( origData != nullptr )
-           && thisData->m_Location == origData->m_Location
-           && thisData->m_Description == origData->m_Description
-           && thisData->m_File == origData->m_File
-           && thisData->m_Line == origData->m_Line;
-    }
+  {
+    return (thisData != nullptr) && (origData != nullptr) && thisData->m_Location == origData->m_Location &&
+           thisData->m_Description == origData->m_Description && thisData->m_File == origData->m_File &&
+           thisData->m_Line == origData->m_Line;
+  }
 }
 
 void
@@ -225,11 +219,11 @@ ExceptionObject::SetLocation(const std::string & s)
 {
   const bool IsNull = m_ExceptionData.IsNull();
 
-  m_ExceptionData = ReferenceCountedExceptionData::ConstNew(
-    IsNull ? "" : this->GetExceptionData()->m_File.c_str(),
-    IsNull ? 0 : this->GetExceptionData()->m_Line,
-    IsNull ? "" : this->GetExceptionData()->m_Description.c_str(),
-    s);
+  m_ExceptionData =
+    ReferenceCountedExceptionData::ConstNew(IsNull ? "" : this->GetExceptionData()->m_File.c_str(),
+                                            IsNull ? 0 : this->GetExceptionData()->m_Line,
+                                            IsNull ? "" : this->GetExceptionData()->m_Description.c_str(),
+                                            s);
 }
 
 void
@@ -237,34 +231,33 @@ ExceptionObject::SetDescription(const std::string & s)
 {
   const bool IsNull = m_ExceptionData.IsNull();
 
-  m_ExceptionData = ReferenceCountedExceptionData::ConstNew(
-    IsNull ? "" : this->GetExceptionData()->m_File.c_str(),
-    IsNull ? 0 : this->GetExceptionData()->m_Line,
-    s,
-    IsNull ? "" : this->GetExceptionData()->m_Location.c_str() );
+  m_ExceptionData = ReferenceCountedExceptionData::ConstNew(IsNull ? "" : this->GetExceptionData()->m_File.c_str(),
+                                                            IsNull ? 0 : this->GetExceptionData()->m_Line,
+                                                            s,
+                                                            IsNull ? "" : this->GetExceptionData()->m_Location.c_str());
 }
 
 void
-ExceptionObject::SetLocation(const char *s)
+ExceptionObject::SetLocation(const char * s)
 {
   std::string location;
 
-  if ( s )
-    {
+  if (s)
+  {
     location = s;
-    }
+  }
   ExceptionObject::SetLocation(location);
 }
 
 void
-ExceptionObject::SetDescription(const char *s)
+ExceptionObject::SetDescription(const char * s)
 {
   std::string description;
 
-  if ( s )
-    {
+  if (s)
+  {
     description = s;
-    }
+  }
   ExceptionObject::SetDescription(description);
 }
 
@@ -298,7 +291,7 @@ ExceptionObject::GetLine() const
 const char *
 ExceptionObject::what() const noexcept
 {
-  const ExceptionData *const thisData = this->GetExceptionData();
+  const ExceptionData * const thisData = this->GetExceptionData();
 
   // Note: m_What.c_str() wouldn't be safe, because c_str() might throw an
   // exception.
@@ -306,8 +299,7 @@ ExceptionObject::what() const noexcept
 }
 
 void
-ExceptionObject
-::Print(std::ostream & os) const
+ExceptionObject ::Print(std::ostream & os) const
 {
   Indent indent;
 
@@ -318,26 +310,26 @@ ExceptionObject
   // Print self
   indent.GetNextIndent();
 
-  if ( m_ExceptionData.IsNotNull() )
+  if (m_ExceptionData.IsNotNull())
+  {
+    const ExceptionData & data = *(this->GetExceptionData());
+
+    if (!data.m_Location.empty())
     {
-    const ExceptionData & data = *( this->GetExceptionData() );
-
-    if ( !data.m_Location.empty() )
-      {
       os << indent << "Location: \"" << data.m_Location << "\" " << std::endl;
-      }
+    }
 
-    if ( !data.m_File.empty() )
-      {
+    if (!data.m_File.empty())
+    {
       os << indent << "File: " << data.m_File << std::endl;
       os << indent << "Line: " << data.m_Line << std::endl;
-      }
-
-    if ( !data.m_Description.empty() )
-      {
-      os << indent << "Description: " << data.m_Description << std::endl;
-      }
     }
+
+    if (!data.m_Description.empty())
+    {
+      os << indent << "Description: " << data.m_Description << std::endl;
+    }
+  }
   // Print trailer
   os << indent << std::endl;
 }

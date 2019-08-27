@@ -24,26 +24,26 @@
 namespace itk
 {
 
-void MINCTransformIOFactory::PrintSelf(std::ostream &, Indent) const
+void
+MINCTransformIOFactory::PrintSelf(std::ostream &, Indent) const
 {}
 
 MINCTransformIOFactory::MINCTransformIOFactory()
 {
-  this->RegisterOverride( "itkTransformIOBaseTemplate",
-                          "itkMINCTransformIO",
-                          "MINC XFM Transform float IO",
-                          true,
-                          CreateObjectFunction< MINCTransformIOTemplate< float > >::New() );
+  this->RegisterOverride("itkTransformIOBaseTemplate",
+                         "itkMINCTransformIO",
+                         "MINC XFM Transform float IO",
+                         true,
+                         CreateObjectFunction<MINCTransformIOTemplate<float>>::New());
 
-  this->RegisterOverride( "itkTransformIOBaseTemplate",
-                          "itkMINCTransformIO",
-                          "MINC XFM Transform double IO",
-                          true,
-                          CreateObjectFunction< MINCTransformIOTemplate< double > >::New() );
+  this->RegisterOverride("itkTransformIOBaseTemplate",
+                         "itkMINCTransformIO",
+                         "MINC XFM Transform double IO",
+                         true,
+                         CreateObjectFunction<MINCTransformIOTemplate<double>>::New());
 }
 
-MINCTransformIOFactory::~MINCTransformIOFactory()
-{}
+MINCTransformIOFactory::~MINCTransformIOFactory() {}
 
 const char *
 MINCTransformIOFactory::GetITKSourceVersion() const
@@ -55,23 +55,24 @@ const char *
 MINCTransformIOFactory::GetDescription() const
 {
   return "MINC XFM TransformIO Factory, allows the"
-        " loading of Minc XFM transforms into insight";
+         " loading of Minc XFM transforms into insight";
 }
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 static bool MINCTransformIOFactoryHasBeenRegistered;
 
-void ITKIOTransformMINC_EXPORT MINCTransformIOFactoryRegister__Private()
+void ITKIOTransformMINC_EXPORT
+     MINCTransformIOFactoryRegister__Private()
 {
-  if( ! MINCTransformIOFactoryHasBeenRegistered )
-    {
+  if (!MINCTransformIOFactoryHasBeenRegistered)
+  {
     MINCTransformIOFactoryHasBeenRegistered = true;
     MINCTransformIOFactory::RegisterOneFactory();
 
-    //TransformFactory< DisplacementFieldTransform<double,3> >::RegisterTransform ();
+    // TransformFactory< DisplacementFieldTransform<double,3> >::RegisterTransform ();
     // register additional transform type
-    }
+  }
 }
 
 } // end namespace itk

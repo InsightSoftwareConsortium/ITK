@@ -60,18 +60,17 @@ namespace itk
  * \sphinxexample{Compatibility/Deprecated/ResampleITK::VectorImage,Resample A Vector Image}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType = double >
-class ITK_TEMPLATE_EXPORT VectorResampleImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType = double>
+class ITK_TEMPLATE_EXPORT VectorResampleImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorResampleImageFilter);
 
   /** Standard class type aliases. */
   using Self = VectorResampleImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using InputImageType = TInputImage;
   using OutputImageType = TOutputImage;
@@ -94,16 +93,15 @@ public:
    * \todo Check that input and output images have the same number of
    * dimensions; this is required by the current implementation of
    * AffineTransform. */
-  using TransformType = Transform< TInterpolatorPrecisionType, Self::ImageDimension,
-                     Self::ImageDimension >;
+  using TransformType = Transform<TInterpolatorPrecisionType, Self::ImageDimension, Self::ImageDimension>;
   using TransformPointerType = typename TransformType::ConstPointer;
 
   /** Interpolator type alias. */
-  using InterpolatorType = VectorInterpolateImageFunction< InputImageType, TInterpolatorPrecisionType >;
+  using InterpolatorType = VectorInterpolateImageFunction<InputImageType, TInterpolatorPrecisionType>;
   using InterpolatorPointerType = typename InterpolatorType::Pointer;
 
   /** Image size type alias. */
-  using SizeType = Size< Self::ImageDimension >;
+  using SizeType = Size<Self::ImageDimension>;
 
   /** Image index type alias. */
   using IndexType = typename TOutputImage::IndexType;
@@ -153,14 +151,16 @@ public:
 
   /** Set the output image spacing. */
   itkSetMacro(OutputSpacing, SpacingType);
-  virtual void SetOutputSpacing(const double *values);
+  virtual void
+  SetOutputSpacing(const double * values);
 
   /** Get the output image spacing. */
   itkGetConstReferenceMacro(OutputSpacing, SpacingType);
 
   /** Set the output image origin. */
   itkSetMacro(OutputOrigin, OriginPointType);
-  virtual void SetOutputOrigin(const double *values);
+  virtual void
+  SetOutputOrigin(const double * values);
 
   /** Get the output image origin. */
   itkGetConstReferenceMacro(OutputOrigin, OriginPointType);
@@ -181,39 +181,43 @@ public:
    * for GenerateOutputInformation() in order to inform the pipeline
    * execution model. The original documentation of this method is
    * below. \sa ProcessObject::GenerateOutputInformaton() */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** VectorResampleImageFilter needs a different input requested region than
    * the output requested region. As such, VectorResampleImageFilter needs
    * to provide an implementation for GenerateInputRequestedRegion()
    * in order to inform the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** Set the state of the filter before multi-threading.
    * Note that InterpolatorType::SetInputImage is not thread-safe and hence
    * has to be set up before DynamicThreadedGenerateData. */
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
   /** Set the state of the filter after multi-threading. */
-  void AfterThreadedGenerateData() override;
+  void
+  AfterThreadedGenerateData() override;
 
   /** Compute the Modified Time based on changed to the components. */
-  ModifiedTimeType GetMTime() const override;
+  ModifiedTimeType
+  GetMTime() const override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TInputImage::PixelType::ValueType > ) );
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< PixelComponentType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TInputImage::PixelType::ValueType>));
+  itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<PixelComponentType>));
   // End concept checking
 #endif
 
 protected:
   VectorResampleImageFilter();
   ~VectorResampleImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** VectorResampleImageFilter can be implemented as a multithreaded filter. Therefore,
    * this implementation provides a DynamicThreadedGenerateData() routine which
@@ -223,7 +227,8 @@ protected:
    * specified by the parameter "outputRegionForThread"
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
 private:
@@ -239,7 +244,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorResampleImageFilter.hxx"
+#  include "itkVectorResampleImageFilter.hxx"
 #endif
 
 #endif

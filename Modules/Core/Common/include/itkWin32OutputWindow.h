@@ -29,10 +29,10 @@
 #define itkWin32OutputWindow_h
 #if defined(_MSC_VER) || defined(__MINGW32__) // if on Windows
 
-#include "itkWin32Header.h"
-#include "itkOutputWindow.h"
-#include "itkObjectFactory.h"
-#include "itkWindows.h"
+#  include "itkWin32Header.h"
+#  include "itkOutputWindow.h"
+#  include "itkObjectFactory.h"
+#  include "itkWindows.h"
 namespace itk
 {
 /** \class Win32OutputWindow
@@ -50,7 +50,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT Win32OutputWindow:public OutputWindow
+class ITKCommon_EXPORT Win32OutputWindow : public OutputWindow
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Win32OutputWindow);
@@ -58,8 +58,8 @@ public:
   /** Standard class type aliases. */
   using Self = Win32OutputWindow;
   using Superclass = OutputWindow;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -69,20 +69,24 @@ public:
 
   /** Put the text into the display window.
    * Each new line is converted to a carriage return, new line. */
-  virtual void DisplayText(const char *);
+  virtual void
+  DisplayText(const char *);
 
-  static LRESULT APIENTRY WndProc(HWND hWnd, UINT message,
-                                  WPARAM wParam, LPARAM lParam);
+  static LRESULT APIENTRY
+                 WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 protected:
   Win32OutputWindow() {}
   virtual ~Win32OutputWindow();
 
-  void PromptText(const char *text);
+  void
+  PromptText(const char * text);
 
-  static void AddText(const char *);
+  static void
+  AddText(const char *);
 
-  static int Initialize();
+  static int
+  Initialize();
 
 private:
   static HWND m_OutputWindow;
@@ -90,4 +94,4 @@ private:
 } // end namespace itk
 
 #endif // _MSC_VER
-#endif  //  itkWin32OutputWindow_h
+#endif //  itkWin32OutputWindow_h

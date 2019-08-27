@@ -38,18 +38,17 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT StatisticsUniqueLabelMapFilter:
-  public ShapeUniqueLabelMapFilter< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT StatisticsUniqueLabelMapFilter : public ShapeUniqueLabelMapFilter<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsUniqueLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = StatisticsUniqueLabelMapFilter;
-  using Superclass = ShapeUniqueLabelMapFilter< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ShapeUniqueLabelMapFilter<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using ImageType = TImage;
@@ -85,12 +84,13 @@ protected:
   StatisticsUniqueLabelMapFilter();
   ~StatisticsUniqueLabelMapFilter() override = default;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkStatisticsUniqueLabelMapFilter.hxx"
+#  include "itkStatisticsUniqueLabelMapFilter.hxx"
 #endif
 
 #endif

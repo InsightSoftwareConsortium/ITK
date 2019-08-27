@@ -68,26 +68,24 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 
-template< typename TFixedImage, typename TMovingImage >
-class ITK_TEMPLATE_EXPORT KullbackLeiblerCompareHistogramImageToImageMetric:
-  public CompareHistogramImageToImageMetric< TFixedImage, TMovingImage >
+template <typename TFixedImage, typename TMovingImage>
+class ITK_TEMPLATE_EXPORT KullbackLeiblerCompareHistogramImageToImageMetric
+  : public CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(KullbackLeiblerCompareHistogramImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = KullbackLeiblerCompareHistogramImageToImageMetric;
-  using Superclass =
-      CompareHistogramImageToImageMetric< TFixedImage, TMovingImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(KullbackLeiblerCompareHistogramImageToImageMetric,
-               HistogramImageToImageMetric);
+  itkTypeMacro(KullbackLeiblerCompareHistogramImageToImageMetric, HistogramImageToImageMetric);
 
   /** Types transferred from the base class */
   using RealType = typename Superclass::RealType;
@@ -122,32 +120,39 @@ public:
   itkGetConstReferenceMacro(Epsilon, double);
 
   /** Return the number of parameters required by the Transform */
-  unsigned int GetNumberOfParameters() const override
-  { return this->GetTransform()->GetNumberOfParameters(); }
+  unsigned int
+  GetNumberOfParameters() const override
+  {
+    return this->GetTransform()->GetNumberOfParameters();
+  }
 
   /** Forms the histogram of the training images to prepare to evaluate the */
   /** metric. Must set all parameters first */
-  void Initialize() override;
+  void
+  Initialize() override;
 
 protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
   KullbackLeiblerCompareHistogramImageToImageMetric();
   ~KullbackLeiblerCompareHistogramImageToImageMetric() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Form the Histogram for the Training data */
-  void FormTrainingHistogram();
+  void
+  FormTrainingHistogram();
 
   /** Evaluates the mutual information from the histogram. */
-  MeasureType EvaluateMeasure(HistogramType & histogram) const override;
+  MeasureType
+  EvaluateMeasure(HistogramType & histogram) const override;
 
   double m_Epsilon;
 };
 } // End namespace itk.
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkKullbackLeiblerCompareHistogramImageToImageMetric.hxx"
+#  include "itkKullbackLeiblerCompareHistogramImageToImageMetric.hxx"
 #endif
 
 #endif // itkKullbackLeiblerCompareHistogramImageToImageMetric_h

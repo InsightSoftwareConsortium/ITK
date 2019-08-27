@@ -33,8 +33,8 @@ namespace itk
  *
  * For one iteration the location of one vertex is computed as follows:
  * \f[
- * \boldsymbol{ v' }_i = v_i + m_RelaxationFactor \cdot \frac{ \sum_j w_{ij} ( \boldsymbol{ v_j } - \boldsymbol{ v_i } ) }{ \sum_j w_{ij} }
- * \f]
+ * \boldsymbol{ v' }_i = v_i + m_RelaxationFactor \cdot \frac{ \sum_j w_{ij} ( \boldsymbol{ v_j } - \boldsymbol{ v_i } )
+ * }{ \sum_j w_{ij} } \f]
  *
  * where \f$ w_{ij} \f$ is computed by the means of the set functor
  * CoefficientsComputation
@@ -54,15 +54,14 @@ namespace itk
  * \ingroup ITKQuadEdgeMeshFiltering
  */
 
-template< typename TInputMesh, typename TOutputMesh=TInputMesh >
-class ITK_TEMPLATE_EXPORT SmoothingQuadEdgeMeshFilter:
-  public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh = TInputMesh>
+class ITK_TEMPLATE_EXPORT SmoothingQuadEdgeMeshFilter : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   using Self = SmoothingQuadEdgeMeshFilter;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(SmoothingQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
@@ -89,9 +88,10 @@ public:
 
   static constexpr unsigned int PointDimension = OutputMeshType::PointDimension;
 
-  using CoefficientsComputation = MatrixCoefficients< OutputMeshType >;
+  using CoefficientsComputation = MatrixCoefficients<OutputMeshType>;
 
-  void SetCoefficientsMethod(CoefficientsComputation *iMethod);
+  void
+  SetCoefficientsMethod(CoefficientsComputation * iMethod);
 
   /** Set/Get the number of iterations */
   itkSetMacro(NumberOfIterations, unsigned int);
@@ -108,16 +108,17 @@ public:
 protected:
   SmoothingQuadEdgeMeshFilter();
   ~SmoothingQuadEdgeMeshFilter() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  CoefficientsComputation *m_CoefficientsMethod;
+  CoefficientsComputation * m_CoefficientsMethod;
 
-  using InputOutputDelaunayConformingType = DelaunayConformingQuadEdgeMeshFilter< InputMeshType, OutputMeshType >;
+  using InputOutputDelaunayConformingType = DelaunayConformingQuadEdgeMeshFilter<InputMeshType, OutputMeshType>;
   using InputOutputDelaunayConformingPointer = typename InputOutputDelaunayConformingType::Pointer;
 
   InputOutputDelaunayConformingPointer m_InputDelaunayFilter;
 
-  using OutputDelaunayConformingType = DelaunayConformingQuadEdgeMeshFilter< OutputMeshType, OutputMeshType >;
+  using OutputDelaunayConformingType = DelaunayConformingQuadEdgeMeshFilter<OutputMeshType, OutputMeshType>;
   using OutputDelaunayConformingPointer = typename OutputDelaunayConformingType::Pointer;
 
   OutputDelaunayConformingPointer m_OutputDelaunayFilter;
@@ -128,13 +129,15 @@ protected:
 
   OutputCoordType m_RelaxationFactor;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   SmoothingQuadEdgeMeshFilter(const Self &) = delete;
-  void operator=(const Self &) = delete;
+  void
+  operator=(const Self &) = delete;
 };
-}
+} // namespace itk
 
 #include "itkSmoothingQuadEdgeMeshFilter.hxx"
 #endif

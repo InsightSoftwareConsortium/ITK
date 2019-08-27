@@ -83,31 +83,31 @@ namespace itk
  *
  * \ingroup ITKRegistrationMethodsv4
  */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform =
-  TimeVaryingBSplineVelocityFieldTransform<double, TFixedImage::ImageDimension>,
-  typename TVirtualImage = TFixedImage,
-  typename TPointSet = PointSet<unsigned int, TFixedImage::ImageDimension> >
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TOutputTransform = TimeVaryingBSplineVelocityFieldTransform<double, TFixedImage::ImageDimension>,
+          typename TVirtualImage = TFixedImage,
+          typename TPointSet = PointSet<unsigned int, TFixedImage::ImageDimension>>
 class ITK_TEMPLATE_EXPORT TimeVaryingBSplineVelocityFieldImageRegistrationMethod
-: public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
+  : public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingBSplineVelocityFieldImageRegistrationMethod);
 
   /** Standard class type aliases. */
   using Self = TimeVaryingBSplineVelocityFieldImageRegistrationMethod;
-  using Superclass = ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform,
-                                                       TVirtualImage, TPointSet>;
+  using Superclass = ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** ImageDimension constants */
   static constexpr unsigned int ImageDimension = TFixedImage::ImageDimension;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( TimeVaryingBSplineVelocityFieldImageRegistrationMethod, SimpleImageRegistrationMethod );
+  itkTypeMacro(TimeVaryingBSplineVelocityFieldImageRegistrationMethod, SimpleImageRegistrationMethod);
 
   /** Input type alias for the images and transforms. */
   using FixedImageType = TFixedImage;
@@ -156,10 +156,13 @@ public:
 
   using ContinuousIndexType = ContinuousIndex<typename DisplacementFieldPointType::CoordRepType, ImageDimension>;
 
-  using TimeVaryingVelocityFieldControlPointLatticeType = typename OutputTransformType::TimeVaryingVelocityFieldControlPointLatticeType;
-  using TimeVaryingVelocityFieldControlPointLatticePointer = typename OutputTransformType::TimeVaryingVelocityFieldControlPointLatticePointer;
+  using TimeVaryingVelocityFieldControlPointLatticeType =
+    typename OutputTransformType::TimeVaryingVelocityFieldControlPointLatticeType;
+  using TimeVaryingVelocityFieldControlPointLatticePointer =
+    typename OutputTransformType::TimeVaryingVelocityFieldControlPointLatticePointer;
   using TimeVaryingVelocityFieldType = typename OutputTransformType::TimeVaryingVelocityFieldControlPointLatticeType;
-  using TimeVaryingVelocityFieldPointer = typename OutputTransformType::TimeVaryingVelocityFieldControlPointLatticePointer;
+  using TimeVaryingVelocityFieldPointer =
+    typename OutputTransformType::TimeVaryingVelocityFieldControlPointLatticePointer;
   using DisplacementVectorType = typename TimeVaryingVelocityFieldControlPointLatticeType::PixelType;
 
   using CompositeTransformType = typename Superclass::CompositeTransformType;
@@ -175,70 +178,81 @@ public:
 
   using VelocityFieldPointSetType = PointSet<DisplacementVectorType, ImageDimension + 1>;
   using VelocityFieldPointSetPointer = typename VelocityFieldPointSetType::Pointer;
-  using BSplineFilterType = BSplineScatteredDataPointSetToImageFilter
-    <VelocityFieldPointSetType, TimeVaryingVelocityFieldType>;
+  using BSplineFilterType =
+    BSplineScatteredDataPointSetToImageFilter<VelocityFieldPointSetType, TimeVaryingVelocityFieldType>;
   using WeightsContainerType = typename BSplineFilterType::WeightsContainerType;
   using WeightsElementType = typename WeightsContainerType::Element;
   using WeightedMaskImageType = Image<WeightsElementType, ImageDimension>;
   using TimeVaryingWeightedMaskImageType = Image<WeightsElementType, ImageDimension + 1>;
 
   /** Set/Get the learning rate. */
-  itkSetMacro( LearningRate, RealType );
-  itkGetConstMacro( LearningRate, RealType );
+  itkSetMacro(LearningRate, RealType);
+  itkGetConstMacro(LearningRate, RealType);
 
   /** Set/Get the number of iterations per level. */
-  itkSetMacro( NumberOfIterationsPerLevel, NumberOfIterationsArrayType );
-  itkGetConstMacro( NumberOfIterationsPerLevel, NumberOfIterationsArrayType );
+  itkSetMacro(NumberOfIterationsPerLevel, NumberOfIterationsArrayType);
+  itkGetConstMacro(NumberOfIterationsPerLevel, NumberOfIterationsArrayType);
 
   /** Set/Get the convergence threshold */
-  itkSetMacro( ConvergenceThreshold, RealType );
-  itkGetConstMacro( ConvergenceThreshold, RealType );
+  itkSetMacro(ConvergenceThreshold, RealType);
+  itkGetConstMacro(ConvergenceThreshold, RealType);
 
   /** Set/Get the convergence window size */
-  itkSetMacro( ConvergenceWindowSize, unsigned int );
-  itkGetConstMacro( ConvergenceWindowSize, unsigned int );
+  itkSetMacro(ConvergenceWindowSize, unsigned int);
+  itkGetConstMacro(ConvergenceWindowSize, unsigned int);
 
   /** Set/Get the number of time point samples. */
-  itkSetMacro( NumberOfTimePointSamples, SizeValueType );
-  itkGetConstMacro( NumberOfTimePointSamples, SizeValueType );
+  itkSetMacro(NumberOfTimePointSamples, SizeValueType);
+  itkGetConstMacro(NumberOfTimePointSamples, SizeValueType);
 
 protected:
   TimeVaryingBSplineVelocityFieldImageRegistrationMethod();
   ~TimeVaryingBSplineVelocityFieldImageRegistrationMethod() override = default;
-  void PrintSelf( std::ostream & os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Perform the registration. */
-  void  GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Handle optimization internally */
-  virtual void StartOptimization();
+  virtual void
+  StartOptimization();
 
   /** Translate metrics to the point-set for building the (n+1)-D B-spline model */
-  void GetMetricDerivativePointSetForAllTimePoints( VelocityFieldPointSetType *, WeightsContainerType * );
+  void
+  GetMetricDerivativePointSetForAllTimePoints(VelocityFieldPointSetType *, WeightsContainerType *);
 
-  void AttachMetricGradientPointSetAtSpecificTimePoint( const RealType,
-    VelocityFieldPointSetType *, WeightsContainerType *, const FixedImagesContainerType,
-    const PointSetsContainerType, const TransformBaseType *, const MovingImagesContainerType,
-    const PointSetsContainerType, const TransformBaseType *, const FixedImageMasksContainerType );
+  void
+  AttachMetricGradientPointSetAtSpecificTimePoint(const RealType,
+                                                  VelocityFieldPointSetType *,
+                                                  WeightsContainerType *,
+                                                  const FixedImagesContainerType,
+                                                  const PointSetsContainerType,
+                                                  const TransformBaseType *,
+                                                  const MovingImagesContainerType,
+                                                  const PointSetsContainerType,
+                                                  const TransformBaseType *,
+                                                  const FixedImageMasksContainerType);
 
 private:
-  DisplacementFieldTransformPointer                   m_IdentityDisplacementFieldTransform;
+  DisplacementFieldTransformPointer m_IdentityDisplacementFieldTransform;
 
-  RealType                                            m_LearningRate;
+  RealType m_LearningRate;
 
-  RealType                                            m_ConvergenceThreshold;
-  unsigned int                                        m_ConvergenceWindowSize{ 10 };
+  RealType     m_ConvergenceThreshold;
+  unsigned int m_ConvergenceWindowSize{ 10 };
 
-  NumberOfIterationsArrayType                         m_NumberOfIterationsPerLevel;
+  NumberOfIterationsArrayType m_NumberOfIterationsPerLevel;
 
-  SizeValueType                                       m_NumberOfTimePointSamples{ 4 };
+  SizeValueType m_NumberOfTimePointSamples{ 4 };
 
-  WeightsElementType                                  m_BoundaryWeight;
+  WeightsElementType m_BoundaryWeight;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTimeVaryingBSplineVelocityFieldImageRegistrationMethod.hxx"
+#  include "itkTimeVaryingBSplineVelocityFieldImageRegistrationMethod.hxx"
 #endif
 
 #endif

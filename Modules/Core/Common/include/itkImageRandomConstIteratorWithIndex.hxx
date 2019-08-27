@@ -23,76 +23,70 @@
 namespace itk
 {
 /** Default constructor. Needed since we provide a cast constructor. */
-template< typename TImage >
-ImageRandomConstIteratorWithIndex< TImage >
-::ImageRandomConstIteratorWithIndex():ImageConstIteratorWithIndex< TImage >()
+template <typename TImage>
+ImageRandomConstIteratorWithIndex<TImage>::ImageRandomConstIteratorWithIndex()
+  : ImageConstIteratorWithIndex<TImage>()
 {
-  m_NumberOfPixelsInRegion    = 0L;
-  m_NumberOfSamplesRequested  = 0L;
-  m_NumberOfSamplesDone       = 0L;
+  m_NumberOfPixelsInRegion = 0L;
+  m_NumberOfSamplesRequested = 0L;
+  m_NumberOfSamplesDone = 0L;
   m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::New();
 }
 
 /** Constructor establishes an iterator to walk a particular image and a
  * particular region of that image. */
-template< typename TImage >
-ImageRandomConstIteratorWithIndex< TImage >
-::ImageRandomConstIteratorWithIndex(const ImageType *ptr, const RegionType & region):
-  ImageConstIteratorWithIndex< TImage >(ptr, region)
+template <typename TImage>
+ImageRandomConstIteratorWithIndex<TImage>::ImageRandomConstIteratorWithIndex(const ImageType *  ptr,
+                                                                             const RegionType & region)
+  : ImageConstIteratorWithIndex<TImage>(ptr, region)
 {
-  m_NumberOfPixelsInRegion   = region.GetNumberOfPixels();
+  m_NumberOfPixelsInRegion = region.GetNumberOfPixels();
   m_NumberOfSamplesRequested = 0L;
-  m_NumberOfSamplesDone      = 0L;
+  m_NumberOfSamplesDone = 0L;
   m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::New();
 }
 
 /**  Set the number of samples to extract from the region */
-template< typename TImage >
+template <typename TImage>
 void
-ImageRandomConstIteratorWithIndex< TImage >
-::SetNumberOfSamples(SizeValueType number)
+ImageRandomConstIteratorWithIndex<TImage>::SetNumberOfSamples(SizeValueType number)
 {
   m_NumberOfSamplesRequested = number;
 }
 
 /**  Set the number of samples to extract from the region */
-template< typename TImage >
-typename ImageRandomConstIteratorWithIndex< TImage >::SizeValueType
-ImageRandomConstIteratorWithIndex< TImage >
-::GetNumberOfSamples() const
+template <typename TImage>
+typename ImageRandomConstIteratorWithIndex<TImage>::SizeValueType
+ImageRandomConstIteratorWithIndex<TImage>::GetNumberOfSamples() const
 {
   return m_NumberOfSamplesRequested;
 }
 
 /** Reinitialize the seed of the random number generator */
-template< typename TImage >
+template <typename TImage>
 void
-ImageRandomConstIteratorWithIndex< TImage >
-::ReinitializeSeed()
+ImageRandomConstIteratorWithIndex<TImage>::ReinitializeSeed()
 {
   m_Generator->SetSeed();
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-ImageRandomConstIteratorWithIndex< TImage >
-::ReinitializeSeed(int seed)
+ImageRandomConstIteratorWithIndex<TImage>::ReinitializeSeed(int seed)
 {
-  m_Generator->SetSeed (seed);
+  m_Generator->SetSeed(seed);
   // vnl_sample_reseed(seed);
 }
 
 /** Execute an acrobatic random jump */
-template< typename TImage >
+template <typename TImage>
 void
-ImageRandomConstIteratorWithIndex< TImage >
-::RandomJump()
+ImageRandomConstIteratorWithIndex<TImage>::RandomJump()
 {
   using PositionValueType = IndexValueType;
 
-  const PositionValueType randomPosition =
-    static_cast< PositionValueType >( m_Generator->GetVariateWithOpenRange (static_cast< double >( m_NumberOfPixelsInRegion )
-                                                                        - 0.5) );
+  const PositionValueType randomPosition = static_cast<PositionValueType>(
+    m_Generator->GetVariateWithOpenRange(static_cast<double>(m_NumberOfPixelsInRegion) - 0.5));
   /*
       vnl_sample_uniform(0.0f,
       static_cast<double>(m_NumberOfPixelsInRegion)-0.5) );
@@ -101,14 +95,14 @@ ImageRandomConstIteratorWithIndex< TImage >
   PositionValueType position = randomPosition;
   PositionValueType residual;
 
-  for ( unsigned int dim = 0; dim < TImage::ImageDimension; dim++ )
-    {
+  for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
+  {
     const SizeValueType sizeInThisDimension = this->m_Region.GetSize()[dim];
     residual = position % sizeInThisDimension;
-    this->m_PositionIndex[dim] =  residual + this->m_BeginIndex[dim];
+    this->m_PositionIndex[dim] = residual + this->m_BeginIndex[dim];
     position -= residual;
     position /= sizeInThisDimension;
-    }
+  }
 
   this->m_Position = this->m_Image->GetBufferPointer() + this->m_Image->ComputeOffset(this->m_PositionIndex);
 }

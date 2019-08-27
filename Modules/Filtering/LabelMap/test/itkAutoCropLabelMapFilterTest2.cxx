@@ -36,69 +36,66 @@
 
 #include "itkTestingMacros.h"
 
-int itkAutoCropLabelMapFilterTest2( int argc, char * argv [] )
+int
+itkAutoCropLabelMapFilterTest2(int argc, char * argv[])
 {
 
-  if( argc != 6 )
-    {
+  if (argc != 6)
+  {
     std::cerr << "usage: " << argv[0];
     std::cerr << " inputLabelImage outputLabelImage1 outputLabelImage2 label1 label2" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
   using PixelType = unsigned char;
 
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  using LabelObjectType = itk::LabelObject< PixelType, Dimension >;
-  using LabelMapType = itk::LabelMap< LabelObjectType >;
+  using LabelObjectType = itk::LabelObject<PixelType, Dimension>;
+  using LabelMapType = itk::LabelMap<LabelObjectType>;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
-  using ImageToLabelMapFilterType = itk::LabelImageToLabelMapFilter< ImageType, LabelMapType >;
-  ImageToLabelMapFilterType::Pointer imageToLabelMapFilter =
-    ImageToLabelMapFilterType::New();
-  imageToLabelMapFilter->SetInput( reader->GetOutput() );
+  using ImageToLabelMapFilterType = itk::LabelImageToLabelMapFilter<ImageType, LabelMapType>;
+  ImageToLabelMapFilterType::Pointer imageToLabelMapFilter = ImageToLabelMapFilterType::New();
+  imageToLabelMapFilter->SetInput(reader->GetOutput());
   itk::SimpleFilterWatcher watcher(imageToLabelMapFilter, "LabelImageToLabelMapFilter");
 
-  using SelectionType = itk::LabelSelectionLabelMapFilter< LabelMapType >;
+  using SelectionType = itk::LabelSelectionLabelMapFilter<LabelMapType>;
   SelectionType::Pointer select = SelectionType::New();
-  select->SetInput( imageToLabelMapFilter->GetOutput() );
+  select->SetInput(imageToLabelMapFilter->GetOutput());
   itk::SimpleFilterWatcher watcher2(select, "LabelSelectionLabelMapFilter");
 
-  using AutoCropLabelMapFilterType = itk::AutoCropLabelMapFilter< LabelMapType >;
+  using AutoCropLabelMapFilterType = itk::AutoCropLabelMapFilter<LabelMapType>;
   AutoCropLabelMapFilterType::Pointer autoCropFilter = AutoCropLabelMapFilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( autoCropFilter, AutoCropLabelMapFilter,
-    ChangeRegionLabelMapFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(autoCropFilter, AutoCropLabelMapFilter, ChangeRegionLabelMapFilter);
 
-  autoCropFilter->SetInput( select->GetOutput() );
+  autoCropFilter->SetInput(select->GetOutput());
   itk::SimpleFilterWatcher watcher3(autoCropFilter, "AutoCropLabelMapFilter");
 
-  using LabelMapToLabelImageFilterType =
-      itk::LabelMapToLabelImageFilter< LabelMapType, ImageType >;
-  LabelMapToLabelImageFilterType::Pointer labelMapToLabelImageFilter =
-    LabelMapToLabelImageFilterType::New();
-  labelMapToLabelImageFilter->SetInput( autoCropFilter->GetOutput() );
+  using LabelMapToLabelImageFilterType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
+  LabelMapToLabelImageFilterType::Pointer labelMapToLabelImageFilter = LabelMapToLabelImageFilterType::New();
+  labelMapToLabelImageFilter->SetInput(autoCropFilter->GetOutput());
 
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( labelMapToLabelImageFilter->GetOutput() );
+  writer->SetInput(labelMapToLabelImageFilter->GetOutput());
 
   // First label
-  select->SetLabel( std::stoi(argv[4]) );
+  select->SetLabel(std::stoi(argv[4]));
   labelMapToLabelImageFilter->UpdateLargestPossibleRegion();
-  writer->SetFileName( argv[2] );
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  writer->SetFileName(argv[2]);
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   // Second label
-  select->SetLabel( std::stoi(argv[5]) );
+  select->SetLabel(std::stoi(argv[5]));
   labelMapToLabelImageFilter->UpdateLargestPossibleRegion();
-  writer->SetFileName( argv[3] );
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  writer->SetFileName(argv[3]);
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
 }

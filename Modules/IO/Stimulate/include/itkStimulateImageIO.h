@@ -59,7 +59,7 @@ namespace itk
  *
  * \ingroup ITKIOStimulate
  */
-class ITKIOStimulate_EXPORT StimulateImageIO:public ImageIOBase
+class ITKIOStimulate_EXPORT StimulateImageIO : public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(StimulateImageIO);
@@ -67,7 +67,7 @@ public:
   /** Standard class type aliases. */
   using Self = StimulateImageIO;
   using Superclass = ImageIOBase;
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -79,27 +79,34 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  bool CanReadFile(const char *) override;
+  bool
+  CanReadFile(const char *) override;
 
   /** Set the spacing and dimesion information for the current filename. */
-  void ReadImageInformation() override;
+  void
+  ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void Read(void *buffer) override;
+  void
+  Read(void * buffer) override;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  bool CanWriteFile(const char *) override;
+  bool
+  CanWriteFile(const char *) override;
 
   /** Writes the spacing and dimensions of the image.
    * Assumes SetFileName has been called with a valid file name. */
-  void WriteImageInformation() override {}
+  void
+  WriteImageInformation() override
+  {}
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegion has been set properly. */
-  void Write(const void *buffer) override;
+  void
+  Write(const void * buffer) override;
 
   /** Two values used for applying intensity windowing to the data set. The pair
    *  of numbers represent a low value and a hight value. Pixel values below the
@@ -108,11 +115,13 @@ public:
    *  range are displayed with a grey value that is scaled linearly between the
    *  low_value and high_value. */
   itkGetVectorMacro(DisplayRange, const float, 2);
-  const float & GetHighDisplayValue()
+  const float &
+  GetHighDisplayValue()
   {
     return m_DisplayRange[1];
   }
-  const float & GetLowDisplayValue()
+  const float &
+  GetLowDisplayValue()
   {
     return m_DisplayRange[1];
   }
@@ -120,16 +129,17 @@ public:
 protected:
   StimulateImageIO();
   ~StimulateImageIO() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void InternalReadImageInformation(std::ifstream & file);
+  void
+  InternalReadImageInformation(std::ifstream & file);
 
 private:
   std::string m_DataFileName;
-  char m_SdtOrient[256];
-  float m_DisplayRange[2];
-  char m_FidName[256];
-
+  char        m_SdtOrient[256];
+  float       m_DisplayRange[2];
+  char        m_FidName[256];
 };
 } // end namespace itk
 

@@ -56,18 +56,17 @@ namespace itk
  * to use this class as a function object.
  * \ingroup ITKLevelSets
  */
-template< typename TSparseImageType >
-class ITK_TEMPLATE_EXPORT NormalVectorDiffusionFunction:
-  public NormalVectorFunctionBase< TSparseImageType >
+template <typename TSparseImageType>
+class ITK_TEMPLATE_EXPORT NormalVectorDiffusionFunction : public NormalVectorFunctionBase<TSparseImageType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(NormalVectorDiffusionFunction);
 
   /** Standard class type alias. */
   using Self = NormalVectorDiffusionFunction;
-  using Superclass = NormalVectorFunctionBase< TSparseImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = NormalVectorFunctionBase<TSparseImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(NormalVectorDiffusionFunction, NormalVectorFunctionBase);
@@ -94,58 +93,80 @@ public:
       parameter value of 0 indicates isotropic diffusion and is the
       default. Parameter value 1 is anisotropic diffusion. When using
       anisotropic diffusion the conductance parameter should also be set. */
-  void SetNormalProcessType(int npt)
-  { m_NormalProcessType = npt; }
+  void
+  SetNormalProcessType(int npt)
+  {
+    m_NormalProcessType = npt;
+  }
 
   /** This method returns the isotropic/anisotropic filtering parameter. */
-  int GetNormalProcessType() const
-  { return m_NormalProcessType; }
+  int
+  GetNormalProcessType() const
+  {
+    return m_NormalProcessType;
+  }
 
   /** This method sets the conductance parameter used in anisotropic
    * filtering. Useful values for processing 2D and 3D shapes are between
    *  0.1 and 0.25. Lower values preserve more shape features, higher values
    *  smooth more. As the conductance parameter large, the processing becomes
    *  isotropic. Default is 0. */
-  void SetConductanceParameter(NodeValueType cp)
+  void
+  SetConductanceParameter(NodeValueType cp)
   {
-    m_ConductanceParameter = cp + static_cast< NodeValueType >( 0.001 );
+    m_ConductanceParameter = cp + static_cast<NodeValueType>(0.001);
     // we add a minimum conductance to avoid divide by zero
     // can make this a parameter.
-    m_FluxStopConstant = static_cast< NodeValueType >
-                         ( -1.0 / ( m_ConductanceParameter * m_ConductanceParameter ) );
+    m_FluxStopConstant = static_cast<NodeValueType>(-1.0 / (m_ConductanceParameter * m_ConductanceParameter));
   }
 
   /** This method returns the conductance parameter. */
-  NodeValueType GetConductanceParameter() const
-  { return m_ConductanceParameter; }
+  NodeValueType
+  GetConductanceParameter() const
+  {
+    return m_ConductanceParameter;
+  }
 
   /** This method returns the internal variable FluxStopConstant. */
-  NodeValueType GetFluxStopConstant() const
-  { return m_FluxStopConstant; }
+  NodeValueType
+  GetFluxStopConstant() const
+  {
+    return m_FluxStopConstant;
+  }
 
   /** This function is called from LevelSetNormalImageFilter for all of the
    *  nodes to compute and store the flux vectors (first derivatives of the
    *  normal vectors. ComputeUpdateNormal then takes derivatives of the flux
    *  vectors. This way we avoid repeating the same flux computations. */
-  void PrecomputeSparseUpdate(NeighborhoodType & it) const override;
+  void
+  PrecomputeSparseUpdate(NeighborhoodType & it) const override;
 
   /** The actual update rule for the normal vectors. */
-  NormalVectorType ComputeSparseUpdate(NeighborhoodType & neighborhood,
-                                               void *globalData,
-                                               const FloatOffsetType & offset) const override;
+  NormalVectorType
+  ComputeSparseUpdate(NeighborhoodType &      neighborhood,
+                      void *                  globalData,
+                      const FloatOffsetType & offset) const override;
 
 protected:
   NormalVectorDiffusionFunction();
   ~NormalVectorDiffusionFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** The method called in anisotropic diffusion to inhibit diffusion across
       areas with large curvature. */
-  NodeValueType FluxStopFunction(const NodeValueType v) const
+  NodeValueType
+  FluxStopFunction(const NodeValueType v) const
   {
     // the slow exp function could be replaced with a lookup table
-    if ( v <= 0.0 ) { return NumericTraits< NodeValueType >::OneValue(); }
-    else { return static_cast< NodeValueType >( std::exp(m_FluxStopConstant * v) ); }
+    if (v <= 0.0)
+    {
+      return NumericTraits<NodeValueType>::OneValue();
+    }
+    else
+    {
+      return static_cast<NodeValueType>(std::exp(m_FluxStopConstant * v));
+    }
   }
 
 private:
@@ -158,12 +179,11 @@ private:
 
   /** The isotropic/anisotropic filtering choice parameter. */
   int m_NormalProcessType;
-
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNormalVectorDiffusionFunction.hxx"
+#  include "itkNormalVectorDiffusionFunction.hxx"
 #endif
 
 #endif

@@ -30,8 +30,7 @@ namespace itk
  *
  * \ingroup ITKOptimizers
  */
-class ITKOptimizers_EXPORT RegularStepGradientDescentOptimizer:
-  public RegularStepGradientDescentBaseOptimizer
+class ITKOptimizers_EXPORT RegularStepGradientDescentOptimizer : public RegularStepGradientDescentBaseOptimizer
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RegularStepGradientDescentOptimizer);
@@ -39,15 +38,14 @@ public:
   /** Standard class type aliases. */
   using Self = RegularStepGradientDescentOptimizer;
   using Superclass = RegularStepGradientDescentBaseOptimizer;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RegularStepGradientDescentOptimizer,
-               RegularStepGradientDescentBaseOptimizer);
+  itkTypeMacro(RegularStepGradientDescentOptimizer, RegularStepGradientDescentBaseOptimizer);
 
   /** Cost function type alias. */
   using CostFunctionType = Superclass::CostFunctionType;
@@ -62,9 +60,8 @@ protected:
    * This method is invoked by AdvanceOneStep. It is expected
    * to be overrided by optimization methods in non-vector spaces
    * \sa AdvanceOneStep */
-  void StepAlongGradient(
-    double factor,
-    const DerivativeType & transformedGradient) override;
+  void
+  StepAlongGradient(double factor, const DerivativeType & transformedGradient) override;
 };
 } // end namespace itk
 

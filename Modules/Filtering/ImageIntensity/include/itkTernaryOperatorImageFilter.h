@@ -62,36 +62,39 @@ namespace itk
  *
  * \ingroup ITKImageIntensity
  */
-template< typename TMask, typename TImage >
-class TernaryOperatorImageFilter:
-  public
-  TernaryFunctorImageFilter< TMask, TImage, TImage, TImage,
-                             Functor::TernaryOperator< typename TMask::PixelType,
-                                                       typename TImage::PixelType,
-                                                       typename TImage::PixelType,
-                                                       typename TImage::PixelType >   >
+template <typename TMask, typename TImage>
+class TernaryOperatorImageFilter
+  : public TernaryFunctorImageFilter<TMask,
+                                     TImage,
+                                     TImage,
+                                     TImage,
+                                     Functor::TernaryOperator<typename TMask::PixelType,
+                                                              typename TImage::PixelType,
+                                                              typename TImage::PixelType,
+                                                              typename TImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TernaryOperatorImageFilter);
 
   /** Standard class type aliases. */
   using Self = TernaryOperatorImageFilter;
-  using Superclass = TernaryFunctorImageFilter<
-    TMask, TImage, TImage, TImage,
-    Functor::TernaryOperator< typename TMask::PixelType,
-                              typename TImage::PixelType,
-                              typename TImage::PixelType,
-                              typename TImage::PixelType > >;
+  using Superclass = TernaryFunctorImageFilter<TMask,
+                                               TImage,
+                                               TImage,
+                                               TImage,
+                                               Functor::TernaryOperator<typename TMask::PixelType,
+                                                                        typename TImage::PixelType,
+                                                                        typename TImage::PixelType,
+                                                                        typename TImage::PixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(TernaryOperatorImageFilter,
-               TernaryFunctorImageFilter);
+  itkTypeMacro(TernaryOperatorImageFilter, TernaryFunctorImageFilter);
 
 protected:
   TernaryOperatorImageFilter() = default;

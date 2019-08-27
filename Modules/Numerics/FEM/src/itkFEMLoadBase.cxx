@@ -23,7 +23,8 @@ namespace itk
 namespace fem
 {
 
-void Load::PrintSelf(std::ostream& os, Indent indent) const
+void
+Load::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

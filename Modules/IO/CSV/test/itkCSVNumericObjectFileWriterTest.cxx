@@ -20,20 +20,21 @@
 #include "itkLightProcessObject.h"
 #include "itkTestingMacros.h"
 
-int itkCSVNumericObjectFileWriterTest( int argc, char *argv[] )
+int
+itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
 {
-  if ( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Filename" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  double nan = std::numeric_limits<double>::quiet_NaN();
+  double                 nan = std::numeric_limits<double>::quiet_NaN();
   constexpr unsigned int ARows = 3;
   constexpr unsigned int ACols = 6;
 
   using ArrayType = itk::Array2D<double>;
-  ArrayType array(ARows,ACols);
+  ArrayType array(ARows, ACols);
   array[0][0] = nan;
   array[0][1] = 1e+09;
   array[0][2] = 5;
@@ -53,77 +54,76 @@ int itkCSVNumericObjectFileWriterTest( int argc, char *argv[] )
   array[2][4] = nan;
   array[2][5] = 3e+10;
 
-  using Array2DWriterType = itk::CSVNumericObjectFileWriter
-                          <double, ARows, ACols >;
+  using Array2DWriterType = itk::CSVNumericObjectFileWriter<double, ARows, ACols>;
   Array2DWriterType::Pointer array_writer = Array2DWriterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( array_writer, CSVNumericObjectFileWriter, LightProcessObject );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(array_writer, CSVNumericObjectFileWriter, LightProcessObject);
 
   // should throw an exception as there is no input file nor any object
   // to write out
   bool caught = false;
   try
-    {
+  {
     array_writer->Update();
-    }
-  catch (itk::ExceptionObject& exp)
-    {
+  }
+  catch (itk::ExceptionObject & exp)
+  {
     caught = true;
     std::cerr << "Exception caught!" << std::endl;
     std::cerr << "This is an expected exception as there is no input"
               << "file provided." << std::endl;
     std::cerr << exp << std::endl;
-    }
-  if ( !caught )
-    {
+  }
+  if (!caught)
+  {
     std::cerr << "An exception should have been caught here as there"
               << "is no input file provided. Test fails." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::string filename = argv[1];
-  array_writer->SetFileName( filename );
+  array_writer->SetFileName(filename);
 
   // should throw an exception as there is no input object
   caught = false;
   try
-    {
+  {
     array_writer->Update();
-    }
+  }
   catch (itk::ExceptionObject & exp)
-    {
+  {
     caught = true;
     std::cerr << "Exception caught!" << std::endl;
     std::cerr << "This is an expected exception as there is no"
               << " object to write out." << std::endl;
     std::cerr << exp << std::endl;
-    }
-  if ( !caught )
-    {
+  }
+  if (!caught)
+  {
     std::cerr << "An exception should have been caught here as there is no"
               << "input object to write out. Test fails." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  array_writer->SetInput( &array );
+  array_writer->SetInput(&array);
 
   // write out the Array2D object
   try
-    {
+  {
     array_writer->Update();
-    }
-  catch (itk::ExceptionObject& exp)
-    {
+  }
+  catch (itk::ExceptionObject & exp)
+  {
     std::cerr << "Exception caught!" << std::endl;
     std::cerr << exp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int VMRows = 3;
   constexpr unsigned int VMCols = 4;
 
   using vnlMatrixType = vnl_matrix<double>;
-  vnlMatrixType vnlmatrix(VMRows,VMCols);
+  vnlMatrixType vnlmatrix(VMRows, VMCols);
   vnlmatrix[0][0] = nan;
   vnlmatrix[0][1] = 1e+09;
   vnlmatrix[0][2] = 5;
@@ -137,36 +137,35 @@ int itkCSVNumericObjectFileWriterTest( int argc, char *argv[] )
   vnlmatrix[2][2] = 9;
   vnlmatrix[2][3] = 5.6;
 
-  using vnlMatrixWriterType = itk::CSVNumericObjectFileWriter
-                          <double, VMRows, VMCols>;
+  using vnlMatrixWriterType = itk::CSVNumericObjectFileWriter<double, VMRows, VMCols>;
   vnlMatrixWriterType::Pointer vnl_matrix_writer = vnlMatrixWriterType::New();
 
-  vnl_matrix_writer->SetFileName( filename );
-  vnl_matrix_writer->SetInput( &vnlmatrix );
-  vnl_matrix_writer->ColumnHeadersPushBack( "vnlMatrixObject" );
-  vnl_matrix_writer->ColumnHeadersPushBack( "Col1" );
-  vnl_matrix_writer->ColumnHeadersPushBack( "Col2" );
-  vnl_matrix_writer->ColumnHeadersPushBack( "Col3" );
-  vnl_matrix_writer->ColumnHeadersPushBack( "Col4" );
-  vnl_matrix_writer->RowHeadersPushBack( "Row1" );
-  vnl_matrix_writer->RowHeadersPushBack( "Row2" );
+  vnl_matrix_writer->SetFileName(filename);
+  vnl_matrix_writer->SetInput(&vnlmatrix);
+  vnl_matrix_writer->ColumnHeadersPushBack("vnlMatrixObject");
+  vnl_matrix_writer->ColumnHeadersPushBack("Col1");
+  vnl_matrix_writer->ColumnHeadersPushBack("Col2");
+  vnl_matrix_writer->ColumnHeadersPushBack("Col3");
+  vnl_matrix_writer->ColumnHeadersPushBack("Col4");
+  vnl_matrix_writer->RowHeadersPushBack("Row1");
+  vnl_matrix_writer->RowHeadersPushBack("Row2");
 
-  //write out the vnl_matrix object
+  // write out the vnl_matrix object
   try
-    {
+  {
     vnl_matrix_writer->Update();
-    }
-  catch (itk::ExceptionObject& exp)
-    {
+  }
+  catch (itk::ExceptionObject & exp)
+  {
     std::cerr << "Exception caught!" << std::endl;
     std::cerr << exp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int NRows = 3;
   constexpr unsigned int NCols = 3;
 
-  using fixedMatrixType = itk::Matrix<double,NRows,NCols>;
+  using fixedMatrixType = itk::Matrix<double, NRows, NCols>;
   fixedMatrixType fixedmatrix;
   fixedmatrix[0][0] = nan;
   fixedmatrix[0][1] = 1e+09;
@@ -180,34 +179,33 @@ int itkCSVNumericObjectFileWriterTest( int argc, char *argv[] )
 
   std::vector<std::string> ColumnHeaders;
   std::vector<std::string> RowHeaders;
-  ColumnHeaders.emplace_back("itkMatrixObject" );
-  ColumnHeaders.emplace_back("Col1" );
-  ColumnHeaders.emplace_back("Col2" );
-  ColumnHeaders.emplace_back("Col3" );
-  RowHeaders.emplace_back("Row1" );
-  RowHeaders.emplace_back("Row2" );
-  RowHeaders.emplace_back("Row3" );
+  ColumnHeaders.emplace_back("itkMatrixObject");
+  ColumnHeaders.emplace_back("Col1");
+  ColumnHeaders.emplace_back("Col2");
+  ColumnHeaders.emplace_back("Col3");
+  RowHeaders.emplace_back("Row1");
+  RowHeaders.emplace_back("Row2");
+  RowHeaders.emplace_back("Row3");
 
-  using fixedMatrixWriterType = itk::CSVNumericObjectFileWriter
-          <double, NRows,NCols>;
+  using fixedMatrixWriterType = itk::CSVNumericObjectFileWriter<double, NRows, NCols>;
   fixedMatrixWriterType::Pointer fixed_matrix_writer = fixedMatrixWriterType::New();
 
-  fixed_matrix_writer->SetFileName( filename );
-  fixed_matrix_writer->SetInput( &fixedmatrix );
-  fixed_matrix_writer->SetColumnHeaders( ColumnHeaders );
-  fixed_matrix_writer->SetRowHeaders( RowHeaders );
+  fixed_matrix_writer->SetFileName(filename);
+  fixed_matrix_writer->SetInput(&fixedmatrix);
+  fixed_matrix_writer->SetColumnHeaders(ColumnHeaders);
+  fixed_matrix_writer->SetRowHeaders(RowHeaders);
 
-  //write out the itkMatrix object
+  // write out the itkMatrix object
   try
-    {
+  {
     fixed_matrix_writer->Update();
-    }
-  catch (itk::ExceptionObject& exp)
-    {
+  }
+  catch (itk::ExceptionObject & exp)
+  {
     std::cerr << "Exception caught!" << std::endl;
     std::cerr << exp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

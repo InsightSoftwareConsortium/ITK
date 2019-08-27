@@ -17,8 +17,9 @@
  *=========================================================================*/
 #include "SharedTestLibraryA.h"
 
-void bar()
+void
+bar()
 {
-  using ImageType = itk::Image<float,2>;
+  using ImageType = itk::Image<float, 2>;
   ImageType::Pointer image = ImageType::New();
 }

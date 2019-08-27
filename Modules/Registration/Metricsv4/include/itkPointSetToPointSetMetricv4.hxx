@@ -26,12 +26,11 @@ namespace itk
 {
 
 /** Constructor */
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
-PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::PointSetToPointSetMetricv4()
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::PointSetToPointSetMetricv4()
 {
-  this->m_FixedPointSet = nullptr;    // has to be provided by the user.
-  this->m_MovingPointSet = nullptr;    // has to be provided by the user.
+  this->m_FixedPointSet = nullptr;  // has to be provided by the user.
+  this->m_MovingPointSet = nullptr; // has to be provided by the user.
 
   this->m_FixedTransformedPointSet = nullptr;
   this->m_MovingTransformedPointSet = nullptr;
@@ -47,7 +46,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
   this->m_FixedTransformedPointSetTime = this->GetMTime();
 
   // We iterate over the fixed points to calculate the value and derivative.
-  this->SetGradientSource( SourceTypeOfGradient::GRADIENT_SOURCE_FIXED );
+  this->SetGradientSource(SourceTypeOfGradient::GRADIENT_SOURCE_FIXED);
 
   this->m_HaveWarnedAboutNumberOfValidPoints = false;
 
@@ -59,38 +58,37 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
 }
 
 /** Initialize the metric */
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
-PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::Initialize()
+PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::Initialize()
 {
-  if ( !this->m_FixedPointSet )
-    {
-    itkExceptionMacro( "Fixed point set is not present" );
-    }
+  if (!this->m_FixedPointSet)
+  {
+    itkExceptionMacro("Fixed point set is not present");
+  }
 
-  if ( !this->m_MovingPointSet )
-    {
-    itkExceptionMacro( "Moving point set is not present" );
-    }
+  if (!this->m_MovingPointSet)
+  {
+    itkExceptionMacro("Moving point set is not present");
+  }
 
   // We don't know how to support gradient source of type moving
-  if( this->GetGradientSourceIncludesMoving() )
-    {
-    itkExceptionMacro( "GradientSource includes GRADIENT_SOURCE_MOVING. Not supported." );
-    }
+  if (this->GetGradientSourceIncludesMoving())
+  {
+    itkExceptionMacro("GradientSource includes GRADIENT_SOURCE_MOVING. Not supported.");
+  }
 
   // If the PointSet is provided by a source, update the source.
-  if( this->m_MovingPointSet->GetSource() )
-    {
+  if (this->m_MovingPointSet->GetSource())
+  {
     this->m_MovingPointSet->GetSource()->Update();
-    }
+  }
 
   // If the point set is provided by a source, update the source.
-  if( this->m_FixedPointSet->GetSource() )
-    {
+  if (this->m_FixedPointSet->GetSource())
+  {
     this->m_FixedPointSet->GetSource()->Update();
-    }
+  }
 
   // Check for virtual domain if needed.
   // With local-support transforms we need a virtual domain in
@@ -98,21 +96,23 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
   // This will create a virtual domain that matches the DisplacementFieldTransform.
   // If the virutal domain has already been set, it will
   // be verified against the transform in Superclass::Initialize.
-  if( this->HasLocalSupport() )
+  if (this->HasLocalSupport())
+  {
+    if (!this->m_UserHasSetVirtualDomain)
     {
-    if( ! this->m_UserHasSetVirtualDomain )
+      const typename DisplacementFieldTransformType::ConstPointer displacementTransform =
+        this->GetMovingDisplacementFieldTransform();
+      if (displacementTransform.IsNull())
       {
-      const typename DisplacementFieldTransformType::ConstPointer displacementTransform = this->GetMovingDisplacementFieldTransform();
-      if( displacementTransform.IsNull() )
-        {
-        itkExceptionMacro( "Expected the moving transform to be of type DisplacementFieldTransform or derived, "
-                           "or a CompositeTransform with DisplacementFieldTransform as the last to have been added." );
-        }
+        itkExceptionMacro("Expected the moving transform to be of type DisplacementFieldTransform or derived, "
+                          "or a CompositeTransform with DisplacementFieldTransform as the last to have been added.");
+      }
       using DisplacementFieldType = typename DisplacementFieldTransformType::DisplacementFieldType;
       typename DisplacementFieldType::ConstPointer field = displacementTransform->GetDisplacementField();
-      this->SetVirtualDomain( field->GetSpacing(), field->GetOrigin(), field->GetDirection(), field->GetBufferedRegion() );
-      }
+      this->SetVirtualDomain(
+        field->GetSpacing(), field->GetOrigin(), field->GetDirection(), field->GetBufferedRegion());
     }
+  }
 
   // Superclass initialization. Do after checking for virtual domain.
   Superclass::Initialize();
@@ -122,384 +122,381 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
   this->InitializePointSets();
 }
 
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
-PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::InitializePointSets() const
+PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::InitializePointSets() const
 {
   this->TransformMovingPointSet();
   this->TransformFixedAndCreateVirtualPointSet();
   this->InitializePointsLocators();
 }
 
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
-PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::InitializeForIteration() const
+PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::InitializeForIteration()
+  const
 {
   this->InitializePointSets();
   this->m_NumberOfValidPoints = this->CalculateNumberOfValidFixedPoints();
-  if( this->m_NumberOfValidPoints < this->GetNumberOfComponents() && ! this->m_HaveWarnedAboutNumberOfValidPoints)
-    {
-    itkWarningMacro( "Only " << this->m_NumberOfValidPoints << " of " << this->GetNumberOfComponents() << " points are within the virtual domain, and will be used in the evaluation." );
+  if (this->m_NumberOfValidPoints < this->GetNumberOfComponents() && !this->m_HaveWarnedAboutNumberOfValidPoints)
+  {
+    itkWarningMacro("Only " << this->m_NumberOfValidPoints << " of " << this->GetNumberOfComponents()
+                            << " points are within the virtual domain, and will be used in the evaluation.");
     this->m_HaveWarnedAboutNumberOfValidPoints = true;
-    }
+  }
 }
 
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 SizeValueType
-PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::GetNumberOfComponents() const
+PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::GetNumberOfComponents()
+  const
 {
   return this->m_FixedTransformedPointSet->GetNumberOfPoints();
 }
 
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 typename PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::MeasureType
-PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::GetValue() const
+PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::GetValue() const
 {
   this->InitializeForIteration();
 
 
   // Virtual point set will be the same size as fixed point set as long as it's
   // generated from the fixed point set.
-  if( this->m_VirtualTransformedPointSet->GetNumberOfPoints() != this->m_FixedTransformedPointSet->GetNumberOfPoints() )
-    {
+  if (this->m_VirtualTransformedPointSet->GetNumberOfPoints() != this->m_FixedTransformedPointSet->GetNumberOfPoints())
+  {
     itkExceptionMacro("Expected FixedTransformedPointSet to be the same size as VirtualTransformedPointSet.");
-    }
+  }
   /*
    * Split pointset in nWorkUnit ranges and sum individually
    * This splitting is required in order to avoid having the threads
    * repeatedly write to same location causing false sharing
    */
-  //Use STL container to make sure no unesecarry checks are performed
+  // Use STL container to make sure no unesecarry checks are performed
   using FixedTransformedVectorContainer = typename FixedPointsContainer::STLContainerType;
   using VirtualPointsContainer = typename VirtualPointSetType::PointsContainer;
-  using VirtualVectorContainer =  typename VirtualPointsContainer::STLContainerType;
-  const VirtualVectorContainer &virtualTransformedPointSet =
+  using VirtualVectorContainer = typename VirtualPointsContainer::STLContainerType;
+  const VirtualVectorContainer & virtualTransformedPointSet =
     this->m_VirtualTransformedPointSet->GetPoints()->CastToSTLConstContainer();
-  const FixedTransformedVectorContainer &fixedTransformedPointSet =
+  const FixedTransformedVectorContainer & fixedTransformedPointSet =
     this->m_FixedTransformedPointSet->GetPoints()->CastToSTLConstContainer();
 
-  PointIdentifierRanges ranges = this->CreateRanges();
-  std::vector< CompensatedSummation< MeasureType > > threadValues( ranges.size() );
-  std::function< void(unsigned int) > sumNeighborhoodValues =
-      [ this, &threadValues, &ranges, &virtualTransformedPointSet, &fixedTransformedPointSet]
-      (unsigned int rangeIndex)
-    {
-    CompensatedSummation< MeasureType > threadValue = 0;
-    PixelType pixel;
-    NumericTraits<PixelType>::SetLength( pixel, 1 );
+  PointIdentifierRanges                          ranges = this->CreateRanges();
+  std::vector<CompensatedSummation<MeasureType>> threadValues(ranges.size());
+  std::function<void(unsigned int)>              sumNeighborhoodValues =
+    [this, &threadValues, &ranges, &virtualTransformedPointSet, &fixedTransformedPointSet](unsigned int rangeIndex) {
+      CompensatedSummation<MeasureType> threadValue = 0;
+      PixelType                         pixel;
+      NumericTraits<PixelType>::SetLength(pixel, 1);
 
 
-    for( PointIdentifier index=ranges[rangeIndex].first; index < ranges[rangeIndex].second; index++)
+      for (PointIdentifier index = ranges[rangeIndex].first; index < ranges[rangeIndex].second; index++)
       {
-      if( this->IsInsideVirtualDomain( virtualTransformedPointSet[index] ) )
+        if (this->IsInsideVirtualDomain(virtualTransformedPointSet[index]))
         {
-        if( this->m_UsePointSetData )
+          if (this->m_UsePointSetData)
           {
-          bool doesPointDataExist = this->m_FixedPointSet->GetPointData( index, &pixel );
-          if( ! doesPointDataExist )
+            bool doesPointDataExist = this->m_FixedPointSet->GetPointData(index, &pixel);
+            if (!doesPointDataExist)
             {
-            itkExceptionMacro( "The corresponding data for point (pointId = " << index << ") does not exist." );
+              itkExceptionMacro("The corresponding data for point (pointId = " << index << ") does not exist.");
             }
           }
-        threadValue += this->GetLocalNeighborhoodValue( fixedTransformedPointSet[index], pixel );
+          threadValue += this->GetLocalNeighborhoodValue(fixedTransformedPointSet[index], pixel);
         }
       }
       threadValues[rangeIndex] = threadValue;
     };
 
-  //Sum per thread
-  MultiThreaderBase::New()->ParallelizeArray( (PointIdentifier) 0,
-                          (PointIdentifier) ranges.size(),
-                           sumNeighborhoodValues, nullptr );
-  //Join sums
+  // Sum per thread
+  MultiThreaderBase::New()->ParallelizeArray(
+    (PointIdentifier)0, (PointIdentifier)ranges.size(), sumNeighborhoodValues, nullptr);
+  // Join sums
   CompensatedSummation<MeasureType> value = 0;
-  for(unsigned int i=0; i < threadValues.size(); i++)
-    {
+  for (unsigned int i = 0; i < threadValues.size(); i++)
+  {
     value += threadValues[i];
-    }
+  }
 
   DerivativeType derivative;
-  MeasureType valueSum = value.GetSum();
-  if( this->VerifyNumberOfValidPoints( valueSum, derivative ) )
-    {
-    valueSum /= static_cast<MeasureType>( this->m_NumberOfValidPoints );
-    }
+  MeasureType    valueSum = value.GetSum();
+  if (this->VerifyNumberOfValidPoints(valueSum, derivative))
+  {
+    valueSum /= static_cast<MeasureType>(this->m_NumberOfValidPoints);
+  }
   this->m_Value = valueSum;
 
   return valueSum;
 }
 
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
-PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::GetDerivative( DerivativeType & derivative ) const
+PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::GetDerivative(
+  DerivativeType & derivative) const
 {
   MeasureType value = NumericTraits<MeasureType>::ZeroValue();
-  this->CalculateValueAndDerivative( value, derivative, false );
+  this->CalculateValueAndDerivative(value, derivative, false);
 }
 
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
-PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const
+PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::GetValueAndDerivative(
+  MeasureType &    value,
+  DerivativeType & derivative) const
 {
-  this->CalculateValueAndDerivative( value, derivative, true );
+  this->CalculateValueAndDerivative(value, derivative, true);
 }
 
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
-PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::CalculateValueAndDerivative( MeasureType & calculatedValue, DerivativeType & derivative, bool calculateValue ) const
+PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::CalculateValueAndDerivative(
+  MeasureType &    calculatedValue,
+  DerivativeType & derivative,
+  bool             calculateValue) const
 {
   this->InitializeForIteration();
 
   // Virtual point set will be the same size as fixed point set as long as it's
   // generated from the fixed point set.
-  if( this->m_VirtualTransformedPointSet->GetNumberOfPoints() != this->m_FixedTransformedPointSet->GetNumberOfPoints() )
-    {
-    itkExceptionMacro( "Expected FixedTransformedPointSet to be the same size as VirtualTransformedPointSet." );
-    }
+  if (this->m_VirtualTransformedPointSet->GetNumberOfPoints() != this->m_FixedTransformedPointSet->GetNumberOfPoints())
+  {
+    itkExceptionMacro("Expected FixedTransformedPointSet to be the same size as VirtualTransformedPointSet.");
+  }
 
-  derivative.SetSize( this->GetNumberOfParameters() );
-  if( ! this->GetStoreDerivativeAsSparseFieldForLocalSupportTransforms() )
-    {
-    derivative.SetSize( PointDimension * this->m_FixedTransformedPointSet->GetNumberOfPoints() );
-    }
-  derivative.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
+  derivative.SetSize(this->GetNumberOfParameters());
+  if (!this->GetStoreDerivativeAsSparseFieldForLocalSupportTransforms())
+  {
+    derivative.SetSize(PointDimension * this->m_FixedTransformedPointSet->GetNumberOfPoints());
+  }
+  derivative.Fill(NumericTraits<DerivativeValueType>::ZeroValue());
 
   /*
    * Split pointset in nWorkUnits ranges and sum individually
    * This splitting is required in order to avoid having the threads
    * repeatedly write to same location causing false sharing
    */
-  //GetNumberOfLocalParameters is not trhead safe in itkCompositeTransform
-  NumberOfParametersType numberOfLocalParameters = this->GetNumberOfLocalParameters();
-  PointIdentifierRanges ranges = this->CreateRanges();
-  std::vector< CompensatedSummation< MeasureType > > threadValues( ranges.size() );
-  using CompensatedDerivative = typename std::vector< CompensatedSummation<ParametersValueType> >;
-  std::vector< CompensatedDerivative > threadDerivatives( ranges.size() );
-  std::function< void(unsigned int) > sumNeighborhoodValues =
-      [ this, &derivative, &threadDerivatives, &threadValues, &ranges, &calculateValue,
-        &numberOfLocalParameters]
-      (unsigned int rangeIndex)
-    {
-    //Use STL container to make sure no unesecarry checks are performed
-    using FixedTransformedVectorContainer = typename FixedPointsContainer::STLContainerType;
-    using VirtualPointsContainer = typename VirtualPointSetType::PointsContainer;
-    using VirtualVectorContainer =  typename VirtualPointsContainer::STLContainerType;
-    const VirtualVectorContainer &virtualTransformedPointSet =
-      this->m_VirtualTransformedPointSet->GetPoints()->CastToSTLConstContainer();
-    const FixedTransformedVectorContainer &fixedTransformedPointSet =
-      this->m_FixedTransformedPointSet->GetPoints()->CastToSTLConstContainer();
+  // GetNumberOfLocalParameters is not trhead safe in itkCompositeTransform
+  NumberOfParametersType                         numberOfLocalParameters = this->GetNumberOfLocalParameters();
+  PointIdentifierRanges                          ranges = this->CreateRanges();
+  std::vector<CompensatedSummation<MeasureType>> threadValues(ranges.size());
+  using CompensatedDerivative = typename std::vector<CompensatedSummation<ParametersValueType>>;
+  std::vector<CompensatedDerivative> threadDerivatives(ranges.size());
+  std::function<void(unsigned int)>  sumNeighborhoodValues =
+    [this, &derivative, &threadDerivatives, &threadValues, &ranges, &calculateValue, &numberOfLocalParameters](
+      unsigned int rangeIndex) {
+      // Use STL container to make sure no unesecarry checks are performed
+      using FixedTransformedVectorContainer = typename FixedPointsContainer::STLContainerType;
+      using VirtualPointsContainer = typename VirtualPointSetType::PointsContainer;
+      using VirtualVectorContainer = typename VirtualPointsContainer::STLContainerType;
+      const VirtualVectorContainer & virtualTransformedPointSet =
+        this->m_VirtualTransformedPointSet->GetPoints()->CastToSTLConstContainer();
+      const FixedTransformedVectorContainer & fixedTransformedPointSet =
+        this->m_FixedTransformedPointSet->GetPoints()->CastToSTLConstContainer();
 
-    MovingTransformJacobianType  jacobian( MovingPointDimension, numberOfLocalParameters );
-    MovingTransformJacobianType  jacobianCache;
+      MovingTransformJacobianType jacobian(MovingPointDimension, numberOfLocalParameters);
+      MovingTransformJacobianType jacobianCache;
 
-    DerivativeType threadLocalTransformDerivative( numberOfLocalParameters );
-    threadLocalTransformDerivative.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
+      DerivativeType threadLocalTransformDerivative(numberOfLocalParameters);
+      threadLocalTransformDerivative.Fill(NumericTraits<DerivativeValueType>::ZeroValue());
 
-    CompensatedDerivative threadDerivativeSum( numberOfLocalParameters );
+      CompensatedDerivative threadDerivativeSum(numberOfLocalParameters);
 
-    CompensatedSummation< MeasureType > threadValue;
-    PixelType pixel;
-    NumericTraits<PixelType>::SetLength( pixel, 1 );
-    for( PointIdentifier index=ranges[rangeIndex].first; index < ranges[rangeIndex].second; index++)
+      CompensatedSummation<MeasureType> threadValue;
+      PixelType                         pixel;
+      NumericTraits<PixelType>::SetLength(pixel, 1);
+      for (PointIdentifier index = ranges[rangeIndex].first; index < ranges[rangeIndex].second; index++)
       {
-      MeasureType pointValue = NumericTraits<MeasureType>::ZeroValue();
-      LocalDerivativeType pointDerivative;
+        MeasureType         pointValue = NumericTraits<MeasureType>::ZeroValue();
+        LocalDerivativeType pointDerivative;
 
-      /* Verify the virtual point is in the virtual domain.
-       * If user hasn't defined a virtual space, and the active transform is not
-       * a displacement field transform type, then this will always return true. */
-      if( ! this->IsInsideVirtualDomain( virtualTransformedPointSet[index] ) )
+        /* Verify the virtual point is in the virtual domain.
+         * If user hasn't defined a virtual space, and the active transform is not
+         * a displacement field transform type, then this will always return true. */
+        if (!this->IsInsideVirtualDomain(virtualTransformedPointSet[index]))
         {
-        continue;
+          continue;
         }
 
-      if( this->m_UsePointSetData )
+        if (this->m_UsePointSetData)
         {
-        bool doesPointDataExist = this->m_FixedPointSet->GetPointData( index, &pixel );
-        if( ! doesPointDataExist )
+          bool doesPointDataExist = this->m_FixedPointSet->GetPointData(index, &pixel);
+          if (!doesPointDataExist)
           {
-          itkExceptionMacro( "The corresponding data for point with id " << index << " does not exist." );
+            itkExceptionMacro("The corresponding data for point with id " << index << " does not exist.");
           }
         }
 
-      if( calculateValue )
+        if (calculateValue)
         {
-        this->GetLocalNeighborhoodValueAndDerivative( fixedTransformedPointSet[index], pointValue, pointDerivative, pixel );
-        threadValue += pointValue;
+          this->GetLocalNeighborhoodValueAndDerivative(
+            fixedTransformedPointSet[index], pointValue, pointDerivative, pixel);
+          threadValue += pointValue;
         }
-      else
-        {
-        pointDerivative = this->GetLocalNeighborhoodDerivative( fixedTransformedPointSet[index], pixel );
-        }
-
-      // Map into parameter space
-      threadLocalTransformDerivative.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
-
-      if( this->m_CalculateValueAndDerivativeInTangentSpace )
-        {
-        for( DimensionType d = 0; d < PointDimension; ++d )
-          {
-          threadLocalTransformDerivative[d] += pointDerivative[d];
-          }
-        }
-      else
-        {
-        this->GetMovingTransform()->
-          ComputeJacobianWithRespectToParametersCachedTemporaries( virtualTransformedPointSet[index],
-                                                                   jacobian,
-                                                                   jacobianCache );
-
-        for( NumberOfParametersType par = 0; par < numberOfLocalParameters; par++ )
-          {
-          for( DimensionType d = 0; d < PointDimension; ++d )
-            {
-            threadLocalTransformDerivative[par] += jacobian(d, par) * pointDerivative[d];
-            }
-          }
-        }
-      // For local-support transforms, store the per-point result
-      if( this->HasLocalSupport() || this->m_CalculateValueAndDerivativeInTangentSpace )
-        {
-        if( this->GetStoreDerivativeAsSparseFieldForLocalSupportTransforms() )
-          {
-          this->StorePointDerivative( virtualTransformedPointSet[index], threadLocalTransformDerivative, derivative );
-          }
         else
+        {
+          pointDerivative = this->GetLocalNeighborhoodDerivative(fixedTransformedPointSet[index], pixel);
+        }
+
+        // Map into parameter space
+        threadLocalTransformDerivative.Fill(NumericTraits<DerivativeValueType>::ZeroValue());
+
+        if (this->m_CalculateValueAndDerivativeInTangentSpace)
+        {
+          for (DimensionType d = 0; d < PointDimension; ++d)
           {
-          for( NumberOfParametersType par = 0; par < numberOfLocalParameters; par++ )
+            threadLocalTransformDerivative[d] += pointDerivative[d];
+          }
+        }
+        else
+        {
+          this->GetMovingTransform()->ComputeJacobianWithRespectToParametersCachedTemporaries(
+            virtualTransformedPointSet[index], jacobian, jacobianCache);
+
+          for (NumberOfParametersType par = 0; par < numberOfLocalParameters; par++)
+          {
+            for (DimensionType d = 0; d < PointDimension; ++d)
             {
-            derivative[this->GetNumberOfLocalParameters() * index + par] = threadLocalTransformDerivative[par];
+              threadLocalTransformDerivative[par] += jacobian(d, par) * pointDerivative[d];
             }
           }
         }
-      for( NumberOfParametersType par = 0; par < numberOfLocalParameters; par++ )
+        // For local-support transforms, store the per-point result
+        if (this->HasLocalSupport() || this->m_CalculateValueAndDerivativeInTangentSpace)
         {
-        threadDerivativeSum[par] += threadLocalTransformDerivative[par];
+          if (this->GetStoreDerivativeAsSparseFieldForLocalSupportTransforms())
+          {
+            this->StorePointDerivative(virtualTransformedPointSet[index], threadLocalTransformDerivative, derivative);
+          }
+          else
+          {
+            for (NumberOfParametersType par = 0; par < numberOfLocalParameters; par++)
+            {
+              derivative[this->GetNumberOfLocalParameters() * index + par] = threadLocalTransformDerivative[par];
+            }
+          }
+        }
+        for (NumberOfParametersType par = 0; par < numberOfLocalParameters; par++)
+        {
+          threadDerivativeSum[par] += threadLocalTransformDerivative[par];
         }
       }
       threadValues[rangeIndex] = threadValue;
       threadDerivatives[rangeIndex] = threadDerivativeSum;
     };
 
-  //Sum per thread
-  MultiThreaderBase::New()->ParallelizeArray( (PointIdentifier) 0,
-                          (PointIdentifier) ranges.size(),
-                           sumNeighborhoodValues, nullptr );
+  // Sum per thread
+  MultiThreaderBase::New()->ParallelizeArray(
+    (PointIdentifier)0, (PointIdentifier)ranges.size(), sumNeighborhoodValues, nullptr);
 
-  //Sum thread results
+  // Sum thread results
   CompensatedSummation<MeasureType> value = 0;
-  for(unsigned int i=0; i < threadValues.size(); i++)
-    {
+  for (unsigned int i = 0; i < threadValues.size(); i++)
+  {
     value += threadValues[i];
-    }
+  }
   MeasureType valueSum = value.GetSum();
 
-  if( this->VerifyNumberOfValidPoints( valueSum, derivative ) )
-    {
+  if (this->VerifyNumberOfValidPoints(valueSum, derivative))
+  {
     // For global-support transforms, average the accumulated derivative result
-    if( ! this->HasLocalSupport() && ! this->m_CalculateValueAndDerivativeInTangentSpace )
+    if (!this->HasLocalSupport() && !this->m_CalculateValueAndDerivativeInTangentSpace)
+    {
+      CompensatedDerivative localTransformDerivative(numberOfLocalParameters);
+      for (unsigned int i = 0; i < threadDerivatives.size(); i++)
       {
-      CompensatedDerivative localTransformDerivative( numberOfLocalParameters );
-      for(unsigned int i=0; i< threadDerivatives.size(); i++)
+        for (NumberOfParametersType par = 0; par < numberOfLocalParameters; par++)
         {
-        for( NumberOfParametersType par = 0; par < numberOfLocalParameters; par++ )
-          {
           localTransformDerivative[par] += threadDerivatives[i][par];
-          }
         }
-      derivative.SetSize( numberOfLocalParameters );
-      for( NumberOfParametersType par = 0; par < numberOfLocalParameters; par++ )
-        {
-         derivative[par] = localTransformDerivative[par].GetSum()
-                                  / static_cast<DerivativeValueType>( this->m_NumberOfValidPoints );
-         }
       }
-    valueSum /= static_cast<MeasureType>( this->m_NumberOfValidPoints );
+      derivative.SetSize(numberOfLocalParameters);
+      for (NumberOfParametersType par = 0; par < numberOfLocalParameters; par++)
+      {
+        derivative[par] =
+          localTransformDerivative[par].GetSum() / static_cast<DerivativeValueType>(this->m_NumberOfValidPoints);
+      }
     }
+    valueSum /= static_cast<MeasureType>(this->m_NumberOfValidPoints);
+  }
   calculatedValue = valueSum;
   this->m_Value = valueSum;
 }
 
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 SizeValueType
-PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::CalculateNumberOfValidFixedPoints() const
+PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
+  CalculateNumberOfValidFixedPoints() const
 {
   // Determine the number of valid fixed points, using
   // their positions in the virtual domain.
-  SizeValueType numberOfValidPoints = NumericTraits<SizeValueType>::ZeroValue();
+  SizeValueType       numberOfValidPoints = NumericTraits<SizeValueType>::ZeroValue();
   PointsConstIterator virtualIt = this->m_VirtualTransformedPointSet->GetPoints()->Begin();
-  while( virtualIt != this->m_VirtualTransformedPointSet->GetPoints()->End() )
+  while (virtualIt != this->m_VirtualTransformedPointSet->GetPoints()->End())
+  {
+    if (this->IsInsideVirtualDomain(virtualIt.Value()))
     {
-    if( this->IsInsideVirtualDomain( virtualIt.Value() ) )
-      {
       ++numberOfValidPoints;
-      }
-    ++virtualIt;
     }
+    ++virtualIt;
+  }
   return numberOfValidPoints;
 }
 
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
-PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::StorePointDerivative( const VirtualPointType & virtualPoint, const DerivativeType & pointDerivative, DerivativeType & field ) const
+PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::StorePointDerivative(
+  const VirtualPointType & virtualPoint,
+  const DerivativeType &   pointDerivative,
+  DerivativeType &         field) const
 {
   // Update derivative field at some index.
   // This requires the active transform displacement field to be the
   // same size as virtual domain, and that VirtualImage PixelType
   // is scalar (both of which are verified during Metric initialization).
   try
+  {
+    OffsetValueType offset =
+      this->ComputeParameterOffsetFromVirtualPoint(virtualPoint, this->GetNumberOfLocalParameters());
+    for (NumberOfParametersType i = 0; i < this->GetNumberOfLocalParameters(); i++)
     {
-    OffsetValueType offset = this->ComputeParameterOffsetFromVirtualPoint( virtualPoint, this->GetNumberOfLocalParameters() );
-    for( NumberOfParametersType i = 0; i < this->GetNumberOfLocalParameters(); i++ )
-      {
       /* Be sure to *add* here and not assign. Required for proper behavior
        * with multi-variate metric. */
-      field[offset+i] += pointDerivative[i];
-      }
+      field[offset + i] += pointDerivative[i];
     }
-  catch( ExceptionObject & exc )
-    {
+  }
+  catch (ExceptionObject & exc)
+  {
     std::string msg("Caught exception: \n");
     msg += exc.what();
     ExceptionObject err(__FILE__, __LINE__, msg);
     throw err;
-    }
+  }
 }
 
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
-typename PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::LocalDerivativeType
-PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::GetLocalNeighborhoodDerivative( const PointType & point, const PixelType & pixel ) const
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+typename PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::LocalDerivativeType
+PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
+  GetLocalNeighborhoodDerivative(const PointType & point, const PixelType & pixel) const
 {
-  MeasureType measure;
+  MeasureType         measure;
   LocalDerivativeType localDerivative;
-  this->GetLocalNeighborhoodValueAndDerivative( point, measure, localDerivative, pixel );
+  this->GetLocalNeighborhoodValueAndDerivative(point, measure, localDerivative, pixel);
   return localDerivative;
 }
 
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
-PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::TransformMovingPointSet() const
+PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::TransformMovingPointSet()
+  const
 {
   // Transform the moving point set with the moving transform.
   // We calculate the value and derivatives in the moving space.
   bool update = !this->m_MovingTransformedPointSet;
   update = update || this->m_MovingTransformedPointSetTime < this->GetMTime();
-  update = update || ( this->m_CalculateValueAndDerivativeInTangentSpace &&
-              ( this->m_MovingTransform->GetMTime() > this->m_MovingTransformedPointSetTime ) );
-  if( update )
-    {
+  update = update || (this->m_CalculateValueAndDerivativeInTangentSpace &&
+                      (this->m_MovingTransform->GetMTime() > this->m_MovingTransformedPointSetTime));
+  if (update)
+  {
     this->m_MovingTransformPointLocatorsNeedInitialization = true;
     this->m_MovingTransformedPointSet = MovingTransformedPointSetType::New();
     this->m_MovingTransformedPointSet->Initialize();
@@ -508,191 +505,185 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
       this->m_MovingTransform->GetInverseTransform();
 
     typename MovingPointsContainer::ConstIterator It = this->m_MovingPointSet->GetPoints()->Begin();
-    while( It != this->m_MovingPointSet->GetPoints()->End() )
+    while (It != this->m_MovingPointSet->GetPoints()->End())
+    {
+      if (this->m_CalculateValueAndDerivativeInTangentSpace)
       {
-      if( this->m_CalculateValueAndDerivativeInTangentSpace )
-        {
-        PointType point = inverseTransform->TransformPoint( It.Value() );
-        this->m_MovingTransformedPointSet->SetPoint( It.Index(), point );
-        }
+        PointType point = inverseTransform->TransformPoint(It.Value());
+        this->m_MovingTransformedPointSet->SetPoint(It.Index(), point);
+      }
       else
-        {
-        // evaluation is perfomed in moving space, so just copy
-        this->m_MovingTransformedPointSet->SetPoint( It.Index(), It.Value() );
-        }
-      ++It;
-      }
-    this->m_MovingTransformedPointSetTime = this->GetMTime();
-    if(!this->m_CalculateValueAndDerivativeInTangentSpace)
       {
-      this->m_MovingTransformedPointSetTime = std::max( this->m_MovingTransformedPointSetTime,
-                                                        this->m_MovingTransform->GetMTime() );
+        // evaluation is perfomed in moving space, so just copy
+        this->m_MovingTransformedPointSet->SetPoint(It.Index(), It.Value());
       }
-
-
+      ++It;
     }
+    this->m_MovingTransformedPointSetTime = this->GetMTime();
+    if (!this->m_CalculateValueAndDerivativeInTangentSpace)
+    {
+      this->m_MovingTransformedPointSetTime =
+        std::max(this->m_MovingTransformedPointSetTime, this->m_MovingTransform->GetMTime());
+    }
+  }
 }
 
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
-PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::TransformFixedAndCreateVirtualPointSet() const
+PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
+  TransformFixedAndCreateVirtualPointSet() const
 {
   // Transform the fixed point set through the virtual domain, and into the moving domain
-  bool update =  ! this->m_FixedTransformedPointSet || ! this->m_VirtualTransformedPointSet;
+  bool update = !this->m_FixedTransformedPointSet || !this->m_VirtualTransformedPointSet;
   update = update || this->m_FixedTransformedPointSetTime < this->GetMTime();
-  update = update || ( this->m_CalculateValueAndDerivativeInTangentSpace &&
-                       ( this->m_FixedTransform->GetMTime() > this->m_FixedTransformedPointSetTime ) );
-  update = update || ( !this->m_CalculateValueAndDerivativeInTangentSpace &&
-                       ( ( this->m_FixedTransform->GetMTime() > this->m_FixedTransformedPointSetTime) ||
-                         ( this->m_MovingTransform->GetMTime() > this->m_FixedTransformedPointSetTime)   ) );
-  if( update )
-    {
+  update = update || (this->m_CalculateValueAndDerivativeInTangentSpace &&
+                      (this->m_FixedTransform->GetMTime() > this->m_FixedTransformedPointSetTime));
+  update = update || (!this->m_CalculateValueAndDerivativeInTangentSpace &&
+                      ((this->m_FixedTransform->GetMTime() > this->m_FixedTransformedPointSetTime) ||
+                       (this->m_MovingTransform->GetMTime() > this->m_FixedTransformedPointSetTime)));
+  if (update)
+  {
     this->m_FixedTransformPointLocatorsNeedInitialization = true;
     this->m_FixedTransformedPointSet = FixedTransformedPointSetType::New();
     this->m_FixedTransformedPointSet->Initialize();
     this->m_VirtualTransformedPointSet = VirtualPointSetType::New();
     this->m_VirtualTransformedPointSet->Initialize();
 
-    using InverseTransformBasePointer  = typename FixedTransformType::InverseTransformBasePointer;
+    using InverseTransformBasePointer = typename FixedTransformType::InverseTransformBasePointer;
     InverseTransformBasePointer inverseTransform = this->m_FixedTransform->GetInverseTransform();
 
     typename FixedPointsContainer::ConstIterator It = this->m_FixedPointSet->GetPoints()->Begin();
-    while( It != this->m_FixedPointSet->GetPoints()->End() )
+    while (It != this->m_FixedPointSet->GetPoints()->End())
+    {
+      if (this->m_CalculateValueAndDerivativeInTangentSpace)
       {
-      if( this->m_CalculateValueAndDerivativeInTangentSpace )
-        {
         // txf into virtual space
-        PointType point = inverseTransform->TransformPoint( It.Value() );
-        this->m_VirtualTransformedPointSet->SetPoint( It.Index(), point );
-        this->m_FixedTransformedPointSet->SetPoint( It.Index(), point );
-        }
-      else
-        {
-        // txf into virtual space
-        PointType point = inverseTransform->TransformPoint( It.Value() );
-        this->m_VirtualTransformedPointSet->SetPoint( It.Index(), point );
-        // txf into moving space
-        point = this->m_MovingTransform->TransformPoint( point );
-        this->m_FixedTransformedPointSet->SetPoint( It.Index(), point );
-        }
-      ++It;
+        PointType point = inverseTransform->TransformPoint(It.Value());
+        this->m_VirtualTransformedPointSet->SetPoint(It.Index(), point);
+        this->m_FixedTransformedPointSet->SetPoint(It.Index(), point);
       }
-      this->m_FixedTransformedPointSetTime = std::max( this->GetMTime(),
-                                                       this->m_FixedTransform->GetMTime());
-      if(!this->m_CalculateValueAndDerivativeInTangentSpace)
-        {
-        this->m_FixedTransformedPointSetTime = std::max( this->m_FixedTransformedPointSetTime,
-                                                         this->m_MovingTransform->GetMTime() );
-        }
-
+      else
+      {
+        // txf into virtual space
+        PointType point = inverseTransform->TransformPoint(It.Value());
+        this->m_VirtualTransformedPointSet->SetPoint(It.Index(), point);
+        // txf into moving space
+        point = this->m_MovingTransform->TransformPoint(point);
+        this->m_FixedTransformedPointSet->SetPoint(It.Index(), point);
+      }
+      ++It;
     }
+    this->m_FixedTransformedPointSetTime = std::max(this->GetMTime(), this->m_FixedTransform->GetMTime());
+    if (!this->m_CalculateValueAndDerivativeInTangentSpace)
+    {
+      this->m_FixedTransformedPointSetTime =
+        std::max(this->m_FixedTransformedPointSetTime, this->m_MovingTransform->GetMTime());
+    }
+  }
 }
 
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
-const typename PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::VirtualPointSetType *
-PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::GetVirtualTransformedPointSet() const
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+const typename PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
+  VirtualPointSetType *
+  PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
+    GetVirtualTransformedPointSet() const
 {
   // First make sure the virtual point set is current.
   this->TransformFixedAndCreateVirtualPointSet();
   return this->m_VirtualTransformedPointSet.GetPointer();
 }
 
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
-PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::InitializePointsLocators() const
+PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::InitializePointsLocators()
+  const
 {
-  if( this->RequiresFixedPointsLocator() &&
-      this->m_FixedTransformPointLocatorsNeedInitialization )
+  if (this->RequiresFixedPointsLocator() && this->m_FixedTransformPointLocatorsNeedInitialization)
+  {
+    if (!this->m_FixedTransformedPointSet)
     {
-    if( !this->m_FixedTransformedPointSet )
-      {
-      itkExceptionMacro( "The fixed transformed point set does not exist." );
-      }
-    if( !this->m_FixedTransformedPointsLocator )
-      {
+      itkExceptionMacro("The fixed transformed point set does not exist.");
+    }
+    if (!this->m_FixedTransformedPointsLocator)
+    {
       this->m_FixedTransformedPointsLocator = PointsLocatorType::New();
-      }
-    this->m_FixedTransformedPointsLocator->SetPoints( this->m_FixedTransformedPointSet->GetPoints() );
+    }
+    this->m_FixedTransformedPointsLocator->SetPoints(this->m_FixedTransformedPointSet->GetPoints());
     this->m_FixedTransformedPointsLocator->Initialize();
-    }
+  }
 
-  if( this->RequiresMovingPointsLocator() &&
-      this->m_MovingTransformPointLocatorsNeedInitialization )
+  if (this->RequiresMovingPointsLocator() && this->m_MovingTransformPointLocatorsNeedInitialization)
+  {
+    if (!this->m_MovingTransformedPointSet)
     {
-    if( !this->m_MovingTransformedPointSet )
-      {
-      itkExceptionMacro( "The moving transformed point set does not exist." );
-      }
-    if( !this->m_MovingTransformedPointsLocator )
-      {
-      this->m_MovingTransformedPointsLocator = PointsLocatorType::New();
-      }
-    this->m_MovingTransformedPointsLocator->SetPoints( this->m_MovingTransformedPointSet->GetPoints() );
-    this->m_MovingTransformedPointsLocator->Initialize();
+      itkExceptionMacro("The moving transformed point set does not exist.");
     }
+    if (!this->m_MovingTransformedPointsLocator)
+    {
+      this->m_MovingTransformedPointsLocator = PointsLocatorType::New();
+    }
+    this->m_MovingTransformedPointsLocator->SetPoints(this->m_MovingTransformedPointSet->GetPoints());
+    this->m_MovingTransformedPointsLocator->Initialize();
+  }
 }
 
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
-const
-typename PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::PointIdentifierRanges
-PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::CreateRanges() const
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+const typename PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
+  PointIdentifierRanges
+  PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::CreateRanges() const
 {
   PointIdentifier nPoints = this->m_FixedTransformedPointSet->GetNumberOfPoints();
   PointIdentifier nWorkUnits = MultiThreaderBase::New()->GetNumberOfWorkUnits();
-  if(nWorkUnits > nPoints || MultiThreaderBase::New()->GetMaximumNumberOfThreads() <= 1)
-    {
+  if (nWorkUnits > nPoints || MultiThreaderBase::New()->GetMaximumNumberOfThreads() <= 1)
+  {
     nWorkUnits = 1;
-    }
-  PointIdentifier startRange = 0;
+  }
+  PointIdentifier       startRange = 0;
   PointIdentifierRanges ranges;
-  for(PointIdentifier p=1; p < nWorkUnits; ++p)
-    {
-    PointIdentifier endRange = (p * nPoints) / (double) nWorkUnits;
-    ranges.push_back( PointIdentifierPair(startRange, endRange) );
+  for (PointIdentifier p = 1; p < nWorkUnits; ++p)
+  {
+    PointIdentifier endRange = (p * nPoints) / (double)nWorkUnits;
+    ranges.push_back(PointIdentifierPair(startRange, endRange));
     startRange = endRange;
-    }
-  ranges.push_back( PointIdentifierPair(startRange, nPoints) );
+  }
+  ranges.push_back(PointIdentifierPair(startRange, nPoints));
 
   return ranges;
 }
 
 
 /** PrintSelf */
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
-PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::PrintSelf( std::ostream & os, Indent indent ) const
+PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::PrintSelf(
+  std::ostream & os,
+  Indent         indent) const
 {
-  Superclass::PrintSelf( os, indent );
+  Superclass::PrintSelf(os, indent);
   os << indent << "Fixed PointSet: " << this->m_FixedPointSet.GetPointer() << std::endl;
   os << indent << "Fixed Transform: " << this->m_FixedTransform.GetPointer() << std::endl;
   os << indent << "Moving PointSet: " << this->m_MovingPointSet.GetPointer() << std::endl;
   os << indent << "Moving Transform: " << this->m_MovingTransform.GetPointer() << std::endl;
 
   os << indent << "Store derivative as sparse field = ";
-  if( this->m_StoreDerivativeAsSparseFieldForLocalSupportTransforms )
-    {
+  if (this->m_StoreDerivativeAsSparseFieldForLocalSupportTransforms)
+  {
     os << "true." << std::endl;
-    }
+  }
   else
-    {
+  {
     os << "false." << std::endl;
-    }
+  }
 
   os << indent << "Calculate in tangent space = ";
-  if( this->m_CalculateValueAndDerivativeInTangentSpace )
-    {
+  if (this->m_CalculateValueAndDerivativeInTangentSpace)
+  {
     os << "true." << std::endl;
-    }
+  }
   else
-    {
+  {
     os << "false." << std::endl;
-    }
+  }
 }
 } // end namespace itk
 

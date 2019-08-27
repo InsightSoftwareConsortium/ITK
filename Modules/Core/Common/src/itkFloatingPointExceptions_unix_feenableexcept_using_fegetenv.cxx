@@ -29,8 +29,8 @@
 
 // Implementation for PPC
 
-#define FE_EXCEPT_SHIFT 22  // shift flags right to get masks
-#define FM_ALL_EXCEPT    FE_ALL_EXCEPT >> FE_EXCEPT_SHIFT
+#  define FE_EXCEPT_SHIFT 22 // shift flags right to get masks
+#  define FM_ALL_EXCEPT FE_ALL_EXCEPT >> FE_EXCEPT_SHIFT
 
 /* GNU C Library:
 http://www.gnu.org/software/libc/manual/html_node/Control-Functions.html
@@ -52,83 +52,87 @@ excepts that is returned.
 */
 
 static fexcept_t
-itk_feenableexcept (const fexcept_t excepts)
+itk_feenableexcept(const fexcept_t excepts)
 {
   const fexcept_t new_excepts = (excepts & FE_ALL_EXCEPT) >> FE_EXCEPT_SHIFT;
 
   static fenv_t fenv;
-  if ( fegetenv (&fenv) ) return static_cast<fexcept_t>(-1);
+  if (fegetenv(&fenv))
+    return static_cast<fexcept_t>(-1);
 
   // all previous masks
   const fexcept_t old_excepts = (fenv & FM_ALL_EXCEPT) << FE_EXCEPT_SHIFT;
 
   fenv = (fenv & ~new_excepts) | new_excepts;
-  return ( fesetenv (&fenv) ? static_cast<fexcept_t>(-1) : old_excepts );
+  return (fesetenv(&fenv) ? static_cast<fexcept_t>(-1) : old_excepts);
 }
 
 static fexcept_t
-itk_fedisableexcept (const fexcept_t excepts)
+itk_fedisableexcept(const fexcept_t excepts)
 {
-  const fexcept_t still_on = ~( (excepts & FE_ALL_EXCEPT) >> FE_EXCEPT_SHIFT );
+  const fexcept_t still_on = ~((excepts & FE_ALL_EXCEPT) >> FE_EXCEPT_SHIFT);
 
   static fenv_t fenv;
-  if ( fegetenv (&fenv) ) return static_cast<fexcept_t>(-1);
+  if (fegetenv(&fenv))
+    return static_cast<fexcept_t>(-1);
 
   // previous masks
   const fexcept_t old_excepts = (fenv & FM_ALL_EXCEPT) << FE_EXCEPT_SHIFT;
 
   fenv &= still_on;
-  return ( fesetenv (&fenv) ? static_cast<fexcept_t>(-1) : old_excepts );
+  return (fesetenv(&fenv) ? static_cast<fexcept_t>(-1) : old_excepts);
 }
 
 #elif defined(__i386__) || defined(__x86_64__) // Intel
 
 // Implementation for Intel
 
-#if (defined ITK_HAS_STRUCT_FENV_T_CONTROL)
-#define __itk_control_word __control
-#elif (defined ITK_HAS_STRUCT_FENV_T_CONTROL_WORD)
-#define __itk_control_word __control_word
-#elif (defined ITK_HAS_STRUCT_FENV_T_CONTROL_CW)
-#define __itk_control_word __cw
-#else
-#error "Unknown name for 'fenv_t' struct control member"
-#endif
+#  if (defined ITK_HAS_STRUCT_FENV_T_CONTROL)
+#    define __itk_control_word __control
+#  elif (defined ITK_HAS_STRUCT_FENV_T_CONTROL_WORD)
+#    define __itk_control_word __control_word
+#  elif (defined ITK_HAS_STRUCT_FENV_T_CONTROL_CW)
+#    define __itk_control_word __cw
+#  else
+#    error "Unknown name for 'fenv_t' struct control member"
+#  endif
 
 static fexcept_t
-itk_feenableexcept (const fexcept_t excepts)
+itk_feenableexcept(const fexcept_t excepts)
 {
   const fexcept_t new_excepts = excepts & FE_ALL_EXCEPT;
 
   static fenv_t fenv;
-  if ( fegetenv (&fenv) ) return static_cast<fexcept_t>(-1);
+  if (fegetenv(&fenv))
+    return static_cast<fexcept_t>(-1);
 
   // previous masks
   const fexcept_t old_excepts = fenv.__itk_control_word & FE_ALL_EXCEPT;
 
   // unmask
   fenv.__itk_control_word &= static_cast<fexcept_t>(~new_excepts);
-  fenv.__mxcsr   &= ~(new_excepts << 7);
+  fenv.__mxcsr &= ~(new_excepts << 7);
 
-  return ( fesetenv (&fenv) ? static_cast<fexcept_t>(-1) : old_excepts );
+  return (fesetenv(&fenv) ? static_cast<fexcept_t>(-1) : old_excepts);
 }
 
 static fexcept_t
-itk_fedisableexcept (const fexcept_t excepts)
+itk_fedisableexcept(const fexcept_t excepts)
 {
   const fexcept_t new_excepts = excepts & FE_ALL_EXCEPT;
 
   static fenv_t fenv;
-  if ( fegetenv (&fenv) ) return static_cast<fexcept_t>(-1);
+  if (fegetenv(&fenv))
+    return static_cast<fexcept_t>(-1);
 
   // all previous masks
   fexcept_t old_excepts = fenv.__itk_control_word & FE_ALL_EXCEPT;
 
   // mask
   fenv.__itk_control_word |= new_excepts;
-  fenv.__mxcsr   |= new_excepts << 7;
+  fenv.__mxcsr |= new_excepts << 7;
 
-  return ( fesetenv (&fenv) ? static_cast<fexcept_t>(-1) : old_excepts );
+  return (fesetenv(&fenv) ? static_cast<fexcept_t>(-1) : old_excepts);
 }
 
-#endif  // PPC, INTEL
+#endif // PPC, INTEL

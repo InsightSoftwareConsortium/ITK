@@ -24,33 +24,24 @@
 namespace itk
 {
 void
-OBJMeshIOFactory
-::PrintSelf(std::ostream &, Indent) const
+OBJMeshIOFactory ::PrintSelf(std::ostream &, Indent) const
 {}
 
-OBJMeshIOFactory
-::OBJMeshIOFactory()
+OBJMeshIOFactory ::OBJMeshIOFactory()
 {
-  this->RegisterOverride( "itkMeshIOBase",
-                         "itkOBJMeshIO",
-                         "OBJ Mesh IO",
-                         true,
-                         CreateObjectFunction< OBJMeshIO >::New() );
+  this->RegisterOverride("itkMeshIOBase", "itkOBJMeshIO", "OBJ Mesh IO", true, CreateObjectFunction<OBJMeshIO>::New());
 }
 
-OBJMeshIOFactory
-::~OBJMeshIOFactory() = default;
+OBJMeshIOFactory ::~OBJMeshIOFactory() = default;
 
 const char *
-OBJMeshIOFactory
-::GetITKSourceVersion() const
+OBJMeshIOFactory ::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char *
-OBJMeshIOFactory
-::GetDescription() const
+OBJMeshIOFactory ::GetDescription() const
 {
   return "OBJ Mesh IO Factory, allows the loading of OBJ mesh into insight";
 }
@@ -59,13 +50,14 @@ OBJMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool OBJMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMeshOBJ_EXPORT OBJMeshIOFactoryRegister__Private()
+void ITKIOMeshOBJ_EXPORT
+     OBJMeshIOFactoryRegister__Private()
 {
-  if( ! OBJMeshIOFactoryHasBeenRegistered )
-    {
+  if (!OBJMeshIOFactoryHasBeenRegistered)
+  {
     OBJMeshIOFactoryHasBeenRegistered = true;
     OBJMeshIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

@@ -54,82 +54,78 @@ namespace itk
  */
 namespace Functor
 {
-template< typename TInput1, typename TInput2, typename TOutput >
+template <typename TInput1, typename TInput2, typename TOutput>
 class ConstrainedValueDifference
 {
 public:
   ConstrainedValueDifference() = default;
   ~ConstrainedValueDifference() = default;
-  bool operator!=(const ConstrainedValueDifference &) const
+  bool
+  operator!=(const ConstrainedValueDifference &) const
   {
     return false;
   }
 
-  bool operator==(const ConstrainedValueDifference & other) const
+  bool
+  operator==(const ConstrainedValueDifference & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput1 & A,
-                            const TInput2 & B) const
+  inline TOutput
+  operator()(const TInput1 & A, const TInput2 & B) const
   {
-    const auto dA = static_cast< double >( A );
-    const auto dB = static_cast< double >( B );
+    const auto   dA = static_cast<double>(A);
+    const auto   dB = static_cast<double>(B);
     const double diff = dA - dB;
-    const double cdiff1 = diff > NumericTraits< TOutput >::NonpositiveMin() ?
-                          diff : NumericTraits< TOutput >::NonpositiveMin();
-    const double cdiff2 = cdiff1 < NumericTraits< TOutput >::max() ?
-                          cdiff1 : NumericTraits< TOutput >::max();
+    const double cdiff1 =
+      diff > NumericTraits<TOutput>::NonpositiveMin() ? diff : NumericTraits<TOutput>::NonpositiveMin();
+    const double cdiff2 = cdiff1 < NumericTraits<TOutput>::max() ? cdiff1 : NumericTraits<TOutput>::max();
 
-    return static_cast< TOutput >( cdiff2 );
+    return static_cast<TOutput>(cdiff2);
   }
 };
-}
+} // namespace Functor
 
-template< typename TInputImage1, typename TInputImage2, typename TOutputImage >
-class ConstrainedValueDifferenceImageFilter:
-  public
-  BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
+template <typename TInputImage1, typename TInputImage2, typename TOutputImage>
+class ConstrainedValueDifferenceImageFilter
+  : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConstrainedValueDifferenceImageFilter);
 
   /** Standard class type aliases. */
   using Self = ConstrainedValueDifferenceImageFilter;
-  using Superclass = BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using FunctorType = Functor::ConstrainedValueDifference< typename TInputImage1::PixelType,
-                                                           typename TInputImage2::PixelType,
-                                                           typename TOutputImage::PixelType >;
+  using Superclass = BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using FunctorType = Functor::ConstrainedValueDifference<typename TInputImage1::PixelType,
+                                                          typename TInputImage2::PixelType,
+                                                          typename TOutputImage::PixelType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ConstrainedValueDifferenceImageFilter,
-               BinaryGeneratorImageFilter);
+  itkTypeMacro(ConstrainedValueDifferenceImageFilter, BinaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( Input1ConvertibleToDoubleCheck,
-                   ( Concept::Convertible< typename TInputImage1::PixelType, double > ) );
-  itkConceptMacro( Input2ConvertibleToDoubleCheck,
-                   ( Concept::Convertible< typename TInputImage2::PixelType, double > ) );
-  itkConceptMacro( DoubleConvertibleToOutputCheck,
-                   ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
-  itkConceptMacro( DoubleGreaterThanOutputCheck,
-                   ( Concept::GreaterThanComparable< double, typename TOutputImage::PixelType > ) );
+  itkConceptMacro(Input1ConvertibleToDoubleCheck, (Concept::Convertible<typename TInputImage1::PixelType, double>));
+  itkConceptMacro(Input2ConvertibleToDoubleCheck, (Concept::Convertible<typename TInputImage2::PixelType, double>));
+  itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, typename TOutputImage::PixelType>));
+  itkConceptMacro(DoubleGreaterThanOutputCheck,
+                  (Concept::GreaterThanComparable<double, typename TOutputImage::PixelType>));
   // End concept checking
 #endif
 
 protected:
   ConstrainedValueDifferenceImageFilter()
-    {
-#if !defined( ITK_WRAPPING_PARSER )
-      Superclass::SetFunctor(FunctorType());
+  {
+#if !defined(ITK_WRAPPING_PARSER)
+    Superclass::SetFunctor(FunctorType());
 #endif
-    }
+  }
 
   ~ConstrainedValueDifferenceImageFilter() override = default;
 };

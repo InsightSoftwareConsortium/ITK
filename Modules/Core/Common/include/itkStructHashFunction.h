@@ -36,35 +36,34 @@ namespace itk
  *  general classes.
  * \ingroup ITKCommon
  */
-template< typename TInput >
+template <typename TInput>
 class StructHashFunction
 {
 public:
-
   /** Standard class type aliases. */
   using Self = StructHashFunction;
 
   /** Input type */
   using InputType = TInput;
 
-  IdentifierType operator()(const InputType & key) const;
+  IdentifierType
+  operator()(const InputType & key) const;
 };
 
-template< typename TInput >
+template <typename TInput>
 inline IdentifierType
-StructHashFunction< TInput >
-::operator()(const InputType & key) const
+StructHashFunction<TInput>::operator()(const InputType & key) const
 {
-  auto len = static_cast< IdentifierType >( sizeof( InputType ) );
-  const auto * p = reinterpret_cast< const char * >( &key );
+  auto           len = static_cast<IdentifierType>(sizeof(InputType));
+  const auto *   p = reinterpret_cast<const char *>(&key);
   IdentifierType hash = 0UL;
-  while ( len-- )
-    {
+  while (len--)
+  {
     hash = hash * 65UL + static_cast<IdentifierType>(*p++);
-    }
-  hash += ( hash >> 5 );
+  }
+  hash += (hash >> 5);
   return hash;
 }
-}
+} // namespace itk
 
-#endif  // ndef itkStructHashFunction_h
+#endif // ndef itkStructHashFunction_h

@@ -32,87 +32,106 @@ LoggerBase::LoggerBase()
 
 LoggerBase::~LoggerBase()
 {
-//  this->m_Output->Flush();
+  //  this->m_Output->Flush();
 }
 
 /** Adds an output stream to the MultipleLogOutput for writing. */
-void LoggerBase::AddLogOutput(OutputType *output)
+void
+LoggerBase::AddLogOutput(OutputType * output)
 {
   // delegates to MultipleLogOutput
   this->m_Output->AddLogOutput(output);
 }
 
-void LoggerBase::Write(PriorityLevelType level, std::string const & content)
+void
+LoggerBase::Write(PriorityLevelType level, std::string const & content)
 {
-  if ( this->m_PriorityLevel >= level )
+  if (this->m_PriorityLevel >= level)
+  {
+    this->m_Output->Write(this->BuildFormattedEntry(level, content));
+    if (this->m_LevelForFlushing >= level)
     {
-    this->m_Output->Write( this->BuildFormattedEntry(level, content) );
-    if ( this->m_LevelForFlushing >= level )
-      {
       this->m_Output->Flush();
-      }
     }
+  }
 }
 
-void LoggerBase::Flush()
+void
+LoggerBase::Flush()
 {
   this->m_Output->Flush();
 }
 
 std::string
-LoggerBase
-::BuildFormattedEntry(PriorityLevelType level, std::string const & content)
+LoggerBase ::BuildFormattedEntry(PriorityLevelType level, std::string const & content)
 {
-  static std::string m_LevelString[] = { "(MUSTFLUSH) ", "(FATAL) ", "(CRITICAL) ",
-                                         "(WARNING) ", "(INFO) ", "(DEBUG) ", "(NOTSET) " };
+  static std::string m_LevelString[] = { "(MUSTFLUSH) ", "(FATAL) ", "(CRITICAL) ", "(WARNING) ",
+                                         "(INFO) ",      "(DEBUG) ", "(NOTSET) " };
   std::ostringstream s;
 
-  switch ( this->m_TimeStampFormat )
-    {
+  switch (this->m_TimeStampFormat)
+  {
     case REALVALUE:
-      {
+    {
       s.precision(30);
       s << m_Clock->GetTimeInSeconds();
       break;
-      }
-    case HUMANREADABLE:
-      {
-      s << itksys::SystemTools::GetCurrentDateTime( this->m_HumanReadableFormat.c_str() );
-      break;
-      }
     }
-  s << "  :  " << this->GetName() <<  "  " <<  m_LevelString[static_cast<int>(level)] << content;
+    case HUMANREADABLE:
+    {
+      s << itksys::SystemTools::GetCurrentDateTime(this->m_HumanReadableFormat.c_str());
+      break;
+    }
+  }
+  s << "  :  " << this->GetName() << "  " << m_LevelString[static_cast<int>(level)] << content;
 
   return s.str();
 }
 
 /** Print contents of a LoggerBase */
-void LoggerBase::PrintSelf(std::ostream & os, Indent indent) const
+void
+LoggerBase::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Name: " << this->GetName() << std::endl;
-  os << indent << "PriorityLevel: " << this->GetPriorityLevel()   << std::endl;
+  os << indent << "PriorityLevel: " << this->GetPriorityLevel() << std::endl;
   os << indent << "LevelForFlushing: " << this->GetLevelForFlushing() << std::endl;
   os << indent << "TimeStampFormat: " << this->GetTimeStampFormat() << std::endl;
   os << indent << "HumanReadableFormat: " << this->GetHumanReadableFormat() << std::endl;
 }
 
 /** Print enumerations */
-std::ostream& operator<<(std::ostream& out, const LoggerBase::PriorityLevelType value)
+std::ostream &
+operator<<(std::ostream & out, const LoggerBase::PriorityLevelType value)
 {
-    const char* s = 0;
-    switch(value)
-    {
-        case LoggerBase::PriorityLevelType::MUSTFLUSH: s = "LoggerBase::PriorityLevelType::MUSTFLUSH"; break;
-        case LoggerBase::PriorityLevelType::FATAL: s = "LoggerBase::PriorityLevelType::FATAL"; break;
-        case LoggerBase::PriorityLevelType::CRITICAL: s = "LoggerBase::PriorityLevelType::CRITICAL"; break;
-        case LoggerBase::PriorityLevelType::WARNING: s = "LoggerBase::PriorityLevelType::WARNING"; break;
-        case LoggerBase::PriorityLevelType::INFO: s = "LoggerBase::PriorityLevelType::INFO"; break;
-        case LoggerBase::PriorityLevelType::DEBUG: s = "LoggerBase::PriorityLevelType::DEBUG"; break;
-        case LoggerBase::PriorityLevelType::NOTSET: s = "LoggerBase::PriorityLevelType::NOTSET"; break;
-        default: s = "INVALID VALUE FOR LoggerBase::PriorityLevelType";
-    }
-    return out << s;
+  const char * s = 0;
+  switch (value)
+  {
+    case LoggerBase::PriorityLevelType::MUSTFLUSH:
+      s = "LoggerBase::PriorityLevelType::MUSTFLUSH";
+      break;
+    case LoggerBase::PriorityLevelType::FATAL:
+      s = "LoggerBase::PriorityLevelType::FATAL";
+      break;
+    case LoggerBase::PriorityLevelType::CRITICAL:
+      s = "LoggerBase::PriorityLevelType::CRITICAL";
+      break;
+    case LoggerBase::PriorityLevelType::WARNING:
+      s = "LoggerBase::PriorityLevelType::WARNING";
+      break;
+    case LoggerBase::PriorityLevelType::INFO:
+      s = "LoggerBase::PriorityLevelType::INFO";
+      break;
+    case LoggerBase::PriorityLevelType::DEBUG:
+      s = "LoggerBase::PriorityLevelType::DEBUG";
+      break;
+    case LoggerBase::PriorityLevelType::NOTSET:
+      s = "LoggerBase::PriorityLevelType::NOTSET";
+      break;
+    default:
+      s = "INVALID VALUE FOR LoggerBase::PriorityLevelType";
+  }
+  return out << s;
 }
-} //namespace
+} // namespace itk

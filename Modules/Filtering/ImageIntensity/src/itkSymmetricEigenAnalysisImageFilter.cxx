@@ -23,10 +23,10 @@ namespace Functor
 {
 /** Define how to print enumerations */
 std::ostream &
-operator<<( std::ostream & out, const OrderTypeOfEigenValue value )
+operator<<(std::ostream & out, const OrderTypeOfEigenValue value)
 {
   const char * s = nullptr;
-  switch ( value )
+  switch (value)
   {
     case OrderTypeOfEigenValue::OrderByValue:
       s = "OrderTypeOfEigenValue::OrderByValue";

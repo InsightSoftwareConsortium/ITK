@@ -61,8 +61,8 @@ namespace itk
  *    slab ends and another slab begins.
  * \ingroup ITKBiasCorrection
  */
-template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT MRASlabIdentifier:public Object
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT MRASlabIdentifier : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MRASlabIdentifier);
@@ -70,8 +70,8 @@ public:
   /** Standard class type aliases. */
   using Self = MRASlabIdentifier;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MRASlabIdentifier, Object);
@@ -93,7 +93,7 @@ public:
   using ImageIndexType = typename TInputImage::IndexType;
   using ImageSizeType = typename TInputImage::SizeType;
   using ImageRegionType = typename TInputImage::RegionType;
-  using SlabRegionVectorType = std::vector< ImageRegionType >;
+  using SlabRegionVectorType = std::vector<ImageRegionType>;
 
   /** Set/Get the input image. */
   itkSetConstObjectMacro(Image, ImageType);
@@ -118,15 +118,18 @@ public:
 
   /** Compute the average values of miminum intensity pixels for each slice and
    * compare the average values with overall averages. */
-  void GenerateSlabRegions();
+  void
+  GenerateSlabRegions();
 
   /** Get slab regions. */
-  SlabRegionVectorType GetSlabRegionVector();
+  SlabRegionVectorType
+  GetSlabRegionVector();
 
 protected:
   MRASlabIdentifier();
   ~MRASlabIdentifier() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** Target image pointer that MRASlabIdentifier will use. */
@@ -144,7 +147,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMRASlabIdentifier.hxx"
+#  include "itkMRASlabIdentifier.hxx"
 #endif
 
 #endif /* itkMRASlabIdentifier_h */

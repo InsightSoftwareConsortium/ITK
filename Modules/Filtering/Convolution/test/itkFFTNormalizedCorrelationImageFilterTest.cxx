@@ -23,48 +23,50 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
-int itkFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
+int
+itkFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[])
 {
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " fixedImageName movingImageName outputImageName [requiredFractionOfOverlappingPixels]" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv)
+              << " fixedImageName movingImageName outputImageName [requiredFractionOfOverlappingPixels]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using InputImageType = itk::Image<unsigned short, 2>;
-  using OutputImageType = itk::Image<unsigned char, 2 >;
+  using OutputImageType = itk::Image<unsigned char, 2>;
   // We need the internal type to be either float or double since
   // the correlation image contains values between -1 and 1.
   using RealImageType = itk::Image<double, 2>;
-  using FilterType = itk::FFTNormalizedCorrelationImageFilter< InputImageType, RealImageType >;
+  using FilterType = itk::FFTNormalizedCorrelationImageFilter<InputImageType, RealImageType>;
 
-  char * fixedImageFileName = argv[1];
-  char * movingImageFileName = argv[2];
-  const char * outputImageFileName = argv[3];
+  char *                    fixedImageFileName = argv[1];
+  char *                    movingImageFileName = argv[2];
+  const char *              outputImageFileName = argv[3];
   FilterType::SizeValueType requiredNumberOfOverlappingPixels = 0;
   FilterType::RealPixelType requiredFractionOfOverlappingPixels = 0;
-  if( argc > 4 )
-    {
+  if (argc > 4)
+  {
     requiredFractionOfOverlappingPixels = std::stod(argv[4]);
-    }
+  }
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
   ReaderType::Pointer fixedImageReader = ReaderType::New();
-  fixedImageReader->SetFileName( fixedImageFileName );
+  fixedImageReader->SetFileName(fixedImageFileName);
 
   ReaderType::Pointer movingImageReader = ReaderType::New();
-  movingImageReader->SetFileName( movingImageFileName );
+  movingImageReader->SetFileName(movingImageFileName);
 
   FilterType::Pointer filter = FilterType::New();
-  filter->SetFixedImage( fixedImageReader->GetOutput() );
-  filter->SetMovingImage( movingImageReader->GetOutput() );
+  filter->SetFixedImage(fixedImageReader->GetOutput());
+  filter->SetMovingImage(movingImageReader->GetOutput());
   // Larger values zero-out pixels on a larger border around the correlation image.
   // Thus, larger values remove less stable computations but also limit the capture range.
-  filter->SetRequiredNumberOfOverlappingPixels( requiredNumberOfOverlappingPixels );
-  filter->SetRequiredFractionOfOverlappingPixels( requiredFractionOfOverlappingPixels );
+  filter->SetRequiredNumberOfOverlappingPixels(requiredNumberOfOverlappingPixels);
+  filter->SetRequiredFractionOfOverlappingPixels(requiredFractionOfOverlappingPixels);
 
-  itk::SimpleFilterWatcher watcher(filter,"FFTNormalizedCorrelation");
+  itk::SimpleFilterWatcher watcher(filter, "FFTNormalizedCorrelation");
 
   // Shift the correlation values so they can be written out as a png.
   // The original range is [-1,1], and the new range is [0,255].
@@ -76,28 +78,29 @@ int itkFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
   // But because of precision issues, numbers that are very close to 0 will get
   // mapped to 127 or 128, depending on whether they are slightly negative or positive.
   // Therefore, we truncate instead so that all values near 0 get mapped to 127.
-  using RescaleType = itk::ShiftScaleImageFilter<RealImageType,OutputImageType>;
+  using RescaleType = itk::ShiftScaleImageFilter<RealImageType, OutputImageType>;
   RescaleType::Pointer rescaler = RescaleType::New();
-  rescaler->SetInput( filter->GetOutput() );
+  rescaler->SetInput(filter->GetOutput());
   rescaler->SetShift(1);
-  rescaler->SetScale(255.0/2.0);
+  rescaler->SetScale(255.0 / 2.0);
 
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( outputImageFileName );
-  writer->SetInput( rescaler->GetOutput() );
+  writer->SetFileName(outputImageFileName);
+  writer->SetInput(rescaler->GetOutput());
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excep )
-    {
+  }
+  catch (itk::ExceptionObject & excep)
+  {
     std::cerr << "Exception catched !" << std::endl;
     std::cerr << excep << std::endl;
-    }
+  }
 
   std::cout << "Maximum overlapping pixels: " << filter->GetMaximumNumberOfOverlappingPixels() << std::endl;
-  std::cout << "Required fraction of overlapping pixels: " << filter->GetRequiredFractionOfOverlappingPixels() << std::endl;
+  std::cout << "Required fraction of overlapping pixels: " << filter->GetRequiredFractionOfOverlappingPixels()
+            << std::endl;
   std::cout << "Required number of overlapping pixels: " << filter->GetRequiredNumberOfOverlappingPixels() << std::endl;
 
   return EXIT_SUCCESS;

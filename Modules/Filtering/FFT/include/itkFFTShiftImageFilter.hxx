@@ -22,45 +22,42 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-FFTShiftImageFilter< TInputImage, TOutputImage >
-::FFTShiftImageFilter()
+template <typename TInputImage, typename TOutputImage>
+FFTShiftImageFilter<TInputImage, TOutputImage>::FFTShiftImageFilter()
 {
   m_Inverse = false;
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-FFTShiftImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+FFTShiftImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // The size of the image is needed to compute the shift.
   const SizeType size = this->GetOutput()->GetLargestPossibleRegion().GetSize();
 
   // Compute the shift.
   typename Superclass::OffsetType shift;
-  for ( unsigned int i = 0; i < ImageDimension; i++ )
-    {
+  for (unsigned int i = 0; i < ImageDimension; i++)
+  {
     shift[i] = (size[i] / 2);
-    if ( m_Inverse )
-      {
+    if (m_Inverse)
+    {
       shift[i] = -shift[i];
-      }
     }
+  }
 
   this->m_Shift = shift;
 
   this->Superclass::GenerateData();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-FFTShiftImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+FFTShiftImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Inverse: "  << m_Inverse << std::endl;
+  os << indent << "Inverse: " << m_Inverse << std::endl;
 }
 
 } // end namespace itk

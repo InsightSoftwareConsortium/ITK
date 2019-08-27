@@ -24,83 +24,79 @@
 #include "itkMath.h"
 #include "itkTestingMacros.h"
 
-int itkNormalizeToConstantImageFilterTest( int, char* [] )
+int
+itkNormalizeToConstantImageFilterTest(int, char *[])
 {
   constexpr unsigned int Dimension = 3;
   using IntPixelType = int;
   using DoublePixelType = double;
 
-  using IntImage = itk::Image< IntPixelType, Dimension >;
-  using DoubleImage = itk::Image< DoublePixelType, Dimension >;
+  using IntImage = itk::Image<IntPixelType, Dimension>;
+  using DoubleImage = itk::Image<DoublePixelType, Dimension>;
 
   // Generate a random image
-  using SourceType = itk::RandomImageSource< IntImage >;
+  using SourceType = itk::RandomImageSource<IntImage>;
   SourceType::Pointer source = SourceType::New();
 
-  IntImage::SizeValueType randomSize[3] = {18, 17, 67};
+  IntImage::SizeValueType randomSize[3] = { 18, 17, 67 };
 
-  source->SetSize( randomSize );
+  source->SetSize(randomSize);
 
   IntImage::PixelType minValue = 0;
   IntImage::PixelType maxValue = 1000;
-  source->SetMin( minValue );
-  source->SetMax( maxValue );
+  source->SetMin(minValue);
+  source->SetMax(maxValue);
 
-  using NormalizeType =
-      itk::NormalizeToConstantImageFilter< IntImage, DoubleImage >;
+  using NormalizeType = itk::NormalizeToConstantImageFilter<IntImage, DoubleImage>;
   NormalizeType::Pointer normalize = NormalizeType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( normalize, NormalizeToConstantImageFilter,
-    ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(normalize, NormalizeToConstantImageFilter, ImageToImageFilter);
 
   DoubleImage::PixelType constant = 1.0;
-  normalize->SetConstant( constant );
-  ITK_TEST_SET_GET_VALUE( constant, normalize->GetConstant() );
+  normalize->SetConstant(constant);
+  ITK_TEST_SET_GET_VALUE(constant, normalize->GetConstant());
 
-  itk::SimpleFilterWatcher watch( normalize, "NormalizeToConstant" );
+  itk::SimpleFilterWatcher watch(normalize, "NormalizeToConstant");
 
-  normalize->SetInput( source->GetOutput() );
+  normalize->SetInput(source->GetOutput());
   normalize->Update();
 
-  using IteratorType = itk::ImageRegionConstIterator< DoubleImage >;
-  IteratorType it( normalize->GetOutput(),
-                   normalize->GetOutput()->GetLargestPossibleRegion() );
+  using IteratorType = itk::ImageRegionConstIterator<DoubleImage>;
+  IteratorType it(normalize->GetOutput(), normalize->GetOutput()->GetLargestPossibleRegion());
 
   DoubleImage::PixelType sum = 0.0;
-  for ( it.GoToBegin(); !it.IsAtEnd(); ++it )
-    {
+  for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+  {
     sum += it.Value();
-    }
+  }
 
   double epsilon = 1e-5;
-  if ( !itk::Math::FloatAlmostEqual( constant, sum, 10, epsilon ) )
-    {
-    std::cout.precision( int( itk::Math::abs( std::log10( epsilon ) ) ) );
-    std::cout << "First sum (" << sum << ") does not equal constant ("
-              << constant << ")" << std::endl;
+  if (!itk::Math::FloatAlmostEqual(constant, sum, 10, epsilon))
+  {
+    std::cout.precision(int(itk::Math::abs(std::log10(epsilon))));
+    std::cout << "First sum (" << sum << ") does not equal constant (" << constant << ")" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constant = 134.2;
-  normalize->SetConstant( constant );
-  ITK_TEST_SET_GET_VALUE( constant, normalize->GetConstant() );
+  normalize->SetConstant(constant);
+  ITK_TEST_SET_GET_VALUE(constant, normalize->GetConstant());
 
   normalize->Update();
 
   sum = 0.0;
-  for ( it.GoToBegin(); !it.IsAtEnd(); ++it )
-    {
+  for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+  {
     sum += it.Value();
-    }
+  }
 
   epsilon = 1e-3;
-  if ( !itk::Math::FloatAlmostEqual( constant, sum, 10, epsilon ) )
-    {
-    std::cout.precision( int( itk::Math::abs( std::log10( epsilon ) ) ) );
-    std::cout << "Second sum (" << sum << ") does not equal constant ("
-              << constant << ")" << std::endl;
+  if (!itk::Math::FloatAlmostEqual(constant, sum, 10, epsilon))
+  {
+    std::cout.precision(int(itk::Math::abs(std::log10(epsilon))));
+    std::cout << "Second sum (" << sum << ") does not equal constant (" << constant << ")" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

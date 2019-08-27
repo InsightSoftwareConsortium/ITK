@@ -27,56 +27,83 @@ namespace itk
 // are mapped to another constant.
 namespace Functor
 {
-template< typename TInput, typename  TOutput >
+template <typename TInput, typename TOutput>
 class ITK_TEMPLATE_EXPORT IntensityWindowingTransform
 {
 public:
-  using RealType = typename NumericTraits< TInput >::RealType;
-  IntensityWindowingTransform() :
-    m_Factor(0.0),
-    m_Offset(0.0),
-    m_OutputMaximum(0),
-    m_OutputMinimum(0),
-    m_WindowMaximum(0),
-    m_WindowMinimum(0) {}
+  using RealType = typename NumericTraits<TInput>::RealType;
+  IntensityWindowingTransform()
+    : m_Factor(0.0)
+    , m_Offset(0.0)
+    , m_OutputMaximum(0)
+    , m_OutputMinimum(0)
+    , m_WindowMaximum(0)
+    , m_WindowMinimum(0)
+  {}
   ~IntensityWindowingTransform() = default;
-  bool operator!=(const IntensityWindowingTransform & other) const
+  bool
+  operator!=(const IntensityWindowingTransform & other) const
   {
-    if (    Math::NotExactlyEquals( m_Factor     , other.m_Factor )
-         || Math::NotExactlyEquals( m_Offset     , other.m_Offset )
-         || Math::NotExactlyEquals( m_OutputMaximum, other.m_OutputMaximum )
-         || Math::NotExactlyEquals( m_OutputMinimum, other.m_OutputMinimum )
-         || Math::NotExactlyEquals( m_WindowMaximum, other.m_WindowMaximum )
-         || Math::NotExactlyEquals( m_WindowMinimum, other.m_WindowMinimum ) )
-      {
+    if (Math::NotExactlyEquals(m_Factor, other.m_Factor) || Math::NotExactlyEquals(m_Offset, other.m_Offset) ||
+        Math::NotExactlyEquals(m_OutputMaximum, other.m_OutputMaximum) ||
+        Math::NotExactlyEquals(m_OutputMinimum, other.m_OutputMinimum) ||
+        Math::NotExactlyEquals(m_WindowMaximum, other.m_WindowMaximum) ||
+        Math::NotExactlyEquals(m_WindowMinimum, other.m_WindowMinimum))
+    {
       return true;
-      }
+    }
     return false;
   }
 
-  bool operator==(const IntensityWindowingTransform & other) const
+  bool
+  operator==(const IntensityWindowingTransform & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  void SetFactor(RealType a) { m_Factor = a; }
-  void SetOffset(RealType b) { m_Offset = b; }
-  void SetOutputMinimum(TOutput min) { m_OutputMinimum = min; }
-  void SetOutputMaximum(TOutput max) { m_OutputMaximum = max; }
-  void SetWindowMinimum(TInput min) { m_WindowMinimum = min; }
-  void SetWindowMaximum(TInput max) { m_WindowMaximum = max; }
-  inline TOutput operator()(const TInput & x) const
+  void
+  SetFactor(RealType a)
   {
-    if ( x < m_WindowMinimum )
-      {
+    m_Factor = a;
+  }
+  void
+  SetOffset(RealType b)
+  {
+    m_Offset = b;
+  }
+  void
+  SetOutputMinimum(TOutput min)
+  {
+    m_OutputMinimum = min;
+  }
+  void
+  SetOutputMaximum(TOutput max)
+  {
+    m_OutputMaximum = max;
+  }
+  void
+  SetWindowMinimum(TInput min)
+  {
+    m_WindowMinimum = min;
+  }
+  void
+  SetWindowMaximum(TInput max)
+  {
+    m_WindowMaximum = max;
+  }
+  inline TOutput
+  operator()(const TInput & x) const
+  {
+    if (x < m_WindowMinimum)
+    {
       return m_OutputMinimum;
-      }
-    if ( x > m_WindowMaximum )
-      {
+    }
+    if (x > m_WindowMaximum)
+    {
       return m_OutputMaximum;
-      }
-    const RealType value  = static_cast< RealType >( x ) * m_Factor + m_Offset;
-    const auto result = static_cast< TOutput >( value );
+    }
+    const RealType value = static_cast<RealType>(x) * m_Factor + m_Offset;
+    const auto     result = static_cast<TOutput>(value);
     return result;
   }
 
@@ -88,7 +115,7 @@ private:
   TInput   m_WindowMaximum;
   TInput   m_WindowMinimum;
 };
-}  // end namespace Functor
+} // end namespace Functor
 
 /** \class IntensityWindowingImageFilter
  * \brief Applies a linear transformation to the intensity levels of the
@@ -117,13 +144,12 @@ private:
  *
  * \sa RescaleIntensityImageFilter
  */
-template< typename  TInputImage, typename  TOutputImage = TInputImage >
-class ITK_TEMPLATE_EXPORT IntensityWindowingImageFilter:
-  public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::IntensityWindowingTransform<
-                             typename TInputImage::PixelType,
-                             typename TOutputImage::PixelType >   >
+template <typename TInputImage, typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT IntensityWindowingImageFilter
+  : public UnaryFunctorImageFilter<
+      TInputImage,
+      TOutputImage,
+      Functor::IntensityWindowingTransform<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(IntensityWindowingImageFilter);
@@ -131,24 +157,22 @@ public:
   /** Standard class type aliases. */
   using Self = IntensityWindowingImageFilter;
   using Superclass = UnaryFunctorImageFilter<
-    TInputImage, TOutputImage,
-    Functor::IntensityWindowingTransform<
-      typename TInputImage::PixelType,
-      typename TOutputImage::PixelType > >;
+    TInputImage,
+    TOutputImage,
+    Functor::IntensityWindowingTransform<typename TInputImage::PixelType, typename TOutputImage::PixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using OutputPixelType = typename TOutputImage::PixelType;
   using InputPixelType = typename TInputImage::PixelType;
-  using RealType = typename NumericTraits< InputPixelType >::RealType;
+  using RealType = typename NumericTraits<InputPixelType>::RealType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(IntensityWindowingImageFilter,
-               UnaryFunctorImageFilter);
+  itkTypeMacro(IntensityWindowingImageFilter, UnaryFunctorImageFilter);
 
   /** Set/Get the values of the maximum and minimum
    *  intensities of the output image. */
@@ -168,12 +192,14 @@ public:
    * to using the SetWindowMinimum()/SetWindowMaximum(). The window
    * minimum and maximum are set as [level-window/2,
    * level+window/2]. */
-  void SetWindowLevel(const InputPixelType & window,
-                      const InputPixelType & level);
+  void
+  SetWindowLevel(const InputPixelType & window, const InputPixelType & level);
 
-  InputPixelType GetWindow() const;
+  InputPixelType
+  GetWindow() const;
 
-  InputPixelType GetLevel() const;
+  InputPixelType
+  GetLevel() const;
 
   /** Get the Scale and Shift used for the linear transformation
       of gray level values.
@@ -182,14 +208,15 @@ public:
   itkGetConstReferenceMacro(Shift, RealType);
 
   /** Process to execute before entering the multithreaded section. */
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputPixelType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
   // End concept checking
 #endif
 
@@ -210,7 +237,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkIntensityWindowingImageFilter.hxx"
+#  include "itkIntensityWindowingImageFilter.hxx"
 #endif
 
 #endif

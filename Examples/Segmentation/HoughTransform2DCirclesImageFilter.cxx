@@ -42,10 +42,11 @@
 #include "itkCastImageFilter.h"
 #include "itkMath.h"
 
-int main( int argc, char *argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 6 )
-    {
+  if (argc < 6)
+  {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0] << std::endl;
     std::cerr << " inputImage " << std::endl;
@@ -56,9 +57,10 @@ int main( int argc, char *argv[] )
     std::cerr << " sweep Angle (default = 0)" << std::endl;
     std::cerr << " SigmaGradient (default = 1) " << std::endl;
     std::cerr << " variance of the accumulator blurring (default = 5) " << std::endl;
-    std::cerr << " radius of the disk to remove from the accumulator (default = 10) "<< std::endl;
+    std::cerr << " radius of the disk to remove from the accumulator (default = 10) "
+              << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //  Software Guide : BeginLatex
   //
@@ -73,9 +75,9 @@ int main( int argc, char *argv[] )
   using AccumulatorPixelType = unsigned;
   using RadiusPixelType = float;
   constexpr unsigned int Dimension = 2;
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
   ImageType::IndexType localIndex;
-  using AccumulatorImageType = itk::Image< AccumulatorPixelType, Dimension >;
+  using AccumulatorImageType = itk::Image<AccumulatorPixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -84,19 +86,19 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
   try
-    {
+  {
     reader->Update();
-    }
-  catch( itk::ExceptionObject & excep )
-    {
+  }
+  catch (itk::ExceptionObject & excep)
+  {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   ImageType::Pointer localImage = reader->GetOutput();
   // Software Guide : EndCodeSnippet
 
@@ -116,8 +118,7 @@ int main( int argc, char *argv[] )
     itk::HoughTransform2DCirclesImageFilter<PixelType,
                                             AccumulatorPixelType,
                                             RadiusPixelType>;
-  HoughTransformFilterType::Pointer houghFilter
-                                            = HoughTransformFilterType::New();
+  HoughTransformFilterType::Pointer houghFilter = HoughTransformFilterType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -143,28 +144,28 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  houghFilter->SetInput( reader->GetOutput() );
+  houghFilter->SetInput(reader->GetOutput());
 
-  houghFilter->SetNumberOfCircles( std::stoi(argv[3]) );
-  houghFilter->SetMinimumRadius(   std::stod(argv[4]) );
-  houghFilter->SetMaximumRadius(   std::stod(argv[5]) );
+  houghFilter->SetNumberOfCircles(std::stoi(argv[3]));
+  houghFilter->SetMinimumRadius(std::stod(argv[4]));
+  houghFilter->SetMaximumRadius(std::stod(argv[5]));
 
-  if( argc > 6 )
-    {
-    houghFilter->SetSweepAngle( std::stod(argv[6]) );
-    }
-  if( argc > 7 )
-    {
-    houghFilter->SetSigmaGradient( std::stoi(argv[7]) );
-    }
-  if( argc > 8 )
-    {
-    houghFilter->SetVariance( std::stod(argv[8]) );
-    }
-  if( argc > 9 )
-    {
-    houghFilter->SetDiscRadiusRatio( std::stod(argv[9]) );
-    }
+  if (argc > 6)
+  {
+    houghFilter->SetSweepAngle(std::stod(argv[6]));
+  }
+  if (argc > 7)
+  {
+    houghFilter->SetSigmaGradient(std::stoi(argv[7]));
+  }
+  if (argc > 8)
+  {
+    houghFilter->SetVariance(std::stod(argv[8]));
+  }
+  if (argc > 9)
+  {
+    houghFilter->SetDiscRadiusRatio(std::stod(argv[9]));
+  }
 
   houghFilter->Update();
   AccumulatorImageType::Pointer localAccumulator = houghFilter->GetOutput();
@@ -192,14 +193,14 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using OutputPixelType = unsigned char;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  OutputImageType::Pointer  localOutputImage = OutputImageType::New();
+  OutputImageType::Pointer localOutputImage = OutputImageType::New();
 
   OutputImageType::RegionType region;
   region.SetSize(localImage->GetLargestPossibleRegion().GetSize());
   region.SetIndex(localImage->GetLargestPossibleRegion().GetIndex());
-  localOutputImage->SetRegions( region );
+  localOutputImage->SetRegions(region);
   localOutputImage->SetOrigin(localImage->GetOrigin());
   localOutputImage->SetSpacing(localImage->GetSpacing());
   localOutputImage->Allocate(true); // initializes buffer to zero
@@ -215,13 +216,11 @@ int main( int argc, char *argv[] )
   using CirclesListType = HoughTransformFilterType::CirclesListType;
   CirclesListType::const_iterator itCircles = circles.begin();
 
-  while( itCircles != circles.end() )
-    {
+  while (itCircles != circles.end())
+  {
     std::cout << "Center: ";
-    std::cout << (*itCircles)->GetCenterInObjectSpace()
-              << std::endl;
-    std::cout << "Radius: " << (*itCircles)->GetRadiusInObjectSpace()[0]
-      << std::endl;
+    std::cout << (*itCircles)->GetCenterInObjectSpace() << std::endl;
+    std::cout << "Radius: " << (*itCircles)->GetRadiusInObjectSpace()[0] << std::endl;
     // Software Guide : EndCodeSnippet
 
     //  Software Guide : BeginLatex
@@ -231,29 +230,25 @@ int main( int argc, char *argv[] )
     //  Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    for( double angle = 0;
-         angle <= itk::Math::twopi;
-         angle += itk::Math::pi/60.0 )
-      {
+    for (double angle = 0; angle <= itk::Math::twopi; angle += itk::Math::pi / 60.0)
+    {
       const HoughTransformFilterType::CircleType::PointType centerPoint =
         (*itCircles)->GetCenterInObjectSpace();
       using IndexValueType = ImageType::IndexType::IndexValueType;
-      localIndex[0] =
-         itk::Math::Round<IndexValueType>(centerPoint[0]
-                  + (*itCircles)->GetRadiusInObjectSpace()[0]*std::cos(angle));
-      localIndex[1] =
-         itk::Math::Round<IndexValueType>(centerPoint[1]
-                  + (*itCircles)->GetRadiusInObjectSpace()[0]*std::sin(angle));
+      localIndex[0] = itk::Math::Round<IndexValueType>(
+        centerPoint[0] + (*itCircles)->GetRadiusInObjectSpace()[0] * std::cos(angle));
+      localIndex[1] = itk::Math::Round<IndexValueType>(
+        centerPoint[1] + (*itCircles)->GetRadiusInObjectSpace()[0] * std::sin(angle));
       OutputImageType::RegionType outputRegion =
-                                  localOutputImage->GetLargestPossibleRegion();
+        localOutputImage->GetLargestPossibleRegion();
 
-      if( outputRegion.IsInside( localIndex ) )
-        {
-        localOutputImage->SetPixel( localIndex, 255 );
-        }
+      if (outputRegion.IsInside(localIndex))
+      {
+        localOutputImage->SetPixel(localIndex, 255);
       }
-    itCircles++;
     }
+    itCircles++;
+  }
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -263,22 +258,22 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using WriterType = itk::ImageFileWriter< ImageType  >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetFileName( argv[2] );
-  writer->SetInput(localOutputImage );
+  writer->SetFileName(argv[2]);
+  writer->SetInput(localOutputImage);
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excep )
-    {
+  }
+  catch (itk::ExceptionObject & excep)
+  {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;

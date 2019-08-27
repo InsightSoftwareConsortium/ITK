@@ -27,15 +27,16 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkTestingMacros.h"
 
-int itkRemoveBoundaryObjectsTest( int argc, char * argv[] )
+int
+itkRemoveBoundaryObjectsTest(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImageFile  ";
     std::cerr << " outputImageFile  " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //
@@ -48,59 +49,54 @@ int itkRemoveBoundaryObjectsTest( int argc, char * argv[] )
   using OutputPixelType = unsigned char;
   using WritePixelType = unsigned char;
 
-  using InputImageType = itk::Image< InputPixelType,  Dimension >;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
-  using WriteImageType = itk::Image< WritePixelType, Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
+  using WriteImageType = itk::Image<WritePixelType, Dimension>;
 
 
   // readers/writers
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
-  using WriterType = itk::ImageFileWriter< WriteImageType >;
-  using RescaleType =
-      itk::RescaleIntensityImageFilter<OutputImageType, WriteImageType>;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<WriteImageType>;
+  using RescaleType = itk::RescaleIntensityImageFilter<OutputImageType, WriteImageType>;
 
   // define the fillhole filter
-  using FillholeFilterType = itk::GrayscaleFillholeImageFilter<
-                            InputImageType,
-                            OutputImageType >;
+  using FillholeFilterType = itk::GrayscaleFillholeImageFilter<InputImageType, OutputImageType>;
 
   // define the xor and not filters
-  using XorFilterType =
-      itk::XorImageFilter<InputImageType, InputImageType, OutputImageType>;
-  using NotFilterType =
-      itk::NotImageFilter<InputImageType, OutputImageType>;
+  using XorFilterType = itk::XorImageFilter<InputImageType, InputImageType, OutputImageType>;
+  using NotFilterType = itk::NotImageFilter<InputImageType, OutputImageType>;
 
 
   // Creation of Reader and Writer filters
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer  = WriterType::New();
+  ReaderType::Pointer  reader = ReaderType::New();
+  WriterType::Pointer  writer = WriterType::New();
   RescaleType::Pointer rescaler = RescaleType::New();
 
   // Create the filter
-  FillholeFilterType::Pointer  fillhole = FillholeFilterType::New();
+  FillholeFilterType::Pointer fillhole = FillholeFilterType::New();
 
   // Create the xor and not filter
   XorFilterType::Pointer xorfilter = XorFilterType::New();
   NotFilterType::Pointer notfilter = NotFilterType::New();
 
   // Setup the input and output files
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
   // Setup the fillhole method
-  fillhole->SetInput( reader->GetOutput() );
+  fillhole->SetInput(reader->GetOutput());
 
   // Setup the xor and not
-  xorfilter->SetInput1( fillhole->GetOutput() );
-  xorfilter->SetInput2( reader->GetOutput() );
+  xorfilter->SetInput1(fillhole->GetOutput());
+  xorfilter->SetInput2(reader->GetOutput());
 
-  notfilter->SetInput( xorfilter->GetOutput() );
+  notfilter->SetInput(xorfilter->GetOutput());
 
   // Run the filter
-  rescaler->SetInput( notfilter->GetOutput() );
-  rescaler->SetOutputMinimum(   0 );
-  rescaler->SetOutputMaximum( 255 );
-  writer->SetInput( rescaler->GetOutput() );
+  rescaler->SetInput(notfilter->GetOutput());
+  rescaler->SetOutputMinimum(0);
+  rescaler->SetOutputMaximum(255);
+  writer->SetInput(rescaler->GetOutput());
   writer->Update();
 
   return EXIT_SUCCESS;

@@ -91,21 +91,19 @@ namespace itk
  * \sphinxexample{Core/Common/CreateSobelKernel,Create Sobel Kernel}
  * \endsphinx
  */
-template< typename TPixel, unsigned int VDimension = 2,
-          typename TAllocator = NeighborhoodAllocator< TPixel > >
-class ITK_TEMPLATE_EXPORT SobelOperator:
-  public NeighborhoodOperator< TPixel, VDimension, TAllocator >
+template <typename TPixel, unsigned int VDimension = 2, typename TAllocator = NeighborhoodAllocator<TPixel>>
+class ITK_TEMPLATE_EXPORT SobelOperator : public NeighborhoodOperator<TPixel, VDimension, TAllocator>
 {
 public:
   /** Standard type alias */
   using Self = SobelOperator;
-  using Superclass = NeighborhoodOperator< TPixel, VDimension, TAllocator >;
+  using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
   itkTypeMacro(SobelOperator, NeighborhoodOperator);
 
   SobelOperator() = default;
-  SobelOperator(const Self & other):
-    NeighborhoodOperator< TPixel, VDimension, TAllocator >(other)
+  SobelOperator(const Self & other)
+    : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other)
   {}
 
   /** Creates the operator with length only in the specified direction.  For
@@ -113,7 +111,8 @@ public:
    * The radius of the operator will be 0 except along the axis on which
    * the operator will work.
    * \sa CreateToRadius \sa FillCenteredDirectional \sa SetDirection() \sa GetDirection() */
-  void CreateDirectional() override
+  void
+  CreateDirectional() override
   {
     this->CreateToRadius(1);
   }
@@ -126,7 +125,8 @@ public:
   /**
    * Assignment operator
    */
-  Self & operator=(const Self & other)
+  Self &
+  operator=(const Self & other)
   {
     Superclass::operator=(other);
     return *this;
@@ -135,10 +135,11 @@ public:
   /**
    * Prints some debugging information
    */
-  void PrintSelf(std::ostream & os, Indent i) const override
+  void
+  PrintSelf(std::ostream & os, Indent i) const override
   {
-    os << i << "SobelOperator { this=" << this  << "}" << std::endl;
-    Superclass::PrintSelf( os, i.GetNextIndent() );
+    os << i << "SobelOperator { this=" << this << "}" << std::endl;
+    Superclass::PrintSelf(os, i.GetNextIndent());
   }
 
 protected:
@@ -152,17 +153,19 @@ protected:
   /**
    * Calculates operator coefficients.
    */
-  CoefficientVector GenerateCoefficients() override;
+  CoefficientVector
+  GenerateCoefficients() override;
 
   /**
    * Arranges coefficients spatially in the memory buffer.
    */
-  void Fill(const CoefficientVector & c) override;
+  void
+  Fill(const CoefficientVector & c) override;
 };
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSobelOperator.hxx"
+#  include "itkSobelOperator.hxx"
 #endif
 
 #endif

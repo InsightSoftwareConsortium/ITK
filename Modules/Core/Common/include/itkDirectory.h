@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT Directory:public Object
+class ITKCommon_EXPORT Directory : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Directory);
@@ -44,12 +44,17 @@ public:
   /** Standard class type aliases. */
   using Self = Directory;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  static Pointer New()
-  { Pointer n = new Self; n->UnRegister(); return n; }
+  static Pointer
+  New()
+  {
+    Pointer n = new Self;
+    n->UnRegister();
+    return n;
+  }
 
   /** Return the class name as a string. */
   itkTypeMacro(Directory, Object);
@@ -57,21 +62,25 @@ public:
   /** Load the specified directory and load the names of the files
    * in that directory. 0 is returned if the directory can not be
    * opened, 1 if it is opened.    */
-  bool Load(const char *dir);
+  bool
+  Load(const char * dir);
 
   /** Return the number of files in the current directory. */
-  std::vector< std::string >::size_type GetNumberOfFiles();
+  std::vector<std::string>::size_type
+  GetNumberOfFiles();
 
   /** Return the file at the given index, the indexing is 0 based */
-  const char * GetFile(unsigned int index);
+  const char *
+  GetFile(unsigned int index);
 
 protected:
   Directory();
   ~Directory() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ::itksys::Directory *m_Internal;
+  ::itksys::Directory * m_Internal;
 }; // End Class: Directory
 } // end namespace itk
 

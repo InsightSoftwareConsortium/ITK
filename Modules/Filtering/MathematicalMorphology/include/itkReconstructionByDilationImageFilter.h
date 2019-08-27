@@ -52,26 +52,27 @@ namespace itk
  * \author Richard Beare. Department of Medicine, Monash University,
  * Melbourne, Australia.
  *
- * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter, ReconstructionByErosionImageFilter,
-OpeningByReconstructionImageFilter, ClosingByReconstructionImageFilter, ReconstructionImageFilter
+ * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter,
+ReconstructionByErosionImageFilter, OpeningByReconstructionImageFilter, ClosingByReconstructionImageFilter,
+ReconstructionImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup MathematicalMorphologyImageFilters
  * \ingroup ITKMathematicalMorphology
  */
 
-template< typename TInputImage, typename TOutputImage >
-class ReconstructionByDilationImageFilter:
-  public ReconstructionImageFilter< TInputImage, TOutputImage, std::greater< typename TOutputImage::PixelType > >
+template <typename TInputImage, typename TOutputImage>
+class ReconstructionByDilationImageFilter
+  : public ReconstructionImageFilter<TInputImage, TOutputImage, std::greater<typename TOutputImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ReconstructionByDilationImageFilter);
 
   using Self = ReconstructionByDilationImageFilter;
-  using Superclass = ReconstructionImageFilter<
-    TInputImage, TOutputImage, std::greater< typename TOutputImage::PixelType > >;
+  using Superclass =
+    ReconstructionImageFilter<TInputImage, TOutputImage, std::greater<typename TOutputImage::PixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using MarkerImageType = TInputImage;
@@ -99,18 +100,17 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ReconstructionByDilationImageFilter,
-               ReconstructionImageFilter);
+  itkTypeMacro(ReconstructionByDilationImageFilter, ReconstructionImageFilter);
 
 protected:
   ReconstructionByDilationImageFilter()
   {
-    this->m_MarkerValue = NumericTraits< typename TOutputImage::PixelType >::NonpositiveMin();
+    this->m_MarkerValue = NumericTraits<typename TOutputImage::PixelType>::NonpositiveMin();
   }
 
   ~ReconstructionByDilationImageFilter() override = default;
 };
 // end ReconstructionByDilationImageFilter
-}
+} // namespace itk
 
 #endif

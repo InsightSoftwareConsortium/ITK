@@ -22,8 +22,7 @@
 
 namespace itk
 {
-SingleValuedNonLinearOptimizer
-::SingleValuedNonLinearOptimizer()
+SingleValuedNonLinearOptimizer ::SingleValuedNonLinearOptimizer()
 {
   m_CostFunction = nullptr;
 }
@@ -32,28 +31,26 @@ SingleValuedNonLinearOptimizer
  * Connect a Cost Function
  */
 void
-SingleValuedNonLinearOptimizer
-::SetCostFunction(CostFunctionType *costFunction)
+SingleValuedNonLinearOptimizer ::SetCostFunction(CostFunctionType * costFunction)
 {
-  if ( m_CostFunction == costFunction )
-    {
+  if (m_CostFunction == costFunction)
+  {
     return;
-    }
+  }
 
-  itkDebugMacro("setting CostFunction  to " <<  costFunction);
+  itkDebugMacro("setting CostFunction  to " << costFunction);
 
   m_CostFunction = costFunction;
 
-  if ( !m_ScalesInitialized )
-    {
-    const unsigned int numberOfParameters =
-      m_CostFunction->GetNumberOfParameters();
+  if (!m_ScalesInitialized)
+  {
+    const unsigned int numberOfParameters = m_CostFunction->GetNumberOfParameters();
 
     ScalesType scales(numberOfParameters);
     scales.Fill(1.0f);
     SetScales(scales);
     m_ScalesInitialized = true;
-    }
+  }
 
   this->Modified();
 }
@@ -62,31 +59,29 @@ SingleValuedNonLinearOptimizer
  * Get the cost function value at the given parameters
  */
 SingleValuedNonLinearOptimizer::MeasureType
-SingleValuedNonLinearOptimizer
-::GetValue(const ParametersType & parameters) const
+SingleValuedNonLinearOptimizer ::GetValue(const ParametersType & parameters) const
 {
-  itkDebugMacro("Computing CostFunction value at " <<  parameters);
+  itkDebugMacro("Computing CostFunction value at " << parameters);
 
-  if ( !m_CostFunction )
-    {
+  if (!m_CostFunction)
+  {
     ExceptionObject ex;
     ex.SetLocation(__FILE__);
     ex.SetDescription("The costfunction must be set prior to calling GetValue");
     throw ex;
-    }
+  }
 
   return this->GetCostFunction()->GetValue(parameters);
 }
 
 void
-SingleValuedNonLinearOptimizer
-::PrintSelf(std::ostream & os, Indent indent) const
+SingleValuedNonLinearOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  if ( m_CostFunction )
-    {
+  if (m_CostFunction)
+  {
     os << indent << "Cost Function: " << m_CostFunction.GetPointer() << std::endl;
-    }
+  }
 }
 } // namespace itk
 

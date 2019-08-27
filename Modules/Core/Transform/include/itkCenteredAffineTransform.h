@@ -30,16 +30,13 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template<typename TParametersValueType=double,
-         unsigned int NDimensions = 3>
-class ITK_TEMPLATE_EXPORT CenteredAffineTransform : public AffineTransform<TParametersValueType,
-                                             NDimensions>
+template <typename TParametersValueType = double, unsigned int NDimensions = 3>
+class ITK_TEMPLATE_EXPORT CenteredAffineTransform : public AffineTransform<TParametersValueType, NDimensions>
 {
 public:
   /** Standard type alias   */
   using Self = CenteredAffineTransform;
-  using Superclass = AffineTransform<TParametersValueType,
-                           NDimensions >;
+  using Superclass = AffineTransform<TParametersValueType, NDimensions>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -51,7 +48,7 @@ public:
 
   /** Dimension of the domain space. */
   static constexpr unsigned int SpaceDimension = NDimensions;
-  static constexpr unsigned int ParametersDimension = NDimensions * ( NDimensions + 2 );
+  static constexpr unsigned int ParametersDimension = NDimensions * (NDimensions + 2);
 
   /** Types taken from the Superclass */
   using ParametersType = typename Superclass::ParametersType;
@@ -90,9 +87,11 @@ public:
    * Note that the Offset of the superclass is no longer in the
    * parameters array since it is fully dependent on the rotation
    * center and the translation parameters. */
-  void SetParameters(const ParametersType & parameters) override;
+  void
+  SetParameters(const ParametersType & parameters) override;
 
-  const ParametersType & GetParameters() const override;
+  const ParametersType &
+  GetParameters() const override;
 
   /** Compute the Jacobian of the transformation
    *
@@ -100,13 +99,16 @@ public:
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the transform
    * is invertible at this point. */
-  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
+  void
+  ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const override;
 
   /** Get an inverse of this transform. */
-  bool GetInverse(Self *inverse) const;
+  bool
+  GetInverse(Self * inverse) const;
 
   /** Return an inverse of this transform. */
-  InverseTransformBasePointer GetInverseTransform() const override;
+  InverseTransformBasePointer
+  GetInverseTransform() const override;
 
 protected:
   /** Construct an CenteredAffineTransform object */
@@ -117,13 +119,14 @@ protected:
 
 private:
   CenteredAffineTransform(const Self & other) = delete;
-  const Self & operator=(const Self &) = delete;
+  const Self &
+  operator=(const Self &) = delete;
 
 }; // class CenteredAffineTransform
-}  // namespace itk
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCenteredAffineTransform.hxx"
+#  include "itkCenteredAffineTransform.hxx"
 #endif
 
 #endif /* itkCenteredAffineTransform_h */

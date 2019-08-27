@@ -32,9 +32,8 @@ namespace itk
  *
  * \ingroup ITKDisplacementField
  */
-template<typename TParametersValueType, unsigned int NDimensions>
-class ITK_TEMPLATE_EXPORT VelocityFieldTransform :
-  public DisplacementFieldTransform<TParametersValueType, NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
+class ITK_TEMPLATE_EXPORT VelocityFieldTransform : public DisplacementFieldTransform<TParametersValueType, NDimensions>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VelocityFieldTransform);
@@ -46,10 +45,10 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( VelocityFieldTransform, DisplacementFieldTransform );
+  itkTypeMacro(VelocityFieldTransform, DisplacementFieldTransform);
 
   /** New macro for creation of through a Smart Pointer */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** InverseTransform type. */
   using InverseTransformBasePointer = typename Superclass::InverseTransformBasePointer;
@@ -111,105 +110,115 @@ public:
 
   /** Define the internal parameter helper used to access the field */
   using OptimizerParametersHelperType =
-      ImageVectorOptimizerParametersHelper<ScalarType, Dimension, VelocityFieldDimension>;
+    ImageVectorOptimizerParametersHelper<ScalarType, Dimension, VelocityFieldDimension>;
 
   /** Get/Set the velocity field.
    * Set the displacement field. Create special set accessor to update
    * interpolator and assign displacement field to transform parameters
    * container. */
-  virtual void SetVelocityField( VelocityFieldType * );
-  itkGetModifiableObjectMacro(VelocityField, VelocityFieldType );
+  virtual void
+  SetVelocityField(VelocityFieldType *);
+  itkGetModifiableObjectMacro(VelocityField, VelocityFieldType);
 
-  void SetFixedParameters( const FixedParametersType & ) override;
+  void
+  SetFixedParameters(const FixedParametersType &) override;
 
   /** Get/Set the interpolator.
    * Create out own set accessor that assigns the velocity field */
-  virtual void SetVelocityFieldInterpolator( VelocityFieldInterpolatorType * );
-  itkGetModifiableObjectMacro(VelocityFieldInterpolator, VelocityFieldInterpolatorType );
+  virtual void
+  SetVelocityFieldInterpolator(VelocityFieldInterpolatorType *);
+  itkGetModifiableObjectMacro(VelocityFieldInterpolator, VelocityFieldInterpolatorType);
 
   /** Get the modification time of velocity field */
-  itkGetConstReferenceMacro( VelocityFieldSetTime, unsigned long );
+  itkGetConstReferenceMacro(VelocityFieldSetTime, unsigned long);
 
   /**
    * Set the deformation field. We want to override the base class
    * implementation since we don't want to optimize over the deformation
    * field for this class but rather the time-varying velocity field
    */
-  void SetDisplacementField( DisplacementFieldType * displacementField) override
-    {
+  void
+  SetDisplacementField(DisplacementFieldType * displacementField) override
+  {
     itkDebugMacro("setting DisplacementField to " << displacementField);
-    if ( this->m_DisplacementField != displacementField )
-      {
+    if (this->m_DisplacementField != displacementField)
+    {
       this->m_DisplacementField = displacementField;
       this->Modified();
-      }
     }
+  }
 
-  void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) override;
+  void
+  UpdateTransformParameters(const DerivativeType & update, ScalarType factor = 1.0) override;
 
   /** Return an inverse of this transform. */
-  bool GetInverse( Self *inverse ) const;
+  bool
+  GetInverse(Self * inverse) const;
 
   /** Return an inverse of this transform. */
-  InverseTransformBasePointer GetInverseTransform() const override;
+  InverseTransformBasePointer
+  GetInverseTransform() const override;
 
   /** Trigger the computation of the displacement field by integrating the velocity field. */
-  virtual void IntegrateVelocityField() {};
+  virtual void
+  IntegrateVelocityField(){};
 
   /**
    * Set the lower time bound defining the integration domain of the transform.
    * We assume that the total possible time domain is [0,1]
    */
-  itkSetClampMacro( LowerTimeBound, ScalarType, 0.0, 1.0 );
+  itkSetClampMacro(LowerTimeBound, ScalarType, 0.0, 1.0);
 
   /**
    * Get the lower time bound defining the integration domain of the transform.
    * We assume that the total possible time domain is [0,1]
    */
-  itkGetConstMacro( LowerTimeBound, ScalarType );
+  itkGetConstMacro(LowerTimeBound, ScalarType);
 
   /**
    * Set the upper time bound defining the integration domain of the transform.
    * We assume that the total possible time domain is [0,1]
    */
-  itkSetClampMacro( UpperTimeBound, ScalarType, 0.0, 1.0 );
+  itkSetClampMacro(UpperTimeBound, ScalarType, 0.0, 1.0);
 
   /**
    * Get the upper time bound defining the integration domain of the transform.
    * We assume that the total possible time domain is [0,1]
    */
-  itkGetConstMacro( UpperTimeBound, ScalarType );
+  itkGetConstMacro(UpperTimeBound, ScalarType);
 
   /**
    * Set the number of integration steps.  Default = 100;
    */
-  itkSetMacro( NumberOfIntegrationSteps, unsigned int );
+  itkSetMacro(NumberOfIntegrationSteps, unsigned int);
 
   /**
    * Get the number of integration steps.  Default = 100;
    */
-  itkGetConstMacro( NumberOfIntegrationSteps, unsigned int );
+  itkGetConstMacro(NumberOfIntegrationSteps, unsigned int);
 
 protected:
-
   VelocityFieldTransform();
   ~VelocityFieldTransform() override = default;
-  void PrintSelf( std::ostream& os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Clone the current transform */
-  typename LightObject::Pointer InternalClone() const override;
+  typename LightObject::Pointer
+  InternalClone() const override;
 
-  typename DisplacementFieldType::Pointer CopyDisplacementField( const DisplacementFieldType * ) const;
+  typename DisplacementFieldType::Pointer
+  CopyDisplacementField(const DisplacementFieldType *) const;
 
-  ScalarType                                m_LowerTimeBound;
-  ScalarType                                m_UpperTimeBound;
+  ScalarType m_LowerTimeBound;
+  ScalarType m_UpperTimeBound;
 
-  unsigned int                              m_NumberOfIntegrationSteps;
+  unsigned int m_NumberOfIntegrationSteps;
 
-  VelocityFieldPointer                      m_VelocityField;
+  VelocityFieldPointer m_VelocityField;
 
   /** The interpolator. */
-  typename VelocityFieldInterpolatorType::Pointer          m_VelocityFieldInterpolator;
+  typename VelocityFieldInterpolatorType::Pointer m_VelocityFieldInterpolator;
 
   /** Track when the VELOCITY field was last set/assigned, as
    * distinct from when it may have had its contents modified. */
@@ -220,13 +229,13 @@ private:
    * Convenience method which reads the information from the current
    * velocity field into m_FixedParameters.
    */
-  virtual void SetFixedParametersFromVelocityField() const;
-
+  virtual void
+  SetFixedParametersFromVelocityField() const;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVelocityFieldTransform.hxx"
+#  include "itkVelocityFieldTransform.hxx"
 #endif
 
 #endif // itkVelocityFieldTransform_h

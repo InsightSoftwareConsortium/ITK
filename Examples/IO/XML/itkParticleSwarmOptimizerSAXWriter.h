@@ -17,11 +17,13 @@
  *=========================================================================*/
 
 /**
- * This is a fully working example of SAX-based writer for the ITK object itk::ParticleSwarmOptimizer.
- * It performs the same function as ParticleSwarmOptimizerDOMWriter; however, this writer directly
- * generates the output XML document, which is more complicated and error prone.
+ * This is a fully working example of SAX-based writer for the ITK object
+ * itk::ParticleSwarmOptimizer. It performs the same function as
+ * ParticleSwarmOptimizerDOMWriter; however, this writer directly generates the output
+ * XML document, which is more complicated and error prone.
  *
- * Please see [ITK_HOME]/Testing/Data/InputXML/test.pso.xml for an example of our XML format for the PSO object.
+ * Please see [ITK_HOME]/Testing/Data/InputXML/test.pso.xml for an example of our XML
+ * format for the PSO object.
  */
 
 #ifndef itkParticleSwarmOptimizerSAXWriter_h
@@ -41,8 +43,8 @@ public:
   /** Standard class type aliases. */
   using Self = ParticleSwarmOptimizerSAXWriter;
   using Superclass = XMLWriterBase<ParticleSwarmOptimizer>;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -54,12 +56,14 @@ public:
    * Virtual method defined in itk::XMLWriterBase.
    * Check that whether the file with given name is writable.
    */
-  int CanWriteFile( const char* name ) override;
+  int
+  CanWriteFile(const char * name) override;
 
   /**
    * Method for performing XML file generation from the input object.
    */
-  int WriteFile() override;
+  int
+  WriteFile() override;
 
 protected:
   ParticleSwarmOptimizerSAXWriter() = default;

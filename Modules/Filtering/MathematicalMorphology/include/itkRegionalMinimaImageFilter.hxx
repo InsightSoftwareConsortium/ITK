@@ -29,47 +29,42 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TOutputImage >
-RegionalMinimaImageFilter< TInputImage, TOutputImage >
-::RegionalMinimaImageFilter() :
-  m_ForegroundValue( NumericTraits< OutputImagePixelType >::max() ),
-  m_BackgroundValue( NumericTraits< OutputImagePixelType >::NonpositiveMin() )
-{
-}
+template <typename TInputImage, typename TOutputImage>
+RegionalMinimaImageFilter<TInputImage, TOutputImage>::RegionalMinimaImageFilter()
+  : m_ForegroundValue(NumericTraits<OutputImagePixelType>::max())
+  , m_BackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
+{}
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-RegionalMinimaImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+RegionalMinimaImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  auto * input = const_cast< InputImageType * >( this->GetInput() );
-  if ( !input )
-    {
+  auto * input = const_cast<InputImageType *>(this->GetInput());
+  if (!input)
+  {
     return;
-    }
-  input->SetRequestedRegion( input->GetLargestPossibleRegion() );
+  }
+  input->SetRequestedRegion(input->GetLargestPossibleRegion());
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-RegionalMinimaImageFilter< TInputImage, TOutputImage >
-::EnlargeOutputRequestedRegion(DataObject *)
+RegionalMinimaImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject *)
 {
   OutputImageType * output = this->GetOutput();
-  output->SetRequestedRegion( output->GetLargestPossibleRegion() );
+  output->SetRequestedRegion(output->GetLargestPossibleRegion());
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-RegionalMinimaImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+RegionalMinimaImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
@@ -80,78 +75,74 @@ RegionalMinimaImageFilter< TInputImage, TOutputImage >
   this->AllocateOutputs();
 
   const InputImageType * input = this->GetInput();
-  OutputImageType * output = this->GetOutput();
+  OutputImageType *      output = this->GetOutput();
 
   // Delegate to the valued filter to find the minima
-  typename ValuedRegionalMinimaImageFilter< TInputImage, TInputImage >::Pointer
-  regionalMin = ValuedRegionalMinimaImageFilter< TInputImage, TInputImage >::New();
-  regionalMin->SetInput( input );
-  regionalMin->SetFullyConnected( m_FullyConnected );
-  progress->RegisterInternalFilter( regionalMin, 0.67f );
+  typename ValuedRegionalMinimaImageFilter<TInputImage, TInputImage>::Pointer regionalMin =
+    ValuedRegionalMinimaImageFilter<TInputImage, TInputImage>::New();
+  regionalMin->SetInput(input);
+  regionalMin->SetFullyConnected(m_FullyConnected);
+  progress->RegisterInternalFilter(regionalMin, 0.67f);
   regionalMin->Update();
 
-  if( regionalMin->GetFlat() )
+  if (regionalMin->GetFlat())
+  {
+    ProgressReporter progress2(this, 0, output->GetRequestedRegion().GetNumberOfPixels(), 33, 0.67, 0.33);
+
+    using IteratorType = ImageRegionIterator<TOutputImage>;
+
+    IteratorType outIt(output, output->GetRequestedRegion());
+
+    if (m_FlatIsMinima)
     {
-    ProgressReporter progress2(
-      this, 0,
-      output->GetRequestedRegion().GetNumberOfPixels(),
-      33, 0.67, 0.33);
-
-    using IteratorType = ImageRegionIterator< TOutputImage >;
-
-    IteratorType outIt( output, output->GetRequestedRegion() );
-
-    if( m_FlatIsMinima )
+      for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
       {
-      for( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt )
-        {
-        outIt.Set( m_ForegroundValue );
+        outIt.Set(m_ForegroundValue);
         progress2.CompletedPixel();
-        }
-      }
-    else
-      {
-      for ( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt )
-        {
-        outIt.Set( m_BackgroundValue );
-        progress2.CompletedPixel();
-        }
       }
     }
-  else
+    else
     {
-    using ThresholdType = BinaryThresholdImageFilter< InputImageType, OutputImageType >;
+      for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
+      {
+        outIt.Set(m_BackgroundValue);
+        progress2.CompletedPixel();
+      }
+    }
+  }
+  else
+  {
+    using ThresholdType = BinaryThresholdImageFilter<InputImageType, OutputImageType>;
     typename ThresholdType::Pointer threshold = ThresholdType::New();
 
-    threshold->SetInput( regionalMin->GetOutput() );
-    threshold->SetUpperThreshold( regionalMin->GetMarkerValue() );
-    threshold->SetLowerThreshold( regionalMin->GetMarkerValue() );
-    threshold->SetOutsideValue( m_ForegroundValue );
-    threshold->SetInsideValue( m_BackgroundValue );
-    progress->RegisterInternalFilter( threshold, 0.33f );
+    threshold->SetInput(regionalMin->GetOutput());
+    threshold->SetUpperThreshold(regionalMin->GetMarkerValue());
+    threshold->SetLowerThreshold(regionalMin->GetMarkerValue());
+    threshold->SetOutsideValue(m_ForegroundValue);
+    threshold->SetInsideValue(m_BackgroundValue);
+    progress->RegisterInternalFilter(threshold, 0.33f);
 
-    threshold->GraftOutput( output );
+    threshold->GraftOutput(output);
     threshold->Update();
-    this->GraftOutput( threshold->GetOutput() );
-    }
+    this->GraftOutput(threshold->GetOutput());
+  }
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-RegionalMinimaImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+RegionalMinimaImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
-  os << indent << "FlatIsMinima: "  << m_FlatIsMinima << std::endl;
-  os << indent << "ForegroundValue: "
-    << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >(
-    m_ForegroundValue ) << std::endl;
-  os << indent << "BackgroundValue: "
-    << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >(
-    m_BackgroundValue ) << std::endl;
+  os << indent << "FullyConnected: " << m_FullyConnected << std::endl;
+  os << indent << "FlatIsMinima: " << m_FlatIsMinima << std::endl;
+  os << indent
+     << "ForegroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ForegroundValue)
+     << std::endl;
+  os << indent
+     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
+     << std::endl;
 }
 
 } // end namespace itk

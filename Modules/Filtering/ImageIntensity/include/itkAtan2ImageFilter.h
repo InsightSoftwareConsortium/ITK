@@ -30,32 +30,31 @@ namespace Functor
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< typename TInput1, typename TInput2, typename TOutput >
+template <typename TInput1, typename TInput2, typename TOutput>
 class Atan2
 {
 public:
   Atan2() = default;
   ~Atan2() = default;
-  bool operator!=(const Atan2 &) const
+  bool
+  operator!=(const Atan2 &) const
   {
     return false;
   }
 
-  bool operator==(const Atan2 & other) const
+  bool
+  operator==(const Atan2 & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
+  inline TOutput
+  operator()(const TInput1 & A, const TInput2 & B) const
   {
-    return static_cast< TOutput >(
-             std::atan2(
-               static_cast< double >( A ),
-               static_cast< double >( B ) )
-             );
+    return static_cast<TOutput>(std::atan2(static_cast<double>(A), static_cast<double>(B)));
   }
 };
-}
+} // namespace Functor
 
 /** \class Atan2ImageFilter
  * \brief Computes two argument inverse tangent.
@@ -81,48 +80,41 @@ public:
  * \sphinxexample{Filtering/ImageIntensity/ApplyAtanImageFilter,Apply Atan Image Filter}
  * \endsphinx
  */
-template< typename TInputImage1, typename TInputImage2, typename TOutputImage >
-class Atan2ImageFilter:
-  public
-  BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
+template <typename TInputImage1, typename TInputImage2, typename TOutputImage>
+class Atan2ImageFilter : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Atan2ImageFilter);
 
   /** Standard class type aliases. */
   using Self = Atan2ImageFilter;
-  using Superclass = BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using FunctorType = Functor::Atan2< typename TInputImage1::PixelType,
-                                      typename TInputImage2::PixelType,
-                                      typename TOutputImage::PixelType >;
+  using Superclass = BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using FunctorType = Functor::
+    Atan2<typename TInputImage1::PixelType, typename TInputImage2::PixelType, typename TOutputImage::PixelType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(Atan2ImageFilter,
-               BinaryGeneratorImageFilter);
+  itkTypeMacro(Atan2ImageFilter, BinaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( Input1ConvertibleToDoubleCheck,
-                   ( Concept::Convertible< typename TInputImage1::PixelType, double > ) );
-  itkConceptMacro( Input2ConvertibleToDoubleCheck,
-                   ( Concept::Convertible< typename TInputImage2::PixelType, double > ) );
-  itkConceptMacro( DoubleConvertibleToOutputCheck,
-                   ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
+  itkConceptMacro(Input1ConvertibleToDoubleCheck, (Concept::Convertible<typename TInputImage1::PixelType, double>));
+  itkConceptMacro(Input2ConvertibleToDoubleCheck, (Concept::Convertible<typename TInputImage2::PixelType, double>));
+  itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, typename TOutputImage::PixelType>));
   // End concept checking
 #endif
 
 protected:
   Atan2ImageFilter()
-    {
-#if !defined( ITK_WRAPPING_PARSER )
-      Superclass::SetFunctor(FunctorType());
+  {
+#if !defined(ITK_WRAPPING_PARSER)
+    Superclass::SetFunctor(FunctorType());
 #endif // !defined( ITK_WRAPPING_PARSER )
-    }
+  }
   ~Atan2ImageFilter() override = default;
 };
 } // end namespace itk

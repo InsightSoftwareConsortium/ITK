@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-class ITKSpatialObjects_EXPORT SpatialObjectFactoryBase:public ObjectFactoryBase
+class ITKSpatialObjects_EXPORT SpatialObjectFactoryBase : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectFactoryBase);
@@ -47,13 +47,15 @@ public:
   /** Standard class type aliases. */
   using Self = SpatialObjectFactoryBase;
   using Superclass = ObjectFactoryBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  const char * GetITKSourceVersion() const override;
+  const char *
+  GetITKSourceVersion() const override;
 
-  const char * GetDescription() const override;
+  const char *
+  GetDescription() const override;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SpatialObjectFactoryBase, ObjectFactoryBase);
@@ -62,30 +64,32 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Register all builtin SpatialObjects */
-  static void RegisterDefaultSpatialObjects();
+  static void
+  RegisterDefaultSpatialObjects();
 
   /** Register this SpatialObject */
-  static SpatialObjectFactoryBase * GetFactory()
+  static SpatialObjectFactoryBase *
+  GetFactory()
   {
-    if ( m_Factory == nullptr )
-      {
+    if (m_Factory == nullptr)
+    {
       // Make and register the factory
       SpatialObjectFactoryBase::Pointer p = SpatialObjectFactoryBase::New();
       m_Factory = p.GetPointer();
-      ObjectFactoryBase::RegisterFactory (p);
-      p->RegisterDefaultSpatialObjects ();
-      }
+      ObjectFactoryBase::RegisterFactory(p);
+      p->RegisterDefaultSpatialObjects();
+    }
     return m_Factory;
   }
 
-  void RegisterSpatialObject(const char *classOverride,
-                             const char *overrideClassName,
-                             const char *description,
-                             bool enableFlag,
-                             CreateObjectFunctionBase *createFunction)
+  void
+  RegisterSpatialObject(const char *               classOverride,
+                        const char *               overrideClassName,
+                        const char *               description,
+                        bool                       enableFlag,
+                        CreateObjectFunctionBase * createFunction)
   {
-    this->RegisterOverride (classOverride, overrideClassName,
-                            description, enableFlag, createFunction);
+    this->RegisterOverride(classOverride, overrideClassName, description, enableFlag, createFunction);
   }
 
 protected:
@@ -93,7 +97,7 @@ protected:
   ~SpatialObjectFactoryBase() override;
 
 private:
-  static SpatialObjectFactoryBase *m_Factory;
+  static SpatialObjectFactoryBase * m_Factory;
 };
 } // end namespace itk
 #endif

@@ -57,33 +57,47 @@ public:
   virtual ~SimpleMutexLock();
 
   /** Methods for creation and destruction through the object factory. */
-  static SimpleMutexLock * New();
+  static SimpleMutexLock *
+  New();
 
-  void Delete() { delete this; }
+  void
+  Delete()
+  {
+    delete this;
+  }
 
   /** Used for debugging and other run-time purposes. */
-  virtual const char * GetNameOfClass() { return "itkSimpleMutexLock"; }
+  virtual const char *
+  GetNameOfClass()
+  {
+    return "itkSimpleMutexLock";
+  }
 
   /** Lock the MutexLock. */
-  void Lock();
+  void
+  Lock();
 
   /** Non-blocking Lock access.
    \return bool - true if lock is captured, false if it was already heald by someone else.
    */
-  bool TryLock();
+  bool
+  TryLock();
 
   /** Unlock the MutexLock. */
-  void Unlock();
+  void
+  Unlock();
 
   /** Access the MutexType member variable from outside this class */
-  MutexType & GetMutexLock()
+  MutexType &
+  GetMutexLock()
   {
     return m_MutexLock;
   }
 
-  MutexType GetMutexLock() const
+  MutexType
+  GetMutexLock() const
   {
-    return *( const_cast< MutexType * >( &m_MutexLock ) );
+    return *(const_cast<MutexType *>(&m_MutexLock));
   }
 
 protected:
@@ -100,7 +114,7 @@ protected:
  * \ingroup OSSystemObjects
  * \ingroup ITKDeprecated
  */
-class ITKDeprecated_EXPORT MutexLock:public Object
+class ITKDeprecated_EXPORT MutexLock : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MutexLock);
@@ -108,8 +122,8 @@ public:
   /** Standard class type aliases. */
   using Self = MutexLock;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation. */
   itkNewMacro(Self);
@@ -118,37 +132,44 @@ public:
   itkTypeMacro(MutexLock, Object);
 
   /** Lock the itkMutexLock. */
-  void Lock();
+  void
+  Lock();
 
   /** Non-blocking Lock access.
    \return bool - true if lock is captured, false if it was already heald by someone else.
    */
-  bool TryLock();
+  bool
+  TryLock();
 
   /** Unlock the MutexLock. */
-  void Unlock();
+  void
+  Unlock();
 
 protected:
   MutexLock() = default;
   ~MutexLock() override = default;
 
   SimpleMutexLock m_SimpleMutexLock;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 
-inline void MutexLock::Lock()
+inline void
+MutexLock::Lock()
 {
   m_SimpleMutexLock.Lock();
 }
 
-inline bool MutexLock::TryLock()
+inline bool
+MutexLock::TryLock()
 {
   return m_SimpleMutexLock.TryLock();
 }
 
-inline void MutexLock::Unlock()
+inline void
+MutexLock::Unlock()
 {
   m_SimpleMutexLock.Unlock();
 }
-} //end itk namespace
+} // namespace itk
 #endif

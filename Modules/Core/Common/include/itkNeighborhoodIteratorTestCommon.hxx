@@ -26,60 +26,66 @@
 using TestImageType = itk::Image<itk::Index<4>, 4>;
 using OffsetType = itk::Offset<4>;
 
-extern void println(const char *s);
-extern TestImageType::Pointer GetTestImage(int , int , int , int );
+extern void
+println(const char * s);
+extern TestImageType::Pointer
+GetTestImage(int, int, int, int);
 
 
-template<typename TIteratorType>
-void printnb( const TIteratorType &nb, bool full)
+template <typename TIteratorType>
+void
+printnb(const TIteratorType & nb, bool full)
 {
-  unsigned long count = 1;
-  const unsigned long sz = nb.GetRadius()[0] *2 +1;
+  unsigned long                         count = 1;
+  const unsigned long                   sz = nb.GetRadius()[0] * 2 + 1;
   typename TIteratorType::ConstIterator it;
   if (full)
-    {
+  {
     it = nb.Begin();
 
-    while (it != nb.End() )
-      {
-      std::cout << **it << " ";
-      if ( (count % sz) == 0 ) std::cout << std::endl;
-      ++it;
-      count ++;
-      }
-    }
-  else
+    while (it != nb.End())
     {
-    std::cout << nb.GetCenterPixel() << std::endl;
+      std::cout << **it << " ";
+      if ((count % sz) == 0)
+        std::cout << std::endl;
+      ++it;
+      count++;
     }
+  }
+  else
+  {
+    std::cout << nb.GetCenterPixel() << std::endl;
+  }
 }
 
-template<unsigned int N>
-void FillImage(itk::Image<itk::Index<N>,N> *img)
+template <unsigned int N>
+void
+FillImage(itk::Image<itk::Index<N>, N> * img)
 {
   using IndexType = itk::Index<N>;
   using ImageType = itk::Image<IndexType, N>;
   const itk::Size<N> size = img->GetRequestedRegion().GetSize();
 
   unsigned int i;
-  IndexType loop;
+  IndexType    loop;
   loop.Fill(0);
   itk::ImageRegionIterator<ImageType> it(img, img->GetRequestedRegion());
 
-  while (! it.IsAtEnd() )
-    {
+  while (!it.IsAtEnd())
+  {
     it.Value() = loop;
-    for (i = 0; i <N; ++i)
-      {
+    for (i = 0; i < N; ++i)
+    {
       loop[i]++;
-      if ( (unsigned int)(loop[i]) == size[i] )
-        {
-        loop[i]= 0;
-        }
-      else break;
+      if ((unsigned int)(loop[i]) == size[i])
+      {
+        loop[i] = 0;
       }
-    ++it;
+      else
+        break;
     }
+    ++it;
+  }
 }
 
 

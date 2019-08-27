@@ -20,9 +20,9 @@
 
 #include "itkBitwiseOpsFunctors.h"
 
-TEST(BitwiseOpsTest,DivFloor)
+TEST(BitwiseOpsTest, DivFloor)
 {
-  using OpType = itk::Functor::BitwiseNot<unsigned char,unsigned char>;
+  using OpType = itk::Functor::BitwiseNot<unsigned char, unsigned char>;
 
   OpType op1;
   OpType op2;
@@ -30,7 +30,7 @@ TEST(BitwiseOpsTest,DivFloor)
   EXPECT_EQ(op1, op1);
   EXPECT_EQ(op1, op2);
 
-  op1=op2;
+  op1 = op2;
 
 
   EXPECT_EQ(0xFE, op1(0x01));

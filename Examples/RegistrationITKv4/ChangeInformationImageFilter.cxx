@@ -50,16 +50,18 @@
 #include "itkChangeInformationImageFilter.h"
 // Software Guide : EndCodeSnippet
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile   outputImageFile" << std::endl;
-    std::cerr << " [scalingFactor] [translationX translationY translationZ]" << std::endl;
+    std::cerr << " [scalingFactor] [translationX translationY translationZ]"
+              << std::endl;
     std::cerr << " [rotationZinDegrees]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //  Software Guide : BeginLatex
   //
@@ -72,17 +74,17 @@ int main( int argc, char * argv[] )
 
   constexpr unsigned int Dimension = 3;
 
-  using ImageType = itk::Image< PixelType,  Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
   //  Software Guide : BeginLatex
   //
@@ -96,7 +98,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::ChangeInformationImageFilter< ImageType >;
+  using FilterType = itk::ChangeInformationImageFilter<ImageType>;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -106,60 +108,60 @@ int main( int argc, char * argv[] )
   // information from the input image.
   //
   try
-    {
+  {
     reader->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   ImageType::ConstPointer inputImage = reader->GetOutput();
 
-  ImageType::PointType     origin    = inputImage->GetOrigin();
-  ImageType::SpacingType   spacing   = inputImage->GetSpacing();
+  ImageType::PointType     origin = inputImage->GetOrigin();
+  ImageType::SpacingType   spacing = inputImage->GetSpacing();
   ImageType::DirectionType direction = inputImage->GetDirection();
 
-  if( argc > 3 )
+  if (argc > 3)
+  {
+    double scale = std::stod(argv[3]);
+    for (unsigned int i = 0; i < Dimension; i++)
     {
-    double scale = std::stod( argv[3] );
-    for(unsigned int i=0; i<Dimension; i++)
-      {
       spacing[i] *= scale;
-      }
-
-    filter->SetOutputSpacing( spacing );
-    filter->ChangeSpacingOn();
     }
 
-  if( argc > 6 )
-    {
+    filter->SetOutputSpacing(spacing);
+    filter->ChangeSpacingOn();
+  }
+
+  if (argc > 6)
+  {
     ImageType::PointType::VectorType translation;
 
-    translation[0] = std::stod( argv[4] );
-    translation[1] = std::stod( argv[5] );
-    translation[2] = std::stod( argv[6] );
+    translation[0] = std::stod(argv[4]);
+    translation[1] = std::stod(argv[5]);
+    translation[2] = std::stod(argv[6]);
 
     origin += translation;
 
-    filter->SetOutputOrigin( origin );
+    filter->SetOutputOrigin(origin);
     filter->ChangeOriginOn();
-    }
+  }
 
-  if( argc > 7 )
-    {
-    double additionalAngle = std::stod( argv[7] );
+  if (argc > 7)
+  {
+    double additionalAngle = std::stod(argv[7]);
 
-    itk::Versor< itk::SpacePrecisionType >  rotation;
+    itk::Versor<itk::SpacePrecisionType> rotation;
     double angleInRadians = additionalAngle * itk::Math::pi / 180.0;
-    rotation.SetRotationAroundZ( angleInRadians );
+    rotation.SetRotationAroundZ(angleInRadians);
 
     ImageType::DirectionType newDirection = direction * rotation.GetMatrix();
 
-    filter->SetOutputDirection( newDirection );
+    filter->SetOutputDirection(newDirection);
     filter->ChangeDirectionOn();
-    }
+  }
 
   //  Software Guide : BeginLatex
   //
@@ -174,19 +176,19 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetInput( reader->GetOutput() );
-  writer->SetInput( filter->GetOutput() );
+  filter->SetInput(reader->GetOutput());
+  writer->SetInput(filter->GetOutput());
   // Software Guide : EndCodeSnippet
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

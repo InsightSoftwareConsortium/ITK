@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
- // First include the header file to be tested:
+// First include the header file to be tested:
 #include "itkConstantBoundaryImageNeighborhoodPixelAccessPolicy.h"
 
 #include "itkShapedImageNeighborhoodRange.h"
@@ -39,35 +39,37 @@ template class itk::Experimental::ConstantBoundaryImageNeighborhoodPixelAccessPo
 
 namespace
 {
-  template<typename TImage>
-  typename TImage::Pointer CreateImage(const unsigned sizeX, const unsigned sizeY)
-  {
-    const auto image = TImage::New();
-    const typename TImage::SizeType imageSize = { { sizeX , sizeY } };
-    image->SetRegions(imageSize);
-    image->Allocate();
-    return image;
-  }
-
-
-  // Creates a test image, filled with a sequence of natural numbers, 1, 2, 3, ..., N.
-  template<typename TImage>
-  typename TImage::Pointer CreateImageFilledWithSequenceOfNaturalNumbers(const unsigned sizeX, const unsigned sizeY)
-  {
-    using PixelType = typename TImage::PixelType;
-    const auto image = CreateImage<TImage>(sizeX, sizeY);
-
-    const unsigned numberOfPixels = sizeX * sizeY;
-
-    PixelType* const bufferPointer = image->GetBufferPointer();
-
-    for (unsigned i = 0; i < numberOfPixels; ++i)
-    {
-      bufferPointer[i] = static_cast<typename TImage::PixelType>(i + 1);
-    }
-    return image;
-  }
+template <typename TImage>
+typename TImage::Pointer
+CreateImage(const unsigned sizeX, const unsigned sizeY)
+{
+  const auto                      image = TImage::New();
+  const typename TImage::SizeType imageSize = { { sizeX, sizeY } };
+  image->SetRegions(imageSize);
+  image->Allocate();
+  return image;
 }
+
+
+// Creates a test image, filled with a sequence of natural numbers, 1, 2, 3, ..., N.
+template <typename TImage>
+typename TImage::Pointer
+CreateImageFilledWithSequenceOfNaturalNumbers(const unsigned sizeX, const unsigned sizeY)
+{
+  using PixelType = typename TImage::PixelType;
+  const auto image = CreateImage<TImage>(sizeX, sizeY);
+
+  const unsigned numberOfPixels = sizeX * sizeY;
+
+  PixelType * const bufferPointer = image->GetBufferPointer();
+
+  for (unsigned i = 0; i < numberOfPixels; ++i)
+  {
+    bufferPointer[i] = static_cast<typename TImage::PixelType>(i + 1);
+  }
+  return image;
+}
+} // namespace
 
 
 // When no constant is specified (which is the default), an attempt to retrieve
@@ -76,15 +78,20 @@ TEST(ConstantBoundaryImageNeighborhoodPixelAccessPolicy, YieldsZeroOutsideImageB
 {
   using PixelType = int;
   using ImageType = itk::Image<PixelType>;
-  using RangeType = itk::Experimental::ShapedImageNeighborhoodRange<ImageType,
-    itk::Experimental::ConstantBoundaryImageNeighborhoodPixelAccessPolicy<ImageType> >;
+  using RangeType = itk::Experimental::ShapedImageNeighborhoodRange<
+    ImageType,
+    itk::Experimental::ConstantBoundaryImageNeighborhoodPixelAccessPolicy<ImageType>>;
 
-  enum { sizeX = 9, sizeY = 11 };
+  enum
+  {
+    sizeX = 9,
+    sizeY = 11
+  };
   const auto image = CreateImage<ImageType>(sizeX, sizeY);
   image->FillBuffer(42);
 
-  const ImageType::IndexType locationOutsideImage{ {-1, -1} };
-  const itk::Size<ImageType::ImageDimension> radius = { {} };
+  const ImageType::IndexType                                locationOutsideImage{ { -1, -1 } };
+  const itk::Size<ImageType::ImageDimension>                radius = { {} };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
   const RangeType range{ *image, locationOutsideImage, offsets };
@@ -102,15 +109,20 @@ TEST(ConstantBoundaryImageNeighborhoodPixelAccessPolicy, YieldsSpecifiedConstant
 {
   using PixelType = int;
   using ImageType = itk::Image<PixelType>;
-  using RangeType = itk::Experimental::ShapedImageNeighborhoodRange<ImageType,
+  using RangeType = itk::Experimental::ShapedImageNeighborhoodRange<
+    ImageType,
     itk::Experimental::ConstantBoundaryImageNeighborhoodPixelAccessPolicy<ImageType>>;
 
-  enum { sizeX = 9, sizeY = 11 };
+  enum
+  {
+    sizeX = 9,
+    sizeY = 11
+  };
   const auto image = CreateImage<ImageType>(sizeX, sizeY);
   image->FillBuffer(42);
 
-  const ImageType::IndexType locationOutsideImage{ {-1, -1} };
-  const itk::Size<ImageType::ImageDimension> radius = { {} };
+  const ImageType::IndexType                                locationOutsideImage{ { -1, -1 } };
+  const itk::Size<ImageType::ImageDimension>                radius = { {} };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
   const auto numberOfExpectedNeighbors = offsets.size();
@@ -142,14 +154,19 @@ TEST(ConstantBoundaryImageNeighborhoodPixelAccessPolicy, YieldsSameValuesAsConst
 {
   using PixelType = int;
   using ImageType = itk::Image<PixelType>;
-  using RangeType = itk::Experimental::ShapedImageNeighborhoodRange<ImageType,
+  using RangeType = itk::Experimental::ShapedImageNeighborhoodRange<
+    ImageType,
     itk::Experimental::ConstantBoundaryImageNeighborhoodPixelAccessPolicy<const ImageType>>;
 
-  enum { sizeX = 3, sizeY = 4 };
+  enum
+  {
+    sizeX = 3,
+    sizeY = 4
+  };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
-  const ImageType::IndexType location{ {} };
-  const itk::Size<ImageType::ImageDimension> radius = { { 1, 2 } };
+  const ImageType::IndexType                                location{ {} };
+  const itk::Size<ImageType::ImageDimension>                radius = { { 1, 2 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
 
@@ -159,8 +176,8 @@ TEST(ConstantBoundaryImageNeighborhoodPixelAccessPolicy, YieldsSameValuesAsConst
 
     itk::ConstantBoundaryCondition<ImageType> boundaryCondition;
     boundaryCondition.SetConstant(constantValue);
-    itk::ConstNeighborhoodIterator<ImageType, itk::ConstantBoundaryCondition<ImageType>>
-      constNeighborhoodIterator(radius, image, image->GetRequestedRegion());
+    itk::ConstNeighborhoodIterator<ImageType, itk::ConstantBoundaryCondition<ImageType>> constNeighborhoodIterator(
+      radius, image, image->GetRequestedRegion());
     constNeighborhoodIterator.SetLocation(location);
     constNeighborhoodIterator.SetBoundaryCondition(boundaryCondition);
 

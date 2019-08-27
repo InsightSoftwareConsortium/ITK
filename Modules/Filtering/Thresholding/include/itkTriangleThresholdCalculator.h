@@ -48,7 +48,7 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKThresholding
  */
-template <typename THistogram, typename TOutput=double>
+template <typename THistogram, typename TOutput = double>
 class ITK_TEMPLATE_EXPORT TriangleThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
@@ -73,14 +73,15 @@ public:
 protected:
   TriangleThresholdCalculator() = default;
   ~TriangleThresholdCalculator() override = default;
-  void GenerateData() override;
+  void
+  GenerateData() override;
 };
 
 } // end namespace itk
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTriangleThresholdCalculator.hxx"
+#  include "itkTriangleThresholdCalculator.hxx"
 #endif
 
 #endif

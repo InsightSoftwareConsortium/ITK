@@ -22,6 +22,7 @@
 
 #include <itkImage.h>
 
-void SharedTestLibraryB_EXPORT foo();
+void SharedTestLibraryB_EXPORT
+     foo();
 
 #endif

@@ -27,44 +27,41 @@
 
 namespace itk
 {
-///TODO explicit specification for VDimension=3!!!
-template< typename TPoint >
+/// TODO explicit specification for VDimension=3!!!
+template <typename TPoint>
 class QuadEdgeMeshDecimationQuadricElementHelper
 {
 public:
-
   using Self = QuadEdgeMeshDecimationQuadricElementHelper;
   using PointType = TPoint;
   using CoordType = typename PointType::CoordRepType;
 
   static constexpr unsigned int PointDimension = PointType::PointDimension;
-  static constexpr unsigned int NumberOfCoefficients = PointDimension * ( PointDimension + 1 / 2 + PointDimension + 1);
+  static constexpr unsigned int NumberOfCoefficients = PointDimension * (PointDimension + 1 / 2 + PointDimension + 1);
 
   using VectorType = typename PointType::VectorType;
-  using VNLMatrixType = vnl_matrix< CoordType >;
-  using VNLVectorType = vnl_vector_fixed< CoordType,
-                            Self::PointDimension >;
-  using CoefficientVectorType = vnl_vector_fixed< CoordType,
-                            Self::NumberOfCoefficients >;
-  using TriangleType = TriangleHelper< PointType >;
+  using VNLMatrixType = vnl_matrix<CoordType>;
+  using VNLVectorType = vnl_vector_fixed<CoordType, Self::PointDimension>;
+  using CoefficientVectorType = vnl_vector_fixed<CoordType, Self::NumberOfCoefficients>;
+  using TriangleType = TriangleHelper<PointType>;
 
   // *****************************************************************
-  QuadEdgeMeshDecimationQuadricElementHelper():
-    m_Coefficients(itk::NumericTraits< CoordType >::ZeroValue()),
-    m_A(PointDimension, PointDimension, itk::NumericTraits< CoordType >::ZeroValue()),
-    m_B(itk::NumericTraits< CoordType >::ZeroValue()),
-    m_SVDAbsoluteThreshold( static_cast< CoordType >( 1e-6 ) ),
-    m_SVDRelativeThreshold( static_cast< CoordType >( 1e-3 ) )
+  QuadEdgeMeshDecimationQuadricElementHelper()
+    : m_Coefficients(itk::NumericTraits<CoordType>::ZeroValue())
+    , m_A(PointDimension, PointDimension, itk::NumericTraits<CoordType>::ZeroValue())
+    , m_B(itk::NumericTraits<CoordType>::ZeroValue())
+    , m_SVDAbsoluteThreshold(static_cast<CoordType>(1e-6))
+    , m_SVDRelativeThreshold(static_cast<CoordType>(1e-3))
   {
     this->m_Rank = PointDimension;
   }
 
-  QuadEdgeMeshDecimationQuadricElementHelper(const CoefficientVectorType & iCoefficients):
-    m_Coefficients(iCoefficients),
-    m_A(PointDimension, PointDimension, itk::NumericTraits< CoordType >::ZeroValue()),
-    m_B(itk::NumericTraits< CoordType >::ZeroValue()),
-    m_SVDAbsoluteThreshold( static_cast< CoordType >( 1e-3 ) ),
-    m_SVDRelativeThreshold( static_cast< CoordType >( 1e-3 ) )
+  QuadEdgeMeshDecimationQuadricElementHelper(const CoefficientVectorType & iCoefficients)
+    : m_Coefficients(iCoefficients)
+    , m_A(PointDimension, PointDimension, itk::NumericTraits<CoordType>::ZeroValue())
+    , m_B(itk::NumericTraits<CoordType>::ZeroValue())
+    , m_SVDAbsoluteThreshold(static_cast<CoordType>(1e-3))
+    , m_SVDRelativeThreshold(static_cast<CoordType>(1e-3))
   {
     this->m_Rank = PointDimension;
     this->ComputeAMatrixAndBVector();
@@ -72,35 +69,40 @@ public:
 
   ~QuadEdgeMeshDecimationQuadricElementHelper() = default;
 
-  CoefficientVectorType GetCoefficients() const
+  CoefficientVectorType
+  GetCoefficients() const
   {
     return this->m_Coefficients;
   }
 
-  VNLMatrixType GetAMatrix()
+  VNLMatrixType
+  GetAMatrix()
   {
     this->ComputeAMatrixAndBVector();
     return m_A;
   }
 
-  VNLVectorType GetBVector()
+  VNLVectorType
+  GetBVector()
   {
     ComputeAMatrixAndBVector();
     return m_B;
   }
 
-  unsigned int GetRank() const
+  unsigned int
+  GetRank() const
   {
     return m_Rank;
   }
 
-  ///TODO this method should be really optimized!!!
-  inline CoordType ComputeError(const PointType & iP) const
+  /// TODO this method should be really optimized!!!
+  inline CoordType
+  ComputeError(const PointType & iP) const
   {
     //     ComputeAMatrixAndBVector();
-    vnl_svd< CoordType > svd(m_A, m_SVDAbsoluteThreshold);
+    vnl_svd<CoordType> svd(m_A, m_SVDAbsoluteThreshold);
     svd.zero_out_relative(m_SVDRelativeThreshold);
-    CoordType oError = inner_product( iP.GetVnlVector(), svd.recompose() * iP.GetVnlVector() );
+    CoordType oError = inner_product(iP.GetVnlVector(), svd.recompose() * iP.GetVnlVector());
 
     return this->m_Coefficients[this->m_Coefficients.size() - 1] - oError;
     /*
@@ -130,99 +132,106 @@ public:
     return oError;*/
   }
 
-  ///TODO this method should be really optimized!!!
-  inline CoordType ComputeErrorAtOptimalLocation(const PointType & iP)
+  /// TODO this method should be really optimized!!!
+  inline CoordType
+  ComputeErrorAtOptimalLocation(const PointType & iP)
   {
     PointType optimal_location = ComputeOptimalLocation(iP);
 
     return ComputeError(optimal_location);
   }
 
-  PointType ComputeOptimalLocation(const PointType & iP)
+  PointType
+  ComputeOptimalLocation(const PointType & iP)
   {
     ComputeAMatrixAndBVector();
 
-    vnl_svd< CoordType > svd(m_A, m_SVDAbsoluteThreshold);
+    vnl_svd<CoordType> svd(m_A, m_SVDAbsoluteThreshold);
     svd.zero_out_relative(m_SVDRelativeThreshold);
 
     m_Rank = svd.rank();
 
-    VNLVectorType y = m_B.as_vector() - m_A *iP.GetVnlVector();
+    VNLVectorType y = m_B.as_vector() - m_A * iP.GetVnlVector();
 
     VNLVectorType displacement = svd.solve(y);
     PointType     oP;
 
-    for ( unsigned int dim = 0; dim < PointDimension; dim++ )
-      {
+    for (unsigned int dim = 0; dim < PointDimension; dim++)
+    {
       oP[dim] = iP[dim] + displacement[dim];
-      }
+    }
 
     return oP;
   }
 
-  ///TODO to be implemented!!!
-  PointType ComputeOptimalLocation(
-    const unsigned int & )
+  /// TODO to be implemented!!!
+  PointType
+  ComputeOptimalLocation(const unsigned int &)
   {}
 
-  void AddTriangle( const PointType & iP1,
-                    const PointType & iP2,
-                    const PointType & iP3,
-                    const CoordType & iWeight = static_cast< CoordType >( 1. ) )
+  void
+  AddTriangle(const PointType & iP1,
+              const PointType & iP2,
+              const PointType & iP3,
+              const CoordType & iWeight = static_cast<CoordType>(1.))
   {
     VectorType N = TriangleType::ComputeNormal(iP1, iP2, iP3);
 
     AddPoint(iP1, N, iWeight);
   }
 
-  void AddPoint( const PointType & iP,
-                 const VectorType & iN,
-                 const CoordType & iWeight = static_cast< CoordType >( 1. ) )
+  void
+  AddPoint(const PointType & iP, const VectorType & iN, const CoordType & iWeight = static_cast<CoordType>(1.))
   {
     unsigned int k(0), dim1, dim2;
 
-    CoordType d = -iN *iP.GetVectorFromOrigin();
+    CoordType d = -iN * iP.GetVectorFromOrigin();
 
-    for ( dim1 = 0; dim1 < PointDimension; ++dim1 )
+    for (dim1 = 0; dim1 < PointDimension; ++dim1)
+    {
+      for (dim2 = dim1; dim2 < PointDimension; ++dim2)
       {
-      for ( dim2 = dim1; dim2 < PointDimension; ++dim2 )
-        {
         this->m_Coefficients[k++] += iWeight * iN[dim1] * iN[dim2];
-        }
-      this->m_Coefficients[k++] += iWeight * iN[dim1] * d;
       }
+      this->m_Coefficients[k++] += iWeight * iN[dim1] * d;
+    }
 
     this->m_Coefficients[k++] += iWeight * d * d;
   }
 
   // ***********************************************************************
   // operators
-  Self & operator=(const Self & iRight)
+  Self &
+  operator=(const Self & iRight)
   {
-    if(this != &iRight)
-      {
+    if (this != &iRight)
+    {
       this->m_Coefficients = iRight.m_Coefficients;
-      }
+    }
     return *this;
   }
 
-  Self operator+(const Self & iRight) const
+  Self
+  operator+(const Self & iRight) const
   {
     return Self(this->m_Coefficients + iRight.m_Coefficients);
   }
 
-  Self & operator+=(const Self & iRight)
+  Self &
+  operator+=(const Self & iRight)
   {
     this->m_Coefficients += iRight.m_Coefficients;
     return *this;
   }
 
-  Self operator-(const Self & iRight) const
+  Self
+  operator-(const Self & iRight) const
   {
     return Self(this->m_Coefficients - iRight.m_Coefficients);
   }
 
-  Self & operator-=(const Self & iRight)
+  Self &
+  operator-=(const Self & iRight)
   {
     this->m_Coefficients -= iRight.m_Coefficients;
     return *this;
@@ -235,36 +244,37 @@ public:
     return oElement;
   }
 
-  Self & operator*=(const CoordType & iV)
+  Self &
+  operator*=(const CoordType & iV)
   {
     this->m_Coefficients *= iV;
     return *this;
   }
 
 protected:
-
   CoefficientVectorType m_Coefficients;
   VNLMatrixType         m_A;
   VNLVectorType         m_B;
   unsigned int          m_Rank;
   CoordType             m_SVDAbsoluteThreshold;
   CoordType             m_SVDRelativeThreshold;
-  //bool                        m_MatrixFilled;
+  // bool                        m_MatrixFilled;
 
-  void ComputeAMatrixAndBVector()
+  void
+  ComputeAMatrixAndBVector()
   {
     unsigned int k(0), dim1, dim2;
 
-    for ( dim1 = 0; dim1 < PointDimension; ++dim1 )
+    for (dim1 = 0; dim1 < PointDimension; ++dim1)
+    {
+      for (dim2 = dim1; dim2 < PointDimension; ++dim2)
       {
-      for ( dim2 = dim1; dim2 < PointDimension; ++dim2 )
-        {
         m_A[dim1][dim2] = m_A[dim2][dim1] = m_Coefficients[k++];
-        }
-      m_B[dim1] = -m_Coefficients[k++];
       }
-    //m_MatrixFilled = true;
+      m_B[dim1] = -m_Coefficients[k++];
+    }
+    // m_MatrixFilled = true;
   }
 };
-}
+} // namespace itk
 #endif

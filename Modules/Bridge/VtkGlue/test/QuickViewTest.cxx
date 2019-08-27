@@ -20,14 +20,17 @@
 
 #include "itkImageFileReader.h"
 
-template<typename T> void View(const char *name, T,
-                            std::string fileName,
-                            bool sharedCamera=false,
-                            bool interpolate=true,
-                            const std::string & snapshotPath = "",
-                            const std::string & ext = "png")
+template <typename T>
+void
+View(const char * name,
+     T,
+     std::string         fileName,
+     bool                sharedCamera = false,
+     bool                interpolate = true,
+     const std::string & snapshotPath = "",
+     const std::string & ext = "png")
 {
-  using ImageType = itk::Image<T, 2 >;
+  using ImageType = itk::Image<T, 2>;
   using SourceType = itk::ImageFileReader<ImageType>;
 
   typename SourceType::Pointer source = SourceType::New();
@@ -35,49 +38,47 @@ template<typename T> void View(const char *name, T,
 
   QuickView viewer1;
   if (sharedCamera)
-    {
+  {
     viewer1.ShareCameraOn();
-    }
+  }
   else
-    {
+  {
     viewer1.ShareCameraOff();
-    }
+  }
   if (interpolate)
-    {
+  {
     viewer1.InterpolateOn();
-    }
+  }
   else
-    {
+  {
     viewer1.InterpolateOff();
-    }
-  viewer1.AddImage(source->GetOutput(),
-                  true,
-                   std::string(name) + " flipped");
-  viewer1.AddImage(source->GetOutput(),
-                  false,
-                   std::string(name) + " not flipped");
+  }
+  viewer1.AddImage(source->GetOutput(), true, std::string(name) + " flipped");
+  viewer1.AddImage(source->GetOutput(), false, std::string(name) + " not flipped");
 
   std::string path(snapshotPath);
   if (path != "")
-    {
+  {
     viewer1.SnapshotOn();
     viewer1.SetSnapshotPrefix("/QuickViewTest");
     viewer1.SetSnapshotPath(snapshotPath);
     viewer1.SetSnapshotExtension(ext);
-    }
+  }
   viewer1.Visualize(false);
 }
 
-template<typename T> void ViewRGB(const char *name,
-                               T,
-                               std::string fileName,
-                               bool sharedCamera=false,
-                               bool interpolate=true,
-                               const std::string & snapshotPath = "",
-                               const std::string & ext = "png")
+template <typename T>
+void
+ViewRGB(const char * name,
+        T,
+        std::string         fileName,
+        bool                sharedCamera = false,
+        bool                interpolate = true,
+        const std::string & snapshotPath = "",
+        const std::string & ext = "png")
 {
   using ColorPixelType = itk::RGBPixel<T>;
-  using ColorImageType = itk::Image<ColorPixelType, 2 >;
+  using ColorImageType = itk::Image<ColorPixelType, 2>;
   using SourceType = itk::ImageFileReader<ColorImageType>;
 
   typename SourceType::Pointer source = SourceType::New();
@@ -86,42 +87,39 @@ template<typename T> void ViewRGB(const char *name,
   QuickView viewer1;
 
   if (sharedCamera)
-    {
+  {
     viewer1.ShareCameraOn();
-    }
+  }
   else
-    {
+  {
     viewer1.ShareCameraOff();
-    }
+  }
   if (interpolate)
-    {
+  {
     viewer1.InterpolateOn();
-    }
+  }
   else
-    {
+  {
     viewer1.InterpolateOff();
-    }
+  }
 
 
-  viewer1.AddRGBImage(source->GetOutput(),
-                  true,
-                   std::string(name) + " flipped");
-  viewer1.AddRGBImage(source->GetOutput(),
-                  false,
-                   std::string(name) + " not flipped");
+  viewer1.AddRGBImage(source->GetOutput(), true, std::string(name) + " flipped");
+  viewer1.AddRGBImage(source->GetOutput(), false, std::string(name) + " not flipped");
 
   std::string path(snapshotPath);
   if (path != "")
-    {
+  {
     viewer1.SnapshotOn();
     viewer1.SetSnapshotPrefix("/QuickViewTest");
     viewer1.SetSnapshotPath(snapshotPath);
     viewer1.SetSnapshotExtension(ext);
-    }
+  }
   viewer1.Visualize(false);
 }
 
-int QuickViewTest (int argc, char *argv[])
+int
+QuickViewTest(int argc, char * argv[])
 {
   View("unsigned char", static_cast<unsigned char>(0), argv[1], true, true);
   View("unsigned char", static_cast<unsigned char>(0), argv[1]);
@@ -139,31 +137,12 @@ int QuickViewTest (int argc, char *argv[])
   ViewRGB("RGB-float", float(0), argv[1]);
 
   if (argc > 2)
-    {
-    View("unsigned char", static_cast<unsigned char>(0),
-         argv[1],
-         false,
-         true,
-         argv[2]);
-    View("unsigned char", static_cast<unsigned char>(0),
-         argv[1],
-         false,
-         true,
-         argv[2],
-         std::string("tif"));
-    View("unsigned char", static_cast<unsigned char>(0),
-         argv[1],
-         false,
-         true,
-         argv[2],
-         std::string("jpg"));
-    View("unsigned char", static_cast<unsigned char>(0),
-         argv[1],
-         false,
-         true,
-         argv[2],
-         std::string("bmp"));
-    }
+  {
+    View("unsigned char", static_cast<unsigned char>(0), argv[1], false, true, argv[2]);
+    View("unsigned char", static_cast<unsigned char>(0), argv[1], false, true, argv[2], std::string("tif"));
+    View("unsigned char", static_cast<unsigned char>(0), argv[1], false, true, argv[2], std::string("jpg"));
+    View("unsigned char", static_cast<unsigned char>(0), argv[1], false, true, argv[2], std::string("bmp"));
+  }
 
   return EXIT_SUCCESS;
 }

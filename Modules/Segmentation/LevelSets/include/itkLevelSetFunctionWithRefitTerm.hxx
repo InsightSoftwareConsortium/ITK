@@ -23,171 +23,159 @@
 
 namespace itk
 {
-template< typename TImageType, typename TSparseImageType >
-const typename LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >::NeighborhoodSizeValueType
-LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
-::m_NumVertex = 1 << TImageType::ImageDimension;
+template <typename TImageType, typename TSparseImageType>
+const typename LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::NeighborhoodSizeValueType
+  LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::m_NumVertex = 1 << TImageType::ImageDimension;
 
-template< typename TImageType, typename TSparseImageType >
-const typename LevelSetFunctionWithRefitTerm< TImageType,
-                                              TSparseImageType >::ScalarValueType
-LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
-::m_DimConst = static_cast< ScalarValueType >( 2.0 / m_NumVertex );
+template <typename TImageType, typename TSparseImageType>
+const typename LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::ScalarValueType
+  LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::m_DimConst = static_cast<ScalarValueType>(2.0 /
+                                                                                                         m_NumVertex);
 
-template< typename TImageType, typename TSparseImageType >
-LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
-::LevelSetFunctionWithRefitTerm()
+template <typename TImageType, typename TSparseImageType>
+LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::LevelSetFunctionWithRefitTerm()
 {
   m_SparseTargetImage = SparseImageType::New();
 
-  this->SetPropagationWeight (NumericTraits< ScalarValueType >::OneValue());
-  m_RefitWeight = NumericTraits< ScalarValueType >::OneValue();
-  m_OtherPropagationWeight = NumericTraits< ScalarValueType >::ZeroValue();
-  m_MinVectorNorm = static_cast< ScalarValueType >( 1.0e-6 );
+  this->SetPropagationWeight(NumericTraits<ScalarValueType>::OneValue());
+  m_RefitWeight = NumericTraits<ScalarValueType>::OneValue();
+  m_OtherPropagationWeight = NumericTraits<ScalarValueType>::ZeroValue();
+  m_MinVectorNorm = static_cast<ScalarValueType>(1.0e-6);
 }
 
-template< typename TImageType, typename TSparseImageType >
+template <typename TImageType, typename TSparseImageType>
 void
-LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
-::PrintSelf(std::ostream & os, Indent indent) const
+LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "RefitWeight: " << m_RefitWeight << std::endl;
-  os << indent << "OtherPropagationWeight: "
-     << m_OtherPropagationWeight << std::endl;
+  os << indent << "OtherPropagationWeight: " << m_OtherPropagationWeight << std::endl;
   os << indent << "MinVectorNorm: " << m_MinVectorNorm << std::endl;
   os << indent << "DimConst: " << m_DimConst << std::endl;
   os << indent << "NumVertex: " << m_NumVertex << std::endl;
 }
 
-template< typename TImageType, typename TSparseImageType >
-typename LevelSetFunctionWithRefitTerm< TImageType,
-                                        TSparseImageType >::TimeStepType
-LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
-::ComputeGlobalTimeStep(void *GlobalData) const
+template <typename TImageType, typename TSparseImageType>
+typename LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::TimeStepType
+LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::ComputeGlobalTimeStep(void * GlobalData) const
 {
-  TimeStepType dt = Superclass::ComputeGlobalTimeStep (GlobalData);
+  TimeStepType dt = Superclass::ComputeGlobalTimeStep(GlobalData);
 
-  dt = std::min (dt, this->m_WaveDT);
+  dt = std::min(dt, this->m_WaveDT);
 
   return dt;
 }
 
-template< typename TImageType, typename TSparseImageType >
-typename LevelSetFunctionWithRefitTerm< TImageType,
-                                        TSparseImageType >::ScalarValueType
-LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
-::ComputeCurvature(const NeighborhoodType & neighborhood) const
+template <typename TImageType, typename TSparseImageType>
+typename LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::ScalarValueType
+LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::ComputeCurvature(
+  const NeighborhoodType & neighborhood) const
 {
-  unsigned int  j, k;
-  unsigned int  counterN, counterP;
-  NeighborhoodSizeValueType positionN,  positionP,
-                stride[TImageType::ImageDimension], indicator[TImageType::ImageDimension];
+  unsigned int              j, k;
+  unsigned int              counterN, counterP;
+  NeighborhoodSizeValueType positionN, positionP, stride[TImageType::ImageDimension],
+    indicator[TImageType::ImageDimension];
 
-  constexpr NeighborhoodSizeValueType one  = 1;
-  const NeighborhoodSizeValueType center = neighborhood.Size() / 2;
+  constexpr NeighborhoodSizeValueType one = 1;
+  const NeighborhoodSizeValueType     center = neighborhood.Size() / 2;
 
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
 
   NormalVectorType normalvector;
   ScalarValueType  curvature;
 
-  for ( j = 0; j < TImageType::ImageDimension; j++ )
-    {
+  for (j = 0; j < TImageType::ImageDimension; j++)
+  {
     stride[j] = neighborhood.GetStride(j);
     indicator[j] = one << j;
-    }
-  curvature = NumericTraits< ScalarValueType >::ZeroValue();
+  }
+  curvature = NumericTraits<ScalarValueType>::ZeroValue();
 
-  for ( counterN = 0; counterN < m_NumVertex; counterN++ )
-    {
+  for (counterN = 0; counterN < m_NumVertex; counterN++)
+  {
     // compute position of normal vector
     positionN = center;
-    for ( k = 0; k < TImageType::ImageDimension; k++ )
+    for (k = 0; k < TImageType::ImageDimension; k++)
+    {
+      if (counterN & indicator[k])
       {
-      if ( counterN & indicator[k] )
-        {
         positionN -= stride[k];
-        }
       }
+    }
     // compute the normal vector
-    for ( j = 0; j < TImageType::ImageDimension; j++ ) // derivative axis
+    for (j = 0; j < TImageType::ImageDimension; j++) // derivative axis
+    {
+      normalvector[j] = NumericTraits<ScalarValueType>::ZeroValue();
+      for (counterP = 0; counterP < m_NumVertex; counterP++)
       {
-      normalvector[j] = NumericTraits< ScalarValueType >::ZeroValue();
-      for ( counterP = 0; counterP < m_NumVertex; counterP++ )
-        {
         positionP = positionN;
-        for ( k = 0; k < TImageType::ImageDimension; k++ )
+        for (k = 0; k < TImageType::ImageDimension; k++)
+        {
+          if (counterP & indicator[k])
           {
-          if ( counterP & indicator[k] )
-            {
             positionP += stride[k];
-            }
           }
-        if ( counterP & indicator[j] )
-          {
-          normalvector[j] += neighborhood.GetPixel (positionP) * neighborhoodScales[j];
-          }
+        }
+        if (counterP & indicator[j])
+        {
+          normalvector[j] += neighborhood.GetPixel(positionP) * neighborhoodScales[j];
+        }
         else
-          {
-          normalvector[j] -= neighborhood.GetPixel (positionP) * neighborhoodScales[j];
-          }
-        } // end counterP
-      }   // end derivative axis
-    normalvector = normalvector / ( m_MinVectorNorm + normalvector.GetNorm() );
+        {
+          normalvector[j] -= neighborhood.GetPixel(positionP) * neighborhoodScales[j];
+        }
+      } // end counterP
+    }   // end derivative axis
+    normalvector = normalvector / (m_MinVectorNorm + normalvector.GetNorm());
     // add normal to curvature computation
-    for ( j = 0; j < TImageType::ImageDimension; j++ ) // derivative axis
+    for (j = 0; j < TImageType::ImageDimension; j++) // derivative axis
+    {
+      if (counterN & indicator[j])
       {
-      if ( counterN & indicator[j] )
-        {
         curvature -= normalvector[j] * neighborhoodScales[j];
-        }
+      }
       else
-        {
+      {
         curvature += normalvector[j] * neighborhoodScales[j];
-        }
-      } // end derivative axis
-    }   // end counterN
+      }
+    } // end derivative axis
+  }   // end counterN
 
   curvature *= m_DimConst;
 
   return curvature;
 }
 
-template< typename TImageType, typename TSparseImageType >
-typename LevelSetFunctionWithRefitTerm< TImageType,
-                                        TSparseImageType >::ScalarValueType
-LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
-::PropagationSpeed(const NeighborhoodType & neighborhood,
-                   const FloatOffsetType & offset,
-                   GlobalDataStruct *globaldata) const
+template <typename TImageType, typename TSparseImageType>
+typename LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::ScalarValueType
+LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::PropagationSpeed(const NeighborhoodType & neighborhood,
+                                                                              const FloatOffsetType &  offset,
+                                                                              GlobalDataStruct *       globaldata) const
 {
   IndexType       idx = neighborhood.GetIndex();
-  NodeType *      targetnode = m_SparseTargetImage->GetPixel (idx);
+  NodeType *      targetnode = m_SparseTargetImage->GetPixel(idx);
   ScalarValueType refitterm, cv, tcv;
 
-  if ( ( targetnode == nullptr ) || ( targetnode->m_CurvatureFlag == false ) )
+  if ((targetnode == nullptr) || (targetnode->m_CurvatureFlag == false))
+  {
+    if (targetnode == nullptr)
     {
-    if ( targetnode == nullptr )
-      {
       itkExceptionMacro(<< "required node has null pointer\n");
-      }
+    }
     else
-      {
-      itkExceptionMacro(<< "required node has CurvatureFlag = false\n");
-      }
-    }
-  else
     {
-    cv =  this->ComputeCurvature (neighborhood);
-    tcv = targetnode->m_Curvature;
-    refitterm = static_cast< ScalarValueType >( tcv - cv );
+      itkExceptionMacro(<< "required node has CurvatureFlag = false\n");
     }
+  }
+  else
+  {
+    cv = this->ComputeCurvature(neighborhood);
+    tcv = targetnode->m_Curvature;
+    refitterm = static_cast<ScalarValueType>(tcv - cv);
+  }
 
-  return m_RefitWeight * refitterm
-         + m_OtherPropagationWeight *
-         OtherPropagationSpeed (neighborhood, offset, globaldata);
+  return m_RefitWeight * refitterm + m_OtherPropagationWeight * OtherPropagationSpeed(neighborhood, offset, globaldata);
 }
-} //end namespace itk
+} // end namespace itk
 
 #endif

@@ -34,7 +34,7 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-template< typename TInternalComputationValueType=double >
+template <typename TInternalComputationValueType = double>
 class OptimizerParameterScalesEstimatorTemplate : public Object
 {
 public:
@@ -47,7 +47,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( OptimizerParameterScalesEstimatorTemplate, Object );
+  itkTypeMacro(OptimizerParameterScalesEstimatorTemplate, Object);
 
   /** Type of scales */
   using ScalesType = OptimizerParameters<TInternalComputationValueType>;
@@ -58,31 +58,35 @@ public:
   using FloatType = TInternalComputationValueType;
 
   /** Estimate parameter scales. */
-  virtual void EstimateScales(ScalesType &scales) = 0;
+  virtual void
+  EstimateScales(ScalesType & scales) = 0;
 
   /** Estimate the scale of a step. */
-  virtual FloatType EstimateStepScale(const ParametersType &step) = 0;
+  virtual FloatType
+  EstimateStepScale(const ParametersType & step) = 0;
 
   /** Estimate the scales of local steps. */
-  virtual void EstimateLocalStepScales(const ParametersType &step,
-    ScalesType &localStepScales) = 0;
+  virtual void
+  EstimateLocalStepScales(const ParametersType & step, ScalesType & localStepScales) = 0;
 
   /** Estimate the maximum size for steps. */
-  virtual FloatType EstimateMaximumStepSize() = 0;
+  virtual FloatType
+  EstimateMaximumStepSize() = 0;
 
 protected:
-  OptimizerParameterScalesEstimatorTemplate()= default;
+  OptimizerParameterScalesEstimatorTemplate() = default;
   ~OptimizerParameterScalesEstimatorTemplate() override = default;
 
-  void PrintSelf(std::ostream &os, Indent indent) const override
-    {
-    Superclass::PrintSelf(os,indent);
-    }
-}; //class OptimizerParameterScalesEstimatorTemplate
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
+  {
+    Superclass::PrintSelf(os, indent);
+  }
+}; // class OptimizerParameterScalesEstimatorTemplate
 
 /** This helps to meet backward compatibility */
 using OptimizerParameterScalesEstimator = OptimizerParameterScalesEstimatorTemplate<double>;
 
-}  // namespace itk
+} // namespace itk
 
 #endif

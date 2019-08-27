@@ -26,23 +26,21 @@ namespace itk
 /**
  * Standard CellInterface:
  */
-template< typename TCellInterface >
+template <typename TCellInterface>
 void
-QuadrilateralCell< TCellInterface >
-::MakeCopy(CellAutoPointer & cellPointer) const
+QuadrilateralCell<TCellInterface>::MakeCopy(CellAutoPointer & cellPointer) const
 {
   cellPointer.TakeOwnership(new Self);
-  cellPointer->SetPointIds( this->GetPointIds() );
+  cellPointer->SetPointIds(this->GetPointIds());
 }
 
 /**
  * Standard CellInterface:
  * Get the topological dimension of this cell.
  */
-template< typename TCellInterface >
+template <typename TCellInterface>
 unsigned int
-QuadrilateralCell< TCellInterface >
-::GetDimension() const
+QuadrilateralCell<TCellInterface>::GetDimension() const
 {
   return Self::CellDimension;
 }
@@ -51,10 +49,9 @@ QuadrilateralCell< TCellInterface >
  * Standard CellInterface:
  * Get the number of points required to define the cell.
  */
-template< typename TCellInterface >
+template <typename TCellInterface>
 unsigned int
-QuadrilateralCell< TCellInterface >
-::GetNumberOfPoints() const
+QuadrilateralCell<TCellInterface>::GetNumberOfPoints() const
 {
   return Self::NumberOfPoints;
 }
@@ -63,20 +60,19 @@ QuadrilateralCell< TCellInterface >
  * Standard CellInterface:
  * Get the number of boundary features of the given dimension.
  */
-template< typename TCellInterface >
-typename QuadrilateralCell< TCellInterface >::CellFeatureCount
-QuadrilateralCell< TCellInterface >
-::GetNumberOfBoundaryFeatures(int dimension) const
+template <typename TCellInterface>
+typename QuadrilateralCell<TCellInterface>::CellFeatureCount
+QuadrilateralCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) const
 {
-  switch ( dimension )
-    {
+  switch (dimension)
+  {
     case 0:
       return GetNumberOfVertices();
     case 1:
       return GetNumberOfEdges();
     default:
       return 0;
-    }
+  }
 }
 
 /**
@@ -85,36 +81,37 @@ QuadrilateralCell< TCellInterface >
  * cell feature Id.
  * The Id can range from 0 to GetNumberOfBoundaryFeatures(dimension)-1.
  */
-template< typename TCellInterface >
+template <typename TCellInterface>
 bool
-QuadrilateralCell< TCellInterface >
-::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId, CellAutoPointer & cellPointer)
+QuadrilateralCell<TCellInterface>::GetBoundaryFeature(int                   dimension,
+                                                      CellFeatureIdentifier featureId,
+                                                      CellAutoPointer &     cellPointer)
 {
-  switch ( dimension )
-    {
+  switch (dimension)
+  {
     case 0:
-      {
+    {
       VertexAutoPointer vertexPointer;
-      if ( this->GetVertex(featureId, vertexPointer) )
-        {
+      if (this->GetVertex(featureId, vertexPointer))
+      {
         TransferAutoPointer(cellPointer, vertexPointer);
         return true;
-        }
-      break;
       }
+      break;
+    }
     case 1:
-      {
+    {
       EdgeAutoPointer edgePointer;
-      if ( this->GetEdge(featureId, edgePointer) )
-        {
+      if (this->GetEdge(featureId, edgePointer))
+      {
         TransferAutoPointer(cellPointer, edgePointer);
         return true;
-        }
-      break;
       }
-    default:
-      break; //just fall through and return false;
+      break;
     }
+    default:
+      break; // just fall through and return false;
+  }
   cellPointer.Reset();
   return false;
 }
@@ -125,17 +122,16 @@ QuadrilateralCell< TCellInterface >
  * iterator can be incremented and safely de-referenced enough times to
  * get all the point ids needed by the cell.
  */
-template< typename TCellInterface >
+template <typename TCellInterface>
 void
-QuadrilateralCell< TCellInterface >
-::SetPointIds(PointIdConstIterator first)
+QuadrilateralCell<TCellInterface>::SetPointIds(PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
 
-  for ( unsigned int i = 0; i < Self::NumberOfPoints; ++i )
-    {
+  for (unsigned int i = 0; i < Self::NumberOfPoints; ++i)
+  {
     m_PointIds[i] = *ii++;
-    }
+  }
 }
 
 /**
@@ -145,28 +141,26 @@ QuadrilateralCell< TCellInterface >
  * define the cell.  The position *last is NOT referenced, so it can safely
  * be one beyond the end of an array or other container.
  */
-template< typename TCellInterface >
+template <typename TCellInterface>
 void
-QuadrilateralCell< TCellInterface >
-::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
+QuadrilateralCell<TCellInterface>::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
 {
   int                  localId = 0;
   PointIdConstIterator ii(first);
 
-  while ( ii != last )
-    {
+  while (ii != last)
+  {
     m_PointIds[localId++] = *ii++;
-    }
+  }
 }
 
 /**
  * Standard CellInterface:
  * Set an individual point identifier in the cell.
  */
-template< typename TCellInterface >
+template <typename TCellInterface>
 void
-QuadrilateralCell< TCellInterface >
-::SetPointId(int localId, PointIdentifier ptId)
+QuadrilateralCell<TCellInterface>::SetPointId(int localId, PointIdentifier ptId)
 {
   m_PointIds[localId] = ptId;
 }
@@ -175,10 +169,9 @@ QuadrilateralCell< TCellInterface >
  * Standard CellInterface:
  * Get a begin iterator to the list of point identifiers used by the cell.
  */
-template< typename TCellInterface >
-typename QuadrilateralCell< TCellInterface >::PointIdIterator
-QuadrilateralCell< TCellInterface >
-::PointIdsBegin()
+template <typename TCellInterface>
+typename QuadrilateralCell<TCellInterface>::PointIdIterator
+QuadrilateralCell<TCellInterface>::PointIdsBegin()
 {
   return &m_PointIds[0];
 }
@@ -188,10 +181,9 @@ QuadrilateralCell< TCellInterface >
  * Get a const begin iterator to the list of point identifiers used
  * by the cell.
  */
-template< typename TCellInterface >
-typename QuadrilateralCell< TCellInterface >::PointIdConstIterator
-QuadrilateralCell< TCellInterface >
-::PointIdsBegin() const
+template <typename TCellInterface>
+typename QuadrilateralCell<TCellInterface>::PointIdConstIterator
+QuadrilateralCell<TCellInterface>::PointIdsBegin() const
 {
   return &m_PointIds[0];
 }
@@ -200,10 +192,9 @@ QuadrilateralCell< TCellInterface >
  * Standard CellInterface:
  * Get an end iterator to the list of point identifiers used by the cell.
  */
-template< typename TCellInterface >
-typename QuadrilateralCell< TCellInterface >::PointIdIterator
-QuadrilateralCell< TCellInterface >
-::PointIdsEnd()
+template <typename TCellInterface>
+typename QuadrilateralCell<TCellInterface>::PointIdIterator
+QuadrilateralCell<TCellInterface>::PointIdsEnd()
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -213,10 +204,9 @@ QuadrilateralCell< TCellInterface >
  * Get a const end iterator to the list of point identifiers used
  * by the cell.
  */
-template< typename TCellInterface >
-typename QuadrilateralCell< TCellInterface >::PointIdConstIterator
-QuadrilateralCell< TCellInterface >
-::PointIdsEnd() const
+template <typename TCellInterface>
+typename QuadrilateralCell<TCellInterface>::PointIdConstIterator
+QuadrilateralCell<TCellInterface>::PointIdsEnd() const
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -225,10 +215,9 @@ QuadrilateralCell< TCellInterface >
  * Quadrilateral-specific:
  * Get the number of vertices defining the quadrilateral.
  */
-template< typename TCellInterface >
-typename QuadrilateralCell< TCellInterface >::CellFeatureCount
-QuadrilateralCell< TCellInterface >
-::GetNumberOfVertices() const
+template <typename TCellInterface>
+typename QuadrilateralCell<TCellInterface>::CellFeatureCount
+QuadrilateralCell<TCellInterface>::GetNumberOfVertices() const
 {
   return NumberOfVertices;
 }
@@ -237,10 +226,9 @@ QuadrilateralCell< TCellInterface >
  * Quadrilateral-specific:
  * Get the number of edges defined for the quadrilateral.
  */
-template< typename TCellInterface >
-typename QuadrilateralCell< TCellInterface >::CellFeatureCount
-QuadrilateralCell< TCellInterface >
-::GetNumberOfEdges() const
+template <typename TCellInterface>
+typename QuadrilateralCell<TCellInterface>::CellFeatureCount
+QuadrilateralCell<TCellInterface>::GetNumberOfEdges() const
 {
   return Self::NumberOfEdges;
 }
@@ -250,10 +238,9 @@ QuadrilateralCell< TCellInterface >
  * Get the vertex specified by the given cell feature Id.
  * The Id can range from 0 to GetNumberOfVertices()-1.
  */
-template< typename TCellInterface >
+template <typename TCellInterface>
 bool
-QuadrilateralCell< TCellInterface >
-::GetVertex(CellFeatureIdentifier vertexId, VertexAutoPointer & vertexPointer)
+QuadrilateralCell<TCellInterface>::GetVertex(CellFeatureIdentifier vertexId, VertexAutoPointer & vertexPointer)
 {
   auto * vert = new VertexType;
 
@@ -267,31 +254,29 @@ QuadrilateralCell< TCellInterface >
  * Get the edge specified by the given cell feature Id.
  * The Id can range from 0 to GetNumberOfEdges()-1.
  */
-template< typename TCellInterface >
+template <typename TCellInterface>
 bool
-QuadrilateralCell< TCellInterface >
-::GetEdge(CellFeatureIdentifier edgeId, EdgeAutoPointer & edgePointer)
+QuadrilateralCell<TCellInterface>::GetEdge(CellFeatureIdentifier edgeId, EdgeAutoPointer & edgePointer)
 {
   auto * edge = new EdgeType;
 
-  for ( unsigned int i = 0; i < EdgeType::NumberOfPoints; ++i )
-    {
+  for (unsigned int i = 0; i < EdgeType::NumberOfPoints; ++i)
+  {
     edge->SetPointId(i, m_PointIds[m_Edges[edgeId][i]]);
-    }
+  }
   edgePointer.TakeOwnership(edge);
   return true;
 }
 
 /** Evaluate the position inside the cell */
-template< typename TCellInterface >
+template <typename TCellInterface>
 bool
-QuadrilateralCell< TCellInterface >
-::EvaluatePosition(CoordRepType *x,
-                   PointsContainer *points,
-                   CoordRepType *closestPoint,
-                   CoordRepType pcoord[CellDimension],
-                   double *dist2,
-                   InterpolationWeightType *weight)
+QuadrilateralCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
+                                                    PointsContainer *         points,
+                                                    CoordRepType *            closestPoint,
+                                                    CoordRepType              pcoord[CellDimension],
+                                                    double *                  dist2,
+                                                    InterpolationWeightType * weight)
 {
   static constexpr int    ITK_QUAD_MAX_ITERATION = 10;
   static constexpr double ITK_QUAD_CONVERGED = 1.e-03;
@@ -319,162 +304,159 @@ QuadrilateralCell< TCellInterface >
   // See vtkQuad for this:  ComputeNormal (this, pt1, pt2, pt3, n);  vtkPlane::ProjectPoint(x,pt1,n,cp);
 
   //  enter iteration loop
-  for ( iteration = converged = 0;
-        !converged && ( iteration < ITK_QUAD_MAX_ITERATION ); iteration++ )
-    {
+  for (iteration = converged = 0; !converged && (iteration < ITK_QUAD_MAX_ITERATION); iteration++)
+  {
     //  calculate element interpolation functions and derivatives
     this->InterpolationFunctions(pcoords, weights);
     this->InterpolationDerivs(pcoords, derivs);
 
     //  calculate newton functions
-    for ( unsigned int i = 0; i < CellDimension; ++i )
-      {
+    for (unsigned int i = 0; i < CellDimension; ++i)
+    {
       fcol[i] = rcol[i] = scol[i] = 0.0;
-      }
-    for ( unsigned int i = 0; i < NumberOfPoints; ++i )
-      {
+    }
+    for (unsigned int i = 0; i < NumberOfPoints; ++i)
+    {
       pt = points->GetElement(m_PointIds[i]);
       // using the projection normal n, one can choose which 2 axes to use out of 3
       // any 2 should work, so (not having n) we use [x,y] (also assuming 2D use of QuadCell)
       // if we compute n, one can use the closest two indices as in vtkQuad
-      for ( unsigned int j = 0; j < CellDimension; ++j )
-        {
+      for (unsigned int j = 0; j < CellDimension; ++j)
+      {
         fcol[j] += pt[j] * weights[i];
         rcol[j] += pt[j] * derivs[i];
         scol[j] += pt[j] * derivs[i + NumberOfPoints];
-        }
       }
+    }
 
-    for ( unsigned int i = 0; i < CellDimension; ++i )
-      {
+    for (unsigned int i = 0; i < CellDimension; ++i)
+    {
       fcol[i] -= x[i];
-      }
+    }
 
     //  compute determinants and generate improvements
-    vnl_matrix_fixed< CoordRepType, CellDimension, CellDimension > mat;
-    for ( unsigned int i = 0; i < CellDimension; ++i )
-      {
+    vnl_matrix_fixed<CoordRepType, CellDimension, CellDimension> mat;
+    for (unsigned int i = 0; i < CellDimension; ++i)
+    {
       mat.put(0, i, rcol[i]);
       mat.put(1, i, scol[i]);
-      }
+    }
 
     d = vnl_determinant(mat);
-    //d=vtkMath::Determinant2x2(rcol,scol);
-    if ( std::abs(d) < 1.e-20 )
-      {
+    // d=vtkMath::Determinant2x2(rcol,scol);
+    if (std::abs(d) < 1.e-20)
+    {
       return false;
-      }
+    }
 
-    vnl_matrix_fixed< CoordRepType, CellDimension, CellDimension > mat1;
-    for ( unsigned int i = 0; i < CellDimension; ++i )
-      {
+    vnl_matrix_fixed<CoordRepType, CellDimension, CellDimension> mat1;
+    for (unsigned int i = 0; i < CellDimension; ++i)
+    {
       mat1.put(0, i, fcol[i]);
       mat1.put(1, i, scol[i]);
-      }
+    }
 
-    vnl_matrix_fixed< CoordRepType, CellDimension, CellDimension > mat2;
-    for ( unsigned int i = 0; i < CellDimension; ++i )
-      {
+    vnl_matrix_fixed<CoordRepType, CellDimension, CellDimension> mat2;
+    for (unsigned int i = 0; i < CellDimension; ++i)
+    {
       mat2.put(0, i, rcol[i]);
       mat2.put(1, i, fcol[i]);
-      }
+    }
 
     pcoords[0] = params[0] - vnl_determinant(mat1) / d;
     pcoords[1] = params[1] - vnl_determinant(mat2) / d;
 
-    if ( pcoord )
-      {
+    if (pcoord)
+    {
       pcoord[0] = pcoords[0];
       pcoord[1] = pcoords[1];
-      }
+    }
 
     //  check for convergence
-    if ( ( ( std::abs(pcoords[0] - params[0]) ) < ITK_QUAD_CONVERGED )
-         && ( ( std::abs(pcoords[1] - params[1]) ) < ITK_QUAD_CONVERGED ) )
-      {
+    if (((std::abs(pcoords[0] - params[0])) < ITK_QUAD_CONVERGED) &&
+        ((std::abs(pcoords[1] - params[1])) < ITK_QUAD_CONVERGED))
+    {
       converged = 1;
-      }
+    }
 
     // Test for bad divergence (S.Hirschberg 11.12.2001)
-    else if ( ( std::abs(pcoords[0]) > ITK_DIVERGED )
-              || ( std::abs(pcoords[1]) > ITK_DIVERGED ) )
-      {
+    else if ((std::abs(pcoords[0]) > ITK_DIVERGED) || (std::abs(pcoords[1]) > ITK_DIVERGED))
+    {
       return -1;
-      }
+    }
 
     //  if not converged, repeat
     else
-      {
+    {
       params[0] = pcoords[0];
       params[1] = pcoords[1];
-      }
     }
+  }
 
   //  if not converged, set the parametric coordinates to arbitrary values
   //  outside of element
-  if ( !converged )
-    {
+  if (!converged)
+  {
     return false;
-    }
+  }
 
   this->InterpolationFunctions(pcoords, weights);
 
-  if ( weight )
+  if (weight)
+  {
+    for (unsigned int i = 0; i < NumberOfPoints; ++i)
     {
-    for ( unsigned int i = 0; i < NumberOfPoints; ++i )
-      {
       weight[i] = weights[i];
-      }
     }
+  }
 
-  if ( pcoords[0] >= -0.001 && pcoords[0] <= 1.001
-       && pcoords[1] >= -0.001 && pcoords[1] <= 1.001 )
+  if (pcoords[0] >= -0.001 && pcoords[0] <= 1.001 && pcoords[1] >= -0.001 && pcoords[1] <= 1.001)
+  {
+    if (closestPoint)
     {
-    if ( closestPoint )
-      {
       closestPoint[0] = x[0];
       closestPoint[1] = x[1];
-      *dist2 = 0.0; //inside quadrilateral
-      }
-    return true;
+      *dist2 = 0.0; // inside quadrilateral
     }
+    return true;
+  }
   else
-    {
+  {
     CoordRepType pc[CellDimension], w[NumberOfPoints];
-    if ( closestPoint )
+    if (closestPoint)
+    {
+      for (unsigned int i = 0; i < CellDimension; ++i) // only approximate ??
       {
-      for ( unsigned int i = 0; i < CellDimension; ++i ) //only approximate ??
+        if (pcoords[i] < 0.0)
         {
-        if ( pcoords[i] < 0.0 )
-          {
           pc[i] = 0.0;
-          }
-        else if ( pcoords[i] > 1.0 )
-          {
-          pc[i] = 1.0;
-          }
-        else
-          {
-          pc[i] = pcoords[i];
-          }
         }
+        else if (pcoords[i] > 1.0)
+        {
+          pc[i] = 1.0;
+        }
+        else
+        {
+          pc[i] = pcoords[i];
+        }
+      }
       this->EvaluateLocation(subId, points, pc, closestPoint, (InterpolationWeightType *)w);
 
       *dist2 = 0;
-      for ( unsigned int i = 0; i < CellDimension; ++i )
-        {
-        *dist2 += ( closestPoint[i] - x[i] ) * ( closestPoint[i] - x[i] );
-        }
+      for (unsigned int i = 0; i < CellDimension; ++i)
+      {
+        *dist2 += (closestPoint[i] - x[i]) * (closestPoint[i] - x[i]);
       }
-    return false;
     }
+    return false;
+  }
 }
 
 /** Compute iso-parametric interpolation functions */
-template< typename TCellInterface >
+template <typename TCellInterface>
 void
-QuadrilateralCell< TCellInterface >
-::InterpolationFunctions(const CoordRepType pointCoords[CellDimension], InterpolationWeightType weights[NumberOfPoints])
+QuadrilateralCell<TCellInterface>::InterpolationFunctions(const CoordRepType      pointCoords[CellDimension],
+                                                          InterpolationWeightType weights[NumberOfPoints])
 {
   const double rm = 1. - pointCoords[0];
   const double sm = 1. - pointCoords[1];
@@ -486,10 +468,10 @@ QuadrilateralCell< TCellInterface >
 }
 
 /** Compute iso-parametric interpolation functions */
-template< typename TCellInterface >
+template <typename TCellInterface>
 void
-QuadrilateralCell< TCellInterface >
-::InterpolationDerivs(const CoordRepType pointCoords[CellDimension], CoordRepType derivs[NumberOfDerivatives])
+QuadrilateralCell<TCellInterface>::InterpolationDerivs(const CoordRepType pointCoords[CellDimension],
+                                                       CoordRepType       derivs[NumberOfDerivatives])
 {
   const double rm = 1. - pointCoords[0];
   const double sm = 1. - pointCoords[1];
@@ -507,28 +489,30 @@ QuadrilateralCell< TCellInterface >
 }
 
 /** Evaluate the location inside the cell */
-template< typename TCellInterface >
+template <typename TCellInterface>
 void
-QuadrilateralCell< TCellInterface >
-::EvaluateLocation(int & itkNotUsed(subId), const PointsContainer *points, const CoordRepType pointCoords[PointDimension],
-                   CoordRepType x[PointDimension], InterpolationWeightType *weights)
+QuadrilateralCell<TCellInterface>::EvaluateLocation(int &                     itkNotUsed(subId),
+                                                    const PointsContainer *   points,
+                                                    const CoordRepType        pointCoords[PointDimension],
+                                                    CoordRepType              x[PointDimension],
+                                                    InterpolationWeightType * weights)
 {
   this->InterpolationFunctions(pointCoords, weights);
 
-  for ( unsigned int ii = 0; ii < PointDimension; ++ii )
-    {
-    x[ii] = NumericTraits< CoordRepType >::ZeroValue();
-    }
+  for (unsigned int ii = 0; ii < PointDimension; ++ii)
+  {
+    x[ii] = NumericTraits<CoordRepType>::ZeroValue();
+  }
 
-  for ( unsigned int ii = 0; ii < NumberOfPoints; ++ii )
-    {
+  for (unsigned int ii = 0; ii < NumberOfPoints; ++ii)
+  {
     const PointType & point = points->GetElement(m_PointIds[ii]);
 
-    for ( unsigned int jj = 0; jj < PointDimension; ++jj )
-      {
+    for (unsigned int jj = 0; jj < PointDimension; ++jj)
+    {
       x[jj] += point[jj] * weights[ii];
-      }
     }
+  }
 }
 
 } // end namespace itk

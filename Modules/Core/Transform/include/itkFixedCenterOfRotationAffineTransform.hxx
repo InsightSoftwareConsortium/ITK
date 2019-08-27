@@ -26,27 +26,25 @@
 namespace itk
 {
 /** Constructor with default arguments */
-template<typename TParametersValueType, unsigned int NDimensions>
-FixedCenterOfRotationAffineTransform<TParametersValueType, NDimensions>::FixedCenterOfRotationAffineTransform():
-  Superclass(ParametersDimension)
+template <typename TParametersValueType, unsigned int NDimensions>
+FixedCenterOfRotationAffineTransform<TParametersValueType, NDimensions>::FixedCenterOfRotationAffineTransform()
+  : Superclass(ParametersDimension)
 {}
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 FixedCenterOfRotationAffineTransform<TParametersValueType, NDimensions>::FixedCenterOfRotationAffineTransform(
   unsigned int outputSpaceDims,
-  unsigned int
-  paramsDims):
-  Superclass(outputSpaceDims, paramsDims)
+  unsigned int paramsDims)
+  : Superclass(outputSpaceDims, paramsDims)
 {}
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 FixedCenterOfRotationAffineTransform<TParametersValueType, NDimensions>::FixedCenterOfRotationAffineTransform(
-  const MatrixType & matrix,
-  const
-  OutputVectorType & offset):
-  Superclass(matrix, offset)
+  const MatrixType &       matrix,
+  const OutputVectorType & offset)
+  : Superclass(matrix, offset)
 {}
 
-} // namespace
+} // namespace itk
 
 #endif

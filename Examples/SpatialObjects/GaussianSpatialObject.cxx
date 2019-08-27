@@ -31,7 +31,8 @@
 #include "itkGaussianSpatialObject.h"
 // Software Guide : EndCodeSnippet
 
-int main(int, char* [])
+int
+main(int, char *[])
 {
   // Software Guide : BeginLatex
   //
@@ -76,10 +77,10 @@ int main(int, char* [])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  itk::Point<double,3> pt;
-  pt[0]=1;
-  pt[1]=2;
-  pt[2]=1;
+  itk::Point<double, 3> pt;
+  pt[0] = 1;
+  pt[1] = 2;
+  pt[2] = 1;
   double value;
   myGaussian->ValueAtInWorldSpace(pt, value);
   std::cout << "ValueAtInWorldSpace(" << pt << ") = " << value << std::endl;

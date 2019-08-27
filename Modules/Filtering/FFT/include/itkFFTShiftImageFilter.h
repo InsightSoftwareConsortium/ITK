@@ -44,18 +44,17 @@ namespace itk
  * \ingroup FourierTransform
  * \ingroup ITKFFT
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT FFTShiftImageFilter :
-  public CyclicShiftImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT FFTShiftImageFilter : public CyclicShiftImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FFTShiftImageFilter);
 
   /** Standard class type aliases. */
   using Self = FFTShiftImageFilter;
-  using Superclass = CyclicShiftImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = CyclicShiftImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;
@@ -91,11 +90,13 @@ public:
 protected:
   FFTShiftImageFilter();
   ~FFTShiftImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Override GenerateData method to set some parameters in the
    * superclass. */
-  void  GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   bool m_Inverse;
@@ -104,7 +105,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFFTShiftImageFilter.hxx"
+#  include "itkFFTShiftImageFilter.hxx"
 #endif
 
 #endif

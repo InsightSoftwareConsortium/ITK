@@ -19,21 +19,21 @@
 #include "itkQuadEdgeMeshEulerOperatorJoinFacetFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorsTestHelper.h"
 
-int itkQuadEdgeMeshEulerOperatorJoinFacetTest(int argc, char* argv[] )
+int
+itkQuadEdgeMeshEulerOperatorJoinFacetTest(int argc, char * argv[])
 {
   (void)argc;
   (void)argv;
 
-  using MeshType = itk::QuadEdgeMesh< double, 3 >;
+  using MeshType = itk::QuadEdgeMesh<double, 3>;
   using MeshPointer = MeshType::Pointer;
   using QEType = MeshType::QEType;
 
-  using JoinFacet =
-      itk::QuadEdgeMeshEulerOperatorJoinFacetFunction< MeshType, QEType>;
+  using JoinFacet = itk::QuadEdgeMeshEulerOperatorJoinFacetFunction<MeshType, QEType>;
 
   // EULER OPERATOR TESTS
-  MeshPointer  mesh = MeshType::New();
-  CreateSquareTriangularMesh<MeshType>( mesh );
+  MeshPointer mesh = MeshType::New();
+  CreateSquareTriangularMesh<MeshType>(mesh);
 
   // The initial configuration and numbering of simpleSquare.vtk:
   //    Vertices: 25 , Edges: 56, Faces: 32, Boundary = 1, Chi = 1
@@ -68,38 +68,41 @@ int itkQuadEdgeMeshEulerOperatorJoinFacetTest(int argc, char* argv[] )
 
   std::cout << "Checking JointFacet." << std::endl;
 
-  JoinFacet::Pointer joinFacet = JoinFacet::New( );
+  JoinFacet::Pointer joinFacet = JoinFacet::New();
 #ifndef NDEBUG
-  std::cout << "     " << "Test No Mesh Input";
-  if( joinFacet->Evaluate( (QEType*)1 ) )
-    {
+  std::cout << "     "
+            << "Test No Mesh Input";
+  if (joinFacet->Evaluate((QEType *)1))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "OK" << std::endl;
 #endif
 
   (void)joinFacet->GetNameOfClass();
 
-  joinFacet->SetInput( mesh );
+  joinFacet->SetInput(mesh);
 
 #ifndef NDEBUG
-  std::cout << "     " << "Test QE Input not internal";
-  QEType* dummy = new QEType;
-  if( joinFacet->Evaluate( dummy ) )
-    {
+  std::cout << "     "
+            << "Test QE Input not internal";
+  QEType * dummy = new QEType;
+  if (joinFacet->Evaluate(dummy))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   delete dummy;
   std::cout << "OK" << std::endl;
 
-  std::cout << "     " << "Test No QE Input";
-  if( joinFacet->Evaluate( (QEType*)nullptr ) )
-    {
+  std::cout << "     "
+            << "Test No QE Input";
+  if (joinFacet->Evaluate((QEType *)nullptr))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "OK" << std::endl;
 #endif
 
@@ -127,31 +130,30 @@ int itkQuadEdgeMeshEulerOperatorJoinFacetTest(int argc, char* argv[] )
   //    0 ---------- 1 ---------- 2  --------- 3 ---------  4
   //
 
-  std::cout << "     " << "Test Edge deletion (possible)";
+  std::cout << "     "
+            << "Test Edge deletion (possible)";
   // Find an internal edge and collapse it
-  if( !joinFacet->Evaluate( mesh->FindEdge( 12, 7 ) ) )
-    {
+  if (!joinFacet->Evaluate(mesh->FindEdge(12, 7)))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Since the edge was internal we lost an edge and an face:
-  if( ! AssertTopologicalInvariants< MeshType >
-          ( mesh, 25, 55, 31, 1, 0 ) )
-    {
+  if (!AssertTopologicalInvariants<MeshType>(mesh, 25, 55, 31, 1, 0))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
-  if ( mesh->GetPoint( 12 ).GetValence( ) != 5 )
-    {
-    std::cout << "FAILED [wrong valence of "
-              << mesh->GetPoint( 12 ).GetValence( )
-              << " ]." << std::endl;
+  }
+  if (mesh->GetPoint(12).GetValence() != 5)
+  {
+    std::cout << "FAILED [wrong valence of " << mesh->GetPoint(12).GetValence() << " ]." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "OK" << std::endl;
-  std::cout << "Checking JointFacet." << "OK" << std::endl << std::endl;
+  std::cout << "Checking JointFacet."
+            << "OK" << std::endl
+            << std::endl;
 
   return EXIT_SUCCESS;
-
 }

@@ -44,9 +44,9 @@ namespace itk
  * \sphinxexample{Filtering/FFT/ComputeInverseFFTOfImage,Compute Inverse FFT Of Image}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
-class ITK_TEMPLATE_EXPORT InverseFFTImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage,
+          typename TOutputImage = Image<typename TInputImage::PixelType::value_type, TInputImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT InverseFFTImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 
 {
 public:
@@ -59,39 +59,43 @@ public:
   using OutputPixelType = typename OutputImageType::PixelType;
 
   using Self = InverseFFTImageFilter;
-  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
   /** Customized object creation methods that support configuration-based
-  * selection of FFT implementation.
-  *
-  * Default implementation is VnlFFT. */
-  static Pointer New();
+   * selection of FFT implementation.
+   *
+   * Default implementation is VnlFFT. */
+  static Pointer
+  New();
 
   /* Return the prefered greatest prime factor supported for the input image
    * size. Defaults to 2 as many implementations work only for sizes that are
    * power of 2.
    */
-  virtual SizeValueType GetSizeGreatestPrimeFactor() const;
+  virtual SizeValueType
+  GetSizeGreatestPrimeFactor() const;
 
 protected:
   InverseFFTImageFilter() = default;
   ~InverseFFTImageFilter() override = default;
 
   /** This class requires the entire input. */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** Sets the output requested region to the largest possible output
    * region. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkInverseFFTImageFilter.hxx"
+#  include "itkInverseFFTImageFilter.hxx"
 #endif
 
 #endif

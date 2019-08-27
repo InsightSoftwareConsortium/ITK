@@ -26,11 +26,10 @@ namespace itk
 
 template <unsigned VDimension>
 typename MetaConverterBase<VDimension>::SpatialObjectPointer
-MetaConverterBase<VDimension>
-::ReadMeta(const char *name)
+MetaConverterBase<VDimension>::ReadMeta(const char * name)
 {
   SpatialObjectPointer rval;
-  MetaObjectType *mo = this->CreateMetaObject();
+  MetaObjectType *     mo = this->CreateMetaObject();
 
   mo->Read(name);
   rval = this->MetaObjectToSpatialObject(mo);
@@ -40,15 +39,14 @@ MetaConverterBase<VDimension>
 
 template <unsigned VDimension>
 bool
-MetaConverterBase<VDimension>
-::WriteMeta(const SpatialObjectType *spatialObject, const char *name)
+MetaConverterBase<VDimension>::WriteMeta(const SpatialObjectType * spatialObject, const char * name)
 {
-  MetaObject *mo = this->SpatialObjectToMetaObject(spatialObject);
+  MetaObject * mo = this->SpatialObjectToMetaObject(spatialObject);
   mo->Write(name);
   delete mo;
   return true;
 }
 
-}
+} // namespace itk
 
 #endif // itkMetaConverterBase_hxx

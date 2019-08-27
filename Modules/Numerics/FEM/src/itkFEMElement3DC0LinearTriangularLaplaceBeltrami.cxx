@@ -1,20 +1,20 @@
 /*=========================================================================
-*
-* Copyright Insight Software Consortium
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0.txt
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*
-*=========================================================================*/
+ *
+ * Copyright Insight Software Consortium
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ *=========================================================================*/
 
 #include "itkFEMElement3DC0LinearTriangularLaplaceBeltrami.h"
 
@@ -23,31 +23,33 @@ namespace itk
 namespace fem
 {
 // Overload the CreateAnother() method
-::itk::LightObject::Pointer Element3DC0LinearTriangularLaplaceBeltrami::CreateAnother() const
+::itk::LightObject::Pointer
+Element3DC0LinearTriangularLaplaceBeltrami::CreateAnother() const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New();
+  Pointer                     copyPtr = Self::New();
 
-  copyPtr->SetNode(0, this->GetNode(0) );
-  copyPtr->SetNode(1, this->GetNode(1) );
-  copyPtr->SetNode(2, this->GetNode(2) );
-  copyPtr->SetNode(3, this->GetNode(3) );
-  copyPtr->SetMaterial( this->GetMaterial() );
-  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+  copyPtr->SetNode(0, this->GetNode(0));
+  copyPtr->SetNode(1, this->GetNode(1));
+  copyPtr->SetNode(2, this->GetNode(2));
+  copyPtr->SetNode(3, this->GetNode(3));
+  copyPtr->SetMaterial(this->GetMaterial());
+  copyPtr->SetGlobalNumber(this->GetGlobalNumber());
 
   smartPtr = static_cast<Pointer>(copyPtr);
 
   return smartPtr;
 }
 
-Element3DC0LinearTriangularLaplaceBeltrami
-::Element3DC0LinearTriangularLaplaceBeltrami() : Superclass()
-{
-}
+Element3DC0LinearTriangularLaplaceBeltrami ::Element3DC0LinearTriangularLaplaceBeltrami()
+  : Superclass()
+{}
 
-Element3DC0LinearTriangularLaplaceBeltrami
-::Element3DC0LinearTriangularLaplaceBeltrami(NodeIDType n1_, NodeIDType n2_, NodeIDType n3_,
-                                             Material::ConstPointer m_) : Superclass()
+Element3DC0LinearTriangularLaplaceBeltrami ::Element3DC0LinearTriangularLaplaceBeltrami(NodeIDType             n1_,
+                                                                                        NodeIDType             n2_,
+                                                                                        NodeIDType             n3_,
+                                                                                        Material::ConstPointer m_)
+  : Superclass()
 {
   // Set the geometrical points
   this->SetNode(0, n1_);
@@ -59,18 +61,17 @@ Element3DC0LinearTriangularLaplaceBeltrami
    * we were given the pointer to the right class.
    * If the material class was incorrect an exception is thrown.
    */
-  m_Mat = dynamic_cast<const MaterialLinearElasticity *>( m_.GetPointer() );
+  m_Mat = dynamic_cast<const MaterialLinearElasticity *>(m_.GetPointer());
 
-  if( !m_Mat )
-    {
+  if (!m_Mat)
+  {
     throw FEMExceptionWrongClass(
-            __FILE__,
-            __LINE__,
-            "Element3DC0LinearTriangularLaplaceBeltrami::Element3DC0LinearTriangularLaplaceBeltrami()");
-    }
+      __FILE__, __LINE__, "Element3DC0LinearTriangularLaplaceBeltrami::Element3DC0LinearTriangularLaplaceBeltrami()");
+  }
 }
 
-void Element3DC0LinearTriangularLaplaceBeltrami::GetStiffnessMatrix(MatrixType & Ke) const
+void
+Element3DC0LinearTriangularLaplaceBeltrami::GetStiffnessMatrix(MatrixType & Ke) const
 {
   MatrixType cot, D, BB;
 
@@ -96,80 +97,80 @@ void Element3DC0LinearTriangularLaplaceBeltrami::GetStiffnessMatrix(MatrixType &
   float      L2 = CA.magnitude();
   float      L3 = BA.magnitude();
 
-  float s = ( L1 + L2 + L3 ) * .5;
-  Float Area = sqrt( s * ( s - L1 ) * ( s - L2 ) * ( s - L3 ) );
+  float s = (L1 + L2 + L3) * .5;
+  Float Area = sqrt(s * (s - L1) * (s - L2) * (s - L3));
 
-  cot[0][0] = ( 2.0 * L1 * L1 ) * D[0][0];
-  cot[1][1] = ( 2.0 * L2 * L2 ) * D[0][0];
-  cot[2][2] = ( 2.0 * L3 * L3 ) * D[0][0];
+  cot[0][0] = (2.0 * L1 * L1) * D[0][0];
+  cot[1][1] = (2.0 * L2 * L2) * D[0][0];
+  cot[2][2] = (2.0 * L3 * L3) * D[0][0];
 
-  cot[0][1] = ( L3 * L3 - L1 * L1 - L2 * L2 ) * D[0][0];
-  cot[0][2] = ( L2 * L2 - L1 * L1 - L3 * L3 ) * D[0][0];
-  cot[1][2] = ( L1 * L1 - L3 * L3 - L2 * L2 ) * D[0][0];
+  cot[0][1] = (L3 * L3 - L1 * L1 - L2 * L2) * D[0][0];
+  cot[0][2] = (L2 * L2 - L1 * L1 - L3 * L3) * D[0][0];
+  cot[1][2] = (L1 * L1 - L3 * L3 - L2 * L2) * D[0][0];
 
-  cot[1][0] = ( L3 * L3 - L1 * L1 - L2 * L2 ) * D[0][0];
-  cot[2][0] = ( L2 * L2 - L1 * L1 - L3 * L3 ) * D[0][0];
-  cot[2][1] = ( L1 * L1 - L3 * L3 - L2 * L2 ) * D[0][0];
+  cot[1][0] = (L3 * L3 - L1 * L1 - L2 * L2) * D[0][0];
+  cot[2][0] = (L2 * L2 - L1 * L1 - L3 * L3) * D[0][0];
+  cot[2][1] = (L1 * L1 - L3 * L3 - L2 * L2) * D[0][0];
 
-  cot = cot * 1.0 / ( 8.0 * Area );
+  cot = cot * 1.0 / (8.0 * Area);
 
-/*  if ( this->GetNode(0)->GetDegreeOfFreedom(0)==53 ||
-       this->GetNode(1)->GetDegreeOfFreedom(0)==53 ||
-       this->GetNode(2)->GetDegreeOfFreedom(0)==53 )
-  {
-  std::cout << " cot " << this->GetNode(0)->GetDegreeOfFreedom(0) << "  " <<this->GetNode(1)->GetDegreeOfFreedom(0) << "  " <<this->GetNode(2)->GetDegreeOfFreedom(0) <<std::endl;
-  std::cout <<  cot <<std::endl;
-  }
-
- */
-  if( GetNumberOfDegreesOfFreedomPerNode() == 3 )
+  /*  if ( this->GetNode(0)->GetDegreeOfFreedom(0)==53 ||
+         this->GetNode(1)->GetDegreeOfFreedom(0)==53 ||
+         this->GetNode(2)->GetDegreeOfFreedom(0)==53 )
     {
+    std::cout << " cot " << this->GetNode(0)->GetDegreeOfFreedom(0) << "  " <<this->GetNode(1)->GetDegreeOfFreedom(0) <<
+    "  " <<this->GetNode(2)->GetDegreeOfFreedom(0) <<std::endl; std::cout <<  cot <<std::endl;
+    }
+
+   */
+  if (GetNumberOfDegreesOfFreedomPerNode() == 3)
+  {
     Ke.set_size(9, 9);
     Ke.fill(0.0);
-    for( int dd = 0; dd < 3; dd++ )
-      {
-      Ke[0][dd * 3] = cot[0][dd];
-      }
-    for( int dd = 0; dd < 3; dd++ )
-      {
-      Ke[1][dd * 3 + 1] = cot[0][dd];
-      }
-    for( int dd = 0; dd < 3; dd++ )
-      {
-      Ke[2][dd * 3 + 2] = cot[0][dd];
-      }
-    for( int dd = 0; dd < 3; dd++ )
-      {
-      Ke[3][dd * 3] = cot[1][dd];
-      }
-    for( int dd = 0; dd < 3; dd++ )
-      {
-      Ke[4][dd * 3 + 1] = cot[1][dd];
-      }
-    for( int dd = 0; dd < 3; dd++ )
-      {
-      Ke[5][dd * 3 + 2] = cot[1][dd];
-      }
-    for( int dd = 0; dd < 3; dd++ )
-      {
-      Ke[6][dd * 3] = cot[2][dd];
-      }
-    for( int dd = 0; dd < 3; dd++ )
-      {
-      Ke[7][dd * 3 + 1] = cot[2][dd];
-      }
-    for( int dd = 0; dd < 3; dd++ )
-      {
-      Ke[8][dd * 3 + 2] = cot[2][dd];
-      }
-    }
-  else
+    for (int dd = 0; dd < 3; dd++)
     {
-    Ke = cot;
+      Ke[0][dd * 3] = cot[0][dd];
     }
+    for (int dd = 0; dd < 3; dd++)
+    {
+      Ke[1][dd * 3 + 1] = cot[0][dd];
+    }
+    for (int dd = 0; dd < 3; dd++)
+    {
+      Ke[2][dd * 3 + 2] = cot[0][dd];
+    }
+    for (int dd = 0; dd < 3; dd++)
+    {
+      Ke[3][dd * 3] = cot[1][dd];
+    }
+    for (int dd = 0; dd < 3; dd++)
+    {
+      Ke[4][dd * 3 + 1] = cot[1][dd];
+    }
+    for (int dd = 0; dd < 3; dd++)
+    {
+      Ke[5][dd * 3 + 2] = cot[1][dd];
+    }
+    for (int dd = 0; dd < 3; dd++)
+    {
+      Ke[6][dd * 3] = cot[2][dd];
+    }
+    for (int dd = 0; dd < 3; dd++)
+    {
+      Ke[7][dd * 3 + 1] = cot[2][dd];
+    }
+    for (int dd = 0; dd < 3; dd++)
+    {
+      Ke[8][dd * 3 + 2] = cot[2][dd];
+    }
+  }
+  else
+  {
+    Ke = cot;
+  }
 
-//  std::cout << " Ke in elt " <<std::endl;
-//  std::cout <<  Ke <<std::endl;
+  //  std::cout << " Ke in elt " <<std::endl;
+  //  std::cout <<  Ke <<std::endl;
 }
 
 /*
@@ -294,7 +295,7 @@ for(int dd=0; dd<3; dd++) Ke[8][dd*3+2]=cot[2][dd];
 */
 
 void
-Element3DC0LinearTriangularLaplaceBeltrami::PrintSelf(std::ostream& os, Indent indent) const
+Element3DC0LinearTriangularLaplaceBeltrami::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

@@ -39,18 +39,17 @@ namespace itk
  * \sphinxexample{Filtering/ImageGrid/CropImageBySpecifyingRegion2,Crop Image By Specifying Region}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT CropImageFilter:
-  public ExtractImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT CropImageFilter : public ExtractImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CropImageFilter);
 
   /** Standard class type aliases. */
   using Self = CropImageFilter;
-  using Superclass = ExtractImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ExtractImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -83,7 +82,8 @@ public:
   itkSetMacro(LowerBoundaryCropSize, SizeType);
   itkGetConstMacro(LowerBoundaryCropSize, SizeType);
 
-  void SetBoundaryCropSize(const SizeType & s)
+  void
+  SetBoundaryCropSize(const SizeType & s)
   {
     this->SetUpperBoundaryCropSize(s);
     this->SetLowerBoundaryCropSize(s);
@@ -91,10 +91,8 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< InputImagePixelType, OutputImagePixelType > ) );
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
+  itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
   // End concept checking
 #endif
 
@@ -107,9 +105,11 @@ protected:
   }
 
   ~CropImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
 private:
   SizeType m_UpperBoundaryCropSize;
@@ -118,7 +118,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCropImageFilter.hxx"
+#  include "itkCropImageFilter.hxx"
 #endif
 
 #endif

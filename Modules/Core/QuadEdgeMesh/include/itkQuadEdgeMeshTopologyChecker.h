@@ -37,8 +37,8 @@ namespace itk
  *
  * \ingroup ITKQuadEdgeMesh
  */
-template< typename TMesh >
-class ITK_TEMPLATE_EXPORT QuadEdgeMeshTopologyChecker:public Object
+template <typename TMesh>
+class ITK_TEMPLATE_EXPORT QuadEdgeMeshTopologyChecker : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshTopologyChecker);
@@ -46,14 +46,14 @@ public:
   // Standard types
   using Self = QuadEdgeMeshTopologyChecker;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using MeshType = TMesh;
   using QEPrimal = typename MeshType::QEPrimal;
   using EdgeCellType = typename MeshType::EdgeCellType;
   using CellsContainerConstIterator = typename MeshType::CellsContainerConstIterator;
-  using BoundaryEdges = QuadEdgeMeshBoundaryEdgesMeshFunction< MeshType >;
+  using BoundaryEdges = QuadEdgeMeshBoundaryEdgesMeshFunction<MeshType>;
 
   using PointIdentifier = typename MeshType::PointIdentifier;
   using CellIdentifier = typename MeshType::CellIdentifier;
@@ -73,28 +73,30 @@ public:
   itkSetMacro(ExpectedNumberOfBoundaries, CellIdentifier);
   itkSetMacro(ExpectedGenus, OffsetValueType);
 
-  bool ValidateEulerCharacteristic() const;
+  bool
+  ValidateEulerCharacteristic() const;
 
 protected:
   QuadEdgeMeshTopologyChecker();
   ~QuadEdgeMeshTopologyChecker() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   using MeshPointer = typename MeshType::ConstPointer;
 
   MeshPointer m_Mesh;
 
-  PointIdentifier  m_ExpectedNumberOfPoints;
-  CellIdentifier   m_ExpectedNumberOfEdges;
-  CellIdentifier   m_ExpectedNumberOfFaces;
-  CellIdentifier   m_ExpectedNumberOfBoundaries;
-  OffsetValueType  m_ExpectedGenus;
+  PointIdentifier m_ExpectedNumberOfPoints;
+  CellIdentifier  m_ExpectedNumberOfEdges;
+  CellIdentifier  m_ExpectedNumberOfFaces;
+  CellIdentifier  m_ExpectedNumberOfBoundaries;
+  OffsetValueType m_ExpectedGenus;
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuadEdgeMeshTopologyChecker.hxx"
+#  include "itkQuadEdgeMeshTopologyChecker.hxx"
 #endif
 
 #endif

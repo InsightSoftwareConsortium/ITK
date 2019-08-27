@@ -22,37 +22,38 @@
 #include "itkBinaryFillholeImageFilter.h"
 
 
-int itkBinaryFillholeImageFilterTest1(int argc, char * argv[])
+int
+itkBinaryFillholeImageFilterTest1(int argc, char * argv[])
 {
 
-  if( argc != 5 )
-    {
+  if (argc != 5)
+  {
     std::cerr << "usage: " << argv[0] << " input output conn fg" << std::endl;
     // std::cerr << "  : " << std::endl;
     exit(1);
-    }
+  }
 
   constexpr int dim = 2;
 
-  using IType = itk::Image< unsigned char, dim >;
+  using IType = itk::Image<unsigned char, dim>;
 
-  using ReaderType = itk::ImageFileReader< IType >;
+  using ReaderType = itk::ImageFileReader<IType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
   reader->Update();
 
- using I2LType = itk::BinaryFillholeImageFilter< IType >;
+  using I2LType = itk::BinaryFillholeImageFilter<IType>;
   I2LType::Pointer reconstruction = I2LType::New();
-  reconstruction->SetInput( reader->GetOutput() );
-  reconstruction->SetFullyConnected( std::stoi(argv[3]) );
-  reconstruction->SetForegroundValue( std::stoi(argv[4]) );
-//   reconstruction->SetBackgroundValue( std::stoi(argv[5]) );
+  reconstruction->SetInput(reader->GetOutput());
+  reconstruction->SetFullyConnected(std::stoi(argv[3]));
+  reconstruction->SetForegroundValue(std::stoi(argv[4]));
+  //   reconstruction->SetBackgroundValue( std::stoi(argv[5]) );
   itk::SimpleFilterWatcher watcher(reconstruction, "filter");
 
-  using WriterType = itk::ImageFileWriter< IType >;
+  using WriterType = itk::ImageFileWriter<IType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( reconstruction->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(reconstruction->GetOutput());
+  writer->SetFileName(argv[2]);
   writer->Update();
   return 0;
 }

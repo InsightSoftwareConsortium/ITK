@@ -21,119 +21,105 @@
 
 namespace itk
 {
-LBFGSOptimizerv4
-  ::LBFGSOptimizerv4()
+LBFGSOptimizerv4 ::LBFGSOptimizerv4() {}
 
-{
-}
-
-LBFGSOptimizerv4
-::~LBFGSOptimizerv4() = default;
+LBFGSOptimizerv4 ::~LBFGSOptimizerv4() = default;
 
 void
-LBFGSOptimizerv4
-::PrintSelf(std::ostream & os, Indent indent) const
+LBFGSOptimizerv4 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "LineSearchAccuracy: "
-     << m_LineSearchAccuracy << std::endl;
-  os << indent << "DefaultStepLength: "
-     << m_DefaultStepLength << std::endl;
+  os << indent << "LineSearchAccuracy: " << m_LineSearchAccuracy << std::endl;
+  os << indent << "DefaultStepLength: " << m_DefaultStepLength << std::endl;
 
-  if ( this->m_VnlOptimizer )
-    {
-    os << indent << "Vnl LBFGS Failure Code: "
-    << this->m_VnlOptimizer->get_failure_code() << std::endl;
-    }
+  if (this->m_VnlOptimizer)
+  {
+    os << indent << "Vnl LBFGS Failure Code: " << this->m_VnlOptimizer->get_failure_code() << std::endl;
+  }
 }
 
 void
-LBFGSOptimizerv4
-::VerboseOn()
+LBFGSOptimizerv4 ::VerboseOn()
 {
-  if ( m_Verbose == true )
-    {
+  if (m_Verbose == true)
+  {
     return;
-    }
+  }
 
   m_Verbose = true;
-  if ( m_OptimizerInitialized )
-    {
+  if (m_OptimizerInitialized)
+  {
     m_VnlOptimizer->set_verbose(true);
-    }
+  }
 
   this->Modified();
 }
 
 void
-LBFGSOptimizerv4
-::VerboseOff()
+LBFGSOptimizerv4 ::VerboseOff()
 {
-  if ( m_Verbose == false )
-    {
+  if (m_Verbose == false)
+  {
     return;
-    }
+  }
 
   m_Verbose = false;
-  if ( m_OptimizerInitialized )
-    {
+  if (m_OptimizerInitialized)
+  {
     m_VnlOptimizer->set_verbose(false);
-    }
+  }
 
   this->Modified();
 }
 
 void
-LBFGSOptimizerv4
-::SetLineSearchAccuracy(double f)
+LBFGSOptimizerv4 ::SetLineSearchAccuracy(double f)
 {
-  if ( Math::ExactlyEquals(f, m_LineSearchAccuracy) )
-    {
+  if (Math::ExactlyEquals(f, m_LineSearchAccuracy))
+  {
     return;
-    }
+  }
 
   m_LineSearchAccuracy = f;
-  if ( m_OptimizerInitialized )
-    {
+  if (m_OptimizerInitialized)
+  {
     m_VnlOptimizer->line_search_accuracy = m_LineSearchAccuracy;
-    }
+  }
 
   this->Modified();
 }
 
 void
-LBFGSOptimizerv4
-::SetDefaultStepLength(double f)
+LBFGSOptimizerv4 ::SetDefaultStepLength(double f)
 {
-  if ( Math::ExactlyEquals(f, m_DefaultStepLength) )
-    {
+  if (Math::ExactlyEquals(f, m_DefaultStepLength))
+  {
     return;
-    }
+  }
 
   m_DefaultStepLength = f;
-  if ( m_OptimizerInitialized )
-    {
+  if (m_OptimizerInitialized)
+  {
     m_VnlOptimizer->default_step_length = m_DefaultStepLength;
-    }
+  }
 
   this->Modified();
 }
 
 void
-LBFGSOptimizerv4
-::SetMetric(MetricType *metric)
+LBFGSOptimizerv4 ::SetMetric(MetricType * metric)
 {
-  Superclass::SetMetric( metric );
+  Superclass::SetMetric(metric);
 
   // set the optimizer parameters
-  m_VnlOptimizer->set_trace( m_Trace );
-  m_VnlOptimizer->set_verbose( m_Verbose );
-  m_VnlOptimizer->set_max_function_evals( static_cast< int >( m_MaximumNumberOfFunctionEvaluations ) );
-  m_VnlOptimizer->set_g_tolerance( m_GradientConvergenceTolerance );
+  m_VnlOptimizer->set_trace(m_Trace);
+  m_VnlOptimizer->set_verbose(m_Verbose);
+  m_VnlOptimizer->set_max_function_evals(static_cast<int>(m_MaximumNumberOfFunctionEvaluations));
+  m_VnlOptimizer->set_g_tolerance(m_GradientConvergenceTolerance);
   m_VnlOptimizer->line_search_accuracy = m_LineSearchAccuracy;
-  m_VnlOptimizer->default_step_length  = m_DefaultStepLength;
+  m_VnlOptimizer->default_step_length = m_DefaultStepLength;
   // set for debugging
-  //m_VnlOptimizer->set_check_derivatives( true );
+  // m_VnlOptimizer->set_check_derivatives( true );
 
   m_OptimizerInitialized = true;
 
@@ -141,8 +127,7 @@ LBFGSOptimizerv4
 }
 
 void
-LBFGSOptimizerv4
-::StartOptimization(bool /* doOnlyInitialization */)
+LBFGSOptimizerv4 ::StartOptimization(bool /* doOnlyInitialization */)
 {
   // Perform some verification, check scales,
   // pass settings to cost-function adaptor.
@@ -152,54 +137,55 @@ LBFGSOptimizerv4
   // in the metric for efficiency.
   ParametersType parameters = this->m_Metric->GetParameters();
 
-  if( parameters.GetSize() == 0 )
-    {
-    itkExceptionMacro(<<"Optimizer parameters are not initialized.");
-    }
+  if (parameters.GetSize() == 0)
+  {
+    itkExceptionMacro(<< "Optimizer parameters are not initialized.");
+  }
 
   // Scale the initial parameters up if scales are defined.
   // This compensates for later scaling them down in "compute" function of
   // the cost function adaptor and at the end of this function.
   InternalParametersType vnlCompatibleParameters(parameters.GetSize());
-  const ScalesType & scales = this->GetScales();
-  for ( SizeValueType i = 0; i < parameters.GetSize(); ++i )
+  const ScalesType &     scales = this->GetScales();
+  for (SizeValueType i = 0; i < parameters.GetSize(); ++i)
+  {
+    if (this->GetScalesAreIdentity())
     {
-    if( this->GetScalesAreIdentity() )
-      {
       vnlCompatibleParameters[i] = parameters[i];
-      }
-    else
-      {
-      vnlCompatibleParameters[i] = parameters[i] * scales[i];
-      }
     }
+    else
+    {
+      vnlCompatibleParameters[i] = parameters[i] * scales[i];
+    }
+  }
 
   // vnl optimizers return the solution by reference
   // in the variable provided as initial position.
   // Also note that v4 registration always minimizes because v4 metrics return the negate value
   // if the cost function should be maximized.
-  m_VnlOptimizer->minimize( vnlCompatibleParameters );
+  m_VnlOptimizer->minimize(vnlCompatibleParameters);
 
   // Check if the output parameters are not null.
-  if ( vnlCompatibleParameters.size() != parameters.GetSize() )
-    {
-    itkExceptionMacro(<< "Error occurred in optimization. Optimized parameters and initial parameters are not the same size: "
-                      << vnlCompatibleParameters.size() << " vs. " << parameters.GetSize() );
-    }
+  if (vnlCompatibleParameters.size() != parameters.GetSize())
+  {
+    itkExceptionMacro(
+      << "Error occurred in optimization. Optimized parameters and initial parameters are not the same size: "
+      << vnlCompatibleParameters.size() << " vs. " << parameters.GetSize());
+  }
 
   // we scale the parameters down if scales are defined
-  for ( SizeValueType i = 0; i < vnlCompatibleParameters.size(); ++i )
+  for (SizeValueType i = 0; i < vnlCompatibleParameters.size(); ++i)
+  {
+    if (this->GetScalesAreIdentity())
     {
-    if( this->GetScalesAreIdentity() )
-     {
-     parameters[i] = vnlCompatibleParameters[i];
-     }
-    else
-     {
-     parameters[i] = vnlCompatibleParameters[i] / scales[i];
-     }
+      parameters[i] = vnlCompatibleParameters[i];
     }
+    else
+    {
+      parameters[i] = vnlCompatibleParameters[i] / scales[i];
+    }
+  }
 
-  this->m_Metric->SetParameters( parameters );
+  this->m_Metric->SetParameters(parameters);
 }
 } // end namespace itk

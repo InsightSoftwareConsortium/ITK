@@ -24,36 +24,33 @@ namespace itk
 {
 namespace Statistics
 {
-template< typename TPointSet >
-PointSetToListSampleAdaptor< TPointSet >
-::PointSetToListSampleAdaptor()
+template <typename TPointSet>
+PointSetToListSampleAdaptor<TPointSet>::PointSetToListSampleAdaptor()
 {
   this->m_PointSet = nullptr;
-  this->SetMeasurementVectorSize( TPointSet::PointDimension );
+  this->SetMeasurementVectorSize(TPointSet::PointDimension);
 }
 
-template< typename TPointSet >
+template <typename TPointSet>
 void
-PointSetToListSampleAdaptor< TPointSet >
-::PrintSelf(std::ostream & os, Indent indent) const
+PointSetToListSampleAdaptor<TPointSet>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "PointSet: ";
-  if ( m_PointSet.IsNotNull() )
-    {
+  if (m_PointSet.IsNotNull())
+  {
     os << m_PointSet << std::endl;
-    }
+  }
   else
-    {
+  {
     os << "not set." << std::endl;
-    }
+  }
 }
 
-template< typename TPointSet >
+template <typename TPointSet>
 void
-PointSetToListSampleAdaptor< TPointSet >
-::SetPointSet(const TPointSet *pointSet)
+PointSetToListSampleAdaptor<TPointSet>::SetPointSet(const TPointSet * pointSet)
 {
   m_PointSet = pointSet;
   m_PointsContainer = pointSet->GetPoints();
@@ -61,69 +58,64 @@ PointSetToListSampleAdaptor< TPointSet >
   this->Modified();
 }
 
-template< typename TPointSet >
+template <typename TPointSet>
 const TPointSet *
-PointSetToListSampleAdaptor< TPointSet >
-::GetPointSet()
+PointSetToListSampleAdaptor<TPointSet>::GetPointSet()
 {
-  if ( m_PointSet.IsNull() )
-    {
+  if (m_PointSet.IsNull())
+  {
     itkExceptionMacro("Point set has not been set yet");
-    }
+  }
 
   return m_PointSet.GetPointer();
 }
 
 /** returns the number of measurement vectors in this container*/
-template< typename TPointSet >
-typename PointSetToListSampleAdaptor< TPointSet >::InstanceIdentifier
-PointSetToListSampleAdaptor< TPointSet >
-::Size() const
+template <typename TPointSet>
+typename PointSetToListSampleAdaptor<TPointSet>::InstanceIdentifier
+PointSetToListSampleAdaptor<TPointSet>::Size() const
 {
-  if ( m_PointSet.IsNull() )
-    {
+  if (m_PointSet.IsNull())
+  {
     itkExceptionMacro("Point set has not been set yet");
-    }
+  }
 
   return m_PointsContainer->Size();
 }
 
-template< typename TPointSet >
-inline const typename PointSetToListSampleAdaptor< TPointSet >::MeasurementVectorType &
-PointSetToListSampleAdaptor< TPointSet >
-::GetMeasurementVector(InstanceIdentifier identifier) const
+template <typename TPointSet>
+inline const typename PointSetToListSampleAdaptor<TPointSet>::MeasurementVectorType &
+PointSetToListSampleAdaptor<TPointSet>::GetMeasurementVector(InstanceIdentifier identifier) const
 {
-  if ( m_PointSet.IsNull() )
-    {
+  if (m_PointSet.IsNull())
+  {
     itkExceptionMacro("Point set has not been set yet");
-    }
+  }
 
   m_PointSet->GetPoint(identifier, &m_TempPoint);
-  return ( MeasurementVectorType & )m_TempPoint;
+  return (MeasurementVectorType &)m_TempPoint;
 }
 
-template< typename TPointSet >
-inline typename PointSetToListSampleAdaptor< TPointSet >::AbsoluteFrequencyType
-PointSetToListSampleAdaptor< TPointSet >
-::GetFrequency(InstanceIdentifier) const
+template <typename TPointSet>
+inline typename PointSetToListSampleAdaptor<TPointSet>::AbsoluteFrequencyType
+  PointSetToListSampleAdaptor<TPointSet>::GetFrequency(InstanceIdentifier) const
 {
-  if ( m_PointSet.IsNull() )
-    {
+  if (m_PointSet.IsNull())
+  {
     itkExceptionMacro("Point set has not been set yet");
-    }
+  }
 
   return 1;
 }
 
-template< typename TPointSet >
-typename PointSetToListSampleAdaptor< TPointSet >::TotalAbsoluteFrequencyType
-PointSetToListSampleAdaptor< TPointSet >
-::GetTotalFrequency() const
+template <typename TPointSet>
+typename PointSetToListSampleAdaptor<TPointSet>::TotalAbsoluteFrequencyType
+PointSetToListSampleAdaptor<TPointSet>::GetTotalFrequency() const
 {
-  if ( m_PointSet.IsNull() )
-    {
+  if (m_PointSet.IsNull())
+  {
     itkExceptionMacro("Point set has not been set yet");
-    }
+  }
 
   return this->Size();
 }

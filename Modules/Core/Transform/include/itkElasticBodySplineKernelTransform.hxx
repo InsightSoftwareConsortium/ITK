@@ -21,40 +21,39 @@
 
 namespace itk
 {
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 ElasticBodySplineKernelTransform<TParametersValueType, NDimensions>::ElasticBodySplineKernelTransform()
 {
   // Alpha = 12 ( 1 - \nu ) - 1
-  m_Alpha = 12.0 * ( 1.0 - .25 ) - 1;
+  m_Alpha = 12.0 * (1.0 - .25) - 1;
 }
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-ElasticBodySplineKernelTransform<TParametersValueType, NDimensions>
-::ComputeG(const InputVectorType & x, GMatrixType & gmatrix) const
+ElasticBodySplineKernelTransform<TParametersValueType, NDimensions>::ComputeG(const InputVectorType & x,
+                                                                              GMatrixType &           gmatrix) const
 {
-  const TParametersValueType r       = x.GetNorm();
-  const TParametersValueType factor  = -3.0 * r;
-  const TParametersValueType radial  = m_Alpha * ( r * r ) * r;
+  const TParametersValueType r = x.GetNorm();
+  const TParametersValueType factor = -3.0 * r;
+  const TParametersValueType radial = m_Alpha * (r * r) * r;
 
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
+  for (unsigned int i = 0; i < NDimensions; i++)
+  {
     const typename InputVectorType::ValueType xi = x[i] * factor;
     // G is symmetric
-    for ( unsigned int j = 0; j < i; j++ )
-      {
+    for (unsigned int j = 0; j < i; j++)
+    {
       const TParametersValueType value = xi * x[j];
       gmatrix[i][j] = value;
       gmatrix[j][i] = value;
-      }
-    gmatrix[i][i] =  radial + xi * x[i];
     }
+    gmatrix[i][i] = radial + xi * x[i];
+  }
 }
 
-template<typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
-ElasticBodySplineKernelTransform<TParametersValueType, NDimensions>
-::PrintSelf(std::ostream & os, Indent indent) const
+ElasticBodySplineKernelTransform<TParametersValueType, NDimensions>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "m_Alpha: " << m_Alpha << std::endl;

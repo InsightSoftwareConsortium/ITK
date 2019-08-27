@@ -20,31 +20,32 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-int itkImageFileWriterPastingTest1(int argc, char* argv[])
+int
+itkImageFileWriterPastingTest1(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << argv[0] << " input output" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // We remove the output file
   itksys::SystemTools::RemoveFile(argv[2]);
 
   using PixelType = unsigned char;
-  using ImageType = itk::Image<PixelType,3>;
+  using ImageType = itk::Image<PixelType, 3>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
-  reader->SetUseStreaming( true );
+  reader->SetFileName(argv[1]);
+  reader->SetUseStreaming(true);
 
   ImageType::RegionType region;
-  ImageType::SizeType size;
-  ImageType::SizeType fullsize;
-  ImageType::IndexType index;
+  ImageType::SizeType   size;
+  ImageType::SizeType   fullsize;
+  ImageType::IndexType  index;
 
   unsigned int m_NumberOfPieces = 10;
 
@@ -58,51 +59,51 @@ int itkImageFileWriterPastingTest1(int argc, char* argv[])
   size[1] = fullsize[1];
   size[2] = 0;
 
-  unsigned int zsize = fullsize[2]/m_NumberOfPieces;
+  unsigned int zsize = fullsize[2] / m_NumberOfPieces;
 
   // Setup the writer
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(argv[2]);
 
-  for(unsigned int i=0;i<m_NumberOfPieces;i++)
-    {
-    std::cout << "Reading piece " << i+1 << " of " << m_NumberOfPieces << std::endl;
+  for (unsigned int i = 0; i < m_NumberOfPieces; i++)
+  {
+    std::cout << "Reading piece " << i + 1 << " of " << m_NumberOfPieces << std::endl;
 
     index[2] += size[2];
 
     // At the end we need to adjust the size to make sure
     // we are reading everything
-    if(i == m_NumberOfPieces-1)
-      {
-      size[2] = fullsize[2]-index[2];
-      }
+    if (i == m_NumberOfPieces - 1)
+    {
+      size[2] = fullsize[2] - index[2];
+    }
     else
-      {
+    {
       size[2] = zsize;
-      }
+    }
 
     region.SetIndex(index);
     region.SetSize(size);
 
     // Write the image
-    itk::ImageIORegion  ioregion(3);
-    itk::ImageIORegionAdaptor<ImageType::ImageDimension>::
-      Convert( region, ioregion, reader->GetOutput()->GetLargestPossibleRegion().GetIndex());
+    itk::ImageIORegion ioregion(3);
+    itk::ImageIORegionAdaptor<ImageType::ImageDimension>::Convert(
+      region, ioregion, reader->GetOutput()->GetLargestPossibleRegion().GetIndex());
 
     writer->SetIORegion(ioregion);
     writer->SetInput(reader->GetOutput());
 
     try
-      {
+    {
       writer->Update();
-      }
-    catch( itk::ExceptionObject & err )
-      {
+    }
+    catch (itk::ExceptionObject & err)
+    {
       std::cerr << "ExceptionObject caught !" << std::endl;
       std::cerr << err << std::endl;
       return EXIT_FAILURE;
-      }
-    } // end for pieces
+    }
+  } // end for pieces
 
 
   return EXIT_SUCCESS;

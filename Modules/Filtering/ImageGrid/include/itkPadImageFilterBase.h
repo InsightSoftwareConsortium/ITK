@@ -43,18 +43,17 @@ namespace itk
  *
  * \ingroup ITKImageGrid
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT PadImageFilterBase:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT PadImageFilterBase : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PadImageFilterBase);
 
   /** Standard class type aliases. */
   using Self = PadImageFilterBase;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,7 +75,7 @@ public:
   using SizeValueType = typename TInputImage::SizeValueType;
 
   /** Typedef to describe the boundary condition. */
-  using BoundaryConditionType = ImageBoundaryCondition< TInputImage, TOutputImage >;
+  using BoundaryConditionType = ImageBoundaryCondition<TInputImage, TOutputImage>;
   using BoundaryConditionPointerType = BoundaryConditionType *;
 
   /** Run-time type information (and related methods). */
@@ -92,21 +91,25 @@ public:
 protected:
   PadImageFilterBase();
   ~PadImageFilterBase() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** PadImageFilterBase needs a smaller input requested region than
    * output requested region.  As such, PadImageFilterBase needs to
    * provide an implementation for GenerateInputRequestedRegion() in
    * order to inform the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion()  */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** This class can be multithreaded. */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
   /** Method for subclasses to set the boundary condition. */
-  void InternalSetBoundaryCondition( const BoundaryConditionPointerType boundaryCondition );
+  void
+  InternalSetBoundaryCondition(const BoundaryConditionPointerType boundaryCondition);
 
 private:
   BoundaryConditionPointerType m_BoundaryCondition;
@@ -114,7 +117,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPadImageFilterBase.hxx"
+#  include "itkPadImageFilterBase.hxx"
 #endif
 
 #endif

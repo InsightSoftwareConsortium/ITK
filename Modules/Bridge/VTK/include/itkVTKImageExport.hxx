@@ -38,65 +38,65 @@ namespace itk
  * The constructor records the name of the pixel's scalar type for the
  * image to be sent to vtkImageImport's ScalarTypeCallback.
  */
-template< typename TInputImage >
-VTKImageExport< TInputImage >::VTKImageExport()
+template <typename TInputImage>
+VTKImageExport<TInputImage>::VTKImageExport()
 {
   using PixelType = typename TInputImage::PixelType;
-  using ScalarType = typename PixelTraits< PixelType >::ValueType;
+  using ScalarType = typename PixelTraits<PixelType>::ValueType;
 
-  if ( typeid( ScalarType ) == typeid( double ) )
-    {
+  if (typeid(ScalarType) == typeid(double))
+  {
     m_ScalarTypeName = "double";
-    }
-  else if ( typeid( ScalarType ) == typeid( float ) )
-    {
+  }
+  else if (typeid(ScalarType) == typeid(float))
+  {
     m_ScalarTypeName = "float";
-    }
-  else if ( typeid( ScalarType ) == typeid( long ) )
-    {
+  }
+  else if (typeid(ScalarType) == typeid(long))
+  {
     m_ScalarTypeName = "long";
-    }
-  else if ( typeid( ScalarType ) == typeid( unsigned long ) )
-    {
+  }
+  else if (typeid(ScalarType) == typeid(unsigned long))
+  {
     m_ScalarTypeName = "unsigned long";
-    }
-  else if ( typeid( ScalarType ) == typeid( int ) )
-    {
+  }
+  else if (typeid(ScalarType) == typeid(int))
+  {
     m_ScalarTypeName = "int";
-    }
-  else if ( typeid( ScalarType ) == typeid( unsigned int ) )
-    {
+  }
+  else if (typeid(ScalarType) == typeid(unsigned int))
+  {
     m_ScalarTypeName = "unsigned int";
-    }
-  else if ( typeid( ScalarType ) == typeid( short ) )
-    {
+  }
+  else if (typeid(ScalarType) == typeid(short))
+  {
     m_ScalarTypeName = "short";
-    }
-  else if ( typeid( ScalarType ) == typeid( unsigned short ) )
-    {
+  }
+  else if (typeid(ScalarType) == typeid(unsigned short))
+  {
     m_ScalarTypeName = "unsigned short";
-    }
-  else if ( typeid( ScalarType ) == typeid( char ) )
-    {
+  }
+  else if (typeid(ScalarType) == typeid(char))
+  {
     m_ScalarTypeName = "char";
-    }
-  else if ( typeid( ScalarType ) == typeid( unsigned char ) )
-    {
+  }
+  else if (typeid(ScalarType) == typeid(unsigned char))
+  {
     m_ScalarTypeName = "unsigned char";
-    }
-  else if ( typeid( ScalarType ) == typeid( signed char ) )
-    {
+  }
+  else if (typeid(ScalarType) == typeid(signed char))
+  {
     m_ScalarTypeName = "signed char";
-    }
+  }
   else
-    {
+  {
     itkExceptionMacro(<< "Type currently not supported");
-    }
+  }
 }
 
-template< typename TInputImage >
-void VTKImageExport< TInputImage >::PrintSelf(std::ostream & os,
-                                              Indent indent) const
+template <typename TInputImage>
+void
+VTKImageExport<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
@@ -104,21 +104,21 @@ void VTKImageExport< TInputImage >::PrintSelf(std::ostream & os,
 /**
  * Set the input image for this filter.
  */
-template< typename TInputImage >
-void VTKImageExport< TInputImage >::SetInput(const InputImageType *input)
+template <typename TInputImage>
+void
+VTKImageExport<TInputImage>::SetInput(const InputImageType * input)
 {
-  this->ProcessObject::SetNthInput( 0,
-                                    const_cast< TInputImage * >( input ) );
+  this->ProcessObject::SetNthInput(0, const_cast<TInputImage *>(input));
 }
 
 /**
  * Get the current input image.
  */
-template< typename TInputImage >
-typename VTKImageExport< TInputImage >::InputImageType *
-VTKImageExport< TInputImage >::GetInput()
+template <typename TInputImage>
+typename VTKImageExport<TInputImage>::InputImageType *
+VTKImageExport<TInputImage>::GetInput()
 {
-  return itkDynamicCastInDebugMode< TInputImage * >( this->ProcessObject::GetInput(0) );
+  return itkDynamicCastInDebugMode<TInputImage *>(this->ProcessObject::GetInput(0));
 }
 
 /**
@@ -126,15 +126,16 @@ VTKImageExport< TInputImage >::GetInput()
  * array of six integers describing the VTK-style extent of the image.
  * This corresponds to the ITK image's LargestPossibleRegion.
  */
-template< typename TInputImage >
-int *VTKImageExport< TInputImage >::WholeExtentCallback()
+template <typename TInputImage>
+int *
+VTKImageExport<TInputImage>::WholeExtentCallback()
 {
   InputImagePointer input = this->GetInput();
 
-  if ( !input )
-    {
+  if (!input)
+  {
     itkExceptionMacro(<< "Need to set an input");
-    }
+  }
 
   InputRegionType region = input->GetLargestPossibleRegion();
   InputSizeType   size = region.GetSize();
@@ -142,17 +143,17 @@ int *VTKImageExport< TInputImage >::WholeExtentCallback()
 
   unsigned int i = 0;
   // Fill in the known portion of the extent.
-  for (; i < InputImageDimension; ++i )
-    {
+  for (; i < InputImageDimension; ++i)
+  {
     m_WholeExtent[i * 2] = int(index[i]);
     m_WholeExtent[i * 2 + 1] = int(index[i] + size[i]) - 1;
-    }
+  }
   // Fill in the extent for dimensions up to three.
-  for (; i < 3; ++i )
-    {
+  for (; i < 3; ++i)
+  {
     m_WholeExtent[i * 2] = 0;
     m_WholeExtent[i * 2 + 1] = 0;
-    }
+  }
   return m_WholeExtent;
 }
 
@@ -160,29 +161,30 @@ int *VTKImageExport< TInputImage >::WholeExtentCallback()
  * Implements the SpacingCallback.  This returns a pointer to an array
  * of three floating point values describing the spacing of the image.
  */
-template< typename TInputImage >
-double *VTKImageExport< TInputImage >::SpacingCallback()
+template <typename TInputImage>
+double *
+VTKImageExport<TInputImage>::SpacingCallback()
 {
   InputImagePointer input = this->GetInput();
 
-  if ( !input )
-    {
+  if (!input)
+  {
     itkExceptionMacro(<< "Need to set an input");
-    }
+  }
 
   const typename TInputImage::SpacingType & spacing = input->GetSpacing();
 
   unsigned int i = 0;
   // Fill in the known portion of the spacing.
-  for (; i < InputImageDimension; ++i )
-    {
-    m_DataSpacing[i] = static_cast< double >( spacing[i] );
-    }
+  for (; i < InputImageDimension; ++i)
+  {
+    m_DataSpacing[i] = static_cast<double>(spacing[i]);
+  }
   // Fill up the spacing with defaults up to three dimensions.
-  for (; i < 3; ++i )
-    {
+  for (; i < 3; ++i)
+  {
     m_DataSpacing[i] = 1;
-    }
+  }
   return m_DataSpacing;
 }
 
@@ -190,8 +192,9 @@ double *VTKImageExport< TInputImage >::SpacingCallback()
  * Implements the SpacingCallback.  This returns a pointer to an array
  * of three floating point values describing the spacing of the image.
  */
-template< typename TInputImage >
-float *VTKImageExport< TInputImage >::FloatSpacingCallback()
+template <typename TInputImage>
+float *
+VTKImageExport<TInputImage>::FloatSpacingCallback()
 {
   InputImagePointer input = this->GetInput();
 
@@ -199,15 +202,15 @@ float *VTKImageExport< TInputImage >::FloatSpacingCallback()
 
   unsigned int i = 0;
   // Fill in the known portion of the spacing.
-  for (; i < InputImageDimension; ++i )
-    {
-    m_FloatDataSpacing[i] = static_cast< float >( spacing[i] );
-    }
+  for (; i < InputImageDimension; ++i)
+  {
+    m_FloatDataSpacing[i] = static_cast<float>(spacing[i]);
+  }
   // Fill up the spacing with defaults up to three dimensions.
-  for (; i < 3; ++i )
-    {
+  for (; i < 3; ++i)
+  {
     m_FloatDataSpacing[i] = 1;
-    }
+  }
   return m_FloatDataSpacing;
 }
 
@@ -215,29 +218,30 @@ float *VTKImageExport< TInputImage >::FloatSpacingCallback()
  * Implements the OriginCallback.  This returns a pointer to an array
  * of three floating point values describing the origin of the image.
  */
-template< typename TInputImage >
-double *VTKImageExport< TInputImage >::OriginCallback()
+template <typename TInputImage>
+double *
+VTKImageExport<TInputImage>::OriginCallback()
 {
   InputImagePointer input = this->GetInput();
 
-  if ( !input )
-    {
+  if (!input)
+  {
     itkExceptionMacro(<< "Need to set an input");
-    }
+  }
 
   const typename TInputImage::PointType & origin = input->GetOrigin();
 
   unsigned int i = 0;
   // Fill in the known portion of the origin.
-  for (; i < InputImageDimension; ++i )
-    {
-    m_DataOrigin[i] = static_cast< double >( origin[i] );
-    }
+  for (; i < InputImageDimension; ++i)
+  {
+    m_DataOrigin[i] = static_cast<double>(origin[i]);
+  }
   // Fill up the origin with defaults up to three dimensions.
-  for (; i < 3; ++i )
-    {
+  for (; i < 3; ++i)
+  {
     m_DataOrigin[i] = 0;
-    }
+  }
   return m_DataOrigin;
 }
 
@@ -245,8 +249,9 @@ double *VTKImageExport< TInputImage >::OriginCallback()
  * Implements the OriginCallback.  This returns a pointer to an array
  * of three floating point values describing the origin of the image.
  */
-template< typename TInputImage >
-float *VTKImageExport< TInputImage >::FloatOriginCallback()
+template <typename TInputImage>
+float *
+VTKImageExport<TInputImage>::FloatOriginCallback()
 {
   InputImagePointer input = this->GetInput();
 
@@ -254,15 +259,15 @@ float *VTKImageExport< TInputImage >::FloatOriginCallback()
 
   unsigned int i = 0;
   // Fill in the known portion of the origin.
-  for (; i < InputImageDimension; ++i )
-    {
-    m_FloatDataOrigin[i] = static_cast< float >( origin[i] );
-    }
+  for (; i < InputImageDimension; ++i)
+  {
+    m_FloatDataOrigin[i] = static_cast<float>(origin[i]);
+  }
   // Fill up the origin with defaults up to three dimensions.
-  for (; i < 3; ++i )
-    {
+  for (; i < 3; ++i)
+  {
     m_FloatDataOrigin[i] = 0;
-    }
+  }
   return m_FloatDataOrigin;
 }
 
@@ -270,34 +275,35 @@ float *VTKImageExport< TInputImage >::FloatOriginCallback()
  * Implements the DirectionCallback.  This returns a pointer to an array
  * of nine floating point values describing the direction of the image.
  */
-template< typename TInputImage >
-double *VTKImageExport< TInputImage >::DirectionCallback()
+template <typename TInputImage>
+double *
+VTKImageExport<TInputImage>::DirectionCallback()
 {
   InputImagePointer input = this->GetInput();
 
-  if ( !input )
-    {
+  if (!input)
+  {
     itkExceptionMacro(<< "Need to set an input");
-    }
+  }
 
   const typename TInputImage::DirectionType & direction = input->GetDirection();
 
   // Fill in the direction.
-  for (unsigned int i = 0; i < 3; ++i )
+  for (unsigned int i = 0; i < 3; ++i)
+  {
+    for (unsigned int j = 0; j < 3; ++j)
     {
-    for (unsigned int j = 0; j < 3; ++j )
-      {
       if (i >= InputImageDimension || j >= InputImageDimension)
-        {
+      {
         // Fill up with defaults up to three dimensions.
-        m_DataDirection[i*3+j] = (i == j) ? 1.0 : 0.0;
-        }
+        m_DataDirection[i * 3 + j] = (i == j) ? 1.0 : 0.0;
+      }
       else
-        {
-        m_DataDirection[i*3+j] = static_cast< double >( direction[i][j] );
-        }
+      {
+        m_DataDirection[i * 3 + j] = static_cast<double>(direction[i][j]);
       }
     }
+  }
   return m_DataDirection;
 }
 
@@ -305,8 +311,9 @@ double *VTKImageExport< TInputImage >::DirectionCallback()
  * Implements the ScalarTypeCallback.  This returns the name of the
  * scalar value type of the image.
  */
-template< typename TInputImage >
-const char *VTKImageExport< TInputImage >::ScalarTypeCallback()
+template <typename TInputImage>
+const char *
+VTKImageExport<TInputImage>::ScalarTypeCallback()
 {
   return m_ScalarTypeName.c_str();
 }
@@ -317,11 +324,12 @@ const char *VTKImageExport< TInputImage >::ScalarTypeCallback()
  *
  * Currently, only one pixel component is supported by this class.
  */
-template< typename TInputImage >
-int VTKImageExport< TInputImage >::NumberOfComponentsCallback()
+template <typename TInputImage>
+int
+VTKImageExport<TInputImage>::NumberOfComponentsCallback()
 {
   using PixelType = typename TInputImage::PixelType;
-  return static_cast< int >( NumericTraits< PixelType >::GetLength() );
+  return static_cast<int>(NumericTraits<PixelType>::GetLength());
 }
 
 /**
@@ -330,27 +338,28 @@ int VTKImageExport< TInputImage >::NumberOfComponentsCallback()
  * the input image.  This requested region is then propagated through
  * the ITK pipeline.
  */
-template< typename TInputImage >
-void VTKImageExport< TInputImage >::PropagateUpdateExtentCallback(int *extent)
+template <typename TInputImage>
+void
+VTKImageExport<TInputImage>::PropagateUpdateExtentCallback(int * extent)
 {
   InputSizeType  size;
   InputIndexType index;
 
-  for ( unsigned int i = 0; i < InputImageDimension; ++i )
-    {
+  for (unsigned int i = 0; i < InputImageDimension; ++i)
+  {
     index[i] = extent[i * 2];
-    size[i] = ( extent[i * 2 + 1] - extent[i * 2] ) + 1;
-    }
+    size[i] = (extent[i * 2 + 1] - extent[i * 2]) + 1;
+  }
 
   InputRegionType region;
   region.SetSize(size);
   region.SetIndex(index);
 
   InputImagePointer input = this->GetInput();
-  if ( !input )
-    {
+  if (!input)
+  {
     itkExceptionMacro(<< "Need to set an input");
-    }
+  }
 
   input->SetRequestedRegion(region);
 }
@@ -361,31 +370,32 @@ void VTKImageExport< TInputImage >::PropagateUpdateExtentCallback(int *extent)
  * buffered portion of the image.  This corresponds to the ITK image's
  * BufferedRegion.
  */
-template< typename TInputImage >
-int *VTKImageExport< TInputImage >::DataExtentCallback()
+template <typename TInputImage>
+int *
+VTKImageExport<TInputImage>::DataExtentCallback()
 {
   InputImagePointer input = this->GetInput();
 
-  if ( !input )
-    {
+  if (!input)
+  {
     itkExceptionMacro(<< "Need to set an input");
-    }
+  }
 
   InputRegionType region = input->GetBufferedRegion();
   InputSizeType   size = region.GetSize();
   InputIndexType  index = region.GetIndex();
 
   unsigned int i = 0;
-  for (; i < InputImageDimension; ++i )
-    {
+  for (; i < InputImageDimension; ++i)
+  {
     m_DataExtent[i * 2] = int(index[i]);
     m_DataExtent[i * 2 + 1] = int(index[i] + size[i]) - 1;
-    }
-  for (; i < 3; ++i )
-    {
+  }
+  for (; i < 3; ++i)
+  {
     m_DataExtent[i * 2] = 0;
     m_DataExtent[i * 2 + 1] = 0;
-    }
+  }
   return m_DataExtent;
 }
 
@@ -393,15 +403,16 @@ int *VTKImageExport< TInputImage >::DataExtentCallback()
  * Implements the BufferPointerCallback.  This returns a pointer to
  * the image's memory buffer.
  */
-template< typename TInputImage >
-void *VTKImageExport< TInputImage >::BufferPointerCallback()
+template <typename TInputImage>
+void *
+VTKImageExport<TInputImage>::BufferPointerCallback()
 {
   InputImagePointer input = this->GetInput();
 
-  if ( !input )
-    {
+  if (!input)
+  {
     itkExceptionMacro(<< "Need to set an input");
-    }
+  }
 
   return input->GetBufferPointer();
 }

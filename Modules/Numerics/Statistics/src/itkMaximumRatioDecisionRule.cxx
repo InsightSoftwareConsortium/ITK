@@ -22,92 +22,89 @@ namespace itk
 {
 namespace Statistics
 {
-MaximumRatioDecisionRule
-::MaximumRatioDecisionRule() = default;
+MaximumRatioDecisionRule ::MaximumRatioDecisionRule() = default;
 
 void
-MaximumRatioDecisionRule
-::PrintSelf(std::ostream & os, Indent indent) const
+MaximumRatioDecisionRule ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << "Prior probabilities: ";
   PriorProbabilityVectorType::size_type N = 10;
   if (m_PriorProbabilities.size() < N)
-    {
+  {
     N = m_PriorProbabilities.size();
-    }
+  }
   os << "[" << std::endl;
   for (PriorProbabilityVectorType::size_type i = 0; i < N; ++i)
-    {
+  {
     os << m_PriorProbabilities[i];
-    if (i+1 < N)
-      {
-      os << ", ";
-      }
-    }
-  if (!m_PriorProbabilities.empty() && m_PriorProbabilities.size() < N)
+    if (i + 1 < N)
     {
-    os << ", ...";
+      os << ", ";
     }
+  }
+  if (!m_PriorProbabilities.empty() && m_PriorProbabilities.size() < N)
+  {
+    os << ", ...";
+  }
   os << "]" << std::endl;
 }
 
 void
-MaximumRatioDecisionRule
-::SetPriorProbabilities(const PriorProbabilityVectorType& p)
+MaximumRatioDecisionRule ::SetPriorProbabilities(const PriorProbabilityVectorType & p)
 {
   if (p.size() != m_PriorProbabilities.size())
-    {
+  {
     m_PriorProbabilities = p;
     this->Modified();
-    }
+  }
   else
-    {
+  {
     PriorProbabilityVectorType::const_iterator pit, it;
 
-    for (pit = p.begin(), it = m_PriorProbabilities.begin();
-         pit != p.end(); ++pit, ++it)
+    for (pit = p.begin(), it = m_PriorProbabilities.begin(); pit != p.end(); ++pit, ++it)
+    {
+      if (fabs(*pit - *it) > itk::Math::eps)
       {
-      if ( fabs( *pit - *it ) > itk::Math::eps )
-        {
         break;
-        }
-      }
-    if (pit != p.end())
-      {
-      m_PriorProbabilities = p;
-      this->Modified();
       }
     }
+    if (pit != p.end())
+    {
+      m_PriorProbabilities = p;
+      this->Modified();
+    }
+  }
 }
 
 MaximumRatioDecisionRule::ClassIdentifierType
-MaximumRatioDecisionRule
-::Evaluate(const MembershipVectorType & discriminantScores) const
+MaximumRatioDecisionRule ::Evaluate(const MembershipVectorType & discriminantScores) const
 {
   bool uniformPrior = false;
   if (discriminantScores.size() != m_PriorProbabilities.size())
-    {
-    itkWarningMacro("Size mismatch between discriminant scores (" << discriminantScores.size() << ") and priors (" << m_PriorProbabilities.size() << "). Reverting to a uniform prior.");
+  {
+    itkWarningMacro("Size mismatch between discriminant scores (" << discriminantScores.size() << ") and priors ("
+                                                                  << m_PriorProbabilities.size()
+                                                                  << "). Reverting to a uniform prior.");
     uniformPrior = true;
-    }
+  }
 
   if (uniformPrior)
-    {
+  {
     // find the maximum discriminant score. if list is empty, return 0.
     ClassIdentifierType i, besti = 0;
     MembershipValueType best = NumericTraits<MembershipValueType>::NonpositiveMin();
-    for (i=0; i < discriminantScores.size(); ++i)
-      {
+    for (i = 0; i < discriminantScores.size(); ++i)
+    {
       if (discriminantScores[i] > best)
-        {
+      {
         best = discriminantScores[i];
         besti = i;
-        }
       }
-    return besti;
     }
+    return besti;
+  }
 
   // Non-uniform prior case
   // find the maximum p(x|i)*p(i)
@@ -115,16 +112,16 @@ MaximumRatioDecisionRule
   MembershipValueType best = NumericTraits<MembershipValueType>::NonpositiveMin();
   MembershipValueType temp = NumericTraits<MembershipValueType>::NonpositiveMin();
 
-  for (i=0; i < discriminantScores.size(); ++i)
-    {
+  for (i = 0; i < discriminantScores.size(); ++i)
+  {
     temp = discriminantScores[i] * m_PriorProbabilities[i];
     if (temp > best)
-      {
+    {
       best = temp;
       besti = i;
-      }
     }
+  }
   return besti;
 }
-} // end of Statistics namespace
-} // end of ITK namespace
+} // namespace Statistics
+} // namespace itk

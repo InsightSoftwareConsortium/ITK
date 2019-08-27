@@ -24,9 +24,8 @@ namespace itk
 {
 namespace Statistics
 {
-template< typename TImage >
-JointDomainImageToListSampleAdaptor< TImage >
-::JointDomainImageToListSampleAdaptor()
+template <typename TImage>
+JointDomainImageToListSampleAdaptor<TImage>::JointDomainImageToListSampleAdaptor()
 {
   m_NormalizationFactors.Fill(1.0f);
   m_Image = nullptr;
@@ -34,130 +33,118 @@ JointDomainImageToListSampleAdaptor< TImage >
 }
 
 /** returns the number of measurement vectors in this container*/
-template< typename TImage >
-typename JointDomainImageToListSampleAdaptor< TImage >::InstanceIdentifier
-JointDomainImageToListSampleAdaptor< TImage >
-::Size() const
+template <typename TImage>
+typename JointDomainImageToListSampleAdaptor<TImage>::InstanceIdentifier
+JointDomainImageToListSampleAdaptor<TImage>::Size() const
 {
-  if ( m_Image.IsNull() )
-    {
+  if (m_Image.IsNull())
+  {
     itkExceptionMacro("Image has not been set yet");
-    }
+  }
 
   return m_Image->GetPixelContainer()->Size();
 }
 
-template< typename TImage >
-inline typename JointDomainImageToListSampleAdaptor< TImage >::AbsoluteFrequencyType
-JointDomainImageToListSampleAdaptor< TImage >
-::GetFrequency(InstanceIdentifier) const
+template <typename TImage>
+inline typename JointDomainImageToListSampleAdaptor<TImage>::AbsoluteFrequencyType
+  JointDomainImageToListSampleAdaptor<TImage>::GetFrequency(InstanceIdentifier) const
 {
-  if ( m_Image.IsNull() )
-    {
+  if (m_Image.IsNull())
+  {
     itkExceptionMacro("Image has not been set yet");
-    }
+  }
 
-  return NumericTraits< AbsoluteFrequencyType >::OneValue();
+  return NumericTraits<AbsoluteFrequencyType>::OneValue();
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-JointDomainImageToListSampleAdaptor< TImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+JointDomainImageToListSampleAdaptor<TImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Image: ";
-  if ( m_Image.IsNotNull() )
-    {
+  if (m_Image.IsNotNull())
+  {
     os << m_Image << std::endl;
-    }
+  }
   else
-    {
+  {
     os << "not set." << std::endl;
-    }
-  os << indent << "UsePixelContainer: "
-     << this->GetUsePixelContainer() << std::endl;
+  }
+  os << indent << "UsePixelContainer: " << this->GetUsePixelContainer() << std::endl;
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-JointDomainImageToListSampleAdaptor< TImage >
-::SetImage(const TImage *image)
+JointDomainImageToListSampleAdaptor<TImage>::SetImage(const TImage * image)
 {
   m_Image = image;
   m_PixelContainer = image->GetPixelContainer();
   this->Modified();
 }
 
-template< typename TImage >
+template <typename TImage>
 const TImage *
-JointDomainImageToListSampleAdaptor< TImage >
-::GetImage() const
+JointDomainImageToListSampleAdaptor<TImage>::GetImage() const
 {
-  if ( m_Image.IsNull() )
-    {
+  if (m_Image.IsNull())
+  {
     itkExceptionMacro("Image has not been set yet");
-    }
+  }
 
   return m_Image.GetPointer();
 }
 
-template< typename TImage >
-typename JointDomainImageToListSampleAdaptor< TImage >::TotalAbsoluteFrequencyType
-JointDomainImageToListSampleAdaptor< TImage >
-::GetTotalFrequency() const
+template <typename TImage>
+typename JointDomainImageToListSampleAdaptor<TImage>::TotalAbsoluteFrequencyType
+JointDomainImageToListSampleAdaptor<TImage>::GetTotalFrequency() const
 {
-  if ( m_Image.IsNull() )
-    {
+  if (m_Image.IsNull())
+  {
     itkExceptionMacro("Image has not been set yet");
-    }
+  }
 
   return this->Size();
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-JointDomainImageToListSampleAdaptor< TImage >
-::SetNormalizationFactors(NormalizationFactorsType & factors)
+JointDomainImageToListSampleAdaptor<TImage>::SetNormalizationFactors(NormalizationFactorsType & factors)
 {
-  if ( m_NormalizationFactors != factors )
-    {
+  if (m_NormalizationFactors != factors)
+  {
     m_NormalizationFactors = factors;
     this->Modified();
-    }
+  }
 }
 
-template< typename TImage >
-const typename JointDomainImageToListSampleAdaptor< TImage >::MeasurementVectorType &
-JointDomainImageToListSampleAdaptor< TImage >
-::GetMeasurementVector(InstanceIdentifier id) const
+template <typename TImage>
+const typename JointDomainImageToListSampleAdaptor<TImage>::MeasurementVectorType &
+JointDomainImageToListSampleAdaptor<TImage>::GetMeasurementVector(InstanceIdentifier id) const
 {
   m_TempIndex = this->GetImage()->ComputeIndex(id);
 
   this->GetImage()->TransformIndexToPhysicalPoint(m_TempIndex, m_TempPoint);
 
-  for ( unsigned int i = 0; i < TImage::ImageDimension; ++i )
-    {
+  for (unsigned int i = 0; i < TImage::ImageDimension; ++i)
+  {
     m_TempVector[i] = m_TempPoint[i] / m_NormalizationFactors[i];
-    }
+  }
 
-  if ( m_UsePixelContainer )
-    {
-    MeasurementVectorTraits::Assign(m_TempRangeVector,
-                                    ( *m_PixelContainer )[id]);
-    }
+  if (m_UsePixelContainer)
+  {
+    MeasurementVectorTraits::Assign(m_TempRangeVector, (*m_PixelContainer)[id]);
+  }
   else
-    {
-    MeasurementVectorTraits::Assign( m_TempRangeVector,
-                                     m_Image->GetPixel( m_Image->ComputeIndex(id) ) );
-    }
+  {
+    MeasurementVectorTraits::Assign(m_TempRangeVector, m_Image->GetPixel(m_Image->ComputeIndex(id)));
+  }
 
-  for ( unsigned int i = TImage::ImageDimension; i < MeasurementVectorType::Length; ++i )
-    {
-    m_TempVector[i] = m_TempRangeVector[i - TImage::ImageDimension]
-                      / m_NormalizationFactors[i];
-    }
+  for (unsigned int i = TImage::ImageDimension; i < MeasurementVectorType::Length; ++i)
+  {
+    m_TempVector[i] = m_TempRangeVector[i - TImage::ImageDimension] / m_NormalizationFactors[i];
+  }
 
   return m_TempVector;
 }

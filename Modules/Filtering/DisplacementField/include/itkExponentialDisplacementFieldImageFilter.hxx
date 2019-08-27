@@ -27,9 +27,8 @@ namespace itk
 /**
  * Initialize new instance
  */
-template< typename TInputImage, typename TOutputImage >
-ExponentialDisplacementFieldImageFilter< TInputImage, TOutputImage >
-::ExponentialDisplacementFieldImageFilter()
+template <typename TInputImage, typename TOutputImage>
+ExponentialDisplacementFieldImageFilter<TInputImage, TOutputImage>::ExponentialDisplacementFieldImageFilter()
 {
   m_AutomaticNumberOfIterations = true;
   m_MaximumNumberOfIterations = 20;
@@ -38,8 +37,7 @@ ExponentialDisplacementFieldImageFilter< TInputImage, TOutputImage >
   m_Caster = CasterType::New();
   m_Warper = VectorWarperType::New();
 
-  FieldInterpolatorPointer VectorInterpolator =
-    FieldInterpolatorType::New();
+  FieldInterpolatorPointer VectorInterpolator = FieldInterpolatorType::New();
   m_Warper->SetInterpolator(VectorInterpolator);
 
   m_Adder = AdderType::New();
@@ -51,28 +49,23 @@ ExponentialDisplacementFieldImageFilter< TInputImage, TOutputImage >
  *
  * \todo Add details about this class
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ExponentialDisplacementFieldImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+ExponentialDisplacementFieldImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "AutomaticNumberOfIterations: "
-     << m_AutomaticNumberOfIterations << std::endl;
-  os << indent << "MaximumNumberOfIterations:   "
-     << m_MaximumNumberOfIterations << std::endl;
-  os << indent << "ComputeInverse:   "
-     << ( m_ComputeInverse ? "On" : "Off" ) << std::endl;
+  os << indent << "AutomaticNumberOfIterations: " << m_AutomaticNumberOfIterations << std::endl;
+  os << indent << "MaximumNumberOfIterations:   " << m_MaximumNumberOfIterations << std::endl;
+  os << indent << "ComputeInverse:   " << (m_ComputeInverse ? "On" : "Off") << std::endl;
 }
 
 /**
  * GenerateData
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ExponentialDisplacementFieldImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+ExponentialDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   itkDebugMacro(<< "Actually executing");
 
@@ -80,8 +73,8 @@ ExponentialDisplacementFieldImageFilter< TInputImage, TOutputImage >
 
   unsigned int numiter = 0;
 
-  if ( m_AutomaticNumberOfIterations )
-    {
+  if (m_AutomaticNumberOfIterations)
+  {
     // Compute a good number of iterations based on the rationale
     // that the initial first order approximation,
     // exp(Phi/2^N) = Phi/2^N,
@@ -91,112 +84,110 @@ ExponentialDisplacementFieldImageFilter< TInputImage, TOutputImage >
     InputPixelRealValueType maxnorm2 = 0.0;
 
     double minpixelspacing = inputPtr->GetSpacing()[0];
-    for ( unsigned int i = 1; i < Self::ImageDimension; ++i )
+    for (unsigned int i = 1; i < Self::ImageDimension; ++i)
+    {
+      if (inputPtr->GetSpacing()[i] < minpixelspacing)
       {
-      if ( inputPtr->GetSpacing()[i] < minpixelspacing )
-        {
         minpixelspacing = inputPtr->GetSpacing()[i];
-        }
       }
+    }
 
-    using InputConstIterator = ImageRegionConstIterator< InputImageType >;
-    InputConstIterator InputIt = InputConstIterator(
-      inputPtr, inputPtr->GetRequestedRegion() );
+    using InputConstIterator = ImageRegionConstIterator<InputImageType>;
+    InputConstIterator InputIt = InputConstIterator(inputPtr, inputPtr->GetRequestedRegion());
 
-    for ( InputIt.GoToBegin(); !InputIt.IsAtEnd(); ++InputIt )
-      {
+    for (InputIt.GoToBegin(); !InputIt.IsAtEnd(); ++InputIt)
+    {
       InputPixelRealValueType norm2 = InputIt.Get().GetSquaredNorm();
-      if ( norm2 > maxnorm2 ) { maxnorm2 = norm2; }
+      if (norm2 > maxnorm2)
+      {
+        maxnorm2 = norm2;
       }
+    }
 
     // Divide the norm by the minimum pixel spacing
     maxnorm2 /= itk::Math::sqr(minpixelspacing);
 
     // Protect against maxnorm2 being zero.
-    InputPixelRealValueType numiterfloat = ( maxnorm2 > 0 ) ?
-      2.0 + 0.5 * std::log(maxnorm2) / itk::Math::ln2 :
-      itk::NumericTraits<InputPixelRealValueType>::min();
+    InputPixelRealValueType numiterfloat = (maxnorm2 > 0) ? 2.0 + 0.5 * std::log(maxnorm2) / itk::Math::ln2
+                                                          : itk::NumericTraits<InputPixelRealValueType>::min();
 
-    if ( numiterfloat >= 0.0 )
-      {
-      // take the ceil and threshold
-      numiter = std::min(
-        static_cast< unsigned int >( numiterfloat + 1.0 ),
-        m_MaximumNumberOfIterations);
-      }
-    else
-      {
-      // numiter will keep the zero to which it was initialized
-      }
-    }
-  else
+    if (numiterfloat >= 0.0)
     {
-    numiter = m_MaximumNumberOfIterations;
+      // take the ceil and threshold
+      numiter = std::min(static_cast<unsigned int>(numiterfloat + 1.0), m_MaximumNumberOfIterations);
     }
+    else
+    {
+      // numiter will keep the zero to which it was initialized
+    }
+  }
+  else
+  {
+    numiter = m_MaximumNumberOfIterations;
+  }
 
   ProgressReporter progress(this, 0, numiter + 1, numiter + 1);
 
-  if ( numiter == 0 )
+  if (numiter == 0)
+  {
+    if (!this->m_ComputeInverse)
     {
-    if ( !this->m_ComputeInverse )
-      {
       m_Caster->SetInput(inputPtr);
-      m_Caster->GraftOutput( this->GetOutput() );
+      m_Caster->GraftOutput(this->GetOutput());
       m_Caster->Update();
       // Region passing stuff
-      this->GraftOutput( m_Caster->GetOutput() );
-      }
+      this->GraftOutput(m_Caster->GetOutput());
+    }
     else
-      {
+    {
       // We only need the opposite. Here we use the
       // divider for simplicity. If a filter appears in ITK
       // to compute the opposite, we should use it.
       m_Divider->SetInput(inputPtr);
-      m_Divider->SetInput2( static_cast< InputPixelRealValueType >( -1 ) );
-      m_Divider->GraftOutput( this->GetOutput() );
+      m_Divider->SetInput2(static_cast<InputPixelRealValueType>(-1));
+      m_Divider->GraftOutput(this->GetOutput());
       m_Divider->Update();
       // Region passing stuff
-      this->GraftOutput( m_Divider->GetOutput() );
-      }
+      this->GraftOutput(m_Divider->GetOutput());
+    }
 
     this->GetOutput()->Modified();
 
     progress.CompletedPixel();
     return;
-    }
+  }
 
   // Get the first order approximation (division by 2^numiter)
   m_Divider->SetInput(inputPtr);
-  m_Divider->GraftOutput( this->GetOutput() );
-  if ( !this->m_ComputeInverse )
-    {
-    m_Divider->SetInput2( static_cast< InputPixelRealValueType >( 1 << numiter ) );
-    }
+  m_Divider->GraftOutput(this->GetOutput());
+  if (!this->m_ComputeInverse)
+  {
+    m_Divider->SetInput2(static_cast<InputPixelRealValueType>(1 << numiter));
+  }
   else
-    {
-    m_Divider->SetInput2( -static_cast< InputPixelRealValueType >( 1 << numiter ) );
-    }
+  {
+    m_Divider->SetInput2(-static_cast<InputPixelRealValueType>(1 << numiter));
+  }
 
   m_Divider->Update();
 
   // Region passing stuff
-  this->GraftOutput( m_Divider->GetOutput() );
+  this->GraftOutput(m_Divider->GetOutput());
   this->GetOutput()->Modified();
 
   progress.CompletedPixel();
 
   // Do the iterative composition of the vector field
-  m_Warper->SetOutputOrigin( inputPtr->GetOrigin() );
-  m_Warper->SetOutputSpacing( inputPtr->GetSpacing() );
-  m_Warper->SetOutputDirection( inputPtr->GetDirection() );
+  m_Warper->SetOutputOrigin(inputPtr->GetOrigin());
+  m_Warper->SetOutputSpacing(inputPtr->GetSpacing());
+  m_Warper->SetOutputDirection(inputPtr->GetDirection());
 
-  for ( unsigned int i = 0; i < numiter; i++ )
-    {
-    m_Warper->SetInput( this->GetOutput() );
-    m_Warper->SetDisplacementField( this->GetOutput() );
+  for (unsigned int i = 0; i < numiter; i++)
+  {
+    m_Warper->SetInput(this->GetOutput());
+    m_Warper->SetDisplacementField(this->GetOutput());
 
-    m_Warper->GetOutput()->SetRequestedRegion(
-      this->GetOutput()->GetRequestedRegion() );
+    m_Warper->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
 
     m_Warper->Update();
 
@@ -204,23 +195,22 @@ ExponentialDisplacementFieldImageFilter< TInputImage, TOutputImage >
     warpedIm->DisconnectPipeline();
 
     // Remember we chose to use an inplace adder
-    m_Adder->SetInput1( this->GetOutput() );
+    m_Adder->SetInput1(this->GetOutput());
 
     m_Adder->SetInput2(warpedIm);
-    m_Adder->GetOutput()->SetRequestedRegion(
-      this->GetOutput()->GetRequestedRegion() );
+    m_Adder->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
 
     m_Adder->Update();
 
     // Region passing stuff
-    this->GraftOutput( m_Adder->GetOutput() );
+    this->GraftOutput(m_Adder->GetOutput());
 
     // Make a call to modified. This seems only necessary for
     // a non-inplace adder but it doesn't hurt anyhow.
     this->GetOutput()->Modified();
 
     progress.CompletedPixel();
-    }
+  }
 }
 } // end namespace itk
 

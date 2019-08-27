@@ -22,17 +22,18 @@
 #include "itkRegularSphereMeshSource.h"
 
 
-int itkPointSetToSpatialObjectDemonsRegistrationTest(int, char* [] )
+int
+itkPointSetToSpatialObjectDemonsRegistrationTest(int, char *[])
 {
   constexpr unsigned int Dimension = 3;
 
-  using EllipseType = itk::EllipseSpatialObject< Dimension >;
+  using EllipseType = itk::EllipseSpatialObject<Dimension>;
 
   // Create a ellipse.
   EllipseType::Pointer ellipse = EllipseType::New();
 
   // Set the radius
-  ellipse->SetRadiusInObjectSpace( 50 );
+  ellipse->SetRadiusInObjectSpace(50);
 
   // Set its position
   EllipseType::TransformType::OffsetType offset;
@@ -42,7 +43,7 @@ int itkPointSetToSpatialObjectDemonsRegistrationTest(int, char* [] )
 
   ellipse->Update();
 
-  using PointSetType = itk::Mesh< float, Dimension >;
+  using PointSetType = itk::Mesh<float, Dimension>;
 
   using SphereType = itk::RegularSphereMeshSource<PointSetType>;
 
@@ -51,28 +52,25 @@ int itkPointSetToSpatialObjectDemonsRegistrationTest(int, char* [] )
   sphereSource->Update();
 
 
-  using DemonsRegistrationType = itk::PointSetToSpatialObjectDemonsRegistration<
-                                      PointSetType,
-                                      EllipseType>;
+  using DemonsRegistrationType = itk::PointSetToSpatialObjectDemonsRegistration<PointSetType, EllipseType>;
 
-  DemonsRegistrationType::Pointer  demonsRegistration = DemonsRegistrationType::New();
+  DemonsRegistrationType::Pointer demonsRegistration = DemonsRegistrationType::New();
 
-  demonsRegistration->SetFixedPointSet( sphereSource->GetOutput() );
-  demonsRegistration->SetMovingSpatialObject( ellipse );
+  demonsRegistration->SetFixedPointSet(sphereSource->GetOutput());
+  demonsRegistration->SetMovingSpatialObject(ellipse);
 
 
   try
-    {
+  {
     demonsRegistration->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown during the registration process" << std::endl;
     std::cerr << excp << std::endl;
-    }
+  }
 
 
-  std::cout<<"Test Succeed!"<<std::endl;
+  std::cout << "Test Succeed!" << std::endl;
   return EXIT_SUCCESS;
-
 }

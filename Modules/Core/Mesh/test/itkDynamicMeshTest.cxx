@@ -29,13 +29,9 @@
  * Define a mesh type that stores a PixelType of "int".  Use the defaults
  * for the other template parameters.
  */
-using MeshTraits = itk::DefaultDynamicMeshTraits<
-                          int, 2, 2, float, float >;
+using MeshTraits = itk::DefaultDynamicMeshTraits<int, 2, 2, float, float>;
 
-using MeshType = itk::Mesh< MeshTraits::PixelType,
-                   MeshTraits::PointDimension,
-                   MeshTraits
-                   >;
+using MeshType = itk::Mesh<MeshTraits::PixelType, MeshTraits::PointDimension, MeshTraits>;
 
 
 using CellTraits = MeshType::CellTraits;
@@ -60,7 +56,8 @@ using PointDataContainer = MeshType::PointDataContainer;
 using PointsIterator = PointsContainer::Iterator;
 using CellsIterator = PointDataContainer::Iterator;
 
-int itkDynamicMeshTest(int, char* [] )
+int
+itkDynamicMeshTest(int, char *[])
 {
 
   /**
@@ -78,31 +75,30 @@ int itkDynamicMeshTest(int, char* [] )
   displacement[0] = 2;
   displacement[1] = 5;
 
-  pointA.Fill( 0.0 );
+  pointA.Fill(0.0);
   pointB = pointA + displacement;
   pointC = pointB + displacement;
   pointD = pointC + displacement;
 
   PointsContainer::Pointer pointsContainter = mesh->GetPoints();
 
-  pointsContainter->SetElement( 0, pointA );
-  pointsContainter->SetElement( 1, pointB );
-  pointsContainter->SetElement( 2, pointC );
-  pointsContainter->SetElement( 3, pointD );
+  pointsContainter->SetElement(0, pointA);
+  pointsContainter->SetElement(1, pointB);
+  pointsContainter->SetElement(2, pointC);
+  pointsContainter->SetElement(3, pointD);
 
 
   std::cout << "Number of Points = " << mesh->GetNumberOfPoints() << std::endl;
 
-  PointsIterator point    = pointsContainter->Begin();
+  PointsIterator point = pointsContainter->Begin();
   PointsIterator endpoint = pointsContainter->End();
 
-  while( point != endpoint )
-    {
+  while (point != endpoint)
+  {
     std::cout << point.Index() << " = " << point.Value() << std::endl;
     point++;
-    }
+  }
 
 
   return EXIT_SUCCESS;
-
 }

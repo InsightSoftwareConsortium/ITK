@@ -26,27 +26,24 @@ namespace itk
 /**
  * Constructor
  */
-template< typename TInputImage, typename TOutputImage >
-CurvatureFlowImageFilter< TInputImage, TOutputImage >
-::CurvatureFlowImageFilter()
+template <typename TInputImage, typename TOutputImage>
+CurvatureFlowImageFilter<TInputImage, TOutputImage>::CurvatureFlowImageFilter()
 {
   this->SetNumberOfIterations(0);
-  m_TimeStep   = 0.05f;
+  m_TimeStep = 0.05f;
 
   typename CurvatureFlowFunctionType::Pointer cffp;
   cffp = CurvatureFlowFunctionType::New();
 
-  this->SetDifferenceFunction( static_cast< FiniteDifferenceFunctionType * >(
-                                 cffp.GetPointer() ) );
+  this->SetDifferenceFunction(static_cast<FiniteDifferenceFunctionType *>(cffp.GetPointer()));
 }
 
 /**
  * Standard PrintSelf method.
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-CurvatureFlowImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+CurvatureFlowImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Time step: " << m_TimeStep;
@@ -56,18 +53,17 @@ CurvatureFlowImageFilter< TInputImage, TOutputImage >
 /**
  * Initialize the state of filter and equation before each iteration.
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-CurvatureFlowImageFilter< TInputImage, TOutputImage >
-::InitializeIteration()
+CurvatureFlowImageFilter<TInputImage, TOutputImage>::InitializeIteration()
 {
   // update variables in the equation object
-  auto * f = dynamic_cast< CurvatureFlowFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
+  auto * f = dynamic_cast<CurvatureFlowFunctionType *>(this->GetDifferenceFunction().GetPointer());
 
-  if ( !f )
-    {
+  if (!f)
+  {
     itkExceptionMacro(<< "DifferenceFunction not of type CurvatureFlowFunction");
-    }
+  }
 
   f->SetTimeStep(m_TimeStep);
 
@@ -75,81 +71,72 @@ CurvatureFlowImageFilter< TInputImage, TOutputImage >
   this->Superclass::InitializeIteration();
 
   // progress feedback
-  if ( this->GetNumberOfIterations() != 0 )
-    {
-    this->UpdateProgress( ( (float)( this->GetElapsedIterations() ) )
-                          / ( (float)( this->GetNumberOfIterations() ) ) );
-    }
+  if (this->GetNumberOfIterations() != 0)
+  {
+    this->UpdateProgress(((float)(this->GetElapsedIterations())) / ((float)(this->GetNumberOfIterations())));
+  }
 }
 
 /**
  * GenerateInputRequestedRegion
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-CurvatureFlowImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+CurvatureFlowImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass's implementation
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  typename Superclass::InputImagePointer inputPtr  =
-    const_cast< InputImageType * >( this->GetInput() );
-  OutputImagePointer outputPtr = this->GetOutput();
+  typename Superclass::InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());
+  OutputImagePointer                     outputPtr = this->GetOutput();
 
-  if ( !inputPtr || !outputPtr )
-    {
+  if (!inputPtr || !outputPtr)
+  {
     return;
-    }
+  }
 
   // set the input requested region to be the same as
   // the output requested region
-  inputPtr->SetRequestedRegion(
-    outputPtr->GetRequestedRegion() );
+  inputPtr->SetRequestedRegion(outputPtr->GetRequestedRegion());
 }
 
 /**
  * EnlargeOutputRequestedRegion
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-CurvatureFlowImageFilter< TInputImage, TOutputImage >
-::EnlargeOutputRequestedRegion(
-  DataObject *ptr)
+CurvatureFlowImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * ptr)
 {
   // convert DataObject pointer to OutputImageType pointer
-  OutputImageType *outputPtr;
+  OutputImageType * outputPtr;
 
-  outputPtr = dynamic_cast< OutputImageType * >( ptr );
+  outputPtr = dynamic_cast<OutputImageType *>(ptr);
 
   // get input image pointer
-  typename Superclass::InputImagePointer inputPtr  =
-    const_cast< InputImageType * >( this->GetInput() );
-  if ( !inputPtr || !outputPtr )
-    {
+  typename Superclass::InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());
+  if (!inputPtr || !outputPtr)
+  {
     return;
-    }
+  }
 
   // Get the size of the neighborhood on which we are going to operate.  This
   // radius is supplied by the difference function we are using.
-  typename FiniteDifferenceFunctionType::RadiusType radius =
-    this->GetDifferenceFunction()->GetRadius();
+  typename FiniteDifferenceFunctionType::RadiusType radius = this->GetDifferenceFunction()->GetRadius();
 
-  for ( unsigned int j = 0; j < ImageDimension; j++ )
-    {
+  for (unsigned int j = 0; j < ImageDimension; j++)
+  {
     radius[j] *= this->GetNumberOfIterations();
-    }
+  }
 
   /**
    * NewOutputRequestedRegion = OldOutputRequestedRegion +
    * radius * m_NumberOfIterations padding on each edge
    */
-  typename OutputImageType::RegionType outputRequestedRegion =
-    outputPtr->GetRequestedRegion();
+  typename OutputImageType::RegionType outputRequestedRegion = outputPtr->GetRequestedRegion();
 
   outputRequestedRegion.PadByRadius(radius);
-  outputRequestedRegion.Crop( outputPtr->GetLargestPossibleRegion() );
+  outputRequestedRegion.Crop(outputPtr->GetLargestPossibleRegion());
 
   outputPtr->SetRequestedRegion(outputRequestedRegion);
 }

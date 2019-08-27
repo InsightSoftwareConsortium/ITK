@@ -56,20 +56,17 @@ namespace itk
  *
  * \ingroup ITKFastMarching
  */
-template<
-  typename TLevelSet,
-  typename TSpeedImage = Image< float,  TLevelSet ::ImageDimension > >
-class ITK_TEMPLATE_EXPORT FastMarchingUpwindGradientImageFilter:
-  public FastMarchingImageFilter< TLevelSet, TSpeedImage >
+template <typename TLevelSet, typename TSpeedImage = Image<float, TLevelSet ::ImageDimension>>
+class ITK_TEMPLATE_EXPORT FastMarchingUpwindGradientImageFilter : public FastMarchingImageFilter<TLevelSet, TSpeedImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingUpwindGradientImageFilter);
 
   /** Standard class typdedefs. */
   using Self = FastMarchingUpwindGradientImageFilter;
-  using Superclass = FastMarchingImageFilter< TLevelSet, TSpeedImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = FastMarchingImageFilter<TLevelSet, TSpeedImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -102,34 +99,42 @@ public:
   /** Set the container of Target Points.
    * If a target point is reached, the propagation stops.
    * Trial points are represented as a VectorContainer of LevelSetNodes. */
-  void SetTargetPoints(NodeContainer *points)
+  void
+  SetTargetPoints(NodeContainer * points)
   {
     m_TargetPoints = points;
     this->Modified();
   }
 
   /** Get the container of Target Points. */
-  NodeContainerPointer GetTargetPoints()
-  { return m_TargetPoints; }
+  NodeContainerPointer
+  GetTargetPoints()
+  {
+    return m_TargetPoints;
+  }
 
   /** Get the container of Reached Target Points. */
-  NodeContainerPointer GetReachedTargetPoints()
-  { return m_ReachedTargetPoints; }
+  NodeContainerPointer
+  GetReachedTargetPoints()
+  {
+    return m_ReachedTargetPoints;
+  }
 
   /** GradientPixel type alias support */
-  using GradientPixelType = CovariantVector< PixelType,
-                           Self::SetDimension >;
+  using GradientPixelType = CovariantVector<PixelType, Self::SetDimension>;
 
   /** GradientImage type alias support */
-  using GradientImageType = Image< GradientPixelType,
-                 Self::SetDimension >;
+  using GradientImageType = Image<GradientPixelType, Self::SetDimension>;
 
   /** GradientImagePointer type alias support */
   using GradientImagePointer = typename GradientImageType::Pointer;
 
   /** Get the gradient image. */
-  GradientImagePointer GetGradientImage() const
-  { return m_GradientImage; }
+  GradientImagePointer
+  GetGradientImage() const
+  {
+    return m_GradientImage;
+  }
 
   /** Set the GenerateGradientImage flag. Instrument the algorithm to generate
    * the gradient of the Eikonal equation solution while fast marching. */
@@ -151,18 +156,28 @@ public:
    */
   itkSetMacro(TargetReachedMode, int);
   itkGetConstReferenceMacro(TargetReachedMode, int);
-  void SetTargetReachedModeToNoTargets()
-  { this->SetTargetReachedMode(NoTargets); }
-  void SetTargetReachedModeToOneTarget()
-  { this->SetTargetReachedMode(OneTarget); }
-  void SetTargetReachedModeToSomeTargets(SizeValueType numberOfTargets)
+  void
+  SetTargetReachedModeToNoTargets()
+  {
+    this->SetTargetReachedMode(NoTargets);
+  }
+  void
+  SetTargetReachedModeToOneTarget()
+  {
+    this->SetTargetReachedMode(OneTarget);
+  }
+  void
+  SetTargetReachedModeToSomeTargets(SizeValueType numberOfTargets)
   {
     this->SetTargetReachedMode(SomeTargets);
     m_NumberOfTargets = numberOfTargets;
   }
 
-  void SetTargetReachedModeToAllTargets()
-  { this->SetTargetReachedMode(AllTargets); }
+  void
+  SetTargetReachedModeToAllTargets()
+  {
+    this->SetTargetReachedMode(AllTargets);
+  }
 
   /** Get the number of targets. */
   itkGetConstReferenceMacro(NumberOfTargets, SizeValueType);
@@ -173,38 +188,43 @@ public:
    */
   itkGetConstReferenceMacro(TargetValue, double);
 
-  enum {
+  enum
+  {
     NoTargets,
     OneTarget,
     SomeTargets,
     AllTargets
-    };
+  };
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( LevelSetDoubleDivisionOperatorsCheck,
-                   ( Concept::DivisionOperators< typename TLevelSet::PixelType, double > ) );
-  itkConceptMacro( LevelSetDoubleDivisionAndAssignOperatorsCheck,
-                   ( Concept::DivisionAndAssignOperators< typename TLevelSet::PixelType, double > ) );
+  itkConceptMacro(LevelSetDoubleDivisionOperatorsCheck,
+                  (Concept::DivisionOperators<typename TLevelSet::PixelType, double>));
+  itkConceptMacro(LevelSetDoubleDivisionAndAssignOperatorsCheck,
+                  (Concept::DivisionAndAssignOperators<typename TLevelSet::PixelType, double>));
   // End concept checking
 #endif
 
 protected:
   FastMarchingUpwindGradientImageFilter();
   ~FastMarchingUpwindGradientImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void Initialize(LevelSetImageType *) override;
+  void
+  Initialize(LevelSetImageType *) override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void UpdateNeighbors(const IndexType & index,
-                               const SpeedImageType *, LevelSetImageType *) override;
+  void
+  UpdateNeighbors(const IndexType & index, const SpeedImageType *, LevelSetImageType *) override;
 
-  virtual void ComputeGradient(const IndexType & index,
-                               const LevelSetImageType *output,
-                               const LabelImageType *labelImage,
-                               GradientImageType *gradientImage);
+  virtual void
+  ComputeGradient(const IndexType &         index,
+                  const LevelSetImageType * output,
+                  const LabelImageType *    labelImage,
+                  GradientImageType *       gradientImage);
 
 private:
   NodeContainerPointer m_TargetPoints;
@@ -225,7 +245,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFastMarchingUpwindGradientImageFilter.hxx"
+#  include "itkFastMarchingUpwindGradientImageFilter.hxx"
 #endif
 
 #endif

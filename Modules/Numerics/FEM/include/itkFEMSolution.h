@@ -38,7 +38,6 @@ namespace fem
 class ITKFEM_EXPORT Solution
 {
 public:
-
   /** Standard "Self" type alias. */
   using Self = Solution;
   /** Standard "Superclass" type alias. */
@@ -64,7 +63,8 @@ public:
    * \note If the solution vector doesn't exist (problem was not yet solved),
    *       or the index i is out of range, the function returns 0.0.
    */
-  virtual Float GetSolutionValue(unsigned int i, unsigned int solutionIndex = 0) const = 0;
+  virtual Float
+  GetSolutionValue(unsigned int i, unsigned int solutionIndex = 0) const = 0;
 
   /**
    * Virtual destructor should properly destroy the object and clean up any

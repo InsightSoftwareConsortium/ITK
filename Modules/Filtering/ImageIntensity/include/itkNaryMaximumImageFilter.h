@@ -30,41 +30,44 @@ namespace Functor
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 class Maximum1
 {
 public:
-  using OutputValueType = typename NumericTraits< TOutput >::ValueType;
+  using OutputValueType = typename NumericTraits<TOutput>::ValueType;
   // not sure if this type alias really makes things more clear... could just use
   // TOutput?
 
   Maximum1() = default;
   ~Maximum1() = default;
-  inline TOutput operator()(const std::vector< TInput > & B) const
+  inline TOutput
+  operator()(const std::vector<TInput> & B) const
   {
-    OutputValueType A = NumericTraits< TOutput >::NonpositiveMin();
+    OutputValueType A = NumericTraits<TOutput>::NonpositiveMin();
 
-    for ( unsigned int i = 0; i < B.size(); i++ )
+    for (unsigned int i = 0; i < B.size(); i++)
+    {
+      if (A < static_cast<OutputValueType>(B[i]))
       {
-      if ( A < static_cast< OutputValueType >( B[i] ) )
-        {
-        A = static_cast< OutputValueType >( B[i] );
-        }
+        A = static_cast<OutputValueType>(B[i]);
       }
+    }
     return A;
   }
 
-  bool operator==(const Maximum1 &) const
+  bool
+  operator==(const Maximum1 &) const
   {
     return true;
   }
 
-  bool operator!=(const Maximum1 &) const
+  bool
+  operator!=(const Maximum1 &) const
   {
     return false;
   }
 };
-}
+} // namespace Functor
 
 /** \class NaryMaximumImageFilter
  * \brief Computes the pixel-wise maximum of several images.
@@ -101,42 +104,37 @@ public:
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  */
-template< typename TInputImage, typename TOutputImage >
-class NaryMaximumImageFilter:
-  public
-  NaryFunctorImageFilter< TInputImage, TOutputImage,
-                          Functor::Maximum1<  typename TInputImage::PixelType,
-                                              typename TInputImage::PixelType > >
+template <typename TInputImage, typename TOutputImage>
+class NaryMaximumImageFilter
+  : public NaryFunctorImageFilter<TInputImage,
+                                  TOutputImage,
+                                  Functor::Maximum1<typename TInputImage::PixelType, typename TInputImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(NaryMaximumImageFilter);
 
   /** Standard class type aliases. */
   using Self = NaryMaximumImageFilter;
-  using Superclass = NaryFunctorImageFilter<
-    TInputImage, TOutputImage,
-    Functor::Maximum1< typename TInputImage::PixelType,
-                       typename TInputImage::PixelType > >;
+  using Superclass =
+    NaryFunctorImageFilter<TInputImage,
+                           TOutputImage,
+                           Functor::Maximum1<typename TInputImage::PixelType, typename TInputImage::PixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(NaryMaximumImageFilter,
-               NaryFunctorImageFilter);
+  itkTypeMacro(NaryMaximumImageFilter, NaryFunctorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< typename TInputImage::PixelType,
-                                           typename TOutputImage::PixelType > ) );
-  itkConceptMacro( InputLessThanComparableCheck,
-                   ( Concept::LessThanComparable< typename TInputImage::PixelType > ) );
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TInputImage::PixelType > ) );
+  itkConceptMacro(InputConvertibleToOutputCheck,
+                  (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));
+  itkConceptMacro(InputLessThanComparableCheck, (Concept::LessThanComparable<typename TInputImage::PixelType>));
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TInputImage::PixelType>));
   // End concept checking
 #endif
 

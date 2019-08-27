@@ -42,44 +42,44 @@
 #include "itkVTKPolyDataMeshIOFactory.h"
 
 #ifdef __EMSCRIPTEN__
-#include <emscripten.h>
+#  include <emscripten.h>
 #endif
 
 void
 RegisterRequiredFactories()
 {
   // ImageIO
-  itk::ObjectFactoryBase::RegisterFactory( itk::MetaImageIOFactory::New() );
-  itk::ObjectFactoryBase::RegisterFactory( itk::GDCMImageIOFactory::New() );
-  itk::ObjectFactoryBase::RegisterFactory( itk::JPEGImageIOFactory::New() );
-  itk::ObjectFactoryBase::RegisterFactory( itk::VTKImageIOFactory::New() );
-  itk::ObjectFactoryBase::RegisterFactory( itk::PNGImageIOFactory::New() );
-  itk::ObjectFactoryBase::RegisterFactory( itk::TIFFImageIOFactory::New() );
-  itk::ObjectFactoryBase::RegisterFactory( itk::BMPImageIOFactory::New() );
-  itk::ObjectFactoryBase::RegisterFactory( itk::NrrdImageIOFactory::New() );
-  itk::ObjectFactoryBase::RegisterFactory( itk::GiplImageIOFactory::New() );
-  itk::ObjectFactoryBase::RegisterFactory( itk::NiftiImageIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory(itk::MetaImageIOFactory::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::GDCMImageIOFactory::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::JPEGImageIOFactory::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::VTKImageIOFactory::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::PNGImageIOFactory::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::TIFFImageIOFactory::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::BMPImageIOFactory::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::NrrdImageIOFactory::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::GiplImageIOFactory::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::NiftiImageIOFactory::New());
 
   // MeshIO
-  itk::ObjectFactoryBase::RegisterFactory( itk::BYUMeshIOFactory::New() );
-  itk::ObjectFactoryBase::RegisterFactory( itk::FreeSurferAsciiMeshIOFactory::New() );
-  itk::ObjectFactoryBase::RegisterFactory( itk::FreeSurferBinaryMeshIOFactory::New() );
-  itk::ObjectFactoryBase::RegisterFactory( itk::GiftiMeshIOFactory::New() );
-  itk::ObjectFactoryBase::RegisterFactory( itk::OBJMeshIOFactory::New() );
-  itk::ObjectFactoryBase::RegisterFactory( itk::OFFMeshIOFactory::New() );
-  itk::ObjectFactoryBase::RegisterFactory( itk::VTKPolyDataMeshIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory(itk::BYUMeshIOFactory::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::FreeSurferAsciiMeshIOFactory::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::FreeSurferBinaryMeshIOFactory::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::GiftiMeshIOFactory::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::OBJMeshIOFactory::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::OFFMeshIOFactory::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::VTKPolyDataMeshIOFactory::New());
 }
 
 void
-ProcessArgumentsAndRegisterRequiredFactories(int *ac, ArgumentStringType *av)
+ProcessArgumentsAndRegisterRequiredFactories(int * ac, ArgumentStringType * av)
 {
   try
-    {
+  {
     RegisterRequiredFactories();
-    }
-  catch( itk::ExceptionObject & error )
-    {
+  }
+  catch (itk::ExceptionObject & error)
+  {
     std::cerr << "Error during registration of required factories: " << error << std::endl;
-    }
-  ProcessArguments( ac, av );
+  }
+  ProcessArguments(ac, av);
 }

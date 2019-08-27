@@ -21,40 +21,41 @@
 
 #include "itkPhilipsRECImageIOFactory.h"
 
-int itkPhilipsRECImageIOTest( int argc, char * argv [] )
+int
+itkPhilipsRECImageIOTest(int argc, char * argv[])
 {
 
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << argv[0] << " InputImage OutputImage" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using PixelType = unsigned short;
-  using ImageType = itk::Image< PixelType, 2 >;
+  using ImageType = itk::Image<PixelType, 2>;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
   itk::PhilipsRECImageIOFactory::RegisterOneFactory();
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
-  writer->SetInput( reader->GetOutput() );
+  writer->SetInput(reader->GetOutput());
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

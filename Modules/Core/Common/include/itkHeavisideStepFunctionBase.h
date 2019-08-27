@@ -50,42 +50,44 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< typename TInput = float, typename TOutput = double >
-class HeavisideStepFunctionBase:public FunctionBase< TInput, TOutput >
+template <typename TInput = float, typename TOutput = double>
+class HeavisideStepFunctionBase : public FunctionBase<TInput, TOutput>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(HeavisideStepFunctionBase);
 
   using Self = HeavisideStepFunctionBase;
-  using Superclass = FunctionBase< TInput, TOutput >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = FunctionBase<TInput, TOutput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information */
-  itkTypeMacro ( HeavisideStepFunctionBase, FunctionBase );
+  itkTypeMacro(HeavisideStepFunctionBase, FunctionBase);
 
 
   using InputType = typename Superclass::InputType;
   using OutputType = typename Superclass::OutputType;
 
   /** Evaluate at the specified input position */
-  OutputType Evaluate(const InputType & input) const override = 0;
+  OutputType
+  Evaluate(const InputType & input) const override = 0;
 
   /** Evaluate the derivative at the specified input position */
-  virtual OutputType EvaluateDerivative(const InputType & input) const = 0;
+  virtual OutputType
+  EvaluateDerivative(const InputType & input) const = 0;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  itkConceptMacro( DoubleConvertibleToInputCheck,
-                 ( Concept::Convertible< double, TInput > ) );
+  itkConceptMacro(DoubleConvertibleToInputCheck, (Concept::Convertible<double, TInput>));
 
-  itkConceptMacro( DoubleConvertibleToOutputCheck,
-                 ( Concept::Convertible< double, TOutput > ) );
+  itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, TOutput>));
 #endif // ITK_USE_CONCEPT_CHECKING
 
 protected:
-  HeavisideStepFunctionBase() : Superclass() {}
+  HeavisideStepFunctionBase()
+    : Superclass()
+  {}
   ~HeavisideStepFunctionBase() override = default;
 };
-}
+} // namespace itk
 
 #endif

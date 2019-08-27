@@ -30,32 +30,34 @@ namespace Functor
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1 >
+template <typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1>
 class Pow
 {
 public:
-
   Pow() = default;
-  bool operator!=(const Pow &) const
+  bool
+  operator!=(const Pow &) const
   {
     // we contain no data, so we are always the same
     return false;
   }
 
-  bool operator==(const Pow & other) const
+  bool
+  operator==(const Pow & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
+  inline TOutput
+  operator()(const TInput1 & A, const TInput2 & B) const
   {
 
-    using RealType1 = typename NumericTraits< TInput1 >::RealType;
-    using RealType2 = typename NumericTraits< TInput2 >::RealType;
-    return static_cast< TOutput >( std::pow(static_cast<RealType1>(A),static_cast<RealType2>(B)) );
+    using RealType1 = typename NumericTraits<TInput1>::RealType;
+    using RealType2 = typename NumericTraits<TInput2>::RealType;
+    return static_cast<TOutput>(std::pow(static_cast<RealType1>(A), static_cast<RealType2>(B)));
   }
 };
-}
+} // namespace Functor
 
 /** \class PowImageFilter
  * \brief Computes the powers of 2 images
@@ -89,10 +91,8 @@ public:
  * \ingroup ITKImageIntensity
  *
  */
-template< typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1 >
-class PowImageFilter:
-  public
-  BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
+template <typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1>
+class PowImageFilter : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
 
 {
 public:
@@ -100,20 +100,18 @@ public:
 
   /** Standard class type aliases. */
   using Self = PowImageFilter;
-  using Superclass = BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >;
+  using Superclass = BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using FunctorType = Functor::Pow< typename TInputImage1::PixelType,
-                                    typename TInputImage2::PixelType,
-                                    typename TOutputImage::PixelType >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using FunctorType =
+    Functor::Pow<typename TInputImage1::PixelType, typename TInputImage2::PixelType, typename TOutputImage::PixelType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(PowImageFilter,
-               BinaryGeneratorImageFilter);
+  itkTypeMacro(PowImageFilter, BinaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -122,11 +120,11 @@ public:
 
 protected:
   PowImageFilter()
-    {
-#if !defined( ITK_WRAPPING_PARSER )
-      Superclass::SetFunctor(FunctorType());
+  {
+#if !defined(ITK_WRAPPING_PARSER)
+    Superclass::SetFunctor(FunctorType());
 #endif
-    }
+  }
 
   ~PowImageFilter() override = default;
 };

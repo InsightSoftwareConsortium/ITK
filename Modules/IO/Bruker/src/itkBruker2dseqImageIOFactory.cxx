@@ -20,23 +20,23 @@
 #include "itkVersion.h"
 
 /*
-* \author Don C. Bigler
-*         The Pennsylvania State University 2005
-*
-* This implementation was contributed as a paper to the Insight Journal
-* http://insight-journal.org/midas/handle.php?handle=1926/1381
-*
-*/
+ * \author Don C. Bigler
+ *         The Pennsylvania State University 2005
+ *
+ * This implementation was contributed as a paper to the Insight Journal
+ * http://insight-journal.org/midas/handle.php?handle=1926/1381
+ *
+ */
 
 namespace itk
 {
 Bruker2dseqImageIOFactory::Bruker2dseqImageIOFactory()
 {
-  this->RegisterOverride( "itkImageIOBase",
-                          "itkBruker2dseqImageIO",
-                          "Bruker2dseq Image IO",
-                          true,
-                          CreateObjectFunction< Bruker2dseqImageIO >::New() );
+  this->RegisterOverride("itkImageIOBase",
+                         "itkBruker2dseqImageIO",
+                         "Bruker2dseq Image IO",
+                         true,
+                         CreateObjectFunction<Bruker2dseqImageIO>::New());
 }
 
 Bruker2dseqImageIOFactory::~Bruker2dseqImageIOFactory() = default;
@@ -59,12 +59,13 @@ Bruker2dseqImageIOFactory::GetDescription() const
 
 static bool Bruker2dseqImageIOFactoryHasBeenRegistered;
 
-void ITKIOBruker_EXPORT Bruker2dseqImageIOFactoryRegister__Private()
+void ITKIOBruker_EXPORT
+     Bruker2dseqImageIOFactoryRegister__Private()
 {
-  if( ! Bruker2dseqImageIOFactoryHasBeenRegistered )
-    {
+  if (!Bruker2dseqImageIOFactoryHasBeenRegistered)
+  {
     Bruker2dseqImageIOFactoryHasBeenRegistered = true;
     Bruker2dseqImageIOFactory::RegisterOneFactory();
-    }
+  }
 }
 } // end namespace itk

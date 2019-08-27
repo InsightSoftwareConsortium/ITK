@@ -56,13 +56,14 @@
 // Software Guide : BeginLatex
 // Software Guide : EndLatex
 
-int main( int argc, char* argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "Usage: " << argv[0] << " DicomFile [user defined dict]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Software Guide : BeginLatex
   //
@@ -75,17 +76,18 @@ int main( int argc, char* argv[] )
   using PixelType = signed short;
   constexpr unsigned int Dimension = 2;
 
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
 
-  if( argc == 3 )
-    {
+  if (argc == 3)
+  {
     // Specify a path where XML dicts can be found (Part 3/4 & 6)
-    gdcm::Global::GetInstance().Prepend( itksys::SystemTools::GetFilenamePath(argv[2]).c_str() );
+    gdcm::Global::GetInstance().Prepend(
+      itksys::SystemTools::GetFilenamePath(argv[2]).c_str());
     // Load them !
     gdcm::Global::GetInstance().LoadResourcesFiles();
-    }
+  }
 
   // Software Guide : BeginLatex
   //
@@ -95,7 +97,7 @@ int main( int argc, char* argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   // Software Guide : EndCodeSnippet
@@ -120,8 +122,8 @@ int main( int argc, char* argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  reader->SetFileName( argv[1] );
-  reader->SetImageIO( dicomIO );
+  reader->SetFileName(argv[1]);
+  reader->SetImageIO(dicomIO);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -133,16 +135,16 @@ int main( int argc, char* argv[] )
   // Software Guide : EndLatex
 
   try
-    {
+  {
     // Software Guide : BeginCodeSnippet
     reader->Update();
     // Software Guide : EndCodeSnippet
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Software Guide : BeginLatex
   //
@@ -158,7 +160,7 @@ int main( int argc, char* argv[] )
   // Software Guide : BeginCodeSnippet
   using DictionaryType = itk::MetaDataDictionary;
 
-  const  DictionaryType & dictionary = dicomIO->GetMetaDataDictionary();
+  const DictionaryType & dictionary = dicomIO->GetMetaDataDictionary();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -169,7 +171,7 @@ int main( int argc, char* argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using MetaDataStringType = itk::MetaDataObject< std::string >;
+  using MetaDataStringType = itk::MetaDataObject<std::string>;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -192,12 +194,12 @@ int main( int argc, char* argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  while( itr != end )
-    {
-    itk::MetaDataObjectBase::Pointer  entry = itr->second;
+  while (itr != end)
+  {
+    itk::MetaDataObjectBase::Pointer entry = itr->second;
 
     MetaDataStringType::Pointer entryvalue =
-      dynamic_cast<MetaDataStringType *>( entry.GetPointer() );
+      dynamic_cast<MetaDataStringType *>(entry.GetPointer());
     // Software Guide : EndCodeSnippet
 
 
@@ -215,11 +217,11 @@ int main( int argc, char* argv[] )
     // Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    if( entryvalue )
-      {
-      std::string tagkey   = itr->first;
+    if (entryvalue)
+    {
+      std::string tagkey = itr->first;
       std::string labelId;
-      bool found =  itk::GDCMImageIO::GetLabelFromTag( tagkey, labelId );
+      bool        found = itk::GDCMImageIO::GetLabelFromTag(tagkey, labelId);
       // Software Guide : EndCodeSnippet
 
       // Software Guide : BeginLatex
@@ -243,18 +245,19 @@ int main( int argc, char* argv[] )
       // Software Guide : EndLatex
 
       // Software Guide : BeginCodeSnippet
-      if( found )
-        {
+      if (found)
+      {
         std::cout << "(" << tagkey << ") " << labelId;
         std::cout << " = " << tagvalue.c_str() << std::endl;
-        }
+      }
       // Software Guide : EndCodeSnippet
       else
-        {
-        std::cout << "(" << tagkey <<  ") " << "Unknown";
+      {
+        std::cout << "(" << tagkey << ") "
+                  << "Unknown";
         std::cout << " = " << tagvalue.c_str() << std::endl;
-        }
       }
+    }
 
     // Software Guide : BeginLatex
     //
@@ -265,7 +268,7 @@ int main( int argc, char* argv[] )
 
     // Software Guide : BeginCodeSnippet
     ++itr;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -277,7 +280,7 @@ int main( int argc, char* argv[] )
 
   // Software Guide : BeginCodeSnippet
   std::string entryId = "0010|0010";
-    auto tagItr = dictionary.Find( entryId );
+  auto        tagItr = dictionary.Find(entryId);
   // Software Guide : EndCodeSnippet
   // Software Guide : BeginLatex
   //
@@ -287,11 +290,10 @@ int main( int argc, char* argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  if( tagItr != end )
-    {
+  if (tagItr != end)
+  {
     MetaDataStringType::ConstPointer entryvalue =
-     dynamic_cast<const MetaDataStringType *>(
-                                 tagItr->second.GetPointer() );
+      dynamic_cast<const MetaDataStringType *>(tagItr->second.GetPointer());
     // Software Guide : EndCodeSnippet
 
 
@@ -303,14 +305,14 @@ int main( int argc, char* argv[] )
     // Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    if( entryvalue )
-      {
+    if (entryvalue)
+    {
       std::string tagvalue = entryvalue->GetMetaDataObjectValue();
-      std::cout << "Patient's Name (" << entryId <<  ") ";
+      std::cout << "Patient's Name (" << entryId << ") ";
       std::cout << " is: " << tagvalue.c_str() << std::endl;
-      }
-    // Software Guide : EndCodeSnippet
     }
+    // Software Guide : EndCodeSnippet
+  }
 
   // Software Guide : BeginLatex
   //
@@ -323,24 +325,24 @@ int main( int argc, char* argv[] )
   // Software Guide : BeginCodeSnippet
   std::string tagkey = "0008|1050";
   std::string labelId;
-  if( itk::GDCMImageIO::GetLabelFromTag( tagkey, labelId ) )
-    {
+  if (itk::GDCMImageIO::GetLabelFromTag(tagkey, labelId))
+  {
     std::string value;
     std::cout << labelId << " (" << tagkey << "): ";
-    if( dicomIO->GetValueFromTag(tagkey, value) )
-      {
-      std::cout << value;
-      }
-    else
-      {
-      std::cout << "(No Value Found in File)";
-      }
-    std::cout << std::endl;
-    }
-  else
+    if (dicomIO->GetValueFromTag(tagkey, value))
     {
-    std::cerr << "Trying to access inexistant DICOM tag." << std::endl;
+      std::cout << value;
     }
+    else
+    {
+      std::cout << "(No Value Found in File)";
+    }
+    std::cout << std::endl;
+  }
+  else
+  {
+    std::cerr << "Trying to access inexistant DICOM tag." << std::endl;
+  }
   // Software Guide : EndCodeSnippet
 
 
@@ -361,14 +363,14 @@ int main( int argc, char* argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  itk::ImageIOBase::IOPixelType pixelType
-                                       = reader->GetImageIO()->GetPixelType();
-  itk::ImageIOBase::IOComponentType componentType
-                                   = reader->GetImageIO()->GetComponentType();
-  std::cout << "PixelType: " << reader->GetImageIO()
-                               ->GetPixelTypeAsString(pixelType) << std::endl;
-  std::cout << "Component Type: " << reader->GetImageIO()
-                       ->GetComponentTypeAsString(componentType) << std::endl;
+  itk::ImageIOBase::IOPixelType     pixelType = reader->GetImageIO()->GetPixelType();
+  itk::ImageIOBase::IOComponentType componentType =
+    reader->GetImageIO()->GetComponentType();
+  std::cout << "PixelType: " << reader->GetImageIO()->GetPixelTypeAsString(pixelType)
+            << std::endl;
+  std::cout << "Component Type: "
+            << reader->GetImageIO()->GetComponentTypeAsString(componentType)
+            << std::endl;
   // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;

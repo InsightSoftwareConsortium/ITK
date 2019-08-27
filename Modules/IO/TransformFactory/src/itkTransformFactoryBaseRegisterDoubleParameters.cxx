@@ -20,7 +20,8 @@
 namespace itk
 {
 
-void TransformFactoryBase::RegisterTransformFactoryDoubleParameters()
+void
+TransformFactoryBase::RegisterTransformFactoryDoubleParameters()
 {
   //
   // double Parameters

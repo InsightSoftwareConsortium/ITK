@@ -26,51 +26,46 @@ namespace itk
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
-template< typename TImage >
-ImageIterator< TImage >
-::ImageIterator(const Self & it):
-  ImageConstIterator< TImage >(it)
+template <typename TImage>
+ImageIterator<TImage>::ImageIterator(const Self & it)
+  : ImageConstIterator<TImage>(it)
 {}
 
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
-template< typename TImage >
-ImageIterator< TImage >
-::ImageIterator(TImage *ptr, const RegionType & region):
-  ImageConstIterator< TImage >(ptr, region)
+template <typename TImage>
+ImageIterator<TImage>::ImageIterator(TImage * ptr, const RegionType & region)
+  : ImageConstIterator<TImage>(ptr, region)
 {}
 
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
-template< typename TImage >
-ImageIterator< TImage >
-::ImageIterator(const ImageConstIterator< TImage > & it):
-  ImageConstIterator< TImage >(it)
+template <typename TImage>
+ImageIterator<TImage>::ImageIterator(const ImageConstIterator<TImage> & it)
+  : ImageConstIterator<TImage>(it)
 {}
 
 //----------------------------------------------------------------------
 //    Assignment Operator
 //----------------------------------------------------------------------
-template< typename TImage >
-ImageIterator< TImage > &
-ImageIterator< TImage >
-::operator=(const ImageConstIterator< TImage > & it)
+template <typename TImage>
+ImageIterator<TImage> &
+ImageIterator<TImage>::operator=(const ImageConstIterator<TImage> & it)
 {
-  this->ImageConstIterator< TImage >::operator=(it);
+  this->ImageConstIterator<TImage>::operator=(it);
   return *this;
 }
 
 //----------------------------------------------------------------------
 //    Assignment Operator
 //----------------------------------------------------------------------
-template< typename TImage >
-ImageIterator< TImage > &
-ImageIterator< TImage >
-::operator=(const Self & it)
+template <typename TImage>
+ImageIterator<TImage> &
+ImageIterator<TImage>::operator=(const Self & it)
 {
-  this->ImageConstIterator< TImage >::operator=(it);
+  this->ImageConstIterator<TImage>::operator=(it);
   return *this;
 }
 

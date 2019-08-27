@@ -53,19 +53,17 @@ namespace itk
  * \ingroup LabeledImageFilters
  * \ingroup ITKLabelMap
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT LabelMapFilter:
-  public
-  ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT LabelMapFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = LabelMapFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(LabelMapFilter, ImageToImageFilter);
@@ -94,36 +92,44 @@ public:
   /** LabelMapFilter requires the entire input to be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** LabelMapFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) ) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
 protected:
   LabelMapFilter();
   ~LabelMapFilter() override = default;
 
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
-  void AfterThreadedGenerateData() override;
+  void
+  AfterThreadedGenerateData() override;
 
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
-  //derived classes call this as inherited so we must delegate to DynamicThreadedGenerateData
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType) override
+  // derived classes call this as inherited so we must delegate to DynamicThreadedGenerateData
+  void
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType) override
   {
     Self::DynamicThreadedGenerateData(outputRegionForThread);
   }
 
-  virtual void ThreadedProcessLabelObject(LabelObjectType *labelObject);
+  virtual void
+  ThreadedProcessLabelObject(LabelObjectType * labelObject);
 
   /**
    * Return the label collection image to use. This method may be overloaded
    * if the label collection image to use is not the input image.
    */
-  virtual InputImageType * GetLabelMap()
+  virtual InputImageType *
+  GetLabelMap()
   {
-    return static_cast< InputImageType * >( const_cast< DataObject * >( this->ProcessObject::GetInput(0) ) );
+    return static_cast<InputImageType *>(const_cast<DataObject *>(this->ProcessObject::GetInput(0)));
   }
 
   std::mutex m_LabelObjectContainerLock;
@@ -136,7 +142,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelMapFilter.hxx"
+#  include "itkLabelMapFilter.hxx"
 #endif
 
 #endif

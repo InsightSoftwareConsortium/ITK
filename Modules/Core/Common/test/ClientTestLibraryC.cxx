@@ -24,21 +24,22 @@
 namespace
 {
 
-template< typename TDerived >
+template <typename TDerived>
 int
-dynamic_castDownCast( const char * type, const char * instanceSource, itk::Object const * base )
+dynamic_castDownCast(const char * type, const char * instanceSource, itk::Object const * base)
 {
   using DerivedType = TDerived;
 
-  constexpr static int passed  = 0;
-  constexpr static int failed  = 1;
+  constexpr static int passed = 0;
+  constexpr static int failed = 1;
 
-  DerivedType const * derived = dynamic_cast< DerivedType const * >( base );
-  if( derived != nullptr )
-    {
-    std::cout << type << " cast in library C      for an instance from " << instanceSource << "\tsucceeded." << std::endl;
+  DerivedType const * derived = dynamic_cast<DerivedType const *>(base);
+  if (derived != nullptr)
+  {
+    std::cout << type << " cast in library C      for an instance from " << instanceSource << "\tsucceeded."
+              << std::endl;
     return passed;
-    }
+  }
   std::cerr << type << " cast in library C      for an instance from " << instanceSource << "\tfailed!" << std::endl;
   return failed;
 }
@@ -48,40 +49,37 @@ dynamic_castDownCast( const char * type, const char * instanceSource, itk::Objec
 namespace LibraryC
 {
 
-ITKObjectProducer
-::ITKObjectProducer()
+ITKObjectProducer ::ITKObjectProducer()
 {
   m_EquivalencyTable = itk::EquivalencyTable::New();
-  using ImageType = itk::Image< float, 3 >;
+  using ImageType = itk::Image<float, 3>;
   m_Image = ImageType::New();
 }
 
 itk::Object *
-ITKObjectProducer
-::EquivalencyTable()
+ITKObjectProducer ::EquivalencyTable()
 {
   return m_EquivalencyTable.GetPointer();
 }
 
 itk::Object *
-ITKObjectProducer
-::Image()
+ITKObjectProducer ::Image()
 {
   return m_Image.GetPointer();
 }
 
 int
-dynamic_castDownCastEquivalencyTable( const char * type, const char * instanceSource, itk::Object const * base )
+dynamic_castDownCastEquivalencyTable(const char * type, const char * instanceSource, itk::Object const * base)
 {
   using EquivalencyTableType = itk::EquivalencyTable;
-  return dynamic_castDownCast< EquivalencyTableType >( type, instanceSource, base );
+  return dynamic_castDownCast<EquivalencyTableType>(type, instanceSource, base);
 }
 
 int
-dynamic_castDownCastImage( const char * type, const char * instanceSource, itk::Object const * base )
+dynamic_castDownCastImage(const char * type, const char * instanceSource, itk::Object const * base)
 {
-  using ImageType = itk::Image< float, 3 >;
-  return dynamic_castDownCast< ImageType >( type, instanceSource, base );
+  using ImageType = itk::Image<float, 3>;
+  return dynamic_castDownCast<ImageType>(type, instanceSource, base);
 }
 
 } // end namespace LibraryC

@@ -26,41 +26,38 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TOutputImage >
-LabelMapToLabelImageFilter< TInputImage, TOutputImage >
-::LabelMapToLabelImageFilter()
+template <typename TInputImage, typename TOutputImage>
+LabelMapToLabelImageFilter<TInputImage, TOutputImage>::LabelMapToLabelImageFilter()
 {
   m_OutputImage = nullptr;
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelMapToLabelImageFilter< TInputImage, TOutputImage >
-::BeforeThreadedGenerateData()
+LabelMapToLabelImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  OutputImageType * output = this->GetOutput();
-  const InputImageType *input = this->GetInput();
+  OutputImageType *      output = this->GetOutput();
+  const InputImageType * input = this->GetInput();
 
-  output->FillBuffer( input->GetBackgroundValue() );
+  output->FillBuffer(input->GetBackgroundValue());
   Superclass::BeforeThreadedGenerateData();
   this->m_OutputImage = this->GetOutput();
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelMapToLabelImageFilter< TInputImage, TOutputImage >
-::ThreadedProcessLabelObject(LabelObjectType *labelObject)
+LabelMapToLabelImageFilter<TInputImage, TOutputImage>::ThreadedProcessLabelObject(LabelObjectType * labelObject)
 {
-  const typename LabelObjectType::LabelType & label = labelObject->GetLabel();
-  typename LabelObjectType::ConstIndexIterator it( labelObject );
+  const typename LabelObjectType::LabelType &  label = labelObject->GetLabel();
+  typename LabelObjectType::ConstIndexIterator it(labelObject);
 
-  while( !it.IsAtEnd() )
-    {
-    this->m_OutputImage->SetPixel( it.GetIndex(), label );
+  while (!it.IsAtEnd())
+  {
+    this->m_OutputImage->SetPixel(it.GetIndex(), label);
     ++it;
-    }
+  }
 }
 
 } // end namespace itk

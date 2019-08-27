@@ -46,16 +46,15 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< typename TSample >
-class ITK_TEMPLATE_EXPORT GaussianMixtureModelComponent:
-  public MixtureModelComponentBase< TSample >
+template <typename TSample>
+class ITK_TEMPLATE_EXPORT GaussianMixtureModelComponent : public MixtureModelComponentBase<TSample>
 {
 public:
   /**Standard class type aliases. */
   using Self = GaussianMixtureModelComponent;
-  using Superclass = MixtureModelComponentBase< TSample >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MixtureModelComponentBase<TSample>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /**Standard Macros */
   itkTypeMacro(GaussianMixtureModelComponent, MixtureModelComponentBase);
@@ -73,8 +72,8 @@ public:
 
   /** Types of the mean and the covariance calculator that will update
    *  this component's distribution parameters */
-  using MeanEstimatorType = WeightedMeanSampleFilter< TSample >;
-  using CovarianceEstimatorType = WeightedCovarianceSampleFilter< TSample >;
+  using MeanEstimatorType = WeightedMeanSampleFilter<TSample>;
+  using CovarianceEstimatorType = WeightedCovarianceSampleFilter<TSample>;
 
   /** Type of the mean vector */
   using MeanVectorType = typename MeanEstimatorType::OutputType;
@@ -83,22 +82,27 @@ public:
   using CovarianceMatrixType = typename CovarianceEstimatorType::OutputType;
 
   /** Sets the input sample */
-  void SetSample(const TSample *sample) override;
+  void
+  SetSample(const TSample * sample) override;
 
   /** Sets the component's distribution parameters. */
-  void SetParameters(const ParametersType & parameters) override;
+  void
+  SetParameters(const ParametersType & parameters) override;
 
 protected:
   GaussianMixtureModelComponent();
   ~GaussianMixtureModelComponent() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Returns the sum of squared changes in parameters between
    * iterations */
-  double CalculateParametersChange();
+  double
+  CalculateParametersChange();
 
   /** Computes the new distribution parameters */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   typename NativeMembershipFunctionType::Pointer m_GaussianMembershipFunction;
@@ -110,12 +114,12 @@ private:
   typename MeanEstimatorType::Pointer m_MeanEstimator;
 
   typename CovarianceEstimatorType::Pointer m_CovarianceEstimator;
-};  // end of class
+}; // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGaussianMixtureModelComponent.hxx"
+#  include "itkGaussianMixtureModelComponent.hxx"
 #endif
 
 #endif

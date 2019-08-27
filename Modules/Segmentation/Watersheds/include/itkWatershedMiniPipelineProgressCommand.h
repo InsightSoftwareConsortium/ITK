@@ -31,28 +31,36 @@ namespace itk
  * implementing the mini-pipeline).
  * \ingroup ITKWatersheds
  */
-class ITKWatersheds_EXPORT WatershedMiniPipelineProgressCommand:public Command
+class ITKWatersheds_EXPORT WatershedMiniPipelineProgressCommand : public Command
 {
 public:
   /** Smart pointer declaration methods */
   using Self = WatershedMiniPipelineProgressCommand;
   using Superclass = Command;
-  using Pointer = itk::SmartPointer< Self >;
-  using ConstPointer = itk::SmartPointer< const Self >;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkTypeMacro(WatershedMiniPipelineProgressCommand, Command);
   itkNewMacro(Self);
 
   /** Standard Command virtual methods */
-  void Execute(Object *caller, const EventObject & event) override;
+  void
+  Execute(Object * caller, const EventObject & event) override;
 
-  void Execute(const Object *caller, const EventObject & event) override;
+  void
+  Execute(const Object * caller, const EventObject & event) override;
 
   /** Set/Get the filter whose UpdateProgress will be set by this
    * command object */
-  void SetFilter(ProcessObject *p)
-  { m_Filter = p; }
-  const ProcessObject * GetFilter()
-  { return m_Filter; }
+  void
+  SetFilter(ProcessObject * p)
+  {
+    m_Filter = p;
+  }
+  const ProcessObject *
+  GetFilter()
+  {
+    return m_Filter;
+  }
 
   /** Set/Get the base count for stepping through filter progress values */
   itkSetMacro(Count, double);
@@ -64,15 +72,15 @@ public:
   itkGetConstMacro(NumberOfFilters, unsigned int);
 
 protected:
-  WatershedMiniPipelineProgressCommand()
-    {}
+  WatershedMiniPipelineProgressCommand() {}
   ~WatershedMiniPipelineProgressCommand() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  double         m_Count{0.0};
-  ProcessObject *m_Filter{nullptr};
-  unsigned int   m_NumberOfFilters{1};
+  double          m_Count{ 0.0 };
+  ProcessObject * m_Filter{ nullptr };
+  unsigned int    m_NumberOfFilters{ 1 };
 };
 } // end namespace itk
 

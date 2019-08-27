@@ -21,10 +21,10 @@ namespace itk
 {
 /** Define how to print enumeration */
 std::ostream &
-operator<<( std::ostream & out, const ExtractImageFilterCollapseStrategy value )
+operator<<(std::ostream & out, const ExtractImageFilterCollapseStrategy value)
 {
   const char * s = nullptr;
-  switch ( value )
+  switch (value)
   {
     case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN:
       s = "ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN";

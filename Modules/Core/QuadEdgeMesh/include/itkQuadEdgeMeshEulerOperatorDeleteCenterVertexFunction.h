@@ -30,18 +30,18 @@ namespace itk
  * \ingroup QEMeshModifierFunctions
  * \ingroup ITKQuadEdgeMesh
  */
-template< typename TMesh, typename TQEType >
-class ITK_TEMPLATE_EXPORT QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction:
-  public QuadEdgeMeshFunctionBase< TMesh, TQEType * >
+template <typename TMesh, typename TQEType>
+class ITK_TEMPLATE_EXPORT QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction
+  : public QuadEdgeMeshFunctionBase<TMesh, TQEType *>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction);
 
   /** Standard class type aliases. */
   using Self = QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction;
-  using Superclass = QuadEdgeMeshFunctionBase< TMesh, TQEType * >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = QuadEdgeMeshFunctionBase<TMesh, TQEType *>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   itkNewMacro(Self);
   /** Run-time type information (and related methods). */
@@ -57,15 +57,19 @@ public:
   using FaceRefType = typename MeshType::FaceRefType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate(QEType *e);
+  virtual OutputType
+  Evaluate(QEType * e);
 
-  PointIdentifier GetOldPointID()
+  PointIdentifier
+  GetOldPointID()
   {
-    return ( this->m_OldPointID );
+    return (this->m_OldPointID);
   }
 
 protected:
-  QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction() : m_OldPointID(0) {}
+  QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction()
+    : m_OldPointID(0)
+  {}
   ~QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction() override = default;
 
 private:

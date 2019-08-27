@@ -79,9 +79,11 @@ public:
    * Methods related to numeric integration
    */
 
-  void GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const override;
+  void
+  GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const override;
 
-  unsigned int GetNumberOfIntegrationPoints(unsigned int order) const override;
+  unsigned int
+  GetNumberOfIntegrationPoints(unsigned int order) const override;
 
   // ////////////////////////////////////////////////////////////////////////
   /**
@@ -89,28 +91,35 @@ public:
    */
 
   /** Return the shape functions used to interpolate across the element */
-  VectorType ShapeFunctions(const VectorType & pt) const override;
+  VectorType
+  ShapeFunctions(const VectorType & pt) const override;
 
   /** Return the shape functions derivatives in the shapeD matrix */
-  void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const override;
+  void
+  ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const override;
 
   /** Convert from global to local coordinates */
-  bool GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const override;
+  bool
+  GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const override;
 
   /**
    * Methods used in computing parametric/local coordinates given global coordinates.
    */
-  void InterpolationFunctions( const VectorType & pcoords, VectorType & sf) const;
+  void
+  InterpolationFunctions(const VectorType & pcoords, VectorType & sf) const;
 
-  void InterpolationDerivs(const VectorType & pcoords, VectorType & derivs) const;
+  void
+  InterpolationDerivs(const VectorType & pcoords, VectorType & derivs) const;
 
-  Float Determinant3x3(const VectorType & c1, const VectorType & c2, const VectorType & c3) const;
+  Float
+  Determinant3x3(const VectorType & c1, const VectorType & c2, const VectorType & c3) const;
 
 protected:
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void PopulateEdgeIds() override;
-
+  void
+  PopulateEdgeIds() override;
 };
 } // end namespace fem
 } // end namespace itk

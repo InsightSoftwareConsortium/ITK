@@ -22,44 +22,42 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-GrayscaleFunctionErodeImageFilter< TInputImage, TOutputImage, TKernel >
-::GrayscaleFunctionErodeImageFilter()
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+GrayscaleFunctionErodeImageFilter<TInputImage, TOutputImage, TKernel>::GrayscaleFunctionErodeImageFilter()
 {
-  m_ErodeBoundaryCondition.SetConstant( NumericTraits< PixelType >::max() );
+  m_ErodeBoundaryCondition.SetConstant(NumericTraits<PixelType>::max());
   this->OverrideBoundaryCondition(&m_ErodeBoundaryCondition);
 }
 
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-typename GrayscaleFunctionErodeImageFilter< TInputImage, TOutputImage, TKernel >::PixelType
-GrayscaleFunctionErodeImageFilter< TInputImage, TOutputImage, TKernel >
-::Evaluate(const NeighborhoodIteratorType & nit,
-           const KernelIteratorType kernelBegin,
-           const KernelIteratorType kernelEnd)
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+typename GrayscaleFunctionErodeImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
+GrayscaleFunctionErodeImageFilter<TInputImage, TOutputImage, TKernel>::Evaluate(const NeighborhoodIteratorType & nit,
+                                                                                const KernelIteratorType kernelBegin,
+                                                                                const KernelIteratorType kernelEnd)
 {
   unsigned int i;
-  PixelType    min = NumericTraits< PixelType >::max();
+  PixelType    min = NumericTraits<PixelType>::max();
   PixelType    temp;
 
   KernelIteratorType kernel_it;
 
-  for ( i = 0, kernel_it = kernelBegin; kernel_it < kernelEnd; ++kernel_it, ++i )
-    {
+  for (i = 0, kernel_it = kernelBegin; kernel_it < kernelEnd; ++kernel_it, ++i)
+  {
     // if structuring element is positive, use the pixel under that element
     // in the image minus the structuring element value
-    if ( *kernel_it > NumericTraits< KernelPixelType >::ZeroValue() )
-      {
+    if (*kernel_it > NumericTraits<KernelPixelType>::ZeroValue())
+    {
       // subtract the structuring element value to the pixel value,
       // note we use GetPixel() on SmartNeighborhoodIterator to respect
       // boundary condition
-      temp = nit.GetPixel(i) - ( PixelType ) * kernel_it;
+      temp = nit.GetPixel(i) - (PixelType)*kernel_it;
 
-      if ( temp < min )
-        {
+      if (temp < min)
+      {
         min = temp;
-        }
       }
     }
+  }
 
   return min;
 }

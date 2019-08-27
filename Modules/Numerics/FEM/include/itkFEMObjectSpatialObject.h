@@ -37,42 +37,46 @@ namespace itk
  * \ingroup ITKFEM
  */
 
-template < unsigned int TDimension = 3>
-class ITK_TEMPLATE_EXPORT FEMObjectSpatialObject : public SpatialObject< TDimension >
+template <unsigned int TDimension = 3>
+class ITK_TEMPLATE_EXPORT FEMObjectSpatialObject : public SpatialObject<TDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FEMObjectSpatialObject);
 
-  using Self = FEMObjectSpatialObject< TDimension >;
-  using Superclass = SpatialObject< TDimension >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Self = FEMObjectSpatialObject<TDimension>;
+  using Superclass = SpatialObject<TDimension>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  using FEMObjectType = itk::fem::FEMObject< TDimension >;
+  using FEMObjectType = itk::fem::FEMObject<TDimension>;
   using FEMObjectPointer = typename FEMObjectType::Pointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( FEMObjectSpatialObject, SpatialObject );
+  itkTypeMacro(FEMObjectSpatialObject, SpatialObject);
 
   /** Set the femobject. */
-  void SetFEMObject( FEMObjectType * femobject );
+  void
+  SetFEMObject(FEMObjectType * femobject);
 
   /** Get a pointer to the femobject currently attached to the object. */
-  FEMObjectType * GetFEMObject()
+  FEMObjectType *
+  GetFEMObject()
   {
     return m_FEMObject.GetPointer();
   }
-  const FEMObjectType * GetFEMObject() const
+  const FEMObjectType *
+  GetFEMObject() const
   {
     return m_FEMObject.GetPointer();
   }
 
 
   /** Returns the latest modified time of the object and its component. */
-  ModifiedTimeType GetMTime() const override;
+  ModifiedTimeType
+  GetMTime() const override;
 
 protected:
   FEMObjectPointer m_FEMObject;
@@ -80,14 +84,14 @@ protected:
   FEMObjectSpatialObject();
   ~FEMObjectSpatialObject() override;
 
-  void PrintSelf( std::ostream& os, Indent indent ) const override;
-
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMObjectSpatialObject.hxx"
+#  include "itkFEMObjectSpatialObject.hxx"
 #endif
 
 #endif // itkFEMObjectSpatialObject_h

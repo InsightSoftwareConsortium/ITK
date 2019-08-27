@@ -29,7 +29,7 @@ namespace itk
  *  object factory.
  * \ingroup ITKIOTransformMatlab
  */
-class ITKIOTransformMatlab_EXPORT MatlabTransformIOFactory:public ObjectFactoryBase
+class ITKIOTransformMatlab_EXPORT MatlabTransformIOFactory : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MatlabTransformIOFactory);
@@ -37,13 +37,15 @@ public:
   /** Standard class type aliases. */
   using Self = MatlabTransformIOFactory;
   using Superclass = ObjectFactoryBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  const char * GetITKSourceVersion() const override;
+  const char *
+  GetITKSourceVersion() const override;
 
-  const char * GetDescription() const override;
+  const char *
+  GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -52,10 +54,10 @@ public:
   itkTypeMacro(MatlabTransformIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory()
+  static void
+  RegisterOneFactory()
   {
-    MatlabTransformIOFactory::Pointer metaFactory =
-      MatlabTransformIOFactory::New();
+    MatlabTransformIOFactory::Pointer metaFactory = MatlabTransformIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(metaFactory);
   }
@@ -63,7 +65,8 @@ public:
 protected:
   MatlabTransformIOFactory();
   ~MatlabTransformIOFactory() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk
 

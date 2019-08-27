@@ -23,72 +23,69 @@
 namespace itk
 {
 /** Constructor */
-template< typename TFixedPointSet, typename TMovingPointSet >
-PointSetToPointSetMetric< TFixedPointSet, TMovingPointSet >
-::PointSetToPointSetMetric()
+template <typename TFixedPointSet, typename TMovingPointSet>
+PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>::PointSetToPointSetMetric()
 {
-  m_FixedPointSet = nullptr;    // has to be provided by the user.
-  m_MovingPointSet   = nullptr; // has to be provided by the user.
-  m_Transform     = nullptr;    // has to be provided by the user.
+  m_FixedPointSet = nullptr;  // has to be provided by the user.
+  m_MovingPointSet = nullptr; // has to be provided by the user.
+  m_Transform = nullptr;      // has to be provided by the user.
 }
 
 /** Set the parameters that define a unique transform */
-template< typename TFixedPointSet, typename TMovingPointSet >
+template <typename TFixedPointSet, typename TMovingPointSet>
 void
-PointSetToPointSetMetric< TFixedPointSet, TMovingPointSet >
-::SetTransformParameters(const ParametersType & parameters) const
+PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>::SetTransformParameters(
+  const ParametersType & parameters) const
 {
-  if ( !m_Transform )
-    {
+  if (!m_Transform)
+  {
     itkExceptionMacro(<< "Transform has not been assigned");
-    }
+  }
   m_Transform->SetParameters(parameters);
 }
 
 /** Initialize the metric */
-template< typename TFixedPointSet, typename TMovingPointSet >
+template <typename TFixedPointSet, typename TMovingPointSet>
 void
-PointSetToPointSetMetric< TFixedPointSet, TMovingPointSet >
-::Initialize()
+PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>::Initialize()
 {
-  if ( !m_Transform )
-    {
+  if (!m_Transform)
+  {
     itkExceptionMacro(<< "Transform is not present");
-    }
+  }
 
-  if ( !m_MovingPointSet )
-    {
+  if (!m_MovingPointSet)
+  {
     itkExceptionMacro(<< "MovingPointSet is not present");
-    }
+  }
 
-  if ( !m_FixedPointSet )
-    {
+  if (!m_FixedPointSet)
+  {
     itkExceptionMacro(<< "FixedPointSet is not present");
-    }
+  }
 
   // If the PointSet is provided by a source, update the source.
-  if ( m_MovingPointSet->GetSource() )
-    {
+  if (m_MovingPointSet->GetSource())
+  {
     m_MovingPointSet->GetSource()->Update();
-    }
+  }
 
   // If the point set is provided by a source, update the source.
-  if ( m_FixedPointSet->GetSource() )
-    {
+  if (m_FixedPointSet->GetSource())
+  {
     m_FixedPointSet->GetSource()->Update();
-    }
+  }
 }
 
 /** PrintSelf */
-template< typename TFixedPointSet, typename TMovingPointSet >
+template <typename TFixedPointSet, typename TMovingPointSet>
 void
-PointSetToPointSetMetric< TFixedPointSet, TMovingPointSet >
-::PrintSelf(std::ostream & os, Indent indent) const
+PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Moving PointSet: " << m_MovingPointSet.GetPointer()  << std::endl;
-  os << indent << "Fixed  PointSet: " << m_FixedPointSet.GetPointer()   << std::endl;
-  os << indent << "Transform:    " << m_Transform.GetPointer()    << std::endl;
+  os << indent << "Moving PointSet: " << m_MovingPointSet.GetPointer() << std::endl;
+  os << indent << "Fixed  PointSet: " << m_FixedPointSet.GetPointer() << std::endl;
+  os << indent << "Transform:    " << m_Transform.GetPointer() << std::endl;
 }
 } // end namespace itk
 

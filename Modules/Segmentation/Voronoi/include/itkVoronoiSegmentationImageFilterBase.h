@@ -55,18 +55,17 @@ namespace itk
  * \ingroup HybridSegmentation
  * \ingroup ITKVoronoi
  */
-template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage = Image< unsigned char, 2 > >
-class ITK_TEMPLATE_EXPORT VoronoiSegmentationImageFilterBase:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage, typename TBinaryPriorImage = Image<unsigned char, 2>>
+class ITK_TEMPLATE_EXPORT VoronoiSegmentationImageFilterBase : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiSegmentationImageFilterBase);
 
   /** Standard class type aliases. */
   using Self = VoronoiSegmentationImageFilterBase;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -89,8 +88,8 @@ public:
   using OutputImageType = TOutputImage;
   using OutputPixelType = typename TOutputImage::PixelType;
 
-  using VoronoiDiagram = VoronoiDiagram2D< double >;
-  using VoronoiDiagramGenerator = VoronoiDiagram2DGenerator< double >;
+  using VoronoiDiagram = VoronoiDiagram2D<double>;
+  using VoronoiDiagramGenerator = VoronoiDiagram2DGenerator<double>;
   using PointType = typename VoronoiDiagram::PointType;
   using CellType = typename VoronoiDiagram::CellType;
   using CellAutoPointer = typename VoronoiDiagram::CellAutoPointer;
@@ -101,14 +100,14 @@ public:
   using NeighborIdIterator = typename VoronoiDiagram::NeighborIdIterator;
   using EdgeIterator = typename VoronoiDiagram::VoronoiEdgeIterator;
   using EdgeInfo = typename VoronoiDiagram::VoronoiEdge;
-  using PointTypeVector = std::vector< PointType >;
-  using PointTypeDeque = std::deque< PointType >;
+  using PointTypeVector = std::vector<PointType>;
+  using PointTypeDeque = std::deque<PointType>;
   using BinaryObjectImage = TBinaryPriorImage;
   using BinaryObjectImagePointer = typename BinaryObjectImage::Pointer;
-  using IndexList = std::vector< IndexType >;
+  using IndexList = std::vector<IndexType>;
 
   /** To output the drawing of Voronoi Diagram (VD) . */
-  using VDImage = Image< unsigned char, 2 >;
+  using VDImage = Image<unsigned char, 2>;
   using VDImagePointer = typename VDImage::Pointer;
 
   /** Set/Get the initial number of seeds for VD. */
@@ -120,7 +119,7 @@ public:
   itkGetConstMacro(MinRegion, SizeValueType);
 
   /** Set/Get the number of iterations to run (if set to 0: the classification
-  * run process runs until no more cells can be divided). */
+   * run process runs until no more cells can be divided). */
   itkSetMacro(Steps, int);
   itkGetConstMacro(Steps, int);
 
@@ -154,29 +153,39 @@ public:
 
   /** Take a prior from other segmentation node. This should be a
    * binary object. */
-  virtual void TakeAPrior(const BinaryObjectImage *){}
+  virtual void
+  TakeAPrior(const BinaryObjectImage *)
+  {}
 
   /** Perform the segmentation. */
-  void RunSegment();
+  void
+  RunSegment();
 
   /** Perform the segmentation. */
-  void RunSegmentOneStep();
+  void
+  RunSegmentOneStep();
 
   /** Create the output binary result for boundaries.  */
-  virtual void MakeSegmentBoundary();
+  virtual void
+  MakeSegmentBoundary();
 
-  virtual void MakeSegmentObject();
+  virtual void
+  MakeSegmentObject();
 
   /** Return the Voroni Diagram structure. */
-  VoronoiPointer GetVoronoiDiagram()
-  { return m_WorkingVD; }
+  VoronoiPointer
+  GetVoronoiDiagram()
+  {
+    return m_WorkingVD;
+  }
 
-#if !defined( ITK_WRAPPING_PARSER )  // generates invalid iterator instantiation
-                                     // with msvc
+#if !defined(ITK_WRAPPING_PARSER) // generates invalid iterator instantiation
+                                  // with msvc
   /** Seeds positions are randomly set.
    * If you need to set seeds position then use the SetSeeds method
    * after the InitializeSegment method .  */
-  void SetSeeds(int num, SeedsIterator begin)
+  void
+  SetSeeds(int num, SeedsIterator begin)
   {
     m_NumberOfSeeds = num;
     m_WorkingVD->SetSeeds(num, begin);
@@ -187,7 +196,8 @@ public:
   /** Seeds positions are randomly set.
    * If you need to set seeds position then use the SetSeeds method
    * after the InitializeSegment method .  */
-  void SetSeeds(SeedsType & seeds)
+  void
+  SetSeeds(SeedsType & seeds)
   {
     m_NumberOfSeeds = seeds.size();
     auto it = seeds.begin();
@@ -195,78 +205,95 @@ public:
   }
 
   /** Get the point specified by the ID given. */
-  PointType GetSeed(int SeedID)
-  { return m_WorkingVD->GetSeed(SeedID); }
+  PointType
+  GetSeed(int SeedID)
+  {
+    return m_WorkingVD->GetSeed(SeedID);
+  }
 
   /** Draw the Voronoi Diagram structure. */
-  void DrawDiagram(VDImagePointer result, unsigned char incolor,
-                   unsigned char outcolor, unsigned char boundcolor);
+  void
+  DrawDiagram(VDImagePointer result, unsigned char incolor, unsigned char outcolor, unsigned char boundcolor);
 
-  void BeforeNextStep();
+  void
+  BeforeNextStep();
 
   /** This filter does not stream and needs the entire image as input.
    * \sa ProcessObject::GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** This filter does not stream and needs to produce the entire output.
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
-  void EnlargeOutputRequestedRegion(DataObject *output) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
 protected:
   VoronoiSegmentationImageFilterBase();
   ~VoronoiSegmentationImageFilterBase() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override; //general pipeline function.
+  void
+  GenerateData() override; // general pipeline function.
 
   SizeType      m_Size;
-  int           m_NumberOfSeeds{200};
-  SizeValueType m_MinRegion{20};
-  int           m_Steps{0};
-  int           m_LastStepSeeds{0};
-  int           m_NumberOfSeedsToAdded{0};
-  int           m_NumberOfBoundary{0};
+  int           m_NumberOfSeeds{ 200 };
+  SizeValueType m_MinRegion{ 20 };
+  int           m_Steps{ 0 };
+  int           m_LastStepSeeds{ 0 };
+  int           m_NumberOfSeedsToAdded{ 0 };
+  int           m_NumberOfBoundary{ 0 };
 
-  std::vector< SizeValueType >           m_NumberOfPixels;
-  std::vector< unsigned char >           m_Label;
+  std::vector<SizeValueType> m_NumberOfPixels;
+  std::vector<unsigned char> m_Label;
 
-  double m_MeanDeviation{0.8};
-  bool   m_UseBackgroundInAPrior{false};
-  bool   m_OutputBoundary{false}; //if =1 then output the boundaries, if = 0 then
-                           // output the object.
-  bool m_InteractiveSegmentation{false};
+  double m_MeanDeviation{ 0.8 };
+  bool   m_UseBackgroundInAPrior{ false };
+  bool   m_OutputBoundary{ false }; // if =1 then output the boundaries, if = 0 then
+                                    // output the object.
+  bool m_InteractiveSegmentation{ false };
 
   typename VoronoiDiagram::Pointer m_WorkingVD;
 
   typename VoronoiDiagramGenerator::Pointer m_VDGenerator;
 
-  std::vector< PointType > m_SeedsToAdded;
+  std::vector<PointType> m_SeedsToAdded;
 
   // private methods:
   // Classify all the voronoi cells as interior , exterior or boundary.
-  virtual void ClassifyDiagram();
+  virtual void
+  ClassifyDiagram();
 
   // Generate the seeds to be added by dividing the boundary cells.
-  virtual void GenerateAddingSeeds();
+  virtual void
+  GenerateAddingSeeds();
 
   // Compute the statistics of the pixels inside the cell.
-  void GetPixelIndexFromPolygon(PointTypeDeque VertList, IndexList *PixelPool);
+  void
+  GetPixelIndexFromPolygon(PointTypeDeque VertList, IndexList * PixelPool);
 
-  virtual bool TestHomogeneity(IndexList &)
-  { return true; }
+  virtual bool
+  TestHomogeneity(IndexList &)
+  {
+    return true;
+  }
 
-  void FillPolygon(PointTypeDeque vertlist, OutputPixelType color = 1);
+  void
+  FillPolygon(PointTypeDeque vertlist, OutputPixelType color = 1);
 
   // Draw a straight line to the output image.
-  void drawLine(PointType p1, PointType p2);
+  void
+  drawLine(PointType p1, PointType p2);
 
   // Draw the intermedia Voronoi Diagram structure.
-  void drawVDline(VDImagePointer result, PointType p1, PointType p2, unsigned char color);
+  void
+  drawVDline(VDImagePointer result, PointType p1, PointType p2, unsigned char color);
 };
-} //end namespace
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVoronoiSegmentationImageFilterBase.hxx"
+#  include "itkVoronoiSegmentationImageFilterBase.hxx"
 #endif
 
 #endif

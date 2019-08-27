@@ -88,19 +88,19 @@ using FEMObject3DType = itk::fem::FEMObject<3>;
 
 
 //  Software Guide : BeginCodeSnippet
-using RegistrationType = itk::fem::FEMRegistrationFilter<
-                              ImageType,ImageType,FEMObjectType>;
+using RegistrationType =
+  itk::fem::FEMRegistrationFilter<ImageType, ImageType, FEMObjectType>;
 //  Software Guide : EndCodeSnippet
 
 
-int main(int argc, char *argv[])
+int
+main(int argc, char * argv[])
 {
   const char *fixedImageName, *movingImageName;
-  if ( argc < 2 )
+  if (argc < 2)
   {
     std::cout << "Image file names missing" << std::endl;
-    std::cout << "Usage: " << argv[0] << " fixedImageFile movingImageFile"
-              << std::endl;
+    std::cout << "Usage: " << argv[0] << " fixedImageFile movingImageFile" << std::endl;
     return EXIT_FAILURE;
   }
   else
@@ -110,19 +110,19 @@ int main(int argc, char *argv[])
   }
 
 
-//  Software Guide : BeginLatex
-//
-//  In order to begin the registration, we declare an instance of the
-//  \code{FEMRegistrationFilter} and set its parameters.  For simplicity, we will call
-//  it \code{registrationFilter}.
-//
-//  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  In order to begin the registration, we declare an instance of the
+  //  \code{FEMRegistrationFilter} and set its parameters.  For simplicity, we will call
+  //  it \code{registrationFilter}.
+  //
+  //  Software Guide : EndLatex
 
-//  Software Guide : BeginCodeSnippet
+  //  Software Guide : BeginCodeSnippet
   RegistrationType::Pointer registrationFilter = RegistrationType::New();
   registrationFilter->SetMaxLevel(1);
-  registrationFilter->SetUseNormalizedGradient( true );
-  registrationFilter->ChooseMetric( 0 );
+  registrationFilter->SetUseNormalizedGradient(true);
+  registrationFilter->ChooseMetric(0);
 
   unsigned int maxiters = 20;
   float        E = 100;
@@ -131,24 +131,24 @@ int main(int argc, char *argv[])
   registrationFilter->SetRho(p, 0);
   registrationFilter->SetGamma(1., 0);
   registrationFilter->SetAlpha(1.);
-  registrationFilter->SetMaximumIterations( maxiters, 0 );
+  registrationFilter->SetMaximumIterations(maxiters, 0);
   registrationFilter->SetMeshPixelsPerElementAtEachResolution(4, 0);
   registrationFilter->SetWidthOfMetricRegion(1, 0);
   registrationFilter->SetNumberOfIntegrationPoints(2, 0);
-  registrationFilter->SetDoLineSearchOnImageEnergy( 0 );
+  registrationFilter->SetDoLineSearchOnImageEnergy(0);
   registrationFilter->SetTimeStep(1.);
   registrationFilter->SetEmployRegridding(false);
   registrationFilter->SetUseLandmarks(false);
-//  Software Guide : EndCodeSnippet
+  //  Software Guide : EndCodeSnippet
 
 
   // Read the image files
-  using FileSourceType = itk::ImageFileReader< DiskImageType >;
+  using FileSourceType = itk::ImageFileReader<DiskImageType>;
 
   FileSourceType::Pointer movingfilter = FileSourceType::New();
-  movingfilter->SetFileName( movingImageName );
+  movingfilter->SetFileName(movingImageName);
   FileSourceType::Pointer fixedfilter = FileSourceType::New();
-  fixedfilter->SetFileName( fixedImageName );
+  fixedfilter->SetFileName(fixedImageName);
   std::cout << " reading moving " << movingImageName << std::endl;
   std::cout << " reading fixed " << fixedImageName << std::endl;
 
@@ -157,7 +157,7 @@ int main(int argc, char *argv[])
   {
     movingfilter->Update();
   }
-  catch( itk::ExceptionObject & e )
+  catch (itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught during reference file reading " << std::endl;
     std::cerr << e << std::endl;
@@ -167,7 +167,7 @@ int main(int argc, char *argv[])
   {
     fixedfilter->Update();
   }
-  catch( itk::ExceptionObject & e )
+  catch (itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught during target file reading " << std::endl;
     std::cerr << e << std::endl;
@@ -176,7 +176,7 @@ int main(int argc, char *argv[])
 
 
   // Rescale the image intensities so that they fall between 0 and 255
-  using FilterType = itk::RescaleIntensityImageFilter<DiskImageType,ImageType>;
+  using FilterType = itk::RescaleIntensityImageFilter<DiskImageType, ImageType>;
   FilterType::Pointer movingrescalefilter = FilterType::New();
   FilterType::Pointer fixedrescalefilter = FilterType::New();
 
@@ -186,22 +186,22 @@ int main(int argc, char *argv[])
   constexpr double desiredMinimum = 0.0;
   constexpr double desiredMaximum = 255.0;
 
-  movingrescalefilter->SetOutputMinimum( desiredMinimum );
-  movingrescalefilter->SetOutputMaximum( desiredMaximum );
+  movingrescalefilter->SetOutputMinimum(desiredMinimum);
+  movingrescalefilter->SetOutputMaximum(desiredMaximum);
   movingrescalefilter->UpdateLargestPossibleRegion();
-  fixedrescalefilter->SetOutputMinimum( desiredMinimum );
-  fixedrescalefilter->SetOutputMaximum( desiredMaximum );
+  fixedrescalefilter->SetOutputMinimum(desiredMinimum);
+  fixedrescalefilter->SetOutputMaximum(desiredMaximum);
   fixedrescalefilter->UpdateLargestPossibleRegion();
 
 
   // Histogram match the images
-  using HEFilterType = itk::HistogramMatchingImageFilter<ImageType,ImageType>;
+  using HEFilterType = itk::HistogramMatchingImageFilter<ImageType, ImageType>;
   HEFilterType::Pointer IntensityEqualizeFilter = HEFilterType::New();
 
-  IntensityEqualizeFilter->SetReferenceImage( fixedrescalefilter->GetOutput() );
-  IntensityEqualizeFilter->SetInput( movingrescalefilter->GetOutput() );
-  IntensityEqualizeFilter->SetNumberOfHistogramLevels( 100);
-  IntensityEqualizeFilter->SetNumberOfMatchPoints( 15);
+  IntensityEqualizeFilter->SetReferenceImage(fixedrescalefilter->GetOutput());
+  IntensityEqualizeFilter->SetInput(movingrescalefilter->GetOutput());
+  IntensityEqualizeFilter->SetNumberOfHistogramLevels(100);
+  IntensityEqualizeFilter->SetNumberOfMatchPoints(15);
   IntensityEqualizeFilter->ThresholdAtMeanIntensityOn();
   IntensityEqualizeFilter->Update();
 
@@ -212,128 +212,128 @@ int main(int argc, char *argv[])
 
   itk::ImageFileWriter<ImageType>::Pointer writer;
   writer = itk::ImageFileWriter<ImageType>::New();
-  std::string ofn="fixed.mha";
+  std::string ofn = "fixed.mha";
   writer->SetFileName(ofn.c_str());
-  writer->SetInput(registrationFilter->GetFixedImage() );
+  writer->SetInput(registrationFilter->GetFixedImage());
 
   try
   {
     writer->Write();
   }
-  catch( itk::ExceptionObject & excp )
+  catch (itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
   }
 
-  ofn="moving.mha";
+  ofn = "moving.mha";
   itk::ImageFileWriter<ImageType>::Pointer writer2;
-  writer2 =  itk::ImageFileWriter<ImageType>::New();
+  writer2 = itk::ImageFileWriter<ImageType>::New();
   writer2->SetFileName(ofn.c_str());
-  writer2->SetInput(registrationFilter->GetMovingImage() );
+  writer2->SetInput(registrationFilter->GetMovingImage());
 
   try
   {
     writer2->Write();
   }
-  catch( itk::ExceptionObject & excp )
+  catch (itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
   }
 
-//  Software Guide : BeginLatex
-//
-//  In order to initialize the mesh of elements, we must first create
-//  ``dummy'' material and element objects and assign them to the
-//  registration filter.  These objects are subsequently used to
-//  either read a predefined mesh from a file or generate a mesh using
-//  the software.  The values assigned to the fields within the
-//  material object are arbitrary since they will be replaced with
-//  those specified earlier.  Similarly, the element
-//  object will be replaced with those from the desired mesh.
-//
-//  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  In order to initialize the mesh of elements, we must first create
+  //  ``dummy'' material and element objects and assign them to the
+  //  registration filter.  These objects are subsequently used to
+  //  either read a predefined mesh from a file or generate a mesh using
+  //  the software.  The values assigned to the fields within the
+  //  material object are arbitrary since they will be replaced with
+  //  those specified earlier.  Similarly, the element
+  //  object will be replaced with those from the desired mesh.
+  //
+  //  Software Guide : EndLatex
 
-//  Software Guide : BeginCodeSnippet
+  //  Software Guide : BeginCodeSnippet
   // Create the material properties
   itk::fem::MaterialLinearElasticity::Pointer m;
   m = itk::fem::MaterialLinearElasticity::New();
   m->SetGlobalNumber(0);
   // Young's modulus of the membrane
   m->SetYoungsModulus(registrationFilter->GetElasticity());
-  m->SetCrossSectionalArea(1.0);  // Cross-sectional area
-  m->SetThickness(1.0);           // Thickness
-  m->SetMomentOfInertia(1.0);     // Moment of inertia
-  m->SetPoissonsRatio(0.);        // Poisson's ratio -- DONT CHOOSE 1.0!!
-  m->SetDensityHeatProduct(1.0);  // Density-Heat capacity product
+  m->SetCrossSectionalArea(1.0); // Cross-sectional area
+  m->SetThickness(1.0);          // Thickness
+  m->SetMomentOfInertia(1.0);    // Moment of inertia
+  m->SetPoissonsRatio(0.);       // Poisson's ratio -- DONT CHOOSE 1.0!!
+  m->SetDensityHeatProduct(1.0); // Density-Heat capacity product
 
   // Create the element type
-  ElementType::Pointer e1=ElementType::New();
+  ElementType::Pointer e1 = ElementType::New();
   e1->SetMaterial(m);
   registrationFilter->SetElement(e1);
   registrationFilter->SetMaterial(m);
-//  Software Guide : EndCodeSnippet
+  //  Software Guide : EndCodeSnippet
 
 
-//  Software Guide : BeginLatex
-//
-//  Now we are ready to run the registration:
-//
-//  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  Now we are ready to run the registration:
+  //
+  //  Software Guide : EndLatex
 
-//  Software Guide : BeginCodeSnippet
+  //  Software Guide : BeginCodeSnippet
   registrationFilter->RunRegistration();
-//  Software Guide : EndCodeSnippet
+  //  Software Guide : EndCodeSnippet
 
 
-//  Software Guide : BeginLatex
-//
-//  To output the image resulting from the registration, we can call
-//  \code{GetWarpedImage()}.  The image is written in floating point
-//  format.
-//
-//  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  To output the image resulting from the registration, we can call
+  //  \code{GetWarpedImage()}.  The image is written in floating point
+  //  format.
+  //
+  //  Software Guide : EndLatex
 
-//  Software Guide : BeginCodeSnippet
+  //  Software Guide : BeginCodeSnippet
   itk::ImageFileWriter<ImageType>::Pointer warpedImageWriter;
   warpedImageWriter = itk::ImageFileWriter<ImageType>::New();
-  warpedImageWriter->SetInput( registrationFilter->GetWarpedImage() );
+  warpedImageWriter->SetInput(registrationFilter->GetWarpedImage());
   warpedImageWriter->SetFileName("warpedMovingImage.mha");
   try
   {
     warpedImageWriter->Update();
   }
-  catch( itk::ExceptionObject & excp )
+  catch (itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
   }
-//  Software Guide : EndCodeSnippet
+  //  Software Guide : EndCodeSnippet
 
-//  Software Guide : BeginLatex
-//
-//  We can also output the displacement field resulting from the
-//  registration; we can call \code{GetDisplacementField()} to get the
-//  multi-component image.
-//
-//  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  We can also output the displacement field resulting from the
+  //  registration; we can call \code{GetDisplacementField()} to get the
+  //  multi-component image.
+  //
+  //  Software Guide : EndLatex
 
-//  Software Guide : BeginCodeSnippet
+  //  Software Guide : BeginCodeSnippet
   using DispWriterType = itk::ImageFileWriter<RegistrationType::FieldType>;
   DispWriterType::Pointer dispWriter = DispWriterType::New();
-  dispWriter->SetInput( registrationFilter->GetDisplacementField() );
+  dispWriter->SetInput(registrationFilter->GetDisplacementField());
   dispWriter->SetFileName("displacement.mha");
   try
   {
     dispWriter->Update();
   }
-  catch( itk::ExceptionObject & excp )
+  catch (itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
   }
-//  Software Guide : EndCodeSnippet
+  //  Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;
 }

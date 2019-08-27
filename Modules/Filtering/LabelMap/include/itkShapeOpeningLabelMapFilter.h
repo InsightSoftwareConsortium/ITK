@@ -45,18 +45,17 @@ namespace itk
  * \sphinxexample{Filtering/LabelMap/KeepRegionsThatMeetSpecific,Keep Regions That Meet Specific Properties}
  * \endsphinx
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT ShapeOpeningLabelMapFilter:
-  public InPlaceLabelMapFilter< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ShapeOpeningLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShapeOpeningLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = ShapeOpeningLabelMapFilter;
-  using Superclass = InPlaceLabelMapFilter< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InPlaceLabelMapFilter<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using ImageType = TImage;
@@ -110,70 +109,74 @@ public:
    */
   itkGetConstMacro(Attribute, AttributeType);
   itkSetMacro(Attribute, AttributeType);
-  void SetAttribute(const std::string & s)
+  void
+  SetAttribute(const std::string & s)
   {
-    this->SetAttribute( LabelObjectType::GetAttributeFromName(s) );
+    this->SetAttribute(LabelObjectType::GetAttributeFromName(s));
   }
 
 protected:
   ShapeOpeningLabelMapFilter();
   ~ShapeOpeningLabelMapFilter() override = default;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  template< typename TAttributeAccessor >
-  void TemplatedGenerateData(const TAttributeAccessor & accessor)
+  template <typename TAttributeAccessor>
+  void
+  TemplatedGenerateData(const TAttributeAccessor & accessor)
   {
     // Allocate the output
     this->AllocateOutputs();
 
-    ImageType *output = this->GetOutput();
-    ImageType *output2 = this->GetOutput(1);
+    ImageType * output = this->GetOutput();
+    ImageType * output2 = this->GetOutput(1);
     itkAssertInDebugAndIgnoreInReleaseMacro(this->GetNumberOfIndexedOutputs() == 2);
     itkAssertInDebugAndIgnoreInReleaseMacro(output2 != nullptr);
 
     // set the background value for the second output - this is not done in the
     // superclasses
-    output2->SetBackgroundValue( output->GetBackgroundValue() );
+    output2->SetBackgroundValue(output->GetBackgroundValue());
 
-    ProgressReporter progress( this, 0, output->GetNumberOfLabelObjects() );
+    ProgressReporter progress(this, 0, output->GetNumberOfLabelObjects());
 
-    typename ImageType::Iterator it( output );
-    while ( ! it.IsAtEnd() )
-      {
+    typename ImageType::Iterator it(output);
+    while (!it.IsAtEnd())
+    {
       typename LabelObjectType::LabelType label = it.GetLabel();
-      LabelObjectType *labelObject = it.GetLabelObject();
+      LabelObjectType *                   labelObject = it.GetLabelObject();
 
-      if ( ( !m_ReverseOrdering && accessor(labelObject) < m_Lambda )
-           || ( m_ReverseOrdering && accessor(labelObject) > m_Lambda ) )
-        {
+      if ((!m_ReverseOrdering && accessor(labelObject) < m_Lambda) ||
+          (m_ReverseOrdering && accessor(labelObject) > m_Lambda))
+      {
         // must increment the iterator before removing the object to avoid
         // invalidating the iterator
         ++it;
         output2->AddLabelObject(labelObject);
         output->RemoveLabel(label);
-        }
+      }
       else
-        {
+      {
         ++it;
-        }
+      }
 
       progress.CompletedPixel();
-      }
+    }
   }
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   double m_Lambda;
 
   bool m_ReverseOrdering;
 
   AttributeType m_Attribute;
-};                                          // end of class
+}; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapeOpeningLabelMapFilter.hxx"
+#  include "itkShapeOpeningLabelMapFilter.hxx"
 #endif
 
 #endif

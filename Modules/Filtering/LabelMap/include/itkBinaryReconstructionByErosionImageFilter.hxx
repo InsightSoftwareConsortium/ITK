@@ -22,90 +22,82 @@
 #include "itkProgressAccumulator.h"
 
 
-namespace itk {
+namespace itk
+{
 
-template<typename TInputImage>
-BinaryReconstructionByErosionImageFilter<TInputImage>
-::BinaryReconstructionByErosionImageFilter()
+template <typename TInputImage>
+BinaryReconstructionByErosionImageFilter<TInputImage>::BinaryReconstructionByErosionImageFilter()
 {
   m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
   m_ForegroundValue = NumericTraits<OutputImagePixelType>::max();
   m_FullyConnected = false;
-  this->SetPrimaryInputName( "MarkerImage" );
-  this->AddRequiredInputName( "MaskImage", 1 );
+  this->SetPrimaryInputName("MarkerImage");
+  this->AddRequiredInputName("MaskImage", 1);
 }
 
-template<typename TInputImage>
+template <typename TInputImage>
 void
-BinaryReconstructionByErosionImageFilter<TInputImage>
-::SetMarkerImage( const InputImageType * input )
+BinaryReconstructionByErosionImageFilter<TInputImage>::SetMarkerImage(const InputImageType * input)
 {
   // Process object is not const-correct, so the const casting is required.
-  this->ProcessObject::SetInput( "MarkerImage", const_cast< InputImageType * >( input ));
+  this->ProcessObject::SetInput("MarkerImage", const_cast<InputImageType *>(input));
 }
 
-template<typename TInputImage>
+template <typename TInputImage>
 typename BinaryReconstructionByErosionImageFilter<TInputImage>::InputImageType *
-BinaryReconstructionByErosionImageFilter<TInputImage>
-::GetMarkerImage()
+BinaryReconstructionByErosionImageFilter<TInputImage>::GetMarkerImage()
 {
-  return static_cast<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput( "MarkerImage" )));
+  return static_cast<InputImageType *>(const_cast<DataObject *>(this->ProcessObject::GetInput("MarkerImage")));
 }
 
-template<typename TInputImage>
+template <typename TInputImage>
 void
-BinaryReconstructionByErosionImageFilter<TInputImage>
-::SetMaskImage( const InputImageType * input )
+BinaryReconstructionByErosionImageFilter<TInputImage>::SetMaskImage(const InputImageType * input)
 {
   // Process object is not const-correct, so the const casting is required.
-  this->ProcessObject::SetInput( "MaskImage", const_cast< InputImageType * >( input ));
+  this->ProcessObject::SetInput("MaskImage", const_cast<InputImageType *>(input));
 }
 
-template<typename TInputImage>
+template <typename TInputImage>
 typename BinaryReconstructionByErosionImageFilter<TInputImage>::InputImageType *
-BinaryReconstructionByErosionImageFilter<TInputImage>
-::GetMaskImage()
+BinaryReconstructionByErosionImageFilter<TInputImage>::GetMaskImage()
 {
-  return static_cast<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput( "MaskImage" )));
+  return static_cast<InputImageType *>(const_cast<DataObject *>(this->ProcessObject::GetInput("MaskImage")));
 }
 
-template<typename TInputImage>
+template <typename TInputImage>
 void
-BinaryReconstructionByErosionImageFilter<TInputImage>
-::GenerateInputRequestedRegion()
+BinaryReconstructionByErosionImageFilter<TInputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
   InputImagePointer input = const_cast<InputImageType *>(this->GetMarkerImage());
-  if( input )
-    {
-    input->SetRequestedRegion( input->GetLargestPossibleRegion() );
-    }
+  if (input)
+  {
+    input->SetRequestedRegion(input->GetLargestPossibleRegion());
+  }
 
   input = const_cast<InputImageType *>(this->GetMaskImage());
-  if( input )
-    {
-    input->SetRequestedRegion( input->GetLargestPossibleRegion() );
-    }
+  if (input)
+  {
+    input->SetRequestedRegion(input->GetLargestPossibleRegion());
+  }
 }
 
 
-template<typename TInputImage>
+template <typename TInputImage>
 void
-BinaryReconstructionByErosionImageFilter<TInputImage>
-::EnlargeOutputRequestedRegion(DataObject *)
+BinaryReconstructionByErosionImageFilter<TInputImage>::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()
-    ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
 }
 
 
-template<typename TInputImage>
+template <typename TInputImage>
 void
-BinaryReconstructionByErosionImageFilter<TInputImage>
-::GenerateData()
+BinaryReconstructionByErosionImageFilter<TInputImage>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
@@ -115,67 +107,70 @@ BinaryReconstructionByErosionImageFilter<TInputImage>
   this->AllocateOutputs();
 
   typename NotType::Pointer notMask = NotType::New();
-  notMask->SetInput( this->GetMaskImage() );
-  notMask->SetForegroundValue( m_ForegroundValue );
-  notMask->SetBackgroundValue( m_BackgroundValue );
-  notMask->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  notMask->SetInput(this->GetMaskImage());
+  notMask->SetForegroundValue(m_ForegroundValue);
+  notMask->SetBackgroundValue(m_BackgroundValue);
+  notMask->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(notMask, .1f);
 
   typename NotType::Pointer notMarker = NotType::New();
-  notMarker->SetInput( this->GetMarkerImage() );
-  notMarker->SetForegroundValue( m_ForegroundValue );
-  notMarker->SetBackgroundValue( m_BackgroundValue );
-  notMarker->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  notMarker->SetInput(this->GetMarkerImage());
+  notMarker->SetForegroundValue(m_ForegroundValue);
+  notMarker->SetBackgroundValue(m_BackgroundValue);
+  notMarker->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(notMarker, .1f);
 
   typename LabelizerType::Pointer labelizer = LabelizerType::New();
-  labelizer->SetInput( notMask->GetOutput() );
-  labelizer->SetInputForegroundValue( m_ForegroundValue );
-  labelizer->SetOutputBackgroundValue( m_BackgroundValue );
-  labelizer->SetFullyConnected( m_FullyConnected );
-  labelizer->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  labelizer->SetInput(notMask->GetOutput());
+  labelizer->SetInputForegroundValue(m_ForegroundValue);
+  labelizer->SetOutputBackgroundValue(m_BackgroundValue);
+  labelizer->SetFullyConnected(m_FullyConnected);
+  labelizer->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(labelizer, .2f);
 
   typename ReconstructionType::Pointer reconstruction = ReconstructionType::New();
-  reconstruction->SetInput( labelizer->GetOutput() );
-  reconstruction->SetMarkerImage( notMarker->GetOutput() );
-  reconstruction->SetForegroundValue( m_ForegroundValue );
-  reconstruction->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  reconstruction->SetInput(labelizer->GetOutput());
+  reconstruction->SetMarkerImage(notMarker->GetOutput());
+  reconstruction->SetForegroundValue(m_ForegroundValue);
+  reconstruction->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(reconstruction, .2f);
 
   typename OpeningType::Pointer opening = OpeningType::New();
-  opening->SetInput( reconstruction->GetOutput() );
-  opening->SetLambda( true );
-  opening->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  opening->SetInput(reconstruction->GetOutput());
+  opening->SetLambda(true);
+  opening->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(opening, .2f);
 
   // invert the image during the binarization
   typename BinarizerType::Pointer binarizer = BinarizerType::New();
-  binarizer->SetInput( opening->GetOutput() );
-  binarizer->SetLabel( m_BackgroundValue );
-  binarizer->SetNegated( true );
-  binarizer->SetBackgroundValue( m_ForegroundValue );
-  binarizer->SetFeatureImage( this->GetMaskImage() );
-  binarizer->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  binarizer->SetInput(opening->GetOutput());
+  binarizer->SetLabel(m_BackgroundValue);
+  binarizer->SetNegated(true);
+  binarizer->SetBackgroundValue(m_ForegroundValue);
+  binarizer->SetFeatureImage(this->GetMaskImage());
+  binarizer->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(binarizer, .2f);
 
-  binarizer->GraftOutput( this->GetOutput() );
+  binarizer->GraftOutput(this->GetOutput());
   binarizer->Update();
-  this->GraftOutput( binarizer->GetOutput() );
+  this->GraftOutput(binarizer->GetOutput());
 }
 
 
-template<typename TInputImage>
+template <typename TInputImage>
 void
-BinaryReconstructionByErosionImageFilter<TInputImage>
-::PrintSelf(std::ostream &os, Indent indent) const
+BinaryReconstructionByErosionImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
-  os << indent << "BackgroundValue: "  << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue) << std::endl;
-  os << indent << "ForegroundValue: "  << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ForegroundValue) << std::endl;
+  os << indent << "FullyConnected: " << m_FullyConnected << std::endl;
+  os << indent
+     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
+     << std::endl;
+  os << indent
+     << "ForegroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ForegroundValue)
+     << std::endl;
 }
 
-}// end namespace itk
+} // end namespace itk
 #endif

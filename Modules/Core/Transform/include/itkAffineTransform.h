@@ -95,19 +95,15 @@ namespace itk
  * \ingroup ITKTransform
  */
 
-template<
-  typename TParametersValueType = double,
-  unsigned int NDimensions = 3 >
+template <typename TParametersValueType = double, unsigned int NDimensions = 3>
 // Number of dimensions in the input space
-class ITK_TEMPLATE_EXPORT AffineTransform:
-  public MatrixOffsetTransformBase< TParametersValueType, NDimensions, NDimensions>
+class ITK_TEMPLATE_EXPORT AffineTransform
+  : public MatrixOffsetTransformBase<TParametersValueType, NDimensions, NDimensions>
 {
 public:
   /** Standard type alias   */
   using Self = AffineTransform;
-  using Superclass = MatrixOffsetTransformBase< TParametersValueType,
-                                     NDimensions,
-                                     NDimensions >;
+  using Superclass = MatrixOffsetTransformBase<TParametersValueType, NDimensions, NDimensions>;
 
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -122,7 +118,7 @@ public:
   static constexpr unsigned int InputSpaceDimension = NDimensions;
   static constexpr unsigned int OutputSpaceDimension = NDimensions;
   static constexpr unsigned int SpaceDimension = NDimensions;
-  static constexpr unsigned int ParametersDimension = NDimensions *( NDimensions + 1 );
+  static constexpr unsigned int ParametersDimension = NDimensions * (NDimensions + 1);
 
   /** Parameters Type   */
   using ParametersType = typename Superclass::ParametersType;
@@ -156,7 +152,8 @@ public:
    * origin.  The translation is precomposed with self if pre is
    * true, and postcomposed otherwise.
    * This updates Translation based on current center. */
-  void Translate(const OutputVectorType & offset, bool pre = false);
+  void
+  Translate(const OutputVectorType & offset, bool pre = false);
 
   /** Compose affine transformation with a scaling
    *
@@ -169,9 +166,11 @@ public:
    * and is not invertible.  The scaling is precomposed with self if
    * pre is true, and postcomposed otherwise.
    * Note that the scaling is applied centered at the origin. */
-  void Scale(const OutputVectorType & factor, bool pre = false);
+  void
+  Scale(const OutputVectorType & factor, bool pre = false);
 
-  void Scale(const TParametersValueType & factor, bool pre = false);
+  void
+  Scale(const TParametersValueType & factor, bool pre = false);
 
   /** Compose affine transformation with an elementary rotation
    *
@@ -188,7 +187,8 @@ public:
    * The rotation is precomposed with self if pre is true, and
    * postcomposed otherwise.
    * Note that the rotation is applied centered at the origin. */
-  void Rotate(int axis1, int axis2, TParametersValueType angle, bool pre = false);
+  void
+  Rotate(int axis1, int axis2, TParametersValueType angle, bool pre = false);
 
   /** Compose 2D affine transformation with a rotation
    *
@@ -203,7 +203,8 @@ public:
    *
    * \todo Find a way to generate a compile-time error
    *       is this is used with NDimensions != 2. */
-  void Rotate2D(TParametersValueType angle, bool pre = false);
+  void
+  Rotate2D(TParametersValueType angle, bool pre = false);
 
   /** Compose 3D affine transformation with a rotation
    *
@@ -218,7 +219,8 @@ public:
    *
    * \todo Find a way to generate a compile-time error
    * is this is used with NDimensions != 3. */
-  void Rotate3D(const OutputVectorType & axis, TParametersValueType angle, bool pre = false);
+  void
+  Rotate3D(const OutputVectorType & axis, TParametersValueType angle, bool pre = false);
 
   /** Compose affine transformation with a shear
    *
@@ -231,13 +233,16 @@ public:
    * y[axis2] =                 x[axis2].
    *
    * Note that the shear is applied centered at the origin. */
-  void Shear(int axis1, int axis2, TParametersValueType coef, bool pre = false);
+  void
+  Shear(int axis1, int axis2, TParametersValueType coef, bool pre = false);
 
   /** Get an inverse of this transform. */
-  bool GetInverse(Self *inverse) const;
+  bool
+  GetInverse(Self * inverse) const;
 
   /** Return an inverse of this transform. */
-  InverseTransformBasePointer GetInverseTransform() const override;
+  InverseTransformBasePointer
+  GetInverseTransform() const override;
 
   /** Compute distance between two affine transformations
    *
@@ -250,12 +255,14 @@ public:
    * two points transformed by the affine transformation would be
    * more useful, but I don't have time right now to work out the
    * mathematical details.) */
-  ScalarType Metric(const Self *other) const;
+  ScalarType
+  Metric(const Self * other) const;
 
   /** This method computes the distance from self to the identity
    * transformation, using the same metric as the one-argument form
    * of the Metric() method. */
-  ScalarType Metric() const;
+  ScalarType
+  Metric() const;
 
 protected:
   /** Construct an AffineTransform object
@@ -265,8 +272,7 @@ protected:
    * to values specified by the caller.  If the arguments are
    * omitted, then the AffineTransform is initialized to an identity
    * transformation in the appropriate number of dimensions.   */
-  AffineTransform(const MatrixType & matrix,
-                  const OutputVectorType & offset);
+  AffineTransform(const MatrixType & matrix, const OutputVectorType & offset);
   AffineTransform(unsigned int paramDims);
   AffineTransform();
 
@@ -274,18 +280,19 @@ protected:
   ~AffineTransform() override = default;
 
   /** Print contents of an AffineTransform */
-  void PrintSelf(std::ostream & s, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & s, Indent indent) const override;
 
 private:
-
   AffineTransform(const Self & other) = delete;
-  const Self & operator=(const Self &) = delete;
-}; //class AffineTransform
+  const Self &
+  operator=(const Self &) = delete;
+}; // class AffineTransform
 
-}  // namespace itk
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAffineTransform.hxx"
+#  include "itkAffineTransform.hxx"
 #endif
 
 #endif /* itkAffineTransform_h */

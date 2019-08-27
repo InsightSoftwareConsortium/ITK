@@ -21,15 +21,17 @@ namespace itk
 {
 MeshFileWriterException::~MeshFileWriterException() noexcept = default;
 
-MeshFileWriterException::MeshFileWriterException(const char *file, unsigned int line,
-                          const char *message,
-                          const char *loc):
-    ExceptionObject(file, line, message, loc)
-  {}
+MeshFileWriterException::MeshFileWriterException(const char * file,
+                                                 unsigned int line,
+                                                 const char * message,
+                                                 const char * loc)
+  : ExceptionObject(file, line, message, loc)
+{}
 
-MeshFileWriterException::MeshFileWriterException(const std::string & file, unsigned int line,
-                          const char *message,
-                          const char *loc):
-    ExceptionObject(file, line, message, loc)
-  {}
-}
+MeshFileWriterException::MeshFileWriterException(const std::string & file,
+                                                 unsigned int        line,
+                                                 const char *        message,
+                                                 const char *        loc)
+  : ExceptionObject(file, line, message, loc)
+{}
+} // namespace itk

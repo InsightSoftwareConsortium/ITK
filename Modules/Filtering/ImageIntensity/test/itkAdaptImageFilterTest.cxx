@@ -44,22 +44,24 @@
 //-------------------------------------
 //     Typedefs for convenience
 //-------------------------------------
-using myRGBImageType = itk::Image< itk::RGBPixel<float>,   2 >;
-using myRGBIteratorType = itk::ImageRegionIteratorWithIndex< myRGBImageType >;
+using myRGBImageType = itk::Image<itk::RGBPixel<float>, 2>;
+using myRGBIteratorType = itk::ImageRegionIteratorWithIndex<myRGBImageType>;
 
 using myRedAccessorType = itk::RedPixelAccessor<float>;
 using myGreenAccessorType = itk::GreenPixelAccessor<float>;
 using myBlueAccessorType = itk::BluePixelAccessor<float>;
 
-using myImageType = itk::Image< float,   2 >;
-using myIteratorType = itk::ImageRegionIteratorWithIndex< myImageType >;
+using myImageType = itk::Image<float, 2>;
+using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
 
 //-------------------------
 //
 //   Main code
 //
 //-------------------------
-int itkAdaptImageFilterTest(int, char* [] ) {
+int
+itkAdaptImageFilterTest(int, char *[])
+{
 
 
   myRGBImageType::SizeType size;
@@ -71,129 +73,131 @@ int itkAdaptImageFilterTest(int, char* [] ) {
   index[1] = 0;
 
   myRGBImageType::RegionType region;
-  region.SetIndex( index );
-  region.SetSize(  size  );
+  region.SetIndex(index);
+  region.SetSize(size);
 
   myRGBImageType::Pointer myImage = myRGBImageType::New();
 
 
-  myImage->SetRegions( region );
+  myImage->SetRegions(region);
   myImage->Allocate();
 
-  myRGBIteratorType  it1( myImage, myImage->GetRequestedRegion() );
+  myRGBIteratorType it1(myImage, myImage->GetRequestedRegion());
 
   // Value to initialize the pixels
   myRGBImageType::PixelType color;
 
   // Initializing all the pixel in the image
   it1.GoToBegin();
-  while( !it1.IsAtEnd() )
-    {
-    color.Set( (float) vnl_sample_uniform(0.0, 1.0),
-               (float) vnl_sample_uniform(0.0, 1.0),
-               (float) vnl_sample_uniform(0.0, 1.0) );
+  while (!it1.IsAtEnd())
+  {
+    color.Set(
+      (float)vnl_sample_uniform(0.0, 1.0), (float)vnl_sample_uniform(0.0, 1.0), (float)vnl_sample_uniform(0.0, 1.0));
     it1.Set(color);
     ++it1;
-    }
+  }
 
   // Reading the values to verify the image content
   std::cout << "--- Initial image --- " << std::endl;
   it1.GoToBegin();
-  while( !it1.IsAtEnd() )
-    {
-    const myRGBImageType::PixelType c( it1.Get() );
-    std::cout << c.GetRed()   << "  ";
+  while (!it1.IsAtEnd())
+  {
+    const myRGBImageType::PixelType c(it1.Get());
+    std::cout << c.GetRed() << "  ";
     std::cout << c.GetGreen() << "  ";
-    std::cout << c.GetBlue()  << std::endl;
+    std::cout << c.GetBlue() << std::endl;
     ++it1;
-    }
+  }
 
 
   bool passed = true;
 
   // Convert to a red image
-  itk::AdaptImageFilter<myRGBImageType, myImageType, myRedAccessorType>::Pointer  adaptImageToRed = itk::AdaptImageFilter<myRGBImageType, myImageType, myRedAccessorType>::New();
+  itk::AdaptImageFilter<myRGBImageType, myImageType, myRedAccessorType>::Pointer adaptImageToRed =
+    itk::AdaptImageFilter<myRGBImageType, myImageType, myRedAccessorType>::New();
   itk::SimpleFilterWatcher redWatcher(adaptImageToRed, "Red");
   adaptImageToRed->SetInput(myImage);
   adaptImageToRed->UpdateLargestPossibleRegion();
 
-  myIteratorType  it( adaptImageToRed->GetOutput(), adaptImageToRed->GetOutput()->GetRequestedRegion() );
+  myIteratorType it(adaptImageToRed->GetOutput(), adaptImageToRed->GetOutput()->GetRequestedRegion());
 
   std::cout << "--- Red values --- " << std::endl;
 
   it.GoToBegin();
   it1.GoToBegin();
-  while( !it.IsAtEnd() )
+  while (!it.IsAtEnd())
   {
-  std::cout << it.Get()   << std::endl;
-  if (itk::Math::NotExactlyEquals(it.Get(), it1.Get().GetRed()))
+    std::cout << it.Get() << std::endl;
+    if (itk::Math::NotExactlyEquals(it.Get(), it1.Get().GetRed()))
     {
-    passed = false;
+      passed = false;
     }
 
-  ++it;
-  ++it1;
+    ++it;
+    ++it1;
   }
 
   // Convert to a green image
-  itk::AdaptImageFilter<myRGBImageType, myImageType, myGreenAccessorType>::Pointer  adaptImageToGreen = itk::AdaptImageFilter<myRGBImageType, myImageType, myGreenAccessorType>::New();
+  itk::AdaptImageFilter<myRGBImageType, myImageType, myGreenAccessorType>::Pointer adaptImageToGreen =
+    itk::AdaptImageFilter<myRGBImageType, myImageType, myGreenAccessorType>::New();
   itk::SimpleFilterWatcher greenWatcher(adaptImageToGreen, "Green");
 
   adaptImageToGreen->SetInput(myImage);
   adaptImageToGreen->UpdateLargestPossibleRegion();
 
-  it = myIteratorType( adaptImageToGreen->GetOutput(), adaptImageToGreen->GetOutput()->GetRequestedRegion() );
+  it = myIteratorType(adaptImageToGreen->GetOutput(), adaptImageToGreen->GetOutput()->GetRequestedRegion());
 
   std::cout << "--- Green values --- " << std::endl;
 
   it.GoToBegin();
   it1.GoToBegin();
-  while( !it.IsAtEnd() )
+  while (!it.IsAtEnd())
   {
-  std::cout << it.Get()   << std::endl;
-  if (itk::Math::NotExactlyEquals(it.Get(), it1.Get().GetGreen()))
+    std::cout << it.Get() << std::endl;
+    if (itk::Math::NotExactlyEquals(it.Get(), it1.Get().GetGreen()))
     {
-    passed = false;
+      passed = false;
     }
 
-  ++it;
-  ++it1;
+    ++it;
+    ++it1;
   }
 
   // Convert to a blue image
-  itk::AdaptImageFilter<myRGBImageType, myImageType, myBlueAccessorType>::Pointer  adaptImageToBlue = itk::AdaptImageFilter<myRGBImageType, myImageType, myBlueAccessorType>::New();
+  itk::AdaptImageFilter<myRGBImageType, myImageType, myBlueAccessorType>::Pointer adaptImageToBlue =
+    itk::AdaptImageFilter<myRGBImageType, myImageType, myBlueAccessorType>::New();
   itk::SimpleFilterWatcher blueWatcher(adaptImageToBlue, "Blue");
 
   adaptImageToBlue->SetInput(myImage);
   adaptImageToBlue->UpdateLargestPossibleRegion();
 
-  it = myIteratorType( adaptImageToBlue->GetOutput(), adaptImageToBlue->GetOutput()->GetRequestedRegion() );
+  it = myIteratorType(adaptImageToBlue->GetOutput(), adaptImageToBlue->GetOutput()->GetRequestedRegion());
 
   std::cout << "--- Blue values --- " << std::endl;
 
   it.GoToBegin();
   it1.GoToBegin();
-  while( !it.IsAtEnd() )
+  while (!it.IsAtEnd())
   {
-  std::cout << it.Get()   << std::endl;
-  if (itk::Math::NotExactlyEquals(it.Get(), it1.Get().GetBlue()))
+    std::cout << it.Get() << std::endl;
+    if (itk::Math::NotExactlyEquals(it.Get(), it1.Get().GetBlue()))
     {
-    passed = false;
+      passed = false;
     }
 
-  ++it;
-  ++it1;
+    ++it;
+    ++it1;
   }
 
   std::cout << std::endl;
   if (passed)
-    {
+  {
     std::cout << "AdaptImageFilterTest passed." << std::endl;
     return EXIT_SUCCESS;
-    }
+  }
   else
-    {
+  {
     std::cerr << "AdaptImageFilterTest failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 }

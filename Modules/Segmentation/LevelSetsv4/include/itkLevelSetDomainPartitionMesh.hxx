@@ -23,40 +23,37 @@
 namespace itk
 {
 
-template< typename TMesh >
+template <typename TMesh>
 void
-LevelSetDomainPartitionMesh <TMesh>
-::PopulateListDomain()
+LevelSetDomainPartitionMesh<TMesh>::PopulateListDomain()
 {
-  PointsContainerConstPointer points = this->m_Mesh->GetPoints();
+  PointsContainerConstPointer  points = this->m_Mesh->GetPoints();
   PointsContainerConstIterator p_it = points->Begin();
   PointsContainerConstIterator p_end = points->End();
 
-  while( p_it != p_end )
-    {
+  while (p_it != p_end)
+  {
     PointIdentifierType & idx = p_it->Index();
-    IdentifierListType identifierList;
+    IdentifierListType    identifierList;
 
-    for( IdentifierType i = NumericTraits< IdentifierType >::ZeroValue(); i < this->m_NumberOfLevelSetFunctions; ++i )
+    for (IdentifierType i = NumericTraits<IdentifierType>::ZeroValue(); i < this->m_NumberOfLevelSetFunctions; ++i)
+    {
+      if (this->m_LevelSetDataPointerVector[i]->VerifyInsideRegion(idx))
       {
-      if ( this->m_LevelSetDataPointerVector[i]->VerifyInsideRegion( idx ) )
-        {
         identifierList.push_back(i);
-        }
-
-      this->m_ListDomain[ idx ] = identifierList;
-      ++p_it;
       }
+
+      this->m_ListDomain[idx] = identifierList;
+      ++p_it;
     }
+  }
 }
 
-template< typename TMesh >
+template <typename TMesh>
 void
-LevelSetDomainPartitionMesh <TMesh>
-::AllocateListDomain()
-{
-}
+LevelSetDomainPartitionMesh<TMesh>::AllocateListDomain()
+{}
 
-} //end namespace itk
+} // end namespace itk
 
 #endif

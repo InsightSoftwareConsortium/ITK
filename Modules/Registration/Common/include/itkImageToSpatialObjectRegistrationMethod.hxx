@@ -23,18 +23,17 @@
 namespace itk
 {
 
-template< typename TFixedImage, typename TMovingSpatialObject >
-ImageToSpatialObjectRegistrationMethod< TFixedImage, TMovingSpatialObject >
-::ImageToSpatialObjectRegistrationMethod()
+template <typename TFixedImage, typename TMovingSpatialObject>
+ImageToSpatialObjectRegistrationMethod<TFixedImage, TMovingSpatialObject>::ImageToSpatialObjectRegistrationMethod()
 {
   this->SetNumberOfRequiredOutputs(1); // for the Transform
 
-  m_FixedImage          = nullptr; // has to be provided by the user
+  m_FixedImage = nullptr;          // has to be provided by the user
   m_MovingSpatialObject = nullptr; // has to be provided by the user
-  m_Transform           = nullptr; // has to be provided by the user
-  m_Interpolator        = nullptr; // has to be provided by the user
-  m_Metric              = nullptr; // has to be provided by the user
-  m_Optimizer           = nullptr; // has to be provided by the user
+  m_Transform = nullptr;           // has to be provided by the user
+  m_Interpolator = nullptr;        // has to be provided by the user
+  m_Metric = nullptr;              // has to be provided by the user
+  m_Optimizer = nullptr;           // has to be provided by the user
 
   m_InitialTransformParameters = ParametersType(1);
   m_LastTransformParameters = ParametersType(1);
@@ -43,45 +42,44 @@ ImageToSpatialObjectRegistrationMethod< TFixedImage, TMovingSpatialObject >
   m_LastTransformParameters.Fill(0.0f);
 
   TransformOutputPointer transformDecorator =
-    itkDynamicCastInDebugMode< TransformOutputType * >(this->MakeOutput(0).GetPointer() );
+    itkDynamicCastInDebugMode<TransformOutputType *>(this->MakeOutput(0).GetPointer());
 
-  this->ProcessObject::SetNthOutput( 0, transformDecorator.GetPointer() );
+  this->ProcessObject::SetNthOutput(0, transformDecorator.GetPointer());
 }
 
-template< typename TFixedImage, typename TMovingSpatialObject >
+template <typename TFixedImage, typename TMovingSpatialObject>
 void
-ImageToSpatialObjectRegistrationMethod< TFixedImage, TMovingSpatialObject >
-::Initialize()
+ImageToSpatialObjectRegistrationMethod<TFixedImage, TMovingSpatialObject>::Initialize()
 {
-  if ( !m_FixedImage )
-    {
+  if (!m_FixedImage)
+  {
     itkExceptionMacro(<< "FixedImage is not present");
-    }
+  }
 
-  if ( !m_MovingSpatialObject )
-    {
+  if (!m_MovingSpatialObject)
+  {
     itkExceptionMacro(<< "MovingSpatialObject is not present");
-    }
+  }
 
-  if ( !m_Metric )
-    {
+  if (!m_Metric)
+  {
     itkExceptionMacro(<< "Metric is not present");
-    }
+  }
 
-  if ( !m_Optimizer )
-    {
+  if (!m_Optimizer)
+  {
     itkExceptionMacro(<< "Optimizer is not present");
-    }
+  }
 
-  if ( !m_Transform )
-    {
+  if (!m_Transform)
+  {
     itkExceptionMacro(<< "Transform is not present");
-    }
+  }
 
-  if ( !m_Interpolator )
-    {
+  if (!m_Interpolator)
+  {
     itkExceptionMacro(<< "Interpolator is not present");
-    }
+  }
 
   m_Interpolator->SetInputImage(m_FixedImage);
 
@@ -96,74 +94,72 @@ ImageToSpatialObjectRegistrationMethod< TFixedImage, TMovingSpatialObject >
   m_Optimizer->SetCostFunction(m_Metric);
 
   // Validate initial transform parameters
-  if ( m_InitialTransformParameters.Size() != m_Metric->GetNumberOfParameters() )
-    {
+  if (m_InitialTransformParameters.Size() != m_Metric->GetNumberOfParameters())
+  {
     itkWarningMacro(<< " WARNING : Size mismatch between initial parameter and transform");
-    itkWarningMacro( << "Resizing m_InitialTransformParameters to  " << m_Transform->GetNumberOfParameters() );
-    m_InitialTransformParameters.set_size( m_Transform->GetNumberOfParameters() );
+    itkWarningMacro(<< "Resizing m_InitialTransformParameters to  " << m_Transform->GetNumberOfParameters());
+    m_InitialTransformParameters.set_size(m_Transform->GetNumberOfParameters());
     m_InitialTransformParameters.Fill(0.0f);
-    }
+  }
 
-  if ( m_LastTransformParameters.Size() != m_Transform->GetNumberOfParameters() )
-    {
-    m_LastTransformParameters.set_size( m_Transform->GetNumberOfParameters() );
+  if (m_LastTransformParameters.Size() != m_Transform->GetNumberOfParameters())
+  {
+    m_LastTransformParameters.set_size(m_Transform->GetNumberOfParameters());
     m_LastTransformParameters.Fill(0.0f);
-    }
+  }
 
   m_Optimizer->SetInitialPosition(m_InitialTransformParameters);
 
   // Connect the transform to the Decorator
-  auto * transformOutput = static_cast< TransformOutputType * >( this->ProcessObject::GetOutput(0) );
+  auto * transformOutput = static_cast<TransformOutputType *>(this->ProcessObject::GetOutput(0));
 
-  transformOutput->Set( m_Transform );
+  transformOutput->Set(m_Transform);
 }
 
-template< typename TFixedImage, typename TMovingSpatialObject >
+template <typename TFixedImage, typename TMovingSpatialObject>
 void
-ImageToSpatialObjectRegistrationMethod< TFixedImage, TMovingSpatialObject >
-::GenerateData()
+ImageToSpatialObjectRegistrationMethod<TFixedImage, TMovingSpatialObject>::GenerateData()
 {
   try
-    {
+  {
     // Initialize the interconnects between components
     this->Initialize();
-    }
-  catch ( ExceptionObject & err )
-    {
+  }
+  catch (ExceptionObject & err)
+  {
     // Pass exception to caller
     throw err;
-    }
+  }
 
   try
-    {
+  {
     // Do the optimization
     m_Optimizer->StartOptimization();
-    }
-  catch ( ExceptionObject & err )
-    {
+  }
+  catch (ExceptionObject & err)
+  {
     // An error has occurred in the optimization.
     // Update the parameters
     m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
     // Pass exception to caller
     throw err;
-    }
+  }
 
   // Get the results
   m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
 }
 
-template< typename TFixedImage, typename TMovingSpatialObject >
-const typename ImageToSpatialObjectRegistrationMethod< TFixedImage, TMovingSpatialObject >::TransformOutputType *
-ImageToSpatialObjectRegistrationMethod< TFixedImage, TMovingSpatialObject >
-::GetOutput() const
+template <typename TFixedImage, typename TMovingSpatialObject>
+const typename ImageToSpatialObjectRegistrationMethod<TFixedImage, TMovingSpatialObject>::TransformOutputType *
+ImageToSpatialObjectRegistrationMethod<TFixedImage, TMovingSpatialObject>::GetOutput() const
 {
-  return static_cast< const TransformOutputType * >( this->ProcessObject::GetOutput(0) );
+  return static_cast<const TransformOutputType *>(this->ProcessObject::GetOutput(0));
 }
 
-template< typename TFixedImage, typename TMovingSpatialObject >
+template <typename TFixedImage, typename TMovingSpatialObject>
 DataObject::Pointer
-ImageToSpatialObjectRegistrationMethod< TFixedImage, TMovingSpatialObject >
-::MakeOutput(DataObjectPointerArraySizeType output)
+ImageToSpatialObjectRegistrationMethod<TFixedImage, TMovingSpatialObject>::MakeOutput(
+  DataObjectPointerArraySizeType output)
 {
   if (output > 0)
   {
@@ -172,10 +168,9 @@ ImageToSpatialObjectRegistrationMethod< TFixedImage, TMovingSpatialObject >
   return TransformOutputType::New().GetPointer();
 }
 
-template< typename TFixedImage, typename TMovingSpatialObject >
+template <typename TFixedImage, typename TMovingSpatialObject>
 ModifiedTimeType
-ImageToSpatialObjectRegistrationMethod< TFixedImage, TMovingSpatialObject >
-::GetMTime() const
+ImageToSpatialObjectRegistrationMethod<TFixedImage, TMovingSpatialObject>::GetMTime() const
 {
   ModifiedTimeType mtime = Superclass::GetMTime();
   ModifiedTimeType m;
@@ -183,49 +178,49 @@ ImageToSpatialObjectRegistrationMethod< TFixedImage, TMovingSpatialObject >
   // Some of the following should be removed once ivars are put in the
   // input and output lists
 
-  if ( m_Transform )
-    {
+  if (m_Transform)
+  {
     m = m_Transform->GetMTime();
-    mtime = ( m > mtime ? m : mtime );
-    }
+    mtime = (m > mtime ? m : mtime);
+  }
 
-  if ( m_Interpolator )
-    {
+  if (m_Interpolator)
+  {
     m = m_Interpolator->GetMTime();
-    mtime = ( m > mtime ? m : mtime );
-    }
+    mtime = (m > mtime ? m : mtime);
+  }
 
-  if ( m_Metric )
-    {
+  if (m_Metric)
+  {
     m = m_Metric->GetMTime();
-    mtime = ( m > mtime ? m : mtime );
-    }
+    mtime = (m > mtime ? m : mtime);
+  }
 
-  if ( m_Optimizer )
-    {
+  if (m_Optimizer)
+  {
     m = m_Optimizer->GetMTime();
-    mtime = ( m > mtime ? m : mtime );
-    }
+    mtime = (m > mtime ? m : mtime);
+  }
 
-  if ( m_FixedImage )
-    {
+  if (m_FixedImage)
+  {
     m = m_FixedImage->GetMTime();
-    mtime = ( m > mtime ? m : mtime );
-    }
+    mtime = (m > mtime ? m : mtime);
+  }
 
-  if ( m_MovingSpatialObject )
-    {
+  if (m_MovingSpatialObject)
+  {
     m = m_MovingSpatialObject->GetMTime();
-    mtime = ( m > mtime ? m : mtime );
-    }
+    mtime = (m > mtime ? m : mtime);
+  }
 
   return mtime;
 }
 
-template< typename TFixedImage, typename TMovingSpatialObject >
+template <typename TFixedImage, typename TMovingSpatialObject>
 void
-ImageToSpatialObjectRegistrationMethod< TFixedImage, TMovingSpatialObject >
-::PrintSelf(std::ostream & os, Indent indent) const
+ImageToSpatialObjectRegistrationMethod<TFixedImage, TMovingSpatialObject>::PrintSelf(std::ostream & os,
+                                                                                     Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Metric: " << m_Metric.GetPointer() << std::endl;

@@ -35,20 +35,17 @@ namespace itk
  * morphology classes in itk.
  * \ingroup ITKMathematicalMorphology
  */
-template< typename TImage, typename TKernel,
-          typename TFunction1 >
-class ITK_TEMPLATE_EXPORT AnchorErodeDilateImageFilter:
-  public KernelImageFilter< TImage, TImage, TKernel >
+template <typename TImage, typename TKernel, typename TFunction1>
+class ITK_TEMPLATE_EXPORT AnchorErodeDilateImageFilter : public KernelImageFilter<TImage, TImage, TKernel>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AnchorErodeDilateImageFilter);
 
   /** Standard class type aliases. */
   using Self = AnchorErodeDilateImageFilter;
-  using Superclass =
-      KernelImageFilter< TImage, TImage, TKernel >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = KernelImageFilter<TImage, TImage, TKernel>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   /** Kernel type alias. */
@@ -70,8 +67,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(AnchorErodeDilateImageFilter,
-               KernelImageFilter);
+  itkTypeMacro(AnchorErodeDilateImageFilter, KernelImageFilter);
 
   /** Set/Get the boundary value. */
   itkSetMacro(Boundary, InputImagePixelType);
@@ -80,25 +76,27 @@ public:
 protected:
   AnchorErodeDilateImageFilter();
   ~AnchorErodeDilateImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Multi-thread version GenerateData. */
-  void  DynamicThreadedGenerateData(const InputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const InputImageRegionType & outputRegionForThread) override;
 
 
   // should be set by the meta filter
   InputImagePixelType m_Boundary;
 
 private:
-  using BresType = BresenhamLine< Self::InputImageDimension >;
+  using BresType = BresenhamLine<Self::InputImageDimension>;
 
   // the class that operates on lines
-  using AnchorLineType = AnchorErodeDilateLine< InputImagePixelType, TFunction1 >;
+  using AnchorLineType = AnchorErodeDilateLine<InputImagePixelType, TFunction1>;
 }; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAnchorErodeDilateImageFilter.hxx"
+#  include "itkAnchorErodeDilateImageFilter.hxx"
 #endif
 
 #endif

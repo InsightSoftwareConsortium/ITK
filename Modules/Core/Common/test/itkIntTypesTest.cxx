@@ -23,20 +23,23 @@ namespace
 {
 
 template <typename T>
-bool CheckSize( size_t size, T* = nullptr )
+bool
+CheckSize(size_t size, T * = nullptr)
 {
-  return ( sizeof( T ) == size );
+  return (sizeof(T) == size);
 }
 
 template <typename T>
-bool CheckAtleastSize( size_t size, T* = nullptr )
+bool
+CheckAtleastSize(size_t size, T * = nullptr)
 {
-  return ( sizeof( T ) >= size );
+  return (sizeof(T) >= size);
 }
 
 
 template <typename T>
-bool CheckTraits( bool issigned, T* = nullptr )
+bool
+CheckTraits(bool issigned, T * = nullptr)
 {
   // make sure that we have a specialized NumericTraits
   T t0 = itk::NumericTraits<T>::ZeroValue();
@@ -50,93 +53,91 @@ bool CheckTraits( bool issigned, T* = nullptr )
   if (!itk::NumericTraits<T>::is_specialized)
     return false;
 
-  if (itk::NumericTraits<T>::is_signed != issigned )
+  if (itk::NumericTraits<T>::is_signed != issigned)
     return false;
 
   return true;
 }
 
 
-template<typename T>
-bool CheckType( size_t size, bool exactSize, bool issigned, const char * name, T* = nullptr )
+template <typename T>
+bool
+CheckType(size_t size, bool exactSize, bool issigned, const char * name, T * = nullptr)
 {
   bool ret = true;
 
-  if ( exactSize )
-    ret &= CheckSize<T>( size );
+  if (exactSize)
+    ret &= CheckSize<T>(size);
   else
-    ret &= CheckAtleastSize<T>( size );
+    ret &= CheckAtleastSize<T>(size);
 
-  ret &= CheckTraits<T>( issigned );
+  ret &= CheckTraits<T>(issigned);
 
   if (ret)
     return ret;
 
-  std::cout << "error with type \"" << name
-            << "\" sizeof: " << sizeof(T)
-            << " specialized: " << itk::NumericTraits<T>::is_specialized
-            << " digits: " << itk::NumericTraits<T>::digits
-            << " signed: " << itk::NumericTraits<T>::is_signed
-            << std::endl;
+  std::cout << "error with type \"" << name << "\" sizeof: " << sizeof(T)
+            << " specialized: " << itk::NumericTraits<T>::is_specialized << " digits: " << itk::NumericTraits<T>::digits
+            << " signed: " << itk::NumericTraits<T>::is_signed << std::endl;
   return ret;
-
 }
 
 } // namespace
 
-#define CHECKTYPE( T, SIZE, EXACT, ISSIGNED ) CheckType<T>( SIZE, EXACT, ISSIGNED, #T )
+#define CHECKTYPE(T, SIZE, EXACT, ISSIGNED) CheckType<T>(SIZE, EXACT, ISSIGNED, #T)
 
-int itkIntTypesTest( int, char *[] )
+int
+itkIntTypesTest(int, char *[])
 {
   bool pass = true;
   // fixed width types
-  pass &= CHECKTYPE( itk::int8_t, 1, true, true );
-  pass &= CHECKTYPE( itk::uint8_t, 1, true, false );
+  pass &= CHECKTYPE(itk::int8_t, 1, true, true);
+  pass &= CHECKTYPE(itk::uint8_t, 1, true, false);
 
-  pass &= CHECKTYPE( itk::int16_t, 2, true, true );
-  pass &= CHECKTYPE( itk::uint16_t, 2, true, false );
+  pass &= CHECKTYPE(itk::int16_t, 2, true, true);
+  pass &= CHECKTYPE(itk::uint16_t, 2, true, false);
 
-  pass &= CHECKTYPE( itk::int32_t, 4, true, true );
-  pass &= CHECKTYPE( itk::uint32_t, 4, true, false );
+  pass &= CHECKTYPE(itk::int32_t, 4, true, true);
+  pass &= CHECKTYPE(itk::uint32_t, 4, true, false);
 
 
   // least types
-  pass &= CHECKTYPE( itk::int_least8_t, 1, false, true );
-  pass &= CHECKTYPE( itk::uint_least8_t, 1, false, false );
+  pass &= CHECKTYPE(itk::int_least8_t, 1, false, true);
+  pass &= CHECKTYPE(itk::uint_least8_t, 1, false, false);
 
-  pass &= CHECKTYPE( itk::int_least16_t, 2, false, true );
-  pass &= CHECKTYPE( itk::uint_least16_t, 2, false, false );
+  pass &= CHECKTYPE(itk::int_least16_t, 2, false, true);
+  pass &= CHECKTYPE(itk::uint_least16_t, 2, false, false);
 
-  pass &= CHECKTYPE( itk::int_least32_t, 4, false, true );
-  pass &= CHECKTYPE( itk::uint_least32_t, 4, false, false );
+  pass &= CHECKTYPE(itk::int_least32_t, 4, false, true);
+  pass &= CHECKTYPE(itk::uint_least32_t, 4, false, false);
 
   // fast types
-  pass &= CHECKTYPE( itk::int_fast8_t, 1, false, true );
-  pass &= CHECKTYPE( itk::uint_fast8_t, 1, false, false );
+  pass &= CHECKTYPE(itk::int_fast8_t, 1, false, true);
+  pass &= CHECKTYPE(itk::uint_fast8_t, 1, false, false);
 
-  pass &= CHECKTYPE( itk::int_fast16_t, 2, false, true );
-  pass &= CHECKTYPE( itk::uint_fast16_t, 2, false, false );
+  pass &= CHECKTYPE(itk::int_fast16_t, 2, false, true);
+  pass &= CHECKTYPE(itk::uint_fast16_t, 2, false, false);
 
-  pass &= CHECKTYPE( itk::int_fast32_t, 4, false, true );
-  pass &= CHECKTYPE( itk::uint_fast32_t, 4, false, false );
+  pass &= CHECKTYPE(itk::int_fast32_t, 4, false, true);
+  pass &= CHECKTYPE(itk::uint_fast32_t, 4, false, false);
 
-  pass &= CHECKTYPE( itk::int64_t, 8, true, true );
-  pass &= CHECKTYPE( itk::uint64_t, 8, true, false );
+  pass &= CHECKTYPE(itk::int64_t, 8, true, true);
+  pass &= CHECKTYPE(itk::uint64_t, 8, true, false);
 
-  pass &= CHECKTYPE( itk::int_least64_t, 8, false, true );
-  pass &= CHECKTYPE( itk::uint_least64_t, 8, false, false );
+  pass &= CHECKTYPE(itk::int_least64_t, 8, false, true);
+  pass &= CHECKTYPE(itk::uint_least64_t, 8, false, false);
 
-  pass &= CHECKTYPE( itk::int_fast64_t, 8, false, true );
-  pass &= CHECKTYPE( itk::uint_fast64_t, 8, false, false );
+  pass &= CHECKTYPE(itk::int_fast64_t, 8, false, true);
+  pass &= CHECKTYPE(itk::uint_fast64_t, 8, false, false);
 
-  pass &= CHECKTYPE( itk::intmax_t, 4, false, true );
-  pass &= CHECKTYPE( itk::uintmax_t, 4, false, false );
+  pass &= CHECKTYPE(itk::intmax_t, 4, false, true);
+  pass &= CHECKTYPE(itk::uintmax_t, 4, false, false);
 
-  pass &= CHECKTYPE( itk::intptr_t, sizeof(void *), false, true );
-  pass &= CHECKTYPE( itk::uintptr_t, sizeof(void *), false, false );
+  pass &= CHECKTYPE(itk::intptr_t, sizeof(void *), false, true);
+  pass &= CHECKTYPE(itk::uintptr_t, sizeof(void *), false, false);
 
 
-  if ( pass )
+  if (pass)
     return EXIT_SUCCESS;
 
   return EXIT_FAILURE;

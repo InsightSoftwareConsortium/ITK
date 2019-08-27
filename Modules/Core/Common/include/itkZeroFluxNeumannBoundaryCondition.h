@@ -54,14 +54,13 @@ namespace itk
  * \ingroup ImageObjects
  * \ingroup ITKCommon
  */
-template< typename TInputImage, typename TOutputImage = TInputImage >
-class ITK_TEMPLATE_EXPORT ZeroFluxNeumannBoundaryCondition:
-    public ImageBoundaryCondition< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT ZeroFluxNeumannBoundaryCondition : public ImageBoundaryCondition<TInputImage, TOutputImage>
 {
 public:
   /** Standard class type aliases. */
   using Self = ZeroFluxNeumannBoundaryCondition;
-  using Superclass = ImageBoundaryCondition< TInputImage, TOutputImage >;
+  using Superclass = ImageBoundaryCondition<TInputImage, TOutputImage>;
 
   /** Extract information from the image type. */
   using PixelType = typename Superclass::PixelType;
@@ -82,24 +81,26 @@ public:
   ZeroFluxNeumannBoundaryCondition() = default;
 
   /** Runtime information support. */
-  const char * GetNameOfClass() const override
+  const char *
+  GetNameOfClass() const override
   {
     return "itkZeroFluxNeumannBoundaryCondition";
   }
 
   /** Computes and returns a neighborhood of appropriate values from
    * neighborhood iterator data.. */
-  OutputPixelType operator()(const OffsetType & point_index,
-                                     const OffsetType & boundary_offset,
-                                     const NeighborhoodType *data) const override;
+  OutputPixelType
+  operator()(const OffsetType &       point_index,
+             const OffsetType &       boundary_offset,
+             const NeighborhoodType * data) const override;
 
   /** Computes and returns the appropriate pixel value from
    * neighborhood iterator data, using the functor. */
-  OutputPixelType operator()(
-    const OffsetType & point_index,
-    const OffsetType & boundary_offset,
-    const NeighborhoodType *data,
-    const NeighborhoodAccessorFunctorType & neighborhoodAccessorFunctor) const override;
+  OutputPixelType
+  operator()(const OffsetType &                      point_index,
+             const OffsetType &                      boundary_offset,
+             const NeighborhoodType *                data,
+             const NeighborhoodAccessorFunctorType & neighborhoodAccessorFunctor) const override;
 
   /** Determines the necessary input region for the output region.
    * For this boundary condition, only the intersection of the largest
@@ -112,8 +113,9 @@ public:
    * \return The necessary input region required to determine the
    * pixel values in the outputRequestedRegion.
    */
-  RegionType GetInputRequestedRegion( const RegionType & inputLargestPossibleRegion,
-                                              const RegionType & outputRequestedRegion ) const override;
+  RegionType
+  GetInputRequestedRegion(const RegionType & inputLargestPossibleRegion,
+                          const RegionType & outputRequestedRegion) const override;
 
   /** Returns a value for a given pixel at an index. If the index is inside the
    * bounds of the input image, then the pixel value is obtained from
@@ -122,13 +124,13 @@ public:
    * \param index The index of the desired pixel.
    * \param image The image from which pixel values should be determined.
    */
-  OutputPixelType GetPixel( const IndexType & index, const TInputImage * image ) const override;
-
+  OutputPixelType
+  GetPixel(const IndexType & index, const TInputImage * image) const override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkZeroFluxNeumannBoundaryCondition.hxx"
+#  include "itkZeroFluxNeumannBoundaryCondition.hxx"
 #endif
 
 /*

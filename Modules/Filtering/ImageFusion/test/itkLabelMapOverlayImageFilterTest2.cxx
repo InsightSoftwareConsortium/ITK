@@ -23,43 +23,44 @@
 #include "itkLabelMapOverlayImageFilter.h"
 
 
-int itkLabelMapOverlayImageFilterTest2(int argc, char * argv[])
+int
+itkLabelMapOverlayImageFilterTest2(int argc, char * argv[])
 {
-  if( argc != 5 )
-    {
+  if (argc != 5)
+  {
     std::cerr << "usage: " << argv[0] << " input input output opacity" << std::endl;
     exit(1);
-    }
+  }
 
   constexpr int dim = 2;
 
-  using IType = itk::Image< unsigned char, dim >;
-  using OType = itk::VectorImage< unsigned char, dim >;
+  using IType = itk::Image<unsigned char, dim>;
+  using OType = itk::VectorImage<unsigned char, dim>;
 
-  using ReaderType = itk::ImageFileReader< IType >;
+  using ReaderType = itk::ImageFileReader<IType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
-  using ConverterType = itk::LabelImageToLabelMapFilter< IType >;
+  using ConverterType = itk::LabelImageToLabelMapFilter<IType>;
   ConverterType::Pointer converter = ConverterType::New();
-  converter->SetInput( reader->GetOutput() );
+  converter->SetInput(reader->GetOutput());
 
   ReaderType::Pointer reader2 = ReaderType::New();
-  reader2->SetFileName( argv[2] );
+  reader2->SetFileName(argv[2]);
 
 
-  using ColorizerType = itk::LabelMapOverlayImageFilter< ConverterType::OutputImageType, IType, OType >;
+  using ColorizerType = itk::LabelMapOverlayImageFilter<ConverterType::OutputImageType, IType, OType>;
   ColorizerType::Pointer colorizer = ColorizerType::New();
-  colorizer->SetInput( converter->GetOutput() );
-  colorizer->SetFeatureImage( reader2->GetOutput() );
-  colorizer->SetOpacity( std::stod(argv[4]) );
+  colorizer->SetInput(converter->GetOutput());
+  colorizer->SetFeatureImage(reader2->GetOutput());
+  colorizer->SetOpacity(std::stod(argv[4]));
 
   itk::SimpleFilterWatcher watcher(colorizer, "filter");
 
-  using WriterType = itk::ImageFileWriter< OType >;
+  using WriterType = itk::ImageFileWriter<OType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( colorizer->GetOutput() );
-  writer->SetFileName( argv[3] );
+  writer->SetInput(colorizer->GetOutput());
+  writer->SetFileName(argv[3]);
   writer->Update();
   return 0;
 }

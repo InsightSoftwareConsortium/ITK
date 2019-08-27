@@ -26,9 +26,8 @@ namespace itk
 /**
  * Constructor
  */
-template< typename TInputImage, typename TCoordRep >
-ScatterMatrixImageFunction< TInputImage, TCoordRep >
-::ScatterMatrixImageFunction()
+template <typename TInputImage, typename TCoordRep>
+ScatterMatrixImageFunction<TInputImage, TCoordRep>::ScatterMatrixImageFunction()
 {
   m_NeighborhoodRadius = 1;
 }
@@ -36,81 +35,77 @@ ScatterMatrixImageFunction< TInputImage, TCoordRep >
 /**
  *
  */
-template< typename TInputImage, typename TCoordRep >
+template <typename TInputImage, typename TCoordRep>
 void
-ScatterMatrixImageFunction< TInputImage, TCoordRep >
-::PrintSelf(std::ostream & os, Indent indent) const
+ScatterMatrixImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
-  os << indent << "NeighborhoodRadius: "  << m_NeighborhoodRadius << std::endl;
+  os << indent << "NeighborhoodRadius: " << m_NeighborhoodRadius << std::endl;
 }
 
 /**
  *
  */
-template< typename TInputImage, typename TCoordRep >
-typename ScatterMatrixImageFunction< TInputImage, TCoordRep >
-::RealType
-ScatterMatrixImageFunction< TInputImage, TCoordRep >
-::EvaluateAtIndex(const IndexType & index) const
+template <typename TInputImage, typename TCoordRep>
+typename ScatterMatrixImageFunction<TInputImage, TCoordRep>::RealType
+ScatterMatrixImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const
 {
   RealType covariance;
 
   using PixelType = typename TInputImage::PixelType;
   using PixelComponentType = typename PixelType::ValueType;
 
-  using PixelComponentRealType = typename NumericTraits< PixelComponentType >::RealType;
+  using PixelComponentRealType = typename NumericTraits<PixelComponentType>::RealType;
 
   const unsigned int VectorDimension = PixelType::Dimension;
 
-  covariance = vnl_matrix< PixelComponentRealType >(VectorDimension, VectorDimension);
-  covariance.fill(NumericTraits< PixelComponentRealType >::ZeroValue());
+  covariance = vnl_matrix<PixelComponentRealType>(VectorDimension, VectorDimension);
+  covariance.fill(NumericTraits<PixelComponentRealType>::ZeroValue());
 
-  if ( !this->GetInputImage() )
-    {
-    covariance.fill( NumericTraits< PixelComponentRealType >::max() );
+  if (!this->GetInputImage())
+  {
+    covariance.fill(NumericTraits<PixelComponentRealType>::max());
     return covariance;
-    }
+  }
 
-  if ( !this->IsInsideBuffer(index) )
-    {
-    covariance.fill( NumericTraits< PixelComponentRealType >::max() );
+  if (!this->IsInsideBuffer(index))
+  {
+    covariance.fill(NumericTraits<PixelComponentRealType>::max());
     return covariance;
-    }
+  }
 
   // Create an N-d neighborhood kernel, using a zeroflux boundary condition
   typename InputImageType::SizeType kernelSize;
   kernelSize.Fill(m_NeighborhoodRadius);
 
-  ConstNeighborhoodIterator< InputImageType >
-  it( kernelSize, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion() );
+  ConstNeighborhoodIterator<InputImageType> it(
+    kernelSize, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());
 
   // Set the iterator at the desired location
   it.SetLocation(index);
 
   // Walk the neighborhood
   const unsigned int size = it.Size();
-  for ( unsigned int i = 0; i < size; ++i )
+  for (unsigned int i = 0; i < size; ++i)
+  {
+    for (unsigned int dimx = 0; dimx < VectorDimension; dimx++)
     {
-    for ( unsigned int dimx = 0; dimx < VectorDimension; dimx++ )
+      for (unsigned int dimy = 0; dimy < VectorDimension; dimy++)
       {
-      for ( unsigned int dimy = 0; dimy < VectorDimension; dimy++ )
-        {
-        covariance[dimx][dimy] +=
-          static_cast< PixelComponentRealType >( it.GetPixel(i)[dimx] )
-          * static_cast< PixelComponentRealType >( it.GetPixel(i)[dimy] );
-        }
+        covariance[dimx][dimy] += static_cast<PixelComponentRealType>(it.GetPixel(i)[dimx]) *
+                                  static_cast<PixelComponentRealType>(it.GetPixel(i)[dimy]);
       }
     }
-  for ( unsigned int dimx = 0; dimx < VectorDimension; dimx++ )
+  }
+  for (unsigned int dimx = 0; dimx < VectorDimension; dimx++)
+  {
+    for (unsigned int dimy = 0; dimy < VectorDimension; dimy++)
     {
-    for ( unsigned int dimy = 0; dimy < VectorDimension; dimy++ )
-      {
       covariance[dimx][dimy] /= double(size);
-      }
     }
+  }
 
-  return ( covariance );
+  return (covariance);
 }
 } // end namespace itk
 

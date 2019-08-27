@@ -23,7 +23,8 @@
 #include "itkTestingMacros.h"
 
 
-int itkLogImageFilterAndAdaptorTest( int, char* [] )
+int
+itkLogImageFilterAndAdaptorTest(int, char *[])
 {
   // Define the dimension of the images
   constexpr unsigned int ImageDimension = 3;
@@ -32,21 +33,21 @@ int itkLogImageFilterAndAdaptorTest( int, char* [] )
   using PixelType = float;
 
   // Declare the types of the images
-  using InputImageType = itk::Image< PixelType, ImageDimension>;
-  using OutputImageType = itk::Image< PixelType, ImageDimension>;
+  using InputImageType = itk::Image<PixelType, ImageDimension>;
+  using OutputImageType = itk::Image<PixelType, ImageDimension>;
 
   // Declare appropriate Iterator types for each image
   using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
   using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
   // Declare the type of the index to access images
-  using IndexType = itk::Index< ImageDimension >;
+  using IndexType = itk::Index<ImageDimension>;
 
   // Declare the type of the size
-  using SizeType = itk::Size< ImageDimension >;
+  using SizeType = itk::Size<ImageDimension>;
 
   // Declare the type of the Region
-  using RegionType = itk::ImageRegion< ImageDimension >;
+  using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create the input image
   InputImageType::Pointer inputImage = InputImageType::New();
@@ -63,38 +64,37 @@ int itkLogImageFilterAndAdaptorTest( int, char* [] )
   start[2] = 0;
 
   RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
   // Initialize Image A
-  inputImage->SetLargestPossibleRegion( region );
-  inputImage->SetBufferedRegion( region );
-  inputImage->SetRequestedRegion( region );
+  inputImage->SetLargestPossibleRegion(region);
+  inputImage->SetBufferedRegion(region);
+  inputImage->SetRequestedRegion(region);
   inputImage->Allocate();
 
   // Create one iterator for the Input Image (this is a light object)
-  InputIteratorType it( inputImage, inputImage->GetBufferedRegion() );
+  InputIteratorType it(inputImage, inputImage->GetBufferedRegion());
 
   // Initialize the content of Image A
   const double value = itk::Math::pi / 6.0;
   it.GoToBegin();
-  while( !it.IsAtEnd() )
-    {
-    it.Set( value );
+  while (!it.IsAtEnd())
+  {
+    it.Set(value);
     ++it;
-    }
+  }
 
   // Declare the type for the Log filter
-  using FilterType = itk::LogImageFilter< InputImageType, OutputImageType >;
+  using FilterType = itk::LogImageFilter<InputImageType, OutputImageType>;
 
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, LogImageFilter,
-    UnaryGeneratorImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, LogImageFilter, UnaryGeneratorImageFilter);
 
   // Set the input image
-  filter->SetInput( inputImage );
+  filter->SetInput(inputImage);
 
 
   // Execute the filter
@@ -104,54 +104,49 @@ int itkLogImageFilterAndAdaptorTest( int, char* [] )
   OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Create an iterator for going through the image output
-  OutputIteratorType ot( outputImage, outputImage->GetRequestedRegion() );
+  OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
 
   // Check the content of the result image
   const OutputImageType::PixelType epsilon = 1e-6;
   ot.GoToBegin();
   it.GoToBegin();
-  while( !ot.IsAtEnd() )
-    {
-    const InputImageType::PixelType  input  = it.Get();
+  while (!ot.IsAtEnd())
+  {
+    const InputImageType::PixelType  input = it.Get();
     const OutputImageType::PixelType output = ot.Get();
-    const OutputImageType::PixelType logarithm  = std::log(input);
-    if( !itk::Math::FloatAlmostEqual( logarithm, output, 10, epsilon ) )
-      {
-      std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
+    const OutputImageType::PixelType logarithm = std::log(input);
+    if (!itk::Math::FloatAlmostEqual(logarithm, output, 10, epsilon))
+    {
+      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
       std::cerr << "Error " << std::endl;
       std::cerr << " std::log( " << input << ") = " << logarithm << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
-      }
+    }
     ++ot;
     ++it;
-    }
+  }
 
 
   //
   // Test the itk::LogImageAdaptor
   //
 
-  using AdaptorType = itk::LogImageAdaptor< InputImageType,
-                          OutputImageType::PixelType >;
+  using AdaptorType = itk::LogImageAdaptor<InputImageType, OutputImageType::PixelType>;
 
   AdaptorType::Pointer logAdaptor = AdaptorType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( logAdaptor, LogImageAdaptor,
-    ImageAdaptor );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(logAdaptor, LogImageAdaptor, ImageAdaptor);
 
-  logAdaptor->SetImage( inputImage );
+  logAdaptor->SetImage(inputImage);
 
-  using DiffFilterType = itk::SubtractImageFilter<
-                        OutputImageType,
-                        AdaptorType,
-                        OutputImageType >;
+  using DiffFilterType = itk::SubtractImageFilter<OutputImageType, AdaptorType, OutputImageType>;
 
   DiffFilterType::Pointer diffFilter = DiffFilterType::New();
 
-  diffFilter->SetInput1( outputImage );
-  diffFilter->SetInput2( logAdaptor );
+  diffFilter->SetInput1(outputImage);
+  diffFilter->SetInput2(logAdaptor);
 
   diffFilter->Update();
 
@@ -162,23 +157,23 @@ int itkLogImageFilterAndAdaptorTest( int, char* [] )
   //
 
   // Create an iterator for going through the image output
-  OutputIteratorType dt( diffImage, diffImage->GetRequestedRegion() );
+  OutputIteratorType dt(diffImage, diffImage->GetRequestedRegion());
 
   dt.GoToBegin();
-  while( !dt.IsAtEnd() )
-    {
+  while (!dt.IsAtEnd())
+  {
     const OutputImageType::PixelType diff = dt.Get();
-    if( std::fabs( diff ) > epsilon )
-      {
-      std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
+    if (std::fabs(diff) > epsilon)
+    {
+      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
       std::cerr << "Error comparing results with Adaptors" << std::endl;
       std::cerr << " difference = " << diff << std::endl;
       std::cerr << " differs from 0 ";
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
-      }
-    ++dt;
     }
+    ++dt;
+  }
 
   return EXIT_SUCCESS;
 }

@@ -19,7 +19,8 @@
 #include "itkComposeDisplacementFieldsImageFilter.h"
 #include "itkImageRegionIterator.h"
 
-int itkComposeDisplacementFieldsImageFilterTest( int, char * [] )
+int
+itkComposeDisplacementFieldsImageFilterTest(int, char *[])
 {
   constexpr unsigned int ImageDimension = 2;
 
@@ -33,24 +34,24 @@ int itkComposeDisplacementFieldsImageFilterTest( int, char * [] )
   DisplacementFieldType::DirectionType direction;
 
   direction.SetIdentity();
-  origin.Fill( 0.0 );
-  spacing.Fill( 0.5 );
-  size.Fill( 100 );
+  origin.Fill(0.0);
+  spacing.Fill(0.5);
+  size.Fill(100);
 
-  VectorType ones( 1 );
+  VectorType ones(1);
 
   DisplacementFieldType::Pointer field = DisplacementFieldType::New();
-  field->SetOrigin( origin );
-  field->SetSpacing( spacing );
-  field->SetRegions( size );
-  field->SetDirection( direction );
+  field->SetOrigin(origin);
+  field->SetSpacing(spacing);
+  field->SetRegions(size);
+  field->SetDirection(direction);
   field->Allocate();
-  field->FillBuffer( ones );
+  field->FillBuffer(ones);
 
   using ComposerType = itk::ComposeDisplacementFieldsImageFilter<DisplacementFieldType>;
   ComposerType::Pointer composer = ComposerType::New();
-  composer->SetDisplacementField( field );
-  composer->SetWarpingField( field );
+  composer->SetDisplacementField(field);
+  composer->SetWarpingField(field);
   composer->Update();
 
   std::cout << "displacement field: " << composer->GetDisplacementField() << std::endl;
@@ -58,27 +59,27 @@ int itkComposeDisplacementFieldsImageFilterTest( int, char * [] )
   std::cout << "interpolator: " << composer->GetInterpolator() << std::endl;
 
   try
-    {
+  {
     composer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
-    }
+  }
 
   DisplacementFieldType::IndexType index;
   index[0] = 30;
   index[1] = 30;
 
-  VectorType v = composer->GetOutput()->GetPixel( index );
+  VectorType v = composer->GetOutput()->GetPixel(index);
 
-  if( itk::Math::NotAlmostEquals( v[0], 2 ) || itk::Math::NotAlmostEquals( v[1], 2 ) )
-    {
+  if (itk::Math::NotAlmostEquals(v[0], 2) || itk::Math::NotAlmostEquals(v[1], 2))
+  {
     std::cerr << "Failed to compose properly." << std::endl;
-    }
+  }
 
-  composer->Print( std::cout, 3 );
+  composer->Print(std::cout, 3);
 
   return EXIT_SUCCESS;
 }

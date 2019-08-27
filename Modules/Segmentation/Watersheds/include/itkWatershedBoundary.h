@@ -50,8 +50,8 @@ namespace watershed
  * \ingroup WatershedSegmentation
  * \ingroup ITKWatersheds
  */
-template< typename TScalar, unsigned int TDimension >
-class ITK_TEMPLATE_EXPORT Boundary:public DataObject
+template <typename TScalar, unsigned int TDimension>
+class ITK_TEMPLATE_EXPORT Boundary : public DataObject
 {
 public:
   /** The dimensionality of this boundary.  For example, if the boundary
@@ -64,13 +64,14 @@ public:
    * The IndexType.first is the dimension of the face and IndexType.second is a
    * binary value 0 or 1 indicating the LOW face or the HIGH face,
    * respectively.    */
-  using IndexType = std::pair< unsigned, unsigned >;
-  using ImageType = Image< IdentifierType, TDimension >;
+  using IndexType = std::pair<unsigned, unsigned>;
+  using ImageType = Image<IdentifierType, TDimension>;
   using ImageIndexType = typename ImageType::IndexType;
   using ScalarType = TScalar;
 
   /** Data type stored at each pixel in a face.   */
-  struct face_pixel_t {
+  struct face_pixel_t
+  {
     /**Index of the direction of watershed flow through this pixel.
      * A negative value indicates that the flow does not move out
      * of the region.  A positive value is the index into the
@@ -92,11 +93,12 @@ public:
   };
 
   /**    */
-  struct flat_region_t {
+  struct flat_region_t
+  {
     /** Indices into the associated Face containing boundary pixels.  These
      * give access to spatial information, label and flow associated with
      * this boundary pixel connection.     */
-    std::list< IdentifierType > offset_list;
+    std::list<IdentifierType> offset_list;
 
     /** The value of the lowest point (indicating the steepest descent) along
      * the boundary of the flat region of which this pixel is a member.     */
@@ -112,18 +114,18 @@ public:
 
   /** The face data structure.  This is just an Image of face pixel
       types. */
-  using face_t = Image< face_pixel_t, TDimension >;
+  using face_t = Image<face_pixel_t, TDimension>;
 
   /** A hash table holding flat region data structures.   */
-  using flat_hash_t = std::unordered_map< IdentifierType, flat_region_t >;
+  using flat_hash_t = std::unordered_map<IdentifierType, flat_region_t>;
   using FlatHashValueType = typename flat_hash_t::value_type;
 
   /** Itk type alias and macros defining smart pointer and type identification.
    */
   using Self = Boundary;
   using Superclass = DataObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   itkNewMacro(Self);
   itkTypeMacro(WatershedBoundary, DataObject);
 
@@ -131,44 +133,83 @@ public:
   using FacePointer = typename face_t::Pointer;
 
   /** Returns the face at the specified index  */
-  FacePointer GetFace(const IndexType & idx)
-  {      return this->GetFace(idx.first, idx.second);    }
+  FacePointer
+  GetFace(const IndexType & idx)
+  {
+    return this->GetFace(idx.first, idx.second);
+  }
 
   /** Returns the face at the specified index, where dimension is
    * the number of the axial dimension and highlow is 0 for the LOW
    * face and 1 for the HIGH face.   */
-  FacePointer GetFace(unsigned dimension, unsigned highlow)
+  FacePointer
+  GetFace(unsigned dimension, unsigned highlow)
   {
-    if ( highlow == 0 ) { return m_Faces[dimension].first; }
-    else { return m_Faces[dimension].second; }
+    if (highlow == 0)
+    {
+      return m_Faces[dimension].first;
+    }
+    else
+    {
+      return m_Faces[dimension].second;
+    }
   }
 
-  void SetFace(FacePointer f, const IndexType & idx)
-  { this->SetFace(f, idx.first, idx.second); }
-
-  void SetFace(FacePointer f, unsigned dimension, unsigned highlow)
+  void
+  SetFace(FacePointer f, const IndexType & idx)
   {
-    if ( highlow == 0 ) { m_Faces[dimension].first = f; }
-    else { m_Faces[dimension].second = f; }
+    this->SetFace(f, idx.first, idx.second);
+  }
+
+  void
+  SetFace(FacePointer f, unsigned dimension, unsigned highlow)
+  {
+    if (highlow == 0)
+    {
+      m_Faces[dimension].first = f;
+    }
+    else
+    {
+      m_Faces[dimension].second = f;
+    }
     this->Modified();
   }
 
   /** Get/Set the table of flat region connections specified by the index. */
-  flat_hash_t * GetFlatHash(const IndexType & idx)
-  { return this->GetFlatHash(idx.first, idx.second); }
-  flat_hash_t * GetFlatHash(unsigned dimension, unsigned highlow)
+  flat_hash_t *
+  GetFlatHash(const IndexType & idx)
   {
-    if ( highlow == 0 ) { return &( m_FlatHashes[dimension].first ); }
-    else { return &( m_FlatHashes[dimension].second ); }
+    return this->GetFlatHash(idx.first, idx.second);
+  }
+  flat_hash_t *
+  GetFlatHash(unsigned dimension, unsigned highlow)
+  {
+    if (highlow == 0)
+    {
+      return &(m_FlatHashes[dimension].first);
+    }
+    else
+    {
+      return &(m_FlatHashes[dimension].second);
+    }
   }
 
-  void SetFlatHash(flat_hash_t & l, const IndexType & idx)
-  { this->SetFlatHash(l, idx.first, idx.second); }
-  void SetFlatHash(flat_hash_t & l, unsigned dimension,
-                   unsigned highlow)
+  void
+  SetFlatHash(flat_hash_t & l, const IndexType & idx)
   {
-    if ( highlow == 0 ) { m_FlatHashes[dimension].first = l; }
-    else { m_FlatHashes[dimension].second = l; }
+    this->SetFlatHash(l, idx.first, idx.second);
+  }
+  void
+  SetFlatHash(flat_hash_t & l, unsigned dimension, unsigned highlow)
+  {
+    if (highlow == 0)
+    {
+      m_FlatHashes[dimension].first = l;
+    }
+    else
+    {
+      m_FlatHashes[dimension].second = l;
+    }
     this->Modified();
   }
 
@@ -176,47 +217,69 @@ public:
    * invalid (false).  A valid face is assumed to be initialized
    * and contain information.  No assumptions are made about an
    * invalid face.   */
-  void SetValid(bool & l, const IndexType & idx)
-  { this->SetValid(l, idx.first, idx.second); }
-  void SetValid(bool b, unsigned dimension,
-                unsigned highlow)
+  void
+  SetValid(bool & l, const IndexType & idx)
   {
-    if ( highlow == 0 ) { m_Valid[dimension].first = b; }
-    else { m_Valid[dimension].second = b; }
+    this->SetValid(l, idx.first, idx.second);
+  }
+  void
+  SetValid(bool b, unsigned dimension, unsigned highlow)
+  {
+    if (highlow == 0)
+    {
+      m_Valid[dimension].first = b;
+    }
+    else
+    {
+      m_Valid[dimension].second = b;
+    }
     this->Modified();
   }
 
-  bool GetValid(const IndexType & idx) const
-  { return this->GetValid(idx.first, idx.second); }
-  bool GetValid(unsigned dimension, unsigned highlow) const
+  bool
+  GetValid(const IndexType & idx) const
   {
-    if ( highlow == 0 ) { return m_Valid[dimension].first; }
-    else { return m_Valid[dimension].second; }
+    return this->GetValid(idx.first, idx.second);
+  }
+  bool
+  GetValid(unsigned dimension, unsigned highlow) const
+  {
+    if (highlow == 0)
+    {
+      return m_Valid[dimension].first;
+    }
+    else
+    {
+      return m_Valid[dimension].second;
+    }
   }
 
 protected:
   Boundary();
   ~Boundary() override = default;
   Boundary(const Self &) {}
-  void operator=(const Self &) {}
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  operator=(const Self &)
+  {}
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** The Nx2 matrix of faces of this boundary.   */
-  std::vector< std::pair< FacePointer, FacePointer > > m_Faces;
+  std::vector<std::pair<FacePointer, FacePointer>> m_Faces;
 
   /** The Nx2 matrix flat region connections associated with
    * this boundary.   */
-  std::vector< std::pair< flat_hash_t, flat_hash_t > > m_FlatHashes;
+  std::vector<std::pair<flat_hash_t, flat_hash_t>> m_FlatHashes;
 
   /** The Nx2 matrix of boolean flags indicating which faces contain
    * information.    */
-  std::vector< std::pair< bool, bool > > m_Valid;
+  std::vector<std::pair<bool, bool>> m_Valid;
 };
 } // end namespace watershed
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWatershedBoundary.hxx"
+#  include "itkWatershedBoundary.hxx"
 #endif
 
 #endif

@@ -20,30 +20,27 @@
 namespace itk
 {
 
-MetaArrayReader
-::MetaArrayReader() :
-  m_FileName( "" )
+MetaArrayReader ::MetaArrayReader()
+  : m_FileName("")
 
-{
-}
+{}
 
-MetaArrayReader
-::~MetaArrayReader() = default;
+MetaArrayReader ::~MetaArrayReader() = default;
 
-void MetaArrayReader
-::SetBuffer(void *_buffer)
+void
+MetaArrayReader ::SetBuffer(void * _buffer)
 {
   m_Buffer = _buffer;
 }
 
-MetaArray * MetaArrayReader
-::GetMetaArrayPointer()
+MetaArray *
+MetaArrayReader ::GetMetaArrayPointer()
 {
   return &m_MetaArray;
 }
 
-void MetaArrayReader
-::Update()
+void
+MetaArrayReader ::Update()
 {
   m_MetaArray.Read(m_FileName.c_str(), true, m_Buffer);
 }
@@ -54,7 +51,6 @@ MetaArrayReader::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "FileName: " << m_FileName << std::endl;
-
 }
 
 } // namespace itk

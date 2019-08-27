@@ -51,9 +51,8 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template<typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT CenteredSimilarity2DTransform :
-  public Similarity2DTransform<TParametersValueType>
+template <typename TParametersValueType = double>
+class ITK_TEMPLATE_EXPORT CenteredSimilarity2DTransform : public Similarity2DTransform<TParametersValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CenteredSimilarity2DTransform);
@@ -117,15 +116,16 @@ public:
   using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
   /** Set the transformation from a container of parameters
-    * This is typically used by optimizers.
-    * There are 6 parameters. The first one represents the
-    * scale, the second represents the angle of rotation, the next
-    * two represent the center of the rotation
-    * and the last two represent the translation.
-    *
-    * \sa Transform::SetParameters()
-    * \sa Transform::SetFixedParameters() */
-  void SetParameters(const ParametersType & parameters) override;
+   * This is typically used by optimizers.
+   * There are 6 parameters. The first one represents the
+   * scale, the second represents the angle of rotation, the next
+   * two represent the center of the rotation
+   * and the last two represent the translation.
+   *
+   * \sa Transform::SetParameters()
+   * \sa Transform::SetFixedParameters() */
+  void
+  SetParameters(const ParametersType & parameters) override;
 
   /** Get the parameters that uniquely define the transform
    * This is typically used by optimizers.
@@ -136,47 +136,56 @@ public:
    *
    * \sa Transform::GetParameters()
    * \sa Transform::GetFixedParameters() */
-  const ParametersType & GetParameters() const override;
+  const ParametersType &
+  GetParameters() const override;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
-  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
+  void
+  ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const override;
 
   /** Set the fixed parameters and update internal transformation.
    * This is a null function as there are no fixed parameters. */
-  void SetFixedParameters(const FixedParametersType &) override;
+  void
+  SetFixedParameters(const FixedParametersType &) override;
 
   /** Get the Fixed Parameters. An empty array is returned
    * as there are no fixed parameters. */
-  const FixedParametersType & GetFixedParameters() const override;
+  const FixedParametersType &
+  GetFixedParameters() const override;
 
   /**
    * This method creates and returns a new Rigid2DTransform object
    * which is the inverse of self. */
-  void CloneInverseTo(Pointer & newinverse) const;
+  void
+  CloneInverseTo(Pointer & newinverse) const;
 
   /** Get an inverse of this transform. */
-  bool GetInverse(Self *inverse) const;
+  bool
+  GetInverse(Self * inverse) const;
 
   /** Return an inverse of this transform. */
-  InverseTransformBasePointer GetInverseTransform() const override;
+  InverseTransformBasePointer
+  GetInverseTransform() const override;
 
   /**
    * This method creates and returns a new Rigid2DTransform object
    * which has the same parameters. */
-  void CloneTo(Pointer & clone) const;
+  void
+  CloneTo(Pointer & clone) const;
 
 protected:
   CenteredSimilarity2DTransform();
   CenteredSimilarity2DTransform(unsigned int spaceDimension, unsigned int parametersDimension);
 
   ~CenteredSimilarity2DTransform() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCenteredSimilarity2DTransform.hxx"
+#  include "itkCenteredSimilarity2DTransform.hxx"
 #endif
 
 #endif /* itkCenteredSimilarity2DTransform_h */

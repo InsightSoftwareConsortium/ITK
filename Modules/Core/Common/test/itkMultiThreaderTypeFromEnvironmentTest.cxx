@@ -23,32 +23,34 @@
 
 using ThreaderType = itk::MultiThreaderBase::ThreaderType;
 
-bool checkThreaderByName(ThreaderType expectedThreaderType)
+bool
+checkThreaderByName(ThreaderType expectedThreaderType)
 {
   using ImageType = itk::Image<unsigned, 3>;
-  //any filter type which does not manually specify threader type will do
+  // any filter type which does not manually specify threader type will do
   using FilterType = itk::AbsImageFilter<ImageType, ImageType>;
   FilterType::Pointer filter = FilterType::New();
 
   std::string realThreaderName = filter->GetMultiThreader()->GetNameOfClass();
   std::string expectedThreaderName =
-      itk::MultiThreaderBase::ThreaderTypeToString(expectedThreaderType) + "MultiThreader";
-  if(realThreaderName != expectedThreaderName)
-    {
-    std::cout << "ERROR: filter threader's name is "<< realThreaderName
-      << ", while expected threader name " << expectedThreaderName << std::endl;
+    itk::MultiThreaderBase::ThreaderTypeToString(expectedThreaderType) + "MultiThreader";
+  if (realThreaderName != expectedThreaderName)
+  {
+    std::cout << "ERROR: filter threader's name is " << realThreaderName << ", while expected threader name "
+              << expectedThreaderName << std::endl;
     return false;
-    }
+  }
   return true;
 }
 
-int itkMultiThreaderTypeFromEnvironmentTest(int argc, char* argv[])
+int
+itkMultiThreaderTypeFromEnvironmentTest(int argc, char * argv[])
 {
-  if( argc != 2 )
-    {
+  if (argc != 2)
+  {
     std::cout << "ERROR: known threader type required" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   bool success = true;
 
@@ -56,40 +58,39 @@ int itkMultiThreaderTypeFromEnvironmentTest(int argc, char* argv[])
   ThreaderType realThreaderType = itk::MultiThreaderBase::GetGlobalDefaultThreader();
 
   if (realThreaderType != expectedThreaderType)
-    {
-    std::cout << "ERROR: expected threader type "<< expectedThreaderType
-        << ", but got " << realThreaderType
-        << " from MultiThreaderBase::GetGlobalDefaultThreader()"<< std::endl;
+  {
+    std::cout << "ERROR: expected threader type " << expectedThreaderType << ", but got " << realThreaderType
+              << " from MultiThreaderBase::GetGlobalDefaultThreader()" << std::endl;
     success = false;
-    }
+  }
 
   success &= checkThreaderByName(expectedThreaderType);
 
-  //check that developer's choice for default is respected
+  // check that developer's choice for default is respected
   std::set<ThreaderType> threadersToTest = { ThreaderType::Platform, ThreaderType::Pool };
 #ifdef ITK_USE_TBB
   threadersToTest.insert(ThreaderType::TBB);
 #endif // ITK_USE_TBB
   for (auto thType : threadersToTest)
-    {
+  {
     itk::MultiThreaderBase::SetGlobalDefaultThreader(thType);
     success &= checkThreaderByName(thType);
-    }
+  }
 
-  //When implementing a new multi-threader:
+  // When implementing a new multi-threader:
   // 1. insert it into threadersToTest set
   // 2. add tests to Modules/Core/Common/test/CMakeLists.txt similarily to tests for other multi-threaders
   // 3. rewrite the condition below to use whatever is really the last threader type
   itkAssertOrThrowMacro(ThreaderType::TBB == ThreaderType::Last,
-      "All multi-threader implementation have to be tested!");
+                        "All multi-threader implementation have to be tested!");
 
   if (success)
-    {
+  {
     std::cout << "Test PASSED!" << std::endl;
     return EXIT_SUCCESS;
-    }
+  }
   else
-    {
+  {
     return EXIT_FAILURE;
-    }
+  }
 }

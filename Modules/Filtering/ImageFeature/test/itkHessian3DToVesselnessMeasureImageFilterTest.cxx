@@ -20,7 +20,8 @@
 #include "itkHessian3DToVesselnessMeasureImageFilter.h"
 
 
-int itkHessian3DToVesselnessMeasureImageFilterTest(int, char* [] )
+int
+itkHessian3DToVesselnessMeasureImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
@@ -39,7 +40,7 @@ int itkHessian3DToVesselnessMeasureImageFilterTest(int, char* [] )
   using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create the image
-  myImageType::Pointer inputImage  = myImageType::New();
+  myImageType::Pointer inputImage = myImageType::New();
 
 
   // Define their size, and start index
@@ -52,27 +53,27 @@ int itkHessian3DToVesselnessMeasureImageFilterTest(int, char* [] )
   start.Fill(0);
 
   myRegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
   // Initialize Image A
-  inputImage->SetLargestPossibleRegion( region );
-  inputImage->SetBufferedRegion( region );
-  inputImage->SetRequestedRegion( region );
+  inputImage->SetLargestPossibleRegion(region);
+  inputImage->SetBufferedRegion(region);
+  inputImage->SetRequestedRegion(region);
   inputImage->Allocate();
 
   // Declare Iterator type for the input image
   using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
 
   // Create one iterator for the Input Image A (this is a light object)
-  myIteratorType it( inputImage, inputImage->GetRequestedRegion() );
+  myIteratorType it(inputImage, inputImage->GetRequestedRegion());
 
   // Initialize the content of Image A
-  while( !it.IsAtEnd() )
-    {
-    it.Set( 0.0 );
+  while (!it.IsAtEnd())
+  {
+    it.Set(0.0);
     ++it;
-    }
+  }
 
   size[0] = 1;
   size[1] = 8;
@@ -83,16 +84,16 @@ int itkHessian3DToVesselnessMeasureImageFilterTest(int, char* [] )
   start[2] = 3;
 
   // Create one iterator for an internal region
-  region.SetSize( size );
-  region.SetIndex( start );
-  myIteratorType itb( inputImage, region );
+  region.SetSize(size);
+  region.SetIndex(start);
+  myIteratorType itb(inputImage, region);
 
   // Initialize the content the internal region
-  while( !itb.IsAtEnd() )
-    {
-    itb.Set( 100.0 );
+  while (!itb.IsAtEnd())
+  {
+    itb.Set(100.0);
     ++itb;
-    }
+  }
 
   // Declare the type for the Hessian filter
   using myHessianFilterType = itk::HessianRecursiveGaussianImageFilter<myImageType>;
@@ -111,11 +112,11 @@ int itkHessian3DToVesselnessMeasureImageFilterTest(int, char* [] )
 
 
   // Connect the input images
-  filterHessian->SetInput( inputImage );
-  filterVesselness->SetInput( filterHessian->GetOutput() );
+  filterHessian->SetInput(inputImage);
+  filterVesselness->SetInput(filterHessian->GetOutput());
 
   // Select the value of Sigma
-  filterHessian->SetSigma( 0.5 );
+  filterHessian->SetSigma(0.5);
 
 
   // Execute the filter
@@ -131,19 +132,17 @@ int itkHessian3DToVesselnessMeasureImageFilterTest(int, char* [] )
   using myOutputIteratorType = itk::ImageRegionIteratorWithIndex<myVesselnessImageType>;
 
   // Create an iterator for going through the output image
-  myOutputIteratorType itg( outputImage,
-                            outputImage->GetRequestedRegion() );
+  myOutputIteratorType itg(outputImage, outputImage->GetRequestedRegion());
 
   //  Print the content of the result image
   std::cout << " Result " << std::endl;
   itg.GoToBegin();
-  while( !itg.IsAtEnd() )
-    {
+  while (!itg.IsAtEnd())
+  {
     std::cout << itg.Get() << " ";
     ++itg;
-    }
+  }
 
 
   return EXIT_SUCCESS;
-
 }

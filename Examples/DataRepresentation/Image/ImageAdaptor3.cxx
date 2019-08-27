@@ -66,26 +66,29 @@ namespace itk
 class VectorPixelAccessor
 {
 public:
-  using InternalType = itk::CovariantVector<float,2>;
+  using InternalType = itk::CovariantVector<float, 2>;
   using ExternalType = float;
 
-  VectorPixelAccessor()  {}
+  VectorPixelAccessor() {}
 
-  VectorPixelAccessor & operator=( const VectorPixelAccessor & vpa ) = default;
-  ExternalType Get( const InternalType & input ) const
-    {
-    return static_cast<ExternalType>( input[ m_Index ] );
-    }
-  void SetIndex( unsigned int index )
-    {
+  VectorPixelAccessor &
+  operator=(const VectorPixelAccessor & vpa) = default;
+  ExternalType
+  Get(const InternalType & input) const
+  {
+    return static_cast<ExternalType>(input[m_Index]);
+  }
+  void
+  SetIndex(unsigned int index)
+  {
     m_Index = index;
-    }
+  }
 
 private:
-  unsigned int m_Index{0};
+  unsigned int m_Index{ 0 };
 };
 // Software Guide : EndCodeSnippet
-}
+} // namespace itk
 
 //  Software Guide : BeginLatex
 //
@@ -103,121 +106,120 @@ private:
 //
 //-------------------------
 
-int main( int argc, char *argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << "ImageAdaptor3   inputFileName outputComponentFileName ";
     std::cerr << " indexOfComponentToExtract" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
-//  Software Guide : BeginLatex
-//
-//  In order to test the pixel accessor, we generate an image of vectors using
-//  the \doxygen{GradientRecursiveGaussianImageFilter}. This
-//  filter produces an output image of \doxygen{CovariantVector} pixel type.
-//  Covariant vectors are the natural representation for gradients since they
-//  are the equivalent of normals to iso-values manifolds.
-//
-//  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  In order to test the pixel accessor, we generate an image of vectors using
+  //  the \doxygen{GradientRecursiveGaussianImageFilter}. This
+  //  filter produces an output image of \doxygen{CovariantVector} pixel type.
+  //  Covariant vectors are the natural representation for gradients since they
+  //  are the equivalent of normals to iso-values manifolds.
+  //
+  //  Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   using InputPixelType = unsigned char;
   constexpr unsigned int Dimension = 2;
-  using InputImageType = itk::Image< InputPixelType, Dimension >;
-  using VectorPixelType = itk::CovariantVector< float, Dimension >;
-  using VectorImageType = itk::Image< VectorPixelType, Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using VectorPixelType = itk::CovariantVector<float, Dimension>;
+  using VectorImageType = itk::Image<VectorPixelType, Dimension>;
   using GradientFilterType =
-    itk::GradientRecursiveGaussianImageFilter< InputImageType,
-      VectorImageType>;
+    itk::GradientRecursiveGaussianImageFilter<InputImageType, VectorImageType>;
 
   GradientFilterType::Pointer gradient = GradientFilterType::New();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
-//  Software Guide : BeginLatex
-//
-//  We instantiate the ImageAdaptor using the vector image type as
-//  the first template parameter and the pixel accessor as the second
-//  template parameter.
-//
-//  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  We instantiate the ImageAdaptor using the vector image type as
+  //  the first template parameter and the pixel accessor as the second
+  //  template parameter.
+  //
+  //  Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-  using ImageAdaptorType = itk::ImageAdaptor< VectorImageType,
-                              itk::VectorPixelAccessor >;
+  // Software Guide : BeginCodeSnippet
+  using ImageAdaptorType = itk::ImageAdaptor<VectorImageType, itk::VectorPixelAccessor>;
 
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
-//  Software Guide : BeginLatex
-//
-//  The index of the component to be extracted is specified
-//  from the command line. In the following, we create the accessor,
-//  set the index and connect the accessor to the image adaptor using
-//  the \code{SetPixelAccessor()} method.
-//
-//  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  The index of the component to be extracted is specified
+  //  from the command line. In the following, we create the accessor,
+  //  set the index and connect the accessor to the image adaptor using
+  //  the \code{SetPixelAccessor()} method.
+  //
+  //  Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
-  itk::VectorPixelAccessor  accessor;
-  accessor.SetIndex( std::stoi( argv[3] ) );
-  adaptor->SetPixelAccessor( accessor );
-// Software Guide : EndCodeSnippet
+  // Software Guide : BeginCodeSnippet
+  itk::VectorPixelAccessor accessor;
+  accessor.SetIndex(std::stoi(argv[3]));
+  adaptor->SetPixelAccessor(accessor);
+  // Software Guide : EndCodeSnippet
 
 
-//  Software Guide : BeginLatex
-//
-//  We create a reader to load the image specified from the
-//  command line and pass its output as the input to the gradient filter.
-//
-//  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  We create a reader to load the image specified from the
+  //  command line and pass its output as the input to the gradient filter.
+  //
+  //  Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  // Software Guide : BeginCodeSnippet
+  using ReaderType = itk::ImageFileReader<InputImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  gradient->SetInput( reader->GetOutput() );
+  gradient->SetInput(reader->GetOutput());
 
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
   gradient->Update();
-//  Software Guide : EndCodeSnippet
+  //  Software Guide : EndCodeSnippet
 
 
-//  Software Guide : BeginLatex
-//
-//  We now connect the output of the gradient filter as input to the
-//  image adaptor.  The adaptor emulates a  scalar image whose pixel values
-//  are taken from the selected component of the vector image.
-//
-//  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  We now connect the output of the gradient filter as input to the
+  //  image adaptor.  The adaptor emulates a  scalar image whose pixel values
+  //  are taken from the selected component of the vector image.
+  //
+  //  Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
-  adaptor->SetImage( gradient->GetOutput() );
-// Software Guide : EndCodeSnippet
+  // Software Guide : BeginCodeSnippet
+  adaptor->SetImage(gradient->GetOutput());
+  // Software Guide : EndCodeSnippet
 
 
-  using OutputImageType = itk::Image< unsigned char, Dimension >;
-  using RescalerType = itk::RescaleIntensityImageFilter< ImageAdaptorType,
-                                                         OutputImageType>;
+  using OutputImageType = itk::Image<unsigned char, Dimension>;
+  using RescalerType =
+    itk::RescaleIntensityImageFilter<ImageAdaptorType, OutputImageType>;
   RescalerType::Pointer rescaler = RescalerType::New();
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetFileName( argv[2] );
+  writer->SetFileName(argv[2]);
 
-  rescaler->SetOutputMinimum(  0  );
-  rescaler->SetOutputMaximum( 255 );
+  rescaler->SetOutputMinimum(0);
+  rescaler->SetOutputMaximum(255);
 
-  rescaler->SetInput( adaptor );
-  writer->SetInput( rescaler->GetOutput() );
+  rescaler->SetInput(adaptor);
+  writer->SetInput(rescaler->GetOutput());
   writer->Update();
 
 

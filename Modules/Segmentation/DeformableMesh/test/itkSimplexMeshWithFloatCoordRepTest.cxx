@@ -18,18 +18,18 @@
 #include "itkDefaultDynamicMeshTraits.h"
 #include "itkDeformableSimplexMesh3DFilter.h"
 
-int itkSimplexMeshWithFloatCoordRepTest(int, char* [])
+int
+itkSimplexMeshWithFloatCoordRepTest(int, char *[])
 {
-   constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
-   using PixelType = float;
-   using CoordRepType = float;
-   using MeshTraits = itk::DefaultDynamicMeshTraits<
-     PixelType,Dimension,Dimension,CoordRepType >;
-   using MeshType = itk::SimplexMesh< PixelType,Dimension,MeshTraits >;
-   using DeformType = itk::DeformableSimplexMesh3DFilter < MeshType,MeshType >;
+  using PixelType = float;
+  using CoordRepType = float;
+  using MeshTraits = itk::DefaultDynamicMeshTraits<PixelType, Dimension, Dimension, CoordRepType>;
+  using MeshType = itk::SimplexMesh<PixelType, Dimension, MeshTraits>;
+  using DeformType = itk::DeformableSimplexMesh3DFilter<MeshType, MeshType>;
 
-   DeformType::Pointer deform = DeformType::New();
-   deform->Print(std::cout);
-   return EXIT_SUCCESS;
+  DeformType::Pointer deform = DeformType::New();
+  deform->Print(std::cout);
+  return EXIT_SUCCESS;
 }

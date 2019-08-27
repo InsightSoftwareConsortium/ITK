@@ -70,16 +70,17 @@
 
 #include <fstream>
 
-int main(int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
 
-  if( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "Missing arguments" << std::endl;
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "inputFileWithPointCoordinates" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //  Software Guide : BeginLatex
   //
@@ -89,7 +90,7 @@ int main(int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FFTCalculator = vnl_fft_1d< double >;
+  using FFTCalculator = vnl_fft_1d<double>;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -100,9 +101,9 @@ int main(int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using PointType = itk::Point< double, 2 >;
+  using PointType = itk::Point<double, 2>;
 
-  using PointsContainer = itk::VectorContainer< unsigned int, PointType >;
+  using PointsContainer = itk::VectorContainer<unsigned int, PointType>;
 
   PointsContainer::Pointer points = PointsContainer::New();
   // Software Guide : EndCodeSnippet
@@ -115,28 +116,28 @@ int main(int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   std::ifstream inputFile;
-  inputFile.open( argv[1] );
+  inputFile.open(argv[1]);
 
-  if( inputFile.fail() )
-    {
+  if (inputFile.fail())
+  {
     std::cerr << "Problems opening file " << argv[1] << std::endl;
-    }
+  }
 
   unsigned int numberOfPoints;
   inputFile >> numberOfPoints;
 
-  points->Reserve( numberOfPoints );
+  points->Reserve(numberOfPoints);
 
   using PointIterator = PointsContainer::Iterator;
   PointIterator pointItr = points->Begin();
 
   PointType point;
-  for( unsigned int pt=0; pt<numberOfPoints; pt++)
-    {
+  for (unsigned int pt = 0; pt < numberOfPoints; pt++)
+  {
     inputFile >> point[0] >> point[1];
     pointItr.Value() = point;
     ++pointItr;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -150,7 +151,7 @@ int main(int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   using FFTCoefficientType = std::complex<double>;
-  using FFTSpectrumType = std::vector< FFTCoefficientType >;
+  using FFTSpectrumType = std::vector<FFTCoefficientType>;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -161,9 +162,8 @@ int main(int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const auto powerOfTwo   = (unsigned int)std::ceil(
-                            std::log( (double)(numberOfPoints)) /
-                            std::log( (double)(2.0)) );
+  const auto powerOfTwo = (unsigned int)std::ceil(std::log((double)(numberOfPoints)) /
+                                                  std::log((double)(2.0)));
 
   const unsigned int spectrumSize = 1 << powerOfTwo;
 
@@ -176,17 +176,17 @@ int main(int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  FFTCalculator  fftCalculator( spectrumSize );
+  FFTCalculator fftCalculator(spectrumSize);
   // Software Guide : EndCodeSnippet
 
-  FFTSpectrumType signal( spectrumSize );
+  FFTSpectrumType signal(spectrumSize);
 
   pointItr = points->Begin();
-  for(unsigned int p=0; p<numberOfPoints; p++)
-    {
-    signal[p] = FFTCoefficientType( pointItr.Value()[0], pointItr.Value()[1] );
+  for (unsigned int p = 0; p < numberOfPoints; p++)
+  {
+    signal[p] = FFTCoefficientType(pointItr.Value()[0], pointItr.Value()[1]);
     ++pointItr;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -199,10 +199,10 @@ int main(int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  for(unsigned int pad=numberOfPoints; pad<spectrumSize; pad++)
-    {
+  for (unsigned int pad = numberOfPoints; pad < spectrumSize; pad++)
+  {
     signal[pad] = 0.0;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -213,11 +213,11 @@ int main(int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   std::cout << "Input to the FFT transform" << std::endl;
-  for(unsigned int s=0; s<spectrumSize; s++)
-    {
+  for (unsigned int s = 0; s < spectrumSize; s++)
+  {
     std::cout << s << " : ";
     std::cout << signal[s] << std::endl;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -228,7 +228,7 @@ int main(int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  fftCalculator.fwd_transform( signal );
+  fftCalculator.fwd_transform(signal);
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -240,13 +240,13 @@ int main(int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   std::cout << std::endl;
   std::cout << "Result from the FFT transform" << std::endl;
-  for(unsigned int k=0; k<spectrumSize; k++)
-    {
+  for (unsigned int k = 0; k < spectrumSize; k++)
+  {
     const double real = signal[k].real();
     const double imag = signal[k].imag();
-    const double magnitude = std::sqrt( real * real + imag * imag );
+    const double magnitude = std::sqrt(real * real + imag * imag);
     std::cout << k << "  " << magnitude << std::endl;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;

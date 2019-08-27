@@ -57,8 +57,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ITKOptimizers_EXPORT ParticleSwarmOptimizer :
-  public ParticleSwarmOptimizerBase
+class ITKOptimizers_EXPORT ParticleSwarmOptimizer : public ParticleSwarmOptimizerBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ParticleSwarmOptimizer);
@@ -70,40 +69,38 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self )
+  itkNewMacro(Self)
 
-  /** Run-time type information (and related methods). */
-  itkTypeMacro( ParticleSwarmOptimizer, ParticleSwarmOptimizerBase )
+    /** Run-time type information (and related methods). */
+    itkTypeMacro(ParticleSwarmOptimizer, ParticleSwarmOptimizerBase)
 
-  /** The Particle swarm optimizer uses the following update formula:
-   * v_i(t+1) = w*v_i(t) +
-   *            c_1*uniform(0,1)*(p_i-x_i(t)) +
-   *            c_2*uniform(0,1)*(p_g-x_i(t))
-   * x_i(t+1) = clampToBounds(x_i(t) + v_i(t+1))
-   * where
-   * w - inertia constant
-   * c_1 - personal coefficient
-   * c_2 - global coefficient
-   * p_i - parameters yielding the best function value obtained by this particle
-   * p_g - parameters yielding the best function value obtained by all particles
-   */
-  itkSetMacro( InertiaCoefficient, double )
-  itkGetMacro( InertiaCoefficient, double )
-  itkSetMacro( PersonalCoefficient, double )
-  itkGetMacro( PersonalCoefficient, double )
-  itkSetMacro( GlobalCoefficient, double )
-  itkGetMacro( GlobalCoefficient, double )
+    /** The Particle swarm optimizer uses the following update formula:
+     * v_i(t+1) = w*v_i(t) +
+     *            c_1*uniform(0,1)*(p_i-x_i(t)) +
+     *            c_2*uniform(0,1)*(p_g-x_i(t))
+     * x_i(t+1) = clampToBounds(x_i(t) + v_i(t+1))
+     * where
+     * w - inertia constant
+     * c_1 - personal coefficient
+     * c_2 - global coefficient
+     * p_i - parameters yielding the best function value obtained by this particle
+     * p_g - parameters yielding the best function value obtained by all particles
+     */
+    itkSetMacro(InertiaCoefficient, double) itkGetMacro(InertiaCoefficient, double)
+      itkSetMacro(PersonalCoefficient, double) itkGetMacro(PersonalCoefficient, double)
+        itkSetMacro(GlobalCoefficient, double) itkGetMacro(GlobalCoefficient, double)
 
-protected:
-  ParticleSwarmOptimizer();
+          protected : ParticleSwarmOptimizer();
   ~ParticleSwarmOptimizer() override;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
-  void UpdateSwarm() override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  UpdateSwarm() override;
 
 private:
-  ParametersType::ValueType                    m_InertiaCoefficient;
-  ParametersType::ValueType                    m_PersonalCoefficient;
-  ParametersType::ValueType                    m_GlobalCoefficient;
+  ParametersType::ValueType m_InertiaCoefficient;
+  ParametersType::ValueType m_PersonalCoefficient;
+  ParametersType::ValueType m_GlobalCoefficient;
 };
 
 } // end namespace itk

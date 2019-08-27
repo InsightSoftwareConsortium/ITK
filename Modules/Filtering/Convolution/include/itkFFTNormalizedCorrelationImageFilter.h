@@ -98,16 +98,16 @@ namespace itk
  * \endsphinx
  */
 
-template <typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT FFTNormalizedCorrelationImageFilter :
-    public MaskedFFTNormalizedCorrelationImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT FFTNormalizedCorrelationImageFilter
+  : public MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FFTNormalizedCorrelationImageFilter);
 
   /** Standard class type aliases. */
   using Self = FFTNormalizedCorrelationImageFilter;
-  using Superclass = MaskedFFTNormalizedCorrelationImageFilter < TInputImage, TOutputImage >;
+  using Superclass = MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -122,26 +122,28 @@ public:
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Extract some information from the image types. */
-   using InputImageType = TInputImage;
-   using OutputImageType = TOutputImage;
-   using InputRegionType = typename InputImageType::RegionType;
-   using InputImagePointer = typename InputImageType::Pointer;
-   using InputImageConstPointer = typename InputImageType::ConstPointer;
-   using InputSizeType = typename InputImageType::SizeType;
-   using OutputImagePointer = typename OutputImageType::Pointer;
-   using OutputPixelType = typename OutputImageType::PixelType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using InputRegionType = typename InputImageType::RegionType;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputSizeType = typename InputImageType::SizeType;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputPixelType = typename OutputImageType::PixelType;
 
 protected:
   FFTNormalizedCorrelationImageFilter()
-    {
-      Self::RemoveInput("MovingImageMask");
-      Self::RemoveInput("FixedImageMask");
-    }
+  {
+    Self::RemoveInput("MovingImageMask");
+    Self::RemoveInput("FixedImageMask");
+  }
   ~FFTNormalizedCorrelationImageFilter() override = default;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Standard pipeline method.*/
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   // Member variables.
@@ -149,7 +151,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFFTNormalizedCorrelationImageFilter.hxx"
+#  include "itkFFTNormalizedCorrelationImageFilter.hxx"
 #endif
 
 #endif

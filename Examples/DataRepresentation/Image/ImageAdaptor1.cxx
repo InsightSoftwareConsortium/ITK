@@ -18,7 +18,7 @@
 
 // Software Guide : BeginLatex
 //
-//This example illustrates how the \doxygen{ImageAdaptor} can be used to cast
+// This example illustrates how the \doxygen{ImageAdaptor} can be used to cast
 // an image from one pixel type to another. In particular, we will
 // \emph{adapt} an \code{unsigned char} image to make it appear as an image of
 // pixel type \code{float}.
@@ -62,15 +62,17 @@ public:
   using InternalType = unsigned char;
   using ExternalType = float;
 
-  static void Set(InternalType & output, const ExternalType & input)
-    {
-    output = static_cast<InternalType>( input );
-    }
+  static void
+  Set(InternalType & output, const ExternalType & input)
+  {
+    output = static_cast<InternalType>(input);
+  }
 
-  static ExternalType Get( const InternalType & input )
-    {
-    return static_cast<ExternalType>( input );
-    }
+  static ExternalType
+  Get(const InternalType & input)
+  {
+    return static_cast<ExternalType>(input);
+  }
 };
 // Software Guide : EndCodeSnippet
 
@@ -81,87 +83,88 @@ public:
 //
 //-------------------------
 
-int main( int argc, char *argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << "ImageAdaptor1   inputFileName" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
-//  Software Guide : BeginLatex
-//
-//  The CastPixelAccessor class simply applies a
-//  \code{static\_cast} to the pixel values. We now use this pixel accessor
-//  to define the image adaptor type and create an instance using
-//  the standard \code{New()} method.
-//
-//  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  The CastPixelAccessor class simply applies a
+  //  \code{static\_cast} to the pixel values. We now use this pixel accessor
+  //  to define the image adaptor type and create an instance using
+  //  the standard \code{New()} method.
+  //
+  //  Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   using InputPixelType = unsigned char;
   constexpr unsigned int Dimension = 2;
-  using ImageType = itk::Image< InputPixelType, Dimension >;
+  using ImageType = itk::Image<InputPixelType, Dimension>;
 
-  using ImageAdaptorType = itk::ImageAdaptor< ImageType, CastPixelAccessor >;
+  using ImageAdaptorType = itk::ImageAdaptor<ImageType, CastPixelAccessor>;
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// We also create an image reader templated over the input image type and
-// read the input image from file.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // We also create an image reader templated over the input image type and
+  // read the input image from file.
+  //
+  // Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  // Software Guide : BeginCodeSnippet
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
   reader->Update();
 
 
-//  Software Guide : BeginLatex
-//
-//  The output of the reader is then connected as the input to the image
-//  adaptor.
-//
-//  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  The output of the reader is then connected as the input to the image
+  //  adaptor.
+  //
+  //  Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
-  adaptor->SetImage( reader->GetOutput() );
-// Software Guide : EndCodeSnippet
+  // Software Guide : BeginCodeSnippet
+  adaptor->SetImage(reader->GetOutput());
+  // Software Guide : EndCodeSnippet
 
 
-//  Software Guide : BeginLatex
-//
-//  In the following code, we visit the image using an iterator
-//  instantiated using the adapted image type and compute the
-//  sum of the pixel values.
-//
-//  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  In the following code, we visit the image using an iterator
+  //  instantiated using the adapted image type and compute the
+  //  sum of the pixel values.
+  //
+  //  Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
-  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageAdaptorType >;
-  IteratorType  it( adaptor, adaptor->GetBufferedRegion() );
+  // Software Guide : BeginCodeSnippet
+  using IteratorType = itk::ImageRegionIteratorWithIndex<ImageAdaptorType>;
+  IteratorType it(adaptor, adaptor->GetBufferedRegion());
 
   double sum = 0.0;
   it.GoToBegin();
-  while( !it.IsAtEnd() )
-    {
+  while (!it.IsAtEnd())
+  {
     float value = it.Get();
     sum += value;
     ++it;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 

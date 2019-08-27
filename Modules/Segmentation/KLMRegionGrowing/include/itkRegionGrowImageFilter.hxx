@@ -22,9 +22,8 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-RegionGrowImageFilter< TInputImage, TOutputImage >
-::RegionGrowImageFilter()
+template <typename TInputImage, typename TOutputImage>
+RegionGrowImageFilter<TInputImage, TOutputImage>::RegionGrowImageFilter()
 {
   m_GridSize.Fill(2);
   m_MaximumNumberOfRegions = 0;
@@ -33,10 +32,9 @@ RegionGrowImageFilter< TInputImage, TOutputImage >
 /**
  * PrintSelf
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-RegionGrowImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+RegionGrowImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Region grow image filter object" << std::endl;

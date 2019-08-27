@@ -27,22 +27,19 @@ namespace itk
  * This method will be overrided in non-vector spaces
  */
 void
-RegularStepGradientDescentOptimizer
-::StepAlongGradient(double factor,
-                    const DerivativeType & transformedGradient)
+RegularStepGradientDescentOptimizer ::StepAlongGradient(double factor, const DerivativeType & transformedGradient)
 {
   itkDebugMacro(<< "factor = " << factor << "  transformedGradient= " << transformedGradient);
 
-  const unsigned int spaceDimension =
-    m_CostFunction->GetNumberOfParameters();
+  const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
 
   ParametersType newPosition(spaceDimension);
   ParametersType currentPosition = this->GetCurrentPosition();
 
-  for ( unsigned int j = 0; j < spaceDimension; j++ )
-    {
+  for (unsigned int j = 0; j < spaceDimension; j++)
+  {
     newPosition[j] = currentPosition[j] + transformedGradient[j] * factor;
-    }
+  }
 
   itkDebugMacro(<< "new position = " << newPosition);
 

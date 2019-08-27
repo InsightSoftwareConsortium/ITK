@@ -49,18 +49,17 @@ namespace itk
  * \sphinxexample{Filtering/ImageIntensity/NormalizeImage,Normalize Image}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT NormalizeImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT NormalizeImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(NormalizeImageFilter);
 
   /** Standard Self type alias */
   using Self = NormalizeImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -73,26 +72,29 @@ public:
   using OutputImagePointer = typename TOutputImage::Pointer;
 
   /** NormalizeImageFilter must call modified on its internal filters */
-  void Modified() const override;
+  void
+  Modified() const override;
 
 protected:
   NormalizeImageFilter();
 
   /** GenerateData. */
-  void  GenerateData() override;
+  void
+  GenerateData() override;
 
   // Override since the filter needs all the data for the algorithm
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
 private:
-  typename StatisticsImageFilter< TInputImage >::Pointer m_StatisticsFilter;
+  typename StatisticsImageFilter<TInputImage>::Pointer m_StatisticsFilter;
 
-  typename ShiftScaleImageFilter< TInputImage, TOutputImage >::Pointer m_ShiftScaleFilter;
+  typename ShiftScaleImageFilter<TInputImage, TOutputImage>::Pointer m_ShiftScaleFilter;
 }; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNormalizeImageFilter.hxx"
+#  include "itkNormalizeImageFilter.hxx"
 #endif
 
 #endif

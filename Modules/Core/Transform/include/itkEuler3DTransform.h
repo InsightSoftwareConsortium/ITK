@@ -43,9 +43,8 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template<typename TParametersValueType=double >
-class ITK_TEMPLATE_EXPORT Euler3DTransform :
-  public Rigid3DTransform<TParametersValueType>
+template <typename TParametersValueType = double>
+class ITK_TEMPLATE_EXPORT Euler3DTransform : public Rigid3DTransform<TParametersValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Euler3DTransform);
@@ -95,15 +94,20 @@ public:
    * This is typically used by optimizers.  There are 6 parameters. The first
    * three represent the angles to rotate around the coordinate axis, and the
    * last three represents the offset. */
-  void SetParameters(const ParametersType & parameters) override;
+  void
+  SetParameters(const ParametersType & parameters) override;
 
-  const ParametersType & GetParameters() const override;
+  const ParametersType &
+  GetParameters() const override;
 
-  const FixedParametersType & GetFixedParameters() const override;
-  void SetFixedParameters(const FixedParametersType & parameters) override;
+  const FixedParametersType &
+  GetFixedParameters() const override;
+  void
+  SetFixedParameters(const FixedParametersType & parameters) override;
 
   /** Set the rotational part of the transform. */
-  void SetRotation(ScalarType angleX, ScalarType angleY, ScalarType angleZ);
+  void
+  SetRotation(ScalarType angleX, ScalarType angleY, ScalarType angleZ);
 
   itkGetConstMacro(AngleX, ScalarType);
   itkGetConstMacro(AngleY, ScalarType);
@@ -113,7 +117,8 @@ public:
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
+  void
+  ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const override;
   using Superclass::ComputeJacobianWithRespectToPosition;
 
   /** The Euler angle representation of a rotation is not unique and
@@ -122,10 +127,12 @@ public:
    * default is ZXY. These functions set and get the value which
    * indicates whether the rotation is ZYX or ZXY.
    */
-  virtual void SetComputeZYX (const bool flag);
+  virtual void
+  SetComputeZYX(const bool flag);
   itkGetConstMacro(ComputeZYX, bool);
 
-  void SetIdentity() override;
+  void
+  SetIdentity() override;
 
 protected:
   Euler3DTransform(const MatrixType & matrix, const OutputPointType & offset);
@@ -134,15 +141,19 @@ protected:
 
   ~Euler3DTransform() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Set values of angles directly without recomputing other parameters. */
-  void SetVarRotation(ScalarType angleX, ScalarType angleY, ScalarType angleZ);
+  void
+  SetVarRotation(ScalarType angleX, ScalarType angleY, ScalarType angleZ);
 
   /** Compute the components of the rotation matrix in the superclass. */
-  void ComputeMatrix() override;
+  void
+  ComputeMatrix() override;
 
-  void ComputeMatrixParameters() override;
+  void
+  ComputeMatrixParameters() override;
 
 private:
   ScalarType m_AngleX;
@@ -150,10 +161,10 @@ private:
   ScalarType m_AngleZ;
   bool       m_ComputeZYX;
 }; // class Euler3DTransform
-}  // namespace itk
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkEuler3DTransform.hxx"
+#  include "itkEuler3DTransform.hxx"
 #endif
 
 #endif /* itkEuler3DTransform_h */

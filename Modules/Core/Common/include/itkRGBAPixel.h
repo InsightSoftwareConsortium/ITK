@@ -20,7 +20,7 @@
 
 // Undefine an eventual RGBAPixel macro
 #ifdef RGBAPixel
-#undef RGBAPixel
+#  undef RGBAPixel
 #endif
 
 #include "itkIndent.h"
@@ -55,13 +55,13 @@ namespace itk
  * \endsphinx
  */
 
-template< typename TComponent = unsigned short >
-class ITK_TEMPLATE_EXPORT RGBAPixel:public FixedArray< TComponent, 4 >
+template <typename TComponent = unsigned short>
+class ITK_TEMPLATE_EXPORT RGBAPixel : public FixedArray<TComponent, 4>
 {
 public:
   /** Standard class type aliases. */
   using Self = RGBAPixel;
-  using Superclass = FixedArray< TComponent, 4 >;
+  using Superclass = FixedArray<TComponent, 4>;
 
   /** Dimension of the vector space. */
   static constexpr unsigned int Dimension = 4;
@@ -70,81 +70,124 @@ public:
   static constexpr unsigned int Length = 4;
 
   /** Convenience type alias. */
-  using BaseArray = FixedArray< TComponent, 4 >;
+  using BaseArray = FixedArray<TComponent, 4>;
 
   /**  Define the component type. */
   using ComponentType = TComponent;
-  using LuminanceType = typename NumericTraits< ComponentType >::RealType;
+  using LuminanceType = typename NumericTraits<ComponentType>::RealType;
 
   /** Default constructors */
   RGBAPixel() { this->Fill(0); }
   RGBAPixel(const RGBAPixel &) = default;
-  RGBAPixel & operator=(const RGBAPixel &) = default;
-  RGBAPixel( RGBAPixel &&) = default;
-  RGBAPixel & operator=(RGBAPixel &&) = default;
+  RGBAPixel &
+  operator=(const RGBAPixel &) = default;
+  RGBAPixel(RGBAPixel &&) = default;
+  RGBAPixel &
+  operator=(RGBAPixel &&) = default;
   ~RGBAPixel() = default;
 
   /** Pass-through constructor for the Array base class. */
-  template< typename TRGBAPixelValueType >
-  RGBAPixel(const RGBAPixel< TRGBAPixelValueType > & r):BaseArray(r) {}
-  RGBAPixel(const ComponentType r[4]):BaseArray(r) {}
+  template <typename TRGBAPixelValueType>
+  RGBAPixel(const RGBAPixel<TRGBAPixelValueType> & r)
+    : BaseArray(r)
+  {}
+  RGBAPixel(const ComponentType r[4])
+    : BaseArray(r)
+  {}
   RGBAPixel(const ComponentType & r) { this->Fill(r); }
 
   /** Pass-through assignment operator for the Array base class. */
-  RGBAPixel & operator=(const ComponentType r[4]);
+  RGBAPixel &
+  operator=(const ComponentType r[4]);
 
   /** Aritmetic operations between pixels. Return a new RGBAPixel. */
-  Self operator+(const Self & vec) const;
-  Self operator-(const Self & vec) const;
-  Self operator *(const ComponentType & f) const;
-  Self operator /(const ComponentType & f) const;
+  Self
+  operator+(const Self & vec) const;
+  Self
+       operator-(const Self & vec) const;
+  Self operator*(const ComponentType & f) const;
+  Self
+  operator/(const ComponentType & f) const;
 
   /** Arithmetic-assigment operators. */
-  const Self & operator+=(const Self & vec);
-  const Self & operator-=(const Self & vec);
-  const Self & operator*=(const ComponentType & f);
-  const Self & operator/=(const ComponentType & f);
+  const Self &
+  operator+=(const Self & vec);
+  const Self &
+  operator-=(const Self & vec);
+  const Self &
+  operator*=(const ComponentType & f);
+  const Self &
+  operator/=(const ComponentType & f);
 
   /** Implements strict weak ordering. For use in STL, e.g. std::map. */
-  bool operator<(const Self & vec) const;
+  bool
+  operator<(const Self & vec) const;
 
-  bool operator==(const Self & vec) const;
+  bool
+  operator==(const Self & vec) const;
 
   /** Return the number of components. */
-  static unsigned int GetNumberOfComponents() { return 4; }
+  static unsigned int
+  GetNumberOfComponents()
+  {
+    return 4;
+  }
 
   /** Return the value for the Nth component. */
-  ComponentType GetNthComponent(int c) const { return this->operator[](c); }
+  ComponentType
+  GetNthComponent(int c) const
+  {
+    return this->operator[](c);
+  }
 
   /** Return the Euclidean norm of the vector defined by the RGB components. Alpha is not used. */
-  ComponentType GetScalarValue() const
+  ComponentType
+  GetScalarValue() const
   {
-    return static_cast< ComponentType >( std::sqrt(
-                                           static_cast< double >( this->operator[](0) )
-                                           * static_cast< double >( this->operator[](0) )
-                                           + static_cast< double >( this->operator[](1) )
-                                           * static_cast< double >( this->operator[](1) )
-                                           + static_cast< double >( this->operator[](2) )
-                                           * static_cast< double >( this->operator[](2) ) ) );
+    return static_cast<ComponentType>(
+      std::sqrt(static_cast<double>(this->operator[](0)) * static_cast<double>(this->operator[](0)) +
+                static_cast<double>(this->operator[](1)) * static_cast<double>(this->operator[](1)) +
+                static_cast<double>(this->operator[](2)) * static_cast<double>(this->operator[](2))));
   }
 
   /** Set the Nth component to v. */
-  void SetNthComponent(int c, const ComponentType & v) {  this->operator[](c) = v; }
+  void
+  SetNthComponent(int c, const ComponentType & v)
+  {
+    this->operator[](c) = v;
+  }
 
   /** Set the Red component. */
-  void SetRed(ComponentType red) { this->operator[](0) = red; }
+  void
+  SetRed(ComponentType red)
+  {
+    this->operator[](0) = red;
+  }
 
   /** Set the Green component. */
-  void SetGreen(ComponentType green) { this->operator[](1) = green; }
+  void
+  SetGreen(ComponentType green)
+  {
+    this->operator[](1) = green;
+  }
 
   /** Set the Blue component. */
-  void SetBlue(ComponentType blue) { this->operator[](2) = blue; }
+  void
+  SetBlue(ComponentType blue)
+  {
+    this->operator[](2) = blue;
+  }
 
   /** Set the Alpha component. */
-  void SetAlpha(ComponentType alpha) { this->operator[](3) = alpha; }
+  void
+  SetAlpha(ComponentType alpha)
+  {
+    this->operator[](3) = alpha;
+  }
 
   /** Set the four components. */
-  void Set(ComponentType red, ComponentType green, ComponentType blue, ComponentType alpha)
+  void
+  Set(ComponentType red, ComponentType green, ComponentType blue, ComponentType alpha)
   {
     this->operator[](0) = red;
     this->operator[](1) = green;
@@ -153,31 +196,49 @@ public:
   }
 
   /** Get the Red component. */
-  const ComponentType & GetRed() const { return this->operator[](0); }
+  const ComponentType &
+  GetRed() const
+  {
+    return this->operator[](0);
+  }
 
   /** Get the Green component. */
-  const ComponentType & GetGreen() const { return this->operator[](1); }
+  const ComponentType &
+  GetGreen() const
+  {
+    return this->operator[](1);
+  }
 
   /** Get the Blue component. */
-  const ComponentType & GetBlue() const { return this->operator[](2); }
+  const ComponentType &
+  GetBlue() const
+  {
+    return this->operator[](2);
+  }
 
   /** Get the Alpha component. */
-  const ComponentType & GetAlpha() const { return this->operator[](3); }
+  const ComponentType &
+  GetAlpha() const
+  {
+    return this->operator[](3);
+  }
 
   /** Get Luminance out of RGB */
-  LuminanceType GetLuminance() const;
+  LuminanceType
+  GetLuminance() const;
 };
 
-template< typename TComponent  >
-std::ostream & operator<<(std::ostream & os,
-                                     const RGBAPixel< TComponent > & c);
+template <typename TComponent>
+std::ostream &
+operator<<(std::ostream & os, const RGBAPixel<TComponent> & c);
 
-template< typename TComponent  >
-std::istream & operator>>(std::istream & is,
-                                     RGBAPixel< TComponent > & c);
+template <typename TComponent>
+std::istream &
+operator>>(std::istream & is, RGBAPixel<TComponent> & c);
 
-template<typename T>
-inline void swap( RGBAPixel<T> &a, RGBAPixel<T> &b )
+template <typename T>
+inline void
+swap(RGBAPixel<T> & a, RGBAPixel<T> & b)
 {
   a.swap(b);
 }
@@ -195,7 +256,7 @@ inline void swap( RGBAPixel<T> &a, RGBAPixel<T> &b )
 #include "itkNumericTraitsRGBAPixel.h"
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRGBAPixel.hxx"
+#  include "itkRGBAPixel.hxx"
 #endif
 
 #endif

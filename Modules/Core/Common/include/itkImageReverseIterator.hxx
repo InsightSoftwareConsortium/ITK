@@ -22,30 +22,26 @@
 
 namespace itk
 {
-template< typename TImage >
-ImageReverseIterator< TImage >
-::ImageReverseIterator(ImageType *ptr, const RegionType & region):
-  ImageRegionReverseConstIterator< TImage >(ptr, region)
+template <typename TImage>
+ImageReverseIterator<TImage>::ImageReverseIterator(ImageType * ptr, const RegionType & region)
+  : ImageRegionReverseConstIterator<TImage>(ptr, region)
 {}
 
-template< typename TImage >
-ImageReverseIterator< TImage >
-::ImageReverseIterator(const ImageIteratorWithIndex< TImage > & it):
-  ImageRegionReverseConstIterator< TImage >(it)
+template <typename TImage>
+ImageReverseIterator<TImage>::ImageReverseIterator(const ImageIteratorWithIndex<TImage> & it)
+  : ImageRegionReverseConstIterator<TImage>(it)
 {}
 
-template< typename TImage >
-ImageReverseIterator< TImage >
-::ImageReverseIterator(const ImageRegionReverseConstIterator< TImage > & it):
-  ImageRegionReverseConstIterator< TImage >(it)
+template <typename TImage>
+ImageReverseIterator<TImage>::ImageReverseIterator(const ImageRegionReverseConstIterator<TImage> & it)
+  : ImageRegionReverseConstIterator<TImage>(it)
 {}
 
-template< typename TImage >
-ImageReverseIterator< TImage > &
-ImageReverseIterator< TImage >
-::operator=(const ImageRegionReverseConstIterator< TImage > & it)
+template <typename TImage>
+ImageReverseIterator<TImage> &
+ImageReverseIterator<TImage>::operator=(const ImageRegionReverseConstIterator<TImage> & it)
 {
-  this->ImageRegionReverseConstIterator< TImage >::operator=(it);
+  this->ImageRegionReverseConstIterator<TImage>::operator=(it);
   return *this;
 }
 } // end namespace itk

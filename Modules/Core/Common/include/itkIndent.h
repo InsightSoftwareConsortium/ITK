@@ -53,23 +53,34 @@ public:
   using Self = Indent;
 
   /** Method for creation through the object factory. */
-  static Self * New();
+  static Self *
+  New();
 
   /** Destroy this instance. */
-  void Delete() { delete this; }
+  void
+  Delete()
+  {
+    delete this;
+  }
 
   /** Construct the object with an initial indentation level. */
   Indent(int ind = 0) { m_Indent = ind; }
 
   /** Return the name of the class. */
-  static const char * GetNameOfClass() { return "Indent"; }
+  static const char *
+  GetNameOfClass()
+  {
+    return "Indent";
+  }
 
   /** Determine the next indentation level. Keep indenting by two until the
    * a maximum of forty spaces is reached.  */
-  Indent GetNextIndent();
+  Indent
+  GetNextIndent();
 
   /** Print out the indentation. Basically output a bunch of spaces.  */
-  friend ITKCommon_EXPORT std::ostream & operator<<(std::ostream & os, const Indent & o);
+  friend ITKCommon_EXPORT std::ostream &
+                          operator<<(std::ostream & os, const Indent & o);
 
 private:
   int m_Indent;

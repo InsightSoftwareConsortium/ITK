@@ -21,18 +21,17 @@
 namespace itk
 {
 
-template < typename TInput, // LevelSetImageType
-  typename TFeature, // FeatureImageType
-  typename TSharedData >
-class RegionBasedLevelSetFunctionTestHelper :
- public RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
+template <typename TInput,   // LevelSetImageType
+          typename TFeature, // FeatureImageType
+          typename TSharedData>
+class RegionBasedLevelSetFunctionTestHelper : public RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RegionBasedLevelSetFunctionTestHelper);
 
   /** Standard class type aliases. */
   using Self = RegionBasedLevelSetFunctionTestHelper;
-  using Superclass = RegionBasedLevelSetFunction<TInput,TFeature,TSharedData>;
+  using Superclass = RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -41,33 +40,37 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( RegionBasedLevelSetFunctionTestHelper, RegionBasedLevelSetFunction );
+  itkTypeMacro(RegionBasedLevelSetFunctionTestHelper, RegionBasedLevelSetFunction);
 
   using ScalarValueType = typename Superclass::ScalarValueType;
   using FeaturePixelType = typename Superclass::FeaturePixelType;
   using FeatureIndexType = typename Superclass::FeatureIndexType;
 
-  ScalarValueType ComputeInternalTerm(const FeaturePixelType& ,
-    const FeatureIndexType& ) override
-    {
-    return ScalarValueType( 0 );
-    }
+  ScalarValueType
+  ComputeInternalTerm(const FeaturePixelType &, const FeatureIndexType &) override
+  {
+    return ScalarValueType(0);
+  }
 
-  ScalarValueType ComputeExternalTerm(const FeaturePixelType& ,
-    const FeatureIndexType & ) override
-    {
-    return ScalarValueType( 0 );
-    }
+  ScalarValueType
+  ComputeExternalTerm(const FeaturePixelType &, const FeatureIndexType &) override
+  {
+    return ScalarValueType(0);
+  }
 
-  ScalarValueType ComputeOverlapParameters( const FeatureIndexType&,
-    ScalarValueType & ) override
-    {
-    return ScalarValueType( 0 );
-    }
+  ScalarValueType
+  ComputeOverlapParameters(const FeatureIndexType &, ScalarValueType &) override
+  {
+    return ScalarValueType(0);
+  }
 
-  void ComputeParameters() override {}
+  void
+  ComputeParameters() override
+  {}
 
-  void UpdateSharedDataParameters() override {}
+  void
+  UpdateSharedDataParameters() override
+  {}
 
 protected:
   RegionBasedLevelSetFunctionTestHelper() {}
@@ -87,44 +90,46 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( RegionBasedLevelSetFunctionSharedDataHelper, DataObject );
+  itkTypeMacro(RegionBasedLevelSetFunctionSharedDataHelper, DataObject);
 
-  unsigned long       m_FunctionCount;
+  unsigned long m_FunctionCount;
 
-  using IndexType = Index< NDimension >;
+  using IndexType = Index<NDimension>;
 
   struct SingleData
-    {
+  {
     unsigned int m_WeightedNumberOfPixelsInsideLevelSet;
-    IndexType GetFeatureIndex( const IndexType & indx )
-      {
+    IndexType
+    GetFeatureIndex(const IndexType & indx)
+    {
       return indx;
-      }
-    };
+    }
+  };
 
-  SingleData* m_LevelSetDataPointerVector[19];
+  SingleData * m_LevelSetDataPointerVector[19];
 };
 
-}
+} // namespace itk
 
-int itkRegionBasedLevelSetFunctionTest( int, char* [] )
+int
+itkRegionBasedLevelSetFunctionTest(int, char *[])
 {
   constexpr unsigned int Dimension = 3;
 
   using PixelType = double;
-  using ImageType = itk::Image< PixelType, Dimension >;
-  using FeatureImageType = itk::Image< float, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using FeatureImageType = itk::Image<float, Dimension>;
 
   using DataHelperType = itk::RegionBasedLevelSetFunctionSharedDataHelper<Dimension>;
 
-  using RegionBasedLevelSetFunctionType = itk::RegionBasedLevelSetFunctionTestHelper<
-    ImageType, FeatureImageType, DataHelperType >;
+  using RegionBasedLevelSetFunctionType =
+    itk::RegionBasedLevelSetFunctionTestHelper<ImageType, FeatureImageType, DataHelperType>;
 
   RegionBasedLevelSetFunctionType::Pointer function = RegionBasedLevelSetFunctionType::New();
-  if( function.IsNull() )
-    {
+  if (function.IsNull())
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

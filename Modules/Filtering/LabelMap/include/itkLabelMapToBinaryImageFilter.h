@@ -41,18 +41,17 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT LabelMapToBinaryImageFilter:
-  public LabelMapFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT LabelMapToBinaryImageFilter : public LabelMapFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapToBinaryImageFilter);
 
   /** Standard class type aliases. */
   using Self = LabelMapToBinaryImageFilter;
-  using Superclass = LabelMapFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = LabelMapFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;
@@ -94,26 +93,30 @@ public:
   itkGetConstMacro(ForegroundValue, OutputImagePixelType);
 
   /** Set/Get the background image top be used to restore the background values
-    */
-  void SetBackgroundImage(const OutputImageType *input)
+   */
+  void
+  SetBackgroundImage(const OutputImageType * input)
   {
     // Process object is not const-correct so the const casting is required.
-    this->SetNthInput( 1, const_cast< OutputImageType * >( input ) );
+    this->SetNthInput(1, const_cast<OutputImageType *>(input));
   }
 
-  OutputImageType * GetBackgroundImage()
+  OutputImageType *
+  GetBackgroundImage()
   {
-    return static_cast< OutputImageType * >( const_cast< DataObject * >( this->ProcessObject::GetInput(1) ) );
+    return static_cast<OutputImageType *>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
   }
 
   /** Set the input image */
-  void SetInput1(const InputImageType *input)
+  void
+  SetInput1(const InputImageType * input)
   {
     this->SetInput(input);
   }
 
   /** Set the marker image */
-  void SetInput2(const OutputImageType *input)
+  void
+  SetInput2(const OutputImageType * input)
   {
     this->SetBackgroundImage(input);
   }
@@ -125,24 +128,31 @@ protected:
   /** LabelMapToBinaryImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** LabelMapToBinaryImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
-  //part of a compile error workaround for GCC 4.8.5-28 (Red Hat) from 20150623
-  void SuperclassDynamicTGD(const OutputImageRegionType & outputRegion)
+  // part of a compile error workaround for GCC 4.8.5-28 (Red Hat) from 20150623
+  void
+  SuperclassDynamicTGD(const OutputImageRegionType & outputRegion)
   {
     Superclass::DynamicThreadedGenerateData(outputRegion);
   }
 
-  void ThreadedProcessLabelObject(LabelObjectType *labelObject) override;
+  void
+  ThreadedProcessLabelObject(LabelObjectType * labelObject) override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   OutputImagePixelType m_BackgroundValue;
@@ -151,7 +161,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelMapToBinaryImageFilter.hxx"
+#  include "itkLabelMapToBinaryImageFilter.hxx"
 #endif
 
 #endif

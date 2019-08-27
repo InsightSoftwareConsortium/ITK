@@ -23,59 +23,54 @@
 namespace itk
 {
 /** Constructor */
-template< unsigned int TPointDimension >
-LineSpatialObjectPoint< TPointDimension >
-::LineSpatialObjectPoint()
+template <unsigned int TPointDimension>
+LineSpatialObjectPoint<TPointDimension>::LineSpatialObjectPoint()
 {
-  unsigned int ii = 0;
+  unsigned int        ii = 0;
   CovariantVectorType normal;
   normal.Fill(0);
-  while( ii < TPointDimension - 1 )
-    {
+  while (ii < TPointDimension - 1)
+  {
     this->m_NormalArrayInObjectSpace[ii] = normal;
     ++ii;
-    }
+  }
 }
 
 /** Get the specified normal */
-template< unsigned int TPointDimension >
-const typename LineSpatialObjectPoint< TPointDimension >::CovariantVectorType &
-LineSpatialObjectPoint< TPointDimension >
-::GetNormalInObjectSpace(unsigned int index) const
+template <unsigned int TPointDimension>
+const typename LineSpatialObjectPoint<TPointDimension>::CovariantVectorType &
+LineSpatialObjectPoint<TPointDimension>::GetNormalInObjectSpace(unsigned int index) const
 {
   return m_NormalArrayInObjectSpace[index];
 }
 
 /** Print the object */
-template< unsigned int TPointDimension >
+template <unsigned int TPointDimension>
 void
-LineSpatialObjectPoint< TPointDimension >
-::PrintSelf(std::ostream & os, Indent indent) const
+LineSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "LineSpatialObjectPoint(" << this << ")" << std::endl;
   unsigned int ii = 0;
-  while( ii < TPointDimension - 1 )
-    {
+  while (ii < TPointDimension - 1)
+  {
     os << indent << this->m_NormalArrayInObjectSpace[ii] << std::endl;
     ++ii;
-    }
+  }
 }
 
 /** Set the specified normal */
-template< unsigned int TPointDimension >
+template <unsigned int TPointDimension>
 void
-LineSpatialObjectPoint< TPointDimension >
-::SetNormalInObjectSpace(CovariantVectorType & normal, unsigned int index)
+LineSpatialObjectPoint<TPointDimension>::SetNormalInObjectSpace(CovariantVectorType & normal, unsigned int index)
 {
   m_NormalArrayInObjectSpace[index] = normal;
 }
 
 /** Copy a point to another */
-template< unsigned int TPointDimension >
-typename LineSpatialObjectPoint< TPointDimension >::Self &
-LineSpatialObjectPoint< TPointDimension >
-::operator=(const LineSpatialObjectPoint & rhs)
+template <unsigned int TPointDimension>
+typename LineSpatialObjectPoint<TPointDimension>::Self &
+LineSpatialObjectPoint<TPointDimension>::operator=(const LineSpatialObjectPoint & rhs)
 {
   this->m_Id = rhs.m_Id;
   this->m_Color = rhs.m_Color;

@@ -40,7 +40,7 @@ namespace itk
  *
  * \ingroup ITKDeprecated
  */
-template< typename TMutex >
+template <typename TMutex>
 class MutexLockHolder
 {
 public:
@@ -49,32 +49,36 @@ public:
   using Self = MutexLockHolder;
   using MutexType = TMutex;
 
-  MutexLockHolder(MutexType & mutex, const bool noblock=false)
-   :m_Mutex(mutex),
-    m_LockCaptured(true)
+  MutexLockHolder(MutexType & mutex, const bool noblock = false)
+    : m_Mutex(mutex)
+    , m_LockCaptured(true)
   {
-    if( noblock == false )
-      {
+    if (noblock == false)
+    {
       m_Mutex.Lock();
-      }
+    }
     else
-      {
+    {
       m_LockCaptured = m_Mutex.TryLock();
-      }
+    }
   }
 
   /** True if the holder has acquired the lock, for no-blocking
    + constructor this will always be true.
    */
-  inline bool GetLockCaptured() const { return this->m_LockCaptured; }
-  operator bool () const { return this->m_LockCaptured; }
+  inline bool
+  GetLockCaptured() const
+  {
+    return this->m_LockCaptured;
+  }
+  operator bool() const { return this->m_LockCaptured; }
 
   ~MutexLockHolder()
   {
-    if ( m_LockCaptured )
-     {
+    if (m_LockCaptured)
+    {
       m_Mutex.Unlock();
-     }
+    }
   }
 
 protected:
@@ -82,6 +86,6 @@ protected:
   bool        m_LockCaptured;
 };
 
-} //end itk namespace
+} // namespace itk
 
 #endif

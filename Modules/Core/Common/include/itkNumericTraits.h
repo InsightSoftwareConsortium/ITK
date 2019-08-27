@@ -23,23 +23,11 @@
 #undef min
 #undef max
 
-#define itkNUMERIC_TRAITS_MIN_MAX_MACRO()          \
-  static constexpr ValueType min(ValueType)         \
-    {                                              \
-    return std::numeric_limits< ValueType >::min(); \
-    }                                              \
-  static constexpr ValueType max(ValueType)         \
-    {                                              \
-    return std::numeric_limits< ValueType >::max(); \
-    }                                              \
-  static constexpr ValueType min()                  \
-    {                                              \
-    return std::numeric_limits< ValueType >::min(); \
-    }                                              \
-  static constexpr ValueType max()                  \
-    {                                              \
-    return std::numeric_limits< ValueType >::max(); \
-    }
+#define itkNUMERIC_TRAITS_MIN_MAX_MACRO()                                                                              \
+  static constexpr ValueType min(ValueType) { return std::numeric_limits<ValueType>::min(); }                          \
+  static constexpr ValueType max(ValueType) { return std::numeric_limits<ValueType>::max(); }                          \
+  static constexpr ValueType min() { return std::numeric_limits<ValueType>::min(); }                                   \
+  static constexpr ValueType max() { return std::numeric_limits<ValueType>::max(); }
 
 #include <limits> // for std::numeric_limits
 #include <complex>
@@ -48,7 +36,8 @@ namespace itk
 {
 
 // forward decare to avoid circular dependencies
-template< typename TValue, unsigned int VLength>  class FixedArray;
+template <typename TValue, unsigned int VLength>
+class FixedArray;
 
 /** \class NumericTraits
  * \brief Define additional traits for native types such as int or float.
@@ -65,12 +54,12 @@ template< typename TValue, unsigned int VLength>  class FixedArray;
  * \sphinxexample{Core/Common/GetTypeBasicInformation,Get Type Basic Information}
  * \endsphinx
  */
-template< typename T >
-class NumericTraits:public std::numeric_limits< T >
+template <typename T>
+class NumericTraits : public std::numeric_limits<T>
 {
 public:
   /** The type of this limits trait object. */
-  using TraitsType = std::numeric_limits< T >;
+  using TraitsType = std::numeric_limits<T>;
 
   /** Return the type of this native type. */
   using ValueType = T;
@@ -104,19 +93,39 @@ public:
   static const T ITKCommon_EXPORT One;
 
   /** Smallest (most nonpositive) value */
-  static constexpr T NonpositiveMin() { return TraitsType::lowest(); }
+  static constexpr T
+  NonpositiveMin()
+  {
+    return TraitsType::lowest();
+  }
 
   /** Is a given value positive? */
-  static bool IsPositive(T val) { return val > Zero; }
+  static bool
+  IsPositive(T val)
+  {
+    return val > Zero;
+  }
 
   /** Is a given value nonpositive? */
-  static bool IsNonpositive(T val) { return val <= Zero; }
+  static bool
+  IsNonpositive(T val)
+  {
+    return val <= Zero;
+  }
 
   /** Is a given value negative? */
-  static bool IsNegative(T val) { return val < Zero; }
+  static bool
+  IsNegative(T val)
+  {
+    return val < Zero;
+  }
 
   /** Is a given value nonnegative? */
-  static bool IsNonnegative(T val) { return val >= Zero; }
+  static bool
+  IsNonnegative(T val)
+  {
+    return val >= Zero;
+  }
 
   /** Is a given type signed? -- default is no.
       For uniform array data types in ITK, the value of IsSigned
@@ -135,19 +144,35 @@ public:
 
   /** Return zero value. This function should be used to support
    *  RGBPixel type and standard types (not vectors) */
-  static T ZeroValue() { return Zero; }
+  static T
+  ZeroValue()
+  {
+    return Zero;
+  }
 
   /** Return one value. This function should be used to support
    *  RGBPixel type and standard types (not vectors) */
-  static T OneValue() { return One; }
+  static T
+  OneValue()
+  {
+    return One;
+  }
 
   /* Provide a default implementation of the max() method with
    * argument. This API is needed for VariableLengthVector because
    * its length is only known at run-time. Specializations of the
    * VariableLengthVector will provide a different implementation
    * where a vector of the correct size is built. */
-  static constexpr T max(const T &) { return TraitsType::max(); }
-  static constexpr T min(const T &) { return TraitsType::min(); }
+  static constexpr T
+  max(const T &)
+  {
+    return TraitsType::max();
+  }
+  static constexpr T
+  min(const T &)
+  {
+    return TraitsType::min();
+  }
 
   /** Scalars cannot be resized, so an exception will
    * be thrown if the input size is not 1.  If the size is valid
@@ -156,13 +181,14 @@ public:
    * VariableLengthVector will provide a different implementation
    * where a vector of the correct size is built.
    */
-  static void SetLength(T & m, const unsigned int s)
+  static void
+  SetLength(T & m, const unsigned int s)
   {
-    if ( s != 1 )
-      {
+    if (s != 1)
+    {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
-      }
-    m = NumericTraits< ValueType >::ZeroValue();
+    }
+    m = NumericTraits<ValueType>::ZeroValue();
   }
   /** Return the length of the scalar. This API is needed for
    * VariableLengthVector because
@@ -170,13 +196,15 @@ public:
    * VariableLengthVector will provide a different implementation
    * where a vector of the correct size is built.
    */
-  static unsigned int GetLength(const T &)
+  static unsigned int
+  GetLength(const T &)
   {
     return GetLength();
   }
 
   /** Return the length of the scalar: 1. Array types can return a different value */
-  static unsigned int GetLength()
+  static unsigned int
+  GetLength()
   {
     return 1;
   }
@@ -184,7 +212,8 @@ public:
   /** Smallest (most nonpositive) value. This API is needed for
    * VariableLengthVector because its length is only known at run-time.
    */
-  static T NonpositiveMin(const T &)
+  static T
+  NonpositiveMin(const T &)
   {
     return NonpositiveMin();
   }
@@ -192,7 +221,8 @@ public:
   /** Zero value. This API is needed for
    * VariableLengthVector because its length is only known at run-time.
    */
-  static T ZeroValue(const T &)
+  static T
+  ZeroValue(const T &)
   {
     return ZeroValue();
   }
@@ -200,18 +230,19 @@ public:
   /** One value. This API is needed for
    * VariableLengthVector because its length is only known at run-time.
    */
-  static T OneValue(const T &)
+  static T
+  OneValue(const T &)
   {
     return OneValue();
   }
 
   /** assign the value to an array */
-  template<typename TArray>
-  static void AssignToArray( const T & v, TArray & mv )
+  template <typename TArray>
+  static void
+  AssignToArray(const T & v, TArray & mv)
   {
     mv[0] = v;
   }
-
 };
 
 /// \cond HIDE_SPECIALIZATION_DOCUMENTATION
@@ -223,8 +254,8 @@ public:
  * \ingroup ITKCommon
  */
 
-template< >
-class NumericTraits< bool > :public std::numeric_limits< bool >
+template <>
+class NumericTraits<bool> : public std::numeric_limits<bool>
 {
 public:
   using ValueType = bool;
@@ -239,40 +270,105 @@ public:
   static constexpr bool ITKCommon_EXPORT Zero = false;
   static constexpr bool ITKCommon_EXPORT One = true;
 
-  static constexpr bool min() { return false; }
-  static constexpr bool max() { return true; }
-  static constexpr bool min(bool) { return min(); }
-  static constexpr bool max(bool) { return max(); }
-  static constexpr bool NonpositiveMin() { return false; }
-  static constexpr bool IsPositive(bool val) { return val; }
-  static constexpr bool IsNonpositive(bool val) { return !val; }
-  static constexpr bool IsNegative(bool val) { return val ? false : false; }
-  static constexpr bool IsNonnegative(bool val) { return val ? true : true; }
+  static constexpr bool
+  min()
+  {
+    return false;
+  }
+  static constexpr bool
+  max()
+  {
+    return true;
+  }
+  static constexpr bool
+  min(bool)
+  {
+    return min();
+  }
+  static constexpr bool
+  max(bool)
+  {
+    return max();
+  }
+  static constexpr bool
+  NonpositiveMin()
+  {
+    return false;
+  }
+  static constexpr bool
+  IsPositive(bool val)
+  {
+    return val;
+  }
+  static constexpr bool
+  IsNonpositive(bool val)
+  {
+    return !val;
+  }
+  static constexpr bool
+  IsNegative(bool val)
+  {
+    return val ? false : false;
+  }
+  static constexpr bool
+  IsNonnegative(bool val)
+  {
+    return val ? true : true;
+  }
   static constexpr bool IsSigned = false;
   static constexpr bool IsInteger = true;
   static constexpr bool IsComplex = false;
-  static constexpr bool ZeroValue() { return Zero; }
-  static constexpr bool OneValue() { return One; }
-  static constexpr unsigned int GetLength(const ValueType &) { return 1; }
-  static constexpr unsigned int GetLength() { return 1; }
-  static constexpr ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
-  static constexpr ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
-  static constexpr ValueType OneValue(const ValueType &) { return OneValue(); }
+  static constexpr bool
+  ZeroValue()
+  {
+    return Zero;
+  }
+  static constexpr bool
+  OneValue()
+  {
+    return One;
+  }
+  static constexpr unsigned int
+  GetLength(const ValueType &)
+  {
+    return 1;
+  }
+  static constexpr unsigned int
+  GetLength()
+  {
+    return 1;
+  }
+  static constexpr ValueType
+  NonpositiveMin(const ValueType &)
+  {
+    return NonpositiveMin();
+  }
+  static constexpr ValueType
+  ZeroValue(const ValueType &)
+  {
+    return ZeroValue();
+  }
+  static constexpr ValueType
+  OneValue(const ValueType &)
+  {
+    return OneValue();
+  }
 
-  template<typename TArray>
-  static void AssignToArray( const ValueType & v, TArray & mv )
+  template <typename TArray>
+  static void
+  AssignToArray(const ValueType & v, TArray & mv)
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType & m, const unsigned int s)
+  static void
+  SetLength(ValueType & m, const unsigned int s)
   {
-    if ( s != 1 )
-      {
+    if (s != 1)
+    {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
-      }
-    m = NumericTraits< ValueType >::ZeroValue();
+    }
+    m = NumericTraits<ValueType>::ZeroValue();
   }
-
 };
 
 /** \class NumericTraits<char>
@@ -280,8 +376,8 @@ public:
  * NOTE: char is not guaranteed to be signed. On SGI computers, the default is unsigned
  * \ingroup ITKCommon
  */
-template< >
-class NumericTraits< char > :public std::numeric_limits< char >
+template <>
+class NumericTraits<char> : public std::numeric_limits<char>
 {
 public:
   using ValueType = char;
@@ -298,36 +394,86 @@ public:
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
 
-  static constexpr char NonpositiveMin() { return lowest(); }
-  static constexpr bool IsPositive(char val) { return val > Zero; }
-  static constexpr bool IsNonpositive(char val) { return val <= Zero; }
+  static constexpr char
+  NonpositiveMin()
+  {
+    return lowest();
+  }
+  static constexpr bool
+  IsPositive(char val)
+  {
+    return val > Zero;
+  }
+  static constexpr bool
+  IsNonpositive(char val)
+  {
+    return val <= Zero;
+  }
 
-  static constexpr bool IsNegative(char) { return false; }
-  static constexpr bool IsNonnegative(char) { return true; }
+  static constexpr bool
+  IsNegative(char)
+  {
+    return false;
+  }
+  static constexpr bool
+  IsNonnegative(char)
+  {
+    return true;
+  }
   static constexpr bool IsSigned = std::numeric_limits<char>::is_signed;
 
   static constexpr bool IsInteger = std::numeric_limits<char>::is_integer;
   static constexpr bool IsComplex = false;
-  static constexpr char ZeroValue() { return Zero; }
-  static constexpr char OneValue() { return One; }
-  static constexpr unsigned int GetLength(const ValueType &) { return 1; }
-  static constexpr unsigned int GetLength() { return 1; }
-  static constexpr ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
-  static constexpr ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
-  static constexpr ValueType OneValue(const ValueType &) { return OneValue(); }
+  static constexpr char
+  ZeroValue()
+  {
+    return Zero;
+  }
+  static constexpr char
+  OneValue()
+  {
+    return One;
+  }
+  static constexpr unsigned int
+  GetLength(const ValueType &)
+  {
+    return 1;
+  }
+  static constexpr unsigned int
+  GetLength()
+  {
+    return 1;
+  }
+  static constexpr ValueType
+  NonpositiveMin(const ValueType &)
+  {
+    return NonpositiveMin();
+  }
+  static constexpr ValueType
+  ZeroValue(const ValueType &)
+  {
+    return ZeroValue();
+  }
+  static constexpr ValueType
+  OneValue(const ValueType &)
+  {
+    return OneValue();
+  }
 
-  template<typename TArray>
-  static void AssignToArray( const ValueType & v, TArray & mv )
+  template <typename TArray>
+  static void
+  AssignToArray(const ValueType & v, TArray & mv)
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType & m, const unsigned int s)
+  static void
+  SetLength(ValueType & m, const unsigned int s)
   {
-    if ( s != 1 )
-      {
+    if (s != 1)
+    {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
-      }
-    m = NumericTraits< ValueType >::ZeroValue();
+    }
+    m = NumericTraits<ValueType>::ZeroValue();
   }
 };
 
@@ -336,8 +482,8 @@ public:
  * NOTE: char is not guaranteed to be signed. On SGI computers, the default is unsigned
  * \ingroup ITKCommon
  */
-template< >
-class NumericTraits< signed char > :public std::numeric_limits< signed char >
+template <>
+class NumericTraits<signed char> : public std::numeric_limits<signed char>
 {
 public:
   using ValueType = signed char;
@@ -352,38 +498,104 @@ public:
   static constexpr signed char ITKCommon_EXPORT Zero = 0;
   static constexpr signed char ITKCommon_EXPORT One = 1;
 
-  static constexpr signed char min() { return -128; }
-  static constexpr signed char max() { return 127; }
-  static constexpr signed char min(signed char) { return min(); }
-  static constexpr signed char max(signed char) { return max(); }
-  static constexpr signed char NonpositiveMin() { return lowest(); }
-  static constexpr bool IsPositive(signed char val) { return val > Zero; }
-  static constexpr bool IsNonpositive(signed char val) { return val <= Zero; }
-  static constexpr bool IsNegative(signed char val) { return val < Zero; }
-  static constexpr bool IsNonnegative(signed char val) { return val >= Zero; }
+  static constexpr signed char
+  min()
+  {
+    return -128;
+  }
+  static constexpr signed char
+  max()
+  {
+    return 127;
+  }
+  static constexpr signed char
+  min(signed char)
+  {
+    return min();
+  }
+  static constexpr signed char
+  max(signed char)
+  {
+    return max();
+  }
+  static constexpr signed char
+  NonpositiveMin()
+  {
+    return lowest();
+  }
+  static constexpr bool
+  IsPositive(signed char val)
+  {
+    return val > Zero;
+  }
+  static constexpr bool
+  IsNonpositive(signed char val)
+  {
+    return val <= Zero;
+  }
+  static constexpr bool
+  IsNegative(signed char val)
+  {
+    return val < Zero;
+  }
+  static constexpr bool
+  IsNonnegative(signed char val)
+  {
+    return val >= Zero;
+  }
   static constexpr bool IsSigned = true;
   static constexpr bool IsInteger = true;
   static constexpr bool IsComplex = false;
-  static constexpr signed char  ZeroValue() { return Zero; }
-  static constexpr signed char OneValue() { return One; }
-  static constexpr unsigned int GetLength(const ValueType &) { return 1; }
-  static constexpr unsigned int GetLength() { return 1; }
-  static constexpr ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
-  static constexpr ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
-  static constexpr ValueType OneValue(const ValueType &) { return OneValue(); }
+  static constexpr signed char
+  ZeroValue()
+  {
+    return Zero;
+  }
+  static constexpr signed char
+  OneValue()
+  {
+    return One;
+  }
+  static constexpr unsigned int
+  GetLength(const ValueType &)
+  {
+    return 1;
+  }
+  static constexpr unsigned int
+  GetLength()
+  {
+    return 1;
+  }
+  static constexpr ValueType
+  NonpositiveMin(const ValueType &)
+  {
+    return NonpositiveMin();
+  }
+  static constexpr ValueType
+  ZeroValue(const ValueType &)
+  {
+    return ZeroValue();
+  }
+  static constexpr ValueType
+  OneValue(const ValueType &)
+  {
+    return OneValue();
+  }
 
-  template<typename TArray>
-  static void AssignToArray( const ValueType & v, TArray & mv )
+  template <typename TArray>
+  static void
+  AssignToArray(const ValueType & v, TArray & mv)
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType & m, const unsigned int s)
+  static void
+  SetLength(ValueType & m, const unsigned int s)
   {
-    if ( s != 1 )
-      {
+    if (s != 1)
+    {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
-      }
-    m = NumericTraits< ValueType >::ZeroValue();
+    }
+    m = NumericTraits<ValueType>::ZeroValue();
   }
 };
 
@@ -392,8 +604,8 @@ public:
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
-template< >
-class NumericTraits< unsigned char > :public std::numeric_limits< unsigned char >
+template <>
+class NumericTraits<unsigned char> : public std::numeric_limits<unsigned char>
 {
 public:
   using ValueType = unsigned char;
@@ -410,34 +622,84 @@ public:
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
 
-  static constexpr unsigned char NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
-  static constexpr bool IsPositive(unsigned char val) { return val != Zero; }
-  static constexpr bool IsNonpositive(unsigned char val) { return val == Zero; }
-  static constexpr bool IsNegative(unsigned char val) { return val ? false : false; }
-  static constexpr bool IsNonnegative(unsigned char val) { return val ? true : true; }
+  static constexpr unsigned char
+  NonpositiveMin()
+  {
+    return std::numeric_limits<ValueType>::lowest();
+  }
+  static constexpr bool
+  IsPositive(unsigned char val)
+  {
+    return val != Zero;
+  }
+  static constexpr bool
+  IsNonpositive(unsigned char val)
+  {
+    return val == Zero;
+  }
+  static constexpr bool
+  IsNegative(unsigned char val)
+  {
+    return val ? false : false;
+  }
+  static constexpr bool
+  IsNonnegative(unsigned char val)
+  {
+    return val ? true : true;
+  }
   static constexpr bool IsSigned = false;
   static constexpr bool IsInteger = true;
   static constexpr bool IsComplex = false;
-  static constexpr unsigned char  ZeroValue() { return Zero; }
-  static constexpr unsigned char OneValue() { return One; }
-  static constexpr unsigned int GetLength(const ValueType &) { return 1; }
-  static constexpr unsigned int GetLength() { return 1; }
-  static constexpr ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
-  static constexpr ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
-  static constexpr ValueType OneValue(const ValueType &) { return OneValue(); }
+  static constexpr unsigned char
+  ZeroValue()
+  {
+    return Zero;
+  }
+  static constexpr unsigned char
+  OneValue()
+  {
+    return One;
+  }
+  static constexpr unsigned int
+  GetLength(const ValueType &)
+  {
+    return 1;
+  }
+  static constexpr unsigned int
+  GetLength()
+  {
+    return 1;
+  }
+  static constexpr ValueType
+  NonpositiveMin(const ValueType &)
+  {
+    return NonpositiveMin();
+  }
+  static constexpr ValueType
+  ZeroValue(const ValueType &)
+  {
+    return ZeroValue();
+  }
+  static constexpr ValueType
+  OneValue(const ValueType &)
+  {
+    return OneValue();
+  }
 
-  template<typename TArray>
-  static void AssignToArray( const ValueType & v, TArray & mv )
+  template <typename TArray>
+  static void
+  AssignToArray(const ValueType & v, TArray & mv)
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType & m, const unsigned int s)
+  static void
+  SetLength(ValueType & m, const unsigned int s)
   {
-    if ( s != 1 )
-      {
+    if (s != 1)
+    {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
-      }
-    m = NumericTraits< ValueType >::ZeroValue();
+    }
+    m = NumericTraits<ValueType>::ZeroValue();
   }
 };
 
@@ -445,8 +707,8 @@ public:
  * \brief Define traits for type short.
  * \ingroup ITKCommon
  */
-template< >
-class NumericTraits< short > :public std::numeric_limits< short >
+template <>
+class NumericTraits<short> : public std::numeric_limits<short>
 {
 public:
   using ValueType = short;
@@ -462,34 +724,84 @@ public:
   static constexpr short ITKCommon_EXPORT One = 1;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static constexpr short NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
-  static constexpr bool IsPositive(short val) { return val > Zero; }
-  static constexpr bool IsNonpositive(short val) { return val <= Zero; }
-  static constexpr bool IsNegative(short val) { return val < Zero; }
-  static constexpr bool IsNonnegative(short val) { return val >= Zero; }
+  static constexpr short
+  NonpositiveMin()
+  {
+    return std::numeric_limits<ValueType>::lowest();
+  }
+  static constexpr bool
+  IsPositive(short val)
+  {
+    return val > Zero;
+  }
+  static constexpr bool
+  IsNonpositive(short val)
+  {
+    return val <= Zero;
+  }
+  static constexpr bool
+  IsNegative(short val)
+  {
+    return val < Zero;
+  }
+  static constexpr bool
+  IsNonnegative(short val)
+  {
+    return val >= Zero;
+  }
   static constexpr bool IsSigned = true;
   static constexpr bool IsInteger = true;
   static constexpr bool IsComplex = false;
-  static constexpr short  ZeroValue() { return Zero; }
-  static constexpr short OneValue() { return One; }
-  static constexpr unsigned int GetLength(const ValueType &) { return 1; }
-  static constexpr unsigned int GetLength() { return 1; }
-  static constexpr ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
-  static constexpr ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
-  static constexpr ValueType OneValue(const ValueType &) { return OneValue(); }
+  static constexpr short
+  ZeroValue()
+  {
+    return Zero;
+  }
+  static constexpr short
+  OneValue()
+  {
+    return One;
+  }
+  static constexpr unsigned int
+  GetLength(const ValueType &)
+  {
+    return 1;
+  }
+  static constexpr unsigned int
+  GetLength()
+  {
+    return 1;
+  }
+  static constexpr ValueType
+  NonpositiveMin(const ValueType &)
+  {
+    return NonpositiveMin();
+  }
+  static constexpr ValueType
+  ZeroValue(const ValueType &)
+  {
+    return ZeroValue();
+  }
+  static constexpr ValueType
+  OneValue(const ValueType &)
+  {
+    return OneValue();
+  }
 
-  template<typename TArray>
-  static void AssignToArray( const ValueType & v, TArray & mv )
+  template <typename TArray>
+  static void
+  AssignToArray(const ValueType & v, TArray & mv)
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType & m, const unsigned int s)
+  static void
+  SetLength(ValueType & m, const unsigned int s)
   {
-    if ( s != 1 )
-      {
+    if (s != 1)
+    {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
-      }
-    m = NumericTraits< ValueType >::ZeroValue();
+    }
+    m = NumericTraits<ValueType>::ZeroValue();
   }
 };
 
@@ -498,8 +810,8 @@ public:
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
-template< >
-class NumericTraits< unsigned short > :public std::numeric_limits< unsigned short >
+template <>
+class NumericTraits<unsigned short> : public std::numeric_limits<unsigned short>
 {
 public:
   using ValueType = unsigned short;
@@ -515,34 +827,84 @@ public:
   static constexpr unsigned short ITKCommon_EXPORT One = 1;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static constexpr unsigned short NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
-  static constexpr bool IsPositive(unsigned short val) { return val != Zero; }
-  static constexpr bool IsNonpositive(unsigned short val) { return val == Zero; }
-  static constexpr bool IsNegative(unsigned short val) { return val ? false : false; }
-  static constexpr bool IsNonnegative(unsigned short val) { return val ? true : true; }
+  static constexpr unsigned short
+  NonpositiveMin()
+  {
+    return std::numeric_limits<ValueType>::lowest();
+  }
+  static constexpr bool
+  IsPositive(unsigned short val)
+  {
+    return val != Zero;
+  }
+  static constexpr bool
+  IsNonpositive(unsigned short val)
+  {
+    return val == Zero;
+  }
+  static constexpr bool
+  IsNegative(unsigned short val)
+  {
+    return val ? false : false;
+  }
+  static constexpr bool
+  IsNonnegative(unsigned short val)
+  {
+    return val ? true : true;
+  }
   static constexpr bool IsSigned = false;
   static constexpr bool IsInteger = true;
   static constexpr bool IsComplex = false;
-  static constexpr unsigned short ZeroValue() { return Zero; }
-  static constexpr unsigned short OneValue() { return One; }
-  static constexpr unsigned int GetLength(const ValueType &) { return 1; }
-  static constexpr unsigned int GetLength() { return 1; }
-  static constexpr ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
-  static constexpr ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
-  static constexpr ValueType OneValue(const ValueType &) { return OneValue(); }
+  static constexpr unsigned short
+  ZeroValue()
+  {
+    return Zero;
+  }
+  static constexpr unsigned short
+  OneValue()
+  {
+    return One;
+  }
+  static constexpr unsigned int
+  GetLength(const ValueType &)
+  {
+    return 1;
+  }
+  static constexpr unsigned int
+  GetLength()
+  {
+    return 1;
+  }
+  static constexpr ValueType
+  NonpositiveMin(const ValueType &)
+  {
+    return NonpositiveMin();
+  }
+  static constexpr ValueType
+  ZeroValue(const ValueType &)
+  {
+    return ZeroValue();
+  }
+  static constexpr ValueType
+  OneValue(const ValueType &)
+  {
+    return OneValue();
+  }
 
-  template<typename TArray>
-  static void AssignToArray( const ValueType & v, TArray & mv )
+  template <typename TArray>
+  static void
+  AssignToArray(const ValueType & v, TArray & mv)
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType & m, const unsigned int s)
+  static void
+  SetLength(ValueType & m, const unsigned int s)
   {
-    if ( s != 1 )
-      {
+    if (s != 1)
+    {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
-      }
-    m = NumericTraits< ValueType >::ZeroValue();
+    }
+    m = NumericTraits<ValueType>::ZeroValue();
   }
 };
 
@@ -550,8 +912,8 @@ public:
  * \brief Define traits for type int.
  * \ingroup ITKCommon
  */
-template< >
-class NumericTraits< int > :public std::numeric_limits< int >
+template <>
+class NumericTraits<int> : public std::numeric_limits<int>
 {
 public:
   using ValueType = int;
@@ -567,34 +929,84 @@ public:
   static constexpr int ITKCommon_EXPORT One = 1;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static constexpr int NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
-  static constexpr bool IsPositive(int val) { return val > Zero; }
-  static constexpr bool IsNonpositive(int val) { return val <= Zero; }
-  static constexpr bool IsNegative(int val) { return val < Zero; }
-  static constexpr bool IsNonnegative(int val) { return val >= Zero; }
+  static constexpr int
+  NonpositiveMin()
+  {
+    return std::numeric_limits<ValueType>::lowest();
+  }
+  static constexpr bool
+  IsPositive(int val)
+  {
+    return val > Zero;
+  }
+  static constexpr bool
+  IsNonpositive(int val)
+  {
+    return val <= Zero;
+  }
+  static constexpr bool
+  IsNegative(int val)
+  {
+    return val < Zero;
+  }
+  static constexpr bool
+  IsNonnegative(int val)
+  {
+    return val >= Zero;
+  }
   static constexpr bool IsSigned = true;
   static constexpr bool IsInteger = true;
   static constexpr bool IsComplex = false;
-  static constexpr int  ZeroValue() { return Zero; }
-  static constexpr int OneValue() { return One; }
-  static constexpr unsigned int GetLength(const ValueType &) { return 1; }
-  static constexpr unsigned int GetLength() { return 1; }
-  static constexpr ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
-  static constexpr ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
-  static constexpr ValueType OneValue(const ValueType &) { return OneValue(); }
+  static constexpr int
+  ZeroValue()
+  {
+    return Zero;
+  }
+  static constexpr int
+  OneValue()
+  {
+    return One;
+  }
+  static constexpr unsigned int
+  GetLength(const ValueType &)
+  {
+    return 1;
+  }
+  static constexpr unsigned int
+  GetLength()
+  {
+    return 1;
+  }
+  static constexpr ValueType
+  NonpositiveMin(const ValueType &)
+  {
+    return NonpositiveMin();
+  }
+  static constexpr ValueType
+  ZeroValue(const ValueType &)
+  {
+    return ZeroValue();
+  }
+  static constexpr ValueType
+  OneValue(const ValueType &)
+  {
+    return OneValue();
+  }
 
-  template<typename TArray>
-  static void AssignToArray( const ValueType & v, TArray & mv )
+  template <typename TArray>
+  static void
+  AssignToArray(const ValueType & v, TArray & mv)
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType & m, const unsigned int s)
+  static void
+  SetLength(ValueType & m, const unsigned int s)
   {
-    if ( s != 1 )
-      {
+    if (s != 1)
+    {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
-      }
-    m = NumericTraits< ValueType >::ZeroValue();
+    }
+    m = NumericTraits<ValueType>::ZeroValue();
   }
 };
 
@@ -603,8 +1015,8 @@ public:
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
-template< >
-class NumericTraits< unsigned int > :public std::numeric_limits< unsigned int >
+template <>
+class NumericTraits<unsigned int> : public std::numeric_limits<unsigned int>
 {
 public:
   using ValueType = unsigned int;
@@ -619,38 +1031,104 @@ public:
   static constexpr unsigned int ITKCommon_EXPORT Zero = 0;
   static constexpr unsigned int ITKCommon_EXPORT One = 1;
 
-  static constexpr unsigned int min() { return 0; }
-  static constexpr unsigned int max() { return static_cast< unsigned int >( -1 ); }
-  static constexpr unsigned int min(unsigned int) { return std::numeric_limits< ValueType >::min(); }
-  static constexpr unsigned int max(unsigned int) { return std::numeric_limits< ValueType >::max(); }
-  static constexpr unsigned int NonpositiveMin() { return 0; }
-  static constexpr bool IsPositive(unsigned int val) { return val != Zero; }
-  static constexpr bool IsNonpositive(unsigned int val) { return val == Zero; }
-  static constexpr bool IsNegative(unsigned int val) { return val ? false : false; }
-  static constexpr bool IsNonnegative(unsigned int val) { return val ? true : true; }
+  static constexpr unsigned int
+  min()
+  {
+    return 0;
+  }
+  static constexpr unsigned int
+  max()
+  {
+    return static_cast<unsigned int>(-1);
+  }
+  static constexpr unsigned int
+  min(unsigned int)
+  {
+    return std::numeric_limits<ValueType>::min();
+  }
+  static constexpr unsigned int
+  max(unsigned int)
+  {
+    return std::numeric_limits<ValueType>::max();
+  }
+  static constexpr unsigned int
+  NonpositiveMin()
+  {
+    return 0;
+  }
+  static constexpr bool
+  IsPositive(unsigned int val)
+  {
+    return val != Zero;
+  }
+  static constexpr bool
+  IsNonpositive(unsigned int val)
+  {
+    return val == Zero;
+  }
+  static constexpr bool
+  IsNegative(unsigned int val)
+  {
+    return val ? false : false;
+  }
+  static constexpr bool
+  IsNonnegative(unsigned int val)
+  {
+    return val ? true : true;
+  }
   static constexpr bool IsSigned = false;
   static constexpr bool IsInteger = true;
   static constexpr bool IsComplex = false;
-  static constexpr unsigned int  ZeroValue() { return Zero; }
-  static constexpr unsigned int OneValue() { return One; }
-  static constexpr unsigned int GetLength(const ValueType &) { return 1; }
-  static constexpr unsigned int GetLength() { return 1; }
-  static constexpr ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
-  static constexpr ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
-  static constexpr ValueType OneValue(const ValueType &) { return OneValue(); }
+  static constexpr unsigned int
+  ZeroValue()
+  {
+    return Zero;
+  }
+  static constexpr unsigned int
+  OneValue()
+  {
+    return One;
+  }
+  static constexpr unsigned int
+  GetLength(const ValueType &)
+  {
+    return 1;
+  }
+  static constexpr unsigned int
+  GetLength()
+  {
+    return 1;
+  }
+  static constexpr ValueType
+  NonpositiveMin(const ValueType &)
+  {
+    return NonpositiveMin();
+  }
+  static constexpr ValueType
+  ZeroValue(const ValueType &)
+  {
+    return ZeroValue();
+  }
+  static constexpr ValueType
+  OneValue(const ValueType &)
+  {
+    return OneValue();
+  }
 
-  template<typename TArray>
-  static void AssignToArray( const ValueType & v, TArray & mv )
+  template <typename TArray>
+  static void
+  AssignToArray(const ValueType & v, TArray & mv)
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType & m, const unsigned int s)
+  static void
+  SetLength(ValueType & m, const unsigned int s)
   {
-    if ( s != 1 )
-      {
+    if (s != 1)
+    {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
-      }
-    m = NumericTraits< ValueType >::ZeroValue();
+    }
+    m = NumericTraits<ValueType>::ZeroValue();
   }
 };
 
@@ -659,8 +1137,8 @@ public:
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
-template< >
-class NumericTraits< long > :public std::numeric_limits< long >
+template <>
+class NumericTraits<long> : public std::numeric_limits<long>
 {
 public:
   using ValueType = long;
@@ -676,34 +1154,84 @@ public:
   static constexpr long ITKCommon_EXPORT One = 1L;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static constexpr long NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
-  static constexpr bool IsPositive(long val) { return val > Zero; }
-  static constexpr bool IsNonpositive(long val) { return val <= Zero; }
-  static constexpr bool IsNegative(long val) { return val < Zero; }
-  static constexpr bool IsNonnegative(long val) { return val >= Zero; }
+  static constexpr long
+  NonpositiveMin()
+  {
+    return std::numeric_limits<ValueType>::lowest();
+  }
+  static constexpr bool
+  IsPositive(long val)
+  {
+    return val > Zero;
+  }
+  static constexpr bool
+  IsNonpositive(long val)
+  {
+    return val <= Zero;
+  }
+  static constexpr bool
+  IsNegative(long val)
+  {
+    return val < Zero;
+  }
+  static constexpr bool
+  IsNonnegative(long val)
+  {
+    return val >= Zero;
+  }
   static constexpr bool IsSigned = true;
   static constexpr bool IsInteger = true;
   static constexpr bool IsComplex = false;
-  static constexpr long  ZeroValue() { return Zero; }
-  static constexpr long OneValue() { return One; }
-  static constexpr unsigned int GetLength(const ValueType &) { return 1; }
-  static constexpr unsigned int GetLength() { return 1; }
-  static constexpr ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
-  static constexpr ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
-  static constexpr ValueType OneValue(const ValueType &) { return OneValue(); }
+  static constexpr long
+  ZeroValue()
+  {
+    return Zero;
+  }
+  static constexpr long
+  OneValue()
+  {
+    return One;
+  }
+  static constexpr unsigned int
+  GetLength(const ValueType &)
+  {
+    return 1;
+  }
+  static constexpr unsigned int
+  GetLength()
+  {
+    return 1;
+  }
+  static constexpr ValueType
+  NonpositiveMin(const ValueType &)
+  {
+    return NonpositiveMin();
+  }
+  static constexpr ValueType
+  ZeroValue(const ValueType &)
+  {
+    return ZeroValue();
+  }
+  static constexpr ValueType
+  OneValue(const ValueType &)
+  {
+    return OneValue();
+  }
 
-  template<typename TArray>
-  static void AssignToArray( const ValueType & v, TArray & mv )
+  template <typename TArray>
+  static void
+  AssignToArray(const ValueType & v, TArray & mv)
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType & m, const unsigned int s)
+  static void
+  SetLength(ValueType & m, const unsigned int s)
   {
-    if ( s != 1 )
-      {
+    if (s != 1)
+    {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
-      }
-    m = NumericTraits< ValueType >::ZeroValue();
+    }
+    m = NumericTraits<ValueType>::ZeroValue();
   }
 };
 
@@ -712,8 +1240,8 @@ public:
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
-template< >
-class NumericTraits< unsigned long > :public std::numeric_limits< unsigned long >
+template <>
+class NumericTraits<unsigned long> : public std::numeric_limits<unsigned long>
 {
 public:
   using ValueType = unsigned long;
@@ -729,34 +1257,84 @@ public:
   static constexpr unsigned long ITKCommon_EXPORT One = 1UL;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static constexpr unsigned long NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
-  static constexpr bool IsPositive(unsigned long val) { return val != Zero; }
-  static constexpr bool IsNonpositive(unsigned long val) { return val == Zero; }
-  static constexpr bool IsNegative(unsigned long) { return false; }
-  static constexpr bool IsNonnegative(unsigned long) { return true; }
+  static constexpr unsigned long
+  NonpositiveMin()
+  {
+    return std::numeric_limits<ValueType>::lowest();
+  }
+  static constexpr bool
+  IsPositive(unsigned long val)
+  {
+    return val != Zero;
+  }
+  static constexpr bool
+  IsNonpositive(unsigned long val)
+  {
+    return val == Zero;
+  }
+  static constexpr bool
+  IsNegative(unsigned long)
+  {
+    return false;
+  }
+  static constexpr bool
+  IsNonnegative(unsigned long)
+  {
+    return true;
+  }
   static constexpr bool IsSigned = false;
   static constexpr bool IsInteger = true;
   static constexpr bool IsComplex = false;
-  static constexpr unsigned long  ZeroValue() { return Zero; }
-  static constexpr unsigned long  OneValue() { return One; }
-  static constexpr unsigned int GetLength(const ValueType &) { return 1; }
-  static constexpr unsigned int GetLength() { return 1; }
-  static constexpr ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
-  static constexpr ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
-  static constexpr ValueType OneValue(const ValueType &) { return OneValue(); }
+  static constexpr unsigned long
+  ZeroValue()
+  {
+    return Zero;
+  }
+  static constexpr unsigned long
+  OneValue()
+  {
+    return One;
+  }
+  static constexpr unsigned int
+  GetLength(const ValueType &)
+  {
+    return 1;
+  }
+  static constexpr unsigned int
+  GetLength()
+  {
+    return 1;
+  }
+  static constexpr ValueType
+  NonpositiveMin(const ValueType &)
+  {
+    return NonpositiveMin();
+  }
+  static constexpr ValueType
+  ZeroValue(const ValueType &)
+  {
+    return ZeroValue();
+  }
+  static constexpr ValueType
+  OneValue(const ValueType &)
+  {
+    return OneValue();
+  }
 
-  template<typename TArray>
-  static void AssignToArray( const ValueType & v, TArray & mv )
+  template <typename TArray>
+  static void
+  AssignToArray(const ValueType & v, TArray & mv)
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType & m, const unsigned int s)
+  static void
+  SetLength(ValueType & m, const unsigned int s)
   {
-    if ( s != 1 )
-      {
+    if (s != 1)
+    {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
-      }
-    m = NumericTraits< ValueType >::ZeroValue();
+    }
+    m = NumericTraits<ValueType>::ZeroValue();
   }
 };
 
@@ -765,8 +1343,8 @@ public:
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
-template< >
-class NumericTraits< float > :public std::numeric_limits< float >
+template <>
+class NumericTraits<float> : public std::numeric_limits<float>
 {
 public:
   using ValueType = float;
@@ -779,38 +1357,88 @@ public:
   using MeasurementVectorType = FixedArray<ValueType, 1>;
 
 
-  static constexpr float ITKCommon_EXPORT Zero =0.0f;
-  static constexpr float ITKCommon_EXPORT One =1.0f;
+  static constexpr float ITKCommon_EXPORT Zero = 0.0f;
+  static constexpr float ITKCommon_EXPORT One = 1.0f;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static constexpr float NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
-  static constexpr bool IsPositive(float val) { return val > Zero; }
-  static constexpr bool IsNonpositive(float val) { return val <= Zero; }
-  static constexpr bool IsNegative(float val) { return val < Zero; }
-  static constexpr bool IsNonnegative(float val) { return val >= Zero; }
+  static constexpr float
+  NonpositiveMin()
+  {
+    return std::numeric_limits<ValueType>::lowest();
+  }
+  static constexpr bool
+  IsPositive(float val)
+  {
+    return val > Zero;
+  }
+  static constexpr bool
+  IsNonpositive(float val)
+  {
+    return val <= Zero;
+  }
+  static constexpr bool
+  IsNegative(float val)
+  {
+    return val < Zero;
+  }
+  static constexpr bool
+  IsNonnegative(float val)
+  {
+    return val >= Zero;
+  }
   static constexpr bool IsSigned = true;
   static constexpr bool IsInteger = false;
   static constexpr bool IsComplex = false;
-  static constexpr float  ZeroValue() { return Zero; }
-  static constexpr float  OneValue() { return One; }
-  static constexpr unsigned int GetLength(const ValueType &) { return 1; }
-  static constexpr unsigned int GetLength() { return 1; }
-  static constexpr ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
-  static constexpr ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
-  static constexpr ValueType OneValue(const ValueType &) { return OneValue(); }
+  static constexpr float
+  ZeroValue()
+  {
+    return Zero;
+  }
+  static constexpr float
+  OneValue()
+  {
+    return One;
+  }
+  static constexpr unsigned int
+  GetLength(const ValueType &)
+  {
+    return 1;
+  }
+  static constexpr unsigned int
+  GetLength()
+  {
+    return 1;
+  }
+  static constexpr ValueType
+  NonpositiveMin(const ValueType &)
+  {
+    return NonpositiveMin();
+  }
+  static constexpr ValueType
+  ZeroValue(const ValueType &)
+  {
+    return ZeroValue();
+  }
+  static constexpr ValueType
+  OneValue(const ValueType &)
+  {
+    return OneValue();
+  }
 
-  template<typename TArray>
-  static void AssignToArray( const ValueType & v, TArray & mv )
+  template <typename TArray>
+  static void
+  AssignToArray(const ValueType & v, TArray & mv)
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType & m, const unsigned int s)
+  static void
+  SetLength(ValueType & m, const unsigned int s)
   {
-    if ( s != 1 )
-      {
+    if (s != 1)
+    {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
-      }
-    m = NumericTraits< ValueType >::ZeroValue();
+    }
+    m = NumericTraits<ValueType>::ZeroValue();
   }
 };
 
@@ -819,8 +1447,8 @@ public:
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
-template< >
-class NumericTraits< double > :public std::numeric_limits< double >
+template <>
+class NumericTraits<double> : public std::numeric_limits<double>
 {
 public:
   using ValueType = double;
@@ -833,37 +1461,87 @@ public:
   using MeasurementVectorType = FixedArray<ValueType, 1>;
 
   static constexpr double ITKCommon_EXPORT Zero = 0.0;
-  static constexpr double ITKCommon_EXPORT One  = 1.0;
+  static constexpr double ITKCommon_EXPORT One = 1.0;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static constexpr double NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
-  static constexpr bool IsPositive(double val) { return val > Zero; }
-  static constexpr bool IsNonpositive(double val) { return val <= Zero; }
-  static constexpr bool IsNegative(double val) { return val < Zero; }
-  static constexpr bool IsNonnegative(double val) { return val >= Zero; }
+  static constexpr double
+  NonpositiveMin()
+  {
+    return std::numeric_limits<ValueType>::lowest();
+  }
+  static constexpr bool
+  IsPositive(double val)
+  {
+    return val > Zero;
+  }
+  static constexpr bool
+  IsNonpositive(double val)
+  {
+    return val <= Zero;
+  }
+  static constexpr bool
+  IsNegative(double val)
+  {
+    return val < Zero;
+  }
+  static constexpr bool
+  IsNonnegative(double val)
+  {
+    return val >= Zero;
+  }
   static constexpr bool IsSigned = true;
   static constexpr bool IsInteger = false;
   static constexpr bool IsComplex = false;
-  static constexpr double  ZeroValue() { return Zero; }
-  static constexpr double  OneValue() { return One; }
-  static constexpr unsigned int GetLength(const ValueType &) { return 1; }
-  static constexpr unsigned int GetLength() { return 1; }
-  static constexpr ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
-  static constexpr ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
-  static constexpr ValueType OneValue(const ValueType &) { return OneValue(); }
+  static constexpr double
+  ZeroValue()
+  {
+    return Zero;
+  }
+  static constexpr double
+  OneValue()
+  {
+    return One;
+  }
+  static constexpr unsigned int
+  GetLength(const ValueType &)
+  {
+    return 1;
+  }
+  static constexpr unsigned int
+  GetLength()
+  {
+    return 1;
+  }
+  static constexpr ValueType
+  NonpositiveMin(const ValueType &)
+  {
+    return NonpositiveMin();
+  }
+  static constexpr ValueType
+  ZeroValue(const ValueType &)
+  {
+    return ZeroValue();
+  }
+  static constexpr ValueType
+  OneValue(const ValueType &)
+  {
+    return OneValue();
+  }
 
-  template<typename TArray>
-  static void AssignToArray( const ValueType & v, TArray & mv )
+  template <typename TArray>
+  static void
+  AssignToArray(const ValueType & v, TArray & mv)
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType & m, const unsigned int s)
+  static void
+  SetLength(ValueType & m, const unsigned int s)
   {
-    if ( s != 1 )
-      {
+    if (s != 1)
+    {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
-      }
-    m = NumericTraits< ValueType >::ZeroValue();
+    }
+    m = NumericTraits<ValueType>::ZeroValue();
   }
 };
 
@@ -872,12 +1550,12 @@ public:
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
-template< >
-class NumericTraits< long double > :public std::numeric_limits< long double >
+template <>
+class NumericTraits<long double> : public std::numeric_limits<long double>
 {
 public:
   using ValueType = long double;
-#if defined( __SUNPRO_CC ) && defined( _ILP32 )
+#if defined(__SUNPRO_CC) && defined(_ILP32)
   // sun studio in 32 bit mode is unable to print long double values: it
   // segfaults.
   // conversion to double will give usable results if the value is in the double
@@ -897,34 +1575,84 @@ public:
   static constexpr long double ITKCommon_EXPORT One = 1.0;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static constexpr long double NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
-  static constexpr bool IsPositive(long double val) { return val > Zero; }
-  static constexpr bool IsNonpositive(long double val) { return val <= Zero; }
-  static constexpr bool IsNegative(long double val) { return val < Zero; }
-  static constexpr bool IsNonnegative(long double val) { return val >= Zero; }
+  static constexpr long double
+  NonpositiveMin()
+  {
+    return std::numeric_limits<ValueType>::lowest();
+  }
+  static constexpr bool
+  IsPositive(long double val)
+  {
+    return val > Zero;
+  }
+  static constexpr bool
+  IsNonpositive(long double val)
+  {
+    return val <= Zero;
+  }
+  static constexpr bool
+  IsNegative(long double val)
+  {
+    return val < Zero;
+  }
+  static constexpr bool
+  IsNonnegative(long double val)
+  {
+    return val >= Zero;
+  }
   static constexpr bool IsSigned = true;
   static constexpr bool IsInteger = false;
   static constexpr bool IsComplex = false;
-  static constexpr long double ZeroValue() { return Zero; }
-  static constexpr long double OneValue() { return One; }
-  static constexpr unsigned int GetLength(const ValueType &) { return 1; }
-  static constexpr unsigned int GetLength() { return 1; }
-  static constexpr ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
-  static constexpr ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
-  static constexpr ValueType OneValue(const ValueType &) { return OneValue(); }
+  static constexpr long double
+  ZeroValue()
+  {
+    return Zero;
+  }
+  static constexpr long double
+  OneValue()
+  {
+    return One;
+  }
+  static constexpr unsigned int
+  GetLength(const ValueType &)
+  {
+    return 1;
+  }
+  static constexpr unsigned int
+  GetLength()
+  {
+    return 1;
+  }
+  static constexpr ValueType
+  NonpositiveMin(const ValueType &)
+  {
+    return NonpositiveMin();
+  }
+  static constexpr ValueType
+  ZeroValue(const ValueType &)
+  {
+    return ZeroValue();
+  }
+  static constexpr ValueType
+  OneValue(const ValueType &)
+  {
+    return OneValue();
+  }
 
-  template<typename TArray>
-  static void AssignToArray( const ValueType & v, TArray & mv )
+  template <typename TArray>
+  static void
+  AssignToArray(const ValueType & v, TArray & mv)
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType & m, const unsigned int s)
+  static void
+  SetLength(ValueType & m, const unsigned int s)
   {
-    if ( s != 1 )
-      {
+    if (s != 1)
+    {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
-      }
-    m = NumericTraits< ValueType >::ZeroValue();
+    }
+    m = NumericTraits<ValueType>::ZeroValue();
   }
 };
 
@@ -934,9 +1662,8 @@ public:
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
-template< >
-class NumericTraits< long long > :
-  public std::numeric_limits< long long >
+template <>
+class NumericTraits<long long> : public std::numeric_limits<long long>
 {
 public:
   using ValueType = long long;
@@ -952,34 +1679,84 @@ public:
   static constexpr ValueType ITKCommon_EXPORT One = 1LL;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static constexpr ValueType NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
-  static constexpr bool IsPositive(ValueType val) { return val > Zero; }
-  static constexpr bool IsNonpositive(ValueType val) { return val <= Zero; }
-  static constexpr bool IsNegative(ValueType val) { return val < Zero; }
-  static constexpr bool IsNonnegative(ValueType val) { return val >= Zero; }
+  static constexpr ValueType
+  NonpositiveMin()
+  {
+    return std::numeric_limits<ValueType>::lowest();
+  }
+  static constexpr bool
+  IsPositive(ValueType val)
+  {
+    return val > Zero;
+  }
+  static constexpr bool
+  IsNonpositive(ValueType val)
+  {
+    return val <= Zero;
+  }
+  static constexpr bool
+  IsNegative(ValueType val)
+  {
+    return val < Zero;
+  }
+  static constexpr bool
+  IsNonnegative(ValueType val)
+  {
+    return val >= Zero;
+  }
   static constexpr bool IsSigned = true;
   static constexpr bool IsInteger = true;
   static constexpr bool IsComplex = false;
-  static constexpr ValueType  ZeroValue() { return Zero; }
-  static constexpr ValueType  OneValue() { return One; }
-  static constexpr unsigned int GetLength(const ValueType &) { return 1; }
-  static constexpr unsigned int GetLength() { return 1; }
-  static constexpr ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
-  static constexpr ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
-  static constexpr ValueType OneValue(const ValueType &) { return OneValue(); }
+  static constexpr ValueType
+  ZeroValue()
+  {
+    return Zero;
+  }
+  static constexpr ValueType
+  OneValue()
+  {
+    return One;
+  }
+  static constexpr unsigned int
+  GetLength(const ValueType &)
+  {
+    return 1;
+  }
+  static constexpr unsigned int
+  GetLength()
+  {
+    return 1;
+  }
+  static constexpr ValueType
+  NonpositiveMin(const ValueType &)
+  {
+    return NonpositiveMin();
+  }
+  static constexpr ValueType
+  ZeroValue(const ValueType &)
+  {
+    return ZeroValue();
+  }
+  static constexpr ValueType
+  OneValue(const ValueType &)
+  {
+    return OneValue();
+  }
 
-  template<typename TArray>
-  static void AssignToArray( const ValueType & v, TArray & mv )
+  template <typename TArray>
+  static void
+  AssignToArray(const ValueType & v, TArray & mv)
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType & m, const unsigned int s)
+  static void
+  SetLength(ValueType & m, const unsigned int s)
   {
-    if ( s != 1 )
-      {
+    if (s != 1)
+    {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
-      }
-    m = NumericTraits< ValueType >::ZeroValue();
+    }
+    m = NumericTraits<ValueType>::ZeroValue();
   }
 };
 
@@ -988,9 +1765,8 @@ public:
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
-template< >
-class NumericTraits< unsigned long long > :
-  public std::numeric_limits< unsigned long long >
+template <>
+class NumericTraits<unsigned long long> : public std::numeric_limits<unsigned long long>
 {
 public:
   using ValueType = unsigned long long;
@@ -1006,34 +1782,76 @@ public:
   static constexpr ValueType ITKCommon_EXPORT One = 1ULL;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static constexpr ValueType NonpositiveMin() { return std::numeric_limits< ValueType >::lowest(); }
-  static constexpr bool IsPositive(ValueType val) { return val != Zero; }
-  static constexpr bool IsNonpositive(ValueType val) { return val == Zero; }
+  static constexpr ValueType
+  NonpositiveMin()
+  {
+    return std::numeric_limits<ValueType>::lowest();
+  }
+  static constexpr bool
+  IsPositive(ValueType val)
+  {
+    return val != Zero;
+  }
+  static constexpr bool
+  IsNonpositive(ValueType val)
+  {
+    return val == Zero;
+  }
   static constexpr bool IsNegative(ValueType) { return false; }
   static constexpr bool IsNonnegative(ValueType) { return true; }
   static constexpr bool IsSigned = false;
   static constexpr bool IsInteger = true;
   static constexpr bool IsComplex = false;
-  static constexpr ValueType ZeroValue() { return Zero; }
-  static constexpr ValueType OneValue() { return One; }
-  static constexpr unsigned int GetLength(const ValueType &) { return 1; }
-  static constexpr unsigned int GetLength() { return 1; }
-  static constexpr ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
-  static constexpr ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
-  static constexpr ValueType OneValue(const ValueType &) { return OneValue(); }
+  static constexpr ValueType
+  ZeroValue()
+  {
+    return Zero;
+  }
+  static constexpr ValueType
+  OneValue()
+  {
+    return One;
+  }
+  static constexpr unsigned int
+  GetLength(const ValueType &)
+  {
+    return 1;
+  }
+  static constexpr unsigned int
+  GetLength()
+  {
+    return 1;
+  }
+  static constexpr ValueType
+  NonpositiveMin(const ValueType &)
+  {
+    return NonpositiveMin();
+  }
+  static constexpr ValueType
+  ZeroValue(const ValueType &)
+  {
+    return ZeroValue();
+  }
+  static constexpr ValueType
+  OneValue(const ValueType &)
+  {
+    return OneValue();
+  }
 
-  template<typename TArray>
-  static void AssignToArray( const ValueType & v, TArray & mv )
+  template <typename TArray>
+  static void
+  AssignToArray(const ValueType & v, TArray & mv)
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType & m, const unsigned int s)
+  static void
+  SetLength(ValueType & m, const unsigned int s)
   {
-    if ( s != 1 )
-      {
+    if (s != 1)
+    {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
-      }
-    m = NumericTraits< ValueType >::ZeroValue();
+    }
+    m = NumericTraits<ValueType>::ZeroValue();
   }
 };
 
@@ -1043,64 +1861,123 @@ public:
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
-template<typename TComponent>
-class NumericTraits< std::complex< TComponent > >
+template <typename TComponent>
+class NumericTraits<std::complex<TComponent>>
 {
 public:
-  using Self = std::complex< TComponent >;
+  using Self = std::complex<TComponent>;
   // for backward compatibility
   using TheType = Self;
   using ValueType = TComponent;
   using PrintType = Self;
   using AbsType = double;
   using AccumulateType = Self;
-  using RealType = std::complex< double >;
+  using RealType = std::complex<double>;
   using ScalarRealType = double;
-  using FloatType = std::complex< float >;
+  using FloatType = std::complex<float>;
   using MeasurementVectorType = FixedArray<ValueType, 2>;
 
   static const Self ITKCommon_EXPORT Zero;
   static const Self ITKCommon_EXPORT One;
 
-  static constexpr Self min() { return std::numeric_limits< ValueType >::min(); }
-  static constexpr Self max() { return std::numeric_limits< ValueType >::max(); }
+  static constexpr Self
+  min()
+  {
+    return std::numeric_limits<ValueType>::min();
+  }
+  static constexpr Self
+  max()
+  {
+    return std::numeric_limits<ValueType>::max();
+  }
   static constexpr Self min(Self) { return min(); }
   static constexpr Self max(Self) { return max(); }
-  static constexpr ValueType epsilon() { return std::numeric_limits<ValueType>::epsilon(); }
-  static constexpr Self NonpositiveMin()
+  static constexpr ValueType
+  epsilon()
   {
-    return Self(NumericTraits< ValueType >::NonpositiveMin(), 0);
+    return std::numeric_limits<ValueType>::epsilon();
+  }
+  static constexpr Self
+  NonpositiveMin()
+  {
+    return Self(NumericTraits<ValueType>::NonpositiveMin(), 0);
   }
 
-  static constexpr bool IsPositive(Self val) { return val.real() > 0; }
-  static constexpr bool IsNonpositive(Self val) { return val.real() <= 0; }
-  static constexpr bool IsNegative(Self val) { return val.real() < 0; }
-  static constexpr bool IsNonnegative(Self val) { return val.real() >= 0; }
+  static constexpr bool
+  IsPositive(Self val)
+  {
+    return val.real() > 0;
+  }
+  static constexpr bool
+  IsNonpositive(Self val)
+  {
+    return val.real() <= 0;
+  }
+  static constexpr bool
+  IsNegative(Self val)
+  {
+    return val.real() < 0;
+  }
+  static constexpr bool
+  IsNonnegative(Self val)
+  {
+    return val.real() >= 0;
+  }
 
-  static constexpr bool IsSigned = NumericTraits< ValueType >::IsSigned;
+  static constexpr bool IsSigned = NumericTraits<ValueType>::IsSigned;
   static constexpr bool IsInteger = false;
   static constexpr bool IsComplex = true;
-  static Self ZeroValue() { return Self(0, 0); }
-  static Self OneValue() { return Self(1, 0); }
-  static constexpr unsigned int GetLength(const Self &) { return 2; }
-  static constexpr unsigned int GetLength() { return 2; }
-  static constexpr Self NonpositiveMin(const Self &) { return NonpositiveMin(); }
-  static Self ZeroValue(const Self &) { return ZeroValue(); }
-  static Self OneValue(const Self &) { return OneValue(); }
+  static Self
+  ZeroValue()
+  {
+    return Self(0, 0);
+  }
+  static Self
+  OneValue()
+  {
+    return Self(1, 0);
+  }
+  static constexpr unsigned int
+  GetLength(const Self &)
+  {
+    return 2;
+  }
+  static constexpr unsigned int
+  GetLength()
+  {
+    return 2;
+  }
+  static constexpr Self
+  NonpositiveMin(const Self &)
+  {
+    return NonpositiveMin();
+  }
+  static Self
+  ZeroValue(const Self &)
+  {
+    return ZeroValue();
+  }
+  static Self
+  OneValue(const Self &)
+  {
+    return OneValue();
+  }
 
-  template<typename TArray>
-  static void AssignToArray( const Self & v, TArray & mv )
+  template <typename TArray>
+  static void
+  AssignToArray(const Self & v, TArray & mv)
   {
     mv[0] = v.real();
     mv[1] = v.imag();
   }
-  static void SetLength(Self & m, const unsigned int s)
+  static void
+  SetLength(Self & m, const unsigned int s)
   {
-    if ( s != 2 )
-      {
+    if (s != 2)
+    {
       itkGenericExceptionMacro(<< "Cannot set the size of a complex to " << s);
-      }
-    m = NumericTraits< ValueType >::ZeroValue();
+    }
+    m = NumericTraits<ValueType>::ZeroValue();
   }
 };
 /// \endcond

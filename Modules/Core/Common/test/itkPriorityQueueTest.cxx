@@ -19,90 +19,89 @@
 #include "itkMath.h"
 #include "itkPriorityQueueContainer.h"
 
-int itkPriorityQueueTest( int, char * [] )
+int
+itkPriorityQueueTest(int, char *[])
 {
   using ElementIdentifier = itk::IdentifierType;
 
-  using MinPQElementType = itk::MinPriorityQueueElementWrapper< size_t, double, ElementIdentifier >;
-  using MaxPQElementType = itk::MaxPriorityQueueElementWrapper< size_t, double, ElementIdentifier >;
+  using MinPQElementType = itk::MinPriorityQueueElementWrapper<size_t, double, ElementIdentifier>;
+  using MaxPQElementType = itk::MaxPriorityQueueElementWrapper<size_t, double, ElementIdentifier>;
 
-  using MinPQType = itk::PriorityQueueContainer<
-    MinPQElementType, MinPQElementType, double, ElementIdentifier >;
-  MinPQType::Pointer min_priority_queue = MinPQType::New( );
+  using MinPQType = itk::PriorityQueueContainer<MinPQElementType, MinPQElementType, double, ElementIdentifier>;
+  MinPQType::Pointer min_priority_queue = MinPQType::New();
 
   std::cout << min_priority_queue->GetNameOfClass() << std::endl;
 
-  using MaxPQType = itk::PriorityQueueContainer<
-    MaxPQElementType, MaxPQElementType, double, ElementIdentifier >;
-  MaxPQType::Pointer max_priority_queue = MaxPQType::New( );
+  using MaxPQType = itk::PriorityQueueContainer<MaxPQElementType, MaxPQElementType, double, ElementIdentifier>;
+  MaxPQType::Pointer max_priority_queue = MaxPQType::New();
 
-  std::list< double > sequence;
-  sequence.push_back( -0.1 );
-  sequence.push_back( 0.1 );
-  sequence.push_back( 0.4 );
-  sequence.push_back( -0.2 );
-  sequence.push_back( -0.3 );
-  sequence.push_back( 0.3 );
-  sequence.push_back( 0.2 );
-  sequence.push_back( 0.5 );
-  sequence.push_back( -0.6 );
-  sequence.push_back( -0.5 );
-  sequence.push_back( 0.6 );
-  sequence.push_back( 1. );
-  sequence.push_back( -1. );
+  std::list<double> sequence;
+  sequence.push_back(-0.1);
+  sequence.push_back(0.1);
+  sequence.push_back(0.4);
+  sequence.push_back(-0.2);
+  sequence.push_back(-0.3);
+  sequence.push_back(0.3);
+  sequence.push_back(0.2);
+  sequence.push_back(0.5);
+  sequence.push_back(-0.6);
+  sequence.push_back(-0.5);
+  sequence.push_back(0.6);
+  sequence.push_back(1.);
+  sequence.push_back(-1.);
 
-  std::list< double >::const_iterator it = sequence.begin();
-  size_t i = 0;
-  for(; it != sequence.end(); ++it, i++ )
-    {
-    min_priority_queue->Push( MinPQElementType( i, *it ) );
-    max_priority_queue->Push( MaxPQElementType( i, *it ) );
-    }
+  std::list<double>::const_iterator it = sequence.begin();
+  size_t                            i = 0;
+  for (; it != sequence.end(); ++it, i++)
+  {
+    min_priority_queue->Push(MinPQElementType(i, *it));
+    max_priority_queue->Push(MaxPQElementType(i, *it));
+  }
 
   sequence.sort();
   it = sequence.begin();
-  i  = sequence.size();
+  i = sequence.size();
 
-  std::cout <<"Min Priority Queue   ";
-  while( !min_priority_queue->Empty() )
+  std::cout << "Min Priority Queue   ";
+  while (!min_priority_queue->Empty())
+  {
+    if (itk::Math::NotAlmostEquals(min_priority_queue->Peek().m_Priority, *it))
     {
-    if( itk::Math::NotAlmostEquals( min_priority_queue->Peek().m_Priority, *it ) )
-      {
-      std::cout <<min_priority_queue->Peek().m_Priority <<" " <<*it <<std::endl;
+      std::cout << min_priority_queue->Peek().m_Priority << " " << *it << std::endl;
       return EXIT_FAILURE;
-      }
-    if( min_priority_queue->Size() != i )
-      {
-      std::cout <<"Size " <<min_priority_queue->Size() <<" " <<i <<std::endl;
+    }
+    if (min_priority_queue->Size() != i)
+    {
+      std::cout << "Size " << min_priority_queue->Size() << " " << i << std::endl;
       return EXIT_FAILURE;
-      }
+    }
     min_priority_queue->Pop();
     ++it;
     --i;
-    }
-  std::cout <<"OK" <<std::endl;
+  }
+  std::cout << "OK" << std::endl;
 
-  std::cout <<"Max Priority Queue   ";
-  while( !max_priority_queue->Empty() )
+  std::cout << "Max Priority Queue   ";
+  while (!max_priority_queue->Empty())
+  {
+    if (itk::Math::NotAlmostEquals(max_priority_queue->Peek().m_Priority, sequence.back()))
     {
-    if( itk::Math::NotAlmostEquals( max_priority_queue->Peek().m_Priority, sequence.back() ) )
-      {
-      std::cout <<max_priority_queue->Peek().m_Priority <<" " <<sequence.back() <<std::endl;
+      std::cout << max_priority_queue->Peek().m_Priority << " " << sequence.back() << std::endl;
       return EXIT_FAILURE;
-      }
-    if( max_priority_queue->Size() != sequence.size() )
-      {
-      std::cout <<"Size " <<max_priority_queue->Size() <<" " <<sequence.size() <<std::endl;
+    }
+    if (max_priority_queue->Size() != sequence.size())
+    {
+      std::cout << "Size " << max_priority_queue->Size() << " " << sequence.size() << std::endl;
       return EXIT_FAILURE;
-      }
+    }
     max_priority_queue->Pop();
     if (max_priority_queue->Empty())
-      {
+    {
       break;
-      }
-    sequence.pop_back();
     }
-  std::cout <<"OK" <<std::endl;
+    sequence.pop_back();
+  }
+  std::cout << "OK" << std::endl;
 
   return EXIT_SUCCESS;
 }

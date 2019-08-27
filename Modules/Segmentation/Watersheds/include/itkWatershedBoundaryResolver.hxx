@@ -25,9 +25,9 @@ namespace itk
 {
 namespace watershed
 {
-template< typename TPixelType, unsigned int TDimension >
-void BoundaryResolver< TPixelType, TDimension >
-::GenerateData()
+template <typename TPixelType, unsigned int TDimension>
+void
+BoundaryResolver<TPixelType, TDimension>::GenerateData()
 {
   //
   // NOTE: This method does not yet support arbitrary connectivity
@@ -46,8 +46,8 @@ void BoundaryResolver< TPixelType, TDimension >
 
   idxA.first = this->GetFace();
   idxB.first = this->GetFace();
-  idxA.second = 1;  // HIGH face matches
-  idxB.second = 0;  // the LOW face.
+  idxA.second = 1; // HIGH face matches
+  idxB.second = 0; // the LOW face.
 
   // Initialize current minLabel
   // Initialize the current boundsMin
@@ -68,23 +68,21 @@ void BoundaryResolver< TPixelType, TDimension >
   // This constructs equivalencies between both flat regions and
   // non-flat regions.
   //
-  ImageRegionIterator< FaceType > itA( boundaryA->GetFace(idxA),
-                                       boundaryA->GetFace(idxA)->GetRequestedRegion() );
+  ImageRegionIterator<FaceType> itA(boundaryA->GetFace(idxA), boundaryA->GetFace(idxA)->GetRequestedRegion());
 
-  ImageRegionIterator< FaceType > itB( boundaryB->GetFace(idxB),
-                                       boundaryB->GetFace(idxB)->GetRequestedRegion() );
+  ImageRegionIterator<FaceType> itB(boundaryB->GetFace(idxB), boundaryB->GetFace(idxB)->GetRequestedRegion());
 
-  for ( itA.GoToBegin(), itB.GoToBegin(); !itA.IsAtEnd(); ++itA, ++itB )
+  for (itA.GoToBegin(), itB.GoToBegin(); !itA.IsAtEnd(); ++itA, ++itB)
+  {
+    if (itA.Get().flow != SegmenterType::NULL_FLOW)
     {
-    if ( itA.Get().flow != SegmenterType::NULL_FLOW )
-      {
       equivTable->Add(itA.Get().label, itB.Get().label);
-      }
-    if ( itB.Get().flow != SegmenterType::NULL_FLOW )
-      {
-      equivTable->Add(itA.Get().label, itB.Get().label);
-      }
     }
+    if (itB.Get().flow != SegmenterType::NULL_FLOW)
+    {
+      equivTable->Add(itA.Get().label, itB.Get().label);
+    }
+  }
 
   equivTable->Flatten();
 }
@@ -92,23 +90,21 @@ void BoundaryResolver< TPixelType, TDimension >
 // ------------------------------------------------------------
 // --------------------PIPELINE METHODS------------------------
 // ------------------------------------------------------------
-template< typename TPixelType, unsigned int TDimension >
-void BoundaryResolver< TPixelType, TDimension >
-::GenerateOutputRequestedRegion(DataObject *)
+template <typename TPixelType, unsigned int TDimension>
+void
+BoundaryResolver<TPixelType, TDimension>::GenerateOutputRequestedRegion(DataObject *)
 {}
 
-template< typename TPixelType, unsigned int TDimension >
-typename BoundaryResolver< TPixelType, TDimension >::DataObjectPointer
-BoundaryResolver< TPixelType, TDimension >
-::MakeOutput(DataObjectPointerArraySizeType)
+template <typename TPixelType, unsigned int TDimension>
+typename BoundaryResolver<TPixelType, TDimension>::DataObjectPointer
+  BoundaryResolver<TPixelType, TDimension>::MakeOutput(DataObjectPointerArraySizeType)
 {
   return EquivalencyTable::New().GetPointer();
 }
 
-template< typename TPixelType, unsigned int TDimension >
+template <typename TPixelType, unsigned int TDimension>
 void
-BoundaryResolver< TPixelType, TDimension >
-::PrintSelf(std::ostream & os, Indent indent) const
+BoundaryResolver<TPixelType, TDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

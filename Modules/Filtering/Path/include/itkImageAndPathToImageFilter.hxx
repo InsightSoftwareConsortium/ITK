@@ -25,9 +25,8 @@ namespace itk
 /**
  *
  */
-template< typename TInputImage, typename TInputPath, typename TOutputImage >
-ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
-::ImageAndPathToImageFilter()
+template <typename TInputImage, typename TInputPath, typename TOutputImage>
+ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::ImageAndPathToImageFilter()
 {
   // Modify superclass default values, can be overridden by subclasses
   this->SetNumberOfRequiredInputs(2);
@@ -36,79 +35,70 @@ ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
 /**
  *
  */
-template< typename TInputImage, typename TInputPath, typename TOutputImage >
+template <typename TInputImage, typename TInputPath, typename TOutputImage>
 void
-ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
-::SetImageInput(const InputImageType *image)
+ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::SetImageInput(const InputImageType * image)
 {
   // We have 2 inputs:  a path and an image
 
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( 0,
-                                    const_cast< InputImageType * >( image ) );
+  this->ProcessObject::SetNthInput(0, const_cast<InputImageType *>(image));
 }
 
-template< typename TInputImage, typename TInputPath, typename TOutputImage >
-const typename ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >::InputImageType *
-ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
-::GetImageInput()
+template <typename TInputImage, typename TInputPath, typename TOutputImage>
+const typename ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::InputImageType *
+ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::GetImageInput()
 {
   return this->GetNonConstImageInput();
 }
 
-template< typename TInputImage, typename TInputPath, typename TOutputImage >
-typename ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >::InputImageType *
-ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
-::GetNonConstImageInput()
+template <typename TInputImage, typename TInputPath, typename TOutputImage>
+typename ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::InputImageType *
+ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::GetNonConstImageInput()
 {
-  auto * temp_return = dynamic_cast< TInputImage * >( this->ProcessObject::GetInput(0) );
-  if(temp_return == nullptr)
-    {
+  auto * temp_return = dynamic_cast<TInputImage *>(this->ProcessObject::GetInput(0));
+  if (temp_return == nullptr)
+  {
     itkExceptionMacro("Invalid type conversion in GetNonConstImageInput()")
-    }
+  }
   return temp_return;
 }
 
-template< typename TInputImage, typename TInputPath, typename TOutputImage >
+template <typename TInputImage, typename TInputPath, typename TOutputImage>
 void
-ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
-::SetPathInput(const InputPathType *path)
+ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::SetPathInput(const InputPathType * path)
 {
   // We have 2 inputs:  a path and an image
 
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( 1, const_cast< InputPathType * >( path ) );
+  this->ProcessObject::SetNthInput(1, const_cast<InputPathType *>(path));
 }
 
-template< typename TInputImage, typename TInputPath, typename TOutputImage >
-const typename ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >::InputPathType *
-ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
-::GetPathInput()
+template <typename TInputImage, typename TInputPath, typename TOutputImage>
+const typename ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::InputPathType *
+ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::GetPathInput()
 {
   return this->GetNonConstPathInput();
 }
 
-template< typename TInputImage, typename TInputPath, typename TOutputImage >
-typename ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >::InputPathType *
-ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
-::GetNonConstPathInput()
+template <typename TInputImage, typename TInputPath, typename TOutputImage>
+typename ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::InputPathType *
+ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::GetNonConstPathInput()
 {
-  auto * temp_return = dynamic_cast< TInputPath * >( this->ProcessObject::GetInput(1) );
-  if(temp_return == nullptr)
-    {
+  auto * temp_return = dynamic_cast<TInputPath *>(this->ProcessObject::GetInput(1));
+  if (temp_return == nullptr)
+  {
     itkExceptionMacro("Invalid type conversion in GetNonConstPathInput()")
-    }
+  }
   return temp_return;
-
 }
 
 /**
  *
  */
-template< typename TInputImage, typename TInputPath, typename TOutputImage >
+template <typename TInputImage, typename TInputPath, typename TOutputImage>
 void
-ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

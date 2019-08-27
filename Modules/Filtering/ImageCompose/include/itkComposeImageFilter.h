@@ -50,21 +50,22 @@ namespace itk
  * \sphinx
  * \sphinxexample{Filtering/ImageCompose/CreateVectorImageFromScalarImages,Create Vector Image From Scalar Images}
  * \sphinxexample{Filtering/ImageCompose/ComposeVectorFromThreeScalarImages,Compose Vector From Three Scalar Images}
- * \sphinxexample{Filtering/ImageCompose/ConvertRealAndImaginaryToComplexImage,Convert Real And Imaginary Images To Complex Image}
+ * \sphinxexample{Filtering/ImageCompose/ConvertRealAndImaginaryToComplexImage,Convert Real And Imaginary Images To
+ Complex Image}
  * \endsphinx
  */
 
-template< typename TInputImage, typename TOutputImage=VectorImage<typename TInputImage::PixelType, TInputImage::ImageDimension> >
-class ITK_TEMPLATE_EXPORT ComposeImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage,
+          typename TOutputImage = VectorImage<typename TInputImage::PixelType, TInputImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT ComposeImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComposeImageFilter);
 
   using Self = ComposeImageFilter;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
   itkNewMacro(Self);
   itkTypeMacro(ComposeImageFilter, ImageToImageFilter);
 
@@ -76,55 +77,62 @@ public:
   using OutputPixelType = typename OutputImageType::PixelType;
   using RegionType = typename InputImageType::RegionType;
 
-  void SetInput1(const InputImageType *image1);
-  void SetInput2(const InputImageType *image2);
-  void SetInput3(const InputImageType *image3);
+  void
+  SetInput1(const InputImageType * image1);
+  void
+  SetInput2(const InputImageType * image2);
+  void
+  SetInput3(const InputImageType * image3);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputCovertibleToOutputCheck,
-                   ( Concept::Convertible< InputPixelType, typename NumericTraits<OutputPixelType>::ValueType > ) );
+  itkConceptMacro(InputCovertibleToOutputCheck,
+                  (Concept::Convertible<InputPixelType, typename NumericTraits<OutputPixelType>::ValueType>));
   // End concept checking
 #endif
 
 protected:
   ComposeImageFilter();
 
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
-  void DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
 
 
 private:
-
   // we have to specialize the code for complex, because it provides no operator[]
   // method
-  using InputIteratorType = ImageRegionConstIterator< InputImageType >;
-  using InputIteratorContainerType = std::vector< InputIteratorType >;
+  using InputIteratorType = ImageRegionConstIterator<InputImageType>;
+  using InputIteratorContainerType = std::vector<InputIteratorType>;
 
-  template<typename T>
-  void ComputeOutputPixel(std::complex<T> & pix, InputIteratorContainerType & inputItContainer )
-    {
+  template <typename T>
+  void
+  ComputeOutputPixel(std::complex<T> & pix, InputIteratorContainerType & inputItContainer)
+  {
     pix = std::complex<T>(inputItContainer[0].Get(), inputItContainer[1].Get());
-    ++( inputItContainer[0] );
-    ++( inputItContainer[1] );
-    }
-  template<typename TPixel>
-  void ComputeOutputPixel(TPixel & pix, InputIteratorContainerType & inputItContainer)
+    ++(inputItContainer[0]);
+    ++(inputItContainer[1]);
+  }
+  template <typename TPixel>
+  void
+  ComputeOutputPixel(TPixel & pix, InputIteratorContainerType & inputItContainer)
+  {
+    for (unsigned int i = 0; i < this->GetNumberOfInputs(); i++)
     {
-    for ( unsigned int i = 0; i < this->GetNumberOfInputs(); i++ )
-      {
-      pix[i] = static_cast<typename NumericTraits<OutputPixelType>::ValueType >(inputItContainer[i].Get());
-      ++( inputItContainer[i] );
-      }
+      pix[i] = static_cast<typename NumericTraits<OutputPixelType>::ValueType>(inputItContainer[i].Get());
+      ++(inputItContainer[i]);
     }
+  }
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkComposeImageFilter.hxx"
+#  include "itkComposeImageFilter.hxx"
 #endif
 
 #endif

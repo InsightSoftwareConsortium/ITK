@@ -22,74 +22,88 @@
 namespace itk
 {
 
-template < typename TInputImage, typename TFeatureImage, typename TOutputImage,
-  typename TFiniteDifferenceFunction, typename TIdCell >
+template <typename TInputImage,
+          typename TFeatureImage,
+          typename TOutputImage,
+          typename TFiniteDifferenceFunction,
+          typename TIdCell>
 class MultiphaseFiniteDifferenceImageFilterTestHelper
-  : public MultiphaseFiniteDifferenceImageFilter<
-      TInputImage, TFeatureImage, TOutputImage, TFiniteDifferenceFunction, TIdCell >
+  : public MultiphaseFiniteDifferenceImageFilter<TInputImage,
+                                                 TFeatureImage,
+                                                 TOutputImage,
+                                                 TFiniteDifferenceFunction,
+                                                 TIdCell>
 {
 public:
   /** Standard class type aliases. */
   using Self = MultiphaseFiniteDifferenceImageFilterTestHelper;
-  using Superclass = MultiphaseFiniteDifferenceImageFilter< TInputImage,
-    TFeatureImage, TOutputImage, TFiniteDifferenceFunction, TIdCell >;
+  using Superclass =
+    MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFiniteDifferenceFunction, TIdCell>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( MultiphaseFiniteDifferenceImageFilterTestHelper, MultiphaseFiniteDifferenceImageFilter );
+  itkTypeMacro(MultiphaseFiniteDifferenceImageFilterTestHelper, MultiphaseFiniteDifferenceImageFilter);
 
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
-  void AllocateUpdateBuffer() override {}
+  void
+  AllocateUpdateBuffer() override
+  {}
 
   using TimeStepType = typename Superclass::TimeStepType;
 
-  void ApplyUpdate(TimeStepType itkNotUsed(dt) ) override {}
+  void
+  ApplyUpdate(TimeStepType itkNotUsed(dt)) override
+  {}
 
-  TimeStepType CalculateChange() override
-    {
-    return TimeStepType( 1.0 );
-    }
+  TimeStepType
+  CalculateChange() override
+  {
+    return TimeStepType(1.0);
+  }
 
-  void CopyInputToOutput() override {}
-
+  void
+  CopyInputToOutput() override
+  {}
 };
 
-}
+} // namespace itk
 
-int itkMultiphaseFiniteDifferenceImageFilterTest( int, char* [] )
+int
+itkMultiphaseFiniteDifferenceImageFilterTest(int, char *[])
 {
   constexpr unsigned int Dimension = 3;
 
-  using LevelSetImageType = itk::Image< double,        Dimension >;
-  using FeatureImageType = itk::Image< float,         Dimension >;
-  using OutputImageType = itk::Image< unsigned char, Dimension >;
+  using LevelSetImageType = itk::Image<double, Dimension>;
+  using FeatureImageType = itk::Image<float, Dimension>;
+  using OutputImageType = itk::Image<unsigned char, Dimension>;
 
-  using DataHelperType = itk::ScalarChanAndVeseLevelSetFunctionData<
-    LevelSetImageType, FeatureImageType >;
-  using SharedDataHelperType = itk::ConstrainedRegionBasedLevelSetFunctionSharedData<
-    LevelSetImageType, FeatureImageType, DataHelperType >;
+  using DataHelperType = itk::ScalarChanAndVeseLevelSetFunctionData<LevelSetImageType, FeatureImageType>;
+  using SharedDataHelperType =
+    itk::ConstrainedRegionBasedLevelSetFunctionSharedData<LevelSetImageType, FeatureImageType, DataHelperType>;
 
-  using RegionBasedLevelSetFunctionType = itk::ScalarChanAndVeseLevelSetFunction<
-    LevelSetImageType, FeatureImageType, SharedDataHelperType >;
+  using RegionBasedLevelSetFunctionType =
+    itk::ScalarChanAndVeseLevelSetFunction<LevelSetImageType, FeatureImageType, SharedDataHelperType>;
 
   RegionBasedLevelSetFunctionType::Pointer function = RegionBasedLevelSetFunctionType::New();
-  if( function.IsNull() )
-    {
+  if (function.IsNull())
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   using IdCellType = unsigned long;
 
-  using FilterType = itk::MultiphaseFiniteDifferenceImageFilterTestHelper<
-    LevelSetImageType, FeatureImageType, OutputImageType,
-    RegionBasedLevelSetFunctionType, IdCellType >;
+  using FilterType = itk::MultiphaseFiniteDifferenceImageFilterTestHelper<LevelSetImageType,
+                                                                          FeatureImageType,
+                                                                          OutputImageType,
+                                                                          RegionBasedLevelSetFunctionType,
+                                                                          IdCellType>;
 
   FilterType::Pointer filter = FilterType::New();
 
   std::cout << "GetNameOfClass() = " << filter->GetNameOfClass() << std::endl;
-  filter->Print( std::cout );
+  filter->Print(std::cout);
 
   return EXIT_SUCCESS;
 }

@@ -42,20 +42,19 @@ namespace itk
  * \ingroup ITKThresholding
  */
 
-template< typename TInputImage,
-          typename TMaskImage = Image< unsigned char, TInputImage::ImageDimension >,
-          class TOutputImage = TInputImage >
-class ITK_TEMPLATE_EXPORT KappaSigmaThresholdImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage,
+          typename TMaskImage = Image<unsigned char, TInputImage::ImageDimension>,
+          class TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT KappaSigmaThresholdImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(KappaSigmaThresholdImageFilter);
 
   /** Standard Self type alias */
   using Self = KappaSigmaThresholdImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -109,34 +108,36 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputComparableCheck,
-                   ( Concept::Comparable< OutputPixelType > ) );
-  itkConceptMacro( OutputOStreamWritableCheck,
-                   ( Concept::OStreamWritable< OutputPixelType > ) );
+  itkConceptMacro(OutputComparableCheck, (Concept::Comparable<OutputPixelType>));
+  itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<OutputPixelType>));
   // End concept checking
 #endif
 
   /** Set the mask image */
-  void SetMaskImage(const MaskImageType *input)
+  void
+  SetMaskImage(const MaskImageType * input)
   {
     // Process object is not const-correct so the const casting is required.
-    this->SetNthInput( 1, const_cast< MaskImageType * >( input ) );
+    this->SetNthInput(1, const_cast<MaskImageType *>(input));
   }
 
   /** Get the mask image */
-  const MaskImageType * GetMaskImage() const
+  const MaskImageType *
+  GetMaskImage() const
   {
-    return static_cast< MaskImageType * >( const_cast< DataObject * >( this->ProcessObject::GetInput(1) ) );
+    return static_cast<MaskImageType *>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
   }
 
   /** Set the input image */
-  void SetInput1(const TInputImage *input)
+  void
+  SetInput1(const TInputImage * input)
   {
     this->SetInput(input);
   }
 
   /** Set the marker image */
-  void SetInput2(const MaskImageType *input)
+  void
+  SetInput2(const MaskImageType * input)
   {
     this->SetMaskImage(input);
   }
@@ -144,11 +145,14 @@ public:
 protected:
   KappaSigmaThresholdImageFilter();
   ~KappaSigmaThresholdImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   using InputSizeType = typename TInputImage::SizeType;
   using InputIndexType = typename TInputImage::IndexType;
@@ -157,7 +161,7 @@ protected:
   using OutputIndexType = typename TOutputImage::IndexType;
   using OutputImageRegionType = typename TOutputImage::RegionType;
 
-  using CalculatorType = KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >;
+  using CalculatorType = KappaSigmaThresholdImageCalculator<TInputImage, TMaskImage>;
 
   /** Image related type alias. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
@@ -174,7 +178,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkKappaSigmaThresholdImageFilter.hxx"
+#  include "itkKappaSigmaThresholdImageFilter.hxx"
 #endif
 
 #endif

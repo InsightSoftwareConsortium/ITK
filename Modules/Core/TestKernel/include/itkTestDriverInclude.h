@@ -54,48 +54,52 @@
 
 #define ITK_TEST_DIMENSION_MAX 6
 
-int RegressionTestImage(const char *testImageFilename,
-                        const char *baselineImageFilename,
-                        int reportErrors,
-                        double intensityTolerance,
-                        ::itk::SizeValueType numberOfPixelsTolerance = 0,
-                        unsigned int radiusTolerance = 0,
-                        bool verifyInputInformation = true,
-                        double coordinateTolerance = 1.0e-6,
-                        double directionTolerance = 1.0e-6);
+int
+RegressionTestImage(const char *         testImageFilename,
+                    const char *         baselineImageFilename,
+                    int                  reportErrors,
+                    double               intensityTolerance,
+                    ::itk::SizeValueType numberOfPixelsTolerance = 0,
+                    unsigned int         radiusTolerance = 0,
+                    bool                 verifyInputInformation = true,
+                    double               coordinateTolerance = 1.0e-6,
+                    double               directionTolerance = 1.0e-6);
 
-int HashTestImage( const char *testImageFilename,
-                   const std::string md5hash );
+int
+HashTestImage(const char * testImageFilename, const std::string md5hash);
 
 
-std::map< std::string, int > RegressionTestBaselines(char *);
+std::map<std::string, int>
+RegressionTestBaselines(char *);
 
-using ComparePairType = std::pair< char *, char * >;
+using ComparePairType = std::pair<char *, char *>;
 
 // A structure to hold regression test parameters
 using RegressionTestParameters = struct _RegressionTestParameters
 {
-  std::vector< ComparePairType > compareList;
-  double intensityTolerance;
-  unsigned int numberOfPixelsTolerance;
-  unsigned int radiusTolerance;
-  bool verifyInputInformation;
-  double coordinateTolerance;
-  double directionTolerance;
+  std::vector<ComparePairType> compareList;
+  double                       intensityTolerance;
+  unsigned int                 numberOfPixelsTolerance;
+  unsigned int                 radiusTolerance;
+  bool                         verifyInputInformation;
+  double                       coordinateTolerance;
+  double                       directionTolerance;
 };
 
-RegressionTestParameters& GetRegressionTestParameters();
+RegressionTestParameters &
+GetRegressionTestParameters();
 
 
-using HashPairType = std::pair< const char *, std::vector<std::string> >;
+using HashPairType = std::pair<const char *, std::vector<std::string>>;
 
-std::vector< HashPairType >& GetHashTestList();
+std::vector<HashPairType> &
+GetHashTestList();
 
 using ArgumentStringType = char **;
 
 
 // Types to hold parameters that should be processed later
-using ArgumentsList = std::vector< char * >;
+using ArgumentsList = std::vector<char *>;
 
 struct ProcessedOutputType
 {
@@ -110,36 +114,41 @@ struct ProcessedOutputType
 // A structure to hold redirect output parameters
 using RedirectOutputParameters = struct _RedirectOutputParameters
 {
-  bool redirect;
+  bool        redirect;
   std::string fileName;
 };
 
-RedirectOutputParameters& GetRedirectOutputParameters();
+RedirectOutputParameters &
+GetRedirectOutputParameters();
 
-void usage();
+void
+usage();
 
 
-int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * processedOutput = nullptr );
+int
+ProcessArguments(int * ac, ArgumentStringType * av, ProcessedOutputType * processedOutput = nullptr);
 
 
 /// Get the PixelType and ComponentType from fileName
-void GetImageType( const char * fileName,
-                   itk::ImageIOBase::IOPixelType &pixelType,
-                   itk::ImageIOBase::IOComponentType &componentType );
+void
+GetImageType(const char *                        fileName,
+             itk::ImageIOBase::IOPixelType &     pixelType,
+             itk::ImageIOBase::IOComponentType & componentType);
 
-int RegressionTestImage(const char *testImageFilename,
-                        const char *baselineImageFilename,
-                        int reportErrors,
-                        double intensityTolerance,
-                        ::itk::SizeValueType numberOfPixelsTolerance,
-                        unsigned int radiusTolerance,
-                        bool verifyInputInformation,
-                        double coordinateTolerance,
-                        double directionTolerance);
+int
+RegressionTestImage(const char *         testImageFilename,
+                    const char *         baselineImageFilename,
+                    int                  reportErrors,
+                    double               intensityTolerance,
+                    ::itk::SizeValueType numberOfPixelsTolerance,
+                    unsigned int         radiusTolerance,
+                    bool                 verifyInputInformation,
+                    double               coordinateTolerance,
+                    double               directionTolerance);
 
 
-int HashTestImage( const char *testImageFilename,
-                   const std::vector<std::string> &baselineMD5Vector );
+int
+HashTestImage(const char * testImageFilename, const std::vector<std::string> & baselineMD5Vector);
 
 //
 // Generate all of the possible baselines
@@ -150,7 +159,8 @@ int HashTestImage( const char *testImageFilename,
 // 3) append the original suffix.
 // It the file exists, increment x and continue
 //
-std::map< std::string, int > RegressionTestBaselines(char *baselineFilename);
+std::map<std::string, int>
+RegressionTestBaselines(char * baselineFilename);
 
 // Needed for explicit instantiate
 //#include "itkTestingComparisonImageFilter.hxx"

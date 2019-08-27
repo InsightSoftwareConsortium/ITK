@@ -28,7 +28,8 @@
 #include "itkLabelMapMaskImageFilter.h"
 
 
-namespace itk {
+namespace itk
+{
 
 /** \class BinaryReconstructionByErosionImageFilter
  * \brief binary reconstruction by erosion of an image
@@ -51,9 +52,8 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template<typename TInputImage>
-class ITK_TEMPLATE_EXPORT BinaryReconstructionByErosionImageFilter :
-    public ImageToImageFilter<TInputImage, TInputImage>
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT BinaryReconstructionByErosionImageFilter : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryReconstructionByErosionImageFilter);
@@ -81,13 +81,13 @@ public:
   static constexpr unsigned int OutputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
-  using NotType = BinaryNotImageFilter< InputImageType >;
-  using LabelObjectType = AttributeLabelObject< SizeValueType, ImageDimension, bool>;
-  using LabelMapType = LabelMap< LabelObjectType >;
-  using LabelizerType = BinaryImageToLabelMapFilter< InputImageType, LabelMapType >;
-  using ReconstructionType = BinaryReconstructionLabelMapFilter< LabelMapType, InputImageType >;
-  using OpeningType = AttributeOpeningLabelMapFilter< LabelMapType >;
-  using BinarizerType = LabelMapMaskImageFilter< LabelMapType, OutputImageType >;
+  using NotType = BinaryNotImageFilter<InputImageType>;
+  using LabelObjectType = AttributeLabelObject<SizeValueType, ImageDimension, bool>;
+  using LabelMapType = LabelMap<LabelObjectType>;
+  using LabelizerType = BinaryImageToLabelMapFilter<InputImageType, LabelMapType>;
+  using ReconstructionType = BinaryReconstructionLabelMapFilter<LabelMapType, InputImageType>;
+  using OpeningType = AttributeOpeningLabelMapFilter<LabelMapType>;
+  using BinarizerType = LabelMapMaskImageFilter<LabelMapType, OutputImageType>;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -107,12 +107,9 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<InputImagePixelType>));
-  itkConceptMacro(IntConvertibleToInputCheck,
-    (Concept::Convertible<int, InputImagePixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<InputImagePixelType>));
+  itkConceptMacro(InputEqualityComparableCheck, (Concept::EqualityComparable<InputImagePixelType>));
+  itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputImagePixelType>));
+  itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputImagePixelType>));
   // End concept checking
 #endif
 
@@ -130,34 +127,42 @@ public:
   itkSetMacro(ForegroundValue, OutputImagePixelType);
   itkGetConstMacro(ForegroundValue, OutputImagePixelType);
 
-   /** Set the marker image */
-  void SetMarkerImage(const InputImageType *input);
+  /** Set the marker image */
+  void
+  SetMarkerImage(const InputImageType * input);
 
   /** Get the marker image */
-  InputImageType * GetMarkerImage();
+  InputImageType *
+  GetMarkerImage();
 
-   /** Set the mask image */
-  void SetMaskImage(const InputImageType *input);
+  /** Set the mask image */
+  void
+  SetMaskImage(const InputImageType * input);
 
   /** Get the mask image */
-  InputImageType * GetMaskImage();
+  InputImageType *
+  GetMaskImage();
 
 protected:
   BinaryReconstructionByErosionImageFilter();
   ~BinaryReconstructionByErosionImageFilter() override = default;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** BinaryReconstructionByErosionImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** BinaryReconstructionByErosionImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   bool                 m_FullyConnected;
@@ -168,7 +173,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryReconstructionByErosionImageFilter.hxx"
+#  include "itkBinaryReconstructionByErosionImageFilter.hxx"
 #endif
 
 #endif

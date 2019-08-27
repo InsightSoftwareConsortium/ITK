@@ -29,46 +29,50 @@ namespace itk
 
 namespace Functor
 {
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 class ITK_TEMPLATE_EXPORT GPUBinaryThreshold : public GPUFunctorBase
 {
 public:
   GPUBinaryThreshold()
   {
-    m_LowerThreshold = NumericTraits< TInput >::NonpositiveMin();
-    m_UpperThreshold = NumericTraits< TInput >::max();
-    m_OutsideValue   = NumericTraits< TOutput >::ZeroValue();
-    m_InsideValue    = NumericTraits< TOutput >::max();
+    m_LowerThreshold = NumericTraits<TInput>::NonpositiveMin();
+    m_UpperThreshold = NumericTraits<TInput>::max();
+    m_OutsideValue = NumericTraits<TOutput>::ZeroValue();
+    m_InsideValue = NumericTraits<TOutput>::max();
   }
 
-  ~GPUBinaryThreshold() {
-  }
+  ~GPUBinaryThreshold() {}
 
-  void SetLowerThreshold(const TInput & thresh)
+  void
+  SetLowerThreshold(const TInput & thresh)
   {
     m_LowerThreshold = thresh;
   }
-  void SetUpperThreshold(const TInput & thresh)
+  void
+  SetUpperThreshold(const TInput & thresh)
   {
     m_UpperThreshold = thresh;
   }
-  void SetInsideValue(const TOutput & value)
+  void
+  SetInsideValue(const TOutput & value)
   {
     m_InsideValue = value;
   }
-  void SetOutsideValue(const TOutput & value)
+  void
+  SetOutsideValue(const TOutput & value)
   {
     m_OutsideValue = value;
   }
 
   /** Setup GPU kernel arguments for this functor.
    * Returns current argument index to set additional arguments in the GPU kernel */
-  int SetGPUKernelArguments(GPUKernelManager::Pointer KernelManager, int KernelHandle)
+  int
+  SetGPUKernelArguments(GPUKernelManager::Pointer KernelManager, int KernelHandle)
   {
-    KernelManager->SetKernelArg(KernelHandle, 0, sizeof(TInput), &(m_LowerThreshold) );
-    KernelManager->SetKernelArg(KernelHandle, 1, sizeof(TInput), &(m_UpperThreshold) );
-    KernelManager->SetKernelArg(KernelHandle, 2, sizeof(TOutput), &(m_InsideValue) );
-    KernelManager->SetKernelArg(KernelHandle, 3, sizeof(TOutput), &(m_OutsideValue) );
+    KernelManager->SetKernelArg(KernelHandle, 0, sizeof(TInput), &(m_LowerThreshold));
+    KernelManager->SetKernelArg(KernelHandle, 1, sizeof(TInput), &(m_UpperThreshold));
+    KernelManager->SetKernelArg(KernelHandle, 2, sizeof(TOutput), &(m_InsideValue));
+    KernelManager->SetKernelArg(KernelHandle, 3, sizeof(TOutput), &(m_OutsideValue));
     return 4;
   }
 
@@ -90,28 +94,27 @@ itkGPUKernelClassMacro(GPUBinaryThresholdImageFilterKernel);
  *
  * \ingroup ITKGPUThresholding
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT GPUBinaryThresholdImageFilter :
-  public
-  GPUUnaryFunctorImageFilter< TInputImage, TOutputImage,
-                              Functor::GPUBinaryThreshold<
-                                typename TInputImage::PixelType,
-                                typename TOutputImage::PixelType >,
-                              BinaryThresholdImageFilter<TInputImage, TOutputImage> >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT GPUBinaryThresholdImageFilter
+  : public GPUUnaryFunctorImageFilter<
+      TInputImage,
+      TOutputImage,
+      Functor::GPUBinaryThreshold<typename TInputImage::PixelType, typename TOutputImage::PixelType>,
+      BinaryThresholdImageFilter<TInputImage, TOutputImage>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUBinaryThresholdImageFilter);
 
   /** Standard class type aliases. */
   using Self = GPUBinaryThresholdImageFilter;
-  using GPUSuperclass = GPUUnaryFunctorImageFilter< TInputImage, TOutputImage,
-                                      Functor::GPUBinaryThreshold<
-                                        typename TInputImage::PixelType,
-                                        typename TOutputImage::PixelType >,
-                                      BinaryThresholdImageFilter<TInputImage, TOutputImage> >;
+  using GPUSuperclass = GPUUnaryFunctorImageFilter<
+    TInputImage,
+    TOutputImage,
+    Functor::GPUBinaryThreshold<typename TInputImage::PixelType, typename TOutputImage::PixelType>,
+    BinaryThresholdImageFilter<TInputImage, TOutputImage>>;
   using CPUSuperclass = BinaryThresholdImageFilter<TInputImage, TOutputImage>;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -124,7 +127,7 @@ public:
   using OutputPixelType = typename TOutputImage::PixelType;
 
   /** Type of DataObjects to use for scalar inputs */
-  using InputPixelObjectType = SimpleDataObjectDecorator< InputPixelType >;
+  using InputPixelObjectType = SimpleDataObjectDecorator<InputPixelType>;
 
   /** Get OpenCL Kernel source as a string, creates a GetOpenCLSource method */
   itkGetOpenCLSourceFromKernelMacro(GPUBinaryThresholdImageFilterKernel);
@@ -135,11 +138,12 @@ protected:
 
   /** This method is used to set the state of the filter before
    * multi-threading. */
-  //virtual void BeforeThreadedGenerateData();
+  // virtual void BeforeThreadedGenerateData();
 
   /** Unlike CPU version, GPU version of binary threshold filter is not
     multi-threaded */
-  void GPUGenerateData() override;
+  void
+  GPUGenerateData() override;
 };
 
 /**
@@ -159,14 +163,16 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  const char* GetITKSourceVersion() const override
-    {
+  const char *
+  GetITKSourceVersion() const override
+  {
     return ITK_SOURCE_VERSION;
-    }
-  const char* GetDescription() const override
-    {
+  }
+  const char *
+  GetDescription() const override
+  {
     return "A Factory for GPUBinaryThresholdImageFilter";
-    }
+  }
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -175,7 +181,8 @@ public:
   itkTypeMacro(GPUBinaryThresholdImageFilterFactory, itk::ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory()
+  static void
+  RegisterOneFactory()
   {
     GPUBinaryThresholdImageFilterFactory::Pointer factory = GPUBinaryThresholdImageFilterFactory::New();
 
@@ -183,52 +190,51 @@ public:
   }
 
 private:
-#define OverrideThresholdFilterTypeMacro(ipt,opt,dm) \
-    { \
-    using InputImageType = itk::Image<ipt,dm>; \
-    using OutputImageType = itk::Image<opt,dm>; \
-    this->RegisterOverride( \
-      typeid(itk::BinaryThresholdImageFilter<InputImageType,OutputImageType>).name(), \
-      typeid(itk::GPUBinaryThresholdImageFilter<InputImageType,OutputImageType>).name(), \
-      "GPU Binary Threshold Image Filter Override", \
-      true, \
-      itk::CreateObjectFunction<GPUBinaryThresholdImageFilter<InputImageType,OutputImageType> >::New() ); \
-    }
+#define OverrideThresholdFilterTypeMacro(ipt, opt, dm)                                                                 \
+  {                                                                                                                    \
+    using InputImageType = itk::Image<ipt, dm>;                                                                        \
+    using OutputImageType = itk::Image<opt, dm>;                                                                       \
+    this->RegisterOverride(                                                                                            \
+      typeid(itk::BinaryThresholdImageFilter<InputImageType, OutputImageType>).name(),                                 \
+      typeid(itk::GPUBinaryThresholdImageFilter<InputImageType, OutputImageType>).name(),                              \
+      "GPU Binary Threshold Image Filter Override",                                                                    \
+      true,                                                                                                            \
+      itk::CreateObjectFunction<GPUBinaryThresholdImageFilter<InputImageType, OutputImageType>>::New());               \
+  }
 
   GPUBinaryThresholdImageFilterFactory()
   {
-    if( IsGPUAvailable() )
-      {
+    if (IsGPUAvailable())
+    {
       OverrideThresholdFilterTypeMacro(unsigned char, unsigned char, 1);
       OverrideThresholdFilterTypeMacro(char, char, 1);
-      OverrideThresholdFilterTypeMacro(float,float,1);
-      OverrideThresholdFilterTypeMacro(int,int,1);
-      OverrideThresholdFilterTypeMacro(unsigned int,unsigned int,1);
-      OverrideThresholdFilterTypeMacro(double,double,1);
+      OverrideThresholdFilterTypeMacro(float, float, 1);
+      OverrideThresholdFilterTypeMacro(int, int, 1);
+      OverrideThresholdFilterTypeMacro(unsigned int, unsigned int, 1);
+      OverrideThresholdFilterTypeMacro(double, double, 1);
 
       OverrideThresholdFilterTypeMacro(unsigned char, unsigned char, 2);
       OverrideThresholdFilterTypeMacro(char, char, 2);
-      OverrideThresholdFilterTypeMacro(float,float,2);
-      OverrideThresholdFilterTypeMacro(int,int,2);
-      OverrideThresholdFilterTypeMacro(unsigned int,unsigned int,2);
-      OverrideThresholdFilterTypeMacro(double,double,2);
+      OverrideThresholdFilterTypeMacro(float, float, 2);
+      OverrideThresholdFilterTypeMacro(int, int, 2);
+      OverrideThresholdFilterTypeMacro(unsigned int, unsigned int, 2);
+      OverrideThresholdFilterTypeMacro(double, double, 2);
 
       OverrideThresholdFilterTypeMacro(unsigned char, unsigned char, 3);
       OverrideThresholdFilterTypeMacro(unsigned short, unsigned short, 3);
       OverrideThresholdFilterTypeMacro(char, char, 3);
-      OverrideThresholdFilterTypeMacro(float,float,3);
-      OverrideThresholdFilterTypeMacro(int,int,3);
-      OverrideThresholdFilterTypeMacro(unsigned int,unsigned int,3);
-      OverrideThresholdFilterTypeMacro(double,double,3);
-      }
+      OverrideThresholdFilterTypeMacro(float, float, 3);
+      OverrideThresholdFilterTypeMacro(int, int, 3);
+      OverrideThresholdFilterTypeMacro(unsigned int, unsigned int, 3);
+      OverrideThresholdFilterTypeMacro(double, double, 3);
+    }
   }
-
 };
 
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGPUBinaryThresholdImageFilter.hxx"
+#  include "itkGPUBinaryThresholdImageFilter.hxx"
 #endif
 
 #endif

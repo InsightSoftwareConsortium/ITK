@@ -26,39 +26,41 @@
 namespace itk
 {
 
-template< typename TOutput >
-DOMReader<TOutput>::DOMReader() : m_Output( nullptr )
+template <typename TOutput>
+DOMReader<TOutput>::DOMReader()
+  : m_Output(nullptr)
 {
   // Create the logger.
   this->m_Logger = LoggerType::New();
   // by default logged messages go to the console
   typename StdStreamLogOutput::Pointer defout = StdStreamLogOutput::New();
-  defout->SetStream( std::cout );
-  this->m_Logger->AddLogOutput( defout );
+  defout->SetStream(std::cout);
+  this->m_Logger->AddLogOutput(defout);
   // settings that may be important
-  this->m_Logger->SetName( this->GetNameOfClass() );
-  this->m_Logger->SetPriorityLevel( Logger::PriorityLevelType::NOTSET ); // log everything
-  this->m_Logger->SetLevelForFlushing( Logger::PriorityLevelType::MUSTFLUSH ); // never flush (MUSTFLUSH actually leads to no flush, a bug in Logger)
+  this->m_Logger->SetName(this->GetNameOfClass());
+  this->m_Logger->SetPriorityLevel(Logger::PriorityLevelType::NOTSET); // log everything
+  this->m_Logger->SetLevelForFlushing(
+    Logger::PriorityLevelType::MUSTFLUSH); // never flush (MUSTFLUSH actually leads to no flush, a bug in Logger)
   // some other settings
-  this->m_Logger->SetTimeStampFormat( Logger::HUMANREADABLE );
-  this->m_Logger->SetHumanReadableFormat( "%Y-%b-%d %H:%M:%S" ); // time stamp format
+  this->m_Logger->SetTimeStampFormat(Logger::HUMANREADABLE);
+  this->m_Logger->SetHumanReadableFormat("%Y-%b-%d %H:%M:%S"); // time stamp format
 }
 
 /**
  * The output object will be created automatically, but the user
  * can appoint a user object as the output by calling this function.
  */
-template< typename TOutput >
+template <typename TOutput>
 void
-DOMReader<TOutput>::SetOutput( OutputType* output )
+DOMReader<TOutput>::SetOutput(OutputType * output)
 {
   this->m_Output = output;
-  this->m_OutputHolder = dynamic_cast<LightObject*>(output);
+  this->m_OutputHolder = dynamic_cast<LightObject *>(output);
   this->Modified();
 }
 
 /** Get the output object for full access. */
-template< typename TOutput >
+template <typename TOutput>
 typename DOMReader<TOutput>::OutputType *
 DOMReader<TOutput>::GetOutput()
 {
@@ -66,7 +68,7 @@ DOMReader<TOutput>::GetOutput()
 }
 
 /** Get the output object for read-only access. */
-template< typename TOutput >
+template <typename TOutput>
 const typename DOMReader<TOutput>::OutputType *
 DOMReader<TOutput>::GetOutput() const
 {
@@ -78,17 +80,17 @@ DOMReader<TOutput>::GetOutput() const
  * Some derived readers may accept an incomplete DOM object during the reading process, in those cases
  * the optional argument 'userdata' can be used to provide the missed information.
  */
-template< typename TOutput >
+template <typename TOutput>
 void
-DOMReader<TOutput>::Update( const DOMNodeType* inputdom, const void* userdata )
+DOMReader<TOutput>::Update(const DOMNodeType * inputdom, const void * userdata)
 {
-  if ( inputdom == nullptr )
-    {
-    itkExceptionMacro( "read from an invalid DOM object" );
-    }
+  if (inputdom == nullptr)
+  {
+    itkExceptionMacro("read from an invalid DOM object");
+  }
 
   // group subsequent logging under this reader
-  this->GetLogger()->SetName( this->GetNameOfClass() );
+  this->GetLogger()->SetName(this->GetNameOfClass());
 
   // variable/info needed for logging
   FancyString info;
@@ -96,55 +98,55 @@ DOMReader<TOutput>::Update( const DOMNodeType* inputdom, const void* userdata )
 
   // log start of reading
   info << ClearContent << "Reading \"" << tagname << "\" ...\n";
-  this->GetLogger()->Info( info );
+  this->GetLogger()->Info(info);
 
   // perform actual reading
-  this->GenerateData( inputdom, userdata );
+  this->GenerateData(inputdom, userdata);
 
   // log end of reading
   info << ClearContent << "Reading \"" << tagname << "\" done!\n";
-  this->GetLogger()->Info( info );
+  this->GetLogger()->Info(info);
 
-  if ( this->GetOutput() == nullptr )
-    {
-    itkExceptionMacro( "no valid output object was generated" );
-    }
+  if (this->GetOutput() == nullptr)
+  {
+    itkExceptionMacro("no valid output object was generated");
+  }
 }
 
 /**
  * Function called by end-users to generate the output object from the input XML file.
  */
-template< typename TOutput >
+template <typename TOutput>
 void
 DOMReader<TOutput>::Update()
 {
   // create the intermediate DOM object if it is not set
-  if ( this->m_IntermediateDOM.IsNull() )
-    {
+  if (this->m_IntermediateDOM.IsNull())
+  {
     DOMNodePointer node = DOMNodeType::New();
-    this->SetIntermediateDOM( node );
-    }
+    this->SetIntermediateDOM(node);
+  }
 
-  FancyString fn( this->m_FileName );
+  FancyString fn(this->m_FileName);
 
   // remove previous data from the DOM object
   this->m_IntermediateDOM->RemoveAllAttributesAndChildren();
 
   // read the input XML file and update the DOM object
   typename DOMNodeXMLReader::Pointer reader = DOMNodeXMLReader::New();
-  reader->SetDOMNodeXML( this->m_IntermediateDOM );
-  reader->SetFileName( fn.ToString() );
+  reader->SetDOMNodeXML(this->m_IntermediateDOM);
+  reader->SetFileName(fn.ToString());
   reader->Update();
 
   // save the current working directory (WD), and change the WD to where the XML file is located
   FancyString sOldWorkingDir = itksys::SystemTools::GetCurrentWorkingDirectory();
-  FancyString sNewWorkingDir = itksys::SystemTools::GetFilenamePath( fn );
-  itksys::SystemTools::ChangeDirectory( sNewWorkingDir );
+  FancyString sNewWorkingDir = itksys::SystemTools::GetFilenamePath(fn);
+  itksys::SystemTools::ChangeDirectory(sNewWorkingDir);
 
-  this->Update( this->m_IntermediateDOM );
+  this->Update(this->m_IntermediateDOM);
 
   // change the WD back to the previously saved
-  itksys::SystemTools::ChangeDirectory( sOldWorkingDir );
+  itksys::SystemTools::ChangeDirectory(sOldWorkingDir);
 }
 
 } // namespace itk

@@ -23,50 +23,49 @@
 #include "itkShotNoiseImageFilter.h"
 #include "itkTestingMacros.h"
 
-int itkShotNoiseImageFilterTest(int argc, char * argv[])
+int
+itkShotNoiseImageFilterTest(int argc, char * argv[])
 {
 
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output [scale]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
 
   using PixelType = unsigned char;
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
-  using ShotNoiseImageFilterType =
-      itk::ShotNoiseImageFilter< ImageType, ImageType >;
+  using ShotNoiseImageFilterType = itk::ShotNoiseImageFilter<ImageType, ImageType>;
   ShotNoiseImageFilterType::Pointer shotNoiseImageFilter = ShotNoiseImageFilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( shotNoiseImageFilter, ShotNoiseImageFilter,
-    NoiseBaseImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(shotNoiseImageFilter, ShotNoiseImageFilter, NoiseBaseImageFilter);
 
   double scale = 1.0;
-  if( argc >= 4 )
-    {
-    scale = std::stod( argv[3] );
-    }
-  shotNoiseImageFilter->SetScale( scale );
-  ITK_TEST_SET_GET_VALUE( scale, shotNoiseImageFilter->GetScale() );
+  if (argc >= 4)
+  {
+    scale = std::stod(argv[3]);
+  }
+  shotNoiseImageFilter->SetScale(scale);
+  ITK_TEST_SET_GET_VALUE(scale, shotNoiseImageFilter->GetScale());
 
 
-  shotNoiseImageFilter->SetInput( reader->GetOutput() );
+  shotNoiseImageFilter->SetInput(reader->GetOutput());
 
-  itk::SimpleFilterWatcher watcher( shotNoiseImageFilter, "ShotNoiseImageFilter" );
+  itk::SimpleFilterWatcher watcher(shotNoiseImageFilter, "ShotNoiseImageFilter");
 
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( shotNoiseImageFilter->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(shotNoiseImageFilter->GetOutput());
+  writer->SetFileName(argv[2]);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
 }

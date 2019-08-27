@@ -25,10 +25,10 @@
 namespace itk
 {
 /** \class FreeSurferAsciiMeshIOFactory
-   * \brief Create instances of FreeSurferAsciiMeshIO objects using an object factory.
-   * \ingroup ITKIOMeshFreeSurfer
-   */
-class ITKIOMeshFreeSurfer_EXPORT FreeSurferAsciiMeshIOFactory:public ObjectFactoryBase
+ * \brief Create instances of FreeSurferAsciiMeshIO objects using an object factory.
+ * \ingroup ITKIOMeshFreeSurfer
+ */
+class ITKIOMeshFreeSurfer_EXPORT FreeSurferAsciiMeshIOFactory : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FreeSurferAsciiMeshIOFactory);
@@ -36,13 +36,15 @@ public:
   /** Standard class type aliases. */
   using Self = FreeSurferAsciiMeshIOFactory;
   using Superclass = ObjectFactoryBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  const char * GetITKSourceVersion() const override;
+  const char *
+  GetITKSourceVersion() const override;
 
-  const char * GetDescription() const override;
+  const char *
+  GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -51,18 +53,20 @@ public:
   itkTypeMacro(FreeSurferAsciiMeshIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory()
-    {
+  static void
+  RegisterOneFactory()
+  {
     FreeSurferAsciiMeshIOFactory::Pointer freesurferFactory = FreeSurferAsciiMeshIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(freesurferFactory);
-    }
+  }
 
 protected:
   FreeSurferAsciiMeshIOFactory();
   ~FreeSurferAsciiMeshIOFactory() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk
 

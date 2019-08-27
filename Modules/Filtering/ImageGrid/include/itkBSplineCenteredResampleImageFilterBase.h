@@ -60,18 +60,18 @@ namespace itk
  *               Requires the same order of Spline for each dimension.
  * \ingroup ITKImageGrid
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT BSplineCenteredResampleImageFilterBase:
-  public BSplineResampleImageFilterBase< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT BSplineCenteredResampleImageFilterBase
+  : public BSplineResampleImageFilterBase<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineCenteredResampleImageFilterBase);
 
   /** Standard class type aliases. */
   using Self = BSplineCenteredResampleImageFilterBase;
-  using Superclass = BSplineResampleImageFilterBase< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = BSplineResampleImageFilterBase<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineCenteredResampleImageFilterBase, BSplineResampleImageFilterBase);
@@ -86,27 +86,26 @@ public:
   using OutputImageIterator = typename Superclass::OutputImageIterator;
 
 protected:
+  void
+  InitializePyramidSplineFilter(int SplineOrder) override;
 
-  void InitializePyramidSplineFilter(int SplineOrder) override;
+  void
+  Reduce1DImage(const std::vector<double> & In,
+                OutputImageIterator &       Iter,
+                unsigned int                traverseSize,
+                ProgressReporter &          progress) override;
 
-  void Reduce1DImage(
-    const std::vector< double > & In,
-    OutputImageIterator & Iter,
-    unsigned int traverseSize,
-    ProgressReporter & progress
-    ) override;
-
-  void Expand1DImage(
-    const std::vector< double > & In,
-    OutputImageIterator & Iter,
-    unsigned int traverseSize,
-    ProgressReporter & progress
-    ) override;
+  void
+  Expand1DImage(const std::vector<double> & In,
+                OutputImageIterator &       Iter,
+                unsigned int                traverseSize,
+                ProgressReporter &          progress) override;
 
 protected:
   BSplineCenteredResampleImageFilterBase() = default;
   ~BSplineCenteredResampleImageFilterBase() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   using IndexValueType = typename TInputImage::IndexValueType;
@@ -117,7 +116,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBSplineCenteredResampleImageFilterBase.hxx"
+#  include "itkBSplineCenteredResampleImageFilterBase.hxx"
 #endif
 
 #endif

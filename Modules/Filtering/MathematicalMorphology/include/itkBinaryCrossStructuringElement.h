@@ -48,15 +48,13 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 
-template< typename TPixel, unsigned int VDimension = 2,
-          typename TAllocator = NeighborhoodAllocator< TPixel > >
-class ITK_TEMPLATE_EXPORT BinaryCrossStructuringElement:
-  public Neighborhood< TPixel, VDimension, TAllocator >
+template <typename TPixel, unsigned int VDimension = 2, typename TAllocator = NeighborhoodAllocator<TPixel>>
+class ITK_TEMPLATE_EXPORT BinaryCrossStructuringElement : public Neighborhood<TPixel, VDimension, TAllocator>
 {
 public:
   /** Standard class type aliases. */
   using Self = BinaryCrossStructuringElement;
-  using Superclass = Neighborhood< TPixel, VDimension, TAllocator >;
+  using Superclass = Neighborhood<TPixel, VDimension, TAllocator>;
 
   /** External support for allocator type. */
   using AllocatorType = TAllocator;
@@ -68,8 +66,8 @@ public:
   using PixelType = TPixel;
 
   /** Iterator type alias support Note the naming is intentional, i.e.,
-  * AllocatorType::iterator and AllocatorType::const_iterator, because the
-  * allocator may be a vnl object or other type, which uses this form. */
+   * AllocatorType::iterator and AllocatorType::const_iterator, because the
+   * allocator may be a vnl object or other type, which uses this form. */
   using Iterator = typename AllocatorType::iterator;
   using ConstIterator = typename AllocatorType::const_iterator;
 
@@ -85,7 +83,7 @@ public:
   using RadiusType = typename Superclass::RadiusType;
 
   /** External slice iterator type type alias support */
-  using SliceIteratorType = SliceIterator< TPixel, Self >;
+  using SliceIteratorType = SliceIterator<TPixel, Self>;
 
   /** Default constructor. */
   BinaryCrossStructuringElement()
@@ -101,28 +99,29 @@ public:
   ~BinaryCrossStructuringElement() override = default;
 
   /** Copy constructor. */
-  BinaryCrossStructuringElement(const Self & other):
-    Neighborhood< TPixel, VDimension, TAllocator >(other)
+  BinaryCrossStructuringElement(const Self & other)
+    : Neighborhood<TPixel, VDimension, TAllocator>(other)
   {}
 
   /** Assignment operator. */
-  Self & operator=(const Self & other)
+  Self &
+  operator=(const Self & other)
   {
     Superclass::operator=(other);
     return *this;
   }
 
   /** Build the structuring element */
-  void CreateStructuringElement();
+  void
+  CreateStructuringElement();
 
 protected:
-
 private:
 };
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryCrossStructuringElement.hxx"
+#  include "itkBinaryCrossStructuringElement.hxx"
 #endif
 
 #endif

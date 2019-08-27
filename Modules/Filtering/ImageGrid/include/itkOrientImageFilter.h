@@ -137,18 +137,17 @@ namespace itk
    \endcode
  * \ingroup ITKImageGrid
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT OrientImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT OrientImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(OrientImageFilter);
 
   /** Standard class type aliases. */
   using Self = OrientImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;
@@ -164,11 +163,11 @@ public:
   using CoordinateOrientationCode = SpatialOrientation::ValidCoordinateOrientationFlags;
 
   /** Axes permuter type. */
-  using PermuterType = PermuteAxesImageFilter< TInputImage >;
+  using PermuterType = PermuteAxesImageFilter<TInputImage>;
   using PermuteOrderArrayType = typename PermuterType::PermuteOrderArrayType;
 
   /** Axes flipper type. */
-  using FlipperType = FlipImageFilter< TInputImage >;
+  using FlipperType = FlipImageFilter<TInputImage>;
   using FlipAxesArrayType = typename FlipperType::FlipAxesArrayType;
 
   /** ImageDimension constants */
@@ -183,21 +182,23 @@ public:
 
   /** Set/Get the orientation codes to define the coordinate transform. */
   itkGetEnumMacro(GivenCoordinateOrientation, CoordinateOrientationCode);
-  void SetGivenCoordinateOrientation(CoordinateOrientationCode newCode);
+  void
+  SetGivenCoordinateOrientation(CoordinateOrientationCode newCode);
 
-  inline void SetGivenCoordinateDirection(const typename TInputImage::DirectionType & GivenDirection)
+  inline void
+  SetGivenCoordinateDirection(const typename TInputImage::DirectionType & GivenDirection)
   {
-    SetGivenCoordinateOrientation(
-      itk::SpatialOrientationAdapter().FromDirectionCosines(GivenDirection) );
+    SetGivenCoordinateOrientation(itk::SpatialOrientationAdapter().FromDirectionCosines(GivenDirection));
   }
 
   itkGetEnumMacro(DesiredCoordinateOrientation, CoordinateOrientationCode);
-  void SetDesiredCoordinateOrientation(CoordinateOrientationCode newCode);
+  void
+  SetDesiredCoordinateOrientation(CoordinateOrientationCode newCode);
 
-  inline void SetDesiredCoordinateDirection(const typename TOutputImage::DirectionType & DesiredDirection)
+  inline void
+  SetDesiredCoordinateDirection(const typename TOutputImage::DirectionType & DesiredDirection)
   {
-    SetDesiredCoordinateOrientation(
-      itk::SpatialOrientationAdapter().FromDirectionCosines(DesiredDirection) );
+    SetDesiredCoordinateOrientation(itk::SpatialOrientationAdapter().FromDirectionCosines(DesiredDirection));
   }
 
   /** Controls how the GivenCoordinateOrientation is determined.
@@ -229,19 +230,22 @@ public:
    *  SetDesiredCoordinateOrientationToSagittal is equivalent to
    *  SetDesiredCoordinateOrientation (ITK_COORDINATE_ORIENTATION_ASL).
    */
-  void SetDesiredCoordinateOrientationToAxial()
+  void
+  SetDesiredCoordinateOrientationToAxial()
   {
-    this->SetDesiredCoordinateOrientation (SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI);
+    this->SetDesiredCoordinateOrientation(SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI);
   }
 
-  void SetDesiredCoordinateOrientationToCoronal()
+  void
+  SetDesiredCoordinateOrientationToCoronal()
   {
-    this->SetDesiredCoordinateOrientation (SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA);
+    this->SetDesiredCoordinateOrientation(SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA);
   }
 
-  void SetDesiredCoordinateOrientationToSagittal()
+  void
+  SetDesiredCoordinateOrientationToSagittal()
   {
-    this->SetDesiredCoordinateOrientation (SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL);
+    this->SetDesiredCoordinateOrientation(SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL);
   }
 
   /** OrientImageFilter produces an image which is a different
@@ -251,64 +255,69 @@ public:
    * execution model. The original documentation of this method is
    * below.
    * \sa ProcessObject::GenerateOutputInformaton() */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputConvertibleToOutput,
-                   ( Concept::Convertible< InputImagePixelType, OutputImagePixelType > ) );
-  itkConceptMacro( SameDimension,
-                   ( Concept::SameDimension< Self::InputImageDimension,
-                                             Self::OutputImageDimension > ) );
-  itkConceptMacro( DimensionShouldBe3,
-                   ( Concept::SameDimension< Self::InputImageDimension, 3 > ) );
+  itkConceptMacro(InputConvertibleToOutput, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
+  itkConceptMacro(SameDimension, (Concept::SameDimension<Self::InputImageDimension, Self::OutputImageDimension>));
+  itkConceptMacro(DimensionShouldBe3, (Concept::SameDimension<Self::InputImageDimension, 3>));
   // End concept checking
 #endif
 
 protected:
   OrientImageFilter();
   ~OrientImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** OrientImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** OrientImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
   /*** Member functions used by GenerateData: */
-  void DeterminePermutationsAndFlips(const SpatialOrientation::ValidCoordinateOrientationFlags fixed_orient,
-                                     const SpatialOrientation::ValidCoordinateOrientationFlags moving_orient);
+  void
+  DeterminePermutationsAndFlips(const SpatialOrientation::ValidCoordinateOrientationFlags fixed_orient,
+                                const SpatialOrientation::ValidCoordinateOrientationFlags moving_orient);
 
   /** Returns true if a permute is required. Returns false otherwise. */
-  bool NeedToPermute();
+  bool
+  NeedToPermute();
 
   /** Returns true if flipping is required. Returns false otherwise. */
-  bool NeedToFlip();
+  bool
+  NeedToFlip();
 
   /** Single-threaded version of GenerateData. This filter delegates
    * to PermuteAxesImageFilter and FlipImageFilter. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
-  std::string GetMajorAxisFromPatientRelativeDirectionCosine(double x, double y, double z);
+  std::string
+  GetMajorAxisFromPatientRelativeDirectionCosine(double x, double y, double z);
 
-  CoordinateOrientationCode m_GivenCoordinateOrientation{SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP};
-  CoordinateOrientationCode m_DesiredCoordinateOrientation{SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP};
-  bool                      m_UseImageDirection{false};
+  CoordinateOrientationCode m_GivenCoordinateOrientation{ SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP };
+  CoordinateOrientationCode m_DesiredCoordinateOrientation{ SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP };
+  bool                      m_UseImageDirection{ false };
 
   PermuteOrderArrayType m_PermuteOrder;
   FlipAxesArrayType     m_FlipAxes;
 
-  std::map< std::string, CoordinateOrientationCode > m_StringToCode;
-  std::map< CoordinateOrientationCode, std::string > m_CodeToString;
+  std::map<std::string, CoordinateOrientationCode> m_StringToCode;
+  std::map<CoordinateOrientationCode, std::string> m_CodeToString;
 }; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkOrientImageFilter.hxx"
+#  include "itkOrientImageFilter.hxx"
 #endif
 
 #endif

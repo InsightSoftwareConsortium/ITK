@@ -53,52 +53,57 @@ namespace Functor
  *  filter->SetInput2(inputImageB);
  *
  * \ingroup ITKImageIntensity
-*/
-template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
+ */
+template <typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1>
 class ITK_TEMPLATE_EXPORT LogicOpBase
 {
 public:
   using Self = LogicOpBase;
   LogicOpBase()
   {
-    m_ForegroundValue=itk::NumericTraits<TOutput>::OneValue();
-    m_BackgroundValue=itk::NumericTraits<TOutput>::ZeroValue();
+    m_ForegroundValue = itk::NumericTraits<TOutput>::OneValue();
+    m_BackgroundValue = itk::NumericTraits<TOutput>::ZeroValue();
   }
 
-  ~LogicOpBase()= default;
+  ~LogicOpBase() = default;
 
 
-  bool operator!=( const Self & ) const
+  bool
+  operator!=(const Self &) const
   {
     return false;
   }
-  bool operator==( const Self & other ) const
+  bool
+  operator==(const Self & other) const
   {
     return !(*this != other);
   }
 
-  void SetForegroundValue(const TOutput &FG)
+  void
+  SetForegroundValue(const TOutput & FG)
   {
-    m_ForegroundValue=FG;
+    m_ForegroundValue = FG;
   }
-  void SetBackgroundValue(const TOutput &BG)
+  void
+  SetBackgroundValue(const TOutput & BG)
   {
-    m_BackgroundValue=BG;
+    m_BackgroundValue = BG;
   }
 
-  TOutput GetForegroundValue() const
+  TOutput
+  GetForegroundValue() const
   {
-    return(m_ForegroundValue);
+    return (m_ForegroundValue);
   }
-  TOutput GetBackgroundValue() const
+  TOutput
+  GetBackgroundValue() const
   {
-    return(m_BackgroundValue);
+    return (m_BackgroundValue);
   }
 
 protected:
   TOutput m_ForegroundValue;
   TOutput m_BackgroundValue;
-
 };
 
 /** \class Equal
@@ -108,9 +113,9 @@ protected:
  * values are set by methods. Defaults are 1, 0.
  *
  * \ingroup ITKImageIntensity
-*/
+ */
 
-template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
+template <typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1>
 class ITK_TEMPLATE_EXPORT Equal : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
@@ -119,23 +124,25 @@ public:
   Equal() = default;
   ~Equal() = default;
 
-  bool operator!=( const Self & ) const
+  bool
+  operator!=(const Self &) const
   {
     return false;
   }
-  bool operator==( const Self & other ) const
+  bool
+  operator==(const Self & other) const
   {
     return !(*this != other);
   }
-  inline TOutput operator()( const TInput1 & A, const TInput2 & B) const
+  inline TOutput
+  operator()(const TInput1 & A, const TInput2 & B) const
   {
-    if( Math::ExactlyEquals(A, static_cast<TInput1>(B)) )
-      {
+    if (Math::ExactlyEquals(A, static_cast<TInput1>(B)))
+    {
       return this->m_ForegroundValue;
-      }
+    }
     return this->m_BackgroundValue;
   }
-
 };
 /** \class NotEqual
  * \brief Functor for != operation on images and constants.
@@ -144,9 +151,9 @@ public:
  * values are set by methods. Defaults are 1, 0.
  *
  * \ingroup ITKImageIntensity
-*/
+ */
 
-template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
+template <typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1>
 class ITK_TEMPLATE_EXPORT NotEqual : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
@@ -154,23 +161,25 @@ public:
 
   NotEqual() = default;
   ~NotEqual() = default;
-  bool operator!=( const Self & ) const
+  bool
+  operator!=(const Self &) const
   {
     return false;
   }
-  bool operator==( const Self & other ) const
+  bool
+  operator==(const Self & other) const
   {
     return !(*this != other);
   }
-  inline TOutput operator()( const TInput1 & A, const TInput2 & B) const
+  inline TOutput
+  operator()(const TInput1 & A, const TInput2 & B) const
   {
-    if( Math::NotExactlyEquals(A, B) )
-      {
+    if (Math::NotExactlyEquals(A, B))
+    {
       return this->m_ForegroundValue;
-      }
+    }
     return this->m_BackgroundValue;
   }
-
 };
 
 /** \class GreaterEqual
@@ -180,9 +189,9 @@ public:
  * values are set by methods. Defaults are 1, 0.
  *
  * \ingroup ITKImageIntensity
-*/
+ */
 
-template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
+template <typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1>
 class ITK_TEMPLATE_EXPORT GreaterEqual : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
@@ -190,23 +199,25 @@ public:
   GreaterEqual() = default;
   ~GreaterEqual() = default;
 
-  bool operator!=( const Self & ) const
+  bool
+  operator!=(const Self &) const
   {
     return false;
   }
-  bool operator==( const Self & other ) const
+  bool
+  operator==(const Self & other) const
   {
     return !(*this != other);
   }
-  inline TOutput operator()( const TInput1 & A, const TInput2 & B) const
+  inline TOutput
+  operator()(const TInput1 & A, const TInput2 & B) const
   {
-    if( A >= B )
-      {
+    if (A >= B)
+    {
       return this->m_ForegroundValue;
-      }
+    }
     return this->m_BackgroundValue;
   }
-
 };
 
 
@@ -217,28 +228,31 @@ public:
  * values are set by methods. Defaults are 1, 0.
  *
  * \ingroup ITKImageIntensity
-*/
-template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
+ */
+template <typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1>
 class ITK_TEMPLATE_EXPORT Greater : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
   using Self = Greater;
   Greater() = default;
   ~Greater() = default;
-  bool operator!=( const Self & ) const
+  bool
+  operator!=(const Self &) const
   {
     return false;
   }
-  bool operator==( const Self & other ) const
+  bool
+  operator==(const Self & other) const
   {
     return !(*this != other);
   }
-  inline TOutput operator()( const TInput1 & A, const TInput2 & B) const
+  inline TOutput
+  operator()(const TInput1 & A, const TInput2 & B) const
   {
-    if( A > B )
-      {
+    if (A > B)
+    {
       return this->m_ForegroundValue;
-      }
+    }
     return this->m_BackgroundValue;
   }
 };
@@ -251,32 +265,34 @@ public:
  * values are set by methods. Defaults are 1, 0.
  *
  * \ingroup ITKImageIntensity
-*/
-template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
+ */
+template <typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1>
 class ITK_TEMPLATE_EXPORT LessEqual : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
   using Self = LessEqual;
 
-  LessEqual()= default;
-  ~LessEqual()= default;
-  bool operator!=( const Self & ) const
+  LessEqual() = default;
+  ~LessEqual() = default;
+  bool
+  operator!=(const Self &) const
   {
     return false;
   }
-  bool operator==( const Self & other ) const
+  bool
+  operator==(const Self & other) const
   {
     return !(*this != other);
   }
-  inline TOutput operator()( const TInput1 & A, const TInput2 & B) const
+  inline TOutput
+  operator()(const TInput1 & A, const TInput2 & B) const
   {
-    if( A <= B )
-      {
+    if (A <= B)
+    {
       return this->m_ForegroundValue;
-      }
+    }
     return this->m_BackgroundValue;
   }
-
 };
 
 
@@ -287,31 +303,33 @@ public:
  * values are set by methods. Defaults are 1, 0.
  *
  * \ingroup ITKImageIntensity
-*/
-template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
+ */
+template <typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1>
 class ITK_TEMPLATE_EXPORT Less : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
   using Self = Less;
   Less() = default;
   ~Less() = default;
-  bool operator!=( const Self  & ) const
+  bool
+  operator!=(const Self &) const
   {
     return false;
   }
-  bool operator==( const Self & other ) const
+  bool
+  operator==(const Self & other) const
   {
     return !(*this != other);
   }
-  inline TOutput operator()( const TInput1 & A, const TInput2 & B) const
+  inline TOutput
+  operator()(const TInput1 & A, const TInput2 & B) const
   {
-    if( A < B )
-      {
+    if (A < B)
+    {
       return this->m_ForegroundValue;
-      }
+    }
     return this->m_BackgroundValue;
   }
-
 };
 
 
@@ -320,28 +338,31 @@ public:
  * \brief Unary logical NOT functor
  * \ingroup ITKImageIntensity
  */
-template< typename TInput, typename TOutput = TInput >
+template <typename TInput, typename TOutput = TInput>
 class ITK_TEMPLATE_EXPORT NOT : public LogicOpBase<TInput, TInput, TOutput>
 {
 public:
   NOT() = default;
   ~NOT() = default;
-  bool operator!=(const NOT &) const
+  bool
+  operator!=(const NOT &) const
   {
     return false;
   }
 
-  bool operator==(const NOT & other) const
+  bool
+  operator==(const NOT & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput & A) const
+  inline TOutput
+  operator()(const TInput & A) const
   {
-    if( !A )
-      {
+    if (!A)
+    {
       return this->m_ForegroundValue;
-      }
+    }
     return this->m_BackgroundValue;
   }
 };
@@ -351,38 +372,39 @@ public:
  * \brief Return argument 2 if argument 1 is false, and argument 3 otherwise.
  * \ingroup ITKImageIntensity
  */
-template< typename TInput1, typename TInput2, typename TInput3, typename TOutput >
+template <typename TInput1, typename TInput2, typename TInput3, typename TOutput>
 class ITK_TEMPLATE_EXPORT TernaryOperator
 {
 public:
   TernaryOperator() = default;
   ~TernaryOperator() = default;
-  bool operator!=(const TernaryOperator &) const
+  bool
+  operator!=(const TernaryOperator &) const
   {
     return false;
   }
 
-  bool operator==(const TernaryOperator & other) const
+  bool
+  operator==(const TernaryOperator & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput1 & A,
-                            const TInput2 & B,
-                            const TInput3 & C) const
+  inline TOutput
+  operator()(const TInput1 & A, const TInput2 & B, const TInput3 & C) const
   {
     if (A)
-      {
-      return static_cast<TOutput>( B );
-      }
+    {
+      return static_cast<TOutput>(B);
+    }
     else
-      {
-      return static_cast<TOutput>( C );
-      }
+    {
+      return static_cast<TOutput>(C);
+    }
   }
 };
 
-}
-}
+} // namespace Functor
+} // namespace itk
 
 #endif

@@ -58,16 +58,15 @@ namespace itk
  * \sphinxexample{Filtering/ImageFeature/ComputeLaplacian,Compute Laplacian}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT LaplacianImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT LaplacianImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianImageFilter);
 
   /** Standard "Self" & Superclass type alias.   */
   using Self = LaplacianImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
@@ -84,8 +83,8 @@ public:
   using InputImagePointer = typename InputImageType::Pointer;
 
   /** Smart pointer type alias support   */
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods)  */
   itkTypeMacro(LaplacianImageFilter, ImageToImageFilter);
@@ -100,12 +99,13 @@ public:
    * inform the pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()  */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
- /** Enable/Disable using the image spacing information in
+  /** Enable/Disable using the image spacing information in
    *  calculations. Use this option if you  want derivatives in
    *  physical space. Default  is UseImageSpacingOn. */
-  itkBooleanMacro( UseImageSpacing );
+  itkBooleanMacro(UseImageSpacing);
 
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */
@@ -114,20 +114,14 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< InputImageDimension, ImageDimension > ) );
-  itkConceptMacro( InputPixelTypeIsFloatingPointCheck,
-                   ( Concept::IsFloatingPoint< InputPixelType > ) );
-  itkConceptMacro( OutputPixelTypeIsFloatingPointCheck,
-                   ( Concept::IsFloatingPoint< OutputPixelType > ) );
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  itkConceptMacro(InputPixelTypeIsFloatingPointCheck, (Concept::IsFloatingPoint<InputPixelType>));
+  itkConceptMacro(OutputPixelTypeIsFloatingPointCheck, (Concept::IsFloatingPoint<OutputPixelType>));
   // End concept checking
 #endif
 
 protected:
-  LaplacianImageFilter()
-  {
-    m_UseImageSpacing = true;
-  }
+  LaplacianImageFilter() { m_UseImageSpacing = true; }
 
   ~LaplacianImageFilter() override = default;
 
@@ -136,9 +130,11 @@ protected:
    * calculations to an NeighborhoodOperatorImageFilter.  Since the
    * NeighborhoodOperatorImageFilter is multithreaded, this filter is
    * multithreaded by default.   */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void PrintSelf(std::ostream &, Indent) const override;
+  void
+  PrintSelf(std::ostream &, Indent) const override;
 
 private:
   bool m_UseImageSpacing;
@@ -146,7 +142,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLaplacianImageFilter.hxx"
+#  include "itkLaplacianImageFilter.hxx"
 #endif
 
 #endif

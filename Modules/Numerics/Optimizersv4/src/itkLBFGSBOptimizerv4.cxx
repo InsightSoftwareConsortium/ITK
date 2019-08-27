@@ -25,33 +25,29 @@ namespace itk
  * This class is used to translate iteration events, etc, from
  * vnl_lbfgsb into iteration events in ITK.
  */
-class ITKOptimizersv4_EXPORT LBFGSBOptimizerHelperv4:
-public LBFGSOptimizerBaseHelperv4<vnl_lbfgsb>
+class ITKOptimizersv4_EXPORT LBFGSBOptimizerHelperv4 : public LBFGSOptimizerBaseHelperv4<vnl_lbfgsb>
 {
-  public:
+public:
   using Self = LBFGSBOptimizerHelperv4;
   using Superclass = LBFGSOptimizerBaseHelperv4<vnl_lbfgsb>;
 
   /** Create with a reference to the ITK object */
-  LBFGSBOptimizerHelperv4(vnl_cost_function & f,
-                          LBFGSBOptimizerv4 * const itkObj);
+  LBFGSBOptimizerHelperv4(vnl_cost_function & f, LBFGSBOptimizerv4 * const itkObj);
 
-  protected:
+protected:
   /** Handle new iteration event */
-  bool report_iter() override;
+  bool
+  report_iter() override;
 };
 
 /** Create with a reference to the ITK object */
-LBFGSBOptimizerHelperv4
-::LBFGSBOptimizerHelperv4(vnl_cost_function & f, LBFGSBOptimizerv4 * const itkObj):
-  Superclass::LBFGSOptimizerBaseHelperv4(f, itkObj)
-{
-}
+LBFGSBOptimizerHelperv4 ::LBFGSBOptimizerHelperv4(vnl_cost_function & f, LBFGSBOptimizerv4 * const itkObj)
+  : Superclass::LBFGSOptimizerBaseHelperv4(f, itkObj)
+{}
 
 /** Handle new iteration event */
 bool
-LBFGSBOptimizerHelperv4
-::report_iter()
+LBFGSBOptimizerHelperv4 ::report_iter()
 {
   const bool ret = Superclass::report_iter();
   m_ItkObj->m_InfinityNormOfProjectedGradient = this->get_inf_norm_projected_gradient();
@@ -59,21 +55,17 @@ LBFGSBOptimizerHelperv4
 }
 //-------------------------------------------------------------------------
 
-LBFGSBOptimizerv4
-  ::LBFGSBOptimizerv4() :
-  m_InitialPosition(0),
-  m_LowerBound(0),
-  m_UpperBound(0),
-  m_BoundSelection(0)
-{
-}
+LBFGSBOptimizerv4 ::LBFGSBOptimizerv4()
+  : m_InitialPosition(0)
+  , m_LowerBound(0)
+  , m_UpperBound(0)
+  , m_BoundSelection(0)
+{}
 
-LBFGSBOptimizerv4
-::~LBFGSBOptimizerv4() = default;
+LBFGSBOptimizerv4 ::~LBFGSBOptimizerv4() = default;
 
 void
-LBFGSBOptimizerv4
-::PrintSelf(std::ostream & os, Indent indent) const
+LBFGSBOptimizerv4 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -84,134 +76,116 @@ LBFGSBOptimizerv4
   os << indent << "UpperBound: " << m_UpperBound << std::endl;
   os << indent << "BoundSelection: " << m_BoundSelection << std::endl;
 
-  os << indent << "CostFunctionConvergenceFactor: "
-  << m_CostFunctionConvergenceFactor << std::endl;
+  os << indent << "CostFunctionConvergenceFactor: " << m_CostFunctionConvergenceFactor << std::endl;
 
-  os << indent << "MaximumNumberOfEvaluations: "
-  << m_MaximumNumberOfFunctionEvaluations << std::endl;
+  os << indent << "MaximumNumberOfEvaluations: " << m_MaximumNumberOfFunctionEvaluations << std::endl;
 
-  os << indent << "MaximumNumberOfCorrections: "
-  << m_MaximumNumberOfCorrections << std::endl;
+  os << indent << "MaximumNumberOfCorrections: " << m_MaximumNumberOfCorrections << std::endl;
 
-  os << indent << "Value: "
-  << this->GetValue() << std::endl;
+  os << indent << "Value: " << this->GetValue() << std::endl;
 
-  os << indent << "InfinityNormOfProjectedGradient: "
-  << this->m_InfinityNormOfProjectedGradient << std::endl;
+  os << indent << "InfinityNormOfProjectedGradient: " << this->m_InfinityNormOfProjectedGradient << std::endl;
 
-  if ( this->m_VnlOptimizer )
-    {
-    os << indent << "Vnl LBFGSB Failure Code: "
-    << this->m_VnlOptimizer->get_failure_code() << std::endl;
-    }
+  if (this->m_VnlOptimizer)
+  {
+    os << indent << "Vnl LBFGSB Failure Code: " << this->m_VnlOptimizer->get_failure_code() << std::endl;
+  }
 }
 
 void
-LBFGSBOptimizerv4
-::SetScales(const ScalesType &)
+LBFGSBOptimizerv4 ::SetScales(const ScalesType &)
 {
-  itkWarningMacro( << "LBFGSB optimizer does not support scaling. All scales are set to one." )
-  m_Scales.SetSize( this->m_Metric->GetNumberOfLocalParameters() );
-  m_Scales.Fill( NumericTraits<ScalesType::ValueType>::OneValue() );
+  itkWarningMacro(<< "LBFGSB optimizer does not support scaling. All scales are set to one.")
+    m_Scales.SetSize(this->m_Metric->GetNumberOfLocalParameters());
+  m_Scales.Fill(NumericTraits<ScalesType::ValueType>::OneValue());
   this->m_ScalesAreIdentity = true;
 }
 
 void
-LBFGSBOptimizerv4
-::SetInitialPosition(const ParametersType & param)
+LBFGSBOptimizerv4 ::SetInitialPosition(const ParametersType & param)
 {
   m_InitialPosition = param;
   this->Modified();
 }
 
 void
-LBFGSBOptimizerv4
-::SetLowerBound(
-  const BoundValueType & value)
+LBFGSBOptimizerv4 ::SetLowerBound(const BoundValueType & value)
 {
   this->m_LowerBound = value;
-  if ( m_OptimizerInitialized )
-    {
+  if (m_OptimizerInitialized)
+  {
     m_VnlOptimizer->set_lower_bound(m_LowerBound);
-    }
+  }
   this->Modified();
 }
 
 void
-LBFGSBOptimizerv4
-::SetUpperBound(
-  const BoundValueType & value)
+LBFGSBOptimizerv4 ::SetUpperBound(const BoundValueType & value)
 {
   this->m_UpperBound = value;
-  if ( m_OptimizerInitialized )
-    {
+  if (m_OptimizerInitialized)
+  {
     m_VnlOptimizer->set_upper_bound(m_UpperBound);
-    }
+  }
   this->Modified();
 }
 
 void
-LBFGSBOptimizerv4
-::SetBoundSelection(
-  const BoundSelectionType & value)
+LBFGSBOptimizerv4 ::SetBoundSelection(const BoundSelectionType & value)
 {
   m_BoundSelection = value;
-  if ( m_OptimizerInitialized )
-    {
-    m_VnlOptimizer->set_bound_selection( m_BoundSelection );
-    }
+  if (m_OptimizerInitialized)
+  {
+    m_VnlOptimizer->set_bound_selection(m_BoundSelection);
+  }
   this->Modified();
 }
 
 void
-LBFGSBOptimizerv4
-::SetCostFunctionConvergenceFactor(double value)
+LBFGSBOptimizerv4 ::SetCostFunctionConvergenceFactor(double value)
 {
-  if ( value < 0.0 )
-    {
-    itkExceptionMacro("Value " << value
-                      << " is too small for SetCostFunctionConvergenceFactor()"
-                      << "a typical range would be from 0.0 to 1e+12");
-    }
+  if (value < 0.0)
+  {
+    itkExceptionMacro("Value " << value << " is too small for SetCostFunctionConvergenceFactor()"
+                               << "a typical range would be from 0.0 to 1e+12");
+  }
   m_CostFunctionConvergenceFactor = value;
-  if ( m_OptimizerInitialized )
-    {
-    m_VnlOptimizer->set_cost_function_convergence_factor( m_CostFunctionConvergenceFactor );
-    }
+  if (m_OptimizerInitialized)
+  {
+    m_VnlOptimizer->set_cost_function_convergence_factor(m_CostFunctionConvergenceFactor);
+  }
   this->Modified();
 }
 
 void
-LBFGSBOptimizerv4
-::SetMaximumNumberOfCorrections(unsigned int value)
+LBFGSBOptimizerv4 ::SetMaximumNumberOfCorrections(unsigned int value)
 {
   m_MaximumNumberOfCorrections = value;
-  if ( m_OptimizerInitialized )
-    {
-    m_VnlOptimizer->set_max_variable_metric_corrections( m_MaximumNumberOfCorrections );
-    }
+  if (m_OptimizerInitialized)
+  {
+    m_VnlOptimizer->set_max_variable_metric_corrections(m_MaximumNumberOfCorrections);
+  }
   this->Modified();
 }
 
 void
-LBFGSBOptimizerv4
-::SetMetric(MetricType *metric)
+LBFGSBOptimizerv4 ::SetMetric(MetricType * metric)
 {
-  Superclass::SetMetric( metric );
+  Superclass::SetMetric(metric);
 
-  CostFunctionAdaptorType *adaptor = this->GetCostFunctionAdaptor();
+  CostFunctionAdaptorType * adaptor = this->GetCostFunctionAdaptor();
 
-  m_VnlOptimizer.reset( new InternalOptimizerType( *adaptor, this ) );
+  m_VnlOptimizer.reset(new InternalOptimizerType(*adaptor, this));
 
   // set the optimizer parameters
-  m_VnlOptimizer->set_trace( m_Trace );
-  m_VnlOptimizer->set_lower_bound( m_LowerBound );
-  m_VnlOptimizer->set_upper_bound( m_UpperBound );
-  m_VnlOptimizer->set_bound_selection( m_BoundSelection );
-  m_VnlOptimizer->set_cost_function_convergence_factor( m_CostFunctionConvergenceFactor );
-  m_VnlOptimizer->set_projected_gradient_tolerance( m_GradientConvergenceTolerance );
-  m_VnlOptimizer->set_max_function_evals( static_cast< int >( m_MaximumNumberOfFunctionEvaluations ) );
-  m_VnlOptimizer->set_max_variable_metric_corrections( m_MaximumNumberOfCorrections );
+  m_VnlOptimizer->set_trace(m_Trace);
+  m_VnlOptimizer->set_lower_bound(m_LowerBound);
+  m_VnlOptimizer->set_upper_bound(m_UpperBound);
+  m_VnlOptimizer->set_bound_selection(m_BoundSelection);
+  m_VnlOptimizer->set_cost_function_convergence_factor(m_CostFunctionConvergenceFactor);
+  m_VnlOptimizer->set_projected_gradient_tolerance(m_GradientConvergenceTolerance);
+  m_VnlOptimizer->set_max_function_evals(static_cast<int>(m_MaximumNumberOfFunctionEvaluations));
+  m_VnlOptimizer->set_max_variable_metric_corrections(m_MaximumNumberOfCorrections);
 
   m_OptimizerInitialized = true;
 
@@ -219,8 +193,7 @@ LBFGSBOptimizerv4
 }
 
 void
-LBFGSBOptimizerv4
-::StartOptimization(bool /*doOnlyInitialization*/ )
+LBFGSBOptimizerv4 ::StartOptimization(bool /*doOnlyInitialization*/)
 {
   // Perform some verification, check scales,
   // pass settings to cost-function adaptor.
@@ -230,50 +203,50 @@ LBFGSBOptimizerv4
   // parameters.
   unsigned int numberOfParameters = m_Metric->GetNumberOfParameters();
 
-  if ( this->GetInitialPosition().Size() < numberOfParameters )
-    {
-    this->SetInitialPosition( m_Metric->GetParameters() );
-    }
+  if (this->GetInitialPosition().Size() < numberOfParameters)
+  {
+    this->SetInitialPosition(m_Metric->GetParameters());
+  }
 
-  if ( m_LowerBound.size() < numberOfParameters && !m_BoundSelection.is_zero() )
-    {
+  if (m_LowerBound.size() < numberOfParameters && !m_BoundSelection.is_zero())
+  {
     itkExceptionMacro(<< "LowerBound array does not have sufficient number of elements");
-    }
+  }
 
-  if ( m_UpperBound.size() < numberOfParameters && !m_BoundSelection.is_zero() )
-    {
+  if (m_UpperBound.size() < numberOfParameters && !m_BoundSelection.is_zero())
+  {
     itkExceptionMacro(<< "UppperBound array does not have sufficient number of elements");
-    }
+  }
 
-  if ( m_BoundSelection.size() < numberOfParameters )
-    {
+  if (m_BoundSelection.size() < numberOfParameters)
+  {
     itkExceptionMacro(<< "BoundSelection array does not have sufficient number of elements");
-    }
+  }
 
-  if(this->m_CostFunctionConvergenceFactor == 0.0 && this->m_GradientConvergenceTolerance == 0.0)
-    {
+  if (this->m_CostFunctionConvergenceFactor == 0.0 && this->m_GradientConvergenceTolerance == 0.0)
+  {
     itkExceptionMacro("LBFGSB Optimizer cannot function if both CostFunctionConvergenceFactor"
                       " and ProjectedGradienctTolerance are zero.");
-    }
+  }
 
-  ParametersType parameters( this->GetInitialPosition() );
+  ParametersType parameters(this->GetInitialPosition());
 
-  this->InvokeEvent( StartEvent() );
+  this->InvokeEvent(StartEvent());
 
   // vnl optimizers return the solution by reference
   // in the variable provided as initial position
   m_VnlOptimizer->minimize(parameters);
 
-  if ( parameters.GetSize() != this->GetInitialPosition().Size() )
-    {
+  if (parameters.GetSize() != this->GetInitialPosition().Size())
+  {
     // set current position to initial position and throw an exception
-    this->m_Metric->SetParameters( this->GetInitialPosition() );
+    this->m_Metric->SetParameters(this->GetInitialPosition());
     itkExceptionMacro(<< "Error occurred in optimization");
-    }
+  }
 
-  this->m_Metric->SetParameters( parameters );
+  this->m_Metric->SetParameters(parameters);
 
-  this->InvokeEvent( EndEvent() );
+  this->InvokeEvent(EndEvent());
 }
 
 } // end namespace itk

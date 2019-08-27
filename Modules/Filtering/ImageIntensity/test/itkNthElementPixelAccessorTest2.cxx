@@ -43,7 +43,9 @@
 //   Main code
 //
 //-------------------------
-int itkNthElementPixelAccessorTest2(int, char* []) {
+int
+itkNthElementPixelAccessorTest2(int, char *[])
+{
 
   // Typedefs for convenience
   constexpr unsigned int Dimension = 2;
@@ -51,11 +53,11 @@ int itkNthElementPixelAccessorTest2(int, char* []) {
 
   using PrecisionType = float;
 
-  using VectorImageType = itk::VectorImage< PrecisionType, Dimension >;
-  using PixelType = itk::VariableLengthVector< PrecisionType >;
-  using ScalarImageType = itk::Image< PrecisionType, Dimension >;
-  using AccessorType = itk::NthElementPixelAccessor< PrecisionType, PixelType >;
-  using AdaptorType = itk::AdaptImageFilter< VectorImageType, ScalarImageType, AccessorType >;
+  using VectorImageType = itk::VectorImage<PrecisionType, Dimension>;
+  using PixelType = itk::VariableLengthVector<PrecisionType>;
+  using ScalarImageType = itk::Image<PrecisionType, Dimension>;
+  using AccessorType = itk::NthElementPixelAccessor<PrecisionType, PixelType>;
+  using AdaptorType = itk::AdaptImageFilter<VectorImageType, ScalarImageType, AccessorType>;
 
   // Test on variable length vector image
   VectorImageType::SizeType size;
@@ -67,33 +69,33 @@ int itkNthElementPixelAccessorTest2(int, char* []) {
   index[1] = 0;
 
   VectorImageType::RegionType region;
-  region.SetIndex( index );
-  region.SetSize(  size  );
+  region.SetIndex(index);
+  region.SetSize(size);
 
   VectorImageType::Pointer vectorImage = VectorImageType::New();
 
-  vectorImage->SetLargestPossibleRegion( region );
-  vectorImage->SetBufferedRegion( region );
-  vectorImage->SetRequestedRegion( region );
-  vectorImage->SetNumberOfComponentsPerPixel( VectorLength );
+  vectorImage->SetLargestPossibleRegion(region);
+  vectorImage->SetBufferedRegion(region);
+  vectorImage->SetRequestedRegion(region);
+  vectorImage->SetNumberOfComponentsPerPixel(VectorLength);
   vectorImage->Allocate();
   PixelType pixel;
-  pixel.SetSize( VectorLength );
+  pixel.SetSize(VectorLength);
   pixel.Fill(0);
   vectorImage->FillBuffer(pixel);
 
   PixelType referencePixel;
-  referencePixel.SetSize( VectorLength );
+  referencePixel.SetSize(VectorLength);
 
   // Value to initialize the pixels
   referencePixel[0] = 1.0f;
   referencePixel[1] = 0.5f;
   referencePixel[2] = 1.5f;
 
-  vectorImage->SetPixel( index, referencePixel );
+  vectorImage->SetPixel(index, referencePixel);
 
   // Print values to verify content
-  pixel = vectorImage->GetPixel( index );
+  pixel = vectorImage->GetPixel(index);
   std::cout << pixel[0] << "  ";
   std::cout << pixel[1] << "  ";
   std::cout << pixel[2] << std::endl;
@@ -103,25 +105,25 @@ int itkNthElementPixelAccessorTest2(int, char* []) {
   accessor.SetElementNumber(0);
 
   AdaptorType::Pointer adaptor = AdaptorType::New();
-  adaptor->SetInput( vectorImage );
-  adaptor->SetAccessor( accessor );
+  adaptor->SetInput(vectorImage);
+  adaptor->SetAccessor(accessor);
   adaptor->Update();
 
   ScalarImageType::Pointer scalarImage = adaptor->GetOutput();
 
-  ITK_TEST_EXPECT_EQUAL( adaptor->GetOutput()->GetPixel(index), referencePixel[0] );
+  ITK_TEST_EXPECT_EQUAL(adaptor->GetOutput()->GetPixel(index), referencePixel[0]);
 
   // Test operator
   AccessorType accessor1;
   accessor1.SetElementNumber(1);
   if (accessor1 != accessor)
-    {
+  {
     accessor = accessor1;
-    adaptor->SetAccessor( accessor);
+    adaptor->SetAccessor(accessor);
     adaptor->Update();
     scalarImage = adaptor->GetOutput();
-    ITK_TEST_EXPECT_EQUAL( adaptor->GetOutput()->GetPixel(index), referencePixel[1] );
-    }
+    ITK_TEST_EXPECT_EQUAL(adaptor->GetOutput()->GetPixel(index), referencePixel[1]);
+  }
 
   return EXIT_SUCCESS;
 }

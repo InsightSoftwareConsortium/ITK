@@ -48,11 +48,11 @@ namespace itk
  * \ingroup DataProcessing
  *
  * \ingroup ITKCommon
-**/
-template < typename TInputImage >
+ **/
+template <typename TInputImage>
 class ImageSink
-  : public StreamingProcessObject,
-    private ImageToImageFilterCommon
+  : public StreamingProcessObject
+  , private ImageToImageFilterCommon
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageSink);
@@ -60,16 +60,16 @@ public:
   /** Standard class type aliases. */
   using Self = ImageSink;
   using Superclass = StreamingProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( ImageSink, StreamingProcessObject );
+  itkTypeMacro(ImageSink, StreamingProcessObject);
 
   /** Smart Pointer type to a DataObject. */
   using DataObjectPointer = DataObject::Pointer;
 
-   /** Some convenient type alias. */
+  /** Some convenient type alias. */
   using InputImageType = TInputImage;
   using InputImagePointer = typename InputImageType::Pointer;
   using InputImageRegionType = typename InputImageType::RegionType;
@@ -82,39 +82,44 @@ public:
   using DataObjectIdentifierType = typename Superclass::DataObjectIdentifierType;
 
   /** Dimension of input images. */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      InputImageType::ImageDimension);
+  itkStaticConstMacro(InputImageDimension, unsigned int, InputImageType::ImageDimension);
 
 
   using Superclass::SetInput;
   /** Set/Get the image input of this process object.  */
-  virtual void SetInput(const InputImageType *input);
+  virtual void
+  SetInput(const InputImageType * input);
 
-  virtual const InputImageType * GetInput() const;
+  virtual const InputImageType *
+  GetInput() const;
 
-  virtual const InputImageType *GetInput(unsigned int idx) const;
+  virtual const InputImageType *
+  GetInput(unsigned int idx) const;
 
-  virtual const InputImageType *GetInput(const DataObjectIdentifierType & key) const;
+  virtual const InputImageType *
+  GetInput(const DataObjectIdentifierType & key) const;
 
-  void Update() override;
+  void
+  Update() override;
 
-  void UpdateLargestPossibleRegion() override;
+  void
+  UpdateLargestPossibleRegion() override;
 
   /** get/set the Coordinate tolerance
    *  This tolerance is used when comparing the space defined
    *  by the input images.  ITK has a requirement that multiple input
    *  images be congruent in space by default.
    */
-  itkSetMacro(CoordinateTolerance,double);
-  itkGetConstMacro(CoordinateTolerance,double);
+  itkSetMacro(CoordinateTolerance, double);
+  itkGetConstMacro(CoordinateTolerance, double);
 
   /** get/set the direction tolerance
    *  This tolerance is used to make sure that all input
    *  images are oriented the same before performing the filter's
    *  transformations.
    */
-  itkSetMacro(DirectionTolerance,double);
-  itkGetConstMacro(DirectionTolerance,double);
+  itkSetMacro(DirectionTolerance, double);
+  itkGetConstMacro(DirectionTolerance, double);
 
   /** get/set the global default direction tolerance
    *
@@ -139,24 +144,33 @@ protected:
   ImageSink();
   ~ImageSink() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  unsigned int GetNumberOfInputRequestedRegions () override;
+  unsigned int
+  GetNumberOfInputRequestedRegions() override;
 
-  void GenerateNthInputRequestedRegion (unsigned int inputRequestedRegionNumber) override;
+  void
+  GenerateNthInputRequestedRegion(unsigned int inputRequestedRegionNumber) override;
 
-  virtual void AllocateOutputs( ) {}
+  virtual void
+  AllocateOutputs()
+  {}
 
-  void VerifyInputInformation() ITKv5_CONST override;
+  void
+  VerifyInputInformation() ITKv5_CONST override;
 
-  void BeforeStreamedGenerateData( ) override
-    {
+  void
+  BeforeStreamedGenerateData() override
+  {
     this->AllocateOutputs();
-    }
+  }
 
-  void StreamedGenerateData( unsigned int inputRequestedRegionNumber) override;
+  void
+  StreamedGenerateData(unsigned int inputRequestedRegionNumber) override;
 
-  virtual void ThreadedStreamedGenerateData( const InputImageRegionType &inputRegionForChunk ) = 0;
+  virtual void
+  ThreadedStreamedGenerateData(const InputImageRegionType & inputRegionForChunk) = 0;
 
 
   /** Set the number of pieces to divide the input.  The upstream pipeline
@@ -164,7 +178,7 @@ protected:
   itkSetMacro(NumberOfStreamDivisions, unsigned int);
 
   /** Get the number of pieces to divide the input. The upstream pipeline
-    * will be executed this many times. */
+   * will be executed this many times. */
   itkGetConstMacro(NumberOfStreamDivisions, unsigned int);
 
   /** Set/Get Helper class for dividing the input into regions for
@@ -174,7 +188,6 @@ protected:
 
 
 private:
-
   unsigned int          m_NumberOfStreamDivisions;
   RegionSplitterPointer m_RegionSplitter;
   InputImageRegionType  m_CurrentInputRegion;
@@ -187,7 +200,7 @@ private:
   double m_DirectionTolerance;
 };
 
-}
+} // namespace itk
 
 #include "itkImageSink.hxx"
 

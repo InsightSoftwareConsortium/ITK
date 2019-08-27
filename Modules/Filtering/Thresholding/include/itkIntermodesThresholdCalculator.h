@@ -52,7 +52,7 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKThresholding
  */
-template <typename THistogram, typename TOutput=double>
+template <typename THistogram, typename TOutput = double>
 class ITK_TEMPLATE_EXPORT IntermodesThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
@@ -76,14 +76,14 @@ public:
 
   using InstanceIdentifier = typename HistogramType::InstanceIdentifier;
 
-  itkSetMacro( MaximumSmoothingIterations, SizeValueType );
-  itkGetConstMacro( MaximumSmoothingIterations, SizeValueType );
+  itkSetMacro(MaximumSmoothingIterations, SizeValueType);
+  itkGetConstMacro(MaximumSmoothingIterations, SizeValueType);
 
   /** Select whether midpoint (intermode = true) or minimum between
   peaks is used. Default is "On". */
-  itkSetMacro( UseInterMode, bool);
-  itkGetConstMacro( UseInterMode, bool );
-  itkBooleanMacro( UseInterMode );
+  itkSetMacro(UseInterMode, bool);
+  itkGetConstMacro(UseInterMode, bool);
+  itkBooleanMacro(UseInterMode);
 
 protected:
   IntermodesThresholdCalculator()
@@ -94,14 +94,17 @@ protected:
 
   ~IntermodesThresholdCalculator() override = default;
 
-  void GenerateData() override;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  GenerateData() override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   using TotalAbsoluteFrequencyType = typename HistogramType::TotalAbsoluteFrequencyType;
   using AbsoluteFrequencyType = typename HistogramType::AbsoluteFrequencyType;
 
 private:
-  bool BimodalTest(const std::vector<double> & h);
+  bool
+  BimodalTest(const std::vector<double> & h);
 
   SizeValueType m_MaximumSmoothingIterations;
   bool          m_UseInterMode;
@@ -111,7 +114,7 @@ private:
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkIntermodesThresholdCalculator.hxx"
+#  include "itkIntermodesThresholdCalculator.hxx"
 #endif
 
 #endif

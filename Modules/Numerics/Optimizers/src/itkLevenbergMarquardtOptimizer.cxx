@@ -25,22 +25,20 @@ namespace itk
 /**
  * Constructor
  */
-LevenbergMarquardtOptimizer
-::LevenbergMarquardtOptimizer()
+LevenbergMarquardtOptimizer ::LevenbergMarquardtOptimizer()
 {
-  m_OptimizerInitialized    = false;
-  m_VnlOptimizer            = nullptr;
-  m_NumberOfIterations      = 2000;
-  m_ValueTolerance          = 1e-8;
-  m_GradientTolerance       = 1e-5;
-  m_EpsilonFunction         = 1e-11;
+  m_OptimizerInitialized = false;
+  m_VnlOptimizer = nullptr;
+  m_NumberOfIterations = 2000;
+  m_ValueTolerance = 1e-8;
+  m_GradientTolerance = 1e-5;
+  m_EpsilonFunction = 1e-11;
 }
 
 /**
  * Destructor
  */
-LevenbergMarquardtOptimizer
-::~LevenbergMarquardtOptimizer()
+LevenbergMarquardtOptimizer ::~LevenbergMarquardtOptimizer()
 {
   delete m_VnlOptimizer;
 }
@@ -49,8 +47,7 @@ LevenbergMarquardtOptimizer
  * Connect a Cost Function
  */
 void
-LevenbergMarquardtOptimizer
-::SetCostFunction(MultipleValuedCostFunction *costFunction)
+LevenbergMarquardtOptimizer ::SetCostFunction(MultipleValuedCostFunction * costFunction)
 {
   const unsigned int numberOfParameters = costFunction->GetNumberOfParameters();
   const unsigned int numberOfValues = costFunction->GetNumberOfValues();
@@ -59,10 +56,10 @@ LevenbergMarquardtOptimizer
 
   adaptor->SetCostFunction(costFunction);
 
-  if ( m_OptimizerInitialized )
-    {
+  if (m_OptimizerInitialized)
+  {
     delete m_VnlOptimizer;
-    }
+  }
 
   this->SetCostFunctionAdaptor(adaptor);
 
@@ -78,35 +75,31 @@ LevenbergMarquardtOptimizer
 
 /** Return Current Value */
 LevenbergMarquardtOptimizer::MeasureType
-LevenbergMarquardtOptimizer
-::GetValue() const
+LevenbergMarquardtOptimizer ::GetValue() const
 {
   MeasureType measures;
 
-  const CostFunctionAdaptorType *adaptor =
-    this->GetCostFunctionAdaptor();
+  const CostFunctionAdaptorType * adaptor = this->GetCostFunctionAdaptor();
 
-  if ( adaptor )
+  if (adaptor)
+  {
+    const MultipleValuedCostFunction * costFunction = adaptor->GetCostFunction();
+    if (costFunction)
     {
-    const MultipleValuedCostFunction *costFunction =
-      adaptor->GetCostFunction();
-    if ( costFunction )
-      {
-      const unsigned int numberOfValues =
-        costFunction->GetNumberOfValues();
+      const unsigned int numberOfValues = costFunction->GetNumberOfValues();
       measures.SetSize(numberOfValues);
       ParametersType parameters = this->GetCurrentPosition();
-      if ( m_ScalesInitialized )
-        {
+      if (m_ScalesInitialized)
+      {
         const ScalesType & scales = this->GetScales();
-        for ( unsigned int i = 0; i < parameters.size(); i++ )
-          {
+        for (unsigned int i = 0; i < parameters.size(); i++)
+        {
           parameters[i] *= scales[i];
-          }
         }
-      this->GetNonConstCostFunctionAdaptor()->f(parameters, measures);
       }
+      this->GetNonConstCostFunctionAdaptor()->f(parameters, measures);
     }
+  }
   return measures;
 }
 
@@ -114,10 +107,9 @@ LevenbergMarquardtOptimizer
  * Start the optimization
  */
 void
-LevenbergMarquardtOptimizer
-::StartOptimization()
+LevenbergMarquardtOptimizer ::StartOptimization()
 {
-  this->InvokeEvent( StartEvent() );
+  this->InvokeEvent(StartEvent());
 
   ParametersType initialPosition = GetInitialPosition();
   ParametersType parameters(initialPosition);
@@ -127,112 +119,106 @@ LevenbergMarquardtOptimizer
   // We also scale the initial parameters up if scales are defined.
   // This compensates for later scaling them down in the cost function adaptor
   // and at the end of this function.
-  if ( m_ScalesInitialized )
-    {
+  if (m_ScalesInitialized)
+  {
     const ScalesType & scales = this->GetScales();
     this->GetNonConstCostFunctionAdaptor()->SetScales(scales);
-    for ( unsigned int i = 0; i < parameters.size(); i++ )
-      {
+    for (unsigned int i = 0; i < parameters.size(); i++)
+    {
       parameters[i] *= scales[i];
-      }
     }
+  }
 
-  if ( this->GetCostFunctionAdaptor()->GetUseGradient() )
-    {
+  if (this->GetCostFunctionAdaptor()->GetUseGradient())
+  {
     m_VnlOptimizer->minimize_using_gradient(parameters);
-    }
+  }
   else
-    {
+  {
     m_VnlOptimizer->minimize_without_gradient(parameters);
-    }
+  }
 
   // we scale the parameters down if scales are defined
-  if ( m_ScalesInitialized )
-    {
+  if (m_ScalesInitialized)
+  {
     const ScalesType & invScales = this->GetInverseScales();
-    for ( unsigned int i = 0; i < parameters.size(); ++i )
-      {
+    for (unsigned int i = 0; i < parameters.size(); ++i)
+    {
       parameters[i] *= invScales[i];
-      }
     }
+  }
 
   this->SetCurrentPosition(parameters);
 
-  this->InvokeEvent( EndEvent() );
+  this->InvokeEvent(EndEvent());
 }
 
 /** Set the maximum number of iterations */
 void
-LevenbergMarquardtOptimizer
-::SetNumberOfIterations(unsigned int iterations)
+LevenbergMarquardtOptimizer ::SetNumberOfIterations(unsigned int iterations)
 {
-  if ( m_VnlOptimizer )
-    {
+  if (m_VnlOptimizer)
+  {
     m_VnlOptimizer->set_max_function_evals(iterations);
-    }
+  }
 
   m_NumberOfIterations = iterations;
 }
 
 /** Set the maximum number of iterations */
 void
-LevenbergMarquardtOptimizer
-::SetValueTolerance(double tol)
+LevenbergMarquardtOptimizer ::SetValueTolerance(double tol)
 {
-  if ( m_VnlOptimizer )
-    {
+  if (m_VnlOptimizer)
+  {
     m_VnlOptimizer->set_x_tolerance(tol);
-    }
+  }
 
   m_ValueTolerance = tol;
 }
 
 /** Set Gradient Tolerance */
 void
-LevenbergMarquardtOptimizer
-::SetGradientTolerance(double tol)
+LevenbergMarquardtOptimizer ::SetGradientTolerance(double tol)
 {
-  if ( m_VnlOptimizer )
-    {
+  if (m_VnlOptimizer)
+  {
     m_VnlOptimizer->set_g_tolerance(tol);
-    }
+  }
 
   m_GradientTolerance = tol;
 }
 
 /** Set Epsilon function */
 void
-LevenbergMarquardtOptimizer
-::SetEpsilonFunction(double epsilon)
+LevenbergMarquardtOptimizer ::SetEpsilonFunction(double epsilon)
 {
-  if ( m_VnlOptimizer )
-    {
+  if (m_VnlOptimizer)
+  {
     m_VnlOptimizer->set_epsilon_function(epsilon);
-    }
+  }
 
   m_EpsilonFunction = epsilon;
 }
 
 /** Get the Optimizer */
 vnl_levenberg_marquardt *
-LevenbergMarquardtOptimizer
-::GetOptimizer() const
+LevenbergMarquardtOptimizer ::GetOptimizer() const
 {
   return m_VnlOptimizer;
 }
 
 const std::string
-LevenbergMarquardtOptimizer
-::GetStopConditionDescription() const
+LevenbergMarquardtOptimizer ::GetStopConditionDescription() const
 {
   std::ostringstream reason, outcome;
 
   outcome.str("");
-  if ( GetOptimizer() )
-    {
+  if (GetOptimizer())
+  {
     GetOptimizer()->diagnose_outcome(outcome);
-    }
-  reason << this->GetNameOfClass() << ": " << ( ( !outcome.str().empty() ) ? outcome.str().c_str() : "" );
+  }
+  reason << this->GetNameOfClass() << ": " << ((!outcome.str().empty()) ? outcome.str().c_str() : "");
   return reason.str();
 }
 } // end namespace itk

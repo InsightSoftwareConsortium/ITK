@@ -27,10 +27,9 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-OrientImageFilter< TInputImage, TOutputImage >
-::OrientImageFilter() :
-  m_FlipAxes(false)
+template <typename TInputImage, typename TOutputImage>
+OrientImageFilter<TInputImage, TOutputImage>::OrientImageFilter()
+  : m_FlipAxes(false)
 {
   // Map between axis string labels and SpatialOrientation
   m_StringToCode["RIP"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
@@ -132,45 +131,44 @@ OrientImageFilter< TInputImage, TOutputImage >
   m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIL] = "AIL";
   m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL] = "ASL";
 
-  for( unsigned int dimension = 0; dimension < InputImageDimension; ++dimension )
-    {
+  for (unsigned int dimension = 0; dimension < InputImageDimension; ++dimension)
+  {
     this->m_PermuteOrder[dimension] = dimension;
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-OrientImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+OrientImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // Call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // Get pointers to the input and output
-  InputImagePointer  inputPtr = const_cast< TInputImage * >( this->GetInput() );
+  InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
   OutputImagePointer outputPtr = this->GetOutput();
 
-  if ( !inputPtr || !outputPtr )
-    {
+  if (!inputPtr || !outputPtr)
+  {
     return;
-    }
+  }
 
-  using PermuteFilterType = PermuteAxesImageFilter< InputImageType >;
-  using FlipFilterType = FlipImageFilter< InputImageType >;
-  using CastToOutputFilterType = CastImageFilter< InputImageType, OutputImageType >;
+  using PermuteFilterType = PermuteAxesImageFilter<InputImageType>;
+  using FlipFilterType = FlipImageFilter<InputImageType>;
+  using CastToOutputFilterType = CastImageFilter<InputImageType, OutputImageType>;
 
-  typename PermuteFilterType::Pointer permute = PermuteFilterType::New();
-  typename FlipFilterType::Pointer flip = FlipFilterType::New();
+  typename PermuteFilterType::Pointer      permute = PermuteFilterType::New();
+  typename FlipFilterType::Pointer         flip = FlipFilterType::New();
   typename CastToOutputFilterType::Pointer cast = CastToOutputFilterType::New();
   permute->SetInput(inputPtr);
   permute->SetOrder(m_PermuteOrder);
 
-  flip->SetInput( permute->GetOutput() );
+  flip->SetInput(permute->GetOutput());
   flip->SetFlipAxes(m_FlipAxes);
   flip->FlipAboutOriginOff();
 
-  cast->SetInput( flip->GetOutput() );
-  cast->GetOutput()->SetRequestedRegion( outputPtr->GetRequestedRegion() );
+  cast->SetInput(flip->GetOutput());
+  cast->GetOutput()->SetRequestedRegion(outputPtr->GetRequestedRegion());
 
   // The input to the minipipeline is the input to this filter
   // minipipeline. Therefore, the requested region of the minipipeline
@@ -179,168 +177,168 @@ OrientImageFilter< TInputImage, TOutputImage >
   cast->GetOutput()->PropagateRequestedRegion();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-OrientImageFilter< TInputImage, TOutputImage >
-::EnlargeOutputRequestedRegion(DataObject *)
+OrientImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()
-  ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-OrientImageFilter< TInputImage, TOutputImage >
-::DeterminePermutationsAndFlips(
+OrientImageFilter<TInputImage, TOutputImage>::DeterminePermutationsAndFlips(
   const SpatialOrientation::ValidCoordinateOrientationFlags fixed_orient,
   const SpatialOrientation::ValidCoordinateOrientationFlags moving_orient)
 {
   // 3-dimensional version of code system only. The 3-axis testing is unrolled.
-  constexpr unsigned int NumDims = 3;                  // InputImageDimension is
-                                                   // regarded as 3.
-  constexpr unsigned int CodeField = 15;               // 4 bits wide
-  constexpr unsigned int CodeAxisField = 14;           // 3 bits wide, above the
-                                                   // 0-place bit.
+  constexpr unsigned int NumDims = 3;        // InputImageDimension is
+                                             // regarded as 3.
+  constexpr unsigned int CodeField = 15;     // 4 bits wide
+  constexpr unsigned int CodeAxisField = 14; // 3 bits wide, above the
+                                             // 0-place bit.
   constexpr unsigned int CodeAxisIncreasingField = 1;
-  unsigned int       fixed_codes[NumDims];
-  unsigned int       moving_codes[NumDims];
+  unsigned int           fixed_codes[NumDims];
+  unsigned int           moving_codes[NumDims];
 
-  fixed_codes[0]  = ( fixed_orient  >> SpatialOrientation::ITK_COORDINATE_PrimaryMinor ) & CodeField;
-  fixed_codes[1]  = ( fixed_orient  >> SpatialOrientation::ITK_COORDINATE_SecondaryMinor ) & CodeField;
-  fixed_codes[2]  = ( fixed_orient  >> SpatialOrientation::ITK_COORDINATE_TertiaryMinor ) & CodeField;
-  moving_codes[0] = ( moving_orient >> SpatialOrientation::ITK_COORDINATE_PrimaryMinor ) & CodeField;
-  moving_codes[1] = ( moving_orient >> SpatialOrientation::ITK_COORDINATE_SecondaryMinor ) & CodeField;
-  moving_codes[2] = ( moving_orient >> SpatialOrientation::ITK_COORDINATE_TertiaryMinor ) & CodeField;
+  fixed_codes[0] = (fixed_orient >> SpatialOrientation::ITK_COORDINATE_PrimaryMinor) & CodeField;
+  fixed_codes[1] = (fixed_orient >> SpatialOrientation::ITK_COORDINATE_SecondaryMinor) & CodeField;
+  fixed_codes[2] = (fixed_orient >> SpatialOrientation::ITK_COORDINATE_TertiaryMinor) & CodeField;
+  moving_codes[0] = (moving_orient >> SpatialOrientation::ITK_COORDINATE_PrimaryMinor) & CodeField;
+  moving_codes[1] = (moving_orient >> SpatialOrientation::ITK_COORDINATE_SecondaryMinor) & CodeField;
+  moving_codes[2] = (moving_orient >> SpatialOrientation::ITK_COORDINATE_TertiaryMinor) & CodeField;
 
   // i, j, k will be the indexes in the Majorness code of the axes to flip;
   // they encode the axes as the reader will find them, 0 is the lowest order
   // axis of whatever spatial interpretation, and 2 is the highest order axis.
   //  Perhaps rename them moving_image_reader_axis_i, etc.
 
-  for ( unsigned int i = 0; i < NumDims - 1; i++ )
+  for (unsigned int i = 0; i < NumDims - 1; i++)
+  {
+    if ((fixed_codes[i] & CodeAxisField) != (moving_codes[i] & CodeAxisField))
     {
-    if ( ( fixed_codes[i] & CodeAxisField ) != ( moving_codes[i] & CodeAxisField ) )
+      for (unsigned int j = 0; j < NumDims; j++)
       {
-      for ( unsigned int j = 0; j < NumDims; j++ )
+        if ((moving_codes[i] & CodeAxisField) == (fixed_codes[j] & CodeAxisField))
         {
-        if ( ( moving_codes[i] & CodeAxisField ) == ( fixed_codes[j] & CodeAxisField ) )
+          if (i == j)
           {
-          if ( i == j )
-            {
             // Axis i is already in place
             continue;
-            }
-          else if ( ( moving_codes[j] & CodeAxisField ) == ( fixed_codes[i] & CodeAxisField ) )
-            {
-            //The cyclic permutation (i j) applies. Therefore the remainder
+          }
+          else if ((moving_codes[j] & CodeAxisField) == (fixed_codes[i] & CodeAxisField))
+          {
+            // The cyclic permutation (i j) applies. Therefore the remainder
             // is (k), i.e., stationary
             m_PermuteOrder[i] = j;
             m_PermuteOrder[j] = i;
-            }
+          }
           else
-            {
+          {
             // Need to work out an (i j k) cyclic permutation
-            for ( unsigned int k = 0; k < NumDims; k++ )
+            for (unsigned int k = 0; k < NumDims; k++)
+            {
+              if ((moving_codes[j] & CodeAxisField) == (fixed_codes[k] & CodeAxisField))
               {
-              if ( ( moving_codes[j] & CodeAxisField ) == ( fixed_codes[k] & CodeAxisField ) )
-                {
                 // At this point, we can pick off (i j k)
                 m_PermuteOrder[i] = k;
                 m_PermuteOrder[j] = i;
                 m_PermuteOrder[k] = j;
                 break;
-                }
               }
-            // Effectively, if (k==3) continue
             }
-          break;
+            // Effectively, if (k==3) continue
           }
+          break;
         }
+      }
       // Effectively, if (j==3) continue
-      }
     }
+  }
 
-  for ( unsigned int i = 0; i < NumDims; i++ )
-    {
+  for (unsigned int i = 0; i < NumDims; i++)
+  {
     const unsigned int j = m_PermuteOrder[i];
-    if ( ( moving_codes[j] & CodeAxisIncreasingField ) != ( fixed_codes[i] & CodeAxisIncreasingField ) )
-      {
+    if ((moving_codes[j] & CodeAxisIncreasingField) != (fixed_codes[i] & CodeAxisIncreasingField))
+    {
       m_FlipAxes[i] = true;
-      }
     }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-OrientImageFilter< TInputImage, TOutputImage >
-::SetGivenCoordinateOrientation(CoordinateOrientationCode newCode)
+OrientImageFilter<TInputImage, TOutputImage>::SetGivenCoordinateOrientation(CoordinateOrientationCode newCode)
 {
   m_GivenCoordinateOrientation = newCode;
 
-  for ( unsigned int j = 0; j < InputImageDimension; j++ )
-    {
+  for (unsigned int j = 0; j < InputImageDimension; j++)
+  {
     m_PermuteOrder[j] = j;
-    }
+  }
 
   m_FlipAxes.Fill(false);
 
-  this->DeterminePermutationsAndFlips (m_DesiredCoordinateOrientation, m_GivenCoordinateOrientation);
+  this->DeterminePermutationsAndFlips(m_DesiredCoordinateOrientation, m_GivenCoordinateOrientation);
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-OrientImageFilter< TInputImage, TOutputImage >
-::SetDesiredCoordinateOrientation(CoordinateOrientationCode newCode)
+OrientImageFilter<TInputImage, TOutputImage>::SetDesiredCoordinateOrientation(CoordinateOrientationCode newCode)
 {
-  if ( m_DesiredCoordinateOrientation != newCode )
-    {
+  if (m_DesiredCoordinateOrientation != newCode)
+  {
     m_DesiredCoordinateOrientation = newCode;
 
-    for ( unsigned int j = 0; j < InputImageDimension; j++ )
-      {
+    for (unsigned int j = 0; j < InputImageDimension; j++)
+    {
       m_PermuteOrder[j] = j;
-      }
+    }
 
     m_FlipAxes.Fill(false);
 
-    this->DeterminePermutationsAndFlips (m_DesiredCoordinateOrientation, m_GivenCoordinateOrientation);
+    this->DeterminePermutationsAndFlips(m_DesiredCoordinateOrientation, m_GivenCoordinateOrientation);
     this->Modified();
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 bool
-OrientImageFilter< TInputImage, TOutputImage >
-::NeedToPermute()
+OrientImageFilter<TInputImage, TOutputImage>::NeedToPermute()
 {
-  for ( unsigned int j = 0; j < InputImageDimension; j++ )
+  for (unsigned int j = 0; j < InputImageDimension; j++)
+  {
+    if (m_PermuteOrder[j] != j)
     {
-    if ( m_PermuteOrder[j] != j ) { return true; }
+      return true;
     }
+  }
   return false;
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 bool
-OrientImageFilter< TInputImage, TOutputImage >
-::NeedToFlip()
+OrientImageFilter<TInputImage, TOutputImage>::NeedToFlip()
 {
-  for ( unsigned int j = 0; j < InputImageDimension; j++ )
+  for (unsigned int j = 0; j < InputImageDimension; j++)
+  {
+    if (m_FlipAxes[j])
     {
-    if ( m_FlipAxes[j] ) { return true; }
+      return true;
     }
+  }
   return false;
 }
 
 //#define __DEBUG_ORIENT__
-#if defined( __DEBUG_ORIENT__ )
-#define DEBUG_EXECUTE(X) X
+#if defined(__DEBUG_ORIENT__)
+#  define DEBUG_EXECUTE(X) X
 
 using SO_OrientationType = itk::SpatialOrientation::ValidCoordinateOrientationFlags;
-std::string SO_OrientationToString(SO_OrientationType in)
+std::string
+SO_OrientationToString(SO_OrientationType in)
 {
-  switch ( in )
-    {
+  switch (in)
+  {
     case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
       return std::string("RIP");
     case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIP:
@@ -438,41 +436,38 @@ std::string SO_OrientationToString(SO_OrientationType in)
     case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL:
       return "ASL";
     default:
-      {
+    {
       std::stringstream x;
-      x << ( in & 0xff ) << ", " << ( ( in >> 8 ) & 0xff ) << ", " << ( ( in >> 16 ) && 0xff );
+      x << (in & 0xff) << ", " << ((in >> 8) & 0xff) << ", " << ((in >> 16) && 0xff);
       return x.str();
-      }
     }
+  }
 }
 
-template< typename ImageType >
+template <typename ImageType>
 void
 DumpDirections(const std::string & prompt, const typename ImageType::Pointer & image)
 {
-  const typename ImageType::DirectionType & dir =
-    image->GetDirection();
-  std::cerr << prompt << " "
-            << SO_OrientationToString( itk::SpatialOrientationAdapter().FromDirectionCosines(dir) )
-            <<    std::endl;
-  for ( unsigned i = 0; i < 3; i++ )
+  const typename ImageType::DirectionType & dir = image->GetDirection();
+  std::cerr << prompt << " " << SO_OrientationToString(itk::SpatialOrientationAdapter().FromDirectionCosines(dir))
+            << std::endl;
+  for (unsigned i = 0; i < 3; i++)
+  {
+    for (unsigned j = 0; j < 3; j++)
     {
-    for ( unsigned j = 0; j < 3; j++ )
-      {
       std::cerr << dir[i][j] << " ";
-      }
-    std::cerr << std::endl;
     }
+    std::cerr << std::endl;
+  }
 }
 
 #else //__DEBUG_ORIENT__
-#define DEBUG_EXECUTE(X)
+#  define DEBUG_EXECUTE(X)
 #endif
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-OrientImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+OrientImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
   typename ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
@@ -481,153 +476,128 @@ OrientImageFilter< TInputImage, TOutputImage >
   // No need to allocate the output since the minipipeline does it
   // this->AllocateOutputs();
 
-  using PermuteFilterType = PermuteAxesImageFilter< InputImageType >;
-  using FlipFilterType = FlipImageFilter< InputImageType >;
-  using CastToOutputFilterType = CastImageFilter< InputImageType, OutputImageType >;
+  using PermuteFilterType = PermuteAxesImageFilter<InputImageType>;
+  using FlipFilterType = FlipImageFilter<InputImageType>;
+  using CastToOutputFilterType = CastImageFilter<InputImageType, OutputImageType>;
 
-  typename PermuteFilterType::Pointer permute = PermuteFilterType::New();
-  typename FlipFilterType::Pointer flip = FlipFilterType::New();
+  typename PermuteFilterType::Pointer      permute = PermuteFilterType::New();
+  typename FlipFilterType::Pointer         flip = FlipFilterType::New();
   typename CastToOutputFilterType::Pointer cast = CastToOutputFilterType::New();
 
   progress->RegisterInternalFilter(permute, .3333333f);
   progress->RegisterInternalFilter(flip, .3333333f);
   progress->RegisterInternalFilter(cast, .3333333f);
 
-  InputImagePointer permuteInput = const_cast< TInputImage * >( this->GetInput() );
+  InputImagePointer permuteInput = const_cast<TInputImage *>(this->GetInput());
   InputImagePointer flipInput = permuteInput;
   InputImagePointer castInput = permuteInput;
 
   // Only run those filters that will do something
-  if ( NeedToPermute() )
-    {
-    DEBUG_EXECUTE(DumpDirections< TInputImage >("before permute", permuteInput); )
+  if (NeedToPermute())
+  {
+    DEBUG_EXECUTE(DumpDirections<TInputImage>("before permute", permuteInput);)
     permute->SetInput(permuteInput);
     permute->SetOrder(m_PermuteOrder);
     permute->ReleaseDataFlagOn();
-    DEBUG_EXECUTE(
-      std::cerr << "Permute Axes: ";
-      for ( unsigned i = 0; i < 3; i++ )
-        {
-        std::cerr << m_PermuteOrder[i] << " ";
-        }
-      std::cerr << std::endl;
-      permute->Update();
-      DumpDirections< TInputImage >( "after permute", permute->GetOutput() );
-      )
+    DEBUG_EXECUTE(std::cerr << "Permute Axes: ";
+                  for (unsigned i = 0; i < 3; i++) { std::cerr << m_PermuteOrder[i] << " "; } std::cerr << std::endl;
+                  permute->Update();
+                  DumpDirections<TInputImage>("after permute", permute->GetOutput());)
     flipInput = permute->GetOutput();
     castInput = permute->GetOutput();
-    }
+  }
   else
-    {
+  {
     itkDebugMacro("No need to permute");
-    }
-  if ( NeedToFlip() )
-    {
+  }
+  if (NeedToFlip())
+  {
     flip->SetInput(flipInput);
     flip->SetFlipAxes(m_FlipAxes);
     flip->FlipAboutOriginOff();
     flip->ReleaseDataFlagOn();
-    DEBUG_EXECUTE(
-      std::cerr << "Flip Axes: ";
-      for ( unsigned i = 0; i < 3; i++ )
-        {
-        std::cerr << m_FlipAxes[i] << " ";
-        }
-      std::cerr << std::endl;
-      flip->Update();
-      DumpDirections< TInputImage >( "after flip", flip->GetOutput() );
-      )
+    DEBUG_EXECUTE(std::cerr << "Flip Axes: ";
+                  for (unsigned i = 0; i < 3; i++) { std::cerr << m_FlipAxes[i] << " "; } std::cerr << std::endl;
+                  flip->Update();
+                  DumpDirections<TInputImage>("after flip", flip->GetOutput());)
     castInput = flip->GetOutput();
-    }
+  }
   else
-    {
+  {
     itkDebugMacro(<< "No need to flip");
-    }
+  }
 
   //
   // Cast might not be necessary, but CastImagefilter is optimized for
   // the case where the InputImageType == OutputImageType
   cast->SetInput(castInput);
-  cast->GetOutput()->SetRequestedRegion( this->GetOutput()->GetRequestedRegion() );
+  cast->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
   cast->Update();
-  this->GraftOutput( cast->GetOutput() );
+  this->GraftOutput(cast->GetOutput());
 
-  this->GetOutput()->SetMetaDataDictionary( this->GetInput()->GetMetaDataDictionary() );
+  this->GetOutput()->SetMetaDataDictionary(this->GetInput()->GetMetaDataDictionary());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-OrientImageFilter< TInputImage, TOutputImage >
-::GenerateOutputInformation()
+OrientImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 {
   // Call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
 
   // Get pointers to the input and output
-  InputImageConstPointer inputPtr  = this->GetInput();
+  InputImageConstPointer inputPtr = this->GetInput();
   OutputImagePointer     outputPtr = this->GetOutput();
 
-  if ( !inputPtr || !outputPtr )
-    {
+  if (!inputPtr || !outputPtr)
+  {
     return;
-    }
+  }
 
   // Either use the direciton cosines of the image or the user-specified
   // orientation
-  if ( m_UseImageDirection )
-    {
+  if (m_UseImageDirection)
+  {
     // Compute the GivenOrientation from the image's direction cosines
-    this->SetGivenCoordinateOrientation
-      ( SpatialOrientationAdapter().FromDirectionCosines( inputPtr->GetDirection() ) );
-    }
+    this->SetGivenCoordinateOrientation(SpatialOrientationAdapter().FromDirectionCosines(inputPtr->GetDirection()));
+  }
 
-  using PermuteFilterType = PermuteAxesImageFilter< InputImageType >;
-  using FlipFilterType = FlipImageFilter< InputImageType >;
-  using CastToOutputFilterType = CastImageFilter< InputImageType, OutputImageType >;
+  using PermuteFilterType = PermuteAxesImageFilter<InputImageType>;
+  using FlipFilterType = FlipImageFilter<InputImageType>;
+  using CastToOutputFilterType = CastImageFilter<InputImageType, OutputImageType>;
 
-  typename PermuteFilterType::Pointer permute = PermuteFilterType::New();
-  typename FlipFilterType::Pointer flip = FlipFilterType::New();
+  typename PermuteFilterType::Pointer      permute = PermuteFilterType::New();
+  typename FlipFilterType::Pointer         flip = FlipFilterType::New();
   typename CastToOutputFilterType::Pointer cast = CastToOutputFilterType::New();
   permute->SetInput(inputPtr);
   permute->SetOrder(m_PermuteOrder);
 
-  flip->SetInput( permute->GetOutput() );
+  flip->SetInput(permute->GetOutput());
   flip->SetFlipAxes(m_FlipAxes);
   flip->FlipAboutOriginOff();
 
-  cast->SetInput( flip->GetOutput() );
+  cast->SetInput(flip->GetOutput());
   cast->UpdateOutputInformation();
 
-  outputPtr->CopyInformation( cast->GetOutput() );
+  outputPtr->CopyInformation(cast->GetOutput());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-OrientImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+OrientImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  std::map< CoordinateOrientationCode, std::string >::const_iterator axes;
+  std::map<CoordinateOrientationCode, std::string>::const_iterator axes;
 
   axes = m_CodeToString.find(m_DesiredCoordinateOrientation);
-  os << indent << "Desired Coordinate Orientation: "
-     << static_cast< long >( this->GetDesiredCoordinateOrientation() )
-     << " (" << ( *axes ).second << ")"
-     << std::endl;
+  os << indent << "Desired Coordinate Orientation: " << static_cast<long>(this->GetDesiredCoordinateOrientation())
+     << " (" << (*axes).second << ")" << std::endl;
   axes = m_CodeToString.find(m_GivenCoordinateOrientation);
-  os << indent << "Given Coordinate Orientation: "
-     << static_cast< long >( this->GetGivenCoordinateOrientation() )
-     << " (" << ( *axes ).second << ")"
-     << std::endl;
-  os << indent << "Use Image Direction: "
-     << m_UseImageDirection
-     << std::endl;
-  os << indent << "Permute Axes: "
-     << m_PermuteOrder
-     << std::endl;
-  os << indent << "Flip Axes: "
-     << m_FlipAxes
-     << std::endl;
+  os << indent << "Given Coordinate Orientation: " << static_cast<long>(this->GetGivenCoordinateOrientation()) << " ("
+     << (*axes).second << ")" << std::endl;
+  os << indent << "Use Image Direction: " << m_UseImageDirection << std::endl;
+  os << indent << "Permute Axes: " << m_PermuteOrder << std::endl;
+  os << indent << "Flip Axes: " << m_FlipAxes << std::endl;
 }
 } // end namespace itk
 #endif

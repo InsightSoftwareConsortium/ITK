@@ -29,7 +29,7 @@
 // to classifying based on euclidean distance to the mean.
 
 
-//Data definitons
+// Data definitons
 
 namespace SupervisedImageClassifierTest
 {
@@ -38,17 +38,20 @@ namespace SupervisedImageClassifierTest
 class ShowProgressObject
 {
 public:
-  ShowProgressObject(itk::LightProcessObject * o)
-    {m_Process = o;}
-  void ShowProgress()
-    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
+  ShowProgressObject(itk::LightProcessObject * o) { m_Process = o; }
+  void
+  ShowProgress()
+  {
+    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+  }
   itk::LightProcessObject::Pointer m_Process;
 };
 
-}
+} // namespace SupervisedImageClassifierTest
 
 
-int itkSupervisedImageClassifierTest(int, char* [] )
+int
+itkSupervisedImageClassifierTest(int, char *[])
 {
   constexpr unsigned int IMGWIDTH = 2;
   constexpr unsigned int IMGHEIGHT = 2;
@@ -58,97 +61,132 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   constexpr unsigned int NUM_CLASSES = 3;
 
   //------------------------------------------------------
-  //Create a simple test image with width, height, and
-  //depth 4 vectors each with each vector having data for
-  //2 bands.
+  // Create a simple test image with width, height, and
+  // depth 4 vectors each with each vector having data for
+  // 2 bands.
   //------------------------------------------------------
-  using VecImageType = itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION>;
+  using VecImageType = itk::Image<itk::Vector<double, NUMBANDS>, NDIMENSION>;
 
   VecImageType::Pointer vecImage = VecImageType::New();
 
-  VecImageType::SizeType vecImgSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES }};
+  VecImageType::SizeType vecImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
 
   VecImageType::IndexType index;
   index.Fill(0);
   VecImageType::RegionType region;
 
-  region.SetSize( vecImgSize );
-  region.SetIndex( index );
+  region.SetSize(vecImgSize);
+  region.SetIndex(index);
 
-  vecImage->SetLargestPossibleRegion( region );
-  vecImage->SetBufferedRegion( region );
+  vecImage->SetLargestPossibleRegion(region);
+  vecImage->SetBufferedRegion(region);
   vecImage->Allocate();
 
   // setup the iterators
   using VecImagePixelType = VecImageType::PixelType;
 
-  enum { VecImageDimension = VecImageType::ImageDimension };
+  enum
+  {
+    VecImageDimension = VecImageType::ImageDimension
+  };
   using VecIterator = itk::ImageRegionIterator<VecImageType>;
 
-  VecIterator outIt( vecImage, vecImage->GetBufferedRegion() );
+  VecIterator outIt(vecImage, vecImage->GetBufferedRegion());
 
   //--------------------------------------------------------------------------
-  //Manually create and store each vector
+  // Manually create and store each vector
   //--------------------------------------------------------------------------
 
-  //Slice 1
-  //Vector no. 1
+  // Slice 1
+  // Vector no. 1
   VecImagePixelType vec;
-  vec.Fill(21); outIt.Set( vec ); ++outIt;
-  //Vector no. 2
-  vec.Fill(20); outIt.Set( vec ); ++outIt;
-  //Vector no. 3
-  vec.Fill(8); outIt.Set( vec ); ++outIt;
-  //Vector no. 4
-  vec.Fill(10); outIt.Set( vec ); ++outIt;
-  //Slice 2
-  //Vector no. 1
-  vec.Fill(22); outIt.Set( vec ); ++outIt;
-  //Vector no. 2
-  vec.Fill(21); outIt.Set( vec ); ++outIt;
-  //Vector no. 3
-  vec.Fill(11); outIt.Set( vec ); ++outIt;
-  //Vector no. 4
-  vec.Fill(9); outIt.Set( vec ); ++outIt;
+  vec.Fill(21);
+  outIt.Set(vec);
+  ++outIt;
+  // Vector no. 2
+  vec.Fill(20);
+  outIt.Set(vec);
+  ++outIt;
+  // Vector no. 3
+  vec.Fill(8);
+  outIt.Set(vec);
+  ++outIt;
+  // Vector no. 4
+  vec.Fill(10);
+  outIt.Set(vec);
+  ++outIt;
+  // Slice 2
+  // Vector no. 1
+  vec.Fill(22);
+  outIt.Set(vec);
+  ++outIt;
+  // Vector no. 2
+  vec.Fill(21);
+  outIt.Set(vec);
+  ++outIt;
+  // Vector no. 3
+  vec.Fill(11);
+  outIt.Set(vec);
+  ++outIt;
+  // Vector no. 4
+  vec.Fill(9);
+  outIt.Set(vec);
+  ++outIt;
 
-  //Slice 3
-  //Vector no. 1
-  vec.Fill(19); outIt.Set( vec ); ++outIt;
-  //Vector no. 2
-  vec.Fill(19); outIt.Set( vec ); ++outIt;
-  //Vector no. 3
-  vec.Fill(11); outIt.Set( vec ); ++outIt;
-  //Vector no. 4
-  vec.Fill(11); outIt.Set( vec ); ++outIt;
+  // Slice 3
+  // Vector no. 1
+  vec.Fill(19);
+  outIt.Set(vec);
+  ++outIt;
+  // Vector no. 2
+  vec.Fill(19);
+  outIt.Set(vec);
+  ++outIt;
+  // Vector no. 3
+  vec.Fill(11);
+  outIt.Set(vec);
+  ++outIt;
+  // Vector no. 4
+  vec.Fill(11);
+  outIt.Set(vec);
+  ++outIt;
 
-  //Slice 4
-  //Vector no. 1
-  vec.Fill(18); outIt.Set( vec ); ++outIt;
-  //Vector no. 2
-  vec.Fill(18); outIt.Set( vec ); ++outIt;
-  //Vector no. 3
-  vec.Fill(12); outIt.Set( vec ); ++outIt;
-  //Vector no. 4
-  vec.Fill(14); outIt.Set( vec ); ++outIt;
+  // Slice 4
+  // Vector no. 1
+  vec.Fill(18);
+  outIt.Set(vec);
+  ++outIt;
+  // Vector no. 2
+  vec.Fill(18);
+  outIt.Set(vec);
+  ++outIt;
+  // Vector no. 3
+  vec.Fill(12);
+  outIt.Set(vec);
+  ++outIt;
+  // Vector no. 4
+  vec.Fill(14);
+  outIt.Set(vec);
+  ++outIt;
 
   //---------------------------------------------------------------
-  //Generate the training data
+  // Generate the training data
   //---------------------------------------------------------------
-  using ClassImageType = itk::Image<unsigned short,NDIMENSION>;
-  ClassImageType::Pointer classImage  = ClassImageType::New();
+  using ClassImageType = itk::Image<unsigned short, NDIMENSION>;
+  ClassImageType::Pointer classImage = ClassImageType::New();
 
-  ClassImageType::SizeType classImgSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES }};
+  ClassImageType::SizeType classImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
 
   ClassImageType::IndexType classindex;
   classindex.Fill(0);
 
   ClassImageType::RegionType classregion;
 
-  classregion.SetSize( classImgSize );
-  classregion.SetIndex( classindex );
+  classregion.SetSize(classImgSize);
+  classregion.SetIndex(classindex);
 
-  classImage->SetLargestPossibleRegion( classregion );
-  classImage->SetBufferedRegion( classregion );
+  classImage->SetLargestPossibleRegion(classregion);
+  classImage->SetBufferedRegion(classregion);
   classImage->Allocate();
 
   // setup the iterators
@@ -156,99 +194,98 @@ int itkSupervisedImageClassifierTest(int, char* [] )
 
   using ClassImageIterator = itk::ImageRegionIterator<ClassImageType>;
 
-  ClassImageIterator
-    classoutIt( classImage, classImage->GetBufferedRegion() );
+  ClassImageIterator classoutIt(classImage, classImage->GetBufferedRegion());
 
   ClassImagePixelType outputPixel;
   //--------------------------------------------------------------------------
-  //Manually create and store each vector
+  // Manually create and store each vector
   //--------------------------------------------------------------------------
-  //Slice 1
-  //Pixel no. 1
+  // Slice 1
+  // Pixel no. 1
   outputPixel = 2;
-  classoutIt.Set( outputPixel );
+  classoutIt.Set(outputPixel);
   ++classoutIt;
 
-  //Pixel no. 2
+  // Pixel no. 2
   outputPixel = 2;
-  classoutIt.Set( outputPixel );
+  classoutIt.Set(outputPixel);
   ++classoutIt;
 
-  //Pixel no. 3
+  // Pixel no. 3
   outputPixel = 1;
-  classoutIt.Set( outputPixel );
+  classoutIt.Set(outputPixel);
   ++classoutIt;
 
-  //Pixel no. 4
+  // Pixel no. 4
   outputPixel = 1;
-  classoutIt.Set( outputPixel );
+  classoutIt.Set(outputPixel);
   ++classoutIt;
 
-  //Slice 2
-  //Pixel no. 1
+  // Slice 2
+  // Pixel no. 1
   outputPixel = 0;
-  classoutIt.Set( outputPixel );
+  classoutIt.Set(outputPixel);
   ++classoutIt;
 
-  //Pixel no. 2
+  // Pixel no. 2
   outputPixel = 0;
-  classoutIt.Set( outputPixel );
+  classoutIt.Set(outputPixel);
   ++classoutIt;
 
-  //Pixel no. 3
+  // Pixel no. 3
   outputPixel = 0;
-  classoutIt.Set( outputPixel );
+  classoutIt.Set(outputPixel);
   ++classoutIt;
 
-  //Pixel no. 4
+  // Pixel no. 4
   outputPixel = 0;
-  classoutIt.Set( outputPixel );
+  classoutIt.Set(outputPixel);
   ++classoutIt;
 
-  //Slice 3
-  //Pixel no. 1
+  // Slice 3
+  // Pixel no. 1
   outputPixel = 2;
-  classoutIt.Set( outputPixel );
+  classoutIt.Set(outputPixel);
   ++classoutIt;
 
-  //Pixel no. 2
+  // Pixel no. 2
   outputPixel = 2;
-  classoutIt.Set( outputPixel );
+  classoutIt.Set(outputPixel);
   ++classoutIt;
 
-  //Pixel no. 3
+  // Pixel no. 3
   outputPixel = 1;
-  classoutIt.Set( outputPixel );
+  classoutIt.Set(outputPixel);
   ++classoutIt;
 
-  //Pixel no. 4
+  // Pixel no. 4
   outputPixel = 1;
-  classoutIt.Set( outputPixel );
+  classoutIt.Set(outputPixel);
   ++classoutIt;
 
-  //Slice 4
-  //Pixel no. 1
+  // Slice 4
+  // Pixel no. 1
   outputPixel = 0;
-  classoutIt.Set( outputPixel );
+  classoutIt.Set(outputPixel);
   ++classoutIt;
 
-  //Pixel no. 2
+  // Pixel no. 2
   outputPixel = 0;
-  classoutIt.Set( outputPixel );
+  classoutIt.Set(outputPixel);
   ++classoutIt;
 
-  //Pixel no. 3
+  // Pixel no. 3
   outputPixel = 0;
-  classoutIt.Set( outputPixel );
+  classoutIt.Set(outputPixel);
   ++classoutIt;
 
-  //Pixel no. 4
+  // Pixel no. 4
   outputPixel = 0;
-  classoutIt.Set( outputPixel );
+  classoutIt.Set(outputPixel);
   ++classoutIt;
 
   //----------------------------------------------------------------------
-  //Set membership function (Using the statistics objects)
+  // Set membership function (Using the statistics objects)
   //----------------------------------------------------------------------
   namespace stat = itk::Statistics;
 
@@ -257,33 +294,30 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   using MembershipFunctionPointerVector = std::vector<MembershipFunctionPointer>;
 
   //----------------------------------------------------------------------
-  //Set the image model estimator
+  // Set the image model estimator
   //----------------------------------------------------------------------
-  using ImageGaussianModelEstimatorType = itk::ImageGaussianModelEstimator<VecImageType,
-    MembershipFunctionType, ClassImageType>;
+  using ImageGaussianModelEstimatorType =
+    itk::ImageGaussianModelEstimator<VecImageType, MembershipFunctionType, ClassImageType>;
 
-  ImageGaussianModelEstimatorType::Pointer
-    applyEstimateModel = ImageGaussianModelEstimatorType::New();
+  ImageGaussianModelEstimatorType::Pointer applyEstimateModel = ImageGaussianModelEstimatorType::New();
 
   applyEstimateModel->SetNumberOfModels(NUM_CLASSES);
   applyEstimateModel->SetInputImage(vecImage);
   applyEstimateModel->SetTrainingImage(classImage);
 
-  //Run the gaussian classifier algorithm
+  // Run the gaussian classifier algorithm
   applyEstimateModel->Update();
   applyEstimateModel->Print(std::cout);
 
-  MembershipFunctionPointerVector membershipFunctions =
-    applyEstimateModel->GetMembershipFunctions();
+  MembershipFunctionPointerVector membershipFunctions = applyEstimateModel->GetMembershipFunctions();
 
   //----------------------------------------------------------------------
-  //Set the decision rule
+  // Set the decision rule
   //----------------------------------------------------------------------
   using DecisionRuleBasePointer = itk::Statistics::DecisionRule::Pointer;
 
   using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
-  DecisionRuleType::Pointer
-    myDecisionRule = DecisionRuleType::New();
+  DecisionRuleType::Pointer myDecisionRule = DecisionRuleType::New();
 
   //----------------------------------------------------------------------
   // Test code for the supervised classifier algorithm
@@ -293,19 +327,16 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   // Multiband data is now available in the right format
   //---------------------------------------------------------------------
 
-  using SupervisedClassifierType = itk::ImageClassifierBase< VecImageType,
-    ClassImageType >;
+  using SupervisedClassifierType = itk::ImageClassifierBase<VecImageType, ClassImageType>;
 
-  SupervisedClassifierType::Pointer
-    applyClassifier = SupervisedClassifierType::New();
+  SupervisedClassifierType::Pointer applyClassifier = SupervisedClassifierType::New();
 
   using ProgressType = SupervisedImageClassifierTest::ShowProgressObject;
 
-  ProgressType progressWatch(applyClassifier);
+  ProgressType                                    progressWatch(applyClassifier);
   itk::SimpleMemberCommand<ProgressType>::Pointer command;
   command = itk::SimpleMemberCommand<ProgressType>::New();
-  command->SetCallbackFunction(&progressWatch,
-                               &ProgressType::ShowProgress);
+  command->SetCallbackFunction(&progressWatch, &ProgressType::ShowProgress);
   applyClassifier->AddObserver(itk::ProgressEvent(), command);
 
   // Set the Classifier parameters
@@ -313,88 +344,85 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   applyClassifier->SetInputImage(vecImage);
 
   // Set the decision rule
-  applyClassifier->
-    SetDecisionRule((DecisionRuleBasePointer) myDecisionRule );
+  applyClassifier->SetDecisionRule((DecisionRuleBasePointer)myDecisionRule);
 
-  //Add the membership functions
-  for( unsigned int i=0; i<NUM_CLASSES; i++ )
-    {
-    applyClassifier->AddMembershipFunction( membershipFunctions[i] );
-    }
+  // Add the membership functions
+  for (unsigned int i = 0; i < NUM_CLASSES; i++)
+  {
+    applyClassifier->AddMembershipFunction(membershipFunctions[i]);
+  }
 
-  //Run the gaussian classifier algorithm
+  // Run the gaussian classifier algorithm
   applyClassifier->Update();
 
-  //Get the classified image
-  ClassImageType::Pointer
-    outClassImage = applyClassifier->GetClassifiedImage();
+  // Get the classified image
+  ClassImageType::Pointer outClassImage = applyClassifier->GetClassifiedImage();
 
   applyClassifier->Print(std::cout);
 
-  //Print the gaussian classified image
-  ClassImageIterator labeloutIt( outClassImage,
-                                 outClassImage->GetBufferedRegion() );
+  // Print the gaussian classified image
+  ClassImageIterator labeloutIt(outClassImage, outClassImage->GetBufferedRegion());
 
-  int i=0;
-  while(!labeloutIt.IsAtEnd())
-    {
-    //Print the classified index
-    auto classIndex = (int) labeloutIt.Get();
+  int i = 0;
+  while (!labeloutIt.IsAtEnd())
+  {
+    // Print the classified index
+    auto classIndex = (int)labeloutIt.Get();
     std::cout << " Pixel No " << i << " Value " << classIndex << std::endl;
     ++i;
     ++labeloutIt;
-    }//end while
+  } // end while
 
-  //Verify if the results were as per expectation
+  // Verify if the results were as per expectation
   labeloutIt.GoToBegin();
   bool passTest = true;
 
-  //Loop through the data set
-  while(!labeloutIt.IsAtEnd())
-    {
-    auto classIndex = (int) labeloutIt.Get();
+  // Loop through the data set
+  while (!labeloutIt.IsAtEnd())
+  {
+    auto classIndex = (int)labeloutIt.Get();
     if (classIndex != 2)
-      {
-      passTest = false;
-      break;
-      }
-    ++labeloutIt;
-
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 2)
-      {
-      passTest = false;
-      break;
-      }
-    ++labeloutIt;
-
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 1)
-      {
-      passTest = false;
-      break;
-      }
-    ++labeloutIt;
-
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 1)
-      {
-      passTest = false;
-      break;
-      }
-    ++labeloutIt;
-
-    }//end while
-
-  if( passTest == true )
     {
-    std::cout<< "Supervised Classifier Test Passed" << std::endl;
+      passTest = false;
+      break;
     }
+    ++labeloutIt;
+
+    classIndex = (int)labeloutIt.Get();
+    if (classIndex != 2)
+    {
+      passTest = false;
+      break;
+    }
+    ++labeloutIt;
+
+    classIndex = (int)labeloutIt.Get();
+    if (classIndex != 1)
+    {
+      passTest = false;
+      break;
+    }
+    ++labeloutIt;
+
+    classIndex = (int)labeloutIt.Get();
+    if (classIndex != 1)
+    {
+      passTest = false;
+      break;
+    }
+    ++labeloutIt;
+
+  } // end while
+
+  if (passTest == true)
+  {
+    std::cout << "Supervised Classifier Test Passed" << std::endl;
+  }
   else
-    {
-    std::cout<< "Supervised Classifier Test failed" << std::endl;
+  {
+    std::cout << "Supervised Classifier Test failed" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

@@ -27,20 +27,17 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TOutputImage >
-ApproximateSignedDistanceMapImageFilter< TInputImage, TOutputImage >
-::ApproximateSignedDistanceMapImageFilter():
-  m_IsoContourFilter( IsoContourType::New() ),
-  m_ChamferFilter( ChamferType::New() ),
-  m_InsideValue( NumericTraits< InputPixelType >::min() ),
-  m_OutsideValue( NumericTraits< InputPixelType >::max() )
-{
-}
+template <typename TInputImage, typename TOutputImage>
+ApproximateSignedDistanceMapImageFilter<TInputImage, TOutputImage>::ApproximateSignedDistanceMapImageFilter()
+  : m_IsoContourFilter(IsoContourType::New())
+  , m_ChamferFilter(ChamferType::New())
+  , m_InsideValue(NumericTraits<InputPixelType>::min())
+  , m_OutsideValue(NumericTraits<InputPixelType>::max())
+{}
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ApproximateSignedDistanceMapImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+ApproximateSignedDistanceMapImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
@@ -54,15 +51,14 @@ ApproximateSignedDistanceMapImageFilter< TInputImage, TOutputImage >
   OutputSizeType      outputSize = oRegion.GetSize();
   OutputSizeValueType maximumDistance = 0;
 
-  for( unsigned int i = 0; i < InputImageDimension; i++ )
-    {
+  for (unsigned int i = 0; i < InputImageDimension; i++)
+  {
     maximumDistance += outputSize[i] * outputSize[i];
-    }
+  }
 
   // Cast to double and back because there's no sqrt defined for unsigned long,
   // which is the general SizeValueType.
-  maximumDistance =
-    static_cast< OutputSizeValueType >( std::sqrt( static_cast< double >( maximumDistance ) ) );
+  maximumDistance = static_cast<OutputSizeValueType>(std::sqrt(static_cast<double>(maximumDistance)));
 
   // Allocate the output
   this->AllocateOutputs();
@@ -74,22 +70,23 @@ ApproximateSignedDistanceMapImageFilter< TInputImage, TOutputImage >
   progress->RegisterInternalFilter(m_ChamferFilter, 0.5f);
 
   // Set up the isocontour filter
-  m_IsoContourFilter->SetInput( this->GetInput() );
+  m_IsoContourFilter->SetInput(this->GetInput());
   m_IsoContourFilter->SetFarValue(maximumDistance + 1);
-  m_IsoContourFilter->SetNumberOfWorkUnits( numberOfThreads );
+  m_IsoContourFilter->SetNumberOfWorkUnits(numberOfThreads);
   typename IsoContourType::PixelRealType levelSetValue =
-    (static_cast<typename IsoContourType::PixelRealType>( m_InsideValue )
-    + static_cast<typename IsoContourType::PixelRealType>(m_OutsideValue) ) / 2.0;
+    (static_cast<typename IsoContourType::PixelRealType>(m_InsideValue) +
+     static_cast<typename IsoContourType::PixelRealType>(m_OutsideValue)) /
+    2.0;
   m_IsoContourFilter->SetLevelSetValue(levelSetValue);
 
   // Set up the chamfer filter
-  m_ChamferFilter->SetInput( m_IsoContourFilter->GetOutput() );
+  m_ChamferFilter->SetInput(m_IsoContourFilter->GetOutput());
   m_ChamferFilter->SetMaximumDistance(maximumDistance);
-  m_ChamferFilter->SetNumberOfWorkUnits( numberOfThreads );
+  m_ChamferFilter->SetNumberOfWorkUnits(numberOfThreads);
 
   // Graft our output to the chamfer filter to force the proper regions
   // to be generated
-  m_ChamferFilter->GraftOutput( output );
+  m_ChamferFilter->GraftOutput(output);
 
   // Create the distance map
   m_ChamferFilter->Update();
@@ -97,7 +94,7 @@ ApproximateSignedDistanceMapImageFilter< TInputImage, TOutputImage >
   // Graft the output of the chamfer filter back onto this filter's
   // output. this is needed to get the appropriate regions passed
   // back.
-  this->GraftOutput( m_ChamferFilter->GetOutput() );
+  this->GraftOutput(m_ChamferFilter->GetOutput());
 
   // Recall that we set the isocontour value to halfway between the inside and
   // outside value. The above filters assume that regions "inside" objects are
@@ -107,34 +104,31 @@ ApproximateSignedDistanceMapImageFilter< TInputImage, TOutputImage >
   // background is zero and the objects are colored 255.)
   // In this case, the distance will be calculated negative, so we need to
   // flip the sign of the output image.
-  if( m_InsideValue > m_OutsideValue )
+  if (m_InsideValue > m_OutsideValue)
+  {
+    ImageScanlineIterator<OutputImageType> ot(output, oRegion);
+    while (!ot.IsAtEnd())
     {
-    ImageScanlineIterator< OutputImageType > ot( output, oRegion );
-    while( !ot.IsAtEnd() )
+      while (!ot.IsAtEndOfLine())
       {
-      while( !ot.IsAtEndOfLine() )
-        {
         ot.Set(ot.Get() * -1);
         ++ot;
-        }
-      ot.NextLine();
       }
+      ot.NextLine();
     }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ApproximateSignedDistanceMapImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+ApproximateSignedDistanceMapImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Inside intensity value: " << m_InsideValue << std::endl;
   os << indent << "Outside intensity value: " << m_OutsideValue << std::endl;
-  os << indent << "IsoContourDistanceImageFilter (used internally): "
-     << m_IsoContourFilter << std::endl;
-  os << indent << "FastChamferDistanceImageFilter (used internally): "
-     << m_ChamferFilter << std::endl;
+  os << indent << "IsoContourDistanceImageFilter (used internally): " << m_IsoContourFilter << std::endl;
+  os << indent << "FastChamferDistanceImageFilter (used internally): " << m_ChamferFilter << std::endl;
 }
 } // end of namespace itk
 

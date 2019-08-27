@@ -23,51 +23,57 @@ namespace itk
 namespace fem
 {
 
-void LoadGrav::PrintSelf(std::ostream& os, Indent indent) const
+void
+LoadGrav::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
 // Overload the CreateAnother() method.
-::itk::LightObject::Pointer LoadGravConst::CreateAnother() const
+::itk::LightObject::Pointer
+LoadGravConst::CreateAnother() const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New();
+  Pointer                     copyPtr = Self::New();
 
   // Copy Load Contents
   copyPtr->m_GravityForce = this->m_GravityForce;
-  for(auto i : this->m_Element)
-    {
-    copyPtr->AddNextElement( i );
-    }
-  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+  for (auto i : this->m_Element)
+  {
+    copyPtr->AddNextElement(i);
+  }
+  copyPtr->SetGlobalNumber(this->GetGlobalNumber());
 
   smartPtr = static_cast<Pointer>(copyPtr);
 
   return smartPtr;
 }
 
-vnl_vector<Element::Float> LoadGravConst::GetGravitationalForceAtPoint(vnl_vector<Element::Float> )
+vnl_vector<Element::Float> LoadGravConst::GetGravitationalForceAtPoint(vnl_vector<Element::Float>)
 {
   return m_GravityForce;
 }
 
-void LoadGravConst::SetForce(const vnl_vector<itk::fem::Element::Float> force)
+void
+LoadGravConst::SetForce(const vnl_vector<itk::fem::Element::Float> force)
 {
   this->m_GravityForce = force;
 }
 
-vnl_vector<itk::fem::Element::Float> & LoadGravConst::GetForce()
+vnl_vector<itk::fem::Element::Float> &
+LoadGravConst::GetForce()
 {
   return this->m_GravityForce;
 }
 
-const vnl_vector<itk::fem::Element::Float> & LoadGravConst::GetForce() const
+const vnl_vector<itk::fem::Element::Float> &
+LoadGravConst::GetForce() const
 {
   return this->m_GravityForce;
 }
 
-void LoadGravConst::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
+void
+LoadGravConst::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
 {
   // Order of integration
   // FIXME: Allow changing the order of integration by setting a
@@ -78,15 +84,14 @@ void LoadGravConst::ApplyLoad(Element::ConstPointer element, Element::VectorType
   const unsigned int Ndofs = element->GetNumberOfDegreesOfFreedomPerNode();
   const unsigned int Nnodes = element->GetNumberOfNodes();
 
-  Element::VectorType force(Ndofs, 0.0),
-  ip, gip, force_tmp, shapeF;
+  Element::VectorType force(Ndofs, 0.0), ip, gip, force_tmp, shapeF;
 
-  Fe.set_size( element->GetNumberOfDegreesOfFreedom() );
+  Fe.set_size(element->GetNumberOfDegreesOfFreedom());
   Fe.fill(0.0);
 
   Element::Float w, detJ;
-  for( unsigned int i = 0; i < Nip; i++ )
-    {
+  for (unsigned int i = 0; i < Nip; i++)
+  {
     element->GetIntegrationPointAndWeight(i, ip, w, order);
     gip = element->GetGlobalFromLocalCoordinates(ip);
 
@@ -101,26 +106,27 @@ void LoadGravConst::ApplyLoad(Element::ConstPointer element, Element::VectorType
     force.fill(0.0);
     force_tmp = this->GetGravitationalForceAtPoint(gip);
     unsigned int Nd = Ndofs;
-    if( force_tmp.size() < Nd )
-      {
+    if (force_tmp.size() < Nd)
+    {
       Nd = force_tmp.size();
-      }
-    for( unsigned int d = 0; d < Nd; d++ )
-      {
+    }
+    for (unsigned int d = 0; d < Nd; d++)
+    {
       force[d] = force_tmp[d];
-      }
+    }
     // Claculate the equivalent nodal loads
-    for( unsigned int n = 0; n < Nnodes; n++ )
+    for (unsigned int n = 0; n < Nnodes; n++)
+    {
+      for (unsigned int d = 0; d < Ndofs; d++)
       {
-      for( unsigned int d = 0; d < Ndofs; d++ )
-        {
         Fe[n * Ndofs + d] += shapeF[n] * force[d] * w * detJ;
-        }
       }
     }
+  }
 }
 
-void LoadGravConst::PrintSelf(std::ostream& os, Indent indent) const
+void
+LoadGravConst::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Gravity Force: " << this->m_GravityForce << std::endl;

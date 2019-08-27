@@ -45,29 +45,37 @@ public:
   using Pointer = SmartPointer<Self>;
 
   ///! Run-time type information (and related methods).
-  itkTypeMacro(TclCommand,Command);
+  itkTypeMacro(TclCommand, Command);
 
   ///! Method for creation through the object factory.
   itkNewMacro(Self);
 
-  void SetInterpreter(Tcl_Interp*);
-  Tcl_Interp* GetInterpreter() const;
-  void SetCommandString(const char*);
-  const char* GetCommandString() const;
-  void Execute(Object*, const EventObject & );
-  void Execute(const Object*, const EventObject & );
+  void
+  SetInterpreter(Tcl_Interp *);
+  Tcl_Interp *
+  GetInterpreter() const;
+  void
+  SetCommandString(const char *);
+  const char *
+  GetCommandString() const;
+  void
+  Execute(Object *, const EventObject &);
+  void
+  Execute(const Object *, const EventObject &);
 
 protected:
   TclCommand();
   ~TclCommand() {}
-  TclCommand(const Self&);     // Not implemented.
-  TclCommand & operator=(const Self&); // Not implemented.
+  TclCommand(const Self &); // Not implemented.
+  TclCommand &
+  operator=(const Self &); // Not implemented.
 
-  void TclExecute() const;
+  void
+  TclExecute() const;
 
 private:
   ///! The Tcl interpreter in which the command will be invoked.
-  Tcl_Interp* m_Interpreter;
+  Tcl_Interp * m_Interpreter;
 
   ///! The command to invoke in the Tcl interpreter.
   std::string m_CommandString;

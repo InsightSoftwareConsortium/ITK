@@ -21,10 +21,11 @@
 #include <iostream>
 
 
-int itkCrossHelperTest( int argc, char* argv[] )
+int
+itkCrossHelperTest(int argc, char * argv[])
 {
-  (void) argc;
-  (void) argv;
+  (void)argc;
+  (void)argv;
 
   constexpr unsigned int Dimension2D = 2;
   constexpr unsigned int Dimension3D = 3;
@@ -32,17 +33,17 @@ int itkCrossHelperTest( int argc, char* argv[] )
 
   using CoordRepType = double;
 
-  using Vector2DType = itk::Vector< CoordRepType, Dimension2D >;
-  using Vector3DType = itk::Vector< CoordRepType, Dimension3D >;
-  using Vector4DType = itk::Vector< CoordRepType, Dimension4D >;
+  using Vector2DType = itk::Vector<CoordRepType, Dimension2D>;
+  using Vector3DType = itk::Vector<CoordRepType, Dimension3D>;
+  using Vector4DType = itk::Vector<CoordRepType, Dimension4D>;
 
-  using Cross2DType = itk::CrossHelper< Vector2DType >;
+  using Cross2DType = itk::CrossHelper<Vector2DType>;
   Cross2DType cross2d;
 
-  using Cross3DType = itk::CrossHelper< Vector3DType >;
+  using Cross3DType = itk::CrossHelper<Vector3DType>;
   Cross3DType cross3d;
 
-  using Cross4DType = itk::CrossHelper< Vector4DType >;
+  using Cross4DType = itk::CrossHelper<Vector4DType>;
   Cross4DType cross4d;
 
   Vector2DType u2d;
@@ -53,12 +54,11 @@ int itkCrossHelperTest( int argc, char* argv[] )
   v2d[0] = 0.;
   v2d[1] = 1.;
 
-  if( cross2d( u2d, v2d ).GetNorm( ) > 1e-6 )
-    {
-    std::cout <<"cross product must return null vector is dimension is below 3"
-       <<std::endl;
+  if (cross2d(u2d, v2d).GetNorm() > 1e-6)
+  {
+    std::cout << "cross product must return null vector is dimension is below 3" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   Vector3DType u3d;
   u3d[0] = 1.;
@@ -75,23 +75,23 @@ int itkCrossHelperTest( int argc, char* argv[] )
   w3d[1] = 0.;
   w3d[2] = 1.;
 
-  if( ( cross3d( u3d, v3d ) - w3d ).GetNorm() > 1e-6 )
-    {
-    std::cout <<"cross3d( u3d, v3d ) != w3d" <<std::endl;
+  if ((cross3d(u3d, v3d) - w3d).GetNorm() > 1e-6)
+  {
+    std::cout << "cross3d( u3d, v3d ) != w3d" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( ( cross3d( v3d, w3d ) - u3d ).GetNorm() > 1e-6 )
-    {
-    std::cout <<"cross3d( v3d, w3d ) != u3d" <<std::endl;
+  if ((cross3d(v3d, w3d) - u3d).GetNorm() > 1e-6)
+  {
+    std::cout << "cross3d( v3d, w3d ) != u3d" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( ( cross3d( w3d, u3d ) - v3d ).GetNorm() > 1e-6 )
-    {
-    std::cout <<"cross3d( w3d, u3d ) != v3d" <<std::endl;
+  if ((cross3d(w3d, u3d) - v3d).GetNorm() > 1e-6)
+  {
+    std::cout << "cross3d( w3d, u3d ) != v3d" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   Vector4DType u4d;
   u4d[0] = 1.;
@@ -111,11 +111,11 @@ int itkCrossHelperTest( int argc, char* argv[] )
   w4d[2] = 1.;
   w4d[3] = 0.;
 
-  if( ( cross4d( u4d, v4d ) - w4d ).GetNorm() > 1e-6 )
-    {
-    std::cout <<"cross4d( u4d, v4d ) != w4d" <<std::endl;
+  if ((cross4d(u4d, v4d) - w4d).GetNorm() > 1e-6)
+  {
+    std::cout << "cross4d( u4d, v4d ) != w4d" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

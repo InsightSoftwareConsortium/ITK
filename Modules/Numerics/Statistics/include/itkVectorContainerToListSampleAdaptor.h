@@ -42,9 +42,8 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< typename TVectorContainer >
-class ITK_TEMPLATE_EXPORT VectorContainerToListSampleAdaptor:
-  public ListSample< typename TVectorContainer::Element >
+template <typename TVectorContainer>
+class ITK_TEMPLATE_EXPORT VectorContainerToListSampleAdaptor : public ListSample<typename TVectorContainer::Element>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorContainerToListSampleAdaptor);
@@ -52,14 +51,14 @@ public:
   /** Standard class type aliases */
   using Self = VectorContainerToListSampleAdaptor;
   using Superclass = ListSample<typename TVectorContainer::Element>;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( VectorContainerToListSampleAdaptor, ListSample );
+  itkTypeMacro(VectorContainerToListSampleAdaptor, ListSample);
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** the number of components in a measurement vector */
   static constexpr unsigned int MeasurementVectorSize = TVectorContainer::Element::Dimension;
@@ -83,21 +82,23 @@ public:
   using ValueType = MeasurementVectorType;
 
   /** Get/Set Method for the point set */
-  itkSetObjectMacro( VectorContainer, VectorContainerType );
-  itkGetConstObjectMacro(VectorContainer, VectorContainerType );
+  itkSetObjectMacro(VectorContainer, VectorContainerType);
+  itkGetConstObjectMacro(VectorContainer, VectorContainerType);
 
   /** returns the number of measurement vectors in this container */
-  InstanceIdentifier Size() const override;
+  InstanceIdentifier
+  Size() const override;
 
   /** returns the measurement vector that is specified by the instance
    * identifier argument. */
-  const MeasurementVectorType & GetMeasurementVector( InstanceIdentifier ) const override;
+  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier) const override;
 
   /** returns 1 as other subclasses of ListSampleBase does */
-  AbsoluteFrequencyType GetFrequency( InstanceIdentifier ) const override;
+  AbsoluteFrequencyType GetFrequency(InstanceIdentifier) const override;
 
   /** returns the size of this container */
-  TotalAbsoluteFrequencyType GetTotalFrequency() const override;
+  TotalAbsoluteFrequencyType
+  GetTotalFrequency() const override;
 
   /** \class ConstIterator
    * \ingroup ITKStatistics
@@ -105,12 +106,9 @@ public:
   class ConstIterator
   {
     friend class VectorContainerToListSampleAdaptor;
-  public:
 
-    ConstIterator(const VectorContainerToListSampleAdaptor *adaptor)
-    {
-      *this = adaptor->Begin();
-    }
+  public:
+    ConstIterator(const VectorContainerToListSampleAdaptor * adaptor) { *this = adaptor->Begin(); }
 
     ConstIterator(const ConstIterator & iter)
     {
@@ -118,49 +116,55 @@ public:
       this->m_InstanceIdentifier = iter.m_InstanceIdentifier;
     }
 
-    ConstIterator & operator=(const ConstIterator & iter)
+    ConstIterator &
+    operator=(const ConstIterator & iter)
     {
       this->m_Iter = iter.m_Iter;
       this->m_InstanceIdentifier = iter.m_InstanceIdentifier;
       return *this;
     }
 
-    AbsoluteFrequencyType GetFrequency() const
+    AbsoluteFrequencyType
+    GetFrequency() const
     {
       return 1;
     }
 
-    const MeasurementVectorType & GetMeasurementVector() const
+    const MeasurementVectorType &
+    GetMeasurementVector() const
     {
-      return ( const MeasurementVectorType & )m_Iter.Value();
+      return (const MeasurementVectorType &)m_Iter.Value();
     }
 
-    InstanceIdentifier GetInstanceIdentifier() const
+    InstanceIdentifier
+    GetInstanceIdentifier() const
     {
       return this->m_InstanceIdentifier;
     }
 
-    ConstIterator & operator++()
+    ConstIterator &
+    operator++()
     {
       ++m_Iter;
       ++m_InstanceIdentifier;
       return *this;
     }
 
-    bool operator!=( const ConstIterator & it )
+    bool
+    operator!=(const ConstIterator & it)
     {
-      return ( this->m_Iter != it.m_Iter );
+      return (this->m_Iter != it.m_Iter);
     }
 
-    bool operator==( const ConstIterator & it )
+    bool
+    operator==(const ConstIterator & it)
     {
-      return ( this->m_Iter == it.m_Iter );
+      return (this->m_Iter == it.m_Iter);
     }
 
   protected:
     // This method should only be available to the ListSample class
-    ConstIterator( VectorContainerConstIterator iter,
-      InstanceIdentifier iid )
+    ConstIterator(VectorContainerConstIterator iter, InstanceIdentifier iid)
     {
       this->m_Iter = iter;
       this->m_InstanceIdentifier = iid;
@@ -168,80 +172,86 @@ public:
 
   private:
     ConstIterator() = delete;
-    VectorContainerConstIterator      m_Iter;
-    InstanceIdentifier                m_InstanceIdentifier;
+    VectorContainerConstIterator m_Iter;
+    InstanceIdentifier           m_InstanceIdentifier;
   };
 
   /** \class Iterator
    * \ingroup ITKStatistics
    */
-  class Iterator:public ConstIterator
+  class Iterator : public ConstIterator
   {
     friend class VectorContainerToListSampleAdaptor;
+
   public:
-
-    Iterator(Self *adaptor):ConstIterator(adaptor)
+    Iterator(Self * adaptor)
+      : ConstIterator(adaptor)
     {}
 
-    Iterator(const Iterator & iter):ConstIterator(iter)
+    Iterator(const Iterator & iter)
+      : ConstIterator(iter)
     {}
 
-    Iterator & operator=(const Iterator & iter)
+    Iterator &
+    operator=(const Iterator & iter)
     {
       this->ConstIterator::operator=(iter);
       return *this;
     }
 
   protected:
-    Iterator( VectorContainerIterator iter, InstanceIdentifier iid )
-      :ConstIterator( iter, iid )
+    Iterator(VectorContainerIterator iter, InstanceIdentifier iid)
+      : ConstIterator(iter, iid)
     {}
 
   private:
     // To ensure const-correctness these method must not be in the public API.
     // The are not implemented, since they should never be called.
     Iterator() = delete;
-    Iterator( const Self *adaptor ) = delete;
-    Iterator( VectorContainerConstIterator iter, InstanceIdentifier iid ) = delete;
-    Iterator( const ConstIterator & it) = delete;
-    ConstIterator & operator=( const ConstIterator & it ) = delete;
+    Iterator(const Self * adaptor) = delete;
+    Iterator(VectorContainerConstIterator iter, InstanceIdentifier iid) = delete;
+    Iterator(const ConstIterator & it) = delete;
+    ConstIterator &
+    operator=(const ConstIterator & it) = delete;
   };
 
   /** returns an iterator that points to the beginning of the container */
-  Iterator Begin()
+  Iterator
+  Begin()
   {
     VectorContainerPointer nonConstVectorDataContainer =
-      const_cast< VectorContainerType * >( this->m_VectorContainer.GetPointer() );
-    Iterator iter( nonConstVectorDataContainer->Begin(), 0 );
+      const_cast<VectorContainerType *>(this->m_VectorContainer.GetPointer());
+    Iterator iter(nonConstVectorDataContainer->Begin(), 0);
 
     return iter;
   }
 
   /** returns an iterator that points to the end of the container */
-  Iterator End()
+  Iterator
+  End()
   {
     VectorContainerPointer nonConstVectorDataContainer =
-      const_cast<VectorContainerType *>( this->m_VectorContainer.GetPointer() );
+      const_cast<VectorContainerType *>(this->m_VectorContainer.GetPointer());
 
-    Iterator iter( nonConstVectorDataContainer->End(),
-      this->m_VectorContainer->Size() );
+    Iterator iter(nonConstVectorDataContainer->End(), this->m_VectorContainer->Size());
 
     return iter;
   }
 
   /** returns an iterator that points to the beginning of the container */
-  ConstIterator Begin() const
+  ConstIterator
+  Begin() const
   {
-    ConstIterator iter( this->m_VectorContainer->Begin(), 0 );
+    ConstIterator iter(this->m_VectorContainer->Begin(), 0);
 
     return iter;
   }
 
   /** returns an iterator that points to the end of the container */
-  ConstIterator End() const
+  ConstIterator
+  End() const
   {
-    ConstIterator iter( this->m_VectorContainer->End(),
-      this->m_VectorContainer->Size() );
+    ConstIterator iter(this->m_VectorContainer->End(), this->m_VectorContainer->Size());
     return iter;
   }
 
@@ -249,18 +259,19 @@ protected:
   VectorContainerToListSampleAdaptor();
 
   ~VectorContainerToListSampleAdaptor() override = default;
-  void PrintSelf( std::ostream & os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** the points container which will be actually used for storing
    * measurement vectors */
-  VectorContainerConstPointer  m_VectorContainer;
-};  // end of class VectorContainerToListSampleAdaptor
+  VectorContainerConstPointer m_VectorContainer;
+}; // end of class VectorContainerToListSampleAdaptor
 } // end of namespace Statistics
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorContainerToListSampleAdaptor.hxx"
+#  include "itkVectorContainerToListSampleAdaptor.hxx"
 #endif
 
 #endif

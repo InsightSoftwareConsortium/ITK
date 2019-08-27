@@ -32,63 +32,66 @@ namespace
 
 bool onAbortCalled = false;
 
-void onProgress( itk::Object *obj, const itk::EventObject &, void *)
+void
+onProgress(itk::Object * obj, const itk::EventObject &, void *)
 {
-  itk::ProcessObject::Pointer p( dynamic_cast<itk::ProcessObject*>(obj) );
-  if ( p.IsNull() )
-    {
+  itk::ProcessObject::Pointer p(dynamic_cast<itk::ProcessObject *>(obj));
+  if (p.IsNull())
+  {
     return;
-    }
-  if ( p->GetProgress() > .1 )
-    {
+  }
+  if (p->GetProgress() > .1)
+  {
     std::cout << "Setting AbortGenerateDataOn()" << std::endl;
     p->AbortGenerateDataOn();
-    }
+  }
 }
 
-void onAbort( itk::Object *, const itk::EventObject &, void *)
+void
+onAbort(itk::Object *, const itk::EventObject &, void *)
 {
   std::cout << "Abort Event" << std::endl;
   onAbortCalled = true;
 }
 
-}
+} // namespace
 
-int itkAbortProcessObjectTest(int, char* [] )
+int
+itkAbortProcessObjectTest(int, char *[])
 {
   // type alias to simplify the syntax
   using ShortImage = itk::Image<short, 2>;
   ShortImage::Pointer img = ShortImage::New();
 
   // fill in an image
-  const ShortImage::IndexType  index = {{0, 0}};
-  const ShortImage::SizeType   size = {{100, 100}};
-  ShortImage::RegionType region;
-  region.SetSize( size );
-  region.SetIndex( index );
-  img->SetRegions( region );
+  const ShortImage::IndexType index = { { 0, 0 } };
+  const ShortImage::SizeType  size = { { 100, 100 } };
+  ShortImage::RegionType      region;
+  region.SetSize(size);
+  region.SetIndex(index);
+  img->SetRegions(region);
   img->Allocate();
 
   itk::ImageRegionIterator<ShortImage> iterator(img, region);
 
-  short i=0;
-  while( !iterator.IsAtEnd() )
-    {
-      iterator.Set( i++ );
-      ++iterator;
-    }
+  short i = 0;
+  while (!iterator.IsAtEnd())
+  {
+    iterator.Set(i++);
+    ++iterator;
+  }
 
   // Create a filter
-  itk::ExtractImageFilter< ShortImage, ShortImage >::Pointer extract;
-  extract = itk::ExtractImageFilter< ShortImage, ShortImage >::New();
-  extract->SetInput( img );
+  itk::ExtractImageFilter<ShortImage, ShortImage>::Pointer extract;
+  extract = itk::ExtractImageFilter<ShortImage, ShortImage>::New();
+  extract->SetInput(img);
 
   // fill in an image
-  ShortImage::IndexType  extractIndex = {{0, 0}};
-  ShortImage::SizeType   extractSize = {{99, 99}};
+  ShortImage::IndexType  extractIndex = { { 0, 0 } };
+  ShortImage::SizeType   extractSize = { { 99, 99 } };
   ShortImage::RegionType extractRegion;
-  extractRegion.SetSize( extractSize );
-  extractRegion.SetIndex( extractIndex );
+  extractRegion.SetSize(extractSize);
+  extractRegion.SetIndex(extractIndex);
   extract->SetExtractionRegion(extractRegion);
 
   itk::CStyleCommand::Pointer progressCmd = itk::CStyleCommand::New();
@@ -103,18 +106,18 @@ int itkAbortProcessObjectTest(int, char* [] )
 
   std::cout << extract << std::endl;
   try
-    {
+  {
     extract->UpdateLargestPossibleRegion();
-    }
-  catch(itk::ProcessAborted &)
-    {
+  }
+  catch (itk::ProcessAborted &)
+  {
     if (onAbortCalled)
-      {
+    {
       std::cout << "PASS: Abort event occurred and exception was thrown." << std::endl;
       return EXIT_SUCCESS;
-      }
-    std::cout << "Caught expected abort exception, but didn't get Abort Event!";
     }
+    std::cout << "Caught expected abort exception, but didn't get Abort Event!";
+  }
   std::cout << "Test FAILED!" << std::endl;
   return EXIT_FAILURE;
 }

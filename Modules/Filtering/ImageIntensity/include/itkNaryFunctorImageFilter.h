@@ -38,9 +38,8 @@ namespace itk
  * \ingroup ITKImageIntensity
  */
 
-template< typename TInputImage, typename TOutputImage, typename TFunction >
-class ITK_TEMPLATE_EXPORT NaryFunctorImageFilter:
-  public InPlaceImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage, typename TFunction>
+class ITK_TEMPLATE_EXPORT NaryFunctorImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
 
 {
 public:
@@ -48,9 +47,9 @@ public:
 
   /** Standard class type aliases. */
   using Self = NaryFunctorImageFilter;
-  using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InPlaceImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -67,13 +66,17 @@ public:
   using OutputImagePointer = typename OutputImageType::Pointer;
   using OutputImageRegionType = typename OutputImageType::RegionType;
   using OutputImagePixelType = typename OutputImageType::PixelType;
-  using NaryArrayType = std::vector< InputImagePixelType >;
+  using NaryArrayType = std::vector<InputImagePixelType>;
 
   /** Get the functor object.  The functor is returned by reference.
    * (Functors do not have to derive from itk::LightObject, so they do
    * not necessarily have a reference count. So we cannot return a
    * SmartPointer). */
-  FunctorType & GetFunctor() { return m_Functor; }
+  FunctorType &
+  GetFunctor()
+  {
+    return m_Functor;
+  }
 
   /** Set the functor object.  This replaces the current Functor with a
    * copy of the specified Functor. This allows the user to specify a
@@ -81,13 +84,14 @@ public:
    * This method requires an operator!=() be defined on the functor
    * (or the compiler's default implementation of operator!=() being
    * appropriate). */
-  void SetFunctor(FunctorType & functor)
+  void
+  SetFunctor(FunctorType & functor)
   {
-    if ( m_Functor != functor )
-      {
+    if (m_Functor != functor)
+    {
       m_Functor = functor;
       this->Modified();
-      }
+    }
   }
 
   /** ImageDimension constants */
@@ -96,10 +100,8 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
-  itkConceptMacro( OutputHasZeroCheck,
-                   ( Concept::HasZero< OutputImagePixelType > ) );
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  itkConceptMacro(OutputHasZeroCheck, (Concept::HasZero<OutputImagePixelType>));
   // End concept checking
 #endif
 
@@ -117,7 +119,8 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
 private:
@@ -126,7 +129,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNaryFunctorImageFilter.hxx"
+#  include "itkNaryFunctorImageFilter.hxx"
 #endif
 
 #endif

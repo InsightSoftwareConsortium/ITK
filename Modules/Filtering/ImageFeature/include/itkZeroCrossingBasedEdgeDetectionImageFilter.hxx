@@ -26,28 +26,25 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ZeroCrossingBasedEdgeDetectionImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+ZeroCrossingBasedEdgeDetectionImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  typename  InputImageType::ConstPointer input  = this->GetInput();
+  typename InputImageType::ConstPointer input = this->GetInput();
 
   // Create the filters that are needed
-  typename DiscreteGaussianImageFilter< TInputImage, TOutputImage >::Pointer
-  gaussianFilter =
-    DiscreteGaussianImageFilter< TInputImage, TOutputImage >::New();
-  typename LaplacianImageFilter< TInputImage, TOutputImage >::Pointer laplacianFilter =
-    LaplacianImageFilter< TInputImage, TOutputImage >::New();
-  typename ZeroCrossingImageFilter< TInputImage, TOutputImage >::Pointer
-  zerocrossingFilter =
-    ZeroCrossingImageFilter< TInputImage, TOutputImage >::New();
+  typename DiscreteGaussianImageFilter<TInputImage, TOutputImage>::Pointer gaussianFilter =
+    DiscreteGaussianImageFilter<TInputImage, TOutputImage>::New();
+  typename LaplacianImageFilter<TInputImage, TOutputImage>::Pointer laplacianFilter =
+    LaplacianImageFilter<TInputImage, TOutputImage>::New();
+  typename ZeroCrossingImageFilter<TInputImage, TOutputImage>::Pointer zerocrossingFilter =
+    ZeroCrossingImageFilter<TInputImage, TOutputImage>::New();
 
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
-  //Construct the mini-pipeline
+  // Construct the mini-pipeline
 
   // Apply the Gaussian filter
   gaussianFilter->SetVariance(m_Variance);
@@ -56,37 +53,36 @@ ZeroCrossingBasedEdgeDetectionImageFilter< TInputImage, TOutputImage >
   progress->RegisterInternalFilter(gaussianFilter, 1.0f / 3.0f);
 
   // Calculate the laplacian of the smoothed image
-  laplacianFilter->SetInput( gaussianFilter->GetOutput() );
+  laplacianFilter->SetInput(gaussianFilter->GetOutput());
   progress->RegisterInternalFilter(laplacianFilter, 1.0f / 3.0f);
 
   // Find the zero-crossings of the laplacian
-  zerocrossingFilter->SetInput( laplacianFilter->GetOutput() );
+  zerocrossingFilter->SetInput(laplacianFilter->GetOutput());
   zerocrossingFilter->SetBackgroundValue(m_BackgroundValue);
   zerocrossingFilter->SetForegroundValue(m_ForegroundValue);
-  zerocrossingFilter->GraftOutput( this->GetOutput() );
+  zerocrossingFilter->GraftOutput(this->GetOutput());
   progress->RegisterInternalFilter(zerocrossingFilter, 1.0f / 3.0f);
   zerocrossingFilter->Update();
 
   // Graft the output of the mini-pipeline back onto the filter's output.
   // This action copies back the region ivars and meta-data
-  this->GraftOutput( zerocrossingFilter->GetOutput() );
+  this->GraftOutput(zerocrossingFilter->GetOutput());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ZeroCrossingBasedEdgeDetectionImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+ZeroCrossingBasedEdgeDetectionImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Variance: " << m_Variance << std::endl;
   os << indent << "MaximumError: " << m_MaximumError << std::endl;
-  os << indent << "ForegroundValue: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_ForegroundValue )
+  os << indent
+     << "ForegroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ForegroundValue)
      << std::endl;
-  os << indent << "BackgroundValue: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_BackgroundValue )
+  os << indent
+     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
      << std::endl;
 }
-} //end of itk namespace
+} // namespace itk
 
 #endif

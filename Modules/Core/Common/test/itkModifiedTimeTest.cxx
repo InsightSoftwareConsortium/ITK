@@ -19,14 +19,15 @@
 #include "itkBoundingBox.h"
 #include "itkIntTypes.h"
 
-int itkModifiedTimeTest( int, char* [] )
+int
+itkModifiedTimeTest(int, char *[])
 {
 
-  using Point = itk::Point< double, 3 >;
-  using PointsContainer = itk::VectorContainer< unsigned long int, Point >;
-  using BoundingBox = itk::BoundingBox< unsigned long int, 3, double, PointsContainer >;
+  using Point = itk::Point<double, 3>;
+  using PointsContainer = itk::VectorContainer<unsigned long int, Point>;
+  using BoundingBox = itk::BoundingBox<unsigned long int, 3, double, PointsContainer>;
 
-  Point p,q,r;
+  Point p, q, r;
 
   p.Fill(0);
   q.Fill(0);
@@ -36,8 +37,8 @@ int itkModifiedTimeTest( int, char* [] )
 
   PointsContainer::Pointer pc = PointsContainer::New();
 
-  pc->InsertElement(0,p);
-  pc->InsertElement(1,q);
+  pc->InsertElement(0, p);
+  pc->InsertElement(1, q);
   pc->Modified();
 
   bb->SetPoints(pc);
@@ -46,43 +47,42 @@ int itkModifiedTimeTest( int, char* [] )
   const itk::ModifiedTimeType pcBeforeTime = pc->GetMTime();
 
 
-  std::cout<<"BB time before modification: "<< bbBeforeTime <<std::endl;
-  std::cout<<"PC time before modification: "<< pcBeforeTime <<std::endl;
+  std::cout << "BB time before modification: " << bbBeforeTime << std::endl;
+  std::cout << "PC time before modification: " << pcBeforeTime << std::endl;
 
-  pc->InsertElement(2,r);
+  pc->InsertElement(2, r);
   pc->Modified(); // call the Modified function to update the modified time of the container
 
   const itk::ModifiedTimeType bbAfterTime = bb->GetMTime();
   const itk::ModifiedTimeType pcAfterTime = pc->GetMTime();
 
-  std::cout<<"BB time after modification: "<< bbAfterTime <<std::endl;
-  std::cout<<"PC time after modification: "<< pcAfterTime <<std::endl;
+  std::cout << "BB time after modification: " << bbAfterTime << std::endl;
+  std::cout << "PC time after modification: " << pcAfterTime << std::endl;
 
 
-  if( pcAfterTime == pcBeforeTime )
-    {
+  if (pcAfterTime == pcBeforeTime)
+  {
     std::cout << "Points Container Modified Time is not being " << std::endl;
     std::cout << "updated by call to Modified()" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( bbAfterTime == bbBeforeTime )
-    {
+  if (bbAfterTime == bbBeforeTime)
+  {
     std::cout << "Bounding Box Modified Time is not being " << std::endl;
     std::cout << "updated by changes in the points" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
-  if( bbAfterTime < pcAfterTime )
-    {
+  if (bbAfterTime < pcAfterTime)
+  {
     std::cout << "Bounding Box Modified Time is not as recent " << std::endl;
     std::cout << "as the modifiction in the points" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test PASSED !" << std::endl;
 
   return EXIT_SUCCESS;
-
 }

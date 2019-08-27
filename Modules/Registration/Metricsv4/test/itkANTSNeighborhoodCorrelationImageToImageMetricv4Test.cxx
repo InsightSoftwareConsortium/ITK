@@ -28,9 +28,12 @@
  *
  */
 
-template<typename ImagePointerType, typename DerivativeType>
-void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(
-    ImagePointerType image, DerivativeType &derivative, itk::SizeValueType vecdim){
+template <typename ImagePointerType, typename DerivativeType>
+void
+ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(ImagePointerType   image,
+                                                                                 DerivativeType &   derivative,
+                                                                                 itk::SizeValueType vecdim)
+{
 
   using ImageType = typename ImagePointerType::ObjectType;
   typename ImageType::RegionType imageRegion = image->GetBufferedRegion();
@@ -44,25 +47,27 @@ void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVector
   it.GoToBegin();
   itk::SizeValueType cnt = 0;
   for (itk::SizeValueType ycnt = 0; ycnt < dim1; ycnt++)
-    {
+  {
     for (itk::SizeValueType xcnt = 0; xcnt < dim0; xcnt++)
-      {
+    {
       std::cout << '[';
-      for(itk::SizeValueType d = 0; d < vecdim-1; d++)
-        {
-        std::cout << derivative[cnt*vecdim + d] <<",";
-        }
-        std::cout << derivative[cnt * vecdim + vecdim-1] << ']' << "\t";
-        ++it;
-        ++cnt;
+      for (itk::SizeValueType d = 0; d < vecdim - 1; d++)
+      {
+        std::cout << derivative[cnt * vecdim + d] << ",";
       }
-      std::cout << std::endl;
+      std::cout << derivative[cnt * vecdim + vecdim - 1] << ']' << "\t";
+      ++it;
+      ++cnt;
     }
+    std::cout << std::endl;
+  }
 }
 
 
-template<typename ImageType>
-void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(ImageType *imageP) {
+template <typename ImageType>
+void
+ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(ImageType * imageP)
+{
 
   using ImageConstPointerType = typename ImageType::ConstPointer;
   ImageConstPointerType image = imageP;
@@ -78,18 +83,20 @@ void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(ImageType *i
   it.GoToBegin();
 
   for (itk::SizeValueType ycnt = 0; ycnt < dim1; ycnt++)
-    {
+  {
     for (itk::SizeValueType xcnt = 0; xcnt < dim0; xcnt++)
-      {
+    {
       std::cout << it.Get() << "\t";
       ++it;
-      }
-      std::cout << std::endl;
     }
+    std::cout << std::endl;
+  }
 }
 
-template<typename ImagePointerType>
-void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(const ImagePointerType &image) {
+template <typename ImagePointerType>
+void
+ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(const ImagePointerType & image)
+{
 
   using ImageType = typename ImagePointerType::ObjectType;
   typename ImageType::RegionType imageRegion = image->GetBufferedRegion();
@@ -103,19 +110,20 @@ void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(const ImageP
   it.GoToBegin();
 
   for (itk::SizeValueType ycnt = 0; ycnt < dim1; ycnt++)
-    {
+  {
     for (itk::SizeValueType xcnt = 0; xcnt < dim0; xcnt++)
-      {
+    {
       std::cout << it.Get() << "\t";
       ++it;
-      }
-      std::cout << std::endl;
     }
+    std::cout << std::endl;
+  }
 }
 
-int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
+int
+itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
 {
-  constexpr itk::SizeValueType ImageDimension  = 2;
+  constexpr itk::SizeValueType ImageDimension = 2;
 
   using ImageType = itk::Image<double, ImageDimension>;
   using VectorType = itk::Vector<double, ImageDimension>;
@@ -129,23 +137,19 @@ int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
   IdentityTransformType::Pointer transformFId = IdentityTransformType::New();
 
   IdentityTransformType::Pointer transformMId = IdentityTransformType::New();
-  if(transformMId.IsNull())
-    {
+  if (transformMId.IsNull())
+  {
     std::cerr << "transformMId == nullptr" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   DisplacementTransformType::Pointer transformMdisplacement = DisplacementTransformType::New();
-  TranslationTransformType::Pointer transformMtranslation =
-          TranslationTransformType::New();
-  TranslationTransformType::Pointer transformMtranslation2 =
-          TranslationTransformType::New();
-  CompositeTransformType::Pointer transformMComp =
-          CompositeTransformType::New();
-  CompositeTransformType::Pointer transformFComp =
-          CompositeTransformType::New();
+  TranslationTransformType::Pointer  transformMtranslation = TranslationTransformType::New();
+  TranslationTransformType::Pointer  transformMtranslation2 = TranslationTransformType::New();
+  CompositeTransformType::Pointer    transformMComp = CompositeTransformType::New();
+  CompositeTransformType::Pointer    transformFComp = CompositeTransformType::New();
 
 
-  constexpr itk::SizeValueType imageSize  = 6;
+  constexpr itk::SizeValueType imageSize = 6;
 
   ImageType::SizeType size;
   size.Fill(imageSize);
@@ -181,23 +185,23 @@ int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
   itFixed.GoToBegin();
   itk::SizeValueType count = 1;
   while (!itFixed.IsAtEnd())
-    {
+  {
     itFixed.Set(count * count);
     count++;
     ++itFixed;
-    }
+  }
   itk::ImageRegionIteratorWithIndex<ImageType> itMoving(movingImage, region);
   itMoving.GoToBegin();
   count = 1;
   while (!itMoving.IsAtEnd())
-    {
+  {
     itMoving.Set(count * count);
     count++;
     ++itMoving;
-    }
+  }
 
   VectorType zero;
-  float def_value = -0.5;
+  float      def_value = -0.5;
 
   zero.Fill(def_value);
   FieldType::Pointer field = FieldType::New();
@@ -253,68 +257,65 @@ int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
 
   /* Initialize. */
   try
-    {
+  {
     std::cout << "Calling Initialize..." << std::endl;
     metric->Initialize();
-    }
+  }
   catch (itk::ExceptionObject & exc)
-    {
+  {
     std::cerr << "Caught unexpected exception during Initialize: " << exc;
     std::cerr << "Test FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Evaluate
-  MetricType::MeasureType valueReturn1;
+  MetricType::MeasureType    valueReturn1;
   MetricType::DerivativeType derivativeReturn;
   try
-    {
+  {
     std::cout << "Calling GetValueAndDerivative..." << std::endl;
     metric->GetValueAndDerivative(valueReturn1, derivativeReturn);
-    }
+  }
   catch (itk::ExceptionObject & exc)
-    {
-    std::cerr << "Caught unexpected exception during GetValueAndDerivative: "
-              << exc;
+  {
+    std::cerr << "Caught unexpected exception during GetValueAndDerivative: " << exc;
     std::cerr << "Test FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   /* Re-initialize. */
   try
-    {
+  {
     std::cout << "Calling Initialize..." << std::endl;
     metric->Initialize();
-    }
+  }
   catch (itk::ExceptionObject & exc)
-    {
+  {
     std::cerr << "Caught unexpected exception during re-initialize: " << exc;
     std::cerr << "Test FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Evaluate with GetValue
   MetricType::MeasureType valueReturn2;
   try
-    {
+  {
     std::cout << "Calling GetValue..." << std::endl;
     valueReturn2 = metric->GetValue();
-    }
+  }
   catch (itk::ExceptionObject & exc)
-    {
-    std::cerr << "Caught unexpected exception during GetValue: "
-              << exc;
+  {
+    std::cerr << "Caught unexpected exception during GetValue: " << exc;
     std::cerr << "Test FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Test same value returned by different methods
   std::cout << "Check Value return values..." << std::endl;
-  if( itk::Math::NotExactlyEquals(valueReturn1, valueReturn2) )
-    {
-    std::cerr << "Results for Value don't match: " << valueReturn1
-              << ", " << valueReturn2 << std::endl;
-    }
+  if (itk::Math::NotExactlyEquals(valueReturn1, valueReturn2))
+  {
+    std::cerr << "Results for Value don't match: " << valueReturn1 << ", " << valueReturn2 << std::endl;
+  }
 
   std::cout << "Test passed." << std::endl;
   std::cout << "transformMdisplacement parameters" << std::endl;
@@ -324,7 +325,8 @@ int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
   std::cout << "derivative of moving transform:" << std::endl;
   std::cout << derivativeReturn << std::endl;
   std::cout << std::endl << "derivative of moving transform as a field:" << std::endl;
-  ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(fixedImage, derivativeReturn, ImageDimension);
+  ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(
+    fixedImage, derivativeReturn, ImageDimension);
 
   /* Compare the derivative computed from sparse threader to the dense threader */
   /* Create a sample point set by sampling all points */
@@ -333,20 +335,21 @@ int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
 
   std::cout << "Creating point set..." << std::endl;
 
-  PointSetType::Pointer               pset(PointSetType::New());
+  PointSetType::Pointer pset(PointSetType::New());
 
-  unsigned int ind=0,ct=0;
-  itk::ImageRegionIteratorWithIndex<ImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion() );
-  for( It.GoToBegin(); !It.IsAtEnd(); ++It )
-    {
+  unsigned int                                 ind = 0, ct = 0;
+  itk::ImageRegionIteratorWithIndex<ImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion());
+  for (It.GoToBegin(); !It.IsAtEnd(); ++It)
+  {
     // take every point
-      PointType pt;
-      fixedImage->TransformIndexToPhysicalPoint( It.GetIndex(), pt);
-      pset->SetPoint(ind, pt);
-      ind++;
-      ct++;
-    }
-  std::cout << "Setting point set with " << ind << " points of " << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
+    PointType pt;
+    fixedImage->TransformIndexToPhysicalPoint(It.GetIndex(), pt);
+    pset->SetPoint(ind, pt);
+    ind++;
+    ct++;
+  }
+  std::cout << "Setting point set with " << ind << " points of "
+            << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
   std::cout << "Testing metric with point set..." << std::endl;
 
   /* run the metric with the sparse threader */
@@ -356,76 +359,76 @@ int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
   metricSparse->SetMovingImage(movingImage);
   metricSparse->SetFixedTransform(transformFId);
   metricSparse->SetMovingTransform(transformMdisplacement);
-  metricSparse->SetFixedSampledPointSet( pset );
-  metricSparse->SetUseSampledPointSet( true );
+  metricSparse->SetFixedSampledPointSet(pset);
+  metricSparse->SetUseSampledPointSet(true);
 
   try
-    {
+  {
     metricSparse->Initialize();
-    }
+  }
   catch (itk::ExceptionObject & exc)
-    {
+  {
     std::cerr << "Caught unexpected exception during Initialize() for sparse threader: " << exc;
     std::cerr << "Test FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  MetricType::MeasureType valueReturnSparse;
+  MetricType::MeasureType    valueReturnSparse;
   MetricType::DerivativeType derivativeReturnSparse;
 
   try
-    {
+  {
     std::cout << "Calling GetValueAndDerivative..." << std::endl;
     metricSparse->GetValueAndDerivative(valueReturnSparse, derivativeReturnSparse);
-    }
+  }
   catch (itk::ExceptionObject & exc)
-    {
+  {
     std::cerr << "Caught unexpected exception during GetValueAndDrivative() for sparse threader: " << exc;
     std::cerr << "Test FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Check Value return values between dense and sparse threader..." << std::endl;
-  std::cout << "dense: " << valueReturn1
-                << ", sparse: " << valueReturnSparse << std::endl;
-  if( itk::Math::NotExactlyEquals(valueReturn1, valueReturnSparse) )
-    {
-    std::cerr << "Results for Value don't match using dense and sparse threaders: " << valueReturn1
-              << ", (sparse) " << valueReturnSparse << std::endl;
-    }
+  std::cout << "dense: " << valueReturn1 << ", sparse: " << valueReturnSparse << std::endl;
+  if (itk::Math::NotExactlyEquals(valueReturn1, valueReturnSparse))
+  {
+    std::cerr << "Results for Value don't match using dense and sparse threaders: " << valueReturn1 << ", (sparse) "
+              << valueReturnSparse << std::endl;
+  }
   std::cout << "Test passed." << std::endl;
 
   std::cout << "Check Derivative return values between dense and sparse threader..." << std::endl;
   std::cout << "derivative of moving transform (sparse threader):" << std::endl;
   std::cout << derivativeReturnSparse << std::endl;
   std::cout << std::endl << "derivative of moving transform as a field  (sparse threader):" << std::endl;
-  ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(fixedImage, derivativeReturnSparse, ImageDimension);
+  ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(
+    fixedImage, derivativeReturnSparse, ImageDimension);
   double tolerance = 1e-7;
-  if ( !derivativeReturn.is_equal(derivativeReturnSparse, tolerance) )
-    {
+  if (!derivativeReturn.is_equal(derivativeReturnSparse, tolerance))
+  {
     std::cerr << "Results for derivative don't match using dense and sparse threaders: "
-              << "dense threader: " <<  std::endl;
-    ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(fixedImage, derivativeReturn, ImageDimension);
-    }
+              << "dense threader: " << std::endl;
+    ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(
+      fixedImage, derivativeReturn, ImageDimension);
+  }
 
   // Test that non-overlapping images will generate a warning
   // and return max value for metric value.
-  DisplacementTransformType::ParametersType parameters( transformMdisplacement->GetNumberOfParameters() );
-  parameters.Fill( static_cast<DisplacementTransformType::ParametersValueType>(1000.0) );
-  transformMdisplacement->SetParameters( parameters );
+  DisplacementTransformType::ParametersType parameters(transformMdisplacement->GetNumberOfParameters());
+  parameters.Fill(static_cast<DisplacementTransformType::ParametersValueType>(1000.0));
+  transformMdisplacement->SetParameters(parameters);
   MetricType::MeasureType expectedMetricMax, valueReturn;
   expectedMetricMax = itk::NumericTraits<MetricType::MeasureType>::max();
   std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
-  metric->GetValueAndDerivative( valueReturn, derivativeReturn );
-  if( metric->GetNumberOfValidPoints() != 0 || itk::Math::NotExactlyEquals(valueReturn, expectedMetricMax) )
-    {
+  metric->GetValueAndDerivative(valueReturn, derivativeReturn);
+  if (metric->GetNumberOfValidPoints() != 0 || itk::Math::NotExactlyEquals(valueReturn, expectedMetricMax))
+  {
     std::cerr << "Failed testing for non-overlapping images. " << std::endl
               << "  Number of valid points: " << metric->GetNumberOfValidPoints() << std::endl
               << "  Metric value: " << valueReturn << std::endl
               << "  Expected metric max value: " << expectedMetricMax << std::endl;
-    }
+  }
 
   std::cout << "Test PASSED." << std::endl;
   return EXIT_SUCCESS;
-
 }

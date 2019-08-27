@@ -39,15 +39,17 @@ int POWELL_CALLS_TO_GET_VALUE = 0;
 class PowellBoundedCostFunction : public itk::SingleValuedCostFunction
 {
 public:
-
   using Self = PowellBoundedCostFunction;
   using Superclass = itk::SingleValuedCostFunction;
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
-  itkNewMacro( Self );
-  itkTypeMacro( PowellBoundedCostFunction, SingleValuedCostFunction );
+  itkNewMacro(Self);
+  itkTypeMacro(PowellBoundedCostFunction, SingleValuedCostFunction);
 
-  enum { SpaceDimension=2 };
+  enum
+  {
+    SpaceDimension = 2
+  };
 
   using ParametersType = Superclass::ParametersType;
   using DerivativeType = Superclass::DerivativeType;
@@ -56,12 +58,12 @@ public:
   PowellBoundedCostFunction() = default;
 
 
-  void GetDerivative( const ParametersType & ,
-                      DerivativeType &  ) const override
-  {
-  }
+  void
+  GetDerivative(const ParametersType &, DerivativeType &) const override
+  {}
 
-  MeasureType  GetValue( const ParametersType & parameters ) const override
+  MeasureType
+  GetValue(const ParametersType & parameters) const override
   {
     ++POWELL_CALLS_TO_GET_VALUE;
 
@@ -72,25 +74,24 @@ public:
     std::cout << x << " ";
     std::cout << y << ") = ";
 
-    MeasureType measure = 0.5*(3*x*x+4*x*y+6*y*y) - 2*x + 8*y;
+    MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
     std::cout << measure << std::endl;
 
     return measure;
-
   }
 
-  unsigned int GetNumberOfParameters() const override
-    {
+  unsigned int
+  GetNumberOfParameters() const override
+  {
     return SpaceDimension;
-    }
+  }
 
 private:
-
-
 };
 
-int itkPowellOptimizerTest(int, char* [] )
+int
+itkPowellOptimizerTest(int, char *[])
 {
   std::cout << "Powell Optimizer Test ";
   std::cout << std::endl << std::endl;
@@ -98,47 +99,46 @@ int itkPowellOptimizerTest(int, char* [] )
   using OptimizerType = itk::PowellOptimizer;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
+  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
 
 
   // Declaration of the CostFunction
   PowellBoundedCostFunction::Pointer costFunction = PowellBoundedCostFunction::New();
 
 
-  itkOptimizer->SetCostFunction( costFunction );
+  itkOptimizer->SetCostFunction(costFunction);
 
 
   using ParametersType = PowellBoundedCostFunction::ParametersType;
 
-  const unsigned int spaceDimension =
-                      costFunction->GetNumberOfParameters();
+  const unsigned int spaceDimension = costFunction->GetNumberOfParameters();
 
   // We start not so far from  | 2 -2 |
-  ParametersType  initialPosition( spaceDimension );
+  ParametersType initialPosition(spaceDimension);
 
-  initialPosition[0] =  100;
+  initialPosition[0] = 100;
   initialPosition[1] = -100;
 
   itkOptimizer->SetMaximize(false);
-  itkOptimizer->SetStepLength( 10 );
-  itkOptimizer->SetStepTolerance( 0.01 );
-  itkOptimizer->SetValueTolerance( 0.1 );
-  itkOptimizer->SetMaximumIteration( 100 );
+  itkOptimizer->SetStepLength(10);
+  itkOptimizer->SetStepTolerance(0.01);
+  itkOptimizer->SetValueTolerance(0.1);
+  itkOptimizer->SetMaximumIteration(100);
 
-  itkOptimizer->SetInitialPosition( initialPosition );
+  itkOptimizer->SetInitialPosition(initialPosition);
 
   try
-    {
+  {
     itkOptimizer->StartOptimization();
-    }
-  catch( itk::ExceptionObject & e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation()    << std::endl;
+    std::cout << "Location    = " << e.GetLocation() << std::endl;
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
   std::cout << "Solution        = (";
@@ -148,13 +148,13 @@ int itkPowellOptimizerTest(int, char* [] )
   //
   // check results to see if it is within range
   //
-  bool pass = true;
+  bool   pass = true;
   double trueParameters[2] = { 2, -2 };
-  for( unsigned int j = 0; j < 2; j++ )
-    {
-    if( itk::Math::abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
+  for (unsigned int j = 0; j < 2; j++)
+  {
+    if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
       pass = false;
-    }
+  }
 
   // Exercise various member functions.
   std::cout << "Maximize: " << itkOptimizer->GetMaximize() << std::endl;
@@ -163,18 +163,16 @@ int itkPowellOptimizerTest(int, char* [] )
   std::cout << "CurrentIteration: " << itkOptimizer->GetCurrentIteration();
   std::cout << std::endl;
 
-  itkOptimizer->Print( std::cout );
+  itkOptimizer->Print(std::cout);
 
   std::cout << "Calls to GetValue = " << POWELL_CALLS_TO_GET_VALUE << std::endl;
 
-  if( !pass )
-    {
+  if (!pass)
+  {
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
-
 }

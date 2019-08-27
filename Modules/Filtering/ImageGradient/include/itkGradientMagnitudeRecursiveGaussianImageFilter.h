@@ -45,19 +45,18 @@ namespace itk
 // NOTE that the typename macro has to be used here in lieu
 // of "typename" because VC++ doesn't like the typename keyword
 // on the defaults of template parameters
-template< typename TInputImage,
-          typename TOutputImage = TInputImage >
-class ITK_TEMPLATE_EXPORT GradientMagnitudeRecursiveGaussianImageFilter:
-  public InPlaceImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT GradientMagnitudeRecursiveGaussianImageFilter
+  : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GradientMagnitudeRecursiveGaussianImageFilter);
 
   /** Standard class type aliases. */
   using Self = GradientMagnitudeRecursiveGaussianImageFilter;
-  using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InPlaceImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Pixel Type of the input image */
   using InputImageType = TInputImage;
@@ -66,26 +65,23 @@ public:
   /** Image dimension. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
-  using RealType = typename NumericTraits< PixelType >::RealType;
+  using RealType = typename NumericTraits<PixelType>::RealType;
 
   /** Define the image type for internal computations
       RealType is usually 'double' in NumericTraits.
       Here we prefer float in order to save memory.  */
 
   using InternalRealType = float;
-  using RealImageType = Image< InternalRealType,
-                 Self::ImageDimension >;
+  using RealImageType = Image<InternalRealType, Self::ImageDimension>;
 
   /**  Smoothing filter type */
-  using GaussianFilterType = RecursiveGaussianImageFilter<
-    RealImageType, RealImageType >;
+  using GaussianFilterType = RecursiveGaussianImageFilter<RealImageType, RealImageType>;
 
   /**  Derivative filter type, it will be the first in the pipeline  */
-  using DerivativeFilterType = RecursiveGaussianImageFilter<
-    InputImageType, RealImageType >;
+  using DerivativeFilterType = RecursiveGaussianImageFilter<InputImageType, RealImageType>;
 
   /**  Smoothing filter type */
-  using SqrtFilterType = SqrtImageFilter< RealImageType, TOutputImage >;
+  using SqrtFilterType = SqrtImageFilter<RealImageType, TOutputImage>;
 
   /**  Pointer to a gaussian filter.  */
   using GaussianFilterPointer = typename GaussianFilterType::Pointer;
@@ -103,44 +99,47 @@ public:
   using OutputPixelType = typename OutputImageType::PixelType;
 
   /**  Auxiliary image for holding the values of the squared gradient components
-    */
-  using CumulativeImageType = Image< InternalRealType,
-                 Self::ImageDimension >;
+   */
+  using CumulativeImageType = Image<InternalRealType, Self::ImageDimension>;
   using CumulativeImagePointer = typename CumulativeImageType::Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(GradientMagnitudeRecursiveGaussianImageFilter,
-               InPlaceImageFilter);
+  itkTypeMacro(GradientMagnitudeRecursiveGaussianImageFilter, InPlaceImageFilter);
 
   /** Set Sigma value. Sigma is measured in the units of image spacing.  */
-  void SetSigma(RealType sigma);
-  RealType GetSigma();
+  void
+  SetSigma(RealType sigma);
+  RealType
+  GetSigma();
 
   /** Define which normalization factor will be used for the Gaussian
    *  \sa  RecursiveGaussianImageFilter::SetNormalizeAcrossScale
    */
-  void SetNormalizeAcrossScale(bool normalizeInScaleSpace);
+  void
+  SetNormalizeAcrossScale(bool normalizeInScaleSpace);
   itkGetConstMacro(NormalizeAcrossScale, bool);
 
-  void SetNumberOfWorkUnits(ThreadIdType nb) override;
+  void
+  SetNumberOfWorkUnits(ThreadIdType nb) override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< PixelType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<PixelType>));
   // End concept checking
 #endif
 
 protected:
   GradientMagnitudeRecursiveGaussianImageFilter();
   ~GradientMagnitudeRecursiveGaussianImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Data */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** GradientMagnitudeRecursiveGaussianImageFilter needs all of the
    * input to produce an output. Therefore,
@@ -148,16 +147,17 @@ protected:
    * implementation for GenerateInputRequestedRegion in order to
    * inform the pipeline execution model.  \sa
    * ImageToImageFilter::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** GradientMagnitudeRecursiveGaussianImageFilter produces all of
    * the output.  Therefore, it needs to provide an implementation of
    * EnlargeOutputRequestedRegion(). */
-  void EnlargeOutputRequestedRegion(DataObject *output) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
 private:
-
-  using SqrSpacingFilterType = BinaryGeneratorImageFilter< RealImageType, RealImageType, RealImageType >;
+  using SqrSpacingFilterType = BinaryGeneratorImageFilter<RealImageType, RealImageType, RealImageType>;
   using SqrSpacingFilterPointer = typename SqrSpacingFilterType::Pointer;
 
   GaussianFilterPointer   m_SmoothingFilters[ImageDimension - 1];
@@ -171,7 +171,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGradientMagnitudeRecursiveGaussianImageFilter.hxx"
+#  include "itkGradientMagnitudeRecursiveGaussianImageFilter.hxx"
 #endif
 
 #endif

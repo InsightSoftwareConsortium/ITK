@@ -25,10 +25,10 @@
 namespace itk
 {
 /** \class OFFMeshIOFactory
-   * \brief Create instances of OFFMeshIO objects using an object factory.
-   * \ingroup ITKIOMeshOFF
-   */
-class ITKIOMeshOFF_EXPORT OFFMeshIOFactory:public ObjectFactoryBase
+ * \brief Create instances of OFFMeshIO objects using an object factory.
+ * \ingroup ITKIOMeshOFF
+ */
+class ITKIOMeshOFF_EXPORT OFFMeshIOFactory : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(OFFMeshIOFactory);
@@ -36,13 +36,15 @@ public:
   /** Standard class type aliases. */
   using Self = OFFMeshIOFactory;
   using Superclass = ObjectFactoryBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  const char * GetITKSourceVersion() const override;
+  const char *
+  GetITKSourceVersion() const override;
 
-  const char * GetDescription() const override;
+  const char *
+  GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -51,18 +53,20 @@ public:
   itkTypeMacro(OFFMeshIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory()
-    {
+  static void
+  RegisterOneFactory()
+  {
     OFFMeshIOFactory::Pointer offFactory = OFFMeshIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(offFactory);
-    }
+  }
 
 protected:
   OFFMeshIOFactory();
   ~OFFMeshIOFactory() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk
 

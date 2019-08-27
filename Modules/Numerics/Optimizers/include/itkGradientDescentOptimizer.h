@@ -49,8 +49,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ITKOptimizers_EXPORT GradientDescentOptimizer:
-  public SingleValuedNonLinearOptimizer
+class ITKOptimizers_EXPORT GradientDescentOptimizer : public SingleValuedNonLinearOptimizer
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizer);
@@ -58,8 +57,8 @@ public:
   /** Standard class type aliases. */
   using Self = GradientDescentOptimizer;
   using Superclass = SingleValuedNonLinearOptimizer;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -71,43 +70,60 @@ public:
    *
    * \ingroup ITKOptimizers
    * Codes of stopping conditions */
-  enum class StopConditionType : uint8_t {
+  enum class StopConditionType : uint8_t
+  {
     MaximumNumberOfIterations,
     MetricError
-    };
+  };
 #if !defined(ITK_LEGACY_REMOVE)
-        //We need to expose the enum values at the class level
-        // for backwards compatibility
-        static constexpr StopConditionType MaximumNumberOfIterations = StopConditionType::MaximumNumberOfIterations;
-        static constexpr StopConditionType MetricError = StopConditionType::MetricError;
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr StopConditionType MaximumNumberOfIterations = StopConditionType::MaximumNumberOfIterations;
+  static constexpr StopConditionType MetricError = StopConditionType::MetricError;
 #endif
 
   /** Methods to configure the cost function. */
   itkGetConstReferenceMacro(Maximize, bool);
   itkSetMacro(Maximize, bool);
   itkBooleanMacro(Maximize);
-  bool GetMinimize() const
-  { return !m_Maximize; }
-  void SetMinimize(bool v)
-  { this->SetMaximize(!v); }
-  void MinimizeOn()
-  { this->MaximizeOff(); }
-  void MinimizeOff()
-  { this->MaximizeOn(); }
+  bool
+  GetMinimize() const
+  {
+    return !m_Maximize;
+  }
+  void
+  SetMinimize(bool v)
+  {
+    this->SetMaximize(!v);
+  }
+  void
+  MinimizeOn()
+  {
+    this->MaximizeOff();
+  }
+  void
+  MinimizeOff()
+  {
+    this->MaximizeOn();
+  }
 
   /** Advance one step following the gradient direction. */
-  virtual void AdvanceOneStep();
+  virtual void
+  AdvanceOneStep();
 
   /** Start optimization. */
-  void    StartOptimization() override;
+  void
+  StartOptimization() override;
 
   /** Resume previously stopped optimization with current parameters
    * \sa StopOptimization. */
-  void    ResumeOptimization();
+  void
+  ResumeOptimization();
 
   /** Stop optimization.
    * \sa ResumeOptimization */
-  void    StopOptimization();
+  void
+  StopOptimization();
 
   /** Set the learning rate. */
   itkSetMacro(LearningRate, double);
@@ -129,7 +145,8 @@ public:
 
   /** Get Stop condition. */
   itkGetConstReferenceMacro(StopCondition, StopConditionType);
-  const std::string GetStopConditionDescription() const override;
+  const std::string
+  GetStopConditionDescription() const override;
 
   /** Get Gradient condition. */
   itkGetConstReferenceMacro(Gradient, DerivativeType);
@@ -137,26 +154,28 @@ public:
 protected:
   GradientDescentOptimizer();
   ~GradientDescentOptimizer() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   // made protected so subclass can access
   DerivativeType m_Gradient;
 
-  bool m_Maximize{false};
+  bool m_Maximize{ false };
 
-  double m_LearningRate{1.0};
+  double m_LearningRate{ 1.0 };
 
 private:
-  bool               m_Stop{false};
-  double             m_Value{0.0};
-  StopConditionType  m_StopCondition{StopConditionType::MaximumNumberOfIterations};
-  SizeValueType      m_NumberOfIterations{100};
-  SizeValueType      m_CurrentIteration{0};
+  bool               m_Stop{ false };
+  double             m_Value{ 0.0 };
+  StopConditionType  m_StopCondition{ StopConditionType::MaximumNumberOfIterations };
+  SizeValueType      m_NumberOfIterations{ 100 };
+  SizeValueType      m_CurrentIteration{ 0 };
   std::ostringstream m_StopConditionDescription;
 };
 
 // Define how to print enumeration
-extern ITKOptimizers_EXPORT std::ostream& operator<<(std::ostream& out, const GradientDescentOptimizer::StopConditionType value);
+extern ITKOptimizers_EXPORT std::ostream &
+                            operator<<(std::ostream & out, const GradientDescentOptimizer::StopConditionType value);
 
 } // end namespace itk
 

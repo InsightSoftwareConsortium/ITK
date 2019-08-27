@@ -43,18 +43,17 @@ namespace itk
  *
  * \ingroup ITKImageGrid
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT PadImageFilter:
-  public PadImageFilterBase< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT PadImageFilter : public PadImageFilterBase<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PadImageFilter);
 
   /** Standard class type aliases. */
   using Self = PadImageFilter;
-  using Superclass = PadImageFilterBase< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = PadImageFilterBase<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,7 +75,7 @@ public:
   using SizeValueType = typename TInputImage::SizeValueType;
 
   /** Typedef to describe the boundary condition. */
-  using BoundaryConditionType = ImageBoundaryCondition< TInputImage, TOutputImage >;
+  using BoundaryConditionType = ImageBoundaryCondition<TInputImage, TOutputImage>;
   using BoundaryConditionPointerType = BoundaryConditionType *;
 
   /** Run-time type information (and related methods). */
@@ -94,7 +93,8 @@ public:
   itkSetVectorMacro(PadLowerBound, const SizeValueType, ImageDimension);
   itkSetVectorMacro(PadUpperBound, const SizeValueType, ImageDimension);
 
-  void SetPadBound(const InputImageSizeType & bound)
+  void
+  SetPadBound(const InputImageSizeType & bound)
   {
     this->SetPadLowerBound(bound);
     this->SetPadUpperBound(bound);
@@ -103,7 +103,8 @@ public:
 protected:
   PadImageFilter();
   ~PadImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** PadImageFilter produces an image which is a different resolution
    * than its input image.  As such, PadImageFilter needs to
@@ -111,7 +112,8 @@ protected:
    * to inform the pipeline execution model.  The original
    * documentation of this method is below.
    * \sa ProcessObject::GenerateOutputInformaton()  */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
 private:
   SizeType m_PadLowerBound;
@@ -120,7 +122,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPadImageFilter.hxx"
+#  include "itkPadImageFilter.hxx"
 #endif
 
 #endif

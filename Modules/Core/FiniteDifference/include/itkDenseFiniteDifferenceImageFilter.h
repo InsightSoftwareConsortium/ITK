@@ -65,20 +65,19 @@ namespace itk
  * \sa FiniteDifferenceImageFilter
  * \ingroup ITKFiniteDifference
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT DenseFiniteDifferenceImageFilter:
-  public FiniteDifferenceImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT DenseFiniteDifferenceImageFilter
+  : public FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DenseFiniteDifferenceImageFilter);
 
   /** Standard class type aliases */
   using Self = DenseFiniteDifferenceImageFilter;
-  using Superclass = FiniteDifferenceImageFilter<
-    TInputImage, TOutputImage >;
+  using Superclass = FiniteDifferenceImageFilter<TInputImage, TOutputImage>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(DenseFiniteDifferenceImageFilter, ImageToImageFilter);
@@ -104,46 +103,49 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputTimesDoubleCheck,
-                   ( Concept::MultiplyOperator< PixelType, double > ) );
-  itkConceptMacro( OutputAdditiveOperatorsCheck,
-                   ( Concept::AdditiveOperators< PixelType > ) );
-  itkConceptMacro( OutputAdditiveAndAssignOperatorsCheck,
-                   ( Concept::AdditiveAndAssignOperators< PixelType > ) );
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< typename TInputImage::PixelType, PixelType > ) );
+  itkConceptMacro(OutputTimesDoubleCheck, (Concept::MultiplyOperator<PixelType, double>));
+  itkConceptMacro(OutputAdditiveOperatorsCheck, (Concept::AdditiveOperators<PixelType>));
+  itkConceptMacro(OutputAdditiveAndAssignOperatorsCheck, (Concept::AdditiveAndAssignOperators<PixelType>));
+  itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<typename TInputImage::PixelType, PixelType>));
   // End concept checking
 #endif
 
 protected:
-  DenseFiniteDifferenceImageFilter()
-  { m_UpdateBuffer = UpdateBufferType::New(); }
+  DenseFiniteDifferenceImageFilter() { m_UpdateBuffer = UpdateBufferType::New(); }
   ~DenseFiniteDifferenceImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** A simple method to copy the data from the input to the output.  ( Supports
    * "read-only" image adaptors in the case where the input image type converts
    * to a different output image type. )  */
-  void CopyInputToOutput() override;
+  void
+  CopyInputToOutput() override;
 
   /** This method applies changes from the m_UpdateBuffer to the output using
    * the ThreadedApplyUpdate() method and a multithreading mechanism.  "dt" is
    * the time step to use for the update of each pixel. */
-  void ApplyUpdate(const TimeStepType& dt) override;
+  void
+  ApplyUpdate(const TimeStepType & dt) override;
 
   /** Method to allow subclasses to get direct access to the update
    * buffer */
-  virtual UpdateBufferType * GetUpdateBuffer()
-  { return m_UpdateBuffer; }
+  virtual UpdateBufferType *
+  GetUpdateBuffer()
+  {
+    return m_UpdateBuffer;
+  }
 
   /** This method populates an update buffer with changes for each pixel in the
    * output using the ThreadedCalculateChange() method and a multithreading
    * mechanism. Returns value is a time step to be used for the update. */
-  TimeStepType CalculateChange() override;
+  TimeStepType
+  CalculateChange() override;
 
   /** This method allocates storage in m_UpdateBuffer.  It is called from
    * Superclass::GenerateData(). */
-  void AllocateUpdateBuffer() override;
+  void
+  AllocateUpdateBuffer() override;
 
   /** The type of region used for multithreading */
   using ThreadRegionType = typename UpdateBufferType::RegionType;
@@ -152,36 +154,36 @@ protected:
    *  an output region supplied by the multithreading mechanism.
    *  \sa ApplyUpdate
    *  \sa ApplyUpdateThreaderCallback */
-  virtual
-  void ThreadedApplyUpdate(const TimeStepType& dt,
-                           const ThreadRegionType & regionToProcess,
-                           ThreadIdType threadId);
+  virtual void
+  ThreadedApplyUpdate(const TimeStepType & dt, const ThreadRegionType & regionToProcess, ThreadIdType threadId);
 
   /** Does the actual work of calculating change over a region supplied by
    * the multithreading mechanism.
    * \sa CalculateChange
    * \sa CalculateChangeThreaderCallback */
-  virtual
-  TimeStepType ThreadedCalculateChange(const ThreadRegionType & regionToProcess,
-                                       ThreadIdType threadId);
+  virtual TimeStepType
+  ThreadedCalculateChange(const ThreadRegionType & regionToProcess, ThreadIdType threadId);
 
 private:
   /** Structure for passing information into static callback methods.  Used in
    * the subclasses' threading mechanisms. */
-  struct DenseFDThreadStruct {
-    DenseFiniteDifferenceImageFilter *Filter;
-    TimeStepType TimeStep;
-    std::vector< TimeStepType > TimeStepList;
-    std::vector< bool > ValidTimeStepList;
+  struct DenseFDThreadStruct
+  {
+    DenseFiniteDifferenceImageFilter * Filter;
+    TimeStepType                       TimeStep;
+    std::vector<TimeStepType>          TimeStepList;
+    std::vector<bool>                  ValidTimeStepList;
   };
 
   /** This callback method uses ImageSource::SplitRequestedRegion to acquire an
    * output region that it passes to ThreadedApplyUpdate for processing. */
-  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ApplyUpdateThreaderCallback(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
+  ApplyUpdateThreaderCallback(void * arg);
 
   /** This callback method uses SplitUpdateContainer to acquire a region
    * which it then passes to ThreadedCalculateChange for processing. */
-  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION CalculateChangeThreaderCallback(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
+  CalculateChangeThreaderCallback(void * arg);
 
   /** The buffer that holds the updates for an iteration of the algorithm. */
   typename UpdateBufferType::Pointer m_UpdateBuffer;
@@ -189,7 +191,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDenseFiniteDifferenceImageFilter.hxx"
+#  include "itkDenseFiniteDifferenceImageFilter.hxx"
 #endif
 
 #endif

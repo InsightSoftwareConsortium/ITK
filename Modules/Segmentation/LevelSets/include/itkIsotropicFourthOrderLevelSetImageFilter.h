@@ -70,33 +70,31 @@ namespace itk
  * the more smoothing.
  * \ingroup ITKLevelSets
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT IsotropicFourthOrderLevelSetImageFilter:
-  public SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT IsotropicFourthOrderLevelSetImageFilter
+  : public SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(IsotropicFourthOrderLevelSetImageFilter);
 
   /** Standard class type aliases */
   using Self = IsotropicFourthOrderLevelSetImageFilter;
-  using Superclass =
-      SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(IsotropicFourthOrderLevelSetImageFilter,
-               SparseFieldFourthOrderLevelSetImageFilter);
+  itkTypeMacro(IsotropicFourthOrderLevelSetImageFilter, SparseFieldFourthOrderLevelSetImageFilter);
 
   /** Standard new macro */
-  itkNewMacro (Self);
+  itkNewMacro(Self);
 
   /** The sparse image type used in LevelSetFunctionWithRefitTerm */
   using SparseImageType = typename Superclass::SparseImageType;
 
   /** The level set function class with a refit term that forces the curvature
       of the moving front to match a prescribed curvature image. */
-  using FunctionType = LevelSetFunctionWithRefitTerm< TOutputImage, SparseImageType >;
+  using FunctionType = LevelSetFunctionWithRefitTerm<TOutputImage, SparseImageType>;
 
   /** The radius type for the neighborhoods. */
   using RadiusType = typename FunctionType::RadiusType;
@@ -107,7 +105,8 @@ public:
 protected:
   IsotropicFourthOrderLevelSetImageFilter();
   ~IsotropicFourthOrderLevelSetImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** The LevelSetFunctionWithRefitTerm object. */
   typename FunctionType::Pointer m_Function;
@@ -116,16 +115,23 @@ protected:
   unsigned int m_MaxFilterIteration;
 
   /** This filter halts when the iteration count reaches the specified count. */
-  bool Halt() override
+  bool
+  Halt() override
   {
-    if ( this->GetElapsedIterations() == m_MaxFilterIteration ) { return true; }
-    else { return false; }
+    if (this->GetElapsedIterations() == m_MaxFilterIteration)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkIsotropicFourthOrderLevelSetImageFilter.hxx"
+#  include "itkIsotropicFourthOrderLevelSetImageFilter.hxx"
 #endif
 
 #endif

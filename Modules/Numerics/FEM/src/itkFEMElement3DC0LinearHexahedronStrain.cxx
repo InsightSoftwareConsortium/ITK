@@ -23,58 +23,57 @@ namespace itk
 namespace fem
 {
 // Overload the CreateAnother() method
-::itk::LightObject::Pointer Element3DC0LinearHexahedronStrain::CreateAnother() const
+::itk::LightObject::Pointer
+Element3DC0LinearHexahedronStrain::CreateAnother() const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New();
+  Pointer                     copyPtr = Self::New();
 
-  copyPtr->SetNode(0, this->GetNode(0) );
-  copyPtr->SetNode(1, this->GetNode(1) );
-  copyPtr->SetNode(2, this->GetNode(2) );
-  copyPtr->SetNode(3, this->GetNode(3) );
-  copyPtr->SetNode(4, this->GetNode(4) );
-  copyPtr->SetNode(5, this->GetNode(5) );
-  copyPtr->SetNode(6, this->GetNode(6) );
-  copyPtr->SetNode(7, this->GetNode(7) );
-  copyPtr->SetMaterial( this->GetMaterial() );
-  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+  copyPtr->SetNode(0, this->GetNode(0));
+  copyPtr->SetNode(1, this->GetNode(1));
+  copyPtr->SetNode(2, this->GetNode(2));
+  copyPtr->SetNode(3, this->GetNode(3));
+  copyPtr->SetNode(4, this->GetNode(4));
+  copyPtr->SetNode(5, this->GetNode(5));
+  copyPtr->SetNode(6, this->GetNode(6));
+  copyPtr->SetNode(7, this->GetNode(7));
+  copyPtr->SetMaterial(this->GetMaterial());
+  copyPtr->SetGlobalNumber(this->GetGlobalNumber());
 
   smartPtr = static_cast<Pointer>(copyPtr);
 
   return smartPtr;
 }
 
-Element3DC0LinearHexahedronStrain
-::Element3DC0LinearHexahedronStrain() : Superclass()
-{
-}
+Element3DC0LinearHexahedronStrain ::Element3DC0LinearHexahedronStrain()
+  : Superclass()
+{}
 
-Element3DC0LinearHexahedronStrain
-::Element3DC0LinearHexahedronStrain(NodeIDType ns_[], Material::ConstPointer m_) : Superclass()
+Element3DC0LinearHexahedronStrain ::Element3DC0LinearHexahedronStrain(NodeIDType ns_[], Material::ConstPointer m_)
+  : Superclass()
 {
   // Set the geometrical points
-  for( int k = 0; k < 8; k++ )
-    {
+  for (int k = 0; k < 8; k++)
+  {
     this->SetNode(k, ns_[k]);
-    }
+  }
 
   /*
    * Initialize the pointer to material object and check that
    * we were given the pointer to the right class.
    * If the material class was incorrect an exception is thrown.
    */
-  m_mat = dynamic_cast<const MaterialLinearElasticity *>( m_.GetPointer() );
+  m_mat = dynamic_cast<const MaterialLinearElasticity *>(m_.GetPointer());
 
-  if( !m_mat )
-    {
-    throw FEMExceptionWrongClass(__FILE__,
-                                 __LINE__,
-                                 "Element3DC0LinearHexahedronStrain::Element3DC0LinearHexahedronStrain()");
-    }
+  if (!m_mat)
+  {
+    throw FEMExceptionWrongClass(
+      __FILE__, __LINE__, "Element3DC0LinearHexahedronStrain::Element3DC0LinearHexahedronStrain()");
+  }
 }
 
 void
-Element3DC0LinearHexahedronStrain::PrintSelf(std::ostream& os, Indent indent) const
+Element3DC0LinearHexahedronStrain::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

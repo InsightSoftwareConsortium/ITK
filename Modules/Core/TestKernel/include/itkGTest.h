@@ -33,8 +33,7 @@ namespace itk
  *
  */
 namespace GTest
-{
-} // end namespace GTest
+{} // end namespace GTest
 
 } // end namespace itk
 

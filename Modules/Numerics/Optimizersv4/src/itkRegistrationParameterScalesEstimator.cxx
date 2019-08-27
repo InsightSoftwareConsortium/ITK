@@ -21,10 +21,10 @@ namespace itk
 {
 /** Define how to print enumerations */
 std::ostream &
-operator<<( std::ostream & out, const StrategyTypeForSampling value )
+operator<<(std::ostream & out, const StrategyTypeForSampling value)
 {
   const char * s = nullptr;
-  switch ( value )
+  switch (value)
   {
     case StrategyTypeForSampling::FullDomainSampling:
       s = "StrategyTypeForSampling::FullDomainSampling";

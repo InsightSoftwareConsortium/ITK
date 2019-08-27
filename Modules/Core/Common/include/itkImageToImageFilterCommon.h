@@ -38,10 +38,14 @@ namespace itk
 class ITKCommon_EXPORT ImageToImageFilterCommon
 {
 public:
-  static void SetGlobalDefaultCoordinateTolerance(double);
-  static double GetGlobalDefaultCoordinateTolerance();
-  static void SetGlobalDefaultDirectionTolerance(double);
-  static double GetGlobalDefaultDirectionTolerance();
+  static void
+  SetGlobalDefaultCoordinateTolerance(double);
+  static double
+  GetGlobalDefaultCoordinateTolerance();
+  static void
+  SetGlobalDefaultDirectionTolerance(double);
+  static double
+  GetGlobalDefaultDirectionTolerance();
 };
 
 } // end namespace itk

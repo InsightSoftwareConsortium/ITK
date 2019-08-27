@@ -31,88 +31,86 @@
 
 namespace itk
 {
-template< typename TInputImage >
-AutoCropLabelMapFilter< TInputImage >
-::AutoCropLabelMapFilter()
+template <typename TInputImage>
+AutoCropLabelMapFilter<TInputImage>::AutoCropLabelMapFilter()
 {
   m_CropBorder.Fill(0);
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-AutoCropLabelMapFilter< TInputImage >
-::GenerateOutputInformation()
+AutoCropLabelMapFilter<TInputImage>::GenerateOutputInformation()
 {
-  const InputImageType *input = this->GetInput();
+  const InputImageType * input = this->GetInput();
 
   // update the input if needed
-  if ( input->GetSource() )
+  if (input->GetSource())
+  {
+    ProcessObject * upstream = input->GetSource();
+    if (upstream)
     {
-    ProcessObject *upstream = input->GetSource();
-    if ( upstream )
-      {
       upstream->Update();
-      }
     }
+  }
 
   // find the bounding box of the objects
   IndexType minIdx;
-  minIdx.Fill( NumericTraits< typename TInputImage::IndexValueType >::max() );
+  minIdx.Fill(NumericTraits<typename TInputImage::IndexValueType>::max());
   IndexType maxIdx;
-  maxIdx.Fill( NumericTraits< typename TInputImage::IndexValueType >::NonpositiveMin() );
+  maxIdx.Fill(NumericTraits<typename TInputImage::IndexValueType>::NonpositiveMin());
 
-  const InputImageType *inputImage = this->GetInput();
+  const InputImageType * inputImage = this->GetInput();
 
   // iterate over all the lines
-  typename InputImageType::ConstIterator loit( inputImage );
+  typename InputImageType::ConstIterator loit(inputImage);
 
-  while ( ! loit.IsAtEnd() )
+  while (!loit.IsAtEnd())
+  {
+    const LabelObjectType *                     labelObject = loit.GetLabelObject();
+    typename LabelObjectType::ConstLineIterator lit(labelObject);
+    while (!lit.IsAtEnd())
     {
-    const LabelObjectType *labelObject = loit.GetLabelObject();
-    typename LabelObjectType::ConstLineIterator lit( labelObject );
-    while ( ! lit.IsAtEnd() )
-      {
-      const IndexType & idx = lit.GetLine().GetIndex();
+      const IndexType &                          idx = lit.GetLine().GetIndex();
       const typename TInputImage::IndexValueType length = lit.GetLine().GetLength();
 
       // update the mins and maxs
-      for ( unsigned int i = 0; i < ImageDimension; i++ )
+      for (unsigned int i = 0; i < ImageDimension; i++)
+      {
+        if (idx[i] < minIdx[i])
         {
-        if ( idx[i] < minIdx[i] )
-          {
           minIdx[i] = idx[i];
-          }
-        if ( idx[i] > maxIdx[i] )
-          {
-          maxIdx[i] = idx[i];
-          }
         }
-      // must fix the max for the axis 0
-      if ( idx[0] + length > maxIdx[0] )
+        if (idx[i] > maxIdx[i])
         {
-        maxIdx[0] = idx[0] + length - 1;
+          maxIdx[i] = idx[i];
         }
-      ++lit;
       }
-    ++loit;
+      // must fix the max for the axis 0
+      if (idx[0] + length > maxIdx[0])
+      {
+        maxIdx[0] = idx[0] + length - 1;
+      }
+      ++lit;
     }
+    ++loit;
+  }
 
 
   // final computation
-  SizeType regionSize;
+  SizeType             regionSize;
   InputImageRegionType cropRegion;
 
-  for ( unsigned int i = 0; i < ImageDimension; i++ )
-    {
+  for (unsigned int i = 0; i < ImageDimension; i++)
+  {
     regionSize[i] = maxIdx[i] - minIdx[i] + 1;
-    }
+  }
   cropRegion.SetIndex(minIdx);
   cropRegion.SetSize(regionSize);
 
   // pad the crop border while ensuring border is not larger than the largest
   // possible region of the input image
   cropRegion.PadByRadius(m_CropBorder);
-  cropRegion.Crop( input->GetLargestPossibleRegion() );
+  cropRegion.Crop(input->GetLargestPossibleRegion());
 
   // finally set that region as the largest output region
   this->SetRegion(cropRegion);
@@ -120,14 +118,13 @@ AutoCropLabelMapFilter< TInputImage >
   Superclass::GenerateOutputInformation();
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-AutoCropLabelMapFilter< TImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+AutoCropLabelMapFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Crop Border: "  << m_CropBorder << std::endl;
+  os << indent << "Crop Border: " << m_CropBorder << std::endl;
 }
 } // end namespace itk
 

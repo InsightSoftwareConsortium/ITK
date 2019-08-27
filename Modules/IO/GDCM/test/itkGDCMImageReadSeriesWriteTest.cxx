@@ -26,14 +26,15 @@
 #include "itkGDCMImageIO.h"
 #include "itkGDCMSeriesFileNames.h"
 
-int itkGDCMImageReadSeriesWriteTest( int argc, char* argv[] )
+int
+itkGDCMImageReadSeriesWriteTest(int argc, char * argv[])
 {
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " InputImage OutputDicomDirectory SingleOutputImage" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   const char * inputImage = argv[1];
   const char * outputDirectory = argv[2];
   const char * singleOutputImage = argv[3];
@@ -41,35 +42,35 @@ int itkGDCMImageReadSeriesWriteTest( int argc, char* argv[] )
   using PixelType = signed short;
   constexpr unsigned int Dimension = 3;
 
-  using ImageType = itk::Image< PixelType, Dimension >;
-  using ReaderType = itk::ImageFileReader< ImageType  >;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
 
-  reader->SetFileName( inputImage );
+  reader->SetFileName(inputImage);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   using ImageIOType = itk::GDCMImageIO;
   using NamesGeneratorType = itk::NumericSeriesFileNames;
 
   ImageIOType::Pointer gdcmIO = ImageIOType::New();
 
-  itksys::SystemTools::MakeDirectory( outputDirectory );
+  itksys::SystemTools::MakeDirectory(outputDirectory);
 
   using OutputPixelType = signed short;
   constexpr unsigned int OutputDimension = 2;
 
-  using Image2DType = itk::Image< OutputPixelType, OutputDimension >;
-  using SeriesWriterType = itk::ImageSeriesWriter< ImageType, Image2DType >;
+  using Image2DType = itk::Image<OutputPixelType, OutputDimension>;
+  using SeriesWriterType = itk::ImageSeriesWriter<ImageType, Image2DType>;
 
   NamesGeneratorType::Pointer namesGenerator = NamesGeneratorType::New();
 
   itk::MetaDataDictionary & dict = gdcmIO->GetMetaDataDictionary();
-  std::string tagkey, value;
+  std::string               tagkey, value;
   tagkey = "0008|0060"; // Modality
   value = "MR";
-  itk::EncapsulateMetaData<std::string>(dict, tagkey, value );
+  itk::EncapsulateMetaData<std::string>(dict, tagkey, value);
   tagkey = "0008|0008"; // Image Type
   value = "DERIVED\\SECONDARY";
   itk::EncapsulateMetaData<std::string>(dict, tagkey, value);
@@ -79,38 +80,38 @@ int itkGDCMImageReadSeriesWriteTest( int argc, char* argv[] )
 
 
   SeriesWriterType::Pointer seriesWriter = SeriesWriterType::New();
-  seriesWriter->SetInput( reader->GetOutput() );
-  seriesWriter->SetImageIO( gdcmIO );
+  seriesWriter->SetInput(reader->GetOutput());
+  seriesWriter->SetImageIO(gdcmIO);
 
   ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
-  ImageType::IndexType start = region.GetIndex();
-  ImageType::SizeType  size  = region.GetSize();
+  ImageType::IndexType  start = region.GetIndex();
+  ImageType::SizeType   size = region.GetSize();
 
 
   std::string format = outputDirectory;
   format += "/image%03d.dcm";
 
-  namesGenerator->SetSeriesFormat( format.c_str() );
-  namesGenerator->SetStartIndex( start[2] );
-  namesGenerator->SetEndIndex( start[2] + size[2] - 1 );
-  namesGenerator->SetIncrementIndex( 1 );
+  namesGenerator->SetSeriesFormat(format.c_str());
+  namesGenerator->SetStartIndex(start[2]);
+  namesGenerator->SetEndIndex(start[2] + size[2] - 1);
+  namesGenerator->SetIncrementIndex(1);
 
-  seriesWriter->SetFileNames( namesGenerator->GetFileNames() );
+  seriesWriter->SetFileNames(namesGenerator->GetFileNames());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( seriesWriter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(seriesWriter->Update());
 
 
   // Now read back in and write out as 3D image for comparison with the input.
-  using SeriesReaderType = itk::ImageSeriesReader< ImageType >;
+  using SeriesReaderType = itk::ImageSeriesReader<ImageType>;
   SeriesReaderType::Pointer seriesReader = SeriesReaderType::New();
-  seriesReader->SetFileNames( namesGenerator->GetFileNames() );
+  seriesReader->SetFileNames(namesGenerator->GetFileNames());
 
-  using SingleWriterType = itk::ImageFileWriter< ImageType >;
+  using SingleWriterType = itk::ImageFileWriter<ImageType>;
   SingleWriterType::Pointer singleWriter = SingleWriterType::New();
-  singleWriter->SetInput( seriesReader->GetOutput() );
-  singleWriter->SetFileName( singleOutputImage );
+  singleWriter->SetInput(seriesReader->GetOutput());
+  singleWriter->SetFileName(singleOutputImage);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( singleWriter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(singleWriter->Update());
 
   return EXIT_SUCCESS;
 }

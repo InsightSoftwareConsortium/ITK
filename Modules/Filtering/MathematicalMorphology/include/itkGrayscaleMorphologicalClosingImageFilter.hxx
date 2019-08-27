@@ -27,9 +27,8 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
-::GrayscaleMorphologicalClosingImageFilter()
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::GrayscaleMorphologicalClosingImageFilter()
 {
   m_BasicErodeFilter = BasicErodeFilterType::New();
   m_BasicDilateFilter = BasicDilateFilterType::New();
@@ -42,28 +41,27 @@ GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
   m_SafeBorder = true;
 }
 
-template< typename TInputImage, typename TOutputImage, typename TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
-GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
-::SetKernel(const KernelType & kernel)
+GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::SetKernel(const KernelType & kernel)
 {
-  const auto * flatKernel = dynamic_cast< const FlatKernelType * >( &kernel );
+  const auto * flatKernel = dynamic_cast<const FlatKernelType *>(&kernel);
 
-  if ( flatKernel != nullptr && flatKernel->GetDecomposable() )
-    {
+  if (flatKernel != nullptr && flatKernel->GetDecomposable())
+  {
     m_AnchorFilter->SetKernel(*flatKernel);
     m_Algorithm = ANCHOR;
-    }
-  else if ( m_HistogramErodeFilter->GetUseVectorBasedAlgorithm() )
-    {
+  }
+  else if (m_HistogramErodeFilter->GetUseVectorBasedAlgorithm())
+  {
     // histogram based filter is as least as good as the basic one, so always
     // use it
     m_Algorithm = HISTO;
     m_HistogramErodeFilter->SetKernel(kernel);
     m_HistogramDilateFilter->SetKernel(kernel);
-    }
+  }
   else
-    {
+  {
     // basic filter can be better than the histogram based one
     // apply a poor heuristic to find the best one. What is very important is to
     // select the histogram for large kernels
@@ -72,64 +70,62 @@ GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
     // histogram algorithm
     m_HistogramErodeFilter->SetKernel(kernel);
 
-    if ( this->GetKernel().Size() < m_HistogramErodeFilter->GetPixelsPerTranslation() * 4.0 )
-      {
+    if (this->GetKernel().Size() < m_HistogramErodeFilter->GetPixelsPerTranslation() * 4.0)
+    {
       m_BasicErodeFilter->SetKernel(kernel);
       m_BasicDilateFilter->SetKernel(kernel);
       m_Algorithm = BASIC;
-      }
+    }
     else
-      {
+    {
       m_HistogramDilateFilter->SetKernel(kernel);
       m_Algorithm = HISTO;
-      }
     }
+  }
 
   Superclass::SetKernel(kernel);
 }
 
-template< typename TInputImage, typename TOutputImage, typename TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
-GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
-::SetAlgorithm(int algo)
+GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::SetAlgorithm(int algo)
 {
-  const auto * flatKernel = dynamic_cast< const FlatKernelType * >( &this->GetKernel() );
+  const auto * flatKernel = dynamic_cast<const FlatKernelType *>(&this->GetKernel());
 
-  if ( m_Algorithm != algo )
+  if (m_Algorithm != algo)
+  {
+    if (algo == BASIC)
     {
-    if ( algo == BASIC )
-      {
-      m_BasicErodeFilter->SetKernel( this->GetKernel() );
-      m_BasicDilateFilter->SetKernel( this->GetKernel() );
-      }
-    else if ( algo == HISTO )
-      {
-      m_HistogramErodeFilter->SetKernel( this->GetKernel() );
-      m_HistogramDilateFilter->SetKernel( this->GetKernel() );
-      }
-    else if ( flatKernel != nullptr && flatKernel->GetDecomposable() && algo == ANCHOR )
-      {
+      m_BasicErodeFilter->SetKernel(this->GetKernel());
+      m_BasicDilateFilter->SetKernel(this->GetKernel());
+    }
+    else if (algo == HISTO)
+    {
+      m_HistogramErodeFilter->SetKernel(this->GetKernel());
+      m_HistogramDilateFilter->SetKernel(this->GetKernel());
+    }
+    else if (flatKernel != nullptr && flatKernel->GetDecomposable() && algo == ANCHOR)
+    {
       m_AnchorFilter->SetKernel(*flatKernel);
-      }
-    else if ( flatKernel != nullptr && flatKernel->GetDecomposable() && algo == VHGW )
-      {
+    }
+    else if (flatKernel != nullptr && flatKernel->GetDecomposable() && algo == VHGW)
+    {
       m_VanHerkGilWermanDilateFilter->SetKernel(*flatKernel);
       m_VanHerkGilWermanErodeFilter->SetKernel(*flatKernel);
-      }
+    }
     else
-      {
+    {
       itkExceptionMacro(<< "Invalid algorithm");
-      }
+    }
 
     m_Algorithm = algo;
     this->Modified();
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage, typename TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
-GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
-::GenerateData()
+GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
@@ -140,183 +136,182 @@ GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
   this->AllocateOutputs();
 
   // Delegate to a dilate filter.
-  if ( m_Algorithm == BASIC )
+  if (m_Algorithm == BASIC)
+  {
+    //     std::cout << "BasicErodeImageFilter" << std::endl;
+    if (m_SafeBorder)
     {
-//     std::cout << "BasicErodeImageFilter" << std::endl;
-    if ( m_SafeBorder )
-      {
-      using PadType = ConstantPadImageFilter< InputImageType, InputImageType >;
+      using PadType = ConstantPadImageFilter<InputImageType, InputImageType>;
       typename PadType::Pointer pad = PadType::New();
       pad->SetPadLowerBound(this->GetKernel().GetRadius());
       pad->SetPadUpperBound(this->GetKernel().GetRadius());
-      pad->SetConstant( NumericTraits< typename InputImageType::PixelType >::NonpositiveMin() );
-      pad->SetInput( this->GetInput() );
+      pad->SetConstant(NumericTraits<typename InputImageType::PixelType>::NonpositiveMin());
+      pad->SetInput(this->GetInput());
       progress->RegisterInternalFilter(pad, 0.1f);
 
-      m_BasicDilateFilter->SetInput( pad->GetOutput() );
+      m_BasicDilateFilter->SetInput(pad->GetOutput());
       progress->RegisterInternalFilter(m_BasicDilateFilter, 0.4f);
 
-      m_BasicErodeFilter->SetInput( m_BasicDilateFilter->GetOutput() );
+      m_BasicErodeFilter->SetInput(m_BasicDilateFilter->GetOutput());
       progress->RegisterInternalFilter(m_BasicErodeFilter, 0.4f);
 
-      using CropType = CropImageFilter< TOutputImage, TOutputImage >;
+      using CropType = CropImageFilter<TOutputImage, TOutputImage>;
       typename CropType::Pointer crop = CropType::New();
-      crop->SetInput( m_BasicErodeFilter->GetOutput() );
-      crop->SetUpperBoundaryCropSize( this->GetKernel().GetRadius() );
-      crop->SetLowerBoundaryCropSize( this->GetKernel().GetRadius() );
+      crop->SetInput(m_BasicErodeFilter->GetOutput());
+      crop->SetUpperBoundaryCropSize(this->GetKernel().GetRadius());
+      crop->SetLowerBoundaryCropSize(this->GetKernel().GetRadius());
       progress->RegisterInternalFilter(crop, 0.1f);
 
-      crop->GraftOutput( this->GetOutput() );
+      crop->GraftOutput(this->GetOutput());
       crop->Update();
-      this->GraftOutput( crop->GetOutput() );
-      }
+      this->GraftOutput(crop->GetOutput());
+    }
     else
-      {
-      m_BasicDilateFilter->SetInput( this->GetInput() );
+    {
+      m_BasicDilateFilter->SetInput(this->GetInput());
       progress->RegisterInternalFilter(m_BasicDilateFilter, 0.5f);
 
-      m_BasicErodeFilter->SetInput( m_BasicDilateFilter->GetOutput() );
+      m_BasicErodeFilter->SetInput(m_BasicDilateFilter->GetOutput());
       progress->RegisterInternalFilter(m_BasicErodeFilter, 0.5f);
 
-      m_BasicErodeFilter->GraftOutput( this->GetOutput() );
+      m_BasicErodeFilter->GraftOutput(this->GetOutput());
       m_BasicErodeFilter->Update();
-      this->GraftOutput( m_BasicErodeFilter->GetOutput() );
-      }
+      this->GraftOutput(m_BasicErodeFilter->GetOutput());
     }
-  else if ( m_Algorithm == HISTO )
-    {
+  }
+  else if (m_Algorithm == HISTO)
+  {
     // std::cout << "MovingHistogramErodeImageFilter" << std::endl;
-    if ( m_SafeBorder )
-      {
-      using PadType = ConstantPadImageFilter< InputImageType, InputImageType >;
+    if (m_SafeBorder)
+    {
+      using PadType = ConstantPadImageFilter<InputImageType, InputImageType>;
       typename PadType::Pointer pad = PadType::New();
       pad->SetPadLowerBound(this->GetKernel().GetRadius());
       pad->SetPadUpperBound(this->GetKernel().GetRadius());
-      pad->SetConstant( NumericTraits< typename InputImageType::PixelType >::NonpositiveMin() );
-      pad->SetInput( this->GetInput() );
+      pad->SetConstant(NumericTraits<typename InputImageType::PixelType>::NonpositiveMin());
+      pad->SetInput(this->GetInput());
       progress->RegisterInternalFilter(pad, 0.1f);
 
-      m_HistogramDilateFilter->SetInput( pad->GetOutput() );
+      m_HistogramDilateFilter->SetInput(pad->GetOutput());
       progress->RegisterInternalFilter(m_HistogramDilateFilter, 0.4f);
 
-      m_HistogramErodeFilter->SetInput( m_HistogramDilateFilter->GetOutput() );
+      m_HistogramErodeFilter->SetInput(m_HistogramDilateFilter->GetOutput());
       progress->RegisterInternalFilter(m_HistogramErodeFilter, 0.4f);
 
-      using CropType = CropImageFilter< TOutputImage, TOutputImage >;
+      using CropType = CropImageFilter<TOutputImage, TOutputImage>;
       typename CropType::Pointer crop = CropType::New();
-      crop->SetInput( m_HistogramErodeFilter->GetOutput() );
-      crop->SetUpperBoundaryCropSize( this->GetKernel().GetRadius() );
-      crop->SetLowerBoundaryCropSize( this->GetKernel().GetRadius() );
+      crop->SetInput(m_HistogramErodeFilter->GetOutput());
+      crop->SetUpperBoundaryCropSize(this->GetKernel().GetRadius());
+      crop->SetLowerBoundaryCropSize(this->GetKernel().GetRadius());
       progress->RegisterInternalFilter(crop, 0.1f);
 
-      crop->GraftOutput( this->GetOutput() );
+      crop->GraftOutput(this->GetOutput());
       crop->Update();
-      this->GraftOutput( crop->GetOutput() );
-      }
+      this->GraftOutput(crop->GetOutput());
+    }
     else
-      {
-      m_HistogramDilateFilter->SetInput( this->GetInput() );
+    {
+      m_HistogramDilateFilter->SetInput(this->GetInput());
       progress->RegisterInternalFilter(m_HistogramDilateFilter, 0.5f);
 
-      m_HistogramErodeFilter->SetInput( m_HistogramDilateFilter->GetOutput() );
+      m_HistogramErodeFilter->SetInput(m_HistogramDilateFilter->GetOutput());
       progress->RegisterInternalFilter(m_HistogramErodeFilter, 0.5f);
 
-      m_HistogramErodeFilter->GraftOutput( this->GetOutput() );
+      m_HistogramErodeFilter->GraftOutput(this->GetOutput());
       m_HistogramErodeFilter->Update();
-      this->GraftOutput( m_HistogramErodeFilter->GetOutput() );
-      }
+      this->GraftOutput(m_HistogramErodeFilter->GetOutput());
     }
-  else if ( m_Algorithm == VHGW )
-    {
+  }
+  else if (m_Algorithm == VHGW)
+  {
     // std::cout << "VanHerkGilWermanErodeImageFilter" << std::endl;
-    if ( m_SafeBorder )
-      {
-      using PadType = ConstantPadImageFilter< InputImageType, InputImageType >;
+    if (m_SafeBorder)
+    {
+      using PadType = ConstantPadImageFilter<InputImageType, InputImageType>;
       typename PadType::Pointer pad = PadType::New();
       pad->SetPadLowerBound(this->GetKernel().GetRadius());
       pad->SetPadUpperBound(this->GetKernel().GetRadius());
-      pad->SetConstant( NumericTraits< typename InputImageType::PixelType >::NonpositiveMin() );
-      pad->SetInput( this->GetInput() );
+      pad->SetConstant(NumericTraits<typename InputImageType::PixelType>::NonpositiveMin());
+      pad->SetInput(this->GetInput());
       progress->RegisterInternalFilter(pad, 0.1f);
 
-      m_VanHerkGilWermanDilateFilter->SetInput( pad->GetOutput() );
+      m_VanHerkGilWermanDilateFilter->SetInput(pad->GetOutput());
       progress->RegisterInternalFilter(m_VanHerkGilWermanDilateFilter, 0.4f);
 
-      m_VanHerkGilWermanErodeFilter->SetInput( m_VanHerkGilWermanDilateFilter->GetOutput() );
+      m_VanHerkGilWermanErodeFilter->SetInput(m_VanHerkGilWermanDilateFilter->GetOutput());
       progress->RegisterInternalFilter(m_VanHerkGilWermanErodeFilter, 0.4f);
 
-      using CropType = CropImageFilter< TOutputImage, TOutputImage >;
+      using CropType = CropImageFilter<TOutputImage, TOutputImage>;
       typename CropType::Pointer crop = CropType::New();
-      crop->SetInput( m_VanHerkGilWermanErodeFilter->GetOutput() );
-      crop->SetUpperBoundaryCropSize( this->GetKernel().GetRadius() );
-      crop->SetLowerBoundaryCropSize( this->GetKernel().GetRadius() );
+      crop->SetInput(m_VanHerkGilWermanErodeFilter->GetOutput());
+      crop->SetUpperBoundaryCropSize(this->GetKernel().GetRadius());
+      crop->SetLowerBoundaryCropSize(this->GetKernel().GetRadius());
       progress->RegisterInternalFilter(crop, 0.1f);
 
-      crop->GraftOutput( this->GetOutput() );
+      crop->GraftOutput(this->GetOutput());
       crop->Update();
-      this->GraftOutput( crop->GetOutput() );
-      }
+      this->GraftOutput(crop->GetOutput());
+    }
     else
-      {
-      m_VanHerkGilWermanDilateFilter->SetInput( this->GetInput() );
+    {
+      m_VanHerkGilWermanDilateFilter->SetInput(this->GetInput());
       progress->RegisterInternalFilter(m_VanHerkGilWermanDilateFilter, 0.5f);
 
-      m_VanHerkGilWermanErodeFilter->SetInput( m_VanHerkGilWermanDilateFilter->GetOutput() );
+      m_VanHerkGilWermanErodeFilter->SetInput(m_VanHerkGilWermanDilateFilter->GetOutput());
       progress->RegisterInternalFilter(m_VanHerkGilWermanErodeFilter, 0.5f);
 
-      m_VanHerkGilWermanErodeFilter->GraftOutput( this->GetOutput() );
+      m_VanHerkGilWermanErodeFilter->GraftOutput(this->GetOutput());
       m_VanHerkGilWermanErodeFilter->Update();
-      this->GraftOutput( m_VanHerkGilWermanErodeFilter->GetOutput() );
-      }
+      this->GraftOutput(m_VanHerkGilWermanErodeFilter->GetOutput());
     }
-  else if ( m_Algorithm == ANCHOR )
-    {
+  }
+  else if (m_Algorithm == ANCHOR)
+  {
     // std::cout << "AnchorErodeImageFilter" << std::endl;
-    if ( m_SafeBorder )
-      {
-      using PadType = ConstantPadImageFilter< InputImageType, InputImageType >;
+    if (m_SafeBorder)
+    {
+      using PadType = ConstantPadImageFilter<InputImageType, InputImageType>;
       typename PadType::Pointer pad = PadType::New();
       pad->SetPadLowerBound(this->GetKernel().GetRadius());
       pad->SetPadUpperBound(this->GetKernel().GetRadius());
-      pad->SetConstant( NumericTraits< typename InputImageType::PixelType >::NonpositiveMin() );
-      pad->SetInput( this->GetInput() );
+      pad->SetConstant(NumericTraits<typename InputImageType::PixelType>::NonpositiveMin());
+      pad->SetInput(this->GetInput());
       progress->RegisterInternalFilter(pad, 0.1f);
 
-      m_AnchorFilter->SetInput( pad->GetOutput() );
+      m_AnchorFilter->SetInput(pad->GetOutput());
       progress->RegisterInternalFilter(m_AnchorFilter, 0.8f);
 
-      using CropType = CropImageFilter< TInputImage, TOutputImage >;
+      using CropType = CropImageFilter<TInputImage, TOutputImage>;
       typename CropType::Pointer crop = CropType::New();
-      crop->SetInput( m_AnchorFilter->GetOutput() );
-      crop->SetUpperBoundaryCropSize( this->GetKernel().GetRadius() );
-      crop->SetLowerBoundaryCropSize( this->GetKernel().GetRadius() );
+      crop->SetInput(m_AnchorFilter->GetOutput());
+      crop->SetUpperBoundaryCropSize(this->GetKernel().GetRadius());
+      crop->SetLowerBoundaryCropSize(this->GetKernel().GetRadius());
       progress->RegisterInternalFilter(crop, 0.1f);
 
-      crop->GraftOutput( this->GetOutput() );
+      crop->GraftOutput(this->GetOutput());
       crop->Update();
-      this->GraftOutput( crop->GetOutput() );
-      }
+      this->GraftOutput(crop->GetOutput());
+    }
     else
-      {
-      m_AnchorFilter->SetInput( this->GetInput() );
+    {
+      m_AnchorFilter->SetInput(this->GetInput());
       progress->RegisterInternalFilter(m_AnchorFilter, 0.9f);
 
-      using CastType = CastImageFilter< TInputImage, TOutputImage >;
+      using CastType = CastImageFilter<TInputImage, TOutputImage>;
       typename CastType::Pointer cast = CastType::New();
-      cast->SetInput( m_AnchorFilter->GetOutput() );
+      cast->SetInput(m_AnchorFilter->GetOutput());
       progress->RegisterInternalFilter(cast, 0.1f);
 
-      cast->GraftOutput( this->GetOutput() );
+      cast->GraftOutput(this->GetOutput());
       cast->Update();
-      this->GraftOutput( cast->GetOutput() );
-      }
+      this->GraftOutput(cast->GetOutput());
     }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage, typename TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
-GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
-::Modified() const
+GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::Modified() const
 {
   Superclass::Modified();
   m_BasicErodeFilter->Modified();
@@ -328,10 +323,10 @@ GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
   m_AnchorFilter->Modified();
 }
 
-template< typename TInputImage, typename TOutputImage, typename TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
-GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
-::PrintSelf(std::ostream & os, Indent indent) const
+GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::PrintSelf(std::ostream & os,
+                                                                                        Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
 

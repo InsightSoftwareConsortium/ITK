@@ -21,10 +21,10 @@ namespace itk
 {
 /** Define how to print enumerations */
 std::ostream &
-operator<<( std::ostream & out, const SourceTypeOfGradient value )
+operator<<(std::ostream & out, const SourceTypeOfGradient value)
 {
   const char * s = nullptr;
-  switch ( value )
+  switch (value)
   {
     case SourceTypeOfGradient::GRADIENT_SOURCE_FIXED:
       s = "SourceTypeOfGradient::GRADIENT_SOURCE_FIXED";
@@ -43,10 +43,10 @@ operator<<( std::ostream & out, const SourceTypeOfGradient value )
 
 /** Define how to print enumerations */
 std::ostream &
-operator<<( std::ostream & out, const CategoryTypeForMetric value )
+operator<<(std::ostream & out, const CategoryTypeForMetric value)
 {
   const char * s = nullptr;
-  switch ( value )
+  switch (value)
   {
     case CategoryTypeForMetric::UNKNOWN_METRIC:
       s = "CategoryTypeForMetric::UNKNOWN_METRIC";

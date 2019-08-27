@@ -73,13 +73,18 @@ public:
    * Methods related to numeric integration
    */
 
-  enum { DefaultIntegrationOrder = 2 };
+  enum
+  {
+    DefaultIntegrationOrder = 2
+  };
 
   /** Get the Integration point and weight */
-  void GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const override;
+  void
+  GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const override;
 
   /** Get the number of integration points */
-  unsigned int GetNumberOfIntegrationPoints(unsigned int order) const override;
+  unsigned int
+  GetNumberOfIntegrationPoints(unsigned int order) const override;
 
   // ////////////////////////////////////////////////////////////////////////
   /**
@@ -87,26 +92,32 @@ public:
    */
 
   /** Return the shape functions used to interpolate across the element */
-  VectorType ShapeFunctions(const VectorType & pt) const override;
+  VectorType
+  ShapeFunctions(const VectorType & pt) const override;
 
   /** Return the shape functions derivatives in the shapeD matrix */
-  void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const override;
+  void
+  ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const override;
 
   /** Convert from global to local coordinates */
-  bool GetLocalFromGlobalCoordinates(const VectorType & GlobalPt, VectorType & LocalPt) const override;
+  bool
+  GetLocalFromGlobalCoordinates(const VectorType & GlobalPt, VectorType & LocalPt) const override;
 
   // Since the Jacobian is not quadratic, we need to provide our
   // own implementation of calculating the determinant and inverse.
-  Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ = nullptr) const override;
+  Float
+  JacobianDeterminant(const VectorType & pt, const MatrixType * pJ = nullptr) const override;
 
   /** Compute the inverse of the Jacobian matrix */
-  void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = nullptr) const override;
+  void
+  JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType * pJ = nullptr) const override;
 
 protected:
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void PopulateEdgeIds() override;
-
+  void
+  PopulateEdgeIds() override;
 };
 } // end namespace fem
 } // end namespace itk

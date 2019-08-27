@@ -62,22 +62,19 @@ namespace itk
  *
  * \ingroup ITKSignedDistanceFunction
  */
-template< typename TCoordRep,
-          unsigned int VSpaceDimension,
-          typename TImage = Image< double, VSpaceDimension > >
-class ITK_TEMPLATE_EXPORT PCAShapeSignedDistanceFunction:
-  public ShapeSignedDistanceFunction< TCoordRep, VSpaceDimension >
+template <typename TCoordRep, unsigned int VSpaceDimension, typename TImage = Image<double, VSpaceDimension>>
+class ITK_TEMPLATE_EXPORT PCAShapeSignedDistanceFunction
+  : public ShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PCAShapeSignedDistanceFunction);
 
   /** Standard class type aliases. */
   using Self = PCAShapeSignedDistanceFunction;
-  using Superclass = ShapeSignedDistanceFunction<
-    TCoordRep, VSpaceDimension >;
+  using Superclass = ShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PCAShapeSignedDistanceFunction, ShapeSignedDistancFunction);
@@ -106,31 +103,30 @@ public:
   /** Image type alias support */
   using ImageType = TImage;
   using ImagePointer = typename ImageType::Pointer;
-  using ImagePointerVector = std::vector< ImagePointer >;
+  using ImagePointerVector = std::vector<ImagePointer>;
 
   /** Transform type alias support */
-  using TransformType = Transform< CoordRepType,
-                     Self::SpaceDimension,
-                     Self::SpaceDimension >;
+  using TransformType = Transform<CoordRepType, Self::SpaceDimension, Self::SpaceDimension>;
 
   /** Interpolator type alias support */
-  using InterpolatorType = InterpolateImageFunction< ImageType, CoordRepType >;
+  using InterpolatorType = InterpolateImageFunction<ImageType, CoordRepType>;
   using InterpolatorPointer = typename InterpolatorType::Pointer;
-  using InterpolatorPointerVector = std::vector< InterpolatorPointer >;
+  using InterpolatorPointerVector = std::vector<InterpolatorPointer>;
 
   /** extrapolator type alias support */
-  using ExtrapolatorType = ExtrapolateImageFunction< ImageType, CoordRepType >;
+  using ExtrapolatorType = ExtrapolateImageFunction<ImageType, CoordRepType>;
   using ExtrapolatorPointer = typename ExtrapolatorType::Pointer;
-  using ExtrapolatorPointerVector = std::vector< ExtrapolatorPointer >;
+  using ExtrapolatorPointerVector = std::vector<ExtrapolatorPointer>;
 
   /** function type alias support */
-  using FunctionType = ImageFunction< ImageType, double, CoordRepType >;
+  using FunctionType = ImageFunction<ImageType, double, CoordRepType>;
   using FunctionPointer = typename FunctionType::Pointer;
-  using FunctionPointerVector = std::vector< FunctionPointer >;
+  using FunctionPointerVector = std::vector<FunctionPointer>;
 
   /** Set/Get the number of principal components
    * SetNumberOfPrincipalComponents must be called before SetParameters */
-  void SetNumberOfPrincipalComponents(unsigned int n);
+  void
+  SetNumberOfPrincipalComponents(unsigned int n);
 
   itkGetConstMacro(NumberOfPrincipalComponents, unsigned int);
 
@@ -139,10 +135,13 @@ public:
   itkGetModifiableObjectMacro(MeanImage, ImageType);
 
   /** Set/Get the principal component images. */
-  void SetPrincipalComponentImages(ImagePointerVector v)
-  { m_PrincipalComponentImages = v; }
-//  ImagePointerVector & GetPrincipalComponentImages()
-//    { return m_PrincipalComponentImages; }
+  void
+  SetPrincipalComponentImages(ImagePointerVector v)
+  {
+    m_PrincipalComponentImages = v;
+  }
+  //  ImagePointerVector & GetPrincipalComponentImages()
+  //    { return m_PrincipalComponentImages; }
 
   /** Set/Get the principal component standard deviations. These values corresponds
    * to the square root of the eigenvalues of the principal components. */
@@ -154,25 +153,35 @@ public:
   itkGetModifiableObjectMacro(Transform, TransformType);
 
   /** A PCAShape is defined by a set of shape and pose parameters. */
-  void SetParameters(const ParametersType &) override;
+  void
+  SetParameters(const ParametersType &) override;
 
-  unsigned int GetNumberOfShapeParameters() const override
-  { return m_NumberOfPrincipalComponents; }
-  unsigned int GetNumberOfPoseParameters() const override
-  { return m_Transform ? m_Transform->GetNumberOfParameters() : 0; }
+  unsigned int
+  GetNumberOfShapeParameters() const override
+  {
+    return m_NumberOfPrincipalComponents;
+  }
+  unsigned int
+  GetNumberOfPoseParameters() const override
+  {
+    return m_Transform ? m_Transform->GetNumberOfParameters() : 0;
+  }
 
   /** Evaluate the signed distance from a shape at a given position. */
-  OutputType Evaluate(const PointType & point) const override;
+  OutputType
+  Evaluate(const PointType & point) const override;
 
   /** Initialize must be called before the first call of
    Evaluate() to allow the class to validate any inputs. */
-  void Initialize() override;
+  void
+  Initialize() override;
 
 protected:
   PCAShapeSignedDistanceFunction();
   ~PCAShapeSignedDistanceFunction() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** intrinsic data members */
@@ -186,8 +195,8 @@ private:
   /** transform and interpolator/extrapolator for image interpolation */
   typename TransformType::Pointer m_Transform;
 
-  InterpolatorPointerVector     m_Interpolators;
-  ExtrapolatorPointerVector     m_Extrapolators;
+  InterpolatorPointerVector m_Interpolators;
+  ExtrapolatorPointerVector m_Extrapolators;
 
   /** shape and pose parameters */
   ParametersType m_WeightOfPrincipalComponents;
@@ -196,7 +205,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPCAShapeSignedDistanceFunction.hxx"
+#  include "itkPCAShapeSignedDistanceFunction.hxx"
 #endif
 
 #endif

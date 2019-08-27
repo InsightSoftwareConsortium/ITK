@@ -23,97 +23,99 @@ namespace itk
 {
 namespace watershed
 {
-template< typename TScalar, unsigned int TImageDimension >
-void EquivalenceRelabeler< TScalar, TImageDimension >
-::GenerateData()
+template <typename TScalar, unsigned int TImageDimension>
+void
+EquivalenceRelabeler<TScalar, TImageDimension>::GenerateData()
 {
-  typename ImageType::ConstPointer input  = this->GetInputImage();
-  typename ImageType::Pointer output = this->GetOutputImage();
+  typename ImageType::ConstPointer input = this->GetInputImage();
+  typename ImageType::Pointer      output = this->GetOutputImage();
 
   typename EquivalencyTableType::Pointer eqT = this->GetEquivalencyTable();
 
-  output->SetBufferedRegion( output->GetRequestedRegion() );
+  output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
 
   //
   // Copy input to output
   //
-  ImageRegionConstIterator< ImageType > it_a( input, output->GetRequestedRegion() );
-  ImageRegionIterator< ImageType >      it_b( output, output->GetRequestedRegion() );
+  ImageRegionConstIterator<ImageType> it_a(input, output->GetRequestedRegion());
+  ImageRegionIterator<ImageType>      it_b(output, output->GetRequestedRegion());
 
   it_a.GoToBegin();
   it_b.GoToBegin();
-  while ( !it_a.IsAtEnd() )
-    {
-    it_b.Set( it_a.Get() );
+  while (!it_a.IsAtEnd())
+  {
+    it_b.Set(it_a.Get());
     ++it_a;
     ++it_b;
-    }
+  }
 
   eqT->Flatten();
   SegmenterType::RelabelImage(output, output->GetRequestedRegion(), eqT);
 }
 
-template< typename TScalar, unsigned int VImageDimension >
-void EquivalenceRelabeler< TScalar, VImageDimension >
-::GenerateInputRequestedRegion()
+template <typename TScalar, unsigned int VImageDimension>
+void
+EquivalenceRelabeler<TScalar, VImageDimension>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  auto * inputPtr = const_cast< ImageType * >( this->GetInputImage() );
-  ImageType *outputPtr  = this->GetOutputImage();
+  auto *      inputPtr = const_cast<ImageType *>(this->GetInputImage());
+  ImageType * outputPtr = this->GetOutputImage();
 
-  if ( !inputPtr || !outputPtr )
-    {
+  if (!inputPtr || !outputPtr)
+  {
     return;
-    }
+  }
 
   //
   // FOR NOW WE'LL JUST SET THE INPUT REGION TO THE OUTPUT REGION
   // FOR STREAMING WITHIN THE PIPELINE NEED TO FIX THIS
   //
-  inputPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
+  inputPtr->SetRequestedRegion(outputPtr->GetRequestedRegion());
 }
 
-template< typename TScalar, unsigned int TImageDimension >
-void EquivalenceRelabeler< TScalar, TImageDimension >
-::GenerateOutputRequestedRegion(DataObject *output)
+template <typename TScalar, unsigned int TImageDimension>
+void
+EquivalenceRelabeler<TScalar, TImageDimension>::GenerateOutputRequestedRegion(DataObject * output)
 {
   // Only the Image output need to be propagated through.
   // No choice but to use RTTI here.
   // All Image outputs set to the same RequestedRegion  other
   // outputs ignored.
-  ImageBase< ImageDimension > *imgData;
-  ImageBase< ImageDimension > *op;
-  imgData = dynamic_cast< ImageBase< ImageDimension > * >( output );
+  ImageBase<ImageDimension> * imgData;
+  ImageBase<ImageDimension> * op;
+  imgData = dynamic_cast<ImageBase<ImageDimension> *>(output);
 
-  if ( imgData )
+  if (imgData)
+  {
+    std::vector<ProcessObject::DataObjectPointer>::size_type idx;
+    for (idx = 0; idx < this->GetNumberOfIndexedOutputs(); ++idx)
     {
-    std::vector< ProcessObject::DataObjectPointer >::size_type idx;
-    for ( idx = 0; idx < this->GetNumberOfIndexedOutputs(); ++idx )
+      if (this->GetOutput(idx) && this->GetOutput(idx) != output)
       {
-      if ( this->GetOutput(idx) && this->GetOutput(idx) != output )
+        op = dynamic_cast<ImageBase<ImageDimension> *>(this->GetOutput(idx));
+        if (op)
         {
-        op = dynamic_cast< ImageBase< ImageDimension > * >( this->GetOutput(idx) );
-        if ( op ) { this->GetOutput(idx)->SetRequestedRegion(output); }
+          this->GetOutput(idx)->SetRequestedRegion(output);
         }
       }
     }
+  }
 }
 
-template< typename TScalar, unsigned int TImageDimension >
-void EquivalenceRelabeler< TScalar, TImageDimension >
-::PrintSelf(std::ostream & os, Indent indent) const
+template <typename TScalar, unsigned int TImageDimension>
+void
+EquivalenceRelabeler<TScalar, TImageDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
-template< typename TScalar, unsigned int TImageDimension >
-typename EquivalenceRelabeler< TScalar, TImageDimension >::DataObjectPointer
-EquivalenceRelabeler< TScalar, TImageDimension >
-::MakeOutput(DataObjectPointerArraySizeType)
+template <typename TScalar, unsigned int TImageDimension>
+typename EquivalenceRelabeler<TScalar, TImageDimension>::DataObjectPointer
+  EquivalenceRelabeler<TScalar, TImageDimension>::MakeOutput(DataObjectPointerArraySizeType)
 {
   return ImageType::New().GetPointer();
 }

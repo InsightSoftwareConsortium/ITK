@@ -58,16 +58,17 @@
 // Software Guide : EndCodeSnippet
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 6 )
-    {
+  if (argc < 6)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputGradientImageFile ";
     std::cerr << "outputSmoothedGradientImageFile ";
     std::cerr << "numberOfIterations timeStep" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //  Software Guide : BeginLatex
@@ -80,15 +81,15 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   using InputPixelType = float;
-  using VectorPixelType = itk::CovariantVector< float, 2 >;
-  using InputImageType = itk::Image< InputPixelType,  2 >;
-  using VectorImageType = itk::Image< VectorPixelType, 2 >;
+  using VectorPixelType = itk::CovariantVector<float, 2>;
+  using InputImageType = itk::Image<InputPixelType, 2>;
+  using VectorImageType = itk::Image<VectorPixelType, 2>;
   // Software Guide : EndCodeSnippet
 
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
 
   //  Software Guide : BeginLatex
@@ -104,14 +105,15 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::VectorGradientAnisotropicDiffusionImageFilter<
-                       VectorImageType, VectorImageType >;
+  using FilterType =
+    itk::VectorGradientAnisotropicDiffusionImageFilter<VectorImageType,
+                                                       VectorImageType>;
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
 
-  using GradientFilterType = itk::GradientRecursiveGaussianImageFilter<
-                       InputImageType, VectorImageType >;
+  using GradientFilterType =
+    itk::GradientRecursiveGaussianImageFilter<InputImageType, VectorImageType>;
   GradientFilterType::Pointer gradient = GradientFilterType::New();
 
 
@@ -124,13 +126,13 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  gradient->SetInput( reader->GetOutput() );
-  filter->SetInput( gradient->GetOutput() );
+  gradient->SetInput(reader->GetOutput());
+  filter->SetInput(gradient->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
-  const unsigned int numberOfIterations = std::stoi( argv[4] );
-  const double       timeStep = std::stod( argv[5] );
+  const unsigned int numberOfIterations = std::stoi(argv[4]);
+  const double       timeStep = std::stod(argv[5]);
 
 
   //  Software Guide : BeginLatex
@@ -150,8 +152,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetNumberOfIterations( numberOfIterations );
-  filter->SetTimeStep( timeStep );
+  filter->SetNumberOfIterations(numberOfIterations);
+  filter->SetTimeStep(timeStep);
   filter->SetConductanceParameter(1.0);
   filter->Update();
   // Software Guide : EndCodeSnippet
@@ -173,35 +175,35 @@ int main( int argc, char * argv[] )
   //  after the curvature flow filter.
   //
   using OutputPixelType = float;
-  using OutputImageType = itk::Image< OutputPixelType,  2 >;
-  using ComponentFilterType = itk::VectorIndexSelectionCastImageFilter<
-                  VectorImageType, OutputImageType >;
+  using OutputImageType = itk::Image<OutputPixelType, 2>;
+  using ComponentFilterType =
+    itk::VectorIndexSelectionCastImageFilter<VectorImageType, OutputImageType>;
   ComponentFilterType::Pointer component = ComponentFilterType::New();
 
   // Select the component to extract.
-  component->SetIndex( 0 );
+  component->SetIndex(0);
 
   using WritePixelType = unsigned char;
-  using WriteImageType = itk::Image< WritePixelType, 2 >;
-  using RescaleFilterType = itk::RescaleIntensityImageFilter<
-               OutputImageType, WriteImageType >;
+  using WriteImageType = itk::Image<WritePixelType, 2>;
+  using RescaleFilterType =
+    itk::RescaleIntensityImageFilter<OutputImageType, WriteImageType>;
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
-  rescaler->SetOutputMinimum(   0 );
-  rescaler->SetOutputMaximum( 255 );
+  rescaler->SetOutputMinimum(0);
+  rescaler->SetOutputMaximum(255);
 
-  using WriterType = itk::ImageFileWriter< WriteImageType >;
+  using WriterType = itk::ImageFileWriter<WriteImageType>;
   WriterType::Pointer writer = WriterType::New();
-  rescaler->SetInput( component->GetOutput() );
-  writer->SetInput( rescaler->GetOutput() );
+  rescaler->SetInput(component->GetOutput());
+  writer->SetInput(rescaler->GetOutput());
 
   // Save the component of the original gradient
-  component->SetInput( gradient->GetOutput() );
-  writer->SetFileName( argv[2] );
+  component->SetInput(gradient->GetOutput());
+  writer->SetFileName(argv[2]);
   writer->Update();
 
   // Save the component of the smoothed gradient
-  component->SetInput( filter->GetOutput() );
-  writer->SetFileName( argv[3] );
+  component->SetInput(filter->GetOutput());
+  writer->SetFileName(argv[3]);
   writer->Update();
 
 

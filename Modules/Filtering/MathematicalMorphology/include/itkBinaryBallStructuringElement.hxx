@@ -24,17 +24,16 @@
 namespace itk
 {
 // Create the structuring element
-template< typename TPixel, unsigned int VDimension, typename TAllocator >
+template <typename TPixel, unsigned int VDimension, typename TAllocator>
 void
-BinaryBallStructuringElement< TPixel, VDimension, TAllocator >
-::CreateStructuringElement()
+BinaryBallStructuringElement<TPixel, VDimension, TAllocator>::CreateStructuringElement()
 {
   // Carry out all of the computations using the FlatStructuringElement.
   using SEType = FlatStructuringElement<VDimension>;
-  SEType flatKernel = SEType::Ball( this->GetRadius() );
+  SEType flatKernel = SEType::Ball(this->GetRadius());
 
   // Copy the ellipsoid into the kernel
-  std::copy(flatKernel.Begin(),flatKernel.End(),this->Begin());
+  std::copy(flatKernel.Begin(), flatKernel.End(), this->Begin());
 }
 } // namespace itk
 

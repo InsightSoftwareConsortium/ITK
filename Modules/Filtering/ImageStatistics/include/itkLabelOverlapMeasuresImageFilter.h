@@ -23,7 +23,8 @@
 
 #include <unordered_map>
 
-namespace itk {
+namespace itk
+{
 
 /** \class LabelOverlapMeasuresImageFilter
  * \brief Computes overlap measures between the set same set of labels of
@@ -41,24 +42,23 @@ namespace itk {
  * \ingroup ITKImageStatistics
  * \ingroup MultiThreaded
  */
-template<typename TLabelImage>
-class ITK_TEMPLATE_EXPORT LabelOverlapMeasuresImageFilter :
-    public ImageToImageFilter<TLabelImage, TLabelImage>
+template <typename TLabelImage>
+class ITK_TEMPLATE_EXPORT LabelOverlapMeasuresImageFilter : public ImageToImageFilter<TLabelImage, TLabelImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelOverlapMeasuresImageFilter);
 
   /** Standard Self type alias */
   using Self = LabelOverlapMeasuresImageFilter;
-  using Superclass = ImageToImageFilter<TLabelImage,TLabelImage>;
+  using Superclass = ImageToImageFilter<TLabelImage, TLabelImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro( LabelOverlapMeasuresImageFilter, ImageToImageFilter );
+  itkTypeMacro(LabelOverlapMeasuresImageFilter, ImageToImageFilter);
 
   /** Image related type alias. */
   using LabelImageType = TLabelImage;
@@ -92,18 +92,19 @@ public:
       m_TargetComplement = 0;
     }
 
-  // added for completeness
-    LabelSetMeasures& operator=( const LabelSetMeasures& l )
+    // added for completeness
+    LabelSetMeasures &
+    operator=(const LabelSetMeasures & l)
     {
-      if(this != &l)
-        {
+      if (this != &l)
+      {
         m_Source = l.m_Source;
         m_Target = l.m_Target;
         m_Union = l.m_Union;
         m_Intersection = l.m_Intersection;
         m_SourceComplement = l.m_SourceComplement;
         m_TargetComplement = l.m_TargetComplement;
-        }
+      }
       return *this;
     }
 
@@ -113,7 +114,7 @@ public:
     unsigned long m_Intersection;
     unsigned long m_SourceComplement;
     unsigned long m_TargetComplement;
-    };
+  };
 
   /** Type of the map used to store data per label */
   using MapType = std::unordered_map<LabelType, LabelSetMeasures>;
@@ -124,108 +125,147 @@ public:
   static constexpr unsigned int ImageDimension = TLabelImage::ImageDimension;
 
   /** Set the source image. */
-  void SetSourceImage( const LabelImageType * image )
-  { this->SetNthInput( 0, const_cast<LabelImageType *>( image ) ); }
+  void
+  SetSourceImage(const LabelImageType * image)
+  {
+    this->SetNthInput(0, const_cast<LabelImageType *>(image));
+  }
 
   /** Set the target image. */
-  void SetTargetImage( const LabelImageType * image )
-  { this->SetNthInput( 1, const_cast<LabelImageType *>( image ) ); }
+  void
+  SetTargetImage(const LabelImageType * image)
+  {
+    this->SetNthInput(1, const_cast<LabelImageType *>(image));
+  }
 
   /** Get the source image. */
-  const LabelImageType * GetSourceImage()
-  { return this->GetInput( 0 ); }
+  const LabelImageType *
+  GetSourceImage()
+  {
+    return this->GetInput(0);
+  }
 
   /** Get the target image. */
-  const LabelImageType * GetTargetImage()
-  { return this->GetInput( 1 ); }
+  const LabelImageType *
+  GetTargetImage()
+  {
+    return this->GetInput(1);
+  }
 
   /** Get the label set measures. */
-  MapType GetLabelSetMeasures()
-  { return this->m_LabelSetMeasures; }
+  MapType
+  GetLabelSetMeasures()
+  {
+    return this->m_LabelSetMeasures;
+  }
 
   // Overlap agreement metrics
 
   /** Get the total overlap over all labels. */
-  RealType GetTotalOverlap() const;
+  RealType
+  GetTotalOverlap() const;
 
   /** Get the target overlap for the specified individual label. */
-  RealType GetTargetOverlap( LabelType ) const;
+  RealType GetTargetOverlap(LabelType) const;
 
   /** Get the union overlap (Jaccard coefficient) over all labels. */
-  RealType GetUnionOverlap() const;
-  RealType GetJaccardCoefficient() const
-  { return this->GetUnionOverlap(); }
+  RealType
+  GetUnionOverlap() const;
+  RealType
+  GetJaccardCoefficient() const
+  {
+    return this->GetUnionOverlap();
+  }
 
   /** Get the union overlap (Jaccard coefficient) for the specified individual
    * label. */
-  RealType GetUnionOverlap( LabelType ) const;
-    RealType GetJaccardCoefficient( LabelType label ) const
-  { return this->GetUnionOverlap( label ); }
+  RealType GetUnionOverlap(LabelType) const;
+  RealType
+  GetJaccardCoefficient(LabelType label) const
+  {
+    return this->GetUnionOverlap(label);
+  }
 
   /** Get the mean overlap (Dice coefficient) over all labels. */
-  RealType GetMeanOverlap() const;
-  RealType GetDiceCoefficient() const
-  { return this->GetMeanOverlap(); }
+  RealType
+  GetMeanOverlap() const;
+  RealType
+  GetDiceCoefficient() const
+  {
+    return this->GetMeanOverlap();
+  }
 
   /** Get the mean overlap (Dice coefficient) for the specified individual
    * label. */
-  RealType GetMeanOverlap( LabelType ) const;
-  RealType GetDiceCoefficient( LabelType label ) const
-  { return this->GetMeanOverlap( label ); }
+  RealType GetMeanOverlap(LabelType) const;
+  RealType
+  GetDiceCoefficient(LabelType label) const
+  {
+    return this->GetMeanOverlap(label);
+  }
 
   /** Get the volume similarity over all labels. */
-  RealType GetVolumeSimilarity() const;
+  RealType
+  GetVolumeSimilarity() const;
 
   /** Get the volume similarity for the specified individual label. */
-  RealType GetVolumeSimilarity( LabelType ) const;
+  RealType GetVolumeSimilarity(LabelType) const;
 
   // Overlap error metrics
 
   /** Get the false negative error over all labels. */
-  RealType GetFalseNegativeError() const;
+  RealType
+  GetFalseNegativeError() const;
 
   /** Get the false negative error for the specified individual label. */
-  RealType GetFalseNegativeError( LabelType ) const;
+  RealType GetFalseNegativeError(LabelType) const;
 
   /** Get the false positive error over all labels. */
-  RealType GetFalsePositiveError() const;
+  RealType
+  GetFalsePositiveError() const;
 
   /** Get the false positive error for the specified individual label. */
-  RealType GetFalsePositiveError( LabelType ) const;
+  RealType GetFalsePositiveError(LabelType) const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( Input1HasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits<LabelType> ) );
+  itkConceptMacro(Input1HasNumericTraitsCheck, (Concept::HasNumericTraits<LabelType>));
   // End concept checking
 #endif
 
 protected:
   LabelOverlapMeasuresImageFilter();
   ~LabelOverlapMeasuresImageFilter() override = default;
-  void PrintSelf( std::ostream& os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * Pass the input through unmodified. Do this by setting the output to the
    * source this by setting the output to the source image in the
    * AllocateOutputs() method.
    */
-  void AllocateOutputs() override;
+  void
+  AllocateOutputs() override;
 
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
-  void AfterThreadedGenerateData() override;
+  void
+  AfterThreadedGenerateData() override;
 
   /** Multi-thread version GenerateData. */
-  void ThreadedGenerateData( const RegionType&, ThreadIdType ) override;
+  void
+  ThreadedGenerateData(const RegionType &, ThreadIdType) override;
 
-  void DynamicThreadedGenerateData( const RegionType & ) override
+  void
+  DynamicThreadedGenerateData(const RegionType &) override
   {
     itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
   }
 
   // Override since the filter produces all of its output
-  void EnlargeOutputRequestedRegion( DataObject *data ) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * data) override;
 
 private:
   std::vector<MapType> m_LabelSetMeasuresPerThread;
@@ -235,7 +275,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelOverlapMeasuresImageFilter.hxx"
+#  include "itkLabelOverlapMeasuresImageFilter.hxx"
 #endif
 
 #endif

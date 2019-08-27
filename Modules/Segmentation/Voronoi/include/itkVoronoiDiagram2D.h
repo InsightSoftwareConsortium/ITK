@@ -47,19 +47,18 @@ namespace itk
  * \sphinexample{Segmentation/Voronoi/VoronoiDiagram,Voronoi Diagram}
  * \endsphinx
  */
-template< typename TCoordType >
-class ITK_TEMPLATE_EXPORT VoronoiDiagram2D:
-  public Mesh< TCoordType, 2,
-               DefaultDynamicMeshTraits< TCoordType, 2, 2, TCoordType > >
+template <typename TCoordType>
+class ITK_TEMPLATE_EXPORT VoronoiDiagram2D
+  : public Mesh<TCoordType, 2, DefaultDynamicMeshTraits<TCoordType, 2, 2, TCoordType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiDiagram2D);
 
   /** Standard class type aliases. */
   using Self = VoronoiDiagram2D;
-  using Superclass = Mesh< TCoordType, 2, DefaultDynamicMeshTraits< TCoordType, 2, 2, TCoordType > >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = Mesh<TCoordType, 2, DefaultDynamicMeshTraits<TCoordType, 2, 2, TCoordType>>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -68,7 +67,7 @@ public:
   itkTypeMacro(VoronoiDiagram2D, Mesh);
 
   /** Define the mesh traits. */
-  using MeshTraits = DefaultDynamicMeshTraits< TCoordType, 2, 2, TCoordType >;
+  using MeshTraits = DefaultDynamicMeshTraits<TCoordType, 2, 2, TCoordType>;
 
   /** Dimensions of the points and topology. */
   static constexpr unsigned int PointDimension = MeshTraits::PointDimension;
@@ -90,8 +89,7 @@ public:
   using PointDataContainer = typename MeshTraits::PointDataContainer;
   using CellDataContainer = typename MeshTraits::CellDataContainer;
   using genericCellPointer = typename MeshTraits::CellAutoPointer;
-  using BoundingBoxType = BoundingBox< PointIdentifier, Self::PointDimension, CoordRepType,
-                       PointsContainer >;
+  using BoundingBoxType = BoundingBox<PointIdentifier, Self::PointDimension, CoordRepType, PointsContainer>;
   using PointsContainerPointer = typename PointsContainer::Pointer;
   using CellsContainerPointer = typename CellsContainer::Pointer;
   using CellLinksContainerPointer = typename CellLinksContainer::Pointer;
@@ -110,16 +108,16 @@ public:
   using CellFeatureCount = CellFeatureIdentifier;
   using CellType = typename Superclass::CellType;
   using CellAutoPointer = typename Superclass::CellAutoPointer;
-  using PolygonCellType = PolygonCell< CellType >;
-  using EdgeInfo = Point< int, 2 >;
-  using EdgeInfoDQ = std::deque< EdgeInfo >;
+  using PolygonCellType = PolygonCell<CellType>;
+  using EdgeInfo = Point<int, 2>;
+  using EdgeInfoDQ = std::deque<EdgeInfo>;
   using CellMultiVisitorType = typename CellType::MultiVisitor;
-  using SeedsType = std::vector< PointType >;
+  using SeedsType = std::vector<PointType>;
   using SeedsIterator = typename SeedsType::iterator;
-  using Edge = LineCell< CellType >;
+  using Edge = LineCell<CellType>;
   using EdgeAutoPointer = typename Edge::SelfAutoPointer;
-  using PointList = std::list< PointType >;
-  using INTvector = std::vector< int >;
+  using PointList = std::list<PointType>;
+  using INTvector = std::vector<int>;
   using NeighborIdIterator = typename INTvector::iterator;
   using VertexIterator = PointsContainerIterator;
   /** Get the number of Voronoi seeds. */
@@ -127,148 +125,180 @@ public:
 
   /** Input the seeds information, will overwrite if seeds already
    * exists. */
-  void SetSeeds(int num, SeedsIterator begin);
+  void
+  SetSeeds(int num, SeedsIterator begin);
 
   /** The boundary that encloses the whole Voronoi diagram. */
-  void SetBoundary(PointType vorsize);
+  void
+  SetBoundary(PointType vorsize);
 
-  void SetOrigin(PointType vorsize);
+  void
+  SetOrigin(PointType vorsize);
 
   /** Iterators for the neighborhood cells around the given cell. */
-  NeighborIdIterator NeighborIdsBegin(int seeds);
+  NeighborIdIterator
+  NeighborIdsBegin(int seeds);
 
-  NeighborIdIterator NeighborIdsEnd(int seeds);
+  NeighborIdIterator
+  NeighborIdsEnd(int seeds);
 
   /** Iterators for all the vertices of the voronoi diagram. */
-  VertexIterator VertexBegin();
+  VertexIterator
+  VertexBegin();
 
-  VertexIterator VertexEnd();
+  VertexIterator
+  VertexEnd();
 
   /** Return the given indexed seed. */
-  PointType GetSeed(int SeedID);
+  PointType
+  GetSeed(int SeedID);
 
   /** Return the required cell pointer. */
-  void GetCellId(CellIdentifier cellId, CellAutoPointer &);
+  void
+  GetCellId(CellIdentifier cellId, CellAutoPointer &);
 
   /** Return the given vertex of the voronoi diagram. */
-  void GetPoint(int pId, PointType *answer);
+  void
+  GetPoint(int pId, PointType * answer);
 
   class VoronoiEdge
   {
-public:
+  public:
     PointType m_Left;
     PointType m_Right;
     int       m_LeftID;
     int       m_RightID;
     int       m_LineID;
-    VoronoiEdge()= default;
-    ~VoronoiEdge()= default;
+    VoronoiEdge() = default;
+    ~VoronoiEdge() = default;
   };
 
   /** The iterator for Voronoi edges, */
-  using VoronoiEdgeIterator = typename std::vector< VoronoiEdge >::iterator;
+  using VoronoiEdgeIterator = typename std::vector<VoronoiEdge>::iterator;
 
   /** The Iterator of all the edges for the Voronoi diagram. */
-  VoronoiEdgeIterator EdgeBegin();
+  VoronoiEdgeIterator
+  EdgeBegin();
 
-  VoronoiEdgeIterator EdgeEnd();
+  VoronoiEdgeIterator
+  EdgeEnd();
 
   /** Find the two seed point that around the given edge. */
-  EdgeInfo GetSeedsIDAroundEdge(VoronoiEdge *task);
+  EdgeInfo
+  GetSeedsIDAroundEdge(VoronoiEdge * task);
 
   /********************************************************/
 
-  void Reset();
+  void
+  Reset();
 
-  void InsertCells();
+  void
+  InsertCells();
 
-  void AddCellNeighbor(EdgeInfo x)
+  void
+  AddCellNeighbor(EdgeInfo x)
   {
     m_CellNeighborsID[x[0]].push_back(x[1]);
     m_CellNeighborsID[x[1]].push_back(x[0]);
   }
 
-  void ClearRegion(int i)
+  void
+  ClearRegion(int i)
   {
     m_VoronoiRegions[i]->ClearPoints();
   }
 
-  void VoronoiRegionAddPointId(int id, int x)
+  void
+  VoronoiRegionAddPointId(int id, int x)
   {
     m_VoronoiRegions[id]->AddPointId(x);
   }
 
-  void BuildEdge(int id)
+  void
+  BuildEdge(int id)
   {
     m_VoronoiRegions[id]->BuildEdges();
   }
 
-  void LineListClear()
+  void
+  LineListClear()
   {
     m_LineList.clear();
   }
 
-  void EdgeListClear()
+  void
+  EdgeListClear()
   {
     m_EdgeList.clear();
   }
 
-  void VertexListClear()
+  void
+  VertexListClear()
   {
-    if ( this->m_PointsContainer.IsNull() )
-      {
+    if (this->m_PointsContainer.IsNull())
+    {
       this->m_PointsContainer = PointsContainer::New();
-      }
+    }
 
     this->m_PointsContainer->Initialize();
   }
 
-  int LineListSize()
+  int
+  LineListSize()
   {
-    return static_cast< int >( m_LineList.size() );
+    return static_cast<int>(m_LineList.size());
   }
 
-  int EdgeListSize()
+  int
+  EdgeListSize()
   {
-    return static_cast< int >( m_EdgeList.size() );
+    return static_cast<int>(m_EdgeList.size());
   }
 
-  int VertexListSize()
+  int
+  VertexListSize()
   {
-    return static_cast< int >(this->m_PointsContainer->Size());
+    return static_cast<int>(this->m_PointsContainer->Size());
   }
 
-  void AddLine(EdgeInfo x)
+  void
+  AddLine(EdgeInfo x)
   {
     m_LineList.push_back(x);
   }
 
-  void AddEdge(VoronoiEdge x)
+  void
+  AddEdge(VoronoiEdge x)
   {
     m_EdgeList.push_back(x);
   }
 
-  void AddVert(PointType x)
+  void
+  AddVert(PointType x)
   {
     this->m_PointsContainer->InsertElement(this->m_PointsContainer->Size(), x);
   }
 
-  EdgeInfo GetLine(int id)
+  EdgeInfo
+  GetLine(int id)
   {
     return m_LineList[id];
   }
 
-  VoronoiEdge GetEdge(int id)
+  VoronoiEdge
+  GetEdge(int id)
   {
     return m_EdgeList[id];
   }
 
-  PointType GetVertex(int id)
+  PointType
+  GetVertex(int id)
   {
-    return this-> m_PointsContainer->ElementAt(id);
+    return this->m_PointsContainer->ElementAt(id);
   }
 
-  EdgeInfo GetEdgeEnd(int id)
+  EdgeInfo
+  GetEdgeEnd(int id)
   {
     EdgeInfo x;
 
@@ -277,7 +307,8 @@ public:
     return x;
   }
 
-  int GetEdgeLineID(int id)
+  int
+  GetEdgeLineID(int id)
   {
     return m_EdgeList[id].m_LineID;
   }
@@ -285,24 +316,25 @@ public:
 protected:
   VoronoiDiagram2D();
   ~VoronoiDiagram2D() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  SeedsType                         m_Seeds;
-  unsigned int                      m_NumberOfSeeds;
-  std::vector< PolygonCellType * >  m_VoronoiRegions;
-  PointType                         m_VoronoiBoundary;
-  PointType                         m_VoronoiBoundaryOrigin;
-  std::vector< std::vector< int > > m_CellNeighborsID;
+  SeedsType                      m_Seeds;
+  unsigned int                   m_NumberOfSeeds;
+  std::vector<PolygonCellType *> m_VoronoiRegions;
+  PointType                      m_VoronoiBoundary;
+  PointType                      m_VoronoiBoundaryOrigin;
+  std::vector<std::vector<int>>  m_CellNeighborsID;
 
-  std::vector< EdgeInfo >    m_LineList;
-  std::vector< VoronoiEdge > m_EdgeList;
+  std::vector<EdgeInfo>    m_LineList;
+  std::vector<VoronoiEdge> m_EdgeList;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVoronoiDiagram2D.hxx"
+#  include "itkVoronoiDiagram2D.hxx"
 #endif
 
 #endif

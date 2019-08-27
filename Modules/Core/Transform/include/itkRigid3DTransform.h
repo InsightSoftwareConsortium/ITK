@@ -53,9 +53,8 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template<typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT Rigid3DTransform:
-  public MatrixOffsetTransformBase<TParametersValueType, 3, 3>
+template <typename TParametersValueType = double>
+class ITK_TEMPLATE_EXPORT Rigid3DTransform : public MatrixOffsetTransformBase<TParametersValueType, 3, 3>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Rigid3DTransform);
@@ -117,21 +116,24 @@ public:
    *
    * \sa Transform::SetParameters()
    * \sa Transform::SetFixedParameters() */
-  void SetParameters(const ParametersType & parameters) override;
+  void
+  SetParameters(const ParametersType & parameters) override;
 
   /** Directly set the rotation matrix of the transform.
    * \warning The input matrix must be orthogonal to within a specified tolerance,
    * else an exception is thrown.
    *
    * \sa MatrixOffsetTransformBase::SetMatrix() */
-  void SetMatrix(const MatrixType & matrix) override;
+  void
+  SetMatrix(const MatrixType & matrix) override;
 
   /** Directly set the rotation matrix of the transform.
    * \warning The input matrix must be orthogonal to within the specified tolerance,
    * else an exception is thrown.
    *
    * \sa MatrixOffsetTransformBase::SetMatrix() */
-  virtual void SetMatrix(const MatrixType & matrix, const TParametersValueType tolerance );
+  virtual void
+  SetMatrix(const MatrixType & matrix, const TParametersValueType tolerance);
 
   /**
    * Compose the transformation with a translation
@@ -140,20 +142,21 @@ public:
    * origin.  The translation is precomposed with self if pre is
    * true, and postcomposed otherwise.
    */
-  void Translate(const OffsetType & offset, bool pre = false);
+  void
+  Translate(const OffsetType & offset, bool pre = false);
 
   /**
    * Utility function to test if a matrix is orthogonal within a specified
    * tolerance
    */
-  bool MatrixIsOrthogonal(const MatrixType & matrix,
-              const TParametersValueType tolerance =
-                  MatrixOrthogonalityTolerance<TParametersValueType>::GetTolerance());
+  bool
+  MatrixIsOrthogonal(
+    const MatrixType &         matrix,
+    const TParametersValueType tolerance = MatrixOrthogonalityTolerance<TParametersValueType>::GetTolerance());
 
 
 protected:
-  Rigid3DTransform(const MatrixType & matrix,
-                   const OutputVectorType & offset);
+  Rigid3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
   Rigid3DTransform(unsigned int paramDim);
   Rigid3DTransform();
   ~Rigid3DTransform() override = default;
@@ -161,12 +164,13 @@ protected:
   /**
    * Print contents of an Rigid3DTransform
    */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
-};                                //class Rigid3DTransform
-}  // namespace itk
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
+}; // class Rigid3DTransform
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRigid3DTransform.hxx"
+#  include "itkRigid3DTransform.hxx"
 #endif
 
 #endif /* itkRigid3DTransform_h */

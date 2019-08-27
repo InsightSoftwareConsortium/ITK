@@ -31,11 +31,12 @@
 #include "itkAddImageFilter.h"
 #include "itkStdStreamStateSave.h"
 
-int itkImageAdaptorPipeLineTest(int, char* [] )
+int
+itkImageAdaptorPipeLineTest(int, char *[])
 {
-// Save the format stream variables for std::cout
-// They will be restored when coutState goes out of scope
-// scope.
+  // Save the format stream variables for std::cout
+  // They will be restored when coutState goes out of scope
+  // scope.
   itk::StdStreamStateSave coutState(std::cout);
 
   //-------------------------------------------------------------
@@ -55,17 +56,14 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
   using myRGBPixelPixelType = itk::RGBPixel<myFloatPixelType>;
   using myRGBPixelImageType = itk::Image<myRGBPixelPixelType, 3>;
   using myAccessorType = itk::RedPixelAccessor<myFloatPixelType>;
-  using myAdaptorType = itk::ImageAdaptor<myRGBPixelImageType,
-                              myAccessorType>;
+  using myAdaptorType = itk::ImageAdaptor<myRGBPixelImageType, myAccessorType>;
   using myFloatIteratorType = itk::ImageRegionIteratorWithIndex<myFloatImageType>;
 
 
   using myRGBPixelIteratorType = itk::ImageRegionIteratorWithIndex<myRGBPixelImageType>;
 
 
-  using myFilterType = itk::AddImageFilter< myAdaptorType,
-                               myFloatImageType,
-                               myFloatImageType >;
+  using myFilterType = itk::AddImageFilter<myAdaptorType, myFloatImageType, myFloatImageType>;
 
   //-------------------------------------------------------------
   //                 Create and Allocate the image
@@ -75,16 +73,16 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
   mySizeType size;
   size[0] = 2;
   size[1] = 2;
-  size[2] = 2;    // Small size, because we are printing it
+  size[2] = 2; // Small size, because we are printing it
 
   myIndexType start;
-  start[0]=  0;
-  start[1]=  0;
-  start[2]=  0;
+  start[0] = 0;
+  start[1] = 0;
+  start[2] = 0;
 
   myRegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
   const float spacing[3] = { 1.0, 1.0, 1.0 };
 
@@ -92,33 +90,33 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
   //                 Create and Initialize the RGBPixel image
   //-------------------------------------------------------------
 
-  myRGBPixelImageType::Pointer   myRGBPixelImage = myRGBPixelImageType::New();
+  myRGBPixelImageType::Pointer myRGBPixelImage = myRGBPixelImageType::New();
 
-  myRGBPixelImage->SetLargestPossibleRegion( region );
-  myRGBPixelImage->SetBufferedRegion( region );
-  myRGBPixelImage->SetRequestedRegion( region );
+  myRGBPixelImage->SetLargestPossibleRegion(region);
+  myRGBPixelImage->SetBufferedRegion(region);
+  myRGBPixelImage->SetRequestedRegion(region);
   myRGBPixelImage->Allocate();
-  myRGBPixelImage->SetSpacing( spacing );
+  myRGBPixelImage->SetSpacing(spacing);
 
-  myRGBPixelIteratorType it(  myRGBPixelImage, myRGBPixelImage->GetRequestedRegion() );
+  myRGBPixelIteratorType it(myRGBPixelImage, myRGBPixelImage->GetRequestedRegion());
 
   myRGBPixelPixelType initialRGBPixelValue;
-  initialRGBPixelValue.SetRed( 10 );
-  initialRGBPixelValue.SetBlue( 30 );
-  initialRGBPixelValue.SetGreen( 20 );
+  initialRGBPixelValue.SetRed(10);
+  initialRGBPixelValue.SetBlue(30);
+  initialRGBPixelValue.SetGreen(20);
 
-  while( !it.IsAtEnd() )
+  while (!it.IsAtEnd())
   {
-    it.Set( initialRGBPixelValue );
+    it.Set(initialRGBPixelValue);
     ++it;
   }
 
   std::cout << "Initial RGBPixel Image Values : " << std::endl;
   it.GoToBegin();
-  while( !it.IsAtEnd() )
+  while (!it.IsAtEnd())
   {
     myIndexType index = it.GetIndex();
-    std::cout <<  "[";
+    std::cout << "[";
     std::cout.width(3);
     std::cout << index[0] << ",";
     std::cout.width(3);
@@ -126,11 +124,11 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
     std::cout.width(3);
     std::cout << index[2] << "] =  ";
     std::cout.width(4);
-    std::cout <<  it.Get().GetRed() << ",";
+    std::cout << it.Get().GetRed() << ",";
     std::cout.width(4);
-    std::cout <<  it.Get().GetGreen() << ",";
+    std::cout << it.Get().GetGreen() << ",";
     std::cout.width(4);
-    std::cout <<  it.Get().GetBlue() << std::endl;
+    std::cout << it.Get().GetBlue() << std::endl;
     ++it;
   }
 
@@ -141,30 +139,30 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
   //                 Create and Initialize the Float image
   //-------------------------------------------------------------
 
-  myFloatImageType::Pointer   myFloatImage = myFloatImageType::New();
+  myFloatImageType::Pointer myFloatImage = myFloatImageType::New();
 
-  myFloatImage->SetLargestPossibleRegion( region );
-  myFloatImage->SetBufferedRegion( region );
-  myFloatImage->SetRequestedRegion( region );
+  myFloatImage->SetLargestPossibleRegion(region);
+  myFloatImage->SetBufferedRegion(region);
+  myFloatImage->SetRequestedRegion(region);
   myFloatImage->Allocate();
-  myFloatImage->SetSpacing( spacing );
+  myFloatImage->SetSpacing(spacing);
 
-  myFloatIteratorType itf(  myFloatImage, myFloatImage->GetRequestedRegion() );
+  myFloatIteratorType itf(myFloatImage, myFloatImage->GetRequestedRegion());
 
   myFloatPixelType initialFloatValue = 5.0;
 
-  while( !itf.IsAtEnd() )
+  while (!itf.IsAtEnd())
   {
-    itf.Set( initialFloatValue );
+    itf.Set(initialFloatValue);
     ++itf;
   }
 
   std::cout << "Initial Float Image Values : " << std::endl;
   itf.GoToBegin();
-  while( !itf.IsAtEnd() )
+  while (!itf.IsAtEnd())
   {
     myIndexType index = itf.GetIndex();
-    std::cout <<  "[";
+    std::cout << "[";
     std::cout.width(3);
     std::cout << index[0] << ",";
     std::cout.width(3);
@@ -172,7 +170,7 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
     std::cout.width(3);
     std::cout << index[2] << "] =  ";
     std::cout.width(8);
-    std::cout <<  itf.Get() << std::endl;
+    std::cout << itf.Get() << std::endl;
     ++itf;
   }
 
@@ -185,16 +183,16 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
 
   myAdaptorType::Pointer myAdaptor = myAdaptorType::New();
 
-  myAdaptor->SetImage( myRGBPixelImage );
+  myAdaptor->SetImage(myRGBPixelImage);
 
   //-------------------------------------------------------------
   //         Create the filter and connect the inputs
   //-------------------------------------------------------------
 
-  myFilterType::Pointer    filter   = myFilterType::New();
+  myFilterType::Pointer filter = myFilterType::New();
 
-  filter->SetInput1( myAdaptor );
-  filter->SetInput2( myFloatImage );
+  filter->SetInput1(myAdaptor);
+  filter->SetInput2(myFloatImage);
 
 
   //-------------------------------------------------------------
@@ -202,7 +200,7 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
   //-------------------------------------------------------------
 
   myFloatImageType::Pointer myFloatOutputImage = filter->GetOutput();
-  myFloatOutputImage->SetSpacing( spacing );
+  myFloatOutputImage->SetSpacing(spacing);
 
   std::cout << "Float Output Image Initializaed" << std::endl;
 
@@ -222,15 +220,15 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
 
   myFloatOutputImage = filter->GetOutput();
 
-  myFloatIteratorType ito(  myFloatOutputImage, myFloatOutputImage->GetRequestedRegion() );
+  myFloatIteratorType ito(myFloatOutputImage, myFloatOutputImage->GetRequestedRegion());
 
 
   std::cout << std::endl;
   std::cout << "Filter Output :" << std::endl;
-  while( !ito.IsAtEnd() )
+  while (!ito.IsAtEnd())
   {
     myIndexType index = ito.GetIndex();
-    std::cout <<  "[";
+    std::cout << "[";
     std::cout.width(3);
     std::cout << index[0] << ",";
     std::cout.width(3);
@@ -238,7 +236,7 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
     std::cout.width(3);
     std::cout << index[2] << "] =  ";
     std::cout.width(8);
-    std::cout <<  ito.Get() << std::endl;
+    std::cout << ito.Get() << std::endl;
     ++ito;
   }
 
@@ -247,11 +245,10 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
   //-------------------------------------------------------------
   myAdaptorType::Pointer myGraftedAdaptor = myAdaptorType::New();
   myGraftedAdaptor->Graft(myAdaptor);
-  if(myGraftedAdaptor->GetPixelContainer() != myAdaptor->GetPixelContainer() )
+  if (myGraftedAdaptor->GetPixelContainer() != myAdaptor->GetPixelContainer())
   {
     std::cerr << "Graft test failed." << std::endl;
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;
-
 }

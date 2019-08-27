@@ -18,21 +18,22 @@
 
 #include "itkVectorContainerToListSampleAdaptor.h"
 
-int itkVectorContainerToListSampleAdaptorTest(int, char* [] )
+int
+itkVectorContainerToListSampleAdaptorTest(int, char *[])
 {
   std::cout << "VectorContainerToListSampleAdaptor Test \n \n";
 
-  using VectorType = itk::Vector< double, 5 >;
+  using VectorType = itk::Vector<double, 5>;
 
-  using ContainerType = itk::VectorContainer< unsigned int, VectorType >;
+  using ContainerType = itk::VectorContainer<unsigned int, VectorType>;
 
-  using AdaptorType = itk::Statistics::VectorContainerToListSampleAdaptor< ContainerType >;
+  using AdaptorType = itk::Statistics::VectorContainerToListSampleAdaptor<ContainerType>;
 
   AdaptorType::Pointer adaptor = AdaptorType::New();
 
   ContainerType::Pointer container = ContainerType::New();
 
-  adaptor->SetVectorContainer( container );
+  adaptor->SetVectorContainer(container);
 
   return EXIT_SUCCESS;
 }

@@ -35,30 +35,28 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-template< unsigned int TDimension = 3 >
-class ITK_TEMPLATE_EXPORT SurfaceSpatialObject:
-  public PointBasedSpatialObject<  TDimension,
-    SurfaceSpatialObjectPoint< TDimension > >
+template <unsigned int TDimension = 3>
+class ITK_TEMPLATE_EXPORT SurfaceSpatialObject
+  : public PointBasedSpatialObject<TDimension, SurfaceSpatialObjectPoint<TDimension>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SurfaceSpatialObject);
 
   using Self = SurfaceSpatialObject;
-  using Superclass = PointBasedSpatialObject< TDimension,
-          SurfaceSpatialObjectPoint< TDimension > >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = PointBasedSpatialObject<TDimension, SurfaceSpatialObjectPoint<TDimension>>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using ScalarType = double;
 
-  using SurfacePointType = SurfaceSpatialObjectPoint< TDimension >;
-  using SurfacePointListType = std::vector< SurfacePointType >;
+  using SurfacePointType = SurfaceSpatialObjectPoint<TDimension>;
+  using SurfacePointListType = std::vector<SurfacePointType>;
 
   using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
   using PointType = typename Superclass::PointType;
   using TransformType = typename Superclass::TransformType;
-  using PointContainerType = VectorContainer< IdentifierType, PointType >;
-  using PointContainerPointer = SmartPointer< PointContainerType >;
+  using PointContainerType = VectorContainer<IdentifierType, PointType>;
+  using PointContainerPointer = SmartPointer<PointContainerType>;
   using BoundingBoxType = typename Superclass::BoundingBoxType;
   using CovariantVectorType = typename Superclass::CovariantVectorType;
 
@@ -70,26 +68,29 @@ public:
 
   /** Restore a spatial object to its initial state, yet preserves Id as well as
    *   parent and children relationships */
-  virtual void Clear( void ) override;
+  virtual void
+  Clear(void) override;
 
   /** Compute the normals to the surface from neighboring points */
-  bool Approximate3DNormals();
+  bool
+  Approximate3DNormals();
 
 protected:
   SurfaceSpatialObject();
   ~SurfaceSpatialObject() override = default;
 
   /** Method to print the object.*/
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typename LightObject::Pointer InternalClone() const override;
-
+  typename LightObject::Pointer
+  InternalClone() const override;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSurfaceSpatialObject.hxx"
+#  include "itkSurfaceSpatialObject.hxx"
 #endif
 
 #endif // itkSurfaceSpatialObject_h

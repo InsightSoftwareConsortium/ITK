@@ -57,26 +57,23 @@ namespace itk
  * \sphinxexample{Filtering/AnisotropicSmoothing/SmoothImageWhilePreservingEdges,Smooth Image While Preserving Edges}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class VectorGradientAnisotropicDiffusionImageFilter:
-  public AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class VectorGradientAnisotropicDiffusionImageFilter : public AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorGradientAnisotropicDiffusionImageFilter);
 
   /** Standard class type aliases. */
   using Self = VectorGradientAnisotropicDiffusionImageFilter;
-  using Superclass =
-      AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Instantiation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information. */
-  itkTypeMacro(VectorGradientAnisotropicDiffusionImageFilter,
-               AnisotropicDiffusionImageFilter);
+  itkTypeMacro(VectorGradientAnisotropicDiffusionImageFilter, AnisotropicDiffusionImageFilter);
 
   /** Extract information from the superclass. */
   using UpdateBufferType = typename Superclass::UpdateBufferType;
@@ -86,23 +83,22 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TInputImage::PixelType::ValueType > ) );
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TOutputImage::PixelType::ValueType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TInputImage::PixelType::ValueType>));
+  itkConceptMacro(OutputHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<typename TOutputImage::PixelType::ValueType>));
   // End concept checking
 #endif
 
 protected:
   VectorGradientAnisotropicDiffusionImageFilter()
   {
-    typename VectorGradientNDAnisotropicDiffusionFunction< UpdateBufferType >::Pointer p =
-      VectorGradientNDAnisotropicDiffusionFunction< UpdateBufferType >::New();
+    typename VectorGradientNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer p =
+      VectorGradientNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
     this->SetDifferenceFunction(p);
   }
 
   ~VectorGradientAnisotropicDiffusionImageFilter() override = default;
 };
-} // end namspace itk
+} // namespace itk
 
 #endif

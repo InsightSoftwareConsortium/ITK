@@ -24,17 +24,16 @@
 namespace itk
 {
 // Create the structuring element
-template< typename TPixel, unsigned int VDimension, typename TAllocator >
+template <typename TPixel, unsigned int VDimension, typename TAllocator>
 void
-BinaryCrossStructuringElement< TPixel, VDimension, TAllocator >
-::CreateStructuringElement()
+BinaryCrossStructuringElement<TPixel, VDimension, TAllocator>::CreateStructuringElement()
 {
   // Carry out all of the computations using the FlatStructuringElement.
   using SEType = FlatStructuringElement<VDimension>;
-  SEType flatKernel = SEType::Cross( this->GetRadius() );
+  SEType flatKernel = SEType::Cross(this->GetRadius());
 
   // Copy the cross into the kernel
-  std::copy(flatKernel.Begin(),flatKernel.End(),this->Begin());
+  std::copy(flatKernel.Begin(), flatKernel.End(), this->Begin());
 }
 } // namespace itk
 

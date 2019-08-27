@@ -35,7 +35,7 @@ namespace itk
  *
  * \ingroup ITKIOPNG
  */
-class ITKIOPNG_EXPORT PNGImageIO:public ImageIOBase
+class ITKIOPNG_EXPORT PNGImageIO : public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PNGImageIO);
@@ -43,10 +43,10 @@ public:
   /** Standard class type aliases. */
   using Self = PNGImageIO;
   using Superclass = ImageIOBase;
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
 
-  using RGBPixelType = RGBPixel< unsigned char >;
-  using PaletteType = std::vector< RGBPixelType >;
+  using RGBPixelType = RGBPixel<unsigned char>;
+  using PaletteType = std::vector<RGBPixelType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -55,45 +55,54 @@ public:
   itkTypeMacro(PNGImageIO, ImageIOBase);
 
   /** Get a const ref to the palette of the image. In the case of non palette
-    * image or ExpandRGBPalette set to true, a vector of size
-    * 0 is returned */
+   * image or ExpandRGBPalette set to true, a vector of size
+   * 0 is returned */
   itkGetConstReferenceMacro(ColorPalette, PaletteType);
 
   /*-------- This part of the interface deals with reading data. ------ */
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  bool CanReadFile(const char *) override;
+  bool
+  CanReadFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void ReadImageInformation() override;
+  void
+  ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void Read(void *buffer) override;
+  void
+  Read(void * buffer) override;
 
   /** Reads 3D data from multiple files assuming one slice per file. */
-  virtual void ReadVolume(void *buffer);
+  virtual void
+  ReadVolume(void * buffer);
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
-  bool CanWriteFile(const char *) override;
+  bool
+  CanWriteFile(const char *) override;
 
   /** Writes the spacing and dimensions of the image.
    * Assumes SetFileName has been called with a valid file name. */
-  void WriteImageInformation() override;
+  void
+  WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegion has been set properly. */
-  void Write(const void *buffer) override;
+  void
+  Write(const void * buffer) override;
 
 protected:
   PNGImageIO();
   ~PNGImageIO() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void WriteSlice(const std::string & fileName, const void *buffer);
+  void
+  WriteSlice(const std::string & fileName, const void * buffer);
 
 
   PaletteType m_ColorPalette;

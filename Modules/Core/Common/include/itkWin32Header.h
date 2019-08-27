@@ -29,35 +29,35 @@
 #define itkWin32Header_h
 
 /** Disable some common warnings in MS VC++ */
-#if defined( _MSC_VER )
+#if defined(_MSC_VER)
 
 // conditional expression is constant
-#pragma warning ( disable : 4127 )
+#  pragma warning(disable : 4127)
 
 // 'conversion' conversion from 'type1' to 'type2', possible loss of data
-#pragma warning ( disable : 4244 )
+#  pragma warning(disable : 4244)
 
 // 'identifier' : class 'type' needs to have dll-interface to be used by
 // clients of class 'type2'
-#pragma warning ( disable : 4251 )
+#  pragma warning(disable : 4251)
 
 // 'type' : inconsistent dll linkage.  dllexport assumed.
-#pragma warning ( disable : 4273 )
+#  pragma warning(disable : 4273)
 
 // non dll-interface class 'type' used as base for dll-interface class 'type2'
-#pragma warning ( disable : 4275 )
+#  pragma warning(disable : 4275)
 
 // 'identifier' : truncation from 'type1' to 'type2'
-#pragma warning ( disable : 4305 )
+#  pragma warning(disable : 4305)
 
 // 'conversion' : truncation of constant value
-#pragma warning ( disable : 4309 )
+#  pragma warning(disable : 4309)
 
 // decorated name length exceeded, name was truncated
-#pragma warning ( disable : 4503 )
+#  pragma warning(disable : 4503)
 
 // unreferenced local function has been removed
-#pragma warning ( disable : 4505 )
+#  pragma warning(disable : 4505)
 
 #endif // _MSC_VER
 

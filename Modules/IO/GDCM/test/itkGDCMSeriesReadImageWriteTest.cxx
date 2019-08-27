@@ -31,14 +31,15 @@
 #include "itkGDCMSeriesFileNames.h"
 #include "itkTestingMacros.h"
 
-int itkGDCMSeriesReadImageWriteTest( int argc, char* argv[] )
+int
+itkGDCMSeriesReadImageWriteTest(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) <<
-      " DicomDirectory  outputFile OutputDicomDirectory" << std::endl;
+  if (argc < 3)
+  {
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " DicomDirectory  outputFile OutputDicomDirectory"
+              << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

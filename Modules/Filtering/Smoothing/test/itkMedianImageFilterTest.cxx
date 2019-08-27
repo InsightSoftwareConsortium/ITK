@@ -21,13 +21,14 @@
 #include "itkTextOutput.h"
 
 
-int itkMedianImageFilterTest(int, char* [] )
+int
+itkMedianImageFilterTest(int, char *[])
 {
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
 
-  using FloatImage2DType = itk::Image<float,2>;
+  using FloatImage2DType = itk::Image<float, 2>;
 
   itk::RandomImageSource<FloatImage2DType>::Pointer random;
   random = itk::RandomImageSource<FloatImage2DType>::New();
@@ -38,15 +39,15 @@ int itkMedianImageFilterTest(int, char* [] )
   randomSize[0] = randomSize[1] = 8;
   random->SetSize(randomSize);
 
-  FloatImage2DType::SpacingValueType spacing[2] = {0.7, 2.1};
-  random->SetSpacing( spacing );
+  FloatImage2DType::SpacingValueType spacing[2] = { 0.7, 2.1 };
+  random->SetSpacing(spacing);
 
-  FloatImage2DType::PointValueType origin[2] = {15, 400};
-  random->SetOrigin( origin );
+  FloatImage2DType::PointValueType origin[2] = { 15, 400 };
+  random->SetOrigin(origin);
 
   // Create a median image
   itk::MedianImageFilter<FloatImage2DType, FloatImage2DType>::Pointer median;
-  median = itk::MedianImageFilter<FloatImage2DType,FloatImage2DType>::New();
+  median = itk::MedianImageFilter<FloatImage2DType, FloatImage2DType>::New();
   median->SetInput(random->GetOutput());
 
   // define the neighborhood size used for the median filter (5x5)
@@ -59,30 +60,28 @@ int itkMedianImageFilterTest(int, char* [] )
   median->Update();
 
   itk::ImageRegionIterator<FloatImage2DType> it;
-  it = itk::ImageRegionIterator<FloatImage2DType>(random->GetOutput(),
-                               random->GetOutput()->GetBufferedRegion());
+  it = itk::ImageRegionIterator<FloatImage2DType>(random->GetOutput(), random->GetOutput()->GetBufferedRegion());
   std::cout << "Input image" << std::endl;
   unsigned int i;
-  for (i=1; !it.IsAtEnd(); ++i, ++it)
-    {
+  for (i = 1; !it.IsAtEnd(); ++i, ++it)
+  {
     std::cout << "\t" << it.Get();
     if ((i % 8) == 0)
-      {
+    {
       std::cout << std::endl;
-      }
     }
+  }
 
   std::cout << "Output image" << std::endl;
-  it = itk::ImageRegionIterator<FloatImage2DType>(median->GetOutput(),
-                               median->GetOutput()->GetBufferedRegion());
-  for (i=1; !it.IsAtEnd(); ++i, ++it)
-    {
+  it = itk::ImageRegionIterator<FloatImage2DType>(median->GetOutput(), median->GetOutput()->GetBufferedRegion());
+  for (i = 1; !it.IsAtEnd(); ++i, ++it)
+  {
     std::cout << "\t" << it.Get();
     if ((i % 8) == 0)
-      {
+    {
       std::cout << std::endl;
-      }
     }
+  }
 
   // Test the itkGetConstReferenceMacro
   const FloatImage2DType::SizeType & radius = median->GetRadius();

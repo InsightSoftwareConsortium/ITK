@@ -60,9 +60,9 @@ namespace itk
  *
  * \ingroup ITKRegistrationCommon
  */
-template<typename TTransform>
+template <typename TTransform>
 class ITK_TEMPLATE_EXPORT TimeVaryingVelocityFieldTransformParametersAdaptor
-: public TransformParametersAdaptor<TTransform>
+  : public TransformParametersAdaptor<TTransform>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingVelocityFieldTransformParametersAdaptor);
@@ -74,10 +74,10 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( TimeVaryingVelocityFieldTransformParametersAdaptor, TransformParametersAdaptor );
+  itkTypeMacro(TimeVaryingVelocityFieldTransformParametersAdaptor, TransformParametersAdaptor);
 
   /** Typedefs associated with the transform */
   using TransformType = TTransform;
@@ -96,40 +96,49 @@ public:
   static constexpr unsigned int TotalDimension = TransformType::Dimension + 1;
 
   /** Alternative method for setting the required size. */
-  void SetRequiredSize( const SizeType & );
+  void
+  SetRequiredSize(const SizeType &);
 
   /** Get the required size. */
-  virtual const SizeType GetRequiredSize() const;
+  virtual const SizeType
+  GetRequiredSize() const;
 
   /** Alternative method for setting the required origin. */
-  void SetRequiredOrigin( const PointType & );
+  void
+  SetRequiredOrigin(const PointType &);
 
   /** Get the required origin. */
-  virtual const PointType GetRequiredOrigin() const;
+  virtual const PointType
+  GetRequiredOrigin() const;
 
   /** Alternative method for setting the required spacing. */
-  void SetRequiredSpacing( const SpacingType & );
+  void
+  SetRequiredSpacing(const SpacingType &);
 
   /** Get the required spacing. */
-  virtual const SpacingType GetRequiredSpacing() const;
+  virtual const SpacingType
+  GetRequiredSpacing() const;
 
   /** Alternative method for setting the required direction. */
-  void SetRequiredDirection( const DirectionType & );
+  void
+  SetRequiredDirection(const DirectionType &);
 
   /** Get the required direction. */
-  virtual const DirectionType GetRequiredDirection() const;
+  virtual const DirectionType
+  GetRequiredDirection() const;
 
   /** Initialize the transform using the specified fixed parameters */
-  void AdaptTransformParameters() override;
+  void
+  AdaptTransformParameters() override;
 
 protected:
   TimeVaryingVelocityFieldTransformParametersAdaptor();
   ~TimeVaryingVelocityFieldTransformParametersAdaptor() override = default;
-}; //class TimeVaryingVelocityFieldTransformParametersAdaptor
-}  // namespace itk
+}; // class TimeVaryingVelocityFieldTransformParametersAdaptor
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTimeVaryingVelocityFieldTransformParametersAdaptor.hxx"
+#  include "itkTimeVaryingVelocityFieldTransformParametersAdaptor.hxx"
 #endif
 
 #endif /* itkTimeVaryingVelocityFieldTransformParametersAdaptor_h */

@@ -93,9 +93,9 @@ namespace itk
  * \endsphinx
  */
 
-template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT ContourExtractor2DImageFilter:
-  public ImageToPathFilter< TInputImage, PolyLineParametricPath< 2 > >
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT ContourExtractor2DImageFilter
+  : public ImageToPathFilter<TInputImage, PolyLineParametricPath<2>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ContourExtractor2DImageFilter);
@@ -105,13 +105,13 @@ public:
 
   /** Convenient type alias for simplifying declarations. */
   using InputImageType = TInputImage;
-  using OutputPathType = PolyLineParametricPath< 2 >;
+  using OutputPathType = PolyLineParametricPath<2>;
 
   /** Standard class type aliases. */
   using Self = ContourExtractor2DImageFilter;
-  using Superclass = ImageToPathFilter< InputImageType, OutputPathType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToPathFilter<InputImageType, OutputPathType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -130,29 +130,31 @@ public:
   using VertexListType = typename OutputPathType::VertexListType;
 
   /** Real type associated to the input pixel type. */
-  using InputRealType = typename NumericTraits< InputPixelType >::RealType;
+  using InputRealType = typename NumericTraits<InputPixelType>::RealType;
 
   using VertexListConstPointer = typename VertexListType::ConstPointer;
 
   /** Control the orientation of the contours with reference to the image
- * gradient. (See class documentation.) */
+   * gradient. (See class documentation.) */
   itkSetMacro(ReverseContourOrientation, bool);
   itkGetConstReferenceMacro(ReverseContourOrientation, bool);
   itkBooleanMacro(ReverseContourOrientation);
 
   /** Control whether high- or low-valued pixels are vertex-connected.
-    * Default is for low-valued pixels to be vertex-connected.
-    * (See class documentation.) */
+   * Default is for low-valued pixels to be vertex-connected.
+   * (See class documentation.) */
   itkSetMacro(VertexConnectHighPixels, bool);
   itkGetConstReferenceMacro(VertexConnectHighPixels, bool);
   itkBooleanMacro(VertexConnectHighPixels);
 
   /** Control whether the largest possible input region is used, or if a
-    * custom requested region is to be used. */
-  void SetRequestedRegion(const InputRegionType region);
+   * custom requested region is to be used. */
+  void
+  SetRequestedRegion(const InputRegionType region);
 
   itkGetConstReferenceMacro(RequestedRegion, InputRegionType);
-  void ClearRequestedRegion();
+  void
+  ClearRequestedRegion();
 
   /** Set/Get the image intensity value that the contours should follow.
    *  This is the equivalent of an iso-value in Marching Squares. */
@@ -161,39 +163,40 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( DimensionShouldBe2,
-                   ( Concept::SameDimension< Self::InputImageDimension, 2 > ) );
-  itkConceptMacro( InputPixelTypeComparable,
-                   ( Concept::Comparable< InputPixelType > ) );
-  itkConceptMacro( InputHasPixelTraitsCheck,
-                   ( Concept::HasPixelTraits< InputPixelType > ) );
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputPixelType > ) );
+  itkConceptMacro(DimensionShouldBe2, (Concept::SameDimension<Self::InputImageDimension, 2>));
+  itkConceptMacro(InputPixelTypeComparable, (Concept::Comparable<InputPixelType>));
+  itkConceptMacro(InputHasPixelTraitsCheck, (Concept::HasPixelTraits<InputPixelType>));
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
   // End concept checking
 #endif
 
 protected:
-
   ContourExtractor2DImageFilter();
   ~ContourExtractor2DImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** ContourExtractor2DImageFilter manually controls the input requested
-    * region via SetRequestedRegion and ClearRequestedRegion, so it must
-    * override the superclass method. */
-  void GenerateInputRequestedRegion() override;
+   * region via SetRequestedRegion and ClearRequestedRegion, so it must
+   * override the superclass method. */
+  void
+  GenerateInputRequestedRegion() override;
 
 private:
-  VertexType InterpolateContourPosition(InputPixelType fromValue,
-                                        InputPixelType toValue,
-                                        InputIndexType fromIndex,
-                                        InputOffsetType toOffset);
+  VertexType
+  InterpolateContourPosition(InputPixelType  fromValue,
+                             InputPixelType  toValue,
+                             InputIndexType  fromIndex,
+                             InputOffsetType toOffset);
 
-  void AddSegment(const VertexType from, const VertexType to);
+  void
+  AddSegment(const VertexType from, const VertexType to);
 
-  void FillOutputs();
+  void
+  FillOutputs();
 
   InputRealType   m_ContourValue;
   bool            m_ReverseContourOrientation;
@@ -216,23 +219,25 @@ private:
   // are so ordered in the output. Ensuring this latter condition (first
   // pixel traversed = first pixel in contour) would be possible by either
   // changing the merging rules, which would make the contouring operation
-  //slower, or by storing additional data as to which pixel was first.
-  class ContourType:public std::deque< VertexType >
+  // slower, or by storing additional data as to which pixel was first.
+  class ContourType : public std::deque<VertexType>
   {
-public:
+  public:
     unsigned int m_ContourNumber;
   };
 
   // Store all the growing contours in a list. We may need to delete contours
   // from anywhere in the sequence (when we merge them together), so we need to
   // use a list instead of a vector or similar.
-  using ContourContainer = std::list< ContourType >;
+  using ContourContainer = std::list<ContourType>;
   using ContourRef = typename ContourContainer::iterator;
 
   // declare the hash function we are using for the hash_map.
-  struct VertexHash {
+  struct VertexHash
+  {
     using CoordinateType = typename VertexType::CoordRepType;
-    inline SizeValueType operator()(const VertexType & k) const
+    inline SizeValueType
+    operator()(const VertexType & k) const
     {
       // Xor the hashes of the vertices together, after multiplying the
       // first by some number, so that identical (x,y) vertex indices
@@ -247,16 +252,17 @@ public:
 
     // Define hash function for floats. Based on method from
     // http://www.brpreiss.com/books/opus4/html/page217.html
-    inline SizeValueType float_hash(const CoordinateType & k) const
+    inline SizeValueType
+    float_hash(const CoordinateType & k) const
     {
-      if ( k == 0 )
-        {
+      if (k == 0)
+      {
         return 0;
-        }
+      }
       int            exponent;
       CoordinateType mantissa = std::frexp(k, &exponent);
-      auto value = static_cast< SizeValueType >( std::fabs(mantissa) );
-      value = ( 2 * value - 1 ) * ~0U;
+      auto           value = static_cast<SizeValueType>(std::fabs(mantissa));
+      value = (2 * value - 1) * ~0U;
       return value;
     }
   };
@@ -273,7 +279,7 @@ public:
   // from our list when they have been merged into another. Thus, we store
   // an iterator pointing to the contour in the list.
 
-  using VertexToContourMap = std::unordered_map< VertexType, ContourRef, VertexHash >;
+  using VertexToContourMap = std::unordered_map<VertexType, ContourRef, VertexHash>;
   using VertexMapIterator = typename VertexToContourMap::iterator;
   using VertexContourRefPair = typename VertexToContourMap::value_type;
 
@@ -287,7 +293,7 @@ public:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkContourExtractor2DImageFilter.hxx"
+#  include "itkContourExtractor2DImageFilter.hxx"
 #endif
 
 #endif

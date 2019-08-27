@@ -35,8 +35,9 @@
 
 namespace itk
 {
-#if !defined ( ITK_LEGACY_REMOVE )
-void PlatformMultiThreader::MultipleMethodExecute()
+#if !defined(ITK_LEGACY_REMOVE)
+void
+PlatformMultiThreader::MultipleMethodExecute()
 {
   ThreadIdType threadCount;
 
@@ -44,18 +45,18 @@ void PlatformMultiThreader::MultipleMethodExecute()
   HANDLE processId[ITK_MAX_THREADS];
 
   // obey the global maximum number of threads limit
-  if( m_NumberOfWorkUnits > MultiThreaderBase::GetGlobalMaximumNumberOfThreads() )
-    {
+  if (m_NumberOfWorkUnits > MultiThreaderBase::GetGlobalMaximumNumberOfThreads())
+  {
     m_NumberOfWorkUnits = MultiThreaderBase::GetGlobalMaximumNumberOfThreads();
-    }
-  for( threadCount = 0; threadCount < m_NumberOfWorkUnits; ++threadCount )
+  }
+  for (threadCount = 0; threadCount < m_NumberOfWorkUnits; ++threadCount)
+  {
+    if (m_MultipleMethod[threadCount] == (ThreadFunctionType)0)
     {
-    if( m_MultipleMethod[threadCount] == (ThreadFunctionType)0 )
-      {
       itkExceptionMacro(<< "No multiple method set for: " << threadCount);
       return;
-      }
     }
+  }
   // Using _beginthreadex on a PC
   //
   // We want to use _beginthreadex to start m_NumberOfWorkUnits - 1
@@ -66,96 +67,92 @@ void PlatformMultiThreader::MultipleMethodExecute()
   //
   // First, start up the m_NumberOfWorkUnits-1 processes.  Keep track
   // of their process ids for use later in the waitid call
-  for( threadCount = 1; threadCount < m_NumberOfWorkUnits; ++threadCount )
-    {
-    m_ThreadInfoArray[threadCount].UserData =
-      m_MultipleData[threadCount];
+  for (threadCount = 1; threadCount < m_NumberOfWorkUnits; ++threadCount)
+  {
+    m_ThreadInfoArray[threadCount].UserData = m_MultipleData[threadCount];
     m_ThreadInfoArray[threadCount].NumberOfWorkUnits = m_NumberOfWorkUnits;
 
-    processId[threadCount] = (void *)
-      _beginthreadex(0, 0,
-                     m_MultipleMethod[threadCount],
-                     &m_ThreadInfoArray[threadCount], 0,
-                     (unsigned int *)&threadId);
+    processId[threadCount] = (void *)_beginthreadex(
+      0, 0, m_MultipleMethod[threadCount], &m_ThreadInfoArray[threadCount], 0, (unsigned int *)&threadId);
 
-    if( processId[threadCount] == nullptr )
-      {
+    if (processId[threadCount] == nullptr)
+    {
       itkExceptionMacro("Error in thread creation!");
-      }
     }
+  }
 
   // Now, the parent thread calls the last method itself
   m_ThreadInfoArray[0].UserData = m_MultipleData[0];
   m_ThreadInfoArray[0].NumberOfWorkUnits = m_NumberOfWorkUnits;
-  ( m_MultipleMethod[0] )( (void *)( &m_ThreadInfoArray[0] ) );
+  (m_MultipleMethod[0])((void *)(&m_ThreadInfoArray[0]));
   // The parent thread has finished its method - so now it
   // waits for each of the other processes to
   // exit
-  for( threadCount = 1; threadCount < m_NumberOfWorkUnits; ++threadCount )
-    {
+  for (threadCount = 1; threadCount < m_NumberOfWorkUnits; ++threadCount)
+  {
     WaitForSingleObject(processId[threadCount], INFINITE);
-    }
+  }
   // close the threads
-  for( threadCount = 1; threadCount < m_NumberOfWorkUnits; ++threadCount )
-    {
+  for (threadCount = 1; threadCount < m_NumberOfWorkUnits; ++threadCount)
+  {
     CloseHandle(processId[threadCount]);
-    }
+  }
 }
 
-ThreadIdType PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
+ThreadIdType
+PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void * UserData)
 {
   ThreadIdType id = 0;
 
   DWORD threadId;
 
-  while( id < ITK_MAX_THREADS )
+  while (id < ITK_MAX_THREADS)
+  {
+    if (!m_SpawnedThreadActiveFlagLock[id])
     {
-    if( !m_SpawnedThreadActiveFlagLock[id]  )
-      {
-      m_SpawnedThreadActiveFlagLock[id] = std::make_shared< std::mutex >();
-      }
+      m_SpawnedThreadActiveFlagLock[id] = std::make_shared<std::mutex>();
+    }
     m_SpawnedThreadActiveFlagLock[id]->lock();
-    if( m_SpawnedThreadActiveFlag[id] == 0 )
-      {
+    if (m_SpawnedThreadActiveFlag[id] == 0)
+    {
       // We've got a useable thread id, so grab it
       m_SpawnedThreadActiveFlag[id] = 1;
       m_SpawnedThreadActiveFlagLock[id]->unlock();
       break;
-      }
+    }
     m_SpawnedThreadActiveFlagLock[id]->unlock();
 
     id++;
-    }
+  }
 
-  if( id >= ITK_MAX_THREADS )
-    {
+  if (id >= ITK_MAX_THREADS)
+  {
     itkExceptionMacro(<< "You have too many active threads!");
-    }
+  }
 
-  m_SpawnedThreadInfoArray[id].UserData        = UserData;
+  m_SpawnedThreadInfoArray[id].UserData = UserData;
   m_SpawnedThreadInfoArray[id].NumberOfWorkUnits = 1;
   m_SpawnedThreadInfoArray[id].ActiveFlag = &m_SpawnedThreadActiveFlag[id];
   m_SpawnedThreadInfoArray[id].ActiveFlagLock = m_SpawnedThreadActiveFlagLock[id];
 
   // Using _beginthreadex on a PC
   //
-  m_SpawnedThreadProcessID[id] = (void *)
-    _beginthreadex(0, 0, f,
-                   &m_SpawnedThreadInfoArray[id], 0,
-                   (unsigned int *)&threadId);
-  if( m_SpawnedThreadProcessID[id] == 0 )
-    {
+  m_SpawnedThreadProcessID[id] =
+    (void *)_beginthreadex(0, 0, f, &m_SpawnedThreadInfoArray[id], 0, (unsigned int *)&threadId);
+  if (m_SpawnedThreadProcessID[id] == 0)
+  {
     itkExceptionMacro("Error in thread creation !!!");
-    }
+  }
   return id;
 }
 
-void PlatformMultiThreader::TerminateThread(ThreadIdType WorkUnitID)
+void
+PlatformMultiThreader::TerminateThread(ThreadIdType WorkUnitID)
 {
-  if( !m_SpawnedThreadActiveFlag[WorkUnitID] )
-    {
+  if (!m_SpawnedThreadActiveFlag[WorkUnitID])
+  {
     return;
-    }
+  }
 
   m_SpawnedThreadActiveFlagLock[WorkUnitID]->lock();
   m_SpawnedThreadActiveFlag[WorkUnitID] = 0;
@@ -168,8 +165,7 @@ void PlatformMultiThreader::TerminateThread(ThreadIdType WorkUnitID)
 #endif
 
 void
-PlatformMultiThreader
-::SpawnWaitForSingleMethodThread(ThreadProcessIdType threadHandle)
+PlatformMultiThreader ::SpawnWaitForSingleMethodThread(ThreadProcessIdType threadHandle)
 {
   // Using _beginthreadex on a PC
   WaitForSingleObject(threadHandle, INFINITE);
@@ -177,18 +173,15 @@ PlatformMultiThreader
 }
 
 ThreadProcessIdType
-PlatformMultiThreader
-::SpawnDispatchSingleMethodThread(PlatformMultiThreader::WorkUnitInfo *threadInfo)
+PlatformMultiThreader ::SpawnDispatchSingleMethodThread(PlatformMultiThreader::WorkUnitInfo * threadInfo)
 {
   // Using _beginthreadex on a PC
   DWORD  threadId;
-  HANDLE threadHandle =  (HANDLE)_beginthreadex(0, 0,
-                                                this->SingleMethodProxy,
-                                                threadInfo, 0, (unsigned int *)&threadId);
-  if ( threadHandle == nullptr )
-    {
+  HANDLE threadHandle = (HANDLE)_beginthreadex(0, 0, this->SingleMethodProxy, threadInfo, 0, (unsigned int *)&threadId);
+  if (threadHandle == nullptr)
+  {
     itkExceptionMacro("Error in thread creation !!!");
-    }
+  }
   return threadHandle;
 }
 

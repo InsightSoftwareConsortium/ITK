@@ -23,17 +23,18 @@
 
 #include "itkShapedFloodFilledImageFunctionConditionalConstIterator.h"
 
-int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int argc, char *argv [] )
+int
+itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int argc, char * argv[])
 {
-  if( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "Error: missing arguments" << std::endl;
     std::cerr << argv[0] << " filename " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   try
-    {
+  {
     constexpr unsigned int ImageDimension = 2;
     using PixelType = unsigned char;
 
@@ -42,13 +43,13 @@ int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int argc, cha
     using IndexType = ImageType::IndexType;
 
     using FunctionType = itk::BinaryThresholdImageFunction<ImageType>;
-    using ShapedFloodFilledIteratorType = itk::ShapedFloodFilledImageFunctionConditionalConstIterator<
-                  ImageType, FunctionType>;
+    using ShapedFloodFilledIteratorType =
+      itk::ShapedFloodFilledImageFunctionConditionalConstIterator<ImageType, FunctionType>;
 
     using ReaderType = itk::ImageFileReader<ImageType>;
 
     ReaderType::Pointer reader = ReaderType::New();
-    reader->SetFileName( argv[1] );
+    reader->SetFileName(argv[1]);
     reader->Update();
 
     IndexType index;
@@ -62,30 +63,29 @@ int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int argc, cha
 
     FunctionType::Pointer function = FunctionType::New();
 
-    function->SetInputImage ( reader->GetOutput() );
-    function->ThresholdAbove ( 1 ); // >= 1
+    function->SetInputImage(reader->GetOutput());
+    function->ThresholdAbove(1); // >= 1
 
-    ShapedFloodFilledIteratorType shapedFloodIt(
-        reader->GetOutput(), function, seedList);
+    ShapedFloodFilledIteratorType shapedFloodIt(reader->GetOutput(), function, seedList);
     shapedFloodIt.SetFullyConnected(true); // 8-connected, default
     //
     // get the seeds and display them.
     std::cout << "Iterator seeds";
-    for(auto seed : shapedFloodIt.GetSeeds() )
-      {
+    for (auto seed : shapedFloodIt.GetSeeds())
+    {
       std::cout << " " << seed;
-      }
+    }
     std::cout << std::endl;
 
     ImageType::Pointer visitedImage = ImageType::New();
     visitedImage->SetRegions(region);
     visitedImage->Allocate(true); // initialize
-                                                         // buffer to zero
+                                  // buffer to zero
 
     for (; !shapedFloodIt.IsAtEnd(); ++shapedFloodIt)
-      {
-      visitedImage->SetPixel( shapedFloodIt.GetIndex(), 255);
-      }
+    {
+      visitedImage->SetPixel(shapedFloodIt.GetIndex(), 255);
+    }
 
     using ConstIteratorType = itk::ImageRegionConstIterator<ImageType>;
 
@@ -93,22 +93,22 @@ int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int argc, cha
     ConstIteratorType outIt(visitedImage, region);
 
     for (; !inIt.IsAtEnd(); ++inIt, ++outIt)
-      {
+    {
       if (inIt.Get() != outIt.Get())
-        {
+      {
         return EXIT_FAILURE;
-        }
       }
     }
-  catch (itk::ExceptionObject& e)
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     e.Print(std::cerr);
     return EXIT_FAILURE;
-    }
+  }
   catch (...)
-    {
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

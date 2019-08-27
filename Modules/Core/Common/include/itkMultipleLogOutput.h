@@ -37,15 +37,15 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT MultipleLogOutput:public LogOutput
+class ITKCommon_EXPORT MultipleLogOutput : public LogOutput
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultipleLogOutput);
 
   using Self = MultipleLogOutput;
   using Superclass = LogOutput;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using OutputType = LogOutput;
 
@@ -53,23 +53,27 @@ public:
   itkNewMacro(MultipleLogOutput);
 
 public:
-
   /** Register a additional output stream into the list of LogOutputs to write
    * to. The messages will be sent to the streams in the same order that the
    * streams have been added here.  */
-  void AddLogOutput(OutputType *output);
+  void
+  AddLogOutput(OutputType * output);
 
   /** Broadcast a flush operation to all the output streams */
-  void Flush() override;
+  void
+  Flush() override;
 
   /** Write to multiple outputs */
-  void Write(double timestamp) override;
+  void
+  Write(double timestamp) override;
 
   /** Write to multiple outputs */
-  void Write(const std::string & content) override;
+  void
+  Write(const std::string & content) override;
 
   /** Write to a buffer */
-  void Write(const std::string & content, double timestamp) override;
+  void
+  Write(const std::string & content, double timestamp) override;
 
 protected:
   /** Constructor */
@@ -79,10 +83,10 @@ protected:
   ~MultipleLogOutput() override;
 
 private:
-  using ContainerType = std::set< OutputType::Pointer >;
+  using ContainerType = std::set<OutputType::Pointer>;
 
   ContainerType m_Output;
 };
-}
+} // namespace itk
 
-#endif //itkMultipleLogOutput_h
+#endif // itkMultipleLogOutput_h

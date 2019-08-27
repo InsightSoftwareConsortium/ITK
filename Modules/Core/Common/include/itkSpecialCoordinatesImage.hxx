@@ -33,30 +33,27 @@
 namespace itk
 {
 
-template< typename TPixel, unsigned int VImageDimension >
-SpecialCoordinatesImage< TPixel, VImageDimension >
-::SpecialCoordinatesImage()
+template <typename TPixel, unsigned int VImageDimension>
+SpecialCoordinatesImage<TPixel, VImageDimension>::SpecialCoordinatesImage()
 {
   m_Buffer = PixelContainer::New();
 }
 
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 void
-SpecialCoordinatesImage< TPixel, VImageDimension >
-::Allocate(bool initialize)
+SpecialCoordinatesImage<TPixel, VImageDimension>::Allocate(bool initialize)
 {
   SizeValueType num;
 
   this->ComputeOffsetTable();
   num = static_cast<SizeValueType>(this->GetOffsetTable()[VImageDimension]);
 
-  m_Buffer->Reserve(num,initialize);
+  m_Buffer->Reserve(num, initialize);
 }
 
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 void
-SpecialCoordinatesImage< TPixel, VImageDimension >
-::Initialize()
+SpecialCoordinatesImage<TPixel, VImageDimension>::Initialize()
 {
   //
   // We don't modify ourselves because the "ReleaseData" methods depend upon
@@ -72,41 +69,37 @@ SpecialCoordinatesImage< TPixel, VImageDimension >
   m_Buffer = PixelContainer::New();
 }
 
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 void
-SpecialCoordinatesImage< TPixel, VImageDimension >
-::FillBuffer(const TPixel & value)
+SpecialCoordinatesImage<TPixel, VImageDimension>::FillBuffer(const TPixel & value)
 {
-  const SizeValueType numberOfPixels =
-    this->GetBufferedRegion().GetNumberOfPixels();
+  const SizeValueType numberOfPixels = this->GetBufferedRegion().GetNumberOfPixels();
 
-  for ( unsigned int i = 0; i < numberOfPixels; i++ )
-    {
-    ( *m_Buffer )[i] = value;
-    }
+  for (unsigned int i = 0; i < numberOfPixels; i++)
+  {
+    (*m_Buffer)[i] = value;
+  }
 }
 
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 void
-SpecialCoordinatesImage< TPixel, VImageDimension >
-::SetPixelContainer(PixelContainer *container)
+SpecialCoordinatesImage<TPixel, VImageDimension>::SetPixelContainer(PixelContainer * container)
 {
-  if ( m_Buffer != container )
-    {
+  if (m_Buffer != container)
+  {
     m_Buffer = container;
     this->Modified();
-    }
+  }
 }
 
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 void
-SpecialCoordinatesImage< TPixel, VImageDimension >
-::PrintSelf(std::ostream & os, Indent indent) const
+SpecialCoordinatesImage<TPixel, VImageDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "PixelContainer: " << std::endl;
-  m_Buffer->Print( os, indent.GetNextIndent() );
+  m_Buffer->Print(os, indent.GetNextIndent());
 
   // m_Origin and m_Spacing are printed in the Superclass
 }

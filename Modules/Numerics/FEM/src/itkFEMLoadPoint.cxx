@@ -23,41 +23,47 @@ namespace itk
 namespace fem
 {
 
-::itk::LightObject::Pointer LoadPoint::CreateAnother() const
+::itk::LightObject::Pointer
+LoadPoint::CreateAnother() const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New();
+  Pointer                     copyPtr = Self::New();
 
   copyPtr->m_Point = this->m_Point;
   copyPtr->m_ForcePoint = this->m_ForcePoint;
-  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+  copyPtr->SetGlobalNumber(this->GetGlobalNumber());
 
   smartPtr = static_cast<Pointer>(copyPtr);
 
   return smartPtr;
 }
 
-void LoadPoint::SetPoint(const vnl_vector<Float> p)
+void
+LoadPoint::SetPoint(const vnl_vector<Float> p)
 {
   this->m_Point = p;
 }
 
-vnl_vector<itk::fem::Element::Float> LoadPoint::GetPoint()
+vnl_vector<itk::fem::Element::Float>
+LoadPoint::GetPoint()
 {
   return this->m_Point;
 }
 
-void LoadPoint::SetForce(const vnl_vector<Float> f)
+void
+LoadPoint::SetForce(const vnl_vector<Float> f)
 {
   this->m_ForcePoint = f;
 }
 
-vnl_vector<itk::fem::Element::Float> LoadPoint::GetForce()
+vnl_vector<itk::fem::Element::Float>
+LoadPoint::GetForce()
 {
   return this->m_ForcePoint;
 }
 
-void LoadPoint::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
+void
+LoadPoint::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
 {
   const unsigned int NnDOF = element->GetNumberOfDegreesOfFreedomPerNode();
   const unsigned int Nnodes = element->GetNumberOfNodes();
@@ -65,7 +71,7 @@ void LoadPoint::ApplyLoad(Element::ConstPointer element, Element::VectorType & F
   Element::VectorType force(NnDOF, 0.0);
   Element::VectorType shapeF;
 
-  Fe.set_size( element->GetNumberOfDegreesOfFreedom() );
+  Fe.set_size(element->GetNumberOfDegreesOfFreedom());
   Fe.fill(0.0);
 
   force = this->GetForce();
@@ -76,16 +82,17 @@ void LoadPoint::ApplyLoad(Element::ConstPointer element, Element::VectorType & F
   // "Integrate" at the location of the point load
   shapeF = element->ShapeFunctions(pt);
   // Calculate the equivalent nodal loads
-  for( unsigned int n = 0; n < Nnodes; n++ )
+  for (unsigned int n = 0; n < Nnodes; n++)
+  {
+    for (unsigned int d = 0; d < NnDOF; d++)
     {
-    for( unsigned int d = 0; d < NnDOF; d++ )
-      {
       Fe[n * NnDOF + d] += shapeF[n] * force[d];
-      }
     }
+  }
 }
 
-void LoadPoint::PrintSelf(std::ostream& os, Indent indent) const
+void
+LoadPoint::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Point: " << this->m_Point << std::endl;

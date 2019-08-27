@@ -84,9 +84,8 @@ namespace watershed
  * \ingroup WatershedSegmentation
  * \ingroup ITKWatersheds
  */
-template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT Segmenter:
-  public ProcessObject
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT Segmenter : public ProcessObject
 {
 public:
   /** Standard self type alias */
@@ -96,22 +95,20 @@ public:
   using InputImageType = TInputImage;
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
-  using OutputImageType =
-      Image< IdentifierType, Self::ImageDimension >;
+  using OutputImageType = Image<IdentifierType, Self::ImageDimension>;
   using ImageRegionType = typename InputImageType::RegionType;
   using InputPixelType = typename InputImageType::PixelType;
-  using BoundaryType =
-      Boundary< InputPixelType, Self::ImageDimension >;
+  using BoundaryType = Boundary<InputPixelType, Self::ImageDimension>;
   using BoundaryIndexType = typename BoundaryType::IndexType;
   using BoundaryFlatHashValueType = typename BoundaryType::FlatHashValueType;
-  using SegmentTableType = SegmentTable< InputPixelType >;
+  using SegmentTableType = SegmentTable<InputPixelType>;
   using DataObjectPointer = DataObject::Pointer;
 
   /** Methods to implement smart pointers and work with the itk object factory
    */
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   itkNewMacro(Self);
   itkTypeMacro(WatershedSegmenter, ProcessObject);
 
@@ -128,50 +125,63 @@ public:
   static constexpr short NULL_FLOW = -1;
 
   /** Get/Set the input image.   */
-  InputImageType * GetInputImage()
+  InputImageType *
+  GetInputImage()
   {
-    return itkDynamicCastInDebugMode< InputImageType * >
-           ( this->ProcessObject::GetInput(0) );
+    return itkDynamicCastInDebugMode<InputImageType *>(this->ProcessObject::GetInput(0));
   }
 
-  void SetInputImage(InputImageType *img)
-  {  this->ProcessObject::SetNthInput(0, img); }
+  void
+  SetInputImage(InputImageType * img)
+  {
+    this->ProcessObject::SetNthInput(0, img);
+  }
 
   /** Get/Set the labeled output image.  The output image is always of
     IdentifierType integers. */
-  OutputImageType * GetOutputImage()
+  OutputImageType *
+  GetOutputImage()
   {
-    return itkDynamicCastInDebugMode< OutputImageType * >
-           ( this->ProcessObject::GetOutput(0) );
+    return itkDynamicCastInDebugMode<OutputImageType *>(this->ProcessObject::GetOutput(0));
   }
 
-  void SetOutputImage(OutputImageType *img)
-  { this->ProcessObject::SetNthOutput(0, img);    }
+  void
+  SetOutputImage(OutputImageType * img)
+  {
+    this->ProcessObject::SetNthOutput(0, img);
+  }
 
   /** Get/Set the segment table.  The segment table is a table of segmentation
    * information identifying each region produced by the labeling algorithm. */
-  SegmentTableType * GetSegmentTable()
+  SegmentTableType *
+  GetSegmentTable()
   {
-    return itkDynamicCastInDebugMode< SegmentTableType * >
-           ( this->ProcessObject::GetOutput(1) );
+    return itkDynamicCastInDebugMode<SegmentTableType *>(this->ProcessObject::GetOutput(1));
   }
 
-  void SetSegmentTable(SegmentTableType *s)
-  { this->ProcessObject::SetNthOutput(1, s); }
+  void
+  SetSegmentTable(SegmentTableType * s)
+  {
+    this->ProcessObject::SetNthOutput(1, s);
+  }
 
   /** Returns the boundary information data necessary only for data streaming
     applications.  */
-  BoundaryType * GetBoundary()
+  BoundaryType *
+  GetBoundary()
   {
-    return itkDynamicCastInDebugMode< BoundaryType * >
-           ( this->ProcessObject::GetOutput(2) );
+    return itkDynamicCastInDebugMode<BoundaryType *>(this->ProcessObject::GetOutput(2));
   }
 
-  void SetBoundary(BoundaryType *b)
-  { this->ProcessObject::SetNthOutput(2, b); }
+  void
+  SetBoundary(BoundaryType * b)
+  {
+    this->ProcessObject::SetNthOutput(2, b);
+  }
 
   /** Standard non-threaded pipeline execution method. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** This method is necessary until the streaming mechanisms of the Itk
    * pipeline are full fleshed out.  It is only used for streaming
@@ -179,26 +189,32 @@ public:
    * complete volume being streamed.  The member variables controlled by
    * this method will not be modified by the Itk pipeline and are necessary
    * for analysis of boundaries.   */
-  void SetLargestPossibleRegion(ImageRegionType reg)
+  void
+  SetLargestPossibleRegion(ImageRegionType reg)
   {
-    if ( reg == m_LargestPossibleRegion ) { return; }
+    if (reg == m_LargestPossibleRegion)
+    {
+      return;
+    }
     m_LargestPossibleRegion = reg;
     this->Modified();
   }
 
-  ImageRegionType GetLargestPossibleRegion() const
-  { return m_LargestPossibleRegion; }
+  ImageRegionType
+  GetLargestPossibleRegion() const
+  {
+    return m_LargestPossibleRegion;
+  }
 
   /** Helper function.  Other classes may have occasion to use this. Relabels
       an image according to a table of equivalencies. */
-  static void RelabelImage(OutputImageTypePointer,
-                           ImageRegionType,
-                           EquivalencyTable::Pointer);
+  static void RelabelImage(OutputImageTypePointer, ImageRegionType, EquivalencyTable::Pointer);
 
   /** Standard itk::ProcessObject subclass method. */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
   /** Gets/Sets the initial label (IdentifierType integer value) used
    * by the labeling algorithm.  Only necessary for streaming applications. */
@@ -234,21 +250,23 @@ public:
 protected:
   /** Structure storing information about image flat regions.
    * Flat regions are connected pixels of the same value.  */
-  struct flat_region_t {
-    IdentifierType *min_label_ptr;
-    InputPixelType bounds_min;
+  struct flat_region_t
+  {
+    IdentifierType * min_label_ptr;
+    InputPixelType   bounds_min;
     //    InputPixelType  bounds_max; // <-- may not be necc.
     InputPixelType value;
-    bool is_on_boundary{false};
+    bool           is_on_boundary{ false };
     flat_region_t() {}
   };
 
   /** Table for storing flat region information.  */
-  using flat_region_table_t = std::unordered_map< IdentifierType, flat_region_t >;
+  using flat_region_table_t = std::unordered_map<IdentifierType, flat_region_t>;
 
-  struct connectivity_t {
-    unsigned int size;
-    unsigned int *index;
+  struct connectivity_t
+  {
+    unsigned int                          size;
+    unsigned int *                        index;
     typename InputImageType::OffsetType * direction;
   };
 
@@ -256,52 +274,57 @@ protected:
    * generating the segment table,  even though the edge tables
    * are stored as ordered lists.  An "edge" in this context
    * is synonymous with a segment "adjacency".   */
-  using edge_table_t = std::map< IdentifierType, InputPixelType >;
+  using edge_table_t = std::map<IdentifierType, InputPixelType>;
 
-  using edge_table_hash_t = std::unordered_map< IdentifierType, edge_table_t >;
+  using edge_table_hash_t = std::unordered_map<IdentifierType, edge_table_t>;
 
   Segmenter();
   Segmenter(const Self &) {}
   ~Segmenter() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void operator=(const Self &) {}
+  void
+  operator=(const Self &)
+  {}
 
   /** Constructs the connectivity list and the corresponding set of directional
    * Offset indices. */
-  virtual void GenerateConnectivity();
+  virtual void
+  GenerateConnectivity();
 
   /** This method asks for an image region that is one pixel larger
    * at each boundary than the region being processed.  This single pixel
    * expansion represents an overlap with adjacent image chunks   */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
-  void GenerateOutputRequestedRegion(DataObject *output) override;
+  void
+  GenerateOutputRequestedRegion(DataObject * output) override;
 
-  void UpdateOutputInformation() override;
+  void
+  UpdateOutputInformation() override;
 
   /**  Allocates boundary structure information and sets the
    * boundary data to null values.   */
-  void InitializeBoundary();
+  void
+  InitializeBoundary();
 
   /** Performs a gradient descent connected component analysis
    * at the boundaries of the images that border other
    * image chunks.  Useful only in data streaming applications.   */
-  void AnalyzeBoundaryFlow(InputImageTypePointer,
-                           flat_region_table_t &,
-                           InputPixelType);
+  void
+  AnalyzeBoundaryFlow(InputImageTypePointer, flat_region_table_t &, InputPixelType);
 
   /** Fills boundary pixels with a specified value.  Used by labeling
    * methods to build a very high "wall" around the image so that
    * gradient descent does not need to watch boundaries.   */
-  void BuildRetainingWall(InputImageTypePointer,
-                          ImageRegionType, InputPixelType);
+  void BuildRetainingWall(InputImageTypePointer, ImageRegionType, InputPixelType);
 
   /** Labels all the local minima in the image.  Also identifies and labels
    * connected  "flat" regions.   */
-  void LabelMinima(InputImageTypePointer,
-                   ImageRegionType, flat_region_table_t &,
-                   InputPixelType);
+  void
+  LabelMinima(InputImageTypePointer, ImageRegionType, flat_region_table_t &, InputPixelType);
 
   /** Follows each unlabeled pixel in the image down its path of steepest
    * descent.  Each pixel along that path is identified with the local minima
@@ -310,7 +333,8 @@ protected:
 
   /** Associates each flat region with a local minimum and relabels
     accordingly.  */
-  void DescendFlatRegions(flat_region_table_t &, ImageRegionType);
+  void
+  DescendFlatRegions(flat_region_table_t &, ImageRegionType);
 
   /** Adds entries to the output segment table for all labeled segments in the
    * image.  */
@@ -319,36 +343,35 @@ protected:
   /** Traverses each boundary and fills in the data needed for joining
    * streamed chunks of an image volume.  Only necessary for streaming
    * applications.   */
-  void CollectBoundaryInformation(flat_region_table_t &);
+  void
+  CollectBoundaryInformation(flat_region_table_t &);
 
   /** Helper function.  Thresholds low values and copies values from one image
    * into another. The source and destination regions must match in size (not
    * enforced).  For integral types, the dynamic range of the image is
    * adjusted such that the maximum value in the image is always at
    * least one less than the maximum value allowed for that data type. */
-  static void Threshold(InputImageTypePointer destination,
-                        InputImageTypePointer source,
-                        const ImageRegionType source_region,
-                        const ImageRegionType destination_region,
-                        InputPixelType threshold);
+  static void
+  Threshold(InputImageTypePointer destination,
+            InputImageTypePointer source,
+            const ImageRegionType source_region,
+            const ImageRegionType destination_region,
+            InputPixelType        threshold);
 
   /** Helper function.  Finds the minimum and maximum values in an image. */
-  static void MinMax(InputImageTypePointer img,
-                     ImageRegionType region,
-                     InputPixelType & min,
-                     InputPixelType & max);
+  static void
+  MinMax(InputImageTypePointer img, ImageRegionType region, InputPixelType & min, InputPixelType & max);
 
   /** Helper function. Finds the minimum and maximum values in an image.   */
-  static void MergeFlatRegions(flat_region_table_t &, EquivalencyTable::Pointer);
+  static void
+  MergeFlatRegions(flat_region_table_t &, EquivalencyTable::Pointer);
 
   /** Helper functions for filling in regions with values   */
-  static void SetInputImageValues(InputImageTypePointer img,
-                                  const ImageRegionType region,
-                                  InputPixelType value);
+  static void
+  SetInputImageValues(InputImageTypePointer img, const ImageRegionType region, InputPixelType value);
 
-  static void SetOutputImageValues(OutputImageTypePointer img,
-                                   const ImageRegionType region,
-                                   IdentifierType value);
+  static void
+  SetOutputImageValues(OutputImageTypePointer img, const ImageRegionType region, IdentifierType value);
 
   /** This is a debugging method.  Will be removed. 11/14/01 jc   */
   //  bool CheckLabeledBoundaries();
@@ -366,17 +389,17 @@ private:
    *  streaming applications*/
   ImageRegionType m_LargestPossibleRegion;
 
-  bool            m_SortEdgeLists;
-  bool            m_DoBoundaryAnalysis;
-  double          m_Threshold;
-  double          m_MaximumFloodLevel;
-  IdentifierType  m_CurrentLabel;
+  bool           m_SortEdgeLists;
+  bool           m_DoBoundaryAnalysis;
+  double         m_Threshold;
+  double         m_MaximumFloodLevel;
+  IdentifierType m_CurrentLabel;
 };
 } // end namespace watershed
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWatershedSegmenter.hxx"
+#  include "itkWatershedSegmenter.hxx"
 #endif
 
 #endif

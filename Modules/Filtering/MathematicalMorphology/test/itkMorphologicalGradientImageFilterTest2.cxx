@@ -22,9 +22,10 @@
 #include "itkSimpleFilterWatcher.h"
 #include <fstream>
 
-int itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
+int
+itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
 {
-  if( argc < 3 )
+  if (argc < 3)
   {
     std::cerr << "Missing Arguments" << std::endl;
     std::cerr << "Usage: " << std::endl;
@@ -35,36 +36,36 @@ int itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
   constexpr int dim = 2;
 
   using PType = unsigned char;
-  using IType = itk::Image< PType, dim >;
+  using IType = itk::Image<PType, dim>;
 
-  using ReaderType = itk::ImageFileReader< IType >;
+  using ReaderType = itk::ImageFileReader<IType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  using StructuringElementType = itk::BinaryBallStructuringElement< PType, dim  >;
-  StructuringElementType  structuringElement;
-  structuringElement.SetRadius( 2 );
+  using StructuringElementType = itk::BinaryBallStructuringElement<PType, dim>;
+  StructuringElementType structuringElement;
+  structuringElement.SetRadius(2);
   structuringElement.CreateStructuringElement();
 
-  using GradientType = itk::MorphologicalGradientImageFilter< IType, IType, StructuringElementType >;
+  using GradientType = itk::MorphologicalGradientImageFilter<IType, IType, StructuringElementType>;
   GradientType::Pointer gradient = GradientType::New();
   gradient->SetInput(reader->GetOutput());
-  gradient->SetKernel( structuringElement );
+  gradient->SetKernel(structuringElement);
   itk::SimpleFilterWatcher watcher(gradient);
 
   const int algorithmType = gradient->GetAlgorithm();
-  std::cout<<"algorithmType : "<<algorithmType<<std::endl;
+  std::cout << "algorithmType : " << algorithmType << std::endl;
 
-  using WriterType = itk::ImageFileWriter< IType >;
+  using WriterType = itk::ImageFileWriter<IType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(gradient->GetOutput());
   writer->SetFileName(argv[2]);
 
   try
   {
-  writer->Update();
+    writer->Update();
   }
-  catch( itk::ExceptionObject & excp )
+  catch (itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught ! " << std::endl;
     std::cerr << excp << std::endl;
@@ -73,15 +74,15 @@ int itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
 
   try
   {
-    structuringElement.SetRadius( 4 );
+    structuringElement.SetRadius(4);
     gradient->SetAlgorithm(0);
     gradient->Update();
     const int algorithmType1 = gradient->GetAlgorithm();
-    std::cout<<"algorithmType1 : "<<algorithmType1<<std::endl;
+    std::cout << "algorithmType1 : " << algorithmType1 << std::endl;
   }
-  catch (itk::ExceptionObject& e)
+  catch (itk::ExceptionObject & e)
   {
-    std::cerr << "Exception detected: "  << e.GetDescription();
+    std::cerr << "Exception detected: " << e.GetDescription();
     return EXIT_FAILURE;
   }
 
@@ -91,23 +92,23 @@ int itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
     SRType::RadiusType elementRadius;
     elementRadius.Fill(4);
     SRType structuringElement2 = SRType::Box(elementRadius);
-    using Gradient1Type = itk::MorphologicalGradientImageFilter< IType, IType, SRType >;
+    using Gradient1Type = itk::MorphologicalGradientImageFilter<IType, IType, SRType>;
     Gradient1Type::Pointer gradient1 = Gradient1Type::New();
     gradient1->SetInput(reader->GetOutput());
-    gradient1->SetKernel( structuringElement2 );
+    gradient1->SetKernel(structuringElement2);
     gradient1->SetAlgorithm(3);
     gradient1->Update();
     const int algorithmType2 = gradient1->GetAlgorithm();
-    std::cout<<"algorithmType : "<<algorithmType2<<std::endl;
+    std::cout << "algorithmType : " << algorithmType2 << std::endl;
 
     gradient1->SetAlgorithm(2);
     gradient1->Update();
     const int algorithmType3 = gradient1->GetAlgorithm();
-    std::cout<<"algorithmType : "<<algorithmType3<<std::endl;
+    std::cout << "algorithmType : " << algorithmType3 << std::endl;
   }
-  catch (itk::ExceptionObject& e)
+  catch (itk::ExceptionObject & e)
   {
-    std::cerr << "Exception detected: "  << e.GetDescription();
+    std::cerr << "Exception detected: " << e.GetDescription();
     return EXIT_FAILURE;
   }
 

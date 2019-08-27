@@ -1,4 +1,4 @@
-  /*=========================================================================
+/*=========================================================================
  *
  *  Copyright Insight Software Consortium
  *
@@ -84,10 +84,11 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage = Image<double, TFixedDimension>,
-         typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT ObjectToObjectMetric:
-  public ObjectToObjectMetricBaseTemplate<TParametersValueType>
+template <unsigned int TFixedDimension,
+          unsigned int TMovingDimension,
+          typename TVirtualImage = Image<double, TFixedDimension>,
+          typename TParametersValueType = double>
+class ITK_TEMPLATE_EXPORT ObjectToObjectMetric : public ObjectToObjectMetricBaseTemplate<TParametersValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ObjectToObjectMetric);
@@ -150,12 +151,8 @@ public:
   using VirtualPointSetPointer = typename VirtualPointSetType::Pointer;
 
   /**  Type of the Transform Base classes */
-  using MovingTransformType = Transform<TParametersValueType,
-                    TVirtualImage::ImageDimension,
-                    TMovingDimension>;
-  using FixedTransformType = Transform<TParametersValueType,
-                    TVirtualImage::ImageDimension,
-                    TFixedDimension>;
+  using MovingTransformType = Transform<TParametersValueType, TVirtualImage::ImageDimension, TMovingDimension>;
+  using FixedTransformType = Transform<TParametersValueType, TVirtualImage::ImageDimension, TFixedDimension>;
 
   using FixedTransformPointer = typename FixedTransformType::Pointer;
   using FixedInputPointType = typename FixedTransformType::InputPointType;
@@ -173,16 +170,24 @@ public:
   using MovingTransformJacobianType = typename MovingTransformType::JacobianType;
 
   /** DisplacementFieldTransform types for working with local-support transforms */
-  using MovingDisplacementFieldTransformType = DisplacementFieldTransform<CoordinateRepresentationType, Self::MovingDimension  >;
+  using MovingDisplacementFieldTransformType =
+    DisplacementFieldTransform<CoordinateRepresentationType, Self::MovingDimension>;
 
-  void Initialize() override;
+  void
+  Initialize() override;
 
-  NumberOfParametersType GetNumberOfParameters() const override;
-  NumberOfParametersType GetNumberOfLocalParameters() const override;
-  void SetParameters( ParametersType & params ) override;
-  const ParametersType & GetParameters() const override;
-  bool HasLocalSupport() const override;
-  void UpdateTransformParameters( const DerivativeType & derivative, TParametersValueType factor) override;
+  NumberOfParametersType
+  GetNumberOfParameters() const override;
+  NumberOfParametersType
+  GetNumberOfLocalParameters() const override;
+  void
+  SetParameters(ParametersType & params) override;
+  const ParametersType &
+  GetParameters() const override;
+  bool
+  HasLocalSupport() const override;
+  void
+  UpdateTransformParameters(const DerivativeType & derivative, TParametersValueType factor) override;
 
   /** Connect the fixed transform. */
   itkSetObjectMacro(FixedTransform, FixedTransformType);
@@ -198,68 +203,79 @@ public:
 
   /** Connect the moving transform using a backwards-compatible name.
    * This assigns the input transform to the moving transform. */
-  void SetTransform( MovingTransformType* transform );
+  void
+  SetTransform(MovingTransformType * transform);
 
   /** Get the moving transform using a backwards-compatible name */
-  const MovingTransformType * GetTransform();
+  const MovingTransformType *
+  GetTransform();
 
   /** Get the number of valid points after a call to evaluate the
    * metric. */
   itkGetConstMacro(NumberOfValidPoints, SizeValueType)
 
-  /** Define the virtual reference space. This space defines the resolution
-   * at which the registration is performed as well as the physical coordinate
-   * system.  Useful for unbiased registration.
-   * This method will allocate \c m_VirtualImage with the passed
-   * information, with the pixel buffer left unallocated.
-   * Metric evaluation will be performed within the constraints of the virtual
-   * domain depending on implementation in derived classes.
-   * A default domain is created during initializaiton in derived
-   * classes according to their need.
-   * \param spacing   spacing
-   * \param origin    origin
-   * \param direction direction
-   * \param region    region is used to set all image regions.
-   *
-   * \sa SetVirtualDomainFromImage
-   */
-  void SetVirtualDomain( const VirtualSpacingType & spacing, const VirtualOriginType & origin,
-                         const VirtualDirectionType & direction, const VirtualRegionType & region );
+    /** Define the virtual reference space. This space defines the resolution
+     * at which the registration is performed as well as the physical coordinate
+     * system.  Useful for unbiased registration.
+     * This method will allocate \c m_VirtualImage with the passed
+     * information, with the pixel buffer left unallocated.
+     * Metric evaluation will be performed within the constraints of the virtual
+     * domain depending on implementation in derived classes.
+     * A default domain is created during initializaiton in derived
+     * classes according to their need.
+     * \param spacing   spacing
+     * \param origin    origin
+     * \param direction direction
+     * \param region    region is used to set all image regions.
+     *
+     * \sa SetVirtualDomainFromImage
+     */
+    void SetVirtualDomain(const VirtualSpacingType &   spacing,
+                          const VirtualOriginType &    origin,
+                          const VirtualDirectionType & direction,
+                          const VirtualRegionType &    region);
 
   /** Use a virtual domain image to define the virtual reference space.
    * \sa SetVirtualDomain */
-  void SetVirtualDomainFromImage( const VirtualImageType * virtualImage);
+  void
+  SetVirtualDomainFromImage(const VirtualImageType * virtualImage);
 
   /** Returns a flag. True if arbitrary virtual domain points will
    *  always correspond to data points. False if not. For example,
    *  point-set metrics return false because only some virtual domain
    *  points will correspond to points within the point sets. */
-  virtual bool SupportsArbitraryVirtualDomainSamples() const = 0;
+  virtual bool
+  SupportsArbitraryVirtualDomainSamples() const = 0;
 
   /** Return a timestamp relating to the virtual domain.
    * This returns the greater of the metric timestamp and the
    * virtual domain image timestamp. This allows us to
    * capture if the virtual domain image is changed by the user
    * after being assigned to the metric. */
-  virtual const TimeStamp& GetVirtualDomainTimeStamp() const;
+  virtual const TimeStamp &
+  GetVirtualDomainTimeStamp() const;
 
   /** Accessors for the virtual domain spacing.
    *  Returns unit spacing if a virtual domain is undefined. */
-  VirtualSpacingType GetVirtualSpacing() const;
+  VirtualSpacingType
+  GetVirtualSpacing() const;
 
   /** Accessor for virtual domain origin.
    *  Returns zero origin if a virtual domain is undefined. */
-  VirtualOriginType  GetVirtualOrigin() const;
+  VirtualOriginType
+  GetVirtualOrigin() const;
 
   /** Accessor for virtual domain direction.
    *  Returns unit direction if a virtual domain is undefined. */
-  VirtualDirectionType GetVirtualDirection() const;
+  VirtualDirectionType
+  GetVirtualDirection() const;
 
   /** Return the virtual domain region, which is retrieved from
    *  the m_VirtualImage buffered region. */
-  const VirtualRegionType   &  GetVirtualRegion() const;
+  const VirtualRegionType &
+  GetVirtualRegion() const;
 
-  itkGetModifiableObjectMacro(VirtualImage, VirtualImageType );
+  itkGetModifiableObjectMacro(VirtualImage, VirtualImageType);
 
   /** Computes an offset for accessing parameter data from a virtual domain
    * index. Relevant for metrics with local-support transforms, to access
@@ -270,7 +286,9 @@ public:
    * \param index the virtual index to convert
    * \param numberOfLocalParameters corresponding to the transform
    **/
-  OffsetValueType ComputeParameterOffsetFromVirtualIndex( const VirtualIndexType & index, const NumberOfParametersType &numberOfLocalParameters ) const;
+  OffsetValueType
+  ComputeParameterOffsetFromVirtualIndex(const VirtualIndexType &       index,
+                                         const NumberOfParametersType & numberOfLocalParameters) const;
 
   /** Computes an offset for accessing parameter data from a virtual domain
    * point. Relevant for metrics with local-support transforms, to access
@@ -281,41 +299,51 @@ public:
    * \param point the virtual point to convert
    * \param numberOfLocalParameters corresponding to the transform
    **/
-  OffsetValueType ComputeParameterOffsetFromVirtualPoint( const VirtualPointType & point, const NumberOfParametersType & numberOfLocalParameters ) const;
+  OffsetValueType
+  ComputeParameterOffsetFromVirtualPoint(const VirtualPointType &       point,
+                                         const NumberOfParametersType & numberOfLocalParameters) const;
 
   /** Determine if a point is within the virtual domain.
    * \note Returns true if the virtual domain has not been defined. This
    * allows, for example, use in point set metrics where the virtual domain
    * is implicitly defined by the point sets and transforms. */
-  bool IsInsideVirtualDomain( const VirtualPointType & point ) const;
-  bool IsInsideVirtualDomain( const VirtualIndexType & index ) const;
+  bool
+  IsInsideVirtualDomain(const VirtualPointType & point) const;
+  bool
+  IsInsideVirtualDomain(const VirtualIndexType & index) const;
 
   using MetricCategoryType = typename Superclass::MetricCategoryType;
 
   /** Get metric category */
-  MetricCategoryType GetMetricCategory() const override
-    {
+  MetricCategoryType
+  GetMetricCategory() const override
+  {
     return Superclass::OBJECT_METRIC;
-    }
+  }
 
 protected:
   ObjectToObjectMetric();
   ~ObjectToObjectMetric() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Verify that virtual domain and displacement field are the same size
    * and in the same physical space. */
-  virtual void VerifyDisplacementFieldSizeAndPhysicalSpace();
+  virtual void
+  VerifyDisplacementFieldSizeAndPhysicalSpace();
 
-  bool TransformPhysicalPointToVirtualIndex( const VirtualPointType &, VirtualIndexType & ) const;
-  void TransformVirtualIndexToPhysicalPoint( const VirtualIndexType &, VirtualPointType & ) const;
+  bool
+  TransformPhysicalPointToVirtualIndex(const VirtualPointType &, VirtualIndexType &) const;
+  void
+  TransformVirtualIndexToPhysicalPoint(const VirtualIndexType &, VirtualPointType &) const;
 
   /** If the moving transform is a DisplacementFieldTransform, return it.
    *  If the moving transform is a CompositeTransform, the routine will check if the
    *  first (last to be added) transform is a DisplacementFieldTransform, and if so return it.
    *  Otherwise, return nullptr. */
-  const MovingDisplacementFieldTransformType * GetMovingDisplacementFieldTransform() const;
+  const MovingDisplacementFieldTransformType *
+  GetMovingDisplacementFieldTransform() const;
 
   /** Check that the number of valid points is above a default
    * minimum (zero). If not, then return false, and assign to 'value' a value
@@ -323,27 +351,28 @@ protected:
    * the derivative to zero. A warning is also output.
    * This functionality is provided as a separate method so derived classes
    * can use it without hardcoding the details. */
-  bool VerifyNumberOfValidPoints( MeasureType & value, DerivativeType & derivative ) const;
+  bool
+  VerifyNumberOfValidPoints(MeasureType & value, DerivativeType & derivative) const;
 
   /** Transforms */
-  FixedTransformPointer   m_FixedTransform;
-  MovingTransformPointer  m_MovingTransform;
+  FixedTransformPointer  m_FixedTransform;
+  MovingTransformPointer m_MovingTransform;
 
-  VirtualImagePointer     m_VirtualImage;
+  VirtualImagePointer m_VirtualImage;
 
   /** Flag that is set when user provides a virtual domain, either via
    * SetVirtualDomain() or SetVirtualDomainFromImage(). */
-  bool                    m_UserHasSetVirtualDomain;
+  bool m_UserHasSetVirtualDomain;
 
   /** Store the number of points used during most recent value and derivative
    * calculation.
    * \sa VerifyNumberOfValidPoints() */
-  mutable SizeValueType                   m_NumberOfValidPoints{0};
+  mutable SizeValueType m_NumberOfValidPoints{ 0 };
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkObjectToObjectMetric.hxx"
+#  include "itkObjectToObjectMetric.hxx"
 #endif
 
 #endif

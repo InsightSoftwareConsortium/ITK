@@ -42,23 +42,22 @@ namespace itk
  *
  * \sphinx
  * \sphinxexample{Filtering/LabelMap/ShapeAttributesForBinaryImage,Shape Attributes For Binary Image}
- * \sphinxexample{Filtering/LabelMap/ConvertImageWithLabelsToShapeLabelMap,Convert Image With Labeled Regions To ShapeLabelMap}
- * \endsphinx
+ * \sphinxexample{Filtering/LabelMap/ConvertImageWithLabelsToShapeLabelMap,Convert Image With Labeled Regions To
+ * ShapeLabelMap} \endsphinx
  */
-template< typename TInputImage, typename TOutputImage =
-            LabelMap< ShapeLabelObject< typename TInputImage::PixelType,
-                                        TInputImage::ImageDimension > > >
-class ITK_TEMPLATE_EXPORT LabelImageToShapeLabelMapFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage,
+          typename TOutputImage =
+            LabelMap<ShapeLabelObject<typename TInputImage::PixelType, TInputImage::ImageDimension>>>
+class ITK_TEMPLATE_EXPORT LabelImageToShapeLabelMapFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelImageToShapeLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = LabelImageToShapeLabelMapFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;
@@ -79,12 +78,9 @@ public:
   static constexpr unsigned int OutputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
-  using LabelizerType =
-      LabelImageToLabelMapFilter< InputImageType, OutputImageType >;
-  using ShapeLabelFilterOutput =
-      Image< typename OutputImageType::PixelType, Self::OutputImageDimension >;
-  using LabelObjectValuatorType =
-      ShapeLabelMapFilter< TOutputImage, ShapeLabelFilterOutput >;
+  using LabelizerType = LabelImageToLabelMapFilter<InputImageType, OutputImageType>;
+  using ShapeLabelFilterOutput = Image<typename OutputImageType::PixelType, Self::OutputImageDimension>;
+  using LabelObjectValuatorType = ShapeLabelMapFilter<TOutputImage, ShapeLabelFilterOutput>;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -94,12 +90,9 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputEqualityComparableCheck,
-                   ( Concept::EqualityComparable< InputImagePixelType > ) );
-  itkConceptMacro( IntConvertibleToInputCheck,
-                   ( Concept::Convertible< int, InputImagePixelType > ) );
-  itkConceptMacro( InputOStreamWritableCheck,
-                   ( Concept::OStreamWritable< InputImagePixelType > ) );
+  itkConceptMacro(InputEqualityComparableCheck, (Concept::EqualityComparable<InputImagePixelType>));
+  itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputImagePixelType>));
+  itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputImagePixelType>));
   // End concept checking
 #endif
 
@@ -139,18 +132,22 @@ public:
 protected:
   LabelImageToShapeLabelMapFilter();
   ~LabelImageToShapeLabelMapFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** LabelImageToShapeLabelMapFilter needs the entire input be available.
    * Thus, it needs to provide an implementation of GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** LabelImageToShapeLabelMapFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
   /** Single-threaded version of GenerateData.
    * This filter delegates to GrayscaleGeodesicErodeImageFilter. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   OutputImagePixelType m_BackgroundValue;
@@ -161,7 +158,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelImageToShapeLabelMapFilter.hxx"
+#  include "itkLabelImageToShapeLabelMapFilter.hxx"
 #endif
 
 #endif

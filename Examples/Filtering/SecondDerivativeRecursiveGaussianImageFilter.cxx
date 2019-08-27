@@ -51,15 +51,16 @@
 #include <string>
 //  Software Guide : EndCodeSnippet
 
-int main(int argc, char * argv [] )
+int
+main(int argc, char * argv[])
 {
 
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " inputImage outputPrefix  [sigma] " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //  Software Guide : BeginLatex
   //
@@ -85,39 +86,37 @@ int main(int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ImageType = itk::Image< PixelType,       Dimension >;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader< ImageType       >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  using DuplicatorType = itk::ImageDuplicator< OutputImageType >;
+  using DuplicatorType = itk::ImageDuplicator<OutputImageType>;
 
-  using FilterType = itk::RecursiveGaussianImageFilter<
-                                      ImageType,
-                                      ImageType >;
+  using FilterType = itk::RecursiveGaussianImageFilter<ImageType, ImageType>;
 
-  ReaderType::Pointer  reader  = ReaderType::New();
-  WriterType::Pointer  writer  = WriterType::New();
+  ReaderType::Pointer reader = ReaderType::New();
+  WriterType::Pointer writer = WriterType::New();
 
-  DuplicatorType::Pointer duplicator  = DuplicatorType::New();
+  DuplicatorType::Pointer duplicator = DuplicatorType::New();
   // Software Guide : EndCodeSnippet
 
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
   std::string outputPrefix = argv[2];
   std::string outputFileName;
 
   try
-    {
+  {
     reader->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Problem reading the input file" << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //  Software Guide : BeginLatex
   //
@@ -135,17 +134,17 @@ int main(int argc, char * argv [] )
   FilterType::Pointer gb = FilterType::New();
   FilterType::Pointer gc = FilterType::New();
 
-  ga->SetDirection( 0 );
-  gb->SetDirection( 1 );
-  gc->SetDirection( 2 );
+  ga->SetDirection(0);
+  gb->SetDirection(1);
+  gc->SetDirection(2);
 
-  if( argc > 3 )
-    {
-    const float sigma = std::stod( argv[3] );
-    ga->SetSigma( sigma );
-    gb->SetSigma( sigma );
-    gc->SetSigma( sigma );
-    }
+  if (argc > 3)
+  {
+    const float sigma = std::stod(argv[3]);
+    ga->SetSigma(sigma);
+    gb->SetSigma(sigma);
+    gc->SetSigma(sigma);
+  }
   //  Software Guide: EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -165,11 +164,11 @@ int main(int argc, char * argv [] )
 
   ImageType::Pointer inputImage = reader->GetOutput();
 
-  ga->SetInput( inputImage );
-  gb->SetInput( ga->GetOutput() );
-  gc->SetInput( gb->GetOutput() );
+  ga->SetInput(inputImage);
+  gb->SetInput(ga->GetOutput());
+  gc->SetInput(gb->GetOutput());
 
-  duplicator->SetInputImage( gc->GetOutput() );
+  duplicator->SetInputImage(gc->GetOutput());
 
   gc->Update();
   duplicator->Update();
@@ -177,9 +176,9 @@ int main(int argc, char * argv [] )
   ImageType::Pointer Izz = duplicator->GetOutput();
   //  Software Guide: EndCodeSnippet
 
-  writer->SetInput( Izz );
+  writer->SetInput(Izz);
   outputFileName = outputPrefix + "-Izz.mhd";
-  writer->SetFileName( outputFileName.c_str() );
+  writer->SetFileName(outputFileName.c_str());
   writer->Update();
 
   //  Software Guide : BeginLatex
@@ -195,8 +194,8 @@ int main(int argc, char * argv [] )
   // Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  gc->SetDirection( 1 );  // gc now works along Y
-  gb->SetDirection( 2 );  // gb now works along Z
+  gc->SetDirection(1); // gc now works along Y
+  gb->SetDirection(2); // gb now works along Z
 
   gc->Update();
   duplicator->Update();
@@ -204,9 +203,9 @@ int main(int argc, char * argv [] )
   ImageType::Pointer Iyy = duplicator->GetOutput();
   //  Software Guide : EndCodeSnippet
 
-  writer->SetInput( Iyy );
+  writer->SetInput(Iyy);
   outputFileName = outputPrefix + "-Iyy.mhd";
-  writer->SetFileName( outputFileName.c_str() );
+  writer->SetFileName(outputFileName.c_str());
   writer->Update();
 
   //  Software Guide : BeginLatex
@@ -217,8 +216,8 @@ int main(int argc, char * argv [] )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  gc->SetDirection( 0 );  // gc now works along X
-  ga->SetDirection( 1 );  // ga now works along Y
+  gc->SetDirection(0); // gc now works along X
+  ga->SetDirection(1); // ga now works along Y
 
   gc->Update();
   duplicator->Update();
@@ -226,9 +225,9 @@ int main(int argc, char * argv [] )
   ImageType::Pointer Ixx = duplicator->GetOutput();
   //  Software Guide : EndCodeSnippet
 
-  writer->SetInput( Ixx );
+  writer->SetInput(Ixx);
   outputFileName = outputPrefix + "-Ixx.mhd";
-  writer->SetFileName( outputFileName.c_str() );
+  writer->SetFileName(outputFileName.c_str());
   writer->Update();
 
   //  Software Guide : BeginLatex
@@ -241,9 +240,9 @@ int main(int argc, char * argv [] )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  ga->SetDirection( 0 );
-  gb->SetDirection( 1 );
-  gc->SetDirection( 2 );
+  ga->SetDirection(0);
+  gb->SetDirection(1);
+  gc->SetDirection(2);
 
   ga->SetZeroOrder();
   gb->SetFirstOrder();
@@ -255,9 +254,9 @@ int main(int argc, char * argv [] )
   ImageType::Pointer Iyz = duplicator->GetOutput();
   //  Software Guide : EndCodeSnippet
 
-  writer->SetInput( Iyz );
+  writer->SetInput(Iyz);
   outputFileName = outputPrefix + "-Iyz.mhd";
-  writer->SetFileName( outputFileName.c_str() );
+  writer->SetFileName(outputFileName.c_str());
   writer->Update();
 
   //  Software Guide : BeginLatex
@@ -267,9 +266,9 @@ int main(int argc, char * argv [] )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  ga->SetDirection( 1 );
-  gb->SetDirection( 0 );
-  gc->SetDirection( 2 );
+  ga->SetDirection(1);
+  gb->SetDirection(0);
+  gc->SetDirection(2);
 
   ga->SetZeroOrder();
   gb->SetFirstOrder();
@@ -289,14 +288,14 @@ int main(int argc, char * argv [] )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  writer->SetInput( Ixz );
+  writer->SetInput(Ixz);
   outputFileName = outputPrefix + "-Ixz.mhd";
-  writer->SetFileName( outputFileName.c_str() );
+  writer->SetFileName(outputFileName.c_str());
   writer->Update();
 
-  ga->SetDirection( 2 );
-  gb->SetDirection( 0 );
-  gc->SetDirection( 1 );
+  ga->SetDirection(2);
+  gb->SetDirection(0);
+  gc->SetDirection(1);
 
   ga->SetZeroOrder();
   gb->SetFirstOrder();
@@ -307,11 +306,11 @@ int main(int argc, char * argv [] )
 
   ImageType::Pointer Ixy = duplicator->GetOutput();
 
-  writer->SetInput( Ixy );
+  writer->SetInput(Ixy);
   outputFileName = outputPrefix + "-Ixy.mhd";
-  writer->SetFileName( outputFileName.c_str() );
+  writer->SetFileName(outputFileName.c_str());
   writer->Update();
   // Software Guide : EndCodeSnippet
 
-return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }

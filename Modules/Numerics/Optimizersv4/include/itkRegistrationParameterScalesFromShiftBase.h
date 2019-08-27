@@ -39,21 +39,21 @@ namespace itk
  * \sa RegistrationParameterScalesEstimator
  * \ingroup ITKOptimizersv4
  */
-template < typename TMetric >
-class ITK_TEMPLATE_EXPORT RegistrationParameterScalesFromShiftBase :
-  public RegistrationParameterScalesEstimator< TMetric >
+template <typename TMetric>
+class ITK_TEMPLATE_EXPORT RegistrationParameterScalesFromShiftBase
+  : public RegistrationParameterScalesEstimator<TMetric>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesFromShiftBase);
 
   /** Standard class type aliases. */
   using Self = RegistrationParameterScalesFromShiftBase;
-  using Superclass = RegistrationParameterScalesEstimator< TMetric >;
+  using Superclass = RegistrationParameterScalesEstimator<TMetric>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( RegistrationParameterScalesFromShiftBase, RegistrationParameterScalesEstimator );
+  itkTypeMacro(RegistrationParameterScalesFromShiftBase, RegistrationParameterScalesEstimator);
 
   /** Type of scales */
   using ScalesType = typename Superclass::ScalesType;
@@ -71,45 +71,50 @@ public:
   using VirtualImageConstPointer = typename Superclass::VirtualImageConstPointer;
 
   /** Estimate parameter scales */
-  void EstimateScales(ScalesType &scales) override;
+  void
+  EstimateScales(ScalesType & scales) override;
 
   /** Estimate the scale of a step */
-  FloatType EstimateStepScale(const ParametersType &step) override;
+  FloatType
+  EstimateStepScale(const ParametersType & step) override;
 
   /** Estimate the scales of local steps */
-  void EstimateLocalStepScales(const ParametersType &step,
-    ScalesType &localStepScales) override;
+  void
+  EstimateLocalStepScales(const ParametersType & step, ScalesType & localStepScales) override;
 
   /** Set/get small parameter variation */
-  itkSetMacro( SmallParameterVariation, ParametersValueType );
-  itkGetConstMacro( SmallParameterVariation, ParametersValueType );
+  itkSetMacro(SmallParameterVariation, ParametersValueType);
+  itkGetConstMacro(SmallParameterVariation, ParametersValueType);
 
 protected:
   RegistrationParameterScalesFromShiftBase();
   ~RegistrationParameterScalesFromShiftBase() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Compute the shift in voxels when deltaParameters is applied onto the
    * current parameters. */
-  virtual FloatType ComputeMaximumVoxelShift(const ParametersType &deltaParameters);
+  virtual FloatType
+  ComputeMaximumVoxelShift(const ParametersType & deltaParameters);
 
   /** Compute the sample shifts.
    */
-  virtual void ComputeSampleShifts(const ParametersType &deltaParameters, ScalesType &localShifts) = 0;
+  virtual void
+  ComputeSampleShifts(const ParametersType & deltaParameters, ScalesType & localShifts) = 0;
 
 private:
-  //A small variation of parameters
-  ParametersValueType  m_SmallParameterVariation;
+  // A small variation of parameters
+  ParametersValueType m_SmallParameterVariation;
 
-}; //class RegistrationParameterScalesFromShiftBase
+}; // class RegistrationParameterScalesFromShiftBase
 
 
-}  // namespace itk
+} // namespace itk
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRegistrationParameterScalesFromShiftBase.hxx"
+#  include "itkRegistrationParameterScalesFromShiftBase.hxx"
 #endif
 
 #endif /* itkRegistrationParameterScalesFromShiftBase_h */

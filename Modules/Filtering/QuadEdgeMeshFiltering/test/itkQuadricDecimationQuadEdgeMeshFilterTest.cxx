@@ -23,68 +23,67 @@
 #include "itkQuadEdgeMeshDecimationCriteria.h"
 #include "itkQuadricDecimationQuadEdgeMeshFilter.h"
 
-int itkQuadricDecimationQuadEdgeMeshFilterTest( int argc, char* argv[] )
+int
+itkQuadricDecimationQuadEdgeMeshFilterTest(int argc, char * argv[])
 {
   // ** ERROR MESSAGE AND HELP ** //
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cout << "Requires 3 argument: " << std::endl;
     std::cout << "1-Input file name " << std::endl;
     std::cout << "2-Number of Faces " << std::endl;
     std::cout << "3-Output file name " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-// ** TYPEDEF **
+  // ** TYPEDEF **
   using CoordType = double;
   constexpr unsigned int Dimension = 3;
 
-  using MeshType = itk::QuadEdgeMesh< CoordType, Dimension >;
-  using ReaderType = itk::MeshFileReader< MeshType >;
-  using WriterType = itk::MeshFileWriter< MeshType >;
+  using MeshType = itk::QuadEdgeMesh<CoordType, Dimension>;
+  using ReaderType = itk::MeshFileReader<MeshType>;
+  using WriterType = itk::MeshFileWriter<MeshType>;
 
   // ** READ THE FILE IN **
-  ReaderType::Pointer reader = ReaderType::New( );
-  reader->SetFileName( argv[1] );
+  ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName(argv[1]);
   try
-    {
-    reader->Update( );
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  {
+    reader->Update();
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown while reading the input file " << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  MeshType::Pointer mesh = reader->GetOutput( );
+  MeshType::Pointer mesh = reader->GetOutput();
 
-  using CriterionType = itk::NumberOfFacesCriterion< MeshType >;
-  using DecimationType = itk::QuadricDecimationQuadEdgeMeshFilter<
-    MeshType, MeshType, CriterionType >;
+  using CriterionType = itk::NumberOfFacesCriterion<MeshType>;
+  using DecimationType = itk::QuadricDecimationQuadEdgeMeshFilter<MeshType, MeshType, CriterionType>;
 
-  long N;
-  std::stringstream ssout( argv[2] );
-  ssout >>N;
+  long              N;
+  std::stringstream ssout(argv[2]);
+  ssout >> N;
 
   CriterionType::Pointer criterion = CriterionType::New();
-  criterion->SetTopologicalChange( true );
-  criterion->SetNumberOfElements( N );
+  criterion->SetTopologicalChange(true);
+  criterion->SetNumberOfElements(N);
 
   DecimationType::Pointer decimate = DecimationType::New();
-  decimate->SetInput( mesh );
-  decimate->SetCriterion( criterion );
+  decimate->SetInput(mesh);
+  decimate->SetCriterion(criterion);
   decimate->Update();
 
   // ** WRITE OUTPUT **
-  WriterType::Pointer writer = WriterType::New( );
-  writer->SetInput( decimate->GetOutput( ) );
-  writer->SetFileName( argv[3] );
-  writer->Update( );
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetInput(decimate->GetOutput());
+  writer->SetFileName(argv[3]);
+  writer->Update();
 
   // ** PRINT **
   std::cout << "DecimateFilter:\n" << decimate;
   std::cout << "Criterion:\n" << criterion;
   return EXIT_SUCCESS;
-
 }

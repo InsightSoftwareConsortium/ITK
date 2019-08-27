@@ -25,65 +25,66 @@
  * NearestNeighborExtrapolateImageFunction class.
  *
  */
-int itkNearestNeighborExtrapolateImageFunctionTest( int, char *[])
+int
+itkNearestNeighborExtrapolateImageFunctionTest(int, char *[])
 {
   using CoordRep = double;
   constexpr unsigned int ImageDimension = 2;
   using PixelType = unsigned char;
   constexpr unsigned int VectorDimension = 4;
-  using VectorPixelType = itk::Vector< PixelType, VectorDimension >;
-  using ImageType = itk::Image<PixelType,ImageDimension>;
-  using VectorImageType = itk::Image< VectorPixelType, ImageDimension >;
+  using VectorPixelType = itk::Vector<PixelType, VectorDimension>;
+  using ImageType = itk::Image<PixelType, ImageDimension>;
+  using VectorImageType = itk::Image<VectorPixelType, ImageDimension>;
 
   ImageType::SizeType imageSize;
   imageSize[0] = 5;
   imageSize[1] = 7;
-  ImageType::RegionType imageRegion( imageSize );
+  ImageType::RegionType imageRegion(imageSize);
 
   ImageType::Pointer image = ImageType::New();
-  image->SetRegions( imageRegion );
+  image->SetRegions(imageRegion);
   image->Allocate();
 
   VectorImageType::Pointer vectorimage = VectorImageType::New();
-  vectorimage->SetRegions( imageRegion );
+  vectorimage->SetRegions(imageRegion);
   vectorimage->Allocate();
 
   using Iterator = itk::ImageRegionIterator<ImageType>;
-  Iterator iter( image, imageRegion );
+  Iterator iter(image, imageRegion);
   iter.GoToBegin();
   unsigned char counter = 0;
 
-  while( !iter.IsAtEnd() )
-    {
-    iter.Set( counter++ );
+  while (!iter.IsAtEnd())
+  {
+    iter.Set(counter++);
     ++iter;
-    }
+  }
 
   using VectorIterator = itk::ImageRegionIterator<VectorImageType>;
-  VectorIterator vectoriter( vectorimage, imageRegion );
+  VectorIterator vectoriter(vectorimage, imageRegion);
   vectoriter.GoToBegin();
   counter = 0;
 
-  while( !vectoriter.IsAtEnd() )
-    {
+  while (!vectoriter.IsAtEnd())
+  {
     VectorPixelType & vectorpixel = vectoriter.Value();
-    vectorpixel.Fill( counter++ );
+    vectorpixel.Fill(counter++);
     ++vectoriter;
-    }
+  }
 
   // set up the extrapolator
-  using FunctionType = itk::NearestNeighborExtrapolateImageFunction<ImageType,CoordRep>;
+  using FunctionType = itk::NearestNeighborExtrapolateImageFunction<ImageType, CoordRep>;
   FunctionType::Pointer function = FunctionType::New();
 
-  using VectorFunctionType = itk::NearestNeighborExtrapolateImageFunction<VectorImageType,CoordRep>;
+  using VectorFunctionType = itk::NearestNeighborExtrapolateImageFunction<VectorImageType, CoordRep>;
   VectorFunctionType::Pointer vectorfunction = VectorFunctionType::New();
 
-  function->SetInputImage( image );
+  function->SetInputImage(image);
 
-  vectorfunction->SetInputImage( vectorimage );
+  vectorfunction->SetInputImage(vectorimage);
 
-  FunctionType::IndexType index;
-  FunctionType::PointType point;
+  FunctionType::IndexType  index;
+  FunctionType::PointType  point;
   FunctionType::OutputType value;
   FunctionType::OutputType trueValue;
 
@@ -93,78 +94,73 @@ int itkNearestNeighborExtrapolateImageFunctionTest( int, char *[])
   // evaluate at point inside the image
   point[0] = 2.25;
   point[1] = 3.25;
-  value = function->Evaluate( point );
+  value = function->Evaluate(point);
 
-  vectorvalue = vectorfunction->Evaluate( point );
+  vectorvalue = vectorfunction->Evaluate(point);
 
-  trueValue = itk::Math::Round<int>( point[0] ) +
-    ( itk::Math::Round<int>( point[1] ) )  * static_cast<double>( imageSize[0] );
-  trueVectorValue.Fill( trueValue );
+  trueValue = itk::Math::Round<int>(point[0]) + (itk::Math::Round<int>(point[1])) * static_cast<double>(imageSize[0]);
+  trueVectorValue.Fill(trueValue);
 
-  std::cout << "Point: " << point << " Value: " << value
-            << " Vector Value: " << vectorvalue << std::endl;
-  if ( itk::Math::NotAlmostEquals(value, trueValue) )
-    {
+  std::cout << "Point: " << point << " Value: " << value << " Vector Value: " << vectorvalue << std::endl;
+  if (itk::Math::NotAlmostEquals(value, trueValue))
+  {
     std::cout << "Value not the same as trueValue: " << trueValue << std::endl;
     std::cout << "Test failed. " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if ( vectorvalue != trueVectorValue )
-    {
+  if (vectorvalue != trueVectorValue)
+  {
     std::cout << "Vector Value not the same as trueVectorValue: " << trueVectorValue << std::endl;
     std::cout << "Test failed. " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // evaluate at point outside the image
   point[0] = 2.25;
   point[1] = 8.0;
-  value = function->Evaluate( point );
+  value = function->Evaluate(point);
 
-  trueValue = itk::Math::Round<int>( point[0] ) +
-    ( 6.0 )  * static_cast<double>( imageSize[0] );
+  trueValue = itk::Math::Round<int>(point[0]) + (6.0) * static_cast<double>(imageSize[0]);
 
   std::cout << "Point: " << point << " Value: " << value << std::endl;
-  if ( itk::Math::NotAlmostEquals(value, trueValue) )
-    {
+  if (itk::Math::NotAlmostEquals(value, trueValue))
+  {
     std::cout << "Value not the same as trueValue: " << trueValue << std::endl;
     std::cout << "Test failed. " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // evaluate at index inside the image
   index[0] = 4;
   index[1] = 5;
-  value = function->EvaluateAtIndex( index );
+  value = function->EvaluateAtIndex(index);
 
-  trueValue = static_cast<double>( index[0] ) +
-    static_cast<double>( index[1] )  * static_cast<double>( imageSize[0] );
+  trueValue = static_cast<double>(index[0]) + static_cast<double>(index[1]) * static_cast<double>(imageSize[0]);
 
   std::cout << "Index: " << index << " Value: " << value << std::endl;
-  if ( itk::Math::NotAlmostEquals(value, trueValue) )
-    {
+  if (itk::Math::NotAlmostEquals(value, trueValue))
+  {
     std::cout << "Value not the same as trueValue: " << trueValue << std::endl;
     std::cout << "Test failed. " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   // evaluate at index outside the image
   index[0] = 8;
   index[1] = -1;
-  value = function->EvaluateAtIndex( index );
+  value = function->EvaluateAtIndex(index);
 
-  trueValue = static_cast<double>( 4 ) +
-    static_cast<double>( 0 )  * static_cast<double>( imageSize[0] );
+  trueValue = static_cast<double>(4) + static_cast<double>(0) * static_cast<double>(imageSize[0]);
 
   std::cout << "Index: " << index << " Value: " << value << std::endl;
-  if ( itk::Math::NotAlmostEquals(value, trueValue) )
-    {
+  if (itk::Math::NotAlmostEquals(value, trueValue))
+  {
     std::cout << "Value not the same as trueValue: " << trueValue << std::endl;
     std::cout << "Test failed. " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

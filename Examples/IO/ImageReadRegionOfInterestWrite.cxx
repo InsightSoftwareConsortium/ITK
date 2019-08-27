@@ -51,16 +51,17 @@
 #include "itkImage.h"
 
 
-int main( int argc, char ** argv )
+int
+main(int argc, char ** argv)
 {
   // Verify the number of parameters in the command line
-  if( argc < 7 )
-    {
+  if (argc < 7)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " inputImageFile  outputImageFile " << std::endl;
     std::cerr << " startX startY sizeX sizeY" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //  Software Guide : BeginLatex
@@ -74,8 +75,8 @@ int main( int argc, char ** argv )
   using OutputPixelType = signed short;
   constexpr unsigned int Dimension = 2;
 
-  using InputImageType = itk::Image< InputPixelType,  Dimension >;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
 
@@ -87,8 +88,8 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -101,8 +102,7 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::RegionOfInterestImageFilter< InputImageType,
-                                            OutputImageType >;
+  using FilterType = itk::RegionOfInterestImageFilter<InputImageType, OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -122,15 +122,15 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   OutputImageType::IndexType start;
-  start[0] = std::stoi( argv[3] );
-  start[1] = std::stoi( argv[4] );
+  start[0] = std::stoi(argv[3]);
+  start[1] = std::stoi(argv[4]);
   // Software Guide : EndCodeSnippet
 
 
   // Software Guide : BeginCodeSnippet
   OutputImageType::SizeType size;
-  size[0] = std::stoi( argv[5] );
-  size[1] = std::stoi( argv[6] );
+  size[0] = std::stoi(argv[5]);
+  size[1] = std::stoi(argv[6]);
   // Software Guide : EndCodeSnippet
 
 
@@ -143,8 +143,8 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   OutputImageType::RegionType desiredRegion;
-  desiredRegion.SetSize(  size  );
-  desiredRegion.SetIndex( start );
+  desiredRegion.SetSize(size);
+  desiredRegion.SetIndex(start);
   // Software Guide : EndCodeSnippet
 
 
@@ -159,7 +159,7 @@ int main( int argc, char ** argv )
 
 
   // Software Guide : BeginCodeSnippet
-  filter->SetRegionOfInterest( desiredRegion );
+  filter->SetRegionOfInterest(desiredRegion);
   // Software Guide : EndCodeSnippet
 
 
@@ -184,7 +184,7 @@ int main( int argc, char ** argv )
   //
   // Here we recover the file names from the command line arguments
   //
-  const char * inputFilename  = argv[1];
+  const char * inputFilename = argv[1];
   const char * outputFilename = argv[2];
 
 
@@ -201,8 +201,8 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  reader->SetFileName( inputFilename  );
-  writer->SetFileName( outputFilename );
+  reader->SetFileName(inputFilename);
+  writer->SetFileName(outputFilename);
   // Software Guide : EndCodeSnippet
 
 
@@ -214,8 +214,8 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetInput( reader->GetOutput() );
-  writer->SetInput( filter->GetOutput() );
+  filter->SetInput(reader->GetOutput());
+  writer->SetInput(filter->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -229,15 +229,15 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 

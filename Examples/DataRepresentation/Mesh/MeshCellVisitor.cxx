@@ -45,175 +45,185 @@
 // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
-  //
-  //  The typical mesh types are now declared.
-  //
-  //  Software Guide : EndLatex
+//  Software Guide : BeginLatex
+//
+//  The typical mesh types are now declared.
+//
+//  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
-  using PixelType = float;
-  using MeshType = itk::Mesh< PixelType, 3 >;
+// Software Guide : BeginCodeSnippet
+using PixelType = float;
+using MeshType = itk::Mesh<PixelType, 3>;
 
-  using CellType = MeshType::CellType;
+using CellType = MeshType::CellType;
 
-  using VertexType = itk::VertexCell< CellType >;
-  using LineType = itk::LineCell< CellType >;
-  using TriangleType = itk::TriangleCell< CellType >;
-  using TetrahedronType = itk::TetrahedronCell< CellType >;
-  // Software Guide : EndCodeSnippet
+using VertexType = itk::VertexCell<CellType>;
+using LineType = itk::LineCell<CellType>;
+using TriangleType = itk::TriangleCell<CellType>;
+using TetrahedronType = itk::TetrahedronCell<CellType>;
+// Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
-  //
-  //  Then, a custom CellVisitor class should be declared. In this particular
-  //  example, the visitor class is intended to act only on \code{TriangleType}
-  //  cells. The only requirement on the declaration of the visitor class is that
-  //  it must provide a method named \code{Visit()}. This method expects as
-  //  arguments a cell identifier and a pointer to the \emph{specific} cell type
-  //  for which this visitor is intended. Nothing prevents a visitor class from
-  //  providing \code{Visit()} methods for several different cell types.  The
-  //  multiple methods will be differentiated by the natural C++ mechanism of
-  //  function overload. The following code illustrates a minimal cell visitor
-  //  class.
-  //
-  //  \index{itk::Mesh!CellInterfaceVisitor}
-  //  \index{CellInterfaceVisitor!requirements}
-  //  \index{CellInterfaceVisitor!Visit()}
-  //
-  //  Software Guide : EndLatex
+//  Software Guide : BeginLatex
+//
+//  Then, a custom CellVisitor class should be declared. In this particular
+//  example, the visitor class is intended to act only on \code{TriangleType}
+//  cells. The only requirement on the declaration of the visitor class is that
+//  it must provide a method named \code{Visit()}. This method expects as
+//  arguments a cell identifier and a pointer to the \emph{specific} cell type
+//  for which this visitor is intended. Nothing prevents a visitor class from
+//  providing \code{Visit()} methods for several different cell types.  The
+//  multiple methods will be differentiated by the natural C++ mechanism of
+//  function overload. The following code illustrates a minimal cell visitor
+//  class.
+//
+//  \index{itk::Mesh!CellInterfaceVisitor}
+//  \index{CellInterfaceVisitor!requirements}
+//  \index{CellInterfaceVisitor!Visit()}
+//
+//  Software Guide : EndLatex
 
 
 #ifndef __CustomTriangleVisitor
-#define __CustomTriangleVisitor
+#  define __CustomTriangleVisitor
 // Software Guide : BeginCodeSnippet
 class CustomTriangleVisitor
 {
 public:
   using TriangleType = itk::TriangleCell<CellType>;
-  void Visit(unsigned long cellId, TriangleType * t )
-    {
+  void
+  Visit(unsigned long cellId, TriangleType * t)
+  {
     std::cout << "Cell # " << cellId << " is a TriangleType ";
     std::cout << t->GetNumberOfPoints() << std::endl;
-    }
+  }
   CustomTriangleVisitor() = default;
   virtual ~CustomTriangleVisitor() = default;
 };
 // Software Guide : EndCodeSnippet
 #endif
 
-int main(int, char *[])
+int
+main(int, char *[])
 {
-  MeshType::Pointer  mesh = MeshType::New();
+  MeshType::Pointer mesh = MeshType::New();
 
 
   // Creating the points and inserting them in the mesh
   //
-  MeshType::PointType   point0;
-  MeshType::PointType   point1;
-  MeshType::PointType   point2;
-  MeshType::PointType   point3;
+  MeshType::PointType point0;
+  MeshType::PointType point1;
+  MeshType::PointType point2;
+  MeshType::PointType point3;
 
-  point0[0] = -1; point0[1] = -1; point0[2] = -1;
-  point1[0] =  1; point1[1] =  1; point1[2] = -1;
-  point2[0] =  1; point2[1] = -1; point2[2] =  1;
-  point3[0] = -1; point3[1] =  1; point3[2] =  1;
+  point0[0] = -1;
+  point0[1] = -1;
+  point0[2] = -1;
+  point1[0] = 1;
+  point1[1] = 1;
+  point1[2] = -1;
+  point2[0] = 1;
+  point2[1] = -1;
+  point2[2] = 1;
+  point3[0] = -1;
+  point3[1] = 1;
+  point3[2] = 1;
 
-  mesh->SetPoint( 0, point0 );
-  mesh->SetPoint( 1, point1 );
-  mesh->SetPoint( 2, point2 );
-  mesh->SetPoint( 3, point3 );
+  mesh->SetPoint(0, point0);
+  mesh->SetPoint(1, point1);
+  mesh->SetPoint(2, point2);
+  mesh->SetPoint(3, point3);
 
 
   // Creating and associating the Tetrahedron
   //
   CellType::CellAutoPointer cellpointer;
 
-  cellpointer.TakeOwnership( new TetrahedronType );
-  cellpointer->SetPointId( 0, 0 );
-  cellpointer->SetPointId( 1, 1 );
-  cellpointer->SetPointId( 2, 2 );
-  cellpointer->SetPointId( 3, 3 );
-  mesh->SetCell( 0, cellpointer );
+  cellpointer.TakeOwnership(new TetrahedronType);
+  cellpointer->SetPointId(0, 0);
+  cellpointer->SetPointId(1, 1);
+  cellpointer->SetPointId(2, 2);
+  cellpointer->SetPointId(3, 3);
+  mesh->SetCell(0, cellpointer);
 
 
   // Creating and associating the Triangles
   //
-  cellpointer.TakeOwnership( new TriangleType );
-  cellpointer->SetPointId( 0, 0 );
-  cellpointer->SetPointId( 1, 1 );
-  cellpointer->SetPointId( 2, 2 );
-  mesh->SetCell( 1, cellpointer );
+  cellpointer.TakeOwnership(new TriangleType);
+  cellpointer->SetPointId(0, 0);
+  cellpointer->SetPointId(1, 1);
+  cellpointer->SetPointId(2, 2);
+  mesh->SetCell(1, cellpointer);
 
-  cellpointer.TakeOwnership( new TriangleType );
-  cellpointer->SetPointId( 0, 0 );
-  cellpointer->SetPointId( 1, 2 );
-  cellpointer->SetPointId( 2, 3 );
-  mesh->SetCell( 2, cellpointer );
+  cellpointer.TakeOwnership(new TriangleType);
+  cellpointer->SetPointId(0, 0);
+  cellpointer->SetPointId(1, 2);
+  cellpointer->SetPointId(2, 3);
+  mesh->SetCell(2, cellpointer);
 
-  cellpointer.TakeOwnership( new TriangleType );
-  cellpointer->SetPointId( 0, 0 );
-  cellpointer->SetPointId( 1, 3 );
-  cellpointer->SetPointId( 2, 1 );
-  mesh->SetCell( 3, cellpointer );
+  cellpointer.TakeOwnership(new TriangleType);
+  cellpointer->SetPointId(0, 0);
+  cellpointer->SetPointId(1, 3);
+  cellpointer->SetPointId(2, 1);
+  mesh->SetCell(3, cellpointer);
 
-  cellpointer.TakeOwnership( new TriangleType );
-  cellpointer->SetPointId( 0, 3 );
-  cellpointer->SetPointId( 1, 2 );
-  cellpointer->SetPointId( 2, 1 );
-  mesh->SetCell( 4, cellpointer );
+  cellpointer.TakeOwnership(new TriangleType);
+  cellpointer->SetPointId(0, 3);
+  cellpointer->SetPointId(1, 2);
+  cellpointer->SetPointId(2, 1);
+  mesh->SetCell(4, cellpointer);
 
 
   // Creating and associating the Edges
   //
-  cellpointer.TakeOwnership( new LineType );
-  cellpointer->SetPointId( 0, 0 );
-  cellpointer->SetPointId( 1, 1 );
-  mesh->SetCell( 5, cellpointer );
+  cellpointer.TakeOwnership(new LineType);
+  cellpointer->SetPointId(0, 0);
+  cellpointer->SetPointId(1, 1);
+  mesh->SetCell(5, cellpointer);
 
-  cellpointer.TakeOwnership( new LineType );
-  cellpointer->SetPointId( 0, 1 );
-  cellpointer->SetPointId( 1, 2 );
-  mesh->SetCell( 6, cellpointer );
+  cellpointer.TakeOwnership(new LineType);
+  cellpointer->SetPointId(0, 1);
+  cellpointer->SetPointId(1, 2);
+  mesh->SetCell(6, cellpointer);
 
-  cellpointer.TakeOwnership( new LineType );
-  cellpointer->SetPointId( 0, 2 );
-  cellpointer->SetPointId( 1, 0 );
-  mesh->SetCell( 7, cellpointer );
+  cellpointer.TakeOwnership(new LineType);
+  cellpointer->SetPointId(0, 2);
+  cellpointer->SetPointId(1, 0);
+  mesh->SetCell(7, cellpointer);
 
-  cellpointer.TakeOwnership( new LineType );
-  cellpointer->SetPointId( 0, 1 );
-  cellpointer->SetPointId( 1, 3 );
-  mesh->SetCell( 8, cellpointer );
+  cellpointer.TakeOwnership(new LineType);
+  cellpointer->SetPointId(0, 1);
+  cellpointer->SetPointId(1, 3);
+  mesh->SetCell(8, cellpointer);
 
-  cellpointer.TakeOwnership( new LineType );
-  cellpointer->SetPointId( 0, 3 );
-  cellpointer->SetPointId( 1, 2 );
-  mesh->SetCell( 9, cellpointer );
+  cellpointer.TakeOwnership(new LineType);
+  cellpointer->SetPointId(0, 3);
+  cellpointer->SetPointId(1, 2);
+  mesh->SetCell(9, cellpointer);
 
-  cellpointer.TakeOwnership( new LineType );
-  cellpointer->SetPointId( 0, 3 );
-  cellpointer->SetPointId( 1, 0 );
-  mesh->SetCell( 10, cellpointer );
+  cellpointer.TakeOwnership(new LineType);
+  cellpointer->SetPointId(0, 3);
+  cellpointer->SetPointId(1, 0);
+  mesh->SetCell(10, cellpointer);
 
 
   // Creating and associating the Vertices
   //
-  cellpointer.TakeOwnership( new VertexType );
-  cellpointer->SetPointId( 0, 0 );
-  mesh->SetCell( 11, cellpointer );
+  cellpointer.TakeOwnership(new VertexType);
+  cellpointer->SetPointId(0, 0);
+  mesh->SetCell(11, cellpointer);
 
-  cellpointer.TakeOwnership( new VertexType );
-  cellpointer->SetPointId( 0, 1 );
-  mesh->SetCell( 12, cellpointer );
+  cellpointer.TakeOwnership(new VertexType);
+  cellpointer->SetPointId(0, 1);
+  mesh->SetCell(12, cellpointer);
 
-  cellpointer.TakeOwnership( new VertexType );
-  cellpointer->SetPointId( 0, 2 );
-  mesh->SetCell( 13, cellpointer );
+  cellpointer.TakeOwnership(new VertexType);
+  cellpointer->SetPointId(0, 2);
+  mesh->SetCell(13, cellpointer);
 
-  cellpointer.TakeOwnership( new VertexType );
-  cellpointer->SetPointId( 0, 3 );
-  mesh->SetCell( 14, cellpointer );
+  cellpointer.TakeOwnership(new VertexType);
+  cellpointer->SetPointId(0, 3);
+  mesh->SetCell(14, cellpointer);
 
 
   // Simple verification of the number of points and cells inserted
@@ -237,11 +247,11 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using TriangleVisitorInterfaceType = itk::CellInterfaceVisitorImplementation<
-                              PixelType,
-                              MeshType::CellTraits,
-                              TriangleType,
-                              CustomTriangleVisitor >;
+  using TriangleVisitorInterfaceType =
+    itk::CellInterfaceVisitorImplementation<PixelType,
+                                            MeshType::CellTraits,
+                                            TriangleType,
+                                            CustomTriangleVisitor>;
   // Software Guide : EndCodeSnippet
 
 
@@ -259,8 +269,8 @@ int main(int, char *[])
 
 
   // Software Guide : BeginCodeSnippet
-  TriangleVisitorInterfaceType::Pointer  triangleVisitor =
-                                   TriangleVisitorInterfaceType::New();
+  TriangleVisitorInterfaceType::Pointer triangleVisitor =
+    TriangleVisitorInterfaceType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -268,8 +278,8 @@ int main(int, char *[])
   //
   //  Many different visitors can be configured in this way. The set of all
   //  visitors can be registered with the MultiVisitor class provided for the
-  //  mesh. An instance of the MultiVisitor class will walk through the cells and delegate
-  //  action to every registered visitor when the appropriate cell type is
+  //  mesh. An instance of the MultiVisitor class will walk through the cells and
+  //  delegate action to every registered visitor when the appropriate cell type is
   //  encountered.
   //
   //  Software Guide : EndLatex
@@ -290,7 +300,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  multiVisitor->AddVisitor( triangleVisitor );
+  multiVisitor->AddVisitor(triangleVisitor);
   // Software Guide : EndCodeSnippet
 
 
@@ -305,7 +315,7 @@ int main(int, char *[])
 
 
   // Software Guide : BeginCodeSnippet
-  mesh->Accept( multiVisitor );
+  mesh->Accept(multiVisitor);
   // Software Guide : EndCodeSnippet
 
 

@@ -20,7 +20,8 @@
 
 #include "itkInPlaceLabelMapFilter.h"
 
-namespace itk {
+namespace itk
+{
 /** \class ShapePositionLabelMapFilter
  * \brief Mark a single pixel in the label object which correspond to a position given by an attribute
  *
@@ -34,9 +35,8 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template<typename TImage>
-class ITK_TEMPLATE_EXPORT ShapePositionLabelMapFilter :
-    public InPlaceLabelMapFilter<TImage>
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ShapePositionLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShapePositionLabelMapFilter);
@@ -64,17 +64,16 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ShapePositionLabelMapFilter,
-               InPlaceLabelMapFilter);
+  itkTypeMacro(ShapePositionLabelMapFilter, InPlaceLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-/*  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<InputImagePixelType>));
-  itkConceptMacro(IntConvertibleToInputCheck,
-    (Concept::Convertible<int, InputImagePixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<InputImagePixelType>));*/
+  /*  itkConceptMacro(InputEqualityComparableCheck,
+      (Concept::EqualityComparable<InputImagePixelType>));
+    itkConceptMacro(IntConvertibleToInputCheck,
+      (Concept::Convertible<int, InputImagePixelType>));
+    itkConceptMacro(InputOStreamWritableCheck,
+      (Concept::OStreamWritable<InputImagePixelType>));*/
   // End concept checking
 #endif
 
@@ -82,56 +81,60 @@ public:
    * Set/Get the attribute to use to get the object position. The default
    * is "Centroid".
    */
-  itkGetConstMacro( Attribute, AttributeType );
-  itkSetMacro( Attribute, AttributeType );
-  void SetAttribute( const std::string & s )
-    {
-    this->SetAttribute( LabelObjectType::GetAttributeFromName( s ) );
-    }
+  itkGetConstMacro(Attribute, AttributeType);
+  itkSetMacro(Attribute, AttributeType);
+  void
+  SetAttribute(const std::string & s)
+  {
+    this->SetAttribute(LabelObjectType::GetAttributeFromName(s));
+  }
 
 protected:
   ShapePositionLabelMapFilter();
   ~ShapePositionLabelMapFilter() override = default;
 
-  void ThreadedProcessLabelObject( LabelObjectType * labelObject ) override;
+  void
+  ThreadedProcessLabelObject(LabelObjectType * labelObject) override;
 
-  template< typename TAttributeAccessor >
-  void TemplatedThreadedProcessLabelObject( const TAttributeAccessor & accessor, bool physical, LabelObjectType * labelObject )
+  template <typename TAttributeAccessor>
+  void
+  TemplatedThreadedProcessLabelObject(const TAttributeAccessor & accessor, bool physical, LabelObjectType * labelObject)
   {
     using AttributeValueType = typename TAttributeAccessor::AttributeValueType;
-    AttributeValueType position = accessor( labelObject );
+    AttributeValueType position = accessor(labelObject);
     // change it to an index position if it is physical
     IndexType idx;
-    if( physical )
-      {
+    if (physical)
+    {
       using CoordinateType = double;
-      Point< CoordinateType, ImageDimension > point;
+      Point<CoordinateType, ImageDimension> point;
       // copy the position to a point, required by TransformPhysicalPointToIndex
-      for(unsigned int i=0; i<ImageDimension; i++ )
-        {
+      for (unsigned int i = 0; i < ImageDimension; i++)
+      {
         // FIXME: This is a bug. The cast should be as in the following line
         // where CoordinateType is used as the type to cast to. We are temporarily
         // keeping this original line here to avoid confusing the patch for 64 bits.
-        point[i] = static_cast<OffsetValueType>( position[i] ); // FIXME: use next line instead.
+        point[i] = static_cast<OffsetValueType>(position[i]); // FIXME: use next line instead.
         // point[i] = static_cast<CoordinateType>( position[i] );
-        }
-      this->GetOutput()->TransformPhysicalPointToIndex( point, idx );
       }
+      this->GetOutput()->TransformPhysicalPointToIndex(point, idx);
+    }
     else
-      {
+    {
       // copy the position to the index, to avoid warnings
-      for(unsigned int i=0; i<ImageDimension; i++ )
-        {
-        idx[i] = static_cast<IndexValueType>( position[i] );
-        }
+      for (unsigned int i = 0; i < ImageDimension; i++)
+      {
+        idx[i] = static_cast<IndexValueType>(position[i]);
       }
+    }
     // clear the label object
     labelObject->Clear();
     // and mark only the pixel we are interested in
-    labelObject->AddIndex( idx );
+    labelObject->AddIndex(idx);
   }
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   AttributeType m_Attribute;
 }; // end of class
@@ -139,7 +142,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapePositionLabelMapFilter.hxx"
+#  include "itkShapePositionLabelMapFilter.hxx"
 #endif
 
 #endif

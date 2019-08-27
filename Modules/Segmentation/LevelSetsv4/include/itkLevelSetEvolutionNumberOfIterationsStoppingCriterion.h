@@ -27,24 +27,23 @@ namespace itk
 /** \class LevelSetEvolutionStoppingCriterion
 \ingroup ITKLevelSetsv4
 */
-template< typename TLevelSetContainer >
-class ITK_TEMPLATE_EXPORT LevelSetEvolutionNumberOfIterationsStoppingCriterion :
-  public LevelSetEvolutionStoppingCriterion< TLevelSetContainer >
+template <typename TLevelSetContainer>
+class ITK_TEMPLATE_EXPORT LevelSetEvolutionNumberOfIterationsStoppingCriterion
+  : public LevelSetEvolutionStoppingCriterion<TLevelSetContainer>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionNumberOfIterationsStoppingCriterion);
 
   using Self = LevelSetEvolutionNumberOfIterationsStoppingCriterion;
-  using Superclass = LevelSetEvolutionStoppingCriterion< TLevelSetContainer >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = LevelSetEvolutionStoppingCriterion<TLevelSetContainer>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through object factory */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( LevelSetEvolutionNumberOfIterationsStoppingCriterion,
-                LevelSetEvolutionStoppingCriterion );
+  itkTypeMacro(LevelSetEvolutionNumberOfIterationsStoppingCriterion, LevelSetEvolutionStoppingCriterion);
 
   using LevelSetContainerType = TLevelSetContainer;
   using LevelSetContainerPointer = typename LevelSetContainerType::Pointer;
@@ -62,9 +61,11 @@ public:
   using HeavisideType = typename LevelSetContainerType::HeavisideType;
   using HeavisidePointer = typename LevelSetContainerType::HeavisideType;
 
-  bool IsSatisfied() const override;
+  bool
+  IsSatisfied() const override;
 
-  std::string GetDescription() const override;
+  std::string
+  GetDescription() const override;
 
 protected:
   /** Constructor */
@@ -72,9 +73,9 @@ protected:
 
   /** Destructor */
   ~LevelSetEvolutionNumberOfIterationsStoppingCriterion() override = default;
- };
- }
+};
+} // namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.hxx"
+#  include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.hxx"
 #endif
 #endif

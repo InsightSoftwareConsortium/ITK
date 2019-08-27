@@ -19,20 +19,21 @@
 #include "itkVTKPolyDataMeshIO.h"
 #include "itkTestingMacros.h"
 
-int itkVTKPolyDataMeshCanReadImageTest(int argc, char * argv[])
+int
+itkVTKPolyDataMeshCanReadImageTest(int argc, char * argv[])
 {
-  if( argc != 2 )
-    {
+  if (argc != 2)
+  {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputVTKImageFile" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   itk::VTKPolyDataMeshIO::Pointer vtkMeshIO = itk::VTKPolyDataMeshIO::New();
   // Ensure that the MeshIO does not claim to read a .vtk file with image
   // (Structured Grid) data
-  ITK_TEST_EXPECT_EQUAL( vtkMeshIO->CanReadFile( argv[1] ), false );
+  ITK_TEST_EXPECT_EQUAL(vtkMeshIO->CanReadFile(argv[1]), false);
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;

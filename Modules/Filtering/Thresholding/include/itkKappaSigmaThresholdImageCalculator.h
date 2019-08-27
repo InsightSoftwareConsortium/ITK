@@ -47,8 +47,8 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKThresholding
  */
-template< typename TInputImage, typename TMaskImage >
-class ITK_TEMPLATE_EXPORT KappaSigmaThresholdImageCalculator:public Object
+template <typename TInputImage, typename TMaskImage>
+class ITK_TEMPLATE_EXPORT KappaSigmaThresholdImageCalculator : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(KappaSigmaThresholdImageCalculator);
@@ -56,8 +56,8 @@ public:
   /** Standard class type aliases. */
   using Self = KappaSigmaThresholdImageCalculator;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -104,18 +104,21 @@ public:
   itkGetConstMacro(NumberOfIterations, unsigned int);
 
   /** Run and compute threshold. */
-  void Compute();
+  void
+  Compute();
 
   /** Get the computed threshold. */
-  const InputPixelType & GetOutput() const;
+  const InputPixelType &
+  GetOutput() const;
 
 protected:
   KappaSigmaThresholdImageCalculator();
   ~KappaSigmaThresholdImageCalculator() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  bool           m_Valid{ false };             // Have moments been computed yet?
+  bool           m_Valid{ false }; // Have moments been computed yet?
   MaskPixelType  m_MaskValue;
   double         m_SigmaFactor{ 2 };
   unsigned int   m_NumberOfIterations{ 2 };
@@ -127,7 +130,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkKappaSigmaThresholdImageCalculator.hxx"
+#  include "itkKappaSigmaThresholdImageCalculator.hxx"
 #endif
 
 #endif /* itkKappaSigmaThresholdImageCalculator_h */

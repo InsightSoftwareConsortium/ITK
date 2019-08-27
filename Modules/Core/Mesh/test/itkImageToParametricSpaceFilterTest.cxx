@@ -21,17 +21,18 @@
 #include "itkMesh.h"
 #include "itkMath.h"
 
-int itkImageToParametricSpaceFilterTest(int, char* [] )
+int
+itkImageToParametricSpaceFilterTest(int, char *[])
 {
 
   using ImagePixelType = float;
 
   // Declare the type for the images
-  using ImageType = itk::Image<ImagePixelType,2>;
+  using ImageType = itk::Image<ImagePixelType, 2>;
   using ImagePointer = ImageType::Pointer;
 
   // Make the Mesh PointData type be an Image Index.
-  using MeshPixelType = itk::Point<float,2>;
+  using MeshPixelType = itk::Point<float, 2>;
 
   // Declare the types of the Mesh
   using MeshType = itk::Mesh<MeshPixelType>;
@@ -42,19 +43,17 @@ int itkImageToParametricSpaceFilterTest(int, char* [] )
   using PointType = MeshType::PointType;
 
   // Create an input Mesh
-  MeshType::Pointer inputMesh  = MeshType::New();
+  MeshType::Pointer inputMesh = MeshType::New();
 
   // Insert data on the Mesh
-  PointsContainerPointer  points = inputMesh->GetPoints();
+  PointsContainerPointer points = inputMesh->GetPoints();
 
 
   // Declare the type for the images
   using ImageIteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
 
   // Declare the type for the filter
-  using FilterType = itk::ImageToParametricSpaceFilter<
-                                       ImageType,
-                                       MeshType   >;
+  using FilterType = itk::ImageToParametricSpaceFilter<ImageType, MeshType>;
 
   using FilterPointer = FilterType::Pointer;
 
@@ -71,59 +70,59 @@ int itkImageToParametricSpaceFilterTest(int, char* [] )
   size[1] = 10;
 
   ImageType::RegionType region;
-  region.SetSize( size );
-  region.SetIndex( start );
+  region.SetSize(size);
+  region.SetIndex(start);
 
-  imageX->SetLargestPossibleRegion( region );
-  imageY->SetLargestPossibleRegion( region );
-  imageZ->SetLargestPossibleRegion( region );
+  imageX->SetLargestPossibleRegion(region);
+  imageY->SetLargestPossibleRegion(region);
+  imageZ->SetLargestPossibleRegion(region);
 
-  imageX->SetBufferedRegion( region );
-  imageY->SetBufferedRegion( region );
-  imageZ->SetBufferedRegion( region );
+  imageX->SetBufferedRegion(region);
+  imageY->SetBufferedRegion(region);
+  imageZ->SetBufferedRegion(region);
 
-  imageX->SetRequestedRegion( region );
-  imageY->SetRequestedRegion( region );
-  imageZ->SetRequestedRegion( region );
+  imageX->SetRequestedRegion(region);
+  imageY->SetRequestedRegion(region);
+  imageZ->SetRequestedRegion(region);
 
   imageX->Allocate();
   imageY->Allocate();
   imageZ->Allocate();
 
-  ImageIteratorType   ix( imageX, region );
-  ImageIteratorType   iy( imageY, region );
-  ImageIteratorType   iz( imageZ, region );
+  ImageIteratorType ix(imageX, region);
+  ImageIteratorType iy(imageY, region);
+  ImageIteratorType iz(imageZ, region);
 
   ix.GoToBegin();
   iy.GoToBegin();
   iz.GoToBegin();
 
 
-  while( ! ix.IsAtEnd() )
-    {
-      ix.Set( rand() );
-      ++ix;
-    }
+  while (!ix.IsAtEnd())
+  {
+    ix.Set(rand());
+    ++ix;
+  }
 
-  while( ! iy.IsAtEnd() )
-    {
-      iy.Set( rand() );
-      ++iy;
-    }
+  while (!iy.IsAtEnd())
+  {
+    iy.Set(rand());
+    ++iy;
+  }
 
-  while( ! iz.IsAtEnd() )
-    {
-      iz.Set( rand() );
-      ++iz;
-    }
+  while (!iz.IsAtEnd())
+  {
+    iz.Set(rand());
+    ++iz;
+  }
 
 
   FilterPointer filter = FilterType::New();
 
   // Connect the inputs
-  filter->SetInput( 0, imageX );
-  filter->SetInput( 1, imageY );
-  filter->SetInput( 2, imageZ );
+  filter->SetInput(0, imageX);
+  filter->SetInput(1, imageY);
+  filter->SetInput(2, imageZ);
 
   // Execute the filter
   filter->Update();
@@ -132,11 +131,9 @@ int itkImageToParametricSpaceFilterTest(int, char* [] )
   MeshType::Pointer outputMesh = filter->GetOutput();
 
   // Get the the point container
-  MeshType::PointsContainer::Iterator beginPoint =
-                           outputMesh->GetPoints()->Begin();
+  MeshType::PointsContainer::Iterator beginPoint = outputMesh->GetPoints()->Begin();
 
-  MeshType::PointsContainer::Iterator endPoint =
-                           outputMesh->GetPoints()->End();
+  MeshType::PointsContainer::Iterator endPoint = outputMesh->GetPoints()->End();
 
   MeshType::PointsContainer::Iterator pointIt = beginPoint;
 
@@ -146,37 +143,36 @@ int itkImageToParametricSpaceFilterTest(int, char* [] )
   iy.GoToBegin();
   iz.GoToBegin();
 
-  while( pointIt != endPoint )
-    {
+  while (pointIt != endPoint)
+  {
     PointType point = pointIt.Value();
-    if( itk::Math::NotExactlyEquals(point[0], ix.Value()) )
-      {
+    if (itk::Math::NotExactlyEquals(point[0], ix.Value()))
+    {
       ok = false;
       break;
-      }
-    if( itk::Math::NotExactlyEquals(point[1], iy.Value()) )
-      {
+    }
+    if (itk::Math::NotExactlyEquals(point[1], iy.Value()))
+    {
       ok = false;
       break;
-      }
-    if( itk::Math::NotExactlyEquals(point[2], iz.Value()) )
-      {
+    }
+    if (itk::Math::NotExactlyEquals(point[2], iz.Value()))
+    {
       ok = false;
       break;
-      }
+    }
 
     ++pointIt;
     ++ix;
     ++iy;
     ++iz;
-    }
+  }
 
   // All objects should be automatically destroyed at this point
 
-  if( !ok )
-    {
+  if (!ok)
+  {
     return EXIT_FAILURE;
-    }
+  }
   return EXIT_SUCCESS;
-
 }

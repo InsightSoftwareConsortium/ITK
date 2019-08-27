@@ -49,22 +49,21 @@ namespace itk
  * \sphinxexample{Filtering/ImageFeature/SharpenImage,Sharpen Image}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT LaplacianSharpeningImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT LaplacianSharpeningImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianSharpeningImageFilter);
 
   /** Standard "Self" & Superclass type alias.   */
   using Self = LaplacianSharpeningImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
   using OutputPixelType = typename TOutputImage::PixelType;
   using OutputInternalPixelType = typename TOutputImage::InternalPixelType;
-  using RealType = typename NumericTraits< OutputPixelType >::RealType;
+  using RealType = typename NumericTraits<OutputPixelType>::RealType;
   using InputPixelType = typename TInputImage::PixelType;
   using InputInternalPixelType = typename TInputImage::InternalPixelType;
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
@@ -75,8 +74,8 @@ public:
   using InputImagePointer = typename InputImageType::Pointer;
 
   /** Smart pointer type alias support   */
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods)  */
   itkTypeMacro(LaplacianSharpeningImageFilter, ImageToImageFilter);
@@ -92,12 +91,13 @@ public:
    * execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()  */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** Enable/Disable using the image spacing information in
    *  calculations. Use this option if you  want derivatives in
    *  physical space. Default  is UseImageSpacingOn. */
-  itkBooleanMacro( UseImageSpacing );
+  itkBooleanMacro(UseImageSpacing);
 
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */
@@ -105,10 +105,7 @@ public:
   itkGetConstMacro(UseImageSpacing, bool);
 
 protected:
-  LaplacianSharpeningImageFilter()
-  {
-    m_UseImageSpacing = true;
-  }
+  LaplacianSharpeningImageFilter() { m_UseImageSpacing = true; }
 
   ~LaplacianSharpeningImageFilter() override = default;
 
@@ -117,9 +114,11 @@ protected:
    * calculations to an NeighborhoodOperatorImageFilter.  Since the
    * NeighborhoodOperatorImageFilter is multithreaded, this filter is
    * multithreaded by default.   */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void PrintSelf(std::ostream &, Indent) const override;
+  void
+  PrintSelf(std::ostream &, Indent) const override;
 
 private:
   bool m_UseImageSpacing;
@@ -127,7 +126,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLaplacianSharpeningImageFilter.hxx"
+#  include "itkLaplacianSharpeningImageFilter.hxx"
 #endif
 
 #endif

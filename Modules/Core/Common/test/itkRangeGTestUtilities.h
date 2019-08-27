@@ -19,10 +19,10 @@
 #ifndef itkRangeGTestUtilities_h
 #define itkRangeGTestUtilities_h
 
-#include <gtest/gtest.h>  // For EXPECT_EQ.
+#include <gtest/gtest.h> // For EXPECT_EQ.
 
 #include <utility>  // For move.
-#include <iterator>  // For begin and end.
+#include <iterator> // For begin and end.
 
 namespace itk
 {
@@ -35,7 +35,8 @@ class RangeGTestUtilities
 {
 public:
   template <typename TRange>
-  static void ExpectBeginIsEndWhenRangeIsDefaultConstructed()
+  static void
+  ExpectBeginIsEndWhenRangeIsDefaultConstructed()
   {
     TRange defaultConstructedRange;
     EXPECT_EQ(std::begin(defaultConstructedRange), std::end(defaultConstructedRange));
@@ -43,7 +44,8 @@ public:
 
 
   template <typename TRange>
-  static void ExpectZeroSizeWhenRangeIsDefaultConstructed()
+  static void
+  ExpectZeroSizeWhenRangeIsDefaultConstructed()
   {
     TRange defaultConstructedRange;
     EXPECT_EQ(defaultConstructedRange.size(), 0);
@@ -51,7 +53,8 @@ public:
 
 
   template <typename TRange>
-  static void ExpectRangeIsEmptyWhenDefaultConstructed()
+  static void
+  ExpectRangeIsEmptyWhenDefaultConstructed()
   {
     TRange defaultConstructedRange;
     EXPECT_TRUE(defaultConstructedRange.empty());
@@ -59,7 +62,8 @@ public:
 
 
   template <typename TRange>
-  static void ExpectCopyConstructedRangeHasSameIteratorsAsOriginal(const TRange& originalRange)
+  static void
+  ExpectCopyConstructedRangeHasSameIteratorsAsOriginal(const TRange & originalRange)
   {
     const TRange copyConstructedRange(originalRange);
 
@@ -68,7 +72,8 @@ public:
 
 
   template <typename TRange>
-  static void ExpectCopyAssignedRangeHasSameIteratorsAsOriginal(const TRange& originalRange)
+  static void
+  ExpectCopyAssignedRangeHasSameIteratorsAsOriginal(const TRange & originalRange)
   {
     TRange copyAssignedRange;
     copyAssignedRange = originalRange;
@@ -78,17 +83,19 @@ public:
 
 
   template <typename TRange>
-  static void ExpectMoveConstructedRangeHasSameIteratorsAsOriginalBeforeMove(TRange&& originalRange)
+  static void
+  ExpectMoveConstructedRangeHasSameIteratorsAsOriginalBeforeMove(TRange && originalRange)
   {
     const TRange originalRangeBeforeMove = originalRange;
-    TRange moveConstructedRange(std::move(originalRange));
+    TRange       moveConstructedRange(std::move(originalRange));
 
     ExpectRangesHaveEqualBeginAndEnd(moveConstructedRange, originalRangeBeforeMove);
   }
 
 
   template <typename TRange>
-  static void ExpectMoveAssignedRangeHasSameIteratorsAsOriginalBeforeMove(TRange&& originalRange)
+  static void
+  ExpectMoveAssignedRangeHasSameIteratorsAsOriginalBeforeMove(TRange && originalRange)
   {
     const TRange originalRangeBeforeMove = originalRange;
 
@@ -99,17 +106,16 @@ public:
   }
 
 private:
-
   template <typename TRange>
-  static void ExpectRangesHaveEqualBeginAndEnd(const TRange& range1, const TRange& range2)
+  static void
+  ExpectRangesHaveEqualBeginAndEnd(const TRange & range1, const TRange & range2)
   {
     EXPECT_EQ(std::begin(range1), std::begin(range2));
     EXPECT_EQ(std::end(range1), std::end(range2));
   }
-
 };
 
-}  // end namespace Experimental
-}  // end namespace itk
+} // end namespace Experimental
+} // end namespace itk
 
 #endif

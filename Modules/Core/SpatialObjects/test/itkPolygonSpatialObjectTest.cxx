@@ -19,7 +19,8 @@
 #include "itkPolygonSpatialObject.h"
 #include <iostream>
 
-int itkPolygonSpatialObjectTest(int, char *[])
+int
+itkPolygonSpatialObjectTest(int, char *[])
 {
   bool failed = false;
   using PolygonType = itk::PolygonSpatialObject<3>;
@@ -28,133 +29,127 @@ int itkPolygonSpatialObjectTest(int, char *[])
   // create rectangle
   PolygonType::Pointer rectangle = PolygonType::New();
 
-  double d1[3] = {0.0, 0.0, 0.0};
+  double                 d1[3] = { 0.0, 0.0, 0.0 };
   PolygonType::PointType p1(d1);
-  double d2[3] = {2.0, 0.0, 0.0};
+  double                 d2[3] = { 2.0, 0.0, 0.0 };
   PolygonType::PointType p2(d2);
-  double d3[3] = {2.0, 1.0, 0.0};
+  double                 d3[3] = { 2.0, 1.0, 0.0 };
   PolygonType::PointType p3(d3);
-  double d4[3] = {0.0, 1.0, 0.0};
+  double                 d4[3] = { 0.0, 1.0, 0.0 };
   PolygonType::PointType p4(d4);
 
   PolygonType::PolygonPointListType pList;
-  PolygonType::PolygonPointType pPoint;
+  PolygonType::PolygonPointType     pPoint;
   pList.clear();
-  pPoint.SetPositionInObjectSpace( p1 );
-  pList.push_back( pPoint );
-  pPoint.SetPositionInObjectSpace( p2 );
-  pList.push_back( pPoint );
-  pPoint.SetPositionInObjectSpace( p3 );
-  pList.push_back( pPoint );
-  pPoint.SetPositionInObjectSpace( p4 );
-  pList.push_back( pPoint );
+  pPoint.SetPositionInObjectSpace(p1);
+  pList.push_back(pPoint);
+  pPoint.SetPositionInObjectSpace(p2);
+  pList.push_back(pPoint);
+  pPoint.SetPositionInObjectSpace(p3);
+  pList.push_back(pPoint);
+  pPoint.SetPositionInObjectSpace(p4);
+  pList.push_back(pPoint);
   rectangle->SetPoints(pList);
   rectangle->SetThicknessInObjectSpace(10);
-  rectangle->SetIsClosed( true );
+  rectangle->SetIsClosed(true);
   rectangle->Update();
 
   rectangle->Print(std::cout);
-  for(unsigned int i=0; i<rectangle->GetNumberOfPoints(); ++i)
-    {
+  for (unsigned int i = 0; i < rectangle->GetNumberOfPoints(); ++i)
+  {
     std::cout << i << " : ";
-    rectangle->GetPoint(i)->Print( std::cout );
-    }
+    rectangle->GetPoint(i)->Print(std::cout);
+  }
   //
   // test number of points
   std::cout << "Testing number of points for rectangle: ";
   if (rectangle->GetNumberOfPoints() != 4)
-    {
+  {
     std::cout << "[Failed]" << std::endl;
     std::cout << rectangle->GetNumberOfPoints() << " != 4" << std::endl;
     failed = true;
-    }
+  }
   else
-    {
+  {
     std::cout << "[Passed]" << std::endl;
-    }
+  }
 
   //
   // test area
   std::cout << "Testing area for rectangle: ";
   if (rectangle->MeasureAreaInObjectSpace() != 2.0)
-    {
+  {
     std::cout << "[Failed]" << std::endl;
     std::cout << rectangle->MeasureAreaInObjectSpace() << " != 2.0" << std::endl;
     failed = true;
-    }
+  }
   else
-    {
+  {
     std::cout << "[Passed]" << std::endl;
-    }
+  }
 
   //
   // test volume
   std::cout << "Testing volume for rectangle: ";
   if (rectangle->MeasureVolumeInObjectSpace() != 20.0)
-    {
+  {
     std::cout << "[Failed]" << std::endl;
-    std::cout << rectangle->MeasureVolumeInObjectSpace() << " != 20.0"
-      << std::endl;
+    std::cout << rectangle->MeasureVolumeInObjectSpace() << " != 20.0" << std::endl;
     failed = true;
-    }
+  }
   else
-    {
+  {
     std::cout << "[Passed]" << std::endl;
-    }
+  }
 
   //
   // test perimeter
   std::cout << "Testing perimeter for rectangle: ";
   if (rectangle->MeasurePerimeterInObjectSpace() != 6.0)
-    {
+  {
     std::cout << "Wrong perimeter for rectangle" << std::endl;
     std::cout << "[Failed]" << std::endl;
-    std::cout << rectangle->MeasurePerimeterInObjectSpace() << " != 6.0"
-      << std::endl;
+    std::cout << rectangle->MeasurePerimeterInObjectSpace() << " != 6.0" << std::endl;
     failed = true;
-    }
+  }
   else
-    {
+  {
     std::cout << "[Passed]" << std::endl;
-    }
+  }
 
   //
   // test number of points
   std::cout << "Testing closest point for rectangle: ";
-  double tp1[3] = {0.25, 0.0, 0.0};
-  PolygonType::PointType testPoint1(tp1);
-  const PolygonType::PolygonPointType closestPoint
-    = rectangle->ClosestPointInWorldSpace(testPoint1);
+  double                              tp1[3] = { 0.25, 0.0, 0.0 };
+  PolygonType::PointType              testPoint1(tp1);
+  const PolygonType::PolygonPointType closestPoint = rectangle->ClosestPointInWorldSpace(testPoint1);
   if (closestPoint.GetPositionInObjectSpace() != p1)
-    {
+  {
     std::cout << "[Failed]" << std::endl;
-    std::cout << closestPoint.GetPositionInObjectSpace() << " != " << p1
-      << std::endl;
+    std::cout << closestPoint.GetPositionInObjectSpace() << " != " << p1 << std::endl;
     failed = true;
-    }
+  }
   else
-    {
+  {
     std::cout << "[Passed]" << std::endl;
-    }
+  }
 
   //
   // test number of points
   std::cout << "Testing closest point for rectangle (2): ";
-  double tp2[3] = {0.25, 5.0, 5.0};
-  PolygonType::PointType testPoint2(tp2);
-  const PolygonType::PolygonPointType closestPoint2
-    = rectangle->ClosestPointInWorldSpace(testPoint2);
+  double                              tp2[3] = { 0.25, 5.0, 5.0 };
+  PolygonType::PointType              testPoint2(tp2);
+  const PolygonType::PolygonPointType closestPoint2 = rectangle->ClosestPointInWorldSpace(testPoint2);
   if (closestPoint2.GetPositionInObjectSpace() != p4)
-    {
+  {
     std::cout << "[Failed]" << std::endl;
-    std::cout << closestPoint2.GetPositionInObjectSpace() << " != " << p4
-      << std::endl;
+    std::cout << closestPoint2.GetPositionInObjectSpace() << " != " << p4 << std::endl;
     failed = true;
-    }
+  }
   else
-    {
+  {
     std::cout << "[Passed]" << std::endl;
-    }
+  }
 
   return failed ? EXIT_FAILURE : EXIT_SUCCESS;
 }

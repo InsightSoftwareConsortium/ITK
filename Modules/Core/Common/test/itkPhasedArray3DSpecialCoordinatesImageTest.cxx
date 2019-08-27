@@ -20,7 +20,8 @@
 #include "itkPhasedArray3DSpecialCoordinatesImage.h"
 #include "itkWindowedSincInterpolateImageFunction.h"
 
-int itkPhasedArray3DSpecialCoordinatesImageTest(int, char* [] )
+int
+itkPhasedArray3DSpecialCoordinatesImageTest(int, char *[])
 {
   bool passed = true;
 
@@ -29,11 +30,11 @@ int itkPhasedArray3DSpecialCoordinatesImageTest(int, char* [] )
   using SizeType = Image::SizeType;
   using PointType = Image::PointType;
   using IndexType = Image::IndexType;
-  using ContinuousIndexType = itk::ContinuousIndex<itk::SpacePrecisionType,3>;
+  using ContinuousIndexType = itk::ContinuousIndex<itk::SpacePrecisionType, 3>;
 
   Image::Pointer image = Image::New();
-  //image->DebugOn();
-  //image->GetSource();
+  // image->DebugOn();
+  // image->GetSource();
   SizeType size;
   size.Fill(5); // 5x5x5 sampling of data
   RegionType region;
@@ -42,62 +43,60 @@ int itkPhasedArray3DSpecialCoordinatesImageTest(int, char* [] )
   image->DisconnectPipeline();
 
   /**  Set the number of radians between each azimuth unit.   **/
-  image->SetAzimuthAngularSeparation( 15.0*2.0*itk::Math::pi/360.0 );
+  image->SetAzimuthAngularSeparation(15.0 * 2.0 * itk::Math::pi / 360.0);
 
   /**  Set the number of radians between each elevation unit.   **/
-  image->SetElevationAngularSeparation( 15.0*2.0*itk::Math::pi/360.0 );
+  image->SetElevationAngularSeparation(15.0 * 2.0 * itk::Math::pi / 360.0);
 
   /**  Set the number of cartesian units between each unit along the R .  **/
-  image->SetRadiusSampleSize( 1 );
+  image->SetRadiusSampleSize(1);
 
   /**  Set the distance to add to the radius. */
-  image->SetFirstSampleDistance( 2 );
+  image->SetFirstSampleDistance(2);
 
   image->Print(std::cout);
-  std::cout<<std::endl;
+  std::cout << std::endl;
 
 
-  PointType point;
-  IndexType index;
+  PointType           point;
+  IndexType           index;
   ContinuousIndexType continuousIndex;
 
-  point.Fill(0.05); point[2]=3.1;
+  point.Fill(0.05);
+  point[2] = 3.1;
   image->TransformPhysicalPointToIndex(point, index);
-  std::cout<<"Point "<<point<<" -> Index "<<index<<std::endl;
+  std::cout << "Point " << point << " -> Index " << index << std::endl;
   image->TransformPhysicalPointToContinuousIndex(point, continuousIndex);
-  std::cout<<"Point "<<point<<" -> Continuous Index "<<continuousIndex<<std::endl;
+  std::cout << "Point " << point << " -> Continuous Index " << continuousIndex << std::endl;
 
-  if(     index[0] != 2
-      ||  index[1] != 2
-      ||  index[2] != 1 )
+  if (index[0] != 2 || index[1] != 2 || index[2] != 1)
   {
     passed = false;
   }
 
   index.Fill(1);
   image->TransformIndexToPhysicalPoint(index, point);
-  std::cout<<"Index "<<index<<" -> Point "<<point<<std::endl;
+  std::cout << "Index " << index << " -> Point " << point << std::endl;
 
   continuousIndex.Fill(3.5);
   image->TransformContinuousIndexToPhysicalPoint(continuousIndex, point);
-  std::cout<<"Continuous Index "<<continuousIndex<<" -> Point "<<point<<std::endl;
+  std::cout << "Continuous Index " << continuousIndex << " -> Point " << point << std::endl;
 
   continuousIndex.Fill(2.0);
   image->TransformContinuousIndexToPhysicalPoint(continuousIndex, point);
-  std::cout<<"Continuous Index "<<continuousIndex<<" -> Point "<<point<<std::endl;
+  std::cout << "Continuous Index " << continuousIndex << " -> Point " << point << std::endl;
 
-  if(     point[0] < -0.001 || point[0] > 0.001
-      ||  point[1] < -0.001 || point[1] > 0.001
-      ||  point[2] < -4.001 || point[2] > 4.001 )
+  if (point[0] < -0.001 || point[0] > 0.001 || point[1] < -0.001 || point[1] > 0.001 || point[2] < -4.001 ||
+      point[2] > 4.001)
   {
     passed = false;
   }
 
-  using WindowedSincInterpolatorType = itk::WindowedSincInterpolateImageFunction< Image, 3 >;
+  using WindowedSincInterpolatorType = itk::WindowedSincInterpolateImageFunction<Image, 3>;
   WindowedSincInterpolatorType::Pointer interpolator = WindowedSincInterpolatorType::New();
-  interpolator->SetInputImage( image );
+  interpolator->SetInputImage(image);
 
-  std::cout<<std::endl;
+  std::cout << std::endl;
 
   if (passed)
   {

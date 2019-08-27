@@ -50,42 +50,35 @@ namespace itk
  *
  * \ingroup ITKLevelSets
  */
-template<
-  typename TLevelSet,
-  typename TAuxValue,
-  unsigned int VAuxDimension = 1
-  >
-class ITK_TEMPLATE_EXPORT LevelSetVelocityNeighborhoodExtractor:
-  public LevelSetNeighborhoodExtractor< TLevelSet >
+template <typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension = 1>
+class ITK_TEMPLATE_EXPORT LevelSetVelocityNeighborhoodExtractor : public LevelSetNeighborhoodExtractor<TLevelSet>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetVelocityNeighborhoodExtractor);
 
   /** Standard class typdedefs. */
   using Self = LevelSetVelocityNeighborhoodExtractor;
-  using Superclass = LevelSetNeighborhoodExtractor< TLevelSet >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = LevelSetNeighborhoodExtractor<TLevelSet>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LevelSetVelocityNeighborhoodExtractor,
-               LevelSetNeighborhoodExtractor);
+  itkTypeMacro(LevelSetVelocityNeighborhoodExtractor, LevelSetNeighborhoodExtractor);
 
   /** The type of the level set. */
-  using LevelSetType = LevelSetTypeDefault< TLevelSet >;
+  using LevelSetType = LevelSetTypeDefault<TLevelSet>;
 
   /** The dimension of the level set. */
   static constexpr unsigned int SetDimension = LevelSetType::SetDimension;
 
   /** Index type alias support */
-  using Index = ::itk::Index< Self::SetDimension >;
+  using Index = ::itk::Index<Self::SetDimension>;
 
   /** AuxVarType type alias support */
-  using AuxVarType =
-      AuxVarTypeDefault< TAuxValue, VAuxDimension, Self::SetDimension >;
+  using AuxVarType = AuxVarTypeDefault<TAuxValue, VAuxDimension, Self::SetDimension>;
   using AuxValueType = typename AuxVarType::AuxValueType;
   using AuxValueVectorType = typename AuxVarType::AuxValueVectorType;
   using AuxValueContainer = typename AuxVarType::AuxValueContainer;
@@ -94,26 +87,28 @@ public:
   using AuxImageConstPointer = typename AuxVarType::AuxImageConstPointer;
 
   /** Set the auxiliary images. */
-  void SetAuxImage(const AuxImageType *ptr, unsigned int idx = 0)
+  void
+  SetAuxImage(const AuxImageType * ptr, unsigned int idx = 0)
   {
-    if ( idx < VAuxDimension && m_AuxImage[idx] != ptr )
-      {
+    if (idx < VAuxDimension && m_AuxImage[idx] != ptr)
+    {
       m_AuxImage[idx] = ptr;
-      }
+    }
     this->Modified();
   }
 
   /** Get the auxiliary images. */
-  AuxImageConstPointer GetAuxImage(unsigned int idx = 0)
+  AuxImageConstPointer
+  GetAuxImage(unsigned int idx = 0)
   {
-    if ( idx >= VAuxDimension )
-      {
+    if (idx >= VAuxDimension)
+    {
       return nullptr;
-      }
+    }
     else
-      {
+    {
       return m_AuxImage[idx];
-      }
+    }
   }
 
   /** Get the container of auxiliary values associated with the inside
@@ -127,21 +122,24 @@ public:
 protected:
   LevelSetVelocityNeighborhoodExtractor();
   ~LevelSetVelocityNeighborhoodExtractor() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void Initialize() override;
+  void
+  Initialize() override;
 
-  double CalculateDistance(Index & index) override;
+  double
+  CalculateDistance(Index & index) override;
 
 private:
   typename AuxValueContainer::Pointer m_AuxInsideValues;
   typename AuxValueContainer::Pointer m_AuxOutsideValues;
-  AuxImageConstPointer m_AuxImage[VAuxDimension];
+  AuxImageConstPointer                m_AuxImage[VAuxDimension];
 };
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetVelocityNeighborhoodExtractor.hxx"
+#  include "itkLevelSetVelocityNeighborhoodExtractor.hxx"
 #endif
 
 #endif

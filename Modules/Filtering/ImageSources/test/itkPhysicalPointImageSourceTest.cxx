@@ -25,68 +25,70 @@
 #include "itkTestingMacros.h"
 
 
-namespace {
-template< typename TImageType >
-int itkPhysicalPointImageSourceTest( const std::string &fname,
-                                     typename TImageType::SizeType &size,
-                                     typename TImageType::SpacingType &spacing,
-                                     typename TImageType::PointType &origin,
-                                     typename TImageType::DirectionType &direction )
+namespace
+{
+template <typename TImageType>
+int
+itkPhysicalPointImageSourceTest(const std::string &                  fname,
+                                typename TImageType::SizeType &      size,
+                                typename TImageType::SpacingType &   spacing,
+                                typename TImageType::PointType &     origin,
+                                typename TImageType::DirectionType & direction)
 {
 
   using ImageType = TImageType;
 
-  using PhysicalPointImageSourceType = itk::PhysicalPointImageSource< ImageType >;
+  using PhysicalPointImageSourceType = itk::PhysicalPointImageSource<ImageType>;
 
-  typename PhysicalPointImageSourceType::Pointer physicalPointImageSource =
-    PhysicalPointImageSourceType::New();
+  typename PhysicalPointImageSourceType::Pointer physicalPointImageSource = PhysicalPointImageSourceType::New();
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( physicalPointImageSource->UpdateLargestPossibleRegion() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(physicalPointImageSource->UpdateLargestPossibleRegion());
 
   physicalPointImageSource->SetSize(size);
   physicalPointImageSource->SetSpacing(spacing);
   physicalPointImageSource->SetOrigin(origin);
-  physicalPointImageSource->SetDirection( direction );
+  physicalPointImageSource->SetDirection(direction);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( physicalPointImageSource->UpdateLargestPossibleRegion() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(physicalPointImageSource->UpdateLargestPossibleRegion());
 
   using ValueImageType =
-      itk::Image< typename itk::NumericTraits< typename ImageType::PixelType >::ValueType, ImageType::ImageDimension >;
+    itk::Image<typename itk::NumericTraits<typename ImageType::PixelType>::ValueType, ImageType::ImageDimension>;
 
-  using ValueImageCastFilter = itk::VectorIndexSelectionCastImageFilter< ImageType, ValueImageType >;
+  using ValueImageCastFilter = itk::VectorIndexSelectionCastImageFilter<ImageType, ValueImageType>;
   typename ValueImageCastFilter::Pointer vif = ValueImageCastFilter::New();
-  vif->SetInput( physicalPointImageSource->GetOutput() );
-  vif->SetIndex( 0 );
+  vif->SetInput(physicalPointImageSource->GetOutput());
+  vif->SetIndex(0);
 
-  using WriterType = itk::ImageFileWriter< ValueImageType >;
+  using WriterType = itk::ImageFileWriter<ValueImageType>;
   typename WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( fname );
-  writer->SetInput( vif->GetOutput() );
+  writer->SetFileName(fname);
+  writer->SetInput(vif->GetOutput());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-   return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }
 
-}
-int itkPhysicalPointImageSourceTest( int argc, char *argv[] )
+} // namespace
+int
+itkPhysicalPointImageSourceTest(int argc, char * argv[])
 {
-  if ( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputImage whichTest [ theta ]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int ImageDimension = 2;
   using PixelType = unsigned char;
 
-  using ImageType = itk::Image< PixelType, ImageDimension >;
+  using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  itk::Size< ImageDimension > size;
-  size.Fill( 64 );
+  itk::Size<ImageDimension> size;
+  size.Fill(64);
 
-  ImageType::SpacingType spacing( 1.0 );
-  ImageType::PointType origin( 0.0 );
+  ImageType::SpacingType   spacing(1.0);
+  ImageType::PointType     origin(0.0);
   ImageType::DirectionType direction;
   direction.SetIdentity();
 
@@ -94,51 +96,46 @@ int itkPhysicalPointImageSourceTest( int argc, char *argv[] )
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
   using PhysicalPointImageSourceType =
-      itk::PhysicalPointImageSource< itk::Image< itk::Point< double, ImageDimension >, ImageDimension > >;
+    itk::PhysicalPointImageSource<itk::Image<itk::Point<double, ImageDimension>, ImageDimension>>;
 
   // Instantiate the filter
-  PhysicalPointImageSourceType::Pointer physicalPointImageSource =
-    PhysicalPointImageSourceType::New();
+  PhysicalPointImageSourceType::Pointer physicalPointImageSource = PhysicalPointImageSourceType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( physicalPointImageSource,
-    PhysicalPointImageSource, GenerateImageSource );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(physicalPointImageSource, PhysicalPointImageSource, GenerateImageSource);
 
 
   double theta = 0;
-  if( argc >= 4 )
-    {
-    theta = std::stod( argv[3] );
-    }
+  if (argc >= 4)
+  {
+    theta = std::stod(argv[3]);
+  }
 
   int testStatus = EXIT_SUCCESS;
-  if( std::stoi( argv[2] ) == 0 )
-    {
-    testStatus =
-      itkPhysicalPointImageSourceTest< itk::Image< itk::Point< double, ImageDimension >, ImageDimension > >(
-      std::string( argv[1] ), size, spacing, origin, direction );
-    }
-  else if( std::stoi( argv[2] ) == 1 )
-    {
-    testStatus = itkPhysicalPointImageSourceTest< itk::VectorImage< double, ImageDimension > >(
-      std::string( argv[1] ), size, spacing, origin, direction );
-    }
-  else if( std::stoi( argv[2] ) == 2 )
-    {
-    spacing.Fill( 1.123 );
-    origin.Fill( -0.987 );
-    testStatus =
-      itkPhysicalPointImageSourceTest< itk::Image< itk::Point< float, ImageDimension>, ImageDimension > >(
-      std::string( argv[1] ), size, spacing, origin, direction );
-    }
+  if (std::stoi(argv[2]) == 0)
+  {
+    testStatus = itkPhysicalPointImageSourceTest<itk::Image<itk::Point<double, ImageDimension>, ImageDimension>>(
+      std::string(argv[1]), size, spacing, origin, direction);
+  }
+  else if (std::stoi(argv[2]) == 1)
+  {
+    testStatus = itkPhysicalPointImageSourceTest<itk::VectorImage<double, ImageDimension>>(
+      std::string(argv[1]), size, spacing, origin, direction);
+  }
+  else if (std::stoi(argv[2]) == 2)
+  {
+    spacing.Fill(1.123);
+    origin.Fill(-0.987);
+    testStatus = itkPhysicalPointImageSourceTest<itk::Image<itk::Point<float, ImageDimension>, ImageDimension>>(
+      std::string(argv[1]), size, spacing, origin, direction);
+  }
   else
-    {
-    itk::SpacePrecisionType M[] = { std::cos( theta ), -std::sin( theta ),
-      std::sin( theta ), std::cos( theta ) };
+  {
+    itk::SpacePrecisionType M[] = { std::cos(theta), -std::sin(theta), std::sin(theta), std::cos(theta) };
 
-    direction = vnl_matrix< itk::SpacePrecisionType >( M, 2, 2 );
-    testStatus = itkPhysicalPointImageSourceTest< itk::VectorImage< float, ImageDimension > >(
-      std::string( argv[1] ), size, spacing, origin, direction );
-    }
+    direction = vnl_matrix<itk::SpacePrecisionType>(M, 2, 2);
+    testStatus = itkPhysicalPointImageSourceTest<itk::VectorImage<float, ImageDimension>>(
+      std::string(argv[1]), size, spacing, origin, direction);
+  }
 
   std::cout << "Test finished" << std::endl;
   return testStatus;

@@ -34,22 +34,49 @@ namespace mpl
  * \ingroup ITKCommon
  */
 template <typename T>
-struct IsNumber : FalseType {};
+struct IsNumber : FalseType
+{};
 
 /// \cond SPECIALIZATION_IMPLEMENTATION
-template <> struct IsNumber<unsigned char>          : TrueType {};
-template <> struct IsNumber<signed   char>          : TrueType {};
-template <> struct IsNumber<unsigned short int>     : TrueType {};
-template <> struct IsNumber<signed   short int>     : TrueType {};
-template <> struct IsNumber<signed   int>           : TrueType {};
-template <> struct IsNumber<unsigned int>           : TrueType {};
-template <> struct IsNumber<signed   long int>      : TrueType {};
-template <> struct IsNumber<unsigned long int>      : TrueType {};
-template <> struct IsNumber<signed   long long int> : TrueType {};
-template <> struct IsNumber<unsigned long long int> : TrueType {};
-template <> struct IsNumber<float>                  : TrueType {};
-template <> struct IsNumber<double>                 : TrueType {};
-template <> struct IsNumber<long double>            : TrueType {};
+template <>
+struct IsNumber<unsigned char> : TrueType
+{};
+template <>
+struct IsNumber<signed char> : TrueType
+{};
+template <>
+struct IsNumber<unsigned short int> : TrueType
+{};
+template <>
+struct IsNumber<signed short int> : TrueType
+{};
+template <>
+struct IsNumber<signed int> : TrueType
+{};
+template <>
+struct IsNumber<unsigned int> : TrueType
+{};
+template <>
+struct IsNumber<signed long int> : TrueType
+{};
+template <>
+struct IsNumber<unsigned long int> : TrueType
+{};
+template <>
+struct IsNumber<signed long long int> : TrueType
+{};
+template <>
+struct IsNumber<unsigned long long int> : TrueType
+{};
+template <>
+struct IsNumber<float> : TrueType
+{};
+template <>
+struct IsNumber<double> : TrueType
+{};
+template <>
+struct IsNumber<long double> : TrueType
+{};
 /// \endcond
 
 } // end namespace mpl

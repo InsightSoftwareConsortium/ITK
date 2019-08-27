@@ -42,96 +42,97 @@
 #include "itkImageRegionIterator.h"
 #include "itkAffineTransform.h"
 
-int main(int, char* [])
+int
+main(int, char *[])
 {
-// Software Guide : BeginLatex
-//
-// The \code{ImageMaskSpatialObject} is templated over the dimensionality.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The \code{ImageMaskSpatialObject} is templated over the dimensionality.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   using ImageMaskSpatialObject = itk::ImageMaskSpatialObject<3>;
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Next we create an \doxygen{Image} of size 50x50x50 filled with zeros
-// except a bright square in the middle which defines the mask.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Next we create an \doxygen{Image} of size 50x50x50 filled with zeros
+  // except a bright square in the middle which defines the mask.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   using PixelType = ImageMaskSpatialObject::PixelType;
   using ImageType = ImageMaskSpatialObject::ImageType;
-  using Iterator = itk::ImageRegionIterator< ImageType >;
+  using Iterator = itk::ImageRegionIterator<ImageType>;
 
-  ImageType::Pointer image = ImageType::New();
-  ImageType::SizeType size = {{ 50, 50, 50 }};
-  ImageType::IndexType index = {{ 0, 0, 0 }};
+  ImageType::Pointer    image = ImageType::New();
+  ImageType::SizeType   size = { { 50, 50, 50 } };
+  ImageType::IndexType  index = { { 0, 0, 0 } };
   ImageType::RegionType region;
 
   region.SetSize(size);
   region.SetIndex(index);
 
-  image->SetRegions( region );
+  image->SetRegions(region);
   image->Allocate(true); // initialize buffer to zero
 
   ImageType::RegionType insideRegion;
-  ImageType::SizeType insideSize   = {{ 30, 30, 30 }};
-  ImageType::IndexType insideIndex = {{ 10, 10, 10 }};
-  insideRegion.SetSize( insideSize );
-  insideRegion.SetIndex( insideIndex );
+  ImageType::SizeType   insideSize = { { 30, 30, 30 } };
+  ImageType::IndexType  insideIndex = { { 10, 10, 10 } };
+  insideRegion.SetSize(insideSize);
+  insideRegion.SetIndex(insideIndex);
 
-  Iterator it( image, insideRegion );
+  Iterator it(image, insideRegion);
   it.GoToBegin();
 
-  while( !it.IsAtEnd() )
-    {
-    it.Set( itk::NumericTraits< PixelType >::max() );
+  while (!it.IsAtEnd())
+  {
+    it.Set(itk::NumericTraits<PixelType>::max());
     ++it;
-    }
-// Software Guide : EndCodeSnippet
+  }
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Then, we create an \code{ImageMaskSpatialObject}.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Then, we create an \code{ImageMaskSpatialObject}.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   ImageMaskSpatialObject::Pointer maskSO = ImageMaskSpatialObject::New();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// We then pass the corresponding pointer to the image.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // We then pass the corresponding pointer to the image.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   maskSO->SetImage(image);
   maskSO->Update();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// We can then test if a physical \doxygen{Point} is inside or outside the mask image.
-// This is particularly useful during the registration process when only a part
-// of the image should be used to compute the metric.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // We can then test if a physical \doxygen{Point} is inside or outside the mask image.
+  // This is particularly useful during the registration process when only a part
+  // of the image should be used to compute the metric.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-  ImageMaskSpatialObject::PointType  inside;
+  // Software Guide : BeginCodeSnippet
+  ImageMaskSpatialObject::PointType inside;
   inside.Fill(20);
   std::cout << "Is my point " << inside << " inside my mask? "
-    << maskSO->IsInsideInWorldSpace(inside) << std::endl;
-  ImageMaskSpatialObject::PointType  outside;
+            << maskSO->IsInsideInWorldSpace(inside) << std::endl;
+  ImageMaskSpatialObject::PointType outside;
   outside.Fill(45);
   std::cout << "Is my point " << outside << " outside my mask? "
-    << !maskSO->IsInsideInWorldSpace(outside) << std::endl;
-// Software Guide : EndCodeSnippet
+            << !maskSO->IsInsideInWorldSpace(outside) << std::endl;
+  // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;
 }

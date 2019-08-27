@@ -78,9 +78,9 @@ GPUNeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueTyp
 }
 */
 
-template< typename TInputImage, typename TOutputImage, typename TOperatorValueType, typename TParentImageFilter >
-GPUNeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType, TParentImageFilter >
-::GPUNeighborhoodOperatorImageFilter()
+template <typename TInputImage, typename TOutputImage, typename TOperatorValueType, typename TParentImageFilter>
+GPUNeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType, TParentImageFilter>::
+  GPUNeighborhoodOperatorImageFilter()
 {
   // Create GPU buffer to store neighborhood coefficient.
   // This will be used as __constant memory in the GPU kernel.
@@ -88,40 +88,40 @@ GPUNeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueTyp
 
   std::ostringstream defines;
 
-  if(TInputImage::ImageDimension > 3 || TInputImage::ImageDimension < 1)
-    {
+  if (TInputImage::ImageDimension > 3 || TInputImage::ImageDimension < 1)
+  {
     itkExceptionMacro("GPUneighborhoodOperatorImageFilter supports 1/2/3D image.");
-    }
+  }
 
   defines << "#define DIM_" << TInputImage::ImageDimension << "\n";
 
   defines << "#define INTYPE ";
-  GetTypenameInString( typeid ( typename TInputImage::PixelType ), defines );
+  GetTypenameInString(typeid(typename TInputImage::PixelType), defines);
 
   defines << "#define OUTTYPE ";
-  GetTypenameInString( typeid ( typename TOutputImage::PixelType ), defines );
+  GetTypenameInString(typeid(typename TOutputImage::PixelType), defines);
 
   defines << "#define OPTYPE ";
-  GetTypenameInString( typeid ( TOperatorValueType ), defines );
+  GetTypenameInString(typeid(TOperatorValueType), defines);
 
   std::cout << "Defines: " << defines.str() << std::endl;
 
-  const char* GPUSource = GPUNeighborhoodOperatorImageFilter::GetOpenCLSource();
+  const char * GPUSource = GPUNeighborhoodOperatorImageFilter::GetOpenCLSource();
 
   // load and build program
-  this->m_GPUKernelManager->LoadProgramFromString( GPUSource, defines.str().c_str() );
+  this->m_GPUKernelManager->LoadProgramFromString(GPUSource, defines.str().c_str());
 
   // create kernel
   m_NeighborhoodOperatorFilterGPUKernelHandle = this->m_GPUKernelManager->CreateKernel("NeighborOperatorFilter");
 }
 
-template< typename TInputImage, typename TOutputImage, typename TOperatorValueType, typename TParentImageFilter >
+template <typename TInputImage, typename TOutputImage, typename TOperatorValueType, typename TParentImageFilter>
 void
-GPUNeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType, TParentImageFilter >
-::SetOperator(const OutputNeighborhoodType & p)
+GPUNeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType, TParentImageFilter>::SetOperator(
+  const OutputNeighborhoodType & p)
 {
   /** Call CPU SetOperator */
-  CPUSuperclass::SetOperator( p );
+  CPUSuperclass::SetOperator(p);
 
   /** Create GPU memory for operator coefficients */
   m_NeighborhoodGPUBuffer->Initialize();
@@ -130,48 +130,47 @@ GPUNeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueTyp
   typename NeighborhoodGPUBufferType::SizeType   size;
   typename NeighborhoodGPUBufferType::RegionType region;
 
-  for(unsigned int i=0; i<ImageDimension; i++)
-    {
+  for (unsigned int i = 0; i < ImageDimension; i++)
+  {
     index[i] = 0;
-    size[i]  = (unsigned int)(p.GetSize(i) );
-    }
-  region.SetSize( size );
-  region.SetIndex( index );
+    size[i] = (unsigned int)(p.GetSize(i));
+  }
+  region.SetSize(size);
+  region.SetIndex(index);
 
-  m_NeighborhoodGPUBuffer->SetRegions( region );
+  m_NeighborhoodGPUBuffer->SetRegions(region);
   m_NeighborhoodGPUBuffer->Allocate();
 
   /** Copy coefficients */
   ImageRegionIterator<NeighborhoodGPUBufferType> iit(m_NeighborhoodGPUBuffer,
-                                                     m_NeighborhoodGPUBuffer->GetLargestPossibleRegion() );
+                                                     m_NeighborhoodGPUBuffer->GetLargestPossibleRegion());
 
   typename OutputNeighborhoodType::ConstIterator nit = p.Begin();
 
-  for(iit.GoToBegin(); !iit.IsAtEnd(); ++iit, ++nit)
-    {
-    iit.Set( static_cast< typename NeighborhoodGPUBufferType::PixelType >( *nit ) );
-    }
+  for (iit.GoToBegin(); !iit.IsAtEnd(); ++iit, ++nit)
+  {
+    iit.Set(static_cast<typename NeighborhoodGPUBufferType::PixelType>(*nit));
+  }
 
   /** Mark GPU dirty */
   m_NeighborhoodGPUBuffer->GetGPUDataManager()->SetGPUBufferDirty();
 }
 
-template< typename TInputImage, typename TOutputImage, typename TOperatorValueType, typename TParentImageFilter >
+template <typename TInputImage, typename TOutputImage, typename TOperatorValueType, typename TParentImageFilter>
 void
-GPUNeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType, TParentImageFilter >
-::GPUGenerateData()
+GPUNeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType, TParentImageFilter>::GPUGenerateData()
 {
   int kHd = m_NeighborhoodOperatorFilterGPUKernelHandle;
 
-  using GPUInputImage = typename itk::GPUTraits< TInputImage >::Type;
-  using GPUOutputImage = typename itk::GPUTraits< TOutputImage >::Type;
+  using GPUInputImage = typename itk::GPUTraits<TInputImage>::Type;
+  using GPUOutputImage = typename itk::GPUTraits<TOutputImage>::Type;
   using GPUInputManagerType = GPUImageDataManager<GPUInputImage>;
   using GPUOutputManagerType = GPUImageDataManager<GPUOutputImage>;
 
-  typename GPUInputImage::Pointer  inPtr =  dynamic_cast< GPUInputImage * >( this->ProcessObject::GetInput(0) );
-  typename GPUOutputImage::Pointer otPtr =  dynamic_cast< GPUOutputImage * >( this->ProcessObject::GetOutput(0) );
+  typename GPUInputImage::Pointer  inPtr = dynamic_cast<GPUInputImage *>(this->ProcessObject::GetInput(0));
+  typename GPUOutputImage::Pointer otPtr = dynamic_cast<GPUOutputImage *>(this->ProcessObject::GetOutput(0));
 
-  //typename GPUOutputImage::SizeType outSize = otPtr->GetLargestPossibleRegion().GetSize();
+  // typename GPUOutputImage::SizeType outSize = otPtr->GetLargestPossibleRegion().GetSize();
   typename GPUOutputImage::SizeType outSize = otPtr->GetBufferedRegion().GetSize();
 
   int radius[3];
@@ -182,37 +181,37 @@ GPUNeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueTyp
 
   int ImageDim = (int)TInputImage::ImageDimension;
 
-  for(int i=0; i<ImageDim; i++)
-    {
-    radius[i]  = (this->GetOperator() ).GetRadius(i);
+  for (int i = 0; i < ImageDim; i++)
+  {
+    radius[i] = (this->GetOperator()).GetRadius(i);
     imgSize[i] = outSize[i];
-    }
+  }
 
   size_t localSize[3], globalSize[3];
   localSize[0] = localSize[1] = localSize[2] = OpenCLGetLocalBlockSize(ImageDim);
-  for(int i=0; i<ImageDim; i++)
-    {
-    globalSize[i] = localSize[i]*(unsigned int)ceil( (float)outSize[i]/(float)localSize[i]); //
-                                                                                             // total
-                                                                                             // #
-                                                                                             // of
-                                                                                             // threads
-    }
+  for (int i = 0; i < ImageDim; i++)
+  {
+    globalSize[i] = localSize[i] * (unsigned int)ceil((float)outSize[i] / (float)localSize[i]); //
+                                                                                                // total
+                                                                                                // #
+                                                                                                // of
+                                                                                                // threads
+  }
 
   // arguments set up
   cl_uint argidx = 0;
-  this->m_GPUKernelManager->template SetKernelArgWithImageAndBufferedRegion<GPUInputManagerType>
-    (kHd, argidx, inPtr->GetModifiableDataManager() );
-  this->m_GPUKernelManager->template SetKernelArgWithImageAndBufferedRegion<GPUOutputManagerType>
-    (kHd, argidx, otPtr->GetModifiableDataManager() );
-  this->m_GPUKernelManager->SetKernelArgWithImage(kHd, argidx++, m_NeighborhoodGPUBuffer->GetGPUDataManager() );
+  this->m_GPUKernelManager->template SetKernelArgWithImageAndBufferedRegion<GPUInputManagerType>(
+    kHd, argidx, inPtr->GetModifiableDataManager());
+  this->m_GPUKernelManager->template SetKernelArgWithImageAndBufferedRegion<GPUOutputManagerType>(
+    kHd, argidx, otPtr->GetModifiableDataManager());
+  this->m_GPUKernelManager->SetKernelArgWithImage(kHd, argidx++, m_NeighborhoodGPUBuffer->GetGPUDataManager());
 
-  for(int i=0; i<(int)TInputImage::ImageDimension; i++)
-    {
-    this->m_GPUKernelManager->SetKernelArg(kHd, argidx++, sizeof(int), &(radius[i]) );
-    }
+  for (int i = 0; i < (int)TInputImage::ImageDimension; i++)
+  {
+    this->m_GPUKernelManager->SetKernelArg(kHd, argidx++, sizeof(int), &(radius[i]));
+  }
 
-  //for(int i=0; i<(int)TInputImage::ImageDimension; i++)
+  // for(int i=0; i<(int)TInputImage::ImageDimension; i++)
   //  {
   //  this->m_GPUKernelManager->SetKernelArg(kHd, argidx++, sizeof(int), &(imgSize[i]) );
   //  }

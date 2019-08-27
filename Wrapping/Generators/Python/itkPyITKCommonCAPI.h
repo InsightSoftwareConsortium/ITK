@@ -33,7 +33,8 @@
  */
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 /* C API functions */
@@ -46,25 +47,27 @@ extern "C" {
 
 
 #ifdef _ITKCommonPython_MODULE
-/* This section is used when compiling ITKCommonPython.cpp */
+  /* This section is used when compiling ITKCommonPython.cpp */
 
-static _ITKCommonPython_GetGlobalSingletonIndex_RETURN _ITKCommonPython_GetInstance _ITKCommonPython_GetGlobalSingletonIndex_PROTO;
+  static _ITKCommonPython_GetGlobalSingletonIndex_RETURN _ITKCommonPython_GetInstance
+                                                         _ITKCommonPython_GetGlobalSingletonIndex_PROTO;
 
 #else
 /* This section is used in modules that use _ITKCommonPython's C API */
 
-static void **_ITKCommonPython_API;
+static void ** _ITKCommonPython_API;
 
-#define _ITKCommonPython_GetGlobalSingletonIndex \
- (*(_ITKCommonPython_GetGlobalSingletonIndex_RETURN (*)_ITKCommonPython_GetGlobalSingletonIndex_PROTO) _ITKCommonPython_API[_ITKCommonPython_GetGlobalSingletonIndex_NUM])
+#  define _ITKCommonPython_GetGlobalSingletonIndex                                                                     \
+    (*(_ITKCommonPython_GetGlobalSingletonIndex_RETURN(*) _ITKCommonPython_GetGlobalSingletonIndex_PROTO)              \
+       _ITKCommonPython_API[_ITKCommonPython_GetGlobalSingletonIndex_NUM])
 /* Return -1 on error, 0 on success.
  * PyCapsule_Import will set an exception if there's an error.
  */
 static int
 import__ITKCommonPython()
 {
-    _ITKCommonPython_API = (void **)PyCapsule_Import("_ITKCommonPython._C_API", 0);
-    return (_ITKCommonPython_API != NULL) ? 0 : -1;
+  _ITKCommonPython_API = (void **)PyCapsule_Import("_ITKCommonPython._C_API", 0);
+  return (_ITKCommonPython_API != NULL) ? 0 : -1;
 }
 
 #endif

@@ -24,59 +24,51 @@ namespace itk
 {
 namespace Statistics
 {
-template< typename TSample >
-SampleToSubsampleFilter< TSample >
-::SampleToSubsampleFilter()
+template <typename TSample>
+SampleToSubsampleFilter<TSample>::SampleToSubsampleFilter()
 {
   this->ProcessObject::SetNumberOfRequiredInputs(1);
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
 
-  this->ProcessObject::SetNthOutput( 0, this->MakeOutput(0) );
+  this->ProcessObject::SetNthOutput(0, this->MakeOutput(0));
 }
 
-template< typename TSample >
+template <typename TSample>
 void
-SampleToSubsampleFilter< TSample >
-::SetInput(const SampleType *sample)
+SampleToSubsampleFilter<TSample>::SetInput(const SampleType * sample)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( 0,
-                                    const_cast< SampleType * >( sample ) );
+  this->ProcessObject::SetNthInput(0, const_cast<SampleType *>(sample));
 }
 
-template< typename TSample >
-const typename
-SampleToSubsampleFilter< TSample >::SampleType *
-SampleToSubsampleFilter< TSample >
-::GetInput() const
+template <typename TSample>
+const typename SampleToSubsampleFilter<TSample>::SampleType *
+SampleToSubsampleFilter<TSample>::GetInput() const
 {
-  const auto * input = static_cast< const SampleType * >( this->ProcessObject::GetInput(0) );
+  const auto * input = static_cast<const SampleType *>(this->ProcessObject::GetInput(0));
 
   return input;
 }
 
-template< typename TSample >
-typename SampleToSubsampleFilter< TSample >::DataObjectPointer
-SampleToSubsampleFilter< TSample >
-::MakeOutput(DataObjectPointerArraySizeType)
+template <typename TSample>
+typename SampleToSubsampleFilter<TSample>::DataObjectPointer SampleToSubsampleFilter<TSample>::MakeOutput(
+  DataObjectPointerArraySizeType)
 {
   return SubsampleType::New().GetPointer();
 }
 
-template< typename TSample >
-const typename SampleToSubsampleFilter< TSample >::OutputType *
-SampleToSubsampleFilter< TSample >
-::GetOutput() const
+template <typename TSample>
+const typename SampleToSubsampleFilter<TSample>::OutputType *
+SampleToSubsampleFilter<TSample>::GetOutput() const
 {
-  const auto * output = static_cast< const SubsampleType * >( this->ProcessObject::GetOutput(0) );
+  const auto * output = static_cast<const SubsampleType *>(this->ProcessObject::GetOutput(0));
 
   return output;
 }
 
-template< typename TSample >
+template <typename TSample>
 void
-SampleToSubsampleFilter< TSample >
-::PrintSelf(std::ostream & os, Indent indent) const
+SampleToSubsampleFilter<TSample>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
 }

@@ -42,40 +42,41 @@
 class ExhaustiveOptv4Metric : public itk::ObjectToObjectMetricBase
 {
 public:
-
   using Self = ExhaustiveOptv4Metric;
   using Superclass = itk::ObjectToObjectMetricBase;
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
-  enum { SpaceDimension=2 };
+  enum
+  {
+    SpaceDimension = 2
+  };
 
   using ParametersType = Superclass::ParametersType;
   using DerivativeType = Superclass::DerivativeType;
   using MeasureType = Superclass::MeasureType;
 
 
-  ExhaustiveOptv4Metric()
-  {
-    m_HasLocalSupport = false;
-  }
+  ExhaustiveOptv4Metric() { m_HasLocalSupport = false; }
 
-  MeasureType  GetValue() const override
+  MeasureType
+  GetValue() const override
   {
     double x = this->m_Parameters[0];
     double y = this->m_Parameters[1];
 
     std::cout << "GetValue ( " << x << " , " << y << ") = ";
 
-    MeasureType val = 0.5*(3*x*x+4*x*y+6*y*y) - 2*x + 8*y;
+    MeasureType val = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
     std::cout << val << std::endl;
 
     return val;
   }
 
-  void GetDerivative( DerivativeType & derivative ) const override
+  void
+  GetDerivative(DerivativeType & derivative) const override
   {
     double x = this->m_Parameters[0];
     double y = this->m_Parameters[1];
@@ -83,61 +84,68 @@ public:
     std::cout << "GetDerivative ( " << x << " , " << y << ") = ";
 
     derivative = DerivativeType(SpaceDimension);
-    derivative[0] = -(3*x + 2*y -2);
-    derivative[1] = -(2*x + 6*y +8);
+    derivative[0] = -(3 * x + 2 * y - 2);
+    derivative[1] = -(2 * x + 6 * y + 8);
 
-    std::cout << "(" << derivative[0] <<" , " << derivative[1] << ")" << std::endl;
+    std::cout << "(" << derivative[0] << " , " << derivative[1] << ")" << std::endl;
   }
 
-  void GetValueAndDerivative( MeasureType & value,
-                             DerivativeType & derivative ) const override
+  void
+  GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const override
   {
     value = GetValue();
-    GetDerivative( derivative );
+    GetDerivative(derivative);
   }
 
-  void Initialize() throw ( itk::ExceptionObject ) override
+  void
+  Initialize() throw(itk::ExceptionObject) override
   {
-    m_Parameters.SetSize( SpaceDimension );
+    m_Parameters.SetSize(SpaceDimension);
   }
 
-  unsigned int GetNumberOfLocalParameters() const override
-  {
-    return SpaceDimension;
-  }
-
-  unsigned int GetNumberOfParameters() const override
+  unsigned int
+  GetNumberOfLocalParameters() const override
   {
     return SpaceDimension;
   }
 
-  void SetParameters( ParametersType & parameters ) override
+  unsigned int
+  GetNumberOfParameters() const override
+  {
+    return SpaceDimension;
+  }
+
+  void
+  SetParameters(ParametersType & parameters) override
   {
     m_Parameters = parameters;
   }
 
-  const ParametersType & GetParameters() const override
+  const ParametersType &
+  GetParameters() const override
   {
     return m_Parameters;
   }
 
-  bool HasLocalSupport() const override
+  bool
+  HasLocalSupport() const override
   {
     return m_HasLocalSupport;
   }
 
-  void SetHasLocalSupport(bool hls)
+  void
+  SetHasLocalSupport(bool hls)
   {
     m_HasLocalSupport = hls;
   }
 
-  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) override
-  {
-  }
+  void
+  UpdateTransformParameters(const DerivativeType &, ParametersValueType) override
+  {}
 
 private:
-  ParametersType  m_Parameters;
-  bool            m_HasLocalSupport;
+  ParametersType m_Parameters;
+  bool           m_HasLocalSupport;
 };
 
 
@@ -146,40 +154,43 @@ class IndexObserver : public itk::Command
 public:
   using Self = IndexObserver;
   using Superclass = itk::Command;
-  using Pointer = itk::SmartPointer < Self >;
+  using Pointer = itk::SmartPointer<Self>;
 
-  itkNewMacro ( IndexObserver );
+  itkNewMacro(IndexObserver);
 
-  void  Execute ( const itk::Object *caller, const itk::EventObject &) override
+  void
+  Execute(const itk::Object * caller, const itk::EventObject &) override
   {
     using OptimizerType = itk::ExhaustiveOptimizerv4<double>;
-    const auto * optimizer = dynamic_cast < const OptimizerType * > ( caller );
+    const auto * optimizer = dynamic_cast<const OptimizerType *>(caller);
 
-    if ( nullptr != optimizer )
+    if (nullptr != optimizer)
     {
-      OptimizerType::ParametersType currentIndex = optimizer->GetCurrentIndex ();
-      itk::SizeValueType currentIteration = optimizer->GetCurrentIteration();
+      OptimizerType::ParametersType currentIndex = optimizer->GetCurrentIndex();
+      itk::SizeValueType            currentIteration = optimizer->GetCurrentIteration();
 
-      if ( currentIndex.GetSize () == 2 )
+      if (currentIndex.GetSize() == 2)
       {
         std::cout << currentIteration << ": ";
         std::cout << " @ index = " << currentIndex << std::endl;
         // Casting is safe here since the indices are always integer values (but there are stored in doubles):
-        auto idx = static_cast < unsigned long > ( currentIndex [ 0 ] + 21 * currentIndex [ 1 ] );
-        m_VisitedIndices.push_back ( idx );
+        auto idx = static_cast<unsigned long>(currentIndex[0] + 21 * currentIndex[1]);
+        m_VisitedIndices.push_back(idx);
       }
     }
   }
 
-  void  Execute (itk::Object *caller, const itk::EventObject &event) override
+  void
+  Execute(itk::Object * caller, const itk::EventObject & event) override
   {
-    Execute ( static_cast < const itk::Object * > ( caller ), event );
+    Execute(static_cast<const itk::Object *>(caller), event);
   }
 
-  std::vector < unsigned long > m_VisitedIndices;
+  std::vector<unsigned long> m_VisitedIndices;
 };
 
-int itkExhaustiveOptimizerv4Test(int, char* [] )
+int
+itkExhaustiveOptimizerv4Test(int, char *[])
 {
   std::cout << "ExhaustiveOptimizerv4 Test ";
   std::cout << std::endl << std::endl;
@@ -190,73 +201,72 @@ int itkExhaustiveOptimizerv4Test(int, char* [] )
 
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
+  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
 
 
   // Index observer (enables us to check if all positions were indeed visisted):
-  IndexObserver::Pointer idxObserver = IndexObserver::New ();
-  itkOptimizer->AddObserver ( itk::IterationEvent (), idxObserver );
+  IndexObserver::Pointer idxObserver = IndexObserver::New();
+  itkOptimizer->AddObserver(itk::IterationEvent(), idxObserver);
 
   // Declaration of the CostFunction
   ExhaustiveOptv4Metric::Pointer metric = ExhaustiveOptv4Metric::New();
-  itkOptimizer->SetMetric( metric );
+  itkOptimizer->SetMetric(metric);
 
 
   using ParametersType = ExhaustiveOptv4Metric::ParametersType;
 
 
-  const unsigned int spaceDimension =
-                      metric->GetNumberOfParameters();
+  const unsigned int spaceDimension = metric->GetNumberOfParameters();
 
   // We start not so far from  | 2 -2 |
-  ParametersType  initialPosition( spaceDimension );
-  initialPosition[0] =  0.0;
+  ParametersType initialPosition(spaceDimension);
+  initialPosition[0] = 0.0;
   initialPosition[1] = -4.0;
 
   // Set the initial position by setting the metric
   // parameters.
   std::cout << "Set metric parameters." << std::endl;
-  metric->SetParameters( initialPosition );
+  metric->SetParameters(initialPosition);
 
 
-  ScalesType    parametersScale( spaceDimension );
+  ScalesType parametersScale(spaceDimension);
   parametersScale[0] = 1.0;
   parametersScale[1] = 1.0;
 
-  itkOptimizer->SetScales( parametersScale );
+  itkOptimizer->SetScales(parametersScale);
 
 
-  itkOptimizer->SetStepLength( 1.0 );
+  itkOptimizer->SetStepLength(1.0);
 
 
   using StepsType = OptimizerType::StepsType;
-  StepsType steps( spaceDimension );
+  StepsType steps(spaceDimension);
   steps[0] = 10;
   steps[1] = 10;
 
-  itkOptimizer->SetNumberOfSteps( steps );
+  itkOptimizer->SetNumberOfSteps(steps);
 
 
   try
-    {
+  {
     itkOptimizer->StartOptimization();
-    }
-  catch( itk::ExceptionObject & e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation()    << std::endl;
+    std::cout << "Location    = " << e.GetLocation() << std::endl;
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
-  bool minimumValuePass = itk::Math::abs ( itkOptimizer->GetMinimumMetricValue() - -10 ) < 1E-3;
+  bool minimumValuePass = itk::Math::abs(itkOptimizer->GetMinimumMetricValue() - -10) < 1E-3;
 
   std::cout << "MinimumMetricValue = " << itkOptimizer->GetMinimumMetricValue() << std::endl;
   std::cout << "Minimum Position = " << itkOptimizer->GetMinimumMetricValuePosition() << std::endl;
 
-  bool maximumValuePass = itk::Math::abs ( itkOptimizer->GetMaximumMetricValue() - 926 ) < 1E-3;
+  bool maximumValuePass = itk::Math::abs(itkOptimizer->GetMaximumMetricValue() - 926) < 1E-3;
   std::cout << "MaximumMetricValue = " << itkOptimizer->GetMaximumMetricValue() << std::endl;
   std::cout << "Maximum Position = " << itkOptimizer->GetMaximumMetricValuePosition() << std::endl;
 
@@ -265,56 +275,54 @@ int itkExhaustiveOptimizerv4Test(int, char* [] )
   std::cout << finalPosition[0] << ",";
   std::cout << finalPosition[1] << ")" << std::endl;
 
-  bool visitedIndicesPass = true;
-  std::vector < unsigned long > visitedIndices = idxObserver->m_VisitedIndices;
+  bool                       visitedIndicesPass = true;
+  std::vector<unsigned long> visitedIndices = idxObserver->m_VisitedIndices;
 
-  size_t requiredNumberOfSteps = ( 2 * steps [ 0 ] + 1 ) * ( 2 * steps [ 1 ] + 1 );
-  if ( visitedIndices.size () != requiredNumberOfSteps )
+  size_t requiredNumberOfSteps = (2 * steps[0] + 1) * (2 * steps[1] + 1);
+  if (visitedIndices.size() != requiredNumberOfSteps)
   {
     visitedIndicesPass = false;
   }
 
-  std::sort ( visitedIndices.begin (), visitedIndices.end () );
+  std::sort(visitedIndices.begin(), visitedIndices.end());
 
-  for ( size_t i = 0; i < visitedIndices.size (); ++i )
+  for (size_t i = 0; i < visitedIndices.size(); ++i)
+  {
+    if (visitedIndices[i] != i)
     {
-    if ( visitedIndices [ i ] != i )
-      {
       visitedIndicesPass = false;
-      std::cout << "Mismatch in visited index " << visitedIndices [ i ] << " @ " << i << std::endl;
+      std::cout << "Mismatch in visited index " << visitedIndices[i] << " @ " << i << std::endl;
       break;
-      }
     }
+  }
 
   //
   // check results to see if it is within range
   //
-  bool trueParamsPass = true;
+  bool   trueParamsPass = true;
   double trueParameters[2] = { 2, -2 };
-  for( unsigned int j = 0; j < 2; j++ )
+  for (unsigned int j = 0; j < 2; j++)
+  {
+    if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
     {
-    if( itk::Math::abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
-      {
       trueParamsPass = false;
-      }
     }
+  }
 
-  if( !minimumValuePass || !maximumValuePass || !trueParamsPass || !visitedIndicesPass )
-    {
+  if (!minimumValuePass || !maximumValuePass || !trueParamsPass || !visitedIndicesPass)
+  {
     std::cout << "minimumValuePass   = " << minimumValuePass << std::endl;
     std::cout << "maximumValuePass   = " << maximumValuePass << std::endl;
     std::cout << "trueParamsPass     = " << trueParamsPass << std::endl;
     std::cout << "visitedIndicesPass = " << visitedIndicesPass << std::endl;
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   std::cout << "Testing PrintSelf " << std::endl;
-  itkOptimizer->Print( std::cout );
+  itkOptimizer->Print(std::cout);
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
-
 }

@@ -52,19 +52,17 @@ namespace itk
  * \ingroup ITKImageFilterBase
  *
  */
-template< typename TInputImage1, typename TInputImage2,
-          typename TOutputImage  >
-class ITK_TEMPLATE_EXPORT BinaryGeneratorImageFilter:
-  public InPlaceImageFilter< TInputImage1, TOutputImage >
+template <typename TInputImage1, typename TInputImage2, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT BinaryGeneratorImageFilter : public InPlaceImageFilter<TInputImage1, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryGeneratorImageFilter);
 
   /** Standard class type aliases. */
   using Self = BinaryGeneratorImageFilter;
-  using Superclass = InPlaceImageFilter< TInputImage1, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InPlaceImageFilter<TInputImage1, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -90,65 +88,78 @@ public:
   using OutputImageRegionType = typename OutputImageType::RegionType;
   using OutputImagePixelType = typename OutputImageType::PixelType;
 
-  using FunctionType = OutputImagePixelType (*)(const Input1ImagePixelType &,
-                                                const Input2ImagePixelType &);
+  using FunctionType = OutputImagePixelType (*)(const Input1ImagePixelType &, const Input2ImagePixelType &);
 
-  using ConstRefFunctionType = OutputImagePixelType (const Input1ImagePixelType &,
-                                                     const Input2ImagePixelType &);
-  using ValueFunctionType = OutputImagePixelType (Input1ImagePixelType,
-                                                  Input2ImagePixelType);
+  using ConstRefFunctionType = OutputImagePixelType(const Input1ImagePixelType &, const Input2ImagePixelType &);
+  using ValueFunctionType = OutputImagePixelType(Input1ImagePixelType, Input2ImagePixelType);
 
   /** Connect the first operand for pixel-wise operation. */
-  virtual void SetInput1(const TInputImage1 *image1);
-  virtual void SetInput1(const DecoratedInput1ImagePixelType *input1);
-  virtual void SetInput1(const Input1ImagePixelType &input1);
+  virtual void
+  SetInput1(const TInputImage1 * image1);
+  virtual void
+  SetInput1(const DecoratedInput1ImagePixelType * input1);
+  virtual void
+  SetInput1(const Input1ImagePixelType & input1);
 
   /** Set the first operand as a constant. */
-  virtual void SetConstant1(const Input1ImagePixelType &input1);
+  virtual void
+  SetConstant1(const Input1ImagePixelType & input1);
 
   /** Get the constant value of the first operand. An exception is sent if
    * the first operand is not a constant. */
-  virtual const Input1ImagePixelType & GetConstant1() const;
+  virtual const Input1ImagePixelType &
+  GetConstant1() const;
 
   /** Connect the second operand for pixel-wise operation. */
-  virtual void SetInput2(const TInputImage2 *image2);
-  virtual void SetInput2(const DecoratedInput2ImagePixelType *input2);
-  virtual void SetInput2(const Input2ImagePixelType &input2);
+  virtual void
+  SetInput2(const TInputImage2 * image2);
+  virtual void
+  SetInput2(const DecoratedInput2ImagePixelType * input2);
+  virtual void
+  SetInput2(const Input2ImagePixelType & input2);
 
 
   /** Set the second operand as a constant. */
-  virtual void SetConstant2(const Input2ImagePixelType &input2);
-  void SetConstant(Input2ImagePixelType ct)
+  virtual void
+  SetConstant2(const Input2ImagePixelType & input2);
+  void
+  SetConstant(Input2ImagePixelType ct)
   {
     this->SetConstant2(ct);
   }
-  const Input2ImagePixelType & GetConstant() const
+  const Input2ImagePixelType &
+  GetConstant() const
   {
     return this->GetConstant2();
   }
 
   /** Get the constant value of the second operand. An exception is sent if
    * the second operand is not a constant. */
-  virtual const Input2ImagePixelType & GetConstant2() const;
+  virtual const Input2ImagePixelType &
+  GetConstant2() const;
 
-#if !defined( ITK_WRAPPING_PARSER )
+#if !defined(ITK_WRAPPING_PARSER)
   /** Set the pixel functor
    *
    * The functor defines an operation done per pixel.
    */
-  void SetFunctor( const std::function<ConstRefFunctionType> &f)
+  void
+  SetFunctor(const std::function<ConstRefFunctionType> & f)
   {
     // the closure create a copy of f
-    m_DynamicThreadedGenerateDataFunction = [this, f](const OutputImageRegionType & outputRegionForThread)
-      { return this->DynamicThreadedGenerateDataWithFunctor(f, outputRegionForThread); };
+    m_DynamicThreadedGenerateDataFunction = [this, f](const OutputImageRegionType & outputRegionForThread) {
+      return this->DynamicThreadedGenerateDataWithFunctor(f, outputRegionForThread);
+    };
 
     this->Modified();
   }
- void SetFunctor( const std::function<ValueFunctionType> &f)
+  void
+  SetFunctor(const std::function<ValueFunctionType> & f)
   {
     // the capture create a copy of f
-    m_DynamicThreadedGenerateDataFunction = [this, f](const OutputImageRegionType & outputRegionForThread)
-      { return this->DynamicThreadedGenerateDataWithFunctor(f, outputRegionForThread); };
+    m_DynamicThreadedGenerateDataFunction = [this, f](const OutputImageRegionType & outputRegionForThread) {
+      return this->DynamicThreadedGenerateDataWithFunctor(f, outputRegionForThread);
+    };
 
     this->Modified();
   }
@@ -157,19 +168,23 @@ public:
    *
    * The functor defines an operation done per pixel.
    */
-  void SetFunctor( ConstRefFunctionType *funcPointer)
+  void
+  SetFunctor(ConstRefFunctionType * funcPointer)
   {
-    m_DynamicThreadedGenerateDataFunction = [this, funcPointer](const OutputImageRegionType & outputRegionForThread)
-      { return this->DynamicThreadedGenerateDataWithFunctor(funcPointer, outputRegionForThread); };
+    m_DynamicThreadedGenerateDataFunction = [this, funcPointer](const OutputImageRegionType & outputRegionForThread) {
+      return this->DynamicThreadedGenerateDataWithFunctor(funcPointer, outputRegionForThread);
+    };
 
     this->Modified();
   }
 
 
-  void SetFunctor( ValueFunctionType *funcPointer)
+  void
+  SetFunctor(ValueFunctionType * funcPointer)
   {
-    m_DynamicThreadedGenerateDataFunction = [this, funcPointer](const OutputImageRegionType & outputRegionForThread)
-      { return this->DynamicThreadedGenerateDataWithFunctor(funcPointer, outputRegionForThread); };
+    m_DynamicThreadedGenerateDataFunction = [this, funcPointer](const OutputImageRegionType & outputRegionForThread) {
+      return this->DynamicThreadedGenerateDataWithFunctor(funcPointer, outputRegionForThread);
+    };
 
     this->Modified();
   }
@@ -184,11 +199,13 @@ public:
    * Input2ImagePixelType.
    */
   template <typename TFunctor>
-  void SetFunctor( const TFunctor &functor)
+  void
+  SetFunctor(const TFunctor & functor)
   {
     // the capture creates a copy of the functor
-    m_DynamicThreadedGenerateDataFunction = [this, functor](const OutputImageRegionType & outputRegionForThread)
-      { return this->DynamicThreadedGenerateDataWithFunctor(functor, outputRegionForThread); };
+    m_DynamicThreadedGenerateDataFunction = [this, functor](const OutputImageRegionType & outputRegionForThread) {
+      return this->DynamicThreadedGenerateDataWithFunctor(functor, outputRegionForThread);
+    };
 
     this->Modified();
   }
@@ -196,21 +213,18 @@ public:
 
 
   /** ImageDimension constants */
-  itkStaticConstMacro(
-    InputImage1Dimension, unsigned int, TInputImage1::ImageDimension);
-  itkStaticConstMacro(
-    InputImage2Dimension, unsigned int, TInputImage2::ImageDimension);
-  itkStaticConstMacro(
-    OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
+  itkStaticConstMacro(InputImage1Dimension, unsigned int, TInputImage1::ImageDimension);
+  itkStaticConstMacro(InputImage2Dimension, unsigned int, TInputImage2::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( SameDimensionCheck1,
-                   ( Concept::SameDimension< itkGetStaticConstMacro(InputImage1Dimension),
-                                             itkGetStaticConstMacro(InputImage2Dimension) > ) );
-  itkConceptMacro( SameDimensionCheck2,
-                   ( Concept::SameDimension< itkGetStaticConstMacro(InputImage1Dimension),
-                                             itkGetStaticConstMacro(OutputImageDimension) > ) );
+  itkConceptMacro(SameDimensionCheck1,
+                  (Concept::SameDimension<itkGetStaticConstMacro(InputImage1Dimension),
+                                          itkGetStaticConstMacro(InputImage2Dimension)>));
+  itkConceptMacro(SameDimensionCheck2,
+                  (Concept::SameDimension<itkGetStaticConstMacro(InputImage1Dimension),
+                                          itkGetStaticConstMacro(OutputImageDimension)>));
   // End concept checking
 #endif
 
@@ -228,12 +242,15 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   template <typename TFunctor>
-  void DynamicThreadedGenerateDataWithFunctor(const TFunctor &, const OutputImageRegionType & outputRegionForThread);
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateDataWithFunctor(const TFunctor &, const OutputImageRegionType & outputRegionForThread);
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
   // Needed to take the image information from the 2nd input, if the first one is
   // a simple decorated object.
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
 private:
   std::function<void(const OutputImageRegionType &)> m_DynamicThreadedGenerateDataFunction;
@@ -241,7 +258,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryGeneratorImageFilter.hxx"
+#  include "itkBinaryGeneratorImageFilter.hxx"
 #endif
 
 #endif

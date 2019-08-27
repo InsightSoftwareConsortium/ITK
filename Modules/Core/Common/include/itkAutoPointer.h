@@ -42,7 +42,7 @@ namespace itk
  * \ingroup DataAccess
  * \ingroup ITKCommon
  */
-template< typename TObjectType >
+template <typename TObjectType>
 class AutoPointer
 {
 public:
@@ -51,11 +51,12 @@ public:
   using Self = AutoPointer;
 
   /** Constructor.  */
-  AutoPointer ():m_Pointer(nullptr)
+  AutoPointer()
+    : m_Pointer(nullptr)
   {}
 
   /** Copy constructor.  */
-  explicit AutoPointer (AutoPointer & p)
+  explicit AutoPointer(AutoPointer & p)
   {
     m_IsOwner = p.IsOwner();          // Ownership can only be taken from
                                       // another owner
@@ -63,61 +64,67 @@ public:
   }
 
   /** Constructor to pointer p.  */
-  explicit AutoPointer (ObjectType *p, bool takeOwnership):
-    m_Pointer(p), m_IsOwner(takeOwnership)
+  explicit AutoPointer(ObjectType * p, bool takeOwnership)
+    : m_Pointer(p)
+    , m_IsOwner(takeOwnership)
   {}
 
   /** Destructor.  */
-  ~AutoPointer ()
-  {
-    this->Reset();
-  }
+  ~AutoPointer() { this->Reset(); }
 
   /** Overload operator ->.  */
-  ObjectType * operator->() const
-  { return m_Pointer; }
+  ObjectType * operator->() const { return m_Pointer; }
 
   /** Clear the AutoPointer. If it had a pointer the object
       is deleted and the pointer is set to null. */
-  void Reset()
+  void
+  Reset()
   {
-    if ( m_IsOwner )
-      {
+    if (m_IsOwner)
+    {
       delete m_Pointer;
-      }
+    }
     m_Pointer = nullptr;
     m_IsOwner = false;
   }
 
   /** Explicitly set the ownership */
-  void TakeOwnership()
-  { m_IsOwner = true; }
+  void
+  TakeOwnership()
+  {
+    m_IsOwner = true;
+  }
 
   /** Explicitly set the ownership */
-  void TakeOwnership(ObjectType *objectptr)
+  void
+  TakeOwnership(ObjectType * objectptr)
   {
-    if ( m_IsOwner )
-      {
+    if (m_IsOwner)
+    {
       delete m_Pointer; // remove the current one
-      }
+    }
     m_Pointer = objectptr;
     m_IsOwner = true;
   }
 
   /** Explicitly reject ownership */
-  void TakeNoOwnership(ObjectType *objectptr)
+  void
+  TakeNoOwnership(ObjectType * objectptr)
   {
-    if ( m_IsOwner )
-      {
+    if (m_IsOwner)
+    {
       delete m_Pointer; // remove the current one
-      }
+    }
     m_Pointer = objectptr;
     m_IsOwner = false;
   }
 
   /** Query for the ownership */
-  bool IsOwner() const
-  { return m_IsOwner; }
+  bool
+  IsOwner() const
+  {
+    return m_IsOwner;
+  }
 
   /** Release the pointer hold by the current AutoPointer
    *  and return the raw pointer so it can be hold by
@@ -131,42 +138,65 @@ public:
    *  Note that the AutoPointer still points to the object after the
    *  ReleaseOwnership operation, but it doesn't own the object any
    *  more. */
-  ObjectType * ReleaseOwnership()
+  ObjectType *
+  ReleaseOwnership()
   {
     m_IsOwner = false;
     return m_Pointer;
   }
 
   /** Access function to pointer. */
-  ObjectType * GetPointer() const
-  { return m_Pointer; }
+  ObjectType *
+  GetPointer() const
+  {
+    return m_Pointer;
+  }
 
   /** Comparison of pointers. Equal comparison.  */
-  bool operator==(const AutoPointer & r) const
-  { return (void *)m_Pointer == (void *)r.m_Pointer; }
+  bool
+  operator==(const AutoPointer & r) const
+  {
+    return (void *)m_Pointer == (void *)r.m_Pointer;
+  }
 
   /** Comparison of pointers. NonEqual comparison.  */
-  bool operator!=(const AutoPointer & r) const
-  { return (void *)m_Pointer != (void *)r.m_Pointer; }
+  bool
+  operator!=(const AutoPointer & r) const
+  {
+    return (void *)m_Pointer != (void *)r.m_Pointer;
+  }
 
   /** Comparison of pointers. Less than comparison.  */
-  bool operator<(const AutoPointer & r) const
-  { return (void *)m_Pointer < (void *)r.m_Pointer; }
+  bool
+  operator<(const AutoPointer & r) const
+  {
+    return (void *)m_Pointer < (void *)r.m_Pointer;
+  }
 
   /** Comparison of pointers. Greater than comparison.  */
-  bool operator>(const AutoPointer & r) const
-  { return (void *)m_Pointer > (void *)r.m_Pointer; }
+  bool
+  operator>(const AutoPointer & r) const
+  {
+    return (void *)m_Pointer > (void *)r.m_Pointer;
+  }
 
   /** Comparison of pointers. Less than or equal to comparison.  */
-  bool operator<=(const AutoPointer & r) const
-  { return (void *)m_Pointer <= (void *)r.m_Pointer; }
+  bool
+  operator<=(const AutoPointer & r) const
+  {
+    return (void *)m_Pointer <= (void *)r.m_Pointer;
+  }
 
   /** Comparison of pointers. Greater than or equal to comparison.  */
-  bool operator>=(const AutoPointer & r) const
-  { return (void *)m_Pointer >= (void *)r.m_Pointer; }
+  bool
+  operator>=(const AutoPointer & r) const
+  {
+    return (void *)m_Pointer >= (void *)r.m_Pointer;
+  }
 
   /** Overload operator assignment.  */
-  AutoPointer & operator=(AutoPointer & r)
+  AutoPointer &
+  operator=(AutoPointer & r)
   {
     AutoPointer(r).Swap(*this);
     return *this;
@@ -174,38 +204,37 @@ public:
 
   /** Casting operator to boolean. This is used in conditional
       statments to check the content of the pointer against null */
-  operator bool() const
-                { return ( m_Pointer != nullptr ); }
+  operator bool() const { return (m_Pointer != nullptr); }
 
   /** Function to print object pointed to.  */
-/*  ObjectType *Print (std::ostream& os) const
-    {
-    // This prints the object pointed to by the pointer
-    (*m_Pointer).Print(os);
-    os << "Owner: " << m_IsOwner << std::endl;
-    return m_Pointer;
-    }
-*/
+  /*  ObjectType *Print (std::ostream& os) const
+      {
+      // This prints the object pointed to by the pointer
+      (*m_Pointer).Print(os);
+      os << "Owner: " << m_IsOwner << std::endl;
+      return m_Pointer;
+      }
+  */
 
 private:
-
   /** Exchange the content of two AutoPointers */
-  void Swap(AutoPointer & r)
-  noexcept
+  void
+  Swap(AutoPointer & r) noexcept
   {
-    ObjectType *temp = m_Pointer;
+    ObjectType * temp = m_Pointer;
 
-    m_Pointer         = r.m_Pointer;
-    r.m_Pointer       = temp;
+    m_Pointer = r.m_Pointer;
+    r.m_Pointer = temp;
   }
 
   /** The pointer to the object referred to by this smart pointer. */
-  ObjectType *m_Pointer;
-  bool        m_IsOwner{false};
+  ObjectType * m_Pointer;
+  bool         m_IsOwner{ false };
 };
 
-template< typename T >
-std::ostream & operator<<(std::ostream & os, AutoPointer< T > p)
+template <typename T>
+std::ostream &
+operator<<(std::ostream & os, AutoPointer<T> p)
 {
   p.Print(os);
   os << "Owner: " << p.IsOwner() << std::endl;
@@ -214,17 +243,17 @@ std::ostream & operator<<(std::ostream & os, AutoPointer< T > p)
 
 /** This templated function is intended to facilitate the
     transfer between AutoPointers of Derived class to Base class */
-template< typename TAutoPointerBase, typename TAutoPointerDerived >
+template <typename TAutoPointerBase, typename TAutoPointerDerived>
 void
- TransferAutoPointer(TAutoPointerBase & pa, TAutoPointerDerived & pb)
+TransferAutoPointer(TAutoPointerBase & pa, TAutoPointerDerived & pb)
 {
   // give a chance to natural polymorphism
-  pa.TakeNoOwnership( pb.GetPointer() );
-  if ( pb.IsOwner() )
-    {
-    pa.TakeOwnership();      // pa Take Ownership
-    pb.ReleaseOwnership();   // pb Release Ownership and clears
-    }
+  pa.TakeNoOwnership(pb.GetPointer());
+  if (pb.IsOwner())
+  {
+    pa.TakeOwnership();    // pa Take Ownership
+    pb.ReleaseOwnership(); // pb Release Ownership and clears
+  }
 }
 } // end namespace itk
 

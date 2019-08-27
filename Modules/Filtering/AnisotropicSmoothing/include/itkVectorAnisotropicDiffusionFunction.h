@@ -49,22 +49,20 @@ namespace itk
  *
  * \ingroup ITKAnisotropicSmoothing
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT VectorAnisotropicDiffusionFunction:
-  public AnisotropicDiffusionFunction< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT VectorAnisotropicDiffusionFunction : public AnisotropicDiffusionFunction<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorAnisotropicDiffusionFunction);
 
   /** Standard class type aliases. */
   using Self = VectorAnisotropicDiffusionFunction;
-  using Superclass = AnisotropicDiffusionFunction< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = AnisotropicDiffusionFunction<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(VectorAnisotropicDiffusionFunction,
-               AnisotropicDiffusionFunction);
+  itkTypeMacro(VectorAnisotropicDiffusionFunction, AnisotropicDiffusionFunction);
 
   /** Inherit some parameters from the superclass type */
   using ImageType = typename Superclass::ImageType;
@@ -78,18 +76,22 @@ public:
   static constexpr unsigned int VectorDimension = PixelType::Dimension;
 
   /** Compute the average gradient magnitude squared. */
-  void CalculateAverageGradientMagnitudeSquared(TImage *) override;
+  void
+  CalculateAverageGradientMagnitudeSquared(TImage *) override;
 
 protected:
   VectorAnisotropicDiffusionFunction() = default;
   ~VectorAnisotropicDiffusionFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override
-  { Superclass::PrintSelf(os, indent); }
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
+  {
+    Superclass::PrintSelf(os, indent);
+  }
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorAnisotropicDiffusionFunction.hxx"
+#  include "itkVectorAnisotropicDiffusionFunction.hxx"
 #endif
 
 #endif

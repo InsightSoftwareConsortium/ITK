@@ -45,18 +45,17 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT ChangeLabelLabelMapFilter:
-  public InPlaceLabelMapFilter< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ChangeLabelLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ChangeLabelLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = ChangeLabelLabelMapFilter;
-  using Superclass = InPlaceLabelMapFilter< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InPlaceLabelMapFilter<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using ImageType = TImage;
@@ -75,7 +74,7 @@ public:
   /** Runtime information support. */
   itkTypeMacro(ChangeLabelLabelMapFilter, InPlaceLabelMapFilter);
 
-  using ChangeMapType = typename std::map< PixelType, PixelType >;
+  using ChangeMapType = typename std::map<PixelType, PixelType>;
   using ChangeMapIterator = typename ChangeMapType::const_iterator;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -91,28 +90,34 @@ public:
 
   /**
    */
-  void SetChangeMap(const ChangeMapType & changeMap);
+  void
+  SetChangeMap(const ChangeMapType & changeMap);
 
-  const ChangeMapType & GetChangeMap() const;
+  const ChangeMapType &
+  GetChangeMap() const;
 
-  void SetChange(const PixelType & oldLabel, const PixelType & newLabel);
+  void
+  SetChange(const PixelType & oldLabel, const PixelType & newLabel);
 
-  void ClearChangeMap();
+  void
+  ClearChangeMap();
 
 protected:
   ChangeLabelLabelMapFilter() = default;
   ~ChangeLabelLabelMapFilter() override = default;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   ChangeMapType m_MapOfLabelToBeReplaced;
-};                                         // end of class
+}; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkChangeLabelLabelMapFilter.hxx"
+#  include "itkChangeLabelLabelMapFilter.hxx"
 #endif
 
 #endif

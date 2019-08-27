@@ -27,42 +27,39 @@
 
 namespace itk
 {
-template< typename TFixedImage, typename TMovingImage >
-KullbackLeiblerCompareHistogramImageToImageMetric< TFixedImage,
-                                                   TMovingImage >::KullbackLeiblerCompareHistogramImageToImageMetric()
+template <typename TFixedImage, typename TMovingImage>
+KullbackLeiblerCompareHistogramImageToImageMetric<TFixedImage,
+                                                  TMovingImage>::KullbackLeiblerCompareHistogramImageToImageMetric()
 {
-  m_Epsilon                = 1e-12; // should be smaller than 1/numBins^2
+  m_Epsilon = 1e-12; // should be smaller than 1/numBins^2
 }
 
-template< typename TFixedImage, typename TMovingImage >
+template <typename TFixedImage, typename TMovingImage>
 void
-KullbackLeiblerCompareHistogramImageToImageMetric< TFixedImage, TMovingImage >
-::Initialize()
+KullbackLeiblerCompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
 {
   Superclass::Initialize();
 }
 
-template< typename TFixedImage, typename TMovingImage >
-typename KullbackLeiblerCompareHistogramImageToImageMetric< TFixedImage, \
-                                                            TMovingImage >::MeasureType
-KullbackLeiblerCompareHistogramImageToImageMetric< TFixedImage, \
-                                                   TMovingImage >
-::EvaluateMeasure(HistogramType & histogram) const
+template <typename TFixedImage, typename TMovingImage>
+typename KullbackLeiblerCompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+KullbackLeiblerCompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::EvaluateMeasure(
+  HistogramType & histogram) const
 {
   // Two terms.
   // First the term that measures the entropy of the term
   // p(x,y) log p(x,y) - p(x,y) log q(x,y)
 
-  MeasureType KullbackLeibler = NumericTraits< MeasureType >::ZeroValue();
+  MeasureType KullbackLeibler = NumericTraits<MeasureType>::ZeroValue();
 
-  HistogramIteratorType measured_it   = histogram.Begin();
-  HistogramIteratorType measured_end  = histogram.End();
+  HistogramIteratorType measured_it = histogram.Begin();
+  HistogramIteratorType measured_end = histogram.End();
 
-  HistogramIteratorType training_it   = this->GetTrainingHistogram()->Begin();
-  HistogramIteratorType training_end  = this->GetTrainingHistogram()->End();
+  HistogramIteratorType training_it = this->GetTrainingHistogram()->Begin();
+  HistogramIteratorType training_end = this->GetTrainingHistogram()->End();
 
-  while ( measured_it != measured_end )
-    {
+  while (measured_it != measured_end)
+  {
     // Every bin gets epsilon added to it
     double TrainingFreq = training_it.GetFrequency() + m_Epsilon;
     double MeasuredFreq = measured_it.GetFrequency() + m_Epsilon;
@@ -71,12 +68,12 @@ KullbackLeiblerCompareHistogramImageToImageMetric< TFixedImage, \
 
     ++measured_it;
     ++training_it;
-    }
+  }
 
-  if ( training_it != training_end )
-    {
+  if (training_it != training_end)
+  {
     itkWarningMacro("The Measured and Training Histograms have different number of bins.");
-    }
+  }
 
   // Get the total frequency for each histogram.
   HistogramFrequencyType totalTrainingFreq = this->GetTrainingHistogram()->GetTotalFrequency();
@@ -84,20 +81,21 @@ KullbackLeiblerCompareHistogramImageToImageMetric< TFixedImage, \
 
   // The actual number of total frequency is a bit larger
   // than the number of counts because we add m_Epsilon to every bin
-  double AdjustedTotalTrainingFreq = totalTrainingFreq
-                                     + this->GetHistogramSize()[0] * this->GetHistogramSize()[1] * m_Epsilon;
-  double AdjustedTotalMeasuredFreq = totalMeasuredFreq
-                                     + this->GetHistogramSize()[0] * this->GetHistogramSize()[1] * m_Epsilon;
+  double AdjustedTotalTrainingFreq =
+    totalTrainingFreq + this->GetHistogramSize()[0] * this->GetHistogramSize()[1] * m_Epsilon;
+  double AdjustedTotalMeasuredFreq =
+    totalMeasuredFreq + this->GetHistogramSize()[0] * this->GetHistogramSize()[1] * m_Epsilon;
 
-  KullbackLeibler = KullbackLeibler / static_cast< MeasureType >( AdjustedTotalMeasuredFreq )
-                    - std::log(AdjustedTotalMeasuredFreq / AdjustedTotalTrainingFreq);
+  KullbackLeibler = KullbackLeibler / static_cast<MeasureType>(AdjustedTotalMeasuredFreq) -
+                    std::log(AdjustedTotalMeasuredFreq / AdjustedTotalTrainingFreq);
 
   return KullbackLeibler;
 }
 
-template< typename TFixedImage, typename TMovingImage >
-void KullbackLeiblerCompareHistogramImageToImageMetric< TFixedImage, TMovingImage >::PrintSelf(std::ostream & os,
-                                                                                               Indent indent) const
+template <typename TFixedImage, typename TMovingImage>
+void
+KullbackLeiblerCompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os,
+                                                                                        Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
 

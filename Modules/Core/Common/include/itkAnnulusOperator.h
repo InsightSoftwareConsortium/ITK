@@ -65,114 +65,173 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKCommon
  */
-template< typename TPixel, unsigned int TDimension = 2,
-          typename TAllocator = NeighborhoodAllocator< TPixel > >
-class ITK_TEMPLATE_EXPORT AnnulusOperator:
-  public NeighborhoodOperator< TPixel, TDimension, TAllocator >
+template <typename TPixel, unsigned int TDimension = 2, typename TAllocator = NeighborhoodAllocator<TPixel>>
+class ITK_TEMPLATE_EXPORT AnnulusOperator : public NeighborhoodOperator<TPixel, TDimension, TAllocator>
 {
 public:
   /** Standard type alias */
   using Self = AnnulusOperator;
-  using Superclass = NeighborhoodOperator< TPixel, TDimension, TAllocator >;
+  using Superclass = NeighborhoodOperator<TPixel, TDimension, TAllocator>;
 
   /** Additional type alias */
   using SizeType = typename Superclass::SizeType;
   using OffsetType = typename Superclass::OffsetType;
-  using SpacingType = Vector< double, TDimension >;
+  using SpacingType = Vector<double, TDimension>;
 
   itkTypeMacro(AnnulusOperator, NeighborhoodOperator);
 
-  AnnulusOperator():
-    NeighborhoodOperator< TPixel, TDimension, TAllocator >(),
-    m_InteriorValue(NumericTraits< PixelType >::ZeroValue()),
-    m_AnnulusValue(NumericTraits< PixelType >::OneValue()),
-    m_ExteriorValue(NumericTraits< PixelType >::ZeroValue()),
-    m_Spacing( 1.0 )
+  AnnulusOperator()
+    : NeighborhoodOperator<TPixel, TDimension, TAllocator>()
+    , m_InteriorValue(NumericTraits<PixelType>::ZeroValue())
+    , m_AnnulusValue(NumericTraits<PixelType>::OneValue())
+    , m_ExteriorValue(NumericTraits<PixelType>::ZeroValue())
+    , m_Spacing(1.0)
   {}
 
-  AnnulusOperator(const Self & other):
-    NeighborhoodOperator< TPixel, TDimension, TAllocator >(other),
-    m_InnerRadius( other.m_InnerRadius ),
-    m_Thickness( other.m_Thickness ),
-    m_Normalize( other.m_Normalize ),
-    m_BrightCenter( other.m_BrightCenter ),
-    m_InteriorValue( other.m_InteriorValue ),
-    m_AnnulusValue( other.m_AnnulusValue ),
-    m_ExteriorValue( other.m_ExteriorValue ),
-    m_Spacing( other.m_Spacing )
-  {
-  }
+  AnnulusOperator(const Self & other)
+    : NeighborhoodOperator<TPixel, TDimension, TAllocator>(other)
+    , m_InnerRadius(other.m_InnerRadius)
+    , m_Thickness(other.m_Thickness)
+    , m_Normalize(other.m_Normalize)
+    , m_BrightCenter(other.m_BrightCenter)
+    , m_InteriorValue(other.m_InteriorValue)
+    , m_AnnulusValue(other.m_AnnulusValue)
+    , m_ExteriorValue(other.m_ExteriorValue)
+    , m_Spacing(other.m_Spacing)
+  {}
 
   /** This function is called to create the operator.  The radius of
    * the operator is determine automatically.  */
-  void CreateOperator();
+  void
+  CreateOperator();
 
   /** Set/Get the inner radius of the annulus. Radius is specified in
    * physical units (mm). */
-  void SetInnerRadius(double r)
-  { m_InnerRadius = r; }
-  double GetInnerRadius() const
-  { return m_InnerRadius; }
+  void
+  SetInnerRadius(double r)
+  {
+    m_InnerRadius = r;
+  }
+  double
+  GetInnerRadius() const
+  {
+    return m_InnerRadius;
+  }
 
   /** Set/Get the thickness of the annulus.  The outer radius of the
    * annulus is defined as r = InnerRadius + Thickness. Thickness is
    * specified in physical units (mm). */
-  void SetThickness(double t)
-  { m_Thickness = t; }
-  double GetThickness() const
-  { return m_Thickness; }
+  void
+  SetThickness(double t)
+  {
+    m_Thickness = t;
+  }
+  double
+  GetThickness() const
+  {
+    return m_Thickness;
+  }
 
   /** Set/Get the pixel spacings.  Setting these ensures the annulus
    * is round in physical space. Defaults to 1. */
-  void SetSpacing(SpacingType & s)
-  { m_Spacing = s; }
-  const SpacingType & GetSpacing() const
-  { return m_Spacing; }
+  void
+  SetSpacing(SpacingType & s)
+  {
+    m_Spacing = s;
+  }
+  const SpacingType &
+  GetSpacing() const
+  {
+    return m_Spacing;
+  }
 
   /** Set/Get whether kernel values are computed automatically or
    * specified manually */
-  void SetNormalize(bool b)
-  { m_Normalize = b; }
-  bool GetNormalize() const
-  { return m_Normalize; }
-  void NormalizeOn()
-  { this->SetNormalize(true); }
-  void NormalizeOff()
-  { this->SetNormalize(false); }
+  void
+  SetNormalize(bool b)
+  {
+    m_Normalize = b;
+  }
+  bool
+  GetNormalize() const
+  {
+    return m_Normalize;
+  }
+  void
+  NormalizeOn()
+  {
+    this->SetNormalize(true);
+  }
+  void
+  NormalizeOff()
+  {
+    this->SetNormalize(false);
+  }
 
   /** If Normalize is on, you define the annulus to have a bright
    * center or a dark center. */
-  void SetBrightCenter(bool b)
-  { m_BrightCenter = b; }
-  bool GetBrightCenter() const
-  { return m_BrightCenter; }
-  void BrightCenterOn()
-  { this->SetBrightCenter(true); }
-  void BrightCenterOff()
-  { this->SetBrightCenter(false); }
+  void
+  SetBrightCenter(bool b)
+  {
+    m_BrightCenter = b;
+  }
+  bool
+  GetBrightCenter() const
+  {
+    return m_BrightCenter;
+  }
+  void
+  BrightCenterOn()
+  {
+    this->SetBrightCenter(true);
+  }
+  void
+  BrightCenterOff()
+  {
+    this->SetBrightCenter(false);
+  }
 
   /** If Normalize is off, the interior to annulus, the
    * annulus (region between the two circles), and the region exterior to the
    * annulus to be defined manually.  Defauls are 0, 1, 0
    * respectively. */
-  void SetInteriorValue(TPixel v)
-  { m_InteriorValue = v; }
-  TPixel GetInteriorValue() const
-  { return m_InteriorValue; }
-  void SetAnnulusValue(TPixel v)
-  { m_AnnulusValue = v; }
-  TPixel GetAnnulusValue() const
-  { return m_AnnulusValue; }
-  void SetExteriorValue(TPixel v)
-  { m_ExteriorValue = v; }
-  TPixel GetExteriorValue() const
-  { return m_ExteriorValue; }
+  void
+  SetInteriorValue(TPixel v)
+  {
+    m_InteriorValue = v;
+  }
+  TPixel
+  GetInteriorValue() const
+  {
+    return m_InteriorValue;
+  }
+  void
+  SetAnnulusValue(TPixel v)
+  {
+    m_AnnulusValue = v;
+  }
+  TPixel
+  GetAnnulusValue() const
+  {
+    return m_AnnulusValue;
+  }
+  void
+  SetExteriorValue(TPixel v)
+  {
+    m_ExteriorValue = v;
+  }
+  TPixel
+  GetExteriorValue() const
+  {
+    return m_ExteriorValue;
+  }
 
   /** Assignment operator */
-  Self & operator=(const Self & other)
+  Self &
+  operator=(const Self & other)
   {
-    if(this != &other)
-      {
+    if (this != &other)
+    {
       Superclass::operator=(other);
       m_InnerRadius = other.m_InnerRadius;
       m_Thickness = other.m_Thickness;
@@ -182,44 +241,40 @@ public:
       m_ExteriorValue = other.m_ExteriorValue;
       m_Normalize = other.m_Normalize;
       m_BrightCenter = other.m_BrightCenter;
-      }
+    }
     return *this;
   }
 
   /** Prints some debugging information */
-  void PrintSelf(std::ostream & os, Indent i) const override
+  void
+  PrintSelf(std::ostream & os, Indent i) const override
   {
-    os << i << "AnnulusOperator { this=" << this
-       << ", m_InnerRadius = " << m_InnerRadius
-       << ", m_Thickness = " << m_Thickness
-       << ", m_Spacing = " << m_Spacing
-       << ", m_Normalize = " << m_Normalize
-       << ", m_BrightCenter = " << m_BrightCenter
-       << ", m_InteriorValue = " << m_InteriorValue
-       << ", m_ExteriorValue = " << m_ExteriorValue
-       << "}" << std::endl;
-    Superclass::PrintSelf( os, i.GetNextIndent() );
+    os << i << "AnnulusOperator { this=" << this << ", m_InnerRadius = " << m_InnerRadius
+       << ", m_Thickness = " << m_Thickness << ", m_Spacing = " << m_Spacing << ", m_Normalize = " << m_Normalize
+       << ", m_BrightCenter = " << m_BrightCenter << ", m_InteriorValue = " << m_InteriorValue
+       << ", m_ExteriorValue = " << m_ExteriorValue << "}" << std::endl;
+    Superclass::PrintSelf(os, i.GetNextIndent());
   }
 
 protected:
-
   /** Typedef support for coefficient vector type.  Necessary to
    *  work around compiler bug on VC++. */
   using CoefficientVector = typename Superclass::CoefficientVector;
   using PixelType = typename Superclass::PixelType;
 
   /** Calculates operator coefficients. */
-  CoefficientVector GenerateCoefficients() override;
+  CoefficientVector
+  GenerateCoefficients() override;
 
   /** Arranges coefficients spatially in the memory buffer. */
-  void Fill(const CoefficientVector & c) override;
+  void
+  Fill(const CoefficientVector & c) override;
 
 private:
-
-  double      m_InnerRadius{1.0};
+  double      m_InnerRadius{ 1.0 };
   double      m_Thickness{ 1.0 };
-  bool        m_Normalize{false};
-  bool        m_BrightCenter{false};
+  bool        m_Normalize{ false };
+  bool        m_BrightCenter{ false };
   PixelType   m_InteriorValue;
   PixelType   m_AnnulusValue;
   PixelType   m_ExteriorValue;
@@ -228,6 +283,6 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAnnulusOperator.hxx"
+#  include "itkAnnulusOperator.hxx"
 #endif
 #endif

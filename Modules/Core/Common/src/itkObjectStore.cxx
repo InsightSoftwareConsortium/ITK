@@ -21,10 +21,10 @@ namespace itk
 {
 /** Define how to print enumerations */
 std::ostream &
-operator<<( std::ostream & out, const StrategyForGrowthType value )
+operator<<(std::ostream & out, const StrategyForGrowthType value)
 {
   const char * s = nullptr;
-  switch ( value )
+  switch (value)
   {
     case StrategyForGrowthType::LINEAR_GROWTH:
       s = "StrategyForGrowthType::LINEAR_GROWTH";

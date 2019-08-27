@@ -23,92 +23,94 @@
 namespace itk
 {
 
-template< typename TInputMesh, typename TOutputMesh, typename TSolverTraits >
+template <typename TInputMesh, typename TOutputMesh, typename TSolverTraits>
 void
-LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints< TInputMesh, TOutputMesh, TSolverTraits >
-::ComputeVertexIdMapping()
+LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints<TInputMesh, TOutputMesh, TSolverTraits>::
+  ComputeVertexIdMapping()
 {
-  OutputMeshType* output   = this->GetOutput();
+  OutputMeshType * output = this->GetOutput();
 
-  typename OutputMeshType::PointsContainer* points = output->GetPoints();
+  typename OutputMeshType::PointsContainer * points = output->GetPoints();
 
   using PointsContainerIterator = typename OutputMeshType::PointsContainerIterator;
-  PointsContainerIterator pIt = points->Begin();
+  PointsContainerIterator       pIt = points->Begin();
   const PointsContainerIterator pEnd = points->End();
 
   OutputPointIdentifier k = 0;
 
-  while ( pIt != pEnd )
-    {
+  while (pIt != pEnd)
+  {
     const OutputPointIdentifier vId = pIt->Index();
 
-    if ( this->m_Constraints.find(vId) == this->m_Constraints.end() )
-      {
-      this->m_InternalMap.insert( typename OutputMapPointIdentifier::value_type(vId, k++) );
-      }
-    ++pIt;
+    if (this->m_Constraints.find(vId) == this->m_Constraints.end())
+    {
+      this->m_InternalMap.insert(typename OutputMapPointIdentifier::value_type(vId, k++));
     }
+    ++pIt;
+  }
 }
 
-template< typename TInputMesh, typename TOutputMesh, typename TSolverTraits >
+template <typename TInputMesh, typename TOutputMesh, typename TSolverTraits>
 void
-LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints< TInputMesh, TOutputMesh, TSolverTraits >
-::FillMatrix(MatrixType & iM, VectorType & iBx, VectorType & iBy, VectorType & iBz)
+LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints<TInputMesh, TOutputMesh, TSolverTraits>::FillMatrix(
+  MatrixType & iM,
+  VectorType & iBx,
+  VectorType & iBy,
+  VectorType & iBz)
 {
-  OutputMapPointIdentifierConstIterator it = this->m_InternalMap.begin();
+  OutputMapPointIdentifierConstIterator       it = this->m_InternalMap.begin();
   const OutputMapPointIdentifierConstIterator end = this->m_InternalMap.end();
 
-  while ( it != end )
-    {
+  while (it != end)
+  {
     const OutputPointIdentifier vId1 = it->first;
-    const auto internalId1 = static_cast< unsigned int >( it->second );
+    const auto                  internalId1 = static_cast<unsigned int>(it->second);
 
     RowType row;
-    this->FillMatrixRow(vId1, this->m_Order, NumericTraits< OutputCoordRepType >::OneValue(), row);
+    this->FillMatrixRow(vId1, this->m_Order, NumericTraits<OutputCoordRepType>::OneValue(), row);
 
-    RowConstIterator rIt = row.begin();
+    RowConstIterator       rIt = row.begin();
     const RowConstIterator rEnd = row.end();
 
-    while( rIt != rEnd )
-      {
+    while (rIt != rEnd)
+    {
       const OutputPointIdentifier vId2 = rIt->first;
-      const OutputCoordRepType weight = rIt->second;
+      const OutputCoordRepType    weight = rIt->second;
 
       ConstraintMapConstIterator cIt = this->m_Constraints.find(vId2);
-      if ( cIt != this->m_Constraints.end() )
-        {
-        iBx[internalId1] -= weight * ( cIt->second )[0];
-        iBy[internalId1] -= weight * ( cIt->second )[1];
-        iBz[internalId1] -= weight * ( cIt->second )[2];
-        }
-      else
-        {
-        const auto internalId2 = static_cast< unsigned int >( this->m_InternalMap[vId2] );
-        SolverTraits::AddToMatrix(iM, internalId1, internalId2, weight);
-        }
-      ++rIt;
+      if (cIt != this->m_Constraints.end())
+      {
+        iBx[internalId1] -= weight * (cIt->second)[0];
+        iBy[internalId1] -= weight * (cIt->second)[1];
+        iBz[internalId1] -= weight * (cIt->second)[2];
       }
-    ++it;
+      else
+      {
+        const auto internalId2 = static_cast<unsigned int>(this->m_InternalMap[vId2]);
+        SolverTraits::AddToMatrix(iM, internalId1, internalId2, weight);
+      }
+      ++rIt;
     }
+    ++it;
+  }
 }
 
-template< typename TInputMesh, typename TOutputMesh, typename TSolverTraits >
+template <typename TInputMesh, typename TOutputMesh, typename TSolverTraits>
 void
-LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints< TInputMesh, TOutputMesh, TSolverTraits >
-::GenerateData()
+LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints<TInputMesh, TOutputMesh, TSolverTraits>::GenerateData()
 {
   this->CopyInputMeshToOutputMesh();
 
-  if ( !this->m_Constraints.empty() )
-    {
-    OutputMeshType* output = this->GetOutput();
+  if (!this->m_Constraints.empty())
+  {
+    OutputMeshType * output = this->GetOutput();
 
     this->m_CoefficientMap.clear();
     this->m_MixedAreaMap.clear();
 
     this->ComputeVertexIdMapping();
 
-    const auto N = static_cast< unsigned int >( this->m_InternalMap.size() );
+    const auto N = static_cast<unsigned int>(this->m_InternalMap.size());
 
     MatrixType M = SolverTraits::InitializeSparseMatrix(N, N);
 
@@ -134,47 +136,48 @@ LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints< TInputMesh, TOutputMe
 
     this->SolveLinearSystems(M, Bx, By, Bz, X, Y, Z);
 
-    typename OutputMeshType::PointsContainer*  points = output->GetPoints();
+    typename OutputMeshType::PointsContainer * points = output->GetPoints();
 
-    OutputMapPointIdentifierConstIterator it = this->m_InternalMap.begin();
+    OutputMapPointIdentifierConstIterator       it = this->m_InternalMap.begin();
     const OutputMapPointIdentifierConstIterator end = this->m_InternalMap.end();
 
-    while ( it != end )
-      {
+    while (it != end)
+    {
       const OutputPointIdentifier vId = it->first;
-      const auto internalId = static_cast< unsigned int >( it->second );
+      const auto                  internalId = static_cast<unsigned int>(it->second);
 
-      OutputPointType& p = points->ElementAt(vId);
+      OutputPointType & p = points->ElementAt(vId);
 
-      auto dx = static_cast< OutputCoordRepType >( X[internalId] );
+      auto dx = static_cast<OutputCoordRepType>(X[internalId]);
       p[0] += dx;
 
-      auto dy = static_cast< OutputCoordRepType >( Y[internalId] );
+      auto dy = static_cast<OutputCoordRepType>(Y[internalId]);
       p[1] += dy;
 
-      auto dz = static_cast< OutputCoordRepType >( Z[internalId] );
+      auto dz = static_cast<OutputCoordRepType>(Z[internalId]);
       p[2] += dz;
 
       ++it;
-      }
+    }
 
-    ConstraintMapConstIterator cIt  = this->m_Constraints.begin();
+    ConstraintMapConstIterator       cIt = this->m_Constraints.begin();
     const ConstraintMapConstIterator cEnd = this->m_Constraints.end();
 
-    while( cIt != cEnd )
-      {
+    while (cIt != cEnd)
+    {
       const OutputPointIdentifier vId = cIt->first;
-      OutputPointType& p = points->ElementAt(vId);
+      OutputPointType &           p = points->ElementAt(vId);
       p += cIt->second;
       ++cIt;
-      }
     }
+  }
 }
 
-template< typename TInputMesh, typename TOutputMesh, typename TSolverTraits >
+template <typename TInputMesh, typename TOutputMesh, typename TSolverTraits>
 void
-LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints< TInputMesh, TOutputMesh, TSolverTraits >
-::PrintSelf(std::ostream & os, Indent indent) const
+LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints<TInputMesh, TOutputMesh, TSolverTraits>::PrintSelf(
+  std::ostream & os,
+  Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

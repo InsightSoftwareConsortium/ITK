@@ -19,54 +19,56 @@
 #include "itkMetaDataObject.h"
 #include <iostream>
 
-int itkMetaDataDictionaryTest(int , char * [])
+int
+itkMetaDataDictionaryTest(int, char *[])
 {
-  //This is a demo program to show how to put data into a dictionary.
+  // This is a demo program to show how to put data into a dictionary.
   itk::MetaDataDictionary MyDictionary;
 
   //------------------------Testing of native types
   //-------Floats
-  itk::EncapsulateMetaData<float>(MyDictionary,"ASimpleFloatInitalized",static_cast<float>(1.234560F));
+  itk::EncapsulateMetaData<float>(MyDictionary, "ASimpleFloatInitalized", static_cast<float>(1.234560F));
   {
-    float tempfloat = 0.0;
-    const bool IsValidReturn=itk::ExposeMetaData<float>(MyDictionary,"ASimpleFloatInitalized",tempfloat);
-    if(IsValidReturn == true)
+    float      tempfloat = 0.0;
+    const bool IsValidReturn = itk::ExposeMetaData<float>(MyDictionary, "ASimpleFloatInitalized", tempfloat);
+    if (IsValidReturn == true)
     {
       std::cout << tempfloat << std::endl;
     }
     else
     {
-     std::cout << "Invalid key, or invalid type specified." << std::endl;
+      std::cout << "Invalid key, or invalid type specified." << std::endl;
     }
   }
 
-  itk::EncapsulateMetaData<float>(MyDictionary,"ASimpleFloatChanged",static_cast<float>(-1000.234560F));
-  itk::EncapsulateMetaData<double>(MyDictionary,"ASimpleFloatChanged",static_cast<float>(-0.000000001F));
+  itk::EncapsulateMetaData<float>(MyDictionary, "ASimpleFloatChanged", static_cast<float>(-1000.234560F));
+  itk::EncapsulateMetaData<double>(MyDictionary, "ASimpleFloatChanged", static_cast<float>(-0.000000001F));
 
   //-------Char pointers --  These can be tricky, so be careful!
-  itk::EncapsulateMetaData<const char *>(MyDictionary,"charconst*","Value String");
-  const char * value="Value String";
-  itk::EncapsulateMetaData<const char *>(MyDictionary,"charconst*2",value);
-  itk::EncapsulateMetaData<std::string>(MyDictionary,"srtringfromcharconst*",std::string("Value Never Seen"));
+  itk::EncapsulateMetaData<const char *>(MyDictionary, "charconst*", "Value String");
+  const char * value = "Value String";
+  itk::EncapsulateMetaData<const char *>(MyDictionary, "charconst*2", value);
+  itk::EncapsulateMetaData<std::string>(MyDictionary, "srtringfromcharconst*", std::string("Value Never Seen"));
 
-  //Other gotchas with the Dictionary
+  // Other gotchas with the Dictionary
   auto * StrandedMemory = new char[2345];
-  strcpy(StrandedMemory,"XXXXXXXXXXXXThis is stranded memory that will not be released when the Dictionary is cleaned up");
-  //NOTE: Only the pointer is copied, not the data within the pointer!
-  itk::EncapsulateMetaData<char *>(MyDictionary,"MemoryChangedOutsideOfDictionary",StrandedMemory);
+  strcpy(StrandedMemory,
+         "XXXXXXXXXXXXThis is stranded memory that will not be released when the Dictionary is cleaned up");
+  // NOTE: Only the pointer is copied, not the data within the pointer!
+  itk::EncapsulateMetaData<char *>(MyDictionary, "MemoryChangedOutsideOfDictionary", StrandedMemory);
   {
     char * temp = nullptr;
-    itk::ExposeMetaData<char *>(MyDictionary,"MemoryChangedOutsideOfDictionary",temp);
-    std::cout << "Memory Before Change: "<<temp <<std::endl;
+    itk::ExposeMetaData<char *>(MyDictionary, "MemoryChangedOutsideOfDictionary", temp);
+    std::cout << "Memory Before Change: " << temp << std::endl;
   }
-  strcpy(StrandedMemory,"------------This this was changed outside the class, and may cause all types of errors.");
+  strcpy(StrandedMemory, "------------This this was changed outside the class, and may cause all types of errors.");
   {
     char * temp = nullptr;
-    itk::ExposeMetaData<char *>(MyDictionary,"MemoryChangedOutsideOfDictionary",temp);
-    std::cout << "Memory After Change: "<<temp <<std::endl;
+    itk::ExposeMetaData<char *>(MyDictionary, "MemoryChangedOutsideOfDictionary", temp);
+    std::cout << "Memory After Change: " << temp << std::endl;
   }
 
-  //Print functionality Test
+  // Print functionality Test
   std::cout << "===========================================================" << std::endl;
   std::cout << "Printing Dictionary" << std::endl;
   MyDictionary.Print(std::cout);
@@ -74,98 +76,97 @@ int itkMetaDataDictionaryTest(int , char * [])
 
   std::cout << "Exercise the Iterator access" << std::endl;
   try
-    {
+  {
     auto itr = MyDictionary.Begin();
     auto end = MyDictionary.End();
 
-    while( itr != end )
-      {
+    while (itr != end)
+    {
       std::cout << "Key   = " << itr->first << std::endl;
       std::cout << "Value = ";
-      itr->second->Print( std::cout );
+      itr->second->Print(std::cout);
       std::cout << std::endl;
       ++itr;
-      }
     }
-  catch( itk::ExceptionObject  & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception Thrown." << std::endl;
     std::cerr << excp << std::endl;
     delete[] StrandedMemory;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Exercise the const Iterator access" << std::endl;
   try
-    {
+  {
     const itk::MetaDataDictionary & MyConstDictionary = MyDictionary;
-    auto itr = MyConstDictionary.Begin();
-    auto end = MyConstDictionary.End();
+    auto                            itr = MyConstDictionary.Begin();
+    auto                            end = MyConstDictionary.End();
 
-    while( itr != end )
-      {
+    while (itr != end)
+    {
       std::cout << "Key   = " << itr->first << std::endl;
       std::cout << "Value = ";
-      itr->second->Print( std::cout );
+      itr->second->Print(std::cout);
       std::cout << std::endl;
       ++itr;
-      }
     }
-  catch( itk::ExceptionObject  & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception Thrown." << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // Getter/Setter test
-  std::cout << "Exercise the Getter/Setter test" <<std::endl;
+  std::cout << "Exercise the Getter/Setter test" << std::endl;
   try
-   {
+  {
     auto itr = MyDictionary.Begin();
     auto end = MyDictionary.End();
-    while( itr != end )
+    while (itr != end)
     {
-        std::cout << "Key   = " << itr->first << std::endl;
-        std::cout << "Value = ";
-        MyDictionary.Get(itr->first)->Print( std::cout );
-        MyDictionary.Set(itr->first, itr->second);
-        std::cout << std::endl;
-        ++itr;
+      std::cout << "Key   = " << itr->first << std::endl;
+      std::cout << "Value = ";
+      MyDictionary.Get(itr->first)->Print(std::cout);
+      MyDictionary.Set(itr->first, itr->second);
+      std::cout << std::endl;
+      ++itr;
     }
-   }
-  catch( itk::ExceptionObject  & excp )
+  }
+  catch (itk::ExceptionObject & excp)
   {
-   std::cerr << "Exception Thrown." << std::endl;
-   std::cerr << excp << std::endl;
-   return EXIT_FAILURE;
+    std::cerr << "Exception Thrown." << std::endl;
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
   }
   try
-   {
-       MyDictionary.Get("InvalidKeyString")->Print( std::cout );
-       std::cerr << "Failed to throw expected exception" << std::endl;
-       return EXIT_FAILURE;
-   }
-   catch( itk::ExceptionObject & excp )
-   {
-       std::cout << excp << std::endl;
-       std::cout << "catched EXPECTED exception for invalid key string to MetaDataDictionary" << std::endl;
-   }
+  {
+    MyDictionary.Get("InvalidKeyString")->Print(std::cout);
+    std::cerr << "Failed to throw expected exception" << std::endl;
+    return EXIT_FAILURE;
+  }
+  catch (itk::ExceptionObject & excp)
+  {
+    std::cout << excp << std::endl;
+    std::cout << "catched EXPECTED exception for invalid key string to MetaDataDictionary" << std::endl;
+  }
 
-  if( MyDictionary.Erase( "ASimpleFloatChanged" ) == false )
-    {
+  if (MyDictionary.Erase("ASimpleFloatChanged") == false)
+  {
     std::cerr << "Failed to erase ASimpleFloatChanged" << std::endl;
     return EXIT_FAILURE;
-    }
-  if( MyDictionary.Erase( "itk" ) == true )
-    {
+  }
+  if (MyDictionary.Erase("itk") == true)
+  {
     std::cerr << "Failed erase itk" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
-  //NOTE: Must clean up memory allocated with char * StrandedMemory=new char[2345];
+  // NOTE: Must clean up memory allocated with char * StrandedMemory=new char[2345];
   delete[] StrandedMemory;
 
   return EXIT_SUCCESS;
-
 }

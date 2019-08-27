@@ -79,14 +79,15 @@
 // Software Guide : EndCodeSnippet
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile   outputImageFile" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //  Software Guide : BeginLatex
@@ -99,19 +100,19 @@ int main( int argc, char * argv[] )
   using InputPixelType = unsigned char;
   using OutputPixelType = unsigned char;
 
-  using InputImageType = itk::Image< InputPixelType,  2 >;
-  using OutputImageType = itk::Image< OutputPixelType, 2 >;
+  using InputImageType = itk::Image<InputPixelType, 2>;
+  using OutputImageType = itk::Image<OutputPixelType, 2>;
   // Software Guide : EndCodeSnippet
 
 
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
   //  Software Guide : BeginLatex
   //
@@ -125,8 +126,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::MedianImageFilter<
-               InputImageType, OutputImageType >;
+  using FilterType = itk::MedianImageFilter<InputImageType, OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -152,7 +152,7 @@ int main( int argc, char * argv[] )
   indexRadius[0] = 1; // radius along x
   indexRadius[1] = 1; // radius along y
 
-  filter->SetRadius( indexRadius );
+  filter->SetRadius(indexRadius);
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -169,8 +169,8 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  filter->SetInput( reader->GetOutput() );
-  writer->SetInput( filter->GetOutput() );
+  filter->SetInput(reader->GetOutput());
+  writer->SetInput(filter->GetOutput());
   writer->Update();
   // Software Guide : EndCodeSnippet
 
@@ -186,8 +186,9 @@ int main( int argc, char * argv[] )
   // \label{fig:MedianImageFilterOutput}
   // \end{figure}
   //
-  //  Figure \ref{fig:MedianImageFilterOutput} illustrates the effect of the MedianImageFilter
-  //  filter on a slice of MRI brain image using a neighborhood radius of
+  //  Figure \ref{fig:MedianImageFilterOutput} illustrates the effect of the
+  //  MedianImageFilter filter on a slice of MRI brain image using a neighborhood radius
+  //  of
   //  \(1,1\), which corresponds to a $ 3 \times 3 $ classical neighborhood.
   //  The filtered image demonstrates the moderate tendency of the median
   //  filter to preserve edges.

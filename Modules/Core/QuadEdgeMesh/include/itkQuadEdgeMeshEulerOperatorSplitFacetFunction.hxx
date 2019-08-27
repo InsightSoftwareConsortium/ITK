@@ -22,9 +22,9 @@
 
 namespace itk
 {
-template< typename TMesh, typename TQEType >
-typename QuadEdgeMeshEulerOperatorSplitFacetFunction< TMesh, TQEType >::OutputType
-QuadEdgeMeshEulerOperatorSplitFacetFunction< TMesh, TQEType >::Evaluate(QEType *h, QEType *g)
+template <typename TMesh, typename TQEType>
+typename QuadEdgeMeshEulerOperatorSplitFacetFunction<TMesh, TQEType>::OutputType
+QuadEdgeMeshEulerOperatorSplitFacetFunction<TMesh, TQEType>::Evaluate(QEType * h, QEType * g)
 {
   //
   //  g->Dest() ---<----- X                    destPid  --------- X        //
@@ -42,57 +42,56 @@ QuadEdgeMeshEulerOperatorSplitFacetFunction< TMesh, TQEType >::Evaluate(QEType *
   //          X ----->--- h->Dest()                   X --------- orgPid   //
   //
 
-  if ( !h || !g )
-    {
+  if (!h || !g)
+  {
     itkDebugMacro("At least one of the Input is not an edge.");
-    return ( (QEType *)nullptr );
-    }
+    return ((QEType *)nullptr);
+  }
 
-  if ( !this->m_Mesh )
-    {
+  if (!this->m_Mesh)
+  {
     itkDebugMacro("No mesh present.");
-    return ( (QEType *)nullptr );
-    }
+    return ((QEType *)nullptr);
+  }
 
-  if ( h == g )
-    {
+  if (h == g)
+  {
     itkDebugMacro("Provided edges should be different.");
-    return ( (QEType *)nullptr );
-    }
+    return ((QEType *)nullptr);
+  }
 
-  if ( h->GetLeft() != g->GetLeft() )
-    {
+  if (h->GetLeft() != g->GetLeft())
+  {
     itkDebugMacro("The edges are not around the same face.");
-    return ( (QEType *)nullptr );
-    }
+    return ((QEType *)nullptr);
+  }
 
-  if ( ( h->GetLnext() == g )
-       || ( g->GetLnext() == h ) )
-    {
+  if ((h->GetLnext() == g) || (g->GetLnext() == h))
+  {
     itkDebugMacro("Provided edges should NOT be consecutive.");
-    return ( (QEType *)nullptr );
-    }
+    return ((QEType *)nullptr);
+  }
 
   using VertexRefType = typename MeshType::VertexRefType;
 
-  this->m_Mesh->DeleteFace( h->GetLeft() );
-  VertexRefType orgPid  = h->GetDestination();
+  this->m_Mesh->DeleteFace(h->GetLeft());
+  VertexRefType orgPid = h->GetDestination();
   VertexRefType destPid = g->GetDestination();
 
   // Create an new isolated edge and set it's geometry:
-  auto * newEdge = new EdgeCellType;
-  QEType *      newEdgeGeom = newEdge->GetQEGeom();
+  auto *   newEdge = new EdgeCellType;
+  QEType * newEdgeGeom = newEdge->GetQEGeom();
 
   // see the code of e.g. AddFace
   newEdgeGeom->SetOrigin(orgPid);
   newEdgeGeom->SetDestination(destPid);
 
   // Insert newEdge at Org
-  QEType *oLnext = h->GetLnext();
+  QEType * oLnext = h->GetLnext();
   oLnext->InsertAfterNextBorderEdgeWithUnsetLeft(newEdgeGeom);
   // Insert newEdge at Dest
-  QEType *dLnext = g->GetLnext();
-  dLnext->InsertAfterNextBorderEdgeWithUnsetLeft( newEdgeGeom->GetSym() );
+  QEType * dLnext = g->GetLnext();
+  dLnext->InsertAfterNextBorderEdgeWithUnsetLeft(newEdgeGeom->GetSym());
 
   // Add the new edge to the container
   this->m_Mesh->PushOnContainer(newEdge);
@@ -101,7 +100,7 @@ QuadEdgeMeshEulerOperatorSplitFacetFunction< TMesh, TQEType >::Evaluate(QEType *
   this->m_Mesh->AddFace(h);
   this->m_Mesh->AddFace(g);
   this->m_Mesh->Modified();
-  return ( newEdgeGeom );
+  return (newEdgeGeom);
 }
 
 } // end namespace itk

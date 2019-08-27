@@ -27,19 +27,19 @@ namespace itk
 /** \class BinaryImageToLevelSetImageAdaptorBase
  *  \ingroup ITKLevelSetsv4
  */
-template< typename TInputImage, typename TLevelSet >
+template <typename TInputImage, typename TLevelSet>
 class BinaryImageToLevelSetImageAdaptorBase : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptorBase);
 
   using Self = BinaryImageToLevelSetImageAdaptorBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using Superclass = Object;
 
   /** Run-time type information */
-  itkTypeMacro( BinaryImageToLevelSetImageAdaptorBase, Object );
+  itkTypeMacro(BinaryImageToLevelSetImageAdaptorBase, Object);
 
   using InputImageType = TInputImage;
   using InputImagePixelType = typename InputImageType::PixelType;
@@ -56,28 +56,26 @@ public:
   /**
    * Input is a binary image m_InputImage
    * Output is a WhitakerSparseLevelSetImagePointer  */
-  virtual void Initialize() = 0;
+  virtual void
+  Initialize() = 0;
 
   /** Get the sparse levet set function */
-  itkGetModifiableObjectMacro(LevelSet, LevelSetType );
+  itkGetModifiableObjectMacro(LevelSet, LevelSetType);
 
   /** Set/Get the input image*/
-  itkSetObjectMacro( InputImage, InputImageType );
-  itkGetModifiableObjectMacro(InputImage, InputImageType );
+  itkSetObjectMacro(InputImage, InputImageType);
+  itkGetModifiableObjectMacro(InputImage, InputImageType);
 
 protected:
   /** Constructor */
-  BinaryImageToLevelSetImageAdaptorBase()
-    {
-    this->m_LevelSet = LevelSetType::New();
-    }
+  BinaryImageToLevelSetImageAdaptorBase() { this->m_LevelSet = LevelSetType::New(); }
 
   /** Destructor */
   ~BinaryImageToLevelSetImageAdaptorBase() override = default;
 
-  InputImagePointer       m_InputImage;
-  LevelSetPointer         m_LevelSet;
+  InputImagePointer m_InputImage;
+  LevelSetPointer   m_LevelSet;
 };
-}
+} // namespace itk
 
 #endif // itkBinaryImageToLevelSetImageAdaptorBase_h

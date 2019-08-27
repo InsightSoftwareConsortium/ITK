@@ -40,7 +40,7 @@ namespace itk
  *  \ingroup IOFilters
  * \ingroup ITKIONRRD
  */
-class ITKIONRRD_EXPORT NrrdImageIO:public ImageIOBase
+class ITKIONRRD_EXPORT NrrdImageIO : public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(NrrdImageIO);
@@ -48,7 +48,7 @@ public:
   /** Standard class type aliases. */
   using Self = NrrdImageIO;
   using Superclass = ImageIOBase;
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -61,43 +61,54 @@ public:
    * while others can support 2D, 3D, or even n-D. This method returns
    * true/false as to whether the ImageIO can support the dimension
    * indicated. */
-  bool SupportsDimension(unsigned long) override;
+  bool
+  SupportsDimension(unsigned long) override;
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  bool CanReadFile(const char *) override;
+  bool
+  CanReadFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void ReadImageInformation() override;
+  void
+  ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void Read(void *buffer) override;
+  void
+  Read(void * buffer) override;
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
-  bool CanWriteFile(const char *) override;
+  bool
+  CanWriteFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void WriteImageInformation() override;
+  void
+  WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  void Write(const void *buffer) override;
+  void
+  Write(const void * buffer) override;
 
 protected:
   NrrdImageIO();
   ~NrrdImageIO() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void InternalSetCompressor(const std::string &_compressor) override;
+  void
+  InternalSetCompressor(const std::string & _compressor) override;
 
   /** Utility functions for converting between enumerated data type
       representations */
-  int ITKToNrrdComponentType(const ImageIOBase::IOComponentType) const;
+  int
+  ITKToNrrdComponentType(const ImageIOBase::IOComponentType) const;
 
-  ImageIOBase::IOComponentType NrrdToITKComponentType(const int) const;
+  ImageIOBase::IOComponentType
+  NrrdToITKComponentType(const int) const;
 
-  const  NrrdEncoding_t * m_NrrdCompressionEncoding{nullptr};
+  const NrrdEncoding_t * m_NrrdCompressionEncoding{ nullptr };
 };
 } // end namespace itk
 

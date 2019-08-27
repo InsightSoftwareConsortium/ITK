@@ -24,25 +24,25 @@
 #include "itkTIFFImageIO.h"
 
 
-int itkTIFFImageIOTestPalette(int argc, char * argv[])
+int
+itkTIFFImageIOTestPalette(int argc, char * argv[])
 {
 
-  if( argc != 5 )
-    {
-    std::cerr << "Usage: " << argv[0]
-      << " input"
-      << " output"
-      << " expandRGBPalette"
-      << " isPaletteImage"   << std::endl;
+  if (argc != 5)
+  {
+    std::cerr << "Usage: " << argv[0] << " input"
+              << " output"
+              << " expandRGBPalette"
+              << " isPaletteImage" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
   using ScalarPixelType = unsigned char;
 
-  using ScalarImageType = itk::Image< ScalarPixelType, Dimension >;
-  using ReaderType = itk::ImageFileReader< ScalarImageType >;
-  using WriterType = itk::ImageFileWriter< ScalarImageType >;
+  using ScalarImageType = itk::Image<ScalarPixelType, Dimension>;
+  using ReaderType = itk::ImageFileReader<ScalarImageType>;
+  using WriterType = itk::ImageFileWriter<ScalarImageType>;
   using IOType = itk::TIFFImageIO;
 
 
@@ -52,111 +52,107 @@ int itkTIFFImageIOTestPalette(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
 
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( io, TIFFImageIO, ImageIOBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(io, TIFFImageIO, ImageIOBase);
 
-  const auto expandRGBPalette = static_cast< bool >( std::stoi(argv[3]) );
-  const auto isPaletteImage   = static_cast< bool >( std::stoi(argv[4]) );
-  ITK_TEST_SET_GET_BOOLEAN( io, ExpandRGBPalette, expandRGBPalette );
+  const auto expandRGBPalette = static_cast<bool>(std::stoi(argv[3]));
+  const auto isPaletteImage = static_cast<bool>(std::stoi(argv[4]));
+  ITK_TEST_SET_GET_BOOLEAN(io, ExpandRGBPalette, expandRGBPalette);
 
-  io->SetFileName( argv[1] );
-  reader->SetFileName( argv[1] );
-  reader->SetImageIO( io );
+  io->SetFileName(argv[1]);
+  reader->SetFileName(argv[1]);
+  reader->SetImageIO(io);
 
-  if( io->CanReadFile( "" ) )
-    {
+  if (io->CanReadFile(""))
+  {
     std::cerr << "Test failed!" << std::endl;
     std::cout << "No filename specified." << std::endl;
     std::cout << "CanReadFile: "
-      << "Expected false but got true" << std::endl;
+              << "Expected false but got true" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( !io->SupportsDimension( Dimension ) )
-    {
+  if (!io->SupportsDimension(Dimension))
+  {
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "itk::TIFFImageIO does not support dimension: " << Dimension << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( io->CanStreamRead() )
-    {
+  if (io->CanStreamRead())
+  {
     std::cout << "itk::TIFFImageIO can stream read" << std::endl;
-    }
+  }
   else
-    {
+  {
     std::cout << "itk::TIFFImageIO cannot stream read" << std::endl;
-    }
+  }
 
-  if( !io->CanReadFile( argv[1] ) )
-    {
+  if (!io->CanReadFile(argv[1]))
+  {
     std::cerr << "Test failed!" << std::endl;
-    std::cout << "itk::TIFFImageIO cannot read file "
-      << argv[1] << std::endl;
+    std::cout << "itk::TIFFImageIO cannot read file " << argv[1] << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   // Try Palette reading and scalar image reading
-  if( io->GetExpandRGBPalette() )
+  if (io->GetExpandRGBPalette())
+  {
+    if (isPaletteImage)
     {
-      if( isPaletteImage )
-        {
-        std::cout << "Input is a defined as palette image, expanding to RGB. " << std::endl;
-        }
-      else
-        {
-        std::cout << "Input is a defined as a non palette image. " << std::endl;
-        }
+      std::cout << "Input is a defined as palette image, expanding to RGB. " << std::endl;
     }
+    else
+    {
+      std::cout << "Input is a defined as a non palette image. " << std::endl;
+    }
+  }
   else
+  {
+    if (isPaletteImage)
     {
-    if( isPaletteImage )
-      {
       std::cout << "Input is a defined as palette image, trying to read it as scalar. " << std::endl;
-      }
     }
+  }
 
-  if( !io->GetExpandRGBPalette() && isPaletteImage )
+  if (!io->GetExpandRGBPalette() && isPaletteImage)
+  {
+    if (io->GetIsReadAsScalarPlusPalette())
     {
-    if( io->GetIsReadAsScalarPlusPalette() )
-      {
       std::cout << "Image read as Scalar." << std::endl;
       IOType::PaletteType palette = io->GetColorPalette();
       std::cout << "Palette: " << std::endl;
-      for( unsigned int i = 0; i < palette.size(); ++i )
-        {
-        std::cout << "[" << i << "]:" << palette[i] << std::endl;
-        }
-      }
-    else
+      for (unsigned int i = 0; i < palette.size(); ++i)
       {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Cannot read data of this palette image as scalar."
-                << std::endl;
-      return EXIT_FAILURE;
+        std::cout << "[" << i << "]:" << palette[i] << std::endl;
       }
     }
-  else
+    else
     {
-    std::cout << "Image read as Greyscale (conversion)." << std::endl;
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Cannot read data of this palette image as scalar." << std::endl;
+      return EXIT_FAILURE;
     }
+  }
+  else
+  {
+    std::cout << "Image read as Greyscale (conversion)." << std::endl;
+  }
 
   ScalarImageType::Pointer inputImage = reader->GetOutput();
 
   // Try writing
-  writer->SetInput( inputImage );
-  writer->SetImageIO( io );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(inputImage);
+  writer->SetImageIO(io);
+  writer->SetFileName(argv[2]);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   // Exercise other methods
   itk::ImageIOBase::SizeType pixelStride = io->GetPixelStride();
-  std::cout << "PixelStride: "
-    << itk::NumericTraits< itk::ImageIOBase::SizeType >::PrintType( pixelStride )
-    << std::endl;
+  std::cout << "PixelStride: " << itk::NumericTraits<itk::ImageIOBase::SizeType>::PrintType(pixelStride) << std::endl;
 
   // ToDo
   // When the palette has made into the Metadata Dictionary (as opposed to the ImageIO):

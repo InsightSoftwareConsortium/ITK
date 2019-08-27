@@ -24,51 +24,52 @@
 
 #include "itkTestingMacros.h"
 
-int itkLabelMapToRGBImageFilterTest1(int argc, char * argv[])
+int
+itkLabelMapToRGBImageFilterTest1(int argc, char * argv[])
 {
-  if( argc != 3 )
-    {
+  if (argc != 3)
+  {
     std::cerr << "usage: " << argv[0] << " input output" << std::endl;
     // std::cerr << "  : " << std::endl;
     exit(1);
-    }
+  }
 
   constexpr int dim = 2;
 
-  using IType = itk::Image< unsigned char, dim >;
+  using IType = itk::Image<unsigned char, dim>;
 
-  using ReaderType = itk::ImageFileReader< IType >;
+  using ReaderType = itk::ImageFileReader<IType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
-  using ConverterType = itk::LabelImageToLabelMapFilter< IType >;
+  using ConverterType = itk::LabelImageToLabelMapFilter<IType>;
   ConverterType::Pointer converter = ConverterType::New();
-  converter->SetInput( reader->GetOutput() );
+  converter->SetInput(reader->GetOutput());
 
-//  using RGBPixelType = itk::RGBPixel< unsigned char >;
-//  using RGBImageType = itk::Image< RGBPixelType, dim >;
+  //  using RGBPixelType = itk::RGBPixel< unsigned char >;
+  //  using RGBImageType = itk::Image< RGBPixelType, dim >;
 
-  using ColorizerType = itk::LabelMapToRGBImageFilter< ConverterType::OutputImageType >;
+  using ColorizerType = itk::LabelMapToRGBImageFilter<ConverterType::OutputImageType>;
   ColorizerType::Pointer colorizer = ColorizerType::New();
-  colorizer->SetInput( converter->GetOutput() );
+  colorizer->SetInput(converter->GetOutput());
 
   itk::SimpleFilterWatcher watcher(colorizer, "filter");
 
-  using WriterType = itk::ImageFileWriter< ColorizerType::OutputImageType >;
+  using WriterType = itk::ImageFileWriter<ColorizerType::OutputImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( colorizer->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(colorizer->GetOutput());
+  writer->SetFileName(argv[2]);
   writer->Update();
 
   ColorizerType::FunctorType functor;
   functor.ResetColors();
   functor.AddColor(0, 0, 255);
 
-  ITK_TEST_EXPECT_TRUE( colorizer->GetFunctor() != functor );
-  colorizer->SetFunctor( functor );
-  ITK_TEST_EXPECT_TRUE( ColorizerType::ConstPointer(colorizer)->GetFunctor() == functor );
+  ITK_TEST_EXPECT_TRUE(colorizer->GetFunctor() != functor);
+  colorizer->SetFunctor(functor);
+  ITK_TEST_EXPECT_TRUE(ColorizerType::ConstPointer(colorizer)->GetFunctor() == functor);
   colorizer->GetFunctor().AddColor(0, 255, 0);
-  ITK_TEST_EXPECT_TRUE( colorizer->GetFunctor() != functor );
+  ITK_TEST_EXPECT_TRUE(colorizer->GetFunctor() != functor);
 
   return 0;
 }

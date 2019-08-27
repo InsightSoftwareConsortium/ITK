@@ -21,14 +21,13 @@
 #include "itkTestingMacros.h"
 #include <iostream>
 
-int itkImageRegionSplitterMultidimensionalTest(int, char*[])
+int
+itkImageRegionSplitterMultidimensionalTest(int, char *[])
 {
 
-  itk::ImageRegionSplitterMultidimensional::Pointer splitter =
-    itk::ImageRegionSplitterMultidimensional::New();
+  itk::ImageRegionSplitterMultidimensional::Pointer splitter = itk::ImageRegionSplitterMultidimensional::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( splitter,
-    ImageRegionSplitterMultidimensional, ImageRegionSplitterBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(splitter, ImageRegionSplitterMultidimensional, ImageRegionSplitterBase);
 
   itk::ImageRegion<2> region;
   region.SetSize(0, 10);
@@ -39,14 +38,14 @@ int itkImageRegionSplitterMultidimensionalTest(int, char*[])
 
   const itk::ImageRegion<2> lpRegion = region;
 
-  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 1 ), 1 );
-  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 2 ), 2 );
-  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 3 ), 2 );
-  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 4 ), 4 );
-  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 7 ), 6 );
-  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 11 ), 9 );
-  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 12 ), 12 );
-  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 99 ), 90 );
+  ITK_TEST_EXPECT_EQUAL(splitter->GetNumberOfSplits(lpRegion, 1), 1);
+  ITK_TEST_EXPECT_EQUAL(splitter->GetNumberOfSplits(lpRegion, 2), 2);
+  ITK_TEST_EXPECT_EQUAL(splitter->GetNumberOfSplits(lpRegion, 3), 2);
+  ITK_TEST_EXPECT_EQUAL(splitter->GetNumberOfSplits(lpRegion, 4), 4);
+  ITK_TEST_EXPECT_EQUAL(splitter->GetNumberOfSplits(lpRegion, 7), 6);
+  ITK_TEST_EXPECT_EQUAL(splitter->GetNumberOfSplits(lpRegion, 11), 9);
+  ITK_TEST_EXPECT_EQUAL(splitter->GetNumberOfSplits(lpRegion, 12), 12);
+  ITK_TEST_EXPECT_EQUAL(splitter->GetNumberOfSplits(lpRegion, 99), 90);
 
 
   region = lpRegion;

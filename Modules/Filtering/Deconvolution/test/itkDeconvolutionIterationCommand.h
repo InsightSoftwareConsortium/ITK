@@ -24,50 +24,49 @@
 namespace itk
 {
 
-template< typename TFilterType >
+template <typename TFilterType>
 class DeconvolutionIterationCommand : public itk::Command
 {
 public:
   using Self = DeconvolutionIterationCommand;
   using Superclass = itk::Command;
-  using Pointer = itk::SmartPointer< Self >;
-  itkNewMacro( Self );
+  using Pointer = itk::SmartPointer<Self>;
+  itkNewMacro(Self);
 
-  void Execute(itk::Object *caller, const itk::EventObject & event) override
+  void
+  Execute(itk::Object * caller, const itk::EventObject & event) override
   {
-    this->Execute( (const itk::Object *)caller, event);
+    this->Execute((const itk::Object *)caller, event);
   }
 
-  void Execute(const itk::Object *object, const itk::EventObject & event) override
+  void
+  Execute(const itk::Object * object, const itk::EventObject & event) override
   {
     m_NumberOfIterations++;
-    if ( ! itk::IterationEvent().CheckEvent( &event ) )
-      {
+    if (!itk::IterationEvent().CheckEvent(&event))
+    {
       return;
-      }
-    std::cout << object->GetNameOfClass() << " iteration "
-              << m_NumberOfIterations << std::endl;
+    }
+    std::cout << object->GetNameOfClass() << " iteration " << m_NumberOfIterations << std::endl;
 
-    const auto * filter = static_cast< const TFilterType * >( object );
-    if ( filter->GetCurrentEstimate() == nullptr )
-      {
+    const auto * filter = static_cast<const TFilterType *>(object);
+    if (filter->GetCurrentEstimate() == nullptr)
+    {
       itkExceptionMacro(<< "CurrentEstimate is nullptr, but should not be.");
-      }
+    }
   }
 
-  bool GetInvoked() const
+  bool
+  GetInvoked() const
   {
-    return ( m_NumberOfIterations > 0 );
+    return (m_NumberOfIterations > 0);
   }
 
 protected:
-  DeconvolutionIterationCommand()
-  {
-    m_NumberOfIterations = 0;
-  }
+  DeconvolutionIterationCommand() { m_NumberOfIterations = 0; }
 
 private:
-  int  m_NumberOfIterations;
+  int m_NumberOfIterations;
 };
 
 } // end namespace itk

@@ -37,14 +37,14 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-class ITKStatistics_EXPORT MaximumDecisionRule:public DecisionRule
+class ITKStatistics_EXPORT MaximumDecisionRule : public DecisionRule
 {
 public:
   /** Standard class type aliases */
   using Self = MaximumDecisionRule;
   using Superclass = DecisionRule;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(MaximumDecisionRule, DecisionRule);
@@ -63,13 +63,14 @@ public:
    * Evaluate the decision rule, returning the class label associated
    * with the largest discriminant score.
    */
-  ClassIdentifierType Evaluate(const MembershipVectorType & discriminantScores) const override;
+  ClassIdentifierType
+  Evaluate(const MembershipVectorType & discriminantScores) const override;
 
 protected:
   MaximumDecisionRule() = default;
   ~MaximumDecisionRule() override = default;
 
-};  // end of class
+}; // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 

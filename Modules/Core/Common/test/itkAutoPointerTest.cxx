@@ -21,31 +21,36 @@
 #include "itkAutoPointer.h"
 
 class TestObject
- {
-  public:
-    using Self = TestObject;
-    using AutoPointer = itk::AutoPointer<Self>;
-    using ConstAutoPointer = itk::AutoPointer<const Self>;
-    TestObject() { std::cout << "TestObject Contructed" << std::endl; }
-    virtual ~TestObject() { std::cout << "TestObject Destructed" << std::endl; }
-    const char * GetClassName() const { return "my Class name is TestObject"; }
-  };
+{
+public:
+  using Self = TestObject;
+  using AutoPointer = itk::AutoPointer<Self>;
+  using ConstAutoPointer = itk::AutoPointer<const Self>;
+  TestObject() { std::cout << "TestObject Contructed" << std::endl; }
+  virtual ~TestObject() { std::cout << "TestObject Destructed" << std::endl; }
+  const char *
+  GetClassName() const
+  {
+    return "my Class name is TestObject";
+  }
+};
 
 
-int itkAutoPointerTest(int, char* [] )
+int
+itkAutoPointerTest(int, char *[])
 {
 
   auto * obj = new TestObject;
 
   TestObject::AutoPointer ptr1;
-  ptr1.TakeOwnership( obj );
+  ptr1.TakeOwnership(obj);
 
   std::cout << "after assignment from raw pointer" << std::endl;
   std::cout << "ptr1 IsOwner = " << ptr1.IsOwner() << std::endl;
 
   std::cout << ptr1->GetClassName() << std::endl;
 
-  TestObject::AutoPointer ptr2( ptr1 );
+  TestObject::AutoPointer ptr2(ptr1);
 
   std::cout << "after copy constructor " << std::endl;
   std::cout << "ptr1 IsOwner = " << ptr1.IsOwner() << std::endl;
@@ -55,30 +60,30 @@ int itkAutoPointerTest(int, char* [] )
   std::cout << "after Reset " << std::endl;
   std::cout << "ptr2 IsOwner = " << ptr2.IsOwner() << std::endl;
 
-  ptr1.TakeOwnership( new TestObject );
+  ptr1.TakeOwnership(new TestObject);
   std::cout << "after assignment from raw pointer" << std::endl;
   std::cout << "ptr1 IsOwner = " << ptr1.IsOwner() << std::endl;
 
   // The following test exercise the methods but don't validate the results
-  if( ptr1 == ptr2 )
-    {
+  if (ptr1 == ptr2)
+  {
     std::cout << "AutoPointers are equal " << std::endl;
-    }
-  if( ptr1 > ptr2 )
-    {
+  }
+  if (ptr1 > ptr2)
+  {
     std::cout << "ptr1 > ptr2" << std::endl;
-    }
-  if( ptr1 < ptr2 )
-    {
+  }
+  if (ptr1 < ptr2)
+  {
     std::cout << "ptr1 < ptr2" << std::endl;
-    }
+  }
 
 
   TestObject::ConstAutoPointer cptr1;
-  cptr1.TakeOwnership( new TestObject );
+  cptr1.TakeOwnership(new TestObject);
 
 
-  TestObject::ConstAutoPointer cptr2( cptr1 );
+  TestObject::ConstAutoPointer cptr2(cptr1);
 
 
   return EXIT_SUCCESS;

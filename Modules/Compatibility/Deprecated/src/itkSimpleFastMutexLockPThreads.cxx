@@ -35,7 +35,7 @@ SimpleFastMutexLock::SimpleFastMutexLock()
   pthread_mutexattr_t mta;
   pthread_mutexattr_init(&mta);
   pthread_mutexattr_settype(&mta, PTHREAD_MUTEX_RECURSIVE);
-  pthread_mutex_init(&( m_FastMutexLock ), &mta);
+  pthread_mutex_init(&(m_FastMutexLock), &mta);
 }
 
 // Destruct the SimpleMutexVariable
@@ -45,15 +45,17 @@ SimpleFastMutexLock::~SimpleFastMutexLock()
 }
 
 // Lock the FastMutexLock
-void SimpleFastMutexLock::Lock() const
+void
+SimpleFastMutexLock::Lock() const
 {
   pthread_mutex_lock(&m_FastMutexLock);
 }
 
 // Non-blocking TryLock the FastMutexLock
-bool SimpleFastMutexLock::TryLock() const
+bool
+SimpleFastMutexLock::TryLock() const
 {
-  const bool lockCaptured = ( pthread_mutex_trylock(&m_FastMutexLock) == 0 );
+  const bool lockCaptured = (pthread_mutex_trylock(&m_FastMutexLock) == 0);
   /*
    * non-blocking lock of mutex
    * - if mutex is not already locked, you will obtain the lock & own the mutex, and return 0 immediately
@@ -63,8 +65,9 @@ bool SimpleFastMutexLock::TryLock() const
 }
 
 // Unlock the FastMutexLock
-void SimpleFastMutexLock::Unlock() const
+void
+SimpleFastMutexLock::Unlock() const
 {
   pthread_mutex_unlock(&m_FastMutexLock);
 }
-} //end namespace itk
+} // end namespace itk

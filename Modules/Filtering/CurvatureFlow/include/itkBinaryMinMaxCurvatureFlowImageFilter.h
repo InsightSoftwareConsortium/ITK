@@ -76,18 +76,18 @@ namespace itk
  * \sphinxexample{Filtering/CurvatureFlow/BinaryMinMaxCurvatureFlow,Binary Min And Max Curvature Flow Of Binary Image}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT BinaryMinMaxCurvatureFlowImageFilter:
-  public MinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT BinaryMinMaxCurvatureFlowImageFilter
+  : public MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMinMaxCurvatureFlowImageFilter);
 
   /** Standard class type aliases. */
   using Self = BinaryMinMaxCurvatureFlowImageFilter;
-  using Superclass = MinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -100,7 +100,7 @@ public:
   using OutputImageType = typename Superclass::OutputImageType;
 
   /** BinaryMinMaxCurvatureFlowFunction type. */
-  using BinaryMinMaxCurvatureFlowFunctionType = BinaryMinMaxCurvatureFlowFunction< OutputImageType >;
+  using BinaryMinMaxCurvatureFlowFunctionType = BinaryMinMaxCurvatureFlowFunction<OutputImageType>;
 
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
@@ -112,30 +112,30 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< typename TInputImage::PixelType,
-                                           typename TOutputImage::PixelType > ) );
+  itkConceptMacro(InputConvertibleToOutputCheck,
+                  (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));
   // End concept checking
 #endif
 
 protected:
-
 protected:
   BinaryMinMaxCurvatureFlowImageFilter();
   ~BinaryMinMaxCurvatureFlowImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the state of filter and equation before each iteration.
    * Progress feeback is implemented as part of this method. */
-  void InitializeIteration() override;
+  void
+  InitializeIteration() override;
 
 private:
   double m_Threshold;
 };
-} // end namspace itk
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryMinMaxCurvatureFlowImageFilter.hxx"
+#  include "itkBinaryMinMaxCurvatureFlowImageFilter.hxx"
 #endif
 
 #endif

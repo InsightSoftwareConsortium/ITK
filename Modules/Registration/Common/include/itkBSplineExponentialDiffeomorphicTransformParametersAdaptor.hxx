@@ -23,119 +23,116 @@
 namespace itk
 {
 
-template<typename TTransform>
-BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
-::BSplineExponentialDiffeomorphicTransformParametersAdaptor()
+template <typename TTransform>
+BSplineExponentialDiffeomorphicTransformParametersAdaptor<
+  TTransform>::BSplineExponentialDiffeomorphicTransformParametersAdaptor()
 {
-  this->m_NumberOfControlPointsForTheConstantVelocityField.Fill( 4 );
+  this->m_NumberOfControlPointsForTheConstantVelocityField.Fill(4);
   this->m_NumberOfControlPointsForTheConstantVelocityFieldSetTime = 0;
-  this->m_NumberOfControlPointsForTheUpdateField.Fill( 4 );
+  this->m_NumberOfControlPointsForTheUpdateField.Fill(4);
   this->m_NumberOfControlPointsForTheUpdateFieldSetTime = 0;
 }
 
 /**
  * set mesh size for velocity field
  */
-template<typename TTransform>
+template <typename TTransform>
 void
-BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
-::SetMeshSizeForTheConstantVelocityField( const ArrayType &meshSize )
+BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>::SetMeshSizeForTheConstantVelocityField(
+  const ArrayType & meshSize)
 {
   ArrayType numberOfControlPoints;
-  numberOfControlPoints.Fill( 0 );
-  for( unsigned int d = 0; d < SpaceDimension; d++ )
+  numberOfControlPoints.Fill(0);
+  for (unsigned int d = 0; d < SpaceDimension; d++)
+  {
+    if (meshSize[d] > 0)
     {
-    if( meshSize[d] > 0 )
-      {
       numberOfControlPoints[d] = meshSize[d] + this->m_Transform->GetSplineOrder();
-      }
     }
-  this->SetNumberOfControlPointsForTheConstantVelocityField( numberOfControlPoints );
+  }
+  this->SetNumberOfControlPointsForTheConstantVelocityField(numberOfControlPoints);
 }
 
 /**
  * set mesh size for update field
  */
-template<typename TTransform>
+template <typename TTransform>
 void
-BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
-::SetMeshSizeForTheUpdateField( const ArrayType &meshSize )
+BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>::SetMeshSizeForTheUpdateField(
+  const ArrayType & meshSize)
 {
   ArrayType numberOfControlPoints;
-  numberOfControlPoints.Fill( 0 );
-  for( unsigned int d = 0; d < SpaceDimension; d++ )
+  numberOfControlPoints.Fill(0);
+  for (unsigned int d = 0; d < SpaceDimension; d++)
+  {
+    if (meshSize[d] > 0)
     {
-    if( meshSize[d] > 0 )
-      {
       numberOfControlPoints[d] = meshSize[d] + this->m_Transform->GetSplineOrder();
-      }
     }
-  this->SetNumberOfControlPointsForTheUpdateField( numberOfControlPoints );
+  }
+  this->SetNumberOfControlPointsForTheUpdateField(numberOfControlPoints);
 }
 
 /**
  * set number of control points for velocity field
  */
-template<typename TTransform>
+template <typename TTransform>
 void
-BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
-::SetNumberOfControlPointsForTheConstantVelocityField( const ArrayType &controlPoints )
+BSplineExponentialDiffeomorphicTransformParametersAdaptor<
+  TTransform>::SetNumberOfControlPointsForTheConstantVelocityField(const ArrayType & controlPoints)
 {
   this->m_NumberOfControlPointsForTheConstantVelocityFieldSetTime = this->GetMTime();
-  if( controlPoints != this->m_NumberOfControlPointsForTheConstantVelocityField )
-    {
+  if (controlPoints != this->m_NumberOfControlPointsForTheConstantVelocityField)
+  {
     this->m_NumberOfControlPointsForTheConstantVelocityField = controlPoints;
     this->Modified();
-    }
+  }
 }
 
 /**
  * set number of control points for update field
  */
-template<typename TTransform>
+template <typename TTransform>
 void
-BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
-::SetNumberOfControlPointsForTheUpdateField( const ArrayType &controlPoints )
+BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>::SetNumberOfControlPointsForTheUpdateField(
+  const ArrayType & controlPoints)
 {
   this->m_NumberOfControlPointsForTheUpdateFieldSetTime = this->GetMTime();
-  if( controlPoints != this->m_NumberOfControlPointsForTheUpdateField )
-    {
+  if (controlPoints != this->m_NumberOfControlPointsForTheUpdateField)
+  {
     this->m_NumberOfControlPointsForTheUpdateField = controlPoints;
     this->Modified();
-    }
-}
-
-template<typename TTransform>
-void
-BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
-::AdaptTransformParameters()
-{
-  Superclass::AdaptTransformParameters();
-
-  if( this->m_NumberOfControlPointsForTheUpdateFieldSetTime > 0 )
-    {
-    this->m_Transform->SetNumberOfControlPointsForTheUpdateField(
-      this->m_NumberOfControlPointsForTheUpdateField );
-    }
-  if( this->m_NumberOfControlPointsForTheConstantVelocityFieldSetTime > 0 )
-    {
-    this->m_Transform->SetNumberOfControlPointsForTheConstantVelocityField(
-      this->m_NumberOfControlPointsForTheConstantVelocityField );
-    }
+  }
 }
 
 template <typename TTransform>
 void
-BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
-::PrintSelf( std::ostream& os, Indent indent ) const
+BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>::AdaptTransformParameters()
 {
-  Superclass::PrintSelf( os,indent );
+  Superclass::AdaptTransformParameters();
+
+  if (this->m_NumberOfControlPointsForTheUpdateFieldSetTime > 0)
+  {
+    this->m_Transform->SetNumberOfControlPointsForTheUpdateField(this->m_NumberOfControlPointsForTheUpdateField);
+  }
+  if (this->m_NumberOfControlPointsForTheConstantVelocityFieldSetTime > 0)
+  {
+    this->m_Transform->SetNumberOfControlPointsForTheConstantVelocityField(
+      this->m_NumberOfControlPointsForTheConstantVelocityField);
+  }
+}
+
+template <typename TTransform>
+void
+BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "B-spline parameters: " << std::endl;
   os << indent << "  number of control points for the velocity field = "
-    << this->m_NumberOfControlPointsForTheConstantVelocityField << std::endl;
+     << this->m_NumberOfControlPointsForTheConstantVelocityField << std::endl;
 }
 
-}  // namespace itk
+} // namespace itk
 
 #endif

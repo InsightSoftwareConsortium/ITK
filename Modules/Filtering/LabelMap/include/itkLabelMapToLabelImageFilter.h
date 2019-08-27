@@ -42,18 +42,17 @@ namespace itk
  * \sphinxexample{Filtering/LabelMap/ConvertLabelMapToImage,Convert Label Map To Normal Image}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT LabelMapToLabelImageFilter:
-  public LabelMapFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT LabelMapToLabelImageFilter : public LabelMapFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapToLabelImageFilter);
 
   /** Standard class type aliases. */
   using Self = LabelMapToLabelImageFilter;
-  using Superclass = LabelMapFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = LabelMapFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using InputImageType = typename Superclass::InputImageType;
@@ -81,25 +80,26 @@ public:
   itkTypeMacro(LabelMapToLabelImageFilter, LabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
 #endif
 
 protected:
   LabelMapToLabelImageFilter();
   ~LabelMapToLabelImageFilter() override = default;
 
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
-  void ThreadedProcessLabelObject(LabelObjectType *labelObject) override;
+  void
+  ThreadedProcessLabelObject(LabelObjectType * labelObject) override;
 
 private:
-  OutputImageType *m_OutputImage;
-};                                          // end of class
+  OutputImageType * m_OutputImage;
+}; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelMapToLabelImageFilter.hxx"
+#  include "itkLabelMapToLabelImageFilter.hxx"
 #endif
 
 #endif

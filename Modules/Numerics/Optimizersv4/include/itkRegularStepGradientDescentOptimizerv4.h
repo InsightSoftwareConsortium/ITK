@@ -23,28 +23,28 @@
 
 namespace itk
 {
-  /** \class RegularStepGradientDescentOptimizerv4
-   *  \brief Regular Step Gradient descent optimizer.
-   *
-   *   This optimizer is a variant of gradient descent that attempts to prevent it
-   *   from taking steps that are too large. At each iteration, this optimizer
-   *   will take a step along the direction of the metric derivative. Each time the
-   *   direction of the derivative abruptly changes, the optimizer assumes that a
-   *   local extrema has been passed and reacts by reducing the step length by a
-   *   relaxation factor that is set to 0.5 by default.
-   *   The default value for the initial step length is 1, and this value can only
-   *   be changed manually via SetLearningRate() since this optimizer does not use
-   *   the ScaleEstimator to automatically estimate the learning rate.
-   *   Also note that unlike the previous version of ReuglarStepGradientDescentOptimizer,
-   *   ITKv4 does not have a "maximize/minimize" option to modify the effect of
-   *   the metric derivative. The assigned metric is assumed to return a parameter
-   *   derivative result that "improves" the optimization.
-   *
-   * \ingroup ITKOptimizersv4
-   */
-template<typename TInternalComputationValueType>
+/** \class RegularStepGradientDescentOptimizerv4
+ *  \brief Regular Step Gradient descent optimizer.
+ *
+ *   This optimizer is a variant of gradient descent that attempts to prevent it
+ *   from taking steps that are too large. At each iteration, this optimizer
+ *   will take a step along the direction of the metric derivative. Each time the
+ *   direction of the derivative abruptly changes, the optimizer assumes that a
+ *   local extrema has been passed and reacts by reducing the step length by a
+ *   relaxation factor that is set to 0.5 by default.
+ *   The default value for the initial step length is 1, and this value can only
+ *   be changed manually via SetLearningRate() since this optimizer does not use
+ *   the ScaleEstimator to automatically estimate the learning rate.
+ *   Also note that unlike the previous version of ReuglarStepGradientDescentOptimizer,
+ *   ITKv4 does not have a "maximize/minimize" option to modify the effect of
+ *   the metric derivative. The assigned metric is assumed to return a parameter
+ *   derivative result that "improves" the optimization.
+ *
+ * \ingroup ITKOptimizersv4
+ */
+template <typename TInternalComputationValueType>
 class ITK_TEMPLATE_EXPORT RegularStepGradientDescentOptimizerv4
-: public GradientDescentOptimizerv4Template<TInternalComputationValueType>
+  : public GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RegularStepGradientDescentOptimizerv4);
@@ -52,8 +52,8 @@ public:
   /** Standard class type aliases. */
   using Self = RegularStepGradientDescentOptimizerv4;
   using Superclass = GradientDescentOptimizerv4Template<TInternalComputationValueType>;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(RegularStepGradientDescentOptimizerv4, GradientDescentOptimizerv4Template);
@@ -76,7 +76,7 @@ public:
   using StopConditionType = typename Superclass::StopConditionType;
 
   /** Compensated summation type. */
-  using CompensatedSummationType = CompensatedSummation< InternalComputationValueType >;
+  using CompensatedSummationType = CompensatedSummation<InternalComputationValueType>;
 
   /** Minimum step length (learning rate) value for convergence checking.
    *  When the local minima is passed by taking a large step, the step
@@ -103,23 +103,28 @@ public:
   itkGetConstReferenceMacro(CurrentLearningRateRelaxation, MeasureType);
 
   /** Start and run the optimization. */
-  void StartOptimization( bool doOnlyInitialization = false ) override;
+  void
+  StartOptimization(bool doOnlyInitialization = false) override;
 
   /** Estimate the learning rate based on the current gradient. */
-  void EstimateLearningRate() override;
+  void
+  EstimateLearningRate() override;
 
   /** Get current gradient step value. */
-  double GetCurrentStepLength() const;
+  double
+  GetCurrentStepLength() const;
 
 protected:
-
   /** Advance one Step following the gradient direction.
    * Includes transform update. */
-  void AdvanceOneStep() override;
+  void
+  AdvanceOneStep() override;
 
   /** Modify the input gradient over a given index range. */
-  void ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange ) override;
-  void ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange ) override;
+  void
+  ModifyGradientByScalesOverSubRange(const IndexRangeType & subrange) override;
+  void
+  ModifyGradientByLearningRateOverSubRange(const IndexRangeType & subrange) override;
 
 
   /** Default constructor. */
@@ -128,23 +133,24 @@ protected:
   /** Destructor. */
   ~RegularStepGradientDescentOptimizerv4() override = default;
 
-  void PrintSelf( std::ostream & os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 
 private:
-  TInternalComputationValueType  m_RelaxationFactor;
+  TInternalComputationValueType m_RelaxationFactor;
 
-  TInternalComputationValueType  m_MinimumStepLength;
+  TInternalComputationValueType m_MinimumStepLength;
 
-  TInternalComputationValueType  m_GradientMagnitudeTolerance;
+  TInternalComputationValueType m_GradientMagnitudeTolerance;
 
-  MeasureType                  m_CurrentLearningRateRelaxation;
+  MeasureType m_CurrentLearningRateRelaxation;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRegularStepGradientDescentOptimizerv4.hxx"
+#  include "itkRegularStepGradientDescentOptimizerv4.hxx"
 #endif
 
 #endif

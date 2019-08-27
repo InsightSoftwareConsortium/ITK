@@ -40,20 +40,20 @@ namespace itk
  *  ProcessVirtualPoint calls \c ProcessPoint on each point.
  *
  * \ingroup ITKMetricsv4 */
-template < typename TDomainPartitioner, typename TImageToImageMetricv4 >
+template <typename TDomainPartitioner, typename TImageToImageMetricv4>
 class ITK_TEMPLATE_EXPORT ImageToImageMetricv4GetValueAndDerivativeThreaderBase
-  : public DomainThreader< TDomainPartitioner, TImageToImageMetricv4 >
+  : public DomainThreader<TDomainPartitioner, TImageToImageMetricv4>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageMetricv4GetValueAndDerivativeThreaderBase);
 
   /** Standard class type aliases. */
   using Self = ImageToImageMetricv4GetValueAndDerivativeThreaderBase;
-  using Superclass = DomainThreader< TDomainPartitioner, TImageToImageMetricv4 >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = DomainThreader<TDomainPartitioner, TImageToImageMetricv4>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro( ImageToImageMetricv4GetValueAndDerivativeThreaderBase, DomainThreader );
+  itkTypeMacro(ImageToImageMetricv4GetValueAndDerivativeThreaderBase, DomainThreader);
 
   /** Superclass types. */
   using DomainType = typename Superclass::DomainType;
@@ -90,14 +90,16 @@ public:
   using CompensatedDerivativeType = std::vector<CompensatedDerivativeValueType>;
 
   /** Access the GetValueAndDerivative() accesor in image metric base. */
-  virtual bool GetComputeDerivative() const;
+  virtual bool
+  GetComputeDerivative() const;
 
 protected:
   ImageToImageMetricv4GetValueAndDerivativeThreaderBase();
   ~ImageToImageMetricv4GetValueAndDerivativeThreaderBase() override;
 
   /** Resize and initialize per thread objects. */
-  void BeforeThreadedExecution() override;
+  void
+  BeforeThreadedExecution() override;
 
   /** Collects the results from each thread and sums them.  Results are stored
    * in the enclosing class \c m_Value and \c m_DerivativeResult.  Behavior
@@ -105,16 +107,18 @@ protected:
    * m_NumberOfValidPoints, to average the value sum, and to average
    * derivative sums for global transforms only (i.e. transforms without local
    * support).  */
-  void AfterThreadedExecution() override;
+  void
+  AfterThreadedExecution() override;
 
   /** Method called by the threaders to process the given virtual point.  This
    * in turn calls \c TransformAndEvaluateFixedPoint, \c
    * TransformAndEvaluateMovingPoint, and \c ProcessPoint.
    * And adds entries to m_MeasurePerThread and m_LocalDerivativesPerThread,
    * m_NumberOfValidPointsPerThread. */
-  virtual bool ProcessVirtualPoint( const VirtualIndexType & virtualIndex,
-                                    const VirtualPointType & virtualPoint,
-                                    const ThreadIdType threadId );
+  virtual bool
+  ProcessVirtualPoint(const VirtualIndexType & virtualIndex,
+                      const VirtualPointType & virtualPoint,
+                      const ThreadIdType       threadId);
 
   /** Method to calculate the metric value and derivative
    * given a point, value and image derivative for both fixed and moving
@@ -144,59 +148,61 @@ protected:
    * data cached during pre-processing by the derived class.
    * \warning  This is called from the threader, and thus must be thread-safe.
    */
-  virtual bool ProcessPoint(
-        const VirtualIndexType &          virtualIndex,
-        const VirtualPointType &          virtualPoint,
-        const FixedImagePointType &       mappedFixedPoint,
-        const FixedImagePixelType &       mappedFixedPixelValue,
-        const FixedImageGradientType &    mappedFixedImageGradient,
-        const MovingImagePointType &      mappedMovingPoint,
-        const MovingImagePixelType &      mappedMovingPixelValue,
-        const MovingImageGradientType &   mappedMovingImageGradient,
-        MeasureType &                     metricValueReturn,
-        DerivativeType &                  localDerivativeReturn,
-        const ThreadIdType                threadId ) const = 0;
+  virtual bool
+  ProcessPoint(const VirtualIndexType &        virtualIndex,
+               const VirtualPointType &        virtualPoint,
+               const FixedImagePointType &     mappedFixedPoint,
+               const FixedImagePixelType &     mappedFixedPixelValue,
+               const FixedImageGradientType &  mappedFixedImageGradient,
+               const MovingImagePointType &    mappedMovingPoint,
+               const MovingImagePixelType &    mappedMovingPixelValue,
+               const MovingImageGradientType & mappedMovingImageGradient,
+               MeasureType &                   metricValueReturn,
+               DerivativeType &                localDerivativeReturn,
+               const ThreadIdType              threadId) const = 0;
 
 
   /** Store derivative result from a single point calculation.
    * \warning If this method is overridden or otherwise not used
    * in a derived class, be sure to *accumulate* results. */
-  virtual void StorePointDerivativeResult( const VirtualIndexType & virtualIndex,
-                                           const ThreadIdType threadId );
+  virtual void
+  StorePointDerivativeResult(const VirtualIndexType & virtualIndex, const ThreadIdType threadId);
 
   struct GetValueAndDerivativePerThreadStruct
-    {
+  {
     /** Intermediary threaded metric value storage. */
     InternalComputationValueType Measure;
     /** Intermediary threaded metric value storage. */
-    DerivativeType               Derivatives;
+    DerivativeType Derivatives;
     /** Intermediary threaded metric value storage. This is used only with global transforms. */
-    CompensatedDerivativeType    CompensatedDerivatives;
+    CompensatedDerivativeType CompensatedDerivatives;
     /** Intermediary threaded metric value storage. */
-    DerivativeType               LocalDerivatives;
+    DerivativeType LocalDerivatives;
     /** Intermediary threaded metric value storage. */
-    SizeValueType                NumberOfValidPoints;
+    SizeValueType NumberOfValidPoints;
     /** Pre-allocated transform jacobian objects, for use as needed by dervied
      * classes for efficiency. */
-    JacobianType                 MovingTransformJacobian;
-    JacobianType                 MovingTransformJacobianPositional;
-    };
-  itkPadStruct( ITK_CACHE_LINE_ALIGNMENT, GetValueAndDerivativePerThreadStruct,
-                                            PaddedGetValueAndDerivativePerThreadStruct);
-  itkAlignedTypedef( ITK_CACHE_LINE_ALIGNMENT, PaddedGetValueAndDerivativePerThreadStruct,
-                                               AlignedGetValueAndDerivativePerThreadStruct );
+    JacobianType MovingTransformJacobian;
+    JacobianType MovingTransformJacobianPositional;
+  };
+  itkPadStruct(ITK_CACHE_LINE_ALIGNMENT,
+               GetValueAndDerivativePerThreadStruct,
+               PaddedGetValueAndDerivativePerThreadStruct);
+  itkAlignedTypedef(ITK_CACHE_LINE_ALIGNMENT,
+                    PaddedGetValueAndDerivativePerThreadStruct,
+                    AlignedGetValueAndDerivativePerThreadStruct);
   mutable AlignedGetValueAndDerivativePerThreadStruct * m_GetValueAndDerivativePerThreadVariables;
 
   /** Cached values to avoid call overhead.
    *  These will only be set once threading has been started. */
-  mutable NumberOfParametersType                      m_CachedNumberOfParameters;
-  mutable NumberOfParametersType                      m_CachedNumberOfLocalParameters;
+  mutable NumberOfParametersType m_CachedNumberOfParameters;
+  mutable NumberOfParametersType m_CachedNumberOfLocalParameters;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToImageMetricv4GetValueAndDerivativeThreaderBase.hxx"
+#  include "itkImageToImageMetricv4GetValueAndDerivativeThreaderBase.hxx"
 #endif
 
 #endif

@@ -38,18 +38,17 @@ namespace Testing
  * \ingroup IntensityImageFilters   MultiThreaded
  * \ingroup ITKTestKernel
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT ComparisonImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT ComparisonImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComparisonImageFilter);
 
   /** Standard class type aliases. */
   using Self = ComparisonImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -63,8 +62,8 @@ public:
   using OutputImageType = TOutputImage;
   using OutputPixelType = typename OutputImageType::PixelType;
   using OutputImageRegionType = typename OutputImageType::RegionType;
-  using RealType = typename NumericTraits< OutputPixelType >::RealType;
-  using AccumulateType = typename NumericTraits< RealType >::AccumulateType;
+  using RealType = typename NumericTraits<OutputPixelType>::RealType;
+  using AccumulateType = typename NumericTraits<RealType>::AccumulateType;
 
   /** Set the valid image input.  This will be input 0.  */
   itkSetInputMacro(ValidInput, InputImageType);
@@ -73,7 +72,7 @@ public:
   itkSetInputMacro(TestInput, InputImageType);
 
   /** Verify that the origin, spacing, and direction of both images match
-  */
+   */
   itkSetMacro(VerifyInputInformation, bool);
   itkGetConstMacro(VerifyInputInformation, bool);
   itkBooleanMacro(VerifyInputInformation);
@@ -106,7 +105,8 @@ protected:
   ComparisonImageFilter();
   ~ComparisonImageFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** ComparisonImageFilter can be implemented as a multithreaded
    * filter.  Therefore, this implementation provides a
@@ -117,19 +117,23 @@ protected:
    * the portion of the output image specified by the parameter
    * "outputRegionForThread"
    */
-  void ThreadedGenerateData(const OutputImageRegionType & threadRegion,
-                            ThreadIdType threadId) override;
+  void
+  ThreadedGenerateData(const OutputImageRegionType & threadRegion, ThreadIdType threadId) override;
 
-  void DynamicThreadedGenerateData( const OutputImageRegionType & ) override
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType &) override
   {
     itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
   }
 
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
-  void AfterThreadedGenerateData() override;
+  void
+  AfterThreadedGenerateData() override;
 
-  void VerifyInputInformation() ITKv5_CONST override;
+  void
+  VerifyInputInformation() ITKv5_CONST override;
 
   OutputPixelType m_DifferenceThreshold;
 
@@ -144,11 +148,11 @@ protected:
 
   int m_ToleranceRadius;
 
-  Array< AccumulateType >    m_ThreadDifferenceSum;
-  Array< SizeValueType >     m_ThreadNumberOfPixels;
+  Array<AccumulateType> m_ThreadDifferenceSum;
+  Array<SizeValueType>  m_ThreadNumberOfPixels;
 
-  Array< OutputPixelType >    m_ThreadMinimumDifference;
-  Array< OutputPixelType >    m_ThreadMaximumDifference;
+  Array<OutputPixelType> m_ThreadMinimumDifference;
+  Array<OutputPixelType> m_ThreadMaximumDifference;
 
 private:
   bool m_IgnoreBoundaryPixels;
@@ -157,7 +161,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTestingComparisonImageFilter.hxx"
+#  include "itkTestingComparisonImageFilter.hxx"
 #endif
 
 

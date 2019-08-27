@@ -19,18 +19,15 @@
 
 namespace itk
 {
-MemoryProbe
-::MemoryProbe():
-  ResourceProbe< MemoryProbe::MemoryLoadType, double >("Memory", "kB")
+MemoryProbe ::MemoryProbe()
+  : ResourceProbe<MemoryProbe::MemoryLoadType, double>("Memory", "kB")
 {}
 
-MemoryProbe
-::~MemoryProbe() = default;
+MemoryProbe ::~MemoryProbe() = default;
 
 MemoryProbe::MemoryLoadType
-MemoryProbe
-::GetInstantValue() const
+MemoryProbe ::GetInstantValue() const
 {
-  return static_cast< MemoryProbe::MemoryLoadType >( m_MemoryObserver.GetMemoryUsage() );
+  return static_cast<MemoryProbe::MemoryLoadType>(m_MemoryObserver.GetMemoryUsage());
 }
 } // end namespace itk

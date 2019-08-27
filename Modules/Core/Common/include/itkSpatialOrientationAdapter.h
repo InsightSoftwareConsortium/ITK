@@ -38,7 +38,8 @@ namespace itk
 //
 namespace Function
 {
-inline unsigned Max3(double x, double y, double z)
+inline unsigned
+Max3(double x, double y, double z)
 {
   constexpr double obliquityThresholdCosineValue = 0.001;
 
@@ -46,28 +47,29 @@ inline unsigned Max3(double x, double y, double z)
   double absY = itk::Math::abs(y);
   double absZ = itk::Math::abs(z);
 
-  if ( ( absX > obliquityThresholdCosineValue ) && ( absX > absY ) && ( absX > absZ ) )
-    {
+  if ((absX > obliquityThresholdCosineValue) && (absX > absY) && (absX > absZ))
+  {
     return 0;
-    }
-  else if ( ( absY > obliquityThresholdCosineValue ) && ( absY > absX ) && ( absY > absZ ) )
-    {
+  }
+  else if ((absY > obliquityThresholdCosineValue) && (absY > absX) && (absY > absZ))
+  {
     return 1;
-    }
-  else if ( ( absZ > obliquityThresholdCosineValue ) && ( absZ > absX ) && ( absZ > absY ) )
-    {
+  }
+  else if ((absZ > obliquityThresholdCosineValue) && (absZ > absX) && (absZ > absY))
+  {
     return 2;
-    }
+  }
   // they must all be equal, so just say x
   return 0;
 }
 
-inline int Sign(double x)
+inline int
+Sign(double x)
 {
-  if ( x < 0 )
-    {
+  if (x < 0)
+  {
     return -1;
-    }
+  }
   return 1;
 }
 } // namespace Function
@@ -76,14 +78,14 @@ inline int Sign(double x)
  *  \brief Converts SpatialOrientation flags to/from direction cosines.
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT SpatialOrientationAdapter:
-  public OrientationAdapterBase< SpatialOrientation::ValidCoordinateOrientationFlags, 3 >
+class ITKCommon_EXPORT SpatialOrientationAdapter
+  : public OrientationAdapterBase<SpatialOrientation::ValidCoordinateOrientationFlags, 3>
 {
 public:
   /** type alias for superclass */
   using Self = SpatialOrientationAdapter;
 
-  using Superclass = OrientationAdapterBase< SpatialOrientation::ValidCoordinateOrientationFlags, 3 >;
+  using Superclass = OrientationAdapterBase<SpatialOrientation::ValidCoordinateOrientationFlags, 3>;
 
   using OrientationType = SpatialOrientation::ValidCoordinateOrientationFlags;
 
@@ -94,10 +96,12 @@ public:
   SpatialOrientationAdapter() = default;
 
   /** convert from direction cosines. */
-  OrientationType FromDirectionCosines(const DirectionType & Dir) override;
+  OrientationType
+  FromDirectionCosines(const DirectionType & Dir) override;
 
   /** convert to direction cosines. */
-  DirectionType ToDirectionCosines(const OrientationType & Or) override;
+  DirectionType
+  ToDirectionCosines(const OrientationType & Or) override;
 };
 } // namespace itk
 

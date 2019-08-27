@@ -51,16 +51,17 @@
 #include "itkBinaryThresholdImageFilter.h"
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 6 )
-    {
+  if (argc < 6)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  ";
     std::cerr << " outputImageFileErosion  outputImageFileDilation";
     std::cerr << " lowerThreshold upperThreshold " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //  Software Guide : BeginLatex
@@ -76,15 +77,16 @@ int main( int argc, char * argv[] )
   using InputPixelType = unsigned char;
   using OutputPixelType = unsigned char;
 
-  using InputImageType = itk::Image< InputPixelType,  Dimension >;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
 
-  using ThresholdFilterType = itk::BinaryThresholdImageFilter< InputImageType, InputImageType >;
+  using ThresholdFilterType =
+    itk::BinaryThresholdImageFilter<InputImageType, InputImageType>;
 
 
   //  Software Guide : BeginLatex
@@ -106,9 +108,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using StructuringElementType = itk::BinaryBallStructuringElement<
-                      InputPixelType,
-                      Dimension  >;
+  using StructuringElementType =
+    itk::BinaryBallStructuringElement<InputPixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -120,22 +121,18 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  using ErodeFilterType = itk::BinaryErodeImageFilter<
-                            InputImageType,
-                            OutputImageType,
-                            StructuringElementType >;
+  using ErodeFilterType = itk::
+    BinaryErodeImageFilter<InputImageType, OutputImageType, StructuringElementType>;
 
-  using DilateFilterType = itk::BinaryDilateImageFilter<
-                            InputImageType,
-                            OutputImageType,
-                            StructuringElementType >;
+  using DilateFilterType = itk::
+    BinaryDilateImageFilter<InputImageType, OutputImageType, StructuringElementType>;
   // Software Guide : EndCodeSnippet
 
 
   // Creation of Reader and Writer filters
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writerDilation = WriterType::New();
-  WriterType::Pointer writerErosion  = WriterType::New();
+  WriterType::Pointer writerErosion = WriterType::New();
 
   ThresholdFilterType::Pointer thresholder = ThresholdFilterType::New();
 
@@ -152,7 +149,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ErodeFilterType::Pointer  binaryErode  = ErodeFilterType::New();
+  ErodeFilterType::Pointer  binaryErode = ErodeFilterType::New();
   DilateFilterType::Pointer binaryDilate = DilateFilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -180,21 +177,21 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  StructuringElementType  structuringElement;
+  StructuringElementType structuringElement;
 
-  structuringElement.SetRadius( 1 );  // 3x3 structuring element
+  structuringElement.SetRadius(1); // 3x3 structuring element
 
   structuringElement.CreateStructuringElement();
 
-  binaryErode->SetKernel(  structuringElement );
-  binaryDilate->SetKernel( structuringElement );
+  binaryErode->SetKernel(structuringElement);
+  binaryDilate->SetKernel(structuringElement);
   // Software Guide : EndCodeSnippet
 
 
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
-  writerErosion->SetFileName(  argv[2] );
-  writerDilation->SetFileName( argv[3] );
+  writerErosion->SetFileName(argv[2]);
+  writerDilation->SetFileName(argv[3]);
 
 
   //  Software Guide : BeginLatex
@@ -204,26 +201,26 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  const InputPixelType lowerThreshold = std::stoi( argv[4] );
-  const InputPixelType upperThreshold = std::stoi( argv[5] );
+  const InputPixelType lowerThreshold = std::stoi(argv[4]);
+  const InputPixelType upperThreshold = std::stoi(argv[5]);
 
   // Software Guide : BeginCodeSnippet
-  thresholder->SetInput( reader->GetOutput() );
+  thresholder->SetInput(reader->GetOutput());
 
-  InputPixelType background =   0;
+  InputPixelType background = 0;
   InputPixelType foreground = 255;
 
-  thresholder->SetOutsideValue( background );
-  thresholder->SetInsideValue(  foreground );
+  thresholder->SetOutsideValue(background);
+  thresholder->SetInsideValue(foreground);
 
-  thresholder->SetLowerThreshold( lowerThreshold );
-  thresholder->SetUpperThreshold( upperThreshold );
+  thresholder->SetLowerThreshold(lowerThreshold);
+  thresholder->SetUpperThreshold(upperThreshold);
   // Software Guide : EndCodeSnippet
 
 
   // Software Guide : BeginCodeSnippet
-  binaryErode->SetInput( thresholder->GetOutput() );
-  binaryDilate->SetInput( thresholder->GetOutput() );
+  binaryErode->SetInput(thresholder->GetOutput());
+  binaryDilate->SetInput(thresholder->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -243,8 +240,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  binaryErode->SetErodeValue( foreground );
-  binaryDilate->SetDilateValue( foreground );
+  binaryErode->SetErodeValue(foreground);
+  binaryDilate->SetDilateValue(foreground);
   // Software Guide : EndCodeSnippet
 
 
@@ -260,11 +257,11 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  writerDilation->SetInput( binaryDilate->GetOutput() );
+  writerDilation->SetInput(binaryDilate->GetOutput());
   writerDilation->Update();
   // Software Guide : EndCodeSnippet
 
-  writerErosion->SetInput( binaryErode->GetOutput() );
+  writerErosion->SetInput(binaryErode->GetOutput());
   writerErosion->Update();
 
   //  Software Guide : BeginLatex

@@ -43,18 +43,17 @@ namespace itk
  * \ingroup DataSources
  * \ingroup ITKImageSources
  */
-template< typename TOutputImage >
-class ITK_TEMPLATE_EXPORT GaborImageSource:
-  public GenerateImageSource< TOutputImage >
+template <typename TOutputImage>
+class ITK_TEMPLATE_EXPORT GaborImageSource : public GenerateImageSource<TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaborImageSource);
 
   /** Standard class type aliases. */
   using Self = GaborImageSource;
-  using Superclass = GenerateImageSource< TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = GenerateImageSource<TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Output image type alias */
   using OutputImageType = TOutputImage;
@@ -76,8 +75,7 @@ public:
   static constexpr unsigned int ImageDimension = OutputImageType::ImageDimension;
 
   /** Type used to store gabor parameters. */
-  using ArrayType = FixedArray< double,
-                      Self::ImageDimension >;
+  using ArrayType = FixedArray<double, Self::ImageDimension>;
 
   /** Set/Get the the standard deviation in each direction. */
   itkSetMacro(Sigma, ArrayType);
@@ -100,9 +98,11 @@ public:
 protected:
   GaborImageSource();
   ~GaborImageSource() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   bool m_CalculateImaginaryPart{ false };
@@ -119,7 +119,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGaborImageSource.hxx"
+#  include "itkGaborImageSource.hxx"
 #endif
 
 #endif

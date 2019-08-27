@@ -21,21 +21,21 @@
 #include "itkRandomImageSource.h"
 #include "itkMath.h"
 
-int itkExtractImage3Dto2DTest(int, char* [] )
+int
+itkExtractImage3Dto2DTest(int, char *[])
 {
-  using Image3DType = itk::Image<unsigned char,3>;
-  using Image2DType = itk::Image<unsigned char,2>;
-  using ExtractType = itk::ExtractImageFilter<Image3DType,Image2DType>;
+  using Image3DType = itk::Image<unsigned char, 3>;
+  using Image2DType = itk::Image<unsigned char, 2>;
+  using ExtractType = itk::ExtractImageFilter<Image3DType, Image2DType>;
   using RandomImageSourceType = itk::RandomImageSource<Image3DType>;
 
-  RandomImageSourceType::Pointer src =
-    RandomImageSourceType::New();
+  RandomImageSourceType::Pointer src = RandomImageSourceType::New();
   src->SetMin(0);
   src->SetMax(255);
-  Image3DType::SizeType size = {{16,16,16}};
+  Image3DType::SizeType size = { { 16, 16, 16 } };
   src->SetSize(size);
   src->Update();
-  Image3DType::Pointer im3d(src->GetOutput());
+  Image3DType::Pointer       im3d(src->GetOutput());
   Image3DType::DirectionType dir = im3d->GetDirection();
   dir[1][1] = 0.0;
   dir[1][2] = 1.0;
@@ -51,7 +51,7 @@ int itkExtractImage3Dto2DTest(int, char* [] )
   ExtractType::Pointer extract = ExtractType::New();
   extract->SetDirectionCollapseToIdentity();
   Image3DType::RegionType extractRegion = im3d->GetLargestPossibleRegion();
-  Image3DType::SizeType extractSize = extractRegion.GetSize();
+  Image3DType::SizeType   extractSize = extractRegion.GetSize();
 
   extractSize[2] = 0;
   Image3DType::IndexType extractIndex;
@@ -63,7 +63,7 @@ int itkExtractImage3Dto2DTest(int, char* [] )
   extract->SetExtractionRegion(extractRegion);
   extract->Update();
 
-  Image2DType::Pointer extractedImage = extract->GetOutput();
+  Image2DType::Pointer       extractedImage = extract->GetOutput();
   Image2DType::DirectionType identity;
   identity.SetIdentity();
   if (extractedImage->GetDirection() != identity)

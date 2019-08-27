@@ -69,22 +69,21 @@ namespace itk
  * \ingroup ImageEnhancement
  * \ingroup ITKAnisotropicSmoothing
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT AnisotropicDiffusionImageFilter:
-  public DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT AnisotropicDiffusionImageFilter
+  : public DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AnisotropicDiffusionImageFilter);
 
   /** Standard class type aliases. */
   using Self = AnisotropicDiffusionImageFilter;
-  using Superclass = DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information. */
-  itkTypeMacro(AnisotropicDiffusionImageFilter,
-               DenseFiniteDifferenceImageFilter);
+  itkTypeMacro(AnisotropicDiffusionImageFilter, DenseFiniteDifferenceImageFilter);
 
   /** Capture information from the superclass. */
   using InputImageType = typename Superclass::InputImageType;
@@ -126,7 +125,8 @@ public:
       at a pixel.  This method is  useful in streaming applications to avoid
       block artifacts by overriding the normal gradient magnitude calculation
       (i.e. all image chunks are scaled uniformly). */
-  void SetFixedAverageGradientMagnitude(double a)
+  void
+  SetFixedAverageGradientMagnitude(double a)
   {
     m_FixedAverageGradientMagnitude = a;
     this->Modified();
@@ -138,14 +138,16 @@ public:
 protected:
   AnisotropicDiffusionImageFilter();
   ~AnisotropicDiffusionImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Supplies the halting criteria for this class of filters.  The
    * algorithm will stop after a user-specified number of iterations. */
   //  virtual bool Halt();
 
   /** Prepare for the iteration process. */
-  void InitializeIteration() override;
+  void
+  InitializeIteration() override;
 
   bool m_GradientMagnitudeIsFixed;
 
@@ -157,10 +159,10 @@ private:
 
   TimeStepType m_TimeStep;
 };
-} // end namspace itk
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAnisotropicDiffusionImageFilter.hxx"
+#  include "itkAnisotropicDiffusionImageFilter.hxx"
 #endif
 
 #endif

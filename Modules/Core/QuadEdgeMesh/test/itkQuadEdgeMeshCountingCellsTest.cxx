@@ -17,16 +17,17 @@
  *=========================================================================*/
 #include "itkQuadEdgeMeshEulerOperatorsTestHelper.h"
 
-int itkQuadEdgeMeshCountingCellsTest(int argc, char * argv[])
+int
+itkQuadEdgeMeshCountingCellsTest(int argc, char * argv[])
 {
   (void)argc;
   (void)argv;
 
-  using MeshType = itk::QuadEdgeMesh< double, 3 >;
+  using MeshType = itk::QuadEdgeMesh<double, 3>;
   using MeshPointer = MeshType::Pointer;
 
-  MeshPointer  mesh = MeshType::New();
-  CreateSquareTriangularMesh<MeshType>( mesh );
+  MeshPointer mesh = MeshType::New();
+  CreateSquareTriangularMesh<MeshType>(mesh);
 
   // The initial configuration and numbering of simpleSquare.vtk:
   //    Vertices: 25 , Edges: 56, Faces: 32, Boundary = 1, Chi = 1
@@ -54,30 +55,30 @@ int itkQuadEdgeMeshCountingCellsTest(int argc, char * argv[])
   //    0 ---------- 1 ---------- 2  --------- 3 ---------  4
   //
 
-  std::cout << "ITK API"           << std::endl;
+  std::cout << "ITK API" << std::endl;
   std::cout << "GetNumberOfCells   - Get Number of cells (all cells, from container)";
   std::cout << std::endl;
   std::cout << "GetNumberOfPoints  - Get Number of points (all points, from container)";
   std::cout << std::endl;
-  std::cout << "ITK QE API"        << std::endl;
-  std::cout << "ComputeNumberOfEdges - Only edges  - one container traversal"  << std::endl;
-  std::cout << "ComputeNumberOfFaces - Only faces  - one container traversal"  << std::endl;
+  std::cout << "ITK QE API" << std::endl;
+  std::cout << "ComputeNumberOfEdges - Only edges  - one container traversal" << std::endl;
+  std::cout << "ComputeNumberOfFaces - Only faces  - one container traversal" << std::endl;
   std::cout << "ComputeNumberOfPoints- Only USED points - one container traversal" << std::endl;
   std::cout << "GetNumberOfFaces     - Only faces  - member variable" << std::endl;
   std::cout << "GetNumberOfEdges     - Only Edges  - member variable" << std::endl;
 
   std::cout << std::endl;
   std::cout << "START TEST" << std::endl;
-  std::cout << "ITK API"            << std::endl;
+  std::cout << "ITK API" << std::endl;
   std::cout << "GetNumberOfCells: " << mesh->GetNumberOfCells() << std::endl;
-  std::cout << "GetNumberOfPoints: "<< mesh->GetNumberOfPoints()<< std::endl;
+  std::cout << "GetNumberOfPoints: " << mesh->GetNumberOfPoints() << std::endl;
 
-  std::cout << "ITK QE API"        << std::endl;
+  std::cout << "ITK QE API" << std::endl;
   std::cout << "ComputeNumberOfEdges: " << mesh->ComputeNumberOfEdges() << std::endl;
   std::cout << "ComputeNumberOfFaces: " << mesh->ComputeNumberOfFaces() << std::endl;
-  std::cout << "ComputeNumberOfPoints: "<< mesh->ComputeNumberOfPoints()<< std::endl;
-  std::cout << "GetNumberOfFaces: "     << mesh->GetNumberOfFaces()     << std::endl;
-  std::cout << "GetNumberOfEdges: "     << mesh->GetNumberOfEdges()     << std::endl;
+  std::cout << "ComputeNumberOfPoints: " << mesh->ComputeNumberOfPoints() << std::endl;
+  std::cout << "GetNumberOfFaces: " << mesh->GetNumberOfFaces() << std::endl;
+  std::cout << "GetNumberOfEdges: " << mesh->GetNumberOfEdges() << std::endl;
 
   return EXIT_SUCCESS;
 }

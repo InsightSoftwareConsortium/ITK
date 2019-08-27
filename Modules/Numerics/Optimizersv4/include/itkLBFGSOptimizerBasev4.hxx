@@ -20,148 +20,139 @@
 
 #include "itkLBFGSOptimizerBasev4.h"
 
-extern "C" {
-  extern double v3p_netlib_dpmeps_();
+extern "C"
+{
+  extern double
+  v3p_netlib_dpmeps_();
 }
 
 namespace itk
 {
 
-template< typename TInternalVnlOptimizerType >
-class ITK_TEMPLATE_EXPORT LBFGSOptimizerBaseHelperv4: public TInternalVnlOptimizerType
+template <typename TInternalVnlOptimizerType>
+class ITK_TEMPLATE_EXPORT LBFGSOptimizerBaseHelperv4 : public TInternalVnlOptimizerType
 {
-  public:
+public:
   using Self = LBFGSOptimizerBaseHelperv4;
   using Superclass = TInternalVnlOptimizerType;
 
-  LBFGSOptimizerBaseHelperv4(vnl_cost_function & f,
-                             LBFGSOptimizerBasev4<TInternalVnlOptimizerType> * itkObj):
-  TInternalVnlOptimizerType(f),
-  m_ItkObj(itkObj)
-  {
-  }
+  LBFGSOptimizerBaseHelperv4(vnl_cost_function & f, LBFGSOptimizerBasev4<TInternalVnlOptimizerType> * itkObj)
+    : TInternalVnlOptimizerType(f)
+    , m_ItkObj(itkObj)
+  {}
 
-  protected:
+protected:
   LBFGSOptimizerBasev4<TInternalVnlOptimizerType> * m_ItkObj;
 
   /** Handle new iteration event */
-  bool report_iter() override;
+  bool
+  report_iter() override;
 };
 
 
-template< typename TInternalVnlOptimizerType >
+template <typename TInternalVnlOptimizerType>
 bool
-LBFGSOptimizerBaseHelperv4<TInternalVnlOptimizerType>
-::report_iter()
+LBFGSOptimizerBaseHelperv4<TInternalVnlOptimizerType>::report_iter()
 {
   Superclass::report_iter();
 
-  m_ItkObj->InvokeEvent( IterationEvent() );
+  m_ItkObj->InvokeEvent(IterationEvent());
   m_ItkObj->m_CurrentIteration = this->num_iterations_;
 
   // Return true to terminate the optimization loop.
-  if ( this->num_iterations_ >= m_ItkObj->m_NumberOfIterations )
-    {
+  if (this->num_iterations_ >= m_ItkObj->m_NumberOfIterations)
+  {
     return true;
-    }
+  }
   else
-    {
+  {
     return false;
-    }
+  }
 }
 
-template<typename TInternalVnlOptimizerType>
-LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
-::LBFGSOptimizerBasev4()
+template <typename TInternalVnlOptimizerType>
+LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::LBFGSOptimizerBasev4()
 
 {
   Superclass::SetNumberOfIterations(500);
 }
 
-template<typename TInternalVnlOptimizerType>
+template <typename TInternalVnlOptimizerType>
 void
-LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
-::PrintSelf(std::ostream & os, Indent indent) const
+LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Trace: ";
-  if ( m_Trace )
-    {
+  if (m_Trace)
+  {
     os << "On";
-    }
+  }
   else
-    {
+  {
     os << "Off";
-    }
+  }
   os << std::endl;
-  os << indent << "MaximumNumberOfFunctionEvaluations: "
-     << m_MaximumNumberOfFunctionEvaluations << std::endl;
-  os << indent << "GradientConvergenceTolerance: "
-     << m_GradientConvergenceTolerance << std::endl;
+  os << indent << "MaximumNumberOfFunctionEvaluations: " << m_MaximumNumberOfFunctionEvaluations << std::endl;
+  os << indent << "GradientConvergenceTolerance: " << m_GradientConvergenceTolerance << std::endl;
 }
 
-template<typename TInternalVnlOptimizerType>
+template <typename TInternalVnlOptimizerType>
 void
-LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
-::SetTrace(bool flag)
+LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::SetTrace(bool flag)
 {
-  if ( flag == m_Trace )
-    {
+  if (flag == m_Trace)
+  {
     return;
-    }
+  }
 
   m_Trace = flag;
-  if ( m_OptimizerInitialized )
-    {
+  if (m_OptimizerInitialized)
+  {
     m_VnlOptimizer->set_trace(m_Trace);
-    }
+  }
 
   this->Modified();
 }
 
-template<typename TInternalVnlOptimizerType>
+template <typename TInternalVnlOptimizerType>
 void
-LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
-::SetMaximumNumberOfFunctionEvaluations(unsigned int n)
+LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::SetMaximumNumberOfFunctionEvaluations(unsigned int n)
 {
-  if ( n == m_MaximumNumberOfFunctionEvaluations )
-    {
+  if (n == m_MaximumNumberOfFunctionEvaluations)
+  {
     return;
-    }
+  }
 
   m_MaximumNumberOfFunctionEvaluations = n;
-  if ( m_OptimizerInitialized )
-    {
-    m_VnlOptimizer->set_max_function_evals(
-      static_cast< int >( m_MaximumNumberOfFunctionEvaluations ) );
-    }
+  if (m_OptimizerInitialized)
+  {
+    m_VnlOptimizer->set_max_function_evals(static_cast<int>(m_MaximumNumberOfFunctionEvaluations));
+  }
 
   this->Modified();
 }
 
-template<typename TInternalVnlOptimizerType>
+template <typename TInternalVnlOptimizerType>
 void
-LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
-::SetGradientConvergenceTolerance(double f)
+LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::SetGradientConvergenceTolerance(double f)
 {
-  if ( Math::ExactlyEquals(f, m_GradientConvergenceTolerance) )
-    {
+  if (Math::ExactlyEquals(f, m_GradientConvergenceTolerance))
+  {
     return;
-    }
+  }
 
   m_GradientConvergenceTolerance = f;
-  if ( m_OptimizerInitialized )
-    {
+  if (m_OptimizerInitialized)
+  {
     m_VnlOptimizer->set_g_tolerance(m_GradientConvergenceTolerance);
-    }
+  }
 
   this->Modified();
 }
 
-template<typename TInternalVnlOptimizerType>
+template <typename TInternalVnlOptimizerType>
 void
-LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
-::SetMetric(MetricType *metric)
+LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::SetMetric(MetricType * metric)
 {
   // assign to base class
   this->m_Metric = metric;
@@ -169,51 +160,49 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
   // assign to vnl cost-function adaptor
   const unsigned int numberOfParameters = metric->GetNumberOfParameters();
 
-  auto * adaptor = new CostFunctionAdaptorType( numberOfParameters );
+  auto * adaptor = new CostFunctionAdaptorType(numberOfParameters);
 
-  adaptor->SetCostFunction( metric );
+  adaptor->SetCostFunction(metric);
 
-  this->SetCostFunctionAdaptor( adaptor );
+  this->SetCostFunctionAdaptor(adaptor);
 
-  m_VnlOptimizer.reset( new InternalOptimizerType( *adaptor, this ) );
+  m_VnlOptimizer.reset(new InternalOptimizerType(*adaptor, this));
 }
 
-template<typename TInternalVnlOptimizerType>
+template <typename TInternalVnlOptimizerType>
 void
-LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
-::StartOptimization(bool /* doOnlyInitialization */)
+LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::StartOptimization(bool /* doOnlyInitialization */)
 {
   // Check for a local-support transform.
   // These aren't currently supported, see main class documentation.
-  if( this->GetMetric()->HasLocalSupport() )
-    {
-    itkExceptionMacro("The assigned transform has local-support. This is not supported for this optimizer. See the optimizer documentation.");
-    }
+  if (this->GetMetric()->HasLocalSupport())
+  {
+    itkExceptionMacro("The assigned transform has local-support. This is not supported for this optimizer. See the "
+                      "optimizer documentation.");
+  }
 
   // Perform some verification, check scales,
   // pass settings to cost-function adaptor.
   Superclass::StartOptimization();
 }
 
-template<typename TInternalVnlOptimizerType>
+template <typename TInternalVnlOptimizerType>
 typename LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::InternalOptimizerType *
-LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
-::GetOptimizer()
+LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::GetOptimizer()
 {
   return m_VnlOptimizer.get();
 }
 
-template<typename TInternalVnlOptimizerType>
+template <typename TInternalVnlOptimizerType>
 const std::string
-LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
-::GetStopConditionDescription() const
+LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::GetStopConditionDescription() const
 {
   m_StopConditionDescription.str("");
   m_StopConditionDescription << this->GetNameOfClass() << ": ";
-  if ( m_VnlOptimizer )
+  if (m_VnlOptimizer)
+  {
+    switch (m_VnlOptimizer->get_failure_code())
     {
-    switch ( m_VnlOptimizer->get_failure_code() )
-      {
       case vnl_nonlinear_minimizer::ERROR_FAILURE:
         m_StopConditionDescription << "Failure";
         break;
@@ -221,16 +210,11 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
         m_StopConditionDescription << "Dodgy input";
         break;
       case vnl_nonlinear_minimizer::CONVERGED_FTOL:
-        m_StopConditionDescription << "Function tolerance reached after "
-                                    << m_CurrentIteration
-                                    << " iterations. "
-                                    << "The relative reduction of the cost function <= "
-                                    << m_CostFunctionConvergenceFactor * v3p_netlib_dpmeps_()
-                                    << " = CostFunctionConvergenceFactor ("
-                                    << m_CostFunctionConvergenceFactor
-                                    << ") * machine precision ("
-                                    << v3p_netlib_dpmeps_()
-                                    << ").";
+        m_StopConditionDescription << "Function tolerance reached after " << m_CurrentIteration << " iterations. "
+                                   << "The relative reduction of the cost function <= "
+                                   << m_CostFunctionConvergenceFactor * v3p_netlib_dpmeps_()
+                                   << " = CostFunctionConvergenceFactor (" << m_CostFunctionConvergenceFactor
+                                   << ") * machine precision (" << v3p_netlib_dpmeps_() << ").";
         break;
       case vnl_nonlinear_minimizer::CONVERGED_XTOL:
         m_StopConditionDescription << "Solution tolerance reached";
@@ -240,8 +224,7 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
         break;
       case vnl_nonlinear_minimizer::CONVERGED_GTOL:
         m_StopConditionDescription << "Gradient tolerance reached. "
-                                   << "Gradient tolerance is "
-                                   << m_GradientConvergenceTolerance;
+                                   << "Gradient tolerance is " << m_GradientConvergenceTolerance;
         break;
       case vnl_nonlinear_minimizer::FAILED_TOO_MANY_ITERATIONS:
         m_StopConditionDescription << "Too many function evaluations. Function evaluations  = "
@@ -259,13 +242,13 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
       case vnl_nonlinear_minimizer::FAILED_USER_REQUEST:
         m_StopConditionDescription << "User requested";
         break;
-      }
+    }
     return m_StopConditionDescription.str();
-    }
+  }
   else
-    {
+  {
     return std::string("");
-    }
+  }
 }
 } // end namespace itk
 

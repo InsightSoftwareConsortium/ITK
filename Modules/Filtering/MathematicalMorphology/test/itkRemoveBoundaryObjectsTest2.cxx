@@ -24,15 +24,16 @@
 #include "itkGrayscaleGrindPeakImageFilter.h"
 #include "itkXorImageFilter.h"
 
-int itkRemoveBoundaryObjectsTest2( int argc, char * argv[] )
+int
+itkRemoveBoundaryObjectsTest2(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  ";
     std::cerr << " outputImageFile  " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //
@@ -45,47 +46,44 @@ int itkRemoveBoundaryObjectsTest2( int argc, char * argv[] )
   using OutputPixelType = unsigned char;
   using WritePixelType = unsigned char;
 
-  using InputImageType = itk::Image< InputPixelType,  Dimension >;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
-  using WriteImageType = itk::Image< WritePixelType, Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
+  using WriteImageType = itk::Image<WritePixelType, Dimension>;
 
 
   // readers/writers
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
-  using WriterType = itk::ImageFileWriter< WriteImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<WriteImageType>;
 
   // define the fillhole filter
-  using GrindPeakFilterType = itk::GrayscaleGrindPeakImageFilter<
-                            InputImageType,
-                            OutputImageType >;
+  using GrindPeakFilterType = itk::GrayscaleGrindPeakImageFilter<InputImageType, OutputImageType>;
 
   // define the xor and not filters
-  using XorFilterType =
-      itk::XorImageFilter<InputImageType, InputImageType, OutputImageType>;
+  using XorFilterType = itk::XorImageFilter<InputImageType, InputImageType, OutputImageType>;
 
   // Creation of Reader and Writer filters
   ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer  = WriterType::New();
+  WriterType::Pointer writer = WriterType::New();
 
   // Create the filter
-  GrindPeakFilterType::Pointer  grindpeak = GrindPeakFilterType::New();
+  GrindPeakFilterType::Pointer grindpeak = GrindPeakFilterType::New();
 
   // Create the xor and not filter
   XorFilterType::Pointer xorfilter = XorFilterType::New();
 
   // Setup the input and output files
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
   // Setup the grindpeak method
-  grindpeak->SetInput( reader->GetOutput() );
+  grindpeak->SetInput(reader->GetOutput());
 
   // Setup the xor and not
-  xorfilter->SetInput1( grindpeak->GetOutput() );
-  xorfilter->SetInput2( reader->GetOutput() );
+  xorfilter->SetInput1(grindpeak->GetOutput());
+  xorfilter->SetInput2(reader->GetOutput());
 
   // Run the filter
-  writer->SetInput( xorfilter->GetOutput() );
+  writer->SetInput(xorfilter->GetOutput());
   writer->Update();
 
   return EXIT_SUCCESS;

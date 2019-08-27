@@ -26,22 +26,23 @@
 namespace itk
 {
 /**
-* AnchorUtilities
-* functionality in common for anchor openings/closings and
-* erosions/dilation
-*
-**/
-template< typename TImage, typename TBres, typename TAnchor, typename TLine >
-void DoAnchorFace(const TImage *input,
-                  TImage *output,
-                  typename TImage::PixelType border,
-                  TLine line,
-                  TAnchor & AnchorLine,
-                  const typename TBres::OffsetArray LineOffsets,
-                  std::vector<typename TImage::PixelType> & inbuffer,
-                  std::vector<typename TImage::PixelType> & outbuffer,
-                  const typename TImage::RegionType AllImage,
-                  const typename TImage::RegionType face)
+ * AnchorUtilities
+ * functionality in common for anchor openings/closings and
+ * erosions/dilation
+ *
+ **/
+template <typename TImage, typename TBres, typename TAnchor, typename TLine>
+void
+DoAnchorFace(const TImage *                            input,
+             TImage *                                  output,
+             typename TImage::PixelType                border,
+             TLine                                     line,
+             TAnchor &                                 AnchorLine,
+             const typename TBres::OffsetArray         LineOffsets,
+             std::vector<typename TImage::PixelType> & inbuffer,
+             std::vector<typename TImage::PixelType> & outbuffer,
+             const typename TImage::RegionType         AllImage,
+             const typename TImage::RegionType         face)
 {
   // iterate over the face
 
@@ -63,22 +64,21 @@ void DoAnchorFace(const TImage *input,
   NormLine.Normalize();
   // set a generous tolerance
   float tol = 1.0 / LineOffsets.size();
-  for ( unsigned int it = 0; it < face.GetNumberOfPixels(); it++ )
-    {
+  for (unsigned int it = 0; it < face.GetNumberOfPixels(); it++)
+  {
     typename TImage::IndexType Ind = dumbImg->ComputeIndex(it);
-    unsigned start, end;
-    if ( FillLineBuffer< TImage, TBres, TLine >(input, Ind, NormLine, tol, LineOffsets,
-                                                AllImage, inbuffer, start, end) )
-      {
+    unsigned                   start, end;
+    if (FillLineBuffer<TImage, TBres, TLine>(input, Ind, NormLine, tol, LineOffsets, AllImage, inbuffer, start, end))
+    {
       const unsigned len = end - start + 1;
       // compat
       inbuffer[0] = border;
       inbuffer[len + 1] = border;
 
-      AnchorLine.DoLine(outbuffer, inbuffer, len + 2);  // compat
-      CopyLineToImage< TImage, TBres >(output, Ind, LineOffsets, outbuffer, start, end);
-      }
+      AnchorLine.DoLine(outbuffer, inbuffer, len + 2); // compat
+      CopyLineToImage<TImage, TBres>(output, Ind, LineOffsets, outbuffer, start, end);
     }
+  }
 }
 } // namespace itk
 

@@ -53,7 +53,7 @@ public:
   /** Standard class type aliases. */
   using Self = VideoIOBase;
   using Superclass = ImageIOBase;
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
   using SizeValueType = ::itk::SizeValueType;
 
   /** Frame offset type alias */
@@ -68,79 +68,98 @@ public:
   itkTypeMacro(VideoIOBase, Superclass);
 
   /** Close the reader and writer and reset members */
-  virtual void FinishReadingOrWriting() = 0;
+  virtual void
+  FinishReadingOrWriting() = 0;
 
   /*-------- This part of the interface deals with reading data. ------ */
 
   /** \class ReadType
    * \ingroup ITKVideoIO
    * Enum used to define weather to read from a file or a camera */
-  enum class ReadType : uint8_t {ReadFromFile, ReadFromCamera};
+  enum class ReadType : uint8_t
+  {
+    ReadFromFile,
+    ReadFromCamera
+  };
 #if !defined(ITK_LEGACY_REMOVE)
-        //We need to expose the enum values at the class level
-        // for backwards compatibility
-        static constexpr ReadType ReadFromFile = ReadType::ReadFromFile;
-        static constexpr ReadType ReadFromCamera = ReadType::ReadFromCamera;
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr ReadType ReadFromFile = ReadType::ReadFromFile;
+  static constexpr ReadType ReadFromCamera = ReadType::ReadFromCamera;
 #endif
 
   /** Set to reading from file */
-  virtual void SetReadFromFile() = 0;
+  virtual void
+  SetReadFromFile() = 0;
 
   /** Set to reading from a camera */
-  virtual void SetReadFromCamera() = 0;
+  virtual void
+  SetReadFromCamera() = 0;
 
   /** Get the current read type */
-  ReadType GetReadType() {
+  ReadType
+  GetReadType()
+  {
     return this->m_ReadType;
   }
 
   /** Return whether or not the VideoIO can read from a camera. The cameraID
    * can be a camera number for OpenCV or a guid for VXL */
-  virtual bool CanReadCamera( CameraIDType cameraID ) const = 0;
+  virtual bool
+  CanReadCamera(CameraIDType cameraID) const = 0;
 
   /** Set the next frame that should be read. Return true if you operation
    * successful */
-  virtual bool SetNextFrameToRead( FrameOffsetType frameNumber ) = 0;
+  virtual bool
+  SetNextFrameToRead(FrameOffsetType frameNumber) = 0;
 
   /** Virtual accessor functions to be implemented in each derived class */
-  virtual TemporalOffsetType GetPositionInMSec() const = 0;
-  virtual TemporalRatioType GetRatio() const = 0;
-  virtual FrameOffsetType GetFrameTotal() const = 0;
-  virtual TemporalRatioType GetFramesPerSecond() const = 0;
-  virtual FrameOffsetType GetCurrentFrame() const = 0;
-  virtual FrameOffsetType GetLastIFrame() const = 0;
+  virtual TemporalOffsetType
+  GetPositionInMSec() const = 0;
+  virtual TemporalRatioType
+  GetRatio() const = 0;
+  virtual FrameOffsetType
+  GetFrameTotal() const = 0;
+  virtual TemporalRatioType
+  GetFramesPerSecond() const = 0;
+  virtual FrameOffsetType
+  GetCurrentFrame() const = 0;
+  virtual FrameOffsetType
+  GetLastIFrame() const = 0;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Set Writer Parameters */
-  virtual void SetWriterParameters( TemporalRatioType framesPerSecond,
-                                    const std::vector<SizeValueType>& dim,
-                                    const char* fourCC,
-                                    unsigned int nChannels,
-                                    IOComponentType componentType) = 0;
+  virtual void
+  SetWriterParameters(TemporalRatioType                  framesPerSecond,
+                      const std::vector<SizeValueType> & dim,
+                      const char *                       fourCC,
+                      unsigned int                       nChannels,
+                      IOComponentType                    componentType) = 0;
 
 protected:
-
   VideoIOBase();
   ~VideoIOBase() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Member Variables */
-  ReadType           m_ReadType{ReadType::ReadFromFile};
-  TemporalRatioType  m_FramesPerSecond{0.0};
+  ReadType           m_ReadType{ ReadType::ReadFromFile };
+  TemporalRatioType  m_FramesPerSecond{ 0.0 };
   FrameOffsetType    m_FrameTotal;
   FrameOffsetType    m_CurrentFrame;
   FrameOffsetType    m_IFrameInterval;
   FrameOffsetType    m_LastIFrame;
-  TemporalRatioType  m_Ratio{0.0};
-  TemporalOffsetType m_PositionInMSec{0.0};
-  bool               m_WriterOpen{false};
-  bool               m_ReaderOpen{false};
+  TemporalRatioType  m_Ratio{ 0.0 };
+  TemporalOffsetType m_PositionInMSec{ 0.0 };
+  bool               m_WriterOpen{ false };
+  bool               m_ReaderOpen{ false };
 };
 
 // Define how to print enumeration
-extern ITKVideoIO_EXPORT std::ostream& operator<<(std::ostream& out, const VideoIOBase::ReadType value);
+extern ITKVideoIO_EXPORT std::ostream &
+                         operator<<(std::ostream & out, const VideoIOBase::ReadType value);
 
 } // end namespace itk
 

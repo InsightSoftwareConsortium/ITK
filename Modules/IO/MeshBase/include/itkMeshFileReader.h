@@ -74,19 +74,19 @@ namespace itk
  * \endsphinx
  */
 
-template< typename TOutputMesh,
-          typename ConvertPointPixelTraits = MeshConvertPixelTraits< typename TOutputMesh::PixelType >,
-          class ConvertCellPixelTraits = MeshConvertPixelTraits< typename TOutputMesh::CellPixelType > >
-class ITK_TEMPLATE_EXPORT MeshFileReader:public MeshSource< TOutputMesh >
+template <typename TOutputMesh,
+          typename ConvertPointPixelTraits = MeshConvertPixelTraits<typename TOutputMesh::PixelType>,
+          class ConvertCellPixelTraits = MeshConvertPixelTraits<typename TOutputMesh::CellPixelType>>
+class ITK_TEMPLATE_EXPORT MeshFileReader : public MeshSource<TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MeshFileReader);
 
   /** Standard class type aliases. */
   using Self = MeshFileReader;
-  using Superclass = MeshSource< TOutputMesh >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Pointer = SmartPointer< Self >;
+  using Superclass = MeshSource<TOutputMesh>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Pointer = SmartPointer<Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -106,15 +106,15 @@ public:
   using OutputCellType = typename OutputMeshType::CellType;
   using SizeValueType = typename MeshIOBase::SizeValueType;
 
-  using OutputVertexCellType = VertexCell< OutputCellType >;
-  using OutputLineCellType = LineCell< OutputCellType >;
-  using OutputTriangleCellType = TriangleCell< OutputCellType >;
-  using OutputPolygonCellType = PolygonCell< OutputCellType >;
-  using OutputTetrahedronCellType = TetrahedronCell< OutputCellType >;
-  using OutputHexahedronCellType = HexahedronCell< OutputCellType >;
-  using OutputQuadrilateralCellType = QuadrilateralCell< OutputCellType >;
-  using OutputQuadraticEdgeCellType = QuadraticEdgeCell< OutputCellType >;
-  using OutputQuadraticTriangleCellType = QuadraticTriangleCell< OutputCellType >;
+  using OutputVertexCellType = VertexCell<OutputCellType>;
+  using OutputLineCellType = LineCell<OutputCellType>;
+  using OutputTriangleCellType = TriangleCell<OutputCellType>;
+  using OutputPolygonCellType = PolygonCell<OutputCellType>;
+  using OutputTetrahedronCellType = TetrahedronCell<OutputCellType>;
+  using OutputHexahedronCellType = HexahedronCell<OutputCellType>;
+  using OutputQuadrilateralCellType = QuadrilateralCell<OutputCellType>;
+  using OutputQuadraticEdgeCellType = QuadraticEdgeCell<OutputCellType>;
+  using OutputQuadraticTriangleCellType = QuadraticTriangleCell<OutputCellType>;
 
   /** Define output point dimension */
   static constexpr unsigned int OutputPointDimension = OutputMeshType::PointDimension;
@@ -124,49 +124,60 @@ public:
   itkGetStringMacro(FileName);
 
   /** Set/Get the MeshIO helper class. Often this is created via the object
-  * factory mechanism that determines whether a particular MeshIO can
-  * read a certain file. This method provides a way to get the MeshIO
-  * instance that is created. Or you can directly specify the MeshIO
-  * to use to read a particular file in case the factory mechanism will
-  * not work properly (e.g., unknown or unusual extension). */
-  void  SetMeshIO(MeshIOBase *meshIO);
+   * factory mechanism that determines whether a particular MeshIO can
+   * read a certain file. This method provides a way to get the MeshIO
+   * instance that is created. Or you can directly specify the MeshIO
+   * to use to read a particular file in case the factory mechanism will
+   * not work properly (e.g., unknown or unusual extension). */
+  void
+  SetMeshIO(MeshIOBase * meshIO);
   itkGetModifiableObjectMacro(MeshIO, MeshIOBase);
 
   /** Prepare the allocation of the output mesh during the first back
    * propagation of the pipeline. */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
-  template< typename T >
-  void ReadPoints(T *buffer);
+  template <typename T>
+  void
+  ReadPoints(T * buffer);
 
-  template< typename T >
-  void ReadCells(T *buffer);
+  template <typename T>
+  void
+  ReadCells(T * buffer);
 
-  void ReadPointData();
+  void
+  ReadPointData();
 
-  void ReadCellData();
+  void
+  ReadCellData();
 
 protected:
   MeshFileReader();
   ~MeshFileReader() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Convert a block of pixels from one type to another. */
-  template< typename T >
-  void ConvertPointPixelBuffer(void *inputData, T *outputData, size_t numberOfPixels);
+  template <typename T>
+  void
+  ConvertPointPixelBuffer(void * inputData, T * outputData, size_t numberOfPixels);
 
-  template< typename T >
-  void ConvertCellPixelBuffer(void *inputData, T *outputData, size_t numberOfPixels);
+  template <typename T>
+  void
+  ConvertCellPixelBuffer(void * inputData, T * outputData, size_t numberOfPixels);
 
   /** Test whether the given filename exist and it is readable, this
    * is intended to be called before attempting to use  MeshIO
    * classes for actually reading the file. If the file doesn't exist
    * or it is not readable, and exception with an approriate message
    * will be thrown. */
-  void TestFileExistanceAndReadability();
+  void
+  TestFileExistanceAndReadability();
 
   /** Does the real work. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   MeshIOBase::Pointer m_MeshIO;
   bool                m_UserSpecifiedMeshIO; // keep track whether the MeshIO is
@@ -179,11 +190,11 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeshFileReader.hxx"
+#  include "itkMeshFileReader.hxx"
 #endif
 
 #ifdef ITK_IO_FACTORY_REGISTER_MANAGER
-#include "itkMeshIOFactoryRegisterManager.h"
+#  include "itkMeshIOFactoryRegisterManager.h"
 #endif
 
 #endif

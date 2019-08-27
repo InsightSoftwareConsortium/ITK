@@ -19,45 +19,44 @@
 #include "itkImageFileReader.h"
 #include "itkCentralDifferenceImageFunction.h"
 
-int itkOrientedImage3DTest( int ac, char * av[] )
+int
+itkOrientedImage3DTest(int ac, char * av[])
 {
 
-  if( ac < 20 )
-    {
-    std::cerr << "Usage: " << av[0]
-    << " InputImage  "
-    << "corner1x corner1y corner1z "
-    << "corner2x corner2y corner2z "
-    << "corner3x corner3y corner3z "
-    << "corner4x corner4y corner4z "
-    << "derivative1x derivative1y derivative1z "
-    << "derivative2x derivative2y derivative2z"
-    << std::endl;
+  if (ac < 20)
+  {
+    std::cerr << "Usage: " << av[0] << " InputImage  "
+              << "corner1x corner1y corner1z "
+              << "corner2x corner2y corner2z "
+              << "corner3x corner3y corner3z "
+              << "corner4x corner4y corner4z "
+              << "derivative1x derivative1y derivative1z "
+              << "derivative2x derivative2y derivative2z" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 3;
   using PixelType = unsigned char;
 
   using ImageType = itk::Image<PixelType, Dimension>;
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   using IndexType = ImageType::IndexType;
   using IndexValueType = IndexType::IndexValueType;
 
   ReaderType::Pointer reader = ReaderType::New();
 
-  reader->SetFileName( av[1] );
+  reader->SetFileName(av[1]);
 
   try
-    {
+  {
     reader->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   ImageType::ConstPointer image = reader->GetOutput();
 
@@ -69,7 +68,7 @@ int itkOrientedImage3DTest( int ac, char * av[] )
   const double tolerance = 1e-3;
 
   ImageType::RegionType region = image->GetLargestPossibleRegion();
-  ImageType::SizeType   size   = region.GetSize();
+  ImageType::SizeType   size = region.GetSize();
 
   constexpr int numberOfPointsToTest = 4;
 
@@ -93,47 +92,47 @@ int itkOrientedImage3DTest( int ac, char * av[] )
   index[3][2] = size[2];
 
 
-  image->Print( std::cout );
+  image->Print(std::cout);
   std::cout << std::endl;
   std::cout << std::endl;
 
-  for( int pointId=0; pointId < numberOfPointsToTest; ++pointId )
-    {
+  for (int pointId = 0; pointId < numberOfPointsToTest; ++pointId)
+  {
 
-    image->TransformIndexToPhysicalPoint( index[pointId], physicalPoint );
+    image->TransformIndexToPhysicalPoint(index[pointId], physicalPoint);
 
     std::cout << index[pointId] << " : " << physicalPoint << std::endl;
 
-    for( unsigned int dim=0; dim < Dimension; ++dim )
-      {
-      const double expectedValue = std::stod( av[ element++ ] );
+    for (unsigned int dim = 0; dim < Dimension; ++dim)
+    {
+      const double expectedValue = std::stod(av[element++]);
       const double currentValue = physicalPoint[dim];
       const double difference = currentValue - expectedValue;
-      if( itk::Math::abs( difference ) > tolerance )
-        {
+      if (itk::Math::abs(difference) > tolerance)
+      {
         std::cerr << "Error: " << std::endl;
         std::cerr << "in Point # " << pointId << std::endl;
         std::cerr << "Expected      = " << expectedValue << std::endl;
         std::cerr << "Read          = " << currentValue << std::endl;
         std::cerr << "Index         = " << index[pointId] << std::endl;
         std::cerr << "PhysicalPoint = " << physicalPoint << std::endl;
-        }
       }
     }
+  }
 
   //
   // Select a point in the middle of the image and compute its
   // derivative using the image orientation.
   //
   IndexType centralIndex;
-  centralIndex[0] = static_cast< IndexValueType >( size[0] / 2.0 );
-  centralIndex[1] = static_cast< IndexValueType >( size[1] / 2.0 );
-  centralIndex[2] = static_cast< IndexValueType >( size[2] / 2.0 );
+  centralIndex[0] = static_cast<IndexValueType>(size[0] / 2.0);
+  centralIndex[1] = static_cast<IndexValueType>(size[1] / 2.0);
+  centralIndex[2] = static_cast<IndexValueType>(size[2] / 2.0);
 
-  using CentralDifferenceImageFunctionType = itk::CentralDifferenceImageFunction< ImageType, double >;
+  using CentralDifferenceImageFunctionType = itk::CentralDifferenceImageFunction<ImageType, double>;
 
   CentralDifferenceImageFunctionType::Pointer gradientHelper1 = CentralDifferenceImageFunctionType::New();
-  gradientHelper1->SetInputImage( image );
+  gradientHelper1->SetInputImage(image);
 
   std::cout << std::endl;
   std::cout << std::endl;
@@ -141,48 +140,48 @@ int itkOrientedImage3DTest( int ac, char * av[] )
   std::cout << image->GetDirection() << std::endl;
 
   { // Compute gradient value without taking image direction into account
-  gradientHelper1->UseImageDirectionOff();
-  CentralDifferenceImageFunctionType::OutputType gradient1a = gradientHelper1->EvaluateAtIndex( centralIndex );
+    gradientHelper1->UseImageDirectionOff();
+    CentralDifferenceImageFunctionType::OutputType gradient1a = gradientHelper1->EvaluateAtIndex(centralIndex);
 
-  std::cout << "Gradient without Direction" << std::endl;
-  std::cout << gradient1a << std::endl;
+    std::cout << "Gradient without Direction" << std::endl;
+    std::cout << gradient1a << std::endl;
 
-  for( unsigned int dim=0; dim < Dimension; ++dim )
+    for (unsigned int dim = 0; dim < Dimension; ++dim)
     {
-    const double expectedValue = std::stod( av[ element++ ] );
-    const double currentValue = gradient1a[dim];
-    const double difference = currentValue - expectedValue;
-    if( itk::Math::abs( difference ) > tolerance )
+      const double expectedValue = std::stod(av[element++]);
+      const double currentValue = gradient1a[dim];
+      const double difference = currentValue - expectedValue;
+      if (itk::Math::abs(difference) > tolerance)
       {
-      std::cerr << "Error: " << std::endl;
+        std::cerr << "Error: " << std::endl;
 
-      std::cerr << "Expected      = " << expectedValue << std::endl;
-      std::cerr << "Read          = " << currentValue << std::endl;
-      return EXIT_FAILURE;
+        std::cerr << "Expected      = " << expectedValue << std::endl;
+        std::cerr << "Read          = " << currentValue << std::endl;
+        return EXIT_FAILURE;
       }
     }
   }
 
 
   { // Compute gradient value taking image direction into account
-  gradientHelper1->UseImageDirectionOn();
-  CentralDifferenceImageFunctionType::OutputType gradient1b = gradientHelper1->EvaluateAtIndex( centralIndex );
+    gradientHelper1->UseImageDirectionOn();
+    CentralDifferenceImageFunctionType::OutputType gradient1b = gradientHelper1->EvaluateAtIndex(centralIndex);
 
-  std::cout << std::endl;
-  std::cout << "Gradient with Direction" << std::endl;
-  std::cout << gradient1b << std::endl;
+    std::cout << std::endl;
+    std::cout << "Gradient with Direction" << std::endl;
+    std::cout << gradient1b << std::endl;
 
-  for( unsigned int dim=0; dim < Dimension; ++dim )
+    for (unsigned int dim = 0; dim < Dimension; ++dim)
     {
-    const double expectedValue = std::stod( av[ element++ ] );
-    const double currentValue = gradient1b[dim];
-    const double difference = currentValue - expectedValue;
-    if( itk::Math::abs( difference ) > tolerance )
+      const double expectedValue = std::stod(av[element++]);
+      const double currentValue = gradient1b[dim];
+      const double difference = currentValue - expectedValue;
+      if (itk::Math::abs(difference) > tolerance)
       {
-      std::cerr << "Error: " << std::endl;
-      std::cerr << "Expected      = " << expectedValue << std::endl;
-      std::cerr << "Read          = " << currentValue << std::endl;
-      return EXIT_FAILURE;
+        std::cerr << "Error: " << std::endl;
+        std::cerr << "Expected      = " << expectedValue << std::endl;
+        std::cerr << "Read          = " << currentValue << std::endl;
+        return EXIT_FAILURE;
       }
     }
   }

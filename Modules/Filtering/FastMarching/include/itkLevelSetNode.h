@@ -41,7 +41,7 @@ namespace itk
  *
  * \ingroup ITKFastMarching
  */
-template< typename TPixel, unsigned int VSetDimension = 2 >
+template <typename TPixel, unsigned int VSetDimension = 2>
 class LevelSetNode
 {
 public:
@@ -55,60 +55,95 @@ public:
   static constexpr unsigned int SetDimension = VSetDimension;
 
   /** Index type alias. */
-  using IndexType = Index< VSetDimension >;
+  using IndexType = Index<VSetDimension>;
 
   /** Operator >. A LevelSetNode is sorted by its value field. */
-  bool operator>(const Self & node) const
-  { return m_Value > node.m_Value; }
+  bool
+  operator>(const Self & node) const
+  {
+    return m_Value > node.m_Value;
+  }
 
   /** Operator <. A LevelSetNode is sorted by its value field. */
-  bool operator<(const Self & node) const
-  { return m_Value < node.m_Value; }
+  bool
+  operator<(const Self & node) const
+  {
+    return m_Value < node.m_Value;
+  }
 
   /** Operator <=. A LevelSetNode is sorted by its value field. */
-  bool operator<=(const Self & node) const
-  { return m_Value <= node.m_Value; }
+  bool
+  operator<=(const Self & node) const
+  {
+    return m_Value <= node.m_Value;
+  }
 
   /** Operator >=. A LevelSetNode is sorted by its value field. */
-  bool operator>=(const Self & node) const
-  { return m_Value >= node.m_Value; }
+  bool
+  operator>=(const Self & node) const
+  {
+    return m_Value >= node.m_Value;
+  }
 
   /** Operator =. Two nodes are equal if both their value and index fields
    * are the same. */
-  Self & operator=(const Self & rhs)
+  Self &
+  operator=(const Self & rhs)
   {
-    if ( this != &rhs )
-      {
+    if (this != &rhs)
+    {
       m_Value = rhs.m_Value;
       m_Index = rhs.m_Index;
-      }
+    }
     return *this;
   }
 
   /** Get/Set level set value. */
-  PixelType & GetValue()
-  { return m_Value; }
-  const PixelType & GetValue() const
-  { return m_Value; }
-  void SetValue(const PixelType & input)
-  { m_Value = input; }
+  PixelType &
+  GetValue()
+  {
+    return m_Value;
+  }
+  const PixelType &
+  GetValue() const
+  {
+    return m_Value;
+  }
+  void
+  SetValue(const PixelType & input)
+  {
+    m_Value = input;
+  }
 
   /** Get/Set index. */
-  IndexType & GetIndex()
-  { return m_Index; }
-  const IndexType & GetIndex() const
-  { return m_Index; }
-  void SetIndex(const IndexType & input)
-  { m_Index = input; }
+  IndexType &
+  GetIndex()
+  {
+    return m_Index;
+  }
+  const IndexType &
+  GetIndex() const
+  {
+    return m_Index;
+  }
+  void
+  SetIndex(const IndexType & input)
+  {
+    m_Index = input;
+  }
 
   /** Default constructor */
-  LevelSetNode():m_Value(NumericTraits< PixelType >::ZeroValue())
+  LevelSetNode()
+    : m_Value(NumericTraits<PixelType>::ZeroValue())
   {
     m_Index.Fill(0);
   }
 
   /** Copy constructor */
-  LevelSetNode(const Self & node):m_Value(node.m_Value), m_Index(node.m_Index) {}
+  LevelSetNode(const Self & node)
+    : m_Value(node.m_Value)
+    , m_Index(node.m_Index)
+  {}
 
 private:
   PixelType m_Value;

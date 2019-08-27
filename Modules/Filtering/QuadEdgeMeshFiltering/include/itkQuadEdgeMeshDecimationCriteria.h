@@ -28,18 +28,17 @@ namespace itk
  * \brief
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< typename TMesh,
-          typename TElement  = IdentifierType,
+template <typename TMesh,
+          typename TElement = IdentifierType,
           typename TMeasure = double,
           typename TPriorityQueueWrapper =
-            MinPriorityQueueElementWrapper< typename TMesh::QEType *,
-                                            std::pair< bool, TMeasure > > >
-class QuadEdgeMeshDecimationCriterion:public Object
+            MinPriorityQueueElementWrapper<typename TMesh::QEType *, std::pair<bool, TMeasure>>>
+class QuadEdgeMeshDecimationCriterion : public Object
 {
 public:
   using Self = QuadEdgeMeshDecimationCriterion;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using Superclass = Object;
 
   /** Run-time type information (and related methods).   */
@@ -51,13 +50,15 @@ public:
   using PriorityQueueWrapperType = TPriorityQueueWrapper;
   using PriorityType = typename PriorityQueueWrapperType::ElementPriorityType;
 
-  void SetNumberOfElements(const SizeValueType & numberOfElements)
+  void
+  SetNumberOfElements(const SizeValueType & numberOfElements)
   {
     this->m_SizeCriterion = true;
     this->m_NumberOfElements = numberOfElements;
   }
 
-  void SetMeasureBound(const MeasureType & bound)
+  void
+  SetMeasureBound(const MeasureType & bound)
   {
     this->m_SizeCriterion = false;
     this->m_MeasureBound = bound;
@@ -66,9 +67,8 @@ public:
   itkGetConstMacro(TopologicalChange, bool);
   itkSetMacro(TopologicalChange, bool);
 
-  virtual bool is_satisfied(MeshType *iMesh,
-                            const ElementType & iElement,
-                            const MeasureType & iValue) const = 0;
+  virtual bool
+  is_satisfied(MeshType * iMesh, const ElementType & iElement, const MeasureType & iValue) const = 0;
 
 protected:
   QuadEdgeMeshDecimationCriterion()
@@ -76,25 +76,18 @@ protected:
     this->m_TopologicalChange = true;
     this->m_SizeCriterion = true;
     this->m_NumberOfElements = 0;
-    this->m_MeasureBound = itk::NumericTraits< MeasureType >::ZeroValue();
+    this->m_MeasureBound = itk::NumericTraits<MeasureType>::ZeroValue();
   }
 
   ~QuadEdgeMeshDecimationCriterion() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-    os << indent << "TopologicalChange: "
-              << (m_TopologicalChange ? "On" : "Off")
-              << std::endl;
-    os << indent << "SizeCriterion: "
-              << (m_SizeCriterion ? "On" : "Off")
-              << std::endl;
-    os << indent << "NumberOfElements: "
-              << m_NumberOfElements
-              << std::endl;
-    os << indent << "MeasureBound: "
-              << m_MeasureBound
-              << std::endl;
+    os << indent << "TopologicalChange: " << (m_TopologicalChange ? "On" : "Off") << std::endl;
+    os << indent << "SizeCriterion: " << (m_SizeCriterion ? "On" : "Off") << std::endl;
+    os << indent << "NumberOfElements: " << m_NumberOfElements << std::endl;
+    os << indent << "MeasureBound: " << m_MeasureBound << std::endl;
   }
 
   bool m_TopologicalChange;
@@ -106,7 +99,8 @@ protected:
 
 private:
   QuadEdgeMeshDecimationCriterion(const Self &) = delete;
-  void operator=(const Self &) = delete;
+  void
+  operator=(const Self &) = delete;
 };
 
 /**
@@ -114,22 +108,18 @@ private:
  * \brief
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< typename TMesh,
+template <typename TMesh,
           typename TElement = IdentifierType,
           typename TMeasure = double,
           typename TPriorityQueueWrapper =
-            MinPriorityQueueElementWrapper< typename TMesh::QEType *,
-                                            std::pair< bool, TMeasure > > >
-class NumberOfPointsCriterion:
-  public QuadEdgeMeshDecimationCriterion< TMesh, TElement,
-                                          TMeasure, TPriorityQueueWrapper >
+            MinPriorityQueueElementWrapper<typename TMesh::QEType *, std::pair<bool, TMeasure>>>
+class NumberOfPointsCriterion : public QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>
 {
 public:
   using Self = NumberOfPointsCriterion;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = QuadEdgeMeshDecimationCriterion<
-    TMesh, TElement, TMeasure, TPriorityQueueWrapper >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(NumberOfPointsCriterion, QuadEdgeMeshDecimationCriterion);
@@ -143,11 +133,10 @@ public:
   using PriorityQueueWrapperType = typename Superclass::PriorityQueueWrapperType;
   using PriorityType = typename Superclass::PriorityType;
 
-  inline bool is_satisfied( MeshType *iMesh,
-                            const ElementType & itkNotUsed(iElement),
-                            const MeasureType & itkNotUsed(iValue) ) const
+  inline bool
+  is_satisfied(MeshType * iMesh, const ElementType & itkNotUsed(iElement), const MeasureType & itkNotUsed(iValue)) const
   {
-    return ( iMesh->GetNumberOfPoints() <= this->m_NumberOfElements );
+    return (iMesh->GetNumberOfPoints() <= this->m_NumberOfElements);
   }
 
 protected:
@@ -156,7 +145,8 @@ protected:
 
 private:
   NumberOfPointsCriterion(const Self &) = delete;
-  void operator=(const Self &) = delete;
+  void
+  operator=(const Self &) = delete;
 };
 
 /**
@@ -164,22 +154,18 @@ private:
  * \brief
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< typename TMesh,
+template <typename TMesh,
           typename TElement = IdentifierType,
           typename TMeasure = double,
           typename TPriorityQueueWrapper =
-            MinPriorityQueueElementWrapper< typename TMesh::QEType *,
-                                            std::pair< bool, TMeasure > > >
-class NumberOfFacesCriterion:
-  public QuadEdgeMeshDecimationCriterion< TMesh, TElement,
-                                          TMeasure, TPriorityQueueWrapper >
+            MinPriorityQueueElementWrapper<typename TMesh::QEType *, std::pair<bool, TMeasure>>>
+class NumberOfFacesCriterion : public QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>
 {
 public:
   using Self = NumberOfFacesCriterion;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = QuadEdgeMeshDecimationCriterion< TMesh, TElement,
-                                           TMeasure, TPriorityQueueWrapper >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(NumberOfFacesCriterion, QuadEdgeMeshDecimationCriterion);
@@ -194,11 +180,12 @@ public:
   using PriorityQueueWrapperType = typename Superclass::PriorityQueueWrapperType;
   using PriorityType = typename Superclass::PriorityType;
 
-  bool is_satisfied( MeshType *iMesh,
-                     const ElementType & itkNotUsed(iElement),
-                     const MeasureType & itkNotUsed(iValue) ) const override
+  bool
+  is_satisfied(MeshType *          iMesh,
+               const ElementType & itkNotUsed(iElement),
+               const MeasureType & itkNotUsed(iValue)) const override
   {
-    return ( iMesh->GetNumberOfFaces() <= this->m_NumberOfElements );
+    return (iMesh->GetNumberOfFaces() <= this->m_NumberOfElements);
   }
 
 protected:
@@ -207,7 +194,8 @@ protected:
 
 private:
   NumberOfFacesCriterion(const Self &) = delete;
-  void operator=(const Self &) = delete;
+  void
+  operator=(const Self &) = delete;
 };
 
 /**
@@ -215,22 +203,19 @@ private:
  * \brief
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< typename TMesh,
+template <typename TMesh,
           typename TElement = IdentifierType,
           typename TMeasure = double,
           typename TPriorityQueueWrapper =
-            MinPriorityQueueElementWrapper< typename TMesh::QEType *,
-                                            std::pair< bool, TMeasure > > >
-class MaxMeasureBoundCriterion:
-  public QuadEdgeMeshDecimationCriterion< TMesh, TElement,
-                                          TMeasure, TPriorityQueueWrapper >
+            MinPriorityQueueElementWrapper<typename TMesh::QEType *, std::pair<bool, TMeasure>>>
+class MaxMeasureBoundCriterion
+  : public QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>
 {
 public:
   using Self = MaxMeasureBoundCriterion;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = QuadEdgeMeshDecimationCriterion< TMesh, TElement,
-                                           TMeasure, TPriorityQueueWrapper >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(MaxMeasureBoundCriterion, QuadEdgeMeshDecimationCriterion);
@@ -245,20 +230,24 @@ public:
   using PriorityQueueWrapperType = typename Superclass::PriorityQueueWrapperType;
   using PriorityType = typename Superclass::PriorityType;
 
-  bool is_satisfied(MeshType *itkNotUsed(iMesh),
-                    const ElementType & itkNotUsed(iElement),
-                    const MeasureType & iValue) const override
+  bool
+  is_satisfied(MeshType *          itkNotUsed(iMesh),
+               const ElementType & itkNotUsed(iElement),
+               const MeasureType & iValue) const override
   {
-    return ( iValue <= this->m_MeasureBound );
+    return (iValue <= this->m_MeasureBound);
   }
 
 protected:
-  MaxMeasureBoundCriterion():Superclass() {}
+  MaxMeasureBoundCriterion()
+    : Superclass()
+  {}
   ~MaxMeasureBoundCriterion() override = default;
 
 private:
   MaxMeasureBoundCriterion(const Self &) = delete;
-  void operator=(const Self &) = delete;
+  void
+  operator=(const Self &) = delete;
 };
 
 /**
@@ -266,22 +255,19 @@ private:
  * \brief
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< typename TMesh,
+template <typename TMesh,
           typename TElement = IdentifierType,
           typename TMeasure = double,
           typename TPriorityQueueWrapper =
-            MaxPriorityQueueElementWrapper< typename TMesh::QEType *,
-                                            std::pair< bool, TMeasure > > >
-class MinMeasureBoundCriterion:
-  public QuadEdgeMeshDecimationCriterion< TMesh, TElement,
-                                          TMeasure, TPriorityQueueWrapper >
+            MaxPriorityQueueElementWrapper<typename TMesh::QEType *, std::pair<bool, TMeasure>>>
+class MinMeasureBoundCriterion
+  : public QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>
 {
 public:
   using Self = MinMeasureBoundCriterion;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = QuadEdgeMeshDecimationCriterion< TMesh, TElement,
-                                           TMeasure, TPriorityQueueWrapper >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(MinMeasureBoundCriterion, QuadEdgeMeshDecimationCriterion);
@@ -296,11 +282,10 @@ public:
   using PriorityQueueWrapperType = typename Superclass::PriorityQueueWrapperType;
   using PriorityType = typename Superclass::PriorityType;
 
-  inline bool is_satisfied(MeshType *,
-                           const ElementType & ,
-                           const MeasureType & iValue) const
+  inline bool
+  is_satisfied(MeshType *, const ElementType &, const MeasureType & iValue) const
   {
-    return ( iValue >= this->m_MeasureBound );
+    return (iValue >= this->m_MeasureBound);
   }
 
 protected:
@@ -309,8 +294,9 @@ protected:
 
 private:
   MinMeasureBoundCriterion(const Self &) = delete;
-  void operator=(const Self &) = delete;
+  void
+  operator=(const Self &) = delete;
 };
-}
+} // namespace itk
 
 #endif

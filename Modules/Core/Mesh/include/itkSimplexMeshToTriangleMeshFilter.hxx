@@ -23,21 +23,21 @@
 namespace itk
 {
 
-template< typename TInputMesh, typename TOutputMesh >
-void SimplexMeshToTriangleMeshFilter< TInputMesh, TOutputMesh >
-::GenerateData()
+template <typename TInputMesh, typename TOutputMesh>
+void
+SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
 {
   this->Initialize();
   this->CreateTriangles();
 }
 
-template< typename TInputMesh, typename TOutputMesh >
-void SimplexMeshToTriangleMeshFilter< TInputMesh, TOutputMesh >
-::Initialize()
+template <typename TInputMesh, typename TOutputMesh>
+void
+SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::Initialize()
 {
   SimplexVisitorInterfacePointer simplexVisitor = SimplexVisitorInterfaceType::New();
 
-  simplexVisitor->SetMesh( this->GetInput(0) );
+  simplexVisitor->SetMesh(this->GetInput(0));
   CellMultiVisitorPointer mv = CellMultiVisitorType::New();
   mv->AddVisitor(simplexVisitor);
   this->GetInput(0)->Accept(mv);
@@ -45,22 +45,22 @@ void SimplexMeshToTriangleMeshFilter< TInputMesh, TOutputMesh >
   m_Centers = simplexVisitor->GetCenterMap();
 }
 
-template< typename TInputMesh, typename TOutputMesh >
-void SimplexMeshToTriangleMeshFilter< TInputMesh, TOutputMesh >
-::CreateTriangles()
+template <typename TInputMesh, typename TOutputMesh>
+void
+SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::CreateTriangles()
 {
-  typename AutoMeshSourceType::Pointer meshSource = AutoMeshSourceType::New();
+  typename AutoMeshSourceType::Pointer   meshSource = AutoMeshSourceType::New();
   typename AutoMeshSourceType::PointType p1, p2, p3;
 
-  typename TInputMesh::ConstPointer inputMesh = this->GetInput(0);
-  typename InputPointsContainer::ConstPointer points = inputMesh->GetPoints();
+  typename TInputMesh::ConstPointer                 inputMesh = this->GetInput(0);
+  typename InputPointsContainer::ConstPointer       points = inputMesh->GetPoints();
   typename TInputMesh::PointsContainerConstIterator pointsIt = points->Begin();
 
   meshSource->Update();
 
-  while ( pointsIt != points->End() )
-    {
-    typename InputMeshType::IndexArray n = this->GetInput(0)->GetNeighbors( pointsIt.Index() );
+  while (pointsIt != points->End())
+  {
+    typename InputMeshType::IndexArray n = this->GetInput(0)->GetNeighbors(pointsIt.Index());
 
     CellIdentifier newId1 = FindCellId(n[0], pointsIt.Index(), n[1]);
     CellIdentifier newId2 = FindCellId(n[1], pointsIt.Index(), n[2]);
@@ -72,56 +72,56 @@ void SimplexMeshToTriangleMeshFilter< TInputMesh, TOutputMesh >
 
     meshSource->AddTriangle(p1, p2, p3);
 
-    if ( !( b1 && b2 && b3 ) )
-      {
+    if (!(b1 && b2 && b3))
+    {
       itkExceptionMacro(<< "Assertion failed for test of GetElementIfIndexExists()");
-      }
-
-    ++pointsIt;
     }
 
-  this->ProcessObject::SetNthOutput( 0,  meshSource->GetOutput() );
+    ++pointsIt;
+  }
+
+  this->ProcessObject::SetNthOutput(0, meshSource->GetOutput());
 }
 
-template< typename TInputMesh, typename TOutputMesh >
-typename SimplexMeshToTriangleMeshFilter< TInputMesh, TOutputMesh >::CellIdentifier
-SimplexMeshToTriangleMeshFilter< TInputMesh, TOutputMesh >
-::FindCellId(CellIdentifier id1, CellIdentifier id2, CellIdentifier id3)
+template <typename TInputMesh, typename TOutputMesh>
+typename SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::CellIdentifier
+SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::FindCellId(CellIdentifier id1,
+                                                                     CellIdentifier id2,
+                                                                     CellIdentifier id3)
 {
-  std::set< CellIdentifier >  cells1 =  this->GetInput(0)->GetCellLinks()->GetElement(id1);
-  std::set< CellIdentifier >  cells2 =  this->GetInput(0)->GetCellLinks()->GetElement(id2);
-  std::set< CellIdentifier >  cells3 =  this->GetInput(0)->GetCellLinks()->GetElement(id3);
-  auto cellIt = cells1.begin();
+  std::set<CellIdentifier> cells1 = this->GetInput(0)->GetCellLinks()->GetElement(id1);
+  std::set<CellIdentifier> cells2 = this->GetInput(0)->GetCellLinks()->GetElement(id2);
+  std::set<CellIdentifier> cells3 = this->GetInput(0)->GetCellLinks()->GetElement(id3);
+  auto                     cellIt = cells1.begin();
 
-  while ( cellIt != cells1.end() )
-    {
+  while (cellIt != cells1.end())
+  {
     auto found2 = std::find(cells2.begin(), cells2.end(), *cellIt);
     auto found3 = std::find(cells3.begin(), cells3.end(), *cellIt);
 
-    if ( found2 != cells2.end() && found3 != cells3.end() )
-      {
-      break;
-      }
-    cellIt++;
-    }
-
-  if ( cellIt == cells1.end() )
+    if (found2 != cells2.end() && found3 != cells3.end())
     {
-    itkExceptionMacro(<< "Cell was not found, although it should be there");
+      break;
     }
+    cellIt++;
+  }
+
+  if (cellIt == cells1.end())
+  {
+    itkExceptionMacro(<< "Cell was not found, although it should be there");
+  }
 
   return *cellIt;
 }
 
 /* PrintSelf. */
-template< typename TInputMesh, typename TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh>
 void
-SimplexMeshToTriangleMeshFilter< TInputMesh, TOutputMesh >
-::PrintSelf(std::ostream & os, Indent indent) const
+SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "ToDo: implement PrinSelf!!!";
 }
-} // end of namspace itk
+} // namespace itk
 
 #endif //__SimplexMeshToTriangleMeshFilter_hxx

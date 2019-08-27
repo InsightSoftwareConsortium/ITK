@@ -28,9 +28,8 @@
 namespace itk
 {
 
-template< typename TOutputImage, typename TParametersValueType>
-TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
-::TransformToDisplacementFieldFilter()
+template <typename TOutputImage, typename TParametersValueType>
+TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::TransformToDisplacementFieldFilter()
 
 {
   this->m_OutputSpacing.Fill(1.0);
@@ -40,19 +39,19 @@ TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
   this->m_Size.Fill(0);
   this->m_OutputStartIndex.Fill(0);
 
-  this->SetNumberOfRequiredInputs( 1 );
-  this->SetPrimaryInputName( "Transform" );
+  this->SetNumberOfRequiredInputs(1);
+  this->SetPrimaryInputName("Transform");
 
   //  #1 "ReferenceImage" optional
-  Self::AddOptionalInputName("ReferenceImage",1);
+  Self::AddOptionalInputName("ReferenceImage", 1);
   this->DynamicMultiThreadingOn();
 }
 
 
-template< typename TOutputImage, typename TParametersValueType>
+template <typename TOutputImage, typename TParametersValueType>
 void
-TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
-::PrintSelf(std::ostream & os, Indent indent) const
+TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::PrintSelf(std::ostream & os,
+                                                                                  Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -62,113 +61,109 @@ TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
   os << indent << "OutputOrigin: " << this->m_OutputOrigin << std::endl;
   os << indent << "OutputDirection: " << this->m_OutputDirection << std::endl;
   os << indent << "UseReferenceImage: ";
-  if( this->m_UseReferenceImage )
-    {
+  if (this->m_UseReferenceImage)
+  {
     os << "On" << std::endl;
-    }
+  }
   else
-    {
+  {
     os << "Off" << std::endl;
-    }
+  }
 }
 
 
-template< typename TOutputImage, typename TParametersValueType>
+template <typename TOutputImage, typename TParametersValueType>
 void
-TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
-::SetOutputSpacing(const SpacePrecisionType *spacing)
+TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::SetOutputSpacing(
+  const SpacePrecisionType * spacing)
 {
   this->SetOutputSpacing(SpacingType(spacing));
 }
 
 
-template< typename TOutputImage, typename TParametersValueType>
+template <typename TOutputImage, typename TParametersValueType>
 void
-TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
-::SetOutputOrigin(const SpacePrecisionType *origin)
+TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::SetOutputOrigin(
+  const SpacePrecisionType * origin)
 {
   this->SetOutputOrigin(OriginType(origin));
 }
 
-template< typename TOutputImage, typename TParametersValueType>
+template <typename TOutputImage, typename TParametersValueType>
 void
-TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
-::SetInput( const TransformInputType * input )
+TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::SetInput(const TransformInputType * input)
 {
-  if( input != itkDynamicCastInDebugMode< TransformInputType * >( this->ProcessObject::GetPrimaryInput() ) )
-    {
+  if (input != itkDynamicCastInDebugMode<TransformInputType *>(this->ProcessObject::GetPrimaryInput()))
+  {
     // Process object is not const-correct so the const_cast is required here
-    this->ProcessObject::SetNthInput( 0, const_cast< TransformInputType * >( input ) );
+    this->ProcessObject::SetNthInput(0, const_cast<TransformInputType *>(input));
     this->Modified();
-    }
+  }
 }
 
-template< typename TOutputImage, typename TParametersValueType>
-const typename TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>::TransformInputType *
-TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
-::GetInput() const
+template <typename TOutputImage, typename TParametersValueType>
+const typename TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::TransformInputType *
+TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::GetInput() const
 {
-  return itkDynamicCastInDebugMode< const TransformInputType * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode<const TransformInputType *>(this->GetPrimaryInput());
 }
 
 
-template< typename TOutputImage, typename TParametersValueType>
+template <typename TOutputImage, typename TParametersValueType>
 void
-TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
-::GenerateOutputInformation()
+TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::GenerateOutputInformation()
 {
   OutputImageType * output = this->GetOutput();
-  if ( !output )
-    {
+  if (!output)
+  {
     return;
-    }
+  }
 
-  const ReferenceImageBaseType *referenceImage = this->GetReferenceImage();
+  const ReferenceImageBaseType * referenceImage = this->GetReferenceImage();
 
   // Set the size of the output region
-  if ( m_UseReferenceImage && referenceImage )
-    {
-    output->SetLargestPossibleRegion(
-      referenceImage->GetLargestPossibleRegion() );
-    }
+  if (m_UseReferenceImage && referenceImage)
+  {
+    output->SetLargestPossibleRegion(referenceImage->GetLargestPossibleRegion());
+  }
   else
-    {
+  {
     typename TOutputImage::RegionType outputLargestPossibleRegion;
     outputLargestPossibleRegion.SetSize(m_Size);
     outputLargestPossibleRegion.SetIndex(m_OutputStartIndex);
     output->SetLargestPossibleRegion(outputLargestPossibleRegion);
-    }
+  }
 
   // Set spacing and origin
-  if ( m_UseReferenceImage && referenceImage )
-    {
-    output->SetSpacing( referenceImage->GetSpacing() );
-    output->SetOrigin( referenceImage->GetOrigin() );
-    output->SetDirection( referenceImage->GetDirection() );
-    }
+  if (m_UseReferenceImage && referenceImage)
+  {
+    output->SetSpacing(referenceImage->GetSpacing());
+    output->SetOrigin(referenceImage->GetOrigin());
+    output->SetDirection(referenceImage->GetDirection());
+  }
   else
-    {
+  {
     output->SetSpacing(m_OutputSpacing);
     output->SetOrigin(m_OutputOrigin);
     output->SetDirection(m_OutputDirection);
-    }
+  }
 }
 
 
-template< typename TOutputImage, typename TParametersValueType>
+template <typename TOutputImage, typename TParametersValueType>
 void
-TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
-::DynamicThreadedGenerateData( const OutputImageRegionType & outputRegionForThread )
+TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   const TransformType * transform = this->GetInput()->Get();
   // Check whether we can use a fast path for resampling. Fast path
   // can be used if the transformation is linear. Transform respond
   // to the IsLinear() call.
-  if ( transform->IsLinear() )
-    {
+  if (transform->IsLinear())
+  {
     this->LinearThreadedGenerateData(outputRegionForThread);
     return;
-    }
+  }
 
   // Otherwise, we use the normal method where the transform is called
   // for computing the transformation of every point.
@@ -176,76 +171,76 @@ TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
 }
 
 
-template< typename TOutputImage, typename TParametersValueType>
+template <typename TOutputImage, typename TParametersValueType>
 void
-TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
-::NonlinearThreadedGenerateData( const OutputImageRegionType & outputRegionForThread )
+TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::NonlinearThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   // Get the output pointer
-  OutputImageType * output = this->GetOutput();
+  OutputImageType *     output = this->GetOutput();
   const TransformType * transform = this->GetInput()->Get();
 
   // Create an iterator that will walk the output region for this thread.
-  using OutputIteratorType = ImageScanlineIterator< TOutputImage >;
-  OutputIteratorType outIt( output, outputRegionForThread );
+  using OutputIteratorType = ImageScanlineIterator<TOutputImage>;
+  OutputIteratorType outIt(output, outputRegionForThread);
 
   // Define a few variables that will be used to translate from an input pixel
   // to an output pixel
-  PointType outputPoint;         // Coordinates of output pixel
-  PointType transformedPoint;    // Coordinates of transformed pixel
-  PixelType displacement;         // the difference
+  PointType outputPoint;      // Coordinates of output pixel
+  PointType transformedPoint; // Coordinates of transformed pixel
+  PixelType displacement;     // the difference
 
   // Walk the output region
   outIt.GoToBegin();
-  while ( !outIt.IsAtEnd() )
+  while (!outIt.IsAtEnd())
+  {
+    while (!outIt.IsAtEndOfLine())
     {
-    while ( !outIt.IsAtEndOfLine() )
-      {
       // Determine the index of the current output pixel
-      output->TransformIndexToPhysicalPoint( outIt.GetIndex(), outputPoint );
+      output->TransformIndexToPhysicalPoint(outIt.GetIndex(), outputPoint);
 
       // Compute corresponding input pixel position
-      transformedPoint = transform->TransformPoint( outputPoint );
+      transformedPoint = transform->TransformPoint(outputPoint);
 
       displacement = transformedPoint - outputPoint;
-      outIt.Set( displacement );
+      outIt.Set(displacement);
       ++outIt;
-      }
-    outIt.NextLine();
     }
+    outIt.NextLine();
+  }
 }
 
 
-template< typename TOutputImage, typename TParametersValueType>
+template <typename TOutputImage, typename TParametersValueType>
 void
-TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
-::LinearThreadedGenerateData( const OutputImageRegionType & outputRegionForThread )
+TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::LinearThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   // Get the output pointer
-  OutputImageType * outputPtr = this->GetOutput();
+  OutputImageType *     outputPtr = this->GetOutput();
   const TransformType * transformPtr = this->GetInput()->Get();
 
-  const OutputImageRegionType &largestPossibleRegion = outputPtr->GetLargestPossibleRegion();
+  const OutputImageRegionType & largestPossibleRegion = outputPtr->GetLargestPossibleRegion();
 
   // Create an iterator that will walk the output region for this thread.
-  using OutputIteratorType = ImageScanlineIterator< TOutputImage >;
-  OutputIteratorType outIt( outputPtr, outputRegionForThread );
+  using OutputIteratorType = ImageScanlineIterator<TOutputImage>;
+  OutputIteratorType outIt(outputPtr, outputRegionForThread);
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
-  PointType outputPoint;         // Coordinates of current output pixel
+  PointType outputPoint; // Coordinates of current output pixel
   PointType inputPoint;
 
 
   // loop over the vector image
-  while ( !outIt.IsAtEnd() )
-    {
+  while (!outIt.IsAtEnd())
+  {
 
     // Compare with the ResampleImageFilter
     // The region may be split along the fast scan-line direction, so
     // the computation is done for the beginning and end of the largest
     // possible region to improve consistent numerics.
-    IndexType index  = outIt.GetIndex();
+    IndexType index = outIt.GetIndex();
     index[0] = largestPossibleRegion.GetIndex(0);
 
     outputPtr->TransformIndexToPhysicalPoint(index, outputPoint);
@@ -259,26 +254,27 @@ TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
 
     IndexValueType scanlineIndex = outIt.GetIndex()[0];
 
-    while ( !outIt.IsAtEndOfLine() )
-      {
+    while (!outIt.IsAtEndOfLine())
+    {
       // Perform linear interpolation between startIndex and endIndex
-      const double alpha = (scanlineIndex - largestPossibleRegion.GetIndex(0) ) / double(largestPossibleRegion.GetSize(0));
+      const double alpha =
+        (scanlineIndex - largestPossibleRegion.GetIndex(0)) / double(largestPossibleRegion.GetSize(0));
       const double oneMinusAlpha = 1.0 - alpha;
 
       PixelType displacement;
       for (unsigned int i = 0; i < ImageDimension; ++i)
-        {
-        displacement[i] = oneMinusAlpha*startDisplacement[i] + alpha*endDisplacement[i];
-        }
-
-
-      outIt.Set( displacement );
-      ++outIt;
-      ++scanlineIndex;
+      {
+        displacement[i] = oneMinusAlpha * startDisplacement[i] + alpha * endDisplacement[i];
       }
 
-    outIt.NextLine();
+
+      outIt.Set(displacement);
+      ++outIt;
+      ++scanlineIndex;
     }
+
+    outIt.NextLine();
+  }
 }
 
 } // end namespace itk

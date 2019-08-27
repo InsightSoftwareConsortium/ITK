@@ -32,8 +32,8 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKSpatialObjects
  */
-template< typename TInputImage, typename TInputSpatialObject, unsigned int TSampleDimension = 1 >
-class ITK_TEMPLATE_EXPORT SpatialObjectToImageStatisticsCalculator:public Object
+template <typename TInputImage, typename TInputSpatialObject, unsigned int TSampleDimension = 1>
+class ITK_TEMPLATE_EXPORT SpatialObjectToImageStatisticsCalculator : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectToImageStatisticsCalculator);
@@ -41,8 +41,8 @@ public:
   /** Standard class type aliases. */
   using Self = SpatialObjectToImageStatisticsCalculator;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -60,7 +60,7 @@ public:
   using RegionType = typename TInputImage::RegionType;
   using SizeType = typename RegionType::SizeType;
 
-  using AccumulateType = typename NumericTraits< PixelType >::AccumulateType;
+  using AccumulateType = typename NumericTraits<PixelType>::AccumulateType;
 
   static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
@@ -74,11 +74,11 @@ public:
   using SpatialObjectConstPointer = typename SpatialObjectType::ConstPointer;
 
   /** Vector and Matrix Type */
-  using VectorType = Vector< double, TSampleDimension >;
-  using MatrixType = Matrix< double, TSampleDimension, TSampleDimension >;
+  using VectorType = Vector<double, TSampleDimension>;
+  using MatrixType = Matrix<double, TSampleDimension, TSampleDimension>;
 
   /** Type definitions for the samples */
-  using SampleType = itk::Statistics::ListSample< VectorType >;
+  using SampleType = itk::Statistics::ListSample<VectorType>;
 
   /** Set/Get the direction of the sample */
   itkSetMacro(SampleDirection, unsigned int);
@@ -91,26 +91,41 @@ public:
   itkSetObjectMacro(SpatialObject, SpatialObjectType);
 
   /** Get the mean */
-  const VectorType & GetMean() const { return m_Mean; }
+  const VectorType &
+  GetMean() const
+  {
+    return m_Mean;
+  }
 
   /** Get the covariance matrix */
-  const MatrixType & GetCovarianceMatrix() const { return m_CovarianceMatrix; }
+  const MatrixType &
+  GetCovarianceMatrix() const
+  {
+    return m_CovarianceMatrix;
+  }
 
   /** Get the sum of pixels */
-  AccumulateType GetSum() const { return m_Sum; }
+  AccumulateType
+  GetSum() const
+  {
+    return m_Sum;
+  }
 
   /** Get the number of pixels inside the object */
   itkGetConstMacro(NumberOfPixels, SizeValueType);
 
   /** Compute of the input image. */
-  void Update();
+  void
+  Update();
 
 protected:
   SpatialObjectToImageStatisticsCalculator();
   ~SpatialObjectToImageStatisticsCalculator() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  bool ComputeStatistics();
+  bool
+  ComputeStatistics();
 
 private:
   ImageConstPointer    m_Image;
@@ -129,7 +144,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpatialObjectToImageStatisticsCalculator.hxx"
+#  include "itkSpatialObjectToImageStatisticsCalculator.hxx"
 #endif
 
 #endif /* itkSpatialObjectToImageStatisticsCalculator_h */

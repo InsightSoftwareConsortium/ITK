@@ -44,16 +44,15 @@ namespace itk
  * \ingroup MeshFilters
  * \ingroup ITKMesh
  */
-template< typename TInputMesh, typename TOutputMesh, typename TSpatialFunction >
-class ITK_TEMPLATE_EXPORT InteriorExteriorMeshFilter:
-  public MeshToMeshFilter< TInputMesh, TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh, typename TSpatialFunction>
+class ITK_TEMPLATE_EXPORT InteriorExteriorMeshFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   /** Standard class type aliases. */
   using Self = InteriorExteriorMeshFilter;
-  using Superclass = MeshToMeshFilter< TInputMesh, TOutputMesh >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MeshToMeshFilter<TInputMesh, TOutputMesh>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using InputMeshType = TInputMesh;
   using OutputMeshType = TOutputMesh;
@@ -82,22 +81,25 @@ public:
 protected:
   InteriorExteriorMeshFilter();
   ~InteriorExteriorMeshFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate requested data. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Transform applied to all the mesh points. */
   typename SpatialFunctionType::Pointer m_SpatialFunction;
 
 private:
   InteriorExteriorMeshFilter(const InteriorExteriorMeshFilter &) = delete;
-  void operator=(const InteriorExteriorMeshFilter &) = delete;
+  void
+  operator=(const InteriorExteriorMeshFilter &) = delete;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkInteriorExteriorMeshFilter.hxx"
+#  include "itkInteriorExteriorMeshFilter.hxx"
 #endif
 
 #endif

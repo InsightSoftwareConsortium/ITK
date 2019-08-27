@@ -55,21 +55,27 @@ namespace itk
  *
  * \ingroup ITKReview
  */
-template< typename TInputImage, typename TOutputImage, typename TAttribute = typename TInputImage::SpacingType::ValueType >
-class AreaClosingImageFilter:
-  public AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute,
-                                             std::less< typename TInputImage::PixelType > >
+template <typename TInputImage,
+          typename TOutputImage,
+          typename TAttribute = typename TInputImage::SpacingType::ValueType>
+class AreaClosingImageFilter
+  : public AttributeMorphologyBaseImageFilter<TInputImage,
+                                              TOutputImage,
+                                              TAttribute,
+                                              std::less<typename TInputImage::PixelType>>
 
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AreaClosingImageFilter);
 
   using Self = AreaClosingImageFilter;
-  using Superclass = AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute,
-                                              std::less< typename TInputImage::PixelType > >;
+  using Superclass = AttributeMorphologyBaseImageFilter<TInputImage,
+                                                        TOutputImage,
+                                                        TAttribute,
+                                                        std::less<typename TInputImage::PixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /**
    * Extract some information from the image types.  Dimensionality
@@ -90,8 +96,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(AreaClosingImageFilter,
-               AttributeMorphologyBaseImageFilter);
+  itkTypeMacro(AreaClosingImageFilter, AttributeMorphologyBaseImageFilter);
 
   /**
    * Set/Get whether the image spacing is used or not - defaults to true.
@@ -101,40 +106,38 @@ public:
   itkBooleanMacro(UseImageSpacing);
 
 protected:
-  AreaClosingImageFilter()
-  {
-    m_UseImageSpacing = true;
-  }
+  AreaClosingImageFilter() { m_UseImageSpacing = true; }
 
   ~AreaClosingImageFilter() override {}
 
-  void GenerateData() override
+  void
+  GenerateData() override
   {
     this->m_AttributeValuePerPixel = 1;
-    if ( m_UseImageSpacing )
-      {
+    if (m_UseImageSpacing)
+    {
       // compute pixel size
       double psize = 1.0;
-      for ( unsigned i = 0; i < ImageDimension; i++ )
-        {
+      for (unsigned i = 0; i < ImageDimension; i++)
+      {
         psize *= this->GetInput()->GetSpacing()[i];
-        }
-      this->m_AttributeValuePerPixel = static_cast< AttributeType >( psize );
+      }
+      this->m_AttributeValuePerPixel = static_cast<AttributeType>(psize);
       // std::cout << "m_AttributeValuePerPixel: " <<
       // this->m_AttributeValuePerPixel << std::endl;
       // and call superclass implementation of GenerateData()
-      }
+    }
     Superclass::GenerateData();
   }
 
-  void PrintSelf(std::ostream & os, Indent indent) const override
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-    os << indent << "UseImageSpacing: "  << m_UseImageSpacing << std::endl;
+    os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
   }
 
 private:
-
   bool m_UseImageSpacing;
 };
 } // namespace itk

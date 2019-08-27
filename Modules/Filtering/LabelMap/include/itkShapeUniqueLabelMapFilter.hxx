@@ -23,37 +23,32 @@
 
 namespace itk
 {
-template< typename TImage >
-ShapeUniqueLabelMapFilter< TImage >
-::ShapeUniqueLabelMapFilter()
+template <typename TImage>
+ShapeUniqueLabelMapFilter<TImage>::ShapeUniqueLabelMapFilter()
 {
   m_ReverseOrdering = false;
   m_Attribute = LabelObjectType::NUMBER_OF_PIXELS;
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-ShapeUniqueLabelMapFilter< TImage >
-::GenerateData()
+ShapeUniqueLabelMapFilter<TImage>::GenerateData()
 {
-  switch ( m_Attribute )
-    {
-    itkShapeLabelMapFilterDispatchMacro()
-    default:
-      itkExceptionMacro(<< "Unknown attribute type");
-      break;
-    }
+  switch (m_Attribute)
+  {
+    itkShapeLabelMapFilterDispatchMacro() default : itkExceptionMacro(<< "Unknown attribute type");
+    break;
+  }
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-ShapeUniqueLabelMapFilter< TImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+ShapeUniqueLabelMapFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ReverseOrdering: "  << m_ReverseOrdering << std::endl;
-  os << indent << "Attribute: "  << LabelObjectType::GetNameFromAttribute(m_Attribute) << " (" << m_Attribute << ")"
+  os << indent << "ReverseOrdering: " << m_ReverseOrdering << std::endl;
+  os << indent << "Attribute: " << LabelObjectType::GetNameFromAttribute(m_Attribute) << " (" << m_Attribute << ")"
      << std::endl;
 }
 } // end namespace itk

@@ -29,14 +29,14 @@
 
 namespace itk
 {
-template< typename TValue >
+template <typename TValue>
 class ITK_TEMPLATE_EXPORT ListNode
 {
 public:
   TValue m_Value;
 
-  ListNode *Next;
-  ListNode *Previous;
+  ListNode * Next;
+  ListNode * Previous;
 };
 
 /** \class CannyEdgeDetectionImageFilter
@@ -83,24 +83,23 @@ public:
  * \sa ThresholdImageFilter
  * \ingroup ITKImageFeature
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT CannyEdgeDetectionImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT CannyEdgeDetectionImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CannyEdgeDetectionImageFilter);
 
   /** Standard "Self" & Superclass type alias.  */
   using Self = CannyEdgeDetectionImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
 
   /** Image type alias support   */
   using InputImageType = TInputImage;
   using OutputImageType = TOutputImage;
 
   /** SmartPointer type alias support  */
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Define pixel types. */
   using InputImagePixelType = typename TInputImage::PixelType;
@@ -115,12 +114,11 @@ public:
   /** The type of data structure that is passed to this function object
    * to evaluate at a pixel that does not lie on a data set boundary.
    */
-  using NeighborhoodType = ConstNeighborhoodIterator< OutputImageType,
-                                     DefaultBoundaryConditionType >;
+  using NeighborhoodType = ConstNeighborhoodIterator<OutputImageType, DefaultBoundaryConditionType>;
 
-  using ListNodeType = ListNode< IndexType >;
-  using ListNodeStorageType = ObjectStore< ListNodeType >;
-  using ListType = SparseFieldLayer< ListNodeType >;
+  using ListNodeType = ListNode<IndexType>;
+  using ListNodeStorageType = ObjectStore<ListNodeType>;
+  using ListType = SparseFieldLayer<ListNodeType>;
   using ListPointerType = typename ListType::Pointer;
 
   /** Method for creation through the object factory. */
@@ -138,7 +136,7 @@ public:
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Typedef of double containers. */
-  using ArrayType = FixedArray< double, Self::ImageDimension >;
+  using ArrayType = FixedArray<double, Self::ImageDimension>;
 
   /** Set/Get the variance of the Gaussian smoothing filter. */
   itkSetMacro(Variance, ArrayType);
@@ -150,32 +148,34 @@ public:
   itkGetConstMacro(MaximumError, const ArrayType);
 
   /** Set/Get the variance of the Gaussian smoothing filter. */
-  void SetVariance(const typename ArrayType::ValueType v)
+  void
+  SetVariance(const typename ArrayType::ValueType v)
   {
-    for ( unsigned int i = 0; i < TInputImage::ImageDimension; i++ )
+    for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
+    {
+      if (Math::NotExactlyEquals(m_Variance[i], v))
       {
-      if ( Math::NotExactlyEquals(m_Variance[i], v) )
-        {
         m_Variance.Fill(v);
         this->Modified();
         break;
-        }
       }
+    }
   }
 
   /** Set/Get the MaximumError parameter used by the Gaussian smoothing filter
    *  in this algorithm */
-  void SetMaximumError(const typename ArrayType::ValueType v)
+  void
+  SetMaximumError(const typename ArrayType::ValueType v)
   {
-    for ( unsigned int i = 0; i < TInputImage::ImageDimension; i++ )
+    for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
+    {
+      if (Math::NotExactlyEquals(m_MaximumError[i], v))
       {
-      if ( Math::NotExactlyEquals(m_MaximumError[i], v) )
-        {
         m_MaximumError.Fill(v);
         this->Modified();
         break;
-        }
       }
+    }
   }
 
   /** \brief Set the Threshold value for detected edges.
@@ -194,69 +194,70 @@ public:
   itkSetMacro(LowerThreshold, OutputImagePixelType);
   itkGetConstMacro(LowerThreshold, OutputImagePixelType);
 
-  OutputImageType * GetNonMaximumSuppressionImage()
+  OutputImageType *
+  GetNonMaximumSuppressionImage()
   {
     return this->m_MultiplyImageFilter->GetOutput();
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputImagePixelType > ) );
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< OutputImagePixelType > ) );
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< ImageDimension, OutputImageDimension > ) );
-  itkConceptMacro( InputIsFloatingPointCheck,
-                   ( Concept::IsFloatingPoint< InputImagePixelType > ) );
-  itkConceptMacro( OutputIsFloatingPointCheck,
-                   ( Concept::IsFloatingPoint< OutputImagePixelType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputImagePixelType>));
+  itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputImagePixelType>));
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  itkConceptMacro(InputIsFloatingPointCheck, (Concept::IsFloatingPoint<InputImagePixelType>));
+  itkConceptMacro(OutputIsFloatingPointCheck, (Concept::IsFloatingPoint<OutputImagePixelType>));
   // End concept checking
 #endif
 
 protected:
   CannyEdgeDetectionImageFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  using GaussianImageFilterType =
-      DiscreteGaussianImageFilter< InputImageType, OutputImageType >;
-  using MultiplyImageFilterType = MultiplyImageFilter< OutputImageType,
-                               OutputImageType, OutputImageType >;
+  using GaussianImageFilterType = DiscreteGaussianImageFilter<InputImageType, OutputImageType>;
+  using MultiplyImageFilterType = MultiplyImageFilter<OutputImageType, OutputImageType, OutputImageType>;
 
 private:
   ~CannyEdgeDetectionImageFilter() override = default;
 
   /** Allocate storage for update buffers used during calculation of multiple steps. */
-  void AllocateUpdateBuffer();
+  void
+  AllocateUpdateBuffer();
 
   /** Implement hysteresis thresholding. */
-  void HysteresisThresholding();
+  void
+  HysteresisThresholding();
 
   /** Edge linking function. */
-  void FollowEdge(IndexType index, const OutputImageType *multiplyImageFilterOutput);
+  void
+  FollowEdge(IndexType index, const OutputImageType * multiplyImageFilterOutput);
 
   /** Calculate the second derivative of the smoothed image, it writes the
    *  result to the update buffer */
-  void ThreadedCompute2ndDerivative(const OutputImageRegionType& outputRegionForThread);
+  void
+  ThreadedCompute2ndDerivative(const OutputImageRegionType & outputRegionForThread);
 
 
   /** This method is used to calculate the 2nd derivative for
    * non-boundary pixels. It is called by the ThreadedCompute2ndDerivative
    * method. */
-  OutputImagePixelType ComputeCannyEdge(const NeighborhoodType & it,
-                                        void *globalData);
+  OutputImagePixelType
+  ComputeCannyEdge(const NeighborhoodType & it, void * globalData);
 
   /** Calculate the gradient of the second derivative of the smoothed image,
    *  it writes the result to m_UpdateBuffer1 */
-  void ThreadedCompute2ndDerivativePos(const OutputImageRegionType& outputRegionForThread);
+  void
+  ThreadedCompute2ndDerivativePos(const OutputImageRegionType & outputRegionForThread);
 
   ArrayType m_Variance;
   ArrayType m_MaximumError;
 
-  OutputImagePixelType m_UpperThreshold;  //should be float here?
-  OutputImagePixelType m_LowerThreshold; //should be float here?
+  OutputImagePixelType m_UpperThreshold; // should be float here?
+  OutputImagePixelType m_LowerThreshold; // should be float here?
 
   typename OutputImageType::Pointer m_UpdateBuffer1;
 
@@ -269,10 +270,8 @@ private:
 
   /** Function objects that are used in the inner loops of derivatiVex
    *  calculations. */
-  DerivativeOperator< OutputImagePixelType, Self::ImageDimension >
-  m_ComputeCannyEdge1stDerivativeOper;
-  DerivativeOperator< OutputImagePixelType, Self::ImageDimension >
-  m_ComputeCannyEdge2ndDerivativeOper;
+  DerivativeOperator<OutputImagePixelType, Self::ImageDimension> m_ComputeCannyEdge1stDerivativeOper;
+  DerivativeOperator<OutputImagePixelType, Self::ImageDimension> m_ComputeCannyEdge2ndDerivativeOper;
 
   std::slice m_ComputeCannyEdgeSlice[ImageDimension];
 
@@ -282,12 +281,12 @@ private:
   typename ListNodeStorageType::Pointer m_NodeStore;
   ListPointerType                       m_NodeList;
 
-  OutputImageType      *m_OutputImage;
+  OutputImageType * m_OutputImage;
 };
-} //end of namespace itk
+} // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCannyEdgeDetectionImageFilter.hxx"
+#  include "itkCannyEdgeDetectionImageFilter.hxx"
 #endif
 
 #endif

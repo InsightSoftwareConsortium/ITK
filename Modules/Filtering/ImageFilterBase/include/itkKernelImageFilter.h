@@ -23,7 +23,8 @@
 namespace itk
 {
 
-template< unsigned int VDimension > class FlatStructuringElement;
+template <unsigned int VDimension>
+class FlatStructuringElement;
 /**
  * \class KernelImageFilter
  * \brief A base class for all the filters working on an arbitrary shaped neighborhood
@@ -45,16 +46,15 @@ public:
 
   /** Standard class type aliases. */
   using Self = KernelImageFilter;
-  using Superclass = BoxImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = BoxImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(KernelImageFilter,
-               BoxImageFilter);
+  itkTypeMacro(KernelImageFilter, BoxImageFilter);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;
@@ -78,14 +78,17 @@ public:
   using RadiusType = typename TInputImage::SizeType;
 
   /** Set kernel (structuring element). */
-  virtual void SetKernel(const KernelType & kernel);
+  virtual void
+  SetKernel(const KernelType & kernel);
 
   itkGetConstReferenceMacro(Kernel, KernelType);
 
   /** Set the kernel to a box kernel of given radius. */
-  void SetRadius(const RadiusType & radius) override;
+  void
+  SetRadius(const RadiusType & radius) override;
 
-  void SetRadius(const SizeValueType & radius) override
+  void
+  SetRadius(const SizeValueType & radius) override
   {
     // needed because of the overloading of the method
     Superclass::SetRadius(radius);
@@ -95,33 +98,37 @@ protected:
   KernelImageFilter();
   ~KernelImageFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** kernel or structuring element to use. */
   KernelType m_Kernel;
 
 private:
-  template<typename T> void MakeKernel( const RadiusType & radius, T & kernel )
+  template <typename T>
+  void
+  MakeKernel(const RadiusType & radius, T & kernel)
   {
-    kernel.SetRadius( radius );
-    for( typename T::Iterator kit=kernel.Begin(); kit != kernel.End(); kit++ )
-      {
+    kernel.SetRadius(radius);
+    for (typename T::Iterator kit = kernel.Begin(); kit != kernel.End(); kit++)
+    {
       *kit = 1;
-      }
+    }
   }
 
-  void MakeKernel( const RadiusType & radius, FlatKernelType & kernel )
+  void
+  MakeKernel(const RadiusType & radius, FlatKernelType & kernel)
   {
     // set up a decomposable box structuring element which is
     // much efficient with van Herk / Gil Werman filters
-    kernel = FlatKernelType::Box( radius );
-    assert( kernel.GetDecomposable() );
+    kernel = FlatKernelType::Box(radius);
+    assert(kernel.GetDecomposable());
   }
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkKernelImageFilter.hxx"
+#  include "itkKernelImageFilter.hxx"
 #endif
 
 #endif

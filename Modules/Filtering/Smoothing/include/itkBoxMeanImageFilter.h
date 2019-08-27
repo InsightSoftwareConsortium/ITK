@@ -39,25 +39,23 @@ namespace itk
  * \ingroup ITKSmoothing
  */
 
-template< typename TInputImage, typename TOutputImage = TInputImage >
-class ITK_TEMPLATE_EXPORT BoxMeanImageFilter:
-  public BoxImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT BoxMeanImageFilter : public BoxImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BoxMeanImageFilter);
 
   /** Standard class type aliases. */
   using Self = BoxMeanImageFilter;
-  using Superclass = BoxImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = BoxImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BoxMeanImageFilter,
-               BoxImageFilter);
+  itkTypeMacro(BoxMeanImageFilter, BoxImageFilter);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;
@@ -76,9 +74,7 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( SameDimension,
-                   ( Concept::SameDimension< Self::InputImageDimension,
-                                             Self::OutputImageDimension > ) );
+  itkConceptMacro(SameDimension, (Concept::SameDimension<Self::InputImageDimension, Self::OutputImageDimension>));
 
   // End concept checking
 #endif
@@ -88,13 +84,14 @@ protected:
   ~BoxMeanImageFilter() override = default;
 
   /** Multi-thread version GenerateData. */
-  void  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
-};                                  // end of class
+}; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBoxMeanImageFilter.hxx"
+#  include "itkBoxMeanImageFilter.hxx"
 #endif
 
 #endif

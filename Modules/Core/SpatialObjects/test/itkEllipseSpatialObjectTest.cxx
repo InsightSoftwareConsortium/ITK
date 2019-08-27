@@ -23,7 +23,8 @@
 #include "itkEllipseSpatialObject.h"
 #include "itkMath.h"
 
-int itkEllipseSpatialObjectTest(int, char* [])
+int
+itkEllipseSpatialObjectTest(int, char *[])
 {
   using EllipseType = itk::EllipseSpatialObject<4>;
 
@@ -33,7 +34,7 @@ int itkEllipseSpatialObjectTest(int, char* [])
 
   EllipseType::ArrayType radii;
 
-  for(unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; i++)
   {
     radii[i] = i;
   }
@@ -43,9 +44,9 @@ int itkEllipseSpatialObjectTest(int, char* [])
   myEllipse->SetRadiusInObjectSpace(radii);
   myEllipse->Update();
   EllipseType::ArrayType radii2 = myEllipse->GetRadiusInObjectSpace();
-  for(unsigned int i = 0; i<4;i++)
+  for (unsigned int i = 0; i < 4; i++)
   {
-    if(itk::Math::NotExactlyEquals(radii2[i],i))
+    if (itk::Math::NotExactlyEquals(radii2[i], i))
     {
       std::cout << "[FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -57,9 +58,9 @@ int itkEllipseSpatialObjectTest(int, char* [])
   myEllipse->Update();
   EllipseType::ArrayType radii3 = myEllipse->GetRadiusInObjectSpace();
   std::cout << "Testing Global radii : ";
-  for(unsigned int i = 0; i<4;i++)
+  for (unsigned int i = 0; i < 4; i++)
   {
-    if(itk::Math::NotExactlyEquals(radii3[i],3))
+    if (itk::Math::NotExactlyEquals(radii3[i], 3))
     {
       std::cout << "[FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -68,35 +69,35 @@ int itkEllipseSpatialObjectTest(int, char* [])
 
   std::cout << "[PASSED]" << std::endl;
 
-   // Point consistency
+  // Point consistency
   std::cout << "Is Inside: ";
-  itk::Point<double,4> in;
-  in[0]=1;
-  in[1]=2;
-  in[2]=1;
-  in[3]=1;
-  itk::Point<double,4> out;
-  out[0]=0;
-  out[1]=4;
-  out[2]=0;
-  out[3]=0;
+  itk::Point<double, 4> in;
+  in[0] = 1;
+  in[1] = 2;
+  in[2] = 1;
+  in[3] = 1;
+  itk::Point<double, 4> out;
+  out[0] = 0;
+  out[1] = 4;
+  out[2] = 0;
+  out[3] = 0;
 
-  if(!myEllipse->IsInsideInWorldSpace(in))
+  if (!myEllipse->IsInsideInWorldSpace(in))
   {
-    std::cout<<"[FAILED]"<<std::endl;
+    std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
   }
 
-  if(myEllipse->IsInsideInWorldSpace(out))
+  if (myEllipse->IsInsideInWorldSpace(out))
   {
-    std::cout<<"[FAILED]"<<std::endl;
+    std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
   }
 
-  std::cout<<"[PASSED]"<<std::endl;
+  std::cout << "[PASSED]" << std::endl;
 
 
-   std::cout << "ObjectToWorldTransform : ";
+  std::cout << "ObjectToWorldTransform : ";
 
   // Create myEllipse2 as a child of myEllipse
   EllipseType::Pointer myEllipse2 = EllipseType::New();
@@ -116,41 +117,36 @@ int itkEllipseSpatialObjectTest(int, char* [])
   EllipseType::TransformType::OffsetType offset3;
   offset3 = myEllipse2->GetModifiableObjectToParentTransform()->GetOffset();
 
-  if( (itk::Math::NotExactlyEquals(offset3[0],5))
-     || (itk::Math::NotExactlyEquals(offset3[1],5))
-     ||(itk::Math::NotExactlyEquals(offset3[2],5))
-     ||(itk::Math::NotExactlyEquals(offset3[3],5))
-     )
+  if ((itk::Math::NotExactlyEquals(offset3[0], 5)) || (itk::Math::NotExactlyEquals(offset3[1], 5)) ||
+      (itk::Math::NotExactlyEquals(offset3[2], 5)) || (itk::Math::NotExactlyEquals(offset3[3], 5)))
   {
-    std::cout<<"[FAILED]"<<std::endl;
+    std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
   }
-  std::cout<<"[PASSED]"<<std::endl;
+  std::cout << "[PASSED]" << std::endl;
 
-  //NOTE: ORDER OF Update() and ComputeFamilyBoundingBox() is important.
+  // NOTE: ORDER OF Update() and ComputeFamilyBoundingBox() is important.
   myEllipse->Update();
-  myEllipse->ComputeFamilyBoundingBox( EllipseType::MaximumDepth );
-  const EllipseType::BoundingBoxType * boundingBox
-    = myEllipse->GetFamilyBoundingBoxInWorldSpace();
+  myEllipse->ComputeFamilyBoundingBox(EllipseType::MaximumDepth);
+  const EllipseType::BoundingBoxType * boundingBox = myEllipse->GetFamilyBoundingBoxInWorldSpace();
   std::cout << "Bounds = " << boundingBox->GetBounds() << std::endl;
 
   std::cout << "Update(): ";
-  for(unsigned int i=0;i<3;i++)
+  for (unsigned int i = 0; i < 3; i++)
   {
     const EllipseType::BoundingBoxType::BoundsArrayType bounds = boundingBox->GetBounds();
-    if(   itk::Math::NotAlmostEquals(bounds[2*i], 7 )
-       || itk::Math::NotAlmostEquals(bounds[2*i+1], 16 ) // this is 13 if Update() and ComputeFamilyBoundingBox are reversed order.
-       )
+    if (itk::Math::NotAlmostEquals(bounds[2 * i], 7) ||
+        itk::Math::NotAlmostEquals(bounds[2 * i + 1],
+                                   16) // this is 13 if Update() and ComputeFamilyBoundingBox are reversed order.
+    )
     {
-      std::cout<<"[FAILED]"<<std::endl;
+      std::cout << "[FAILED]" << std::endl;
       return EXIT_FAILURE;
     }
-
   }
   std::cout << "Testing Print after use" << std::endl;
   myEllipse->Print(std::cout);
 
-  std::cout<<"[PASSED]"<<std::endl;
+  std::cout << "[PASSED]" << std::endl;
   return EXIT_SUCCESS;
-
 }

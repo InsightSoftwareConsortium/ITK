@@ -23,29 +23,26 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-BoxImageFilter< TInputImage, TOutputImage >
-::BoxImageFilter()
+template <typename TInputImage, typename TOutputImage>
+BoxImageFilter<TInputImage, TOutputImage>::BoxImageFilter()
 {
-  m_Radius.Fill(1);     // a good arbitrary starting point
+  m_Radius.Fill(1); // a good arbitrary starting point
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-BoxImageFilter< TInputImage, TOutputImage >
-::SetRadius(const RadiusType & radius)
+BoxImageFilter<TInputImage, TOutputImage>::SetRadius(const RadiusType & radius)
 {
-  if ( m_Radius != radius )
-    {
+  if (m_Radius != radius)
+  {
     m_Radius = radius;
     this->Modified();
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-BoxImageFilter< TInputImage, TOutputImage >
-::SetRadius(const RadiusValueType & radius)
+BoxImageFilter<TInputImage, TOutputImage>::SetRadius(const RadiusValueType & radius)
 {
   RadiusType rad;
 
@@ -53,22 +50,20 @@ BoxImageFilter< TInputImage, TOutputImage >
   this->SetRadius(rad);
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-BoxImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+BoxImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  typename Superclass::InputImagePointer inputPtr =
-    const_cast< TInputImage * >( this->GetInput() );
+  typename Superclass::InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
 
-  if ( !inputPtr )
-    {
+  if (!inputPtr)
+  {
     return;
-    }
+  }
 
   // get a copy of the input requested region (should equal the output
   // requested region)
@@ -79,13 +74,13 @@ BoxImageFilter< TInputImage, TOutputImage >
   inputRequestedRegion.PadByRadius(m_Radius);
 
   // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() ) )
-    {
+  if (inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()))
+  {
     inputPtr->SetRequestedRegion(inputRequestedRegion);
     return;
-    }
+  }
   else
-    {
+  {
     // Couldn't crop the region (requested region is outside the largest
     // possible region).  Throw an exception.
 
@@ -95,24 +90,22 @@ BoxImageFilter< TInputImage, TOutputImage >
     // build an exception
     InvalidRequestedRegionError e(__FILE__, __LINE__);
     std::ostringstream          msg;
-    msg << static_cast< const char * >( this->GetNameOfClass() )
-        << "::GenerateInputRequestedRegion()";
-    e.SetLocation( msg.str().c_str() );
+    msg << static_cast<const char *>(this->GetNameOfClass()) << "::GenerateInputRequestedRegion()";
+    e.SetLocation(msg.str().c_str());
     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
     e.SetDataObject(inputPtr);
     throw e;
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-BoxImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+BoxImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Radius: " << m_Radius << std::endl;
 }
-}
+} // namespace itk
 
 #endif

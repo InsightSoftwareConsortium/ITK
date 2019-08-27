@@ -70,25 +70,24 @@ namespace itk
  * \ingroup ITKImageGrid
  */
 
-template< typename TInputImage,
+template <typename TInputImage,
           typename TOutputImage,
-          typename TInputFilter = ImageToImageFilter<
-            Image< typename TInputImage::PixelType,  TInputImage::ImageDimension - 1 >,
-            Image< typename TOutputImage::PixelType,  TOutputImage ::ImageDimension - 1 > >,
+          typename TInputFilter =
+            ImageToImageFilter<Image<typename TInputImage::PixelType, TInputImage::ImageDimension - 1>,
+                               Image<typename TOutputImage::PixelType, TOutputImage ::ImageDimension - 1>>,
           class TOutputFilter = typename TInputFilter::Superclass,
           class TInternalInputImage = typename TInputFilter::InputImageType,
-          class TInternalOutputImage = typename TOutputFilter::OutputImageType >
-class ITK_TEMPLATE_EXPORT SliceBySliceImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+          class TInternalOutputImage = typename TOutputFilter::OutputImageType>
+class ITK_TEMPLATE_EXPORT SliceBySliceImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SliceBySliceImageFilter);
 
   /** Standard class type aliases. */
   using Self = SliceBySliceImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Superclass type alias. */
   using InputImagePointer = typename Superclass::InputImagePointer;
@@ -133,22 +132,27 @@ public:
   itkSetMacro(Dimension, unsigned int);
   itkGetConstMacro(Dimension, unsigned int);
 
-  void SetFilter(InputFilterType *filter);
+  void
+  SetFilter(InputFilterType * filter);
 
-  InputFilterType * GetFilter()
+  InputFilterType *
+  GetFilter()
   {
     return this->m_InputFilter;
   }
 
-  const InputFilterType * GetFilter() const
+  const InputFilterType *
+  GetFilter() const
   {
     return this->m_InputFilter;
   }
 
-  void SetInputFilter(InputFilterType *filter);
+  void
+  SetInputFilter(InputFilterType * filter);
   itkGetModifiableObjectMacro(InputFilter, InputFilterType);
 
-  void SetOutputFilter(OutputFilterType *filter);
+  void
+  SetOutputFilter(OutputFilterType * filter);
   itkGetModifiableObjectMacro(OutputFilter, OutputFilterType);
 
   /** The index of the slice currently processed by the filter. This is intended to be
@@ -161,13 +165,17 @@ protected:
   SliceBySliceImageFilter();
   ~SliceBySliceImageFilter() override = default;
 
-  void VerifyInputInformation() ITKv5_CONST override;
+  void
+  VerifyInputInformation() ITKv5_CONST override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
 private:
   unsigned int m_Dimension;
@@ -178,10 +186,10 @@ private:
 
   IndexValueType m_SliceIndex;
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSliceBySliceImageFilter.hxx"
+#  include "itkSliceBySliceImageFilter.hxx"
 #endif
 
 #endif

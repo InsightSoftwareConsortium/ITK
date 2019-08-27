@@ -36,11 +36,14 @@ namespace Details
  * \ingroup ITKCommon
  */
 struct SfinaeTypes
-  {
+{
   using TOne = char;
-  using TTwo = struct  { char arr__[2]; };
+  using TTwo = struct
+  {
+    char arr__[2];
   };
-} // Details namespace
+};
+} // namespace Details
 
 /** Traits that emulates \c std::is_convertible<>.
  * \tparam TFrom type to convert from
@@ -54,13 +57,15 @@ struct SfinaeTypes
  * \ingroup ITKCommon
  */
 template <typename TFrom, typename TTo>
-struct IsConvertible
-: private Details::SfinaeTypes
+struct IsConvertible : private Details::SfinaeTypes
 {
 private:
   static TOne Test(TTo);
-  static TTwo Test(...);
-  static TFrom MakeT();
+  static TTwo
+  Test(...);
+  static TFrom
+  MakeT();
+
 public:
   static constexpr bool Value = sizeof(Test(MakeT())) == sizeof(TOne);
 };

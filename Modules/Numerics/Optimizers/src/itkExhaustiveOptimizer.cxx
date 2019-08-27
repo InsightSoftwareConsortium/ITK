@@ -22,13 +22,12 @@ namespace itk
 /**
  * Constructor
  */
-ExhaustiveOptimizer
-::ExhaustiveOptimizer()
+ExhaustiveOptimizer ::ExhaustiveOptimizer()
 {
   itkDebugMacro("Constructor");
 
   m_StepLength = 1.0;
-  m_CurrentIteration   =   0;
+  m_CurrentIteration = 0;
   m_CurrentValue = 0;
   m_CurrentParameter = 0;
   m_CurrentIndex.Fill(0);
@@ -42,17 +41,17 @@ ExhaustiveOptimizer
  * Start walking
  */
 
-void ExhaustiveOptimizer::StartOptimization()
+void
+ExhaustiveOptimizer::StartOptimization()
 {
   this->StartWalking();
 }
 
 void
-ExhaustiveOptimizer
-::StartWalking()
+ExhaustiveOptimizer ::StartWalking()
 {
   itkDebugMacro("StartWalking");
-  this->InvokeEvent( StartEvent() );
+  this->InvokeEvent(StartEvent());
   m_StopConditionDescription.str("");
   m_StopConditionDescription << this->GetNameOfClass() << ": Running";
 
@@ -60,40 +59,37 @@ ExhaustiveOptimizer
   m_MinimumMetricValuePosition = initialPos;
   m_MaximumMetricValuePosition = initialPos;
 
-  MeasureType initialValue = this->GetValue( this->GetInitialPosition() );
+  MeasureType initialValue = this->GetValue(this->GetInitialPosition());
   m_MaximumMetricValue = initialValue;
   m_MinimumMetricValue = initialValue;
 
-  m_CurrentIteration          = 0;
+  m_CurrentIteration = 0;
   m_MaximumNumberOfIterations = 1;
 
   const unsigned int spaceDimension = this->GetInitialPosition().GetSize();
 
-  for ( unsigned int i = 0; i < spaceDimension; i++ )
-    {
-    m_MaximumNumberOfIterations *= ( 2 * m_NumberOfSteps[i] + 1 );
-    }
+  for (unsigned int i = 0; i < spaceDimension; i++)
+  {
+    m_MaximumNumberOfIterations *= (2 * m_NumberOfSteps[i] + 1);
+  }
 
   m_CurrentIndex.SetSize(spaceDimension);
   m_CurrentIndex.Fill(0);
 
   const ScalesType & scales = this->GetScales();
   // Make sure the scales have been set properly
-  if ( scales.size() != spaceDimension )
-    {
-    itkExceptionMacro(<< "The size of Scales is "
-                      << scales.size()
-                      << ", but the NumberOfParameters is "
-                      << spaceDimension
-                      << ".");
-    }
+  if (scales.size() != spaceDimension)
+  {
+    itkExceptionMacro(<< "The size of Scales is " << scales.size() << ", but the NumberOfParameters is "
+                      << spaceDimension << ".");
+  }
 
   // Setup first grid position.
   ParametersType position(spaceDimension);
-  for ( unsigned int i = 0; i < spaceDimension; i++ )
-    {
+  for (unsigned int i = 0; i < spaceDimension; i++)
+  {
     position[i] = this->GetInitialPosition()[i] - m_NumberOfSteps[i] * m_StepLength * scales[i];
-    }
+  }
   this->SetCurrentPosition(position);
 
   itkDebugMacro("Calling ResumeWalking");
@@ -105,64 +101,61 @@ ExhaustiveOptimizer
  * Resume the optimization
  */
 void
-ExhaustiveOptimizer
-::ResumeWalking()
+ExhaustiveOptimizer ::ResumeWalking()
 {
   itkDebugMacro("ResumeWalk");
   m_Stop = false;
 
-  while ( !m_Stop )
-    {
+  while (!m_Stop)
+  {
     ParametersType currentPosition = this->GetCurrentPosition();
 
-    if ( m_Stop )
-      {
+    if (m_Stop)
+    {
       StopWalking();
       break;
-      }
+    }
 
     m_CurrentValue = this->GetValue(currentPosition);
 
-    if ( m_CurrentValue > m_MaximumMetricValue )
-      {
+    if (m_CurrentValue > m_MaximumMetricValue)
+    {
       m_MaximumMetricValue = m_CurrentValue;
       m_MaximumMetricValuePosition = currentPosition;
-      }
-    if ( m_CurrentValue < m_MinimumMetricValue )
-      {
+    }
+    if (m_CurrentValue < m_MinimumMetricValue)
+    {
       m_MinimumMetricValue = m_CurrentValue;
       m_MinimumMetricValuePosition = currentPosition;
-      }
+    }
 
-    if ( m_Stop )
-      {
+    if (m_Stop)
+    {
       this->StopWalking();
       break;
-      }
+    }
 
     m_StopConditionDescription.str("");
     m_StopConditionDescription << this->GetNameOfClass() << ": Running. ";
     m_StopConditionDescription << "@ index " << this->GetCurrentIndex() << " value is " << this->GetCurrentValue();
 
-    this->InvokeEvent( IterationEvent() );
+    this->InvokeEvent(IterationEvent());
     this->AdvanceOneStep();
     m_CurrentIteration++;
-    }
+  }
 }
 
 void
-ExhaustiveOptimizer
-::StopWalking()
+ExhaustiveOptimizer ::StopWalking()
 {
   itkDebugMacro("StopWalking");
 
   m_Stop = true;
-  this->InvokeEvent( EndEvent() );
+  this->InvokeEvent(EndEvent());
 }
 
 void
-ExhaustiveOptimizer
-::AdvanceOneStep()
+ExhaustiveOptimizer ::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
 
@@ -177,54 +170,50 @@ ExhaustiveOptimizer
 }
 
 void
-ExhaustiveOptimizer
-::IncrementIndex(ParametersType & newPosition)
+ExhaustiveOptimizer ::IncrementIndex(ParametersType & newPosition)
 {
   unsigned int       idx = 0;
   const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
 
-  while ( idx < spaceDimension )
-    {
+  while (idx < spaceDimension)
+  {
     m_CurrentIndex[idx]++;
 
-    if ( m_CurrentIndex[idx] > ( 2 * m_NumberOfSteps[idx] ) )
-      {
+    if (m_CurrentIndex[idx] > (2 * m_NumberOfSteps[idx]))
+    {
       m_CurrentIndex[idx] = 0;
       idx++;
-      }
-    else
-      {
-      break;
-      }
     }
-
-  if ( idx == spaceDimension )
+    else
     {
+      break;
+    }
+  }
+
+  if (idx == spaceDimension)
+  {
     m_Stop = true;
     m_StopConditionDescription.str("");
     m_StopConditionDescription << this->GetNameOfClass() << ": ";
     m_StopConditionDescription << "Completed sampling of parametric space of size " << spaceDimension;
-    }
+  }
 
   const ScalesType & scales = this->GetScales();
-  for ( unsigned int i = 0; i < spaceDimension; i++ )
-    {
-    newPosition[i] = ( m_CurrentIndex[i] - m_NumberOfSteps[i] )
-                     * m_StepLength * scales[i]
-                     + this->GetInitialPosition()[i];
-    }
+  for (unsigned int i = 0; i < spaceDimension; i++)
+  {
+    newPosition[i] =
+      (m_CurrentIndex[i] - m_NumberOfSteps[i]) * m_StepLength * scales[i] + this->GetInitialPosition()[i];
+  }
 }
 
 const std::string
-ExhaustiveOptimizer
-::GetStopConditionDescription() const
+ExhaustiveOptimizer ::GetStopConditionDescription() const
 {
   return m_StopConditionDescription.str();
 }
 
 void
-ExhaustiveOptimizer
-::PrintSelf(std::ostream & os, Indent indent) const
+ExhaustiveOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

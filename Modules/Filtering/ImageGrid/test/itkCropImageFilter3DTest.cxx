@@ -20,7 +20,8 @@
 #include "itkCropImageFilter.h"
 #include "itkTestingMacros.h"
 
-int itkCropImageFilter3DTest( int, char* [] )
+int
+itkCropImageFilter3DTest(int, char *[])
 {
 
   // Define the dimension of the images
@@ -30,12 +31,12 @@ int itkCropImageFilter3DTest( int, char* [] )
   using PixelType = unsigned short;
 
   // Declare the types of the images
-  using ImageType = itk::Image< PixelType, ImageDimension >;
+  using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  ImageType::RegionType region;
-  const unsigned int dimSize(8);
-  ImageType::RegionType::SizeType size = {{dimSize, dimSize, dimSize}};
-  ImageType::RegionType::IndexType index = {{0, 0, 0}};
+  ImageType::RegionType            region;
+  const unsigned int               dimSize(8);
+  ImageType::RegionType::SizeType  size = { { dimSize, dimSize, dimSize } };
+  ImageType::RegionType::IndexType index = { { 0, 0, 0 } };
   region.SetSize(size);
   region.SetIndex(index);
 
@@ -44,68 +45,60 @@ int itkCropImageFilter3DTest( int, char* [] )
   image->SetRegions(region);
   image->Allocate();
 
-  itk::ImageRegionIterator< ImageType > it( image, region );
-  for( unsigned short i = 0; !it.IsAtEnd(); ++it, ++i )
-    {
-    it.Set( i );
-    }
+  itk::ImageRegionIterator<ImageType> it(image, region);
+  for (unsigned short i = 0; !it.IsAtEnd(); ++it, ++i)
+  {
+    it.Set(i);
+  }
 
-  itk::CropImageFilter< ImageType, ImageType> ::Pointer cropFilter =
-    itk::CropImageFilter< ImageType, ImageType >::New();
+  itk::CropImageFilter<ImageType, ImageType>::Pointer cropFilter = itk::CropImageFilter<ImageType, ImageType>::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( cropFilter, CropImageFilter,
-    ExtractImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(cropFilter, CropImageFilter, ExtractImageFilter);
 
-  cropFilter->SetInput( image );
+  cropFilter->SetInput(image);
 
   // Set the filter properties
-  ImageType::SizeType extractSize = {{1, 1, 1}};
+  ImageType::SizeType extractSize = { { 1, 1, 1 } };
 
-  cropFilter->SetBoundaryCropSize( extractSize );
+  cropFilter->SetBoundaryCropSize(extractSize);
 
-  cropFilter->SetUpperBoundaryCropSize( extractSize );
-  ITK_TEST_SET_GET_VALUE( extractSize, cropFilter->GetUpperBoundaryCropSize() );
+  cropFilter->SetUpperBoundaryCropSize(extractSize);
+  ITK_TEST_SET_GET_VALUE(extractSize, cropFilter->GetUpperBoundaryCropSize());
 
-  cropFilter->SetLowerBoundaryCropSize( extractSize );
-  ITK_TEST_SET_GET_VALUE( extractSize, cropFilter->GetLowerBoundaryCropSize() );
+  cropFilter->SetLowerBoundaryCropSize(extractSize);
+  ITK_TEST_SET_GET_VALUE(extractSize, cropFilter->GetLowerBoundaryCropSize());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( cropFilter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(cropFilter->Update());
 
   ImageType::Pointer croppedImage = cropFilter->GetOutput();
 
   // check size of cropped image
-  ImageType::RegionType::SizeType croppedSize =
-    croppedImage->GetLargestPossibleRegion().GetSize();
-  for( unsigned i = 0; i < ImageType::RegionType::SizeType::GetSizeDimension();
-    i++ )
+  ImageType::RegionType::SizeType croppedSize = croppedImage->GetLargestPossibleRegion().GetSize();
+  for (unsigned i = 0; i < ImageType::RegionType::SizeType::GetSizeDimension(); i++)
+  {
+    if (croppedSize[i] != dimSize - 2)
     {
-    if( croppedSize[i] != dimSize - 2 )
-      {
-      std::cerr << "Unexpected cropped Image size[" << i
-                << "] = " << croppedSize[i] << ". Expected "
-                << dimSize << std::endl;
-      return EXIT_FAILURE;
-      }
-    }
-  ImageType::RegionType subRegion;
-  ImageType::RegionType::SizeType subSize = {{dimSize-2, dimSize-2, dimSize-2}};
-  ImageType::RegionType::IndexType subIndex = {{1, 1, 1}};
-  subRegion.SetSize( subSize );
-  subRegion.SetIndex( subIndex );
-
-  itk::ImageRegionIterator< ImageType > it1( image, subRegion );
-  itk::ImageRegionIterator< ImageType > it2( croppedImage,
-    croppedImage->GetLargestPossibleRegion() );
-  for(; !it1.IsAtEnd() && !it2.IsAtEnd(); ++it1, ++it2)
-    {
-    if( it1.Get() != it2.Get() )
-      {
-      std::cerr << "Expected Pixel " << it1.Get()
-                << " saw " << it2.Get() << " instead."
+      std::cerr << "Unexpected cropped Image size[" << i << "] = " << croppedSize[i] << ". Expected " << dimSize
                 << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
+  ImageType::RegionType            subRegion;
+  ImageType::RegionType::SizeType  subSize = { { dimSize - 2, dimSize - 2, dimSize - 2 } };
+  ImageType::RegionType::IndexType subIndex = { { 1, 1, 1 } };
+  subRegion.SetSize(subSize);
+  subRegion.SetIndex(subIndex);
+
+  itk::ImageRegionIterator<ImageType> it1(image, subRegion);
+  itk::ImageRegionIterator<ImageType> it2(croppedImage, croppedImage->GetLargestPossibleRegion());
+  for (; !it1.IsAtEnd() && !it2.IsAtEnd(); ++it1, ++it2)
+  {
+    if (it1.Get() != it2.Get())
+    {
+      std::cerr << "Expected Pixel " << it1.Get() << " saw " << it2.Get() << " instead." << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
 
   return EXIT_SUCCESS;
 }

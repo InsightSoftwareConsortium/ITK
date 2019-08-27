@@ -23,47 +23,42 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-BinaryImageToShapeLabelMapFilter< TInputImage, TOutputImage >
-::BinaryImageToShapeLabelMapFilter()
+template <typename TInputImage, typename TOutputImage>
+BinaryImageToShapeLabelMapFilter<TInputImage, TOutputImage>::BinaryImageToShapeLabelMapFilter()
 {
-  m_OutputBackgroundValue = NumericTraits< OutputImagePixelType >::NonpositiveMin();
-  m_InputForegroundValue = NumericTraits< InputImagePixelType >::max();
+  m_OutputBackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
+  m_InputForegroundValue = NumericTraits<InputImagePixelType>::max();
   m_FullyConnected = false;
   m_ComputeFeretDiameter = false;
   m_ComputePerimeter = true;
   m_ComputeOrientedBoundingBox = false;
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-BinaryImageToShapeLabelMapFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+BinaryImageToShapeLabelMapFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the inputs.
-  InputImagePointer input = const_cast< InputImageType * >( this->GetInput() );
-  if ( input )
-    {
-    input->SetRequestedRegion( input->GetLargestPossibleRegion() );
-    }
+  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  if (input)
+  {
+    input->SetRequestedRegion(input->GetLargestPossibleRegion());
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-BinaryImageToShapeLabelMapFilter< TInputImage, TOutputImage >
-::EnlargeOutputRequestedRegion(DataObject *)
+BinaryImageToShapeLabelMapFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()
-  ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-BinaryImageToShapeLabelMapFilter< TInputImage, TOutputImage >
-::GenerateData()
+BinaryImageToShapeLabelMapFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
@@ -74,39 +69,37 @@ BinaryImageToShapeLabelMapFilter< TInputImage, TOutputImage >
   this->AllocateOutputs();
 
   typename LabelizerType::Pointer labelizer = LabelizerType::New();
-  labelizer->SetInput( this->GetInput() );
+  labelizer->SetInput(this->GetInput());
   labelizer->SetInputForegroundValue(m_InputForegroundValue);
   labelizer->SetOutputBackgroundValue(m_OutputBackgroundValue);
   labelizer->SetFullyConnected(m_FullyConnected);
-  labelizer->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  labelizer->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(labelizer, .5f);
 
   typename LabelObjectValuatorType::Pointer valuator = LabelObjectValuatorType::New();
-  valuator->SetInput( labelizer->GetOutput() );
-  valuator->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  valuator->SetInput(labelizer->GetOutput());
+  valuator->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   valuator->SetComputePerimeter(m_ComputePerimeter);
   valuator->SetComputeFeretDiameter(m_ComputeFeretDiameter);
   valuator->SetComputeOrientedBoundingBox(m_ComputeOrientedBoundingBox);
   progress->RegisterInternalFilter(valuator, .5f);
 
-  valuator->GraftOutput( this->GetOutput() );
+  valuator->GraftOutput(this->GetOutput());
   valuator->Update();
-  this->GraftOutput( valuator->GetOutput() );
+  this->GraftOutput(valuator->GetOutput());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-BinaryImageToShapeLabelMapFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+BinaryImageToShapeLabelMapFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
+  os << indent << "FullyConnected: " << m_FullyConnected << std::endl;
   os << indent << "BackgroundValue: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_OutputBackgroundValue )
-     << std::endl;
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_OutputBackgroundValue) << std::endl;
   os << indent << "ForegroundValue: "
-     << static_cast< typename NumericTraits< InputImagePixelType >::PrintType >( m_InputForegroundValue ) << std::endl;
+     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_InputForegroundValue) << std::endl;
   os << indent << "ComputeFeretDiameter: " << m_ComputeFeretDiameter << std::endl;
   os << indent << "ComputePerimeter: " << m_ComputePerimeter << std::endl;
   os << indent << "ComputeOrientedBoundingBox: " << m_ComputeOrientedBoundingBox << std::endl;

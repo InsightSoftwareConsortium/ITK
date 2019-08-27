@@ -25,46 +25,47 @@
 #include "itkTestingMacros.h"
 
 
-int itkLabelSelectionLabelMapFilterTest(int argc, char * argv[])
+int
+itkLabelSelectionLabelMapFilterTest(int argc, char * argv[])
 {
 
-  if( argc != 5 )
-    {
+  if (argc != 5)
+  {
     std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output exclude label" << std::endl;
     // std::cerr << "  : " << std::endl;
     exit(1);
-    }
+  }
 
   constexpr int dim = 2;
 
-  using ImageType = itk::Image< unsigned char, dim >;
+  using ImageType = itk::Image<unsigned char, dim>;
 
-  using LabelObjectType = itk::LabelObject< unsigned char, dim >;
-  using LabelMapType = itk::LabelMap< LabelObjectType >;
+  using LabelObjectType = itk::LabelObject<unsigned char, dim>;
+  using LabelMapType = itk::LabelMap<LabelObjectType>;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
-  using I2LType = itk::LabelImageToLabelMapFilter< ImageType, LabelMapType>;
+  using I2LType = itk::LabelImageToLabelMapFilter<ImageType, LabelMapType>;
   I2LType::Pointer i2l = I2LType::New();
-  i2l->SetInput( reader->GetOutput() );
+  i2l->SetInput(reader->GetOutput());
 
-  using ChangeType = itk::LabelSelectionLabelMapFilter< LabelMapType >;
+  using ChangeType = itk::LabelSelectionLabelMapFilter<LabelMapType>;
   ChangeType::Pointer change = ChangeType::New();
-  change->SetInput( i2l->GetOutput() );
-  change->SetExclude( std::stoi(argv[3]) );
-  change->SetLabel( std::stoi(argv[4]) );
+  change->SetInput(i2l->GetOutput());
+  change->SetExclude(std::stoi(argv[3]));
+  change->SetLabel(std::stoi(argv[4]));
   itk::SimpleFilterWatcher watcher6(change, "filter");
 
-  using L2IType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
+  using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   L2IType::Pointer l2i = L2IType::New();
-  l2i->SetInput( change->GetOutput() );
+  l2i->SetInput(change->GetOutput());
 
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( l2i->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(l2i->GetOutput());
+  writer->SetFileName(argv[2]);
   writer->Update();
 
   return 0;

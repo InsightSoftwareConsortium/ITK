@@ -44,9 +44,8 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template<typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT QuaternionRigidTransform :
-  public Rigid3DTransform<TParametersValueType>
+template <typename TParametersValueType = double>
+class ITK_TEMPLATE_EXPORT QuaternionRigidTransform : public Rigid3DTransform<TParametersValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuaternionRigidTransform);
@@ -100,34 +99,40 @@ public:
   /** Set the rotation of the rigid transform.
    * This method sets the rotation of a QuaternionRigidTransform to a
    * value specified by the user. */
-  void SetRotation(const VnlQuaternionType & rotation);
+  void
+  SetRotation(const VnlQuaternionType & rotation);
 
   /** Get the rotation from an QuaternionRigidTransform.
    * This method returns the value of the rotation of the
    * QuaternionRigidTransform. */
-  const VnlQuaternionType & GetRotation() const
+  const VnlQuaternionType &
+  GetRotation() const
   {
     return m_Rotation;
   }
 
   /** Set the parameters to the IdentityTransform */
-  void SetIdentity() override;
+  void
+  SetIdentity() override;
 
   /** Set the transformation from a container of parameters.
    * This is typically used by optimizers.
    * There are 7 parameters. The first four represents the
    * quaternion and the last three represents the
    * offset. */
-  void SetParameters(const ParametersType & parameters) override;
+  void
+  SetParameters(const ParametersType & parameters) override;
 
-  const ParametersType & GetParameters() const override;
+  const ParametersType &
+  GetParameters() const override;
 
   /** Compute the Jacobian of the transformation.
    * This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the transform
    * is invertible at this point. */
-  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
+  void
+  ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const override;
 
 protected:
   QuaternionRigidTransform(const MatrixType & matrix, const OutputVectorType & offset);
@@ -135,27 +140,32 @@ protected:
   QuaternionRigidTransform();
   ~QuaternionRigidTransform() override = default;
 
-  void ComputeMatrix() override;
+  void
+  ComputeMatrix() override;
 
-  void ComputeMatrixParameters() override;
+  void
+  ComputeMatrixParameters() override;
 
-  void SetVarRotation(const VnlQuaternionType & rotation)
+  void
+  SetVarRotation(const VnlQuaternionType & rotation)
   {
     m_Rotation = rotation;
   }
 
-  const InverseMatrixType & GetInverseMatrix() const;
+  const InverseMatrixType &
+  GetInverseMatrix() const;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** Rotation of the transformation. */
   VnlQuaternionType m_Rotation;
 }; // class QuaternionRigidTransform
-}  // namespace itk
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuaternionRigidTransform.hxx"
+#  include "itkQuaternionRigidTransform.hxx"
 #endif
 
 #endif /* itkQuaternionRigidTransform_h */

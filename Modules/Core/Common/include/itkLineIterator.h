@@ -52,8 +52,8 @@ namespace itk
  * \sphinxexample{Core/Common/IterateLineThroughImage,Iterate Line Through Image}
  * \endsphinx
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT LineIterator:public LineConstIterator< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT LineIterator : public LineConstIterator<TImage>
 {
 public:
   /** Standard class type aliases. */
@@ -66,7 +66,7 @@ public:
   static constexpr unsigned int ImageIteratorDimension = TImage::ImageDimension;
 
   /** Define the superclass */
-  using Superclass = LineConstIterator< TImage >;
+  using Superclass = LineConstIterator<TImage>;
 
   /** Inherit types from the superclass */
   using IndexType = typename Superclass::IndexType;
@@ -84,31 +84,32 @@ public:
   itkTypeMacro(LineIterator, LineConstIterator);
 
   /** Set the pixel value */
-  void Set(const PixelType & value)
+  void
+  Set(const PixelType & value)
   {
     // Normally, this would just be the following:
     //   m_Image->SetPixel(m_CurrentImageIndex,value);
     // However, we don't want a warning about m_Image being a ConstPointer
     // in the Superclass.
-    const_cast< ImageType * >( this->m_Image.GetPointer() )->
-    SetPixel(this->m_CurrentImageIndex, value);
+    const_cast<ImageType *>(this->m_Image.GetPointer())->SetPixel(this->m_CurrentImageIndex, value);
   }
 
   /** Return a reference to the pixel.
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  const PixelType & Value()
+  const PixelType &
+  Value()
   {
-    return ( this->m_Image->GetPixel(this->m_CurrentImageIndex) );
+    return (this->m_Image->GetPixel(this->m_CurrentImageIndex));
   }
 
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
-  Self & operator=(const Self & it);
+  Self &
+  operator=(const Self & it);
 
   /** Constructor establishes an iterator to walk along a path */
-  LineIterator(ImageType *imagePtr, const IndexType & firstIndex,
-               const IndexType & lastIndex);
+  LineIterator(ImageType * imagePtr, const IndexType & firstIndex, const IndexType & lastIndex);
 
   /** Default Destructor. */
   ~LineIterator() override = default;
@@ -116,7 +117,7 @@ public:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLineIterator.hxx"
+#  include "itkLineIterator.hxx"
 #endif
 
 #endif

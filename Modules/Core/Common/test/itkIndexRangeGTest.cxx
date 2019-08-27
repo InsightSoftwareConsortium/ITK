@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
- // First include the header file to be tested:
+// First include the header file to be tested:
 #include "itkIndexRange.h"
 
 #include "itkRangeGTestUtilities.h"
@@ -37,69 +37,74 @@ using itk::Experimental::RangeGTestUtilities;
 
 
 static_assert(sizeof(ZeroBasedIndexRange<3>) < sizeof(ImageRegionIndexRange<3>),
-  "ZeroBasedIndexRange does not need to store the index of a region, so it should take less memory.");
+              "ZeroBasedIndexRange does not need to store the index of a region, so it should take less memory.");
 
 namespace
 {
-  template <unsigned VDimension>
-  itk::Index<VDimension> GenerateRandomIndex()
+template <unsigned VDimension>
+itk::Index<VDimension>
+GenerateRandomIndex()
+{
+  itk::Index<VDimension> index;
+
+  for (itk::IndexValueType & indexValue : index)
   {
-    itk::Index<VDimension> index;
-
-    for (itk::IndexValueType& indexValue: index)
-    {
-      indexValue = std::rand();
-    }
-    return index;
+    indexValue = std::rand();
   }
+  return index;
+}
 
 
-  template <bool VBeginAtZero>
-  void ExpectBeginIsEndWhenRangeIsDefaultConstructed()
-  {
-    // Test the most commonly used dimensionalities (1-D, 2-D, 3-D):
-    RangeGTestUtilities::ExpectBeginIsEndWhenRangeIsDefaultConstructed<IndexRange<1, VBeginAtZero>>();
-    RangeGTestUtilities::ExpectBeginIsEndWhenRangeIsDefaultConstructed<IndexRange<2, VBeginAtZero>>();
-    RangeGTestUtilities::ExpectBeginIsEndWhenRangeIsDefaultConstructed<IndexRange<3, VBeginAtZero>>();
-  }
+template <bool VBeginAtZero>
+void
+ExpectBeginIsEndWhenRangeIsDefaultConstructed()
+{
+  // Test the most commonly used dimensionalities (1-D, 2-D, 3-D):
+  RangeGTestUtilities::ExpectBeginIsEndWhenRangeIsDefaultConstructed<IndexRange<1, VBeginAtZero>>();
+  RangeGTestUtilities::ExpectBeginIsEndWhenRangeIsDefaultConstructed<IndexRange<2, VBeginAtZero>>();
+  RangeGTestUtilities::ExpectBeginIsEndWhenRangeIsDefaultConstructed<IndexRange<3, VBeginAtZero>>();
+}
 
 
-  template <bool VBeginAtZero>
-  void ExpectZeroSizeWhenRangeIsDefaultConstructed()
-  {
-    // Test the most commonly used dimensionalities (1-D, 2-D, 3-D):
-    RangeGTestUtilities::ExpectZeroSizeWhenRangeIsDefaultConstructed<IndexRange<1, VBeginAtZero>>();
-    RangeGTestUtilities::ExpectZeroSizeWhenRangeIsDefaultConstructed<IndexRange<2, VBeginAtZero>>();
-    RangeGTestUtilities::ExpectZeroSizeWhenRangeIsDefaultConstructed<IndexRange<3, VBeginAtZero>>();
-  }
+template <bool VBeginAtZero>
+void
+ExpectZeroSizeWhenRangeIsDefaultConstructed()
+{
+  // Test the most commonly used dimensionalities (1-D, 2-D, 3-D):
+  RangeGTestUtilities::ExpectZeroSizeWhenRangeIsDefaultConstructed<IndexRange<1, VBeginAtZero>>();
+  RangeGTestUtilities::ExpectZeroSizeWhenRangeIsDefaultConstructed<IndexRange<2, VBeginAtZero>>();
+  RangeGTestUtilities::ExpectZeroSizeWhenRangeIsDefaultConstructed<IndexRange<3, VBeginAtZero>>();
+}
 
 
-  template <bool VBeginAtZero>
-  void ExpectRangeIsEmptyWhenDefaultConstructed()
-  {
-    // Test the most commonly used dimensionalities (1-D, 2-D, 3-D):
-    RangeGTestUtilities::ExpectRangeIsEmptyWhenDefaultConstructed<IndexRange<1, VBeginAtZero>>();
-    RangeGTestUtilities::ExpectRangeIsEmptyWhenDefaultConstructed<IndexRange<2, VBeginAtZero>>();
-    RangeGTestUtilities::ExpectRangeIsEmptyWhenDefaultConstructed<IndexRange<3, VBeginAtZero>>();
-  }
+template <bool VBeginAtZero>
+void
+ExpectRangeIsEmptyWhenDefaultConstructed()
+{
+  // Test the most commonly used dimensionalities (1-D, 2-D, 3-D):
+  RangeGTestUtilities::ExpectRangeIsEmptyWhenDefaultConstructed<IndexRange<1, VBeginAtZero>>();
+  RangeGTestUtilities::ExpectRangeIsEmptyWhenDefaultConstructed<IndexRange<2, VBeginAtZero>>();
+  RangeGTestUtilities::ExpectRangeIsEmptyWhenDefaultConstructed<IndexRange<3, VBeginAtZero>>();
+}
 
-  template <unsigned VDimension>
-  void ExpectRangeIsEmptyWhenRegionSizeIsZero()
-  {
-    const itk::Size<VDimension> zeroSize{ {0} };
+template <unsigned VDimension>
+void
+ExpectRangeIsEmptyWhenRegionSizeIsZero()
+{
+  const itk::Size<VDimension> zeroSize{ { 0 } };
 
-    // Test when both the region index and the region size are zero:
-    EXPECT_TRUE(ZeroBasedIndexRange<VDimension>{zeroSize}.empty());
-    EXPECT_TRUE(ImageRegionIndexRange<VDimension>{zeroSize}.empty());
+  // Test when both the region index and the region size are zero:
+  EXPECT_TRUE(ZeroBasedIndexRange<VDimension>{ zeroSize }.empty());
+  EXPECT_TRUE(ImageRegionIndexRange<VDimension>{ zeroSize }.empty());
 
-    // Now do the test for an arbitrary (random) region index:
-    const itk::Index<VDimension> randomRegionIndex = GenerateRandomIndex<VDimension>();
-    const itk::ImageRegion<VDimension> zeroSizedImageRegion{ randomRegionIndex, zeroSize };
+  // Now do the test for an arbitrary (random) region index:
+  const itk::Index<VDimension>       randomRegionIndex = GenerateRandomIndex<VDimension>();
+  const itk::ImageRegion<VDimension> zeroSizedImageRegion{ randomRegionIndex, zeroSize };
 
-    EXPECT_TRUE(ImageRegionIndexRange<VDimension>{zeroSizedImageRegion}.empty());
-  }
+  EXPECT_TRUE(ImageRegionIndexRange<VDimension>{ zeroSizedImageRegion }.empty());
+}
 
-}  // namespace
+} // namespace
 
 
 // Tests that a begin iterator compares equal to another begin iterator of the
@@ -108,10 +113,10 @@ TEST(IndexRange, EquivalentBeginOrEndIteratorsCompareEqual)
 {
   using RangeType = IndexRange<2, true>;
 
-  RangeType range(RangeType::SizeType{ {1, 2} });
+  RangeType range(RangeType::SizeType{ { 1, 2 } });
 
-  const RangeType::iterator begin = range.begin();
-  const RangeType::iterator end = range.end();
+  const RangeType::iterator       begin = range.begin();
+  const RangeType::iterator       end = range.end();
   const RangeType::const_iterator cbegin = range.cbegin();
   const RangeType::const_iterator cend = range.cend();
 
@@ -140,7 +145,7 @@ TEST(IndexRange, EquivalentBeginOrEndIteratorsCompareEqual)
 TEST(IndexRange, BeginAndEndDoNotCompareEqualWhenSizeIsGreaterThanZero)
 {
   using RangeType = IndexRange<2, true>;
-  RangeType range(RangeType::SizeType{ {1, 2} });
+  RangeType range(RangeType::SizeType{ { 1, 2 } });
 
   EXPECT_TRUE(range.size() > 0);
   EXPECT_FALSE(range.empty());
@@ -155,7 +160,7 @@ TEST(IndexRange, BeginAndEndDoNotCompareEqualWhenSizeIsGreaterThanZero)
 TEST(IndexRange, IteratorsCanBePassedToStdVectorConstructor)
 {
   using RangeType = IndexRange<2, true>;
-  RangeType range(RangeType::SizeType{ {1, 2} });
+  RangeType range(RangeType::SizeType{ { 1, 2 } });
 
   // Easily store all indices of an IndexRange in an std::vector:
   const std::vector<RangeType::IndexType> stdVector(range.begin(), range.end());
@@ -171,14 +176,14 @@ TEST(IndexRange, IteratorsCanBePassedToStdReverseCopy)
 {
   using RangeType = IndexRange<2, true>;
   using IndexType = RangeType::IndexType;
-  RangeType range(RangeType::SizeType{ {2, 3} });
+  RangeType range(RangeType::SizeType{ { 2, 3 } });
 
   const unsigned numberOfIndices = range.size();
 
   const std::vector<IndexType> stdVector(range.begin(), range.end());
-  std::vector<IndexType> reversedStdVector1(numberOfIndices);
-  std::vector<IndexType> reversedStdVector2(numberOfIndices);
-  std::vector<IndexType> reversedStdVector3(numberOfIndices);
+  std::vector<IndexType>       reversedStdVector1(numberOfIndices);
+  std::vector<IndexType>       reversedStdVector2(numberOfIndices);
+  std::vector<IndexType>       reversedStdVector3(numberOfIndices);
 
   // Checks bidirectionality of the range iterators.
   std::reverse_copy(stdVector.cbegin(), stdVector.cend(), reversedStdVector1.begin());
@@ -202,12 +207,9 @@ TEST(IndexRange, IteratorsCanBePassedToStdForEach)
 {
   using RangeType = IndexRange<2, true>;
   using IndexType = RangeType::IndexType;
-  RangeType range(RangeType::SizeType{ {2, 3} });
+  RangeType range(RangeType::SizeType{ { 2, 3 } });
 
-  std::for_each(range.begin(), range.end(), [](const IndexType index)
-  {
-    EXPECT_TRUE(index >= IndexType());
-  });
+  std::for_each(range.begin(), range.end(), [](const IndexType index) { EXPECT_TRUE(index >= IndexType()); });
 }
 
 
@@ -217,9 +219,9 @@ TEST(IndexRange, CanBeUsedAsExpressionOfRangeBasedForLoop)
 {
   using RangeType = IndexRange<2, true>;
   using IndexType = RangeType::IndexType;
-  RangeType range(RangeType::SizeType{ {2, 3} });
+  RangeType range(RangeType::SizeType{ { 2, 3 } });
 
-  for (auto&& index : range)
+  for (auto && index : range)
   {
     EXPECT_TRUE(index >= IndexType());
   }
@@ -234,23 +236,23 @@ TEST(IndexRange, SupportsImageRegion)
   using IndexType = ImageRegionIndexRangeType::IndexType;
   using RegionType = itk::ImageRegion<Dimension>;
 
-  const RegionType::SizeType size = { {2, 3} };
-  const RegionType::IndexType regionIndex = { {4, 5} };
-  const RegionType imageRegion{ regionIndex, size };
+  const RegionType::SizeType  size = { { 2, 3 } };
+  const RegionType::IndexType regionIndex = { { 4, 5 } };
+  const RegionType            imageRegion{ regionIndex, size };
 
   // Default index range, beginning at [0, 0].
   const ZeroBasedIndexRange<Dimension> indexRange(size);
-  const auto beginOfIndexRange = indexRange.cbegin();
-  const auto endOfIndexRange = indexRange.cend();
+  const auto                           beginOfIndexRange = indexRange.cbegin();
+  const auto                           endOfIndexRange = indexRange.cend();
 
   const ImageRegionIndexRangeType imageRegionIndexRange(imageRegion);
 
   EXPECT_EQ(imageRegionIndexRange.size(), indexRange.size());
 
   const auto offset = regionIndex - IndexType();
-  auto indexIterator = beginOfIndexRange;
+  auto       indexIterator = beginOfIndexRange;
 
-  for (auto&& imageRegionIndex : imageRegionIndexRange)
+  for (auto && imageRegionIndex : imageRegionIndexRange)
   {
     // Emergency stop if 'indexIterator' would already be at the end.
     ASSERT_NE(indexIterator, endOfIndexRange);

@@ -66,19 +66,17 @@ namespace itk
  * \ingroup ITKClassifiers
  */
 
-template< typename TInputImage,
-          typename TClassifiedImage >
-class ITK_TEMPLATE_EXPORT ImageClassifierBase:
-  public ClassifierBase< TInputImage >
+template <typename TInputImage, typename TClassifiedImage>
+class ITK_TEMPLATE_EXPORT ImageClassifierBase : public ClassifierBase<TInputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageClassifierBase);
 
   /** Standard class type aliases. */
   using Self = ImageClassifierBase;
-  using Superclass = ClassifierBase< TInputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ClassifierBase<TInputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -120,7 +118,7 @@ public:
   itkGetConstMacro(ClassifiedImage, ClassifiedImagePointer);
 
   /** Type definition for the vector associated with
-    * input image pixel type. */
+   * input image pixel type. */
   using InputImagePixelType = typename TInputImage::PixelType;
 
   /** Type definitions for the vector holding
@@ -132,19 +130,22 @@ public:
   using ClassifiedImageIterator = ImageRegionIterator<TClassifiedImage>;
 
   /** Method to get the membership of a given pixel to the different classes */
-  std::vector< double >
+  std::vector<double>
   GetPixelMembershipValue(const InputImagePixelType inputImagePixel);
 
 protected:
   ImageClassifierBase() = default;
   ~ImageClassifierBase() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Allocate memory for the classified image. */
-  void Allocate();
+  void
+  Allocate();
 
   /** Starts the classification process */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   using InputImageSizeType = typename TInputImage::SizeType;
@@ -153,12 +154,13 @@ private:
   ClassifiedImagePointer m_ClassifiedImage;
 
   /** Define a virtual Classifier function to classify the whole image. */
-  virtual void Classify();
+  virtual void
+  Classify();
 }; // class ImageClassifierBase
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageClassifierBase.hxx"
+#  include "itkImageClassifierBase.hxx"
 #endif
 
 #endif

@@ -47,9 +47,8 @@ namespace itk
  *
  * \sa FFTShiftImageFilter
  */
-template<typename TInputImage, typename TOutputImage=TInputImage>
-class ITK_TEMPLATE_EXPORT FFTPadImageFilter :
-    public PadImageFilterBase<TInputImage, TOutputImage>
+template <typename TInputImage, typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT FFTPadImageFilter : public PadImageFilterBase<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FFTPadImageFilter);
@@ -94,16 +93,18 @@ public:
   itkSetMacro(SizeGreatestPrimeFactor, SizeValueType);
 
   /** Typedef to describe the boundary condition. */
-  using BoundaryConditionType = ImageBoundaryCondition< TInputImage, TOutputImage >;
+  using BoundaryConditionType = ImageBoundaryCondition<TInputImage, TOutputImage>;
   using BoundaryConditionPointerType = BoundaryConditionType *;
-  using DefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage >;
+  using DefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage>;
 
 protected:
   FFTPadImageFilter();
   ~FFTPadImageFilter() override = default;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
 
 private:
@@ -116,7 +117,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFFTPadImageFilter.hxx"
+#  include "itkFFTPadImageFilter.hxx"
 #endif
 
 #endif

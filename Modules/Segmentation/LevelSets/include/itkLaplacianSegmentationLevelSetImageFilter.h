@@ -98,21 +98,18 @@ namespace itk
  *   \sa SparseFieldLevelSetImageFilter
  * \ingroup ITKLevelSets
  */
-template< typename TInputImage,
-          typename TFeatureImage,
-          typename TOutputPixelType = float >
-class ITK_TEMPLATE_EXPORT LaplacianSegmentationLevelSetImageFilter:
-  public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType = float>
+class ITK_TEMPLATE_EXPORT LaplacianSegmentationLevelSetImageFilter
+  : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianSegmentationLevelSetImageFilter);
 
   /** Standard class type aliases */
   using Self = LaplacianSegmentationLevelSetImageFilter;
-  using Superclass =
-      SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Inherited type alias from the superclass. */
   using ValueType = typename Superclass::ValueType;
@@ -120,8 +117,7 @@ public:
   using FeatureImageType = typename Superclass::FeatureImageType;
 
   /** Type of the segmentation function */
-  using LaplacianFunctionType = LaplacianSegmentationLevelSetFunction< OutputImageType,
-                                                 FeatureImageType >;
+  using LaplacianFunctionType = LaplacianSegmentationLevelSetFunction<OutputImageType, FeatureImageType>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(LaplacianSegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);
@@ -133,7 +129,8 @@ protected:
   ~LaplacianSegmentationLevelSetImageFilter() override = default;
   LaplacianSegmentationLevelSetImageFilter();
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   typename LaplacianFunctionType::Pointer m_LaplacianFunction;
@@ -141,7 +138,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLaplacianSegmentationLevelSetImageFilter.hxx"
+#  include "itkLaplacianSegmentationLevelSetImageFilter.hxx"
 #endif
 
 #endif

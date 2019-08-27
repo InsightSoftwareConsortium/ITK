@@ -30,15 +30,14 @@ namespace itk
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
-template< typename TValue >
-class TreeContainerBase:public Object
+template <typename TValue>
+class TreeContainerBase : public Object
 {
 public:
-
   using Superclass = Object;
   using Self = TreeContainerBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using ValueType = TValue;
 
@@ -47,37 +46,48 @@ public:
 
   /** Set the root element.
    * A new node is created and the element is added to the node */
-  virtual bool SetRoot(const TValue element) = 0;
+  virtual bool
+  SetRoot(const TValue element) = 0;
 
   /** Set the root has a node */
-  virtual bool SetRoot(TreeNode< TValue > *node) = 0;
+  virtual bool
+  SetRoot(TreeNode<TValue> * node) = 0;
 
   /** Return true if the tree contains the element */
-  virtual bool Contains(const TValue element) = 0;
+  virtual bool
+  Contains(const TValue element) = 0;
 
   /** Return the number of nodes in the tree */
-  virtual int Count() const = 0;
+  virtual int
+  Count() const = 0;
 
   /** Return if the element is a leaf */
-  virtual bool IsLeaf(const TValue element) = 0;
+  virtual bool
+  IsLeaf(const TValue element) = 0;
 
   /** Return if the element is root */
-  virtual bool IsRoot(const TValue element) = 0;
+  virtual bool
+  IsRoot(const TValue element) = 0;
 
   /** Clear the tree */
-  virtual bool Clear() = 0;
+  virtual bool
+  Clear() = 0;
 
   /** Get the root as a node */
-  virtual const TreeNode< TValue > * GetRoot() const = 0;
+  virtual const TreeNode<TValue> *
+  GetRoot() const = 0;
 
   /** Set if the tree is a subtree */
-  void SetSubtree(bool val) { m_SubTree = val; }
+  void
+  SetSubtree(bool val)
+  {
+    m_SubTree = val;
+  }
 
 protected:
-
-  TreeContainerBase()  {}
+  TreeContainerBase() {}
   ~TreeContainerBase() override = default;
-  bool m_SubTree{false};
+  bool m_SubTree{ false };
 };
 } // namespace itk
 

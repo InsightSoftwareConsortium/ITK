@@ -26,53 +26,57 @@
  * \class ToleranceChecker
  * \brief Compare values to see if they are within tolerance.
  */
-template< typename RealType >
+template <typename RealType>
 class ToleranceChecker
 {
 public:
-  ToleranceChecker(): m_Tolerance( 1e-8 )
+  ToleranceChecker()
+    : m_Tolerance(1e-8)
   {}
 
-  bool IsOutsideTolerance( const RealType & value, const RealType & theoreticalValue ) const
-    {
+  bool
+  IsOutsideTolerance(const RealType & value, const RealType & theoreticalValue) const
+  {
     // ignore if they are both effectively zero
-    if( std::max( itk::Math::abs( value ), itk::Math::abs( theoreticalValue ) ) <  50 * itk::Math::eps )
-      {
-      return false;
-      }
-    if( this->GetFractionalError( value, theoreticalValue ) > m_Tolerance )
-      {
-      return true;
-      }
-    return false;
-    }
-
-  RealType GetFractionalError( const RealType & value, const RealType & theoreticalValue ) const
+    if (std::max(itk::Math::abs(value), itk::Math::abs(theoreticalValue)) < 50 * itk::Math::eps)
     {
-    RealType fractionalError = itk::Math::abs( theoreticalValue - value ) /
-      ( itk::Math::abs( theoreticalValue ) + 20* itk::Math::eps );
-    return fractionalError;
+      return false;
     }
+    if (this->GetFractionalError(value, theoreticalValue) > m_Tolerance)
+    {
+      return true;
+    }
+    return false;
+  }
+
+  RealType
+  GetFractionalError(const RealType & value, const RealType & theoreticalValue) const
+  {
+    RealType fractionalError =
+      itk::Math::abs(theoreticalValue - value) / (itk::Math::abs(theoreticalValue) + 20 * itk::Math::eps);
+    return fractionalError;
+  }
 
   /** Set fractional tolerance. */
-  void SetTolerance( const RealType & tolerance )
-    {
+  void
+  SetTolerance(const RealType & tolerance)
+  {
     m_Tolerance = tolerance;
-    }
+  }
 
 private:
   RealType m_Tolerance;
-
 };
 
-int itkLevelSetDenseImageTest( int , char* [] )
+int
+itkLevelSetDenseImageTest(int, char *[])
 {
   constexpr unsigned int Dimension = 2;
 
   using PixelType = float;
 
-  using ImageType = itk::Image< PixelType, Dimension >;
-  using LevelSetType = itk::LevelSetDenseImage< ImageType >;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using LevelSetType = itk::LevelSetDenseImage<ImageType>;
 
   ImageType::IndexType index;
   index[0] = 0;
@@ -83,8 +87,8 @@ int itkLevelSetDenseImageTest( int , char* [] )
   size[1] = 20;
 
   ImageType::RegionType region;
-  region.SetIndex( index );
-  region.SetSize( size );
+  region.SetIndex(index);
+  region.SetSize(size);
 
   PixelType zeroValue = 0.;
 
@@ -97,128 +101,125 @@ int itkLevelSetDenseImageTest( int , char* [] )
   origin[1] = 3.99;
 
   ImageType::Pointer input = ImageType::New();
-  input->SetRegions( region );
-  input->SetSpacing( spacing );
-  input->SetOrigin(  origin );
+  input->SetRegions(region);
+  input->SetSpacing(spacing);
+  input->SetOrigin(origin);
   input->Allocate();
-  input->FillBuffer( zeroValue );
+  input->FillBuffer(zeroValue);
 
-  itk::ImageRegionIteratorWithIndex< ImageType > it( input,
-                                              input->GetLargestPossibleRegion() );
+  itk::ImageRegionIteratorWithIndex<ImageType> it(input, input->GetLargestPossibleRegion());
 
   it.GoToBegin();
 
   ImageType::IndexType idx;
   ImageType::PointType pt;
 
-  using TestFunctionType = itk::LevelSetTestFunction< PixelType >;
+  using TestFunctionType = itk::LevelSetTestFunction<PixelType>;
   TestFunctionType::Pointer testFunction = TestFunctionType::New();
 
-  while( !it.IsAtEnd() )
-    {
+  while (!it.IsAtEnd())
+  {
     idx = it.GetIndex();
-    input->TransformIndexToPhysicalPoint( idx, pt );
+    input->TransformIndexToPhysicalPoint(idx, pt);
 
-    PixelType tempValue = testFunction->Evaluate( pt );
-    it.Set( tempValue );
+    PixelType tempValue = testFunction->Evaluate(pt);
+    it.Set(tempValue);
 
 
     ++it;
-    }
+  }
 
   LevelSetType::Pointer level_set = LevelSetType::New();
-  level_set->SetImage( input );
+  level_set->SetImage(input);
 
   idx[0] = 9;
   idx[1] = 18;
-  input->TransformIndexToPhysicalPoint( idx, pt );
-  LevelSetType::OutputType theoreticalValue = testFunction->Evaluate( pt );
-  LevelSetType::OutputType value = level_set->Evaluate( idx );
+  input->TransformIndexToPhysicalPoint(idx, pt);
+  LevelSetType::OutputType theoreticalValue = testFunction->Evaluate(pt);
+  LevelSetType::OutputType value = level_set->Evaluate(idx);
 
-  ToleranceChecker< double > toleranceChecker;
+  ToleranceChecker<double> toleranceChecker;
 
-  toleranceChecker.SetTolerance( 1e-8 );
+  toleranceChecker.SetTolerance(1e-8);
   it.GoToBegin();
-  while( !it.IsAtEnd() )
-    {
+  while (!it.IsAtEnd())
+  {
     idx = it.GetIndex();
-    input->TransformIndexToPhysicalPoint( idx, pt );
+    input->TransformIndexToPhysicalPoint(idx, pt);
 
-    theoreticalValue = testFunction->Evaluate( pt );
-    value            = level_set->Evaluate( idx );
-    if( toleranceChecker.IsOutsideTolerance( value, theoreticalValue ) )
-      {
-      std::cout << "Index:" << idx << " *EvaluateTestFail* " << value << " != "
-                << theoreticalValue << std::endl;
+    theoreticalValue = testFunction->Evaluate(pt);
+    value = level_set->Evaluate(idx);
+    if (toleranceChecker.IsOutsideTolerance(value, theoreticalValue))
+    {
+      std::cout << "Index:" << idx << " *EvaluateTestFail* " << value << " != " << theoreticalValue << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
-    if( level_set->IsInside( idx ) != ( theoreticalValue <= 0. ) )
-      {
+    if (level_set->IsInside(idx) != (theoreticalValue <= 0.))
+    {
       std::cerr << "if( testFunction->IsInside( pt ) != ( theoreticalValue <= 0. ) )" << std::endl;
       std::cerr << "pt : " << pt << std::endl;
       std::cerr << "theoreticalValue: " << theoreticalValue << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
     ++it;
-    }
+  }
 
   LevelSetType::GradientType gradient;
   LevelSetType::GradientType theoreticalGradient;
 
-  toleranceChecker.SetTolerance( 0.1 );
+  toleranceChecker.SetTolerance(0.1);
   it.GoToBegin();
-  while( !it.IsAtEnd() )
-    {
+  while (!it.IsAtEnd())
+  {
     idx = it.GetIndex();
-    input->TransformIndexToPhysicalPoint( idx, pt );
+    input->TransformIndexToPhysicalPoint(idx, pt);
 
-    theoreticalGradient = testFunction->EvaluateGradient( pt );
-    gradient            = level_set->EvaluateGradient( idx );
-    if( toleranceChecker.IsOutsideTolerance( gradient[0], theoreticalGradient[0] ) ||
-        toleranceChecker.IsOutsideTolerance( gradient[1], theoreticalGradient[1] ) )
-      {
-      std::cout << "Index:" << idx << " Point: " << pt
-        << " Error: [" << toleranceChecker.GetFractionalError( gradient[0], theoreticalGradient[0] )
-        << ',' << toleranceChecker.GetFractionalError( gradient[1], theoreticalGradient[1] ) << "] "
-        <<" *EvaluateGradientTestFail* " << gradient << " != " << theoreticalGradient << std::endl;
+    theoreticalGradient = testFunction->EvaluateGradient(pt);
+    gradient = level_set->EvaluateGradient(idx);
+    if (toleranceChecker.IsOutsideTolerance(gradient[0], theoreticalGradient[0]) ||
+        toleranceChecker.IsOutsideTolerance(gradient[1], theoreticalGradient[1]))
+    {
+      std::cout << "Index:" << idx << " Point: " << pt << " Error: ["
+                << toleranceChecker.GetFractionalError(gradient[0], theoreticalGradient[0]) << ','
+                << toleranceChecker.GetFractionalError(gradient[1], theoreticalGradient[1]) << "] "
+                << " *EvaluateGradientTestFail* " << gradient << " != " << theoreticalGradient << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
     ++it;
-    }
+  }
 
   /** \todo more thorough testing as with the gradient above for hessian,
    * laplacian, gradient norm. */
   idx[0] = 9;
   idx[1] = 18;
-  input->TransformIndexToPhysicalPoint( idx, pt );
-  LevelSetType::HessianType hessian = level_set->EvaluateHessian( idx );
+  input->TransformIndexToPhysicalPoint(idx, pt);
+  LevelSetType::HessianType hessian = level_set->EvaluateHessian(idx);
   std::cout << "hessian = " << std::endl << hessian << std::endl;
 
-  if ( itk::Math::abs( itk::Math::abs( hessian[0][0] ) - 499.998 ) / 499.998 > 5e-2 )
-    {
-    std::cout << idx << " *HessianTestFail* " << itk::Math::abs( hessian[0][0] ) << " != "
-              << itk::Math::abs( hessian[1][1] ) << std::endl;
+  if (itk::Math::abs(itk::Math::abs(hessian[0][0]) - 499.998) / 499.998 > 5e-2)
+  {
+    std::cout << idx << " *HessianTestFail* " << itk::Math::abs(hessian[0][0])
+              << " != " << itk::Math::abs(hessian[1][1]) << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  LevelSetType::OutputRealType laplacian = level_set->EvaluateLaplacian( idx );
+  LevelSetType::OutputRealType laplacian = level_set->EvaluateLaplacian(idx);
   std::cout << "laplacian = " << laplacian << std::endl;
 
-  LevelSetType::OutputRealType gradientnorm = level_set->EvaluateGradientNorm( idx );
-  std::cout <<"gradient norm = " << gradientnorm << std::endl;
+  LevelSetType::OutputRealType gradientnorm = level_set->EvaluateGradientNorm(idx);
+  std::cout << "gradient norm = " << gradientnorm << std::endl;
 
-  if( itk::Math::abs( 1 - gradientnorm ) > 5e-2 )
-    {
-    std::cout << idx << " *GradientNormFail* " << gradientnorm << " != "
-              << 1 << std::endl;
+  if (itk::Math::abs(1 - gradientnorm) > 5e-2)
+  {
+    std::cout << idx << " *GradientNormFail* " << gradientnorm << " != " << 1 << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  LevelSetType::OutputRealType meancurvature = level_set->EvaluateMeanCurvature( idx );
-  std::cout <<"mean curvature = " << meancurvature << std::endl;
+  LevelSetType::OutputRealType meancurvature = level_set->EvaluateMeanCurvature(idx);
+  std::cout << "mean curvature = " << meancurvature << std::endl;
 
   return EXIT_SUCCESS;
 }

@@ -35,64 +35,55 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TOutputImage >
-RescaleIntensityImageFilter< TInputImage, TOutputImage >
-::RescaleIntensityImageFilter() :
-  m_Scale( 1.0 ),
-  m_Shift( 0.0 ),
-  m_InputMinimum( NumericTraits< InputPixelType >::max() ),
-  m_InputMaximum( NumericTraits< InputPixelType >::ZeroValue() ),
-  m_OutputMinimum( NumericTraits< OutputPixelType >::NonpositiveMin() ),
-  m_OutputMaximum( NumericTraits< OutputPixelType >::max() )
-{
+template <typename TInputImage, typename TOutputImage>
+RescaleIntensityImageFilter<TInputImage, TOutputImage>::RescaleIntensityImageFilter()
+  : m_Scale(1.0)
+  , m_Shift(0.0)
+  , m_InputMinimum(NumericTraits<InputPixelType>::max())
+  , m_InputMaximum(NumericTraits<InputPixelType>::ZeroValue())
+  , m_OutputMinimum(NumericTraits<OutputPixelType>::NonpositiveMin())
+  , m_OutputMaximum(NumericTraits<OutputPixelType>::max())
+{}
 
-}
-
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-RescaleIntensityImageFilter< TInputImage, TOutputImage >
-::BeforeThreadedGenerateData()
+RescaleIntensityImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  if ( this->m_OutputMinimum > this->m_OutputMaximum )
-    {
+  if (this->m_OutputMinimum > this->m_OutputMaximum)
+  {
     itkExceptionMacro(<< "Minimum output value cannot be greater than Maximum output value.");
     return;
-    }
+  }
 
-  using CalculatorType = MinimumMaximumImageCalculator< TInputImage >;
+  using CalculatorType = MinimumMaximumImageCalculator<TInputImage>;
 
   typename CalculatorType::Pointer calculator = CalculatorType::New();
 
-  calculator->SetImage( this->GetInput() );
+  calculator->SetImage(this->GetInput());
 
   calculator->Compute();
 
   this->m_InputMinimum = calculator->GetMinimum();
   this->m_InputMaximum = calculator->GetMaximum();
 
-  if ( itk::Math::NotAlmostEquals(this->m_InputMinimum, this->m_InputMaximum) )
-    {
-    this->m_Scale =
-      ( static_cast< RealType >( this->m_OutputMaximum )
-        - static_cast< RealType >( this->m_OutputMinimum ) )
-      / ( static_cast< RealType >( this->m_InputMaximum )
-          - static_cast< RealType >( this->m_InputMinimum ) );
-    }
-  else if ( itk::Math::NotAlmostEquals(this->m_InputMaximum, NumericTraits<typename NumericTraits<InputPixelType>::ValueType >::ZeroValue()) )
-    {
-    this->m_Scale =
-      ( static_cast< RealType >( this->m_OutputMaximum )
-        - static_cast< RealType >( this->m_OutputMinimum ) )
-      / static_cast< RealType >( this->m_InputMaximum );
-    }
+  if (itk::Math::NotAlmostEquals(this->m_InputMinimum, this->m_InputMaximum))
+  {
+    this->m_Scale = (static_cast<RealType>(this->m_OutputMaximum) - static_cast<RealType>(this->m_OutputMinimum)) /
+                    (static_cast<RealType>(this->m_InputMaximum) - static_cast<RealType>(this->m_InputMinimum));
+  }
+  else if (itk::Math::NotAlmostEquals(this->m_InputMaximum,
+                                      NumericTraits<typename NumericTraits<InputPixelType>::ValueType>::ZeroValue()))
+  {
+    this->m_Scale = (static_cast<RealType>(this->m_OutputMaximum) - static_cast<RealType>(this->m_OutputMinimum)) /
+                    static_cast<RealType>(this->m_InputMaximum);
+  }
   else
-    {
+  {
     this->m_Scale = 0.0;
-    }
+  }
 
   this->m_Shift =
-    static_cast< RealType >( this->m_OutputMinimum )
-    - static_cast< RealType >( this->m_InputMinimum ) * this->m_Scale;
+    static_cast<RealType>(this->m_OutputMinimum) - static_cast<RealType>(this->m_InputMinimum) * this->m_Scale;
 
   // Set up the functor values
   this->GetFunctor().SetMinimum(this->m_OutputMinimum);
@@ -101,18 +92,17 @@ RescaleIntensityImageFilter< TInputImage, TOutputImage >
   this->GetFunctor().SetOffset(this->m_Shift);
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-RescaleIntensityImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+RescaleIntensityImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Output Minimum: "
-     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( this->m_OutputMinimum )
+  os << indent
+     << "Output Minimum: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->m_OutputMinimum)
      << std::endl;
-  os << indent << "Output Maximum: "
-     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( this->m_OutputMaximum )
+  os << indent
+     << "Output Maximum: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->m_OutputMaximum)
      << std::endl;
 }
 

@@ -40,9 +40,8 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< typename TSample >
-class ITK_TEMPLATE_EXPORT SampleClassifierFilter:
-  public ProcessObject
+template <typename TSample>
+class ITK_TEMPLATE_EXPORT SampleClassifierFilter : public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SampleClassifierFilter);
@@ -50,8 +49,8 @@ public:
   /** Standard class type alias */
   using Self = SampleClassifierFilter;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
   itkTypeMacro(SampleClassifierFilter, ProcessObject);
@@ -61,7 +60,7 @@ public:
   using SampleType = TSample;
 
   /** type alias Output type */
-  using MembershipSampleType = MembershipSample< SampleType >;
+  using MembershipSampleType = MembershipSample<SampleType>;
   using MembershipSampleObjectPointer = typename MembershipSampleType::Pointer;
 
   /** type alias from SampleType object */
@@ -69,20 +68,20 @@ public:
   using MeasurementVectorType = typename SampleType::MeasurementVectorType;
 
   /** type alias for the MembershipFunction */
-  using MembershipFunctionType = MembershipFunctionBase< MeasurementVectorType >;
+  using MembershipFunctionType = MembershipFunctionBase<MeasurementVectorType>;
   using MembershipFunctionPointer = typename MembershipFunctionType::ConstPointer;
-  using MembershipFunctionVectorType = std::vector< MembershipFunctionPointer >;
+  using MembershipFunctionVectorType = std::vector<MembershipFunctionPointer>;
   using MembershipFunctionVectorObjectType = SimpleDataObjectDecorator<MembershipFunctionVectorType>;
   using MembershipFunctionVectorObjectPointer = typename MembershipFunctionVectorObjectType::Pointer;
 
   /** type alias for membership functions weight proprtion */
-  using MembershipFunctionsWeightsArrayType = Array< double >;
+  using MembershipFunctionsWeightsArrayType = Array<double>;
 
   using MembershipFunctionsWeightsArrayObjectType = SimpleDataObjectDecorator<MembershipFunctionsWeightsArrayType>;
   using MembershipFunctionsWeightsArrayPointer = typename MembershipFunctionsWeightsArrayObjectType::Pointer;
 
   using ClassLabelType = IdentifierType;
-  using ClassLabelVectorType = std::vector< ClassLabelType >;
+  using ClassLabelVectorType = std::vector<ClassLabelType>;
   using ClassLabelVectorObjectType = SimpleDataObjectDecorator<ClassLabelVectorType>;
   using ClassLabelVectorObjectPointer = ClassLabelVectorObjectType::Pointer;
 
@@ -92,12 +91,15 @@ public:
 
   /** Sets the input sample that will be classified by this filter. */
   using Superclass::SetInput;
-  void SetInput(const SampleType *sample);
+  void
+  SetInput(const SampleType * sample);
 
-  const SampleType *  GetInput() const;
+  const SampleType *
+  GetInput() const;
 
   /** Returns the classification result */
-  const MembershipSampleType * GetOutput() const;
+  const MembershipSampleType *
+  GetOutput() const;
 
   /** Number of classes. This must match the number of labels and membership
    * functions provided by the user, otherwise an exception will be thrown at
@@ -112,23 +114,28 @@ public:
   /** Sets input vector of class labels. The length of this vector must match
    * the number of classes, otherwise an exception will be thrown at run time.
    * */
-  void SetClassLabels(const ClassLabelVectorObjectType *classLabels);
+  void
+  SetClassLabels(const ClassLabelVectorObjectType * classLabels);
 
   /** Sets input vector of membership functions. The length of this vector must match
    * the number of classes, otherwise an exception will be thrown at run time.
    * */
-  void SetMembershipFunctions(const MembershipFunctionVectorObjectType *membershipFunctions);
+  void
+  SetMembershipFunctions(const MembershipFunctionVectorObjectType * membershipFunctions);
 
   /** Sets array of weights for the membership functions */
-  void SetMembershipFunctionsWeightsArray(const MembershipFunctionsWeightsArrayObjectType *weightsArray);
+  void
+  SetMembershipFunctionsWeightsArray(const MembershipFunctionsWeightsArrayObjectType * weightsArray);
 
 protected:
   SampleClassifierFilter();
   ~SampleClassifierFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Starts the classification process */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Make a DataObject of the correct type to used as the specified
    * output. This method
@@ -138,20 +145,20 @@ protected:
    */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
 private:
-
   unsigned int m_NumberOfClasses;
 
   /** Decision Rule */
   DecisionRulePointer m_DecisionRule;
-};  // end of class
+}; // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSampleClassifierFilter.hxx"
+#  include "itkSampleClassifierFilter.hxx"
 #endif
 
 #endif

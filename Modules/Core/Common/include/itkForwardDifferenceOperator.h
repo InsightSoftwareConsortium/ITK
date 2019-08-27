@@ -40,15 +40,13 @@ namespace itk
  * \sphinxexample{Core/Common/CreateForwardDifferenceKernel,Create Forward Difference Kernel}
  * \endsphinx
  */
-template< typename TPixel, unsigned int VDimension = 2,
-          typename TAllocator = NeighborhoodAllocator< TPixel > >
-class ITK_TEMPLATE_EXPORT ForwardDifferenceOperator:
-  public NeighborhoodOperator< TPixel, VDimension, TAllocator >
+template <typename TPixel, unsigned int VDimension = 2, typename TAllocator = NeighborhoodAllocator<TPixel>>
+class ITK_TEMPLATE_EXPORT ForwardDifferenceOperator : public NeighborhoodOperator<TPixel, VDimension, TAllocator>
 {
 public:
   /** Standard class type aliases. */
   using Self = ForwardDifferenceOperator;
-  using Superclass = NeighborhoodOperator< TPixel, VDimension, TAllocator >;
+  using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
   using PixelType = typename Superclass::PixelType;
 
@@ -56,11 +54,13 @@ public:
   ForwardDifferenceOperator() = default;
 
   /** Copy constructor */
-  ForwardDifferenceOperator(const Self & other):
-    NeighborhoodOperator< TPixel, VDimension, TAllocator >(other) {}
+  ForwardDifferenceOperator(const Self & other)
+    : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other)
+  {}
 
   /** Assignment operator */
-  Self & operator=(const Self & other)
+  Self &
+  operator=(const Self & other)
   {
     Superclass::operator=(other);
     return *this;
@@ -71,10 +71,12 @@ protected:
   using CoefficientVector = typename Superclass::CoefficientVector;
 
   /** Calculates operator coefficients. */
-  CoefficientVector GenerateCoefficients() override;
+  CoefficientVector
+  GenerateCoefficients() override;
 
   /** Arranges coefficients spatially in the memory buffer. */
-  void Fill(const CoefficientVector & coeff) override
+  void
+  Fill(const CoefficientVector & coeff) override
   {
     this->FillCenteredDirectional(coeff);
   }
@@ -82,7 +84,7 @@ protected:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkForwardDifferenceOperator.hxx"
+#  include "itkForwardDifferenceOperator.hxx"
 #endif
 
 #endif

@@ -22,27 +22,24 @@
 
 namespace itk
 {
-template< typename TImage >
-ImageRegionReverseIterator< TImage >
-::ImageRegionReverseIterator(ImageType *ptr, const RegionType & region):
-  ImageRegionReverseConstIterator< TImage >(ptr, region)
+template <typename TImage>
+ImageRegionReverseIterator<TImage>::ImageRegionReverseIterator(ImageType * ptr, const RegionType & region)
+  : ImageRegionReverseConstIterator<TImage>(ptr, region)
 {}
 
-template< typename TImage >
-ImageRegionReverseIterator< TImage >
-::ImageRegionReverseIterator(const ImageConstIterator< TImage > & it):Superclass(it)
+template <typename TImage>
+ImageRegionReverseIterator<TImage>::ImageRegionReverseIterator(const ImageConstIterator<TImage> & it)
+  : Superclass(it)
 {}
 
-template< typename TImage >
-ImageRegionReverseIterator< TImage >
-::ImageRegionReverseIterator(const ImageRegionReverseConstIterator< TImage > & it):
-  Superclass(it)
+template <typename TImage>
+ImageRegionReverseIterator<TImage>::ImageRegionReverseIterator(const ImageRegionReverseConstIterator<TImage> & it)
+  : Superclass(it)
 {}
 
-template< typename TImage >
-ImageRegionReverseIterator< TImage > &
-ImageRegionReverseIterator< TImage >
-::operator=(const ImageRegionReverseConstIterator< TImage > & it)
+template <typename TImage>
+ImageRegionReverseIterator<TImage> &
+ImageRegionReverseIterator<TImage>::operator=(const ImageRegionReverseConstIterator<TImage> & it)
 {
   this->Superclass::operator=(it);
   return *this;

@@ -22,17 +22,16 @@
 
 namespace itk
 {
-template< unsigned int VDimension, typename TInput >
-FrustumSpatialFunction< VDimension, TInput >::FrustumSpatialFunction() :
-  m_RotationPlane( RotationPlaneType::RotateInXZPlane )
+template <unsigned int VDimension, typename TInput>
+FrustumSpatialFunction<VDimension, TInput>::FrustumSpatialFunction()
+  : m_RotationPlane(RotationPlaneType::RotateInXZPlane)
 {
-  m_Apex.Fill( 0.0f );
+  m_Apex.Fill(0.0f);
 }
 
-template< unsigned int VDimension, typename TInput >
-typename FrustumSpatialFunction< VDimension, TInput >::OutputType
-FrustumSpatialFunction< VDimension, TInput >
-::Evaluate(const InputType & position) const
+template <unsigned int VDimension, typename TInput>
+typename FrustumSpatialFunction<VDimension, TInput>::OutputType
+FrustumSpatialFunction<VDimension, TInput>::Evaluate(const InputType & position) const
 {
   using PointType = InputType;
   using VectorType = typename PointType::VectorType;
@@ -42,25 +41,23 @@ FrustumSpatialFunction< VDimension, TInput >
 
   // Check Top and Bottom planes. If the angle is negative, the top plane
   // value may be less than the bottom plane, which is still correct.
-  if ( m_TopPlane <= m_BottomPlane )
+  if (m_TopPlane <= m_BottomPlane)
+  {
+    if (distanceToApex < m_TopPlane || distanceToApex > m_BottomPlane)
     {
-    if ( distanceToApex < m_TopPlane
-         || distanceToApex > m_BottomPlane )
-      {
       return 0;
-      }
     }
+  }
   else
+  {
+    if (distanceToApex > m_TopPlane || distanceToApex < m_BottomPlane)
     {
-    if ( distanceToApex > m_TopPlane
-         || distanceToApex < m_BottomPlane )
-      {
       return 0;
-      }
     }
+  }
 
-  if ( m_RotationPlane == RotationPlaneType::RotateInXZPlane )
-    {
+  if (m_RotationPlane == RotationPlaneType::RotateInXZPlane)
+  {
     const double dx = relativePosition[0];
     const double dy = relativePosition[1];
     const double dz = relativePosition[2];
@@ -71,24 +68,23 @@ FrustumSpatialFunction< VDimension, TInput >
 
     // Check planes along Y
     const double angleY = std::atan2(dy, distanceXZ);
-    if ( std::fabs(angleY) > m_ApertureAngleY * deg2rad )
-      {
+    if (std::fabs(angleY) > m_ApertureAngleY * deg2rad)
+    {
       return 0;
-      }
+    }
 
     // Check planes along X
     const double angleX = std::atan2(dx, dz);
 
-    if ( std::cos(angleX  + ( 180.0 + m_AngleZ ) * deg2rad)  <
-         std::cos(deg2rad * m_ApertureAngleX) )
-      {
+    if (std::cos(angleX + (180.0 + m_AngleZ) * deg2rad) < std::cos(deg2rad * m_ApertureAngleX))
+    {
       return 0;
-      }
+    }
 
     return 1;
-    }
-  else if ( m_RotationPlane == RotationPlaneType::RotateInYZPlane )
-    {
+  }
+  else if (m_RotationPlane == RotationPlaneType::RotateInYZPlane)
+  {
     const double dx = relativePosition[0];
     const double dy = relativePosition[1];
     const double dz = relativePosition[2];
@@ -99,31 +95,30 @@ FrustumSpatialFunction< VDimension, TInput >
 
     // Check planes along X
     const double angleX = std::atan2(dx, distanceYZ);
-    if ( std::fabs(angleX) > m_ApertureAngleX * deg2rad )
-      {
+    if (std::fabs(angleX) > m_ApertureAngleX * deg2rad)
+    {
       return 0;
-      }
+    }
 
     // Check planes along Y
     const double angleY = std::atan2(dy, dz);
 
-    if ( std::cos(angleY  + ( 180.0 + m_AngleZ ) * deg2rad)  <
-         std::cos(deg2rad * m_ApertureAngleY) )
-      {
+    if (std::cos(angleY + (180.0 + m_AngleZ) * deg2rad) < std::cos(deg2rad * m_ApertureAngleY))
+    {
       return 0;
-      }
+    }
 
     return 1;
-    }
+  }
   else
-    {
+  {
     itkExceptionMacro(<< "Rotation plane not set or set to an unsupported value!");
-    }
+  }
 }
 
-template< unsigned int VDimension, typename TInput >
+template <unsigned int VDimension, typename TInput>
 void
-FrustumSpatialFunction< VDimension, TInput >::PrintSelf(std::ostream & os, Indent indent) const
+FrustumSpatialFunction<VDimension, TInput>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

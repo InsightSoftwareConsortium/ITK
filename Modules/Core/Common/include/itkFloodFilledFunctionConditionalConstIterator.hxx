@@ -23,63 +23,61 @@
 
 namespace itk
 {
-template< typename TImage, typename TFunction >
-FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
-::FloodFilledFunctionConditionalConstIterator(const ImageType *imagePtr,
-                                              FunctionType *fnPtr,
-                                              IndexType startIndex)
+template <typename TImage, typename TFunction>
+FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FloodFilledFunctionConditionalConstIterator(
+  const ImageType * imagePtr,
+  FunctionType *    fnPtr,
+  IndexType         startIndex)
 {
   this->m_Image = imagePtr;
   m_Function = fnPtr;
-  m_Seeds.push_back (startIndex);
+  m_Seeds.push_back(startIndex);
 
   // Set up the temporary image
   this->InitializeIterator();
 }
 
-template< typename TImage, typename TFunction >
-FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
-::FloodFilledFunctionConditionalConstIterator(const ImageType *imagePtr,
-                                              FunctionType *fnPtr,
-                                              std::vector< IndexType > & startIndex)
+template <typename TImage, typename TFunction>
+FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FloodFilledFunctionConditionalConstIterator(
+  const ImageType *        imagePtr,
+  FunctionType *           fnPtr,
+  std::vector<IndexType> & startIndex)
 {
   this->m_Image = imagePtr;
   m_Function = fnPtr;
   unsigned int i;
-  for ( i = 0; i < startIndex.size(); i++ )
-    {
-    m_Seeds.push_back (startIndex[i]);
-    }
+  for (i = 0; i < startIndex.size(); i++)
+  {
+    m_Seeds.push_back(startIndex[i]);
+  }
 
   // Set up the temporary image
   this->InitializeIterator();
 }
 
-template< typename TImage, typename TFunction >
-FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
-::FloodFilledFunctionConditionalConstIterator(const ImageType *imagePtr,
-                                              FunctionType *fnPtr)
+template <typename TImage, typename TFunction>
+FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FloodFilledFunctionConditionalConstIterator(
+  const ImageType * imagePtr,
+  FunctionType *    fnPtr)
 {
   this->m_Image = imagePtr;
   m_Function = fnPtr;
 
   // Set up the temporary image
   this->InitializeIterator();
-
 }
 
-template< typename TImage, typename TFunction >
+template <typename TImage, typename TFunction>
 void
-FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
-::InitializeIterator()
+FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::InitializeIterator()
 {
   m_FoundUncheckedNeighbor = false;
   m_IsValidIndex = false;
 
   // Get the origin and spacing from the image in simple arrays
-  m_ImageOrigin  = this->m_Image->GetOrigin();
+  m_ImageOrigin = this->m_Image->GetOrigin();
   m_ImageSpacing = this->m_Image->GetSpacing();
-  m_ImageRegion  = this->m_Image->GetBufferedRegion();
+  m_ImageRegion = this->m_Image->GetBufferedRegion();
 
   // Build a temporary image of chars for use in the flood algorithm
   m_TemporaryPointer = TTempImage::New();
@@ -96,74 +94,71 @@ FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
   // position later (using FindSeedPixel).  Must make sure that the
   // seed is inside the buffer before touching pixels.
   this->m_IsAtEnd = true;
-  for ( unsigned int i = 0; i < m_Seeds.size(); i++ )
+  for (unsigned int i = 0; i < m_Seeds.size(); i++)
+  {
+    if (m_ImageRegion.IsInside(m_Seeds[i]))
     {
-    if ( m_ImageRegion.IsInside (m_Seeds[i]) )
-      {
       m_IndexStack.push(m_Seeds[i]);
       this->m_IsAtEnd = false;
-      }
     }
+  }
 }
 
-template< typename TImage, typename TFunction >
+template <typename TImage, typename TFunction>
 void
-FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
-::FindSeedPixel()
+FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FindSeedPixel()
 {
   // Create an iterator that will walk the input image
-  using IRIType = typename itk::ImageRegionConstIterator< TImage >;
-  IRIType it = IRIType( this->m_Image, this->m_Image->GetBufferedRegion() );
+  using IRIType = typename itk::ImageRegionConstIterator<TImage>;
+  IRIType it = IRIType(this->m_Image, this->m_Image->GetBufferedRegion());
 
   // Now we search the input image for the first pixel which is inside
   // the function of interest
   m_Seeds.clear();
-  for ( it.GoToBegin(); !it.IsAtEnd(); ++it )
+  for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+  {
+    if (this->IsPixelIncluded(it.GetIndex()))
     {
-    if ( this->IsPixelIncluded( it.GetIndex() ) )
-      {
-      m_Seeds.push_back ( it.GetIndex() );
+      m_Seeds.push_back(it.GetIndex());
 
       // We need to reset the "beginning" now that we have a real seed
       this->GoToBegin();
 
       return;
-      }
     }
+  }
 }
 
-template< typename TImage, typename TFunction >
+template <typename TImage, typename TFunction>
 void
-FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
-::FindSeedPixels()
+FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FindSeedPixels()
 {
   // Create an iterator that will walk the input image
-  using IRIType = typename itk::ImageRegionConstIterator< TImage >;
-  IRIType it = IRIType( this->m_Image, this->m_Image->GetBufferedRegion() );
+  using IRIType = typename itk::ImageRegionConstIterator<TImage>;
+  IRIType it = IRIType(this->m_Image, this->m_Image->GetBufferedRegion());
 
   // Now we search the input image for the first pixel which is inside
   // the function of interest
   m_Seeds.clear();
   bool found = false;
-  for ( it.GoToBegin(); !it.IsAtEnd(); ++it )
+  for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+  {
+    if (this->IsPixelIncluded(it.GetIndex()))
     {
-    if ( this->IsPixelIncluded( it.GetIndex() ) )
-      {
-      m_Seeds.push_back ( it.GetIndex() );
+      m_Seeds.push_back(it.GetIndex());
       found = true;
-      }
     }
-  if ( found )
-    {
+  }
+  if (found)
+  {
     // We need to reset the "beginning" now that we have a real seed
     this->GoToBegin();
-    }
+  }
 }
 
-template< typename TImage, typename TFunction >
+template <typename TImage, typename TFunction>
 void
-FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
-::DoFloodStep()
+FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::DoFloodStep()
 {
   // The index in the front of the queue should always be
   // valid and be inside since this is what the iterator
@@ -175,56 +170,56 @@ FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 
   // Iterate through all possible dimensions
   // NOTE: Replace this with a ShapeNeighborhoodIterator
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
+  for (unsigned int i = 0; i < NDimensions; i++)
+  {
     // The j loop establishes either left or right neighbor (+-1)
-    for ( int j = -1; j <= 1; j += 2 )
-      {
+    for (int j = -1; j <= 1; j += 2)
+    {
       IndexType tempIndex;
 
       // build the index of a neighbor
-      for ( unsigned int k = 0; k < NDimensions; k++ )
+      for (unsigned int k = 0; k < NDimensions; k++)
+      {
+        if (i != k)
         {
-        if ( i != k )
-          {
           tempIndex.m_InternalArray[k] = topIndex[k];
-          }
+        }
         else
-          {
+        {
           tempIndex.m_InternalArray[k] = topIndex[k] + j;
-          }
-        } // end build the index of a neighbor
+        }
+      } // end build the index of a neighbor
 
       // If this is a valid index and have not been tested,
       // then test it.
-      if ( m_ImageRegion.IsInside(tempIndex) )
+      if (m_ImageRegion.IsInside(tempIndex))
+      {
+        if (m_TemporaryPointer->GetPixel(tempIndex) == 0)
         {
-        if ( m_TemporaryPointer->GetPixel(tempIndex) == 0 )
-          {
           // if it is inside, push it into the queue
-          if ( this->IsPixelIncluded(tempIndex) )
-            {
+          if (this->IsPixelIncluded(tempIndex))
+          {
             m_IndexStack.push(tempIndex);
             m_TemporaryPointer->SetPixel(tempIndex, 2);
-            }
-          else  // If the pixel is outside
-            {
+          }
+          else // If the pixel is outside
+          {
             // Mark the pixel as outside and remove it from the queue.
             m_TemporaryPointer->SetPixel(tempIndex, 1);
-            }
           }
         }
-      } // end left/right neighbor loop
-    }   // end check all neighbors
+      }
+    } // end left/right neighbor loop
+  }   // end check all neighbors
 
   // Now that all the potential neighbors have been
   // inserted we can get rid of the pixel in the front
   m_IndexStack.pop();
 
-  if ( m_IndexStack.empty() )
-    {
+  if (m_IndexStack.empty())
+  {
     this->m_IsAtEnd = true;
-    }
+  }
 }
 } // end namespace itk
 

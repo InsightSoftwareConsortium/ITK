@@ -82,8 +82,7 @@ namespace itk
  * \ingroup ITKOptimizersv4
  */
 
-class ITKOptimizersv4_EXPORT LBFGSOptimizerv4:
-    public LBFGSOptimizerBasev4< vnl_lbfgs >
+class ITKOptimizersv4_EXPORT LBFGSOptimizerv4 : public LBFGSOptimizerBasev4<vnl_lbfgs>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSOptimizerv4);
@@ -91,8 +90,8 @@ public:
   /** Standard "Self" type alias. */
   using Self = LBFGSOptimizerv4;
   using Superclass = LBFGSOptimizerBasev4<vnl_lbfgs>;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using MetricType = Superclass::MetricType;
   using ParametersType = Superclass::ParametersType;
@@ -105,13 +104,17 @@ public:
   itkTypeMacro(LBFGSOptimizerv4, Superclass);
 
   /** Start optimization with an initial value. */
-  void StartOptimization(bool doOnlyInitialization = false) override;
+  void
+  StartOptimization(bool doOnlyInitialization = false) override;
 
   /** Plug in a Cost Function into the optimizer  */
-  void SetMetric(MetricType *metric) override;
+  void
+  SetMetric(MetricType * metric) override;
 
-  void VerboseOn();
-  void VerboseOff();
+  void
+  VerboseOn();
+  void
+  VerboseOff();
 
   /** Set/Get the line search accuracy. This is a positive real number
    * with a default value of 0.9, which controls the accuracy of the line
@@ -119,7 +122,8 @@ public:
    * respect to the cost of the iterations it may be advantageous to set
    * the value to a small value (say 0.1).
    */
-  void SetLineSearchAccuracy(double tol);
+  void
+  SetLineSearchAccuracy(double tol);
 
   itkGetConstMacro(LineSearchAccuracy, double);
 
@@ -127,25 +131,27 @@ public:
    * with a default value of 1.0 which determines the step size in the line
    * search.
    */
-  void SetDefaultStepLength(double stp);
+  void
+  SetDefaultStepLength(double stp);
 
   itkGetConstMacro(DefaultStepLength, double);
 
 protected:
   LBFGSOptimizerv4();
   ~LBFGSOptimizerv4() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** InternalParameters type alias. */
-  using InternalParametersType = vnl_vector< double >;
+  using InternalParametersType = vnl_vector<double>;
 
   /** Internal optimizer type. */
   using InternalOptimizerType = vnl_lbfgs;
 
 private:
-  bool         m_Verbose{false};
-  double       m_LineSearchAccuracy{0.9};
-  double       m_DefaultStepLength{1.0};
+  bool   m_Verbose{ false };
+  double m_LineSearchAccuracy{ 0.9 };
+  double m_DefaultStepLength{ 1.0 };
 };
 } // end namespace itk
 #endif

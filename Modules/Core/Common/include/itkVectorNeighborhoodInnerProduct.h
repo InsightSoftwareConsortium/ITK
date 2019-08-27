@@ -41,7 +41,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< typename TImage >
+template <typename TImage>
 class ITK_TEMPLATE_EXPORT VectorNeighborhoodInnerProduct
 {
 public:
@@ -51,38 +51,36 @@ public:
   static constexpr unsigned int ImageDimension = TImage::ImageDimension;
 
   /** Extract the pixel type and scalar type from the image template parameter.
-    */
+   */
   using PixelType = typename TImage::PixelType;
   using ScalarValueType = typename PixelType::ValueType;
-  using NeighborhoodType = Neighborhood< PixelType, Self::ImageDimension >;
+  using NeighborhoodType = Neighborhood<PixelType, Self::ImageDimension>;
 
   /** Extract the image and vector dimension from the image template parameter.
-    */
+   */
   static constexpr unsigned int VectorDimension = PixelType::Dimension;
 
   /** Operator type alias */
-  using OperatorType = Neighborhood< ScalarValueType,
-                        Self::ImageDimension >;
+  using OperatorType = Neighborhood<ScalarValueType, Self::ImageDimension>;
 
   /** Conversion operator. */
-  PixelType operator()(const std::slice & s,
-                       const ConstNeighborhoodIterator< TImage > & it,
-                       const OperatorType & op) const;
+  PixelType
+  operator()(const std::slice & s, const ConstNeighborhoodIterator<TImage> & it, const OperatorType & op) const;
 
   /** Conversion operator. */
-  PixelType operator()(const ConstNeighborhoodIterator< TImage > & it,
-                       const OperatorType & op) const
+  PixelType
+  operator()(const ConstNeighborhoodIterator<TImage> & it, const OperatorType & op) const
   {
     return this->operator()(std::slice(0, it.Size(), 1), it, op);
   }
 
-  PixelType operator()(const std::slice & s, const NeighborhoodType & N,
-                       const OperatorType & op) const;
+  PixelType
+  operator()(const std::slice & s, const NeighborhoodType & N, const OperatorType & op) const;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorNeighborhoodInnerProduct.hxx"
+#  include "itkVectorNeighborhoodInnerProduct.hxx"
 #endif
 
 #endif

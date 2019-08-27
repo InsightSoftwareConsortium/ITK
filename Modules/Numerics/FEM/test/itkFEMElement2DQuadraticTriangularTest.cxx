@@ -21,7 +21,8 @@
 #include <iostream>
 
 //
-int itkFEMElement2DQuadraticTriangularTest(int , char *[])
+int
+itkFEMElement2DQuadraticTriangularTest(int, char *[])
 {
 
   using ElementType = itk::fem::Element;

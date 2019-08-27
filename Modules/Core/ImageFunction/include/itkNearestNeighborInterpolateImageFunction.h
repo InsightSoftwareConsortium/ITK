@@ -34,22 +34,21 @@ namespace itk
  * \ingroup ImageFunctions ImageInterpolators
  * \ingroup ITKImageFunction
  */
-template< typename TInputImage, typename TCoordRep = double >
-class ITK_TEMPLATE_EXPORT NearestNeighborInterpolateImageFunction:
-  public InterpolateImageFunction< TInputImage, TCoordRep >
+template <typename TInputImage, typename TCoordRep = double>
+class ITK_TEMPLATE_EXPORT NearestNeighborInterpolateImageFunction
+  : public InterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(NearestNeighborInterpolateImageFunction);
 
   /** Standard class type aliases. */
   using Self = NearestNeighborInterpolateImageFunction;
-  using Superclass = InterpolateImageFunction< TInputImage, TCoordRep >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InterpolateImageFunction<TInputImage, TCoordRep>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NearestNeighborInterpolateImageFunction,
-               InterpolateImageFunction);
+  itkTypeMacro(NearestNeighborInterpolateImageFunction, InterpolateImageFunction);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -80,25 +79,29 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index) const override
+  OutputType
+  EvaluateAtContinuousIndex(const ContinuousIndexType & index) const override
   {
     IndexType nindex;
 
     this->ConvertContinuousIndexToNearestIndex(index, nindex);
-    return static_cast< OutputType >( this->GetInputImage()->GetPixel(nindex) );
+    return static_cast<OutputType>(this->GetInputImage()->GetPixel(nindex));
   }
 
-  SizeType GetRadius() const override
-    {
+  SizeType
+  GetRadius() const override
+  {
     return SizeType(); // zeroes by default
-    }
+  }
 
 protected:
-  NearestNeighborInterpolateImageFunction()= default;
+  NearestNeighborInterpolateImageFunction() = default;
   ~NearestNeighborInterpolateImageFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override
-  { Superclass::PrintSelf(os, indent); }
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
+  {
+    Superclass::PrintSelf(os, indent);
+  }
 };
 } // end namespace itk
 

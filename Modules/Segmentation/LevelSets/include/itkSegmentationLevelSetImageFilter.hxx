@@ -24,9 +24,8 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
-SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
-::SegmentationLevelSetImageFilter()
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType>
+SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::SegmentationLevelSetImageFilter()
 {
   // #0 "InitialImage" required
   Self::SetPrimaryInputName("InitialImage");
@@ -38,7 +37,7 @@ SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
   this->SetNumberOfLayers(TInputImage::ImageDimension);
   m_SegmentationFunction = nullptr;
   m_AutoGenerateSpeedAdvection = true;
-  this->SetIsoSurfaceValue(NumericTraits< ValueType >::ZeroValue());
+  this->SetIsoSurfaceValue(NumericTraits<ValueType>::ZeroValue());
 
   // Provide some reasonable defaults which will at least prevent infinite
   // looping.
@@ -47,70 +46,67 @@ SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
   m_ReverseExpansionDirection = false;
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType>
 void
-SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
-::GenerateSpeedImage()
+SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::GenerateSpeedImage()
 {
   m_SegmentationFunction->AllocateSpeedImage();
   m_SegmentationFunction->CalculateSpeedImage();
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType>
 void
-SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
-::GenerateAdvectionImage()
+SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::GenerateAdvectionImage()
 {
   m_SegmentationFunction->AllocateAdvectionImage();
   m_SegmentationFunction->CalculateAdvectionImage();
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType>
 void
-SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
-::GenerateData()
+SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::GenerateData()
 {
-  if ( m_SegmentationFunction == nullptr )
-    {
+  if (m_SegmentationFunction == nullptr)
+  {
     itkExceptionMacro("No finite difference function was specified.");
-    }
+  }
 
   // A positive speed value causes surface expansion, the opposite of the
   // default. Flip the sign of the propagation and advection weights.
-  if ( m_ReverseExpansionDirection == true )
-    {
+  if (m_ReverseExpansionDirection == true)
+  {
     this->GetSegmentationFunction()->ReverseExpansionDirection();
-    }
+  }
 
   // Allocate the images from which speeds will be sampled.
   // if it is uninitialized and AutoGenerateSpeedAvection is true
-  if ( !this->m_IsInitialized && m_AutoGenerateSpeedAdvection == true )
+  if (!this->m_IsInitialized && m_AutoGenerateSpeedAdvection == true)
+  {
+    if (Math::NotExactlyEquals(this->GetSegmentationFunction()->GetPropagationWeight(), 0))
     {
-    if ( Math::NotExactlyEquals(this->GetSegmentationFunction()->GetPropagationWeight(), 0) )
-      {
       this->GenerateSpeedImage();
-      }
-
-    if ( Math::NotExactlyEquals(this->GetSegmentationFunction()->GetAdvectionWeight(), 0) )
-      {
-      this->GenerateAdvectionImage();
-      }
     }
+
+    if (Math::NotExactlyEquals(this->GetSegmentationFunction()->GetAdvectionWeight(), 0))
+    {
+      this->GenerateAdvectionImage();
+    }
+  }
 
   // Start the solver
   Superclass::GenerateData();
 
   // Reset all the signs of the weights.
-  if ( m_ReverseExpansionDirection == true )
-    {
+  if (m_ReverseExpansionDirection == true)
+  {
     this->GetSegmentationFunction()->ReverseExpansionDirection();
-    }
+  }
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType>
 void
-SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
-::PrintSelf(std::ostream & os, Indent indent) const
+SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::PrintSelf(std::ostream & os,
+                                                                                         Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
 

@@ -82,21 +82,20 @@ namespace itk
  * \sphinxexample{Filtering/ImageGrid/ResampleAnImage,Resample An Image}
  * \endsphinx
  */
-template< typename TInputImage,
+template <typename TInputImage,
           typename TOutputImage,
           typename TInterpolatorPrecisionType = double,
           typename TTransformPrecisionType = TInterpolatorPrecisionType>
-class ITK_TEMPLATE_EXPORT ResampleImageFilter :
-  public ImageToImageFilter< TInputImage, TOutputImage >
+class ITK_TEMPLATE_EXPORT ResampleImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ResampleImageFilter);
 
   /** Standard class type aliases. */
   using Self = ResampleImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using InputImageType = TInputImage;
   using OutputImageType = TOutputImage;
@@ -116,48 +115,43 @@ public:
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
   /** base type for images of the current ImageDimension */
-  using ImageBaseType = ImageBase< Self::ImageDimension >;
+  using ImageBaseType = ImageBase<Self::ImageDimension>;
 
   /**
    *  Transform type alias.
    */
-  using TransformType = Transform< TTransformPrecisionType,
-                     Self::ImageDimension,
-                     Self::ImageDimension >;
+  using TransformType = Transform<TTransformPrecisionType, Self::ImageDimension, Self::ImageDimension>;
   using TransformPointerType = typename TransformType::ConstPointer;
   using DecoratedTransformType = DataObjectDecorator<TransformType>;
   using DecoratedTransformPointer = typename DecoratedTransformType::Pointer;
 
 
   /** Interpolator type alias. */
-  using InterpolatorType = InterpolateImageFunction< InputImageType,
-                                    TInterpolatorPrecisionType >;
+  using InterpolatorType = InterpolateImageFunction<InputImageType, TInterpolatorPrecisionType>;
   using InterpolatorPointerType = typename InterpolatorType::Pointer;
 
   using InterpolatorOutputType = typename InterpolatorType::OutputType;
 
-  using InterpolatorConvertType = DefaultConvertPixelTraits< InterpolatorOutputType >;
+  using InterpolatorConvertType = DefaultConvertPixelTraits<InterpolatorOutputType>;
 
   using ComponentType = typename InterpolatorConvertType::ComponentType;
 
-  using LinearInterpolatorType = LinearInterpolateImageFunction< InputImageType,
-                                          TInterpolatorPrecisionType >;
+  using LinearInterpolatorType = LinearInterpolateImageFunction<InputImageType, TInterpolatorPrecisionType>;
   using LinearInterpolatorPointerType = typename LinearInterpolatorType::Pointer;
 
   /** Extrapolator type alias. */
-  using ExtrapolatorType = ExtrapolateImageFunction< InputImageType,
-                                    TInterpolatorPrecisionType >;
+  using ExtrapolatorType = ExtrapolateImageFunction<InputImageType, TInterpolatorPrecisionType>;
   using ExtrapolatorPointerType = typename ExtrapolatorType::Pointer;
 
   /** Image size type alias. */
-  using SizeType = Size< Self::ImageDimension >;
+  using SizeType = Size<Self::ImageDimension>;
 
   /** Image index type alias. */
   using IndexType = typename TOutputImage::IndexType;
 
   /** Image point type alias. */
   using PointType = typename InterpolatorType::PointType;
-  //using PointType = typename TOutputImage::PointType;
+  // using PointType = typename TOutputImage::PointType;
 
   /** Image pixel value type alias. */
   using PixelType = typename TOutputImage::PixelType;
@@ -168,8 +162,7 @@ public:
   using PixelComponentType = typename PixelConvertType::ComponentType;
 
   /** Input pixel continuous index typdef */
-  using ContinuousInputIndexType =
-      ContinuousIndex< TInterpolatorPrecisionType, ImageDimension >;
+  using ContinuousInputIndexType = ContinuousIndex<TInterpolatorPrecisionType, ImageDimension>;
 
   /** Typedef to describe the output image region type. */
   using OutputImageRegionType = typename TOutputImage::RegionType;
@@ -189,7 +182,7 @@ public:
    * the filter uses an Identity transform. You must provide a different
    * transform here, before attempting to run the filter, if you do not want to
    * use the default Identity transform. */
-   itkSetGetDecoratedObjectInputMacro(Transform, TransformType);
+  itkSetGetDecoratedObjectInputMacro(Transform, TransformType);
 
   /** Get/Set the interpolator function.  The default is
    * LinearInterpolateImageFunction<InputImageType,
@@ -218,14 +211,16 @@ public:
 
   /** Set the output image spacing. */
   itkSetMacro(OutputSpacing, SpacingType);
-  virtual void SetOutputSpacing(const double *values);
+  virtual void
+  SetOutputSpacing(const double * values);
 
   /** Get the output image spacing. */
   itkGetConstReferenceMacro(OutputSpacing, SpacingType);
 
   /** Set the output image origin. */
   itkSetMacro(OutputOrigin, OriginPointType);
-  virtual void SetOutputOrigin(const double *values);
+  virtual void
+  SetOutputOrigin(const double * values);
 
   /** Get the output image origin. */
   itkGetConstReferenceMacro(OutputOrigin, OriginPointType);
@@ -235,7 +230,8 @@ public:
   itkGetConstReferenceMacro(OutputDirection, DirectionType);
 
   /** Helper method to set the output parameters based on this image. */
-  void SetOutputParametersFromImage(const ImageBaseType *image);
+  void
+  SetOutputParametersFromImage(const ImageBaseType * image);
 
   /** Set the start index of the output largest possible region.
    * The default is an index of all zeros. */
@@ -244,12 +240,12 @@ public:
   /** Get the start index of the output largest possible region. */
   itkGetConstReferenceMacro(OutputStartIndex, IndexType);
 
-   /** Set a reference image to use to define the output information.
-    *  By default, output information is specificed through the
-    *  SetOutputSpacing, Origin, and Direction methods.  Alternatively,
-    *  this method can be used to specify an image from which to
-    *  copy the information. UseReferenceImageOn must be set to utilize the
-    *  reference image. */
+  /** Set a reference image to use to define the output information.
+   *  By default, output information is specificed through the
+   *  SetOutputSpacing, Origin, and Direction methods.  Alternatively,
+   *  this method can be used to specify an image from which to
+   *  copy the information. UseReferenceImageOn must be set to utilize the
+   *  reference image. */
   itkSetInputMacro(ReferenceImage, ReferenceImageBaseType);
 
   /** Get the reference image that is defining the output information. */
@@ -263,47 +259,54 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< PixelComponentType > ) );
+  itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<PixelComponentType>));
   // End concept checking
 #endif
 
 protected:
   ResampleImageFilter();
   ~ResampleImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Override VerifyInputInformation() since this filter's inputs do
    * not need to occoupy the same physical space.
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() ITKv5_CONST override { }
+  void
+  VerifyInputInformation() ITKv5_CONST override
+  {}
 
   /** ResampleImageFilter produces an image which is a different size
    * than its input.  As such, it needs to provide an implementation
    * for GenerateOutputInformation() in order to inform the pipeline
    * execution model.  The original documentation of this method is
    * below. \sa ProcessObject::GenerateOutputInformaton() */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** ResampleImageFilter needs a different input requested region than
    * the output requested region.  As such, ResampleImageFilter needs
    * to provide an implementation for GenerateInputRequestedRegion()
    * in order to inform the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** Set up state of filter before multi-threading.
    * InterpolatorType::SetInputImage is not thread-safe and hence
    * has to be set up before DynamicThreadedGenerateData */
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
   /** Set the state of the filter after multi-threading. */
-  void AfterThreadedGenerateData() override;
+  void
+  AfterThreadedGenerateData() override;
 
   /** Compute the Modified Time based on the changed components. */
-  ModifiedTimeType GetMTime() const override;
+  ModifiedTimeType
+  GetMTime() const override;
 
   /** ResampleImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a DynamicThreadedGenerateData()
@@ -314,33 +317,39 @@ protected:
    * specified by the parameter "outputRegionForThread"
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
   /** Default implementation for resampling that works for any
    * transformation type. */
-  virtual void NonlinearThreadedGenerateData(const OutputImageRegionType & outputRegionForThread);
+  virtual void
+  NonlinearThreadedGenerateData(const OutputImageRegionType & outputRegionForThread);
 
   /** Implementation for resampling that works for with linear
    *  transformation types. */
-  virtual void LinearThreadedGenerateData(const OutputImageRegionType & outputRegionForThread);
+  virtual void
+  LinearThreadedGenerateData(const OutputImageRegionType & outputRegionForThread);
 
   /** Cast pixel from interpolator output to PixelType. */
-  itkLegacyMacro(
-  virtual PixelType CastPixelWithBoundsChecking( const InterpolatorOutputType value,
-                                                 const ComponentType minComponent,
-                                                 const ComponentType maxComponent) const);
+  itkLegacyMacro(virtual PixelType CastPixelWithBoundsChecking(const InterpolatorOutputType value,
+                                                               const ComponentType          minComponent,
+                                                               const ComponentType          maxComponent) const);
 
 private:
-  static PixelComponentType CastComponentWithBoundsChecking(const PixelComponentType value);
+  static PixelComponentType
+  CastComponentWithBoundsChecking(const PixelComponentType value);
 
   template <typename TComponent>
-  static PixelComponentType CastComponentWithBoundsChecking(const TComponent value);
+  static PixelComponentType
+  CastComponentWithBoundsChecking(const TComponent value);
 
-  static PixelType CastPixelWithBoundsChecking(const ComponentType value);
+  static PixelType
+  CastPixelWithBoundsChecking(const ComponentType value);
 
   template <typename TPixel>
-  static PixelType CastPixelWithBoundsChecking(const TPixel value);
+  static PixelType
+  CastPixelWithBoundsChecking(const TPixel value);
 
   SizeType                m_Size;         // Size of the output image
   InterpolatorPointerType m_Interpolator; // Image function for
@@ -355,12 +364,11 @@ private:
   DirectionType   m_OutputDirection;      // output image direction cosines
   IndexType       m_OutputStartIndex;     // output image start index
   bool            m_UseReferenceImage{ false };
-
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkResampleImageFilter.hxx"
+#  include "itkResampleImageFilter.hxx"
 #endif
 
 #endif

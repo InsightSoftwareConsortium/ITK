@@ -28,23 +28,21 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage, typename TOperatorValueType >
+template <typename TInputImage, typename TOutputImage, typename TOperatorValueType>
 void
-NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType >
-::GenerateInputRequestedRegion()
+NeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method. this should
   // copy the output requested region to the input requested region
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  InputImagePointer inputPtr =
-    const_cast< TInputImage * >( this->GetInput() );
+  InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
 
-  if ( !inputPtr )
-    {
+  if (!inputPtr)
+  {
     return;
-    }
+  }
 
   // get a copy of the input requested region (should equal the output
   // requested region)
@@ -52,16 +50,16 @@ NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType >
   inputRequestedRegion = inputPtr->GetRequestedRegion();
 
   // pad the input requested region by the operator radius
-  inputRequestedRegion.PadByRadius( m_Operator.GetRadius() );
+  inputRequestedRegion.PadByRadius(m_Operator.GetRadius());
 
   // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() ) )
-    {
+  if (inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()))
+  {
     inputPtr->SetRequestedRegion(inputRequestedRegion);
     return;
-    }
+  }
   else
-    {
+  {
     // Couldn't crop the region (requested region is outside the largest
     // possible region).  Throw an exception.
 
@@ -74,50 +72,50 @@ NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType >
     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
     e.SetDataObject(inputPtr);
     throw e;
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage, typename TOperatorValueType >
+template <typename TInputImage, typename TOutputImage, typename TOperatorValueType>
 void
-NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+NeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   using BFC = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>;
   using FaceListType = typename BFC::FaceListType;
 
-  NeighborhoodInnerProduct< InputImageType, OperatorValueType, ComputingPixelType > smartInnerProduct;
-  BFC faceCalculator;
-  FaceListType faceList;
+  NeighborhoodInnerProduct<InputImageType, OperatorValueType, ComputingPixelType> smartInnerProduct;
+  BFC                                                                             faceCalculator;
+  FaceListType                                                                    faceList;
 
-  OutputImageType *output = this->GetOutput();
-  const InputImageType *input   = this->GetInput();
+  OutputImageType *      output = this->GetOutput();
+  const InputImageType * input = this->GetInput();
 
   // Break the input into a series of regions.  The first region is free
   // of boundary conditions, the rest with boundary conditions. Note,
   // we pass in the input image and the OUTPUT requested region. We are
   // only concerned with centering the neighborhood operator at the
   // pixels that correspond to output pixels.
-  faceList = faceCalculator( input, outputRegionForThread, m_Operator.GetRadius() );
+  faceList = faceCalculator(input, outputRegionForThread, m_Operator.GetRadius());
 
-  typename FaceListType::iterator fit;
-  ImageRegionIterator< OutputImageType > it;
+  typename FaceListType::iterator      fit;
+  ImageRegionIterator<OutputImageType> it;
 
   // Process non-boundary region and each of the boundary faces.
   // These are N-d regions which border the edge of the buffer.
-  ConstNeighborhoodIterator< InputImageType > bit;
-  for ( fit = faceList.begin(); fit != faceList.end(); ++fit )
-    {
-    bit = ConstNeighborhoodIterator< InputImageType >(m_Operator.GetRadius(), input, *fit);
+  ConstNeighborhoodIterator<InputImageType> bit;
+  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
+  {
+    bit = ConstNeighborhoodIterator<InputImageType>(m_Operator.GetRadius(), input, *fit);
     bit.OverrideBoundaryCondition(m_BoundsCondition);
-    it = ImageRegionIterator< OutputImageType >(output, *fit);
+    it = ImageRegionIterator<OutputImageType>(output, *fit);
     bit.GoToBegin();
-    while ( !bit.IsAtEnd() )
-      {
-      it.Value() = static_cast< typename OutputImageType::PixelType >( smartInnerProduct(bit, m_Operator) );
+    while (!bit.IsAtEnd())
+    {
+      it.Value() = static_cast<typename OutputImageType::PixelType>(smartInnerProduct(bit, m_Operator));
       ++bit;
       ++it;
-      }
     }
+  }
 }
 } // end namespace itk
 

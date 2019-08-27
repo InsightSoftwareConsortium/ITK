@@ -39,26 +39,23 @@ namespace itk
  *
  *  \ingroup ITKLevelSetsv4
  */
-template< typename TInput, // Input image or mesh
-          typename TLevelSetContainer >
-class ITK_TEMPLATE_EXPORT LevelSetEquationBinaryMaskTerm :
-    public LevelSetEquationTermBase< TInput, TLevelSetContainer >
+template <typename TInput, // Input image or mesh
+          typename TLevelSetContainer>
+class ITK_TEMPLATE_EXPORT LevelSetEquationBinaryMaskTerm : public LevelSetEquationTermBase<TInput, TLevelSetContainer>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationBinaryMaskTerm);
 
   using Self = LevelSetEquationBinaryMaskTerm;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = LevelSetEquationTermBase< TInput,
-                                    TLevelSetContainer >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = LevelSetEquationTermBase<TInput, TLevelSetContainer>;
 
   /** Method for creation through object factory */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro( LevelSetEquationBinaryMaskTerm,
-                LevelSetEquationTermBase );
+  itkTypeMacro(LevelSetEquationBinaryMaskTerm, LevelSetEquationTermBase);
 
   using InputImageType = typename Superclass::InputImageType;
   using InputImagePointer = typename Superclass::InputImagePointer;
@@ -84,21 +81,25 @@ public:
   using DomainMapImageFilterType = typename Superclass::DomainMapImageFilterType;
   using CacheImageType = typename Superclass::CacheImageType;
 
-  itkSetObjectMacro( Mask, InputImageType );
+  itkSetObjectMacro(Mask, InputImageType);
 
   /** Update the term parameter values at end of iteration */
-  void Update() override;
+  void
+  Update() override;
 
   /** Initialize parameters in the terms prior to an iteration */
-  void InitializeParameters() override;
+  void
+  InitializeParameters() override;
 
   /** Initialize term parameters in the dense case by computing for each pixel location */
-  void Initialize( const LevelSetInputIndexType& iP ) override;
+  void
+  Initialize(const LevelSetInputIndexType & iP) override;
 
   /** Supply updates at pixels to keep the term parameters always updated */
-  void UpdatePixel( const LevelSetInputIndexType& iP,
-                           const LevelSetOutputRealType & oldValue,
-                           const LevelSetOutputRealType & newValue ) override;
+  void
+  UpdatePixel(const LevelSetInputIndexType & iP,
+              const LevelSetOutputRealType & oldValue,
+              const LevelSetOutputRealType & newValue) override;
 
 protected:
   LevelSetEquationBinaryMaskTerm();
@@ -107,20 +108,21 @@ protected:
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */
-  LevelSetOutputRealType Value( const LevelSetInputIndexType& iP ) override;
+  LevelSetOutputRealType
+  Value(const LevelSetInputIndexType & iP) override;
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */
-  LevelSetOutputRealType Value( const LevelSetInputIndexType& iP,
-                                        const LevelSetDataType& iData ) override;
+  LevelSetOutputRealType
+  Value(const LevelSetInputIndexType & iP, const LevelSetDataType & iData) override;
 
 
   InputImagePointer m_Mask;
 };
 
-}
+} // namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetEquationBinaryMaskTerm.hxx"
+#  include "itkLevelSetEquationBinaryMaskTerm.hxx"
 #endif
 
 #endif

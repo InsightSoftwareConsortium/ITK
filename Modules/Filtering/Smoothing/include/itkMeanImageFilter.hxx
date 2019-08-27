@@ -28,63 +28,61 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-MeanImageFilter< TInputImage, TOutputImage >
-::MeanImageFilter()
+template <typename TInputImage, typename TOutputImage>
+MeanImageFilter<TInputImage, TOutputImage>::MeanImageFilter()
 {
   this->DynamicMultiThreadingOn();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-MeanImageFilter< TInputImage, TOutputImage >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+MeanImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   unsigned int i;
 
-  ZeroFluxNeumannBoundaryCondition< InputImageType > nbc;
+  ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
 
-  ConstNeighborhoodIterator< InputImageType > bit;
-  ImageRegionIterator< OutputImageType >      it;
+  ConstNeighborhoodIterator<InputImageType> bit;
+  ImageRegionIterator<OutputImageType>      it;
 
-  typename OutputImageType::Pointer output = this->GetOutput();
-  typename  InputImageType::ConstPointer input  = this->GetInput();
+  typename OutputImageType::Pointer     output = this->GetOutput();
+  typename InputImageType::ConstPointer input = this->GetInput();
 
   // Find the data-set boundary "faces"
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType faceList;
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType > bC;
-  faceList = bC( input, outputRegionForThread, this->GetRadius() );
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                        bC;
+  faceList = bC(input, outputRegionForThread, this->GetRadius());
 
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType::iterator fit;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
 
   InputRealType sum;
 
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
-  for ( fit = faceList.begin(); fit != faceList.end(); ++fit )
-    {
-    bit = ConstNeighborhoodIterator< InputImageType >(this->GetRadius(),
-                                                      input, *fit);
+  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
+  {
+    bit = ConstNeighborhoodIterator<InputImageType>(this->GetRadius(), input, *fit);
     unsigned int neighborhoodSize = bit.Size();
-    it = ImageRegionIterator< OutputImageType >(output, *fit);
+    it = ImageRegionIterator<OutputImageType>(output, *fit);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 
-    while ( !bit.IsAtEnd() )
+    while (!bit.IsAtEnd())
+    {
+      sum = NumericTraits<InputRealType>::ZeroValue();
+      for (i = 0; i < neighborhoodSize; ++i)
       {
-      sum = NumericTraits< InputRealType >::ZeroValue();
-      for ( i = 0; i < neighborhoodSize; ++i )
-        {
-        sum += static_cast< InputRealType >( bit.GetPixel(i) );
-        }
+        sum += static_cast<InputRealType>(bit.GetPixel(i));
+      }
 
       // get the mean value
-      it.Set( static_cast< OutputPixelType >( sum / double(neighborhoodSize) ) );
+      it.Set(static_cast<OutputPixelType>(sum / double(neighborhoodSize)));
 
       ++bit;
       ++it;
-      }
     }
+  }
 }
 } // end namespace itk
 

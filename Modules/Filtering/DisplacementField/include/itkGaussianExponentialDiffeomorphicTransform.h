@@ -52,9 +52,9 @@ namespace itk
  *
  * \ingroup ITKDisplacementField
  */
-template<typename TParametersValueType, unsigned int NDimensions>
-class ITK_TEMPLATE_EXPORT GaussianExponentialDiffeomorphicTransform :
-  public ConstantVelocityFieldTransform<TParametersValueType, NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
+class ITK_TEMPLATE_EXPORT GaussianExponentialDiffeomorphicTransform
+  : public ConstantVelocityFieldTransform<TParametersValueType, NDimensions>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaussianExponentialDiffeomorphicTransform);
@@ -66,10 +66,10 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( GaussianExponentialDiffeomorphicTransform, ConstantVelocityFieldTransform );
+  itkTypeMacro(GaussianExponentialDiffeomorphicTransform, ConstantVelocityFieldTransform);
 
   /** New macro for creation of through a Smart Pointer */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Dimension of the velocity field . */
   static constexpr unsigned int ConstantVelocityFieldDimension = NDimensions;
@@ -94,24 +94,26 @@ public:
    * base class implementation as we might want to smooth the update field before
    * adding it to the velocity field
    */
-  void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) override;
+  void
+  UpdateTransformParameters(const DerivativeType & update, ScalarType factor = 1.0) override;
 
   /** Smooth the velocity field in-place.
    * \warning Not thread safe. Does its own threading.
    */
-  virtual ConstantVelocityFieldPointer GaussianSmoothConstantVelocityField( ConstantVelocityFieldType *, ScalarType );
+  virtual ConstantVelocityFieldPointer
+  GaussianSmoothConstantVelocityField(ConstantVelocityFieldType *, ScalarType);
 
   /**
    * Set/Get Gaussian smoothing parameter for the smoothed velocity field.
    */
-  itkSetMacro( GaussianSmoothingVarianceForTheConstantVelocityField, ScalarType );
-  itkGetConstMacro( GaussianSmoothingVarianceForTheConstantVelocityField, ScalarType );
+  itkSetMacro(GaussianSmoothingVarianceForTheConstantVelocityField, ScalarType);
+  itkGetConstMacro(GaussianSmoothingVarianceForTheConstantVelocityField, ScalarType);
 
   /**
    * Set/Get Gaussian smoothing parameter for the smoothed update field.
    */
-  itkSetMacro( GaussianSmoothingVarianceForTheUpdateField, ScalarType );
-  itkGetConstMacro( GaussianSmoothingVarianceForTheUpdateField, ScalarType );
+  itkSetMacro(GaussianSmoothingVarianceForTheUpdateField, ScalarType);
+  itkGetConstMacro(GaussianSmoothingVarianceForTheUpdateField, ScalarType);
 
 protected:
   GaussianExponentialDiffeomorphicTransform();
@@ -121,22 +123,23 @@ protected:
    * so we can use a member var during the operation. */
   using GaussianSmoothingOperatorType = GaussianOperator<ScalarType, NDimensions>;
 
-  using GaussianSmoothingSmootherType = VectorNeighborhoodOperatorImageFilter
-    <ConstantVelocityFieldType, ConstantVelocityFieldType>;
+  using GaussianSmoothingSmootherType =
+    VectorNeighborhoodOperatorImageFilter<ConstantVelocityFieldType, ConstantVelocityFieldType>;
 
-  GaussianSmoothingOperatorType                   m_GaussianSmoothingOperator;
+  GaussianSmoothingOperatorType m_GaussianSmoothingOperator;
 
-  void PrintSelf( std::ostream &, Indent ) const override;
+  void
+  PrintSelf(std::ostream &, Indent) const override;
 
 private:
-  ScalarType                              m_GaussianSmoothingVarianceForTheUpdateField;
-  ScalarType                              m_GaussianSmoothingVarianceForTheConstantVelocityField;
+  ScalarType m_GaussianSmoothingVarianceForTheUpdateField;
+  ScalarType m_GaussianSmoothingVarianceForTheConstantVelocityField;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-# include "itkGaussianExponentialDiffeomorphicTransform.hxx"
+#  include "itkGaussianExponentialDiffeomorphicTransform.hxx"
 #endif
 
 #endif // itkGaussianExponentialDiffeomorphicTransform_h

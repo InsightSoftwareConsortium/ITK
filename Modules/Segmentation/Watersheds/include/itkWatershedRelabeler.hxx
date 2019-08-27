@@ -25,161 +25,161 @@ namespace itk
 {
 namespace watershed
 {
-template< typename TScalar, unsigned int TImageDimension >
-Relabeler< TScalar, TImageDimension >::Relabeler()
+template <typename TScalar, unsigned int TImageDimension>
+Relabeler<TScalar, TImageDimension>::Relabeler()
 {
-  typename ImageType::Pointer img =
-    static_cast< ImageType * >( this->MakeOutput(0).GetPointer() );
+  typename ImageType::Pointer img = static_cast<ImageType *>(this->MakeOutput(0).GetPointer());
   this->SetNumberOfRequiredOutputs(1);
-  this->ProcessObject::SetNthOutput( 0, img.GetPointer() );
+  this->ProcessObject::SetNthOutput(0, img.GetPointer());
 }
 
-template< typename TScalar, unsigned int TImageDimension >
-typename Relabeler< TScalar, TImageDimension >::DataObjectPointer
-Relabeler< TScalar, TImageDimension >
-::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
+template <typename TScalar, unsigned int TImageDimension>
+typename Relabeler<TScalar, TImageDimension>::DataObjectPointer
+Relabeler<TScalar, TImageDimension>::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx))
 {
   return ImageType::New().GetPointer();
 }
 
-template< typename TScalar, unsigned int TImageDimension >
-void Relabeler< TScalar, TImageDimension >
-::GenerateData()
+template <typename TScalar, unsigned int TImageDimension>
+void
+Relabeler<TScalar, TImageDimension>::GenerateData()
 {
   this->UpdateProgress(0.0);
-  typename ImageType::Pointer input  = this->GetInputImage();
-  typename ImageType::Pointer output  = this->GetOutputImage();
+  typename ImageType::Pointer input = this->GetInputImage();
+  typename ImageType::Pointer output = this->GetOutputImage();
 
-  typename SegmentTreeType::Pointer tree = this->GetInputSegmentTree();
+  typename SegmentTreeType::Pointer  tree = this->GetInputSegmentTree();
   typename SegmentTreeType::Iterator it;
-  EquivalencyTable::Pointer eqT = EquivalencyTable::New();
+  EquivalencyTable::Pointer          eqT = EquivalencyTable::New();
 
-  output->SetBufferedRegion( output->GetRequestedRegion() );
+  output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
   //
   // Copy input to output
   //
-  ImageRegionIterator< ImageType > it_a( input, output->GetRequestedRegion() );
-  ImageRegionIterator< ImageType > it_b( output, output->GetRequestedRegion() );
+  ImageRegionIterator<ImageType> it_a(input, output->GetRequestedRegion());
+  ImageRegionIterator<ImageType> it_b(output, output->GetRequestedRegion());
   it_a.GoToBegin();
   it_b.GoToBegin();
-  while ( !it_a.IsAtEnd() )
-    {
-    it_b.Set( it_a.Get() );
+  while (!it_a.IsAtEnd())
+  {
+    it_b.Set(it_a.Get());
     ++it_a;
     ++it_b;
-    }
+  }
 
   this->UpdateProgress(0.1);
   //
   // Extract the merges up the requested level
   //
-  if ( tree->Empty() == true )
-    {
+  if (tree->Empty() == true)
+  {
     // itkWarningMacro("Empty input.  No relabeling was done.");
     return;
-    }
+  }
   ScalarType max = tree->Back().saliency;
-  auto mergeLimit = static_cast< ScalarType >( m_FloodLevel * max );
+  auto       mergeLimit = static_cast<ScalarType>(m_FloodLevel * max);
 
   this->UpdateProgress(0.5);
 
   it = tree->Begin();
-  while ( it != tree->End() && ( *it ).saliency <= mergeLimit )
-    {
-    eqT->Add( ( *it ).from, ( *it ).to );
+  while (it != tree->End() && (*it).saliency <= mergeLimit)
+  {
+    eqT->Add((*it).from, (*it).to);
     it++;
-    }
+  }
 
   SegmenterType::RelabelImage(output, output->GetRequestedRegion(), eqT);
   this->UpdateProgress(1.0);
 }
 
-template< typename TScalar, unsigned int VImageDimension >
-void Relabeler< TScalar, VImageDimension >
-::GenerateInputRequestedRegion()
+template <typename TScalar, unsigned int VImageDimension>
+void
+Relabeler<TScalar, VImageDimension>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  typename ImageType::Pointer inputPtr  = this->GetInputImage();
+  typename ImageType::Pointer inputPtr = this->GetInputImage();
   typename ImageType::Pointer outputPtr = this->GetOutputImage();
 
-  if ( !inputPtr || !outputPtr )
-    {
+  if (!inputPtr || !outputPtr)
+  {
     return;
-    }
+  }
 
   //
   // FOR NOW WE'LL JUST SET THE INPUT REGION TO THE OUTPUT REGION
   //
-  inputPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
+  inputPtr->SetRequestedRegion(outputPtr->GetRequestedRegion());
 }
 
-template< typename TScalar, unsigned int TImageDimension >
-void Relabeler< TScalar, TImageDimension >
-::GenerateOutputRequestedRegion(DataObject *output)
+template <typename TScalar, unsigned int TImageDimension>
+void
+Relabeler<TScalar, TImageDimension>::GenerateOutputRequestedRegion(DataObject * output)
 {
   // Only the Image output need to be propagated through.
   // No choice but to use RTTI here.
   // All Image outputs set to the same RequestedRegion  other
   // outputs ignored.
-  ImageBase< ImageDimension > *imgData;
-  ImageBase< ImageDimension > *op;
-  imgData = dynamic_cast< ImageBase< ImageDimension > * >( output );
+  ImageBase<ImageDimension> * imgData;
+  ImageBase<ImageDimension> * op;
+  imgData = dynamic_cast<ImageBase<ImageDimension> *>(output);
 
-  if ( imgData )
+  if (imgData)
+  {
+    std::vector<ProcessObject::DataObjectPointer>::size_type idx;
+    for (idx = 0; idx < this->GetNumberOfIndexedOutputs(); ++idx)
     {
-    std::vector< ProcessObject::DataObjectPointer >::size_type idx;
-    for ( idx = 0; idx < this->GetNumberOfIndexedOutputs(); ++idx )
+      if (this->GetOutput(idx) && this->GetOutput(idx) != output)
       {
-      if ( this->GetOutput(idx) && this->GetOutput(idx) != output )
+        op = dynamic_cast<ImageBase<ImageDimension> *>(this->GetOutput(idx));
+        if (op)
         {
-        op = dynamic_cast< ImageBase< ImageDimension > * >( this->GetOutput(idx) );
-        if ( op ) { this->GetOutput(idx)->SetRequestedRegion(output); }
+          this->GetOutput(idx)->SetRequestedRegion(output);
         }
       }
     }
+  }
 }
 
-template< typename TScalar, unsigned int TImageDimension >
-void Relabeler< TScalar, TImageDimension >
-::GraftOutput(ImageType *graft)
+template <typename TScalar, unsigned int TImageDimension>
+void
+Relabeler<TScalar, TImageDimension>::GraftOutput(ImageType * graft)
 {
   this->GraftNthOutput(0, graft);
 }
 
-template< typename TScalar, unsigned int TImageDimension >
-void Relabeler< TScalar, TImageDimension >
-::GraftNthOutput(unsigned int idx, ImageType *graft)
+template <typename TScalar, unsigned int TImageDimension>
+void
+Relabeler<TScalar, TImageDimension>::GraftNthOutput(unsigned int idx, ImageType * graft)
 {
   using OutputImagePointer = typename ImageType::Pointer;
 
-  if ( idx < this->GetNumberOfIndexedOutputs() )
-    {
+  if (idx < this->GetNumberOfIndexedOutputs())
+  {
     OutputImagePointer output = this->GetOutputImage();
 
-    if ( output && graft )
-      {
+    if (output && graft)
+    {
       // grab a handle to the bulk data of the specified data object
-      output->SetPixelContainer( graft->GetPixelContainer() );
+      output->SetPixelContainer(graft->GetPixelContainer());
 
       // copy the region ivars of the specified data object
-      output->SetRequestedRegion( graft->GetRequestedRegion() );
-      output->SetLargestPossibleRegion( graft->GetLargestPossibleRegion() );
-      output->SetBufferedRegion( graft->GetBufferedRegion() );
+      output->SetRequestedRegion(graft->GetRequestedRegion());
+      output->SetLargestPossibleRegion(graft->GetLargestPossibleRegion());
+      output->SetBufferedRegion(graft->GetBufferedRegion());
 
       // copy the meta-information
       output->CopyInformation(graft);
-      }
     }
+  }
 }
 
-template< typename TScalar, unsigned int TImageDimension >
+template <typename TScalar, unsigned int TImageDimension>
 void
-Relabeler< TScalar, TImageDimension >
-::PrintSelf(std::ostream & os, Indent indent) const
+Relabeler<TScalar, TImageDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "FloodLevel: " << m_FloodLevel << std::endl;

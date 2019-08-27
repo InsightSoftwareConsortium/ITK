@@ -24,124 +24,121 @@
 
 // Specific ImageIO test
 
-int itkPNGImageIOTest( int argc, char * argv[] )
+int
+itkPNGImageIOTest(int argc, char * argv[])
 {
   // Test the reading of an image as RGB image and writing of RGB image
 
-  if( argc < 5 )
-    {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-      << " input"
-      << " output"
-      << " useCompression"
-      << " compressionLevel"
-      << " expandRGBPalette" << std::endl;
+  if (argc < 5)
+  {
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input"
+              << " output"
+              << " useCompression"
+              << " compressionLevel"
+              << " expandRGBPalette" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  constexpr unsigned long                         Dimension  = 2;
+  constexpr unsigned long Dimension = 2;
   using PixelType = unsigned char;
 
   // We are converting read data into RGB pixel image
-  using RGBPixelType = itk::RGBPixel< PixelType >;
-  using RGBImageType = itk::Image< RGBPixelType, Dimension >;
+  using RGBPixelType = itk::RGBPixel<PixelType>;
+  using RGBImageType = itk::Image<RGBPixelType, Dimension>;
 
 
   // Read in the image
   itk::PNGImageIO::Pointer io = itk::PNGImageIO::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( io, PNGImageIO, ImageIOBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(io, PNGImageIO, ImageIOBase);
 
 
   // Exercise exception cases
-  size_t sizeOfActualIORegion = io->GetIORegion().GetNumberOfPixels() *
-    ( io->GetComponentSize() * io->GetNumberOfComponents() );
+  size_t sizeOfActualIORegion =
+    io->GetIORegion().GetNumberOfPixels() * (io->GetComponentSize() * io->GetNumberOfComponents());
   auto * loadBuffer = new char[sizeOfActualIORegion];
 
-  ITK_TRY_EXPECT_EXCEPTION( io->Read( loadBuffer ) );
+  ITK_TRY_EXPECT_EXCEPTION(io->Read(loadBuffer));
 
 
-  auto useCompression = static_cast< bool >( std::stoi( argv[3] ) );
-  ITK_TEST_SET_GET_BOOLEAN( io, UseCompression, useCompression );
+  auto useCompression = static_cast<bool>(std::stoi(argv[3]));
+  ITK_TEST_SET_GET_BOOLEAN(io, UseCompression, useCompression);
 
-  int compressionLevel = std::stoi( argv[4] );
-  io->SetCompressionLevel( compressionLevel );
-  ITK_TEST_SET_GET_VALUE( compressionLevel, io->GetCompressionLevel() );
+  int compressionLevel = std::stoi(argv[4]);
+  io->SetCompressionLevel(compressionLevel);
+  ITK_TEST_SET_GET_VALUE(compressionLevel, io->GetCompressionLevel());
 
-  auto expandRGBPalette = static_cast< bool >( argv[5] );
-  ITK_TEST_SET_GET_BOOLEAN( io, ExpandRGBPalette, expandRGBPalette );
+  auto expandRGBPalette = static_cast<bool>(argv[5]);
+  ITK_TEST_SET_GET_BOOLEAN(io, ExpandRGBPalette, expandRGBPalette);
 
-  if( io->CanReadFile( "" ) )
-    {
+  if (io->CanReadFile(""))
+  {
     std::cerr << "Test failed!" << std::endl;
     std::cout << "No filename specified." << std::endl;
     std::cout << "CanReadFile: "
-      << "Expected false but got true" << std::endl;
+              << "Expected false but got true" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( !io->SupportsDimension( Dimension ) )
-    {
+  if (!io->SupportsDimension(Dimension))
+  {
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "itk::PNGImageIO does not support dimension: " << Dimension << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( io->CanStreamRead() )
-    {
+  if (io->CanStreamRead())
+  {
     std::cout << "itk::PNGImageIO can stream read" << std::endl;
-    }
+  }
   else
-    {
+  {
     std::cout << "itk::PNGImageIO cannot stream read" << std::endl;
-    }
+  }
 
 
-  if( !io->CanReadFile( argv[1] ) )
-    {
+  if (!io->CanReadFile(argv[1]))
+  {
     std::cerr << "Test failed!" << std::endl;
-    std::cout << "itk::PNGImageIO cannot read file "
-      << io->GetFileName() << std::endl;
+    std::cout << "itk::PNGImageIO cannot read file " << io->GetFileName() << std::endl;
     return EXIT_FAILURE;
-    }
-  itk::ImageFileReader< RGBImageType >::Pointer reader =
-    itk::ImageFileReader< RGBImageType >::New();
-  reader->SetFileName( argv[1] );
-  reader->SetImageIO( io );
-  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  }
+  itk::ImageFileReader<RGBImageType>::Pointer reader = itk::ImageFileReader<RGBImageType>::New();
+  reader->SetFileName(argv[1]);
+  reader->SetImageIO(io);
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
-  if( io->GetExpandRGBPalette() )
-    {
-      std::cout << "If palette image, expanding to RGB. " << std::endl;
-    }
+  if (io->GetExpandRGBPalette())
+  {
+    std::cout << "If palette image, expanding to RGB. " << std::endl;
+  }
   else
-    {
-      std::cout << "If palette image, trying to read as scalar. " << std::endl;
-    }
+  {
+    std::cout << "If palette image, trying to read as scalar. " << std::endl;
+  }
 
-  if( !io->GetExpandRGBPalette() && io->GetIsReadAsScalarPlusPalette() )
-    {
+  if (!io->GetExpandRGBPalette() && io->GetIsReadAsScalarPlusPalette())
+  {
     std::cout << "Image read as Scalar." << std::endl;
     itk::PNGImageIO::PaletteType palette = io->GetColorPalette();
     std::cout << "Palette: " << std::endl;
-    for( unsigned int i = 0; i < palette.size(); ++i )
-      {
-      std::cout << "[" << i << "]:" << palette[i] << std::endl;
-      }
-    }
-  else
+    for (unsigned int i = 0; i < palette.size(); ++i)
     {
-      std::cout << "Image read as RGB." << std::endl;
+      std::cout << "[" << i << "]:" << palette[i] << std::endl;
     }
+  }
+  else
+  {
+    std::cout << "Image read as RGB." << std::endl;
+  }
 
   // Try writing
-  itk::ImageFileWriter< RGBImageType >::Pointer writer =
-    itk::ImageFileWriter< RGBImageType >::New();
-  writer->SetInput( reader->GetOutput() );
-  writer->SetFileName( argv[2] );
-  writer->SetImageIO( io );
+  itk::ImageFileWriter<RGBImageType>::Pointer writer = itk::ImageFileWriter<RGBImageType>::New();
+  writer->SetInput(reader->GetOutput());
+  writer->SetFileName(argv[2]);
+  writer->SetImageIO(io);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Write() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Write());
 
 
   // Release memory
@@ -149,9 +146,7 @@ int itkPNGImageIOTest( int argc, char * argv[] )
 
   // Exercise other methods
   itk::ImageIOBase::SizeType pixelStride = io->GetPixelStride();
-  std::cout << "PixelStride: "
-    << itk::NumericTraits< itk::ImageIOBase::SizeType >::PrintType( pixelStride )
-    << std::endl;
+  std::cout << "PixelStride: " << itk::NumericTraits<itk::ImageIOBase::SizeType>::PrintType(pixelStride) << std::endl;
 
   //
   // Try writing out several kinds of images using png.
@@ -165,9 +160,9 @@ int itkPNGImageIOTest( int argc, char * argv[] )
   // - 1D image: The writer should write it out as a 2D image.
   //
 
-  using ImageType3D = itk::Image< unsigned short, 3 >;
-  using ImageType2D = itk::Image< unsigned short, 2 >;
-  using ImageType1D = itk::Image< unsigned short, 1 >;
+  using ImageType3D = itk::Image<unsigned short, 3>;
+  using ImageType2D = itk::Image<unsigned short, 2>;
+  using ImageType1D = itk::Image<unsigned short, 1>;
 
   //
   // 3D non-degenerate volume
@@ -176,25 +171,25 @@ int itkPNGImageIOTest( int argc, char * argv[] )
   ImageType3D::Pointer volume = ImageType3D::New();
 
   ImageType3D::SizeType size3D;
-  size3D.Fill( 10 );
+  size3D.Fill(10);
   ImageType3D::IndexType start3D;
-  start3D.Fill( 0 );
+  start3D.Fill(0);
   ImageType3D::RegionType region3D;
-  region3D.SetSize( size3D );
-  region3D.SetIndex( start3D );
+  region3D.SetSize(size3D);
+  region3D.SetIndex(start3D);
 
-  volume->SetRegions( region3D );
+  volume->SetRegions(region3D);
   volume->Allocate();
-  volume->FillBuffer( 0 );
+  volume->FillBuffer(0);
 
-  using WriterType3D = itk::ImageFileWriter< ImageType3D >;
+  using WriterType3D = itk::ImageFileWriter<ImageType3D>;
   WriterType3D::Pointer writer3D = WriterType3D::New();
-  writer3D->SetFileName( argv[2] );
-  writer3D->SetImageIO( io );
+  writer3D->SetFileName(argv[2]);
+  writer3D->SetImageIO(io);
 
-  writer3D->SetInput( volume );
+  writer3D->SetInput(volume);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer3D->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer3D->Update());
 
 
   //
@@ -204,16 +199,16 @@ int itkPNGImageIOTest( int argc, char * argv[] )
   ImageType3D::Pointer degenerateVolume = ImageType3D::New();
   // Collapse the first dimension.
   size3D[0] = 1;
-  region3D.SetSize( size3D );
-  degenerateVolume->SetRegions( region3D );
+  region3D.SetSize(size3D);
+  degenerateVolume->SetRegions(region3D);
   degenerateVolume->Allocate();
-  degenerateVolume->FillBuffer( 0 );
+  degenerateVolume->FillBuffer(0);
 
-  writer3D->SetFileName( argv[2] );
-  writer3D->SetImageIO( io );
-  writer3D->SetInput( degenerateVolume );
+  writer3D->SetFileName(argv[2]);
+  writer3D->SetImageIO(io);
+  writer3D->SetInput(degenerateVolume);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer3D->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer3D->Update());
 
 
   //
@@ -222,25 +217,25 @@ int itkPNGImageIOTest( int argc, char * argv[] )
   ImageType2D::Pointer image = ImageType2D::New();
 
   ImageType2D::SizeType size2D;
-  size2D.Fill( 10 );
+  size2D.Fill(10);
   ImageType2D::IndexType start2D;
-  start2D.Fill( 0 );
+  start2D.Fill(0);
   ImageType2D::RegionType region2D;
-  region2D.SetSize( size2D );
-  region2D.SetIndex( start2D );
+  region2D.SetSize(size2D);
+  region2D.SetIndex(start2D);
 
-  image->SetRegions( region2D );
+  image->SetRegions(region2D);
   image->Allocate();
-  image->FillBuffer( 0 );
+  image->FillBuffer(0);
 
-  using WriterType2D = itk::ImageFileWriter< ImageType2D >;
+  using WriterType2D = itk::ImageFileWriter<ImageType2D>;
   WriterType2D::Pointer writer2D = WriterType2D::New();
 
-  writer2D->SetFileName( argv[2] );
+  writer2D->SetFileName(argv[2]);
   writer2D->SetImageIO(io);
-  writer2D->SetInput( image );
+  writer2D->SetInput(image);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer2D->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer2D->Update());
 
 
   //
@@ -250,16 +245,16 @@ int itkPNGImageIOTest( int argc, char * argv[] )
 
   // Collapse the first dimension
   size2D[0] = 1;
-  region2D.SetSize( size2D );
-  degenerateImage->SetRegions( region2D );
+  region2D.SetSize(size2D);
+  degenerateImage->SetRegions(region2D);
   degenerateImage->Allocate();
-  degenerateImage->FillBuffer( 0 );
+  degenerateImage->FillBuffer(0);
 
-  writer2D->SetFileName( argv[2] );
-  writer2D->SetImageIO( io );
-  writer2D->SetInput( degenerateImage );
+  writer2D->SetFileName(argv[2]);
+  writer2D->SetImageIO(io);
+  writer2D->SetInput(degenerateImage);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer2D->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer2D->Update());
 
   //
   // 1D image
@@ -267,24 +262,24 @@ int itkPNGImageIOTest( int argc, char * argv[] )
   ImageType1D::Pointer line = ImageType1D::New();
 
   ImageType1D::SizeType size1D;
-  size1D.Fill( 10 );
+  size1D.Fill(10);
   ImageType1D::IndexType start1D;
-  start1D.Fill( 0 );
+  start1D.Fill(0);
   ImageType1D::RegionType region1D;
-  region1D.SetSize( size1D );
-  region1D.SetIndex( start1D );
-  line->SetRegions( region1D );
+  region1D.SetSize(size1D);
+  region1D.SetIndex(start1D);
+  line->SetRegions(region1D);
 
   line->Allocate();
-  line->FillBuffer( 0 );
+  line->FillBuffer(0);
 
-  using WriterType1D = itk::ImageFileWriter< ImageType1D >;
+  using WriterType1D = itk::ImageFileWriter<ImageType1D>;
   WriterType1D::Pointer writer1D = WriterType1D::New();
-  writer1D->SetFileName( argv[2] );
-  writer1D->SetImageIO( io );
-  writer1D->SetInput( line );
+  writer1D->SetFileName(argv[2]);
+  writer1D->SetImageIO(io);
+  writer1D->SetInput(line);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer1D->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer1D->Update());
 
 
   std::cout << "Test finished" << std::endl;

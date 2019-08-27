@@ -23,65 +23,66 @@
 
 #include "itkTestingMacros.h"
 
-int itkShapeRelabelImageFilterTest1(int argc, char * argv[])
+int
+itkShapeRelabelImageFilterTest1(int argc, char * argv[])
 {
 
-  if( argc != 6 )
-    {
+  if (argc != 6)
+  {
     std::cerr << "Usage: " << argv[0] << " input output";
     std::cerr << " background";
     std::cerr << " reverseOrdering attribute" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int dim = 2;
 
-  using IType = itk::Image< unsigned char, dim >;
+  using IType = itk::Image<unsigned char, dim>;
 
-  using ReaderType = itk::ImageFileReader< IType >;
+  using ReaderType = itk::ImageFileReader<IType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
-  using RelabelType = itk::ShapeRelabelImageFilter< IType >;
+  using RelabelType = itk::ShapeRelabelImageFilter<IType>;
   RelabelType::Pointer opening = RelabelType::New();
 
-  opening->SetInput( reader->GetOutput() );
+  opening->SetInput(reader->GetOutput());
 
-  //testing get/set BackgroundValue macro
-  int BackgroundValue = ( std::stoi(argv[3]) );
-  opening->SetBackgroundValue( BackgroundValue );
-  ITK_TEST_SET_GET_VALUE( BackgroundValue, opening->GetBackgroundValue() );
+  // testing get/set BackgroundValue macro
+  int BackgroundValue = (std::stoi(argv[3]));
+  opening->SetBackgroundValue(BackgroundValue);
+  ITK_TEST_SET_GET_VALUE(BackgroundValue, opening->GetBackgroundValue());
 
-  //testing boolean macro for ReverseOrdering
+  // testing boolean macro for ReverseOrdering
   opening->ReverseOrderingOn();
-  ITK_TEST_SET_GET_VALUE( true, opening->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE(true, opening->GetReverseOrdering());
 
   opening->ReverseOrderingOff();
-  ITK_TEST_SET_GET_VALUE( false, opening->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE(false, opening->GetReverseOrdering());
 
-  //testing get and set macros or ReverseOrdering
-  bool reverseOrdering = std::stoi( argv[4] );
-  opening->SetReverseOrdering( reverseOrdering );
-  ITK_TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() );
+  // testing get and set macros or ReverseOrdering
+  bool reverseOrdering = std::stoi(argv[4]);
+  opening->SetReverseOrdering(reverseOrdering);
+  ITK_TEST_SET_GET_VALUE(reverseOrdering, opening->GetReverseOrdering());
 
-  //testing get and set macros for Attribute
+  // testing get and set macros for Attribute
   opening->SetAttribute(RelabelType::LabelObjectType::FERET_DIAMETER);
-  ITK_TEST_SET_GET_VALUE( RelabelType::LabelObjectType::FERET_DIAMETER, opening->GetAttribute() );
+  ITK_TEST_SET_GET_VALUE(RelabelType::LabelObjectType::FERET_DIAMETER, opening->GetAttribute());
 
   const std::string attributeByName{ argv[5] };
-  opening->SetAttribute( attributeByName ); // SetAttribute accepts a string for conversion to internal label code
+  opening->SetAttribute(attributeByName); // SetAttribute accepts a string for conversion to internal label code
   const RelabelType::AttributeType attributeByCode = RelabelType::LabelObjectType::LABEL;
-  ITK_TEST_SET_GET_VALUE( attributeByCode, opening->GetAttribute() );
+  ITK_TEST_SET_GET_VALUE(attributeByCode, opening->GetAttribute());
 
   itk::SimpleFilterWatcher watcher(opening, "filter");
 
-  using WriterType = itk::ImageFileWriter< IType >;
+  using WriterType = itk::ImageFileWriter<IType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( opening->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(opening->GetOutput());
+  writer->SetFileName(argv[2]);
   writer->UseCompressionOn();
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   std::cout << "Test Complete!" << std::endl;
 

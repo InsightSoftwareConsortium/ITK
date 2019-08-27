@@ -25,14 +25,13 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
-GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
-::GPUFiniteDifferenceImageFilter()
+template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
+GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::GPUFiniteDifferenceImageFilter()
 {
-  m_UseImageSpacing    = false;
-  this->m_ElapsedIterations  = 0;
+  m_UseImageSpacing = false;
+  this->m_ElapsedIterations = 0;
   m_DifferenceFunction = nullptr;
-  this->m_NumberOfIterations = NumericTraits< unsigned int >::max();
+  this->m_NumberOfIterations = NumericTraits<unsigned int>::max();
   m_MaximumRMSError = 0.0;
   m_RMSChange = 0.0;
   m_State = FilterStateType::UNINITIALIZED;
@@ -40,30 +39,27 @@ GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
   this->InPlaceOff();
 }
 
-template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
-GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
-::~GPUFiniteDifferenceImageFilter()
-{
-}
+template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
+GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::~GPUFiniteDifferenceImageFilter()
+{}
 
-template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
+template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
 void
-GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
-::GPUGenerateData()
+GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::GPUGenerateData()
 {
   this->m_InitTime.Start();
 
   // Test whether the output pixel type (or its components) are not of type
   // float or double:
-  if ( NumericTraits< OutputPixelValueType >::is_integer )
-    {
+  if (NumericTraits<OutputPixelValueType>::is_integer)
+  {
     itkWarningMacro("Output pixel type MUST be float or double to prevent computational errors");
-    }
+  }
 
-  if ( this->GetState() == FilterStateType::UNINITIALIZED )
-    {
+  if (this->GetState() == FilterStateType::UNINITIALIZED)
+  {
     // Allocate the output image
-    //this->AllocateOutputs();
+    // this->AllocateOutputs();
 
     // Copy the input image to the output image.  Algorithms will operate
     // directly on the output image and the update buffer.
@@ -83,43 +79,42 @@ GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 
     this->SetStateToInitialized();
     this->m_ElapsedIterations = 0;
-    }
+  }
 
   this->m_InitTime.Stop();
 
   // Iterative algorithm
   TimeStepType dt;
 
-  while ( !this->Halt() ) //&& m_ElapsedIterations < 200
-    {
+  while (!this->Halt()) //&& m_ElapsedIterations < 200
+  {
 
-    //this->GetOutput()->GetBufferPointer();
+    // this->GetOutput()->GetBufferPointer();
     this->InitializeIteration(); // An optional method for precalculating
                                  // global values, or otherwise setting up
                                  // for the next iteration
-    //this->GetOutput()->GetBufferPointer();
+    // this->GetOutput()->GetBufferPointer();
     dt = this->GPUCalculateChange();
-    //this->GetOutput()->GetBufferPointer();
+    // this->GetOutput()->GetBufferPointer();
     this->ApplyUpdate(dt);
-    //this->GetOutput()->GetBufferPointer();
+    // this->GetOutput()->GetBufferPointer();
     ++(this->m_ElapsedIterations);
 
     // Invoke the iteration event.
-    this->InvokeEvent( IterationEvent() );
-    if ( this->GetAbortGenerateData() )
-      {
-      this->InvokeEvent( IterationEvent() );
+    this->InvokeEvent(IterationEvent());
+    if (this->GetAbortGenerateData())
+    {
+      this->InvokeEvent(IterationEvent());
       this->ResetPipeline();
       throw ProcessAborted(__FILE__, __LINE__);
-
-      }
     }
+  }
 
-  if ( m_ManualReinitialization == false )
-    {
+  if (m_ManualReinitialization == false)
+  {
     this->SetStateToUninitialized(); // Reset the state once execution is
                                      // completed
-    }
+  }
   // Any further processing of the solution can be done here.
   this->PostProcessOutput();
 }
@@ -127,23 +122,21 @@ GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 /**
  *
  */
-template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
+template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
 void
-GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
-::GenerateInputRequestedRegion()
+GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   // copy the output requested region to the input requested region
   CPUSuperclass::GenerateInputRequestedRegion();
 
   // get pointers to the input
-  typename GPUSuperclass::InputImagePointer inputPtr  =
-    const_cast< TInputImage * >( this->GetInput() );
+  typename GPUSuperclass::InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
 
-  if ( !inputPtr )
-    {
+  if (!inputPtr)
+  {
     return;
-    }
+  }
 
   // Get the size of the neighborhood on which we are going to operate.  This
   // radius is supplied by the difference function we are using.
@@ -163,19 +156,19 @@ GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
   // pad the input requested region by the operator radius
   inputRequestedRegion.PadByRadius(radius);
 
-//     std::cout << "inputRequestedRegion: " << inputRequestedRegion <<
-// std::endl;
-//     std::cout << "largestPossibleRegion: " <<
-// inputPtr->GetLargestPossibleRegion() << std::endl;
+  //     std::cout << "inputRequestedRegion: " << inputRequestedRegion <<
+  // std::endl;
+  //     std::cout << "largestPossibleRegion: " <<
+  // inputPtr->GetLargestPossibleRegion() << std::endl;
 
   // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() ) )
-    {
+  if (inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()))
+  {
     inputPtr->SetRequestedRegion(inputRequestedRegion);
     return;
-    }
+  }
   else
-    {
+  {
     // Couldn't crop the region (requested region is outside the largest
     // possible region).  Throw an exception.
 
@@ -189,25 +182,26 @@ GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
     e.SetDataObject(inputPtr);
     throw e;
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
-typename GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >::TimeStepType
-GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
-::ResolveTimeStep(const std::vector< TimeStepType >& timeStepList, const std::vector< bool >& valid) const
+template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
+typename GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::TimeStepType
+GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::ResolveTimeStep(
+  const std::vector<TimeStepType> & timeStepList,
+  const std::vector<bool> &         valid) const
 {
-  TimeStepType oMin = NumericTraits< TimeStepType >::ZeroValue();
+  TimeStepType oMin = NumericTraits<TimeStepType>::ZeroValue();
   bool         flag = false;
 
-  typename std::vector< TimeStepType >::const_iterator t_it = timeStepList.begin();
-  typename std::vector< TimeStepType >::const_iterator t_end = timeStepList.end();
-  typename std::vector< bool >::const_iterator v_it = valid.begin();
+  typename std::vector<TimeStepType>::const_iterator t_it = timeStepList.begin();
+  typename std::vector<TimeStepType>::const_iterator t_end = timeStepList.end();
+  typename std::vector<bool>::const_iterator         v_it = valid.begin();
 
   // grab first valid value
-  while ( t_it != t_end )
+  while (t_it != t_end)
   {
-    if ( *v_it )
+    if (*v_it)
     {
       oMin = *t_it;
       flag = true;
@@ -217,19 +211,18 @@ GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
     ++v_it;
   }
 
-  if ( !flag )
-    {
+  if (!flag)
+  {
     // no values!
     throw ExceptionObject(__FILE__, __LINE__);
-
-    }
+  }
 
   // find minimum value
   t_it = timeStepList.begin();
   v_it = valid.begin();
-  while( t_it != t_end )
+  while (t_it != t_end)
   {
-    if( *v_it && ( *t_it < oMin ) )
+    if (*v_it && (*t_it < oMin))
     {
       oMin = *t_it;
     }
@@ -240,95 +233,93 @@ GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
   return oMin;
 }
 
-template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
+template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
 bool
-GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
-::Halt()
+GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::Halt()
 {
-  if ( this->m_NumberOfIterations != 0 )
-    {
-    this->UpdateProgress( static_cast< float >( this->GetElapsedIterations() )
-                          / static_cast< float >( this->m_NumberOfIterations ) );
-    }
+  if (this->m_NumberOfIterations != 0)
+  {
+    this->UpdateProgress(static_cast<float>(this->GetElapsedIterations()) /
+                         static_cast<float>(this->m_NumberOfIterations));
+  }
 
-  if ( this->GetElapsedIterations() >= this->m_NumberOfIterations )
-    {
+  if (this->GetElapsedIterations() >= this->m_NumberOfIterations)
+  {
     return true;
-    }
-  else if ( this->GetElapsedIterations() == 0 )
-    {
+  }
+  else if (this->GetElapsedIterations() == 0)
+  {
     return false;
-    }
-  else if ( this->GetMaximumRMSError() > m_RMSChange )
-    {
+  }
+  else if (this->GetMaximumRMSError() > m_RMSChange)
+  {
     return true;
-    }
+  }
   else
-    {
+  {
     return false;
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
+template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
 void
-GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
-::InitializeFunctionCoefficients()
+GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::InitializeFunctionCoefficients()
 {
   // Set the coefficients for the derivatives
   double coeffs[TOutputImage::ImageDimension];
 
-  if ( this->m_UseImageSpacing )
+  if (this->m_UseImageSpacing)
+  {
+    const TOutputImage * outputImage = this->GetOutput();
+    if (outputImage == nullptr)
     {
-    const TOutputImage *outputImage =  this->GetOutput();
-    if ( outputImage == nullptr )
-      {
       itkExceptionMacro("Output image is nullptr");
-      }
+    }
 
     using SpacingType = typename TOutputImage::SpacingType;
     const SpacingType spacing = outputImage->GetSpacing();
 
-    for ( unsigned int i = 0; i < TOutputImage::ImageDimension; i++ )
-      {
-      coeffs[i] = 1.0 / spacing[i];
-      }
-    }
-  else
+    for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
     {
-    for ( unsigned int i = 0; i < TOutputImage::ImageDimension; i++ )
-      {
-      coeffs[i] = 1.0;
-      }
+      coeffs[i] = 1.0 / spacing[i];
     }
+  }
+  else
+  {
+    for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
+    {
+      coeffs[i] = 1.0;
+    }
+  }
   m_DifferenceFunction->SetScaleCoefficients(coeffs);
 }
 
-template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
+template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
 void
-GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
-::PrintSelf(std::ostream & os, Indent indent) const
+GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::PrintSelf(std::ostream & os,
+                                                                                         Indent         indent) const
 {
   GPUSuperclass::PrintSelf(os, indent);
-/*
-  os << indent << "ElapsedIterations: " << this->m_ElapsedIterations << std::endl;
-  os << indent << "UseImageSpacing: " << ( m_UseImageSpacing ? "On" : "Off" ) << std::endl;
-  os << indent << "State: " << m_State << std::endl;
-  os << indent << "MaximumRMSError: " << m_MaximumRMSError << std::endl;
-  os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;
-  os << indent << "ManualReinitialization: " << m_ManualReinitialization << std::endl;
-  os << indent << "RMSChange: " << m_RMSChange << std::endl;
-  os << std::endl;
-  if ( m_DifferenceFunction )
-    {
-    os << indent << "DifferenceFunction: " << std::endl;
-    m_DifferenceFunction->Print( os, indent.GetNextIndent() );
-    }
-  else
-    {
-    os << indent << "DifferenceFunction: " << "(None)" << std::endl;
-    }
-  os << std::endl;
-*/
+  /*
+    os << indent << "ElapsedIterations: " << this->m_ElapsedIterations << std::endl;
+    os << indent << "UseImageSpacing: " << ( m_UseImageSpacing ? "On" : "Off" ) << std::endl;
+    os << indent << "State: " << m_State << std::endl;
+    os << indent << "MaximumRMSError: " << m_MaximumRMSError << std::endl;
+    os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;
+    os << indent << "ManualReinitialization: " << m_ManualReinitialization << std::endl;
+    os << indent << "RMSChange: " << m_RMSChange << std::endl;
+    os << std::endl;
+    if ( m_DifferenceFunction )
+      {
+      os << indent << "DifferenceFunction: " << std::endl;
+      m_DifferenceFunction->Print( os, indent.GetNextIndent() );
+      }
+    else
+      {
+      os << indent << "DifferenceFunction: " << "(None)" << std::endl;
+      }
+    os << std::endl;
+  */
 }
 
 } // end namespace itk

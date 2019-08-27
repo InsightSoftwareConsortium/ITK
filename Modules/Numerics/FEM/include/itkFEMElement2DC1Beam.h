@@ -54,7 +54,8 @@ public:
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
-  ::itk::LightObject::Pointer CreateAnother() const override;
+  ::itk::LightObject::Pointer
+  CreateAnother() const override;
 
 
   /**
@@ -73,32 +74,39 @@ public:
    */
 
   /** Get the Stiffness matrix */
-  void GetStiffnessMatrix(MatrixType & Ke) const override;
+  void
+  GetStiffnessMatrix(MatrixType & Ke) const override;
 
   /** Get the Mass matrix */
-  void GetMassMatrix(MatrixType & Me) const override;
+  void
+  GetMassMatrix(MatrixType & Me) const override;
 
   /** Get the Strain Displacement matrix */
-  void GetStrainDisplacementMatrix(MatrixType &, const MatrixType &) const override
-  {
-  }
+  void
+  GetStrainDisplacementMatrix(MatrixType &, const MatrixType &) const override
+  {}
 
   /** Get the Material matrix */
-  void GetMaterialMatrix(MatrixType &) const override
-  {
-  }
+  void
+  GetMaterialMatrix(MatrixType &) const override
+  {}
 
   // ////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to numeric integration
    */
 
-  enum { DefaultIntegrationOrder = 1 };
+  enum
+  {
+    DefaultIntegrationOrder = 1
+  };
 
   /** Get the Integration point and weight */
-  void GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order = 0) const override;
+  void
+  GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order = 0) const override;
 
-  unsigned int GetNumberOfIntegrationPoints(unsigned int order) const override;
+  unsigned int
+  GetNumberOfIntegrationPoints(unsigned int order) const override;
 
   // ////////////////////////////////////////////////////////////////////////
   /**
@@ -106,22 +114,27 @@ public:
    */
 
   /** Return the shape functions used to interpolate across the element */
-  VectorType ShapeFunctions(const VectorType & pt) const override;
+  VectorType
+  ShapeFunctions(const VectorType & pt) const override;
 
   /** Return the shape functions derivatives in the shapeD matrix */
-  void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const override;
+  void
+  ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const override;
 
   /** Convert from global to local coordinates */
-  bool GetLocalFromGlobalCoordinates(const VectorType &, VectorType &) const override
+  bool
+  GetLocalFromGlobalCoordinates(const VectorType &, VectorType &) const override
   {
     return false;
   }
 
   /** Return the determinate of the Jacobian */
-  Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ) const override;
+  Float
+  JacobianDeterminant(const VectorType & pt, const MatrixType * pJ) const override;
 
   /** Get the degrees of freedom for each node */
-  unsigned int GetNumberOfDegreesOfFreedomPerNode() const override
+  unsigned int
+  GetNumberOfDegreesOfFreedomPerNode() const override
   {
     return 3;
   }
@@ -129,30 +142,33 @@ public:
   /**
    * Get/Set the material properties for the element
    */
-  Material::ConstPointer GetMaterial() const override
+  Material::ConstPointer
+  GetMaterial() const override
   {
     return dynamic_cast<const Material *>(m_mat);
   }
 
-  void SetMaterial(Material::ConstPointer mat_) override
+  void
+  SetMaterial(Material::ConstPointer mat_) override
   {
-    m_mat =
-      dynamic_cast<const MaterialLinearElasticity *>( mat_.GetPointer() );
+    m_mat = dynamic_cast<const MaterialLinearElasticity *>(mat_.GetPointer());
   }
 
   /** No edges to populate in this class */
-  void PopulateEdgeIds() override { /* empty */ }
+  void
+  PopulateEdgeIds() override
+  { /* empty */
+  }
 
 protected:
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
   /**
    * Pointer to material properties of the element
    */
-  const MaterialLinearElasticity *m_mat;
-
+  const MaterialLinearElasticity * m_mat;
 };
 } // end namespace fem
 } // end namespace itk

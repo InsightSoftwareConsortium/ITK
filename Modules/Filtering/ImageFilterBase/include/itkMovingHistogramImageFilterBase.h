@@ -87,25 +87,23 @@ namespace itk
  * \ingroup ITKImageFilterBase
  */
 
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-class ITK_TEMPLATE_EXPORT MovingHistogramImageFilterBase:
-  public KernelImageFilter< TInputImage, TOutputImage, TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+class ITK_TEMPLATE_EXPORT MovingHistogramImageFilterBase : public KernelImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramImageFilterBase);
 
   /** Standard class type aliases. */
   using Self = MovingHistogramImageFilterBase;
-  using Superclass = KernelImageFilter< TInputImage, TOutputImage, TKernel >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = KernelImageFilter<TInputImage, TOutputImage, TKernel>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MovingHistogramImageFilterBase,
-               KernelImageFilter);
+  itkTypeMacro(MovingHistogramImageFilterBase, KernelImageFilter);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;
@@ -130,12 +128,13 @@ public:
   /** n-dimensional Kernel radius. */
   using RadiusType = typename KernelType::SizeType;
 
-  using OffsetListType = typename std::list< OffsetType >;
+  using OffsetListType = typename std::list<OffsetType>;
 
-  using OffsetMapType = typename std::map< OffsetType, OffsetListType, Functor::LexicographicCompare >;
+  using OffsetMapType = typename std::map<OffsetType, OffsetListType, Functor::LexicographicCompare>;
 
   /** Set kernel (structuring element). */
-  void SetKernel(const KernelType & kernel) override;
+  void
+  SetKernel(const KernelType & kernel) override;
 
   itkGetConstMacro(PixelsPerTranslation, SizeValueType);
 
@@ -143,13 +142,15 @@ protected:
   MovingHistogramImageFilterBase();
   ~MovingHistogramImageFilterBase() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GetDirAndOffset(const IndexType LineStart,
-                       const IndexType PrevLineStart,
-                       OffsetType & LineOffset,
-                       OffsetType & Changes,
-                       int & LineDirection);
+  void
+  GetDirAndOffset(const IndexType LineStart,
+                  const IndexType PrevLineStart,
+                  OffsetType &    LineOffset,
+                  OffsetType &    Changes,
+                  int &           LineDirection);
 
   // store the added and removed pixel offset in a list
   OffsetMapType m_AddedOffsets;
@@ -158,14 +159,14 @@ protected:
   // store the offset of the kernel to initialize the histogram
   OffsetListType m_KernelOffsets;
 
-  FixedArray< int, Self::ImageDimension > m_Axes;
+  FixedArray<int, Self::ImageDimension> m_Axes;
 
   SizeValueType m_PixelsPerTranslation;
 
 private:
   class DirectionCost
   {
-public:
+  public:
     DirectionCost(int dimension, int count)
     {
       m_Dimension = dimension;
@@ -176,14 +177,21 @@ public:
      * return true if the object is a worth choice for the best axis
      * than the object in parameter
      */
-    inline bool operator<(const DirectionCost & dc) const
+    inline bool
+    operator<(const DirectionCost & dc) const
     {
-      if ( m_Count > dc.m_Count )
-            { return true; }
-      else if ( m_Count < dc.m_Count )
-            { return false; }
-      else //if (m_Count == dc.m_Count)
-            { return m_Dimension > dc.m_Dimension; }
+      if (m_Count > dc.m_Count)
+      {
+        return true;
+      }
+      else if (m_Count < dc.m_Count)
+      {
+        return false;
+      }
+      else // if (m_Count == dc.m_Count)
+      {
+        return m_Dimension > dc.m_Dimension;
+      }
     }
 
     int m_Dimension;
@@ -193,7 +201,7 @@ public:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMovingHistogramImageFilterBase.hxx"
+#  include "itkMovingHistogramImageFilterBase.hxx"
 #endif
 
 #endif

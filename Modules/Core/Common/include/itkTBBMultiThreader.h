@@ -55,45 +55,49 @@ public:
   /** Get/Set the number of work units to create. TBBMultiThreader
    * does not limit the number of work units. This number is
    * only respected by SetSingleMethod/SingleMethodExecute. */
-  virtual void SetNumberOfWorkUnits( ThreadIdType numberOfWorkUnits ) override;
+  virtual void
+  SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits) override;
 
   /** Execute the SingleMethod (as define by SetSingleMethod) using
    * m_NumberOfWorkUnits work units. As a side effect the m_NumberOfWorkUnits will be
    * checked against the current m_GlobalMaximumNumberOfThreads and clamped if
    * necessary. */
-  void SingleMethodExecute() override;
+  void
+  SingleMethodExecute() override;
 
   /** Set the SingleMethod to f() and the UserData field of the
    * WorkUnitInfo that is passed to it will be data.
    * This method must be of type itkThreadFunctionType and
    * must take a single argument of type void. */
-  void SetSingleMethod(ThreadFunctionType, void *data) override;
+  void
+  SetSingleMethod(ThreadFunctionType, void * data) override;
 
   /** Parallelize an operation over an array. If filter argument is not nullptr,
    * this function will update its progress as each index is completed. */
-  void ParallelizeArray(
-    SizeValueType firstIndex,
-    SizeValueType lastIndexPlus1,
-    ArrayThreadingFunctorType aFunc,
-    ProcessObject* filter ) override;
+  void
+  ParallelizeArray(SizeValueType             firstIndex,
+                   SizeValueType             lastIndexPlus1,
+                   ArrayThreadingFunctorType aFunc,
+                   ProcessObject *           filter) override;
 
   /** Break up region into smaller chunks, and call the function with chunks as parameters. */
-  void ParallelizeImageRegion(
-      unsigned int dimension,
-      const IndexValueType index[],
-      const SizeValueType size[],
-      ThreadingFunctorType funcP,
-      ProcessObject* filter) override;
+  void
+  ParallelizeImageRegion(unsigned int         dimension,
+                         const IndexValueType index[],
+                         const SizeValueType  size[],
+                         ThreadingFunctorType funcP,
+                         ProcessObject *      filter) override;
 
 protected:
   TBBMultiThreader();
   ~TBBMultiThreader() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** ProcessObject is a friend so that it can call PrintSelf() on its Multithreader. */
   friend class ProcessObject;
 };
 
-}  // end namespace itk
+} // end namespace itk
 #endif

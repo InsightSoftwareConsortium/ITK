@@ -21,7 +21,8 @@
 
 extern template class itk::ImageRegion<1u>;
 
-int itkImageRegionExplicitTest(int, char* [])
+int
+itkImageRegionExplicitTest(int, char *[])
 {
   return 0;
 }

@@ -23,32 +23,33 @@
 #include "itkMath.h"
 #include "itkTestingMacros.h"
 
-int itkMahalanobisDistanceThresholdImageFunctionTest( int, char* [] )
+int
+itkMahalanobisDistanceThresholdImageFunctionTest(int, char *[])
 {
 
   constexpr unsigned int Dimension = 3;
   using PixelComponentType = unsigned char;
   using PixelType = itk::RGBPixel<PixelComponentType>;
 
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
   using FunctionType = itk::MahalanobisDistanceThresholdImageFunction<ImageType>;
 
   // Create and allocate the image
-  ImageType::Pointer      image = ImageType::New();
-  ImageType::SizeType     size;
-  ImageType::IndexType    start;
-  ImageType::RegionType   region;
+  ImageType::Pointer    image = ImageType::New();
+  ImageType::SizeType   size;
+  ImageType::IndexType  start;
+  ImageType::RegionType region;
 
   size[0] = 50;
   size[1] = 50;
   size[2] = 50;
 
-  start.Fill( 0 );
+  start.Fill(0);
 
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
-  image->SetRegions( region );
+  image->SetRegions(region);
   image->Allocate();
 
   ImageType::PixelType initialValue;
@@ -57,35 +58,34 @@ int itkMahalanobisDistanceThresholdImageFunctionTest( int, char* [] )
   initialValue[1] = 22;
   initialValue[2] = 33;
 
-  image->FillBuffer( initialValue );
+  image->FillBuffer(initialValue);
 
   FunctionType::Pointer function = FunctionType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( function, MahalanobisDistanceThresholdImageFunction,
-    ImageFunction );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(function, MahalanobisDistanceThresholdImageFunction, ImageFunction);
 
-  function->SetInputImage( image );
+  function->SetInputImage(image);
 
   constexpr double threshold = 5.0;
-  function->SetThreshold( threshold );
+  function->SetThreshold(threshold);
 
-  FunctionType::CovarianceMatrixType covariance( Dimension, Dimension );
-  FunctionType::MeanVectorType mean( Dimension );
+  FunctionType::CovarianceMatrixType covariance(Dimension, Dimension);
+  FunctionType::MeanVectorType       mean(Dimension);
 
   mean[0] = 10.0;
   mean[1] = 20.0;
   mean[2] = 30.0;
 
-  covariance.fill( 0.0 );
+  covariance.fill(0.0);
   covariance[0][0] = 100.0;
   covariance[1][1] = 200.0;
   covariance[2][2] = 300.0;
 
-  function->SetCovariance( covariance );
-  function->SetMean( mean );
+  function->SetCovariance(covariance);
+  function->SetMean(mean);
 
-  ITK_TEST_SET_GET_VALUE( covariance, function->GetCovariance() );
-  ITK_TEST_SET_GET_VALUE( mean, function->GetMean() );
+  ITK_TEST_SET_GET_VALUE(covariance, function->GetCovariance());
+  ITK_TEST_SET_GET_VALUE(mean, function->GetMean());
 
   ImageType::IndexType index;
 
@@ -93,19 +93,19 @@ int itkMahalanobisDistanceThresholdImageFunctionTest( int, char* [] )
   index[1] = 25;
   index[2] = 25;
 
-  ITK_TEST_EXPECT_TRUE( function->EvaluateAtIndex( index ) );
+  ITK_TEST_EXPECT_TRUE(function->EvaluateAtIndex(index));
 
-  const double distance = function->EvaluateDistanceAtIndex( index );
+  const double distance = function->EvaluateDistanceAtIndex(index);
   std::cout << "function->EvaluateDistanceAtIndex( index ): " << distance << std::endl;
 
   constexpr double expectedDistance = 0.244949;
-  if( ! itk::Math::FloatAlmostEqual( distance, expectedDistance, 10, 1e-5 ) )
-    {
+  if (!itk::Math::FloatAlmostEqual(distance, expectedDistance, 10, 1e-5))
+  {
     std::cerr << "Error in distance computation in EvaluateDistanceAtIndex() !!" << std::endl;
     std::cerr << "Expected distance value = " << expectedDistance << std::endl;
     std::cerr << "Distance obtained value = " << distance << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Test Evaluate
   FunctionType::PointType point;
@@ -113,18 +113,18 @@ int itkMahalanobisDistanceThresholdImageFunctionTest( int, char* [] )
   point[1] = 25;
   point[2] = 25;
 
-  ITK_TEST_EXPECT_TRUE( function->Evaluate( point ) );
+  ITK_TEST_EXPECT_TRUE(function->Evaluate(point));
 
   const double distance2 = function->EvaluateDistance(point);
   std::cout << "function->EvaluateDistance(point): " << distance2 << std::endl;
 
-  if( ! itk::Math::FloatAlmostEqual( distance2, expectedDistance, 10, 1e-5 ) )
-    {
+  if (!itk::Math::FloatAlmostEqual(distance2, expectedDistance, 10, 1e-5))
+  {
     std::cerr << "Error in distance computation in EvaluateDistance() !!" << std::endl;
     std::cerr << "Expected distance value = " << expectedDistance << std::endl;
     std::cerr << "Distance obtained value = " << distance2 << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Test EvaluateAtContinuousIndex
   FunctionType::ContinuousIndexType cindex;
@@ -132,18 +132,17 @@ int itkMahalanobisDistanceThresholdImageFunctionTest( int, char* [] )
   cindex[1] = 25;
   cindex[2] = 25;
 
-  ITK_TEST_EXPECT_TRUE( function->EvaluateAtContinuousIndex( cindex ) );
+  ITK_TEST_EXPECT_TRUE(function->EvaluateAtContinuousIndex(cindex));
 
   // Test GetConstReferenceMacro
   const double & getThreshold = function->GetThreshold();
   std::cout << "function->GetThreshold(): " << getThreshold << std::endl;
-  if( ! itk::Math::FloatAlmostEqual( threshold, getThreshold, 10, 1e-9 ) )
-    {
+  if (!itk::Math::FloatAlmostEqual(threshold, getThreshold, 10, 1e-9))
+  {
     std::cerr << "Error: Set/Get Threshold do not match" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
-
 }

@@ -38,20 +38,19 @@ namespace itk
  * \ingroup SpatialFunctions
  * \ingroup ITKCommon
  */
-template< typename TOutput = double,
+template <typename TOutput = double,
           unsigned int VImageDimension = 3,
-          typename TInput = Point< SpacePrecisionType, VImageDimension > >
-class ITK_TEMPLATE_EXPORT GaussianSpatialFunction:
-  public SpatialFunction< TOutput, VImageDimension, TInput >
+          typename TInput = Point<SpacePrecisionType, VImageDimension>>
+class ITK_TEMPLATE_EXPORT GaussianSpatialFunction : public SpatialFunction<TOutput, VImageDimension, TInput>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaussianSpatialFunction);
 
   /** Standard class type aliases. */
   using Self = GaussianSpatialFunction;
-  using Superclass = SpatialFunction< TOutput, VImageDimension, TInput >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SpatialFunction<TOutput, VImageDimension, TInput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -66,10 +65,11 @@ public:
   using OutputType = typename Superclass::OutputType;
 
   /** Type used to store gaussian parameters. */
-  using ArrayType = FixedArray< double, VImageDimension >;
+  using ArrayType = FixedArray<double, VImageDimension>;
 
   /** Evaluate the function at a given position. */
-  OutputType Evaluate(const TInput & position) const override;
+  OutputType
+  Evaluate(const TInput & position) const override;
 
   /** Set/Get the scale factor to multiply the true value of the Gaussian. */
   itkSetMacro(Scale, double);
@@ -91,7 +91,8 @@ public:
 protected:
   GaussianSpatialFunction();
   ~GaussianSpatialFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ArrayType m_Sigma;
@@ -105,7 +106,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGaussianSpatialFunction.hxx"
+#  include "itkGaussianSpatialFunction.hxx"
 #endif
 
 #endif

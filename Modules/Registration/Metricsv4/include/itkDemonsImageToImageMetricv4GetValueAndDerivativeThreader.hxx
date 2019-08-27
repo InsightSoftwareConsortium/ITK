@@ -22,66 +22,66 @@
 
 namespace itk
 {
-template< typename TDomainPartitioner, typename TImageToImageMetric, typename TDemonsMetric >
+template <typename TDomainPartitioner, typename TImageToImageMetric, typename TDemonsMetric>
 void
-DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TDemonsMetric >
-::BeforeThreadedExecution()
+DemonsImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric, TDemonsMetric>::
+  BeforeThreadedExecution()
 {
   Superclass::BeforeThreadedExecution();
 
   /* Store the casted pointer to avoid dynamic casting in tight loops. */
-  this->m_DemonsAssociate = dynamic_cast<TDemonsMetric*>( this->m_Associate );
-  if( this->m_DemonsAssociate == nullptr )
-    {
+  this->m_DemonsAssociate = dynamic_cast<TDemonsMetric *>(this->m_Associate);
+  if (this->m_DemonsAssociate == nullptr)
+  {
     itkExceptionMacro("Dynamic casting of associate pointer failed.");
-    }
+  }
 }
 
-template< typename TDomainPartitioner, typename TImageToImageMetric, typename TDemonsMetric >
+template <typename TDomainPartitioner, typename TImageToImageMetric, typename TDemonsMetric>
 bool
-DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TDemonsMetric >
-::ProcessPoint( const VirtualIndexType &,
-                const VirtualPointType &,
-                const FixedImagePointType &,
-                const FixedImagePixelType &        fixedImageValue,
-                const FixedImageGradientType &     fixedImageGradient,
-                const MovingImagePointType &,
-                const MovingImagePixelType &       movingImageValue,
-                const MovingImageGradientType &    movingImageGradient,
-                MeasureType &                      metricValueReturn,
-                DerivativeType &                   localDerivativeReturn,
-                const ThreadIdType ) const
+DemonsImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric, TDemonsMetric>::
+  ProcessPoint(const VirtualIndexType &,
+               const VirtualPointType &,
+               const FixedImagePointType &,
+               const FixedImagePixelType &    fixedImageValue,
+               const FixedImageGradientType & fixedImageGradient,
+               const MovingImagePointType &,
+               const MovingImagePixelType &    movingImageValue,
+               const MovingImageGradientType & movingImageGradient,
+               MeasureType &                   metricValueReturn,
+               DerivativeType &                localDerivativeReturn,
+               const ThreadIdType) const
 {
   /* Metric value */
   const InternalComputationValueType speedValue = fixedImageValue - movingImageValue;
-  const InternalComputationValueType sqr_speedValue = itk::Math::sqr( speedValue );
+  const InternalComputationValueType sqr_speedValue = itk::Math::sqr(speedValue);
   metricValueReturn = sqr_speedValue;
 
-  if( ! this->GetComputeDerivative() )
-    {
+  if (!this->GetComputeDerivative())
+  {
     return true;
-    }
+  }
 
   /* Derivative */
-  InternalComputationValueType  gradientSquaredMagnitude = 0;
-  const FixedImageGradientType* gradient;
-  SizeValueType                 numberOfDimensions;
+  InternalComputationValueType   gradientSquaredMagnitude = 0;
+  const FixedImageGradientType * gradient;
+  SizeValueType                  numberOfDimensions;
 
-  if( this->m_DemonsAssociate->GetGradientSourceIncludesFixed() )
-    {
+  if (this->m_DemonsAssociate->GetGradientSourceIncludesFixed())
+  {
     gradient = &fixedImageGradient;
     numberOfDimensions = ImageToImageMetricv4Type::FixedImageDimension;
-    }
+  }
   else
-    {
+  {
     gradient = &movingImageGradient;
     numberOfDimensions = ImageToImageMetricv4Type::MovingImageDimension;
-    }
+  }
 
-  for ( ImageDimensionType j = 0; j < numberOfDimensions; j++ )
-    {
-    gradientSquaredMagnitude += itk::Math::sqr( (*gradient)[j] );
-    }
+  for (ImageDimensionType j = 0; j < numberOfDimensions; j++)
+  {
+    gradientSquaredMagnitude += itk::Math::sqr((*gradient)[j]);
+  }
 
   /*
    * In the original equation the denominator is defined as (g-f)^2 + grad_mag^2.
@@ -93,19 +93,20 @@ DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TIm
    * such that denominator = (g-f)^2/K + grad_mag^2
    * where K = mean square spacing to compensate for the mismatch in units.
    */
-  const InternalComputationValueType denominator = sqr_speedValue / this->m_DemonsAssociate->m_Normalizer + gradientSquaredMagnitude;
+  const InternalComputationValueType denominator =
+    sqr_speedValue / this->m_DemonsAssociate->m_Normalizer + gradientSquaredMagnitude;
 
-  if ( itk::Math::abs(speedValue) < this->m_DemonsAssociate->GetIntensityDifferenceThreshold() ||
-       denominator < this->m_DemonsAssociate->GetDenominatorThreshold() )
-    {
-    localDerivativeReturn.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
+  if (itk::Math::abs(speedValue) < this->m_DemonsAssociate->GetIntensityDifferenceThreshold() ||
+      denominator < this->m_DemonsAssociate->GetDenominatorThreshold())
+  {
+    localDerivativeReturn.Fill(NumericTraits<DerivativeValueType>::ZeroValue());
     return true;
-    }
+  }
 
-  for ( SizeValueType p = 0; p < this->GetCachedNumberOfLocalParameters(); p++ )
-    {
+  for (SizeValueType p = 0; p < this->GetCachedNumberOfLocalParameters(); p++)
+  {
     localDerivativeReturn[p] = speedValue * (*gradient)[p] / denominator;
-    }
+  }
 
   return true;
 }

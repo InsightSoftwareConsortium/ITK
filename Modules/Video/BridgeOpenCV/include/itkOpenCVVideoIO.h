@@ -23,13 +23,13 @@
 #include "opencv2/core/version.hpp"
 #if !defined(CV_VERSION_EPOCH)
 // OpenCV 3.x
-#include "opencv2/videoio/videoio.hpp"
-#include "opencv2/videoio/videoio_c.h"
-#include "opencv2/imgproc/imgproc_c.h"
+#  include "opencv2/videoio/videoio.hpp"
+#  include "opencv2/videoio/videoio_c.h"
+#  include "opencv2/imgproc/imgproc_c.h"
 #else
 // OpenCV 2.4.x
-#include "cv.h"
-#include "highgui.h"
+#  include "cv.h"
+#  include "highgui.h"
 #endif
 
 #include "ITKVideoBridgeOpenCVExport.h"
@@ -51,7 +51,7 @@ public:
   /** Standard class type aliases. */
   using Self = OpenCVVideoIO;
   using Superclass = VideoIOBase;
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
 
   using TemporalOffsetType = Superclass::TemporalOffsetType;
   using FrameOffsetType = Superclass::FrameOffsetType;
@@ -65,108 +65,142 @@ public:
   itkTypeMacro(OpenCVVideoIO, Superclass);
 
   /** Close the reader and writer and reset members */
-  virtual void FinishReadingOrWriting();
+  virtual void
+  FinishReadingOrWriting();
 
   //
   // Data reading-related methods
   //
 
   /** Set to reading from file */
-  virtual void SetReadFromFile();
+  virtual void
+  SetReadFromFile();
 
   /** Set to reading from a camera */
-  virtual void SetReadFromCamera();
+  virtual void
+  SetReadFromCamera();
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanReadFile(const char *);
+  virtual bool
+  CanReadFile(const char *);
 
   /** Return whether or not the VideoIO can read from a camera */
-  virtual bool CanReadCamera( CameraIDType cameraID ) const;
+  virtual bool
+  CanReadCamera(CameraIDType cameraID) const;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void ReadImageInformation();
+  virtual void
+  ReadImageInformation();
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void *buffer);
+  virtual void
+  Read(void * buffer);
 
   /** Set the next frame that should be read. Return true if you operation
    * successful. */
-  virtual bool SetNextFrameToRead( FrameOffsetType frameNumber );
+  virtual bool
+  SetNextFrameToRead(FrameOffsetType frameNumber);
 
   /** Virtual accessor functions to be implemented in each derived class. */
-  virtual TemporalOffsetType GetPositionInMSec() const;
-  virtual TemporalRatioType GetRatio() const;
-  virtual FrameOffsetType GetFrameTotal() const;
-  virtual TemporalRatioType GetFramesPerSecond() const;
-  virtual FrameOffsetType GetCurrentFrame() const;
-  virtual FrameOffsetType GetIFrameInterval() const;
-  virtual FrameOffsetType GetLastIFrame() const;
+  virtual TemporalOffsetType
+  GetPositionInMSec() const;
+  virtual TemporalRatioType
+  GetRatio() const;
+  virtual FrameOffsetType
+  GetFrameTotal() const;
+  virtual TemporalRatioType
+  GetFramesPerSecond() const;
+  virtual FrameOffsetType
+  GetCurrentFrame() const;
+  virtual FrameOffsetType
+  GetIFrameInterval() const;
+  virtual FrameOffsetType
+  GetLastIFrame() const;
 
   //
   // Data writing-related methods
   //
 
   /** Get/Set the device index for reading from a camera. */
-  virtual void SetCameraIndex(CameraIDType idx);
-  virtual CameraIDType GetCameraIndex() const;
+  virtual void
+  SetCameraIndex(CameraIDType idx);
+  virtual CameraIDType
+  GetCameraIndex() const;
 
   /** Override Accessors to pass default values since OpenCV doesn't handle
    * this type of meta data. */
-  virtual double GetSpacing(unsigned int itkNotUsed(i)) const
-    { return 1.0; }
-  virtual double GetOrigin(unsigned int itkNotUsed(i)) const
-    { return 0.0; }
-  virtual std::vector< double > GetDirection(unsigned int i) const
-    { return this->GetDefaultDirection(i); }
+  virtual double
+  GetSpacing(unsigned int itkNotUsed(i)) const
+  {
+    return 1.0;
+  }
+  virtual double
+  GetOrigin(unsigned int itkNotUsed(i)) const
+  {
+    return 0.0;
+  }
+  virtual std::vector<double>
+  GetDirection(unsigned int i) const
+  {
+    return this->GetDefaultDirection(i);
+  }
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
-  virtual bool CanWriteFile(const char *);
+  virtual bool
+  CanWriteFile(const char *);
 
   /** Writes the spacing and dimensions of the image.
    * Assumes SetFileName has been called with a valid file name. */
-  virtual void WriteImageInformation();
+  virtual void
+  WriteImageInformation();
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegion has been set properly. */
-  virtual void Write(const void *buffer);
+  virtual void
+  Write(const void * buffer);
 
   /** Set Writer parameters. */
-  virtual void SetWriterParameters( TemporalRatioType fps,
-                                    const std::vector<SizeValueType>& dim,
-                                    const char* fourCC,
-                                    unsigned int nChannels,
-                                    IOComponentType componentType );
+  virtual void
+  SetWriterParameters(TemporalRatioType                  fps,
+                      const std::vector<SizeValueType> & dim,
+                      const char *                       fourCC,
+                      unsigned int                       nChannels,
+                      IOComponentType                    componentType);
 
 protected:
   OpenCVVideoIO();
   ~OpenCVVideoIO();
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Update the local members from the internal capture. */
-  void UpdateReaderProperties();
+  void
+  UpdateReaderProperties();
 
   /** Reset member variables to empty state closed. */
-  void ResetMembers();
+  void
+  ResetMembers();
 
   /** Open the reader if the writer is not open. */
-  void OpenReader();
+  void
+  OpenReader();
 
   /** Open the writer if the reader is not open. */
-  void OpenWriter();
+  void
+  OpenWriter();
 
 private:
 private:
-  IplImage*           m_CVImage;
-  IplImage*           m_TempImage;
-  CvCapture*          m_Capture;
-  CvVideoWriter*      m_Writer;
-  int                 m_FourCC;
+  IplImage *      m_CVImage;
+  IplImage *      m_TempImage;
+  CvCapture *     m_Capture;
+  CvVideoWriter * m_Writer;
+  int             m_FourCC;
 
-  int                 m_CameraIndex;
-
+  int m_CameraIndex;
 };
 } // end namespace itk
 

@@ -23,11 +23,8 @@ namespace itk
 {
 TIFFImageIOFactory::TIFFImageIOFactory()
 {
-  this->RegisterOverride( "itkImageIOBase",
-                          "itkTIFFImageIO",
-                          "TIFF Image IO",
-                          true,
-                          CreateObjectFunction< TIFFImageIO >::New() );
+  this->RegisterOverride(
+    "itkImageIOBase", "itkTIFFImageIO", "TIFF Image IO", true, CreateObjectFunction<TIFFImageIO>::New());
 }
 
 TIFFImageIOFactory::~TIFFImageIOFactory() = default;
@@ -49,13 +46,14 @@ TIFFImageIOFactory::GetDescription() const
 
 static bool TIFFImageIOFactoryHasBeenRegistered;
 
-void ITKIOTIFF_EXPORT TIFFImageIOFactoryRegister__Private()
+void ITKIOTIFF_EXPORT
+     TIFFImageIOFactoryRegister__Private()
 {
-  if( ! TIFFImageIOFactoryHasBeenRegistered )
-    {
+  if (!TIFFImageIOFactoryHasBeenRegistered)
+  {
     TIFFImageIOFactoryHasBeenRegistered = true;
     TIFFImageIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

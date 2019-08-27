@@ -36,7 +36,7 @@ namespace itk
  * \ingroup LevelSetSegmentation
  * \ingroup ITKFastMarching
  */
-template< typename TLevelSet >
+template <typename TLevelSet>
 class LevelSetTypeDefault
 {
 public:
@@ -55,11 +55,10 @@ public:
   using PixelType = typename TLevelSet::PixelType;
 
   /** Node type alias support. */
-  using NodeType =
-  LevelSetNode< PixelType, Self::SetDimension >;
+  using NodeType = LevelSetNode<PixelType, Self::SetDimension>;
 
   /** NodeContainer type alias support */
-  using NodeContainer = VectorContainer< unsigned int, NodeType >;
+  using NodeContainer = VectorContainer<unsigned int, NodeType>;
 
   /** NodeContainerPointer type alias support */
   using NodeContainerPointer = typename NodeContainer::Pointer;
@@ -81,11 +80,7 @@ public:
  * \ingroup LevelSetSegmentation
  * \ingroup ITKFastMarching
  */
-template<
-  typename TPixel,
-  unsigned int VAuxDimension = 1,
-  unsigned int VSetDimension = 2
-  >
+template <typename TPixel, unsigned int VAuxDimension = 1, unsigned int VSetDimension = 2>
 class AuxVarTypeDefault
 {
 public:
@@ -102,13 +97,13 @@ public:
   static constexpr unsigned int SetDimension = VSetDimension;
 
   /** AuxVector type alias support */
-  using AuxValueVectorType = Vector< TPixel, VAuxDimension >;
+  using AuxValueVectorType = Vector<TPixel, VAuxDimension>;
 
   /** AuxContainer typdef support. */
-  using AuxValueContainer = VectorContainer< unsigned int, AuxValueVectorType >;
+  using AuxValueContainer = VectorContainer<unsigned int, AuxValueVectorType>;
 
   /** AuxImage typdef support. */
-  using AuxImageType = Image< AuxValueType, VSetDimension >;
+  using AuxImageType = Image<AuxValueType, VSetDimension>;
 
   /** AuxImagePointer type alias support */
   using AuxImagePointer = typename AuxImageType::Pointer;

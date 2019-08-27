@@ -23,15 +23,11 @@ namespace itk
 {
 JPEG2000ImageIOFactory::JPEG2000ImageIOFactory()
 {
-  this->RegisterOverride( "itkImageIOBase",
-                          "itkJPEG2000ImageIO",
-                          "JPEG2000 Image IO",
-                          true,
-                          CreateObjectFunction< JPEG2000ImageIO >::New() );
+  this->RegisterOverride(
+    "itkImageIOBase", "itkJPEG2000ImageIO", "JPEG2000 Image IO", true, CreateObjectFunction<JPEG2000ImageIO>::New());
 }
 
-JPEG2000ImageIOFactory::~JPEG2000ImageIOFactory()
-{}
+JPEG2000ImageIOFactory::~JPEG2000ImageIOFactory() {}
 
 const char *
 JPEG2000ImageIOFactory::GetITKSourceVersion() const
@@ -51,13 +47,14 @@ JPEG2000ImageIOFactory::GetDescription() const
 
 static bool JPEG2000ImageIOFactoryHasBeenRegistered;
 
-void ITKIOJPEG2000_EXPORT JPEG2000ImageIOFactoryRegister__Private()
+void ITKIOJPEG2000_EXPORT
+     JPEG2000ImageIOFactoryRegister__Private()
 {
-  if( ! JPEG2000ImageIOFactoryHasBeenRegistered )
-    {
+  if (!JPEG2000ImageIOFactoryHasBeenRegistered)
+  {
     JPEG2000ImageIOFactoryHasBeenRegistered = true;
     JPEG2000ImageIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 

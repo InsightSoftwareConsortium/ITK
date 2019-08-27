@@ -26,23 +26,25 @@
 
 // Specific ImageIO test
 
-int itkRawImageIOTest(int argc, char* argv[])
+int
+itkRawImageIOTest(int argc, char * argv[])
 {
-  using ImageType = itk::Image<unsigned short,2>;
+  using ImageType = itk::Image<unsigned short, 2>;
   using PixelType = ImageType::PixelType;
   using ImageIteratorType = itk::ImageRegionConstIterator<ImageType>;
-  if(argc < 3)
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Output1 Output2\n";
     return EXIT_FAILURE;
-    }
+  }
 
   // Create a source object (in this case a random image generator).
   // The source object is templated on the output type.
   //
   ImageType::SizeValueType size[2];
 
-  size[0]=128; size[1]=64;
+  size[0] = 128;
+  size[1] = 64;
 
   itk::RandomImageSource<ImageType>::Pointer random;
   random = itk::RandomImageSource<ImageType>::New();
@@ -53,8 +55,8 @@ int itkRawImageIOTest(int argc, char* argv[])
   // Create a mapper (in this case a writer). A mapper
   // is templated on the input type.
   //
-  itk::RawImageIO<unsigned short,2>::Pointer io;
-  io = itk::RawImageIO<unsigned short,2>::New();
+  itk::RawImageIO<unsigned short, 2>::Pointer io;
+  io = itk::RawImageIO<unsigned short, 2>::New();
 
   //  io->SetFileTypeToASCII();
 
@@ -66,14 +68,14 @@ int itkRawImageIOTest(int argc, char* argv[])
   writer->SetImageIO(io);
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Error while writing the image " << argv[1] << std::endl;
     std::cerr << excp << std::endl;
-    }
+  }
 
   // Create a source object (in this case a reader)
   itk::ImageFileReader<ImageType>::Pointer reader;
@@ -82,56 +84,54 @@ int itkRawImageIOTest(int argc, char* argv[])
   reader->SetFileName(argv[1]);
 
   try
-    {
+  {
     reader->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Error while reading the image " << argv[1] << std::endl;
     std::cerr << excp << std::endl;
-    }
+  }
 
 
   // Compare pixel by pixel in memory
 
 
-  ImageIteratorType it( reader->GetOutput(),
-                        reader->GetOutput()->GetBufferedRegion() );
+  ImageIteratorType it(reader->GetOutput(), reader->GetOutput()->GetBufferedRegion());
 
-  ImageIteratorType ot( random->GetOutput(),
-                        random->GetOutput()->GetBufferedRegion() );
+  ImageIteratorType ot(random->GetOutput(), random->GetOutput()->GetBufferedRegion());
 
   it.GoToBegin();
   ot.GoToBegin();
-  while( !it.IsAtEnd() )
-    {
+  while (!it.IsAtEnd())
+  {
     const PixelType iv = it.Get();
     const PixelType ov = ot.Get();
-    if( iv != ov )
-      {
+    if (iv != ov)
+    {
       std::cerr << "Error in read/write of pixel " << it.GetIndex() << std::endl;
       std::cerr << "Read value  is : " << iv << std::endl;
       std::cerr << "it should be   : " << ov << std::endl;
       std::cerr << "Test FAILED ! " << std::endl;
       return EXIT_FAILURE;
-      }
+    }
     ++it;
     ++ot;
-    }
+  }
 
   writer->SetInput(reader->GetOutput());
   writer->SetFileName(argv[2]);
   writer->SetInput(reader->GetOutput());
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Error while writing the image " << argv[2] << std::endl;
     std::cerr << excp << std::endl;
-    }
+  }
 
 
   std::cerr << "Test PASSED ! " << std::endl;

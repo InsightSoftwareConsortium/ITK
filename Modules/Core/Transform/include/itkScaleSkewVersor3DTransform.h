@@ -50,9 +50,8 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template<typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT ScaleSkewVersor3DTransform :
-  public VersorRigid3DTransform<TParametersValueType>
+template <typename TParametersValueType = double>
+class ITK_TEMPLATE_EXPORT ScaleSkewVersor3DTransform : public VersorRigid3DTransform<TParametersValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScaleSkewVersor3DTransform);
@@ -115,8 +114,10 @@ public:
    * Orthogonality testing is bypassed in this case.
    *
    * \sa MatrixOffsetTransformBase::SetMatrix() */
-  void SetMatrix(const MatrixType & matrix) override;
-  void SetMatrix(const MatrixType & matrix, const TParametersValueType tolerance) override;
+  void
+  SetMatrix(const MatrixType & matrix) override;
+  void
+  SetMatrix(const MatrixType & matrix, const TParametersValueType tolerance) override;
 
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
@@ -126,25 +127,31 @@ public:
    *   6-8   Scale
    *   9-14  Skew
    **  */
-  void SetParameters(const ParametersType & parameters) override;
+  void
+  SetParameters(const ParametersType & parameters) override;
 
-  const ParametersType & GetParameters() const override;
+  const ParametersType &
+  GetParameters() const override;
 
-  void SetScale(const ScaleVectorType & scale);
+  void
+  SetScale(const ScaleVectorType & scale);
 
   itkGetConstReferenceMacro(Scale, ScaleVectorType);
 
-  void SetSkew(const SkewVectorType & skew);
+  void
+  SetSkew(const SkewVectorType & skew);
 
   itkGetConstReferenceMacro(Skew, SkewVectorType);
 
-  void SetIdentity() override;
+  void
+  SetIdentity() override;
 
   /** This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
+  void
+  ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const override;
 
 protected:
   ScaleSkewVersor3DTransform();
@@ -152,22 +159,27 @@ protected:
   ScaleSkewVersor3DTransform(unsigned int paramDims);
   ~ScaleSkewVersor3DTransform() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void SetVarScale(const ScaleVectorType & scale)
+  void
+  SetVarScale(const ScaleVectorType & scale)
   {
     m_Scale = scale;
   }
 
-  void SetVarSkew(const SkewVectorType & skew)
+  void
+  SetVarSkew(const SkewVectorType & skew)
   {
     m_Skew = skew;
   }
 
   /** Compute the components of the rotation matrix in the superclass. */
-  void ComputeMatrix() override;
+  void
+  ComputeMatrix() override;
 
-  void ComputeMatrixParameters() override;
+  void
+  ComputeMatrixParameters() override;
 
 private:
   /**  Vector containing the scale. */
@@ -176,10 +188,10 @@ private:
   /**  Vector containing the skew */
   SkewVectorType m_Skew;
 }; // class ScaleSkewVersor3DTransform
-}  // namespace itk
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScaleSkewVersor3DTransform.hxx"
+#  include "itkScaleSkewVersor3DTransform.hxx"
 #endif
 
 #endif /* __ScaleSkewVersor3DTransform_h */

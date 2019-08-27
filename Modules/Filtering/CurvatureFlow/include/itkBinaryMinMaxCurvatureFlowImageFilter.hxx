@@ -26,26 +26,23 @@ namespace itk
 /**
  * Constructor
  */
-template< typename TInputImage, typename TOutputImage >
-BinaryMinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage >
-::BinaryMinMaxCurvatureFlowImageFilter()
+template <typename TInputImage, typename TOutputImage>
+BinaryMinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::BinaryMinMaxCurvatureFlowImageFilter()
 {
   m_Threshold = 0.0;
 
   typename BinaryMinMaxCurvatureFlowFunctionType::Pointer cffp;
   cffp = BinaryMinMaxCurvatureFlowFunctionType::New();
 
-  this->SetDifferenceFunction( static_cast< FiniteDifferenceFunctionType * >(
-                                 cffp.GetPointer() ) );
+  this->SetDifferenceFunction(static_cast<FiniteDifferenceFunctionType *>(cffp.GetPointer()));
 }
 
 /**
  * Standard PrintSelf method.
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-BinaryMinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+BinaryMinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Threshold: " << m_Threshold << std::endl;
@@ -54,19 +51,18 @@ BinaryMinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage >
 /**
  * Initialize the state of filter and equation before each iteration.
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-BinaryMinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage >
-::InitializeIteration()
+BinaryMinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::InitializeIteration()
 {
   // update variables in the equation object
 
-  auto * f = dynamic_cast< BinaryMinMaxCurvatureFlowFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
+  auto * f = dynamic_cast<BinaryMinMaxCurvatureFlowFunctionType *>(this->GetDifferenceFunction().GetPointer());
 
-  if ( !f )
-    {
+  if (!f)
+  {
     itkExceptionMacro(<< "DifferenceFunction not of type BinaryMinMaxCurvatureFlowFunction");
-    }
+  }
 
   f->SetThreshold(m_Threshold);
 

@@ -23,11 +23,8 @@ namespace itk
 {
 BMPImageIOFactory::BMPImageIOFactory()
 {
-  this->RegisterOverride( "itkImageIOBase",
-                          "itkBMPImageIO",
-                          "BMP Image IO",
-                          true,
-                          CreateObjectFunction< BMPImageIO >::New() );
+  this->RegisterOverride(
+    "itkImageIOBase", "itkBMPImageIO", "BMP Image IO", true, CreateObjectFunction<BMPImageIO>::New());
 }
 
 BMPImageIOFactory::~BMPImageIOFactory() = default;
@@ -49,13 +46,14 @@ BMPImageIOFactory::GetDescription() const
 
 static bool BMPImageIOFactoryHasBeenRegistered;
 
-void ITKIOBMP_EXPORT BMPImageIOFactoryRegister__Private()
+void ITKIOBMP_EXPORT
+     BMPImageIOFactoryRegister__Private()
 {
-  if( ! BMPImageIOFactoryHasBeenRegistered )
-    {
+  if (!BMPImageIOFactoryHasBeenRegistered)
+  {
     BMPImageIOFactoryHasBeenRegistered = true;
     BMPImageIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

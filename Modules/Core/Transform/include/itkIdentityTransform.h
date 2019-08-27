@@ -46,8 +46,7 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template<typename TParametersValueType,
-          unsigned int NDimensions=3>
+template <typename TParametersValueType, unsigned int NDimensions = 3>
 class ITK_TEMPLATE_EXPORT IdentityTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
@@ -86,28 +85,20 @@ public:
   using TransformCategoryType = typename Superclass::TransformCategoryType;
 
   /** Standard vector type for this class. */
-  using InputVectorType = Vector<TParametersValueType,
-                 Self::InputSpaceDimension>;
-  using OutputVectorType = Vector<TParametersValueType,
-                 Self::OutputSpaceDimension>;
+  using InputVectorType = Vector<TParametersValueType, Self::InputSpaceDimension>;
+  using OutputVectorType = Vector<TParametersValueType, Self::OutputSpaceDimension>;
 
   /** Standard covariant vector type for this class */
-  using InputCovariantVectorType = CovariantVector<TParametersValueType,
-                          Self::InputSpaceDimension>;
-  using OutputCovariantVectorType = CovariantVector<TParametersValueType,
-                          Self::OutputSpaceDimension>;
+  using InputCovariantVectorType = CovariantVector<TParametersValueType, Self::InputSpaceDimension>;
+  using OutputCovariantVectorType = CovariantVector<TParametersValueType, Self::OutputSpaceDimension>;
 
   /** Standard vnl_vector type for this class. */
-  using InputVnlVectorType = vnl_vector_fixed<TParametersValueType,
-                           Self::InputSpaceDimension>;
-  using OutputVnlVectorType = vnl_vector_fixed<TParametersValueType,
-                           Self::OutputSpaceDimension>;
+  using InputVnlVectorType = vnl_vector_fixed<TParametersValueType, Self::InputSpaceDimension>;
+  using OutputVnlVectorType = vnl_vector_fixed<TParametersValueType, Self::OutputSpaceDimension>;
 
   /** Standard coordinate point type for this class */
-  using InputPointType = Point<TParametersValueType,
-                Self::InputSpaceDimension>;
-  using OutputPointType = Point<TParametersValueType,
-                Self::OutputSpaceDimension>;
+  using InputPointType = Point<TParametersValueType, Self::InputSpaceDimension>;
+  using OutputPointType = Point<TParametersValueType, Self::OutputSpaceDimension>;
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost.*/
@@ -115,28 +106,31 @@ public:
   using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
   /**  Method to transform a point. */
-  OutputPointType TransformPoint(const InputPointType  & point) const override
+  OutputPointType
+  TransformPoint(const InputPointType & point) const override
   {
     return point;
   }
 
   /**  Method to transform a vector. */
   using Superclass::TransformVector;
-  OutputVectorType TransformVector(const InputVectorType & vector) const override
+  OutputVectorType
+  TransformVector(const InputVectorType & vector) const override
   {
     return vector;
   }
 
   /**  Method to transform a vnl_vector. */
-  OutputVnlVectorType TransformVector(const InputVnlVectorType & vector) const override
+  OutputVnlVectorType
+  TransformVector(const InputVnlVectorType & vector) const override
   {
     return vector;
   }
 
   /**  Method to transform a CovariantVector. */
   using Superclass::TransformCovariantVector;
-  OutputCovariantVectorType TransformCovariantVector(
-    const InputCovariantVectorType & vector) const override
+  OutputCovariantVectorType
+  TransformCovariantVector(const InputCovariantVectorType & vector) const override
   {
     return vector;
   }
@@ -145,9 +139,9 @@ public:
    *
    * This is a nullptr operation in the case of this particular transform.
      The method is provided only to comply with the interface of other transforms. */
-  void SetIdentity()
-  {
-  }
+  void
+  SetIdentity()
+  {}
 
   /** Compute the Jacobian of the transformation
    *
@@ -177,8 +171,8 @@ public:
    *
    * \f]
    */
-  void ComputeJacobianWithRespectToParameters( const InputPointType &,
-                                                       JacobianType & jacobian) const override
+  void
+  ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType & jacobian) const override
   {
     jacobian = this->m_ZeroJacobian;
   }
@@ -188,22 +182,24 @@ public:
    *  jacobian because the transform is position-invariant.
    *  jac will be resized as needed, but it will be more efficient if
    *  it is already properly sized. */
-  void ComputeJacobianWithRespectToPosition(const InputPointType &,
-                                            JacobianPositionType & jac) const override
+  void
+  ComputeJacobianWithRespectToPosition(const InputPointType &, JacobianPositionType & jac) const override
   {
     jac.set_identity();
   }
   using Superclass::ComputeJacobianWithRespectToPosition;
 
   /* Always returns true if not null, as an identity is it's own inverse */
-  bool GetInverse( Self *inverseTransform ) const
+  bool
+  GetInverse(Self * inverseTransform) const
   {
     return (inverseTransform != nullptr);
   }
 
   /** Return an inverse of the identity transform - another identity transform.
-    */
-  InverseTransformBasePointer GetInverseTransform() const override
+   */
+  InverseTransformBasePointer
+  GetInverseTransform() const override
   {
     return this->New().GetPointer();
   }
@@ -213,36 +209,40 @@ public:
    *
    * \f[ T( a*P + b*Q ) = a * T(P) + b * T(Q) \f]
    */
-  TransformCategoryType GetTransformCategory() const override
+  TransformCategoryType
+  GetTransformCategory() const override
   {
     return Self::TransformCategoryType::Linear;
   }
 
   /** Get the Fixed Parameters. */
-  const FixedParametersType & GetFixedParameters() const override
+  const FixedParametersType &
+  GetFixedParameters() const override
   {
     return this->m_FixedParameters;
   }
 
   /** Set the fixed parameters and update internal transformation. */
-  void SetFixedParameters(const FixedParametersType &) override
-  {
-  }
+  void
+  SetFixedParameters(const FixedParametersType &) override
+  {}
 
   /** Get the Parameters. */
-  const ParametersType & GetParameters() const override
+  const ParametersType &
+  GetParameters() const override
   {
     return this->m_Parameters;
   }
 
   /** Set the fixed parameters and update internal transformation. */
-  void SetParameters(const ParametersType &) override
-  {
-  }
+  void
+  SetParameters(const ParametersType &) override
+  {}
 
 protected:
-  IdentityTransform() : Transform<TParametersValueType, NDimensions, NDimensions>(0),
-    m_ZeroJacobian(NDimensions, 0)
+  IdentityTransform()
+    : Transform<TParametersValueType, NDimensions, NDimensions>(0)
+    , m_ZeroJacobian(NDimensions, 0)
   {
     // The Jacobian is constant, therefore it can be initialized in the
     // constructor.

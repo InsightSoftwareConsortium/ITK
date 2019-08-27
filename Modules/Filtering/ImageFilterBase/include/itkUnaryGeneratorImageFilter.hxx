@@ -27,9 +27,8 @@ namespace itk
 /**
  * Constructor
  */
-template< typename TInputImage, typename TOutputImage >
-UnaryGeneratorImageFilter< TInputImage, TOutputImage >
-::UnaryGeneratorImageFilter()
+template <typename TInputImage, typename TOutputImage>
+UnaryGeneratorImageFilter<TInputImage, TOutputImage>::UnaryGeneratorImageFilter()
 {
   this->SetNumberOfRequiredInputs(1);
   this->InPlaceOff();
@@ -45,63 +44,59 @@ UnaryGeneratorImageFilter< TInputImage, TOutputImage >
  *
  * \sa ProcessObject::GenerateOutputInformaton()
  */
-template< typename TInputImage, typename TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
-UnaryGeneratorImageFilter< TInputImage, TOutputImage >
-::GenerateOutputInformation()
+UnaryGeneratorImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 {
 
   // do not call the superclass' implementation of this method since
   // this filter allows the input the output to be of different dimensions
 
   // get pointers to the input and output
-  OutputImageType * outputPtr = dynamic_cast<OutputImageType *>(this->GetOutput());
-  const InputImageType *inputPtr  = this->GetInput();
+  OutputImageType *      outputPtr = dynamic_cast<OutputImageType *>(this->GetOutput());
+  const InputImageType * inputPtr = this->GetInput();
 
-  if ( !outputPtr || !inputPtr )
-    {
+  if (!outputPtr || !inputPtr)
+  {
     return;
-    }
+  }
 
   // Set the output image largest possible region.  Use a RegionCopier
   // so that the input and output images can be different dimensions.
   OutputImageRegionType outputLargestPossibleRegion;
-  this->CallCopyInputRegionToOutputRegion( outputLargestPossibleRegion,
-                                           inputPtr->GetLargestPossibleRegion() );
+  this->CallCopyInputRegionToOutputRegion(outputLargestPossibleRegion, inputPtr->GetLargestPossibleRegion());
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 
-  ImageToImageFilterDetail::ImageInformationCopier<Superclass::OutputImageDimension,
-                                                   Superclass::InputImageDimension>
+  ImageToImageFilterDetail::ImageInformationCopier<Superclass::OutputImageDimension, Superclass::InputImageDimension>
     informationCopier;
   informationCopier(outputPtr, inputPtr);
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-UnaryGeneratorImageFilter< TInputImage, TOutputImage >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+UnaryGeneratorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   m_DynamicThreadedGenerateDataFunction(outputRegionForThread);
 }
 
 
-template< typename TInputImage, typename TOutputImage >
-template< typename TFunctor >
+template <typename TInputImage, typename TOutputImage>
+template <typename TFunctor>
 void
-UnaryGeneratorImageFilter< TInputImage, TOutputImage >
-::DynamicThreadedGenerateDataWithFunctor(
-    const TFunctor &functor,
-    const OutputImageRegionType & outputRegionForThread)
+UnaryGeneratorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDataWithFunctor(
+  const TFunctor &              functor,
+  const OutputImageRegionType & outputRegionForThread)
 {
-  const typename OutputImageRegionType::SizeType &regionSize = outputRegionForThread.GetSize();
+  const typename OutputImageRegionType::SizeType & regionSize = outputRegionForThread.GetSize();
 
-  if( regionSize[0] == 0 )
-    {
+  if (regionSize[0] == 0)
+  {
     return;
-    }
-  const TInputImage *inputPtr = this->GetInput();
-  TOutputImage *outputPtr = this->GetOutput(0);
+  }
+  const TInputImage * inputPtr = this->GetInput();
+  TOutputImage *      outputPtr = this->GetOutput(0);
 
   // Define the portion of the input to walk for this thread, using
   // the CallCopyOutputRegionToInputRegion method allows for the input
@@ -111,22 +106,22 @@ UnaryGeneratorImageFilter< TInputImage, TOutputImage >
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
   // Define the iterators
-  ImageScanlineConstIterator< TInputImage > inputIt(inputPtr, inputRegionForThread);
-  ImageScanlineIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
+  ImageScanlineConstIterator<TInputImage> inputIt(inputPtr, inputRegionForThread);
+  ImageScanlineIterator<TOutputImage>     outputIt(outputPtr, outputRegionForThread);
 
   inputIt.GoToBegin();
   outputIt.GoToBegin();
-  while ( !inputIt.IsAtEnd() )
+  while (!inputIt.IsAtEnd())
+  {
+    while (!inputIt.IsAtEndOfLine())
     {
-    while ( !inputIt.IsAtEndOfLine() )
-      {
-      outputIt.Set( functor( inputIt.Get() ) );
+      outputIt.Set(functor(inputIt.Get()));
       ++inputIt;
       ++outputIt;
-      }
+    }
     inputIt.NextLine();
     outputIt.NextLine();
-    }
+  }
 }
 } // end namespace itk
 

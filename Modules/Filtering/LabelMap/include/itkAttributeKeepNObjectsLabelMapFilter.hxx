@@ -22,87 +22,81 @@
 #include "itkProgressReporter.h"
 
 
-namespace itk {
+namespace itk
+{
 
 template <typename TImage, typename TAttributeAccessor>
-AttributeKeepNObjectsLabelMapFilter<TImage, TAttributeAccessor>
-::AttributeKeepNObjectsLabelMapFilter()
+AttributeKeepNObjectsLabelMapFilter<TImage, TAttributeAccessor>::AttributeKeepNObjectsLabelMapFilter()
 {
   m_ReverseOrdering = false;
   m_NumberOfObjects = 1;
   // create the output image for the removed objects
   this->SetNumberOfRequiredOutputs(2);
-  this->SetNthOutput(1, static_cast<TImage*>(this->MakeOutput(1).GetPointer()));
+  this->SetNthOutput(1, static_cast<TImage *>(this->MakeOutput(1).GetPointer()));
 }
 
 
 template <typename TImage, typename TAttributeAccessor>
 void
-AttributeKeepNObjectsLabelMapFilter<TImage, TAttributeAccessor>
-::GenerateData()
+AttributeKeepNObjectsLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
 {
   // Allocate the output
   this->AllocateOutputs();
 
   ImageType * output = this->GetOutput();
-  ImageType * output2 = this->GetOutput( 1 );
+  ImageType * output2 = this->GetOutput(1);
 
   // set the background value for the second output - this is not done in the superclasses
-  output2->SetBackgroundValue( output->GetBackgroundValue() );
+  output2->SetBackgroundValue(output->GetBackgroundValue());
 
-  ProgressReporter progress( this, 0, 2 * output->GetNumberOfLabelObjects() );
+  ProgressReporter progress(this, 0, 2 * output->GetNumberOfLabelObjects());
 
   // get the label objects in a vector, so they can be sorted
-  using VectorType = typename std::vector< typename LabelObjectType::Pointer >;
+  using VectorType = typename std::vector<typename LabelObjectType::Pointer>;
   VectorType labelObjects;
-  labelObjects.reserve( output->GetNumberOfLabelObjects() );
-  for( typename ImageType::Iterator it( output );
-    ! it.IsAtEnd();
-    ++it )
-    {
-    labelObjects.push_back( it.GetLabelObject() );
+  labelObjects.reserve(output->GetNumberOfLabelObjects());
+  for (typename ImageType::Iterator it(output); !it.IsAtEnd(); ++it)
+  {
+    labelObjects.push_back(it.GetLabelObject());
     progress.CompletedPixel();
-    }
+  }
 
   // instantiate the comparator and sort the vector
-  if( m_NumberOfObjects < output->GetNumberOfLabelObjects() )
-    {
+  if (m_NumberOfObjects < output->GetNumberOfLabelObjects())
+  {
     auto end = labelObjects.begin() + m_NumberOfObjects;
-    if( m_ReverseOrdering )
-      {
+    if (m_ReverseOrdering)
+    {
       ReverseComparator comparator;
-      std::nth_element( labelObjects.begin(), end, labelObjects.end(), comparator );
-      }
+      std::nth_element(labelObjects.begin(), end, labelObjects.end(), comparator);
+    }
     else
-      {
+    {
       Comparator comparator;
-      std::nth_element( labelObjects.begin(), end, labelObjects.end(), comparator );
-      }
-//   progress.CompletedPixel();
+      std::nth_element(labelObjects.begin(), end, labelObjects.end(), comparator);
+    }
+    //   progress.CompletedPixel();
 
     // and move the last objects to the second output
-    for( typename VectorType::const_iterator it = end;
-      it != labelObjects.end();
-      it++ )
-      {
-      output->RemoveLabelObject( *it );
-      output2->AddLabelObject( *it );
+    for (typename VectorType::const_iterator it = end; it != labelObjects.end(); it++)
+    {
+      output->RemoveLabelObject(*it);
+      output2->AddLabelObject(*it);
       progress.CompletedPixel();
-      }
     }
+  }
 }
 
 
 template <typename TImage, typename TAttributeAccessor>
 void
-AttributeKeepNObjectsLabelMapFilter<TImage, TAttributeAccessor>
-::PrintSelf(std::ostream& os, Indent indent) const
+AttributeKeepNObjectsLabelMapFilter<TImage, TAttributeAccessor>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
-  os << indent << "ReverseOrdering: "  << m_ReverseOrdering << std::endl;
-  os << indent << "NumberOfObjects: "  << m_NumberOfObjects << std::endl;
+  os << indent << "ReverseOrdering: " << m_ReverseOrdering << std::endl;
+  os << indent << "NumberOfObjects: " << m_NumberOfObjects << std::endl;
 }
 
-}// end namespace itk
+} // end namespace itk
 #endif

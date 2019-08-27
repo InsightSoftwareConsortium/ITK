@@ -64,10 +64,11 @@ namespace itk
  * \endsphinx
  */
 
-template <typename TInputImage, typename TCoordRep = double,
-          typename TPixelCompare = std::less<typename itk::NumericTraits<typename TInputImage::PixelType>::RealType> >
-class ITK_TEMPLATE_EXPORT LabelImageGaussianInterpolateImageFunction :
-  public GaussianInterpolateImageFunction<TInputImage, TCoordRep>
+template <typename TInputImage,
+          typename TCoordRep = double,
+          typename TPixelCompare = std::less<typename itk::NumericTraits<typename TInputImage::PixelType>::RealType>>
+class ITK_TEMPLATE_EXPORT LabelImageGaussianInterpolateImageFunction
+  : public GaussianInterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelImageGaussianInterpolateImageFunction);
@@ -80,10 +81,10 @@ public:
   using InputPixelType = typename TInputImage::PixelType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( LabelImageGaussianInterpolateImageFunction, GaussianInterpolateImageFunction );
+  itkTypeMacro(LabelImageGaussianInterpolateImageFunction, GaussianInterpolateImageFunction);
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** ImageDimension constant */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
@@ -109,11 +110,11 @@ public:
   /**
    * Evaluate at the given index
    */
-  OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex ) const override
-    {
-    return this->EvaluateAtContinuousIndex( cindex, nullptr );
-    }
+  OutputType
+  EvaluateAtContinuousIndex(const ContinuousIndexType & cindex) const override
+  {
+    return this->EvaluateAtContinuousIndex(cindex, nullptr);
+  }
 
 protected:
   LabelImageGaussianInterpolateImageFunction() = default;
@@ -123,14 +124,14 @@ private:
   /**
    * Evaluate function value at the given index
    */
-  OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType &, OutputType * ) const override;
+  OutputType
+  EvaluateAtContinuousIndex(const ContinuousIndexType &, OutputType *) const override;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelImageGaussianInterpolateImageFunction.hxx"
+#  include "itkLabelImageGaussianInterpolateImageFunction.hxx"
 #endif
 
 #endif

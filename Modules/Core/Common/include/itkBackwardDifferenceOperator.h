@@ -41,17 +41,15 @@ namespace itk
  * \sphinxexample{Core/Common/CreateABackwardDifferenceOperator,Create A Backward Difference Operator}
  * \endsphinx
  */
-template< typename TPixel, unsigned int TDimension = 2,
-          typename TAllocator = NeighborhoodAllocator< TPixel > >
-class ITK_TEMPLATE_EXPORT BackwardDifferenceOperator:
-  public NeighborhoodOperator< TPixel, TDimension, TAllocator >
+template <typename TPixel, unsigned int TDimension = 2, typename TAllocator = NeighborhoodAllocator<TPixel>>
+class ITK_TEMPLATE_EXPORT BackwardDifferenceOperator : public NeighborhoodOperator<TPixel, TDimension, TAllocator>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BackwardDifferenceOperator);
 
   /** Standard class type aliases. */
   using Self = BackwardDifferenceOperator;
-  using Superclass = NeighborhoodOperator< TPixel, TDimension, TAllocator >;
+  using Superclass = NeighborhoodOperator<TPixel, TDimension, TAllocator>;
 
   /** From Superclass */
   using PixelType = typename Superclass::PixelType;
@@ -64,16 +62,20 @@ protected:
   using CoefficientVector = typename Superclass::CoefficientVector;
 
   /** Calculates operator coefficients. */
-  CoefficientVector GenerateCoefficients() override;
+  CoefficientVector
+  GenerateCoefficients() override;
 
   /** Arranges coefficients spatially in the memory buffer. */
-  void Fill(const CoefficientVector & coeff) override
-  { this->FillCenteredDirectional(coeff); }
+  void
+  Fill(const CoefficientVector & coeff) override
+  {
+    this->FillCenteredDirectional(coeff);
+  }
 };
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBackwardDifferenceOperator.hxx"
+#  include "itkBackwardDifferenceOperator.hxx"
 #endif
 
 #endif

@@ -37,8 +37,8 @@ namespace itk
  * \ingroup Functions
  * \ingroup ITKCommon
  */
-template< typename TRealValueType = double >
-class GaussianKernelFunction:public KernelFunctionBase<TRealValueType>
+template <typename TRealValueType = double>
+class GaussianKernelFunction : public KernelFunctionBase<TRealValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaussianKernelFunction);
@@ -46,7 +46,7 @@ public:
   /** Standard class type aliases. */
   using Self = GaussianKernelFunction;
   using Superclass = KernelFunctionBase<TRealValueType>;
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
 
   using RealType = typename Superclass::RealType;
   /** Method for creation through the object factory. */
@@ -56,14 +56,22 @@ public:
   itkTypeMacro(GaussianKernelFunction, KernelFunctionBase);
 
   /** Evaluate the function. */
-  TRealValueType Evaluate(const TRealValueType & u) const override
-  { return ( std::exp( static_cast< TRealValueType >(-0.5) * itk::Math::sqr(u) ) * m_Factor ); }
+  TRealValueType
+  Evaluate(const TRealValueType & u) const override
+  {
+    return (std::exp(static_cast<TRealValueType>(-0.5) * itk::Math::sqr(u)) * m_Factor);
+  }
 
 protected:
-  GaussianKernelFunction(): m_Factor(  NumericTraits< TRealValueType >::OneValue() / std::sqrt(static_cast< TRealValueType >(2.0 * itk::Math::pi )) ) {};
+  GaussianKernelFunction()
+    : m_Factor(NumericTraits<TRealValueType>::OneValue() /
+               std::sqrt(static_cast<TRealValueType>(2.0 * itk::Math::pi))){};
   ~GaussianKernelFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override
-  { Superclass::PrintSelf(os, indent); }
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
+  {
+    Superclass::PrintSelf(os, indent);
+  }
 
 private:
   const TRealValueType m_Factor;

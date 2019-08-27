@@ -29,7 +29,7 @@ namespace itk
  * \brief Create instances of ImageIO objects using an object factory.
  * \ingroup ITKIOImageBase
  */
-class ITKIOImageBase_EXPORT ImageIOFactory:public Object
+class ITKIOImageBase_EXPORT ImageIOFactory : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageIOFactory);
@@ -37,8 +37,8 @@ public:
   /** Standard class type aliases. */
   using Self = ImageIOFactory;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class Methods used to interface with the registered factories */
 
@@ -52,16 +52,21 @@ public:
    *
    * \ingroup ITKIOImageBase
    * Mode in which the files is intended to be used */
-  enum class FileModeType : uint8_t { ReadMode, WriteMode };
+  enum class FileModeType : uint8_t
+  {
+    ReadMode,
+    WriteMode
+  };
 #if !defined(ITK_LEGACY_REMOVE)
-        //We need to expose the enum values at the class level
-        // for backwards compatibility
-        static constexpr FileModeType ReadMode = FileModeType::ReadMode;
-        static constexpr FileModeType WriteMode = FileModeType::WriteMode;
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr FileModeType ReadMode = FileModeType::ReadMode;
+  static constexpr FileModeType WriteMode = FileModeType::WriteMode;
 #endif
   /** Create the appropriate ImageIO depending on the particulars of the file.
-    */
-  static ImageIOBasePointer CreateImageIO(const char *path, FileModeType mode);
+   */
+  static ImageIOBasePointer
+  CreateImageIO(const char * path, FileModeType mode);
 
 protected:
   ImageIOFactory();
@@ -69,7 +74,8 @@ protected:
 };
 
 // Define how to print enumeration
-extern ITKIOImageBase_EXPORT std::ostream& operator<<(std::ostream& out, const ImageIOFactory::FileModeType value);
+extern ITKIOImageBase_EXPORT std::ostream &
+                             operator<<(std::ostream & out, const ImageIOFactory::FileModeType value);
 
 } // end namespace itk
 

@@ -22,9 +22,9 @@
 
 namespace itk
 {
-template<typename TInputImage, typename TOutputImage>
-void FFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage>
-::GenerateData()
+template <typename TInputImage, typename TOutputImage>
+void
+FFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Generate the output for this filter by calling the more general
   // itkMaskedFFTNormalizedCorrelationImageFilter.  If the masks for
@@ -35,12 +35,11 @@ void FFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage>
   Superclass::GenerateData();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-FFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+FFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 }
 
 } // end namespace itk

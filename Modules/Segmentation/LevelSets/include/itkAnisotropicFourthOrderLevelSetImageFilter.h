@@ -79,24 +79,22 @@ namespace itk
  * number of iterations is set to be extremely large.
  * \ingroup ITKLevelSets
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT AnisotropicFourthOrderLevelSetImageFilter:
-  public SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT AnisotropicFourthOrderLevelSetImageFilter
+  : public SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AnisotropicFourthOrderLevelSetImageFilter);
 
   /** Standard class type aliases */
   using Self = AnisotropicFourthOrderLevelSetImageFilter;
-  using Superclass = SparseFieldFourthOrderLevelSetImageFilter< TInputImage,
-                                                     TOutputImage >;
+  using Superclass = SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(AnisotropicFourthOrderLevelSetImageFilter,
-               SparseFieldFourthOrderLevelSetImageFilter);
+  itkTypeMacro(AnisotropicFourthOrderLevelSetImageFilter, SparseFieldFourthOrderLevelSetImageFilter);
 
   /** Standard new macro */
   itkNewMacro(Self);
@@ -106,7 +104,7 @@ public:
 
   /** The level set function class with a refit term that forces the curvature
       of the moving front to match a prescribed curvature image. */
-  using FunctionType = LevelSetFunctionWithRefitTerm< TOutputImage, SparseImageType >;
+  using FunctionType = LevelSetFunctionWithRefitTerm<TOutputImage, SparseImageType>;
 
   /** The radius type for the neighborhoods. */
   using RadiusType = typename FunctionType::RadiusType;
@@ -117,19 +115,21 @@ public:
 protected:
   AnisotropicFourthOrderLevelSetImageFilter();
   ~AnisotropicFourthOrderLevelSetImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This filter halts when the iteration count reaches the specified count. */
-  bool Halt() override
+  bool
+  Halt() override
   {
-    if ( this->GetElapsedIterations() == m_MaxFilterIteration )
-      {
+    if (this->GetElapsedIterations() == m_MaxFilterIteration)
+    {
       return true;
-      }
+    }
     else
-      {
+    {
       return false;
-      }
+    }
   }
 
 private:
@@ -142,7 +142,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAnisotropicFourthOrderLevelSetImageFilter.hxx"
+#  include "itkAnisotropicFourthOrderLevelSetImageFilter.hxx"
 #endif
 
 #endif

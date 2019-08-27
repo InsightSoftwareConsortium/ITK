@@ -22,312 +22,289 @@
 #include "itkLevelSetBase.h"
 #include "itkProcessObject.h"
 
-#define UNDEFINED_REGION NumericTraits< RegionType >::OneValue()
+#define UNDEFINED_REGION NumericTraits<RegionType>::OneValue()
 
 namespace itk
 {
 
-template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
-LevelSetBase< TInput, VDimension, TOutput, TDomain >
-::LevelSetBase()
+template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
+LevelSetBase<TInput, VDimension, TOutput, TDomain>::LevelSetBase()
 
 {}
 
 // ----------------------------------------------------------------------------
-template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
+template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
 bool
-LevelSetBase< TInput, VDimension, TOutput, TDomain >
-::IsInside( const InputType& iP ) const
+LevelSetBase<TInput, VDimension, TOutput, TDomain>::IsInside(const InputType & iP) const
 {
-  return ( this->Evaluate( iP ) <= NumericTraits< OutputType >::ZeroValue() );
+  return (this->Evaluate(iP) <= NumericTraits<OutputType>::ZeroValue());
 }
 
 // ----------------------------------------------------------------------------
-template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
+template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
 void
-LevelSetBase< TInput, VDimension, TOutput, TDomain >
-::Initialize()
+LevelSetBase<TInput, VDimension, TOutput, TDomain>::Initialize()
 {
   Superclass::Initialize();
 }
 
 // ----------------------------------------------------------------------------
-template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
+template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
 void
-LevelSetBase< TInput, VDimension, TOutput, TDomain >
-::EvaluateGradientNorm( const InputType& iP, LevelSetDataType& ioData ) const
+LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateGradientNorm(const InputType &  iP,
+                                                                         LevelSetDataType & ioData) const
 {
-  if( !ioData.GradientNorm.m_Computed )
+  if (!ioData.GradientNorm.m_Computed)
+  {
+    if (!ioData.Gradient.m_Computed)
     {
-    if( !ioData.Gradient.m_Computed )
-      {
-      this->EvaluateGradient( iP, ioData );
-      }
+      this->EvaluateGradient(iP, ioData);
+    }
 
     ioData.GradientNorm.m_Computed = true;
     ioData.GradientNorm.m_Value = ioData.Gradient.m_Value.GetNorm();
-    }
+  }
 }
 
 // ----------------------------------------------------------------------------
-template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
-typename
-LevelSetBase< TInput, VDimension, TOutput, TDomain >
-::OutputRealType
-LevelSetBase< TInput, VDimension, TOutput, TDomain >
-::EvaluateGradientNorm( const InputType& iP ) const
+template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
+typename LevelSetBase<TInput, VDimension, TOutput, TDomain>::OutputRealType
+LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateGradientNorm(const InputType & iP) const
 {
-  GradientType grad = this->EvaluateGradient( iP );
+  GradientType grad = this->EvaluateGradient(iP);
   return grad.GetNorm();
 }
 
 // ----------------------------------------------------------------------------
-template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
-typename
-LevelSetBase< TInput, VDimension, TOutput, TDomain >
-::OutputRealType
-LevelSetBase< TInput, VDimension, TOutput, TDomain >
-::EvaluateMeanCurvature( const InputType& iP ) const
+template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
+typename LevelSetBase<TInput, VDimension, TOutput, TDomain>::OutputRealType
+LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateMeanCurvature(const InputType & iP) const
 {
-  OutputRealType oValue = NumericTraits< OutputRealType >::ZeroValue();
+  OutputRealType oValue = NumericTraits<OutputRealType>::ZeroValue();
 
-  HessianType   hessian = this->EvaluateHessian( iP );
-  GradientType  grad = this->EvaluateGradient( iP );
+  HessianType  hessian = this->EvaluateHessian(iP);
+  GradientType grad = this->EvaluateGradient(iP);
 
-  for( unsigned int i = 0; i < Dimension; i++ )
+  for (unsigned int i = 0; i < Dimension; i++)
+  {
+    for (unsigned int j = 0; j < Dimension; j++)
     {
-    for( unsigned int j = 0; j < Dimension; j++ )
+      if (j != i)
       {
-      if( j != i )
-        {
         oValue -= grad[i] * grad[j] * hessian[i][j];
         oValue += hessian[j][j] * grad[i] * grad[i];
-        }
       }
     }
+  }
 
   OutputRealType gradNorm = grad.GetNorm();
 
-  if( gradNorm > itk::Math::eps )
-    {
-    oValue /= ( gradNorm * gradNorm * gradNorm );
-    }
+  if (gradNorm > itk::Math::eps)
+  {
+    oValue /= (gradNorm * gradNorm * gradNorm);
+  }
   else
-    {
-    oValue /= ( NumericTraits< OutputRealType >::OneValue() + gradNorm );
-    }
+  {
+    oValue /= (NumericTraits<OutputRealType>::OneValue() + gradNorm);
+  }
 
   return oValue;
 }
 
 // ----------------------------------------------------------------------------
-template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
+template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
 void
-LevelSetBase< TInput, VDimension, TOutput, TDomain >
-::EvaluateMeanCurvature( const InputType& iP, LevelSetDataType& ioData ) const
+LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateMeanCurvature(const InputType &  iP,
+                                                                          LevelSetDataType & ioData) const
 {
-  if( !ioData.MeanCurvature.m_Computed )
+  if (!ioData.MeanCurvature.m_Computed)
+  {
+    if (!ioData.Hessian.m_Computed)
     {
-    if( !ioData.Hessian.m_Computed )
-      {
-      EvaluateHessian( iP, ioData );
-      }
+      EvaluateHessian(iP, ioData);
+    }
 
-    if( !ioData.Gradient.m_Computed )
-      {
-      EvaluateGradient( iP, ioData );
-      }
+    if (!ioData.Gradient.m_Computed)
+    {
+      EvaluateGradient(iP, ioData);
+    }
 
-    if( !ioData.GradientNorm.m_Computed )
-      {
-      EvaluateGradientNorm( iP, ioData );
-      }
+    if (!ioData.GradientNorm.m_Computed)
+    {
+      EvaluateGradientNorm(iP, ioData);
+    }
 
     ioData.MeanCurvature.m_Computed = true;
-    ioData.MeanCurvature.m_Value = NumericTraits< OutputRealType >::ZeroValue();
+    ioData.MeanCurvature.m_Value = NumericTraits<OutputRealType>::ZeroValue();
 
-    for( unsigned int i = 0; i < Dimension; i++ )
+    for (unsigned int i = 0; i < Dimension; i++)
+    {
+      for (unsigned int j = 0; j < Dimension; j++)
       {
-      for( unsigned int j = 0; j < Dimension; j++ )
+        if (j != i)
         {
-        if( j != i )
-          {
-          ioData.MeanCurvature.m_Value -= ioData.Gradient.m_Value[i]
-              * ioData.Gradient.m_Value[j] * ioData.Hessian.m_Value[i][j];
-          ioData.MeanCurvature.m_Value += ioData.Hessian.m_Value[j][j]
-              * ioData.Gradient.m_Value[i] * ioData.Gradient.m_Value[i];
-          }
+          ioData.MeanCurvature.m_Value -=
+            ioData.Gradient.m_Value[i] * ioData.Gradient.m_Value[j] * ioData.Hessian.m_Value[i][j];
+          ioData.MeanCurvature.m_Value +=
+            ioData.Hessian.m_Value[j][j] * ioData.Gradient.m_Value[i] * ioData.Gradient.m_Value[i];
         }
       }
+    }
 
     OutputRealType temp = ioData.GradientNorm.m_Value;
 
-    if( temp > itk::Math::eps )
-      {
-      ioData.MeanCurvature.m_Value /= ( temp * temp * temp );
-      }
-    else
-      {
-      ioData.MeanCurvature.m_Value /= ( NumericTraits< OutputRealType >::OneValue() + temp );
-      }
+    if (temp > itk::Math::eps)
+    {
+      ioData.MeanCurvature.m_Value /= (temp * temp * temp);
     }
+    else
+    {
+      ioData.MeanCurvature.m_Value /= (NumericTraits<OutputRealType>::OneValue() + temp);
+    }
+  }
 }
 
 // ----------------------------------------------------------------------------
-template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
+template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
 void
-LevelSetBase< TInput, VDimension, TOutput, TDomain >
-::UpdateOutputInformation()
+LevelSetBase<TInput, VDimension, TOutput, TDomain>::UpdateOutputInformation()
 {
-  if( this->GetSource() )
-    {
+  if (this->GetSource())
+  {
     this->GetSource()->UpdateOutputInformation();
-    }
+  }
 
   // Now we should know what our largest possible region is. If our
   // requested region was not set yet, (or has been set to something
   // invalid - with no data in it ) then set it to the largest
   // possible region.
-  if ( m_RequestedNumberOfRegions == 0 )
-    {
+  if (m_RequestedNumberOfRegions == 0)
+  {
     this->SetRequestedRegionToLargestPossibleRegion();
-    }
+  }
 }
 
 // ----------------------------------------------------------------------------
-template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
+template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
 void
-LevelSetBase< TInput, VDimension, TOutput, TDomain >
-::SetRequestedRegionToLargestPossibleRegion()
+LevelSetBase<TInput, VDimension, TOutput, TDomain>::SetRequestedRegionToLargestPossibleRegion()
 {
-  m_RequestedNumberOfRegions  = NumericTraits< RegionType >::OneValue();
-  m_RequestedRegion           = NumericTraits< RegionType >::ZeroValue();
+  m_RequestedNumberOfRegions = NumericTraits<RegionType>::OneValue();
+  m_RequestedRegion = NumericTraits<RegionType>::ZeroValue();
 }
 
 // ----------------------------------------------------------------------------
-template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
+template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
 void
-LevelSetBase< TInput, VDimension, TOutput, TDomain >
-::CopyInformation(const DataObject *data)
+LevelSetBase<TInput, VDimension, TOutput, TDomain>::CopyInformation(const DataObject * data)
 {
-  const auto * levelSet = dynamic_cast< const LevelSetBase * >( data );
+  const auto * levelSet = dynamic_cast<const LevelSetBase *>(data);
 
-  if ( !levelSet )
-    {
+  if (!levelSet)
+  {
     // pointer could not be cast back down
-    itkExceptionMacro( << "itk::LevelSetBase::CopyInformation() cannot cast "
-                       << typeid( data ).name() << " to "
-                       << typeid( LevelSetBase * ).name() );
-    }
+    itkExceptionMacro(<< "itk::LevelSetBase::CopyInformation() cannot cast " << typeid(data).name() << " to "
+                      << typeid(LevelSetBase *).name());
+  }
 
   m_MaximumNumberOfRegions = levelSet->GetMaximumNumberOfRegions();
 
   m_NumberOfRegions = levelSet->m_NumberOfRegions;
   m_RequestedNumberOfRegions = levelSet->m_RequestedNumberOfRegions;
-  m_BufferedRegion  = levelSet->m_BufferedRegion;
+  m_BufferedRegion = levelSet->m_BufferedRegion;
   m_RequestedRegion = levelSet->m_RequestedRegion;
 }
 
 // ----------------------------------------------------------------------------
-template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
+template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
 void
-LevelSetBase< TInput, VDimension, TOutput, TDomain >
-::Graft(const DataObject *data)
+LevelSetBase<TInput, VDimension, TOutput, TDomain>::Graft(const DataObject * data)
 {
   // Copy Meta Data
   this->CopyInformation(data);
 
-  const auto * levelSet = dynamic_cast< const Self * >( data );
+  const auto * levelSet = dynamic_cast<const Self *>(data);
 
-  if ( !levelSet )
-    {
+  if (!levelSet)
+  {
     // pointer could not be cast back down
-    itkExceptionMacro( << "itk::LevelSetBase::CopyInformation() cannot cast "
-                       << typeid( data ).name() << " to "
-                       << typeid( Self * ).name() );
-    }
+    itkExceptionMacro(<< "itk::LevelSetBase::CopyInformation() cannot cast " << typeid(data).name() << " to "
+                      << typeid(Self *).name());
+  }
 }
 
 // ----------------------------------------------------------------------------
-template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
+template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
 bool
-LevelSetBase< TInput, VDimension, TOutput, TDomain >
-::RequestedRegionIsOutsideOfTheBufferedRegion()
+LevelSetBase<TInput, VDimension, TOutput, TDomain>::RequestedRegionIsOutsideOfTheBufferedRegion()
 {
-  if ( m_RequestedRegion != m_BufferedRegion
-       || m_RequestedNumberOfRegions != m_NumberOfRegions )
-    {
+  if (m_RequestedRegion != m_BufferedRegion || m_RequestedNumberOfRegions != m_NumberOfRegions)
+  {
     return true;
-    }
+  }
 
   return false;
 }
 
 // ----------------------------------------------------------------------------
-template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
+template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
 bool
-LevelSetBase< TInput, VDimension, TOutput, TDomain >
-::VerifyRequestedRegion()
+LevelSetBase<TInput, VDimension, TOutput, TDomain>::VerifyRequestedRegion()
 {
   bool retval = true;
 
   // Are we asking for more regions than we can get?
-  if ( m_RequestedNumberOfRegions > m_MaximumNumberOfRegions )
-    {
-    itkExceptionMacro(<< "Cannot break object into "
-                      << m_RequestedNumberOfRegions << ". The limit is "
+  if (m_RequestedNumberOfRegions > m_MaximumNumberOfRegions)
+  {
+    itkExceptionMacro(<< "Cannot break object into " << m_RequestedNumberOfRegions << ". The limit is "
                       << m_MaximumNumberOfRegions);
-    }
+  }
 
-  if ( m_RequestedRegion >= m_RequestedNumberOfRegions )
-    {
-    itkExceptionMacro(<< "Invalid update region " << m_RequestedRegion
-                      << ". Must be between 0 and "
+  if (m_RequestedRegion >= m_RequestedNumberOfRegions)
+  {
+    itkExceptionMacro(<< "Invalid update region " << m_RequestedRegion << ". Must be between 0 and "
                       << m_RequestedNumberOfRegions - 1);
-    }
+  }
 
   return retval;
 }
 
 // ----------------------------------------------------------------------------
-template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
+template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
 void
-LevelSetBase< TInput, VDimension, TOutput, TDomain >
-::SetRequestedRegion(const DataObject *data)
+LevelSetBase<TInput, VDimension, TOutput, TDomain>::SetRequestedRegion(const DataObject * data)
 {
-  const auto * levelSet = dynamic_cast< const Self * >( data );
+  const auto * levelSet = dynamic_cast<const Self *>(data);
 
-  if ( levelSet )
-    {
+  if (levelSet)
+  {
     // only copy the RequestedRegion if the parameter is another PointSet
     m_RequestedRegion = levelSet->m_RequestedRegion;
     m_RequestedNumberOfRegions = levelSet->m_RequestedNumberOfRegions;
-    }
+  }
 }
 
 // ----------------------------------------------------------------------------
-template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
+template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
 void
-LevelSetBase< TInput, VDimension, TOutput, TDomain >
-::SetRequestedRegion(const RegionType & region)
+LevelSetBase<TInput, VDimension, TOutput, TDomain>::SetRequestedRegion(const RegionType & region)
 {
-  if ( m_RequestedRegion != region )
-    {
+  if (m_RequestedRegion != region)
+  {
     m_RequestedRegion = region;
-    }
+  }
 }
 
 // ----------------------------------------------------------------------------
-template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
+template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
 void
-LevelSetBase< TInput, VDimension, TOutput, TDomain >
-::SetBufferedRegion(const RegionType & region)
+LevelSetBase<TInput, VDimension, TOutput, TDomain>::SetBufferedRegion(const RegionType & region)
 {
-  if ( m_BufferedRegion != region )
-    {
+  if (m_BufferedRegion != region)
+  {
     m_BufferedRegion = region;
     this->Modified();
-    }
+  }
 }
 
 } // end namespace itk

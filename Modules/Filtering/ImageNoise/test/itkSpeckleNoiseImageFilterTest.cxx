@@ -23,49 +23,48 @@
 #include "itkSpeckleNoiseImageFilter.h"
 #include "itkTestingMacros.h"
 
-int itkSpeckleNoiseImageFilterTest(int argc, char * argv[])
+int
+itkSpeckleNoiseImageFilterTest(int argc, char * argv[])
 {
 
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output [standardDeviation]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
 
   using PixelType = unsigned char;
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
-  using SpeckleNoiseImageFilterType =
-      itk::SpeckleNoiseImageFilter< ImageType, ImageType >;
+  using SpeckleNoiseImageFilterType = itk::SpeckleNoiseImageFilter<ImageType, ImageType>;
   SpeckleNoiseImageFilterType::Pointer speckleNoiseImageFilter = SpeckleNoiseImageFilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( speckleNoiseImageFilter, SpeckleNoiseImageFilter,
-    NoiseBaseImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(speckleNoiseImageFilter, SpeckleNoiseImageFilter, NoiseBaseImageFilter);
 
   double stdDev = 1.0;
-  if( argc >= 4 )
-    {
-    stdDev = std::stod( argv[3] );
-    }
-  speckleNoiseImageFilter->SetStandardDeviation( stdDev );
-  ITK_TEST_SET_GET_VALUE( stdDev, speckleNoiseImageFilter->GetStandardDeviation() );
+  if (argc >= 4)
+  {
+    stdDev = std::stod(argv[3]);
+  }
+  speckleNoiseImageFilter->SetStandardDeviation(stdDev);
+  ITK_TEST_SET_GET_VALUE(stdDev, speckleNoiseImageFilter->GetStandardDeviation());
 
-  speckleNoiseImageFilter->SetInput( reader->GetOutput() );
+  speckleNoiseImageFilter->SetInput(reader->GetOutput());
 
-  itk::SimpleFilterWatcher watcher( speckleNoiseImageFilter, "SpeckleNoiseImageFilter" );
+  itk::SimpleFilterWatcher watcher(speckleNoiseImageFilter, "SpeckleNoiseImageFilter");
 
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( speckleNoiseImageFilter->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(speckleNoiseImageFilter->GetOutput());
+  writer->SetFileName(argv[2]);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
 }

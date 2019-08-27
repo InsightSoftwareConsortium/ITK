@@ -39,10 +39,9 @@ namespace itk
  */
 
 template <typename TInputImage,
-  typename TInputPointSet = PointSet<typename TInputImage::PixelType, TInputImage::ImageDimension>,
-  typename TOutputImage = TInputImage>
-class ITK_TEMPLATE_EXPORT DisplacementFieldToBSplineImageFilter
-  : public ImageToImageFilter<TInputImage, TOutputImage>
+          typename TInputPointSet = PointSet<typename TInputImage::PixelType, TInputImage::ImageDimension>,
+          typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT DisplacementFieldToBSplineImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DisplacementFieldToBSplineImageFilter);
@@ -53,7 +52,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Extract dimension from input image. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
@@ -87,106 +86,128 @@ public:
   using PointDataContainerType = typename InputPointSetType::PointDataContainer;
 
   /** B-sline filter type alias */
-  using BSplineFilterType = BSplineScatteredDataPointSetToImageFilter<
-    InputPointSetType, OutputFieldType>;
+  using BSplineFilterType = BSplineScatteredDataPointSetToImageFilter<InputPointSetType, OutputFieldType>;
   using WeightsContainerType = typename BSplineFilterType::WeightsContainerType;
   using DisplacementFieldControlPointLatticeType = typename BSplineFilterType::PointDataImageType;
   using ArrayType = typename BSplineFilterType::ArrayType;
 
   /** Set the displacement field */
-  void SetDisplacementField( const InputFieldType * field )
-    {
-    this->SetInput( 0, field );
-    }
+  void
+  SetDisplacementField(const InputFieldType * field)
+  {
+    this->SetInput(0, field);
+  }
 
   /** Get the input displacement field. */
-  const InputFieldType* GetDisplacementField() const
-    {
-    return this->GetInput( 0 );
-    }
+  const InputFieldType *
+  GetDisplacementField() const
+  {
+    return this->GetInput(0);
+  }
 
   /**
    * Set confidence image function.  If a confidence image is specified,
    * estimation of the displacement field weights the contribution of each voxel
    * according the value of the corresponding voxel in the confidence image.
    */
-  void SetConfidenceImage( const RealImageType *image )
-    {
-    this->SetNthInput( 1, const_cast<RealImageType *>( image ) );
-    }
-  void SetInput1( const RealImageType *image ) { this->SetConfidenceImage( image ); }
+  void
+  SetConfidenceImage(const RealImageType * image)
+  {
+    this->SetNthInput(1, const_cast<RealImageType *>(image));
+  }
+  void
+  SetInput1(const RealImageType * image)
+  {
+    this->SetConfidenceImage(image);
+  }
 
   /** Get confidence image function. */
-  const RealImageType* GetConfidenceImage() const
-    {
-    return static_cast<const RealImageType*>( this->ProcessObject::GetInput( 1 ) );
-    }
+  const RealImageType *
+  GetConfidenceImage() const
+  {
+    return static_cast<const RealImageType *>(this->ProcessObject::GetInput(1));
+  }
 
   /** Set the input point set */
-  void SetPointSet( const InputPointSetType * points )
-    {
-    this->SetNthInput( 2, const_cast<InputPointSetType *>( points ) );
-    }
-  void SetInput2( const InputPointSetType * points ) { this->SetPointSet( points ); }
+  void
+  SetPointSet(const InputPointSetType * points)
+  {
+    this->SetNthInput(2, const_cast<InputPointSetType *>(points));
+  }
+  void
+  SetInput2(const InputPointSetType * points)
+  {
+    this->SetPointSet(points);
+  }
 
   /** Get the input point set. */
-  const InputPointSetType* GetPointSet() const
-    {
-    return static_cast<const InputPointSetType *>( this->ProcessObject::GetInput( 2 ) );
-    }
+  const InputPointSetType *
+  GetPointSet() const
+  {
+    return static_cast<const InputPointSetType *>(this->ProcessObject::GetInput(2));
+  }
 
   /** Set the confidence weights associated with the input point set*/
-  void SetPointSetConfidenceWeights( WeightsContainerType *weights );
+  void
+  SetPointSetConfidenceWeights(WeightsContainerType * weights);
 
   /** Get the displacement field control point lattice. */
-  const DisplacementFieldControlPointLatticeType * GetDisplacementFieldControlPointLattice() const
-    {
-    return static_cast<const DisplacementFieldControlPointLatticeType*>( this->GetOutput( 1 ) );
-    }
+  const DisplacementFieldControlPointLatticeType *
+  GetDisplacementFieldControlPointLattice() const
+  {
+    return static_cast<const DisplacementFieldControlPointLatticeType *>(this->GetOutput(1));
+  }
 
   /** Define the b-spline domain from an image */
-  void SetBSplineDomainFromImage( RealImageType * );
+  void
+  SetBSplineDomainFromImage(RealImageType *);
 
   /** Define the b-spline domain from an image */
-  void SetBSplineDomainFromImage( const RealImageType *image )
-    { this->SetBSplineDomainFromImage( const_cast<RealImageType *>( image ) ); }
+  void
+  SetBSplineDomainFromImage(const RealImageType * image)
+  {
+    this->SetBSplineDomainFromImage(const_cast<RealImageType *>(image));
+  }
 
   /** Define the b-spline domain from a displacement field */
-  void SetBSplineDomainFromImage( InputFieldType * );
+  void
+  SetBSplineDomainFromImage(InputFieldType *);
 
   /** Define the b-spline domain from a displacement field */
-  void SetBSplineDomainFromImage( const InputFieldType *field )
-    { this->SetBSplineDomainFromImage( const_cast<InputFieldType *>( field ) ); }
+  void
+  SetBSplineDomainFromImage(const InputFieldType * field)
+  {
+    this->SetBSplineDomainFromImage(const_cast<InputFieldType *>(field));
+  }
 
   /** Define the b-spline domain explicitly. */
-  void SetBSplineDomain( OriginType, SpacingType, SizeType, DirectionType );
+  void SetBSplineDomain(OriginType, SpacingType, SizeType, DirectionType);
 
   /* Set/Get b-spline domain origin. */
-  itkGetConstMacro( BSplineDomainOrigin, OriginType );
+  itkGetConstMacro(BSplineDomainOrigin, OriginType);
 
   /* Set/Get b-spline domain spacing. */
-  itkGetConstMacro( BSplineDomainSpacing, SpacingType );
+  itkGetConstMacro(BSplineDomainSpacing, SpacingType);
 
   /* Set/Get b-spline domain size. */
-  itkGetConstMacro( BSplineDomainSize, SizeType );
+  itkGetConstMacro(BSplineDomainSize, SizeType);
 
   /* Set/Get b-spline domain direction. */
-  itkGetConstMacro( BSplineDomainDirection, DirectionType );
+  itkGetConstMacro(BSplineDomainDirection, DirectionType);
 
   /* Use input field to define the B-spline doain. */
-  itkSetMacro( UseInputFieldToDefineTheBSplineDomain, bool );
-  itkGetConstMacro( UseInputFieldToDefineTheBSplineDomain, bool )
-  itkBooleanMacro( UseInputFieldToDefineTheBSplineDomain );
+  itkSetMacro(UseInputFieldToDefineTheBSplineDomain, bool);
+  itkGetConstMacro(UseInputFieldToDefineTheBSplineDomain, bool) itkBooleanMacro(UseInputFieldToDefineTheBSplineDomain);
 
   /**
    * Set the spline order defining the bias field estimate.  Default = 3.
    */
-  itkSetMacro( SplineOrder, unsigned int );
+  itkSetMacro(SplineOrder, unsigned int);
 
   /**
    * Get the spline order defining the bias field estimate.  Default = 3.
    */
-  itkGetConstMacro( SplineOrder, unsigned int );
+  itkGetConstMacro(SplineOrder, unsigned int);
 
   /**
    * Set the control point grid size definining the B-spline estimate of the
@@ -195,7 +216,7 @@ public:
    * Default = 4 control points in each dimension for a mesh size of 1 in each
    * dimension.
    */
-  itkSetMacro( NumberOfControlPoints, ArrayType );
+  itkSetMacro(NumberOfControlPoints, ArrayType);
 
   /**
    * Get the control point grid size definining the B-spline estimate of the
@@ -204,7 +225,7 @@ public:
    * Default = 4 control points in each dimension for a mesh size of 1 in each
    * dimension.
    */
-  itkGetConstMacro( NumberOfControlPoints, ArrayType );
+  itkGetConstMacro(NumberOfControlPoints, ArrayType);
 
   /**
    * Set the number of fitting levels.  One of the contributions of N4 is the
@@ -212,7 +233,7 @@ public:
    * specify a B-spline mesh size for initial fitting followed by a doubling of
    * the mesh resolution for each subsequent fitting level.  Default = 1 level.
    */
-  itkSetMacro( NumberOfFittingLevels, ArrayType );
+  itkSetMacro(NumberOfFittingLevels, ArrayType);
 
   /**
    * Set the number of fitting levels.  One of the contributions of N4 is the
@@ -220,13 +241,14 @@ public:
    * specify a B-spline mesh size for initial fitting followed by a doubling of
    * the mesh resolution for each subsequent fitting level.  Default = 1 level.
    */
-  void SetNumberOfFittingLevels( unsigned int n )
-    {
+  void
+  SetNumberOfFittingLevels(unsigned int n)
+  {
     ArrayType nlevels;
 
-    nlevels.Fill( n );
-    this->SetNumberOfFittingLevels( nlevels );
-    }
+    nlevels.Fill(n);
+    this->SetNumberOfFittingLevels(nlevels);
+  }
 
   /**
    * Get the number of fitting levels.  One of the contributions of N4 is the
@@ -234,24 +256,23 @@ public:
    * specify a B-spline mesh size for initial fitting followed by a doubling of
    * the mesh resolution for each subsequent fitting level.  Default = 1 level.
    */
-  itkGetConstMacro( NumberOfFittingLevels, ArrayType );
+  itkGetConstMacro(NumberOfFittingLevels, ArrayType);
 
   /**
    * Estimate the inverse field instead of the forward field.  Default = false.
    */
-  itkBooleanMacro( EstimateInverse );
-  itkSetMacro( EstimateInverse, bool );
-  itkGetConstMacro( EstimateInverse, bool );
+  itkBooleanMacro(EstimateInverse);
+  itkSetMacro(EstimateInverse, bool);
+  itkGetConstMacro(EstimateInverse, bool);
 
   /**
    * Enforce stationary boundary conditions.  Default = false.
    */
-  itkBooleanMacro( EnforceStationaryBoundary );
-  itkSetMacro( EnforceStationaryBoundary, bool );
-  itkGetConstMacro( EnforceStationaryBoundary, bool );
+  itkBooleanMacro(EnforceStationaryBoundary);
+  itkSetMacro(EnforceStationaryBoundary, bool);
+  itkGetConstMacro(EnforceStationaryBoundary, bool);
 
 protected:
-
   /** Constructor */
   DisplacementFieldToBSplineImageFilter();
 
@@ -259,34 +280,36 @@ protected:
   ~DisplacementFieldToBSplineImageFilter() override = default;
 
   /** Standard print self function **/
-  void PrintSelf( std::ostream& os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** preprocessing function */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
-  bool                                         m_EstimateInverse{ false };
-  bool                                         m_EnforceStationaryBoundary{ true };
-  unsigned int                                 m_SplineOrder{ 3 };
-  ArrayType                                    m_NumberOfControlPoints;
-  ArrayType                                    m_NumberOfFittingLevels;
+  bool         m_EstimateInverse{ false };
+  bool         m_EnforceStationaryBoundary{ true };
+  unsigned int m_SplineOrder{ 3 };
+  ArrayType    m_NumberOfControlPoints;
+  ArrayType    m_NumberOfFittingLevels;
 
-  typename WeightsContainerType::Pointer       m_PointWeights;
-  bool                                         m_UsePointWeights{ false };
+  typename WeightsContainerType::Pointer m_PointWeights;
+  bool                                   m_UsePointWeights{ false };
 
-  OriginType                                   m_BSplineDomainOrigin;
-  SpacingType                                  m_BSplineDomainSpacing;
-  SizeType                                     m_BSplineDomainSize;
-  DirectionType                                m_BSplineDomainDirection;
+  OriginType    m_BSplineDomainOrigin;
+  SpacingType   m_BSplineDomainSpacing;
+  SizeType      m_BSplineDomainSize;
+  DirectionType m_BSplineDomainDirection;
 
-  bool                                         m_BSplineDomainIsDefined{ true };
-  bool                                         m_UseInputFieldToDefineTheBSplineDomain{ false };
+  bool m_BSplineDomainIsDefined{ true };
+  bool m_UseInputFieldToDefineTheBSplineDomain{ false };
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDisplacementFieldToBSplineImageFilter.hxx"
+#  include "itkDisplacementFieldToBSplineImageFilter.hxx"
 #endif
 
 #endif

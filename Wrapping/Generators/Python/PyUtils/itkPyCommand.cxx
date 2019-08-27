@@ -25,14 +25,9 @@ namespace
 class PyGILStateEnsure
 {
 public:
-  PyGILStateEnsure()
-    {
-      m_GIL = PyGILState_Ensure();
-    }
-  ~PyGILStateEnsure()
-    {
-      PyGILState_Release(m_GIL);
-    }
+  PyGILStateEnsure() { m_GIL = PyGILState_Ensure(); }
+  ~PyGILStateEnsure() { PyGILState_Release(m_GIL); }
+
 private:
   PyGILState_STATE m_GIL;
 };
@@ -50,86 +45,91 @@ PyCommand::PyCommand()
 PyCommand::~PyCommand()
 {
   if (this->m_Object)
-    {
+  {
     PyGILStateEnsure gil;
     Py_DECREF(this->m_Object);
-    }
+  }
   this->m_Object = nullptr;
 }
 
 
-void PyCommand::SetCommandCallable(PyObject *o)
+void
+PyCommand::SetCommandCallable(PyObject * o)
 {
   if (o != this->m_Object)
-    {
+  {
     PyGILStateEnsure gil;
     if (this->m_Object)
-      {
+    {
       // get rid of our reference
       Py_DECREF(this->m_Object);
-      }
+    }
 
     // store the new object
     this->m_Object = o;
 
     if (this->m_Object)
-      {
+    {
       // take out reference (so that the calling code doesn't
       // have to keep a binding to the callable around)
       Py_INCREF(this->m_Object);
-      }
     }
+  }
 }
 
 
-PyObject * PyCommand::GetCommandCallable()
+PyObject *
+PyCommand::GetCommandCallable()
 {
   return this->m_Object;
 }
 
 
-void PyCommand::Execute(Object *, const EventObject&)
+void
+PyCommand::Execute(Object *, const EventObject &)
 {
   this->PyExecute();
 }
 
 
-void PyCommand::Execute(const Object*, const EventObject&)
+void
+PyCommand::Execute(const Object *, const EventObject &)
 {
   this->PyExecute();
 }
 
 
-void PyCommand::PyExecute()
+void
+PyCommand::PyExecute()
 {
   // make sure that the CommandCallable is in fact callable
   if (!PyCallable_Check(this->m_Object))
-    {
-      // we throw a standard ITK exception: this makes it possible for
-      // our standard Swig exception handling logic to take this
-      // through to the invoking Python process
-      itkExceptionMacro(<<"CommandCallable is not a callable Python object, "
-                        <<"or it has not been set.");
-    }
+  {
+    // we throw a standard ITK exception: this makes it possible for
+    // our standard Swig exception handling logic to take this
+    // through to the invoking Python process
+    itkExceptionMacro(<< "CommandCallable is not a callable Python object, "
+                      << "or it has not been set.");
+  }
   else
-    {
+  {
     PyGILStateEnsure gil;
-    PyObject *result = PyEval_CallObject(this->m_Object, (PyObject *)nullptr);
+    PyObject *       result = PyEval_CallObject(this->m_Object, (PyObject *)nullptr);
 
     if (result)
-      {
+    {
       Py_DECREF(result);
-      }
+    }
     else
-      {
+    {
       // there was a Python error.  Clear the error by printing to stdout
       PyErr_Print();
       // make sure the invoking Python code knows there was a problem
       // by raising an exception
-      itkExceptionMacro(<<"There was an error executing the "
-                        <<"CommandCallable.");
-      }
+      itkExceptionMacro(<< "There was an error executing the "
+                        << "CommandCallable.");
     }
+  }
 }
 
 } // end namespace itk

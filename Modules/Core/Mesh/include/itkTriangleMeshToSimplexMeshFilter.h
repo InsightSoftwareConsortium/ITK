@@ -41,8 +41,8 @@ namespace itk
  *
  * \ingroup ITKMesh
  */
-template< typename TInputMesh, typename TOutputMesh >
-class ITK_TEMPLATE_EXPORT TriangleMeshToSimplexMeshFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh>
+class ITK_TEMPLATE_EXPORT TriangleMeshToSimplexMeshFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TriangleMeshToSimplexMeshFilter);
@@ -51,11 +51,11 @@ public:
   using Self = TriangleMeshToSimplexMeshFilter;
 
   /** Standard "Superclass" type alias. */
-  using Superclass = MeshToMeshFilter< TInputMesh, TOutputMesh >;
+  using Superclass = MeshToMeshFilter<TInputMesh, TOutputMesh>;
 
   /** Smart pointer type alias support */
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method of creation through the object factory. */
   itkNewMacro(Self);
@@ -86,92 +86,100 @@ public:
   using InputCellType = typename TInputMesh::CellType;
   using InputCellAutoPointer = typename InputCellType::CellAutoPointer;
   using CellAutoPointer = typename TInputMesh::CellAutoPointer;
-  using LineType = itk::LineCell< InputCellType >;
-  using PolygonType = itk::PolygonCell< InputCellType >;
-  using TriangleType = itk::TriangleCell< InputCellType >;
-  using VertexType = itk::VertexCell< InputCellType >;
+  using LineType = itk::LineCell<InputCellType>;
+  using PolygonType = itk::PolygonCell<InputCellType>;
+  using TriangleType = itk::TriangleCell<InputCellType>;
+  using VertexType = itk::VertexCell<InputCellType>;
 
   using CellIdentifier = typename TOutputMesh::CellIdentifier;
   using PointIdentifier = typename TOutputMesh::PointIdentifier;
   using CellFeatureIdentifier = typename TOutputMesh::CellFeatureIdentifier;
 
-  using EdgeIdentifierType = std::pair< CellIdentifier, CellIdentifier >;
-  using IndexSetType = std::set< CellIdentifier >;
+  using EdgeIdentifierType = std::pair<CellIdentifier, CellIdentifier>;
+  using IndexSetType = std::set<CellIdentifier>;
 
-  using EdgeNeighborListType = itk::MapContainer< CellIdentifier, EdgeIdentifierType >;
-  using LineCellIndexType = itk::MapContainer< EdgeIdentifierType, CellIdentifier >;
+  using EdgeNeighborListType = itk::MapContainer<CellIdentifier, EdgeIdentifierType>;
+  using LineCellIndexType = itk::MapContainer<EdgeIdentifierType, CellIdentifier>;
 
-  using VertexNeighborListType = itk::MapContainer< PointIdentifier, IndexSetType >;
-  using EdgeMapType = itk::MapContainer< EdgeIdentifierType, CellIdentifier >;
+  using VertexNeighborListType = itk::MapContainer<PointIdentifier, IndexSetType>;
+  using EdgeMapType = itk::MapContainer<EdgeIdentifierType, CellIdentifier>;
   using EdgeMapPointer = typename EdgeMapType::Pointer;
 
-  using IdVectorType = itk::VectorContainer< CellIdentifier, CellIdentifier >;
+  using IdVectorType = itk::VectorContainer<CellIdentifier, CellIdentifier>;
   using IdVectorPointer = typename IdVectorType::Pointer;
 
   using OutputCellType = typename TOutputMesh::CellType;
   using OutputCellAutoPointer = typename TOutputMesh::CellAutoPointer;
-  using OutputLineType = itk::LineCell< OutputCellType >;
-  using OutputPolygonType = itk::PolygonCell< OutputCellType >;
+  using OutputLineType = itk::LineCell<OutputCellType>;
+  using OutputPolygonType = itk::PolygonCell<OutputCellType>;
 
 protected:
-
   TriangleMeshToSimplexMeshFilter();
   ~TriangleMeshToSimplexMeshFilter() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * Override from ProcessObject
    */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /**
    * Initializes all necessary datastructures
    */
-  void Initialize();
+  void
+  Initialize();
 
   /**
    * Method inserts the new computed simplex points into the output mesh
    */
-  void CreateSimplexPoints();
+  void
+  CreateSimplexPoints();
 
   /**
    * Method creates a new edge, which from the centers of
    * two neighboring triangles of the input mesh over the
    * edge the both triangles have in common.
    */
-  void CreateEdgeForTrianglePair(CellIdentifier pointIndex,
-                                 CellIdentifier boundaryId,
-                                 TOutputMesh *outputMesh);
+  void
+  CreateEdgeForTrianglePair(CellIdentifier pointIndex, CellIdentifier boundaryId, TOutputMesh * outputMesh);
 
   /**
    * Constructs the neighborhood relations for all simplex mesh points
    * It also reorders the neighbors for easy normals computation
    */
-  void CreateSimplexNeighbors();
+  void
+  CreateSimplexNeighbors();
 
   /**
    * This method creates all the cells of the dual simplex mesh
    */
-  void CreateCells();
+  void
+  CreateCells();
 
   /**
    * \brief add edge cells to the input mesh
    */
-  void CreateNewEdge(CellIdentifier currentCellId, CellFeatureIdentifier featureId,
-                     PointIdentifier startPointId, PointIdentifier endPointId,
-                     const InputMeshType *input);
+  void
+  CreateNewEdge(CellIdentifier        currentCellId,
+                CellFeatureIdentifier featureId,
+                PointIdentifier       startPointId,
+                PointIdentifier       endPointId,
+                const InputMeshType * input);
 
 
   /**
    *  Computes the center of a face
    */
-  InputPointType ComputeFaceCenter(CellIdentifier faceId, const InputMeshType *inputMesh);
+  InputPointType
+  ComputeFaceCenter(CellIdentifier faceId, const InputMeshType * inputMesh);
 
   /**
    * \brief stores all faces (triangles) of the input mesh
    */
-  IndexSetType *m_FaceSet;
+  IndexSetType * m_FaceSet;
 
   /**
    * \brief stores all edges of the input mesh.
@@ -226,10 +234,10 @@ protected:
    */
   OutputCellAutoPointer m_NewSimplexCellPointer;
 };
-} //end of namespace
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTriangleMeshToSimplexMeshFilter.hxx"
+#  include "itkTriangleMeshToSimplexMeshFilter.hxx"
 #endif
 
 #endif

@@ -49,35 +49,35 @@
 // Software Guide : EndCodeSnippet
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile  degrees" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
   using InputPixelType = unsigned char;
   using OutputPixelType = unsigned char;
 
-  using InputImageType = itk::Image< InputPixelType,  Dimension >;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
-  const double angleInDegrees = std::stod( argv[3] );
+  const double angleInDegrees = std::stod(argv[3]);
 
-  using FilterType = itk::ResampleImageFilter<
-                  InputImageType, OutputImageType >;
+  using FilterType = itk::ResampleImageFilter<InputImageType, OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -95,18 +95,17 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using TransformType = itk::AffineTransform< double, Dimension >;
+  using TransformType = itk::AffineTransform<double, Dimension>;
   TransformType::Pointer transform = TransformType::New();
   // Software Guide : EndCodeSnippet
 
 
-  using InterpolatorType = itk::LinearInterpolateImageFunction<
-                       InputImageType, double >;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<InputImageType, double>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
-  filter->SetInterpolator( interpolator );
+  filter->SetInterpolator(interpolator);
 
-  filter->SetDefaultPixelValue( 100 );
+  filter->SetDefaultPixelValue(100);
 
 
   //  Software Guide : BeginLatex
@@ -121,19 +120,18 @@ int main( int argc, char * argv[] )
   const InputImageType * inputImage = reader->GetOutput();
 
   const InputImageType::SpacingType & spacing = inputImage->GetSpacing();
-  const InputImageType::PointType & origin  = inputImage->GetOrigin();
-  InputImageType::SizeType size =
-      inputImage->GetLargestPossibleRegion().GetSize();
+  const InputImageType::PointType &   origin = inputImage->GetOrigin();
+  InputImageType::SizeType size = inputImage->GetLargestPossibleRegion().GetSize();
 
-  filter->SetOutputOrigin( origin );
-  filter->SetOutputSpacing( spacing );
-  filter->SetOutputDirection( inputImage->GetDirection() );
-  filter->SetSize( size );
+  filter->SetOutputOrigin(origin);
+  filter->SetOutputSpacing(spacing);
+  filter->SetOutputDirection(inputImage->GetDirection());
+  filter->SetSize(size);
   // Software Guide : EndCodeSnippet
 
 
-  filter->SetInput( reader->GetOutput() );
-  writer->SetInput( filter->GetOutput() );
+  filter->SetInput(reader->GetOutput());
+  writer->SetInput(filter->GetOutput());
 
 
   //  Software Guide : BeginLatex
@@ -166,10 +164,10 @@ int main( int argc, char * argv[] )
   const double imageCenterX = origin[0] + spacing[0] * size[0] / 2.0;
   const double imageCenterY = origin[1] + spacing[1] * size[1] / 2.0;
 
-  translation1[0] =   -imageCenterX;
-  translation1[1] =   -imageCenterY;
+  translation1[0] = -imageCenterX;
+  translation1[1] = -imageCenterY;
 
-  transform->Translate( translation1 );
+  transform->Translate(translation1);
   // Software Guide : EndCodeSnippet
 
   std::cout << "imageCenterX = " << imageCenterX << std::endl;
@@ -189,7 +187,7 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   const double degreesToRadians = std::atan(1.0) / 45.0;
   const double angle = angleInDegrees * degreesToRadians;
-  transform->Rotate2D( -angle, false );
+  transform->Rotate2D(-angle, false);
   // Software Guide : EndCodeSnippet
 
 
@@ -205,10 +203,10 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   TransformType::OutputVectorType translation2;
-  translation2[0] =   imageCenterX;
-  translation2[1] =   imageCenterY;
-  transform->Translate( translation2, false );
-  filter->SetTransform( transform );
+  translation2[0] = imageCenterX;
+  translation2[1] = imageCenterY;
+  transform->Translate(translation2, false);
+  filter->SetTransform(transform);
   // Software Guide : EndCodeSnippet
 
 
@@ -221,14 +219,14 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excep )
-    {
+  }
+  catch (itk::ExceptionObject & excep)
+  {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;

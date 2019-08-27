@@ -23,141 +23,145 @@
 namespace itk
 {
 // Forward reference because of circular dependencies
-template< typename TTreeType >
+template <typename TTreeType>
 class ITK_TEMPLATE_EXPORT LeafTreeIterator;
 
-template< typename TTreeType >
-class PreOrderTreeIterator:public TreeIteratorBase< TTreeType >
+template <typename TTreeType>
+class PreOrderTreeIterator : public TreeIteratorBase<TTreeType>
 {
 public:
-
   /** Typedefs */
   using ValueType = typename TTreeType::ValueType;
-  using Superclass = TreeIteratorBase< TTreeType >;
+  using Superclass = TreeIteratorBase<TTreeType>;
   using TreeNodeType = typename Superclass::TreeNodeType;
   using NodeType = typename Superclass::NodeType;
 
   /** Constructor */
-  PreOrderTreeIterator(const TTreeType *tree, const TreeNodeType *start = nullptr);
+  PreOrderTreeIterator(const TTreeType * tree, const TreeNodeType * start = nullptr);
 
   /** Get the type of the iterator */
-  NodeType GetType() const override;
+  NodeType
+  GetType() const override;
 
   /** Clone function */
-  TreeIteratorBase< TTreeType > * Clone() override;
+  TreeIteratorBase<TTreeType> *
+  Clone() override;
 
 protected:
   /** Return the next node */
-  const ValueType & Next() override;
+  const ValueType &
+  Next() override;
 
   /** Return true if the next node exists */
-  bool HasNext() const override;
+  bool
+  HasNext() const override;
 
 private:
-
   /** Find the next node */
-  const TreeNodeType * FindNextNode() const;
+  const TreeNodeType *
+  FindNextNode() const;
 
   /** LeafTreeIterator uses PreOrderTreeIterator in its implementation, but it
    * needs to adjust its root.  A friend designation is added to correct
    * behavior and retain backwards compatible behavior. */
-  friend class LeafTreeIterator< TTreeType >;
+  friend class LeafTreeIterator<TTreeType>;
 };
 
 /** Constructor */
-template< typename TTreeType >
-PreOrderTreeIterator< TTreeType >::PreOrderTreeIterator(const TTreeType *tree, const TreeNodeType *start):
-  TreeIteratorBase< TTreeType >(tree, start)
+template <typename TTreeType>
+PreOrderTreeIterator<TTreeType>::PreOrderTreeIterator(const TTreeType * tree, const TreeNodeType * start)
+  : TreeIteratorBase<TTreeType>(tree, start)
 {}
 
 /** Return the type of the iterator */
-template< typename TTreeType >
-typename PreOrderTreeIterator< TTreeType >::NodeType
-PreOrderTreeIterator< TTreeType >::GetType() const
+template <typename TTreeType>
+typename PreOrderTreeIterator<TTreeType>::NodeType
+PreOrderTreeIterator<TTreeType>::GetType() const
 {
   return TreeIteratorBaseNodeType::PREORDER;
 }
 
 /** Return true if the next node exists */
-template< typename TTreeType >
+template <typename TTreeType>
 bool
-PreOrderTreeIterator< TTreeType >::HasNext() const
+PreOrderTreeIterator<TTreeType>::HasNext() const
 {
-  if ( const_cast< TreeNodeType * >( FindNextNode() ) != nullptr )
-    {
+  if (const_cast<TreeNodeType *>(FindNextNode()) != nullptr)
+  {
     return true;
-    }
+  }
   return false;
 }
 
 /** Return the next node */
-template< typename TTreeType >
-const typename PreOrderTreeIterator< TTreeType >::ValueType &
-PreOrderTreeIterator< TTreeType >::Next()
+template <typename TTreeType>
+const typename PreOrderTreeIterator<TTreeType>::ValueType &
+PreOrderTreeIterator<TTreeType>::Next()
 {
-  this->m_Position = const_cast< TreeNodeType * >( FindNextNode() );
-  if ( this->m_Position == nullptr )
-    {
-    return this->m_Root->Get(); //value irrelevant, but we have to return something
-    }
+  this->m_Position = const_cast<TreeNodeType *>(FindNextNode());
+  if (this->m_Position == nullptr)
+  {
+    return this->m_Root->Get(); // value irrelevant, but we have to return something
+  }
   return this->m_Position->Get();
 }
 
 /** Find the next node */
-template< typename TTreeType >
-const typename PreOrderTreeIterator< TTreeType >::TreeNodeType *
-PreOrderTreeIterator< TTreeType >::FindNextNode() const
+template <typename TTreeType>
+const typename PreOrderTreeIterator<TTreeType>::TreeNodeType *
+PreOrderTreeIterator<TTreeType>::FindNextNode() const
 {
-  if ( this->m_Position == nullptr )
-    {
+  if (this->m_Position == nullptr)
+  {
     return nullptr;
-    }
-  if ( this->m_Position->HasChildren() )
-    {
-    return dynamic_cast< const TreeNodeType * >( this->m_Position->GetChild(0) );
-    }
+  }
+  if (this->m_Position->HasChildren())
+  {
+    return dynamic_cast<const TreeNodeType *>(this->m_Position->GetChild(0));
+  }
 
-  if ( !this->m_Position->HasParent() )
-    {
+  if (!this->m_Position->HasParent())
+  {
     return nullptr;
-    }
+  }
 
-  TreeNodeType* child = this->m_Position;
-  TreeNodeType* parent = this->m_Position;
+  TreeNodeType * child = this->m_Position;
+  TreeNodeType * parent = this->m_Position;
 
-  while ( parent->HasParent() )
-    {
+  while (parent->HasParent())
+  {
     child = parent;
-    parent = dynamic_cast< TreeNodeType * >( parent->GetParent() );
+    parent = dynamic_cast<TreeNodeType *>(parent->GetParent());
 
     // Subtree
-    if ( parent->ChildPosition(this->m_Root) >= 0 )
-      {
+    if (parent->ChildPosition(this->m_Root) >= 0)
+    {
       return nullptr;
-      }
+    }
 
     int childPosition = parent->ChildPosition(child);
     int lastChildPosition = parent->CountChildren() - 1;
 
-    while ( childPosition < lastChildPosition )
-      {
-      auto * help = dynamic_cast< TreeNodeType * >( parent->GetChild(childPosition + 1) );
+    while (childPosition < lastChildPosition)
+    {
+      auto * help = dynamic_cast<TreeNodeType *>(parent->GetChild(childPosition + 1));
 
-      if ( help != nullptr )
-        {
+      if (help != nullptr)
+      {
         return help;
-        }
-      childPosition++;
       }
+      childPosition++;
     }
+  }
   return nullptr;
 }
 
 /** Clone function */
-template< typename TTreeType >
-TreeIteratorBase< TTreeType > *PreOrderTreeIterator< TTreeType >::Clone()
+template <typename TTreeType>
+TreeIteratorBase<TTreeType> *
+PreOrderTreeIterator<TTreeType>::Clone()
 {
-  auto * clone = new PreOrderTreeIterator< TTreeType >(this->m_Tree, this->m_Position);
+  auto * clone = new PreOrderTreeIterator<TTreeType>(this->m_Tree, this->m_Position);
   *clone = *this;
   return clone;
 }

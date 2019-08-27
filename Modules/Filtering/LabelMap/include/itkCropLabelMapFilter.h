@@ -51,17 +51,17 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT CropLabelMapFilter:public ChangeRegionLabelMapFilter< TInputImage >
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT CropLabelMapFilter : public ChangeRegionLabelMapFilter<TInputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CropLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = CropLabelMapFilter;
-  using Superclass = ChangeRegionLabelMapFilter< TInputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ChangeRegionLabelMapFilter<TInputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(CropLabelMapFilter, ChangeRegionImageFilter);
@@ -101,7 +101,8 @@ public:
   itkSetMacro(LowerBoundaryCropSize, SizeType);
   itkGetMacro(LowerBoundaryCropSize, SizeType);
 
-  void SetCropSize(const SizeType & size)
+  void
+  SetCropSize(const SizeType & size)
   {
     this->SetUpperBoundaryCropSize(size);
     this->SetLowerBoundaryCropSize(size);
@@ -116,9 +117,11 @@ protected:
 
   ~CropLabelMapFilter() override = default;
 
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   SizeType m_UpperBoundaryCropSize;
@@ -127,7 +130,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCropLabelMapFilter.hxx"
+#  include "itkCropLabelMapFilter.hxx"
 #endif
 
 #endif

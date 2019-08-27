@@ -25,148 +25,143 @@ namespace itk
 /**
  * Prompting off by default
  */
-XMLFileOutputWindow
-::XMLFileOutputWindow() = default;
+XMLFileOutputWindow ::XMLFileOutputWindow() = default;
 
-XMLFileOutputWindow
-::~XMLFileOutputWindow() = default;
+XMLFileOutputWindow ::~XMLFileOutputWindow() = default;
 
 void
-XMLFileOutputWindow
-::PrintSelf(std::ostream & os, Indent indent) const
+XMLFileOutputWindow ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
 void
-XMLFileOutputWindow
-::Initialize()
+XMLFileOutputWindow ::Initialize()
 {
-  if ( !m_Stream )
+  if (!m_Stream)
+  {
+    if (m_FileName.empty())
     {
-    if ( m_FileName.empty() )
-      {
       m_FileName = "itkMessageLog.xml";
-      }
-    if ( m_Append )
-      {
-      m_Stream = new std::ofstream(m_FileName.c_str(), std::ios::app);
-      }
-    else
-      {
-      m_Stream = new std::ofstream( m_FileName.c_str() );
-      }
     }
+    if (m_Append)
+    {
+      m_Stream = new std::ofstream(m_FileName.c_str(), std::ios::app);
+    }
+    else
+    {
+      m_Stream = new std::ofstream(m_FileName.c_str());
+    }
+  }
 }
 
 void
-XMLFileOutputWindow
-::DisplayTag(const char *text)
+XMLFileOutputWindow ::DisplayTag(const char * text)
 {
   Superclass::DisplayText(text);
 }
 
 void
-XMLFileOutputWindow
-::DisplayXML(const char *tag, const char *text)
+XMLFileOutputWindow ::DisplayXML(const char * tag, const char * text)
 {
-  char *xmlText;
+  char * xmlText;
 
-  if ( !text )
-    {
+  if (!text)
+  {
     return;
-    }
+  }
 
   // allocate enough room for the worst case
   xmlText = new char[strlen(text) * 6 + 1];
 
-  const char *s = text;
-  char *      x = xmlText;
+  const char * s = text;
+  char *       x = xmlText;
   *x = '\0';
 
   // replace all special characters
-  while ( *s )
+  while (*s)
+  {
+    switch (*s)
     {
-    switch ( *s )
-      {
       case '&':
-        {
-        strcat(x, "&amp;"); x += 5;
+      {
+        strcat(x, "&amp;");
+        x += 5;
         break;
-        }
-      case '"':
-        {
-        strcat(x, "&quot;"); x += 6;
-        break;
-        }
-      case '\'':
-        {
-        strcat(x, "&apos;"); x += 6;
-        break;
-        }
-      case '<':
-        {
-        strcat(x, "&lt;"); x += 4;
-        break;
-        }
-      case '>':
-        {
-        strcat(x, "&gt;"); x += 4;
-        break;
-        }
-      default:
-        {
-        *x = *s; x++;
-        *x = '\0'; // explicitly terminate the new string
-        }
       }
+      case '"':
+      {
+        strcat(x, "&quot;");
+        x += 6;
+        break;
+      }
+      case '\'':
+      {
+        strcat(x, "&apos;");
+        x += 6;
+        break;
+      }
+      case '<':
+      {
+        strcat(x, "&lt;");
+        x += 4;
+        break;
+      }
+      case '>':
+      {
+        strcat(x, "&gt;");
+        x += 4;
+        break;
+      }
+      default:
+      {
+        *x = *s;
+        x++;
+        *x = '\0'; // explicitly terminate the new string
+      }
+    }
     s++;
-    }
+  }
 
-  if ( !m_Stream )
-    {
+  if (!m_Stream)
+  {
     this->Initialize();
-    }
+  }
   *m_Stream << "<" << tag << ">" << xmlText << "</" << tag << ">" << std::endl;
 
-  if ( m_Flush )
-    {
+  if (m_Flush)
+  {
     m_Stream->flush();
-    }
+  }
   delete[] xmlText;
 }
 
 void
-XMLFileOutputWindow
-::DisplayText(const char *text)
+XMLFileOutputWindow ::DisplayText(const char * text)
 {
   this->DisplayXML("Text", text);
 }
 
 void
-XMLFileOutputWindow
-::DisplayErrorText(const char *text)
+XMLFileOutputWindow ::DisplayErrorText(const char * text)
 {
   this->DisplayXML("Error", text);
 }
 
 void
-XMLFileOutputWindow
-::DisplayWarningText(const char *text)
+XMLFileOutputWindow ::DisplayWarningText(const char * text)
 {
   this->DisplayXML("Warning", text);
 }
 
 void
-XMLFileOutputWindow
-::DisplayGenericOutputText(const char *text)
+XMLFileOutputWindow ::DisplayGenericOutputText(const char * text)
 {
   this->DisplayXML("GenericOutput", text);
 }
 
 void
-XMLFileOutputWindow
-::DisplayDebugText(const char *text)
+XMLFileOutputWindow ::DisplayDebugText(const char * text)
 {
   this->DisplayXML("Debug", text);
 }

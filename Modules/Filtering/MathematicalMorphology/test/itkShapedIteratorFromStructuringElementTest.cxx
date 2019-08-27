@@ -19,7 +19,8 @@
 #include "itkBinaryBallStructuringElement.h"
 
 using LocalImageType = itk::Image<int, 2>;
-void CreateImagex(LocalImageType::Pointer& image)
+void
+CreateImagex(LocalImageType::Pointer & image)
 {
   LocalImageType::IndexType start;
   start.Fill(0);
@@ -27,14 +28,15 @@ void CreateImagex(LocalImageType::Pointer& image)
   LocalImageType::SizeType size;
   size.Fill(10);
 
-  LocalImageType::RegionType region(start,size);
+  LocalImageType::RegionType region(start, size);
 
   image->SetRegions(region);
   image->Allocate(true); // initialize buffer
-                                                // to zero
+                         // to zero
 }
 
-int itkShapedIteratorFromStructuringElementTest(int, char*[])
+int
+itkShapedIteratorFromStructuringElementTest(int, char *[])
 {
   using ImageType = itk::Image<int, 2>;
   using PixelType = ImageType::PixelType;
@@ -42,19 +44,16 @@ int itkShapedIteratorFromStructuringElementTest(int, char*[])
   ImageType::Pointer image = ImageType::New();
   CreateImagex(image);
 
-  using StructuringElementType =
-      itk::BinaryBallStructuringElement<PixelType, 2>;
+  using StructuringElementType = itk::BinaryBallStructuringElement<PixelType, 2>;
   StructuringElementType::RadiusType elementRadius;
   elementRadius.Fill(2);
 
   StructuringElementType structuringElement;
-    structuringElement.SetRadius(elementRadius);
-    structuringElement.CreateStructuringElement();
+  structuringElement.SetRadius(elementRadius);
+  structuringElement.CreateStructuringElement();
 
   using IteratorType = itk::ShapedNeighborhoodIterator<ImageType>;
-  IteratorType siterator(structuringElement.GetRadius(),
-                         image,
-                         image->GetLargestPossibleRegion());
+  IteratorType siterator(structuringElement.GetRadius(), image, image->GetLargestPossibleRegion());
 
   siterator.CreateActiveListFromNeighborhood(structuringElement);
   siterator.NeedToUseBoundaryConditionOff();
@@ -65,49 +64,47 @@ int itkShapedIteratorFromStructuringElementTest(int, char*[])
   siterator.SetLocation(location);
   IteratorType::Iterator i;
   for (i = siterator.Begin(); !i.IsAtEnd(); ++i)
-    {
+  {
     i.Set(1);
-    }
+  }
 
   // Now show the results
   using ImageIteratorType = itk::ImageRegionConstIterator<ImageType>;
   ImageIteratorType imit(image, image->GetLargestPossibleRegion());
   imit.GoToBegin();
   unsigned int col = 0;
-  while( !imit.IsAtEnd() )
-    {
+  while (!imit.IsAtEnd())
+  {
     PixelType value = imit.Get();
     ++imit;
     ++col;
     std::cout << value << " ";
     if ((col % 10) == 0)
-      {
+    {
       std::cout << std::endl;
-      }
     }
+  }
   // Check for radius mismatch between shaped iterator and
   // neighborhood
-  IteratorType biterator(structuringElement.GetRadius(),
-                         image,
-                         image->GetLargestPossibleRegion());
+  IteratorType biterator(structuringElement.GetRadius(), image, image->GetLargestPossibleRegion());
   elementRadius.Fill(3);
   structuringElement.SetRadius(elementRadius);
 
   bool caught = false;
   try
-    {
+  {
     biterator.CreateActiveListFromNeighborhood(structuringElement);
-    }
-  catch (itk::ExceptionObject& e)
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     caught = true;
     std::cout << "Caught expected exception." << e << std::endl;
-    }
+  }
   if (!caught)
-    {
+  {
     std::cout << "Faile to catch expected exception." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

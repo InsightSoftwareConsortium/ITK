@@ -45,18 +45,17 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizersv4
  */
-template< typename TInternalComputationValueType >
-class SingleValuedCostFunctionv4Template:
-  public CostFunctionTemplate< TInternalComputationValueType >
+template <typename TInternalComputationValueType>
+class SingleValuedCostFunctionv4Template : public CostFunctionTemplate<TInternalComputationValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SingleValuedCostFunctionv4Template);
 
   /** Standard class type aliases. */
   using Self = SingleValuedCostFunctionv4Template;
-  using Superclass = CostFunctionTemplate< TInternalComputationValueType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = CostFunctionTemplate<TInternalComputationValueType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SingleValuedCostFunctionv4Template, CostFunctionTemplate);
@@ -71,17 +70,18 @@ public:
 
   /** DerivativeType type alias.
    *  It defines a type used to return the cost function derivative.  */
-  using DerivativeType = Array< TInternalComputationValueType >;
+  using DerivativeType = Array<TInternalComputationValueType>;
 
   /** This method returns the value of the cost function corresponding
-    * to the specified parameters.    */
-  virtual MeasureType GetValue() const = 0;
+   * to the specified parameters.    */
+  virtual MeasureType
+  GetValue() const = 0;
 
   /** This method returns the value and derivative of the cost function.
    * \c derivative will be sized and allocated as needed by metric.
    * If it's already proper size, no new allocation is done. */
-  virtual void GetValueAndDerivative(MeasureType & value,
-                                     DerivativeType & derivative) const = 0;
+  virtual void
+  GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const = 0;
 
 protected:
   SingleValuedCostFunctionv4Template() = default;

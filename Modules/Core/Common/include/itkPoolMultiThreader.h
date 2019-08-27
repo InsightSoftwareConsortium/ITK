@@ -64,45 +64,47 @@ public:
    * m_NumberOfWorkUnits work units. As a side effect the m_NumberOfWorkUnits will be
    * checked against the current m_GlobalMaximumNumberOfThreads and clamped if
    * necessary. */
-  void SingleMethodExecute() override;
+  void
+  SingleMethodExecute() override;
 
   /** Set the SingleMethod to f() and the UserData field of the
    * WorkUnitInfo that is passed to it will be data.
    * This method must be of type itkThreadFunctionType and
    * must take a single argument of type void. */
-  void SetSingleMethod(ThreadFunctionType, void *data) override;
+  void
+  SetSingleMethod(ThreadFunctionType, void * data) override;
 
   /** Parallelize an operation over an array. If filter argument is not nullptr,
    * this function will update its progress as each index is completed. */
   void
-  ParallelizeArray(
-    SizeValueType firstIndex,
-    SizeValueType lastIndexPlus1,
-    ArrayThreadingFunctorType aFunc,
-    ProcessObject* filter ) override;
+  ParallelizeArray(SizeValueType             firstIndex,
+                   SizeValueType             lastIndexPlus1,
+                   ArrayThreadingFunctorType aFunc,
+                   ProcessObject *           filter) override;
 
   /** Break up region into smaller chunks, and call the function with chunks as parameters. */
   void
-  ParallelizeImageRegion(
-    unsigned int dimension,
-    const IndexValueType index[],
-    const SizeValueType size[],
-    ThreadingFunctorType funcP,
-    ProcessObject* filter) override;
+  ParallelizeImageRegion(unsigned int         dimension,
+                         const IndexValueType index[],
+                         const SizeValueType  size[],
+                         ThreadingFunctorType funcP,
+                         ProcessObject *      filter) override;
 
   /** Set the number of threads to use. PoolMultiThreader
    * can only INCREASE its number of threads. */
-  void SetMaximumNumberOfThreads( ThreadIdType numberOfThreads ) override;
+  void
+  SetMaximumNumberOfThreads(ThreadIdType numberOfThreads) override;
 
-  struct ThreadPoolInfoStruct :WorkUnitInfo
-    {
-    std::future< ITK_THREAD_RETURN_TYPE > Future;
-    };
+  struct ThreadPoolInfoStruct : WorkUnitInfo
+  {
+    std::future<ITK_THREAD_RETURN_TYPE> Future;
+  };
 
 protected:
   PoolMultiThreader();
   ~PoolMultiThreader() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   // Thread pool instance and factory
@@ -119,5 +121,5 @@ private:
   friend class ProcessObject;
 };
 
-}  // end namespace itk
+} // end namespace itk
 #endif

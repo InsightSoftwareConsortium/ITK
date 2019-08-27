@@ -37,7 +37,7 @@
 #include "itkBSplineTransform.h"
 #include "itkCompositeTransform.h"
 
-//Transforms from Filtering/DisplacementField/include
+// Transforms from Filtering/DisplacementField/include
 #include "itkBSplineExponentialDiffeomorphicTransform.h"
 #include "itkBSplineSmoothingOnUpdateDisplacementFieldTransform.h"
 #include "itkConstantVelocityFieldTransform.h"
@@ -49,13 +49,13 @@
 #include "itkTimeVaryingVelocityFieldTransform.h"
 #include "itkVelocityFieldTransform.h"
 
-#if !defined ( ITK_LEGACY_REMOVE )
-#include "itkBSplineDeformableTransform.h"
+#if !defined(ITK_LEGACY_REMOVE)
+#  include "itkBSplineDeformableTransform.h"
 #endif
 
 namespace itk
 {
-TransformFactoryBase *TransformFactoryBase:: m_Factory = nullptr;
+TransformFactoryBase * TransformFactoryBase::m_Factory = nullptr;
 
 namespace TransformFactoryBasePrivate
 {
@@ -66,7 +66,8 @@ TransformFactoryBase::TransformFactoryBase() = default;
 
 TransformFactoryBase::~TransformFactoryBase() = default;
 
-void TransformFactoryBase::RegisterDefaultTransforms()
+void
+TransformFactoryBase::RegisterDefaultTransforms()
 {
   //
   // make sure that the the factory instance has
@@ -74,8 +75,8 @@ void TransformFactoryBase::RegisterDefaultTransforms()
   // already do this but this makes certain sure it's done
   (void)TransformFactoryBase::GetFactory();
 
-  if ( !TransformFactoryBasePrivate::DefaultTransformsRegistered )
-    {
+  if (!TransformFactoryBasePrivate::DefaultTransformsRegistered)
+  {
     //
     // double Parameters, double FixedParameters instances (in alphabetical order)
     //
@@ -87,21 +88,21 @@ void TransformFactoryBase::RegisterDefaultTransforms()
     // float Parameters, double FixedParamters instances (in alphabetical order)
     //
     RegisterTransformFactoryFloatParameters();
-
-    }
+  }
   TransformFactoryBasePrivate::DefaultTransformsRegistered = true;
 }
 
-TransformFactoryBase * TransformFactoryBase::GetFactory()
+TransformFactoryBase *
+TransformFactoryBase::GetFactory()
 {
-  if ( m_Factory == nullptr )
-    {
+  if (m_Factory == nullptr)
+  {
     // Make and register the factory
     Pointer p = New();
     m_Factory = p.GetPointer();
-    ObjectFactoryBase::RegisterFactory (p);
-    p->RegisterDefaultTransforms ();
-    }
+    ObjectFactoryBase::RegisterFactory(p);
+    p->RegisterDefaultTransforms();
+  }
   return m_Factory;
 }
 

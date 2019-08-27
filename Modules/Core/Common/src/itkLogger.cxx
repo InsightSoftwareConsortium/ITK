@@ -21,4 +21,4 @@ namespace itk
 {
 Logger::Logger() = default;
 Logger::~Logger() = default;
-}
+} // namespace itk

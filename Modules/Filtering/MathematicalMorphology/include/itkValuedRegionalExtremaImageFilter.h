@@ -74,19 +74,17 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 
-template< typename TInputImage, typename TOutputImage,
-          typename TFunction1, typename TFunction2 >
-class ITK_TEMPLATE_EXPORT ValuedRegionalExtremaImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage, typename TFunction1, typename TFunction2>
+class ITK_TEMPLATE_EXPORT ValuedRegionalExtremaImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ValuedRegionalExtremaImageFilter);
 
   /** Standard class type aliases. */
   using Self = ValuedRegionalExtremaImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;
@@ -134,27 +132,29 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasPixelTraitsCheck,
-                   ( Concept::HasPixelTraits< InputImagePixelType > ) );
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputImagePixelType > ) );
+  itkConceptMacro(InputHasPixelTraitsCheck, (Concept::HasPixelTraits<InputImagePixelType>));
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputImagePixelType>));
   // End concept checking
 #endif
 
 protected:
   ValuedRegionalExtremaImageFilter();
   ~ValuedRegionalExtremaImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** ValuedRegionalExtremaImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** ValuedRegionalExtremaImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   typename TInputImage::PixelType m_MarkerValue;
@@ -164,14 +164,14 @@ private:
 
   using OutIndexType = typename OutputImageType::IndexType;
   using InIndexType = typename InputImageType::IndexType;
-  using ConstInputIterator = ConstShapedNeighborhoodIterator< InputImageType >;
-  using NOutputIterator = ShapedNeighborhoodIterator< OutputImageType >;
-  using IndexStack = std::stack< OutIndexType >;
+  using ConstInputIterator = ConstShapedNeighborhoodIterator<InputImageType>;
+  using NOutputIterator = ShapedNeighborhoodIterator<OutputImageType>;
+  using IndexStack = std::stack<OutIndexType>;
 }; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkValuedRegionalExtremaImageFilter.hxx"
+#  include "itkValuedRegionalExtremaImageFilter.hxx"
 #endif
 
 #endif

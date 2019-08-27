@@ -48,15 +48,14 @@ namespace itk
  * \ingroup ITKOptimizers
  */
 
-class ITKOptimizers_EXPORT CumulativeGaussianCostFunction:public MultipleValuedCostFunction
+class ITKOptimizers_EXPORT CumulativeGaussianCostFunction : public MultipleValuedCostFunction
 {
 public:
-
   /** Standard type alias. */
   using Self = CumulativeGaussianCostFunction;
   using Superclass = MultipleValuedCostFunction;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(CumulativeGaussianCostFunction, MultipleValuedCostFunction);
@@ -71,46 +70,58 @@ public:
 
   /** The dimensions of parameter space; mean, standard deviation, lower and
     upper asymptotes. */
-  enum { SpaceDimension = 4 };
+  enum
+  {
+    SpaceDimension = 4
+  };
 
   /** Not necessary for this optimizer. */
-  void GetDerivative( const ParametersType & itkNotUsed(parameters),
-                      DerivativeType & itkNotUsed(derivative) ) const override {}
+  void
+  GetDerivative(const ParametersType & itkNotUsed(parameters), DerivativeType & itkNotUsed(derivative)) const override
+  {}
 
   /** Return the values evaluated for the given parameters. */
-  MeasureType GetValue(const ParametersType & parameters) const override;
+  MeasureType
+  GetValue(const ParametersType & parameters) const override;
 
   /** Return a pointer of values evaluated for the given parameters. */
-  MeasureType * GetValuePointer(ParametersType & parameters);
+  MeasureType *
+  GetValuePointer(ParametersType & parameters);
 
   /** Calculate a fit error between the data and the fit curve. */
-  double CalculateFitError(MeasureType *setTestArray);
+  double
+  CalculateFitError(MeasureType * setTestArray);
 
   /** Given the argument of a Cumulative Gaussian, return its value. */
-  double EvaluateCumulativeGaussian(double argument) const;
+  double
+  EvaluateCumulativeGaussian(double argument) const;
 
   /** Get the SpaceDimension. */
-  unsigned int GetNumberOfParameters() const override;
+  unsigned int
+  GetNumberOfParameters() const override;
 
   /** Get the number Range Dimension. */
-  unsigned int GetNumberOfValues() const override;
+  unsigned int
+  GetNumberOfValues() const override;
 
   /** Initialize the arrays. */
-  void Initialize(unsigned int rangeDimension);
+  void
+  Initialize(unsigned int rangeDimension);
 
   /** Set the original data array. */
-  void SetOriginalDataArray(MeasureType *setOriginalDataArray);
+  void
+  SetOriginalDataArray(MeasureType * setOriginalDataArray);
 
 protected:
   CumulativeGaussianCostFunction();
   ~CumulativeGaussianCostFunction() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
   /** Pointer to the original data array. */
-  MeasureType *m_OriginalDataArray;
+  MeasureType * m_OriginalDataArray;
 
   /** Number of data samples. */
   unsigned int m_RangeDimension;

@@ -59,16 +59,17 @@
 // Software Guide : BeginCodeSnippet
 #include "itkMedianImageFilter.h"
 // Software Guide : EndCodeSnippet
-int main( int argc, char ** argv )
+int
+main(int argc, char ** argv)
 {
   // Verify the number of parameters in the command line
-  if( argc <= 3 )
-    {
+  if (argc <= 3)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " input3DImageFile  output3DImageFile " << std::endl;
     std::cerr << " sliceNumber " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //  Software Guide : BeginLatex
   //
@@ -80,9 +81,9 @@ int main( int argc, char ** argv )
   using InputPixelType = unsigned char;
   using MiddlePixelType = unsigned char;
   using OutputPixelType = unsigned char;
-  using InputImageType = itk::Image< InputPixelType,  3 >;
-  using MiddleImageType = itk::Image< MiddlePixelType, 3 >;
-  using OutputImageType = itk::Image< OutputPixelType, 3 >;
+  using InputImageType = itk::Image<InputPixelType, 3>;
+  using MiddleImageType = itk::Image<MiddlePixelType, 3>;
+  using OutputImageType = itk::Image<OutputPixelType, 3>;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -92,13 +93,13 @@ int main( int argc, char ** argv )
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
   // Software Guide : EndCodeSnippet
 
   // Here we recover the file names from the command line arguments
   //
-  const char * inputFilename  = argv[1];
+  const char * inputFilename = argv[1];
   const char * outputFilename = argv[2];
 
   //  Software Guide : BeginLatex
@@ -129,8 +130,8 @@ int main( int argc, char ** argv )
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  reader->SetFileName( inputFilename  );
-  writer->SetFileName( outputFilename );
+  reader->SetFileName(inputFilename);
+  writer->SetFileName(outputFilename);
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -141,8 +142,7 @@ int main( int argc, char ** argv )
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  using ExtractFilterType =
-      itk::ExtractImageFilter< InputImageType, MiddleImageType >;
+  using ExtractFilterType = itk::ExtractImageFilter<InputImageType, MiddleImageType>;
   ExtractFilterType::Pointer extractFilter = ExtractFilterType::New();
   extractFilter->SetDirectionCollapseToSubmatrix();
   // Software Guide : EndCodeSnippet
@@ -163,7 +163,7 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   reader->Update();
-  const InputImageType * inputImage = reader->GetOutput();
+  const InputImageType *     inputImage = reader->GetOutput();
   InputImageType::RegionType inputRegion = inputImage->GetBufferedRegion();
   // Software Guide : EndCodeSnippet
 
@@ -196,7 +196,7 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
   InputImageType::IndexType start = inputRegion.GetIndex();
-  const unsigned int sliceNumber = std::stoi( argv[3] );
+  const unsigned int        sliceNumber = std::stoi(argv[3]);
   start[2] = sliceNumber;
   // Software Guide : EndCodeSnippet
 
@@ -208,8 +208,8 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
   InputImageType::RegionType desiredRegion;
-  desiredRegion.SetSize(  size  );
-  desiredRegion.SetIndex( start );
+  desiredRegion.SetSize(size);
+  desiredRegion.SetIndex(start);
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -222,16 +222,14 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  extractFilter->SetExtractionRegion( desiredRegion );
+  extractFilter->SetExtractionRegion(desiredRegion);
   // Software Guide : EndCodeSnippet
   // Software Guide : BeginCodeSnippet
-  using PasteFilterType = itk::PasteImageFilter< MiddleImageType,
-                                 OutputImageType >;
+  using PasteFilterType = itk::PasteImageFilter<MiddleImageType, OutputImageType>;
   PasteFilterType::Pointer pasteFilter = PasteFilterType::New();
   // Software Guide : EndCodeSnippet
   // Software Guide : BeginCodeSnippet
-  using MedianFilterType = itk::MedianImageFilter< MiddleImageType,
-                                  MiddleImageType >;
+  using MedianFilterType = itk::MedianImageFilter<MiddleImageType, MiddleImageType>;
   MedianFilterType::Pointer medianFilter = MedianFilterType::New();
   // Software Guide : EndCodeSnippet
   //  Software Guide : BeginLatex
@@ -241,20 +239,20 @@ int main( int argc, char ** argv )
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  extractFilter->SetInput( inputImage );
-  medianFilter->SetInput( extractFilter->GetOutput() );
-  pasteFilter->SetSourceImage( medianFilter->GetOutput() );
-  pasteFilter->SetDestinationImage( inputImage );
-  pasteFilter->SetDestinationIndex( start );
+  extractFilter->SetInput(inputImage);
+  medianFilter->SetInput(extractFilter->GetOutput());
+  pasteFilter->SetSourceImage(medianFilter->GetOutput());
+  pasteFilter->SetDestinationImage(inputImage);
+  pasteFilter->SetDestinationIndex(start);
   MiddleImageType::SizeType indexRadius;
   indexRadius[0] = 1; // radius along x
   indexRadius[1] = 1; // radius along y
   indexRadius[2] = 0; // radius along z
-  medianFilter->SetRadius( indexRadius );
+  medianFilter->SetRadius(indexRadius);
   medianFilter->UpdateLargestPossibleRegion();
   const MiddleImageType * medianImage = medianFilter->GetOutput();
-  pasteFilter->SetSourceRegion( medianImage->GetBufferedRegion() );
-  writer->SetInput( pasteFilter->GetOutput() );
+  pasteFilter->SetSourceRegion(medianImage->GetBufferedRegion());
+  writer->SetInput(pasteFilter->GetOutput());
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -266,15 +264,15 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;

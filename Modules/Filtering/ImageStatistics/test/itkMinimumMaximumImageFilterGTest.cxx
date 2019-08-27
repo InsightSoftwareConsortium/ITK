@@ -27,17 +27,14 @@
 namespace
 {
 
-class MinimumMaximumFixture
-  : public ::testing::Test
+class MinimumMaximumFixture : public ::testing::Test
 {
 public:
   MinimumMaximumFixture() = default;
   ~MinimumMaximumFixture() override = default;
 
 protected:
-
-
-  template<unsigned int D, typename TPixelType = unsigned short>
+  template <unsigned int D, typename TPixelType = unsigned short>
   struct FixtureUtilities
   {
     static const unsigned int Dimension = D;
@@ -47,82 +44,87 @@ protected:
     using SourceType = itk::ImageSource<ImageType>;
     using FilterType = itk::MinimumMaximumImageFilter<ImageType>;
     using MonitorFilterType = itk::PipelineMonitorImageFilter<ImageType>;
-    using AddFilterType = itk::AddImageFilter<ImageType,ImageType,ImageType>;
+    using AddFilterType = itk::AddImageFilter<ImageType, ImageType, ImageType>;
 
-    static typename ImageType::Pointer CreateImage()
+    static typename ImageType::Pointer
+    CreateImage()
+    {
+      // Create an image of all 1s with a random 0, and 2 valued pixel
+      //
+
+      typename ImageType::Pointer image = ImageType::New();
+
+      typename ImageType::SizeType imageSize;
+      imageSize.Fill(m_ImageSize);
+      typename ImageType::RegionType region(imageSize);
+      image->SetRegions(region);
+      image->Allocate();
+      image->FillBuffer(1);
+
+      auto randomGenerator = itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
+
+      itk::SizeValueType rand0 = randomGenerator->GetIntegerVariate(region.GetNumberOfPixels() - 1);
+      itk::SizeValueType rand2 = randomGenerator->GetIntegerVariate(region.GetNumberOfPixels() - 1);
+
+      if (rand0 == rand2)
       {
-        // Create an image of all 1s with a random 0, and 2 valued pixel
-        //
-
-        typename ImageType::Pointer image = ImageType::New();
-
-        typename ImageType::SizeType imageSize;
-        imageSize.Fill(m_ImageSize);
-        typename ImageType::RegionType region(imageSize);
-        image->SetRegions(region);
-        image->Allocate();
-        image->FillBuffer(1);
-
-        auto randomGenerator =  itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
-
-        itk::SizeValueType rand0 = randomGenerator->GetIntegerVariate(region.GetNumberOfPixels()-1);
-        itk::SizeValueType rand2 = randomGenerator->GetIntegerVariate(region.GetNumberOfPixels()-1);
-
-        if( rand0 == rand2 )
-          {
-          ++rand2;
-          }
-
-
-        typename ImageType::IndexType idx0;
-        typename ImageType::IndexType idx2;
-        for (unsigned int d=0; d<Dimension; ++d)
-          {
-          idx0[d] = rand0%imageSize[d];
-          idx2[d] = rand2%imageSize[d];
-          rand0 /= imageSize[d];
-          rand2 /= imageSize[d];
-          }
-        image->SetPixel(idx0, 0);
-        image->SetPixel(idx2, 2);
-
-        return image;
+        ++rand2;
       }
 
+
+      typename ImageType::IndexType idx0;
+      typename ImageType::IndexType idx2;
+      for (unsigned int d = 0; d < Dimension; ++d)
+      {
+        idx0[d] = rand0 % imageSize[d];
+        idx2[d] = rand2 % imageSize[d];
+        rand0 /= imageSize[d];
+        rand2 /= imageSize[d];
+      }
+      image->SetPixel(idx0, 0);
+      image->SetPixel(idx2, 2);
+
+      return image;
+    }
   };
 
 
   using Utils = FixtureUtilities<3, float>;
 
-  void SetUp() override
-    {
-      m_Image = Utils::CreateImage();
+  void
+  SetUp() override
+  {
+    m_Image = Utils::CreateImage();
 
-      auto addFilter =  Utils::AddFilterType::New();
+    auto addFilter = Utils::AddFilterType::New();
 
-      addFilter->SetInput(m_Image);
-      addFilter->SetConstant2(0);
-      m_Source = addFilter;
-    }
-  void TearDown() override {}
+    addFilter->SetInput(m_Image);
+    addFilter->SetConstant2(0);
+    m_Source = addFilter;
+  }
+  void
+  TearDown() override
+  {}
 
-  Utils::SourceType* GetSource()
-    {
-      return m_Source;
-    }
+  Utils::SourceType *
+  GetSource()
+  {
+    return m_Source;
+  }
 
-  Utils::ImageType* GetInputImage()
-    {
-      return m_Source->GetOutput();
-    }
+  Utils::ImageType *
+  GetInputImage()
+  {
+    return m_Source->GetOutput();
+  }
 
   Utils::ImageType::Pointer  m_Image;
   Utils::SourceType::Pointer m_Source;
 
-  static const itk::SizeValueType m_ImageSize{128};
+  static const itk::SizeValueType m_ImageSize{ 128 };
 };
 
-}
+} // namespace
 
 
 TEST_F(MinimumMaximumFixture, test1)
@@ -184,7 +186,7 @@ TEST_F(MinimumMaximumFixture, test4)
 
   auto filter = Utils::FilterType::New();
   filter->SetInput(monitor->GetOutput());
-  filter->SetNumberOfStreamDivisions(m_ImageSize+1);
+  filter->SetNumberOfStreamDivisions(m_ImageSize + 1);
   filter->Update();
 
   EXPECT_EQ(filter->GetMinimum(), 0);
@@ -218,9 +220,9 @@ TEST_F(MinimumMaximumFixture, test5)
 
 
   if (::testing::Test::HasFailure())
-    {
+  {
     std::cout << monitor;
-    }
+  }
 }
 
 

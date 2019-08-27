@@ -21,8 +21,10 @@
 
 #include "itkFEMSolver.h"
 
-namespace itk {
-namespace fem {
+namespace itk
+{
+namespace fem
+{
 
 /**
  * \class SolverHyperbolic
@@ -47,7 +49,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SolverHyperbolic, Solver<TDimension> );
+  itkTypeMacro(SolverHyperbolic, Solver<TDimension>);
 
   using Float = Element::Float;
 
@@ -64,7 +66,8 @@ public:
   itkGetMacro(NumberOfIterations, unsigned int);
 
   /** Returns the time step used for dynamic problems. */
-  Float GetTimeStep() const override
+  Float
+  GetTimeStep() const override
   {
     return this->m_TimeStep;
   }
@@ -74,7 +77,8 @@ public:
    *
    * \param dt New time step.
    */
-  void SetTimeStep(Float dt) override
+  void
+  SetTimeStep(Float dt) override
   {
     this->m_TimeStep = dt;
   }
@@ -82,55 +86,80 @@ public:
 protected:
   SolverHyperbolic();
   ~SolverHyperbolic() override {}
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the linear system wrapper. */
-  void InitializeLinearSystemWrapper() override;
+  void
+  InitializeLinearSystemWrapper() override;
 
   /**
    * When assembling the element matrix into master matrix, we
    * need to assemble the mass matrix too.
    */
-  void AssembleElementMatrix(Element::Pointer e) override;
+  void
+  AssembleElementMatrix(Element::Pointer e) override;
 
   /** Initialize the storage for all master matrices. */
-  void InitializeMatrixForAssembly(unsigned int N) override;
+  void
+  InitializeMatrixForAssembly(unsigned int N) override;
 
   /**
    * Combine the M, C and K matrices into one big system of linear
    * equations.
    */
-  void FinalizeMatrixAfterAssembly() override;
+  void
+  FinalizeMatrixAfterAssembly() override;
 
 
   /** Method invoked by the pipeline in order to trigger the computation. */
-  void  GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Solve for the displacement vector u at a given time.
-  * Update the total solution as well. */
-  void RunSolver() override;
+   * Update the total solution as well. */
+  void
+  RunSolver() override;
 
   /** Solve for the displacement vector u for one iteration. */
-  void Solve();
+  void
+  Solve();
 
   /** Constants that specify where matrices are strored. */
-  enum { matrix_K=1, matrix_M=2, matrix_C=3, matrix_tmp=4 };
+  enum
+  {
+    matrix_K = 1,
+    matrix_M = 2,
+    matrix_C = 3,
+    matrix_tmp = 4
+  };
 
   /** Constants that specify where vectors are strored. */
-  enum { solution_d=0, solution_v=1, solution_a=2};
-  enum { vector_dhat=2, vector_vhat=3, vector_ahat=4, vector_tmp=5 };
+  enum
+  {
+    solution_d = 0,
+    solution_v = 1,
+    solution_a = 2
+  };
+  enum
+  {
+    vector_dhat = 2,
+    vector_vhat = 3,
+    vector_ahat = 4,
+    vector_tmp = 5
+  };
 
-  Float          m_TimeStep;
-  Float          m_Gamma;
-  Float          m_Beta;
-  unsigned int   m_NumberOfIterations;
+  Float        m_TimeStep;
+  Float        m_Gamma;
+  Float        m_Beta;
+  unsigned int m_NumberOfIterations;
 };
 
 } // end namespace fem
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMSolverHyperbolic.hxx"
+#  include "itkFEMSolverHyperbolic.hxx"
 #endif
 
 #endif // itkFEMSolverHyperbolic_h

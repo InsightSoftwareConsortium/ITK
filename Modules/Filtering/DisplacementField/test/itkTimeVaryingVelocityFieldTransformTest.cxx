@@ -18,47 +18,47 @@
 
 #include "itkTimeVaryingVelocityFieldTransform.h"
 
-int itkTimeVaryingVelocityFieldTransformTest( int, char* [] )
+int
+itkTimeVaryingVelocityFieldTransformTest(int, char *[])
 {
   using VectorType = itk::Vector<double, 3>;
   using DisplacementFieldType = itk::Image<VectorType, 3>;
   using TimeVaryingVelocityFieldType = itk::Image<VectorType, 4>;
 
   TimeVaryingVelocityFieldType::PointType origin;
-  origin.Fill( 0.0 );
+  origin.Fill(0.0);
 
   TimeVaryingVelocityFieldType::SpacingType spacing;
-  spacing.Fill( 2.0 );
+  spacing.Fill(2.0);
 
   TimeVaryingVelocityFieldType::SizeType size;
-  size.Fill( 25 );
+  size.Fill(25);
 
   VectorType displacement1;
-  displacement1.Fill( 0.1 );
+  displacement1.Fill(0.1);
 
-  TimeVaryingVelocityFieldType::Pointer timeVaryingVelocityField =
-    TimeVaryingVelocityFieldType::New();
+  TimeVaryingVelocityFieldType::Pointer timeVaryingVelocityField = TimeVaryingVelocityFieldType::New();
 
-  timeVaryingVelocityField->SetOrigin( origin );
-  timeVaryingVelocityField->SetSpacing( spacing );
-  timeVaryingVelocityField->SetRegions( size );
+  timeVaryingVelocityField->SetOrigin(origin);
+  timeVaryingVelocityField->SetSpacing(spacing);
+  timeVaryingVelocityField->SetRegions(size);
   timeVaryingVelocityField->Allocate();
-  timeVaryingVelocityField->FillBuffer( displacement1 );
+  timeVaryingVelocityField->FillBuffer(displacement1);
 
-  using IntegratorType = itk::TimeVaryingVelocityFieldIntegrationImageFilter
-    <TimeVaryingVelocityFieldType, DisplacementFieldType>;
+  using IntegratorType =
+    itk::TimeVaryingVelocityFieldIntegrationImageFilter<TimeVaryingVelocityFieldType, DisplacementFieldType>;
 
   IntegratorType::Pointer integrator = IntegratorType::New();
-  integrator->SetInput( timeVaryingVelocityField );
-  integrator->SetLowerTimeBound( 0.3 );
-  integrator->SetUpperTimeBound( 0.75 );
-  integrator->SetNumberOfIntegrationSteps( 10 );
+  integrator->SetInput(timeVaryingVelocityField);
+  integrator->SetLowerTimeBound(0.3);
+  integrator->SetUpperTimeBound(0.75);
+  integrator->SetNumberOfIntegrationSteps(10);
   integrator->Update();
 
-  integrator->Print( std::cout, 3 );
+  integrator->Print(std::cout, 3);
 
   DisplacementFieldType::IndexType index;
-  index.Fill( 0 );
+  index.Fill(0);
   VectorType displacementPixel;
 
   // This integration should result in a constant image of value
@@ -66,94 +66,94 @@ int itkTimeVaryingVelocityFieldTransformTest( int, char* [] )
   // due to numerical computations
   const DisplacementFieldType * displacementField = integrator->GetOutput();
 
-  displacementPixel = displacementField->GetPixel( index );
+  displacementPixel = displacementField->GetPixel(index);
 
   std::cout << "Estimated forward displacement vector: " << displacementPixel << std::endl;
-  if( itk::Math::abs( displacementPixel[0] - 0.045 ) > 0.0001 )
-    {
+  if (itk::Math::abs(displacementPixel[0] - 0.045) > 0.0001)
+  {
     std::cerr << "Failed to produce the correct forward integration." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   IntegratorType::Pointer inverseIntegrator = IntegratorType::New();
-  inverseIntegrator->SetInput( timeVaryingVelocityField );
-  inverseIntegrator->SetLowerTimeBound( 1.0 );
-  inverseIntegrator->SetUpperTimeBound( 0.0 );
-  inverseIntegrator->SetNumberOfIntegrationSteps( 10 );
+  inverseIntegrator->SetInput(timeVaryingVelocityField);
+  inverseIntegrator->SetLowerTimeBound(1.0);
+  inverseIntegrator->SetUpperTimeBound(0.0);
+  inverseIntegrator->SetNumberOfIntegrationSteps(10);
   inverseIntegrator->Update();
 
   // This integration should result in a constant image of value
   // -( 0.1 * 1.0 - ( 0.1 * 0.0 ) ) = -0.1 with ~epsilon deviation
   // due to numerical computations
   const DisplacementFieldType * inverseField = inverseIntegrator->GetOutput();
-  displacementPixel = inverseField->GetPixel( index );
-  if( itk::Math::abs( displacementPixel[0] + 0.101852 ) > 0.01 )
-    {
+  displacementPixel = inverseField->GetPixel(index);
+  if (itk::Math::abs(displacementPixel[0] + 0.101852) > 0.01)
+  {
     std::cerr << "Failed to produce the correct inverse integration." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Now test the transform
 
   using TransformType = itk::TimeVaryingVelocityFieldTransform<double, 3>;
   TransformType::Pointer transform = TransformType::New();
-  transform->SetLowerTimeBound( 0.0 );
-  transform->SetUpperTimeBound( 1.0 );
-  transform->SetVelocityField( timeVaryingVelocityField );
+  transform->SetLowerTimeBound(0.0);
+  transform->SetUpperTimeBound(1.0);
+  transform->SetVelocityField(timeVaryingVelocityField);
   transform->IntegrateVelocityField();
 
   // Now Clone the Transform and test transform again
   TransformType::Pointer clone = transform->Clone();
 
   TransformType::InputPointType point;
-  point.Fill( 1.3 );
+  point.Fill(1.3);
 
   using OutputPointType = TransformType::OutputPointType;
-  OutputPointType transformedPoint = transform->TransformPoint( point );
-  OutputPointType cloneTransformedPoint = clone->TransformPoint( point );
+  OutputPointType transformedPoint = transform->TransformPoint(point);
+  OutputPointType cloneTransformedPoint = clone->TransformPoint(point);
 
   VectorType displacement;
-  displacement.Fill( 0.1 );
+  displacement.Fill(0.1);
 
   point += displacement;
 
-  if( point.EuclideanDistanceTo( transformedPoint ) > 0.01 )
-    {
+  if (point.EuclideanDistanceTo(transformedPoint) > 0.01)
+  {
     std::cerr << "Failed to produce the expected transformed point." << std::endl;
     return EXIT_FAILURE;
-    }
-  if( point.EuclideanDistanceTo( cloneTransformedPoint ) > 0.01 )
-    {
+  }
+  if (point.EuclideanDistanceTo(cloneTransformedPoint) > 0.01)
+  {
     std::cerr << "Cloned transform failed to produce the expected transformed point." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   point -= displacement;
 
   TransformType::InputPointType point2;
-  point2.CastFrom( transformedPoint );
+  point2.CastFrom(transformedPoint);
 
   TransformType::InputPointType clonePoint2;
-  clonePoint2.CastFrom( cloneTransformedPoint );
+  clonePoint2.CastFrom(cloneTransformedPoint);
 
   using InverseTransformBasePointer = TransformType::InverseTransformBasePointer;
   InverseTransformBasePointer inverseTransform = transform->GetInverseTransform();
   InverseTransformBasePointer cloneInverseTransform = clone->GetInverseTransform();
 
-  transformedPoint = inverseTransform->TransformPoint( point2 );
+  transformedPoint = inverseTransform->TransformPoint(point2);
   cloneTransformedPoint = cloneInverseTransform->TransformPoint(clonePoint2);
 
-  if( point.EuclideanDistanceTo( transformedPoint ) > 0.01 )
-    {
+  if (point.EuclideanDistanceTo(transformedPoint) > 0.01)
+  {
     std::cerr << "Failed to produce the expected inverse transformed point." << std::endl;
     return EXIT_FAILURE;
-    }
-  if( point.EuclideanDistanceTo( cloneTransformedPoint ) > 0.01 )
-    {
+  }
+  if (point.EuclideanDistanceTo(cloneTransformedPoint) > 0.01)
+  {
     std::cerr << "Cloned transform failed to produce the expected inverse transformed point." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  transform->Print( std::cout, 3 );
+  transform->Print(std::cout, 3);
 
   return EXIT_SUCCESS;
 }
