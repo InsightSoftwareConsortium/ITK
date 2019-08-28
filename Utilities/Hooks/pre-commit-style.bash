@@ -154,13 +154,13 @@ run_KWStyle() {
 #-----------------------------------------------------------------------------
 # clangformat.
 check_for_clangformat() {
-  clangformat_path=$(git config hooks.clangformat.path) ||
-  clangformat_path=$(which clangformat) ||
-  die "clangformat executable was not found.
+  clangformat_path=$(git config clangFormat.binary) ||
+  clangformat_path=$(which clang-format) ||
+  die "clang-format executable was not found.
 
 Please install clang-format version 8.0 or set the executable location with
 
-  git config hooks.clangformat.path /path/to/clang-format
+  git config clangFormat.binary /path/to/clang-format
   "
 }
 
