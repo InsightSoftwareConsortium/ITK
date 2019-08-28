@@ -138,6 +138,10 @@ ParseTileConfiguration2D( const std::string pathToFile )
   std::string timePointID; // just to make sure all lines specify the same time point
 
   std::ifstream tileFile( pathToFile );
+  if (!tileFile)
+    {
+    throw std::runtime_error( "Could not open for reading: " + pathToFile );
+    }
   std::string temp = getNextNonCommentLine( tileFile );
   if (temp.substr(0, 6) == "dim = ")
     {

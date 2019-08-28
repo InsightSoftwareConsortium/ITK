@@ -226,8 +226,8 @@ TileMontage< TImageType, TCoordinate >
   for ( unsigned d = 0; d < ImageDimension; d++ )
     {
     stride *= m_MontageSize[d];
-    ind[d] = linearIndex % stride;
-    linearIndex /= stride;
+    ind[d] = linearIndex % m_MontageSize[d];
+    linearIndex /= m_MontageSize[d];
     }
   itkAssertOrThrowMacro( linearIndex < stride,
     "Linear tile index " << linearIndex << " exceeds total montage size " << stride );
