@@ -28,18 +28,9 @@ die() {
           exit 1
 }
 
-do_KWStyle=$(git config --bool hooks.KWStyle) || do_KWStyle=false
+do_KWStyle=$(git config --bool hooks.KWStyle) || do_KWStyle=true
 
-do_clangformat=$(git config --bool hooks.clangformat) || do_clangformat=false
-
-if [ "$(uname)" == "Darwin" ]; then
-    console="</dev/tty" # MacOSX
-elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-    console="</dev/tty" # Linuxes
-else
-    echo "uname: "$(uname -a)
-    console="" # Windows (Msys, MinGW, Cygwin etc)
-fi
+do_clangformat=$(git config --bool hooks.clangformat) || do_clangformat=true
 
 #-----------------------------------------------------------------------------
 # Check if we want to run the style on a given file.  Uses git attributes.  If
@@ -54,7 +45,16 @@ run_style_on_file() {
   if git diff-index --cached HEAD -- "$1" | grep -q '^:...... 160000'; then
     return 1
   fi
-  if ! git diff-files --quiet -- "$1"; then
+  style=$(git check-attr hooks.style -- "$1" |
+      sed 's/^[^:]*: hooks.style: //')
+  has_style_attr=1
+  case "$style" in
+    'unset')        has_style_attr=1 ;;
+    'set')          has_style_attr=0 ;;
+    'unspecified')  has_style_attr=1 ;;
+    *)              echo ",$style," | grep -iq ",$2," && has_style_attr=0 ;;
+  esac
+  if ! git diff-files --quiet -- "$1" && test $has_style_attr -eq 0; then
     # A way to always allow skipping.
     skip_unstaged=$(git config --bool hooks.styleSkipUnstaged) ||
     skip_unstaged=false
@@ -79,15 +79,7 @@ Allow skipping the style check for this commit with
     fi
     return 1
   fi
-  style=$(git check-attr hooks.style -- "$1" |
-      sed 's/^[^:]*: hooks.style: //')
-  case "$style" in
-    'unset')        return 1 ;;
-    'set')          return 0 ;;
-    'unspecified')  return 1 ;;
-    *)              echo ",$style," | grep -iq ",$2," && return 0 ;;
-  esac
-  return 1
+  return $has_style_attr
 }
 
 #-----------------------------------------------------------------------------
@@ -189,7 +181,6 @@ run_clangformat_on_file() {
     # We temporarily change MERGED because the file might already be open, and
     # the text editor may complain.
     MERGED="$NEW_MERGED"
-    cp -- "$BACKUP" "$MERGED"
     cp -- "$BACKUP" "$LOCAL"
 
     run_clang_format_check_attr "$LOCAL" "$REMOTE" "$ERROR_LOG"
@@ -197,28 +188,37 @@ run_clangformat_on_file() {
     if [  $clang_format_status -ne 0 ]; then
       mv -- "$BACKUP" "$OLD_MERGED"
 
-      if test "$merge_keep_temporaries" = "false"; then
+      if $merge_keep_temporaries; then
         rm -f -- "$LOCAL" "$REMOTE" "$BACKUP"
       fi
-      die "error when running clangformat on $OLD_MERGED"
+      die "error when running clang-format on $OLD_MERGED"
     fi
+    cp -- "$REMOTE" "$MERGED"
 
-    if test $(git hash-object -- "$LOCAL") != $(git hash-object -- "$REMOTE") &&
-      ! run_merge_tool "$merge_tool" "false" $console; then
-      mv -- "$BACKUP" "$OLD_MERGED"
-
-      if test "$merge_keep_temporaries" = "false"; then
-        rm -f -- "$LOCAL" "$REMOTE" "$BACKUP" "$NEW_MERGED"
+    if test $(git hash-object -- "$LOCAL") != $(git hash-object -- "$REMOTE"); then
+      if [ "$(uname)" == "Darwin" ]; then
+        run_merge_tool "$merge_tool" "false" </dev/tty
+      elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+        run_merge_tool "$merge_tool" "false" </dev/tty
+      else
+        run_merge_tool "$merge_tool" "false"
       fi
+      if [ $? -ne 0 ]; then
+        mv -- "$BACKUP" "$OLD_MERGED"
 
-      die "clang-format merge of $OLD_MERGED failed
-      Error log: $ERROR_LOG"
+        if $merge_keep_temporaries; then
+          rm -f -- "$LOCAL" "$REMOTE" "$BACKUP" "$NEW_MERGED"
+        fi
+
+        die "clang-format merge of $OLD_MERGED failed
+        Error log: $ERROR_LOG"
+      fi
     fi
 
     mv -- "$NEW_MERGED" "$OLD_MERGED"
     MERGED="$OLD_MERGED"
 
-    if test "$merge_keep_backup" = "true"; then
+    if $merge_keep_backup; then
       mv -- "$BACKUP" "$MERGED.orig"
     else
       rm -- "$BACKUP"
@@ -227,7 +227,7 @@ run_clangformat_on_file() {
     git add -- "$MERGED"
     rm -f -- "$LOCAL" "$REMOTE" "$BACKUP" "$ERROR_LOG" "$NEW_MERGED"
 
-  fi # end if run clangformat on file
+  fi # end if run clang-format on file
 
   if $do_KWStyle &&
     $have_KWStyle &&
