@@ -310,7 +310,7 @@ DCMTKImageIO
   // get the image in the DCMTK buffer
   const DiPixel * const interData = m_DImage->getInterData();
   const void *data = interData->getData();
-  unsigned long count = interData->getCount();
+  size_t count = interData->getCount();
   if (this->m_PixelType == RGB || this->m_PixelType == RGBA)
     {
     ReorderRGBValues(buffer, data, count, this->GetNumberOfComponents());
@@ -323,7 +323,7 @@ DCMTKImageIO
 
 void
 DCMTKImageIO
-::ReorderRGBValues(void *buffer, const void* data, unsigned long count, unsigned int voxel_size)
+::ReorderRGBValues(void *buffer, const void* data, size_t count, unsigned int voxel_size)
 {
     switch(this->m_ComponentType)
       {
