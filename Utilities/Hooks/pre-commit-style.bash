@@ -147,14 +147,37 @@ run_KWStyle() {
 #-----------------------------------------------------------------------------
 # clangformat.
 check_for_clangformat() {
+  clangformat_required_version=8.0.1
+  system_tools="
+    clang-format-$clangformat_required_version
+    clang-format
+"
+  for tool in $system_tools; do
+    if type -p "$tool" >/dev/null; then
+      system_clang_format="$tool"
+      break
+    fi
+  done
   clangformat_path=$(git config clangFormat.binary) ||
-  clangformat_path=$(which clang-format) ||
+  clangformat_path=$(type -p "$system_clang_format" >/dev/null) ||
   die "clang-format executable was not found.
 
-Please install clang-format version 8.0 or set the executable location with
+Please install clang-format version $clangformat_required_version or set the executable location with
 
   git config clangFormat.binary /path/to/clang-format
-  "
+"
+  if ! "$clangformat_path" --version | grep "clang-format version $clangformat_required_version" >/dev/null 2>/dev/null; then
+    die "clang-format version $clangformat_required_version is required (exactly)
+
+Set the path the clang-format $clangformat_required_version executable with
+
+  git config clangFormat.binary /path/to/clang-format
+
+or disable the clang-format pre-commit hook with
+
+  git config hooks.clangformat false
+"
+  fi
 }
 
 run_clang_format_check_attr()
