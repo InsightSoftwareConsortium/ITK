@@ -441,6 +441,26 @@ itk_add_test(NAME itkMontagePCMFilesDzZ_T1_identity
     0.0
   )
 
+# 3D ground truth test case
+set(tempDir DzZ_T1)
+set(outDir ${TESTING_OUTPUT_PATH}/${tempDir}/)
+file(MAKE_DIRECTORY ${outDir})
+itk_add_test(NAME itkMontageGroundTruthMake${tempDir}
+  COMMAND MontageTestDriver
+  itkMontageTruthCreator DATA{Input/DzZ_T1/DzZ_T1_orig.nhdr,DzZ_T1_orig.raw.gz} ${outDir} 4 8 3 25 15 50
+  )
+# itk_add_test(NAME itkMontageGroundTruthRun${tempDir}
+  # COMMAND MontageTestDriver --compareIntensityTolerance 0.0
+  # --compare DATA{Input/DzZ_T1/DzZ_T1_orig.nhdr} ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_2_1.mha
+  # itkMontageTest2D # must be 3D
+    # ${outDir}
+    # ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_
+    # ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}Pairs_
+    # 0 1 1 1 0 0 0 0 1
+  # )
+# SET_TESTS_PROPERTIES(itkMontageGroundTruthRun${tempDir}
+  # PROPERTIES DEPENDS itkMontageGroundTruthMake${tempDir})
+
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.tif)
 
   set(flatFolder "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36")

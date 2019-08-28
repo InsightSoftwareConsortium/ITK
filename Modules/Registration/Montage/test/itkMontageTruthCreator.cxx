@@ -39,12 +39,10 @@ linearToNDindex( itk::SizeValueType linearIndex, const std::vector< unsigned >& 
 {
   assert( montageSize.size() == Dimension );
   itk::Size< Dimension > ind;
-  itk::SizeValueType stride = 1u;
   for ( unsigned d = 0; d < Dimension; d++ )
     {
-    stride *= montageSize[d];
-    ind[d] = linearIndex % stride;
-    linearIndex /= stride;
+    ind[d] = linearIndex % montageSize[d];
+    linearIndex /= montageSize[d];
     }
   return ind;
 }
