@@ -33,8 +33,6 @@
 #     OUTPUTS: {ResampleImageFilterOutput4.png}
 #     3
 
-from __future__ import print_function
-
 import itk
 from sys import argv, stderr, exit
 itk.auto_progress(2)

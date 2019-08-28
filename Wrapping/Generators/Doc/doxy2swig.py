@@ -21,8 +21,6 @@ output will be written (the file will be clobbered).
 # Author: Prabhu Ramachandran
 # License: BSD style
 
-from __future__ import print_function
-
 from xml.dom import minidom
 import re
 import textwrap

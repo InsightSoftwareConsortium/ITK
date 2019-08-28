@@ -16,7 +16,6 @@
 #
 #==========================================================================*/
 
-from __future__ import print_function
 import re
 
 # The following line defines an ascii string used for dynamically refreshing

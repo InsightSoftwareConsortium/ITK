@@ -18,8 +18,6 @@
 
 # a short program to check that ITK's API is consistent across the library.
 
-from __future__ import print_function
-
 import itk
 import sys
 import itkTemplate

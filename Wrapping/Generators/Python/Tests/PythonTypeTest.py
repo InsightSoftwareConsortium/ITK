@@ -18,8 +18,6 @@
 
 # a short program to check the value returned by the GetNameOfClass() methods
 
-from __future__ import print_function
-
 import itk
 import sys
 import types

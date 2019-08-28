@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Import unicode literals so that StringIO works on both Python 2 and 3
-from __future__ import unicode_literals
-from __future__ import print_function
-
 import sys
 import os
 import re
