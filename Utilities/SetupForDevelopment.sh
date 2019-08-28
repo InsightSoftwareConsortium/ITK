@@ -51,6 +51,10 @@ messages for interaction with Gerrit. Also, removing the "gerrit" and "stage" re
           git remote remove stage
 fi
 
+# Style hook configuration
+git config hooks.KWStyle.conf "Utilities/KWStyle/ITK.kws.xml"
+git config hooks.KWStyle.overwriteRulesConf "Utilities/KWStyle/ITKOverwrite.txt"
+
 # Make sure we are inside the repository.
 cd "$(echo "$0"|sed 's/[^/]*$//')"/..
 
@@ -103,5 +107,5 @@ echo -e "Git version $git_version is OK.\n"
 
 
 # Record the version of this setup so Hooks/pre-commit can check it.
-SetupForDevelopment_VERSION=6
+SetupForDevelopment_VERSION=7
 git config hooks.SetupForDevelopment ${SetupForDevelopment_VERSION}
