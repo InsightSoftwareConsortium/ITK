@@ -24,10 +24,7 @@ import re
 import sys
 import types
 import collections
-if sys.version_info >= (3, 4):
-    import importlib
-else:
-    import imp
+import importlib
 import warnings
 import itkConfig
 import itkBase
