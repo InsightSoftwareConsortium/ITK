@@ -260,9 +260,6 @@ for d in dirs:
         data = {}
         conf = module + 'Config.py'
         path = os.path.join(d + os.sep + "Configuration", conf)
-        if sys.version_info >= (3, 0):
-            with open(path, "rb") as modulefile:
-                exec(modulefile.read(), data)
-        else:
-            execfile(path, data)
+        with open(path, "rb") as modulefile:
+            exec(modulefile.read(), data)
         module_data[module] = data

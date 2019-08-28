@@ -361,10 +361,7 @@ class itkTemplate(object):
         modules = itkBase.lazy_attributes[name]
         for module in modules:
             # find the module's name in sys.modules, or create a new module so named
-            if sys.version_info >= (3, 4):
-                this_module = sys.modules.setdefault(module, types.ModuleType(module))
-            else:
-                this_module = sys.modules.setdefault(module, imp.new_module(module))
+            this_module = sys.modules.setdefault(module, types.ModuleType(module))
             namespace = {}
             if not hasattr(this_module, '__templates_loaded'):
                 itkBase.LoadModule(module, namespace)
@@ -381,10 +378,7 @@ class itkTemplate(object):
         def get_attrs(obj):
             if not hasattr(obj, '__dict__'):
                 return []  # slots only
-            if sys.version_info >= (3, 0):
-              dict_types = (dict, types.MappingProxyType)
-            else:
-              dict_types = (dict, types.DictProxyType)
+            dict_types = (dict, types.MappingProxyType)
             if not isinstance(obj.__dict__, dict_types):
                 raise TypeError("%s.__dict__ is not a dictionary"
                                 "" % obj.__name__)

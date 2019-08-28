@@ -129,10 +129,7 @@ class Doxy2SWIG:
 
     def add_text(self, value):
         """Adds text corresponding to `value` into `self.pieces`."""
-        if sys.version_info >= (3,0):
-          listTypes = (list, tuple)
-        else:
-          listTypes = (types.ListType, types.TupleType)
+        listTypes = (list, tuple)
         if type(value) in listTypes:
             self.pieces.extend(value)
         else:
