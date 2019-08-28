@@ -140,6 +140,7 @@ run_KWStyle_on_file() {
 Line numbers in the errors shown refer to the file:
 ${1}.kws"
   fi
+  return 0
 }
 
 run_KWStyle() {
@@ -239,6 +240,13 @@ run_clangformat_on_file() {
 }
 
 run_clangformat() {
+  $do_KWStyle && check_for_KWStyle
+  if test $?; then
+    have_KWStyle=true
+  else
+    have_KWStyle=false
+  fi
+
   merge_tool=$(get_merge_tool "$merge_tool") || die "Merge tool not configured.
 
 Set the merge tool with
@@ -254,13 +262,6 @@ For more information, see
   while read MERGED; do
     run_clangformat_on_file "$MERGED" || return
   done # end for changed files
-
-  $do_KWStyle && check_for_KWStyle
-  if test $?; then
-    have_KWStyle=false
-  else
-    have_KWStyle=true
-  fi
 }
 
 # Do not run during merge commits for now.
