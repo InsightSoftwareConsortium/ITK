@@ -1,4 +1,4 @@
-/*=========================================================================
+ /*=========================================================================
  *
  *  Copyright Insight Software Consortium
  *
@@ -76,7 +76,7 @@ int Execute(int argc, char * argv[])
 
   const char * imageFileName = argv[1];
 
-  itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO( imageFileName, itk::ImageIOFactory::ReadMode );
+  itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO( imageFileName, itk::ImageIOFactory::FileModeType::ReadMode );
   if( imageIO.IsNull() )
     {
     std::cerr << "Could not create ImageIO" << std::endl;
