@@ -1335,8 +1335,8 @@ DCMTKFileReader
      * (0028, 0030) indicates physical X,Y spacing inside a slice;
      * (0018, 0088) indicates physical Z spacing between slices;
      *  which above are also consistent with Dcom2iix software.
-     *  when we can not get (0018, 0088),we will revert to previous
-     *  behavior and use (0018, 0050) thickness as a proxy to spacing.
+     *  when we can not get (0018, 0088), we should compute spacing
+     * from the planes' positions (TODO, see PR 112).
      * */
     if(GetElementDS<double>(0x0018,0x0088,1,&_spacing[2], false) == EXIT_SUCCESS)
       {
@@ -1376,8 +1376,8 @@ DCMTKFileReader
            * (0028, 0030) indicates physical X,Y spacing inside a slice;
            * (0018, 0088) indicates physical Z spacing between slices;
            *  which above are also consistent with Dcom2iix software.
-           *  when we can not get (0018, 0088),we will revert to previous
-           *  behavior and use (0018, 0050) thickness as a proxy to spacing.
+           *  when we can not get (0018, 0088), we should compute spacing
+           * from the planes' positions (TODO, see PR 112).
            * */
           if(subSequence.GetElementDS<double>(0x0028,0x0030,2,_spacing,false) == EXIT_SUCCESS)
             {
