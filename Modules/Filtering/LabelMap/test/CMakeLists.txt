@@ -594,6 +594,8 @@ itk_add_test(NAME itkStatisticsUniqueLabelMapFilterTest2
       1 100)
 
 set(ITKLabelMapGTests
-  itkShapeLabelMapFilterGTest.cxx)
+  itkShapeLabelMapFilterGTest.cxx
+  itkStatisticsLabelMapFilterGTest.cxx
+  )
 
 CreateGoogleTestDriver(ITKLabelMap "${ITKLabelMap-Test_LIBRARIES}" "${ITKLabelMapGTests}")

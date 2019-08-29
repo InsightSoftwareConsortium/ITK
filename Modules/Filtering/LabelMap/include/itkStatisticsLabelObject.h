@@ -37,15 +37,17 @@ namespace itk
  * \ingroup DataRepresentation
  * \ingroup ITKLabelMap
  */
-template< typename TLabel, unsigned int VImageDimension >
-class StatisticsLabelObject:public ShapeLabelObject< TLabel, VImageDimension >
+template< typename TLabel,
+          unsigned int VImageDimension,
+          typename TParentLabelObject = ShapeLabelObject< TLabel, VImageDimension > >
+class StatisticsLabelObject:public TParentLabelObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsLabelObject);
 
   /** Standard class type aliases */
   using Self = StatisticsLabelObject;
-  using Superclass = ShapeLabelObject< TLabel, VImageDimension >;
+  using Superclass = TParentLabelObject;
   using LabelObjectType = typename Superclass::LabelObjectType;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -76,6 +78,9 @@ public:
   using VectorType = Vector< double, Self::ImageDimension >;
 
   using HistogramType = Statistics::Histogram< double >;
+
+  using CentroidType = Point< double, VImageDimension >;
+
 
   using AttributeType = typename Superclass::AttributeType;
   static constexpr AttributeType MINIMUM = 200;
@@ -241,8 +246,6 @@ public:
   }
 
   using RegionType = ImageRegion< Self::ImageDimension >;
-
-  using CentroidType = typename Superclass::CentroidType;
 
   template< typename TSourceLabelObject >
   void CopyAttributesFrom( const TSourceLabelObject * src )

@@ -35,8 +35,8 @@
 
 namespace itk
 {
-template< typename TImage, typename TLabelImage >
-ShapeLabelMapFilter< TImage, TLabelImage >
+template< typename TLabelMap, typename TLabelImage, typename TParentLabelMapFilter >
+ShapeLabelMapFilter< TLabelMap, TLabelImage, TParentLabelMapFilter >
 ::ShapeLabelMapFilter()
 {
   m_ComputeFeretDiameter = false;
@@ -44,9 +44,9 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   m_ComputeOrientedBoundingBox = false;
 }
 
-template< typename TImage, typename TLabelImage >
+template< typename TLabelMap, typename TLabelImage, typename TParentLabelMapFilter >
 void
-ShapeLabelMapFilter< TImage, TLabelImage >
+ShapeLabelMapFilter< TLabelMap, TLabelImage, TParentLabelMapFilter >
 ::BeforeThreadedGenerateData()
 {
   Superclass::BeforeThreadedGenerateData();
@@ -57,7 +57,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     if ( !m_LabelImage )
       {
       // generate an image of the labelized image
-      using LCI2IType = LabelMapToLabelImageFilter< TImage, LabelImageType >;
+      using LCI2IType = LabelMapToLabelImageFilter< TLabelMap, LabelImageType >;
       typename LCI2IType::Pointer lci2i = LCI2IType::New();
       lci2i->SetInput( this->GetOutput() );
       // Respect the number of threads of the filter
@@ -68,9 +68,9 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     }
 }
 
-template< typename TImage, typename TLabelImage >
+template< typename TLabelMap, typename TLabelImage, typename TParentLabelMapFilter >
 void
-ShapeLabelMapFilter< TImage, TLabelImage >
+ShapeLabelMapFilter< TLabelMap, TLabelImage, TParentLabelMapFilter >
 ::ThreadedProcessLabelObject(LabelObjectType *labelObject)
 {
   ImageType *            output = this->GetOutput();
@@ -431,9 +431,9 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     }
 }
 
-template< typename TImage, typename TLabelImage >
+template< typename TLabelMap, typename TLabelImage, typename TParentLabelMapFilter >
 void
-ShapeLabelMapFilter< TImage, TLabelImage >
+ShapeLabelMapFilter< TLabelMap, TLabelImage, TParentLabelMapFilter >
 ::ComputeFeretDiameter(LabelObjectType *labelObject)
 {
   const LabelPixelType & label = labelObject->GetLabel();
@@ -505,9 +505,9 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   labelObject->SetFeretDiameter(feretDiameter);
 }
 
-template< typename TImage, typename TLabelImage >
+template< typename TLabelMap, typename TLabelImage, typename TParentLabelMapFilter >
 void
-ShapeLabelMapFilter< TImage, TLabelImage >
+ShapeLabelMapFilter< TLabelMap, TLabelImage, TParentLabelMapFilter >
 ::ComputePerimeter(LabelObjectType *labelObject)
 {
   // store the lines in a N-1D image of vectors
@@ -675,10 +675,10 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   labelObject->SetPerimeterOnBorderRatio( labelObject->GetPerimeterOnBorder() / perimeter );
 }
 
-template< typename TImage, typename TLabelImage >
+template< typename TLabelMap, typename TLabelImage, typename TParentLabelMapFilter >
 template<typename TMapIntercept, typename TSpacing>
 double
-ShapeLabelMapFilter< TImage, TLabelImage >
+ShapeLabelMapFilter< TLabelMap, TLabelImage, TParentLabelMapFilter >
 ::PerimeterFromInterceptCount( TMapIntercept & intercepts, const TSpacing & spacing )
 {
   // std::cout << "PerimeterFromInterceptCount<>" << std::endl;
@@ -706,9 +706,9 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 }
 
 #if ! defined(ITK_DO_NOT_USE_PERIMETER_SPECIALIZATION)
-template< typename TImage, typename TLabelImage >
+template< typename TLabelMap, typename TLabelImage, typename TParentLabelMapFilter >
 double
-ShapeLabelMapFilter< TImage, TLabelImage >
+ShapeLabelMapFilter< TLabelMap, TLabelImage, TParentLabelMapFilter >
 ::PerimeterFromInterceptCount( MapIntercept2Type & intercepts, const Spacing2Type spacing )
 {
   // std::cout << "PerimeterFromInterceptCount2" << std::endl;
@@ -731,9 +731,9 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   return perimeter;
 }
 
-template< typename TImage, typename TLabelImage >
+template< typename TLabelMap, typename TLabelImage, typename TParentLabelMapFilter >
 double
-ShapeLabelMapFilter< TImage, TLabelImage >
+ShapeLabelMapFilter< TLabelMap, TLabelImage, TParentLabelMapFilter >
 ::PerimeterFromInterceptCount( MapIntercept3Type & intercepts, const Spacing3Type spacing )
 {
   // std::cout << "PerimeterFromInterceptCount3" << std::endl;
@@ -788,9 +788,9 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 #endif
 
 
-template< typename TImage, typename TLabelImage >
+template< typename TLabelMap, typename TLabelImage, typename TParentLabelMapFilter >
 void
-ShapeLabelMapFilter< TImage, TLabelImage >
+ShapeLabelMapFilter< TLabelMap, TLabelImage, TParentLabelMapFilter >
 ::ComputeOrientedBoundingBox(LabelObjectType *labelObject)
 {
 
@@ -917,9 +917,9 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 
 }
 
-template< typename TImage, typename TLabelImage >
+template< typename TLabelMap, typename TLabelImage, typename TParentLabelMapFilter >
 void
-ShapeLabelMapFilter< TImage, TLabelImage >
+ShapeLabelMapFilter< TLabelMap, TLabelImage, TParentLabelMapFilter >
 ::AfterThreadedGenerateData()
 {
   Superclass::AfterThreadedGenerateData();
@@ -928,9 +928,9 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   m_LabelImage = nullptr;
 }
 
-template< typename TImage, typename TLabelImage >
+template< typename TLabelMap, typename TLabelImage, typename TParentLabelMapFilter >
 void
-ShapeLabelMapFilter< TImage, TLabelImage >
+ShapeLabelMapFilter< TLabelMap, TLabelImage, TParentLabelMapFilter >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

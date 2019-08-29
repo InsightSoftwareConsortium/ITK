@@ -49,23 +49,23 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 
-template< typename TImage, typename TLabelImage =
-            Image< typename TImage::PixelType,  TImage ::ImageDimension > >
+template< typename TLabelMap,
+          typename TLabelImage = Image< typename TLabelMap::PixelType,  TLabelMap ::ImageDimension >,
+          typename TParentLabelMapFilter =  InPlaceLabelMapFilter< TLabelMap > >
 class ITK_TEMPLATE_EXPORT ShapeLabelMapFilter:
-  public
-  InPlaceLabelMapFilter< TImage >
+  public TParentLabelMapFilter
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShapeLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = ShapeLabelMapFilter;
-  using Superclass = InPlaceLabelMapFilter< TImage >;
+  using Superclass = TParentLabelMapFilter;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
   /** Some convenient type alias. */
-  using ImageType = TImage;
+  using ImageType = TLabelMap;
   using ImagePointer = typename ImageType::Pointer;
   using ImageConstPointer = typename ImageType::ConstPointer;
   using PixelType = typename ImageType::PixelType;
@@ -83,7 +83,7 @@ public:
   using LabelPixelType = typename LabelImageType::PixelType;
 
   /** ImageDimension constants */
-  static constexpr unsigned int ImageDimension = TImage::ImageDimension;
+  static constexpr unsigned int ImageDimension = TLabelMap::ImageDimension;
 
   /** Standard New method. */
   itkNewMacro(Self);

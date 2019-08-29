@@ -38,15 +38,17 @@ namespace itk
  * \ingroup DataRepresentation
  * \ingroup ITKLabelMap
  */
-template< typename TLabel, unsigned int VImageDimension >
-class ShapeLabelObject:public LabelObject< TLabel, VImageDimension >
+template< typename TLabel,
+          unsigned int VImageDimension,
+          typename TParentLabelObject = LabelObject< TLabel, VImageDimension >  >
+class ShapeLabelObject:public TParentLabelObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShapeLabelObject);
 
   /** Standard class type aliases */
   using Self = ShapeLabelObject;
-  using Superclass = LabelObject< TLabel, VImageDimension >;
+  using Superclass = TParentLabelObject;
   using LabelObjectType = typename Superclass::LabelObjectType;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;

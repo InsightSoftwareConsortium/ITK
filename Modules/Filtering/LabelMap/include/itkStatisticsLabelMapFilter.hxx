@@ -28,8 +28,8 @@
 
 namespace itk
 {
-template< typename TImage, typename TFeatureImage >
-StatisticsLabelMapFilter< TImage, TFeatureImage >
+template< typename TLabelMap, typename TFeatureImage, typename TParentLabelMapFilter >
+StatisticsLabelMapFilter< TLabelMap, TFeatureImage, TParentLabelMapFilter >
 ::StatisticsLabelMapFilter()
 {
   m_Minimum = NumericTraits< FeatureImagePixelType >::ZeroValue();
@@ -39,9 +39,9 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
   this->SetNumberOfRequiredInputs(2);
 }
 
-template< typename TImage, typename TFeatureImage >
+template< typename TLabelMap, typename TFeatureImage, typename TParentLabelMapFilter >
 void
-StatisticsLabelMapFilter< TImage, TFeatureImage >
+StatisticsLabelMapFilter< TLabelMap, TFeatureImage, TParentLabelMapFilter >
 ::BeforeThreadedGenerateData()
 {
   Superclass::BeforeThreadedGenerateData();
@@ -58,9 +58,9 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
   m_Maximum = minMax->GetMaximum();
 }
 
-template< typename TImage, typename TFeatureImage >
+template< typename TLabelMap, typename TFeatureImage, typename TParentLabelMapFilter >
 void
-StatisticsLabelMapFilter< TImage, TFeatureImage >
+StatisticsLabelMapFilter< TLabelMap, TFeatureImage, TParentLabelMapFilter >
 ::ThreadedProcessLabelObject(LabelObjectType *labelObject)
 {
   Superclass::ThreadedProcessLabelObject(labelObject);
@@ -303,9 +303,9 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
     }
 }
 
-template< typename TImage, typename TFeatureImage >
+template< typename TLabelMap, typename TFeatureImage, typename TParentLabelMapFilter >
 void
-StatisticsLabelMapFilter< TImage, TFeatureImage >
+StatisticsLabelMapFilter< TLabelMap, TFeatureImage, TParentLabelMapFilter >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
