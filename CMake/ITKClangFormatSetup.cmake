@@ -1,7 +1,7 @@
 # Provides itk_clangformat_setup to assist with maintaining consistent
 # style across the ITK toolkit
 #
-# Globally the ${ITK_SOURCE_DIR}/.clang-foramt file is used to configure the enforced style.
+# Globally the ${ITK_SOURCE_DIR}/.clang-format file is used to configure the enforced style.
 #
 # Clang version 8.0 is required
 #

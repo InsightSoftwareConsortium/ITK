@@ -3,7 +3,7 @@
 ## Examples of each format style can be found on the in the clang-format documentation
 ## See: https://clang.llvm.org/docs/ClangFormatStyleOptions.html for details of each option
 ##
-## The clang-foramt binaries can be downloaded as part of the clang binary distributions
+## The clang-format binaries can be downloaded as part of the clang binary distributions
 ## from http://releases.llvm.org/download.html
 ##
 ## Use the script Utilities/Maintenance/clang-format.bash to faciliate
