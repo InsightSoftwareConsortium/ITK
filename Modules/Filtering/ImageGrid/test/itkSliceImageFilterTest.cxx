@@ -17,17 +17,17 @@
 *=========================================================================*/
 
 #include <itkSliceImageFilter.h>
-#include <gtest/gtest.h>
 
+#include "itkGTest.h"
 #include "itkPhysicalPointImageSource.h"
 #include "itkGaussianImageSource.h"
 #include "itkImageRegionConstIterator.h"
 
 // This test verifies the principle that the SliceImageFilter should
 // not change the physical location of the signal. This is done by
-// constructing an image of points, each corresponding to the phycical
+// constructing an image of points, each corresponding to the physical
 // location of the center of the voxel, then verifying that the value
-// still matches the physcial location.
+// still matches the physical location.
 
 namespace
 {
@@ -311,9 +311,30 @@ TEST(SliceImageFilterTests,Sizes)
   EXPECT_NO_THROW(filter->Update());
   EXPECT_EQ(filter->GetOutput()->GetLargestPossibleRegion().GetSize(), size) << "Check full size for negative step";
 
-  std::cout << "Filter size: " << filter->GetOutput()->GetLargestPossibleRegion() << std::endl;
-  std::cout << "Filter buffered size: " << filter->GetOutput()->GetBufferedRegion() << std::endl;
-  std::cout << "Input size: " << size << std::endl;
+  using namespace itk::GTest::TypedefsAndConstructors::Dimension3;
+
+  source->SetSize(MakeSize(19,17,11));
+
+  filter = FilterType::New();
+  filter->SetInput( source->GetOutput() );
+  filter->SetStep(2);
+  EXPECT_NO_THROW( filter->Update() ) << "Check same start and stop";
+  EXPECT_EQ( 10, filter->GetOutput()->GetLargestPossibleRegion().GetSize(0) );
+  EXPECT_EQ( 9, filter->GetOutput()->GetLargestPossibleRegion().GetSize(1) );
+  EXPECT_EQ( 6, filter->GetOutput()->GetLargestPossibleRegion().GetSize(2) );
+
+  source->SetSize(MakeSize(5,2,3));
+
+  std::cout << "CHECK" << std::endl;
+
+  filter = FilterType::New();
+  filter->SetInput( source->GetOutput() );
+  filter->SetStep(2);
+  EXPECT_NO_THROW( filter->Update() ) << "Check same start and stop";
+  EXPECT_EQ( 3, filter->GetOutput()->GetLargestPossibleRegion().GetSize(0) );
+  EXPECT_EQ( 1, filter->GetOutput()->GetLargestPossibleRegion().GetSize(1) );
+  EXPECT_EQ( 2, filter->GetOutput()->GetLargestPossibleRegion().GetSize(2) );
+
 }
 
 TEST(SliceImageFilterTests,ExceptionalCases)
@@ -361,10 +382,40 @@ TEST(SliceImageFilterTests,ExceptionalCases)
 
   filter = FilterType::New();
   filter->SetInput( source->GetOutput() );
+  filter->SetStart(1);
+  filter->SetStop(1);
+  EXPECT_NO_THROW( filter->Update() ) << "Check same start and stop";
+  EXPECT_EQ( 0u, filter->GetOutput()->GetLargestPossibleRegion().GetNumberOfPixels() );
+
+  filter = FilterType::New();
+  filter->SetInput( source->GetOutput() );
+  filter->SetStart(1);
+  filter->SetStop(1);
+  filter->SetStep(2);
+  EXPECT_NO_THROW( filter->Update() ) << "Check same start and stop";
+  EXPECT_EQ( 0u, filter->GetOutput()->GetLargestPossibleRegion().GetNumberOfPixels() );
+
+  filter = FilterType::New();
+  filter->SetInput( source->GetOutput() );
   filter->SetStart(-12);
   filter->SetStop(-10);
   filter->SetStep(-1);
   EXPECT_NO_THROW( filter->Update() ) << "Check undersized start and stop";
   EXPECT_EQ( 0u, filter->GetOutput()->GetLargestPossibleRegion().GetNumberOfPixels() );
 
+  filter = FilterType::New();
+  filter->SetInput( source->GetOutput() );
+  filter->SetStart(4);
+  filter->SetStop(4);
+  filter->SetStep(-1);
+  EXPECT_NO_THROW( filter->Update() ) << "Check same start and stop with negative step";
+  EXPECT_EQ( 0u, filter->GetOutput()->GetLargestPossibleRegion().GetNumberOfPixels() );
+
+  filter = FilterType::New();
+  filter->SetInput( source->GetOutput() );
+  filter->SetStart(4);
+  filter->SetStop(4);
+  filter->SetStep(-3);
+  EXPECT_NO_THROW( filter->Update() ) << "Check same start and stop with negative step";
+  EXPECT_EQ( 0u, filter->GetOutput()->GetLargestPossibleRegion().GetNumberOfPixels() );
 }

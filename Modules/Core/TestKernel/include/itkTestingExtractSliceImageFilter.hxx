@@ -31,7 +31,7 @@ namespace Testing
 template< typename TInputImage, typename TOutputImage >
 ExtractSliceImageFilter< TInputImage, TOutputImage >
 ::ExtractSliceImageFilter():
-  m_DirectionCollaspeStrategy(DIRECTIONCOLLAPSETOUNKOWN)
+  m_DirectionCollaspeStrategy(TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN)
 {
   this->DynamicMultiThreadingOn();
 }
@@ -213,12 +213,12 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
   // length cosine vector, reset the directions to identity.
   switch(m_DirectionCollaspeStrategy)
     {
-    case DIRECTIONCOLLAPSETOIDENTITY:
+    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY:
     {
     outputDirection.SetIdentity();
     }
     break;
-    case DIRECTIONCOLLAPSETOSUBMATRIX:
+    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX:
     {
     if ( vnl_determinant( outputDirection.GetVnlMatrix() ) == 0.0 )
       {
@@ -226,7 +226,7 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
       }
     }
     break;
-    case DIRECTIONCOLLAPSETOGUESS:
+    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS:
     {
     if ( vnl_determinant( outputDirection.GetVnlMatrix() ) == 0.0 )
       {
@@ -234,7 +234,7 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
       }
     }
     break;
-    case DIRECTIONCOLLAPSETOUNKOWN:
+    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN:
     default:
     {
     itkExceptionMacro( << "It is required that the strategy for collapsing the direction matrix be explicitly specified. "

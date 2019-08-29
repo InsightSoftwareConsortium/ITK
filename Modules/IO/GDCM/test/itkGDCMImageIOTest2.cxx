@@ -116,7 +116,7 @@ int itkGDCMImageIOTest2(int argc, char *argv[] )
 
   // Save as JPEG 2000 Lossless
   // Explicitely specify which compression type to use
-  dicomIO->SetCompressionType(itk::GDCMImageIO::JPEG2000);
+  dicomIO->SetCompressionType(itk::GDCMImageIO::TCompressionType::JPEG2000);
   // Request compression of the ImageIO
   writer->UseCompressionOn();
   writer->SetFileName(output_j2k.c_str());
@@ -132,7 +132,7 @@ int itkGDCMImageIOTest2(int argc, char *argv[] )
     }
 
   // Save as JPEG Lossless
-  dicomIO->SetCompressionType(itk::GDCMImageIO::JPEG);
+  dicomIO->SetCompressionType(itk::GDCMImageIO::TCompressionType::JPEG);
   writer->SetFileName(output_jpll.c_str());
   try
     {

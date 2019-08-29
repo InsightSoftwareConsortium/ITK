@@ -24,6 +24,12 @@
 
 namespace itk
 {
+/** \class DTITubeSpatialObjectPointFieldEnumType
+ * \ingroup ITKSpatialObjects
+ * If you add a type here you need to modify the TranslateEnumToChar
+ to translate the enum to a string */
+ enum class DTITubeSpatialObjectPointFieldEnumType : uint8_t { FA = 0, ADC = 1, GA = 2};
+
 /** \class DTITubeSpatialObjectPoint
  * \brief Point used for a tube definition
  *
@@ -47,9 +53,15 @@ public:
   using FieldType = std::pair< std::string, float >;
   using FieldListType = std::vector< FieldType >;
 
-  // If you add a type here you need to modify the TranslateEnumToChar
-  // to translate the enum to a string
-  typedef enum { FA, ADC, GA } FieldEnumType;
+  /** Enables backwards compatibility for enum values */
+  using FieldEnumType = DTITubeSpatialObjectPointFieldEnumType;
+#if !defined(ITK_LEGACY_REMOVE)
+        //We need to expose the enum values at the class level
+        // for backwards compatibility
+        static constexpr FieldEnumType FA = FieldEnumType::FA;
+        static constexpr FieldEnumType ADC = FieldEnumType::ADC;
+        static constexpr FieldEnumType GA = FieldEnumType::GA;
+#endif
 
   /** Constructor. This one defines the number of dimensions in the
    * DTITubeSpatialObjectPoint */
@@ -112,6 +124,9 @@ protected:
   /** Translate the enum to char */
   std::string TranslateEnumToChar(FieldEnumType name) const;
 };
+
+/** Define how to print enumerations */
+extern ITKSpatialObjects_EXPORT std::ostream &operator<<(std::ostream &out, const DTITubeSpatialObjectPointFieldEnumType value);
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

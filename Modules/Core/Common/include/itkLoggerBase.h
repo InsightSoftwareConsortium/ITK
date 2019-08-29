@@ -20,7 +20,7 @@
 
 #include "itkMultipleLogOutput.h"
 #include "itkRealTimeClock.h"
-
+#include "ITKCommonExport.h"
 #ifdef DEBUG
 #undef DEBUG // HDF5 publicly exports this define when built in debug mode
 // That messes up the DEBUG enumeration in PriorityLevelType.
@@ -53,17 +53,31 @@ public:
 
   using OutputType = MultipleLogOutput::OutputType;
 
-  /** Definition of types of messages. These codes will be used to regulate
-    * the level of detail of messages reported to the final outputs */
-  typedef enum {
-    MUSTFLUSH = 0,
-    FATAL,
-    CRITICAL,
-    WARNING,
-    INFO,
-    DEBUG,
-    NOTSET
-    } PriorityLevelType;
+  /** \class PriorityLevelType
+   *  \ingroup ITKCommon
+   * Definition of types of messages. These codes will be used to regulate
+   * the level of detail of messages reported to the final outputs
+   */
+  enum class PriorityLevelType : uint8_t {
+      MUSTFLUSH = 0,
+      FATAL,
+      CRITICAL,
+      WARNING,
+      INFO,
+      DEBUG,
+      NOTSET
+  };
+#if !defined( ITK_LEGACY_REMOVE )
+    // We need to expose the enum values at the class level
+    // for backwards compatibility
+    static constexpr PriorityLevelType MUSTFLUSH = PriorityLevelType::MUSTFLUSH;
+    static constexpr PriorityLevelType FATAL = PriorityLevelType::FATAL;
+    static constexpr PriorityLevelType CRITICAL = PriorityLevelType::CRITICAL;
+    static constexpr PriorityLevelType WARNING = PriorityLevelType::WARNING;
+    static constexpr PriorityLevelType INFO = PriorityLevelType::INFO;
+    static constexpr PriorityLevelType DEBUG = PriorityLevelType::DEBUG;
+    static constexpr PriorityLevelType NOTSET = PriorityLevelType::NOTSET;
+#endif
 
   itkSetStringMacro(Name);
   itkGetStringMacro(Name);
@@ -135,32 +149,32 @@ public:
   /** Helper methods */
   void Debug(std::string const & message)
   {
-    this->Write (LoggerBase::DEBUG, message);
+    this->Write (LoggerBase::PriorityLevelType::DEBUG, message);
   }
 
   void Info(std::string const & message)
   {
-    this->Write (LoggerBase::INFO, message);
+    this->Write (LoggerBase::PriorityLevelType::INFO, message);
   }
 
   void Warning(std::string const & message)
   {
-    this->Write (LoggerBase::WARNING, message);
+    this->Write (LoggerBase::PriorityLevelType::WARNING, message);
   }
 
   void Critical(std::string const & message)
   {
-    this->Write (LoggerBase::CRITICAL, message);
+    this->Write (LoggerBase::PriorityLevelType::CRITICAL, message);
   }
 
   void Error(std::string const & message)
   {
-    this->Write (LoggerBase::CRITICAL, message);
+    this->Write (LoggerBase::PriorityLevelType::CRITICAL, message);
   }
 
   void Fatal(std::string const & message)
   {
-    this->Write (LoggerBase::FATAL, message);
+    this->Write (LoggerBase::PriorityLevelType::FATAL, message);
   }
 
   virtual void Flush();
@@ -194,6 +208,9 @@ private:
 
   std::string m_Name;
 };  // class LoggerBase
+
+// Define how to print enumeration
+extern ITKCommon_EXPORT std::ostream& operator<<(std::ostream& out, const LoggerBase::PriorityLevelType value);
 } // namespace itk
 
 #endif  // itkLoggerBase_h

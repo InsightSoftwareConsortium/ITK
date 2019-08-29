@@ -22,8 +22,6 @@
 # - Read a tag (patient's name) directly with the GetValueFromTag() method
 # - Compare the two tags if they are the same
 
-from __future__ import print_function
-
 import itk
 import sys
 

@@ -9,6 +9,17 @@
 
 #include <vxl_config.h>
 #include <vnl/vnl_math.h>
+union DoubleBitpatternType {
+  double dbl;
+  vxl_uint_64 uint_64;
+  vxl_uint_32 uint_32[2];
+};
+
+union FloatBitpatternType {
+  float flt;
+  vxl_uint_32 uint_32;
+};
+
 
 //: A particular qNaN to indicate not available.
 // This returns the bit pattern 0x7ff00000000007a2, as used by Octave and R
@@ -16,10 +27,9 @@
 // explicitly documented.
 double vnl_na(double)
 {
-  double a;
-
+ DoubleBitpatternType bitpattern;
 #if VXL_HAS_INT_64
-  *reinterpret_cast<vxl_uint_64*>(&a) = 0x7ff00000000007a2LL;
+  bitpattern.uint_64 = 0x7ff00000000007a2LL;
 #else
 # if VXL_BIG_ENDIAN
 #  define hw 0
@@ -28,11 +38,11 @@ double vnl_na(double)
 #  define hw 1
 #  define lw 0
 # endif
-  reinterpret_cast<vxl_uint_32*>(&a)[hw]=0x7ff00000;
-  reinterpret_cast<vxl_uint_32*>(&a)[lw]=0x000007a2;
+  bitpattern.uint_32[hw]=0x7ff00000;
+  bitpattern.uint_32[lw]=0x000007a2;
 #endif
 
-  return a;
+  return bitpattern.dbl;
 }
 
 
@@ -42,23 +52,23 @@ double vnl_na(double)
 // explicitly documented.
 float vnl_na(float)
 {
-  float a;
+  FloatBitpatternType bitpattern;
+  bitpattern.uint_32 = 0x7f8007a2L;
 
-  *reinterpret_cast<vxl_uint_32*>(&a) = 0x7f8007a2L;
-
-  return a;
+  return bitpattern.flt;
 }
 
 //: True if parameter is specific NA qNaN.
 // Tests for bit pattern 0x7ff00000000007a2, as used by Octave and R
 bool vnl_na_isna(double x)
 {
+  DoubleBitpatternType bitpattern;
+  bitpattern.dbl = x;
 #if VXL_HAS_INT_64
-  return ((*reinterpret_cast<vxl_uint_64*>(&x))&0xfff7ffffffffffffLL) // ignore signalling bit
-    == 0x7ff00000000007a2LL;
+  // ignore signalling bit
+  return ( (bitpattern.uint_64 & 0xfff7ffffffffffffLL) == 0x7ff00000000007a2LL );
 #else
-  return ((reinterpret_cast<vxl_int_32*>(&x)[hw]) & 0xfff7ffff) == 0x7ff00000 &&
-         reinterpret_cast<vxl_int_32*>(&x)[lw] == 0x000007a2;
+  return ( ( (bitpattern.uint_32[hw] & 0xfff7ffff) == 0x7ff00000 ) && ( bitpattern.uint_32[lw] == 0x000007a2 ) );
 #endif
 }
 
@@ -66,8 +76,11 @@ bool vnl_na_isna(double x)
 // Tests for bit pattern 0x7F8007a2
 bool vnl_na_isna(float x)
 {
-  return ((*reinterpret_cast<vxl_uint_32*>(&x))&0xffbfffffL) // ignore signalling bit
-    == 0x7f8007a2L;
+  FloatBitpatternType bitpattern;
+  bitpattern.flt = x;
+
+  // ignore signalling bit
+  return (bitpattern.uint_32 & 0xffbfffffL) == 0x7f8007a2L;
 }
 
 
@@ -168,4 +181,8 @@ void vnl_na_insert(std::ostream &os, float x)
   else
     os << x;
 }
+#if ! VXL_HAS_INT_64
+# undef hw
+# undef lw
+#endif
 //----------------------------------------------------------------------

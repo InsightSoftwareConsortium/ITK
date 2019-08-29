@@ -12,8 +12,8 @@
 
 #include <vnl/vnl_math.h> // for vnl_math::isfinite(double)
 
-typedef unsigned short Counter;
-typedef unsigned short Data;
+using Counter = unsigned short;
+using Data = unsigned short;
 
 //: Creates a zero vnl_bignum.
 

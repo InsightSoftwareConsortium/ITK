@@ -110,7 +110,8 @@ GradientDescentOptimizer
       {
       // An exception has occurred.
       // Terminate immediately.
-      m_StopCondition = MetricError;
+      m_StopCondition = StopConditionType::
+              MetricError;
       m_StopConditionDescription << "Metric error";
       StopOptimization();
 
@@ -133,7 +134,7 @@ GradientDescentOptimizer
       m_StopConditionDescription << "Maximum number of iterations ("
                                  << m_NumberOfIterations
                                  << ") exceeded.";
-      m_StopCondition = MaximumNumberOfIterations;
+      m_StopCondition = StopConditionType::MaximumNumberOfIterations;
       StopOptimization();
       break;
       }
@@ -205,6 +206,19 @@ GradientDescentOptimizer
   this->SetCurrentPosition(newPosition);
 
   this->InvokeEvent( IterationEvent() );
+}
+
+/** Print enum values */
+std::ostream& operator<<(std::ostream& out, const GradientDescentOptimizer::StopConditionType value)
+{
+    const char* s =0;
+    switch(value)
+    {
+        case GradientDescentOptimizer::StopConditionType::MaximumNumberOfIterations: s = "GradientDescentOptimizer::StopConditionType::MaximumNumberOfIterations"; break;
+        case GradientDescentOptimizer::StopConditionType::MetricError: s = "GradientDescentOptimizer::StopConditionType::MetricError"; break;
+        default: s = "INVALID VALUE FOR GradientDescentOptimizer::StopConditionType";
+    }
+    return out << s;
 }
 } // end namespace itk
 

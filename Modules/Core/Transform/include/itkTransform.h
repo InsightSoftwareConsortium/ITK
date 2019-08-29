@@ -457,12 +457,12 @@ public:
    */
   TransformCategoryType GetTransformCategory() const override
   {
-    return Superclass::UnknownTransformCategory;
+    return Superclass::TransformCategoryType::UnknownTransformCategory;
   }
 
   virtual bool IsLinear() const
   {
-    return ( this->GetTransformCategory() == Superclass::Linear );
+    return ( this->GetTransformCategory() == Superclass::TransformCategoryType::Linear );
   }
 
   /**

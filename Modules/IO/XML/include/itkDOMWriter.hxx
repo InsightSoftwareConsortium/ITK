@@ -38,8 +38,8 @@ DOMWriter<TInput>::DOMWriter() : m_Input( nullptr )
   this->m_Logger->AddLogOutput( defout );
   // settings that may be important
   this->m_Logger->SetName( this->GetNameOfClass() );
-  this->m_Logger->SetPriorityLevel( Logger::NOTSET ); // log everything
-  this->m_Logger->SetLevelForFlushing( Logger::MUSTFLUSH ); // never flush (MUSTFLUSH actually leads to no flush, a bug in Logger)
+  this->m_Logger->SetPriorityLevel( Logger::PriorityLevelType::NOTSET ); // log everything
+  this->m_Logger->SetLevelForFlushing( Logger::PriorityLevelType::MUSTFLUSH ); // never flush (MUSTFLUSH actually leads to no flush, a bug in Logger)
   // some other settings
   this->m_Logger->SetTimeStampFormat( Logger::HUMANREADABLE );
   this->m_Logger->SetHumanReadableFormat( "%Y-%b-%d %H:%M:%S" ); // time stamp format

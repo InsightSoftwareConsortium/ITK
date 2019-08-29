@@ -34,11 +34,22 @@
 #include "itkBoundingBox.h"
 #include "itkCellInterface.h"
 #include "itkMapContainer.h"
+#include "ITKMeshExport.h"
 #include <vector>
 #include <set>
 
 namespace itk
 {
+/** \class MeshClassCellsAllocationMethodType
+ * \ingroup ITKMesh
+ * Enum defining the possible methods used to allocate memory for
+ * the Cells */
+enum class MeshClassCellsAllocationMethodType : uint8_t {
+    CellsAllocationMethodUndefined,
+    CellsAllocatedAsStaticArray,
+    CellsAllocatedAsADynamicArray,
+    CellsAllocatedDynamicallyCellByCell
+};
 
 /** \class Mesh
  * \brief Implements the N-dimensional mesh structure.
@@ -139,12 +150,16 @@ public:
   static constexpr unsigned int PointDimension = TMeshTraits::PointDimension;
   static constexpr unsigned int MaxTopologicalDimension = TMeshTraits::MaxTopologicalDimension;
 
-  /** Enum defining the possible methods used to allocate memory for
-   * the Cells */
-  typedef  enum {     CellsAllocationMethodUndefined,
-                      CellsAllocatedAsStaticArray,
-                      CellsAllocatedAsADynamicArray,
-                      CellsAllocatedDynamicallyCellByCell } CellsAllocationMethodType;
+  /** Enables backwards compatibility for enum values */
+  using CellsAllocationMethodType = MeshClassCellsAllocationMethodType;
+#if !defined(ITK_LEGACY_REMOVE)
+        //We need to expose the enum values at the class level
+        // for backwards compatibility
+        static constexpr CellsAllocationMethodType CellsAllocationMethodUndefined = CellsAllocationMethodType::CellsAllocationMethodUndefined;
+        static constexpr CellsAllocationMethodType CellsAllocatedAsStaticArray = CellsAllocationMethodType::CellsAllocatedAsStaticArray;
+        static constexpr CellsAllocationMethodType CellsAllocatedAsADynamicArray = CellsAllocationMethodType::CellsAllocatedAsADynamicArray;
+        static constexpr CellsAllocationMethodType CellsAllocatedDynamicallyCellByCell = CellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell;
+#endif
 
   /** Convenient type alias obtained from TMeshTraits template parameter. */
   using CoordRepType = typename MeshTraits::CoordRepType;
@@ -456,6 +471,9 @@ protected:
 private:
   CellsAllocationMethodType m_CellsAllocationMethod;
 }; // End Class: Mesh
+
+/** Define how to print enumeration */
+extern ITKMesh_EXPORT std::ostream& operator<<(std::ostream& out, const MeshClassCellsAllocationMethodType value);
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

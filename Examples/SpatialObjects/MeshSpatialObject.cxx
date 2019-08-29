@@ -74,7 +74,7 @@ int main(int, char * [] )
     }
 
   myMesh->SetCellsAllocationMethod(
-      MeshType::CellsAllocatedDynamicallyCellByCell );
+          itk::MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell );
   CellAutoPointer testCell1;
   testCell1.TakeOwnership(  new TetraCellType );
   testCell1->SetPointIds(tetraPoints);

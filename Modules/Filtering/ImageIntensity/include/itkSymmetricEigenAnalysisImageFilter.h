@@ -20,6 +20,7 @@
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkSymmetricEigenAnalysis.h"
+#include "ITKImageIntensityExport.h"
 
 namespace itk
 {
@@ -33,6 +34,19 @@ namespace itk
 // magnitude as is common with use of tensors in vessel extraction.
 namespace Functor
 {
+/**\class EigenValueOrderType
+ * \ingroup ITKImageIntensity
+ * Typdedefs to order eigen values.
+ * OrderByValue:      lambda_1 < lambda_2 < ....
+ * OrderByMagnitude:  |lambda_1| < |lambda_2| < .....
+ * DoNotOrder:        Default order of eigen values obtained after QL method
+ */
+    enum class OrderTypeOfEigenValue : uint8_t {
+        OrderByValue = 1,
+        OrderByMagnitude,
+        DoNotOrder
+    };
+
 template< typename TInput, typename TOutput >
 class SymmetricEigenAnalysisFunction
 {
@@ -69,26 +83,24 @@ public:
     return m_Calculator.GetDimension();
   }
 
-  /** Typdedefs to order eigen values.
-   * OrderByValue:      lambda_1 < lambda_2 < ....
-   * OrderByMagnitude:  |lambda_1| < |lambda_2| < .....
-   * DoNotOrder:        Default order of eigen values obtained after QL method
-   */
-  typedef enum {
-    OrderByValue = 1,
-    OrderByMagnitude,
-    DoNotOrder
-    } EigenValueOrderType;
+  using EigenValueOrderType = OrderTypeOfEigenValue;
+#if !defined(ITK_LEGACY_REMOVE)
+    //We need to expose the enum values at the class level
+    // for backwards compatibility
+    static constexpr EigenValueOrderType OrderByValue = EigenValueOrderType::OrderByValue;
+    static constexpr EigenValueOrderType OrderByMagnitude = EigenValueOrderType::OrderByMagnitude;
+    static constexpr EigenValueOrderType DoNotOrder = EigenValueOrderType::DoNotOrder;
+#endif
 
   /** Order eigen values. Default is to OrderByValue:  lambda_1 <
    * lambda_2 < .... */
   void OrderEigenValuesBy(EigenValueOrderType order)
   {
-    if ( order == OrderByMagnitude )
+    if ( order == OrderTypeOfEigenValue::OrderByMagnitude )
       {
       m_Calculator.SetOrderEigenMagnitudes(true);
       }
-    else if ( order == DoNotOrder )
+    else if ( order == OrderTypeOfEigenValue::DoNotOrder )
       {
       m_Calculator.SetOrderEigenValues(false);
       }
@@ -130,26 +142,25 @@ public:
     return m_Calculator.GetDimension();
   }
 
-  /** Typdedefs to order eigen values.
-   * OrderByValue:      lambda_1 < lambda_2 < ....
-   * OrderByMagnitude:  |lambda_1| < |lambda_2| < .....
-   * DoNotOrder:        Default order of eigen values obtained after QL method
-   */
-  typedef enum {
-    OrderByValue = 1,
-    OrderByMagnitude,
-    DoNotOrder
-    } EigenValueOrderType;
+  /** Reverse compatibility for enum values */
+  using EigenValueOrderType = OrderTypeOfEigenValue;
+#if !defined(ITK_LEGACY_REMOVE)
+    //We need to expose the enum values at the class level
+    // for backwards compatibility
+    static constexpr EigenValueOrderType OrderByValue = EigenValueOrderType::OrderByValue;
+    static constexpr EigenValueOrderType OrderByMagnitude = EigenValueOrderType::OrderByMagnitude;
+    static constexpr EigenValueOrderType DoNotOrder = EigenValueOrderType::DoNotOrder;
+#endif
 
   /** Order eigen values. Default is to OrderByValue:  lambda_1 <
    * lambda_2 < .... */
   void OrderEigenValuesBy(EigenValueOrderType order)
   {
-    if ( order == OrderByMagnitude )
+    if ( order == OrderTypeOfEigenValue::OrderByMagnitude )
       {
       m_Calculator.SetOrderEigenMagnitudes(true);
       }
-    else if ( order == DoNotOrder )
+    else if ( order == OrderTypeOfEigenValue::DoNotOrder )
       {
       m_Calculator.SetOrderEigenValues(false);
       }
@@ -158,6 +169,10 @@ public:
 private:
   CalculatorType m_Calculator;
 };
+
+/** Define how to print enumerations */
+extern ITKImageIntensity_EXPORT std::ostream& operator<<(std::ostream& out, const OrderTypeOfEigenValue value);
+
 }  // end namespace Functor
 
 /** \class SymmetricEigenAnalysisImageFilter

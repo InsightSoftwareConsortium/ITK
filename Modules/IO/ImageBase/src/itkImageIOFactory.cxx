@@ -52,14 +52,14 @@ ImageIOFactory::CreateImageIO(const char *path, FileModeType mode)
     }
   for (auto & k : possibleImageIO)
     {
-    if ( mode == ReadMode )
+    if ( mode == FileModeType::ReadMode )
       {
       if ( k->CanReadFile(path) )
         {
         return k;
         }
       }
-    else if ( mode == WriteMode )
+    else if ( mode == FileModeType::WriteMode )
       {
       if ( k->CanWriteFile(path) )
         {
@@ -68,5 +68,18 @@ ImageIOFactory::CreateImageIO(const char *path, FileModeType mode)
       }
     }
   return nullptr;
+}
+
+/** Print enum values */
+std::ostream& operator<<(std::ostream& out, const ImageIOFactory::FileModeType value)
+{
+    const char* s =0;
+    switch(value)
+    {
+        case ImageIOFactory::FileModeType::ReadMode: s = "ImageIOFactory::FileModeType::ReadMode"; break;
+        case ImageIOFactory::FileModeType::WriteMode: s = "ImageIOFactory::FileModeType::WriteMode"; break;
+        default: s = "INVALID VALUE FOR ImageIOFactory::FileModeType";
+    }
+    return out << s;
 }
 } // end namespace itk

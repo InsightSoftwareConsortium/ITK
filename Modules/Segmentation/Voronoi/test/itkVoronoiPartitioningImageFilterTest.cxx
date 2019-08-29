@@ -71,13 +71,13 @@ int itkVoronoiPartitioningImageFilterTest(int argc, char* argv[])
   // Write out an image of the voronoi diagram
   using RGBPixelType = itk::RGBPixel<unsigned char>;
   using RGBImageType = itk::Image<RGBPixelType, 2>;
-  using ColorMapFunctorType = itk::Functor::ScalarToRGBPixelFunctor<float>;
-  using ColorMapFilterType = itk::UnaryFunctorImageFilter<FloatImage,
-    RGBImageType, ColorMapFunctorType>;
+  using ColormapFunctorType = itk::Functor::ScalarToRGBPixelFunctor<float>;
+  using ColormapFilterType = itk::UnaryFunctorImageFilter<FloatImage,
+    RGBImageType, ColormapFunctorType>;
   using WriterType = itk::ImageFileWriter<RGBImageType>;
 
   WriterType::Pointer writer = WriterType::New();
-  ColorMapFilterType::Pointer colormapper = ColorMapFilterType::New();
+  ColormapFilterType::Pointer colormapper = ColormapFilterType::New();
 
   try
     {

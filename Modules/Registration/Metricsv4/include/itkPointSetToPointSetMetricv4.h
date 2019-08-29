@@ -412,6 +412,15 @@ protected:
     return Superclass::POINT_SET_METRIC;
     }
 
+  virtual bool RequiresMovingPointsLocator() const
+    {
+    return true;
+    };
+
+  virtual bool RequiresFixedPointsLocator() const
+    {
+    return true;
+    };
 
 private:
   mutable bool m_MovingTransformPointLocatorsNeedInitialization;
@@ -427,6 +436,12 @@ private:
 
   mutable ModifiedTimeType m_MovingTransformedPointSetTime;
   mutable ModifiedTimeType m_FixedTransformedPointSetTime;
+
+  //Create ranges over the point set for multithreaded computation of value and derivatives
+  using PointIdentifierPair = std::pair<PointIdentifier, PointIdentifier>;
+  using PointIdentifierRanges = std::vector<PointIdentifierPair>;
+  const PointIdentifierRanges  CreateRanges() const;
+
 };
 } // end namespace itk
 

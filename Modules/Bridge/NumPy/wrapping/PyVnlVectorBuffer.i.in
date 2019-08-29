@@ -1,7 +1,3 @@
-%begin %{
-#include "PatchedPython27pyconfig.h"
-%}
-
 %extend itkPyVnl@PyVnlTypes@{
     %pythoncode %{
 
@@ -55,6 +51,7 @@
         assert ndarr.ndim == 1 , \
             "Only arrays of 1 dimension are supported."
 
+        ndarr = numpy.ascontiguousarray(ndarr)
         vec = itkPyVnl@PyVnlTypes@._GetVnlVectorFromArray( ndarr, ndarr.shape)
 
         return vec
@@ -114,6 +111,7 @@
         assert ndarr.ndim == 2 , \
             "Only arrays of 2 dimensions are supported."
 
+        ndarr = numpy.ascontiguousarray(ndarr)
         mat = itkPyVnl@PyVnlTypes@._GetVnlMatrixFromArray( ndarr, ndarr.shape)
 
         return mat

@@ -35,8 +35,6 @@
 #     OUTPUTS: {FastMarchingFilterOutput3.png}
 #     ARGUMENTS:    40 90 0.5  -0.3  2.0   200 100
 
-from __future__ import print_function
-
 import itk
 from sys import argv, stderr, exit
 import os

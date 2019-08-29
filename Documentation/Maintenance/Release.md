@@ -175,6 +175,7 @@ Pre-tag activities
 
 The following must be ensured before tagging the ITK repository:
 
+  * Check the [Dashboard].
   * Make sure to **update the versions** in `ITK/CMake/itkVersion.cmake`.
     * For bugfix releases, this is done before the tag. For feature releases,
     this is done after the final tag.
@@ -250,7 +251,7 @@ Next, archive the data on data.kitware.com. Create a folder, e.g.
 This script requires the girder-client Python package install from Girder
 master, November 2016 or later, (Girder > 2.0.0).
 
-Archive the `InsightData` contents on ITK's file server at kitware:
+Archive the `InsightData` contents on ITK's file server at Kitware:
 
 ```sh
    rsync -v -r ${ExternalData_OBJECT_STORES}/MD5/ public:/projects/Insight/WWW/InsightWeb/files/ExternalData/MD5/
@@ -277,8 +278,8 @@ to make sure that the source tree is updated. This must correspond to a source
 tree that has been fully tested in the [Dashboard].
 
   * When tagging a **bugfix release** on the `release` branch, make sure to
-    bump the `ITK_VERSION_PATCH` variable in the top level `CMakeLists.txt`
-    before tagging.
+    bump the `ITK_VERSION_PATCH` variable in the `CMake/itkVersion.cmake`
+    file before tagging.
   * When tagging a **feature release**, make sure to bump the
    `ITK_VERSION_MINOR` version on the `master` branch after tagging.
 

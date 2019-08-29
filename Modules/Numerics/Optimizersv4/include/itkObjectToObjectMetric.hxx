@@ -184,7 +184,7 @@ bool
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>
 ::HasLocalSupport() const
 {
-  return ( this->m_MovingTransform->GetTransformCategory() == MovingTransformType::DisplacementField );
+  return ( this->m_MovingTransform->GetTransformCategory() == MovingTransformType::TransformCategoryType::DisplacementField );
 }
 
 template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage,

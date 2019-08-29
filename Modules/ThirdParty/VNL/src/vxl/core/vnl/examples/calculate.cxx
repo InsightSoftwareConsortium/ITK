@@ -48,9 +48,9 @@ vnl_decnum diff(vnl_decnum const& a, vnl_decnum const& b) { return a-b; }
 vnl_decnum fac(vnl_decnum const& a) { if (a<=one) return one; else return a*fac(a-one); }
 vnl_decnum binom(vnl_decnum const& a, vnl_decnum const& b) { if (a<zero || b<zero || a<b) return zero; return fac(a)/fac(a-b)/fac(b); }
 
-typedef vnl_decnum (*fptr1) (vnl_decnum const&);
-typedef vnl_decnum (*fptr2) (vnl_decnum const&,vnl_decnum const&);
-typedef vnl_decnum (*fptr3) (vnl_decnum const&,unsigned long);
+using fptr1 = vnl_decnum (*)(const vnl_decnum &);
+using fptr2 = vnl_decnum (*)(const vnl_decnum &, const vnl_decnum &);
+using fptr3 = vnl_decnum (*)(const vnl_decnum &, unsigned long);
 
 class node
 {

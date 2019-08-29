@@ -189,7 +189,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   // Check whether we can use a fast path for resampling. Fast path
   // can be used if the transformation is linear. Transform respond
   // to the IsLinear() call.
-  if ( !isSpecialCoordinatesImage && this->GetTransform()->GetTransformCategory() == TransformType::Linear )
+  if ( !isSpecialCoordinatesImage && this->GetTransform()->GetTransformCategory() == TransformType::TransformCategoryType::Linear )
     {
     this->LinearThreadedGenerateData(outputRegionForThread);
     return;
@@ -525,7 +525,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   // Check whether we can use upstream streaming for resampling. Upstream streaming
   // can be used if the transformation is linear. Transform respond
   // to the IsLinear() call.
-  if ( !isSpecialCoordinatesImage && transform->GetTransformCategory() == TransformType::Linear )
+  if ( !isSpecialCoordinatesImage && transform->GetTransformCategory() == TransformType::TransformCategoryType::Linear )
     {
     typename TInputImage::RegionType inputRequestedRegion;
     inputRequestedRegion = ImageAlgorithm::EnlargeRegionOverBox(output->GetRequestedRegion(),

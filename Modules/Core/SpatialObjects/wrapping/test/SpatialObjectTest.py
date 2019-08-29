@@ -16,8 +16,6 @@
 #
 #==========================================================================*/
 
-from __future__ import print_function
-
 import itk
 
 itk.auto_progress(2)

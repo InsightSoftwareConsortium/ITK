@@ -106,10 +106,11 @@ itk_add_test(NAME itkDCMTKImageIOSlopeInterceptTest
   DATA{Input/slopeIntercept.dcm}
   )
 
-itk_add_test(NAME itkDCMTKImageIOMultiFrameImageTest
-  COMMAND ITKIODCMTKTestDriver itkDCMTKImageIOMultiFrameImageTest
-  DATA{Input/MultiFrameDicomTest.dcm}
-  )
+# Requires additional logic in DCMTKFileReader::GetSpacing
+#itk_add_test(NAME itkDCMTKImageIOMultiFrameImageTest
+#  COMMAND ITKIODCMTKTestDriver itkDCMTKImageIOMultiFrameImageTest
+#  DATA{Input/MultiFrameDicomTest.dcm}
+#  )
 
 itk_add_test(NAME itkDCMTKImageIONoPreambleTest
   COMMAND ITKIODCMTKTestDriver itkDCMTKImageIONoPreambleTest

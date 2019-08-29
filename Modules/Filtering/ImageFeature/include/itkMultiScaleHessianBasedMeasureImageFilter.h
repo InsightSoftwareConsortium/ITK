@@ -140,8 +140,8 @@ public:
   itkGetConstMacro(NonNegativeHessianBasedMeasure, bool);
   itkBooleanMacro(NonNegativeHessianBasedMeasure);
 
-  typedef enum { EquispacedSigmaSteps = 0,
-                 LogarithmicSigmaSteps = 1 } SigmaStepMethodType;
+  enum SigmaStepMethodType : uint8_t { EquispacedSigmaSteps = 0,
+        LogarithmicSigmaSteps = 1 };
 
   /** Set/Get the method used to generate scale sequence (Equispaced
    * or Logarithmic) */

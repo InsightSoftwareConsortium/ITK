@@ -17,3 +17,12 @@ if(ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
 endif()
 itk_python_expression_add_test(NAME itkSymmetricEigenAnalysisImageFilterPythonTest
   EXPRESSION "filt = itk.SymmetricEigenAnalysisImageFilter.New()")
+execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import numpy"
+  RESULT_VARIABLE _have_numpy_return_code
+  OUTPUT_QUIET
+  ERROR_QUIET
+  )
+if(_have_numpy_return_code EQUAL 0)
+  itk_python_add_test(NAME itkImageFilterNumPyInputsTest
+                      COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/itkImageFilterNumPyInputsTest.py)
+endif()

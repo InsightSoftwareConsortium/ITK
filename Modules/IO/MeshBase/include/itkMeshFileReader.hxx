@@ -498,7 +498,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
 
   if ( m_UserSpecifiedMeshIO == false ) // try creating via factory
     {
-    m_MeshIO = MeshIOFactory::CreateMeshIO(m_FileName.c_str(), MeshIOFactory::ReadMode);
+    m_MeshIO = MeshIOFactory::CreateMeshIO(m_FileName.c_str(), MeshIOFactory::FileModeType::ReadMode);
     }
 
   if ( m_MeshIO.IsNull() )

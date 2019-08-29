@@ -28,9 +28,18 @@
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkSize.h"
+#include "ITKMarkovRandomFieldsClassifiersExport.h"
 
 namespace itk
 {
+/** \class MRFStopType
+ *  \ingroup ITKMarkovRandomFieldsClassifiers
+ * Enum to get the stopping condition of the MRF filter*/
+enum class MRFStopType : uint8_t {
+    MaximumNumberOfIterations = 1,
+    ErrorTolerance
+};
+
 /** \class MRFImageFilter
  * \brief Implementation of a labeller object that uses Markov Random Fields
  * to classify pixels in an image data set.
@@ -277,11 +286,14 @@ public:
     return m_MRFNeighborhoodWeight;
   }
 
-//Enum to get the stopping condition of the MRF filter
-  typedef enum {
-    MaximumNumberOfIterations = 1,
-    ErrorTolerance
-    } StopConditionType;
+  /** Backwards compatibility for enumerations */
+  using StopConditionType = MRFStopType;
+#if !defined(ITK_LEGACY_REMOVE)
+        //We need to expose the enum values at the class level
+        // for backwards compatibility
+        static constexpr StopConditionType MaximumNumberOfIterations = StopConditionType::MaximumNumberOfIterations;
+        static constexpr StopConditionType ErrorTolerance = StopConditionType::ErrorTolerance;
+#endif
 
   /** Get condition that stops the MRF filter (Number of Iterations
    * / Error tolerance ) */
@@ -391,6 +403,11 @@ private:
   //Function implementing the ICM algorithm to label the images
   void ApplyICMLabeller();
 }; // class MRFImageFilter
+
+/** Define how to print enumerations. */
+extern ITKMarkovRandomFieldsClassifiers_EXPORT std::ostream &
+       operator<<( std::ostream & out, const MRFStopType value );
+
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

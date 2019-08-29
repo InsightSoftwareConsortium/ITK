@@ -215,7 +215,7 @@ public:
    */
   TransformCategoryType GetTransformCategory() const override
   {
-    return Self::Linear;
+    return Self::TransformCategoryType::Linear;
   }
 
   /** Get the Fixed Parameters. */

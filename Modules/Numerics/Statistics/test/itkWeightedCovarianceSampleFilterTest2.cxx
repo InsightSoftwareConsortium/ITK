@@ -53,45 +53,6 @@ public:
 }
 
 
-class WeightedCovarianceTestFunction :
-  public itk::FunctionBase< MeasurementVectorType2, double >
-{
-public:
-
-  /** Standard class type aliases. */
-  using Self = WeightedCovarianceTestFunction;
-
-  using Superclass = itk::FunctionBase< MeasurementVectorType2, double >;
-
-  using Pointer = itk::SmartPointer<Self>;
-
-  using ConstPointer = itk::SmartPointer<const Self>;
-
-  /** Standard macros. */
-  itkTypeMacro(WeightedCovarianceTestFunction, FunctionBase);
-  itkNewMacro(Self);
-
-  /** Input type */
-  using InputType = MeasurementVectorType2;
-
-  /** Output type */
-  using OutputType = double;
-
-  /**Evaluate at the specified input position */
-  OutputType Evaluate( const InputType & itkNotUsed( input ) ) const override
-    {
-    MeasurementVectorType2 measurements;
-    // set the weight factor of the measurment
-    // vector with valuev[2, 2] to 0.5.
-    return 1.0;
-    }
-
-protected:
-  WeightedCovarianceTestFunction() = default;
-  ~WeightedCovarianceTestFunction() override = default;
-}; // end of class
-
-
 int itkWeightedCovarianceSampleFilterTest2(int, char* [] )
 {
   std::cout << "WeightedCovarianceSampleFilter test \n \n";
@@ -349,8 +310,41 @@ int itkWeightedCovarianceSampleFilterTest2(int, char* [] )
     }
 
 
+  //Class defined locally in this function only
+  class WeightedCovarianceSampleTestFunction2 :
+    public itk::FunctionBase< MeasurementVectorType2, double >
+  {
+  public:
+    /** Standard class type aliases. */
+    using Self = WeightedCovarianceSampleTestFunction2;
+    using Pointer = itk::SmartPointer<Self>;
+
+    /** Standard macros. */
+    itkTypeMacro(WeightedCovarianceSampleTestFunction2, FunctionBase);
+    itkNewMacro(Self);
+
+    /** Input type */
+    using InputType = MeasurementVectorType2;
+
+    /** Output type */
+    using OutputType = double;
+
+    /**Evaluate at the specified input position */
+    OutputType Evaluate( const InputType & itkNotUsed( input ) ) const override
+      {
+      MeasurementVectorType2 measurements;
+      // set the weight factor of the measurment
+      // vector with valuev[2, 2] to 0.5.
+      return 1.0;
+      }
+
+  protected:
+    WeightedCovarianceSampleTestFunction2() = default;
+    ~WeightedCovarianceSampleTestFunction2() override = default;
+  }; // end of class
+
   //set  a constant 1.0 weight using a function
-  WeightedCovarianceTestFunction::Pointer weightFunction = WeightedCovarianceTestFunction::New();
+  WeightedCovarianceSampleTestFunction2::Pointer weightFunction = WeightedCovarianceSampleTestFunction2::New();
   filter->SetWeightingFunction( weightFunction );
 
   try

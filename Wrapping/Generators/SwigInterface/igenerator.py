@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Import unicode literals so that StringIO works on both Python 2 and 3
-from __future__ import unicode_literals
-from __future__ import print_function
-
 import sys
 import os
 import re
@@ -90,6 +86,17 @@ class SwigInputGenerator(object):
         "itk::ObjectFactoryBasePrivate",
         "itk::ThreadPoolGlobals",
         "itk::MultiThreaderBaseGlobals",
+
+        "itk::ExtractImageFilterCollapseStrategy",
+        "itk::EnumGaussianOrderType",
+        "itk::MeshClassCellsAllocationMethodType",
+        "itk::DTITubeSpatialObjectPointFieldEnumType",
+        "itk::RGBColormapFilterEnumType",
+        "itk::ConvolutionImageFilterOutputRegionType",
+        "itk::MeshClassCellsAllocationMethodType",
+        "itk::SourceTypeOfGradient",
+        "itk::ChoiceMethod",
+
         ".+[(][*][)][(].+" # functor functions
     ]
 
@@ -531,6 +538,8 @@ class SwigInputGenerator(object):
             for processObject in processObjects:
                 snakeCase = self.camelCaseToSnakeCase(processObject)
                 self.snakeCaseProcessObjectFunctions.add(snakeCase)
+                self.outputFile.write('import itkHelpers\n')
+                self.outputFile.write('@itkHelpers.accept_numpy_array_like\n')
                 self.outputFile.write('def %s(*args, **kwargs):\n' % snakeCase)
                 self.outputFile.write('    """Procedural interface for %s"""\n' % processObject)
                 self.outputFile.write('    import itk\n')

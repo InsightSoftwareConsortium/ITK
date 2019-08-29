@@ -26,6 +26,16 @@ namespace itk
 {
 namespace Testing
 {
+/** \class TestExtractSliceImageFilterCollapseStrategy
+ * \ingroup ITKTestKernel
+ */
+enum class TestExtractSliceImageFilterCollapseStrategy : uint8_t {
+        DIRECTIONCOLLAPSETOUNKOWN=0,
+        DIRECTIONCOLLAPSETOIDENTITY=1,
+        DIRECTIONCOLLAPSETOSUBMATRIX=2,
+        DIRECTIONCOLLAPSETOGUESS=3
+};
+
 /** \class ExtractSliceImageFilter
  * \brief Decrease the image size by cropping the image to the selected
  * region bounds.
@@ -116,13 +126,17 @@ public:
   using OutputImageSizeType = typename TOutputImage::SizeType;
   using InputImageSizeType = typename TInputImage::SizeType;
 
-  typedef enum DirectionCollaspeStrategyEnum {
-    DIRECTIONCOLLAPSETOUNKOWN=0,
-    DIRECTIONCOLLAPSETOIDENTITY=1,
-    DIRECTIONCOLLAPSETOSUBMATRIX=2,
-    DIRECTIONCOLLAPSETOGUESS=3
-  } DIRECTIONCOLLAPSESTRATEGY;
-
+  /** Enables backwards compatibility for enum values */
+  using DIRECTIONCOLLAPSESTRATEGY = TestExtractSliceImageFilterCollapseStrategy;
+  using DirectionCollaspeStrategyEnum = TestExtractSliceImageFilterCollapseStrategy;
+#if !defined(ITK_LEGACY_REMOVE)
+        //We need to expose the enum values at the class level
+        // for backwards compatibility
+        static constexpr DIRECTIONCOLLAPSESTRATEGY DIRECTIONCOLLAPSETOUNKOWN = DIRECTIONCOLLAPSESTRATEGY::DIRECTIONCOLLAPSETOUNKOWN;
+        static constexpr DIRECTIONCOLLAPSESTRATEGY DIRECTIONCOLLAPSETOIDENTITY = DIRECTIONCOLLAPSESTRATEGY::DIRECTIONCOLLAPSETOIDENTITY;
+        static constexpr DIRECTIONCOLLAPSESTRATEGY DIRECTIONCOLLAPSETOSUBMATRIX = DIRECTIONCOLLAPSESTRATEGY::DIRECTIONCOLLAPSETOSUBMATRIX;
+        static constexpr DIRECTIONCOLLAPSESTRATEGY DIRECTIONCOLLAPSETOGUESS = DIRECTIONCOLLAPSESTRATEGY::DIRECTIONCOLLAPSETOGUESS;
+#endif
 
   /**
    * Set the strategy to be used to collapse pysical space dimensions.
@@ -152,11 +166,11 @@ public:
     {
     switch(choosenStrategy)
       {
-    case DIRECTIONCOLLAPSETOGUESS:
-    case DIRECTIONCOLLAPSETOIDENTITY:
-    case DIRECTIONCOLLAPSETOSUBMATRIX:
+    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS:
+    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY:
+    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX:
       break;
-    case DIRECTIONCOLLAPSETOUNKOWN:
+    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN:
     default:
       itkExceptionMacro( << "Invalid Strategy Chosen for itk::ExtractSliceImageFilter" );
       }
@@ -181,19 +195,19 @@ public:
   /** \sa SetDirectionCollapseToStrategy */
   void SetDirectionCollapseToGuess()
     {
-    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLAPSETOGUESS);
+    this->SetDirectionCollapseToStrategy(TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS);
     }
 
   /** \sa SetDirectionCollapseToStrategy */
   void SetDirectionCollapseToIdentity()
     {
-    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLAPSETOIDENTITY);
+    this->SetDirectionCollapseToStrategy(TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY);
     }
 
   /** \sa SetDirectionCollapseToStrategy */
   void SetDirectionCollapseToSubmatrix()
     {
-    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLAPSETOSUBMATRIX);
+    this->SetDirectionCollapseToStrategy(TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX);
     }
 
 
@@ -269,6 +283,10 @@ protected:
 private:
   DIRECTIONCOLLAPSESTRATEGY m_DirectionCollaspeStrategy;
 };
+
+/** Define how to print enumerations */
+// TestKernal is not a shared library, so no EXPORT
+extern std::ostream& operator<<(std::ostream& out, const TestExtractSliceImageFilterCollapseStrategy value);
 } // end namespace Testing
 } // end namespace itk
 

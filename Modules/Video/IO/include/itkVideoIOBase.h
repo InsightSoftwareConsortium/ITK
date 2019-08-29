@@ -72,8 +72,16 @@ public:
 
   /*-------- This part of the interface deals with reading data. ------ */
 
-  /** Enum used to define weather to read from a file or a camera */
-  typedef enum {ReadFromFile, ReadFromCamera} ReadType;
+  /** \class ReadType
+   * \ingroup ITKVideoIO
+   * Enum used to define weather to read from a file or a camera */
+  enum class ReadType : uint8_t {ReadFromFile, ReadFromCamera};
+#if !defined(ITK_LEGACY_REMOVE)
+        //We need to expose the enum values at the class level
+        // for backwards compatibility
+        static constexpr ReadType ReadFromFile = ReadType::ReadFromFile;
+        static constexpr ReadType ReadFromCamera = ReadType::ReadFromCamera;
+#endif
 
   /** Set to reading from file */
   virtual void SetReadFromFile() = 0;
@@ -119,7 +127,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Member Variables */
-  ReadType           m_ReadType{ReadFromFile};
+  ReadType           m_ReadType{ReadType::ReadFromFile};
   TemporalRatioType  m_FramesPerSecond{0.0};
   FrameOffsetType    m_FrameTotal;
   FrameOffsetType    m_CurrentFrame;
@@ -130,6 +138,9 @@ protected:
   bool               m_WriterOpen{false};
   bool               m_ReaderOpen{false};
 };
+
+// Define how to print enumeration
+extern ITKVideoIO_EXPORT std::ostream& operator<<(std::ostream& out, const VideoIOBase::ReadType value);
 
 } // end namespace itk
 

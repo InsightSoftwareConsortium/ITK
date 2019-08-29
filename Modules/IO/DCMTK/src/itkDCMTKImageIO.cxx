@@ -296,11 +296,6 @@ DCMTKImageIO
   m_Dimensions[0] = (unsigned int)(m_DImage->getWidth());
   m_Dimensions[1] = (unsigned int)(m_DImage->getHeight());
 
-  // pick a size for output image (should get it from DCMTK in the ReadImageInformation()))
-  // NOTE ALEX: EP_Representation is made for that
-  // but i don t know yet where to fetch it from
-  size_t scalarSize = ImageIOBase::GetComponentSize();
-
   switch(this->m_ComponentType)
     {
     case UNKNOWNCOMPONENTTYPE:
@@ -315,31 +310,20 @@ DCMTKImageIO
   // get the image in the DCMTK buffer
   const DiPixel * const interData = m_DImage->getInterData();
   const void *data = interData->getData();
-  unsigned long count = interData->getCount();
-  size_t voxelSize(scalarSize);
-  switch(this->m_PixelType)
+  size_t count = interData->getCount();
+  if (this->m_PixelType == RGB || this->m_PixelType == RGBA)
     {
-    case RGB:
-      ReorderRGBValues(buffer, data, count, 3);
-      return;
-    case RGBA:
-      ReorderRGBValues(buffer, data, count, 4);
-      return;
-    case VECTOR:
-      voxelSize *= this->GetNumberOfComponents();
-      break;
-    default:
-      voxelSize *= 1;
-      break;
+    ReorderRGBValues(buffer, data, count, this->GetNumberOfComponents());
     }
-    memcpy(buffer,
-         data,
-         count * voxelSize);
+  else
+    {
+    memcpy(buffer, data, count * this->GetComponentSize() * this->GetNumberOfComponents());
+    }
 }
 
 void
 DCMTKImageIO
-::ReorderRGBValues(void *buffer, const void* data, unsigned long count, unsigned int voxel_size)
+::ReorderRGBValues(void *buffer, const void* data, size_t count, unsigned int voxel_size)
 {
     switch(this->m_ComponentType)
       {

@@ -32,7 +32,7 @@ SPSAOptimizer
 
   m_CurrentIteration = 0;
   m_Maximize = false;
-  m_StopCondition = Unknown;
+  m_StopCondition = StopConditionType::Unknown;
   m_StateOfConvergenceDecayRate = 0.9;
   m_Tolerance = 1e-06;
   m_StateOfConvergence = 0;
@@ -149,7 +149,7 @@ SPSAOptimizer
     }
 
   m_CurrentIteration = 0;
-  m_StopCondition = Unknown;
+  m_StopCondition = StopConditionType::Unknown;
   m_StateOfConvergence = 0.0;
 
   this->SetCurrentPosition( this->GetInitialPosition() );
@@ -183,7 +183,7 @@ SPSAOptimizer
 
     if ( m_CurrentIteration >= m_MaximumNumberOfIterations )
       {
-      m_StopCondition = MaximumNumberOfIterations;
+      m_StopCondition = StopConditionType::MaximumNumberOfIterations;
       StopOptimization();
       break;
       }
@@ -192,7 +192,7 @@ SPSAOptimizer
     if ( ( m_StateOfConvergence < m_Tolerance )
          && ( m_CurrentIteration >= m_MinimumNumberOfIterations ) )
       {
-      m_StopCondition = BelowTolerance;
+      m_StopCondition = StopConditionType::BelowTolerance;
       StopOptimization();
       break;
       }
@@ -252,7 +252,7 @@ SPSAOptimizer
     {
     // An exception has occurred.
     // Terminate immediately.
-    m_StopCondition = MetricError;
+    m_StopCondition = StopConditionType::MetricError;
     StopOptimization();
     // Pass exception to caller
     throw err;
@@ -499,17 +499,17 @@ SPSAOptimizer::GetStopConditionDescription() const
   reason << this->GetNameOfClass() << ": ";
   switch ( m_StopCondition )
     {
-    case Unknown:
+    case StopConditionType::Unknown:
       reason << "Unknown stop condition";
       break;
-    case MaximumNumberOfIterations:
+    case StopConditionType::MaximumNumberOfIterations:
       reason << "Maximum number of iterations exceeded. Number of iterations is "
              << m_MaximumNumberOfIterations;
       break;
-    case BelowTolerance:
+    case StopConditionType::BelowTolerance:
       reason << "Below tolerance. " << "Tolerance is " << m_Tolerance;
       break;
-    case MetricError:
+    case StopConditionType::MetricError:
       reason << "Metric error";
       break;
     default:
@@ -518,4 +518,20 @@ SPSAOptimizer::GetStopConditionDescription() const
     }
   return reason.str();
 }
+
+/** Print enum values */
+std::ostream& operator<<(std::ostream& out, const SPSAOptimizer::StopConditionType value)
+{
+    const char* s =0;
+    switch(value)
+    {
+        case SPSAOptimizer::StopConditionType::Unknown: s = "SPSAOptimizer::StopConditionType::Unknown"; break;
+        case SPSAOptimizer::StopConditionType::MaximumNumberOfIterations: s = "SPSAOptimizer::StopConditionType::MaximumNumberOfIterations"; break;
+        case SPSAOptimizer::StopConditionType::BelowTolerance: s = "SPSAOptimizer::StopConditionType::BelowTolerance"; break;
+        case SPSAOptimizer::StopConditionType::MetricError: s = "SPSAOptimizer::StopConditionType::MetricError"; break;
+        default: s = "INVALID VALUE FOR SPSAOptimizer::StopConditionType";
+    }
+    return out << s;
+}
+
 } // end namespace itk

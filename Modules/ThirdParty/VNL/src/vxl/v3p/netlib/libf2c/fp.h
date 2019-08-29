@@ -1,7 +1,7 @@
 #define FMAX 40
 #define EXPMAXDIGS 8
 #define EXPMAX 99999999
-/* FMAX = max number of nonzero digits passed to atof() */
+/* FMAX = max number of nonzero digits passed to std::stod() */
 /* EXPMAX = 10^EXPMAXDIGS - 1 = largest allowed exponent absolute value */
 
 #ifdef V10 /* Research Tenth-Edition Unix */

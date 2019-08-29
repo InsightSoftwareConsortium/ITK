@@ -22,6 +22,22 @@
 
 namespace itk
 {
+/** \class TreeIteratorBaseNodeType
+ * \ingroup ITKCommon
+ * Enumerations for node type
+ */
+enum class TreeIteratorBaseNodeType : uint8_t
+{
+    UNDEFIND   = 0,
+    PREORDER   = 1,
+    INORDER    = 2,
+    POSTORDER  = 3,
+    LEVELORDER = 4,
+    CHILD   = 5,
+    ROOT     = 6,
+    LEAF     = 7
+};
+
 /** \class TreeIteratorBase
  *  \brief This class provides the base implementation for tree iterators.
  *
@@ -49,19 +65,20 @@ public:
   using TreeNodeType = typename TTreeType::TreeNodeType;
   using ChildIdentifier = typename TreeNodeType::ChildIdentifier;
 
-  /** Enumerations */
-  typedef enum
-    {
-    UNDEFIND   = 0,
-    PREORDER   = 1,
-    INORDER    = 2,
-    POSTORDER  = 3,
-    LEVELORDER = 4,
-    CHILD   = 5,
-    ROOT     = 6,
-    LEAF     = 7
-    }
-    NodeType;
+  /** Backwards compatibility for enum values */
+  using NodeType = TreeIteratorBaseNodeType;
+#if !defined(ITK_LEGACY_REMOVE)
+    //We need to expose the enum values at the class level
+    // for backwards compatibility
+    static constexpr NodeType UNDEFIND = NodeType::UNDEFIND;
+    static constexpr NodeType PREORDER = NodeType::PREORDER;
+    static constexpr NodeType INORDER = NodeType::INORDER;
+    static constexpr NodeType POSTORDER = NodeType::POSTORDER;
+    static constexpr NodeType LEVELORDER = NodeType::LEVELORDER;
+    static constexpr NodeType CHILD = NodeType::CHILD;
+    static constexpr NodeType ROOT = NodeType::ROOT;
+    static constexpr NodeType LEAF = NodeType::LEAF;
+#endif
 
   /** Add an element to the tree */
   virtual bool Add(ValueType element);

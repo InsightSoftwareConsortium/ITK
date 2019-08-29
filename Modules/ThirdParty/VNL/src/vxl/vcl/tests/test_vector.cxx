@@ -26,7 +26,7 @@ int test_vector_main(int /*argc*/,char* /*argv*/[])
 {
   bool fail = false;
   {
-    typedef std::vector<int> container;
+    using container = std::vector<int>;
     container m;
 
     m.push_back(1);

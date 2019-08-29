@@ -22,9 +22,11 @@
 #include "itkGPUFiniteDifferenceFunction.h"
 #include "itkFiniteDifferenceImageFilter.h"
 #include "itkTimeProbe.h"
+#include "itkGPUFiniteDifferenceFilterTypeEnum.h"
 
 namespace itk
 {
+
 /**
  * \class GPUFiniteDifferenceImageFilter
  *
@@ -95,18 +97,25 @@ public:
       }
     }
 
-  typedef enum { UNINITIALIZED = 0, INITIALIZED = 1 } FilterStateType;
+  /** Enables backwards compatibility for enum values */
+  using FilterStateType = GPUFiniteDifferenceFilterTypeEnum;
+#if !defined(ITK_LEGACY_REMOVE)
+    //We need to expose the enum values at the class level
+    // for backwards compatibility
+    static constexpr FilterStateType UNINITIALIZED = FilterStateType::UNINITIALIZED;
+    static constexpr FilterStateType INITIALIZED = FilterStateType::INITIALIZED;
+#endif
 
   /** Set the state of the filter to INITIALIZED */
   void SetStateToInitialized()
   {
-    this->SetState(INITIALIZED);
+    this->SetState(FilterStateType::INITIALIZED);
   }
 
   /** Set the state of the filter to UNINITIALIZED */
   void SetStateToUninitialized()
   {
-    this->SetState(UNINITIALIZED);
+    this->SetState(FilterStateType::UNINITIALIZED);
   }
 
   /** Set/Get the state of the filter. */
@@ -263,6 +272,7 @@ private:
   /** State that the filter is in, i.e. UNINITIALIZED or INITIALIZED */
   FilterStateType m_State;
 };
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

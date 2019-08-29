@@ -133,13 +133,13 @@ int itkFFTConvolutionImageFilterTest( int argc, char * argv[] )
     std::string outputRegionMode( argv[6] );
     if ( outputRegionMode == "SAME" )
       {
-      convoluter->SetOutputRegionMode( ConvolutionFilterType::SAME );
-      ITK_TEST_SET_GET_VALUE( ConvolutionFilterType::SAME, convoluter->GetOutputRegionMode() );
+      convoluter->SetOutputRegionMode( itk::ConvolutionImageFilterOutputRegionType::SAME );
+      ITK_TEST_SET_GET_VALUE( itk::ConvolutionImageFilterOutputRegionType::SAME, convoluter->GetOutputRegionMode() );
       }
     else if ( outputRegionMode == "VALID" )
       {
-      convoluter->SetOutputRegionMode( ConvolutionFilterType::VALID );
-      ITK_TEST_SET_GET_VALUE( ConvolutionFilterType::VALID, convoluter->GetOutputRegionMode() );
+      convoluter->SetOutputRegionMode( itk::ConvolutionImageFilterOutputRegionType::VALID );
+      ITK_TEST_SET_GET_VALUE( itk::ConvolutionImageFilterOutputRegionType::VALID, convoluter->GetOutputRegionMode() );
       }
     else
       {
@@ -151,12 +151,12 @@ int itkFFTConvolutionImageFilterTest( int argc, char * argv[] )
     if( outputRegionMode == "SAME" )
       {
       convoluter->SetOutputRegionModeToSame();
-      ITK_TEST_SET_GET_VALUE( ConvolutionFilterType::SAME, convoluter->GetOutputRegionMode() );
+      ITK_TEST_SET_GET_VALUE( ConvolutionFilterType::OutputRegionModeType::SAME, convoluter->GetOutputRegionMode() );
       }
     else
       {
       convoluter->SetOutputRegionModeToValid();
-      ITK_TEST_SET_GET_VALUE( ConvolutionFilterType::VALID, convoluter->GetOutputRegionMode() );
+      ITK_TEST_SET_GET_VALUE( ConvolutionFilterType::OutputRegionModeType::VALID, convoluter->GetOutputRegionMode() );
       }
     }
 

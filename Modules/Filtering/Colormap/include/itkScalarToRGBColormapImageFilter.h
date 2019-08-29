@@ -19,11 +19,31 @@
 #define itkScalarToRGBColormapImageFilter_h
 
 #include "itkImageToImageFilter.h"
-
 #include "itkColormapFunction.h"
+#include "ITKColormapExport.h"
 
 namespace itk
 {
+/** \class RGBColormapFilterEnumType
+ * \ingroup ITKColormap
+ * Enum type that provides for an easy interface to existing colormaps. */
+enum class RGBColormapFilterEnumType : uint8_t {
+    Red,
+    Green,
+    Blue,
+    Grey,
+    Hot,
+    Cool,
+    Spring,
+    Summer,
+    Autumn,
+    Winter,
+    Copper,
+    Jet,
+    HSV,
+    OverUnder
+};
+
 /** \class ScalarToRGBColormapImageFilter
  * \brief Implements pixel-wise intensity->rgb mapping operation on one image.
  *
@@ -32,7 +52,7 @@ namespace itk
  *
  * The input image's scalar pixel values are mapped into a color map.
  * The color map is specified by passing the SetColormap function one of the
- * predefined maps. The following selects the "Hot" colormap:
+ * predefined maps. The following selects the "RGBColormapFilterEnumType::Hot" colormap:
    \code
    RGBFilterType::Pointer colormapImageFilter = RGBFilterType::New();
    colormapImageFilter->SetColormap( RGBFilterType::Hot );
@@ -70,8 +90,8 @@ namespace itk
  * \ingroup ITKColormap
  *
  * \sphinx
- * \sphinxexample{Filtering/Colormap/CreateACustomColorMap, Create A Custom Color Map}
- * \sphinxexample{Filtering/Colormap/ApplyAColorMapToAnImage,Apply A Color Map To An Image}
+ * \sphinxexample{Filtering/Colormap/CreateACustomColormap, Create A Custom Colormap}
+ * \sphinxexample{Filtering/Colormap/ApplyAColormapToAnImage,Apply A Colormap To An Image}
  * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
@@ -110,9 +130,26 @@ public:
   itkSetObjectMacro(Colormap, ColormapType);
   itkGetModifiableObjectMacro(Colormap, ColormapType);
 
-  /** Enum type that provides for an easy interface to existing colormaps. */
-  typedef enum { Red, Green, Blue, Grey, Hot, Cool, Spring, Summer,
-                 Autumn, Winter, Copper, Jet, HSV, OverUnder } ColormapEnumType;
+  /** Reverse compatibility for enum values */
+  using ColormapEnumType = RGBColormapFilterEnumType;
+#if !defined(ITK_LEGACY_REMOVE)
+    //We need to expose the enum values at the class level
+    // for backwards compatibility
+    static constexpr ColormapEnumType Red = ColormapEnumType::Red;
+    static constexpr ColormapEnumType Green = ColormapEnumType::Green;
+    static constexpr ColormapEnumType Blue = ColormapEnumType::Blue;
+    static constexpr ColormapEnumType Grey = ColormapEnumType::Grey;
+    static constexpr ColormapEnumType Hot = ColormapEnumType::Hot;
+    static constexpr ColormapEnumType Cool = ColormapEnumType::Cool;
+    static constexpr ColormapEnumType Spring = ColormapEnumType::Spring;
+    static constexpr ColormapEnumType Summer = ColormapEnumType::Summer;
+    static constexpr ColormapEnumType Autumn = ColormapEnumType::Autumn;
+    static constexpr ColormapEnumType Winter = ColormapEnumType::Winter;
+    static constexpr ColormapEnumType Copper = ColormapEnumType::Copper;
+    static constexpr ColormapEnumType Jet = ColormapEnumType::Jet;
+    static constexpr ColormapEnumType HSV = ColormapEnumType::HSV;
+    static constexpr ColormapEnumType OverUnder = ColormapEnumType::OverUnder;
+#endif
 
   void SetColormap(ColormapEnumType);
 
@@ -169,6 +206,9 @@ private:
 
   bool m_UseInputImageExtremaForScaling;
 };
+
+/** Define how to print enumerations */
+extern ITKColormap_EXPORT std::ostream& operator<<(std::ostream& out, const RGBColormapFilterEnumType value);
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

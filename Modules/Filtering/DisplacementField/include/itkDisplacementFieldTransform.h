@@ -397,7 +397,7 @@ public:
   /** This transform is not linear. */
   TransformCategoryType GetTransformCategory() const override
   {
-    return Self::DisplacementField;
+    return Self::TransformCategoryType::DisplacementField;
   }
 
   NumberOfParametersType GetNumberOfLocalParameters() const override

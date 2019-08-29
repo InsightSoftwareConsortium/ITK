@@ -84,9 +84,9 @@ int main( int , char *[] )
     pnt[2] = i+2;
     p.SetPositionInObjectSpace(pnt);
     p.SetRadiusInObjectSpace(1);
-    p.AddField(DTITubePointType::FA,i);
-    p.AddField(DTITubePointType::ADC,2*i);
-    p.AddField(DTITubePointType::GA,3*i);
+    p.AddField(itk::DTITubeSpatialObjectPointFieldEnumType::FA,i);
+    p.AddField(itk::DTITubeSpatialObjectPointFieldEnumType::ADC,2*i);
+    p.AddField(itk::DTITubeSpatialObjectPointFieldEnumType::GA,3*i);
     p.AddField("Lambda1",4*i);
     p.AddField("Lambda2",5*i);
     p.AddField("Lambda3",6*i);
@@ -149,9 +149,9 @@ int main( int , char *[] )
     std::cout << "Point #" << i << std::endl;
     std::cout << "Position: " << (*it).GetPositionInObjectSpace() << std::endl;
     std::cout << "Radius: " << (*it).GetRadiusInObjectSpace() << std::endl;
-    std::cout << "FA: " << (*it).GetField(DTITubePointType::FA) << std::endl;
-    std::cout << "ADC: " << (*it).GetField(DTITubePointType::ADC) << std::endl;
-    std::cout << "GA: " << (*it).GetField(DTITubePointType::GA) << std::endl;
+    std::cout << "FA: " << (*it).GetField(itk::DTITubeSpatialObjectPointFieldEnumType::FA) << std::endl;
+    std::cout << "ADC: " << (*it).GetField(itk::DTITubeSpatialObjectPointFieldEnumType::ADC) << std::endl;
+    std::cout << "GA: " << (*it).GetField(itk::DTITubeSpatialObjectPointFieldEnumType::GA) << std::endl;
     std::cout << "Lambda1: " << (*it).GetField("Lambda1") << std::endl;
     std::cout << "Lambda2: " << (*it).GetField("Lambda2") << std::endl;
     std::cout << "Lambda3: " << (*it).GetField("Lambda3") << std::endl;

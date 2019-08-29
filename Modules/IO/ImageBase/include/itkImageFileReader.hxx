@@ -100,7 +100,7 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
 
   if ( m_UserSpecifiedImageIO == false ) //try creating via factory
     {
-    m_ImageIO = ImageIOFactory::CreateImageIO(this->GetFileName().c_str(), ImageIOFactory::ReadMode);
+    m_ImageIO = ImageIOFactory::CreateImageIO(this->GetFileName().c_str(), ImageIOFactory::FileModeType::ReadMode);
     }
 
   if ( m_ImageIO.IsNull() )

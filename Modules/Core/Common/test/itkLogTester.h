@@ -31,21 +31,21 @@ public:
   itk::LoggerBase * GetLogger() { return m_Logger; }
   void SetLogger(itk::LoggerBase * logger) { m_Logger = logger; }
   void log() {
-    itkLogMacro( DEBUG, "DEBUG message by itkLogMacro\n" );
-    itkLogMacro( INFO, "INFO message by itkLogMacro\n" );
-    itkLogMacro( WARNING, "WARNING message by itkLogMacro\n" );
-    itkLogMacro( CRITICAL, "CRITICAL message by itkLogMacro\n" );
-    itkLogMacro( FATAL, "FATAL message by itkLogMacro\n" );
-    itkLogMacro( MUSTFLUSH, "MUSTFLUSH message by itkLogMacro\n" );
+    itkLogMacro( PriorityLevelType::DEBUG, "DEBUG message by itkLogMacro\n" );
+    itkLogMacro( PriorityLevelType::INFO, "INFO message by itkLogMacro\n" );
+    itkLogMacro( PriorityLevelType::WARNING, "WARNING message by itkLogMacro\n" );
+    itkLogMacro( PriorityLevelType::CRITICAL, "CRITICAL message by itkLogMacro\n" );
+    itkLogMacro( PriorityLevelType::FATAL, "FATAL message by itkLogMacro\n" );
+    itkLogMacro( PriorityLevelType::MUSTFLUSH, "MUSTFLUSH message by itkLogMacro\n" );
   }
   static void logStatic(LogTester* tester)
   {
-    itkLogMacroStatic( tester, DEBUG, "DEBUG message by itkLogMacroStatic\n" );
-    itkLogMacroStatic( tester, INFO, "INFO message by itkLogMacroStatic\n" );
-    itkLogMacroStatic( tester, WARNING, "WARNING message by itkLogMacroStatic\n" );
-    itkLogMacroStatic( tester, CRITICAL, "CRITICAL message by itkLogMacroStatic\n" );
-    itkLogMacroStatic( tester, FATAL, "FATAL message by itkLogMacroStatic\n" );
-    itkLogMacroStatic( tester, MUSTFLUSH, "MUSTFLUSH message by itkLogMacroStatic\n" );
+    itkLogMacroStatic( tester, PriorityLevelType::DEBUG, "DEBUG message by itkLogMacroStatic\n" );
+    itkLogMacroStatic( tester, PriorityLevelType::INFO, "INFO message by itkLogMacroStatic\n" );
+    itkLogMacroStatic( tester, PriorityLevelType::WARNING, "WARNING message by itkLogMacroStatic\n" );
+    itkLogMacroStatic( tester, PriorityLevelType::CRITICAL, "CRITICAL message by itkLogMacroStatic\n" );
+    itkLogMacroStatic( tester, PriorityLevelType::FATAL, "FATAL message by itkLogMacroStatic\n" );
+    itkLogMacroStatic( tester, PriorityLevelType::MUSTFLUSH, "MUSTFLUSH message by itkLogMacroStatic\n" );
   }
 
 private:

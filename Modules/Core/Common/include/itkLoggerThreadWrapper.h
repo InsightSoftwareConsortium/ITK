@@ -24,9 +24,24 @@
 
 #include "itkObjectFactory.h"
 #include <mutex>
+#include "ITKCommonExport.h"
 
 namespace itk
 {
+
+/** \class LoggerThreadWrapperOperationType
+ *
+ * \ingroup ITKCommon
+ *
+ * Definition of types of operations for LoggerThreadWrapper.
+ */
+enum class LoggerThreadWrapperOperationType : uint8_t {
+    SET_PRIORITY_LEVEL,
+    SET_LEVEL_FOR_FLUSHING,
+    ADD_LOG_OUTPUT,
+    WRITE
+};
+
 /** \class LoggerThreadWrapper
  *  \brief Used for providing logging service as a separate thread.
  *
@@ -57,13 +72,12 @@ public:
   using PriorityLevelType = typename SimpleLoggerType::PriorityLevelType;
   using DelayType = unsigned int;
 
-  /** Definition of types of operations for LoggerThreadWrapper. */
-  typedef enum {
-    SET_PRIORITY_LEVEL,
-    SET_LEVEL_FOR_FLUSHING,
-    ADD_LOG_OUTPUT,
-    WRITE
-    } OperationType;
+#if !defined(ITK_LEGACY_REMOVE)
+  static constexpr LoggerThreadWrapperOperationType SET_PRIORITY_LEVEL = LoggerThreadWrapperOperationType::SET_PRIORITY_LEVEL;
+  static constexpr LoggerThreadWrapperOperationType SET_LEVEL_FOR_FLUSHING = LoggerThreadWrapperOperationType::SET_LEVEL_FOR_FLUSHING;
+  static constexpr LoggerThreadWrapperOperationType ADD_LOG_OUTPUT = LoggerThreadWrapperOperationType::ADD_LOG_OUTPUT;
+  static constexpr LoggerThreadWrapperOperationType WRITE = LoggerThreadWrapperOperationType::WRITE;
+#endif
 
   /** Set the priority level for the current logger. Only messages that have
    * priorities equal or greater than the one set here will be posted to the
@@ -111,7 +125,7 @@ protected:
 
 private:
 
-  using OperationContainerType = std::queue< OperationType >;
+  using OperationContainerType = std::queue< LoggerThreadWrapperOperationType >;
 
   using MessageContainerType = std::queue< std::string >;
 
@@ -136,6 +150,10 @@ private:
   DelayType m_Delay;
 
 };  // class LoggerThreadWrapper
+
+// Define how to print enumeration
+extern ITKCommon_EXPORT std::ostream& operator<<(std::ostream& out, const LoggerThreadWrapperOperationType value);
+
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

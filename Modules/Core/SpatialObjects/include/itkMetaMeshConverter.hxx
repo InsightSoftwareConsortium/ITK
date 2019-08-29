@@ -81,7 +81,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
   using CellType = typename MeshType::CellType;
   using CellAutoPointer = typename CellType::CellAutoPointer;
   mesh->SetCellsAllocationMethod(
-    MeshType::CellsAllocatedDynamicallyCellByCell);
+      MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell);
 
   for ( unsigned int celltype = 0; celltype < MET_NUM_CELL_TYPES; celltype++ )
     {

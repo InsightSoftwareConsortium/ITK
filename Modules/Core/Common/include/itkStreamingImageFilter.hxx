@@ -120,11 +120,11 @@ StreamingImageFilter< TInputImage, TOutputImage >
   /**
    * Make sure we have the necessary inputs
    */
-  const itk::ProcessObject::DataObjectPointerArraySizeType &ninputs = this->GetNumberOfValidRequiredInputs();
+  const itk::ProcessObject::DataObjectPointerArraySizeType ninputs = this->GetNumberOfValidRequiredInputs();
   if ( ninputs < this->GetNumberOfRequiredInputs() )
     {
     itkExceptionMacro(
-      << "At least " << static_cast< unsigned int >( this->GetNumberOfRequiredInputs() )
+      << "At least " << this->GetNumberOfRequiredInputs()
       << " inputs are required but only " << ninputs << " are specified.");
     return;
     }

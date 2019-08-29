@@ -27,9 +27,19 @@
 #include "vnl/algo/vnl_svd.h"
 #include "itkVectorContainer.h"
 #include "itkVectorImage.h"
-
+#include "ITKDiffusionTensorImageExport.h"
 namespace itk
 {
+/** \class GradientEnumeration
+ * \ingroup ITKDiffusionTensorImage
+ * enum to indicate if the gradient image is specified as a single multi-
+ * component image or as several separate images */
+enum class GradientEnumeration : uint8_t {
+    GradientIsInASingleImage = 1,
+    GradientIsInManyImages,
+    Else
+};
+
 /** \class DiffusionTensor3DReconstructionImageFilter
  * \brief This class takes as input one or more reference image (acquired in the
  * absence of diffusion sensitizing gradients) and 'n' diffusion
@@ -201,7 +211,7 @@ public:
   /** Set method to set the reference image. */
   void SetReferenceImage(ReferenceImageType *referenceImage)
   {
-    if ( m_GradientImageTypeEnumeration == GradientIsInASingleImage )
+    if ( m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInASingleImage )
       {
       itkExceptionMacro(<< "Cannot call both methods:"
                         << "AddGradientImage and SetGradientImage. Please call only one of them.");
@@ -209,7 +219,7 @@ public:
 
     this->ProcessObject::SetNthInput(0, referenceImage);
 
-    m_GradientImageTypeEnumeration = GradientIsInManyImages;
+    m_GradientImageTypeEnumeration = GradientEnumeration::GradientIsInManyImages;
   }
 
   /** Get reference image */
@@ -287,13 +297,15 @@ protected:
 
   void VerifyPreconditions() ITKv5_CONST override;
 
-  /** enum to indicate if the gradient image is specified as a single multi-
-   * component image or as several separate images */
-  typedef enum {
-    GradientIsInASingleImage = 1,
-    GradientIsInManyImages,
-    Else
-    } GradientImageTypeEnumeration;
+  /** Enables backwards compatibility for enum values */
+  using GradientImageTypeEnumeration = GradientEnumeration;
+#if !defined(ITK_LEGACY_REMOVE)
+    //We need to expose the enum values at the class level
+    // for backwards compatibility
+    static constexpr GradientImageTypeEnumeration GradientIsInASingleImage = GradientImageTypeEnumeration::GradientIsInASingleImage;
+    static constexpr GradientImageTypeEnumeration GradientIsInManyImages = GradientImageTypeEnumeration::GradientIsInManyImages;
+    static constexpr GradientImageTypeEnumeration Else = GradientImageTypeEnumeration::Else;
+#endif
 
 private:
 
@@ -323,6 +335,9 @@ private:
   /** Mask Image Present */
   bool m_MaskImagePresent;
 };
+
+/** Define how to print enum values */
+extern ITKDiffusionTensorImage_EXPORT std::ostream& operator<<(std::ostream& out, const GradientEnumeration value);
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -98,16 +98,16 @@ int main( int argc, char *argv[] )
   //  into a color image (random color attribution).
   //
 
-  using ColorMapFunctorType = itk::Functor::ScalarToRGBPixelFunctor<unsigned long>;
+  using ColormapFunctorType = itk::Functor::ScalarToRGBPixelFunctor<unsigned long>;
 
   using LabeledImageType = WatershedFilterType::OutputImageType;
 
-  using ColorMapFilterType = itk::UnaryFunctorImageFilter<
+  using ColormapFilterType = itk::UnaryFunctorImageFilter<
                                 LabeledImageType,
                                 RGBImageType,
-                                ColorMapFunctorType >;
+                                ColormapFunctorType >;
 
-  ColorMapFilterType::Pointer colorMapFilter = ColorMapFilterType::New();
+  ColormapFilterType::Pointer colorMapFilter = ColormapFilterType::New();
 
   colorMapFilter->SetInput(  watershedFilter->GetOutput() );
 

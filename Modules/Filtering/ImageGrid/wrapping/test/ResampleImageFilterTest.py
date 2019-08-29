@@ -33,8 +33,6 @@
 #     OUTPUTS: {ResampleImageFilterOutput4.png}
 #     3
 
-from __future__ import print_function
-
 import itk
 from sys import argv, stderr, exit
 itk.auto_progress(2)
@@ -121,3 +119,16 @@ filter.SetDefaultPixelValue(100)
 
 if(exampleAction == 2):
     writer.Update()
+
+
+# Make sure we can instantiate with a windowed sinc interpolator
+ImageType = itk.Image[itk.F,3]
+
+resample = itk.ResampleImageFilter[ImageType,ImageType].New()
+interpolator = itk.WindowedSincInterpolateImageFunction[ImageType,3,itk.HammingWindowFunction[3,]].New()
+resample.SetInterpolator(interpolator)
+
+image = ImageType.New()
+resample = itk.ResampleImageFilter.New(image)
+interpolator = itk.WindowedSincInterpolateImageFunction.New(image)
+resample.SetInterpolator(interpolator)

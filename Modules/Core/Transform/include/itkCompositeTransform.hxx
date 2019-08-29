@@ -43,7 +43,7 @@ CompositeTransform<TParametersValueType, NDimensions>
   bool isLinearTransform = this->IsLinear();
   if( isLinearTransform )
     {
-    return Self::Linear;
+    return Self::TransformCategoryType::Linear;
     }
 
   // Check if displacement field
@@ -51,7 +51,7 @@ CompositeTransform<TParametersValueType, NDimensions>
   for( signed long tind = static_cast<signed long>( this->GetNumberOfTransforms() ) - 1; tind >= 0; tind-- )
     {
     if( this->GetNthTransformToOptimize( tind ) &&
-      ( this->GetNthTransformConstPointer( tind )->GetTransformCategory() != Self::DisplacementField ) )
+      ( this->GetNthTransformConstPointer( tind )->GetTransformCategory() != Self::TransformCategoryType::DisplacementField ) )
       {
       isDisplacementFieldTransform = false;
       break;
@@ -60,11 +60,11 @@ CompositeTransform<TParametersValueType, NDimensions>
 
   if( isDisplacementFieldTransform )
     {
-    return Self::DisplacementField;
+    return Self::TransformCategoryType::DisplacementField;
     }
   else
     {
-    return Self::UnknownTransformCategory;
+    return Self::TransformCategoryType::UnknownTransformCategory;
     }
 }
 
@@ -932,14 +932,11 @@ CompositeTransform<TParametersValueType, NDimensions>
    return this->m_NumberOfLocalParameters;
    }
 
-  this->m_LocalParametersUpdateTime = this->GetMTime();
-
   /* Returns to total number of *local* params in all transforms currently
    * set to be used for optimized.
    * Note that unlike in GetNumberOfParameters(), we don't expect the
    * number of local parameters to possibly change. */
   NumberOfParametersType result = NumericTraits< NumberOfParametersType >::ZeroValue();
-
   for( signed long tind = (signed long) this->GetNumberOfTransforms() - 1; tind >= 0; tind-- )
     {
     if( this->GetNthTransformToOptimize( tind ) )
@@ -949,6 +946,9 @@ CompositeTransform<TParametersValueType, NDimensions>
       }
     }
   this->m_NumberOfLocalParameters = result;
+
+  this->m_LocalParametersUpdateTime = this->GetMTime();
+
   return result;
 }
 

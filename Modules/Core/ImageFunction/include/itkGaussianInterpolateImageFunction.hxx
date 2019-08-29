@@ -61,8 +61,8 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
 
   typename InputImageType::ConstPointer input = this->GetInputImage();
   typename InputImageType::SpacingType spacing = input->GetSpacing();
-  typename InputImageType::IndexType index = input->GetBufferedRegion().GetIndex();
-  typename InputImageType::SizeType size = input->GetBufferedRegion().GetSize();
+  typename InputImageType::IndexType index = input->GetLargestPossibleRegion().GetIndex();
+  typename InputImageType::SizeType size = input->GetLargestPossibleRegion().GetSize();
 
   for( unsigned int d = 0; d < ImageDimension; d++ )
     {

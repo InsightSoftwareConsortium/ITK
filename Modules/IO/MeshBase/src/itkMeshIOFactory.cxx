@@ -52,14 +52,14 @@ MeshIOFactory
 
   for (auto & k : possibleMeshIO)
     {
-    if ( mode == ReadMode )
+    if ( mode == FileModeType::ReadMode )
       {
       if ( k->CanReadFile(path) )
         {
         return k;
         }
       }
-    else if ( mode == WriteMode )
+    else if ( mode == FileModeType::WriteMode )
       {
       if ( k->CanWriteFile(path) )
         {
@@ -69,6 +69,19 @@ MeshIOFactory
     }
 
   return nullptr;
+}
+
+/**Print enum values */
+std::ostream& operator<<(std::ostream& out, const MeshIOFactory::FileModeType value)
+{
+    const char* s =0;
+    switch(value)
+    {
+        case MeshIOFactory::FileModeType::ReadMode: s = "MeshIOFactory::FileModeType::ReadMode"; break;
+        case MeshIOFactory::FileModeType::WriteMode: s = "MeshIOFactory::FileModeType::WriteMode"; break;
+        default: s = "INVALID VALUE FOR MeshIOFactory::FileModeType";
+    }
+    return out << s;
 }
 
 } // end namespace itk

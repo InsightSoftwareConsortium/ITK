@@ -29,24 +29,18 @@ namespace itk
 template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 ::HistogramMatchingImageFilter() :
-  m_SourceIntensityThreshold(NumericTraits<InputPixelType>::ZeroValue()),
-  m_ReferenceIntensityThreshold(NumericTraits<InputPixelType>::ZeroValue()),
-  m_OutputIntensityThreshold(NumericTraits<OutputPixelType>::ZeroValue()),
   m_SourceMinValue(NumericTraits<THistogramMeasurement>::ZeroValue()),
   m_SourceMaxValue(NumericTraits<THistogramMeasurement>::ZeroValue()),
-  m_SourceMeanValue(NumericTraits<THistogramMeasurement>::ZeroValue()),
   m_ReferenceMinValue(NumericTraits<THistogramMeasurement>::ZeroValue()),
   m_ReferenceMaxValue(NumericTraits<THistogramMeasurement>::ZeroValue()),
-  m_ReferenceMeanValue(NumericTraits<THistogramMeasurement>::ZeroValue()),
-  m_OutputMinValue(NumericTraits<THistogramMeasurement>::ZeroValue()),
-  m_OutputMaxValue(NumericTraits<THistogramMeasurement>::ZeroValue()),
-  m_OutputMeanValue(NumericTraits<THistogramMeasurement>::ZeroValue()),
   m_SourceHistogram(HistogramType::New()),
-  m_ReferenceHistogram(HistogramType::New()),
   m_OutputHistogram(HistogramType::New())
 
 {
-  this->SetNumberOfRequiredInputs(2);
+  this->SetNumberOfRequiredInputs(1);
+  Self::SetPrimaryInputName("SourceImage");
+  Self::AddOptionalInputName("ReferenceImage",1);
+  Self::AddOptionalInputName("ReferenceHistogram",2);
 
   m_QuantileTable.set_size(3, m_NumberOfMatchPoints + 2);
   m_QuantileTable.fill(0);
@@ -70,16 +64,10 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
   os << indent << "ThresholdAtMeanIntensity: ";
   os << m_ThresholdAtMeanIntensity << std::endl;
 
-  os << indent << "SourceIntensityThreshold: ";
-  os << m_SourceIntensityThreshold << std::endl;
-  os << indent << "ReferenceIntensityThreshold: ";
-  os << m_ReferenceIntensityThreshold << std::endl;
-  os << indent << "OutputIntensityThreshold: ";
-  os << m_ReferenceIntensityThreshold << std::endl;
   os << indent << "Source histogram: ";
   os << m_SourceHistogram.GetPointer() << std::endl;
   os << indent << "Reference histogram: ";
-  os << m_ReferenceHistogram.GetPointer() << std::endl;
+  os << this->GetReferenceHistogram() << std::endl;
   os << indent << "Output histogram: ";
   os << m_OutputHistogram.GetPointer() << std::endl;
   os << indent << "QuantileTable: " << std::endl;
@@ -90,28 +78,8 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
   os << m_LowerGradient << std::endl;
   os << indent << "UpperGradient: ";
   os << m_UpperGradient << std::endl;
-}
-
-
-template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
-void
-HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
-::SetReferenceImage(const InputImageType *reference)
-{
-  this->ProcessObject::SetNthInput( 1,
-                                    const_cast< InputImageType * >( reference ) );
-}
-
-/*
- *
- */
-template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
-const typename HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
-::InputImageType *
-HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
-::GetReferenceImage()
-{
-  return dynamic_cast< TInputImage * >( this->ProcessObject::GetInput(1) );
+  os << indent << "GenerateReferenceHistogramFromImage:";
+  os << m_GenerateReferenceHistogramFromImage << std::endl;
 }
 
 /*
@@ -124,16 +92,46 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 ::GenerateInputRequestedRegion()
 {
   this->Superclass::GenerateInputRequestedRegion();
-
-  for ( unsigned int idx = 0; idx < this->GetNumberOfIndexedInputs(); ++idx )
-    {
-    if ( this->GetInput(idx) )
+  {
+    InputImageType * source_image = const_cast< InputImageType * >( this->GetSourceImage() );
+    if ( source_image )
       {
-      InputImagePointer image =
-        const_cast< InputImageType * >( this->GetInput(idx) );
-      image->SetRequestedRegionToLargestPossibleRegion();
+        source_image->SetRequestedRegionToLargestPossibleRegion();
       }
+  }
+
+  if( this->m_GenerateReferenceHistogramFromImage )
+    {
+      InputImageType * reference_image = const_cast< InputImageType * >( this->GetReferenceImage() );
+      if ( reference_image )
+        {
+          reference_image->SetRequestedRegionToLargestPossibleRegion();
+        }
     }
+}
+
+
+template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
+void
+HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
+::VerifyPreconditions() ITKv5_CONST
+{
+  Superclass::VerifyPreconditions();
+
+  if ( m_GenerateReferenceHistogramFromImage )
+  {
+    if (  this->GetReferenceImage() == nullptr )
+    {
+      itkExceptionMacro( << "ReferenceImage required when GenerateReferenceHistogramFromImage is true." )
+    }
+  }
+  else
+  {
+    if ( this->GetReferenceHistogram() == nullptr )
+    {
+      itkExceptionMacro( << "ReferenceHistogram required when GenerateReferenceHistogramFromImage is false." )
+    }
+  }
 }
 
 
@@ -142,58 +140,108 @@ void
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 ::BeforeThreadedGenerateData()
 {
-  unsigned int j;
+  THistogramMeasurement sourceMeanValue;
+  THistogramMeasurement referenceMeanValue;
 
-  InputImageConstPointer source    = this->GetSourceImage();
-  InputImageConstPointer reference = this->GetReferenceImage();
+  InputPixelType  sourceIntensityThreshold;
+  InputPixelType  referenceIntensityThreshold;
 
-  this->ComputeMinMaxMean(source, m_SourceMinValue,
-                          m_SourceMaxValue, m_SourceMeanValue);
-  this->ComputeMinMaxMean(reference, m_ReferenceMinValue,
-                          m_ReferenceMaxValue, m_ReferenceMeanValue);
-
-  if ( m_ThresholdAtMeanIntensity )
+  if ( m_GenerateReferenceHistogramFromImage )
     {
-    m_SourceIntensityThreshold    = static_cast< InputPixelType >( m_SourceMeanValue );
-    m_ReferenceIntensityThreshold = static_cast< InputPixelType >( m_ReferenceMeanValue );
+    InputImageConstPointer reference = this->GetReferenceImage();
+    if( reference.IsNull() )
+    {
+      itkExceptionMacro( << "ERROR: ReferenceImage required when GenerateReferenceHistogramFromImage is true.\n")
+    }
+    this->ComputeMinMaxMean(reference, m_ReferenceMinValue,
+                            m_ReferenceMaxValue, referenceMeanValue );
+    if ( m_ThresholdAtMeanIntensity )
+      {
+        referenceIntensityThreshold = static_cast< InputPixelType >( referenceMeanValue );
+      }
+    else
+      {
+        referenceIntensityThreshold = static_cast< InputPixelType >( m_ReferenceMinValue );
+      }
+      {
+        HistogramPointer tempHistptr = HistogramType::New();
+        this->ConstructHistogramFromIntensityRange( reference,
+                                                    tempHistptr,
+                                                    referenceIntensityThreshold,
+                                                    m_ReferenceMaxValue,
+                                                    m_ReferenceMinValue,
+                                                    m_ReferenceMaxValue );
+        this->SetReferenceHistogram(tempHistptr);
+      }
     }
   else
     {
-    m_SourceIntensityThreshold    = static_cast< InputPixelType >( m_SourceMinValue );
-    m_ReferenceIntensityThreshold = static_cast< InputPixelType >( m_ReferenceMinValue );
+      const HistogramType * const referenceHistogram = this->GetReferenceHistogram();
+      if( referenceHistogram == nullptr )
+      {
+        itkExceptionMacro( << "ERROR: ReferenceHistogram required when GenerateReferenceHistogramFromImage is false.\n")
+      }
+
+      // If the reference histogram is provided, then extract summary statistics
+      // directly from the histogram.
+      const auto & allReferenceMinsByDimension = referenceHistogram->GetMins(); // Array of dimensions
+      const auto & allReferenceMinsFirstDimension = allReferenceMinsByDimension.at(0); // Mins for dimension 0
+      m_ReferenceMinValue = allReferenceMinsFirstDimension.at(0);  // First element of mins
+      const auto & allReferenceMaxsByDimension = referenceHistogram->GetMaxs(); // Array of dimensions
+      const auto & allReferenceMaxsFirstDimension = allReferenceMaxsByDimension.at(0); // Maxes for dimension 0
+      m_ReferenceMaxValue = allReferenceMaxsFirstDimension.at(allReferenceMaxsFirstDimension.size() - 1); // last element of Maxes
+
+      if ( m_ThresholdAtMeanIntensity )
+        {
+          referenceIntensityThreshold = allReferenceMinsFirstDimension.at(0);  // First element of mins array in histogram
+        }
+      else
+        {
+          referenceIntensityThreshold = static_cast< InputPixelType >( m_ReferenceMinValue );
+        }
     }
 
-  this->ConstructHistogram(source, m_SourceHistogram,
-                           m_SourceIntensityThreshold, m_SourceMaxValue);
-  this->ConstructHistogram(reference, m_ReferenceHistogram,
-                           m_ReferenceIntensityThreshold,
-                           m_ReferenceMaxValue);
+  InputImageConstPointer source    = this->GetSourceImage();
+
+  this->ComputeMinMaxMean(source, m_SourceMinValue,
+                          m_SourceMaxValue, sourceMeanValue );
+
+  if ( m_ThresholdAtMeanIntensity )
+    {
+      sourceIntensityThreshold = static_cast< InputPixelType >( sourceMeanValue );
+    }
+  else
+    {
+      sourceIntensityThreshold = static_cast< InputPixelType >( m_SourceMinValue );
+    }
+  this->ConstructHistogramFromIntensityRange(
+    source, m_SourceHistogram, sourceIntensityThreshold, m_SourceMaxValue, m_SourceMinValue, m_SourceMaxValue );
 
   // Fill in the quantile table.
   m_QuantileTable.set_size(3, m_NumberOfMatchPoints + 2);
-  m_QuantileTable[0][0] = m_SourceIntensityThreshold;
-  m_QuantileTable[1][0] = m_ReferenceIntensityThreshold;
+  m_QuantileTable[0][0] = sourceIntensityThreshold;
+  m_QuantileTable[1][0] = referenceIntensityThreshold;
 
   m_QuantileTable[0][m_NumberOfMatchPoints + 1] = m_SourceMaxValue;
   m_QuantileTable[1][m_NumberOfMatchPoints + 1] = m_ReferenceMaxValue;
 
-  double delta = 1.0 / ( double(m_NumberOfMatchPoints) + 1.0 );
-
-  for ( j = 1; j < m_NumberOfMatchPoints + 1; j++ )
+  {
+    const double delta = 1.0 / ( static_cast<double>(m_NumberOfMatchPoints) + 1.0 );
+    const HistogramType * const referenceHistogram = this->GetReferenceHistogram();
+    for ( SizeValueType j = 1; j < m_NumberOfMatchPoints + 1; j++ )
     {
-    m_QuantileTable[0][j] = m_SourceHistogram->Quantile(
-      0, double(j) * delta);
-    m_QuantileTable[1][j] = m_ReferenceHistogram->Quantile(
-      0, double(j) * delta);
+      m_QuantileTable[0][j] = m_SourceHistogram->Quantile(
+        0, static_cast<double>(j) * delta);
+      m_QuantileTable[1][j] = referenceHistogram->Quantile(
+        0, static_cast<double>(j) * delta);
     }
+  }
 
   // Fill in the gradient array.
   m_Gradients.set_size(m_NumberOfMatchPoints + 1);
-  double denominator;
-  for ( j = 0; j < m_NumberOfMatchPoints + 1; j++ )
+  for ( SizeValueType j = 0; j < m_NumberOfMatchPoints + 1; j++ )
     {
-    denominator = m_QuantileTable[0][j + 1]
-                  - m_QuantileTable[0][j];
+    const double denominator = m_QuantileTable[0][j + 1]  - m_QuantileTable[0][j];
     if ( Math::NotAlmostEquals( denominator, 0.0) )
       {
       m_Gradients[j] = m_QuantileTable[1][j + 1]
@@ -205,30 +253,30 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
       m_Gradients[j] = 0.0;
       }
     }
-
-  denominator = m_QuantileTable[0][0] - m_SourceMinValue;
-  if ( Math::NotAlmostEquals( denominator, 0.0 ) )
+  {
+    const double denominator = m_QuantileTable[0][0] - m_SourceMinValue;
+    if ( Math::NotAlmostEquals( denominator, 0.0 ) )
+      {
+        m_LowerGradient = m_QuantileTable[1][0] - m_ReferenceMinValue;
+        m_LowerGradient /= denominator;
+      }
+    else
+      {
+        m_LowerGradient = 0.0;
+      }
+  }
+  {
+    const double denominator = m_QuantileTable[0][m_NumberOfMatchPoints + 1] - m_SourceMaxValue;
+    if ( Math::NotAlmostEquals( denominator, 0.0 ) )
     {
-    m_LowerGradient = m_QuantileTable[1][0] - m_ReferenceMinValue;
-    m_LowerGradient /= denominator;
+      m_UpperGradient = m_QuantileTable[1][m_NumberOfMatchPoints + 1] - m_ReferenceMaxValue;
+      m_UpperGradient /= denominator;
     }
-  else
+    else
     {
-    m_LowerGradient = 0.0;
+      m_UpperGradient = 0.0;
     }
-
-  denominator = m_QuantileTable[0][m_NumberOfMatchPoints + 1]
-                - m_SourceMaxValue;
-  if ( Math::NotAlmostEquals( denominator, 0.0 ) )
-    {
-    m_UpperGradient = m_QuantileTable[1][m_NumberOfMatchPoints + 1]
-                      - m_ReferenceMaxValue;
-    m_UpperGradient /= denominator;
-    }
-  else
-    {
-    m_UpperGradient = 0.0;
-    }
+  }
 }
 
 
@@ -237,34 +285,38 @@ void
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 ::AfterThreadedGenerateData()
 {
+  THistogramMeasurement outputMeanValue;
+  THistogramMeasurement outputMinValue;
+  THistogramMeasurement outputMaxValue;
+
+  OutputPixelType outputIntensityThreshold;
+
   OutputImagePointer output    = this->GetOutput();
 
-  this->ComputeMinMaxMean(output, m_OutputMinValue,
-                          m_OutputMaxValue, m_OutputMeanValue);
+  this->ComputeMinMaxMean(output, outputMinValue, outputMaxValue, outputMeanValue );
 
   if ( m_ThresholdAtMeanIntensity )
     {
-    m_OutputIntensityThreshold    = static_cast< OutputPixelType >( m_OutputMeanValue );
+      outputIntensityThreshold = static_cast< OutputPixelType >( outputMeanValue );
     }
   else
     {
-    m_OutputIntensityThreshold    = static_cast< OutputPixelType >( m_OutputMinValue );
+      outputIntensityThreshold = static_cast< OutputPixelType >( outputMinValue );
     }
 
-  this->ConstructHistogram(output, m_OutputHistogram,
-                           m_OutputIntensityThreshold, m_OutputMaxValue);
+  this->ConstructHistogramFromIntensityRange( output, m_OutputHistogram, outputIntensityThreshold, outputMaxValue, outputMinValue, outputMaxValue );
 
   // Fill in the quantile table.
-  m_QuantileTable[2][0] = m_OutputIntensityThreshold;
+  m_QuantileTable[2][0] = outputIntensityThreshold;
 
-  m_QuantileTable[2][m_NumberOfMatchPoints + 1] = m_OutputMaxValue;
+  m_QuantileTable[2][m_NumberOfMatchPoints + 1] = outputMaxValue;
 
-  double delta = 1.0 / ( double(m_NumberOfMatchPoints) + 1.0 );
+  const double delta = 1.0 / ( static_cast<double>(m_NumberOfMatchPoints) + 1.0 );
 
-  for ( unsigned int j = 1; j < m_NumberOfMatchPoints + 1; j++ )
+  for ( SizeValueType j = 1; j < m_NumberOfMatchPoints + 1; j++ )
     {
     m_QuantileTable[2][j] = m_OutputHistogram->Quantile(
-      0, double(j) * delta);
+      0, static_cast<double>(j) * delta);
     }
 }
 
@@ -274,10 +326,7 @@ void
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 ::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  int          i;
-  unsigned int j;
-
-  InputImageConstPointer input  = this->GetInput();
+  InputImageConstPointer input  = this->GetSourceImage();
   OutputImagePointer     output = this->GetOutput();
 
   // Transform the source image and write to output.
@@ -287,13 +336,11 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
   InputConstIterator inIter(input, outputRegionForThread);
   OutputIterator     outIter(output, outputRegionForThread);
 
-  double srcValue, mappedValue;
-
-  for ( i = 0; !outIter.IsAtEnd(); ++inIter, ++outIter, i++ )
+  for ( SizeValueType i = 0; !outIter.IsAtEnd(); ++inIter, ++outIter, i++ )
     {
-    srcValue = static_cast< double >( inIter.Get() );
-
-    for ( j = 0; j < m_NumberOfMatchPoints + 2; j++ )
+    const double srcValue = static_cast< double >( inIter.Get() );
+    SizeValueType j = 0;
+    for ( ; j < m_NumberOfMatchPoints + 2; j++ )
       {
       if ( srcValue < m_QuantileTable[0][j] )
         {
@@ -301,6 +348,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
         }
       }
 
+    double  mappedValue;
     if ( j == 0 )
       {
       // Linear interpolate from min to point[0]
@@ -360,17 +408,16 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
   meanValue = static_cast< THistogramMeasurement >( sum / static_cast< double >( count ) );
 }
 
-/**
- * Construct a histogram from an image.
- */
 template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 void
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
-::ConstructHistogram(
+::ConstructHistogramFromIntensityRange(
   const InputImageType *image,
   HistogramType  *histogram,
-  const THistogramMeasurement minValue,
-  const THistogramMeasurement maxValue)
+  const THistogramMeasurement minHistogramValidValue,
+  const THistogramMeasurement maxHistogramValidValue,
+  const THistogramMeasurement imageTrueMinValue,
+  const THistogramMeasurement imageTrueMaxValue)
 {
   {
     // allocate memory for the histogram
@@ -384,11 +431,15 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
     histogram->SetMeasurementVectorSize(1);
 
     size[0] = m_NumberOfHistogramLevels;
-    lowerBound.Fill(minValue);
-    upperBound.Fill(maxValue);
+    lowerBound.Fill( minHistogramValidValue );
+    upperBound.Fill(maxHistogramValidValue);
 
-    //Initialize with equally spaced bins.
+    //Initialize with equally spaced bins withing the valid region.
     histogram->Initialize(size, lowerBound, upperBound);
+
+    //Now expand the first and last bin to represent the true reference image range
+    histogram->SetBinMin(0,0, imageTrueMinValue );
+    histogram->SetBinMax(0,m_NumberOfHistogramLevels-1,imageTrueMaxValue);
     histogram->SetToZero();
   }
 
@@ -398,7 +449,6 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
   measurement[0] = NumericTraits< MeasurementType >::ZeroValue();
 
     {
-
     // put each image pixel into the histogram
     using ConstIterator = ImageRegionConstIterator< InputImageType >;
     ConstIterator iter( image, image->GetBufferedRegion() );
@@ -406,15 +456,17 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
     iter.GoToBegin();
     while ( !iter.IsAtEnd() )
       {
-      InputPixelType value = iter.Get();
+      const InputPixelType & value = iter.Value();
 
-      if ( static_cast< double >( value ) >= minValue
-           && static_cast< double >( value ) <= maxValue )
+      if ( static_cast< double >( value ) >= minHistogramValidValue && static_cast< double >( value ) <= maxHistogramValidValue )
         {
         // add sample to histogram
         measurement[0] = value;
-        histogram->GetIndex( measurement, index );
-        histogram->IncreaseFrequencyOfIndex( index, 1 );
+        const bool is_inside_histogram = histogram->GetIndex( measurement, index );
+        if (is_inside_histogram)
+          {
+            histogram->IncreaseFrequencyOfIndex( index, 1 );
+          }
         }
       ++iter;
       }

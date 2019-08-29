@@ -46,14 +46,14 @@ TransformIOFactoryTemplate<TParametersValueType>
   for ( auto k = possibleTransformIO.begin();
         k != possibleTransformIO.end(); ++k )
     {
-    if ( mode == ReadMode )
+    if ( mode == TransformIOFactoryFileModeType::ReadMode )
       {
       if ( ( *k )->CanReadFile(path) )
         {
         return *k;
         }
       }
-    else if ( mode == WriteMode )
+    else if ( mode == TransformIOFactoryFileModeType::WriteMode )
       {
       if ( ( *k )->CanWriteFile(path) )
         {
@@ -62,6 +62,19 @@ TransformIOFactoryTemplate<TParametersValueType>
       }
     }
   return nullptr;
+}
+
+/** Print enum values */
+std::ostream& operator<<(std::ostream& out, const TransformIOFactoryFileModeType value)
+{
+    const char* s =0;
+    switch(value)
+    {
+        case TransformIOFactoryFileModeType::ReadMode: s = "TransformIOFactoryFileModeType::ReadMode"; break;
+        case TransformIOFactoryFileModeType::WriteMode: s = "TransformIOFactoryFileModeType::WriteMode"; break;
+        default: s = "INVALID VALUE FOR TransformIOFactoryFileModeType";
+    }
+    return out << s;
 }
 
 ITK_GCC_PRAGMA_DIAG_PUSH()

@@ -1,10 +1,5 @@
 %module pyBasePython
 
-%begin %{
-// To address Python 2.7 hypot bug, https://bugs.python.org/issue11566
-#include "PatchedPython27pyconfig.h"
-%}
-
 %include <exception.i>
 %include <typemaps.i>
 
@@ -389,6 +384,7 @@ str = str
     #include "itkContinuousIndexSwigInterface.h"
     %}
 
+    %rename(__SetDirection_orig__) swig_name::SetDirection;
     %extend swig_name {
         itkIndex##template_params TransformPhysicalPointToIndex( itkPointD##template_params & point ) {
             itkIndex##template_params idx;
@@ -414,6 +410,24 @@ str = str
             return point;
         }
 
+        %pythoncode %{
+            def SetDirection(self, direction):
+                import itkHelpers
+                if itkHelpers.is_arraylike(direction):
+                    import itk
+                    import numpy as np
+
+                    array = np.asarray(direction).astype(np.float64)
+                    dimension = self.GetImageDimension()
+                    for dim in array.shape:
+                        if dim != dimension:
+                            raise ValueError('Array does not have the expected shape')
+                    matrix = itk.matrix_from_array(array)
+                    self.__SetDirection_orig__(matrix)
+                else:
+                    self.__SetDirection_orig__(direction)
+            %}
+
         // TODO: also add that method. But with which types?
         //  template<class TCoordRep>
         //  void TransformLocalVectorToPhysicalVector(
@@ -421,6 +435,18 @@ str = str
         //          FixedArray<TCoordRep, VImageDimension> & outputGradient ) const
     }
 
+%enddef
+
+%define DECL_PYTHON_IMAGE_CLASS(swig_name)
+  %extend swig_name {
+      %pythoncode {
+          def __array__(self, dtype=None):
+              import itk
+              import numpy as np
+              array = itk.array_view_from_image(self)
+              return np.asarray(array, dtype=dtype)
+      }
+  }
 %enddef
 
 

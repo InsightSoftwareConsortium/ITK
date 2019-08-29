@@ -107,10 +107,10 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
     p.SetGreen(i+1);
     p.SetBlue(i+2);
     p.SetAlpha(i+3);
-    p.AddField(DTITubePointType::FA,i);
-    p.SetField(DTITubePointType::FA,i+1);
-    p.AddField(DTITubePointType::ADC,2*i);
-    p.AddField(DTITubePointType::GA,3*i);
+    p.AddField(itk::DTITubeSpatialObjectPointFieldEnumType::FA,i);
+    p.SetField(itk::DTITubeSpatialObjectPointFieldEnumType::FA,i+1);
+    p.AddField(itk::DTITubeSpatialObjectPointFieldEnumType::ADC,2*i);
+    p.AddField(itk::DTITubeSpatialObjectPointFieldEnumType::GA,3*i);
     p.AddField("Lambda1",4*i);
     p.AddField("Lambda2",5*i);
     p.AddField("Lambda3",6*i);
@@ -483,7 +483,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           // Testing the color of the tube points
         if( itk::Math::NotExactlyEquals((*j).GetRed(), value))
           {
-          std::cout<<" [FAILED] : Red : found " << ( *j).GetRed()
+          std::cout<<" [FAILED] : RGBColormapFilterEnumType::Red : found " << ( *j).GetRed()
             << " instead of " << value << std::endl;
           delete mySceneChildren;
           return EXIT_FAILURE;
@@ -491,7 +491,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 
         if(itk::Math::NotExactlyEquals((*j).GetGreen(), value+1))
           {
-          std::cout<<" [FAILED] : Green : found " << ( *j).GetGreen()
+          std::cout<<" [FAILED] : RGBColormapFilterEnumType::Green : found " << ( *j).GetGreen()
             << " instead of " << value+1 << std::endl;
           delete mySceneChildren;
           return EXIT_FAILURE;
@@ -499,7 +499,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 
         if(itk::Math::NotExactlyEquals((*j).GetBlue(), value+2))
           {
-          std::cout<<"[FAILED] : Blue : found " << ( *j).GetBlue()
+          std::cout<<"[FAILED] : RGBColormapFilterEnumType::Blue : found " << ( *j).GetBlue()
             << " instead of " << value+2 << std::endl;
           delete mySceneChildren;
           return EXIT_FAILURE;
@@ -563,7 +563,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           // Testing the color of the tube points
         if(itk::Math::NotExactlyEquals((*jv).GetRed(), value))
           {
-          std::cout<<" [FAILED] : Red : found " << ( *jv).GetRed()
+          std::cout<<" [FAILED] : RGBColormapFilterEnumType::Red : found " << ( *jv).GetRed()
             << " instead of " << value << std::endl;
           delete mySceneChildren;
           return EXIT_FAILURE;
@@ -571,7 +571,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 
         if(itk::Math::NotExactlyEquals((*jv).GetGreen(), value+1))
           {
-          std::cout<<" [FAILED] : Green : found " << ( *jv).GetGreen()
+          std::cout<<" [FAILED] : RGBColormapFilterEnumType::Green : found " << ( *jv).GetGreen()
             << " instead of " << value+1 << std::endl;
           delete mySceneChildren;
           return EXIT_FAILURE;
@@ -579,7 +579,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 
         if(itk::Math::NotExactlyEquals((*jv).GetBlue(), value+2))
           {
-          std::cout<<"[FAILED] : Blue : found " << ( *jv).GetBlue()
+          std::cout<<"[FAILED] : RGBColormapFilterEnumType::Blue : found " << ( *jv).GetBlue()
             << " instead of " << value+2 << std::endl;
           delete mySceneChildren;
           return EXIT_FAILURE;
@@ -696,7 +696,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           // Testing the color of the tube points
         if( itk::Math::NotExactlyEquals((*jdti).GetRed(), value))
           {
-          std::cout<<" [FAILED] : Red : found " << ( *jdti).GetRed()
+          std::cout<<" [FAILED] : RGBColormapFilterEnumType::Red : found " << ( *jdti).GetRed()
             << " instead of " << value << std::endl;
           delete mySceneChildren;
           return EXIT_FAILURE;
@@ -704,7 +704,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 
         if(itk::Math::NotExactlyEquals((*jdti).GetGreen(), value+1))
           {
-          std::cout<<" [FAILED] : Green : found " << ( *jdti).GetGreen()
+          std::cout<<" [FAILED] : RGBColormapFilterEnumType::Green : found " << ( *jdti).GetGreen()
             << " instead of " << value+1 << std::endl;
           delete mySceneChildren;
           return EXIT_FAILURE;
@@ -712,7 +712,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 
         if(itk::Math::NotExactlyEquals((*jdti).GetBlue(), value+2))
           {
-          std::cout<<"[FAILED] : Blue : found " << ( *jdti).GetBlue()
+          std::cout<<"[FAILED] : RGBColormapFilterEnumType::Blue : found " << ( *jdti).GetBlue()
             << " instead of " << value+2 << std::endl;
           delete mySceneChildren;
           return EXIT_FAILURE;
@@ -727,7 +727,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           }
 
         if(itk::Math::NotExactlyEquals(
-            (*jdti).GetField(DTITubePointType::FA), value+1) )
+            (*jdti).GetField(itk::DTITubeSpatialObjectPointFieldEnumType::FA), value+1) )
           {
           std::cout<<" [FAILED] : FA : found " << ( *jdti).GetField("FA")
             << " instead of " << value+1 << std::endl;
@@ -735,7 +735,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           return EXIT_FAILURE;
           }
         if(itk::Math::NotExactlyEquals((*jdti).GetField(
-              DTITubePointType::ADC), value*2))
+                itk::DTITubeSpatialObjectPointFieldEnumType::ADC), value*2))
           {
           std::cout<<" [FAILED] : ADC : found " << ( *jdti).GetField("ADC")
             << " instead of " << value*2 << std::endl;
@@ -743,7 +743,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           return EXIT_FAILURE;
           }
         if(itk::Math::NotExactlyEquals((*jdti).GetField(
-              DTITubePointType::GA), value*3))
+                itk::DTITubeSpatialObjectPointFieldEnumType::GA), value*3))
           {
           std::cout<<" [FAILED] : GA : found " << ( *jdti).GetField("FA")
             << " instead of " << value*3 << std::endl;
@@ -933,7 +933,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           // Testing the color of the tube points
           if( itk::Math::NotExactlyEquals((*pit).GetRed(), value))
             {
-            std::cout<<" [FAILED] : Red : found " << (*pit).GetRed()
+            std::cout<<" [FAILED] : RGBColormapFilterEnumType::Red : found " << (*pit).GetRed()
               << " instead of " << value << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
@@ -941,7 +941,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 
           if(itk::Math::NotExactlyEquals((*pit).GetGreen(), value+1))
             {
-            std::cout<<" [FAILED] : Green : found " << (*pit).GetGreen()
+            std::cout<<" [FAILED] : RGBColormapFilterEnumType::Green : found " << (*pit).GetGreen()
               << " instead of " << value+1 << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
@@ -949,7 +949,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 
           if(itk::Math::NotExactlyEquals((*pit).GetBlue(), value+2))
             {
-            std::cout<<" [FAILED] : Blue : found " << (*pit).GetBlue()
+            std::cout<<" [FAILED] : RGBColormapFilterEnumType::Blue : found " << (*pit).GetBlue()
               << " instead of " << value+2 << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
@@ -1010,7 +1010,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           // Testing the color of the tube points
           if( itk::Math::NotExactlyEquals((*pit).GetRed(), value))
             {
-            std::cout<<" [FAILED] : Red : found " << ( *pit).GetRed()
+            std::cout<<" [FAILED] : RGBColormapFilterEnumType::Red : found " << ( *pit).GetRed()
               << " instead of " << value << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
@@ -1018,7 +1018,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 
           if(itk::Math::NotExactlyEquals((*pit).GetGreen(), value+1))
             {
-            std::cout<<" [FAILED] : Green : found " << ( *pit).GetGreen()
+            std::cout<<" [FAILED] : RGBColormapFilterEnumType::Green : found " << ( *pit).GetGreen()
               << " instead of " << value+1 << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
@@ -1026,7 +1026,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 
           if(itk::Math::NotExactlyEquals((*pit).GetBlue(), value+2))
             {
-            std::cout<<" [FAILED] : Blue : found " << ( *pit).GetBlue()
+            std::cout<<" [FAILED] : RGBColormapFilterEnumType::Blue : found " << ( *pit).GetBlue()
               << " instead of " << value+2 << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
@@ -1088,21 +1088,21 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           // Testing the color of the tube points
           if( itk::Math::NotExactlyEquals((*pit).GetRed(), value))
             {
-            std::cout<<" [FAILED] : Red : found " << ( *pit).GetRed() << " instead of " << value << std::endl;
+            std::cout<<" [FAILED] : RGBColormapFilterEnumType::Red : found " << ( *pit).GetRed() << " instead of " << value << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
           if(itk::Math::NotExactlyEquals((*pit).GetGreen(), value+1))
             {
-            std::cout<<" [FAILED] : Green : found " << ( *pit).GetGreen() << " instead of " << value+1 << std::endl;
+            std::cout<<" [FAILED] : RGBColormapFilterEnumType::Green : found " << ( *pit).GetGreen() << " instead of " << value+1 << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
           if(itk::Math::NotExactlyEquals((*pit).GetBlue(), value+2))
             {
-            std::cout<<" [FAILED] : Blue : found " << ( *pit).GetBlue() << " instead of " << value+2 << std::endl;
+            std::cout<<" [FAILED] : RGBColormapFilterEnumType::Blue : found " << ( *pit).GetBlue() << " instead of " << value+2 << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
             }

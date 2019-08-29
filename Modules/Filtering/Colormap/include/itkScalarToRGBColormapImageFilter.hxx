@@ -134,7 +134,7 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
 {
   switch ( map )
     {
-    case Red:
+    case RGBColormapFilterEnumType::Red:
       {
       using SpecificColormapType = Function::RedColormapFunction<
         InputImagePixelType, OutputImagePixelType >;
@@ -142,7 +142,7 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
       this->SetColormap(colormap);
       break;
       }
-    case Green:
+    case RGBColormapFilterEnumType::Green:
       {
       using SpecificColormapType = Function::GreenColormapFunction<
         InputImagePixelType, OutputImagePixelType >;
@@ -150,7 +150,7 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
       this->SetColormap(colormap);
       break;
       }
-    case Blue:
+    case RGBColormapFilterEnumType::Blue:
       {
       using SpecificColormapType = Function::BlueColormapFunction<
         InputImagePixelType, OutputImagePixelType >;
@@ -158,7 +158,7 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
       this->SetColormap(colormap);
       break;
       }
-    case Grey:
+    case RGBColormapFilterEnumType::Grey:
     default:
       {
       using SpecificColormapType = Function::GreyColormapFunction<
@@ -167,7 +167,7 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
       this->SetColormap(colormap);
       break;
       }
-    case Hot:
+    case RGBColormapFilterEnumType::Hot:
       {
       using SpecificColormapType = Function::HotColormapFunction<
         InputImagePixelType, OutputImagePixelType >;
@@ -175,7 +175,7 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
       this->SetColormap(colormap);
       break;
       }
-    case Cool:
+    case RGBColormapFilterEnumType::Cool:
       {
       using SpecificColormapType = Function::CoolColormapFunction<
         InputImagePixelType, OutputImagePixelType >;
@@ -183,7 +183,7 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
       this->SetColormap(colormap);
       break;
       }
-    case Spring:
+    case RGBColormapFilterEnumType::Spring:
       {
       using SpecificColormapType = Function::SpringColormapFunction<
         InputImagePixelType, OutputImagePixelType >;
@@ -191,7 +191,7 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
       this->SetColormap(colormap);
       break;
       }
-    case Summer:
+    case RGBColormapFilterEnumType::Summer:
       {
       using SpecificColormapType = Function::SummerColormapFunction<
         InputImagePixelType, OutputImagePixelType >;
@@ -199,7 +199,7 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
       this->SetColormap(colormap);
       break;
       }
-    case Autumn:
+    case RGBColormapFilterEnumType::Autumn:
       {
       using SpecificColormapType = Function::AutumnColormapFunction<
         InputImagePixelType, OutputImagePixelType >;
@@ -207,7 +207,7 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
       this->SetColormap(colormap);
       break;
       }
-    case Winter:
+    case RGBColormapFilterEnumType::Winter:
       {
       using SpecificColormapType = Function::WinterColormapFunction<
         InputImagePixelType, OutputImagePixelType >;
@@ -215,7 +215,7 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
       this->SetColormap(colormap);
       break;
       }
-    case Copper:
+    case RGBColormapFilterEnumType::Copper:
       {
       using SpecificColormapType = Function::CopperColormapFunction<
         InputImagePixelType, OutputImagePixelType >;
@@ -223,7 +223,7 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
       this->SetColormap(colormap);
       break;
       }
-    case Jet:
+    case RGBColormapFilterEnumType::Jet:
       {
       using SpecificColormapType = Function::JetColormapFunction<
         InputImagePixelType, OutputImagePixelType >;
@@ -231,7 +231,7 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
       this->SetColormap(colormap);
       break;
       }
-    case HSV:
+    case RGBColormapFilterEnumType::HSV:
       {
       using SpecificColormapType = Function::HSVColormapFunction<
         InputImagePixelType, OutputImagePixelType >;
@@ -239,7 +239,7 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
       this->SetColormap(colormap);
       break;
       }
-    case OverUnder:
+    case RGBColormapFilterEnumType::OverUnder:
       {
       using SpecificColormapType = Function::OverUnderColormapFunction<
         InputImagePixelType, OutputImagePixelType >;

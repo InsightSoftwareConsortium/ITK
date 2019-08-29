@@ -28,9 +28,26 @@
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
 #include "itkDiffusionTensor3D.h"
+#include "ITKDenoisingExport.h"
 
 namespace itk
 {
+/** \class NoiseType
+* \ingroup ITKDenoising
+* Type definition for selecting the noise model. */
+enum class NoiseType : uint8_t { NOMODEL = 0, GAUSSIAN = 1, RICIAN = 2, POISSON = 3 };
+
+/** TODO add comment about why no noise model can be used for RIEMANNIAN space
+           */
+/** \class SpaceType
+ * \ingroup ITKDenoising
+ * Type definition to determine which space to do calculations in. */
+enum class SpaceType : uint8_t { EUCLIDEAN = 0, RIEMANNIAN = 1 };
+
+/** \class StateTypeOfFilter
+ * \ingroup ITKDenoising
+ * State that the filter is in, i.e. UNINITIALIZED or INITIALIZED. */
+enum class StateTypeOfFilter : uint8_t { UNINITIALIZED = 0, INITIALIZED = 1 };
 
 /** \class PatchBasedDenoisingBaseImageFilter
  * \brief Base class for patch-based denoising algorithms.
@@ -349,6 +366,12 @@ private:
 
   FilterStateType m_State;
 };
+
+// Define how to print enumerations
+extern ITKDenoising_EXPORT std::ostream& operator<<(std::ostream& out, const NoiseType value);
+extern ITKDenoising_EXPORT std::ostream& operator<<(std::ostream& out, const SpaceType value);
+extern ITKDenoising_EXPORT std::ostream& operator<<(std::ostream& out, const StateTypeOfFilter value);
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

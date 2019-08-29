@@ -324,6 +324,10 @@ macro(itk_setup_swig_python type base_name interface_file python_file cpp_file d
     -w508 # Declaration of 'name' shadows declaration accessible via operator->(), previous declaration of'declaration'
     -w509 # Overloaded method declaration effectively ignored, as it is shadowed by declaration
     -o ${cpp_file}
+    # The order of this include folder and the next one matters as otherwise the following exception is thrown:
+    # "This version of exception.i should not be used"
+    -I${SWIG_DIR}/python
+    -I${SWIG_DIR}
     -I${GENERATORS_SRC_DIR}
     -I${WRAP_ITK_TYPEDEFS_DIRECTORY}/python
     -I${WRAP_ITK_TYPEDEFS_DIRECTORY}
@@ -644,9 +648,7 @@ endmacro()
 
 
 macro(itk_wrap_submodule_python module)
-  set(ITK_WRAP_PYTHON_SWIG_EXT "")
-  # To address Python 2.7 hypot bug, https://bugs.python.org/issue11566
-  set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%begin %{\n#include \"PatchedPython27pyconfig.h\"\n%}\n\n")
+  set(ITK_WRAP_PYTHON_SWIG_EXT "\n")
 
   # register the module for the lib module
   set(ITK_WRAP_PYTHON_LIBRARY_IMPORTS "${ITK_WRAP_PYTHON_LIBRARY_IMPORTS}from ${module}Python import *\n")
@@ -797,6 +799,11 @@ macro(itk_wrap_simple_type_python wrap_class swig_name)
     set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}#include \"itkContinuousIndexSwigInterface.h\"\n")
     set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%}\n")
   endif()
+
+  if("${cpp_name}" STREQUAL "itk::Image")
+    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_IMAGE_CLASS(${swig_name})\n\n")
+  endif()
+
 
   if("${cpp_name}" STREQUAL "itk::StatisticsLabelObject" AND NOT "${swig_name}" MATCHES "Pointer$")
     set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(map${swig_name}) std::map< unsigned long, ${swig_name}_Pointer, std::less< unsigned long > >;\n")

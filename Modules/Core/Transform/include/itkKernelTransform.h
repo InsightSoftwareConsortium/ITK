@@ -206,7 +206,7 @@ public:
    * transformations of individual points */
   TransformCategoryType GetTransformCategory() const override
   {
-    return Self::Spline;
+    return Self::TransformCategoryType::Spline;
   }
 
   /** Stiffness of the spline.  A stiffness of zero results in the

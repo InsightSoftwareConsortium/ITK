@@ -120,8 +120,13 @@ template< typename TInput1, typename TInput2, typename TOutput >
 class ITK_TEMPLATE_EXPORT TikhonovDeconvolutionFunctor
 {
 public:
-  TikhonovDeconvolutionFunctor() {m_RegularizationConstant = 0.0;}
+  TikhonovDeconvolutionFunctor() {}
   ~TikhonovDeconvolutionFunctor() = default;
+  TikhonovDeconvolutionFunctor( const TikhonovDeconvolutionFunctor & f)
+    : m_RegularizationConstant( f.m_RegularizationConstant )
+    , m_KernelZeroMagnitudeThreshold( f.m_KernelZeroMagnitudeThreshold )
+  {}
+
 
   bool operator!=( const TikhonovDeconvolutionFunctor & ) const
   {
@@ -167,8 +172,8 @@ public:
   }
 
 private:
-  double m_RegularizationConstant;
-  double m_KernelZeroMagnitudeThreshold;
+  double m_RegularizationConstant = 0.0;
+  double m_KernelZeroMagnitudeThreshold = 0.0;
 };
 } //namespace Functor
 

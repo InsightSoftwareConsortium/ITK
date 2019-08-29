@@ -24,7 +24,18 @@
 
 namespace itk
 {
-/** \class ExtractImageFilter
+/** \class ExtractImageFilterCollapseStrategy
+* \ingroup ITKCommon
+* Strategy to be used to collapse phsycial space dimensions
+*/
+    enum class ExtractImageFilterCollapseStrategy : uint8_t {
+        DIRECTIONCOLLAPSETOUNKOWN=0,
+        DIRECTIONCOLLAPSETOIDENTITY=1,
+        DIRECTIONCOLLAPSETOSUBMATRIX=2,
+        DIRECTIONCOLLAPSETOGUESS=3
+    };
+
+    /** \class ExtractImageFilter
  * \brief Decrease the image size by cropping the image to the selected
  * region bounds.
  *
@@ -123,13 +134,17 @@ public:
   using OutputImageSizeType = typename TOutputImage::SizeType;
   using InputImageSizeType = typename TInputImage::SizeType;
 
-  typedef enum DirectionCollapseStrategyEnum {
-    DIRECTIONCOLLAPSETOUNKOWN=0,
-    DIRECTIONCOLLAPSETOIDENTITY=1,
-    DIRECTIONCOLLAPSETOSUBMATRIX=2,
-    DIRECTIONCOLLAPSETOGUESS=3
-  } DIRECTIONCOLLAPSESTRATEGY;
-
+  /** Backwards compatibility for enum values */
+  using DIRECTIONCOLLAPSESTRATEGY = ExtractImageFilterCollapseStrategy;
+  using DirectionCollapseStrategyEnum = ExtractImageFilterCollapseStrategy;
+#if !defined(ITK_LEGACY_REMOVE)
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr DIRECTIONCOLLAPSESTRATEGY DIRECTIONCOLLAPSETOUNKOWN = DIRECTIONCOLLAPSESTRATEGY::DIRECTIONCOLLAPSETOUNKOWN;
+  static constexpr DIRECTIONCOLLAPSESTRATEGY DIRECTIONCOLLAPSETOIDENTITY = DIRECTIONCOLLAPSESTRATEGY::DIRECTIONCOLLAPSETOIDENTITY;
+  static constexpr DIRECTIONCOLLAPSESTRATEGY DIRECTIONCOLLAPSETOSUBMATRIX = DIRECTIONCOLLAPSESTRATEGY::DIRECTIONCOLLAPSETOSUBMATRIX;
+  static constexpr DIRECTIONCOLLAPSESTRATEGY DIRECTIONCOLLAPSETOGUESS = DIRECTIONCOLLAPSESTRATEGY::DIRECTIONCOLLAPSETOGUESS;
+#endif
 
   /**
    * Set the strategy to be used to collapse physical space dimensions.
@@ -155,15 +170,15 @@ public:
    * example when the application programmer knows that a 4D image
    * is 3D+time, and that the 3D sub-space is properly defined.
    */
-  void SetDirectionCollapseToStrategy(const DIRECTIONCOLLAPSESTRATEGY choosenStrategy)
+  void SetDirectionCollapseToStrategy(const ExtractImageFilterCollapseStrategy choosenStrategy)
     {
     switch(choosenStrategy)
       {
-    case DIRECTIONCOLLAPSETOGUESS:
-    case DIRECTIONCOLLAPSETOIDENTITY:
-    case DIRECTIONCOLLAPSETOSUBMATRIX:
+    case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS:
+    case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY:
+    case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX:
       break;
-    case DIRECTIONCOLLAPSETOUNKOWN:
+    case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN:
     default:
       itkExceptionMacro( << "Invalid Strategy Chosen for itk::ExtractImageFilter" );
       }
@@ -188,19 +203,19 @@ public:
   /** \sa SetDirectionCollapseToStrategy */
   void SetDirectionCollapseToGuess()
     {
-    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLAPSETOGUESS);
+    this->SetDirectionCollapseToStrategy(ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS);
     }
 
   /** \sa SetDirectionCollapseToStrategy */
   void SetDirectionCollapseToIdentity()
     {
-    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLAPSETOIDENTITY);
+    this->SetDirectionCollapseToStrategy(ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY);
     }
 
   /** \sa SetDirectionCollapseToStrategy */
   void SetDirectionCollapseToSubmatrix()
     {
-    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLAPSETOSUBMATRIX);
+    this->SetDirectionCollapseToStrategy(ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX);
     }
 
 
@@ -275,8 +290,12 @@ protected:
   OutputImageRegionType m_OutputImageRegion;
 
 private:
-  DIRECTIONCOLLAPSESTRATEGY m_DirectionCollapseStrategy;
+  ExtractImageFilterCollapseStrategy m_DirectionCollapseStrategy;
 };
+
+/** Define how to print enumerations */
+extern ITKCommon_EXPORT std::ostream& operator<<(std::ostream& out, const ExtractImageFilterCollapseStrategy value);
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
