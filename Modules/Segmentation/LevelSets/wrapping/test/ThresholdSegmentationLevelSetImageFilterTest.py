@@ -28,8 +28,6 @@
 #     OUTPUTS: {ThresholdSegmentationLevelSetImageFilterGrayMatter.png}
 #     107 69 5 180  210
 
-from __future__ import print_function
-
 import itk
 from sys import argv, stderr, exit
 import os

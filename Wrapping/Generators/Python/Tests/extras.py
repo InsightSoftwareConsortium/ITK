@@ -18,9 +18,6 @@
 
 # also test the import callback feature
 
-from __future__ import print_function
-
-
 def custom_callback(name, progress):
     if progress == 0:
         print("Loading %s..." % name, file=sys.stderr)

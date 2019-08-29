@@ -36,8 +36,6 @@
 # See the ITK Software Guide, section 9.3.3 "Geodesic Active Contours
 # Segmentation" as well as the CXX example for more comments.
 
-from __future__ import print_function
-
 import itk
 from sys import argv, stderr
 import os

@@ -16,7 +16,6 @@
 #
 #==========================================================================*/
 
-from __future__ import print_function
 import re
 
 # The following line defines an ascii string used for dynamically refreshing
@@ -146,10 +145,7 @@ def physical_size(image_or_filter):
     """
     # required because range is overloaded in this module
     import sys
-    if sys.version_info >= (3, 0):
-      from builtins import range
-    else:
-      from __builtin__ import range
+    from builtins import range
     spacing_ = spacing(image_or_filter)
     size_ = size(image_or_filter)
     result = []

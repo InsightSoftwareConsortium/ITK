@@ -16,11 +16,7 @@
 #
 #==========================================================================*/
 
-#
 #  Example on the use of the CannyEdgeDetectionImageFilter
-#
-
-from __future__ import print_function
 
 import itk
 from sys import argv, stderr, exit

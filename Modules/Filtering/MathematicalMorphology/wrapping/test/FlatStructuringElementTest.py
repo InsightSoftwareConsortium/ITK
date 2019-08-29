@@ -16,8 +16,6 @@
 #
 #==========================================================================*/
 
-from __future__ import print_function
-
 import itk
 from sys import argv, exit
 itk.auto_progress(2)
