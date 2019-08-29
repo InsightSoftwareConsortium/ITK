@@ -122,7 +122,7 @@ int main( int argc, char *argv[] )
   try
     {
     itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO(
-      ( inputPath + actualTiles[0][0].FileName ).c_str(), itk::ImageIOFactory::ReadMode );
+      ( inputPath + actualTiles[0][0].FileName ).c_str(), itk::ImageIOFactory::FileModeType::ReadMode );
     imageIO->SetFileName( inputPath + actualTiles[0][0].FileName );
     imageIO->ReadImageInformation();
 

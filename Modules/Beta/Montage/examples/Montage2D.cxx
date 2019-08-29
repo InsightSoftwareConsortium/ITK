@@ -200,7 +200,7 @@ int main( int argc, char *argv[] )
     // but we examine what is the input type of the first tile and instantiate that
 
     itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO(
-        (inputPath + stageTiles[0][0].FileName).c_str(), itk::ImageIOFactory::ReadMode );
+        (inputPath + stageTiles[0][0].FileName).c_str(), itk::ImageIOFactory::FileModeType::ReadMode );
     imageIO->SetFileName( inputPath + stageTiles[0][0].FileName );
     imageIO->ReadImageInformation();
 
