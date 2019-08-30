@@ -456,10 +456,12 @@ TIFFImageIO::ReadImageInformation()
       this->SetPixelType(RGBA);
   }
 
-  if ((this->GetFormat() == TIFFImageIO::PALETTE_GRAYSCALE || this->GetFormat() == TIFFImageIO::PALETTE_RGB) &&
-      m_TotalColors > 0 && this->GetExpandRGBPalette())
+  bool isPalette =
+    (this->GetFormat() == TIFFImageIO::PALETTE_GRAYSCALE || this->GetFormat() == TIFFImageIO::PALETTE_RGB) &&
+    m_TotalColors > 0;
+  bool isPaletteShortType = false;
+  if (isPalette)
   {
-    m_ComponentType = UCHAR;
     // detect if palette appears to be 8-bit or 16-bit
     for (unsigned int cc = 0; cc < static_cast<unsigned int>(m_TotalColors); ++cc)
     {
@@ -467,15 +469,16 @@ TIFFImageIO::ReadImageInformation()
       this->GetColor(cc, &red, &green, &blue);
       if (red > 255 || green > 255 || blue > 255)
       {
-        m_ComponentType = USHORT;
+        isPaletteShortType = true;
         break;
       }
     }
   }
-  if (!m_IsReadAsScalarPlusPalette)
+
+  if (isPalette && this->GetExpandRGBPalette())
   {
-    // make sure the palette is empty
-    m_ColorPalette.resize(0);
+    // put the component type the same as the palette type
+    m_ComponentType = (isPaletteShortType) ? USHORT : UCHAR;
   }
 
 
@@ -496,17 +499,30 @@ TIFFImageIO::ReadImageInformation()
       itkExceptionMacro("Unable to read tiff file: " << emsg);
     }
 
-    itkDebugMacro(<< "Using TIFFReadRGBAImage");
 
-    this->SetNumberOfComponents(4);
-    this->SetPixelType(RGBA);
-    m_ComponentType = UCHAR;
-
-    if (m_IsReadAsScalarPlusPalette)
+    if (!m_IsReadAsScalarPlusPalette)
     {
-      itkWarningMacro(<< "Could not read this palette image as scalar+Palette because of its TIFF format");
-      m_IsReadAsScalarPlusPalette = false;
+      itkDebugMacro(<< "Using TIFFReadRGBAImage");
+      this->SetNumberOfComponents(4);
+      this->SetPixelType(RGBA);
+      m_ComponentType = UCHAR;
     }
+    else
+    {
+      itkDebugMacro(<< "Using TIFFReadRGBImage");
+      itkWarningMacro(<< "Could not read this palette image as scalar+Palette because of its TIFF format");
+      // can't read as scalar+palette so reset type to RGB
+      m_IsReadAsScalarPlusPalette = false;
+      this->SetNumberOfComponents(3);
+      this->SetPixelType(RGB); // RGBA is not valid for palette, so cannot be
+      m_ComponentType = (isPaletteShortType) ? USHORT : UCHAR;
+    }
+  }
+
+  if (!m_IsReadAsScalarPlusPalette)
+  {
+    // make sure the palette is empty
+    m_ColorPalette.resize(0);
   }
 }
 
