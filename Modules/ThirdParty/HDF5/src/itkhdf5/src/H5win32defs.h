@@ -54,7 +54,6 @@ typedef __int64             h5_stat_size_t;
  * Also note that the variadic macro is using a VC++ extension
  * where the comma is dropped if nothing is passed to the ellipsis.
  */
-#define HDopen(S,F,...)       _open(S, F | _O_BINARY, __VA_ARGS__)
 #define HDread(F,M,Z)       _read(F,M,Z)
 #define HDrmdir(S)          _rmdir(S)
 #define HDsetvbuf(F,S,M,Z)  setvbuf(F,S,M,(Z>1?Z:2))
@@ -67,6 +66,15 @@ typedef __int64             h5_stat_size_t;
 #define HDwrite(F,M,Z)      _write(F,M,Z)
 
 #ifdef H5_HAVE_VISUAL_STUDIO
+
+/* _O_BINARY must be set in Windows to avoid CR-LF <-> LF EOL
+ * transformations when performing I/O. Note that this will
+ * produce Unix-style text files, though.
+ *
+ * Also note that the variadic macro is using a VC++ extension
+ * where the comma is dropped if nothing is passed to the ellipsis.
+ */
+#define HDopen(S,F,...)       _open(S, F | _O_BINARY, __VA_ARGS__)
 
 #if (_MSC_VER < 1800)
   #ifndef H5_HAVE_STRTOLL
@@ -150,6 +158,7 @@ extern "C" {
 #define HDpthread_self_ulong() ((unsigned long)GetCurrentThreadId())
 
 #ifndef H5_HAVE_MINGW
+#define HDopen(S,F,M)       _open(S, F | _O_BINARY, M)
 #define HDftruncate(F,L)    _chsize_s(F,L)
 #define HDfseek(F,O,W)      _fseeki64(F,O,W)
 #endif /* H5_HAVE_MINGW */
