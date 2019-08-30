@@ -48,7 +48,7 @@ TubeSpatialObject<TDimension, TTubePointType>::Clear(void)
 
   m_Root = false;
   m_ParentPoint = -1;
-  m_EndRounded = false; // default end-type is flat
+  m_EndRounded = true; // default end-type is flat
 
   this->Modified();
 }
@@ -151,103 +151,115 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeMyBoundingBox()
  *  check the name of the class and the current depth */
 template <unsigned int TDimension, typename TTubePointType>
 bool
-TubeSpatialObject<TDimension, TTubePointType>::IsInsideInObjectSpace(const PointType & point) const
+TubeSpatialObject<TDimension, TTubePointType>::IsInsideInObjectSpace(
+  const PointType & point) const
 {
-  if (this->GetMyBoundingBoxInObjectSpace()->IsInside(point))
+  if ( this->GetMyBoundingBoxInObjectSpace()->IsInside(point) )
   {
-    double minSquareDist = 999999.0;
-    double tempSquareDist;
-    auto   it = this->m_Points.begin();
-    auto   it2 = this->m_Points.begin();
-    auto   end = this->m_Points.end();
-    auto   minIt = it;
+    double tempDist;
+    auto it = this->m_Points.begin();
+    auto first = it;
+    auto it2 = it;
+    it2++;
+    auto end = this->m_Points.end();
+    auto last = end;
+    last--;
 
-    if (!m_EndRounded) // flat end-type
+    PointType firstP = first->GetPositionInObjectSpace();
+    double firstR = first->GetRadiusInObjectSpace();
+    PointType lastP = last->GetPositionInObjectSpace();
+    double lastR = last->GetRadiusInObjectSpace();
+
+    bool withinEndCap = false;
+    while ( it2 != end )
     {
-      it2++; // next point
-      while (it2 != end)
+      // Check if the point is on the normal plane
+      PointType a = ( *it ).GetPositionInObjectSpace();
+      PointType b = ( *it2 ).GetPositionInObjectSpace();
+
+      if ( !m_EndRounded )
       {
-        // Check if the point is on the normal plane
-        PointType a = (*it).GetPositionInObjectSpace();
-        PointType b = (*it2).GetPositionInObjectSpace();
-
-        double A = 0;
-        double B = 0;
-
-        for (unsigned int i = 0; i < TDimension; i++)
+        withinEndCap = false;
+        double firstDist = a.EuclideanDistanceTo(firstP);
+        double lastDist = a.EuclideanDistanceTo(lastP);
+        if ( firstDist <= firstR || lastDist <= firstR )
         {
-          A += (b[i] - a[i]) * (point[i] - a[i]);
-          B += (b[i] - a[i]) * (b[i] - a[i]);
+          withinEndCap = true;
+        }
+        else
+        {
+          firstDist = b.EuclideanDistanceTo(firstP);
+          lastDist = b.EuclideanDistanceTo(lastP);
+          if ( firstDist <= lastR || lastDist <= lastR )
+          {
+            withinEndCap = true;
+          }
+        }
+      }
+
+      double A = 0;
+      double B = 0;
+
+      for ( unsigned int i = 0; i < TDimension; i++ )
+      {
+        A += ( b[i] - a[i] ) * ( point[i] - a[i] );
+        B += ( b[i] - a[i] ) * ( b[i] - a[i] );
+      }
+
+      if ( B != 0 )
+      {
+        double lambda = A / B;
+        B = std::sqrt(B);
+
+        double lambdaMin = 0;
+        double lambdaMax = 1;
+        double lambdaMinR = (*it).GetRadiusInObjectSpace();
+        double lambdaMaxR = (*it2).GetRadiusInObjectSpace();
+        if ( m_EndRounded || !withinEndCap )
+        {
+          lambdaMin = -(lambdaMinR/B);
+          lambdaMax = 1+(lambdaMaxR/B);
+          if ( lambdaMax < (lambdaMinR/B) )
+          {
+            lambdaMax = (lambdaMinR/B);
+          }
+          if ( lambdaMin > (1-(lambdaMaxR/B)) )
+          {
+            lambdaMin = 1-(lambdaMaxR/B);
+          }
         }
 
-        double lambda = A / B;
-
-        if (((it != this->m_Points.begin()) && (lambda > -((*it).GetRadiusInObjectSpace() / (2 * std::sqrt(B)))) &&
-             (lambda < 0)) ||
-            ((lambda <= 1.0) && (lambda >= 0.0)))
+        if ( lambda >= lambdaMin && lambda <= lambdaMax )
         {
+          if ( lambda < 0 )
+          {
+            lambda = 0;
+          }
+          else if ( lambda > 1 )
+          {
+            lambda = 1;
+          }
+
+          double lambdaR = lambdaMinR + lambda * ( lambdaMaxR - lambdaMinR );
+
           PointType p;
-
-          if (lambda >= 0)
+          for ( unsigned int i = 0; i < TDimension; i++ )
           {
-            for (unsigned int i = 0; i < TDimension; i++)
-            {
-              p[i] = a[i] + lambda * (b[i] - a[i]);
-            }
-          }
-          else
-          {
-            for (unsigned int i = 0; i < TDimension; i++)
-            {
-              p[i] = b[i] + lambda * (b[i] - a[i]);
-            }
+            p[i] = a[i] + lambda * ( b[i] - a[i] );
           }
 
-          // TODO: Verify not squared?
-          tempSquareDist = point.EuclideanDistanceTo(p);
+          tempDist = point.EuclideanDistanceTo(p);
 
-          double R;
-          if (lambda >= 0)
-          {
-            R = (*it).GetRadiusInObjectSpace() +
-                lambda * ((*it2).GetRadiusInObjectSpace() - (*it).GetRadiusInObjectSpace());
-          }
-          else
-          {
-            R = (*it2).GetRadiusInObjectSpace() +
-                lambda * ((*it2).GetRadiusInObjectSpace() - (*it).GetRadiusInObjectSpace());
-          }
-
-          if (tempSquareDist <= R)
+          if ( tempDist <= lambdaR )
           {
             return true;
           }
         }
-        it++;
-        it2++;
       }
-    }
-    else // rounded end-type
-    {
-      while (it != end)
-      {
-        tempSquareDist = point.SquaredEuclideanDistanceTo((*it).GetPositionInObjectSpace());
-        if (tempSquareDist <= minSquareDist)
-        {
-          minSquareDist = tempSquareDist;
-          minIt = it;
-        }
-        it++;
-      }
-
-      double dist = std::sqrt(minSquareDist);
-      if (dist <= (minIt->GetRadiusInObjectSpace()))
-      {
-        return true;
-      }
+      it++;
+      it2++;
     }
   }
-
   return false;
 }
 
@@ -330,6 +342,8 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentAndNormals()
     if ( Math::AlmostEquals( l, 0.0 ) || std::isnan(l) )
     {
       x2 = this->GetPoint(it2)->GetPositionInObjectSpace();
+
+      l = 0;
       for (unsigned int i = 0; i < TDimension; i++)
       {
         t[i] = (x3[i] - x2[i]);
@@ -415,7 +429,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentAndNormals()
         {
           // if the normal is null, pick an orthogonal direction
           double d = std::sqrt( t[0]*t[0] + t[1]*t[1] );
-          if( d != 0 )
+          if ( d != 0 )
           {
             n1[0] = t[1] / d;
             n1[1] = -t[0] / d;
@@ -424,7 +438,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentAndNormals()
           else
           {
             d = std::sqrt( t[1]*t[1] + t[2]*t[2] );
-            if( d != 0 )
+            if ( d != 0 )
             {
               n1[0] = 0;
               n1[1] = t[2] / d;
