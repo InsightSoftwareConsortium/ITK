@@ -692,8 +692,29 @@ TIFFImageIO::InternalWrite(const void * buffer)
 
     TIFFSetField(tif, TIFFTAG_COMPRESSION, compression); // Fix for compression
 
-    uint16 photometric = (scomponents == 1) ? PHOTOMETRIC_MINISBLACK : PHOTOMETRIC_RGB;
-
+    bool paletteAllocated = false;
+    if (scomponents == 1)
+    {
+      if (this->GetWritePalette())
+      {
+        TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_PALETTE);
+        this->AllocateTiffPalette(bps);
+        TIFFSetField(tif, TIFFTAG_COLORMAP, m_ColorRed, m_ColorGreen, m_ColorBlue);
+        paletteAllocated = true;
+      }
+      else
+      {
+        TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+      }
+    }
+    else
+    {
+      if (this->GetWritePalette())
+      {
+        itkWarningMacro(<< "Could not write this image as palette because pixel is not scalar");
+      }
+      TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
+    }
     if (compression == COMPRESSION_JPEG)
     {
       TIFFSetField(tif, TIFFTAG_JPEGQUALITY, this->GetJPEGQuality());
@@ -705,7 +726,6 @@ TIFFImageIO::InternalWrite(const void * buffer)
       TIFFSetField(tif, TIFFTAG_PREDICTOR, predictor);
     }
 
-    TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, photometric); // Fix for scomponents
 
     // Previously, rowsperstrip was set to a default value so that it would be calculated using
     // the STRIP_SIZE_DEFAULT defined to be 8 kB in tiffiop.h.
@@ -794,6 +814,12 @@ TIFFImageIO::InternalWrite(const void * buffer)
     if (m_NumberOfDimensions == 3)
     {
       TIFFWriteDirectory(tif);
+    }
+    if (paletteAllocated)
+    {
+      _TIFFfree(m_ColorRed);
+      _TIFFfree(m_ColorGreen);
+      _TIFFfree(m_ColorBlue);
     }
   }
   TIFFClose(tif);
@@ -971,6 +997,54 @@ TIFFImageIO::PopulateColorPalette()
     p.SetGreen(green);
     p.SetBlue(blue);
     m_ColorPalette[cc] = p;
+  }
+}
+
+void
+TIFFImageIO::AllocateTiffPalette(int bps)
+{
+  m_ColorRed = nullptr;
+  m_ColorGreen = nullptr;
+  m_ColorBlue = nullptr;
+
+  // bpp is 16 at maximum for palette image
+  uint16   bpp = static_cast<uint16>(bps);
+  tmsize_t array_size = static_cast<tmsize_t>(1) << bpp * sizeof(uint16);
+  m_ColorRed = static_cast<uint16 *>(_TIFFmalloc(array_size));
+  if (!m_ColorRed)
+  {
+    _TIFFfree(m_ColorRed);
+    itkExceptionMacro("Can't allocate space for Red channel of component tables.");
+  }
+  m_ColorGreen = static_cast<uint16 *>(_TIFFmalloc(array_size));
+  if (!m_ColorGreen)
+  {
+    _TIFFfree(m_ColorGreen);
+    itkExceptionMacro("Can't allocate space for Green channel of component tables.");
+  }
+  m_ColorBlue = static_cast<uint16 *>(_TIFFmalloc(array_size));
+  if (!m_ColorBlue)
+  {
+    _TIFFfree(m_ColorBlue);
+    itkExceptionMacro("Can't allocate space for Blue channel of component tables.");
+  }
+  // TIFF palette length is fixed for a given bpp
+  unsigned long TIFFPaletteLength = (1L << bpp);
+  for (size_t i = 0; i < TIFFPaletteLength; ++i)
+  {
+    if (i < m_ColorPalette.size())
+    {
+      m_ColorRed[i] = m_ColorPalette[i].GetRed();
+      m_ColorGreen[i] = m_ColorPalette[i].GetGreen();
+      m_ColorBlue[i] = m_ColorPalette[i].GetBlue();
+    }
+    else
+    {
+      // default color is black
+      m_ColorRed[i] = 0;
+      m_ColorGreen[i] = 0;
+      m_ColorBlue[i] = 0;
+    }
   }
 }
 

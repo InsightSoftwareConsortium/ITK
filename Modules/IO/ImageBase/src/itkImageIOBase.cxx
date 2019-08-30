@@ -48,6 +48,7 @@ ImageIOBase::Reset(const bool)
   m_UseStreamedWriting = false;
   m_ExpandRGBPalette = true;
   m_IsReadAsScalarPlusPalette = false;
+  m_WritePalette = false;
 }
 
 ImageIOBase::~ImageIOBase() = default;
@@ -1204,6 +1205,14 @@ ImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
   else
   {
     os << indent << "IsReadAsScalarPlusPalette: False" << std::endl;
+  }
+  if (m_WritePalette)
+  {
+    os << indent << "WritePalette: On" << std::endl;
+  }
+  else
+  {
+    os << indent << "WritePalette: Off" << std::endl;
   }
 }
 
