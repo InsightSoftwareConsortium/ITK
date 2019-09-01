@@ -107,6 +107,12 @@ public:
     m_SpatialObject = so;
   }
 
+  SpatialObjectType *
+  GetSpatialObject() const
+  {
+    return m_SpatialObject;
+  }
+
   /** Set the position in world coordinates, using the
    *    spatialObject's objectToWorld transform, inverse */
   void

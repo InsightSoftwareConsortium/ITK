@@ -82,6 +82,7 @@ SpatialObjectPoint<TPointDimension>::operator=(const SpatialObjectPoint & rhs)
     this->SetId(rhs.GetId());
     this->SetPositionInObjectSpace(rhs.GetPositionInObjectSpace());
     this->SetColor(rhs.GetColor());
+    this->SetSpatialObject(rhs.GetSpatialObject());
   }
   return *this;
 }
@@ -103,6 +104,7 @@ SpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent indent)
     os << m_PositionInObjectSpace[i - 1] << ",";
   }
   os << m_PositionInObjectSpace[TPointDimension - 1] << std::endl;
+  os << indent << "SpatialObject: " << m_SpatialObject << std::endl;
 }
 } // end namespace itk
 

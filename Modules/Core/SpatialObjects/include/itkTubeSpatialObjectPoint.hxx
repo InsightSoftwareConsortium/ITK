@@ -185,6 +185,7 @@ TubeSpatialObjectPoint<TPointDimension>::operator=(const TubeSpatialObjectPoint 
     this->SetId(rhs.GetId());
     this->SetPositionInObjectSpace(rhs.GetPositionInObjectSpace());
     this->SetColor(rhs.GetColor());
+    this->SetSpatialObject(rhs.GetSpatialObject());
 
     // class
     this->SetRadiusInObjectSpace(rhs.GetRadiusInObjectSpace());
