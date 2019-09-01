@@ -455,6 +455,7 @@ itkTubeSpatialObjectTest(int, char *[])
   // Testing IsInside() with m_EndType set to rounded end-type;
   std::cout << "IsInside() with m_RoundedEnd=True: ";
   p1.Fill(19.5);
+  tube1->SetEndRounded(false);
 
   if (tube1->IsInsideInWorldSpace(p1))
   {
