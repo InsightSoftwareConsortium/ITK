@@ -13,5 +13,5 @@ For more information, see:
   http://insight-journal.org/browse/publication/985
 "
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKTextureFeatures.git
-  GIT_TAG f2fbb8f0a78b81238029501c891173d2f57d9d64
+  GIT_TAG 7643fb34ced0b40ad7eb0f2a28d56a3a2941cc0f
   )
