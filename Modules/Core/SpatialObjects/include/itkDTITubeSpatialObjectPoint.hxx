@@ -169,6 +169,7 @@ DTITubeSpatialObjectPoint<TPointDimension>::operator=(const DTITubeSpatialObject
     this->SetId(rhs.GetId());
     this->SetPositionInObjectSpace(rhs.GetPositionInObjectSpace());
     this->SetColor(rhs.GetColor());
+    this->SetSpatialObject(rhs.GetSpatialObject());
 
     // Tube
     this->SetRadiusInObjectSpace(rhs.GetRadiusInObjectSpace());

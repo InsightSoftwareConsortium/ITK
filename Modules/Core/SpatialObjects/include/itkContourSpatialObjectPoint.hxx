@@ -66,6 +66,7 @@ ContourSpatialObjectPoint<TPointDimension>::operator=(const ContourSpatialObject
     this->m_Id = rhs.GetId();
     this->m_PositionInObjectSpace = rhs.GetPositionInObjectSpace();
     this->m_Color = rhs.GetColor();
+    this->m_SpatialObject = rhs.GetSpatialObject();
     this->m_NormalInObjectSpace = rhs.GetNormalInObjectSpace();
     this->m_PickedPointInObjectSpace = rhs.GetPickedPointInObjectSpace();
   }

@@ -74,6 +74,7 @@ LineSpatialObjectPoint<TPointDimension>::operator=(const LineSpatialObjectPoint 
 {
   this->m_Id = rhs.m_Id;
   this->m_Color = rhs.m_Color;
+  this->m_SpatialObject = rhs.m_SpatialObject;
   this->m_PositionInObjectSpace = rhs.m_PositionInObjectSpace;
   this->m_NormalArrayInObjectSpace = rhs.m_NormalArrayInObjectSpace;
   return *this;
