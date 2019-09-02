@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkParseTileConfiguration.h"
+#include "itkTileConfiguration.h"
 
 #include <cassert>
 #include <fstream>

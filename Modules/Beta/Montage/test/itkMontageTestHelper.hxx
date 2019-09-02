@@ -22,7 +22,7 @@
 #include "itkAffineTransform.h"
 #include "itkImageFileWriter.h"
 #include "itkMaxPhaseCorrelationOptimizer.h"
-#include "itkParseTileConfiguration.h"
+#include "itkTileConfiguration.h"
 #include "itkRGBToLuminanceImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkTileMergeImageFilter.h"

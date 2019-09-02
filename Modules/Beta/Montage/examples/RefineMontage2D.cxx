@@ -18,7 +18,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkParseTileConfiguration.h"
+#include "itkTileConfiguration.h"
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
 #include "itkTileMontage.h"

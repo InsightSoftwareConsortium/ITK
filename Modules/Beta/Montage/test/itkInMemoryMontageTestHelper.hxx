@@ -23,7 +23,7 @@
 #include "itkImageFileWriter.h"
 #include "itkMaxPhaseCorrelationOptimizer.h"
 #include "itkObject.h"
-#include "itkParseTileConfiguration.h"
+#include "itkTileConfiguration.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkTileMergeImageFilter.h"
 #include "itkTileMontage.h"

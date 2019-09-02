@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef itkParseTileConfiguration_h
-#define itkParseTileConfiguration_h
+#ifndef itkTileConfiguration_h
+#define itkTileConfiguration_h
 
 #include "MontageExport.h"
 
@@ -53,4 +53,4 @@ WriteTileConfiguration2D(const std::string pathToFile, const TileLayout2D & tile
 
 } // namespace itk
 
-#endif // itkParseTileConfiguration_h
+#endif // itkTileConfiguration_h

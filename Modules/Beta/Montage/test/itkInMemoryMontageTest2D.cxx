@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkInMemoryMontageTestHelper.hxx"
-#include "itkParseTileConfiguration.h"
+#include "itkTileConfiguration.h"
 #include "itkRGBPixel.h"
 
 int

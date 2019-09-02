@@ -22,7 +22,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkMaxPhaseCorrelationOptimizer.h"
-#include "itkParseTileConfiguration.h"
+#include "itkTileConfiguration.h"
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 
 #include <array>
