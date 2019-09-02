@@ -7,7 +7,7 @@ set(MontageTests
   itkMontagePCMTestSynthetic.cxx
   itkMontagePCMTestFiles.cxx
   itkMontageGenericTests.cxx
-  itkMontageTest2D.cxx
+  itkMontageTest.cxx
   itkMontageTruthCreator.cxx
   )
 
@@ -145,7 +145,7 @@ itk_add_test(NAME itkMontagePCMFilesSynthetic3D
 function(AddTestOMC slicerNumber inMemory tolerance)
   itk_add_test(NAME itkMontageOMC${slicerNumber}
     COMMAND MontageTestDriver
-    itkMontageTest2D
+    itkMontageTest
       DATA{Input/OMC/FlatField/${slicerNumber}/,REGEX:.*}
       ${TESTING_OUTPUT_PATH}/itkMontageOMC${slicerNumber}_
       ${TESTING_OUTPUT_PATH}/itkMontageOMC${slicerNumber}Pairs_
@@ -163,7 +163,7 @@ itk_add_test(NAME itkMontageRGBinMemory
   COMMAND MontageTestDriver
   --compare DATA{Input/VisibleHumanRGB/VisibleHumanMale1608.png}
                  ${SyntheticOutputPath}/itkMontageRGBim0_1.mha
-  itkMontageTest2D
+  itkMontageTest
     DATA{Input/VisibleHumanRGB/,REGEX:.*}
     ${SyntheticOutputPath}/itkMontageRGBim
     ${SyntheticOutputPath}/itkMontageRGBimPairs
@@ -174,7 +174,7 @@ itk_add_test(NAME itkMontageRGBpairsTol
   COMMAND MontageTestDriver
   --compare DATA{Input/VisibleHumanRGB/VisibleHumanMale1608.png}
                  ${SyntheticOutputPath}/itkMontageRGBim0_1.mha
-  itkMontageTest2D
+  itkMontageTest
     DATA{Input/VisibleHumanRGB/,REGEX:.*}
     ${SyntheticOutputPath}/itkMontageRGBpTol
     ${SyntheticOutputPath}/itkMontageRGBpTolPairs
@@ -185,7 +185,7 @@ itk_add_test(NAME itkMontageRGBpairs
   COMMAND MontageTestDriver
   --compare DATA{Input/VisibleHumanRGB/VisibleHumanMale1608.png}
                  ${SyntheticOutputPath}/itkMontageRGBp0_1.mha
-  itkMontageTest2D
+  itkMontageTest
     DATA{Input/VisibleHumanRGB/,REGEX:.*}
     ${SyntheticOutputPath}/itkMontageRGBp
     ${SyntheticOutputPath}/itkMontageRGBpPairs
@@ -217,7 +217,7 @@ AddInMemoryMontageTest(7 FALSE)
 
 itk_add_test(NAME itkMontageMediumCarbonSteel
   COMMAND MontageTestDriver
-  itkMontageTest2D
+  itkMontageTest
     DATA{Input/MediumCarbonSteel/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontageMediumCarbonSteel
     ${TESTING_OUTPUT_PATH}/itkMontageMediumCarbonSteelPairs
@@ -226,7 +226,7 @@ itk_add_test(NAME itkMontageMediumCarbonSteel
 
 itk_add_test(NAME itkMontageCMUrun2_64
   COMMAND MontageTestDriver
-  itkMontageTest2D
+  itkMontageTest
     DATA{Input/05MAR09_run2_64-Raw/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontageCMUrun2_64_
     ${TESTING_OUTPUT_PATH}/itkMontageCMUrun2_64Pairs_
@@ -235,7 +235,7 @@ itk_add_test(NAME itkMontageCMUrun2_64
 
 itk_add_test(NAME itkMontageCMUrun2_64_comb
   COMMAND MontageTestDriver
-  itkMontageTest2D
+  itkMontageTest
     DATA{Input/05MAR09_run2_64-Raw/,REGEX:.*}
     ${SyntheticOutputPath}/itkMontageCMUrun2_64_comb
     ${SyntheticOutputPath}/itkMontageCMUrun2_64_combPairs
@@ -247,7 +247,7 @@ function(AddTestTi64flat slicerNumber)
   if (EXISTS ${inDir}10099.tif)   
     itk_add_test(NAME itkMontageTi64flat${slicerNumber}
       COMMAND MontageTestDriver
-      itkMontageTest2D
+      itkMontageTest
         ${inDir}
         ${TESTING_OUTPUT_PATH}/itkMontageTi64flat${slicerNumber}_
         ${TESTING_OUTPUT_PATH}/itkMontageTi64flat${slicerNumber}Pairs_
@@ -267,7 +267,7 @@ function(AddTestTi64raw slicerNumber)
   if (EXISTS "${inDir}LEROY_0041_Region #1_${slicerNumber}_Mosaic_p099.tif")
     itk_add_test(NAME itkMontageTi64raw${slicerNumber}
       COMMAND MontageTestDriver
-      itkMontageTest2D
+      itkMontageTest
         ${inDir}
         ${TESTING_OUTPUT_PATH}/itkMontageTi64raw${slicerNumber}_
         ${TESTING_OUTPUT_PATH}/itkMontageTi64raw${slicerNumber}Pairs_
@@ -292,7 +292,7 @@ function(GroundTruthTest2D tempDir inputFile) # other command-line parameters
   itk_add_test(NAME itkMontageGroundTruthRun${tempDir}
     COMMAND MontageTestDriver --compareIntensityTolerance 0.0
     #  --compare ${inputFile} ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_2_1.mha
-    itkMontageTest2D
+    itkMontageTest
       ${outDir}
       ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_
       ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}Pairs_
@@ -308,7 +308,7 @@ GroundTruthTest2D(MediumCarbonSteel DATA{Input/MediumCarbonSteel/1701701_000000_
 
 itk_add_test(NAME itkMontage-10-129-C_2
   COMMAND MontageTestDriver
-  itkMontageTest2D
+  itkMontageTest
     DATA{Input/10-129-C_2/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontage-10-129-C_2
     ${TESTING_OUTPUT_PATH}/itkMontage-10-129-C_2Pairs
@@ -317,7 +317,7 @@ itk_add_test(NAME itkMontage-10-129-C_2
 
 itk_add_test(NAME itkMontage-S200-small
   COMMAND MontageTestDriver
-  itkMontageTest2D
+  itkMontageTest
     DATA{Input/S200-small/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontage-S200-small
     ${TESTING_OUTPUT_PATH}/itkMontage-S200-smallPairs
@@ -326,7 +326,7 @@ itk_add_test(NAME itkMontage-S200-small
 
 itk_add_test(NAME itkMontage-S200-6-C
   COMMAND MontageTestDriver
-  itkMontageTest2D
+  itkMontageTest
     DATA{Input/S200-6-C/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontage-S200-6-C
     ${TESTING_OUTPUT_PATH}/itkMontage-S200-6-C-Pairs
@@ -335,7 +335,7 @@ itk_add_test(NAME itkMontage-S200-6-C
 
 itk_add_test(NAME itkMontageMNML3
   COMMAND MontageTestDriver
-  itkMontageTest2D
+  itkMontageTest
     DATA{Input/MNML_3_200x_701/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontageMNML3_
     ${TESTING_OUTPUT_PATH}/itkMontageMNML3Pairs
@@ -344,7 +344,7 @@ itk_add_test(NAME itkMontageMNML3
 
 itk_add_test(NAME itkMontageMNML5
   COMMAND MontageTestDriver
-  itkMontageTest2D
+  itkMontageTest
     DATA{Input/MNML_5_500x_101/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontageMNML5_
     ${TESTING_OUTPUT_PATH}/itkMontageMNML5Pairs
@@ -449,17 +449,17 @@ itk_add_test(NAME itkMontageGroundTruthMake${tempDir}
   COMMAND MontageTestDriver
   itkMontageTruthCreator DATA{Input/DzZ_T1/DzZ_T1_orig.nhdr,DzZ_T1_orig.raw.gz} ${outDir} 4 8 3 25 15 50
   )
-# itk_add_test(NAME itkMontageGroundTruthRun${tempDir}
-  # COMMAND MontageTestDriver --compareIntensityTolerance 0.0
+itk_add_test(NAME itkMontageGroundTruthRun${tempDir}
+  COMMAND MontageTestDriver --compareIntensityTolerance 0.0
   # --compare DATA{Input/DzZ_T1/DzZ_T1_orig.nhdr} ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_2_1.mha
-  # itkMontageTest2D # must be 3D
-    # ${outDir}
-    # ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_
-    # ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}Pairs_
-    # 0 1 1 1 0 0 0 0 1
-  # )
-# SET_TESTS_PROPERTIES(itkMontageGroundTruthRun${tempDir}
-  # PROPERTIES DEPENDS itkMontageGroundTruthMake${tempDir})
+  itkMontageTest
+    ${outDir}
+    ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_
+    ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}Pairs_
+    0 1 1 1 0 0 0 0 1
+  )
+SET_TESTS_PROPERTIES(itkMontageGroundTruthRun${tempDir}
+  PROPERTIES DEPENDS itkMontageGroundTruthMake${tempDir})
 
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.tif)
 
@@ -481,7 +481,7 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.
 
   itk_add_test(NAME itkMontageTi7R2_150S36flat
     COMMAND MontageTestDriver
-    itkMontageTest2D
+    itkMontageTest
       ${flatFolder}
       ${TESTING_OUTPUT_PATH}/itkMontageTi7R2_150S36flat
       ${TESTING_OUTPUT_PATH}/itkMontageTi7R2_150S36flatPairs
@@ -490,7 +490,7 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.
 
   itk_add_test(NAME itkMontageTi7R2_150S36raw
     COMMAND MontageTestDriver
-    itkMontageTest2D
+    itkMontageTest
       ${rawFolder}
       ${TESTING_OUTPUT_PATH}/itkMontageTi7R2_150S36raw
       ${TESTING_OUTPUT_PATH}/itkMontageTi7R2_150S36rawPairs
@@ -518,7 +518,7 @@ if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region1_10_Mosaic36/Ti-7Al_Regio
 
   itk_add_test(NAME itkMontageTi7R1_10S36
     COMMAND MontageTestDriver
-    itkMontageTest2D
+    itkMontageTest
       ${rawFolder}
       ${TESTING_OUTPUT_PATH}/itkMontageTi7R1_10S36_
       ${TESTING_OUTPUT_PATH}/itkMontageTi7R1_10S36Pairs_
@@ -532,7 +532,7 @@ if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region1_10_Mosaic180/Ti-7Al_Regi
 
   itk_add_test(NAME itkMontageTi7R1_10S180
     COMMAND MontageTestDriver
-    itkMontageTest2D
+    itkMontageTest
       ${rawFolder}
       ${TESTING_OUTPUT_PATH}/itkMontageTi7R1_10S180_
       ${TESTING_OUTPUT_PATH}/itkMontageTi7R1_10S180Pairs_
@@ -544,7 +544,7 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles/Image_10_10.tif)
   itk_add_test(NAME itkMontageTiles
     COMMAND MontageTestDriver --ignoreInputInformation
     #  --compare ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles/itkMontageTiles2_0.mha ${TESTING_OUTPUT_PATH}/itkMontageTiles2_0.mha
-    itkMontageTest2D
+    itkMontageTest
       ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles
       ${TESTING_OUTPUT_PATH}/itkMontageTiles
       ${TESTING_OUTPUT_PATH}/itkMontageTilesPairs
@@ -556,7 +556,7 @@ endif()
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/NoisyTiles/NoisyImage_10_10.tif)
   itk_add_test(NAME itkMontageNoisyTiles
     COMMAND MontageTestDriver
-    itkMontageTest2D
+    itkMontageTest
       ${CMAKE_CURRENT_LIST_DIR}/Input/NoisyTiles
       ${TESTING_OUTPUT_PATH}/itkMontageNoisyTiles
       ${TESTING_OUTPUT_PATH}/itkMontageNoisyTilesPairs

@@ -504,7 +504,7 @@ TileMontage<TImageType, TCoordinate>::OptimizeTiles()
     }
 
     TCoordinate   maxCost = 0;
-    SizeValueType maxIndex;
+    SizeValueType maxIndex = 0;
     if (this->GetDebug())
     {
       std::cout << "\nresiduals:\n";

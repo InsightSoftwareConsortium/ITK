@@ -96,24 +96,24 @@ assignRGBtoScalar(typename RGBImage::Pointer rgbImage, typename ScalarImage::Poi
 // do the registrations and calculate registration errors
 // negative peakMethodToUse means to try them all
 // streamSubdivisions of 1 disables streaming (higher memory useage, less cluttered debug output)
-template <typename PixelType, typename AccumulatePixelType>
+template <typename PixelType, typename AccumulatePixelType, unsigned Dimension>
 int
-montageTest(const itk::TileLayout2D & stageTiles,
-            const itk::TileLayout2D & actualTiles,
-            const std::string &       inputPath,
-            const std::string &       outFilename,
-            bool                      varyPaddingMethods,
-            int                       peakMethodToUse,
-            bool                      loadIntoMemory,
-            unsigned                  streamSubdivisions,
-            bool                      writeTransformFiles,
-            bool                      allowDrift,
-            unsigned                  positionTolerance,
-            bool                      writeImage)
+montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
+            const itk::TileConfiguration<Dimension> & actualTiles,
+            const std::string &                       inputPath,
+            const std::string &                       outFilename,
+            bool                                      varyPaddingMethods,
+            int                                       peakMethodToUse,
+            bool                                      loadIntoMemory,
+            unsigned                                  streamSubdivisions,
+            bool                                      writeTransformFiles,
+            bool                                      allowDrift,
+            unsigned                                  positionTolerance,
+            bool                                      writeImage)
 {
   int result = EXIT_SUCCESS;
   using ScalarPixelType = typename itk::NumericTraits<PixelType>::ValueType;
-  constexpr unsigned Dimension = 2;
+  using TileConfig = itk::TileConfiguration<Dimension>;
   using PointType = itk::Point<double, Dimension>;
   using VectorType = itk::Vector<double, Dimension>;
   using TransformType = itk::TranslationTransform<double, Dimension>;
@@ -123,48 +123,57 @@ montageTest(const itk::TileLayout2D & stageTiles,
   using PadMethodUnderlying = typename std::underlying_type<typename PCMType::PaddingMethod>::type;
   typename ScalarImageType::SpacingType sp;
   itk::ObjectFactoryBase::RegisterFactory(itk::TxtTransformIOFactory::New());
-  const size_t   yMontageSize = stageTiles.size();
-  const size_t   xMontageSize = stageTiles[0].size();
-  const unsigned origin1x = xMontageSize > 1 ? 1 : 0; // support 1xN montages
-  const unsigned origin1y = yMontageSize > 1 ? 1 : 0; // support Nx1 montages
-  PointType      originAdjustment = stageTiles[origin1y][origin1x].Position;
+  const size_t                       linearSize = stageTiles.LinearSize();
+  typename TileConfig::TileIndexType origin1;
+  for (unsigned d = 0; d < Dimension; d++)
+  {
+    origin1[d] = stageTiles.AxisSizes[d] > 1 ? 1 : 0; // support montages of size 1 along a dimension
+  }
+  size_t    origin1linear = stageTiles.nDIndexToLinearIndex(origin1);
+  PointType originAdjustment = stageTiles.Tiles[origin1linear].Position;
 
   using PeakInterpolationType = typename itk::MaxPhaseCorrelationOptimizer<PCMType>::PeakInterpolationMethod;
   using PeakFinderUnderlying = typename std::underlying_type<PeakInterpolationType>::type;
   using MontageType = itk::TileMontage<ScalarImageType>;
   using ResamplerType = itk::TileMergeImageFilter<OriginalImageType, AccumulatePixelType>;
 
-  std::vector<std::vector<typename OriginalImageType::Pointer>> oImages(yMontageSize);
-  std::vector<std::vector<typename ScalarImageType::Pointer>>   sImages(yMontageSize);
-  typename MontageType::TileIndexType                           ind;
+  std::vector<typename OriginalImageType::Pointer> oImages(linearSize);
+  std::vector<typename ScalarImageType::Pointer>   sImages(linearSize);
+  typename TileConfig::TileIndexType               ind;
   if (loadIntoMemory)
   {
-    for (unsigned y = 0; y < yMontageSize; y++)
+    for (size_t t = 0; t < linearSize; t++)
     {
-      oImages[y].resize(xMontageSize);
-      sImages[y].resize(xMontageSize);
-      for (unsigned x = 0; x < xMontageSize; x++)
+      std::string                         filename = inputPath + stageTiles.Tiles[t].FileName;
+      typename OriginalImageType::Pointer image = ReadImage<OriginalImageType>(filename.c_str());
+      PointType                           origin = stageTiles.Tiles[t].Position;
+      sp = image->GetSpacing();
+      for (unsigned d = 0; d < Dimension; d++)
       {
-        std::string                         filename = inputPath + stageTiles[y][x].FileName;
-        typename OriginalImageType::Pointer image = ReadImage<OriginalImageType>(filename.c_str());
-        PointType                           origin = stageTiles[y][x].Position;
-        sp = image->GetSpacing();
-        for (unsigned d = 0; d < Dimension; d++)
-        {
-          origin[d] *= sp[d];
-        }
-        image->SetOrigin(origin);
-        oImages[y][x] = image;
-        assignRGBtoScalar<OriginalImageType, ScalarImageType>(image, sImages[y][x]);
-        std::cout << '.' << std::flush;
+        origin[d] *= sp[d];
       }
-      std::cout << '|' << std::flush;
+      image->SetOrigin(origin);
+      oImages[t] = image;
+      assignRGBtoScalar<OriginalImageType, ScalarImageType>(image, sImages[t]);
+
+      // show image loading progress
+      ind = stageTiles.LinearIndexToNDIndex(t);
+      char digit = '0';
+      for (unsigned d = 0; d < Dimension; d++)
+      {
+        if (ind[d] < stageTiles.AxisSizes[d] - 1)
+        {
+          break;
+        }
+        ++digit;
+      }
+      std::cout << digit << std::flush;
     }
   }
   else
   {
     // load the first tile and take spacing from it
-    std::string filename = inputPath + stageTiles[0][0].FileName;
+    std::string filename = inputPath + stageTiles.Tiles[0].FileName;
     using ReaderType = itk::ImageFileReader<OriginalImageType>;
     typename ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName(filename);
@@ -203,7 +212,7 @@ montageTest(const itk::TileLayout2D & stageTiles,
     auto                          paddingMethod = static_cast<typename PCMType::PaddingMethod>(padMethod);
     montage->SetPaddingMethod(paddingMethod);
     montage->SetPositionTolerance(positionTolerance);
-    montage->SetMontageSize({ xMontageSize, yMontageSize });
+    montage->SetMontageSize(stageTiles.AxisSizes);
     if (!loadIntoMemory)
     {
       montage->SetOriginAdjustment(originAdjustment);
@@ -212,21 +221,16 @@ montageTest(const itk::TileLayout2D & stageTiles,
       montage->SetNumberOfWorkUnits(itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads());
     }
 
-    for (unsigned y = 0; y < yMontageSize; y++)
+    for (size_t t = 0; t < linearSize; t++)
     {
-      ind[1] = y;
-      for (unsigned x = 0; x < xMontageSize; x++)
+      std::string filename = inputPath + stageTiles.Tiles[t].FileName;
+      if (loadIntoMemory)
       {
-        ind[0] = x;
-        std::string filename = inputPath + stageTiles[y][x].FileName;
-        if (loadIntoMemory)
-        {
-          montage->SetInputTile(ind, sImages[y][x]);
-        }
-        else
-        {
-          montage->SetInputTile(ind, filename);
-        }
+        montage->SetInputTile(t, sImages[t]);
+      }
+      else
+      {
+        montage->SetInputTile(t, filename);
       }
     }
 
@@ -246,116 +250,109 @@ montageTest(const itk::TileLayout2D & stageTiles,
 
       std::cout << std::fixed;
 
-      std::vector<std::vector<VectorType>> regPos(yMontageSize); // translations measured by registration
+      std::vector<VectorType> regPos(linearSize); // translations measured by registration
       // translations using average translation to neighbors and neighbors' ground truth
-      std::vector<std::vector<itk::Tile2D::PointType>> avgPos(yMontageSize);
-      for (unsigned y = 0; y < yMontageSize; y++)
+      std::vector<typename TileConfig::PointType> avgPos(linearSize);
+      for (size_t t = 0; t < linearSize; t++)
       {
-        ind[1] = y;
-        regPos[y].resize(xMontageSize);
-        avgPos[y].resize(xMontageSize);
-        for (unsigned x = 0; x < xMontageSize; x++)
+        ind = stageTiles.LinearIndexToNDIndex(t);
+        const TransformType * regTr = montage->GetOutputTransform(ind);
+        if (writeTransformFiles)
         {
-          ind[0] = x;
-          const TransformType * regTr = montage->GetOutputTransform(ind);
-          if (writeTransformFiles)
-          {
-            WriteTransform(regTr,
-                           outFilename + std::to_string(padMethod) + "_" + std::to_string(peakMethod) + "_Tr_" +
-                             std::to_string(x) + "_" + std::to_string(y) + ".tfm");
-          }
-          regPos[y][x] = regTr->GetOffset();
-          for (unsigned d = 0; d < Dimension; d++)
-          {
-            regPos[y][x][d] /= sp[d]; // convert into index units
-          }
-          avgPos[y][x].Fill(0.0); // initialize to zeroes
+          WriteTransform(regTr,
+                         outFilename + std::to_string(padMethod) + "_" + std::to_string(peakMethod) + "_Tr_" +
+                           std::to_string(t) + ".tfm");
         }
+        regPos[t] = regTr->GetOffset();
+        for (unsigned d = 0; d < Dimension; d++)
+        {
+          regPos[t][d] /= sp[d]; // convert into index units
+        }
+        avgPos[t].Fill(0.0); // initialize to zeroes
       }
 
       // make averages
-      for (unsigned y = 0; y < yMontageSize; y++)
+      for (size_t t = 0; t < linearSize; t++)
       {
-        for (unsigned x = 0; x < xMontageSize; x++)
+        ind = stageTiles.LinearIndexToNDIndex(t);
+        VectorType avg;
+        avg.Fill(0);
+        unsigned count = 0;
+        for (unsigned d = 0; d < Dimension; d++)
         {
-          for (unsigned d = 0; d < Dimension; d++) // iterate over dimension because Vector and Point don't mix well
+          if (ind[d] > 0)
           {
-            unsigned count = 0;
-            if (x > 0)
-            {
-              ++count;
-              avgPos[y][x][d] += regPos[y][x][d] - regPos[y][x - 1][d] -
-                                 (actualTiles[y][x - 1].Position[d] - stageTiles[y][x - 1].Position[d]);
-            }
-            if (x < xMontageSize - 1)
-            {
-              ++count;
-              avgPos[y][x][d] += regPos[y][x][d] - regPos[y][x + 1][d] -
-                                 (actualTiles[y][x + 1].Position[d] - stageTiles[y][x + 1].Position[d]);
-            }
-            if (y > 0)
-            {
-              ++count;
-              avgPos[y][x][d] += regPos[y][x][d] - regPos[y - 1][x][d] -
-                                 (actualTiles[y - 1][x].Position[d] - stageTiles[y - 1][x].Position[d]);
-            }
-            if (y < yMontageSize - 1)
-            {
-              ++count;
-              avgPos[y][x][d] += regPos[y][x][d] - regPos[y + 1][x][d] -
-                                 (actualTiles[y + 1][x].Position[d] - stageTiles[y + 1][x].Position[d]);
-            }
-            avgPos[y][x][d] /= count;
+            ++count;
+            typename TileConfig::TileIndexType neighborInd = ind;
+            --neighborInd[d];
+            size_t nInd = stageTiles.nDIndexToLinearIndex(neighborInd);
+            avg += regPos[t] - regPos[nInd] - (actualTiles.Tiles[nInd].Position - stageTiles.Tiles[nInd].Position);
           }
+
+          if (ind[d] < stageTiles.AxisSizes[d] - 1)
+          {
+            ++count;
+            typename TileConfig::TileIndexType neighborInd = ind;
+            ++neighborInd[d];
+            size_t nInd = stageTiles.nDIndexToLinearIndex(neighborInd);
+            avg += regPos[t] - regPos[nInd] - (actualTiles.Tiles[nInd].Position - stageTiles.Tiles[nInd].Position);
+          }
+        }
+
+        for (unsigned d = 0; d < Dimension; d++) // iterate over dimension because Vector and Point don't mix well
+        {
+          avgPos[t][d] = avg[d] / count;
         }
       }
 
       double totalError = 0.0;
-      for (unsigned y = 0; y < yMontageSize; y++)
+      for (size_t t = 0; t < linearSize; t++)
       {
-        for (unsigned x = 0; x < xMontageSize; x++)
+        ind = stageTiles.LinearIndexToNDIndex(t);
+        std::cout << ind << ": " << regPos[t];
+        registrationErrors << peakMethod;
+        for (unsigned d = 0; d < Dimension; d++)
         {
-          std::cout << "(" << x << ", " << y << "): " << regPos[y][x];
-          registrationErrors << peakMethod << '\t' << x << '\t' << y;
-
-          // calculate error
-          const VectorType & tr = regPos[y][x]; // translation measured by registration
-          VectorType         ta = stageTiles[y][x].Position - actualTiles[y][x].Position; // translation (actual)
-          ta += actualTiles[0][0].Position -
-                stageTiles[0][0].Position; // account for tile zero maybe not being at coordinates 0
-          double singleError = 0.0;
-          double alternativeError = 0.0; // to account for accumulation of individual errors
-          for (unsigned d = 0; d < Dimension; d++)
-          {
-            registrationErrors << '\t' << (tr[d] - ta[d]);
-            std::cout << "  " << std::setw(8) << std::setprecision(3) << (tr[d] - ta[d]);
-            singleError += std::abs(tr[d] - ta[d]);
-            alternativeError += std::abs(avgPos[y][x][d] - ta[d]);
-          }
-
-          if (alternativeError >= 5.0 && alternativeError < singleError)
-          {
-            result = EXIT_FAILURE;
-            registrationErrors << "\tseverly wrong\t" << alternativeError;
-            std::cout << "  severly wrong: " << alternativeError;
-          }
-          if (allowDrift)
-          {
-            totalError += std::min(singleError, alternativeError);
-          }
-          else
-          {
-            totalError += singleError;
-          }
-          registrationErrors << std::endl;
-          std::cout << std::endl;
+          registrationErrors << '\t' << ind[d];
         }
+
+        // calculate error
+        const VectorType & tr = regPos[t]; // translation measured by registration
+        VectorType         ta = stageTiles.Tiles[t].Position - actualTiles.Tiles[t].Position; // translation (actual)
+        // account for tile zero maybe not being at coordinates 0
+        ta += actualTiles.Tiles[0].Position - stageTiles.Tiles[0].Position;
+        double singleError = 0.0;
+        double alternativeError = 0.0; // to account for accumulation of individual errors
+        for (unsigned d = 0; d < Dimension; d++)
+        {
+          registrationErrors << '\t' << (tr[d] - ta[d]);
+          std::cout << "  " << std::setw(8) << std::setprecision(3) << (tr[d] - ta[d]);
+          singleError += std::abs(tr[d] - ta[d]);
+          alternativeError += std::abs(avgPos[t][d] - ta[d]);
+        }
+
+        if (alternativeError >= 5.0 && alternativeError < singleError)
+        {
+          result = EXIT_FAILURE;
+          registrationErrors << "\tseverly wrong\t" << alternativeError;
+          std::cout << "  severly wrong: " << alternativeError;
+        }
+        if (allowDrift)
+        {
+          totalError += std::min(singleError, alternativeError);
+        }
+        else
+        {
+          totalError += singleError;
+        }
+        registrationErrors << std::endl;
+        std::cout << std::endl;
       }
       // allow error of whole pixel for each tile, ignoring tile 0
       // also allow accumulation of one pixel for each registration - this effectively double the tolerance
-      double avgError = 0.5 * totalError / (xMontageSize * yMontageSize - 1);
+      double avgError = 0.5 * totalError / (linearSize - 1);
       avgError /= Dimension; // report per-dimension error
-      registrationErrors << "\nAverage translation error for padding method " << padMethod
+      registrationErrors << "Average translation error for padding method " << padMethod
                          << " and peak interpolation method " << peakMethod << ": " << avgError << std::endl;
       std::cout << "\nAverage translation error for padding method " << padMethod << " and peak interpolation method "
                 << peakMethod << ": " << avgError << std::endl;
@@ -368,29 +365,27 @@ montageTest(const itk::TileLayout2D & stageTiles,
       {
         typename ResamplerType::Pointer resampleF = ResamplerType::New();
         itk::SimpleFilterWatcher        fw2(resampleF, "resampler");
-        resampleF->SetMontageSize({ xMontageSize, yMontageSize });
+        resampleF->SetMontageSize(stageTiles.AxisSizes);
         if (!loadIntoMemory)
         {
           resampleF->SetOriginAdjustment(originAdjustment);
           resampleF->SetForcedSpacing(sp);
         }
-        for (unsigned y = 0; y < yMontageSize; y++)
+
+        for (size_t t = 0; t < linearSize; t++)
         {
-          ind[1] = y;
-          for (unsigned x = 0; x < xMontageSize; x++)
+          std::string filename = inputPath + stageTiles.Tiles[t].FileName;
+          if (loadIntoMemory)
           {
-            ind[0] = x;
-            std::string filename = inputPath + stageTiles[y][x].FileName;
-            if (loadIntoMemory)
-            {
-              resampleF->SetInputTile(ind, oImages[y][x]);
-            }
-            else
-            {
-              resampleF->SetInputTile(ind, filename);
-            }
-            resampleF->SetTileTransform(ind, montage->GetOutputTransform(ind));
+            resampleF->SetInputTile(t, oImages[t]);
           }
+          else
+          {
+            resampleF->SetInputTile(t, filename);
+          }
+          ind = stageTiles.LinearIndexToNDIndex(t);
+
+          resampleF->SetTileTransform(ind, montage->GetOutputTransform(ind));
         }
 
         // resampleF->Update(); // updating here prevents streaming
