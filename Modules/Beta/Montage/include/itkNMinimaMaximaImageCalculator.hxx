@@ -28,13 +28,13 @@
 namespace itk
 {
 template <typename TInputImage>
-template <typename Comparator>
+template <typename TComparator>
 inline void
 NMinimaMaximaImageCalculator<TInputImage>::SortedInsert(ValueVector &     vals,
                                                         IndexVector &     indices,
                                                         const PixelType & val,
                                                         const IndexType & ind,
-                                                        Comparator        comp)
+                                                        TComparator       comp)
 {
   auto ub = std::upper_bound(vals.begin(), vals.end(), val, comp);
   if (ub != vals.end())
