@@ -43,44 +43,45 @@ namespace itk
  *
  * \ingroup Montage
  */
-template< typename TImageType,
-          typename TPixelAccumulateType = typename NumericTraits< typename TImageType::PixelType >::AccumulateType,
-          typename TInterpolator = LinearInterpolateImageFunction< TImageType, float > >
+template <typename TImageType,
+          typename TPixelAccumulateType = typename NumericTraits<typename TImageType::PixelType>::AccumulateType,
+          typename TInterpolator = LinearInterpolateImageFunction<TImageType, float>>
 class ITK_TEMPLATE_EXPORT TileMergeImageFilter
   : public TileMontage<
-      Image< typename NumericTraits< typename TImageType::PixelType >::ValueType, TImageType::ImageDimension >,
-      typename TInterpolator::CoordRepType >
+      Image<typename NumericTraits<typename TImageType::PixelType>::ValueType, TImageType::ImageDimension>,
+      typename TInterpolator::CoordRepType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN( TileMergeImageFilter );
+  ITK_DISALLOW_COPY_AND_ASSIGN(TileMergeImageFilter);
 
   /** We define superclass with scalar pixel type, to enable compiling even when RGB pixel is supplied. */
-  using Superclass = TileMontage<
-    Image< typename NumericTraits< typename TImageType::PixelType >::ValueType, TImageType::ImageDimension >,
-    typename TInterpolator::CoordRepType >;
+  using Superclass =
+    TileMontage<Image<typename NumericTraits<typename TImageType::PixelType>::ValueType, TImageType::ImageDimension>,
+                typename TInterpolator::CoordRepType>;
 
   /** Standard class type aliases. */
   using Self = TileMergeImageFilter;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using ImageType = TImageType;
   using ImagePointer = typename ImageType::Pointer;
   using ImageConstPointer = typename ImageType::ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( TileMergeImageFilter, TileMontage );
+  itkTypeMacro(TileMergeImageFilter, TileMontage);
 
   /** Dimensionality of input images. */
-  itkStaticConstMacro( ImageDimension, unsigned int, ImageType::ImageDimension );
+  itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
 
   /** This is envisioned to be the primary way of setting inputs.
    * All required inputs are taken from TileMontage. Alternatively,
    * inherited members can be called individually, e.g.:
    * SetMontageSize(), SetInputTile(), SetOriginAdjustment() etc. */
-  void SetMontage( const Superclass* montage );
+  void
+  SetMontage(const Superclass * montage);
 
   /** Montage size and tile index types. */
   using typename Superclass::ContinuousIndexType;
@@ -101,40 +102,48 @@ public:
   using TransformConstPointer = typename TransformType::ConstPointer;
 
   /** Passes ReleaseDataFlag to internal filters. */
-  void SetReleaseDataFlag( bool flag ) override
+  void
+  SetReleaseDataFlag(bool flag) override
   {
-    Superclass::SetReleaseDataFlag( flag );
+    Superclass::SetReleaseDataFlag(flag);
   }
 
   /** Passes ReleaseDataBeforeUpdateFlag to internal filters. */
-  void SetReleaseDataBeforeUpdateFlag( const bool flag ) override
+  void
+  SetReleaseDataBeforeUpdateFlag(const bool flag) override
   {
-    Superclass::SetReleaseDataBeforeUpdateFlag( flag );
+    Superclass::SetReleaseDataBeforeUpdateFlag(flag);
   }
 
   /** Usage equivalent to ImageSource's GetOutput().
    * \sa ImageSource */
-  ImageType* GetOutput();
-  const ImageType* GetOutput() const;
-  ImageType* GetOutput( unsigned int idx );
+  ImageType *
+  GetOutput();
+  const ImageType *
+  GetOutput() const;
+  ImageType *
+  GetOutput(unsigned int idx);
 
   /** Set size of the image mosaic. */
-  void SetMontageSize( SizeType montageSize );
+  void
+  SetMontageSize(SizeType montageSize);
 
   /** To be called for each tile position in the mosaic
    * before the call to Update(). */
-  void SetInputTile( TileIndexType position, ImageType* image )
+  void
+  SetInputTile(TileIndexType position, ImageType * image)
   {
-    const SizeValueType linearIndex = this->nDIndexToLinearIndex( position );
+    const SizeValueType linearIndex = this->nDIndexToLinearIndex(position);
     // image will be cast into DataObject* so this casting is not a problem
-    Superclass::SetInputTile( position, reinterpret_cast< typename Superclass::ImageType* >( image ) );
+    Superclass::SetInputTile(position, reinterpret_cast<typename Superclass::ImageType *>(image));
     m_Transforms[linearIndex] = nullptr;
     m_Tiles[linearIndex] = nullptr;
   }
-  void SetInputTile( TileIndexType position, const std::string& imageFilename )
+  void
+  SetInputTile(TileIndexType position, const std::string & imageFilename)
   {
-    Superclass::SetInputTile( position, imageFilename );
-    const SizeValueType linearIndex = this->nDIndexToLinearIndex( position );
+    Superclass::SetInputTile(position, imageFilename);
+    const SizeValueType linearIndex = this->nDIndexToLinearIndex(position);
     m_Transforms[linearIndex] = nullptr;
     m_Tiles[linearIndex] = nullptr;
   }
@@ -142,37 +151,41 @@ public:
   /** Input tiles' transforms, as calculated by \sa{Montage}.
    * To be called for each tile position in the mosaic
    * before the call to Update(). */
-  void SetTileTransform( TileIndexType position, TransformConstPointer transform );
+  void
+  SetTileTransform(TileIndexType position, TransformConstPointer transform);
 
   /** Get/Set background value (used if CropToFill is false).
    * Default PixelType's value (usually zero) if not set. */
-  itkSetMacro( Background, PixelType );
-  itkGetMacro( Background, PixelType );
+  itkSetMacro(Background, PixelType);
+  itkGetMacro(Background, PixelType);
 
   /** CropToFill indicates whether the output image will be cropped so it
    * entirely consists of input tiles (no default background filling).
    * If CropToFill is false, the composite image will have the extent to include
    * all of the input tiles. The pixels not covered by any input tile
    * will have the value specified by the Background member variable. */
-  itkSetMacro( CropToFill, bool );
-  itkGetMacro( CropToFill, bool );
-  itkBooleanMacro( CropToFill );
+  itkSetMacro(CropToFill, bool);
+  itkGetMacro(CropToFill, bool);
+  itkBooleanMacro(CropToFill);
 
 protected:
   TileMergeImageFilter();
   virtual ~TileMergeImageFilter() = default;
-  void PrintSelf( std::ostream& os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Method invoked by the pipeline in order to trigger the computation of the registration. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Method invoked by the pipeline to determine the output information. */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   using Superclass::MakeOutput;
 
   /** Make a DataObject of the correct type to be used as the specified output. */
-  typename DataObject::Pointer MakeOutput( typename Superclass::DataObjectPointerArraySizeType ) override
+  typename DataObject::Pointer MakeOutput(typename Superclass::DataObjectPointerArraySizeType) override
   {
     return ImageType::New();
   }
@@ -180,48 +193,52 @@ protected:
   /** If not already read, reads the image into memory.
    * Only the part which overlaps output image's requested region is read.
    * If size of the wantedRegion is zero, only reads metadata. */
-  ImageConstPointer GetImage( TileIndexType nDIndex, RegionType wantedRegion );
+  ImageConstPointer
+  GetImage(TileIndexType nDIndex, RegionType wantedRegion);
 
   /** A set of linear indices of input tiles which contribute to this region. */
-  using ContributingTiles = std::set< SizeValueType >;
+  using ContributingTiles = std::set<SizeValueType>;
 
-  void SplitRegionAndCopyContributions(
-      std::vector< RegionType >& regions,
-      std::vector< ContributingTiles >& regionContributors,
-      RegionType newRegion,
-      size_t oldRegionIndex,
-      SizeValueType tileIndex);
+  void
+  SplitRegionAndCopyContributions(std::vector<RegionType> &        regions,
+                                  std::vector<ContributingTiles> & regionContributors,
+                                  RegionType                       newRegion,
+                                  size_t                           oldRegionIndex,
+                                  SizeValueType                    tileIndex);
 
   /** The region will be inside of the rectangle given by min and max indices.
    * The min is rounded up, while the max is rounded down. */
-  RegionType ConstructRegion( ContinuousIndexType minIndex, ContinuousIndexType maxIndex );
+  RegionType
+  ConstructRegion(ContinuousIndexType minIndex, ContinuousIndexType maxIndex);
 
   /** Calculates distance of index from the closes edge of the region. */
-  SizeValueType DistanceFromEdge( ImageIndexType index, RegionType region );
+  SizeValueType
+  DistanceFromEdge(ImageIndexType index, RegionType region);
 
   /** Resamples a single region into m_SingleImage.
    * This method does not access other regions,
    * and can be run in parallel with other indices. */
-  void ResampleSingleRegion( SizeValueType regionIndex );
+  void
+  ResampleSingleRegion(SizeValueType regionIndex);
 
 private:
-  bool      m_CropToFill = false; // crop to avoid background filling?
+  bool      m_CropToFill = false;       // crop to avoid background filling?
   PixelType m_Background = PixelType(); // default background value (not covered by any input tile)
 
   std::vector<TransformConstPointer> m_Transforms;
-  std::vector<ImagePointer>          m_Tiles; // metadata/image storage (if filenames are given instead of actual images)
-  typename Superclass::ConstPointer  m_Montage;
-  std::vector<RegionType>            m_InputMappings; //where do input tile regions map into the output
-  std::vector<ContinuousIndexType>   m_InputsContinuousIndices; //where do input tile region indices map into the output
-  std::vector<RegionType>            m_Regions; //regions which completely cover the output,
-                                                //grouped by the set of contributing input tiles
-  std::vector<ContributingTiles>     m_RegionContributors; //set of input tiles which contribute to corresponding regions
-}; // class TileMergeImageFilter
+  std::vector<ImagePointer>         m_Tiles; // metadata/image storage (if filenames are given instead of actual images)
+  typename Superclass::ConstPointer m_Montage;
+  std::vector<RegionType>           m_InputMappings;           // where do input tile regions map into the output
+  std::vector<ContinuousIndexType>  m_InputsContinuousIndices; // where do input tile region indices map into the output
+  std::vector<RegionType>           m_Regions;                 // regions which completely cover the output,
+                                                               // grouped by the set of contributing input tiles
+  std::vector<ContributingTiles> m_RegionContributors; // set of input tiles which contribute to corresponding regions
+};                                                     // class TileMergeImageFilter
 
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTileMergeImageFilter.hxx"
+#  include "itkTileMergeImageFilter.hxx"
 #endif
 
 #endif // itkTileMergeImageFilter_h

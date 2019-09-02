@@ -32,97 +32,96 @@
 #include "itkTransformFileWriter.h"
 
 
-int main( int argc, char *argv[] )
+int
+main(int argc, char * argv[])
 {
   // inputs and output are passed as command line arguments
-  if ( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cout << "Usage: " << std::endl;
     std::cout << argv[0] << "  FixedImageFile  MovingImageFile"
-                         << "  OutputTransformFile" << std::endl;
+              << "  OutputTransformFile" << std::endl;
     return EXIT_FAILURE;
-    }
-  const char* fixedImageFile = argv[1];
-  const char* movingImageFile = argv[2];
-  const char* transformFile = argv[3];
+  }
+  const char * fixedImageFile = argv[1];
+  const char * movingImageFile = argv[2];
+  const char * transformFile = argv[3];
 
 
   // read the images
   constexpr unsigned int Dimension = 2;
   using PixelType = float;
-  using ImageType = itk::Image< PixelType, Dimension >;
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer fixedReader = ReaderType::New();
   ReaderType::Pointer movingReader = ReaderType::New();
-  fixedReader->SetFileName( fixedImageFile );
-  movingReader->SetFileName( movingImageFile );
+  fixedReader->SetFileName(fixedImageFile);
+  movingReader->SetFileName(movingImageFile);
 
   try
-    {
+  {
     fixedReader->Update();
     movingReader->Update();
-    }
-  catch ( itk::ExceptionObject& e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cerr << "Unable to read input images!" << std::endl;
     std::cerr << e << std::endl;
 
     return EXIT_FAILURE;
-    }
+  }
 
   // init the registration method
-  using RegistrationType = itk::PhaseCorrelationImageRegistrationMethod< ImageType, ImageType, float >;
+  using RegistrationType = itk::PhaseCorrelationImageRegistrationMethod<ImageType, ImageType, float>;
   RegistrationType::Pointer pcmRegistration = RegistrationType::New();
-  pcmRegistration->SetFixedImage( fixedReader->GetOutput() );
-  pcmRegistration->SetMovingImage( movingReader->GetOutput() );
+  pcmRegistration->SetFixedImage(fixedReader->GetOutput());
+  pcmRegistration->SetMovingImage(movingReader->GetOutput());
 
-  using OperatorType = itk::PhaseCorrelationOperator< float, Dimension >;
+  using OperatorType = itk::PhaseCorrelationOperator<float, Dimension>;
   OperatorType::Pointer pcmOperator = OperatorType::New();
-  pcmRegistration->SetOperator( pcmOperator );
+  pcmRegistration->SetOperator(pcmOperator);
 
-  using OptimizerType = itk::MaxPhaseCorrelationOptimizer< RegistrationType >;
+  using OptimizerType = itk::MaxPhaseCorrelationOptimizer<RegistrationType>;
   OptimizerType::Pointer pcmOptimizer = OptimizerType::New();
-  pcmRegistration->SetOptimizer( pcmOptimizer );
+  pcmRegistration->SetOptimizer(pcmOptimizer);
 
 
   // execute the registration
   try
-    {
+  {
     pcmRegistration->Update();
-    }
-  catch ( itk::ExceptionObject& e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cout << "Some error during registration:" << std::endl;
     std::cout << e << std::endl;
 
     return EXIT_FAILURE;
-    }
+  }
 
   // get the results
-  RegistrationType::ParametersType parameters
-      = pcmRegistration->GetTransformParameters();
-  RegistrationType::TransformType::ConstPointer transform
-      = pcmRegistration->GetOutput()->Get();
+  RegistrationType::ParametersType              parameters = pcmRegistration->GetTransformParameters();
+  RegistrationType::TransformType::ConstPointer transform = pcmRegistration->GetOutput()->Get();
   std::cout << "Translation found: " << parameters << std::endl;
 
   // write output transform to file
-  using WriterType = itk::TransformFileWriterTemplate< double >;
+  using WriterType = itk::TransformFileWriterTemplate<double>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( pcmRegistration->GetOutput()->Get() );
-  writer->SetFileName( transformFile );
+  writer->SetInput(pcmRegistration->GetOutput()->Get());
+  writer->SetFileName(transformFile);
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch ( itk::ExceptionObject& e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cerr << "Unable to generate or write output image!" << std::endl;
     std::cerr << e << std::endl;
 
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

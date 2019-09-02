@@ -21,153 +21,148 @@
 #include "itkPhaseCorrelationOptimizer.h"
 
 #ifndef NDEBUG
-#include "itkImageFileWriter.h"
+#  include "itkImageFileWriter.h"
 
 namespace
 {
-template< typename TImage >
-void WriteDebug(const TImage* out, const char *filename)
+template <typename TImage>
+void
+WriteDebug(const TImage * out, const char * filename)
 {
   using WriterType = itk::ImageFileWriter<TImage>;
   typename WriterType::Pointer w = WriterType::New();
   w->SetInput(out);
   w->SetFileName(filename);
   try
-    {
+  {
     w->Update();
-    }
+  }
   catch (itk::ExceptionObject & error)
-    {
+  {
     std::cerr << error << std::endl;
-    }
+  }
 }
-}
+} // namespace
 #else
 namespace
 {
-template< typename TImage >
-void WriteDebug(TImage*, const char *) {}
-}
+template <typename TImage>
+void
+WriteDebug(TImage *, const char *)
+{}
+} // namespace
 #endif
 
 namespace itk
 {
-template< typename TImage >
-PhaseCorrelationOptimizer< TImage >
-::PhaseCorrelationOptimizer()
+template <typename TImage>
+PhaseCorrelationOptimizer<TImage>::PhaseCorrelationOptimizer()
 {
-  this->SetNumberOfRequiredInputs( 3 );
-  this->SetOffsetCount( 4 );
+  this->SetNumberOfRequiredInputs(3);
+  this->SetOffsetCount(4);
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-PhaseCorrelationOptimizer< TImage >
-::SetOffsetCount( unsigned count )
+PhaseCorrelationOptimizer<TImage>::SetOffsetCount(unsigned count)
 {
-  if ( m_Offsets.size() != count )
+  if (m_Offsets.size() != count)
+  {
+    this->SetNumberOfRequiredOutputs(count);
+    for (unsigned i = m_Offsets.size(); i < count; i++)
     {
-    this->SetNumberOfRequiredOutputs( count );
-    for ( unsigned i = m_Offsets.size(); i < count; i++ )
-      {
-      OffsetOutputPointer offsetDecorator =
-          static_cast< OffsetOutputType * >( this->MakeOutput(i).GetPointer() );
-      this->ProcessObject::SetNthOutput( i, offsetDecorator.GetPointer() );
-      }
-    m_Offsets.resize( count );
+      OffsetOutputPointer offsetDecorator = static_cast<OffsetOutputType *>(this->MakeOutput(i).GetPointer());
+      this->ProcessObject::SetNthOutput(i, offsetDecorator.GetPointer());
+    }
+    m_Offsets.resize(count);
 
     this->Modified();
-    }
+  }
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-PhaseCorrelationOptimizer< TImage >
-::PrintSelf( std::ostream& os, Indent indent ) const
+PhaseCorrelationOptimizer<TImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf( os, indent );
+  Superclass::PrintSelf(os, indent);
   os << indent << "Offsets:";
-  for ( unsigned i = 0; i < m_Offsets.size(); i++ )
-    {
+  for (unsigned i = 0; i < m_Offsets.size(); i++)
+  {
     os << " " << m_Offsets[i];
-    }
+  }
   os << std::endl;
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-PhaseCorrelationOptimizer< TImage >
-::GenerateData()
+PhaseCorrelationOptimizer<TImage>::GenerateData()
 {
-  if ( !m_Updating )
-    {
+  if (!m_Updating)
+  {
     this->Update();
-    }
+  }
   else
-    {
+  {
     OffsetType empty;
-    empty.Fill( 0 );
+    empty.Fill(0);
     try
-      {
+    {
       this->ComputeOffset();
-      }
-    catch ( ExceptionObject& err )
-      {
-      itkDebugMacro( "exception called while computing offset - passing" );
+    }
+    catch (ExceptionObject & err)
+    {
+      itkDebugMacro("exception called while computing offset - passing");
 
-      this->SetOffsetCount( 1 );
+      this->SetOffsetCount(1);
       m_Offsets[0] = empty;
 
       // pass exception to caller
       throw err;
-      }
     }
+  }
 
-  for ( unsigned i = 0; i < m_Offsets.size(); i++ )
-    {
+  for (unsigned i = 0; i < m_Offsets.size(); i++)
+  {
     // write the result to the output
-    OffsetOutputType* output = static_cast< OffsetOutputType* >( this->ProcessObject::GetOutput( 0 ) );
-    output->Set( m_Offsets[i] );
-    }
+    OffsetOutputType * output = static_cast<OffsetOutputType *>(this->ProcessObject::GetOutput(0));
+    output->Set(m_Offsets[i]);
+  }
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-PhaseCorrelationOptimizer< TImage >
-::SetInput( const ImageType* image )
+PhaseCorrelationOptimizer<TImage>::SetInput(const ImageType * image)
 {
-  itkDebugMacro( "setting input image to " << image );
-  if ( this->GetInput( 0 ) != image )
-    {
-    this->ProcessObject::SetNthInput( 0, const_cast< ImageType* >( image ) );
+  itkDebugMacro("setting input image to " << image);
+  if (this->GetInput(0) != image)
+  {
+    this->ProcessObject::SetNthInput(0, const_cast<ImageType *>(image));
     this->Modified();
-    }
+  }
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-PhaseCorrelationOptimizer< TImage >
-::SetFixedImage( const ImageBase< ImageType::ImageDimension >* image )
+PhaseCorrelationOptimizer<TImage>::SetFixedImage(const ImageBase<ImageType::ImageDimension> * image)
 {
-  itkDebugMacro( "setting fixed image to " << image );
-  if ( this->GetInput( 1 ) != image )
-    {
-    this->ProcessObject::SetNthInput( 1, const_cast< ImageBase< ImageType::ImageDimension >* >( image ) );
+  itkDebugMacro("setting fixed image to " << image);
+  if (this->GetInput(1) != image)
+  {
+    this->ProcessObject::SetNthInput(1, const_cast<ImageBase<ImageType::ImageDimension> *>(image));
     this->Modified();
-    }
+  }
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-PhaseCorrelationOptimizer< TImage >
-::SetMovingImage( const ImageBase< ImageType::ImageDimension >* image )
+PhaseCorrelationOptimizer<TImage>::SetMovingImage(const ImageBase<ImageType::ImageDimension> * image)
 {
-  itkDebugMacro( "setting moving image to " << image );
-  if ( this->GetInput( 2 ) != image )
-    {
-    this->ProcessObject::SetNthInput( 2, const_cast< ImageBase< ImageType::ImageDimension >* >( image ) );
+  itkDebugMacro("setting moving image to " << image);
+  if (this->GetInput(2) != image)
+  {
+    this->ProcessObject::SetNthInput(2, const_cast<ImageBase<ImageType::ImageDimension> *>(image));
     this->Modified();
-    }
+  }
 }
 
 } // end namespace itk
