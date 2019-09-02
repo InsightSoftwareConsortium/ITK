@@ -31,47 +31,44 @@
 #include <type_traits>
 
 // do the registration and calculate error for two images
-template <typename PixelType>
+template <typename PixelType, unsigned Dimension>
 double
-calculateError(const itk::TileLayout2D & stageTiles,
-               const itk::TileLayout2D & actualTiles,
-               const std::string &       inputPath,
-               int                       paddingMethod,
-               unsigned                  positionTolerance,
-               std::ostream &            out,
-               unsigned                  xF,
-               unsigned                  yF,
-               unsigned                  xM,
-               unsigned                  yM)
+calculateError(const itk::TileConfiguration<Dimension> & stageTiles,
+               const itk::TileConfiguration<Dimension> & actualTiles,
+               const std::string &                       inputPath,
+               int                                       paddingMethod,
+               unsigned                                  positionTolerance,
+               std::ostream &                            out,
+               size_t                                    fInd,
+               size_t                                    mInd)
 {
   double translationError = 0.0;
-  std::cout << stageTiles[yF][xF].FileName << " <- " << stageTiles[yM][xM].FileName << std::endl;
+  std::cout << stageTiles.Tiles[fInd].FileName << " <- " << stageTiles.Tiles[mInd].FileName << std::endl;
 
-  constexpr unsigned Dimension = 2;
   using ImageType = itk::Image<PixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
   typename ReaderType::Pointer reader = ReaderType::New();
 
-  reader->SetFileName(inputPath + stageTiles[yF][xF].FileName);
+  reader->SetFileName(inputPath + stageTiles.Tiles[fInd].FileName);
   reader->Update();
   typename ImageType::Pointer fixedImage = reader->GetOutput();
   fixedImage->DisconnectPipeline();
 
-  reader->SetFileName(inputPath + stageTiles[yM][xM].FileName);
+  reader->SetFileName(inputPath + stageTiles.Tiles[mInd].FileName);
   reader->Update();
   typename ImageType::Pointer movingImage = reader->GetOutput();
   movingImage->DisconnectPipeline();
 
   // adjust origins (assume 0 origins in files)
   typename ImageType::SpacingType sp = fixedImage->GetSpacing();
-  typename ImageType::PointType   origin = stageTiles[yF][xF].Position;
+  typename ImageType::PointType   origin = stageTiles.Tiles[fInd].Position;
   for (unsigned d = 0; d < Dimension; d++)
   {
     origin[d] *= sp[d];
   }
   fixedImage->SetOrigin(origin);
   sp = movingImage->GetSpacing();
-  origin = stageTiles[yM][xM].Position;
+  origin = stageTiles.Tiles[mInd].Position;
   for (unsigned d = 0; d < Dimension; d++)
   {
     origin[d] *= sp[d];
@@ -119,7 +116,7 @@ calculateError(const itk::TileLayout2D & stageTiles,
     phaseCorrelationMethod->Modified(); // optimizer is not an "input" to PCM
     // so its modification does not cause a pipeline update automatically
 
-    out << std::to_string(xF) + "," + std::to_string(yF) + " <- " + std::to_string(xM) + "," + std::to_string(yM);
+    out << stageTiles.LinearIndexToNDIndex(fInd) << " <- " << stageTiles.LinearIndexToNDIndex(mInd);
     out << '\t' << peakMethod;
     std::cout << "    PeakMethod" << peakMethod << ":";
 
@@ -137,8 +134,8 @@ calculateError(const itk::TileLayout2D & stageTiles,
     {
       tr[d] /= sp[d];
     }
-    VectorType ta = (actualTiles[yF][xF].Position - stageTiles[yF][xF].Position) -
-                    (actualTiles[yM][xM].Position - stageTiles[yM][xM].Position); // translation (actual)
+    VectorType ta = (actualTiles.Tiles[fInd].Position - stageTiles.Tiles[fInd].Position) -
+                    (actualTiles.Tiles[mInd].Position - stageTiles.Tiles[mInd].Position); // translation (actual)
     for (unsigned d = 0; d < Dimension; d++)
     {
       out << '\t' << (tr[d] - ta[d]);
@@ -154,20 +151,20 @@ calculateError(const itk::TileLayout2D & stageTiles,
 } // calculateError
 
 // do the registrations and calculate registration errors
-template <typename PixelType>
+template <typename PixelType, unsigned Dimension>
 int
-pairwiseTests(const itk::TileLayout2D & stageTiles,
-              const itk::TileLayout2D & actualTiles,
-              const std::string &       inputPath,
-              const std::string &       outFilename,
-              bool                      varyPaddingMethods,
-              unsigned                  positionTolerance)
+pairwiseTests(const itk::TileConfiguration<Dimension> & stageTiles,
+              const itk::TileConfiguration<Dimension> & actualTiles,
+              const std::string &                       inputPath,
+              const std::string &                       outFilename,
+              bool                                      varyPaddingMethods,
+              unsigned                                  positionTolerance)
 {
-  int                result = EXIT_SUCCESS;
-  constexpr unsigned Dimension = 2;
+  int result = EXIT_SUCCESS;
   using ImageType = itk::Image<PixelType, Dimension>;
   using PCMType = itk::PhaseCorrelationImageRegistrationMethod<ImageType, ImageType, float>;
   using PadMethodUnderlying = typename std::underlying_type<typename PCMType::PaddingMethod>::type;
+  using TileConfig = itk::TileConfiguration<Dimension>;
 
   for (auto padMethod = static_cast<PadMethodUnderlying>(PCMType::PaddingMethod::Zero);
        padMethod <= static_cast<PadMethodUnderlying>(PCMType::PaddingMethod::Last);
@@ -186,27 +183,30 @@ pairwiseTests(const itk::TileLayout2D & stageTiles,
     }
     registrationErrors << std::endl;
 
-    unsigned yMontageSize = stageTiles.size();
-    unsigned xMontageSize = stageTiles[0].size();
-    double   totalError = 0.0;
-    for (unsigned y = 0; y < yMontageSize; y++)
+    const size_t                       linearSize = stageTiles.LinearSize();
+    typename TileConfig::TileIndexType ind;
+    size_t                             count = 0;
+    double                             totalError = 0.0;
+    for (size_t t = 0; t < linearSize; t++)
     {
-      for (unsigned x = 0; x < xMontageSize; x++)
+      ind = stageTiles.LinearIndexToNDIndex(t);
+      for (unsigned d = 0; d < Dimension; d++)
       {
-        if (x > 0)
+        if (ind[d] > 0)
         {
-          totalError += calculateError<PixelType>(
-            stageTiles, actualTiles, inputPath, padMethod, positionTolerance, registrationErrors, x - 1, y, x, y);
-        }
-        if (y > 0)
-        {
-          totalError += calculateError<PixelType>(
-            stageTiles, actualTiles, inputPath, padMethod, positionTolerance, registrationErrors, x, y - 1, x, y);
+          ++count;
+          typename TileConfig::TileIndexType neighborInd = ind;
+          --neighborInd[d];
+          size_t fixedLinearIndex = stageTiles.nDIndexToLinearIndex(neighborInd);
+          // avg += regPos[t] - regPos[nInd] - (actualTiles.Tiles[nInd].Position - stageTiles.Tiles[nInd].Position);
+          totalError += calculateError<PixelType, Dimension>(
+            stageTiles, actualTiles, inputPath, padMethod, positionTolerance, registrationErrors, fixedLinearIndex, t);
         }
       }
     }
 
-    double avgError = totalError / (xMontageSize * (yMontageSize - 1) + (xMontageSize - 1) * yMontageSize);
+    // double avgError = totalError / (xMontageSize * (yMontageSize - 1) + (xMontageSize - 1) * yMontageSize);
+    double avgError = totalError / count;
     avgError /= Dimension; // report per-dimension error
     std::cout << "Average translation error for padding method " << padMethod << ": " << avgError << std::endl
               << std::endl;
