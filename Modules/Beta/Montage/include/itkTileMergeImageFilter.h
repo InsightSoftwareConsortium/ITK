@@ -226,12 +226,12 @@ private:
   PixelType m_Background = PixelType(); // default background value (not covered by any input tile)
 
   std::vector<TransformConstPointer> m_Transforms;
-  std::vector<ImagePointer>         m_Tiles; // metadata/image storage (if filenames are given instead of actual images)
-  typename Superclass::ConstPointer m_Montage;
-  std::vector<RegionType>           m_InputMappings;           // where do input tile regions map into the output
-  std::vector<ContinuousIndexType>  m_InputsContinuousIndices; // where do input tile region indices map into the output
-  std::vector<RegionType>           m_Regions;                 // regions which completely cover the output,
-                                                               // grouped by the set of contributing input tiles
+  std::vector<ImagePointer>          m_Tiles; // metadata/image storage (if filenames are given instead of actual images)
+  typename Superclass::ConstPointer  m_Montage;
+  std::vector<RegionType>            m_InputMappings;           // where do input tile regions map into the output
+  std::vector<ContinuousIndexType>   m_InputsContinuousIndices; // where do input tile region indices map into the output
+  std::vector<RegionType>            m_Regions;                 // regions which completely cover the output,
+                                                                // grouped by the set of contributing input tiles
   std::vector<ContributingTiles> m_RegionContributors; // set of input tiles which contribute to corresponding regions
 };                                                     // class TileMergeImageFilter
 
