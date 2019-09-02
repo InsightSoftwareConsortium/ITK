@@ -38,68 +38,75 @@ namespace itk
  *
  * \ingroup Montage
  */
-template< typename TRealPixel, unsigned int VImageDimension >
+template <typename TRealPixel, unsigned int VImageDimension>
 class ITK_TEMPLATE_EXPORT PhaseCorrelationOperator
-  : public ImageToImageFilter< Image< std::complex< TRealPixel >, VImageDimension >,
-                               Image< std::complex< TRealPixel >, VImageDimension > >
+  : public ImageToImageFilter<Image<std::complex<TRealPixel>, VImageDimension>,
+                              Image<std::complex<TRealPixel>, VImageDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN( PhaseCorrelationOperator );
+  ITK_DISALLOW_COPY_AND_ASSIGN(PhaseCorrelationOperator);
 
   using Self = PhaseCorrelationOperator;
-  using Superclass = ImageToImageFilter< Image< std::complex< TRealPixel >, VImageDimension >,
-                                         Image< std::complex< TRealPixel >, VImageDimension > >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using BandPassPointsType = FixedArray< TRealPixel, 4 >;
+  using Superclass = ImageToImageFilter<Image<std::complex<TRealPixel>, VImageDimension>,
+                                        Image<std::complex<TRealPixel>, VImageDimension>>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using BandPassPointsType = FixedArray<TRealPixel, 4>;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( PhaseCorrelationOperator, ImageToImageFilter );
+  itkTypeMacro(PhaseCorrelationOperator, ImageToImageFilter);
 
   /** ImageDimension enumeration. */
-  itkStaticConstMacro( ImageDimension, unsigned int, VImageDimension );
+  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
 
   /** Image type aliases. */
   using PixelType = TRealPixel;
-  using ComplexType = std::complex< PixelType >;
-  using ImageType = Image< ComplexType, ImageDimension >;
+  using ComplexType = std::complex<PixelType>;
+  using ImageType = Image<ComplexType, ImageDimension>;
   using ImagePointer = typename ImageType::Pointer;
   using ImageConstPointer = typename ImageType::ConstPointer;
   using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** Connect the fixed image. */
-  void SetFixedImage( ImageType * fixedImage );
+  void
+  SetFixedImage(ImageType * fixedImage);
 
   /** Connect the moving image. */
-  void SetMovingImage( ImageType * movingImage );
+  void
+  SetMovingImage(ImageType * movingImage);
 
 protected:
   PhaseCorrelationOperator();
   virtual ~PhaseCorrelationOperator(){};
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** PhaseCorrelationOperator produces an image which is a different
    * resolution and with a different pixel spacing than its input
    * images. */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** PhaseCorrelationOperator needs a larger input requested region than the
    *  output requested region. */
-  void GenerateInputRequestedRegion() override;
-  void EnlargeOutputRequestedRegion(DataObject *output) override;
+  void
+  GenerateInputRequestedRegion() override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
   /** PhaseCorrelationOperator can be implemented as a multithreaded filter.
    *  This method performs the computation. */
-  void DynamicThreadedGenerateData( const OutputImageRegionType& outputRegionForThread ) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPhaseCorrelationOperator.hxx"
+#  include "itkPhaseCorrelationOperator.hxx"
 #endif
 
 #endif

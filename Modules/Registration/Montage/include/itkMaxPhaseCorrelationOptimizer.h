@@ -43,30 +43,30 @@ namespace itk
  *
  * \ingroup Montage
  */
-template< typename TRegistrationMethod >
+template <typename TRegistrationMethod>
 class ITK_TEMPLATE_EXPORT MaxPhaseCorrelationOptimizer
-  : public PhaseCorrelationOptimizer< typename TRegistrationMethod::RealImageType >
+  : public PhaseCorrelationOptimizer<typename TRegistrationMethod::RealImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN( MaxPhaseCorrelationOptimizer );
+  ITK_DISALLOW_COPY_AND_ASSIGN(MaxPhaseCorrelationOptimizer);
 
   using Self = MaxPhaseCorrelationOptimizer;
-  using Superclass = PhaseCorrelationOptimizer< typename TRegistrationMethod::RealImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = PhaseCorrelationOptimizer<typename TRegistrationMethod::RealImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( MaxPhaseCorrelationOptimizer, PhaseCorrelationOptimizer );
+  itkTypeMacro(MaxPhaseCorrelationOptimizer, PhaseCorrelationOptimizer);
 
   /**  Type of the input image. */
   using ImageType = typename TRegistrationMethod::RealImageType;
   using ImageConstPointer = typename ImageType::ConstPointer;
 
   /** Dimensionality of input and output data. */
-  itkStaticConstMacro( ImageDimension, unsigned int, ImageType::ImageDimension );
+  itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
 
   /** Real correlation surface's pixel type. */
   using PixelType = typename ImageType::PixelType;
@@ -86,40 +86,43 @@ public:
     Cosine,
     Last = Cosine
   };
-  itkGetConstMacro( PeakInterpolationMethod, PeakInterpolationMethod );
-  void SetPeakInterpolationMethod( const PeakInterpolationMethod peakInterpolationMethod );
-  friend std::ostream&
-  operator<<( std::ostream& os, const PeakInterpolationMethod& pim )
+  itkGetConstMacro(PeakInterpolationMethod, PeakInterpolationMethod);
+  void
+  SetPeakInterpolationMethod(const PeakInterpolationMethod peakInterpolationMethod);
+  friend std::ostream &
+  operator<<(std::ostream & os, const PeakInterpolationMethod & pim)
   {
-    os << static_cast< typename std::underlying_type< PeakInterpolationMethod >::type >( pim );
+    os << static_cast<typename std::underlying_type<PeakInterpolationMethod>::type>(pim);
     return os;
   }
 
   /** Get/Set maximum city-block distance for peak merging. Zero disables it. */
-  itkGetConstMacro( MergePeaks, unsigned );
-  itkSetMacro( MergePeaks, unsigned );
+  itkGetConstMacro(MergePeaks, unsigned);
+  itkSetMacro(MergePeaks, unsigned);
 
   /** Get/Set suppression aggressiveness of trivial [0,0,...] solution. */
-  itkGetConstMacro( ZeroSuppression, double );
-  itkSetClampMacro( ZeroSuppression, double, 0.0, 100.0 );
+  itkGetConstMacro(ZeroSuppression, double);
+  itkSetClampMacro(ZeroSuppression, double, 0.0, 100.0);
 
   /** Get/Set expected maximum linear translation needed, in pixels.
    * Zero (the default) has a special meaning: sigmoid scaling
    * with half-way point at around quarter of image size.
    * Translations can plausibly be up to half an image size. */
-  itkGetConstMacro( PixelDistanceTolerance, SizeValueType );
-  itkSetMacro( PixelDistanceTolerance, SizeValueType );
+  itkGetConstMacro(PixelDistanceTolerance, SizeValueType);
+  itkSetMacro(PixelDistanceTolerance, SizeValueType);
 
 
 protected:
   MaxPhaseCorrelationOptimizer() = default;
   virtual ~MaxPhaseCorrelationOptimizer() = default;
-  void PrintSelf( std::ostream& os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This method is executed by superclass to execute the computation. */
-  void ComputeOffset() override;
+  void
+  ComputeOffset() override;
 
-  using MaxCalculatorType = NMinimaMaximaImageCalculator< ImageType >;
+  using MaxCalculatorType = NMinimaMaximaImageCalculator<ImageType>;
 
 private:
   typename MaxCalculatorType::Pointer m_MaxCalculator = MaxCalculatorType::New();
@@ -132,7 +135,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMaxPhaseCorrelationOptimizer.hxx"
+#  include "itkMaxPhaseCorrelationOptimizer.hxx"
 #endif
 
 #endif

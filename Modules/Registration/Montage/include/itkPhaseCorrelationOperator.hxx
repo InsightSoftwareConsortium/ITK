@@ -33,93 +33,89 @@ namespace itk
  */
 
 
-template< typename TRealPixel, unsigned int VImageDimension >
-PhaseCorrelationOperator< TRealPixel, VImageDimension >
-::PhaseCorrelationOperator()
+template <typename TRealPixel, unsigned int VImageDimension>
+PhaseCorrelationOperator<TRealPixel, VImageDimension>::PhaseCorrelationOperator()
 {
-  this->SetNumberOfRequiredInputs( 2 );
+  this->SetNumberOfRequiredInputs(2);
 }
 
 
-template< typename TRealPixel, unsigned int VImageDimension >
+template <typename TRealPixel, unsigned int VImageDimension>
 void
-PhaseCorrelationOperator< TRealPixel, VImageDimension >
-::PrintSelf( std::ostream& os, Indent indent ) const
+PhaseCorrelationOperator<TRealPixel, VImageDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf( os, indent );
+  Superclass::PrintSelf(os, indent);
 }
 
 
-template< typename TRealPixel, unsigned int VImageDimension >
+template <typename TRealPixel, unsigned int VImageDimension>
 void
-PhaseCorrelationOperator< TRealPixel, VImageDimension >
-::SetFixedImage( ImageType* fixedImage )
+PhaseCorrelationOperator<TRealPixel, VImageDimension>::SetFixedImage(ImageType * fixedImage)
 {
-  this->SetNthInput( 0, const_cast< ImageType* >( fixedImage ) );
+  this->SetNthInput(0, const_cast<ImageType *>(fixedImage));
 }
 
 
-template< typename TRealPixel, unsigned int VImageDimension >
+template <typename TRealPixel, unsigned int VImageDimension>
 void
-PhaseCorrelationOperator< TRealPixel, VImageDimension >
-::SetMovingImage( ImageType* movingImage )
+PhaseCorrelationOperator<TRealPixel, VImageDimension>::SetMovingImage(ImageType * movingImage)
 {
-  this->SetNthInput( 1, const_cast< ImageType* >( movingImage ) );
+  this->SetNthInput(1, const_cast<ImageType *>(movingImage));
 }
 
 
-template< typename TRealPixel, unsigned int VImageDimension >
+template <typename TRealPixel, unsigned int VImageDimension>
 void
-PhaseCorrelationOperator< TRealPixel, VImageDimension >
-::DynamicThreadedGenerateData( const OutputImageRegionType& outputRegionForThread )
+PhaseCorrelationOperator<TRealPixel, VImageDimension>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   // Get the input and output pointers
-  ImageConstPointer  fixed     = this->GetInput( 0 );
-  ImageConstPointer  moving    = this->GetInput( 1 );
-  ImagePointer       output    = this->GetOutput();
+  ImageConstPointer fixed = this->GetInput(0);
+  ImageConstPointer moving = this->GetInput(1);
+  ImagePointer      output = this->GetOutput();
 
   // Define an iterator that will walk the output region for this thread.
-  using InputIterator = ImageScanlineConstIterator< ImageType >;
-  using OutputIterator = ImageScanlineIterator< ImageType >;
-  InputIterator  fixedIt( fixed, outputRegionForThread );
-  InputIterator  movingIt( moving, outputRegionForThread );
-  OutputIterator outIt( output, outputRegionForThread );
+  using InputIterator = ImageScanlineConstIterator<ImageType>;
+  using OutputIterator = ImageScanlineIterator<ImageType>;
+  InputIterator  fixedIt(fixed, outputRegionForThread);
+  InputIterator  movingIt(moving, outputRegionForThread);
+  OutputIterator outIt(output, outputRegionForThread);
 
   // walk the output region, and sample the input image
-  while ( !outIt.IsAtEnd() )
+  while (!outIt.IsAtEnd())
+  {
+    while (!outIt.IsAtEndOfLine())
     {
-    while ( !outIt.IsAtEndOfLine() )
-      {
       // compute the phase correlation
-      const PixelType real = fixedIt.Value().real() * movingIt.Value().real()
-        + fixedIt.Value().imag() * movingIt.Value().imag();
-      const PixelType imag = fixedIt.Value().imag() * movingIt.Value().real()
-        - fixedIt.Value().real() * movingIt.Value().imag();
-      const PixelType magn = std::sqrt( real * real + imag * imag );
+      const PixelType real =
+        fixedIt.Value().real() * movingIt.Value().real() + fixedIt.Value().imag() * movingIt.Value().imag();
+      const PixelType imag =
+        fixedIt.Value().imag() * movingIt.Value().real() - fixedIt.Value().real() * movingIt.Value().imag();
+      const PixelType magn = std::sqrt(real * real + imag * imag);
 
-      if ( magn != 0 )
-        {
-        outIt.Set( ComplexType( real / magn, imag / magn ) );
-        }
+      if (magn != 0)
+      {
+        outIt.Set(ComplexType(real / magn, imag / magn));
+      }
       else
-        {
-        outIt.Set( ComplexType( 0, 0 ) );
-        }
+      {
+        outIt.Set(ComplexType(0, 0));
+      }
 
       ++fixedIt;
       ++movingIt;
       ++outIt;
-      }
+    }
     fixedIt.NextLine();
     movingIt.NextLine();
     outIt.NextLine();
-    }
+  }
 }
 
 
-template< typename TRealPixel, unsigned int VImageDimension >
+template <typename TRealPixel, unsigned int VImageDimension>
 void
-PhaseCorrelationOperator< TRealPixel, VImageDimension >::GenerateInputRequestedRegion()
+PhaseCorrelationOperator<TRealPixel, VImageDimension>::GenerateInputRequestedRegion()
 {
   /**
    *  Request all available data. This filter is cropping from the center.
@@ -129,23 +125,22 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >::GenerateInputRequestedR
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the inputs
-  ImagePointer fixed = const_cast< ImageType* >( this->GetInput( 0 ) );
-  ImagePointer moving = const_cast< ImageType* >( this->GetInput( 1 ) );
+  ImagePointer fixed = const_cast<ImageType *>(this->GetInput(0));
+  ImagePointer moving = const_cast<ImageType *>(this->GetInput(1));
 
-  if ( !fixed || !moving )
-    {
+  if (!fixed || !moving)
+  {
     return;
-    }
+  }
 
-  fixed->SetRequestedRegion( fixed->GetLargestPossibleRegion() );
-  moving->SetRequestedRegion( moving->GetLargestPossibleRegion() );
+  fixed->SetRequestedRegion(fixed->GetLargestPossibleRegion());
+  moving->SetRequestedRegion(moving->GetLargestPossibleRegion());
 }
 
 
-template< typename TRealPixel, unsigned int VImageDimension >
+template <typename TRealPixel, unsigned int VImageDimension>
 void
-PhaseCorrelationOperator< TRealPixel, VImageDimension >
-::GenerateOutputInformation()
+PhaseCorrelationOperator<TRealPixel, VImageDimension>::GenerateOutputInformation()
 {
   /**
    *  The output will have the lower size of the two input images in all
@@ -156,71 +151,71 @@ PhaseCorrelationOperator< TRealPixel, VImageDimension >
   Superclass::GenerateOutputInformation();
 
   // get pointers to the inputs and output
-  ImageConstPointer fixed = this->GetInput( 0 );
-  ImageConstPointer moving = this->GetInput( 1 );
+  ImageConstPointer fixed = this->GetInput(0);
+  ImageConstPointer moving = this->GetInput(1);
   ImagePointer      output = this->GetOutput();
 
-  if ( !fixed || !moving || !output )
-    {
+  if (!fixed || !moving || !output)
+  {
     return;
-    }
+  }
 
-  itkDebugMacro( "adjusting size of output image" );
+  itkDebugMacro("adjusting size of output image");
   // we need to compute the output spacing, the output image size,
   // and the output image start index
-  const typename ImageType::SpacingType& fixedSpacing = fixed->GetSpacing();
-  const typename ImageType::SpacingType& movingSpacing = moving->GetSpacing();
-  const typename ImageType::SizeType& fixedSize = fixed->GetLargestPossibleRegion().GetSize();
-  const typename ImageType::SizeType& movingSize = moving->GetLargestPossibleRegion().GetSize();
-  const typename ImageType::IndexType& fixedStartIndex = fixed->GetLargestPossibleRegion().GetIndex();
+  const typename ImageType::SpacingType & fixedSpacing = fixed->GetSpacing();
+  const typename ImageType::SpacingType & movingSpacing = moving->GetSpacing();
+  const typename ImageType::SizeType &    fixedSize = fixed->GetLargestPossibleRegion().GetSize();
+  const typename ImageType::SizeType &    movingSize = moving->GetLargestPossibleRegion().GetSize();
+  const typename ImageType::IndexType &   fixedStartIndex = fixed->GetLargestPossibleRegion().GetIndex();
 
   typename ImageType::SpacingType outputSpacing;
-  typename ImageType::SizeType outputSize;
-  typename ImageType::IndexType outputStartIndex;
+  typename ImageType::SizeType    outputSize;
+  typename ImageType::IndexType   outputStartIndex;
 
-  for ( unsigned i = 0; i < ImageType::ImageDimension; i++ )
-    {
-    outputSpacing[i] = std::max( fixedSpacing[i], movingSpacing[i] );
-    outputSize[i] = std::min( fixedSize[i], movingSize[i] );
+  for (unsigned i = 0; i < ImageType::ImageDimension; i++)
+  {
+    outputSpacing[i] = std::max(fixedSpacing[i], movingSpacing[i]);
+    outputSize[i] = std::min(fixedSize[i], movingSize[i]);
     outputStartIndex[i] = fixedStartIndex[i];
-    }
+  }
 
-  output->SetSpacing( outputSpacing );
+  output->SetSpacing(outputSpacing);
 
   typename ImageType::RegionType outputLargestPossibleRegion;
-  outputLargestPossibleRegion.SetSize( outputSize );
-  outputLargestPossibleRegion.SetIndex( outputStartIndex );
+  outputLargestPossibleRegion.SetSize(outputSize);
+  outputLargestPossibleRegion.SetIndex(outputStartIndex);
 
-  output->SetLargestPossibleRegion( outputLargestPossibleRegion );
+  output->SetLargestPossibleRegion(outputLargestPossibleRegion);
 
   // Pass the metadata with the actual size of the image.
   // The size must be adjusted according to the cropping and scaling
   // that will be made on the image!
-  itkDebugMacro( "storing size of pre-FFT image in MetaData" );
+  itkDebugMacro("storing size of pre-FFT image in MetaData");
   using SizeScalarType = typename ImageType::SizeValueType;
 
-  SizeScalarType fixedX = NumericTraits< SizeScalarType >::Zero;
-  SizeScalarType movingX = NumericTraits< SizeScalarType >::Zero;
-  SizeScalarType outputX = NumericTraits< SizeScalarType >::Zero;
+  SizeScalarType fixedX = NumericTraits<SizeScalarType>::Zero;
+  SizeScalarType movingX = NumericTraits<SizeScalarType>::Zero;
+  SizeScalarType outputX = NumericTraits<SizeScalarType>::Zero;
 
-  MetaDataDictionary& fixedDic = const_cast< MetaDataDictionary& >( fixed->GetMetaDataDictionary() );
-  MetaDataDictionary& movingDic = const_cast< MetaDataDictionary& >( moving->GetMetaDataDictionary() );
-  MetaDataDictionary& outputDic = const_cast< MetaDataDictionary& >( output->GetMetaDataDictionary() );
+  MetaDataDictionary & fixedDic = const_cast<MetaDataDictionary &>(fixed->GetMetaDataDictionary());
+  MetaDataDictionary & movingDic = const_cast<MetaDataDictionary &>(moving->GetMetaDataDictionary());
+  MetaDataDictionary & outputDic = const_cast<MetaDataDictionary &>(output->GetMetaDataDictionary());
 
-  if ( ExposeMetaData< SizeScalarType >( fixedDic, std::string( "FFT_Actual_RealImage_Size" ), fixedX ) &&
-       ExposeMetaData< SizeScalarType >( movingDic, std::string( "FFT_Actual_RealImage_Size" ), movingX ) )
-    {
-    outputX = std::min( fixedX, movingX );
-    EncapsulateMetaData< SizeScalarType >( outputDic, std::string( "FFT_Actual_RealImage_Size" ), outputX );
-    }
+  if (ExposeMetaData<SizeScalarType>(fixedDic, std::string("FFT_Actual_RealImage_Size"), fixedX) &&
+      ExposeMetaData<SizeScalarType>(movingDic, std::string("FFT_Actual_RealImage_Size"), movingX))
+  {
+    outputX = std::min(fixedX, movingX);
+    EncapsulateMetaData<SizeScalarType>(outputDic, std::string("FFT_Actual_RealImage_Size"), outputX);
+  }
 }
 
 
-template< typename TRealPixel, unsigned int VImageDimension >
+template <typename TRealPixel, unsigned int VImageDimension>
 void
-PhaseCorrelationOperator< TRealPixel, VImageDimension >::EnlargeOutputRequestedRegion( DataObject* output )
+PhaseCorrelationOperator<TRealPixel, VImageDimension>::EnlargeOutputRequestedRegion(DataObject * output)
 {
-  Superclass::EnlargeOutputRequestedRegion( output );
+  Superclass::EnlargeOutputRequestedRegion(output);
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 

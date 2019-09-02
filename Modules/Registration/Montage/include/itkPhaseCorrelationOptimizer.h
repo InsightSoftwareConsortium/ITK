@@ -44,26 +44,26 @@ namespace itk
  *
  * \ingroup Montage
  */
-template< typename TImage >
+template <typename TImage>
 class ITK_TEMPLATE_EXPORT PhaseCorrelationOptimizer : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN( PhaseCorrelationOptimizer );
+  ITK_DISALLOW_COPY_AND_ASSIGN(PhaseCorrelationOptimizer);
 
   using Self = PhaseCorrelationOptimizer;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( PhaseCorrelationOptimizer, ProcessObject );
+  itkTypeMacro(PhaseCorrelationOptimizer, ProcessObject);
 
   /**  Type of the input image. */
   using ImageType = TImage;
   using ImageConstPointer = typename ImageType::ConstPointer;
 
   /** Dimensionality of input and output data. */
-  itkStaticConstMacro( ImageDimension, unsigned int, ImageType::ImageDimension );
+  itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
 
   /** Type for the output parameters.
    *  It defines a position in the optimization search space. */
@@ -72,7 +72,7 @@ public:
 
   /** Type for the output: Using Decorator pattern for enabling
    *  the offset to be passed in the data pipeline */
-  using OffsetOutputType = SimpleDataObjectDecorator< OffsetType >;
+  using OffsetOutputType = SimpleDataObjectDecorator<OffsetType>;
   using OffsetOutputPointer = typename OffsetOutputType::Pointer;
   using OffsetOutputConstPointer = typename OffsetOutputType::ConstPointer;
 
@@ -80,39 +80,45 @@ public:
   using DataObjectPointer = typename DataObject::Pointer;
 
   /** Resulting vector of offsets. */
-  using OffsetVector = std::vector< OffsetType >;
+  using OffsetVector = std::vector<OffsetType>;
 
   /** Get the computed offsets. */
-  itkGetConstReferenceMacro( Offsets, OffsetVector );
+  itkGetConstReferenceMacro(Offsets, OffsetVector);
 
   /** Confidences corresponding to offsets. */
-  using ConfidenceVector = std::vector< typename NumericTraits< typename TImage::PixelType >::ValueType >;
+  using ConfidenceVector = std::vector<typename NumericTraits<typename TImage::PixelType>::ValueType>;
 
   /** Get the confidences corresponding to offsets. */
-  itkGetConstReferenceMacro( Confidences, ConfidenceVector );
+  itkGetConstReferenceMacro(Confidences, ConfidenceVector);
 
   using Superclass::SetInput;
 
   /** Sets the input image to the optimizer. */
-  void SetInput( const ImageType* image );
+  void
+  SetInput(const ImageType * image);
 
   /** Sets the fixed image to the optimizer. */
-  void SetFixedImage( const ImageBase< ImageType::ImageDimension >* image );
+  void
+  SetFixedImage(const ImageBase<ImageType::ImageDimension> * image);
 
   /** Sets the fixed image to the optimizer. */
-  void SetMovingImage( const ImageBase< ImageType::ImageDimension >* image );
+  void
+  SetMovingImage(const ImageBase<ImageType::ImageDimension> * image);
 
   /** Returns the offset resulting from the registration process  */
-  const OffsetOutputType* GetOutput( unsigned index ) const
+  const OffsetOutputType *
+  GetOutput(unsigned index) const
   {
-    return static_cast< const OffsetOutputType* >( this->ProcessObject::GetOutput( index ) );
+    return static_cast<const OffsetOutputType *>(this->ProcessObject::GetOutput(index));
   }
 
   /** Get/Set number of maximums to be computed.
    * Resulting count could be smaller than requested!
    * After Update is called, check count again. */
-  virtual void SetOffsetCount( unsigned count );
-  virtual unsigned GetOffsetCount() const
+  virtual void
+  SetOffsetCount(unsigned count);
+  virtual unsigned
+  GetOffsetCount() const
   {
     return m_Offsets.size();
   }
@@ -121,24 +127,28 @@ public:
 
   /** Make a DataObject of the correct type to be used as the specified
    *  output. */
-  DataObjectPointer MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) ) override
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx)) override
   {
-    return static_cast< DataObject* >( OffsetOutputType::New().GetPointer() );
+    return static_cast<DataObject *>(OffsetOutputType::New().GetPointer());
   }
 
 protected:
   PhaseCorrelationOptimizer();
   virtual ~PhaseCorrelationOptimizer(){};
-  void PrintSelf( std::ostream& os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the output values. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** This method is executed by this type and must be reimplemented by child
    *  filter to perform the computation.
    */
-  virtual void ComputeOffset() = 0;
+  virtual void
+  ComputeOffset() = 0;
 
 protected:
   OffsetVector     m_Offsets;
@@ -148,7 +158,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPhaseCorrelationOptimizer.hxx"
+#  include "itkPhaseCorrelationOptimizer.hxx"
 #endif
 
 #endif
