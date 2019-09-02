@@ -125,13 +125,13 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  template <typename Comparator = std::less<PixelType>>
+  template <typename TComparator = std::less<PixelType>>
   void
   SortedInsert(ValueVector &     vals,
                IndexVector &     indices,
                const PixelType & val,
                const IndexType & ind,
-               Comparator        comp = Comparator());
+               TComparator       comp = TComparator());
   void
   InternalCompute();
 
