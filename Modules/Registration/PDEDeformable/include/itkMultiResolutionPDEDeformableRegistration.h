@@ -77,24 +77,28 @@ namespace itk
  * \ingroup DeformableImageRegistration
  * \ingroup ITKPDEDeformableRegistration
  */
-template <typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType = float>
-class ITK_TEMPLATE_EXPORT MultiResolutionPDEDeformableRegistration
-  : public ImageToImageFilter<TDisplacementField, TDisplacementField>
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType = float,
+          typename TDefaultRegistrationType = DemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >,
+          typename TFloatImageType = Image< TRealType, TFixedImage::ImageDimension > >
+class ITK_TEMPLATE_EXPORT MultiResolutionPDEDeformableRegistration:
+  public ImageToImageFilter< TDisplacementField, TDisplacementField >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultiResolutionPDEDeformableRegistration);
 
   /** Standard class type aliases */
   using Self = MultiResolutionPDEDeformableRegistration;
-  using Superclass = ImageToImageFilter<TDisplacementField, TDisplacementField>;
-  using Pointer = SmartPointer<Self>;
-  using ConstPointer = SmartPointer<const Self>;
+  using Superclass =
+      ImageToImageFilter< TDisplacementField, TDisplacementField >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MultiResolutionPDEDeformableRegistration, ImageToImageFilter);
+  itkTypeMacro(MultiResolutionPDEDeformableRegistration,
+               ImageToImageFilter);
 
   /** Fixed image type. */
   using FixedImageType = TFixedImage;
@@ -114,14 +118,14 @@ public:
   static constexpr unsigned int ImageDimension = FixedImageType::ImageDimension;
 
   /** Internal float image type. */
-  using FloatImageType = Image<TRealType, Self::ImageDimension>;
+  using FloatImageType = TFloatImageType;
 
   /** The internal registration type. */
-  using RegistrationType = PDEDeformableRegistrationFilter<FloatImageType, FloatImageType, DisplacementFieldType>;
+  using RegistrationType = TDefaultRegistrationType;
   using RegistrationPointer = typename RegistrationType::Pointer;
 
   /** The default registration type. */
-  using DefaultRegistrationType = DemonsRegistrationFilter<FloatImageType, FloatImageType, DisplacementFieldType>;
+  using DefaultRegistrationType = TDefaultRegistrationType;
 
   /** The fixed multi-resolution image pyramid type. */
   using FixedImagePyramidType = MultiResolutionPyramidImageFilter<FixedImageType, FloatImageType>;
@@ -287,7 +291,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkMultiResolutionPDEDeformableRegistration.hxx"
+#include "itkMultiResolutionPDEDeformableRegistration.hxx"
 #endif
 
 #endif
