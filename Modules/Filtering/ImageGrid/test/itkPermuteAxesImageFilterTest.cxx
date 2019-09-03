@@ -121,6 +121,15 @@ itkPermuteAxesImageFilterTest(int, char *[])
       std::cout << "Mismatch at index: " << inputIndex << std::endl;
     }
 
+    auto pointdiff = inputImage->TransformIndexToPhysicalPoint<double>(inputIndex) -
+                     outputImage->TransformIndexToPhysicalPoint<double>(outputIndex);
+
+    if (!itk::Math::FloatAlmostEqual(pointdiff.GetNorm(), 0.0))
+    {
+      passed = false;
+      std::cout << "Physical location mismatch at index: " << inputIndex << pointdiff.GetNorm() << std::endl;
+    }
+
     ++inputIter;
   }
 
