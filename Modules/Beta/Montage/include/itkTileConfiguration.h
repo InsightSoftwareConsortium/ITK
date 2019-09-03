@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef itkParseTileConfiguration_h
-#define itkParseTileConfiguration_h
+#ifndef itkTileConfiguration_h
+#define itkTileConfiguration_h
 
 #include "MontageExport.h"
 
@@ -28,29 +28,29 @@
 
 namespace itk
 {
-template< unsigned Dimension >
+template <unsigned Dimension>
 struct Tile
 {
-  using PointType = Point< double, Dimension >;
+  using PointType = Point<double, Dimension>;
 
   PointType Position; // x, y... coordinates
 
   std::string FileName;
 };
 
-using Tile2D = Tile< 2 >;
-using TileRow2D = std::vector< Tile2D >;
-using TileLayout2D = std::vector< TileRow2D >;
+using Tile2D = Tile<2>;
+using TileRow2D = std::vector<Tile2D>;
+using TileLayout2D = std::vector<TileRow2D>;
 
 /** The tile filenames are taken directly from the configuration file.
  * Path is NOT prepended to them, and they are not otherwise modified. */
 Montage_EXPORT TileLayout2D
-ParseTileConfiguration2D( const std::string pathToFile );
+               ParseTileConfiguration2D(const std::string pathToFile);
 
 /** The path is NOT prepended to tile filenames. */
 Montage_EXPORT void
-WriteTileConfiguration2D( const std::string pathToFile, const TileLayout2D& tileConfiguration2D );
+WriteTileConfiguration2D(const std::string pathToFile, const TileLayout2D & tileConfiguration2D);
 
 } // namespace itk
 
-#endif // itkParseTileConfiguration_h
+#endif // itkTileConfiguration_h
