@@ -78,6 +78,7 @@ namespace itk
  * \ingroup ITKPDEDeformableRegistration
  */
 template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType = float,
+          typename TRegistrationType = PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >,
           typename TDefaultRegistrationType = DemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >,
           typename TFloatImageType = Image< TRealType, TFixedImage::ImageDimension > >
 class ITK_TEMPLATE_EXPORT MultiResolutionPDEDeformableRegistration:
@@ -121,7 +122,7 @@ public:
   using FloatImageType = TFloatImageType;
 
   /** The internal registration type. */
-  using RegistrationType = TDefaultRegistrationType;
+  using RegistrationType = TRegistrationType;
   using RegistrationPointer = typename RegistrationType::Pointer;
 
   /** The default registration type. */
