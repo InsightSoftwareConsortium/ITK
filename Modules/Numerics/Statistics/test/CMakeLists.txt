@@ -91,6 +91,9 @@ itkStatisticsAlgorithmTest.cxx
 itkStatisticsAlgorithmTest2.cxx
 itkUniformRandomSpatialNeighborSubsamplerTest.cxx
 itkVectorContainerToListSampleAdaptorTest.cxx
+itkImageToHistogramFilterTest.cxx
+itkImageToHistogramFilterTest2.cxx
+itkImageToHistogramFilterTest3.cxx
 )
 
 CreateTestDriver(ITKStatistics  "${ITKStatistics-Test_LIBRARIES}" "${ITKStatisticsTests}")
@@ -406,3 +409,11 @@ itk_add_test(NAME itkUniformRandomSpatialNeighborSubsamplerTest
      ${ITK_TEST_OUTPUT_DIR}/itkUniformRandomSubsamplingTest.mha)
 itk_add_test(NAME itkVectorContainerToListSampleAdaptorTest
       COMMAND ITKStatisticsTestDriver itkVectorContainerToListSampleAdaptorTest)
+itk_add_test(NAME itkImageToHistogramFilterTest
+        COMMAND ITKStatisticsTestDriver itkImageToHistogramFilterTest)
+itk_add_test(NAME itkImageToHistogramFilterTest2
+        COMMAND ITKStatisticsTestDriver itkImageToHistogramFilterTest2
+        DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png} ${ITK_TEST_OUTPUT_DIR}/itkImageToHistogramFilterTest2.txt)
+itk_add_test(NAME itkImageToHistogramFilterTest3
+        COMMAND ITKStatisticsTestDriver itkImageToHistogramFilterTest3
+        DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkImageToHistogramFilterTest3.txt)
