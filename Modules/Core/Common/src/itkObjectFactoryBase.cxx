@@ -667,7 +667,7 @@ ObjectFactoryBase ::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Factory description: " << this->GetDescription() << std::endl;
 
   auto num = static_cast<int>(m_OverrideMap->size());
-  os << indent << "Factory overides " << num << " classes:" << std::endl;
+  os << indent << "Factory overrides " << num << " classes:" << std::endl;
 
   indent = indent.GetNextIndent();
   for (auto & i : *m_OverrideMap)

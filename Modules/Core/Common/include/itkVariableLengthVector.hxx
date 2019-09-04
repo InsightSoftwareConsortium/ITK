@@ -105,7 +105,7 @@ VariableLengthVector<TValue>::operator=(Self && v) noexcept
   // - none are proxy
   //   => this->m_Data is released, v content is stolen by *this
   // - v is a proxy, but not *this
-  //   => Fall back to usual copy-assignement
+  //   => Fall back to usual copy-assignment
   // - *this is a proxy, but not v
   //   => v content is stolen by *this, nothing to delete[]
 

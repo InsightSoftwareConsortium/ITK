@@ -206,14 +206,14 @@ itkAdaptorComparisonTest(int, char *[])
 
   // Time trials
 
-  std::cout << "Speed of adaptor supporting interator (for reference) \t";
+  std::cout << "Speed of adaptor supporting iterator (for reference) \t";
   start = clock();
   AdaptorSupportedIteratorSpeed(scalar_image);
   stop = clock();
   adaptor_comp = stop - start;
   std::cout << adaptor_comp << std::endl;
 
-  std::cout << "Speed of interator that does not support adaptors (for reference) \t";
+  std::cout << "Speed of iterator that does not support adaptors (for reference) \t";
   start = clock();
   NoAdaptorSupportIteratorSpeed(scalar_image);
   stop = clock();

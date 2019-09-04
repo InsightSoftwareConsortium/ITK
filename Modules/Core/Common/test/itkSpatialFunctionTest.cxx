@@ -49,7 +49,7 @@ itkSpatialFunctionTest(int, char *[])
 
   std::cout << "Sphere spatial function created\n";
 
-  //----------------Test evaluation of funtion------------------
+  //----------------Test evaluation of function------------------
 
   // We're going to evaluate it at the center of the sphere (10,10,10)
   bool funcVal = spatialFunc->Evaluate(center);

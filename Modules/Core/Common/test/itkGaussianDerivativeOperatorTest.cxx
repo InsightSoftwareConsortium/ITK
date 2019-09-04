@@ -116,7 +116,7 @@ itkGaussianDerivativeOperatorTest(int argc, char * argv[])
   // print self method
   std::cout << op1;
 
-  // assignement
+  // assignment
   op2 = op1;
 
 

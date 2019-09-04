@@ -20,7 +20,7 @@
 namespace itk
 {
 
-/* Add defintion for static constexpr members
+/* Add definition for static constexpr members
 
 Reason: You have to provide the definition of the static member as well as the
 declaration. The declaration and the initializer go inside the class,
