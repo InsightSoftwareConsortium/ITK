@@ -244,7 +244,7 @@ public:
   }
 
   /** Returns the pixel value located one pixel distant from the neighborhood
-   *  center in the specifed positive axis direction. No bounds checking is
+   *  center in the specified positive axis direction. No bounds checking is
    *  done on the size of the neighborhood. */
   ITK_ITERATOR_VIRTUAL PixelType
                        GetNext(const unsigned axis) const ITK_ITERATOR_FINAL
@@ -262,7 +262,7 @@ public:
   }
 
   /** Returns the pixel value located one pixel distant from the neighborhood
-   *  center in the specifed negative axis direction. No bounds checking is
+   *  center in the specified negative axis direction. No bounds checking is
    *  done on the size of the neighborhood. */
   ITK_ITERATOR_VIRTUAL PixelType
                        GetPrevious(const unsigned axis) const ITK_ITERATOR_FINAL

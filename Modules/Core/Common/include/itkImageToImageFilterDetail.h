@@ -431,7 +431,7 @@ ImageToImageFilterDefaultCopyInformation(const typename BinaryUnsignedIntDispatc
  * \brief A Function object used to copy image meta-data of an image.
  *
  * This function objects dispatches to Specialized versions. When the
- * images match dimensionalality the ImageBase::CopyInformation method
+ * images match dimensionality the ImageBase::CopyInformation method
  * is used. But for expanding dimensional of images, the
  * functor copies the common dimensions then fills the extra meta-data
  * with "identity" information.

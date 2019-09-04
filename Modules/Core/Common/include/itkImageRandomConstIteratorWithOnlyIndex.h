@@ -42,7 +42,7 @@ namespace itk
  * The operator++ method provides a simple syntax for walking around a region
  * of a multidimensional image. operator++ performs a jump to a random position
  * within the specified image region.  This is designed to facilitate the
- * extraction of random indecies from the image.
+ * extraction of random indices from the image.
  *
  * This is the typical use of this iterator in a loop:
  *

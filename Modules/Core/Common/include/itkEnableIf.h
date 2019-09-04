@@ -38,7 +38,7 @@ namespace mpl
  *
  * If the parameter V is true then the Type trait is the second
  * template parameter, otherwise an implementation does not exist and
- * with SFINAE another implementation may be choosen.
+ * with SFINAE another implementation may be chosen.
  *
  * Example:
  \code

@@ -149,7 +149,7 @@ public:
 
   /** Fixed length vectors cannot be resized, so an exception will
    *  be thrown if the input size is not valid.  Here, the size refers
-   *  to the dimensionality of the unerlying FixedArray, not the
+   *  to the dimensionality of the underlying FixedArray, not the
    *  tensor dimensionality. */
   static void
   SetLength(SymmetricSecondRankTensor<T, D> & m, const unsigned int s)

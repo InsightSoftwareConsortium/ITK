@@ -45,7 +45,7 @@ namespace itk
  * extent of the image itself.  ImageBase provides the methods to
  * convert between the index and physical space coordinate frames.
  *
- * Pixels can be accessed direcly using the SetPixel() and GetPixel()
+ * Pixels can be accessed directly using the SetPixel() and GetPixel()
  * methods or can be accessed via iterators that define the region of
  * the image they traverse.
  *

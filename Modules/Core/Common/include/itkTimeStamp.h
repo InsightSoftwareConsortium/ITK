@@ -117,7 +117,7 @@ public:
     return (m_ModifiedTime < ts.m_ModifiedTime);
   }
 
-  /** Allow for typcasting to unsigned long.  */
+  /** Allow for typecasting to unsigned long.  */
   operator ModifiedTimeType() const { return m_ModifiedTime; }
 
   /** Assignment operator, allows to initialize one time stamp by copying from

@@ -90,7 +90,7 @@ private:
  *  \tparam TIterator The type of the iterator.
  *
  * The \c DomainType is defined to be an itk::ThreadedIteratorRangePartitionerDomain,
- * a two component struct of interators: the first iterator, \c Begin, defines
+ * a two component struct of iterators: the first iterator, \c Begin, defines
  * the start of the domain, and the second iterator, \c End, defines one element
  * past the end of the domain.
  *

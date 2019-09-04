@@ -41,7 +41,7 @@ namespace itk
  * that is the number of subregions you want.  If the image region can
  * support that number of subregions, that number is returned.
  * Otherwise, the maximum number of splits less then or equal to the
- * argumen  be returned.  For example, if a region splitter class only divides
+ * argument be returned.  For example, if a region splitter class only divides
  * a region into horizontal slabs, then the maximum number of splits
  * will be the number of rows in the region.
  *

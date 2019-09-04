@@ -120,7 +120,7 @@ public:
    * determine whether a particular use of the filter is really
    * running in place. Some filters may be able to optimize their
    * operation if the InPlace is true and CanRunInPlace is true.
-   * CanRunInPlace may also be overridded by InPlaceImageFilter
+   * CanRunInPlace may also be overridden by InPlaceImageFilter
    * subclasses to fine tune its behavior. */
   virtual bool
   CanRunInPlace() const;

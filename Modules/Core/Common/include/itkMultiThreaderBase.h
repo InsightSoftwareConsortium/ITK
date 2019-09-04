@@ -101,7 +101,7 @@ public:
   GetGlobalMaximumNumberOfThreads();
 
   /** Set/Get whether to use the to use the thread pool
-   * implementation or the spawing implementation of
+   * implementation or the spawning implementation of
    * starting threads.
    *
    * Deprecated: use Get/Set GlobalDefaultThreader. */

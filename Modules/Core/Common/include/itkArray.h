@@ -57,7 +57,7 @@ public:
    *  it has to be allocated later by assignment              */
   Array();
 
-  /** Copy constructor.  Uses VNL copy construtor with correct
+  /** Copy constructor.  Uses VNL copy constructor with correct
    *  setting for memory management.                          */
   Array(const Array &);
 
@@ -108,7 +108,7 @@ public:
     this->fill(v);
   }
 
-  /** Copy opertor */
+  /** Copy operator */
   const Self &
   operator=(const Self & rhs);
 

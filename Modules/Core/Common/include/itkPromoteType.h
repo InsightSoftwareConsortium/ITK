@@ -33,7 +33,7 @@ namespace Details
 
 /** Helper class to implement \c itk::PromoteType<>.
  * This struct is meant to be specialized with \c ITK_ASSOCIATE macros for the
- * primitive types, or by the end-developper in order to support overloads.
+ * primitive types, or by the end-developer in order to support overloads.
  * \ingroup MetaProgrammingLibrary
  * \ingroup ITKCommon
  */

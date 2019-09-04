@@ -62,7 +62,7 @@ namespace itk
  * request an input that matches the size of the requested output.  If a
  * filter requires more input (say a filter that uses neighborhood
  * information) or less input (for instance a magnify filter), then these
- * filters will have to provide another implmentation of this method. By
+ * filters will have to provide another implementation of this method. By
  * convention, such implementations should call the Superclass' method
  * first.
  *
@@ -238,7 +238,7 @@ protected:
    *
    * Filters which do not expect all input images to be at the same
    * physical location should over-ride this method. Also filters
-   * whose inputs are different dimensions may need to overide this
+   * whose inputs are different dimensions may need to override this
    * method.
    *
    * \sa ProcessObject::VerifyInputInformation

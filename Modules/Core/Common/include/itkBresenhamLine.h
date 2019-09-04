@@ -40,7 +40,7 @@ public:
   using OffsetArray = std::vector<OffsetType>;
   using IndexArray = std::vector<IndexType>;
 
-  // constructurs
+  // constructors
   BresenhamLine() = default;
   ~BresenhamLine() = default;
 

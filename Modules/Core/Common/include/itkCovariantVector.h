@@ -240,7 +240,7 @@ public:
     return NVectorDimension;
   }
 
-  /** Divides the covariant vector componets by the norm and return the norm */
+  /** Divides the covariant vector components by the norm and return the norm */
   RealValueType
   Normalize();
 

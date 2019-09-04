@@ -660,9 +660,9 @@ compilers.
 // Macro that generates an unrolled for loop for assigning elements of one array
 // to elements of another array The array are assumed to be of same length
 // (dimension), and this is also assumed to be the value of NumberOfIterations.
-// No verification of size is performed. Casting is perfomed as part of the
+// No verification of size is performed. Casting is performed as part of the
 // assignment, by using the DestinationElementType as the casting type.
-// Source and destination array types must have defined opearator[] in their
+// Source and destination array types must have defined operator[] in their
 // API.
 #define itkForLoopAssignmentMacro(                                                                                     \
   DestinationType, SourceType, DestinationElementType, DestinationArray, SourceArray, NumberOfIterations)              \
@@ -676,9 +676,9 @@ compilers.
 // elements of one array to elements of another array The array are assumed to
 // be of same length (dimension), and this is also assumed to be the value of
 // NumberOfIterations.  No verification of size is performed. Casting is
-// perfomed as part of the assignment, by using the DestinationElementType as
+// performed as part of the assignment, by using the DestinationElementType as
 // the casting type.
-// Source and destination array types must have defined opearator[] in their
+// Source and destination array types must have defined operator[] in their
 // API.
 #define itkForLoopRoundingAndAssignmentMacro(                                                                          \
   DestinationType, Sourcrnd_halfintup, DestinationElementType, DestinationArray, SourceArray, NumberOfIterations)      \
@@ -950,7 +950,7 @@ compilers.
 
 /** Set built-in type where value is constrained between min/max limits.
  * Create member Set"name"() (e.q., SetRadius()). \#defines are
- * convienience for clamping open-ended values. */
+ * convenience for clamping open-ended values. */
 #define itkSetClampMacro(name, type, min, max)                                                                         \
   virtual void Set##name(type _arg)                                                                                    \
   {                                                                                                                    \
@@ -990,7 +990,7 @@ compilers.
  * and could easily be used to modify the
  * behavior of the class without
  * properly resetting the pipeline
- * symantics */
+ * semantics */
 // NOTE: A class can use either itkGetModifiableObjectMacro
 //       or itkGetObjectMacro, but not both.
 //       A class can use either itkGetModifiableObjectMacro
@@ -999,10 +999,10 @@ compilers.
 //       access to the itkObject ivar, then use itkGetConstObjectMacro,
 //       else use itkGetModifiableObjectMacro for read/write access to
 //       the ivar.
-//       It is permissable to use both itkGetObjectMacro and itkGetConstObjectMacro
+//       It is permissible to use both itkGetObjectMacro and itkGetConstObjectMacro
 //       for backwards compatibility.
 //       If the ITK_LEGACY_REMOVE=FALSE, then it is
-//       permissable to use itkGetObjectMacro which
+//       permissible to use itkGetObjectMacro which
 //       defines both signatures itk::GetXXX() and
 //       itk::GetModifiableXXX()
 

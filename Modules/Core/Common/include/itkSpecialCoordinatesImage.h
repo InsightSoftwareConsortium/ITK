@@ -69,7 +69,7 @@ namespace itk
  * [RegionIndex, RegionSize] C [BufferIndex, BufferSize]
  *                           C [ImageIndex, ImageSize]
  *
- * Pixels can be accessed direcly using the SetPixel() and GetPixel()
+ * Pixels can be accessed directly using the SetPixel() and GetPixel()
  * methods or can be accessed via iterators.  Begin() creates
  * an iterator that can walk a specified region of a buffer.
  *

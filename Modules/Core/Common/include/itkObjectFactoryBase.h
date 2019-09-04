@@ -49,7 +49,7 @@ namespace itk
  * the shared library. ITK_AUTOLOAD_PATH is an environment variable
  * containing a colon separated (semi-colon on win32) list of paths.
  *
- * This can be use to overide the creation of any object in ITK.
+ * This can be use to override the creation of any object in ITK.
  *
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
@@ -97,7 +97,7 @@ public:
    *  factories, not for loadable factories.
    *
    * Factories that are registered with this method will be
-   * regisistered after ReHash.
+   * registered after ReHash.
    */
   static void
   RegisterFactoryInternal(ObjectFactoryBase *);
@@ -249,7 +249,7 @@ protected:
   virtual LightObject::Pointer
   CreateObject(const char * itkclassname);
 
-  /** This method creates all the objects with the class overide of
+  /** This method creates all the objects with the class override of
    * itkclass name, which are provide by this object
    */
   virtual std::list<LightObject::Pointer>

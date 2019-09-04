@@ -30,7 +30,7 @@ namespace itk
 /** \class ConstNeighborhoodIteratorWithOnlyIndex
  *
  * \brief Index-only version of ConstNeighborhoodIterator, defining iteration of a local
- * N-dimensional neighborhood of indecies across an itk::Image or itk::ImageBase.
+ * N-dimensional neighborhood of indices across an itk::Image or itk::ImageBase.
  *
  * ConstNeighborhoodIteratorWithOnlyIndex implements the index-only methods of
  * NeighborhoodIterator. No image data is accessed, so this iterator can be used

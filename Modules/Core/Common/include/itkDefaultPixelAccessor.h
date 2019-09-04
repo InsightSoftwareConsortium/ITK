@@ -34,7 +34,7 @@ namespace itk
  * PixelAccessor is the class responsible for pixel-to-pixel
  * transformation during image data access. The DefaultPixelAccessor
  * is an identity operation on the pixel value. It only exist in
- * order to standarize the way in which pixels are accessed.
+ * order to standardize the way in which pixels are accessed.
  *
  * PixelAccessor are used by ImageAdaptors in order to present
  * an Image as being of a different type. The usual application

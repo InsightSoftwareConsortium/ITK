@@ -127,7 +127,7 @@ using itk::ITK_THREAD_RETURN_DEFAULT_VALUE; // We need this out of the itk names
 using itk::ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION;
 #endif
 
-// For backwards compatiblity
+// For backwards compatibility
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
 using itk::ITK_MAX_THREADS;
 using itk::ITK_DEFAULT_THREAD_ID;

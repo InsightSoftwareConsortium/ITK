@@ -49,7 +49,7 @@ namespace itk
  * this event periodically during their execution (with the progress,
  * parameter, the fraction of work done). The use is similar to that of
  * StartEvent and EndEvent. Filters may also check their
- * AbortGenerateData flag to determine whether to prematurally end their
+ * AbortGenerateData flag to determine whether to prematurely end their
  * execution.
  *
  * An important feature of subclasses of LightProcessObject is that it is

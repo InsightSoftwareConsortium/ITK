@@ -332,8 +332,8 @@ public:
   PadByRadius(const SizeType & radius);
 
   /** Shrink an image region by the specified radius.  The region can be shrunk
-   * uniformly in all dimension or can be shink by different amounts in each
-   * direction.  If the shink operation fails because the radius is too large,
+   * uniformly in all dimension or can be shrink by different amounts in each
+   * direction.  If the shrink operation fails because the radius is too large,
    * this method returns false. */
   bool
   ShrinkByRadius(OffsetValueType radius);

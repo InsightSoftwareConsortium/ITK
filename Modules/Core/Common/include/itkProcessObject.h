@@ -103,7 +103,7 @@ namespace itk
  * this event periodically during their execution (with the progress,
  * parameter, the fraction of work done). The use is similar to that of
  * StartEvent and EndEvent. Filters may also check their
- * AbortGenerateData flag to determine whether to prematurally end their
+ * AbortGenerateData flag to determine whether to prematurely end their
  * execution.
  *
  * An important feature of subclasses of ProcessObject is that it is
@@ -398,7 +398,7 @@ public:
   virtual void
   UpdateOutputData(DataObject * output);
 
-  /** Give the process object a chance to indictate that it will produce more
+  /** Give the process object a chance to indicate that it will produce more
    * output than it was requested to produce. For example, many imaging
    * filters must compute the entire output at once or can only produce output
    * in complete slices. Such filters cannot handle smaller requested regions.
@@ -810,7 +810,7 @@ protected:
    * region.  If a filter needs to produce different requested regions
    * for each output, for instance an image processing filter producing
    * several outputs at different resolutions, then that filter may
-   * override this method and set the requested regions appropriatedly.
+   * override this method and set the requested regions appropriately.
    *
    * Note that a filter producing multiple outputs of different types is
    * required to override this method.  The default implementation
