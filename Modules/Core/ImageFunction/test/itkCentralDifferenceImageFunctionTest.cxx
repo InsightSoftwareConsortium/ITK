@@ -193,7 +193,7 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   // Method documentation states that index/point is assumed
   // to be in bounds.
 
-  // test results at non-interger positions
+  // test results at non-integer positions
   std::cout << "Test non-integer position for EvaluateAtContinuousIndex. " << std::endl;
   cindex.Fill(8.0);
   cindex[0] = 8.0;
@@ -211,7 +211,7 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
 
   if (center == left || center == right)
   {
-    std::cerr << "ERROR: Failed for EvaluateAtContinuousIndex at non-interger indecies. "
+    std::cerr << "ERROR: Failed for EvaluateAtContinuousIndex at non-integer indices. "
               << "Results are unexpectedly identical." << std::endl;
     result = EXIT_FAILURE;
   }
@@ -237,7 +237,7 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
 
   if (center == left || center == right)
   {
-    std::cerr << "ERROR: Failed for Evaluate at non-interger indecies. "
+    std::cerr << "ERROR: Failed for Evaluate at non-integer indices. "
               << "Results are unexpectedly identical." << std::endl;
     result = EXIT_FAILURE;
   }
