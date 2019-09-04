@@ -77,29 +77,30 @@ namespace itk
  * \ingroup DeformableImageRegistration
  * \ingroup ITKPDEDeformableRegistration
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType = float,
-          typename TRegistrationType = PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >,
-          typename TDefaultRegistrationType = DemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >,
-          typename TFloatImageType = Image< TRealType, TFixedImage::ImageDimension > >
-class ITK_TEMPLATE_EXPORT MultiResolutionPDEDeformableRegistration:
-  public ImageToImageFilter< TDisplacementField, TDisplacementField >
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TDisplacementField,
+          typename TRealType = float,
+          typename TRegistrationType = PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>,
+          typename TDefaultRegistrationType = DemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>,
+          typename TFloatImageType = Image<TRealType, TFixedImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT MultiResolutionPDEDeformableRegistration
+  : public ImageToImageFilter<TDisplacementField, TDisplacementField>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultiResolutionPDEDeformableRegistration);
 
   /** Standard class type aliases */
   using Self = MultiResolutionPDEDeformableRegistration;
-  using Superclass =
-      ImageToImageFilter< TDisplacementField, TDisplacementField >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TDisplacementField, TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MultiResolutionPDEDeformableRegistration,
-               ImageToImageFilter);
+  itkTypeMacro(MultiResolutionPDEDeformableRegistration, ImageToImageFilter);
 
   /** Fixed image type. */
   using FixedImageType = TFixedImage;
@@ -292,7 +293,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMultiResolutionPDEDeformableRegistration.hxx"
+#  include "itkMultiResolutionPDEDeformableRegistration.hxx"
 #endif
 
 #endif
