@@ -25,7 +25,7 @@ else()
   # If 64 bit Linux build host, use the CastXML binary
   if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
 
-    set(_castxml_hash b7829ea94c85f0f23055c3925719fdc2cbdf3543b45f914c4d0aab433c412df1c49cec2c465f2ede4f043d41693695d923f229c79d4ca2bcf70136705212a2c5)
+    set(_castxml_hash f43ef30267c850872cf1e8ea8594c5dc6a1beb7c343d63875662ee7c648dac4f9214c915499ef2e1148f2b5f866e4c518ca1a21fb5055baba7d62f4f69097ba0)
     set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
 
