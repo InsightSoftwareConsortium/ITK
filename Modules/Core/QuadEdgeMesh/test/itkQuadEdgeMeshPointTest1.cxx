@@ -62,7 +62,7 @@ itkQuadEdgeMeshPointTest1(int, char *[])
   }
 
   //
-  // Test assigment from an itk::Point
+  // Test assignment from an itk::Point
   //
   SuperclassPointType ps;
 

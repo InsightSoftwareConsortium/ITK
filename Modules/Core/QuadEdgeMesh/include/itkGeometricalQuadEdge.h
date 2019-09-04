@@ -32,7 +32,7 @@ namespace itk
  * orthogonal to the physical edge and their origins relate to the faces at
  * each side of the physical edge.
  *
- * The only purpose of the last paramater of the template is to guarantee that
+ * The only purpose of the last parameter of the template is to guarantee that
  * the two types GeometricalQuadEdge and GeometricalQuadEdge::Dual
  * are always different (in the sense that their typeid() are different). If
  * we only had the four first parameters and assume that
@@ -172,7 +172,7 @@ public:
 
   /** Get methods. */
   // ORIENTATION_NOTE: this definition of GetLeft (or GetRight)
-  // implicitely assumes that the Onext order is counter-clockwise !
+  // implicitly assumes that the Onext order is counter-clockwise !
   inline const OriginRefType
   GetOrigin() const
   {

@@ -31,11 +31,11 @@ namespace itk
  *
  * Collapse the argument edge e of Evaluate
  * by joining the two vertices incident to e (i.e. its endpoints).
- * The destination vertex of e is set aside (i.e. disconneted from its
+ * The destination vertex of e is set aside (i.e. disconnected from its
  * edge entry and no edge has this vertex as endpoint). Note that the
  * vertex itself is not removed from the container (and hence there is no
  * loss of geometrical information). On success JoinVertex returns the Id
- * of the disconected vertex (i.e. the destination of e) and it is up to
+ * of the disconnected vertex (i.e. the destination of e) and it is up to
  * the caller to "take care" of it.
  *
  * Precondition: the edge should be adjacent at least to an other edge

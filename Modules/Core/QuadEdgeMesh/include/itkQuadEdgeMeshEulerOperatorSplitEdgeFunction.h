@@ -24,7 +24,7 @@ namespace itk
 {
 /**
  * \class QuadEdgeMeshEulerOperatorSplitEdgeFunction
- * \brief Given Edge is splitted into two and associated faces see their
+ * \brief Given Edge is split into two and associated faces see their
  * degree increased by one (a triangle is transformed into a quad for
  * example).
  *

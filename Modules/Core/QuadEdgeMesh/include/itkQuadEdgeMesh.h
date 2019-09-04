@@ -114,7 +114,7 @@ public:
   using CellDataContainerPointer = typename Superclass::CellDataContainerPointer;
   using CellDataContainerIterator = typename Superclass::CellDataContainerIterator;
 
-  // Point / Cell correspondance section:
+  // Point / Cell correspondence section:
   using PointCellLinksContainer = typename Superclass::PointCellLinksContainer;
   using PointCellLinksContainerIterator = typename Superclass::PointCellLinksContainerIterator;
 
