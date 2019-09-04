@@ -38,6 +38,7 @@
 #include "itkTranslationTransform.h"
 #include "itkVectorExpandImageFilter.h"
 #include "itkFixedArray.h"
+#include "itkVectorLinearInterpolateImageFunction.h"
 
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 #include "itkFEMLoadLandmark.h"
