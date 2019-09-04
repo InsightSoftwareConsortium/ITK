@@ -38,7 +38,7 @@ namespace itk
  * domain (origin, physical dimensions, direction) and B-spline mesh size
  * where the mesh size is the number of polynomial patches comprising the
  * finite domain of support.  The relationship between the mesh size (
- * number of polynomical pieces) and the number of control points in any
+ * number of polynomial pieces) and the number of control points in any
  * given dimension is
  *
  * mesh size = number of control points - spline order
@@ -51,7 +51,7 @@ namespace itk
  * The parameters for this transform is N x N-D grid of spline coefficients.
  * The user specifies the parameters as one flat array: each N-D grid
  * is represented by an array in the same way an N-D image is represented
- * in the buffer; the N arrays are then concatentated together on form
+ * in the buffer; the N arrays are then concatenated together on form
  * a single array.
  *
  * The following illustrates the typical usage of this class:
@@ -138,7 +138,7 @@ public:
   using JacobianPositionType = typename Superclass::JacobianPositionType;
   using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
-  /** The number of parameters defininig this transform. */
+  /** The number of parameters defining this transform. */
   using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** Standard vector type for this class. */

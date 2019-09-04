@@ -69,7 +69,7 @@ public:
   /** Transform category type. */
   using TransformCategoryType = typename Superclass::TransformCategoryType;
 
-  /** The number of parameters defininig this transform. */
+  /** The number of parameters defining this transform. */
   using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** Standard vector type for this class. */
@@ -209,7 +209,7 @@ public:
    * \c factor is a scalar multiplier for each value in update.
    * SetParameters is called at the end of this method, to allow transforms
    * to perform any required operations on the update parameters, typically
-   * a converion to member variables for use in TransformPoint.
+   * a conversion to member variables for use in TransformPoint.
    * Derived classes should override to provide specialized behavior.
    */
   void

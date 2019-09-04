@@ -51,7 +51,7 @@ namespace itk
  * The parameters for this transform is an N x N-D grid of spline coefficients.
  * The user specifies the parameters as one flat array: each N-D grid
  * is represented by an array in the same way an N-D image is represented
- * in the buffer; the N arrays are then concatentated together on form
+ * in the buffer; the N arrays are then concatenated together on form
  * a single array.
  *
  * For efficiency, this transform does not make a copy of the parameters.
@@ -165,7 +165,7 @@ public:
   using JacobianPositionType = typename Superclass::JacobianPositionType;
   using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
-  /** The number of parameters defininig this transform. */
+  /** The number of parameters defining this transform. */
   using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** Standard vector type for this class. */

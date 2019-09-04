@@ -108,7 +108,7 @@ public:
   using InputVnlVectorType = typename Superclass::InputVnlVectorType;
   using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
 
-  /** The number of parameters defininig this transform. */
+  /** The number of parameters defining this transform. */
   using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** PointList type alias. This type is used for maintaining lists of points,
@@ -203,7 +203,7 @@ public:
   void
   SetFixedParameters(const FixedParametersType &) override;
 
-  /** Update the Parameters array from the landmarks corrdinates. */
+  /** Update the Parameters array from the landmarks coordinates. */
   virtual void
   UpdateParameters() const;
 
@@ -298,7 +298,7 @@ protected:
    * thread during the initialization of the Transform. */
   virtual const GMatrixType & ComputeReflexiveG(PointsIterator) const;
 
-  /** Compute the contribution of the landmarks weighted by the kernel funcion
+  /** Compute the contribution of the landmarks weighted by the kernel function
       to the global deformation of the space  */
   virtual void
   ComputeDeformationContribution(const InputPointType & inputPoint, OutputPointType & result) const;

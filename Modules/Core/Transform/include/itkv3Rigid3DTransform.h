@@ -37,7 +37,7 @@ namespace v3
  *
  * Even though the name Rigid3DTransform is conceptually closer to
  * what a user may expect, the VersorRigid3DTransform is often a
- * much better transform to use during optimization proceedures from
+ * much better transform to use during optimization procedures from
  * both a speed perspective (lower dimensional parameter space), and
  * stability standpoint (versors do not suffer from rotational gimble
  * lock).

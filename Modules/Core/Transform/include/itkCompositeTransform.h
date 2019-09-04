@@ -146,7 +146,7 @@ public:
   /** Transform queue type */
   using TransformQueueType = typename Superclass::TransformQueueType;
 
-  /** The number of parameters defininig this transform. */
+  /** The number of parameters defining this transform. */
   using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** Optimization flags queue type */
@@ -206,7 +206,7 @@ public:
     this->SetNthTransformToOptimizeOn(this->GetNumberOfTransforms() - 1);
   }
 
-  /* Get whether the Nth transform is set to be optimzied */
+  /* Get whether the Nth transform is set to be optimizied */
   /* NOTE: ambiguous function name here - are we getting if the Nth transform
       is set to be optimized, or the Nth of the transforms that are set to be
       optimized? */
@@ -387,14 +387,14 @@ public:
   FlattenTransformQueue();
 
   /**
-   * Compute the Jacobian with respect to the parameters for the compositie
+   * Compute the Jacobian with respect to the parameters for the composite
    * transform using Jacobian rule. See comments in the implementation.
    */
   void
   ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & j) const override;
 
   /**
-   * Expanded interface to Compute the Jacobian with respect to the parameters for the compositie
+   * Expanded interface to Compute the Jacobian with respect to the parameters for the composite
    * transform using Jacobian rule. This version takes in temporary
    * variables to avoid excessive constructions and memory allocations.
    * NOTE: outJacobian MUST be sized correctly prior to the call;
