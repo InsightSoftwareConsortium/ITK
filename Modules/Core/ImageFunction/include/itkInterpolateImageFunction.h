@@ -23,7 +23,7 @@
 namespace itk
 {
 /** \class InterpolateImageFunction
- * \brief Base class for all image interpolaters.
+ * \brief Base class for all image interpolators.
  *
  * InterpolateImageFunction is the base for all ImageFunctions that
  * interpolates image intensity at a non-integer pixel position.
