@@ -489,7 +489,7 @@ itkBSplineDeformableTransformTest2()
     field[j]->Allocate();
   }
 
-  // fill the field with a constant displacment
+  // fill the field with a constant displacement
   itk::Vector<double, Dimension> v;
   v[0] = 5;
   v[1] = 7;
