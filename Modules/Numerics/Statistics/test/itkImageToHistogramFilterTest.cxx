@@ -22,6 +22,7 @@
 #include "itkIntTypes.h"
 #include "itkMacro.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int
 itkImageToHistogramFilterTest(int, char *[])
@@ -82,6 +83,7 @@ itkImageToHistogramFilterTest(int, char *[])
   HistogramFilterType::Pointer filter = HistogramFilterType::New();
   itk::SimpleFilterWatcher     watcher(filter, "filter");
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ImageToHistogramFilter, ImageSink);
   // Exercise the method NameOfClass();
   std::cout << filter->GetNameOfClass() << std::endl;
 
