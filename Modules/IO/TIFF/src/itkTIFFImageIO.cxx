@@ -1019,12 +1019,15 @@ TIFFImageIO::AllocateTiffPalette(int bps)
   m_ColorGreen = static_cast<uint16 *>(_TIFFmalloc(array_size));
   if (!m_ColorGreen)
   {
+    _TIFFfree(m_ColorRed);
     _TIFFfree(m_ColorGreen);
     itkExceptionMacro("Can't allocate space for Green channel of component tables.");
   }
   m_ColorBlue = static_cast<uint16 *>(_TIFFmalloc(array_size));
   if (!m_ColorBlue)
   {
+    _TIFFfree(m_ColorRed);
+    _TIFFfree(m_ColorGreen);
     _TIFFfree(m_ColorBlue);
     itkExceptionMacro("Can't allocate space for Blue channel of component tables.");
   }
