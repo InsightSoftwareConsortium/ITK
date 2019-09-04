@@ -461,7 +461,7 @@ TIFFImageIO::ReadImageInformation()
   {
     m_ComponentType = UCHAR;
     // detect if palette appears to be 8-bit or 16-bit
-    for (unsigned int cc = 0; cc < 256; ++cc)
+    for (unsigned int cc = 0; cc < static_cast<unsigned int>(m_TotalColors); ++cc)
     {
       unsigned short red, green, blue;
       this->GetColor(cc, &red, &green, &blue);
@@ -960,17 +960,27 @@ TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_count)
 void
 TIFFImageIO::PopulateColorPalette()
 {
-  m_ColorPalette.resize(256);
-  for (unsigned int cc = 0; cc < 256; ++cc)
+  if (m_TotalColors > 0)
   {
-    unsigned short red, green, blue;
-    this->GetColor(cc, &red, &green, &blue);
+    // if a palette have been found store it in m_ColorPalette
+    unsigned int nColors = static_cast<unsigned int>(m_TotalColors);
+    m_ColorPalette.resize(nColors);
+    for (unsigned int cc = 0; cc < nColors; ++cc)
+    {
+      unsigned short red, green, blue;
+      this->GetColor(cc, &red, &green, &blue);
 
-    RGBPixelType p;
-    p.SetRed(red);
-    p.SetGreen(green);
-    p.SetBlue(blue);
-    m_ColorPalette[cc] = p;
+      RGBPixelType p;
+      p.SetRed(red);
+      p.SetGreen(green);
+      p.SetBlue(blue);
+      m_ColorPalette[cc] = p;
+    }
+  }
+  else
+  {
+    // otherwise make sure that the stored palette is empty in the case it was already set
+    m_ColorPalette.resize(0);
   }
 }
 
@@ -991,15 +1001,7 @@ TIFFImageIO::ReadTIFFTags()
   const int tagCount = TIFFGetTagListCount(m_InternalImage->m_Image);
 
   this->InitializeColors();
-  if (m_TotalColors > -1)
-  { // if a palette have been found store it in m_ColorPalette
-    PopulateColorPalette();
-  }
-  else
-  {
-    // otherwise make sure that the stored palette is empty in the case it was already set
-    m_ColorPalette.resize(0);
-  }
+  this->PopulateColorPalette();
 
   for (int i = 0; i < tagCount; ++i)
   {
