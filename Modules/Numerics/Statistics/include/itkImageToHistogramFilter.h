@@ -136,7 +136,10 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
-  BeforeStreamedGenerateData() override;
+  StreamedGenerateData(unsigned int inputRequestedRegionNumber) override;
+
+  void
+  InitializeOutputHistogram();
   void
   AfterStreamedGenerateData() override;
 

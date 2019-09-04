@@ -98,13 +98,23 @@ ImageToHistogramFilter<TImage>::GetNumberOfInputRequestedRegions()
   return Superclass::GetNumberOfInputRequestedRegions();
 }
 
+template <typename TImage>
+void
+ImageToHistogramFilter<TImage>::StreamedGenerateData(unsigned int inputRequestedRegionNumber)
+{
+  if (inputRequestedRegionNumber == 0)
+  {
+    this->InitializeOutputHistogram();
+  }
+
+  Superclass::StreamedGenerateData(inputRequestedRegionNumber);
+}
+
 
 template <typename TImage>
 void
-ImageToHistogramFilter<TImage>::BeforeStreamedGenerateData()
+ImageToHistogramFilter<TImage>::InitializeOutputHistogram()
 {
-  Superclass::BeforeStreamedGenerateData();
-
   const unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
   m_Minimum = HistogramMeasurementVectorType(nbOfComponents);
   m_Maximum = HistogramMeasurementVectorType(nbOfComponents);
@@ -132,12 +142,14 @@ ImageToHistogramFilter<TImage>::BeforeStreamedGenerateData()
 
   if (this->GetAutoMinimumMaximumInput() && this->GetAutoMinimumMaximum())
   {
-    itkAssertInDebugAndIgnoreInReleaseMacro(
-      (this->GetInput()->GetRequestedRegion() == this->GetInput()->GetLargestPossibleRegion()));
+    if (this->GetInput()->GetBufferedRegion() != this->GetInput()->GetLargestPossibleRegion())
+    {
+      itkExceptionMacro(<< "AutoMinimumMaximumInput is not supported with streaming.")
+    }
 
     // we have to compute the minimum and maximum values
     this->GetMultiThreader()->template ParallelizeImageRegion<ImageType::ImageDimension>(
-      this->GetInput()->GetRequestedRegion(),
+      this->GetInput()->GetBufferedRegion(),
       [this](const RegionType & inputRegionForThread) { this->ThreadedComputeMinimumAndMaximum(inputRegionForThread); },
       this);
 
