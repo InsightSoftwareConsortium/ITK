@@ -96,7 +96,7 @@ public:
         m_Factory = p.GetPointer();
       }
       m_CreationLock.unlock();
-      m_Factory->RegisterDefaultTypes(); // Not initialzie all default types.
+      m_Factory->RegisterDefaultTypes(); // Not initialize all default types.
     }
     return m_Factory;
   }

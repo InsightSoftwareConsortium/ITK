@@ -29,10 +29,10 @@ namespace fem
 {
 /**
  * \class ImageToRectilinearFEMObjectFilter
- * \brief Generate a rectilinar mesh from an image. The result is stored
+ * \brief Generate a rectilinear mesh from an image. The result is stored
  *        in a FEMObject
  *
- * This class generates a Mesh consiting of quadrilateral elements in 2D
+ * This class generates a Mesh consisting of quadrilateral elements in 2D
  * and hexahedral elements in 3D. The resulting meshes can be used with
  * specific elements for solving membrane or linear elasticity problems.
  *

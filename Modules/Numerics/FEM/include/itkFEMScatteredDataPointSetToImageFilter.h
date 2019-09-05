@@ -49,7 +49,7 @@ namespace fem
  * Given a 2- or 3-D scattered and noisy data, this filter is able to approximate
  * the data while rejecting outliers, and then it advances toward interpolation.
  *
- * This filter also takes the confidence and structrual information into account,
+ * This filter also takes the confidence and structural information into account,
  * if users can provide a scalar to represent the confidence and a tensor
  * to represent the structural information for each feature point.
  *

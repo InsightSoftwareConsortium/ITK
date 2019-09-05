@@ -51,7 +51,7 @@ namespace fem
  * \ingroup ITKFEM
  */
 
-// forward declaratons...
+// forward declarations...
 // class Solver;
 
 class ITKFEM_EXPORT LoadBCMFC : public Load

@@ -97,13 +97,13 @@ public:
   GetThickness() const;
 
   /**
-   * Set Moment of intertia - for beam elements
+   * Set Moment of inertia - for beam elements
    */
   void
   SetMomentOfInertia(double iner);
 
   /**
-   * Get Moment of intertia - for beam elements
+   * Get Moment of inertia - for beam elements
    */
   double
   GetMomentOfInertia() const;

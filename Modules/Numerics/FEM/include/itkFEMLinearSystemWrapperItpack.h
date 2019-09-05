@@ -66,7 +66,7 @@ public:
   /** Standard "Superclass" type alias. */
   using Superclass = LinearSystemWrapper;
 
-  /** matrix representatin type alias */
+  /** matrix representation type alias */
   using MatrixRepresentation = ItpackSparseMatrix;
 
   /** vector of matrices type alias */
@@ -599,7 +599,7 @@ public:
    */
 
   /**
-   * set maximum number of entires in a matrix
+   * set maximum number of entries in a matrix
    * \param maxNonZeroValues maximum number of entries allowed in matrix
    * \note this must be called before any matrices are initialized
    */

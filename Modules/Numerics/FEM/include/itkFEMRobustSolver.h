@@ -157,7 +157,7 @@ public:
 
   /**
    * When enabling the use of the interpolation grid, this accelerate the
-   * proces of locating of the element containing the image pixels or
+   * process of locating of the element containing the image pixels or
    * landmarks.
    */
   itkSetMacro(UseInterpolationGrid, bool);
@@ -319,7 +319,7 @@ protected:
   CalculateExternalForces();
 
   /**
-   * Add exteranl force to set the mesh energy to be zero, which
+   * Add external force to set the mesh energy to be zero, which
    * is equivalent to starting FEM solver from the deformed mesh
    */
   void
@@ -333,7 +333,7 @@ private:
   unsigned int m_OutlierRejectionSteps;
 
   /**
-   * The number of approximation to interpolatioin without outlier rejection.
+   * The number of approximation to interpolation without outlier rejection.
    */
   unsigned int m_ApproximationSteps;
 

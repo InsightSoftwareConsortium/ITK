@@ -61,7 +61,7 @@ namespace fem
  * The user can set the Vector Containers that define the Load,
  * Material, Element, and Nodes using the AddNext<Object> and
  * Insert<Object> methods. The user can also get the entire
- * VectorContainer using the Get<Object>Container(). For convience
+ * VectorContainer using the Get<Object>Container(). For convenience
  * methods are also provided to get any item in the vector containers
  * based on their index (Get<Object>) or their global number
  * (Get<Object>WithGlobalNumber). This class does not know anything
@@ -338,7 +338,7 @@ public:
   /**
    * This should be called when all nodes, elements, and loads
    * have been assigned. This method will then generate the
-   * degrees of freedom for the speficied system and the number of
+   * degrees of freedom for the specified system and the number of
    * multi freedom constraints on the system.
    */
   void
