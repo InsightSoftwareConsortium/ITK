@@ -66,7 +66,7 @@ namespace itk
  *
  *    \par PARAMETERS
  *    The method SetUseNegatiiveFeatures() can be used to switch from propagating inwards (false)
- *    versus propagting outwards (true).
+ *    versus propagating outwards (true).
  *
  *    This implementation allows the user to set the weights between the propagation, advection
  *    and curvature term using methods SetPropagationScaling(), SetAdvectionScaling(),
@@ -77,7 +77,7 @@ namespace itk
  *
  *    \par OUTPUTS
  *    The filter outputs a single, scalar, real-valued image.
- *    Negative values in the output image are inside the segmentated region
+ *    Negative values in the output image are inside the segmented region
  *    and positive values in the image are outside of the inside region.  The
  *    zero crossings of the image correspond to the position of the level set
  *    front.

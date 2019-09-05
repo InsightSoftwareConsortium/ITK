@@ -371,7 +371,7 @@ public:
   void
   SetMaximumRMSError(const double) override
   {
-    itkWarningMacro("The current implmentation of this solver does not compute maximum RMS change. The maximum RMS "
+    itkWarningMacro("The current implementation of this solver does not compute maximum RMS change. The maximum RMS "
                     "error value will not be set or used.");
   }
 

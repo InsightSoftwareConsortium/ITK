@@ -97,7 +97,7 @@ public:
   /**Set the decision rule */
   using MeasurementVectorType = typename Superclass::MeasurementVectorType;
 
-  /** Typedefs for membership funciton */
+  /** Typedefs for membership function */
   using MembershipFunctionType = typename Superclass::MembershipFunctionType;
 
   using MembershipFunctionPointer = typename Superclass::MembershipFunctionPointer;

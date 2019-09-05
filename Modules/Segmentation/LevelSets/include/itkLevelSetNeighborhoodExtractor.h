@@ -42,7 +42,7 @@ namespace itk
  * the level set.
  *
  * This class supports narrowbanding. If a input narrowband is
- * provided, the alogrithm will only search pixels within the
+ * provided, the algorithm will only search pixels within the
  * narrowband.
  *
  * Implementation of this class is based on Chapter 11 of

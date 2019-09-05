@@ -44,7 +44,7 @@ namespace itk
  * filter acts much like the IsotropicFourthOrderLevelSetImageFilter because it
  * first smoothes the normal vectors via isotropic diffusion. However, as a
  * post-processing step we extrapolate from the original normals in the
- * direction opposite to the new processes normals. By refiting the surface to
+ * direction opposite to the new processes normals. By refitting the surface to
  * these extrapolated vectors we achieve detail enhancement. This process is
  * not the same as running the isotropic diffusion process in reverse.
  *

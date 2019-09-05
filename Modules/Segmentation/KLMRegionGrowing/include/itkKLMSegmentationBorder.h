@@ -116,7 +116,7 @@ public:
  * \brief Base class for KLMSegmentationBorder object
  *
  * itkKLMSegmentationBorder is the base class for the KLMSegmentationBorder
- * objects. It provides the basic function definitons that are inherent to a
+ * objects. It provides the basic function definitions that are inherent to a
  * KLMSegmentationBorder objects.
  *
  * This class implements the border object that is used in particular with

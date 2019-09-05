@@ -28,7 +28,7 @@ namespace itk
  *
  * itkRegionGrowImageFilter is the base class for the
  * RegionGrowImageFilter objects. It provides
- * the basic function definitons that are inherent to a
+ * the basic function definitions that are inherent to a
  * RegionGrowImageFilter objects.
  * It is templated over the type of input and output image.
  *

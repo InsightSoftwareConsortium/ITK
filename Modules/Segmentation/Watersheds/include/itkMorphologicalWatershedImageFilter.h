@@ -23,7 +23,7 @@
 namespace itk
 {
 /** \class MorphologicalWatershedImageFilter
- * \brief Watershed segmentation implementation with morphogical operators
+ * \brief Watershed segmentation implementation with morphological operators
  *
  * Watershed pixel are labeled 0.
  * TOutputImage should be an integer type.

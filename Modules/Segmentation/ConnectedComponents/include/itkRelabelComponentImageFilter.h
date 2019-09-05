@@ -130,7 +130,7 @@ public:
    */
   itkNewMacro(Self);
 
-  /** Type used as identifier for the different component lables. */
+  /** Type used as identifier for the different component labels. */
   using LabelType = IdentifierType;
 
   /** Type used to count number of pixels in objects. */
@@ -184,7 +184,7 @@ public:
   const ObjectSizeInPixelsContainerType &
   GetSizeOfObjectsInPixels() const
   {
-    // The GetConstReferenceMacro can't be used here becase this container
+    // The GetConstReferenceMacro can't be used here because this container
     // doesn't have an ostream<< operator overloaded.
     return this->m_SizeOfObjectsInPixels;
   }
@@ -197,7 +197,7 @@ public:
   const ObjectSizeInPhysicalUnitsContainerType &
   GetSizeOfObjectsInPhysicalUnits() const
   {
-    // The GetConstReferenceMacro can't be used here becase this container
+    // The GetConstReferenceMacro can't be used here because this container
     // doesn't have an ostream<< operator overloaded.
     return this->m_SizeOfObjectsInPhysicalUnits;
   }

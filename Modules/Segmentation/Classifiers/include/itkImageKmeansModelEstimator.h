@@ -206,7 +206,7 @@ public:
   /** Set the maximum number of attempts to split a codeword. */
   itkSetMacro(MaxSplitAttempts, int);
 
-  /** Get the manimum number of attempts to split a codeword. */
+  /** Get the maximum number of attempts to split a codeword. */
   itkGetConstMacro(MaxSplitAttempts, int);
 
   /** Return the codebook/cluster centers. */
@@ -273,7 +273,7 @@ private:
 
   CodebookMatrixOfDoubleType m_Codebook;
 
-  // Buffer for K-means calcualtions
+  // Buffer for K-means calculations
   CodebookMatrixOfDoubleType m_Centroid;
 
   double m_Threshold;

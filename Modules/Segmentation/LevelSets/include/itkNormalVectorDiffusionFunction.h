@@ -39,7 +39,7 @@ namespace itk
  *
  * \par
  * Since the only difference between isotropic and anisotropic diffusion is the
- * exectution of 1 extra line of code, we have implemented both in this class
+ * execution of 1 extra line of code, we have implemented both in this class
  * and made the choice between the two depend on a parameter (see below).
 
  * \par PARAMETERS

@@ -150,13 +150,13 @@ public:
     }
   }
 
-  /** Maximum value of the RGB, needed for color space coversions.
+  /** Maximum value of the RGB, needed for color space conversions.
    * default as 8 bit per channel, if it is different, need to be
    * set before doing anything. */
   itkSetMacro(MaxValueOfRGB, double);
   itkGetConstMacro(MaxValueOfRGB, double);
 
-  /** Set the three channels to test the mean and STD respectivley
+  /** Set the three channels to test the mean and STD respectively
    * 0:red, 1:green, 2:blue, 3:hue, 4:chroma, 5:value. */
   void
   SetTestMean(unsigned int t1, unsigned int t2, unsigned int t3)

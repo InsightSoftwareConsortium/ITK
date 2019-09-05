@@ -36,7 +36,7 @@ namespace itk
  * f_2 is related to the boundary smoothness,
  * f_3 is related to the constraint of the observation (or the noise model).
  * The two force components f_1 and f_3 are minimized by the GradientEnergy
- * method while f_2 is minized by the GibbsTotalEnergy method.
+ * method while f_2 is minimized by the GibbsTotalEnergy method.
  *
  * This filter only works with 3D images.
  *
@@ -91,7 +91,7 @@ public:
    the NumericTraits<>::max() value is used for indicating unlabeled pixels */
   using LabelType = unsigned int;
 
-  /** Type definitions for classifier to be used for the MRF lavbelling. */
+  /** Type definitions for classifier to be used for the MRF labeling. */
   using ClassifierType = ImageClassifierBase<TInputImage, TClassifiedImage>;
 
   /** The type of input pixel. */
@@ -113,7 +113,7 @@ public:
     return m_LabelledImage;
   }
 
-  /** Set the pointer to the classifer being used. */
+  /** Set the pointer to the classifier being used. */
   void
   SetClassifier(typename ClassifierType::Pointer ptrToClassifier);
 
@@ -266,7 +266,7 @@ private:
   unsigned short * m_RegionCount{ nullptr }; /** for region erase. */
 
   /** weights for different clique configuration. */
-  double m_CliqueWeight_1{ 0.0 }; /** weight for cliques that v/h smooth boundayr */
+  double m_CliqueWeight_1{ 0.0 }; /** weight for cliques that v/h smooth boundary */
   double m_CliqueWeight_2{ 0.0 }; /** weight for clique that has an intermadiate
                                smooth boundary */
   double m_CliqueWeight_3{ 0.0 }; /** weight for clique that has a diagonal smooth

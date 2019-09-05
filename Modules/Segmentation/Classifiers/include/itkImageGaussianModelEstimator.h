@@ -48,7 +48,7 @@ namespace itk
  * training data has class labels associated with each pixel.
  *
  * A zero label is used to identify the background. A model is not
- * calcualted for the background (its mean and covariance will be
+ * calculated for the background (its mean and covariance will be
  * zero). Positive labels are classes for which models will be
  * estimated. Negative labels indicate unlabeled data where no models
  * will be estimated.

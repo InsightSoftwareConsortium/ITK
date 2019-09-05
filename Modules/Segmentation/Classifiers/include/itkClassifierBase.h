@@ -104,7 +104,7 @@ public:
   /**Sets the decision rule */
   using MeasurementVectorType = typename TDataContainer::ValueType;
 
-  /** Typedefs for membership funciton */
+  /** Typedefs for membership function */
   using MembershipFunctionType = Statistics::MembershipFunctionBase<MeasurementVectorType>;
   using MembershipFunctionPointer = typename MembershipFunctionType::Pointer;
 
@@ -160,7 +160,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** The real classification logic implementaion. All the subclasses
+  /** The real classification logic implementation. All the subclasses
    * of this class should implement this method. */
   void
   GenerateData() override = 0;

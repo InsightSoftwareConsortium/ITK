@@ -28,7 +28,7 @@ namespace itk
  * \brief Base class for SegmentationRegion object
  *
  * itkSegmentationRegion is the base class for the SegmentationRegion
- * objects. It provides the basic function definitons that are inherent to a
+ * objects. It provides the basic function definitions that are inherent to a
  * SegmentationRegion objects.  A region object is defined by the label it
  * owns.  We use integer labels to represent a region.
  * This object stores the region label.  The user can get the

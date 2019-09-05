@@ -27,7 +27,7 @@ namespace itk
 /** \class VoronoiSegmentationImageFilterBase
  * \brief Base class for VoronoiSegmentationImageFilter
  *
- * Voronoi SegmentationImageFilter is a class of segmenation algorithms that
+ * Voronoi SegmentationImageFilter is a class of segmentation algorithms that
  * works on 2D image.
  * Begin with certain number of seeds, VoronoiSegmentationImageFilter
  * first partition the image plane to voronoi regions, and testing each
@@ -43,8 +43,8 @@ namespace itk
  * the output of the segmentation can be either a binary object, which is the collection
  * of all the "internal" region. Or a binary boundary delineate, which is defined as
  * the connected lines between seed points of "boundary" region.
- * This class is a base class for voronoi segmenation, single channel or multiple channel
- * image segmenation can be implemented by deriving imagefilters from this class, by
+ * This class is a base class for voronoi segmentation, single channel or multiple channel
+ * image segmentation can be implemented by deriving imagefilters from this class, by
  * implementing the virtual methods
  *
  * Detailed information about this algorithm can be found in:
@@ -137,7 +137,7 @@ public:
   itkSetMacro(OutputBoundary, bool);
   itkGetConstMacro(OutputBoundary, bool);
 
-  /** Output the segmentation on every iteration.  Useful for iteractive
+  /** Output the segmentation on every iteration.  Useful for interactive
       sessions. The setting of OutputBoundary determines the type of output. */
   itkSetMacro(InteractiveSegmentation, bool);
   itkGetConstMacro(InteractiveSegmentation, bool);
