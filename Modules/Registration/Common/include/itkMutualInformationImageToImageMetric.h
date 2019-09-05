@@ -157,7 +157,7 @@ public:
   /** Get the number of spatial samples. */
   itkGetConstReferenceMacro(NumberOfSpatialSamples, unsigned int);
 
-  /** Set/Get the moving image intensitiy standard deviation. This defines
+  /** Set/Get the moving image intensity standard deviation. This defines
    * the kernel bandwidth used in the joint probability distribution
    * calculation. Default value is 0.4 which works well for image intensities
    * normalized to a mean of 0 and standard deviation of 1.0.
@@ -168,7 +168,7 @@ public:
                    NumericTraits<double>::max());
   itkGetConstReferenceMacro(MovingImageStandardDeviation, double);
 
-  /** Set/Get the fixed image intensitiy standard deviation. This defines
+  /** Set/Get the fixed image intensity standard deviation. This defines
    * the kernel bandwidth used in the joint probability distribution
    * calculation. Default value is 0.4 which works well for image intensities
    * normalized to a mean of 0 and standard deviation of 1.0.

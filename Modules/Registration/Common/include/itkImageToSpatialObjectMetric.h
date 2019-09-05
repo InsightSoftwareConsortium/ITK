@@ -27,7 +27,7 @@
 namespace itk
 {
 /** \class ImageToSpatialObjectMetric
- * \brief Computes similarity between a moving spatial obejct
+ * \brief Computes similarity between a moving spatial object
  *        and an Image to be registered
  *
  *  The ImageToSpatialObjectMetric is different from the rest of the

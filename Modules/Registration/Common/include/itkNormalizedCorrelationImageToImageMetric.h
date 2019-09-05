@@ -27,7 +27,7 @@ namespace itk
  * \brief Computes similarity between two images to be registered
  *
  * This metric computes the correlation between pixels in the fixed image
- * and pixels in the moving image. The spatial correspondance between
+ * and pixels in the moving image. The spatial correspondence between
  * fixed and moving image is established through a Transform. Pixel values are
  * taken from the fixed image, their positions are mapped to the moving
  * image and result in general in non-grid position on it. Values at these

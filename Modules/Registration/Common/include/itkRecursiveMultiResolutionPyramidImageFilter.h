@@ -90,7 +90,7 @@ public:
   using InputImageConstPointer = typename Superclass::InputImageConstPointer;
 
   /** Given one output whose requested region has been set,
-   * this method sets the requtested region for the remaining
+   * this method sets the requested region for the remaining
    * output images.
    * The original documentation of this method is below.
    * \sa ProcessObject::GenerateOutputRequestedRegion(); */

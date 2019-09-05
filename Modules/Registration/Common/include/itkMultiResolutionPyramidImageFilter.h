@@ -45,7 +45,7 @@ namespace itk
  *   8 4 4
  *   4 4 2
  *
- * is a schedule for two computation level. In the first (coarest)
+ * is a schedule for two computation level. In the first (coarsest)
  * level the image is reduce by a factor of 8 in the column dimension,
  * factor of 4 in the row dimension and factor of 4 in the slice dimension.
  * In the second level, the image is reduce by a factor of 4 in the column
@@ -152,7 +152,7 @@ public:
   /** Set a multi-resolution schedule.  The input schedule must have only
    * ImageDimension number of columns and NumberOfLevels number of rows.  For
    * each dimension, the shrink factor must be non-increasing with respect to
-   * subsequent levels. This function will clamp shrink factors to satisify
+   * subsequent levels. This function will clamp shrink factors to satisfy
    * this condition.  All shrink factors less than one will also be clamped
    * to the value of 1. */
   virtual void
@@ -176,7 +176,7 @@ public:
   GetStartingShrinkFactors() const;
 
   /** Test if the schedule is downward divisible. This method returns true if
-   * at every level, the shrink factors are divisble by the shrink factors at
+   * at every level, the shrink factors are divisible by the shrink factors at
    * the next level. */
   static bool
   IsScheduleDownwardDivisible(const ScheduleType & schedule);

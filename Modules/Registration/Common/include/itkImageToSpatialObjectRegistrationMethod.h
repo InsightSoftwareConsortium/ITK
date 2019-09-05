@@ -49,7 +49,7 @@ namespace itk
  * The terms : Fixed image and Moving SpatialObject are used in this class
  * to indicate that the SpatialObject is being mapped by the transform.
  *
- * This class uses the coordinate system of the Fixed image and searchs
+ * This class uses the coordinate system of the Fixed image and searches
  * for a transform that will map the Moving SpatialObject on top of
  * the Fixed image. For doing so, a Metric will be continuously applied to
  * compare the Fixed image with the Transformed Moving SpatialObject.

@@ -239,7 +239,7 @@ BSplineTransformParametersAdaptor<TTransform>::AdaptTransformParameters()
   // Loop over dimension: each direction is upsampled separately.
   for (SizeValueType j = 0; j < SpaceDimension; j++)
   {
-    /* Set the coeficient image as the input of the upsampler filter.
+    /* Set the coefficient image as the input of the upsampler filter.
      * The upsampler samples the deformation field at the locations
      * of the new control points, given the current coefficients
      * (note: it does not just interpolate the coefficient image,

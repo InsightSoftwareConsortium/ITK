@@ -31,7 +31,7 @@ namespace itk
  * This metric computes the average squared differences between pixels
  * in the point set and the transformed set of pixels.
  *
- * Spatial correspondance between both images is established through a
+ * Spatial correspondence between both images is established through a
  * Transform.
  *
  * \ingroup RegistrationMetrics
