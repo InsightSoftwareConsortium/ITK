@@ -85,7 +85,7 @@ itkMinMaxCurvatureFlowImageFilterTest(int, char *[])
      Tests were taking too long on purify.
      Reduced number of iterations to 1 which is not
      sufficient to denoise the image.
-     Increase the number of interations to get better results.
+     Increase the number of iterations to get better results.
    */
   itk::Size<3> size3D;
   size3D[0] = 32;

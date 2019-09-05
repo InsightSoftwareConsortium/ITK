@@ -22,7 +22,7 @@
 
 #include "itkImagePCAShapeModelEstimator.h"
 
-// class to support progress feeback
+// class to support progress feedback
 
 
 class ShowProgressObject
