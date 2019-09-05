@@ -606,14 +606,8 @@ public:
   OrientedBoundingBoxVerticesType
   GetOrientedBoundingBoxVertices() const
   {
+    const MatrixType obbToPhysical(this->GetOrientedBoundingBoxDirection().GetTranspose());
 
-    const OrientedBoundingBoxPointType min = this->GetOrientedBoundingBoxOrigin();
-    OrientedBoundingBoxPointType       max = this->GetOrientedBoundingBoxOrigin();
-
-    for (unsigned int i = 0; i < ImageDimension; ++i)
-    {
-      max[i] += m_OrientedBoundingBoxSize[i];
-    }
 
     OrientedBoundingBoxVerticesType vertices;
 
@@ -623,18 +617,20 @@ public:
     // [maxX,minY], [maxX,maxY].
     for (unsigned int i = 0; i < OrientedBoundingBoxVerticesType::Length; ++i)
     {
-      const unsigned int msb = 1 << (ImageDimension - 1);
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      constexpr unsigned int         msb = 1 << (ImageDimension - 1);
+      Vector<double, ImageDimension> offset;
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         if (i & msb >> j)
         {
-          vertices[i][j] = max[j];
+          offset[j] = m_OrientedBoundingBoxSize[j];
         }
         else
         {
-          vertices[i][j] = min[j];
+          offset[j] = 0;
         }
       }
+      vertices[i] = m_OrientedBoundingBoxOrigin + obbToPhysical * offset;
     }
     return vertices;
   }
