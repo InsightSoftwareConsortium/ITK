@@ -39,7 +39,7 @@
 #define ONEBAND 1
 
 
-// class to support progress feeback
+// class to support progress feedback
 class ShowProgressObject
 {
 public:

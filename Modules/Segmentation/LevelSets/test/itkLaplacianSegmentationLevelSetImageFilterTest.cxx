@@ -172,7 +172,7 @@ itkLaplacianSegmentationLevelSetImageFilterTest(int, char *[])
   LSIFTN::evaluate_function(seedImage, LSIFTN::sphere);
 
   // Target surface is a sphere VERY NEAR to the starting surface.  The
-  // laplacian segmentation is not a region growing type segmenation, but is
+  // laplacian segmentation is not a region growing type segmentation, but is
   // better for refinement of existing approximate segmentations.
 
   LSIFTN::evaluate_float_function(inputImage, LSIFTN::sphere2);
