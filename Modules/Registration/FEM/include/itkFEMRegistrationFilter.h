@@ -100,7 +100,7 @@ namespace fem
  * To use this filter the user will at a minimum set the Fixed and
  * Moving images. If the user does not specify a mesh using
  * the SetInputFEMObject() then a mesh will be created automatically
- * of the approriate type (2d=quads and 3d=hex). The user has
+ * of the appropriate type (2d=quads and 3d=hex). The user has
  * significant control over the registration process including
  * setting number of resolution levels, material properties, and
  * the metric used to define correspondence between images.

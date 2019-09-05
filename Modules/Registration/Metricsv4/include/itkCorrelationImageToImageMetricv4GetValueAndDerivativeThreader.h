@@ -130,7 +130,7 @@ private:
    * image: see the comments below
    */
   struct CorrelationMetricValueDerivativePerThreadStruct
-  {                                   // keep cumlative summation over points for:
+  {                                   // keep cumulative summation over points for:
     InternalComputationValueType fm;  // (f_i - \bar f) * (m_i - \bar m)
     InternalComputationValueType m2;  // (m_i - \bar m)^2
     InternalComputationValueType f2;  // (f_i - \bar m)^2

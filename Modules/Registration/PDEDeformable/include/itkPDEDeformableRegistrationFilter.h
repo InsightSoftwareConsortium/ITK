@@ -102,7 +102,7 @@ public:
   using DisplacementFieldType = TDisplacementField;
   using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
 
-  /** Types inherithed from the superclass */
+  /** Types inherited from the superclass */
   using OutputImageType = typename Superclass::OutputImageType;
 
   /** FiniteDifferenceFunction type. */
@@ -231,7 +231,7 @@ protected:
   CopyInputToOutput() override;
 
   /** Initialize the state of filter and equation before each iteration.
-   * Progress feeback is implemented as part of this method. */
+   * Progress feedback is implemented as part of this method. */
   void
   InitializeIteration() override;
 

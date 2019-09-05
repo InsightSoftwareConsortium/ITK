@@ -56,7 +56,7 @@ namespace itk
  * domain are not used. See GetNumberOfValidPoints() to verify how many fixed
  * points were used during evaluation.
  *
- * See ObjectToObjectMetric documentation for more discussion on the virutal domain.
+ * See ObjectToObjectMetric documentation for more discussion on the virtual domain.
  *
  * \note When used with an RegistrationParameterScalesEstimator estimator, a VirtualDomainPointSet
  * must be defined and assigned to the estimator, for use in shift estimation.

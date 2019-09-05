@@ -159,12 +159,12 @@ public:
   void
   ReleaseGlobalDataPointer(void * GlobalData) const override;
 
-  /** Allocate GPU buffers for computing metric statitics
+  /** Allocate GPU buffers for computing metric statistics
    * */
   void
   GPUAllocateMetricData(unsigned int numPixels) override;
 
-  /** Release GPU buffers for computing metric statitics
+  /** Release GPU buffers for computing metric statistics
    * */
   void
   GPUReleaseMetricData() override;
@@ -200,7 +200,7 @@ public:
   }
 
   /** Select if the fixed image or moving image gradient is used for
-   * the computating the demon forces. The fixed image gradient is used
+   * computing the demon forces. The fixed image gradient is used
    * by default. */
   virtual void
   SetUseMovingImageGradient(bool flag)

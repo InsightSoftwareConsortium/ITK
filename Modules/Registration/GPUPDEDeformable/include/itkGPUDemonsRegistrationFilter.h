@@ -149,7 +149,7 @@ private:
 
 /** \class GPUDemonsRegistrationFilterFactory
  *
- * \brief Object Factory implemenatation for GPUDemonsRegistrationFilter
+ * \brief Object Factory implementation for GPUDemonsRegistrationFilter
  * \ingroup ITKGPUPDEDeformableRegistration
  */
 class GPUDemonsRegistrationFilterFactory : public itk::ObjectFactoryBase
