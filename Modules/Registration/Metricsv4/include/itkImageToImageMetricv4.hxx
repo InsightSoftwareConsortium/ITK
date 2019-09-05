@@ -126,7 +126,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   {
     /* Instantiate a virtual image, but do not call Allocate to allocate
      * the data, to save memory. We don't need data. We'll simply be iterating
-     * over the image to get indecies and transform to points.
+     * over the image to get indices and transform to points.
      * Note that it will be safer to have a dedicated VirtualImage class
      * that prevents accidental access of data. */
     /* Just copy information from fixed image */
@@ -145,7 +145,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   Superclass::Initialize();
 
   /* Map the fixed samples into the virtual domain and store in
-   * a seperate point set. */
+   * a separate point set. */
   if (this->m_UseSampledPointSet && !this->m_UseVirtualSampledPointSet)
   {
     this->MapFixedSampledPointSetToVirtual();

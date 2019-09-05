@@ -514,7 +514,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
       }
       else
       {
-        // evaluation is perfomed in moving space, so just copy
+        // evaluation is performed in moving space, so just copy
         this->m_MovingTransformedPointSet->SetPoint(It.Index(), It.Value());
       }
       ++It;

@@ -50,10 +50,10 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ES
   m_FixedImageDirection.SetIdentity();
   m_Normalizer = 0.0;
   m_FixedImageGradientCalculator = GradientCalculatorType::New();
-  // Gradient orientation will be taken care of explicitely
+  // Gradient orientation will be taken care of explicitly
   m_FixedImageGradientCalculator->UseImageDirectionOff();
   m_MappedMovingImageGradientCalculator = MovingImageGradientCalculatorType::New();
-  // Gradient orientation will be taken care of explicitely
+  // Gradient orientation will be taken care of explicitly
   m_MappedMovingImageGradientCalculator->UseImageDirectionOff();
 
   this->m_UseGradientType = Symmetric;

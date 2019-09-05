@@ -188,7 +188,7 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::In
 }
 
 /**
- * Allocate GPU buffers for computing metric statitics
+ * Allocate GPU buffers for computing metric statistics
  */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
