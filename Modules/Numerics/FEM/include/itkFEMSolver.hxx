@@ -416,7 +416,7 @@ Solver<VDimension>::AssembleF(int dim)
           const Element * el0 = (*i);
           // Call the Fe() function of the element that we are applying the load
           // to.
-          // We pass a pointer to the load object as a paramater and a reference
+          // We pass a pointer to the load object as a parameter and a reference
           // to the nodal loads vector.
           l1->ApplyLoad(el0, Fe);
 
@@ -642,14 +642,14 @@ Solver<VDimension>::ApplyBC(int dim, unsigned int matrix)
           throw FEMExceptionSolution(__FILE__, __LINE__, "Solver::ApplyBC()", "Illegal GFN!");
         }
 
-        // Set the proper values in master stiffnes matrix.
-        // It is a symetric matrix.
+        // Set the proper values in master stiffness matrix.
+        // It is a symmetric matrix.
         this->m_LinearSystem->SetMatrixValue(gfn, m_NGFN + c->GetIndex(), q->value, matrix);
         this->m_LinearSystem->SetMatrixValue(m_NGFN + c->GetIndex(), gfn, q->value, matrix); //
                                                                                              // this
                                                                                              // is
                                                                                              // a
-                                                                                             // symetric
+                                                                                             // symmetric
                                                                                              // matrix...
       }
 
@@ -702,7 +702,7 @@ Solver<VDimension>::ApplyBC(int dim, unsigned int matrix)
       {
         this->m_LinearSystem->SetMatrixValue(fdof, col, 0.0, matrix);
         this->m_LinearSystem->SetMatrixValue(col, fdof, 0.0, matrix); // this is a
-                                                                      // symetric matrix
+                                                                      // symmetric matrix
       }
       this->m_LinearSystem->SetMatrixValue(fdof, fdof, 1.0, matrix); // Set the diagonal
                                                                      // element to one

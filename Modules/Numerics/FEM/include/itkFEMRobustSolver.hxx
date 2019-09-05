@@ -936,7 +936,7 @@ template <unsigned int VDimension>
 void
 RobustSolver<VDimension>::AddExternalForcesToSetMeshZeroEnergy()
 {
-  // Add exteranl force to set the mesh energy to be zero, which
+  // Add external force to set the mesh energy to be zero, which
   // is equivalent to starting FEM solver from the deformed mesh
   this->m_LinearSystem->CopyVector(this->m_LandmarkForceIndex, this->m_ForceIndex);
   this->m_LinearSystem->AddVectorVector(this->m_ForceIndex, this->m_ExternalForceIndex);
