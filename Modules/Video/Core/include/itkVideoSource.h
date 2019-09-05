@@ -131,7 +131,7 @@ protected:
   void
   TemporalStreamingGenerateData() override;
 
-  /** ThreadedGenerateData here serves the same symnatic purpose as
+  /** ThreadedGenerateData here serves the same semantic purpose as
    * ThreadedGenerateData in ProcessObjects that handle Images. This is to say
    * that ThreadedGenerateData is in charge of performing a single algorithmic
    * operation on a portion of the requested region. The difference will come

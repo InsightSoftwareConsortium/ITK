@@ -33,7 +33,7 @@ class ITK_FORWARD_EXPORT TemporalDataObject;
  *        with the notion of a temporal region
  *
  * TemporalProcessObject acts as a pass-through in the inheritance tree in
- * order to require that subclasses properly implement handeling of temporal
+ * order to require that subclasses properly implement handling of temporal
  * regions. The key parameters of a temporal process object are:
  *
  * m_UnitInputNumberOfFrames
