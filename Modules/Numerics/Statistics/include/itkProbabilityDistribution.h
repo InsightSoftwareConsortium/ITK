@@ -32,7 +32,7 @@ namespace Statistics
  * \brief ProbabilityDistribution class defines common interface for
  * statistical distributions (pdfs, cdfs, etc.).
  *
- * ProbabilityDistribution defines a common interface for parameteric
+ * ProbabilityDistribution defines a common interface for parametric
  * and non-parametric distributions.  ProbabilityDistribution provides
  * access to the probability density function (pdf), the cumulative
  * distribution function (cdf), and the inverse cumulative

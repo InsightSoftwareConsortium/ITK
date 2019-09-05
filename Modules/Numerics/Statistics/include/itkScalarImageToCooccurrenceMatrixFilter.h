@@ -29,11 +29,11 @@ namespace itk
 namespace Statistics
 {
 /** \class ScalarImageToCooccurrenceMatrixFilter
- *  \brief This class computes a co-occurence matrix (histogram) from
- * a given image and a mask image if provided. Coocurrence matrces are
+ *  \brief This class computes a co-occurrence matrix (histogram) from
+ * a given image and a mask image if provided. Coocurrence matrices are
  * used for image texture description.
  *
- * This filters creates a grey-level co-occurence matrix from a N-D scalar
+ * This filters creates a grey-level co-occurrence matrix from a N-D scalar
  * image. This is the first step in texture description a la Haralick. (See
  * Haralick, R.M., K. Shanmugam and I. Dinstein. 1973. Textural Features for
  * Image Classification. IEEE Transactions on Systems, Man and Cybernetics.
@@ -42,23 +42,23 @@ namespace Statistics
  *
  * The basic idea is as follows:
  * Given an image and an offset (e.g. (1, -1) for a 2-d image), grey-level
- * co-occurences are pairs of intensity values for a specific pixel and the
- * pixel at that offset from the specified pixel. These co-occurences can provide
+ * co-occurrences are pairs of intensity values for a specific pixel and the
+ * pixel at that offset from the specified pixel. These co-occurrences can provide
  * information about the visual texture of an image region -- for example, an
  * eight-bit image of alternating pixel-wide white and black vertical lines
- * would have a large number of (0, 255) and (255, 0) co-occurences for offset
+ * would have a large number of (0, 255) and (255, 0) co-occurrences for offset
  * (1, 0).
  *
- * The offset (or offsets) along which the co-occurences are calculated can be
+ * The offset (or offsets) along which the co-occurrences are calculated can be
  * set by the user. Traditionally, only one offset is used per histogram, and
  * offset components in the range [-1, 1] are used. For rotation-invariant features,
  * averages of features computed over several histograms with different offsets
  * are generally used, instead of computing features from one histogram created
  * with several offsets. Additionally, instead of using offsets of two or more
- * pixels in any direction, multy-resulution techniques (e.g. image pyramids)
+ * pixels in any direction, multi-resolution techniques (e.g. image pyramids)
  * are generally used to deal with texture at different spatial resolutions.
  *
- * This class calculates a 2-d histogram of all the co-occurence pairs in the
+ * This class calculates a 2-d histogram of all the co-occurrence pairs in the
  * given image's requested region, for a given set of offsets. That is, if a given
  * offset falls outside of the requested region at a particular point, that
  * co-occurrence pair will not be added to the matrix.

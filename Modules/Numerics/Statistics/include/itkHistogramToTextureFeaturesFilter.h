@@ -57,16 +57,16 @@ namespace Statistics
  * (or column, due to symmetry) sums.
  *
  * Above, \f$ \mu =  \f$ (weighted pixel average) \f$ = \sum_{i,j}i \cdot g(i, j) =
- * \sum_{i,j}j \cdot g(i, j) \f$ (due to matrix summetry), and
+ * \sum_{i,j}j \cdot g(i, j) \f$ (due to matrix symmetry), and
  *
  * \f$ \sigma =  \f$ (weighted pixel variance) \f$ = \sum_{i,j}(i - \mu)^2 \cdot g(i, j) =
- * \sum_{i,j}(j - \mu)^2 \cdot g(i, j)  \f$  (due to matrix summetry)
+ * \sum_{i,j}(j - \mu)^2 \cdot g(i, j)  \f$  (due to matrix symmetry)
  *
  * A good texture feature set to use is the Conners, Trivedi and Harlow set:
  * features 1, 2, 4, 5, 6, and 7. There is some correlation between the various
- * features, so using all of them at the same time is not necessarialy a good idea.
+ * features, so using all of them at the same time is not necessarily a good idea.
  *
- * NOTA BENE: The input histogram will be forcably normalized!
+ * NOTA BENE: The input histogram will be forcibly normalized!
  * This algorithm takes three passes through the input
  * histogram if the histogram was already normalized, and four if not.
  *

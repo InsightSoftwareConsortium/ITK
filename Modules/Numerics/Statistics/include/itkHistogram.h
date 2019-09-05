@@ -314,7 +314,7 @@ public:
    * min = min value of the dimension of the bin,
    * max = max value of the dimension of the bin,
    * interval = max - min ,
-   * pp = cumlated proportion until n-1 bin;
+   * pp = cumulated proportion until n-1 bin;
    * and pb = frequency of the bin / total frequency of the dimension.
    *
    * If p is less than 0.5,

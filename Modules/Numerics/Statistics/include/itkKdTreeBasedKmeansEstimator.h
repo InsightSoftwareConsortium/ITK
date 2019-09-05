@@ -102,7 +102,7 @@ public:
   using InternalParametersType = std::vector<ParameterType>;
   using ParametersType = Array<double>;
 
-  /** Typedef requried to generate dataobject decorated output that can
+  /** Typedef required to generate dataobject decorated output that can
    * be plugged into SampleClassifierFilter */
   using DistanceToCentroidMembershipFunctionType = DistanceToCentroidMembershipFunction<MeasurementVectorType>;
 
@@ -128,7 +128,7 @@ public:
   itkGetConstMacro(MaximumIteration, int);
 
   /** Set/Get the termination threshold for the squared sum
-   * of changes in centroid postions after one iteration */
+   * of changes in centroid positions after one iteration */
   itkSetMacro(CentroidPositionChangesThreshold, double);
   itkGetConstMacro(CentroidPositionChangesThreshold, double);
   /** Set/Get the pointer to the KdTree */

@@ -34,7 +34,7 @@ namespace Statistics
  * After calling SetVectorContainer(VectorContainer*) method to plug-in
  * the VectorContainer object, users can use Sample interfaces to access
  * VectorContainer data. This adaptor assumes that the VectorContainer is
- * actual storage for measurment vectors. In other words, VectorContainer's
+ * actual storage for measurement vectors. In other words, VectorContainer's
  * element dimension equals to the measurement vectors size.
  *
  * \sa Sample, ListSample, VectorContainer

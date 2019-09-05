@@ -113,7 +113,7 @@ public:
   }
 
   /** sets the parameters modified tag. if one or more of the membership
-   * funtion's parameters are changed, then flag should be true */
+   * function's parameters are changed, then flag should be true */
   void
   AreParametersModified(bool flag);
 

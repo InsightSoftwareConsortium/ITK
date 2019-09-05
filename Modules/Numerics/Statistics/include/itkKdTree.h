@@ -38,12 +38,12 @@ namespace Statistics
  *  \brief This class defines the interface of its derived classes.
  *
  * The methods defined in this class are a superset of the methods
- * defined in its subclases. Therefore, the subclasses implements only
+ * defined in its subclasses. Therefore, the subclasses implements only
  * part of the methods. The template argument, TSample, can be any
  * subclass of the Sample class.
  *
  * There are two categories for the subclasses, terminal and nonterminal
- * nodes. The terminal nodes stores the instance identifiers beloging to
+ * nodes. The terminal nodes stores the instance identifiers belonging to
  * them, while the nonterminal nodes don't. Therefore, the
  * AddInstanceIdentifier and the GetInstanceIdentifier have meaning only
  * with the terminal ones. The terminal nodes don't have any child (left
@@ -252,7 +252,7 @@ private:
  * with the centroid related information, we can use the
  * WeightedCentroidKdTreeGenerator. The centroid, the weighted
  * centroid, and the size (the number of measurement vectors) can be
- * used to accelate the k-means estimation.
+ * used to accelerate the k-means estimation.
  *
  * \sa KdTreeNode, KdTreeNonterminalNode, WeightedCentroidKdTreeGenerator
  * \ingroup ITKStatistics

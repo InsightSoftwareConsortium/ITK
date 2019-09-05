@@ -34,7 +34,7 @@ namespace Statistics
  * After calling SetPointSet(PointSet*) method to plug-in
  * the PointSet object, users can use Sample interfaces to access
  * PointSet data. This adaptor assumes that the PointsContainer is
- * actual storage for measurment vectors. In other words, PointSet's
+ * actual storage for measurement vectors. In other words, PointSet's
  * dimension equals to the measurement vectors size. This class totally ignores
  * PointsDataContainer.
  *

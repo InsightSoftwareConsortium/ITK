@@ -53,7 +53,7 @@ public:
   itkTypeMacro(SparseFrequencyContainer2, Object);
   itkNewMacro(Self);
 
-  /** instance idenfitifer alias */
+  /** instance identifier alias */
   using InstanceIdentifier = MeasurementVectorTraits::InstanceIdentifier;
 
   /** Absolute frequency type alias */
@@ -86,7 +86,7 @@ public:
   bool
   SetFrequency(const InstanceIdentifier id, const AbsoluteFrequencyType value);
 
-  /** Method to increase the frequency by one.  This function is convinent
+  /** Method to increase the frequency by one.  This function is convenient
    * to create a histogram. It returns false when the id is out of bounds. */
   bool
   IncreaseFrequency(const InstanceIdentifier id, const AbsoluteFrequencyType value);

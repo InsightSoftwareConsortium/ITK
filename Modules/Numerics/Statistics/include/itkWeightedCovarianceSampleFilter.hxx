@@ -46,7 +46,7 @@ template <typename TSample>
 inline void
 WeightedCovarianceSampleFilter<TSample>::GenerateData()
 {
-  // if weighting function is specifed, use it to compute the mean
+  // if weighting function is specified, use it to compute the mean
   const InputWeightingFunctionObjectType * functionObject = this->GetWeightingFunctionInput();
 
   if (functionObject != nullptr)

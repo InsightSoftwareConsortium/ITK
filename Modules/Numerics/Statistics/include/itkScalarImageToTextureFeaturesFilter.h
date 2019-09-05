@@ -37,7 +37,7 @@ namespace Statistics
  * masked region), averaged across several spatial directions so that they are
  * invariant to rotation.
  *
- * By default, texure features are computed for each spatial
+ * By default, texture features are computed for each spatial
  * direction and then averaged afterward, so it is possible to access the standard
  * deviations of the texture features. These values give a clue as to texture
  * anisotropy. However, doing this is much more work, because it involved computing

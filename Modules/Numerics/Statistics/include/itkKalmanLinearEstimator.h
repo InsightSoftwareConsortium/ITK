@@ -140,7 +140,7 @@ private:
    * the information about the estate of the estimator. It holds all the
    * information obtained from previous measures provided to the
    * estimator. The initialization of this matrix is critical to the behavior
-   * of the estimator, at least to ensure a short trasient period for
+   * of the estimator, at least to ensure a short transient period for
    * estabilizing the estimation.  \sa SetVariance \sa GetVariance */
   MatrixType m_Variance;
 };

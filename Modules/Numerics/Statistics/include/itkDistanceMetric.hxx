@@ -27,7 +27,7 @@ namespace Statistics
 template <typename TVector>
 DistanceMetric<TVector>::DistanceMetric()
 {
-  // If the measurment vector type is non-resizable type,
+  // If the measurement vector type is non-resizable type,
   // initialize the vector size to it.
   MeasurementVectorType vector;
 

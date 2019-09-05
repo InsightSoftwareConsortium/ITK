@@ -32,7 +32,7 @@ namespace Statistics
  *
  * To run this algorithm, you have plug in the target sample data
  * using SetInput method and provides weight by an array or function.
- *. Then call the Update method to run the alogithm.
+ *. Then call the Update method to run the algorithm.
  *
  * \sa MeanSampleFilter
  *
