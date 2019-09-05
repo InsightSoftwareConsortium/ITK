@@ -148,7 +148,7 @@ protected:
 
 /**
  * \class GPUBinaryThresholdImageFilterFactory
- * Object Factory implemenatation for GPUBinaryThresholdImageFilter
+ * Object Factory implementation for GPUBinaryThresholdImageFilter
  *
  * \ingroup ITKGPUThresholding
  */

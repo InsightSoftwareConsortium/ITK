@@ -32,7 +32,7 @@ namespace itk
  * with the fast marching method, the filter generates the upwind gradient
  * vectors of T(x), storing them in an image.
  *
- * Since the Eikonal equation generates the arrival times of a wave travelling
+ * Since the Eikonal equation generates the arrival times of a wave traveling
  * at a given speed, the generated gradient vectors can be interpreted as the
  * slowness (1/velocity) vectors of the front (the quantity inside the modulus
  * operator in the Eikonal equation).

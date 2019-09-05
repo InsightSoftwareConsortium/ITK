@@ -309,7 +309,7 @@ protected:
 
   typename VirtualPointSetType::ConstPointer m_VirtualDomainPointSet;
 
-  // the threadhold to decide if the number of random samples uses logarithm
+  // the threshold to decide if the number of random samples uses logarithm
   static constexpr SizeValueType SizeOfSmallDomain = 1000;
 
 private:
@@ -319,7 +319,7 @@ private:
    */
   bool m_TransformForward;
 
-  // sampling stategy
+  // sampling strategy
   SamplingStrategyType m_SamplingStrategy;
 
 }; // class RegistrationParameterScalesEstimator

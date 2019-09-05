@@ -25,11 +25,11 @@
 namespace itk
 {
 /** \class GaussianKernelFunction
- * \brief Gaussian kernel used for density estimation and nonparameteric
+ * \brief Gaussian kernel used for density estimation and nonparametric
  *  regression.
  *
  * This class encapsulates a Gaussian smoothing kernel for
- * density estimation or nonparameteric regression.
+ * density estimation or nonparametric regression.
  * See documentation for KernelFunctionBase for more details.
  *
  * \sa KernelFunctionBase

@@ -65,13 +65,13 @@ public:
 
   // see super class for documentation
   //
-  // overidden to return true only when supported
+  // overridden to return true only when supported
   bool
   CanStreamWrite() override;
 
   // see super class for documentation
   //
-  // overidden to return true only when supported
+  // overridden to return true only when supported
   bool
   CanStreamRead() override;
 
@@ -83,7 +83,7 @@ public:
   bool
   CanReadFile(const char *) override;
 
-  /** Set the spacing and dimesion information for the current filename. */
+  /** Set the spacing and dimension information for the current filename. */
   void
   ReadImageInformation() override;
 

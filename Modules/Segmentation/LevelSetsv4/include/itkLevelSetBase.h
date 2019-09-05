@@ -85,7 +85,7 @@ public:
   EvaluateMeanCurvature(const InputType & iP) const = 0;
 
   /** \class DataType
-   *  \brief Internal class used for one computed characteritic
+   *  \brief Internal class used for one computed characteristic
    *
    *  It holds the name of the characteristics, its value, and a boolean
    *  to keep track if it has already been computed or not.

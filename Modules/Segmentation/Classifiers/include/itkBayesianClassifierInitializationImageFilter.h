@@ -34,7 +34,7 @@ namespace itk
  * \par
  * The goal of this filter is to generate a membership image that indicates
  * the membership of each pixel to each class. These membership images are fed
- * as input to the Bayesian classfier filter.
+ * as input to the Bayesian classifier filter.
  *
  * \par Parameters
  * Number of classes: This defines the number of classes, which will determine

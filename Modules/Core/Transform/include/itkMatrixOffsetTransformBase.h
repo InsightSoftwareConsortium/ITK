@@ -33,7 +33,7 @@ namespace itk
  * checking if a matrix meet the orthogonality
  * constraints of being a rigid rotation matrix.
  * The tolerance needs to be different for
- * matricies of type float vs. double.
+ * matrices of type float vs. double.
  */
 template <typename T>
 class MatrixOrthogonalityTolerance;

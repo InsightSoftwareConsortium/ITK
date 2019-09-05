@@ -202,7 +202,7 @@ public:
    */
   itkSetMacro(KernelSigma, RealType);
 
-  /** Get the noise kernel sigma for the anistropic covariances. */
+  /** Get the noise kernel sigma for the anisotropic covariances. */
   itkGetConstMacro(KernelSigma, RealType);
 
   MeasureType

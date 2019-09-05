@@ -389,7 +389,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
     }
     else if (text.find("stimFileName:") < text.length())
     {
-      // file data name is explicitely specified
+      // file data name is explicitly specified
       std::string datafilename;
       // Remove leading and trailing blanks
       itksys::RegularExpression regexp("stimFileName:[ ]*(.*)[ ]*$");

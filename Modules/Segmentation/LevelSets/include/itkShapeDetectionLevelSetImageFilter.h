@@ -79,7 +79,7 @@ namespace itk
  *
  * \par OUTPUTS
  * The filter outputs a single, scalar, real-valued image.
- * Negative values in the output image represent the inside of the segmentated region
+ * Negative values in the output image represent the inside of the segmented region
  * and positive values in the image represent the outside of the segmented region.  The
  * zero crossings of the image correspond to the position of the propagating
  * front.

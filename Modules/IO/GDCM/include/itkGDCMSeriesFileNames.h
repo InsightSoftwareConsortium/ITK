@@ -107,7 +107,7 @@ public:
   }
 
   /** Returns a vector containing the series' file names. The file
-   * names are ordered in the same extact order as the input one.
+   * names are ordered in the same exact order as the input one.
    * This could be dangerous if the writing has changed 3rd position
    * or some other DICOM tag in the header
    */

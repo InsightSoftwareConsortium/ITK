@@ -29,7 +29,7 @@
 #include "ITKVtkGlueExport.h"
 
 /** \class ImageInfo
- * \brief A container for an image and its descriptiom
+ * \brief A container for an image and its description
  * \ingroup ITKVtkGlue
  */
 class ITKVtkGlue_EXPORT ImageInfo
@@ -48,7 +48,7 @@ public:
 };
 
 /** \class RGBImageInfo
- * \brief A container for an rgb image and its descriptiom
+ * \brief A container for an rgb image and its description
  * \ingroup ITKVtkGlue
  */
 class ITKVtkGlue_EXPORT RGBImageInfo

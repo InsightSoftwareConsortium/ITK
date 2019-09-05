@@ -50,7 +50,7 @@ namespace itk
  * to indicate what image is being mapped by the transform.
  *
  * This class uses the coordinate system of the Fixed image as a reference
- * and searchs for a Transform that will map points from the space of the
+ * and searches for a Transform that will map points from the space of the
  * Fixed image to the space of the Moving image.
  *
  * For doing so, a Metric will be continuously applied to compare the Fixed

@@ -62,11 +62,11 @@ namespace itk
  * must be the output pixel type, or a type castable to the output pixel type.
  *
  * MovingHistogramImageFilter add the new pixels before removing the old ones,
- * so, if AddBoundary() is implemented and/or the kernel is symetric, it is safe
+ * so, if AddBoundary() is implemented and/or the kernel is symmetric, it is safe
  * to consider that the histogram will never be empty.
  *
  * One histogram is created for each thread by the method NewHistogram().
- * The NewHistogram() method can be overiden to pass some parameters to the
+ * The NewHistogram() method can be overriden to pass some parameters to the
  * histogram.
  *
  * The neighborhood is defined by a structuring element, and must a

@@ -25,7 +25,7 @@ namespace itk
 {
 /** \class ShapePriorMAPCostFunction
  * \brief Represents the maximum aprior (MAP) cost function used
- * ShapePriorSegmentationLevelSetImageFilter to estimate the shape paramaeters.
+ * ShapePriorSegmentationLevelSetImageFilter to estimate the shape parameters.
  *
  * This class follows the shape and pose parameters estimation developed in [1].
  * Note that this class returns the negative log of the MAP function.
@@ -90,7 +90,7 @@ public:
   /** Type of the shape signed distance function. */
   using ShapeFunctionType = typename Superclass::ShapeFunctionType;
 
-  /** Type of the array for storing shape parameter mean and standard deivation.
+  /** Type of the array for storing shape parameter mean and standard deviation.
    * FIXME: should be templated.
    */
   using ArrayType = Array<double>;

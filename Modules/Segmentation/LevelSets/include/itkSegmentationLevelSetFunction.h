@@ -168,7 +168,7 @@ protected:
   /** The image holding the speed values for front propagation */
   typename ImageType::Pointer m_SpeedImage;
 
-  /** The image holding the advection field for front propation */
+  /** The image holding the advection field for front propagation */
   typename VectorImageType::Pointer m_AdvectionImage;
 
   /** Returns the propagation speed from the precalculated speed image.*/

@@ -24,7 +24,7 @@ namespace itk
 {
 /**
  * Advance one Step following the gradient direction
- * This method will be overrided in non-vector spaces
+ * This method will be overridden in non-vector spaces
  */
 void
 VersorRigid3DTransformOptimizer ::StepAlongGradient(double factor, const DerivativeType & transformedGradient)

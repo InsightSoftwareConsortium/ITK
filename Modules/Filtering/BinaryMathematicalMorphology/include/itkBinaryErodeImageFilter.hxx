@@ -185,7 +185,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   // is necessary because the NeighborhoodIterator relies on the
   // specified region to determine if you will ever query a boundary
   // condition pixel.  Since we call SetLocation on the neighbor of a
-  // specified pixel, we have to set the region for the interator to
+  // specified pixel, we have to set the region for the iterator to
   // include any pixel we may set our location to.
   NeighborhoodIterator<TempImageType> nit(radius, tmpImage, tmpRequestedRegion);
   nit.OverrideBoundaryCondition(&cbc);

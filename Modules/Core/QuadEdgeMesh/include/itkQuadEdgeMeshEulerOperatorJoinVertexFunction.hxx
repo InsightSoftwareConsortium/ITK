@@ -256,7 +256,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::ProcessIsolatedQuad
     this->m_Mesh->AddFace(rebuildEdge);
   }
 
-  // this case has no symetric case in SPlitVertex
+  // this case has no symmetric case in SPlitVertex
   // i.e. it is impossible to reconstruct such a pathological
   // case using SplitVertex. Thus the return value is
   // of less interest.

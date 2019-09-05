@@ -94,7 +94,7 @@ public:
   itkTypeMacro(BSplineResampleImageFilterBase, ImageToImageFilter);
 
   /** New macro for creation of through a Smart Pointer */
-  //  Must be sustantiated through another class. itkNewMacro( Self );
+  //  Must be instantiated through another class. itkNewMacro( Self );
 
   /** InputInputImage type alias support */
   using InputImageType = typename Superclass::InputImageType;

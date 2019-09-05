@@ -85,7 +85,7 @@ enum class ExtractImageFilterCollapseStrategy : uint8_t
  * DynamicThreadedGenerateData() method for its implementation.
  *
  * \note This filter is derived from InPlaceImageFilter. When the
- * input to this filter matched the output requirested region, like
+ * input to this filter matched the output requested region, like
  * with streaming filter for input, then setting this filter to run
  * in-place will result in no copying of the bulk pixel data.
  *
@@ -163,7 +163,7 @@ public:
    * output direction is the sub-matrix if it is positive definite, else
    * return identity. This is backwards compatible with ITKv3, but
    * is highly discouraged because the results are difficult to
-   * anticipate under differing data scenerios.
+   * anticipate under differing data scenarios.
    *
    * itk::itkExtractImageFilter::DIRECTIONCOLLAPSETOSUBMATRIX
    * Set the strategy so that all collapsed images where

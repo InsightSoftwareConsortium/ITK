@@ -110,7 +110,7 @@ public:
       vectors */
   using NormalFunctionType = NormalVectorFunctionBase<SparseOutputImageType>;
 
-  /** This is the radius type for the image neigborhoods. */
+  /** This is the radius type for the image neighborhoods. */
   using RadiusType = typename FiniteDifferenceFunctionType::RadiusType;
 
   /** This method is used to set the finite difference function. */

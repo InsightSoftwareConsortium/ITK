@@ -44,7 +44,7 @@ struct BinaryOperationConcept
 {};
 
 /** Addition operation.
- * The result type will be automatically promototed to the best type.
+ * The result type will be automatically promoted to the best type.
  * \ingroup ITKCommon
  */
 struct Plus : BinaryOperationConcept
@@ -58,7 +58,7 @@ struct Plus : BinaryOperationConcept
 };
 
 /** Subtraction operation.
- * The result type will be automatically promototed to the best type.
+ * The result type will be automatically promoted to the best type.
  * \ingroup ITKCommon
  */
 struct Sub : BinaryOperationConcept
@@ -72,7 +72,7 @@ struct Sub : BinaryOperationConcept
 };
 
 /** Multiplication operation.
- * The result type will be automatically promototed to the best type.
+ * The result type will be automatically promoted to the best type.
  * \ingroup ITKCommon
  */
 struct Mult : BinaryOperationConcept
@@ -86,7 +86,7 @@ struct Mult : BinaryOperationConcept
 };
 
 /** Division operation.
- * The result type will be automatically promototed to the best type.
+ * The result type will be automatically promoted to the best type.
  * \ingroup ITKCommon
  */
 struct Div : BinaryOperationConcept

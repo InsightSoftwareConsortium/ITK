@@ -142,7 +142,7 @@ public:
 /** \class ImageRandomNonRepeatingConstIteratorWithIndex
  * \brief A multi-dimensional image iterator that visits a random set of pixels
  * within an image region.  All pixels in the image will be visited before any
- * are repeated.  A priority image may be passed to the interator which
+ * are repeated.  A priority image may be passed to the iterator which
  * will cause it to select certain sets of pixels (those with lower priority
  * values) before others.
  *

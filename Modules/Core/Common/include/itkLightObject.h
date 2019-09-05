@@ -153,7 +153,7 @@ protected:
   PrintTrailer(std::ostream & os, Indent indent) const;
 
   /**
-   * Actual implementation of the clone method. This method should be reimplemeted
+   * Actual implementation of the clone method. This method should be reimplemented
    * in subclasses to clone the extra required parameters.
    */
   virtual LightObject::Pointer

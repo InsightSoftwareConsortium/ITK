@@ -209,7 +209,7 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::InitializePyr
       this->m_H[19] = -0.0000562395;
       break;
     default:
-      // Throw an execption for unsupported splines.
+      // Throw an exception for unsupported splines.
       ExceptionObject err(__FILE__, __LINE__);
       err.SetLocation(ITK_LOCATION);
       err.SetDescription("SplineOrder for Centered pyramid filter must be 0 through 4. Requested spline order has not "

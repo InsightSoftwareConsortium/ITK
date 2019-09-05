@@ -59,7 +59,7 @@ enum class MRFStopType : uint8_t
  *
  * The classified initial labeled image is needed. It is important
  * that the number of expected classes be set before calling the
- * classifier. In our case we have used the ImageClassifer using a Gaussian
+ * classifier. In our case we have used the ImageClassifier using a Gaussian
  * model to generate the initial labels. This classifier requires the user to
  * ensure that an appropriate membership function is provided. See the
  * documentation of the image classifier class for more information.
@@ -243,7 +243,7 @@ public:
   itkSetMacro(MaximumNumberOfIterations, unsigned int);
   itkGetConstMacro(MaximumNumberOfIterations, unsigned int);
 
-  /** Set/Get the error tollerance level which is used as a threshold
+  /** Set/Get the error tolerance level which is used as a threshold
    * to quit the iterations */
   itkSetMacro(ErrorTolerance, double);
   itkGetConstMacro(ErrorTolerance, double);
@@ -348,7 +348,7 @@ protected:
   using LabelStatusImagePointer = typename LabelStatusImageType::Pointer;
   using LabelStatusImageIterator = ImageRegionIterator<LabelStatusImageType>;
 
-  /** Labelled status image neighborhood interator type alias */
+  /** Labelled status image neighborhood iterator type alias */
   using LabelStatusImageNeighborhoodIterator = NeighborhoodIterator<LabelStatusImageType>;
   // Function implementing the neighborhood operation
 

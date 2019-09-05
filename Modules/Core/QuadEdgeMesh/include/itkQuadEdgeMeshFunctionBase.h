@@ -39,7 +39,7 @@ namespace itk
  * But for small modifications (think of the Euler operators) that an
  * algorithm needs to apply many times, this systematic duplication can
  * be daunting.
- * MeshFunctionBase thus offers a leightweight alternative to itk Filter.
+ * MeshFunctionBase thus offers a lightweight alternative to itk Filter.
  * Subclasses of MeshFunctionBase, which should override Evaluate(), are
  * function objects that apply reduced and localised modifications
  * (geometry, or connectivity) on the InputType mesh.

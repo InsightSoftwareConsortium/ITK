@@ -38,7 +38,7 @@ namespace itk
  *
  * For vector-pixel image types, the TOutputType template
  * parameter must be set to a vector of appropriate size, to
- * accomadate a result for each pixel component in each dimension.
+ * accommodate a result for each pixel component in each dimension.
  * The output is packed by pixel component, i.e.
  *
  *  [C0D0, C0D1, ..., C0DN, C1D0, ...]

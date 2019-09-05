@@ -24,7 +24,7 @@
 #include "itkMinimumDecisionRule.h"
 
 
-// Data definitons
+// Data definitions
 #define IMGWIDTH 6
 #define IMGHEIGHT 6
 #define NFRAMES 3
@@ -383,7 +383,7 @@ itkMRFImageFilterTest(int, char *[])
   //---------------------------------------------------------------------
 
   // Set up the nighborhood iterators
-  // Labelled image neighborhood interator typedef
+  // Labelled image neighborhood iterator typedef
 
   using OutImageNeighborhoodIterator = itk::NeighborhoodIterator<ClassImageType>;
   using OutImageNeighborhoodRadiusType = OutImageNeighborhoodIterator::RadiusType;

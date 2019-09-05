@@ -39,7 +39,7 @@ namespace Statistics
  * users can use Sample interfaces to access Image data. The resulting data
  * are a list of measurement vectors.
  *
- * The measurment vector type is determined from the image pixel type. This class
+ * The measurement vector type is determined from the image pixel type. This class
  * handles images with scalar, fixed array or variable length vector pixel types.
  *
  * \sa Sample, ListSample

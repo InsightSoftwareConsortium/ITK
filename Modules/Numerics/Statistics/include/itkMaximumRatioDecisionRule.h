@@ -36,7 +36,7 @@ namespace Statistics
  * MaximumRatioDecisionRule returns the class label using a Bayesian
  * style decision rule. The discriminant scores are evaluated in the
  * context of class priors. If the discriminant scores are actual
- * conditional probabilites (likelihoods) and the class priors are
+ * conditional probabilities (likelihoods) and the class priors are
  * actual a priori class probabilities, then this decision rule operates
  * as Bayes rule, returning the class \f$i\f$ if
  * \f$p(x|i) p(i) > p(x|j) p(j)\f$ for all class \f$j\f$. The

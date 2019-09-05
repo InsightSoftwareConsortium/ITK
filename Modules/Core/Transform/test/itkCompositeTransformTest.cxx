@@ -334,7 +334,7 @@ itkCompositeTransformTest(int, char *[])
             << "Transform at queue position 0: " << std::endl
             << compositeTransform->GetNthTransformConstPointer(0);
 
-  /* Test that we have two tranforms in the queue */
+  /* Test that we have two transforms in the queue */
   if (compositeTransform->GetNumberOfTransforms() != 2)
   {
     std::cout << "Failed adding 2nd transform to queue." << std::endl;

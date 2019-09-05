@@ -29,12 +29,12 @@
 // to classifying based on euclidean distance to the mean.
 
 
-// Data definitons
+// Data definitions
 
 namespace SupervisedImageClassifierTest
 {
 
-// class to support progress feeback
+// class to support progress feedback
 class ShowProgressObject
 {
 public:

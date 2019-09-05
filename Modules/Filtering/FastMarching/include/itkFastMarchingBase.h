@@ -38,7 +38,7 @@ namespace itk
  * initial position on the front, fast marching systematically moves the
  * front forward one node at a time.
  *
- * Updates are preformed using an entropy satisfy scheme where only
+ * Updates are performed using an entropy satisfy scheme where only
  * "upwind" neighborhoods are used. This implementation of Fast Marching
  * uses a std::priority_queue to locate the next proper node to
  * update.
@@ -73,7 +73,7 @@ namespace itk
  * Use itk::PriorityQueueContainer instead.
  *
  * \par Topology constraints:
- * Additional flexibiility in this class includes the implementation of
+ * Additional flexibility in this class includes the implementation of
  * topology constraints for image-based fast marching.  Further details
  * can be found in the paper
  *

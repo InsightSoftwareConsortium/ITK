@@ -91,7 +91,7 @@ namespace itk
  * \par USING THIS FILTER
  *  The filter is relatively straightforward to use.  Tests and examples exist
  *  to illustrate.  The important thing is to understand the input and output
- *  types so you can properly interperet your results.
+ *  types so you can properly interpret your results.
  *
  * \par
  *  In the common case, the only parameter that will need to be set is the
@@ -167,7 +167,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** Overridden from the parent class to indroduce a constraint on
+  /** Overridden from the parent class to introduce a constraint on
    *  surface flow under certain conditions. */
   ValueType
   CalculateUpdateValue(const IndexType &    idx,

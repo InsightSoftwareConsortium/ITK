@@ -128,7 +128,7 @@ public:
   itkSetMacro(OutputOrigin, PointType);
   itkGetConstReferenceMacro(OutputOrigin, PointType);
 
-  /** Specify a new direciton cosine matrix explicitly.  The default is to
+  /** Specify a new direction cosine matrix explicitly.  The default is to
    *  use the direction of the Input, or of the ReferenceImage
    *  if UseReferenceImage is true. */
   itkSetMacro(OutputDirection, DirectionType);
@@ -230,7 +230,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Override VerifyInputInformation() since this filter's inputs do
-   * not need to occoupy the same physical space.
+   * not need to occupy the same physical space.
    *
    * \sa ProcessObject::VerifyInputInformation
    */

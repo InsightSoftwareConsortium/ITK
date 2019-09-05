@@ -92,7 +92,7 @@ public:
   SetFrequency(const InstanceIdentifier id, const AbsoluteFrequencyType value);
 
   /** Increases the frequency of a bin specified by the InstanceIdentifier by
-   * one.  This function is convinient to create a histogram. It returns false
+   * one.  This function is convenient to create a histogram. It returns false
    * when the bin id is out of bounds. */
   bool
   IncreaseFrequency(const InstanceIdentifier id, const AbsoluteFrequencyType value);

@@ -109,7 +109,7 @@ public:
   itkGetConstMacro(BackgroundValue, OutputImagePixelType);
 
   /**
-   * Set/Get wether a flat image must be considered as a maxima or not.
+   * Set/Get whether a flat image must be considered as a maxima or not.
    * Defaults to true.
    */
   itkSetMacro(FlatIsMaxima, bool);

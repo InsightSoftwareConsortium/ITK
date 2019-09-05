@@ -73,7 +73,7 @@ public:
   using OffsetType = OutputType;
   using IndexType = Index<2>;
 
-  /** ChainCodeType is a usless relic of the parent class */
+  /** ChainCodeType is a useless relic of the parent class */
   using ChainCodeType = Superclass::ChainCodeType;
   using ChainCodeSizeType = Superclass::ChainCodeSizeType;
 

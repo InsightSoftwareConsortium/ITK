@@ -447,7 +447,7 @@ public:
    */
   VariableLengthVector(Self && v) noexcept;
 
-  /** C++11 Move assignement operator.
+  /** C++11 Move assignment operator.
    * \pre \c v shall not be the same as the current object
    * \post \c v is destructible and assignable.
    * \post `m_NumElements == 0`
@@ -636,7 +636,7 @@ public:
    * \post \c m_LetArrayManageMemory is true
    * \post In case of reallocation, old \c m_Data buffer is deleted.
    * \post If \c TKeepValuesPolicy is \c KeepOldValues, old values are
-   * garanteed to be kept, otherwise, it'll depend on the reallocation policy
+   * guaranteed to be kept, otherwise, it'll depend on the reallocation policy
    * and the old and new vector size.
    * \sa \c AlwaysReallocate
    * \sa \c NeverReallocate
@@ -716,9 +716,9 @@ public:
    * means that subclasses cannot allocate memory.
    *
    * \internal
-   * More precisally, this class has value semantics (copiable, assignable,
+   * More precisely, this class has value semantics (copyable, assignable,
    * comparable). It's hardly compatible with public inheritance: slicing would
-   * always be there somewhere to annoy us if we try to inherit publicaly from
+   * always be there somewhere to annoy us if we try to inherit publicly from
    * such a class.
    * As a consequence, having the destructor virtual makes hardly any sense.
    */
@@ -991,7 +991,7 @@ namespace mpl
 /** Tells whether a type is an array type for which the support of arithmetic
  * operations is done with Expression Template.
  * \note For the moment, only \c itk::VariableLengthVector<> is supported. It
- * could be extented to other types of ITK arrays.
+ * could be extended to other types of ITK arrays.
  * \ingroup MetaProgrammingLibrary
  * \ingroup ITKCommon
  * \sa \c VariableLengthVector
@@ -1205,7 +1205,7 @@ struct VariableLengthVectorExpression
     : m_lhs(lhs)
     , m_rhs(rhs)
   {
-    // Not neccessary actually as end-user/developper is not expected to
+    // Not neccessary actually as end-user/developer is not expected to
     // provide new BinaryOperations
     itkStaticAssert((itk::mpl::IsBaseOf<Details::op::BinaryOperationConcept, TBinaryOp>::Value),
                     "The Binary Operation shall inherit from BinaryOperationConcept");

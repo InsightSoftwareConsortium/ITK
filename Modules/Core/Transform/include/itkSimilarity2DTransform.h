@@ -26,7 +26,7 @@ namespace itk
 /** \class Similarity2DTransform
  * \brief Similarity2DTransform of a vector space (e.g. space coordinates)
  *
- * This transform applies a homogenous scale and rigid transform in
+ * This transform applies a homogeneous scale and rigid transform in
  * 2D space. The transform is specified as a scale and rotation around
  * a arbitrary center and is followed by a translation.
  * given one angle for rotation, a homogeneous scale and a 2D offset for translation.

@@ -90,7 +90,7 @@ protected:
 
 /**
  * \class GPUGradientAnisotropicDiffusionImageFilterFactory
- * Object Factory implemenatation for GPUGradientAnisotropicDiffusionImageFilter
+ * Object Factory implementation for GPUGradientAnisotropicDiffusionImageFilter
  *
  * \ingroup ITKGPUAnisotropicSmoothing
  */

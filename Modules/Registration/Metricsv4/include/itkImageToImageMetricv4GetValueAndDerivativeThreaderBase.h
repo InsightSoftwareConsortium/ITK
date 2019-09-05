@@ -180,7 +180,7 @@ protected:
     DerivativeType LocalDerivatives;
     /** Intermediary threaded metric value storage. */
     SizeValueType NumberOfValidPoints;
-    /** Pre-allocated transform jacobian objects, for use as needed by dervied
+    /** Pre-allocated transform jacobian objects, for use as needed by derived
      * classes for efficiency. */
     JacobianType MovingTransformJacobian;
     JacobianType MovingTransformJacobianPositional;

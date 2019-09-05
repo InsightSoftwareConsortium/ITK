@@ -136,7 +136,7 @@ public:
   itkGetConstReferenceMacro(UseNonContiguousLabels, bool);
   itkBooleanMacro(UseNonContiguousLabels);
 
-  /** Set Region method to constrain classfication to a certain region */
+  /** Set Region method to constrain classification to a certain region */
   void
   SetImageRegion(const ImageRegionType & region);
 

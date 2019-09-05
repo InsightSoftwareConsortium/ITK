@@ -57,7 +57,7 @@ struct ImageJointDomainTraits
 /** \class JointDomainImageToListSampleAdaptor
  *  \brief This adaptor returns measurement vectors composed of an
  *  image pixel's range domain value (pixel value) and spatial domain
- *  value (pixel's physical coordiantes).
+ *  value (pixel's physical coordinates).
  *
  * This class is a derived class of the ListSample class. This class
  * overrides the GetMeasurementVector method. The GetMeasurementVector
@@ -70,8 +70,8 @@ struct ImageJointDomainTraits
  * float or which is determined by the ImageJointDomainTraits
  * class. When the pixel value type is double, the component value
  * type of a measurement vector is double. In other case, the
- * component value type is float becase the physical coordinate value
- * type is float. Since the measurment vector is a composition of
+ * component value type is float because the physical coordinate value
+ * type is float. Since the measurement vector is a composition of
  * spatial domain and range domain, for many statistical analysis, we
  * want to normalize the values from both domains. For this purpose,
  * there is the SetNormalizationFactors method. With the above example

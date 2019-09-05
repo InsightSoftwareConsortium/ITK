@@ -172,7 +172,7 @@ public:
   /** Flag. Set to have the optimizer track and return the best
    *  best metric value and corresponding best parameters that were
    *  calculated during the optimization. This captures the best
-   *  solution when the optimizer oversteps or osciallates near the end
+   *  solution when the optimizer oversteps or oscillates near the end
    *  of an optimization.
    *  Results are stored in m_CurrentMetricValue and in the assigned metric's
    *  parameters, retrievable via optimizer->GetCurrentPosition().

@@ -41,7 +41,7 @@ namespace itk
  * term and also adds to this term the value returned by the new virtual
  * OtherPropagationSpeed. Therefore, classes derived from this class MUST NOT
  * overwrite the PropagationSpeed method. Instead classes wishing to define a
- * prapagtion term must define OtherPropagationSpeed.
+ * propagation term must define OtherPropagationSpeed.
  *
  * \par IMPORTANT
  * Subclasses MUST NOT overwrite the PropagationSpeed method. Define
@@ -138,7 +138,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** Computes the curvature of a level set neighbothood in a way that matches
+  /** Computes the curvature of a level set neighborhood in a way that matches
       the curvature computation from normal vectors. */
   ScalarValueType
   ComputeCurvature(const NeighborhoodType &) const;

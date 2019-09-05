@@ -100,7 +100,7 @@ public:
 
   /** Set the covariance matrix. Covariance matrix is a
    * VariableSizeMatrix of doubles. The inverse of the covariance
-   * matrix is calculated whenever the covaraince matrix is changed. */
+   * matrix is calculated whenever the covariance matrix is changed. */
   void
   SetCovariance(const CovarianceMatrixType & cov);
 
@@ -133,10 +133,10 @@ private:
   CovarianceMatrixType m_Covariance; // covariance matrix
 
   // inverse covariance matrix. automatically calculated
-  // when covariace matirx is set.
+  // when covariance matirx is set.
   CovarianceMatrixType m_InverseCovariance;
 
-  /** Boolean to cache whether the covarinace is singular or nearly singular */
+  /** Boolean to cache whether the covariance is singular or nearly singular */
   bool m_CovarianceNonsingular;
 };
 } // end of namespace Statistics

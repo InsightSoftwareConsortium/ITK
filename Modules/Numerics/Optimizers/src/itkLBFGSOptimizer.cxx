@@ -89,7 +89,7 @@ LBFGSOptimizer ::SetTrace(bool flag)
 }
 
 /**
- * Set the maximum number of function evalutions
+ * Set the maximum number of function evaluations
  */
 void
 LBFGSOptimizer ::SetMaximumNumberOfFunctionEvaluations(unsigned int n)

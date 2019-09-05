@@ -74,7 +74,7 @@ public:
   /** Bias field type definition. */
   using BiasFieldType = TBiasField;
 
-  /** Parameters type for optimizier (coefficients type for bias
+  /** Parameters type for optimizer (coefficients type for bias
    * field estimate). */
   using ParametersType = typename Superclass::ParametersType;
 
@@ -181,7 +181,7 @@ private:
  * This class is templated over the type of the input image (TInputImage)
  * and the type of the output image (TOutputImage).
  *
- * In MRI images, intensity inhomogenieties which are caused by
+ * In MRI images, intensity inhomogeneities which are caused by
  * magnetic settings, patients' position, and other factors are not
  * unusual. The main purpose of this filter is to reduce such bias field.
  * To estimate the bias field, we use Legendre polynomials.
@@ -445,7 +445,7 @@ public:
   /** Set a multi-resolution schedule. The input schedule must have only
    * ImageDimension number of columns and NumberOfLevels number of rows. For
    * each dimension, the shrink factor must be non-increasing with respect to
-   * subsequent levels. This function will clamp shrink factors to satisify
+   * subsequent levels. This function will clamp shrink factors to satisfy
    * this condition. All shrink factors less than one will also be clamped
    * to the value of 1. */
   void
@@ -469,7 +469,7 @@ public:
   GetStartingShrinkFactors() const;
 
   /** Test if the schedule is downward divisible. This method returns true if
-   * at every level, the shrink factors are divisble by the shrink factors at
+   * at every level, the shrink factors are divisible by the shrink factors at
    * the next level. */
   static bool
   IsScheduleDownwardDivisible(const ScheduleType & schedule);

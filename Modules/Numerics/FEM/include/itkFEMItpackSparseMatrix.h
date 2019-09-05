@@ -244,7 +244,7 @@ private:
   /** Maximum number of non-zero elements in master stiffness matrix */
   integer m_NZ;
 
-  /** row pointegerers used in compressed row storage format */
+  /** row pointers used in compressed row storage format */
   integer * m_IA;
 
   /** column indices used in compressed row storage format */

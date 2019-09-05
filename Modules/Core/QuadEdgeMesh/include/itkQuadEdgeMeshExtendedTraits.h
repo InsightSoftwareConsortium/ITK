@@ -90,7 +90,7 @@ public:
    * to the CellsContainer. */
   using CellIdentifier = IdentifierType;
 
-  /** A type that can be used to identifiy individual boundary features on
+  /** A type that can be used to identify individual boundary features on
    * the cells.  Since this will probably be an index into a static array,
    * this will probably never change from an integer setting. */
   using CellFeatureIdentifier = IdentifierType;

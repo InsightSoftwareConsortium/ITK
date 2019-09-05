@@ -103,7 +103,7 @@ public:
   using LayoutArrayType = FixedArray<unsigned int, Self::OutputImageDimension>;
 
   /** Set/Get the layout of the tiles. If the last Layout value is 0,
-   * the filter will compute a value that will acoomodate all of the
+   * the filter will compute a value that will accommodate all of the
    * images. */
   itkSetMacro(Layout, LayoutArrayType);
   itkGetConstMacro(Layout, LayoutArrayType);
@@ -141,7 +141,7 @@ protected:
   GenerateData() override;
 
   /** Override VerifyInputInformation() since this filter's inputs do
-   * not need to occoupy the same physical space.
+   * not need to occupy the same physical space.
    *
    * \sa ProcessObject::VerifyInputInformation
    */

@@ -27,7 +27,7 @@ namespace itk
  * \brief Shift and scale the pixels in an image.
  *
  * ShiftScaleImageFilter shifts the input pixel by Shift (default 0.0)
- * and then scales the pixel by Scale (default 1.0). All computattions
+ * and then scales the pixel by Scale (default 1.0). All computations
  * are performed in the precision of the input pixel's RealType. Before
  * assigning the computed value to the output pixel, the value is clamped
  * at the NonpositiveMin and max of the pixel type.

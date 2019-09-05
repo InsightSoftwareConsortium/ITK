@@ -60,7 +60,7 @@ public:
   double
   Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const override;
 
-  /** Gets the cooridnate distance between a and b. NOTE: a and b
+  /** Gets the coordinate distance between a and b. NOTE: a and b
    * should be type of component. This method is used by
    * KdTreeKMeans estimators. When the estimator is refactored,
    * this method should be removed. */

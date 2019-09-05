@@ -26,7 +26,7 @@ namespace itk
 /** \class MeshSpatialObject
  * \brief Implementation of an Mesh as spatial object.
  *
- * This class combines functionnalities from a spatial object,
+ * This class combines functionalities from a spatial object,
  * and an itkMesh.
  *
  * \sa SpatialObject

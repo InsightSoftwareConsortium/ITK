@@ -30,11 +30,11 @@ namespace itk
  * \brief This class is a light wrapper for a couple of plain old data
  * structures, so that they can be utilized in a MetaDataDictionary.
  *
- * The class is designed to be intialized from a chuck of bytes that
+ * The class is designed to be initialized from a chuck of bytes that
  * are read in from a file. Verification is performed to ensure that
  * the bytes appear to be the correct format for the headers.
  *
- * The POD structures a publicly avaible without access methods.
+ * The POD structures a publicly available without access methods.
  *
  *  This code was contributed in the Insight Journal paper:
  *  "A Streaming IO Base Class and Support for Streaming the MRC and VTK File Format"
@@ -60,7 +60,7 @@ public:
    * header must be 1024 bytes.
    *
    * The structure of the MRC header taken from:
-   * http://bio3d.colorado.edu/imod/doc/mrc_format.txt with permision
+   * http://bio3d.colorado.edu/imod/doc/mrc_format.txt with permission
    * from David Mastronarde on 8/21/2009
    */
   struct Header
@@ -226,7 +226,7 @@ public:
    * which has the header
    *
    * The return value indicates if buffer appears valid. If
-   * false is returned then the header member varible is in an undefined
+   * false is returned then the header member variable is in an undefined
    * state.
    *
    * If the byte order of the header then byte swapping will be
@@ -239,7 +239,7 @@ public:
   GetHeader() const;
 
   /** After SetHeader is called GetExtendedHeaderSize contains the
-   * extected size of the buffer argument. This buffer is expected to
+   * expected size of the buffer argument. This buffer is expected to
    * be the bytes which follow the header in the file.
    *
    * The return value indicates if the extended header buffer is valid
@@ -268,7 +268,7 @@ public:
   bool
   IsOriginalHeaderBigEndian() const;
 
-  /** Public avaiable data : FIXME : NO MEMBER VARIABLES SHOULD BE PUBLIC. */
+  /** Public available data : FIXME : NO MEMBER VARIABLES SHOULD BE PUBLIC. */
   Header m_Header; // FIXME : This should be private and
                    // should have Get/Set Methods.
 

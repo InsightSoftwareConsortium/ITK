@@ -28,7 +28,7 @@ namespace itk
  * \brief  Represent a closed path through ND Space by its frequency components
  *
  * This class is intended to represent closed parametric paths through an image
- * which are defined by their Fourier coeficients (frequency components).  The
+ * which are defined by their Fourier coefficients (frequency components).  The
  * paths must be closed and defined over the interval [0,1], where the paths'
  * values at input 0 and input 1 are identical.  The user can control how many
  * harmonics (how high of frequency components) are represented by a given

@@ -58,7 +58,7 @@ namespace itk
  * (default 1e-5) and the maximum number of function evaluations is set
  * through SetMaximumNumberOfFunctionEvaluations() (default 2000).
  *
- * Note: The scaling of the optimization paramaters, set through SetScales(),
+ * Note: The scaling of the optimization parameters, set through SetScales(),
  * should be set or left at one. Otherwise the Hessian approximation as well as
  * the line search will be disturbed and the optimizer is unlikely to find a minima.
  *
@@ -118,7 +118,7 @@ public:
 
   /** Set/Get the line search accuracy. This is a positive real number
    * with a default value of 0.9, which controls the accuracy of the line
-   * search. If the function and gradient evalutions are inexpensive with
+   * search. If the function and gradient evaluations are inexpensive with
    * respect to the cost of the iterations it may be advantageous to set
    * the value to a small value (say 0.1).
    */

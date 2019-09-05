@@ -29,7 +29,7 @@ namespace itk
  * GenerateData() and ThreadedGenerateData().
  *
  * This class is intended to be used in iterative filter for which
- * a progress cannot be stablished. These filters run until an stopping
+ * a progress cannot be established. These filters run until an stopping
  * criterion is reached and it is not possible to anticipate how long
  * it will take to get to the stopping point.
  *

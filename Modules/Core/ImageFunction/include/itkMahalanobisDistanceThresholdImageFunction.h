@@ -28,7 +28,7 @@ namespace itk
  * Mahalanobis distance below the value specified by the threshold.
  *
  * This ImageFunction returns true if the pixel value of a vector image has a
- * Mahalanobis distance below the value specided by the threshold. The
+ * Mahalanobis distance below the value specified by the threshold. The
  * Mahalanobis distance is computed with the
  * MahalanobisDistanceMembershipFunction class which has to be initialized with
  * a mean and covariance. This class is intended to be used only

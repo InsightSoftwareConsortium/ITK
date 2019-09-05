@@ -405,7 +405,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
         }
         else
         {
-          // Collect the pRatio per pdf indecies.
+          // Collect the pRatio per pdf indices.
           // Will be applied subsequently to local-support derivative
           const OffsetValueType index = movingIndex + (fixedIndex * this->m_NumberOfHistogramBins);
           this->m_PRatioArray[index] = pRatio * nFactor;
@@ -425,7 +425,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
         for (SizeValueType bin = 0; bin < 4; ++bin)
         {
           // Increment the m_JointPdfIndex1DArray index by bin in order to recover
-          // the pRatio at the moving indecies used for each portion of the derivative.
+          // the pRatio at the moving indices used for each portion of the derivative.
           // Note: in old v3 metric ComputeDerivatives, derivativeContribution is subtracted in global case,
           // but added in "local" (implicit) case. These operations have been switched to minimize the metric.
           const SizeValueType pRatioIndex = this->m_JointPdfIndex1DArray[i] + bin;

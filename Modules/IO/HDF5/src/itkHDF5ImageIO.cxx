@@ -101,7 +101,7 @@ GetH5TypeSpecialize(float, H5::PredType::NATIVE_FLOAT) GetH5TypeSpecialize(doubl
               GetH5TypeSpecialize(long long int, H5::PredType::NATIVE_LLONG)
                 GetH5TypeSpecialize(unsigned long long int, H5::PredType::NATIVE_ULLONG)
 
-/* The following types are not implmented.  This comment serves
+/* The following types are not implemented.  This comment serves
  * to indicate that the full complement of possible H5::PredType
  * types are not implemented int the ITK IO reader/writer
  * GetH5TypeSpecialize(bool,              H5::PredType::NATIVE_HBOOL)

@@ -188,7 +188,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
         {
           if (!itk::Math::FloatAlmostEqual(measurementVectorFromAdaptor[m], measurementVector[m], 4, 1.0E-6))
           {
-            std::cerr << "Error in measurment vector value accessed using the adaptor "
+            std::cerr << "Error in measurement vector value accessed using the adaptor "
                       << (measurementVectorFromAdaptor[m] - measurementVector[m]) << std::endl;
             return EXIT_FAILURE;
           }

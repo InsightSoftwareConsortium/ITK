@@ -40,7 +40,7 @@ namespace itk
  *
  * \warning THIS IMAGE METRIC IS CURRENTLY UNDER DEBUGGING. USE AT YOUR OWN RISK.
  *
- * Spatial correspondance between both images is established through a
+ * Spatial correspondence between both images is established through a
  * Transform. Pixel values are taken from the Moving image. Their positions
  * are mapped to the Fixed image and result in general in non-grid position
  * on it. Values at these non-grid position of the Fixed image are

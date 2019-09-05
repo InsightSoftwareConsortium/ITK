@@ -128,7 +128,7 @@ public:
   itkSetGetDecoratedInputMacro(HistogramSize, HistogramSizeType);
 
   /** Methods for setting and getting the Marginal scale value.  The marginal
-   * scale is used when the type of the measurement vector componets are of
+   * scale is used when the type of the measurement vector components are of
    * integer type. */
   itkSetGetDecoratedInputMacro(MarginalScale, HistogramMeasurementType);
 

@@ -27,7 +27,7 @@ namespace itk
 /** \class ExhaustiveOptimizer
  * \brief Optimizer that fully samples a grid on the parametric space.
  *
- * This optimizer is equivalent to an exahaustive search in a discrete grid
+ * This optimizer is equivalent to an exhaustive search in a discrete grid
  * defined over the parametric space. The grid is centered on the initial
  * position. The subdivisions of the grid along each one of the dimensions
  * of the parametric space is defined by an array of number of steps.

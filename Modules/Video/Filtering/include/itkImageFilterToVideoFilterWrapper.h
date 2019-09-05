@@ -60,7 +60,7 @@ public:
 
   itkTypeMacro(ImageFilterToVideoFilterWrapper, VideoToVideoFilter);
 
-  /** Set the filter to use in the interal pipeline */
+  /** Set the filter to use in the internal pipeline */
   itkSetObjectMacro(ImageFilter, ImageFilterType);
   itkGetModifiableObjectMacro(ImageFilter, ImageFilterType);
 

@@ -49,7 +49,7 @@ namespace itk
  * that the PointSet is being mapped by the transform.
  *
  * This class uses the coordinate system of the Fixed PointSet as a reference
- * and searchs for a Transform that will map points from the space of the Fixed
+ * and searches for a Transform that will map points from the space of the Fixed
  * PointSet to the space of the Moving PointSet.
  *
  * For doing so, a Metric will be continuously applied to compare the Fixed

@@ -52,7 +52,7 @@ namespace itk
  *             1    2   1
  *
  * \endverbatim
- * The Sobel Operator in horizonal direction is for 2 dimensions is
+ * The Sobel Operator in horizontal direction is for 2 dimensions is
  * \verbatim
  *             -1   0   1
  *             -2   0   2

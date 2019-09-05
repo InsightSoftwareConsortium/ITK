@@ -148,7 +148,7 @@ public:
    *
    * initialRadius: search radius in parameter space
    * grow: search radius grow factor
-   * shrink: searhc radius shrink factor */
+   * shrink: search radius shrink factor */
   void
   Initialize(double initialRadius, double grow = -1, double shrink = -1);
 

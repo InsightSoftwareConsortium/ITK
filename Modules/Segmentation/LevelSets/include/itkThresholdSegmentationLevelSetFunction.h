@@ -131,7 +131,7 @@ public:
     return m_EdgeWeight;
   }
 
-  /** Anisotropic diffusion is applied to the FeatureImage before calculatign
+  /** Anisotropic diffusion is applied to the FeatureImage before calculating
    * the Laplacian (edge) term. This method sets/gets the smoothing
    * conductance. */
   void

@@ -29,7 +29,7 @@ namespace itk
  * \brief Translation transformation of a vector space (e.g. space coordinates)
  *
  * The same functionality could be obtained by using the Affine transform,
- * but with a large difference in performace.
+ * but with a large difference in performance.
  *
  * \ingroup ITKTransform
  *
@@ -73,7 +73,7 @@ public:
   using JacobianPositionType = typename Superclass::JacobianPositionType;
   using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
-  /** The number of parameters defininig this transform. */
+  /** The number of parameters defining this transform. */
   using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** Standard vector type for this class. */

@@ -50,7 +50,7 @@ public:
    *  it has to be allocated later by assignment              */
   OptimizerParameters();
 
-  /** Copy constructor.  Uses VNL copy construtor with correct
+  /** Copy constructor.  Uses VNL copy constructor with correct
    *  setting for memory management.
    *  The vnl vector copy constructor creates new memory
    *  no matter the setting of let array manage memory of rhs.
@@ -97,7 +97,7 @@ public:
     return m_Helper;
   }
 
-  /** Copy opertors
+  /** Copy operators
    *
    * TODO Determine behavior when copying from obj pointing to image parameters.
    *  By default should copy image param data into Array portion of new object,

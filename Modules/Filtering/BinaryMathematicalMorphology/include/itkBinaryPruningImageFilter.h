@@ -29,7 +29,7 @@ namespace itk
  * \brief This filter removes "spurs" of less than a certain
  * length in the input image.
  *
- * This class is parametrized over the type of the input image
+ * This class is parameterized over the type of the input image
  * and the type of the output image.
  *
  * The input is assumed to be a binary image.

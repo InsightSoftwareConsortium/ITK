@@ -91,7 +91,7 @@ namespace itk
  *
  *    \par OUTPUTS
  *    The filter outputs a single, scalar, real-valued image.
- *    Positive *values in the output image are inside the segmentated region
+ *    Positive *values in the output image are inside the segmented region
  *    and negative *values in the image are outside of the inside region.  The
  *    zero crossings of *the image correspond to the position of the level set
  *    front.

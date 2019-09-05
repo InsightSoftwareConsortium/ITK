@@ -225,7 +225,7 @@ public:
   /** Get the output image origin. */
   itkGetConstReferenceMacro(OutputOrigin, OriginPointType);
 
-  /** Set the output direciton cosine matrix. */
+  /** Set the output direction cosine matrix. */
   itkSetMacro(OutputDirection, DirectionType);
   itkGetConstReferenceMacro(OutputDirection, DirectionType);
 
@@ -241,7 +241,7 @@ public:
   itkGetConstReferenceMacro(OutputStartIndex, IndexType);
 
   /** Set a reference image to use to define the output information.
-   *  By default, output information is specificed through the
+   *  By default, output information is specified through the
    *  SetOutputSpacing, Origin, and Direction methods.  Alternatively,
    *  this method can be used to specify an image from which to
    *  copy the information. UseReferenceImageOn must be set to utilize the
@@ -270,7 +270,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Override VerifyInputInformation() since this filter's inputs do
-   * not need to occoupy the same physical space.
+   * not need to occupy the same physical space.
    *
    * \sa ProcessObject::VerifyInputInformation
    */

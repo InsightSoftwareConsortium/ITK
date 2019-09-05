@@ -67,7 +67,7 @@ namespace itk
  * If unset, the weights are treated as identity. Weights are multiplied
  * by the gradient at the same time scaling is applied. Weights are
  * different than scales, and may be used, for example, to easily mask out a
- * particular parameter during optimzation to hold it constant. Or they
+ * particular parameter during optimization to hold it constant. Or they
  * may be used to apply another kind of prior knowledge.
  *
  * Threading of some optimizer operations may be handled within

@@ -36,7 +36,7 @@ namespace itk
  *    differences in intensity between the fixed and moving pixel. An
  *    adaptive timestep is calculated based on the maximum motion
  *    vector over the entire field to ensure stability.  The timestep
- *    also implictly converts the motion vector measured in units of
+ *    also implicitly converts the motion vector measured in units of
  *    intensity to a vector measured in physical units.  Demons, on
  *    the other hand, defines its motion vectors as function of both
  *    the intensity differences and gradient magnitude at each
@@ -173,7 +173,7 @@ public:
    * PDEDeformableRegistrationFilter::SetStandardDeviations()
    * method. The method in PDEDeformableRegistrationFilter is for
    * setting the smoothing parameters for regularizing the deformation
-   * field between interations.  Those smoothing parameters are set in
+   * field between iterations.  Those smoothing parameters are set in
    * pixel units not physical units. Deformation field smoothing is
    * not done by default in LevelSetMotionRegistration. This smoothing
    * parameter is to condition the gradient calculation and parameter

@@ -142,7 +142,7 @@ protected:
 
 private:
   /** Threshold below which the denominator term is considered zero.
-   *  Fixed programatically in constructor. */
+   *  Fixed programmatically in constructor. */
   TInternalComputationValueType m_DenominatorThreshold;
 
   /** Threshold below which two intensity value are assumed to match. */

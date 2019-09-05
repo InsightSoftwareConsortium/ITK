@@ -280,7 +280,7 @@ SliceBySliceImageFilter<TInputImage,
 
   for (IndexValueType slice = requestedIndex[m_Dimension]; slice < sliceRangeMax; ++slice)
   {
-    // say to the user that we are begining a new slice
+    // say to the user that we are beginning a new slice
     this->m_SliceIndex = slice;
     this->InvokeEvent(IterationEvent());
 

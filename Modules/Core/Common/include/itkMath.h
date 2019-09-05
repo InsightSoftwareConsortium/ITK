@@ -698,7 +698,7 @@ NotAlmostEquals(T1 x1, T2 x2)
 }
 
 
-/** \brief  Return the result of an exact comparison between two scalar values of potetially different types.
+/** \brief  Return the result of an exact comparison between two scalar values of potentially different types.
  *
  * template <typename TInput1, typename TInput2>
  * inline bool

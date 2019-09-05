@@ -90,7 +90,7 @@ public:
   void
   CalculateSpeedImage() override;
 
-  /** Compute the advection image. The Advection Image is the gradeint
+  /** Compute the advection image. The Advection Image is the gradient
       image attenuated with the distance to the canny edges. */
   void
   CalculateAdvectionImage() override;

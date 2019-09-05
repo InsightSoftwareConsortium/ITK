@@ -54,7 +54,7 @@ namespace itk
  * DataObjectDecorator will decorate pointers to subclasses of
  * itkObject (internally storing the pointer in a
  * SmartPointer). AutoPointerDataObjectDecorator will decorate any
- * other pointer and manage the memory deallocationg of the component.
+ * other pointer and manage the memory deallocating of the component.
  *
  * \sa DataObjectDecorator
  * \sa AutoPointerDataObjectDecorator

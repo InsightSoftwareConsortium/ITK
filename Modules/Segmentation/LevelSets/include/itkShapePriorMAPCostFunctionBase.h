@@ -26,7 +26,7 @@ namespace itk
 {
 /** \class ShapePriorMAPCostFunctionBase
  * \brief Represents the base class of maximum aprior (MAP) cost function used
- * ShapePriorSegmentationLevelSetImageFilter to estimate the shape paramaeters.
+ * ShapePriorSegmentationLevelSetImageFilter to estimate the shape parameters.
  *
  * This class follows the shape and pose parameters estimation developed in [1].
  *

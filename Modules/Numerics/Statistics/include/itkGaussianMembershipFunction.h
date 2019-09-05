@@ -45,7 +45,7 @@ namespace Statistics
  * behaves somewhat like an impulse located at the mean. In this case,
  * we specify the covariance to be a diagonal matrix with large values
  * along the diagonal. This membership function, therefore,
- * will return small but differentiable values everywher and increase
+ * will return small but differentiable values everywhere and increase
  * sharply near the mean.
  *
  * \ingroup ITKStatistics
@@ -95,8 +95,8 @@ public:
 
   /** Set the covariance matrix. Covariance matrix is a
    * VariableSizeMatrix of doubles. The inverse of the covariance
-   * matrix and the normlization term for the multivariate Gaussian
-   * are calculate whenever the covaraince matrix is changed. */
+   * matrix and the normalization term for the multivariate Gaussian
+   * are calculated whenever the covaraince matrix is changed. */
   void
   SetCovariance(const CovarianceMatrixType & cov);
 
@@ -129,14 +129,14 @@ private:
   CovarianceMatrixType m_Covariance; // covariance matrix
 
   // inverse covariance matrix. automatically calculated
-  // when covariace matirx is set.
+  // when covariance matirx is set.
   CovarianceMatrixType m_InverseCovariance;
 
   // pre_factor (normalization term). automatically calculated
-  // when covariace matirx is set.
+  // when covariance matirx is set.
   double m_PreFactor;
 
-  /** Boolean to cache whether the covarinace is singular or nearly singular */
+  /** Boolean to cache whether the covariance is singular or nearly singular */
   bool m_CovarianceNonsingular;
 };
 } // end of namespace Statistics

@@ -29,7 +29,7 @@ namespace itk
  * parameter space.
  *
  * VersorRigid3DTransformOptimizer is a variant of the gradient descent
- * optimizer implmented in RegularStepGradientDescentOptimizer.
+ * optimizer implemented in RegularStepGradientDescentOptimizer.
  *
  * Versors are not in a vector space, for that reason, the classical gradient
  * descent algorithm has to be modified in order to be applicable to Versors

@@ -78,7 +78,7 @@ public:
   using MeasurementType = typename TSample::MeasurementType;
   using MeasurementVectorType = typename TSample::MeasurementVectorType;
 
-  /** Typedef requried to generate dataobject decorated output that can
+  /** Typedef required to generate dataobject decorated output that can
    * be plugged into SampleClassifierFilter */
   using GaussianMembershipFunctionType = GaussianMembershipFunction<MeasurementVectorType>;
 
@@ -131,7 +131,7 @@ public:
   GetMembershipFunctionsWeightsArray() const;
 
   /** Set/Gets the maximum number of iterations. When the optimization
-   * process reaches the maximum number of interations, even if the
+   * process reaches the maximum number of iterations, even if the
    * class parameters aren't converged, the optimization process
    * stops. */
   void

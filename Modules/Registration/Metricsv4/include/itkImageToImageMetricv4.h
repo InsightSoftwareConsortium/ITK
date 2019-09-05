@@ -682,7 +682,7 @@ protected:
   /** Perform the actual threaded processing, using the appropriate
    * GetValueAndDerivativeThreader. Results get written to
    * member vars. This is available as a separate method so it
-   * can be used by dervied classes that implement their own
+   * can be used by derived classes that implement their own
    * GetValueAndDerivative, and/or need to run the processing loop
    * more than once.*/
   virtual void
@@ -738,7 +738,7 @@ protected:
    * to a user-provided object. This is used in internal methods so
    * the user-provided variable does not have to be passed around. It also enables
    * safely sharing a derivative object between metrics during multi-variate
-   * analsys, for memory efficiency.
+   * analysis, for memory efficiency.
    * Will be nullptr if not set. */
   mutable DerivativeType * m_DerivativeResult;
 

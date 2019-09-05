@@ -205,7 +205,7 @@ public:
 
 /// \cond HIDE_SPECIALIZATION_DOCUMENTATION
 
-// now create MorphologyHistogram partial specilizations using the VectorMorphologyHistogram
+// now create MorphologyHistogram partial specializations using the VectorMorphologyHistogram
 // as base class
 
 template <typename TCompare>

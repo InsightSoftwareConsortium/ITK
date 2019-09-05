@@ -46,7 +46,7 @@ namespace itk
  * DeformableSimplexMesh3DFilter is a discrete three-dimensional deformable model, which
  * can be used to deform a 3-D SimplexMesh.
  *
- * The mesh deformation is constrained by internal forces. The interal force can be scaled
+ * The mesh deformation is constrained by internal forces. The internal force can be scaled
  * via SetAlpha (typical values are 0.01 < alpha < 0.3). The external force is derived from
  * the image one wants to delineate. Therefore an image of type GradientImageType needs to
  * be set by calling SetGradientImage(...). The external forces are scaled
@@ -293,7 +293,7 @@ protected:
   double m_Beta;
 
   /**
-   * Gamma influneces the distribution of the mesh points. It should
+   * Gamma influences the distribution of the mesh points. It should
    * lie between 0.01 and 0.2. Smaller values force the mesh to be
    * more regular. When increasing gamma, mesh points will have higher
    * density in places of high curvature.
@@ -303,7 +303,7 @@ protected:
   /**
    * This scalar determines the smoothness of the surface model. Values
    * should range from 0 to 10. It determines the radius of the neighborhood
-   * during internal force computation using the curvature shape contraint.
+   * during internal force computation using the curvature shape constraint.
    * The higher the rigidity the higher the smoothness.
    */
   unsigned int m_Rigidity;

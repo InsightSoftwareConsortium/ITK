@@ -26,10 +26,10 @@
 namespace itk
 {
 /** \class KernelFunctionBase
- * \brief Kernel used for density estimation and nonparameteric regression.
+ * \brief Kernel used for density estimation and nonparametric regression.
  *
  * This class encapsulates the smoothing kernel used for statistical density
- * estimation and nonparameteric regression. The basic idea of the kernel
+ * estimation and nonparametric regression. The basic idea of the kernel
  * approach is to weight observations by a smooth function (the kernel)
  * to created a smoothed approximation.
  *

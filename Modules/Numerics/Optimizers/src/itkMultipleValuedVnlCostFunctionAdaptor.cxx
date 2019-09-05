@@ -154,7 +154,7 @@ MultipleValuedVnlCostFunctionAdaptor ::compute(const InternalParametersType & x,
   this->ReportIteration(FunctionAndGradientEvaluationIterationEvent());
 }
 
-/**  Convert external derviative measures into internal type  */
+/**  Convert external derivative measures into internal type  */
 void
 MultipleValuedVnlCostFunctionAdaptor ::ConvertExternalToInternalGradient(const DerivativeType &   input,
                                                                          InternalDerivativeType & output)

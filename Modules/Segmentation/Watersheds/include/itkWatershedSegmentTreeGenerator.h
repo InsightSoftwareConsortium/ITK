@@ -207,7 +207,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** Generates an initial list of all potentential merges in
+  /** Generates an initial list of all potential merges in
    * the segment table.   */
   void CompileMergeList(SegmentTableTypePointer, SegmentTreeTypePointer);
 

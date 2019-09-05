@@ -136,7 +136,7 @@ public:
   GetParameters() const override;
 
   /** Set the fixed parameters and update internal
-   * transformation. This transform has no fixed paramaters
+   * transformation. This transform has no fixed parameters
    */
   void
   SetFixedParameters(const FixedParametersType &) override

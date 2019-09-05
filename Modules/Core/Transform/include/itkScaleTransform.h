@@ -28,7 +28,7 @@ namespace itk
  * \brief Scale transformation of a vector space (e.g. space coordinates)
  *
  * The same functionality could be obtained by using the Affine transform,
- * but with a large difference in performace since the affine transform will
+ * but with a large difference in performance since the affine transform will
  * use a matrix multiplication using a diagonal matrix.
  *
  * \ingroup ITKTransform
@@ -129,7 +129,7 @@ public:
    * value specified by the user.
    * This method cannot be done with SetMacro because itk::Array has not an
    * operator== defined. The array of scales correspond in order to the factors
-   * to be applied to each one of the coordinaates. For example, in 3D,
+   * to be applied to each one of the coordinates. For example, in 3D,
    * scale[0] corresponds to X, scale[1] corresponds to Y and scale[2]
    * corresponds to Z. */
   void

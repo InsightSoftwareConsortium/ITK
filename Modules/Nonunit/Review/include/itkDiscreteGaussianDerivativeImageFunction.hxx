@@ -161,7 +161,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussian
   }
 }
 
-/** Evaluate the function at the specifed index */
+/** Evaluate the function at the specified index */
 template <typename TInputImage, typename TOutput>
 typename DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::OutputType
 DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType & index) const
@@ -175,7 +175,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::EvaluateAtIndex(c
   return derivative;
 }
 
-/** Evaluate the function at the specifed point */
+/** Evaluate the function at the specified point */
 template <typename TInputImage, typename TOutput>
 typename DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::OutputType
 DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::Evaluate(const PointType & point) const

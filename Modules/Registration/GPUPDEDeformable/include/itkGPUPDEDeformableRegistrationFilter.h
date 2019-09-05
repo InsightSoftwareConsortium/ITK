@@ -114,7 +114,7 @@ public:
   using DeformationVectorType = typename TDisplacementField::PixelType;
   using DeformationScalarType = typename TDisplacementField::PixelType::ValueType;
 
-  /** Types inherithed from the GPUSuperclass */
+  /** Types inherited from the GPUSuperclass */
   using OutputImageType = typename GPUSuperclass::OutputImageType;
 
   /** FiniteDifferenceFunction type. */
@@ -153,7 +153,7 @@ protected:
   CopyInputToOutput() override;
 
   /** Initialize the state of filter and equation before each iteration.
-   * Progress feeback is implemented as part of this method. */
+   * Progress feedback is implemented as part of this method. */
   void
   InitializeIteration() override;
 

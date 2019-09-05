@@ -36,7 +36,7 @@ namespace itk
  * radius used here is in terms of intensity domain and not in the spatial
  * domain.
  *
- * Spatial correspondance between both images is established through a
+ * Spatial correspondence between both images is established through a
  * Transform.
  *
  * \ingroup RegistrationMetrics

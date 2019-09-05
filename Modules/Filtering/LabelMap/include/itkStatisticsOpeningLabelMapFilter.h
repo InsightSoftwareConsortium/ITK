@@ -27,7 +27,7 @@ namespace itk
 /** \class StatisticsOpeningLabelMapFilter
  * \brief remove the objects according to the value of their statistics attribute
  *
- * StatisticsOpeningLabelMapFilter removes the objects in a lavbel collection image
+ * StatisticsOpeningLabelMapFilter removes the objects in a label collection image
  * with an attribute value smaller or greater than a threshold called Lambda.
  * The attributes are the ones of the StatisticsLabelObject.
  *

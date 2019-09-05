@@ -100,7 +100,7 @@ protected:
   using StencilOperatorType = Neighborhood<PixelType, Self::ImageDimension>;
   StencilOperatorType m_StencilOperator;
 
-  /** Initialize the stencil opearator to be an N-Dimensional sphere
+  /** Initialize the stencil operator to be an N-Dimensional sphere
    * of radius m_StencilRadius. */
   void
   InitializeStencilOperator();

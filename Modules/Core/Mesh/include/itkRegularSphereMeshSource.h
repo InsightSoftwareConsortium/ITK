@@ -29,7 +29,7 @@ namespace itk
  * \brief
  * Inputs are the center of the mesh, the scale (radius in each dimension) of the mesh
  * and a resolution parameter, which corresponds to the recursion
- * depth whlie creating a spherical triangle mesh.
+ * depth while creating a spherical triangle mesh.
  *
  * Don't use recursion depths larger than 5, because mesh generation gets very slow.
  *

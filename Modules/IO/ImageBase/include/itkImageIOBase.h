@@ -456,7 +456,7 @@ public:
   /** Determine if the ImageIO can stream write from the
    *  current settings.
    *
-   * There are two types of non exclusive streaming: pasteing subregions, and iterative
+   * There are two types of non exclusive streaming: pasting subregions, and iterative
    *
    */
   virtual bool
@@ -509,13 +509,13 @@ public:
    * region not the largest. The derived ImageIO class should verify that
    * the file is capable of being written with this configuration.
    * If pasted is enabled and is not support or does not work with the file,
-   * then an excepetion should be thrown.
+   * then an exception should be thrown.
    *
    * The default implementation depends on CanStreamWrite.
    * If false then 1 is returned (unless pasting is indicated), so that the whole file will be updated in one region.
    * If true then its assumed that any arbitrary region can be written
    * to any file. So the users request will be respected. If a derived
-   * class has more restictive conditions then they should be checked
+   * class has more restrictive conditions then they should be checked
    */
   virtual unsigned int
   GetActualNumberOfSplitsForWriting(unsigned int          numberOfRequestedSplits,

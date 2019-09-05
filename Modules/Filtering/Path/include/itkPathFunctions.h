@@ -75,7 +75,7 @@ MakeChainCodeTracePath(TChainCodePath & chainPath, const TPathInput & inPath, bo
  * include the "DC" term) to compute.  If chainPath has too few steps to
  * calculate numHarmonics (due to the Nyquist criterion), then as many harmonics
  * as possible (chainPath->NumberOfSteps()/2) will be calculated.  No fewer than
- * 2 harmonics will be calcualted. */
+ * 2 harmonics will be calculated. */
 template <typename TFourierSeriesPath, typename TChainCodePath>
 void
 MakeFourierSeriesPathTraceChainCode(TFourierSeriesPath &   FSPath,

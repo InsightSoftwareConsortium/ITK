@@ -316,7 +316,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
                                pdfMovingIndex;
 
   OffsetValueType localDerivativeOffset = 0;
-  // Store the pdf indecies for this point.
+  // Store the pdf indices for this point.
   // Just store the starting pdfMovingIndex and we'll iterate later
   // over the next four to collect results.
   if (doComputeDerivative && (this->m_MattesAssociate->HasLocalSupport()))

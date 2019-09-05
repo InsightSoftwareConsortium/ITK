@@ -32,7 +32,7 @@ namespace fem
  * \brief A generic load that can be applied to an edge of the element.
  *
  * Can also be used to apply natural (Neumann) boundary condition on the
- * edge of the element. In this case m_Edge defines the edge or surfance
+ * edge of the element. In this case m_Edge defines the edge or surface
  * of the element on which the BC exists and matrix m_Force holds the actual
  * prescribed values of the BC.
  * \ingroup ITKFEM
@@ -105,7 +105,7 @@ protected:
    * are normal (1st component) and tangential (2nd component) force
    * acting on the edge of the element. A positive normal load acts in
    * a direction INTO the element. A positive tangential load acts in
-   * an ANTICLOCKWISE direction with respect to the loaded elemenet.
+   * an ANTICLOCKWISE direction with respect to the loaded element.
    * Each nodal force is stored in a column of the matrix. The number
    * of columns in the Force matrix must correspond to the number of
    * nodes that define the edge (face...). The force is interpolated

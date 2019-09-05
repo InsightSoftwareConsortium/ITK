@@ -25,7 +25,7 @@ namespace itk
 /**
  * \class ConnectedComponentFunctorImageFilter
  * \brief A generic connected components filter that labels the
- * objects in an artibitrary image.
+ * objects in an arbitrary image.
  *
  * ConnectedComponentFunctorImageFilter labels the objects in an arbitrary
  * image. Each distinct object is assigned a unique label. The filter makes

@@ -19,7 +19,7 @@
 #include "itkNiftiImageIOTest.h"
 #include "itkEnableIf.h"
 #include <limits>
-/* VS 2015 has a bug when building release with the heavly nested for
+/* VS 2015 has a bug when building release with the heavily nested for
  * loops iterating too many times.  This turns off optimization to
  * allow the tests to pass.
  */

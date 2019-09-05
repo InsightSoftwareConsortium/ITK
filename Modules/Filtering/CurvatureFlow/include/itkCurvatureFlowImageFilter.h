@@ -173,7 +173,7 @@ protected:
   }
 
   /** Initialize the state of filter and equation before each iteration.
-   * Progress feeback is implemented as part of this method. */
+   * Progress feedback is implemented as part of this method. */
   void
   InitializeIteration() override;
 

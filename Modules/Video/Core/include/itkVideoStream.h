@@ -30,7 +30,7 @@ namespace itk
  * The function of VideoStream is to provide an Image-specific subclass of
  * TemporalDataObject. It provides several convenient typedefs to get common
  * attributes of the frames. Additionally, the VideoStream caches meta
- * information (lagest/requested/buffered spatial regions, origin, spacing,
+ * information (largest/requested/buffered spatial regions, origin, spacing,
  * and direction) about all frames in the video, even those not currently
  * buffered. This is done primarily in order to allow the meta data to be set
  * before the frame is buffered.

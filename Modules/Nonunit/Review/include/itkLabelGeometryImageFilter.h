@@ -45,7 +45,7 @@ namespace itk
  *
  * It calculates features similar to the regionprops command of Matlab.  The
  * set of measurements that it enables include: volume, centroid, eigenvalues,
- * eigenvectors, axes lenghts, eccentricity, elongation, orientation, bounding
+ * eigenvectors, axes lengths, eccentricity, elongation, orientation, bounding
  * box, oriented bounding box, and rotation matrix.  These features are based
  * solely on the labeled mask itself.  It also calculates integrated intensity
  * and weighted centroid, which are measured on an intensity image under the

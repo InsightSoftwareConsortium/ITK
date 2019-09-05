@@ -125,7 +125,7 @@ protected:
   void
   Solve();
 
-  /** Constants that specify where matrices are strored. */
+  /** Constants that specify where matrices are stored. */
   enum
   {
     matrix_K = 1,
@@ -134,7 +134,7 @@ protected:
     matrix_tmp = 4
   };
 
-  /** Constants that specify where vectors are strored. */
+  /** Constants that specify where vectors are stored. */
   enum
   {
     solution_d = 0,

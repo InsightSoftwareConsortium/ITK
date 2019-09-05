@@ -140,7 +140,7 @@ public:
 
   /** Normalize the Versor.
    * Given that Versors are normalized quaternions this method
-   * is provided only for convinience when it is suspected that
+   * is provided only for convenience when it is suspected that
    * a versor could be out of the unit sphere.   */
   void
   Normalize();
@@ -246,7 +246,7 @@ public:
 
   /** Sets a rotation around the X axis using the parameter
    * as angle in radians. This is a method provided for
-   * convinience to initialize a rotation. The effect of
+   * convenience to initialize a rotation. The effect of
    * this methods is not cumulative with any value previously
    * stored in the Versor.
    * \sa Set \sa SetRotationAroundY \sa SetRotationAroundZ */
@@ -255,7 +255,7 @@ public:
 
   /** Sets a rotation around the Y axis using the parameter
    * as angle in radians. This is a method provided for
-   * convinience to initialize a rotation. The effect of
+   * convenience to initialize a rotation. The effect of
    * this methods is not cumulative with any value previously
    * stored in the Versor.
    * \sa Set \sa SetRotationAroundX \sa SetRotationAroundZ */
@@ -264,7 +264,7 @@ public:
 
   /** Sets a rotation around the Y axis using the parameter
    * as angle in radians. This is a method provided for
-   * convinience to initialize a rotation. The effect of
+   * convenience to initialize a rotation. The effect of
    * this methods is not cumulative with any value previously
    * stored in the Versor.
    * \sa Set \sa SetRotationAroundX \sa SetRotationAroundY */

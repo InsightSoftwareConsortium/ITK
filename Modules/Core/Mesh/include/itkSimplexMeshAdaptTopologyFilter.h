@@ -277,7 +277,7 @@ protected:
   Initialize();
 
   /**
-   * Method computes and evaluates cell propeties,
+   * Method computes and evaluates cell properties,
    * like area and curvature and determines whether
    * a cell should be refined or not.
    */
@@ -309,7 +309,7 @@ protected:
 
   /**
    * threshold controls the percentage of cells
-   * to satify the selection criteria
+   * to satisfy the selection criteria
    */
   double m_Threshold{ 0.5 };
 
@@ -319,7 +319,7 @@ protected:
   int m_SelectionMethod{ 0 };
 
   /**
-   * atttribute contains the number of cells
+   * attribute contains the number of cells
    * which were modified during the last Update()
    */
   int m_ModifiedCount{ 0 };

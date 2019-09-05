@@ -54,11 +54,11 @@ namespace itk
  * GetValueAndDerivatives(), marginal and joint intensity PDF's
  * values are estimated at discrete position or bins.
  * The number of bins used can be set via SetNumberOfHistogramBins().
- * To handle data with arbitray magnitude and dynamic range,
+ * To handle data with arbitrary magnitude and dynamic range,
  * the image intensity is scale such that any contribution to the
  * histogram will fall into a valid bin.
  *
- * One the PDF's have been contructed, the mutual information
+ * One the PDF's have been constructed, the mutual information
  * is obtained by doubling summing over the discrete PDF values.
  *
  * \warning Local-support transforms are not yet supported. If used,
@@ -74,7 +74,7 @@ namespace itk
  *
  * See
  *  MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader::ProcessPoint
- *  for poritons of the algorithm implementation.
+ *  for portions of the algorithm implementation.
  *
  * See ImageToImageMetricv4 for details of common metric operation and options.
  *
@@ -282,7 +282,7 @@ protected:
    * per thread.
    *
    * Thread safety note:
-   * A seperate object is used locally per each thread. Only the members
+   * A separate object is used locally per each thread. Only the members
    * m_ParentJointPDFDerivativesLockPtr and m_ParentJointPDFDerivatives
    * are shared between threads and access to m_ParentJointPDFDerivatives
    * is controlled with the m_ParentJointPDFDerivativesLockPtr mutex lock.

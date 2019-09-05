@@ -76,7 +76,7 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::GenerateInputR
   Superclass::GenerateInputRequestedRegion();
 
   // this filter requires:
-  // - the largeset possible region of the first image
+  // - the largest possible region of the first image
   // - the corresponding region of the second image
   if (this->GetInput1())
   {

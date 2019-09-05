@@ -23,7 +23,7 @@
 namespace itk
 {
 /** \class ConvertLabelMapFilter
- * \brief Converts the LabelObjects of a LabelMap to a differente type of LabelObejct
+ * \brief Converts the LabelObjects of a LabelMap to a different type of LabelObejct
  *
  * The LabelObjects are copied and not simply dynamically casted so the filter ensures
  * that the type of the label objects are of the type specified with TOutputImage.

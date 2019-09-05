@@ -49,7 +49,7 @@ enum class CategoryTypeForMetric : uint8_t
 };
 
 /** \class ObjectToObjectMetricBaseTemplate
- * \brief Base class for all object-to-object similarlity metrics added in ITKv4.
+ * \brief Base class for all object-to-object similarity metrics added in ITKv4.
  *
  * This is the abstract base class for a hierarchy of similarity metrics
  * that may, in derived classes, operate on meshes, images, etc.

@@ -498,7 +498,7 @@ public:
    *  for dense transforms.
    *  \c jacobian is assumed to be thread-local variable, otherwise memory corruption
    *  will most likely occur during multi-threading.
-   *  To avoid repeatitive memory allocation, pass in 'jacobian' with its size
+   *  To avoid repetitive memory allocation, pass in 'jacobian' with its size
    *  already set. */
   virtual void
   ComputeJacobianWithRespectToParameters(const InputPointType & itkNotUsed(p),
@@ -517,7 +517,7 @@ public:
   /** This provides the ability to get a local jacobian value
    *  in a dense/local transform, e.g. DisplacementFieldTransform. For such
    *  transforms it would be unclear what parameters would refer to.
-   *  Generally, global transforms should return an indentity jacobian
+   *  Generally, global transforms should return an identity jacobian
    *  since there is no change with respect to position. */
   virtual void
   ComputeJacobianWithRespectToPosition(const InputPointType & itkNotUsed(x),
@@ -534,7 +534,7 @@ public:
   /** This provides the ability to get a local jacobian value
    *  in a dense/local transform, e.g. DisplacementFieldTransform. For such
    *  transforms it would be unclear what parameters would refer to.
-   *  Generally, global transforms should return an indentity jacobian
+   *  Generally, global transforms should return an identity jacobian
    *  since there is no change with respect to position. */
   virtual void
   ComputeInverseJacobianWithRespectToPosition(const InputPointType & x, InverseJacobianPositionType & jacobian) const;

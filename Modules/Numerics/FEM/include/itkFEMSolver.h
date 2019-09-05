@@ -207,7 +207,7 @@ public:
 
   /**
    * Initialize the interpolation grid. The interpolation grid is used to
-   * find elements that containg specific points in a mesh. The interpolation
+   * find elements that contains specific points in a mesh. The interpolation
    * grid stores pointers to elements for each point on a grid thereby providing
    * a fast way (lookup table) to perform interpolation of results.
    *
@@ -326,7 +326,7 @@ protected:
   InitializeMatrixForAssembly(unsigned int N);
 
   /**
-   * This function is called after the assebly has been completed.
+   * This function is called after the assembly has been completed.
    * In this class it is only used to apply the BCs. You may however
    * use it to perform other stuff in derived solver classes.
    */
@@ -339,7 +339,7 @@ protected:
 
   /**
    * Copy the element stiffness matrix into the correct position in the
-   * master stiffess matrix. Since more complex Solver classes may need to
+   * master stiffness matrix. Since more complex Solver classes may need to
    * assemble many matrices and may also do some funky stuff to them, this
    * function is and can be overriden in a derived solver class.
    */
@@ -348,7 +348,7 @@ protected:
 
   /**
    * Add the contribution of the landmark-containing elements to the
-   * correct position in the master stiffess matrix. Since more
+   * correct position in the master stiffness matrix. Since more
    * complex Solver classes may need to assemble many matrices and may
    * also do some funky stuff to them, this function is virtual and
    * can be overriden in a derived solver class.

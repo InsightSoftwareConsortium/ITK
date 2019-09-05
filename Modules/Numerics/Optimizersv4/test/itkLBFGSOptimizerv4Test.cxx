@@ -303,7 +303,7 @@ itkLBFGSOptimizerv4Test(int, char *[])
   }
 
 
-  // Test with non-indentity scales
+  // Test with non-identity scales
   //
   std::cout << std::endl << "Test with non-identiy scales." << std::endl;
   OptimizerType::ScalesType scales(2);

@@ -147,7 +147,7 @@ void
 SingleValuedVnlCostFunctionAdaptorv4 ::ConvertExternalToInternalGradient(const DerivativeType &   input,
                                                                          InternalDerivativeType & output) const
 {
-  // Convert external derviative measures into internal type
+  // Convert external derivative measures into internal type
   const unsigned int size = input.GetSize();
 
   output = InternalDerivativeType(size);

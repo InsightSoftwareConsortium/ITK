@@ -100,7 +100,7 @@ Partition(TSubsample *                               sample,
  *
  * In this case, only one of the components of the measurement vectors is
  * considered. This component is defined by the argument activeDimension. The
- * search is rectricted to the range between the index begin and end, also
+ * search is restricted to the range between the index begin and end, also
  * passed as arguments.
  *
  * The endIndex should point one point after the last elements. Note that kth
@@ -126,7 +126,7 @@ QuickSelect(TSubsample *                         sample,
  *
  * In this case, only one of the components of the measurement vectors is
  * considered. This component is defined by the argument activeDimension. The
- * search is rectricted to the range between the index begin and end, also
+ * search is restricted to the range between the index begin and end, also
  * passed as arguments.
  *
  * The endIndex should point one point after the last elements. Note that kth

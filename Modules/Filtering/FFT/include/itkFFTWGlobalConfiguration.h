@@ -220,7 +220,7 @@ public:
   static std::mutex &
   GetLockMutex();
 
-  /** Set/Get wether a new wisdom is available compared to the
+  /** Set/Get whether a new wisdom is available compared to the
    * initial state. If a new wisdom is available, the wisdoms
    * may be written to the cache file
    */
@@ -233,7 +233,7 @@ public:
    * \brief Set the behavior of wisdom plan creation
    *
    * If the environmental variable "ITK_FFTW_PLAN_RIGOR", is set,
-   * then the environmental setting overides default settings.
+   * then the environmental setting overrides default settings.
    * \param v One of the FFTW planner rigor flags FFTW_ESTIMATE,
    * FFTW_MEASURE, FFTW_PATIENT, FFTW_EXHAUSTIVE
    */
@@ -257,7 +257,7 @@ public:
    * \brief Set/Get the behavior of wisdom file caching
    *
    * If the environmental variable "ITK_FFTW_WRITE_WISDOM_CACHE", is set,
-   * then the environmental setting overides default settings.
+   * then the environmental setting overrides default settings.
    * If true, will create a wisdom file in the location
    */
   static void
@@ -269,7 +269,7 @@ public:
    * \brief Set/Get the behavior of wisdom file caching
    *
    * If the environmental variable "ITK_FFTW_WRITE_WISDOM_CACHE", is set,
-   * then the environmental setting overides default settings.
+   * then the environmental setting overrides default settings.
    * If true, will create a wisdom file in the location
    */
   static void
@@ -294,7 +294,7 @@ public:
    * cache file names.  A default cache strategy is set
    * to generate separate cache files for each unique
    * operating system and hardware permutation.  Alternate
-   * respresentative strategies are available to meet common
+   * representative strategies are available to meet common
    * use cases.
    * \sa HardwareWisdomFilenameGenerator
    * \sa SimpleWisdomFilenameGenerator

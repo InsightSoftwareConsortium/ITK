@@ -71,7 +71,7 @@ public:
    */
   Element3DC0LinearTriangularLaplaceBeltrami(NodeIDType n1_, NodeIDType n2_, NodeIDType n3_, Material::ConstPointer p_);
 
-  /** Get the degress of freesom for each node */
+  /** Get the degrees of freesom for each node */
   unsigned int
   GetNumberOfDegreesOfFreedomPerNode() const override
   {

@@ -33,7 +33,7 @@ itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int argc, char * a
   // Need to register default FEM object types,
   // and setup SpatialReader to recognize FEM types
   // which is all currently done as a HACK in
-  // the initializaiton of the itk::FEMFactoryBase::GetFactory()
+  // the initialization of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
   using SpatialObjectType = itk::SpatialObject<2>;

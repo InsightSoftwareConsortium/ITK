@@ -361,7 +361,7 @@ itkMultiTransformTest(int, char *[])
 
   std::cout << std::endl << "Two-component Multi Transform:" << std::endl << multiTransform;
 
-  /* Test that we have two tranforms in the queue */
+  /* Test that we have two transforms in the queue */
   if (multiTransform->GetNumberOfTransforms() != 2)
   {
     std::cout << "Failed adding 2nd transform to queue." << std::endl;

@@ -66,7 +66,7 @@ public:
   /** Transform category type. */
   using TransformCategoryType = typename Superclass::TransformCategoryType;
 
-  /** The number of parameters defininig this transform. */
+  /** The number of parameters defining this transform. */
   using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** Standard coordinate point type for this class. */

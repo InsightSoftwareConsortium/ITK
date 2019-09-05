@@ -92,7 +92,7 @@ protected:
   ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const override;
 
   /** Compute the contribution of the landmarks weighted by the kernel
-   *  funcion to the global deformation of the space  */
+   *  function to the global deformation of the space  */
   void
   ComputeDeformationContribution(const InputPointType & inputPoint, OutputPointType & result) const override;
 };

@@ -30,7 +30,7 @@ namespace itk
  * objects on the fly for those objects that are not to be shared.
  * An AutoPointer destroys its object when it goes out of scope.
  * Ownership of the object is transferred from one AutoPointer
- * to another AutoPointer when the assignement operator is used.
+ * to another AutoPointer when the assignment operator is used.
  * An AutoPointer can release ownership of the object it holds.
  *
  * This class follows the design of the std::unique_ptr (auto_ptr being
@@ -203,7 +203,7 @@ public:
   }
 
   /** Casting operator to boolean. This is used in conditional
-      statments to check the content of the pointer against null */
+      statements to check the content of the pointer against null */
   operator bool() const { return (m_Pointer != nullptr); }
 
   /** Function to print object pointed to.  */

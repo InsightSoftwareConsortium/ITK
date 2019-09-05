@@ -123,7 +123,7 @@ public:
     return m_NumberOfCoefficients;
   }
 
-  /** Gets each dimesion's size. */
+  /** Gets each dimension's size. */
   const DomainSizeType &
   GetDomainSize() const
   {

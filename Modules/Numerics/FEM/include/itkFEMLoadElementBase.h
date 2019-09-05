@@ -108,7 +108,7 @@ public:
   /** Apply the load to the specified element */
   virtual void
   ApplyLoad(Element::ConstPointer, Element::VectorType &)
-  { /* HACK:  This should probably through an execption if it is not intended to be used. */
+  { /* HACK:  This should probably throw an exception if it is not intended to be used. */
   }
 
 protected:

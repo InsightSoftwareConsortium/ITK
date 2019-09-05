@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __itpack_h
-#define __itpack_h
+#ifndef itpack_h
+#define itpack_h
 
 #include "v3p_netlib.h"
 
@@ -267,7 +267,7 @@ extern "C"
         integer *    ierr);
 
   /**
-   * Performs one iteration of the jacobian conjugate gradiant method
+   * Performs one iteration of the jacobian conjugate gradient method
    * \param nn Order of linear system
    * \param ia array of row offsets
    * \param ja array of column indices
@@ -276,8 +276,8 @@ extern "C"
    * \param u1 value of solution vector at the end of the in-1 iteration, gets filled with newest estimate
    * \param d__  solution vector, gets filled with pseudo-residual vector after in iterations
    * \param d1 pseudo-residual vector after in-1 iterations, gets filled with newest pseudo-residual vector
-   * \param dtwd used in computation of acceleration parameeter gamma and the pseudo-residual
-   * \param tri stores the tridiagonal matrix associated with the eigenvalues of the conjugate gradient ploynomial
+   * \param dtwd used in computation of acceleration parameter gamma and the pseudo-residual
+   * \param tri stores the tridiagonal matrix associated with the eigenvalues of the conjugate gradient polynomial
    */
   extern int
   itjcg_(integer *    nn,
@@ -341,7 +341,7 @@ extern "C"
    * \param d__ used to compute backward pseudo-residual for current iteration
    * \param dl used in computation of acceleration parameters
    * \param wk work array of length nn
-   * \param tri stores the tridiagonal matrix associated with the eigenvalues of the conjugate gradient ploynomial
+   * \param tri stores the tridiagonal matrix associated with the eigenvalues of the conjugate gradient polynomial
    */
   extern int
   itsrcg_(integer *    nn,
@@ -397,7 +397,7 @@ extern "C"
    * \param db pseudo-residual of black points after in iterations
    * \param db1 pseudo-residual of black points after in-1 iterations, filled with in+1 values
    * \param wb used in computation involving black vector
-   * \param tri stores the tridiagonal matrix associated with the eigenvalues of the conjugate gradient ploynomial
+   * \param tri stores the tridiagonal matrix associated with the eigenvalues of the conjugate gradient polynomial
    */
   extern int
   itrscg_(integer *    n,
@@ -568,7 +568,7 @@ extern "C"
           integer *    icall);
 
   /**
-   * This routine initiazes the itpack common blocks from IPARM and RPARM
+   * This routine initializes the itpack common blocks from IPARM and RPARM
    * \param iparm integer array of parameters
    * \param rparm doublereal array of parameters
    * \param imthd indicator of method
@@ -584,7 +584,7 @@ extern "C"
   echout_(integer * iparm, doublereal * rparm, integer * imthd);
 
   /**
-   * Computes the largest eigenvalue of symmetric tridiagnoncal matrix
+   * Computes the largest eigenvalue of symmetric tridiagonal matrix
    * for conjugate gradient acceleration
    * \param n order of tridiagonal system
    * \param tri symmetric tridiagonal matrix of order n
@@ -824,7 +824,7 @@ extern "C"
   qsort_(integer * nn, integer * key, doublereal * data, integer * error);
 
   /**
-   * Convert compressed row matrix back to linked-list representation used for adding entires
+   * Convert compressed row matrix back to linked-list representation used for adding entries
    */
   extern int
   sbagn_(integer *    n,
@@ -973,7 +973,7 @@ extern "C"
   vevpw_(integer * n, doublereal * v, doublereal * w);
 
   /**
-   * Fill all entires of nn-sized array u with value
+   * Fill all entries of nn-sized array u with value
    * \param n size of array
    * \param v array
    * \param val value to fill array with
@@ -1009,4 +1009,4 @@ extern "C"
 
 #include "v3p_f2c_unmangle.h"
 
-#endif // #ifndef __itpack_h
+#endif // #ifndef itpack_h

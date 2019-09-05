@@ -236,7 +236,7 @@ public:
 
   //  Second order accessors.
 
-  /** Returns the symetric edge
+  /** Returns the symmetric edge
    * (see "Accessing adjacent edges"). */
   inline Self *
   GetSym()

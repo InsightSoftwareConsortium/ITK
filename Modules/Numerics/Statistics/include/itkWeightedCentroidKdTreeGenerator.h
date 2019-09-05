@@ -30,7 +30,7 @@ namespace Statistics
 /** \class WeightedCentroidKdTreeGenerator
  *  \brief This class generates a KdTree object with centroid information.
  *
- * The KdTree object stores measurment vectors in a k-d tree structure
+ * The KdTree object stores measurement vectors in a k-d tree structure
  * that is a binary tree. The partition value is the median value of one
  * of the k dimension (partition dimension). The partition dimension is
  * determined by the spread of measurement values in each dimension. The

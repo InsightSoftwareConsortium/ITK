@@ -28,7 +28,7 @@ namespace itk
  * \brief Base class for SegmentationBorder object
  *
  * itkSegmentationBorder is the base class for the SegmentationBorder
- * objects. It provides the basic function definitons that are inherent to a
+ * objects. It provides the basic function definitions that are inherent to a
  * SegmentationBorder objects.  This object stores information relevant to
  * the borders that are used in the region growing class. This class allows
  * access to the parameter that defines the length of the border associated

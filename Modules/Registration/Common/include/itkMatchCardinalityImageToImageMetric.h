@@ -37,7 +37,7 @@ namespace itk
  *
  * This metric computes cardinality of the set of pixels that match
  * exactly between the moving and fixed images. The spatial
- * correspondance between both images is established through a
+ * correspondence between both images is established through a
  * Transform. Pixel values are taken from the Moving image. Their
  * positions are mapped to the Fixed image and result in general in
  * non-grid position on it. Values at these non-grid position of the

@@ -64,13 +64,13 @@ public:
 
   // see super class for documentation
   //
-  // overidden to return true
+  // overridden to return true
   bool
   CanStreamWrite() override;
 
   // see super class for documentation
   //
-  // overidden to return true
+  // overridden to return true
   bool
   CanStreamRead() override;
 

@@ -287,7 +287,7 @@ public:
   GetStressesAtPoint(const VectorType & pt, const VectorType & e, const Solution & sol, unsigned int index) const;
 
   /**
-   * Compute and return element stiffnes matrix (Ke) in global coordinate
+   * Compute and return element stiffness matrix (Ke) in global coordinate
    * system.
    * The base class provides a general implementation which only computes
    *
@@ -300,10 +300,10 @@ public:
    * the integration points. It also calls the GetStrainDisplacementMatrix()
    * and GetMaterialMatrix() member functions.
    *
-   * \param Ke Reference to the resulting stiffnes matrix.
+   * \param Ke Reference to the resulting stiffness matrix.
    *
    * \note This is a very generic implementation of the stiffness matrix
-   *       that is suitable for any problem/element definition. A specifc
+   *       that is suitable for any problem/element definition. A specific
    *       element may override this implementation with its own simple one.
    */
   virtual void
@@ -427,7 +427,7 @@ public:
    *
    * \note Derived Element classes don't have to use a material
    * class, but since the majority of the final Element classes
-   * uses Material classes to specify phhysical constants that the
+   * uses Material classes to specify physical constants that the
    * element depends on, we provide this virtual function that
    * enables easy access to this pointer from the base class. If the
    * derived class does not override this function, the returned pointer
@@ -533,7 +533,7 @@ public:
   using NodeIDType = Node::ConstPointer;
 
   /**
-   * Return the total number of nodes in an elememnt.
+   * Return the total number of nodes in an element.
    */
   virtual unsigned int
   GetNumberOfNodes() const = 0;

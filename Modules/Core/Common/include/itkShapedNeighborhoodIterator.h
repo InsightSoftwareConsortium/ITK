@@ -92,7 +92,7 @@ namespace itk
    \\ you may also use i != i.End(), but IsAtEnd() may be slightly faster.
    \endcode
  *
- * You can also iterate backward through the neighbohood active list.
+ * You can also iterate backward through the neighborhood active list.
  *
    \code
    i = it.End();

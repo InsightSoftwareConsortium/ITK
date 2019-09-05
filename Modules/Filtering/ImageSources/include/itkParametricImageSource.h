@@ -34,7 +34,7 @@ namespace itk
  * parameterized image sources within ITK's
  * optimization/registration framework.
  *
- * Concrete subclasses must impelement the methods SetParameters(),
+ * Concrete subclasses must implement the methods SetParameters(),
  * GetParameters() and GetNumberOfParameters().
  *
  * \ingroup DataSources

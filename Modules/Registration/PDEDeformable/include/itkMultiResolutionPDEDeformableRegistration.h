@@ -250,7 +250,7 @@ protected:
   void
   GenerateOutputInformation() override;
 
-  /** The current implementation of this class does not supprot
+  /** The current implementation of this class does not support
    * streaming. As such it produces the output for the largest
    * possible region. */
   void
@@ -262,7 +262,7 @@ protected:
   Halt();
 
   /** Override VerifyInputInformation() since this filter's inputs do
-   * not need to occoupy the same physical space.
+   * not need to occupy the same physical space.
    *
    * \sa ProcessObject::VerifyInputInformation
    */

@@ -520,7 +520,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImageRegion(FixedImage
     throw ExceptionObject(__FILE__, __LINE__, "Sample size does not match desired number of samples");
   }
 
-  // Set up a random interator within the user specified fixed image region.
+  // Set up a random iterator within the user specified fixed image region.
   using RandomIterator = ImageRandomConstIteratorWithIndex<FixedImageType>;
   RandomIterator randIter(m_FixedImage, GetFixedImageRegion());
   randIter.ReinitializeSeed(Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->GetSeed());
@@ -639,7 +639,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFullFixedImageRegion(FixedI
     throw ExceptionObject(__FILE__, __LINE__, "Sample size does not match desired number of samples");
   }
 
-  // Set up a region interator within the user specified fixed image region.
+  // Set up a region iterator within the user specified fixed image region.
   using RegionIterator = ImageRegionConstIteratorWithIndex<FixedImageType>;
   RegionIterator regionIter(m_FixedImage, GetFixedImageRegion());
 

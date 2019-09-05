@@ -54,7 +54,7 @@ namespace itk
  * encapsulate simple types (float, int, std::vector).
  * AutoPointerDataObjectDecorator will decorate any pointer type (for
  * objects other than subclasses of itkObject) and manage the memory
- * deallocationg of the component.
+ * deallocating of the component.
  *
  * \sa SimpleDataObjectDecorator
  * \sa AutoPointerDataObjectDecorator

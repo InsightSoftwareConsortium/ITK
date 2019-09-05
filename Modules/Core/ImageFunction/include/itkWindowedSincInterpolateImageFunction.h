@@ -232,7 +232,7 @@ private:
  *
  * \par CAVEATS
  *
- * There are a few improvements that an enthusiasting ITK developer
+ * There are a few improvements that an enthusiastic ITK developer
  * could make to this filter. One issue is with the way that the kernel
  * is applied. The computational expense comes from two sources:
  * computing the kernel weights K(t) and multiplying the pixels in the

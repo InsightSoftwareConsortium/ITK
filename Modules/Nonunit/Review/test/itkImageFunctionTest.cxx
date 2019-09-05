@@ -236,7 +236,7 @@ itkImageFunctionTest(int, char *[])
   {
     std::cout << "Error with IsInsideBuffer 3C. Expected  false." << std::endl
               << "  indexC: " << indexC << std::endl
-              << "  start/end continuous indecies: " << startIndexC << " " << endIndexC << std::endl;
+              << "  start/end continuous indices: " << startIndexC << " " << endIndexC << std::endl;
     result = EXIT_FAILURE;
   }
   indexC[0] = ContinuousIndexNumericTraits::max();

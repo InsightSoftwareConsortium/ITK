@@ -28,7 +28,7 @@ namespace itk
  * \brief Base class for filters that use a VideoStream as input and output
  *
  * VideoToVideoFilter is the base class for all process objects that output
- * VideoStream data and requre VideoStream data as input. This class defines
+ * VideoStream data and require VideoStream data as input. This class defines
  * the SetInput() method for setting the input to a filter.
  *
  * An implementation of GenerateInputRequestedRegion() is provided here that

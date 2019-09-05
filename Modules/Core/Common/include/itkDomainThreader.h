@@ -125,7 +125,7 @@ protected:
   DomainThreader();
   ~DomainThreader() override = default;
 
-  /** This is evauated at the beginning of Execute() so that it can be used in
+  /** This is evaluated at the beginning of Execute() so that it can be used in
    * BeforeThreadedExecution(). */
   virtual void
   DetermineNumberOfWorkUnitsUsed();

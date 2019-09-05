@@ -221,7 +221,7 @@ public:
      * information, with the pixel buffer left unallocated.
      * Metric evaluation will be performed within the constraints of the virtual
      * domain depending on implementation in derived classes.
-     * A default domain is created during initializaiton in derived
+     * A default domain is created during initialization in derived
      * classes according to their need.
      * \param spacing   spacing
      * \param origin    origin

@@ -1933,7 +1933,7 @@ NiftiImageIO ::Write(const void * buffer)
     }
     const size_t numVoxels = size_t(this->m_NiftiImage->dim[1]) * size_t(this->m_NiftiImage->dim[2]) *
                              size_t(this->m_NiftiImage->dim[3]) * size_t(this->m_NiftiImage->dim[4]);
-    const size_t buffer_size = numVoxels * numComponents // Number of componenets
+    const size_t buffer_size = numVoxels * numComponents // Number of components
                                * this->m_NiftiImage->nbyper;
 
     auto *             nifti_buf = new char[buffer_size];

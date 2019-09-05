@@ -80,7 +80,7 @@ public:
   /** Set pointer to the original path.  The path MUST be continuous in its
    * first derivative to prevent discontinuities in the corrected path.  The
    * path should also be closed, since the first correction is applied to both
-   * the beginnning and the end of the original path. */
+   * the beginning and the end of the original path. */
   // The usual itkSetObjectMacro can not be used here because
   // m_DefaultInputStepSize must also be copied over.
   void

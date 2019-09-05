@@ -81,7 +81,7 @@ namespace itk
  * C array of TRealValue type.
  *
  * \par Constraints
- * We use vnl_det for determinent computation, which only supports square
+ * We use vnl_det for determinant computation, which only supports square
  * matrices. So the vector dimension of the input image values must be equal
  * to the image dimensions, which is trivially true for a deformation field
  * that maps an n-dimensional space onto itself.

@@ -109,7 +109,7 @@ public:
   Self
   operator/(const ComponentType & f) const;
 
-  /** Arithmetic-assigment operators. */
+  /** Arithmetic-assignment operators. */
   const Self &
   operator+=(const Self & vec);
   const Self &

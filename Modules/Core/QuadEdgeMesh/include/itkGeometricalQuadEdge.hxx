@@ -69,7 +69,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::SetLnextR
 }
 
 /**
- * \brief Check wether the Lnext() ring of "this" edge is exactly of
+ * \brief Check whether the Lnext() ring of "this" edge is exactly of
  *        size three AND if those three edges all share the same Left().
  * @return Returns true when the Lnext() ring is the one of a triangle.
  *         Returns false otherwise.
@@ -82,7 +82,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsLnextOf
 }
 
 /**
- * \brief Check wether the incoming argument is in the Onext() ring
+ * \brief Check whether the incoming argument is in the Onext() ring
  *        of "this" edge or not.
  * @param b The edge to test.
  * @return Returns true when "this" edge and the incoming argument are
@@ -103,7 +103,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsInOnext
 }
 
 /**
- * \brief Check wether the incoming argument is in the Lnext() ring
+ * \brief Check whether the incoming argument is in the Lnext() ring
  *        of "this" edge or not.
  * @param b The edge to test.
  * @return Returns true when "this" edge and the incoming argument are
@@ -124,7 +124,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsInLnext
 }
 
 /**
- * \brief Check wether edge's Origin is internal to the mesh (as opposed
+ * \brief Check whether edge's Origin is internal to the mesh (as opposed
  *        to being on the boundary) by looking if all the edges in the
  *        Onext() ring have a face set on both their Left() and Right()
  *        side.
@@ -150,7 +150,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsOriginI
 
 /**
  * \brief Consider the first few edges in Lnext() ring of "this" edge.
- *         Check wether those edges all share the same Left().
+ *         Check whether those edges all share the same Left().
  * @param  maxSize Looks at most maxSize edges in the Lnext() ring.
  * @return Returns true when the Lnext() ring share THE same
  *         Left() faces. Return false otherwise.

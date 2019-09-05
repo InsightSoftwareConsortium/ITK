@@ -29,7 +29,7 @@ namespace itk
  * \brief Computes the minimum distance between a moving point-set
  *  and a fixed point-set. A vector of minimum closest point distance is
  *  created for each point in the moving point-set.
- *  No correspondance is needed.
+ *  No correspondence is needed.
  *  For speed consideration, the point-set with the minimum number of points
  *  should be used as the moving point-set.
  *  If the number of points is high, the possibility of setting a distance map

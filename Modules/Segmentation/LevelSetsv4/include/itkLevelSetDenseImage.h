@@ -29,7 +29,7 @@ namespace itk
  *  one image.
  *
  *  This representation is a "dense" level-set function, i.e. it defines
- *  a level-set function on a grid (more precesily the underlying structure
+ *  a level-set function on a grid (more precisely the underlying structure
  *  is an Image).
  *
  *  \tparam TImage Input image type of the level set function

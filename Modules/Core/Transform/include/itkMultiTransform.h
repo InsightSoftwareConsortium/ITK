@@ -132,7 +132,7 @@ public:
   /** Transform queue type */
   using TransformQueueType = std::deque<TransformTypePointer>;
 
-  /** The number of parameters defininig this transform. */
+  /** The number of parameters defining this transform. */
   using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** Dimension of the domain spaces. */

@@ -308,7 +308,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
     }
   }
 
-  // Determine the regions first and intialize them
+  // Determine the regions first and initialize them
 
   InputImageSizeType numRegionsAlongDim;
   for (unsigned int idim = 0; idim < InputImageDimension; idim++)
@@ -333,7 +333,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
 
   m_NumberOfRegions = m_InitialNumberOfRegions;
 
-  // Allocate and intialize memory to the regions in initial image block
+  // Allocate and initialize memory to the regions in initial image block
 
   m_RegionsPointer.resize(m_InitialNumberOfRegions);
   for (unsigned int iregion = 0; iregion < m_InitialNumberOfRegions; iregion++)
@@ -370,9 +370,9 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
     }
   } // end iregion loop
 
-  // Determine the borders next and intialize them
+  // Determine the borders next and initialize them
 
-  // Allocate and intialize memory to the borders
+  // Allocate and initialize memory to the borders
 
   unsigned int numberOfBorders = 0;
   for (unsigned int idim = 0; idim < InputImageDimension; idim++)

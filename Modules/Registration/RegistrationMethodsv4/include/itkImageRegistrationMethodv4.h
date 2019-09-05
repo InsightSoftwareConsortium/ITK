@@ -265,7 +265,7 @@ public:
   /**
    * Set/Get the optimizer weights.  Allows setting of a per-local-parameter
    * weighting array. If unset, the weights are treated as identity. Weights
-   * are used to mask out a particular parameter during optimzation to hold
+   * are used to mask out a particular parameter during optimization to hold
    * it constant. Or they may be used to apply another kind of prior knowledge.
    * The size of the weights must be equal to the number of the local transformation
    * parameters.

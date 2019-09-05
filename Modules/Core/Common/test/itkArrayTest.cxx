@@ -109,7 +109,7 @@ itkArrayTest(int, char *[])
   constexpr size_t testSizeForArraySetDataSameSize = 10;
   FloatArrayType   objectToCopy(testSizeForArraySetDataSameSize);
   auto *           data = new float[testSizeForArraySetDataSameSize];
-  objectToCopy.SetDataSameSize(data); // This implictly means LetArrayManageMemory=false
+  objectToCopy.SetDataSameSize(data); // This implicitly means LetArrayManageMemory=false
 
   // Make a copy of the array which is not managing its own memory.
   FloatArrayType copy(objectToCopy);

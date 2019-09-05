@@ -28,7 +28,7 @@
 namespace itk
 {
 /** \class MorphologyImageFilter
- * \brief Base class for the morphological operations such as erosion and dialation
+ * \brief Base class for the morphological operations such as erosion and dilation
  *
  * This class provides the infrastructure to support most
  * morphological operations. Subclasses of MorphologyImageFilter

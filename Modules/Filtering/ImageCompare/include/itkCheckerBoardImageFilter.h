@@ -27,7 +27,7 @@ namespace itk
  *
  * CheckerBoardImageFilter takes two input images that must have the same
  * dimension, size, origin and spacing and produces an output image of the same
- * size by combinining the pixels from the two input images in a checkerboard
+ * size by combining the pixels from the two input images in a checkerboard
  * pattern. This filter is commonly used for visually comparing two images, in
  * particular for evaluating the results of an image registration process.
  *

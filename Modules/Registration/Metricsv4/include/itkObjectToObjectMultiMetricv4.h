@@ -78,7 +78,7 @@ namespace itk
  * \note If the user does not explicitly assign a virtual domain, then the first valid virtual
  * domain found in the component metrics will be used a virtual domain for this multi-metric,
  * which will be queried by classes such as registration parameter estimators.
- * Each componenet metric will still use its own virtual domain for internal calculations when
+ * Each component metric will still use its own virtual domain for internal calculations when
  * evaluated, so it is possible to use different virtual domains for each metric if desired.
  * If no component metric has a virtual domain defined, then by default the virtual domain is
  * unbounded.

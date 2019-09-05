@@ -37,7 +37,7 @@ namespace itk
  *
  * Template parameters for VoronoiDiagram2D:
  *
- * TCoordType = The type associated with the coordniation of the seeds and
+ * TCoordType = The type associated with the coordination of the seeds and
  * the resulting vertices.
  *
  * \ingroup MeshObjects

@@ -201,7 +201,7 @@ public:
     this->Modified();
   }
 
-  /** Set the array of MetaDataDictionaries this is an optinal entry,
+  /** Set the array of MetaDataDictionaries this is an optional entry,
    *  mostly intended to be used when writing DICOM slices.  */
   itkSetMacro(MetaDataDictionaryArray, DictionaryArrayRawPointer);
 

@@ -262,7 +262,7 @@ protected:
 
   /** This method check the narrow band state each iteration and reinitialize
       the narrow band if it is appropriate calling CreateNarrowBand and
-      SplitRegions to pre-partion the band for multi-threading.
+      SplitRegions to pre-partition the band for multi-threading.
   */
   void
   InitializeIteration() override;

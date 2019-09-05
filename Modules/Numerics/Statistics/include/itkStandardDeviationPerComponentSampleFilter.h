@@ -35,8 +35,8 @@ namespace Statistics
  * calculation. The covariance is computed as follows
  * Let \f$\Sigma\f$ denotes covariance matrix for the sample, then:
  * When \f$x_{i}\f$ is \f$i\f$th component of a measurement vector
- * \f$\vec x\f$, \f$\mu_{i}\f$ is the \f$i\f$th componet of the \f$\vec\mu\f$,
- * and the \f$\sigma_{ij}\f$ is the \f$ij\f$th componet \f$\Sigma\f$,
+ * \f$\vec x\f$, \f$\mu_{i}\f$ is the \f$i\f$th component of the \f$\vec\mu\f$,
+ * and the \f$\sigma_{ij}\f$ is the \f$ij\f$th component \f$\Sigma\f$,
  * \f$\sigma_{ij} = (x_{i} - \mu_{i})(x_{j} - \mu_{j})\f$
  *
  * Without the plugged in mean vector, this calculator will perform

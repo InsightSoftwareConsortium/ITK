@@ -98,7 +98,7 @@ public:
   using InternalComplexImageType = typename Superclass::InternalComplexImageType;
   using InternalComplexImagePointerType = typename Superclass::InternalComplexImagePointerType;
 
-  /** Set/get the threshold value uused to determine whether a
+  /** Set/get the threshold value used to determine whether a
    * frequency of the Fourier transform of the blurring kernel is
    * considered to be zero. Default value is 1.0e-4. */
   itkSetMacro(KernelZeroMagnitudeThreshold, double);

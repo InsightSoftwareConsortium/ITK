@@ -30,7 +30,7 @@ namespace fem
  */
 
 /*
- * Compute and return element stiffnes matrix (Ke) in global coordinate
+ * Compute and return element stiffness matrix (Ke) in global coordinate
  * system.
  * The base class provides a general implementation which only computes
  *
@@ -43,10 +43,10 @@ namespace fem
  * the integration points. It also calls the GetStrainDisplacementMatrix()
  * and GetMaterialMatrix() member functions.
  *
- * \param Ke Reference to the resulting stiffnes matrix.
+ * \param Ke Reference to the resulting stiffness matrix.
  *
  * \note This is a very generic implementation of the stiffness matrix
- *       that is suitable for any problem/element definition. A specifc
+ *       that is suitable for any problem/element definition. A specific
  *       element may override this implementation with its own simple one.
  */
 void
@@ -183,7 +183,7 @@ void
 Element::GetMassMatrix(MatrixType & Me) const
 {
   /*
-   * If the function is not overiden, we compute consistent mass matrix
+   * If the function is not overriden, we compute consistent mass matrix
    * by integrating the shape functions over the element domain. The element
    * density is assumed one. If this is not the case, the GetMassMatrix in a
    * derived class must be overriden and the Me matrix corrected accordingly.

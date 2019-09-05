@@ -141,7 +141,7 @@ public:
    * cylindrical topology, the array type will have two components, and you
    * should set to "1" the component that goes around the cylinder, and set to
    * "0" the component that goes from the top of the cylinder to the bottom.
-   * This will indicate the periodity of that parameter to the filter.
+   * This will indicate the periodicity of that parameter to the filter.
    * Internally, in order to make periodic the domain of the parameter, the
    * filter will reuse some of the points at the beginning of the domain as if
    * they were also located at the end of the domain. The number of points to

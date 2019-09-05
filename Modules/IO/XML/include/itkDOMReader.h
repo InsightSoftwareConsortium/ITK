@@ -44,7 +44,7 @@ namespace itk
  *       because many user objects to be read, e.g., registrations, transforms, optimizers, and so on, are not objects
  *       of type DataObject, thus this class cannot be connected to an ITK process pipeline.
  *
- * The following code snippet demontrates how to use a DOM-based reader that is derived from this class:
+ * The following code snippet demonstrates how to use a DOM-based reader that is derived from this class:
  *
    \code
        itk::MyObjectType::Pointer output_object;

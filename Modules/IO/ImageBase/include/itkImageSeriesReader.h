@@ -182,7 +182,7 @@ protected:
   void
   GenerateData() override;
 
-  /** The image format, 0 will use the factory mechnism. */
+  /** The image format, 0 will use the factory mechanism. */
   ImageIOBase::Pointer m_ImageIO;
 
   /** Select the traversal order. */

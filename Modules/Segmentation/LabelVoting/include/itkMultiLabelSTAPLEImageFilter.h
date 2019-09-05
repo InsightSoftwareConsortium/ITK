@@ -76,7 +76,7 @@ namespace itk
  * The filter produces a single output volume. Each output pixel
  * contains the label that has the highest probability of being the correct
  * label, based on the performance models of the individual segmentations.
- * If the maximum probaility is not unique, i.e., if more than one label have
+ * If the maximum probability is not unique, i.e., if more than one label have
  * a maximum probability, then an "undecided" label is assigned to that output
  * pixel.
  *

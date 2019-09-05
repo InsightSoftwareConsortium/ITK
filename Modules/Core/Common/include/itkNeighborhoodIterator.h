@@ -306,7 +306,7 @@ public:
   }
 
   /** Sets the pixel value located one pixel distant from the neighborhood center in
-      the specifed positive axis direction. No bounds checking is done on the
+      the specified positive axis direction. No bounds checking is done on the
       size of the neighborhood. */
   ITK_ITERATOR_VIRTUAL void
   SetNext(const unsigned axis, const PixelType & v) ITK_ITERATOR_FINAL
@@ -324,7 +324,7 @@ public:
   }
 
   /** Sets the pixel value located one pixel distant from the neighborhood center in
-      the specifed negative axis direction. No bounds checking is done on the
+      the specified negative axis direction. No bounds checking is done on the
       size of the neighborhood. */
   ITK_ITERATOR_VIRTUAL void
   SetPrevious(const unsigned axis, const PixelType & v) ITK_ITERATOR_FINAL

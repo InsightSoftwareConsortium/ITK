@@ -77,7 +77,7 @@ itkGaussianSpatialFunctionTest(int argc, char * argv[])
   }
 
 
-  // Test the evaluation of the Gaussian spatial funtion
+  // Test the evaluation of the Gaussian spatial function
   //
 
   // Evaluate it at the center of the Gaussian

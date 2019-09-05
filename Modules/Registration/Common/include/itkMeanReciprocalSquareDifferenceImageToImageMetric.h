@@ -33,7 +33,7 @@ namespace itk
  * the moving image and pixels in the fixed image after passing the squared
  * difference through a function of type \f$ \frac{1}{1+x} \f$.
 
- * Spatial correspondance between both images is established through a
+ * Spatial correspondence between both images is established through a
  * Transform. Pixel values are taken from the Moving image. Their positions
  * are mapped to the Fixed image and result in general in non-grid position
  * on it. Values at these non-grid position of the Fixed image are interpolated

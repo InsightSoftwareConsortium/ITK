@@ -97,7 +97,7 @@ public:
 
 /** \class DeformableSimplexMesh3DGradientConstraintForceFilter
  * \brief
- * Additional to its superclass this class reimplemets the external forces methos
+ * Additional to its superclass this class reimplements the external forces methos
  * in which the scan line algorithm is used to find highest gradient is found in
  * the direction of the normal to each vertex within a specified range.
  *

@@ -217,7 +217,7 @@ protected:
   }
 
 private:
-  /* methods for generations of the coeeficients for a gaussian
+  /* methods for generations of the coefficients for a gaussian
    * operator of 0-order respecting the remaining parameters */
   CoefficientVector
   GenerateGaussianCoefficients() const;
