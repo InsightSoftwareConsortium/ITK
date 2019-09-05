@@ -73,7 +73,7 @@ protected:
   ConvertRGBToGray(InputPixelType * inputData, OutputPixelType * outputData, size_t size);
 
   /** Weights convert from linear RGB to CIE luminance assuming a
-   *  modern monitor. Values are attentuated by the Alpha channel. See
+   *  modern monitor. Values are attenuated by the Alpha channel. See
    *  Charles Poynton's Colour FAQ
    *  http://www.poynton.com/ColorFAQ.html */
   static void

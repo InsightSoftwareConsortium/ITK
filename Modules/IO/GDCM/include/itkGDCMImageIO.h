@@ -63,7 +63,7 @@ namespace itk
  *                             - The SeQuence DICOM field (SQ).
  *                             - Fields from Private Dictionary.
  *           -  Some very long (>0xfff) binary fields are not loaded (typically 0029|0010),
- *              you need to explicitely set the maximum length of elements to load to be bigger
+ *              you need to explicitly set the maximum length of elements to load to be bigger
  *              (see Get/SetMaxSizeLoadEntry).
  *           - In DICOM some fields are stored directly using their binary representation. When loaded into
  *             the MetaDataDictionary some fields are converted to ASCII (only VR: OB/OW/OF and UN are encoded as
@@ -102,7 +102,7 @@ public:
   bool
   CanReadFile(const char *) override;
 
-  /** Set the spacing and dimesion information for the current filename. */
+  /** Set the spacing and dimension information for the current filename. */
   void
   ReadImageInformation() override;
 

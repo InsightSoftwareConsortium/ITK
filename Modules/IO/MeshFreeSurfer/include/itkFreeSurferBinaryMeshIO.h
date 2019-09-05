@@ -29,7 +29,7 @@
 namespace itk
 {
 /** \class FreeSurferBinaryMeshIO
- * \brief This class defins how to read Freesurfer binary surface file format.
+ * \brief This class defines how to read Freesurfer binary surface file format.
  * To use IO factory, define the suffix as *.fsb.
  * \ingroup IOFilters
  * \ingroup ITKIOMeshFreeSurfer

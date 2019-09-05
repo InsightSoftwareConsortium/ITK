@@ -106,7 +106,7 @@ public:
   }
 
   /** Returns a vector containing the series' file names. The file
-   * names are ordered in the same extact order as the input one.
+   * names are ordered in the same exact order as the input one.
    * This could be dangerous if the writing has changed 3rd position
    * or some other DICOM tag in the header
    */
@@ -123,7 +123,7 @@ public:
   GetFileNames(const std::string serie);
 
   /** Returns a vector containing all the UIDs found when parsing the
-   * direcory specified via SetDirectory. If no direcory is specified
+   * directory specified via SetDirectory. If no directory is specified
    * return an empty vector.  An extended UID may be returned/used if
    * SetUseSeriesDetails(true) has been called.
    */

@@ -27,7 +27,7 @@
 namespace itk
 {
 /** \class IOCommon
- * \brief Centralized funtionality for IO classes.
+ * \brief Centralized functionality for IO classes.
  *
  * This class provides encapsulated functionality to support the IO classes.
  *

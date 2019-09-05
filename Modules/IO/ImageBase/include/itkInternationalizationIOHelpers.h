@@ -142,7 +142,7 @@ I18nOpen(const std::string & str, const int & flags, const int & mode)
 #endif
 }
 
-// Reading wrapper around I18nOpen to avoid explicitely specifying the flags
+// Reading wrapper around I18nOpen to avoid explicitly specifying the flags
 inline int
 I18nOpenForReading(const std::string & str)
 {
@@ -153,7 +153,7 @@ I18nOpenForReading(const std::string & str)
 #endif
 }
 
-// Writing wrapper around I18nOpen to avoid explicitely specifying the flags
+// Writing wrapper around I18nOpen to avoid explicitly specifying the flags
 inline int
 I18nOpenForWriting(const std::string & str, const bool append = false)
 {

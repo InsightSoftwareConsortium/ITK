@@ -74,7 +74,7 @@ public:
   bool
   CanReadFile(const char *) override;
 
-  /** Set the spacing and diemention information for the set filename. */
+  /** Set the spacing and dimension information for the set filename. */
   void
   ReadImageInformation() override;
 

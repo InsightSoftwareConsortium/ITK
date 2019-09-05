@@ -48,7 +48,7 @@ StringTools::ToData(std::string & s, std::vector<T> & data, int count)
   if (count < 0)
   {
     // compute the number of elements to be read from the input stream
-    while (iss.good()) // loop until error occured or reach end of stream
+    while (iss.good()) // loop until error occurred or reach end of stream
     {
       T value = T();
       if (iss >> value)
@@ -127,7 +127,7 @@ StringTools::ToData(std::string & s, Array<T> & data, int count)
   {
     // compute the number of elements to be read from the input stream
     std::vector<T> v;
-    while (iss.good()) // loop until error occured or reach end of stream
+    while (iss.good()) // loop until error occurred or reach end of stream
     {
       T value = T();
       if (iss >> value)

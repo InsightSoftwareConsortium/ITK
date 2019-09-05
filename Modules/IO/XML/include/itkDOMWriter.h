@@ -46,7 +46,7 @@ namespace itk
  objects
  *       of type DataObject, thus this class cannot be connected to an ITK process pipeline.
  *
- * The following code snippet demontrates how to use a DOM-based writer that is derived from this class:
+ * The following code snippet demonstrates how to use a DOM-based writer that is derived from this class:
  *
    \code
        itk::MyObjectType::Pointer input_object = ...

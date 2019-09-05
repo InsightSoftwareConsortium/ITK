@@ -53,7 +53,7 @@ struct ITKIOMINC_HIDDEN MINCImageIOPImpl;
  * vector_dimension and so on or xfrequencey, yfrequency, zfrequency,
  * tfrequency and vector_dimension and so on NOTE** This class only
  * reads the regularly sampled dimensions as I am not sure how to deal
- * with "iregularly sampled" dimensions yet!
+ * with "irregularly sampled" dimensions yet!
  *
  * Compression is supported with only the default compressor. The
  * compression level option is supported in the range 0-9.

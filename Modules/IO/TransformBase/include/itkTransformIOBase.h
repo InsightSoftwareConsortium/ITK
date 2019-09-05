@@ -137,7 +137,7 @@ public:
    * and writing transform files.  In the case where a double-precision
    * transform is to be written as float, or vice versa, the transform
    * type name used to write the file needs to patched in order for the
-   * transform I/O hierachy to work correctly. These template functions
+   * transform I/O hierarchy to work correctly. These template functions
    * will be chosen at compile time within template classes in order to
    * patch up the type name.
    *  */

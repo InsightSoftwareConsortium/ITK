@@ -37,7 +37,7 @@ namespace itk
 /** \class BioRadImageIO
  *
  *  \brief ImageIO class for reading Bio-Rad images.
- *  Bio-Rad file format are used by confocal micropscopes like MRC 1024, MRC 600
+ *  Bio-Rad file format are used by confocal microscopes like MRC 1024, MRC 600
  *  http://www.bio-rad.com/
  *
  * The reader/writer was based on a scanned copy of the MRC-600 documentation
@@ -70,7 +70,7 @@ public:
   bool
   CanReadFile(const char *) override;
 
-  /** Set the spacing and dimesion information for the current filename. */
+  /** Set the spacing and dimension information for the current filename. */
   void
   ReadImageInformation() override;
 

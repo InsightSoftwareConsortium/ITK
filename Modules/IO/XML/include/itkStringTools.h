@@ -143,7 +143,7 @@ public:
 
   /**
    * Method to split a string into a sequence of sub-strings with user-defined delimiters,
-   * then each sub-string is further splitted into a <key,value> pair with separators "=:".
+   * then each sub-string is further split into a <key,value> pair with separators "=:".
    */
   static void
   Split(const std::string & s, std::map<std::string, std::string> & result, const std::string & delims = ";|");

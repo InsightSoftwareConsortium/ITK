@@ -152,7 +152,7 @@ private:
 
   std::unique_ptr<H5::H5File> m_H5File;
 
-  /** Utility function for infering data storage type
+  /** Utility function for inferring data storage type
    * from class template.
    * @return H5 code PredType
    */
