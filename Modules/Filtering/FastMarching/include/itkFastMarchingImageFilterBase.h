@@ -130,7 +130,7 @@ public:
 
   itkGetModifiableObjectMacro(LabelImage, LabelImageType);
 
-  /** The output largeset possible, spacing and origin is computed as follows.
+  /** The output largest possible, spacing and origin is computed as follows.
    * If the speed image is nullptr or if the OverrideOutputInformation is true,
    * the output information is set from user specified parameters. These
    * parameters can be specified using methods SetOutputRegion(),

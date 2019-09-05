@@ -244,7 +244,7 @@ protected:
 
 
   /** Override VerifyInputInformation() since this filter's inputs do
-   * not need to occoupy the same physical space. But check the that
+   * not need to occupy the same physical space. But check the that
    * deformation field has the same number of components as dimensions
    *
    * \sa ProcessObject::VerifyInputInformation
@@ -272,7 +272,7 @@ protected:
                                       DisplacementType &            output);
 
   bool m_DefFieldSameInformation;
-  // variables for deffield interpoator
+  // variables for deffield interpolator
   IndexType m_StartIndex, m_EndIndex;
 
 private:

@@ -33,7 +33,7 @@ SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SmoothingRecur
   // always run in-place. As this dimension provides the least amount
   // of cache coherency, it will provide the least  amount of performance
   // gains from running in-place. In fact, some performance tests
-  // indicate that the running in-place in the 3rd dimesion the
+  // indicate that the running in-place in the 3rd dimension the
   // performance actually declines compared to not in-place methods.
   m_FirstSmoothingFilter = FirstGaussianFilterType::New();
   m_FirstSmoothingFilter->SetOrder(EnumGaussianOrderType::ZeroOrder);

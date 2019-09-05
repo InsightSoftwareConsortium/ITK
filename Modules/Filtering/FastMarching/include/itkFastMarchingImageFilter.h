@@ -37,7 +37,7 @@ namespace itk
  * initial position on the front, fast marching systematically moves the
  * front forward one grid point at a time.
  *
- * Updates are preformed using an entropy satisfy scheme where only
+ * Updates are performed using an entropy satisfy scheme where only
  * "upwind" neighborhoods are used. This implementation of Fast Marching
  * uses a std::priority_queue to locate the next proper grid position to
  * update.
@@ -321,7 +321,7 @@ public:
     return m_ProcessedPoints;
   }
 
-  /** The output largeset possible, spacing and origin is computed as follows.
+  /** The output largest possible, spacing and origin is computed as follows.
    * If the speed image is nullptr or if the OverrideOutputInformation is true,
    * the output information is set from user specified parameters. These
    * parameters can be specified using methods SetOutputRegion(), SetOutputSpacing(), SetOutputDirection(),

@@ -94,7 +94,7 @@ private:
 
 /** \class GPUMeanImageFilterFactory
  *
- * \brief Object Factory implemenatation for GPUMeanImageFilter
+ * \brief Object Factory implementation for GPUMeanImageFilter
  * \ingroup ITKGPUSmoothing
  */
 class GPUMeanImageFilterFactory : public ObjectFactoryBase

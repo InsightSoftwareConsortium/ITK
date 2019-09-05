@@ -28,7 +28,7 @@ namespace itk
  * This filter is templated over the input image type and the output image
  * type. The pixel type of them must be the same and the input dimension
  * must be less than the output dimension.
- * When the input images are N-dimensinal, they are joined in order and
+ * When the input images are N-dimensional, they are joined in order and
  * the size of the N+1'th dimension of the output is same as the number of
  * the inputs. The spacing and the origin (where the first input is placed)
  * for the N+1'th dimension is specified in this filter. The output image

@@ -56,7 +56,7 @@ namespace itk
  * Subclasses of this class can define their own operations by simply
  * providing their own Evaluate() protected member functions - one
  * that operates using a smart neighborhood operator for edge faces and
- * one that operates using a standard neighboorhood operator..
+ * one that operates using a standard neighborhood operator..
  *
  * \sa ErodeObjectMorphologyImageFilter
  * \sa DilateObjectMorphologyImageFilter
@@ -141,7 +141,7 @@ public:
    * object during the time it is referenced.  The overriding condition
    * can be of a different type than the default type as long as it is
    * a subclass of ImageBoundaryCondition.
-   * NOTE: Don't foget to set UseBoundaryCondition to true! */
+   * NOTE: Don't forget to set UseBoundaryCondition to true! */
   void
   OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
   {

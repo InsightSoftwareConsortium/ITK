@@ -162,7 +162,7 @@ public:
 
 protected:
   InterpolateImagePointsFilter();
-  // ~InterpolateImagePointsFilter(){} default implemnetation ok
+  // ~InterpolateImagePointsFilter(){} default implementation ok
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -174,7 +174,7 @@ protected:
 
 
   /** Override VerifyInputInformation() since this filter's inputs do
-   * not need to occoupy the same physical space.
+   * not need to occupy the same physical space.
    *
    * \sa ProcessObject::VerifyInputInformation
    */

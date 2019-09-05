@@ -28,7 +28,7 @@ namespace itk
  * This filter preserves regions, in the foreground, that can
  * completely contain the structuring element. At the same time, this
  * filter eliminates all other regions of foreground pixels. Contrary
- * to the mophological opening, the opening by reconstruction
+ * to the morphological opening, the opening by reconstruction
  * preserves the shape of the components that are not removed by
  * erosion.  The opening by reconstruction of an image "f" is defined
  * as:
@@ -106,7 +106,7 @@ public:
 
   /**
    * Set/Get whether the original intensities of the image retained for
-   * those pixels unaffected by the opening by reconstrcution. If Off,
+   * those pixels unaffected by the opening by reconstruction. If Off,
    * the output pixel contrast will be reduced. */
   itkSetMacro(PreserveIntensities, bool);
   itkGetConstReferenceMacro(PreserveIntensities, bool);

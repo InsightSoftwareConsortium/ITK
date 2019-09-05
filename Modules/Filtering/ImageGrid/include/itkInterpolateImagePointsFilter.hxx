@@ -81,7 +81,7 @@ InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordType, Interpolator
   // Setup iterator for the output
   OutputImageIterator outIter(outputPtr, outputRegionForThread);
 
-  // Setup an interator for each of the coordinate inputs.
+  // Setup an iterator for each of the coordinate inputs.
   CoordImageIterator coordIter[ImageDimension];
   for (unsigned int j = 0; j < ImageDimension; j++)
   {

@@ -89,7 +89,7 @@ namespace itk
  *  on the basic equation will be more or less sensitive to these parameters.
  *  For example, functions that perform higher-order derivative calculations
  *  may require smaller time-steps than those that only do first-derivative
- *  calculations. Wherever possibe, reasonable parameters settings are
+ *  calculations. Wherever possible, reasonable parameters settings are
  *  suggested in the documentation of a specific equation implementation.
  *
  * \par TimeStep

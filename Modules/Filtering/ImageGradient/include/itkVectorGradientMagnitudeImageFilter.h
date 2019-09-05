@@ -230,7 +230,7 @@ public:
   itkGetConstReferenceMacro(ComponentWeights, WeightsType);
 
   /** Set/Get principle components calculation mode.  When this is set to TRUE/ON,
-      the gradient calculation will involve a priniciple component analysis of
+      the gradient calculation will involve a principle component analysis of
       the partial derivatives of the color components.  When this value is set
       to FALSE/OFF, the calculation is done as a square root of weighted sum of the
       derivatives squared.  Default is UsePrincipleComponents = true. */

@@ -32,7 +32,7 @@ namespace itk
  * minima or not.  The SetFlatIsMinima() method let the user choose which
  * behavior to use.
  *
- * This class was contribtued to the Insight Journal by
+ * This class was contributed to the Insight Journal by
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction,
  * INRA de Jouy-en-Josas, France.
  *      https://hdl.handle.net/1926/153
@@ -107,7 +107,7 @@ public:
   itkGetConstMacro(BackgroundValue, OutputImagePixelType);
 
   /**
-   * Set/Get wether a flat image must be considered as a minima or not.
+   * Set/Get whether a flat image must be considered as a minima or not.
    * Defaults to true.
    */
   itkSetMacro(FlatIsMinima, bool);

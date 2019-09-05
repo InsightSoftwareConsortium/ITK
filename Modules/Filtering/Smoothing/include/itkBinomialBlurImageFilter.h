@@ -30,7 +30,7 @@ namespace itk
  *
  * The binomial blur consists of a nearest neighbor average along each
  * image dimension. The net result after n-iterations approaches
- * convultion with a gaussian.
+ * convolution with a gaussian.
  *
  * \ingroup ImageEnhancement
  * \ingroup ITKSmoothing

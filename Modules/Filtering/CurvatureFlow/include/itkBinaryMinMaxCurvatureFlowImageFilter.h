@@ -27,7 +27,7 @@ namespace itk
  * \brief Denoise a binary image using min/max curvature flow.
  *
  * BinaryMinMaxCurvatureFlowImageFilter implements a curvature driven image
- * denosing algorithm. This filter assumes that the image is essentially
+ * denoising algorithm. This filter assumes that the image is essentially
  * binary: consisting of two classes. Iso-brightness contours in the input
  * image are viewed as a level set. The level set is then evolved using
  * a curvature-based speed function:
@@ -36,7 +36,7 @@ namespace itk
  *
  * where \f$ F_{\mbox{minmax}} = \min(\kappa,0) \f$ if
  * \f$ \mbox{Avg}_{\mbox{stencil}}(x) \f$
- * is less than or equal to \f$ T_{thresold} \f$
+ * is less than or equal to \f$ T_{threshold} \f$
  * and \f$ \max(\kappa,0) \f$, otherwise.
  * \f$ \kappa \f$ is the mean curvature of the iso-brightness contour
  * at point \f$ x \f$.
@@ -125,7 +125,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the state of filter and equation before each iteration.
-   * Progress feeback is implemented as part of this method. */
+   * Progress feedback is implemented as part of this method. */
   void
   InitializeIteration() override;
 

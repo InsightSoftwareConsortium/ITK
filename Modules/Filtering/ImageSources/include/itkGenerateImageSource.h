@@ -114,7 +114,7 @@ public:
   SetOutputParametersFromImage(const ReferenceImageBaseType * image);
 
   /** Set a reference image to use to define the output information.
-   *  By default, output information is specificed through the
+   *  By default, output information is specified through the
    *  SetOutputSpacing, Origin, and Direction methods.  Alternatively,
    *  this method can be used to specify an image from which to
    *  copy the information. UseReferenceImageOn must be set to utilize the

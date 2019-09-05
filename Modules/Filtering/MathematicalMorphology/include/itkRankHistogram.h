@@ -392,7 +392,7 @@ private:
   int           m_Entries;
 };
 
-// now create MorphologicalGradientHistogram specilizations using the VectorMorphologicalGradientHistogram
+// now create MorphologicalGradientHistogram specializations using the VectorMorphologicalGradientHistogram
 // as base class
 
 /// \cond HIDE_SPECIALIZATION_DOCUMENTATION

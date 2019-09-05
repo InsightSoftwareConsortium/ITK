@@ -233,7 +233,7 @@ public:
 
   /**
    * Add a label object to the image. If a label object already has the label,
-   * it is overiden.
+   * it is overriden.
    */
   void
   AddLabelObject(LabelObjectType * labelObject);
@@ -264,7 +264,7 @@ public:
   ClearLabels();
 
   /**
-   * Return the numbner of label objects in the image
+   * Return the number of label objects in the image
    */
   typename Self::SizeValueType
   GetNumberOfLabelObjects() const;
@@ -301,7 +301,7 @@ public:
   }
 
   /**
-   * Optimize the line representation of all the lable objects referenced in the LabelMap
+   * Optimize the line representation of all the label objects referenced in the LabelMap
    */
   void
   Optimize();

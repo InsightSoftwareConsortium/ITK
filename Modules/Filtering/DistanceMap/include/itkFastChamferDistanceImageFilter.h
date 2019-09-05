@@ -29,7 +29,7 @@ namespace itk
  *
  * \par OVERVIEW
  * This filter computes a Signed Chamfer Distance Map of the input image
- * specialy designed to work within the Level Set framework,
+ * specially designed to work within the Level Set framework,
  * in the Narrow Band Reinitialization (generally applied after
  * IsoContourDistanceImageFilter ).
  * It can however be used for other purposes.

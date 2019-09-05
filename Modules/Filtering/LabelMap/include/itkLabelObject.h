@@ -39,7 +39,7 @@ namespace itk
  * reconstruction filters for an example. If a simple attribute is needed,
  * AttributeLabelObject can be used directly.
  *
- * All the subclasses of LabelObject have to reinplement the CopyAttributesFrom() and CopyAllFrom() method.
+ * All the subclasses of LabelObject have to reimplement the CopyAttributesFrom() and CopyAllFrom() method.
  * No need to reimplement CopyLinesFrom() since all derived class share the same type line data members.
  *
  * The pixels locations belonging to the LabelObject can be obtained using:

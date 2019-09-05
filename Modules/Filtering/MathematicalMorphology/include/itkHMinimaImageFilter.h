@@ -34,7 +34,7 @@ namespace itk
  * background.
  *
  * If original image is subtracted from the output of
- * HMinimaImageFilter, the signicant "valleys" in the image can be
+ * HMinimaImageFilter, the significant "valleys" in the image can be
  * identified.  This is what the HConcaveImageFilter provides.
  *
  * This filter uses the GrayscaleGeodesicErodeImageFilter.  It

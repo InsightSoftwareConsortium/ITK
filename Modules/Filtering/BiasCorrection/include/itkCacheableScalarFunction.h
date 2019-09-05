@@ -135,11 +135,11 @@ protected:
   CreateCache(double lowerBound, double upperBound, SizeValueType sampleSize);
 
 private:
-  /** The number of samples will be precalcualted and saved in the
+  /** The number of samples will be precalculated and saved in the
    * cache table. */
   SizeValueType m_NumberOfSamples{ 0 };
 
-  /** Storage for the precalcualted function values. */
+  /** Storage for the precalculated function values. */
   MeasureArrayType m_CacheTable;
 
   /** The upper-bound of domain that is used for filling the cache table. */

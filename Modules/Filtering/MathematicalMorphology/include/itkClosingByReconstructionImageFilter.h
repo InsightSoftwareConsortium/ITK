@@ -26,7 +26,7 @@ namespace itk
  * \brief Closing by reconstruction of an image
  *
  * This filter is similar to the morphological closing, but contrary
- * to the mophological closing, the closing by reconstruction
+ * to the morphological closing, the closing by reconstruction
  * preserves the shape of the components.  The closing by
  * reconstruction of an image "f" is defined as:
  *
@@ -104,7 +104,7 @@ public:
 
   /**
    * Set/Get whether the original intensities of the image retained for
-   * those pixels unaffected by the opening by reconstrcution. If Off,
+   * those pixels unaffected by the opening by reconstruction. If Off,
    * the output pixel contrast will be reduced. */
   itkSetMacro(PreserveIntensities, bool);
   itkGetConstReferenceMacro(PreserveIntensities, bool);

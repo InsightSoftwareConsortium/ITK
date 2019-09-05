@@ -121,7 +121,7 @@ public:
   virtual void
   SetOutputOrigin(const double * values);
 
-  /** Set the output direciton cosine matrix. */
+  /** Set the output direction cosine matrix. */
   itkSetMacro(OutputDirection, DirectionType);
   itkGetConstReferenceMacro(OutputDirection, DirectionType);
 

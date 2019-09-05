@@ -146,7 +146,7 @@ public:
    * Throw exception otherwise. \c factor is a scalar multiplier for each value in update.
    * SetParameters is called at the end of this method, to allow transforms
    * to perform any required operations on the update parameters, typically
-   * a converion to member variables for use in TransformPoint.
+   * a conversion to member variables for use in TransformPoint.
    */
   void
   UpdateTransformParameters(const DerivativeType & update, ScalarType factor = 1.0) override;

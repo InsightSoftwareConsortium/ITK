@@ -93,7 +93,7 @@ public:
 
   /** Add a vertex (and a connecting line segment to the previous vertex).
    * Adding a vertex has the additional effect of extending the domain of the
-   * PolyLineParametricPath by 1.0 (each pair of consecutive verticies is
+   * PolyLineParametricPath by 1.0 (each pair of consecutive vertices is
    * separated by one unit of input). */
   inline void
   AddVertex(const ContinuousIndexType & vertex)
@@ -104,7 +104,7 @@ public:
 
   /** Where does the path end?  This value is necessary for IncrementInput() to
    * know how to go to the end of a path.  Since each line segment covers one
-   * unit of input, this is the number of verticies - 1. */
+   * unit of input, this is the number of vertices - 1. */
   InputType
   EndOfInput() const override
   {

@@ -169,7 +169,7 @@ public:
   /** Set/Get flag indicating whether the fast algorithm for tensor computations should be used.
    *
    *  Specifically, when this flag is true (default) or On, a faster implementation of the 3x3
-   *  symmetric positive-definite eigensystem analysys will be used. See
+   *  symmetric positive-definite eigensystem analysis will be used. See
    *  Hasan KM, Basser PJ, Parker DL, Alexander AL.
    *  Analytical computation of the eigenvalues and eigenvectors in DT-MRI.
    *  J Magn Reson 2001; 152: 41-47.

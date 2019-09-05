@@ -197,7 +197,7 @@ public:
 
 /// \cond HIDE_SPECIALIZATION_DOCUMENTATION
 
-// now create MorphologicalGradientHistogram specilizations using the VectorMorphologicalGradientHistogram
+// now create MorphologicalGradientHistogram specializations using the VectorMorphologicalGradientHistogram
 // as base class
 
 template <>

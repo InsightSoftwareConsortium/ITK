@@ -101,7 +101,7 @@ private:
   unsigned int
   FindAndStoreBestErrorStep(unsigned int x, unsigned int F, unsigned int L);
 
-  // m_StepValues & m_MeritValues are stored as datatype[x][F][L] which requres
+  // m_StepValues & m_MeritValues are stored as datatype[x][F][L] which requires
   // cols*rows*rows bytes of storage where rows and cols are the dimensions of
   // the processed image.
   //

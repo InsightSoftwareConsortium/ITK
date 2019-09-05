@@ -85,7 +85,7 @@ public:
   using InputImageConstPointer = typename TInputImage::ConstPointer;
   using BasisImageConstPointer = typename TBasisImage::ConstPointer;
 
-  /** Basis image pixel type: this is also the type of the optput vector */
+  /** Basis image pixel type: this is also the type of the output vector */
   using BasisPixelType = typename TBasisImage::PixelType;
   /** Input Image dimension */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;

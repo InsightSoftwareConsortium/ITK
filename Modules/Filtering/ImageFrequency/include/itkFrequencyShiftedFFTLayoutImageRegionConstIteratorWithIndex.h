@@ -62,7 +62,7 @@ namespace itk
  *      3       <-- Shared between regions, unique Nyquist.
  *
  * If N is odd:
- * Nyquist frequency is not represented but there are simmetric largest frequencies at index=N/2, N/2 +1
+ * Nyquist frequency is not represented but there are symmetric largest frequencies at index=N/2, N/2 +1
  * <----------positive f ---------------><------------negative f----------------->
  * 0(DC) fs/N 2*fs/N  ...... fs/2*(N-1)/N    -fs/2*(N-1)/N  ...    -2*fs/N  -fs/N
  *

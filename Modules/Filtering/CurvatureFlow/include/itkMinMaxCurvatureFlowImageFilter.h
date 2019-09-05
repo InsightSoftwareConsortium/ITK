@@ -34,7 +34,7 @@ namespace itk
  * \f[  I_t = F_{\mbox{minmax}} |\nabla I| \f]
  *
  * where \f$ F_{\mbox{minmax}} = \max(\kappa,0) \f$ if
- * \f$ \mbox{Avg}_{\mbox{stencil}}(x) \f$ is less than or equal to \f$ T_{thresold} \f$
+ * \f$ \mbox{Avg}_{\mbox{stencil}}(x) \f$ is less than or equal to \f$ T_{threshold} \f$
  * and \f$ \min(\kappa,0) \f$, otherwise.
  * \f$ \kappa \f$ is the mean curvature of the iso-brightness contour
  * at point \f$ x \f$.
@@ -138,7 +138,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the state of filter and equation before each iteration.
-   * Progress feeback is implemented as part of this method. */
+   * Progress feedback is implemented as part of this method. */
   void
   InitializeIteration() override;
 

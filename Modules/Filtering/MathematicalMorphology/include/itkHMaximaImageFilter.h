@@ -34,7 +34,7 @@ namespace itk
  * background.
  *
  * If the output of HMaximaImageFilter is subtracted from the original
- * image, the signicant "peaks" in the image can be identified.  This
+ * image, the significant "peaks" in the image can be identified.  This
  * is what the HConvexImageFilter provides.
  *
  * This filter uses the ReconstructionByDilationImageFilter.  It

@@ -54,7 +54,7 @@ namespace itk
  *    |
  *
  *
- * This is a part of the bias correction methods and implementaion that
+ * This is a part of the bias correction methods and implementation that
  * was initially developed and implemented
  * by Martin Styner, Univ. of North Carolina at Chapel Hill, and his
  * colleagues.

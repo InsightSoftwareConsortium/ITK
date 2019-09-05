@@ -34,10 +34,10 @@ namespace itk
  * this filter will map coordinates from the space B into the space A.
  *
  * The algorithm implemented in this filter uses an iterative method for
- * progresively refining the values of the inverse field. Starting from the
+ * progressively refining the values of the inverse field. Starting from the
  * direct field, at every pixel the direct mapping of this point is found, and
- * a the nevative of the current displacement is stored in the inverse field at
- * the nearest pixel. Then, subsequent iterations verify if any of the neigbor pixels
+ * a the negative of the current displacement is stored in the inverse field at
+ * the nearest pixel. Then, subsequent iterations verify if any of the neighbor pixels
  * provide a better return to the current pixel, in which case its value is taken for
  * updating the vector in the inverse field.
  *

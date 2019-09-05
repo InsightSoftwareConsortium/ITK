@@ -144,7 +144,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreaderFullCallback(v
 
   if (threadId < total)
   {
-    // Iterate over split region or split band as convinient.
+    // Iterate over split region or split band as convenient.
     if (!filter->m_NarrowBanding)
     {
       filter->ThreadedGenerateDataFull(splitRegion, threadId);

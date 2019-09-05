@@ -52,7 +52,7 @@ template <typename TStructuringElement, typename TRadius>
 void
 FlatStructuringElement<VDimension>::GeneratePolygon(TStructuringElement &, TRadius, unsigned)
 {
-  itkGenericExceptionMacro("Only dimension 2 and 3 are suported.");
+  itkGenericExceptionMacro("Only dimension 2 and 3 are supported.");
 }
 
 template <unsigned int VDimension>

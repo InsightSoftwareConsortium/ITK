@@ -25,11 +25,11 @@
 namespace itk
 {
 /** \class CoxDeBoorBSplineKernelFunction
- * \brief BSpline kernel used for density estimation and nonparameteric
+ * \brief BSpline kernel used for density estimation and nonparametric
  *  regression.
  *
- * This class enscapsulates BSpline kernel for
- * density estimation or nonparameteric regression.
+ * This class encapsulates BSpline kernel for
+ * density estimation or nonparametric regression.
  * See documentation for KernelFunctionBase for more details.
  *
  * This class is templated over the spline order to cohere with

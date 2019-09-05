@@ -50,7 +50,7 @@ namespace itk
 {
 /** \class SignedDanielssonDistanceMapImageFilter
  *
- * This class is parametrized over the type of the input image
+ * This class is parameterized over the type of the input image
  * and the type of the output image.
  *
  * This filter computes the distance map of the input image

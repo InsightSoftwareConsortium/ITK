@@ -36,7 +36,7 @@ namespace itk
  *
  * \par Notes:
  * The filter takes into account that the eigen values play a crucial role in
- * discrimintaitng shape and orientation of structures.
+ * discriminating shape and orientation of structures.
  *
  * \li Bright tubular structures will have low \f$\lambda_1\f$ and large negative
  * values of \f$\lambda_2\f$ and \f$\lambda_3\f$.

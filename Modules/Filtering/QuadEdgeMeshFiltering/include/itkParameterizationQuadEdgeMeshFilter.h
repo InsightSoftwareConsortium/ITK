@@ -38,7 +38,7 @@ namespace itk
  *
  *  This filter internally creates and solves a sparse linear system: storage
  *  and computation can be set by the means of TSolverTraits. Since for 3D
- *  meshes, this filter solves for similar sparse linear systemis for the three
+ *  meshes, this filter solves for similar sparse linear systems for the three
  *  dimensions, it is highly recommended to use one direct solver which would
  *  first decompose sparse matrix (e.g. VNLSparseLUSolverTraits).
  *

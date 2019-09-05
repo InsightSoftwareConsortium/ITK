@@ -554,7 +554,7 @@ OrientImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     return;
   }
 
-  // Either use the direciton cosines of the image or the user-specified
+  // Either use the direction cosines of the image or the user-specified
   // orientation
   if (m_UseImageDirection)
   {

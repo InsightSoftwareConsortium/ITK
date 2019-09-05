@@ -27,7 +27,7 @@ namespace itk
  * \brief Implements pixel-wise conversion of magnitude and phase data into
  * complex voxels.
  *
- * This filter is parametrized over the types of the two
+ * This filter is parameterized over the types of the two
  * input images and the type of the output image.
  *
  * The filter expect all images to have the same dimension

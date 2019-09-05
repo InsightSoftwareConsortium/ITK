@@ -31,7 +31,7 @@ namespace itk
   point is considered as the speed function. The speed function is set using
   the method SetInput().
 
-  If the speed function is contant and of value one, fast marching results is
+  If the speed function is constant and of value one, fast marching results is
   an approximate geodesic function from the initial alive points.
 
   Implementation of this class is based on

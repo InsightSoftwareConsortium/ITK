@@ -29,7 +29,7 @@ namespace itk
 {
 
 /** \class DisplacementFieldTransform
- * \brief Provides local/dense/high-dimensionaltiy transformation via a
+ * \brief Provides local/dense/high-dimensionality transformation via a
  * a displacement field.
  *
  * The displacement field stores vectors of displacements, with
@@ -120,7 +120,7 @@ public:
   /** Transform category type. */
   using TransformCategoryType = typename Superclass::TransformCategoryType;
 
-  /** The number of parameters defininig this transform. */
+  /** The number of parameters defining this transform. */
   using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** Standard coordinate point type for this class. */
@@ -205,7 +205,7 @@ public:
   itkGetConstReferenceMacro(DisplacementFieldSetTime, ModifiedTimeType);
 
   /**  Method to transform a point. Out-of-bounds points will
-   * be returned with zero displacemnt. */
+   * be returned with zero displacement. */
   OutputPointType
   TransformPoint(const InputPointType & thisPoint) const override;
 

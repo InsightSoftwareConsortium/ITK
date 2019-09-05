@@ -152,7 +152,7 @@ public:
   void
   SetSigmaStepMethodToEquispaced();
 
-  /**Set logartihmic sigma step method */
+  /**Set logarithmic sigma step method */
   void
   SetSigmaStepMethodToLogarithmic();
 

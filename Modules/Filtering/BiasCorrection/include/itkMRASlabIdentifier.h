@@ -116,7 +116,7 @@ public:
   itkSetMacro(SlicingDirection, int);
   itkGetConstReferenceMacro(SlicingDirection, int);
 
-  /** Compute the average values of miminum intensity pixels for each slice and
+  /** Compute the average values of mininum intensity pixels for each slice and
    * compare the average values with overall averages. */
   void
   GenerateSlabRegions();

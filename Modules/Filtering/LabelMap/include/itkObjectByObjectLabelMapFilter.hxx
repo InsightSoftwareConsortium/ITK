@@ -266,7 +266,7 @@ ObjectByObjectLabelMapFilter<TInputImage,
         LabelObjectType * outLo = outIt.GetLabelObject();
         if (output->HasLabel(m_Label))
         {
-          // the label has been stolen by a previously splitted object. Just move that object elsewhere
+          // the label has been stolen by a previously split object. Just move that object elsewhere
           // to free the label
           typename LabelObjectType::Pointer lotmp = output->GetLabelObject(m_Label);
           output->RemoveLabelObject(lotmp);

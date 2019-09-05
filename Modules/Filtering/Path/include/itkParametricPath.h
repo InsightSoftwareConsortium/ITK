@@ -126,7 +126,7 @@ public:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Default 1D input increment amount to trace along the path.  Also, the
-   * value used by the defualt implementation of EvaluateDerivative() for
+   * value used by the default implementation of EvaluateDerivative() for
    * numerically approximating the derivative with the change over a single
    * default-sized step.  (NOTE that the default implementation of
    * EvaluateDerivative() should never be used in practice, but users or lazzy
