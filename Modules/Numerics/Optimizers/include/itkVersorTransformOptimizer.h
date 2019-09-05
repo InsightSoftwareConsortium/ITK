@@ -28,7 +28,7 @@ namespace itk
  * \brief Implement a gradient descent optimizer
  *
  * VersorTransformOptimizer is a variant of the
- * gradient descent optimizer implmented in
+ * gradient descent optimizer implemented in
  * RegularStepGradientDescentOptimizer.
  *
  * Versors are not in a vector space, for that reason,

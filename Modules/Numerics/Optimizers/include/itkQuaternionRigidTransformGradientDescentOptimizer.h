@@ -27,7 +27,7 @@ namespace itk
  * \brief Implement a gradient descent optimizer
  *
  * QuaternionRigidTransformGradientDescentOptimizer is an extension to the
- * simple gradient descent optimizer implmented in GradientDescentOptimizer.
+ * simple gradient descent optimizer implemented in GradientDescentOptimizer.
  * At each iteration the current position is updated according to
  *
  * p(n+1) = p(n) + learningRate * d f(p(n)) / d p(n)

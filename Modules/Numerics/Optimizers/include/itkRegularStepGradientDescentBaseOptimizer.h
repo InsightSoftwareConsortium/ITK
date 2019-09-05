@@ -145,7 +145,7 @@ protected:
   /** Advance one step along the corrected gradient taking into
    * account the steplength represented by factor.
    * This method is invoked by AdvanceOneStep. It is expected
-   * to be overrided by optimization methods in non-vector spaces
+   * to be overridden by optimization methods in non-vector spaces
    * \sa AdvanceOneStep */
   virtual void
   StepAlongGradient(double, const DerivativeType &)
