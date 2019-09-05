@@ -593,13 +593,13 @@ public:
     return this->GetPrincipalAxes();
   }
 
-  /** Get an array of point verities which define the corners of the
-   * oriented bounding box.
+  /** Get an array of point vertices which define the corners of the
+   * oriented bounding box in physical space.
    *
-   * The first element in the array contains the minimum coordination
-   * values while the last contains the maximum. Use the index of the
-   * array in binary to determine min/max for the indexed vertex.
-   * For example, in 2D, binary  counting will give[0,0], [0,1],
+   * The first element in the array contains minimum coordinate values
+   * which correspond to the origin while the last contains the maximum.
+   * Use the index of the array in binary to determine min/max for the
+   * indexed vertex. For example, in 2D, binary  counting will give[0,0], [0,1],
    * [1,0], [1,1], which corresponds to [minX,minY], [minX,maxY],
    * [maxX,minY], [maxX,maxY].
    */
