@@ -27,10 +27,17 @@ itkImageToHistogramFilterTest2(int argc, char * argv[])
   if (argc < 3)
   {
     std::cerr << "Missing command line arguments" << std::endl;
-    std::cerr << "Usage :  " << argv[0] << " inputRGBImageFileName outputHistogramFile.txt" << std::endl;
+    std::cerr << "Usage :  " << argv[0] << " inputRGBImageFileName outputHistogramFile.txt [autoMinumumMaximum]"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
+
+  bool autoMinimumMaximum = false;
+  if (argc >= 4)
+  {
+    autoMinimumMaximum = atoi(argv[3]);
+  }
 
   using PixelComponentType = unsigned char;
 
@@ -48,18 +55,6 @@ itkImageToHistogramFilterTest2(int argc, char * argv[])
 
   reader->SetFileName(argv[1]);
 
-  try
-  {
-    reader->Update();
-  }
-  catch (itk::ExceptionObject & excp)
-  {
-    std::cerr << "Problem encoutered while reading image file : " << argv[1] << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
-
-
   using HistogramFilterType = itk::Statistics::ImageToHistogramFilter<RGBImageType>;
 
   HistogramFilterType::Pointer histogramFilter = HistogramFilterType::New();
@@ -67,20 +62,26 @@ itkImageToHistogramFilterTest2(int argc, char * argv[])
 
   using HistogramMeasurementVectorType = HistogramFilterType::HistogramMeasurementVectorType;
 
-  // Setting bin mins and max
-  HistogramMeasurementVectorType histogramBinMinimum(MeasurementVectorSize);
-  histogramBinMinimum[0] = -0.5;
-  histogramBinMinimum[1] = -0.5;
-  histogramBinMinimum[2] = -0.5;
+  if (autoMinimumMaximum)
+  {
+    histogramFilter->AutoMinimumMaximumOn();
+  }
+  else
+  {
+    // Setting bin mins and max
+    HistogramMeasurementVectorType histogramBinMinimum(MeasurementVectorSize);
+    histogramBinMinimum[0] = -0.5;
+    histogramBinMinimum[1] = -0.5;
+    histogramBinMinimum[2] = -0.5;
 
-  HistogramMeasurementVectorType histogramBinMaximum(MeasurementVectorSize);
-  histogramBinMaximum[0] = 255.5;
-  histogramBinMaximum[1] = 255.5;
-  histogramBinMaximum[2] = 255.5;
+    HistogramMeasurementVectorType histogramBinMaximum(MeasurementVectorSize);
+    histogramBinMaximum[0] = 255.5;
+    histogramBinMaximum[1] = 255.5;
+    histogramBinMaximum[2] = 255.5;
 
-  histogramFilter->SetHistogramBinMinimum(histogramBinMinimum);
-  histogramFilter->SetHistogramBinMaximum(histogramBinMaximum);
-
+    histogramFilter->SetHistogramBinMinimum(histogramBinMinimum);
+    histogramFilter->SetHistogramBinMaximum(histogramBinMaximum);
+  }
 
   using SizeType = HistogramFilterType::HistogramSizeType;
 

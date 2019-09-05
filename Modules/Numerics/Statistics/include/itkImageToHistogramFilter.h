@@ -118,6 +118,7 @@ public:
    * minimum and maximum of the histogram are going to be computed
    * automatically from the values of the sample */
   itkSetGetDecoratedInputMacro(AutoMinimumMaximum, bool);
+  itkBooleanMacro(AutoMinimumMaximum);
 
   /** Method that facilitates the use of this filter in the internal
    * pipeline of another filter. */
@@ -136,7 +137,10 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
-  BeforeStreamedGenerateData() override;
+  StreamedGenerateData(unsigned int inputRequestedRegionNumber) override;
+
+  void
+  InitializeOutputHistogram();
   void
   AfterStreamedGenerateData() override;
 
