@@ -33,7 +33,7 @@ public:
 LBFGS2Optimizerv4 ::LBFGS2Optimizerv4()
   : m_Pimpl(new PrivateImplementationHolder)
 {
-  // Initialize to default paramaters
+  // Initialize to default parameters
   lbfgs_parameter_init(&m_Pimpl->m_Parameters);
   m_StatusCode = 100;
 }
@@ -79,7 +79,7 @@ LBFGS2Optimizerv4 ::StartOptimization(bool doOnlyInitialization)
 
   this->InvokeEvent(StartEvent());
 
-  // Copy paramaters
+  // Copy parameters
   const ParametersType & parameters = this->m_Metric->GetParameters();
 
   int N = parameters.GetSize();
@@ -292,7 +292,7 @@ LBFGS2Optimizerv4 ::SetWeights(const ScalesType)
   this->m_WeightsAreIdentity = true;
 }
 
-// A bunch of Set/Get methods for setting lbfgs paramaters
+// A bunch of Set/Get methods for setting lbfgs parameters
 void
 LBFGS2Optimizerv4::SetHessianApproximationAccuracy(int m)
 {
