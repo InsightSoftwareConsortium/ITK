@@ -177,6 +177,18 @@ public:
    * For multipage Images, only the palette of the first page is read */
   itkGetConstReferenceMacro(ColorPalette, PaletteType);
 
+  /** Set the palette of the image.
+   * For multipage images, the same palette is going to be used for all pages */
+  void
+  SetColorPalette(const PaletteType _arg)
+  {
+    if (this->m_ColorPalette != _arg)
+    {
+      this->m_ColorPalette = _arg;
+      this->Modified();
+    }
+  }
+
 protected:
   TIFFImageIO();
   ~TIFFImageIO() override;
@@ -236,6 +248,9 @@ protected:
   PaletteType m_ColorPalette;
 
 private:
+  void
+  AllocateTiffPalette(int bps);
+
   void
   ReadCurrentPage(void * out, size_t pixelOffset);
 

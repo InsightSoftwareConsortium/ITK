@@ -23,6 +23,16 @@
 #include "itkTestingMacros.h"
 #include "itkTIFFImageIO.h"
 
+template <typename T>
+void
+printPalette(std::vector<T> palette)
+{
+  for (unsigned int i = 0; i < palette.size(); ++i)
+  {
+    std::cout << "[" << i << "]:" << palette[i] << std::endl;
+  }
+}
+
 
 int
 itkTIFFImageIOTestPalette(int argc, char * argv[])
@@ -32,10 +42,15 @@ itkTIFFImageIOTestPalette(int argc, char * argv[])
   {
     std::cerr << "Usage: " << argv[0] << " input"
               << " output"
-              << " expandRGBPalette"
-              << " isPaletteImage" << std::endl;
+              << " expandRGBPalette: request palette expanding"
+              << " isPaletteImage: is image palette type" << std::endl;
     return EXIT_FAILURE;
   }
+
+  const auto expandRGBPalette = static_cast<bool>(std::stoi(argv[3]));
+  const auto isPaletteImage = static_cast<bool>(std::stoi(argv[4]));
+  std::cout << "Expanding palette: " << ((expandRGBPalette) ? "True" : "False") << std::endl;
+  std::cout << "Is palette: " << ((isPaletteImage) ? "True" : "False") << std::endl;
 
   constexpr unsigned int Dimension = 2;
   using ScalarPixelType = unsigned char;
@@ -45,17 +60,13 @@ itkTIFFImageIOTestPalette(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<ScalarImageType>;
   using IOType = itk::TIFFImageIO;
 
-
   IOType::Pointer io = IOType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(io, TIFFImageIO, ImageIOBase);
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(io, TIFFImageIO, ImageIOBase);
-
-  const auto expandRGBPalette = static_cast<bool>(std::stoi(argv[3]));
-  const auto isPaletteImage = static_cast<bool>(std::stoi(argv[4]));
   ITK_TEST_SET_GET_BOOLEAN(io, ExpandRGBPalette, expandRGBPalette);
 
   io->SetFileName(argv[1]);
@@ -94,40 +105,18 @@ itkTIFFImageIOTestPalette(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
-  // Try Palette reading and scalar image reading
-  if (io->GetExpandRGBPalette())
-  {
-    if (isPaletteImage)
-    {
-      std::cout << "Input is a defined as palette image, expanding to RGB. " << std::endl;
-    }
-    else
-    {
-      std::cout << "Input is a defined as a non palette image. " << std::endl;
-    }
-  }
-  else
-  {
-    if (isPaletteImage)
-    {
-      std::cout << "Input is a defined as palette image, trying to read it as scalar. " << std::endl;
-    }
-  }
+  io->Print(std::cout);
 
+  // Try Palette reading and scalar image reading
+  IOType::PaletteType palette_read = io->GetColorPalette();
   if (!io->GetExpandRGBPalette() && isPaletteImage)
   {
+    std::cout << "Expect to read palette image as scalar+palette." << std::endl;
     if (io->GetIsReadAsScalarPlusPalette())
     {
-      std::cout << "Image read as Scalar." << std::endl;
-      IOType::PaletteType palette = io->GetColorPalette();
-      std::cout << "Palette: " << std::endl;
-      for (unsigned int i = 0; i < palette.size(); ++i)
-      {
-        std::cout << "[" << i << "]:" << palette[i] << std::endl;
-      }
+      std::cout << "Image read as scalar+palette." << std::endl;
     }
     else
     {
@@ -136,19 +125,114 @@ itkTIFFImageIOTestPalette(int argc, char * argv[])
       return EXIT_FAILURE;
     }
   }
+  else if (io->GetExpandRGBPalette())
+  {
+    if (isPaletteImage)
+    {
+      std::cout << "Expect to expand palette image." << std::endl;
+    }
+    else
+    {
+      std::cout << "Expect to read non palette image with expanding palette requested." << std::endl;
+    }
+    if (io->GetIsReadAsScalarPlusPalette())
+    {
+      std::cerr << std::endl << "Test failed!" << std::endl;
+      std::cerr << std::endl << "Palette image read as scalar plus palette, but expanding is requested." << std::endl;
+      return EXIT_FAILURE;
+    }
+    if (palette_read.size() != 0)
+    {
+      std::cerr << std::endl << "Test failed!" << std::endl;
+      std::cerr << std::endl << "Non empty palette but expanding palette to rgb requested." << std::endl;
+      return EXIT_FAILURE;
+    }
+    std::cout << "Image not read as scalar and palette is empty." << std::endl;
+  }
+  else if (!isPaletteImage)
+  {
+    std::cout << "Expect to read non palette image with not expanding palette requested." << std::endl;
+    if (io->GetIsReadAsScalarPlusPalette())
+    {
+      std::cerr << std::endl << "Test failed!" << std::endl;
+      std::cerr << std::endl << "Image indicated as non palette read as scalar plus palette." << std::endl;
+      return EXIT_FAILURE;
+    }
+    if (palette_read.size() != 0)
+    {
+      std::cerr << std::endl << "Test failed!" << std::endl;
+      std::cerr << std::endl << "Non empty palette but image indicated as RGB." << std::endl;
+      return EXIT_FAILURE;
+    }
+    std::cout << "Image not read as scalar and palette is empty." << std::endl;
+  }
   else
   {
-    std::cout << "Image read as Greyscale (conversion)." << std::endl;
+    // case not possible here
   }
 
   ScalarImageType::Pointer inputImage = reader->GetOutput();
 
-  // Try writing
+  // test writing palette
+  bool writePalette = !expandRGBPalette && isPaletteImage;
+  std::cerr << "Trying to write the image as " << ((writePalette) ? "palette" : "expanded palette") << std::endl;
+  ITK_TEST_SET_GET_BOOLEAN(io, WritePalette, writePalette);
+
+  io->Print(std::cout);
+
   writer->SetInput(inputImage);
   writer->SetImageIO(io);
   writer->SetFileName(argv[2]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+  // try reading written image
+  std::cerr << "Reading the written image, expecting " << ((writePalette) ? "palette" : "RGB") << std::endl;
+  reader->SetImageIO(io);
+  reader->SetFileName(argv[2]);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+  std::cerr << "Image read as " << ((io->GetIsReadAsScalarPlusPalette()) ? "scalar + palette" : "RGB") << std::endl;
+
+  if (io->GetIsReadAsScalarPlusPalette() != writePalette)
+  {
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Written image is expected to be a palette image, but could not be read such as." << std::endl;
+    return EXIT_FAILURE;
+  }
+  if (io->GetIsReadAsScalarPlusPalette())
+  {
+    IOType::PaletteType palette_written = io->GetColorPalette();
+
+    if (palette_written.size() != palette_read.size())
+    {
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Read and written palette don't have the same size ( " << palette_read.size() << " vs "
+                << palette_written.size() << ")" << std::endl;
+      return EXIT_FAILURE;
+    }
+    bool   palette_equal = true;
+    size_t i;
+    for (i = 0; i < palette_written.size(); ++i)
+    {
+      if (palette_written[i] != palette_read[i])
+      {
+        palette_equal = false;
+        break;
+      }
+    }
+    if (!palette_equal)
+    {
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Palette not written as it was read at position [" << i << "]." << std::endl;
+      return EXIT_FAILURE;
+    }
+    else
+    {
+      std::cout << "Read and written palette are equal" << std::endl;
+    }
+  }
 
   // Exercise other methods
   itk::ImageIOBase::SizeType pixelStride = io->GetPixelStride();

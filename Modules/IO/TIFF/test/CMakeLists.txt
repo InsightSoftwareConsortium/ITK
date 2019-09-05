@@ -260,19 +260,44 @@ if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12 )
 
 endif()
 
-
-itk_add_test(NAME itkTIFFImageIOTestPaletteExpanded
+# expand + RGB image
+itk_add_test(NAME itkTIFFImageIOTestRGBExpanded
       COMMAND ITKIOTIFFTestDriver
-    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestPaletteExpanded.tif
-              1e1a89a70b7cb472f55c450909df7b77
-    itkTIFFImageIOTestPalette DATA{Input/HeliconiusNumataPalette.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestPaletteExpanded.tif 1 0)
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestRGBExpanded.tif
+              b38e265b776d8b9b23a6fb1180089b05
+    itkTIFFImageIOTestPalette DATA{Baseline/TestTIFFCompression_RGBTestImageJPEG_PackBits.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestRGBExpanded.tif 1 0)
+
+# not expand + RGB image
+itk_add_test(NAME itkTIFFImageIOTestRGBNotExpanded
+      COMMAND ITKIOTIFFTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestRGBNotExpanded.tif
+              b38e265b776d8b9b23a6fb1180089b05
+    itkTIFFImageIOTestPalette DATA{Baseline/TestTIFFCompression_RGBTestImageJPEG_PackBits.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestRGBNotExpanded.tif 0 0)
+
+# not expand + palette image
 itk_add_test(NAME itkTIFFImageIOTestPaletteNotExpanded
       COMMAND ITKIOTIFFTestDriver
     --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestPaletteNotExpanded.tif
-              4a4133ec26e5c83a5cbd9188067b1633
+              6bc3fbf2c6743260a777c9244bd88b58
     itkTIFFImageIOTestPalette DATA{Input/HeliconiusNumataPalette.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestPaletteNotExpanded.tif 0 1)
-itk_add_test(NAME itkTIFFImageIOTestPaletteNotExpandedGrey
+
+# expand + palette image
+itk_add_test(NAME itkTIFFImageIOTestPaletteExpanded
+        COMMAND ITKIOTIFFTestDriver
+      --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestPaletteExpanded.tif
+                1e1a89a70b7cb472f55c450909df7b77
+      itkTIFFImageIOTestPalette DATA{Input/HeliconiusNumataPalette.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestPaletteExpanded.tif 1 1)
+
+# not expand + grey palette image
+itk_add_test(NAME itkTIFFImageIOTestGreyPaletteNotExpanded
       COMMAND ITKIOTIFFTestDriver
-    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestPaletteNotExpandedGrey.tif
-              4a4133ec26e5c83a5cbd9188067b1633
-    itkTIFFImageIOTestPalette DATA{Input/HeliconiusNumataPalette.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestPaletteNotExpandedGrey.tif 0 0)
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestGreyPaletteNotExpanded.tif
+              6bc3fbf2c6743260a777c9244bd88b58
+    itkTIFFImageIOTestPalette DATA{Input/HeliconiusNumataPalette.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestGreyPaletteNotExpanded.tif 0 1)
+
+# expand + grey palette image
+itk_add_test(NAME itkTIFFImageIOTestGreyPaletteExpanded
+      COMMAND ITKIOTIFFTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestGreyPaletteExpanded.tif
+              1e1a89a70b7cb472f55c450909df7b77
+    itkTIFFImageIOTestPalette DATA{Input/HeliconiusNumataPalette.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestGreyPaletteExpanded.tif 1 1)

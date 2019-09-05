@@ -289,6 +289,12 @@ public:
   itkGetConstMacro(ExpandRGBPalette, bool);
   itkBooleanMacro(ExpandRGBPalette);
 
+  /** Set/Get a boolean to include a color palette while writing
+   * the image file. Applies only for scalar Pixels*/
+  itkSetMacro(WritePalette, bool);
+  itkGetConstMacro(WritePalette, bool);
+  itkBooleanMacro(WritePalette);
+
   /** Determine whether a paletized image file has been read as a scalar image
    *  plus a color palette.
    *  ExpandRGBPalette must be set to true, and the file must be a
@@ -731,6 +737,9 @@ protected:
   /** true if a RGB palette has been read and the image
    * kept scalar */
   bool m_IsReadAsScalarPlusPalette;
+
+  /** Should we try to include a RGB palette while writing the image  */
+  bool m_WritePalette;
 
   /** The region to read or write. The region contains information about the
    * data within the region to read or write. */

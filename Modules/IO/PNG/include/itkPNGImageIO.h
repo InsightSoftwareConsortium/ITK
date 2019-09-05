@@ -59,6 +59,17 @@ public:
    * 0 is returned */
   itkGetConstReferenceMacro(ColorPalette, PaletteType);
 
+  /** Set the palette of the image. */
+  void
+  SetColorPalette(const PaletteType _arg)
+  {
+    if (this->m_ColorPalette != _arg)
+    {
+      this->m_ColorPalette = _arg;
+      this->Modified();
+    }
+  }
+
   /*-------- This part of the interface deals with reading data. ------ */
 
   /** Determine the file type. Returns true if this ImageIO can read the

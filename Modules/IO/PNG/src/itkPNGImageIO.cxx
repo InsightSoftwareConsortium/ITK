@@ -589,7 +589,14 @@ PNGImageIO::WriteSlice(const std::string & fileName, const void * buffer)
   switch (numComp)
   {
     case 1:
-      colorType = PNG_COLOR_TYPE_GRAY;
+      if (this->GetWritePalette())
+      {
+        colorType = PNG_COLOR_TYPE_PALETTE;
+      }
+      else
+      {
+        colorType = PNG_COLOR_TYPE_GRAY;
+      }
       break;
     case 2:
       colorType = PNG_COLOR_TYPE_GRAY_ALPHA;
@@ -630,6 +637,47 @@ PNGImageIO::WriteSlice(const std::string & fileName, const void * buffer)
   // interlaceType - PNG_INTERLACE_NONE or
   //                 PNG_INTERLACE_ADAM7
 
+  png_color * palette = nullptr;
+  bool        paletteAllocated = false;
+  if (colorType == PNG_COLOR_TYPE_PALETTE)
+  {
+    unsigned inputPaletteLength = static_cast<unsigned>(m_ColorPalette.size());
+    unsigned PNGPaletteLength = inputPaletteLength;
+
+    // discard colors exceeding PNG max number
+    PNGPaletteLength = (PNGPaletteLength <= PNG_MAX_PALETTE_LENGTH) ? PNGPaletteLength : PNG_MAX_PALETTE_LENGTH;
+
+    // min palette size is 2 for PNG
+    PNGPaletteLength = (PNGPaletteLength < 2) ? 2 : PNGPaletteLength;
+
+    palette = static_cast<png_color *>(png_malloc(png_ptr, PNGPaletteLength * sizeof(png_color)));
+    paletteAllocated = true;
+
+    for (unsigned i = 0; i < PNGPaletteLength; ++i)
+    {
+      if (i < inputPaletteLength)
+      {
+        // fill the palette with the user given palette
+        png_color * col = &palette[i];
+        col->red = m_ColorPalette[i].GetRed();
+        col->green = m_ColorPalette[i].GetGreen();
+        col->blue = m_ColorPalette[i].GetBlue();
+      }
+      else
+      {
+        // this handle the case where the user given palette size is < 2
+        // set to black by default
+        png_color * col = &palette[i];
+        col->red = 0;
+        col->green = 0;
+        col->blue = 0;
+      }
+    }
+
+    // set palette
+    png_set_PLTE(png_ptr, info_ptr, palette, static_cast<int>(PNGPaletteLength));
+  }
+
   if (m_UseCompression)
   {
     // Set the image compression level.
@@ -667,5 +715,10 @@ PNGImageIO::WriteSlice(const std::string & fileName, const void * buffer)
   png_write_end(png_ptr, info_ptr);
 
   png_destroy_write_struct(&png_ptr, &info_ptr);
+  if (paletteAllocated)
+  {
+    // free palette memory
+    png_free(png_ptr, palette);
+  }
 }
 } // end namespace itk
