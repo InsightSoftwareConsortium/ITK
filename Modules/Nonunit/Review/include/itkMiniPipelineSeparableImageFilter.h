@@ -31,7 +31,7 @@ namespace itk
  * the same separable transform.
  * This filter can be used with the filter for which the neighborhood is
  * defined by the SetRadius() method, like the BoxImageFilter and its
- * subcalsses.
+ * subclasses.
  *
  *
  * This code was contributed in the Insight Journal paper:

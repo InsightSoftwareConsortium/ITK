@@ -182,7 +182,7 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::RecomputeG
   }
 }
 
-/** Evaluate the function at the specifed index */
+/** Evaluate the function at the specified index */
 template <typename TInputImage, typename TOutput>
 typename DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::OutputType
 DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType & index) const
@@ -208,7 +208,7 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::EvaluateAt
   return gradientMagnitude;
 }
 
-/** Evaluate the function at the specifed point */
+/** Evaluate the function at the specified point */
 template <typename TInputImage, typename TOutput>
 typename DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::OutputType
 DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::Evaluate(const PointType & point) const

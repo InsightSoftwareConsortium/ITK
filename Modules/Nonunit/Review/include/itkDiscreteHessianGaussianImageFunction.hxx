@@ -192,7 +192,7 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::RecomputeGaussianKer
   }
 }
 
-/** Evaluate the function at the specifed index */
+/** Evaluate the function at the specified index */
 template <typename TInputImage, typename TOutput>
 typename DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::OutputType
 DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType & index) const
@@ -207,7 +207,7 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::EvaluateAtIndex(cons
   return hessian;
 }
 
-/** Evaluate the function at the specifed point */
+/** Evaluate the function at the specified point */
 template <typename TInputImage, typename TOutput>
 typename DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::OutputType
 DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::Evaluate(const PointType & point) const
