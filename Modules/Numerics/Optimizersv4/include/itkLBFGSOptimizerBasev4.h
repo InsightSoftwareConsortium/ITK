@@ -44,7 +44,7 @@ class ITK_TEMPLATE_EXPORT LBFGSOptimizerBaseHelperv4;
  *
  * \note The StopConditionDescription returned by this class is directly from the vnl
  * optimizer by calling <tt> m_VnlOptimizer->get_failure_code() </tt>. This seems to
- * return "Failure" even when no error has occured. The same behavior is observed
+ * return "Failure" even when no error has occurred. The same behavior is observed
  * in the ITKv3 version of this optimizer.
  *
  * \note Local-support (high-density) transforms.
@@ -53,7 +53,7 @@ class ITK_TEMPLATE_EXPORT LBFGSOptimizerBaseHelperv4;
  *
  * \note 1) Parameter updates:
  * In SingleValuedNonLinearCostFunctionAdaptor, the handling of the gradient
- * must be changed to accomodate the fact that local-support transforms expect
+ * must be changed to accommodate the fact that local-support transforms expect
  * a gradient to be added to the transform parameters using the
  * UpdateTransformParameters method of the local support transform. Other optimizers
  * in the v4 framework use this method, but the use of the vnl optimizers here

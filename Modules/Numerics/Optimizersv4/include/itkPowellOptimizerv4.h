@@ -189,7 +189,7 @@ protected:
    * a bounded extreme.  These values are in parameter space, along the
    * current line and wrt the current origin set via SetLine.   Optimization
    * terminates based on MaximumIteration, StepTolerance, or ValueTolerance.
-   * Implemented as Brent line optimers from NRC.  */
+   * Implemented as Brent line optimizers from NRC.  */
   virtual void
   BracketedLineOptimize(double   ax,
                         double   bx,

@@ -86,7 +86,7 @@ public:
   void
   compute(const InternalParametersType & x, InternalMeasureType * f, InternalDerivativeType * g) override;
 
-  /**  Convert external derviative measures into internal type   */
+  /**  Convert external derivative measures into internal type   */
   void
   ConvertExternalToInternalGradient(const DerivativeType & input, InternalDerivativeType & output) const;
 

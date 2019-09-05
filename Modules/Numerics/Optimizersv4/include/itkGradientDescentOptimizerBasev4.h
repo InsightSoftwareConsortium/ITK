@@ -144,7 +144,7 @@ public:
    * This call performs a threaded modification for transforms with
    * local support (assumed to be dense). Otherwise the modification
    * is performed w/out threading.
-   * See EstimateLearningRate() to perform optionaly learning rate
+   * See EstimateLearningRate() to perform optionally learning rate
    * estimation.
    * At completion, m_Gradient can be used to update the transform
    * parameters. Derived classes may hold additional results in

@@ -54,7 +54,7 @@ namespace itk
  * and SetGradientLineSearchAccuracy()
  *
  * Instead of the More-Tunete method, backtracking with three different
- * conditions [7] are availabe and can be set through SetLineSearch():
+ * conditions [7] are available and can be set through SetLineSearch():
  *  - LINESEARCH_BACKTRACKING_ARMIJO
  *  - LINESEARCH_BACKTRACKING_WOLFE
  *  - LINESEARCH_BACKTRACKING_STRONG_WOLFE
@@ -109,7 +109,7 @@ public:
   {
     /** The default algorithm (MoreThuente method). */
     LINESEARCH_DEFAULT = 0,
-    /** MoreThuente method proposd by More and Thuente. */
+    /** MoreThuente method proposed by More and Thuente. */
     LINESEARCH_MORETHUENTE = 0,
     /**
      * Backtracking method with the Armijo condition.
@@ -121,7 +121,7 @@ public:
      *  a is the step length.
      */
     LINESEARCH_BACKTRACKING_ARMIJO = 1,
-    /** The backtracking method with the defualt (regular Wolfe) condition. */
+    /** The backtracking method with the default (regular Wolfe) condition. */
     LINESEARCH_BACKTRACKING = 2,
     /**
      * Backtracking method with regular Wolfe condition.
@@ -151,7 +151,7 @@ public:
   /**
    * currently only double is used in lbfgs need to figure
    * out how to make it a template parameter and set the required
-   * define so lbfgs.h uses the corrcet version
+   * define so lbfgs.h uses the correct version
    **/
   using PrecisionType = double;
 
@@ -244,7 +244,7 @@ public:
    * The maximum number of iterations.
    *  The lbfgs() function terminates an optimization process with
    *  \c LBFGSERR_MAXIMUMITERATION status code when the iteration count
-   *  exceedes this parameter. Setting this parameter to zero continues an
+   *  exceeds this parameter. Setting this parameter to zero continues an
    *  optimization process until a convergence or error. The default value
    *  is \c 0.
    */
@@ -414,7 +414,7 @@ public:
   int
   GetOrthantwiseEnd() const;
 
-  /** Get paramater norm of current iteration */
+  /** Get parameter norm of current iteration */
   itkGetConstMacro(CurrentParameterNorm, PrecisionType);
   /** Get gradient norm of current iteration */
   itkGetConstMacro(CurrentGradientNorm, PrecisionType);
@@ -457,7 +457,7 @@ protected:
                  int                   k,
                  int                   ls);
 
-  //** Function evluation callback from libLBFGS frowrad to instance */
+  //** Function evalation callback from libLBFGS frowrad to instance */
   static PrecisionType
   EvaluateCostCallback(void *                instance,
                        const PrecisionType * x,
