@@ -53,7 +53,7 @@ itkSubsampleTest2(int, char *[])
   SubsampleType::Pointer subSample = SubsampleType::New();
   subSample->SetSample(sample);
 
-  // Add measurment vectors in sample with even id number to subSample
+  // Add measurement vectors in sample with even id number to subSample
   for (unsigned int i = 0; i < sample->Size(); i = i + 2)
   {
     subSample->AddInstance(i);
@@ -68,7 +68,7 @@ itkSubsampleTest2(int, char *[])
 
   for (unsigned int i = 0; i < subSample->Size(); i++)
   {
-    std::cout << "Measurment Vector: " << i << "\t" << subSample->GetMeasurementVector(i) << std::endl;
+    std::cout << "Measurement Vector: " << i << "\t" << subSample->GetMeasurementVector(i) << std::endl;
 
     if (subSample->GetMeasurementVector(i) != sample->GetMeasurementVector(i * 2))
     {
@@ -81,7 +81,7 @@ itkSubsampleTest2(int, char *[])
   CascadedSubsampleType::Pointer subSample2 = CascadedSubsampleType::New();
   subSample2->SetSample(subSample);
 
-  // Add measurment vectors in subsample with even id number to subSample2
+  // Add measurement vectors in subsample with even id number to subSample2
   for (unsigned int i = 0; i < subSample->Size(); i = i + 2)
   {
     std::cout << "Adding instance: " << i << " to subSample2" << std::endl;

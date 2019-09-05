@@ -338,7 +338,7 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
     Evaluate(const InputType & itkNotUsed(input)) const override
     {
       MeasurementVectorType2 measurements;
-      // set the weight factor of the measurment
+      // set the weight factor of the measurement
       // vector with valuev[2, 2] to 0.5.
       return 1.0;
     }

@@ -84,7 +84,7 @@ itkDistanceMetricTest(int, char *[])
 
   distance->Print(std::cout);
 
-  // try changing the measurment vector size, it should throw an exception
+  // try changing the measurement vector size, it should throw an exception
   try
   {
     MeasurementVectorSizeType newSize = 20;
@@ -99,7 +99,7 @@ itkDistanceMetricTest(int, char *[])
     std::cerr << "Exception thrown: " << excpt << std::endl;
   }
 
-  // try re-setting the measurment vector size to the same value, no exceptins should be
+  // try re-setting the measurement vector size to the same value, no exceptins should be
   // thrown
   try
   {

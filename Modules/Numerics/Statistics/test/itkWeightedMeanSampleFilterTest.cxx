@@ -50,7 +50,7 @@ public:
   Evaluate(const InputType & input) const override
   {
     MeasurementVectorType measurements;
-    // set the weight factor of the measurment
+    // set the weight factor of the measurement
     // vector with valuev[2, 2] to 0.5.
     measurements.Fill(2.0f);
     if (input != measurements)
