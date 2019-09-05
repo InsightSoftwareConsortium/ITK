@@ -23,13 +23,13 @@
 #include "itkPipelineMonitorImageFilter.h"
 #include "itkStreamingImageFilter.h"
 
-/// \brief is comparison with a percentage tollerance
+/// \brief is comparison with a percentage tolerance
 ///
 /// returns true of  the current value is with in tol percentage of m);
 ///
 ///  | u - v | <= e * |u| or |  u - v | <= e * |v|
 /// defines a "close with tolerance e" relationship between u and v
-/// this is a symetric comparison
+/// this is a symmetric comparison
 ///
 /// Also it is check to see if the u an v are both less then
 /// epsilon for the type
