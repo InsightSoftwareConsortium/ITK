@@ -100,13 +100,13 @@ public:
   virtual void
   GPUComputeUpdate(const typename TImageType::Pointer output, typename TImageType::Pointer update, void * gd) = 0;
 
-  /** Allocate GPU buffers for computing metric statitics
+  /** Allocate GPU buffers for computing metric statistics
    * */
   virtual void
   GPUAllocateMetricData(unsigned int itkNotUsed(numPixels))
   {}
 
-  /** Release GPU buffers for computing metric statitics
+  /** Release GPU buffers for computing metric statistics
    * */
   virtual void
   GPUReleaseMetricData()

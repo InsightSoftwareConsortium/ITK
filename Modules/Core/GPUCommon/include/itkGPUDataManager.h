@@ -35,7 +35,7 @@ namespace itk
  * which is similar to ImageBase class for Image class. However, all the image-related
  * meta data will be already stored in image class (parent of GPUImage), therefore
  * we did not name it GPUImageBase. Rather, this class is a GPU-specific data manager
- * that provides functionalties for CPU-GPU data synchronization and grafting GPU data.
+ * that provides functionalities for CPU-GPU data synchronization and grafting GPU data.
  *
  * \ingroup ITKGPUCommon
  */

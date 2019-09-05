@@ -218,7 +218,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::RecomputeGaussianKernel()
   m_InternalImage->Allocate(true); // initialize buffer to zero
 }
 
-/** Evaluate the function at the specifed point */
+/** Evaluate the function at the specified point */
 template <typename TInputImage, typename TOutput>
 TOutput
 GaussianBlurImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType & index) const
@@ -226,7 +226,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType
   return this->EvaluateAtIndex(index, m_OperatorArray);
 }
 
-/** Evaluate the function at the specifed point */
+/** Evaluate the function at the specified point */
 template <typename TInputImage, typename TOutput>
 TOutput
 GaussianBlurImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType &         index,
@@ -401,7 +401,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::RecomputeContinuousGaussianKern
   }
 }
 
-/** Evaluate the function at the specifed point */
+/** Evaluate the function at the specified point */
 template <typename TInputImage, typename TOutput>
 TOutput
 GaussianBlurImageFunction<TInputImage, TOutput>::Evaluate(const PointType & point) const

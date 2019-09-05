@@ -129,7 +129,7 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::SetParameters
     /* If inputParams is same object as m_Parameters, we just pass
      * each sub-transforms own m_Parameters in. This is needed to
      * avoid unnecessary copying of parameters in the sub-transforms,
-     * while still allowing SetParameters to do any oprations on the
+     * while still allowing SetParameters to do any operations on the
      * parameters to update member variable states. A hack. */
     if (&inputParameters == &this->m_Parameters)
     {

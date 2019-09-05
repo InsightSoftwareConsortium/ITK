@@ -302,7 +302,7 @@ protected:
   }
 
   /** This method is optionally defined by a subclass and is called before
-   * the loop of iterations of calculate_change & upate. It does the global
+   * the loop of iterations of calculate_change & update. It does the global
    * initialization, i.e. in the SparseFieldLevelSetImageFilter, initialize
    * the list of layers.
    * */

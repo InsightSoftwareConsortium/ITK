@@ -29,7 +29,7 @@ namespace itk
  * customized conversion between the internal and external
  * type representations.
  *
- * PixelAccessor is designed to be used in conjuntion with
+ * PixelAccessor is designed to be used in conjunction with
  * ImageAdaptors. An ImageAdaptor take an image and present it
  * as another image in which the pixels are a pixel-to-pixel
  * modification of the original image.

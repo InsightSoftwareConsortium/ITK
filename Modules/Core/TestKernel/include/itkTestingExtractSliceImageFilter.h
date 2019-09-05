@@ -155,7 +155,7 @@ public:
    * output direction is the sub-matrix it it is positive definite, else
    * return identity. This is backwards compatible with ITKv3, but
    * is highly discouraged because the results are difficult to
-   * anticipate under differing data scenerios.
+   * anticipate under differing data scenarios.
    *
    * itk::itkExtractSliceImageFilter::DIRECTIONCOLLAPSETOSUBMATRIX
    * Set the strategy so that all collapsed images where
