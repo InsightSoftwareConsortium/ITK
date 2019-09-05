@@ -81,6 +81,21 @@ protected:
       l2s->Update();
       return l2s->GetOutput()->GetLabelObject(label);
     }
+
+    static bool
+    TestListHasPoint(const typename LabelObjectType::OrientedBoundingBoxVerticesType & obbList,
+                     const typename LabelObjectType::OrientedBoundingBoxPointType &    pt,
+                     double                                                            tolerance = 1e-8)
+    {
+      for (auto & v : obbList)
+      {
+        if (pt.EuclideanDistanceTo(v) < tolerance)
+        {
+          return true;
+        }
+      }
+      return false;
+    }
   };
 };
 } // namespace
@@ -273,10 +288,10 @@ TEST_F(ShapeLabelMapFixture, 3D_T2x2x2_Spacing)
   EXPECT_EQ(0.0, labelObject->GetPerimeterOnBorder());
   EXPECT_EQ(0.0, labelObject->GetPerimeterOnBorderRatio());
   EXPECT_NEAR(19.36, labelObject->GetPhysicalSize(), 1e-10);
-  // We are omitted these because the sign of the eigen vectors is not
+  // Because the sign of the Eigen vectors is not
   // unique, therefore the axes may not always point in the same
-  // direction and the origin may not be the same corner
-  // ITK_EXPECT_VECTOR_NEAR(MakePoint(4.5, 9.35, 23.1), labelObject->GetOrientedBoundingBoxOrigin(), 1e-4);
+  // direction making origin not unique. Therefore we check the expected origin the the list of vertices.
+  EXPECT_TRUE(Utils::TestListHasPoint(labelObject->GetOrientedBoundingBoxVertices(), MakePoint(4.5, 9.35, 23.1)));
   // labelObject->GetPrincipalAxes(); omitted
   ITK_EXPECT_VECTOR_NEAR(MakeVector(0.25, 0.3025, 1.21), labelObject->GetPrincipalMoments(), 1e-4);
   EXPECT_NEAR(1.22808, labelObject->GetRoundness(), 1e-4); // resulting value
@@ -420,6 +435,46 @@ TEST_F(ShapeLabelMapFixture, 2D_T1_1_FlipDirection)
 
   ITK_EXPECT_VECTOR_NEAR(MakeVector(Math::sqrt2, 2.0 * Math::sqrt2), labelObject->GetOrientedBoundingBoxSize(), 1e-4);
   ITK_EXPECT_VECTOR_NEAR(MakePoint(6.0, 5.0), labelObject->GetOrientedBoundingBoxOrigin(), 1e-4);
+
+
+  if (::testing::Test::HasFailure())
+  {
+    labelObject->Print(std::cout);
+  }
+}
+
+
+TEST_F(ShapeLabelMapFixture, 2D_T1_2_Direction)
+{
+  using namespace itk::GTest::TypedefsAndConstructors::Dimension2;
+
+  using Utils = FixtureUtilities<2>;
+
+  Utils::ImageType::Pointer image(Utils::CreateImage());
+
+  image->SetPixel(MakeIndex(5, 7), 1);
+  image->SetPixel(MakeIndex(5, 8), 1);
+
+  DirectionType direction;
+
+  const double d[4] = { 0, 1.0, 1.0, 0 };
+
+  direction = DirectionType::InternalMatrixType(d);
+
+  image->SetDirection(direction);
+
+
+  Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(image);
+
+
+  auto obbVertices = labelObject->GetOrientedBoundingBoxVertices();
+
+  EXPECT_EQ(obbVertices.Size(), 4);
+
+  EXPECT_TRUE(Utils::TestListHasPoint(obbVertices, MakePoint(8.5, 4.5)));
+  EXPECT_TRUE(Utils::TestListHasPoint(obbVertices, MakePoint(8.5, 5.5)));
+  EXPECT_TRUE(Utils::TestListHasPoint(obbVertices, MakePoint(6.5, 4.5)));
+  EXPECT_TRUE(Utils::TestListHasPoint(obbVertices, MakePoint(6.5, 5.5)));
 
 
   if (::testing::Test::HasFailure())
