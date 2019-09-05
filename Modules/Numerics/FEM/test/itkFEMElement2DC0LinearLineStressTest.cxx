@@ -32,7 +32,7 @@ itkFEMElement2DC0LinearLineStressTest(int argc, char * argv[])
   // Need to register default FEM object types,
   // and setup SpatialReader to recognize FEM types
   // which is all currently done as a HACK in
-  // the initializaiton of the itk::FEMFactoryBase::GetFactory()
+  // the initialization of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
   using Solver2DType = itk::fem::Solver<2>;
