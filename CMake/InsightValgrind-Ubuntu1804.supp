@@ -17,3 +17,12 @@
    fun:ioctl
    fun:_ZN6itksysL16CloneFileContentERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_
 }
+# Offending line contains comment that the array may contain garbage
+{
+
+   Memcheck:Cond
+   fun:slide_hash
+   fun:fill_window
+   fun:deflate_fast
+   fun:itkzlib_deflate
+}
