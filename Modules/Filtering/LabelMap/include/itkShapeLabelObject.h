@@ -593,27 +593,21 @@ public:
     return this->GetPrincipalAxes();
   }
 
-  /** Get an array of point verities which define the corners of the
-   * oriented bounding box.
+  /** Get an array of point vertices which define the corners of the
+   * oriented bounding box in physical space.
    *
-   * The first element in the array contains the minimum coordination
-   * values while the last contains the maximum. Use the index of the
-   * array in binary to determine min/max for the indexed vertex.
-   * For example, in 2D, binary  counting will give[0,0], [0,1],
+   * The first element in the array contains minimum coordinate values
+   * which correspond to the origin while the last contains the maximum.
+   * Use the index of the array in binary to determine min/max for the
+   * indexed vertex. For example, in 2D, binary  counting will give[0,0], [0,1],
    * [1,0], [1,1], which corresponds to [minX,minY], [minX,maxY],
    * [maxX,minY], [maxX,maxY].
    */
   OrientedBoundingBoxVerticesType
   GetOrientedBoundingBoxVertices() const
   {
+    const MatrixType obbToPhysical(this->GetOrientedBoundingBoxDirection().GetTranspose());
 
-    const OrientedBoundingBoxPointType min = this->GetOrientedBoundingBoxOrigin();
-    OrientedBoundingBoxPointType       max = this->GetOrientedBoundingBoxOrigin();
-
-    for (unsigned int i = 0; i < ImageDimension; ++i)
-    {
-      max[i] += m_OrientedBoundingBoxSize[i];
-    }
 
     OrientedBoundingBoxVerticesType vertices;
 
@@ -623,18 +617,20 @@ public:
     // [maxX,minY], [maxX,maxY].
     for (unsigned int i = 0; i < OrientedBoundingBoxVerticesType::Length; ++i)
     {
-      const unsigned int msb = 1 << (ImageDimension - 1);
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      constexpr unsigned int         msb = 1 << (ImageDimension - 1);
+      Vector<double, ImageDimension> offset;
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         if (i & msb >> j)
         {
-          vertices[i][j] = max[j];
+          offset[j] = m_OrientedBoundingBoxSize[j];
         }
         else
         {
-          vertices[i][j] = min[j];
+          offset[j] = 0;
         }
       }
+      vertices[i] = m_OrientedBoundingBoxOrigin + obbToPhysical * offset;
     }
     return vertices;
   }
