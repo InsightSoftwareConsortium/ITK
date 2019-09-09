@@ -33,16 +33,16 @@ template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
           typename TRealType,
+          typename TFloatImageType,
           typename TRegistrationType,
-          typename TDefaultRegistrationType,
-          typename TFloatImageType>
+          typename TDefaultRegistrationType>
 MultiResolutionPDEDeformableRegistration<TFixedImage,
                                          TMovingImage,
                                          TDisplacementField,
                                          TRealType,
+                                         TFloatImageType,
                                          TRegistrationType,
-                                         TDefaultRegistrationType,
-                                         TFloatImageType>::MultiResolutionPDEDeformableRegistration()
+                                         TDefaultRegistrationType>::MultiResolutionPDEDeformableRegistration()
 {
   this->SetNumberOfRequiredInputs(2);
   // Primary input is optional in this filter
@@ -78,17 +78,17 @@ template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
           typename TRealType,
+          typename TFloatImageType,
           typename TRegistrationType,
-          typename TDefaultRegistrationType,
-          typename TFloatImageType>
+          typename TDefaultRegistrationType>
 void
 MultiResolutionPDEDeformableRegistration<TFixedImage,
                                          TMovingImage,
                                          TDisplacementField,
                                          TRealType,
+                                         TFloatImageType,
                                          TRegistrationType,
-                                         TDefaultRegistrationType,
-                                         TFloatImageType>::SetMovingImage(const MovingImageType * ptr)
+                                         TDefaultRegistrationType>::SetMovingImage(const MovingImageType * ptr)
 {
   this->ProcessObject::SetNthInput(2, const_cast<MovingImageType *>(ptr));
 }
@@ -100,23 +100,23 @@ template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
           typename TRealType,
+          typename TFloatImageType,
           typename TRegistrationType,
-          typename TDefaultRegistrationType,
-          typename TFloatImageType>
+          typename TDefaultRegistrationType>
 const typename MultiResolutionPDEDeformableRegistration<TFixedImage,
                                                         TMovingImage,
                                                         TDisplacementField,
                                                         TRealType,
+                                                        TFloatImageType,
                                                         TRegistrationType,
-                                                        TDefaultRegistrationType,
-                                                        TFloatImageType>::MovingImageType *
+                                                        TDefaultRegistrationType>::MovingImageType *
 MultiResolutionPDEDeformableRegistration<TFixedImage,
                                          TMovingImage,
                                          TDisplacementField,
                                          TRealType,
+                                         TFloatImageType,
                                          TRegistrationType,
-                                         TDefaultRegistrationType,
-                                         TFloatImageType>::GetMovingImage() const
+                                         TDefaultRegistrationType>::GetMovingImage() const
 {
   return dynamic_cast<const MovingImageType *>(this->ProcessObject::GetInput(2));
 }
@@ -128,17 +128,17 @@ template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
           typename TRealType,
+          typename TFloatImageType,
           typename TRegistrationType,
-          typename TDefaultRegistrationType,
-          typename TFloatImageType>
+          typename TDefaultRegistrationType>
 void
 MultiResolutionPDEDeformableRegistration<TFixedImage,
                                          TMovingImage,
                                          TDisplacementField,
                                          TRealType,
+                                         TFloatImageType,
                                          TRegistrationType,
-                                         TDefaultRegistrationType,
-                                         TFloatImageType>::SetFixedImage(const FixedImageType * ptr)
+                                         TDefaultRegistrationType>::SetFixedImage(const FixedImageType * ptr)
 {
   this->ProcessObject::SetNthInput(1, const_cast<FixedImageType *>(ptr));
 }
@@ -150,23 +150,23 @@ template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
           typename TRealType,
+          typename TFloatImageType,
           typename TRegistrationType,
-          typename TDefaultRegistrationType,
-          typename TFloatImageType>
+          typename TDefaultRegistrationType>
 const typename MultiResolutionPDEDeformableRegistration<TFixedImage,
                                                         TMovingImage,
                                                         TDisplacementField,
                                                         TRealType,
+                                                        TFloatImageType,
                                                         TRegistrationType,
-                                                        TDefaultRegistrationType,
-                                                        TFloatImageType>::FixedImageType *
+                                                        TDefaultRegistrationType>::FixedImageType *
 MultiResolutionPDEDeformableRegistration<TFixedImage,
                                          TMovingImage,
                                          TDisplacementField,
                                          TRealType,
+                                         TFloatImageType,
                                          TRegistrationType,
-                                         TDefaultRegistrationType,
-                                         TFloatImageType>::GetFixedImage() const
+                                         TDefaultRegistrationType>::GetFixedImage() const
 {
   return dynamic_cast<const FixedImageType *>(this->ProcessObject::GetInput(1));
 }
@@ -178,17 +178,17 @@ template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
           typename TRealType,
+          typename TFloatImageType,
           typename TRegistrationType,
-          typename TDefaultRegistrationType,
-          typename TFloatImageType>
+          typename TDefaultRegistrationType>
 std::vector<SmartPointer<DataObject>>::size_type
 MultiResolutionPDEDeformableRegistration<TFixedImage,
                                          TMovingImage,
                                          TDisplacementField,
                                          TRealType,
+                                         TFloatImageType,
                                          TRegistrationType,
-                                         TDefaultRegistrationType,
-                                         TFloatImageType>::GetNumberOfValidRequiredInputs() const
+                                         TDefaultRegistrationType>::GetNumberOfValidRequiredInputs() const
 {
   typename std::vector<SmartPointer<DataObject>>::size_type num = 0;
 
@@ -212,17 +212,17 @@ template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
           typename TRealType,
+          typename TFloatImageType,
           typename TRegistrationType,
-          typename TDefaultRegistrationType,
-          typename TFloatImageType>
+          typename TDefaultRegistrationType>
 void
 MultiResolutionPDEDeformableRegistration<TFixedImage,
                                          TMovingImage,
                                          TDisplacementField,
                                          TRealType,
+                                         TFloatImageType,
                                          TRegistrationType,
-                                         TDefaultRegistrationType,
-                                         TFloatImageType>::SetNumberOfLevels(unsigned int num)
+                                         TDefaultRegistrationType>::SetNumberOfLevels(unsigned int num)
 {
   if (m_NumberOfLevels != num)
   {
@@ -248,17 +248,17 @@ template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
           typename TRealType,
+          typename TFloatImageType,
           typename TRegistrationType,
-          typename TDefaultRegistrationType,
-          typename TFloatImageType>
+          typename TDefaultRegistrationType>
 void
 MultiResolutionPDEDeformableRegistration<TFixedImage,
                                          TMovingImage,
                                          TDisplacementField,
                                          TRealType,
+                                         TFloatImageType,
                                          TRegistrationType,
-                                         TDefaultRegistrationType,
-                                         TFloatImageType>::PrintSelf(std::ostream & os, Indent indent) const
+                                         TDefaultRegistrationType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "NumberOfLevels: " << m_NumberOfLevels << std::endl;
@@ -303,17 +303,17 @@ template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
           typename TRealType,
+          typename TFloatImageType,
           typename TRegistrationType,
-          typename TDefaultRegistrationType,
-          typename TFloatImageType>
+          typename TDefaultRegistrationType>
 void
 MultiResolutionPDEDeformableRegistration<TFixedImage,
                                          TMovingImage,
                                          TDisplacementField,
                                          TRealType,
+                                         TFloatImageType,
                                          TRegistrationType,
-                                         TDefaultRegistrationType,
-                                         TFloatImageType>::GenerateData()
+                                         TDefaultRegistrationType>::GenerateData()
 {
   // Check for nullptr images and pointers
   MovingImageConstPointer movingImage = this->GetMovingImage();
@@ -522,17 +522,17 @@ template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
           typename TRealType,
+          typename TFloatImageType,
           typename TRegistrationType,
-          typename TDefaultRegistrationType,
-          typename TFloatImageType>
+          typename TDefaultRegistrationType>
 void
 MultiResolutionPDEDeformableRegistration<TFixedImage,
                                          TMovingImage,
                                          TDisplacementField,
                                          TRealType,
+                                         TFloatImageType,
                                          TRegistrationType,
-                                         TDefaultRegistrationType,
-                                         TFloatImageType>::StopRegistration()
+                                         TDefaultRegistrationType>::StopRegistration()
 {
   m_RegistrationFilter->StopRegistration();
   m_StopRegistrationFlag = true;
@@ -542,17 +542,17 @@ template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
           typename TRealType,
+          typename TFloatImageType,
           typename TRegistrationType,
-          typename TDefaultRegistrationType,
-          typename TFloatImageType>
+          typename TDefaultRegistrationType>
 bool
 MultiResolutionPDEDeformableRegistration<TFixedImage,
                                          TMovingImage,
                                          TDisplacementField,
                                          TRealType,
+                                         TFloatImageType,
                                          TRegistrationType,
-                                         TDefaultRegistrationType,
-                                         TFloatImageType>::Halt()
+                                         TDefaultRegistrationType>::Halt()
 {
   // Halt the registration after the user-specified number of levels
   if (m_NumberOfLevels != 0)
@@ -578,17 +578,17 @@ template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
           typename TRealType,
+          typename TFloatImageType,
           typename TRegistrationType,
-          typename TDefaultRegistrationType,
-          typename TFloatImageType>
+          typename TDefaultRegistrationType>
 void
 MultiResolutionPDEDeformableRegistration<TFixedImage,
                                          TMovingImage,
                                          TDisplacementField,
                                          TRealType,
+                                         TFloatImageType,
                                          TRegistrationType,
-                                         TDefaultRegistrationType,
-                                         TFloatImageType>::GenerateOutputInformation()
+                                         TDefaultRegistrationType>::GenerateOutputInformation()
 {
   typename DataObject::Pointer output;
 
@@ -617,17 +617,17 @@ template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
           typename TRealType,
+          typename TFloatImageType,
           typename TRegistrationType,
-          typename TDefaultRegistrationType,
-          typename TFloatImageType>
+          typename TDefaultRegistrationType>
 void
 MultiResolutionPDEDeformableRegistration<TFixedImage,
                                          TMovingImage,
                                          TDisplacementField,
                                          TRealType,
+                                         TFloatImageType,
                                          TRegistrationType,
-                                         TDefaultRegistrationType,
-                                         TFloatImageType>::GenerateInputRequestedRegion()
+                                         TDefaultRegistrationType>::GenerateInputRequestedRegion()
 {
   // call the superclass's implementation
   Superclass::GenerateInputRequestedRegion();
@@ -660,17 +660,17 @@ template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
           typename TRealType,
+          typename TFloatImageType,
           typename TRegistrationType,
-          typename TDefaultRegistrationType,
-          typename TFloatImageType>
+          typename TDefaultRegistrationType>
 void
 MultiResolutionPDEDeformableRegistration<TFixedImage,
                                          TMovingImage,
                                          TDisplacementField,
                                          TRealType,
+                                         TFloatImageType,
                                          TRegistrationType,
-                                         TDefaultRegistrationType,
-                                         TFloatImageType>::EnlargeOutputRequestedRegion(DataObject * ptr)
+                                         TDefaultRegistrationType>::EnlargeOutputRequestedRegion(DataObject * ptr)
 {
   // call the superclass's implementation
   Superclass::EnlargeOutputRequestedRegion(ptr);

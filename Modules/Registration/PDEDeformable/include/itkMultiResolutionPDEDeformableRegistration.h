@@ -77,13 +77,14 @@ namespace itk
  * \ingroup DeformableImageRegistration
  * \ingroup ITKPDEDeformableRegistration
  */
-template <typename TFixedImage,
-          typename TMovingImage,
-          typename TDisplacementField,
-          typename TRealType = float,
-          typename TRegistrationType = PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>,
-          typename TDefaultRegistrationType = DemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>,
-          typename TFloatImageType = Image<TRealType, TFixedImage::ImageDimension>>
+template <
+  typename TFixedImage,
+  typename TMovingImage,
+  typename TDisplacementField,
+  typename TRealType = float,
+  typename TFloatImageType = Image<TRealType, TFixedImage::ImageDimension>,
+  typename TRegistrationType = PDEDeformableRegistrationFilter<TFloatImageType, TFloatImageType, TDisplacementField>,
+  typename TDefaultRegistrationType = DemonsRegistrationFilter<TFloatImageType, TFloatImageType, TDisplacementField>>
 class ITK_TEMPLATE_EXPORT MultiResolutionPDEDeformableRegistration
   : public ImageToImageFilter<TDisplacementField, TDisplacementField>
 {
