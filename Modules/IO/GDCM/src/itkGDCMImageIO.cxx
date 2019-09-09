@@ -55,6 +55,7 @@
 
 #include <fstream>
 #include <sstream>
+#include <gdcmImageChangePhotometricInterpretation.h>
 
 namespace itk
 {
@@ -301,6 +302,21 @@ GDCMImageIO::Read(void * pointer)
     image = ialut.GetOutput();
     len *= 3;
   }
+  else if (pi == gdcm::PhotometricInterpretation::YBR_FULL || pi == gdcm::PhotometricInterpretation::YBR_FULL_422 ||
+           pi == gdcm::PhotometricInterpretation::YBR_PARTIAL_420 ||
+           pi == gdcm::PhotometricInterpretation::YBR_PARTIAL_422)
+  {
+    gdcm::ImageChangePhotometricInterpretation icpi;
+    icpi.SetInput(image);
+    icpi.SetPhotometricInterpretation(gdcm::PhotometricInterpretation::RGB);
+    if (!icpi.Change())
+    {
+      itkExceptionMacro("Failure to change photometric interpretation to RGB from "
+                        << gdcm::PhotometricInterpretation::GetPIString(pi) << "!");
+    }
+    image = icpi.GetOutput();
+  }
+
 
   if (!image.GetBuffer((char *)pointer))
   {
