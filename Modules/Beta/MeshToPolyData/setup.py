@@ -13,7 +13,7 @@ except ImportError:
 
 setup(
     name='itk-meshtopolydata',
-    version='0.4.0',
+    version='0.5.0',
     author='Insight Software Consortium',
     author_email='itk+community@discourse.itk.org',
     packages=['itk'],
