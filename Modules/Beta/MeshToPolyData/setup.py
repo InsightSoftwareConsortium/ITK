@@ -44,6 +44,7 @@ setup(
     keywords='ITK InsightToolkit',
     url=r'https://itk.org/',
     install_requires=[
-        r'itk-core>=5.1b1'
+        r'itk-core>=5.1b1',
+        r'numpy',
     ]
     )
