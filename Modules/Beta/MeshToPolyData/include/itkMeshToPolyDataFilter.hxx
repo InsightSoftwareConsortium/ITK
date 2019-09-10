@@ -398,6 +398,31 @@ MeshToPolyDataFilter< TInputMesh >
     outputPolyData->SetPointData( outputPointData );
     }
 
+  GenerateDataDispatch< TInputMesh >();
+}
+
+
+template< typename TInputMesh >
+template < typename TInputMeshDispatch, typename std::enable_if< !HasCellTraits<TInputMeshDispatch>::value, int>::type >
+void
+MeshToPolyDataFilter< TInputMesh >
+::GenerateDataDispatch()
+{
+  // Nothing else to do
+}
+
+
+template< typename TInputMesh >
+template < typename TInputMeshDispatch, typename std::enable_if< HasCellTraits<TInputMeshDispatch>::value, int>::type >
+void
+MeshToPolyDataFilter< TInputMesh >
+::GenerateDataDispatch()
+{
+  // Also propagate cells and cell data
+
+  const InputMeshType * inputMesh = this->GetInput();
+  PolyDataType * outputPolyData = this->GetOutput();
+
   const IdentifierType numberOfCells = inputMesh->GetNumberOfCells();
 
   using CellsContainerType = typename PolyDataType::CellsContainer;
@@ -583,6 +608,7 @@ MeshToPolyDataFilter< TInputMesh >
     }
 
 }
+
 
 } // end namespace itk
 

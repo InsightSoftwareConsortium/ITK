@@ -1,3 +1,4 @@
+itk_wrap_include("itkPointSet.h")
 itk_wrap_include("itkMesh.h")
 itk_wrap_include("itkDefaultStaticMeshTraits.h")
 
@@ -6,6 +7,7 @@ itk_wrap_class("itk::MeshToPolyDataFilter" POINTER)
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${types})
       itk_wrap_template("M${ITKM_${t}}${d}" "itk::Mesh< ${ITKT_${t}},${d} >")
+      itk_wrap_template("PS${ITKM_${t}}${d}" "itk::PointSet< ${ITKT_${t}},${d} >")
     endforeach()
   endforeach()
 itk_end_wrap_class()
