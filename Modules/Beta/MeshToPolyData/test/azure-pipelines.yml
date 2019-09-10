@@ -1,6 +1,6 @@
 variables:
-  ITKGitTag: v5.0.0
-  ITKPythonGitTag: v5.0.0.post1
+  ITKGitTag: v5.1b01
+  ITKPythonGitTag: v5.1b01
   CMakeBuildType: Release
 
 trigger:
