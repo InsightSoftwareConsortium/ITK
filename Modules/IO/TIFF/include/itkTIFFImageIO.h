@@ -223,7 +223,7 @@ protected:
   GetFormat();
 
   void
-  GetColor(unsigned int index, unsigned short * red, unsigned short * green, unsigned short * blue);
+  GetColor(uint64_t index, uint16_t * red, uint16_t * green, uint16_t * blue);
 
   // Check that tag t can be found
   bool
@@ -249,7 +249,7 @@ protected:
 
 private:
   void
-  AllocateTiffPalette(int bps);
+  AllocateTiffPalette(uint16_t bps);
 
   void
   ReadCurrentPage(void * out, size_t pixelOffset);
@@ -303,11 +303,11 @@ private:
                    unsigned int toskew,
                    unsigned int fromskew);
 
-  unsigned short * m_ColorRed;
-  unsigned short * m_ColorGreen;
-  unsigned short * m_ColorBlue;
-  int              m_TotalColors{ -1 };
-  unsigned int     m_ImageFormat{ TIFFImageIO::NOFORMAT };
+  uint16_t *   m_ColorRed;
+  uint16_t *   m_ColorGreen;
+  uint16_t *   m_ColorBlue;
+  uint64_t     m_TotalColors{ 0 };
+  unsigned int m_ImageFormat{ TIFFImageIO::NOFORMAT };
 };
 } // end namespace itk
 
