@@ -714,11 +714,13 @@ PNGImageIO::WriteSlice(const std::string & fileName, const void * buffer)
   png_write_image(png_ptr, row_pointers.get());
   png_write_end(png_ptr, info_ptr);
 
-  png_destroy_write_struct(&png_ptr, &info_ptr);
   if (paletteAllocated)
   {
     // free palette memory
     png_free(png_ptr, palette);
+    palette = nullptr;
   }
+
+  png_destroy_write_struct(&png_ptr, &info_ptr);
 }
 } // end namespace itk
