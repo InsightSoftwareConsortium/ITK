@@ -77,7 +77,14 @@ namespace itk
  * \ingroup DeformableImageRegistration
  * \ingroup ITKPDEDeformableRegistration
  */
-template <typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType = float>
+template <
+  typename TFixedImage,
+  typename TMovingImage,
+  typename TDisplacementField,
+  typename TRealType = float,
+  typename TFloatImageType = Image<TRealType, TFixedImage::ImageDimension>,
+  typename TRegistrationType = PDEDeformableRegistrationFilter<TFloatImageType, TFloatImageType, TDisplacementField>,
+  typename TDefaultRegistrationType = DemonsRegistrationFilter<TFloatImageType, TFloatImageType, TDisplacementField>>
 class ITK_TEMPLATE_EXPORT MultiResolutionPDEDeformableRegistration
   : public ImageToImageFilter<TDisplacementField, TDisplacementField>
 {
@@ -114,14 +121,14 @@ public:
   static constexpr unsigned int ImageDimension = FixedImageType::ImageDimension;
 
   /** Internal float image type. */
-  using FloatImageType = Image<TRealType, Self::ImageDimension>;
+  using FloatImageType = TFloatImageType;
 
   /** The internal registration type. */
-  using RegistrationType = PDEDeformableRegistrationFilter<FloatImageType, FloatImageType, DisplacementFieldType>;
+  using RegistrationType = TRegistrationType;
   using RegistrationPointer = typename RegistrationType::Pointer;
 
   /** The default registration type. */
-  using DefaultRegistrationType = DemonsRegistrationFilter<FloatImageType, FloatImageType, DisplacementFieldType>;
+  using DefaultRegistrationType = TDefaultRegistrationType;
 
   /** The fixed multi-resolution image pyramid type. */
   using FixedImagePyramidType = MultiResolutionPyramidImageFilter<FixedImageType, FloatImageType>;
