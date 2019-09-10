@@ -78,7 +78,7 @@ TIFFImageIO::ReadGenericImage(void * out, unsigned int width, unsigned int heigh
 }
 
 void
-TIFFImageIO::GetColor(unsigned int index, unsigned short * red, unsigned short * green, unsigned short * blue)
+TIFFImageIO::GetColor(uint64_t index, uint16_t * red, uint16_t * green, uint16_t * blue)
 {
   *red = 0;
   *green = 0;
@@ -119,9 +119,9 @@ TIFFImageIO::GetFormat()
       {
         if (this->GetExpandRGBPalette())
         {
-          for (unsigned int cc = 0; cc < static_cast<unsigned int>(m_TotalColors); ++cc)
+          for (uint64_t cc = 0; cc < m_TotalColors; ++cc)
           {
-            unsigned short red, green, blue;
+            uint16_t red, green, blue;
             this->GetColor(cc, &red, &green, &blue);
             if (red != green || red != blue)
             {
@@ -148,10 +148,10 @@ TIFFImageIO::GetFormat()
 void
 TIFFImageIO::ReadVolume(void * buffer)
 {
-  const int width = m_InternalImage->m_Width;
-  const int height = m_InternalImage->m_Height;
+  const size_t width{ m_InternalImage->m_Width };
+  const size_t height{ m_InternalImage->m_Height };
 
-  for (unsigned int page = 0; page < m_InternalImage->m_NumberOfPages; page++)
+  for (uint16 page = 0; page < m_InternalImage->m_NumberOfPages; page++)
   {
     if (m_InternalImage->m_IgnoredSubFiles > 0)
     {
@@ -168,8 +168,7 @@ TIFFImageIO::ReadVolume(void * buffer)
     }
 
 
-    const size_t pixelOffset = static_cast<size_t>(width) * static_cast<size_t>(height) *
-                               static_cast<size_t>(this->GetNumberOfComponents()) * static_cast<size_t>(page);
+    const size_t pixelOffset = width * height * this->GetNumberOfComponents() * page;
 
     ReadCurrentPage(buffer, pixelOffset);
 
@@ -297,7 +296,7 @@ TIFFImageIO::InitializeColors()
   m_ColorRed = nullptr;
   m_ColorGreen = nullptr;
   m_ColorBlue = nullptr;
-  m_TotalColors = -1;
+  m_TotalColors = 0;
   m_ImageFormat = TIFFImageIO::NOFORMAT;
 
   if (m_InternalImage == nullptr)
@@ -323,7 +322,7 @@ TIFFImageIO::InitializeColors()
       itkExceptionMacro(<< "Sorry, can not handle image with " << m_InternalImage->m_BitsPerSample << "-bit samples");
   }
 
-  m_TotalColors = (1L << m_InternalImage->m_BitsPerSample);
+  m_TotalColors = uint64_t{ 1 } << m_InternalImage->m_BitsPerSample;
 
   m_ColorRed = red_orig;
   m_ColorGreen = green_orig;
@@ -374,24 +373,21 @@ TIFFImageIO::ReadImageInformation()
   {
     if (m_InternalImage->m_ResolutionUnit == 2) // inches
     {
-      m_Spacing[0] = 25.4 / m_InternalImage->m_XResolution;
-      m_Spacing[1] = 25.4 / m_InternalImage->m_YResolution;
+      m_Spacing[0] = 25.4 / static_cast<double>(m_InternalImage->m_XResolution);
+      m_Spacing[1] = 25.4 / static_cast<double>(m_InternalImage->m_YResolution);
     }
     else if (m_InternalImage->m_ResolutionUnit == 3) // cm
     {
-      m_Spacing[0] = 10.0 / m_InternalImage->m_XResolution;
-      m_Spacing[1] = 10.0 / m_InternalImage->m_YResolution;
+      m_Spacing[0] = 10.0 / static_cast<double>(m_InternalImage->m_XResolution);
+      m_Spacing[1] = 10.0 / static_cast<double>(m_InternalImage->m_YResolution);
     }
   }
 
   m_Origin[0] = 0.0;
   m_Origin[1] = 0.0;
 
-  int width = m_InternalImage->m_Width;
-  int height = m_InternalImage->m_Height;
-
-  m_Dimensions[0] = width;
-  m_Dimensions[1] = height;
+  m_Dimensions[0] = m_InternalImage->m_Width;
+  m_Dimensions[1] = m_InternalImage->m_Height;
 
   if (m_InternalImage->m_BitsPerSample <= 8)
   {
@@ -463,9 +459,9 @@ TIFFImageIO::ReadImageInformation()
   if (isPalette)
   {
     // detect if palette appears to be 8-bit or 16-bit
-    for (unsigned int cc = 0; cc < static_cast<unsigned int>(m_TotalColors); ++cc)
+    for (uint64_t cc = 0; cc < m_TotalColors; ++cc)
     {
-      unsigned short red, green, blue;
+      uint16_t red, green, blue;
       this->GetColor(cc, &red, &green, &blue);
       if (red > 255 || green > 255 || blue > 255)
       {
@@ -559,24 +555,24 @@ TIFFImageIO::Write(const void * buffer)
 void
 TIFFImageIO::InternalWrite(const void * buffer)
 {
-  const auto * outPtr = (const char *)buffer;
+  const auto * outPtr = static_cast<const char *>(buffer);
 
-  unsigned int page, pages = 1;
+  uint16 page, pages = 1;
 
   const SizeValueType width = m_Dimensions[0];
   const SizeValueType height = m_Dimensions[1];
   if (m_NumberOfDimensions == 3)
   {
-    pages = m_Dimensions[2];
+    pages = static_cast<uint16>(m_Dimensions[2]);
   }
 
-  int  scomponents = this->GetNumberOfComponents();
-  auto resolution_x = static_cast<float>(m_Spacing[0] != 0.0 ? 25.4 / m_Spacing[0] : 0.0);
-  auto resolution_y = static_cast<float>(m_Spacing[1] != 0.0 ? 25.4 / m_Spacing[1] : 0.0);
+  auto   scomponents = static_cast<uint16>(this->GetNumberOfComponents());
+  double resolution_x{ m_Spacing[0] != 0.0 ? 25.4 / m_Spacing[0] : 0.0 };
+  double resolution_y{ m_Spacing[1] != 0.0 ? 25.4 / m_Spacing[1] : 0.0 };
   // rowsperstrip is set to a default value but modified based on the tif scanlinesize before
   // passing it into the TIFFSetField (see below).
-  auto rowsperstrip = (uint32)-1;
-  int  bps;
+  auto     rowsperstrip = uint32{ 0 };
+  uint16_t bps;
 
   switch (this->GetComponentType())
   {
@@ -636,8 +632,8 @@ TIFFImageIO::InternalWrite(const void * buffer)
     TIFFSetField(tif, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_IEEEFP);
   }
 
-  uint32 w = width;
-  uint32 h = height;
+  auto w = static_cast<uint32>(width);
+  auto h = static_cast<uint32>(height);
 
   if (m_NumberOfDimensions == 3)
   {
@@ -669,8 +665,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
       uint16 extra_samples = scomponents - 3;
       auto * sample_info = new uint16[scomponents - 3];
       sample_info[0] = EXTRASAMPLE_ASSOCALPHA;
-      int cc;
-      for (cc = 1; cc < scomponents - 3; cc++)
+      for (uint16 cc = 1; cc < scomponents - 3; cc++)
       {
         sample_info[cc] = EXTRASAMPLE_UNSPECIFIED;
       }
@@ -678,7 +673,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
       delete[] sample_info;
     }
 
-    int compression;
+    uint16 compression;
 
     if (m_UseCompression)
     {
@@ -768,7 +763,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
     {
       itkExceptionMacro("TIFFScanlineSize returned 0");
     }
-    rowsperstrip = (uint32_t)(1024 * 1024 / scanlinesize);
+    rowsperstrip = static_cast<uint32_t>(1024 * 1024 / scanlinesize);
     if (rowsperstrip < 1)
     {
       rowsperstrip = 1;
@@ -790,7 +785,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
       // Set the page number
       TIFFSetField(tif, TIFFTAG_PAGENUMBER, page, pages);
     }
-    int rowLength; // in bytes
+    SizeValueType rowLength; // in bytes
 
     switch (this->GetComponentType())
     {
@@ -816,7 +811,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
     rowLength *= this->GetNumberOfComponents();
     rowLength *= width;
 
-    int row = 0;
+    uint32 row = 0;
     for (unsigned int idx2 = 0; idx2 < height; idx2++)
     {
       if (TIFFWriteScanline(tif, const_cast<char *>(outPtr), row, 0) < 0)
@@ -1005,11 +1000,10 @@ TIFFImageIO::PopulateColorPalette()
   if (m_TotalColors > 0)
   {
     // if a palette have been found store it in m_ColorPalette
-    unsigned int nColors = static_cast<unsigned int>(m_TotalColors);
-    m_ColorPalette.resize(nColors);
-    for (unsigned int cc = 0; cc < nColors; ++cc)
+    m_ColorPalette.resize(m_TotalColors);
+    for (uint64_t cc = 0; cc < m_TotalColors; ++cc)
     {
-      unsigned short red, green, blue;
+      uint16_t red, green, blue;
       this->GetColor(cc, &red, &green, &blue);
 
       RGBPixelType p;
@@ -1027,15 +1021,14 @@ TIFFImageIO::PopulateColorPalette()
 }
 
 void
-TIFFImageIO::AllocateTiffPalette(int bps)
+TIFFImageIO::AllocateTiffPalette(uint16_t bps)
 {
   m_ColorRed = nullptr;
   m_ColorGreen = nullptr;
   m_ColorBlue = nullptr;
 
   // bpp is 16 at maximum for palette image
-  uint16   bpp = static_cast<uint16>(bps);
-  tmsize_t array_size = static_cast<tmsize_t>(1) << bpp * sizeof(uint16);
+  tmsize_t array_size = tmsize_t{ 1 } << bps * sizeof(uint16);
   m_ColorRed = static_cast<uint16 *>(_TIFFmalloc(array_size));
   if (!m_ColorRed)
   {
@@ -1058,7 +1051,7 @@ TIFFImageIO::AllocateTiffPalette(int bps)
     itkExceptionMacro("Can't allocate space for Blue channel of component tables.");
   }
   // TIFF palette length is fixed for a given bpp
-  unsigned long TIFFPaletteLength = (1L << bpp);
+  uint64 TIFFPaletteLength = uint64{ 1 } << bps;
   for (size_t i = 0; i < TIFFPaletteLength; ++i)
   {
     if (i < m_ColorPalette.size())
@@ -1118,7 +1111,7 @@ TIFFImageIO::ReadTIFFTags()
 
 
     const char * field_name = itkTIFFFieldName(field);
-    unsigned int value_count = 0;
+    int          value_count = 0;
 
 
     const int read_count = itkTIFFFieldReadCount(field);
@@ -1133,7 +1126,7 @@ TIFFImageIO::ReadTIFFTags()
         {
           continue;
         }
-        value_count = cnt;
+        value_count = static_cast<int>(cnt);
       }
       else if (read_count == TIFF_VARIABLE)
       {
@@ -1171,7 +1164,7 @@ TIFFImageIO::ReadTIFFTags()
       else
       {
         const size_t dataSize = itkTIFFDataSize(itkTIFFFieldDataType(field));
-        raw_data = _TIFFmalloc(dataSize * value_count);
+        raw_data = _TIFFmalloc(static_cast<tmsize_t>(dataSize * static_cast<size_t>(value_count)));
         mem_alloc = true;
         if (TIFFGetField(m_InternalImage->m_Image, tag, raw_data) != 1)
         {
@@ -1192,16 +1185,17 @@ TIFFImageIO::ReadTIFFTags()
 #define itkEncapsulate(T1, T2)                                                                                         \
   if (value_count > 1)                                                                                                 \
   {                                                                                                                    \
-    Array<T1> a(value_count);                                                                                          \
-    for (unsigned int cnt = 0; cnt < value_count; ++cnt)                                                               \
+    auto      v_c = static_cast<size_t>(value_count);                                                                  \
+    Array<T1> a(v_c);                                                                                                  \
+    for (unsigned int cnt = 0; cnt < v_c; ++cnt)                                                                       \
     {                                                                                                                  \
-      a[cnt] = ((const T2 *)raw_data)[cnt];                                                                            \
+      a[cnt] = (static_cast<const T2 *>(raw_data))[cnt];                                                               \
     }                                                                                                                  \
     EncapsulateMetaData<itk::Array<T1>>(dict, field_name, a);                                                          \
   }                                                                                                                    \
   else                                                                                                                 \
   {                                                                                                                    \
-    EncapsulateMetaData<T1>(dict, field_name, ((const T2 *)raw_data)[0]);                                              \
+    EncapsulateMetaData<T1>(dict, field_name, (static_cast<const T2 *>(raw_data))[0]);                                 \
   }
 
     try
@@ -1211,27 +1205,29 @@ TIFFImageIO::ReadTIFFTags()
         case TIFF_ASCII:
           if (value_count > 1)
           {
-            EncapsulateMetaData<std::string>(dict, field_name, std::string((const char *)raw_data, value_count));
+            EncapsulateMetaData<std::string>(
+              dict, field_name, std::string(static_cast<const char *>(raw_data), static_cast<size_t>(value_count)));
           }
           else
           {
-            EncapsulateMetaData<std::string>(dict, field_name, std::string((const char *)raw_data));
+            EncapsulateMetaData<std::string>(dict, field_name, std::string(static_cast<const char *>(raw_data)));
           }
           break;
         case TIFF_BYTE:
-          EncapsulateMetaData<Array<char>>(dict, field_name, Array<char>((const char *)raw_data, value_count));
+          EncapsulateMetaData<Array<char>>(
+            dict, field_name, Array<char>(static_cast<const char *>(raw_data), static_cast<size_t>(value_count)));
           break;
         case TIFF_SHORT:
           itkEncapsulate(unsigned short, uint16);
           break;
         case TIFF_LONG:
-          EncapsulateMetaData<unsigned int>(dict, field_name, ((const uint32 *)raw_data)[0]);
+          EncapsulateMetaData<unsigned int>(dict, field_name, (static_cast<const uint32 *>(raw_data))[0]);
           break;
         case TIFF_SBYTE:
-          EncapsulateMetaData<signed char>(dict, field_name, ((const int8 *)raw_data)[0]);
+          EncapsulateMetaData<signed char>(dict, field_name, (static_cast<const int8 *>(raw_data))[0]);
           break;
         case TIFF_SSHORT:
-          EncapsulateMetaData<short>(dict, field_name, ((const int16 *)raw_data)[0]);
+          EncapsulateMetaData<short>(dict, field_name, (static_cast<const int16 *>(raw_data))[0]);
           break;
         case TIFF_SLONG:
           itkEncapsulate(int, int32);
@@ -1276,8 +1272,8 @@ TIFFImageIO::ReadTIFFTags()
 void
 TIFFImageIO::ReadCurrentPage(void * buffer, size_t pixelOffset)
 {
-  const int width = m_InternalImage->m_Width;
-  const int height = m_InternalImage->m_Height;
+  const uint32 width = m_InternalImage->m_Width;
+  const uint32 height = m_InternalImage->m_Height;
 
 
   if (!m_InternalImage->CanRead())
@@ -1286,7 +1282,7 @@ TIFFImageIO::ReadCurrentPage(void * buffer, size_t pixelOffset)
 
     if (this->GetNumberOfComponents() == 4 && m_ComponentType == UCHAR)
     {
-      tempImage = (uint32 *)(buffer) + (pixelOffset / 4);
+      tempImage = static_cast<uint32 *>(buffer) + (pixelOffset / 4);
     }
     else
     {
@@ -1298,7 +1294,7 @@ TIFFImageIO::ReadCurrentPage(void * buffer, size_t pixelOffset)
       itkExceptionMacro(<< "Cannot read TIFF image as a TIFF RGBA image");
     }
 
-    unsigned char * out = (unsigned char *)(buffer) + pixelOffset;
+    unsigned char * out = static_cast<unsigned char *>(buffer) + pixelOffset;
     RGBAImageToBuffer<unsigned char>(out, tempImage);
   }
   else
@@ -1353,7 +1349,7 @@ TIFFImageIO::ReadGenericImage(void * _out, unsigned int width, unsigned int heig
 #endif
 
   size_t  inc;
-  tdata_t buf = _TIFFmalloc(isize);
+  tdata_t buf = _TIFFmalloc(static_cast<tmsize_t>(isize));
   isize /= sizeof(ComponentType);
 
   auto *          out = static_cast<ComponentType *>(_out);
@@ -1396,7 +1392,7 @@ TIFFImageIO::ReadGenericImage(void * _out, unsigned int width, unsigned int heig
       break;
   }
 
-  for (int row = 0; row < (int)height; ++row)
+  for (uint32 row = 0; row < height; ++row)
   {
     if (TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0)
     {
@@ -1405,11 +1401,11 @@ TIFFImageIO::ReadGenericImage(void * _out, unsigned int width, unsigned int heig
 
     if (m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT)
     {
-      image = out + (size_t)(row)*width * inc;
+      image = out + inc * row * width;
     }
     else // bottom left
     {
-      image = out + (size_t)(width)*inc * (height - (row + 1));
+      image = out + inc * width * (height - (row + 1));
     }
 
     switch (this->GetFormat())
@@ -1610,14 +1606,14 @@ TIFFImageIO::RGBAImageToBuffer(void * out, const uint32_t * tempImage)
 {
   using ComponentType = TComponent;
 
-  const int width = m_InternalImage->m_Width;
-  const int height = m_InternalImage->m_Height;
+  const size_t width = m_InternalImage->m_Width;
+  const size_t height = m_InternalImage->m_Height;
 
-  auto * fimage = (ComponentType *)out;
+  auto * fimage = static_cast<ComponentType *>(out);
 
-  for (int yy = 0; yy < height; ++yy)
+  for (size_t yy = 0; yy < height; ++yy)
   {
-    for (int xx = 0; xx < width; ++xx)
+    for (size_t xx = 0; xx < width; ++xx)
     {
       const auto red = static_cast<ComponentType>(TIFFGetR(*tempImage));
       const auto green = static_cast<ComponentType>(TIFFGetG(*tempImage));
