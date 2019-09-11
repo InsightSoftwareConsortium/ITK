@@ -21,8 +21,20 @@
 #include "itkProcessObject.h"
 #include "itkPolyData.h"
 
+#include <type_traits>
+
 namespace itk
 {
+
+template<typename T>
+class HasCellTraits {
+    typedef char Yes[1];
+    typedef char No[2];
+    template<typename C> static Yes& test(typename C::CellTraits *); // selected if C is a class type
+    template<typename C> static No&  test(...);      // selected otherwise
+  public:
+    static bool const value = sizeof(test<T>(0)) == sizeof(Yes);
+};
 
 /** \class MeshToPolyDataFilter
  *
@@ -87,6 +99,12 @@ protected:
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   void GenerateData() override;
+
+  template < typename TInputMeshDispatch, typename std::enable_if< !HasCellTraits<TInputMeshDispatch>::value, int>::type = 0 >
+  void GenerateDataDispatch();
+
+  template < typename TInputMeshDispatch, typename std::enable_if< HasCellTraits<TInputMeshDispatch>::value, int>::type = 0 >
+  void GenerateDataDispatch();
 
   ProcessObject::DataObjectPointer MakeOutput(ProcessObject::DataObjectPointerArraySizeType idx) override;
   ProcessObject::DataObjectPointer MakeOutput(const ProcessObject::DataObjectIdentifierType &) override;
