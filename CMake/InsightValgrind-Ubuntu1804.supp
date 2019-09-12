@@ -19,7 +19,7 @@
 }
 # Offending line contains comment that the array may contain garbage
 {
-
+   zlib_uninitialized
    Memcheck:Cond
    fun:slide_hash
    fun:fill_window
