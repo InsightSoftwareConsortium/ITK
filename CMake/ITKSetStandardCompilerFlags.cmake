@@ -137,23 +137,87 @@ function(check_compiler_warning_flags c_warning_flags_var cxx_warning_flags_var)
   set(${cxx_warning_flags_var} "${CMAKE_CXX_WARNING_FLAGS}" PARENT_SCOPE)
 endfunction()
 
+# Check for the presence of AVX and figure out the flags to use for it.
+# Adapted from https://gist.github.com/UnaNancyOwen/263c243ae1e05a2f9d0e
+function(check_avx_flags avx_flags_var)
+  set(avx_flags_var)
+
+  include(CheckCXXSourceRuns)
+  set(_safe_cmake_required_flags "${CMAKE_REQUIRED_FLAGS}")
+  set(CMAKE_REQUIRED_FLAGS)
+
+  # Check AVX
+  if(MSVC_VERSION GREATER_EQUAL 1600)
+    set(CMAKE_REQUIRED_FLAGS "/arch:AVX") # set flags to be used in check_cxx_source_runs below
+  endif()
+  check_cxx_source_runs("
+    #include <immintrin.h>
+    int main()
+    {
+      __m256 a, b, c;
+      const float src[8] = { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f };
+      float dst[8];
+      a = _mm256_loadu_ps( src );
+      b = _mm256_loadu_ps( src );
+      c = _mm256_add_ps( a, b );
+      _mm256_storeu_ps( dst, c );
+
+      for( int i = 0; i < 8; i++ ){
+        if( ( src[i] + src[i] ) != dst[i] ){
+          return -1;
+        }
+      }
+
+      return 0;
+    }"
+    have_avx_extensions_var)
+
+  # Check AVX2
+  if(MSVC_VERSION GREATER_EQUAL 1800)
+    set(CMAKE_REQUIRED_FLAGS "/arch:AVX2") # set flags to be used in check_cxx_source_runs below
+  endif()
+  check_cxx_source_runs("
+    #include <immintrin.h>
+    int main()
+    {
+      __m256i a, b, c;
+      const int src[8] = { 1, 2, 3, 4, 5, 6, 7, 8 };
+      int dst[8];
+      a =  _mm256_loadu_si256( (__m256i*)src );
+      b =  _mm256_loadu_si256( (__m256i*)src );
+      c = _mm256_add_epi32( a, b );
+      _mm256_storeu_si256( (__m256i*)dst, c );
+
+      for( int i = 0; i < 8; i++ ){
+        if( ( src[i] + src[i] ) != dst[i] ){
+          return -1;
+        }
+      }
+
+      return 0;
+    }"
+    have_avx2_extensions_var)
+
+  set(CMAKE_REQUIRED_FLAGS "${_safe_cmake_required_flags}")
+
+  # Set Flags
+  if(have_avx2_extensions_var AND MSVC_VERSION GREATER_EQUAL 1800)
+    set(avx_flags_var "${avx_flags_var} /arch:AVX2")
+  elseif(have_avx_extensions_var AND MSVC_VERSION GREATER_EQUAL 1600)
+    set(avx_flags_var "${avx_flags_var} /arch:AVX")
+  endif()
+endfunction()
 
 function(check_compiler_optimization_flags c_optimization_flags_var cxx_optimization_flags_var)
   set(${c_optimization_flags_var} "" PARENT_SCOPE)
   set(${cxx_optimization_flags_var} "" PARENT_SCOPE)
 
   if(MSVC)
-      set(InstructionSetOptimizationFlags
-         # https://docs.microsoft.com/en-us/cpp/build/reference/arch-x64?view=vs-2015
-         /arch:AVX ) # AVX support circa 2013 hardware
-      if(MSVC_VERSION GREATER_EQUAL 1800)
-         list(APPEND InstructionSetOptimizationFlags
-              /arch:AVX2) # AVX support circa 2013 hardware
-      endif()
-      if("${CMAKE_SIZEOF_VOID_P}" EQUAL "4")
-         list(APPEND InstructionSetOptimizationFlags
-              /arch:SSE /arch:SSE2)
-      endif()
+    check_avx_flags(InstructionSetOptimizationFlags)
+    if("${CMAKE_SIZEOF_VOID_P}" EQUAL "4")
+       list(APPEND InstructionSetOptimizationFlags
+            /arch:SSE /arch:SSE2)
+    endif()
   else()
     if (${CMAKE_C_COMPILER} MATCHES "icc.*$")
       set(USING_INTEL_ICC_COMPILER TRUE)
