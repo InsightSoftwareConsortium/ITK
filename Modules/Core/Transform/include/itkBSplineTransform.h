@@ -51,7 +51,7 @@ namespace itk
  * The parameters for this transform is N x N-D grid of spline coefficients.
  * The user specifies the parameters as one flat array: each N-D grid
  * is represented by an array in the same way an N-D image is represented
- * in the buffer; the N arrays are then concatenated together on form
+ * in the buffer; the N arrays are then concatenated together to form
  * a single array.
  *
  * The following illustrates the typical usage of this class:

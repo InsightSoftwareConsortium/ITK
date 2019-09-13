@@ -81,7 +81,7 @@ BSplineTransformInitializer<TTransform, TImage>::InitializeTransform() const
   //  2. 001  max_x, min_y, min_z
   //  3. 010  min_x, max_y, min_z
   //  4. 011  max_x, max_y, min_z
-  //  5. 100  min_x, min_y, min_z
+  //  5. 100  min_x, min_y, max_z
   //  6. 101  max_x, min_y, max_z
   //  7. 110  min_x, max_y, max_z
   //  8. 111  max_x, max_y, max_z
