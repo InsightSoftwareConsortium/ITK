@@ -52,7 +52,7 @@ VTKTetrahedralMeshReader<TOutputMesh>::GenerateData()
 {
   OutputMeshType * outputMesh = this->GetOutput();
 
-  outputMesh->SetCellsAllocationMethod(OutputMeshType::CellsAllocatedDynamicallyCellByCell);
+  outputMesh->SetCellsAllocationMethod(MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell);
 
   if (m_FileName == "")
   {
