@@ -1305,31 +1305,31 @@ TIFFImageIO::ReadCurrentPage(void * buffer, size_t pixelOffset)
 
     if (m_ComponentType == USHORT)
     {
-      auto * volume = reinterpret_cast<unsigned short *>(buffer);
+      auto * volume = static_cast<unsigned short *>(buffer);
       volume += pixelOffset;
       this->ReadGenericImage(volume, width, height);
     }
     else if (m_ComponentType == SHORT)
     {
-      auto * volume = reinterpret_cast<short *>(buffer);
+      auto * volume = static_cast<short *>(buffer);
       volume += pixelOffset;
       this->ReadGenericImage(volume, width, height);
     }
     else if (m_ComponentType == CHAR)
     {
-      auto * volume = reinterpret_cast<char *>(buffer);
+      auto * volume = static_cast<char *>(buffer);
       volume += pixelOffset;
       this->ReadGenericImage(volume, width, height);
     }
     else if (m_ComponentType == FLOAT)
     {
-      auto * volume = reinterpret_cast<float *>(buffer);
+      auto * volume = static_cast<float *>(buffer);
       volume += pixelOffset;
       this->ReadGenericImage(volume, width, height);
     }
     else
     {
-      auto * volume = reinterpret_cast<unsigned char *>(buffer);
+      auto * volume = static_cast<unsigned char *>(buffer);
       volume += pixelOffset;
       this->ReadGenericImage(volume, width, height);
     }

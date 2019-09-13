@@ -180,7 +180,7 @@ LSMImageIO::ReadImageInformation()
   // information
   unsigned int tif_cz_lsminfo_size;
   void *       praw = this->TIFFImageIO::ReadRawByteFromTag(TIF_CZ_LSMINFO, tif_cz_lsminfo_size);
-  auto *       zi = reinterpret_cast<zeiss_info *>(praw);
+  auto *       zi = static_cast<zeiss_info *>(praw);
   if (praw == nullptr || tif_cz_lsminfo_size != TIF_CZ_LSMINFO_SIZE)
   {
     // no zeiss info, just use tiff spacing
