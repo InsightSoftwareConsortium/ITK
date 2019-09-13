@@ -275,7 +275,7 @@ template <typename T>
 void
 ByteSwapper<T>::Swap2(void * pin)
 {
-  auto *               p = reinterpret_cast<unsigned short *>(pin);
+  auto *               p = static_cast<unsigned short *>(pin);
   const unsigned short h1 = (*p) << static_cast<short unsigned int>(8);
   const unsigned short h2 = (*p) >> static_cast<short unsigned int>(8);
   *p = h1 | h2;
@@ -286,7 +286,7 @@ template <typename T>
 void
 ByteSwapper<T>::Swap2Range(void * ptr, BufferSizeType num)
 {
-  auto * pos = reinterpret_cast<char *>(ptr);
+  auto * pos = static_cast<char *>(ptr);
   for (BufferSizeType i = 0; i < num; i++)
   {
     const char one_byte = pos[0];
@@ -338,7 +338,7 @@ void
 ByteSwapper<T>::Swap4(void * ptr)
 {
   char   one_byte;
-  auto * p = reinterpret_cast<char *>(ptr);
+  auto * p = static_cast<char *>(ptr);
 
   one_byte = p[0];
   p[0] = p[3];
@@ -354,7 +354,7 @@ template <typename T>
 void
 ByteSwapper<T>::Swap4Range(void * ptr, BufferSizeType num)
 {
-  auto * pos = reinterpret_cast<char *>(ptr);
+  auto * pos = static_cast<char *>(ptr);
 
   for (BufferSizeType i = 0; i < num; i++)
   {
@@ -417,7 +417,7 @@ void
 ByteSwapper<T>::Swap8(void * ptr)
 {
   char   one_byte;
-  auto * p = reinterpret_cast<char *>(ptr);
+  auto * p = static_cast<char *>(ptr);
 
   one_byte = p[0];
   p[0] = p[7];
@@ -441,7 +441,7 @@ template <typename T>
 void
 ByteSwapper<T>::Swap8Range(void * ptr, BufferSizeType num)
 {
-  auto * pos = reinterpret_cast<char *>(ptr);
+  auto * pos = static_cast<char *>(ptr);
 
   for (BufferSizeType i = 0; i < num; i++)
   {

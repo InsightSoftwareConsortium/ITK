@@ -876,7 +876,7 @@ ObjectFactoryBase ::SynchronizeObjectFactoryBase(void * objectFactoryBasePrivate
   ObjectFactoryBasePrivate * previousObjectFactoryBasePrivate;
   previousObjectFactoryBasePrivate = GetPimplGlobalsPointer();
 
-  m_PimplGlobals = reinterpret_cast<ObjectFactoryBasePrivate *>(objectFactoryBasePrivate);
+  m_PimplGlobals = static_cast<ObjectFactoryBasePrivate *>(objectFactoryBasePrivate);
   if (m_PimplGlobals && previousObjectFactoryBasePrivate)
   {
     SynchronizeList(m_PimplGlobals->m_InternalFactories, previousObjectFactoryBasePrivate->m_InternalFactories, true);
