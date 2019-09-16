@@ -423,7 +423,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   }
   reader->Update();
 
-  ReaderType::GroupPointer myScene = reader->GetGroup();
+  ReaderType::SpatialObjectPointer myScene = reader->GetOutput();
 
   if (!myScene)
   {
@@ -451,8 +451,9 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   TubeType::TubePointListType::const_iterator j;
 
-  ReaderType::GroupType::ChildrenListType * mySceneChildren = myScene->GetChildren(TubeType::MaximumDepth);
-  ReaderType::GroupType::ChildrenListType::const_iterator obj;
+  ReaderType::SpatialObjectType::ChildrenListType * mySceneChildren = myScene->GetChildren(TubeType::MaximumDepth);
+
+  ReaderType::SpatialObjectType::ChildrenListType::const_iterator obj;
 
   bool found = false;
   for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)

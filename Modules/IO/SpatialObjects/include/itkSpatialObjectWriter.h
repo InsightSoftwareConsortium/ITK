@@ -46,7 +46,6 @@ public:
 
   using SpatialObjectType = SpatialObject<NDimensions>;
   using SpatialObjectPointer = typename SpatialObjectType::Pointer;
-  using SceneType = GroupSpatialObject<NDimensions>;
 
   /** base type for MetaConverters -- bidirections conversion btw
    *  SpatialObject & MetaObject
@@ -75,12 +74,6 @@ public:
   SetInput(SpatialObjectType * input)
   {
     m_SpatialObject = input;
-  }
-
-  void
-  SetInput(SceneType * input)
-  {
-    m_Scene = input;
   }
 
   itkSetMacro(BinaryPoints, bool);
@@ -112,7 +105,6 @@ protected:
 
 private:
   SpatialObjectPointer m_SpatialObject;
-  SceneType *          m_Scene;
 
   typename MetaSceneConverterType::Pointer m_MetaToSpatialConverter;
 };

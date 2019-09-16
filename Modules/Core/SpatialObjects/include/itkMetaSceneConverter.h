@@ -23,7 +23,7 @@
 
 #include "metaScene.h"
 #include "itkMetaEvent.h"
-#include "itkGroupSpatialObject.h"
+#include "itkSpatialObject.h"
 #include "itkMetaConverterBase.h"
 
 #include <string>
@@ -32,11 +32,11 @@
 namespace itk
 {
 /** \class MetaSceneConverter
- *  \brief Converts between MetaObject and SpaitalObject scenes.
+ *  \brief Converts between MetaObject and SpaitalObject group.
  *
  *  SpatialObject hierarchies are written to disk using the MetaIO
  *  library. This class is responsible for converting between MetaIO
- *  scenes and SpatialObject scenes
+ *  group and SpatialObject group
  *
  *  \sa MetaConverterBase
  *  \ingroup ITKSpatialObjects
@@ -59,8 +59,8 @@ public:
   itkTypeMacro(MetaSceneConverter, Object);
 
   /** SpatialObject Scene types */
-  using SceneType = itk::GroupSpatialObject<NDimensions>;
-  using ScenePointer = typename SceneType::Pointer;
+  using SpatialObjectType = itk::SpatialObject<NDimensions>;
+  using SpatialObjectPointer = typename SpatialObjectType::Pointer;
 
   /** Typedef for auxiliary conversion classes */
   using MetaConverterBaseType = MetaConverterBase<NDimensions>;
@@ -68,14 +68,14 @@ public:
   using ConverterMapType = std::map<std::string, MetaConverterPointer>;
 
   /** Read a MetaFile and create a Scene SpatialObject */
-  ScenePointer
+  SpatialObjectPointer
   ReadMeta(const std::string & name);
 
-  /** write out a Scene SpatialObject */
+  /** write out a SpatialObject */
   bool
-  WriteMeta(SceneType *         scene,
+  WriteMeta(SpatialObjectType * soScene,
             const std::string & fileName,
-            unsigned int        depth = SceneType::MaximumDepth,
+            unsigned int        depth = SpatialObjectType::MaximumDepth,
             const std::string & spatialObjectTypeName = "");
 
   itkGetMacro(Event, MetaEvent *);
@@ -105,10 +105,12 @@ public:
                         MetaConverterBaseType * converter);
 
   MetaScene *
-  CreateMetaScene(SceneType * scene, unsigned int depth = SceneType::MaximumDepth, const std::string & name = "");
+  CreateMetaScene(SpatialObjectType * soScene,
+                  unsigned int        depth = SpatialObjectType::MaximumDepth,
+                  const std::string & name = "");
 
-  ScenePointer
-  CreateSpatialObjectScene(MetaScene * scene);
+  SpatialObjectPointer
+  CreateSpatialObjectScene(MetaScene * mScene);
 
 protected:
   MetaSceneConverter();

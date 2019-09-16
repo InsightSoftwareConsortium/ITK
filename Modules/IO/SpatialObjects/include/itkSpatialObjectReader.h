@@ -20,6 +20,7 @@
 
 #include "itkMetaSceneConverter.h"
 #include "itkMetaConverterBase.h"
+#include "itkSpatialObject.h"
 #include "itkGroupSpatialObject.h"
 #include "itkProcessObject.h"
 
@@ -27,7 +28,6 @@ namespace itk
 {
 /** \class SpatialObjectReader
  *
- * \brief TODO
  * \ingroup ITKIOSpatialObjects
  */
 template <unsigned int NDimensions = 3,
@@ -43,7 +43,6 @@ public:
   using Pointer = SmartPointer<Self>;
   using SpatialObjectType = SpatialObject<NDimensions>;
   using SpatialObjectPointer = typename SpatialObjectType::Pointer;
-
   using GroupType = GroupSpatialObject<NDimensions>;
   using GroupPointer = typename GroupType::Pointer;
 
@@ -71,9 +70,23 @@ public:
   itkGetStringMacro(FileName);
 
   /** Get the output */
+  SpatialObjectPointer
+  GetOutput()
+  {
+    return m_SpatialObject;
+  }
+
+  /** Get the output, with a group spatial object added to the top.  This
+   *    addition makes it easy to use GetChildren() to get the list of
+   *    objects read. */
   GroupPointer
   GetGroup()
   {
+    if (m_Group == nullptr)
+    {
+      m_Group = GroupType::New();
+      m_Group->AddChild(m_SpatialObject);
+    }
     return m_Group;
   }
 
@@ -104,6 +117,8 @@ protected:
 
 private:
   GroupPointer m_Group;
+
+  SpatialObjectPointer m_SpatialObject;
 
   typename MetaSceneConverterType::Pointer m_MetaToSpatialConverter;
 };
