@@ -196,7 +196,11 @@ void MetaMesh::
 Clear()
 {
   if(META_DEBUG) std::cout << "MetaMesh: Clear" << std::endl;
+
   MetaObject::Clear();
+
+  strcpy(m_ObjectTypeName,"Mesh");
+
   if(META_DEBUG) std::cout << "MetaMesh: Clear: m_NPoints" << std::endl;
 
   // Delete the list of pointers to points.
@@ -320,7 +324,6 @@ M_SetupReadFields()
 void MetaMesh::
 M_SetupWriteFields()
 {
-  strcpy(m_ObjectTypeName,"Mesh");
   MetaObject::M_SetupWriteFields();
 
   MET_FieldRecordType * mF;

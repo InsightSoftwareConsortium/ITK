@@ -191,7 +191,11 @@ Clear()
     {
     std::cout << "MetaContour: Clear" << std::endl;
     }
+
   MetaObject::Clear();
+
+  strcpy(m_ObjectTypeName,"Contour");
+
   m_InterpolationType = MET_NO_INTERPOLATION;
   m_NControlPoints = 0;
   m_NInterpolatedPoints = 0;
@@ -302,7 +306,6 @@ M_SetupWriteFields()
 {
   if(META_DEBUG) std::cout << "MetaContour: M_SetupWriteFields" << std::endl;
 
-  strcpy(m_ObjectTypeName,"Contour");
   MetaObject::M_SetupWriteFields();
 
   MET_FieldRecordType * mF;

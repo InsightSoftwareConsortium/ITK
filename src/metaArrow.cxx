@@ -146,6 +146,9 @@ Clear()
 {
   if(META_DEBUG) std::cout << "MetaArrow: Clear" << std::endl;
   MetaObject::Clear();
+
+  strcpy(m_ObjectTypeName,"Arrow");
+
   M_Length = 1;
 
   // zero out direction then set to (1,0,0)
@@ -186,7 +189,6 @@ M_SetupReadFields()
 void MetaArrow::
 M_SetupWriteFields()
 {
-  strcpy(m_ObjectTypeName,"Arrow");
   MetaObject::M_SetupWriteFields();
 
   MET_FieldRecordType * mF;

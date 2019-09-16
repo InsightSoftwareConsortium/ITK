@@ -151,7 +151,11 @@ void MetaLandmark::
 Clear()
 {
   if(META_DEBUG) std::cout << "MetaLandmark: Clear" << std::endl;
+
   MetaObject::Clear();
+
+  strcpy(m_ObjectTypeName,"Landmark");
+
   if(META_DEBUG) std::cout << "MetaLandmark: Clear: m_NPoints" << std::endl;
   // Delete the list of pointers to tubes.
   PointListType::iterator it = m_PointList.begin();
@@ -220,7 +224,6 @@ ElementType(MET_ValueEnumType _elementType)
 void MetaLandmark::
 M_SetupWriteFields()
 {
-  strcpy(m_ObjectTypeName,"Landmark");
   MetaObject::M_SetupWriteFields();
 
   MET_FieldRecordType * mF;

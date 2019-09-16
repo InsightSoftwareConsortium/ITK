@@ -150,7 +150,11 @@ void MetaSurface::
 Clear()
 {
   if(META_DEBUG) std::cout << "MetaSurface: Clear" << std::endl;
+
   MetaObject::Clear();
+
+  strcpy(m_ObjectTypeName,"Surface");
+
   m_NPoints = 0;
   // Delete the list of pointers to tubes.
   PointListType::iterator it = m_PointList.begin();
@@ -207,7 +211,6 @@ M_SetupWriteFields()
 {
   if(META_DEBUG) std::cout << "MetaSurface: M_SetupWriteFields" << std::endl;
 
-  strcpy(m_ObjectTypeName,"Surface");
   MetaObject::M_SetupWriteFields();
 
   MET_FieldRecordType * mF;
