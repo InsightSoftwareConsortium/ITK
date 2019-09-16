@@ -93,7 +93,11 @@ void MetaGaussian::
 Clear()
 {
   if(META_DEBUG) std::cout << "MetaGaussian: Clear" << std::endl;
+
   MetaObject::Clear();
+
+  strcpy(m_ObjectTypeName,"Gaussian");
+
   m_Maximum = 1;
   m_Radius = 1;
   m_Sigma = 1;
@@ -135,7 +139,6 @@ M_SetupReadFields()
 void MetaGaussian::
 M_SetupWriteFields()
 {
-  strcpy(m_ObjectTypeName,"Gaussian");
   MetaObject::M_SetupWriteFields();
 
   MET_FieldRecordType * mF;

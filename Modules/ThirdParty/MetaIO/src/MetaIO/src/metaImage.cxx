@@ -507,6 +507,8 @@ void MetaImage::Clear()
 
   MetaObject::Clear();
 
+  strcpy(m_ObjectTypeName,"Image");
+
   // Change the default for this object
   m_BinaryData = true;
 
@@ -2231,7 +2233,6 @@ M_SetupReadFields()
 void MetaImage::
 M_SetupWriteFields()
 {
-  strcpy(m_ObjectTypeName,"Image");
   MetaObject::M_SetupWriteFields();
 
   MET_FieldRecordType * mF;

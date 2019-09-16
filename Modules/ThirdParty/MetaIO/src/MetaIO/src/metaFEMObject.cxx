@@ -222,7 +222,11 @@ Clear()
     {
     std::cout << "MetaFEMObject: Clear" << std::endl;
     }
+
   MetaObject::Clear();
+
+  strcpy(m_ObjectTypeName,"FEMObject");
+
   if(META_DEBUG)
     {
     std::cout << "MetaFEMObject: Clear: m_NPoints" << std::endl;
@@ -301,7 +305,6 @@ M_SetupReadFields()
 void MetaFEMObject::
 M_SetupWriteFields()
 {
-  strcpy(m_ObjectTypeName,"FEMObject");
   MetaObject::M_SetupWriteFields();
 
   MET_FieldRecordType * mF;

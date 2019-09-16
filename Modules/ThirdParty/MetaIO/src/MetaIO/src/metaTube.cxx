@@ -194,7 +194,11 @@ void MetaTube::
 Clear()
 {
   if(META_DEBUG) std::cout << "MetaTube: Clear" << std::endl;
+
   MetaObject::Clear();
+
+  strcpy(m_ObjectTypeName,"Tube");
+
   // Delete the list of pointers to tubes.
   PointListType::iterator it = m_PointList.begin();
   while(it != m_PointList.end())
@@ -257,7 +261,6 @@ M_SetupReadFields()
 void MetaTube::
 M_SetupWriteFields()
 {
-  strcpy(m_ObjectTypeName,"Tube");
   MetaObject::M_SetupWriteFields();
 
   MET_FieldRecordType * mF;

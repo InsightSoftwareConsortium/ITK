@@ -139,7 +139,11 @@ void MetaEllipse::
 Clear()
 {
   if(META_DEBUG) std::cout << "MetaEllipse: Clear" << std::endl;
+
   MetaObject::Clear();
+
+  strcpy(m_ObjectTypeName,"Ellipse");
+
   memset(m_Radius, 0, 100*sizeof(float));
 
   for(int i=0; i<m_NDims; i++)
@@ -177,7 +181,6 @@ M_SetupReadFields()
 void MetaEllipse::
 M_SetupWriteFields()
 {
-  strcpy(m_ObjectTypeName,"Ellipse");
   MetaObject::M_SetupWriteFields();
 
   MET_FieldRecordType * mF;

@@ -225,7 +225,12 @@ void MetaDTITube::
 Clear()
 {
   if(META_DEBUG) std::cout << "MetaDTITube: Clear" << std::endl;
+
   MetaObject::Clear();
+
+  strcpy(m_ObjectTypeName,"Tube");
+  strcpy(m_ObjectSubTypeName,"DTI");
+
   // Delete the list of pointers to DTITubes.
   PointListType::iterator it = m_PointList.begin();
   while(it != m_PointList.end())
@@ -288,8 +293,6 @@ M_SetupReadFields()
 void MetaDTITube::
 M_SetupWriteFields()
 {
-  strcpy(m_ObjectTypeName,"Tube");
-  strcpy(m_ObjectSubTypeName,"DTI");
   MetaObject::M_SetupWriteFields();
 
   MET_FieldRecordType * mF;
