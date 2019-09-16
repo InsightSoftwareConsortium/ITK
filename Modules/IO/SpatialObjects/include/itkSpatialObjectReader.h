@@ -84,8 +84,15 @@ public:
   {
     if (m_Group == nullptr)
     {
-      m_Group = GroupType::New();
-      m_Group->AddChild(m_SpatialObject);
+      if (m_SpatialObject->GetTypeName() == "GroupSpatialObject")
+      {
+        m_Group = static_cast<GroupType *>(m_SpatialObject.GetPointer());
+      }
+      else
+      {
+        m_Group = GroupType::New();
+        m_Group->AddChild(m_SpatialObject);
+      }
     }
     return m_Group;
   }

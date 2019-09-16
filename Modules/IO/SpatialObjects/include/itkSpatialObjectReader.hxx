@@ -27,6 +27,7 @@ SpatialObjectReader<NDimensions, PixelType, TMeshTraits>::SpatialObjectReader()
 {
   m_FileName = "";
   m_SpatialObject = nullptr;
+  m_Group = nullptr;
   m_MetaToSpatialConverter = MetaSceneConverterType::New();
 }
 
@@ -35,6 +36,7 @@ void
 SpatialObjectReader<NDimensions, PixelType, TMeshTraits>::Update()
 {
   m_SpatialObject = m_MetaToSpatialConverter->ReadMeta(m_FileName.c_str());
+  m_Group = nullptr;
 
   if (m_SpatialObject == nullptr)
   {
