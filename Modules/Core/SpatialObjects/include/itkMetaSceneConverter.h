@@ -117,8 +117,6 @@ protected:
   ~MetaSceneConverter() override = default;
 
 private:
-  using SpatialObjectType = itk::SpatialObject<NDimensions>;
-  using SpatialObjectPointer = typename SpatialObjectType::Pointer;
   using TransformType = typename SpatialObjectType::TransformType;
 
   using MetaObjectListType = std::list<MetaObject *>;
