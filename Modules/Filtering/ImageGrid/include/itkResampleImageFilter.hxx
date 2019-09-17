@@ -177,8 +177,9 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
     return;
   }
 
-  const bool isSpecialCoordinatesImage = (dynamic_cast<const InputSpecialCoordinatesImageType *>(this->GetInput()) ||
-                                          dynamic_cast<const OutputSpecialCoordinatesImageType *>(this->GetOutput()));
+  const bool isSpecialCoordinatesImage =
+    ((dynamic_cast<const InputSpecialCoordinatesImageType *>(this->GetInput()) != nullptr) ||
+     (dynamic_cast<const OutputSpecialCoordinatesImageType *>(this->GetOutput()) != nullptr));
 
 
   // Check whether we can use a fast path for resampling. Fast path
@@ -331,7 +332,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   // Honor the SpecialCoordinatesImage isInside value returned
   // by TransformPhysicalPointToContinuousIndex
   using InputSpecialCoordinatesImageType = SpecialCoordinatesImage<InputPixelType, InputImageDimension>;
-  const bool isSpecialCoordinatesImage = dynamic_cast<const InputSpecialCoordinatesImageType *>(inputPtr);
+  const bool isSpecialCoordinatesImage = (dynamic_cast<const InputSpecialCoordinatesImageType *>(inputPtr) != nullptr);
 
 
   // Create an iterator that will walk the output region for this thread.
@@ -513,8 +514,9 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   using OutputSpecialCoordinatesImageType = SpecialCoordinatesImage<PixelType, ImageDimension>;
   using InputSpecialCoordinatesImageType = SpecialCoordinatesImage<InputPixelType, InputImageDimension>;
 
-  const bool isSpecialCoordinatesImage = (dynamic_cast<const InputSpecialCoordinatesImageType *>(this->GetInput()) ||
-                                          dynamic_cast<const OutputSpecialCoordinatesImageType *>(this->GetOutput()));
+  const bool isSpecialCoordinatesImage =
+    ((dynamic_cast<const InputSpecialCoordinatesImageType *>(this->GetInput()) != nullptr) ||
+     (dynamic_cast<const OutputSpecialCoordinatesImageType *>(this->GetOutput()) != nullptr));
 
   const OutputImageType * output = this->GetOutput();
   // Get the input transform
