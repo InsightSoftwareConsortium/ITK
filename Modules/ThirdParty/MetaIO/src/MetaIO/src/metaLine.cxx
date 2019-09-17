@@ -159,7 +159,11 @@ void MetaLine::
 Clear()
 {
   if(META_DEBUG) std::cout << "MetaLine: Clear" << std::endl;
+
   MetaObject::Clear();
+
+  strcpy(m_ObjectTypeName,"Line");
+
   m_NPoints = 0;
     // Delete the list of pointers to lines.
   PointListType::iterator it = m_PointList.begin();
@@ -217,7 +221,6 @@ M_SetupReadFields()
 void MetaLine::
 M_SetupWriteFields()
 {
-  strcpy(m_ObjectTypeName,"Line");
   MetaObject::M_SetupWriteFields();
 
   MET_FieldRecordType * mF;

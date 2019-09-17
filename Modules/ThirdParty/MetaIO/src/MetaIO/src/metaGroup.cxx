@@ -88,7 +88,10 @@ void MetaGroup::
 Clear()
 {
   if(META_DEBUG) std::cout << "MetaGroup: Clear" << std::endl;
+
   MetaObject::Clear();
+
+  strcpy(m_ObjectTypeName,"Group");
 }
 
 /** Destroy group information */
@@ -118,7 +121,6 @@ M_SetupReadFields()
 void MetaGroup::
 M_SetupWriteFields()
 {
-  strcpy(m_ObjectTypeName,"Group");
   MetaObject::M_SetupWriteFields();
 
   MET_FieldRecordType * mF = new MET_FieldRecordType;

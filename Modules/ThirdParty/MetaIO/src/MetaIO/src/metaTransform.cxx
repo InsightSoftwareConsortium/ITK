@@ -87,7 +87,11 @@ void MetaTransform::
 Clear()
 {
   if(META_DEBUG) std::cout << "MetaTransform: Clear" << std::endl;
+
   MetaObject::Clear();
+
+  strcpy(m_ObjectTypeName,"Transform");
+
   delete parameters;
   parameters = nullptr;
   parametersDimension = 0;
@@ -153,7 +157,6 @@ M_SetupReadFields()
 void MetaTransform::
 M_SetupWriteFields()
 {
-  strcpy(m_ObjectTypeName,"Transform");
   MetaObject::M_SetupWriteFields();
 
   // We don't want to write the matrix and the offset

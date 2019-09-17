@@ -151,7 +151,11 @@ void MetaBlob::
 Clear()
 {
   if(META_DEBUG) std::cout << "MetaBlob: Clear" << std::endl;
+
   MetaObject::Clear();
+
+  strcpy(m_ObjectTypeName,"Blob");
+
   if(META_DEBUG) std::cout << "MetaBlob: Clear: m_NPoints" << std::endl;
   // Delete the list of pointers to blobs.
   PointListType::iterator it = m_PointList.begin();
@@ -220,7 +224,6 @@ ElementType(MET_ValueEnumType _elementType)
 void MetaBlob::
 M_SetupWriteFields()
 {
-  strcpy(m_ObjectTypeName,"Blob");
   MetaObject::M_SetupWriteFields();
 
   MET_FieldRecordType * mF;

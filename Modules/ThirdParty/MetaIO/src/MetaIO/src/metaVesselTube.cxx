@@ -233,7 +233,12 @@ Clear()
     {
     std::cout << "MetaVesselTube: Clear" << std::endl;
     }
+
   MetaObject::Clear();
+
+  strcpy(m_ObjectTypeName,"Tube");
+  strcpy(m_ObjectSubTypeName,"Vessel");
+
   // Delete the list of pointers to VesselTubes.
   PointListType::iterator it = m_PointList.begin();
   while(it != m_PointList.end())
@@ -305,8 +310,6 @@ M_SetupReadFields()
 void MetaVesselTube::
 M_SetupWriteFields()
 {
-  strcpy(m_ObjectTypeName,"Tube");
-  strcpy(m_ObjectSubTypeName,"Vessel");
   MetaObject::M_SetupWriteFields();
 
   MET_FieldRecordType * mF;
