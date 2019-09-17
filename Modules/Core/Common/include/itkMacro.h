@@ -1100,9 +1100,9 @@ compilers.
  * provides the GPU kernel source code as a const char*
  */
 #define itkGPUKernelClassMacro(kernel)                                                                                 \
-  /**\class kernel                                                                                                     \
-   * Workaround KWstyle bug                                                                                            \
-   * \ingroup ITKCommon                                                                                                \
+  /**\class kernel \                                                                                                                     \
+   * Workaround KWstyle bug \                                                                                                                     \
+   * \ingroup ITKCommon \                                                                                                                     \
    */                                                                                                                  \
   class kernel                                                                                                         \
   {                                                                                                                    \
@@ -1238,12 +1238,12 @@ TTarget
 itkDynamicCastInDebugMode(TSource x)
 {
 #ifndef NDEBUG
-  if (x == 0)
+  if (x == nullptr)
   {
-    return 0;
+    return nullptr;
   }
   TTarget rval = dynamic_cast<TTarget>(x);
-  if (rval == 0)
+  if (rval == nullptr)
   {
     itkGenericExceptionMacro(<< "Failed dynamic cast to " << typeid(TTarget).name()
                              << " object type = " << x->GetNameOfClass());
