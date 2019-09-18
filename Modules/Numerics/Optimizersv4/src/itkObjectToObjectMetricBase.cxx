@@ -23,49 +23,41 @@ namespace itk
 std::ostream &
 operator<<(std::ostream & out, const SourceTypeOfGradient value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case SourceTypeOfGradient::GRADIENT_SOURCE_FIXED:
-      s = "SourceTypeOfGradient::GRADIENT_SOURCE_FIXED";
-      break;
-    case SourceTypeOfGradient::GRADIENT_SOURCE_MOVING:
-      s = "SourceTypeOfGradient::GRADIENT_SOURCE_MOVING";
-      break;
-    case SourceTypeOfGradient::GRADIENT_SOURCE_BOTH:
-      s = "SourceTypeOfGradient::GRADIENT_SOURCE_BOTH";
-      break;
-    default:
-      s = "INVALID VALUE FOR SourceTypeOfGradient";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case SourceTypeOfGradient::GRADIENT_SOURCE_FIXED:
+        return "SourceTypeOfGradient::GRADIENT_SOURCE_FIXED";
+      case SourceTypeOfGradient::GRADIENT_SOURCE_MOVING:
+        return "SourceTypeOfGradient::GRADIENT_SOURCE_MOVING";
+      case SourceTypeOfGradient::GRADIENT_SOURCE_BOTH:
+        return "SourceTypeOfGradient::GRADIENT_SOURCE_BOTH";
+      default:
+        return "INVALID VALUE FOR SourceTypeOfGradient";
+    }
+  }();
 }
 
 /** Define how to print enumerations */
 std::ostream &
 operator<<(std::ostream & out, const CategoryTypeForMetric value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case CategoryTypeForMetric::UNKNOWN_METRIC:
-      s = "CategoryTypeForMetric::UNKNOWN_METRIC";
-      break;
-    case CategoryTypeForMetric::OBJECT_METRIC:
-      s = "CategoryTypeForMetric::OBJECT_METRIC";
-      break;
-    case CategoryTypeForMetric::IMAGE_METRIC:
-      s = "CategoryTypeForMetric::IMAGE_METRIC";
-      break;
-    case CategoryTypeForMetric::POINT_SET_METRIC:
-      s = "CategoryTypeForMetric::POINT_SET_METRIC";
-      break;
-    case CategoryTypeForMetric::MULTI_METRIC:
-      s = "CategoryTypeForMetric::MULTI_METRIC";
-      break;
-    default:
-      s = "INVALID VALUE FOR CategoryTypeForMetric";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case CategoryTypeForMetric::UNKNOWN_METRIC:
+        return "CategoryTypeForMetric::UNKNOWN_METRIC";
+      case CategoryTypeForMetric::OBJECT_METRIC:
+        return "CategoryTypeForMetric::OBJECT_METRIC";
+      case CategoryTypeForMetric::IMAGE_METRIC:
+        return "CategoryTypeForMetric::IMAGE_METRIC";
+      case CategoryTypeForMetric::POINT_SET_METRIC:
+        return "CategoryTypeForMetric::POINT_SET_METRIC";
+      case CategoryTypeForMetric::MULTI_METRIC:
+        return "CategoryTypeForMetric::MULTI_METRIC";
+      default:
+        return "INVALID VALUE FOR CategoryTypeForMetric";
+    }
+  }();
 }
 } // namespace itk

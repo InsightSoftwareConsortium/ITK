@@ -72,18 +72,16 @@ ImageIOFactory::CreateImageIO(const char * path, FileModeType mode)
 std::ostream &
 operator<<(std::ostream & out, const ImageIOFactory::FileModeType value)
 {
-  const char * s = 0;
-  switch (value)
-  {
-    case ImageIOFactory::FileModeType::ReadMode:
-      s = "ImageIOFactory::FileModeType::ReadMode";
-      break;
-    case ImageIOFactory::FileModeType::WriteMode:
-      s = "ImageIOFactory::FileModeType::WriteMode";
-      break;
-    default:
-      s = "INVALID VALUE FOR ImageIOFactory::FileModeType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case ImageIOFactory::FileModeType::ReadMode:
+        return "ImageIOFactory::FileModeType::ReadMode";
+      case ImageIOFactory::FileModeType::WriteMode:
+        return "ImageIOFactory::FileModeType::WriteMode";
+      default:
+        return "INVALID VALUE FOR ImageIOFactory::FileModeType";
+    }
+  }();
 }
 } // end namespace itk

@@ -25,61 +25,49 @@ namespace itk
 std::ostream &
 operator<<(std::ostream & out, const typename TransformBaseTemplate<double>::TransformCategoryType value)
 {
-  const char * s = 0;
-  switch (value)
-  {
-    case TransformBaseTemplate<double>::TransformCategoryType::UnknownTransformCategory:
-      s = "TransformBaseTemplate<double>::TransformCategoryType::UnknownTransformCategory";
-      break;
-    case TransformBaseTemplate<double>::TransformCategoryType::Linear:
-      s = "TransformBaseTemplate<double>::TransformCategoryType::Linear";
-      break;
-    case TransformBaseTemplate<double>::TransformCategoryType::BSpline:
-      s = "TransformBaseTemplate<double>::TransformCategoryType::BSpline";
-      break;
-    case TransformBaseTemplate<double>::TransformCategoryType::Spline:
-      s = "TransformBaseTemplate<double>::TransformCategoryType::Spline";
-      break;
-    case TransformBaseTemplate<double>::TransformCategoryType::DisplacementField:
-      s = "TransformBaseTemplate<double>::TransformCategoryType::DisplacementField";
-      break;
-    case TransformBaseTemplate<double>::TransformCategoryType::VelocityField:
-      s = "TransformBaseTemplate<double>::TransformCategoryType::VelocityField";
-      break;
-    default:
-      s = "INVALID VALUE FOR TransformBaseTemplate<double>::TransformCategoryType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case TransformBaseTemplate<double>::TransformCategoryType::UnknownTransformCategory:
+        return "TransformBaseTemplate<double>::TransformCategoryType::UnknownTransformCategory";
+      case TransformBaseTemplate<double>::TransformCategoryType::Linear:
+        return "TransformBaseTemplate<double>::TransformCategoryType::Linear";
+      case TransformBaseTemplate<double>::TransformCategoryType::BSpline:
+        return "TransformBaseTemplate<double>::TransformCategoryType::BSpline";
+      case TransformBaseTemplate<double>::TransformCategoryType::Spline:
+        return "TransformBaseTemplate<double>::TransformCategoryType::Spline";
+      case TransformBaseTemplate<double>::TransformCategoryType::DisplacementField:
+        return "TransformBaseTemplate<double>::TransformCategoryType::DisplacementField";
+      case TransformBaseTemplate<double>::TransformCategoryType::VelocityField:
+        return "TransformBaseTemplate<double>::TransformCategoryType::VelocityField";
+      default:
+        return "INVALID VALUE FOR TransformBaseTemplate<double>::TransformCategoryType";
+    }
+  }();
 }
 /** Print enum values */
 std::ostream &
 operator<<(std::ostream & out, const typename TransformBaseTemplate<float>::TransformCategoryType value)
 {
-  const char * s = 0;
-  switch (value)
-  {
-    case TransformBaseTemplate<float>::TransformCategoryType::UnknownTransformCategory:
-      s = "TransformBaseTemplate<float>::TransformCategoryType::UnknownTransformCategory";
-      break;
-    case TransformBaseTemplate<float>::TransformCategoryType::Linear:
-      s = "TransformBaseTemplate<float>::TransformCategoryType::Linear";
-      break;
-    case TransformBaseTemplate<float>::TransformCategoryType::BSpline:
-      s = "TransformBaseTemplate<float>::TransformCategoryType::BSpline";
-      break;
-    case TransformBaseTemplate<float>::TransformCategoryType::Spline:
-      s = "TransformBaseTemplate<float>::TransformCategoryType::Spline";
-      break;
-    case TransformBaseTemplate<float>::TransformCategoryType::DisplacementField:
-      s = "TransformBaseTemplate<float>::TransformCategoryType::DisplacementField";
-      break;
-    case TransformBaseTemplate<float>::TransformCategoryType::VelocityField:
-      s = "TransformBaseTemplate<float>::TransformCategoryType::VelocityField";
-      break;
-    default:
-      s = "INVALID VALUE FOR TransformBaseTemplate<float>::TransformCategoryType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case TransformBaseTemplate<float>::TransformCategoryType::UnknownTransformCategory:
+        return "TransformBaseTemplate<float>::TransformCategoryType::UnknownTransformCategory";
+      case TransformBaseTemplate<float>::TransformCategoryType::Linear:
+        return "TransformBaseTemplate<float>::TransformCategoryType::Linear";
+      case TransformBaseTemplate<float>::TransformCategoryType::BSpline:
+        return "TransformBaseTemplate<float>::TransformCategoryType::BSpline";
+      case TransformBaseTemplate<float>::TransformCategoryType::Spline:
+        return "TransformBaseTemplate<float>::TransformCategoryType::Spline";
+      case TransformBaseTemplate<float>::TransformCategoryType::DisplacementField:
+        return "TransformBaseTemplate<float>::TransformCategoryType::DisplacementField";
+      case TransformBaseTemplate<float>::TransformCategoryType::VelocityField:
+        return "TransformBaseTemplate<float>::TransformCategoryType::VelocityField";
+      default:
+        return "INVALID VALUE FOR TransformBaseTemplate<float>::TransformCategoryType";
+    }
+  }();
 }
 
 ITK_GCC_PRAGMA_DIAG_PUSH()

@@ -189,19 +189,17 @@ GradientDescentOptimizer ::AdvanceOneStep()
 std::ostream &
 operator<<(std::ostream & out, const GradientDescentOptimizer::StopConditionType value)
 {
-  const char * s = 0;
-  switch (value)
-  {
-    case GradientDescentOptimizer::StopConditionType::MaximumNumberOfIterations:
-      s = "GradientDescentOptimizer::StopConditionType::MaximumNumberOfIterations";
-      break;
-    case GradientDescentOptimizer::StopConditionType::MetricError:
-      s = "GradientDescentOptimizer::StopConditionType::MetricError";
-      break;
-    default:
-      s = "INVALID VALUE FOR GradientDescentOptimizer::StopConditionType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case GradientDescentOptimizer::StopConditionType::MaximumNumberOfIterations:
+        return "GradientDescentOptimizer::StopConditionType::MaximumNumberOfIterations";
+      case GradientDescentOptimizer::StopConditionType::MetricError:
+        return "GradientDescentOptimizer::StopConditionType::MetricError";
+      default:
+        return "INVALID VALUE FOR GradientDescentOptimizer::StopConditionType";
+    }
+  }();
 }
 } // end namespace itk
 

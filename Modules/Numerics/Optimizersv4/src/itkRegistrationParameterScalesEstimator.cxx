@@ -23,27 +23,22 @@ namespace itk
 std::ostream &
 operator<<(std::ostream & out, const StrategyTypeForSampling value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case StrategyTypeForSampling::FullDomainSampling:
-      s = "StrategyTypeForSampling::FullDomainSampling";
-      break;
-    case StrategyTypeForSampling::CornerSampling:
-      s = "StrategyTypeForSampling::CornerSampling";
-      break;
-    case StrategyTypeForSampling::RandomSampling:
-      s = "StrategyTypeForSampling::RandomSampling";
-      break;
-    case StrategyTypeForSampling::CentralRegionSampling:
-      s = "StrategyTypeForSampling::CentralRegionSampling";
-      break;
-    case StrategyTypeForSampling::VirtualDomainPointSetSampling:
-      s = "StrategyTypeForSampling::VirtualDomainPointSetSampling";
-      break;
-    default:
-      s = "INVALID VALUE FOR StrategyTypeForSampling";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case StrategyTypeForSampling::FullDomainSampling:
+        return "StrategyTypeForSampling::FullDomainSampling";
+      case StrategyTypeForSampling::CornerSampling:
+        return "StrategyTypeForSampling::CornerSampling";
+      case StrategyTypeForSampling::RandomSampling:
+        return "StrategyTypeForSampling::RandomSampling";
+      case StrategyTypeForSampling::CentralRegionSampling:
+        return "StrategyTypeForSampling::CentralRegionSampling";
+      case StrategyTypeForSampling::VirtualDomainPointSetSampling:
+        return "StrategyTypeForSampling::VirtualDomainPointSetSampling";
+      default:
+        return "INVALID VALUE FOR StrategyTypeForSampling";
+    }
+  }();
 }
 } // namespace itk

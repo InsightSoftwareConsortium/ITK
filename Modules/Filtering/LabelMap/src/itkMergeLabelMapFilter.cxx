@@ -23,24 +23,20 @@ namespace itk
 std::ostream &
 operator<<(std::ostream & out, const ChoiceMethod value)
 {
-  const char * s = 0;
-  switch (value)
-  {
-    case ChoiceMethod::KEEP:
-      s = "ChoiceMethod::KEEP";
-      break;
-    case ChoiceMethod::AGGREGATE:
-      s = "ChoiceMethod::AGGREGATE";
-      break;
-    case ChoiceMethod::PACK:
-      s = "ChoiceMethod::PACK";
-      break;
-    case ChoiceMethod::STRICT:
-      s = "ChoiceMethod::STRICT";
-      break;
-    default:
-      s = "INVALID VALUE FOR ChoiceMethod";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case ChoiceMethod::KEEP:
+        return "ChoiceMethod::KEEP";
+      case ChoiceMethod::AGGREGATE:
+        return "ChoiceMethod::AGGREGATE";
+      case ChoiceMethod::PACK:
+        return "ChoiceMethod::PACK";
+      case ChoiceMethod::STRICT:
+        return "ChoiceMethod::STRICT";
+      default:
+        return "INVALID VALUE FOR ChoiceMethod";
+    }
+  }();
 }
 } // namespace itk

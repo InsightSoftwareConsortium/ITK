@@ -23,21 +23,18 @@ namespace itk
 std::ostream &
 operator<<(std::ostream & out, const EnumGaussianOrderType value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case EnumGaussianOrderType::ZeroOrder:
-      s = "EnumType::ZeroOrder";
-      break;
-    case EnumGaussianOrderType::FirstOrder:
-      s = "EnumType::FirstOrder";
-      break;
-    case EnumGaussianOrderType::SecondOrder:
-      s = "EnumType::SecondOrder";
-      break;
-    default:
-      s = "INVALID VALUE FOR EnumType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case EnumGaussianOrderType::ZeroOrder:
+        return "EnumType::ZeroOrder";
+      case EnumGaussianOrderType::FirstOrder:
+        return "EnumType::FirstOrder";
+      case EnumGaussianOrderType::SecondOrder:
+        return "EnumType::SecondOrder";
+      default:
+        return "INVALID VALUE FOR EnumType";
+    }
+  }();
 }
 } // namespace itk

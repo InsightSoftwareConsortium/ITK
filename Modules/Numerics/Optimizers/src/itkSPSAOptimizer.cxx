@@ -492,25 +492,21 @@ SPSAOptimizer::GetStopConditionDescription() const
 std::ostream &
 operator<<(std::ostream & out, const SPSAOptimizer::StopConditionType value)
 {
-  const char * s = 0;
-  switch (value)
-  {
-    case SPSAOptimizer::StopConditionType::Unknown:
-      s = "SPSAOptimizer::StopConditionType::Unknown";
-      break;
-    case SPSAOptimizer::StopConditionType::MaximumNumberOfIterations:
-      s = "SPSAOptimizer::StopConditionType::MaximumNumberOfIterations";
-      break;
-    case SPSAOptimizer::StopConditionType::BelowTolerance:
-      s = "SPSAOptimizer::StopConditionType::BelowTolerance";
-      break;
-    case SPSAOptimizer::StopConditionType::MetricError:
-      s = "SPSAOptimizer::StopConditionType::MetricError";
-      break;
-    default:
-      s = "INVALID VALUE FOR SPSAOptimizer::StopConditionType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case SPSAOptimizer::StopConditionType::Unknown:
+        return "SPSAOptimizer::StopConditionType::Unknown";
+      case SPSAOptimizer::StopConditionType::MaximumNumberOfIterations:
+        return "SPSAOptimizer::StopConditionType::MaximumNumberOfIterations";
+      case SPSAOptimizer::StopConditionType::BelowTolerance:
+        return "SPSAOptimizer::StopConditionType::BelowTolerance";
+      case SPSAOptimizer::StopConditionType::MetricError:
+        return "SPSAOptimizer::StopConditionType::MetricError";
+      default:
+        return "INVALID VALUE FOR SPSAOptimizer::StopConditionType";
+    }
+  }();
 }
 
 } // end namespace itk

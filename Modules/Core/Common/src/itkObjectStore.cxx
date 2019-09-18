@@ -23,18 +23,16 @@ namespace itk
 std::ostream &
 operator<<(std::ostream & out, const StrategyForGrowthType value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case StrategyForGrowthType::LINEAR_GROWTH:
-      s = "StrategyForGrowthType::LINEAR_GROWTH";
-      break;
-    case StrategyForGrowthType::EXPONENTIAL_GROWTH:
-      s = "StrategyForGrowthType::EXPONENTIAL_GROWTH";
-      break;
-    default:
-      s = "INVALID VALUE FOR ObjectStore<TObjectType>::GrowthStrategyType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case StrategyForGrowthType::LINEAR_GROWTH:
+        return "StrategyForGrowthType::LINEAR_GROWTH";
+      case StrategyForGrowthType::EXPONENTIAL_GROWTH:
+        return "StrategyForGrowthType::EXPONENTIAL_GROWTH";
+      default:
+        return "INVALID VALUE FOR ObjectStore<TObjectType>::GrowthStrategyType";
+    }
+  }();
 }
 } // end namespace itk

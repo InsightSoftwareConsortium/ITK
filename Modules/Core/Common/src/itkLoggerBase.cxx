@@ -105,33 +105,26 @@ LoggerBase::PrintSelf(std::ostream & os, Indent indent) const
 std::ostream &
 operator<<(std::ostream & out, const LoggerBase::PriorityLevelType value)
 {
-  const char * s = 0;
-  switch (value)
-  {
-    case LoggerBase::PriorityLevelType::MUSTFLUSH:
-      s = "LoggerBase::PriorityLevelType::MUSTFLUSH";
-      break;
-    case LoggerBase::PriorityLevelType::FATAL:
-      s = "LoggerBase::PriorityLevelType::FATAL";
-      break;
-    case LoggerBase::PriorityLevelType::CRITICAL:
-      s = "LoggerBase::PriorityLevelType::CRITICAL";
-      break;
-    case LoggerBase::PriorityLevelType::WARNING:
-      s = "LoggerBase::PriorityLevelType::WARNING";
-      break;
-    case LoggerBase::PriorityLevelType::INFO:
-      s = "LoggerBase::PriorityLevelType::INFO";
-      break;
-    case LoggerBase::PriorityLevelType::DEBUG:
-      s = "LoggerBase::PriorityLevelType::DEBUG";
-      break;
-    case LoggerBase::PriorityLevelType::NOTSET:
-      s = "LoggerBase::PriorityLevelType::NOTSET";
-      break;
-    default:
-      s = "INVALID VALUE FOR LoggerBase::PriorityLevelType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case LoggerBase::PriorityLevelType::MUSTFLUSH:
+        return "LoggerBase::PriorityLevelType::MUSTFLUSH";
+      case LoggerBase::PriorityLevelType::FATAL:
+        return "LoggerBase::PriorityLevelType::FATAL";
+      case LoggerBase::PriorityLevelType::CRITICAL:
+        return "LoggerBase::PriorityLevelType::CRITICAL";
+      case LoggerBase::PriorityLevelType::WARNING:
+        return "LoggerBase::PriorityLevelType::WARNING";
+      case LoggerBase::PriorityLevelType::INFO:
+        return "LoggerBase::PriorityLevelType::INFO";
+      case LoggerBase::PriorityLevelType::DEBUG:
+        return "LoggerBase::PriorityLevelType::DEBUG";
+      case LoggerBase::PriorityLevelType::NOTSET:
+        return "LoggerBase::PriorityLevelType::NOTSET";
+      default:
+        return "INVALID VALUE FOR LoggerBase::PriorityLevelType";
+    }
+  }();
 }
 } // namespace itk

@@ -23,36 +23,28 @@ namespace itk
 std::ostream &
 operator<<(std::ostream & out, const TreeIteratorBaseNodeType value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case TreeIteratorBaseNodeType::UNDEFIND:
-      s = "TreeIteratorBaseNodeType::UNDEFIND";
-      break;
-    case TreeIteratorBaseNodeType::PREORDER:
-      s = "TreeIteratorBaseNodeType::PREORDER";
-      break;
-    case TreeIteratorBaseNodeType::INORDER:
-      s = "TreeIteratorBaseNodeType::INORDER";
-      break;
-    case TreeIteratorBaseNodeType::POSTORDER:
-      s = "TreeIteratorBaseNodeType::POSTORDER";
-      break;
-    case TreeIteratorBaseNodeType::LEVELORDER:
-      s = "TreeIteratorBaseNodeType::LEVELORDER";
-      break;
-    case TreeIteratorBaseNodeType::CHILD:
-      s = "TreeIteratorBaseNodeType::CHILD";
-      break;
-    case TreeIteratorBaseNodeType::ROOT:
-      s = "TreeIteratorBaseNodeType::ROOT";
-      break;
-    case TreeIteratorBaseNodeType::LEAF:
-      s = "TreeIteratorBaseNodeType::LEAF";
-      break;
-    default:
-      s = "INVALID VALUE FOR TreeIteratorBaseNodeType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case TreeIteratorBaseNodeType::UNDEFIND:
+        return "TreeIteratorBaseNodeType::UNDEFIND";
+      case TreeIteratorBaseNodeType::PREORDER:
+        return "TreeIteratorBaseNodeType::PREORDER";
+      case TreeIteratorBaseNodeType::INORDER:
+        return "TreeIteratorBaseNodeType::INORDER";
+      case TreeIteratorBaseNodeType::POSTORDER:
+        return "TreeIteratorBaseNodeType::POSTORDER";
+      case TreeIteratorBaseNodeType::LEVELORDER:
+        return "TreeIteratorBaseNodeType::LEVELORDER";
+      case TreeIteratorBaseNodeType::CHILD:
+        return "TreeIteratorBaseNodeType::CHILD";
+      case TreeIteratorBaseNodeType::ROOT:
+        return "TreeIteratorBaseNodeType::ROOT";
+      case TreeIteratorBaseNodeType::LEAF:
+        return "TreeIteratorBaseNodeType::LEAF";
+      default:
+        return "INVALID VALUE FOR TreeIteratorBaseNodeType";
+    }
+  }();
 }
 } // end namespace itk

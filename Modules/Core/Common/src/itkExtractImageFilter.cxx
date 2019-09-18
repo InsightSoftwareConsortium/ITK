@@ -23,24 +23,20 @@ namespace itk
 std::ostream &
 operator<<(std::ostream & out, const ExtractImageFilterCollapseStrategy value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN:
-      s = "ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN";
-      break;
-    case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY:
-      s = "ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY";
-      break;
-    case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX:
-      s = "ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX";
-      break;
-    case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS:
-      s = "ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS";
-      break;
-    default:
-      s = "INVALID VALUE FOR ExtractImageFilterCollapseStrategy";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN:
+        return "ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN";
+      case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY:
+        return "ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY";
+      case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX:
+        return "ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX";
+      case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS:
+        return "ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS";
+      default:
+        return "INVALID VALUE FOR ExtractImageFilterCollapseStrategy";
+    }
+  }();
 }
 } // end namespace itk

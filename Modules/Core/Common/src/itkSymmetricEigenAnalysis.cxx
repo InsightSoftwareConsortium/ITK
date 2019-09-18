@@ -22,21 +22,18 @@ namespace itk
 std::ostream &
 operator<<(std::ostream & out, const OrderType value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case OrderType::OrderByValue:
-      s = "OrderType::OrderByValue";
-      break;
-    case OrderType::OrderByMagnitude:
-      s = "OrderType::OrderByMagnitude";
-      break;
-    case OrderType::DoNotOrder:
-      s = "OrderType::DoNotOrder";
-      break;
-    default:
-      s = "INVALID VALUE FOR OrderType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case OrderType::OrderByValue:
+        return "OrderType::OrderByValue";
+      case OrderType::OrderByMagnitude:
+        return "OrderType::OrderByMagnitude";
+      case OrderType::DoNotOrder:
+        return "OrderType::DoNotOrder";
+      default:
+        return "INVALID VALUE FOR OrderType";
+    }
+  }();
 }
 } // end namespace itk

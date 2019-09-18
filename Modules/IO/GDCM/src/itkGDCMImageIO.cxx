@@ -1517,24 +1517,20 @@ GDCMImageIO::PrintSelf(std::ostream & os, Indent indent) const
 std::ostream &
 operator<<(std::ostream & out, const GDCMImageIO::TCompressionType value)
 {
-  const char * s = 0;
-  switch (value)
-  {
-    case GDCMImageIO::TCompressionType::JPEG:
-      s = "GDCMImageIO::TCompressionType::JPEG";
-      break;
-    case GDCMImageIO::TCompressionType::JPEG2000:
-      s = "GDCMImageIO::TCompressionType::JPEG2000";
-      break;
-    case GDCMImageIO::TCompressionType::JPEGLS:
-      s = "GDCMImageIO::TCompressionType::JPEGLS";
-      break;
-    case GDCMImageIO::TCompressionType::RLE:
-      s = "GDCMImageIO::TCompressionType::RLE";
-      break;
-    default:
-      s = "INVALID VALUE FOR GDCMImageIO::TCompressionType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case GDCMImageIO::TCompressionType::JPEG:
+        return "GDCMImageIO::TCompressionType::JPEG";
+      case GDCMImageIO::TCompressionType::JPEG2000:
+        return "GDCMImageIO::TCompressionType::JPEG2000";
+      case GDCMImageIO::TCompressionType::JPEGLS:
+        return "GDCMImageIO::TCompressionType::JPEGLS";
+      case GDCMImageIO::TCompressionType::RLE:
+        return "GDCMImageIO::TCompressionType::RLE";
+      default:
+        return "INVALID VALUE FOR GDCMImageIO::TCompressionType";
+    }
+  }();
 }
 } // end namespace itk

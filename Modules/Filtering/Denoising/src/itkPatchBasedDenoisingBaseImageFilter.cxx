@@ -23,59 +23,51 @@ namespace itk
 std::ostream &
 operator<<(std::ostream & out, const NoiseType value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case NoiseType::NOMODEL:
-      s = "NoiseType::NOMODEL";
-      break;
-    case NoiseType::GAUSSIAN:
-      s = "NoiseType::GAUSSIAN";
-      break;
-    case NoiseType::RICIAN:
-      s = "NoiseType::RICIAN";
-      break;
-    case NoiseType::POISSON:
-      s = "NoiseType::POISSON";
-      break;
-    default:
-      s = "INVALID VALUE FOR NoiseType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case NoiseType::NOMODEL:
+        return "NoiseType::NOMODEL";
+      case NoiseType::GAUSSIAN:
+        return "NoiseType::GAUSSIAN";
+      case NoiseType::RICIAN:
+        return "NoiseType::RICIAN";
+      case NoiseType::POISSON:
+        return "NoiseType::POISSON";
+      default:
+        return "INVALID VALUE FOR NoiseType";
+    }
+  }();
 }
 
 std::ostream &
 operator<<(std::ostream & out, const SpaceType value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case SpaceType::EUCLIDEAN:
-      s = "SpaceType::EUCLIDEAN";
-      break;
-    case SpaceType::RIEMANNIAN:
-      s = "SpaceType::RIEMANNIAN";
-      break;
-    default:
-      s = "INVALID VALUE FOR SpaceType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case SpaceType::EUCLIDEAN:
+        return "SpaceType::EUCLIDEAN";
+      case SpaceType::RIEMANNIAN:
+        return "SpaceType::RIEMANNIAN";
+      default:
+        return "INVALID VALUE FOR SpaceType";
+    }
+  }();
 }
 std::ostream &
 operator<<(std::ostream & out, const StateTypeOfFilter value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case StateTypeOfFilter::UNINITIALIZED:
-      s = "StateTypeOfFilter::UNINITIALIZED";
-      break;
-    case StateTypeOfFilter::INITIALIZED:
-      s = "StateTypeOfFilter::INITIALIZED";
-      break;
-    default:
-      s = "INVALID VALUE FOR StateTypeOfFilter";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case StateTypeOfFilter::UNINITIALIZED:
+        return "StateTypeOfFilter::UNINITIALIZED";
+      case StateTypeOfFilter::INITIALIZED:
+        return "StateTypeOfFilter::INITIALIZED";
+      default:
+        return "INVALID VALUE FOR StateTypeOfFilter";
+    }
+  }();
 }
 } // end namespace itk

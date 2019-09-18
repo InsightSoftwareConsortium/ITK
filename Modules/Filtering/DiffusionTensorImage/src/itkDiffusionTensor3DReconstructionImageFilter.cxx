@@ -22,21 +22,18 @@ namespace itk
 std::ostream &
 operator<<(std::ostream & out, const GradientEnumeration value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case GradientEnumeration::GradientIsInASingleImage:
-      s = "GradientEnumeration::GradientIsInASingleImage";
-      break;
-    case GradientEnumeration::GradientIsInManyImages:
-      s = "GradientEnumeration::GradientIsInManyImages";
-      break;
-    case GradientEnumeration::Else:
-      s = "GradientEnumeration::Else";
-      break;
-    default:
-      s = "INVALID VALUE FOR GradientEnumeration";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case GradientEnumeration::GradientIsInASingleImage:
+        return "GradientEnumeration::GradientIsInASingleImage";
+      case GradientEnumeration::GradientIsInManyImages:
+        return "GradientEnumeration::GradientIsInManyImages";
+      case GradientEnumeration::Else:
+        return "GradientEnumeration::Else";
+      default:
+        return "INVALID VALUE FOR GradientEnumeration";
+    }
+  }();
 }
 } // end namespace itk

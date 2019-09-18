@@ -276,31 +276,25 @@ RegularStepGradientDescentBaseOptimizer ::PrintSelf(std::ostream & os, Indent in
 std::ostream &
 operator<<(std::ostream & out, const RegularStepGradientDescentBaseOptimizer::StopConditionType value)
 {
-  const char * s = 0;
-  switch (value)
-  {
-    case RegularStepGradientDescentBaseOptimizer::StopConditionType::GradientMagnitudeTolerance:
-      s = "RegularStepGradientDescentBaseOptimizer::StopConditionType::GradientMagnitudeTolerance";
-      break;
-    case RegularStepGradientDescentBaseOptimizer::StopConditionType::StepTooSmall:
-      s = "RegularStepGradientDescentBaseOptimizer::StopConditionType::StepTooSmall";
-      break;
-    case RegularStepGradientDescentBaseOptimizer::StopConditionType::ImageNotAvailable:
-      s = "RegularStepGradientDescentBaseOptimizer::StopConditionType::ImageNotAvailable";
-      break;
-    case RegularStepGradientDescentBaseOptimizer::StopConditionType::CostFunctionError:
-      s = "RegularStepGradientDescentBaseOptimizer::StopConditionType::CostFunctionError";
-      break;
-    case RegularStepGradientDescentBaseOptimizer::StopConditionType::MaximumNumberOfIterations:
-      s = "RegularStepGradientDescentBaseOptimizer::StopConditionType::MaximumNumberOfIterations";
-      break;
-    case RegularStepGradientDescentBaseOptimizer::StopConditionType::Unknown:
-      s = "RegularStepGradientDescentBaseOptimizer::StopConditionType::Unknown";
-      break;
-    default:
-      s = "INVALID VALUE FOR ";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case RegularStepGradientDescentBaseOptimizer::StopConditionType::GradientMagnitudeTolerance:
+        return "RegularStepGradientDescentBaseOptimizer::StopConditionType::GradientMagnitudeTolerance";
+      case RegularStepGradientDescentBaseOptimizer::StopConditionType::StepTooSmall:
+        return "RegularStepGradientDescentBaseOptimizer::StopConditionType::StepTooSmall";
+      case RegularStepGradientDescentBaseOptimizer::StopConditionType::ImageNotAvailable:
+        return "RegularStepGradientDescentBaseOptimizer::StopConditionType::ImageNotAvailable";
+      case RegularStepGradientDescentBaseOptimizer::StopConditionType::CostFunctionError:
+        return "RegularStepGradientDescentBaseOptimizer::StopConditionType::CostFunctionError";
+      case RegularStepGradientDescentBaseOptimizer::StopConditionType::MaximumNumberOfIterations:
+        return "RegularStepGradientDescentBaseOptimizer::StopConditionType::MaximumNumberOfIterations";
+      case RegularStepGradientDescentBaseOptimizer::StopConditionType::Unknown:
+        return "RegularStepGradientDescentBaseOptimizer::StopConditionType::Unknown";
+      default:
+        return "INVALID VALUE FOR ";
+    }
+  }();
 }
 } // end namespace itk
 

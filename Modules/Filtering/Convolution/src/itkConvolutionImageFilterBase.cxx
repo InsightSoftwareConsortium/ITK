@@ -23,18 +23,16 @@ namespace itk
 std::ostream &
 operator<<(std::ostream & out, const ConvolutionImageFilterOutputRegionType value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case ConvolutionImageFilterOutputRegionType::SAME:
-      s = "ConvolutionImageFilterOutputRegionType::SAME";
-      break;
-    case ConvolutionImageFilterOutputRegionType::VALID:
-      s = "ConvolutionImageFilterOutputRegionType::VALID";
-      break;
-    default:
-      s = "INVALID VALUE FOR ConvolutionImageFilterOutputRegionType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case ConvolutionImageFilterOutputRegionType::SAME:
+        return "ConvolutionImageFilterOutputRegionType::SAME";
+      case ConvolutionImageFilterOutputRegionType::VALID:
+        return "ConvolutionImageFilterOutputRegionType::VALID";
+      default:
+        return "INVALID VALUE FOR ConvolutionImageFilterOutputRegionType";
+    }
+  }();
 }
 } // namespace itk

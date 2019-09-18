@@ -70,19 +70,17 @@ MeshIOFactory ::CreateMeshIO(const char * path, FileModeType mode)
 std::ostream &
 operator<<(std::ostream & out, const MeshIOFactory::FileModeType value)
 {
-  const char * s = 0;
-  switch (value)
-  {
-    case MeshIOFactory::FileModeType::ReadMode:
-      s = "MeshIOFactory::FileModeType::ReadMode";
-      break;
-    case MeshIOFactory::FileModeType::WriteMode:
-      s = "MeshIOFactory::FileModeType::WriteMode";
-      break;
-    default:
-      s = "INVALID VALUE FOR MeshIOFactory::FileModeType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case MeshIOFactory::FileModeType::ReadMode:
+        return "MeshIOFactory::FileModeType::ReadMode";
+      case MeshIOFactory::FileModeType::WriteMode:
+        return "MeshIOFactory::FileModeType::WriteMode";
+      default:
+        return "INVALID VALUE FOR MeshIOFactory::FileModeType";
+    }
+  }();
 }
 
 } // end namespace itk

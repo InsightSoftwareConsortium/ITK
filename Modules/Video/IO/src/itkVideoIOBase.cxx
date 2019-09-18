@@ -44,18 +44,16 @@ VideoIOBase::PrintSelf(std::ostream & os, Indent indent) const
 std::ostream &
 operator<<(std::ostream & out, const VideoIOBase::ReadType value)
 {
-  const char * s = 0;
-  switch (value)
-  {
-    case VideoIOBase::ReadType::ReadFromFile:
-      s = "VideoIOBase::ReadType::ReadFromFile";
-      break;
-    case VideoIOBase::ReadType::ReadFromCamera:
-      s = "VideoIOBase::ReadType::ReadFromCamera";
-      break;
-    default:
-      s = "INVALID VALUE FOR VideoIOBase::ReadType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case VideoIOBase::ReadType::ReadFromFile:
+        return "VideoIOBase::ReadType::ReadFromFile";
+      case VideoIOBase::ReadType::ReadFromCamera:
+        return "VideoIOBase::ReadType::ReadFromCamera";
+      default:
+        return "INVALID VALUE FOR VideoIOBase::ReadType";
+    }
+  }();
 }
 } // namespace itk
