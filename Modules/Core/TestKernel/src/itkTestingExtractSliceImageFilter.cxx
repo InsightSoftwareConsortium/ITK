@@ -25,25 +25,21 @@ namespace Testing
 std::ostream &
 operator<<(std::ostream & out, const TestExtractSliceImageFilterCollapseStrategy value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN:
-      s = "TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN";
-      break;
-    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY:
-      s = "TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY";
-      break;
-    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX:
-      s = "TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX";
-      break;
-    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS:
-      s = "TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS";
-      break;
-    default:
-      s = "INVALID VALUE FOR TestExtractSliceImageFilterCollapseStrategy";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN:
+        return "TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN";
+      case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY:
+        return "TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY";
+      case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX:
+        return "TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX";
+      case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS:
+        return "TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS";
+      default:
+        return "INVALID VALUE FOR TestExtractSliceImageFilterCollapseStrategy";
+    }
+  }();
 }
 } // end namespace Testing
 } // end namespace itk

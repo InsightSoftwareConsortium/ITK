@@ -22,18 +22,16 @@ namespace itk
 std::ostream &
 operator<<(std::ostream & out, const RotationPlaneType value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case RotationPlaneType::RotateInXZPlane:
-      s = "FrustumSpatialFunction< VDimension, TInput >::FrustumRotationPlaneType::RotateInXZPlane";
-      break;
-    case RotationPlaneType::RotateInYZPlane:
-      s = "FrustumSpatialFunction< VDimension, TInput >::FrustumRotationPlaneType::RotateInYZPlane";
-      break;
-    default:
-      s = "INVALID VALUE FOR RotationPlaneType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case RotationPlaneType::RotateInXZPlane:
+        return "FrustumSpatialFunction< VDimension, TInput >::FrustumRotationPlaneType::RotateInXZPlane";
+      case RotationPlaneType::RotateInYZPlane:
+        return "FrustumSpatialFunction< VDimension, TInput >::FrustumRotationPlaneType::RotateInYZPlane";
+      default:
+        return "INVALID VALUE FOR RotationPlaneType";
+    }
+  }();
 }
 } // end namespace itk

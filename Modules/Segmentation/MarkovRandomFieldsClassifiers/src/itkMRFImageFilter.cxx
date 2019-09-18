@@ -22,18 +22,16 @@ namespace itk
 std::ostream &
 operator<<(std::ostream & out, const MRFStopType value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case MRFStopType::MaximumNumberOfIterations:
-      s = "MRFStopType::MaximumNumberOfIterations";
-      break;
-    case MRFStopType::ErrorTolerance:
-      s = "MRFStopType::ErrorTolerance";
-      break;
-    default:
-      s = "MRFStopType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case MRFStopType::MaximumNumberOfIterations:
+        return "MRFStopType::MaximumNumberOfIterations";
+      case MRFStopType::ErrorTolerance:
+        return "MRFStopType::ErrorTolerance";
+      default:
+        return "MRFStopType";
+    }
+  }();
 }
 } // namespace itk

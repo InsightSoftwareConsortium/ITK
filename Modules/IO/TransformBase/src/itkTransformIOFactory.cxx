@@ -65,19 +65,17 @@ TransformIOFactoryTemplate<TParametersValueType>::CreateTransformIO(const char *
 std::ostream &
 operator<<(std::ostream & out, const TransformIOFactoryFileModeType value)
 {
-  const char * s = 0;
-  switch (value)
-  {
-    case TransformIOFactoryFileModeType::ReadMode:
-      s = "TransformIOFactoryFileModeType::ReadMode";
-      break;
-    case TransformIOFactoryFileModeType::WriteMode:
-      s = "TransformIOFactoryFileModeType::WriteMode";
-      break;
-    default:
-      s = "INVALID VALUE FOR TransformIOFactoryFileModeType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case TransformIOFactoryFileModeType::ReadMode:
+        return "TransformIOFactoryFileModeType::ReadMode";
+      case TransformIOFactoryFileModeType::WriteMode:
+        return "TransformIOFactoryFileModeType::WriteMode";
+      default:
+        return "INVALID VALUE FOR TransformIOFactoryFileModeType";
+    }
+  }();
 }
 
 ITK_GCC_PRAGMA_DIAG_PUSH()

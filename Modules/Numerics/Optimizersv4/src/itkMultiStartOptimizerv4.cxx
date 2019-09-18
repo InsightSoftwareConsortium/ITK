@@ -23,30 +23,24 @@ namespace itk
 std::ostream &
 operator<<(std::ostream & out, const StopType value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case StopType::MAXIMUM_NUMBER_OF_ITERATIONS:
-      s = "StopType::MAXIMUM_NUMBER_OF_ITERATIONS";
-      break;
-    case StopType::COSTFUNCTION_ERROR:
-      s = "StopType::COSTFUNCTION_ERROR";
-      break;
-    case StopType::UPDATE_PARAMETERS_ERROR:
-      s = "StopType::UPDATE_PARAMETERS_ERROR";
-      break;
-    case StopType::STEP_TOO_SMALL:
-      s = "StopType::STEP_TOO_SMALL";
-      break;
-    case StopType::CONVERGENCE_CHECKER_PASSED:
-      s = "StopType::CONVERGENCE_CHECKER_PASSED";
-      break;
-    case StopType::OTHER_ERROR:
-      s = "StopType::OTHER_ERROR";
-      break;
-    default:
-      s = "INVALID VALUE FOR StopType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case StopType::MAXIMUM_NUMBER_OF_ITERATIONS:
+        return "StopType::MAXIMUM_NUMBER_OF_ITERATIONS";
+      case StopType::COSTFUNCTION_ERROR:
+        return "StopType::COSTFUNCTION_ERROR";
+      case StopType::UPDATE_PARAMETERS_ERROR:
+        return "StopType::UPDATE_PARAMETERS_ERROR";
+      case StopType::STEP_TOO_SMALL:
+        return "StopType::STEP_TOO_SMALL";
+      case StopType::CONVERGENCE_CHECKER_PASSED:
+        return "StopType::CONVERGENCE_CHECKER_PASSED";
+      case StopType::OTHER_ERROR:
+        return "StopType::OTHER_ERROR";
+      default:
+        return "INVALID VALUE FOR StopType";
+    }
+  }();
 }
 } // namespace itk

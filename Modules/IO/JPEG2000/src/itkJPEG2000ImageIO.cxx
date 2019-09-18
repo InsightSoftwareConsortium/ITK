@@ -1133,25 +1133,21 @@ JPEG2000ImageIO ::CanStreamWrite()
 std::ostream &
 operator<<(std::ostream & out, const JPEG2000ImageIOInternal::DFMFormatType value)
 {
-  const char * s = 0;
-  switch (value)
-  {
-    case JPEG2000ImageIOInternal::DFMFormatType::PXM_DFMT:
-      s = "JPEG2000ImageIOInternal::DFMFormatType::PXM_DFMT";
-      break;
-    case JPEG2000ImageIOInternal::DFMFormatType::PGX_DFMT:
-      s = "JPEG2000ImageIOInternal::DFMFormatType::PGX_DFMT";
-      break;
-    case JPEG2000ImageIOInternal::DFMFormatType::BMP_DFMT:
-      s = "JPEG2000ImageIOInternal::DFMFormatType::BMP_DFMT";
-      break;
-    case JPEG2000ImageIOInternal::DFMFormatType::YUV_DFMT:
-      s = "JPEG2000ImageIOInternal::DFMFormatType::YUV_DFMT";
-      break;
-    default:
-      s = "INVALID VALUE FOR JPEG2000ImageIOInternal::DFMFormatType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case JPEG2000ImageIOInternal::DFMFormatType::PXM_DFMT:
+        return "JPEG2000ImageIOInternal::DFMFormatType::PXM_DFMT";
+      case JPEG2000ImageIOInternal::DFMFormatType::PGX_DFMT:
+        return "JPEG2000ImageIOInternal::DFMFormatType::PGX_DFMT";
+      case JPEG2000ImageIOInternal::DFMFormatType::BMP_DFMT:
+        return "JPEG2000ImageIOInternal::DFMFormatType::BMP_DFMT";
+      case JPEG2000ImageIOInternal::DFMFormatType::YUV_DFMT:
+        return "JPEG2000ImageIOInternal::DFMFormatType::YUV_DFMT";
+      default:
+        return "INVALID VALUE FOR JPEG2000ImageIOInternal::DFMFormatType";
+    }
+  }();
 }
 
 // Define how to print enumeration

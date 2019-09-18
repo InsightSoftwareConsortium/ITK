@@ -25,22 +25,19 @@ namespace Functor
 std::ostream &
 operator<<(std::ostream & out, const OrderTypeOfEigenValue value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case OrderTypeOfEigenValue::OrderByValue:
-      s = "OrderTypeOfEigenValue::OrderByValue";
-      break;
-    case OrderTypeOfEigenValue::OrderByMagnitude:
-      s = "OrderTypeOfEigenValue::OrderByMagnitude";
-      break;
-    case OrderTypeOfEigenValue::DoNotOrder:
-      s = "OrderTypeOfEigenValue::DoNotOrder";
-      break;
-    default:
-      s = "INVALID VALUE FOR OrderTypeOfEigenValue";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case OrderTypeOfEigenValue::OrderByValue:
+        return "OrderTypeOfEigenValue::OrderByValue";
+      case OrderTypeOfEigenValue::OrderByMagnitude:
+        return "OrderTypeOfEigenValue::OrderByMagnitude";
+      case OrderTypeOfEigenValue::DoNotOrder:
+        return "OrderTypeOfEigenValue::DoNotOrder";
+      default:
+        return "INVALID VALUE FOR OrderTypeOfEigenValue";
+    }
+  }();
 }
-} // end namespace Functor
+} // namespace Functor
 } // end namespace itk

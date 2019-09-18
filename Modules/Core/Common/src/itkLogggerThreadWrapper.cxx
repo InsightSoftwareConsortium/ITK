@@ -22,24 +22,20 @@ namespace itk
 std::ostream &
 operator<<(std::ostream & out, const LoggerThreadWrapperOperationType value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case LoggerThreadWrapperOperationType::SET_PRIORITY_LEVEL:
-      s = "LoggerThreadWrapperOperationType::SET_PRIORITY_LEVEL";
-      break;
-    case LoggerThreadWrapperOperationType::SET_LEVEL_FOR_FLUSHING:
-      s = "LoggerThreadWrapperOperationType::SET_LEVEL_FOR_FLUSHING";
-      break;
-    case LoggerThreadWrapperOperationType::ADD_LOG_OUTPUT:
-      s = "LoggerThreadWrapperOperationType::ADD_LOG_OUTPUT";
-      break;
-    case LoggerThreadWrapperOperationType::WRITE:
-      s = "LoggerThreadWrapperOperationType::WRITE";
-      break;
-    default:
-      s = "INVALID VALUE FOR LoggerThreadWrapperOperationType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case LoggerThreadWrapperOperationType::SET_PRIORITY_LEVEL:
+        return "LoggerThreadWrapperOperationType::SET_PRIORITY_LEVEL";
+      case LoggerThreadWrapperOperationType::SET_LEVEL_FOR_FLUSHING:
+        return "LoggerThreadWrapperOperationType::SET_LEVEL_FOR_FLUSHING";
+      case LoggerThreadWrapperOperationType::ADD_LOG_OUTPUT:
+        return "LoggerThreadWrapperOperationType::ADD_LOG_OUTPUT";
+      case LoggerThreadWrapperOperationType::WRITE:
+        return "LoggerThreadWrapperOperationType::WRITE";
+      default:
+        return "INVALID VALUE FOR LoggerThreadWrapperOperationType";
+    }
+  }();
 }
 } // end namespace itk

@@ -23,24 +23,20 @@ namespace itk
 std::ostream &
 operator<<(std::ostream & out, const MeshClassCellsAllocationMethodType value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case MeshClassCellsAllocationMethodType::CellsAllocationMethodUndefined:
-      s = "MeshClassCellsAllocationMethodType::CellsAllocationMethodUndefined";
-      break;
-    case MeshClassCellsAllocationMethodType::CellsAllocatedAsStaticArray:
-      s = "MeshClassCellsAllocationMethodType::CellsAllocatedAsStaticArray";
-      break;
-    case MeshClassCellsAllocationMethodType::CellsAllocatedAsADynamicArray:
-      s = "MeshClassCellsAllocationMethodType::CellsAllocatedAsADynamicArray";
-      break;
-    case MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell:
-      s = "MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell";
-      break;
-    default:
-      s = "INVALID VALUE FOR MeshClassCellsAllocationMethodType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case MeshClassCellsAllocationMethodType::CellsAllocationMethodUndefined:
+        return "MeshClassCellsAllocationMethodType::CellsAllocationMethodUndefined";
+      case MeshClassCellsAllocationMethodType::CellsAllocatedAsStaticArray:
+        return "MeshClassCellsAllocationMethodType::CellsAllocatedAsStaticArray";
+      case MeshClassCellsAllocationMethodType::CellsAllocatedAsADynamicArray:
+        return "MeshClassCellsAllocationMethodType::CellsAllocatedAsADynamicArray";
+      case MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell:
+        return "MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell";
+      default:
+        return "INVALID VALUE FOR MeshClassCellsAllocationMethodType";
+    }
+  }();
 }
 } // namespace itk

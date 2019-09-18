@@ -23,54 +23,40 @@ namespace itk
 std::ostream &
 operator<<(std::ostream & out, const RGBColormapFilterEnumType value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case RGBColormapFilterEnumType::Red:
-      s = "RGBColormapFilterEnumType::Red";
-      break;
-    case RGBColormapFilterEnumType::Green:
-      s = "RGBColormapFilterEnumType::Green";
-      break;
-    case RGBColormapFilterEnumType::Blue:
-      s = "RGBColormapFilterEnumType::Blue";
-      break;
-    case RGBColormapFilterEnumType::Grey:
-      s = "RGBColormapFilterEnumType::Grey";
-      break;
-    case RGBColormapFilterEnumType::Hot:
-      s = "RGBColormapFilterEnumType::Hot";
-      break;
-    case RGBColormapFilterEnumType::Cool:
-      s = "RGBColormapFilterEnumType::Cool";
-      break;
-    case RGBColormapFilterEnumType::Spring:
-      s = "RGBColormapFilterEnumType";
-      break;
-    case RGBColormapFilterEnumType::Summer:
-      s = "RGBColormapFilterEnumType::Summer";
-      break;
-    case RGBColormapFilterEnumType::Autumn:
-      s = "RGBColormapFilterEnumType::Autumn";
-      break;
-    case RGBColormapFilterEnumType::Winter:
-      s = "RGBColormapFilterEnumType::Winter";
-      break;
-    case RGBColormapFilterEnumType::Copper:
-      s = "RGBColormapFilterEnumType::Copper";
-      break;
-    case RGBColormapFilterEnumType::Jet:
-      s = "RGBColormapFilterEnumType::Jet";
-      break;
-    case RGBColormapFilterEnumType::HSV:
-      s = "RGBColormapFilterEnumType::HSV";
-      break;
-    case RGBColormapFilterEnumType::OverUnder:
-      s = "RGBColormapFilterEnumType::OverUnder";
-      break;
-    default:
-      s = "INVALID VALUE FOR RGBColormapFilterEnumType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case RGBColormapFilterEnumType::Red:
+        return "RGBColormapFilterEnumType::Red";
+      case RGBColormapFilterEnumType::Green:
+        return "RGBColormapFilterEnumType::Green";
+      case RGBColormapFilterEnumType::Blue:
+        return "RGBColormapFilterEnumType::Blue";
+      case RGBColormapFilterEnumType::Grey:
+        return "RGBColormapFilterEnumType::Grey";
+      case RGBColormapFilterEnumType::Hot:
+        return "RGBColormapFilterEnumType::Hot";
+      case RGBColormapFilterEnumType::Cool:
+        return "RGBColormapFilterEnumType::Cool";
+      case RGBColormapFilterEnumType::Spring:
+        return "RGBColormapFilterEnumType";
+      case RGBColormapFilterEnumType::Summer:
+        return "RGBColormapFilterEnumType::Summer";
+      case RGBColormapFilterEnumType::Autumn:
+        return "RGBColormapFilterEnumType::Autumn";
+      case RGBColormapFilterEnumType::Winter:
+        return "RGBColormapFilterEnumType::Winter";
+      case RGBColormapFilterEnumType::Copper:
+        return "RGBColormapFilterEnumType::Copper";
+      case RGBColormapFilterEnumType::Jet:
+        return "RGBColormapFilterEnumType::Jet";
+      case RGBColormapFilterEnumType::HSV:
+        return "RGBColormapFilterEnumType::HSV";
+      case RGBColormapFilterEnumType::OverUnder:
+        return "RGBColormapFilterEnumType::OverUnder";
+      default:
+        return "INVALID VALUE FOR RGBColormapFilterEnumType";
+    }
+  }();
 }
 } // namespace itk

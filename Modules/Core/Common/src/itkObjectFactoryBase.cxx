@@ -967,21 +967,18 @@ ObjectFactoryBasePrivate * ObjectFactoryBase::m_PimplGlobals;
 std::ostream &
 operator<<(std::ostream & out, const ObjectFactoryBase::InsertionPositionType value)
 {
-  const char * s = 0;
-  switch (value)
-  {
-    case ObjectFactoryBase::InsertionPositionType::INSERT_AT_FRONT:
-      s = "ObjectFactoryBase::InsertionPositionType::INSERT_AT_FRONT";
-      break;
-    case ObjectFactoryBase::InsertionPositionType::INSERT_AT_BACK:
-      s = "ObjectFactoryBase::InsertionPositionType::INSERT_AT_BACK";
-      break;
-    case ObjectFactoryBase::InsertionPositionType::INSERT_AT_POSITION:
-      s = "ObjectFactoryBase::InsertionPositionType::INSERT_AT_POSITION";
-      break;
-    default:
-      s = "INVALID VALUE FOR ObjectFactoryBase::InsertionPositionType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case ObjectFactoryBase::InsertionPositionType::INSERT_AT_FRONT:
+        return "ObjectFactoryBase::InsertionPositionType::INSERT_AT_FRONT";
+      case ObjectFactoryBase::InsertionPositionType::INSERT_AT_BACK:
+        return "ObjectFactoryBase::InsertionPositionType::INSERT_AT_BACK";
+      case ObjectFactoryBase::InsertionPositionType::INSERT_AT_POSITION:
+        return "ObjectFactoryBase::InsertionPositionType::INSERT_AT_POSITION";
+      default:
+        return "INVALID VALUE FOR ObjectFactoryBase::InsertionPositionType";
+    }
+  }();
 }
 } // end namespace itk

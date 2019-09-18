@@ -23,21 +23,18 @@ namespace itk
 std::ostream &
 operator<<(std::ostream & out, const DTITubeSpatialObjectPointFieldEnumType value)
 {
-  const char * s = nullptr;
-  switch (value)
-  {
-    case DTITubeSpatialObjectPointFieldEnumType::FA:
-      s = "DTITubeSpatialObjectPointFieldEnumType::FA";
-      break;
-    case DTITubeSpatialObjectPointFieldEnumType::ADC:
-      s = "DTITubeSpatialObjectPointFieldEnumType::ADC";
-      break;
-    case DTITubeSpatialObjectPointFieldEnumType::GA:
-      s = "DTITubeSpatialObjectPointFieldEnumType::GA";
-      break;
-    default:
-      s = "INVALID VALUE FOR DTITubeSpatialObjectPointFieldEnumType";
-  }
-  return out << s;
+  return out << [value] {
+    switch (value)
+    {
+      case DTITubeSpatialObjectPointFieldEnumType::FA:
+        return "DTITubeSpatialObjectPointFieldEnumType::FA";
+      case DTITubeSpatialObjectPointFieldEnumType::ADC:
+        return "DTITubeSpatialObjectPointFieldEnumType::ADC";
+      case DTITubeSpatialObjectPointFieldEnumType::GA:
+        return "DTITubeSpatialObjectPointFieldEnumType::GA";
+      default:
+        return "INVALID VALUE FOR DTITubeSpatialObjectPointFieldEnumType";
+    }
+  }();
 }
 } // end namespace itk
