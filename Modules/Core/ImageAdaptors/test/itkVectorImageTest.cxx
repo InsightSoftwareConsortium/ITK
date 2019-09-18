@@ -84,7 +84,7 @@ testVectorImageAdaptor(typename TAdaptor::Pointer &                             
 
   {
     using CovariantVectorType = itk::CovariantVector<double, VDimension>;
-    CovariantVectorType input;
+    CovariantVectorType input{ 0.0 };
     CovariantVectorType output1;
     vectorImageAdaptor->TransformLocalVectorToPhysicalVector(input, output1);
     CovariantVectorType output2 = vectorImageAdaptor->TransformLocalVectorToPhysicalVector(input);
@@ -99,7 +99,7 @@ testVectorImageAdaptor(typename TAdaptor::Pointer &                             
   }
   {
     using CovariantVectorType = itk::CovariantVector<double, VDimension>;
-    CovariantVectorType input;
+    CovariantVectorType input{ 0.0 };
     CovariantVectorType output1;
     vectorImageAdaptor->TransformPhysicalVectorToLocalVector(input, output1);
     CovariantVectorType output2 = vectorImageAdaptor->TransformPhysicalVectorToLocalVector(input);
