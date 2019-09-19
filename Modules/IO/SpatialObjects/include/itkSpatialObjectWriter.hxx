@@ -27,7 +27,6 @@ SpatialObjectWriter<NDimensions, PixelType, TMeshTraits>::SpatialObjectWriter()
 {
   m_FileName = "";
   m_SpatialObject = nullptr;
-  m_Scene = nullptr;
   m_BinaryPoints = false;
   m_WriteImagesInSeparateFile = false;
   m_MetaToSpatialConverter = MetaSceneConverterType::New();
@@ -56,24 +55,10 @@ SpatialObjectWriter<NDimensions, PixelType, TMeshTraits>::Update()
   m_MetaToSpatialConverter->SetBinaryPoints(m_BinaryPoints);
   m_MetaToSpatialConverter->SetWriteImagesInSeparateFile(m_WriteImagesInSeparateFile);
 
-  if (m_Scene != nullptr)
+  if (m_SpatialObject.IsNotNull())
   {
-    m_MetaToSpatialConverter->WriteMeta(m_Scene, m_FileName.c_str());
-    m_Scene = nullptr;
-  }
-  else
-  {
-    if (m_SpatialObject.IsNotNull())
-    {
-      typename SceneType::Pointer tScene = SceneType::New();
-      tScene->AddChild(m_SpatialObject);
-      // Check if IDs are valid because IDs are used to determine
-      //    parent-child hierarchy
-      tScene->FixIdValidity();
-
-      m_MetaToSpatialConverter->WriteMeta(tScene, m_FileName.c_str());
-      m_SpatialObject = nullptr;
-    }
+    m_MetaToSpatialConverter->WriteMeta(m_SpatialObject, m_FileName.c_str());
+    m_SpatialObject = nullptr;
   }
 }
 

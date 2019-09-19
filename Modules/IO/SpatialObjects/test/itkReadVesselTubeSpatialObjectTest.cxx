@@ -46,10 +46,10 @@ itkReadVesselTubeSpatialObjectTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  ReaderType::GroupPointer group = reader->GetGroup();
-  const unsigned int       numberOfChildren = group->GetNumberOfChildren();
+  ReaderType::SpatialObjectPointer soScene = reader->GetOutput();
+  const unsigned int               numberOfChildren = soScene->GetNumberOfChildren(2);
   std::cout << "Number of children: " << numberOfChildren << std::endl;
-  if (numberOfChildren != 1)
+  if (numberOfChildren != 2)
   {
     std::cerr << "Unexpected number of children." << std::endl;
     return EXIT_FAILURE;

@@ -112,28 +112,22 @@ MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::SetTransform(SpatialObj
 /** Convert a metaScene into a Composite Spatial Object
  *  Also Managed Composite Spatial Object to keep a hierarchy */
 template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
-typename MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::ScenePointer
+typename MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::SpatialObjectPointer
 MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::CreateSpatialObjectScene(MetaScene * mScene)
 {
-  ScenePointer soScene = SceneType::New();
+  SpatialObjectPointer soScene = nullptr;
 
   MetaScene::ObjectListType * list = mScene->GetObjectList();
   auto                        it = list->begin();
   auto                        itEnd = list->end();
 
-  SpatialObjectPointer currentSO;
-
-  if (!strncmp((*it)->ObjectTypeName(), "Group", 5))
-  {
-    soScene =
-      static_cast<SceneType *>(this->MetaObjectToSpatialObject<MetaGroupConverter<NDimensions>>(*it).GetPointer());
-    ++it;
-  }
+  SpatialObjectPointer currentSO = nullptr;
 
   while (it != itEnd)
   {
     const std::string objectTypeName((*it)->ObjectTypeName());
     const std::string objectSubTypeName((*it)->ObjectSubTypeName());
+
     /** New object goes here */
     if (objectTypeName == "Tube")
     {
@@ -215,23 +209,30 @@ MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::CreateSpatialObjectScen
     }
     this->SetTransform(currentSO, *it);
     int tmpParentId = currentSO->GetParentId();
-    soScene->AddChild(currentSO);
+    if (soScene != nullptr)
+    {
+      soScene->AddChild(currentSO);
+    }
+    else
+    {
+      soScene = currentSO;
+    }
     currentSO->SetParentId(tmpParentId);
     it++;
   }
-  if (soScene->GetId() == -1)
+
+  if (soScene != nullptr)
   {
-    soScene->SetId(soScene->GetNextAvailableId());
+    soScene->FixIdValidity();
+    soScene->FixParentChildHierarchyUsingParentIds();
   }
-  soScene->FixIdValidity();
-  soScene->FixParentChildHierarchyUsingParentIds();
 
   return soScene;
 }
 
 /** Read a meta file give the type */
 template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
-typename MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::ScenePointer
+typename MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::SpatialObjectPointer
 MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::ReadMeta(const std::string & name)
 {
   auto * mScene = new MetaScene;
@@ -241,7 +242,7 @@ MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::ReadMeta(const std::str
     mScene->SetEvent(m_Event);
   }
   mScene->Read(name.c_str());
-  ScenePointer soScene = CreateSpatialObjectScene(mScene);
+  SpatialObjectPointer soScene = CreateSpatialObjectScene(mScene);
   delete mScene;
   return soScene;
 }
@@ -249,7 +250,7 @@ MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::ReadMeta(const std::str
 /** Write a meta file give the type */
 template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
 MetaScene *
-MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::CreateMetaScene(SceneType *         scene,
+MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::CreateMetaScene(SpatialObjectType * soScene,
                                                                          unsigned int        depth,
                                                                          const std::string & name)
 {
@@ -265,11 +266,14 @@ MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::CreateMetaScene(SceneTy
   metaScene->ElementSpacing(spacing);
   delete[] spacing;
 
-  using ListType = typename SceneType::ChildrenListType;
+  using ListType = typename SpatialObjectType::ChildrenListType;
 
-  ListType * childrenList = scene->GetChildren(depth, name);
-  auto       it = childrenList->begin();
-  auto       itEnd = childrenList->end();
+  ListType * childrenList = soScene->GetChildren(depth, name);
+  childrenList->push_front(soScene); // add the top level object to the list
+                                     //   to be processed.
+
+  auto it = childrenList->begin();
+  auto itEnd = childrenList->end();
 
   MetaObject * currentMeta;
 
@@ -364,12 +368,12 @@ MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::CreateMetaScene(SceneTy
 /** Write a meta file give the type */
 template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
 bool
-MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::WriteMeta(SceneType *         scene,
+MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::WriteMeta(SpatialObjectType * soScene,
                                                                    const std::string & fileName,
                                                                    unsigned int        depth,
                                                                    const std::string & soName)
 {
-  MetaScene * metaScene = this->CreateMetaScene(scene, depth, soName);
+  MetaScene * metaScene = this->CreateMetaScene(soScene, depth, soName);
 
   metaScene->Write(fileName.c_str());
 

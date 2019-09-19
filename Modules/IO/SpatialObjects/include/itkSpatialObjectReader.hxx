@@ -26,6 +26,7 @@ template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
 SpatialObjectReader<NDimensions, PixelType, TMeshTraits>::SpatialObjectReader()
 {
   m_FileName = "";
+  m_SpatialObject = nullptr;
   m_Group = nullptr;
   m_MetaToSpatialConverter = MetaSceneConverterType::New();
 }
@@ -34,23 +35,13 @@ template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
 void
 SpatialObjectReader<NDimensions, PixelType, TMeshTraits>::Update()
 {
-  m_Group = m_MetaToSpatialConverter->ReadMeta(m_FileName.c_str());
+  m_SpatialObject = m_MetaToSpatialConverter->ReadMeta(m_FileName.c_str());
+  m_Group = nullptr;
 
-  if (m_Group->GetNumberOfChildren(0) == 0)
+  if (m_SpatialObject == nullptr)
   {
-    itkExceptionMacro("No groups were found in file " << m_FileName);
+    itkExceptionMacro("No objects were found in file " << m_FileName);
   }
-  else if (m_Group->GetNumberOfChildren(0) == 1)
-  {
-    typename GroupType::ChildrenListType * list = m_Group->GetChildren(0);
-    auto                                   it = list->begin();
-    if ((*it)->GetTypeName().find("GroupSpatialObject") != std::string::npos)
-    {
-      m_Group = static_cast<GroupType *>((*it).GetPointer());
-    }
-    delete list;
-  }
-  m_Group->Update();
 }
 
 /** Add a converter for a new MetaObject/SpatialObject type */
