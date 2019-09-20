@@ -362,7 +362,7 @@ class Map<const Quaternion<_Scalar>, _Options >
       * \code *coeffs == {x, y, z, w} \endcode
       *
       * If the template parameter _Options is set to #Aligned, then the pointer coeffs must be aligned. */
-    EIGEN_DEVICE_FUNC explicit EIGEN_STRONG_INLINE Map(const Scalar* coeffs) : m_coeffs(coeffs) {}
+    EIGEN_DEVICE_FUNC explicit EIGEN_STRONG_INLINE Map(const Scalar* c) : m_coeffs(c) {}
 
     EIGEN_DEVICE_FUNC inline const Coefficients& coeffs() const { return m_coeffs;}
 
@@ -399,7 +399,7 @@ class Map<Quaternion<_Scalar>, _Options >
       * \code *coeffs == {x, y, z, w} \endcode
       *
       * If the template parameter _Options is set to #Aligned, then the pointer coeffs must be aligned. */
-    EIGEN_DEVICE_FUNC explicit EIGEN_STRONG_INLINE Map(Scalar* coeffs) : m_coeffs(coeffs) {}
+    EIGEN_DEVICE_FUNC explicit EIGEN_STRONG_INLINE Map(Scalar* c) : m_coeffs(c) {}
 
     EIGEN_DEVICE_FUNC inline Coefficients& coeffs() { return m_coeffs; }
     EIGEN_DEVICE_FUNC inline const Coefficients& coeffs() const { return m_coeffs; }

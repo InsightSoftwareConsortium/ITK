@@ -143,7 +143,7 @@ EIGEN_MAKE_ALIGNED_OPERATOR_NEW_IF_VECTORIZABLE_FIXED_SIZE(_Scalar,_AmbientDim)
     * For 3D bounding boxes, the following names are added:
     * BottomLeftCeil, BottomRightCeil, TopLeftCeil, TopRightCeil.
     */
-  EIGEN_DEVICE_FUNC inline VectorType corner(CornerType corner) const
+  EIGEN_DEVICE_FUNC inline VectorType corner(CornerType c) const
   {
     EIGEN_STATIC_ASSERT(_AmbientDim <= 3, THIS_METHOD_IS_ONLY_FOR_VECTORS_OF_A_SPECIFIC_SIZE);
 
@@ -152,8 +152,8 @@ EIGEN_MAKE_ALIGNED_OPERATOR_NEW_IF_VECTORIZABLE_FIXED_SIZE(_Scalar,_AmbientDim)
     Index mult = 1;
     for(Index d=0; d<dim(); ++d)
     {
-      if( mult & corner ) res[d] = m_max[d];
-      else                res[d] = m_min[d];
+      if( mult & c ) res[d] = m_max[d];
+      else           res[d] = m_min[d];
       mult *= 2;
     }
     return res;
