@@ -75,7 +75,7 @@ IsStringEncodingValid(const std::string & str)
   // MultiByteToWideChar returns 0 if there was a problem during conversion
   // when given the MB_ERR_INVALID_CHARS flag
   const int utf16_size =
-    MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, str.c_str(), static_cast<int>(str.length()), 0, 0);
+    MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, str.c_str(), static_cast<int>(str.length()), nullptr, 0);
 
   return (utf16_size != 0);
 }
@@ -99,7 +99,7 @@ Utf8StringToWString(const std::string & str)
   // utf8 characters are found. An alternative would be to throw an exception
 
   // First get the size
-  const int utf16_size = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), static_cast<int>(str.length()), 0, 0);
+  const int utf16_size = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), static_cast<int>(str.length()), nullptr, 0);
 
   // Now do the conversion
   std::wstring wstr;

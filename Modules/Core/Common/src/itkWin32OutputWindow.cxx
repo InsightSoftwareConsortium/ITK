@@ -30,7 +30,7 @@
 namespace itk
 {
 /** */
-HWND Win32OutputWindow::m_OutputWindow = 0;
+HWND Win32OutputWindow::m_OutputWindow = nullptr;
 
 Win32OutputWindow ::~Win32OutputWindow()
 {
@@ -100,7 +100,7 @@ Win32OutputWindow ::DisplayText(const char * text)
     /** Find the next new line in text */
     NewLinePos = strchr(text, '\n');
     /** if no new line is found then just add the text */
-    if (NewLinePos == 0)
+    if (NewLinePos == nullptr)
     {
       Win32OutputWindow::AddText(text);
     }
