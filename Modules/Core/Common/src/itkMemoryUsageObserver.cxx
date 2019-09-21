@@ -226,7 +226,7 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
   PSYSTEM_PROCESSES sp = new SYSTEM_PROCESSES[n];
   // as we can't know how many processes are running, we loop and test a new size
   // every time.
-  while (ZwQuerySystemInformation(SystemProcessesAndThreadsInformation, sp, n * sizeof *sp, 0) ==
+  while (ZwQuerySystemInformation(SystemProcessesAndThreadsInformation, sp, n * sizeof *sp, nullptr) ==
          STATUS_INFO_LENGTH_MISMATCH)
   {
     delete[] sp;

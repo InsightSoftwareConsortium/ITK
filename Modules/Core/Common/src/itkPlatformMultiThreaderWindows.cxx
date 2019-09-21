@@ -51,7 +51,7 @@ PlatformMultiThreader::MultipleMethodExecute()
   }
   for (threadCount = 0; threadCount < m_NumberOfWorkUnits; ++threadCount)
   {
-    if (m_MultipleMethod[threadCount] == (ThreadFunctionType)0)
+    if (m_MultipleMethod[threadCount] == nullptr)
     {
       itkExceptionMacro(<< "No multiple method set for: " << threadCount);
       return;
@@ -73,7 +73,7 @@ PlatformMultiThreader::MultipleMethodExecute()
     m_ThreadInfoArray[threadCount].NumberOfWorkUnits = m_NumberOfWorkUnits;
 
     processId[threadCount] = (void *)_beginthreadex(
-      0, 0, m_MultipleMethod[threadCount], &m_ThreadInfoArray[threadCount], 0, (unsigned int *)&threadId);
+      nullptr, 0, m_MultipleMethod[threadCount], &m_ThreadInfoArray[threadCount], 0, (unsigned int *)&threadId);
 
     if (processId[threadCount] == nullptr)
     {
@@ -138,8 +138,8 @@ PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void * UserData)
   // Using _beginthreadex on a PC
   //
   m_SpawnedThreadProcessID[id] =
-    (void *)_beginthreadex(0, 0, f, &m_SpawnedThreadInfoArray[id], 0, (unsigned int *)&threadId);
-  if (m_SpawnedThreadProcessID[id] == 0)
+    (void *)_beginthreadex(nullptr, 0, f, &m_SpawnedThreadInfoArray[id], 0, (unsigned int *)&threadId);
+  if (m_SpawnedThreadProcessID[id] == nullptr)
   {
     itkExceptionMacro("Error in thread creation !!!");
   }
@@ -177,7 +177,8 @@ PlatformMultiThreader ::SpawnDispatchSingleMethodThread(PlatformMultiThreader::W
 {
   // Using _beginthreadex on a PC
   DWORD  threadId;
-  HANDLE threadHandle = (HANDLE)_beginthreadex(0, 0, this->SingleMethodProxy, threadInfo, 0, (unsigned int *)&threadId);
+  HANDLE threadHandle =
+    (HANDLE)_beginthreadex(nullptr, 0, this->SingleMethodProxy, threadInfo, 0, (unsigned int *)&threadId);
   if (threadHandle == nullptr)
   {
     itkExceptionMacro("Error in thread creation !!!");
