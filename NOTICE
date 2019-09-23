@@ -1,5 +1,4 @@
-
-Insight Segmentation and Registration Toolkit
+Insight Toolkit
 Copyright 1999-2011 Insight Software Consortium
 
 This software is distributed under the
@@ -11,7 +10,7 @@ See LICENSE file for details.
 
 Historical Note:
 
-The Insight Segmentation and Registration Toolkit (ITK) was initially developed
+The Insight Toolkit (ITK) was initially developed
 under contract to the National Library of Medicine at the National Institutes
 of Health. ITK is partially derived from VTK and VXL, hence some code is
 copyrighted accordingly (see VTKCopyright.txt and VXLCopyright.txt).
