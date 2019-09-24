@@ -33,16 +33,16 @@ import os
 # test the force load function
 itk.force_load()
 
-fileName = sys.argv[1]
+filename = sys.argv[1]
 
 PixelType = itk.UC
 dim = 2
 ImageType = itk.Image[PixelType, dim]
 ReaderType = itk.ImageFileReader[ImageType]
-reader = ReaderType.New(FileName=fileName)
+reader = ReaderType.New(FileName=filename)
 
 # test snake_case keyword arguments
-reader = ReaderType.New(file_name=fileName)
+reader = ReaderType.New(file_name=filename)
 
 # test echo
 itk.echo(reader)
@@ -129,14 +129,14 @@ itk.imwrite(reader, sys.argv[2])
 itk.imwrite(reader, sys.argv[2], True)
 
 # test read
-image=itk.imread(fileName)
+image = itk.imread(filename)
 assert type(image) == itk.Image[itk.RGBPixel[itk.UC],2]
-image=itk.imread(fileName, itk.F)
+image = itk.imread(filename, itk.F)
 assert type(image) == itk.Image[itk.F,2]
-image=itk.imread(fileName, itk.F, fallback_only=True)
+image = itk.imread(filename, itk.F, fallback_only=True)
 assert type(image) == itk.Image[itk.RGBPixel[itk.UC],2]
 try:
-  image=itk.imread(fileName, fallback_only=True)
+  image = itk.imread(filename, fallback_only=True)
   # Should never reach this point if test passes since an exception
   # is expected.
   raise Exception('`itk.imread()` fallback_only should have failed')
@@ -167,12 +167,12 @@ assert down_casted.__class__ == ReaderType
 # test setting the IO manually
 png_io = itk.PNGImageIO.New()
 assert png_io.GetFileName() == ''
-reader=itk.ImageFileReader.New(FileName=fileName, ImageIO=png_io)
+reader=itk.ImageFileReader.New(FileName=filename, ImageIO=png_io)
 reader.Update()
-assert png_io.GetFileName() == fileName
+assert png_io.GetFileName() == filename
 
 # test reading image series
-series_reader = itk.ImageSeriesReader.New(FileNames=[fileName,fileName])
+series_reader = itk.ImageSeriesReader.New(FileNames=[filename,filename])
 series_reader.Update()
 assert series_reader.GetOutput().GetImageDimension() == 3
 assert series_reader.GetOutput().GetLargestPossibleRegion().GetSize()[2] == 2
@@ -192,7 +192,7 @@ series_reader.Update()
 assert series_reader.GetOutput().GetImageDimension() == 3
 
 # test reading image series with itk.imread()
-image_series = itk.imread([fileName, fileName])
+image_series = itk.imread([filename, filename])
 assert image_series.GetImageDimension() == 3
 
 # Numeric series filename generation without any integer index. It is
@@ -202,7 +202,7 @@ numeric_series_filename = itk.NumericSeriesFileNames.New()
 numeric_series_filename.SetStartIndex(0)
 numeric_series_filename.SetEndIndex(3)
 numeric_series_filename.SetIncrementIndex(1)
-numeric_series_filename.SetSeriesFormat(fileName)
+numeric_series_filename.SetSeriesFormat(filename)
 image_series = itk.imread(numeric_series_filename.GetFileNames())
 number_of_files = len(numeric_series_filename.GetFileNames())
 assert image_series.GetImageDimension() == 3
@@ -219,7 +219,7 @@ assert image_series.GetImageDimension() == 3
 try:
     # Images
     import numpy as np
-    image = itk.imread(fileName)
+    image = itk.imread(filename)
     arr = itk.GetArrayFromImage(image)
     arr.fill(1)
     assert np.any(arr != itk.GetArrayFromImage(image))
