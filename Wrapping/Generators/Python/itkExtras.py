@@ -529,15 +529,14 @@ def imread(filename, pixel_type=None, fallback_only=False):
 
     If `fallback_only` is set to `True`, `imread()` will first try to
     automatically deduce the image pixel_type, and only use the given
-    `pixel_type` if the automatic deduction fail. Failures typically
+    `pixel_type` if automatic deduction fails. Failures typically
     happen if the pixel type is not supported (e.g. it is not currently
     wrapped).
     """
     import itk
     if fallback_only == True:
         if pixel_type is None:
-            raise Exception("`pixel_type` must be set when using `fallback_only`"
-                " option")
+            raise Exception("pixel_type must be set when using the fallback_only option")
         try:
             return imread(filename)
         except KeyError:
@@ -562,8 +561,50 @@ def imread(filename, pixel_type=None, fallback_only=False):
         # Increase dimension if last dimension is not of size one.
         if increase_dimension and imageIO.GetDimensions(dimension-1) != 1:
             dimension += 1
-        ImageType=itk.Image[pixel_type,dimension]
+        ImageType = itk.Image[pixel_type, dimension]
         reader = TemplateReaderType[ImageType].New(**kwargs)
+    else:
+        reader = TemplateReaderType.New(**kwargs)
+    reader.Update()
+    return reader.GetOutput()
+
+def meshread(filename, pixel_type=None, fallback_only=False):
+    """Read a mesh from a file and return an itk.Mesh.
+
+    The reader is instantiated with the mesh type of the mesh file if
+    `pixel_type` is not provided (default). The dimension of the mesh is
+    automatically found.
+
+    If `fallback_only` is set to `True`, `meshread()` will first try to
+    automatically deduce the image pixel_type, and only use the given
+    `pixel_type` if automatic deduction fails. Failures typically
+    happen if the pixel type is not supported (e.g. it is not currently
+    wrapped).
+    """
+    import itk
+    if fallback_only == True:
+        if pixel_type is None:
+            raise Exception("pixel_type must be set when using the fallback_only option")
+        try:
+            return meshread(filename)
+        except KeyError:
+            pass
+    TemplateReaderType=itk.MeshFileReader
+    io_filename=filename
+    increase_dimension=False
+    kwargs={'FileName':filename}
+    if pixel_type:
+        meshIO = itk.MeshIOFactory.CreateMeshIO(io_filename, itk.MeshIOFactory.ReadMode)
+        if not meshIO:
+            raise RuntimeError("No MeshIO is registered to handle the given file.")
+        meshIO.SetFileName(io_filename)
+        meshIO.ReadMeshInformation()
+        dimension = meshIO.GetPointDimension()
+        # Increase dimension if last dimension is not of size one.
+        if increase_dimension and meshIO.GetDimensions(dimension-1) != 1:
+            dimension += 1
+        MeshType = itk.Mesh[pixel_type, dimension]
+        reader = TemplateReaderType[MeshType].New(**kwargs)
     else:
         reader = TemplateReaderType.New(**kwargs)
     reader.Update()

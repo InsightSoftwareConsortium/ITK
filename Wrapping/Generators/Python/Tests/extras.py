@@ -34,6 +34,7 @@ import os
 itk.force_load()
 
 filename = sys.argv[1]
+mesh_filename = sys.argv[2]
 
 PixelType = itk.UC
 dim = 2
@@ -125,8 +126,8 @@ assert itk.range(reader.GetOutput()) == (0, 255)
 
 
 # test write
-itk.imwrite(reader, sys.argv[2])
-itk.imwrite(reader, sys.argv[2], True)
+itk.imwrite(reader, sys.argv[3])
+itk.imwrite(reader, sys.argv[3], True)
 
 # test read
 image = itk.imread(filename)
@@ -141,10 +142,18 @@ try:
   # is expected.
   raise Exception('`itk.imread()` fallback_only should have failed')
 except Exception as e:
-  if str(e) == "`pixel_type` must be set when using `fallback_only` option":
+  if str(e) == "pixel_type must be set when using the fallback_only option":
     pass
   else:
     raise e
+
+# test mesh read / write
+mesh = itk.meshread(mesh_filename)
+assert type(mesh) == itk.Mesh[itk.F, 3]
+mesh = itk.meshread(mesh_filename, itk.UC)
+assert type(mesh) == itk.Mesh[itk.UC, 3]
+mesh = itk.meshread(mesh_filename, itk.UC, fallback_only=True)
+assert type(mesh) == itk.Mesh[itk.F, 3]
 
 # test search
 res = itk.search("Index")
@@ -184,7 +193,7 @@ image_series.SetRegions([10, 7, 1])
 image_series.Allocate()
 image_series.FillBuffer(0)
 image_series3d_filename = os.path.join(
-    sys.argv[3], "image_series_extras_py.mha")
+    sys.argv[4], "image_series_extras_py.mha")
 itk.imwrite(image_series, image_series3d_filename)
 series_reader = itk.ImageSeriesReader.New(
     FileNames=[image_series3d_filename, image_series3d_filename])

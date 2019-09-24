@@ -61,9 +61,10 @@ class TemplateTypeError(TypeError):
                 itk.python_type(t)
 
         import itk
-        # Special case for ITK image readers: Add extra information.
+        # Special case for ITK readers: Add extra information.
         extra_eg = ""
-        if template_type in [itk.ImageFileReader, itk.ImageSeriesReader]:
+        if template_type in [itk.ImageFileReader, itk.ImageSeriesReader,
+                itk.MeshFileReader]:
             extra_eg="""
 
 or
@@ -468,6 +469,8 @@ class itkTemplate(object):
             # Only support `FileNames`, not `FileName`, to simplify the logic and avoid having
             # to deal with checking if both keyword arguments are given.
             return self._NewImageReader(itk.ImageSeriesReader, True, 'FileNames', *args, **kwargs)
+        elif self.__name__ == "itk::MeshFileReader":
+            return self._NewMeshReader(itk.MeshFileReader, *args, **kwargs)
         primary_input_methods = ('Input', 'InputImage', 'Input1')
         if 'ttype' in kwargs and keys:
             # Convert `ttype` argument to `tuple` as filter keys are tuples.
@@ -506,7 +509,8 @@ keyword arguments: %s""" % ", ".join(primary_input_methods))
                 raise TemplateTypeError(self, input_type)
         return self[list(keys)[0]].New(*args, **kwargs)
 
-    def _NewImageReader(self, TemplateReaderType, increase_dimension, primaryInputMethod, *args, **kwargs):
+    @staticmethod
+    def _NewImageReader(TemplateReaderType, increase_dimension, primaryInputMethod, *args, **kwargs):
         def firstIfList(arg):
             if type(arg) in [list, tuple]:
                 return arg[0]
@@ -531,10 +535,6 @@ keyword arguments: %s""" % ", ".join(primary_input_methods))
                 msg += ("\nThe file doesn't exist. \n" +
                        "Filename = %s" % inputFileName)
             raise RuntimeError("Could not create IO object for reading file %s" % inputFileName + msg)
-        componentTypeDic= {"float": itk.F, "double": itk.D,
-        "unsigned_char": itk.UC, "unsigned_short": itk.US, "unsigned_int": itk.UI,
-        "unsigned_long": itk.UL, "unsigned_long_long": itk.ULL, "char": itk.SC, "short": itk.SS,
-        "int": itk.SI, "long": itk.SL, "long_long": itk.SLL}
         # Read the metadata from the image file.
         imageIO.SetFileName( inputFileName )
         imageIO.ReadImageInformation()
@@ -543,12 +543,83 @@ keyword arguments: %s""" % ", ".join(primary_input_methods))
         if increase_dimension and imageIO.GetDimensions(dimension-1) != 1:
             dimension += 1
         componentAsString = imageIO.GetComponentTypeAsString(imageIO.GetComponentType())
-        component = componentTypeDic[componentAsString]
+        _io_component_type_dict = {
+                "float": itk.F,
+                "double": itk.D,
+                "unsigned_char": itk.UC,
+                "unsigned_short": itk.US,
+                "unsigned_int": itk.UI,
+                "unsigned_long": itk.UL,
+                "unsigned_long_long": itk.ULL,
+                "char": itk.SC,
+                "short": itk.SS,
+                "int": itk.SI,
+                "long": itk.SL,
+                "long_long": itk.SLL
+                }
+        component = _io_component_type_dict[componentAsString]
         pixel = imageIO.GetPixelTypeAsString(imageIO.GetPixelType())
         numberOfComponents = imageIO.GetNumberOfComponents()
         PixelType = itkTemplate._pixelTypeFromIO(pixel, component, numberOfComponents)
         ImageType = itk.Image[PixelType, dimension]
         ReaderType = TemplateReaderType[ImageType]
+        return ReaderType.New(*args, **kwargs)
+
+    @staticmethod
+    def _NewMeshReader(TemplateReaderType, *args, **kwargs):
+        def firstIfList(arg):
+            if type(arg) in [list, tuple]:
+                return arg[0]
+            else:
+                return arg
+        inputFileName = ''
+        if len(args) != 0:
+            # try to find a type suitable for the primary input provided
+            inputFileName = firstIfList(args[0])
+        elif 'FileName' in kwargs:
+                inputFileName = firstIfList(kwargs['FileName'])
+        if not inputFileName:
+            raise RuntimeError("No FileName specified.")
+        import itk
+        if "MeshIO" in kwargs:
+            meshIO = kwargs["MeshIO"]
+        else:
+            meshIO = itk.MeshIOFactory.CreateMeshIO(inputFileName, itk.MeshIOFactory.ReadMode)
+        if not meshIO:
+            msg = ""
+            if not os.path.isfile(inputFileName):
+                msg += ("\nThe file doesn't exist. \n" +
+                       "Filename = %s" % inputFileName)
+            raise RuntimeError("Could not create IO object for reading file %s" % inputFileName + msg)
+        # Read the metadata from the mesh file.
+        meshIO.SetFileName(inputFileName)
+        meshIO.ReadMeshInformation()
+        dimension = meshIO.GetPointDimension()
+        componentAsString = meshIO.GetComponentTypeAsString(meshIO.GetPointPixelComponentType())
+        # For meshes with unknown pixel type, a common case, we assign the pixel
+        # type to be float, which is well supported in the wrapping and handles
+        # most use cases.
+        _io_component_type_dict = {
+                "unknown": itk.F,
+                "float": itk.F,
+                "double": itk.D,
+                "unsigned_char": itk.UC,
+                "unsigned_short": itk.US,
+                "unsigned_int": itk.UI,
+                "unsigned_long": itk.UL,
+                "unsigned_long_long": itk.ULL,
+                "char": itk.SC,
+                "short": itk.SS,
+                "int": itk.SI,
+                "long": itk.SL,
+                "long_long": itk.SLL
+                }
+        component = _io_component_type_dict[componentAsString]
+        pixel = meshIO.GetPixelTypeAsString(meshIO.GetPointPixelType())
+        numberOfComponents = meshIO.GetNumberOfPointPixelComponents()
+        PixelType = itkTemplate._pixelTypeFromIO(pixel, component, numberOfComponents)
+        MeshType = itk.Mesh[PixelType, dimension]
+        ReaderType = TemplateReaderType[MeshType]
         return ReaderType.New(*args, **kwargs)
 
     @staticmethod

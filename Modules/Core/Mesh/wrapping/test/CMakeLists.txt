@@ -10,8 +10,6 @@ itk_python_expression_add_test(NAME itkFreeSurferAsciiMeshIOPythonTest
  EXPRESSION "instance = itk.FreeSurferAsciiMeshIO.New()")
 itk_python_expression_add_test(NAME itkFreeSurferBinaryMeshIOPythonTest
  EXPRESSION "instance = itk.FreeSurferBinaryMeshIO.New()")
-itk_python_expression_add_test(NAME itkMeshFileReaderPythonTest
- EXPRESSION "instance = itk.MeshFileReader.New()")
 itk_python_expression_add_test(NAME itkMeshFileWriterPythonTest
  EXPRESSION "instance = itk.MeshFileWriter.New()")
 itk_python_expression_add_test(NAME itkOBJMeshIOPythonTest
