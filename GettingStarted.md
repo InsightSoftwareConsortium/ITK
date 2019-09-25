@@ -1,5 +1,5 @@
-Welcome to the Insight Segmentation and Registration Toolkit (ITK)
-==================================================================
+Welcome to the Insight Toolkit (ITK)
+====================================
 
 Here are suggested steps for the ITK beginner. Please refer to [ITK] for more
 information.
