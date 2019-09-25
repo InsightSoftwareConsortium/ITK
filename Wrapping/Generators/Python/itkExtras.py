@@ -512,7 +512,7 @@ def imwrite(image_or_filter, filename, compression=False):
     # don't put that writer in the automatic pipeline
     tmp_auto_pipeline = auto_pipeline.current
     auto_pipeline.current = None
-    writer = itk.ImageFileWriter[img].New(
+    writer = itk.ImageFileWriter[type(img)].New(
         Input=img,
         FileName=filename,
         UseCompression=compression)
@@ -567,6 +567,23 @@ def imread(filename, pixel_type=None, fallback_only=False):
         reader = TemplateReaderType.New(**kwargs)
     reader.Update()
     return reader.GetOutput()
+
+def meshwrite(mesh, filename, compression=False):
+    """Write a mesh to a file.
+
+    The writer is instantiated according to the type of the input mesh.
+    """
+    import itk
+    mesh.UpdateOutputInformation()
+    # don't put that writer in the automatic pipeline
+    tmp_auto_pipeline = auto_pipeline.current
+    auto_pipeline.current = None
+    writer = itk.MeshFileWriter[type(mesh)].New(
+        Input=mesh,
+        FileName=filename,
+        UseCompression=compression)
+    auto_pipeline.current = tmp_auto_pipeline
+    writer.Update()
 
 def meshread(filename, pixel_type=None, fallback_only=False):
     """Read a mesh from a file and return an itk.Mesh.

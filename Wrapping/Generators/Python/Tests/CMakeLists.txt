@@ -44,6 +44,7 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
         DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
         DATA{../../../../Testing/Data/Input/mushroom.vtk}
         ${ITK_TEST_OUTPUT_DIR}/out.png
+        ${ITK_TEST_OUTPUT_DIR}/extras-mushroom.vtk
         ${ITK_TEST_OUTPUT_DIR}
       )
   endif()

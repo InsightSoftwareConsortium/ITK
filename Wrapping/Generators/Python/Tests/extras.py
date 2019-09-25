@@ -155,6 +155,9 @@ assert type(mesh) == itk.Mesh[itk.UC, 3]
 mesh = itk.meshread(mesh_filename, itk.UC, fallback_only=True)
 assert type(mesh) == itk.Mesh[itk.F, 3]
 
+itk.meshwrite(mesh, sys.argv[4])
+itk.meshwrite(mesh, sys.argv[4], compression=True)
+
 # test search
 res = itk.search("Index")
 assert res[0] == "Index"
@@ -193,7 +196,7 @@ image_series.SetRegions([10, 7, 1])
 image_series.Allocate()
 image_series.FillBuffer(0)
 image_series3d_filename = os.path.join(
-    sys.argv[4], "image_series_extras_py.mha")
+    sys.argv[5], "image_series_extras_py.mha")
 itk.imwrite(image_series, image_series3d_filename)
 series_reader = itk.ImageSeriesReader.New(
     FileNames=[image_series3d_filename, image_series3d_filename])
