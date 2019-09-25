@@ -6,10 +6,21 @@
  *
  * \section intro Introduction
  *
- * Welcome to the Insight Toolkit (ITK). ITK is an open-source sofware system to
- * support the Visible Human Project. Currently under active development, ITK
- * employs leading-edge segmentation and registration algorithms in two, three
- * and more dimensions.
+ * Welcome to the Insight Toolkit (ITK). ITK is an open-source, cross-platform toolkit
+ * for scientific image processing, segmentation, and registration in two, three,
+ * or more dimensions.
+ *
+ * Segmentation is the process of identifying and classifying data found in a
+ * digitally sampled representation. Typically the sampled representation is an
+ * image acquired from such medical instrumentation as CT or MRI scanners.
+ * Registration is the task of aligning or developing correspondences between
+ * data. For example, in the medical environment, a CT scan may be aligned with a
+ * MRI scan in order to combine the information contained in both.
+ *
+ * ITK was originally created to analyze 3D images from the Visible Human
+ * Project. ITK is now widely applied across medical imaging, microscopy,
+ * and remote sensing domains. ITK is actively developed by a community of
+ * research software engineers from around the world.
  *
  * \section homepage Home Page
  *
