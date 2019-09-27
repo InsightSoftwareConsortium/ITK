@@ -36,14 +36,14 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT MemoryProbe : public ResourceProbe<SizeValueType, double>
+class ITKCommon_EXPORT MemoryProbe : public ResourceProbe<OffsetValueType, double>
 {
 public:
   MemoryProbe();
   ~MemoryProbe() override;
 
   /** Type for measuring memory. */
-  using MemoryLoadType = SizeValueType;
+  using MemoryLoadType = OffsetValueType;
 
   /** Type for measuring the average memory. */
   using MeanMemoryLoadType = double;
