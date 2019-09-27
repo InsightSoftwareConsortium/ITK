@@ -55,7 +55,7 @@ itkMemoryProbesCollecterBaseTest(int, char *[])
   Sleep(5000);
   mcollecter.Stop("Update");
   probe.Stop();
-  size_t total = probe.GetTotal();
+  itk::MemoryProbe::MemoryLoadType total = probe.GetTotal();
   std::cout << " Total Value " << probe.GetTotal() << std::endl;
   if (total == 0)
   {
@@ -65,7 +65,17 @@ itkMemoryProbesCollecterBaseTest(int, char *[])
     return EXIT_SUCCESS;
   }
   mcollecter.Report();
+  probe.Start();
   delete[] buf;
+  Sleep(5000);
+  probe.Stop();
+  if ( total != 0 && total < probe.GetTotal() )
+  {
+    std::cerr << "Freeing memory should result in less memory but it is "
+              << probe.GetTotal() << probe.GetUnit()
+              << " instead of " << total << probe.GetUnit() << std::endl;
+    return EXIT_FAILURE;
+  }
 
 
   ITK_TRY_EXPECT_EXCEPTION(mcollecter.GetProbe("IDoNotExist"));
