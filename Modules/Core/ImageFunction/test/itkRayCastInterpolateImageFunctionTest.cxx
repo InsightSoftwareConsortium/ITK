@@ -130,7 +130,7 @@ itkRayCastInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(a
     ITK_TEST_SET_GET_VALUE(size[d], interp->GetRadius()[d]);
   }
 
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(integral, 1247.));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(integral, 1276.));
 
   return EXIT_SUCCESS;
 }
