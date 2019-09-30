@@ -131,21 +131,29 @@ public:
   /** To be called for each tile position in the mosaic
    * before the call to Update(). */
   void
-  SetInputTile(TileIndexType position, ImageType * image)
+  SetInputTile(SizeValueType linearIndex, ImageType * image)
   {
-    const SizeValueType linearIndex = this->nDIndexToLinearIndex(position);
     // image will be cast into DataObject* so this casting is not a problem
-    Superclass::SetInputTile(position, reinterpret_cast<typename Superclass::ImageType *>(image));
+    Superclass::SetInputTile(linearIndex, reinterpret_cast<typename Superclass::ImageType *>(image));
     m_Transforms[linearIndex] = nullptr;
     m_Tiles[linearIndex] = nullptr;
   }
   void
-  SetInputTile(TileIndexType position, const std::string & imageFilename)
+  SetInputTile(SizeValueType linearIndex, const std::string & imageFilename)
   {
-    Superclass::SetInputTile(position, imageFilename);
-    const SizeValueType linearIndex = this->nDIndexToLinearIndex(position);
+    Superclass::SetInputTile(linearIndex, imageFilename);
     m_Transforms[linearIndex] = nullptr;
     m_Tiles[linearIndex] = nullptr;
+  }
+  void
+  SetInputTile(TileIndexType position, ImageType * image)
+  {
+    this->SetInputTile(this->nDIndexToLinearIndex(position), image);
+  }
+  void
+  SetInputTile(TileIndexType position, const std::string & imageFilename)
+  {
+    this->SetInputTile(this->nDIndexToLinearIndex(position), imageFilename);
   }
 
   /** Input tiles' transforms, as calculated by \sa{Montage}.

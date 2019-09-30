@@ -145,8 +145,8 @@ private:
 
   RegionType m_Region;
   bool       m_RegionSetByUser = false;
-  bool       m_ComputeMaxima;
-  bool       m_ComputeMinima;
+  bool       m_ComputeMaxima = true;
+  bool       m_ComputeMinima = true;
   std::mutex m_Mutex;
 };
 } // end namespace itk
