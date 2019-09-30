@@ -173,19 +173,27 @@ public:
   /** To be called for each tile position in the mosaic
    * before the call to Update(). */
   void
-  SetInputTile(TileIndexType position, ImageType * image)
+  SetInputTile(SizeValueType linearIndex, ImageType * image)
   {
-    SizeValueType linearIndex = this->nDIndexToLinearIndex(position);
     this->SetNthInput(linearIndex, image);
     m_FFTCache[linearIndex] = nullptr;
     m_Tiles[linearIndex] = nullptr;
   }
   void
+  SetInputTile(SizeValueType linearIndex, const std::string & imageFilename)
+  {
+    m_Filenames[linearIndex] = imageFilename;
+    this->SetInputTile(linearIndex, m_Dummy);
+  }
+  void
+  SetInputTile(TileIndexType position, ImageType * image)
+  {
+    this->SetInputTile(this->nDIndexToLinearIndex(position), image);
+  }
+  void
   SetInputTile(TileIndexType position, const std::string & imageFilename)
   {
-    SizeValueType linearIndex = this->nDIndexToLinearIndex(position);
-    m_Filenames[linearIndex] = imageFilename;
-    this->SetInputTile(position, m_Dummy);
+    this->SetInputTile(this->nDIndexToLinearIndex(position), imageFilename);
   }
 
   /** After Update(), the transform for each tile is available. */

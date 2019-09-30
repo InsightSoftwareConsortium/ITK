@@ -22,30 +22,8 @@
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkResampleImageFilter.h"
 #include "itkRGBPixel.h"
-#include "itkTileMontage.h"
+#include "itkTileConfiguration.h"
 
-template <unsigned Dimension>
-struct Tile
-{
-  using PointType = itk::ContinuousIndex<double, Dimension>;
-  PointType   Position; // x, y... coordinates
-  std::string FileName;
-};
-
-// calculate nD-index given linear index and montage size
-template <unsigned Dimension>
-itk::Size<Dimension>
-linearToNDindex(itk::SizeValueType linearIndex, const std::vector<unsigned> & montageSize)
-{
-  assert(montageSize.size() == Dimension);
-  itk::Size<Dimension> ind;
-  for (unsigned d = 0; d < Dimension; d++)
-  {
-    ind[d] = linearIndex % montageSize[d];
-    linearIndex /= montageSize[d];
-  }
-  return ind;
-}
 
 template <typename PixelType, unsigned Dimension>
 int
@@ -76,50 +54,42 @@ CreateGroundTruth(char *                        inFilename,
     totalTiles *= montageSize[d];
   }
 
-  using ScalarImage = itk::Image<typename itk::NumericTraits<PixelType>::ValueType, Dimension>;
-  using MontageType = itk::TileMontage<ScalarImage, double>;
-  std::ofstream f(outDir + "TileConfiguration.txt");
-  f << "# Tile coordinates are in index space, not physical space\n";
-  f << "dim = " << Dimension << "\n\n";
-  std::ofstream fr(outDir + "TileConfiguration.registered.txt");
-  fr << "# Tile coordinates are in index space, not physical space\n";
-  fr << "dim = " << Dimension << "\n\n";
+  using TileConfig = itk::TileConfiguration<Dimension>;
+  TileConfig regular, randomized;
+  for (unsigned d = 0; d < Dimension; d++)
+  {
+    regular.AxisSizes[d] = montageSize[d];
+    randomized.AxisSizes[d] = montageSize[d];
+  }
+  regular.Tiles.resize(regular.LinearSize());
+  randomized.Tiles.resize(randomized.LinearSize());
+
 
   using MersenneTwister = itk::Statistics::MersenneTwisterRandomVariateGenerator;
   typename MersenneTwister::Pointer randomizer = MersenneTwister::New();
   randomizer->SetSeed(1983); // make the pseudorandom seqence fully reproducible
 
   // calculate tile positions
-  std::vector<Tile<Dimension>> tiles(totalTiles);
   for (itk::SizeValueType linearIndex = 0; linearIndex < totalTiles; linearIndex++)
   {
-    typename MontageType::TileIndexType ind = linearToNDindex<Dimension>(linearIndex, montageSize);
-    tiles[linearIndex].FileName = "tile_" + std::to_string(linearIndex) + ".nrrd";
-    f << tiles[linearIndex].FileName << ";;(";
-    fr << tiles[linearIndex].FileName << ";;(";
+    typename TileConfig::TileIndexType ind = regular.LinearIndexToNDIndex(linearIndex);
+    regular.Tiles[linearIndex].FileName = "tile_" + std::to_string(linearIndex) + ".nrrd";
+    randomized.Tiles[linearIndex].FileName = regular.Tiles[linearIndex].FileName;
 
     for (unsigned d = 0; d < Dimension; d++)
     {
       double regularPosition = ind[d] * (1 - overlap[d]) * tileSizes[d];
-      tiles[linearIndex].Position[d] = regularPosition;
+      regular.Tiles[linearIndex].Position[d] = regularPosition;
+      randomized.Tiles[linearIndex].Position[d] = regularPosition;
       if (ind[d] > 0 && ind[d] < montageSize[d] - 1) // not at the outer perimeter of the montage
       {
-        tiles[linearIndex].Position[d] += randomizer->GetUniformVariate(-varMax[d], varMax[d]);
+        randomized.Tiles[linearIndex].Position[d] += randomizer->GetUniformVariate(-varMax[d], varMax[d]);
       }
-
-      if (d > 0)
-      {
-        f << ", ";
-        fr << ", ";
-      }
-      f << regularPosition;
-      fr << tiles[linearIndex].Position[d];
     }
-    f << ')' << std::endl;
-    fr << ')' << std::endl;
   }
-  f.close();
-  fr.close();
+
+  regular.Write(outDir + "TileConfiguration.txt");
+  randomized.Write(outDir + "TileConfiguration.registered.txt");
 
   // now resample the tiles
   using ResampleFilterType = itk::ResampleImageFilter<ImageType, ImageType>;
@@ -138,18 +108,22 @@ CreateGroundTruth(char *                        inFilename,
 
   for (itk::SizeValueType linearIndex = 0; linearIndex < totalTiles; linearIndex++)
   {
+    itk::ContinuousIndex<double, Dimension> cInd;
+    for (unsigned d = 0; d < Dimension; d++)
+    {
+      cInd[d] = randomized.Tiles[linearIndex].Position[d];
+    }
     typename ImageType::PointType p;
-    inImage->TransformContinuousIndexToPhysicalPoint(tiles[linearIndex].Position, p);
+    inImage->TransformContinuousIndexToPhysicalPoint(cInd, p);
     resampleFilter->SetOutputOrigin(p);
-    std::cout << "Resampling " << tiles[linearIndex].FileName << std::flush;
+    std::cout << "Resampling " << randomized.Tiles[linearIndex].FileName << std::flush;
     resampleFilter->Update();
 
     std::cout << " Writing " << std::flush;
-    writer->SetFileName(outDir + tiles[linearIndex].FileName);
+    writer->SetFileName(outDir + randomized.Tiles[linearIndex].FileName);
     writer->Update();
     std::cout << " Done" << std::endl;
   }
-
 
   return EXIT_SUCCESS;
 }
