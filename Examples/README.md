@@ -1,10 +1,12 @@
 ITK Examples Directory
 ----------------------
 
-This directory contains simple, companion examples to the Insight
-Segmentation and Registration Toolkit (ITK). These examples are designed to
-demonstrate features of the system; they are not meant to be significant
-applications of the software.
+This directory contains simple, companion examples to the ITK Software Guide.
+These examples are designed to demonstrate features of the system; they are not
+meant to be significant applications of the software.
+
+For a more comprehensive set of self-contained, illustrative examples, see the
+[ITKExamples](https://itk.org/ITKExamples).
 
 Specifically, the purpose of these examples is as follows:
 
@@ -15,9 +17,6 @@ Specifically, the purpose of these examples is as follows:
  * Provide a consistent set of examples that will work in conjunctions with
    the ITK Software Guide. The ITK Software Guide sources are found in the
    separate [ITKSoftwareGuide](https://github.com/InsightSoftwareConsortium/ITKSoftwareGuide) repository.
-
- * Provide a consistent set of examples that will work with ITK tutorials
-   and courses.
 
  * Make sure that the code is well documented, of consistent style, and
    always up-to-date with the current ITK code.
@@ -46,12 +45,6 @@ found in them:
  * **Segmentation** - a suite of basic segmentation examples.
 
  * **Registration** - a suite of basic registration methods.
-
- * **GUI** - some outside package interface: wxWindows, [Qt](https://www.qt.io/),
-   [FLTK](https://www.fltk.org/), [Tk](https://www.tcl.tk/about/), [VTK](https://vtk.org/). The absolute minimal interface.
-
- * **Wrapping** - simple examples demonstrating the use of wrapped C++ code
-   (e.q., [Python](https://www.python.org/) and [Tcl](https://www.tcl.tk/about/) code).
 
 To learn the software from these examples, you may wish to refer to the
 [ITK Software Guide](https://itk.org/ItkSoftwareGuide.pdf), whose source code can be found at
