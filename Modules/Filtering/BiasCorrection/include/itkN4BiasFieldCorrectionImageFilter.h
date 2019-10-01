@@ -397,8 +397,8 @@ private:
    * image and map those results to a new estimate of the unsmoothed corrected
    * image.
    */
-  RealImagePointer
-  SharpenImage(const RealImageType *) const;
+  void
+  SharpenImage(const RealImageType * uncorrected, RealImageType * sharpened) const;
 
   /**
    * Given the unsmoothed estimate of the bias field, this function smooths
