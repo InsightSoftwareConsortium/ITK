@@ -162,6 +162,11 @@ CLANG_SUPPRESS_Wfloat_equal
     logBiasField->SetRegions(inputImage->GetLargestPossibleRegion());
     logBiasField->Allocate(true); // initialize buffer to zero
 
+    RealImagePointer logSharpenedImage = RealImageType::New();
+    logSharpenedImage->CopyInformation(inputImage);
+    logSharpenedImage->SetRegions(inputImage->GetLargestPossibleRegion());
+    logSharpenedImage->Allocate(false);
+
     // Iterate until convergence or iterative exhaustion.
     unsigned int maximumNumberOfLevels = 1;
     for (unsigned int d = 0; d < this->m_NumberOfFittingLevels.Size(); d++)
@@ -185,10 +190,8 @@ CLANG_SUPPRESS_Wfloat_equal
       while (this->m_ElapsedIterations++ < this->m_MaximumNumberOfIterations[this->m_CurrentLevel] &&
              this->m_CurrentConvergenceMeasurement > this->m_ConvergenceThreshold)
       {
-
         // Sharpen the current estimate of the uncorrected image.
-
-        RealImagePointer logSharpenedImage = this->SharpenImage(logUncorrectedImage);
+        this->SharpenImage(logUncorrectedImage, logSharpenedImage);
 
         using SubtracterType = SubtractImageFilter<RealImageType, RealImageType, RealImageType>;
         typename SubtracterType::Pointer subtracter1 = SubtracterType::New();
@@ -257,9 +260,8 @@ CLANG_SUPPRESS_Wfloat_equal
   }
 
   template <typename TInputImage, typename TMaskImage, typename TOutputImage>
-  typename N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealImagePointer
-  N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::SharpenImage(
-    const RealImageType * unsharpenedImage) const
+  void N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::SharpenImage(
+    const RealImageType * unsharpenedImage, RealImageType * sharpenedImage) const
   {
     using itk::Experimental::ImageBufferRange;
     using itk::Experimental::MakeImageBufferRange;
@@ -447,13 +449,8 @@ CLANG_SUPPRESS_Wfloat_equal
 
     E = E.extract(this->m_NumberOfHistogramBins, histogramOffset);
 
-    const InputImageType * inputImage = this->GetInput();
-
     // Sharpen the image with the new mapping, E(u|v)
-    RealImagePointer sharpenedImage = RealImageType::New();
-    sharpenedImage->CopyInformation(inputImage);
-    sharpenedImage->SetRegions(inputImage->GetLargestPossibleRegion());
-    sharpenedImage->Allocate(true); // initialize buffer to zero
+    sharpenedImage->FillBuffer(0);
 
     const ImageBufferRange<RealImageType> sharpenedImageBufferRange{ *sharpenedImage };
 
@@ -478,8 +475,6 @@ CLANG_SUPPRESS_Wfloat_equal
         sharpenedImageBufferRange[indexValue] = correctedPixel;
       }
     }
-
-    return sharpenedImage;
   }
 
   template <typename TInputImage, typename TMaskImage, typename TOutputImage>
