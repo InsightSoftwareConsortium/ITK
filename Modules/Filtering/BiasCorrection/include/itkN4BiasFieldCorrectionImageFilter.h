@@ -374,6 +374,12 @@ public:
    */
   itkGetConstMacro(CurrentLevel, unsigned int);
 
+  /**
+   * Reconstruct bias field given the control point lattice.
+   */
+  RealImagePointer
+  ReconstructBiasField(const BiasFieldControlPointLatticeType *);
+
 protected:
   N4BiasFieldCorrectionImageFilter();
   ~N4BiasFieldCorrectionImageFilter() override = default;
@@ -407,12 +413,6 @@ private:
    */
   RealImagePointer
   UpdateBiasFieldEstimate(RealImageType *, std::size_t);
-
-  /**
-   * Reconstruct bias field given the control point lattice.
-   */
-  RealImagePointer
-  ReconstructBiasField(BiasFieldControlPointLatticeType *);
 
   /**
    * Convergence is determined by the coefficient of variation of the difference

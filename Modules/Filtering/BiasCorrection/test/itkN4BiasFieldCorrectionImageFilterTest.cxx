@@ -62,6 +62,23 @@ public:
   }
 };
 
+template <typename TImage>
+void
+WriteImage(const TImage * out, const char * filename)
+{
+  using WriterType = itk::ImageFileWriter<TImage>;
+  typename WriterType::Pointer w = WriterType::New();
+  w->SetInput(out);
+  w->SetFileName(filename);
+  try
+  {
+    w->Update();
+  }
+  catch (itk::ExceptionObject & error)
+  {
+    std::cerr << error << std::endl;
+  }
+}
 
 template <typename TValue>
 TValue
@@ -295,24 +312,14 @@ N4(int argc, char * argv[])
   // Test the reconstruction of the log bias field
   ImagePointer originalInputImage = reader->GetOutput();
   reader->UpdateOutputInformation();
-  using BSplinerType = itk::BSplineControlPointImageFilter<typename CorrecterType::BiasFieldControlPointLatticeType,
-                                                           typename CorrecterType::ScalarImageType>;
-  typename BSplinerType::Pointer bspliner = BSplinerType::New();
-  bspliner->SetInput(correcter->GetLogBiasFieldControlPointLattice());
-  bspliner->SetSplineOrder(correcter->GetSplineOrder());
-  bspliner->SetSize(originalInputImage->GetLargestPossibleRegion().GetSize());
-  bspliner->SetOrigin(originalInputImage->GetOrigin());
-  bspliner->SetDirection(originalInputImage->GetDirection());
-  bspliner->SetSpacing(originalInputImage->GetSpacing());
-  bspliner->Update();
-
+  correcter->SetMaskImage(nullptr);
+  correcter->SetInput(originalInputImage);
+  typename CorrecterType::RealImagePointer biasField =
+    correcter->ReconstructBiasField(correcter->GetLogBiasFieldControlPointLattice());
+  WriteImage(biasField.GetPointer(), (std::string(argv[3]) + "-LogBiasField.nrrd").c_str());
 
   // output the log bias field control point lattice
-  using WriterType = itk::ImageFileWriter<typename CorrecterType::BiasFieldControlPointLatticeType>;
-  typename WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName(argv[3]);
-  writer->SetInput(correcter->GetLogBiasFieldControlPointLattice());
-  writer->Update();
+  WriteImage(correcter->GetLogBiasFieldControlPointLattice(), argv[3]);
 
   return EXIT_SUCCESS;
 }
