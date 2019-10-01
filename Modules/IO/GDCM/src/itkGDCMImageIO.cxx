@@ -486,7 +486,7 @@ GDCMImageIO::InternalReadImageInformation()
 
   double spacing[3];
 
-  //
+  // FIXME
   //
   // This is a WORKAROUND for a bug in GDCM -- in
   // ImageHeplper::GetSpacingTagFromMediaStorage it was not
@@ -510,60 +510,23 @@ GDCMImageIO::InternalReadImageInformation()
       gdcm::Tag           spacingTag(0x0028, 0x0030);
       if (ds.FindDataElement(spacingTag) && !ds.GetDataElement(spacingTag).IsEmpty())
       {
-        gdcm::DataElement       de = ds.GetDataElement(spacingTag);
-        const gdcm::Global &    g = gdcm::GlobalInstance;
-        const gdcm::Dicts &     dicts = g.GetDicts();
-        const gdcm::DictEntry & entry = dicts.GetDictEntry(de.GetTag());
-        const gdcm::VR &        vr = entry.GetVR();
-        switch (vr)
-        {
-          case gdcm::VR::DS:
-          {
-            std::stringstream m_Ss;
-
-            gdcm::Element<gdcm::VR::DS, gdcm::VM::VM1_n> m_El;
-
-            const gdcm::ByteValue * bv = de.GetByteValue();
-            assert(bv);
-
-            std::string s = std::string(bv->GetPointer(), bv->GetLength());
-
-            m_Ss.str(s);
-            // Stupid file: CT-MONO2-8-abdo.dcm
-            // The spacing is something like that: [0.2\0\0.200000]
-            // I would need to throw an expection that VM is not compatible
-            m_El.SetLength(entry.GetVM().GetLength() * entry.GetVR().GetSizeof());
-            m_El.Read(m_Ss);
-
-            assert(m_El.GetLength() == 2);
-            for (unsigned long i = 0; i < m_El.GetLength(); ++i)
-              sp.push_back(m_El.GetValue(i));
-            std::swap(sp[0], sp[1]);
-            assert(sp.size() == (unsigned int)entry.GetVM());
-          }
-          break;
-          case gdcm::VR::IS:
-          {
-            std::stringstream m_Ss;
-
-            gdcm::Element<gdcm::VR::IS, gdcm::VM::VM1_n> m_El;
-
-            const gdcm::ByteValue * bv = de.GetByteValue();
-            assert(bv);
-
-            std::string s = std::string(bv->GetPointer(), bv->GetLength());
-            m_Ss.str(s);
-            m_El.SetLength(entry.GetVM().GetLength() * entry.GetVR().GetSizeof());
-            m_El.Read(m_Ss);
-            for (unsigned long i = 0; i < m_El.GetLength(); ++i)
-              sp.push_back(m_El.GetValue(i));
-            assert(sp.size() == (unsigned int)entry.GetVM());
-          }
-          break;
-          default:
-            assert(0);
-            break;
-        }
+        gdcm::DataElement de = ds.GetDataElement(spacingTag);
+        std::stringstream m_Ss;
+        gdcm::Element<gdcm::VR::DS, gdcm::VM::VM1_n> m_El;
+        const gdcm::ByteValue * bv = de.GetByteValue();
+        assert(bv);
+        std::string s = std::string(bv->GetPointer(), bv->GetLength());
+        m_Ss.str(s);
+        // Erroneous file CT-MONO2-8-abdo.dcm,
+        // The spacing is something like that [0.2\0\0.200000],
+        // TODO throw an exception that VM is not compatible.
+        m_El.SetLength(16);
+        m_El.Read(m_Ss);
+        assert(m_El.GetLength() == 2);
+        for (unsigned long i = 0; i < m_El.GetLength(); ++i)
+          sp.push_back(m_El.GetValue(i));
+        std::swap(sp[0], sp[1]);
+        assert(sp.size() == 2);
         spacing[0] = sp[0];
         spacing[1] = sp[1];
       }
