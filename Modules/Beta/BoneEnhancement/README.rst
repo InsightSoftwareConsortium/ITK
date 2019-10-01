@@ -1,21 +1,14 @@
 ITKBoneEnhancement
 ==================
 
-.. |CircleCI| image:: https://circleci.com/gh/Besler/ITKBoneEnhancement.svg?style=shield
-    :target: https://circleci.com/gh/Besler/ITKBoneEnhancement
+.. image:: https://dev.azure.com/ITKBoneEnhancement/ITKBoneEnhancement/_apis/build/status/InsightSoftwareConsortium.ITKBoneEnhancement?branchName=master
+    :target: https://dev.azure.com/ITKBoneEnhancement/ITKBoneEnhancement/_build/latest?definitionId=1&branchName=master
+    :alt: Build Status
 
-.. |TravisCI| image:: https://travis-ci.org/Besler/ITKBoneEnhancement.svg?branch=master
-    :target: https://travis-ci.org/Besler/ITKBoneEnhancement
+.. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
+    :target: {{ cookiecutter.download_url }}/blob/master/LICENSE)
+    :alt: License
 
-.. |AppVeyor| image:: https://img.shields.io/appveyor/ci/Besler/itkboneenhancement.svg
-    :target: https://ci.appveyor.com/project/Besler/itkboneenhancement
-
-=========== =========== ===========
-   Linux      macOS       Windows
-=========== =========== ===========
-|CircleCI|  |TravisCI|  |AppVeyor|
-=========== =========== ===========
-
-This module is empty. It is a template that is a starting point for a module with actual content.
+Various filters for enhancing cortical bones in quantitative computed tomography.
 
 ITK is an open-source, cross-platform library that provides developers with an extensive suite of software tools for image analysis. Developed through extreme programming methodologies, ITK employs leading-edge algorithms for registering and segmenting multidimensional scientific images.
