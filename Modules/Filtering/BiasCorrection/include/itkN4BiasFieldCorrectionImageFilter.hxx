@@ -616,8 +616,8 @@ CLANG_SUPPRESS_Wfloat_equal
 
   template <typename TInputImage, typename TMaskImage, typename TOutputImage>
   typename N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealImagePointer
-    N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::ReconstructBiasField(
-      BiasFieldControlPointLatticeType * controlPointLattice)
+  N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::ReconstructBiasField(
+    const BiasFieldControlPointLatticeType * controlPointLattice)
   {
     const InputImageType * inputImage = this->GetInput();
 
