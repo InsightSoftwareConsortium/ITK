@@ -519,7 +519,7 @@ def imwrite(image_or_filter, filename, compression=False):
     auto_pipeline.current = tmp_auto_pipeline
     writer.Update()
 
-def imread(filename, pixel_type=None, fallback_only=False):
+def imread(filename, pixel_type=None, fallback_only=False, expand_palette=True):
     """Read an image from a file or series of files and return an itk.Image.
 
     The reader is instantiated with the image type of the image file if
@@ -532,6 +532,8 @@ def imread(filename, pixel_type=None, fallback_only=False):
     `pixel_type` if the automatic deduction fail. Failures typically
     happen if the pixel type is not supported (e.g. it is not currently
     wrapped).
+    If`expand_palette` is False, palette image will be read as scalar if possible.
+    Otherwise, scalar palette image are expanded to RGB
     """
     import itk
     if fallback_only == True:
@@ -539,7 +541,7 @@ def imread(filename, pixel_type=None, fallback_only=False):
             raise Exception("`pixel_type` must be set when using `fallback_only`"
                 " option")
         try:
-            return imread(filename)
+            return imread(filename, expand_palette=expand_palette)
         except KeyError:
             pass
     if type(filename) in [list, tuple]:
@@ -552,18 +554,24 @@ def imread(filename, pixel_type=None, fallback_only=False):
         io_filename=filename
         increase_dimension=False
         kwargs={'FileName':filename}
-    if pixel_type:
+    if not expand_palette or pixel_type is not None:
         imageIO = itk.ImageIOFactory.CreateImageIO(io_filename, itk.ImageIOFactory.ReadMode)
         if not imageIO:
             raise RuntimeError("No ImageIO is registered to handle the given file.")
-        imageIO.SetFileName(io_filename)
-        imageIO.ReadImageInformation()
-        dimension = imageIO.GetNumberOfDimensions()
-        # Increase dimension if last dimension is not of size one.
-        if increase_dimension and imageIO.GetDimensions(dimension-1) != 1:
-            dimension += 1
-        ImageType=itk.Image[pixel_type,dimension]
-        reader = TemplateReaderType[ImageType].New(**kwargs)
+        if hasattr(imageIO, 'SetExpandRGBPalette'):
+            imageIO.SetExpandRGBPalette(expand_palette)
+        kwargs.update({'ImageIO': imageIO})
+        if pixel_type is not None:
+            imageIO.SetFileName(io_filename)
+            imageIO.ReadImageInformation()
+            dimension = imageIO.GetNumberOfDimensions()
+            # Increase dimension if last dimension is not of size one.
+            if increase_dimension and imageIO.GetDimensions(dimension-1) != 1:
+                dimension += 1
+            ImageType=itk.Image[pixel_type,dimension]
+            reader = TemplateReaderType[ImageType].New(**kwargs)
+        else:
+            reader = TemplateReaderType.New(**kwargs)
     else:
         reader = TemplateReaderType.New(**kwargs)
     reader.Update()
