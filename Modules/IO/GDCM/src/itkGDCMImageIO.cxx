@@ -91,6 +91,8 @@ GDCMImageIO::GDCMImageIO()
 
   m_LoadPrivateTags = false;
 
+  m_YBRtoRGB = true;
+
   m_InternalComponentType = UNKNOWNCOMPONENTTYPE;
 
   // by default assume that images will be 2D.
@@ -330,6 +332,33 @@ GDCMImageIO::Read(void * pointer)
     delete[] copy;
     // WARNING: sizeof(Real World Value) != sizeof(Stored Pixel)
     len = len * outputpt.GetPixelSize() / pixeltype.GetPixelSize();
+  }
+  /*
+   * YBR to RGB
+   * Currently (GDCM 3.0.2) processing for lossy Jpeg YBR_FULL_422
+   * is not fully clear. May be later the files will be converted
+   * internally in GDCM, in that case remove YBR_FULL_422 below.
+   *
+   * TODO: UINT16
+   *
+   */
+  if (m_NumberOfComponents == 3 &&
+      (pi == gdcm::PhotometricInterpretation::YBR_FULL || pi == gdcm::PhotometricInterpretation::YBR_FULL_422) &&
+      m_YBRtoRGB && (pixeltype == gdcm::PixelFormat::UINT8 || pixeltype == gdcm::PixelFormat::INT8) && (len % 3 == 0))
+  {
+    unsigned char * copy = reinterpret_cast<unsigned char *>(pointer);
+    for (size_t x = 0; x < len; x += 3)
+    {
+      const double Y = static_cast<double>(copy[x]);
+      const double Cb = static_cast<double>(copy[x + 1]);
+      const double Cr = static_cast<double>(copy[x + 2]);
+      const int    R = static_cast<int>((Y + 1.402 * (Cr - 128)) + 0.5);
+      const int    G = static_cast<int>((Y - (0.114 * 1.772 * (Cb - 128) + 0.299 * 1.402 * (Cr - 128)) / 0.587) + 0.5);
+      const int    B = static_cast<int>((Y + 1.772 * (Cb - 128)) + 0.5);
+      copy[x] = static_cast<unsigned char>((R < 0) ? 0 : R);
+      copy[x + 1] = static_cast<unsigned char>((G < 0) ? 0 : G);
+      copy[x + 2] = static_cast<unsigned char>((B < 0) ? 0 : B);
+    }
   }
 
 #ifndef NDEBUG

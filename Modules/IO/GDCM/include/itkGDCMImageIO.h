@@ -164,6 +164,12 @@ public:
   itkGetConstMacro(LoadPrivateTags, bool);
   itkBooleanMacro(LoadPrivateTags);
 
+  /** Convert YBR to RGB
+   */
+  itkSetMacro(YBRtoRGB, bool);
+  itkGetConstMacro(YBRtoRGB, bool);
+  itkBooleanMacro(YBRtoRGB);
+
 #if defined(ITKIO_DEPRECATED_GDCM1_API)
   /** Convenience methods to query patient information and scanner
    * information. These methods are here for compatibility with the
@@ -360,6 +366,8 @@ protected:
   bool m_KeepOriginalUID;
 
   bool m_LoadPrivateTags;
+
+  bool m_YBRtoRGB;
 
 private:
 #if defined(ITKIO_DEPRECATED_GDCM1_API)
