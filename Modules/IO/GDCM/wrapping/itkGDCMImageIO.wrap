@@ -1,3 +1,0 @@
-itk_wrap_simple_class("itk::GDCMImageIO" POINTER)
-itk_wrap_simple_class("itk::GDCMImageIOFactory" POINTER)
-itk_wrap_simple_class("itk::GDCMSeriesFileNames" POINTER)

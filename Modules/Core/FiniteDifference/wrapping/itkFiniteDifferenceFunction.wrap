@@ -1,5 +1,0 @@
-itk_wrap_class("itk::FiniteDifferenceFunction" POINTER)
-  itk_wrap_image_filter("${WRAP_ITK_SCALAR}" 1)
-  itk_wrap_image_filter("${WRAP_ITK_VECTOR_REAL}" 1)
-  itk_wrap_image_filter("${WRAP_ITK_COV_VECTOR_REAL}" 1)
-itk_end_wrap_class()

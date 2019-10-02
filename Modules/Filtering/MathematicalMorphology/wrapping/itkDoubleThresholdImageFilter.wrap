@@ -1,6 +1,0 @@
-itk_wrap_class("itk::DoubleThresholdImageFilter" POINTER)
-  itk_wrap_image_filter("${WRAP_ITK_SCALAR}" 2)
-
-  # Wrap from all real types to all unsigned integral types
-  itk_wrap_image_filter_combinations("${WRAP_ITK_REAL}" "${WRAP_ITK_USIGN_INT}")
-itk_end_wrap_class()

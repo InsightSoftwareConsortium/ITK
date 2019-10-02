@@ -1,1 +1,0 @@
-extern int setdgpfa_(doublereal *trigs, integer *n, integer *npqr, integer *info);

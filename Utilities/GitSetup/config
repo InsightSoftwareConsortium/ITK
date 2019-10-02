@@ -1,8 +1,0 @@
-[hooks]
-	url = http://public.kitware.com/GitSetup.git
-[upstream]
-	url = https://github.com/InsightSoftwareConsortium/ITK.git
-	remote = upstream
-[github]
-	organization-name = InsightSoftwareConsortium
-	repo-name = ITK

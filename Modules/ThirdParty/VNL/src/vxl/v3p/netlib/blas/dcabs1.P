@@ -1,1 +1,0 @@
-extern doublereal dcabs1_(doublecomplex *z__);

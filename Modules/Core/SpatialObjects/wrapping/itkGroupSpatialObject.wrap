@@ -1,5 +1,0 @@
-itk_wrap_class("itk::GroupSpatialObject" POINTER)
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    itk_wrap_template(${d} ${d})
-  endforeach()
-itk_end_wrap_class()

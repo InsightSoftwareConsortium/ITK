@@ -1,8 +1,0 @@
-set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
-itk_wrap_include("itkObjectToObjectOptimizerBase.h")
-itk_wrap_class("itk::ObjectToObjectOptimizerBaseTemplate" POINTER)
-  UNIQUE(real_types "${WRAP_ITK_REAL};D")
-  foreach(t ${real_types})
-    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
-  endforeach()
-itk_end_wrap_class()
