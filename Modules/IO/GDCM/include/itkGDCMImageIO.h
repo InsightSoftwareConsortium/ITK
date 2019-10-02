@@ -164,6 +164,26 @@ public:
   itkGetConstMacro(LoadPrivateTags, bool);
   itkBooleanMacro(LoadPrivateTags);
 
+  /** Convert input Y'CbCr to RGB, enabled by default.
+   */
+  itkSetMacro(ReadYBRtoRGB, bool);
+  itkGetConstMacro(ReadYBRtoRGB, bool);
+  itkBooleanMacro(ReadYBRtoRGB);
+
+  /** Convert RGB to Y'CbCr before compression, disabled by default.
+   * RLE compression is supported, other are allowed, except lossy JPEG.
+   * Photo-metric interpretation will be YBR_FULL.
+   *
+   * "It is unusual to use an RGB color space for RLE compression,
+   * since no advantage is taken of correlation between the red, green
+   * and blue components (e.g., of luminance), and poor compression is
+   * achieved (note however that the conversion from RGB to YBR_FULL
+   * is itself lossy." DICOM PS3.5 2019d Section 8.2.2
+   */
+  itkSetMacro(WriteRGBtoYBR, bool);
+  itkGetConstMacro(WriteRGBtoYBR, bool);
+  itkBooleanMacro(WriteRGBtoYBR);
+
 #if defined(ITKIO_DEPRECATED_GDCM1_API)
   /** Convenience methods to query patient information and scanner
    * information. These methods are here for compatibility with the
@@ -323,7 +343,8 @@ public:
     JPEG = 0,
     JPEG2000,
     JPEGLS,
-    RLE
+    RLE,
+    LOSSYJPEG
   };
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
@@ -332,6 +353,7 @@ public:
   static constexpr TCompressionType JPEG2000 = TCompressionType::JPEG2000;
   static constexpr TCompressionType JPEGLS = TCompressionType::JPEGLS;
   static constexpr TCompressionType RLE = TCompressionType::RLE;
+  static constexpr TCompressionType LOSSYJPEG = TCompressionType::LOSSYJPEG;
 #endif
 
   itkSetEnumMacro(CompressionType, TCompressionType);
@@ -360,6 +382,10 @@ protected:
   bool m_KeepOriginalUID;
 
   bool m_LoadPrivateTags;
+
+  bool m_ReadYBRtoRGB;
+
+  bool m_WriteRGBtoYBR;
 
 private:
 #if defined(ITKIO_DEPRECATED_GDCM1_API)

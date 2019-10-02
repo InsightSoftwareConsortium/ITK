@@ -52,6 +52,7 @@
 #include "gdcmAttribute.h"
 #include "gdcmGlobal.h"
 #include "gdcmMediaStorage.h"
+#include "gdcmJPEGCodec.h"
 
 #include <fstream>
 #include <sstream>
@@ -91,15 +92,28 @@ GDCMImageIO::GDCMImageIO()
 
   m_LoadPrivateTags = false;
 
+  m_ReadYBRtoRGB = true;
+
+  m_WriteRGBtoYBR = false;
+
   m_InternalComponentType = UNKNOWNCOMPONENTTYPE;
 
   // by default assume that images will be 2D.
   // This number is updated according the information
   // received through the MetaDataDictionary
   m_GlobalNumberOfDimensions = 2;
+
   // By default use JPEG2000. For legacy system, one should prefer JPEG since
   // JPEG2000 was only recently added to the DICOM standard
   this->Self::SetCompressor("");
+
+  /**
+   * CompressionLevel is applicable only to lossy JPEG.
+   * Level 1 = Quality 100, 2 = Quality 99, 6 = Quality 95, etc.
+   * Default is 1.
+   */
+  this->Superclass::SetCompressionLevel(1); // 1 is Quality 100
+  this->Superclass::SetMaximumCompressionLevel(100);
 
   const char * extensions[] = { ".dcm", ".DCM", ".dicom", ".DICOM" };
 
@@ -187,6 +201,40 @@ readNoPreambleDicom(std::ifstream & file) // NOTE: This file is duplicated in it
   ::itk::OutputWindowDisplayDebugText(itkmsg.str().c_str());
 #endif
   return true;
+}
+
+static void convert_RGBtoYBR(unsigned char * p, size_t len)
+{
+  if (len % 3 != 0) return;
+  for (size_t x = 0; x < len; x += 3)
+  {
+    const double R  = static_cast<double>(p[x]);
+    const double G  = static_cast<double>(p[x + 1]);
+    const double B  = static_cast<double>(p[x + 2]);
+    const int    Y  = static_cast<int>((0.299 * R + 0.587 * G + 0.114 * B) + 0.5);
+    const int    Cb = static_cast<int>(((-0.299 * R - 0.587 * G + 0.886 * B) / 1.772 + 128) + 0.5);
+    const int    Cr = static_cast<int>(((0.701 * R - 0.587 * G - 0.114 * B)/ 1.402 + 128) + 0.5);
+    p[x]     = static_cast<unsigned char>((Y  < 0) ? 0 : Y);
+    p[x + 1] = static_cast<unsigned char>((Cb < 0) ? 0 : Cb);
+    p[x + 2] = static_cast<unsigned char>((Cr < 0) ? 0 : Cr);
+  }
+}
+
+static void convert_YBRtoRGB(unsigned char * p, size_t len)
+{
+  if (len % 3 != 0) return;
+  for (size_t x = 0; x < len; x += 3)
+  {
+    const double Y  = static_cast<double>(p[x]);
+    const double Cb = static_cast<double>(p[x + 1]);
+    const double Cr = static_cast<double>(p[x + 2]);
+    const int    R  = static_cast<int>((Y + 1.402 * (Cr - 128)) + 0.5);
+    const int    G  = static_cast<int>((Y - (0.114 * 1.772 * (Cb - 128) + 0.299 * 1.402 * (Cr - 128)) / 0.587) + 0.5);
+    const int    B  = static_cast<int>((Y + 1.772 * (Cb - 128)) + 0.5);
+    p[x]     = static_cast<unsigned char>((R < 0) ? 0 : R);
+    p[x + 1] = static_cast<unsigned char>((G < 0) ? 0 : G);
+    p[x + 2] = static_cast<unsigned char>((B < 0) ? 0 : B);
+  }
 }
 
 // This method will only test if the header looks like a
@@ -330,6 +378,21 @@ GDCMImageIO::Read(void * pointer)
     delete[] copy;
     // WARNING: sizeof(Real World Value) != sizeof(Stored Pixel)
     len = len * outputpt.GetPixelSize() / pixeltype.GetPixelSize();
+  }
+
+  // Y'CbCr to RGB
+  //
+  // (GDCM 3.0.3)
+  const bool ybr =
+    m_NumberOfComponents == 3 && (
+    pi == gdcm::PhotometricInterpretation::YBR_FULL ||
+    pi == gdcm::PhotometricInterpretation::YBR_FULL_422 ||
+    pi == gdcm::PhotometricInterpretation::YBR_PARTIAL_422 ||
+    pi == gdcm::PhotometricInterpretation::YBR_PARTIAL_420);
+  if(ybr && m_ReadYBRtoRGB &&
+     (pixeltype == gdcm::PixelFormat::UINT8 || pixeltype == gdcm::PixelFormat::INT8))
+  {
+    convert_YBRtoRGB(reinterpret_cast<unsigned char *>(pointer), static_cast<size_t>(len));
   }
 
 #ifndef NDEBUG
@@ -1163,6 +1226,7 @@ GDCMImageIO::Write(const void * buffer)
   const SizeValueType len = image.GetBufferLength();
 
   const size_t numberOfBytes = this->GetImageSizeInBytes();
+  itkAssertInDebugAndIgnoreInReleaseMacro(len == numberOfBytes);
 
   gdcm::DataElement pixeldata(gdcm::Tag(0x7fe0, 0x0010));
   // Handle rescaler here:
@@ -1196,12 +1260,31 @@ GDCMImageIO::Write(const void * buffer)
     pixeldata.SetByteValue(copyBuffer, static_cast<uint32_t>(len));
     delete[] copyBuffer;
   }
+  else if (this->GetNumberOfComponents() == 3 && m_WriteRGBtoYBR)
+  {
+    // Convert RGB to Y'CbCr before RLE compression
+    if (m_CompressionType == TCompressionType::LOSSYJPEG)
+    {
+      itkWarningMacro(<< "WriteRGBtoYBR is ignored for LOSSYJPEG");
+      pixeldata.SetByteValue(static_cast<const char *>(buffer), static_cast<unsigned int>(numberOfBytes));
+    }
+    else
+    {
+      if (m_CompressionType != TCompressionType::RLE)
+      {
+        itkWarningMacro(<< "WriteRGBtoYBR will be applied, but is not supported other than with RLE compression");
+      }
+      auto * copy = new char[len];
+      memcpy(copy, (char *)buffer, len);
+      convert_RGBtoYBR(reinterpret_cast<unsigned char*>(copy), static_cast<size_t>(len));
+      pixeldata.SetByteValue(copy, static_cast<uint32_t>(len));
+      image.SetPhotometricInterpretation(gdcm::PhotometricInterpretation::YBR_FULL);
+      delete[] copy;
+    }
+  }
   else
   {
-    itkAssertInDebugAndIgnoreInReleaseMacro(len == numberOfBytes);
-    // only do a straight copy:
-    const auto * inputBuffer = static_cast<const char *>(buffer);
-    pixeldata.SetByteValue(inputBuffer, static_cast<unsigned int>(numberOfBytes));
+    pixeldata.SetByteValue(static_cast<const char *>(buffer), static_cast<unsigned int>(numberOfBytes));
   }
   image.SetDataElement(pixeldata);
 
@@ -1210,6 +1293,7 @@ GDCMImageIO::Write(const void * buffer)
   if (m_UseCompression)
   {
     gdcm::ImageChangeTransferSyntax change;
+    gdcm::JPEGCodec jpegcodec;
     if (m_CompressionType == TCompressionType::JPEG)
     {
       change.SetTransferSyntax(gdcm::TransferSyntax::JPEGLosslessProcess14_1);
@@ -1218,17 +1302,41 @@ GDCMImageIO::Write(const void * buffer)
     {
       change.SetTransferSyntax(gdcm::TransferSyntax::JPEG2000Lossless);
     }
+    else if (m_CompressionType == TCompressionType::RLE)
+    {
+      change.SetTransferSyntax(gdcm::TransferSyntax::RLELossless);
+    }
+    else if (m_CompressionType == TCompressionType::JPEGLS)
+    {
+      change.SetTransferSyntax(gdcm::TransferSyntax::JPEGLSLossless);
+    }
+    else if (m_CompressionType == TCompressionType::LOSSYJPEG)
+    {
+      change.SetTransferSyntax(gdcm::TransferSyntax::JPEGBaselineProcess1);
+      jpegcodec.SetLossless(false);
+      jpegcodec.SetQuality(100 + 1 - m_CompressionLevel);
+      change.SetUserCodec(&jpegcodec);
+    }
     else
     {
       itkExceptionMacro(<< "Unknown compression type");
     }
     change.SetInput(image);
-    bool b = change.Change();
-    if (!b)
+    if (!change.Change())
     {
-      itkExceptionMacro(<< "Could not change the Transfer Syntax for Compression");
+      itkExceptionMacro(<< "Could not change the transfer syntax for compression");
     }
-    writer.SetImage(change.GetOutput());
+
+    const gdcm::Image & copy = change.GetOutput();
+    // Force photo-metric interpretation YBR_FULL_422 for LOSSYJPEG.
+    // Input is RGB, output is JCS_YCbCr.
+    // http://dicom.nema.org/medical/dicom/current/output/chtml/part03/sect_C.8.12.html#sect_C.8.12.1
+    if (this->GetNumberOfComponents() == 3 && m_CompressionType == TCompressionType::LOSSYJPEG)
+    {
+      const_cast<gdcm::Image&>(copy).SetPhotometricInterpretation(gdcm::PhotometricInterpretation::YBR_FULL_422);
+    }
+    // TODO clarify with GDCM lossless JPEG2000 with RGB input - YBR_RCT or RGB?
+    writer.SetImage(copy);
   }
   else
   {
@@ -1467,7 +1575,6 @@ GDCMImageIO::GetLabelFromTag(const std::string & tag, std::string & labelId)
 void
 GDCMImageIO::InternalSetCompressor(const std::string & _compressor)
 {
-
   if (_compressor == "" || _compressor == "JPEG2000")
   {
     m_CompressionType = TCompressionType::JPEG2000;
@@ -1475,6 +1582,18 @@ GDCMImageIO::InternalSetCompressor(const std::string & _compressor)
   else if (_compressor == "JPEG")
   {
     m_CompressionType = TCompressionType::JPEG;
+  }
+  else if (_compressor == "JPEGLS")
+  {
+    m_CompressionType = TCompressionType::JPEGLS;
+  }
+  else if (_compressor == "RLE")
+  {
+    m_CompressionType = TCompressionType::RLE;
+  }
+  else if (_compressor == "LOSSYJPEG")
+  {
+    m_CompressionType = TCompressionType::LOSSYJPEG;
   }
   else
   {
@@ -1496,6 +1615,8 @@ GDCMImageIO::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "SeriesInstanceUID: " << m_SeriesInstanceUID << std::endl;
   os << indent << "FrameOfReferenceInstanceUID: " << m_FrameOfReferenceInstanceUID << std::endl;
   os << indent << "CompressionType:" << m_CompressionType << std::endl;
+  os << indent << "ReadYBRtoRGB:" << (m_ReadYBRtoRGB ? "On" : "Off") << std::endl;
+  os << indent << "WriteRGBtoYBR:" << (m_WriteRGBtoYBR ? "On" : "Off") << std::endl;
 
 #if defined(ITKIO_DEPRECATED_GDCM1_API)
   os << indent << "Patient Name:" << m_PatientName << std::endl;
@@ -1532,6 +1653,8 @@ operator<<(std::ostream & out, const GDCMImageIO::TCompressionType value)
         return "GDCMImageIO::TCompressionType::JPEGLS";
       case GDCMImageIO::TCompressionType::RLE:
         return "GDCMImageIO::TCompressionType::RLE";
+      case GDCMImageIO::TCompressionType::LOSSYJPEG:
+        return "GDCMImageIO::TCompressionType::LOSSYJPEG";
       default:
         return "INVALID VALUE FOR GDCMImageIO::TCompressionType";
     }

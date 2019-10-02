@@ -107,6 +107,12 @@ itkGDCMImageIOTest2(int argc, char * argv[])
   output_j2k += "-j2k.dcm";
   std::string output_jpll = output;
   output_jpll += "-jpll.dcm";
+  std::string output_jpegls = output;
+  output_jpegls += "-jpegls.dcm";
+  std::string output_rle = output;
+  output_rle += "-rle.dcm";
+  std::string output_jpls = output;
+  output_jpls += "-jpls.dcm";
   std::string output_raw = output;
   output_raw += "-raw.dcm";
 
@@ -135,6 +141,48 @@ itkGDCMImageIOTest2(int argc, char * argv[])
   // Save as JPEG Lossless
   dicomIO->SetCompressionType(itk::GDCMImageIO::TCompressionType::JPEG);
   writer->SetFileName(output_jpll.c_str());
+  try
+  {
+    writer->Update();
+  }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "exception in file writer " << std::endl;
+    std::cerr << e << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // Save as JPEGLS Lossless
+  dicomIO->SetCompressionType(itk::GDCMImageIO::TCompressionType::JPEGLS);
+  writer->SetFileName(output_jpegls.c_str());
+  try
+  {
+    writer->Update();
+  }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "exception in file writer " << std::endl;
+    std::cerr << e << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // Save as RLE
+  dicomIO->SetCompressionType(itk::GDCMImageIO::TCompressionType::RLE);
+  writer->SetFileName(output_rle.c_str());
+  try
+  {
+    writer->Update();
+  }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "exception in file writer " << std::endl;
+    std::cerr << e << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // Save as lossy JPEG
+  dicomIO->SetCompressionType(itk::GDCMImageIO::TCompressionType::LOSSYJPEG);
+  writer->SetFileName(output_jpls.c_str());
   try
   {
     writer->Update();
