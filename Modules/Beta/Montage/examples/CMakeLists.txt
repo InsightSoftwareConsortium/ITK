@@ -18,11 +18,11 @@ include(${ITK_USE_FILE})
 add_executable(PhaseCorrelationImageRegistration PhaseCorrelationImageRegistration.cxx)
 target_link_libraries(PhaseCorrelationImageRegistration ${ITK_LIBRARIES})
 
-add_executable(Montage2D Montage2D.cxx)
-target_link_libraries(Montage2D ${ITK_LIBRARIES})
+add_executable(CompleteMontage CompleteMontage.cxx)
+target_link_libraries(CompleteMontage ${ITK_LIBRARIES})
 
-add_executable(RefineMontage2D RefineMontage2D.cxx)
-target_link_libraries(RefineMontage2D ${ITK_LIBRARIES})
+add_executable(RefineMontage RefineMontage.cxx)
+target_link_libraries(RefineMontage ${ITK_LIBRARIES})
 
-add_executable(ResampleMontage2D ResampleMontage2D.cxx)
-target_link_libraries(ResampleMontage2D ${ITK_LIBRARIES})
+add_executable(ResampleMontage ResampleMontage.cxx)
+target_link_libraries(ResampleMontage ${ITK_LIBRARIES})
