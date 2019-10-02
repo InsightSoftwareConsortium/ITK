@@ -30,3 +30,6 @@ assert(np.all(added == 3))
 added = itk.add_image_filter(Input1=array1, Input2=array2)
 assert(isinstance(added, np.ndarray))
 assert(np.all(added == 3))
+
+# support kwargs with "image" in the name
+masked = itk.mask_image_filter(array1, mask_image=array2)

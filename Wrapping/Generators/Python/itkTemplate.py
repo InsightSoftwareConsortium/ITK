@@ -469,6 +469,17 @@ class itkTemplate(object):
             # to deal with checking if both keyword arguments are given.
             return self._NewImageReader(itk.ImageSeriesReader, True, 'FileNames', *args, **kwargs)
         primary_input_methods = ('Input', 'InputImage', 'Input1')
+        def ttype_for_input_type(keys, input_type):
+            keys_first = list(filter(lambda k: k[0] == input_type, keys))
+            # If there is more than one match, prefer the filter where the
+            # second template argument, typically the second input or the
+            # output, has the same type as the input
+            keys_second = list(filter(lambda k: len(k) > 1 and k[1] == input_type,
+                    keys_first))
+            if len(keys_second):
+                return keys_second
+            return keys_first
+
         if 'ttype' in kwargs and keys:
             # Convert `ttype` argument to `tuple` as filter keys are tuples.
             # Note that the function `itk.template()` which returns the template
@@ -485,17 +496,17 @@ class itkTemplate(object):
         elif len(args) != 0:
             # try to find a type suitable for the primary input provided
             input_type = output(args[0]).__class__
-            keys = [k for k in keys if k[0] == input_type]
+            keys = ttype_for_input_type(keys, input_type)
         elif set(primary_input_methods).intersection(kwargs.keys()):
             for method in primary_input_methods:
                 if method in kwargs:
                     input_type = output(kwargs[method]).__class__
-                    keys = [k for k in keys if k[0] == input_type]
+                    keys = ttype_for_input_type(keys, input_type)
                     break
         elif cur is not None and len(cur) != 0:
             # try to find a type suitable for the input provided
             input_type = output(cur).__class__
-            keys = [k for k in keys if k[0] == input_type]
+            keys = ttype_for_input_type(keys, input_type)
 
         if len(keys) == 0:
             if not input_type:

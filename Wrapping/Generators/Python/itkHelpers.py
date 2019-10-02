@@ -49,9 +49,10 @@ def accept_numpy_array_like(image_filter):
                 image = itk.image_view_from_array(array)
                 args_list[index] = image
 
-        potential_image_input_kwargs = ('input', 'inputimage', 'input_image', 'input1', 'input2', 'input3')
+        potential_image_input_kwargs = ('input', 'input1', 'input2', 'input3')
         for key, value in kwargs.items():
-            if key.lower() in potential_image_input_kwargs and is_arraylike(value):
+            if (key.lower() in potential_image_input_kwargs or
+                    "image" in key.lower()) and is_arraylike(value):
                 have_array_like_input = True
                 array = np.asarray(value)
                 image = itk.image_view_from_array(array)
