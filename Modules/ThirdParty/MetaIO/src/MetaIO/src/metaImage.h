@@ -80,21 +80,21 @@ class METAIO_EXPORT MetaImage : public MetaObject
               const float *_elementSpacing,
               MET_ValueEnumType _elementType,
               int _elementNumberOfChannels=1,
-              void *_elementData=NULL);
+              void *_elementData=nullptr);
 
     MetaImage(int _nDims,
               const int * _dimSize,
               const double *_elementSpacing,
               MET_ValueEnumType _elementType,
               int _elementNumberOfChannels=1,
-              void *_elementData=NULL);
+              void *_elementData=nullptr);
 
     MetaImage(int _x, int _y,
               double _elementSpacingX,
               double _elementSpacingY,
               MET_ValueEnumType _elementType,
               int _elementNumberOfChannels=1,
-              void *_elementData=NULL);
+              void *_elementData=nullptr);
 
     MetaImage(int _x, int _y, int _z,
               double _elementSpacingX,
@@ -102,7 +102,7 @@ class METAIO_EXPORT MetaImage : public MetaObject
               double _elementSpacingZ,
               MET_ValueEnumType _elementType,
               int _elementNumberOfChannels=1,
-              void *_elementData=NULL);
+              void *_elementData=nullptr);
 
     ~MetaImage(void) override;
 
@@ -118,7 +118,7 @@ class METAIO_EXPORT MetaImage : public MetaObject
                                      const float * _elementSpacing,
                                      MET_ValueEnumType _elementType,
                                      int _elementNumberOfChannels=1,
-                                     void *_elementData=NULL,
+                                     void *_elementData=nullptr,
                                      bool _allocElementMemory=true);
 
     bool InitializeEssential(int _nDims,
@@ -126,7 +126,7 @@ class METAIO_EXPORT MetaImage : public MetaObject
                                      const double * _elementSpacing,
                                      MET_ValueEnumType _elementType,
                                      int _elementNumberOfChannels=1,
-                                     void *_elementData=NULL,
+                                     void *_elementData=nullptr,
                                      bool _allocElementMemory=true);
 
     //
@@ -251,16 +251,16 @@ class METAIO_EXPORT MetaImage : public MetaObject
     //
     //
     //
-    bool CanRead(const char *_headerName=NULL) const;
+    bool CanRead(const char *_headerName=nullptr) const;
 
-    bool Read(const char *_headerName=NULL,
+    bool Read(const char *_headerName=nullptr,
                       bool _readElements=true,
-                      void * _buffer=NULL);
+                      void * _buffer=nullptr);
 
     bool ReadROI(int * _indexMin, int * _indexMax,
-                         const char *_headerName=NULL,
+                         const char *_headerName=nullptr,
                          bool _readElements=true,
-                         void * _buffer=NULL,
+                         void * _buffer=nullptr,
                          unsigned int subSamplingFactor=1
                          );
 
@@ -270,35 +270,35 @@ class METAIO_EXPORT MetaImage : public MetaObject
     bool ReadStream(int _nDims,
                             std::ifstream * _stream,
                             bool _readElements=true,
-                            void * _buffer=NULL);
+                            void * _buffer=nullptr);
 
     bool ReadROIStream(int * _indexMin, int * _indexMax,
                                int _nDims,
                                std::ifstream * _stream,
                                bool _readElements=true,
-                               void * _buffer=NULL,
+                               void * _buffer=nullptr,
                                unsigned int subSamplingFactor=1);
 
-    bool Write(const char *_headName=NULL,
-                       const char *_dataName=NULL,
+    bool Write(const char *_headName=nullptr,
+                       const char *_dataName=nullptr,
                        bool _writeElements=true,
-                       const void * _constElementData=NULL,
+                       const void * _constElementData=nullptr,
                        bool _append=false);
 
     bool WriteROI(int * _indexMin, int * _indexMax,
-                          const char *_headName=NULL,
-                          const char *_dataName=NULL,
+                          const char *_headName=nullptr,
+                          const char *_dataName=nullptr,
                           bool _writeElements=true,
-                          const void * _constElementData=NULL,
+                          const void * _constElementData=nullptr,
                           bool _append=false
                           );
 
     bool WriteStream(std::ofstream * _stream,
                              bool _writeElements=true,
-                             const void * _constElementData=NULL);
+                             const void * _constElementData=nullptr);
 
 
-    bool Append(const char *_headName=NULL) override;
+    bool Append(const char *_headName=nullptr) override;
 
 
     typedef std::pair<long,long> CompressionOffsetType;

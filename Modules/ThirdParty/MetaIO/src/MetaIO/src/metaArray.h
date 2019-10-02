@@ -72,7 +72,7 @@ class METAIO_EXPORT MetaArray : public MetaForm
     MetaArray(int _length,
               MET_ValueEnumType _elementType,
               int _elementNumberOfChannels=1,
-              void *_elementData=NULL,
+              void *_elementData=nullptr,
               bool _allocateElementData=false,
               bool _autoFreeElementData=false);
 
@@ -87,7 +87,7 @@ class METAIO_EXPORT MetaArray : public MetaForm
     bool  InitializeEssential(int _nDims,
                               MET_ValueEnumType _elementType,
                               int _elementNumberOfChannels=1,
-                              void *_elementData=NULL,
+                              void *_elementData=nullptr,
                               bool _allocateElementData=false,
                               bool _autoFreeElementData=true);
 
@@ -144,28 +144,28 @@ class METAIO_EXPORT MetaArray : public MetaForm
     //
     //
     //
-    virtual bool CanRead(const char *_headerName=NULL) const;
+    virtual bool CanRead(const char *_headerName=nullptr) const;
 
-    virtual bool Read(const char *_headerName=NULL,
+    virtual bool Read(const char *_headerName=nullptr,
                       bool _readElements=true,
-                      void * _elementDataBuffer=NULL,
+                      void * _elementDataBuffer=nullptr,
                       bool _autoFreeElementData=false);
 
     virtual bool CanReadStream(std::ifstream * _stream) const;
 
     virtual bool ReadStream(std::ifstream * _stream,
                             bool _readElements=true,
-                            void * _elementDataBuffer=NULL,
+                            void * _elementDataBuffer=nullptr,
                             bool _autoFreeElementData=false);
 
-    virtual bool Write(const char *_headName=NULL,
-                       const char *_dataName=NULL,
+    virtual bool Write(const char *_headName=nullptr,
+                       const char *_dataName=nullptr,
                        bool _writeElements=true,
-                       const void * _constElementData=NULL);
+                       const void * _constElementData=nullptr);
 
     virtual bool WriteStream(std::ofstream * _stream,
                              bool _writeElements=true,
-                             const void * _constElementData=NULL);
+                             const void * _constElementData=nullptr);
 
   ////
   //

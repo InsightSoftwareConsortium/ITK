@@ -157,7 +157,7 @@ class METAIO_EXPORT MetaOutput
     std::string TypeToString(TypeEnumType type);
 
     /** Private function to fill in the buffer */
-    std::string GenerateXML(const char* filename=NULL);
+    std::string GenerateXML(const char* filename=nullptr);
     std::string GetUsername(void);
 
     FieldVector   m_FieldVector;

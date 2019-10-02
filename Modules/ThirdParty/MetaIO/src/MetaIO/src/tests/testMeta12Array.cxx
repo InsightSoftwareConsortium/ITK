@@ -7,7 +7,7 @@ int main(int, char * [])
 {
   MetaArray tObj;
 
-  tObj.InitializeEssential(10, MET_DOUBLE, 1, NULL, true);
+  tObj.InitializeEssential(10, MET_DOUBLE, 1, nullptr, true);
   tObj.FileName("testArray.mvh");
   tObj.Comment("TestArray");
   tObj.FormTypeName("Array");

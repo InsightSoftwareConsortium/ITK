@@ -1111,7 +1111,7 @@ Clear()
     if(META_DEBUG) std::cout << "field = " << (*fieldIter)->name << std::endl;
     MET_FieldRecordType* field = *fieldIter;
     delete field;
-    field = NULL;
+    field = nullptr;
     if(META_DEBUG) std::cout << " has been deleted." << std::endl;
     }
   m_Fields.clear();*/

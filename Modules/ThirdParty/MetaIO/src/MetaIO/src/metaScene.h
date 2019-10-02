@@ -74,11 +74,11 @@ class METAIO_EXPORT MetaScene : public MetaObject
     //
     //
     // This function only reads registered tubes
-    bool Read(const char *_headerName=NULL);
+    bool Read(const char *_headerName=nullptr);
 
-    bool Write(const char *_headName=NULL);
+    bool Write(const char *_headName=nullptr);
 
-    bool Append(const char* =NULL) override {std::cout << "Not Implemented !" << std::endl;return true;}
+    bool Append(const char* =nullptr) override {std::cout << "Not Implemented !" << std::endl;return true;}
 
     void  Clear(void) override;
 
