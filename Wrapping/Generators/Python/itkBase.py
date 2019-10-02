@@ -65,31 +65,6 @@ def LoadModule(name, namespace=None):
     # dependencies that could kill the recursive lookup below.
     this_module.__templates_loaded = True
 
-    # For external projects :
-    # If this_module name (variable name) is in the module_data dictionnary,
-    # then this_module is an installed module (or a previously loaded module).
-    # Otherwise, it may come from an external project. In this case, we must
-    # search the Configuration/<name>Config.py file of this project.
-    try:
-        module_data[name]
-    except:
-        file = inspect.getfile(this_module)
-        path = os.path.dirname(file)
-
-        data = {}
-        conf = name + 'Config.py'
-        try:
-            # for a linux tree
-            execfile(os.path.join(path, 'Configuration', conf), data)
-        except:
-            try:
-                # for a windows tree
-                execfile(os.path.join(path, '..', 'Configuration', conf), data)
-            except:
-                data = None
-        if(data):
-            module_data[name] = data
-
     # Now, we definitely need to load the template instantiations from the
     # named module, and possibly also load the underlying SWIG module. Before
     # we can load the template instantiations of this module, we need to load
