@@ -282,6 +282,8 @@ AddTestTi64raw(2)
 AddTestTi64raw(3)
 AddTestTi64raw(4)
 
+option(ITKMontage_EnableFailingTests "Should we enable tests which are failing due to not-yet-resolved issues?" OFF)
+
 function(GroundTruthTest2D tempDir inputFile) # other command-line parameters
   set(outDir ${TESTING_OUTPUT_PATH}/${tempDir}/)
   file(MAKE_DIRECTORY ${outDir})
@@ -289,9 +291,18 @@ function(GroundTruthTest2D tempDir inputFile) # other command-line parameters
     COMMAND MontageTestDriver
     itkMontageTruthCreator ${inputFile} ${outDir} ${ARGN}
     )
+  set(regressionPart "")
+  if (ITKMontage_EnableFailingTests)
+    set(regressionPart --compare ${inputFile} ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_2_1.mha)
+  endif()
+    
   itk_add_test(NAME itkMontageGroundTruthRun${tempDir}
-    COMMAND MontageTestDriver --compareIntensityTolerance 0.0
-    #  --compare ${inputFile} ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_2_1.mha
+    COMMAND MontageTestDriver
+    # these tolerance only work for small uchar cases
+    --compareRadiusTolerance 1
+    --compareIntensityTolerance 16
+    --compareNumberOfPixelsTolerance 1500
+    ${regressionPart}
     itkMontageTest
       ${outDir}
       ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_
@@ -362,8 +373,6 @@ itk_add_test(NAME itkMontagePCMFiles-10-129
     -6.143508728
     -10.488
   )
-
-option(ITKMontage_EnableFailingTests "Should we enable tests which are failing due to not-yet-resolved issues?" OFF)
 
 if (ITKMontage_EnableFailingTests)
 itk_add_test(NAME itkMontagePCMFilesS200_32_33
@@ -450,8 +459,12 @@ itk_add_test(NAME itkMontageGroundTruthMake${tempDir}
   itkMontageTruthCreator DATA{Input/DzZ_T1/DzZ_T1_orig.nhdr,DzZ_T1_orig.raw.gz} ${outDir} 4 8 3 25 15 50
   )
 itk_add_test(NAME itkMontageGroundTruthRun${tempDir}
-  COMMAND MontageTestDriver --compareIntensityTolerance 0.0
-  # --compare DATA{Input/DzZ_T1/DzZ_T1_orig.nhdr} ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_2_1.mha
+  COMMAND MontageTestDriver
+  # a lot of tolerances are required because the reconstruction is not perfect
+    --compareRadiusTolerance 1
+    --compareIntensityTolerance 64
+    --compareNumberOfPixelsTolerance 300
+  --compare DATA{Input/DzZ_T1/DzZ_T1_orig.nhdr} ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_2_1.mha
   itkMontageTest
     ${outDir}
     ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_

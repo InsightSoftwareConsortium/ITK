@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10.2)
 project(ITKMontageExamples)
 
 if(NOT ITK_SOURCE_DIR)
-  find_package(ITK REQUIRED COMPONENTS ITKImageIO ITKTransformIO Montage)
+  find_package(ITK REQUIRED COMPONENTS ITKImageIO ITKTransformIO Montage ITKTestKernel)
 else()
   # when being built as part of ITK, ITKImageIO and ITKTransformIO
   # lists of modules are not yet ready, causing a configure error
@@ -32,3 +32,50 @@ target_link_libraries(CompareTileConfigurations ${ITK_LIBRARIES})
 
 add_executable(ImageCompareCommand ImageCompareCommand.cxx)
 target_link_libraries(ImageCompareCommand ${ITK_LIBRARIES})
+
+# add some regression tests
+set(TESTING_OUTPUT_PATH "${CMAKE_BINARY_DIR}/Testing/Temporary")
+
+add_test(NAME RefineMontage2D
+  COMMAND RefineMontage
+    ${CMAKE_CURRENT_LIST_DIR}/SampleData_CMUrun2/TileConfiguration.txt
+    ${TESTING_OUTPUT_PATH}/SampleData_CMUrun2.txt)
+add_test(NAME RefineMontage2DCompare
+  COMMAND CompareTileConfigurations
+    ${CMAKE_CURRENT_LIST_DIR}/SampleData_CMUrun2/TileConfiguration.registered.txt
+    ${TESTING_OUTPUT_PATH}/SampleData_CMUrun2.txt)
+set_tests_properties(RefineMontage2DCompare PROPERTIES DEPENDS RefineMontage2D)
+
+add_test(NAME ResampleMontage2D
+  COMMAND ResampleMontage
+    ${CMAKE_CURRENT_LIST_DIR}/SampleData_CMUrun2/TileConfiguration.registered.txt
+    ${TESTING_OUTPUT_PATH}/SampleData_CMUrun2.nrrd)
+add_test(NAME ResampleMontage2DCompare
+  COMMAND ImageCompareCommand
+    # a lot of tolerances are required because the reconstruction is not perfect
+    --tolerance-radius 1 --tolerance-intensity 16 --tolerance-number-of-pixels 200
+    --baseline-image ${CMAKE_CURRENT_LIST_DIR}/SampleData_CMUrun2/groundTruth.png
+    --test-image ${TESTING_OUTPUT_PATH}/SampleData_CMUrun2.nrrd)
+set_tests_properties(ResampleMontage2DCompare PROPERTIES DEPENDS ResampleMontage2D)
+
+add_test(NAME RefineMontage3D
+  COMMAND RefineMontage
+    ${CMAKE_CURRENT_LIST_DIR}/SampleData_DzZ_T1/TileConfiguration.txt
+    ${TESTING_OUTPUT_PATH}/SampleData_DzZ_T1.txt)
+add_test(NAME RefineMontage3DCompare
+  COMMAND CompareTileConfigurations
+    ${CMAKE_CURRENT_LIST_DIR}/SampleData_DzZ_T1/TileConfiguration.registered.txt
+    ${TESTING_OUTPUT_PATH}/SampleData_DzZ_T1.txt)
+set_tests_properties(RefineMontage3DCompare PROPERTIES DEPENDS RefineMontage3D)
+
+add_test(NAME ResampleMontage3D
+  COMMAND ResampleMontage
+    ${CMAKE_CURRENT_LIST_DIR}/SampleData_DzZ_T1/TileConfiguration.registered.txt
+    ${TESTING_OUTPUT_PATH}/SampleData_DzZ_T1.nrrd)
+add_test(NAME ResampleMontage3DCompare
+  COMMAND ImageCompareCommand
+    # a lot of tolerances are required because the reconstruction is not perfect
+    --tolerance-radius 1 --tolerance-intensity 64 --tolerance-number-of-pixels 300
+    --baseline-image ${CMAKE_CURRENT_LIST_DIR}/SampleData_DzZ_T1/DzZ_T1_orig.nhdr
+    --test-image ${TESTING_OUTPUT_PATH}/SampleData_DzZ_T1.nrrd)
+set_tests_properties(ResampleMontage3DCompare PROPERTIES DEPENDS ResampleMontage3D)
