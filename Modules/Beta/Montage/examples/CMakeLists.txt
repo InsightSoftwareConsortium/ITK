@@ -29,3 +29,6 @@ target_link_libraries(ResampleMontage ${ITK_LIBRARIES})
 
 add_executable(CompareTileConfigurations CompareTileConfigurations.cxx)
 target_link_libraries(CompareTileConfigurations ${ITK_LIBRARIES})
+
+add_executable(ImageCompareCommand ImageCompareCommand.cxx)
+target_link_libraries(ImageCompareCommand ${ITK_LIBRARIES})
