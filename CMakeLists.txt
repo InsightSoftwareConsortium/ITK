@@ -1,33 +1,36 @@
-cmake_minimum_required(VERSION 2.6.4)
+# Note: CMake support is community-based. The maintainers do not use CMake
+# internally.
+
+cmake_minimum_required(VERSION 2.8.8)
 
 if (POLICY CMP0048)
   cmake_policy(SET CMP0048 NEW)
 endif (POLICY CMP0048)
 
-project( googletest-distribution )
+project(googletest-distribution)
+set(GOOGLETEST_VERSION 1.10.0)
+
+if (CMAKE_VERSION VERSION_LESS "3.1")
+  add_definitions(-std=c++11)
+else()
+  set(CMAKE_CXX_STANDARD 11)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+  if(NOT CYGWIN)
+    set(CMAKE_CXX_EXTENSIONS OFF)
+  endif()
+endif()
 
 enable_testing()
 
 include(CMakeDependentOption)
-if (CMAKE_VERSION VERSION_LESS 2.8.5)
-  set(CMAKE_INSTALL_BINDIR "bin" CACHE STRING "User executables (bin)")
-  set(CMAKE_INSTALL_LIBDIR "lib${LIB_SUFFIX}" CACHE STRING "Object code libraries (lib)")
-  set(CMAKE_INSTALL_INCLUDEDIR "include" CACHE STRING "C header files (include)")
-  mark_as_advanced(CMAKE_INSTALL_BINDIR CMAKE_INSTALL_LIBDIR CMAKE_INSTALL_INCLUDEDIR)
-else()
-  include(GNUInstallDirs)
-endif()
-
-option(BUILD_GTEST "Builds the googletest subproject" OFF)
+include(GNUInstallDirs)
 
 #Note that googlemock target already builds googletest
 option(BUILD_GMOCK "Builds the googlemock subproject" ON)
-
-cmake_dependent_option(INSTALL_GTEST "Enable installation of googletest. (Projects embedding googletest may want to turn this OFF.)" ON "BUILD_GTEST OR BUILD_GMOCK" OFF)
-cmake_dependent_option(INSTALL_GMOCK "Enable installation of googlemock. (Projects embedding googlemock may want to turn this OFF.)" ON "BUILD_GMOCK" OFF)
+option(INSTALL_GTEST "Enable installation of googletest. (Projects embedding googletest may want to turn this OFF.)" ON)
 
 if(BUILD_GMOCK)
   add_subdirectory( googlemock )
-elseif(BUILD_GTEST)
+else()
   add_subdirectory( googletest )
 endif()
