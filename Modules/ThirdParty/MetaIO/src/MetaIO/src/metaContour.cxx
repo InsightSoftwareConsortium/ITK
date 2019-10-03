@@ -365,7 +365,7 @@ M_Read()
   mF = MET_GetFieldRecord("Closed", &m_Fields);
   if(mF->defined)
     {
-    if(mF->value[0])
+    if(mF->value[0] != 0.0)
       {
       m_Closed = true;
       }
@@ -374,7 +374,7 @@ M_Read()
   mF = MET_GetFieldRecord("DisplayOrientation", &m_Fields);
   if(mF->defined)
     {
-    if(mF->value[0])
+    if(mF->value[0] != 0.0)
       {
       m_DisplayOrientation = (int)mF->value[0];
       }
@@ -383,7 +383,7 @@ M_Read()
   mF = MET_GetFieldRecord("PinToSlice", &m_Fields);
   if(mF->defined)
     {
-    if(mF->value[0])
+    if(mF->value[0] != 0.0)
       {
       m_AttachedToSlice = (long int)mF->value[0];
       }
@@ -521,7 +521,7 @@ M_Read()
         }
 
       unsigned long pos = 0;
-      pnt->m_Id = (unsigned long)v[pos];
+      pnt->m_Id = (unsigned int)v[pos];
       pos++;
 
       int d;
@@ -697,7 +697,7 @@ M_Read()
           }
 
         unsigned long pos = 0;
-        pnt->m_Id = (unsigned long)v[pos];
+        pnt->m_Id = (unsigned int)v[pos];
         pos++;
 
         int d;

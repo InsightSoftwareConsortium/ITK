@@ -126,13 +126,13 @@ class METAIO_EXPORT MetaObject
 
       virtual void  CopyInfo(const MetaObject * _object);
 
-      bool  Read(const char * _fileName=NULL);
+      bool  Read(const char * _fileName=nullptr);
 
       bool  ReadStream(int _nDims, std::ifstream * _stream);
 
-      bool  Write(const char * _fileName=NULL);
+      bool  Write(const char * _fileName=nullptr);
 
-      virtual bool  Append(const char *_headName=NULL);
+      virtual bool  Append(const char *_headName=nullptr);
 
       ////
       //
@@ -304,7 +304,7 @@ class METAIO_EXPORT MetaObject
             return (*it);
             }
           }
-        return 0;
+        return nullptr;
       }
 
       // Add a user's field
@@ -320,7 +320,7 @@ class METAIO_EXPORT MetaObject
         MET_FieldRecordType* mFw =
           this->FindFieldRecord(m_UserDefinedWriteFields,
                                 _fieldName);
-        if(mFw == 0)
+        if(mFw == nullptr)
           {
           duplicate = false;
           mFw = new MET_FieldRecordType;
@@ -335,7 +335,7 @@ class METAIO_EXPORT MetaObject
         MET_FieldRecordType* mFr =
           this->FindFieldRecord(m_UserDefinedReadFields,
                                 _fieldName);
-        if(mFr == 0)
+        if(mFr == nullptr)
           {
           duplicate = false;
           mFr = new MET_FieldRecordType;

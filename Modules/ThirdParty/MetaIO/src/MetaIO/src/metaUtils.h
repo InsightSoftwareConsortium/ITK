@@ -101,7 +101,7 @@ unsigned short MET_ByteOrderSwapShort(unsigned short x)
     }
 
 inline
-unsigned long MET_ByteOrderSwapLong(unsigned int x)
+unsigned int MET_ByteOrderSwapLong(unsigned int x)
     {
     return (((x<<24) & 0xff000000) |
             ((x<<8)  & 0x00ff0000) |
@@ -426,7 +426,7 @@ bool MET_Read(std::istream &fp,
            std::vector<MET_FieldRecordType *> * fields,
            char _sepChar='=', bool oneLine=false,
            bool display_warnings=true,
-           std::vector<MET_FieldRecordType *> * newFields=NULL);
+           std::vector<MET_FieldRecordType *> * newFields=nullptr);
 
 
 /////////////////////////////////////////////////////////

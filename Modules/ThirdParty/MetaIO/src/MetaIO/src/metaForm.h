@@ -117,15 +117,15 @@ class METAIO_EXPORT MetaForm
             return true;
             }
 
-    bool  CanRead(const char * _fileName=NULL) const;
+    bool  CanRead(const char * _fileName=nullptr) const;
 
-    bool  Read(const char * _fileName=NULL);
+    bool  Read(const char * _fileName=nullptr);
 
     bool  CanReadStream(std::ifstream * _stream) const;
 
     bool  ReadStream(std::ifstream * _stream);
 
-    bool  Write(const char * _fileName=NULL);
+    bool  Write(const char * _fileName=nullptr);
 
     bool  WriteStream(std::ofstream * _stream);
 
