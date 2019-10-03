@@ -25,6 +25,7 @@ import itkExtras
 import os
 import sys
 
+__version__ = "@ITK_VERSION_MAJOR@.@ITK_VERSION_MINOR@.@ITK_VERSION_PATCH@"
 thisModule = sys.modules[__name__]
 
 def _GetLazyAttributes(lazyAttributes):

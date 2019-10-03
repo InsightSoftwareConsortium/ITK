@@ -158,7 +158,6 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   # Create a list of Python files.
   # WrapITK/Python/*.py
   set(ITK_PYTHON_FILES
-    itk/__init__
     itkBase
     itkTemplate
     itkTypes
@@ -201,7 +200,10 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   endif()
 
   # Install the package python files.
-  list(GET ITK_WRAP_PYTHON_INSTALL_FILES 0 init_file)
+  set(init_file ${CMAKE_CURRENT_BINARY_DIR}/itk/__init__.py)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/itk/__init__.py.in
+    ${CMAKE_CURRENT_BINARY_DIR}/itk/__init__.py
+    )
   WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk "ITKCommon" ${init_file})
   set(python_modules ${ITK_WRAP_PYTHON_INSTALL_FILES})
   list(REMOVE_AT python_modules 0)
