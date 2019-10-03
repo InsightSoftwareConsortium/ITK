@@ -41,7 +41,11 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
       )
     itk_python_add_test(NAME PythonExtrasTest
       COMMAND extras.py
-        DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/out.png ${ITK_TEST_OUTPUT_DIR}
+        DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
+        DATA{../../../../Testing/Data/Input/mushroom.vtk}
+        ${ITK_TEST_OUTPUT_DIR}/out.png
+        ${ITK_TEST_OUTPUT_DIR}/extras-mushroom.vtk
+        ${ITK_TEST_OUTPUT_DIR}
       )
   endif()
 endif()
