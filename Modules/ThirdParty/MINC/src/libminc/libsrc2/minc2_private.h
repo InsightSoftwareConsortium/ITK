@@ -210,9 +210,12 @@ void miinit_default_range(mitype_t mitype, double *valid_max, double *valid_min)
 double rint(double v);
 #endif
 
-#ifdef _MSC_VER
+#if  defined(_MSC_VER) && _MSC_VER < 1900
 #define snprintf _snprintf 
 #define vsnprintf _vsnprintf 
+#endif
+
+#ifdef _MSC_VER
 #define strcasecmp _stricmp 
 #define strncasecmp _strnicmp 
 #endif
