@@ -303,7 +303,7 @@ function(GroundTruthTest2D tempDir inputFile) # other command-line parameters
 endfunction()
 
 GroundTruthTest2D(10-129 DATA{Input/10-129-C_2/10-129-C_2_p00.jpg} 6 4 15 25)
-GroundTruthTest2D(run2 DATA{Input/05MAR09_run2_64-Raw/05MAR09_run2_64-Raw_p0.bmp} 3 2 30 50)
+GroundTruthTest2D(run2 DATA{Input/05MAR09_run2_64-Raw/05MAR09_run2_64-Raw_p0.bmp} 4 5 15 10)
 GroundTruthTest2D(MediumCarbonSteel DATA{Input/MediumCarbonSteel/1701701_000000_Fused.bmp} 11 3 20 20)
 
 itk_add_test(NAME itkMontage-10-129-C_2
