@@ -9,7 +9,7 @@ readonly ownership="Eigen Upstream <kwrobot@kitware.com>"
 readonly subtree="Modules/ThirdParty/Eigen3/src/itkeigen"
 # readonly repo="https://github.com/eigenteam/eigen-git-mirror"
 # readonly repo="https://gitlab.kitware.com/third-party/eigen.git"
-readonly repo="https://gitlab.kitware.com/phcerdan/eigen.git"
+readonly repo="https://github.com/vfonov/itk-eigen.git"
 readonly tag="for/itk"
 readonly paths="
 Eigen/Cholesky
