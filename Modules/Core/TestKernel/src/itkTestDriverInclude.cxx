@@ -248,7 +248,7 @@ ProcessArguments(int * ac, ArgumentStringType * av, ProcessedOutputType * proces
     }
     else if (!skip && strcmp((*av)[i], "--with-threads") == 0)
     {
-      if (i + 2 >= *ac)
+      if (i + 1 >= *ac)
       {
         usage();
         return 1;
@@ -271,7 +271,7 @@ ProcessArguments(int * ac, ArgumentStringType * av, ProcessedOutputType * proces
     }
     else if (!skip && strcmp((*av)[i], "--compareNumberOfPixelsTolerance") == 0)
     {
-      if (i + 2 >= *ac)
+      if (i + 1 >= *ac)
       {
         usage();
         return 1;
@@ -293,7 +293,7 @@ ProcessArguments(int * ac, ArgumentStringType * av, ProcessedOutputType * proces
     }
     else if (!skip && strcmp((*av)[i], "--compareIntensityTolerance") == 0)
     {
-      if (i + 2 >= *ac)
+      if (i + 1 >= *ac)
       {
         usage();
         return 1;
@@ -304,7 +304,7 @@ ProcessArguments(int * ac, ArgumentStringType * av, ProcessedOutputType * proces
     }
     else if (!skip && strcmp((*av)[i], "--compareCoordinateTolerance") == 0)
     {
-      if (i + 2 >= *ac)
+      if (i + 1 >= *ac)
       {
         usage();
         return 1;
@@ -315,7 +315,7 @@ ProcessArguments(int * ac, ArgumentStringType * av, ProcessedOutputType * proces
     }
     else if (!skip && strcmp((*av)[i], "--compareDirectionTolerance") == 0)
     {
-      if (i + 2 >= *ac)
+      if (i + 1 >= *ac)
       {
         usage();
         return 1;
@@ -332,7 +332,7 @@ ProcessArguments(int * ac, ArgumentStringType * av, ProcessedOutputType * proces
     }
     else if (!skip && strcmp((*av)[i], "--add-before-libpath") == 0)
     {
-      if (i + 2 >= *ac)
+      if (i + 1 >= *ac)
       {
         usage();
         return 1;
@@ -346,7 +346,7 @@ ProcessArguments(int * ac, ArgumentStringType * av, ProcessedOutputType * proces
     }
     else if (!skip && strcmp((*av)[i], "--add-before-env") == 0)
     {
-      if (i + 3 >= *ac)
+      if (i + 2 >= *ac)
       {
         usage();
         return 1;
@@ -361,7 +361,7 @@ ProcessArguments(int * ac, ArgumentStringType * av, ProcessedOutputType * proces
     }
     else if (!skip && strcmp((*av)[i], "--add-before-env-with-sep") == 0)
     {
-      if (i + 4 >= *ac)
+      if (i + 3 >= *ac)
       {
         usage();
         return 1;
@@ -377,7 +377,7 @@ ProcessArguments(int * ac, ArgumentStringType * av, ProcessedOutputType * proces
     }
     else if (!skip && strcmp((*av)[i], "--remove-env") == 0)
     {
-      if (i + 2 >= *ac)
+      if (i + 1 >= *ac)
       {
         usage();
         return 1;
