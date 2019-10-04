@@ -21,6 +21,7 @@
 #include "itkTileConfiguration.h"
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
+#include "itkRGBToLuminanceImageFilter.h"
 #include "itkTileMergeImageFilter.h"
 #include "itkTileMontage.h"
 #include "itkTransformFileWriter.h"
@@ -65,6 +66,24 @@ WriteTransform(const TransformType * transform, std::string filename)
   tWriter->Update();
 }
 
+// use SFINAE to select whether to do simple assignment or RGB to Luminance conversion
+template <typename RGBImage, typename ScalarImage>
+typename std::enable_if<std::is_same<RGBImage, ScalarImage>::value, void>::type
+assignRGBtoScalar(typename RGBImage::Pointer rgbImage, typename ScalarImage::Pointer & scalarImage)
+{
+  scalarImage = rgbImage;
+}
+template <typename RGBImage, typename ScalarImage>
+typename std::enable_if<!std::is_same<RGBImage, ScalarImage>::value, void>::type
+assignRGBtoScalar(typename RGBImage::Pointer rgbImage, typename ScalarImage::Pointer & scalarImage)
+{
+  using CastType = itk::RGBToLuminanceImageFilter<RGBImage, ScalarImage>;
+  typename CastType::Pointer caster = CastType::New();
+  caster->SetInput(rgbImage);
+  caster->Update();
+  scalarImage = caster->GetOutput();
+  scalarImage->DisconnectPipeline();
+}
 
 // taken from test/itkMontageTestHelper.hxx and simplified
 template <unsigned Dimension, typename PixelType, typename AccumulatePixelType>
@@ -80,42 +99,11 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
   using ScalarImageType = itk::Image<ScalarPixelType, Dimension>;
   using OriginalImageType = itk::Image<PixelType, Dimension>; // possibly RGB instead of scalar
   typename ScalarImageType::SpacingType sp;
-  typename TransformType::ConstPointer  identity = TransformType::New();
 
-  // instantiate and invoke the montaging class
-  using MontageType = itk::TileMontage<ScalarImageType>;
-  typename MontageType::Pointer montage = MontageType::New();
-  montage->SetMontageSize(stageTiles.AxisSizes);
-  for (size_t t = 0; t < stageTiles.LinearSize(); t++)
-  {
-    std::string                       filename = inputPath + stageTiles.Tiles[t].FileName;
-    typename ScalarImageType::Pointer image = ReadImage<ScalarImageType>(filename.c_str());
-    typename TileConfig::PointType    origin = stageTiles.Tiles[t].Position;
-
-    // tile configurations are in pixel (index) coordinates
-    // so we convert them into physical ones
-    sp = image->GetSpacing();
-    for (unsigned d = 0; d < Dimension; d++)
-    {
-      origin[d] *= sp[d];
-    }
-    image->SetOrigin(origin);
-
-    montage->SetInputTile(t, image);
-  }
-  montage->Update(); // calculate registration transforms
-
-  // write transforms to files
-  for (size_t t = 0; t < stageTiles.LinearSize(); t++)
-  {
-    const TransformType * regTr = montage->GetOutputTransform(stageTiles.LinearIndexToNDIndex(t));
-    WriteTransform(regTr, outputPath + stageTiles.Tiles[t].FileName + ".tfm");
-  }
-
-  // instantiate and invoke the resampling class
-  using Resampler = itk::TileMergeImageFilter<OriginalImageType, AccumulatePixelType>;
-  typename Resampler::Pointer resampleF = Resampler::New();
-  resampleF->SetMontageSize(stageTiles.AxisSizes);
+  std::vector<typename OriginalImageType::Pointer> oImages(stageTiles.LinearSize());
+  std::vector<typename ScalarImageType::Pointer>   sImages(stageTiles.LinearSize());
+  std::cout << "Loading images...\n";
+  typename TileConfig::TileIndexType ind;
   for (size_t t = 0; t < stageTiles.LinearSize(); t++)
   {
     std::string                         filename = inputPath + stageTiles.Tiles[t].FileName;
@@ -130,12 +118,56 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
       origin[d] *= sp[d];
     }
     image->SetOrigin(origin);
+    oImages[t] = image;
+    assignRGBtoScalar<OriginalImageType, ScalarImageType>(image, sImages[t]);
 
-    resampleF->SetInputTile(t, image);
-    resampleF->SetTileTransform(stageTiles.LinearIndexToNDIndex(t), identity);
+    // show image loading progress
+    ind = stageTiles.LinearIndexToNDIndex(t);
+    char digit = '0';
+    for (unsigned d = 0; d < Dimension; d++)
+    {
+      if (ind[d] < stageTiles.AxisSizes[d] - 1)
+      {
+        break;
+      }
+      ++digit;
+    }
+    std::cout << digit << std::flush;
   }
+  std::cout << std::endl;
 
-  // resampleF->Update(); //implicitly called by the writer
+  std::cout << "Doing tile pair registrations and position optimization...";
+  using MontageType = itk::TileMontage<ScalarImageType>;
+  typename MontageType::Pointer montage = MontageType::New();
+  montage->SetMontageSize(stageTiles.AxisSizes);
+  for (size_t t = 0; t < stageTiles.LinearSize(); t++)
+  {
+    montage->SetInputTile(t, sImages[t]);
+  }
+  montage->Update(); // calculate registration transforms
+  std::cout << std::endl;
+
+  // instantiate the resampling class
+  using Resampler = itk::TileMergeImageFilter<OriginalImageType, AccumulatePixelType>;
+  typename Resampler::Pointer resampleF = Resampler::New();
+  resampleF->SetMontageSize(stageTiles.AxisSizes);
+
+  std::cout << "Writing transform for each input tile...";
+  for (size_t t = 0; t < stageTiles.LinearSize(); t++)
+  {
+    const TransformType * regTr = montage->GetOutputTransform(stageTiles.LinearIndexToNDIndex(t));
+    WriteTransform(regTr, outputPath + stageTiles.Tiles[t].FileName + ".tfm");
+
+    resampleF->SetInputTile(t, oImages[t]);
+    resampleF->SetTileTransform(stageTiles.LinearIndexToNDIndex(t), regTr);
+  }
+  std::cout << std::endl;
+
+  std::cout << "Resampling the tiles into the final single image...";
+  resampleF->Update(); // invoke this explicitly, because writing can take a while do to compression
+  std::cout << std::endl;
+
+  std::cout << "Writing the final image...";
   using WriterType = itk::ImageFileWriter<OriginalImageType>;
   typename WriterType::Pointer w = WriterType::New();
   w->SetInput(resampleF->GetOutput());
@@ -143,6 +175,7 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
   w->SetFileName(outFilename);
   w->UseCompressionOn();
   w->Update();
+  std::cout << "Done!" << std::endl;
 }
 
 
@@ -188,6 +221,11 @@ mainHelper(int argc, char * argv[])
   {
     outputPath += '/';
   }
+  std::string outFile = argv[3];
+  if (itksys::SystemTools::GetFilenamePath(outFile).empty()) // just file name, no path
+  {
+    outFile = outputPath + outFile;
+  }
 
   itk::TileConfiguration<Dimension> stageTiles;
   stageTiles.Parse(inputPath + "TileConfiguration.txt");
@@ -211,13 +249,13 @@ mainHelper(int argc, char * argv[])
   switch (componentType)
   {
     case itk::ImageIOBase::IOComponentType::UCHAR:
-      completeMontage<Dimension, unsigned char, unsigned int>(stageTiles, inputPath, outputPath, argv[3], pixelType);
+      completeMontage<Dimension, unsigned char, unsigned int>(stageTiles, inputPath, outputPath, outFile, pixelType);
       break;
     case itk::ImageIOBase::IOComponentType::USHORT:
-      completeMontage<Dimension, unsigned short, double>(stageTiles, inputPath, outputPath, argv[3], pixelType);
+      completeMontage<Dimension, unsigned short, double>(stageTiles, inputPath, outputPath, outFile, pixelType);
       break;
     case itk::ImageIOBase::IOComponentType::SHORT:
-      completeMontage<Dimension, short, double>(stageTiles, inputPath, outputPath, argv[3], pixelType);
+      completeMontage<Dimension, short, double>(stageTiles, inputPath, outputPath, outFile, pixelType);
       break;
     default: // instantiating too many types leads to long compilation time and big executable
       itkGenericExceptionMacro(
