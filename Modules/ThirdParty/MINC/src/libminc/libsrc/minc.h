@@ -603,8 +603,8 @@ extern int miget_file_type(const char *filename);
 
 #define MI2_GRPNAME "/minc-2.0"
 /* These must not interfere with any NC_ flags we might have to support. */
-#define MI2_CREATE_V2 0x1000    /* Force V2 format */
-#define MI2_CREATE_V1 0x2000    /* Force V1 format */
+#define MI2_CREATE_V2 0x10000    /* Force V2 format */
+#define MI2_CREATE_V1 0x20000    /* Force V1 format */
 
 /* Possible compression type values. */
 #define MI2_COMP_UNKNOWN (-1)

@@ -85,7 +85,7 @@ snapshot_paths='
 ./INSTALL
 ./config.h.cmake
 ./README
-'
+./check_clock_gettime.c'
 
 source "${BASH_SOURCE%/*}/../../../Utilities/Maintenance/UpdateThirdPartyFromUpstream.sh"
 update_from_upstream

@@ -600,7 +600,7 @@ MNCAPI int micreatex(const char *path, int cmode, struct mi2opts *opts_ptr)
     MI_SAVE_ROUTINE_NAME("micreate");
 
     if ((cmode & MI2_CREATE_V1) != 0) {
-        fd = nccreate(path, cmode);
+        fd = nccreate(path, cmode & 0xffff);
     }
     else if (miget_cfg_bool(MICFG_FORCE_V2) || (cmode & MI2_CREATE_V2) != 0) {
 	fd = hdf_create(path, cmode, opts_ptr);
@@ -612,7 +612,7 @@ MNCAPI int micreatex(const char *path, int cmode, struct mi2opts *opts_ptr)
         }
         else {
             /* Create a NetCDF file. */
-            fd = nccreate(path, cmode);
+            fd = nccreate(path, cmode & 0xffff);
         }
     }
     if (fd < 0) {
@@ -644,7 +644,7 @@ MNCAPI int micreate(char *path, int cmode)
     MI_SAVE_ROUTINE_NAME("micreate");
 
     /* Create a NetCDF file. */
-    fd = nccreate(path, cmode);
+    fd = nccreate(path, cmode & 0xffff);
     if (fd < 0) {
 	MI_LOG_ERROR(MI_MSG_CREATEFILE, path);
     }
