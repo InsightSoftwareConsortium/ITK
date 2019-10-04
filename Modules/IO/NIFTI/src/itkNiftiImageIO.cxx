@@ -1341,7 +1341,6 @@ mat44_transpose(const mat44 & in)
 void
 NiftiImageIO ::WriteImageInformation()
 {
-  //  MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
   //
   //
   // First of all we need to not go any further if there's
@@ -1656,6 +1655,20 @@ NiftiImageIO ::WriteImageInformation()
   this->m_NiftiImage->scl_inter = static_cast<float>(m_RescaleIntercept);
   // TODO: Note both arguments are the same, no need to distinguish between them.
   this->SetNIfTIOrientationFromImageIO(this->GetNumberOfDimensions(), this->GetNumberOfDimensions());
+
+  MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
+  std::string          temp;
+  if (itk::ExposeMetaData<std::string>(thisDic, "aux_file", temp))
+  {
+    if (temp.length() > 23)
+    {
+      itkExceptionMacro(<< "aux_file too long, Nifti limit is 23 characters");
+    }
+    else
+    {
+      strcpy(this->m_NiftiImage->aux_file, temp.c_str());
+    }
+  }
 }
 
 namespace
