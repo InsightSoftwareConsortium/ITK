@@ -327,21 +327,6 @@ template <unsigned Dimension>
 double_conversion::DoubleToStringConverter TileConfiguration<
   Dimension>::doubleConverter(double_conversion::DoubleToStringConverter::NO_FLAGS, nullptr, nullptr, 'e', 0, 17, 1, 0);
 
-// add #ifdef legacy
-
-using Tile2D = Tile<2>;
-using TileRow2D = std::vector<Tile2D>;
-using TileLayout2D = std::vector<TileRow2D>;
-
-/** The tile filenames are taken directly from the configuration file.
- * Path is NOT prepended to them, and they are not otherwise modified. */
-Montage_EXPORT TileLayout2D
-               ParseTileConfiguration2D(const std::string pathToFile);
-
-/** The path is NOT prepended to tile filenames. */
-Montage_EXPORT void
-WriteTileConfiguration2D(const std::string pathToFile, const TileLayout2D & tileConfiguration2D);
-
 } // namespace itk
 
 #endif // itkTileConfiguration_h
