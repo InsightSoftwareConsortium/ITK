@@ -175,10 +175,11 @@ MakeNiftiImage()
     img->SetOrigin(og);
   }
   {
-    // Set the qform and sfrom codes for the MetaDataDictionary.
+    // Set the qform, sfrom and aux_file values for the MetaDataDictionary.
     itk::MetaDataDictionary & thisDic = img->GetMetaDataDictionary();
     itk::EncapsulateMetaData<std::string>(thisDic, "qform_code_name", "NIFTI_XFORM_SCANNER_ANAT");
     itk::EncapsulateMetaData<std::string>(thisDic, "sform_code_name", "NIFTI_XFORM_UNKNOWN");
+    itk::EncapsulateMetaData<std::string>(thisDic, "aux_file", "aux_info.txt");
   }
 
   try
@@ -220,6 +221,13 @@ MakeNiftiImage()
     {
       std::cerr << "ERROR: sform code not recovered from file properly:  'NIFTI_XFORM_UNKNOWN' != '" << sform_temp
                 << "'" << std::endl;
+      return EXIT_FAILURE;
+    }
+    std::string auxfile_temp = "";
+    if (!itk::ExposeMetaData<std::string>(thisDic, "aux_file", auxfile_temp) || auxfile_temp != "aux_info.txt")
+    {
+      std::cerr << "ERROR: aux_file not recovered from file properly:  'aux_info.txt' != '" << auxfile_temp << "'"
+                << std::endl;
       return EXIT_FAILURE;
     }
   }
