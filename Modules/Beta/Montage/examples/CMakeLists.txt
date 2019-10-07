@@ -1,17 +1,17 @@
 cmake_minimum_required(VERSION 3.10.2)
 project(ITKMontageExamples)
 
+set(ExampleSpecificComponents
+  ITKBiasCorrection
+  ITKImageGrid
+  )
+
 if(NOT ITK_SOURCE_DIR)
-  find_package(ITK REQUIRED COMPONENTS ITKImageIO ITKTransformIO Montage ITKTestKernel)
+  find_package(ITK REQUIRED COMPONENTS Montage ITKImageIO ITKTransformIO ITKTestKernel ${ExampleSpecificComponents})
 else()
   # when being built as part of ITK, ITKImageIO and ITKTransformIO
   # lists of modules are not yet ready, causing a configure error
-  find_package(ITK REQUIRED COMPONENTS
-    Montage
-    ITKTestKernel # includes many I/O modules
-    ITKIOTransformInsightLegacy
-    ITKIOHDF5
-    )
+  find_package(ITK REQUIRED COMPONENTS Montage ITKIOTransformInsightLegacy ITKIOHDF5 ITKTestKernel ${ExampleSpecificComponents})
 endif()
 include(${ITK_USE_FILE})
 
@@ -32,6 +32,7 @@ target_link_libraries(CompareTileConfigurations ${ITK_LIBRARIES})
 
 add_executable(ImageCompareCommand ImageCompareCommand.cxx)
 target_link_libraries(ImageCompareCommand ${ITK_LIBRARIES})
+
 
 # add some regression tests
 set(TESTING_OUTPUT_PATH "${CMAKE_BINARY_DIR}/Testing/Temporary")
@@ -58,6 +59,7 @@ add_test(NAME ResampleMontage2DCompare
     --test-image ${TESTING_OUTPUT_PATH}/SampleData_CMUrun2.nrrd)
 set_tests_properties(ResampleMontage2DCompare PROPERTIES DEPENDS ResampleMontage2D)
 
+
 add_test(NAME RefineMontage3D
   COMMAND RefineMontage
     ${CMAKE_CURRENT_LIST_DIR}/SampleData_DzZ_T1/TileConfiguration.txt
@@ -79,3 +81,24 @@ add_test(NAME ResampleMontage3DCompare
     --baseline-image ${CMAKE_CURRENT_LIST_DIR}/SampleData_DzZ_T1/DzZ_T1_orig.nhdr
     --test-image ${TESTING_OUTPUT_PATH}/SampleData_DzZ_T1.nrrd)
 set_tests_properties(ResampleMontage3DCompare PROPERTIES DEPENDS ResampleMontage3D)
+
+
+file(MAKE_DIRECTORY ${TESTING_OUTPUT_PATH}/SampleData_CMUrun2/)
+add_test(NAME CompleteMontage2D
+  COMMAND CompleteMontage
+    ${CMAKE_CURRENT_LIST_DIR}/SampleData_CMUrun2/
+    ${TESTING_OUTPUT_PATH}/SampleData_CMUrun2
+    CompleteMontage2D.nrrd
+    )
+add_test(NAME CompleteMontage2DComparePositions
+  COMMAND CompareTileConfigurations
+    ${CMAKE_CURRENT_LIST_DIR}/SampleData_CMUrun2/TileConfiguration.registered.txt
+    ${TESTING_OUTPUT_PATH}/SampleData_CMUrun2/TileConfiguration.registered.txt)
+set_tests_properties(CompleteMontage2DComparePositions PROPERTIES DEPENDS CompleteMontage2D)
+add_test(NAME CompleteMontage2DCompareImage
+  COMMAND ImageCompareCommand
+    # a lot of tolerances are required because the reconstruction is not perfect
+    --tolerance-radius 1 --tolerance-intensity 16 --tolerance-number-of-pixels 200
+    --baseline-image ${CMAKE_CURRENT_LIST_DIR}/SampleData_CMUrun2/groundTruth.png
+    --test-image ${TESTING_OUTPUT_PATH}/SampleData_CMUrun2/CompleteMontage2D.nrrd)
+set_tests_properties(CompleteMontage2DCompareImage PROPERTIES DEPENDS CompleteMontage2D)

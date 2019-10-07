@@ -26,6 +26,9 @@
 #include "itkTileMontage.h"
 #include "itkTransformFileWriter.h"
 #include "itkTxtTransformIOFactory.h"
+#include "itkN4BiasFieldCorrectionImageFilter.h"
+#include "itkShrinkImageFilter.h"
+#include "itkImageDuplicator.h"
 
 template <typename TImage>
 typename TImage::Pointer
@@ -66,6 +69,165 @@ WriteTransform(const TransformType * transform, std::string filename)
   tWriter->Update();
 }
 
+template <typename TFilter>
+class CommandIterationUpdate : public itk::Command
+{
+public:
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
+  itkNewMacro(Self);
+
+protected:
+  CommandIterationUpdate() = default;
+
+public:
+  void
+  Execute(itk::Object * caller, const itk::EventObject & event) override
+  {
+    Execute((const itk::Object *)caller, event);
+  }
+
+  void
+  Execute(const itk::Object * object, const itk::EventObject & event) override
+  {
+    const auto * filter = dynamic_cast<const TFilter *>(object);
+
+    if (typeid(event) != typeid(itk::IterationEvent))
+    {
+      return;
+    }
+
+    std::cout << '.' << std::flush; // minimal progress feedback
+  }
+};
+
+template <unsigned Dimension>
+using N4Filter = typename itk::N4BiasFieldCorrectionImageFilter<itk::Image<float, Dimension>>;
+template <unsigned Dimension>
+using LogBiasFieldType = typename N4Filter<Dimension>::BiasFieldControlPointLatticeType;
+constexpr unsigned splineOrder = 3;
+
+template <typename PixelType, unsigned Dimension>
+typename LogBiasFieldType<Dimension>::Pointer
+GetLogBiasField(typename itk::Image<PixelType, Dimension>::Pointer scalarImage,
+                std::vector<unsigned>                              iterations = { 20, 10, 5 },
+                unsigned                                           shrinkFactor = 4)
+{
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using RealImageType = itk::Image<float, Dimension>;
+
+  typename ImageType::RegionType region = scalarImage->GetLargestPossibleRegion();
+
+  // instantiate N4 and assign variables not exposed to the user
+  using CorrecterType =
+    itk::N4BiasFieldCorrectionImageFilter<RealImageType>; // TODO: can we use ImageType here instead of RealImageType?
+  typename CorrecterType::Pointer correcter = CorrecterType::New();
+  correcter->SetSplineOrder(splineOrder);
+  correcter->SetWienerFilterNoise(0.01);
+  correcter->SetBiasFieldFullWidthAtHalfMaximum(0.15);
+  correcter->SetConvergenceThreshold(0.00001);
+
+  typename CorrecterType::VariableSizeArrayType maximumNumberOfIterations(
+    static_cast<typename CorrecterType::VariableSizeArrayType::SizeValueType>(iterations.size()));
+  for (unsigned int d = 0; d < iterations.size(); d++)
+  {
+    maximumNumberOfIterations[d] = iterations[d];
+  }
+  correcter->SetMaximumNumberOfIterations(maximumNumberOfIterations);
+
+  typename CorrecterType::ArrayType numberOfFittingLevels;
+  numberOfFittingLevels.Fill(
+    static_cast<typename CorrecterType::VariableSizeArrayType::SizeValueType>(iterations.size()));
+  correcter->SetNumberOfFittingLevels(numberOfFittingLevels);
+
+  typename CorrecterType::ArrayType numberOfControlPoints;
+  numberOfControlPoints.Fill(1 + correcter->GetSplineOrder());
+  correcter->SetNumberOfControlPoints(numberOfControlPoints);
+
+  using ShrinkerType = itk::ShrinkImageFilter<ImageType, RealImageType>;
+  typename ShrinkerType::Pointer shrinker = ShrinkerType::New();
+  shrinker->SetInput(scalarImage);
+  shrinker->SetShrinkFactors(shrinkFactor);
+  shrinker->Update();
+
+  correcter->SetInput(shrinker->GetOutput());
+
+  using CommandType = CommandIterationUpdate<CorrecterType>;
+  typename CommandType::Pointer observer = CommandType::New();
+  correcter->AddObserver(itk::IterationEvent(), observer);
+
+  correcter->Update();
+
+  using DuplicatorType = itk::ImageDuplicator<LogBiasFieldType<Dimension>>;
+  typename DuplicatorType::Pointer dup = DuplicatorType::New();
+  dup->SetInputImage(correcter->GetLogBiasFieldControlPointLattice());
+  dup->Update();
+
+  return dup->GetOutput();
+}
+
+
+template <typename PixelType, unsigned Dimension>
+typename itk::Image<PixelType, Dimension>::Pointer
+CorrectBias(typename itk::Image<PixelType, Dimension>::Pointer image,
+            typename LogBiasFieldType<Dimension>::Pointer      bsplineLattice)
+{
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using RealImageType = itk::Image<float, Dimension>;
+
+  typename ImageType::RegionType region = image->GetLargestPossibleRegion();
+
+  using ScalarImageType = typename N4Filter<Dimension>::ScalarImageType;
+  using BSplinerType = itk::BSplineControlPointImageFilter<LogBiasFieldType<Dimension>, ScalarImageType>;
+  typename BSplinerType::Pointer bspliner = BSplinerType::New();
+  bspliner->SetInput(bsplineLattice);
+  bspliner->SetSplineOrder(splineOrder);
+  bspliner->SetSize(region.GetSize());
+  bspliner->SetOrigin(image->GetOrigin());
+  bspliner->SetDirection(image->GetDirection());
+  bspliner->SetSpacing(image->GetSpacing());
+  bspliner->Update();
+  typename ScalarImageType::Pointer logBiasField = bspliner->GetOutput();
+
+  // we need this to get rid of the ScalarImageType which uses VariableVector type
+  using CustomExpType = itk::UnaryGeneratorImageFilter<ScalarImageType, RealImageType>;
+  typename CustomExpType::Pointer expFilter = CustomExpType::New();
+
+  auto expLambda = [](const typename ScalarImageType::PixelType & logBias) {
+    return static_cast<float>(std::exp(logBias[0]));
+  };
+  expFilter->SetFunctor(expLambda);
+  expFilter->SetInput(logBiasField);
+  expFilter->Update();
+  typename RealImageType::Pointer mulField = expFilter->GetOutput();
+
+  // TODO: parallelize this section
+  double sum = 0.0;
+  // normalize the multiplicative bias field to have an average of 1.0
+  // so it is neutral to overall image intensity
+  itk::ImageRegionIterator<RealImageType> ItM(mulField, region);
+  for (ItM.GoToBegin(); !ItM.IsAtEnd(); ++ItM)
+  {
+    sum += ItM.Get();
+  }
+  float diff = 1.0 - sum / region.GetNumberOfPixels();
+  for (ItM.GoToBegin(); !ItM.IsAtEnd(); ++ItM)
+  {
+    ItM.Set(ItM.Get() + diff);
+  }
+
+  using CustomBinaryFilter = itk::BinaryGeneratorImageFilter<ImageType, RealImageType, ImageType>;
+  typename CustomBinaryFilter::Pointer expAndDivFilter = CustomBinaryFilter::New();
+  auto expAndDivLambda = [](PixelType input, float biasField) { return static_cast<PixelType>(input / biasField); };
+  expAndDivFilter->SetFunctor(expAndDivLambda);
+  expAndDivFilter->SetInput1(image);
+  expAndDivFilter->SetInput2(mulField);
+  expAndDivFilter->Update();
+
+  return expAndDivFilter->GetOutput();
+}
+
 // use SFINAE to select whether to do simple assignment or RGB to Luminance conversion
 template <typename RGBImage, typename ScalarImage>
 typename std::enable_if<std::is_same<RGBImage, ScalarImage>::value, void>::type
@@ -98,11 +260,13 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
   using TransformType = itk::TranslationTransform<double, Dimension>;
   using ScalarImageType = itk::Image<ScalarPixelType, Dimension>;
   using OriginalImageType = itk::Image<PixelType, Dimension>; // possibly RGB instead of scalar
+  using BiasFieldType = LogBiasFieldType<Dimension>;
   typename ScalarImageType::SpacingType sp;
 
   std::vector<typename OriginalImageType::Pointer> oImages(stageTiles.LinearSize());
   std::vector<typename ScalarImageType::Pointer>   sImages(stageTiles.LinearSize());
-  std::cout << "Loading images...\n";
+  std::vector<typename BiasFieldType::Pointer>     bImages(stageTiles.LinearSize());
+  std::cout << "Loading and flat-fielding images...\n";
   typename TileConfig::TileIndexType ind;
   for (size_t t = 0; t < stageTiles.LinearSize(); t++)
   {
@@ -118,6 +282,11 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
       origin[d] *= sp[d];
     }
     image->SetOrigin(origin);
+
+    assignRGBtoScalar<OriginalImageType, ScalarImageType>(image, sImages[t]);
+    bImages[t] = GetLogBiasField<ScalarPixelType, Dimension>(sImages[t]); // input image must be scalar
+    image = CorrectBias<PixelType, Dimension>(image, bImages[t]);
+
     oImages[t] = image;
     assignRGBtoScalar<OriginalImageType, ScalarImageType>(image, sImages[t]);
 
@@ -132,7 +301,7 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
       }
       ++digit;
     }
-    std::cout << digit << std::flush;
+    std::cout << digit << std::endl;
   }
   std::cout << std::endl;
 
@@ -147,6 +316,8 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
   montage->Update(); // calculate registration transforms
   std::cout << std::endl;
 
+  TileConfig actualTiles = stageTiles; // so we only need to update positions
+
   // instantiate the resampling class
   using Resampler = itk::TileMergeImageFilter<OriginalImageType, AccumulatePixelType>;
   typename Resampler::Pointer resampleF = Resampler::New();
@@ -155,16 +326,29 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
   std::cout << "Writing transform for each input tile...";
   for (size_t t = 0; t < stageTiles.LinearSize(); t++)
   {
-    const TransformType * regTr = montage->GetOutputTransform(stageTiles.LinearIndexToNDIndex(t));
+    typename MontageType::TileIndexType ind = stageTiles.LinearIndexToNDIndex(t);
+    const TransformType *               regTr = montage->GetOutputTransform(ind);
     WriteTransform(regTr, outputPath + stageTiles.Tiles[t].FileName + ".tfm");
 
+    // set inputs to resampler class
     resampleF->SetInputTile(t, oImages[t]);
-    resampleF->SetTileTransform(stageTiles.LinearIndexToNDIndex(t), regTr);
+    resampleF->SetTileTransform(ind, regTr);
+
+    // calculate updated positions - transform physical into index shift
+    const itk::Vector<double, Dimension> regPos = regTr->GetOffset();
+    for (unsigned d = 0; d < Dimension; d++)
+    {
+      actualTiles.Tiles[t].Position[d] = stageTiles.Tiles[t].Position[d] - regPos[d] / sp[d];
+    }
   }
   std::cout << std::endl;
 
+  std::cout << "Writing registered tile configuration file...";
+  actualTiles.Write(outputPath + "TileConfiguration.registered.txt");
+  std::cout << std::endl;
+
   std::cout << "Resampling the tiles into the final single image...";
-  resampleF->Update(); // invoke this explicitly, because writing can take a while do to compression
+  resampleF->Update(); // invoke this explicitly, because writing itself can take a while due to compression
   std::cout << std::endl;
 
   std::cout << "Writing the final image...";
@@ -172,7 +356,7 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
   typename WriterType::Pointer w = WriterType::New();
   w->SetInput(resampleF->GetOutput());
   // resampleF->DebugOn(); // generate an image of contributing regions
-  w->SetFileName(outFilename);
+  w->SetFileName(outputPath + outFilename);
   w->UseCompressionOn();
   w->Update();
   std::cout << "Done!" << std::endl;
@@ -209,13 +393,8 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
 
 template <unsigned Dimension>
 int
-mainHelper(int argc, char * argv[])
+mainHelper(int argc, char * argv[], std::string inputPath)
 {
-  std::string inputPath = argv[1];
-  if (inputPath.back() != '/' && inputPath.back() != '\\')
-  {
-    inputPath += '/';
-  }
   std::string outputPath = argv[2];
   if (outputPath.back() != '/' && outputPath.back() != '\\')
   {
@@ -277,17 +456,23 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+  std::string inputPath = argv[1];
+  if (inputPath.back() != '/' && inputPath.back() != '\\')
+  {
+    inputPath += '/';
+  }
+
   try
   {
     unsigned dim;
-    itk::TileConfiguration<2>::TryParse(argv[1], dim);
+    itk::TileConfiguration<2>::TryParse(inputPath + "TileConfiguration.txt", dim);
 
     switch (dim)
     {
       case 2:
-        return mainHelper<2>(argc, argv);
+        return mainHelper<2>(argc, argv, inputPath);
       case 3:
-        return mainHelper<3>(argc, argv);
+        return mainHelper<3>(argc, argv, inputPath);
       default:
         std::cerr << "Only dimensions 2 and 3 are supported. You are attempting to resample dimension " << dim;
         return EXIT_FAILURE;
