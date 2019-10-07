@@ -185,7 +185,7 @@ void
 KernelTransform<TParametersValueType, NDimensions>::ComputeK()
 {
   PointIdentifier numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
-  GMatrixType     G;
+
 
   this->ComputeD();
 
@@ -196,6 +196,7 @@ KernelTransform<TParametersValueType, NDimensions>::ComputeK()
   PointsIterator p1 = this->m_SourceLandmarks->GetPoints()->Begin();
   PointsIterator end = this->m_SourceLandmarks->GetPoints()->End();
 
+  GMatrixType G;
   // K matrix is symmetric, so only evaluate the upper triangle and
   // store the values in bot the upper and lower triangle
   unsigned int i = 0;
@@ -206,7 +207,11 @@ KernelTransform<TParametersValueType, NDimensions>::ComputeK()
 
     // Compute the block diagonal element, i.e. kernel for pi->pi
     G = this->ComputeReflexiveG(p1);
-    this->m_KMatrix.update(G, i * NDimensions, i * NDimensions);
+    const vnl_matrix_ref<TParametersValueType> G_reference_alias{
+      G.as_ref()
+    }; // different interfaces require different representations of values.
+    this->m_KMatrix.update(
+      G_reference_alias, i * NDimensions, i * NDimensions); // update only accepts `const vnl_matrix<T> &`
     ++p2;
     ++j;
 
@@ -216,12 +221,11 @@ KernelTransform<TParametersValueType, NDimensions>::ComputeK()
       const InputVectorType s = p1.Value() - p2.Value();
       this->ComputeG(s, G);
       // write value in upper and lower triangle of matrix
-      this->m_KMatrix.update(G, i * NDimensions, j * NDimensions);
-      this->m_KMatrix.update(G, j * NDimensions, i * NDimensions);
+      this->m_KMatrix.update(G_reference_alias, i * NDimensions, j * NDimensions);
+      this->m_KMatrix.update(G_reference_alias, j * NDimensions, i * NDimensions);
       ++p2;
       ++j;
     }
-
     ++p1;
     ++i;
   }
@@ -232,14 +236,11 @@ template <typename TParametersValueType, unsigned int NDimensions>
 void
 KernelTransform<TParametersValueType, NDimensions>::ComputeP()
 {
-  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
-  IMatrixType     I;
-  IMatrixType     temp;
-  InputPointType  p;
+  const PointIdentifier                  numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
+  const vnl_matrix<TParametersValueType> I{ IMatrixType().set_identity().as_matrix() };
 
-  p.Fill(NumericTraits<ScalarType>::ZeroValue());
+  InputPointType p{ NumericTraits<ScalarType>::ZeroValue() };
 
-  I.set_identity();
   this->m_PMatrix.set_size(NDimensions * numberOfLandmarks, NDimensions * (NDimensions + 1));
   this->m_PMatrix.fill(0.0);
   for (unsigned long i = 0; i < numberOfLandmarks; i++)
@@ -247,8 +248,9 @@ KernelTransform<TParametersValueType, NDimensions>::ComputeP()
     this->m_SourceLandmarks->GetPoint(i, &p);
     for (unsigned int j = 0; j < NDimensions; j++)
     {
-      temp = I * p[j];
-      this->m_PMatrix.update(temp, i * NDimensions, j * NDimensions);
+      const vnl_matrix<TParametersValueType> temp_matrix{ I * p[j] }; // be explicit about conversions that occur.
+      this->m_PMatrix.update(
+        temp_matrix, i * NDimensions, j * NDimensions); // update only takes 'const vnl_matrix<T> &' as input
     }
     this->m_PMatrix.update(I, i * NDimensions, NDimensions * NDimensions);
   }

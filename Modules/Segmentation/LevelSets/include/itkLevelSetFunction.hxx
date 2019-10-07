@@ -105,7 +105,7 @@ LevelSetFunction<TImageType>::ComputeMinimalCurvature(const NeighborhoodType & i
   }
 
   // Eigensystem
-  vnl_symmetric_eigensystem<ScalarValueType> eig(Curve);
+  vnl_symmetric_eigensystem<ScalarValueType> eig{ Curve.as_matrix() };
 
   mincurve = itk::Math::abs(eig.get_eigenvalue(ImageDimension - 1));
   for (i = 0; i < ImageDimension; i++)

@@ -61,6 +61,9 @@ public:
    *  setting for memory management.                          */
   Array(const Array &);
 
+  /** Construct from a VnlVectorType */
+  explicit Array(const VnlVectorType &);
+
   /** Constructor with size. Size can only be changed by assignment */
   explicit Array(SizeValueType dimension);
 

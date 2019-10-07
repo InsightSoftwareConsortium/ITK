@@ -320,7 +320,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
 
   // Compute principal moments and axes
   VectorType                        principalMoments;
-  vnl_symmetric_eigensystem<double> eigen(centralMoments.GetVnlMatrix());
+  vnl_symmetric_eigensystem<double> eigen{ centralMoments.GetVnlMatrix().as_matrix() };
   vnl_diag_matrix<double>           pm = eigen.D;
   for (unsigned int i = 0; i < ImageDimension; i++)
   {
@@ -330,8 +330,8 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
 
   // Add a final reflection if needed for a proper rotation,
   // by multiplying the last row by the determinant
-  vnl_real_eigensystem                  eigenrot(principalAxes.GetVnlMatrix());
-  vnl_diag_matrix<std::complex<double>> eigenval = eigenrot.D;
+  vnl_real_eigensystem                  eigenrot{ principalAxes.GetVnlMatrix().as_matrix() };
+  vnl_diag_matrix<std::complex<double>> eigenval{ eigenrot.D };
   std::complex<double>                  det(1.0, 0.0);
 
   for (unsigned int i = 0; i < ImageDimension; i++)
@@ -787,7 +787,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputeOrientedBoundingBox(LabelObject
 
   const ImageType * output = this->GetOutput();
 
-  VNLMatrixType principalAxesBasisMatrix = labelObject->GetPrincipalAxes().GetVnlMatrix();
+  VNLMatrixType principalAxesBasisMatrix{ labelObject->GetPrincipalAxes().GetVnlMatrix().as_matrix() };
 
   const typename LabelObjectType::CentroidType centroid = labelObject->GetCentroid();
   const unsigned int                           numLines = labelObject->GetNumberOfLines();

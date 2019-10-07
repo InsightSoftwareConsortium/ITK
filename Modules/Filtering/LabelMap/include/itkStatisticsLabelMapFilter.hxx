@@ -221,8 +221,8 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
     }
 
     // Compute principal moments and axes
-    vnl_symmetric_eigensystem<double> eigen(centralMoments.GetVnlMatrix());
-    vnl_diag_matrix<double>           pm = eigen.D;
+    vnl_symmetric_eigensystem<double> eigen{ centralMoments.GetVnlMatrix().as_matrix() };
+    vnl_diag_matrix<double>           pm{ eigen.D };
     for (unsigned int i = 0; i < ImageDimension; i++)
     {
       //    principalMoments[i] = 4 * std::sqrt( pm(i,i) );
@@ -232,8 +232,8 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
 
     // Add a final reflection if needed for a proper rotation,
     // by multiplying the last row by the determinant
-    vnl_real_eigensystem                  eigenrot(principalAxes.GetVnlMatrix());
-    vnl_diag_matrix<std::complex<double>> eigenval = eigenrot.D;
+    vnl_real_eigensystem                  eigenrot{ principalAxes.GetVnlMatrix().as_matrix() };
+    vnl_diag_matrix<std::complex<double>> eigenval{ eigenrot.D };
     std::complex<double>                  det(1.0, 0.0);
 
     for (unsigned int i = 0; i < ImageDimension; i++)
