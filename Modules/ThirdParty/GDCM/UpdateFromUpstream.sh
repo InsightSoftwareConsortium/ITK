@@ -17,7 +17,6 @@ readonly paths="
   CMakeLists.txt
   Copyright.txt
   Source
-  Utilities/C99
   Utilities/CMakeLists.txt
   Utilities/gdcmcharls
   Utilities/gdcm_charls.h
