@@ -169,7 +169,19 @@ public:
     }
   }
 
-protected:
+  TPixel *
+  data() ITK_NOEXCEPT
+  {
+    return m_Data;
+  }
+
+  const TPixel *
+  data() const ITK_NOEXCEPT
+  {
+    return m_Data;
+  }
+
+private:
   unsigned int m_ElementCount{ 0 };
   TPixel *     m_Data;
 };

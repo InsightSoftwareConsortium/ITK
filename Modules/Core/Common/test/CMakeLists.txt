@@ -620,6 +620,7 @@ set(ITKCommonGTests
       itkImageRegionRangeGTest.cxx
       itkIndexRangeGTest.cxx
       itkMersenneTwisterRandomVariateGeneratorGTest.cxx
+      itkNeighborhoodAllocatorGTest.cxx
       itkPointGTest.cxx
       itkShapedImageNeighborhoodRangeGTest.cxx
       itkSizeGTest.cxx
