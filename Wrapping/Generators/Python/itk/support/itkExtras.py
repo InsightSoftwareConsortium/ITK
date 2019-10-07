@@ -773,6 +773,59 @@ def meshread(
     reader.Update()
     return reader.GetOutput()
 
+def transformread(filename: fileiotype):
+    """Read an itk Transform file.
+
+    Parameters
+    ----------
+
+    filename:
+        Path to the transform file (typically a .h5 file).
+
+    Returns
+    -------
+
+    A Python list containing the transforms in the file.
+    """
+    import itk
+
+    reader = itk.TransformFileReaderTemplate[itk.D].New()
+    reader.SetFileName(str(filename))
+    reader.Update()
+
+    transforms = []
+    transform_list = reader.GetModifiableTransformList()
+    while not transform_list.empty():
+        transform = transform_list.pop()
+        transforms.append(itk.down_cast(transform))
+    transforms.reverse()
+
+    return transforms
+
+def transformwrite(transforms, filename: fileiotype, compression: bool = False):
+    """Write an itk Transform file.
+
+    Parameters
+    ----------
+
+    transforms: list of itk.TransformBaseTemplate[itk.D]
+        Python list of the transforms to write.
+
+    filename:
+        Path to the transform file (typically a .h5 file).
+
+    compression:
+        Use compression, if the file format supports it.
+    """
+    import itk
+
+    writer = itk.TransformFileWriterTemplate[itk.D].New()
+    writer.SetFileName(filename)
+    writer.SetUseCompression(compression)
+    for transform in transforms:
+        writer.AddTransform(transform)
+    writer.Update()
+
 
 def search(s: str, case_sensitive: bool = False) -> List[str]:  # , fuzzy=True):
     """Search for a class name in the itk module."""

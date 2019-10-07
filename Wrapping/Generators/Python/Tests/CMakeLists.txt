@@ -49,9 +49,11 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
       COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/extras.py
         DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
         DATA{../../../../Testing/Data/Input/mushroom.vtk}
+        DATA{../../../../Testing/Data/Input/LinearTransform.h5}
         ${ITK_TEST_OUTPUT_DIR}/out.png
         ${ITK_TEST_OUTPUT_DIR}/extras-mushroom.vtk
         ${ITK_TEST_OUTPUT_DIR}
+        ${ITK_TEST_OUTPUT_DIR}/LinearTransformWritten.h5
       )
   endif()
 endif()
