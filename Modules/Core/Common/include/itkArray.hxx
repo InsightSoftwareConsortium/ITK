@@ -41,6 +41,15 @@ Array<TValue>::Array(const Self & rhs)
   m_LetArrayManageMemory(true)
 {}
 
+template <typename TValue>
+Array<TValue>::Array(const VnlVectorType & rhs)
+  : vnl_vector<TValue>(rhs)
+  ,
+  // The vnl vector copy constructor creates new memory
+  // no matter the setting of let array manage memory of rhs
+  m_LetArrayManageMemory(true)
+{}
+
 /** Constructor with size */
 template <typename TValue>
 Array<TValue>::Array(SizeValueType dimension)

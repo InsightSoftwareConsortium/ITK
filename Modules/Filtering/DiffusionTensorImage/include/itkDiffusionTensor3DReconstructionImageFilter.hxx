@@ -258,7 +258,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
           ++(*gradientItContainer[i]);
         }
 
-        vnl_svd<double> pseudoInverseSolver(m_TensorBasis);
+        vnl_svd<double> pseudoInverseSolver{ m_TensorBasis.as_matrix() };
         if (m_NumberOfGradientDirections > 6)
         {
           D = pseudoInverseSolver.solve(m_BMatrix * B);
@@ -371,7 +371,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
           }
         }
 
-        vnl_svd<double> pseudoInverseSolver(m_TensorBasis);
+        vnl_svd<double> pseudoInverseSolver{ m_TensorBasis.as_matrix() };
         if (m_NumberOfGradientDirections > 6)
         {
           D = pseudoInverseSolver.solve(m_BMatrix * B);

@@ -93,14 +93,11 @@ Rigid2DTransform<TParametersValueType>::ComputeMatrixParameters()
 {
   // Extract the orthogonal part of the matrix
   //
-  vnl_matrix<TParametersValueType> p(2, 2);
-  p = this->GetMatrix().GetVnlMatrix();
-  vnl_svd<TParametersValueType>    svd(p);
-  vnl_matrix<TParametersValueType> r(2, 2);
-  r = svd.U() * svd.V().transpose();
+  MatrixType                       p{ this->GetMatrix().GetVnlMatrix() };
+  vnl_svd<TParametersValueType>    svd{ (p.GetVnlMatrix()).as_ref() };
+  vnl_matrix<TParametersValueType> r{ svd.U() * svd.V().transpose() };
 
   m_Angle = std::acos(r[0][0]);
-
   if (r[1][0] < 0.0)
   {
     m_Angle = -m_Angle;

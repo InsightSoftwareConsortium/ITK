@@ -197,7 +197,7 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::GetInverseJacobia
   if (useSVD)
   {
     this->ComputeJacobianWithRespectToPositionInternal(index, jacobian, false);
-    vnl_svd<typename JacobianPositionType::element_type> svd(jacobian);
+    vnl_svd<typename JacobianPositionType::element_type> svd{ jacobian.as_ref() };
     for (unsigned int i = 0; i < jacobian.rows(); i++)
     {
       for (unsigned int j = 0; j < jacobian.cols(); j++)
@@ -431,7 +431,8 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::VerifyFixedParame
       originString << "InverseDisplacementField Spacing: " << inverseFieldSpacing
                    << ", DisplacementField Spacing: " << fieldSpacing << std::endl;
     }
-    if (!inverseFieldDirection.GetVnlMatrix().as_ref().is_equal(fieldDirection.GetVnlMatrix(), directionTolerance))
+    if (!inverseFieldDirection.GetVnlMatrix().as_ref().is_equal(fieldDirection.GetVnlMatrix().as_ref(),
+                                                                directionTolerance))
     {
       unequalDirections = true;
       originString << "InverseDisplacementField Direction: " << inverseFieldDirection

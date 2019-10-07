@@ -151,16 +151,15 @@ public:
 
     m_Rank = svd.rank();
 
-    VNLVectorType y = m_B.as_vector() - m_A * iP.GetVnlVector();
+    const auto y{ m_B.as_vector() - m_A * iP.GetVnlVector() };
 
     VNLVectorType displacement = svd.solve(y);
-    PointType     oP;
 
+    PointType oP;
     for (unsigned int dim = 0; dim < PointDimension; dim++)
     {
       oP[dim] = iP[dim] + displacement[dim];
     }
-
     return oP;
   }
 

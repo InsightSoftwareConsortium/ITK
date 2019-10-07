@@ -276,7 +276,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
           }
 
           // Compute tensor product of gradI with itself
-          const vnl_matrix<SpacePrecisionType> tnspose = gradI.GetTranspose();
+          const vnl_matrix<SpacePrecisionType> tnspose{ gradI.GetTranspose().as_matrix() };
           StructureTensorType                  product(gradI * tnspose);
           tensor += product;
         }

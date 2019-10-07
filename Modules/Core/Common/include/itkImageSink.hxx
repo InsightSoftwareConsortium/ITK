@@ -211,7 +211,7 @@ ImageSink<TInputImage>::VerifyInputInformation() ITKv5_CONST
 
       if (!inputPtr1->GetOrigin().GetVnlVector().is_equal(inputPtrN->GetOrigin().GetVnlVector(), coordinateTol) ||
           !inputPtr1->GetSpacing().GetVnlVector().is_equal(inputPtrN->GetSpacing().GetVnlVector(), coordinateTol) ||
-          !inputPtr1->GetDirection().GetVnlMatrix().as_ref().is_equal(inputPtrN->GetDirection().GetVnlMatrix(),
+          !inputPtr1->GetDirection().GetVnlMatrix().as_ref().is_equal(inputPtrN->GetDirection().GetVnlMatrix().as_ref(),
                                                                       this->m_DirectionTolerance))
       {
         std::ostringstream originString, spacingString, directionString;
@@ -231,8 +231,8 @@ ImageSink<TInputImage>::VerifyInputInformation() ITKv5_CONST
                         << " Spacing: " << inputPtrN->GetSpacing() << std::endl;
           spacingString << "\tTolerance: " << coordinateTol << std::endl;
         }
-        if (!inputPtr1->GetDirection().GetVnlMatrix().as_ref().is_equal(inputPtrN->GetDirection().GetVnlMatrix(),
-                                                                        this->m_DirectionTolerance))
+        if (!inputPtr1->GetDirection().GetVnlMatrix().as_ref().is_equal(
+              inputPtrN->GetDirection().GetVnlMatrix().as_ref(), this->m_DirectionTolerance))
         {
           directionString.setf(std::ios::scientific);
           directionString.precision(7);

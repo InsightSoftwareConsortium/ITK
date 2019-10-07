@@ -203,8 +203,7 @@ public:
   inline vnl_matrix<T>
   GetInverse() const
   {
-    vnl_matrix<T> temp = vnl_matrix_inverse<T>(m_Matrix);
-    return temp;
+    return static_cast<vnl_matrix<T>>(vnl_matrix_inverse<T>(m_Matrix));
   }
 
   /** Return the transposed matrix. */
