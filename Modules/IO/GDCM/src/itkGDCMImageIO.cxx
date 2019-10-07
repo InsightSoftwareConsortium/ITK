@@ -405,13 +405,17 @@ GDCMImageIO::InternalReadImageInformation()
       itkExceptionMacro("Unhandled PixelFormat: " << pixeltype);
   }
 
+  gdcm::PixelFormat::ScalarType outputpt = pixeltype.GetScalarType();
   m_RescaleIntercept = image.GetIntercept();
   m_RescaleSlope = image.GetSlope();
-  gdcm::Rescaler r;
-  r.SetIntercept(m_RescaleIntercept);
-  r.SetSlope(m_RescaleSlope);
-  r.SetPixelFormat(pixeltype);
-  gdcm::PixelFormat::ScalarType outputpt = r.ComputeInterceptSlopePixelType();
+  if (m_RescaleSlope != 1.0 || m_RescaleIntercept != 0.0)
+  {
+    gdcm::Rescaler r;
+    r.SetIntercept(m_RescaleIntercept);
+    r.SetSlope(m_RescaleSlope);
+    r.SetPixelFormat(pixeltype);
+    outputpt = r.ComputeInterceptSlopePixelType();
+  }
 
   itkAssertInDebugAndIgnoreInReleaseMacro(pixeltype <= outputpt);
 
