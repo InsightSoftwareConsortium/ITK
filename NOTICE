@@ -1,8 +1,8 @@
-Insight Toolkit
-Copyright 1999-2011 Insight Software Consortium
+Insight Toolkit (ITK)
 
-This software is distributed under the
-Apache 2.0 License.
+Copyright 1999-2019 Insight Software Consortium
+
+This software is distributed under the Apache 2.0 License.
 
 See LICENSE file for details.
 
@@ -26,7 +26,11 @@ new and simplified BSD license approved by the Open Source Initiative (OSI)
 [http://www.opensource.org/licenses/bsd-license.php].
 
 Starting with its version ITK 4, The Insight Toolkit is distributed under the
-Apache 2.0 License
+Apache 2.0 License. The move from the BSD license to the Apache 2.0 was
+discussed at the October 2009 Insight Software Consortium Board Meeting,
+discussed until December 14th, 2009 and the Insight Software Consortium Board
+voted and approved the transition to Apache 2.0 license during a period from
+Deember 15, 2009 to January 14th, 2010 to move to the Apache 2.0 License.
 
 -----------------------------------------------------------------------
 
