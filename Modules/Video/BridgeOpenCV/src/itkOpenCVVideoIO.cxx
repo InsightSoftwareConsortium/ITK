@@ -109,7 +109,7 @@ OpenCVVideoIO::SetReadFromFile()
 {
   if (!this->m_ReaderOpen && !this->m_WriterOpen)
   {
-    this->m_ReadType = ReadFromFile;
+    this->m_ReadType = ReadType::ReadFromFile;
   }
   else
   {
@@ -122,7 +122,7 @@ OpenCVVideoIO::SetReadFromCamera()
 {
   if (!this->m_ReaderOpen && !this->m_WriterOpen)
   {
-    this->m_ReadType = ReadFromCamera;
+    this->m_ReadType = ReadType::ReadFromCamera;
   }
   else
   {
@@ -199,7 +199,7 @@ OpenCVVideoIO::ReadImageInformation()
   IplImage *  tempImage;
 
   // Open capture from a file
-  if (this->m_ReadType == ReadFromFile)
+  if (this->m_ReadType == ReadType::ReadFromFile)
   {
 
     // Make sure file can be read
@@ -246,7 +246,7 @@ OpenCVVideoIO::ReadImageInformation()
   }
 
   // Open capture from a camera
-  else if (this->m_ReadType == ReadFromCamera)
+  else if (this->m_ReadType == ReadType::ReadFromCamera)
   {
 
     // Open the camera capture
@@ -558,7 +558,7 @@ OpenCVVideoIO::OpenReader()
   }
 
   // If neither reader nor writer is currently open, open the reader
-  if (this->m_ReadType == ReadFromFile)
+  if (this->m_ReadType == ReadType::ReadFromFile)
   {
     this->m_Capture = cvCaptureFromFile(this->GetFileName());
     if (this->m_Capture != nullptr)
@@ -570,7 +570,7 @@ OpenCVVideoIO::OpenReader()
       itkExceptionMacro("Video failed to open");
     }
   }
-  else if (this->m_ReadType == ReadFromCamera)
+  else if (this->m_ReadType == ReadType::ReadFromCamera)
   {
     this->m_Capture = cvCaptureFromCAM(this->m_CameraIndex);
     if (this->m_Capture != nullptr)
@@ -622,7 +622,7 @@ OpenCVVideoIO::ResetMembers()
   this->m_LastIFrame = 0;
 
   // Default to reading from a file
-  this->m_ReadType = ReadFromFile;
+  this->m_ReadType = ReadType::ReadFromFile;
   this->m_CameraIndex = 0;
 
   // Members from ImageIOBase
