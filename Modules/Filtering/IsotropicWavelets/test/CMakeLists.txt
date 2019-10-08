@@ -44,6 +44,9 @@ set(
   itkStructureTensorWithGeneralizedRieszTest.cxx
   # Steerable Riesz Matrix
   itkRieszRotationMatrixTest.cxx
+  # Composite Filter
+  itkWaveletCoeffsPhaseAnalyzisImageFilterTest.cxx
+  itkWaveletCoeffsSpatialDomainImageFilterTest.cxx
 )
 
 if(ITKVtkGlue_ENABLED)
@@ -609,6 +612,39 @@ itk_add_test(
     itkZeroDCImageFilterTest
     DATA{Input/checkershadow_Lch_512x512.tiff}
     2
+)
+## WaveletCoeffsPhaseAnalyzis
+itk_add_test(
+  NAME itkWaveletCoeffsPhaseAnalyzisImageFilterTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    --compare
+    DATA{Baseline/vol11-16_16_16_output_expected.nrrd}
+    ${ITK_TEST_OUTPUT_DIR}/vol11-16_16_16_L2_B2_S2.nrrd
+    itkWaveletCoeffsPhaseAnalyzisImageFilterTest
+    DATA{Input/vol11-16_16_16.nrrd}
+    ${ITK_TEST_OUTPUT_DIR}/vol11-16_16_16.nrrd
+    2
+    2
+    Simoncelli
+    3
+    NoApply
+)
+## WaveletCoeffsSpatialDomain
+itk_add_test(
+  NAME itkWaveletCoeffsSpatialDomainImageFilterTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    # --compare
+    # DATA{Baseline/vol11-16_16_16_output_expected.nrrd}
+    # ${ITK_TEST_OUTPUT_DIR}/vol11-16_16_16_L2_B2_S2.nrrd
+    itkWaveletCoeffsSpatialDomainImageFilterTest
+    DATA{Input/vol11-16_16_16.nrrd}
+    ${ITK_TEST_OUTPUT_DIR}/vol11-16_16_16.nrrd
+    2
+    2
+    Simoncelli
+    3
 )
 
 ## Odd input
