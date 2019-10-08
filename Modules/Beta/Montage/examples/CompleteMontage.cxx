@@ -41,6 +41,18 @@ ReadImage(const char * filename)
   return reader->GetOutput();
 }
 
+template <typename TImage>
+void
+WriteImage(const TImage * out, const char * filename, bool compress)
+{
+  using WriterType = itk::ImageFileWriter<TImage>;
+  typename WriterType::Pointer w = WriterType::New();
+  w->SetInput(out);
+  w->SetFileName(filename);
+  w->SetUseCompression(compress);
+  w->Update();
+}
+
 template <typename TransformType>
 void
 WriteTransform(const TransformType * transform, std::string filename)
@@ -167,6 +179,26 @@ GetLogBiasField(typename itk::Image<PixelType, Dimension>::Pointer scalarImage,
   return dup->GetOutput();
 }
 
+// use SFINAE to select whether to do simple division or per RGB component division
+template <typename PixelType>
+typename std::enable_if<std::is_arithmetic<PixelType>::value, PixelType>::type
+dividePixel(PixelType pixel, float divisor)
+{
+  return pixel / divisor;
+}
+template <typename PixelType>
+typename std::enable_if<!std::is_arithmetic<PixelType>::value, PixelType>::type
+dividePixel(PixelType pixel, float divisor)
+{
+  PixelType result;
+  // we assume RGB or RGBA pixel type
+  unsigned count = pixel.GetNumberOfComponents();
+  for (unsigned c = 0; c < count; c++)
+  {
+    result.SetNthComponent(c, pixel.GetNthComponent(c) / divisor);
+  }
+  return result;
+}
 
 template <typename PixelType, unsigned Dimension>
 typename itk::Image<PixelType, Dimension>::Pointer
@@ -219,7 +251,7 @@ CorrectBias(typename itk::Image<PixelType, Dimension>::Pointer image,
 
   using CustomBinaryFilter = itk::BinaryGeneratorImageFilter<ImageType, RealImageType, ImageType>;
   typename CustomBinaryFilter::Pointer expAndDivFilter = CustomBinaryFilter::New();
-  auto expAndDivLambda = [](PixelType input, float biasField) { return static_cast<PixelType>(input / biasField); };
+  auto expAndDivLambda = [](PixelType input, float biasField) { return dividePixel(input, biasField); };
   expAndDivFilter->SetFunctor(expAndDivLambda);
   expAndDivFilter->SetInput1(image);
   expAndDivFilter->SetInput2(mulField);
@@ -263,10 +295,12 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
   using BiasFieldType = LogBiasFieldType<Dimension>;
   typename ScalarImageType::SpacingType sp;
 
+  TileConfig actualTiles = stageTiles; // we will update it later
+
   std::vector<typename OriginalImageType::Pointer> oImages(stageTiles.LinearSize());
   std::vector<typename ScalarImageType::Pointer>   sImages(stageTiles.LinearSize());
   std::vector<typename BiasFieldType::Pointer>     bImages(stageTiles.LinearSize());
-  std::cout << "Loading and flat-fielding images...\n";
+  std::cout << "Flat-fielding images...\n";
   typename TileConfig::TileIndexType ind;
   for (size_t t = 0; t < stageTiles.LinearSize(); t++)
   {
@@ -302,6 +336,13 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
       ++digit;
     }
     std::cout << digit << std::endl;
+
+    // write bias-corrected image
+    std::string fileNameExt = itksys::SystemTools::GetFilenameLastExtension(stageTiles.Tiles[t].FileName);
+    std::string baseFileName = itksys::SystemTools::GetFilenameWithoutLastExtension(stageTiles.Tiles[t].FileName);
+    std::string flatFileName = baseFileName + "-flat" + fileNameExt;
+    actualTiles.Tiles[t].FileName = flatFileName;
+    WriteImage(image.GetPointer(), (outputPath + flatFileName).c_str(), true);
   }
   std::cout << std::endl;
 
@@ -315,8 +356,6 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
   }
   montage->Update(); // calculate registration transforms
   std::cout << std::endl;
-
-  TileConfig actualTiles = stageTiles; // so we only need to update positions
 
   // instantiate the resampling class
   using Resampler = itk::TileMergeImageFilter<OriginalImageType, AccumulatePixelType>;
@@ -348,17 +387,12 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
   std::cout << std::endl;
 
   std::cout << "Resampling the tiles into the final single image...";
+  // resampleF->DebugOn(); // generate an image of contributing regions
   resampleF->Update(); // invoke this explicitly, because writing itself can take a while due to compression
   std::cout << std::endl;
 
   std::cout << "Writing the final image...";
-  using WriterType = itk::ImageFileWriter<OriginalImageType>;
-  typename WriterType::Pointer w = WriterType::New();
-  w->SetInput(resampleF->GetOutput());
-  // resampleF->DebugOn(); // generate an image of contributing regions
-  w->SetFileName(outputPath + outFilename);
-  w->UseCompressionOn();
-  w->Update();
+  WriteImage(resampleF->GetOutput(), outFilename.c_str(), true);
   std::cout << "Done!" << std::endl;
 }
 
