@@ -80,10 +80,6 @@ if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/getopt)
   endif()
 endif()
 
-if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/doxygen)
-  add_subdirectory(doxygen)
-endif()
-
 # you could be running mingw32 on linux in which case you do NOT want the gdcmuuid lib
 APPEND_COPYRIGHT(${CMAKE_CURRENT_SOURCE_DIR}/gdcmuuid/COPYING)
 if(NOT WIN32 AND NOT MINGW)
@@ -102,9 +98,6 @@ if(GDCM_USE_PVRG)
     add_subdirectory(pvrg)
   endif()
 endif()
-
-# Do C99
-APPEND_COPYRIGHT(${CMAKE_CURRENT_SOURCE_DIR}/C99/COPYING)
 
 #if(NOT GDCM_INSTALL_NO_DEVELOPMENT)
 ##  file(GLOB header_files "*.h" "*.txx")

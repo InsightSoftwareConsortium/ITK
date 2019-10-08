@@ -47,12 +47,6 @@ CHECK_FUNCTION_EXISTS(strptime    GDCM_HAVE_STRPTIME)
 CHECK_FUNCTION_EXISTS(_stricmp    GDCM_HAVE__STRICMP)
 CHECK_FUNCTION_EXISTS(_strnicmp   GDCM_HAVE__STRNICMP)
 CHECK_FUNCTION_EXISTS(_snprintf   GDCM_HAVE__SNPRINTF)
-# This is C99
-set(CMAKE_REQUIRED_INCLUDES math.h)
-set(CMAKE_REQUIRED_LIBRARIES m)
-check_function_exists(lround GDCM_HAVE_LROUND)
-set(CMAKE_REQUIRED_INCLUDES stdlib.h)
-check_function_exists(atoll GDCM_HAVE_ATOLL)
 unset(CMAKE_REQUIRED_INCLUDES)
 unset(CMAKE_REQUIRED_LIBRARIES)
 
@@ -215,9 +209,6 @@ if(GDCM_USE_SYSTEM_OPENSSL)
   target_link_libraries(gdcmCommon LINK_PRIVATE ${OPENSSL_LIBRARIES})
 endif()
 set_target_properties(gdcmCommon PROPERTIES ${GDCM_LIBRARY_PROPERTIES})
-if(BUILD_SHARED_LIBS)
-  #set_target_properties(gdcmCommon PROPERTIES INTERFACE_LINK_LIBRARIES "" LINK_INTERFACE_LIBRARIES "")
-endif()
 
 # libs
 install_library(gdcmCommon)

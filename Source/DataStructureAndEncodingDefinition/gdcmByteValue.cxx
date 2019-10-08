@@ -30,7 +30,7 @@ namespace gdcm_ns
       ++l;
       }
 #else
-    assert( !l.IsUndefined() && !l.IsOdd() );
+    gdcmAssertAlwaysMacro( !l.IsUndefined() && !l.IsOdd() );
 #endif
     // I cannot use reserve for now. I need to implement:
     // STL - vector<> and istream
@@ -95,7 +95,7 @@ namespace gdcm_ns
     // so we need an inequality
     if( length <= Internal.size() )
       {
-      memcpy(buffer, &Internal[0], length);
+      if(!Internal.empty()) memcpy(buffer, &Internal[0], length);
       return true;
       }
     gdcmDebugMacro( "Could not handle length= " << length );
