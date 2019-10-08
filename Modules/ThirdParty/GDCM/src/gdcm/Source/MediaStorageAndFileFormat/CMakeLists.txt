@@ -219,10 +219,6 @@ endif()
 # handling of static lib within shared is a mess:
 #target_link_libraries(gdcmMSFF gdcmrle)
 set_target_properties(gdcmMSFF PROPERTIES ${GDCM_LIBRARY_PROPERTIES})
-if(BUILD_SHARED_LIBS)
-  #set(_ill "gdcmDSED;gdcmDICT;gdcmIOD")
-  #set_target_properties(gdcmMSFF PROPERTIES INTERFACE_LINK_LIBRARIES "${_ill}" LINK_INTERFACE_LIBRARIES "${_ill}")
-endif()
 
 # libs
 install_library(gdcmMSFF)

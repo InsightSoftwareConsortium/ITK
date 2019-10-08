@@ -138,6 +138,7 @@ protected:
   bool DoOverlayCleanup(std::istream &is_, std::ostream &os);
   bool DoByteSwap(std::istream &is_, std::ostream &os);
   bool DoYBR(std::istream &is_, std::ostream &os);
+  bool DoYBRFull422(std::istream &is_, std::ostream &os);
   bool DoPlanarConfiguration(std::istream &is_, std::ostream &os);
   bool DoSimpleCopy(std::istream &is_, std::ostream &os);
   bool DoPaddedCompositePixelCode(std::istream &is_, std::ostream &os);

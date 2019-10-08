@@ -204,7 +204,7 @@ private:
  *        An easy solution to pass also a message is to do:
  *        gdcmAssertMacro( "my message" && 2 < 3 )
  */
-#if defined(NDEBUG) && !defined(GDCM_ALWAYS_TRACE_MACRO)
+#if defined(NDEBUG)
 // User asked for release compilation, but still need to report
 // if grave issue.
 #define gdcmAssertAlwaysMacro(arg) \

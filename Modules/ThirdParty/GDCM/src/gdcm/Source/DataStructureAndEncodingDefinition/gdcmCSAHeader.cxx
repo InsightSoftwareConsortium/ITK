@@ -993,7 +993,7 @@ bool CSAHeader::LoadFromDataElement(DataElement const &de)
   // Some silly software consider the tag to be OW, therefore they byteswap it !!! sigh
   if( strcmp( signature, "VS01" ) == 0 )
   {
-    SwapperDoOp::SwapArray( (unsigned short*)s.c_str(), (s.size() + 1) / 2 );
+    SwapperDoOp::SwapArray( (unsigned short*)(void*)s.c_str(), (s.size() + 1) / 2 );
     ss.str( s );
     ss.read(signature, 4);
   }

@@ -64,18 +64,18 @@ bool ImageChangePlanarConfiguration::Change()
     for(unsigned int z = 0; z < dims[2]; ++z)
       {
       const char *frame = p + z * framesize;
-      const char *r = frame + 0;
-      const char *g = frame + size;
-      const char *b = frame + size + size;
+      const void *r = frame + 0;
+      const void *g = frame + size;
+      const void *b = frame + size + size;
 
-      char *framecopy = copy + z * framesize;
+      void *framecopy = copy + z * framesize;
       if( pf.GetBitsAllocated() == 16 )
         {
         ImageChangePlanarConfiguration::RGBPlanesToRGBPixels<uint16_t>((uint16_t*)framecopy, (uint16_t*)r, (uint16_t*)g,(uint16_t*)b, size/2 );
         }
       else if( pf.GetBitsAllocated() == 8 )
         {
-        ImageChangePlanarConfiguration::RGBPlanesToRGBPixels(framecopy, r, g, b, size);
+        ImageChangePlanarConfiguration::RGBPlanesToRGBPixels<uint8_t>((uint8_t*)framecopy, (uint8_t*)r, (uint8_t*)g, (uint8_t*)b, size);
         }
       }
     }
@@ -84,11 +84,11 @@ bool ImageChangePlanarConfiguration::Change()
     assert( PlanarConfiguration == 1 );
     for(unsigned int z = 0; z < dims[2]; ++z)
       {
-      const char *frame = p + z * framesize;
+      const void *frame = p + z * framesize;
       char *framecopy = copy + z * framesize;
-      char *r = framecopy + 0;
-      char *g = framecopy + size;
-      char *b = framecopy + size + size;
+      void *r = framecopy + 0;
+      void *g = framecopy + size;
+      void *b = framecopy + size + size;
 
       if( pf.GetBitsAllocated() == 16 )
         {
@@ -96,7 +96,7 @@ bool ImageChangePlanarConfiguration::Change()
         }
       else if( pf.GetBitsAllocated() == 8 )
         {
-        ImageChangePlanarConfiguration::RGBPixelsToRGBPlanes(r, g, b, frame, size);
+        ImageChangePlanarConfiguration::RGBPixelsToRGBPlanes<uint8_t>((uint8_t*)r, (uint8_t*)g, (uint8_t*)b, (uint8_t*)frame, size);
         }
       }
     }

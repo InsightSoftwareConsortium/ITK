@@ -62,23 +62,23 @@ public:
   /// WARNING: when the spacing is not specifier, a default value of 1 will be returned
   const double *GetSpacing() const;
   double GetSpacing(unsigned int idx) const;
-  void SetSpacing(const double *spacing);
+  void SetSpacing(const double spacing[3]);
   void SetSpacing(unsigned int idx, double spacing);
 
   /// Return a 3-tuples specifying the origin
   /// Will return (0,0,0) if the origin was not specified.
   const double *GetOrigin() const;
   double GetOrigin(unsigned int idx) const;
-  void SetOrigin(const float *ori);
-  void SetOrigin(const double *ori);
+  void SetOrigin(const float origin[3]);
+  void SetOrigin(const double origin[3]);
   void SetOrigin(unsigned int idx, double ori);
 
   /// Return a 6-tuples specifying the direction cosines
   /// A default value of (1,0,0,0,1,0) will be return when the direction cosines was not specified.
   const double *GetDirectionCosines() const;
   double GetDirectionCosines(unsigned int idx) const;
-  void SetDirectionCosines(const float *dircos);
-  void SetDirectionCosines(const double *dircos);
+  void SetDirectionCosines(const float dircos[6]);
+  void SetDirectionCosines(const double dircos[6]);
   void SetDirectionCosines(unsigned int idx, double dircos);
 
   /// print

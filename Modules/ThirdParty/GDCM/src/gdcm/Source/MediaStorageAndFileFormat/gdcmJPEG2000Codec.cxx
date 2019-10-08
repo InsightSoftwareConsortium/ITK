@@ -846,7 +846,7 @@ std::pair<char *, size_t> JPEG2000Codec::DecodeByStreamsCommon(char *dummy_buffe
     else if (comp->prec <= 16)
       {
       // ELSCINT1_JP2vsJ2K.dcm is a 12bits image
-      uint16_t *data16 = (uint16_t*)raw + compno;
+      uint16_t *data16 = (uint16_t*)(void*)raw + compno;
       for (int i = 0; i < wr * hr; i++)
         {
         int v = image->comps[compno].data[i / wr * w + i % wr];
@@ -856,7 +856,7 @@ std::pair<char *, size_t> JPEG2000Codec::DecodeByStreamsCommon(char *dummy_buffe
       }
     else
       {
-      uint32_t *data32 = (uint32_t*)raw + compno;
+      uint32_t *data32 = (uint32_t*)(void*)raw + compno;
       for (int i = 0; i < wr * hr; i++)
         {
         int v = image->comps[compno].data[i / wr * w + i % wr];
@@ -1025,7 +1025,7 @@ void rawtoimage_fill(const T *inputbuffer, int w, int h, int numcomps, opj_image
     }
 }
 
-opj_image_t* rawtoimage(const char *inputbuffer, opj_cparameters_t *parameters,
+opj_image_t* rawtoimage(const char *inputbuffer8, opj_cparameters_t *parameters,
   size_t fragment_size, int image_width, int image_height, int sample_pixel,
   int bitsallocated, int bitsstored, int highbit, int sign, int quality, int pc)
 {
@@ -1036,6 +1036,7 @@ opj_image_t* rawtoimage(const char *inputbuffer, opj_cparameters_t *parameters,
   OPJ_COLOR_SPACE color_space;
   opj_image_cmptparm_t cmptparm[3]; /* maximum of 3 components */
   opj_image_t * image = nullptr;
+  const void * inputbuffer = inputbuffer8;
 
   assert( sample_pixel == 1 || sample_pixel == 3 );
   if( sample_pixel == 1 )

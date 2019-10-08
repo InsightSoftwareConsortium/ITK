@@ -184,7 +184,7 @@ void SegmentedPaletteColorLookupTable::SetLUT(LookupTableType type, const unsign
     }
   else if( BitSample == 16 )
     {
-    const uint16_t *array16 = (uint16_t*)array;
+    const uint16_t *array16 = (uint16_t*)(void*)array;
     const uint16_t *segment_values = array16;
     std::vector<uint16_t> palette;
     unsigned int num_entries = GetLUTLength(type);

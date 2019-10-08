@@ -16,7 +16,7 @@
 #include <algorithm> // std::max
 #include <stdlib.h> // abort
 #include <string.h> // memcpy
-#include <math.h> // floor
+#include <cmath> // std::lround
 
 namespace gdcm
 {
@@ -79,12 +79,8 @@ struct FImpl
 template < typename T >
 static inline T round_impl(const double d)
 {
-#ifdef GDCM_HAVE_LROUND
   // round() is C99, std::round() is C++11
-  return (T)lround(d);
-#else
-  return (T)((d > 0.0) ? floor(d + 0.5) : ceil(d - 0.5));
-#endif
+  return (T)std::lround(d);
 }
 
 template<typename TOut>
@@ -204,11 +200,12 @@ PixelFormat::ScalarType Rescaler::ComputeInterceptSlopePixelType()
 }
 
 template <typename TIn>
-void Rescaler::RescaleFunctionIntoBestFit(char *out, const TIn *in, size_t n)
+void Rescaler::RescaleFunctionIntoBestFit(char *out8, const TIn *in, size_t n)
 {
   double intercept = Intercept;
   double slope = Slope;
   PixelFormat::ScalarType output = ComputeInterceptSlopePixelType();
+  void *out = out8;
   if( UseTargetPixelType )
     {
     output = TargetScalarType;
@@ -249,11 +246,12 @@ void Rescaler::RescaleFunctionIntoBestFit(char *out, const TIn *in, size_t n)
  }
 
 template <typename TIn>
-void Rescaler::InverseRescaleFunctionIntoBestFit(char *out, const TIn *in, size_t n)
+void Rescaler::InverseRescaleFunctionIntoBestFit(char *out8, const TIn *in, size_t n)
 {
   const double intercept = Intercept;
   const double slope = Slope;
   PixelFormat output = ComputePixelTypeFromMinMax();
+  void *out = out8;
   switch(output)
     {
   case PixelFormat::SINGLEBIT:
@@ -284,9 +282,10 @@ void Rescaler::InverseRescaleFunctionIntoBestFit(char *out, const TIn *in, size_
  }
 
 
-bool Rescaler::InverseRescale(char *out, const char *in, size_t n)
+bool Rescaler::InverseRescale(char *out, const char *in8, size_t n)
 {
   bool fastpath = true;
+  const void* in = in8;
   switch(PF)
     {
   case PixelFormat::FLOAT32:
@@ -312,6 +311,12 @@ bool Rescaler::InverseRescale(char *out, const char *in, size_t n)
   // else integral type
   switch(PF)
     {
+  case PixelFormat::UINT8:
+    InverseRescaleFunctionIntoBestFit<uint8_t>(out,(uint8_t*)in,n);
+    break;
+  case PixelFormat::INT8:
+    InverseRescaleFunctionIntoBestFit<int8_t>(out,(int8_t*)in,n);
+    break;
   case PixelFormat::UINT16:
     InverseRescaleFunctionIntoBestFit<uint16_t>(out,(const uint16_t*)in,n);
     break;
@@ -340,8 +345,9 @@ bool Rescaler::InverseRescale(char *out, const char *in, size_t n)
   return true;
 }
 
-bool Rescaler::Rescale(char *out, const char *in, size_t n)
+bool Rescaler::Rescale(char *out, const char *in8, size_t n)
 {
+  const void *in = in8;
   if( UseTargetPixelType == false )
     {
     // fast path:
