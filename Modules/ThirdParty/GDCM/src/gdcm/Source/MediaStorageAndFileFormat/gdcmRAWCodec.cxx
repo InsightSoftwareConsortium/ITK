@@ -72,7 +72,7 @@ bool RAWCodec::DecodeBytes(const char* inBytes, size_t inBufferLength,
   // First let's see if we can do a fast-path:
   if( !NeedByteSwap &&
     !RequestPaddedCompositePixelCode &&
-    // PI == PhotometricInterpretation::MONOCHROME2 &&
+     PI != PhotometricInterpretation::YBR_FULL_422 &&
     /*!PlanarConfiguration &&*/ !RequestPlanarConfiguration &&
     GetPixelFormat().GetBitsAllocated() != 12 &&
     !NeedOverlayCleanup )

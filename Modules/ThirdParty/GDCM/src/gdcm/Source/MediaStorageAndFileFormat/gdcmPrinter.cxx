@@ -268,7 +268,7 @@ void PrintValue(VR::VRType const &vr, VM const &vm, const Value &v)
   try
     {
     const ByteValue &bv = dynamic_cast<const ByteValue&>(v);
-    const char *array = bv.GetPointer();
+    const void *array = bv.GetVoidPointer();
     const VL &length = bv.GetLength();
     //unsigned short val = *(unsigned short*)(array);
     std::ostream &os = std::cout;

@@ -92,7 +92,10 @@ public:
 
   /// Set/Get Value (bytes array, SQ of items, SQ of fragments):
   Value const &GetValue() const { gdcmAssertAlwaysMacro(ValueField); return *ValueField; }
-  Value &GetValue() { return *ValueField; }
+  Value &GetValue() {
+    gdcmAssertAlwaysMacro(ValueField);
+    return *ValueField;
+  }
   /// \warning you need to set the ValueLengthField explicitly
   void SetValue(Value const & vl) {
     //assert( ValueField == 0 );

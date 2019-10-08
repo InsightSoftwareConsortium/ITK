@@ -400,7 +400,7 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
         {
         assert( GetPixelFormat().GetBitsAllocated() == 16 );
         // should not happen right ?
-        DoInvertPlanarConfiguration<short>((short*)bufferrgb, (const short*)ptr_img, (uint32_t)(image_len / sizeof(short)));
+        DoInvertPlanarConfiguration<short>((short*)(void*)bufferrgb, (const short*)(void*)ptr_img, (uint32_t)(image_len / sizeof(short)));
         }
       ptr_img = bufferrgb;
       }

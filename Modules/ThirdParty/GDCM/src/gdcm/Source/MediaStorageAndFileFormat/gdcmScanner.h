@@ -89,6 +89,8 @@ public:
   /// Print result
   void Print( std::ostream & os ) const override;
 
+  void PrintTable( std::ostream & os ) const;
+
   /// Check if filename is a key in the Mapping table.
   /// returns true only of file can be found, which means
   /// the file was indeed a DICOM file that could be processed

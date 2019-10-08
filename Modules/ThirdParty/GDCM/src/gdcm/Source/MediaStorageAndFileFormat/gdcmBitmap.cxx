@@ -326,6 +326,10 @@ bool Bitmap::TryRAWCodec(char *buffer, bool &lossyflag) const
     if( codec.CanDecode( ts ) ) // short path
       {
       lossyflag = false;
+      if( GetPhotometricInterpretation() == PhotometricInterpretation::YBR_FULL_422 )
+      {
+        lossyflag = true;
+      }
       return true;
       }
     return false;

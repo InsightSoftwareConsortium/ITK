@@ -403,6 +403,11 @@ bool ImageChangeTransferSyntax::Change()
   if( (Input->GetTransferSyntax() != TransferSyntax::ImplicitVRLittleEndian
     && Input->GetTransferSyntax() != TransferSyntax::ExplicitVRLittleEndian
     && Input->GetTransferSyntax() != TransferSyntax::ExplicitVRBigEndian)
+    // YBR_FULL_422 / raw needs to be decompressed:
+    || ( (Input->GetTransferSyntax() == TransferSyntax::ImplicitVRLittleEndian
+       || Input->GetTransferSyntax() == TransferSyntax::ExplicitVRLittleEndian
+       || Input->GetTransferSyntax() == TransferSyntax::ExplicitVRBigEndian)
+       && Input->GetPhotometricInterpretation() == PhotometricInterpretation::YBR_FULL_422 )
     || Force )
     {
     // In memory decompression:

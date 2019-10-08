@@ -743,7 +743,7 @@ catch(...)
 }
 
 
-bool IsVRUI(Tag const &tag)
+static bool IsVRUI(Tag const &tag)
 {
   static const Global &g = Global::GetInstance();
   static const Dicts &dicts = g.GetDicts();
