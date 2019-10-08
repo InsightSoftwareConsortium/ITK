@@ -94,11 +94,11 @@ public:
    * DO | DS | DT
    * ----------------------------------------------------------------------------------------------- */
   int
-  execute(const itk::TileLayout2D & stageTiles,
-          const std::string &       inputPath,
-          std::string &             outFilename,
-          TestVariation             variation,
-          unsigned                  streamSubdivisions)
+  execute(const itk::TileConfiguration<2> & stageTiles,
+          const std::string &               inputPath,
+          std::string &                     outFilename,
+          TestVariation                     variation,
+          unsigned                          streamSubdivisions)
   {
     // MetaImage format supports streaming
     outFilename = outFilename + std::to_string(static_cast<unsigned int>(variation)) + ".mha";
@@ -145,19 +145,19 @@ private:
   using OriginalImageType = itk::Image<PixelType, Dimension>; // possibly RGB instead of scalar
   using PCMType = itk::PhaseCorrelationImageRegistrationMethod<ScalarImageType, ScalarImageType>;
   using TransformType = itk::TranslationTransform<double, Dimension>;
-  using StageTiles = itk::TileLayout2D;
+  using TileConfig = itk::TileConfiguration<Dimension>;
 
   /* -----------------------------------------------------------------------------------------------
    * Helper Method that creates a unit origin, unit spacing, and unit transform and calls the test
    * ----------------------------------------------------------------------------------------------- */
   int
-  inMemoryMontageTest0(const itk::TileLayout2D & stageTiles,
-                       const std::string &       inputPath,
-                       const std::string &       outFilename,
-                       unsigned                  streamSubdivisions)
+  inMemoryMontageTest0(const TileConfig &  stageTiles,
+                       const std::string & inputPath,
+                       const std::string & outFilename,
+                       unsigned            streamSubdivisions)
   {
-    unsigned yMontageSize = stageTiles.size();
-    unsigned xMontageSize = stageTiles[0].size();
+    unsigned yMontageSize = stageTiles.AxisSizes[1];
+    unsigned xMontageSize = stageTiles.AxisSizes[0];
 
     Origin2D    UO = createUnitOrigin2D(yMontageSize, xMontageSize);
     Spacing2D   US = createSpacing2D(yMontageSize, xMontageSize, 1);
@@ -170,13 +170,13 @@ private:
    * Helper Method that creates a unit origin, dynamic spacing, and unit transform and calls the test
    * ----------------------------------------------------------------------------------------------- */
   int
-  inMemoryMontageTest1(const itk::TileLayout2D & stageTiles,
-                       const std::string &       inputPath,
-                       const std::string &       outFilename,
-                       unsigned                  streamSubdivisions)
+  inMemoryMontageTest1(const TileConfig &  stageTiles,
+                       const std::string & inputPath,
+                       const std::string & outFilename,
+                       unsigned            streamSubdivisions)
   {
-    unsigned yMontageSize = stageTiles.size();
-    unsigned xMontageSize = stageTiles[0].size();
+    unsigned yMontageSize = stageTiles.AxisSizes[1];
+    unsigned xMontageSize = stageTiles.AxisSizes[0];
 
     Origin2D    UO = createUnitOrigin2D(yMontageSize, xMontageSize);
     Spacing2D   DS = createSpacing2D(yMontageSize, xMontageSize, 0.5);
@@ -189,13 +189,13 @@ private:
    * Helper Method that creates a unit origin, unit spacing, and dynamic transform and calls the test
    * ----------------------------------------------------------------------------------------------- */
   int
-  inMemoryMontageTest2(const itk::TileLayout2D & stageTiles,
-                       const std::string &       inputPath,
-                       const std::string &       outFilename,
-                       unsigned                  streamSubdivisions)
+  inMemoryMontageTest2(const TileConfig &  stageTiles,
+                       const std::string & inputPath,
+                       const std::string & outFilename,
+                       unsigned            streamSubdivisions)
   {
-    unsigned yMontageSize = stageTiles.size();
-    unsigned xMontageSize = stageTiles[0].size();
+    unsigned yMontageSize = stageTiles.AxisSizes[1];
+    unsigned xMontageSize = stageTiles.AxisSizes[0];
 
     Origin2D    UO = createUnitOrigin2D(yMontageSize, xMontageSize);
     Spacing2D   US = createSpacing2D(yMontageSize, xMontageSize, 1);
@@ -208,13 +208,13 @@ private:
    * Helper Method that creates a unit origin, dynamic spacing, and dynamic transform and calls the test
    * ----------------------------------------------------------------------------------------------- */
   int
-  inMemoryMontageTest3(const itk::TileLayout2D & stageTiles,
-                       const std::string &       inputPath,
-                       const std::string &       outFilename,
-                       unsigned                  streamSubdivisions)
+  inMemoryMontageTest3(const TileConfig &  stageTiles,
+                       const std::string & inputPath,
+                       const std::string & outFilename,
+                       unsigned            streamSubdivisions)
   {
-    unsigned yMontageSize = stageTiles.size();
-    unsigned xMontageSize = stageTiles[0].size();
+    unsigned yMontageSize = stageTiles.AxisSizes[1];
+    unsigned xMontageSize = stageTiles.AxisSizes[0];
 
     Origin2D    UO = createUnitOrigin2D(yMontageSize, xMontageSize);
     Spacing2D   DS = createSpacing2D(yMontageSize, xMontageSize, 0.5);
@@ -241,13 +241,13 @@ private:
    * Helper Method that creates a dynamic origin, unit spacing, and unit transform and calls the test
    * ----------------------------------------------------------------------------------------------- */
   int
-  inMemoryMontageTest4(const itk::TileLayout2D & stageTiles,
-                       const std::string &       inputPath,
-                       const std::string &       outFilename,
-                       unsigned                  streamSubdivisions)
+  inMemoryMontageTest4(const TileConfig &  stageTiles,
+                       const std::string & inputPath,
+                       const std::string & outFilename,
+                       unsigned            streamSubdivisions)
   {
-    unsigned yMontageSize = stageTiles.size();
-    unsigned xMontageSize = stageTiles[0].size();
+    unsigned yMontageSize = stageTiles.AxisSizes[1];
+    unsigned xMontageSize = stageTiles.AxisSizes[0];
 
     Origin2D    DO = createOrigin2DFromStageTiles(stageTiles);
     Spacing2D   US = createSpacing2D(yMontageSize, xMontageSize, 1);
@@ -260,13 +260,13 @@ private:
    * Helper Method that creates a dynamic origin, dynamic spacing, and unit transform and calls the test
    * ----------------------------------------------------------------------------------------------- */
   int
-  inMemoryMontageTest5(const itk::TileLayout2D & stageTiles,
-                       const std::string &       inputPath,
-                       const std::string &       outFilename,
-                       unsigned                  streamSubdivisions)
+  inMemoryMontageTest5(const TileConfig &  stageTiles,
+                       const std::string & inputPath,
+                       const std::string & outFilename,
+                       unsigned            streamSubdivisions)
   {
-    unsigned yMontageSize = stageTiles.size();
-    unsigned xMontageSize = stageTiles[0].size();
+    unsigned yMontageSize = stageTiles.AxisSizes[1];
+    unsigned xMontageSize = stageTiles.AxisSizes[0];
 
     Origin2D DO = createOrigin2DFromStageTiles(stageTiles);
 
@@ -292,52 +292,56 @@ private:
    * Helper Method that creates a dynamic origin, unit spacing, and dynamic transform and calls the test
    * ----------------------------------------------------------------------------------------------- */
   int
-  inMemoryMontageTest6(const itk::TileLayout2D & stageTiles,
-                       const std::string &       inputPath,
-                       const std::string &       outFilename,
-                       unsigned                  streamSubdivisions)
+  inMemoryMontageTest6(const TileConfig &  stageTiles,
+                       const std::string & inputPath,
+                       const std::string & outFilename,
+                       unsigned            streamSubdivisions)
   {
-    unsigned yMontageSize = stageTiles.size();
-    unsigned xMontageSize = stageTiles[0].size();
+    unsigned yMontageSize = stageTiles.AxisSizes[1];
+    unsigned xMontageSize = stageTiles.AxisSizes[0];
 
     // Create DO values so that the tiles start out [col * 100] pixels away from the correct position
-    Origin2D DO;
-    for (itk::TileRow2D tileRow : stageTiles)
+    Origin2D DO(stageTiles.AxisSizes[1]);
+    size_t   t = 0;
+    for (unsigned col = 0; col < yMontageSize; col++)
     {
-      OriginRow row;
-      for (unsigned col = 0; col < tileRow.size(); col++)
+      DO[col].resize(stageTiles.AxisSizes[0]);
+      for (unsigned row = 0; row < xMontageSize; row++)
       {
-        itk::Tile2D                   tile = tileRow[col];
-        itk::Point<double, Dimension> pos = tile.Position;
+        PointType pos = stageTiles.Tiles[t].Position;
         for (unsigned i = 0; i < Dimension; i++)
         {
           // Get correct origin value, then add [col * 100] to it
           pos[i] = pos[i] + (col * 100);
         }
-        row.push_back(pos);
+        DO[col][row] = pos;
+
+        t++;
       }
-      DO.push_back(row);
     }
 
     Spacing2D US = createSpacing2D(yMontageSize, xMontageSize, 1);
 
     // Create DT values so that the tiles are translated back to their correct positions
-    Transform2D DT;
-    for (unsigned row = 0; row < yMontageSize; row++)
+    Transform2D DT(yMontageSize);
+    t = 0;
+    for (unsigned col = 0; col < yMontageSize; col++)
     {
-      TransformPtrRow transform_row;
-      for (unsigned col = 0; col < xMontageSize; col++)
+      DT[col].resize(xMontageSize);
+      for (unsigned row = 0; row < xMontageSize; row++)
       {
         typename MontageType::TransformPointer transform = MontageType::TransformType::New();
-        auto                                   offset = transform->GetOffset();
+
+        auto offset = transform->GetOffset();
         for (unsigned i = 0; i < Dimension; i++)
         {
           offset[i] = (col * 100);
         }
         transform->SetOffset(offset);
-        transform_row.push_back(transform);
+        DT[col][row] = transform;
+
+        t++;
       }
-      DT.push_back(transform_row);
     }
 
     return stitchMontage(stageTiles, inputPath, outFilename, DO, US, DT, streamSubdivisions);
@@ -347,52 +351,56 @@ private:
    * Helper Method that creates a dynamic origin, dynamic spacing, and dynamic transform and calls the test
    * ----------------------------------------------------------------------------------------------- */
   int
-  inMemoryMontageTest7(const itk::TileLayout2D & stageTiles,
-                       const std::string &       inputPath,
-                       const std::string &       outFilename,
-                       unsigned                  streamSubdivisions)
+  inMemoryMontageTest7(const TileConfig &  stageTiles,
+                       const std::string & inputPath,
+                       const std::string & outFilename,
+                       unsigned            streamSubdivisions)
   {
-    unsigned yMontageSize = stageTiles.size();
-    unsigned xMontageSize = stageTiles[0].size();
+    unsigned yMontageSize = stageTiles.AxisSizes[1];
+    unsigned xMontageSize = stageTiles.AxisSizes[0];
 
     // Create DO values so that the tiles start out [col * 100] pixels away from the correct position
-    Origin2D DO;
-    for (itk::TileRow2D tileRow : stageTiles)
+    Origin2D DO(stageTiles.AxisSizes[1]);
+    size_t   t = 0;
+    for (unsigned col = 0; col < yMontageSize; col++)
     {
-      OriginRow row;
-      for (unsigned col = 0; col < tileRow.size(); col++)
+      DO[col].resize(stageTiles.AxisSizes[0]);
+      for (unsigned row = 0; row < xMontageSize; row++)
       {
-        itk::Tile2D                   tile = tileRow[col];
-        itk::Point<double, Dimension> pos = tile.Position;
+        PointType pos = stageTiles.Tiles[t].Position;
         for (unsigned i = 0; i < Dimension; i++)
         {
           // Get correct origin value, divide by 2 to account for the 0.5 spacing, then add [col * 100]
           pos[i] = (pos[i] / 2) + (col * 100);
         }
-        row.push_back(pos);
+        DO[col][row] = pos;
+
+        t++;
       }
-      DO.push_back(row);
     }
 
     Spacing2D DS = createSpacing2D(yMontageSize, xMontageSize, 0.5);
 
     // Create DT values so that the tiles are translated back to their correct positions
-    Transform2D DT;
-    for (unsigned row = 0; row < yMontageSize; row++)
+    Transform2D DT(yMontageSize);
+    t = 0;
+    for (unsigned col = 0; col < yMontageSize; col++)
     {
-      TransformPtrRow transform_row;
-      for (unsigned col = 0; col < xMontageSize; col++)
+      DT[col].resize(xMontageSize);
+      for (unsigned row = 0; row < xMontageSize; row++)
       {
         typename MontageType::TransformPointer transform = MontageType::TransformType::New();
-        auto                                   offset = transform->GetOffset();
+
+        auto offset = transform->GetOffset();
         for (unsigned i = 0; i < Dimension; i++)
         {
           offset[i] = (col * 100);
         }
         transform->SetOffset(offset);
-        transform_row.push_back(transform);
+        DT[col][row] = transform;
+
+        t++;
       }
-      DT.push_back(transform_row);
     }
 
     return stitchMontage(stageTiles, inputPath, outFilename, DO, DS, DT, streamSubdivisions);
@@ -402,13 +410,13 @@ private:
    * Helper Method that executes a given montage test with a given origin2D, spacing2D, and transform2D
    * ----------------------------------------------------------------------------------------------- */
   int
-  stitchMontage(const itk::TileLayout2D & stageTiles,
-                const std::string &       inputPath,
-                const std::string &       outFilename,
-                Origin2D                  origin2D,
-                Spacing2D                 spacing2D,
-                Transform2D               transform2D,
-                unsigned                  streamSubdivisions)
+  stitchMontage(const TileConfig &  stageTiles,
+                const std::string & inputPath,
+                const std::string & outFilename,
+                Origin2D            origin2D,
+                Spacing2D           spacing2D,
+                Transform2D         transform2D,
+                unsigned            streamSubdivisions)
   {
     itk::ObjectFactoryBase::RegisterFactory(itk::TxtTransformIOFactory::New());
     unsigned yMontageSize = origin2D.size();
@@ -420,13 +428,14 @@ private:
     typename Resampler::Pointer resampleF = Resampler::New();
     itk::SimpleFilterWatcher    fw2(resampleF, "resampler");
     resampleF->SetMontageSize({ xMontageSize, yMontageSize });
+    unsigned t = 0;
     for (unsigned y = 0; y < yMontageSize; y++)
     {
       ind[1] = y;
       for (unsigned x = 0; x < xMontageSize; x++)
       {
         ind[0] = x;
-        std::string filename = inputPath + stageTiles[y][x].FileName;
+        std::string filename = inputPath + stageTiles.Tiles[t].FileName;
 
         typename OriginalImageType::Pointer     image = ReadImage<typename Resampler::ImageType>(filename.c_str());
         typename OriginalImageType::PointType   origin = origin2D[y][x];
@@ -437,6 +446,7 @@ private:
 
         typename MontageType::TransformConstPointer transform = transform2D[y][x];
         resampleF->SetTileTransform(ind, transform);
+        t++;
       }
     }
 
@@ -490,18 +500,17 @@ private:
   }
 
   Origin2D
-  createOrigin2DFromStageTiles(itk::TileLayout2D stageTiles)
+  createOrigin2DFromStageTiles(TileConfig stageTiles)
   {
-    Origin2D UO;
+    Origin2D UO(stageTiles.AxisSizes[1]);
 
-    for (itk::TileRow2D tileRow : stageTiles)
+    for (size_t y = 0; y < stageTiles.AxisSizes[1]; y++)
     {
-      OriginRow row;
-      for (itk::Tile2D tile : tileRow)
+      UO[y].resize(stageTiles.AxisSizes[0]);
+      for (size_t x = 0; x < stageTiles.AxisSizes[0]; x++)
       {
-        row.push_back(tile.Position);
+        UO[y][x] = stageTiles.Tiles[stageTiles.nDIndexToLinearIndex({ x, y })].Position;
       }
-      UO.push_back(row);
     }
 
     return UO;
@@ -551,28 +560,29 @@ private:
   }
 
   Transform2D
-  createTransform2DFromStageTiles(itk::TileLayout2D stageTiles)
+  createTransform2DFromStageTiles(TileConfig stageTiles)
   {
-    Transform2D UT;
+    Transform2D UT(stageTiles.AxisSizes[1]);
 
-    for (itk::TileRow2D tileRow : stageTiles)
+    // initialize
+    for (size_t y = 0; y < stageTiles.AxisSizes[1]; y++)
     {
-      TransformPtrRow transform_row;
-      for (itk::Tile2D tile : tileRow)
+      UT[y].resize(stageTiles.AxisSizes[0]);
+    }
+
+    // fill with translations
+    typename TileConfig::TileIndexType ind;
+    for (size_t t = 0; t < stageTiles.LinearSize(); t++)
+    {
+      typename MontageType::TransformPointer transform = MontageType::TransformType::New();
+      ind = stageTiles.LinearIndexToNDIndex(t);
+      auto offset = transform->GetOffset();
+      for (unsigned d = 0; d < MontageType::TransformType::SpaceDimension; d++)
       {
-        typename MontageType::TransformPointer transform = MontageType::TransformType::New();
-
-        auto offset = transform->GetOffset();
-        for (unsigned i = 0; i < MontageType::TransformType::SpaceDimension; i++)
-        {
-          offset[i] = -tile.Position[i];
-        }
-
-        transform->SetOffset(offset);
-
-        transform_row.push_back(transform);
+        offset[d] = -stageTiles.Tiles[t].Position[d];
       }
-      UT.push_back(transform_row);
+      transform->SetOffset(offset);
+      UT[ind[1]][ind[0]] = transform;
     }
 
     return UT;
