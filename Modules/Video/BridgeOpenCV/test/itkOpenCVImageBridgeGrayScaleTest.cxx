@@ -24,11 +24,15 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkOpenCVVideoIOFactory.h"
 
-#if defined(CV_VERSION_EPOCH)
+#if defined(CV_VERSION_EPOCH) // OpenCV 2.4.x
 #  include "highgui.h"
-#else
-#  include "opencv2/imgcodecs.hpp"           // cv::imread
-#  include "opencv2/imgcodecs/imgcodecs_c.h" // CV_LOAD_IMAGE_COLOR
+#else                              // OpenCV >= 3.x
+#  include "opencv2/imgcodecs.hpp" // cv::imread
+#  if (CV_VERSION_MAJOR == 3)
+#    include "opencv2/imgcodecs/imgcodecs_c.h"        // CV_LOAD_IMAGE_COLOR
+#  else                                               // OpenCV 4.x and later
+#    include "opencv2/imgcodecs/legacy/constants_c.h" // CV_LOAD_IMAGE_COLOR
+#  endif
 #endif
 
 
