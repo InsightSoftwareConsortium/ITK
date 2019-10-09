@@ -19,6 +19,7 @@
 #define itkNeighborhoodAllocator_h
 #include <algorithm>
 #include <iostream>
+#include <memory>
 #include "itkMacro.h"
 
 namespace itk
@@ -53,18 +54,16 @@ public:
   using const_iterator = const TPixel *;
 
   /** Default constructor */
-  NeighborhoodAllocator()
-    : m_Data(nullptr)
-  {}
+  NeighborhoodAllocator() = default;
 
-  /** Default destructor */
-  ~NeighborhoodAllocator() { this->Deallocate(); }
+  /** Defaulted destructor */
+  ~NeighborhoodAllocator() = default;
 
   /** Allocates memory using new() */
   void
   Allocate(unsigned int n)
   {
-    m_Data = new TPixel[n];
+    m_Data.reset(new TPixel[n]);
     m_ElementCount = n;
   }
 
@@ -72,7 +71,7 @@ public:
   void
   Deallocate()
   {
-    delete[] m_Data;
+    m_Data.reset();
     m_ElementCount = 0;
   }
 
@@ -81,17 +80,16 @@ public:
     : m_ElementCount(other.m_ElementCount)
     , m_Data(new TPixel[other.m_ElementCount])
   {
-    std::copy_n(other.m_Data, m_ElementCount, m_Data);
+    std::copy_n(other.m_Data.get(), m_ElementCount, m_Data.get());
   }
 
 
   /** Move-constructor. */
   NeighborhoodAllocator(Self && other) ITK_NOEXCEPT
     : m_ElementCount{ other.m_ElementCount }
-    , m_Data{ other.m_Data }
+    , m_Data{ std::move(other.m_Data) }
   {
     other.m_ElementCount = 0;
-    other.m_Data = nullptr;
   }
 
 
@@ -102,7 +100,7 @@ public:
     if (this != &other)
     {
       this->set_size(other.m_ElementCount);
-      std::copy_n(other.m_Data, m_ElementCount, m_Data);
+      std::copy_n(other.m_Data.get(), m_ElementCount, m_Data.get());
     }
     return *this;
   }
@@ -114,11 +112,9 @@ public:
   {
     if (this != &other)
     {
-      this->Deallocate();
       m_ElementCount = other.m_ElementCount;
-      m_Data = other.m_Data;
+      m_Data = std::move(other.m_Data);
       other.m_ElementCount = 0;
-      other.m_Data = nullptr;
     }
     return *this;
   }
@@ -128,22 +124,22 @@ public:
   iterator
   begin()
   {
-    return m_Data;
+    return m_Data.get();
   }
   const_iterator
   begin() const
   {
-    return m_Data;
+    return m_Data.get();
   }
   iterator
   end()
   {
-    return (m_Data + m_ElementCount);
+    return (m_Data.get() + m_ElementCount);
   }
   const_iterator
   end() const
   {
-    return (m_Data + m_ElementCount);
+    return (m_Data.get() + m_ElementCount);
   }
   unsigned int
   size() const
@@ -155,35 +151,33 @@ public:
   const TPixel & operator[](unsigned int i) const { return m_Data[i]; }
   TPixel &       operator[](unsigned int i) { return m_Data[i]; }
 
-  /** Allocates or Reallocates a buffer of size n */
+  /** Allocates a buffer of size n */
   void
   set_size(unsigned int n)
   {
     if (n != m_ElementCount)
     {
-      if (m_Data)
-      {
-        this->Deallocate();
-      }
-      this->Allocate(n);
+      *this = NeighborhoodAllocator();
+      m_Data.reset(new TPixel[n]);
+      m_ElementCount = n;
     }
   }
 
   TPixel *
   data() ITK_NOEXCEPT
   {
-    return m_Data;
+    return m_Data.get();
   }
 
   const TPixel *
   data() const ITK_NOEXCEPT
   {
-    return m_Data;
+    return m_Data.get();
   }
 
 private:
-  unsigned int m_ElementCount{ 0 };
-  TPixel *     m_Data;
+  unsigned int              m_ElementCount{ 0 };
+  std::unique_ptr<TPixel[]> m_Data;
 };
 
 template <typename TPixel>

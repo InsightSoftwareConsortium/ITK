@@ -102,10 +102,6 @@ TEST(NeighborhoodAllocator, DeallocateSetsSizeToZero)
     neighborhoodAllocator.set_size(i);
     neighborhoodAllocator.Deallocate();
     EXPECT_EQ(neighborhoodAllocator.size(), 0);
-
-    // Call Allocate afterwards, to avoid that delete[] is called twice
-    // on the same data.
-    neighborhoodAllocator.Allocate(1);
   }
 }
 
@@ -141,9 +137,5 @@ TEST(NeighborhoodAllocator, DeallocateDestructsAllObjects)
 
     // Expect that there are zero objects left, after Deallocate():
     EXPECT_EQ(ObjectCounter::GetCount(), 0);
-
-    // Call Allocate afterwards, to avoid that delete[] is called twice
-    // on the same data.
-    neighborhoodAllocator.Allocate(1);
   }
 }
