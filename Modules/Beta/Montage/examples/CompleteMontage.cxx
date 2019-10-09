@@ -132,8 +132,7 @@ GetLogBiasField(typename itk::Image<PixelType, Dimension>::Pointer scalarImage,
   typename ImageType::RegionType region = scalarImage->GetLargestPossibleRegion();
 
   // instantiate N4 and assign variables not exposed to the user
-  using CorrecterType =
-    itk::N4BiasFieldCorrectionImageFilter<RealImageType>; // TODO: can we use ImageType here instead of RealImageType?
+  using CorrecterType = itk::N4BiasFieldCorrectionImageFilter<RealImageType>;
   typename CorrecterType::Pointer correcter = CorrecterType::New();
   correcter->SetSplineOrder(splineOrder);
   correcter->SetWienerFilterNoise(0.01);
@@ -243,20 +242,41 @@ CorrectBias(typename itk::Image<PixelType, Dimension>::Pointer image,
   expFilter->Update();
   typename RealImageType::Pointer mulField = expFilter->GetOutput();
 
-  // TODO: parallelize this section
-  double sum = 0.0;
+  std::mutex sumMutex;
+  double     sum = 0.0;
   // normalize the multiplicative bias field to have an average of 1.0
   // so it is neutral to overall image intensity
-  itk::ImageRegionIterator<RealImageType> ItM(mulField, region);
-  for (ItM.GoToBegin(); !ItM.IsAtEnd(); ++ItM)
-  {
-    sum += ItM.Get();
-  }
+  itk::MultiThreaderBase::Pointer mt = itk::MultiThreaderBase::New();
+  mt->ParallelizeImageRegion<Dimension>(
+    region,
+    [mulField, &sum, &sumMutex](const typename ImageType::RegionType & subRegion) {
+      double threadSum = 0.0;
+
+      itk::ImageRegionConstIterator<RealImageType> ItM(mulField, subRegion);
+      for (ItM.GoToBegin(); !ItM.IsAtEnd(); ++ItM)
+      {
+        threadSum += ItM.Get();
+      }
+
+      std::lock_guard<std::mutex> lock(sumMutex);
+      sum += threadSum;
+    },
+    nullptr);
+
   float diff = 1.0 - sum / region.GetNumberOfPixels();
-  for (ItM.GoToBegin(); !ItM.IsAtEnd(); ++ItM)
-  {
-    ItM.Set(ItM.Get() + diff);
-  }
+
+  mt->ParallelizeImageRegion<Dimension>(
+    region,
+    [mulField, diff](const typename ImageType::RegionType & subRegion) {
+      double threadSum = 0.0;
+
+      itk::ImageRegionIterator<RealImageType> ItM(mulField, subRegion);
+      for (ItM.GoToBegin(); !ItM.IsAtEnd(); ++ItM)
+      {
+        ItM.Set(ItM.Get() + diff);
+      }
+    },
+    nullptr);
 
   using CustomBinaryFilter = itk::BinaryGeneratorImageFilter<ImageType, RealImageType, ImageType>;
   typename CustomBinaryFilter::Pointer expAndDivFilter = CustomBinaryFilter::New();

@@ -93,8 +93,7 @@ resampleMontage(const itk::TileConfiguration<Dimension> & actualTiles,
   switch (pixelType)
   {
     case itk::ImageIOBase::IOPixelType::SCALAR:
-      resampleMontage<Dimension, ComponentType, AccumulatePixelType>(
-        actualTiles, inputPath, outFilename);
+      resampleMontage<Dimension, ComponentType, AccumulatePixelType>(actualTiles, inputPath, outFilename);
       break;
     case itk::ImageIOBase::IOPixelType::RGB:
       resampleMontage<Dimension, itk::RGBPixel<ComponentType>, itk::RGBPixel<AccumulatePixelType>>(

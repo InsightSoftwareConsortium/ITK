@@ -19,15 +19,12 @@
 #ifndef itkTileConfiguration_h
 #define itkTileConfiguration_h
 
-#include "MontageExport.h"
-
 #include <string>
 #include <vector>
 
 #include "itkPoint.h"
 #include "itkSize.h"
 
-// move to .hxx file
 #include "double-conversion/double-conversion.h"
 
 #include <cassert>

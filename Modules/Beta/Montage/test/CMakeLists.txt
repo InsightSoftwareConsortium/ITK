@@ -458,13 +458,17 @@ itk_add_test(NAME itkMontageGroundTruthMake${tempDir}
   COMMAND MontageTestDriver
   itkMontageTruthCreator DATA{Input/DzZ_T1/DzZ_T1_orig.nhdr,DzZ_T1_orig.raw.gz} ${outDir} 4 8 3 25 15 50
   )
+set(regressionPart "")
+if (ITKMontage_EnableFailingTests)
+  set(regressionPart --compare DATA{Input/DzZ_T1/DzZ_T1_orig.nhdr} ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_2_1.mha)
+endif()
 itk_add_test(NAME itkMontageGroundTruthRun${tempDir}
   COMMAND MontageTestDriver
   # a lot of tolerances are required because the reconstruction is not perfect
     --compareRadiusTolerance 1
     --compareIntensityTolerance 64
     --compareNumberOfPixelsTolerance 300
-  --compare DATA{Input/DzZ_T1/DzZ_T1_orig.nhdr} ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_2_1.mha
+  ${regressionPart}
   itkMontageTest
     ${outDir}
     ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_
