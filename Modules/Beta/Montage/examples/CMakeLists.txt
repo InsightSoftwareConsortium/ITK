@@ -98,7 +98,28 @@ set_tests_properties(CompleteMontage2DComparePositions PROPERTIES DEPENDS Comple
 add_test(NAME CompleteMontage2DCompareImage
   COMMAND ImageCompareCommand
     # a lot of tolerances are required because the reconstruction is not perfect
-    --tolerance-radius 1 --tolerance-intensity 16 --tolerance-number-of-pixels 200
+    --tolerance-radius 1 --tolerance-intensity 16 --tolerance-number-of-pixels 1000
     --baseline-image ${CMAKE_CURRENT_LIST_DIR}/SampleData_CMUrun2/groundTruth.png
     --test-image ${TESTING_OUTPUT_PATH}/SampleData_CMUrun2/CompleteMontage2D.nrrd)
 set_tests_properties(CompleteMontage2DCompareImage PROPERTIES DEPENDS CompleteMontage2D)
+
+
+file(MAKE_DIRECTORY ${TESTING_OUTPUT_PATH}/SampleData_DzZ_T1/)
+add_test(NAME CompleteMontage3D
+  COMMAND CompleteMontage
+    ${CMAKE_CURRENT_LIST_DIR}/SampleData_DzZ_T1/
+    ${TESTING_OUTPUT_PATH}/SampleData_DzZ_T1
+    CompleteMontage3D.nrrd
+    )
+add_test(NAME CompleteMontage3DComparePositions
+  COMMAND CompareTileConfigurations
+    ${CMAKE_CURRENT_LIST_DIR}/SampleData_DzZ_T1/TileConfiguration.registered.txt
+    ${TESTING_OUTPUT_PATH}/SampleData_DzZ_T1/TileConfiguration.registered.txt)
+set_tests_properties(CompleteMontage3DComparePositions PROPERTIES DEPENDS CompleteMontage3D)
+# add_test(NAME CompleteMontage3DCompareImage
+#   COMMAND ImageCompareCommand
+#     # a lot of tolerances are required because the reconstruction is not perfect
+#     --tolerance-radius 1 --tolerance-intensity 16 --tolerance-number-of-pixels 1000
+#     --baseline-image ${CMAKE_CURRENT_LIST_DIR}/SampleData_DzZ_T1/DzZ_T1_orig.nhdr
+#     --test-image ${TESTING_OUTPUT_PATH}/SampleData_DzZ_T1/CompleteMontage3D.nrrd)
+# set_tests_properties(CompleteMontage3DCompareImage PROPERTIES DEPENDS CompleteMontage3D)

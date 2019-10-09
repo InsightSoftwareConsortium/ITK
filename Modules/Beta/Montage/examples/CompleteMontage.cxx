@@ -160,7 +160,16 @@ GetLogBiasField(typename itk::Image<PixelType, Dimension>::Pointer scalarImage,
   using ShrinkerType = itk::ShrinkImageFilter<ImageType, RealImageType>;
   typename ShrinkerType::Pointer shrinker = ShrinkerType::New();
   shrinker->SetInput(scalarImage);
-  shrinker->SetShrinkFactors(shrinkFactor);
+  shrinker->SetShrinkFactors(shrinkFactor); // this might be too aggresive for some dimension
+  for (unsigned int d = 0; d < Dimension; d++)
+  {
+    unsigned shrinkF = shrinkFactor;
+    while ((region.GetSize(d) / shrinkF <= 1) && (shrinkF > 1))
+    {
+      shrinkF--;
+    }
+    shrinker->SetShrinkFactor(d, shrinkF);
+  }
   shrinker->Update();
 
   correcter->SetInput(shrinker->GetOutput());
