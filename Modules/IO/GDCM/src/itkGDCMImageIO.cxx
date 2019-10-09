@@ -41,6 +41,7 @@
 #include "gdcmImageHelper.h"
 #include "gdcmFileExplicitFilter.h"
 #include "gdcmImageChangeTransferSyntax.h"
+#include "gdcmImageChangePhotometricInterpretation.h"
 #include "gdcmDataSetHelper.h"
 #include "gdcmStringFilter.h"
 #include "gdcmImageApplyLookupTable.h"
@@ -300,6 +301,18 @@ GDCMImageIO::Read(void * pointer)
     ialut.Apply();
     image = ialut.GetOutput();
     len *= 3;
+  }
+  else if (pi == gdcm::PhotometricInterpretation::YBR_FULL ||
+           pi == gdcm::PhotometricInterpretation::YBR_FULL_422)
+  {
+    // ITK does not carry color space associated with an image. It is pretty
+    // much assumed that color image is expressed in RGB.
+    gdcm::ImageChangePhotometricInterpretation icpi;
+    icpi.SetInput(image);
+    icpi.SetPhotometricInterpretation( gdcm::PhotometricInterpretation::RGB );
+    icpi.Change();
+    itkWarningMacro(<< "Converting from integer YBR to integer RGB is a lossy operation.");
+    image = icpi.GetOutput();
   }
 
   if (!image.GetBuffer((char *)pointer))
