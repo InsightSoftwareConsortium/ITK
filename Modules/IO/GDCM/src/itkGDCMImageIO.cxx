@@ -283,6 +283,17 @@ GDCMImageIO::Read(void * pointer)
 #endif
   SizeValueType len = image.GetBufferLength();
 
+  // Decompress the Pixel Data buffer when needed. This is required here in the
+  // pipeline to make sure to decompress JPEGBaseline1 into YBR_FULL.
+  if( image.GetTransferSyntax().IsEncapsulated() )
+  {
+    gdcm::ImageChangeTransferSyntax icts;
+    icts.SetInput(image);
+    icts.SetTransferSyntax( gdcm::TransferSyntax::ImplicitVRLittleEndian );
+    icts.Change();
+    image = icts.GetOutput();
+  }
+
   // I think ITK only allow RGB image by pixel (and not by plane)
   if (image.GetPlanarConfiguration() == 1)
   {
@@ -302,8 +313,7 @@ GDCMImageIO::Read(void * pointer)
     image = ialut.GetOutput();
     len *= 3;
   }
-  else if (pi == gdcm::PhotometricInterpretation::YBR_FULL ||
-           pi == gdcm::PhotometricInterpretation::YBR_FULL_422)
+  else if (pi == gdcm::PhotometricInterpretation::YBR_FULL)
   {
     // ITK does not carry color space associated with an image. It is pretty
     // much assumed that color image is expressed in RGB.
