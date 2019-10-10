@@ -422,6 +422,33 @@ primary output, as it was a shallow copy of the primary
 input. Additionally, minor API changes have occoured related to the
 decorated output methods to conform to ITK conventions.
 
+Consolidated Vector Filter
+--------------------------
+
+In ITK 5.0 many "vector" specialized filters and functions are
+deprecated. These filters commonly contain a "Vector" prefix to the
+regular filter. "Vector" may refer to an `itk::Image` of
+`itk::Vector` pixel types and/or  an `itk::VectorImage`. Support for
+"vector" images is being consolidated into the regular filters without
+the "Vector" prefix. The follow depricated classes need to be replaced
+as follows:
+
+* `VectorCentralDifferenceImageFunction` -> `CentralDifferenceImageFunction`
+* `VectorExpandImageFilter` -> `ExpandImageFilter`
+* `VectorCastImageFilter` -> `CastImageFilter`
+* `VectorResampleImageFilter` -> `ResampleImageFilter`
+
+Additionally, the following change should be considered:
+
+* `WarpImageFilter` -> `ResampleImageFilter`
+* `WarpVectorImageFilter` -> `ResampleImageFilter`
+
+[This update to the ITK
+Examples](https://github.com/InsightSoftwareConsortium/ITK/commit/b8dbc939ecb086b0e60faf4710657596553f643f)
+is illustrative on how to use the `ResampleImageFilter` is place of a
+warp filter. Note these warp filters are being considered filters for
+deprecation in the future.
+
 
 Python changes
 --------------
