@@ -29,6 +29,9 @@
 #include "itkN4BiasFieldCorrectionImageFilter.h"
 #include "itkShrinkImageFilter.h"
 #include "itkImageDuplicator.h"
+#include "itkVectorIndexSelectionCastImageFilter.h"
+#include "itkBilateralImageFilter.h"
+#include "itkComposeImageFilter.h"
 
 template <typename TImage>
 typename TImage::Pointer
@@ -79,6 +82,58 @@ WriteTransform(const TransformType * transform, std::string filename)
     tWriter->SetInput(transform);
   }
   tWriter->Update();
+}
+
+// use SFINAE to select whether to do simple denoising or per RGB(A) component denoising
+template <typename PixelType, unsigned Dimension>
+typename std::enable_if<std::is_arithmetic<PixelType>::value, typename itk::Image<PixelType, Dimension>::Pointer>::type
+denoiseImage(typename itk::Image<PixelType, Dimension>::Pointer image, double sigma)
+{
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using DensoingType = itk::BilateralImageFilter<ImageType, ImageType>;
+  DensoingType::Pointer denoiser = DensoingType::New();
+  denoiser->SetInput(image);
+  denoiser->SetRangeSigma(itk::NumericTraits<PixelType>::max() / 20.0);
+  denoiser->SetDomainSigma(sigma);
+  denoiser->Update();
+  return denoiser->GetOutput();
+}
+template <typename PixelType, unsigned Dimension>
+typename std::enable_if<!std::is_arithmetic<PixelType>::value, typename itk::Image<PixelType, Dimension>::Pointer>::type
+denoiseImage(typename itk::Image<PixelType, Dimension>::Pointer image, double sigma)
+{
+  // we assume RGB or RGBA pixel type
+  using ComponentType = typename itk::NumericTraits<PixelType>::ValueType;
+  using ColorImageType = itk::Image<PixelType, Dimension>;
+  using ScalarImageType = itk::Image<ComponentType, Dimension>;
+  using ImageAdaptorType = itk::VectorIndexSelectionCastImageFilter<ColorImageType, ScalarImageType>;
+  using DensoingType = itk::BilateralImageFilter<ScalarImageType, ScalarImageType>;
+  using ComposeType = itk::ComposeImageFilter<ScalarImageType, ColorImageType>;
+
+  ImageAdaptorType::Pointer cAdaptor = ImageAdaptorType::New();
+  cAdaptor->SetInput(image);
+  DensoingType::Pointer denoiser = DensoingType::New();
+  denoiser->SetInput(cAdaptor->GetOutput());
+  denoiser->SetRangeSigma(itk::NumericTraits<ComponentType>::max() / 20.0);
+  denoiser->SetDomainSigma(sigma);
+
+  std::vector<typename ScalarImageType::Pointer> cImages(PixelType::Length);
+  for (unsigned c = 0; c < PixelType::Length; c++)
+  {
+    cAdaptor->SetIndex(c);
+    denoiser->Update();
+    cImages[c] = denoiser->GetOutput();
+    cImages[c]->DisconnectPipeline();
+  }
+
+  // compose an RGB(A) image from the filtered component images
+  ComposeType::Pointer compose = ComposeType::New();
+  for (unsigned c = 0; c < PixelType::Length; c++)
+  {
+    compose->SetInput(c, cImages[c]);
+  }
+  compose->Update();
+  return compose->GetOutput();
 }
 
 template <typename TFilter>
@@ -314,7 +369,9 @@ void
 completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
                 const std::string &                       inputPath,
                 const std::string &                       outputPath,
-                const std::string &                       outFilename)
+                const std::string &                       outFilename,
+                bool                                      correctBias,
+                bool                                      denoiseTiles)
 {
   using TileConfig = itk::TileConfiguration<Dimension>;
   using ScalarPixelType = typename itk::NumericTraits<PixelType>::ValueType;
@@ -329,13 +386,23 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
   std::vector<typename OriginalImageType::Pointer> oImages(stageTiles.LinearSize());
   std::vector<typename ScalarImageType::Pointer>   sImages(stageTiles.LinearSize());
   std::vector<typename BiasFieldType::Pointer>     bImages(stageTiles.LinearSize());
-  std::cout << "Flat-fielding images...\n";
+  std::cout << "Reading";
+  if (denoiseTiles)
+  {
+    std::cout << ", denoising";
+  }
+  if (correctBias)
+  {
+    std::cout << ", bias-correcting";
+  }
+  std::cout << " input tiles...\n";
   typename TileConfig::TileIndexType ind;
   for (size_t t = 0; t < stageTiles.LinearSize(); t++)
   {
     std::string                         filename = inputPath + stageTiles.Tiles[t].FileName;
     typename OriginalImageType::Pointer image = ReadImage<OriginalImageType>(filename.c_str());
     typename TileConfig::PointType      origin = stageTiles.Tiles[t].Position;
+    std::cout << 'R' << std::flush;
 
     // tile configurations are in pixel (index) coordinates
     // so we convert them into physical ones
@@ -346,32 +413,42 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
     }
     image->SetOrigin(origin);
 
-    assignRGBtoScalar<OriginalImageType, ScalarImageType>(image, sImages[t]);
-    bImages[t] = GetLogBiasField<ScalarPixelType, Dimension>(sImages[t]); // input image must be scalar
-    image = CorrectBias<PixelType, Dimension>(image, bImages[t]);
+    if (denoiseTiles)
+    {
+      // geometric average perserves equivalent voxel volume
+      double avgSpacing = 1.0;
+      for (unsigned d = 0; d < Dimension; d++)
+      {
+        avgSpacing *= sp[d];
+      }
+      avgSpacing = std::pow(avgSpacing, 1.0 / Dimension);
 
-    oImages[t] = image;
+      image = denoiseImage<PixelType, Dimension>(image, avgSpacing);
+      // WriteImage(image.GetPointer(), (outputPath + stageTiles.Tiles[t].FileName + "-bil.nrrd").c_str(), true);
+      std::cout << 'D' << std::flush;
+    }
+
     assignRGBtoScalar<OriginalImageType, ScalarImageType>(image, sImages[t]);
+
+    if (correctBias)
+    {
+      bImages[t] = GetLogBiasField<ScalarPixelType, Dimension>(sImages[t]); // input image must be scalar
+      image = CorrectBias<PixelType, Dimension>(image, bImages[t]);
+
+      assignRGBtoScalar<OriginalImageType, ScalarImageType>(image, sImages[t]);
+
+      // write bias-corrected image
+      std::string fileNameExt = itksys::SystemTools::GetFilenameLastExtension(stageTiles.Tiles[t].FileName);
+      std::string baseFileName = itksys::SystemTools::GetFilenameWithoutLastExtension(stageTiles.Tiles[t].FileName);
+      std::string flatFileName = baseFileName + "-flat" + fileNameExt;
+      actualTiles.Tiles[t].FileName = flatFileName;
+      WriteImage(image.GetPointer(), (outputPath + flatFileName).c_str(), true);
+    }
+    oImages[t] = image;
 
     // show image loading progress
     ind = stageTiles.LinearIndexToNDIndex(t);
-    char digit = '0';
-    for (unsigned d = 0; d < Dimension; d++)
-    {
-      if (ind[d] < stageTiles.AxisSizes[d] - 1)
-      {
-        break;
-      }
-      ++digit;
-    }
-    std::cout << digit << std::endl;
-
-    // write bias-corrected image
-    std::string fileNameExt = itksys::SystemTools::GetFilenameLastExtension(stageTiles.Tiles[t].FileName);
-    std::string baseFileName = itksys::SystemTools::GetFilenameWithoutLastExtension(stageTiles.Tiles[t].FileName);
-    std::string flatFileName = baseFileName + "-flat" + fileNameExt;
-    actualTiles.Tiles[t].FileName = flatFileName;
-    WriteImage(image.GetPointer(), (outputPath + flatFileName).c_str(), true);
+    std::cout << ind << "  " << t + 1 << "/" << stageTiles.LinearSize() << std::endl;
   }
   std::cout << std::endl;
 
@@ -433,20 +510,23 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
                 const std::string &                       inputPath,
                 const std::string &                       outputPath,
                 const std::string &                       outFilename,
-                itk::ImageIOBase::IOPixelType             pixelType)
+                itk::ImageIOBase::IOPixelType             pixelType,
+                bool                                      correctBias,
+                bool                                      denoise)
 {
   switch (pixelType)
   {
     case itk::ImageIOBase::IOPixelType::SCALAR:
-      completeMontage<Dimension, ComponentType, AccumulatePixelType>(stageTiles, inputPath, outputPath, outFilename);
+      completeMontage<Dimension, ComponentType, AccumulatePixelType>(
+        stageTiles, inputPath, outputPath, outFilename, correctBias, denoise);
       break;
     case itk::ImageIOBase::IOPixelType::RGB:
       completeMontage<Dimension, itk::RGBPixel<ComponentType>, itk::RGBPixel<AccumulatePixelType>>(
-        stageTiles, inputPath, outputPath, outFilename);
+        stageTiles, inputPath, outputPath, outFilename, correctBias, denoise);
       break;
     case itk::ImageIOBase::IOPixelType::RGBA:
       completeMontage<Dimension, itk::RGBAPixel<ComponentType>, itk::RGBAPixel<AccumulatePixelType>>(
-        stageTiles, inputPath, outputPath, outFilename);
+        stageTiles, inputPath, outputPath, outFilename, correctBias, denoise);
       break;
     default:
       itkGenericExceptionMacro("Only sclar, RGB and RGBA images are supported!");
@@ -467,6 +547,17 @@ mainHelper(int argc, char * argv[], std::string inputPath)
   if (itksys::SystemTools::GetFilenamePath(outFile).empty()) // just file name, no path
   {
     outFile = outputPath + outFile;
+  }
+
+  bool doBiasCorrection = true;
+  if (argc > 4)
+  {
+    doBiasCorrection = std::stoi(argv[4]);
+  }
+  bool doDenoising = true;
+  if (argc > 5)
+  {
+    doDenoising = std::stoi(argv[5]);
   }
 
   itk::TileConfiguration<Dimension> stageTiles;
@@ -491,13 +582,16 @@ mainHelper(int argc, char * argv[], std::string inputPath)
   switch (componentType)
   {
     case itk::ImageIOBase::IOComponentType::UCHAR:
-      completeMontage<Dimension, unsigned char, unsigned int>(stageTiles, inputPath, outputPath, outFile, pixelType);
+      completeMontage<Dimension, unsigned char, unsigned int>(
+        stageTiles, inputPath, outputPath, outFile, pixelType, doBiasCorrection, doDenoising);
       break;
     case itk::ImageIOBase::IOComponentType::USHORT:
-      completeMontage<Dimension, unsigned short, double>(stageTiles, inputPath, outputPath, outFile, pixelType);
+      completeMontage<Dimension, unsigned short, double>(
+        stageTiles, inputPath, outputPath, outFile, pixelType, doBiasCorrection, doDenoising);
       break;
     case itk::ImageIOBase::IOComponentType::SHORT:
-      completeMontage<Dimension, short, double>(stageTiles, inputPath, outputPath, outFile, pixelType);
+      completeMontage<Dimension, short, double>(
+        stageTiles, inputPath, outputPath, outFile, pixelType, doBiasCorrection, doDenoising);
       break;
     default: // instantiating too many types leads to long compilation time and big executable
       itkGenericExceptionMacro(
@@ -515,7 +609,9 @@ main(int argc, char * argv[])
   if (argc < 4)
   {
     std::cout << "Usage: " << std::endl;
-    std::cout << argv[0] << " <directoryWtihInputData> <outputDirectory> <outputFilename>" << std::endl;
+    std::cout << argv[0]
+              << " <directoryWtihInputData> <outputDirectory> <outputFilename> [biasCorrection] [tileDenoising]"
+              << std::endl;
     return EXIT_FAILURE;
   }
 

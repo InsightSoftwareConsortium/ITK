@@ -4,6 +4,7 @@ project(ITKMontageExamples)
 set(ExampleSpecificComponents
   ITKBiasCorrection
   ITKImageGrid
+  ITKImageFeature
   )
 
 if(NOT ITK_SOURCE_DIR)
@@ -89,6 +90,7 @@ add_test(NAME CompleteMontage2D
     ${CMAKE_CURRENT_LIST_DIR}/SampleData_CMUrun2/
     ${TESTING_OUTPUT_PATH}/SampleData_CMUrun2
     CompleteMontage2D.nrrd
+    0 0
     )
 add_test(NAME CompleteMontage2DComparePositions
   COMMAND CompareTileConfigurations
@@ -110,6 +112,7 @@ add_test(NAME CompleteMontage3D
     ${CMAKE_CURRENT_LIST_DIR}/SampleData_DzZ_T1/
     ${TESTING_OUTPUT_PATH}/SampleData_DzZ_T1
     CompleteMontage3D.nrrd
+    0 0
     )
 add_test(NAME CompleteMontage3DComparePositions
   COMMAND CompareTileConfigurations
