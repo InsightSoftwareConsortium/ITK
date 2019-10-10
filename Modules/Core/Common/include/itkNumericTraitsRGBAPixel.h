@@ -142,6 +142,34 @@ public:
     return OneValue();
   }
 
+  /** Is a given value positive? */
+  static bool
+  IsPositive(Self val)
+  {
+    return NumericTraits<typename Self::LuminanceType>::IsPositive(val.GetLuminance());
+  }
+
+  /** Is a given value nonpositive? */
+  static bool
+  IsNonpositive(Self val)
+  {
+    return NumericTraits<typename Self::LuminanceType>::IsNonpositive(val.GetLuminance());
+  }
+
+  /** Is a given value negative? */
+  static bool
+  IsNegative(Self val)
+  {
+    return NumericTraits<typename Self::LuminanceType>::IsNegative(val.GetLuminance());
+  }
+
+  /** Is a given value nonnegative? */
+  static bool
+  IsNonnegative(Self val)
+  {
+    return NumericTraits<typename Self::LuminanceType>::IsNonnegative(val.GetLuminance());
+  }
+
   static constexpr bool IsSigned = NumericTraits<ValueType>::IsSigned;
   static constexpr bool IsInteger = NumericTraits<ValueType>::IsInteger;
   static constexpr bool IsComplex = NumericTraits<ValueType>::IsComplex;
