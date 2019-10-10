@@ -37,6 +37,31 @@ Expect_data_returns_pointer_to_first_element(T & container)
 
   EXPECT_EQ(container.data(), &container[0]);
 }
+
+
+// Counts the number of instances of the class.
+class ObjectCounter
+{
+private:
+  static std::size_t m_Count;
+
+public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectCounter);
+
+  ObjectCounter() ITK_NOEXCEPT { ++m_Count; }
+
+  ~ObjectCounter() { --m_Count; }
+
+  static std::size_t
+  GetCount()
+  {
+    return m_Count;
+  }
+};
+
+std::size_t ObjectCounter::m_Count{};
+
+
 } // namespace
 
 
@@ -50,4 +75,67 @@ TEST(NeighborhoodAllocator, DataReturnsPointerToFirstElement)
 
   const itk::NeighborhoodAllocator<int> constNeighborhoodAllocator = neighborhoodAllocator;
   Expect_data_returns_pointer_to_first_element(constNeighborhoodAllocator);
+}
+
+
+// Tests that neighborhoodAllocator.Allocate(i) sets the size to the specified number.
+TEST(NeighborhoodAllocator, AllocateSetsSizeToSpecifiedNumber)
+{
+  for (unsigned int i{}; i <= 3; ++i)
+  {
+    itk::NeighborhoodAllocator<int> neighborhoodAllocator;
+
+    neighborhoodAllocator.Allocate(i);
+
+    EXPECT_EQ(neighborhoodAllocator.size(), i);
+  }
+}
+
+
+// Tests that neighborhoodAllocator.Deallocate() sets the size to zero.
+TEST(NeighborhoodAllocator, DeallocateSetsSizeToZero)
+{
+  for (unsigned int i{}; i <= 3; ++i)
+  {
+    itk::NeighborhoodAllocator<int> neighborhoodAllocator;
+
+    neighborhoodAllocator.set_size(i);
+    neighborhoodAllocator.Deallocate();
+    EXPECT_EQ(neighborhoodAllocator.size(), 0);
+  }
+}
+
+
+// Tests that neighborhoodAllocator.Allocate(i) constructs the specified number of objects.
+TEST(NeighborhoodAllocator, AllocateConstructsTheSpecifiedNumberOfObjects)
+{
+  ASSERT_EQ(ObjectCounter::GetCount(), 0);
+
+  for (unsigned int i{}; i <= 3; ++i)
+  {
+    itk::NeighborhoodAllocator<ObjectCounter> neighborhoodAllocator;
+
+    neighborhoodAllocator.Allocate(i);
+
+    EXPECT_EQ(ObjectCounter::GetCount(), i);
+  }
+}
+
+
+// Tests that neighborhoodAllocator.Deallocate() destructs all objects that were there.
+TEST(NeighborhoodAllocator, DeallocateDestructsAllObjects)
+{
+  ASSERT_EQ(ObjectCounter::GetCount(), 0);
+
+  for (unsigned int i{}; i <= 3; ++i)
+  {
+    itk::NeighborhoodAllocator<ObjectCounter> neighborhoodAllocator;
+    neighborhoodAllocator.set_size(i);
+    ASSERT_EQ(ObjectCounter::GetCount(), i);
+
+    neighborhoodAllocator.Deallocate();
+
+    // Expect that there are zero objects left, after Deallocate():
+    EXPECT_EQ(ObjectCounter::GetCount(), 0);
+  }
 }
