@@ -33,14 +33,15 @@
 // do the registration and calculate error for two images
 template <typename PixelType, unsigned Dimension>
 double
-calculateError(const itk::TileConfiguration<Dimension> & stageTiles,
-               const itk::TileConfiguration<Dimension> & actualTiles,
-               const std::string &                       inputPath,
-               int                                       paddingMethod,
-               unsigned                                  positionTolerance,
-               std::ostream &                            out,
-               size_t                                    fInd,
-               size_t                                    mInd)
+calculateError(const itk::TileConfiguration<Dimension> &    stageTiles,
+               const itk::TileConfiguration<Dimension> &    actualTiles,
+               const std::string &                          inputPath,
+               int                                          paddingMethod,
+               unsigned                                     positionTolerance,
+               std::vector<itk::Point<double, Dimension>> & regBias,
+               std::ostream &                               out,
+               size_t                                       fInd,
+               size_t                                       mInd)
 {
   double translationError = 0.0;
   std::cout << stageTiles.Tiles[fInd].FileName << " <- " << stageTiles.Tiles[mInd].FileName << std::endl;
@@ -107,6 +108,16 @@ calculateError(const itk::TileConfiguration<Dimension> & stageTiles,
     typename itk::MaxPhaseCorrelationOptimizer<PhaseCorrelationMethodType>::PeakInterpolationMethod;
   using PeakFinderUnderlying = typename std::underlying_type<PeakInterpolationType>::type;
 
+  if (regBias.empty()) // initialize
+  {
+    regBias.resize(static_cast<PeakFinderUnderlying>(PeakInterpolationType::Last) -
+                   static_cast<PeakFinderUnderlying>(PeakInterpolationType::None) + 1);
+    for (auto & rBias : regBias)
+    {
+      rBias.Fill(0.0);
+    }
+  }
+
   unsigned count = 0;
   for (auto peakMethod = static_cast<PeakFinderUnderlying>(PeakInterpolationType::None);
        peakMethod <= static_cast<PeakFinderUnderlying>(PeakInterpolationType::Last);
@@ -136,6 +147,7 @@ calculateError(const itk::TileConfiguration<Dimension> & stageTiles,
     }
     VectorType ta = (actualTiles.Tiles[fInd].Position - stageTiles.Tiles[fInd].Position) -
                     (actualTiles.Tiles[mInd].Position - stageTiles.Tiles[mInd].Position); // translation (actual)
+    regBias[peakMethod] += tr - ta;
     for (unsigned d = 0; d < Dimension; d++)
     {
       out << '\t' << (tr[d] - ta[d]);
@@ -183,10 +195,11 @@ pairwiseTests(const itk::TileConfiguration<Dimension> & stageTiles,
     }
     registrationErrors << std::endl;
 
-    const size_t                       linearSize = stageTiles.LinearSize();
-    typename TileConfig::TileIndexType ind;
-    size_t                             count = 0;
-    double                             totalError = 0.0;
+    const size_t                               linearSize = stageTiles.LinearSize();
+    typename TileConfig::TileIndexType         ind;
+    std::vector<itk::Point<double, Dimension>> accumulatedBias; // one per PeakInterpolationType
+    size_t                                     count = 0;
+    double                                     totalError = 0.0;
     for (size_t t = 0; t < linearSize; t++)
     {
       ind = stageTiles.LinearIndexToNDIndex(t);
@@ -198,13 +211,28 @@ pairwiseTests(const itk::TileConfiguration<Dimension> & stageTiles,
           typename TileConfig::TileIndexType neighborInd = ind;
           --neighborInd[d];
           size_t fixedLinearIndex = stageTiles.nDIndexToLinearIndex(neighborInd);
-          // avg += regPos[t] - regPos[nInd] - (actualTiles.Tiles[nInd].Position - stageTiles.Tiles[nInd].Position);
-          totalError += calculateError<PixelType, Dimension>(
-            stageTiles, actualTiles, inputPath, padMethod, positionTolerance, registrationErrors, fixedLinearIndex, t);
+          totalError += calculateError<PixelType, Dimension>(stageTiles,
+                                                             actualTiles,
+                                                             inputPath,
+                                                             padMethod,
+                                                             positionTolerance,
+                                                             accumulatedBias,
+                                                             registrationErrors,
+                                                             fixedLinearIndex,
+                                                             t);
         }
       }
     }
 
+    for (unsigned m = 0; m < accumulatedBias.size(); m++)
+    {
+      std::cout << "PeakInterpolation " << m << " has average translation bias:";
+      for (unsigned d = 0; d < Dimension; d++)
+      {
+        std::cout << " " << accumulatedBias[m][d] / count;
+      }
+      std::cout << std::endl;
+    }
     // double avgError = totalError / (xMontageSize * (yMontageSize - 1) + (xMontageSize - 1) * yMontageSize);
     double avgError = totalError / count;
     avgError /= Dimension; // report per-dimension error
