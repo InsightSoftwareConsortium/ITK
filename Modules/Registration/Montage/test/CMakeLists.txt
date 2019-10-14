@@ -307,7 +307,7 @@ function(GroundTruthTest2D tempDir inputFile) # other command-line parameters
       ${outDir}
       ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_
       ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}Pairs_
-      0 1 1 1 0 0 0 0 1
+      0 1 1 1 1 0 0 0 1
     )
   SET_TESTS_PROPERTIES(itkMontageGroundTruthRun${tempDir}
     PROPERTIES DEPENDS itkMontageGroundTruthMake${tempDir})
@@ -473,7 +473,7 @@ itk_add_test(NAME itkMontageGroundTruthRun${tempDir}
     ${outDir}
     ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_
     ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}Pairs_
-    0 1 1 1 0 0 0 0 1
+    0 1 1 1 1 0 0 0 1
   )
 SET_TESTS_PROPERTIES(itkMontageGroundTruthRun${tempDir}
   PROPERTIES DEPENDS itkMontageGroundTruthMake${tempDir})
@@ -565,7 +565,7 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles/Image_10_10.tif)
       ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles
       ${TESTING_OUTPUT_PATH}/itkMontageTiles
       ${TESTING_OUTPUT_PATH}/itkMontageTilesPairs
-      0 -1 1 1 0 0 0 0 1
+      0 -1 1 1 1 0 0 0 1
     )
     GroundTruthTest2D(Tiles ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles/itkMontageTiles2_0.mha 10 10 10 10)
 endif()
