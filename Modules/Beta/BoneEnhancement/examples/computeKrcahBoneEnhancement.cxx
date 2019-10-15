@@ -60,7 +60,7 @@ int main(int argc, char * argv[])
 
   int enhanceBrightObjects = std::stoi(argv[4]);
   int parameterSetToImplement = std::stoi(argv[5]);
-  int numberOfSigma = std::stoi(argv[6]);
+  unsigned long numberOfSigma = std::stoul(argv[6]);
   double thisSigma;
   itk::Array< double > sigmaArray;
   sigmaArray.SetSize(numberOfSigma);
