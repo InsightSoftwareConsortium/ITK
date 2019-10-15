@@ -30,17 +30,17 @@
 #include <type_traits> // For std::is_reference.
 
 // Test template instantiations for various ImageDimension values, and const Image:
-template class itk::Experimental::ImageBufferRange<itk::Image<short, 1>>;
-template class itk::Experimental::ImageBufferRange<itk::Image<short, 2>>;
-template class itk::Experimental::ImageBufferRange<itk::Image<short, 3>>;
-template class itk::Experimental::ImageBufferRange<itk::Image<short, 4>>;
-template class itk::Experimental::ImageBufferRange<const itk::Image<short>>;
-template class itk::Experimental::ImageBufferRange<itk::VectorImage<short>>;
-template class itk::Experimental::ImageBufferRange<const itk::VectorImage<short, 4>>;
+template class itk::ImageBufferRange<itk::Image<short, 1>>;
+template class itk::ImageBufferRange<itk::Image<short, 2>>;
+template class itk::ImageBufferRange<itk::Image<short, 3>>;
+template class itk::ImageBufferRange<itk::Image<short, 4>>;
+template class itk::ImageBufferRange<const itk::Image<short>>;
+template class itk::ImageBufferRange<itk::VectorImage<short>>;
+template class itk::ImageBufferRange<const itk::VectorImage<short, 4>>;
 
-using itk::Experimental::ImageBufferRange;
-using itk::Experimental::MakeImageBufferRange;
-using itk::Experimental::RangeGTestUtilities;
+using itk::ImageBufferRange;
+using itk::MakeImageBufferRange;
+using itk::RangeGTestUtilities;
 
 
 namespace

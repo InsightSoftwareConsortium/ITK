@@ -27,8 +27,6 @@
 
 namespace itk
 {
-namespace Experimental
-{
 
 /**
  * \class RectangularImageNeighborhoodShape
@@ -124,7 +122,6 @@ private:
   }
 };
 
-} // namespace Experimental
 } // namespace itk
 
 #endif

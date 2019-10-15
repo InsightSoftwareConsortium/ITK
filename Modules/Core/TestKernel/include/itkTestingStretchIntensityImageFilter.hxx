@@ -67,7 +67,7 @@ StretchIntensityImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateDa
   m_InputMaximum = NumericTraits<InputPixelType>::NonpositiveMin();
   m_InputMinimum = NumericTraits<InputPixelType>::max();
 
-  for (const InputPixelType value : Experimental::MakeImageBufferRange(inputImage))
+  for (const InputPixelType value : MakeImageBufferRange(inputImage))
   {
     if (value > m_InputMaximum)
     {

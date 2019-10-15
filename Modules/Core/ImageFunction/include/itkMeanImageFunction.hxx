@@ -51,8 +51,7 @@ MeanImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & ind
     return (NumericTraits<RealType>::max());
   }
 
-  const Experimental::ShapedImageNeighborhoodRange<const InputImageType> neighborhoodRange(
-    *image, index, m_NeighborhoodOffsets);
+  const ShapedImageNeighborhoodRange<const InputImageType> neighborhoodRange(*image, index, m_NeighborhoodOffsets);
 
   // Walk the neighborhood
   for (const InputPixelType pixelValue : neighborhoodRange)
@@ -70,7 +69,7 @@ MeanImageFunction<TInputImage, TCoordRep>::SetNeighborhoodRadius(const unsigned 
 {
   if (m_NeighborhoodRadius != radius)
   {
-    m_NeighborhoodOffsets = Experimental::GenerateRectangularImageNeighborhoodOffsets(ImageSizeType::Filled(radius));
+    m_NeighborhoodOffsets = GenerateRectangularImageNeighborhoodOffsets(ImageSizeType::Filled(radius));
     m_NeighborhoodRadius = radius;
     this->Modified();
   }

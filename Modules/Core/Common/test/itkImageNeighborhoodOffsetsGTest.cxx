@@ -60,7 +60,7 @@ TEST(ImageNeighborhoodOffsets, GenerateImageNeighborhoodOffsetsReturnsEmptyVecto
 {
   constexpr unsigned int                            ImageDimension = 2;
   const EmptyImageNeighborhoodShape<ImageDimension> shape = {};
-  const std::vector<itk::Offset<>> offsets = itk::Experimental::GenerateImageNeighborhoodOffsets(shape);
+  const std::vector<itk::Offset<>>                  offsets = itk::GenerateImageNeighborhoodOffsets(shape);
 
   EXPECT_EQ(offsets, std::vector<itk::Offset<>>());
 }
@@ -69,7 +69,7 @@ TEST(ImageNeighborhoodOffsets, GenerateImageNeighborhoodOffsetsReturnsEmptyVecto
 TEST(ImageNeighborhoodOffsets, GenerateRectangularImageNeighborhoodOffsetsReturnsOneOffsetForDefaultRadius)
 {
   const itk::Size<>                radius = { {} };
-  const std::vector<itk::Offset<>> offsets = itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
+  const std::vector<itk::Offset<>> offsets = itk::GenerateRectangularImageNeighborhoodOffsets(radius);
 
   EXPECT_EQ(offsets, std::vector<itk::Offset<>>(1));
 }
@@ -78,7 +78,7 @@ TEST(ImageNeighborhoodOffsets, GenerateRectangularImageNeighborhoodOffsetsReturn
 TEST(ImageNeighborhoodOffsets, GenerateRectangularImageNeighborhoodOffsetsForSmallestHorizontalNeigborhood)
 {
   const itk::Size<>                radius = { { 1, 0 } };
-  const std::vector<itk::Offset<>> offsets = itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
+  const std::vector<itk::Offset<>> offsets = itk::GenerateRectangularImageNeighborhoodOffsets(radius);
 
   EXPECT_EQ(offsets, (std::vector<itk::Offset<>>{ { { -1, 0 } }, { { 0, 0 } }, { { 1, 0 } } }));
 }
@@ -87,7 +87,7 @@ TEST(ImageNeighborhoodOffsets, GenerateRectangularImageNeighborhoodOffsetsForSma
 TEST(ImageNeighborhoodOffsets, GenerateRectangularImageNeighborhoodOffsetsForSmallestVerticalNeigborhood)
 {
   const itk::Size<>                radius = { { 0, 1 } };
-  const std::vector<itk::Offset<>> offsets = itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
+  const std::vector<itk::Offset<>> offsets = itk::GenerateRectangularImageNeighborhoodOffsets(radius);
 
   EXPECT_EQ(offsets, (std::vector<itk::Offset<>>{ { { 0, -1 } }, { { 0, 0 } }, { { 0, 1 } } }));
 }

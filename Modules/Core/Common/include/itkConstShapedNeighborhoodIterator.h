@@ -337,7 +337,7 @@ public:
   }
 
   /** Activates a whole range of offsets, for example, an std::vector<OffsetType>,
-   * which could be from Experimental::GenerateImageNeighborhoodOffsets(shape). */
+   * which could be from GenerateImageNeighborhoodOffsets(shape). */
   template <typename TOffsets>
   void
   ActivateOffsets(const TOffsets & offsets)

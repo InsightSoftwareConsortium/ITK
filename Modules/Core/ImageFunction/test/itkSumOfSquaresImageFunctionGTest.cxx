@@ -44,7 +44,7 @@ CreateImageFilledWithSequenceOfNaturalNumbers(const typename TImage::SizeType & 
   const auto image = TImage::New();
   image->SetRegions(imageSize);
   image->Allocate();
-  const auto imageBufferRange = itk::Experimental::ImageBufferRange<TImage>{ *image };
+  const auto imageBufferRange = itk::ImageBufferRange<TImage>{ *image };
   std::iota(imageBufferRange.begin(), imageBufferRange.end(), PixelType{ 1 });
   return image;
 }
@@ -62,7 +62,7 @@ Expect_EvaluateAtIndex_returns_zero_when_all_pixels_are_zero(const typename TIma
 
   imageFunction->SetInputImage(image);
 
-  for (const auto index : itk::Experimental::ZeroBasedIndexRange<TImage::ImageDimension>{ imageSize })
+  for (const auto index : itk::ZeroBasedIndexRange<TImage::ImageDimension>{ imageSize })
   {
     EXPECT_EQ(imageFunction->EvaluateAtIndex(index), 0);
   }
@@ -86,7 +86,7 @@ Expect_EvaluateAtIndex_returns_number_of_neigbors_when_all_pixels_are_one(const 
 
   const auto numberOfNeighbors = std::pow(2.0 * radius + 1.0, TImage::ImageDimension);
 
-  for (const auto index : itk::Experimental::ZeroBasedIndexRange<TImage::ImageDimension>{ imageSize })
+  for (const auto index : itk::ZeroBasedIndexRange<TImage::ImageDimension>{ imageSize })
   {
     EXPECT_EQ(imageFunction->EvaluateAtIndex(index), numberOfNeighbors);
   }
@@ -127,7 +127,7 @@ TEST(SumOfSquaresImageFunction, EvaluateAtCenterPixelOfImageOfSize3x3)
 
   imageFunction->SetInputImage(image);
 
-  const auto imageBufferRange = itk::Experimental::ImageBufferRange<const ImageType>{ *image };
+  const auto imageBufferRange = itk::ImageBufferRange<const ImageType>{ *image };
 
   // Sum of squares of all pixels of the image:
   const auto expectedResult = std::accumulate(
