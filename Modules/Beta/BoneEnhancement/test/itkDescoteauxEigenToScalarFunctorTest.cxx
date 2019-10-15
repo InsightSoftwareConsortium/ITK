@@ -35,17 +35,17 @@ int itkDescoteauxEigenToScalarFunctorTest( int argc, char * argv[] )
 
   /* Exercise basic set/get methods */
   functor.SetAlpha(0.25);
-  TEST_SET_GET_VALUE(0.25, functor.GetAlpha());
+  ITK_TEST_SET_GET_VALUE(0.25, functor.GetAlpha());
   functor.SetBeta(0.25);
-  TEST_SET_GET_VALUE(0.25, functor.GetBeta());
+  ITK_TEST_SET_GET_VALUE(0.25, functor.GetBeta());
   functor.SetC(0.25);
-  TEST_SET_GET_VALUE(0.25, functor.GetC());
+  ITK_TEST_SET_GET_VALUE(0.25, functor.GetC());
   // Default should be -1
-  TEST_SET_GET_VALUE(-1.0, functor.GetEnhanceType());
+  ITK_TEST_SET_GET_VALUE(-1.0, functor.GetEnhanceType());
   functor.SetEnhanceDarkObjects();
-  TEST_SET_GET_VALUE(1.0, functor.GetEnhanceType());
+  ITK_TEST_SET_GET_VALUE(1.0, functor.GetEnhanceType());
   functor.SetEnhanceBrightObjects();
-  TEST_SET_GET_VALUE(-1.0, functor.GetEnhanceType());
+  ITK_TEST_SET_GET_VALUE(-1.0, functor.GetEnhanceType());
 
   /* Test a few calculations */
   EigenValueArrayType mEigenValueArray;
@@ -58,63 +58,63 @@ int itkDescoteauxEigenToScalarFunctorTest( int argc, char * argv[] )
   mEigenValueArray[0] = 0;
   mEigenValueArray[1] = 0;
   mEigenValueArray[2] = 0;
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.0, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.0, 6, 0.000001));
 
   /* Return zero on positive l3 with bright sheets */
   mEigenValueArray[0] = 0;
   mEigenValueArray[1] = 0;
   mEigenValueArray[2] = 1;
   functor.SetEnhanceBrightObjects();
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.0, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.0, 6, 0.000001));
 
   /* Return zero on positive l3 with dark sheets */
   mEigenValueArray[0] = 0;
   mEigenValueArray[1] = 0;
   mEigenValueArray[2] = -1;
   functor.SetEnhanceDarkObjects();
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.0, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.0, 6, 0.000001));
 
   /* 0, 0, -1; bright sheets */
   mEigenValueArray[0] = 0;
   mEigenValueArray[1] = 0;
   mEigenValueArray[2] = -1;
   functor.SetEnhanceBrightObjects();
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.999329187279, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.999329187279, 6, 0.000001));
 
   /* 0, 0, 1; dark sheets */
   mEigenValueArray[0] = 0;
   mEigenValueArray[1] = 0;
   mEigenValueArray[2] = 1;
   functor.SetEnhanceDarkObjects();
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.999329187279, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.999329187279, 6, 0.000001));
 
   /* 1, 1, -1; bright sheets */
   mEigenValueArray[0] = 1;
   mEigenValueArray[1] = 1;
   mEigenValueArray[2] = -1;
   functor.SetEnhanceBrightObjects();
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.0, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.0, 6, 0.000001));
 
   /* 1, 1, 1; dark sheets */
   mEigenValueArray[0] = 1;
   mEigenValueArray[1] = 1;
   mEigenValueArray[2] = 1;
   functor.SetEnhanceDarkObjects();
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.0, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.0, 6, 0.000001));
 
   /* 0.25, 1, -1; bright sheets */
   mEigenValueArray[0] = 0.25;
   mEigenValueArray[1] = 1;
   mEigenValueArray[2] = -1;
   functor.SetEnhanceBrightObjects();
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.0913983433747, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.0913983433747, 6, 0.000001));
 
   /* 0.25, 1, 1; dark sheets */
   mEigenValueArray[0] = 0.25;
   mEigenValueArray[1] = 1;
   mEigenValueArray[2] = 1;
   functor.SetEnhanceDarkObjects();
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.0913983433747, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.0913983433747, 6, 0.000001));
   
   return EXIT_SUCCESS;
 }

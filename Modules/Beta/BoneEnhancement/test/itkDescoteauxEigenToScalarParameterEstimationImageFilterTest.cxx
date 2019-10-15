@@ -35,15 +35,15 @@ int itkDescoteauxEigenToScalarParameterEstimationImageFilterTest( int, char * []
 
   DescoteauxEigenToScalarParameterEstimationImageFilterType::Pointer descoteauxParameterEstimator = DescoteauxEigenToScalarParameterEstimationImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( descoteauxParameterEstimator, DescoteauxEigenToScalarParameterEstimationImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( descoteauxParameterEstimator, DescoteauxEigenToScalarParameterEstimationImageFilter, ImageToImageFilter );
 
   /* Test defaults */
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetC(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetAlphaOutput()->Get(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetBetaOutput()->Get(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetCOutput()->Get(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetC(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetAlphaOutput()->Get(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetBetaOutput()->Get(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetCOutput()->Get(), 0.5, 6, 0.000001));
 
   /* Create some test data which is computable */
   EigenValueArrayType simpleEigenPixel;
@@ -116,35 +116,35 @@ int itkDescoteauxEigenToScalarParameterEstimationImageFilterTest( int, char * []
 
   /* Test an empty pixel value */
   descoteauxParameterEstimator->SetInput(image);
-  TRY_EXPECT_NO_EXCEPTION(descoteauxParameterEstimator->Update());
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetC(), sqrt(3)*1*0.5, 6, 0.000001));
+  ITK_TRY_EXPECT_NO_EXCEPTION(descoteauxParameterEstimator->Update());
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetC(), sqrt(3)*1*0.5, 6, 0.000001));
 
   /* Test an empty pixel value */
   descoteauxParameterEstimator->SetFrobeniusNormWeight(0.25);
-  TRY_EXPECT_NO_EXCEPTION(descoteauxParameterEstimator->Update());
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetC(), sqrt(3)*1*0.25, 6, 0.000001));
+  ITK_TRY_EXPECT_NO_EXCEPTION(descoteauxParameterEstimator->Update());
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetC(), sqrt(3)*1*0.25, 6, 0.000001));
 
   /* Test with a mask */
   descoteauxParameterEstimator->SetInput(image2);
   descoteauxParameterEstimator->SetMaskImage(mask);
   descoteauxParameterEstimator->SetBackgroundValue(foregroundValue);
   descoteauxParameterEstimator->SetFrobeniusNormWeight(0.5);
-  TRY_EXPECT_NO_EXCEPTION(descoteauxParameterEstimator->Update());
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetC(), sqrt(3)*1*0.5, 6, 0.000001));
+  ITK_TRY_EXPECT_NO_EXCEPTION(descoteauxParameterEstimator->Update());
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetC(), sqrt(3)*1*0.5, 6, 0.000001));
 
   descoteauxParameterEstimator->SetInput(image2);
   descoteauxParameterEstimator->SetMaskImage(mask);
   descoteauxParameterEstimator->SetBackgroundValue(backgroundValue);
-  TRY_EXPECT_NO_EXCEPTION(descoteauxParameterEstimator->Update());
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetC(), sqrt(3)*3*0.5, 6, 0.000001));
+  ITK_TRY_EXPECT_NO_EXCEPTION(descoteauxParameterEstimator->Update());
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetC(), sqrt(3)*3*0.5, 6, 0.000001));
 
   MaskType::Pointer mask2 = MaskType::New();
   mask2->SetRegions(maskRegion);
@@ -154,10 +154,10 @@ int itkDescoteauxEigenToScalarParameterEstimationImageFilterTest( int, char * []
   descoteauxParameterEstimator->SetInput(image);
   descoteauxParameterEstimator->SetMaskImage(mask2);
   descoteauxParameterEstimator->SetBackgroundValue(backgroundValue);
-  TRY_EXPECT_NO_EXCEPTION(descoteauxParameterEstimator->Update());
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetC(), sqrt(3)*1*0.5, 6, 0.000001));
+  ITK_TRY_EXPECT_NO_EXCEPTION(descoteauxParameterEstimator->Update());
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoteauxParameterEstimator->GetC(), sqrt(3)*1*0.5, 6, 0.000001));
   
   return EXIT_SUCCESS;
 }

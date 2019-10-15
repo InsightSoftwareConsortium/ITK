@@ -38,10 +38,10 @@ int itkDescoteauxEigenToScalarImageFilterTest( int argc, char * argv[] )
 
   DescoteauxEigenToScalarImageFilterType::Pointer descoFilter = DescoteauxEigenToScalarImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( descoFilter, DescoteauxEigenToScalarImageFilter, EigenToScalarImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( descoFilter, DescoteauxEigenToScalarImageFilter, EigenToScalarImageFilter );
   
   /* Test defaults */
-  TEST_EXPECT_EQUAL(descoFilter->GetEigenValueOrder(), DescoteauxEigenToScalarImageFilterType::Superclass::OrderByMagnitude);
+  ITK_TEST_EXPECT_EQUAL(descoFilter->GetEigenValueOrder(), DescoteauxEigenToScalarImageFilterType::Superclass::OrderByMagnitude);
 
   /* Create some test data which is computable */
   EigenValueArrayType simpleEigenPixel;
@@ -71,19 +71,19 @@ int itkDescoteauxEigenToScalarImageFilterTest( int argc, char * argv[] )
   /* Run with no exceptions */
   descoFilter->SetEnhanceBrightObjects();
   descoFilter->SetInput(image);
-  TRY_EXPECT_NO_EXCEPTION(descoFilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(descoFilter->Update());
 
   /* Make sure process for setting parameters works */
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoFilter->GetAlpha(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoFilter->GetBeta(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoFilter->GetC(), 2.41091269*0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoFilter->GetAlpha(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoFilter->GetBeta(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( descoFilter->GetC(), 2.41091269*0.5, 6, 0.000001));
 
   itk::ImageRegionIteratorWithIndex< OutputType > it(descoFilter->GetOutput(), region);
 
   it.GoToBegin();
   while ( !it.IsAtEnd() )
   {
-    TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( it.Get(), 0.364376944099, 6, 0.000001));
+    ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( it.Get(), 0.364376944099, 6, 0.000001));
     ++it;
   }
 

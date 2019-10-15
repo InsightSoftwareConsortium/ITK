@@ -40,21 +40,21 @@ int itkKrcahEigenToScalarFunctorImageFilterTest( int argc, char * argv[] )
   krcahFilter->SetAlpha(0.5);
   krcahFilter->SetBeta(0.5);
   krcahFilter->SetGamma(0.25);
-  EXERCISE_BASIC_OBJECT_METHODS( krcahFilter, KrcahEigenToScalarFunctorImageFilter, UnaryFunctorImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( krcahFilter, KrcahEigenToScalarFunctorImageFilter, UnaryFunctorImageFilter );
 
   /* Exercise basic set/get methods */
   krcahFilter->SetAlpha(0.5);
-  TEST_SET_GET_VALUE(0.5, krcahFilter->GetAlpha());
+  ITK_TEST_SET_GET_VALUE(0.5, krcahFilter->GetAlpha());
   krcahFilter->SetBeta(0.5);
-  TEST_SET_GET_VALUE(0.5, krcahFilter->GetBeta());
+  ITK_TEST_SET_GET_VALUE(0.5, krcahFilter->GetBeta());
   krcahFilter->SetGamma(0.25);
-  TEST_SET_GET_VALUE(0.25, krcahFilter->GetGamma());
+  ITK_TEST_SET_GET_VALUE(0.25, krcahFilter->GetGamma());
   // Default should be -1
-  TEST_SET_GET_VALUE(-1.0, krcahFilter->GetEnhanceType());
+  ITK_TEST_SET_GET_VALUE(-1.0, krcahFilter->GetEnhanceType());
   krcahFilter->SetEnhanceDarkObjects();
-  TEST_SET_GET_VALUE(1.0, krcahFilter->GetEnhanceType());
+  ITK_TEST_SET_GET_VALUE(1.0, krcahFilter->GetEnhanceType());
   krcahFilter->SetEnhanceBrightObjects();
-  TEST_SET_GET_VALUE(-1.0, krcahFilter->GetEnhanceType());
+  ITK_TEST_SET_GET_VALUE(-1.0, krcahFilter->GetEnhanceType());
 
   /* Create some test data which is computable */
   EigenValueArrayType simpleEigenPixel;
@@ -82,14 +82,14 @@ int itkKrcahEigenToScalarFunctorImageFilterTest( int argc, char * argv[] )
   image->FillBuffer(simpleEigenPixel);
 
   krcahFilter->SetInput(image);
-  TRY_EXPECT_NO_EXCEPTION(krcahFilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(krcahFilter->Update());
 
   itk::ImageRegionIteratorWithIndex< ImageType > input(krcahFilter->GetOutput(), region);
 
   input.GoToBegin();
   while ( !input.IsAtEnd() )
   {
-    TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( input.Get(), 0.0, 6, 0.000001));
+    ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( input.Get(), 0.0, 6, 0.000001));
     ++input;
   }
 
@@ -104,14 +104,14 @@ int itkKrcahEigenToScalarFunctorImageFilterTest( int argc, char * argv[] )
   image2->FillBuffer(simpleEigenPixel);
 
   krcahFilter->SetInput(image2);
-  TRY_EXPECT_NO_EXCEPTION(krcahFilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(krcahFilter->Update());
 
   itk::ImageRegionIteratorWithIndex< ImageType > input2(krcahFilter->GetOutput(), region);
 
   input2.GoToBegin();
   while ( !input2.IsAtEnd() )
   {
-    TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( input2.Get(), 0.000335462627903, 6, 0.000001));
+    ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( input2.Get(), 0.000335462627903, 6, 0.000001));
     ++input2;
   }
 

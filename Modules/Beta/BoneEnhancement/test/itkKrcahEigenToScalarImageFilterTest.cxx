@@ -38,10 +38,10 @@ int itkKrcahEigenToScalarImageFilterTest( int argc, char * argv[] )
 
   KrcahEigenToScalarImageFilterType::Pointer krcahFilter = KrcahEigenToScalarImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( krcahFilter, KrcahEigenToScalarImageFilter, EigenToScalarImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( krcahFilter, KrcahEigenToScalarImageFilter, EigenToScalarImageFilter );
   
   /* Test defaults */
-  TEST_EXPECT_EQUAL(krcahFilter->GetEigenValueOrder(), KrcahEigenToScalarImageFilterType::Superclass::OrderByMagnitude);
+  ITK_TEST_EXPECT_EQUAL(krcahFilter->GetEigenValueOrder(), KrcahEigenToScalarImageFilterType::Superclass::OrderByMagnitude);
 
   /* Create some test data which is computable */
   EigenValueArrayType simpleEigenPixel;
@@ -72,19 +72,19 @@ int itkKrcahEigenToScalarImageFilterTest( int argc, char * argv[] )
   krcahFilter->SetParameterSetToImplementation();
   krcahFilter->SetEnhanceBrightObjects();
   krcahFilter->SetInput(image);
-  TRY_EXPECT_NO_EXCEPTION(krcahFilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(krcahFilter->Update());
 
   /* Make sure process for setting parameters works */
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahFilter->GetAlpha(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahFilter->GetBeta(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahFilter->GetGamma(), itk::Math::sqrt2 * 3*0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahFilter->GetAlpha(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahFilter->GetBeta(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahFilter->GetGamma(), itk::Math::sqrt2 * 3*0.5, 6, 0.000001));
 
   itk::ImageRegionIteratorWithIndex< OutputType > it(krcahFilter->GetOutput(), region);
 
   it.GoToBegin();
   while ( !it.IsAtEnd() )
   {
-    TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( it.Get(), 0.0158368867121, 6, 0.000001));
+    ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( it.Get(), 0.0158368867121, 6, 0.000001));
     ++it;
   }
 

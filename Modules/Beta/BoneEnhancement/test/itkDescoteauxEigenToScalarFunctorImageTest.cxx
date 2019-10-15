@@ -40,21 +40,21 @@ int itkDescoteauxEigenToScalarFunctorImageTest( int argc, char * argv[] )
   descoFilter->SetAlpha(0.5);
   descoFilter->SetBeta(0.5);
   descoFilter->SetC(0.25);
-  EXERCISE_BASIC_OBJECT_METHODS( descoFilter, DescoteauxEigenToScalarFunctorImageFilter, UnaryFunctorImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( descoFilter, DescoteauxEigenToScalarFunctorImageFilter, UnaryFunctorImageFilter );
 
   /* Exercise basic set/get methods */
   descoFilter->SetAlpha(0.5);
-  TEST_SET_GET_VALUE(0.5, descoFilter->GetAlpha());
+  ITK_TEST_SET_GET_VALUE(0.5, descoFilter->GetAlpha());
   descoFilter->SetBeta(0.5);
-  TEST_SET_GET_VALUE(0.5, descoFilter->GetBeta());
+  ITK_TEST_SET_GET_VALUE(0.5, descoFilter->GetBeta());
   descoFilter->SetC(0.25);
-  TEST_SET_GET_VALUE(0.25, descoFilter->GetC());
+  ITK_TEST_SET_GET_VALUE(0.25, descoFilter->GetC());
   // Default should be 1
-  TEST_SET_GET_VALUE(-1.0, descoFilter->GetEnhanceType());
+  ITK_TEST_SET_GET_VALUE(-1.0, descoFilter->GetEnhanceType());
   descoFilter->SetEnhanceDarkObjects();
-  TEST_SET_GET_VALUE(1.0, descoFilter->GetEnhanceType());
+  ITK_TEST_SET_GET_VALUE(1.0, descoFilter->GetEnhanceType());
   descoFilter->SetEnhanceBrightObjects();
-  TEST_SET_GET_VALUE(-1.0, descoFilter->GetEnhanceType());
+  ITK_TEST_SET_GET_VALUE(-1.0, descoFilter->GetEnhanceType());
 
   /* Create some test data which is computable */
   EigenValueArrayType simpleEigenPixel;
@@ -82,14 +82,14 @@ int itkDescoteauxEigenToScalarFunctorImageTest( int argc, char * argv[] )
   image->FillBuffer(simpleEigenPixel);
 
   descoFilter->SetInput(image);
-  TRY_EXPECT_NO_EXCEPTION(descoFilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(descoFilter->Update());
 
   itk::ImageRegionIteratorWithIndex< ImageType > input(descoFilter->GetOutput(), region);
 
   input.GoToBegin();
   while ( !input.IsAtEnd() )
   {
-    TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( input.Get(), 0.0, 6, 0.000001));
+    ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( input.Get(), 0.0, 6, 0.000001));
     ++input;
   }
 
@@ -104,14 +104,14 @@ int itkDescoteauxEigenToScalarFunctorImageTest( int argc, char * argv[] )
   image2->FillBuffer(simpleEigenPixel);
 
   descoFilter->SetInput(image2);
-  TRY_EXPECT_NO_EXCEPTION(descoFilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(descoFilter->Update());
 
   itk::ImageRegionIteratorWithIndex< ImageType > input2(descoFilter->GetOutput(), region);
 
   input2.GoToBegin();
   while ( !input2.IsAtEnd() )
   {
-    TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( input2.Get(), 0.0913983433747, 6, 0.000001));
+    ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( input2.Get(), 0.0913983433747, 6, 0.000001));
     ++input2;
   }
 

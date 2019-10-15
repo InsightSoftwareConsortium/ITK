@@ -35,16 +35,16 @@ int itkKrcahEigenToScalarParameterEstimationImageFilterTest( int, char * [] )
 
   KrcahEigenToScalarParameterEstimationImageFilterType::Pointer krcahParameterEstimator = KrcahEigenToScalarParameterEstimationImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( krcahParameterEstimator, KrcahEigenToScalarParameterEstimationImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( krcahParameterEstimator, KrcahEigenToScalarParameterEstimationImageFilter, ImageToImageFilter );
 
   /* Test defaults */
-  TEST_EXPECT_EQUAL(krcahParameterEstimator->GetParameterSet(), KrcahEigenToScalarParameterEstimationImageFilterType::UseImplementationParameters);
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGamma(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlphaOutput()->Get(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBetaOutput()->Get(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGammaOutput()->Get(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_EQUAL(krcahParameterEstimator->GetParameterSet(), KrcahEigenToScalarParameterEstimationImageFilterType::UseImplementationParameters);
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGamma(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlphaOutput()->Get(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBetaOutput()->Get(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGammaOutput()->Get(), 0.5, 6, 0.000001));
 
   /* Create some test data which is computable */
   EigenValueArrayType simpleEigenPixel;
@@ -118,50 +118,50 @@ int itkKrcahEigenToScalarParameterEstimationImageFilterTest( int, char * [] )
   /* Test an empty pixel value */
   krcahParameterEstimator->SetInput(image);
   krcahParameterEstimator->SetParameterSetToImplementation();
-  TRY_EXPECT_NO_EXCEPTION(krcahParameterEstimator->Update());
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlpha(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBeta(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGamma(), itk::Math::sqrt2 * 3*0.5, 6, 0.000001));
+  ITK_TRY_EXPECT_NO_EXCEPTION(krcahParameterEstimator->Update());
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlpha(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBeta(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGamma(), itk::Math::sqrt2 * 3*0.5, 6, 0.000001));
 
   krcahParameterEstimator->SetParameterSetToJournalArticle();
-  TRY_EXPECT_NO_EXCEPTION(krcahParameterEstimator->Update());
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGamma(), -3*0.25, 6, 0.000001));
+  ITK_TRY_EXPECT_NO_EXCEPTION(krcahParameterEstimator->Update());
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGamma(), -3*0.25, 6, 0.000001));
 
   /* Test with a mask */
   krcahParameterEstimator->SetParameterSetToImplementation();
   krcahParameterEstimator->SetInput(image2);
   krcahParameterEstimator->SetMaskImage(mask);
   krcahParameterEstimator->SetBackgroundValue(backgroundValue);
-  TRY_EXPECT_NO_EXCEPTION(krcahParameterEstimator->Update());
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlpha(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBeta(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGamma(), itk::Math::sqrt2 * 3*3*0.5, 6, 0.000001));
+  ITK_TRY_EXPECT_NO_EXCEPTION(krcahParameterEstimator->Update());
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlpha(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBeta(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGamma(), itk::Math::sqrt2 * 3*3*0.5, 6, 0.000001));
 
   krcahParameterEstimator->SetParameterSetToImplementation();
   krcahParameterEstimator->SetBackgroundValue(foregroundValue);
-  TRY_EXPECT_NO_EXCEPTION(krcahParameterEstimator->Update());
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlpha(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBeta(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGamma(), itk::Math::sqrt2 * 3*1*0.5, 6, 0.000001));
+  ITK_TRY_EXPECT_NO_EXCEPTION(krcahParameterEstimator->Update());
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlpha(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBeta(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGamma(), itk::Math::sqrt2 * 3*1*0.5, 6, 0.000001));
 
   krcahParameterEstimator->SetParameterSetToJournalArticle();
   krcahParameterEstimator->SetInput(image2);
   krcahParameterEstimator->SetMaskImage(mask);
   krcahParameterEstimator->SetBackgroundValue(backgroundValue);
-  TRY_EXPECT_NO_EXCEPTION(krcahParameterEstimator->Update());
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGamma(), 3*3*0.25, 6, 0.000001));
+  ITK_TRY_EXPECT_NO_EXCEPTION(krcahParameterEstimator->Update());
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGamma(), 3*3*0.25, 6, 0.000001));
 
   krcahParameterEstimator->SetParameterSetToJournalArticle();
   krcahParameterEstimator->SetBackgroundValue(foregroundValue);
-  TRY_EXPECT_NO_EXCEPTION(krcahParameterEstimator->Update());
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
-  TEST_EXPECT_EQUAL(krcahParameterEstimator->GetGamma(), -3*1*0.25);
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGamma(), -3*1*0.25, 6, 0.000001));
+  ITK_TRY_EXPECT_NO_EXCEPTION(krcahParameterEstimator->Update());
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_EQUAL(krcahParameterEstimator->GetGamma(), -3*1*0.25);
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGamma(), -3*1*0.25, 6, 0.000001));
 
   MaskType::Pointer mask2 = MaskType::New();
   mask2->SetRegions(maskRegion);
@@ -172,19 +172,19 @@ int itkKrcahEigenToScalarParameterEstimationImageFilterTest( int, char * [] )
   krcahParameterEstimator->SetParameterSetToImplementation();
   krcahParameterEstimator->SetMaskImage(mask2);
   krcahParameterEstimator->SetBackgroundValue(backgroundValue);
-  TRY_EXPECT_NO_EXCEPTION(krcahParameterEstimator->Update());
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlpha(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBeta(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGamma(), itk::Math::sqrt2 * 3*1*0.5, 6, 0.000001));
+  ITK_TRY_EXPECT_NO_EXCEPTION(krcahParameterEstimator->Update());
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlpha(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBeta(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGamma(), itk::Math::sqrt2 * 3*1*0.5, 6, 0.000001));
 
   krcahParameterEstimator->SetInput(image);
   krcahParameterEstimator->SetParameterSetToJournalArticle();
   krcahParameterEstimator->SetMaskImage(mask2);
   krcahParameterEstimator->SetBackgroundValue(backgroundValue);
-  TRY_EXPECT_NO_EXCEPTION(krcahParameterEstimator->Update());
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGamma(), -3*1*0.25, 6, 0.000001));
+  ITK_TRY_EXPECT_NO_EXCEPTION(krcahParameterEstimator->Update());
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGamma(), -3*1*0.25, 6, 0.000001));
 
   return EXIT_SUCCESS;
 }
