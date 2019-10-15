@@ -30,7 +30,9 @@ itkScancoImageIOTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << argv[0] << " Input Output \n";
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " Input Output" << std::endl;
     return EXIT_FAILURE;
   }
   const char * inputFileName = argv[1];
@@ -48,6 +50,10 @@ itkScancoImageIOTest(int argc, char * argv[])
   // force use of ScancoIO
   using IOType = itk::ScancoImageIO;
   IOType::Pointer scancoIO = IOType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(scancoIO, ScancoImageIO, ImageIOBase);
+
+
   reader->SetImageIO(scancoIO);
 
   // check usability of dimension (for coverage)
@@ -87,5 +93,7 @@ itkScancoImageIOTest(int argc, char * argv[])
   writer->SetFileName(outputFileName);
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
