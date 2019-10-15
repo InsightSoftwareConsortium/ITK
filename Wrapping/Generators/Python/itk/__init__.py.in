@@ -87,6 +87,7 @@ for module, data in itkBase.module_data.items():
 # Set the __path__ attribute, which is required for this module to be used as a
 # package
 setattr(thisModule, '__path__', __path__)
+setattr(thisModule, '__spec__', __spec__)
 
 if itkConfig.LazyLoading:
     # this has to be the last step, else python gets confused about itkTypes
