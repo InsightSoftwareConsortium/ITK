@@ -29,7 +29,7 @@ itkMaximumAbsoluteValueImageFilterTest(int, char *[])
   using MaximumAbsoluteValueImageFilterType = itk::MaximumAbsoluteValueImageFilter<ImageType>;
   MaximumAbsoluteValueImageFilterType::Pointer maxAbsFilter = MaximumAbsoluteValueImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(maxAbsFilter, MaximumAbsoluteValueImageFilter, BinaryFunctorImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(maxAbsFilter, MaximumAbsoluteValueImageFilter, BinaryFunctorImageFilter);
 
   /** Create an image and run a basic test */
   ImageType::RegionType region;
@@ -87,11 +87,11 @@ itkMaximumAbsoluteValueImageFilterTest(int, char *[])
   {
     if ((i % 2) == 0)
     {
-      TEST_EXPECT_EQUAL(ot.Get(), -2);
+      ITK_TEST_EXPECT_EQUAL(ot.Get(), -2);
     }
     else
     {
-      TEST_EXPECT_EQUAL(ot.Get(), 2);
+      ITK_TEST_EXPECT_EQUAL(ot.Get(), 2);
     }
     ++ot;
   }
