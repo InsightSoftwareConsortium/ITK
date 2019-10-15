@@ -118,7 +118,7 @@ MINCTransformIOTemplate<TParametersValueType>::ReadOneTransform(VIO_General_tran
     }
     case CONCATENATED_TRANSFORM:
     {
-      for (int i = 0; i < get_n_concated_transforms(xfm); ++i)
+      for (int i = get_n_concated_transforms(xfm) - 1; i >= 0; --i)
       {
         this->ReadOneTransform(get_nth_general_transform(xfm, i));
       }
@@ -324,9 +324,9 @@ MINCTransformIOTemplate<TParametersValueType>::Write()
     this->WriteOneTransform(count, (*it).GetPointer(), xfm, xfm_file_base.c_str(), serial);
   }
 
-  VIO_General_transform transform = xfm[0];
+  VIO_General_transform transform = xfm[xfm.size() - 1];
 
-  for (size_t i = 1; i < xfm.size(); ++i)
+  for (int i = xfm.size() - 2; i >= 0; --i)
   {
     VIO_General_transform concated;
     concat_general_transforms(&transform, &xfm[i], &concated);
