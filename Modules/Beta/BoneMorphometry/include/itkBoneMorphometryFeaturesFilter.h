@@ -21,7 +21,6 @@
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkSimpleDataObjectDecorator.h"
-#include "itksys/hash_map.hxx"
 #include "itkHistogram.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkSimpleDataObjectDecorator.h"
