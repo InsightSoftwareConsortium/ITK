@@ -90,7 +90,7 @@ void
 DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::BeforeThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
   /* Resize threads */
   m_MaxFrobeniusNorm.SetSize(numberOfThreads);
@@ -102,7 +102,7 @@ void
 DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::AfterThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
   /* Determine default parameters */
   RealType alpha, beta, c;
