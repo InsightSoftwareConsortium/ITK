@@ -165,7 +165,7 @@ ImageMaskSpatialObject<TDimension, TPixel>::ComputeMyBoundingBoxInIndexSpace() c
   const ImageType & image = *imagePointer;
 
   const auto HasForegroundPixels = [&image](const RegionType & region) {
-    for (const PixelType pixelValue : Experimental::ImageRegionRange<const ImageType>{ image, region })
+    for (const PixelType pixelValue : ImageRegionRange<const ImageType>{ image, region })
     {
       constexpr auto zeroValue = NumericTraits<PixelType>::ZeroValue();
 

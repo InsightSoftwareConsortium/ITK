@@ -42,7 +42,7 @@ BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::BS
 
   unsigned int counter = 0;
 
-  for (const IndexType index : Experimental::ZeroBasedIndexRange<VSpaceDimension>(m_SupportSize))
+  for (const IndexType index : ZeroBasedIndexRange<VSpaceDimension>(m_SupportSize))
   {
     for (unsigned int j = 0; j < SpaceDimension; j++)
     {

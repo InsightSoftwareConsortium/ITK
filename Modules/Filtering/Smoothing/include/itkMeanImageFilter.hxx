@@ -50,7 +50,6 @@ MeanImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const auto calculatorResult =
     NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::Compute(*input, outputRegionForThread, radius);
 
-  using namespace Experimental;
   const auto neighborhoodOffsets = GenerateRectangularImageNeighborhoodOffsets<InputImageDimension>(radius);
 
   // Process the non-boundary subregion, using a faster pixel access policy without boundary extrapolation.
@@ -83,7 +82,6 @@ MeanImageFilter<TInputImage, TOutputImage>::GenerateDataInSubregion(
 {
   const auto neighborhoodSize = static_cast<double>(neighborhoodOffsets.size());
 
-  using namespace Experimental;
   auto neighborhoodRange = ShapedImageNeighborhoodRange<const InputImageType, TPixelAccessPolicy>(
     inputImage, Index<InputImageDimension>(), neighborhoodOffsets);
   auto outputIterator = ImageRegionRange<OutputImageType>(outputImage, imageRegion).begin();
@@ -117,7 +115,6 @@ MeanImageFilter<TInputImage, TOutputImage>::GenerateDataInSubregion(
 {
   const auto neighborhoodSize = static_cast<double>(neighborhoodOffsets.size());
 
-  using namespace Experimental;
   auto neighborhoodRange = ShapedImageNeighborhoodRange<const InputImageType, TPixelAccessPolicy>(
     inputImage, Index<InputImageDimension>(), neighborhoodOffsets);
   auto outputIterator = ImageRegionRange<OutputImageType>(outputImage, imageRegion).begin();

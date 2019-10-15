@@ -50,7 +50,7 @@ Expect_output_pixels_have_same_value_as_input_when_input_image_is_uniform(
 
   ASSERT_NE(output, nullptr);
 
-  for (const PixelType outputPixelValue : itk::Experimental::MakeImageBufferRange(output))
+  for (const PixelType outputPixelValue : itk::MakeImageBufferRange(output))
   {
     EXPECT_EQ(outputPixelValue, inputPixelValue);
   }
@@ -66,7 +66,7 @@ CreateImageFilledWithSequenceOfNaturalNumbers(const typename TImage::RegionType 
   const auto image = TImage::New();
   image->SetRegions(imageRegion);
   image->Allocate();
-  const auto imageBufferRange = itk::Experimental::ImageBufferRange<TImage>{ *image };
+  const auto imageBufferRange = itk::ImageBufferRange<TImage>{ *image };
   std::iota(imageBufferRange.begin(), imageBufferRange.end(), PixelType{ 1 });
   return image;
 }
@@ -86,7 +86,7 @@ Expect_output_has_specified_pixel_values_when_input_has_sequence_of_natural_numb
   filter->Update();
 
   const TImage * const         outputImage = filter->GetOutput();
-  const auto                   outputImageBufferRange = itk::Experimental::MakeImageBufferRange(outputImage);
+  const auto                   outputImageBufferRange = itk::MakeImageBufferRange(outputImage);
   const std::vector<PixelType> outputPixelValues(outputImageBufferRange.cbegin(), outputImageBufferRange.cend());
 
   EXPECT_EQ(outputPixelValues, expectedPixelValues);

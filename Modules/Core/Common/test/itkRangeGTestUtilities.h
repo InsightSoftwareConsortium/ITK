@@ -26,8 +26,6 @@
 
 namespace itk
 {
-namespace Experimental
-{
 // Utilities for GoogleTest unit tests of iterator ranges.
 // Note: This class is only for internal (testing) purposes.
 // It is not part of the public API of ITK.
@@ -115,7 +113,6 @@ private:
   }
 };
 
-} // end namespace Experimental
 } // end namespace itk
 
 #endif

@@ -55,7 +55,6 @@ MedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const auto calculatorResult =
     NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::Compute(*input, outputRegionForThread, radius);
 
-  using namespace Experimental;
   const auto neighborhoodOffsets = GenerateRectangularImageNeighborhoodOffsets<InputImageDimension>(radius);
   const auto neighborhoodSize = neighborhoodOffsets.size();
 

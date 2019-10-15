@@ -77,7 +77,7 @@ ImageKernelOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients()
     }
   }
 
-  const auto imageBufferRange = Experimental::MakeImageBufferRange(m_ImageKernel.GetPointer());
+  const auto imageBufferRange = MakeImageBufferRange(m_ImageKernel.GetPointer());
 
   return CoefficientVector(imageBufferRange.cbegin(), imageBufferRange.cend());
 }
