@@ -13,7 +13,7 @@ except ImportError:
 
 setup(
     name='itk-boneenhancement',
-    version='0.1.0',
+    version='0.2.0',
     author='Bryce A. Besler',
     author_email='babesler@ucalgary.ca',
     packages=['itk'],
@@ -44,6 +44,6 @@ setup(
     keywords='ITK InsightToolkit',
     url=r'https://itk.org/',
     install_requires=[
-        r'itk'
+        r'itk>=5.0.1'
     ]
     )
