@@ -105,7 +105,7 @@ public:
    * provide an implementation for GenerateInputRequestedRegion() in
    * order to inform the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() override;
   
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

@@ -209,7 +209,7 @@ protected:
   virtual ~KrcahEigenToScalarFunctorImageFilter() {}
 
 private:
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "Alpha: " << GetAlpha() << std::endl;
