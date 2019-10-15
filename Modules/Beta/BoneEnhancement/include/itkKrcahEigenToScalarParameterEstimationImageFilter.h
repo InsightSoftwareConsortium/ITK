@@ -200,14 +200,14 @@ protected:
 
 private:
   /* Parameters */
-  KrcahImplementationType m_ParameterSet;
+  KrcahImplementationType m_ParameterSet{UseImplementationParameters};
 
   /* Inputs */
-  MaskPixelType m_BackgroundValue;
+  MaskPixelType m_BackgroundValue{NumericTraits< MaskPixelType >::Zero};
 
   /* Arrays for threads */
-  Array< RealType >       m_AccumulatedAverageTrace;
-  Array< SizeValueType >  m_NumVoxels;
+  Array< RealType >       m_AccumulatedAverageTrace{1};
+  Array< SizeValueType >  m_NumVoxels{1};
 }; //end class
 } // end namespace
 

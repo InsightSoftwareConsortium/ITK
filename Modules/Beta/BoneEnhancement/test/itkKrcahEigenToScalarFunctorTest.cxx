@@ -25,10 +25,14 @@ int itkKrcahEigenToScalarFunctorTest( int argc, char * argv[] )
   constexpr unsigned int Dimension = 3;
   using ImagePixelType = double;
   using ImageType = itk::Image< ImagePixelType, Dimension >;
+  typename ImageType::Pointer image = ImageType::New();
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(image, Image, ImageBase);
 
   using EigenValueType = float;
   using EigenValueArrayType = itk::FixedArray< EigenValueType, Dimension >;
   using EigenValueImageType = itk::Image< EigenValueArrayType, Dimension >;
+  typename EigenValueImageType::Pointer image2 = EigenValueImageType::New();
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(image2, Image, ImageBase);
 
   using FunctorType = itk::Functor::KrcahEigenToScalarFunctor< EigenValueArrayType, ImagePixelType>;
   FunctorType functor = FunctorType();

@@ -31,7 +31,6 @@ int itkMultiScaleHessianEnhancementImageFilterStaticMethodsTest( int, char * [] 
 
   /* Test the two cases of step size zero */
   ArrayType sigmaArray;
-  bool exceptionCaught = false;
 
   ITK_TRY_EXPECT_EXCEPTION(
     sigmaArray = MultiScaleHessianEnhancementImageFilterType::GenerateLogarithmicSigmaArray(5, 5, 0));
