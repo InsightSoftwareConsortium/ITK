@@ -29,10 +29,6 @@ namespace itk
 template <typename TInputImage, typename TMaskImage>
 KrcahEigenToScalarParameterEstimationImageFilter<TInputImage,
                                                  TMaskImage>::KrcahEigenToScalarParameterEstimationImageFilter()
-  : m_ParameterSet(UseImplementationParameters)
-  , m_BackgroundValue(NumericTraits<MaskPixelType>::Zero)
-  , m_NumVoxels(1)
-  , m_AccumulatedAverageTrace(1)
 {
   /* We require an input, optional mask */
   this->SetNumberOfRequiredInputs(1);
