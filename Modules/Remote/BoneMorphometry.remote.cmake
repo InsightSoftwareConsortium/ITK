@@ -7,5 +7,5 @@ itk_fetch_module(BoneMorphometry
   http://hdl.handle.net/10380/3588
   "
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKBoneMorphometry.git
-  GIT_TAG 7e848ae7164f017906b8962ef13cf207490cc9e8
+  GIT_TAG ec43e67b41d20e62a62f8ce50bc6390f6fadb92e
 )
