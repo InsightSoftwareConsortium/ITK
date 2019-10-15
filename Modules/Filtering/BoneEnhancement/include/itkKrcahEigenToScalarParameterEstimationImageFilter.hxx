@@ -88,7 +88,7 @@ template <typename TInputImage, typename TMaskImage>
 void
 KrcahEigenToScalarParameterEstimationImageFilter<TInputImage, TMaskImage>::BeforeThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
   /* Resize threads */
   m_AccumulatedAverageTrace.SetSize(numberOfThreads);
@@ -102,7 +102,7 @@ template <typename TInputImage, typename TMaskImage>
 void
 KrcahEigenToScalarParameterEstimationImageFilter<TInputImage, TMaskImage>::AfterThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
   /* Determine default parameters */
   RealType alpha, beta, gamma;
