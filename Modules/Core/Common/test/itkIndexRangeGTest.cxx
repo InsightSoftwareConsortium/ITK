@@ -24,16 +24,16 @@
 #include <gtest/gtest.h>
 
 // Test template instantiations for various template arguments:
-template class itk::Experimental::IndexRange<1, true>;
-template class itk::Experimental::IndexRange<1, false>;
-template class itk::Experimental::IndexRange<2, true>;
-template class itk::Experimental::IndexRange<2, false>;
+template class itk::IndexRange<1, true>;
+template class itk::IndexRange<1, false>;
+template class itk::IndexRange<2, true>;
+template class itk::IndexRange<2, false>;
 
 
-using itk::Experimental::IndexRange;
-using itk::Experimental::ImageRegionIndexRange;
-using itk::Experimental::ZeroBasedIndexRange;
-using itk::Experimental::RangeGTestUtilities;
+using itk::IndexRange;
+using itk::ImageRegionIndexRange;
+using itk::ZeroBasedIndexRange;
+using itk::RangeGTestUtilities;
 
 
 static_assert(sizeof(ZeroBasedIndexRange<3>) < sizeof(ImageRegionIndexRange<3>),

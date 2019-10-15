@@ -25,8 +25,6 @@
 
 namespace itk
 {
-namespace Experimental
-{
 
 /**
  * \class ZeroFluxNeumannImageNeighborhoodPixelAccessPolicy
@@ -128,7 +126,14 @@ public:
   }
 };
 
-} // namespace Experimental
+
+#if !defined(ITK_LEGACY_REMOVE)
+namespace Experimental // For ITK 5.0 legacy support
+{
+using ::itk::ZeroFluxNeumannImageNeighborhoodPixelAccessPolicy;
+}
+#endif // ITK_LEGACY_REMOVE
+
 } // namespace itk
 
 #endif

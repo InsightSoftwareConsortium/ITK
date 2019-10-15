@@ -30,8 +30,6 @@
 
 namespace itk
 {
-namespace Experimental
-{
 
 /**
   * \class IndexRange
@@ -455,7 +453,16 @@ using ImageRegionIndexRange = IndexRange<VDimension, false>;
 template <unsigned VDimension>
 using ZeroBasedIndexRange = IndexRange<VDimension, true>;
 
+
+#if !defined(ITK_LEGACY_REMOVE)
+namespace Experimental // For ITK 5.0 legacy support
+{
+using ::itk::IndexRange;
+using ::itk::ImageRegionIndexRange;
+using ::itk::ZeroBasedIndexRange;
 } // namespace Experimental
+#endif // ITK_LEGACY_REMOVE
+
 } // namespace itk
 
 #endif

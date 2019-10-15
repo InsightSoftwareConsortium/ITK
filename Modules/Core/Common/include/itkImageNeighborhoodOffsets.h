@@ -24,8 +24,6 @@
 
 namespace itk
 {
-namespace Experimental
-{
 
 /** Generates the offsets for a neighborhood of the specified shape. */
 template <typename TImageNeighborhoodShape>
@@ -47,7 +45,14 @@ GenerateRectangularImageNeighborhoodOffsets(const Size<VImageDimension> & radius
   return GenerateImageNeighborhoodOffsets(shape);
 }
 
-} // namespace Experimental
-} // namespace itk
 
+#if !defined(ITK_LEGACY_REMOVE)
+namespace Experimental // For ITK 5.0 legacy support
+{
+using ::itk::GenerateImageNeighborhoodOffsets;
+using ::itk::GenerateRectangularImageNeighborhoodOffsets;
+} // namespace Experimental
+#endif // ITK_LEGACY_REMOVE
+
+} // namespace itk
 #endif

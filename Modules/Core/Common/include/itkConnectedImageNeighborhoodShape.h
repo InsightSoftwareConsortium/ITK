@@ -38,8 +38,6 @@
 
 namespace itk
 {
-namespace Experimental
-{
 
 /**
  * \class ConnectedImageNeighborhoodShape
@@ -299,7 +297,15 @@ GenerateConnectedImageNeighborhoodShapeOffsets() ITK_NOEXCEPT
   return offsets;
 }
 
+
+#if !defined(ITK_LEGACY_REMOVE)
+namespace Experimental // For ITK 5.0 legacy support
+{
+using ::itk::ConnectedImageNeighborhoodShape;
+using ::itk::GenerateConnectedImageNeighborhoodShapeOffsets;
 } // namespace Experimental
+#endif // ITK_LEGACY_REMOVE
+
 } // namespace itk
 
 #undef ITK_X_ASSERT

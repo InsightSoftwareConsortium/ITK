@@ -33,8 +33,6 @@
 
 namespace itk
 {
-namespace Experimental
-{
 
 /**
  * \class ImageRegionRange
@@ -463,7 +461,14 @@ public:
   ~ImageRegionRange() = default;
 };
 
-} // namespace Experimental
+
+#if !defined(ITK_LEGACY_REMOVE)
+namespace Experimental // For ITK 5.0 legacy support
+{
+using ::itk::ImageRegionRange;
+}
+#endif // ITK_LEGACY_REMOVE
+
 } // namespace itk
 
 #endif

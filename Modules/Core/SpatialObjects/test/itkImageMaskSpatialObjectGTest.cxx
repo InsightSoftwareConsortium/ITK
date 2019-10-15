@@ -91,7 +91,7 @@ Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the
   // Initialize all pixels to zero.
   image->Allocate(true);
 
-  const itk::Experimental::ImageRegionIndexRange<VImageDimension> indexRange{ imageRegion };
+  const itk::ImageRegionIndexRange<VImageDimension> indexRange{ imageRegion };
 
   // Expected size: the "region size" of a single pixel (1x1, in 2D, 1x1x1 in 3D).
   const itk::Size<VImageDimension> expectedSize = [] {
@@ -125,7 +125,7 @@ Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_only_a_single_pixel
   // Set all pixels to non-zero.
   image->FillBuffer(1);
 
-  const itk::Experimental::ImageBufferRange<ImageType> imageRange{ *image };
+  const itk::ImageBufferRange<ImageType> imageRange{ *image };
 
   for (auto && pixel : imageRange)
   {

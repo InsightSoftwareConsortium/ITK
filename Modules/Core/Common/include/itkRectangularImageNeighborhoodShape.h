@@ -27,8 +27,6 @@
 
 namespace itk
 {
-namespace Experimental
-{
 
 /**
  * \class RectangularImageNeighborhoodShape
@@ -124,7 +122,14 @@ private:
   }
 };
 
-} // namespace Experimental
+
+#if !defined(ITK_LEGACY_REMOVE)
+namespace Experimental // For ITK 5.0 legacy support
+{
+using ::itk::RectangularImageNeighborhoodShape;
+}
+#endif // ITK_LEGACY_REMOVE
+
 } // namespace itk
 
 #endif

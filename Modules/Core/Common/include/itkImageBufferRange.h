@@ -34,8 +34,6 @@
 
 namespace itk
 {
-namespace Experimental
-{
 
 /**
  * \class ImageBufferRange
@@ -686,7 +684,14 @@ MakeImageBufferRange(TImage * const image)
   }
 }
 
-} // namespace Experimental
-} // namespace itk
 
+#if !defined(ITK_LEGACY_REMOVE)
+namespace Experimental // For ITK 5.0 legacy support
+{
+using ::itk::ImageBufferRange;
+using ::itk::MakeImageBufferRange;
+} // namespace Experimental
+#endif // ITK_LEGACY_REMOVE
+
+} // namespace itk
 #endif

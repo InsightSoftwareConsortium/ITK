@@ -41,7 +41,7 @@ template <unsigned int VImageDimension,
 void
 Assert_GetNumberOfOffsets_returns_expected_number()
 {
-  using ShapeType = itk::Experimental::ConnectedImageNeighborhoodShape<VImageDimension>;
+  using ShapeType = itk::ConnectedImageNeighborhoodShape<VImageDimension>;
 
   // Test GetNumberOfOffsets() on a 'constexpr shape', at compile-time:
   constexpr ShapeType constexprShape(VMaximumCityblockDistance, VIncludeCenterPixel);
@@ -80,7 +80,7 @@ void
 Assert_GenerateImageNeighborhoodOffsets_returns_expected_offsets_excluding_center_pixel(
   const std::vector<itk::Offset<VImageDimension>> & expectedOffsets)
 {
-  using ShapeType = itk::Experimental::ConnectedImageNeighborhoodShape<VImageDimension>;
+  using ShapeType = itk::ConnectedImageNeighborhoodShape<VImageDimension>;
 
   const bool      includeCenterPixel = false;
   const ShapeType shape{ VMaximumCityblockDistance, includeCenterPixel };
@@ -93,7 +93,7 @@ template <unsigned int VImageDimension>
 void
 Assert_The_middle_offset_is_all_zero_when_center_pixel_is_included()
 {
-  using ShapeType = itk::Experimental::ConnectedImageNeighborhoodShape<VImageDimension>;
+  using ShapeType = itk::ConnectedImageNeighborhoodShape<VImageDimension>;
   using OffsetType = itk::Offset<VImageDimension>;
 
   const bool       includeCenterPixel = true;
@@ -119,7 +119,7 @@ template <unsigned int VImageDimension>
 void
 Assert_Offsets_are_unique_and_colexicographically_ordered()
 {
-  using ShapeType = itk::Experimental::ConnectedImageNeighborhoodShape<VImageDimension>;
+  using ShapeType = itk::ConnectedImageNeighborhoodShape<VImageDimension>;
   using OffsetType = itk::Offset<VImageDimension>;
 
   for (unsigned int maximumCityblockDistance = 0; maximumCityblockDistance < VImageDimension;
@@ -292,8 +292,7 @@ TEST(ConnectedImageNeighborhoodShape, SupportsConstShapedNeighborhoodIterator)
   constexpr bool        includeCenterPixel = false;
 
   shapedNeighborhoodIterator.ActivateOffsets(
-    itk::Experimental::
-      GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, cityBlockDistance, includeCenterPixel>());
+    itk::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, cityBlockDistance, includeCenterPixel>());
 
   ASSERT_EQ(shapedNeighborhoodIterator.GetActiveIndexList(), activeIndexList);
 }

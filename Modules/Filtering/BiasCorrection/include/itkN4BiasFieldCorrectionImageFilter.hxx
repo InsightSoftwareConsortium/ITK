@@ -86,9 +86,6 @@ CLANG_SUPPRESS_Wfloat_equal
   template <typename TInputImage, typename TMaskImage, typename TOutputImage>
   void N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::GenerateData()
   {
-    using itk::Experimental::ImageBufferRange;
-    using itk::Experimental::MakeImageBufferRange;
-
     this->AllocateOutputs();
 
     const InputImageType * inputImage = this->GetInput();
@@ -263,9 +260,6 @@ CLANG_SUPPRESS_Wfloat_equal
   void N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::SharpenImage(
     const RealImageType * unsharpenedImage, RealImageType * sharpenedImage) const
   {
-    using itk::Experimental::ImageBufferRange;
-    using itk::Experimental::MakeImageBufferRange;
-
     const auto          maskImageBufferRange = MakeImageBufferRange(this->GetMaskImage());
     const auto          confidenceImageBufferRange = MakeImageBufferRange(this->GetConfidenceImage());
     const MaskPixelType maskLabel = this->GetMaskLabel();
@@ -482,8 +476,6 @@ CLANG_SUPPRESS_Wfloat_equal
   N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::UpdateBiasFieldEstimate(
     RealImageType * fieldEstimate, const std::size_t numberOfIncludedPixels)
   {
-    using itk::Experimental::MakeImageBufferRange;
-
     // Temporarily set the direction cosine to identity since the B-spline
     // approximation algorithm works in parametric space and not physical
     // space.
@@ -652,7 +644,6 @@ CLANG_SUPPRESS_Wfloat_equal
   N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::CalculateConvergenceMeasurement(
     const RealImageType * fieldEstimate1, const RealImageType * fieldEstimate2) const
   {
-    using itk::Experimental::MakeImageBufferRange;
     using SubtracterType = SubtractImageFilter<RealImageType, RealImageType, RealImageType>;
     typename SubtracterType::Pointer subtracter = SubtracterType::New();
     subtracter->SetInput1(fieldEstimate1);

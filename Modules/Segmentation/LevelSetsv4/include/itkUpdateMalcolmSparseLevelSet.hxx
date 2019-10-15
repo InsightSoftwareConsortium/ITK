@@ -176,7 +176,7 @@ UpdateMalcolmSparseLevelSet<VDimension, TEquationContainer>::EvolveWithUnPhasedP
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 
   neighIt.OverrideBoundaryCondition(&sp_nbc);
-  neighIt.ActivateOffsets(Experimental::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
+  neighIt.ActivateOffsets(GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
 
   TermContainerPointer termContainer = this->m_EquationContainer->GetEquation(this->m_CurrentLevelSetId);
 
@@ -266,7 +266,7 @@ UpdateMalcolmSparseLevelSet<VDimension, TEquationContainer>::EvolveWithPhasedPro
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 
   neighIt.OverrideBoundaryCondition(&sp_nbc);
-  neighIt.ActivateOffsets(Experimental::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
+  neighIt.ActivateOffsets(GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
 
   TermContainerPointer termContainer = this->m_EquationContainer->GetEquation(this->m_CurrentLevelSetId);
 
@@ -361,7 +361,7 @@ UpdateMalcolmSparseLevelSet<VDimension, TEquationContainer>::CompactLayersToSing
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 
   neighIt.OverrideBoundaryCondition(&sp_nbc);
-  neighIt.ActivateOffsets(Experimental::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
+  neighIt.ActivateOffsets(GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
 
   auto nodeIt = listZero.begin();
   auto nodeEnd = listZero.end();

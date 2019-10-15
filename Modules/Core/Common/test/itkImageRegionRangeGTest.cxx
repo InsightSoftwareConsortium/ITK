@@ -33,17 +33,17 @@
 #include <type_traits> // For std::is_reference.
 
 // Test template instantiations for various ImageDimension values, and const Image:
-template class itk::Experimental::ImageRegionRange<itk::Image<short, 1>>;
-template class itk::Experimental::ImageRegionRange<itk::Image<short, 2>>;
-template class itk::Experimental::ImageRegionRange<itk::Image<short, 3>>;
-template class itk::Experimental::ImageRegionRange<itk::Image<short, 4>>;
-template class itk::Experimental::ImageRegionRange<const itk::Image<short>>;
-template class itk::Experimental::ImageRegionRange<itk::VectorImage<short>>;
-template class itk::Experimental::ImageRegionRange<const itk::VectorImage<short>>;
-template class itk::Experimental::ImageRegionRange<itk::Image<itk::RGBPixel<std::uint8_t>>>;
-template class itk::Experimental::ImageRegionRange<itk::Image<itk::Vector<long, 11>>>;
+template class itk::ImageRegionRange<itk::Image<short, 1>>;
+template class itk::ImageRegionRange<itk::Image<short, 2>>;
+template class itk::ImageRegionRange<itk::Image<short, 3>>;
+template class itk::ImageRegionRange<itk::Image<short, 4>>;
+template class itk::ImageRegionRange<const itk::Image<short>>;
+template class itk::ImageRegionRange<itk::VectorImage<short>>;
+template class itk::ImageRegionRange<const itk::VectorImage<short>>;
+template class itk::ImageRegionRange<itk::Image<itk::RGBPixel<std::uint8_t>>>;
+template class itk::ImageRegionRange<itk::Image<itk::Vector<long, 11>>>;
 
-using itk::Experimental::ImageRegionRange;
+using itk::ImageRegionRange;
 
 
 namespace
@@ -108,8 +108,8 @@ typename TImage::Pointer
 CreateImageFilledWithSequenceOfNaturalNumbers(const unsigned sizeX, const unsigned sizeY)
 {
   using PixelType = typename TImage::PixelType;
-  const auto                                        image = CreateImage<TImage>(sizeX, sizeY);
-  const itk::Experimental::ImageBufferRange<TImage> imageBufferRange{ *image };
+  const auto                          image = CreateImage<TImage>(sizeX, sizeY);
+  const itk::ImageBufferRange<TImage> imageBufferRange{ *image };
   std::iota(imageBufferRange.begin(), imageBufferRange.end(), PixelType{ 1 });
   return image;
 }
@@ -599,7 +599,7 @@ TEST(ImageRegionRange, IteratesForwardOverSamePixelsAsImageRegionIterator)
   const auto image = ImageType::New();
   image->SetRegions(RegionType{ IndexType{ { -1, -2 } }, SizeType{ { 9, 11 } } });
   image->Allocate();
-  const itk::Experimental::ImageBufferRange<ImageType> imageBufferRange{ *image };
+  const itk::ImageBufferRange<ImageType> imageBufferRange{ *image };
   std::iota(imageBufferRange.begin(), imageBufferRange.end(), PixelType{ 1 });
 
   Expect_ImageRegionRange_iterates_forward_over_same_pixels_as_ImageRegionIterator(
@@ -619,7 +619,7 @@ TEST(ImageRegionRange, IteratesBackwardOverSamePixelsAsImageRegionIterator)
   const auto image = ImageType::New();
   image->SetRegions(RegionType{ IndexType{ { -1, -2 } }, SizeType{ { 9, 11 } } });
   image->Allocate();
-  const itk::Experimental::ImageBufferRange<ImageType> imageBufferRange{ *image };
+  const itk::ImageBufferRange<ImageType> imageBufferRange{ *image };
   std::iota(imageBufferRange.begin(), imageBufferRange.end(), PixelType{ 1 });
 
   Expect_ImageRegionRange_iterates_backward_over_same_pixels_as_ImageRegionIterator(

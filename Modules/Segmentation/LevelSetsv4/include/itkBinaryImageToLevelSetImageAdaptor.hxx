@@ -143,7 +143,7 @@ BinaryImageToLevelSetImageAdaptor<TInput, WhitakerSparseLevelSetImage<TOutput, T
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 
   neighIt.OverrideBoundaryCondition(&im_nbc);
-  neighIt.ActivateOffsets(Experimental::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
+  neighIt.ActivateOffsets(GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
 
   // iterate on the layer to be scanned
   auto nodeIt = layerPlus1.begin();
@@ -207,7 +207,7 @@ BinaryImageToLevelSetImageAdaptor<TInput,
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 
   neighIt.OverrideBoundaryCondition(&im_nbc);
-  neighIt.ActivateOffsets(Experimental::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
+  neighIt.ActivateOffsets(GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
 
   typename LevelSetLabelObjectType::ConstIndexIterator lineIt(labelObject);
   lineIt.GoToBegin();
@@ -271,7 +271,7 @@ BinaryImageToLevelSetImageAdaptor<TInput, WhitakerSparseLevelSetImage<TOutput, T
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 
   neighIt.OverrideBoundaryCondition(&im_nbc);
-  neighIt.ActivateOffsets(Experimental::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
+  neighIt.ActivateOffsets(GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
 
   auto nodeIt = layer0.begin();
   auto nodeEnd = layer0.end();
@@ -411,7 +411,7 @@ BinaryImageToLevelSetImageAdaptor<TInput, ShiSparseLevelSetImage<TInput::ImageDi
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 
   neighIt.OverrideBoundaryCondition(&im_nbc);
-  neighIt.ActivateOffsets(Experimental::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
+  neighIt.ActivateOffsets(GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
 
   typename LevelSetLabelObjectType::ConstIndexIterator lineIt(labelObject);
   lineIt.GoToBegin();
@@ -554,7 +554,7 @@ BinaryImageToLevelSetImageAdaptor<TInput, MalcolmSparseLevelSetImage<TInput::Ima
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 
   neighIt.OverrideBoundaryCondition(&im_nbc);
-  neighIt.ActivateOffsets(Experimental::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
+  neighIt.ActivateOffsets(GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
 
   typename LevelSetLabelObjectType::ConstIndexIterator lineIt(labelObject);
   lineIt.GoToBegin();
@@ -615,7 +615,7 @@ BinaryImageToLevelSetImageAdaptor<TInput, MalcolmSparseLevelSetImage<TInput::Ima
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 
   neighIt.OverrideBoundaryCondition(&sp_nbc);
-  neighIt.ActivateOffsets(Experimental::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
+  neighIt.ActivateOffsets(GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, 1, false>());
 
   auto nodeIt = list_0.begin();
   auto nodeEnd = list_0.end();

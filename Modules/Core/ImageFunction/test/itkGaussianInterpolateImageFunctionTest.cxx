@@ -65,8 +65,7 @@ itkGaussianInterpolateImageFunctionTest(int, char *[])
   image->SetOrigin(origin);
   image->SetSpacing(spacing);
 
-  using itk::Experimental::ZeroBasedIndexRange;
-  for (const auto index : ZeroBasedIndexRange<ImageType::ImageDimension>(size))
+  for (const auto index : itk::ZeroBasedIndexRange<ImageType::ImageDimension>(size))
   {
     image->SetPixel(index, index[0] + index[1]);
   }

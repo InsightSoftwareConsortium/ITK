@@ -25,8 +25,6 @@
 
 namespace itk
 {
-namespace Experimental
-{
 
 /**
  * \class ConstantBoundaryImageNeighborhoodPixelAccessPolicy
@@ -148,7 +146,14 @@ public:
   }
 };
 
-} // namespace Experimental
+
+#if !defined(ITK_LEGACY_REMOVE)
+namespace Experimental // For ITK 5.0 legacy support
+{
+using ::itk::ConstantBoundaryImageNeighborhoodPixelAccessPolicy;
+}
+#endif // ITK_LEGACY_REMOVE
+
 } // namespace itk
 
 #endif

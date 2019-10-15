@@ -165,7 +165,7 @@ GaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussianKernel()
       size.Fill(0);
       size[direction] = static_cast<SizeValueType>(m_Sigma[direction] * m_Extent[direction]);
       dogNeighborhood.SetRadius(size);
-      m_ImageNeighborhoodOffsets[direction] = Experimental::GenerateRectangularImageNeighborhoodOffsets(size);
+      m_ImageNeighborhoodOffsets[direction] = GenerateRectangularImageNeighborhoodOffsets(size);
 
       typename GaussianDerivativeSpatialFunctionType::ArrayType s;
       s[0] = m_Sigma[direction];
@@ -210,7 +210,7 @@ GaussianDerivativeImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const Ind
 
     const OperatorNeighborhoodType & operatorNeighborhood = m_OperatorArray[direction];
 
-    const Experimental::ShapedImageNeighborhoodRange<const InputImageType> neighborhoodRange(
+    const ShapedImageNeighborhoodRange<const InputImageType> neighborhoodRange(
       *image, index, m_ImageNeighborhoodOffsets[direction]);
     assert(neighborhoodRange.size() == operatorNeighborhood.Size());
 
