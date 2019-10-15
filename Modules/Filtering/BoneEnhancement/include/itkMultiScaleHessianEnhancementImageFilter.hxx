@@ -249,11 +249,11 @@ MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::ConvertType(
   switch (order)
   {
     case EigenToScalarImageFilterType::OrderByValue:
-      return EigenAnalysisFilterType::FunctorType::OrderByValue;
+      return EigenAnalysisFilterType::FunctorType::EigenValueOrderType::OrderByValue;
     case EigenToScalarImageFilterType::OrderByMagnitude:
-      return EigenAnalysisFilterType::FunctorType::OrderByMagnitude;
+      return EigenAnalysisFilterType::FunctorType::EigenValueOrderType::OrderByMagnitude;
     case EigenToScalarImageFilterType::DoNotOrder:
-      return EigenAnalysisFilterType::FunctorType::DoNotOrder;
+      return EigenAnalysisFilterType::FunctorType::EigenValueOrderType::DoNotOrder;
     default:
       itkExceptionMacro(<< "Trying to convert bad order " << order);
   }
