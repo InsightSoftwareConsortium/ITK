@@ -59,6 +59,26 @@ CreateImage(const unsigned sizeX, const unsigned sizeY)
 }
 
 
+// Tells whether or not ShapedImageNeighborhoodRange<TImage>::iterator is the same type
+// as ShapedImageNeighborhoodRange<TImage>::const_iterator.
+template <typename TImage>
+constexpr bool
+IsIteratorTypeTheSameAsConstIteratorType()
+{
+  using RangeType = ShapedImageNeighborhoodRange<TImage>;
+
+  return std::is_same<typename RangeType::iterator, typename RangeType::const_iterator>::value;
+}
+
+
+static_assert(!IsIteratorTypeTheSameAsConstIteratorType<itk::Image<int>>() &&
+                !IsIteratorTypeTheSameAsConstIteratorType<itk::VectorImage<int>>(),
+              "For a non-const image, non-const iterator and const_iterator should be different types!");
+static_assert(IsIteratorTypeTheSameAsConstIteratorType<const itk::Image<int>>() &&
+                IsIteratorTypeTheSameAsConstIteratorType<const itk::VectorImage<int>>(),
+              "For a const image, non-const iterator and const_iterator should be the same type!");
+
+
 // Creates a test image, filled with a sequence of natural numbers, 1, 2, 3, ..., N.
 template <typename TImage>
 typename TImage::Pointer

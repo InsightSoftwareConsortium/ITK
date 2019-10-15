@@ -70,6 +70,26 @@ static_assert(!DoesImageRegionRangeIteratorDereferenceOperatorReturnReference<co
               "ImageRegionRange::iterator::operator*() should not return a reference for a 'const' itk::VectorImage.");
 
 
+// Tells whether or not ImageRegionRange<TImage>::iterator is the same type
+// as ImageRegionRange<TImage>::const_iterator.
+template <typename TImage>
+constexpr bool
+IsIteratorTypeTheSameAsConstIteratorType()
+{
+  using RangeType = ImageRegionRange<TImage>;
+
+  return std::is_same<typename RangeType::iterator, typename RangeType::const_iterator>::value;
+}
+
+
+static_assert(!IsIteratorTypeTheSameAsConstIteratorType<itk::Image<int>>() &&
+                !IsIteratorTypeTheSameAsConstIteratorType<itk::VectorImage<int>>(),
+              "For a non-const image, non-const iterator and const_iterator should be different types!");
+static_assert(IsIteratorTypeTheSameAsConstIteratorType<const itk::Image<int>>() &&
+                IsIteratorTypeTheSameAsConstIteratorType<const itk::VectorImage<int>>(),
+              "For a const image, non-const iterator and const_iterator should be the same type!");
+
+
 template <typename TImage>
 typename TImage::Pointer
 CreateImage(const unsigned sizeX, const unsigned sizeY)

@@ -637,7 +637,7 @@ private:
 
 public:
   using const_iterator = QualifiedIterator<true>;
-  using iterator = QualifiedIterator<false>;
+  using iterator = QualifiedIterator<IsImageTypeConst>;
   using reverse_iterator = std::reverse_iterator<iterator>;
   using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
