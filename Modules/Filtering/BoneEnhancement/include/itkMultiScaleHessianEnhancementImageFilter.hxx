@@ -21,7 +21,6 @@
 #include "itkMultiScaleHessianEnhancementImageFilter.h"
 #include "itkMath.h"
 #include "itkProgressAccumulator.h"
-#include "itkExceptionObject.h"
 
 namespace itk
 {
