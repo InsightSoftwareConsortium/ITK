@@ -17,7 +17,7 @@ jobs:
     docker:
       - image: circleci/python:2.7.16-stretch
     working_directory: ~/
-    resource_class: large
+    resource_class: medium
     branches:
       ignore:
         - gh-pages
@@ -61,8 +61,8 @@ jobs:
             ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS: 2
             CTEST_OUTPUT_ON_FAILURE: 1
             CTEST_CONFIGURATION_TYPE: "Release"
-            CTEST_BUILD_FLAGS: "-j 5"
-            PARALLEL_LEVEL: 4
+            CTEST_BUILD_FLAGS: "-j 2"
+            PARALLEL_LEVEL: 2
             CTEST_CMAKE_GENERATOR: "Ninja"
           command: |
             export PATH=/usr/lib/ccache:${PATH}
