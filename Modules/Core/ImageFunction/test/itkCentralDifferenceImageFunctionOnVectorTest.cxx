@@ -305,8 +305,7 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
 
   if (center == left || center == right)
   {
-    std::cout << "ERROR: Failed for Evaluate at non-interger indices. Results are unexpectedly identical."
-              << std::endl;
+    std::cout << "ERROR: Failed for Evaluate at non-interger indices. Results are unexpectedly identical." << std::endl;
     result = EXIT_FAILURE;
   }
 
