@@ -99,8 +99,8 @@ if ! type -p "$clang_format" >/dev/null; then
     exit 1
 fi
 
-if ! "$clang_format" --version | grep 'clang-format version 8\.0\.0' >/dev/null 2>/dev/null; then
-    echo "clang-format version 8.0.0 is required (exactly)"
+if ! "$clang_format" --version | grep 'clang-format version 8\.0\.' >/dev/null 2>/dev/null; then
+    echo "clang-format version 8.0.x is required"
     exit 1
 fi
 
