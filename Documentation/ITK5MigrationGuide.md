@@ -430,7 +430,7 @@ deprecated. These filters commonly contain a "Vector" prefix to the
 regular filter. "Vector" may refer to an `itk::Image` of
 `itk::Vector` pixel types and/or  an `itk::VectorImage`. Support for
 "vector" images is being consolidated into the regular filters without
-the "Vector" prefix. The follow depricated classes need to be replaced
+the "Vector" prefix. The following deprecated classes need to be replaced
 as follows:
 
 * `VectorCentralDifferenceImageFunction` -> `CentralDifferenceImageFunction`
@@ -445,8 +445,8 @@ Additionally, the following change should be considered:
 
 [This update to the ITK
 Examples](https://github.com/InsightSoftwareConsortium/ITK/commit/b8dbc939ecb086b0e60faf4710657596553f643f)
-is illustrative on how to use the `ResampleImageFilter` is place of a
-warp filter. Note these warp filters are being considered filters for
+is illustrative on how to use the `ResampleImageFilter` in place of a
+warp filter. Note these warp filters are being considered for
 deprecation in the future.
 
 
