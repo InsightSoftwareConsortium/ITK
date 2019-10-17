@@ -118,16 +118,19 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::Initialize()
   // Initialize log gabor kernels
   LogGaborKernel->SetOrigin(this->GetInput()->GetOrigin());
   LogGaborKernel->SetSpacing(this->GetInput()->GetSpacing());
+  LogGaborKernel->SetDirection(this->GetInput()->GetDirection());
   LogGaborKernel->SetSize(inputSize);
 
   // Initialize directionality kernels
   SteerableFilterKernel->SetOrigin(this->GetInput()->GetOrigin());
   SteerableFilterKernel->SetSpacing(this->GetInput()->GetSpacing());
+  SteerableFilterKernel->SetDirection(this->GetInput()->GetDirection());
   SteerableFilterKernel->SetSize(inputSize);
 
   // Initialize low pass filter kernel
   ButterworthFilterKernel->SetOrigin(this->GetInput()->GetOrigin());
   ButterworthFilterKernel->SetSpacing(this->GetInput()->GetSpacing());
+  ButterworthFilterKernel->SetDirection(this->GetInput()->GetDirection());
   ButterworthFilterKernel->SetSize(inputSize);
   ButterworthFilterKernel->SetCutoff(0.4);
   ButterworthFilterKernel->SetOrder(10.0);
