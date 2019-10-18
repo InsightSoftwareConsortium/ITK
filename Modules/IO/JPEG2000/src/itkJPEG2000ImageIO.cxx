@@ -53,7 +53,7 @@ public:
     BMP_DFMT = 2,
     YUV_DFMT = 3
   };
-#if !defined(ITK_LEGACY_REMOVE)
+#if !defined(ITK_LEGACY_REMOVE) || defined(ITK_WRAPPING) /* castxml 'enum class' workaround */
   // We need to expose the enum values at the class level
   // for backwards compatibility
   static constexpr DFMFormatType PXM_DFMT = DFMFormatType::PXM_DFMT;

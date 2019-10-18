@@ -115,7 +115,7 @@ public:
     INSERT_AT_BACK,
     INSERT_AT_POSITION
   };
-#if !defined(ITK_LEGACY_REMOVE)
+#if !defined(ITK_LEGACY_REMOVE) || defined(ITK_WRAPPING) /* castxml 'enum class' workaround */
   // We need to expose the enum values at the class level
   // for backwards compatibility
   static constexpr InsertionPositionType INSERT_AT_FRONT = InsertionPositionType::INSERT_AT_FRONT;
