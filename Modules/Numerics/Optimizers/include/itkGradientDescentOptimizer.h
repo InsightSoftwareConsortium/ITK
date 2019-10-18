@@ -75,7 +75,7 @@ public:
     MaximumNumberOfIterations,
     MetricError
   };
-#if !defined(ITK_LEGACY_REMOVE)
+#if !defined(ITK_LEGACY_REMOVE) || defined(ITK_WRAPPING) /* castxml 'enum class' workaround */
   // We need to expose the enum values at the class level
   // for backwards compatibility
   static constexpr StopConditionType MaximumNumberOfIterations = StopConditionType::MaximumNumberOfIterations;
