@@ -256,27 +256,26 @@ set(ITK_MODULES_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
 
 #-----------------------------------------------------------------------------
 # Provide compatibility options.
-option(ITKV4_COMPATIBILITY "Enable compatibility with ITK4.x when possible." OFF)
 # During major release updates deprecated interface may be needed for backwards compatibility
 option(ITK_LEGACY_REMOVE "Remove current legacy code completely." OFF)
 # During minor releases bugs may be identified that identify broken interface, or
 # useless interfaces that need to be retained to not break backwards compatibilty.
 # These ITK_FUTURE_LEGACY_REMOVE are another level of granularity for
 # which backwards compatible features we want to maintain.
-option(ITK_FUTURE_LEGACY_REMOVE "Completely remove compilation of code which will become deprecated by default in ITKv5." OFF)
-if(ITK_WRAPPING)
-  option(ITK_LEGACY_SILENT "Silence all legacy code messages." ON)
-else()
-  option(ITK_LEGACY_SILENT "Silence all legacy code messages." OFF)
-endif()
-mark_as_advanced(ITK_LEGACY_SILENT ITK_LEGACY_REMOVE ITK_FUTURE_LEGACY_REMOVE ITKV4_COMPATIBILITY)
-
+cmake_dependent_option(ITK_FUTURE_LEGACY_REMOVE
+      "Completely remove compilation of code which will become deprecated by default in ITKv5." OFF
+      "ITK_LEGACY_REMOVE" OFF)
+cmake_dependent_option(ITK_LEGACY_SILENT
+      "Silence all legacy code messages when ITK_LEGACY_REMOVE:BOOL=OFF." OFF
+      "NOT ITK_LEGACY_REMOVE" OFF)
 # The disabling of legacy code, and the ITKv4 compatibility option can not both be
 # requested. If removal of legacy code is requested, then ITKV4_COMPATIBILITY must
 # be off.
-if(ITKV4_COMPATIBILITY AND ITK_LEGACY_REMOVE)
-  message(FATAL_ERROR "Invalid configuration: ITKV4_COMPATIBILITY AND ITK_LEGACY_REMOVE can not both be ON")
-endif()
+cmake_dependent_option(ITKV4_COMPATIBILITY
+      "Enable LEGACY compatibility with ITK4.x when possible." OFF
+      "NOT ITK_LEGACY_REMOVE" OFF)
+mark_as_advanced(ITK_LEGACY_SILENT ITK_LEGACY_REMOVE ITK_FUTURE_LEGACY_REMOVE ITKV4_COMPATIBILITY)
+
 if (ITKV3_COMPATIBILITY)
   message(FATAL_ERROR "ITKV3_COMPATIBILITY is removed starting in ITK version 5.0, this option is no longer valid.")
 endif()
@@ -392,10 +391,6 @@ endif()
 # In this case we need to tell the user that he has to change the flags manually to the right values.
 if(ITK_WRAPPING)
   set(CMAKE_POSITION_INDEPENDENT_CODE 1)
-
-  if(NOT ITK_LEGACY_SILENT)
-    message(FATAL_ERROR "Wrapping requires to disable legacy code, please set ITK_LEGACY_SILENT=ON")
-  endif()
 endif()
 
 #----------------------------------------------------------------------------
