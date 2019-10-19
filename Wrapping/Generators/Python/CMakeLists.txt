@@ -300,15 +300,10 @@ macro(itk_setup_swig_python type base_name interface_file python_file cpp_file d
       "${doc_file}")
   endif()
 
-  set(py3arg)
-  if(PYTHON_VERSION_STRING VERSION_GREATER 3.0)
-    set(py3arg "-py3")
-  endif()
-
   add_custom_command(
     OUTPUT ${cpp_file} ${python_file}
     COMMAND ${swig_command} -c++ -python -O -features autodoc=1
-    ${py3arg}
+    -py3
     -Werror
     -w302 # Identifier 'name' redefined (ignored)
     -w303 # %extend defined for an undeclared class 'name' (to avoid warning about customization in pyBase.i)
@@ -599,9 +594,8 @@ macro(itk_end_wrap_submodule_python group_name)
 
   # add this wrap_*.cmake stuff to the list of modules to init in the main module.
   # first the extern c declaration and then the call of the extern function
-  if(PYTHON_VERSION_STRING VERSION_GREATER 3.0)
-    set(ITK_WRAP_PYTHON_LIBRARY_DECLS "${ITK_WRAP_PYTHON_LIBRARY_DECLS} extern \"C\" PyMODINIT_FUNC PyInit__${group_name}Python();\n")
-    set(ITK_WRAP_PYTHON_LIBRARY_CALLS "${ITK_WRAP_PYTHON_LIBRARY_CALLS}
+  set(ITK_WRAP_PYTHON_LIBRARY_DECLS "${ITK_WRAP_PYTHON_LIBRARY_DECLS} extern \"C\" PyMODINIT_FUNC PyInit__${group_name}Python();\n")
+  set(ITK_WRAP_PYTHON_LIBRARY_CALLS "${ITK_WRAP_PYTHON_LIBRARY_CALLS}
   PyObject * ${group_name}SysModules = PyImport_GetModuleDict();
   PyObject * ${group_name}AlreadyImported = PyDict_GetItemString(${group_name}SysModules, \"_${group_name}Python\");
   if( ${group_name}AlreadyImported == NULL )
@@ -612,10 +606,6 @@ macro(itk_end_wrap_submodule_python group_name)
     Py_DECREF( ${group_name}Module );
     }
 ")
-  else()
-    set(ITK_WRAP_PYTHON_LIBRARY_DECLS "${ITK_WRAP_PYTHON_LIBRARY_DECLS} extern \"C\" PyMODINIT_FUNC init_${group_name}Python();\n")
-    set(ITK_WRAP_PYTHON_LIBRARY_CALLS "${ITK_WRAP_PYTHON_LIBRARY_CALLS} init_${group_name}Python();\n")
-  endif()
 
 endmacro()
 
