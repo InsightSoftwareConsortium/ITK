@@ -522,9 +522,14 @@ OutputWindowDisplayDebugText(const char *);
 //----------------------------------------------------------------------------
 // Setup legacy code policy.
 //
-// CMake options ITK_LEGACY_REMOVE and ITK_LEGACY_SILENT are converted
-// They may be used to completely remove legacy code or silence the
-// warnings.  The default is to warn about their use.
+// CMake options:
+//  - When ITK_LEGACY_REMOVE:BOOL=ON, legacy code is hidden, thus causing compiler errors for code that depends on it
+//  - When ITK_LEGACY_REMOVE:BOOL=OFF, and ITK_LEGACY_SILENT:BOOL=ON, use
+//    of legacy code will not produce compiler warnings.
+//  - When ITK_LEGACY_REMOVE:BOOL=OFF, and ITK_LEGACY_SILENT:BOOL=OFF, use
+//    of legacy code will produce compiler warnings
+//
+// ITK_LEGACY_SILENT silently use legacy code. The default is to warn about legacy code use.
 //
 // Source files that test the legacy code may define ITK_LEGACY_TEST
 // like this:
@@ -545,18 +550,20 @@ OutputWindowDisplayDebugText(const char *);
 // See below for what to do for the method definition.
 #if defined(ITK_LEGACY_REMOVE)
 #  define itkLegacyMacro(method) /* no ';' */
-#elif defined(ITK_LEGACY_SILENT) || defined(ITK_LEGACY_TEST) || defined(ITK_WRAPPING_PARSER)
-// Provide legacy methods with no warnings.
-#  define itkLegacyMacro(method) method
 #else
-// Setup compile-time warnings for uses of deprecated methods if
-// possible on this compiler.
-#  if defined(__GNUC__) && !defined(__INTEL_COMPILER)
-#    define itkLegacyMacro(method) method __attribute__((deprecated))
-#  elif defined(_MSC_VER)
-#    define itkLegacyMacro(method) __declspec(deprecated) method
-#  else
+#  if defined(ITK_LEGACY_SILENT) || defined(ITK_LEGACY_TEST)
+//   Provide legacy methods with no warnings.
 #    define itkLegacyMacro(method) method
+#  else
+//   Setup compile-time warnings for uses of deprecated methods if
+//   possible on this compiler.
+#    if defined(__GNUC__) && !defined(__INTEL_COMPILER)
+#      define itkLegacyMacro(method) method __attribute__((deprecated))
+#    elif defined(_MSC_VER)
+#      define itkLegacyMacro(method) __declspec(deprecated) method
+#    else
+#      define itkLegacyMacro(method) method
+#    endif
 #  endif
 #endif
 
@@ -575,22 +582,29 @@ OutputWindowDisplayDebugText(const char *);
 //                               itkMyClass::MyOtherMethod);
 //     }
 //   #endif
-#if defined(ITK_LEGACY_REMOVE) || defined(ITK_LEGACY_SILENT)
+#if defined(ITK_LEGACY_REMOVE)
 #  define itkLegacyBodyMacro(method, version)
 #  define itkLegacyReplaceBodyMacro(method, version, replace)
 #  define itkGenericLegacyBodyMacro(method, version)
 #  define itkGenericLegacyReplaceBodyMacro(method, version, replace)
 #else
-#  define itkLegacyBodyMacro(method, version)                                                                          \
-    itkWarningMacro(#method " was deprecated for ITK " #version " and will be removed in a future version.")
-#  define itkLegacyReplaceBodyMacro(method, version, replace)                                                          \
-    itkWarningMacro(#method " was deprecated for ITK " #version                                                        \
-                            " and will be removed in a future version.  Use " #replace " instead.")
-#  define itkGenericLegacyBodyMacro(method, version)                                                                   \
-    itkGenericOutputMacro(#method " was deprecated for ITK " #version " and will be removed in a future version.")
-#  define itkGenericLegacyReplaceBodyMacro(method, version, replace)                                                   \
-    itkGenericOutputMacro(#method " was deprecated for ITK " #version                                                  \
-                                  " and will be removed in a future version.  Use " #replace " instead.")
+#  if defined(ITK_LEGACY_SILENT)
+#    define itkLegacyBodyMacro(method, version) method
+#    define itkLegacyReplaceBodyMacro(method, version, replace) method
+#    define itkGenericLegacyBodyMacro(method, version) method
+#    define itkGenericLegacyReplaceBodyMacro(method, version, replace) method
+#  else
+#    define itkLegacyBodyMacro(method, version)                                                                        \
+      itkWarningMacro(#method " was deprecated for ITK " #version " and will be removed in a future version.")
+#    define itkLegacyReplaceBodyMacro(method, version, replace)                                                        \
+      itkWarningMacro(#method " was deprecated for ITK " #version                                                      \
+                              " and will be removed in a future version.  Use " #replace " instead.")
+#    define itkGenericLegacyBodyMacro(method, version)                                                                 \
+      itkGenericOutputMacro(#method " was deprecated for ITK " #version " and will be removed in a future version.")
+#    define itkGenericLegacyReplaceBodyMacro(method, version, replace)                                                 \
+      itkGenericOutputMacro(#method " was deprecated for ITK " #version                                                \
+                                    " and will be removed in a future version.  Use " #replace " instead.")
+#  endif
 #endif
 
 // Most modern x86 CPUs have 64 byte aligned blocks which are used for
@@ -1100,9 +1114,9 @@ compilers.
  * provides the GPU kernel source code as a const char*
  */
 #define itkGPUKernelClassMacro(kernel)                                                                                 \
-  /**\class kernel \                                                                                                                     \
-   * Workaround KWstyle bug \                                                                                                                     \
-   * \ingroup ITKCommon \                                                                                                                     \
+  /**\class kernel \                                                                                                   \
+   * Workaround KWstyle bug \                                                                                          \
+   * \ingroup ITKCommon \                                                                                              \
    */                                                                                                                  \
   class kernel                                                                                                         \
   {                                                                                                                    \
