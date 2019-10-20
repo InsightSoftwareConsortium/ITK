@@ -19,8 +19,11 @@
 #define itkSumOfSquaresImageFunction_h
 
 #include "itkImageFunction.h"
+#include "itkImageNeighborhoodOffsets.h"
 #include "itkNumericTraits.h"
-#include "itkNeighborhood.h"
+#include "itkOffset.h"
+
+#include <vector>
 
 namespace itk
 {
@@ -64,6 +67,9 @@ public:
   /** InputImageType type alias support */
   using InputImageType = TInputImage;
 
+  /** InputPixel type alias support */
+  using typename Superclass::InputPixelType;
+
   /** OutputType typdef support. */
   using OutputType = typename Superclass::OutputType;
 
@@ -75,6 +81,9 @@ public:
 
   /** Point type alias support */
   using PointType = typename Superclass::PointType;
+
+  /** Size type of the underlying image. */
+  using ImageSizeType = typename InputImageType::SizeType;
 
   /** Dimension of the underlying image. */
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
@@ -112,14 +121,9 @@ public:
   void
   SetNeighborhoodRadius(unsigned int radius)
   {
+    m_NeighborhoodOffsets = Experimental::GenerateRectangularImageNeighborhoodOffsets(ImageSizeType::Filled(radius));
     m_NeighborhoodRadius = radius;
-
-    m_NeighborhoodSize = 1;
-    long twoRPlus1 = 2 * m_NeighborhoodRadius + 1;
-    for (unsigned int i = 0; i < ImageDimension; i++)
-    {
-      m_NeighborhoodSize *= twoRPlus1;
-    }
+    m_NeighborhoodSize = m_NeighborhoodOffsets.size();
   }
 
   itkGetConstReferenceMacro(NeighborhoodSize, unsigned int);
@@ -133,6 +137,9 @@ protected:
 private:
   unsigned int m_NeighborhoodRadius;
   unsigned int m_NeighborhoodSize;
+
+  std::vector<Offset<ImageDimension>> m_NeighborhoodOffsets{ Experimental::GenerateRectangularImageNeighborhoodOffsets(
+    ImageSizeType::Filled(1)) };
 };
 } // end namespace itk
 
