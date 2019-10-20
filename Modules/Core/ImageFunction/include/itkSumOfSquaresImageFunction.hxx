@@ -20,7 +20,7 @@
 
 #include "itkSumOfSquaresImageFunction.h"
 
-#include "itkConstNeighborhoodIterator.h"
+#include "itkShapedImageNeighborhoodRange.h"
 
 namespace itk
 {
@@ -40,7 +40,9 @@ SumOfSquaresImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexTy
 
   sumOfSquares = NumericTraits<RealType>::ZeroValue();
 
-  if (!this->GetInputImage())
+  const InputImageType * const image = this->GetInputImage();
+
+  if (image == nullptr)
   {
     return (NumericTraits<RealType>::max());
   }
@@ -50,21 +52,13 @@ SumOfSquaresImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexTy
     return (NumericTraits<RealType>::max());
   }
 
-  // Create an N-d neighborhood kernel, using a zeroflux boundary condition
-  typename InputImageType::SizeType kernelSize;
-  kernelSize.Fill(m_NeighborhoodRadius);
-
-  ConstNeighborhoodIterator<InputImageType> it(
-    kernelSize, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());
-
-  // Set the iterator at the desired location
-  it.SetLocation(index);
+  const Experimental::ShapedImageNeighborhoodRange<const InputImageType> neighborhoodRange(
+    *image, index, m_NeighborhoodOffsets);
 
   // Walk the neighborhood
-  const unsigned int size = it.Size();
-  for (unsigned int i = 0; i < size; ++i)
+  for (const InputPixelType pixelValue : neighborhoodRange)
   {
-    const auto value = static_cast<RealType>(it.GetPixel(i));
+    const auto value = static_cast<RealType>(pixelValue);
     sumOfSquares += value * value;
   }
 
