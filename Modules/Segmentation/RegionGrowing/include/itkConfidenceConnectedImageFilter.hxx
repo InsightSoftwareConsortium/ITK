@@ -22,8 +22,8 @@
 #include "itkConfidenceConnectedImageFilter.h"
 #include "itkMacro.h"
 #include "itkImageRegionIterator.h"
-#include "itkMeanImageFunction.h"
-#include "itkSumOfSquaresImageFunction.h"
+#include "itkImageNeighborhoodOffsets.h"
+#include "itkShapedImageNeighborhoodRange.h"
 #include "itkBinaryThresholdImageFunction.h"
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
 #include "itkProgressReporter.h"
@@ -141,19 +141,6 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   outputImage->FillBuffer(NumericTraits<OutputImagePixelType>::ZeroValue());
 
   // Compute the statistics of the seed point
-  using MeanImageFunctionType = MeanImageFunction<InputImageType, double>;
-
-  using SumOfSquaresImageFunctionType = SumOfSquaresImageFunction<InputImageType, double>;
-
-  typename MeanImageFunctionType::Pointer meanFunction = MeanImageFunctionType::New();
-
-  meanFunction->SetInputImage(inputImage);
-  meanFunction->SetNeighborhoodRadius(m_InitialNeighborhoodRadius);
-
-  typename SumOfSquaresImageFunctionType::Pointer sumOfSquaresFunction = SumOfSquaresImageFunctionType::New();
-
-  sumOfSquaresFunction->SetInputImage(inputImage);
-  sumOfSquaresFunction->SetNeighborhoodRadius(m_InitialNeighborhoodRadius);
 
   // Set up the image function used for connectivity
   typename FunctionType::Pointer function = FunctionType::New();
@@ -167,6 +154,11 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   if (m_InitialNeighborhoodRadius > 0)
   {
+    const auto neighborhoodOffsets =
+      Experimental::GenerateRectangularImageNeighborhoodOffsets(SizeType::Filled(m_InitialNeighborhoodRadius));
+    auto neighborhoodRange =
+      Experimental::ShapedImageNeighborhoodRange<const InputImageType>(*inputImage, IndexType(), neighborhoodOffsets);
+
     InputRealType sumOfSquares = itk::NumericTraits<InputRealType>::ZeroValue();
 
     typename SeedsContainerType::const_iterator si = m_Seeds.begin();
@@ -176,8 +168,20 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     {
       if (region.IsInside(*si))
       {
-        m_Mean += meanFunction->EvaluateAtIndex(*si);
-        sumOfSquares += sumOfSquaresFunction->EvaluateAtIndex(*si);
+        neighborhoodRange.SetLocation(*si);
+
+        auto neighborhoodSum = InputRealType{ 0.0 };
+        auto neighborhoodSumOfSquares = InputRealType{ 0.0 };
+
+        for (const InputImagePixelType pixelValue : neighborhoodRange)
+        {
+          const auto realValue = static_cast<InputRealType>(pixelValue);
+
+          neighborhoodSum += realValue;
+          neighborhoodSumOfSquares += (realValue * realValue);
+        }
+        m_Mean += neighborhoodSum / neighborhoodRange.size();
+        sumOfSquares += neighborhoodSumOfSquares;
         ++num;
       }
       si++;
@@ -190,7 +194,7 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
       return;
     }
 
-    const double totalNum = num * sumOfSquaresFunction->GetNeighborhoodSize();
+    const double totalNum = num * neighborhoodRange.size();
     m_Mean /= num;
     m_Variance = (sumOfSquares - (m_Mean * m_Mean * totalNum)) / (totalNum - 1.0);
   }
