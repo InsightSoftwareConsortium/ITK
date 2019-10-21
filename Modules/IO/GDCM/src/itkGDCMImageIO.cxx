@@ -302,7 +302,10 @@ GDCMImageIO::Read(void * pointer)
     gdcm::ImageChangeTransferSyntax icts;
     icts.SetInput(image);
     icts.SetTransferSyntax(gdcm::TransferSyntax::ImplicitVRLittleEndian);
-    icts.Change();
+    if (!icts.Change())
+    {
+      itkExceptionMacro(<< "Failed to change to Implicit Transfer Syntax");
+    }
     image = icts.GetOutput();
   }
 
@@ -312,7 +315,10 @@ GDCMImageIO::Read(void * pointer)
     gdcm::ImageChangePlanarConfiguration icpc;
     icpc.SetInput(image);
     icpc.SetPlanarConfiguration(0);
-    icpc.Change();
+    if (!icpc.Change())
+    {
+      itkExceptionMacro(<< "Failed to change to Planar Configuration");
+    }
     image = icpc.GetOutput();
   }
 
