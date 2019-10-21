@@ -92,3 +92,8 @@ itk_add_test(NAME itkLabelImageGaussianInterpolateImageFunctionTest
 
 itk_add_test(NAME itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest
       COMMAND ITKImageFunctionTestDriver itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest)
+
+set(ITKImageFunctionGTests
+      itkSumOfSquaresImageFunctionGTest.cxx
+)
+CreateGoogleTestDriver(ITKImageFunction "${ITKImageFunction-Test_LIBRARIES}" "${ITKImageFunctionGTests}")
