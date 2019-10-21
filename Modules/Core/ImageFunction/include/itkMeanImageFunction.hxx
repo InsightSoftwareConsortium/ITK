@@ -19,7 +19,9 @@
 #define itkMeanImageFunction_hxx
 
 #include "itkMeanImageFunction.h"
-#include "itkConstNeighborhoodIterator.h"
+
+#include "itkImage.h"
+#include "itkShapedImageNeighborhoodRange.h"
 
 namespace itk
 {
@@ -37,7 +39,9 @@ MeanImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & ind
 
   sum = NumericTraits<RealType>::ZeroValue();
 
-  if (!this->GetInputImage())
+  const InputImageType * const image = this->GetInputImage();
+
+  if (image == nullptr)
   {
     return (NumericTraits<RealType>::max());
   }
@@ -47,26 +51,31 @@ MeanImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & ind
     return (NumericTraits<RealType>::max());
   }
 
-  // Create an N-d neighborhood kernel, using a zeroflux boundary condition
-  typename InputImageType::SizeType kernelSize;
-  kernelSize.Fill(m_NeighborhoodRadius);
-
-  ConstNeighborhoodIterator<InputImageType> it(
-    kernelSize, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());
-
-  // Set the iterator at the desired location
-  it.SetLocation(index);
+  const Experimental::ShapedImageNeighborhoodRange<const InputImageType> neighborhoodRange(
+    *image, index, m_NeighborhoodOffsets);
 
   // Walk the neighborhood
-  const unsigned int size = it.Size();
-  for (unsigned int i = 0; i < size; ++i)
+  for (const InputPixelType pixelValue : neighborhoodRange)
   {
-    sum += static_cast<RealType>(it.GetPixel(i));
+    sum += static_cast<RealType>(pixelValue);
   }
-  sum /= double(it.Size());
 
-  return sum;
+  return sum / static_cast<double>(neighborhoodRange.size());
 }
+
+
+template <typename TInputImage, typename TCoordRep>
+void
+MeanImageFunction<TInputImage, TCoordRep>::SetNeighborhoodRadius(const unsigned int radius)
+{
+  if (m_NeighborhoodRadius != radius)
+  {
+    m_NeighborhoodOffsets = Experimental::GenerateRectangularImageNeighborhoodOffsets(ImageSizeType::Filled(radius));
+    m_NeighborhoodRadius = radius;
+    this->Modified();
+  }
+}
+
 
 template <typename TInputImage, typename TCoordRep>
 void
