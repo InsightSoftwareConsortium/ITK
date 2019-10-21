@@ -22,7 +22,7 @@
 #include "itkImage.h"
 #include "itkMatrix.h"
 #include "itkMath.h"
-#include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkIndexRange.h"
 
 namespace itk
 {
@@ -40,24 +40,17 @@ BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::BS
   // Initialize offset to index lookup table
   m_OffsetToIndexTable.set_size(m_NumberOfWeights, SpaceDimension);
 
-  using CharImageType = Image<char, SpaceDimension>;
-  typename CharImageType::Pointer tempImage = CharImageType::New();
-  tempImage->SetRegions(m_SupportSize);
-  tempImage->Allocate(true); // initialize buffer to zero
-
-  using IteratorType = ImageRegionConstIteratorWithIndex<CharImageType>;
-  IteratorType iterator(tempImage, tempImage->GetBufferedRegion());
   unsigned int counter = 0;
 
-  while (!iterator.IsAtEnd())
+  for (const IndexType index : Experimental::ZeroBasedIndexRange<VSpaceDimension>(m_SupportSize))
   {
     for (unsigned int j = 0; j < SpaceDimension; j++)
     {
-      m_OffsetToIndexTable[counter][j] = iterator.GetIndex()[j];
+      m_OffsetToIndexTable[counter][j] = index[j];
     }
     ++counter;
-    ++iterator;
   }
+
 
   // Initialize the interpolation kernel
   m_Kernel = KernelType::New();

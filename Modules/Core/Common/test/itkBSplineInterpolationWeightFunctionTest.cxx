@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkBSplineInterpolationWeightFunction.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 
 // Test template instantiation for TCoordRep = float and VSplineOrder = 1.
 // Note that this particular template instantiation would take forever to
