@@ -20,6 +20,7 @@
 
 #include "itkImageKernelOperator.h"
 
+#include "itkImageBufferRange.h"
 #include "itkImageRegionConstIterator.h"
 
 /*
@@ -76,16 +77,9 @@ ImageKernelOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients()
     }
   }
 
-  CoefficientVector coeff;
+  const auto imageBufferRange = Experimental::MakeImageBufferRange(m_ImageKernel.GetPointer());
 
-  ImageRegionConstIterator<ImageType> It(m_ImageKernel, m_ImageKernel->GetLargestPossibleRegion());
-
-  for (It.GoToBegin(); !It.IsAtEnd(); ++It)
-  {
-    coeff.push_back(It.Get());
-  }
-
-  return coeff;
+  return CoefficientVector(imageBufferRange.cbegin(), imageBufferRange.cend());
 }
 
 template <typename TPixel, unsigned int VDimension, typename TAllocator>
