@@ -171,11 +171,6 @@ macro(itk_module_impl)
     list(APPEND ${itk-module}_INCLUDE_DIRS ${${itk-module}_SOURCE_DIR}/include)
     install(DIRECTORY include/ DESTINATION ${${itk-module}_INSTALL_INCLUDE_DIR} COMPONENT Development)
   endif()
-  if(NOT ITK_SOURCE_DIR AND ${itk-module}_ENABLE_SHARED)
-    # When building a module outside the ITK source tree, if ENABLE_SHARED is enabled,
-    # find the export header.
-    list(APPEND ${itk-module}_INCLUDE_DIRS ${${itk-module}_BINARY_DIR}/include)
-  endif()
 
   if(${itk-module}_INCLUDE_DIRS)
     include_directories(${${itk-module}_INCLUDE_DIRS})
@@ -216,11 +211,7 @@ macro(itk_module_impl)
     # Target ${itk-module} may not exist if the module only contains header files
   if(TARGET ${itk-module})
     if( ITK_MODULE_${itk-module}_ENABLE_SHARED )
-      if(ITK_SOURCE_DIR)
-        set(_export_header_file "${ITKCommon_BINARY_DIR}/${itk-module}Export.h")
-      else()
-        set(_export_header_file "${${itk-module}_BINARY_DIR}/include/${itk-module}Export.h")
-      endif()
+      set(_export_header_file "${ITKCommon_BINARY_DIR}/${itk-module}Export.h")
 
       # Generate the export macro header for symbol visibility/Windows DLL declspec
       generate_export_header(${itk-module}
