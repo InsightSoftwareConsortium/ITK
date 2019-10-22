@@ -29,6 +29,7 @@
 #define itkTestingStretchIntensityImageFilter_hxx
 
 #include "itkTestingStretchIntensityImageFilter.h"
+#include "itkImageBufferRange.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkMath.h"
@@ -61,15 +62,11 @@ StretchIntensityImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateDa
   }
 
   const TInputImage * inputImage = this->GetInput();
-
-  ImageRegionConstIteratorWithIndex<TInputImage> it(inputImage, inputImage->GetBufferedRegion());
-
   m_InputMaximum = NumericTraits<InputPixelType>::NonpositiveMin();
   m_InputMinimum = NumericTraits<InputPixelType>::max();
 
-  while (!it.IsAtEnd())
+  for (const InputPixelType value : Experimental::MakeImageBufferRange(inputImage))
   {
-    const InputPixelType value = it.Get();
     if (value > m_InputMaximum)
     {
       m_InputMaximum = value;
@@ -78,7 +75,6 @@ StretchIntensityImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateDa
     {
       m_InputMinimum = value;
     }
-    ++it;
   }
 
   if (itk::Math::abs(m_InputMaximum - m_InputMinimum) > itk::Math::abs(NumericTraits<InputPixelType>::epsilon()))
