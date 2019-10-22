@@ -64,6 +64,7 @@ itkGDCMImageIONoCrashTest(int ac, char * av[])
     return EXIT_FAILURE;
   }
 
+#if !defined(ITK_LEGACY_REMOVE)
   // Exercise the get methods
   std::cout << "InternalComponentType: " << gdcmImageIO->GetInternalComponentType() << std::endl;
   std::cout << "RescaleSlope: " << gdcmImageIO->GetRescaleSlope() << std::endl;
@@ -76,6 +77,7 @@ itkGDCMImageIONoCrashTest(int ac, char * av[])
   std::cout << "LoadSequences: " << gdcmImageIO->GetLoadSequences() << std::endl;
   std::cout << "LoadPrivateTags: " << gdcmImageIO->GetLoadPrivateTags() << std::endl;
   std::cout << "CompressionType: " << gdcmImageIO->GetCompressionType() << std::endl;
+#endif
 
   gdcmImageIO->Print(std::cout);
 
