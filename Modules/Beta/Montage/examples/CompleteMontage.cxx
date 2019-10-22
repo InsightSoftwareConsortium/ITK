@@ -91,7 +91,7 @@ denoiseImage(typename itk::Image<PixelType, Dimension>::Pointer image, double si
 {
   using ImageType = itk::Image<PixelType, Dimension>;
   using DensoingType = itk::BilateralImageFilter<ImageType, ImageType>;
-  DensoingType::Pointer denoiser = DensoingType::New();
+  typename DensoingType::Pointer denoiser = DensoingType::New();
   denoiser->SetInput(image);
   denoiser->SetRangeSigma(itk::NumericTraits<PixelType>::max() / 20.0);
   denoiser->SetDomainSigma(sigma);
@@ -110,9 +110,9 @@ denoiseImage(typename itk::Image<PixelType, Dimension>::Pointer image, double si
   using DensoingType = itk::BilateralImageFilter<ScalarImageType, ScalarImageType>;
   using ComposeType = itk::ComposeImageFilter<ScalarImageType, ColorImageType>;
 
-  ImageAdaptorType::Pointer cAdaptor = ImageAdaptorType::New();
+  typename ImageAdaptorType::Pointer cAdaptor = ImageAdaptorType::New();
   cAdaptor->SetInput(image);
-  DensoingType::Pointer denoiser = DensoingType::New();
+  typename DensoingType::Pointer denoiser = DensoingType::New();
   denoiser->SetInput(cAdaptor->GetOutput());
   denoiser->SetRangeSigma(itk::NumericTraits<ComponentType>::max() / 20.0);
   denoiser->SetDomainSigma(sigma);
@@ -127,7 +127,7 @@ denoiseImage(typename itk::Image<PixelType, Dimension>::Pointer image, double si
   }
 
   // compose an RGB(A) image from the filtered component images
-  ComposeType::Pointer compose = ComposeType::New();
+  typename ComposeType::Pointer compose = ComposeType::New();
   for (unsigned c = 0; c < PixelType::Length; c++)
   {
     compose->SetInput(c, cImages[c]);
