@@ -405,10 +405,9 @@ template <typename TInputImage>
 void
 Segmenter<TInputImage>::InitializeBoundary()
 {
-  ImageRegionIterator<typename BoundaryType::face_t> faceIt;
-  typename BoundaryType::face_t::Pointer             face;
-  typename BoundaryType::face_pixel_t                fps;
-  BoundaryIndexType                                  idx;
+  typename BoundaryType::face_t::Pointer face;
+  typename BoundaryType::face_pixel_t    fps;
+  BoundaryIndexType                      idx;
 
   fps.flow = NULL_FLOW;
   fps.label = NULL_LABEL;
@@ -423,10 +422,9 @@ Segmenter<TInputImage>::InitializeBoundary()
       }
       this->GetBoundary()->GetFlatHash(idx)->clear();
       face = this->GetBoundary()->GetFace(idx);
-      faceIt = ImageRegionIterator<typename BoundaryType::face_t>(face, face->GetBufferedRegion());
-      for (faceIt.GoToBegin(); !faceIt.IsAtEnd(); ++faceIt)
+      if (face != nullptr)
       {
-        faceIt.Set(fps);
+        face->FillBuffer(fps);
       }
     }
   }
