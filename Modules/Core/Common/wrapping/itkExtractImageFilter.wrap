@@ -1,5 +1,9 @@
-itk_wrap_class("itk::ExtractImageFilter" POINTER)
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkExtractImageFilter.h")
 
+itk_wrap_simple_class("itk::ExtractImageFilterCollapseStrategy" ENUM)
+
+itk_wrap_class("itk::ExtractImageFilter" POINTER)
   itk_wrap_image_filter("${WRAP_ITK_ALL_TYPES}" 2)
 
   foreach(d1 ${ITK_WRAP_IMAGE_DIMS})
@@ -18,5 +22,4 @@ itk_wrap_class("itk::ExtractImageFilter" POINTER)
       endif()
     endforeach()
   endforeach()
-
 itk_end_wrap_class()

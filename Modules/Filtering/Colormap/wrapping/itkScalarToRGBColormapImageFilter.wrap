@@ -1,3 +1,8 @@
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkScalarToRGBColormapImageFilter.h")
+
+itk_wrap_simple_class("itk::RGBColormapFilterEnumType" ENUM)
+
 itk_wrap_class("itk::ScalarToRGBColormapImageFilter" POINTER)
   # Wrap itk::IdentifierType to create colormaps from the output of watershed
   # segmentations

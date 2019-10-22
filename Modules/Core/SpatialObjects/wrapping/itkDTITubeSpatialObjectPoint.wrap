@@ -1,6 +1,11 @@
 itk_wrap_filter_dims(has_d_3 3)
 
 if(has_d_3)
+  set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+  itk_wrap_include("itkDTITubeSpatialObjectPoint.h")
+
+  itk_wrap_simple_class("itk::DTITubeSpatialObjectPointFieldEnumType" ENUM)
+
   itk_wrap_class("itk::DTITubeSpatialObjectPoint")
     itk_wrap_template(3 3)
   itk_end_wrap_class()
