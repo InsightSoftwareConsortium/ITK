@@ -4,6 +4,7 @@ itkGDCMImageIOTest.cxx
 itkGDCMImageIOTest2.cxx
 itkGDCMImageIONoCrashTest.cxx
 itkGDCMImageReadSeriesWriteTest.cxx
+itkGDCMImageReadWriteTest.cxx
 itkGDCMSeriesReadImageWriteTest.cxx
 itkGDCMSeriesMissingDicomTagTest.cxx
 itkGDCMSeriesStreamReadImageWriteTest.cxx
@@ -163,3 +164,12 @@ itk_add_test(NAME itkGDCMImageIONoPreambleTest
   COMMAND ITKIOGDCMTestDriver itkGDCMImageIONoPreambleTest
   DATA{Input/NoPreambleDicomTest.dcm}
   )
+
+itk_add_test(NAME itkGDCMImageReadWriteTest_RGB
+  COMMAND ITKIOGDCMTestDriver
+    --compare ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadWriteTest_RGB.mha
+      DATA{Baseline/itkGDCMImageReadWriteTest_RGB.mha}
+    itkGDCMImageReadWriteTest
+      DATA{${ITK_DATA_ROOT}/Input/RGBDicomTest.dcm}
+      ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadWriteTest_RGB.mha
+      rgb)
