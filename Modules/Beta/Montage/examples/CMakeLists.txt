@@ -12,7 +12,7 @@ if(NOT ITK_SOURCE_DIR)
 else()
   # when being built as part of ITK, ITKImageIO and ITKTransformIO
   # lists of modules are not yet ready, causing a configure error
-  find_package(ITK REQUIRED COMPONENTS Montage ITKIOTransformInsightLegacy ITKIOHDF5 ITKTestKernel ${ExampleSpecificComponents})
+  find_package(ITK REQUIRED COMPONENTS Montage ITKIOTransformInsightLegacy ITKIONRRD ITKIOPNG ITKTestKernel ${ExampleSpecificComponents})
 endif()
 include(${ITK_USE_FILE})
 
