@@ -92,7 +92,9 @@ check_for_KWStyle() {
 
   No style verification will be performed with KWStyle!
 
-Please install KWStyle or set the executable location with
+A KWStyle executable will be built and configured when ITK
+is built with the BUILD_TESTING CMake configuration option enabled.
+Alternatively, set the KWStyle executable location with
 
   git config hooks.KWStyle.path /path/to/KWStyle
 
