@@ -92,7 +92,9 @@ check_for_KWStyle() {
 
   No style verification will be performed with KWStyle!
 
-Please install KWStyle or set the executable location with
+A KWStyle executable will be built and configured when ITK
+is built with the BUILD_TESTING CMake configuration option enabled.
+Alternatively, set the KWStyle executable location with
 
   git config hooks.KWStyle.path /path/to/KWStyle
 
@@ -147,7 +149,7 @@ run_KWStyle() {
 #-----------------------------------------------------------------------------
 # clangformat.
 check_for_clangformat() {
-  clangformat_required_version=8.0.1
+  clangformat_required_version=8.0
   system_tools="
     clang-format-$clangformat_required_version
     clang-format
@@ -162,12 +164,15 @@ check_for_clangformat() {
   clangformat_path=$(type -p "$system_clang_format" >/dev/null) ||
   die "clang-format executable was not found.
 
-Please install clang-format version $clangformat_required_version or set the executable location with
+A clang-format binary will be downloaded and configured when ITK
+is built with the BUILD_TESTING CMake configuration option enabled.
+
+Alternatively, install clang-format version $clangformat_required_version or set the executable location with
 
   git config clangFormat.binary /path/to/clang-format
 "
   if ! "$clangformat_path" --version | grep "clang-format version $clangformat_required_version" >/dev/null 2>/dev/null; then
-    die "clang-format version $clangformat_required_version is required (exactly)
+    die "clang-format version $clangformat_required_version is required
 
 Set the path the clang-format $clangformat_required_version executable with
 
