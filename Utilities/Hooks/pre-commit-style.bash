@@ -164,7 +164,10 @@ check_for_clangformat() {
   clangformat_path=$(type -p "$system_clang_format" >/dev/null) ||
   die "clang-format executable was not found.
 
-Please install clang-format version $clangformat_required_version or set the executable location with
+A clang-format binary will be downloaded and configured when ITK
+is built with the BUILD_TESTING CMake configuration option enabled.
+
+Alternatively, install clang-format version $clangformat_required_version or set the executable location with
 
   git config clangFormat.binary /path/to/clang-format
 "
