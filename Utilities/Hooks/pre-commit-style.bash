@@ -149,7 +149,7 @@ run_KWStyle() {
 #-----------------------------------------------------------------------------
 # clangformat.
 check_for_clangformat() {
-  clangformat_required_version=8.0.1
+  clangformat_required_version=8.0
   system_tools="
     clang-format-$clangformat_required_version
     clang-format
@@ -169,7 +169,7 @@ Please install clang-format version $clangformat_required_version or set the exe
   git config clangFormat.binary /path/to/clang-format
 "
   if ! "$clangformat_path" --version | grep "clang-format version $clangformat_required_version" >/dev/null 2>/dev/null; then
-    die "clang-format version $clangformat_required_version is required (exactly)
+    die "clang-format version $clangformat_required_version is required
 
 Set the path the clang-format $clangformat_required_version executable with
 
