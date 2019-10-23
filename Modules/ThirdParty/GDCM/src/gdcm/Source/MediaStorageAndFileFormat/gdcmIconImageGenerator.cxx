@@ -886,7 +886,7 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
       }
     if( Internals->AutoMinMax )
       {
-      const void *p = &vbuffer2[0];
+      void *p = &vbuffer2[0];
       size_t len = vbuffer2.size();
       const PixelFormat &pf = I->GetPixelFormat();
       assert( pf.GetSamplesPerPixel() == 1 );

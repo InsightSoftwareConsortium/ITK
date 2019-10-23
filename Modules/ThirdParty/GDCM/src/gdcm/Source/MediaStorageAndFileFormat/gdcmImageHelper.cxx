@@ -285,10 +285,10 @@ static bool ComputeZSpacingFromIPP(const DataSet &ds, double &zspacing)
     // single slice
     const Tag tfgs0(0x5200,0x9229);
     if( !ds.FindDataElement( tfgs0 ) ) return false;
-    SmartPointer<SequenceOfItems> sqi = ds.GetDataElement( tfgs0 ).GetValueAsSQ();
-    if( !(sqi && sqi->GetNumberOfItems() > 0) ) return false;
+    SmartPointer<SequenceOfItems> sqi0 = ds.GetDataElement( tfgs0 ).GetValueAsSQ();
+    if( !(sqi0 && sqi0->GetNumberOfItems() > 0) ) return false;
     // Get first item:
-    const Item &item = sqi->GetItem(1);
+    const Item &item = sqi0->GetItem(1);
     const DataSet & subds = item.GetNestedDataSet();
     // <entry group="0028" element="9110" vr="SQ" vm="1" name="Pixel Measures Sequence"/>
     const Tag tpms(0x0028,0x9110);

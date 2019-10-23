@@ -75,7 +75,7 @@ bool ASN1::ParseDump(const char *array, size_t length)
   out=BIO_new(BIO_s_file());
   assert( out );
   BIO_set_fp(out,stdout,BIO_NOCLOSE|BIO_FP_TEXT);
-  if (!ASN1_parse_dump(out,(unsigned char*)array,length,indent,dump) )
+  if (!ASN1_parse_dump(out,(const unsigned char*)array,length,indent,dump) )
     {
     return false;
     }
@@ -119,14 +119,14 @@ int ASN1::TestPBKDF2()
   unsigned char buf[1024];
 
   ic = 1;
-  PKCS5_PBKDF2_HMAC_SHA1(pass, (int)strlen(pass), (unsigned char*)salt,
+  PKCS5_PBKDF2_HMAC_SHA1(pass, (int)strlen(pass), (const unsigned char*)salt,
     (int)strlen(salt), ic, 32+16, buf);
   printf("PKCS5_PBKDF2_HMAC_SHA1(\"%s\", \"%s\", %d)=\n", pass, salt, ic);
   print_hex(buf, 32+16);
 
   ic = 1;
-  EVP_BytesToKey(EVP_aes_256_cbc(), EVP_sha1(), (unsigned char*)salt,
-    (unsigned char*)pass, (int)strlen(pass), ic, buf, buf+32);
+  EVP_BytesToKey(EVP_aes_256_cbc(), EVP_sha1(), (const unsigned char*)salt,
+    (const unsigned char*)pass, (int)strlen(pass), ic, buf, buf+32);
   printf("EVP_BytesToKey(\"%s\", \"%s\", %d)=\n", pass, salt, ic);
   print_hex(buf, 32+16);
 

@@ -419,6 +419,24 @@ namespace gdcm_ns
         is.seekg(-6, std::ios::cur );
         length = locallength = l;
         }
+      else if( /*pe.GetLastElement().GetTag() == Tag(0xffd8,0xffe0) &&*/ de.GetTag() == Tag(0x7fe0,0x0010) && de.IsUndefinedLength() )
+        {
+        // PET-GE-dicomwrite-PixelDataSQUN.dcm
+        // some bozo crafted an undefined length Pixel Data but is actually
+        // defined length. Since inside SQ/Item it should be possible to
+        // compute the proper length
+        is.seekg(-16, std::ios::cur );
+        TDE pd;
+        pd.template ReadPreValue<TSwap>(is);
+        gdcmAssertAlwaysMacro( pd.GetTag() == Tag(0x7fe0,0x0010) );
+        gdcmAssertAlwaysMacro( pd.GetVR() == VR::OB );
+        gdcmAssertAlwaysMacro( pd.IsUndefinedLength() );
+        const VL pdlen = locallength - l - 12;
+        pd.SetVL( pdlen );
+        pd.template ReadValue<TSwap>(is, true);
+        InsertDataElement( pd );
+        length = locallength = l;
+        }
       else
         {
         // Could be the famous :

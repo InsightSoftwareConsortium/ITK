@@ -103,7 +103,11 @@ bool FileExplicitFilter::ProcessDataSet(DataSet &ds, Dicts const & dicts)
       sqi = de.GetValueAsSQ();
       if(!sqi)
         {
-        assert( de.IsEmpty() );
+        if( !de.IsEmpty() )
+          {
+          gdcmErrorMacro("DICOM file written out may not be readable" );
+          cvr = VR::UN;
+          }
         }
       }
     if( de.GetByteValue() && !sqi )

@@ -711,7 +711,7 @@ bool PixmapWriter::PrepareWrite( MediaStorage const & ref_ms )
     SmartPointer<SequenceOfItems> sq;
     if( ds.FindDataElement( tsourceImageSequence ) )
       {
-      DataElement &de = (DataElement&)ds.GetDataElement( tsourceImageSequence );
+      DataElement &de = const_cast<DataElement&>(ds.GetDataElement( tsourceImageSequence ));
       de.SetVLToUndefined(); // For now
       if( de.IsEmpty() )
         {

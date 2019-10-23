@@ -54,6 +54,7 @@ public:
   /// \warning you need to call SetPixelFormat first (before SetPlanarConfiguration) for consistency checking
   void SetPlanarConfiguration(unsigned int pc);
 
+  /// INTERNAL do not use
   bool GetNeedByteSwap() const
     {
     return NeedByteSwap;
@@ -173,7 +174,7 @@ protected:
   typedef SmartPointer<LookupTable> LUTPtr;
   LUTPtr LUT;
   // I believe the following 3 ivars can be derived from TS ...
-  bool NeedByteSwap;
+  bool NeedByteSwap; // FIXME: remove me
   bool LossyFlag;
 
 private:

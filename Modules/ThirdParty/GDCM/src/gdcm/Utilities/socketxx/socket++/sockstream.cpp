@@ -645,7 +645,7 @@ int sockbuf::write(const void* buf, int len)
   int wlen=0;
   while(len>0) {
     //int wval = ::write (rep->sock, (char*) buf, len);
-    int wval = ::send (rep->sock, (char*) buf, len, 0);
+    int wval = ::send (rep->sock, (const char*) buf, len, 0);
     //assert( wval > 0 );
     if (wval == -1) throw wlen;
     len -= wval;
@@ -663,7 +663,7 @@ int sockbuf::send (const void* buf, int len, int msgf)
 
   int wlen=0;
   while(len>0) {
-    int wval = ::send (rep->sock, (char*) buf, len, msgf);
+    int wval = ::send (rep->sock, (const char*) buf, len, msgf);
     if (wval == -1) throw wlen;
     len -= wval;
     wlen += wval;
@@ -680,7 +680,7 @@ int sockbuf::sendto (sockAddr& sa, const void* buf, int len, int msgf)
 
   int wlen=0;
   while(len>0) {
-    int wval = ::sendto (rep->sock, (char*) buf, len, msgf,
+    int wval = ::sendto (rep->sock, (const char*) buf, len, msgf,
                          sa.addr (), sa.size());
     if (wval == -1) throw wlen;
     len -= wval;
