@@ -19,7 +19,9 @@
 #define itkMedianImageFunction_h
 
 #include "itkImageFunction.h"
+#include "itkImageNeighborhoodOffsets.h"
 #include "itkNumericTraits.h"
+#include "itkOffset.h"
 
 namespace itk
 {
@@ -79,6 +81,9 @@ public:
   /** Point type alias support */
   using PointType = typename Superclass::PointType;
 
+  /** Size type of the underlying image. */
+  using ImageSizeType = typename InputImageType::SizeType;
+
   /** Dimension of the underlying image. */
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
@@ -107,7 +112,8 @@ public:
 
   /** Get/Set the radius of the neighborhood over which the
       statistics are evaluated */
-  itkSetMacro(NeighborhoodRadius, unsigned int);
+  void
+  SetNeighborhoodRadius(unsigned int);
   itkGetConstReferenceMacro(NeighborhoodRadius, unsigned int);
 
 protected:
@@ -118,6 +124,9 @@ protected:
 
 private:
   unsigned int m_NeighborhoodRadius{ 1 };
+
+  std::vector<Offset<ImageDimension>> m_NeighborhoodOffsets{ Experimental::GenerateRectangularImageNeighborhoodOffsets(
+    ImageSizeType::Filled(1)) };
 };
 } // end namespace itk
 
