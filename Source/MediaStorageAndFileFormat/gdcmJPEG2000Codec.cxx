@@ -783,7 +783,8 @@ std::pair<char *, size_t> JPEG2000Codec::DecodeByStreamsCommon(char *dummy_buffe
   assert( image->numcomps == this->GetPhotometricInterpretation().GetSamplesPerPixel() );
   if( this->GetPhotometricInterpretation() == PhotometricInterpretation::RGB )
     assert( !mct );
-  else if( this->GetPhotometricInterpretation() == PhotometricInterpretation::YBR_RCT )
+  else if( this->GetPhotometricInterpretation() == PhotometricInterpretation::YBR_RCT
+        || this->GetPhotometricInterpretation() == PhotometricInterpretation::YBR_ICT )
     assert( mct );
   else
     assert( !mct );
@@ -1436,7 +1437,7 @@ bool JPEG2000Codec::GetHeaderInfo(const char * dummy_buffer, size_t buf_size, Tr
 
   myfile mysrc;
   myfile *fsrc = &mysrc;
-  fsrc->mem = fsrc->cur = (char*)src;
+  fsrc->mem = fsrc->cur = (char*)const_cast<unsigned char*>(src);
   fsrc->len = file_length;
 
   // the hack is not used when reading meta-info of a j2k stream:

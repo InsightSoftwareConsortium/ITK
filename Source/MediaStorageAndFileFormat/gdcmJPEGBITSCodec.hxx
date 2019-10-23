@@ -1161,7 +1161,7 @@ bool JPEGBITSCodec::InternalCode(const char* input, unsigned long len, std::ostr
 {
   int quality = 100; (void)len;
   (void)quality;
-  JSAMPLE * image_buffer = (JSAMPLE*)(void*)input;  /* Points to large array of R,G,B-order data */
+  JSAMPLE * image_buffer = (JSAMPLE*)(void*)const_cast<char*>(input);  /* Points to large array of R,G,B-order data */
   const unsigned int *dims = this->GetDimensions();
   int image_height = dims[1];  /* Number of rows in image */
   int image_width = dims[0];    /* Number of columns in image */
@@ -1363,7 +1363,7 @@ bool JPEGBITSCodec::InternalCode(const char* input, unsigned long len, std::ostr
 bool JPEGBITSCodec::EncodeBuffer(std::ostream &os, const char *data, size_t datalen)
 {
   (void)datalen;
-  JSAMPLE * image_buffer = (JSAMPLE*)(void*)data;  /* Points to large array of R,G,B-order data */
+  JSAMPLE * image_buffer = (JSAMPLE*)(void*)const_cast<char*>(data);  /* Points to large array of R,G,B-order data */
   const unsigned int *dims = this->GetDimensions();
   int image_height = dims[1];  /* Number of rows in image */
   int image_width = dims[0];    /* Number of columns in image */

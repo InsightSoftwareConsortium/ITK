@@ -153,7 +153,7 @@ public:
       gdcmErrorMacro( "len is too big: " << len );
       return false;
       }
-    BIO *data = BIO_new_mem_buf((void*)array, (int)len);
+    BIO *data = BIO_new_mem_buf((const void*)array, (int)len);
     if(!data)
       {
       gdcmErrorMacro( "BIO_new_mem_buf" );
@@ -308,7 +308,7 @@ bool OpenSSLP7CryptographicMessageSyntax::Decrypt(char *output, size_t &outlen, 
     gdcmErrorMacro( "len is too big: " << len );
     return false;
     }
-  data = BIO_new_mem_buf((void*)array, (int)len);
+  data = BIO_new_mem_buf((const void*)array, (int)len);
   if(!data) goto err;
 
 

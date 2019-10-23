@@ -39,7 +39,7 @@ class sockinetaddr: public sockAddr, public sockaddr_in
 
         operator void* () const override { return addr_in (); }
 
-        sockaddr_in*        addr_in () const { return (sockaddr_in*) this; }
+        sockaddr_in*        addr_in () const { return (sockaddr_in*)const_cast<sockinetaddr*>(this); }
         int                 size  () const override { return sizeof (sockaddr_in); }
         int                 family() const override { return sin_family; }
         sockaddr*           addr  () const override { return (sockaddr*) addr_in (); }

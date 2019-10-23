@@ -71,11 +71,11 @@ bool ImageChangePlanarConfiguration::Change()
       void *framecopy = copy + z * framesize;
       if( pf.GetBitsAllocated() == 16 )
         {
-        ImageChangePlanarConfiguration::RGBPlanesToRGBPixels<uint16_t>((uint16_t*)framecopy, (uint16_t*)r, (uint16_t*)g,(uint16_t*)b, size/2 );
+        ImageChangePlanarConfiguration::RGBPlanesToRGBPixels<uint16_t>((uint16_t*)framecopy, (const uint16_t*)r, (const uint16_t*)g,(const uint16_t*)b, size/2 );
         }
       else if( pf.GetBitsAllocated() == 8 )
         {
-        ImageChangePlanarConfiguration::RGBPlanesToRGBPixels<uint8_t>((uint8_t*)framecopy, (uint8_t*)r, (uint8_t*)g, (uint8_t*)b, size);
+        ImageChangePlanarConfiguration::RGBPlanesToRGBPixels<uint8_t>((uint8_t*)framecopy, (const uint8_t*)r, (const uint8_t*)g, (const uint8_t*)b, size);
         }
       }
     }
@@ -92,11 +92,11 @@ bool ImageChangePlanarConfiguration::Change()
 
       if( pf.GetBitsAllocated() == 16 )
         {
-        ImageChangePlanarConfiguration::RGBPixelsToRGBPlanes<uint16_t>((uint16_t*)r, (uint16_t*)g, (uint16_t*)b, (uint16_t*)frame, size/2);
+        ImageChangePlanarConfiguration::RGBPixelsToRGBPlanes<uint16_t>((uint16_t*)r, (uint16_t*)g, (uint16_t*)b, (const uint16_t*)frame, size/2);
         }
       else if( pf.GetBitsAllocated() == 8 )
         {
-        ImageChangePlanarConfiguration::RGBPixelsToRGBPlanes<uint8_t>((uint8_t*)r, (uint8_t*)g, (uint8_t*)b, (uint8_t*)frame, size);
+        ImageChangePlanarConfiguration::RGBPixelsToRGBPlanes<uint8_t>((uint8_t*)r, (uint8_t*)g, (uint8_t*)b, (const uint8_t*)frame, size);
         }
       }
     }

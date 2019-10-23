@@ -257,12 +257,12 @@ bool ImageChangeTransferSyntax::TryJPEGLSCodec(const DataElement &pixelde, Bitma
     bool r;
     if( input.AreOverlaysInPixelData() || input.UnusedBitsPresentInPixelData() )
       {
-      const ByteValue *bv = pixelde.GetByteValue();
+      ByteValue *bv = const_cast<ByteValue*>(pixelde.GetByteValue());
       assert( bv );
       gdcm::DataElement tmp;
       tmp.SetByteValue( bv->GetPointer(), bv->GetLength());
-      bv = tmp.GetByteValue();
-      r = codec->CleanupUnusedBits((char*)bv->GetPointer(), bv->GetLength());
+      bv = const_cast<ByteValue*>(tmp.GetByteValue());
+      r = codec->CleanupUnusedBits((char*)bv->GetVoidPointer(), bv->GetLength());
       if(!r) return false;
       r = codec->Code(tmp, out);
       }
@@ -415,7 +415,7 @@ bool ImageChangeTransferSyntax::Change()
     ByteValue *bv0 = new ByteValue();
     uint32_t len0 = (uint32_t)Input->GetBufferLength();
     bv0->SetLength( len0 );
-    bool b = Input->GetBuffer( (char*)bv0->GetPointer() );
+    bool b = Input->GetBuffer( (char*)bv0->GetVoidPointer() );
     if( !b )
       {
       gdcmErrorMacro( "Error in getting buffer from input image." );
@@ -450,7 +450,7 @@ bool ImageChangeTransferSyntax::Change()
         ByteValue *bv = new ByteValue();
         uint32_t len = (uint32_t)pixmap->GetIconImage().GetBufferLength();
         bv->SetLength( len );
-        bool bb = pixmap->GetIconImage().GetBuffer( (char*)bv->GetPointer() );
+        bool bb = pixmap->GetIconImage().GetBuffer( (char*)bv->GetVoidPointer() );
         if( !bb )
           {
           return false;

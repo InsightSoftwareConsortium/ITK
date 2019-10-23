@@ -172,7 +172,7 @@ void LookupTable::SetLUT(LookupTableType type, const unsigned char *array,
     {
     assert( Internal->Length[type]*(BitSample/8) == length );
     uint16_t *uchar16 = (uint16_t*)(void*)&Internal->RGB[0];
-    const uint16_t *array16 = (const uint16_t*)(void*)array;
+    const uint16_t *array16 = (const uint16_t*)(const void*)array;
     for( unsigned int i = 0; i < Internal->Length[type]; ++i)
       {
       assert( 2*i < length );
@@ -533,9 +533,9 @@ bool LookupTable::Decode(char *output, size_t outlen, const char *input, size_t 
     {
     const uint16_t *rgb16 = (const uint16_t*)(void*)&Internal->RGB[0];
     assert( inlen % 2 == 0 );
-    const uint16_t * end = (const uint16_t*)(void*)(input + inlen);
+    const uint16_t * end = (const uint16_t*)(const void*)(input + inlen);
     uint16_t * rgb = (uint16_t*)(void*)output;
-    for( const uint16_t * idx = (const uint16_t*)(void*)input; idx != end; ++idx )
+    for( const uint16_t * idx = (const uint16_t*)(const void*)input; idx != end; ++idx )
       {
       if( IncompleteLUT )
         {
@@ -589,9 +589,9 @@ bool LookupTable::Decode8(char *output, size_t outlen, const char *input, size_t
     {
     const uint16_t *rgb16 = (const uint16_t*)(void*)&Internal->RGB[0];
     assert( inlen % 2 == 0 );
-    const uint16_t * end = (const uint16_t*)(void*)(input + inlen);
+    const uint16_t * end = (const uint16_t*)(const void*)(input + inlen);
     uint8_t * rgb = (uint8_t*)output;
-    for( const uint16_t * idx = (const uint16_t*)(void*)input; idx != end; ++idx )
+    for( const uint16_t * idx = (const uint16_t*)(const void*)input; idx != end; ++idx )
       {
       if( IncompleteLUT )
         {
@@ -700,7 +700,7 @@ bool LookupTable::WriteBufferAsRGBA(const unsigned char *rgba)
     {
     //assert( Internal->Length[type]*(BitSample/8) == length );
     uint16_t *uchar16 = (uint16_t*)(void*)&Internal->RGB[0];
-    const uint16_t *rgba16 = (const uint16_t*)(void*)rgba;
+    const uint16_t *rgba16 = (const uint16_t*)(const void*)rgba;
     size_t s = Internal->RGB.size();
     s /= 2;
     s /= 3;
