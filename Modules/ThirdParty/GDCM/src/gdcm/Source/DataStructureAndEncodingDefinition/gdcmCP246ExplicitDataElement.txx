@@ -38,7 +38,7 @@ template <typename TSwap>
 std::istream &CP246ExplicitDataElement::ReadPreValue(std::istream &is)
 {
   TagField.Read<TSwap>(is);
-  // See PS 3.5, Data Element Structure With CP246Explicit VR
+  // See PS 3.5, Data Element Structure With Explicit VR
   // Read Tag
   if( !is )
     {

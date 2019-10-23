@@ -39,7 +39,7 @@ bool ByteSwapFilter::ByteSwap()
     const DataElement &de = *it;
     VR const & vr = de.GetVR();
     //assert( vr & VR::VRASCII || vr & VR::VRBINARY );
-    const ByteValue *bv = de.GetByteValue();
+    ByteValue *bv = const_cast<ByteValue*>(de.GetByteValue());
     gdcm::SmartPointer<gdcm::SequenceOfItems> si = de.GetValueAsSQ();
     if( de.IsEmpty() )
       {

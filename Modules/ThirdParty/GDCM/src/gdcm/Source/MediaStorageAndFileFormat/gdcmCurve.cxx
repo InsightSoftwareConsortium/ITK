@@ -78,7 +78,7 @@ public:
     os << "TypeOfData                         :" << TypeOfData << std::endl;
     os << "CurveDescription                   :" << CurveDescription << std::endl;
     os << "DataValueRepresentation            :" << DataValueRepresentation << std::endl;
-    const unsigned short * p = (const unsigned short*)(void*)&Data[0];
+    const unsigned short * p = (const unsigned short*)(const void*)&Data[0];
     for(int i = 0; i < NumberOfPoints; i+=2)
       {
       os << p[i] << "," << p[i+1] << std::endl;

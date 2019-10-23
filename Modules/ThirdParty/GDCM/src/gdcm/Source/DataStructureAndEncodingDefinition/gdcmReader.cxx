@@ -829,29 +829,78 @@ bool Reader::CanRead() const
 
 #ifdef _MSC_VER
 namespace {
-static inline std::wstring ToUtf16(std::string str) {
+static inline std::wstring ToUtf16(std::string const & str) {
   std::wstring ret;
-  int len = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), str.length(), NULL, 0);
+  int len = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), (int)str.length(), nullptr, 0);
   if (len > 0) {
     ret.resize(len);
-    MultiByteToWideChar(CP_UTF8, 0, str.c_str(), str.length(), &ret[0], len);
+    MultiByteToWideChar(CP_UTF8, 0, str.c_str(), (int)str.length(), &ret[0], len);
   }
   return ret;
 }
+// http://arsenmk.blogspot.com/2015/12/handling-long-paths-on-windows.html
+static inline bool ComputeFullPath(std::wstring const &in, std::wstring &out) {
+  // consider an input fileName of type PCWSTR (const wchar_t*)
+  const wchar_t *fileName = in.c_str();
+  DWORD requiredBufferLength = GetFullPathNameW(fileName, 0, nullptr, nullptr);
+
+  if (0 == requiredBufferLength)  // means failure
+  {
+    return false;
+  }
+
+  out.resize(requiredBufferLength);
+  wchar_t *buffer = &out[0];
+
+  DWORD result =
+      GetFullPathNameW(fileName, requiredBufferLength, buffer, nullptr);
+
+  if (0 == result) {
+    return false;
+  }
+
+  // buffer now contains the full path name of fileName, use it.
+  return true;
 }
+
+static inline std::wstring HandleMaxPath(std::wstring const &in) {
+  if (in.size() >= MAX_PATH) {
+    std::wstring out;
+    bool ret = ComputeFullPath(in, out);
+    if (!ret) return in;
+    if (out.size() < 4) return in;
+    if (out[0] == '\\' && out[1] == '\\' && out[2] == '?') {
+      // nothing to do
+    } else if (out[0] == '\\' && out[1] == '\\' && out[2] != '?') {
+      // server path
+      const std::wstring prefix = LR"(\\?\UNC\)";
+      out = prefix + (out.c_str() + 2);
+    } else {
+      // regular C:\ style path:
+      assert(out[1] == ':');
+      const std::wstring prefix = LR"(\\?\)";
+      out = prefix + out.c_str();
+    }
+    return out;
+  }
+  return in;
+}
+} // namespace
 #endif
 
 void Reader::SetFileName(const char *uft8path)
 {
   if(Ifstream) delete Ifstream;
   Ifstream = new std::ifstream();
-  Ifstream->open(
+  if (uft8path && *uft8path) {
 #ifdef _MSC_VER
-      ToUtf16(uft8path).c_str()
+    const std::wstring uft16path = ToUtf16(uft8path);
+    const std::wstring uncpath = HandleMaxPath(uft16path);
+    Ifstream->open(uncpath.c_str(), std::ios::binary);
 #else
-      uft8path
+    Ifstream->open( uft8path, std::ios::binary);
 #endif
-	  , std::ios::binary);
+  }
   if( Ifstream->is_open() )
     {
     Stream = Ifstream;
