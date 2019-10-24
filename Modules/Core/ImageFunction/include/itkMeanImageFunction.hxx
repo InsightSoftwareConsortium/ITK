@@ -70,7 +70,7 @@ MeanImageFunction<TInputImage, TCoordRep>::SetNeighborhoodRadius(const unsigned 
 {
   if (m_NeighborhoodRadius != radius)
   {
-    m_NeighborhoodOffsets = Experimental::GenerateRectangularImageNeighborhoodOffsets(ImageSizeType::Filled(radius));
+    m_NeighborhoodOffsets = Experimental::GenerateSquareImageNeighborhoodOffsets<ImageDimension>(radius);
     m_NeighborhoodRadius = radius;
     this->Modified();
   }

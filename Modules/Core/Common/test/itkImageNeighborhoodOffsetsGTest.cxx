@@ -27,6 +27,10 @@
 
 #include <gtest/gtest.h>
 
+
+using itk::Experimental::GenerateRectangularImageNeighborhoodOffsets;
+using itk::Experimental::GenerateSquareImageNeighborhoodOffsets;
+
 namespace
 {
 
@@ -90,4 +94,20 @@ TEST(ImageNeighborhoodOffsets, GenerateRectangularImageNeighborhoodOffsetsForSma
   const std::vector<itk::Offset<>> offsets = itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
 
   EXPECT_EQ(offsets, (std::vector<itk::Offset<>>{ { { 0, -1 } }, { { 0, 0 } }, { { 0, 1 } } }));
+}
+
+
+// Test that the generated offsets for a square neighborhood are equal to the offsets
+// generated for the equivalent rectangular shape.
+TEST(ImageNeighborhoodOffsets, OffsetsForSquareNeighborhoodEqualOffsetsForRectangularNeighborhood)
+{
+  for (std::size_t radius{}; radius <= 3; ++radius)
+  {
+    EXPECT_EQ(GenerateSquareImageNeighborhoodOffsets<1>(radius),
+              GenerateRectangularImageNeighborhoodOffsets(itk::Size<1>::Filled(radius)));
+    EXPECT_EQ(GenerateSquareImageNeighborhoodOffsets<2>(radius),
+              GenerateRectangularImageNeighborhoodOffsets(itk::Size<2>::Filled(radius)));
+    EXPECT_EQ(GenerateSquareImageNeighborhoodOffsets<3>(radius),
+              GenerateRectangularImageNeighborhoodOffsets(itk::Size<3>::Filled(radius)));
+  }
 }

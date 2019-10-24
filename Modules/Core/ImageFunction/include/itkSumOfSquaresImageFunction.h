@@ -121,7 +121,7 @@ public:
   void
   SetNeighborhoodRadius(unsigned int radius)
   {
-    m_NeighborhoodOffsets = Experimental::GenerateRectangularImageNeighborhoodOffsets(ImageSizeType::Filled(radius));
+    m_NeighborhoodOffsets = Experimental::GenerateSquareImageNeighborhoodOffsets<ImageDimension>(radius);
     m_NeighborhoodRadius = radius;
     m_NeighborhoodSize = m_NeighborhoodOffsets.size();
   }
@@ -138,8 +138,9 @@ private:
   unsigned int m_NeighborhoodRadius;
   unsigned int m_NeighborhoodSize;
 
-  std::vector<Offset<ImageDimension>> m_NeighborhoodOffsets{ Experimental::GenerateRectangularImageNeighborhoodOffsets(
-    ImageSizeType::Filled(1)) };
+  std::vector<Offset<ImageDimension>> m_NeighborhoodOffsets{
+    Experimental::GenerateSquareImageNeighborhoodOffsets<ImageDimension>(1)
+  };
 };
 } // end namespace itk
 

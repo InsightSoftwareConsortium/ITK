@@ -20,6 +20,7 @@
 #define itkImageNeighborhoodOffsets_h
 
 #include "itkRectangularImageNeighborhoodShape.h"
+#include "itkSquareImageNeighborhoodShape.h"
 #include <vector>
 
 namespace itk
@@ -46,6 +47,16 @@ GenerateRectangularImageNeighborhoodOffsets(const Size<VImageDimension> & radius
   const RectangularImageNeighborhoodShape<VImageDimension> shape(radius);
   return GenerateImageNeighborhoodOffsets(shape);
 }
+
+/** Generates the offsets for a square (or n-dimensional hypercubic) neighborhood. */
+template <unsigned VImageDimension>
+std::vector<Offset<VImageDimension>>
+GenerateSquareImageNeighborhoodOffsets(const std::size_t radius)
+{
+  const SquareImageNeighborhoodShape<VImageDimension> shape(radius);
+  return GenerateImageNeighborhoodOffsets(shape);
+}
+
 
 } // namespace Experimental
 } // namespace itk

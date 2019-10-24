@@ -155,7 +155,7 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   if (m_InitialNeighborhoodRadius > 0)
   {
     const auto neighborhoodOffsets =
-      Experimental::GenerateRectangularImageNeighborhoodOffsets(SizeType::Filled(m_InitialNeighborhoodRadius));
+      Experimental::GenerateSquareImageNeighborhoodOffsets<InputImageType::ImageDimension>(m_InitialNeighborhoodRadius);
     auto neighborhoodRange =
       Experimental::ShapedImageNeighborhoodRange<const InputImageType>(*inputImage, IndexType(), neighborhoodOffsets);
 
