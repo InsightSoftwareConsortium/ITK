@@ -125,8 +125,11 @@ static inline PixelFormat::ScalarType ComputeBestFit(const PixelFormat &pf, doub
   PixelFormat::ScalarType st = PixelFormat::UNKNOWN;
   assert( slope == (int)slope && intercept == (int)intercept);
 
-  const double min = slope * (double)pf.GetMin() + intercept;
-  const double max = slope * (double)pf.GetMax() + intercept;
+  assert( pf.GetMin() <= pf.GetMax() );
+  const double pfmin = slope >= 0 ? pf.GetMin() : pf.GetMax();
+  const double pfmax = slope >= 0 ? pf.GetMax() : pf.GetMin();
+  const double min = slope * pfmin + intercept;
+  const double max = slope * pfmax + intercept;
   assert( min <= max );
   assert( min == (int64_t)min && max == (int64_t)max );
   if( min >= 0 ) // unsigned
@@ -402,8 +405,14 @@ static PixelFormat ComputeInverseBestFitFromMinMax(/*const PixelFormat &pf,*/ do
   PixelFormat st = PixelFormat::UNKNOWN;
   //assert( slope == (int)slope && intercept == (int)intercept);
 
+  assert( _min <= _max );
   double dmin = (_min - intercept ) / slope;
   double dmax = (_max - intercept ) / slope;
+  if( slope < 0 )
+    {
+    dmin = (_max - intercept ) / slope;
+    dmax = (_min - intercept ) / slope;
+    }
   assert( dmin <= dmax );
   assert( dmax <= std::numeric_limits<int64_t>::max() );
   assert( dmin >= std::numeric_limits<int64_t>::min() );
@@ -484,6 +493,21 @@ static PixelFormat ComputeInverseBestFitFromMinMax(/*const PixelFormat &pf,*/ do
   assert( st != PixelFormat::UNKNOWN );
   assert( st != PixelFormat::FLOAT32 && st != PixelFormat::FLOAT16 && st != PixelFormat::FLOAT64 );
   return st;
+}
+
+void Rescaler::SetMinMaxForPixelType(double min, double max)
+{
+  if( min < max )
+  {
+    ScalarRangeMin = min;
+    ScalarRangeMax = max;
+  }
+  else
+  {
+    gdcmWarningMacro( "Min > Max. Correcting" );
+    ScalarRangeMin = max;
+    ScalarRangeMax = min;
+  }
 }
 
 PixelFormat Rescaler::ComputePixelTypeFromMinMax()
