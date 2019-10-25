@@ -23,7 +23,6 @@
 // compilation time errors for divide by zero and overflow
 extern const double itkFloatingPointExceptionsTest_double_zero;
 extern const double itkFloatingPointExceptionsTest_double_max;
-extern const int    itkFloatingPointExceptionsTest_int_zero;
 
 
 int
@@ -40,7 +39,6 @@ itkFloatingPointExceptionsTest(int argc, char * argv[])
   double double_zero = itkFloatingPointExceptionsTest_double_zero;
   double double_max = itkFloatingPointExceptionsTest_double_max;
   double test1 = itkFloatingPointExceptionsTest_double_zero;
-  int    int_zero = itkFloatingPointExceptionsTest_int_zero;
 
   std::string testName(argv[1]);
   if (testName == "DivByZero")
@@ -126,25 +124,5 @@ itkFloatingPointExceptionsTest(int argc, char * argv[])
     }
   }
 
-  if (testName == "IntDivByZero")
-  {
-    std::cout << "Testing integer divide by zero" << std::endl;
-    std::cout.flush();
-    try
-    {
-      int s = 1 / int_zero;
-      //
-      // should never reach here
-      std::cout << "Integer divide by zero Exception not caught"
-                << " result is " << s << std::endl;
-      error_return++;
-    }
-    catch (itk::ExceptionObject & e)
-    {
-      std::cout << "Integer divide by zero  exception caught" << std::endl;
-      std::cout << e;
-      std::cout.flush();
-    }
-  }
   return error_return;
 }

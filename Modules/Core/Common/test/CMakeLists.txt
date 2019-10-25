@@ -547,19 +547,14 @@ if("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin|Linux")
     itkFloatingPointExceptionsTest FPOverFlow)
   itk_add_test(NAME itkFloatingPointExceptionsTest4 COMMAND ITKCommon1TestDriver
     itkFloatingPointExceptionsTest FPUnderFlow)
-  itk_add_test(NAME itkFloatingPointExceptionsTest5 COMMAND ITKCommon1TestDriver
-    itkFloatingPointExceptionsTest IntDivByZero)
 
   set_tests_properties(
     itkFloatingPointExceptionsTest1
     itkFloatingPointExceptionsTest2
     itkFloatingPointExceptionsTest3
     itkFloatingPointExceptionsTest4
-    itkFloatingPointExceptionsTest5
     PROPERTIES WILL_FAIL TRUE
     )
-
-  itk_memcheck_ignore(itkFloatingPointExceptionsTest5)
 
 endif()
 

@@ -19,4 +19,3 @@
 
 extern const double itkFloatingPointExceptionsTest_double_zero = 0.0;
 extern const double itkFloatingPointExceptionsTest_double_max = DBL_MAX;
-extern const int    itkFloatingPointExceptionsTest_int_zero = 0;
