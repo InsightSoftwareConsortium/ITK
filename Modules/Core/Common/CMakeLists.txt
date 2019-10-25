@@ -40,10 +40,6 @@ check_include_files("unistd.h" HAVE_UNISTD_H)
 include(CheckSupportForSSERounding)
 
 
-# Test for atomics and other compiler intrinsics
-include(itkCheckBuiltins)
-
-
 # Check for atomic functions
 include(CheckSymbolExists)
 if(WIN32 AND NOT MINGW)
