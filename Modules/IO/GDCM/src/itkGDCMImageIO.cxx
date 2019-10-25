@@ -92,6 +92,8 @@ GDCMImageIO::GDCMImageIO()
 
   m_LoadPrivateTags = false;
 
+  m_ReadYBRtoRGB = true;
+
   m_InternalComponentType = UNKNOWNCOMPONENTTYPE;
 
   // by default assume that images will be 2D.
@@ -188,6 +190,16 @@ readNoPreambleDicom(std::ifstream & file) // NOTE: This file is duplicated in it
   ::itk::OutputWindowDisplayDebugText(itkmsg.str().c_str());
 #endif
   return true;
+}
+
+static void
+YCbCr_to_RGB(unsigned char * p, const size_t len)
+{
+  for (size_t x = 0; x < len; x += 3)
+  {
+    const unsigned char in[] = { p[x], p[x + 1], p[x + 2] };
+    gdcm::ImageChangePhotometricInterpretation::YBR2RGB<unsigned char>(&p[x], in);
+  }
 }
 
 // This method will only test if the header looks like a
@@ -302,18 +314,6 @@ GDCMImageIO::Read(void * pointer)
     image = ialut.GetOutput();
     len *= 3;
   }
-  else if (pi == gdcm::PhotometricInterpretation::YBR_FULL ||
-           pi == gdcm::PhotometricInterpretation::YBR_FULL_422)
-  {
-    // ITK does not carry color space associated with an image. It is pretty
-    // much assumed that color image is expressed in RGB.
-    gdcm::ImageChangePhotometricInterpretation icpi;
-    icpi.SetInput(image);
-    icpi.SetPhotometricInterpretation( gdcm::PhotometricInterpretation::RGB );
-    icpi.Change();
-    itkWarningMacro(<< "Converting from integer YBR to integer RGB is a lossy operation.");
-    image = icpi.GetOutput();
-  }
 
   if (!image.GetBuffer((char *)pointer))
   {
@@ -343,6 +343,21 @@ GDCMImageIO::Read(void * pointer)
     delete[] copy;
     // WARNING: sizeof(Real World Value) != sizeof(Stored Pixel)
     len = len * outputpt.GetPixelSize() / pixeltype.GetPixelSize();
+  }
+
+  // Y'CbCr to RGB
+  // GDCM 3.0.3
+  const bool ybr =
+    m_NumberOfComponents == 3 &&
+    (pi == gdcm::PhotometricInterpretation::YBR_FULL || pi == gdcm::PhotometricInterpretation::YBR_FULL_422) &&
+    (pixeltype == gdcm::PixelFormat::UINT8 || pixeltype == gdcm::PixelFormat::INT8);
+  if (ybr && m_ReadYBRtoRGB)
+  {
+    if (len % 3 != 0)
+    {
+      itkExceptionMacro(<< "Buffer size " << len << " is not valid");
+    }
+    YCbCr_to_RGB(reinterpret_cast<unsigned char *>(pointer), static_cast<size_t>(len));
   }
 
 #ifndef NDEBUG
@@ -473,27 +488,43 @@ GDCMImageIO::InternalReadImageInformation()
   }
 
   m_NumberOfComponents = pixeltype.GetSamplesPerPixel();
-  if (image.GetPhotometricInterpretation() == gdcm::PhotometricInterpretation::PALETTE_COLOR)
+
+  const gdcm::PhotometricInterpretation & pi = image.GetPhotometricInterpretation();
+  if (pi == gdcm::PhotometricInterpretation::PALETTE_COLOR)
   {
+    // PALETTE_COLOR is always expanded in RGB image
     itkAssertInDebugAndIgnoreInReleaseMacro(m_NumberOfComponents == 1);
-    // TODO: need to do the LUT ourself...
-    // itkExceptionMacro(<< "PALETTE_COLOR is not implemented yet");
-    // AFAIK ITK user don't care about the palette so always apply it and fake a
-    // RGB image for them
     m_NumberOfComponents = 3;
   }
   if (m_NumberOfComponents == 1)
   {
     this->SetPixelType(SCALAR);
   }
+  else if (m_NumberOfComponents == 3)
+  {
+    // GDCM 3.0.3
+    const bool rgb_from_ybr =
+      m_ReadYBRtoRGB &&
+      (pi == gdcm::PhotometricInterpretation::YBR_FULL || pi == gdcm::PhotometricInterpretation::YBR_FULL_422) &&
+      (outputpt == gdcm::PixelFormat::UINT8 || outputpt == gdcm::PixelFormat::INT8);
+    const bool ybr_jp2 =
+      pi == gdcm::PhotometricInterpretation::YBR_ICT || pi == gdcm::PhotometricInterpretation::YBR_RCT;
+    const bool rgb = pi == gdcm::PhotometricInterpretation::RGB ||
+                     pi == gdcm::PhotometricInterpretation::PALETTE_COLOR || rgb_from_ybr || ybr_jp2;
+    if (rgb)
+    {
+      this->SetPixelType(RGB);
+    }
+    else
+    {
+      this->SetPixelType(VECTOR);
+    }
+  }
   else
   {
-    this->SetPixelType(RGB); // What if image is YBR ? This is a problem since
-                             // integer conversion is lossy
+    this->SetPixelType(VECTOR);
   }
 
-  // set values in case we don't find them
-  // this->SetNumberOfDimensions(  image.GetNumberOfDimensions() );
   m_Dimensions[0] = dims[0];
   m_Dimensions[1] = dims[1];
 
@@ -523,10 +554,10 @@ GDCMImageIO::InternalReadImageInformation()
       gdcm::Tag           spacingTag(0x0028, 0x0030);
       if (ds.FindDataElement(spacingTag) && !ds.GetDataElement(spacingTag).IsEmpty())
       {
-        gdcm::DataElement de = ds.GetDataElement(spacingTag);
-        std::stringstream m_Ss;
+        gdcm::DataElement                            de = ds.GetDataElement(spacingTag);
+        std::stringstream                            m_Ss;
         gdcm::Element<gdcm::VR::DS, gdcm::VM::VM1_n> m_El;
-        const gdcm::ByteValue * bv = de.GetByteValue();
+        const gdcm::ByteValue *                      bv = de.GetByteValue();
         assert(bv);
         std::string s = std::string(bv->GetPointer(), bv->GetLength());
         m_Ss.str(s);
