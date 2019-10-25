@@ -152,7 +152,7 @@ public:
   void
   Execute(itk::Object * caller, const itk::EventObject & event) override
   {
-    Execute((const itk::Object *)caller, event);
+    Execute(static_cast<const itk::Object *>(caller), event);
   }
 
   void
@@ -165,7 +165,7 @@ public:
       return;
     }
 
-    std::cout << '.' << std::flush; // minimal progress feedback
+    std::cout << ' ' << filter->GetElapsedIterations() << std::flush;
   }
 };
 
@@ -190,9 +190,9 @@ GetLogBiasField(typename itk::Image<PixelType, Dimension>::Pointer scalarImage,
   using CorrecterType = itk::N4BiasFieldCorrectionImageFilter<RealImageType>;
   typename CorrecterType::Pointer correcter = CorrecterType::New();
   correcter->SetSplineOrder(splineOrder);
-  correcter->SetWienerFilterNoise(0.01);
-  correcter->SetBiasFieldFullWidthAtHalfMaximum(0.15);
-  correcter->SetConvergenceThreshold(0.00001);
+  correcter->SetWienerFilterNoise(0.01f);
+  correcter->SetBiasFieldFullWidthAtHalfMaximum(0.15f);
+  correcter->SetConvergenceThreshold(0.00001f);
 
   typename CorrecterType::VariableSizeArrayType maximumNumberOfIterations(
     static_cast<typename CorrecterType::VariableSizeArrayType::SizeValueType>(iterations.size()));
@@ -203,8 +203,7 @@ GetLogBiasField(typename itk::Image<PixelType, Dimension>::Pointer scalarImage,
   correcter->SetMaximumNumberOfIterations(maximumNumberOfIterations);
 
   typename CorrecterType::ArrayType numberOfFittingLevels;
-  numberOfFittingLevels.Fill(
-    static_cast<typename CorrecterType::VariableSizeArrayType::SizeValueType>(iterations.size()));
+  numberOfFittingLevels.Fill(iterations.size());
   correcter->SetNumberOfFittingLevels(numberOfFittingLevels);
 
   typename CorrecterType::ArrayType numberOfControlPoints;
@@ -323,8 +322,6 @@ CorrectBias(typename itk::Image<PixelType, Dimension>::Pointer image,
   mt->ParallelizeImageRegion<Dimension>(
     region,
     [mulField, diff](const typename ImageType::RegionType & subRegion) {
-      double threadSum = 0.0;
-
       itk::ImageRegionIterator<RealImageType> ItM(mulField, subRegion);
       for (ItM.GoToBegin(); !ItM.IsAtEnd(); ++ItM)
       {
@@ -471,8 +468,8 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
   std::cout << "Writing transform for each input tile...";
   for (size_t t = 0; t < stageTiles.LinearSize(); t++)
   {
-    typename MontageType::TileIndexType ind = stageTiles.LinearIndexToNDIndex(t);
-    const TransformType *               regTr = montage->GetOutputTransform(ind);
+    ind = stageTiles.LinearIndexToNDIndex(t);
+    const TransformType * regTr = montage->GetOutputTransform(ind);
     WriteTransform(regTr, outputPath + stageTiles.Tiles[t].FileName + ".tfm");
 
     // set inputs to resampler class
