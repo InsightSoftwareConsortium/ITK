@@ -331,6 +331,21 @@ GDCMImageIO::Read(void * pointer)
     image = ialut.GetOutput();
     len *= 3;
   }
+  else if (pi == gdcm::PhotometricInterpretation::MONOCHROME1)
+  {
+    // ITK does not carry color space associated with an image. It is pretty
+    // much assumed that scalar image is expressed in MONOCHROME2 (aka min-is-black)
+    gdcm::ImageChangePhotometricInterpretation icpi;
+    icpi.SetInput(image);
+    icpi.SetPhotometricInterpretation(gdcm::PhotometricInterpretation::MONOCHROME2);
+    if (!icpi.Change())
+    {
+      itkExceptionMacro(<< "Failed to change to Photometric Interpretation");
+    }
+    itkWarningMacro(<< "Converting from MONOCHROME1 to MONOCHROME2 may impact the meaning of DICOM attributes related "
+                       "to pixel values.");
+    image = icpi.GetOutput();
+  }
 
   if (!image.GetBuffer((char *)pointer))
   {
