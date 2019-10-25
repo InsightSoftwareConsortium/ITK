@@ -27,10 +27,6 @@ NumericSeriesFileNames ::NumericSeriesFileNames()
   : m_SeriesFormat("%d")
 {}
 
-#if defined(_MSC_VER)
-#  define snprintf _snprintf
-#endif // _MSC_VER
-
 const std::vector<std::string> &
 NumericSeriesFileNames ::GetFileNames()
 {

@@ -180,14 +180,11 @@ PNGImageIO::Read(void * buffer)
     itkExceptionMacro("File is not png type " << this->GetFileName());
   }
 
-  //  VS 7.1 has problems with setjmp/longjmp in C++ code
-#if !defined(MSC_VER) || _MSC_VER != 1310
   if (wrapSetjmp(png_ptr))
   {
     png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
     itkExceptionMacro("File is not png type " << this->GetFileName());
   }
-#endif
 
   png_init_io(png_ptr, fp);
   png_set_sig_bytes(png_ptr, 8);
@@ -574,15 +571,12 @@ PNGImageIO::WriteSlice(const std::string & fileName, const void * buffer)
 
   png_init_io(png_ptr, fp);
 
-//  VS 7.1 has problems with setjmp/longjmp in C++ code
-#if !defined(_MSC_VER) || _MSC_VER != 1310
   png_set_error_fn(png_ptr, (png_voidp) nullptr, itkPNGWriteErrorFunction, itkPNGWriteWarningFunction);
   if (wrapSetjmp(png_ptr))
   {
     itkExceptionMacro("Error while writing Slice to file: " << this->GetFileName() << std::endl
                                                             << "Reason: " << itksys::SystemTools::GetLastSystemError());
   }
-#endif
 
   int          colorType;
   unsigned int numComp = this->GetNumberOfComponents();
