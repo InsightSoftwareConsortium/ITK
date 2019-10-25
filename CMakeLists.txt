@@ -498,6 +498,10 @@ endif()
 install(FILES "LICENSE" "NOTICE" "README.md" DESTINATION ${ITK_INSTALL_DOC_DIR} COMPONENT Runtime)
 
 if(BUILD_TESTING)
+  # If building the testing, write the test costs (i.e. time to run)
+  # analysis to disk to more easily review long-running test times
+  set(CTEST_COST_DATA_FILE "${CMAKE_BINARY_DIR}/test_cost.list" CACHE FILEPATH "Configurable path to CTest cost data file.")
+  mark_as_advanced(CTEST_COST_DATA_FILE)
   add_subdirectory(Utilities/InstallTest)
 endif()
 

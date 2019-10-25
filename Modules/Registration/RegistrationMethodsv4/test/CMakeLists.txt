@@ -48,6 +48,7 @@ itk_add_test(NAME itkSimpleImageRegistrationTestDouble
               10 # number of deformable iterations
               )
 set_property(TEST itkSimpleImageRegistrationTestDouble APPEND PROPERTY LABELS RUNS_LONG)
+set_tests_properties(itkSimpleImageRegistrationTestDouble PROPERTIES COST 30)
 
 itk_add_test(NAME itkSimpleImageRegistrationTestFloat
       COMMAND ITKRegistrationMethodsv4TestDriver
@@ -66,6 +67,7 @@ itk_add_test(NAME itkSimpleImageRegistrationTestFloat
               10 # number of deformable iterations
               )
 set_property(TEST itkSimpleImageRegistrationTestFloat APPEND PROPERTY LABELS RUNS_LONG)
+set_tests_properties(itkSimpleImageRegistrationTestFloat PROPERTIES COST 30)
 
 itk_add_test(NAME itkSimpleImageRegistrationTestWithMaskAndSamplingDouble
       COMMAND ITKRegistrationMethodsv4TestDriver
@@ -289,3 +291,4 @@ itk_add_test(NAME itkBSplineImageRegistrationTest
               10 # number of deformable iterations
               )
 set_property(TEST itkBSplineImageRegistrationTest APPEND PROPERTY LABELS RUNS_LONG)
+set_tests_properties( itkBSplineImageRegistrationTest PROPERTIES COST 30 )
