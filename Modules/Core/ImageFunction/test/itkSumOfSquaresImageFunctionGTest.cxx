@@ -137,5 +137,5 @@ TEST(SumOfSquaresImageFunction, EvaluateAtCenterPixelOfImageOfSize3x3)
 
   // Note that in this particular case, the image and the neighborhood have the same size!
 
-  EXPECT_EQ(imageFunction->EvaluateAtIndex(itk::Index<>{ 1, 1 }), expectedResult);
+  EXPECT_EQ(imageFunction->EvaluateAtIndex(itk::Index<>{ { 1, 1 } }), expectedResult);
 }
