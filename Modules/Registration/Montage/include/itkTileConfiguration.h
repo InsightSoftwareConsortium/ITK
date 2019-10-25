@@ -176,7 +176,6 @@ struct ITK_TEMPLATE_EXPORT TileConfiguration
       // check consistency with previously established size
       for (unsigned d = 0; d < maxAxis; d++)
       {
-        SizeValueType axisSize = (d == maxAxis - 1) ? AxisSizes[d] : AxisSizes[d] - 1;
         itkAssertOrThrowMacro(cInd[d] == AxisSizes[d] - 1,
                               "Axis sizes: " << AxisSizes << " current index: " << cInd
                                              << ". We have reached the end along axis " << maxAxis
