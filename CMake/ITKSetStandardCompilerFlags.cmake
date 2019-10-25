@@ -242,7 +242,7 @@ function(check_compiler_optimization_flags c_optimization_flags_var cxx_optimiza
        # https://gcc.gnu.org/onlinedocs/gcc-4.8.0/gcc/i386-and-x86_002d64-Options.html
        # NOTE the corei7 release date was 2008
        -mtune=native # Tune the code for the computer used compile ITK, but allow running on generic cpu archetectures
-       -march=corei7 # Use ABI settings to support corei7 (circa 2008 ABI feature sets, core-avx circa 2013)
+       -march=native # Use ABI settings to support corei7 (circa 2008 ABI feature sets, core-avx circa 2013)
        )
   endif()
   set(c_and_cxx_flags ${InstructionSetOptimizationFlags})
