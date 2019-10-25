@@ -402,9 +402,17 @@ set(ITK_DATA_ROOT ${ITK_SOURCE_DIR}/Testing/Data)
 # Location of ITK Example Data.
 set(ITK_EXAMPLE_DATA_ROOT "${ITK_SOURCE_DIR}/Examples/Data")
 
-#This flag is used in particular, to enable some tests that require large memory to run.
-# This probably can be discovered at configuration time by CMake. (Check with CMake developers).
-set(ITK_COMPUTER_MEMORY_SIZE 1 CACHE STRING "Provide here the size of your RAM in gibibytes")
+# This flag is used in particular, to enable some tests that require large memory to run.
+# Test that have significant memory requirements should use
+# "set_tests_properties( testname PROPERTIES RESOURCE_LOCK MEMORY_SIZE )",
+# so that only 1 of the memory constrained tests is run at a time.  (NOTE: Other low
+# memory tests that do not have the RESOURCE_LOCK requirement can be run at the same time.)
+# Allow for tests that may use upto 80% of the computer memory to be used for testing.
+cmake_host_system_information(RESULT ITK_COMPUTER_MEMORY_AVAILABLE_MB QUERY TOTAL_PHYSICAL_MEMORY)
+math(EXPR EIGHTY_PERCENT_AVAILABLE_MEMORY_IN_GB "(${ITK_COMPUTER_MEMORY_AVAILABLE_MB} * 80) / ( 1024 * 100)" )
+set(ITK_COMPUTER_MEMORY_SIZE ${EIGHTY_PERCENT_AVAILABLE_MEMORY_IN_GB} CACHE STRING "Provide here the size of your RAM in gibibytes")
+unset(EIGHTY_PERCENT_AVAILABLE_MEMORY_IN_GB)
+unset(ITK_COMPUTER_MEMORY_AVAILABLE_MB)
 mark_as_advanced(ITK_COMPUTER_MEMORY_SIZE)
 
 #This flag sets the floating point type used in itk::ImageBase for
