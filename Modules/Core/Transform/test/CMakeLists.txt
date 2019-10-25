@@ -172,7 +172,8 @@ itk_add_test(NAME itkMultiTransformTest
       COMMAND ITKTransformTestDriver itkMultiTransformTest)
 itk_add_test(NAME itkTestTransformGetInverse
   COMMAND ITKTransformTestDriver itkTestTransformGetInverse)
-
+set_property(TEST itkTestTransformGetInverse APPEND PROPERTY LABELS RUNS_LONG)
+set_tests_properties( itkTestTransformGetInverse PROPERTIES COST 50 )
 
 set(ITKTransformGTests
   itkBSplineTransformGTest.cxx

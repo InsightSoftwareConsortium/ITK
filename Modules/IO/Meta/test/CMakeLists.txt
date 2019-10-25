@@ -163,6 +163,7 @@ if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5 )
                        PROPERTIES
                        LABELS BigIO
                        RESOURCE_LOCK MEMORY_SIZE
+                       COST 10
                       )
   set_property(TEST itkLargeMetaImageWriteReadTest1 APPEND PROPERTY LABELS RUNS_LONG)
   set_property(TEST itkLargeMetaImageWriteReadTest2 APPEND PROPERTY LABELS RUNS_LONG)
@@ -182,6 +183,7 @@ if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12 )
     PROPERTIES
     LABELS BigIO
     RESOURCE_LOCK MEMORY_SIZE
+    COST 30
     )
   set_property(TEST itkLargeMetaImageWriteReadTest4 APPEND PROPERTY LABELS RUNS_LONG)
 
