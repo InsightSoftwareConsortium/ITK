@@ -109,6 +109,10 @@ ChildTreeIterator<TTreeType>::Next()
 {
   m_ListPosition++;
   this->m_Position = m_ParentNode->GetChild(m_ListPosition);
+  if (this->m_Position == nullptr)
+  {
+    return this->m_Root->Get(); // value irrelevant, but we have to return something
+  }
   return this->m_Position->Get();
 }
 
