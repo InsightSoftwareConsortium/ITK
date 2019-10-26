@@ -582,29 +582,29 @@ OutputWindowDisplayDebugText(const char *);
 //                               itkMyClass::MyOtherMethod);
 //     }
 //   #endif
-#if defined(ITK_LEGACY_REMOVE)
+//
+//   NOTE: These 4 macros itkLegacyBodyMacro, itkLegacyReplaceBodyMacro,
+//         itkGenericLegacyBodyMacro, and itkGenericLegacyReplaceBodyMacro
+//         are purposefully not defined when ITK_LEGACY_REMOVE is on,
+//         because these macros are only relevant inside code segments
+//         that are conditionally compiled only when ITK_LEGACY_REMOVE
+//         is off.
+#if defined(ITK_LEGACY_SILENT)
 #  define itkLegacyBodyMacro(method, version)
 #  define itkLegacyReplaceBodyMacro(method, version, replace)
 #  define itkGenericLegacyBodyMacro(method, version)
 #  define itkGenericLegacyReplaceBodyMacro(method, version, replace)
 #else
-#  if defined(ITK_LEGACY_SILENT)
-#    define itkLegacyBodyMacro(method, version) method
-#    define itkLegacyReplaceBodyMacro(method, version, replace) method
-#    define itkGenericLegacyBodyMacro(method, version) method
-#    define itkGenericLegacyReplaceBodyMacro(method, version, replace) method
-#  else
-#    define itkLegacyBodyMacro(method, version)                                                                        \
-      itkWarningMacro(#method " was deprecated for ITK " #version " and will be removed in a future version.")
-#    define itkLegacyReplaceBodyMacro(method, version, replace)                                                        \
-      itkWarningMacro(#method " was deprecated for ITK " #version                                                      \
-                              " and will be removed in a future version.  Use " #replace " instead.")
-#    define itkGenericLegacyBodyMacro(method, version)                                                                 \
-      itkGenericOutputMacro(#method " was deprecated for ITK " #version " and will be removed in a future version.")
-#    define itkGenericLegacyReplaceBodyMacro(method, version, replace)                                                 \
-      itkGenericOutputMacro(#method " was deprecated for ITK " #version                                                \
-                                    " and will be removed in a future version.  Use " #replace " instead.")
-#  endif
+#  define itkLegacyBodyMacro(method, version)                                                                          \
+    itkWarningMacro(#method " was deprecated for ITK " #version " and will be removed in a future version.")
+#  define itkLegacyReplaceBodyMacro(method, version, replace)                                                          \
+    itkWarningMacro(#method " was deprecated for ITK " #version                                                        \
+                            " and will be removed in a future version.  Use " #replace " instead.")
+#  define itkGenericLegacyBodyMacro(method, version)                                                                   \
+    itkGenericOutputMacro(#method " was deprecated for ITK " #version " and will be removed in a future version.")
+#  define itkGenericLegacyReplaceBodyMacro(method, version, replace)                                                   \
+    itkGenericOutputMacro(#method " was deprecated for ITK " #version                                                  \
+                                  " and will be removed in a future version.  Use " #replace " instead.")
 #endif
 
 // Most modern x86 CPUs have 64 byte aligned blocks which are used for
