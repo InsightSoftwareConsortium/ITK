@@ -219,8 +219,8 @@ struct ITK_TEMPLATE_EXPORT TileConfiguration
 
     tileFile << "# Tile coordinates are in index space, not physical space\n";
     tileFile << "dim = " << Dimension << "\n\n";
-    char                             buffer[20];
-    double_conversion::StringBuilder conversionResult(buffer, 20);
+    char                             buffer[25];
+    double_conversion::StringBuilder conversionResult(buffer, 25);
 
     size_t totalTiles = this->LinearSize();
     for (SizeValueType linearIndex = 0; linearIndex < totalTiles; linearIndex++)
