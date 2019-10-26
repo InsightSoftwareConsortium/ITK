@@ -53,7 +53,6 @@ TreeIteratorBase<TTreeType>::TreeIteratorBase(TTreeType * tree, const TreeNodeTy
   m_Position = const_cast<TreeNodeType *>(m_Root);
   m_Tree = tree;
   m_Begin = m_Position;
-  m_End = nullptr;
 }
 
 /** Constructor */
@@ -71,7 +70,6 @@ TreeIteratorBase<TTreeType>::TreeIteratorBase(const TTreeType * tree, const Tree
   m_Position = const_cast<TreeNodeType *>(m_Root);
   m_Tree = const_cast<TTreeType *>(tree);
   m_Begin = m_Position;
-  m_End = nullptr;
 }
 
 /** Return the current value of the node */

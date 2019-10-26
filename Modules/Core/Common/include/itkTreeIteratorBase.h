@@ -200,7 +200,7 @@ public:
   void
   GoToEnd()
   {
-    m_Position = m_End;
+    m_Position = nullptr;
   }
 
   /** Is the iterator at the beginning of the tree? */
@@ -210,12 +210,11 @@ public:
     return (m_Position == m_Begin);
   }
 
-  /** Is the iterator at the end of the tree?. The iterator is at the
-   * end if it points to nullptr */
+  /** Is the iterator at the end of the tree? */
   bool
   IsAtEnd() const
   {
-    return (m_Position == m_End);
+    return (m_Position == nullptr);
   }
 
   /** Clone the iterator */
@@ -245,7 +244,6 @@ public:
     {
       m_Position = iterator.m_Position;
       m_Begin = iterator.m_Begin;
-      m_End = iterator.m_End;
       m_Root = iterator.m_Root;
       m_Tree = iterator.m_Tree;
     }
@@ -261,7 +259,6 @@ protected:
 
   mutable TreeNodeType * m_Position; // Current position of the iterator
   mutable TreeNodeType * m_Begin;
-  mutable TreeNodeType * m_End;
   const TreeNodeType *   m_Root;
   TTreeType *            m_Tree;
 
