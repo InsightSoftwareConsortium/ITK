@@ -196,28 +196,43 @@ itkMontageTruthCreator(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  itk::ImageIOBase::Pointer imageIO =
-    itk::ImageIOFactory::CreateImageIO(argv[1], itk::ImageIOFactory::FileModeType::ReadMode);
-  imageIO->SetFileName(argv[1]);
-  imageIO->ReadImageInformation();
-  unsigned                                dim = imageIO->GetNumberOfDimensions();
-  const itk::ImageIOBase::IOComponentType cType = imageIO->GetComponentType();
+  try
+  {
+    itk::ImageIOBase::Pointer imageIO =
+      itk::ImageIOFactory::CreateImageIO(argv[1], itk::ImageIOFactory::FileModeType::ReadMode);
+    imageIO->SetFileName(argv[1]);
+    imageIO->ReadImageInformation();
+    unsigned                                dim = imageIO->GetNumberOfDimensions();
+    const itk::ImageIOBase::IOComponentType cType = imageIO->GetComponentType();
 
-  if (cType == itk::ImageIOBase::IOComponentType::UCHAR)
-  {
-    return CreateGroundTruth<unsigned char>(argc, argv, dim, imageIO->GetPixelType());
+    if (cType == itk::ImageIOBase::IOComponentType::UCHAR)
+    {
+      return CreateGroundTruth<unsigned char>(argc, argv, dim, imageIO->GetPixelType());
+    }
+    else if (cType == itk::ImageIOBase::IOComponentType::USHORT)
+    {
+      return CreateGroundTruth<unsigned short>(argc, argv, dim, imageIO->GetPixelType());
+    }
+    else if (cType == itk::ImageIOBase::IOComponentType::SHORT)
+    {
+      return CreateGroundTruth<short>(argc, argv, dim, imageIO->GetPixelType());
+    }
+    else
+    {
+      std::cerr << "Unsupported component type: " << itk::ImageIOBase::GetComponentTypeAsString(cType) << std::endl;
+    }
   }
-  else if (cType == itk::ImageIOBase::IOComponentType::USHORT)
+  catch (itk::ExceptionObject & exc)
   {
-    return CreateGroundTruth<unsigned short>(argc, argv, dim, imageIO->GetPixelType());
+    std::cerr << exc;
   }
-  else if (cType == itk::ImageIOBase::IOComponentType::SHORT)
+  catch (std::runtime_error & exc)
   {
-    return CreateGroundTruth<short>(argc, argv, dim, imageIO->GetPixelType());
+    std::cerr << exc.what();
   }
-  else
+  catch (...)
   {
-    std::cerr << "Unsupported component type: " << itk::ImageIOBase::GetComponentTypeAsString(cType) << std::endl;
-    return EXIT_FAILURE;
+    std::cerr << "Unknown error has occurred" << std::endl;
   }
+  return EXIT_FAILURE;
 }
