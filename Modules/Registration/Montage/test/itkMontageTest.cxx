@@ -149,17 +149,33 @@ itkMontageTest(int argc, char * argv[])
     inputPath += '/';
   }
 
-  unsigned dim;
-  itk::TileConfiguration<2>::TryParse(inputPath + "TileConfiguration.txt", dim);
-
-  switch (dim)
+  try
   {
-    case 2:
-      return itkMontageTestHelper<2>(argc, argv, inputPath);
-    case 3:
-      return itkMontageTestHelper<3>(argc, argv, inputPath);
-    default:
-      std::cerr << "Only dimensions 2 and 3 are supported. You are attempting to montage dimension " << dim;
-      return EXIT_FAILURE;
+    unsigned dim;
+    itk::TileConfiguration<2>::TryParse(inputPath + "TileConfiguration.txt", dim);
+
+    switch (dim)
+    {
+      case 2:
+        return itkMontageTestHelper<2>(argc, argv, inputPath);
+      case 3:
+        return itkMontageTestHelper<3>(argc, argv, inputPath);
+      default:
+        std::cerr << "Only dimensions 2 and 3 are supported. You are attempting to montage dimension " << dim;
+        return EXIT_FAILURE;
+    }
   }
+  catch (itk::ExceptionObject & exc)
+  {
+    std::cerr << exc;
+  }
+  catch (std::runtime_error & exc)
+  {
+    std::cerr << exc.what();
+  }
+  catch (...)
+  {
+    std::cerr << "Unknown error has occurred" << std::endl;
+  }
+  return EXIT_FAILURE;
 }
