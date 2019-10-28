@@ -173,3 +173,14 @@ itk_add_test(NAME itkGDCMImageReadWriteTest_RGB
       DATA{${ITK_DATA_ROOT}/Input/RGBDicomTest.dcm}
       ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadWriteTest_RGB.mha
       rgb)
+
+itk_add_test(NAME itkGDCMImageReadWriteTest_JPEGBaseline1
+  COMMAND ITKIOGDCMTestDriver
+    --compareIntensityTolerance 5
+    --compareNumberOfPixelsTolerance 71
+    --compare DATA{Baseline/itkGDCMImageReadWriteTest_RGB.mha}
+      ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadWriteTest_JPEGBaseline1.mha
+    itkGDCMImageReadWriteTest
+      DATA{Input/JPEGBaseline1DicomTest.dcm}
+      ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadWriteTest_JPEGBaseline1.mha
+      rgb)
