@@ -102,6 +102,15 @@ protected:
    *     BoxImageFilter::GenerateData() */
   void
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
+private:
+  template <typename TPixelAccessPolicy>
+  static void
+  GenerateDataInSubregion(const TInputImage &                       inputImage,
+                          TOutputImage &                            outputImage,
+                          const ImageRegion<InputImageDimension> &  imageRegion,
+                          const Offset<InputImageDimension> * const neighborhoodOffsets,
+                          const std::size_t                         neighborhoodSize);
 };
 } // end namespace itk
 
