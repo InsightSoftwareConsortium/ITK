@@ -151,7 +151,7 @@ public:
 
     m_Rank = svd.rank();
 
-    const auto y{ m_B.as_vector() - m_A * iP.GetVnlVector() };
+    const auto y = (m_B.as_vector() - m_A * iP.GetVnlVector());
 
     VNLVectorType displacement = svd.solve(y);
 
