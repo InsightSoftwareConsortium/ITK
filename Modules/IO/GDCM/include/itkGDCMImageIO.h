@@ -183,52 +183,52 @@ public:
    * Instead user are encourage to use directly the GetValueFromTag function
    */
   void
-  GetPatientName(char * name);
+  GetPatientName(char * name, size_t len = 512);
 
   void
-  GetPatientID(char * id);
+  GetPatientID(char * id, size_t len = 512);
 
   void
-  GetPatientSex(char * sex);
+  GetPatientSex(char * sex, size_t len = 512);
 
   void
-  GetPatientAge(char * age);
+  GetPatientAge(char * age, size_t len = 512);
 
   void
-  GetStudyID(char * id);
+  GetStudyID(char * id, size_t len = 512);
 
   void
-  GetPatientDOB(char * dob);
+  GetPatientDOB(char * dob, size_t len = 512);
 
   void
-  GetStudyDescription(char * desc);
+  GetStudyDescription(char * desc, size_t len = 512);
 
   void
-  GetBodyPart(char * part);
+  GetBodyPart(char * part, size_t len = 512);
 
   void
-  GetNumberOfSeriesInStudy(char * series);
+  GetNumberOfSeriesInStudy(char * series, size_t len = 512);
 
   void
-  GetNumberOfStudyRelatedSeries(char * series);
+  GetNumberOfStudyRelatedSeries(char * series, size_t len = 512);
 
   void
-  GetStudyDate(char * date);
+  GetStudyDate(char * date, size_t len = 512);
 
   void
-  GetModality(char * modality);
+  GetModality(char * modality, size_t len = 512);
 
   void
-  GetManufacturer(char * manu);
+  GetManufacturer(char * manu, size_t len = 512);
 
   void
-  GetInstitution(char * ins);
+  GetInstitution(char * ins, size_t len = 512);
 
   void
-  GetModel(char * model);
+  GetModel(char * model, size_t len = 512);
 
   void
-  GetScanOptions(char * options);
+  GetScanOptions(char * options, size_t len = 512);
 #endif
 
   /** More general method to retrieve an arbitrary DICOM value based
