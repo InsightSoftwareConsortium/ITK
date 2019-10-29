@@ -184,3 +184,24 @@ itk_add_test(NAME itkGDCMImageReadWriteTest_JPEGBaseline1
       DATA{Input/JPEGBaseline1DicomTest.dcm}
       ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadWriteTest_JPEGBaseline1.mha
       rgb)
+
+function(AddComplianceTest fileName)
+  itk_add_test(NAME itkGDCM_ComplianceTestRGB_${fileName}
+    COMMAND ITKIOGDCMTestDriver
+      --compareIntensityTolerance 3
+      --compareCoordinateTolerance 0.001
+      --compare DATA{Baseline/Lily.png}
+        ${ITK_TEST_OUTPUT_DIR}/itkGDCM_ComplianceTestRGB_${fileName}.mha
+      itkGDCMImageReadWriteTest
+        DATA{Input/Lily/${fileName}.dcm}
+        ${ITK_TEST_OUTPUT_DIR}/itkGDCM_ComplianceTestRGB_${fileName}.mha
+        rgb)
+endfunction()
+
+AddComplianceTest(JPEGLS-RGB)
+AddComplianceTest(losslessJPEG-RGB)
+AddComplianceTest(lossyJPEG-YBR_FULL_422)
+AddComplianceTest(raw-RGB)
+AddComplianceTest(raw-YBR_FULL)
+AddComplianceTest(raw-YBR_FULL_422)
+AddComplianceTest(RLE-RGB)
