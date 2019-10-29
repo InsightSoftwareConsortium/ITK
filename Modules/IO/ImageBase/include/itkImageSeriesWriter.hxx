@@ -29,10 +29,6 @@
 #include "vnl/algo/vnl_determinant.h"
 #include <cstdio>
 
-#if defined(_MSC_VER)
-#  define snprintf _snprintf
-#endif // _MSC_VER
-
 namespace itk
 {
 //---------------------------------------------------------

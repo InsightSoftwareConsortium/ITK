@@ -27,7 +27,7 @@
  * loops iterating too many times.  This turns off optimization to
  * allow the tests to pass.
  */
-#if _MSC_VER == 1900
+#if defined(_MSC_VER) && (_MSC_VER == 1900)
 #  pragma optimize("", off)
 #endif
 
