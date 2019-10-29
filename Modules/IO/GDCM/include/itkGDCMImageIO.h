@@ -28,14 +28,16 @@
 #ifndef itkGDCMImageIO_h
 #define itkGDCMImageIO_h
 
-#if !defined(ITK_LEGACY_REMOVE)
-#  define ITKIO_DEPRECATED_GDCM1_API
-#endif
-
 #include "itkImageIOBase.h"
 #include "ITKIOGDCMExport.h"
 #include <fstream>
 #include <string>
+
+
+#if !defined(ITK_LEGACY_REMOVE)
+#  define ITKIO_DEPRECATED_GDCM1_API
+#endif
+
 
 namespace itk
 {
