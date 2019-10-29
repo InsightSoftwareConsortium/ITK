@@ -3,6 +3,11 @@ itk_wrap_include("itkDefaultDynamicMeshTraits.h")
 
 UNIQUE(types "${WRAP_ITK_SCALAR};D")
 
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkMesh.h")
+itk_wrap_simple_class("itk::MeshClassCellsAllocationMethodType" ENUM)
+set(WRAPPER_AUTO_INCLUDE_HEADERS ON)
+
 itk_wrap_class("itk::Mesh" POINTER)
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${types})

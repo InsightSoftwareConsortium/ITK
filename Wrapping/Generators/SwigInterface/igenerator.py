@@ -87,16 +87,6 @@ class SwigInputGenerator(object):
         "itk::ThreadPoolGlobals",
         "itk::MultiThreaderBaseGlobals",
 
-        "itk::ExtractImageFilterCollapseStrategy",
-        "itk::EnumGaussianOrderType",
-        "itk::MeshClassCellsAllocationMethodType",
-        "itk::DTITubeSpatialObjectPointFieldEnumType",
-        "itk::RGBColormapFilterEnumType",
-        "itk::ConvolutionImageFilterOutputRegionType",
-        "itk::MeshClassCellsAllocationMethodType",
-        "itk::SourceTypeOfGradient",
-        "itk::ChoiceMethod",
-
         ".+[(][*][)][(].+" # functor functions
     ]
 
@@ -585,13 +575,13 @@ class SwigInputGenerator(object):
         self.outputFile.write("%{\n")
         self.outputFile.write("using namespace %s;\n" % ns)
         self.outputFile.write("%}\n")
-        content = [" %s = %i" % (key, value) for key, value in enum.values]
-        self.outputFile.write("enum %s { %s };\n" % (name, ", ".join(content)))
+        content = [" %s" % (key,) for key, value in enum.values]
+        self.outputFile.write("enum class %s: uint8_t { %s };\n\n" % (name, ", ".join(content)))
 
     def generate_nested_enum(self, typedef, enum, indent, w):
-        content = [" %s = %i" % (key, value) for key, value in enum.values]
+        content = [" %s" % (key,) for key, value in enum.values]
         self.outputFile.write("  " * indent)
-        self.outputFile.write("    enum %s { %s };\n" % (enum.name, ", ".join(content)))
+        self.outputFile.write("    enum class %s: uint8_t { %s };\n\n" % (enum.name, ", ".join(content)))
 
     def generate_method(self, typedef, method, indent, w):
         self.info("Generating interface for method  '%s::%s'." %
