@@ -176,7 +176,6 @@ struct ITK_TEMPLATE_EXPORT TileConfiguration
       // check consistency with previously established size
       for (unsigned d = 0; d < maxAxis; d++)
       {
-        SizeValueType axisSize = (d == maxAxis - 1) ? AxisSizes[d] : AxisSizes[d] - 1;
         itkAssertOrThrowMacro(cInd[d] == AxisSizes[d] - 1,
                               "Axis sizes: " << AxisSizes << " current index: " << cInd
                                              << ". We have reached the end along axis " << maxAxis
@@ -220,8 +219,8 @@ struct ITK_TEMPLATE_EXPORT TileConfiguration
 
     tileFile << "# Tile coordinates are in index space, not physical space\n";
     tileFile << "dim = " << Dimension << "\n\n";
-    char                             buffer[20];
-    double_conversion::StringBuilder conversionResult(buffer, 20);
+    char                             buffer[25];
+    double_conversion::StringBuilder conversionResult(buffer, 25);
 
     size_t totalTiles = this->LinearSize();
     for (SizeValueType linearIndex = 0; linearIndex < totalTiles; linearIndex++)
