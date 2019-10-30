@@ -168,7 +168,7 @@ protected:
 
   /** Implemention of algorithm. */
   void
-  GenerateData(void) override;
+  GenerateData() override;
 
   /** Get the number of paths which the user has instructed to extracted. */
   unsigned int

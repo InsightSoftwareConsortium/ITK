@@ -115,11 +115,11 @@ public:
 
   /** Initialize the cost function */
   virtual void
-  Initialize(void);
+  Initialize();
 
   /** Return the number of parameters required by the Transform */
   unsigned int
-  GetNumberOfParameters(void) const override
+  GetNumberOfParameters() const override
   {
     return ImageDimension;
   }

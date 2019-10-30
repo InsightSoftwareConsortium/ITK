@@ -26,27 +26,17 @@
 namespace itk
 {
 
-/**
- *
- */
 template <typename TInputImage, typename TOutputPath>
 SpeedFunctionToPathFilter<TInputImage, TOutputPath>::SpeedFunctionToPathFilter()
-{
-  m_CurrentArrivalFunction = nullptr;
-}
+  : m_CurrentArrivalFunction(nullptr)
+{}
 
 
-/**
- *
- */
 template <typename TInputImage, typename TOutputPath>
 SpeedFunctionToPathFilter<TInputImage, TOutputPath>::~SpeedFunctionToPathFilter()
 {}
 
 
-/**
- *
- */
 template <typename TInputImage, typename TOutputPath>
 unsigned int
 SpeedFunctionToPathFilter<TInputImage, TOutputPath>::GetNumberOfPathsToExtract() const
@@ -55,9 +45,6 @@ SpeedFunctionToPathFilter<TInputImage, TOutputPath>::GetNumberOfPathsToExtract()
 }
 
 
-/**
- *
- */
 template <typename TInputImage, typename TOutputPath>
 const typename SpeedFunctionToPathFilter<TInputImage, TOutputPath>::PointsContainerType &
 SpeedFunctionToPathFilter<TInputImage, TOutputPath>::GetNextEndPoint()
@@ -66,9 +53,6 @@ SpeedFunctionToPathFilter<TInputImage, TOutputPath>::GetNextEndPoint()
 }
 
 
-/**
- *
- */
 template <typename TInputImage, typename TOutputPath>
 typename SpeedFunctionToPathFilter<TInputImage, TOutputPath>::InputImageType *
 SpeedFunctionToPathFilter<TInputImage, TOutputPath>::ComputeArrivalFunction()
@@ -177,12 +161,9 @@ SpeedFunctionToPathFilter<TInputImage, TOutputPath>::ComputeArrivalFunction()
 }
 
 
-/**
- *
- */
 template <typename TInputImage, typename TOutputPath>
 void
-SpeedFunctionToPathFilter<TInputImage, TOutputPath>::GenerateData(void)
+SpeedFunctionToPathFilter<TInputImage, TOutputPath>::GenerateData()
 {
   // Get the speed function
   InputImagePointer speed = const_cast<InputImageType *>(this->GetInput());
@@ -202,9 +183,6 @@ SpeedFunctionToPathFilter<TInputImage, TOutputPath>::GenerateData(void)
 }
 
 
-/**
- *
- */
 template <typename TInputImage, typename TOutputPath>
 void
 SpeedFunctionToPathFilter<TInputImage, TOutputPath>::Execute(const Object * object, const EventObject & event)
@@ -269,9 +247,6 @@ SpeedFunctionToPathFilter<TInputImage, TOutputPath>::Execute(const Object * obje
 }
 
 
-/**
- *
- */
 template <typename TInputImage, typename TOutputPath>
 void
 SpeedFunctionToPathFilter<TInputImage, TOutputPath>::PrintSelf(std::ostream & os, Indent indent) const
