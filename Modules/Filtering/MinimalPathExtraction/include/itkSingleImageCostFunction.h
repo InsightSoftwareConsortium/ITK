@@ -115,7 +115,7 @@ public:
 
   /** Initialize the cost function */
   virtual void
-  Initialize(void) throw(ExceptionObject);
+  Initialize(void);
 
   /** Return the number of parameters required by the Transform */
   unsigned int
