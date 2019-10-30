@@ -185,6 +185,17 @@ itk_add_test(NAME itkGDCMImageReadWriteTest_JPEGBaseline1
       ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadWriteTest_JPEGBaseline1.mha
       rgb)
 
+itk_add_test(NAME itkGDCMImageIOTest3_mono1
+  COMMAND ITKIOGDCMTestDriver
+    --ignoreInputInformation
+    --compare DATA{Baseline/itkGDCMImageIOTest3Baseline.mha}
+      ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3_mono1.mha
+    itkGDCMImageReadWriteTest
+      DATA{Input/itkGDCMImageIOTest3_mono1.dcm}
+      ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3_mono1.mha
+      scalar
+  )
+
 function(AddComplianceTest fileName)
   itk_add_test(NAME itkGDCM_ComplianceTestRGB_${fileName}
     COMMAND ITKIOGDCMTestDriver
