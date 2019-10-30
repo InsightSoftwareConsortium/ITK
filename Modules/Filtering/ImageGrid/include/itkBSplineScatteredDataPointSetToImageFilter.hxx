@@ -308,7 +308,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Generat
     typename PointDataContainerType::Iterator ItOut = this->m_OutputPointData->Begin();
     while (ItIn != this->m_InputPointData->End())
     {
-      this->m_InputPointData->InsertElement(ItIn.Index(), ItIn.Value() - ItOut.Value());
+      this->m_InputPointData->CastToSTLContainer()[ItIn.Index()] = ItIn.Value() - ItOut.Value();
 
       if (this->GetDebug())
       {
@@ -961,6 +961,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::UpdateP
 
   typename PointDataImageType::IndexType startPhiIndex = this->m_PhiLattice->GetLargestPossibleRegion().GetIndex();
 
+  this->m_OutputPointData->CastToSTLContainer().resize(this->m_InputPointData->Size());
   typename PointDataContainerType::ConstIterator ItIn = this->m_InputPointData->Begin();
   while (ItIn != this->m_InputPointData->End())
   {
@@ -1002,7 +1003,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::UpdateP
         break;
       }
     }
-    this->m_OutputPointData->InsertElement(ItIn.Index(), collapsedPhiLattices[0]->GetPixel(startPhiIndex));
+    this->m_OutputPointData->CastToSTLContainer()[ItIn.Index()] = collapsedPhiLattices[0]->GetPixel(startPhiIndex);
     ++ItIn;
   }
 }
