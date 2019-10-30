@@ -38,8 +38,8 @@ namespace itk
  *
  */
 
-template <class TFilter>
-class ArrivalFunctionToPathCommand : public itk::Command
+template <typename TFilter>
+class ITK_TEMPLATE_EXPORT ArrivalFunctionToPathCommand : public itk::Command
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ArrivalFunctionToPathCommand);
@@ -139,8 +139,8 @@ private:
  *
  * \ingroup MinimalPathExtraction
  */
-template <class TInputImage, class TOutputPath = PolyLineParametricPath<TInputImage::ImageDimension>>
-class ITK_EXPORT ArrivalFunctionToPathFilter : public ImageToPathFilter<TInputImage, TOutputPath>
+template <typename TInputImage, typename TOutputPath = PolyLineParametricPath<TInputImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT ArrivalFunctionToPathFilter : public ImageToPathFilter<TInputImage, TOutputPath>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ArrivalFunctionToPathFilter);
@@ -227,7 +227,7 @@ protected:
 
   /** Implemention of algorithm */
   void
-  GenerateData(void) override;
+  GenerateData() override;
 
   /** Get the arrival function from which to extract the path. */
   virtual unsigned int

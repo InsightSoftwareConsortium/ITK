@@ -38,8 +38,8 @@ namespace itk
  *
  * \ingroup MinimalPathExtraction
  */
-template <class TInputImage, class TCoordRep = float>
-class ITK_EXPORT PhysicalCentralDifferenceImageFunction
+template <typename TInputImage, typename TCoordRep = float>
+class ITK_TEMPLATE_EXPORT PhysicalCentralDifferenceImageFunction
   : public ImageFunction<TInputImage, CovariantVector<double, TInputImage::ImageDimension>, TCoordRep>
 {
 public:

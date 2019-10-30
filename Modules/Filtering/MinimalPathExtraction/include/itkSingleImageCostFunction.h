@@ -49,7 +49,7 @@ namespace itk
  * \ingroup MinimalPathExtraction
  */
 template <class TImage>
-class ITK_EXPORT SingleImageCostFunction : public SingleValuedCostFunction
+class ITK_TEMPLATE_EXPORT SingleImageCostFunction : public SingleValuedCostFunction
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SingleImageCostFunction);

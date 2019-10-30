@@ -104,7 +104,7 @@ ArrivalFunctionToPathFilter<TInputImage, TOutputPath>::ComputeArrivalFunction()
 
 template <typename TInputImage, typename TOutputPath>
 void
-ArrivalFunctionToPathFilter<TInputImage, TOutputPath>::GenerateData(void)
+ArrivalFunctionToPathFilter<TInputImage, TOutputPath>::GenerateData()
 {
   // Get the input
   InputImagePointer input = const_cast<InputImageType *>(this->GetInput());

@@ -65,7 +65,7 @@ namespace itk
  * \ingroup MinimalPathExtraction
  */
 template <class TInputImage, class TOutputPath = PolyLineParametricPath<TInputImage::ImageDimension>>
-class ITK_EXPORT SpeedFunctionToPathFilter : public ArrivalFunctionToPathFilter<TInputImage, TOutputPath>
+class ITK_TEMPLATE_EXPORT SpeedFunctionToPathFilter : public ArrivalFunctionToPathFilter<TInputImage, TOutputPath>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpeedFunctionToPathFilter);
