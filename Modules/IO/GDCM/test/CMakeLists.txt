@@ -198,6 +198,7 @@ function(AddComplianceTest fileName)
         rgb)
 endfunction()
 
+AddComplianceTest(JPEG2000-YBR_RCT)
 AddComplianceTest(JPEGLS-RGB)
 AddComplianceTest(losslessJPEG-RGB)
 AddComplianceTest(lossyJPEG-YBR_FULL_422)
