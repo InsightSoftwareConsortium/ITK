@@ -37,9 +37,9 @@ namespace itk
  *
  * The user must provide the following:
  *    1. A real-valued speed function as the filter input
- *    2. At least one PathInfo object using AddPathInfo().
+ *    2. At least one PathInfo object using AddPathInformation().
  * The speed function must be a real-valued (float or double) image
- * in the range [0,1]. If multiple PathInfo objects are added,
+ * in the range [0,1]. If multiple PathInformation objects are added,
  * multiple paths are extracted and saved to separate filter outputs.
  *
  * A cost function optimizer may also be provided. If an optimizer
