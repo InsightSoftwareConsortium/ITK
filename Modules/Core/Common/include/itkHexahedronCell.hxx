@@ -585,8 +585,7 @@ HexahedronCell<TCellInterface>::EvaluateLocation(int &                     itkNo
 
     for (unsigned int j = 0; j < Self::CellDimension; j++)
     {
-      const CoordRepType t = pt[j] * weights[i];
-      x[j] += t;
+      x[j] += static_cast<CoordRepType>(pt[j] * weights[i]);
     }
   }
 }
