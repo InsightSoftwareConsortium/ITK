@@ -24,6 +24,7 @@
 #include "itkConvertPixelBuffer.h"
 #include "itkPixelTraits.h"
 #include "itkVectorImage.h"
+#include "itkMetaDataObject.h"
 
 #include "itksys/SystemTools.hxx"
 #include <memory> // For unique_ptr
@@ -210,8 +211,16 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
       }
     }
   }
+  MetaDataDictionary & thisDic = m_ImageIO->GetMetaDataDictionary();
+  // Store original directions and spacing
+
+  EncapsulateMetaData<std::vector<double>>(
+    thisDic, "ITK_original_spacing", std::vector<double>(spacing, spacing + TOutputImage::ImageDimension));
+  EncapsulateMetaData<typename TOutputImage::DirectionType>(thisDic, "ITK_original_direction", direction);
+
   // Spacing is expected to be greater than 0
   // If negative, flip image direction along this axis.
+  // and store this information in the metadata
   for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
   {
     if (spacing[i] < 0)
@@ -228,8 +237,8 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
   output->SetDirection(direction); // Set the image direction cosines
 
   // Copy MetaDataDictionary from instantiated reader to output image.
-  output->SetMetaDataDictionary(m_ImageIO->GetMetaDataDictionary());
-  this->SetMetaDataDictionary(m_ImageIO->GetMetaDataDictionary());
+  output->SetMetaDataDictionary(thisDic);
+  this->SetMetaDataDictionary(thisDic);
 
   IndexType start;
   start.Fill(0);
