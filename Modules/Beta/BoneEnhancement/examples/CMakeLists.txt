@@ -1,18 +1,18 @@
 cmake_minimum_required(VERSION 3.10.2)
-set(module BoneEnhancementExamples)
-project(${module})
+project(BoneEnhancementExamples)
 
 find_package(ITK REQUIRED COMPONENTS BoneEnhancement ITKIOImageBase ITKIONIFTI ITKIONRRD)
 include(${ITK_USE_FILE})
-include_directories(../include)
 
-set(${module}_SRC
-    computeKrcahBoneEnhancement.cxx
-)
+add_executable(computeKrcahBoneEnhancement computeKrcahBoneEnhancement.cxx)
+target_link_libraries(computeKrcahBoneEnhancement ${ITK_LIBRARIES})
 
-add_executable(${module} ${${module}_SRC} )
-target_link_libraries(${module} ${ITK_LIBRARIES})
+add_executable(computeDescoteauxBoneEnhancement computeDescoteauxBoneEnhancement.cxx)
+target_link_libraries(computeDescoteauxBoneEnhancement ${ITK_LIBRARIES})
 
 set(INSTALL_RUNTIME_DESTINATION bin CACHE STRING "Install destination")
 
-install(TARGETS ${module} DESTINATION ${INSTALL_RUNTIME_DESTINATION})
+install(
+  TARGETS computeKrcahBoneEnhancement computeDescoteauxBoneEnhancement
+  DESTINATION ${INSTALL_RUNTIME_DESTINATION}
+  )
