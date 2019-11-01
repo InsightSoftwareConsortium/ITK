@@ -68,3 +68,9 @@ itk_add_test(NAME itkRecursiveGaussianImageFiltersTest
 itk_add_test(NAME itkRecursiveGaussianScaleSpaceTest1
       COMMAND ITKSmoothingTestDriver
               itkRecursiveGaussianScaleSpaceTest1)
+
+set(ITKSmoothingGTests
+      itkMeanImageFilterGTest.cxx
+      itkMedianImageFilterGTest.cxx
+)
+CreateGoogleTestDriver(ITKSmoothing "${ITKSmoothing-Test_LIBRARIES}" "${ITKSmoothingGTests}")
