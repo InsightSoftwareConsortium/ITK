@@ -60,7 +60,7 @@ int main(int argc, char * argv[])
   double thisSigma;
   itk::Array< double > sigmaArray;
   sigmaArray.SetSize(numberOfSigma);
-  for (unsigned int i = 0; i < numberOfSigma; ++i) {
+  for (int i = 0; i < numberOfSigma; ++i) {
     thisSigma = std::stod(argv[5+i]);
     sigmaArray.SetElement(i, thisSigma);
   }
@@ -90,7 +90,7 @@ int main(int argc, char * argv[])
   using DescoteauxEigenToScalarImageFilterType = itk::DescoteauxEigenToScalarImageFilter< MultiScaleHessianFilterType::EigenValueImageType, OutputImageType >;
 
   /* Do preprocessing */
-  std::cout << "Reading in " << inputFileName << std::end;
+  std::cout << "Reading in " << inputFileName << std::endl;
   ReaderType::Pointer  reader = ReaderType::New();
   reader->SetFileName(inputFileName);
 
@@ -110,7 +110,7 @@ int main(int argc, char * argv[])
   measureWriter->SetInput(multiScaleFilter->GetOutput());
   measureWriter->SetFileName(outputMeasureFileName);
 
-  std::cout << "Writing results to" << outputMeasureFileName << std::endl;
+  std::cout << "Writing results to " << outputMeasureFileName << std::endl;
   measureWriter->Write();
 
   return EXIT_SUCCESS;
