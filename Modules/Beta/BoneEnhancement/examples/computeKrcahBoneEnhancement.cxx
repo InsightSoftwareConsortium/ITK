@@ -47,7 +47,6 @@ int main(int argc, char * argv[])
     std::cerr << argv[0];
     std::cerr << " <InputFileName> <OutputPreprocessed> <OutputMeasure> ";
     std::cerr << " <SetEnhanceBrightObjects[0,1]> ";
-    std::cerr << " <UseImplementationParameters[0,1]> ";
     std::cerr << " <NumberOfSigma> <Sigma1> [<Sigma2> <Sigma3>] ";
     std::cerr << std::endl;
     return EXIT_FAILURE;
@@ -59,13 +58,12 @@ int main(int argc, char * argv[])
   std::string outputMeasureFileName = argv[3];
 
   int enhanceBrightObjects = std::stoi(argv[4]);
-  int parameterSetToImplement = std::stoi(argv[5]);
-  unsigned long numberOfSigma = std::stoul(argv[6]);
+  unsigned long numberOfSigma = std::stoul(argv[5]);
   double thisSigma;
   itk::Array< double > sigmaArray;
   sigmaArray.SetSize(numberOfSigma);
   for (unsigned int i = 0; i < numberOfSigma; ++i) {
-    thisSigma = std::stod(argv[7+i]);
+    thisSigma = std::stod(argv[6+i]);
     sigmaArray.SetElement(i, thisSigma);
   }
 
@@ -77,11 +75,6 @@ int main(int argc, char * argv[])
     std::cout << "  SetEnhanceBrightObjects:     " << "Enhancing bright objects" << std::endl;
   } else {
     std::cout << "  SetEnhanceBrightObjects:     " << "Enhancing dark objects" << std::endl;
-  }
-  if (parameterSetToImplement == 1) {
-    std::cout << "  UseImplementationParameters: " << "Using implementation parameters" << std::endl;
-  } else {
-    std::cout << "  UseImplementationParameters: " << "Using journal article parameters" << std::endl;
   }
   std::cout << "  NumberOfSigma:               " << numberOfSigma << std::endl;
   std::cout << "  Sigmas:                      " << sigmaArray << std::endl;
