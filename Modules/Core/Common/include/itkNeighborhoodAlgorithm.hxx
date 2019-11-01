@@ -27,8 +27,9 @@ namespace itk
 namespace NeighborhoodAlgorithm
 {
 template <typename TImage>
-typename ImageBoundaryFacesCalculator<TImage>::FaceListType
-ImageBoundaryFacesCalculator<TImage>::operator()(const TImage * img, RegionType regionToProcess, RadiusType radius)
+auto
+ImageBoundaryFacesCalculator<TImage>::Compute(const TImage & img, RegionType regionToProcess, RadiusType radius)
+  -> Result
 {
   unsigned int j, i;
   // Analyze the regionToProcess to determine if any of its faces are
@@ -38,17 +39,17 @@ ImageBoundaryFacesCalculator<TImage>::operator()(const TImage * img, RegionType 
   // boundary region that will be processed. For instance, given a 2D image
   // and regionTOProcess (size = 5x5),
 
-  FaceListType faceList;
+  Result result;
   // The portion of the regionToProcess that is outside of the image bufferedRegion
   // doesn't make sense. If the regionToProcess is completely outside of
-  // the image bufferedRegion, return a empty region list.
-  if (!regionToProcess.Crop(img->GetBufferedRegion()))
+  // the image bufferedRegion, return an empty (default-constructed) result.
+  if (!regionToProcess.Crop(img.GetBufferedRegion()))
   {
-    return faceList;
+    return result;
   }
 
-  const IndexType bStart = img->GetBufferedRegion().GetIndex();
-  const SizeType  bSize = img->GetBufferedRegion().GetSize();
+  const IndexType bStart = img.GetBufferedRegion().GetIndex();
+  const SizeType  bSize = img.GetBufferedRegion().GetSize();
   const IndexType rStart = regionToProcess.GetIndex();
   const SizeType  rSize = regionToProcess.GetSize();
 
@@ -58,7 +59,6 @@ ImageBoundaryFacesCalculator<TImage>::operator()(const TImage * img, RegionType 
   RegionType     fRegion;
   SizeType       nbSize = regionToProcess.GetSize();   // Non-boundary region
   IndexType      nbStart = regionToProcess.GetIndex(); // data.
-  RegionType     nbRegion;
 
   IndexType vrStart =
     rStart; // start index of variable processed region which has considered the boundary region in last direction
@@ -121,7 +121,7 @@ ImageBoundaryFacesCalculator<TImage>::operator()(const TImage * img, RegionType 
       nbStart[i] += -overlapLow;
       fRegion.SetIndex(fStart);
       fRegion.SetSize(fSize);
-      faceList.push_back(fRegion);
+      result.m_BoundaryFaces.push_back(fRegion);
     }
     if (overlapHigh < 0)
     {
@@ -157,15 +157,33 @@ ImageBoundaryFacesCalculator<TImage>::operator()(const TImage * img, RegionType 
 
       fRegion.SetIndex(fStart);
       fRegion.SetSize(fSize);
-      faceList.push_back(fRegion);
+      result.m_BoundaryFaces.push_back(fRegion);
     }
   }
-  nbRegion.SetSize(nbSize);
-  nbRegion.SetIndex(nbStart);
-
-  faceList.push_front(nbRegion);
-  return faceList;
+  result.m_NonBoundaryRegion.SetSize(nbSize);
+  result.m_NonBoundaryRegion.SetIndex(nbStart);
+  return result;
 }
+
+
+template <typename TImage>
+typename ImageBoundaryFacesCalculator<TImage>::FaceListType
+ImageBoundaryFacesCalculator<TImage>::operator()(const TImage * img, RegionType regionToProcess, RadiusType radius)
+{
+  const auto result = Compute(*img, regionToProcess, radius);
+
+  if (result == Result{})
+  {
+    return FaceListType{};
+  }
+  else
+  {
+    FaceListType faceList = std::move(result.m_BoundaryFaces);
+    faceList.push_front(result.m_NonBoundaryRegion);
+    return faceList;
+  }
+}
+
 
 template <typename TImage>
 typename CalculateOutputWrapOffsetModifiers<TImage>::OffsetType

@@ -69,6 +69,55 @@ struct ImageBoundaryFacesCalculator
   using FaceListType = std::list<RegionType>;
   static constexpr unsigned int ImageDimension = TImage::ImageDimension;
 
+  /** \class Result
+   *
+   * Represents the result of ImageBoundaryFacesCalculator::Compute
+   *
+   * \ingroup ITKCommon
+   */
+  class Result
+  {
+  public:
+    /** Returns the center (non-boundary) region. */
+    RegionType
+    GetNonBoundaryRegion() const
+    {
+      return m_NonBoundaryRegion;
+    }
+
+    /** Returns the boundary faces (the regions at the boundary of the image). */
+    const FaceListType &
+    GetBoundaryFaces() const
+    {
+      return m_BoundaryFaces;
+    }
+
+    /** Tells whether Result objects `lhs` and `rhs` are equal. */
+    friend bool
+    operator==(const Result & lhs, const Result & rhs)
+    {
+      return (lhs.m_NonBoundaryRegion == rhs.m_NonBoundaryRegion) && (lhs.m_BoundaryFaces == rhs.m_BoundaryFaces);
+    }
+
+    /** Tells whether Result objects `lhs` and `rhs` are unequal. */
+    friend bool
+    operator!=(const Result & lhs, const Result & rhs)
+    {
+      return !(lhs == rhs);
+    }
+
+  private:
+    friend struct ImageBoundaryFacesCalculator;
+
+    RegionType   m_NonBoundaryRegion;
+    FaceListType m_BoundaryFaces;
+  };
+
+  /** Splits the specified region into a non-boundary region and a list of
+   * boundary faces, and returns the result. */
+  static Result
+  Compute(const TImage &, RegionType, RadiusType);
+
   FaceListType
   operator()(const TImage *, RegionType, RadiusType);
 };

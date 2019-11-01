@@ -43,34 +43,29 @@ MeanImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   typename OutputImageType::Pointer     output = this->GetOutput();
   typename InputImageType::ConstPointer input = this->GetInput();
 
-  // Find the data-set boundary "faces"
   const auto radius = this->GetRadius();
-  const auto faceList =
-    NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>{}(input, outputRegionForThread, radius);
-  auto fit = faceList.cbegin();
-  auto endOfFaces = faceList.cend();
 
-  if (fit != endOfFaces)
+  // Find the data-set boundary "faces" and the center non-boundary subregion.
+  const auto calculatorResult =
+    NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::Compute(*input, outputRegionForThread, radius);
+
+  using namespace Experimental;
+  const auto neighborhoodShape = RectangularImageNeighborhoodShape<InputImageDimension>(radius);
+  const auto neighborhoodSize = neighborhoodShape.GetNumberOfOffsets();
+  const auto neighborhoodOffsets =
+    std::unique_ptr<Offset<InputImageDimension>[]>(new Offset<InputImageDimension>[neighborhoodSize]);
+  neighborhoodShape.FillOffsets(neighborhoodOffsets.get());
+
+  // Process the non-boundary subregion, using a faster pixel access policy without boundary extrapolation.
+  GenerateDataInSubregion<BufferedImageNeighborhoodPixelAccessPolicy<InputImageType>>(
+    *input, *output, calculatorResult.GetNonBoundaryRegion(), neighborhoodOffsets.get(), neighborhoodSize);
+
+  // Process each of the boundary faces. These are N-d regions which border
+  // the edge of the buffer.
+  for (const auto boundaryFace : calculatorResult.GetBoundaryFaces())
   {
-    using namespace Experimental;
-    const auto neighborhoodShape = RectangularImageNeighborhoodShape<InputImageDimension>(radius);
-    const auto neighborhoodSize = neighborhoodShape.GetNumberOfOffsets();
-    const auto neighborhoodOffsets =
-      std::unique_ptr<Offset<InputImageDimension>[]>(new Offset<InputImageDimension>[neighborhoodSize]);
-    neighborhoodShape.FillOffsets(neighborhoodOffsets.get());
-
-    GenerateDataInSubregion<BufferedImageNeighborhoodPixelAccessPolicy<InputImageType>>(
-      *input, *output, *fit, neighborhoodOffsets.get(), neighborhoodSize);
-    ++fit;
-
-    // Process each of the other boundary faces. These are N-d regions which border
-    // the edge of the buffer.
-    while (fit != endOfFaces)
-    {
-      GenerateDataInSubregion<ZeroFluxNeumannImageNeighborhoodPixelAccessPolicy<InputImageType>>(
-        *input, *output, *fit, neighborhoodOffsets.get(), neighborhoodSize);
-      ++fit;
-    }
+    GenerateDataInSubregion<ZeroFluxNeumannImageNeighborhoodPixelAccessPolicy<InputImageType>>(
+      *input, *output, boundaryFace, neighborhoodOffsets.get(), neighborhoodSize);
   }
 }
 
