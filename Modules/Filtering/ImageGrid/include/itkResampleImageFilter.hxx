@@ -74,6 +74,23 @@ template <typename TInputImage,
           typename TInterpolatorPrecisionType,
           typename TTransformPrecisionType>
 void
+ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType>::
+  VerifyPreconditions() ITKv5_CONST
+{
+  this->Superclass::VerifyPreconditions();
+  const ReferenceImageBaseType * const referenceImage = this->GetReferenceImage();
+  if (this->m_Size[0] == 0 && referenceImage && !m_UseReferenceImage)
+  {
+    itkExceptionMacro("Output image size is zero in all dimensions.  Consider using SetUseReferenceImageOn()."
+                      "to define the resample output from the ReferenceImage.");
+  }
+}
+
+template <typename TInputImage,
+          typename TOutputImage,
+          typename TInterpolatorPrecisionType,
+          typename TTransformPrecisionType>
+void
 ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType>::SetOutputSpacing(
   const double * spacing)
 {
@@ -575,7 +592,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   // Get pointers to the input and output
   OutputImageType * outputPtr = this->GetOutput();
 
-  const ReferenceImageBaseType * referenceImage = this->GetReferenceImage();
+  const ReferenceImageBaseType * const referenceImage = this->GetReferenceImage();
 
   // Set the size of the output region
   if (m_UseReferenceImage && referenceImage)
