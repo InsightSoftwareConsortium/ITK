@@ -56,6 +56,40 @@ GetFirstPixelFromFilterOutput(const TPixel inputPixel)
 }
 
 
+// Test if the resample image filter has a valid output region defined
+// A common mistake is to use SetReferenceIamge without setting UseReferenceIamgeOn
+// which results in the default output image size of 0,0,0.
+template <typename TPixel>
+TPixel
+TestThrowErrorOnEmptyResampleSpace(const TPixel inputPixel, const bool setUseReferenceImageMemberFunction)
+{
+  using ImageType = itk::Image<TPixel>;
+
+  const auto                         image = ImageType::New();
+  const typename ImageType::SizeType imageSize = { { 1, 1 } };
+  image->SetRegions(imageSize);
+  image->Allocate();
+  image->SetPixel({ { 0, 0 } }, inputPixel);
+
+  const auto filter = itk::ResampleImageFilter<ImageType, ImageType>::New();
+  filter->SetInput(image);
+  // NOTE: One might incorrectly assume that SetReferenceImage(image) has the same as effect as SetSize(imageSize)
+  //       BUT in addition to SetUseReferenceImage(image), we must also specify UseReferenceImageOn()
+  filter->SetReferenceImage(image);
+  if (setUseReferenceImageMemberFunction)
+  {
+    filter->UseReferenceImageOn();
+  }
+  filter->Update();
+  typename ImageType::ConstPointer filterOutputImage = filter->GetOutput();
+  if (filterOutputImage->GetLargestPossibleRegion().GetNumberOfPixels() == 0)
+  {
+    return itk::NumericTraits<TPixel>::max();
+  }
+  return filterOutputImage->GetPixel({ { 0, 0 } });
+}
+
+
 // Tests that the value of the pixel from the 1x1 ResampleImageFilter output
 // image is equal to the specified input pixel value, when the filter just
 // uses default settings.
@@ -64,6 +98,17 @@ void
 Expect_ResampleImageFilter_preserves_pixel_value(const TPixel inputPixel)
 {
   EXPECT_EQ(GetFirstPixelFromFilterOutput(inputPixel), inputPixel);
+}
+
+
+// Tests that a useful diagnostic is provided via a thrown exception if the
+// resample image filter has used "SetReferenceImage()" but not "UseReferenceImageOn()".
+template <typename TPixel>
+void
+Expect_ResampleImageFilter_thows_on_incomplete_configuration(const TPixel inputPixel)
+{
+  EXPECT_THROW(TestThrowErrorOnEmptyResampleSpace(inputPixel, false), ::itk::ExceptionObject);
+  EXPECT_EQ(TestThrowErrorOnEmptyResampleSpace(inputPixel, true), inputPixel);
 }
 
 } // namespace
@@ -120,4 +165,10 @@ TEST(ResampleImageFilter, FilterPreservesMinAndMaxInt64PixelValuesByDefault)
 
   // Note: The following expectation would fail on ITK version <= 4.13.1:
   Expect_ResampleImageFilter_preserves_pixel_value(std::numeric_limits<std::int64_t>::max());
+}
+
+
+TEST(ResampleImageFilter, Expect_ResampleImageFilter_thows_on_incomplete_configuration)
+{
+  Expect_ResampleImageFilter_thows_on_incomplete_configuration(128.0);
 }

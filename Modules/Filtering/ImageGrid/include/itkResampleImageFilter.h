@@ -175,6 +175,11 @@ public:
   /** Typedef the reference image type to be the ImageBase of the OutputImageType */
   using ReferenceImageBaseType = ImageBase<ImageDimension>;
 
+  /* See superclass for doxygen. This method adds the additional check
+   * that the output space is set */
+  void
+  VerifyPreconditions() ITKv5_CONST override;
+
   /** Get/Set the coordinate transformation.
    * Set the coordinate transform to use for resampling.  Note that this must
    * be in physical coordinates and it is the output-to-input transform, NOT
@@ -242,9 +247,10 @@ public:
 
   /** Set a reference image to use to define the output information.
    *  By default, output information is specified through the
-   *  SetOutputSpacing, Origin, and Direction methods.  Alternatively,
-   *  this method can be used to specify an image from which to
-   *  copy the information. UseReferenceImageOn must be set to utilize the
+   *  SetOutputSpacing, SetOutputOrigin, and SetOutputDirection or
+   *  SetOutputParametersFromImage methods.
+   *  Alternatively, this method can be used to specify an image from which to
+   *  copy the pixel information. UseReferenceImageOn must be set to utilize the
    *  reference image. */
   itkSetInputMacro(ReferenceImage, ReferenceImageBaseType);
 
