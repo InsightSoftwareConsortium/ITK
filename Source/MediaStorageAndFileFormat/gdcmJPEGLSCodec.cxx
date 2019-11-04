@@ -186,7 +186,7 @@ bool JPEGLSCodec::Decode(DataElement const &in, DataElement &out)
   if( NumberOfDimensions == 2 )
     {
     const SequenceOfFragments *sf = in.GetSequenceOfFragments();
-    assert( sf );
+    if (!sf) return false;
     unsigned long totalLen = sf->ComputeByteLength();
     char *buffer = new char[totalLen];
     sf->GetBuffer(buffer, totalLen);
@@ -204,15 +204,15 @@ bool JPEGLSCodec::Decode(DataElement const &in, DataElement &out)
   else if( NumberOfDimensions == 3 )
     {
     const SequenceOfFragments *sf = in.GetSequenceOfFragments();
-    assert( sf );
-    gdcmAssertAlwaysMacro( sf->GetNumberOfFragments() == Dimensions[2] );
+    if (!sf) return false;
+    if (sf->GetNumberOfFragments() != Dimensions[2]) return false;
     std::stringstream os;
     for(unsigned int i = 0; i < sf->GetNumberOfFragments(); ++i)
       {
       const Fragment &frag = sf->GetFragment(i);
       if( frag.IsEmpty() ) return false;
       const ByteValue *bv = frag.GetByteValue();
-      assert( bv );
+      if (!bv) return false;
       size_t totalLen = bv->GetLength();
       char *mybuffer = new char[totalLen];
 

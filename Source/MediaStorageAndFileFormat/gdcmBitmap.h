@@ -121,7 +121,7 @@ public:
   const PhotometricInterpretation &GetPhotometricInterpretation() const;
   void SetPhotometricInterpretation(PhotometricInterpretation const &pi);
 
-  bool IsEmpty() const { return Dimensions.size() == 0; }
+  bool IsEmpty() const { return Dimensions.empty(); }
   void Clear();
 
   /// Return the length of the image after decompression

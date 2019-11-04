@@ -309,7 +309,7 @@ VR::VRType VR::GetVRTypeFromFile(const char *vr)
  * You need to compile with -DNDEBUG
  * Running TestReader on gdcmData, leads to 2.2% improvement
  */
-#if 1
+#if 0
   static const int N = sizeof(VRValue) / sizeof(VRType);
   assert( N == 30 );
   static const char **start = VRStrings+1;
@@ -344,6 +344,19 @@ VR::VRType VR::GetVRTypeFromFile(const char *vr)
       r = (VR::VRType)(1 << (i-1));
       break;
       }
+    }
+  if( r == VR::VR_END )
+    {
+    // https://groups.google.com/d/msg/comp.protocols.dicom/0ata_3lpjF4/xlkjOKRGBwAJ
+    // http://dicom.nema.org/medical/dicom/current/output/chtml/part05/chapter_E.html
+    if( vr[0] >= ' ' && vr[0] <= '~'
+     && vr[1] >= ' ' && vr[1] <= '~' ) // FIXME Control Char LF/FF/CR TAB and ESC should be accepted
+      {
+      // newly added VR ?
+      // we are not capable of preserving the original VR. this is accepted behavior
+      return VR::UN;
+      }
+    return VR::INVALID;
     }
 #endif
   // postcondition

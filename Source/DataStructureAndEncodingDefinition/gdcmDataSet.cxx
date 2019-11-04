@@ -44,7 +44,7 @@ std::string DataSet::GetPrivateCreator(const Tag &t) const
       std::string owner = std::string(bv->GetPointer(),bv->GetLength());
       // There should not be any trailing space character...
       // TODO: tmp.erase(tmp.find_last_not_of(' ') + 1);
-      while( owner.size() && owner[owner.size()-1] == ' ' )
+      while( !owner.empty() && owner[owner.size()-1] == ' ' )
         {
         // osirix/AbdominalCT/36382443
         owner.erase(owner.size()-1,1);
@@ -135,7 +135,7 @@ MediaStorage DataSet::GetMediaStorage() const
       }
     }
   // Paranoid check: if last character of a VR=UI is space let's pretend this is a \0
-  if( ts.size() )
+  if( !ts.empty() )
     {
     char &last = ts[ts.size()-1];
     if( last == ' ' )

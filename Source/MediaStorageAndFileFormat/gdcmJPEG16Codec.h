@@ -19,7 +19,7 @@
 namespace gdcm
 {
 
-class JPEGInternals;
+class JPEGInternals_16BIT;
 class ByteValue;
 /**
  * \brief Class to do JPEG 16bits (lossless)
@@ -41,7 +41,7 @@ protected:
   virtual bool EncodeBuffer(std::ostream &os, const char *data, size_t datalen);
 
 private:
-  JPEGInternals *Internals;
+  JPEGInternals_16BIT *Internals;
 };
 
 } // end namespace gdcm

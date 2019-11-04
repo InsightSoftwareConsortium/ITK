@@ -878,7 +878,7 @@ std::string FileMetaInformation::GetMediaStorageAsString() const
       }
     }
   // Paranoid check: if last character of a VR=UI is space let's pretend this is a \0
-  if( ts.size() )
+  if( !ts.empty() )
     {
     char &last = ts[ts.size()-1];
     if( last == ' ' )
