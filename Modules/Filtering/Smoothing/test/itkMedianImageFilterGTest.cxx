@@ -23,6 +23,7 @@
 #include "itkImageBufferRange.h"
 
 #include <numeric> // For iota.
+#include <vector>
 
 #include <gtest/gtest.h>
 
@@ -71,22 +72,24 @@ CreateImageFilledWithSequenceOfNaturalNumbers(const typename TImage::RegionType 
 }
 
 
-template <typename TImage, std::size_t VNumberOfExpectedPixels>
+template <typename TImage>
 void
 Expect_output_has_specified_pixel_values_when_input_has_sequence_of_natural_numbers(
-  const typename TImage::RegionType & imageRegion,
-  const typename TImage::PixelType (&expectedPixelValues)[VNumberOfExpectedPixels])
+  const typename TImage::RegionType &             imageRegion,
+  const std::vector<typename TImage::PixelType> & expectedPixelValues)
 {
+  using PixelType = typename TImage::PixelType;
+
   const auto inputImage = CreateImageFilledWithSequenceOfNaturalNumbers<TImage>(imageRegion);
   const auto filter = itk::MedianImageFilter<TImage, TImage>::New();
   filter->SetInput(inputImage);
   filter->Update();
 
-  const TImage * const outputImage = filter->GetOutput();
-  const auto           outputImageBufferRange = itk::Experimental::MakeImageBufferRange(outputImage);
+  const TImage * const         outputImage = filter->GetOutput();
+  const auto                   outputImageBufferRange = itk::Experimental::MakeImageBufferRange(outputImage);
+  const std::vector<PixelType> outputPixelValues(outputImageBufferRange.cbegin(), outputImageBufferRange.cend());
 
-  ASSERT_EQ(outputImageBufferRange.size(), VNumberOfExpectedPixels);
-  EXPECT_TRUE(std::equal(outputImageBufferRange.cbegin(), outputImageBufferRange.cend(), expectedPixelValues));
+  EXPECT_EQ(outputPixelValues, expectedPixelValues);
 }
 
 } // namespace
