@@ -3207,7 +3207,7 @@ static const DICT_ENTRY DICOMV3DataDict [] = {
   {0x0027,0x0030,"GEMS_IMAG_01",VR::SH,VM::VM1,"Foreign Image Revision",false },
   {0x0027,0x0031,"GEMS_IMAG_01",VR::SS,VM::VM1,"Imaging Mode",false },
   {0x0027,0x0032,"GEMS_IMAG_01",VR::SS,VM::VM1,"Pulse Sequence",false },
-  {0x0027,0x0033,"GEMS_IMAG_01",VR::UL,VM::VM1,"Imaging Options",false },
+  {0x0027,0x0033,"GEMS_IMAG_01",VR::SL,VM::VM1,"Imaging Options",false }, // AMIInvalidPrivateDefinedLengthSQasUN.dcm => UL ?
   {0x0027,0x0035,"GEMS_IMAG_01",VR::SS,VM::VM1,"Plane Type",false },
   {0x0027,0x0036,"GEMS_IMAG_01",VR::SL,VM::VM1,"Oblique Plane",false },
   {0x0027,0x0040,"GEMS_IMAG_01",VR::SH,VM::VM1,"RAS letter of image location",false },

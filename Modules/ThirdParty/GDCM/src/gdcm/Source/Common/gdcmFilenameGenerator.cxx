@@ -15,8 +15,8 @@
 #include "gdcmTrace.h"
 
 #include <cstring> // strchr
-#include <stdio.h> // snprintf
-#ifdef _WIN32
+#include <cstdio> // snprintf
+#if defined(_MSC_VER) && (_MSC_VER < 1900)
 #define snprintf _snprintf
 #endif
 

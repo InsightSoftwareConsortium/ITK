@@ -496,7 +496,7 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
     {
     refvr = vr_read;
     }
-  if( refvr.IsDual() ) // This mean vr was read from a dict entry:
+  if( vr.IsDual() ) // Always check
     {
     refvr = DataSetHelper::ComputeVR(*F,ds, t);
     }
@@ -532,7 +532,7 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
 //    {
 //    sqi = de.GetValueAsSQ();
 //    }
-  if( vr != VR::INVALID && (!vr.Compatible( vr_read ) || vr_read == VR::INVALID || vr_read == VR::UN ) )
+  if( vr != VR::INVALID && (!vr.Compatible( vr_read ) || vr_read == VR::INVALID || vr_read == VR::UN || vr_read != refvr ) )
     {
     assert( vr != VR::INVALID );
     // FIXME : if terminal supports it: print in red/green !

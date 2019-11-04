@@ -66,6 +66,7 @@ public:
     // Needed for backward compat and dashboard
     const char src_path[] = GDCM_SOURCE_DIR "/Source/InformationObjectDefinition/";
     RessourcePaths.emplace_back(src_path );
+    std::rotate(RessourcePaths.rbegin(), RessourcePaths.rbegin() + 1, RessourcePaths.rend());
 #endif
     }
   std::vector<std::string> RessourcePaths;

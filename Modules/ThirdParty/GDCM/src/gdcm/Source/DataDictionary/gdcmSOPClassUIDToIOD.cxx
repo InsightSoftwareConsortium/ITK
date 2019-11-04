@@ -126,6 +126,7 @@ namespace gdcm
 {"1.2.840.10008.5.1.4.1.1.12.3" , ""}, // XRayAngiographicBiplaneImageStorage
 // private:
 { "1.3.12.2.1107.5.9.1" , "Siemens Non-image IOD Modules"}, // CSA Non-Image Storage
+{ "1.2.392.200036.9125.1.1.2" , "Fuji Private CR Image IOD Modules"}, // 
 
 { nullptr, nullptr }
 };
