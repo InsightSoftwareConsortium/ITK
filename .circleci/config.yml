@@ -15,7 +15,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/python:2.7.16-stretch
+      - image: circleci/python:3.7-stretch
     working_directory: ~/
     resource_class: medium
     branches:
