@@ -40,7 +40,7 @@ unsigned int Directory::Load(FilenameType const &name, bool recursive)
       Toplevel = name;
       return Explore( Toplevel, recursive );
       }
-  return false;
+  return 0;
 }
 
 unsigned int Directory::Explore(FilenameType const &name, bool recursive)

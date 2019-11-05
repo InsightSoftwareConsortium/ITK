@@ -108,7 +108,7 @@ bool Writer::Write()
 		  return false;
 	  }
 
-    return true;//os;
+    return !os.fail();
     }
 
   try
@@ -159,7 +159,7 @@ bool Writer::Write()
     Ofstream->close();
     }
 
-  return true;
+  return !os.fail();
 }
 
 void Writer::SetFileName(const char *filename)

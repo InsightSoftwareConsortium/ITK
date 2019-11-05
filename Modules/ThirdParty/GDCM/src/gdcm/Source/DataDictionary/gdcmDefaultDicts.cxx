@@ -24,7 +24,8 @@
 #include "gdcmDict.h"
 #include "gdcmDictEntry.h"
 
-namespace gdcm {
+namespace {
+using namespace gdcm;
 typedef struct
 {
   uint16_t group;
@@ -13275,6 +13276,9 @@ static const DICT_ENTRY DICOMV3DataDict [] = {
   {0xffff,0xffff,VR::INVALID,VM::VM0,"","",true }, // dummy
   {0xffff,0xffff,VR::INVALID,VM::VM0,0,0,true } // Gard
 };
+} // end anonymous namespace
+
+namespace gdcm {
 
 void Dict::LoadDefault()
 {

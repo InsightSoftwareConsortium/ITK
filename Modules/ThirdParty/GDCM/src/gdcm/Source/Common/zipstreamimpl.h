@@ -64,7 +64,7 @@ zran.c
 
 #include <gdcm_zlib.h>
 
-#ifdef WIN32 /* Window 95 & Windows NT */
+#ifdef _WIN32 /* Window 95 & Windows NT */
 #  define OS_CODE  0x0b
 #endif
 #if defined(MACOS) || defined(TARGET_OS_MAC)

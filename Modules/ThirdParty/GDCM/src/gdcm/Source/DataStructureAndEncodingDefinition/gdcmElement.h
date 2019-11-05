@@ -236,10 +236,10 @@ public:
     char sep;
     //std::cout << "GetLength: " << af->GetLength() << std::endl;
     for(unsigned long i=1; i<length;++i) {
-      assert( _is );
+      //assert( _is );
       // Get the separator in between the values
       _is >> std::ws >> sep; //_is.get(sep);
-      assert( sep == '\\' ); // FIXME: Bad use of assert
+      //assert( sep == '\\' ); // FIXME: Bad use of assert
       _is >> std::ws >> data[i];
       }
     }
