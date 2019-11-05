@@ -28,6 +28,7 @@ itkImageIODirection2DTest.cxx
 itkImageIODirection3DTest.cxx
 itkImageIOFileNameExtensionsTests.cxx
 itkImageSeriesReaderDimensionsTest.cxx
+itkImageSeriesReaderSamplingTest.cxx
 itkImageSeriesReaderVectorTest.cxx
 itkImageSeriesWriterTest.cxx
 itkIOPluginTest.cxx
@@ -277,6 +278,17 @@ itk_add_test(NAME itkImageSeriesReaderDimensionsTest1
               DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm})
 
 set_property(TEST itkImageSeriesReaderDimensionsTest1 APPEND PROPERTY DEPENDS ITK_Data)
+
+itk_add_test(NAME itkImageSeriesReaderSamplingTest1
+      COMMAND ITKIOImageBaseTestDriver itkImageSeriesReaderSamplingTest
+              DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0075.dcm}
+              DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm}
+              DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm} # duplicated slice test to emulate non-uniform sampling
+              DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm})
+
+set_property(TEST itkImageSeriesReaderDimensionsTest1 APPEND PROPERTY DEPENDS ITK_Data)
+# TODO: add a test with a missing slice, for that we need to have example with one more slice
+
 
 itk_add_test(NAME itkImageFileReaderPositiveSpacingTest
       COMMAND ITKIOImageBaseTestDriver itkImageFileReaderPositiveSpacingTest
