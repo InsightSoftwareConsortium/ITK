@@ -36,10 +36,8 @@
 #ifdef GDCM_HAVE_WINSOCK_H
 #include <winsock.h>
 #endif
-#include <stdio.h> // snprintf
-#if defined(GDCM_HAVE_SNPRINTF)
-// ok nothing to do
-#elif defined(GDCM_HAVE__SNPRINTF)
+#include <cstdio> // snprintf
+#if defined(_MSC_VER) && (_MSC_VER < 1900)
 #define snprintf _snprintf
 #endif
 #ifdef GDCM_USE_COREFOUNDATION_LIBRARY
@@ -65,7 +63,6 @@
 
 // TODO: WIN32 replacement for C99 stuff:
 // #if defined(_WIN32) || defined(_WIN64)
-// #define snprintf _snprintf
 // #define vsnprintf _vsnprintf
 // #define strcasecmp _stricmp
 // #define strncasecmp _strnicmp

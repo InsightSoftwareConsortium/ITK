@@ -619,6 +619,7 @@ bool VR::IsDual() const
   case OB_OW :
   case US_SS :
   case US_SS_OW :
+  case US_OW :
     return true;
   default:
     return false;

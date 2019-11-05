@@ -229,6 +229,9 @@ const char *Defs::GetIODNameFromMediaStorage(MediaStorage const &ms)
     case MediaStorage::XRayRadiationDoseSR:
       iodname = "X Ray Radiation Dose SR IOD Modules";
       break;
+    case MediaStorage::FujiPrivateCRImageStorage:
+      iodname = "Fuji Private CR Image IOD Modules";
+      break;
     case MediaStorage::CSANonImageStorage:
       iodname = "Siemens Non-image IOD Modules";
       break;

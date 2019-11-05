@@ -360,6 +360,7 @@ inline unsigned int VR::GetSize() const
     case VR::INVALID:
     case VR::OB_OW:
     case VR::US_SS_OW:
+    case VR::US_OW:
     case VR::VL16:
     case VR::VL32:
     case VR::VRASCII:
