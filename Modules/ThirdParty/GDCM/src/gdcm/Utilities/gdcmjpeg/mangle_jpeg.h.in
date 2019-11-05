@@ -136,5 +136,13 @@
 #define jzero_far @MANGLE_PREFIX@_jzero_far
 
 #define jpeg_memory_src @MANGLE_PREFIX@_memory_src
+#define jpeg_memory_mgr @MANGLE_PREFIX@_memory_mgr
+#define jpeg_common_struct @MANGLE_PREFIX@_common_struct
+#define jpeg_error_mgr @MANGLE_PREFIX@_error_mgr
+#define jpeg_progress_mgr @MANGLE_PREFIX@_progress_mgr
+#define jpeg_decompress_struct @MANGLE_PREFIX@_decompress_struct
+#define jpeg_compress_struct @MANGLE_PREFIX@_compress_struct
+#define jpeg_destination_mgr @MANGLE_PREFIX@_destination_mgr
+#define jpeg_source_mgr @MANGLE_PREFIX@_source_mgr
 
 #endif

@@ -93,8 +93,8 @@ std::istream& Read(std::istream &is, bool readvalues = true)
 template <typename TSwap>
 std::istream& ReadPreValue(std::istream &is)
 {
-  //if( SequenceLengthField.IsUndefined() )
   // First item is the basic offset table:
+#if 0
   try
     {
     Table.Read<TSwap>(is);
@@ -125,6 +125,10 @@ std::istream& ReadPreValue(std::istream &is)
       //assert(0);
       }
     }
+#else
+  Table.Read<TSwap>(is);
+  gdcmDebugMacro( "Table: " << Table );
+#endif
   return is;
 }
 

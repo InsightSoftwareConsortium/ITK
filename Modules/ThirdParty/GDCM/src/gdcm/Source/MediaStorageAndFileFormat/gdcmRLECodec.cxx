@@ -297,7 +297,7 @@ bool DoInvertPlanarConfiguration(T *output, const T *input, uint32_t inputlength
     b += 3;
     }
   assert( b == input + length + 2);
-  assert ( pout = output + length );
+  assert ( pout == output + length );
   return true;
 }
 
@@ -847,7 +847,7 @@ bool RLECodec::DecodeByStreams(std::istream &is, std::ostream &os)
         }
       //assert( numberOfReadBytes + frame.Header.Offset[i] - is.tellg() + start == 0);
       }
-    assert( numOutBytes == length );
+    if( numOutBytes != length ) return false;
     }
 
   return ImageCodec::DecodeByStreams(tmpos,os);

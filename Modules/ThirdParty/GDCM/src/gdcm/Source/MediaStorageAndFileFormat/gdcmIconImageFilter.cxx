@@ -50,7 +50,7 @@ void IconImageFilter::ExtractIconImages()
     const DataElement &iconimagesq = rootds.GetDataElement( ticonimage );
     SmartPointer<SequenceOfItems> sq = iconimagesq.GetValueAsSQ();
     // Is SQ empty ?
-    if( sq )
+    if( sq && sq->GetNumberOfItems() == 1 )
       {
       gdcmAssertAlwaysMacro( sq->GetNumberOfItems() == 1 );
 
