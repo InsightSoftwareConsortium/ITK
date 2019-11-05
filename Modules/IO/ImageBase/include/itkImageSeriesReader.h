@@ -207,6 +207,8 @@ protected:
 
   bool m_UseStreaming{ true };
 
+  bool m_SpacingDefined{ false };
+
 private:
   using ReaderType = ImageFileReader<TOutputImage>;
 

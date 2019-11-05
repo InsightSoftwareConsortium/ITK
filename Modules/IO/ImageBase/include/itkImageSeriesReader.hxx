@@ -205,10 +205,12 @@ ImageSeriesReader<TOutputImage>::GenerateOutputInformation()
     if (Math::AlmostEquals(dirNnorm, 0.0))
     {
       spacing[this->m_NumberOfDimensionsInImage] = 1.0;
+      this->m_SpacingDefined = false;
     }
     else
     {
       spacing[this->m_NumberOfDimensionsInImage] = dirNnorm / (numberOfFiles - 1);
+      this->m_SpacingDefined = true;
       if (!m_ForceOrthogonalDirection)
       {
         for (j = 0; j < TOutputImage::ImageDimension; ++j)
@@ -294,6 +296,10 @@ ImageSeriesReader<TOutputImage>::GenerateData()
   IndexType                                  sliceStartIndex = requestedRegion.GetIndex();
   const auto                                 numberOfFiles = static_cast<int>(m_FileNames.size());
 
+  typename TOutputImage::PointType   prevSliceOrigin = output->GetOrigin();
+  typename TOutputImage::SpacingType outputSpacing = output->GetSpacing();
+  bool                               prevSliceIsValid = false;
+
   for (int i = 0; i != numberOfFiles; ++i)
   {
     if (TOutputImage::ImageDimension != this->m_NumberOfDimensionsInImage)
@@ -303,6 +309,7 @@ ImageSeriesReader<TOutputImage>::GenerateData()
 
     const bool insideRequestedRegion = requestedRegion.IsInside(sliceStartIndex);
     const int  iFileName = (m_ReverseOrder ? numberOfFiles - i - 1 : i);
+    bool       nonUniformSampling = false;
 
     // check if we need this slice
     if (!insideRequestedRegion && !needToUpdateMetaDataDictionaryArray)
@@ -408,9 +415,45 @@ ImageSeriesReader<TOutputImage>::GenerateData()
         ImageAlgorithm::Copy(readerOutput, output, sliceRegionToRequest, outRegion);
       }
 
+      // verify that slice spacing is the expected one
+      // since we can be skipping some slices because they are outside of requested region
+      // I am using additional variable
+      if (prevSliceIsValid)
+      {
+        typename TOutputImage::PointType sliceOrigin = readerOutput->GetOrigin();
+        using SpacingScalarType = typename TOutputImage::SpacingValueType;
+        Vector<SpacingScalarType, TOutputImage::ImageDimension> dirN;
+        for (size_t j = 0; j < TOutputImage::ImageDimension; ++j)
+        {
+          dirN[j] = static_cast<SpacingScalarType>(sliceOrigin[j]) - static_cast<SpacingScalarType>(prevSliceOrigin[j]);
+        }
+        SpacingScalarType dirNnorm = dirN.GetNorm();
+
+        if (this->m_SpacingDefined &&
+            !Math::AlmostEquals(
+              dirNnorm,
+              outputSpacing[this->m_NumberOfDimensionsInImage])) // either non-uniform sampling or missing slice
+        {
+          nonUniformSampling = true;
+          itkWarningMacro(<< "Non unform sampling or missing slices detected , expected "
+                          << outputSpacing[this->m_NumberOfDimensionsInImage] << " got: " << dirNnorm);
+
+          EncapsulateMetaData<bool>(output->GetMetaDataDictionary(),
+                                    "ITK_non_uniform_sampling",
+                                    true); // set metadata for the series reader output
+
+          needToUpdateMetaDataDictionaryArray = true;
+        }
+        prevSliceOrigin = sliceOrigin;
+      }
+      else
+      {
+        prevSliceOrigin = readerOutput->GetOrigin();
+        prevSliceIsValid = true;
+      }
+
       // report progress for read slices
       progress.CompletedPixel();
-
     } // end !insidedRequestedRegion
 
     // Deep copy the MetaDataDictionary into the array
@@ -418,6 +461,10 @@ ImageSeriesReader<TOutputImage>::GenerateData()
     {
       auto newDictionary = new DictionaryType;
       *newDictionary = reader->GetImageIO()->GetMetaDataDictionary();
+      if (nonUniformSampling)
+      {
+        EncapsulateMetaData<bool>(*newDictionary, "ITK_non_uniform_sampling", true); // slice-specific information
+      }
       m_MetaDataDictionaryArray.push_back(newDictionary);
     }
 
