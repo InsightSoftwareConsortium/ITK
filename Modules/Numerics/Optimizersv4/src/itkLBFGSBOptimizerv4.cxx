@@ -95,8 +95,8 @@ LBFGSBOptimizerv4 ::PrintSelf(std::ostream & os, Indent indent) const
 void
 LBFGSBOptimizerv4 ::SetScales(const ScalesType &)
 {
-  itkWarningMacro(<< "LBFGSB optimizer does not support scaling. All scales are set to one.")
-    m_Scales.SetSize(this->m_Metric->GetNumberOfLocalParameters());
+  itkWarningMacro(<< "LBFGSB optimizer does not support scaling. All scales are set to one.");
+  m_Scales.SetSize(this->m_Metric->GetNumberOfLocalParameters());
   m_Scales.Fill(NumericTraits<ScalesType::ValueType>::OneValue());
   this->m_ScalesAreIdentity = true;
 }

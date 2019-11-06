@@ -204,9 +204,9 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 
     ImageRegionConstIteratorWithIndex<InputFieldType> It(inputField, inputField->GetBufferedRegion());
 
-    itkDebugMacro("Extracting points from input displacement field.")
+    itkDebugMacro("Extracting points from input displacement field.");
 
-      for (It.GoToBegin(); !It.IsAtEnd(); ++It)
+    for (It.GoToBegin(); !It.IsAtEnd(); ++It)
     {
       typename DisplacementFieldType::IndexType index = It.GetIndex();
 

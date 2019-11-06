@@ -277,8 +277,8 @@ LBFGS2Optimizerv4::GetStopConditionDescription() const
 void
 LBFGS2Optimizerv4 ::SetScales(const ScalesType &)
 {
-  itkWarningMacro(<< "LBFGS optimizer does not support scaling. All scales are set to one.")
-    m_Scales.SetSize(this->m_Metric->GetNumberOfLocalParameters());
+  itkWarningMacro(<< "LBFGS optimizer does not support scaling. All scales are set to one.");
+  m_Scales.SetSize(this->m_Metric->GetNumberOfLocalParameters());
   m_Scales.Fill(NumericTraits<ScalesType::ValueType>::OneValue());
   this->m_ScalesAreIdentity = true;
 }
@@ -286,8 +286,8 @@ LBFGS2Optimizerv4 ::SetScales(const ScalesType &)
 void
 LBFGS2Optimizerv4 ::SetWeights(const ScalesType)
 {
-  itkWarningMacro(<< "LBFGS optimizer does not support weights. All weights are set to one.")
-    m_Weights.SetSize(this->m_Metric->GetNumberOfLocalParameters());
+  itkWarningMacro(<< "LBFGS optimizer does not support weights. All weights are set to one.");
+  m_Weights.SetSize(this->m_Metric->GetNumberOfLocalParameters());
   m_Weights.Fill(NumericTraits<ScalesType::ValueType>::OneValue());
   this->m_WeightsAreIdentity = true;
 }
