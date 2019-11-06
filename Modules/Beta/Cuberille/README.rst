@@ -2,7 +2,7 @@ ITKCuberille
 ============
 
 .. image:: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_apis/build/status/InsightSoftwareConsortium.ITKCuberille?branchName=master
-    :target: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_build/latest?definitionId=2&branchName=master
+   :target: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_build/latest?definitionId=6&branchName=master
     :alt: Build status
 
 .. image:: https://img.shields.io/pypi/v/itk-cuberille.svg
