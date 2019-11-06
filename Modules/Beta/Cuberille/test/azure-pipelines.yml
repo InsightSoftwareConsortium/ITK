@@ -1,7 +1,7 @@
 variables:
-  ITKGitTag: v5.0.0
-  ITKPythonGitTag: v5.0.0.post1
-  CMakeBuildType: MinSizeRel
+  ITKGitTag: v5.0.1
+  ITKPythonGitTag: v5.0.1
+  CMakeBuildType: Release
 
 trigger:
   batch: true
