@@ -766,6 +766,19 @@ configurations as possible.
 Release Notes Posts
 -------------------
 
+To get started with the release notes, first use the download link
+cookiecutter to generate Markdown and webpage Download page HTML:
+
+```
+pip install cookiecutter
+cookiecutter ~/src/ITK/Utilities/Maintenance/DownloadLinksCookieCutter/
+```
+
+Start with the previous GitHub Release markdown content to produce the
+release notes.
+
+To generate the changelog:
+
 ```sh
    cd ITK
    git shortlog --topo-order --no-merges v$old_version..v$new_version
