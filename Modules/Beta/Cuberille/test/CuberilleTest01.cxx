@@ -118,7 +118,7 @@ int CuberilleTest01 (int argc, char * argv [] )
   ImageFileReaderType::Pointer reader = ImageFileReaderType::New();
   reader->SetFileName( filenameInputImage );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->UpdateLargestPossibleRegion() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->UpdateLargestPossibleRegion() );
 
   ImageType::Pointer input = reader->GetOutput();
   input->DisconnectPipeline();
@@ -142,7 +142,7 @@ int CuberilleTest01 (int argc, char * argv [] )
 
   time.Start();
 
-  TRY_EXPECT_NO_EXCEPTION( marching->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( marching->Update() );
 
   time.Stop();
 
@@ -153,13 +153,13 @@ int CuberilleTest01 (int argc, char * argv [] )
   // Create cuberille mesh filter
   CuberilleType::Pointer cuberille = CuberilleType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( cuberille, CuberilleImageToMeshFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( cuberille, CuberilleImageToMeshFilter,
     ImageToMeshFilter );
 
   cuberille->SetInput( input );
 
   cuberille->SetIsoSurfaceValue( isoSurfaceValue );
-  TEST_SET_GET_VALUE( isoSurfaceValue, cuberille->GetIsoSurfaceValue() );
+  ITK_TEST_SET_GET_VALUE( isoSurfaceValue, cuberille->GetIsoSurfaceValue() );
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 #if USE_BSPLINE_INTERPOLATOR
@@ -167,34 +167,34 @@ int CuberilleTest01 (int argc, char * argv [] )
   interpolator->SetSplineOrder( splineOrder );
 #endif
   cuberille->SetInterpolator( interpolator );
-  TEST_SET_GET_VALUE( interpolator, cuberille->GetInterpolator() );
+  ITK_TEST_SET_GET_VALUE( interpolator, cuberille->GetInterpolator() );
 
   cuberille->SetGenerateTriangleFaces( generateTriangleFaces );
-  TEST_SET_GET_VALUE( generateTriangleFaces,
+  ITK_TEST_SET_GET_VALUE( generateTriangleFaces,
     cuberille->GetGenerateTriangleFaces() );
 
   cuberille->SetProjectVerticesToIsoSurface( projectToIsoSurface );
-  TEST_SET_GET_VALUE( projectToIsoSurface,
+  ITK_TEST_SET_GET_VALUE( projectToIsoSurface,
     cuberille->GetProjectVerticesToIsoSurface() );
 
   cuberille->SetProjectVertexSurfaceDistanceThreshold( surfaceDistanceThreshold );
-  TEST_SET_GET_VALUE( surfaceDistanceThreshold,
+  ITK_TEST_SET_GET_VALUE( surfaceDistanceThreshold,
     cuberille->GetProjectVertexSurfaceDistanceThreshold() );
 
   cuberille->SetProjectVertexStepLength( stepLength );
-  TEST_SET_GET_VALUE( stepLength, cuberille->GetProjectVertexStepLength() );
+  ITK_TEST_SET_GET_VALUE( stepLength, cuberille->GetProjectVertexStepLength() );
 
   cuberille->SetProjectVertexStepLengthRelaxationFactor( stepLengthRelax );
-  TEST_SET_GET_VALUE( stepLengthRelax,
+  ITK_TEST_SET_GET_VALUE( stepLengthRelax,
     cuberille->GetProjectVertexStepLengthRelaxationFactor() );
 
   cuberille->SetProjectVertexMaximumNumberOfSteps( maximumNumberOfSteps );
-  TEST_SET_GET_VALUE( maximumNumberOfSteps,
+  ITK_TEST_SET_GET_VALUE( maximumNumberOfSteps,
     cuberille->GetProjectVertexMaximumNumberOfSteps() );
 
   time.Start();
 
-  TRY_EXPECT_NO_EXCEPTION( cuberille->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( cuberille->Update() );
 
   time.Stop();
 
@@ -217,7 +217,7 @@ int CuberilleTest01 (int argc, char * argv [] )
 
   decimate->SetInput( outputMesh );
 
-  TRY_EXPECT_NO_EXCEPTION( decimate->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( decimate->Update() );
 #endif
 
   // Write mesh
@@ -229,7 +229,7 @@ int CuberilleTest01 (int argc, char * argv [] )
 #endif
   writer->SetFileName( filenameOutputMesh );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   // Assert number of points/cells
   std::cout << "Polygonization took " << time.GetMean() << " seconds" << std::endl;
