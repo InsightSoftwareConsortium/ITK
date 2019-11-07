@@ -73,12 +73,12 @@ BinaryMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::Gener
   // create the pipeline without input and output image
   dilate->ReleaseDataFlagOn();
   dilate->SetKernel(this->GetKernel());
-  dilate->SetDilateValue(m_ForegroundValue);
+  dilate->SetForegroundValue(m_ForegroundValue); // Intensity value to dilate
 
   erode->SetKernel(this->GetKernel());
   erode->ReleaseDataFlagOn();
-  erode->SetErodeValue(m_ForegroundValue);
-  erode->SetBackgroundValue(backgroundValue);
+  erode->SetForegroundValue(m_ForegroundValue); // Intensity value to erode
+  erode->SetBackgroundValue(backgroundValue);   // Replacement value for eroded voxel
   erode->SetInput(dilate->GetOutput());
 
   // now we have 2 cases:

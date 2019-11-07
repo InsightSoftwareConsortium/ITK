@@ -80,13 +80,13 @@ BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>::GenerateData()
   // create the pipeline without input and output image
   dilate->ReleaseDataFlagOn();
   dilate->SetKernel(this->GetKernel());
-  dilate->SetDilateValue(m_ForegroundValue);
+  dilate->SetForegroundValue(m_ForegroundValue); // Intensity value to dilate
   dilate->SetBackgroundValue(backgroundValue);
   dilate->SetInput(this->GetInput());
   dilate->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
 
   erode->ReleaseDataFlagOn();
-  erode->SetForegroundValue(m_ForegroundValue);
+  erode->SetForegroundValue(m_ForegroundValue); // Intensity value to erode
   erode->SetBackgroundValue(backgroundValue);
   erode->SetMarkerImage(dilate->GetOutput());
   erode->SetFullyConnected(m_FullyConnected);
