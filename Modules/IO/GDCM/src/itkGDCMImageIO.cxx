@@ -1241,7 +1241,9 @@ void GDCMImageIO::GetPatientName(char *name)
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
   ExposeMetaData< std::string >(dict, "0010|0010", m_PatientName);
-  strcpy ( name, m_PatientName.c_str() );
+  const size_t len = 512;
+  strncpy ( name, m_PatientName.c_str(), len-1);
+  name[len-1] = '0';
 }
 
 void GDCMImageIO::GetPatientID(char *name)
@@ -1249,7 +1251,9 @@ void GDCMImageIO::GetPatientID(char *name)
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
   ExposeMetaData< std::string >(dict, "0010|0020", m_PatientID);
-  strcpy ( name, m_PatientID.c_str() );
+  const size_t len = 512;
+  strncpy ( name, m_PatientID.c_str() , len-1);
+  name[len-1] = '0';
 }
 
 void GDCMImageIO::GetPatientSex(char *name)
@@ -1257,7 +1261,9 @@ void GDCMImageIO::GetPatientSex(char *name)
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
   ExposeMetaData< std::string >(dict, "0010|0040", m_PatientSex);
-  strcpy ( name, m_PatientSex.c_str() );
+  const size_t len = 512;
+  strncpy ( name, m_PatientSex.c_str() , len-1);
+  name[len-1] = '0';
 }
 
 void GDCMImageIO::GetPatientAge(char *name)
@@ -1265,7 +1271,9 @@ void GDCMImageIO::GetPatientAge(char *name)
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
   ExposeMetaData< std::string >(dict, "0010|1010", m_PatientAge);
-  strcpy ( name, m_PatientAge.c_str() );
+  const size_t len = 512;
+  strncpy ( name, m_PatientAge.c_str() , len-1);
+  name[len-1] = '0';
 }
 
 void GDCMImageIO::GetStudyID(char *name)
@@ -1273,7 +1281,9 @@ void GDCMImageIO::GetStudyID(char *name)
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
   ExposeMetaData< std::string >(dict, "0020|0010", m_StudyID);
-  strcpy ( name, m_StudyID.c_str() );
+  const size_t len = 512;
+  strncpy ( name, m_StudyID.c_str() , len-1);
+  name[len-1] = '0';
 }
 
 void GDCMImageIO::GetPatientDOB(char *name)
@@ -1281,7 +1291,9 @@ void GDCMImageIO::GetPatientDOB(char *name)
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
   ExposeMetaData< std::string >(dict, "0010|0030", m_PatientDOB);
-  strcpy ( name, m_PatientDOB.c_str() );
+  const size_t len = 512;
+  strncpy ( name, m_PatientDOB.c_str() , len-1);
+  name[len-1] = '0';
 }
 
 void GDCMImageIO::GetStudyDescription(char *name)
@@ -1289,7 +1301,9 @@ void GDCMImageIO::GetStudyDescription(char *name)
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
   ExposeMetaData< std::string >(dict, "0008|1030", m_StudyDescription);
-  strcpy ( name, m_StudyDescription.c_str() );
+  const size_t len = 512;
+  strncpy ( name, m_StudyDescription.c_str() , len-1);
+  name[len-1] = '0';
 }
 
 void GDCMImageIO::GetBodyPart(char *name)
@@ -1297,7 +1311,9 @@ void GDCMImageIO::GetBodyPart(char *name)
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
   ExposeMetaData< std::string >(dict, "0018|0015", m_BodyPart);
-  strcpy ( name, m_BodyPart.c_str() );
+  const size_t len = 512;
+  strncpy ( name, m_BodyPart.c_str() , len-1);
+  name[len-1] = '0';
 }
 
 void GDCMImageIO::GetNumberOfSeriesInStudy(char *name)
@@ -1305,7 +1321,9 @@ void GDCMImageIO::GetNumberOfSeriesInStudy(char *name)
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
   ExposeMetaData< std::string >(dict, "0020|1000", m_NumberOfSeriesInStudy);
-  strcpy ( name, m_NumberOfSeriesInStudy.c_str() );
+  const size_t len = 512;
+  strncpy ( name, m_NumberOfSeriesInStudy.c_str() , len-1);
+  name[len-1] = '0';
 }
 
 void GDCMImageIO::GetNumberOfStudyRelatedSeries(char *name)
@@ -1313,7 +1331,9 @@ void GDCMImageIO::GetNumberOfStudyRelatedSeries(char *name)
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
   ExposeMetaData< std::string >(dict, "0020|1206", m_NumberOfStudyRelatedSeries);
-  strcpy ( name, m_NumberOfStudyRelatedSeries.c_str() );
+  const size_t len = 512;
+  strncpy ( name, m_NumberOfStudyRelatedSeries.c_str() , len-1);
+  name[len-1] = '0';
 }
 
 void GDCMImageIO::GetStudyDate(char *name)
@@ -1321,7 +1341,9 @@ void GDCMImageIO::GetStudyDate(char *name)
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
   ExposeMetaData< std::string >(dict, "0008|0020", m_StudyDate);
-  strcpy ( name, m_StudyDate.c_str() );
+  const size_t len = 512;
+  strncpy ( name, m_StudyDate.c_str() , len-1);
+  name[len-1] = '0';
 }
 
 void GDCMImageIO::GetModality(char *name)
@@ -1329,7 +1351,9 @@ void GDCMImageIO::GetModality(char *name)
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
   ExposeMetaData< std::string >(dict, "0008|0060", m_Modality);
-  strcpy ( name, m_Modality.c_str() );
+  const size_t len = 512;
+  strncpy ( name, m_Modality.c_str() , len-1);
+  name[len-1] = '0';
 }
 
 void GDCMImageIO::GetManufacturer(char *name)
@@ -1337,7 +1361,9 @@ void GDCMImageIO::GetManufacturer(char *name)
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
   ExposeMetaData< std::string >(dict, "0008|0070", m_Manufacturer);
-  strcpy ( name, m_Manufacturer.c_str() );
+  const size_t len = 512;
+  strncpy ( name, m_Manufacturer.c_str() , len-1);
+  name[len-1] = '0';
 }
 
 void GDCMImageIO::GetInstitution(char *name)
@@ -1345,7 +1371,9 @@ void GDCMImageIO::GetInstitution(char *name)
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
   ExposeMetaData< std::string >(dict, "0008|0080", m_Institution);
-  strcpy ( name, m_Institution.c_str() );
+  const size_t len = 512;
+  strncpy ( name, m_Institution.c_str() , len-1);
+  name[len-1] = '0';
 }
 
 void GDCMImageIO::GetModel(char *name)
@@ -1353,7 +1381,9 @@ void GDCMImageIO::GetModel(char *name)
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
   ExposeMetaData< std::string >(dict, "0008|1090", m_Model);
-  strcpy ( name, m_Model.c_str() );
+  const size_t len = 512;
+  strncpy ( name, m_Model.c_str() , len-1);
+  name[len-1] = '0';
 }
 
 void GDCMImageIO::GetScanOptions(char *name)
@@ -1361,7 +1391,9 @@ void GDCMImageIO::GetScanOptions(char *name)
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
   ExposeMetaData< std::string >(dict, "0018|0022", m_ScanOptions);
-  strcpy ( name, m_ScanOptions.c_str() );
+  const size_t len = 512;
+  strncpy ( name, m_ScanOptions.c_str() , len-1);
+  name[len-1] = '0';
 }
 #endif
 
