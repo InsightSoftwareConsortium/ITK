@@ -62,7 +62,7 @@ MeanImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   // Process each of the boundary faces. These are N-d regions which border
   // the edge of the buffer.
-  for (const auto boundaryFace : calculatorResult.GetBoundaryFaces())
+  for (const auto & boundaryFace : calculatorResult.GetBoundaryFaces())
   {
     GenerateDataInSubregion<ZeroFluxNeumannImageNeighborhoodPixelAccessPolicy<InputImageType>>(
       *input, *output, boundaryFace, neighborhoodOffsets.get(), neighborhoodSize);
