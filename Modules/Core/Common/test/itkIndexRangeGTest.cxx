@@ -104,6 +104,36 @@ ExpectRangeIsEmptyWhenRegionSizeIsZero()
   EXPECT_TRUE(ImageRegionIndexRange<VDimension>{ zeroSizedImageRegion }.empty());
 }
 
+
+template <typename TRange>
+void
+ExpectRangeBeginIsEnd(const TRange & range)
+{
+  EXPECT_EQ(range.cbegin(), range.cend());
+}
+
+
+template <unsigned VDimension>
+void
+ExpectRangeBeginIsEndWhenSizeHasZeroValue()
+{
+  const itk::Index<VDimension> randomIndex = GenerateRandomIndex<VDimension>();
+
+  for (unsigned i{}; i < VDimension; ++i)
+  {
+    auto size = itk::Size<VDimension>::Filled(2);
+
+    size[i] = 0;
+
+    ExpectRangeBeginIsEnd(ZeroBasedIndexRange<VDimension>{ size });
+    ExpectRangeBeginIsEnd(ImageRegionIndexRange<VDimension>{ size });
+
+    // Now do the test for an arbitrary (random) region index:
+    const itk::ImageRegion<VDimension> imageRegion{ randomIndex, size };
+
+    ExpectRangeBeginIsEnd(ImageRegionIndexRange<VDimension>{ imageRegion });
+  }
+}
 } // namespace
 
 
@@ -293,4 +323,13 @@ TEST(IndexRange, IsEmptyWhenRegionSizeIsZero)
   ExpectRangeIsEmptyWhenRegionSizeIsZero<1>();
   ExpectRangeIsEmptyWhenRegionSizeIsZero<2>();
   ExpectRangeIsEmptyWhenRegionSizeIsZero<3>();
+}
+
+
+// Tests that the begin is equal to the end, for a range constructed with an itk::Size
+// that has a size value of zero.
+TEST(IndexRange, BeginIsEndWhenSizeHasZeroValue)
+{
+  ExpectRangeBeginIsEndWhenSizeHasZeroValue<2>();
+  ExpectRangeBeginIsEndWhenSizeHasZeroValue<3>();
 }
