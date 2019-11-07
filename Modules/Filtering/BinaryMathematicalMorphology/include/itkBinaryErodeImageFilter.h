@@ -27,10 +27,14 @@ namespace itk
 {
 /**
  * \class BinaryErodeImageFilter
- * \brief Fast binary erosion
+ * \brief Fast binary erosion of a single intensity value in the image.
  *
  * BinaryErodeImageFilter is a binary erosion
- * morphologic operation. This implementation is based on the papers:
+ * morphologic operation on the foreground of an image. Only the value designated
+ * by the single "DilateValue" is considered as foreground, and all other values
+ * are considered background.
+ *
+ * This implementation is based on the papers:
  *
  * L.Vincent "Morphological transformations of binary images with
  * arbitrary structuring elements", and
