@@ -430,11 +430,25 @@ private:
   static IndexType
   CalculateMaxIndex(const MinIndexType & minIndex, const SizeType & size)
   {
+    const bool sizeHasZeroValue = [&size] {
+      for (const auto sizeValue : size)
+      {
+        if (sizeValue == 0)
+        {
+          return true;
+        }
+      }
+      return false;
+    }();
+
+    // Treat any size that has a zero value equally.
+    const SizeType normalizedSize = sizeHasZeroValue ? SizeType{ { 0 } } : size;
+
     IndexType index;
 
     for (unsigned i = 0; i < VDimension; ++i)
     {
-      index[i] = minIndex[i] + static_cast<IndexValueType>(size[i]) - 1;
+      index[i] = minIndex[i] + static_cast<IndexValueType>(normalizedSize[i]) - 1;
     }
 
     return index;
