@@ -27,10 +27,29 @@ namespace itk
 {
 /**
  * \class BinaryDilateImageFilter
- * \brief Fast binary dilation
+ * \brief Fast binary dilation of a single intensity value in the image.
  *
  * BinaryDilateImageFilter is a binary dilation
- * morphologic operation. This implementation is based on the papers:
+ * morphologic operation on the foreground of an image. Only the value designated
+ * by the intensity value "SetForegroundValue()" (alias as SetDilateValue()) is considered
+ * as foreground, and other intensity values are considered background.
+ *
+ * Gray scale images can be processed as binary images by selecting a
+ * "ForegroundValue" (alias "DilateValue").  Pixel values matching the dilate value are
+ * considered the "foreground" and all other pixels are
+ * "background". This is useful in processing segmented images where
+ * all pixels in segment #1 have value 1 and pixels in segment #2 have
+ * value 2, etc. A particular "segment number" can be processed.
+ * ForegroundValue defaults to the maximum possible value of the
+ * PixelType.
+ *
+ * The structuring element is assumed to be composed of binary values
+ * (zero or one). Only elements of the structuring element having
+ * values > 0 are candidates for affecting the center pixel.  A
+ * reasonable choice of structuring element is
+ * itk::BinaryBallStructuringElement.
+ *
+ * This implementation is based on the papers:
  *
  * L.Vincent "Morphological transformations of binary images with
  * arbitrary structuring elements", and
@@ -39,21 +58,6 @@ namespace itk
  * morphological transformations with 3d structuring elements
  * for arbitrary size and shape". IEEE Transactions on Image
  * Processing. Vol. 9. No. 3. 2000. pp. 283-286.
- *
- * Gray scale images can be processed as binary images by selecting a
- * "DilateValue".  Pixel values matching the dilate value are
- * considered the "foreground" and all other pixels are
- * "background". This is useful in processing segmented images where
- * all pixels in segment #1 have value 1 and pixels in segment #2 have
- * value 2, etc. A particular "segment number" can be processed.
- * DilateValue defaults to the maximum possible value of the
- * PixelType.
- *
- * The structuring element is assumed to be composed of binary values
- * (zero or one). Only elements of the structuring element having
- * values > 0 are candidates for affecting the center pixel.  A
- * reasonable choice of structuring element is
- * itk::BinaryBallStructuringElement.
  *
  * \sa ImageToImageFilter BinaryErodeImageFilter BinaryMorphologyImageFilter
  * \ingroup ITKBinaryMathematicalMorphology
@@ -109,8 +113,8 @@ public:
   using InputSizeType = typename InputImageType::SizeType;
 
   /** Set the value in the image to consider as "foreground". Defaults to
-   * maximum value of PixelType. This is an alias to the
-   * ForegroundValue in the superclass. */
+   * maximum value of PixelType. This is a function alias to the
+   * SetForegroundValue in the superclass. */
   void
   SetDilateValue(const InputPixelType & value)
   {
@@ -118,8 +122,8 @@ public:
   }
 
   /** Get the value in the image considered as "foreground". Defaults to
-   * maximum value of PixelType. This is an alias to the
-   * ForegroundValue in the superclass. */
+   * maximum value of PixelType. This is a function alias to the
+   * GetForegroundValue in the superclass. */
   InputPixelType
   GetDilateValue() const
   {

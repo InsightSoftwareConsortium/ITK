@@ -60,9 +60,9 @@ BinaryMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>::Gener
   dilate->ReleaseDataFlagOn();
   erode->SetKernel(this->GetKernel());
   erode->ReleaseDataFlagOn();
-  dilate->SetDilateValue(m_ForegroundValue);
-  erode->SetErodeValue(m_ForegroundValue);
-  erode->SetBackgroundValue(m_BackgroundValue);
+  dilate->SetForegroundValue(m_ForegroundValue); // Intensity value to dilate
+  erode->SetForegroundValue(m_ForegroundValue);  // Intensity value to erode
+  erode->SetBackgroundValue(m_BackgroundValue);  // Replacement value for eroded voxels
 
   /** set up the minipipeline */
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();

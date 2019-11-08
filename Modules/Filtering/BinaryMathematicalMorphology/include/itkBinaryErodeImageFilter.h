@@ -27,10 +27,30 @@ namespace itk
 {
 /**
  * \class BinaryErodeImageFilter
- * \brief Fast binary erosion
+ * \brief Fast binary erosion of a single intensity value in the image.
  *
  * BinaryErodeImageFilter is a binary erosion
- * morphologic operation. This implementation is based on the papers:
+ * morphologic operation on the foreground of an image. Only the value designated
+ * by the intensity value "SetForegroundValue()" (alias as SetErodeValue()) is considered
+ * as foreground, and other intensity values are considered background.
+ *
+ * Gray scale images can be processed as binary images by selecting a
+ * "ForegroundValue" (alias "ErodeValue").  Pixel values matching the erode value are
+ * considered the "foreground" and all other pixels are
+ * "background". This is useful in processing segmented images where
+ * all pixels in segment #1 have value 1 and pixels in segment #2 have
+ * value 2, etc. A particular "segment number" can be processed.
+ * ForegroundValue defaults to the maximum possible value of the
+ * PixelType. The eroded pixels will receive the BackgroundValue
+ * (defaults to NumericTraits::NonpositiveMin() ).
+ *
+ * The structuring element is assumed to be composed of binary values
+ * (zero or one). Only elements of the structuring element having
+ * values > 0 are candidates for affecting the center pixel.  A
+ * reasonable choice of structuring element is
+ * itk::BinaryBallStructuringElement.
+ *
+ * This implementation is based on the papers:
  *
  * L.Vincent "Morphological transformations of binary images with
  * arbitrary structuring elements", and
@@ -40,28 +60,13 @@ namespace itk
  * for arbitrary size and shape". IEEE Transactions on Image
  * Processing. Vol. 9. No. 3. 2000. pp. 283-286.
  *
- * Gray scale images can be processed as binary images by selecting a
- * "ErodeValue".  Pixel values matching the erode value are
- * considered the "foreground" and all other pixels are
- * "background". This is useful in processing segmented images where
- * all pixels in segment #1 have value 1 and pixels in segment #2 have
- * value 2, etc. A particular "segment number" can be processed.
- * ErodeValue defaults to the maximum possible value of the
- * PixelType. The eroded pixels will receive the BackgroundValue
- * (defaults to 0).
- *
- * The structuring element is assumed to be composed of binary values
- * (zero or one). Only elements of the structuring element having
- * values > 0 are candidates for affecting the center pixel.  A
- * reasonable choice of structuring element is
- * itk::BinaryBallStructuringElement.
  *
  * \sa ImageToImageFilter BinaryDilateImageFilter BinaryMorphologyImageFilter
  * \ingroup ITKBinaryMathematicalMorphology
  *
  * \sphinx
  * \sphinxexample{Filtering/BinaryMathematicalMorphology/ErodeABinaryImage,Erode A Binary Image}
- * \endsphin
+ * \endsphinx
  */
 template <typename TInputImage, typename TOutputImage, typename TKernel>
 class ITK_TEMPLATE_EXPORT BinaryErodeImageFilter
@@ -111,7 +116,7 @@ public:
 
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of PixelType. This is an alias to the
-   * ForegroundValue in the superclass. */
+   * SetForegroundValue in the superclass. */
   void
   SetErodeValue(const InputPixelType & value)
   {
@@ -120,7 +125,7 @@ public:
 
   /** Get the value in the image considered as "foreground". Defaults to
    * maximum value of PixelType. This is an alias to the
-   * ForegroundValue in the superclass. */
+   * GetForegroundValue in the superclass. */
   InputPixelType
   GetErodeValue() const
   {
