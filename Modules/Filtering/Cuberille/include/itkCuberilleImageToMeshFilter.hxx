@@ -32,7 +32,7 @@
 namespace itk
 {
 
-template <class TInputImage, class TOutputMesh, class TInterpolator>
+template <typename TInputImage, typename TOutputMesh, typename TInterpolator>
 CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::CuberilleImageToMeshFilter()
   : m_IsoSurfaceValue(NumericTraits<InputPixelType>::One)
   , m_MaxSpacing(NumericTraits<SpacingValueType>::One)
@@ -46,20 +46,20 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::CuberilleIm
   this->SetNumberOfRequiredInputs(1);
 }
 
-template <class TInputImage, class TOutputMesh, class TInterpolator>
+template <typename TInputImage, typename TOutputMesh, typename TInterpolator>
 CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::~CuberilleImageToMeshFilter()
 {
   m_GradientInterpolator = nullptr;
 }
 
-template <class TInputImage, class TOutputMesh, class TInterpolator>
+template <typename TInputImage, typename TOutputMesh, typename TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::SetInput(const InputImageType * image)
 {
   this->ProcessObject::SetNthInput(0, const_cast<InputImageType *>(image));
 }
 
-template <class TInputImage, class TOutputMesh, class TInterpolator>
+template <typename TInputImage, typename TOutputMesh, typename TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GenerateData()
 {
@@ -89,7 +89,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GenerateDat
   // Create interpolator for pixel value
   if (m_Interpolator.IsNull())
   {
-    m_Interpolator = InterpolatorType::New();
+    m_Interpolator = LinearInterpolateImageFunction<InputImageType>::New();
   }
   m_Interpolator->SetInputImage(image);
 
@@ -273,7 +273,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GenerateDat
 #endif
 }
 
-template <class TInputImage, class TOutputMesh, class TInterpolator>
+template <typename TInputImage, typename TOutputMesh, typename TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::SetVerticesFromFace(unsigned int face, bool * v)
 {
@@ -318,7 +318,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::SetVertices
   }
 }
 
-template <class TInputImage, class TOutputMesh, class TInterpolator>
+template <typename TInputImage, typename TOutputMesh, typename TInterpolator>
 typename TInputImage::IndexType
 CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GetVertexLookupIndex(
   unsigned int                    vertex,
@@ -359,7 +359,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GetVertexLo
   return result;
 }
 
-template <class TInputImage, class TOutputMesh, class TInterpolator>
+template <typename TInputImage, typename TOutputMesh, typename TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::AddVertex(
   typename TOutputMesh::PointIdentifier & id,
@@ -380,7 +380,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::AddVertex(
   mesh->GetPoints()->InsertElement(id++, vertex);
 }
 
-template <class TInputImage, class TOutputMesh, class TInterpolator>
+template <typename TInputImage, typename TOutputMesh, typename TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::AddQuadFace(
   typename TOutputMesh::CellIdentifier & id,
@@ -443,7 +443,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::AddQuadFace
   }
 }
 
-template <class TInputImage, class TOutputMesh, class TInterpolator>
+template <typename TInputImage, typename TOutputMesh, typename TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ProjectVertexToIsoSurface(PointType & vertex)
 {
@@ -623,7 +623,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ProjectVert
 #endif
 }
 
-template <class TInputImage, class TOutputMesh, class TInterpolator>
+template <typename TInputImage, typename TOutputMesh, typename TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ComputeGradientImage()
 {
@@ -643,7 +643,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ComputeGrad
   }
 }
 
-template <class TInputImage, class TOutputMesh, class TInterpolator>
+template <typename TInputImage, typename TOutputMesh, typename TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::PrintSelf(std::ostream & os, Indent indent) const
 {
