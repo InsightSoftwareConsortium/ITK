@@ -22,6 +22,8 @@
 #include "itkImage.h"
 #include "itkNumericTraits.h"
 
+#include <vector>
+
 namespace itk
 {
 /** \class MeanImageFilter
@@ -106,11 +108,10 @@ protected:
 private:
   template <typename TPixelAccessPolicy>
   static void
-  GenerateDataInSubregion(const TInputImage &                       inputImage,
-                          TOutputImage &                            outputImage,
-                          const ImageRegion<InputImageDimension> &  imageRegion,
-                          const Offset<InputImageDimension> * const neighborhoodOffsets,
-                          const std::size_t                         neighborhoodSize);
+  GenerateDataInSubregion(const TInputImage &                              inputImage,
+                          TOutputImage &                                   outputImage,
+                          const ImageRegion<InputImageDimension> &         imageRegion,
+                          const std::vector<Offset<InputImageDimension>> & neighborhoodOffsets);
 };
 } // end namespace itk
 
