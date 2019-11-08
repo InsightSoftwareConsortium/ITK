@@ -225,7 +225,6 @@ struct ITK_TEMPLATE_EXPORT TileConfiguration
     size_t totalTiles = this->LinearSize();
     for (SizeValueType linearIndex = 0; linearIndex < totalTiles; linearIndex++)
     {
-      TileIndexType ind = this->LinearIndexToNDIndex(linearIndex);
       tileFile << Tiles[linearIndex].FileName << ";;(";
 
       for (unsigned d = 0; d < Dimension; d++)
