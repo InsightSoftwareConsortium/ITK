@@ -89,7 +89,7 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   // Create interpolator for pixel value
   if( m_Interpolator.IsNull() )
     {
-    m_Interpolator = InterpolatorType::New();
+    m_Interpolator = LinearInterpolateImageFunction< InputImageType >::New();
     }
   m_Interpolator->SetInputImage( image );
 
