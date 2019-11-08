@@ -50,22 +50,18 @@ MeanImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::Compute(*input, outputRegionForThread, radius);
 
   using namespace Experimental;
-  const auto neighborhoodShape = RectangularImageNeighborhoodShape<InputImageDimension>(radius);
-  const auto neighborhoodSize = neighborhoodShape.GetNumberOfOffsets();
-  const auto neighborhoodOffsets =
-    std::unique_ptr<Offset<InputImageDimension>[]>(new Offset<InputImageDimension>[neighborhoodSize]);
-  neighborhoodShape.FillOffsets(neighborhoodOffsets.get());
+  const auto neighborhoodOffsets = GenerateRectangularImageNeighborhoodOffsets<InputImageDimension>(radius);
 
   // Process the non-boundary subregion, using a faster pixel access policy without boundary extrapolation.
   GenerateDataInSubregion<BufferedImageNeighborhoodPixelAccessPolicy<InputImageType>>(
-    *input, *output, calculatorResult.GetNonBoundaryRegion(), neighborhoodOffsets.get(), neighborhoodSize);
+    *input, *output, calculatorResult.GetNonBoundaryRegion(), neighborhoodOffsets);
 
   // Process each of the boundary faces. These are N-d regions which border
   // the edge of the buffer.
   for (const auto & boundaryFace : calculatorResult.GetBoundaryFaces())
   {
     GenerateDataInSubregion<ZeroFluxNeumannImageNeighborhoodPixelAccessPolicy<InputImageType>>(
-      *input, *output, boundaryFace, neighborhoodOffsets.get(), neighborhoodSize);
+      *input, *output, boundaryFace, neighborhoodOffsets);
   }
 }
 
@@ -74,22 +70,21 @@ template <typename TInputImage, typename TOutputImage>
 template <typename TPixelAccessPolicy>
 void
 MeanImageFilter<TInputImage, TOutputImage>::GenerateDataInSubregion(
-  const TInputImage &                       inputImage,
-  TOutputImage &                            outputImage,
-  const ImageRegion<InputImageDimension> &  imageRegion,
-  const Offset<InputImageDimension> * const neighborhoodOffsets,
-  const std::size_t                         neighborhoodSize)
+  const TInputImage &                              inputImage,
+  TOutputImage &                                   outputImage,
+  const ImageRegion<InputImageDimension> &         imageRegion,
+  const std::vector<Offset<InputImageDimension>> & neighborhoodOffsets)
 {
+  const auto neighborhoodSize = static_cast<double>(neighborhoodOffsets.size());
+
   using namespace Experimental;
   auto neighborhoodRange = ShapedImageNeighborhoodRange<const InputImageType, TPixelAccessPolicy>(
-    inputImage, Index<InputImageDimension>(), neighborhoodOffsets, neighborhoodSize);
-  const auto outputImageRegionRange = ImageRegionRange<OutputImageType>(outputImage, imageRegion);
-  auto       outputIterator = outputImageRegionRange.begin();
-  auto       indexIterator = ImageRegionIndexRange<InputImageDimension>(imageRegion).cbegin();
+    inputImage, Index<InputImageDimension>(), neighborhoodOffsets);
+  auto outputIterator = ImageRegionRange<OutputImageType>(outputImage, imageRegion).begin();
 
-  for (auto i = outputImageRegionRange.size(); i > 0; --i)
+  for (const auto & index : ImageRegionIndexRange<InputImageDimension>(imageRegion))
   {
-    neighborhoodRange.SetLocation(*indexIterator);
+    neighborhoodRange.SetLocation(index);
 
     auto sum = NumericTraits<InputRealType>::ZeroValue();
 
@@ -99,9 +94,7 @@ MeanImageFilter<TInputImage, TOutputImage>::GenerateDataInSubregion(
     }
 
     // get the mean value
-    *outputIterator = static_cast<typename OutputImageType::PixelType>(sum / double(neighborhoodSize));
-
-    ++indexIterator;
+    *outputIterator = static_cast<typename OutputImageType::PixelType>(sum / neighborhoodSize);
     ++outputIterator;
   }
 }
