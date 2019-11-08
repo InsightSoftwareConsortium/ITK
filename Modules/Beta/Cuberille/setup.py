@@ -13,7 +13,7 @@ except ImportError:
 
 setup(
     name='itk-cuberille',
-    version='2.0.2',
+    version='2.1.0',
     author='Dan Mueller',
     author_email='itk+community@discourse.itk.org',
     packages=['itk'],
