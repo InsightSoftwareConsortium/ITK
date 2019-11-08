@@ -28,7 +28,7 @@
 namespace itk
 {
 
-template<class TInputImage, class TOutputMesh, class TInterpolator>
+template<typename TInputImage, typename TOutputMesh, typename TInterpolator>
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 ::CuberilleImageToMeshFilter() :
   m_IsoSurfaceValue( NumericTraits< InputPixelType >::One ),
@@ -43,14 +43,14 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   this->SetNumberOfRequiredInputs(1);
 }
 
-template<class TInputImage, class TOutputMesh, class TInterpolator>
+template<typename TInputImage, typename TOutputMesh, typename TInterpolator>
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 ::~CuberilleImageToMeshFilter()
 {
   m_GradientInterpolator = nullptr;
 }
 
-template<class TInputImage, class TOutputMesh, class TInterpolator>
+template<typename TInputImage, typename TOutputMesh, typename TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 ::SetInput(const InputImageType* image)
@@ -58,7 +58,7 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   this->ProcessObject::SetNthInput(0, const_cast< InputImageType * >( image ) );
 }
 
-template<class TInputImage, class TOutputMesh, class TInterpolator>
+template<typename TInputImage, typename TOutputMesh, typename TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 ::GenerateData()
@@ -219,7 +219,7 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 
 }
 
-template<class TInputImage, class TOutputMesh, class TInterpolator>
+template<typename TInputImage, typename TOutputMesh, typename TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 ::SetVerticesFromFace( unsigned int face, bool *v )
@@ -235,7 +235,7 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   }
 }
 
-template<class TInputImage, class TOutputMesh, class TInterpolator>
+template<typename TInputImage, typename TOutputMesh, typename TInterpolator>
 typename TInputImage::IndexType
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 ::GetVertexLookupIndex( unsigned int vertex, typename TInputImage::IndexType index )
@@ -255,7 +255,7 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   return result;
 }
 
-template<class TInputImage, class TOutputMesh, class TInterpolator>
+template<typename TInputImage, typename TOutputMesh, typename TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 ::AddVertex( typename TOutputMesh::PointIdentifier &id,
@@ -276,7 +276,7 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   mesh->GetPoints()->InsertElement( id++, vertex );
 }
 
-template<class TInputImage, class TOutputMesh, class TInterpolator>
+template<typename TInputImage, typename TOutputMesh, typename TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 ::AddQuadFace( typename TOutputMesh::CellIdentifier &id,
@@ -331,7 +331,7 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
     }
 }
 
-template<class TInputImage, class TOutputMesh, class TInterpolator>
+template<typename TInputImage, typename TOutputMesh, typename TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 ::ProjectVertexToIsoSurface( PointType &vertex )
@@ -513,7 +513,7 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 
 }
 
-template<class TInputImage, class TOutputMesh, class TInterpolator>
+template<typename TInputImage, typename TOutputMesh, typename TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 ::ComputeGradientImage()
@@ -534,7 +534,7 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
     }
 }
 
-template<class TInputImage, class TOutputMesh, class TInterpolator>
+template<typename TInputImage, typename TOutputMesh, typename TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 ::PrintSelf( std::ostream& os, Indent indent ) const

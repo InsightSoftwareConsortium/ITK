@@ -110,7 +110,7 @@ namespace itk
  * \ingroup Cuberille
  *
  */
-template < class TInputImage, class TOutputMesh, class TInterpolator=itk::LinearInterpolateImageFunction<TInputImage> >
+template < typename TInputImage, typename TOutputMesh, typename TInterpolator=itk::LinearInterpolateImageFunction<TInputImage> >
 class CuberilleImageToMeshFilter : public ImageToMeshFilter< TInputImage, TOutputMesh >
 {
 public:
@@ -275,7 +275,7 @@ private:
 
   /** \class VertexLookupMap A private class providing vertex lookup functionality.
    *  \ingroup Cuberille */
-  template< class TMeshType >
+  template< typename TMeshType >
   class VertexLookupMap
     {
     public:
