@@ -465,6 +465,18 @@ public:
     return &m_InternalArray[0];
   }
 
+
+  /** Returns an Index object, filled with the specified value for each element.
+   */
+  static Self
+  Filled(const IndexValueType value)
+  {
+    Self result;
+    result.Fill(value);
+    return result;
+  }
+
+
 private:
   void
   ExceptionThrowingBoundsCheck(size_type pos) const
