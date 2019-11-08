@@ -21,7 +21,7 @@
 
 template <unsigned Dimension>
 int
-mainHelper(int argc, char * argv[])
+mainHelper(char * argv[])
 {
   itk::TileConfiguration<Dimension> baseline;
   baseline.Parse(argv[1]);
@@ -73,9 +73,9 @@ main(int argc, char * argv[])
     switch (dim)
     {
       case 2:
-        return mainHelper<2>(argc, argv);
+        return mainHelper<2>(argv);
       case 3:
-        return mainHelper<3>(argc, argv);
+        return mainHelper<3>(argv);
       default:
         std::cerr << "Only dimensions 2 and 3 are supported. You are attempting to montage dimension " << dim;
         return EXIT_FAILURE;

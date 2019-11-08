@@ -81,11 +81,11 @@ main(int argc, char ** argv)
     return EXIT_FAILURE;
   }
 
-  double        toleranceIntensity = 0.0;
-  unsigned int  toleranceRadius = 0;
-  unsigned long toleranceNumberOfPixels = 0;
-  std::string   testImageFilename;
-  std::string   baselineImageFilename;
+  double      toleranceIntensity = 0.0;
+  int         toleranceRadius = 0;
+  int         toleranceNumberOfPixels = 0;
+  std::string testImageFilename;
+  std::string baselineImageFilename;
 
   // If a value of intensity tolerance was given in the command line
   if (command.GetOptionWasSet("toleranceIntensity"))

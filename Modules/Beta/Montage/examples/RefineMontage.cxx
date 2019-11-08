@@ -44,6 +44,7 @@ refineMontage(const itk::TileConfiguration<Dimension> & stageTiles,
   using TransformType = itk::TranslationTransform<double, Dimension>;
   using ScalarImageType = itk::Image<PixelType, Dimension>;
   typename ScalarImageType::SpacingType sp;
+  sp.Fill(1.0);
 
   // instantiate and invoke the montaging class
   using MontageType = itk::TileMontage<ScalarImageType>;
@@ -103,7 +104,7 @@ mainHelper(std::string inputPath, std::string inFile, std::string outFile)
   {
     itkGenericExceptionMacro("Tile configuration has dimension " << Dimension << ", but image\n"
                                                                  << firstFilename << "\nhas dimension "
-                                                                 << numDimensions);
+                                                                 << numDimensions)
   }
 
   const itk::ImageIOBase::IOComponentType componentType = imageIO->GetComponentType();
@@ -121,7 +122,7 @@ mainHelper(std::string inputPath, std::string inFile, std::string outFile)
     default: // instantiating too many types leads to long compilation time and big executable
       itkGenericExceptionMacro(
         "Only unsigned char, unsigned short and short are supported as pixel component types! Trying to montage "
-        << itk::ImageIOBase::GetComponentTypeAsString(componentType));
+        << itk::ImageIOBase::GetComponentTypeAsString(componentType))
   }
 
   actualTiles.Write(outFile);

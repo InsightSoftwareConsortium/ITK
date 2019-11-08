@@ -105,14 +105,14 @@ resampleMontage(const itk::TileConfiguration<Dimension> & actualTiles,
       break;
     default:
       itkGenericExceptionMacro("Only sclar, RGB and RGBA images are supported! Actual pixel type: "
-                               << itk::ImageIOBase::GetPixelTypeAsString(pixelType));
+                               << itk::ImageIOBase::GetPixelTypeAsString(pixelType))
       break;
   }
 }
 
 template <unsigned Dimension>
 int
-mainHelper(int argc, char * argv[])
+mainHelper(char * argv[])
 {
   std::string inputPath = itksys::SystemTools::GetFilenamePath(argv[1]);
   if (!inputPath.empty()) // a path was given in addition to file name
@@ -134,7 +134,7 @@ mainHelper(int argc, char * argv[])
   {
     itkGenericExceptionMacro("Tile configuration has dimension " << Dimension << ", but image\n"
                                                                  << firstFilename << "\nhas dimension "
-                                                                 << numDimensions);
+                                                                 << numDimensions)
   }
 
   const itk::ImageIOBase::IOPixelType     pixelType = imageIO->GetPixelType();
@@ -153,7 +153,7 @@ mainHelper(int argc, char * argv[])
     default: // instantiating too many types leads to long compilation time and big executable
       itkGenericExceptionMacro(
         "Only unsigned char, unsigned short and short are supported as pixel component types! Trying to montage "
-        << itk::ImageIOBase::GetComponentTypeAsString(componentType));
+        << itk::ImageIOBase::GetComponentTypeAsString(componentType))
       break;
   }
 
@@ -178,9 +178,9 @@ main(int argc, char * argv[])
     switch (dim)
     {
       case 2:
-        return mainHelper<2>(argc, argv);
+        return mainHelper<2>(argv);
       case 3:
-        return mainHelper<3>(argc, argv);
+        return mainHelper<3>(argv);
       default:
         std::cerr << "Only dimensions 2 and 3 are supported. You are attempting to resample dimension " << dim;
         return EXIT_FAILURE;

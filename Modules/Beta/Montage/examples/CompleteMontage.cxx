@@ -143,7 +143,7 @@ public:
   using Self = CommandIterationUpdate;
   using Superclass = itk::Command;
   using Pointer = itk::SmartPointer<Self>;
-  itkNewMacro(Self);
+  itkNewMacro(Self)
 
 protected:
   CommandIterationUpdate() = default;
@@ -377,6 +377,7 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
   using OriginalImageType = itk::Image<PixelType, Dimension>; // possibly RGB instead of scalar
   using BiasFieldType = LogBiasFieldType<Dimension>;
   typename ScalarImageType::SpacingType sp;
+  sp.Fill(1.0);
 
   TileConfig actualTiles = stageTiles; // we will update it later
 
@@ -526,7 +527,7 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
         stageTiles, inputPath, outputPath, outFilename, correctBias, denoise);
       break;
     default:
-      itkGenericExceptionMacro("Only sclar, RGB and RGBA images are supported!");
+      itkGenericExceptionMacro("Only sclar, RGB and RGBA images are supported!")
       break;
   }
 }
@@ -571,7 +572,7 @@ mainHelper(int argc, char * argv[], std::string inputPath)
   {
     itkGenericExceptionMacro("Tile configuration has dimension " << Dimension << ", but image\n"
                                                                  << firstFilename << "\nhas dimension "
-                                                                 << numDimensions);
+                                                                 << numDimensions)
   }
 
   const itk::ImageIOBase::IOPixelType     pixelType = imageIO->GetPixelType();
@@ -593,7 +594,7 @@ mainHelper(int argc, char * argv[], std::string inputPath)
     default: // instantiating too many types leads to long compilation time and big executable
       itkGenericExceptionMacro(
         "Only unsigned char, unsigned short and short are supported as pixel component types! Trying to montage "
-        << itk::ImageIOBase::GetComponentTypeAsString(componentType));
+        << itk::ImageIOBase::GetComponentTypeAsString(componentType))
       break;
   }
 
