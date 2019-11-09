@@ -70,7 +70,6 @@ BMPImageIO::CanReadFile(const char * filename)
   if (!extensionFound)
   {
     itkDebugMacro(<< "The filename extension is not recognized");
-    return false;
   }
 
   // Now check the content
