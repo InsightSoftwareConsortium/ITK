@@ -1,0 +1,8 @@
+{
+    "output_directory": "DownloadLinks",
+    "major_version": "5",
+    "minor_version": "0",
+    "patch_identifier": [".", "a", "b", "rc"],
+    "patch_version": "0",
+    "doxygen_html_download_url": "https://data.kitware.com/api/v1/file/5b22a8378d777f2e622564e2/download"
+}
