@@ -1,4 +1,12 @@
+cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
 project(ITKGPUFiniteDifference)
+
+if(NOT ITK_SOURCE_DIR)
+  find_package(ITK REQUIRED)
+  list(APPEND CMAKE_MODULE_PATH ${ITK_CMAKE_DIR})
+  set(ITK_USE_GPU ON CACHE BOOL "Enable OpenCL GPU support." FORCE)
+  include(itkOpenCL)
+endif()
 
 if (ITK_USE_GPU)
   set(ITKGPUFiniteDifference_SYSTEM_INCLUDE_DIRS ${OPENCL_INCLUDE_DIRS})
@@ -6,4 +14,8 @@ if (ITK_USE_GPU)
 endif()
 set(ITKGPUFiniteDifference_LIBRARIES ITKGPUFiniteDifference)
 
-itk_module_impl()
+if(NOT ITK_SOURCE_DIR)
+  include(ITKModuleExternal)
+else()
+  itk_module_impl()
+endif()
