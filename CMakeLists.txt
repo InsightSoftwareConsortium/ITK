@@ -301,8 +301,8 @@ option(BUILD_EXAMPLES "Build the examples from the ITK Software Guide." OFF)
 option(ITK_USE_GPU "GPU acceleration via OpenCL" OFF)
 mark_as_advanced(ITK_USE_GPU)
 
-if( ITK_USE_GPU )
-   include(itkOpenCL)
+if(ITK_USE_GPU)
+  include(itkOpenCL)
 endif()
 
 #-----------------------------------------------------------------------------
