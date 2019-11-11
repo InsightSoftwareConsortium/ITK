@@ -1,0 +1,36 @@
+UNIQUE(from_types "UC;${WRAP_ITK_SCALAR}")
+UNIQUE(to_types "UC;UL;${ITKM_IT};${WRAP_ITK_SCALAR}")
+
+itk_wrap_class("itk::ImageSource" POINTER)
+  # Wrap from each scalar type to each other, and also to uchar (for 8-bit saving)
+  # and to ulong (for watershed).
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    foreach(from ${to_types})
+      itk_wrap_template("GI${ITKM_${from}}${d}" "itk::GPUImage< ${ITKT_${from}}, ${d} >")
+    endforeach()
+  endforeach()
+itk_end_wrap_class()
+
+itk_wrap_class("itk::ImageToImageFilter" POINTER)
+  # Wrap from each scalar type to each other, and also to uchar (for 8-bit saving)
+  # and to ulong (for watershed).
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    foreach(from ${from_types})
+      foreach(to ${to_types})
+        itk_wrap_template("GI${ITKM_${from}}${d}GI${ITKM_${to}}${d}" "itk::GPUImage< ${ITKT_${from}}, ${d} >, itk::GPUImage< ${ITKT_${to}}, ${d} >")
+      endforeach()
+    endforeach()
+  endforeach()
+itk_end_wrap_class()
+
+itk_wrap_class("itk::GPUImageToImageFilter" POINTER)
+  # Wrap from each scalar type to each other, and also to uchar (for 8-bit saving)
+  # and to ulong (for watershed).
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    foreach(from ${from_types})
+      foreach(to ${to_types})
+        itk_wrap_template("GI${ITKM_${from}}${d}GI${ITKM_${to}}${d}" "itk::GPUImage< ${ITKT_${from}}, ${d} >, itk::GPUImage< ${ITKT_${to}}, ${d} >")
+      endforeach()
+    endforeach()
+  endforeach()
+itk_end_wrap_class()
