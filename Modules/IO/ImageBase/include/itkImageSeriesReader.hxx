@@ -439,7 +439,7 @@ ImageSeriesReader<TOutputImage>::GetMetaDataDictionaryArray() const
   if (this->m_OutputInformationMTime > this->m_MetaDataDictionaryArrayMTime)
   {
     itkWarningMacro("The MetaDataDictionaryArray is not up to date. This is no longer updated in the "
-                    "UpdateOutputInformation method but in GenerateData.")
+                    "UpdateOutputInformation method but in GenerateData.");
   }
   return &m_MetaDataDictionaryArray;
 }

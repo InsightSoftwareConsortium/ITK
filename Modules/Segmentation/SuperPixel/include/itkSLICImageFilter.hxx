@@ -129,12 +129,12 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::BeforeThreadedGenera
 
     shrunkImage = shrinker->GetOutput();
   }
-  itkDebugMacro("Shinking Completed")
+  itkDebugMacro("Shinking Completed");
 
-    const typename InputImageType::RegionType region = inputImage->GetBufferedRegion();
-  const unsigned int                          numberOfComponents = inputImage->GetNumberOfComponentsPerPixel();
-  const unsigned int                          numberOfClusterComponents = numberOfComponents + ImageDimension;
-  const size_t                                numberOfClusters = shrunkImage->GetBufferedRegion().GetNumberOfPixels();
+  const typename InputImageType::RegionType region = inputImage->GetBufferedRegion();
+  const unsigned int                        numberOfComponents = inputImage->GetNumberOfComponentsPerPixel();
+  const unsigned int                        numberOfClusterComponents = numberOfComponents + ImageDimension;
+  const size_t                              numberOfClusters = shrunkImage->GetBufferedRegion().GetNumberOfPixels();
 
 
   // allocate array of scalars

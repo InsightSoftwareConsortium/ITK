@@ -388,6 +388,7 @@ OutputWindowDisplayDebugText(const char *);
 #  define itkDebugStatement(x)
 #else
 #  define itkDebugMacro(x)                                                                                             \
+    do                                                                                                                 \
     {                                                                                                                  \
       if (this->GetDebug() && ::itk::Object::GetGlobalWarningDisplay())                                                \
       {                                                                                                                \
@@ -396,7 +397,7 @@ OutputWindowDisplayDebugText(const char *);
                << this->GetNameOfClass() << " (" << this << "): " x << "\n\n";                                         \
         ::itk::OutputWindowDisplayDebugText(itkmsg.str().c_str());                                                     \
       }                                                                                                                \
-    }
+    } while (0)
 
 // The itkDebugStatement is to be used to protect code that is only
 // used in the itkDebugMacro
@@ -407,6 +408,7 @@ OutputWindowDisplayDebugText(const char *);
  * but not necessarily fatal.) Example usage looks like:
  * itkWarningMacro(<< "this is warning info" << this->SomeVariable); */
 #define itkWarningMacro(x)                                                                                             \
+  do                                                                                                                   \
   {                                                                                                                    \
     if (::itk::Object::GetGlobalWarningDisplay())                                                                      \
     {                                                                                                                  \
@@ -415,7 +417,7 @@ OutputWindowDisplayDebugText(const char *);
              << this->GetNameOfClass() << " (" << this << "): " x << "\n\n";                                           \
       ::itk::OutputWindowDisplayWarningText(itkmsg.str().c_str());                                                     \
     }                                                                                                                  \
-  }
+  } while (0)
 
 // The itkDebugStatement is to be used ot protect code that is only
 // used in the itkDebugMacro

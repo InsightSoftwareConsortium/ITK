@@ -1249,7 +1249,8 @@ TIFFImageIO::ReadTIFFTags()
         case TIFF_UNDEFINED:
         default:
           itkWarningMacro(<< field_name << " has unsupported data type (" << itkTIFFFieldDataType(field)
-                          << ") for meta-data dictionary.") break;
+                          << ") for meta-data dictionary.");
+          break;
       }
     }
     catch (...)
