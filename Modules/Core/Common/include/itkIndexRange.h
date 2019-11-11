@@ -289,19 +289,12 @@ public:
   using reverse_iterator = std::reverse_iterator<iterator>;
   using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
-  /** Default-constructor. Constructs an empty range.
+  /** Explicitly defaulted default-constructor. Constructs an empty range.
    * \note The other five "special member functions" (copy-constructor,
    * copy-assignment operator, move-constructor, move-assignment operator,
    * and destructor) are implicitly defaulted, following the C++ "Rule of Zero".
    */
-  IndexRange() ITK_NOEXCEPT
-    : m_MinIndex()
-    , m_MaxIndex()
-  {
-    // m_MinIndex and m_MaxIndex are "inclusive" boundaries of the index, so
-    // in order to construct an empty range, m_MaxIndex must take one step back.
-    m_MaxIndex.back() = -1;
-  }
+  IndexRange() = default;
 
 
   /** Constructs a range of indices for the specified grid size.
@@ -413,14 +406,11 @@ public:
   bool
   empty() const ITK_NOEXCEPT
   {
-    for (unsigned i = 0; i < VDimension; ++i)
-    {
-      if (m_MaxIndex[i] == (m_MinIndex[i] - 1))
-      {
-        return true;
-      }
-    }
-    return false;
+    // When an IndexRange is empty, each index value of m_MaxIndex is less than the corresponding
+    // index value of m_MinIndex. And vise versa: when an IndexRange is non-empty, each index value
+    // of m_MaxIndex is greater than or equal to the corresponding index value of m_MinIndex.
+    // Note that the range contains one element when m_MaxIndex == m_MinIndex.
+    return m_MaxIndex[0] < m_MinIndex[0];
   }
 
 
@@ -457,10 +447,10 @@ private:
   // IndexRange data members:
 
   // Minimum (N-dimensional) index.
-  MinIndexType m_MinIndex;
+  MinIndexType m_MinIndex = MinIndexType();
 
   // Maximum (N-dimensional) index.
-  IndexType m_MaxIndex;
+  IndexType m_MaxIndex = IndexType::Filled(-1);
 };
 
 template <unsigned VDimension>
