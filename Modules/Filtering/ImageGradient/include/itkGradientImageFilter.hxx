@@ -76,19 +76,13 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
     return;
   }
 
-  // Build an operator so that we can determine the kernel size
-  DerivativeOperator<OperatorValueType, InputImageDimension> oper;
-  oper.SetDirection(0);
-  oper.SetOrder(1);
-  oper.CreateDirectional();
-  const SizeValueType radius = oper.GetRadius()[0];
-
   // get a copy of the input requested region (should equal the output
   // requested region)
   typename TInputImage::RegionType inputRequestedRegion = inputPtr->GetRequestedRegion();
 
-  // pad the input requested region by the operator radius
-  inputRequestedRegion.PadByRadius(radius);
+  // pad the input requested region by one, which is the value of the first
+  // coordinate of the operator radius.
+  inputRequestedRegion.PadByRadius(1);
 
   // crop the input requested region at the input's largest possible region
   if (inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()))
@@ -129,8 +123,7 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
 
   for (unsigned int i = 0; i < InputImageDimension; i++)
   {
-    op[i].SetDirection(0);
-    op[i].SetOrder(1);
+    // The operator has default values for its direction (0) and its order (1).
     op[i].CreateDirectional();
 
     // Reverse order of coefficients for the convolution with the image to
@@ -151,12 +144,9 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
     }
   }
 
-  // Calculate iterator radius
-  Size<InputImageDimension> radius;
-  for (unsigned int i = 0; i < InputImageDimension; ++i)
-  {
-    radius[i] = op[0].GetRadius()[0];
-  }
+  // Set the iterator radius to one, which is the value of the first
+  // coordinate of the operator radius.
+  const auto radius = Size<InputImageDimension>::Filled(1);
 
   // Find the data-set boundary "faces"
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                        bC;
@@ -173,7 +163,7 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
   const SizeValueType center = nit.Size() / 2;
   for (unsigned int i = 0; i < InputImageDimension; ++i)
   {
-    x_slice[i] = std::slice(center - nit.GetStride(i) * radius[i], op[i].GetSize()[0], nit.GetStride(i));
+    x_slice[i] = std::slice(center - nit.GetStride(i), op[i].GetSize()[0], nit.GetStride(i));
   }
 
   CovariantVectorType gradient;
