@@ -68,13 +68,13 @@ itkBMPImageIOTestExtension(int argc, char * argv[])
   reader->SetFileName(filename);
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
-  const itk::ImageRegion<2> expected_region{ itk::Size<2>{ 1, 1 } };
+  const itk::ImageRegion<2> expected_region{ itk::Size<2>{ { 1, 1 } } };
   const ComponentType       expected_rgb[] = { 255, 0, 0 };
   const PixelType           expected_pixel{ expected_rgb };
   // check that data has been actually read
   auto image = reader->GetOutput();
   ITK_TEST_EXPECT_EQUAL(image->GetLargestPossibleRegion(), expected_region);
-  ITK_TEST_EXPECT_EQUAL(image->GetPixel({ 0, 0 }), expected_pixel);
+  ITK_TEST_EXPECT_EQUAL(image->GetPixel({ { 0, 0 } }), expected_pixel);
   std::cout << "Test finished\n";
   return EXIT_SUCCESS;
 }
