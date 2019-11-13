@@ -28,34 +28,6 @@ namespace itk
 {
 
 template <typename TPixel, unsigned int VDimension, typename TAllocator>
-GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::GaussianDerivativeOperator(const Self & other)
-  : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other)
-  , m_NormalizeAcrossScale(other.m_NormalizeAcrossScale)
-  , m_Variance(other.m_Variance)
-  , m_MaximumError(other.m_MaximumError)
-  , m_MaximumKernelWidth(other.m_MaximumKernelWidth)
-  , m_Order(other.m_Order)
-  , m_Spacing(other.m_Spacing)
-{}
-
-template <typename TPixel, unsigned int VDimension, typename TAllocator>
-GaussianDerivativeOperator<TPixel, VDimension, TAllocator> &
-GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::operator=(const Self & other)
-{
-  if (this != &other)
-  {
-    Superclass::operator=(other);
-    m_NormalizeAcrossScale = other.m_NormalizeAcrossScale;
-    m_Spacing = other.m_Spacing;
-    m_Order = other.m_Order;
-    m_Variance = other.m_Variance;
-    m_MaximumError = other.m_MaximumError;
-    m_MaximumKernelWidth = other.m_MaximumKernelWidth;
-  }
-  return *this;
-}
-
-template <typename TPixel, unsigned int VDimension, typename TAllocator>
 typename GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::CoefficientVector
 GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients()
 {

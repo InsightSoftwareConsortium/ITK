@@ -50,6 +50,10 @@ namespace itk
  *  of doubles that is of length VDimension (the dimensionality of the image).
  *  Make sure to use 1/pixel_spacing to properly scale derivatives.
  *
+ * \note LaplacianOperator does not have any user-declared "special member function"
+ * for copy, move, or destruction, following the C++ Rule of Zero: the compiler will
+ * generate them if necessary.
+ *
  * \sa NeighborhoodOperator
  * \sa Neighborhood
  * \ingroup Operators
@@ -81,27 +85,9 @@ public:
     }
   }
 
-  /** Copy constructor   */
-  LaplacianOperator(const Self & other)
-    : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other)
-  {
-    for (unsigned i = 0; i < VDimension; ++i)
-    {
-      m_DerivativeScalings[i] = other.m_DerivativeScalings[i];
-    }
-  }
-
   /** This function is called to create the operator  */
   void
   CreateOperator();
-
-  /** Assignment operator   */
-  Self &
-  operator=(const Self & other)
-  {
-    Superclass::operator=(other);
-    return *this;
-  }
 
   /** Prints some debugging information   */
   void

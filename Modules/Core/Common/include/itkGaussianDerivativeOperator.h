@@ -62,6 +62,9 @@ namespace itk
  * This implementation is derived from the Insight Journal paper:
  * https://hdl.handle.net/1926/1290
  *
+ * \note GaussianDerivativeOperator does not have any user-declared "special member function",
+ * following the C++ Rule of Zero: the compiler will generate them if necessary.
+ *
  * \sa GaussianOperator
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
@@ -85,17 +88,6 @@ public:
   /** Neighborhood operator types. */
   using GaussianOperatorType = GaussianOperator<TPixel, VDimension, TAllocator>;
   using DerivativeOperatorType = DerivativeOperator<TPixel, VDimension, TAllocator>;
-
-  /** Constructor. */
-  GaussianDerivativeOperator() = default;
-
-  /** Copy constructor */
-  GaussianDerivativeOperator(const Self & other);
-
-  /** Assignment operator */
-  Self &
-  operator=(const Self & other);
-
 
   /** Set/Get the flag for calculating scale-space normalized
    * derivatives.

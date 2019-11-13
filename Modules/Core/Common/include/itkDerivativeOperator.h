@@ -50,6 +50,9 @@ namespace itk
          0    0   0
    \endcode
  *
+ * \note DerivativeOperator does not have any user-declared "special member function",
+ * following the C++ Rule of Zero: the compiler will generate them if necessary.
+ *
  * \sa NeighborhoodOperator
  * \sa Neighborhood
  * \sa ForwardDifferenceOperator
@@ -72,28 +75,6 @@ public:
 
   using PixelType = typename Superclass::PixelType;
   using PixelRealType = typename Superclass::PixelRealType;
-
-  /** Constructor. */
-  DerivativeOperator() {}
-
-  /** Copy constructor. */
-  DerivativeOperator(const Self & other)
-    : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other)
-  {
-    m_Order = other.m_Order;
-  }
-
-  /** Assignment operator */
-  Self &
-  operator=(const Self & other)
-  {
-    if (this != &other)
-    {
-      Superclass::operator=(other);
-      m_Order = other.m_Order;
-    }
-    return *this;
-  }
 
   /** Sets the order of the derivative. */
   void

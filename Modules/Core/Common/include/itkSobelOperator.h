@@ -79,6 +79,9 @@ namespace itk
  * The \c x kernel is just rotated as required to obtain the kernel in the
  * \c y and \c z directions.
  *
+ * \note SobelOperator does not have any user-declared "special member function",
+ * following the C++ Rule of Zero: the compiler will generate them if necessary.
+ *
  * \sa NeighborhoodOperator
  * \sa Neighborhood
  * \sa ForwardDifferenceOperator
@@ -101,11 +104,6 @@ public:
 
   itkTypeMacro(SobelOperator, NeighborhoodOperator);
 
-  SobelOperator() = default;
-  SobelOperator(const Self & other)
-    : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other)
-  {}
-
   /** Creates the operator with length only in the specified direction.  For
    * the Sobel operator, this
    * The radius of the operator will be 0 except along the axis on which
@@ -122,15 +120,7 @@ public:
    * operator is defined by the subclass implementation of the Fill method.
    * \sa CreateDirectional \sa Fill */
   // virtual void CreateToRadius(const unsigned long);
-  /**
-   * Assignment operator
-   */
-  Self &
-  operator=(const Self & other)
-  {
-    Superclass::operator=(other);
-    return *this;
-  }
+
 
   /**
    * Prints some debugging information

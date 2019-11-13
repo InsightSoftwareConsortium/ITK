@@ -51,6 +51,9 @@ namespace itk
  * Primal Sketch.  Dissertation. Royal Institute of Technology, Stockholm,
  * Sweden. May 1991.).
  *
+ * \note GaussianOperator does not have any user-declared "special member function",
+ * following the C++ Rule of Zero: the compiler will generate them if necessary.
+ *
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
  * \sa Neighborhood
@@ -71,32 +74,6 @@ public:
   using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
   itkTypeMacro(GaussianOperator, NeighborhoodOperator);
-
-  /** Constructor. */
-  GaussianOperator() {}
-
-  /** Copy constructor */
-  GaussianOperator(const Self & other)
-    : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other)
-  {
-    m_Variance = other.m_Variance;
-    m_MaximumError = other.m_MaximumError;
-    m_MaximumKernelWidth = other.m_MaximumKernelWidth;
-  }
-
-  /** Assignment operator */
-  Self &
-  operator=(const Self & other)
-  {
-    if (this != &other)
-    {
-      Superclass::operator=(other);
-      m_Variance = other.m_Variance;
-      m_MaximumError = other.m_MaximumError;
-      m_MaximumKernelWidth = other.m_MaximumKernelWidth;
-    }
-    return *this;
-  }
 
   /** Sets the desired variance of the Gaussian kernel. */
   void

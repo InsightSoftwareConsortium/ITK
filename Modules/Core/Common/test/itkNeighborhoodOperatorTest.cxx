@@ -16,14 +16,54 @@
  *
  *=========================================================================*/
 
+#include "itkAnnulusOperator.h"
+#include "itkBackwardDifferenceOperator.h"
 #include "itkDerivativeOperator.h"
 #include "itkForwardDifferenceOperator.h"
-#include "itkBackwardDifferenceOperator.h"
+#include "itkGaussianDerivativeOperator.h"
 #include "itkGaussianOperator.h"
+#include "itkImageKernelOperator.h"
 #include "itkLaplacianOperator.h"
+#include "itkNeighborhoodOperator.h"
 #include "itkSobelOperator.h"
+
+#include <type_traits> // For is_default_constructible, is_copy_constructible, etc.
+
 namespace
 {
+template <typename T>
+constexpr bool
+IsDefaultConstructibleCopyableNoThrowMovableAndDestructible()
+{
+  return std::is_default_constructible<T>::value && std::is_copy_constructible<T>::value &&
+         std::is_copy_assignable<T>::value && std::is_nothrow_move_constructible<T>::value &&
+         std::is_nothrow_move_assignable<T>::value && std::is_nothrow_destructible<T>::value;
+}
+
+static_assert(std::is_copy_assignable<itk::NeighborhoodOperator<int, 3>>::value,
+              "NeighborhoodOperator should be copy-assignable.");
+static_assert(std::is_nothrow_move_assignable<itk::NeighborhoodOperator<int, 3>>::value,
+              "NeighborhoodOperator should be noexcept move-assignable.");
+
+static_assert(IsDefaultConstructibleCopyableNoThrowMovableAndDestructible<itk::AnnulusOperator<int>>(),
+              "AnnulusOperator should be default-constructible, copyable, noexcept movable, and destructible.");
+static_assert(IsDefaultConstructibleCopyableNoThrowMovableAndDestructible<itk::DerivativeOperator<int>>(),
+              "DerivativeOperator should be default-constructible, copyable, noexcept movable, and destructible.");
+static_assert(
+  IsDefaultConstructibleCopyableNoThrowMovableAndDestructible<itk::ForwardDifferenceOperator<int>>(),
+  "ForwardDifferenceOperator should be default-constructible, copyable, noexcept movable, and destructible.");
+static_assert(
+  IsDefaultConstructibleCopyableNoThrowMovableAndDestructible<itk::GaussianDerivativeOperator<int>>(),
+  "GaussianDerivativeOperator should be default-constructible, copyable, noexcept movable, and destructible.");
+static_assert(IsDefaultConstructibleCopyableNoThrowMovableAndDestructible<itk::GaussianOperator<int>>(),
+              "GaussianOperator should be default-constructible, copyable, noexcept movable, and destructible.");
+static_assert(IsDefaultConstructibleCopyableNoThrowMovableAndDestructible<itk::ImageKernelOperator<int>>(),
+              "ImageKernelOperator should be default-constructible, copyable, noexcept movable, and destructible.");
+static_assert(IsDefaultConstructibleCopyableNoThrowMovableAndDestructible<itk::LaplacianOperator<int>>(),
+              "LaplacianOperator should be default-constructible, copyable, noexcept movable, and destructible.");
+static_assert(IsDefaultConstructibleCopyableNoThrowMovableAndDestructible<itk::SobelOperator<int>>(),
+              "SobelOperator should be default-constructible, copyable, noexcept movable, and destructible.");
+
 void
 println(const char * c)
 {
