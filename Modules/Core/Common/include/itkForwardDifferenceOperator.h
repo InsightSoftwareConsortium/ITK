@@ -33,6 +33,9 @@ namespace itk
  * NeighborhoodOperator that should be applied to a Neighborhood using the
  * inner product.
  *
+ * \note ForwardDifferenceOperator does not have any user-declared "special member function",
+ * following the C++ Rule of Zero: the compiler will generate them if necessary.
+ *
  * \ingroup Operators
  * \ingroup ITKCommon
  *
@@ -49,22 +52,6 @@ public:
   using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
   using PixelType = typename Superclass::PixelType;
-
-  /** Constructor. */
-  ForwardDifferenceOperator() = default;
-
-  /** Copy constructor */
-  ForwardDifferenceOperator(const Self & other)
-    : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other)
-  {}
-
-  /** Assignment operator */
-  Self &
-  operator=(const Self & other)
-  {
-    Superclass::operator=(other);
-    return *this;
-  }
 
 protected:
   /** Necessary to work around VC++ compiler bug. */

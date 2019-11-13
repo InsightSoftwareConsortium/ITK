@@ -58,6 +58,9 @@ namespace itk
  * a scalar result.  This process effects convolution when applied to
  * successive neighborhoods across a region of interest in an image.
  *
+ * \note NeighborhoodOperator does not have any user-declared "special member function",
+ * following the C++ Rule of Zero: the compiler will generate them if necessary.
+ *
  * \ingroup Operators
  * \ingroup ITKCommon
  *
@@ -83,25 +86,6 @@ public:
 
   /** Slice iterator type alias support */
   using SliceIteratorType = SliceIterator<TPixel, Self>;
-
-  /** Constructor. */
-  NeighborhoodOperator() { m_Direction = 0; }
-
-  /** Copy constructor */
-  NeighborhoodOperator(const Self & orig)
-    : Neighborhood<TPixel, VDimension, TAllocator>(orig)
-  {
-    m_Direction = orig.m_Direction;
-  }
-
-  /** Assignment operator. */
-  Self &
-  operator=(const Self & orig)
-  {
-    Superclass::operator=(orig);
-    m_Direction = orig.m_Direction;
-    return *this;
-  }
 
   /** Sets the dimensional direction of a directional operator. */
   void
@@ -192,7 +176,7 @@ protected:
 
 private:
   /** Direction (dimension number) of the derivative. */
-  unsigned long m_Direction;
+  unsigned long m_Direction{ 0 };
 };
 } // namespace itk
 

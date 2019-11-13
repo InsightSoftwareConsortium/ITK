@@ -59,6 +59,9 @@ namespace itk
  * annulus to be bright or dark.
  * 4) call \c CreateOperator()
  *
+ * \note AnnulusOperator does not have any user-declared "special member function",
+ * following the C++ Rule of Zero: the compiler will generate them if necessary.
+ *
  * \sa NeighborhoodOperator
  * \sa Neighborhood
  *
@@ -79,26 +82,6 @@ public:
   using SpacingType = Vector<double, TDimension>;
 
   itkTypeMacro(AnnulusOperator, NeighborhoodOperator);
-
-  AnnulusOperator()
-    : NeighborhoodOperator<TPixel, TDimension, TAllocator>()
-    , m_InteriorValue(NumericTraits<PixelType>::ZeroValue())
-    , m_AnnulusValue(NumericTraits<PixelType>::OneValue())
-    , m_ExteriorValue(NumericTraits<PixelType>::ZeroValue())
-    , m_Spacing(1.0)
-  {}
-
-  AnnulusOperator(const Self & other)
-    : NeighborhoodOperator<TPixel, TDimension, TAllocator>(other)
-    , m_InnerRadius(other.m_InnerRadius)
-    , m_Thickness(other.m_Thickness)
-    , m_Normalize(other.m_Normalize)
-    , m_BrightCenter(other.m_BrightCenter)
-    , m_InteriorValue(other.m_InteriorValue)
-    , m_AnnulusValue(other.m_AnnulusValue)
-    , m_ExteriorValue(other.m_ExteriorValue)
-    , m_Spacing(other.m_Spacing)
-  {}
 
   /** This function is called to create the operator.  The radius of
    * the operator is determine automatically.  */
@@ -226,25 +209,6 @@ public:
     return m_ExteriorValue;
   }
 
-  /** Assignment operator */
-  Self &
-  operator=(const Self & other)
-  {
-    if (this != &other)
-    {
-      Superclass::operator=(other);
-      m_InnerRadius = other.m_InnerRadius;
-      m_Thickness = other.m_Thickness;
-      m_Spacing = other.m_Spacing;
-      m_InteriorValue = other.m_InteriorValue;
-      m_AnnulusValue = other.m_AnnulusValue;
-      m_ExteriorValue = other.m_ExteriorValue;
-      m_Normalize = other.m_Normalize;
-      m_BrightCenter = other.m_BrightCenter;
-    }
-    return *this;
-  }
-
   /** Prints some debugging information */
   void
   PrintSelf(std::ostream & os, Indent i) const override
@@ -275,10 +239,10 @@ private:
   double      m_Thickness{ 1.0 };
   bool        m_Normalize{ false };
   bool        m_BrightCenter{ false };
-  PixelType   m_InteriorValue;
-  PixelType   m_AnnulusValue;
-  PixelType   m_ExteriorValue;
-  SpacingType m_Spacing;
+  PixelType   m_InteriorValue{ NumericTraits<PixelType>::ZeroValue() };
+  PixelType   m_AnnulusValue{ NumericTraits<PixelType>::OneValue() };
+  PixelType   m_ExteriorValue{ NumericTraits<PixelType>::ZeroValue() };
+  SpacingType m_Spacing{ 1.0 };
 };
 } // namespace itk
 

@@ -36,6 +36,9 @@ namespace itk
  * http://www.insight-journal.org/browse/publication/208
  *
  *
+ * \note ImageKernelOperator does not have any user-declared "special member function",
+ * following the C++ Rule of Zero: the compiler will generate them if necessary.
+ *
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
  * \sa Neighborhood
@@ -56,22 +59,6 @@ public:
   using CoefficientVector = typename Superclass::CoefficientVector;
 
   itkTypeMacro(ImageKernelOperator, NeighborhoodOperator);
-
-  /** Constructor. */
-  ImageKernelOperator() = default;
-
-  /** Copy constructor */
-  ImageKernelOperator(const Self & orig)
-    : Neighborhood<TPixel, VDimension, TAllocator>(orig)
-  {}
-
-  /** Assignment operator. */
-  Self &
-  operator=(const Self & orig)
-  {
-    Superclass::operator=(orig);
-    return *this;
-  }
 
   /** Set the image kernel. Only images with odd size in all
    * dimensions are allowed. If an image with an even size is passed
