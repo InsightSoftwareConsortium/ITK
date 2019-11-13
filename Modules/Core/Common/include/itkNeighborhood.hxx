@@ -27,21 +27,12 @@ template <typename TPixel, unsigned int VDimension, typename TContainer>
 void
 Neighborhood<TPixel, VDimension, TContainer>::ComputeNeighborhoodStrideTable()
 {
+  OffsetValueType accum = 1;
+
   for (DimensionValueType dim = 0; dim < VDimension; ++dim)
   {
-    OffsetValueType stride = 0;
-    OffsetValueType accum = 1;
-
-    for (DimensionValueType i = 0; i < VDimension; ++i)
-    {
-      if (i == dim)
-      {
-        stride = accum;
-      }
-      accum *= m_Size[i];
-    }
-
-    m_StrideTable[dim] = stride;
+    m_StrideTable[dim] = accum;
+    accum *= m_Size[dim];
   }
 }
 
