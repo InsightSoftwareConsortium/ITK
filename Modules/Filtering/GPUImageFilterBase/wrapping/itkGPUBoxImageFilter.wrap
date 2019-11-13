@@ -1,0 +1,8 @@
+itk_wrap_include("itkGPUImage.h")
+itk_wrap_class("itk::BoxImageFilter" POINTER)
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    foreach(t ${WRAP_ITK_SCALAR})
+      itk_wrap_template("GI${ITKM_${t}}${d}GI${ITKM_${t}}${d}" "itk::GPUImage< ${ITKT_${t}}, ${d} >, itk::GPUImage< ${ITKT_${t}}, ${d} >")
+    endforeach()
+  endforeach()
+itk_end_wrap_class()
