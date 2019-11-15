@@ -9,7 +9,6 @@ itk_module(ITKIOTransformHDF5
     ITKHDF5
   TEST_DEPENDS
     ITKTestKernel
-    ITKHDF5
   FACTORY_NAMES
     TransformIO::HDF5
   DESCRIPTION

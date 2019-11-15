@@ -18,6 +18,7 @@
 
 #define ITK_TEMPLATE_EXPLICIT_HDF5TransformIO
 #include "itkHDF5TransformIO.h"
+#include "itk_H5Cpp.h"
 #include "itksys/SystemTools.hxx"
 #include "itksys/SystemInformation.hxx"
 #include "itkCompositeTransform.h"
