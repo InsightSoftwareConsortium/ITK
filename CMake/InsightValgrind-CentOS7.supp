@@ -1,0 +1,29 @@
+#
+# This Valgrind suppression file is for CentOS 7 system compiler and valgrind.
+#
+{
+   dlopen
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.?.?
+   fun:_ZN6itksys13DynamicLoader11OpenLibraryERKSsi
+}
+{
+   ioclt
+   Memcheck:Param
+   ioctl(generic)
+   fun:ioctl
+   fun:_ZN6itksysL16CloneFileContentERKSsS1_
+   fun:_ZN6itksys11SystemTools14CopyFileAlwaysERKSsS2_
+}
+# Offending line contains comment that the array may contain garbage
+{
+   zlib_uninitialized
+   Memcheck:Cond
+   fun:slide_hash
+   fun:fill_window
+   fun:deflate_fast
+   fun:itkzlib_deflate
+}
