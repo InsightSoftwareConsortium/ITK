@@ -663,6 +663,14 @@ public:
     this->SetComponentType(ImageIOBase::LONG);
   }
 
+  /** Check fileName as an extensions contained in the supported
+   * extension list. If ignoreCase is true, the case of the characters
+   * is ignored. */
+  virtual bool
+  HasSupportedReadExtension(const char * fileName, bool ignoreCase = true);
+  virtual bool
+  HasSupportedWriteExtension(const char * fileName, bool ignoreCase = true);
+
 protected:
   ImageIOBase();
   ~ImageIOBase() override;
@@ -671,15 +679,6 @@ protected:
 
   virtual const ImageRegionSplitterBase *
   GetImageRegionSplitter() const;
-
-  /** Check fileName as an extensions contained in the supported
-   * extension list. If ignoreCase is true, the case of the characters
-   * is ignored.
-   */
-  virtual bool
-  HasSupportedReadExtension(const char * fileName, bool ignoreCase = true);
-  virtual bool
-  HasSupportedWriteExtension(const char * fileName, bool ignoreCase = true);
 
   /** Used internally to keep track of the type of the pixel. */
   IOPixelType m_PixelType{ SCALAR };
