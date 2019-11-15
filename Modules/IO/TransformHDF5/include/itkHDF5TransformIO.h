@@ -23,7 +23,6 @@
 #include "itkTransformIOBase.h"
 #include <memory>
 #include <string>
-#include "itk_H5Cpp.h"
 
 // Avoids KWStyle error from forward declaration below.
 namespace itk
@@ -33,7 +32,8 @@ namespace itk
 namespace H5
 {
 class H5File;
-}
+class PredType;
+} // namespace H5
 
 namespace itk
 {
