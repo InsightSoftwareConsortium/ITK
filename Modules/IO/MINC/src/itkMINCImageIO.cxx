@@ -969,8 +969,7 @@ MINCImageIO::WriteImageInformation()
     origin[i] = this->GetOrigin(i);
   }
 
-  const vnl_matrix<double> inverseDirectionCosines{ static_cast<vnl_matrix<double>>(
-    vnl_matrix_inverse<double>(dircosmatrix)) };
+  const vnl_matrix<double> inverseDirectionCosines{ vnl_matrix_inverse<double>(dircosmatrix).as_matrix() };
   origin *= inverseDirectionCosines; // transform to minc convention
 
   for (unsigned int i = 0; i < nDims; i++)

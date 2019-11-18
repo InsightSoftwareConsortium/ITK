@@ -263,7 +263,8 @@ public:
     {
       itkGenericExceptionMacro(<< "Singular matrix. Determinant is 0.");
     }
-    return vnl_matrix_fixed<T, NColumns, NRows>{ vnl_matrix_inverse<T>(m_Matrix.as_ref()) };
+    vnl_matrix_inverse<T> inverse(m_Matrix.as_ref());
+    return vnl_matrix_fixed<T, NColumns, NRows>{ inverse.as_matrix() };
   }
 
   /** Return the transposed matrix. */
