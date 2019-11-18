@@ -68,7 +68,7 @@ foreach(p
 endforeach()
 
 project(VXL #Project name must be all caps to have properly generated VXL_VERSION_* variables
-    VERSION 2.0.2.1 # defines #VXL_VERSION{,MAJOR,MINOR,PATCH,TWEAK}
+    VERSION 2.1.2.2 # defines #MAJOR,MINOR,PATCH,TWEAK}
     DESCRIPTION "A multi-platform collection of C++ software libraries for Computer Vision and Image Understanding."
     LANGUAGES CXX C)
 
@@ -81,10 +81,10 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/config/cmake/VXLInitializeBuildType.cmake)
 
 #Disable overzealous compiler warning.  If the definition is truely missing a link error will be created.
 include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG(-Wno-undefined-var-template HAS_NO_UNDEFINED_VAR_TEMPLATE)
-if( HAS_NO_UNDEFINED_VAR_TEMPLATE )
-  add_definitions( -Wno-undefined-var-template )
-endif()
+#CHECK_CXX_COMPILER_FLAG(-Wno-undefined-var-template HAS_NO_UNDEFINED_VAR_TEMPLATE)
+#if( HAS_NO_UNDEFINED_VAR_TEMPLATE )
+#  add_definitions( -Wno-undefined-var-template )
+#endif()
 if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.14.0)
   include(CheckPIESupported)
   check_pie_supported()
@@ -173,6 +173,15 @@ option( VXL_LEGACY_FUTURE_REMOVE "Disable features and cause errors for code dep
 mark_as_advanced(VXL_LEGACY_FUTURE_REMOVE)
 option(VXL_RUN_FAILING_TESTS "Enable long-time failing tests. If tests are failing for a long time, turn them off by default." OFF)
 mark_as_advanced(VXL_RUN_FAILING_TESTS)
+# Historically VXL implicitly converts between vnl_vector_fixed and vnl_vector or vnl_vector_ref ( & matrix types too),
+# when VXL_USE_HISTORICAL_IMPLICIT_CONVERSIONS:BOOL=OFF, require explicit conversions to occur, this simplifies finding
+# performance eating conversions by having the compiler throw errors until an explicit conversion is put into place.
+option(VXL_USE_HISTORICAL_IMPLICIT_CONVERSIONS "Set backwards compatible implicit conversion of types without warning or error when ON" ON)
+mark_as_advanced(VXL_USE_HISTORICAL_IMPLICIT_CONVERSIONS)
+# Historically the member variables for vnl_vector and vnl_matrix have been protected.  When VXL_USE_HISTORICAL_PROTECTED_IVARS:BOOL=ON
+# the ivars will be protected, when VXL_USE_HISTORICAL_PROTECTED_IVARS:BOOL=OFF the ivars will be private.
+option(VXL_USE_HISTORICAL_PROTECTED_IVARS "Set backwards compatible exposure of data members (instead of private members)" ON)
+mark_as_advanced(VXL_USE_HISTORICAL_PROTECTED_IVARS)
 
 # Option to build Windows Unicode support, the string
 # type of which is wchar_t, each character is a 16-bit unsigned integer.

@@ -91,7 +91,6 @@ set( vnl_sources
   dll.h
 
   vnl_fwd.h
-  vnl_tag.h
 
   # vector and matrix
   vnl_c_vector.hxx             vnl_c_vector.h

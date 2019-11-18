@@ -708,28 +708,28 @@ class VNL_EXPORT vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_
   // it. This prevents a const vnl_matrix_fixed from being cast into a
   // non-const vnl_matrix reference, giving a slight increase in type safety.
 
-  //: Explicit conversion to a vnl_matrix_ref.
+  //: Explicit conversion to a vnl_matrix_ref or vnl_matrix.
   // This is a cheap conversion for those functions that have an interface
   // for vnl_matrix_ref but not for vnl_matrix_fixed_ref. There is also a
   // conversion operator that should work most of the time.
   // \sa vnl_matrix_ref::non_const
-  vnl_matrix_ref<T> as_ref() { return vnl_matrix_ref<T>( num_rows, num_cols, data_block() ); }
-
-  //: Explicit conversion to a vnl_matrix_ref.
-  // This is a cheap conversion for those functions that have an interface
-  // for vnl_matrix_ref but not for vnl_matrix_fixed_ref. There is also a
-  // conversion operator that should work most of the time.
-  // \sa vnl_matrix_ref::non_const
+  vnl_matrix_ref<T> as_ref() { return vnl_matrix_ref<T>( num_rows, num_cols, const_cast<T*>(data_block()) ); }
   const vnl_matrix_ref<T> as_ref() const { return vnl_matrix_ref<T>( num_rows, num_cols, const_cast<T*>(data_block()) ); }
+  vnl_matrix<T> as_matrix() const { return vnl_matrix<T>(const_cast<T*>(data_block()),num_rows,num_cols); }
 
   //: Cheap conversion to vnl_matrix_ref
   // Sometimes, such as with templated functions, the compiler cannot
   // use this user-defined conversion. For those cases, use the
   // explicit as_ref() method instead.
+#if ! VXL_USE_HISTORICAL_IMPLICIT_CONVERSIONS
+  explicit operator const vnl_matrix_ref<T>() const { return vnl_matrix_ref<T>( num_rows, num_cols, const_cast<T*>(data_block()) ); }
+#else
+#if VXL_LEGACY_FUTURE_REMOVE
+  VXL_DEPRECATED_MSG("Implicit cast conversion is dangerous.\nUSE: .as_vector() or .as_ref() member function for clarity.")
+#endif
   operator const vnl_matrix_ref<T>() const { return vnl_matrix_ref<T>( num_rows, num_cols, const_cast<T*>(data_block()) ); }
-
-  //: Convert to a vnl_matrix.
-  const vnl_matrix<T> as_matrix() const { return vnl_matrix<T>(const_cast<T*>(data_block()),num_rows,num_cols); }
+#endif
+  explicit operator vnl_matrix<T>() const { return this->as_matrix(); }
 
   //----------------------------------------------------------------------
 

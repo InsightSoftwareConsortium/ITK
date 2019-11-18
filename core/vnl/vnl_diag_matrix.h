@@ -43,10 +43,10 @@ class VNL_EXPORT vnl_diag_matrix
 
  public:
   vnl_diag_matrix() = default;
-  vnl_diag_matrix(const vnl_diag_matrix<T> & that)  = default;
-  vnl_diag_matrix(vnl_diag_matrix<T> && that)  = default;
-  vnl_diag_matrix& operator=(const vnl_diag_matrix<T> & that)  = default;
-  vnl_diag_matrix& operator=(vnl_diag_matrix<T> && that)  = default;
+  vnl_diag_matrix(const vnl_diag_matrix<T> &)  = default;
+  vnl_diag_matrix(vnl_diag_matrix<T> &&)  = default;
+  vnl_diag_matrix& operator=(const vnl_diag_matrix<T> &)  = default;
+  vnl_diag_matrix& operator=(vnl_diag_matrix<T> &&)  = default;
   ~vnl_diag_matrix() = default;
 
   //: Construct an empty diagonal matrix.
@@ -148,13 +148,27 @@ class VNL_EXPORT vnl_diag_matrix
     return diagonal_[r];
   }
 
-  // Need this until we add a vnl_diag_matrix ctor to vnl_matrix;
-  inline vnl_matrix<T> asMatrix() const;
+#if VXL_LEGACY_FUTURE_REMOVE
+  VXL_DEPRECATED_MSG("Deprecated inconsistent return type.\nWARNING: .as_ref returns a vnl_matrix, not a vnl_matrix_ref, use .as_matrix() directly")
+#endif
+  vnl_matrix<T> as_ref() const { return as_matrix(); }
 
-  inline vnl_matrix<T> as_ref() const { return asMatrix(); }
+  // Need this until we add a vnl_diag_matrix ctor to vnl_matrix;
+  vnl_matrix<T> as_matrix( ) const;
+#if ! VXL_LEGACY_FUTURE_REMOVE
+  VXL_DEPRECATED_MSG("Deprecated inconsistent name.\nUSE: .as_matrix() new consistent name.")
+  vnl_matrix<T> asMatrix () const { return this->as_matrix(); }
+#endif
 
   // This is as good as a vnl_diag_matrix ctor for vnl_matrix:
-  inline operator vnl_matrix<T> () const { return asMatrix(); }
+#if ! VXL_USE_HISTORICAL_IMPLICIT_CONVERSIONS
+  explicit operator vnl_matrix<T> () const { return this->as_matrix(); }
+#else
+#if VXL_LEGACY_FUTURE_REMOVE
+  VXL_DEPRECATED_MSG("Implicit cast conversion is dangerous.\nUSE: .as_vector() or .as_ref() member function for clarity.")
+#endif
+  operator vnl_matrix<T> () const { return this->as_matrix(); }
+#endif
 
   inline void set_size(int n) { diagonal_.set_size(n); }
 
@@ -178,7 +192,7 @@ std::ostream& operator<< (std::ostream&, vnl_diag_matrix<T> const&);
 
 //: Convert a vnl_diag_matrix to a Matrix.
 template <class T>
-inline vnl_matrix<T> vnl_diag_matrix<T>::asMatrix() const
+vnl_matrix<T> vnl_diag_matrix<T>::as_matrix() const
 {
   unsigned len = diagonal_.size();
   vnl_matrix<T> ret(len, len);

@@ -38,26 +38,30 @@ class VNL_EXPORT vnl_matrix_ref : public vnl_matrix<T>
   typedef vnl_matrix<T> Base;
 
  public:
+
   // Constructors/Destructors--------------------------------------------------
-  vnl_matrix_ref(unsigned int m, unsigned int n, T *datablck) {
-    Base::data = vnl_c_vector<T>::allocate_Tptr(m);
-    for (unsigned int i = 0; i < m; ++i)
-      Base::data[i] = datablck + i * n;
-    Base::num_rows = m;
-    Base::num_cols = n;
-  }
+  vnl_matrix_ref(unsigned int row, unsigned int col, const T *datablck)
+    : vnl_matrix<T>(row, col, const_cast<T *>(datablck), false)
+  { }
 
-  vnl_matrix_ref(vnl_matrix_ref<T> const & other) : vnl_matrix<T>() {
-    Base::data = vnl_c_vector<T>::allocate_Tptr(other.rows());
-    for (unsigned int i = 0; i < other.rows(); ++i)
-      Base::data[i] = const_cast<T*>(other.data_block()) + i * other.cols();
-    Base::num_rows = other.rows();
-    Base::num_cols = other.cols();
-  }
+  vnl_matrix_ref(const vnl_matrix_ref<T> & other)
+  : vnl_matrix<T>(other.rows(), other.cols(),
+      const_cast<T *>(other.data_block()), false)
+  { }
 
-  ~vnl_matrix_ref() {
-    Base::data[0] = nullptr; // Prevent base dtor from releasing our memory
-  }
+  //vnl_matrix base class is not no_except, so derived class can not be either
+  vnl_matrix_ref(vnl_matrix_ref<T> && rhs) = default;
+
+  ~vnl_matrix_ref() = default;
+
+  //: Copy and move constructor from vnl_matrix_ref<T> is disallowed by default
+  // due to other constructor definitions.
+  //: assignment and move-assignment is disallowed
+  //  because it does not define external memory to be managed.
+  vnl_matrix_ref & operator=( vnl_matrix_ref<T> const& ) = delete;
+  vnl_matrix_ref & operator=( vnl_matrix_ref<T> && ) = delete;
+
+  explicit operator vnl_matrix<T>() const { return vnl_matrix<T>{*this}; };
 
   //: Reference to self to make non-const temporaries.
   // This is intended for passing vnl_matrix_fixed objects to
@@ -83,9 +87,6 @@ class VNL_EXPORT vnl_matrix_ref : public vnl_matrix<T>
   //: Resizing is disallowed
   bool set_size (unsigned int, unsigned int) { return false; }
 
-  //: Copy constructor from vnl_matrix<T> is disallowed
-  // (because it would create a non-const alias to the matrix)
-  vnl_matrix_ref(vnl_matrix<T> const &) {}
 };
 
 #endif // vnl_matrix_ref_h_

@@ -55,12 +55,12 @@ using fptr3 = vnl_decnum (*)(const vnl_decnum &, unsigned long);
 class node
 {
  public:
-  fptr1 func1;
-  fptr2 func2;
-  fptr3 func3;
-  void  *param1;
-  void  *param2;
-  node(): func1(nullptr),func2(nullptr),func3(nullptr),param1(nullptr),param2(nullptr) {}
+  fptr1 func1{nullptr};
+  fptr2 func2{nullptr};
+  fptr3 func3{nullptr};
+  void  *param1{nullptr};
+  void  *param2{nullptr};
+  node() {}
 };
 
 void ErrorExit(std::string const& expr, char const* t, unsigned long s)

@@ -19,7 +19,7 @@
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif
-#include <vnl/vnl_tag.h>
+
 #include <vnl/vnl_c_vector.h>
 #include <vnl/vnl_config.h>
 #include <vnl/vnl_error.h>
@@ -33,6 +33,8 @@
 # define VNL_CONFIG_CHECK_BOUNDS 0
 # undef ERROR_CHECKING
 #endif
+#include <vnl/vnl_sse.h>
+#include <algorithm>
 
 template <class T> class vnl_vector;
 template <class T> class vnl_matrix;
@@ -55,7 +57,7 @@ template <class T> VNL_EXPORT v      operator*(v const&, m const&);
 template <class T> VNL_EXPORT v      element_product(v const&,v const&);
 template <class T> VNL_EXPORT v      element_quotient(v const&,v const&);
 template <class T> VNL_EXPORT T      vnl_vector_ssd(v const&, v const&);
-template <class T> VNL_EXPORT void   swap(v &, v &);
+template <class T> VNL_EXPORT void   swap(v &, v &) noexcept;
 #undef v
 #undef m
 
@@ -77,7 +79,7 @@ class VNL_EXPORT vnl_vector
   friend class vnl_matrix<T>;
 
   //: Creates an empty vector. O(1).
-  vnl_vector() : num_elmts(0) , data(nullptr) {}
+  vnl_vector() {}
 
   //: Creates a vector containing n uninitialized elements.
   explicit vnl_vector(size_t len);
@@ -96,31 +98,19 @@ class VNL_EXPORT vnl_vector
   //: Copy constructor.
   vnl_vector(vnl_vector<T> const&);
 
-#ifndef VXL_DOXYGEN_SHOULD_SKIP_THIS
-// <internal>
-  // These constructors are here so that operator* etc can take
-  // advantage of the C++ return value optimization.
-  vnl_vector(vnl_vector<T> const &, vnl_vector<T> const &, vnl_tag_add); // v + v
-  vnl_vector(vnl_vector<T> const &, vnl_vector<T> const &, vnl_tag_sub); // v - v
-  vnl_vector(vnl_vector<T> const &, T,                     vnl_tag_mul); // v * s
-  vnl_vector(vnl_vector<T> const &, T,                     vnl_tag_div); // v / s
-  vnl_vector(vnl_vector<T> const &, T,                     vnl_tag_add); // v + s
-  vnl_vector(vnl_vector<T> const &, T,                     vnl_tag_sub); // v - s
-  vnl_vector(vnl_matrix<T> const &, vnl_vector<T> const &, vnl_tag_mul); // M * v
-  vnl_vector(vnl_vector<T> const &, vnl_matrix<T> const &, vnl_tag_mul); // v * M
-  vnl_vector(vnl_vector<T> &that, vnl_tag_grab)
-    : num_elmts(that.num_elmts), data(that.data)
-  { that.num_elmts=0; that.data=nullptr; } // "*this" now uses "that"'s data.
-// </internal>
-#endif
+  // NOTE: move-assignment must be allowed to throw an exception, because we need to maintain
+  //       backwards compatibility and the move-construction & move-aasignment
+  //       operators fall back to the copy-assignment operator behavior in
+  //       cases when the memory is externally managed.
+  //: Move-constructor.
+  vnl_vector(vnl_vector<T> &&);
+  //: Move-assignment operator
+  vnl_vector<T>& operator=(vnl_vector<T>&& rhs);
 
   //: Destructor
-#ifdef __INTEL_COMPILER
-#pragma warning disable 444 //destructor for base class "itk::Array<>" is not virtual
-#endif
-  /** This destructor is not virtual for performance reasons. However, this
-   * means that subclasses cannot allocate memory. */
-  ~vnl_vector();
+  /** This destructor *must* be virtual to ensure that the vnl_vector_ref subclass destructor
+   * is called and memory is not accidently de-allocated. */
+  virtual ~vnl_vector();
 
   //: Return the length, number of elements, dimension of this vector.
   size_t size() const { return this->num_elmts; }
@@ -214,14 +204,65 @@ class VNL_EXPORT vnl_vector
   // Return new vector = -1*(*this)
   vnl_vector<T> operator-() const;
 
-  vnl_vector<T> operator+(T v) const { return vnl_vector<T>(*this, v, vnl_tag_add()); }
-  vnl_vector<T> operator-(T v) const { return vnl_vector<T>(*this, v, vnl_tag_sub()); }
-  vnl_vector<T> operator*(T v) const { return vnl_vector<T>(*this, v, vnl_tag_mul()); }
-  vnl_vector<T> operator/(T v) const { return vnl_vector<T>(*this, v, vnl_tag_div()); }
+  vnl_vector<T> operator+(T v) const {
+    vnl_vector<T> result(this->size());
+    std::transform(this->begin(), this->end(), result.begin(),
+                   [v](T d) -> T { return d + v; });
+    return result;
+  }
+  vnl_vector<T> operator-(T v) const {
+    vnl_vector<T> result(this->size());
+    std::transform(this->begin(), this->end(), result.begin(),
+                   [v](T d) -> T { return d - v; });
+    return result;
+  }
+  vnl_vector<T> operator*(T v) const {
+    vnl_vector<T> result(this->size());
+    std::transform(this->begin(), this->end(), result.begin(),
+                   [v](T d) -> T { return d * v; });
+    return result;
+  }
+  vnl_vector<T> operator/(T v) const {
+    vnl_vector<T> result(this->size());
+    std::transform(this->begin(), this->end(), result.begin(),
+                   [v](T d) -> T { return d / v; });
+    return result;
+  }
 
-  vnl_vector<T> operator+(vnl_vector<T> const& v) const { return vnl_vector<T>(*this, v, vnl_tag_add()); }
-  vnl_vector<T> operator-(vnl_vector<T> const& v) const { return vnl_vector<T>(*this, v, vnl_tag_sub()); }
-  vnl_vector<T> operator*(vnl_matrix<T> const& M) const { return vnl_vector<T>(*this, M, vnl_tag_mul()); }
+  vnl_vector<T> operator+(vnl_vector<T> const &v) const {
+    vnl_vector<T> result(this->size());
+#ifndef NDEBUG
+    if (this->size() != v.size())
+      vnl_error_vector_dimension("vnl_vector<>::operator+()", this->size(),
+                                 v.size());
+#endif
+    std::transform(this->begin(), this->end(), v.begin(), result.begin(),
+                   std::plus<T>());
+    return result;
+  }
+  vnl_vector<T> operator-(vnl_vector<T> const &v) const {
+    vnl_vector<T> result(this->size());
+#ifndef NDEBUG
+    if (this->size() != v.size())
+      vnl_error_vector_dimension("vnl_vector<>::operator-()", this->size(),
+                                 v.size());
+#endif
+    std::transform(this->begin(), this->end(), v.begin(), result.begin(),
+                   std::minus<T>());
+    return result;
+  }
+
+  vnl_vector<T> operator*(vnl_matrix<T> const &M) const {
+    vnl_vector<T> result(M.cols());
+#ifndef NDEBUG
+    if (this->size() != M.rows())
+      vnl_error_vector_dimension("vnl_vector<>::operator*(M)", this->size(),
+                                 M.rows());
+#endif
+    vnl_sse<T>::vector_x_matrix(this->begin(), M.begin(), result.begin(),
+                                M.rows(), M.cols());
+    return result;
+  }
 
   //--------------------------------------------------------------------------------
 
@@ -340,7 +381,7 @@ class VNL_EXPORT vnl_vector
   vnl_vector& roll_inplace(const int &shift);
 
   //: Set this to that and that to this
-  void swap(vnl_vector<T> & that);
+  void swap(vnl_vector<T> & that) noexcept;
 
   //: Check that size()==sz if not, abort();
   // This function does or tests nothing if NDEBUG is defined
@@ -393,14 +434,51 @@ class VNL_EXPORT vnl_vector
   //: Read from text stream
   static vnl_vector<T> read(std::istream& s);
 
+  //: Support external memory
+  void set_data(T * datain, size_t sz, bool LetArrayManageMemory)
+  {
+    if (m_LetArrayManageMemory)
+    {
+      vnl_vector<T>::destroy();
+    }
+    vnl_vector<T>::protected_set_data( datain, sz, m_LetArrayManageMemory );
+    m_LetArrayManageMemory = LetArrayManageMemory;
+  }
+  void set_data_same_size(T * datain, bool LetArrayManageMemory)
+  {
+    set_data(datain, this->size(), LetArrayManageMemory);
+  }
  protected:
-  size_t num_elmts;           // Number of elements (length)
-  T* data;                      // Pointer to the actual data
+  vnl_vector<T>( size_t ext_num_elmts, T * extdata, bool manage_own_memory )
+    : num_elmts{ ext_num_elmts }
+    , data{ extdata }
+    , m_LetArrayManageMemory{ manage_own_memory }
+  {  }
+  
+//#if !VXL_LEGACY_FUTURE_REMOVE
+  /*
+   * This function is a work around for transitioning to data members
+   * being private
+  */
+  void protected_set_data(T * indata, size_t nelmts, bool manage_own_memory)
+  {
+  this->data= indata ;
+  this->num_elmts = nelmts;
+  this->m_LetArrayManageMemory = manage_own_memory;
+  };
+//#endif
 
   void assert_size_internal(size_t sz) const;
   void assert_finite_internal() const;
-
   void destroy();
+
+#if ! VXL_USE_HISTORICAL_PROTECTED_IVARS
+ private:
+#endif
+  size_t num_elmts{0};   // Number of elements (length)
+  T* data{nullptr};      // Pointer to the actual data
+  bool m_LetArrayManageMemory{true};
+
 };
 
 
@@ -439,9 +517,15 @@ inline void vnl_vector<T>
 // \relatesalso vnl_vector
 // \relatesalso vnl_matrix
 template<class T>
-inline vnl_vector<T> operator*(vnl_matrix<T> const& m, vnl_vector<T> const& v)
+inline vnl_vector<T> operator*(vnl_matrix<T> const& M, vnl_vector<T> const& v)
 {
-  return vnl_vector<T>(m, v, vnl_tag_mul());
+  vnl_vector<T> result(M.rows());
+#ifndef NDEBUG
+  if (M.cols() != v.size())
+    vnl_error_vector_dimension ("vnl_vector<>::operator*(M, v)", M.cols(), v.size());
+#endif
+  vnl_sse<T>::matrix_x_vector(M.begin(), v.begin(), result.begin(), M.rows(), M.cols());
+  return result;
 }
 
 //: add scalar and vector. O(n).
@@ -449,7 +533,7 @@ inline vnl_vector<T> operator*(vnl_matrix<T> const& m, vnl_vector<T> const& v)
 template<class T>
 inline vnl_vector<T> operator+(T s, vnl_vector<T> const& v)
 {
-  return vnl_vector<T>(v, s, vnl_tag_add());
+  return v.operator+(s);
 }
 
 //: subtract vector from scalar. O(n).
@@ -457,7 +541,10 @@ inline vnl_vector<T> operator+(T s, vnl_vector<T> const& v)
 template<class T>
 inline vnl_vector<T> operator-(T s, vnl_vector<T> const& v)
 {
-  return vnl_vector<T>(-v, s, vnl_tag_add());
+  vnl_vector<T> result(v.size());
+  for(size_t i=0; i< result.size(); ++i)
+    result[i]= s - v[i];
+  return result;
 }
 
 //: multiply scalar and vector. O(n).
@@ -465,13 +552,13 @@ inline vnl_vector<T> operator-(T s, vnl_vector<T> const& v)
 template<class T>
 inline vnl_vector<T> operator*(T s, vnl_vector<T> const& v)
 {
-  return vnl_vector<T>(v, s, vnl_tag_mul());
+  return v*s;
 }
 
 //: Interchange the two vectors
 // \relatesalso vnl_vector
 template<class T>
-inline void swap(vnl_vector<T> &a, vnl_vector<T> &b) { a.swap(b); }
+inline void swap(vnl_vector<T> &a, vnl_vector<T> &b) noexcept { a.swap(b); }
 
 //: Euclidean Distance between two vectors.
 // Sum of Differences squared.

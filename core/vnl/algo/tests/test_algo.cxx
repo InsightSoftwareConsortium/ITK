@@ -58,7 +58,7 @@ static void test_matrix_inverse()
   vnl_svd<double> svd(m); vnl_matrix<double> V0 = svd.V();
   TEST_NEAR("vnl_svd_economy", V[0][1], V0[0][1], 1e-6);
 
-  vnl_matrix<double> inv = vnl_matrix_inverse<double>(m);
+  vnl_matrix<double> inv{ vnl_matrix_inverse<double>(m).as_matrix() };
   vnl_matrix<double> identity(4,4); identity.set_identity();
   TEST_NEAR("vnl_matrix_inverse", (m*inv-identity).array_inf_norm(), 0, 1e-6);
 }

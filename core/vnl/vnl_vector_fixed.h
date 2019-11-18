@@ -260,26 +260,28 @@ class VNL_EXPORT vnl_vector_fixed
   // it. This prevents a const vnl_vector_fixed from being cast into a
   // non-const vnl_vector reference, giving a slight increase in type safety.
 
-  //: Explicit conversion to a vnl_vector_ref.
+  //: Explicit conversion to a vnl_vector_ref or vnl_vector.
   // This is a cheap conversion for those functions that have an interface
   // for vnl_vector but not for vnl_vector_fixed. There is also a
   // conversion operator that should work most of the time.
   // \sa vnl_vector_ref::non_const
   vnl_vector_ref<T> as_ref() { return vnl_vector_ref<T>( n, data_ ); }
-
-  //: Explicit conversion to a vnl_vector_ref.
-  // This is a cheap conversion for those functions that have an interface
-  // for vnl_vector but not for vnl_vector_fixed. There is also a
-  // conversion operator that should work most of the time.
-  // \sa vnl_vector_ref::non_const
   const vnl_vector_ref<T> as_ref() const { return vnl_vector_ref<T>( n, const_cast<T*>(data_) ); }
+  vnl_vector<T> as_vector() const { return vnl_vector<T>(data_, n); }
 
   //: Cheap conversion to vnl_vector_ref
   // Sometimes, such as with templated functions, the compiler cannot
   // use this user-defined conversion. For those cases, use the
   // explicit as_ref() method instead.
-  operator const vnl_vector_ref<T>() const { return vnl_vector_ref<T>( n, const_cast<T*>(data_) ); }
-
+#if ! VXL_USE_HISTORICAL_IMPLICIT_CONVERSIONS
+  explicit operator const vnl_vector_ref<T>() const { return this->as_ref(); }
+#else
+#if VXL_LEGACY_FUTURE_REMOVE
+  VXL_DEPRECATED_MSG("Implicit cast conversion is dangerous.\nUSE: .as_vector() or .as_ref() member function for clarity.")
+#endif
+  operator const vnl_vector_ref<T>() const { return this->as_ref(); } //Implicit for backwards compatibility
+#endif
+  explicit operator vnl_vector<T>() const { return this->as_vector(); }
   //----------------------------------------------------------------------
 
   //: Type defs for iterators
@@ -354,9 +356,6 @@ class VNL_EXPORT vnl_vector_fixed
   assert( start < n && start + len <= n );
   return vnl_vector<T>( data_ + start, len );
   }
-
-  //: Convert to a vnl_vector.
-  vnl_vector<T> as_vector() const { return extract(n); }
 
   //: Replaces elements with index beginning at start, by values of v. O(n).
   vnl_vector_fixed& update(vnl_vector<T> const&, unsigned int start=0);

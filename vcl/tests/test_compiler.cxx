@@ -11,14 +11,14 @@
 template <class T>
 struct X
 {
-  int x;
+  int x{1728};
   X();
   // declaration of static template member.
   static X<T> *pl;
 };
 
 template <class T>
-X<T>::X() : x(1728) { }
+X<T>::X()  { }
 
 // definition (not specialization) of static template member.
 template <class T>
@@ -31,9 +31,9 @@ template struct X<int>;
 
 struct A
 {
-  int x;
-  mutable int y;
-  A() : x(0), y(0) { }
+  int x{0};
+  mutable int y{0};
+  A()  { }
   void f() { ++ x; }
   void g() const { ++ y; }
 };
