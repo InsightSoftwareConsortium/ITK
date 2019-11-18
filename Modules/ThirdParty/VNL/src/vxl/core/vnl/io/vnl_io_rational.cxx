@@ -11,8 +11,9 @@ void vsl_b_write(vsl_b_ostream & os, const vnl_rational & p)
 {
   constexpr short io_version_no = 1;
   vsl_b_write(os, io_version_no);
-  vsl_b_write(os, p.numerator());
-  vsl_b_write(os, p.denominator());
+  // cast from std::int64_t to long int type to match function signatures
+  vsl_b_write(os, static_cast<long int>( p.numerator()) );
+  vsl_b_write(os, static_cast<long int>( p.denominator()) );
 }
 
 //=================================================================================

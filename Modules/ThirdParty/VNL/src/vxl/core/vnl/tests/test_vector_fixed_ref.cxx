@@ -7,6 +7,40 @@
 
 void test_vector_fixed_ref()
 {
+  { // exercise conversions and verify const behavior
+    const double numbers[4]{0,11,22,33};
+    vnl_vector<double> v{numbers,4};
+    // vnl_vector_ref(numbers, 4); // Should fail to compile due to const double numbers
+    vnl_vector_ref<double> memory_access_vnl_ref{ v.size(), v.data_block() };
+    const vnl_vector_ref<double> const_cpprefvector{memory_access_vnl_ref};
+
+    const_cpprefvector.as_ref();
+    // const_cpprefvector.fill(-99); //<- This should fail to compile, but it modifies the data
+  }
+
+  //Test conversion behaviors in the presence of move constructors/move assignments
+  {
+    constexpr double bulk_data_array[4]{1.0, 2.0, 3.0, 4.0};
+    vnl_vector_fixed<double, 4> initial_fixed_size_matrix(bulk_data_array);
+    vnl_vector_ref<double> ref_to_data{initial_fixed_size_matrix.as_ref()};
+
+    TEST("vnl_vector_ref{ vnl_vector_fixed } share data pointer",
+         initial_fixed_size_matrix.data_block() == ref_to_data.data_block(),
+         true);
+
+    vnl_vector<double> new_independant_matrix{ref_to_data};
+    TEST("vnl_vector{ vnl_vector_ref } creates new memory",
+         ref_to_data.data_block() != new_independant_matrix.data_block(), true);
+
+    vnl_vector<double> rval_initialized_independant_matrix{initial_fixed_size_matrix.as_ref()};
+    TEST( "vnl_vector{ .as_ref rval}) creates new memory",
+          initial_fixed_size_matrix.data_block() != rval_initialized_independant_matrix.data_block(),true);
+//    std::cout << static_cast<void *>(initial_fixed_size_matrix.data_block()) << "\n"
+//      << static_cast<void *>(ref_to_data.data_block()) << "\n"
+//      << static_cast<void *>(new_independant_matrix.data_block()) << "\n"
+//      << static_cast<void *>(rval_initialized_independant_matrix.data_block()) << "\n";
+  }
+
   enum{size = 4};
   typedef vnl_vector_fixed<double,size> vf;
   typedef vnl_vector_fixed_ref<double,size> vfr;

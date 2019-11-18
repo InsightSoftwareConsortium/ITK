@@ -121,15 +121,21 @@ void test_common_interface()
     TContainer l(2, 2);
     l.copy_in(data1);
     TContainer l_swap(l);
+    TContainer l_std_swap(l);
 
     const typename TContainer::element_type data2[4] = {4, 5, 6, 7};
     TContainer r(2, 2);
     r.copy_in(data2);
     TContainer r_swap(r);
+    TContainer r_std_swap(r);
 
     l_swap.swap(r_swap);
     TEST("swap left-right", l.is_equal(r_swap, 10e-6), true);
     TEST("swap right-left", r.is_equal(l_swap, 10e-6), true);
+
+    std::swap(l_std_swap, r_std_swap);
+    TEST("std::swap left-right", l.is_equal(r_std_swap, 10e-6), true);
+    TEST("std::swap right-left", r.is_equal(l_std_swap, 10e-6), true);
     }
   m.array_one_norm();
   m.array_two_norm();

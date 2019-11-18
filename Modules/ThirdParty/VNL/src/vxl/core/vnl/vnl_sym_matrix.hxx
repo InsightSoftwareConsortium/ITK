@@ -33,7 +33,7 @@ vnl_sym_matrix<T>& vnl_sym_matrix<T>::update (vnl_sym_matrix<T> const& m,
 // ==========================================================================
 //: Swap contents of m with THIS
 template <class T>
-void vnl_sym_matrix<T>::swap(vnl_sym_matrix<T> &m)
+void vnl_sym_matrix<T>::swap(vnl_sym_matrix<T> &m) noexcept
 {
   unsigned nn = nn_;
   T **index   = index_;

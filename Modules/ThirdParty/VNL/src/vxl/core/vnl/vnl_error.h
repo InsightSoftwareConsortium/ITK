@@ -16,10 +16,10 @@ extern VNL_EXPORT void vnl_error_vector_dimension (const char* fcn, int l1, int 
 extern VNL_EXPORT void vnl_error_vector_va_arg (int n);
 
 //: Raise exception for invalid row index.
-extern VNL_EXPORT void vnl_error_matrix_row_index (char const* fcn, int r);
+extern VNL_EXPORT void vnl_error_matrix_row_index (char const* fcn, unsigned r);
 
 //: Raise exception for invalid col index.
-extern VNL_EXPORT void vnl_error_matrix_col_index (char const* fcn, int c);
+extern VNL_EXPORT void vnl_error_matrix_col_index (char const* fcn, unsigned c);
 
 //: Raise exception for invalid dimensions.
 extern VNL_EXPORT void vnl_error_matrix_dimension (char const* fcn, int r1, int c1, int r2, int c2);

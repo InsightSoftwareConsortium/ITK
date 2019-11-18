@@ -5,8 +5,8 @@
 #include <testlib/testlib_test.h>
 
 struct brent_f1 : public vnl_cost_function {
-  unsigned n_evals;
-  brent_f1() : vnl_cost_function(1),n_evals(0) {}
+  unsigned n_evals{0};
+  brent_f1() : vnl_cost_function(1) {}
 
   double f(const vnl_vector<double>& x) override { n_evals++;
     return (2 - x[0]) * (2 - x[0]) + 10;
@@ -14,8 +14,8 @@ struct brent_f1 : public vnl_cost_function {
 };
 
 struct brent_f2 : public vnl_cost_function {
-  unsigned n_evals;
-  brent_f2() : vnl_cost_function(1),n_evals(0) {}
+  unsigned n_evals{0};
+  brent_f2() : vnl_cost_function(1) {}
 
   double f(const vnl_vector<double>& x) override { n_evals++;
     double y = (2 - x[0]) * (2 - x[0]);

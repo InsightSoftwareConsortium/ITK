@@ -29,6 +29,9 @@
 
 #cmakedefine01 VXL_LEGACY_FUTURE_REMOVE
 #cmakedefine01 VXL_RUN_FAILING_TESTS
+#cmakedefine01 VXL_USE_HISTORICAL_IMPLICIT_CONVERSIONS
+#cmakedefine01 VXL_USE_HISTORICAL_PROTECTED_IVARS
+
 
 // -------------------- handy macros ---------------------------------------
 
