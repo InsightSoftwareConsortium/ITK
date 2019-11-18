@@ -117,11 +117,6 @@ HDF5TransformIOTemplate<TParametersValueType>::WriteParameters(const std::string
                                                                const ParametersType & parameters)
 {
   const hsize_t dim(parameters.Size());
-  auto *        buf = new ParametersValueType[dim];
-  for (hsize_t i{ 0 }; i < dim; i++)
-  {
-    buf[i] = parameters[i];
-  }
   H5::DataSpace paramSpace(1, &dim);
 
   H5::DataSet paramSet;
@@ -146,9 +141,8 @@ HDF5TransformIOTemplate<TParametersValueType>::WriteParameters(const std::string
   {
     paramSet = this->m_H5File->createDataSet(name, h5StorageIdentifier, paramSpace);
   }
-  paramSet.write(buf, h5StorageIdentifier);
+  paramSet.write(parameters.data_block(), h5StorageIdentifier);
   paramSet.close();
-  delete[] buf;
 }
 
 template <typename TParametersValueType>
@@ -157,16 +151,10 @@ HDF5TransformIOTemplate<TParametersValueType>::WriteFixedParameters(const std::s
                                                                     const FixedParametersType & fixedParameters)
 {
   const hsize_t dim(fixedParameters.Size());
-  auto *        buf = new FixedParametersValueType[dim];
-  for (unsigned i(0); i < dim; i++)
-  {
-    buf[i] = fixedParameters[i];
-  }
   H5::DataSpace paramSpace(1, &dim);
   H5::DataSet   paramSet = this->m_H5File->createDataSet(name, H5::PredType::NATIVE_DOUBLE, paramSpace);
-  paramSet.write(buf, H5::PredType::NATIVE_DOUBLE);
+  paramSet.write(fixedParameters.data_block(), H5::PredType::NATIVE_DOUBLE);
   paramSet.close();
-  delete[] buf;
 }
 
 /** read a parameter array from the location specified by name */
@@ -195,23 +183,21 @@ HDF5TransformIOTemplate<TParametersValueType>::ReadParameters(const std::string 
 
   if (ParamType.getSize() == sizeof(double))
   {
-    auto * buf = new double[dim];
-    paramSet.read(buf, H5::PredType::NATIVE_DOUBLE);
+    const std::unique_ptr<double[]> buf(new double[dim]);
+    paramSet.read(buf.get(), H5::PredType::NATIVE_DOUBLE);
     for (unsigned i = 0; i < dim; i++)
     {
       ParameterArray.SetElement(i, static_cast<ParametersValueType>(buf[i]));
     }
-    delete[] buf;
   }
   else
   {
-    auto * buf = new float[dim];
-    paramSet.read(buf, H5::PredType::NATIVE_FLOAT);
+    const std::unique_ptr<float[]> buf(new float[dim]);
+    paramSet.read(buf.get(), H5::PredType::NATIVE_FLOAT);
     for (unsigned i = 0; i < dim; i++)
     {
       ParameterArray.SetElement(i, static_cast<ParametersValueType>(buf[i]));
     }
-    delete[] buf;
   }
   paramSet.close();
   return ParameterArray;
@@ -244,23 +230,21 @@ HDF5TransformIOTemplate<TParametersValueType>::ReadFixedParameters(const std::st
 
   if (ParamType.getSize() == sizeof(double))
   {
-    auto * buf = new double[dim];
-    paramSet.read(buf, H5::PredType::NATIVE_DOUBLE);
+    const std::unique_ptr<double[]> buf(new double[dim]);
+    paramSet.read(buf.get(), H5::PredType::NATIVE_DOUBLE);
     for (unsigned i = 0; i < dim; i++)
     {
       FixedParameterArray.SetElement(i, static_cast<FixedParametersValueType>(buf[i]));
     }
-    delete[] buf;
   }
   else
   {
-    auto * buf = new float[dim];
-    paramSet.read(buf, H5::PredType::NATIVE_FLOAT);
+    const std::unique_ptr<float[]> buf(new float[dim]);
+    paramSet.read(buf.get(), H5::PredType::NATIVE_FLOAT);
     for (unsigned i = 0; i < dim; i++)
     {
       FixedParameterArray.SetElement(i, static_cast<FixedParametersValueType>(buf[i]));
     }
-    delete[] buf;
   }
   paramSet.close();
   return FixedParameterArray;
