@@ -54,6 +54,7 @@ itk_wrap_simple_class("itk::TimeProbe")
 # TODO: enable pointer support, once fixed the protected New() method.
 itk_wrap_simple_class("itk::MetaDataObjectBase" POINTER)
 itk_wrap_simple_class("itk::ProgressReporter")
+itk_wrap_simple_class("itk::IterationReporter")
 itk_wrap_simple_class("itk::MultiThreaderBase" POINTER)
 itk_wrap_simple_class("itk::PoolMultiThreader" POINTER)
 if(ITK_USE_TBB)
