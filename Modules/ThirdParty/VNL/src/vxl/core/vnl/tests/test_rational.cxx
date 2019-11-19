@@ -1,6 +1,9 @@
 #include <iostream>
 #include <iomanip>
 #include <complex>
+#include <string>
+#include <utility>
+#include <typeinfo>
 #include <vnl/vnl_rational.h>
 #include <testlib/testlib_test.h>
 #include <vnl/vnl_math.h>
@@ -9,6 +12,84 @@
 #include <vnl/vnl_det.h>
 
 inline vnl_rational vnl_sqrt(vnl_rational x) { return vnl_rational(std::sqrt(double(x))); }
+
+namespace
+{
+  template <typename T>
+  void test_converting_whole_number_to_rational(const T num)
+  {
+    // Convert whole number to vnl_rational:
+    const vnl_rational rat = num;
+
+    const auto message = "test_converting_value_to_rational<" +
+      std::string(typeid(T).name()) + ">(" + std::to_string(num) + ')';
+
+    using pair_type = std::pair<vnl_rational::int_type, vnl_rational::int_type>;
+
+    TEST(message.c_str(),
+      std::make_pair(rat.numerator(), rat.denominator()),
+      pair_type(num, 1));
+  }
+
+  template <typename T>
+  void test_converting_floating_point_number_to_rational(T num)
+  {
+    // Convert floating point number to vnl_rational:
+    const vnl_rational rat = num;
+
+    const auto message = "test_converting_floating_point_number_to_rational<" +
+      std::string(typeid(T).name()) + ">(" + std::to_string(num) + ')';
+
+    using pair_type = std::pair<vnl_rational::int_type, vnl_rational::int_type>;
+
+    TEST(message.c_str(),
+      static_cast<T>(rat.numerator()) / static_cast<T>(rat.denominator()),
+      num);
+  }
+
+  template <typename T>
+  void test_converting_decimal_digits()
+  {
+    for (int i{}; i < 10; ++i)
+    {
+      test_converting_whole_number_to_rational( static_cast<T>(i) );
+    }
+  }
+
+  template <typename T>
+  void test_converting_decimal_digits_and_min_and_max()
+  {
+    test_converting_decimal_digits<T>();
+
+    test_converting_whole_number_to_rational(std::numeric_limits<T>::min());
+    test_converting_whole_number_to_rational(std::numeric_limits<T>::max());
+  }
+
+}
+
+static void test_converting_constructors()
+{
+  test_converting_decimal_digits_and_min_and_max<unsigned char>();
+  test_converting_decimal_digits_and_min_and_max<signed char>();
+  test_converting_decimal_digits_and_min_and_max<unsigned char>();
+  test_converting_decimal_digits_and_min_and_max<short>();
+  test_converting_decimal_digits_and_min_and_max<unsigned short>();
+  test_converting_decimal_digits_and_min_and_max<int>();
+  test_converting_decimal_digits_and_min_and_max<unsigned int>();
+  test_converting_decimal_digits_and_min_and_max<long>();
+  test_converting_decimal_digits_and_min_and_max<unsigned long>();
+  test_converting_decimal_digits_and_min_and_max<long long>();
+  test_converting_decimal_digits_and_min_and_max<unsigned long long>();
+
+  test_converting_decimal_digits<float>();
+  test_converting_decimal_digits<double>();
+
+  for (float f{}; f <= 1.0f; f += 0.25f)
+  {
+    test_converting_floating_point_number_to_rational<float>(f);
+    test_converting_floating_point_number_to_rational<double>(f);
+  }
+}
 
 static void test_operators()
 {
@@ -233,6 +314,7 @@ static void test_zero_one()
 
 void test_rational()
 {
+  test_converting_constructors();
   test_operators();
   test_infinite();
   test_frac();

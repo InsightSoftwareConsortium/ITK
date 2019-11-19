@@ -164,15 +164,15 @@ class VNL_EXPORT vnl_sym_matrix
   vnl_sym_matrix<T>& update (vnl_sym_matrix<T> const& m, unsigned diag_start=0);
 
   //: Swap contents of m with THIS
-  void swap(vnl_sym_matrix &m);
+  void swap(vnl_sym_matrix &m) noexcept;
 
  protected:
 //: Set up the index array
   void setup_index();
 
-  T* data_;
-  T** index_;
-  unsigned nn_;
+  T* data_{nullptr};
+  T** index_{nullptr};
+  unsigned nn_{0};
 };
 
 //:
@@ -265,7 +265,8 @@ bool operator==(const vnl_matrix<T> &a, const vnl_sym_matrix<T> &b);
 
 //: Swap the contents of a and b.
 // \relatesalso vnl_sym_matrix
-template <class T> void swap(vnl_sym_matrix<T> &a, vnl_sym_matrix<T> &b)
+template <class T>
+inline void swap(vnl_sym_matrix<T> &a, vnl_sym_matrix<T> &b) noexcept
 { a.swap(b); }
 
 #endif // vnl_sym_matrix_h_

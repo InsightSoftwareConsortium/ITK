@@ -552,7 +552,7 @@ void test_matrix_fixed()
   TEST("fill(1)", B(0,0)==1 && B(0,1)==1 && B(1,2)==1 && B(2,2)==1, true);
   B.fill_diagonal(4.0);
   TEST("fill_diagonal(4)", B(0,0)==4 && B(0,1)==1 && B(1,2)==1 && B(2,2)==4, true);
-  B.set_diagonal(vnl_double_3(7,9,16));
+  B.set_diagonal(vnl_double_3(7,9,16).as_ref());
   TEST("set_diagonal(7,9,16))",B(0,0)==7 && B(1,1)==9 && B(2,2)==16 && B(1,2)==1, true);
 
   // apply sqrt to every element

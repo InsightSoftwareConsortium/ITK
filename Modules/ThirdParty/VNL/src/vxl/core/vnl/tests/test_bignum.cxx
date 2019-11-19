@@ -7,14 +7,59 @@
 //   20 jan 2008 - Peter Vanroose - added tests on "large" divisions
 // \endverbatim
 
+#include <climits>
 #include <iostream>
 #include <sstream>
+#include <string>
 #include <iomanip>
 #include <limits>
+#include <typeinfo>
 #include <vnl/vnl_bignum.h>
 #include <vnl/vnl_bignum_traits.h>
 
 #include <testlib/testlib_test.h>
+
+namespace
+{
+  template <typename T>
+  void test_to_string(const T arg)
+  {
+    std::string bignum_as_string;
+    const vnl_bignum bignum{ arg };
+    vnl_bignum_to_string(bignum_as_string, bignum);
+
+    const auto expected_string = std::to_string(arg);
+    const auto message = std::string("to_string<")
+      + typeid(T).name() + ">(" + expected_string + ")";
+    TEST(message.c_str(), bignum_as_string, expected_string);
+  }
+
+  template <typename T>
+  void test_decimal_digits_to_string()
+  {
+    for (int i{}; i < 10; ++i)
+    {
+      std::string bignum_as_string;
+      const vnl_bignum bignum{ static_cast<T>(i) };
+      vnl_bignum_to_string(bignum_as_string, bignum);
+
+      const auto expected_string = std::to_string(i);
+      const auto message = std::string("to_string<")
+        + typeid(T).name() + ">(" + expected_string + ")";
+      TEST(message.c_str(), bignum_as_string, expected_string);
+    }
+  }
+
+  template <typename T>
+  void test_min_and_max_and_decimal_digits_to_string()
+  {
+    test_to_string(std::numeric_limits<T>::max());
+    test_to_string(std::numeric_limits<T>::min());
+    test_decimal_digits_to_string<T>();
+  }
+
+}
+
 // Two auxiliary functions, used in multiplication and division tests
 
 // Factorial
@@ -51,6 +96,8 @@ static void run_constructor_tests()
   {vnl_bignum b(0x7fffffffL); TEST("vnl_bignum b(0x7fffffffL);", b, 0x7fffffffL);}
   {vnl_bignum b(-0x7fffffffL); TEST("vnl_bignum b(-0x7fffffffL);", b, -0x7fffffffL);}
   {vnl_bignum b(0xf00000L); TEST("vnl_bignum b(0xf00000L);", b, 0xf00000);}
+  {vnl_bignum b(LONG_MAX); TEST("vnl_bignum b(LONG_MAX);", b, LONG_MAX);}
+  {vnl_bignum b(LONG_MIN); TEST("vnl_bignum b(LONG_MIN);", b, LONG_MIN);}
 
   std::cout << "double constructor:\n";
   {vnl_bignum b(0.0); TEST("vnl_bignum b(0.0);", (double)b, 0.0);}
@@ -820,6 +867,20 @@ static void run_shift_tests()
 #endif
 }
 
+static void run_to_string_tests()
+{
+  test_min_and_max_and_decimal_digits_to_string<signed char>();
+  test_min_and_max_and_decimal_digits_to_string<unsigned char>();
+  test_min_and_max_and_decimal_digits_to_string<short>();
+  test_min_and_max_and_decimal_digits_to_string<unsigned short>();
+  test_min_and_max_and_decimal_digits_to_string<int>();
+  test_min_and_max_and_decimal_digits_to_string<unsigned int>();
+  test_min_and_max_and_decimal_digits_to_string<long>();
+  test_min_and_max_and_decimal_digits_to_string<unsigned long>();
+  test_min_and_max_and_decimal_digits_to_string<long long>();
+  test_min_and_max_and_decimal_digits_to_string<unsigned long long>();
+}
+
 void test_bignum()
 {
   run_constructor_tests();
@@ -833,6 +894,7 @@ void test_bignum()
   run_large_division_tests();
   run_shift_tests();
   run_logical_comparison_tests();
+  run_to_string_tests();
 }
 
 TESTMAIN(test_bignum);

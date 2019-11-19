@@ -136,7 +136,7 @@ MahalanobisDistanceMetric<TVector>::CalculateInverseCovariance()
     }
     else
     {
-      m_InverseCovariance = vnl_matrix_inverse<double>(m_Covariance);
+      m_InverseCovariance = vnl_matrix_inverse<double>(m_Covariance).as_matrix();
     }
   } // end inverse calculations
 }

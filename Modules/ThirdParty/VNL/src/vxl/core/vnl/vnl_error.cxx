@@ -48,7 +48,7 @@ void vnl_error_vector_va_arg (int n)
 //--------------------------------------------------------------------------------
 
 //: Raise exception for invalid row index.
-void vnl_error_matrix_row_index (char const* fcn, int r)
+void vnl_error_matrix_row_index (char const* fcn, unsigned r)
 {
   //RAISE Error, SYM(vnl_error_matrix), SYM(Invalid_Row),
   std::cerr << "vnl_error_matrix_row_index:" << fcn
@@ -58,7 +58,7 @@ void vnl_error_matrix_row_index (char const* fcn, int r)
 
 
 //: Raise exception for invalid col index.
-void vnl_error_matrix_col_index (char const* fcn, int c)
+void vnl_error_matrix_col_index (char const* fcn, unsigned c)
 {
   //RAISE Error, SYM(vnl_error_matrix), SYM(Invalid_Col),
   std::cerr << "vnl_error_matrix_col_index:" << fcn << ": Invalid value "

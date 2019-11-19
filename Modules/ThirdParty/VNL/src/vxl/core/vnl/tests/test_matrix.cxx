@@ -38,7 +38,7 @@ void test_int()
   TEST("(vnl_matrix)(i,j)",
        (mb(0,0) = 0,
         mb(0,0)==0 && mb(0,1)==2 && mb(1,0)==2 && mb(1,1)==2), true);
-  int mcvalues[4] = {1, 2, 3};
+  constexpr int mcvalues[4] = {1, 2, 3 /*, 0 is implied for last position*/};
   vnl_matrix<int> mc(2,2, 4, mcvalues);
   TEST("vnl_matrix<int> mc(2,2, 4,int[])",
        (mc(0,0)==1 && mc(0,1)==2 && mc(1,0)==3 && mc(1,1)==0), true);
@@ -99,9 +99,11 @@ void test_int()
   ///////////////////////////////
 
   {
-    int some_data[2*3] = { 1, 2, 3,
-                           4, 5, 6 };
-    vnl_matrix<int> mrc(some_data, 2, 3);
+    constexpr size_t lrow=2;
+    constexpr size_t lcol=3;
+    constexpr int some_data[lrow*lcol] = { 1, 2, 3,
+                                 4, 5, 6 };
+    vnl_matrix<int> mrc(some_data, lrow, lcol);
     vnl_vector<int> v;
 
     TEST("v = mrc.get_row(0)",

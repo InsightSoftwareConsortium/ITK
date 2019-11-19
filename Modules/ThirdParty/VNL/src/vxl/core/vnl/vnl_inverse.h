@@ -175,11 +175,11 @@ vnl_matrix<T> vnl_inverse(vnl_matrix<T> const& m)
   if (m.rows() == 1)
     return vnl_matrix<T>(1,1, T(1)/m(0,0));
   else if (m.rows() == 2)
-    return vnl_inverse(vnl_matrix_fixed<T,2,2>(m)).as_ref();
+    return vnl_inverse(vnl_matrix_fixed<T,2,2>(m)).as_matrix();
   else if (m.rows() == 3)
-    return vnl_inverse(vnl_matrix_fixed<T,3,3>(m)).as_ref();
+    return vnl_inverse(vnl_matrix_fixed<T,3,3>(m)).as_matrix();
   else
-    return vnl_inverse(vnl_matrix_fixed<T,4,4>(m)).as_ref();
+    return vnl_inverse(vnl_matrix_fixed<T,4,4>(m)).as_matrix();
 }
 
 //: Calculates transpose of the inverse of a small vnl_matrix_fixed (not using svd)
@@ -334,7 +334,6 @@ vnl_matrix_fixed<T,4,4> vnl_inverse_transpose(vnl_matrix_fixed<T,4,4> const& m)
 //  x = vnl_inverse(A).transpose() * b;
 //
 //  \relatesalso vnl_matrix
-
 template <class T>
 vnl_matrix<T> vnl_inverse_transpose(vnl_matrix<T> const& m)
 {
@@ -343,11 +342,11 @@ vnl_matrix<T> vnl_inverse_transpose(vnl_matrix<T> const& m)
   if (m.rows() == 1)
     return vnl_matrix<T>(1,1, T(1)/m(0,0));
   else if (m.rows() == 2)
-    return vnl_inverse_transpose(vnl_matrix_fixed<T,2,2>(m)).as_ref();
+    return vnl_inverse_transpose(vnl_matrix_fixed<T,2,2>(m)).as_matrix();
   else if (m.rows() == 3)
-    return vnl_inverse_transpose(vnl_matrix_fixed<T,3,3>(m)).as_ref();
+    return vnl_inverse_transpose(vnl_matrix_fixed<T,3,3>(m)).as_matrix();
   else
-    return vnl_inverse_transpose(vnl_matrix_fixed<T,4,4>(m)).as_ref();
+    return vnl_inverse_transpose(vnl_matrix_fixed<T,4,4>(m)).as_matrix();
 }
 
 #endif // vnl_inverse_h_

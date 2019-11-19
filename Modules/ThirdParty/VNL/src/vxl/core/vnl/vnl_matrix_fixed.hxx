@@ -287,6 +287,24 @@ vnl_matrix_fixed<T,nrows,ncols>::update (vnl_matrix<T> const& m,
   return *this;
 }
 
+template<class T, unsigned nrows, unsigned ncols>
+vnl_matrix_fixed<T,nrows,ncols>&
+vnl_matrix_fixed<T,nrows,ncols>::update (vnl_matrix_fixed<T,nrows,ncols> const& m,
+    unsigned top, unsigned left)
+{
+  const unsigned int bottom = top + m.rows();
+  const unsigned int right = left + m.cols();
+#ifndef NDEBUG
+  if (nrows < bottom || ncols < right)
+    vnl_error_matrix_dimension ("update",
+                                bottom, right, m.rows(), m.cols());
+#endif
+  for (unsigned int i = top; i < bottom; ++i)
+    for (unsigned int j = left; j < right; ++j)
+      this->data_[i][j] = m(i-top,j-left);
+  return *this;
+}
+
 
 template<class T, unsigned nrows, unsigned ncols>
 vnl_matrix<T>
@@ -504,11 +522,11 @@ vnl_vector_fixed<T,nrows> vnl_matrix_fixed<T,nrows,ncols>::get_column(unsigned c
 template <class T, unsigned int nrows, unsigned int ncols>
 vnl_matrix<T>
 vnl_matrix_fixed<T,nrows,ncols>
-::get_rows(vnl_vector<unsigned int> i) const
+::get_rows(const vnl_vector<unsigned int> &i) const
 {
   vnl_matrix<T> m(i.size(), this->cols());
   for (unsigned int j = 0; j < i.size(); ++j)
-    m.set_row(j, this->get_row(i.get(j)));
+    m.set_row(j, this->get_row(i.get(j)).as_ref());
   return m;
 }
 
@@ -516,11 +534,11 @@ vnl_matrix_fixed<T,nrows,ncols>
 template <class T, unsigned int nrows, unsigned int ncols>
 vnl_matrix<T>
 vnl_matrix_fixed<T,nrows,ncols>
-::get_columns(vnl_vector<unsigned int> i) const
+::get_columns(const vnl_vector<unsigned int> & i) const
 {
   vnl_matrix<T> m(this->rows(), i.size());
   for (unsigned int j = 0; j < i.size(); ++j)
-    m.set_column(j, this->get_column(i.get(j)));
+    m.set_column(j, this->get_column(i.get(j)).as_ref());
   return m;
 }
 

@@ -65,8 +65,11 @@
 //  Peter Vanroose, June 2009: finally fixed this long standing divide bug
 // \endverbatim
 
+#include <cassert>
 #include <iostream>
+#include <limits>
 #include <string>
+#include <type_traits> // For enable_if and is_unsigned.
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif
@@ -143,15 +146,86 @@ VNL_EXPORT std::istream& operator>>(std::istream& s, vnl_bignum& r);
 class VNL_EXPORT vnl_bignum
 {
  private:
+  using Counter = unsigned short;
+  using Data = unsigned short;
   unsigned short count; // Number of data elements (never 0 except for "0")
   int sign;             // Sign of vnl_bignum (+1 or -1, nothing else!!)
   unsigned short* data; // Pointer to data value
- public:
+
+  // Provides the absolute value and the sign of the constructor argument.
+  template <typename T, bool is_signed = std::is_signed<T>::value>
+  struct constructor_helper
+  {
+    using unsigned_type = typename std::make_unsigned<T>::type;
+    unsigned_type absolute_value;
+    int sign;
+
+    explicit constructor_helper(const T arg)
+    {
+      if (arg < 0)
+      {
+        // Special case for the lowest signed value, as `-lowest`
+        // might cause integer overflow (undefined behavior).
+        constexpr auto lowest = std::numeric_limits<T>::lowest();
+        constexpr auto absolute_value_of_lowest =
+          static_cast<unsigned_type>(
+            static_cast<unsigned_type>(-(lowest + 1)) + 1U);
+
+        absolute_value = (arg == lowest) ?
+          absolute_value_of_lowest :
+          static_cast<unsigned_type>(-arg);
+        sign = -1;
+      }
+      else
+      {
+        absolute_value = arg;
+        sign = 1;
+      }
+    }
+  };
+
+  // Specialization for an unsigned type T.
+  template <typename T>
+  struct constructor_helper<T, false>
+  {
+    T absolute_value;
+    static constexpr int sign = 1;
+
+    explicit constructor_helper(const T arg)
+      :
+      absolute_value{ arg }
+    {
+    }
+  };
+
+public:
   vnl_bignum();                        // Void constructor
-  vnl_bignum(long);                    // Long constructor
-  vnl_bignum(unsigned long);           // Unsigned Long constructor
-  vnl_bignum(int);                     // Int constructor
-  vnl_bignum(unsigned int);            // Unsigned Int constructor
+
+  // Converting constructor template for any integer type.
+  template <typename T, typename SFINAE =
+    typename std::enable_if<std::is_integral<T>::value>::type>
+  vnl_bignum(const T arg)
+    : count(0), data(nullptr)
+  {
+    const constructor_helper<T> helper{arg};
+    auto l = helper.absolute_value;
+    this->sign = helper.sign;
+
+    Data buf[sizeof(l)];          // Temp buffer to store l in
+    Counter i = 0;                // buffer index
+    while (l) {                   // While more bits in l
+      assert(i < sizeof(l));      // no more buffer space
+      buf[i] = Data(l);           // Peel off lower order bits
+      l >>= 16;                   // Shift next bits into place
+      i++;
+    }
+    if (i > 0)
+      this->data = new Data[this->count=i]; // Allocate permanent data
+
+    while (i--)     // Save buffer into perm. data
+      this->data[i] = buf[i];
+  }
+
   vnl_bignum(float);                   // Float constructor
   vnl_bignum(double);                  // Double constructor
   vnl_bignum(long double);             // Long Double constructor

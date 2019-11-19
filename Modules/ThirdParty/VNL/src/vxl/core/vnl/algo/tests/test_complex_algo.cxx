@@ -31,7 +31,7 @@ static void test_matrix_inverse()
   vnl_matrix<std::complex<double> > V0 = svd.V();
   TEST_NEAR("complex vnl_svd_economy", V[0][1], V0[0][1], 1e-6);
 
-  vnl_matrix<std::complex<double> > inv = vnl_matrix_inverse<std::complex<double> >(m);
+  vnl_matrix<std::complex<double> > inv{ vnl_matrix_inverse<std::complex<double> >(m).as_matrix() };
   vnl_matrix<std::complex<double> > identity(4,4); identity.set_identity();
   TEST_NEAR("complex vnl_matrix_inverse", (m*inv-identity).array_inf_norm(), 0, 1e-6);
 }

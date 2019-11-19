@@ -28,7 +28,7 @@
 //  If the operation has not been specialized, the vnl_transpose performs
 //  a copying conversion to a matrix, printing a message to stdout.
 //  At that stage, the user may choose to implement the particular operation
-//  or use vnl_transpose::asMatrix() to clear the warning.
+//  or use vnl_transpose::as_matrix() to clear the warning.
 //
 //  NOTE: This is a reference class, so should be shorter-lived than the
 //  matrix to which it refers.
@@ -44,13 +44,26 @@ class VNL_EXPORT vnl_transpose
   vnl_transpose(const vnl_matrix<double>& M): M_(M) {}
 
   //: Noisily convert a vnl_transpose to a matrix
+
+
+#if ! VXL_USE_HISTORICAL_IMPLICIT_CONVERSIONS
+  explicit operator vnl_matrix<double> () const { return M_.transpose(); }
+#else
+#if VXL_LEGACY_FUTURE_REMOVE
+  VXL_DEPRECATED_MSG("Implicit cast conversion is dangerous.\nUSE: .as_vector() or .as_ref() member function for clarity.")
+#endif
   operator vnl_matrix<double> () const {
     std::cerr << "vnl_transpose being converted to matrix -- help! I don't wanna go!\n";
     return M_.transpose();
   }
+#endif
 
-  //: Quietly convert a vnl_transpose to a matrix
-  vnl_matrix<double> asMatrix () const { return M_.transpose(); }
+//: Quietly convert a vnl_transpose to a matrix
+vnl_matrix<double> as_matrix( ) const { return M_.transpose(); }
+#if ! VXL_LEGACY_FUTURE_REMOVE
+  VXL_DEPRECATED_MSG("Deprecated inconsistent name.\nUSE: .as_matrix() new consistent name.")
+  vnl_matrix<double> asMatrix () const { return this->as_matrix(); }
+#endif
 
   //: Return M' * O
   vnl_matrix<double> operator* (const vnl_matrix<double>& O) {
