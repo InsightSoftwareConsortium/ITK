@@ -21,7 +21,7 @@
 
 #include "itkMath.h"
 #include "itkEigenToMeasureParameterEstimationFilter.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 
 namespace itk
 {
@@ -127,7 +127,7 @@ private:
   RealType m_FrobeniusNormWeight;
   RealType m_MaxFrobeniusNorm;
 
-  SimpleFastMutexLock m_Mutex;
+  std::mutex m_Mutex;
 }; // end class
 } // namespace itk
 

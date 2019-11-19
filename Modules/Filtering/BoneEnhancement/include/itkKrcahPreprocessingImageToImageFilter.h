@@ -121,15 +121,6 @@ protected:
   void
   GenerateData() override;
 
-  /** DiscreteGaussianImageFilter needs a larger input requested region
-   * than the output requested region (larger by the size of the
-   * Gaussian kernel).  As such, DiscreteGaussianImageFilter needs to
-   * provide an implementation for GenerateInputRequestedRegion() in
-   * order to inform the pipeline execution model.
-   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void
-  GenerateInputRequestedRegion() override;
-
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

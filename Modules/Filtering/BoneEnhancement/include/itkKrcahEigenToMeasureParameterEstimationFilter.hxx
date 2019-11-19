@@ -20,7 +20,6 @@
 #define itkKrcahEigenToMeasureParameterEstimationFilter_hxx
 
 #include "itkKrcahEigenToMeasureParameterEstimationFilter.h"
-#include "itkMutexLockHolder.h"
 
 namespace itk
 {
@@ -147,7 +146,7 @@ KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::Dynamic
   {
     // Process point
     inputPointer->TransformIndexToPhysicalPoint(inputIt.GetIndex(), point);
-    if ((!maskPointer) || (maskPointer->IsInside(point)))
+    if ((!maskPointer) || (maskPointer->IsInsideInObjectSpace(point)))
     {
       /* Compute trace */
       count++;
@@ -163,7 +162,7 @@ KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::Dynamic
   }
 
   /* Block and store */
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
+  std::lock_guard<std::mutex> mutexHolder(m_Mutex);
   m_ThreadCount += count;
   m_ThreadAccumulatedTrace += accum;
 }

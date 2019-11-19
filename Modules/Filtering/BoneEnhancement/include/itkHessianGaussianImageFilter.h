@@ -124,8 +124,8 @@ public:
    * Gaussian filter.
    * \sa DiscreteGaussianDerivativeImageFilter::GenerateInputRequestedRegion() */
   // TODO
-  virtual void
-  GenerateInputRequestedRegion() throw(InvalidRequestedRegionError) override;
+  void
+  GenerateInputRequestedRegion() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

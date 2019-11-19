@@ -21,7 +21,7 @@
 
 #include "itkMath.h"
 #include "itkEigenToMeasureParameterEstimationFilter.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 #include "itkCompensatedSummation.h"
 
 namespace itk
@@ -173,7 +173,7 @@ private:
   CompensatedSummation<RealType> m_ThreadCount;
   CompensatedSummation<RealType> m_ThreadAccumulatedTrace;
 
-  SimpleFastMutexLock m_Mutex;
+  std::mutex m_Mutex;
 }; // end class
 } // namespace itk
 
