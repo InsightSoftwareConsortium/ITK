@@ -78,9 +78,9 @@ KrcahEigenToMeasureImageFilter< TInputImage, TOutputImage >
 
   /* Multiply together to get sheetness */
   sheetness = (m_EnhanceType*a3/l3);
-  sheetness *= vcl_exp(-(Rsheet * Rsheet) / (alpha * alpha));
-  sheetness *= vcl_exp(-(Rtube * Rtube) / (beta * beta));
-  sheetness *= (1.0 - vcl_exp(-(Rnoise * Rnoise) / (gamma * gamma)));
+  sheetness *= std::exp(-(Rsheet * Rsheet) / (alpha * alpha));
+  sheetness *= std::exp(-(Rtube * Rtube) / (beta * beta));
+  sheetness *= (1.0 - std::exp(-(Rnoise * Rnoise) / (gamma * gamma)));
 
   return static_cast<OutputImagePixelType>( sheetness );
 }

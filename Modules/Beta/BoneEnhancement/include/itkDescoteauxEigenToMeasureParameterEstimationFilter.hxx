@@ -20,7 +20,6 @@
 #define itkDescoteauxEigenToMeasureParameterEstimationFilter_hxx
 
 #include "itkDescoteauxEigenToMeasureParameterEstimationFilter.h"
-#include "itkMutexLockHolder.h"
 
 namespace itk {
 
@@ -112,7 +111,7 @@ DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
   {
     // Process point
     inputPointer->TransformIndexToPhysicalPoint(inputIt.GetIndex(), point);
-    if ( (!maskPointer) ||  (maskPointer->IsInside(point)) )
+    if ( (!maskPointer) ||  (maskPointer->IsInsideInObjectSpace(point)) )
     {
       /* Compute max norm */
       max = std::max( max, this->CalculateFrobeniusNorm(inputIt.Get()) );
@@ -127,7 +126,7 @@ DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
   }
 
   /* Block and store */
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
+  std::lock_guard<std::mutex> mutexHolder(m_Mutex);
   m_MaxFrobeniusNorm = std::max( m_MaxFrobeniusNorm, max );
 }
 

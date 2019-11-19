@@ -52,7 +52,7 @@ EigenToMeasureImageFilter< TInputImage, TOutputImage >
   while ( !inputIt.IsAtEnd() )
   {
     inputPtr->TransformIndexToPhysicalPoint(inputIt.GetIndex(), point);
-    if ( (!maskPointer) ||  (maskPointer->IsInside(point)) )
+    if ((!maskPointer) || (maskPointer->IsInsideInObjectSpace(point)))
     {
       outputIt.Set( ProcessPixel( inputIt.Get() ) );
     }

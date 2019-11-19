@@ -79,9 +79,9 @@ DescoteauxEigenToMeasureImageFilter< TInputImage, TOutputImage >
 
   /* Multiply together to get sheetness */
   sheetness = 1.0;
-  sheetness *= vcl_exp(-(Rsheet * Rsheet) / (2 * alpha * alpha));
-  sheetness *= (1.0 - vcl_exp(-(Rblob * Rblob) / (2 * beta * beta)));
-  sheetness *= (1.0 - vcl_exp(-(Rnoise * Rnoise) / (2 * c * c)));
+  sheetness *= std::exp(-(Rsheet * Rsheet) / (2 * alpha * alpha));
+  sheetness *= (1.0 - std::exp(-(Rblob * Rblob) / (2 * beta * beta)));
+  sheetness *= (1.0 - std::exp(-(Rnoise * Rnoise) / (2 * c * c)));
 
   return static_cast<OutputImagePixelType>( sheetness );
 }

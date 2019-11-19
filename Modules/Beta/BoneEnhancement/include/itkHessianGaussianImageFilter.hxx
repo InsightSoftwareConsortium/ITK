@@ -101,7 +101,6 @@ template< typename TInputImage, typename TOutputImage >
 void
 HessianGaussianImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
-throw( InvalidRequestedRegionError )
 {
   // call the superclass' implementation of this method. this should
   // copy the output requested region to the input requested region
@@ -240,8 +239,6 @@ HessianGaussianImageFilter< TInputImage, TOutputImage >
       m_DerivativeFilter->Update();
       typename RealImageType::Pointer derivativeImage;
       derivativeImage = m_DerivativeFilter->GetOutput();
-
-      progress->ResetFilterProgressAndKeepAccumulatedProgress();
 
       // Copy the results to the corresponding component
       // on the output image of vectors

@@ -19,6 +19,7 @@
 #include "itkMaximumAbsoluteValueImageFilter.h"
 #include "gtest/gtest.h"
 #include "itkImageRegionIterator.h"
+#include "itkTestingMacros.h"
 
 TEST(itkMaximumAbsoluteValueImageFilterUnitTest, TakesAbsMaxOfSimpleImages) {
   const unsigned int                                      Dimension = 2;
@@ -27,21 +28,26 @@ TEST(itkMaximumAbsoluteValueImageFilterUnitTest, TakesAbsMaxOfSimpleImages) {
   using MaximumAbsoluteValueImageFilterType = itk::MaximumAbsoluteValueImageFilter<ImageType>;
   MaximumAbsoluteValueImageFilterType::Pointer maxAbsFilter = MaximumAbsoluteValueImageFilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( maxAbsFilter, MaximumAbsoluteValueImageFilter, BinaryFunctorImageFilter );
+  // if not wrapped in a lambda, produces error C2562: 'void' function returning a value
+  int basicMethods = [=]() -> int {
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(maxAbsFilter, MaximumAbsoluteValueImageFilter, BinaryFunctorImageFilter);
+    return EXIT_SUCCESS;
+  }();
+  ASSERT_EQ(basicMethods, EXIT_SUCCESS);
 
   /** Create an image and run a basic test */
   ImageType::RegionType region;
   ImageType::IndexType start;
   start[0] = 0;
   start[1] = 0;
- 
+
   ImageType::SizeType size;
   size[0] = 200;
   size[1] = 300;
- 
+
   region.SetSize(size);
   region.SetIndex(start);
- 
+
   ImageType::Pointer image1 = ImageType::New();
   image1->SetRegions(region);
   image1->Allocate();
@@ -83,9 +89,9 @@ TEST(itkMaximumAbsoluteValueImageFilterUnitTest, TakesAbsMaxOfSimpleImages) {
   while( !ot.IsAtEnd() )
   {
     if ((i % 2) == 0) {
-      ITK_TEST_EXPECT_EQUAL(ot.Get(), -2);
+      ASSERT_EQ(ot.Get(), -2);
     } else {
-      ITK_TEST_EXPECT_EQUAL(ot.Get(), 2);
+      ASSERT_EQ(ot.Get(), 2);
     }
     ++ot;
   }

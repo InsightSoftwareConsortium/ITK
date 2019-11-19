@@ -1,4 +1,4 @@
-itk_wrap_class("itk::DescoteauxEigenToScalarImageFilter" POINTER)
+itk_wrap_class("itk::DescoteauxEigenToMeasureImageFilter" POINTER)
   foreach(t1 ${WRAP_ITK_VECTOR_REAL})
     foreach(t2 ${WRAP_ITK_REAL})
       foreach(t3 ${WRAP_ITK_SCALAR})
