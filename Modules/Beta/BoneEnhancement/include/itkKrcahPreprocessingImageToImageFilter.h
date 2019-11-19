@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef itkKrcahEigenToScalarPreprocessingImageToImageFilter_h
-#define itkKrcahEigenToScalarPreprocessingImageToImageFilter_h
+#ifndef itkKrcahPreprocessingImageToImageFilter_h
+#define itkKrcahPreprocessingImageToImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkDiscreteGaussianImageFilter.h"
@@ -27,7 +27,7 @@
 
 namespace itk
 {
-/** \class KrcahEigenToScalarPreprocessingImageToImageFilter
+/** \class KrcahPreprocessingImageToImageFilter
  * \brief Perform preprocessing as defined by Krcah et al
  * 
  * This filters performs an unsharp filter as defined by Krcah
@@ -52,39 +52,40 @@ namespace itk
  * \ingroup BoneEnhancement
  */
 template< typename TInputImage, typename TOutputImage = TInputImage >
-class ITK_TEMPLATE_EXPORT KrcahEigenToScalarPreprocessingImageToImageFilter:
-public ImageToImageFilter< TInputImage, TOutputImage >
+class ITK_TEMPLATE_EXPORT KrcahPreprocessingImageToImageFilter
+  : public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarPreprocessingImageToImageFilter);
+  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahPreprocessingImageToImageFilter);
 
   /** Standard Self type alias */
-  using Self = KrcahEigenToScalarPreprocessingImageToImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Self          = KrcahPreprocessingImageToImageFilter;
+  using Superclass    = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer       = SmartPointer< Self >;
+  using ConstPointer  = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(KrcahEigenToScalarPreprocessingImageToImageFilter, ImageToImageFilter);
+  itkTypeMacro(KrcahPreprocessingImageToImageFilter, ImageToImageFilter);
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Image related type alias. */
-  using PixelType = typename TInputImage::PixelType;
-  using OutputPixelType = typename TOutputImage::PixelType;
-  using RealType = typename NumericTraits< PixelType >::RealType;
-  using OutputPixelValueType = typename NumericTraits<OutputPixelType>::ValueType;
+  using PixelType               = typename TInputImage::PixelType;
+  using OutputPixelType         = typename TOutputImage::PixelType;
+  using RealType                = typename NumericTraits< PixelType >::RealType;
+  using OutputPixelValueType    = typename NumericTraits<OutputPixelType>::ValueType;
+  using InputImageConstPointer  = typename TInputImage::ConstPointer;
 
   /** Typedefs for internal filters */
-  using GaussianFilterType = DiscreteGaussianImageFilter<TInputImage, TInputImage>;
+  using GaussianFilterType  = DiscreteGaussianImageFilter<TInputImage, TInputImage>;
   using SubstractFilterType = SubtractImageFilter<TInputImage, TInputImage, TInputImage>;
-  using MultiplyFilterType = MultiplyImageFilter<TInputImage, TInputImage, TInputImage>;
-  using AddFilterType = AddImageFilter<TInputImage, TInputImage, TOutputImage>;
+  using MultiplyFilterType  = MultiplyImageFilter<TInputImage, TInputImage, TInputImage>;
+  using AddFilterType       = AddImageFilter<TInputImage, TInputImage, TOutputImage>;
 
   /** Flag to release data or not */
   itkSetMacro(ReleaseInternalFilterData, bool);
@@ -106,7 +107,7 @@ public:
    * order to inform the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
   void GenerateInputRequestedRegion() override;
-  
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro( InputOutputHaveSamePixelDimensionCheck,
@@ -114,11 +115,18 @@ public:
   // End concept checking
 #endif
 protected:
-  KrcahEigenToScalarPreprocessingImageToImageFilter();
-  virtual ~KrcahEigenToScalarPreprocessingImageToImageFilter() {}
+  KrcahPreprocessingImageToImageFilter();
 
   /** Single threaded since we are connecting data */
   void GenerateData() override;
+
+  /** DiscreteGaussianImageFilter needs a larger input requested region
+   * than the output requested region (larger by the size of the
+   * Gaussian kernel).  As such, DiscreteGaussianImageFilter needs to
+   * provide an implementation for GenerateInputRequestedRegion() in
+   * order to inform the pipeline execution model.
+   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
+  virtual void GenerateInputRequestedRegion() override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -137,7 +145,7 @@ private:
 } // end namespace
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkKrcahEigenToScalarPreprocessingImageToImageFilter.hxx"
+#include "itkKrcahPreprocessingImageToImageFilter.hxx"
 #endif
 
-#endif // itkKrcahEigenToScalarPreprocessingImageToImageFilter_h
+#endif // itkKrcahPreprocessingImageToImageFilter_h

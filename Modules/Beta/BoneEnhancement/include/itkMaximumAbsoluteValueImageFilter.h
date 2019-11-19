@@ -24,6 +24,19 @@
 
 namespace itk {
 namespace Functor {
+/** \class MaximumAbsoluteValue
+ * \brief Compute the maximum (of the absolute value) between two images.
+ *
+ * This class takes two images as arguments and returns the maximum
+ * of the absolute value pixel wise. For instance, two pixels with
+ * values 2 and -3 would return -3, since the absolute value of -3
+ * is larger than 2.
+ * 
+ * \sa MultiScaleHessianEnhancementImageFilter
+ * 
+ * \author: Thomas Fitze
+ * \ingroup BoneEnhancement
+ */
 template<typename TInputPixel1, typename TInputPixel2 = TInputPixel1, typename TOutputPixel = TInputPixel1>
 class MaximumAbsoluteValue {
 public:
@@ -63,20 +76,20 @@ public:
  * \ingroup BoneEnhancement
  */
 template<typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1>
-class MaximumAbsoluteValueImageFilter :
-public BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage,
-Functor::MaximumAbsoluteValue<typename TInputImage1::PixelType, typename TInputImage2::PixelType,typename TOutputImage::PixelType> > 
+class ITK_TEMPLATE_EXPORT MaximumAbsoluteValueImageFilter
+  : public BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage,
+    Functor::MaximumAbsoluteValue<typename TInputImage1::PixelType, typename TInputImage2::PixelType,typename TOutputImage::PixelType> > 
 {
 public:
-    ITK_DISALLOW_COPY_AND_ASSIGN(MaximumAbsoluteValueImageFilter);
+  ITK_DISALLOW_COPY_AND_ASSIGN(MaximumAbsoluteValueImageFilter);
 
   /** Standard Self type alias */
-  using Self = MaximumAbsoluteValueImageFilter;
-  using Superclass = BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage,
-          Functor::MaximumAbsoluteValue<typename TInputImage1::PixelType, typename TInputImage2::PixelType,
-                  typename TOutputImage::PixelType> >;
-  using Pointer = SmartPointer<Self>;
-  using ConstPointer = SmartPointer<const Self>;
+  using Self            = MaximumAbsoluteValueImageFilter;
+  using Superclass      = BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage,
+                          Functor::MaximumAbsoluteValue< typename TInputImage1::PixelType, typename TInputImage2::PixelType,
+                            typename TOutputImage::PixelType > >;
+  using Pointer         = SmartPointer<Self>;
+  using ConstPointer    = SmartPointer<const Self>;
   using Input1PixelType = typename TInputImage1::PixelType;
   using Input2PixelType = typename TInputImage2::PixelType;
   using OutputPixelType = typename TOutputImage::PixelType;
