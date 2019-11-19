@@ -1,4 +1,5 @@
 UnaryFunctorImageFilter
+GPUUnaryFunctorImageFilter
 ReconstructionImageFilter
 ObjectMorphologyImageFilter
 MovingHistogramDilateImageFilter

@@ -23,7 +23,7 @@ itk_add_test(NAME itkGPUNeighborhoodOperatorImageFilterTest2D
 
 itk_add_test(NAME itkGPUNeighborhoodOperatorImageFilterTest3D
         COMMAND ITKGPUImageFilterBaseTestDriver itkGPUNeighborhoodOperatorImageFilterTest
-        DATA{Input/BrainProtonDensitySlice.png}
+        DATA{Input/HeadMRVolume.mha}
         ${ITK_TEST_OUTPUT_DIR}/gpuNeighborhoodOperatorImageFilterTest3D.mha 3)
 
 endif()

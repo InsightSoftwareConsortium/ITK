@@ -1,0 +1,5 @@
+if(ITK_USE_GPU OR NOT ITK_SOURCE_DIR)
+itk_wrap_module(ITKGPUAnisotropicSmoothing)
+itk_auto_load_submodules()
+itk_end_wrap_module()
+endif()
