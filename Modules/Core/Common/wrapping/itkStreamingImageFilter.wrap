@@ -1,3 +1,6 @@
 itk_wrap_class("itk::StreamingImageFilter" POINTER)
-  itk_wrap_image_filter("${WRAP_ITK_SCALAR}" 2)
+  UNIQUE(dims "${ITK_WRAP_IMAGE_DIMS};2")
+  foreach(d ${dims})
+    itk_wrap_image_filter("${WRAP_ITK_SCALAR}" ${d})
+  endforeach()
 itk_end_wrap_class()
