@@ -15,6 +15,7 @@ itk_module(
     ITKStatistics
     ITKImageFilterBase
     ITKImageFeature
+    ITKSpatialObjects
   COMPILE_DEPENDS
     ITKImageSources
   TEST_DEPENDS
