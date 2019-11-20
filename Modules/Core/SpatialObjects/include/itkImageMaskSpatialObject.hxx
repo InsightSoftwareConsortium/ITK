@@ -78,17 +78,15 @@ ImageMaskSpatialObject<TDimension, TPixel>::ComputeMyBoundingBox()
   }
   else
   {
-    using ContinuousIndexType = typename Superclass::ContinuousIndexType;
-    using VectorType = typename SpatialObject<TDimension>::VectorType;
-
     const IndexType minIndex = boundingBoxInIndexSpace.GetIndex();
 
-    ContinuousIndexType minContinuousIndex{ minIndex };
-    ContinuousIndexType maxContinuousIndex{ minIndex + boundingBoxInIndexSpace.GetSize() };
+    typename Superclass::ContinuousIndexType minContinuousIndex{ minIndex };
+    typename Superclass::ContinuousIndexType maxContinuousIndex{ minIndex + boundingBoxInIndexSpace.GetSize() };
 
     // Allow a margin of half a pixel in each direction.
-    minContinuousIndex -= VectorType{ 0.5 };
-    maxContinuousIndex -= VectorType{ 0.5 };
+    const typename SpatialObject<TDimension>::VectorType half_pixel_size{ 0.5 };
+    minContinuousIndex -= half_pixel_size;
+    maxContinuousIndex -= half_pixel_size;
 
     // Initially set the corner point corresponding to the minimum index as
     // both the minimum and maximum of the bounding box (in object space).
