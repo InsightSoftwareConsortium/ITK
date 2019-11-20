@@ -101,9 +101,11 @@ LSMImageIO::LSMImageIO()
   m_ByteOrder = LittleEndian;
   m_FileType = Binary;
 
+  this->SetSupportedWriteExtensions(ImageIOBase::ArrayOfExtensionsType{});
   this->AddSupportedWriteExtension(".lsm");
   this->AddSupportedWriteExtension(".LSM");
 
+  this->SetSupportedReadExtensions(ImageIOBase::ArrayOfExtensionsType{});
   this->AddSupportedReadExtension(".lsm");
   this->AddSupportedReadExtension(".LSM");
 
@@ -125,19 +127,8 @@ LSMImageIO::CanReadFile(const char * filename)
     return false;
   }
 
-  bool                   extensionFound = false;
-  std::string::size_type sprPos = fname.rfind(".lsm");
-  if ((sprPos != std::string::npos) && (sprPos == fname.length() - 4))
-  {
-    extensionFound = true;
-  }
-  sprPos = fname.rfind(".LSM");
-  if ((sprPos != std::string::npos) && (sprPos == fname.length() - 4))
-  {
-    extensionFound = true;
-  }
 
-  if (!extensionFound)
+  if (!this->HasSupportedReadExtension(filename))
   {
     itkDebugMacro(<< "The filename extension is not recognized");
     return false;
@@ -209,19 +200,7 @@ LSMImageIO::CanWriteFile(const char * name)
     return false;
   }
 
-  std::string::size_type pos = filename.rfind(".lsm");
-  if ((pos != std::string::npos) && (pos == filename.length() - 4))
-  {
-    return true;
-  }
-
-  pos = filename.rfind(".LSM");
-  if ((pos != std::string::npos) && (pos == filename.length() - 4))
-  {
-    return true;
-  }
-
-  return false;
+  return this->HasSupportedWriteExtension(name);
 }
 
 void

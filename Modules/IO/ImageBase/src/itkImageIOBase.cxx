@@ -78,6 +78,18 @@ ImageIOBase::AddSupportedWriteExtension(const char * extension)
 }
 
 void
+ImageIOBase::SetSupportedReadExtensions(const ArrayOfExtensionsType & extensions)
+{
+  this->m_SupportedReadExtensions = extensions;
+}
+
+void
+ImageIOBase::SetSupportedWriteExtensions(const ArrayOfExtensionsType & extensions)
+{
+  this->m_SupportedWriteExtensions = extensions;
+}
+
+void
 ImageIOBase::Resize(const unsigned int numDimensions, const unsigned int * dimensions)
 {
   m_NumberOfDimensions = numDimensions;

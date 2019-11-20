@@ -854,6 +854,12 @@ protected:
   void
   AddSupportedWriteExtension(const char * extension);
 
+
+  void
+  SetSupportedReadExtensions(const ArrayOfExtensionsType &);
+  void
+  SetSupportedWriteExtensions(const ArrayOfExtensionsType &);
+
   /** an implementation of ImageRegionSplitter:GetNumberOfSplits
    */
   virtual unsigned int
