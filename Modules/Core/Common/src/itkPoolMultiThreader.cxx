@@ -90,6 +90,9 @@ PoolMultiThreader::SingleMethodExecute()
   // obey the global maximum number of threads limit
   m_NumberOfWorkUnits = std::min(this->GetGlobalMaximumNumberOfThreads(), m_NumberOfWorkUnits);
 
+  bool           abortOccurred = false;
+  ProcessAborted abortException;
+
   bool        exceptionOccurred = false;
   std::string exceptionDetails;
   for (threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop)
@@ -99,55 +102,51 @@ PoolMultiThreader::SingleMethodExecute()
     m_ThreadInfoArray[threadLoop].Future = m_ThreadPool->AddWork(m_SingleMethod, &m_ThreadInfoArray[threadLoop]);
   }
 
-  try
-  {
-    // Now, the parent thread calls this->SingleMethod() itself
-    m_ThreadInfoArray[0].UserData = m_SingleData;
-    m_ThreadInfoArray[0].NumberOfWorkUnits = m_NumberOfWorkUnits;
-    m_SingleMethod((void *)(&m_ThreadInfoArray[0]));
+  // Now, the parent thread calls this->SingleMethod() itself
+  m_ThreadInfoArray[0].UserData = m_SingleData;
+  m_ThreadInfoArray[0].NumberOfWorkUnits = m_NumberOfWorkUnits;
 
-    // The parent thread has finished SingleMethod()
-    // so now it waits for each of the other work units to finish
-    for (threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop)
-    {
-      m_ThreadInfoArray[threadLoop].Future.get();
-    }
-  }
-  catch (ProcessAborted &)
+
+  // The parent thread has finished SingleMethod()
+  // so now it waits for each of the other work units to finish
+  for (threadLoop = 0; threadLoop < m_NumberOfWorkUnits; ++threadLoop)
   {
-    // Need cleanup and rethrow ProcessAborted
-    // close down other threads
-    for (threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop)
+    try
     {
-      try
+      if (threadLoop == 0)
+      {
+        m_SingleMethod((void *)(&m_ThreadInfoArray[0]));
+      }
+      else if (m_ThreadInfoArray[threadLoop].Future.valid())
       {
         m_ThreadInfoArray[threadLoop].Future.get();
       }
-      catch (ExceptionObject & exc)
-      {
-        std::cerr << exc << std::endl;
-        throw;
-      }
-      catch (...)
-      {}
     }
-    throw;
-  }
-  catch (std::exception & e)
-  {
-    // get the details of the exception to rethrow them
-    exceptionDetails = e.what();
-    // if this method fails, we must make sure all threads are
-    // correctly cleaned
-    exceptionOccurred = true;
-  }
-  catch (...)
-  {
-    // if this method fails, we must make sure all threads are
-    // correctly cleaned
-    exceptionOccurred = true;
+    catch (ProcessAborted & e)
+    {
+      abortOccurred = true;
+      abortException = e;
+    }
+    catch (std::exception & e)
+    {
+      // get the details of the exception to throw the "what" again
+      exceptionDetails = e.what();
+      // if this method fails, we must make sure all threads are
+      // correctly cleaned
+      exceptionOccurred = true;
+    }
+    catch (...)
+    {
+      // if this method fails, we must make sure all threads are
+      // correctly cleaned
+      exceptionOccurred = true;
+    }
   }
 
+  if (abortOccurred)
+  {
+    throw abortException;
+  }
   if (exceptionOccurred)
   {
     if (exceptionDetails.empty())
@@ -205,6 +204,7 @@ PoolMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
       {
         filter->UpdateProgress(i / float(workUnit));
       }
+      // TODO: Wrap in exception handling
       m_ThreadInfoArray[i].Future.get();
     }
   }
