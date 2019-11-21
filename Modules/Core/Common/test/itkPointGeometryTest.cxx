@@ -98,7 +98,7 @@ itkPointGeometryTest(int, char *[])
   std::cout << "Squared Euclidean distance between pc and pb = ";
   std::cout << distance2 << std::endl;
 
-  vnl_vector_ref<ValueType> vnlVector = pa.GetVnlVector();
+  auto vnlVector = pa.GetVnlVector();
   std::cout << "vnl_vector = ";
   {
     for (unsigned int i = 0; i < N; i++)
