@@ -105,7 +105,9 @@ vnl_vector<T>::vnl_vector (size_t len, size_t n, T const values[])
 {
   vnl_vector_alloc_blah(len);
   // If user specified values, initialize first n elements with values
-  const size_t copy_num{std::min(len,n) };
+  // n.b Assignment is used over universal initialization to avoid a
+  // gcc 4.8.5 ICE.
+  const size_t copy_num = std::min(len,n);
   std::copy(values, values + copy_num, data);
 }
 
