@@ -111,6 +111,13 @@ public:
   void
   UpdateOutputData(DataObject * output) override;
 
+  /** Delegates work to DynamicThreadedGenerateData. */
+  void
+  ThreadedGenerateData(const InputImageRegionType & region, ThreadIdType) override
+  {
+    this->DynamicThreadedGenerateData(region);
+  }
+
 protected:
   EigenToMeasureParameterEstimationFilter();
   virtual ~EigenToMeasureParameterEstimationFilter() {}
