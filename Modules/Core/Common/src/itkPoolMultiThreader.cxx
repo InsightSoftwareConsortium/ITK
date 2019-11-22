@@ -77,6 +77,50 @@ PoolMultiThreader::SetMaximumNumberOfThreads(ThreadIdType numberOfThreads)
   m_MaximumNumberOfThreads = m_ThreadPool->GetMaximumNumberOfThreads();
 }
 
+#define ExceptionHandlingPrologue                                                                                      \
+  bool abortOccurred = false;                                                                                          \
+  bool exceptionOccurred = false;                                                                                      \
+                                                                                                                       \
+  ProcessAborted abortException;                                                                                       \
+  std::string    exceptionDetails;
+
+#define WrapExceptionHandling(statement)                                                                               \
+  try                                                                                                                  \
+  {                                                                                                                    \
+    statement;                                                                                                         \
+  }                                                                                                                    \
+  catch (ProcessAborted & e)                                                                                           \
+  {                                                                                                                    \
+    abortOccurred = true;                                                                                              \
+    abortException = e;                                                                                                \
+  }                                                                                                                    \
+  catch (std::exception & e)                                                                                           \
+  {                                                                                                                    \
+    exceptionDetails = e.what();                                                                                       \
+    exceptionOccurred = true;                                                                                          \
+  }                                                                                                                    \
+  catch (...)                                                                                                          \
+  {                                                                                                                    \
+    exceptionOccurred = true;                                                                                          \
+  }
+
+#define ExceptionHandlingEpilogue                                                                                      \
+  if (abortOccurred)                                                                                                   \
+  {                                                                                                                    \
+    throw abortException;                                                                                              \
+  }                                                                                                                    \
+  if (exceptionOccurred)                                                                                               \
+  {                                                                                                                    \
+    if (exceptionDetails.empty())                                                                                      \
+    {                                                                                                                  \
+      itkExceptionMacro("Exception occurred during SingleMethodExecute");                                              \
+    }                                                                                                                  \
+    else                                                                                                               \
+    {                                                                                                                  \
+      itkExceptionMacro(<< "Exception occurred during SingleMethodExecute" << std::endl << exceptionDetails);          \
+    }                                                                                                                  \
+  }
+
 void
 PoolMultiThreader::SingleMethodExecute()
 {
@@ -90,11 +134,8 @@ PoolMultiThreader::SingleMethodExecute()
   // obey the global maximum number of threads limit
   m_NumberOfWorkUnits = std::min(this->GetGlobalMaximumNumberOfThreads(), m_NumberOfWorkUnits);
 
-  bool           abortOccurred = false;
-  ProcessAborted abortException;
+  ExceptionHandlingPrologue;
 
-  bool        exceptionOccurred = false;
-  std::string exceptionDetails;
   for (threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop)
   {
     m_ThreadInfoArray[threadLoop].UserData = m_SingleData;
@@ -105,59 +146,16 @@ PoolMultiThreader::SingleMethodExecute()
   // Now, the parent thread calls this->SingleMethod() itself
   m_ThreadInfoArray[0].UserData = m_SingleData;
   m_ThreadInfoArray[0].NumberOfWorkUnits = m_NumberOfWorkUnits;
-
+  WrapExceptionHandling(m_SingleMethod((void *)(&m_ThreadInfoArray[0])));
 
   // The parent thread has finished SingleMethod()
   // so now it waits for each of the other work units to finish
-  for (threadLoop = 0; threadLoop < m_NumberOfWorkUnits; ++threadLoop)
+  for (threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop)
   {
-    try
-    {
-      if (threadLoop == 0)
-      {
-        m_SingleMethod((void *)(&m_ThreadInfoArray[0]));
-      }
-      else if (m_ThreadInfoArray[threadLoop].Future.valid())
-      {
-        m_ThreadInfoArray[threadLoop].Future.get();
-      }
-    }
-    catch (ProcessAborted & e)
-    {
-      abortOccurred = true;
-      abortException = e;
-    }
-    catch (std::exception & e)
-    {
-      // get the details of the exception to throw the "what" again
-      exceptionDetails = e.what();
-      // if this method fails, we must make sure all threads are
-      // correctly cleaned
-      exceptionOccurred = true;
-    }
-    catch (...)
-    {
-      // if this method fails, we must make sure all threads are
-      // correctly cleaned
-      exceptionOccurred = true;
-    }
+    WrapExceptionHandling(m_ThreadInfoArray[threadLoop].Future.get());
   }
 
-  if (abortOccurred)
-  {
-    throw abortException;
-  }
-  if (exceptionOccurred)
-  {
-    if (exceptionDetails.empty())
-    {
-      itkExceptionMacro("Exception occurred during SingleMethodExecute");
-    }
-    else
-    {
-      itkExceptionMacro(<< "Exception occurred during SingleMethodExecute" << std::endl << exceptionDetails);
-    }
-  }
+  ExceptionHandlingEpilogue;
 }
 
 void
@@ -192,10 +190,13 @@ PoolMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
         std::min(i + chunkSize, lastIndexPlus1));
     }
     itkAssertOrThrowMacro(workUnit <= m_NumberOfWorkUnits, "Number of work units was somehow miscounted!");
+
+    ExceptionHandlingPrologue;
+
     // execute this thread's share
     for (SizeValueType ii = firstIndex; ii < firstIndex + chunkSize; ii++)
     {
-      aFunc(ii);
+      WrapExceptionHandling(aFunc(ii));
     }
     // now wait for the other computations to finish
     for (SizeValueType i = 1; i < workUnit; i++)
@@ -204,9 +205,11 @@ PoolMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
       {
         filter->UpdateProgress(i / float(workUnit));
       }
-      // TODO: Wrap in exception handling
-      m_ThreadInfoArray[i].Future.get();
+
+      WrapExceptionHandling(m_ThreadInfoArray[i].Future.get());
     }
+
+    ExceptionHandlingEpilogue;
   }
   else if (firstIndex + 1 == lastIndexPlus1)
   {
@@ -269,8 +272,11 @@ PoolMultiThreader ::ParallelizeImageRegion(unsigned int         dimension,
       }
       iRegion = region;
       total = splitter->GetSplit(0, splitCount, iRegion);
+
+      ExceptionHandlingPrologue;
+
       // execute this thread's share
-      funcP(&iRegion.GetIndex()[0], &iRegion.GetSize()[0]);
+      WrapExceptionHandling(funcP(&iRegion.GetIndex()[0], &iRegion.GetSize()[0]));
 
       // now wait for the other computations to finish
       for (ThreadIdType i = 1; i < splitCount; i++)
@@ -279,8 +285,10 @@ PoolMultiThreader ::ParallelizeImageRegion(unsigned int         dimension,
         {
           filter->UpdateProgress(i / float(splitCount));
         }
-        m_ThreadInfoArray[i].Future.get();
+        WrapExceptionHandling(m_ThreadInfoArray[i].Future.get());
       }
+
+      ExceptionHandlingEpilogue;
     }
   }
   MultiThreaderBase::HandleFilterProgress(filter, 1.0f);
