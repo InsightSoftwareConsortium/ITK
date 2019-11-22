@@ -174,30 +174,27 @@ PoolMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
       chunkSize++; // we want slightly bigger chunks to be processed first
     }
 
+    auto lambda = [aFunc](SizeValueType start, SizeValueType end) {
+      for (SizeValueType ii = start; ii < end; ii++)
+      {
+        aFunc(ii);
+      }
+      // make this lambda have the same signature as m_SingleMethod
+      return ITK_THREAD_RETURN_DEFAULT_VALUE;
+    };
+
     SizeValueType workUnit = 1;
     for (SizeValueType i = firstIndex + chunkSize; i < lastIndexPlus1; i += chunkSize)
     {
-      m_ThreadInfoArray[workUnit++].Future = m_ThreadPool->AddWork(
-        [aFunc](SizeValueType start, SizeValueType end) {
-          for (SizeValueType ii = start; ii < end; ii++)
-          {
-            aFunc(ii);
-          }
-          // make this lambda have the same signature as m_SingleMethod
-          return ITK_THREAD_RETURN_DEFAULT_VALUE;
-        },
-        i,
-        std::min(i + chunkSize, lastIndexPlus1));
+      m_ThreadInfoArray[workUnit++].Future = m_ThreadPool->AddWork(lambda, i, std::min(i + chunkSize, lastIndexPlus1));
     }
     itkAssertOrThrowMacro(workUnit <= m_NumberOfWorkUnits, "Number of work units was somehow miscounted!");
 
     ExceptionHandlingPrologue;
 
     // execute this thread's share
-    for (SizeValueType ii = firstIndex; ii < firstIndex + chunkSize; ii++)
-    {
-      WrapExceptionHandling(aFunc(ii));
-    }
+    WrapExceptionHandling(lambda(firstIndex, firstIndex + chunkSize));
+
     // now wait for the other computations to finish
     for (SizeValueType i = 1; i < workUnit; i++)
     {
