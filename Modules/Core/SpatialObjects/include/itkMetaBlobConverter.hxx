@@ -66,7 +66,7 @@ MetaBlobConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType *
 
     for (unsigned int ii = 0; ii < NDimensions; ii++)
     {
-      point[ii] = (*it2)->m_X[ii];
+      point[ii] = (*it2)->m_X[ii] * Blob->ElementSpacing(ii);
     }
 
     pnt.SetPositionInObjectSpace(point);

@@ -69,12 +69,23 @@ MetaVesselTubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObject
   itk::CovariantVector<double, NDimensions> v;
   itk::Vector<double, NDimensions>          t;
 
+  for (unsigned int d = 0; d < NDimensions; ++d)
+  {
+    std::cout << vesselTubeMO->ElementSpacing(d) << ", ";
+  }
+  std::cout << std::endl;
+
   for (unsigned int identifier = 0; identifier < vesselTubeMO->GetPoints().size(); identifier++)
   {
     VesselTubePointType pnt;
 
-    pnt.SetPositionInObjectSpace((*it2)->m_X);
-    pnt.SetRadiusInObjectSpace((*it2)->m_R);
+    VesselTubePointType::PointType pos;
+    for (unsigned int d = 0; d < NDimensions; ++d)
+    {
+      pos[d] = (*it2)->m_X[d] * vesselTubeMO->ElementSpacing(d);
+    }
+    pnt.SetPositionInObjectSpace(pos);
+    pnt.SetRadiusInObjectSpace((*it2)->m_R * vesselTubeMO->ElementSpacing(0));
     pnt.SetMedialness((*it2)->m_Medialness);
     pnt.SetRidgeness((*it2)->m_Ridgeness);
     pnt.SetBranchness((*it2)->m_Branchness);

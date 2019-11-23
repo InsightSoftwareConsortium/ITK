@@ -64,7 +64,7 @@ MetaSurfaceConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
 
     for (unsigned int ii = 0; ii < NDimensions; ii++)
     {
-      point[ii] = (*it2)->m_X[ii];
+      point[ii] = (*it2)->m_X[ii] * surfaceMO->ElementSpacing(ii);
     }
 
     for (unsigned int ii = 0; ii < NDimensions; ii++)

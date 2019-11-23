@@ -69,7 +69,7 @@ MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::MetaObjectToSpatialObjec
     typename MeshType::PointType pt;
     for (unsigned int i = 0; i < NDimensions; i++)
     {
-      pt[i] = ((*it_points)->m_X)[i];
+      pt[i] = ((*it_points)->m_X)[i] * _mesh->ElementSpacing(i);
     }
     mesh->SetPoint((*it_points)->m_Id, pt);
     it_points++;

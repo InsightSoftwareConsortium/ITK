@@ -62,8 +62,13 @@ MetaTubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType *
   {
     TubePointType pnt;
 
-    pnt.SetPositionInObjectSpace((*it2)->m_X);
-    pnt.SetRadiusInObjectSpace((*it2)->m_R);
+    TubePointType::PointType pos;
+    for (unsigned int d = 0; d < NDimensions; ++d)
+    {
+      pos[d] = (*it2)->m_X[d] * tubeMO->ElementSpacing(d);
+    }
+    pnt.SetPositionInObjectSpace(pos);
+    pnt.SetRadiusInObjectSpace((*it2)->m_R * tubeMO->ElementSpacing(0));
 
     for (unsigned int i = 0; i < NDimensions; i++)
     {
