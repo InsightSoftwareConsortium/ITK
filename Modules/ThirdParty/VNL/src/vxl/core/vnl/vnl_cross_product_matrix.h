@@ -16,8 +16,8 @@
 //
 //-----------------------------------------------------------------------------
 
-#include <vnl/vnl_vector_fixed.h>
-#include <vnl/vnl_double_3x3.h>
+#include "vnl_vector_fixed.h"
+#include "vnl_double_3x3.h"
 #include "vnl/vnl_export.h"
 
 //: Calculates the 3x3 skew symmetric cross product matrix from a vector.

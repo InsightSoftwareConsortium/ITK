@@ -1,4 +1,4 @@
-#include <vnl/vnl_fortran_copy_fixed.hxx>
+#include "vnl/vnl_fortran_copy_fixed.hxx"
 VNL_FORTRAN_COPY_FIXED_INSTANTIATE(double,1,1);
 VNL_FORTRAN_COPY_FIXED_INSTANTIATE(double,2,2);
 VNL_FORTRAN_COPY_FIXED_INSTANTIATE(double,2,3);

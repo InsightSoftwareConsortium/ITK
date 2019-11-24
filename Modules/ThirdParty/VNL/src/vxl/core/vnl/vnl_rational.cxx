@@ -4,7 +4,7 @@
 //:
 // \file
 
-#include <vnl/vnl_numeric_traits.h> // for vnl_numeric_traits<long>::maxval
+#include "vnl/vnl_numeric_traits.h" // for vnl_numeric_traits<long>::maxval
 
 using int_type = vnl_rational::int_type;
 

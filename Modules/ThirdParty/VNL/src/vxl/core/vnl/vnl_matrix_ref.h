@@ -15,7 +15,7 @@
 //
 //-----------------------------------------------------------------------------
 
-#include <vnl/vnl_matrix.h>
+#include "vnl_matrix.h"
 #include "vnl/vnl_export.h"
 
 //: vnl_matrix reference to user-supplied storage

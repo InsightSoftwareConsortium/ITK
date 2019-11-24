@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include <testlib/testlib_test.h>
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_matlab_print.h>
+#include "testlib/testlib_test.h"
+#include "vnl/vnl_matrix.h"
+#include "vnl/vnl_matlab_print.h"
 
 
 void test_transpose()

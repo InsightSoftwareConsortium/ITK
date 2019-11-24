@@ -7,10 +7,10 @@
 #include <cmath>
 #include <cassert>
 
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_double_2.h>
+#include "vnl/vnl_vector.h"
+#include "vnl/vnl_double_2.h"
 #include <vnl/algo/vnl_powell.h>
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 
 //-------------------------------------------------------------------------
 // nD quadratic function with minimum at min{x[i]} = i;

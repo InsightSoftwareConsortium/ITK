@@ -1,6 +1,6 @@
 // This is core/vnl/algo/tests/test_generalized_eigensystem.cxx
 #include <iostream>
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 //:
 // \file
 // \brief test program for generalized eigensystem routines.

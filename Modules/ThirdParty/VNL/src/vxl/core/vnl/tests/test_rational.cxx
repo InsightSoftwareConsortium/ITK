@@ -4,12 +4,12 @@
 #include <string>
 #include <utility>
 #include <typeinfo>
-#include <vnl/vnl_rational.h>
-#include <testlib/testlib_test.h>
-#include <vnl/vnl_math.h>
-#include <vnl/vnl_matrix_fixed.h>
-#include <vnl/vnl_rational_traits.h>
-#include <vnl/vnl_det.h>
+#include "vnl/vnl_rational.h"
+#include "testlib/testlib_test.h"
+#include "vnl/vnl_math.h"
+#include "vnl/vnl_matrix_fixed.h"
+#include "vnl/vnl_rational_traits.h"
+#include "vnl/vnl_det.h"
 
 inline vnl_rational vnl_sqrt(vnl_rational x) { return vnl_rational(std::sqrt(double(x))); }
 

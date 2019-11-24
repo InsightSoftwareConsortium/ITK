@@ -2,7 +2,7 @@
 #include <iostream>
 #include <sstream>
 #ifdef _MSC_VER
-#  include <vcl_msvc_warnings.h>
+#  include "vcl_msvc_warnings.h"
 #endif
 
 #define AssertEq(x,y) {status+=((x)==(y))?0:1;std::cout<<"TEST ["<<(x)<<"] == ["<<(y)<<"] : "<<((x)==(y)?"PASSED":"FAILED")<<std::endl;}

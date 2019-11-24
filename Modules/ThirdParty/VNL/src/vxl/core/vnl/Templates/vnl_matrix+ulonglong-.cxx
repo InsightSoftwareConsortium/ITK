@@ -5,5 +5,5 @@
 # pragma warning(disable:4146)
 #endif //_MSC_VER
 
-#include <vnl/vnl_matrix.hxx>
+#include "vnl/vnl_matrix.hxx"
 VNL_MATRIX_INSTANTIATE(unsigned long long);

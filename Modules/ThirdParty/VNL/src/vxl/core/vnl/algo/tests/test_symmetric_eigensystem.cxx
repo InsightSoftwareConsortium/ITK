@@ -2,7 +2,7 @@
 #include <iostream>
 #include <ctime>
 #include <algorithm>
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 //:
 // \file
 // \brief test program for symmetric eigensystem routines.
@@ -12,9 +12,9 @@
 //-----------------------------------------------------------------------------
 
 
-#include <vnl/vnl_double_3x3.h>
-#include <vnl/vnl_double_3.h>
-#include <vnl/vnl_random.h>
+#include "vnl/vnl_double_3x3.h"
+#include "vnl/vnl_double_3.h"
+#include "vnl/vnl_random.h"
 #include <vnl/algo/vnl_symmetric_eigensystem.h>
 
 //extern "C"

@@ -13,7 +13,7 @@
 //  This can be computed by row-reducing (or column-reducing) the matrix
 //  and then counting the number of non-zero rows (or columns).
 
-#include <vnl/vnl_matrix.h>
+#include "vnl_matrix.h"
 #include "vnl/vnl_export.h"
 
 typedef enum { vnl_rank_row, vnl_rank_column, vnl_rank_both } vnl_rank_type;

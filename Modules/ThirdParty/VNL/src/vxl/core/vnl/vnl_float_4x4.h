@@ -13,7 +13,7 @@
 //
 //-----------------------------------------------------------------------------
 
-#include <vnl/vnl_matrix_fixed.h>
+#include "vnl_matrix_fixed.h"
 
 typedef vnl_matrix_fixed<float,4,4> vnl_float_4x4;
 

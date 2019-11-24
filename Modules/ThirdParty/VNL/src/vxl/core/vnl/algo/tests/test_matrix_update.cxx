@@ -2,7 +2,7 @@
 #include <iostream>
 #include "test_util.h"
 // not used? #include <vcl_compiler.h>
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 #include <vnl/algo/vnl_matrix_update.h>
 
 //--------------------------------------------------------------------------------

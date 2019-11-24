@@ -18,7 +18,7 @@
 
 #include <complex>
 #include <iosfwd>
-#include <vnl/vnl_vector.h>
+#include "vnl_vector.h"
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif

@@ -1,7 +1,7 @@
 // This is core/vnl/algo/tests/test_sparse_lu.cxx
 #include <iostream>
-#include <testlib/testlib_test.h>
-#include <vnl/vnl_sparse_matrix.h>
+#include "testlib/testlib_test.h"
+#include "vnl/vnl_sparse_matrix.h"
 #include <vnl/algo/vnl_sparse_lu.h>
 
 static void test_sparse_lu()

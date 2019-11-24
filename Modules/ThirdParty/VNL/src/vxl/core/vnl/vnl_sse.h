@@ -18,7 +18,7 @@
 #include <cfloat>// for DBL_MAX and FLT_MAX
 
 #include <vnl/vnl_config.h> // is SSE enabled
-#include <vnl/vnl_alloc.h>  // is SSE enabled
+#include "vnl_alloc.h"  // is SSE enabled
 #include "vnl/vnl_export.h"
 
 // some caveats...

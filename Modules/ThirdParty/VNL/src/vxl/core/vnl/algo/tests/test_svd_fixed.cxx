@@ -5,14 +5,14 @@
 #include "test_util.h"
 //:
 // \file
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_matrix_fixed.h>
-#include <vnl/vnl_random.h>
+#include "vnl/vnl_matrix.h"
+#include "vnl/vnl_matrix_fixed.h"
+#include "vnl/vnl_random.h"
 #include <vnl/algo/vnl_svd_fixed.h>
 #include <vnl/algo/vnl_svd.h>
-#include <vnl/vnl_inverse.h>
+#include "vnl/vnl_inverse.h"
 
 
 template <class T, class S> static
@@ -119,7 +119,7 @@ void test_svd_recomposition(char const *type, double maxres, T* /* tag */, vnl_r
 }
 
 
-#include <vnl/vnl_matlab_print.h>
+#include "vnl/vnl_matlab_print.h"
 template <class T> static
 void test_nullvector(char const *type, double max_err, T *, vnl_random &rng)
 {

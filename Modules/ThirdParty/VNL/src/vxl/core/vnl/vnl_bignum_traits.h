@@ -5,8 +5,8 @@
 // \file
 // \brief numeric traits for vnl_bignum
 
-#include <vnl/vnl_bignum.h>
-#include <vnl/vnl_numeric_traits.h>
+#include "vnl_bignum.h"
+#include "vnl_numeric_traits.h"
 #include "vnl/vnl_export.h"
 
 template <>

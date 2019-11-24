@@ -19,8 +19,8 @@
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
-#include <vnl/vnl_sample.h>
-#include <vnl/vnl_math.h>
+#include "vnl/vnl_sample.h"
+#include "vnl/vnl_math.h"
 
 int main(int argc, char* argv[])
 {

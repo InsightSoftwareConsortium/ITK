@@ -2,9 +2,9 @@
 
 #include <iostream>
 #ifdef _MSC_VER
-#  include <vcl_msvc_warnings.h>
+#  include "vcl_msvc_warnings.h"
 #endif
-#include <vcl_compiler_detection.h>
+#include "vcl_compiler_detection.h"
 
 int test_preprocessor_main(int /*argc*/,char* /*argv*/[])
 {

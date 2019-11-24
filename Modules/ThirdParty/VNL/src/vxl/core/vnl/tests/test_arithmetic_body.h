@@ -12,7 +12,7 @@
 //
 // data will be an array of size >= r*c for NewMat, >= n for NewVec.
 
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 
 //void
 //test_arithmetic()

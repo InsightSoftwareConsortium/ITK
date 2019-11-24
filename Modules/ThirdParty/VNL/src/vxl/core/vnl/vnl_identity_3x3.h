@@ -13,7 +13,7 @@
 // \endverbatim
 //-----------------------------------------------------------------------------
 
-#include <vnl/vnl_double_3x3.h>
+#include "vnl_double_3x3.h"
 #include "vnl/vnl_export.h"
 
 struct VNL_EXPORT vnl_identity_3x3 : public vnl_double_3x3

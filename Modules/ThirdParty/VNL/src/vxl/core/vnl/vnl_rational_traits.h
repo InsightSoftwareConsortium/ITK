@@ -6,8 +6,8 @@
 // \brief numeric traits for vnl_rational
 
 #include <iosfwd>
-#include <vnl/vnl_rational.h>
-#include <vnl/vnl_numeric_traits.h>
+#include "vnl_rational.h"
+#include "vnl_numeric_traits.h"
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif

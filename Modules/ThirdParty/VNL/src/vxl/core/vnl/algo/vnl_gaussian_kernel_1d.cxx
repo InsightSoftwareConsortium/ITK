@@ -8,7 +8,7 @@
 
 #include <cmath>
 #include <vnl/algo/vnl_gaussian_kernel_1d.h>
-#include <vnl/vnl_math.h>
+#include "vnl/vnl_math.h"
 
 // G(x) = 1/(sigma * sqrt(2*pi)) * exp(-0.5 * (x/sigma)^2)
 // x(g) = sigma * sqrt(-2 * log(g * sigma * sqrt(2*pi) ) )

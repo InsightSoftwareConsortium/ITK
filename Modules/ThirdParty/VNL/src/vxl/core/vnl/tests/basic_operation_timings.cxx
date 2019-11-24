@@ -7,9 +7,9 @@
 #include <ctime>
 #include <iostream>
 #include <algorithm>
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_random.h>
+#include "vnl/vnl_matrix.h"
+#include "vnl/vnl_vector.h"
+#include "vnl/vnl_random.h"
 
 constexpr unsigned nstests = 10;
 

@@ -1,13 +1,13 @@
 // This is core/vnl/tests/test_diag_matrix.cxx
 #include <iostream>
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 //:
 // \file
 // \author Peter Vanroose, KULeuven
 // \date 20 Sept. 2002
 
-#include <vnl/vnl_diag_matrix.h>
-#include <vnl/vnl_matrix_fixed.h>
+#include "vnl/vnl_diag_matrix.h"
+#include "vnl/vnl_matrix_fixed.h"
 
 void test_diag_matrix()
 {

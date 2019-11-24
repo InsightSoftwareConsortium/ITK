@@ -1,9 +1,9 @@
 // This is core/vnl/tests/test_vector_fixed_ref.cxx
 #include <algorithm>
-#include <vnl/vnl_vector_fixed.h>
-#include <vnl/vnl_vector_fixed_ref.h>
+#include "vnl/vnl_vector_fixed.h"
+#include "vnl/vnl_vector_fixed_ref.h"
 
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 
 void test_vector_fixed_ref()
 {

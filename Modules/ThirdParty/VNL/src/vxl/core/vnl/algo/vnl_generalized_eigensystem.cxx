@@ -8,8 +8,8 @@
 #include <iostream>
 #include "vnl_generalized_eigensystem.h"
 
-#include <vnl/vnl_fortran_copy.h>
-#include <vnl/vnl_matlab_print.h>
+#include "vnl/vnl_fortran_copy.h"
+#include "vnl/vnl_matlab_print.h"
 #include <vnl/algo/vnl_symmetric_eigensystem.h>
 #include <vnl/algo/vnl_svd.h>
 #include <vnl/algo/vnl_netlib.h> // rsg_()

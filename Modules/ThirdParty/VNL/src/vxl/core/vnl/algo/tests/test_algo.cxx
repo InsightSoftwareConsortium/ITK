@@ -1,6 +1,6 @@
 // This is core/vnl/algo/tests/test_algo.cxx
 #include <complex>
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 //:
 // \file
 // \brief test miscellaneous classes and functions in vnl/algo.
@@ -38,8 +38,8 @@
 #include <vnl/algo/vnl_powell.h>
 #include <vnl/algo/vnl_svd_economy.h>
 #include <vnl/algo/vnl_svd.h>
-#include <vnl/vnl_sparse_matrix_linear_system.h>
-#include <vnl/vnl_least_squares_function.h>
+#include "vnl/vnl_sparse_matrix_linear_system.h"
+#include "vnl/vnl_least_squares_function.h"
 
 static void test_adjugate()
 {

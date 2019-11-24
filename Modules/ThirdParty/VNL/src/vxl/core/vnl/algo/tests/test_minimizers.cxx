@@ -1,8 +1,8 @@
 #include <iostream>
-#include <vnl/vnl_vector.h>
+#include "vnl/vnl_vector.h"
 #include <vnl/algo/vnl_brent.h>
 
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 
 struct cubic : public vnl_cost_function {
   cubic() : vnl_cost_function(1) {}

@@ -1,4 +1,4 @@
-#include <vnl/vnl_matrix_fixed_ref.hxx>
+#include "vnl/vnl_matrix_fixed_ref.hxx"
 VNL_MATRIX_FIXED_REF_INSTANTIATE(double,1,1);
 VNL_MATRIX_FIXED_REF_INSTANTIATE(double,2,2);
 VNL_MATRIX_FIXED_REF_INSTANTIATE(double,2,3);

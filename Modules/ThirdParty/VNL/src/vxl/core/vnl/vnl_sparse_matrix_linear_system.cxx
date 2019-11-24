@@ -2,7 +2,7 @@
 
 #include <cassert>
 #include "vnl_sparse_matrix_linear_system.h"
-#include <vnl/vnl_copy.h>
+#include "vnl/vnl_copy.h"
 
 template <>
 void vnl_sparse_matrix_linear_system<double>::get_rhs(vnl_vector<double>& b) const

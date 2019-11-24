@@ -1,7 +1,7 @@
 // This is core/vnl/algo/tests/test_solve_qp.cxx
 #include <iostream>
 #include "test_util.h"
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 #include <vnl/algo/vnl_solve_qp.h>
 
 //--------------------------------------------------------------------------------

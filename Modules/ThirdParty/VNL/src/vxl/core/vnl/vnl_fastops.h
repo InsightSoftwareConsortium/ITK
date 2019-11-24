@@ -15,8 +15,8 @@
 //   Mar.2007 -Peter Vanroose- Commented deprecated versions of the functions
 // \endverbatim
 
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_matrix.h>
+#include "vnl_vector.h"
+#include "vnl_matrix.h"
 #include "vnl/vnl_export.h"
 
 //: Collection of C-style matrix functions for the most time-critical applications.

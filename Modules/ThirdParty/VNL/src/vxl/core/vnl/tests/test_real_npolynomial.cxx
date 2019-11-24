@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include <testlib/testlib_test.h>
-#include <vnl/vnl_real_npolynomial.h>
+#include "testlib/testlib_test.h"
+#include "vnl/vnl_real_npolynomial.h"
 
 void test_real_npolynomial()
 {

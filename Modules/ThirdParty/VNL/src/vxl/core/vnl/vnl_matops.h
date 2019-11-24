@@ -15,8 +15,8 @@
 //
 //-----------------------------------------------------------------------------
 
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_matrix.h>
+#include "vnl_vector.h"
+#include "vnl_matrix.h"
 #include "vnl/vnl_export.h"
 
 //:   A collection of vnl_matrix operations, provided as static methods.

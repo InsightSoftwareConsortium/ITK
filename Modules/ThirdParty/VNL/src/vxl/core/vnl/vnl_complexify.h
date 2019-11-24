@@ -15,13 +15,13 @@
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_vector_fixed.h>
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_matrix_fixed.h>
-#include <vnl/vnl_diag_matrix.h>
-#include <vnl/vnl_diag_matrix_fixed.h>
-#include <vnl/vnl_sym_matrix.h>
+#include "vnl_vector.h"
+#include "vnl_vector_fixed.h"
+#include "vnl_matrix.h"
+#include "vnl_matrix_fixed.h"
+#include "vnl_diag_matrix.h"
+#include "vnl_diag_matrix_fixed.h"
+#include "vnl_sym_matrix.h"
 #include "vnl/vnl_export.h"
 
 //: Overwrite complex array C (of length n) with pairs from real arrays R and I.

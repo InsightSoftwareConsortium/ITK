@@ -1,4 +1,4 @@
-#include <vnl/vnl_diag_matrix_fixed.hxx>
+#include "vnl/vnl_diag_matrix_fixed.hxx"
 VNL_DIAG_MATRIX_FIXED_INSTANTIATE(float, 1);
 VNL_DIAG_MATRIX_FIXED_INSTANTIATE(float, 2);
 VNL_DIAG_MATRIX_FIXED_INSTANTIATE(float, 3);

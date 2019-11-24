@@ -22,8 +22,8 @@
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif
-#include <vnl/vnl_vector_fixed.h>
-#include <vnl/vnl_matrix_fixed.h>
+#include "vnl_vector_fixed.h"
+#include "vnl_matrix_fixed.h"
 #include "vnl/vnl_export.h"
 
 // forward declarations

@@ -11,9 +11,9 @@
 #include <vector>
 #include "vnl_amoeba.h"
 
-#include <vnl/vnl_math.h>
-#include <vnl/vnl_cost_function.h>
-#include <vnl/vnl_least_squares_function.h>
+#include "vnl/vnl_math.h"
+#include "vnl/vnl_cost_function.h"
+#include "vnl/vnl_least_squares_function.h"
 
 bool vnl_amoeba::default_verbose = false;
 

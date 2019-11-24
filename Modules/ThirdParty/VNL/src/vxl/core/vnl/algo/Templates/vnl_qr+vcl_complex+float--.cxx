@@ -2,7 +2,7 @@
 #include <complex>
 #include <iostream>
 #ifdef _MSC_VER
-#  include <vcl_msvc_warnings.h>
+#  include "vcl_msvc_warnings.h"
 #endif
 #include <vnl/algo/vnl_qr.hxx>
 //:
@@ -19,9 +19,9 @@ VNL_QR_INSTANTIATE(std::complex<float>);
 // hmm... that still doesn't work.
 
 #include <cassert>
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_copy.h>
+#include "vnl/vnl_vector.h"
+#include "vnl/vnl_matrix.h"
+#include "vnl/vnl_copy.h"
 
 template <>
 vnl_vector<std::complex<float>> vnl_qr<std::complex<float>>::solve(const vnl_vector<std::complex<float>>& b) const

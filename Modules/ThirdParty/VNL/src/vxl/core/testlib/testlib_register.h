@@ -7,7 +7,7 @@
 //
 // A test driver program would simply look like
 // \code
-//   #include <testlib/testlib_register.h>
+//   #include "testlib_register.h"
 //   DECLARE( some_test_name );
 //   void register_tests()
 //   {

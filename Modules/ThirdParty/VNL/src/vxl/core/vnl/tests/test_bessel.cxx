@@ -1,7 +1,7 @@
 // This is core/vnl/tests/test_bessel.cxx
 #include <fstream>
-#include <vnl/vnl_bessel.h>
-#include <testlib/testlib_test.h>
+#include "vnl/vnl_bessel.h"
+#include "testlib/testlib_test.h"
 
 
 static void test_bessel()

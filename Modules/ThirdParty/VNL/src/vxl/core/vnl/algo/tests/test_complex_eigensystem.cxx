@@ -6,7 +6,7 @@
 #include <iostream>
 
 #include <vnl/algo/vnl_complex_eigensystem.h>
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 
 void test_complex_eigensystem1()
 {

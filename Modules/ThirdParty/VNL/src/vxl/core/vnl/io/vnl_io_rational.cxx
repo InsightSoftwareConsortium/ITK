@@ -3,7 +3,7 @@
 // \file
 
 #include "vnl_io_rational.h"
-#include <vsl/vsl_binary_io.h>
+#include "vsl/vsl_binary_io.h"
 
 //=================================================================================
 //: Binary save self to stream.

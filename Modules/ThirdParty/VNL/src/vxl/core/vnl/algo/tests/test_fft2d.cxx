@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <complex>
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 //:
 // \file
 // \brief test program for 2D FFT routines.
@@ -20,7 +20,7 @@
 
 //-----------------------------------------------------------------------------
 
-#include <vnl/vnl_complexify.h>
+#include "vnl/vnl_complexify.h"
 #include <vnl/algo/vnl_fft_2d.h>
 
 inline static double function(unsigned i, unsigned j) { return i * j; }

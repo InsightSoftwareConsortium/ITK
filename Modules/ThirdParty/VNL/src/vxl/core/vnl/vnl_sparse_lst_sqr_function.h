@@ -13,9 +13,9 @@
 //   Mar 15, 2010  MJL - Modified to add 'c' parameters (globals)
 // \endverbatim
 //
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_crs_index.h>
+#include "vnl_vector.h"
+#include "vnl_matrix.h"
+#include "vnl_crs_index.h"
 #include "vnl/vnl_export.h"
 
 //: Abstract base for sparse least squares functions.

@@ -14,7 +14,7 @@
 //
 //-----------------------------------------------------------------------------
 
-#include <vnl/vnl_matrix.h>
+#include "vnl_matrix.h"
 #include "vnl/vnl_export.h"
 
 //: Class to load a matrix from a file.

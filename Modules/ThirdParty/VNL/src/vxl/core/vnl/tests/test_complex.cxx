@@ -2,13 +2,13 @@
 #include <iostream>
 #include <cmath>
 #include <complex>
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 //:
 // \file
 
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_random.h>
-#include <vnl/vnl_math.h>
+#include "vnl/vnl_vector.h"
+#include "vnl/vnl_random.h"
+#include "vnl/vnl_math.h"
 
 //: inverse cosine for complex numbers.
 // The implementation is at the bottom of this file.

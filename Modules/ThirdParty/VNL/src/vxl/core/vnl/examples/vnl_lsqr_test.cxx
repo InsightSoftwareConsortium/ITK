@@ -1,9 +1,9 @@
 // This is core/vnl/examples/vnl_lsqr_test.cxx
 #include <cstdlib>
 #include <iostream>
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_sparse_matrix.h>
-#include <vnl/vnl_sparse_matrix_linear_system.h>
+#include "vnl/vnl_vector.h"
+#include "vnl/vnl_sparse_matrix.h"
+#include "vnl/vnl_sparse_matrix_linear_system.h"
 #include <vnl/algo/vnl_lsqr.h>
 
 int main (int /*argc*/, char** /*argv*/)

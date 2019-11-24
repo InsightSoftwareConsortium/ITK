@@ -6,7 +6,7 @@
 #include "testlib_register.h"
 
 #ifdef _MSC_VER
-#  include <vcl_msvc_warnings.h>
+#  include "vcl_msvc_warnings.h"
 #endif
 
 #if defined(_MSC_VER)

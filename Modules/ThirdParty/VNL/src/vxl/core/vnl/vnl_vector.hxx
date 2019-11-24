@@ -45,11 +45,11 @@
 #endif
 #include <cassert>
 
-#include <vnl/vnl_math.h>
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_numeric_traits.h>
+#include "vnl_math.h"
+#include "vnl_matrix.h"
+#include "vnl_numeric_traits.h"
 
-#include <vnl/vnl_c_vector.h>
+#include "vnl_c_vector.h"
 
 //--------------------------------------------------------------------------------
 // This macro allocates the dynamic storage used by a vnl_vector.

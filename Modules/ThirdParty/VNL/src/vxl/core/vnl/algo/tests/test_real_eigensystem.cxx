@@ -1,7 +1,7 @@
 // This is core/vnl/algo/tests/test_real_eigensystem.cxx
 #include <iostream>
 #include <complex>
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 
 //:
 // \file
@@ -9,7 +9,7 @@
 // \date   23 Jan 96
 //
 //-----------------------------------------------------------------------------
-#include <vnl/vnl_complexify.h>
+#include "vnl/vnl_complexify.h"
 #include <vnl/algo/vnl_real_eigensystem.h>
 
 static void test_6x6()

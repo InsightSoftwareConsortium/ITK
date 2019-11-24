@@ -2,7 +2,7 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
-#include <vul/vul_timer.h>
+#include "vul/vul_timer.h"
 
 double vnl_fastops_dot(const double* a, const double* b, unsigned int n);
 

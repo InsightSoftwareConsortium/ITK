@@ -7,7 +7,7 @@
 #include <complex>
 #include <cstring>
 
-#include <vnl/vnl_matlab_header.h>
+#include "vnl/vnl_matlab_header.h"
 
 #if VXL_LITTLE_ENDIAN // #ifdef i386
 # define native_BYTE_ORDER vnl_matlab_header::vnl_LITTLE_ENDIAN

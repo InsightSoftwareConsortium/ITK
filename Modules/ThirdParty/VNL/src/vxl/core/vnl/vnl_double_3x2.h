@@ -15,7 +15,7 @@
 // \endverbatim
 //-----------------------------------------------------------------------------
 
-#include <vnl/vnl_matrix_fixed.h>
+#include "vnl_matrix_fixed.h"
 #include "vnl/vnl_export.h"
 
 class VNL_EXPORT vnl_double_3x2 : public vnl_matrix_fixed<double, 3, 2>

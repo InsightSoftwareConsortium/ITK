@@ -18,8 +18,8 @@
 //
 // not used? #include <vcl_compiler.h>
 #include <string>
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_matrix.h>
+#include "vnl_vector.h"
+#include "vnl_matrix.h"
 #include "vnl/vnl_export.h"
 
 //:  Abstract base for minimising functions.

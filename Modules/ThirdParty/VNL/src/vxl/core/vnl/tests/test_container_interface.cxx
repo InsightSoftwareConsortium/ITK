@@ -1,9 +1,9 @@
 // This is core/vnl/tests/test_matrix_interface.cxx
 #include <iostream>
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_matrix_fixed.h>
+#include "vnl/vnl_matrix.h"
+#include "vnl/vnl_matrix_fixed.h"
 
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 
 template< typename TValue >
 TValue square(TValue v)

@@ -10,7 +10,7 @@
 //:
 // \file
 
-#include <vnl/vnl_math.h> // for vnl_math::isfinite(double)
+#include "vnl/vnl_math.h" // for vnl_math::isfinite(double)
 
 using Counter = unsigned short;
 using Data = unsigned short;

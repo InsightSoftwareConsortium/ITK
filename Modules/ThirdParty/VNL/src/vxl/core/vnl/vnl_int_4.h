@@ -12,7 +12,7 @@
 //   Peter Vanroose, 21 Oct 1999: vnl_vector_fixed<int,4> already instantiated
 // \endverbatim
 
-#include <vnl/vnl_T_n.h>
+#include "vnl_T_n.h"
 
 //: class vnl_int_4 : a vnl_vector of 4 ints.
 vnl_T_n_impl(int,4);

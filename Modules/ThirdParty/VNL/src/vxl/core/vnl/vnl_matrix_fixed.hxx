@@ -13,10 +13,10 @@
 #endif
 #include <cassert>
 
-#include <vnl/vnl_error.h>
-#include <vnl/vnl_math.h>
-#include <vnl/vnl_complex.h>  //vnl_math functions for complex variables
-#include <vnl/vnl_vector_fixed.h>
+#include "vnl_error.h"
+#include "vnl_math.h"
+#include "vnl_complex.h"  //vnl_math functions for complex variables
+#include "vnl_vector_fixed.h"
 
 template<class T, unsigned num_rows, unsigned num_cols>
 vnl_matrix_fixed<T, num_rows, num_cols>&

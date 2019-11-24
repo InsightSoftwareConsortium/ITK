@@ -1,8 +1,8 @@
 // This is core/vnl/tests/test_numeric_traits.cxx
 #include <complex>
 #include <iostream>
-#include <vnl/vnl_numeric_traits.h>
-#include <testlib/testlib_test.h>
+#include "vnl/vnl_numeric_traits.h"
+#include "testlib/testlib_test.h"
 
 static
 void check_pointer( const void* )

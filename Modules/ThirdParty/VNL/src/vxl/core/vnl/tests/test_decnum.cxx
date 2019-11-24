@@ -1,8 +1,8 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
-#include <vnl/vnl_decnum.h>
-#include <testlib/testlib_test.h>
+#include "vnl/vnl_decnum.h"
+#include "testlib/testlib_test.h"
 
 // Two auxiliary functions, used in multiplication and division tests
 

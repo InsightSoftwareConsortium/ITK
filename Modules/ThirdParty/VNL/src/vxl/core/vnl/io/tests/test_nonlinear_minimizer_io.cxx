@@ -1,9 +1,9 @@
 // This is core/vnl/io/tests/test_nonlinear_minimizer_io.cxx
 #include <iostream>
-#include <vnl/vnl_nonlinear_minimizer.h>
+#include "vnl/vnl_nonlinear_minimizer.h"
 #include <vnl/io/vnl_io_nonlinear_minimizer.h>
-#include <testlib/testlib_test.h>
-#include <vpl/vpl.h>
+#include "testlib/testlib_test.h"
+#include "vpl/vpl.h"
 
 void test_nonlinear_minimizer_io()
 {

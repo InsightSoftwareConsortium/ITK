@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cassert>
 #include "vnl_discrete_diff.h"
-#include <vnl/vnl_least_squares_function.h>
+#include "vnl/vnl_least_squares_function.h"
 
 /*
   fsm
