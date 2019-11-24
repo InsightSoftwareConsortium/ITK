@@ -14,13 +14,13 @@
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_vector_fixed.h>
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_matrix_fixed.h>
-#include <vnl/vnl_diag_matrix.h>
-#include <vnl/vnl_diag_matrix_fixed.h>
-#include <vnl/vnl_sym_matrix.h>
+#include "vnl_vector.h"
+#include "vnl_vector_fixed.h"
+#include "vnl_matrix.h"
+#include "vnl_matrix_fixed.h"
+#include "vnl_diag_matrix.h"
+#include "vnl_diag_matrix_fixed.h"
+#include "vnl_sym_matrix.h"
 #include "vnl/vnl_export.h"
 
 //: Return array I of imaginary parts of complex array C.

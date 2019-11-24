@@ -1,8 +1,8 @@
 // This is core/vnl/tests/test_random.cxx
 #include <iostream>
 #include <cmath>
-#include <vnl/vnl_random.h>
-#include <testlib/testlib_test.h>
+#include "vnl/vnl_random.h"
+#include "testlib/testlib_test.h"
 
 void test_random()
 {

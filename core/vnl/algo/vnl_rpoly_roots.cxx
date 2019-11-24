@@ -13,7 +13,7 @@
 #include "vnl_rpoly_roots.h"
 
 #include <vnl/algo/vnl_netlib.h> // rpoly_()
-#include <vnl/vnl_real_polynomial.h>
+#include "vnl/vnl_real_polynomial.h"
 
 // - The constructor calculates the roots.  This is the most efficient interface
 // as all the result variables are initialized to the correct size.

@@ -15,9 +15,9 @@
 //   19 June  2004 - PVr - added vnl_inverse_transpose() methods
 // \endverbatim
 
-#include <vnl/vnl_matrix_fixed.h>
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_det.h>
+#include "vnl_matrix_fixed.h"
+#include "vnl_matrix.h"
+#include "vnl_det.h"
 #include <cassert>
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>

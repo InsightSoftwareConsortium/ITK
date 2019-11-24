@@ -13,7 +13,7 @@
 //
 //-----------------------------------------------------------------------------
 
-#include <vnl/vnl_matrix_fixed.h>
+#include "vnl_matrix_fixed.h"
 
 typedef vnl_matrix_fixed<double,2,2> vnl_double_2x2;
 

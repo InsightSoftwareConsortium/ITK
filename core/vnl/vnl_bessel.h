@@ -6,7 +6,7 @@
 //  \brief Bessel functions of the first kind
 //  \author Tim Cootes
 
-#include <vnl/vnl_vector.h>
+#include "vnl_vector.h"
 #include "vnl/vnl_export.h"
 
 //: Returns J_n(x), the value of the Bessel function of order n at x

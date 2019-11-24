@@ -2,11 +2,11 @@
 #include <cmath>
 #include <cassert>
 
-#include <vnl/vnl_vector.h>
+#include "vnl/vnl_vector.h"
 #include <vnl/algo/vnl_amoeba.h>
-#include <vnl/vnl_cost_function.h>
+#include "vnl/vnl_cost_function.h"
 
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 
 struct testlib_test_amoeba_cubic : public vnl_cost_function {
   testlib_test_amoeba_cubic() : vnl_cost_function(1) {}

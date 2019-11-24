@@ -1,7 +1,7 @@
-#include <vnl/vnl_real_polynomial.h>
+#include "vnl/vnl_real_polynomial.h"
 #include <vnl/algo/vnl_cpoly_roots.h>
 
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 
 void test_cpoly_roots()
 {

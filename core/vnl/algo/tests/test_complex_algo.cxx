@@ -12,7 +12,7 @@
 // \author Peter Vanroose, ABIS Leuven.
 // \date 9 January 2011
 
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 #include <vnl/algo/vnl_complex_generalized_schur.h>
 #include <vnl/algo/vnl_svd_economy.h>
 #include <vnl/algo/vnl_svd.h>

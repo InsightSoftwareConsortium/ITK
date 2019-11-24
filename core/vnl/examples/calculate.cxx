@@ -30,7 +30,7 @@
 // History: Originally written for double precision arithmetic (1996).
 
 #include <iostream>
-#include <vnl/vnl_decnum.h>
+#include "vnl/vnl_decnum.h"
 
 const vnl_decnum zero("0");
 const vnl_decnum one("1");

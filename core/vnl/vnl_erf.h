@@ -6,8 +6,8 @@
 // \brief Error Function (erf) approximations
 // \author Tim Cootes, Ian Scott
 
-#include <vnl/vnl_gamma.h>
-#include <vnl/vnl_math.h>
+#include "vnl_gamma.h"
+#include "vnl_math.h"
 #include "vnl/vnl_export.h"
 
 //: The Error function.

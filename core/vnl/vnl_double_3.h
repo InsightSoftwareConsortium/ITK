@@ -14,7 +14,7 @@
 //   Peter Vanroose, 24 Mar. 2007: removed deprecated cross_3d() alias
 // \endverbatim
 
-#include <vnl/vnl_T_n.h>
+#include "vnl_T_n.h"
 
 //: class vnl_double_3 : a vnl_vector of 3 doubles.
 vnl_T_n_impl(double,3);

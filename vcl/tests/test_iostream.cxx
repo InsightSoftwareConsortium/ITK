@@ -7,7 +7,7 @@
 #include <fstream>
 #include <sstream>
 #ifdef _MSC_VER
-#  include <vcl_msvc_warnings.h>
+#  include "vcl_msvc_warnings.h"
 #endif
 
 // This appears to do nothing, and it doesn't compile on MSVC with some weird error

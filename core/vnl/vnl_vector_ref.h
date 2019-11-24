@@ -14,7 +14,7 @@
 // \endverbatim
 //-----------------------------------------------------------------------------
 
-#include <vnl/vnl_vector.h>
+#include "vnl_vector.h"
 #include "vnl/vnl_export.h"
 
 //: vnl_vector using user-supplied storage

@@ -1,6 +1,6 @@
 #include <iostream>
-#include <testlib/testlib_test.h>
-#include <vnl/vnl_crs_index.h>
+#include "testlib/testlib_test.h"
+#include "vnl/vnl_crs_index.h"
 
 
 void display_mask(const std::vector<std::vector<bool> >& mask)

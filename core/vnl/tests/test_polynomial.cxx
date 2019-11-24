@@ -2,10 +2,10 @@
 #include <vector>
 #include <sstream>
 
-#include <testlib/testlib_test.h>
-#include <vnl/vnl_polynomial.h>
-#include <vnl/vnl_decnum.h>
-#include <vnl/vnl_rational.h>
+#include "testlib/testlib_test.h"
+#include "vnl/vnl_polynomial.h"
+#include "vnl/vnl_decnum.h"
+#include "vnl/vnl_rational.h"
 
 void test_polynomial_double()
 {

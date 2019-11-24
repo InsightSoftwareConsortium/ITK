@@ -10,7 +10,7 @@
 #include <iostream>
 #include <cassert>
 #include "vnl_real_eigensystem.h"
-#include <vnl/vnl_fortran_copy.h>
+#include "vnl/vnl_fortran_copy.h"
 #include <vnl/algo/vnl_netlib.h> // rg_()
 
 //: Extract eigensystem of non-symmetric matrix M, using the EISPACK routine rg.

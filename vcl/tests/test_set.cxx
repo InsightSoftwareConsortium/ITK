@@ -2,7 +2,7 @@
 #include <functional>
 #include <set>
 #ifdef _MSC_VER
-#  include <vcl_msvc_warnings.h>
+#  include "vcl_msvc_warnings.h"
 #endif
 
 int test_set_main(int /*argc*/,char* /*argv*/[])

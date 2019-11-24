@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <memory>
 #ifdef _MSC_VER
-#  include <vcl_msvc_warnings.h>
+#  include "vcl_msvc_warnings.h"
 #endif
 
 #define ASSERT(x,y) if (!(x)) { std::printf("FAIL: " y "\n"); status = 1; }

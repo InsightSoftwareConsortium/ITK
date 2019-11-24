@@ -17,7 +17,7 @@
 //
 //-----------------------------------------------------------------------------
 
-#include <vnl/vnl_matrix.h>
+#include "vnl_matrix.h"
 #include "vnl/vnl_export.h"
 
 //:  Convert row-stored matrix to column-stored.

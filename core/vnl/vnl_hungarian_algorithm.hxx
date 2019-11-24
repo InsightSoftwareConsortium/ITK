@@ -7,7 +7,7 @@
 #include <iostream>
 #include "vnl_hungarian_algorithm.h"
 
-#include <vnl/vnl_matrix.h>
+#include "vnl_matrix.h"
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif

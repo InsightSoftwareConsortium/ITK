@@ -1,10 +1,10 @@
-#include <vnl/vnl_inverse.h>
-#include <vnl/vnl_double_2x2.h>
-#include <vnl/vnl_double_3x3.h>
-#include <vnl/vnl_double_4x4.h>
-#include <vnl/vnl_random.h>
+#include "vnl/vnl_inverse.h"
+#include "vnl/vnl_double_2x2.h"
+#include "vnl/vnl_double_3x3.h"
+#include "vnl/vnl_double_4x4.h"
+#include "vnl/vnl_random.h"
 
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 
 static void test_inverse()
 {

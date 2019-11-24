@@ -1,8 +1,8 @@
 // This is core/vnl/tests/test_sparse_matrix.cxx
 #include <iostream>
-#include <vnl/vnl_sparse_matrix.h>
-#include <vnl/vnl_matrix.h>
-#include <testlib/testlib_test.h>
+#include "vnl/vnl_sparse_matrix.h"
+#include "vnl/vnl_matrix.h"
+#include "testlib/testlib_test.h"
 
 static
 void test_sparse_int()

@@ -3,8 +3,8 @@
 // Tests for vnl_finite.h, written by Peter Vanroose, 6 May 2002.
 
 #include <iostream>
-#include <testlib/testlib_test.h>
-#include <vnl/vnl_finite.h>
+#include "testlib/testlib_test.h"
+#include "vnl/vnl_finite.h"
 
 template <int N>
 void test_finite_int(vnl_finite_int<N>)

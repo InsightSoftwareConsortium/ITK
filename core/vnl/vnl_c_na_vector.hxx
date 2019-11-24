@@ -13,10 +13,10 @@
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif
-#include <vnl/vnl_math.h>
-#include <vnl/vnl_na.h>
-#include <vnl/vnl_complex_traits.h>
-#include <vnl/vnl_numeric_traits.h>
+#include "vnl_math.h"
+#include "vnl_na.h"
+#include "vnl_complex_traits.h"
+#include "vnl_numeric_traits.h"
 
 
 template <class T>

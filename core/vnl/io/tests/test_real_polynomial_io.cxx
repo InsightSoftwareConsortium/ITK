@@ -1,9 +1,9 @@
 // This is core/vnl/io/tests/test_real_polynomial_io.cxx
 #include <iostream>
-#include <vnl/vnl_real_polynomial.h>
+#include "vnl/vnl_real_polynomial.h"
 #include <vnl/io/vnl_io_real_polynomial.h>
-#include <testlib/testlib_test.h>
-#include <vpl/vpl.h>
+#include "testlib/testlib_test.h"
+#include "vpl/vpl.h"
 
 void test_real_polynomial_io()
 {

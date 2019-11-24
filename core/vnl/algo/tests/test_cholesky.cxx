@@ -1,10 +1,10 @@
 // This is core/vnl/algo/tests/test_cholesky.cxx
 #include <iostream>
-#include <testlib/testlib_test.h>
-#include <vnl/vnl_matrix.h>
+#include "testlib/testlib_test.h"
+#include "vnl/vnl_matrix.h"
 #include <vnl/algo/vnl_cholesky.h>
-#include <vnl/vnl_inverse.h>
-#include <vnl/vnl_random.h>
+#include "vnl/vnl_inverse.h"
+#include "vnl/vnl_random.h"
 
 #include "test_util.h"
 

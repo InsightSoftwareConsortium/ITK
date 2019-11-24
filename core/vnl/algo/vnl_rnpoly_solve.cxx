@@ -5,7 +5,7 @@
 #include <cassert>
 #include <iostream>
 #include <vnl/algo/vnl_rnpoly_solve.h>
-#include <vnl/vnl_math.h>
+#include "vnl/vnl_math.h"
 
 #ifdef DEBUG
 #endif

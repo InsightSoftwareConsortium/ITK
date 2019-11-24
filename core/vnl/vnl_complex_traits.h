@@ -88,7 +88,7 @@ template <> struct VNL_EXPORT vnl_complex_traits<std::complex<long double> >
   static std::complex<long double> complexify(long double x) { return x; }
 };
 
-#include <vnl/vnl_bignum.h>
+#include "vnl_bignum.h"
 
 template <> struct VNL_EXPORT vnl_complex_traits<vnl_bignum>
 {
@@ -104,7 +104,7 @@ template <> struct VNL_EXPORT vnl_complex_traits<std::complex<vnl_bignum> >
   static std::complex<vnl_bignum> complexify(std::complex<vnl_bignum> x) { return x; }
 };
 
-#include <vnl/vnl_rational.h>
+#include "vnl_rational.h"
 
 template <> struct VNL_EXPORT vnl_complex_traits<vnl_rational>
 {

@@ -3,10 +3,10 @@
 */
 #include <iostream>
 
-#include <testlib/testlib_root_dir.h>
-#include <testlib/testlib_test.h>
-#include <vnl/vnl_file_matrix.h>
-#include <vnl/vnl_matlab_print.h>
+#include "testlib/testlib_root_dir.h"
+#include "testlib/testlib_test.h"
+#include "vnl/vnl_file_matrix.h"
+#include "vnl/vnl_matlab_print.h"
 
 void test_file_matrix()
 {

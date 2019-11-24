@@ -4,15 +4,15 @@
 #include <cmath>
 #include <iostream>
 
-#include <vnl/vnl_matrix_fixed.h>
+#include "vnl/vnl_matrix_fixed.h"
 
-#include <vnl/vnl_double_3x3.h>
-#include <vnl/vnl_double_3.h>
-#include <vnl/vnl_double_2x2.h>
-#include <vnl/vnl_float_2x2.h>
-#include <vnl/vnl_int_2x2.h>
+#include "vnl/vnl_double_3x3.h"
+#include "vnl/vnl_double_3.h"
+#include "vnl/vnl_double_2x2.h"
+#include "vnl/vnl_float_2x2.h"
+#include "vnl/vnl_int_2x2.h"
 
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 
 #undef printf // to work around a bug in libintl.h
 

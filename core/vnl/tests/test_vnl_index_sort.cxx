@@ -8,12 +8,12 @@
 #include <iostream>
 #include <getopt.h>
 #else             // else, this program follows the testlib style mechanism
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 #endif
 
-#include <vnl/vnl_index_sort.h>
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_random.h>
+#include "vnl/vnl_index_sort.h"
+#include "vnl/vnl_matrix.h"
+#include "vnl/vnl_random.h"
 
 // The following defaults can be overridden with options -n and -m of the standalone version
 // And these are the effectivly used values:

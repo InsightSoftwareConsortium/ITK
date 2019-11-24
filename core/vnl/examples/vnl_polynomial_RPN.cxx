@@ -21,7 +21,7 @@
 #include <sstream>
 #include <vector>
 #include <cstring>
-#include <vnl/vnl_polynomial.h>
+#include "vnl/vnl_polynomial.h"
 
 std::vector<vnl_polynomial<double> > stack;
 

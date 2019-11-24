@@ -9,8 +9,8 @@
 //   Oct.2002 - Amitha Perera - moved from vnl_vector.h
 // \endverbatim
 
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_vector_fixed.h>
+#include "vnl_vector.h"
+#include "vnl_vector_fixed.h"
 #include <cassert>
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>

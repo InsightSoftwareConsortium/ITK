@@ -5,8 +5,8 @@
 // Converted to vxl by Peter Vanroose, February 2000
 //-----------------------------------------------------------------------------
 #include <iostream>
-#include <vnl/vnl_double_2.h>
-#include <vnl/vnl_cost_function.h>
+#include "vnl/vnl_double_2.h"
+#include "vnl/vnl_cost_function.h"
 #include <vnl/algo/vnl_amoeba.h>
 
 // See rosenbrock.cxx for a description of this function.

@@ -5,7 +5,7 @@
 #include <cstring>
 #include "vnl_matlab_read.h"
 
-#include <vnl/vnl_c_vector.h>
+#include "vnl/vnl_c_vector.h"
 //:
 // \file
 // \author fsm
@@ -224,8 +224,8 @@ fsm_define_methods(std::complex<double>);
 
 //--------------------------------------------------------------------------------
 
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_matrix.h>
+#include "vnl/vnl_vector.h"
+#include "vnl/vnl_matrix.h"
 
 template <class T>
 bool vnl_matlab_read_or_die(std::istream &s,

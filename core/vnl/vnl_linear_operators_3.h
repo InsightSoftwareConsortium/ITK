@@ -17,8 +17,8 @@
 // \endverbatim
 //-----------------------------------------------------------------------------
 
-#include <vnl/vnl_double_3.h>
-#include <vnl/vnl_double_3x3.h>
+#include "vnl_double_3.h"
+#include "vnl_double_3x3.h"
 
 //: The binary multiplication operator
 // \relatesalso vnl_matrix_fixed

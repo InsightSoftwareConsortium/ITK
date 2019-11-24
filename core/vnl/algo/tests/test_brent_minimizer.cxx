@@ -1,8 +1,8 @@
 #include <iostream>
-#include <vnl/vnl_vector.h>
+#include "vnl/vnl_vector.h"
 #include <vnl/algo/vnl_brent_minimizer.h>
 
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 
 struct brent_f1 : public vnl_cost_function {
   unsigned n_evals{0};

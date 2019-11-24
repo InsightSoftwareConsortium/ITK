@@ -3,7 +3,7 @@
 #include <cmath>
 #include <ctime>
 #include "vnl_sample.h"
-#include <vnl/vnl_math.h>
+#include "vnl/vnl_math.h"
 #include "vnl_drand48.h"
 
 void vnl_sample_reseed()

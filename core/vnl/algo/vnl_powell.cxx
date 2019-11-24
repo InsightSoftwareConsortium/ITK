@@ -5,7 +5,7 @@
 #include <cassert>
 #include "vnl_powell.h"
 
-#include <vnl/vnl_math.h>
+#include "vnl/vnl_math.h"
 #undef VNL_USE_OLD_BRENT_MINIMIZER // #define VNL_USE_OLD_BRENT_MINIMIZER
 // This version was deprecated, and the refactoring to the new minimizer was not done correctly with respect to initialisation.
 #ifdef VNL_USE_OLD_BRENT_MINIMIZER
@@ -15,9 +15,9 @@
 #include <vnl/algo/vnl_bracket_minimum.h>
 #endif
 #ifdef DEBUG
-#include <vnl/vnl_matlab_print.h>
+#include "vnl/vnl_matlab_print.h"
 #ifdef _MSC_VER
-#  include <vcl_msvc_warnings.h>
+#  include "vcl_msvc_warnings.h"
 #endif
 #endif
 

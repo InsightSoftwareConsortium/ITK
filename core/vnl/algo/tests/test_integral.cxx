@@ -1,12 +1,12 @@
 // not used? #include <iostream>
 #include <cmath>
 #include <utility>
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 #include <vnl/algo/vnl_adaptsimpson_integral.h>
 #include <vnl/algo/vnl_simpson_integral.h>
-#include <vnl/vnl_analytic_integrant.h>
-#include <vnl/vnl_double_3.h>
-#include <vnl/vnl_math.h>
+#include "vnl/vnl_analytic_integrant.h"
+#include "vnl/vnl_double_3.h"
+#include "vnl/vnl_math.h"
 
 class my_test_integrant : public vnl_analytic_integrant
 {

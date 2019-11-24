@@ -1,9 +1,9 @@
-#include <vnl/vnl_matrix.h>
+#include "vnl/vnl_matrix.h"
 #include <vnl/algo/vnl_qr.h>
 #include <vnl/algo/vnl_determinant.h>
-#include <vnl/vnl_det.h>
+#include "vnl/vnl_det.h"
 
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 
 double qr_det(vnl_matrix<double> const &M)
 { return vnl_qr<double>(M).determinant(); }

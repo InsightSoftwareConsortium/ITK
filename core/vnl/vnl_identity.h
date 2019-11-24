@@ -13,7 +13,7 @@
 // \endverbatim
 //-----------------------------------------------------------------------------
 
-#include <vnl/vnl_unary_function.h>
+#include "vnl_unary_function.h"
 #include "vnl/vnl_export.h"
 
 template <class T>

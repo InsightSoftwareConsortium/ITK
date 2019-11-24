@@ -1,11 +1,11 @@
 #include <iostream>
 #include <ctime>
 #include <vnl/algo/vnl_convolve.h>
-#include <vnl/vnl_double_2.h>
-#include <vnl/vnl_random.h>
-#include <vnl/vnl_int_2.h>
+#include "vnl/vnl_double_2.h"
+#include "vnl/vnl_random.h"
+#include "vnl/vnl_int_2.h"
 
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 
 #include "test_util.h"
 
