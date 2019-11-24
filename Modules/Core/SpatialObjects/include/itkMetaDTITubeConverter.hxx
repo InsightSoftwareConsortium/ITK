@@ -71,7 +71,7 @@ MetaDTITubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
 
     for (unsigned int ii = 0; ii < NDimensions; ii++)
     {
-      point[ii] = (*it2)->m_X[ii];
+      point[ii] = (*it2)->m_X[ii] * tube->ElementSpacing(ii);
     }
 
     // Get the fields from the metaIO
@@ -106,7 +106,7 @@ MetaDTITubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
     // This attribute is optional
     if (Math::NotExactlyEquals((*it2)->GetField("r"), -1))
     {
-      pnt.SetRadiusInObjectSpace((*it2)->GetField("r"));
+      pnt.SetRadiusInObjectSpace((*it2)->GetField("r") * tube->ElementSpacing(0));
     }
 
     char vnd[] = "v1x";

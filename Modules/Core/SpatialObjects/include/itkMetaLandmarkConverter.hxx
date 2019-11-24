@@ -64,7 +64,7 @@ MetaLandmarkConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTy
 
     for (unsigned int ii = 0; ii < NDimensions; ii++)
     {
-      point[ii] = (*it2)->m_X[ii];
+      point[ii] = (*it2)->m_X[ii] * landmarkMO->ElementSpacing(ii);
     }
 
     pnt.SetPositionInObjectSpace(point);

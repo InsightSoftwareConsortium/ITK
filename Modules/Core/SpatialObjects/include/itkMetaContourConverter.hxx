@@ -71,12 +71,12 @@ MetaContourConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
 
     for (unsigned int i = 0; i < NDimensions; i++)
     {
-      point[i] = (*itCP)->m_X[i];
+      point[i] = (*itCP)->m_X[i] * contourMO->ElementSpacing(i);
     }
 
     for (unsigned int i = 0; i < NDimensions; i++)
     {
-      pickedPoint[i] = (*itCP)->m_XPicked[i];
+      pickedPoint[i] = (*itCP)->m_XPicked[i] * contourMO->ElementSpacing(i);
     }
 
     for (unsigned int i = 0; i < NDimensions; i++)

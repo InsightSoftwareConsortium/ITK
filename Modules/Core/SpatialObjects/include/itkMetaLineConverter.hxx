@@ -65,7 +65,7 @@ MetaLineConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType *
 
     for (unsigned int ii = 0; ii < NDimensions; ii++)
     {
-      point[ii] = (*it2)->m_X[ii];
+      point[ii] = (*it2)->m_X[ii] * lineMO->ElementSpacing(ii);
     }
 
     pnt.SetPositionInObjectSpace(point);
