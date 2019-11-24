@@ -1,0 +1,8 @@
+itk_wrap_include("itkListSample.h")
+itk_wrap_include("itkKdTree.h")
+
+itk_wrap_class("itk::Statistics::KdTreeBasedKmeansEstimator" POINTER)
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    itk_wrap_template("KdTreeLS${ITKM_VF${d}}"  "itk::Statistics::KdTree< itk::Statistics::ListSample< ${ITKT_VF${d}} > >")
+  endforeach()
+itk_end_wrap_class()
