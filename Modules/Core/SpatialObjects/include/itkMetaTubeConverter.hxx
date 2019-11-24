@@ -62,7 +62,7 @@ MetaTubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType *
   {
     TubePointType pnt;
 
-    TubePointType::PointType pos;
+    typename TubePointType::PointType pos;
     for (unsigned int d = 0; d < NDimensions; ++d)
     {
       pos[d] = (*it2)->m_X[d] * tubeMO->ElementSpacing(d);

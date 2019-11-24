@@ -73,7 +73,7 @@ MetaVesselTubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObject
   {
     VesselTubePointType pnt;
 
-    VesselTubePointType::PointType pos;
+    typename VesselTubePointType::PointType pos;
     for (unsigned int d = 0; d < NDimensions; ++d)
     {
       pos[d] = (*it2)->m_X[d] * vesselTubeMO->ElementSpacing(d);
