@@ -1,11 +1,11 @@
 // This is core/vnl/io/tests/test_real_npolynomial_io.cxx
 #include <iostream>
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_real_npolynomial.h>
+#include "vnl/vnl_vector.h"
+#include "vnl/vnl_matrix.h"
+#include "vnl/vnl_real_npolynomial.h"
 #include <vnl/io/vnl_io_real_npolynomial.h>
-#include <testlib/testlib_test.h>
-#include <vpl/vpl.h>
+#include "testlib/testlib_test.h"
+#include "vpl/vpl.h"
 
 void test_real_npolynomial_io()
 {

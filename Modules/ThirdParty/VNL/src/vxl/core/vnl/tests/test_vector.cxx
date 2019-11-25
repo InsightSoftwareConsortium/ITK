@@ -1,13 +1,13 @@
 // This is core/vnl/tests/test_vector.cxx
 #include <iostream>
 #include <sstream>
-#include <vnl/vnl_math.h>
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_float_3.h>
-#include <vnl/vnl_float_4.h>
-#include <vnl/vnl_matrix_fixed.h>
-#include <vnl/vnl_cross.h>
-#include <testlib/testlib_test.h>
+#include "vnl/vnl_math.h"
+#include "vnl/vnl_vector.h"
+#include "vnl/vnl_float_3.h"
+#include "vnl/vnl_float_4.h"
+#include "vnl/vnl_matrix_fixed.h"
+#include "vnl/vnl_cross.h"
+#include "testlib/testlib_test.h"
 
 
 template< class TContainer >
@@ -716,7 +716,7 @@ static void vnl_vector_test_io()
 #endif
 
 #if TIMING
-#include <vul/vul_timer.h>
+#include "vul/vul_timer.h"
 static void vnl_vector_test_two_nrm2_timing(unsigned size, unsigned long num)
 {
   vnl_vector<double> a(size);

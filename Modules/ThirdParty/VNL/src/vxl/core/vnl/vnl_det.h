@@ -12,7 +12,7 @@
 //  Peter Vanroose - 15 Oct. 2001 - Added vnl_matrix_fixed interface
 // \endverbatim
 
-#include <vnl/vnl_matrix_fixed.h>
+#include "vnl_matrix_fixed.h"
 #include "vnl/vnl_export.h"
 
 //: 2x2 matrix

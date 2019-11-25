@@ -5,12 +5,12 @@
 //:
 // \file
 
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_double_3.h>
-#include <vnl/vnl_random.h>
+#include "vnl/vnl_matrix.h"
+#include "vnl/vnl_double_3.h"
+#include "vnl/vnl_random.h"
 #include <vnl/algo/vnl_svd.h>
 
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 
 template <class T, class S> static
 void test_hilbert(T /*dummy*/, char const* type, S residual)
@@ -151,7 +151,7 @@ void test_svd_recomposition(char const *type, double maxres, T* /* tag */, vnl_r
   TEST_NEAR("vnl_svd<float> recomposition residual", residual, 0, maxres);
 }
 
-#include <vnl/vnl_matlab_print.h>
+#include "vnl/vnl_matlab_print.h"
 
 template <class T> static
 void test_nullvector(char const *type, double max_err, T *, vnl_random &rng)

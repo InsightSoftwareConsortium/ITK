@@ -1,12 +1,12 @@
 #include <cstdlib>
 #include <iostream>
 #include <complex>
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 
-#include <vnl/vnl_diag_matrix.h>
-#include <vnl/vnl_complexify.h>
-#include <vnl/vnl_real.h>
-#include <vnl/vnl_imag.h>
+#include "vnl/vnl_diag_matrix.h"
+#include "vnl/vnl_complexify.h"
+#include "vnl/vnl_real.h"
+#include "vnl/vnl_imag.h"
 
 
 

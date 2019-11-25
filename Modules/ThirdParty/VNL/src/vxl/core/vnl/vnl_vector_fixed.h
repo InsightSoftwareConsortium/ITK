@@ -33,10 +33,10 @@
 #endif
 #include "vnl_vector.h"
 #include "vnl_vector_ref.h"
-#include <vnl/vnl_c_vector.h>
-#include <vnl/vnl_matrix.h> // outerproduct
+#include "vnl_c_vector.h"
+#include "vnl_matrix.h" // outerproduct
 #include <vnl/vnl_config.h> // for VNL_CONFIG_CHECK_BOUNDS
-#include <vnl/vnl_error.h>
+#include "vnl_error.h"
 #include "vnl/vnl_export.h"
 
 template <class T, unsigned int n> class vnl_vector_fixed;

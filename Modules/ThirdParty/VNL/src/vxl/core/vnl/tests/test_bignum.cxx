@@ -14,10 +14,10 @@
 #include <iomanip>
 #include <limits>
 #include <typeinfo>
-#include <vnl/vnl_bignum.h>
-#include <vnl/vnl_bignum_traits.h>
+#include "vnl/vnl_bignum.h"
+#include "vnl/vnl_bignum_traits.h"
 
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 
 namespace
 {

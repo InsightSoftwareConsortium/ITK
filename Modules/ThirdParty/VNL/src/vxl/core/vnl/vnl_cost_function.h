@@ -16,8 +16,8 @@
 //
 //-----------------------------------------------------------------------------
 
-#include <vnl/vnl_unary_function.h>
-#include <vnl/vnl_vector.h>
+#include "vnl_unary_function.h"
+#include "vnl_vector.h"
 #include "vnl/vnl_export.h"
 
 //:   An object that represents a function from R^n -> R.

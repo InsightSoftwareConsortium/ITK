@@ -1,4 +1,4 @@
-#include <vnl/vnl_vector_fixed.hxx>
+#include "vnl/vnl_vector_fixed.hxx"
 VNL_VECTOR_FIXED_INSTANTIATE(unsigned char,1);
 VNL_VECTOR_FIXED_INSTANTIATE(unsigned char,2);
 VNL_VECTOR_FIXED_INSTANTIATE(unsigned char,3);

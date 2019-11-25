@@ -1,8 +1,8 @@
 #include <iostream>
-#include <testlib/testlib_test.h>
-#include <vnl/vnl_math.h>
-#include <vnl/vnl_sample.h>
-#include <vul/vul_get_timestamp.h> // to generate a random number
+#include "testlib/testlib_test.h"
+#include "vnl/vnl_math.h"
+#include "vnl/vnl_sample.h"
+#include "vul/vul_get_timestamp.h" // to generate a random number
 
 static double eps = 0.02;
 

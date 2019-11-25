@@ -1,10 +1,10 @@
 // This is core/vnl/tests/test_fastops.cxx
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 //:
 // \file
 // \author Peter Vanroose
 // \date 17 June 2004
-#include <vnl/vnl_fastops.h>
+#include "vnl/vnl_fastops.h"
 
 void test_fastops()
 {

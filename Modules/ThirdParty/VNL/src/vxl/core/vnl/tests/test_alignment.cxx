@@ -2,14 +2,14 @@
 #include <limits>
 #include <typeinfo>
 #include <iostream>
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_matrix_ref.h>
-#include <vnl/vnl_vector_ref.h>
-#include <vnl/vnl_random.h>
-#include <vnl/vnl_math.h>
-#include <vnl/vnl_sse.h>
-#include <testlib/testlib_test.h>
+#include "vnl/vnl_matrix.h"
+#include "vnl/vnl_vector.h"
+#include "vnl/vnl_matrix_ref.h"
+#include "vnl/vnl_vector_ref.h"
+#include "vnl/vnl_random.h"
+#include "vnl/vnl_math.h"
+#include "vnl/vnl_sse.h"
+#include "testlib/testlib_test.h"
 
 inline bool test_element_product(const vnl_vector<float> &vec, const vnl_vector<float> &vec2,
                                  vnl_vector<float> &result)

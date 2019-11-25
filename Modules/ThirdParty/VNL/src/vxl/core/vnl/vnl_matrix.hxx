@@ -91,10 +91,10 @@
 #  include <vcl_msvc_warnings.h>
 #endif
 
-#include <vnl/vnl_math.h>
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_c_vector.h>
-#include <vnl/vnl_numeric_traits.h>
+#include "vnl_math.h"
+#include "vnl_vector.h"
+#include "vnl_c_vector.h"
+#include "vnl_numeric_traits.h"
 //--------------------------------------------------------------------------------
 
 // This macro allocates and initializes the dynamic storage used by a vnl_matrix.
@@ -114,29 +114,6 @@ do { /* Macro needs to be a single statement to allow semicolon at macro end */ 
    /* This is to make sure .begin() and .end() work for 0xN matrices: */ \
    this->data = vnl_c_vector<T>::allocate_Tptr(1);\
    this->data[0] = nullptr; \
-  } \
-} while(false)
-
-// This macro releases the dynamic storage used by a vnl_matrix.
-#define vnl_matrix_free_blah \
-do { /* Macro needs to be a single statement to allow semicolon at macro end */ \
-  if (this->data) { \
-    if (this->num_cols && this->num_rows) { \
-        if (this->m_LetArrayManageMemory ) { \
-          /*Only delete contiguous memory if we are managing it*/ \
-          vnl_c_vector<T>::deallocate(this->data[0], this->num_cols * this->num_rows); \
-        } \
-        else \
-        { /* not manage own data, i.e. is a vnl_matrix_ref */ \
-          this->data[0] = nullptr; \
-          this->num_cols = 0; \
-          this->num_rows = 0; \
-        } \
-      /* Always delete row pointer table */ \
-      vnl_c_vector<T>::deallocate(this->data, this->num_rows); \
-    } else { \
-      vnl_c_vector<T>::deallocate(this->data, 1); \
-    } \
   } \
 } while(false)
 
@@ -265,10 +242,8 @@ vnl_matrix<T>& vnl_matrix<T>::operator=(vnl_matrix<T>&& rhs)
     else
     {
       // Release any resource we're previously holding
-      if(this->data)
-      {
-        vnl_c_vector<T>::deallocate(this->data[0], this->num_rows*this->num_cols);
-      }
+      this->destroy();
+
       // Transfer ownership and invalidate old value
       data = rhs.data;
       num_rows = rhs.num_rows;
@@ -296,9 +271,32 @@ vnl_matrix<T>::~vnl_matrix()
 // O(m*n).
 
 template <class T>
-void vnl_matrix<T>::destroy()
+void
+vnl_matrix<T>::destroy()
 {
-  vnl_matrix_free_blah;
+  if (this->data)
+  {
+    if (this->num_cols && this->num_rows)
+    {
+      if (this->m_LetArrayManageMemory)
+      {
+        /*Only delete contiguous memory if we are managing it*/
+        vnl_c_vector<T>::deallocate(this->data[0], this->num_cols * this->num_rows);
+      }
+      else
+      { /* not manage own data, i.e. is a vnl_matrix_ref */
+        this->data[0] = nullptr;
+        this->num_cols = 0;
+        this->num_rows = 0;
+      }
+      /* Always delete row pointer table */
+      vnl_c_vector<T>::deallocate(this->data, this->num_rows);
+    }
+    else
+    {
+      vnl_c_vector<T>::deallocate(this->data, 1);
+    }
+  }
 }
 
 template <class T>
@@ -325,7 +323,7 @@ bool vnl_matrix<T>::set_size (unsigned rowz, unsigned colz)
       return false;
 
     // else, simply release old storage and allocate new.
-    vnl_matrix_free_blah;
+    this->destroy();
     this->num_rows = rowz; this->num_cols = colz;
     vnl_matrix_alloc_blah();
   }
@@ -339,7 +337,6 @@ bool vnl_matrix<T>::set_size (unsigned rowz, unsigned colz)
 }
 
 #undef vnl_matrix_alloc_blah
-#undef vnl_matrix_free_blah
 
 //------------------------------------------------------------
 

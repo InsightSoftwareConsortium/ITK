@@ -4,15 +4,15 @@
 */
 #include <iostream>
 
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_matlab_print.h>
-#include <vnl/vnl_random.h>
+#include "vnl/vnl_vector.h"
+#include "vnl/vnl_matrix.h"
+#include "vnl/vnl_matlab_print.h"
+#include "vnl/vnl_random.h"
 
 #include <vnl/algo/vnl_fft_1d.h>
 #include <vnl/algo/vnl_fft_2d.h>
 
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 
 #include "test_util.h"
 

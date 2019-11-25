@@ -6,7 +6,7 @@
 //-----------------------------------------------------------------------------
 
 #include <iostream>
-#include <vnl/vnl_fastops.h>
+#include "vnl/vnl_fastops.h"
 #include <vnl/algo/vnl_svd.h>
 #include <vnl/algo/vnl_symmetric_eigensystem.h>
 

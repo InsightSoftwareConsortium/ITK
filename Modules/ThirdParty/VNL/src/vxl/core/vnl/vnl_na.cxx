@@ -7,8 +7,8 @@
 #include <cctype>
 #include "vnl_na.h"
 
-#include <vxl_config.h>
-#include <vnl/vnl_math.h>
+#include "vxl_config.h"
+#include "vnl/vnl_math.h"
 union DoubleBitpatternType {
   double dbl;
   vxl_uint_64 uint_64;

@@ -1,8 +1,8 @@
 #include <iostream>
-#include <vnl/vnl_vector.h>
+#include "vnl/vnl_vector.h"
 #include <vnl/algo/vnl_bracket_minimum.h>
 
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 
 struct bm_square1 : public vnl_cost_function {
   bm_square1() : vnl_cost_function(1) {}

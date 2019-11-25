@@ -1,9 +1,9 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
-#include <vnl/vnl_math.h>
-#include <vnl/vnl_na.h>
-#include <testlib/testlib_test.h>
+#include "vnl/vnl_math.h"
+#include "vnl/vnl_na.h"
+#include "testlib/testlib_test.h"
 
 
 #define print_hex(p) \

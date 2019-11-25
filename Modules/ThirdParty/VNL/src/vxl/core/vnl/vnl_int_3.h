@@ -12,7 +12,7 @@
 //   Peter Vanroose, 21 Oct 1999: vnl_vector_fixed<int,3> already instantiated
 // \endverbatim
 
-#include <vnl/vnl_T_n.h>
+#include "vnl_T_n.h"
 
 //: class vnl_int_3 : a vnl_vector of 3 ints.
 vnl_T_n_impl(int,3);

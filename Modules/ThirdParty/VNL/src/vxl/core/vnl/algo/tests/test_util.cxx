@@ -1,7 +1,7 @@
 // This is core/vnl/algo/tests/test_util.cxx
 #include <complex>
 #include "test_util.h"
-#include <vnl/vnl_random.h>
+#include "vnl/vnl_random.h"
 
 #define macro(T) \
 void test_util_fill_random(T *b, T *e, vnl_random &rng) \

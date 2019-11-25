@@ -4,8 +4,8 @@
 #include "vnl_complex_eigensystem.h"
 // \author fsm
 
-#include <vnl/vnl_matlab_print.h>
-#include <vnl/vnl_complexify.h>
+#include "vnl/vnl_matlab_print.h"
+#include "vnl/vnl_complexify.h"
 #include <vnl/algo/vnl_netlib.h> // zgeev_()
 
 void vnl_complex_eigensystem::compute(vnl_matrix<std::complex<double> > const & A,

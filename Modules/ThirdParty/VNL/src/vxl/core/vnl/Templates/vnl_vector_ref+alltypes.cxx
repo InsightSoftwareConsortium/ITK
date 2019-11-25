@@ -1,5 +1,5 @@
-#include <vnl/vnl_complex.h>
-#include <vnl/vnl_vector_ref.hxx>
+#include "vnl/vnl_complex.h"
+#include "vnl/vnl_vector_ref.hxx"
 VNL_VECTOR_REF_INSTANTIATE(std::complex<double>);
 VNL_VECTOR_REF_INSTANTIATE(std::complex<float>);
 
@@ -18,9 +18,9 @@ VNL_VECTOR_REF_INSTANTIATE(signed   long);
 VNL_VECTOR_REF_INSTANTIATE(unsigned long long);
 VNL_VECTOR_REF_INSTANTIATE(signed   long long);
 
-#include <vnl/vnl_bignum.h>
-#include <vnl/vnl_bignum_traits.h>
+#include "vnl/vnl_bignum.h"
+#include "vnl/vnl_bignum_traits.h"
 VNL_VECTOR_REF_INSTANTIATE(vnl_bignum);
-#include <vnl/vnl_rational.h>
-#include <vnl/vnl_rational_traits.h>
+#include "vnl/vnl_rational.h"
+#include "vnl/vnl_rational_traits.h"
 VNL_VECTOR_REF_INSTANTIATE(vnl_rational);

@@ -14,8 +14,8 @@
 #endif
 #include <cassert>
 
-#include <vnl/vnl_error.h>
-#include <vnl/vnl_math.h>
+#include "vnl_error.h"
+#include "vnl_math.h"
 
 //------------------------------------------------------------
 

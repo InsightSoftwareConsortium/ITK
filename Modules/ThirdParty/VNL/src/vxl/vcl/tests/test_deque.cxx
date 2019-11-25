@@ -1,7 +1,7 @@
 #include <iostream>
 #include <deque>
 #ifdef _MSC_VER
-#  include <vcl_msvc_warnings.h>
+#  include "vcl_msvc_warnings.h"
 #endif
 
 int test_deque_main(int /*argc*/,char* /*argv*/[])

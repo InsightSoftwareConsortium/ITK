@@ -15,8 +15,8 @@
 //
 //-----------------------------------------------------------------------------
 
-#include <vnl/vnl_matrix_fixed.h>
-#include <vnl/vnl_double_3.h>
+#include "vnl_matrix_fixed.h"
+#include "vnl_double_3.h"
 #include "vnl/vnl_export.h"
 
 class VNL_EXPORT vnl_double_2x3 : public vnl_matrix_fixed<double, 2, 3>

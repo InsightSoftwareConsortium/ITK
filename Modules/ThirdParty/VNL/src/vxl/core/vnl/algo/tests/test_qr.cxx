@@ -2,11 +2,11 @@
 #include <iostream>
 #include <complex>
 #include "test_util.h"
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_random.h>
-#include <vnl/vnl_matlab_print.h>
+#include "vnl/vnl_matrix.h"
+#include "vnl/vnl_random.h"
+#include "vnl/vnl_matlab_print.h"
 #include <vnl/algo/vnl_qr.h>
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 //--------------------------------------------------------------------------------
 
 void test_matrix(char const* name, const vnl_matrix<double>& A, double det = 0)

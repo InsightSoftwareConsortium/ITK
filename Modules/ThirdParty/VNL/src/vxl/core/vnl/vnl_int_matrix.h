@@ -14,8 +14,8 @@
 //
 //-----------------------------------------------------------------------------
 
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_error.h>
+#include "vnl_matrix.h"
+#include "vnl_error.h"
 #include "vnl/vnl_export.h"
 
 //: Specializes vnl_matrix for integers, adding a vnl_matrix<double> ctor.

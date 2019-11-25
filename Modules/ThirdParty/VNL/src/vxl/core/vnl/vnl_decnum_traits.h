@@ -5,8 +5,8 @@
 // \file
 // \brief numeric traits for vnl_decnum
 
-#include <vnl/vnl_decnum.h>
-#include <vnl/vnl_numeric_traits.h>
+#include "vnl_decnum.h"
+#include "vnl_numeric_traits.h"
 #include "vnl/vnl_export.h"
 
 template <>

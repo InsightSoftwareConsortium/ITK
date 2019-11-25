@@ -12,11 +12,11 @@
 #include <new>
 #include "vnl_c_vector.h"
 #include <cassert>
-#include <vnl/vnl_math.h>
-#include <vnl/vnl_complex_traits.h>
-#include <vnl/vnl_numeric_traits.h>
+#include "vnl_math.h"
+#include "vnl_complex_traits.h"
+#include "vnl_numeric_traits.h"
 
-#include <vnl/vnl_sse.h>
+#include "vnl_sse.h"
 
 template <class T>
 T vnl_c_vector<T>::sum(T const* v, unsigned n)

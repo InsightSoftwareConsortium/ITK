@@ -17,8 +17,8 @@
 //
 //-----------------------------------------------------------------------------
 
-#include <vnl/vnl_linear_system.h>
-#include <vnl/vnl_sparse_matrix.h>
+#include "vnl_linear_system.h"
+#include "vnl_sparse_matrix.h"
 #include "vnl/vnl_export.h"
 
 //: vnl_sparse_matrix -> vnl_linear_system adaptor

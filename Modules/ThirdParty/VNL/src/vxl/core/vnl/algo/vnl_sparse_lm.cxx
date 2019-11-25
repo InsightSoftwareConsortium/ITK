@@ -10,10 +10,10 @@
 #include <iomanip>
 #include <algorithm>
 #include "vnl_sparse_lm.h"
-#include <vnl/vnl_fastops.h>
-#include <vnl/vnl_vector_ref.h>
-#include <vnl/vnl_crs_index.h>
-#include <vnl/vnl_sparse_lst_sqr_function.h>
+#include "vnl/vnl_fastops.h"
+#include "vnl/vnl_vector_ref.h"
+#include "vnl/vnl_crs_index.h"
+#include "vnl/vnl_sparse_lst_sqr_function.h"
 
 #include <vnl/algo/vnl_cholesky.h>
 #include <vnl/algo/vnl_svd.h>

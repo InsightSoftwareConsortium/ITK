@@ -12,8 +12,8 @@
 //   Peter Vanroose   27-Jun-2003  made inline and added trace(matrix_fixed)
 // \endverbatim
 
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_matrix_fixed.h>
+#include "vnl_matrix.h"
+#include "vnl_matrix_fixed.h"
 #include "vnl/vnl_export.h"
 
 //: Calculate trace of a matrix

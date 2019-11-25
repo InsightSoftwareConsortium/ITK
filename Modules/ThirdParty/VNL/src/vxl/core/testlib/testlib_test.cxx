@@ -20,7 +20,7 @@
 // Created: 25-Apr-2002: AGAP Modified copy of testlib_test
 //
 #ifdef _MSC_VER
-#  include <vcl_msvc_warnings.h>
+#  include "vcl_msvc_warnings.h"
 #endif
 
 static int num_test;

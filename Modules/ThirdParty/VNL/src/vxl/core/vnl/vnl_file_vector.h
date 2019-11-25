@@ -15,7 +15,7 @@
 //
 //-----------------------------------------------------------------------------
 
-#include <vnl/vnl_vector.h>
+#include "vnl_vector.h"
 #include "vnl/vnl_export.h"
 
 //: Templated class to load a vector from a file.

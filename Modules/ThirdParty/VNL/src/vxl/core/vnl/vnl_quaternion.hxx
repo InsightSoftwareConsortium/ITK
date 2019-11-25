@@ -39,8 +39,8 @@
 #  include <vcl_msvc_warnings.h>
 #endif
 
-#include <vnl/vnl_cross.h>
-#include <vnl/vnl_math.h>
+#include "vnl_cross.h"
+#include "vnl_math.h"
 
 //: Creates a quaternion from its ordered components.
 // x, y, z denote the imaginary part, which are the  coordinates

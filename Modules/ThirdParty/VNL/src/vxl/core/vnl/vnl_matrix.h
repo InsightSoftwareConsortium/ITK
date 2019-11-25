@@ -35,9 +35,9 @@
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif
-#include <vnl/vnl_c_vector.h>
+#include "vnl_c_vector.h"
 #include <vnl/vnl_config.h>
-#include <vnl/vnl_error.h>
+#include "vnl_error.h"
 #ifndef NDEBUG
 # if VNL_CONFIG_CHECK_BOUNDS
 #include <cassert>

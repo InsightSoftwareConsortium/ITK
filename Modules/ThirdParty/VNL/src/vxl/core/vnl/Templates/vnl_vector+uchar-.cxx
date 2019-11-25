@@ -4,5 +4,5 @@
 # pragma warning(disable:4146)
 #endif //_MSC_VER
 
-#include <vnl/vnl_vector.hxx>
+#include "vnl/vnl_vector.hxx"
 VNL_VECTOR_INSTANTIATE(unsigned char);

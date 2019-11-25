@@ -12,19 +12,19 @@
 
 #include <string>
 #include <iostream>
-#include <vsl/vsl_binary_io.h>
-#include <vnl/vnl_vector_fixed.h>
+#include "vsl/vsl_binary_io.h"
+#include "vnl/vnl_vector_fixed.h"
 #include <vnl/io/vnl_io_vector.h>
 #include <vnl/io/vnl_io_vector_fixed.h>
-#include <vnl/vnl_matrix_fixed.h>
+#include "vnl/vnl_matrix_fixed.h"
 #include <vnl/io/vnl_io_matrix.h>
 #include <vnl/io/vnl_io_matrix_fixed.h>
 #include <vnl/io/vnl_io_diag_matrix.h>
 #include <vnl/io/vnl_io_real_npolynomial.h>
 #include <vnl/io/vnl_io_real_polynomial.h>
 #include <vnl/io/vnl_io_sparse_matrix.h>
-#include <testlib/testlib_root_dir.h>
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_root_dir.h"
+#include "testlib/testlib_test.h"
 
 static void golden_test_vnl_io(bool save_file)
 {

@@ -15,8 +15,8 @@
 //
 //-----------------------------------------------------------------------------
 
-#include <vnl/vnl_cost_function.h>
-#include <vnl/vnl_least_squares_function.h>
+#include "vnl_cost_function.h"
+#include "vnl_least_squares_function.h"
 #include "vnl/vnl_export.h"
 
 //: An adaptor that converts a vnl_least_squares_function to a vnl_cost_function

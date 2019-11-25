@@ -12,7 +12,7 @@
 //   LSB (Manchester) 23/1/01 Documentation tidied
 // \endverbatim
 
-#include <vnl/vnl_vector.h>
+#include "vnl_vector.h"
 #include "vnl/vnl_export.h"
 
 //: Abstraction for a linear system of equations.

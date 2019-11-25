@@ -12,9 +12,9 @@
 //   <none yet>
 // \endverbatim
 
-#include <vnl/vnl_matrix_fixed.h>
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_inverse.h> // used for negative powers
+#include "vnl_matrix_fixed.h"
+#include "vnl_matrix.h"
+#include "vnl_inverse.h" // used for negative powers
 #include <cassert>
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>

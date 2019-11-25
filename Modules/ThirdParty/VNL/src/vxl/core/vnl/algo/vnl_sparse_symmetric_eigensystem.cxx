@@ -9,7 +9,7 @@
 #include <cassert>
 #include "vnl_sparse_symmetric_eigensystem.h"
 #include "vnl_sparse_lu.h"
-#include <vnl/vnl_vector_ref.h>
+#include "vnl/vnl_vector_ref.h"
 
 #include <vnl/algo/vnl_netlib.h> // dnlaso_() dseupd_() dsaupd_()
 

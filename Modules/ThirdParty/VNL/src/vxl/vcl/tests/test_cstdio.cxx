@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstdio>
 #ifdef _MSC_VER
-#  include <vcl_msvc_warnings.h>
+#  include "vcl_msvc_warnings.h"
 #endif
 
 int test_cstdio_main(int argc,char* argv[])

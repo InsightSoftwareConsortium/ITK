@@ -2,21 +2,21 @@
 #include <iostream>
 #include <cassert>
 #include <fstream>
-#include <testlib/testlib_test.h>
+#include "testlib/testlib_test.h"
 //:
 // \file
 // \author fsm
 
-#include <vpl/vpl.h>
-#include <vul/vul_temp_filename.h>
+#include "vpl/vpl.h"
+#include "vul/vul_temp_filename.h"
 
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_vector_fixed.h>
-#include <vnl/vnl_matrix_fixed.h>
-#include <vnl/vnl_matlab_print.h>
-#include <vnl/vnl_matlab_write.h>
-#include <vnl/vnl_matlab_read.h>
+#include "vnl/vnl_vector.h"
+#include "vnl/vnl_matrix.h"
+#include "vnl/vnl_vector_fixed.h"
+#include "vnl/vnl_matrix_fixed.h"
+#include "vnl/vnl_matlab_print.h"
+#include "vnl/vnl_matlab_write.h"
+#include "vnl/vnl_matlab_read.h"
 
 #if VXL_LITTLE_ENDIAN
 # define NONnative_BYTE_ORDER vnl_matlab_header::vnl_BIG_ENDIAN

@@ -12,7 +12,7 @@
 //
 // Inspired by the numerous double-3, int-2 things lying around.
 
-#include <vnl/vnl_vector_fixed.h>
+#include "vnl_vector_fixed.h"
 #include "vnl/vnl_export.h"
 
 //: cpp traits!

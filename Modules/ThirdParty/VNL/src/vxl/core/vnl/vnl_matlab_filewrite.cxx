@@ -7,7 +7,7 @@
 #include <complex>
 #include "vnl_matlab_filewrite.h"
 
-#include <vnl/vnl_matlab_write.h>
+#include "vnl/vnl_matlab_write.h"
 
 vnl_matlab_filewrite::vnl_matlab_filewrite(char const *file_name,
                                            char const *basename)

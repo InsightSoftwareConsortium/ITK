@@ -19,7 +19,7 @@
 
 #include <iosfwd>
 #include <cassert>
-#include <vnl/vnl_vector_fixed.h>
+#include "vnl_vector_fixed.h"
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif
