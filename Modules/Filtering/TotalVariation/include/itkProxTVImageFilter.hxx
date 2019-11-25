@@ -66,6 +66,7 @@ ProxTVImageFilter<TInputImage, TOutputImage>::GenerateData()
   auto resultImage = DoubleImageType::New();
   resultImage->SetRegions(output->GetLargestPossibleRegion());
   resultImage->Allocate();
+  resultImage->CopyInformation(input);
 
   /************ proxTV *************/
 
