@@ -204,6 +204,10 @@ private:
 
   std::vector<cl_kernel>                       m_KernelContainer;
   std::vector<std::vector<KernelArgumentList>> m_KernelArgumentReady;
+
+  template <typename TArg>
+  bool
+  SetTypedKernelArg(int kernelIdx, cl_uint argIdx, TArg argVal);
 };
 } // namespace itk
 
