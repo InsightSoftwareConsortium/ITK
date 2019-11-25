@@ -26,6 +26,19 @@ namespace itk
 {
 namespace Functor
 {
+/** \class MaximumAbsoluteValue
+ * \brief Compute the maximum (of the absolute value) between two images.
+ *
+ * This class takes two images as arguments and returns the maximum
+ * of the absolute value pixel wise. For instance, two pixels with
+ * values 2 and -3 would return -3, since the absolute value of -3
+ * is larger than 2.
+ *
+ * \sa MultiScaleHessianEnhancementImageFilter
+ *
+ * \author: Thomas Fitze
+ * \ingroup BoneEnhancement
+ */
 template <typename TInputPixel1, typename TInputPixel2 = TInputPixel1, typename TOutputPixel = TInputPixel1>
 class MaximumAbsoluteValue
 {
@@ -68,7 +81,7 @@ public:
  * \ingroup BoneEnhancement
  */
 template <typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1>
-class MaximumAbsoluteValueImageFilter
+class ITK_TEMPLATE_EXPORT MaximumAbsoluteValueImageFilter
   : public BinaryFunctorImageFilter<TInputImage1,
                                     TInputImage2,
                                     TOutputImage,
