@@ -34,7 +34,6 @@ EigenToMeasureImageFilter< TInputImage, TOutputImage >
   InputImageConstPointer  inputPtr = this->GetInput(0);
   OutputImagePointer outputPtr = this->GetOutput(0);
   MaskSpatialObjectTypeConstPointer maskPointer = this->GetMask();
-  typename InputImageType::PointType point;
 
   // Define the portion of the input to walk for this thread, using
   // the CallCopyOutputRegionToInputRegion method allows for the input
@@ -42,27 +41,34 @@ EigenToMeasureImageFilter< TInputImage, TOutputImage >
   InputImageRegionType inputRegionForThread;
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
-  // Define the iterators
-  ImageRegionConstIteratorWithIndex< TInputImage >  inputIt(inputPtr, inputRegionForThread);
-  ImageRegionIterator< TOutputImage >               outputIt(outputPtr, outputRegionForThread);
+  MultiThreaderBase::Pointer mt = this->GetMultiThreader();
 
-  inputIt.GoToBegin();
-  outputIt.GoToBegin();
+  mt->ParallelizeImageRegion<TInputImage::ImageDimension>(
+    outputRegionForThread,
+    [inputPtr, maskPointer, outputPtr, this](const OutputImageRegionType region) {
+      typename InputImageType::PointType point;
 
-  while ( !inputIt.IsAtEnd() )
-  {
-    inputPtr->TransformIndexToPhysicalPoint(inputIt.GetIndex(), point);
-    if ((!maskPointer) || (maskPointer->IsInsideInObjectSpace(point)))
-    {
-      outputIt.Set( ProcessPixel( inputIt.Get() ) );
-    }
-    else
-    {
-      outputIt.Set( NumericTraits< OutputImagePixelType >::Zero );
-    }
-    ++inputIt;
-    ++outputIt;
-  }
+      /* Setup iterator */
+      ImageRegionConstIteratorWithIndex<TInputImage> inputIt(inputPtr, region);
+      ImageRegionIterator<OutputImageType>           outputIt(outputPtr, region);
+
+      while (!inputIt.IsAtEnd())
+      {
+        inputPtr->TransformIndexToPhysicalPoint(inputIt.GetIndex(), point);
+        if ((!maskPointer) || (maskPointer->IsInsideInObjectSpace(point)))
+        {
+          outputIt.Set(this->ProcessPixel(inputIt.Get()));
+        }
+        else
+        {
+          outputIt.Set(NumericTraits<OutputImagePixelType>::Zero);
+        }
+
+        ++inputIt;
+        ++outputIt;
+      }
+    },
+    nullptr);
 }
 
 } /* end namespace */
