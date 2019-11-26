@@ -19,6 +19,7 @@
 #ifndef itkConnectedImageNeighborhoodShape_h
 #define itkConnectedImageNeighborhoodShape_h
 
+#include "itkMath.h"
 #include "itkOffset.h"
 
 #include <array>
@@ -190,15 +191,6 @@ private:
   }
 
 
-  // Calculates a * b. Numeric overflow triggers a compilation error in
-  // "constexpr context" and a debug assert failure at run-time.
-  static constexpr std::uintmax_t
-  CalculateProduct(const std::uintmax_t a, const std::uintmax_t b) ITK_NOEXCEPT
-  {
-    return (((a * b) / a) == b) && (((a * b) / b) == a) ? (a * b) : (ITK_X_ASSERT(!"CalculateProduct overflow!"), 0);
-  }
-
-
   // Calculates 2 ^ n. Numeric overflow triggers a compilation error in
   // "constexpr context" and a debug assert failure at run-time.
   static constexpr std::uintmax_t
@@ -206,14 +198,6 @@ private:
   {
     return (n < std::numeric_limits<std::uintmax_t>::digits) ? (std::uintmax_t{ 1 } << n)
                                                              : (ITK_X_ASSERT(!"CalculatePowerOfTwo overflow!"), 0);
-  }
-
-
-  // Calculates 3 ^ n
-  static constexpr std::uintmax_t
-  CalculatePowerOfThree(const std::size_t n) ITK_NOEXCEPT
-  {
-    return (n == 0) ? 1 : CalculateProduct(3, CalculatePowerOfThree(n - 1));
   }
 
 
@@ -225,7 +209,7 @@ private:
   CalculateBinomialCoefficient(const std::uintmax_t n, const std::uintmax_t k) ITK_NOEXCEPT
   {
     return (k > n) ? (ITK_X_ASSERT(!"Out of range!"), 0)
-                   : (k == 0) ? 1 : CalculateProduct(n, CalculateBinomialCoefficient(n - 1, k - 1)) / k;
+                   : (k == 0) ? 1 : Math::UnsignedProduct(n, CalculateBinomialCoefficient(n - 1, k - 1)) / k;
   }
 
 
@@ -236,13 +220,13 @@ private:
   CalculateNumberOfHypercubesOnBoundaryOfCube(const std::size_t m, const std::size_t n) ITK_NOEXCEPT
   {
     // Calculate 2^(n-m) * BinomialCoefficient(n, m)
-    return CalculateProduct(CalculatePowerOfTwo(n - m),
-                            (((2 * m) < n) ?
-                                           // Calculate either the binomial coefficient of (n, m) or (n, n - m).
-                                           // Mathematically, both should yield the same number, but the
-                                           // calculation is optimized for a smaller second argument.
-                               CalculateBinomialCoefficient(n, m)
-                                           : CalculateBinomialCoefficient(n, n - m)));
+    return Math::UnsignedProduct(CalculatePowerOfTwo(n - m),
+                                 (((2 * m) < n) ?
+                                                // Calculate either the binomial coefficient of (n, m) or (n, n - m).
+                                                // Mathematically, both should yield the same number, but the
+                                                // calculation is optimized for a smaller second argument.
+                                    CalculateBinomialCoefficient(n, m)
+                                                : CalculateBinomialCoefficient(n, n - m)));
   }
 
 
@@ -263,7 +247,7 @@ private:
     return (((maximumCityblockDistance == 0) || (ImageDimension == 0))
               ? 0
               : ((maximumCityblockDistance >= ImageDimension)
-                   ? (CalculatePowerOfThree(ImageDimension) - 1)
+                   ? (Math::UnsignedPower(3, ImageDimension) - 1)
                    : CalculateSumOfNumberOfHypercubesOnBoundaryOfCube(ImageDimension - 1,
                                                                       (ImageDimension - maximumCityblockDistance))));
   }

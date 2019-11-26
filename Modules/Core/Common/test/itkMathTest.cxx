@@ -22,6 +22,44 @@
 #include "itkTestingMacros.h"
 
 #include <iostream>
+#include <limits>
+#include <type_traits> // For is_same.
+
+constexpr auto maxUnsignedValue = std::numeric_limits<std::uintmax_t>::max();
+
+using itk::Math::UnsignedPower;
+using itk::Math::UnsignedProduct;
+
+static_assert((UnsignedPower(0, 1) == 0) && (UnsignedPower(0, 2) == 0) && (UnsignedPower(0, 3) == 0),
+              "Check powers of zero");
+static_assert((UnsignedPower(1, 0) == 1) && (UnsignedPower(1, 1) == 1) && (UnsignedPower(1, 2) == 1),
+              "Check powers of one");
+static_assert((UnsignedPower(2, 0) == 1) && (UnsignedPower(3, 0) == 1) && (UnsignedPower(maxUnsignedValue, 0) == 1),
+              "Check zero as exponent");
+static_assert((UnsignedPower(2, 1) == 2) && (UnsignedPower(3, 1) == 3) &&
+                (UnsignedPower(maxUnsignedValue, 1) == maxUnsignedValue),
+              "Check one as exponent");
+static_assert((UnsignedPower(2, 2) == 4) && (UnsignedPower(2, 3) == 8), "Check powers of two");
+static_assert((UnsignedPower(3, 2) == 9) && (UnsignedPower(3, 3) == 27), "Check powers of three");
+static_assert(UnsignedPower(2, std::numeric_limits<std::uintmax_t>::digits - 1) ==
+                (std::uintmax_t{ 1 } << (std::numeric_limits<std::uintmax_t>::digits - 1)),
+              "Check 2^63 (at least when uintmax_t is 64 bits)");
+
+static_assert(std::is_same<decltype(UnsignedPower(1, 1)), std::uintmax_t>::value,
+              "The return type of UnsignedPower should be uintmax_t by default.");
+static_assert(std::is_same<decltype(UnsignedPower<std::uint8_t>(1, 1)), std::uint8_t>::value &&
+                std::is_same<decltype(UnsignedPower<std::uint16_t>(1, 1)), std::uint16_t>::value &&
+                std::is_same<decltype(UnsignedPower<std::uint32_t>(1, 1)), std::uint32_t>::value,
+              "UnsignedPower allows specifying the return type by its template argument.");
+
+static_assert((UnsignedProduct(0, 0) == 0) && (UnsignedProduct(0, 1) == 0) && (UnsignedProduct(1, 0) == 0) &&
+                (UnsignedProduct(1, 1) == 1),
+              "Check all product combinations of zero and one");
+static_assert((UnsignedProduct(2, 3) == 6) && (UnsignedProduct(3, 2) == 6), "Check 2*3 and 3*2");
+static_assert((UnsignedProduct(1, maxUnsignedValue) == maxUnsignedValue) &&
+                (UnsignedProduct(maxUnsignedValue, 1) == maxUnsignedValue),
+              "Check products with the maximum unsigned value");
+
 
 template <typename T1, typename T2>
 inline int

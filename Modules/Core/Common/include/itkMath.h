@@ -762,6 +762,57 @@ GreatestPrimeFactor(unsigned long n);
 ITKCommon_EXPORT unsigned long long
 GreatestPrimeFactor(unsigned long long n);
 
+// C++11 does not guarantee that assert can be used in constexpr
+// functions. This is a work-around for GCC 4.8, 4.9. Originating
+// from Andrzej's C++ blog:
+//  https://akrzemi1.wordpress.com/2017/05/18/asserts-in-constexpr-functions/
+#if defined NDEBUG
+#  define ITK_X_ASSERT(CHECK) void(0)
+#else
+#  define ITK_X_ASSERT(CHECK) ((CHECK) ? void(0) : [] { assert(!#CHECK); }())
+#endif
+
+/**  Returns `a * b`. Numeric overflow triggers a compilation error in
+ * "constexpr context" and a debug assert failure at run-time.
+ */
+template <typename TReturnType = std::uintmax_t>
+constexpr TReturnType
+UnsignedProduct(const std::uintmax_t a, const std::uintmax_t b) ITK_NOEXCEPT
+{
+  static_assert(std::is_unsigned<TReturnType>::value, "UnsignedProduct only supports unsigned return types");
+
+  // Note that numeric overflow is not "undefined behavior", for unsigned numbers.
+  // This function checks if the result of a*b is mathematically correct.
+  return (a == 0) || (b == 0) ||
+             (((static_cast<TReturnType>(a * b) / a) == b) && ((static_cast<TReturnType>(a * b) / b) == a))
+           ? static_cast<TReturnType>(a * b)
+           : (ITK_X_ASSERT(!"UnsignedProduct overflow!"), 0);
+}
+
+
+/** Calculates base ^ exponent. Numeric overflow triggers a compilation error in
+ * "constexpr context" and a debug assert failure at run-time. Otherwise equivalent to
+ * C++11 `static_cast<std::uintmax_t>(std::pow(base, exponent))`
+ *
+ * \note `UnsignedPower(0, 0)` is not supported, as zero to the power of zero has
+ * no agreed-upon value: https://en.wikipedia.org/wiki/Zero_to_the_power_of_zero
+ */
+template <typename TReturnType = std::uintmax_t>
+constexpr TReturnType
+UnsignedPower(const std::uintmax_t base, const std::uintmax_t exponent) ITK_NOEXCEPT
+{
+  static_assert(std::is_unsigned<TReturnType>::value, "UnsignedPower only supports unsigned return types");
+
+  // Uses recursive function calls because C++11 does not support other ways of
+  // iterations for a constexpr function.
+  return (exponent == 0) ? (ITK_X_ASSERT(base > 0), 1)
+                         : (exponent == 1) ? base
+                                           : UnsignedProduct<TReturnType>(UnsignedPower(base, exponent / 2),
+                                                                          UnsignedPower(base, (exponent + 1) / 2));
+}
+
+#undef ITK_X_ASSERT
+
 
 /*==========================================
  * Alias the vnl_math functions in the itk::Math
