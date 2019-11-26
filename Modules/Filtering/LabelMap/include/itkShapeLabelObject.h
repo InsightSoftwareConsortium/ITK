@@ -20,6 +20,7 @@
 
 #include "itkLabelObject.h"
 #include "itkLabelMap.h"
+#include "itkMath.h"
 #include "itkAffineTransform.h"
 
 namespace itk
@@ -321,20 +322,6 @@ public:
 
   using VectorType = Vector<double, VImageDimension>;
 
-
-private:
-  template <size_t VX, unsigned short VY>
-  struct IntegerPow
-  {
-    static const size_t Result = VX * IntegerPow<VX, VY - 1>::Result;
-  };
-
-  template <size_t VX>
-  struct IntegerPow<VX, 0>
-  {
-    static constexpr size_t Result = 1;
-  };
-
 public:
   using OrientedBoundingBoxDirectionType = MatrixType;
 
@@ -343,7 +330,7 @@ public:
   using OrientedBoundingBoxSizeType = Vector<double, VImageDimension>;
 
   using OrientedBoundingBoxVerticesType =
-    FixedArray<OrientedBoundingBoxPointType, IntegerPow<2, ImageDimension>::Result>;
+    FixedArray<OrientedBoundingBoxPointType, Math::UnsignedPower<unsigned int>(2, ImageDimension)>;
 
 
   const RegionType &
