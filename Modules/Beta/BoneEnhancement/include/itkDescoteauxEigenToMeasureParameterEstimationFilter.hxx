@@ -83,13 +83,9 @@ DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
     return;
   }
 
-  /* Keep track of the current max */
-  RealType max = NumericTraits< RealType >::NonpositiveMin();
-
   /* Get input and mask pointer */
   InputImageConstPointer inputPointer = this->GetInput();
   MaskSpatialObjectTypeConstPointer maskPointer = this->GetMask();
-  typename InputImageType::PointType point;
 
   OutputImageType      *outputPtr = this->GetOutput(0);
   
@@ -100,34 +96,45 @@ DescoteauxEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
-  /* Setup iterator */
-  ImageRegionConstIteratorWithIndex< TInputImage > inputIt(inputPointer, inputRegionForThread);
-  ImageRegionIterator< OutputImageType > outputIt(outputPtr, outputRegionForThread);
+  MultiThreaderBase::Pointer mt = this->GetMultiThreader();
 
-  /* Iterate and count */
-  inputIt.GoToBegin();
-  outputIt.GoToBegin();
-  while ( !inputIt.IsAtEnd() )
-  {
-    // Process point
-    inputPointer->TransformIndexToPhysicalPoint(inputIt.GetIndex(), point);
-    if ( (!maskPointer) ||  (maskPointer->IsInsideInObjectSpace(point)) )
-    {
-      /* Compute max norm */
-      max = std::max( max, this->CalculateFrobeniusNorm(inputIt.Get()) );
-    }
+  mt->ParallelizeImageRegion<TInputImage::ImageDimension>(
+    outputRegionForThread,
+    [inputPointer, maskPointer, outputPtr, this](const OutputImageRegionType region) {
+      /* Keep track of the current max */
+      RealType max = NumericTraits<RealType>::NonpositiveMin();
 
-    // Set 
-    outputIt.Set( static_cast< OutputImagePixelType >( inputIt.Get() ) );
+      typename InputImageType::PointType point;
 
-    // Increment
-    ++inputIt;
-    ++outputIt;
-  }
+      /* Setup iterator */
+      ImageRegionConstIteratorWithIndex<TInputImage> inputIt(inputPointer, region);
+      ImageRegionIterator<OutputImageType>           outputIt(outputPtr, region);
 
-  /* Block and store */
-  std::lock_guard<std::mutex> mutexHolder(m_Mutex);
-  m_MaxFrobeniusNorm = std::max( m_MaxFrobeniusNorm, max );
+      /* Iterate and count */
+      while (!inputIt.IsAtEnd())
+      {
+        // Process point
+        inputPointer->TransformIndexToPhysicalPoint(inputIt.GetIndex(), point);
+        if ((!maskPointer) || (maskPointer->IsInsideInObjectSpace(point)))
+        {
+          /* Compute max norm */
+          max = std::max(max, this->CalculateFrobeniusNorm(inputIt.Get()));
+        }
+
+        // Set
+        outputIt.Set(static_cast<OutputImagePixelType>(inputIt.Get()));
+
+        // Increment
+        ++inputIt;
+        ++outputIt;
+      }
+
+
+      /* Block and store */
+      std::lock_guard<std::mutex> mutexHolder(m_Mutex);
+      m_MaxFrobeniusNorm = std::max(m_MaxFrobeniusNorm, max);
+    },
+    nullptr);
 }
 
 template< typename TInputImage, typename TOutputImage >
