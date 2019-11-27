@@ -117,14 +117,9 @@ KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::Dynamic
       break;
   }
 
-  /* Keep track of the current max */
-  RealType accum = NumericTraits<RealType>::ZeroValue();
-  RealType count = NumericTraits<RealType>::ZeroValue();
-
   /* Get input and mask pointer */
-  InputImageConstPointer             inputPointer = this->GetInput();
-  MaskSpatialObjectTypeConstPointer  maskPointer = this->GetMask();
-  typename InputImageType::PointType point;
+  InputImageConstPointer            inputPointer = this->GetInput();
+  MaskSpatialObjectTypeConstPointer maskPointer = this->GetMask();
 
   OutputImageType * outputPtr = this->GetOutput(0);
 
@@ -135,36 +130,47 @@ KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::Dynamic
 
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
-  /* Setup iterator */
-  ImageRegionConstIteratorWithIndex<TInputImage> inputIt(inputPointer, inputRegionForThread);
-  ImageRegionIterator<OutputImageType>           outputIt(outputPtr, outputRegionForThread);
+  MultiThreaderBase::Pointer mt = this->GetMultiThreader();
 
-  /* Iterate and count */
-  inputIt.GoToBegin();
-  outputIt.GoToBegin();
-  while (!inputIt.IsAtEnd())
-  {
-    // Process point
-    inputPointer->TransformIndexToPhysicalPoint(inputIt.GetIndex(), point);
-    if ((!maskPointer) || (maskPointer->IsInsideInObjectSpace(point)))
-    {
-      /* Compute trace */
-      count++;
-      accum += (this->*traceFunction)(inputIt.Get());
-    }
+  mt->ParallelizeImageRegion<TInputImage::ImageDimension>(
+    outputRegionForThread,
+    [inputPointer, maskPointer, outputPtr, this, traceFunction](const OutputImageRegionType region) {
+      /* Keep track of the current accumulation */
+      RealType accum = NumericTraits<RealType>::ZeroValue();
+      RealType count = NumericTraits<RealType>::ZeroValue();
 
-    // Set
-    outputIt.Set(static_cast<OutputImagePixelType>(inputIt.Get()));
+      typename InputImageType::PointType point;
 
-    // Increment
-    ++inputIt;
-    ++outputIt;
-  }
+      /* Setup iterator */
+      ImageRegionConstIteratorWithIndex<TInputImage> inputIt(inputPointer, region);
+      ImageRegionIterator<OutputImageType>           outputIt(outputPtr, region);
 
-  /* Block and store */
-  std::lock_guard<std::mutex> mutexHolder(m_Mutex);
-  m_ThreadCount += count;
-  m_ThreadAccumulatedTrace += accum;
+      /* Iterate and count */
+      while (!inputIt.IsAtEnd())
+      {
+        // Process point
+        inputPointer->TransformIndexToPhysicalPoint(inputIt.GetIndex(), point);
+        if ((!maskPointer) || (maskPointer->IsInsideInObjectSpace(point)))
+        {
+          /* Compute trace */
+          count++;
+          accum += (this->*traceFunction)(inputIt.Get());
+        }
+
+        // Set
+        outputIt.Set(static_cast<OutputImagePixelType>(inputIt.Get()));
+
+        // Increment
+        ++inputIt;
+        ++outputIt;
+      }
+
+      /* Block and store */
+      std::lock_guard<std::mutex> mutexHolder(m_Mutex);
+      m_ThreadCount += count;
+      m_ThreadAccumulatedTrace += accum;
+    },
+    nullptr);
 }
 
 template <typename TInputImage, typename TOutputImage>
