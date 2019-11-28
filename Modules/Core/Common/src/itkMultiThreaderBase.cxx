@@ -451,23 +451,23 @@ MultiThreaderBase ::SingleMethodProxy(void * arg)
   try
   {
     (*threadInfoStruct->ThreadFunction)(arg);
-    threadInfoStruct->ThreadExitCode = WorkUnitInfo::SUCCESS;
+    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeType::SUCCESS;
   }
   catch (ProcessAborted &)
   {
-    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ITK_PROCESS_ABORTED_EXCEPTION;
+    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeType::ITK_PROCESS_ABORTED_EXCEPTION;
   }
   catch (ExceptionObject &)
   {
-    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ITK_EXCEPTION;
+    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeType::ITK_EXCEPTION;
   }
   catch (std::exception &)
   {
-    threadInfoStruct->ThreadExitCode = WorkUnitInfo::STD_EXCEPTION;
+    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeType::STD_EXCEPTION;
   }
   catch (...)
   {
-    threadInfoStruct->ThreadExitCode = WorkUnitInfo::UNKNOWN;
+    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeType::UNKNOWN;
   }
 
   return ITK_THREAD_RETURN_DEFAULT_VALUE;

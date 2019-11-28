@@ -147,7 +147,7 @@ It can affect all MultiThreaderBase's derived classes in ITK");
 
   struct WorkUnitInfo : MultiThreaderBase::WorkUnitInfo
   {
-    int *                       ActiveFlag;
+    int *                       ActiveFlag = nullptr;
     std::shared_ptr<std::mutex> ActiveFlagLock;
   };
 
