@@ -446,19 +446,12 @@ template <typename TScalar>
 void
 HDF5ImageIO ::WriteVector(const std::string & path, const std::vector<TScalar> & vec)
 {
-  hsize_t dim(vec.size());
-  auto *  buf(new TScalar[dim]);
-  for (unsigned i = 0; i < dim; i++)
-  {
-    buf[i] = vec[i];
-  }
-
+  hsize_t       dim(vec.size());
   H5::DataSpace vecSpace(1, &dim);
   H5::PredType  vecType = GetType<TScalar>();
   H5::DataSet   vecSet = this->m_H5File->createDataSet(path, vecType, vecSpace);
-  vecSet.write(buf, vecType);
+  vecSet.write(vec.data(), vecType);
   vecSet.close();
-  delete[] buf;
 }
 
 template <typename TScalar>
@@ -477,14 +470,8 @@ HDF5ImageIO ::ReadVector(const std::string & DataSetName)
   }
   Space.getSimpleExtentDims(dim, nullptr);
   vec.resize(dim[0]);
-  auto *       buf = new TScalar[dim[0]];
   H5::PredType vecType = GetType<TScalar>();
-  vecSet.read(buf, vecType);
-  for (unsigned i = 0; i < dim[0]; i++)
-  {
-    vec[i] = buf[i];
-  }
-  delete[] buf;
+  vecSet.read(vec.data(), vecType);
   vecSet.close();
   return vec;
 }
@@ -495,8 +482,8 @@ HDF5ImageIO ::WriteDirections(const std::string & path, const std::vector<std::v
   hsize_t dim[2];
   dim[1] = dir.size();
   dim[0] = dir[0].size();
-  auto *   buf(new double[dim[0] * dim[1]]);
-  unsigned k(0);
+  const std::unique_ptr<double[]> buf(new double[dim[0] * dim[1]]);
+  unsigned                        k(0);
   for (unsigned i = 0; i < dim[1]; i++)
   {
     for (unsigned j = 0; j < dim[0]; j++)
@@ -508,9 +495,8 @@ HDF5ImageIO ::WriteDirections(const std::string & path, const std::vector<std::v
 
   H5::DataSpace dirSpace(2, dim);
   H5::DataSet   dirSet = this->m_H5File->createDataSet(path, H5::PredType::NATIVE_DOUBLE, dirSpace);
-  dirSet.write(buf, H5::PredType::NATIVE_DOUBLE);
+  dirSet.write(buf.get(), H5::PredType::NATIVE_DOUBLE);
   dirSet.close();
-  delete[] buf;
 }
 
 std::vector<std::vector<double>>
@@ -534,8 +520,8 @@ HDF5ImageIO ::ReadDirections(const std::string & path)
   H5::FloatType dirType = dirSet.getFloatType();
   if (dirType.getSize() == sizeof(double))
   {
-    auto * buf = new double[dim[0] * dim[1]];
-    dirSet.read(buf, H5::PredType::NATIVE_DOUBLE);
+    const std::unique_ptr<double[]> buf(new double[dim[0] * dim[1]]);
+    dirSet.read(buf.get(), H5::PredType::NATIVE_DOUBLE);
     int k = 0;
     for (unsigned i = 0; i < dim[1]; i++)
     {
@@ -545,12 +531,11 @@ HDF5ImageIO ::ReadDirections(const std::string & path)
         k++;
       }
     }
-    delete[] buf;
   }
   else
   {
-    auto * buf = new float[dim[0] * dim[1]];
-    dirSet.read(buf, H5::PredType::NATIVE_FLOAT);
+    const std::unique_ptr<float[]> buf(new float[dim[0] * dim[1]]);
+    dirSet.read(buf.get(), H5::PredType::NATIVE_FLOAT);
     int k = 0;
     for (unsigned i = 0; i < dim[1]; i++)
     {
@@ -560,7 +545,6 @@ HDF5ImageIO ::ReadDirections(const std::string & path)
         k++;
       }
     }
-    delete[] buf;
   }
   dirSet.close();
   return rval;
@@ -738,14 +722,15 @@ HDF5ImageIO ::ReadImageInformation()
     // if this isn't a scalar image, deduce the # of components
     // by comparing the size of the Directions matrix with the
     // reported # of dimensions in the voxel dataset
-    hsize_t nDims = imageSpace.getSimpleExtentNdims();
-    auto *  Dims = new hsize_t[nDims];
-    imageSpace.getSimpleExtentDims(Dims);
-    if (nDims > this->GetNumberOfDimensions())
     {
-      this->SetNumberOfComponents(Dims[nDims - 1]);
+      hsize_t                          nDims = imageSpace.getSimpleExtentNdims();
+      const std::unique_ptr<hsize_t[]> Dims(new hsize_t[nDims]);
+      imageSpace.getSimpleExtentDims(Dims.get());
+      if (nDims > this->GetNumberOfDimensions())
+      {
+        this->SetNumberOfComponents(Dims[nDims - 1]);
+      }
     }
-    delete[] Dims;
     //
     // read out metadata
     MetaDataDictionary & metaDict = this->GetMetaDataDictionary();
@@ -930,9 +915,9 @@ HDF5ImageIO ::SetupStreaming(H5::DataSpace * imageSpace, H5::DataSpace * slabSpa
 
   const int HDFDim(this->GetNumberOfDimensions() + (numComponents > 1 ? 1 : 0));
 
-  auto *    offset = new hsize_t[HDFDim];
-  auto *    HDFSize = new hsize_t[HDFDim];
-  const int limit = regionToRead.GetImageDimension();
+  const std::unique_ptr<hsize_t[]> offset(new hsize_t[HDFDim]);
+  const std::unique_ptr<hsize_t[]> HDFSize(new hsize_t[HDFDim]);
+  const int                        limit = regionToRead.GetImageDimension();
   //
   // fastest moving dimension is intra-voxel
   // index
@@ -957,10 +942,8 @@ HDF5ImageIO ::SetupStreaming(H5::DataSpace * imageSpace, H5::DataSpace * slabSpa
     ++i;
   }
 
-  slabSpace->setExtentSimple(HDFDim, HDFSize);
-  imageSpace->selectHyperslab(H5S_SELECT_SET, HDFSize, offset);
-  delete[] HDFSize;
-  delete[] offset;
+  slabSpace->setExtentSimple(HDFDim, HDFSize.get());
+  imageSpace->selectHyperslab(H5S_SELECT_SET, HDFSize.get(), offset.get());
 }
 
 void
@@ -1073,7 +1056,7 @@ HDF5ImageIO ::WriteImageInformation()
     int numDims = this->GetNumberOfDimensions();
     // HDF5 dimensions listed slowest moving first, ITK are fastest
     // moving first.
-    auto * dims = new hsize_t[numDims + (numComponents == 1 ? 0 : 1)];
+    std::unique_ptr<hsize_t[]> dims(new hsize_t[numDims + (numComponents == 1 ? 0 : 1)]);
 
     for (int i(0), j(numDims - 1); i < numDims; i++, j--)
     {
@@ -1084,7 +1067,7 @@ HDF5ImageIO ::WriteImageInformation()
       dims[numDims] = numComponents;
       numDims++;
     }
-    H5::DataSpace imageSpace(numDims, dims);
+    H5::DataSpace imageSpace(numDims, dims.get());
     H5::PredType  dataType = ComponentToPredType(this->GetComponentType());
 
     // set up properties for chunked, compressed writes.
@@ -1096,8 +1079,8 @@ HDF5ImageIO ::WriteImageInformation()
     plist.setDeflate(this->GetCompressionLevel());
 
     dims[0] = 1;
-    plist.setChunk(numDims, dims);
-    delete[] dims;
+    plist.setChunk(numDims, dims.get());
+    dims.reset();
 
     std::string VoxelDataName(ImageGroup);
     VoxelDataName += "/0";
@@ -1280,7 +1263,7 @@ HDF5ImageIO ::Write(const void * buffer)
     int numDims = this->GetNumberOfDimensions();
     // HDF5 dimensions listed slowest moving first, ITK are fastest
     // moving first.
-    auto * dims = new hsize_t[numDims + (numComponents == 1 ? 0 : 1)];
+    const std::unique_ptr<hsize_t[]> dims(new hsize_t[numDims + (numComponents == 1 ? 0 : 1)]);
 
     for (int i(0), j(numDims - 1); i < numDims; i++, j--)
     {
@@ -1291,12 +1274,11 @@ HDF5ImageIO ::Write(const void * buffer)
       dims[numDims] = numComponents;
       numDims++;
     }
-    H5::DataSpace imageSpace(numDims, dims);
+    H5::DataSpace imageSpace(numDims, dims.get());
     H5::PredType  dataType = ComponentToPredType(this->GetComponentType());
     H5::DataSpace dspace;
     this->SetupStreaming(&imageSpace, &dspace);
     this->m_VoxelDataSet->write(buffer, dataType, dspace, imageSpace);
-    delete[] dims;
   }
   // catch failure caused by the H5File operations
   catch (H5::FileIException & error)
