@@ -110,7 +110,7 @@ public:
 
   /** Currently supported types of multi-threader implementations.
    * Last will change with additional implementations. */
-  enum ThreaderType
+  enum class ThreaderType : int8_t
   {
     Platform = 0,
     First = Platform,
@@ -237,7 +237,7 @@ ITK_GCC_PRAGMA_DIAG_POP()
     ThreadIdType       NumberOfWorkUnits;
     void *             UserData;
     ThreadFunctionType ThreadFunction;
-    enum
+    enum class ThreadExitCodeType : uint8_t
     {
       SUCCESS,
       ITK_EXCEPTION,
@@ -245,6 +245,14 @@ ITK_GCC_PRAGMA_DIAG_POP()
       STD_EXCEPTION,
       UNKNOWN
     } ThreadExitCode;
+#if !defined(ITK_LEGACY_REMOVE)
+    static constexpr ThreadExitCodeType SUCCESS = ThreadExitCodeType::SUCCESS;
+    static constexpr ThreadExitCodeType ITK_EXCEPTION = ThreadExitCodeType::ITK_EXCEPTION;
+    static constexpr ThreadExitCodeType ITK_PROCESS_ABORTED_EXCEPTION =
+      ThreadExitCodeType::ITK_PROCESS_ABORTED_EXCEPTION;
+    static constexpr ThreadExitCodeType STD_EXCEPTION = ThreadExitCodeType::STD_EXCEPTION;
+    static constexpr ThreadExitCodeType UNKNOWN = ThreadExitCodeType::UNKNOWN;
+#endif
   };
 
   /** Execute the SingleMethod (as define by SetSingleMethod) using
