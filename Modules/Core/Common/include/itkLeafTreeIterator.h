@@ -134,6 +134,10 @@ const typename LeafTreeIterator<TTreeType>::ValueType &
 LeafTreeIterator<TTreeType>::Next()
 {
   this->m_Position = const_cast<TreeNodeType *>(FindNextNode());
+  if (this->m_Position == nullptr)
+  {
+    return this->m_Root->Get(); // value irrelevant, but we have to return something
+  }
   return this->m_Position->Get();
 }
 
