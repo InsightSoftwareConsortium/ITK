@@ -52,6 +52,40 @@ ReadWrite(const std::string & inputImage, const std::string & outputImage)
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
   return EXIT_SUCCESS;
 }
+
+template <unsigned Dimension>
+int
+internalMain(const std::string &       inputImage,
+             const std::string &       outputImage,
+             const std::string &       expectedPixelType,
+             itk::GDCMImageIO::Pointer gdcmImageIO)
+{
+  const unsigned int numberOfComponents = gdcmImageIO->GetNumberOfComponents();
+  using IOPixelType = itk::GDCMImageIO::IOPixelType;
+  IOPixelType pixelType = gdcmImageIO->GetPixelType();
+
+  switch (pixelType)
+  {
+    case IOPixelType::SCALAR:
+      ITK_TEST_EXPECT_EQUAL(numberOfComponents, 1);
+      ITK_TEST_EXPECT_EQUAL(gdcmImageIO->GetPixelTypeAsString(pixelType), expectedPixelType);
+      return ReadWrite<itk::Image<float, Dimension>>(inputImage, outputImage);
+
+    case IOPixelType::RGB:
+      ITK_TEST_EXPECT_EQUAL(numberOfComponents, 3);
+      ITK_TEST_EXPECT_EQUAL(gdcmImageIO->GetPixelTypeAsString(pixelType), expectedPixelType);
+      return ReadWrite<itk::Image<itk::RGBPixel<unsigned char>, Dimension>>(inputImage, outputImage);
+
+    case IOPixelType::VECTOR:
+      ITK_TEST_EXPECT_EQUAL(gdcmImageIO->GetPixelTypeAsString(pixelType), expectedPixelType);
+      return ReadWrite<itk::VectorImage<float, Dimension>>(inputImage, outputImage);
+
+    default:
+      std::cerr << "Test does not support pixel type of " << gdcmImageIO->GetPixelTypeAsString(pixelType) << std::endl;
+      return EXIT_FAILURE;
+  }
+}
+
 } // namespace
 
 int
@@ -74,28 +108,16 @@ itkGDCMImageReadWriteTest(int argc, char * argv[])
 
   std::cout << gdcmImageIO << std::endl;
 
-  const unsigned int numberOfComponents = gdcmImageIO->GetNumberOfComponents();
-  using IOPixelType = itk::GDCMImageIO::IOPixelType;
-  IOPixelType pixelType = gdcmImageIO->GetPixelType();
+  unsigned dimension = gdcmImageIO->GetNumberOfDimensions();
 
-  switch (pixelType)
+  switch (dimension)
   {
-    case IOPixelType::SCALAR:
-      ITK_TEST_EXPECT_EQUAL(numberOfComponents, 1);
-      ITK_TEST_EXPECT_EQUAL(gdcmImageIO->GetPixelTypeAsString(pixelType), expectedPixelType);
-      return ReadWrite<itk::Image<float, 2>>(inputImage, outputImage);
-
-    case IOPixelType::RGB:
-      ITK_TEST_EXPECT_EQUAL(numberOfComponents, 3);
-      ITK_TEST_EXPECT_EQUAL(gdcmImageIO->GetPixelTypeAsString(pixelType), expectedPixelType);
-      return ReadWrite<itk::Image<itk::RGBPixel<unsigned char>, 2>>(inputImage, outputImage);
-
-    case IOPixelType::VECTOR:
-      ITK_TEST_EXPECT_EQUAL(gdcmImageIO->GetPixelTypeAsString(pixelType), expectedPixelType);
-      return ReadWrite<itk::VectorImage<float, 2>>(inputImage, outputImage);
-
+    case 2:
+      return internalMain<2>(inputImage, outputImage, expectedPixelType, gdcmImageIO);
+    case 3:
+      return internalMain<3>(inputImage, outputImage, expectedPixelType, gdcmImageIO);
     default:
-      std::cerr << "Test does not support pixel type of " << gdcmImageIO->GetPixelTypeAsString(pixelType) << std::endl;
+      std::cerr << "Test only supports dimensions 2 and 3. Detected dimension " << dimension << std::endl;
       return EXIT_FAILURE;
   }
 }
