@@ -34,6 +34,9 @@ namespace itk
  * NeighborhoodOperator that should be applied to a Neighborhood using the
  * inner product.
  *
+ * \note BackwardDifferenceOperator does not have any user-declared "special member function",
+ * following the C++ Rule of Zero: the compiler will generate them if necessary.
+ *
  * \ingroup Operators
  * \ingroup ITKCommon
  *
@@ -45,17 +48,12 @@ template <typename TPixel, unsigned int TDimension = 2, typename TAllocator = Ne
 class ITK_TEMPLATE_EXPORT BackwardDifferenceOperator : public NeighborhoodOperator<TPixel, TDimension, TAllocator>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BackwardDifferenceOperator);
-
   /** Standard class type aliases. */
   using Self = BackwardDifferenceOperator;
   using Superclass = NeighborhoodOperator<TPixel, TDimension, TAllocator>;
 
   /** From Superclass */
   using PixelType = typename Superclass::PixelType;
-
-  /** Constructor. */
-  BackwardDifferenceOperator() = default;
 
 protected:
   /** Necessary to work around a compiler bug in VC++. */
