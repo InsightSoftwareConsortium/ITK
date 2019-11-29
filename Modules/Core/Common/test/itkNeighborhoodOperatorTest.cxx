@@ -47,6 +47,9 @@ static_assert(std::is_nothrow_move_assignable<itk::NeighborhoodOperator<int, 3>>
 
 static_assert(IsDefaultConstructibleCopyableNoThrowMovableAndDestructible<itk::AnnulusOperator<int>>(),
               "AnnulusOperator should be default-constructible, copyable, noexcept movable, and destructible.");
+static_assert(
+  IsDefaultConstructibleCopyableNoThrowMovableAndDestructible<itk::BackwardDifferenceOperator<int>>(),
+  "BackwardDifferenceOperator should be default-constructible, copyable, noexcept movable, and destructible.");
 static_assert(IsDefaultConstructibleCopyableNoThrowMovableAndDestructible<itk::DerivativeOperator<int>>(),
               "DerivativeOperator should be default-constructible, copyable, noexcept movable, and destructible.");
 static_assert(
