@@ -68,15 +68,15 @@ runGPUNeighborhoodOperatorImageFilterTest(const std::string & inFile, const std:
   oper.SetVariance(8.0);
   oper.CreateDirectional();
 
-  // test 1~8 threads for CPU
-  for (int nThreads = 1; nThreads <= 8; nThreads++)
+  // test 1~8 work units for CPU
+  for (int nWorkUnits = 1; nWorkUnits <= 8; nWorkUnits++)
   {
     typename NeighborhoodFilterType::Pointer CPUFilter = NeighborhoodFilterType::New();
 
     itk::TimeProbe cputimer;
     cputimer.Start();
 
-    CPUFilter->SetNumberOfWorkUnits(nThreads);
+    CPUFilter->SetNumberOfWorkUnits(nWorkUnits);
 
     CPUFilter->SetInput(reader->GetOutput());
     CPUFilter->SetOperator(oper);
@@ -85,12 +85,12 @@ runGPUNeighborhoodOperatorImageFilterTest(const std::string & inFile, const std:
     cputimer.Stop();
 
     std::cout << "CPU NeighborhoodFilter took " << cputimer.GetMean() << " seconds with "
-              << CPUFilter->GetNumberOfWorkUnits() << " threads.\n"
+              << CPUFilter->GetNumberOfWorkUnits() << " work units.\n"
               << std::endl;
 
     // -------
 
-    if (nThreads == 8)
+    if (nWorkUnits == 8)
     {
       typename GPUNeighborhoodFilterType::Pointer GPUFilter = GPUNeighborhoodFilterType::New();
 

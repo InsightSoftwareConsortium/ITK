@@ -324,8 +324,85 @@ GPUKernelManager::SetKernelArg(int kernelIdx, cl_uint argIdx, size_t argSize, co
   return true;
 }
 
+template <typename TArg>
 bool
-GPUKernelManager::SetKernelArgWithImage(int kernelIdx, cl_uint argIdx, GPUDataManager::Pointer manager)
+GPUKernelManager::SetTypedKernelArg(int kernelIdx, cl_uint argIdx, TArg argVal)
+{
+  return this->SetKernelArg(kernelIdx, argIdx, sizeof(TArg), &argVal);
+}
+
+bool
+GPUKernelManager::SetKernelArgWithChar(int kernelIdx, cl_uint argIdx, char argVal)
+{
+  return this->SetTypedKernelArg(kernelIdx, argIdx, argVal);
+}
+
+
+bool
+GPUKernelManager::SetKernelArgWithUChar(int kernelIdx, cl_uint argIdx, unsigned char argVal)
+{
+  return this->SetTypedKernelArg(kernelIdx, argIdx, argVal);
+}
+
+
+bool
+GPUKernelManager::SetKernelArgWithShort(int kernelIdx, cl_uint argIdx, short argVal)
+{
+  return this->SetTypedKernelArg(kernelIdx, argIdx, argVal);
+}
+
+
+bool
+GPUKernelManager::SetKernelArgWithUShort(int kernelIdx, cl_uint argIdx, unsigned short argVal)
+{
+  return this->SetTypedKernelArg(kernelIdx, argIdx, argVal);
+}
+
+
+bool
+GPUKernelManager::SetKernelArgWithInt(int kernelIdx, cl_uint argIdx, int argVal)
+{
+  return this->SetTypedKernelArg(kernelIdx, argIdx, argVal);
+}
+
+
+bool
+GPUKernelManager::SetKernelArgWithUInt(int kernelIdx, cl_uint argIdx, unsigned int argVal)
+{
+  return this->SetTypedKernelArg(kernelIdx, argIdx, argVal);
+}
+
+
+bool
+GPUKernelManager::SetKernelArgWithLongLong(int kernelIdx, cl_uint argIdx, long long argVal)
+{
+  return this->SetTypedKernelArg(kernelIdx, argIdx, argVal);
+}
+
+
+bool
+GPUKernelManager::SetKernelArgWithULongLong(int kernelIdx, cl_uint argIdx, unsigned long long argVal)
+{
+  return this->SetTypedKernelArg(kernelIdx, argIdx, argVal);
+}
+
+
+bool
+GPUKernelManager::SetKernelArgWithFloat(int kernelIdx, cl_uint argIdx, float argVal)
+{
+  return this->SetTypedKernelArg(kernelIdx, argIdx, argVal);
+}
+
+
+bool
+GPUKernelManager::SetKernelArgWithDouble(int kernelIdx, cl_uint argIdx, double argVal)
+{
+  return this->SetTypedKernelArg(kernelIdx, argIdx, argVal);
+}
+
+
+bool
+GPUKernelManager::SetKernelArgWithImage(int kernelIdx, cl_uint argIdx, GPUDataManager * manager)
 {
   if (kernelIdx < 0 || kernelIdx >= (int)m_KernelContainer.size())
     return false;

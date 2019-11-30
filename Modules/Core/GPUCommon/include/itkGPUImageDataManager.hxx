@@ -20,15 +20,14 @@
 
 #include "itkGPUImageDataManager.h"
 #include "itkOpenCLUtil.h"
-//#define VERBOSE
 
 namespace itk
 {
 template <typename ImageType>
 void
-GPUImageDataManager<ImageType>::SetImagePointer(typename ImageType::Pointer img)
+GPUImageDataManager<ImageType>::SetImagePointer(ImageType * img)
 {
-  m_Image = img.GetPointer();
+  m_Image = img;
 
   using RegionType = typename ImageType::RegionType;
   using IndexType = typename ImageType::IndexType;

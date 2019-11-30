@@ -1,0 +1,9 @@
+set(types "${WRAP_ITK_REAL}")
+
+itk_wrap_class("itk::SobelOperator")
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    foreach(t ${types})
+      itk_wrap_template("${ITKM_${t}}${d}" "${ITKT_${t}}, ${d}")
+    endforeach()
+  endforeach()
+itk_end_wrap_class()

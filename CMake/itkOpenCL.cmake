@@ -1,4 +1,4 @@
-if (ITK_USE_GPU)
+if(ITK_USE_GPU)
   find_package ( OpenCL REQUIRED )
   if ( NOT ${OPENCL_FOUND} )
      message ( FATAL "Could not find OpenCL" )
@@ -57,6 +57,4 @@ if (ITK_USE_GPU)
       write_gpu_kernel_to_file(${GPUKernel} ${FilterName} ${FilterName}Kernel "${FilterName}Kernel.cxx" ${GPU_SRC})
     endforeach()
   endmacro()
-
-
 endif()

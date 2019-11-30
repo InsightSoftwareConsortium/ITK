@@ -18,12 +18,12 @@ CreateTestDriver(ITKGPUImageFilterBase "${ITKGPUImageFilterBase-Test_LIBRARIES}"
 
 itk_add_test(NAME itkGPUNeighborhoodOperatorImageFilterTest2D
         COMMAND ITKGPUImageFilterBaseTestDriver itkGPUNeighborhoodOperatorImageFilterTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        DATA{Input/BrainProtonDensitySlice.png}
         ${ITK_TEST_OUTPUT_DIR}/gpuNeighborhoodOperatorImageFilterTest2D.mha 2)
 
 itk_add_test(NAME itkGPUNeighborhoodOperatorImageFilterTest3D
         COMMAND ITKGPUImageFilterBaseTestDriver itkGPUNeighborhoodOperatorImageFilterTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        DATA{Input/HeadMRVolume.mha}
         ${ITK_TEST_OUTPUT_DIR}/gpuNeighborhoodOperatorImageFilterTest3D.mha 3)
 
 endif()

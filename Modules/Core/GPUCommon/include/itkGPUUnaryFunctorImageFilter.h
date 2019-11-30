@@ -68,11 +68,13 @@ public:
   using OutputImageRegionType = typename OutputImageType::RegionType;
   using OutputImagePixelType = typename OutputImageType::PixelType;
 
+#if !defined(ITK_WRAPPING_PARSER)
   FunctorType &
   GetFunctor()
   {
     return m_Functor;
   }
+
   const FunctorType &
   GetFunctor() const
   {
@@ -89,6 +91,7 @@ public:
       this->Modified();
     }
   }
+#endif // !defined( ITK_WRAPPING_PARSER )
 
 protected:
   GPUUnaryFunctorImageFilter() {}

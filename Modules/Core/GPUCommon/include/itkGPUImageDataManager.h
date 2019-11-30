@@ -65,7 +65,8 @@ public:
   itkGetModifiableObjectMacro(GPUBufferedRegionSize, GPUDataManager);
 
   void
-  SetImagePointer(typename ImageType::Pointer img);
+  SetImagePointer(ImageType * img);
+
   ImageType *
   GetImagePointer()
   {

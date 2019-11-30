@@ -79,7 +79,37 @@ public:
   SetKernelArg(int kernelIdx, cl_uint argIdx, size_t argSize, const void * argVal);
 
   bool
-  SetKernelArgWithImage(int kernelIdx, cl_uint argIdx, GPUDataManager::Pointer manager);
+  SetKernelArgWithChar(int kernelIdx, cl_uint argIdx, char argVal);
+
+  bool
+  SetKernelArgWithUChar(int kernelIdx, cl_uint argIdx, unsigned char argVal);
+
+  bool
+  SetKernelArgWithShort(int kernelIdx, cl_uint argIdx, short argVal);
+
+  bool
+  SetKernelArgWithUShort(int kernelIdx, cl_uint argIdx, unsigned short argVal);
+
+  bool
+  SetKernelArgWithInt(int kernelIdx, cl_uint argIdx, int argVal);
+
+  bool
+  SetKernelArgWithUInt(int kernelIdx, cl_uint argIdx, unsigned int argVal);
+
+  bool
+  SetKernelArgWithLongLong(int kernelIdx, cl_uint argIdx, long long argVal);
+
+  bool
+  SetKernelArgWithULongLong(int kernelIdx, cl_uint argIdx, unsigned long long argVal);
+
+  bool
+  SetKernelArgWithFloat(int kernelIdx, cl_uint argIdx, float argVal);
+
+  bool
+  SetKernelArgWithDouble(int kernelIdx, cl_uint argIdx, double argVal);
+
+  bool
+  SetKernelArgWithImage(int kernelIdx, cl_uint argIdx, GPUDataManager * manager);
 
   /** Pass to GPU both the pixel buffer and the buffered region. */
   // template< typename TGPUImageDataManager >
@@ -174,6 +204,10 @@ private:
 
   std::vector<cl_kernel>                       m_KernelContainer;
   std::vector<std::vector<KernelArgumentList>> m_KernelArgumentReady;
+
+  template <typename TArg>
+  bool
+  SetTypedKernelArg(int kernelIdx, cl_uint argIdx, TArg argVal);
 };
 } // namespace itk
 
