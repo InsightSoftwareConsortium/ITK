@@ -55,6 +55,23 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
   convolutionFilter->NormalizeOn();
   convolutionFilter->SetKernelImage(kernelReader->GetOutput());
 
+  // Optionally write the convolution result
+  if (argc > 5)
+  {
+    try
+    {
+      WriterType::Pointer writer = WriterType::New();
+      writer->SetFileName(argv[5]);
+      writer->SetInput(convolutionFilter->GetOutput());
+      writer->Update();
+    }
+    catch (itk::ExceptionObject & e)
+    {
+      std::cerr << "Unexpected exception caught when writing convolution image: " << e << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
+
   // Test the deconvolution algorithm
   using DeconvolutionFilterType = itk::RichardsonLucyDeconvolutionImageFilter<ImageType>;
   DeconvolutionFilterType::Pointer deconvolutionFilter = DeconvolutionFilterType::New();
