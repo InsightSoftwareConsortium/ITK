@@ -94,7 +94,7 @@ public:
 
   /** Constructor. ImageIORegion is a lightweight object that is not reference
    * counted, so the constructor is public.  Default dimension is 2. */
-  ImageIORegion();
+  ImageIORegion() = default;
 
   /** Destructor. ImageIORegion is a lightweight object that is not reference
    * counted, so the destructor is public. */
@@ -102,12 +102,19 @@ public:
 
   /** Copy constructor. ImageIORegion is a lightweight object that is not
    * reference counted, so the copy constructor is public. */
-  ImageIORegion(const Self & region);
+  ImageIORegion(const Self & region) = default;
 
-  /** operator=. ImageIORegion is a lightweight object that is not reference
+  /** Move-constructor. Fast and non-throwing. */
+  ImageIORegion(Self &&) = default;
+
+  /** Copy-assignment operator. ImageIORegion is a lightweight object that is not reference
    * counted, so operator= is public. */
-  void
+  Self &
   operator=(const Self & region);
+
+  /** Move-assignment operator. Fast and non-throwing. */
+  Self &
+  operator=(Self &&) = default;
 
   /** Set the index defining the corner of the region. */
   void
@@ -175,9 +182,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  unsigned int m_ImageDimension;
-  IndexType    m_Index;
-  SizeType     m_Size;
+  unsigned int m_ImageDimension{ 2 };
+  IndexType    m_Index{ IndexType(2) };
+  SizeType     m_Size{ SizeType(2) };
 };
 
 

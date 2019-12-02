@@ -17,44 +17,41 @@
  *=========================================================================*/
 
 #include "itkImageIORegion.h"
+#include <algorithm> // For copy_n.
 
 namespace itk
 {
-ImageIORegion ::ImageIORegion()
-{
-  m_ImageDimension = 2;
-  m_Index.resize(2);
-  m_Size.resize(2);
-  std::fill(m_Index.begin(), m_Index.end(), 0);
-  std::fill(m_Size.begin(), m_Size.end(), 0);
-}
 
 ImageIORegion ::~ImageIORegion() = default;
 
 ImageIORegion ::ImageIORegion(unsigned int dimension)
-{
-  m_ImageDimension = dimension;
-  m_Index.resize(m_ImageDimension);
-  m_Size.resize(m_ImageDimension);
-  std::fill(m_Index.begin(), m_Index.end(), 0);
-  std::fill(m_Size.begin(), m_Size.end(), 0);
-}
+  : m_ImageDimension{ dimension }
+  , m_Index(dimension)
+  , m_Size(dimension)
+{}
 
-ImageIORegion ::ImageIORegion(const Self & region)
-  : Region()
-{
-  m_Index = region.m_Index;
-  m_Size = region.m_Size;
-  m_ImageDimension = region.m_ImageDimension;
-}
 
-void
+ImageIORegion &
 ImageIORegion ::operator=(const Self & region)
 {
-  m_Index = region.m_Index;
-  m_Size = region.m_Size;
-  m_ImageDimension = region.m_ImageDimension;
+  if ((region.m_Index.size() == m_Index.size()) && (region.m_Size.size() == m_Size.size()))
+  {
+    // Copy the values from 'region', but do not change the size of m_Index and m_Size.
+    std::copy_n(region.m_Index.cbegin(), m_Index.size(), m_Index.begin());
+    std::copy_n(region.m_Size.cbegin(), m_Size.size(), m_Size.begin());
+    m_ImageDimension = region.m_ImageDimension;
+  }
+  else
+  {
+    // Copy the region to 'temp' and then do a non-throwing move.
+    Self temp(region);
+    static_assert(noexcept(*this = std::move(temp)),
+                  "Move-assignment should be noexcept, to provide the strong exception guarantee for copy-assignment.");
+    *this = std::move(temp);
+  }
+  return *this;
 }
+
 
 std::ostream &
 operator<<(std::ostream & os, const ImageIORegion & region)
