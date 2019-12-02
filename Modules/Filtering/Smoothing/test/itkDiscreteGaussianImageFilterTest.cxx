@@ -20,6 +20,7 @@
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkNullImageToImageFilterDriver.hxx"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int
 itkDiscreteGaussianImageFilterTest(int, char *[])
@@ -45,6 +46,17 @@ itkDiscreteGaussianImageFilterTest(int, char *[])
 
     array.Fill(0.04);
     filter->SetMaximumError(array.GetDataPointer());
+
+    // Set the value ofthe standard deviation of the Gaussian used for smoothing
+    FilterType::SigmaArrayType::ValueType sigmaValue = 1.0;
+    FilterType::SigmaArrayType            sigma;
+    sigma.Fill(sigmaValue);
+
+    filter->SetSigma(sigmaValue);
+    ITK_TEST_SET_GET_VALUE(sigmaValue, filter->GetSigma());
+
+    filter->SetSigmaArray(sigma);
+    ITK_TEST_SET_GET_VALUE(sigma, filter->GetSigmaArray());
 
     // set some parameters
     filter->SetVariance(1.0);

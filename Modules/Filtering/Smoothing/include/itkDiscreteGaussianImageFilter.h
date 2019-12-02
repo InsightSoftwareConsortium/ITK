@@ -58,7 +58,7 @@ namespace itk
  * \endsphinx
  */
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT DiscreteGaussianImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
@@ -97,6 +97,8 @@ public:
 
   /** Typedef of double containers */
   using ArrayType = FixedArray<double, Self::ImageDimension>;
+  using SigmaArrayType = ArrayType;
+  using ScalarRealType = double;
 
   /** The variance for the discrete Gaussian kernel.  Sets the variance
    * independently for each dimension, but
@@ -164,6 +166,46 @@ public:
       dv[i] = v[i];
     }
     this->SetVariance(dv);
+  }
+
+  /** Set the standard deviation of the Gaussian used for smoothing.
+   * Sigma is measured in the units of image spacing. You may use the method
+   * SetSigma to set the same value across each axis or use the method
+   * SetSigmaArray if you need different values along each axis. */
+  void
+  SetSigmaArray(const ArrayType & sigmas)
+  {
+    ArrayType variance;
+    for (unsigned int i = 0; i < ImageDimension; i++)
+    {
+      variance[i] = sigmas[i] * sigmas[i];
+    }
+    this->SetVariance(variance);
+  }
+  void
+  SetSigma(double sigma)
+  {
+    this->SetVariance(sigma * sigma);
+  }
+
+  /** Get the Sigma value. */
+  ArrayType
+  GetSigmaArray() const
+  {
+    ArrayType sigmas;
+    for (unsigned int i = 0; i < ImageDimension; i++)
+    {
+      sigmas[i] = std::sqrt(m_Variance[i]);
+    }
+    return sigmas;
+  }
+
+  /** Get the Sigma scalar. If the Sigma is anisotropic, we will just
+   * return the Sigma along the first dimension. */
+  double
+  GetSigma() const
+  {
+    return std::sqrt(m_Variance[0]);
   }
 
   void
