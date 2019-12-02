@@ -200,12 +200,13 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
   {
     progressPerDimension = 0.67f / (static_cast<float>(ImageDimension) + 1);
   }
-  auto * progress = new ProgressReporter(this,
-                                         threadId,
-                                         NumberOfRows[m_CurrentDimension],
-                                         30,
-                                         0.33f + static_cast<float>(m_CurrentDimension * progressPerDimension),
-                                         progressPerDimension);
+  std::unique_ptr<ProgressReporter> progress(
+    new ProgressReporter(this,
+                         threadId,
+                         NumberOfRows[m_CurrentDimension],
+                         30,
+                         0.33f + static_cast<float>(m_CurrentDimension * progressPerDimension),
+                         progressPerDimension));
 
   // This variable provides the amount by which to divide the dimensionless index in order to get the index for each
   // dimension.
@@ -247,7 +248,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
     this->Voronoi(m_CurrentDimension, idx, outputImage);
     progress->CompletedPixel();
   }
-  delete progress;
+  progress.release();
 
   if (m_CurrentDimension == ImageDimension - 1 && !this->m_SquaredDistance)
   {
