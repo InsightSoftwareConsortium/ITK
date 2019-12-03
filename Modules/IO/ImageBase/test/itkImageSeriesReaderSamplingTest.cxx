@@ -58,6 +58,18 @@ itkImageSeriesReaderSamplingTest(int ac, char * av[])
       return EXIT_FAILURE;
     }
 
+    double globalSamplingDeviation = 0.0;
+    if (itk::ExposeMetaData<double>(
+          reader->GetOutput()->GetMetaDataDictionary(), "ITK_non_uniform_sampling_deviation", globalSamplingDeviation))
+    {
+      std::cout << "output ITK_non_uniform_sampling_deviation = " << globalSamplingDeviation << std::endl;
+    }
+    else
+    {
+      std::cout << "output ITK_non_uniform_sampling_deviation not found" << std::endl;
+      return EXIT_FAILURE;
+    }
+
     // iterate over all slices to detect offending slice
     for (auto d : *reader->GetMetaDataDictionaryArray())
     {

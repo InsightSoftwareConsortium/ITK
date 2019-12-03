@@ -298,6 +298,7 @@ ImageSeriesReader<TOutputImage>::GenerateData()
 
   typename TOutputImage::PointType   prevSliceOrigin = output->GetOrigin();
   typename TOutputImage::SpacingType outputSpacing = output->GetSpacing();
+  double                             maxSpacingDeviation = 0.0;
   bool                               prevSliceIsValid = false;
 
   for (int i = 0; i != numberOfFiles; ++i)
@@ -443,6 +444,13 @@ ImageSeriesReader<TOutputImage>::GenerateData()
                                     true); // set metadata for the series reader output
 
           needToUpdateMetaDataDictionaryArray = true;
+          if (Math::abs(outputSpacing[this->m_NumberOfDimensionsInImage] - dirNnorm) > maxSpacingDeviation)
+          {
+            maxSpacingDeviation = Math::abs(outputSpacing[this->m_NumberOfDimensionsInImage] - dirNnorm);
+            EncapsulateMetaData<double>(output->GetMetaDataDictionary(),
+                                        "ITK_non_uniform_sampling_deviation",
+                                        maxSpacingDeviation); // maximum deviation
+          }
         }
         prevSliceOrigin = sliceOrigin;
       }
