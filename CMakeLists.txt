@@ -257,7 +257,10 @@ set(ITK_MODULES_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
 #-----------------------------------------------------------------------------
 # Provide compatibility options.
 # During major release updates deprecated interface may be needed for backwards compatibility
-option(ITK_LEGACY_REMOVE "Remove current legacy code completely." OFF)
+cmake_dependent_option(ITK_LEGACY_REMOVE
+  "Remove current legacy code completely." ON
+  "ITK_WRAPPING" OFF)
+
 # During minor releases bugs may be identified that identify broken interface, or
 # useless interfaces that need to be retained to not break backwards compatibilty.
 # These ITK_FUTURE_LEGACY_REMOVE are another level of granularity for
