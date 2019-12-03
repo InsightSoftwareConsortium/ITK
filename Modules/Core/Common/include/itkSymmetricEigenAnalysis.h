@@ -163,7 +163,7 @@ class ITK_TEMPLATE_EXPORT SymmetricEigenAnalysis
 public:
   /** Enables reverse compatibility for enumeration values */
   using EigenValueOrderType = OrderType;
-#if !defined(ITK_LEGACY_REMOVE) || defined(ITK_WRAPPING) /* castxml 'enum class' workaround */
+#if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
   static constexpr EigenValueOrderType OrderByValue = EigenValueOrderType::OrderByValue;
@@ -727,7 +727,7 @@ class ITK_TEMPLATE_EXPORT SymmetricEigenAnalysisFixedDimension
 public:
   /** Enables reverse compatibility for enumeration values */
   using EigenValueOrderType = OrderType;
-#if !defined(ITK_LEGACY_REMOVE) || defined(ITK_WRAPPING) /* castxml 'enum class' workaround */
+#if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
   static constexpr EigenValueOrderType OrderByValue = EigenValueOrderType::OrderByValue;
