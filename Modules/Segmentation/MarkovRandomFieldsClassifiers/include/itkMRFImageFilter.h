@@ -295,7 +295,7 @@ public:
 
   /** Backwards compatibility for enumerations */
   using StopConditionType = MRFStopType;
-#if !defined(ITK_LEGACY_REMOVE) || defined(ITK_WRAPPING) /* castxml 'enum class' workaround */
+#if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
   static constexpr StopConditionType MaximumNumberOfIterations = StopConditionType::MaximumNumberOfIterations;

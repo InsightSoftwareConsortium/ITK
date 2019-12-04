@@ -72,7 +72,7 @@ public:
   using PriorityLevelType = typename SimpleLoggerType::PriorityLevelType;
   using DelayType = unsigned int;
 
-#if !defined(ITK_LEGACY_REMOVE) || defined(ITK_WRAPPING) /* castxml 'enum class' workaround */
+#if !defined(ITK_LEGACY_REMOVE)
   static constexpr LoggerThreadWrapperOperationType SET_PRIORITY_LEVEL =
     LoggerThreadWrapperOperationType::SET_PRIORITY_LEVEL;
   static constexpr LoggerThreadWrapperOperationType SET_LEVEL_FOR_FLUSHING =

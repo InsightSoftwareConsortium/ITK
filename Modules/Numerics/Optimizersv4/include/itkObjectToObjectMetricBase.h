@@ -114,7 +114,7 @@ public:
 
   /** Enables backwards compatibility for enum values */
   using GradientSourceType = SourceTypeOfGradient;
-#if !defined(ITK_LEGACY_REMOVE) || defined(ITK_WRAPPING) /* castxml 'enum class' workaround */
+#if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
   static constexpr GradientSourceType GRADIENT_SOURCE_FIXED = GradientSourceType::GRADIENT_SOURCE_FIXED;

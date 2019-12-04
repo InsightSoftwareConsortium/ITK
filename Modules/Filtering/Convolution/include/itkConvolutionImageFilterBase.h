@@ -95,7 +95,7 @@ public:
 
   /** Reverse compatibility for enumerations */
   using OutputRegionModeType = ConvolutionImageFilterOutputRegionType;
-#if !defined(ITK_LEGACY_REMOVE) || defined(ITK_WRAPPING) /* castxml 'enum class' workaround */
+#if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
   static constexpr OutputRegionModeType SAME = OutputRegionModeType::SAME;
