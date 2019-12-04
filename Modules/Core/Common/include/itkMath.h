@@ -805,10 +805,11 @@ UnsignedPower(const std::uintmax_t base, const std::uintmax_t exponent) ITK_NOEX
 
   // Uses recursive function calls because C++11 does not support other ways of
   // iterations for a constexpr function.
-  return (exponent == 0) ? (ITK_X_ASSERT(base > 0), 1)
-                         : (exponent == 1) ? base
-                                           : UnsignedProduct<TReturnType>(UnsignedPower(base, exponent / 2),
-                                                                          UnsignedPower(base, (exponent + 1) / 2));
+  return (exponent == 0)
+           ? (ITK_X_ASSERT(base > 0), 1)
+           : (exponent == 1) ? base
+                             : UnsignedProduct<TReturnType>(UnsignedPower<TReturnType>(base, exponent / 2),
+                                                            UnsignedPower<TReturnType>(base, (exponent + 1) / 2));
 }
 
 #undef ITK_X_ASSERT
