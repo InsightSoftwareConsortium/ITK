@@ -27,6 +27,11 @@ if(SKBUILD)
 ")
 endif()
 
+# Configure find_package behavior
+if(NOT DEFINED CMAKE_FIND_PACKAGE_NO_PACKAGE_REGISTRY)
+  set(CMAKE_FIND_PACKAGE_NO_PACKAGE_REGISTRY 1)
+endif()
+
 # Setup build locations.
 if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ITK_DIR}/bin)
