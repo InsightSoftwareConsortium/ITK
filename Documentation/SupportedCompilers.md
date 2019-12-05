@@ -12,6 +12,9 @@ ITK requires a compiler with C++11 support.
 # LLVM Clang
 * Clang 3.3 and later [should be supported](https://clang.llvm.org/cxx_status.html)
 
+# AppleClang
+* AppleClang 7.0.2 and later (from Xcode 7.2.1) [should be supported](https://en.wikipedia.org/wiki/Xcode#Version_history)
+
 # Intel C++ Compiler
 * Intel C++ 15.0.4 and later
 
