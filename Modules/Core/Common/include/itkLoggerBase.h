@@ -23,7 +23,7 @@
 #include "ITKCommonExport.h"
 #ifdef DEBUG
 #  undef DEBUG // HDF5 publicly exports this define when built in debug mode
-// That messes up the DEBUG enumeration in PriorityLevelType.
+// That messes up the DEBUG enumeration in PriorityLevelEnum.
 #endif
 
 namespace itk
@@ -52,12 +52,12 @@ public:
 
   using OutputType = MultipleLogOutput::OutputType;
 
-  /** \class PriorityLevelType
+  /** \class PriorityLevelEnum
    *  \ingroup ITKCommon
    * Definition of types of messages. These codes will be used to regulate
    * the level of detail of messages reported to the final outputs
    */
-  enum class PriorityLevelType : uint8_t
+  enum class PriorityLevelEnum : uint8_t
   {
     MUSTFLUSH = 0,
     FATAL,
@@ -70,13 +70,13 @@ public:
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr PriorityLevelType MUSTFLUSH = PriorityLevelType::MUSTFLUSH;
-  static constexpr PriorityLevelType FATAL = PriorityLevelType::FATAL;
-  static constexpr PriorityLevelType CRITICAL = PriorityLevelType::CRITICAL;
-  static constexpr PriorityLevelType WARNING = PriorityLevelType::WARNING;
-  static constexpr PriorityLevelType INFO = PriorityLevelType::INFO;
-  static constexpr PriorityLevelType DEBUG = PriorityLevelType::DEBUG;
-  static constexpr PriorityLevelType NOTSET = PriorityLevelType::NOTSET;
+  static constexpr PriorityLevelEnum MUSTFLUSH = PriorityLevelEnum::MUSTFLUSH;
+  static constexpr PriorityLevelEnum FATAL = PriorityLevelEnum::FATAL;
+  static constexpr PriorityLevelEnum CRITICAL = PriorityLevelEnum::CRITICAL;
+  static constexpr PriorityLevelEnum WARNING = PriorityLevelEnum::WARNING;
+  static constexpr PriorityLevelEnum INFO = PriorityLevelEnum::INFO;
+  static constexpr PriorityLevelEnum DEBUG = PriorityLevelEnum::DEBUG;
+  static constexpr PriorityLevelEnum NOTSET = PriorityLevelEnum::NOTSET;
 #endif
 
   itkSetStringMacro(Name);
@@ -114,13 +114,13 @@ public:
 
   /** Provides a default formatted log entry */
   virtual std::string
-  BuildFormattedEntry(PriorityLevelType level, std::string const & content);
+  BuildFormattedEntry(PriorityLevelEnum level, std::string const & content);
 
   /** Set the priority level for the current logger. Only messages that have
    * priorities equal or greater than the one set here will be posted to the
    * current outputs */
   virtual void
-  SetPriorityLevel(PriorityLevelType level)
+  SetPriorityLevel(PriorityLevelEnum level)
   {
     m_PriorityLevel = level;
   }
@@ -128,19 +128,19 @@ public:
   /** Get the priority level for the current logger. Only messages that have
    * priorities equal or greater than the one set here will be posted to the
    * current outputs */
-  virtual PriorityLevelType
+  virtual PriorityLevelEnum
   GetPriorityLevel() const
   {
     return m_PriorityLevel;
   }
 
   virtual void
-  SetLevelForFlushing(PriorityLevelType level)
+  SetLevelForFlushing(PriorityLevelEnum level)
   {
     m_LevelForFlushing = level;
   }
 
-  virtual PriorityLevelType
+  virtual PriorityLevelEnum
   GetLevelForFlushing() const
   {
     return m_LevelForFlushing;
@@ -151,43 +151,43 @@ public:
   AddLogOutput(OutputType * output);
 
   virtual void
-  Write(PriorityLevelType level, std::string const & content);
+  Write(PriorityLevelEnum level, std::string const & content);
 
   /** Helper methods */
   void
   Debug(std::string const & message)
   {
-    this->Write(LoggerBase::PriorityLevelType::DEBUG, message);
+    this->Write(LoggerBase::PriorityLevelEnum::DEBUG, message);
   }
 
   void
   Info(std::string const & message)
   {
-    this->Write(LoggerBase::PriorityLevelType::INFO, message);
+    this->Write(LoggerBase::PriorityLevelEnum::INFO, message);
   }
 
   void
   Warning(std::string const & message)
   {
-    this->Write(LoggerBase::PriorityLevelType::WARNING, message);
+    this->Write(LoggerBase::PriorityLevelEnum::WARNING, message);
   }
 
   void
   Critical(std::string const & message)
   {
-    this->Write(LoggerBase::PriorityLevelType::CRITICAL, message);
+    this->Write(LoggerBase::PriorityLevelEnum::CRITICAL, message);
   }
 
   void
   Error(std::string const & message)
   {
-    this->Write(LoggerBase::PriorityLevelType::CRITICAL, message);
+    this->Write(LoggerBase::PriorityLevelEnum::CRITICAL, message);
   }
 
   void
   Fatal(std::string const & message)
   {
-    this->Write(LoggerBase::PriorityLevelType::FATAL, message);
+    this->Write(LoggerBase::PriorityLevelEnum::FATAL, message);
   }
 
   virtual void
@@ -205,9 +205,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 protected:
-  PriorityLevelType m_PriorityLevel;
+  PriorityLevelEnum m_PriorityLevel;
 
-  PriorityLevelType m_LevelForFlushing;
+  PriorityLevelEnum m_LevelForFlushing;
 
   MultipleLogOutput::Pointer m_Output;
 
@@ -223,7 +223,7 @@ private:
 
 // Define how to print enumeration
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const LoggerBase::PriorityLevelType value);
+                        operator<<(std::ostream & out, const LoggerBase::PriorityLevelEnum value);
 } // namespace itk
 
 #endif // itkLoggerBase_h

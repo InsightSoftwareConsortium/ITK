@@ -118,7 +118,7 @@ public:
   using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
   /** Transform category type. */
-  using TransformCategoryType = typename Superclass::TransformCategoryType;
+  using TransformCategoryEnum = typename Superclass::TransformCategoryEnum;
 
   /** The number of parameters defining this transform. */
   using NumberOfParametersType = typename Superclass::NumberOfParametersType;
@@ -405,10 +405,10 @@ public:
   SetIdentity();
 
   /** This transform is not linear. */
-  TransformCategoryType
+  TransformCategoryEnum
   GetTransformCategory() const override
   {
-    return Self::TransformCategoryType::DisplacementField;
+    return Self::TransformCategoryEnum::DisplacementField;
   }
 
   NumberOfParametersType

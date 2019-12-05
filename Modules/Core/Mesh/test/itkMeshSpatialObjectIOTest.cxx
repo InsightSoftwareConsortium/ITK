@@ -55,7 +55,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
     mesh->SetPoint(i, PointType(testPointCoords[i]));
   }
 
-  mesh->SetCellsAllocationMethod(itk::MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell);
+  mesh->SetCellsAllocationMethod(itk::MeshClassCellsAllocationMethodEnum::CellsAllocatedDynamicallyCellByCell);
   CellAutoPointer testCell1;
   testCell1.TakeOwnership(new TetraCellType);
   testCell1->SetPointIds(tetraPoints);

@@ -95,7 +95,7 @@ public:
   using JacobianPositionType = typename Superclass::JacobianPositionType;
   using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
   /** Transform category type. */
-  using TransformCategoryType = typename Superclass::TransformCategoryType;
+  using TransformCategoryEnum = typename Superclass::TransformCategoryEnum;
 
   /* Types relative to the container transform. */
 
@@ -244,7 +244,7 @@ public:
 
   /** If all sub-transforms are of the same category, return that category.
    * Otherwise return UnknownTransformCategory. */
-  TransformCategoryType
+  TransformCategoryEnum
   GetTransformCategory() const override;
 
   /** Get/Set Parameter functions work on all sub-transforms.

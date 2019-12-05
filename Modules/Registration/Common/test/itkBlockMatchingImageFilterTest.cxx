@@ -166,7 +166,7 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
   using RGBFilterType = itk::ScalarToRGBColormapImageFilter<InputImageType, OutputImageType>;
   RGBFilterType::Pointer colormapImageFilter = RGBFilterType::New();
 
-  colormapImageFilter->SetColormap(itk::RGBColormapFilterEnumType::Grey);
+  colormapImageFilter->SetColormap(itk::RGBColormapFilterEnum::Grey);
   colormapImageFilter->SetInput(reader->GetOutput());
   try
   {

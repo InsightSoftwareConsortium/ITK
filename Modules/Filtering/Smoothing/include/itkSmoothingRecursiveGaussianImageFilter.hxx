@@ -36,7 +36,7 @@ SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SmoothingRecur
   // indicate that the running in-place in the 3rd dimension the
   // performance actually declines compared to not in-place methods.
   m_FirstSmoothingFilter = FirstGaussianFilterType::New();
-  m_FirstSmoothingFilter->SetOrder(EnumGaussianOrderType::ZeroOrder);
+  m_FirstSmoothingFilter->SetOrder(GaussianOrderEnum::ZeroOrder);
   m_FirstSmoothingFilter->SetDirection(ImageDimension - 1);
   m_FirstSmoothingFilter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
   m_FirstSmoothingFilter->ReleaseDataFlagOn();
@@ -45,7 +45,7 @@ SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SmoothingRecur
   for (unsigned int i = 0; i < ImageDimension - 1; i++)
   {
     m_SmoothingFilters[i] = InternalGaussianFilterType::New();
-    m_SmoothingFilters[i]->SetOrder(EnumGaussianOrderType::ZeroOrder);
+    m_SmoothingFilters[i]->SetOrder(GaussianOrderEnum::ZeroOrder);
     m_SmoothingFilters[i]->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
     m_SmoothingFilters[i]->SetDirection(i);
     m_SmoothingFilters[i]->ReleaseDataFlagOn();

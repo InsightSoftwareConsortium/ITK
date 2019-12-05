@@ -58,11 +58,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(SPSAOptimizer, SingleValuedNonLinearOptimizer);
 
-  /** \class StopConditionType
+  /** \class StopConditionEnum
    *
    * \ingroup ITKOptimizers
    * Codes of stopping conditions */
-  enum class StopConditionType : uint8_t
+  enum class StopConditionEnum : uint8_t
   {
     Unknown,
     MaximumNumberOfIterations,
@@ -72,10 +72,10 @@ public:
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr StopConditionType Unknown = StopConditionType::Unknown;
-  static constexpr StopConditionType MaximumNumberOfIterations = StopConditionType::MaximumNumberOfIterations;
-  static constexpr StopConditionType BelowTolerance = StopConditionType::BelowTolerance;
-  static constexpr StopConditionType MetricError = StopConditionType::MetricError;
+  static constexpr StopConditionEnum Unknown = StopConditionEnum::Unknown;
+  static constexpr StopConditionEnum MaximumNumberOfIterations = StopConditionEnum::MaximumNumberOfIterations;
+  static constexpr StopConditionEnum BelowTolerance = StopConditionEnum::BelowTolerance;
+  static constexpr StopConditionEnum MetricError = StopConditionEnum::MetricError;
 #endif
   /** Advance one step following the gradient direction. */
   virtual void
@@ -123,7 +123,7 @@ public:
   itkGetConstMacro(CurrentIteration, SizeValueType);
 
   /** Get Stop condition. */
-  itkGetConstMacro(StopCondition, StopConditionType);
+  itkGetConstMacro(StopCondition, StopConditionEnum);
 
   /** Get the current LearningRate (a_k) */
   itkGetConstMacro(LearningRate, double);
@@ -259,7 +259,7 @@ protected:
 
   bool m_Stop{ false };
 
-  StopConditionType m_StopCondition;
+  StopConditionEnum m_StopCondition;
 
   double m_StateOfConvergence;
 
@@ -310,7 +310,7 @@ private:
 
 // Define how to print enumeration
 extern ITKOptimizers_EXPORT std::ostream &
-                            operator<<(std::ostream & out, const SPSAOptimizer::StopConditionType value);
+                            operator<<(std::ostream & out, const SPSAOptimizer::StopConditionEnum value);
 
 } // end namespace itk
 

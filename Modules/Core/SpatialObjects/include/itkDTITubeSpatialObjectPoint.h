@@ -24,11 +24,11 @@
 
 namespace itk
 {
-/** \class DTITubeSpatialObjectPointFieldEnumType
+/** \class DTITubeSpatialObjectPointFieldEnum
  * \ingroup ITKSpatialObjects
  * If you add a type here you need to modify the TranslateEnumToChar
  to translate the enum to a string */
-enum class DTITubeSpatialObjectPointFieldEnumType : uint8_t
+enum class DTITubeSpatialObjectPointFieldEnum : uint8_t
 {
   FA = 0,
   ADC = 1,
@@ -57,7 +57,7 @@ public:
   using FieldListType = std::vector<FieldType>;
 
   /** Enables backwards compatibility for enum values */
-  using FieldEnumType = DTITubeSpatialObjectPointFieldEnumType;
+  using FieldEnumType = DTITubeSpatialObjectPointFieldEnum;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
@@ -149,7 +149,7 @@ protected:
 
 /** Define how to print enumerations */
 extern ITKSpatialObjects_EXPORT std::ostream &
-                                operator<<(std::ostream & out, const DTITubeSpatialObjectPointFieldEnumType value);
+                                operator<<(std::ostream & out, const DTITubeSpatialObjectPointFieldEnum value);
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

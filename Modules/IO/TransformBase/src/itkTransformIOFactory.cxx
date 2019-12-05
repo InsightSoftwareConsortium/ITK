@@ -30,7 +30,7 @@ TransformIOFactoryTemplate<TParametersValueType>::~TransformIOFactoryTemplate() 
 template <typename TParametersValueType>
 typename TransformIOBaseTemplate<TParametersValueType>::Pointer
 TransformIOFactoryTemplate<TParametersValueType>::CreateTransformIO(const char *                   path,
-                                                                    TransformIOFactoryFileModeType mode)
+                                                                    TransformIOFactoryFileModeEnum mode)
 {
   typename std::list<typename TransformIOBaseTemplate<TParametersValueType>::Pointer> possibleTransformIO;
   for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkTransformIOBaseTemplate"))
@@ -43,14 +43,14 @@ TransformIOFactoryTemplate<TParametersValueType>::CreateTransformIO(const char *
   }
   for (auto k = possibleTransformIO.begin(); k != possibleTransformIO.end(); ++k)
   {
-    if (mode == TransformIOFactoryFileModeType::ReadMode)
+    if (mode == TransformIOFactoryFileModeEnum::ReadMode)
     {
       if ((*k)->CanReadFile(path))
       {
         return *k;
       }
     }
-    else if (mode == TransformIOFactoryFileModeType::WriteMode)
+    else if (mode == TransformIOFactoryFileModeEnum::WriteMode)
     {
       if ((*k)->CanWriteFile(path))
       {
@@ -63,17 +63,17 @@ TransformIOFactoryTemplate<TParametersValueType>::CreateTransformIO(const char *
 
 /** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const TransformIOFactoryFileModeType value)
+operator<<(std::ostream & out, const TransformIOFactoryFileModeEnum value)
 {
   return out << [value] {
     switch (value)
     {
-      case TransformIOFactoryFileModeType::ReadMode:
-        return "TransformIOFactoryFileModeType::ReadMode";
-      case TransformIOFactoryFileModeType::WriteMode:
-        return "TransformIOFactoryFileModeType::WriteMode";
+      case TransformIOFactoryFileModeEnum::ReadMode:
+        return "TransformIOFactoryFileModeEnum::ReadMode";
+      case TransformIOFactoryFileModeEnum::WriteMode:
+        return "TransformIOFactoryFileModeEnum::WriteMode";
       default:
-        return "INVALID VALUE FOR TransformIOFactoryFileModeType";
+        return "INVALID VALUE FOR TransformIOFactoryFileModeEnum";
     }
   }();
 }

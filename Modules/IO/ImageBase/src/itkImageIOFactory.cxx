@@ -30,7 +30,7 @@ std::mutex createImageIOLock;
 }
 
 ImageIOBase::Pointer
-ImageIOFactory::CreateImageIO(const char * path, FileModeType mode)
+ImageIOFactory::CreateImageIO(const char * path, FileModeEnum mode)
 {
   std::list<ImageIOBase::Pointer> possibleImageIO;
 
@@ -50,14 +50,14 @@ ImageIOFactory::CreateImageIO(const char * path, FileModeType mode)
   }
   for (auto & k : possibleImageIO)
   {
-    if (mode == FileModeType::ReadMode)
+    if (mode == FileModeEnum::ReadMode)
     {
       if (k->CanReadFile(path))
       {
         return k;
       }
     }
-    else if (mode == FileModeType::WriteMode)
+    else if (mode == FileModeEnum::WriteMode)
     {
       if (k->CanWriteFile(path))
       {
@@ -70,17 +70,17 @@ ImageIOFactory::CreateImageIO(const char * path, FileModeType mode)
 
 /** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const ImageIOFactory::FileModeType value)
+operator<<(std::ostream & out, const ImageIOFactory::FileModeEnum value)
 {
   return out << [value] {
     switch (value)
     {
-      case ImageIOFactory::FileModeType::ReadMode:
-        return "ImageIOFactory::FileModeType::ReadMode";
-      case ImageIOFactory::FileModeType::WriteMode:
-        return "ImageIOFactory::FileModeType::WriteMode";
+      case ImageIOFactory::FileModeEnum::ReadMode:
+        return "ImageIOFactory::FileModeEnum::ReadMode";
+      case ImageIOFactory::FileModeEnum::WriteMode:
+        return "ImageIOFactory::FileModeEnum::WriteMode";
       default:
-        return "INVALID VALUE FOR ImageIOFactory::FileModeType";
+        return "INVALID VALUE FOR ImageIOFactory::FileModeEnum";
     }
   }();
 }

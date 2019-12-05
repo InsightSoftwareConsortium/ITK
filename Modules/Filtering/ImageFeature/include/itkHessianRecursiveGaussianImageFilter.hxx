@@ -38,7 +38,7 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::HessianRecursive
   for (unsigned int i = 0; i < numberOfSmoothingFilters; i++)
   {
     GaussianFilterPointer filter = GaussianFilterType::New();
-    filter->SetOrder(EnumGaussianOrderType::ZeroOrder);
+    filter->SetOrder(GaussianOrderEnum::ZeroOrder);
     filter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
     filter->InPlaceOn();
     filter->ReleaseDataFlagOn();
@@ -48,10 +48,10 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::HessianRecursive
   m_DerivativeFilterA = DerivativeFilterAType::New();
   m_DerivativeFilterB = DerivativeFilterBType::New();
 
-  m_DerivativeFilterA->SetOrder(EnumGaussianOrderType::FirstOrder);
+  m_DerivativeFilterA->SetOrder(GaussianOrderEnum::FirstOrder);
   m_DerivativeFilterA->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
 
-  m_DerivativeFilterB->SetOrder(EnumGaussianOrderType::FirstOrder);
+  m_DerivativeFilterB->SetOrder(GaussianOrderEnum::FirstOrder);
   m_DerivativeFilterB->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
 
   m_DerivativeFilterA->SetInput(this->GetInput());
@@ -223,8 +223,8 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
       // to smooth one of the other directions.
       if (dimb == dima)
       {
-        m_DerivativeFilterA->SetOrder(EnumGaussianOrderType::SecondOrder);
-        m_DerivativeFilterB->SetOrder(EnumGaussianOrderType::ZeroOrder);
+        m_DerivativeFilterA->SetOrder(GaussianOrderEnum::SecondOrder);
+        m_DerivativeFilterB->SetOrder(GaussianOrderEnum::ZeroOrder);
 
         // only need the output of m_DerivativeFilterA once
         m_DerivativeFilterB->InPlaceOn();
@@ -262,8 +262,8 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
       }
       else
       {
-        m_DerivativeFilterA->SetOrder(EnumGaussianOrderType::FirstOrder);
-        m_DerivativeFilterB->SetOrder(EnumGaussianOrderType::FirstOrder);
+        m_DerivativeFilterA->SetOrder(GaussianOrderEnum::FirstOrder);
+        m_DerivativeFilterB->SetOrder(GaussianOrderEnum::FirstOrder);
 
         if (dimb < ImageDimension - 1)
         {

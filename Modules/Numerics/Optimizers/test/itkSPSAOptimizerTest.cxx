@@ -191,11 +191,11 @@ itkSPSAOptimizerTest(int, char *[])
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
       pass = false;
   }
-  if (itkOptimizer->GetStopCondition() == itk::SPSAOptimizer::StopConditionType::Unknown)
+  if (itkOptimizer->GetStopCondition() == itk::SPSAOptimizer::StopConditionEnum::Unknown)
   {
     pass = false;
   }
-  if (itkOptimizer->GetStopCondition() == itk::SPSAOptimizer::StopConditionType::MetricError)
+  if (itkOptimizer->GetStopCondition() == itk::SPSAOptimizer::StopConditionEnum::MetricError)
   {
     pass = false;
   }

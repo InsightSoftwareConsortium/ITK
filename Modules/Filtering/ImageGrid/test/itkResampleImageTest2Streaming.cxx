@@ -51,10 +51,10 @@ public:
   itkTypeMacro(NonlinearAffineTransform, AffineTransform);
 
   /** Override this so not linear. See test below. */
-  typename itk::TransformBaseTemplate<TCoordRepType>::TransformCategoryType
+  typename itk::TransformBaseTemplate<TCoordRepType>::TransformCategoryEnum
   GetTransformCategory() const override
   {
-    return itk::TransformBaseTemplate<TCoordRepType>::TransformCategoryType::UnknownTransformCategory;
+    return itk::TransformBaseTemplate<TCoordRepType>::TransformCategoryEnum::UnknownTransformCategory;
   }
 };
 } // namespace

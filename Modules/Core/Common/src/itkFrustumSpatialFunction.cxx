@@ -20,14 +20,14 @@
 namespace itk
 {
 std::ostream &
-operator<<(std::ostream & out, const RotationPlaneType value)
+operator<<(std::ostream & out, const RotationPlaneEnum value)
 {
   return out << [value] {
     switch (value)
     {
-      case RotationPlaneType::RotateInXZPlane:
+      case RotationPlaneEnum::RotateInXZPlane:
         return "FrustumSpatialFunction< VDimension, TInput >::FrustumRotationPlaneType::RotateInXZPlane";
-      case RotationPlaneType::RotateInYZPlane:
+      case RotationPlaneEnum::RotateInYZPlane:
         return "FrustumSpatialFunction< VDimension, TInput >::FrustumRotationPlaneType::RotateInYZPlane";
       default:
         return "INVALID VALUE FOR RotationPlaneType";

@@ -66,7 +66,7 @@ itkSimplexMeshTest(int, char *[])
   /**
    * Specify the method used for allocating cells
    */
-  simplexMesh->SetCellsAllocationMethod(itk::MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell);
+  simplexMesh->SetCellsAllocationMethod(itk::MeshClassCellsAllocationMethodEnum::CellsAllocatedDynamicallyCellByCell);
 
 
   /**

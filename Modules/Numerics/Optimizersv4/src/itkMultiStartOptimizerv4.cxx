@@ -21,25 +21,25 @@ namespace itk
 {
 /**Define how to print enumerations. */
 std::ostream &
-operator<<(std::ostream & out, const StopType value)
+operator<<(std::ostream & out, const StopEnum value)
 {
   return out << [value] {
     switch (value)
     {
-      case StopType::MAXIMUM_NUMBER_OF_ITERATIONS:
-        return "StopType::MAXIMUM_NUMBER_OF_ITERATIONS";
-      case StopType::COSTFUNCTION_ERROR:
-        return "StopType::COSTFUNCTION_ERROR";
-      case StopType::UPDATE_PARAMETERS_ERROR:
-        return "StopType::UPDATE_PARAMETERS_ERROR";
-      case StopType::STEP_TOO_SMALL:
-        return "StopType::STEP_TOO_SMALL";
-      case StopType::CONVERGENCE_CHECKER_PASSED:
-        return "StopType::CONVERGENCE_CHECKER_PASSED";
-      case StopType::OTHER_ERROR:
-        return "StopType::OTHER_ERROR";
+      case StopEnum::MAXIMUM_NUMBER_OF_ITERATIONS:
+        return "StopEnum::MAXIMUM_NUMBER_OF_ITERATIONS";
+      case StopEnum::COSTFUNCTION_ERROR:
+        return "StopEnum::COSTFUNCTION_ERROR";
+      case StopEnum::UPDATE_PARAMETERS_ERROR:
+        return "StopEnum::UPDATE_PARAMETERS_ERROR";
+      case StopEnum::STEP_TOO_SMALL:
+        return "StopEnum::STEP_TOO_SMALL";
+      case StopEnum::CONVERGENCE_CHECKER_PASSED:
+        return "StopEnum::CONVERGENCE_CHECKER_PASSED";
+      case StopEnum::OTHER_ERROR:
+        return "StopEnum::OTHER_ERROR";
       default:
-        return "INVALID VALUE FOR StopType";
+        return "INVALID VALUE FOR StopEnum";
     }
   }();
 }

@@ -33,14 +33,14 @@ CompositeTransform<TParametersValueType, NDimensions>::CompositeTransform()
 }
 
 template <typename TParametersValueType, unsigned int NDimensions>
-typename CompositeTransform<TParametersValueType, NDimensions>::TransformCategoryType
+typename CompositeTransform<TParametersValueType, NDimensions>::TransformCategoryEnum
 CompositeTransform<TParametersValueType, NDimensions>::GetTransformCategory() const
 {
   // Check if linear
   bool isLinearTransform = this->IsLinear();
   if (isLinearTransform)
   {
-    return Self::TransformCategoryType::Linear;
+    return Self::TransformCategoryEnum::Linear;
   }
 
   // Check if displacement field
@@ -48,7 +48,7 @@ CompositeTransform<TParametersValueType, NDimensions>::GetTransformCategory() co
   for (signed long tind = static_cast<signed long>(this->GetNumberOfTransforms()) - 1; tind >= 0; tind--)
   {
     if (this->GetNthTransformToOptimize(tind) && (this->GetNthTransformConstPointer(tind)->GetTransformCategory() !=
-                                                  Self::TransformCategoryType::DisplacementField))
+                                                  Self::TransformCategoryEnum::DisplacementField))
     {
       isDisplacementFieldTransform = false;
       break;
@@ -57,11 +57,11 @@ CompositeTransform<TParametersValueType, NDimensions>::GetTransformCategory() co
 
   if (isDisplacementFieldTransform)
   {
-    return Self::TransformCategoryType::DisplacementField;
+    return Self::TransformCategoryEnum::DisplacementField;
   }
   else
   {
-    return Self::TransformCategoryType::UnknownTransformCategory;
+    return Self::TransformCategoryEnum::UnknownTransformCategory;
   }
 }
 

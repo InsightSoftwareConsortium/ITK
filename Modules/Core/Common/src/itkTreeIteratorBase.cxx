@@ -21,29 +21,29 @@ namespace itk
 {
 /** Print enumerations */
 std::ostream &
-operator<<(std::ostream & out, const TreeIteratorBaseNodeType value)
+operator<<(std::ostream & out, const TreeIteratorBaseNodeEnum value)
 {
   return out << [value] {
     switch (value)
     {
-      case TreeIteratorBaseNodeType::UNDEFIND:
-        return "TreeIteratorBaseNodeType::UNDEFIND";
-      case TreeIteratorBaseNodeType::PREORDER:
-        return "TreeIteratorBaseNodeType::PREORDER";
-      case TreeIteratorBaseNodeType::INORDER:
-        return "TreeIteratorBaseNodeType::INORDER";
-      case TreeIteratorBaseNodeType::POSTORDER:
-        return "TreeIteratorBaseNodeType::POSTORDER";
-      case TreeIteratorBaseNodeType::LEVELORDER:
-        return "TreeIteratorBaseNodeType::LEVELORDER";
-      case TreeIteratorBaseNodeType::CHILD:
-        return "TreeIteratorBaseNodeType::CHILD";
-      case TreeIteratorBaseNodeType::ROOT:
-        return "TreeIteratorBaseNodeType::ROOT";
-      case TreeIteratorBaseNodeType::LEAF:
-        return "TreeIteratorBaseNodeType::LEAF";
+      case TreeIteratorBaseNodeEnum::UNDEFIND:
+        return "TreeIteratorBaseNodeEnum::UNDEFIND";
+      case TreeIteratorBaseNodeEnum::PREORDER:
+        return "TreeIteratorBaseNodeEnum::PREORDER";
+      case TreeIteratorBaseNodeEnum::INORDER:
+        return "TreeIteratorBaseNodeEnum::INORDER";
+      case TreeIteratorBaseNodeEnum::POSTORDER:
+        return "TreeIteratorBaseNodeEnum::POSTORDER";
+      case TreeIteratorBaseNodeEnum::LEVELORDER:
+        return "TreeIteratorBaseNodeEnum::LEVELORDER";
+      case TreeIteratorBaseNodeEnum::CHILD:
+        return "TreeIteratorBaseNodeEnum::CHILD";
+      case TreeIteratorBaseNodeEnum::ROOT:
+        return "TreeIteratorBaseNodeEnum::ROOT";
+      case TreeIteratorBaseNodeEnum::LEAF:
+        return "TreeIteratorBaseNodeEnum::LEAF";
       default:
-        return "INVALID VALUE FOR TreeIteratorBaseNodeType";
+        return "INVALID VALUE FOR TreeIteratorBaseNodeEnum";
     }
   }();
 }

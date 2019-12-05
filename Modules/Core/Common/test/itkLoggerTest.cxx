@@ -48,8 +48,8 @@ itkLoggerTest(int argc, char * argv[])
 
     // Setting the logger
     logger->SetName("org.itk.rootLogger");
-    logger->SetPriorityLevel(itk::LoggerBase::PriorityLevelType::INFO);
-    logger->SetLevelForFlushing(itk::LoggerBase::PriorityLevelType::CRITICAL);
+    logger->SetPriorityLevel(itk::LoggerBase::PriorityLevelEnum::INFO);
+    logger->SetLevelForFlushing(itk::LoggerBase::PriorityLevelEnum::CRITICAL);
 
     std::cout << "  Adding console and file stream LogOutputs" << std::endl;
     logger->AddLogOutput(coutput);
@@ -71,12 +71,12 @@ itkLoggerTest(int argc, char * argv[])
 
     // Writing by the logger
     std::cout << "  Writing by itk::Logger" << std::endl;
-    logger->Write(itk::LoggerBase::PriorityLevelType::DEBUG, "This is the DEBUG message.\n");
-    logger->Write(itk::LoggerBase::PriorityLevelType::INFO, "This is the INFO message.\n");
-    logger->Write(itk::LoggerBase::PriorityLevelType::WARNING, "This is the WARNING message.\n");
-    logger->Write(itk::LoggerBase::PriorityLevelType::CRITICAL, "This is the CRITICAL message.\n");
-    logger->Write(itk::LoggerBase::PriorityLevelType::FATAL, "This is the FATAL message.\n");
-    logger->Write(itk::LoggerBase::PriorityLevelType::MUSTFLUSH, "This is the MUSTFLUSH message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::DEBUG, "This is the DEBUG message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::INFO, "This is the INFO message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::WARNING, "This is the WARNING message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::CRITICAL, "This is the CRITICAL message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::FATAL, "This is the FATAL message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::MUSTFLUSH, "This is the MUSTFLUSH message.\n");
     logger->Flush();
 
     itk::LoggerBase::TimeStampFormatType timeStampFormat = itk::LoggerBase::HUMANREADABLE;
@@ -90,12 +90,12 @@ itkLoggerTest(int argc, char * argv[])
 
 
     std::cout << "  Writing by itk::Logger in Human Readable format" << std::endl;
-    logger->Write(itk::LoggerBase::PriorityLevelType::DEBUG, "This is the DEBUG message.\n");
-    logger->Write(itk::LoggerBase::PriorityLevelType::INFO, "This is the INFO message.\n");
-    logger->Write(itk::LoggerBase::PriorityLevelType::WARNING, "This is the WARNING message.\n");
-    logger->Write(itk::LoggerBase::PriorityLevelType::CRITICAL, "This is the CRITICAL message.\n");
-    logger->Write(itk::LoggerBase::PriorityLevelType::FATAL, "This is the FATAL message.\n");
-    logger->Write(itk::LoggerBase::PriorityLevelType::MUSTFLUSH, "This is the MUSTFLUSH message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::DEBUG, "This is the DEBUG message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::INFO, "This is the INFO message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::WARNING, "This is the WARNING message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::CRITICAL, "This is the CRITICAL message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::FATAL, "This is the FATAL message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::MUSTFLUSH, "This is the MUSTFLUSH message.\n");
     logger->Flush();
 
 
@@ -109,12 +109,12 @@ itkLoggerTest(int argc, char * argv[])
     }
 
     std::cout << "  Writing by itk::Logger in Human Readable style with new format" << std::endl;
-    logger->Write(itk::LoggerBase::PriorityLevelType::DEBUG, "This is the DEBUG message.\n");
-    logger->Write(itk::LoggerBase::PriorityLevelType::INFO, "This is the INFO message.\n");
-    logger->Write(itk::LoggerBase::PriorityLevelType::WARNING, "This is the WARNING message.\n");
-    logger->Write(itk::LoggerBase::PriorityLevelType::CRITICAL, "This is the CRITICAL message.\n");
-    logger->Write(itk::LoggerBase::PriorityLevelType::FATAL, "This is the FATAL message.\n");
-    logger->Write(itk::LoggerBase::PriorityLevelType::MUSTFLUSH, "This is the MUSTFLUSH message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::DEBUG, "This is the DEBUG message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::INFO, "This is the INFO message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::WARNING, "This is the WARNING message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::CRITICAL, "This is the CRITICAL message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::FATAL, "This is the FATAL message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::MUSTFLUSH, "This is the MUSTFLUSH message.\n");
     logger->Flush();
   }
   catch (...)

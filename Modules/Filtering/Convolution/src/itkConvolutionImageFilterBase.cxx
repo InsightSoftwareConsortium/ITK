@@ -21,17 +21,17 @@ namespace itk
 {
 /** Define how to print enumerations */
 std::ostream &
-operator<<(std::ostream & out, const ConvolutionImageFilterOutputRegionType value)
+operator<<(std::ostream & out, const ConvolutionImageFilterOutputRegionEnum value)
 {
   return out << [value] {
     switch (value)
     {
-      case ConvolutionImageFilterOutputRegionType::SAME:
-        return "ConvolutionImageFilterOutputRegionType::SAME";
-      case ConvolutionImageFilterOutputRegionType::VALID:
-        return "ConvolutionImageFilterOutputRegionType::VALID";
+      case ConvolutionImageFilterOutputRegionEnum::SAME:
+        return "ConvolutionImageFilterOutputRegionEnum::SAME";
+      case ConvolutionImageFilterOutputRegionEnum::VALID:
+        return "ConvolutionImageFilterOutputRegionEnum::VALID";
       default:
-        return "INVALID VALUE FOR ConvolutionImageFilterOutputRegionType";
+        return "INVALID VALUE FOR ConvolutionImageFilterOutputRegionEnum";
     }
   }();
 }

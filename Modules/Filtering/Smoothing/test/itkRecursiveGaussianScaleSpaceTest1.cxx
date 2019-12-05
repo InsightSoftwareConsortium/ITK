@@ -79,10 +79,10 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
   switch (order)
   {
     case 1:
-      filter->SetOrder(itk::EnumGaussianOrderType::FirstOrder);
+      filter->SetOrder(itk::GaussianOrderEnum::FirstOrder);
       break;
     case 2:
-      filter->SetOrder(itk::EnumGaussianOrderType::SecondOrder);
+      filter->SetOrder(itk::GaussianOrderEnum::SecondOrder);
       break;
     default:
       std::cerr << " only support order 1 and 2" << std::endl;

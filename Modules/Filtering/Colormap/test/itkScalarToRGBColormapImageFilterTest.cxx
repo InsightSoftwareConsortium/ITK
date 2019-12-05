@@ -69,73 +69,73 @@ itkScalarToRGBColormapImageFilterTest(int argc, char * argv[])
 
   if (colormapString == "red")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnumType::Red);
-    vfilter->SetColormap(itk::RGBColormapFilterEnumType::Red);
+    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Red);
+    vfilter->SetColormap(itk::RGBColormapFilterEnum::Red);
   }
   else if (colormapString == "green")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnumType::Green);
-    vfilter->SetColormap(itk::RGBColormapFilterEnumType::Green);
+    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Green);
+    vfilter->SetColormap(itk::RGBColormapFilterEnum::Green);
   }
   else if (colormapString == "blue")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnumType::Blue);
-    vfilter->SetColormap(itk::RGBColormapFilterEnumType::Blue);
+    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Blue);
+    vfilter->SetColormap(itk::RGBColormapFilterEnum::Blue);
   }
   else if (colormapString == "grey")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnumType::Grey);
-    vfilter->SetColormap(itk::RGBColormapFilterEnumType::Grey);
+    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Grey);
+    vfilter->SetColormap(itk::RGBColormapFilterEnum::Grey);
   }
   else if (colormapString == "cool")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnumType::Cool);
-    vfilter->SetColormap(itk::RGBColormapFilterEnumType::Cool);
+    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Cool);
+    vfilter->SetColormap(itk::RGBColormapFilterEnum::Cool);
   }
   else if (colormapString == "hot")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnumType::Hot);
-    vfilter->SetColormap(itk::RGBColormapFilterEnumType::Hot);
+    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Hot);
+    vfilter->SetColormap(itk::RGBColormapFilterEnum::Hot);
   }
   else if (colormapString == "spring")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnumType::Spring);
-    vfilter->SetColormap(itk::RGBColormapFilterEnumType::Spring);
+    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Spring);
+    vfilter->SetColormap(itk::RGBColormapFilterEnum::Spring);
   }
   else if (colormapString == "autumn")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnumType::Autumn);
-    vfilter->SetColormap(itk::RGBColormapFilterEnumType::Autumn);
+    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Autumn);
+    vfilter->SetColormap(itk::RGBColormapFilterEnum::Autumn);
   }
   else if (colormapString == "winter")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnumType::Winter);
-    vfilter->SetColormap(itk::RGBColormapFilterEnumType::Winter);
+    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Winter);
+    vfilter->SetColormap(itk::RGBColormapFilterEnum::Winter);
   }
   else if (colormapString == "copper")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnumType::Copper);
-    vfilter->SetColormap(itk::RGBColormapFilterEnumType::Copper);
+    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Copper);
+    vfilter->SetColormap(itk::RGBColormapFilterEnum::Copper);
   }
   else if (colormapString == "summer")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnumType::Summer);
-    vfilter->SetColormap(itk::RGBColormapFilterEnumType::Summer);
+    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Summer);
+    vfilter->SetColormap(itk::RGBColormapFilterEnum::Summer);
   }
   else if (colormapString == "jet")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnumType::Jet);
-    vfilter->SetColormap(itk::RGBColormapFilterEnumType::Jet);
+    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Jet);
+    vfilter->SetColormap(itk::RGBColormapFilterEnum::Jet);
   }
   else if (colormapString == "hsv")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnumType::HSV);
-    vfilter->SetColormap(itk::RGBColormapFilterEnumType::HSV);
+    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::HSV);
+    vfilter->SetColormap(itk::RGBColormapFilterEnum::HSV);
   }
   else if (colormapString == "overunder")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnumType::OverUnder);
-    vfilter->SetColormap(itk::RGBColormapFilterEnumType::OverUnder);
+    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::OverUnder);
+    vfilter->SetColormap(itk::RGBColormapFilterEnum::OverUnder);
   }
   else if (colormapString == "custom")
   {

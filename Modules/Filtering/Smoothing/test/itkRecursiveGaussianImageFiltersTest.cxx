@@ -116,7 +116,7 @@ itkRecursiveGaussianImageFiltersTest(int, char *[])
     // Connect the input images
     filter->SetInput(inputImage);
     filter->SetDirection(2); // apply along Z
-    filter->SetOrder(itk::EnumGaussianOrderType::ZeroOrder);
+    filter->SetOrder(itk::GaussianOrderEnum::ZeroOrder);
 
 
     // Execute the filter
@@ -132,7 +132,7 @@ itkRecursiveGaussianImageFiltersTest(int, char *[])
     // Connect the input images
     filter1->SetInput(inputImage);
     filter1->SetDirection(2); // apply along Z
-    filter1->SetOrder(itk::EnumGaussianOrderType::FirstOrder);
+    filter1->SetOrder(itk::GaussianOrderEnum::FirstOrder);
 
 
     // Execute the filter1
@@ -146,7 +146,7 @@ itkRecursiveGaussianImageFiltersTest(int, char *[])
     // Connect the input images
     filter2->SetInput(inputImage);
     filter2->SetDirection(2); // apply along Z
-    filter2->SetOrder(itk::EnumGaussianOrderType::SecondOrder);
+    filter2->SetOrder(itk::GaussianOrderEnum::SecondOrder);
 
     // Execute the filter2
     std::cout << "Executing Second Derivative filter...";
@@ -475,8 +475,8 @@ itkRecursiveGaussianImageFiltersTest(int, char *[])
     filter->SetSigma(1);
 
     // coverage for set/get methods
-    filter->SetOrder(itk::EnumGaussianOrderType::ZeroOrder);
-    if (itk::EnumGaussianOrderType::ZeroOrder != filter->GetOrder())
+    filter->SetOrder(itk::GaussianOrderEnum::ZeroOrder);
+    if (itk::GaussianOrderEnum::ZeroOrder != filter->GetOrder())
     {
       std::cerr << "SetOrder/GetOrder failure!" << std::endl;
       return EXIT_FAILURE;

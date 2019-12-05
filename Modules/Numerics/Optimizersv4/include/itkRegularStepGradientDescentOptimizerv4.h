@@ -73,7 +73,7 @@ public:
   using IndexRangeType = typename Superclass::IndexRangeType;
   using ScalesType = typename Superclass::ScalesType;
   using ParametersType = typename Superclass::ParametersType;
-  using StopConditionType = typename Superclass::StopConditionType;
+  using StopConditionEnum = typename Superclass::StopConditionEnum;
 
   /** Compensated summation type. */
   using CompensatedSummationType = CompensatedSummation<InternalComputationValueType>;

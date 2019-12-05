@@ -21,41 +21,41 @@ namespace itk
 {
 /** Define how to print enumerations */
 std::ostream &
-operator<<(std::ostream & out, const RGBColormapFilterEnumType value)
+operator<<(std::ostream & out, const RGBColormapFilterEnum value)
 {
   return out << [value] {
     switch (value)
     {
-      case RGBColormapFilterEnumType::Red:
-        return "RGBColormapFilterEnumType::Red";
-      case RGBColormapFilterEnumType::Green:
-        return "RGBColormapFilterEnumType::Green";
-      case RGBColormapFilterEnumType::Blue:
-        return "RGBColormapFilterEnumType::Blue";
-      case RGBColormapFilterEnumType::Grey:
-        return "RGBColormapFilterEnumType::Grey";
-      case RGBColormapFilterEnumType::Hot:
-        return "RGBColormapFilterEnumType::Hot";
-      case RGBColormapFilterEnumType::Cool:
-        return "RGBColormapFilterEnumType::Cool";
-      case RGBColormapFilterEnumType::Spring:
-        return "RGBColormapFilterEnumType";
-      case RGBColormapFilterEnumType::Summer:
-        return "RGBColormapFilterEnumType::Summer";
-      case RGBColormapFilterEnumType::Autumn:
-        return "RGBColormapFilterEnumType::Autumn";
-      case RGBColormapFilterEnumType::Winter:
-        return "RGBColormapFilterEnumType::Winter";
-      case RGBColormapFilterEnumType::Copper:
-        return "RGBColormapFilterEnumType::Copper";
-      case RGBColormapFilterEnumType::Jet:
-        return "RGBColormapFilterEnumType::Jet";
-      case RGBColormapFilterEnumType::HSV:
-        return "RGBColormapFilterEnumType::HSV";
-      case RGBColormapFilterEnumType::OverUnder:
-        return "RGBColormapFilterEnumType::OverUnder";
+      case RGBColormapFilterEnum::Red:
+        return "RGBColormapFilterEnum::Red";
+      case RGBColormapFilterEnum::Green:
+        return "RGBColormapFilterEnum::Green";
+      case RGBColormapFilterEnum::Blue:
+        return "RGBColormapFilterEnum::Blue";
+      case RGBColormapFilterEnum::Grey:
+        return "RGBColormapFilterEnum::Grey";
+      case RGBColormapFilterEnum::Hot:
+        return "RGBColormapFilterEnum::Hot";
+      case RGBColormapFilterEnum::Cool:
+        return "RGBColormapFilterEnum::Cool";
+      case RGBColormapFilterEnum::Spring:
+        return "RGBColormapFilterEnum";
+      case RGBColormapFilterEnum::Summer:
+        return "RGBColormapFilterEnum::Summer";
+      case RGBColormapFilterEnum::Autumn:
+        return "RGBColormapFilterEnum::Autumn";
+      case RGBColormapFilterEnum::Winter:
+        return "RGBColormapFilterEnum::Winter";
+      case RGBColormapFilterEnum::Copper:
+        return "RGBColormapFilterEnum::Copper";
+      case RGBColormapFilterEnum::Jet:
+        return "RGBColormapFilterEnum::Jet";
+      case RGBColormapFilterEnum::HSV:
+        return "RGBColormapFilterEnum::HSV";
+      case RGBColormapFilterEnum::OverUnder:
+        return "RGBColormapFilterEnum::OverUnder";
       default:
-        return "INVALID VALUE FOR RGBColormapFilterEnumType";
+        return "INVALID VALUE FOR RGBColormapFilterEnum";
     }
   }();
 }

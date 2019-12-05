@@ -449,21 +449,21 @@ public:
   std::string
   GetTransformTypeAsString() const override;
 
-  using TransformCategoryType = typename Superclass::TransformCategoryType;
+  using TransformCategoryEnum = typename Superclass::TransformCategoryEnum;
 
   /** Indicates the category transform.
    *  e.g. an affine transform, or a local one, e.g. a deformation field.
    */
-  TransformCategoryType
+  TransformCategoryEnum
   GetTransformCategory() const override
   {
-    return Superclass::TransformCategoryType::UnknownTransformCategory;
+    return Superclass::TransformCategoryEnum::UnknownTransformCategory;
   }
 
   virtual bool
   IsLinear() const
   {
-    return (this->GetTransformCategory() == Superclass::TransformCategoryType::Linear);
+    return (this->GetTransformCategory() == Superclass::TransformCategoryEnum::Linear);
   }
 
   /**

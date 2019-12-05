@@ -53,37 +53,37 @@ public:
   itkNewMacro(Self);
 
   std::string
-  BuildFormattedEntry(PriorityLevelType level, std::string const & content) override
+  BuildFormattedEntry(PriorityLevelEnum level, std::string const & content) override
   {
     std::string HeaderLevelStart("");
     std::string HeaderLevelStop("");
     switch (level)
     {
-      case PriorityLevelType::MUSTFLUSH:
+      case PriorityLevelEnum::MUSTFLUSH:
         HeaderLevelStart = ("<H1>");
         HeaderLevelStop = ("</H1>");
         break;
-      case PriorityLevelType::FATAL:
+      case PriorityLevelEnum::FATAL:
         HeaderLevelStart = ("<H2>");
         HeaderLevelStop = ("</H2>");
         break;
-      case PriorityLevelType::CRITICAL:
+      case PriorityLevelEnum::CRITICAL:
         HeaderLevelStart = ("<H3>");
         HeaderLevelStop = ("</H3>");
         break;
-      case PriorityLevelType::WARNING:
+      case PriorityLevelEnum::WARNING:
         HeaderLevelStart = ("<H4>");
         HeaderLevelStop = ("</H4>");
         break;
-      case PriorityLevelType::INFO:
+      case PriorityLevelEnum::INFO:
         HeaderLevelStart = ("<H5>");
         HeaderLevelStop = ("</H5>");
         break;
-      case PriorityLevelType::DEBUG:
+      case PriorityLevelEnum::DEBUG:
         HeaderLevelStart = ("<H6>");
         HeaderLevelStop = ("</H6>");
         break;
-      case PriorityLevelType::NOTSET:
+      case PriorityLevelEnum::NOTSET:
         HeaderLevelStart = ("<H7>");
         HeaderLevelStop = ("</H7>");
         break;
@@ -119,11 +119,11 @@ ThreadedGenerateLogMessages2(void * arg)
       {
         std::ostringstream msg;
         msg << threadPrefix << "unpacked arg\n";
-        threadData.logger->Write(itk::LoggerBase::PriorityLevelType::INFO, msg.str());
+        threadData.logger->Write(itk::LoggerBase::PriorityLevelEnum::INFO, msg.str());
         threadData.logger->Flush();
         msg.str("");
         msg << threadPrefix << "Done logging\n";
-        threadData.logger->Write(itk::LoggerBase::PriorityLevelType::INFO, msg.str());
+        threadData.logger->Write(itk::LoggerBase::PriorityLevelEnum::INFO, msg.str());
         // std::cout << msg.str() << std::endl;
       }
       // do stuff
@@ -186,8 +186,8 @@ itkLoggerThreadWrapperTest(int argc, char * argv[])
 
     // Setting the logger
     logger->SetName("org.itk.threadLogger");
-    logger->SetPriorityLevel(itk::LoggerBase::PriorityLevelType::INFO);
-    logger->SetLevelForFlushing(itk::LoggerBase::PriorityLevelType::CRITICAL);
+    logger->SetPriorityLevel(itk::LoggerBase::PriorityLevelEnum::INFO);
+    logger->SetLevelForFlushing(itk::LoggerBase::PriorityLevelEnum::CRITICAL);
 
     // Exercising PrintSelf()
     logger->Print(std::cout);
@@ -215,14 +215,14 @@ itkLoggerThreadWrapperTest(int argc, char * argv[])
     std::cout << "  But the logged messages will be in order." << std::endl;
     std::cout << "  Each line is an atom for synchronization." << std::endl;
     // Writing by the logger
-    logger->Write(itk::LoggerBase::PriorityLevelType::DEBUG, "This is the DEBUG message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::DEBUG, "This is the DEBUG message.\n");
     std::cout << "  Message #1" << std::endl;
-    logger->Write(itk::LoggerBase::PriorityLevelType::INFO, "This is the INFO message.\n");
-    logger->Write(itk::LoggerBase::PriorityLevelType::WARNING, "This is the WARNING message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::INFO, "This is the INFO message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::WARNING, "This is the WARNING message.\n");
     std::cout << "  Message #2" << std::endl;
-    logger->Write(itk::LoggerBase::PriorityLevelType::CRITICAL, "This is the CRITICAL message.\n");
-    logger->Write(itk::LoggerBase::PriorityLevelType::FATAL, "This is the FATAL message.\n");
-    logger->Write(itk::LoggerBase::PriorityLevelType::MUSTFLUSH, "This is the MUSTFLUSH message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::CRITICAL, "This is the CRITICAL message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::FATAL, "This is the FATAL message.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::MUSTFLUSH, "This is the MUSTFLUSH message.\n");
     std::cout << "  Message #3" << std::endl;
     logger->Flush();
     std::cout << "  Flushing by the ThreadLogger is synchronized." << std::endl;
@@ -239,7 +239,7 @@ itkLoggerThreadWrapperTest(int argc, char * argv[])
 
     std::cout << "Testing SetDelay method" << std::endl;
     logger->SetDelay(1);
-    logger->Write(itk::LoggerBase::PriorityLevelType::DEBUG, "DEBUG message to tests SetDelay.\n");
+    logger->Write(itk::LoggerBase::PriorityLevelEnum::DEBUG, "DEBUG message to tests SetDelay.\n");
     logger->Flush();
     std::cout << "Ended multi-threaded portion of test." << std::endl;
 
@@ -254,28 +254,28 @@ itkLoggerThreadWrapperTest(int argc, char * argv[])
     std::cout << "Testing itk::LoggerThreadWrapper" << std::endl;
 
     logger2->SetName("org.itk.threadLogger");
-    logger2->SetPriorityLevel(itk::LoggerBase::PriorityLevelType::INFO);
-    logger2->SetLevelForFlushing(itk::LoggerBase::PriorityLevelType::CRITICAL);
+    logger2->SetPriorityLevel(itk::LoggerBase::PriorityLevelEnum::INFO);
+    logger2->SetLevelForFlushing(itk::LoggerBase::PriorityLevelEnum::CRITICAL);
 
     logger2->AddLogOutput(coutput2);
 
     logger2->SetDelay(10);
 
-    logger2->Write(itk::LoggerBase::PriorityLevelType::DEBUG, "This is the DEBUG message 1.\n");
+    logger2->Write(itk::LoggerBase::PriorityLevelEnum::DEBUG, "This is the DEBUG message 1.\n");
     itksys::SystemTools::Delay(1000);
-    logger2->Write(itk::LoggerBase::PriorityLevelType::DEBUG, "This is the DEBUG message 2.\n");
+    logger2->Write(itk::LoggerBase::PriorityLevelEnum::DEBUG, "This is the DEBUG message 2.\n");
     itksys::SystemTools::Delay(1000);
-    logger2->Write(itk::LoggerBase::PriorityLevelType::DEBUG, "This is the DEBUG message 3.\n");
+    logger2->Write(itk::LoggerBase::PriorityLevelEnum::DEBUG, "This is the DEBUG message 3.\n");
     itksys::SystemTools::Delay(1000);
-    logger2->Write(itk::LoggerBase::PriorityLevelType::DEBUG, "This is the DEBUG message 4.\n");
+    logger2->Write(itk::LoggerBase::PriorityLevelEnum::DEBUG, "This is the DEBUG message 4.\n");
     itksys::SystemTools::Delay(1000);
-    logger2->Write(itk::LoggerBase::PriorityLevelType::DEBUG, "This is the DEBUG message 5.\n");
+    logger2->Write(itk::LoggerBase::PriorityLevelEnum::DEBUG, "This is the DEBUG message 5.\n");
     itksys::SystemTools::Delay(1000);
-    logger2->Write(itk::LoggerBase::PriorityLevelType::DEBUG, "This is the DEBUG message 6.\n");
+    logger2->Write(itk::LoggerBase::PriorityLevelEnum::DEBUG, "This is the DEBUG message 6.\n");
 
     logger2->SetDelay(1000);
-    logger2->SetPriorityLevel(itk::LoggerBase::PriorityLevelType::INFO);
-    logger2->SetLevelForFlushing(itk::LoggerBase::PriorityLevelType::CRITICAL);
+    logger2->SetPriorityLevel(itk::LoggerBase::PriorityLevelEnum::INFO);
+    logger2->SetLevelForFlushing(itk::LoggerBase::PriorityLevelEnum::CRITICAL);
     logger2->Flush();
   }
   catch (...)

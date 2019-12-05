@@ -98,7 +98,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
 
   if (m_UserSpecifiedImageIO == false) // try creating via factory
   {
-    m_ImageIO = ImageIOFactory::CreateImageIO(this->GetFileName().c_str(), ImageIOFactory::FileModeType::ReadMode);
+    m_ImageIO = ImageIOFactory::CreateImageIO(this->GetFileName().c_str(), ImageIOFactory::FileModeEnum::ReadMode);
   }
 
   if (m_ImageIO.IsNull())

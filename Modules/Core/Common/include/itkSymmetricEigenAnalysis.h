@@ -111,11 +111,14 @@ permuteColumnsWithSortIndices(QMatrix & eigenVectors, const std::vector<int> & i
 }
 } // end namespace detail
 
-/** \class OrderType
+/** \class EigenValueOrderEnum
  * \ingroup ITKCommon
  * Order of eigen values
+ * OrderByValue:      lambda_1 < lambda_2 < ....
+ * OrderByMagnitude:  |lambda_1| < |lambda_2| < .....
+ * DoNotOrder:        Default order of eigen values obtained after QL method
  */
-enum class OrderType : uint8_t
+enum class EigenValueOrderEnum : uint8_t
 {
   OrderByValue = 1,
   OrderByMagnitude,
@@ -162,17 +165,17 @@ class ITK_TEMPLATE_EXPORT SymmetricEigenAnalysis
 {
 public:
   /** Enables reverse compatibility for enumeration values */
-  using EigenValueOrderType = OrderType;
+  using EigenValueOrderType = EigenValueOrderEnum;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr EigenValueOrderType OrderByValue = EigenValueOrderType::OrderByValue;
-  static constexpr EigenValueOrderType OrderByMagnitude = EigenValueOrderType::OrderByMagnitude;
-  static constexpr EigenValueOrderType DoNotOrder = EigenValueOrderType::DoNotOrder;
+  static constexpr EigenValueOrderType OrderByValue = EigenValueOrderEnum::OrderByValue;
+  static constexpr EigenValueOrderType OrderByMagnitude = EigenValueOrderEnum::OrderByMagnitude;
+  static constexpr EigenValueOrderType DoNotOrder = EigenValueOrderEnum::DoNotOrder;
 #endif
 
   SymmetricEigenAnalysis()
-    : m_OrderEigenValues(OrderType::OrderByValue)
+    : m_OrderEigenValues(EigenValueOrderEnum::OrderByValue)
   {}
 
   SymmetricEigenAnalysis(const unsigned int dimension)
@@ -180,7 +183,7 @@ public:
 
     m_Dimension(dimension)
     , m_Order(dimension)
-    , m_OrderEigenValues(OrderType::OrderByValue)
+    , m_OrderEigenValues(EigenValueOrderEnum::OrderByValue)
   {}
 
   ~SymmetricEigenAnalysis() = default;
@@ -253,18 +256,18 @@ public:
   {
     if (b)
     {
-      m_OrderEigenValues = OrderType::OrderByValue;
+      m_OrderEigenValues = EigenValueOrderEnum::OrderByValue;
     }
     else
     {
-      m_OrderEigenValues = OrderType::DoNotOrder;
+      m_OrderEigenValues = EigenValueOrderEnum::DoNotOrder;
     }
   }
 
   bool
   GetOrderEigenValues() const
   {
-    return (m_OrderEigenValues == OrderType::OrderByValue);
+    return (m_OrderEigenValues == EigenValueOrderEnum::OrderByValue);
   }
 
   /** Set/Get methods to order the eigen value magnitudes in ascending order.
@@ -275,18 +278,18 @@ public:
   {
     if (b)
     {
-      m_OrderEigenValues = OrderType::OrderByMagnitude;
+      m_OrderEigenValues = EigenValueOrderEnum::OrderByMagnitude;
     }
     else
     {
-      m_OrderEigenValues = OrderType::DoNotOrder;
+      m_OrderEigenValues = EigenValueOrderEnum::DoNotOrder;
     }
   }
 
   bool
   GetOrderEigenMagnitudes() const
   {
-    return (m_OrderEigenValues == OrderType::OrderByMagnitude);
+    return (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude);
   }
 
   /** Set the dimension of the input matrix A. A is a square matrix of
@@ -534,7 +537,7 @@ private:
      * The eigenvectors are normalized to have (Euclidean) norm equal to one. */
     const auto & eigenVectors = solver.eigenvectors();
 
-    if (m_OrderEigenValues == OrderType::OrderByMagnitude)
+    if (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude)
     {
       auto copyEigenValues = eigenValues;
       auto copyEigenVectors = eigenVectors;
@@ -597,7 +600,7 @@ private:
      * eigenvalue number $ k $ as returned by eigenvalues().
      * The eigenvectors are normalized to have (Euclidean) norm equal to one. */
     const auto & eigenVectors = solver.eigenvectors();
-    if (m_OrderEigenValues == OrderType::OrderByMagnitude)
+    if (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude)
     {
       auto copyEigenValues = eigenValues;
       auto copyEigenVectors = eigenVectors;
@@ -658,7 +661,7 @@ private:
     using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
     EigenSolverType solver(inputMatrix, Eigen::EigenvaluesOnly);
     auto            eigenValues = solver.eigenvalues();
-    if (m_OrderEigenValues == OrderType::OrderByMagnitude)
+    if (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude)
     {
       detail::sortEigenValuesByMagnitude(eigenValues, m_Dimension);
     }
@@ -695,7 +698,7 @@ private:
     using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
     EigenSolverType solver(inputMatrix, Eigen::EigenvaluesOnly);
     auto            eigenValues = solver.eigenvalues();
-    if (m_OrderEigenValues == OrderType::OrderByMagnitude)
+    if (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude)
     {
       detail::sortEigenValuesByMagnitude(eigenValues, m_Dimension);
     }
@@ -726,17 +729,17 @@ class ITK_TEMPLATE_EXPORT SymmetricEigenAnalysisFixedDimension
 {
 public:
   /** Enables reverse compatibility for enumeration values */
-  using EigenValueOrderType = OrderType;
+  using EigenValueOrderType = EigenValueOrderEnum;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr EigenValueOrderType OrderByValue = EigenValueOrderType::OrderByValue;
-  static constexpr EigenValueOrderType OrderByMagnitude = EigenValueOrderType::OrderByMagnitude;
-  static constexpr EigenValueOrderType DoNotOrder = EigenValueOrderType::DoNotOrder;
+  static constexpr EigenValueOrderType OrderByValue = EigenValueOrderEnum::OrderByValue;
+  static constexpr EigenValueOrderType OrderByMagnitude = EigenValueOrderEnum::OrderByMagnitude;
+  static constexpr EigenValueOrderType DoNotOrder = EigenValueOrderEnum::DoNotOrder;
 #endif
 
   SymmetricEigenAnalysisFixedDimension()
-    : m_OrderEigenValues(OrderType::OrderByValue)
+    : m_OrderEigenValues(EigenValueOrderEnum::OrderByValue)
   {}
   ~SymmetricEigenAnalysisFixedDimension() = default;
 
@@ -794,34 +797,34 @@ public:
   {
     if (b)
     {
-      m_OrderEigenValues = OrderType::OrderByValue;
+      m_OrderEigenValues = EigenValueOrderEnum::OrderByValue;
     }
     else
     {
-      m_OrderEigenValues = OrderType::DoNotOrder;
+      m_OrderEigenValues = EigenValueOrderEnum::DoNotOrder;
     }
   }
   bool
   GetOrderEigenValues() const
   {
-    return (m_OrderEigenValues == OrderType::OrderByValue);
+    return (m_OrderEigenValues == EigenValueOrderEnum::OrderByValue);
   }
   void
   SetOrderEigenMagnitudes(const bool b)
   {
     if (b)
     {
-      m_OrderEigenValues = OrderType::OrderByMagnitude;
+      m_OrderEigenValues = EigenValueOrderEnum::OrderByMagnitude;
     }
     else
     {
-      m_OrderEigenValues = OrderType::DoNotOrder;
+      m_OrderEigenValues = EigenValueOrderEnum::DoNotOrder;
     }
   }
   bool
   GetOrderEigenMagnitudes() const
   {
-    return (m_OrderEigenValues == OrderType::OrderByMagnitude);
+    return (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude);
   }
   constexpr unsigned int
   GetOrder() const
@@ -894,7 +897,7 @@ private:
      * eigenvalue number $ k $ as returned by eigenvalues().
      * The eigenvectors are normalized to have (Euclidean) norm equal to one. */
     const auto & eigenVectors = solver.eigenvectors();
-    if (m_OrderEigenValues == OrderType::OrderByMagnitude)
+    if (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude)
     {
       auto copyEigenValues = eigenValues;
       auto copyEigenVectors = eigenVectors;
@@ -955,7 +958,7 @@ private:
      * The eigenvectors are normalized to have (Euclidean) norm equal to one. */
     const auto & eigenVectors = solver.eigenvectors();
 
-    if (m_OrderEigenValues == OrderType::OrderByMagnitude)
+    if (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude)
     {
       auto copyEigenValues = eigenValues;
       auto copyEigenVectors = eigenVectors;
@@ -1010,7 +1013,7 @@ private:
     using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
     EigenSolverType solver(inputMatrix, Eigen::EigenvaluesOnly);
     auto            eigenValues = solver.eigenvalues();
-    if (m_OrderEigenValues == OrderType::OrderByMagnitude)
+    if (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude)
     {
       detail::sortEigenValuesByMagnitude(eigenValues, VDimension);
     }
@@ -1047,7 +1050,7 @@ private:
     using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
     EigenSolverType solver(inputMatrix, Eigen::EigenvaluesOnly);
     auto            eigenValues = solver.eigenvalues();
-    if (m_OrderEigenValues == OrderType::OrderByMagnitude)
+    if (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude)
     {
       detail::sortEigenValuesByMagnitude(eigenValues, VDimension);
     }

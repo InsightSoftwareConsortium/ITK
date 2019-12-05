@@ -46,10 +46,10 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  /** \class IOModeType
+  /** \class IOModeEnum
    * \ingroup ITKVideoIO
    * Mode in which the VideoIO is intended to be used */
-  enum class IOModeType : uint8_t
+  enum class IOModeEnum : uint8_t
   {
     ReadFileMode,
     ReadCameraMode,
@@ -58,9 +58,9 @@ public:
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr IOModeType ReadFileMode = IOModeType::ReadFileMode;
-  static constexpr IOModeType ReadCameraMode = IOModeType::ReadCameraMode;
-  static constexpr IOModeType WriteMode = IOModeType::WriteMode;
+  static constexpr IOModeEnum ReadFileMode = IOModeEnum::ReadFileMode;
+  static constexpr IOModeEnum ReadCameraMode = IOModeEnum::ReadCameraMode;
+  static constexpr IOModeEnum WriteMode = IOModeEnum::WriteMode;
 #endif
   /** Runtime type information (and related methods). **/
   itkTypeMacro(VideoIOFactory, Object);
@@ -71,7 +71,7 @@ public:
    *        from a camera
    */
   static VideoIOBase::Pointer
-  CreateVideoIO(IOModeType mode, const char * arg);
+  CreateVideoIO(IOModeEnum mode, const char * arg);
 
 protected:
   VideoIOFactory();
@@ -80,7 +80,7 @@ protected:
 
 // Define how to print enumeration
 extern ITKVideoIO_EXPORT std::ostream &
-                         operator<<(std::ostream & out, const VideoIOFactory::IOModeType value);
+                         operator<<(std::ostream & out, const VideoIOFactory::IOModeEnum value);
 
 } // end namespace itk
 

@@ -26,10 +26,10 @@ namespace itk
 {
 namespace Testing
 {
-/** \class TestExtractSliceImageFilterCollapseStrategy
+/** \class TestExtractSliceImageFilterCollapseStrategyEnum
  * \ingroup ITKTestKernel
  */
-enum class TestExtractSliceImageFilterCollapseStrategy : uint8_t
+enum class TestExtractSliceImageFilterCollapseStrategyEnum : uint8_t
 {
   DIRECTIONCOLLAPSETOUNKOWN = 0,
   DIRECTIONCOLLAPSETOIDENTITY = 1,
@@ -127,8 +127,8 @@ public:
   using InputImageSizeType = typename TInputImage::SizeType;
 
   /** Enables backwards compatibility for enum values */
-  using DIRECTIONCOLLAPSESTRATEGY = TestExtractSliceImageFilterCollapseStrategy;
-  using DirectionCollaspeStrategyEnum = TestExtractSliceImageFilterCollapseStrategy;
+  using DIRECTIONCOLLAPSESTRATEGY = TestExtractSliceImageFilterCollapseStrategyEnum;
+  using DirectionCollaspeStrategyEnum = TestExtractSliceImageFilterCollapseStrategyEnum;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
@@ -171,11 +171,11 @@ public:
   {
     switch (choosenStrategy)
     {
-      case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS:
-      case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY:
-      case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX:
+      case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS:
+      case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY:
+      case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX:
         break;
-      case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN:
+      case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN:
       default:
         itkExceptionMacro(<< "Invalid Strategy Chosen for itk::ExtractSliceImageFilter");
     }
@@ -199,21 +199,21 @@ public:
   void
   SetDirectionCollapseToGuess()
   {
-    this->SetDirectionCollapseToStrategy(TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS);
+    this->SetDirectionCollapseToStrategy(TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS);
   }
 
   /** \sa SetDirectionCollapseToStrategy */
   void
   SetDirectionCollapseToIdentity()
   {
-    this->SetDirectionCollapseToStrategy(TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY);
+    this->SetDirectionCollapseToStrategy(TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY);
   }
 
   /** \sa SetDirectionCollapseToStrategy */
   void
   SetDirectionCollapseToSubmatrix()
   {
-    this->SetDirectionCollapseToStrategy(TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX);
+    this->SetDirectionCollapseToStrategy(TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX);
   }
 
 
@@ -297,7 +297,7 @@ private:
 /** Define how to print enumerations */
 // TestKernal is not a shared library, so no EXPORT
 extern std::ostream &
-operator<<(std::ostream & out, const TestExtractSliceImageFilterCollapseStrategy value);
+operator<<(std::ostream & out, const TestExtractSliceImageFilterCollapseStrategyEnum value);
 } // end namespace Testing
 } // end namespace itk
 

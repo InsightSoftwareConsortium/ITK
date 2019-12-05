@@ -22,7 +22,7 @@
 #include "itkGPUFiniteDifferenceFunction.h"
 #include "itkFiniteDifferenceImageFilter.h"
 #include "itkTimeProbe.h"
-#include "itkGPUFiniteDifferenceFilterTypeEnum.h"
+#include "itkGPUFiniteDifferenceFilterEnum.h"
 
 namespace itk
 {
@@ -101,7 +101,7 @@ public:
   }
 
   /** Enables backwards compatibility for enum values */
-  using FilterStateType = GPUFiniteDifferenceFilterTypeEnum;
+  using FilterStateType = GPUFiniteDifferenceFilterEnum;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility

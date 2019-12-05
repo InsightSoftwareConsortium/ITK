@@ -23,21 +23,21 @@ namespace Testing
 {
 /** Define how to print enumerations */
 std::ostream &
-operator<<(std::ostream & out, const TestExtractSliceImageFilterCollapseStrategy value)
+operator<<(std::ostream & out, const TestExtractSliceImageFilterCollapseStrategyEnum value)
 {
   return out << [value] {
     switch (value)
     {
-      case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN:
-        return "TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN";
-      case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY:
-        return "TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY";
-      case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX:
-        return "TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX";
-      case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS:
-        return "TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS";
+      case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN:
+        return "TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN";
+      case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY:
+        return "TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY";
+      case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX:
+        return "TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX";
+      case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS:
+        return "TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS";
       default:
-        return "INVALID VALUE FOR TestExtractSliceImageFilterCollapseStrategy";
+        return "INVALID VALUE FOR TestExtractSliceImageFilterCollapseStrategyEnum";
     }
   }();
 }

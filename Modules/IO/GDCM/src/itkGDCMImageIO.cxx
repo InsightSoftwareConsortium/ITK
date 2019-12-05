@@ -1249,11 +1249,11 @@ GDCMImageIO::Write(const void * buffer)
   if (m_UseCompression)
   {
     gdcm::ImageChangeTransferSyntax change;
-    if (m_CompressionType == TCompressionType::JPEG)
+    if (m_CompressionType == CompressionEnum::JPEG)
     {
       change.SetTransferSyntax(gdcm::TransferSyntax::JPEGLosslessProcess14_1);
     }
-    else if (m_CompressionType == TCompressionType::JPEG2000)
+    else if (m_CompressionType == CompressionEnum::JPEG2000)
     {
       change.SetTransferSyntax(gdcm::TransferSyntax::JPEG2000Lossless);
     }
@@ -1525,11 +1525,11 @@ GDCMImageIO::InternalSetCompressor(const std::string & _compressor)
 
   if (_compressor == "" || _compressor == "JPEG2000")
   {
-    m_CompressionType = TCompressionType::JPEG2000;
+    m_CompressionType = CompressionEnum::JPEG2000;
   }
   else if (_compressor == "JPEG")
   {
-    m_CompressionType = TCompressionType::JPEG;
+    m_CompressionType = CompressionEnum::JPEG;
   }
   else
   {
@@ -1574,21 +1574,21 @@ GDCMImageIO::PrintSelf(std::ostream & os, Indent indent) const
 
 /** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const GDCMImageIO::TCompressionType value)
+operator<<(std::ostream & out, const GDCMImageIO::CompressionEnum value)
 {
   return out << [value] {
     switch (value)
     {
-      case GDCMImageIO::TCompressionType::JPEG:
-        return "GDCMImageIO::TCompressionType::JPEG";
-      case GDCMImageIO::TCompressionType::JPEG2000:
-        return "GDCMImageIO::TCompressionType::JPEG2000";
-      case GDCMImageIO::TCompressionType::JPEGLS:
-        return "GDCMImageIO::TCompressionType::JPEGLS";
-      case GDCMImageIO::TCompressionType::RLE:
-        return "GDCMImageIO::TCompressionType::RLE";
+      case GDCMImageIO::CompressionEnum::JPEG:
+        return "GDCMImageIO::CompressionEnum::JPEG";
+      case GDCMImageIO::CompressionEnum::JPEG2000:
+        return "GDCMImageIO::CompressionEnum::JPEG2000";
+      case GDCMImageIO::CompressionEnum::JPEGLS:
+        return "GDCMImageIO::CompressionEnum::JPEGLS";
+      case GDCMImageIO::CompressionEnum::RLE:
+        return "GDCMImageIO::CompressionEnum::RLE";
       default:
-        return "INVALID VALUE FOR GDCMImageIO::TCompressionType";
+        return "INVALID VALUE FOR GDCMImageIO::CompressionEnum";
     }
   }();
 }

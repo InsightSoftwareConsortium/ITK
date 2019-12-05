@@ -163,7 +163,7 @@ main(int, char *[])
 
 
   // Software Guide : BeginCodeSnippet
-  if (childIt.GetType() != itk::TreeIteratorBaseNodeType::CHILD)
+  if (childIt.GetType() != itk::TreeIteratorBaseNodeEnum::CHILD)
   {
     std::cerr << "Error: The iterator was not of type CHILD." << std::endl;
     return EXIT_FAILURE;

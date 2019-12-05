@@ -30,7 +30,7 @@ namespace Testing
 
 template <typename TInputImage, typename TOutputImage>
 ExtractSliceImageFilter<TInputImage, TOutputImage>::ExtractSliceImageFilter()
-  : m_DirectionCollaspeStrategy(TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN)
+  : m_DirectionCollaspeStrategy(TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN)
 {
   this->DynamicMultiThreadingOn();
 }
@@ -202,12 +202,12 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // length cosine vector, reset the directions to identity.
   switch (m_DirectionCollaspeStrategy)
   {
-    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY:
+    case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY:
     {
       outputDirection.SetIdentity();
     }
     break;
-    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX:
+    case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX:
     {
       if (vnl_determinant(outputDirection.GetVnlMatrix()) == 0.0)
       {
@@ -215,7 +215,7 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
       }
     }
     break;
-    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS:
+    case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS:
     {
       if (vnl_determinant(outputDirection.GetVnlMatrix()) == 0.0)
       {
@@ -223,7 +223,7 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
       }
     }
     break;
-    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN:
+    case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN:
     default:
     {
       itkExceptionMacro(

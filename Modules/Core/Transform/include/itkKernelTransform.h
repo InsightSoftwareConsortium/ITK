@@ -90,7 +90,7 @@ public:
   using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
   /** Transform category type. */
-  using TransformCategoryType = typename Superclass::TransformCategoryType;
+  using TransformCategoryEnum = typename Superclass::TransformCategoryEnum;
 
   /** Standard coordinate point type for this class. */
   using InputPointType = typename Superclass::InputPointType;
@@ -218,10 +218,10 @@ public:
   /** This transform is not linear, because the transformation of a linear
    * combination of points is not equal to the linear combination of the
    * transformations of individual points */
-  TransformCategoryType
+  TransformCategoryEnum
   GetTransformCategory() const override
   {
-    return Self::TransformCategoryType::Spline;
+    return Self::TransformCategoryEnum::Spline;
   }
 
   /** Stiffness of the spline.  A stiffness of zero results in the

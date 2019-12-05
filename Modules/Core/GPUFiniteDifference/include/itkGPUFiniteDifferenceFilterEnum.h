@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkGPUFiniteDifferenceFilterTypeEnum_h
-#define itkGPUFiniteDifferenceFilterTypeEnum_h
+#ifndef itkGPUFiniteDifferenceFilterEnum_h
+#define itkGPUFiniteDifferenceFilterEnum_h
 
 #include <iostream>
 #include "ITKGPUFiniteDifferenceExport.h"
@@ -24,17 +24,17 @@
 namespace itk
 {
 /**
- * \class GPUFiniteDifferenceFilterTypeEnum
+ * \class GPUFiniteDifferenceFilterEnum
  * \ingroup ITKGPUFiniteDifference
  */
-enum class GPUFiniteDifferenceFilterTypeEnum : uint8_t
+enum class GPUFiniteDifferenceFilterEnum : uint8_t
 {
-  UNINITIALIZED = 0,
-  INITIALIZED = 1
+  UNINITIALIZED,
+  INITIALIZED
 };
 /** Define how to print enumeration values */
 extern ITKGPUFiniteDifference_EXPORT std::ostream &
-                                     operator<<(std::ostream & out, const GPUFiniteDifferenceFilterTypeEnum value);
+                                     operator<<(std::ostream & out, const GPUFiniteDifferenceFilterEnum value);
 } // end namespace itk
 
 #endif

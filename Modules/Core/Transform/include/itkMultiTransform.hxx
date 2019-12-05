@@ -34,16 +34,16 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::MultiTransfor
 }
 
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
-typename MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::TransformCategoryType
+typename MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::TransformCategoryEnum
 MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::GetTransformCategory() const
 {
   // If all sub-transforms are the same, return that type. Otherwise
   // return Unknown.
-  TransformCategoryType result = Self::TransformCategoryType::UnknownTransformCategory;
+  TransformCategoryEnum result = Self::TransformCategoryEnum::UnknownTransformCategory;
 
   for (SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); tind++)
   {
-    const TransformCategoryType type = this->GetNthTransformConstPointer(tind)->GetTransformCategory();
+    const TransformCategoryEnum type = this->GetNthTransformConstPointer(tind)->GetTransformCategory();
     if (tind == 0)
     {
       result = type;
@@ -52,7 +52,7 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::GetTransformC
     {
       if (type != result)
       {
-        result = Self::TransformCategoryType::UnknownTransformCategory;
+        result = Self::TransformCategoryEnum::UnknownTransformCategory;
         break;
       }
     }

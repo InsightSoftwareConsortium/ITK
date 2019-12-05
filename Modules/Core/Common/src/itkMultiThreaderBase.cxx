@@ -62,13 +62,13 @@ struct MultiThreaderBaseGlobals
   // ITK_GLOBAL_DEFAULT_THREADER. If that is not present, then
   // ITK_USE_THREADPOOL is examined.
 #if defined(ITK_USE_TBB)
-    m_GlobalDefaultThreader(MultiThreaderBase::ThreaderType::TBB)
+    m_GlobalDefaultThreader(MultiThreaderBase::ThreaderEnum::TBB)
     ,
 #elif defined(POOL_MULTI_THREADER_AVAILABLE)
-    m_GlobalDefaultThreader(MultiThreaderBase::ThreaderType::Pool)
+    m_GlobalDefaultThreader(MultiThreaderBase::ThreaderEnum::Pool)
     ,
 #else
-    m_GlobalDefaultThreader(MultiThreaderBase::ThreaderType::Platform)
+    m_GlobalDefaultThreader(MultiThreaderBase::ThreaderEnum::Platform)
     ,
 #endif
     m_GlobalMaximumNumberOfThreads(ITK_MAX_THREADS)
@@ -88,7 +88,7 @@ struct MultiThreaderBaseGlobals
   // be used. This defaults to the environmental variable
   // ITK_GLOBAL_DEFAULT_THREADER. If that is not present, then
   // ITK_USE_THREADPOOL is examined.
-  MultiThreaderBase::ThreaderType m_GlobalDefaultThreader;
+  MultiThreaderBase::ThreaderEnum m_GlobalDefaultThreader;
 
   // Global variable defining the maximum number of threads that can be used.
   //  The m_GlobalMaximumNumberOfThreads must always be less than or equal to
@@ -112,23 +112,23 @@ MultiThreaderBase::SetGlobalDefaultUseThreadPool(const bool GlobalDefaultUseThre
 {
   if (GlobalDefaultUseThreadPool)
   {
-    SetGlobalDefaultThreader(ThreaderType::Pool);
+    SetGlobalDefaultThreader(ThreaderEnum::Pool);
   }
   else
   {
-    SetGlobalDefaultThreader(ThreaderType::Platform);
+    SetGlobalDefaultThreader(ThreaderEnum::Platform);
   }
 }
 
 bool
 MultiThreaderBase::GetGlobalDefaultUseThreadPool()
 {
-  return (GetGlobalDefaultThreader() == ThreaderType::Pool);
+  return (GetGlobalDefaultThreader() == ThreaderEnum::Pool);
 }
 #endif
 
 void
-MultiThreaderBase::SetGlobalDefaultThreader(ThreaderType threaderType)
+MultiThreaderBase::SetGlobalDefaultThreader(ThreaderEnum threaderType)
 {
   itkInitGlobalsMacro(PimplGlobals);
 
@@ -136,7 +136,7 @@ MultiThreaderBase::SetGlobalDefaultThreader(ThreaderType threaderType)
   m_PimplGlobals->GlobalDefaultThreaderTypeIsInitialized = true;
 }
 
-MultiThreaderBase::ThreaderType
+MultiThreaderBase::ThreaderEnum
 MultiThreaderBase ::GetGlobalDefaultThreader()
 {
   // This method must be concurrent thread safe
@@ -155,8 +155,8 @@ MultiThreaderBase ::GetGlobalDefaultThreader()
       if (itksys::SystemTools::GetEnv("ITK_GLOBAL_DEFAULT_THREADER", envVar))
       {
         envVar = itksys::SystemTools::UpperCase(envVar);
-        ThreaderType threaderT = ThreaderTypeFromString(envVar);
-        if (threaderT != ThreaderType::Unknown)
+        ThreaderEnum threaderT = ThreaderTypeFromString(envVar);
+        if (threaderT != ThreaderEnum::Unknown)
         {
           MultiThreaderBase::SetGlobalDefaultThreader(threaderT);
         }
@@ -173,14 +173,14 @@ You should now use ITK_GLOBAL_DEFAULT_THREADER\
         if (envVar != "NO" && envVar != "OFF" && envVar != "FALSE")
         {
 #ifdef __EMSCRIPTEN__
-          MultiThreaderBase::SetGlobalDefaultThreader(ThreaderType::Platform);
+          MultiThreaderBase::SetGlobalDefaultThreader(ThreaderEnum::Platform);
 #else
-          MultiThreaderBase::SetGlobalDefaultThreader(ThreaderType::Pool);
+          MultiThreaderBase::SetGlobalDefaultThreader(ThreaderEnum::Pool);
 #endif
         }
         else
         {
-          MultiThreaderBase::SetGlobalDefaultThreader(ThreaderType::Platform);
+          MultiThreaderBase::SetGlobalDefaultThreader(ThreaderEnum::Platform);
         }
       }
 
@@ -191,25 +191,25 @@ You should now use ITK_GLOBAL_DEFAULT_THREADER\
   return m_PimplGlobals->m_GlobalDefaultThreader;
 }
 
-MultiThreaderBase::ThreaderType
+MultiThreaderBase::ThreaderEnum
 MultiThreaderBase ::ThreaderTypeFromString(std::string threaderString)
 {
   threaderString = itksys::SystemTools::UpperCase(threaderString);
   if (threaderString == "PLATFORM")
   {
-    return ThreaderType::Platform;
+    return ThreaderEnum::Platform;
   }
   else if (threaderString == "POOL")
   {
-    return ThreaderType::Pool;
+    return ThreaderEnum::Pool;
   }
   else if (threaderString == "TBB")
   {
-    return ThreaderType::TBB;
+    return ThreaderEnum::TBB;
   }
   else
   {
-    return ThreaderType::Unknown;
+    return ThreaderEnum::Unknown;
   }
 }
 
@@ -405,18 +405,18 @@ MultiThreaderBase::New()
   Pointer smartPtr = ::itk::ObjectFactory<MultiThreaderBase>::Create();
   if (smartPtr == nullptr)
   {
-    ThreaderType threaderType = GetGlobalDefaultThreader();
+    ThreaderEnum threaderType = GetGlobalDefaultThreader();
     switch (threaderType)
     {
-      case ThreaderType::Platform:
+      case ThreaderEnum::Platform:
         return PlatformMultiThreader::New();
-      case ThreaderType::Pool:
+      case ThreaderEnum::Pool:
 #if defined(POOL_MULTI_THREADER_AVAILABLE)
         return PoolMultiThreader::New();
 #else
         itkGenericExceptionMacro("ITK has been built without PoolMultiThreader support!");
 #endif
-      case ThreaderType::TBB:
+      case ThreaderEnum::TBB:
 #if defined(ITK_USE_TBB)
         return TBBMultiThreader::New();
 #else
@@ -627,7 +627,7 @@ MultiThreaderBase ::ParallelizeImageRegionHelper(void * arg)
 }
 
 std::ostream &
-operator<<(std::ostream & os, const MultiThreaderBase::ThreaderType & threader)
+operator<<(std::ostream & os, const MultiThreaderBase::ThreaderEnum & threader)
 {
   os << MultiThreaderBase::ThreaderTypeToString(threader) << "MultiThreader";
   return os;

@@ -102,14 +102,14 @@ public:
   static void
   RegisterFactoryInternal(ObjectFactoryBase *);
 
-  /** \class InsertionPositionType
+  /** \class InsertionPositionEnum
    *
    *  \ingroup ITKCommon
    *
    *  Position at which the new factory will be registered in the
    *  internal factory container.
    */
-  enum class InsertionPositionType : uint8_t
+  enum class InsertionPositionEnum : uint8_t
   {
     INSERT_AT_FRONT,
     INSERT_AT_BACK,
@@ -118,23 +118,23 @@ public:
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr InsertionPositionType INSERT_AT_FRONT = InsertionPositionType::INSERT_AT_FRONT;
-  static constexpr InsertionPositionType INSERT_AT_BACK = InsertionPositionType::INSERT_AT_BACK;
-  static constexpr InsertionPositionType INSERT_AT_POSITION = InsertionPositionType::INSERT_AT_POSITION;
+  static constexpr InsertionPositionEnum INSERT_AT_FRONT = InsertionPositionEnum::INSERT_AT_FRONT;
+  static constexpr InsertionPositionEnum INSERT_AT_BACK = InsertionPositionEnum::INSERT_AT_BACK;
+  static constexpr InsertionPositionEnum INSERT_AT_POSITION = InsertionPositionEnum::INSERT_AT_POSITION;
 #endif
 
   /** Register a factory so it can be used to create itk objects.
    *
-   * When InsertionPositionType::INSERT_AT_POSITION is selected, a third argument must be provided
+   * When InsertionPositionEnum::INSERT_AT_POSITION is selected, a third argument must be provided
    * with the actual integer number of the intended position. The position
    * number must be in the range [0, numberOfRegisteredFactories-1].
    *
    * Usage should be any of the following:
    *
    * itk::ObjectFactoryBase::RegisterFactory( newFactory1 ); // at back
-   * itk::ObjectFactoryBase::RegisterFactory( newFactory2, InsertionPositionType::INSERT_AT_FRONT );
-   * itk::ObjectFactoryBase::RegisterFactory( newFactory3, InsertionPositionType::INSERT_AT_BACK );
-   * itk::ObjectFactoryBase::RegisterFactory( newFactory4, InsertionPositionType::INSERT_AT_POSITION, 5 );
+   * itk::ObjectFactoryBase::RegisterFactory( newFactory2, InsertionPositionEnum::INSERT_AT_FRONT );
+   * itk::ObjectFactoryBase::RegisterFactory( newFactory3, InsertionPositionEnum::INSERT_AT_BACK );
+   * itk::ObjectFactoryBase::RegisterFactory( newFactory4, InsertionPositionEnum::INSERT_AT_POSITION, 5 );
    *
    * If the position value is out of range, an exception will be
    * thrown.
@@ -143,7 +143,7 @@ public:
    */
   static bool
   RegisterFactory(ObjectFactoryBase *,
-                  InsertionPositionType where = InsertionPositionType::INSERT_AT_BACK,
+                  InsertionPositionEnum where = InsertionPositionEnum::INSERT_AT_BACK,
                   size_t                position = 0);
 
   /** Remove a factory from the list of registered factories. */
@@ -302,7 +302,7 @@ private:
 
 // Define how to print enumeration
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const ObjectFactoryBase::InsertionPositionType value);
+                        operator<<(std::ostream & out, const ObjectFactoryBase::InsertionPositionEnum value);
 
 } // end namespace itk
 

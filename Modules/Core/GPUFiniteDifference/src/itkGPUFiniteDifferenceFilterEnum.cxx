@@ -15,23 +15,23 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkGPUFiniteDifferenceFilterTypeEnum.h"
+#include "itkGPUFiniteDifferenceFilterEnum.h"
 
 namespace itk
 {
 std::ostream &
-operator<<(std::ostream & out, const GPUFiniteDifferenceFilterTypeEnum value)
+operator<<(std::ostream & out, const GPUFiniteDifferenceFilterEnum value)
 {
   return out << [value] {
     switch (value)
     {
-      case GPUFiniteDifferenceFilterTypeEnum::UNINITIALIZED:
+      case GPUFiniteDifferenceFilterEnum::UNINITIALIZED:
         return "GPUFiniteDifferenceImageFilter<TInputImage,TOutputImage,TParentImageFilter>::FilterStateType::"
                "UNINITIALIZED";
-      case GPUFiniteDifferenceFilterTypeEnum::INITIALIZED:
-        return "GPUFiniteDifferenceFilterTypeEnum::INITIALIZED";
+      case GPUFiniteDifferenceFilterEnum::INITIALIZED:
+        return "GPUFiniteDifferenceFilterEnum::INITIALIZED";
       default:
-        return "INVALID VALUE FOR GPUFiniteDifferenceFilterTypeEnum";
+        return "INVALID VALUE FOR GPUFiniteDifferenceFilterEnum";
     }
   }();
 }

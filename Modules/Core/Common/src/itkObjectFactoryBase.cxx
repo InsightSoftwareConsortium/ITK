@@ -563,7 +563,7 @@ ObjectFactoryBase ::RegisterFactoryInternal(ObjectFactoryBase * factory)
  * Add a factory to the registered list
  */
 bool
-ObjectFactoryBase ::RegisterFactory(ObjectFactoryBase * factory, InsertionPositionType where, size_t position)
+ObjectFactoryBase ::RegisterFactory(ObjectFactoryBase * factory, InsertionPositionEnum where, size_t position)
 {
   itkInitGlobalsMacro(PimplGlobals);
 
@@ -610,27 +610,27 @@ ObjectFactoryBase ::RegisterFactory(ObjectFactoryBase * factory, InsertionPositi
   //
   switch (where)
   {
-    case InsertionPositionType::INSERT_AT_BACK:
+    case InsertionPositionEnum::INSERT_AT_BACK:
     {
       if (position)
       {
         itkGenericExceptionMacro(
-          << "position argument must not be used with InsertionPositionType::INSERT_AT_BACK option");
+          << "position argument must not be used with InsertionPositionEnum::INSERT_AT_BACK option");
       }
       m_PimplGlobals->m_RegisteredFactories->push_back(factory);
       break;
     }
-    case InsertionPositionType::INSERT_AT_FRONT:
+    case InsertionPositionEnum::INSERT_AT_FRONT:
     {
       if (position)
       {
         itkGenericExceptionMacro(
-          << "position argument must not be used with InsertionPositionType::INSERT_AT_FRONT option");
+          << "position argument must not be used with InsertionPositionEnum::INSERT_AT_FRONT option");
       }
       m_PimplGlobals->m_RegisteredFactories->push_front(factory);
       break;
     }
-    case InsertionPositionType::INSERT_AT_POSITION:
+    case InsertionPositionEnum::INSERT_AT_POSITION:
     {
       const size_t numberOfFactories = m_PimplGlobals->m_RegisteredFactories->size();
       if (position < numberOfFactories)
@@ -965,19 +965,19 @@ ObjectFactoryBasePrivate * ObjectFactoryBase::m_PimplGlobals;
 
 /** Print enumerations */
 std::ostream &
-operator<<(std::ostream & out, const ObjectFactoryBase::InsertionPositionType value)
+operator<<(std::ostream & out, const ObjectFactoryBase::InsertionPositionEnum value)
 {
   return out << [value] {
     switch (value)
     {
-      case ObjectFactoryBase::InsertionPositionType::INSERT_AT_FRONT:
-        return "ObjectFactoryBase::InsertionPositionType::INSERT_AT_FRONT";
-      case ObjectFactoryBase::InsertionPositionType::INSERT_AT_BACK:
-        return "ObjectFactoryBase::InsertionPositionType::INSERT_AT_BACK";
-      case ObjectFactoryBase::InsertionPositionType::INSERT_AT_POSITION:
-        return "ObjectFactoryBase::InsertionPositionType::INSERT_AT_POSITION";
+      case ObjectFactoryBase::InsertionPositionEnum::INSERT_AT_FRONT:
+        return "ObjectFactoryBase::InsertionPositionEnum::INSERT_AT_FRONT";
+      case ObjectFactoryBase::InsertionPositionEnum::INSERT_AT_BACK:
+        return "ObjectFactoryBase::InsertionPositionEnum::INSERT_AT_BACK";
+      case ObjectFactoryBase::InsertionPositionEnum::INSERT_AT_POSITION:
+        return "ObjectFactoryBase::InsertionPositionEnum::INSERT_AT_POSITION";
       default:
-        return "INVALID VALUE FOR ObjectFactoryBase::InsertionPositionType";
+        return "INVALID VALUE FOR ObjectFactoryBase::InsertionPositionEnum";
     }
   }();
 }

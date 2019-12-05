@@ -141,7 +141,7 @@ itkAzimuthElevationToCartesianTransformTest(int, char *[])
   // Check if itkAzimuthElevationToCartesianTransform returns the correct
   // TransformCategory.
   if (transform->GetTransformCategory() !=
-      AzimuthElevationToCartesianTransformType::TransformCategoryType::UnknownTransformCategory)
+      AzimuthElevationToCartesianTransformType::TransformCategoryEnum::UnknownTransformCategory)
   {
     std::cout << "itkAzimuthElevationToCartesianTransformTest failed" << std::endl;
     return EXIT_FAILURE;

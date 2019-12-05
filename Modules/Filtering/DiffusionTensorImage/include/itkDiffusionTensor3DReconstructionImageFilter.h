@@ -30,11 +30,11 @@
 #include "ITKDiffusionTensorImageExport.h"
 namespace itk
 {
-/** \class GradientEnumeration
+/** \class GradientEnum
  * \ingroup ITKDiffusionTensorImage
  * enum to indicate if the gradient image is specified as a single multi-
  * component image or as several separate images */
-enum class GradientEnumeration : uint8_t
+enum class GradientEnum : uint8_t
 {
   GradientIsInASingleImage = 1,
   GradientIsInManyImages,
@@ -211,7 +211,7 @@ public:
   void
   SetReferenceImage(ReferenceImageType * referenceImage)
   {
-    if (m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInASingleImage)
+    if (m_GradientImageTypeEnumeration == GradientEnum::GradientIsInASingleImage)
     {
       itkExceptionMacro(<< "Cannot call both methods:"
                         << "AddGradientImage and SetGradientImage. Please call only one of them.");
@@ -219,7 +219,7 @@ public:
 
     this->ProcessObject::SetNthInput(0, referenceImage);
 
-    m_GradientImageTypeEnumeration = GradientEnumeration::GradientIsInManyImages;
+    m_GradientImageTypeEnumeration = GradientEnum::GradientIsInManyImages;
   }
 
   /** Get reference image */
@@ -301,7 +301,7 @@ protected:
   VerifyPreconditions() ITKv5_CONST override;
 
   /** Enables backwards compatibility for enum values */
-  using GradientImageTypeEnumeration = GradientEnumeration;
+  using GradientImageTypeEnumeration = GradientEnum;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
@@ -342,7 +342,7 @@ private:
 
 /** Define how to print enum values */
 extern ITKDiffusionTensorImage_EXPORT std::ostream &
-                                      operator<<(std::ostream & out, const GradientEnumeration value);
+                                      operator<<(std::ostream & out, const GradientEnum value);
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

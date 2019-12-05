@@ -21,10 +21,10 @@
 #include <type_traits>
 #include <set>
 
-using ThreaderType = itk::MultiThreaderBase::ThreaderType;
+using ThreaderEnum = itk::MultiThreaderBase::ThreaderEnum;
 
 bool
-checkThreaderByName(ThreaderType expectedThreaderType)
+checkThreaderByName(ThreaderEnum expectedThreaderType)
 {
   using ImageType = itk::Image<unsigned, 3>;
   // any filter type which does not manually specify threader type will do
@@ -54,8 +54,8 @@ itkMultiThreaderTypeFromEnvironmentTest(int argc, char * argv[])
 
   bool success = true;
 
-  ThreaderType expectedThreaderType = itk::MultiThreaderBase::ThreaderTypeFromString(argv[1]);
-  ThreaderType realThreaderType = itk::MultiThreaderBase::GetGlobalDefaultThreader();
+  ThreaderEnum expectedThreaderType = itk::MultiThreaderBase::ThreaderTypeFromString(argv[1]);
+  ThreaderEnum realThreaderType = itk::MultiThreaderBase::GetGlobalDefaultThreader();
 
   if (realThreaderType != expectedThreaderType)
   {
@@ -67,9 +67,9 @@ itkMultiThreaderTypeFromEnvironmentTest(int argc, char * argv[])
   success &= checkThreaderByName(expectedThreaderType);
 
   // check that developer's choice for default is respected
-  std::set<ThreaderType> threadersToTest = { ThreaderType::Platform, ThreaderType::Pool };
+  std::set<ThreaderEnum> threadersToTest = { ThreaderEnum::Platform, ThreaderEnum::Pool };
 #ifdef ITK_USE_TBB
-  threadersToTest.insert(ThreaderType::TBB);
+  threadersToTest.insert(ThreaderEnum::TBB);
 #endif // ITK_USE_TBB
   for (auto thType : threadersToTest)
   {
@@ -81,7 +81,7 @@ itkMultiThreaderTypeFromEnvironmentTest(int argc, char * argv[])
   // 1. insert it into threadersToTest set
   // 2. add tests to Modules/Core/Common/test/CMakeLists.txt similarily to tests for other multi-threaders
   // 3. rewrite the condition below to use whatever is really the last threader type
-  itkAssertOrThrowMacro(ThreaderType::TBB == ThreaderType::Last,
+  itkAssertOrThrowMacro(ThreaderEnum::TBB == ThreaderEnum::Last,
                         "All multi-threader implementation have to be tested!");
 
   if (success)

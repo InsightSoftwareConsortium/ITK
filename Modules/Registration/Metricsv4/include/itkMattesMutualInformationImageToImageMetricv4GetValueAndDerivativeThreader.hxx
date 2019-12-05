@@ -347,7 +347,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
   SizeValueType movingParzenBin = 0;
 
   const bool transformIsDisplacement = this->m_MattesAssociate->m_MovingTransform->GetTransformCategory() ==
-                                       MovingTransformType::TransformCategoryType::DisplacementField;
+                                       MovingTransformType::TransformCategoryEnum::DisplacementField;
   while (pdfMovingIndex <= pdfMovingIndexMax)
   {
     const auto val =

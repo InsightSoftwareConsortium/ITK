@@ -67,7 +67,7 @@ public:
   using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
   /** Transform category type. */
-  using TransformCategoryType = typename Superclass::TransformCategoryType;
+  using TransformCategoryEnum = typename Superclass::TransformCategoryEnum;
 
   /** The number of parameters defining this transform. */
   using NumberOfParametersType = typename Superclass::NumberOfParametersType;
@@ -311,10 +311,10 @@ public:
   virtual NumberOfParametersType
   GetNumberOfParametersPerDimension() const = 0;
 
-  TransformCategoryType
+  TransformCategoryEnum
   GetTransformCategory() const override
   {
-    return Self::TransformCategoryType::BSpline;
+    return Self::TransformCategoryEnum::BSpline;
   }
 
   unsigned int

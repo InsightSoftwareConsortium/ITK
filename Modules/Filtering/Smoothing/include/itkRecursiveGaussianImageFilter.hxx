@@ -30,7 +30,7 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::RecursiveGaussianImageF
 {
   m_Sigma = 1.0;
   m_NormalizeAcrossScale = false;
-  m_Order = EnumGaussianOrderType::ZeroOrder;
+  m_Order = GaussianOrderEnum::ZeroOrder;
 }
 
 /**
@@ -40,7 +40,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetZeroOrder()
 {
-  this->SetOrder(EnumGaussianOrderType::ZeroOrder);
+  this->SetOrder(GaussianOrderEnum::ZeroOrder);
 }
 
 /**
@@ -50,7 +50,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetFirstOrder()
 {
-  this->SetOrder(EnumGaussianOrderType::FirstOrder);
+  this->SetOrder(GaussianOrderEnum::FirstOrder);
 }
 
 /**
@@ -60,7 +60,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSecondOrder()
 {
-  this->SetOrder(EnumGaussianOrderType::SecondOrder);
+  this->SetOrder(GaussianOrderEnum::SecondOrder);
 }
 
 /**
@@ -124,7 +124,7 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType sp
 
   switch (m_Order)
   {
-    case EnumGaussianOrderType::ZeroOrder:
+    case GaussianOrderEnum::ZeroOrder:
     {
       // Approximation of convolution with a gaussian.
       ComputeNCoefficients(
@@ -139,7 +139,7 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType sp
       this->ComputeRemainingCoefficients(symmetric);
       break;
     }
-    case EnumGaussianOrderType::FirstOrder:
+    case GaussianOrderEnum::FirstOrder:
     {
       if (this->GetNormalizeAcrossScale())
       {
@@ -162,7 +162,7 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType sp
       this->ComputeRemainingCoefficients(symmetric);
       break;
     }
-    case EnumGaussianOrderType::SecondOrder:
+    case GaussianOrderEnum::SecondOrder:
     {
       if (this->GetNormalizeAcrossScale())
       {

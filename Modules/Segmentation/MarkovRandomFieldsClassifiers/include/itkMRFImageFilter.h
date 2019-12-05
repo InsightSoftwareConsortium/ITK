@@ -32,10 +32,10 @@
 
 namespace itk
 {
-/** \class MRFStopType
+/** \class MRFStopEnum
  *  \ingroup ITKMarkovRandomFieldsClassifiers
  * Enum to get the stopping condition of the MRF filter*/
-enum class MRFStopType : uint8_t
+enum class MRFStopEnum : uint8_t
 {
   MaximumNumberOfIterations = 1,
   ErrorTolerance
@@ -294,17 +294,17 @@ public:
   }
 
   /** Backwards compatibility for enumerations */
-  using StopConditionType = MRFStopType;
+  using StopConditionEnum = MRFStopEnum;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr StopConditionType MaximumNumberOfIterations = StopConditionType::MaximumNumberOfIterations;
-  static constexpr StopConditionType ErrorTolerance = StopConditionType::ErrorTolerance;
+  static constexpr StopConditionEnum MaximumNumberOfIterations = StopConditionEnum::MaximumNumberOfIterations;
+  static constexpr StopConditionEnum ErrorTolerance = StopConditionEnum::ErrorTolerance;
 #endif
 
   /** Get condition that stops the MRF filter (Number of Iterations
    * / Error tolerance ) */
-  itkGetConstReferenceMacro(StopCondition, StopConditionType);
+  itkGetConstReferenceMacro(StopCondition, StopConditionEnum);
 
   /* Get macro for number of iterations */
   itkGetConstReferenceMacro(NumberOfIterations, unsigned int);
@@ -396,7 +396,7 @@ private:
   double            m_SmoothingFactor{ 1 };
   double *          m_ClassProbability{ nullptr }; // Class liklihood
   unsigned int      m_NumberOfIterations{ 0 };
-  StopConditionType m_StopCondition;
+  StopConditionEnum m_StopCondition;
 
   LabelStatusImagePointer m_LabelStatusImage;
 
@@ -421,7 +421,7 @@ private:
 
 /** Define how to print enumerations. */
 extern ITKMarkovRandomFieldsClassifiers_EXPORT std::ostream &
-                                               operator<<(std::ostream & out, const MRFStopType value);
+                                               operator<<(std::ostream & out, const MRFStopEnum value);
 
 } // namespace itk
 

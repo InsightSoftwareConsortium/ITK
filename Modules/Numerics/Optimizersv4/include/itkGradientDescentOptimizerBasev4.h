@@ -61,7 +61,7 @@ public:
     CONVERGENCE_CHECKER_PASSED,
     GRADIENT_MAGNITUDE_TOLEARANCE,
     OTHER_ERROR
-  } StopConditionType;
+  } StopConditionEnum;
 
   /** Stop condition return string type */
   using StopConditionReturnStringType = typename Superclass::StopConditionReturnStringType;
@@ -93,7 +93,7 @@ public:
   itkGetConstReferenceMacro(Gradient, DerivativeType);
 
   /** Get stop condition enum */
-  itkGetConstReferenceMacro(StopCondition, StopConditionType);
+  itkGetConstReferenceMacro(StopCondition, StopConditionEnum);
 
   /** Set the number of iterations. */
   void
@@ -221,7 +221,7 @@ protected:
 
   /* Common variables for optimization control and reporting */
   bool                         m_Stop{ false };
-  StopConditionType            m_StopCondition;
+  StopConditionEnum            m_StopCondition;
   StopConditionDescriptionType m_StopConditionDescription;
 
   /** Current gradient */

@@ -35,7 +35,7 @@ LoggerOutput::DisplayText(const char * t)
 {
   if (this->m_Logger)
   {
-    this->m_Logger->Write(LoggerBase::PriorityLevelType::INFO, t);
+    this->m_Logger->Write(LoggerBase::PriorityLevelEnum::INFO, t);
   }
 }
 
@@ -47,7 +47,7 @@ LoggerOutput::DisplayErrorText(const char * t)
 {
   if (this->m_Logger)
   {
-    this->m_Logger->Write(LoggerBase::PriorityLevelType::CRITICAL, t);
+    this->m_Logger->Write(LoggerBase::PriorityLevelEnum::CRITICAL, t);
   }
 }
 
@@ -59,7 +59,7 @@ LoggerOutput::DisplayWarningText(const char * t)
 {
   if (this->m_Logger)
   {
-    this->m_Logger->Write(LoggerBase::PriorityLevelType::WARNING, t);
+    this->m_Logger->Write(LoggerBase::PriorityLevelEnum::WARNING, t);
   }
 }
 
@@ -71,7 +71,7 @@ LoggerOutput::DisplayGenericOutputText(const char * t)
 {
   if (this->m_Logger)
   {
-    this->m_Logger->Write(LoggerBase::PriorityLevelType::INFO, t);
+    this->m_Logger->Write(LoggerBase::PriorityLevelEnum::INFO, t);
   }
 }
 
@@ -83,7 +83,7 @@ LoggerOutput::DisplayDebugText(const char * t)
 {
   if (this->m_Logger)
   {
-    this->m_Logger->Write(LoggerBase::PriorityLevelType::DEBUG, t);
+    this->m_Logger->Write(LoggerBase::PriorityLevelEnum::DEBUG, t);
   }
 }
 

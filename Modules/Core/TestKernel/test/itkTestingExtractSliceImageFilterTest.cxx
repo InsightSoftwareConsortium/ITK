@@ -88,40 +88,40 @@ itkTestingExtractSliceImageFilterTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(extractRegion, filter->GetExtractionRegion());
 
   FilterType::DIRECTIONCOLLAPSESTRATEGY strategy =
-    itk::Testing::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN;
+    itk::Testing::TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN;
 
   ITK_TEST_SET_GET_VALUE(strategy, filter->GetDirectionCollapseToStrategy());
   ITK_TRY_EXPECT_EXCEPTION(filter->Update());
 
   ITK_TRY_EXPECT_EXCEPTION(filter->SetDirectionCollapseToStrategy(
-    itk::Testing::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN));
+    itk::Testing::TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN));
 
   filter->SetDirectionCollapseToIdentity();
-  strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY;
+  strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY;
   ITK_TEST_SET_GET_VALUE(strategy, filter->GetDirectionCollapseToStrategy());
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   filter->SetDirectionCollapseToGuess();
-  strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS;
+  strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS;
   ITK_TEST_SET_GET_VALUE(strategy, filter->GetDirectionCollapseToStrategy());
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   filter->SetDirectionCollapseToSubmatrix();
-  strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX;
+  strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX;
   ITK_TEST_SET_GET_VALUE(strategy, filter->GetDirectionCollapseToStrategy());
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-  strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY;
+  strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY;
   filter->SetDirectionCollapseToStrategy(strategy);
   ITK_TEST_SET_GET_VALUE(strategy, filter->GetDirectionCollapseToStrategy());
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-  strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS;
+  strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS;
   filter->SetDirectionCollapseToStrategy(strategy);
   ITK_TEST_SET_GET_VALUE(strategy, filter->GetDirectionCollapseToStrategy());
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-  strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX;
+  strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX;
   filter->SetDirectionCollapseToStrategy(strategy);
   ITK_TEST_SET_GET_VALUE(strategy, filter->GetDirectionCollapseToStrategy());
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());

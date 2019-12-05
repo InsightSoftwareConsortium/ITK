@@ -89,7 +89,7 @@ FileListVideoIO::SetReadFromFile()
 {
   if (!m_ReaderOpen && !m_WriterOpen)
   {
-    m_ReadType = ReadType::ReadFromFile;
+    m_ReadFrom = ReadFromEnum::ReadFromFile;
   }
   else
   {
@@ -122,7 +122,7 @@ FileListVideoIO::CanReadFile(const char * filename)
 
   // Make sure we can instantiate an ImageIO to read the first file
   ImageIOBase::Pointer ioTemp =
-    ImageIOFactory::CreateImageIO(fileList[0].c_str(), ImageIOFactory::FileModeType::ReadMode);
+    ImageIOFactory::CreateImageIO(fileList[0].c_str(), ImageIOFactory::FileModeEnum::ReadMode);
   if (ioTemp.IsNull())
   {
     return false;
@@ -141,7 +141,7 @@ void
 FileListVideoIO::ReadImageInformation()
 {
   // Open from a file
-  if (m_ReadType == ReadType::ReadFromFile)
+  if (m_ReadFrom == ReadFromEnum::ReadFromFile)
   {
 
     // Make sure file can be read
@@ -185,7 +185,7 @@ FileListVideoIO::ReadImageInformation()
   }
 
   // Open capture from a camera
-  else if (m_ReadType == ReadType::ReadFromCamera)
+  else if (m_ReadFrom == ReadFromEnum::ReadFromCamera)
   {
     itkExceptionMacro("FileListVideoIO cannot read from a camera");
   }
@@ -284,7 +284,7 @@ FileListVideoIO::CanWriteFile(const char * filename)
 
   // Make sure we can instantiate an ImageIO to write the first file
   ImageIOBase::Pointer ioTemp =
-    ImageIOFactory::CreateImageIO(fileList[0].c_str(), ImageIOFactory::FileModeType::WriteMode);
+    ImageIOFactory::CreateImageIO(fileList[0].c_str(), ImageIOFactory::FileModeEnum::WriteMode);
   if (ioTemp.IsNull())
   {
     return false;
@@ -380,10 +380,10 @@ FileListVideoIO::OpenReader()
   }
 
   // If neither reader nor writer is currently open, open the reader
-  if (m_ReadType == ReadType::ReadFromFile)
+  if (m_ReadFrom == ReadFromEnum::ReadFromFile)
   {
     // Use the ImageIOFactory to instantiate a working ImageIO
-    m_ImageIO = ImageIOFactory::CreateImageIO(m_FileNames[0].c_str(), ImageIOFactory::FileModeType::ReadMode);
+    m_ImageIO = ImageIOFactory::CreateImageIO(m_FileNames[0].c_str(), ImageIOFactory::FileModeEnum::ReadMode);
     if (!m_ImageIO.IsNull())
     {
       m_ReaderOpen = true;
@@ -393,7 +393,7 @@ FileListVideoIO::OpenReader()
       itkExceptionMacro("Video failed to open");
     }
   }
-  else if (m_ReadType == ReadType::ReadFromCamera)
+  else if (m_ReadFrom == ReadFromEnum::ReadFromCamera)
   {
     itkExceptionMacro("FileListVideoIO doesn't support reading from camera");
   }
@@ -424,7 +424,7 @@ FileListVideoIO::OpenWriter()
   }
 
   // If neither reader nor writer is currently open, open the writer
-  m_ImageIO = ImageIOFactory::CreateImageIO(m_FileNames[0].c_str(), ImageIOFactory::FileModeType::WriteMode);
+  m_ImageIO = ImageIOFactory::CreateImageIO(m_FileNames[0].c_str(), ImageIOFactory::FileModeEnum::WriteMode);
   if (!m_ImageIO.IsNull())
   {
     m_WriterOpen = true;
@@ -451,7 +451,7 @@ FileListVideoIO::ResetMembers()
   m_LastIFrame = 0;
 
   // Default to reading from a file
-  m_ReadType = ReadType::ReadFromFile;
+  m_ReadFrom = ReadFromEnum::ReadFromFile;
 
   // Members from ImageIOBase
   m_PixelType = SCALAR;

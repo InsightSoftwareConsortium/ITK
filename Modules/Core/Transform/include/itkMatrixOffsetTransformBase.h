@@ -136,7 +136,7 @@ public:
   using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
   /** Transform category type. */
-  using TransformCategoryType = typename Superclass::TransformCategoryType;
+  using TransformCategoryEnum = typename Superclass::TransformCategoryEnum;
 
   /** Standard scalar type for this class */
   using ScalarType = typename Superclass::ScalarType;
@@ -203,10 +203,10 @@ public:
   /** Indicates the category transform.
    *  e.g. an affine transform, or a local one, e.g. a deformation field.
    */
-  TransformCategoryType
+  TransformCategoryEnum
   GetTransformCategory() const override
   {
-    return Self::TransformCategoryType::Linear;
+    return Self::TransformCategoryEnum::Linear;
   }
 
   /** Set matrix of an MatrixOffsetTransformBase

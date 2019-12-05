@@ -177,11 +177,11 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filterX1->SetOrder(itk::EnumGaussianOrderType::ZeroOrder);
-  filterY1->SetOrder(itk::EnumGaussianOrderType::SecondOrder);
+  filterX1->SetOrder(itk::GaussianOrderEnum::ZeroOrder);
+  filterY1->SetOrder(itk::GaussianOrderEnum::SecondOrder);
 
-  filterX2->SetOrder(itk::EnumGaussianOrderType::SecondOrder);
-  filterY2->SetOrder(itk::EnumGaussianOrderType::ZeroOrder);
+  filterX2->SetOrder(itk::GaussianOrderEnum::SecondOrder);
+  filterY2->SetOrder(itk::GaussianOrderEnum::ZeroOrder);
   // Software Guide : EndCodeSnippet
 
 

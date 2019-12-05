@@ -74,7 +74,7 @@ SphereMeshSource<TOutputMesh>::GenerateData()
 
   outputMesh->GetPoints()->Reserve(numpts);
 
-  outputMesh->SetCellsAllocationMethod(MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell);
+  outputMesh->SetCellsAllocationMethod(MeshClassCellsAllocationMethodEnum::CellsAllocatedDynamicallyCellByCell);
 
   PointsContainerPointer             myPoints = outputMesh->GetPoints();
   typename PointsContainer::Iterator point = myPoints->Begin();

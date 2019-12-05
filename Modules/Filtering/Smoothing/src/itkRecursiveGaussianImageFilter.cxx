@@ -21,16 +21,16 @@ namespace itk
 {
 /** Define how to print enumerations. */
 std::ostream &
-operator<<(std::ostream & out, const EnumGaussianOrderType value)
+operator<<(std::ostream & out, const GaussianOrderEnum value)
 {
   return out << [value] {
     switch (value)
     {
-      case EnumGaussianOrderType::ZeroOrder:
+      case GaussianOrderEnum::ZeroOrder:
         return "EnumType::ZeroOrder";
-      case EnumGaussianOrderType::FirstOrder:
+      case GaussianOrderEnum::FirstOrder:
         return "EnumType::FirstOrder";
-      case EnumGaussianOrderType::SecondOrder:
+      case GaussianOrderEnum::SecondOrder:
         return "EnumType::SecondOrder";
       default:
         return "INVALID VALUE FOR EnumType";

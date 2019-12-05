@@ -619,7 +619,7 @@ itkMultiTransformTest(int, char *[])
   ITK_TRY_EXPECT_EXCEPTION(multiTransform->SetFixedParameters(parametersTruth));
 
   /* GetTransformCategory */
-  if (multiTransform->GetTransformCategory() != MultiTransformType::TransformCategoryType::UnknownTransformCategory)
+  if (multiTransform->GetTransformCategory() != MultiTransformType::TransformCategoryEnum::UnknownTransformCategory)
   {
     std::cout << "ERROR: GetTransformCategory returned " << multiTransform->GetTransformCategory()
               << " instead of Unknown." << std::endl;

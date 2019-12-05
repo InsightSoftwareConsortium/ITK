@@ -174,7 +174,7 @@ template <typename TOutputVideoStream>
 void
 VideoFileReader<TOutputVideoStream>::InitializeVideoIO()
 {
-  m_VideoIO = itk::VideoIOFactory::CreateVideoIO(itk::VideoIOFactory::IOModeType::ReadFileMode, m_FileName.c_str());
+  m_VideoIO = itk::VideoIOFactory::CreateVideoIO(itk::VideoIOFactory::IOModeEnum::ReadFileMode, m_FileName.c_str());
   m_VideoIO->SetFileName(m_FileName.c_str());
   m_VideoIO->ReadImageInformation();
 

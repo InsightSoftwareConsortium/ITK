@@ -66,11 +66,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(GradientDescentOptimizer, SingleValuedNonLinearOptimizer);
 
-  /** \class StopConditionType
+  /** \class StopConditionEnum
    *
    * \ingroup ITKOptimizers
    * Codes of stopping conditions */
-  enum class StopConditionType : uint8_t
+  enum class StopConditionEnum : uint8_t
   {
     MaximumNumberOfIterations,
     MetricError
@@ -78,8 +78,8 @@ public:
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr StopConditionType MaximumNumberOfIterations = StopConditionType::MaximumNumberOfIterations;
-  static constexpr StopConditionType MetricError = StopConditionType::MetricError;
+  static constexpr StopConditionEnum MaximumNumberOfIterations = StopConditionEnum::MaximumNumberOfIterations;
+  static constexpr StopConditionEnum MetricError = StopConditionEnum::MetricError;
 #endif
 
   /** Methods to configure the cost function. */
@@ -144,7 +144,7 @@ public:
   itkGetConstReferenceMacro(Value, double);
 
   /** Get Stop condition. */
-  itkGetConstReferenceMacro(StopCondition, StopConditionType);
+  itkGetConstReferenceMacro(StopCondition, StopConditionEnum);
   const std::string
   GetStopConditionDescription() const override;
 
@@ -167,7 +167,7 @@ protected:
 private:
   bool               m_Stop{ false };
   double             m_Value{ 0.0 };
-  StopConditionType  m_StopCondition{ StopConditionType::MaximumNumberOfIterations };
+  StopConditionEnum  m_StopCondition{ StopConditionEnum::MaximumNumberOfIterations };
   SizeValueType      m_NumberOfIterations{ 100 };
   SizeValueType      m_CurrentIteration{ 0 };
   std::ostringstream m_StopConditionDescription;
@@ -175,7 +175,7 @@ private:
 
 // Define how to print enumeration
 extern ITKOptimizers_EXPORT std::ostream &
-                            operator<<(std::ostream & out, const GradientDescentOptimizer::StopConditionType value);
+                            operator<<(std::ostream & out, const GradientDescentOptimizer::StopConditionEnum value);
 
 } // end namespace itk
 

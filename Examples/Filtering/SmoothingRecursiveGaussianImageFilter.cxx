@@ -171,8 +171,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filterX->SetOrder(itk::EnumGaussianOrderType::ZeroOrder);
-  filterY->SetOrder(itk::EnumGaussianOrderType::ZeroOrder);
+  filterX->SetOrder(itk::GaussianOrderEnum::ZeroOrder);
+  filterY->SetOrder(itk::GaussianOrderEnum::ZeroOrder);
   // Software Guide : EndCodeSnippet
 
 
