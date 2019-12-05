@@ -92,9 +92,8 @@
 
         assert ndarr.ndim in ( 2, 3, 4 ), \
             "Only arrays of 2, 3 or 4 dimensions are supported."
-        if( not ndarr.flags['C_CONTIGUOUS'] and not ndarr.flags['F_CONTIGUOUS'] ):
-            raise ValueError("Array memory is not contiguous. Try converting your array with "
-                  + "`ascontiguousarray()` or `copy()` or use `GetImageFromArray()`")
+        if not ndarr.flags['C_CONTIGUOUS'] and not ndarr.flags['F_CONTIGUOUS']:
+            ndarr = numpy.ascontiguousarray(ndarr)
 
         if ( ndarr.ndim == 3 and is_vector ) or (ndarr.ndim == 4):
             if( ndarr.flags['C_CONTIGUOUS'] ):
