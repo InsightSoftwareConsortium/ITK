@@ -443,7 +443,7 @@ str = str
           def __array__(self, dtype=None):
               import itk
               import numpy as np
-              array = itk.array_view_from_image(self)
+              array = itk.array_from_image(self)
               return np.asarray(array, dtype=dtype)
       }
   }
