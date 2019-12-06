@@ -129,28 +129,28 @@ ScalarToRGBColormapImageFilter<TInputImage, TOutputImage>::SetColormap(ColormapE
 {
   switch (map)
   {
-    case RGBColormapFilterEnumType::Red:
+    case RGBColormapFilterEnum::Red:
     {
       using SpecificColormapType = Function::RedColormapFunction<InputImagePixelType, OutputImagePixelType>;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
     }
-    case RGBColormapFilterEnumType::Green:
+    case RGBColormapFilterEnum::Green:
     {
       using SpecificColormapType = Function::GreenColormapFunction<InputImagePixelType, OutputImagePixelType>;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
     }
-    case RGBColormapFilterEnumType::Blue:
+    case RGBColormapFilterEnum::Blue:
     {
       using SpecificColormapType = Function::BlueColormapFunction<InputImagePixelType, OutputImagePixelType>;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
     }
-    case RGBColormapFilterEnumType::Grey:
+    case RGBColormapFilterEnum::Grey:
     default:
     {
       using SpecificColormapType = Function::GreyColormapFunction<InputImagePixelType, OutputImagePixelType>;
@@ -158,70 +158,70 @@ ScalarToRGBColormapImageFilter<TInputImage, TOutputImage>::SetColormap(ColormapE
       this->SetColormap(colormap);
       break;
     }
-    case RGBColormapFilterEnumType::Hot:
+    case RGBColormapFilterEnum::Hot:
     {
       using SpecificColormapType = Function::HotColormapFunction<InputImagePixelType, OutputImagePixelType>;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
     }
-    case RGBColormapFilterEnumType::Cool:
+    case RGBColormapFilterEnum::Cool:
     {
       using SpecificColormapType = Function::CoolColormapFunction<InputImagePixelType, OutputImagePixelType>;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
     }
-    case RGBColormapFilterEnumType::Spring:
+    case RGBColormapFilterEnum::Spring:
     {
       using SpecificColormapType = Function::SpringColormapFunction<InputImagePixelType, OutputImagePixelType>;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
     }
-    case RGBColormapFilterEnumType::Summer:
+    case RGBColormapFilterEnum::Summer:
     {
       using SpecificColormapType = Function::SummerColormapFunction<InputImagePixelType, OutputImagePixelType>;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
     }
-    case RGBColormapFilterEnumType::Autumn:
+    case RGBColormapFilterEnum::Autumn:
     {
       using SpecificColormapType = Function::AutumnColormapFunction<InputImagePixelType, OutputImagePixelType>;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
     }
-    case RGBColormapFilterEnumType::Winter:
+    case RGBColormapFilterEnum::Winter:
     {
       using SpecificColormapType = Function::WinterColormapFunction<InputImagePixelType, OutputImagePixelType>;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
     }
-    case RGBColormapFilterEnumType::Copper:
+    case RGBColormapFilterEnum::Copper:
     {
       using SpecificColormapType = Function::CopperColormapFunction<InputImagePixelType, OutputImagePixelType>;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
     }
-    case RGBColormapFilterEnumType::Jet:
+    case RGBColormapFilterEnum::Jet:
     {
       using SpecificColormapType = Function::JetColormapFunction<InputImagePixelType, OutputImagePixelType>;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
     }
-    case RGBColormapFilterEnumType::HSV:
+    case RGBColormapFilterEnum::HSV:
     {
       using SpecificColormapType = Function::HSVColormapFunction<InputImagePixelType, OutputImagePixelType>;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
     }
-    case RGBColormapFilterEnumType::OverUnder:
+    case RGBColormapFilterEnum::OverUnder:
     {
       using SpecificColormapType = Function::OverUnderColormapFunction<InputImagePixelType, OutputImagePixelType>;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();

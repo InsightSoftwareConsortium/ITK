@@ -27,7 +27,7 @@ template <typename TMatrix, typename TVector, typename TEigenMatrix>
 unsigned int
 SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValues(const TMatrix & A, TVector & D) const
 {
-  if (m_UseEigenLibrary && m_OrderEigenValues != OrderType::DoNotOrder)
+  if (m_UseEigenLibrary && m_OrderEigenValues != EigenValueOrderEnum::DoNotOrder)
   {
     return ComputeEigenValuesWithEigenLibrary(A, D);
   }
@@ -532,7 +532,7 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesUsingQ
 
     p = d[l] + f;
 
-    if (m_OrderEigenValues == OrderType::OrderByValue)
+    if (m_OrderEigenValues == EigenValueOrderEnum::OrderByValue)
     {
       // Order by value
       for (i = l; i > 0; --i)
@@ -545,7 +545,7 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesUsingQ
       }
       d[i] = p;
     }
-    else if (m_OrderEigenValues == OrderType::OrderByMagnitude)
+    else if (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude)
     {
       // Order by magnitude. Make eigenvalues positive
       for (i = l; i > 0; --i)
@@ -691,7 +691,7 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesAndVec
   }
 
   // Order eigenvalues and eigenvectors
-  if (m_OrderEigenValues == OrderType::OrderByValue)
+  if (m_OrderEigenValues == EigenValueOrderEnum::OrderByValue)
   {
     // Order by value
     for (i = 0; i < m_Order - 1; ++i)
@@ -724,7 +724,7 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesAndVec
       }
     }
   }
-  else if (m_OrderEigenValues == OrderType::OrderByMagnitude)
+  else if (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude)
   {
     // Order by magnitude
     for (i = 0; i < m_Order - 1; ++i)

@@ -218,7 +218,7 @@ itkImageIOBaseTest(int, char *[])
       // Create an instance of ImageIOBase. It does not matter that 'test' is not a valid image to read,
       // we just want the ImageIOBase object.
       itk::ImageIOBase::Pointer imageIOBase =
-        itk::ImageIOFactory::CreateImageIO("test", itk::ImageIOFactory::FileModeType::ReadMode);
+        itk::ImageIOFactory::CreateImageIO("test", itk::ImageIOFactory::FileModeEnum::ReadMode);
       for (size_t i = 0; i < listComponentSize; ++i)
       {
         std::string componentTypeString = imageIOBase->GetComponentTypeAsString(listComponentType[i]);

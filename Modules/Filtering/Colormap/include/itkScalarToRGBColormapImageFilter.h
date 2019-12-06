@@ -24,10 +24,10 @@
 
 namespace itk
 {
-/** \class RGBColormapFilterEnumType
+/** \class RGBColormapFilterEnum
  * \ingroup ITKColormap
  * Enum type that provides for an easy interface to existing colormaps. */
-enum class RGBColormapFilterEnumType : uint8_t
+enum class RGBColormapFilterEnum : uint8_t
 {
   Red,
   Green,
@@ -53,7 +53,7 @@ enum class RGBColormapFilterEnumType : uint8_t
  *
  * The input image's scalar pixel values are mapped into a color map.
  * The color map is specified by passing the SetColormap function one of the
- * predefined maps. The following selects the "RGBColormapFilterEnumType::Hot" colormap:
+ * predefined maps. The following selects the "RGBColormapFilterEnum::Hot" colormap:
    \code
    RGBFilterType::Pointer colormapImageFilter = RGBFilterType::New();
    colormapImageFilter->SetColormap( RGBFilterType::Hot );
@@ -130,7 +130,7 @@ public:
   itkGetModifiableObjectMacro(Colormap, ColormapType);
 
   /** Reverse compatibility for enum values */
-  using ColormapEnumType = RGBColormapFilterEnumType;
+  using ColormapEnumType = RGBColormapFilterEnum;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
@@ -212,7 +212,7 @@ private:
 
 /** Define how to print enumerations */
 extern ITKColormap_EXPORT std::ostream &
-                          operator<<(std::ostream & out, const RGBColormapFilterEnumType value);
+                          operator<<(std::ostream & out, const RGBColormapFilterEnum value);
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

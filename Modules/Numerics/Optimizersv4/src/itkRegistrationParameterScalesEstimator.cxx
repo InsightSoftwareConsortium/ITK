@@ -21,23 +21,23 @@ namespace itk
 {
 /** Define how to print enumerations */
 std::ostream &
-operator<<(std::ostream & out, const StrategyTypeForSampling value)
+operator<<(std::ostream & out, const SamplingStrategyEnum value)
 {
   return out << [value] {
     switch (value)
     {
-      case StrategyTypeForSampling::FullDomainSampling:
-        return "StrategyTypeForSampling::FullDomainSampling";
-      case StrategyTypeForSampling::CornerSampling:
-        return "StrategyTypeForSampling::CornerSampling";
-      case StrategyTypeForSampling::RandomSampling:
-        return "StrategyTypeForSampling::RandomSampling";
-      case StrategyTypeForSampling::CentralRegionSampling:
-        return "StrategyTypeForSampling::CentralRegionSampling";
-      case StrategyTypeForSampling::VirtualDomainPointSetSampling:
-        return "StrategyTypeForSampling::VirtualDomainPointSetSampling";
+      case SamplingStrategyEnum::FullDomainSampling:
+        return "SamplingStrategyEnum::FullDomainSampling";
+      case SamplingStrategyEnum::CornerSampling:
+        return "SamplingStrategyEnum::CornerSampling";
+      case SamplingStrategyEnum::RandomSampling:
+        return "SamplingStrategyEnum::RandomSampling";
+      case SamplingStrategyEnum::CentralRegionSampling:
+        return "SamplingStrategyEnum::CentralRegionSampling";
+      case SamplingStrategyEnum::VirtualDomainPointSetSampling:
+        return "SamplingStrategyEnum::VirtualDomainPointSetSampling";
       default:
-        return "INVALID VALUE FOR StrategyTypeForSampling";
+        return "INVALID VALUE FOR SamplingStrategyEnum";
     }
   }();
 }

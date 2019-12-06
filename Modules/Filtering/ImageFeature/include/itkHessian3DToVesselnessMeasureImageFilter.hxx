@@ -35,7 +35,7 @@ Hessian3DToVesselnessMeasureImageFilter<TPixel>::Hessian3DToVesselnessMeasureIma
 
   // Hessian( Image ) = Jacobian( Gradient ( Image ) )  is symmetric
   m_SymmetricEigenValueFilter = EigenAnalysisFilterType::New();
-  m_SymmetricEigenValueFilter->OrderEigenValuesBy(Functor::OrderTypeOfEigenValue::OrderByValue);
+  m_SymmetricEigenValueFilter->OrderEigenValuesBy(EigenValueOrderEnum::OrderByValue);
 }
 
 template <typename TPixel>

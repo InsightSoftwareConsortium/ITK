@@ -120,7 +120,7 @@ public:
   using JacobianPositionType = typename Superclass::JacobianPositionType;
   using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
   /** Transform category type. */
-  using TransformCategoryType = typename Superclass::TransformCategoryType;
+  using TransformCategoryEnum = typename Superclass::TransformCategoryEnum;
   /** Standard coordinate point type for this class. */
   using InputPointType = typename Superclass::InputPointType;
   using OutputPointType = typename Superclass::OutputPointType;
@@ -329,7 +329,7 @@ public:
    * are linear, then return category Linear. Otherwise if all
    * transforms set to optimize are DisplacementFields, then
    * return DisplacementField category. */
-  TransformCategoryType
+  TransformCategoryEnum
   GetTransformCategory() const override;
 
   /** Get/Set Parameter functions work on the current list of transforms

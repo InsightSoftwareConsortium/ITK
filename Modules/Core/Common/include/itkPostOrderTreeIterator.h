@@ -92,7 +92,7 @@ template <typename TTreeType>
 typename PostOrderTreeIterator<TTreeType>::NodeType
 PostOrderTreeIterator<TTreeType>::GetType() const
 {
-  return TreeIteratorBaseNodeType::POSTORDER;
+  return TreeIteratorBaseNodeEnum::POSTORDER;
 }
 
 /** Return true if the next node exists */

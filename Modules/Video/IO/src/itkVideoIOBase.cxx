@@ -42,17 +42,17 @@ VideoIOBase::PrintSelf(std::ostream & os, Indent indent) const
 
 /** Print Enumerations */
 std::ostream &
-operator<<(std::ostream & out, const VideoIOBase::ReadType value)
+operator<<(std::ostream & out, const VideoIOBase::ReadFromEnum value)
 {
   return out << [value] {
     switch (value)
     {
-      case VideoIOBase::ReadType::ReadFromFile:
-        return "VideoIOBase::ReadType::ReadFromFile";
-      case VideoIOBase::ReadType::ReadFromCamera:
-        return "VideoIOBase::ReadType::ReadFromCamera";
+      case VideoIOBase::ReadFromEnum::ReadFromFile:
+        return "VideoIOBase::ReadFromEnum::ReadFromFile";
+      case VideoIOBase::ReadFromEnum::ReadFromCamera:
+        return "VideoIOBase::ReadFromEnum::ReadFromCamera";
       default:
-        return "INVALID VALUE FOR VideoIOBase::ReadType";
+        return "INVALID VALUE FOR VideoIOBase::ReadFromEnum";
     }
   }();
 }

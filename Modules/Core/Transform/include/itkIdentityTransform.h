@@ -82,7 +82,7 @@ public:
   using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
   /** Transform category type. */
-  using TransformCategoryType = typename Superclass::TransformCategoryType;
+  using TransformCategoryEnum = typename Superclass::TransformCategoryEnum;
 
   /** Standard vector type for this class. */
   using InputVectorType = Vector<TParametersValueType, Self::InputSpaceDimension>;
@@ -209,10 +209,10 @@ public:
    *
    * \f[ T( a*P + b*Q ) = a * T(P) + b * T(Q) \f]
    */
-  TransformCategoryType
+  TransformCategoryEnum
   GetTransformCategory() const override
   {
-    return Self::TransformCategoryType::Linear;
+    return Self::TransformCategoryEnum::Linear;
   }
 
   /** Get the Fixed Parameters. */

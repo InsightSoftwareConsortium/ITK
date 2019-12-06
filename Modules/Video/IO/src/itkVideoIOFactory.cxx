@@ -25,7 +25,7 @@
 namespace itk
 {
 VideoIOBase::Pointer
-VideoIOFactory::CreateVideoIO(IOModeType mode, const char * arg)
+VideoIOFactory::CreateVideoIO(IOModeEnum mode, const char * arg)
 {
   std::list<VideoIOBase::Pointer> possibleVideoIO;
   for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkVideoIOBase"))
@@ -48,7 +48,7 @@ VideoIOFactory::CreateVideoIO(IOModeType mode, const char * arg)
   {
 
     // Check file readability if reading from file
-    if (mode == IOModeType::ReadFileMode)
+    if (mode == IOModeEnum::ReadFileMode)
     {
       if (j->CanReadFile(arg))
       {
@@ -57,7 +57,7 @@ VideoIOFactory::CreateVideoIO(IOModeType mode, const char * arg)
     }
 
     // Check camera readability if reading from camera
-    else if (mode == IOModeType::ReadCameraMode)
+    else if (mode == IOModeEnum::ReadCameraMode)
     {
       int cameraIndex = std::stoi(arg);
       if (j->CanReadCamera(cameraIndex))
@@ -67,7 +67,7 @@ VideoIOFactory::CreateVideoIO(IOModeType mode, const char * arg)
     }
 
     // Check file writability if writing
-    else if (mode == IOModeType::WriteMode)
+    else if (mode == IOModeEnum::WriteMode)
     {
       if (j->CanWriteFile(arg))
       {
@@ -81,19 +81,19 @@ VideoIOFactory::CreateVideoIO(IOModeType mode, const char * arg)
 }
 /** Print Enumerations */
 std::ostream &
-operator<<(std::ostream & out, const VideoIOFactory::IOModeType value)
+operator<<(std::ostream & out, const VideoIOFactory::IOModeEnum value)
 {
   return out << [value] {
     switch (value)
     {
-      case VideoIOFactory::IOModeType::ReadFileMode:
-        return "VideoIOFactory::IOModeType::ReadFileMode";
-      case VideoIOFactory::IOModeType::ReadCameraMode:
-        return "VideoIOFactory::IOModeType::ReadCameraMode";
-      case VideoIOFactory::IOModeType::WriteMode:
-        return "VideoIOFactory::IOModeType::WriteMode";
+      case VideoIOFactory::IOModeEnum::ReadFileMode:
+        return "VideoIOFactory::IOModeEnum::ReadFileMode";
+      case VideoIOFactory::IOModeEnum::ReadCameraMode:
+        return "VideoIOFactory::IOModeEnum::ReadCameraMode";
+      case VideoIOFactory::IOModeEnum::WriteMode:
+        return "VideoIOFactory::IOModeEnum::WriteMode";
       default:
-        return "INVALID VALUE FOR VideoIOFactory::IOModeType";
+        return "INVALID VALUE FOR VideoIOFactory::IOModeEnum";
     }
   }();
 }

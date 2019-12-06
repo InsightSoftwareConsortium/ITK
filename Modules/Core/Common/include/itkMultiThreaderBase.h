@@ -110,7 +110,7 @@ public:
 
   /** Currently supported types of multi-threader implementations.
    * Last will change with additional implementations. */
-  enum class ThreaderType : int8_t
+  enum class ThreaderEnum : int8_t
   {
     Platform = 0,
     First = Platform,
@@ -119,27 +119,30 @@ public:
     Last = TBB,
     Unknown = -1
   };
+#if !defined(ITK_LEGACY_REMOVE)
+  using ThreaderType = ThreaderEnum;
+#endif
 
   /** Convert a threader name into its enum type. */
-  static ThreaderType
+  static ThreaderEnum
   ThreaderTypeFromString(std::string threaderString);
 
   /** Convert a threader enum type into a string for displaying or logging. */
   static std::string
-  ThreaderTypeToString(ThreaderType threader)
+  ThreaderTypeToString(ThreaderEnum threader)
   {
     switch (threader)
     {
-      case ThreaderType::Platform:
+      case ThreaderEnum::Platform:
         return "Platform";
         break;
-      case ThreaderType::Pool:
+      case ThreaderEnum::Pool:
         return "Pool";
         break;
-      case ThreaderType::TBB:
+      case ThreaderEnum::TBB:
         return "TBB";
         break;
-      case ThreaderType::Unknown:
+      case ThreaderEnum::Unknown:
       default:
         return "Unknown";
         break;
@@ -158,8 +161,8 @@ public:
    * If the SetGlobalDefaultThreaderType API is ever used by the developer,
    * the developer's choice is respected over the environment variables. */
   static void
-  SetGlobalDefaultThreader(ThreaderType threaderType);
-  static ThreaderType
+  SetGlobalDefaultThreader(ThreaderEnum threaderType);
+  static ThreaderEnum
   GetGlobalDefaultThreader();
 
   /** Set/Get the value which is used to initialize the NumberOfThreads in the
@@ -459,7 +462,7 @@ private:
 };
 
 ITKCommon_EXPORT std::ostream &
-                 operator<<(std::ostream & os, const MultiThreaderBase::ThreaderType & threader);
+                 operator<<(std::ostream & os, const MultiThreaderBase::ThreaderEnum & threader);
 
 } // end namespace itk
 #endif

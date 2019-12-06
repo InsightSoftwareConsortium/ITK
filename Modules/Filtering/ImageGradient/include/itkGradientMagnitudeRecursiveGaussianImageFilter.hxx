@@ -35,7 +35,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,
   m_NormalizeAcrossScale = false;
 
   m_DerivativeFilter = DerivativeFilterType::New();
-  m_DerivativeFilter->SetOrder(EnumGaussianOrderType::FirstOrder);
+  m_DerivativeFilter->SetOrder(GaussianOrderEnum::FirstOrder);
   m_DerivativeFilter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
   m_DerivativeFilter->InPlaceOff();
   m_DerivativeFilter->ReleaseDataFlagOn();
@@ -43,7 +43,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,
   for (unsigned int i = 0; i < ImageDimension - 1; i++)
   {
     m_SmoothingFilters[i] = GaussianFilterType::New();
-    m_SmoothingFilters[i]->SetOrder(EnumGaussianOrderType::ZeroOrder);
+    m_SmoothingFilters[i]->SetOrder(GaussianOrderEnum::ZeroOrder);
     m_SmoothingFilters[i]->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
     m_SmoothingFilters[i]->InPlaceOn();
   }

@@ -98,7 +98,7 @@ public:
   using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
   /** Transform category type. */
-  using TransformCategoryType = typename Superclass::TransformCategoryType;
+  using TransformCategoryEnum = typename Superclass::TransformCategoryEnum;
 
   /** This method returns the value of the offset of the
    * TranslationTransform. */
@@ -220,10 +220,10 @@ public:
   /** Indicates the category transform.
    *  e.g. an affine transform, or a local one, e.g. a deformation field.
    */
-  TransformCategoryType
+  TransformCategoryEnum
   GetTransformCategory() const override
   {
-    return Self::TransformCategoryType::Linear;
+    return Self::TransformCategoryEnum::Linear;
   }
 
   /** Set the fixed parameters and update internal transformation.

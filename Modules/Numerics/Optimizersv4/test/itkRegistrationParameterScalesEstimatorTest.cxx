@@ -159,7 +159,7 @@ public:
   EstimateScales(ScalesType & parameterScales) override
   {
     this->CheckAndSetInputs();
-    this->SetSamplingStrategy(itk::StrategyTypeForSampling::RandomSampling);
+    this->SetSamplingStrategy(itk::SamplingStrategyEnum::RandomSampling);
     this->SetNumberOfRandomSamples(1000);
     this->SampleVirtualDomain();
 

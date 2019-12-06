@@ -40,11 +40,11 @@
 
 namespace itk
 {
-/** \class MeshClassCellsAllocationMethodType
+/** \class MeshClassCellsAllocationMethodEnum
  * \ingroup ITKMesh
  * Enum defining the possible methods used to allocate memory for
  * the Cells */
-enum class MeshClassCellsAllocationMethodType : uint8_t
+enum class MeshClassCellsAllocationMethodEnum : uint8_t
 {
   CellsAllocationMethodUndefined,
   CellsAllocatedAsStaticArray,
@@ -150,7 +150,7 @@ public:
   static constexpr unsigned int MaxTopologicalDimension = TMeshTraits::MaxTopologicalDimension;
 
   /** Enables backwards compatibility for enum values */
-  using CellsAllocationMethodType = MeshClassCellsAllocationMethodType;
+  using CellsAllocationMethodType = MeshClassCellsAllocationMethodEnum;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
@@ -504,7 +504,7 @@ private:
 
 /** Define how to print enumeration */
 extern ITKMesh_EXPORT std::ostream &
-                      operator<<(std::ostream & out, const MeshClassCellsAllocationMethodType value);
+                      operator<<(std::ostream & out, const MeshClassCellsAllocationMethodEnum value);
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

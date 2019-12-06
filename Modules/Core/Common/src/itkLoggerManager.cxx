@@ -21,7 +21,7 @@ namespace itk
 {
 /** create a logger and add it into LoggerManager */
 LoggerManager::LoggerPointer
-LoggerManager::CreateLogger(const NameType & name, PriorityLevelType level, PriorityLevelType levelForFlushing)
+LoggerManager::CreateLogger(const NameType & name, PriorityLevelEnum level, PriorityLevelEnum levelForFlushing)
 {
   Logger::Pointer logger = Logger::New();
 
@@ -34,7 +34,7 @@ LoggerManager::CreateLogger(const NameType & name, PriorityLevelType level, Prio
 
 /** create a thread logger and add it into LoggerManager */
 LoggerManager::ThreadLoggerPointer
-LoggerManager::CreateThreadLogger(const NameType & name, PriorityLevelType level, PriorityLevelType levelForFlushing)
+LoggerManager::CreateThreadLogger(const NameType & name, PriorityLevelEnum level, PriorityLevelEnum levelForFlushing)
 {
   ThreadLogger::Pointer logger = ThreadLogger::New();
 
@@ -66,7 +66,7 @@ LoggerManager::GetLogger(const NameType & name)
 }
 
 void
-LoggerManager::SetPriorityLevel(PriorityLevelType level)
+LoggerManager::SetPriorityLevel(PriorityLevelEnum level)
 {
   auto itr = this->m_LoggerSet.begin();
 
@@ -78,7 +78,7 @@ LoggerManager::SetPriorityLevel(PriorityLevelType level)
 }
 
 void
-LoggerManager::SetLevelForFlushing(PriorityLevelType level)
+LoggerManager::SetLevelForFlushing(PriorityLevelEnum level)
 {
   auto itr = this->m_LoggerSet.begin();
 
@@ -102,7 +102,7 @@ LoggerManager::AddLogOutput(OutputType * output)
 }
 
 void
-LoggerManager::Write(PriorityLevelType level, std::string const & content)
+LoggerManager::Write(PriorityLevelEnum level, std::string const & content)
 {
   auto itr = this->m_LoggerSet.begin();
 

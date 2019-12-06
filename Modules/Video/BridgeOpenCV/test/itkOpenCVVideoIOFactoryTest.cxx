@@ -59,7 +59,7 @@ test_OpenCVVideoIOFactory(char * input, char * output, SizeValueType cameraNumbe
   //////
   std::cout << "Trying to create IO for reading from file..." << std::endl;
   itk::VideoIOBase::Pointer ioReadFile =
-    itk::VideoIOFactory::CreateVideoIO(itk::VideoIOFactory::IOModeType::ReadFileMode, input);
+    itk::VideoIOFactory::CreateVideoIO(itk::VideoIOFactory::IOModeEnum::ReadFileMode, input);
   if (!ioReadFile)
   {
     std::cerr << "Did not create valid VideoIO for reading from file " << std::endl;
@@ -82,7 +82,7 @@ test_OpenCVVideoIOFactory(char * input, char * output, SizeValueType cameraNumbe
     std::stringstream ss;
     ss << cameraNumber;
     itk::VideoIOBase::Pointer ioReadCamera =
-      itk::VideoIOFactory::CreateVideoIO(itk::VideoIOFactory::IOModeType::ReadCameraMode, ss.str().c_str());
+      itk::VideoIOFactory::CreateVideoIO(itk::VideoIOFactory::IOModeEnum::ReadCameraMode, ss.str().c_str());
     if (!ioReadCamera)
     {
       std::cerr << "Did not create valid VideoIO for reading from camera" << std::endl;
@@ -95,7 +95,7 @@ test_OpenCVVideoIOFactory(char * input, char * output, SizeValueType cameraNumbe
   //////
   std::cout << "Trying to create IO for writing to file..." << std::endl;
   itk::VideoIOBase::Pointer ioWrite =
-    itk::VideoIOFactory::CreateVideoIO(itk::VideoIOFactory::IOModeType::WriteMode, output);
+    itk::VideoIOFactory::CreateVideoIO(itk::VideoIOFactory::IOModeEnum::WriteMode, output);
   if (!ioWrite)
   {
     std::cerr << "Did not create valid VideoIO for writing " << std::endl;

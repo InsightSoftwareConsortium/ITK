@@ -78,7 +78,7 @@ MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::MetaObjectToSpatialObjec
   // Add Cells
   using CellType = typename MeshType::CellType;
   using CellAutoPointer = typename CellType::CellAutoPointer;
-  mesh->SetCellsAllocationMethod(MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell);
+  mesh->SetCellsAllocationMethod(MeshClassCellsAllocationMethodEnum::CellsAllocatedDynamicallyCellByCell);
 
   for (unsigned int celltype = 0; celltype < MET_NUM_CELL_TYPES; celltype++)
   {

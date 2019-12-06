@@ -44,7 +44,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   m_NumberOfGradientDirections = 0;
   m_NumberOfBaselineImages = 1;
   m_Threshold = NumericTraits<ReferencePixelType>::min();
-  m_GradientImageTypeEnumeration = GradientEnumeration::Else;
+  m_GradientImageTypeEnumeration = GradientEnum::Else;
   m_GradientDirectionContainer = nullptr;
   m_TensorBasis.set_identity();
   m_BValue = 1.0;
@@ -72,7 +72,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   // we must have a container of (numberOfInputs-1) itk::Image. Check to make
   // sure
   if ((numberOfInputs == 1 || (numberOfInputs == 2 && this->m_MaskImagePresent)) &&
-      m_GradientImageTypeEnumeration != GradientEnumeration::GradientIsInASingleImage)
+      m_GradientImageTypeEnumeration != GradientEnum::GradientIsInASingleImage)
   {
     std::string gradientImageClassName(this->ProcessObject::GetInput(0)->GetNameOfClass());
     if (strcmp(gradientImageClassName.c_str(), "VectorImage") != 0)
@@ -110,7 +110,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   typename MaskImageType::DirectionType maskDirection = maskImage->GetDirection();
   typename MaskImageType::DirectionType refDirection;
 
-  if (m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInManyImages)
+  if (m_GradientImageTypeEnumeration == GradientEnum::GradientIsInManyImages)
   {
     auto * refImage = static_cast<ReferenceImageType *>(this->ProcessObject::GetInput(0));
     refSize = refImage->GetLargestPossibleRegion().GetSize();
@@ -118,7 +118,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
     refSpacing = refImage->GetSpacing();
     refDirection = refImage->GetDirection();
   }
-  else if (m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInASingleImage)
+  else if (m_GradientImageTypeEnumeration == GradientEnum::GradientIsInASingleImage)
   {
     auto * gradientImage = static_cast<GradientImagesType *>(this->ProcessObject::GetInput(0));
     refSize = gradientImage->GetLargestPossibleRegion().GetSize();
@@ -189,7 +189,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   // 2. If the Gradients have been specified in a single multi-component image,
   // one iterator will suffice to do the same.
 
-  if (m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInManyImages)
+  if (m_GradientImageTypeEnumeration == GradientEnum::GradientIsInManyImages)
   {
     typename ReferenceImageType::Pointer refImage = static_cast<ReferenceImageType *>(this->ProcessObject::GetInput(0));
     ImageRegionConstIteratorWithIndex<ReferenceImageType> it(refImage, outputRegionForThread);
@@ -294,7 +294,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
     }
   }
   // The gradients are specified in a single multi-component image
-  else if (m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInASingleImage)
+  else if (m_GradientImageTypeEnumeration == GradientEnum::GradientIsInASingleImage)
   {
     using GradientIteratorType = ImageRegionConstIteratorWithIndex<GradientImagesType>;
     using GradientVectorType = typename GradientImagesType::PixelType;
@@ -458,7 +458,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
                                            TTensorPixelType,
                                            TMaskImageType>::GetGradientImage(unsigned index) const
 {
-  if (m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInASingleImage)
+  if (m_GradientImageTypeEnumeration == GradientEnum::GradientIsInASingleImage)
   {
     itkExceptionMacro(<< "Cannot retrieve individual gradient Image if "
                       << "all gradients are in a single image.");
@@ -482,7 +482,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
 {
   // Make sure crazy users did not call both AddGradientImage and
   // SetGradientImage
-  if (m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInASingleImage)
+  if (m_GradientImageTypeEnumeration == GradientEnum::GradientIsInASingleImage)
   {
     itkExceptionMacro(<< "Cannot call both methods:"
                       << "AddGradientImage and SetGradientImage. Please call only one of them.");
@@ -499,7 +499,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
                                               gradientDirection / gradientDirection.two_norm());
   ++m_NumberOfGradientDirections;
   this->ProcessObject::SetNthInput(m_NumberOfGradientDirections + 1, const_cast<GradientImageType *>(gradientImage));
-  m_GradientImageTypeEnumeration = GradientEnumeration::GradientIsInManyImages;
+  m_GradientImageTypeEnumeration = GradientEnum::GradientIsInManyImages;
 }
 
 template <typename TReferenceImagePixelType,
@@ -516,7 +516,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
 {
   // Make sure crazy users did not call both AddGradientImage and
   // SetGradientImage
-  if (m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInManyImages)
+  if (m_GradientImageTypeEnumeration == GradientEnum::GradientIsInManyImages)
   {
     itkExceptionMacro(<< "Cannot call both methods:"
                       << "AddGradientImage and SetGradientImage. Please call only one of them.");
@@ -552,7 +552,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   }
 
   this->ProcessObject::SetNthInput(0, const_cast<GradientImagesType *>(gradientImage));
-  m_GradientImageTypeEnumeration = GradientEnumeration::GradientIsInASingleImage;
+  m_GradientImageTypeEnumeration = GradientEnum::GradientIsInASingleImage;
 }
 
 template <typename TReferenceImagePixelType,
@@ -611,11 +611,11 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   os << indent << "NumberOfBaselineImages: " << m_NumberOfBaselineImages << std::endl;
   os << indent << "Threshold for reference B0 image: " << m_Threshold << std::endl;
   os << indent << "BValue: " << m_BValue << std::endl;
-  if (this->m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInManyImages)
+  if (this->m_GradientImageTypeEnumeration == GradientEnum::GradientIsInManyImages)
   {
     os << indent << "Gradient images haven been supplied " << std::endl;
   }
-  else if (this->m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInManyImages)
+  else if (this->m_GradientImageTypeEnumeration == GradientEnum::GradientIsInManyImages)
   {
     os << indent << "A multicomponent gradient image has been supplied" << std::endl;
   }

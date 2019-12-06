@@ -41,12 +41,9 @@ namespace Functor
  * OrderByMagnitude:  |lambda_1| < |lambda_2| < .....
  * DoNotOrder:        Default order of eigen values obtained after QL method
  */
-enum class OrderTypeOfEigenValue : uint8_t
-{
-  OrderByValue = 1,
-  OrderByMagnitude,
-  DoNotOrder
-};
+#if !defined(ITK_LEGACY_REMOVE)
+using OrderTypeOfEigenValue = EigenValueOrderEnum;
+#endif
 
 template <typename TInput, typename TOutput>
 class SymmetricEigenAnalysisFunction
@@ -89,13 +86,13 @@ public:
     return m_Calculator.GetDimension();
   }
 
-  using EigenValueOrderType = OrderTypeOfEigenValue;
+  using EigenValueOrderType = EigenValueOrderEnum;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr EigenValueOrderType OrderByValue = EigenValueOrderType::OrderByValue;
-  static constexpr EigenValueOrderType OrderByMagnitude = EigenValueOrderType::OrderByMagnitude;
-  static constexpr EigenValueOrderType DoNotOrder = EigenValueOrderType::DoNotOrder;
+  static constexpr EigenValueOrderType OrderByValue = EigenValueOrderEnum::OrderByValue;
+  static constexpr EigenValueOrderType OrderByMagnitude = EigenValueOrderEnum::OrderByMagnitude;
+  static constexpr EigenValueOrderType DoNotOrder = EigenValueOrderEnum::DoNotOrder;
 #endif
 
   /** Order eigen values. Default is to OrderByValue:  lambda_1 <
@@ -103,11 +100,11 @@ public:
   void
   OrderEigenValuesBy(EigenValueOrderType order)
   {
-    if (order == OrderTypeOfEigenValue::OrderByMagnitude)
+    if (order == EigenValueOrderEnum::OrderByMagnitude)
     {
       m_Calculator.SetOrderEigenMagnitudes(true);
     }
-    else if (order == OrderTypeOfEigenValue::DoNotOrder)
+    else if (order == EigenValueOrderEnum::DoNotOrder)
     {
       m_Calculator.SetOrderEigenValues(false);
     }
@@ -154,7 +151,7 @@ public:
   }
 
   /** Reverse compatibility for enum values */
-  using EigenValueOrderType = OrderTypeOfEigenValue;
+  using EigenValueOrderType = EigenValueOrderEnum;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
@@ -168,11 +165,11 @@ public:
   void
   OrderEigenValuesBy(EigenValueOrderType order)
   {
-    if (order == OrderTypeOfEigenValue::OrderByMagnitude)
+    if (order == EigenValueOrderEnum::OrderByMagnitude)
     {
       m_Calculator.SetOrderEigenMagnitudes(true);
     }
-    else if (order == OrderTypeOfEigenValue::DoNotOrder)
+    else if (order == EigenValueOrderEnum::DoNotOrder)
     {
       m_Calculator.SetOrderEigenValues(false);
     }
@@ -184,7 +181,7 @@ private:
 
 /** Define how to print enumerations */
 extern ITKImageIntensity_EXPORT std::ostream &
-                                operator<<(std::ostream & out, const OrderTypeOfEigenValue value);
+                                operator<<(std::ostream & out, const EigenValueOrderEnum value);
 
 } // end namespace Functor
 

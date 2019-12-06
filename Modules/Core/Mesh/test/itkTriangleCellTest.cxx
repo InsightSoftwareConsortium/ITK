@@ -106,7 +106,7 @@ itkTriangleCellTest(int, char *[])
   /**
    * Specify the method used for allocating cells
    */
-  mesh->SetCellsAllocationMethod(itk::MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell);
+  mesh->SetCellsAllocationMethod(itk::MeshClassCellsAllocationMethodEnum::CellsAllocatedDynamicallyCellByCell);
 
   /**
    * Create the test cell. Note that testCell is a generic auto

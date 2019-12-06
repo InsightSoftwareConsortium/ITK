@@ -47,11 +47,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(RegularStepGradientDescentBaseOptimizer, SingleValuedNonLinearOptimizer);
 
-  /** \class StopConditionType
+  /** \class StopConditionEnum
    *
    * \ingroup ITKOptimizers
    * Codes of stopping conditions. */
-  enum class StopConditionType : uint8_t
+  enum class StopConditionEnum : uint8_t
   {
     GradientMagnitudeTolerance = 1,
     StepTooSmall = 2,
@@ -63,12 +63,12 @@ public:
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr StopConditionType GradientMagnitudeTolerance = StopConditionType::GradientMagnitudeTolerance;
-  static constexpr StopConditionType StepTooSmall = StopConditionType::StepTooSmall;
-  static constexpr StopConditionType ImageNotAvailable = StopConditionType::ImageNotAvailable;
-  static constexpr StopConditionType CostFunctionError = StopConditionType::CostFunctionError;
-  static constexpr StopConditionType MaximumNumberOfIterations = StopConditionType::MaximumNumberOfIterations;
-  static constexpr StopConditionType Unknown = StopConditionType::Unknown;
+  static constexpr StopConditionEnum GradientMagnitudeTolerance = StopConditionEnum::GradientMagnitudeTolerance;
+  static constexpr StopConditionEnum StepTooSmall = StopConditionEnum::StepTooSmall;
+  static constexpr StopConditionEnum ImageNotAvailable = StopConditionEnum::ImageNotAvailable;
+  static constexpr StopConditionEnum CostFunctionError = StopConditionEnum::CostFunctionError;
+  static constexpr StopConditionEnum MaximumNumberOfIterations = StopConditionEnum::MaximumNumberOfIterations;
+  static constexpr StopConditionEnum Unknown = StopConditionEnum::Unknown;
 #endif
   /** Specify whether to minimize or maximize the cost function. */
   itkSetMacro(Maximize, bool);
@@ -122,7 +122,7 @@ public:
   itkGetConstReferenceMacro(NumberOfIterations, SizeValueType);
   itkGetConstReferenceMacro(GradientMagnitudeTolerance, double);
   itkGetConstMacro(CurrentIteration, unsigned int);
-  itkGetConstReferenceMacro(StopCondition, StopConditionType);
+  itkGetConstReferenceMacro(StopCondition, StopConditionEnum);
   itkGetConstReferenceMacro(Value, MeasureType);
   itkGetConstReferenceMacro(Gradient, DerivativeType);
 
@@ -170,7 +170,7 @@ protected:
   double             m_MinimumStepLength;
   double             m_CurrentStepLength;
   double             m_RelaxationFactor;
-  StopConditionType  m_StopCondition;
+  StopConditionEnum  m_StopCondition;
   SizeValueType      m_NumberOfIterations;
   SizeValueType      m_CurrentIteration;
   std::ostringstream m_StopConditionDescription;
@@ -178,7 +178,7 @@ protected:
 
 // Define how to print enumeration
 extern ITKOptimizers_EXPORT std::ostream &
-                            operator<<(std::ostream & out, const RegularStepGradientDescentBaseOptimizer::StopConditionType value);
+                            operator<<(std::ostream & out, const RegularStepGradientDescentBaseOptimizer::StopConditionEnum value);
 
 } // end namespace itk
 

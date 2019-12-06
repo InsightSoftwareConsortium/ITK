@@ -31,10 +31,10 @@
 
 namespace itk
 {
-/** \class StrategyTypeForSampling
+/** \class SamplingStrategyEnum
  * \ingroup ITKOptimizersv4
  * The strategies to sample physical points in the virtual domain. */
-enum class StrategyTypeForSampling : uint8_t
+enum class SamplingStrategyEnum : uint8_t
 {
   FullDomainSampling = 0,
   CornerSampling,
@@ -114,7 +114,7 @@ public:
   using VirtualPointSetPointer = typename TMetric::VirtualPointSetPointer;
 
   /** Enables backwards compatibility for enum values */
-  using SamplingStrategyType = StrategyTypeForSampling;
+  using SamplingStrategyType = SamplingStrategyEnum;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
@@ -326,7 +326,7 @@ private:
 
 /** Define how to print enumerations */
 extern ITKOptimizersv4_EXPORT std::ostream &
-                              operator<<(std::ostream & out, const StrategyTypeForSampling value);
+                              operator<<(std::ostream & out, const SamplingStrategyEnum value);
 
 } // namespace itk
 

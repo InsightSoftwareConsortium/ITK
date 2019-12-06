@@ -123,29 +123,29 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  convoluter->SetOutputRegionMode(itk::ConvolutionImageFilterOutputRegionType::SAME);
-  if (convoluter->GetOutputRegionMode() != itk::ConvolutionImageFilterOutputRegionType::SAME)
+  convoluter->SetOutputRegionMode(itk::ConvolutionImageFilterOutputRegionEnum::SAME);
+  if (convoluter->GetOutputRegionMode() != itk::ConvolutionImageFilterOutputRegionEnum::SAME)
   {
     std::cerr << "SetOutputRegionMode() error when argument is SAME" << std::endl;
     return EXIT_FAILURE;
   }
 
-  convoluter->SetOutputRegionMode(itk::ConvolutionImageFilterOutputRegionType::VALID);
-  if (convoluter->GetOutputRegionMode() != itk::ConvolutionImageFilterOutputRegionType::VALID)
+  convoluter->SetOutputRegionMode(itk::ConvolutionImageFilterOutputRegionEnum::VALID);
+  if (convoluter->GetOutputRegionMode() != itk::ConvolutionImageFilterOutputRegionEnum::VALID)
   {
     std::cerr << "SetOutputRegionMode() error when argument is VALID" << std::endl;
     return EXIT_FAILURE;
   }
 
   convoluter->SetOutputRegionModeToSame();
-  if (convoluter->GetOutputRegionMode() != itk::ConvolutionImageFilterOutputRegionType::SAME)
+  if (convoluter->GetOutputRegionMode() != itk::ConvolutionImageFilterOutputRegionEnum::SAME)
   {
     std::cerr << "SetOutputRegionModeToSame() error" << std::endl;
     return EXIT_FAILURE;
   }
 
   convoluter->SetOutputRegionModeToValid();
-  if (convoluter->GetOutputRegionMode() != itk::ConvolutionImageFilterOutputRegionType::VALID)
+  if (convoluter->GetOutputRegionMode() != itk::ConvolutionImageFilterOutputRegionEnum::VALID)
   {
     std::cerr << "SetOutputRegionModeToValid() error" << std::endl;
     return EXIT_FAILURE;

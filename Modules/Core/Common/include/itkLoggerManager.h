@@ -53,7 +53,7 @@ public:
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);
 
-  using PriorityLevelType = Logger::PriorityLevelType;
+  using PriorityLevelEnum = Logger::PriorityLevelEnum;
 
   using OutputType = Logger::OutputType;
 
@@ -65,14 +65,14 @@ public:
   /** create a logger and add it into LoggerManager */
   LoggerPointer
   CreateLogger(const NameType &  name,
-               PriorityLevelType level,
-               PriorityLevelType levelForFlushing = LoggerBase::PriorityLevelType::MUSTFLUSH);
+               PriorityLevelEnum level,
+               PriorityLevelEnum levelForFlushing = LoggerBase::PriorityLevelEnum::MUSTFLUSH);
 
   /** create a thread logger and add it into LoggerManager */
   ThreadLoggerPointer
   CreateThreadLogger(const NameType &  name,
-                     PriorityLevelType level,
-                     PriorityLevelType levelForFlushing = LoggerBase::PriorityLevelType::MUSTFLUSH);
+                     PriorityLevelEnum level,
+                     PriorityLevelEnum levelForFlushing = LoggerBase::PriorityLevelEnum::MUSTFLUSH);
 
   /** Registers a logger */
   void
@@ -82,16 +82,16 @@ public:
   GetLogger(const NameType & name);
 
   void
-  SetPriorityLevel(PriorityLevelType level);
+  SetPriorityLevel(PriorityLevelEnum level);
 
   void
-  SetLevelForFlushing(PriorityLevelType level);
+  SetLevelForFlushing(PriorityLevelEnum level);
 
   void
   AddLogOutput(OutputType * output);
 
   void
-  Write(PriorityLevelType level, std::string const & content);
+  Write(PriorityLevelEnum level, std::string const & content);
 
   void
   Flush();

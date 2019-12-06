@@ -20,19 +20,19 @@
 namespace itk
 {
 std::ostream &
-operator<<(std::ostream & out, const GradientEnumeration value)
+operator<<(std::ostream & out, const GradientEnum value)
 {
   return out << [value] {
     switch (value)
     {
-      case GradientEnumeration::GradientIsInASingleImage:
-        return "GradientEnumeration::GradientIsInASingleImage";
-      case GradientEnumeration::GradientIsInManyImages:
-        return "GradientEnumeration::GradientIsInManyImages";
-      case GradientEnumeration::Else:
-        return "GradientEnumeration::Else";
+      case GradientEnum::GradientIsInASingleImage:
+        return "GradientEnum::GradientIsInASingleImage";
+      case GradientEnum::GradientIsInManyImages:
+        return "GradientEnum::GradientIsInManyImages";
+      case GradientEnum::Else:
+        return "GradientEnum::Else";
       default:
-        return "INVALID VALUE FOR GradientEnumeration";
+        return "INVALID VALUE FOR GradientEnum";
     }
   }();
 }

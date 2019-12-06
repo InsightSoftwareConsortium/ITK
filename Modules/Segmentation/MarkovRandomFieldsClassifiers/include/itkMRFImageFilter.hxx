@@ -24,7 +24,7 @@ namespace itk
 {
 template <typename TInputImage, typename TClassifiedImage>
 MRFImageFilter<TInputImage, TClassifiedImage>::MRFImageFilter()
-  : m_StopCondition(MRFStopType::MaximumNumberOfIterations)
+  : m_StopCondition(MRFStopEnum::MaximumNumberOfIterations)
   , m_ClassifierPtr(nullptr)
 {
   if ((int)InputImageDimension != (int)ClassifiedImageDimension)
@@ -433,11 +433,11 @@ MRFImageFilter<TInputImage, TClassifiedImage>::ApplyMRFImageFilter()
   // Determine stop condition
   if (m_NumberOfIterations >= m_MaximumNumberOfIterations)
   {
-    m_StopCondition = MRFStopType::MaximumNumberOfIterations;
+    m_StopCondition = MRFStopEnum::MaximumNumberOfIterations;
   }
   else if (m_ErrorCounter <= maxNumPixelError)
   {
-    m_StopCondition = MRFStopType::ErrorTolerance;
+    m_StopCondition = MRFStopEnum::ErrorTolerance;
   }
 } // ApplyMRFImageFilter
 

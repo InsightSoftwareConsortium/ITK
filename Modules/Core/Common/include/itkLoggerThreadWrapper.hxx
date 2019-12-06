@@ -29,7 +29,7 @@ namespace itk
  * current outputs */
 template <typename SimpleLoggerType>
 void
-LoggerThreadWrapper<SimpleLoggerType>::SetPriorityLevel(PriorityLevelType level)
+LoggerThreadWrapper<SimpleLoggerType>::SetPriorityLevel(PriorityLevelEnum level)
 {
   this->m_Mutex.lock();
   this->m_OperationQ.push(LoggerThreadWrapperOperationType::SET_PRIORITY_LEVEL);
@@ -41,18 +41,18 @@ LoggerThreadWrapper<SimpleLoggerType>::SetPriorityLevel(PriorityLevelType level)
  * priorities equal or greater than the one set here will be posted to the
  * current outputs */
 template <typename SimpleLoggerType>
-typename SimpleLoggerType::PriorityLevelType
+typename SimpleLoggerType::PriorityLevelEnum
 LoggerThreadWrapper<SimpleLoggerType>::GetPriorityLevel() const
 {
   this->m_Mutex.lock();
-  PriorityLevelType level = this->m_PriorityLevel;
+  PriorityLevelEnum level = this->m_PriorityLevel;
   this->m_Mutex.unlock();
   return level;
 }
 
 template <typename SimpleLoggerType>
 void
-LoggerThreadWrapper<SimpleLoggerType>::SetLevelForFlushing(PriorityLevelType level)
+LoggerThreadWrapper<SimpleLoggerType>::SetLevelForFlushing(PriorityLevelEnum level)
 {
   this->m_Mutex.lock();
   this->m_LevelForFlushing = level;
@@ -62,11 +62,11 @@ LoggerThreadWrapper<SimpleLoggerType>::SetLevelForFlushing(PriorityLevelType lev
 }
 
 template <typename SimpleLoggerType>
-typename SimpleLoggerType::PriorityLevelType
+typename SimpleLoggerType::PriorityLevelEnum
 LoggerThreadWrapper<SimpleLoggerType>::GetLevelForFlushing() const
 {
   this->m_Mutex.lock();
-  PriorityLevelType level = this->m_LevelForFlushing;
+  PriorityLevelEnum level = this->m_LevelForFlushing;
   this->m_Mutex.unlock();
   return level;
 }
@@ -103,7 +103,7 @@ LoggerThreadWrapper<SimpleLoggerType>::AddLogOutput(OutputType * output)
 
 template <typename SimpleLoggerType>
 void
-LoggerThreadWrapper<SimpleLoggerType>::Write(PriorityLevelType level, std::string const & content)
+LoggerThreadWrapper<SimpleLoggerType>::Write(PriorityLevelEnum level, std::string const & content)
 {
   this->m_Mutex.lock();
   if (this->m_PriorityLevel >= level)

@@ -70,7 +70,7 @@ public:
   using OptimizersListType = std::vector<LocalOptimizerPointer>;
   using OptimizersListSizeType = typename OptimizersListType::size_type;
 
-  using StopConditionType = typename Superclass::StopConditionType;
+  using StopConditionEnum = typename Superclass::StopConditionEnum;
 
   /** Stop condition return string type */
   using StopConditionReturnStringType = typename Superclass::StopConditionReturnStringType;
@@ -93,7 +93,7 @@ public:
   using MetricValuesListType = std::vector<MeasureType>;
 
   /** Get stop condition enum */
-  const StopConditionType &
+  const StopConditionEnum &
   GetStopCondition() const override
   {
     return this->m_StopCondition;
@@ -139,7 +139,7 @@ protected:
 
   /* Common variables for optimization control and reporting */
   bool                         m_Stop{ false };
-  StopConditionType            m_StopCondition;
+  StopConditionEnum            m_StopCondition;
   StopConditionDescriptionType m_StopConditionDescription;
   OptimizersListType           m_OptimizersList;
   MetricValuesListType         m_MetricValuesList;

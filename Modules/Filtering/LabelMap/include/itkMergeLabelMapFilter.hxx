@@ -27,7 +27,7 @@ namespace itk
 template <typename TImage>
 MergeLabelMapFilter<TImage>::MergeLabelMapFilter()
 {
-  this->m_Method = ChoiceMethod::KEEP;
+  this->m_Method = ChoiceMethodEnum::KEEP;
 }
 
 template <typename TImage>
@@ -39,22 +39,22 @@ MergeLabelMapFilter<TImage>::GenerateData()
 
   switch (this->m_Method)
   {
-    case ChoiceMethod::KEEP:
+    case ChoiceMethodEnum::KEEP:
     {
       this->MergeWithKeep();
       break;
     }
-    case ChoiceMethod::AGGREGATE:
+    case ChoiceMethodEnum::AGGREGATE:
     {
       this->MergeWithAggregate();
       break;
     }
-    case ChoiceMethod::PACK:
+    case ChoiceMethodEnum::PACK:
     {
       this->MergeWithPack();
       break;
     }
-    case ChoiceMethod::STRICT:
+    case ChoiceMethodEnum::STRICT:
     {
       this->MergeWithStrict();
       break;

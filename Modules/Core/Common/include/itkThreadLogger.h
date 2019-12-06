@@ -53,7 +53,7 @@ public:
 
   using OutputType = Logger::OutputType;
 
-  using PriorityLevelType = Logger::PriorityLevelType;
+  using PriorityLevelEnum = Logger::PriorityLevelEnum;
 
   using DelayType = unsigned int;
 
@@ -71,18 +71,18 @@ public:
    * priorities equal or greater than the one set here will be posted to the
    * current outputs. */
   void
-  SetPriorityLevel(PriorityLevelType level) override;
+  SetPriorityLevel(PriorityLevelEnum level) override;
 
   /** Get the priority level for the current logger. Only messages that have
    * priorities equal or greater than the one set here will be posted to the
    * current outputs. */
-  PriorityLevelType
+  PriorityLevelEnum
   GetPriorityLevel() const override;
 
   void
-  SetLevelForFlushing(PriorityLevelType level) override;
+  SetLevelForFlushing(PriorityLevelEnum level) override;
 
-  PriorityLevelType
+  PriorityLevelEnum
   GetLevelForFlushing() const override;
 
   /** Set the delay in milliseconds between checks to see if there are any
@@ -102,7 +102,7 @@ public:
   AddLogOutput(OutputType * output) override;
 
   void
-  Write(PriorityLevelType level, std::string const & content) override;
+  Write(PriorityLevelEnum level, std::string const & content) override;
 
   void
   Flush() override;
@@ -129,7 +129,7 @@ private:
 
   using MessageContainerType = std::queue<std::string>;
 
-  using LevelContainerType = std::queue<PriorityLevelType>;
+  using LevelContainerType = std::queue<PriorityLevelEnum>;
 
   using OutputContainerType = std::queue<OutputType::Pointer>;
 

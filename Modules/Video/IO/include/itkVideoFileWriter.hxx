@@ -273,7 +273,7 @@ VideoFileWriter<TInputVideoStream>::InitializeVideoIO()
 {
   if (m_FileName.length() != 0)
   {
-    m_VideoIO = itk::VideoIOFactory::CreateVideoIO(itk::VideoIOFactory::IOModeType::WriteMode, m_FileName.c_str());
+    m_VideoIO = itk::VideoIOFactory::CreateVideoIO(itk::VideoIOFactory::IOModeEnum::WriteMode, m_FileName.c_str());
 
     // Return true if a VideoIO was successfully created
     if (!m_VideoIO.IsNull())

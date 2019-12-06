@@ -37,7 +37,7 @@ RegistrationParameterScalesEstimator<TMetric>::RegistrationParameterScalesEstima
   this->m_NumberOfRandomSamples = 0;
 
   // default sampling strategy
-  this->m_SamplingStrategy = StrategyTypeForSampling::FullDomainSampling;
+  this->m_SamplingStrategy = SamplingStrategyEnum::FullDomainSampling;
 
   // the default radius of the central region for sampling
   this->m_CentralRegionRadius = 5;
@@ -128,12 +128,12 @@ bool
 RegistrationParameterScalesEstimator<TMetric>::IsDisplacementFieldTransform()
 {
   if (this->m_TransformForward && this->m_Metric->GetMovingTransform()->GetTransformCategory() ==
-                                    MovingTransformType::TransformCategoryType::DisplacementField)
+                                    MovingTransformType::TransformCategoryEnum::DisplacementField)
   {
     return true;
   }
   else if (!this->m_TransformForward && this->m_Metric->GetFixedTransform()->GetTransformCategory() ==
-                                          FixedTransformType::TransformCategoryType::DisplacementField)
+                                          FixedTransformType::TransformCategoryEnum::DisplacementField)
   {
     return true;
   }
@@ -147,12 +147,12 @@ RegistrationParameterScalesEstimator<TMetric>::IsBSplineTransform()
   bool isBSplineTransform = false;
 
   if (this->m_TransformForward && this->m_Metric->GetMovingTransform()->GetTransformCategory() ==
-                                    MovingTransformType::TransformCategoryType::BSpline)
+                                    MovingTransformType::TransformCategoryEnum::BSpline)
   {
     isBSplineTransform = true;
   }
   else if (!this->m_TransformForward && this->m_Metric->GetFixedTransform()->GetTransformCategory() ==
-                                          FixedTransformType::TransformCategoryType::BSpline)
+                                          FixedTransformType::TransformCategoryEnum::BSpline)
   {
     isBSplineTransform = true;
   }
@@ -179,7 +179,7 @@ RegistrationParameterScalesEstimator<TMetric>::IsBSplineTransform()
         {
           if (compositeTransform->GetNthTransformToOptimize(tind) &&
               (compositeTransform->GetNthTransformConstPointer(tind)->GetTransformCategory() !=
-               MovingTransformType::TransformCategoryType::BSpline))
+               MovingTransformType::TransformCategoryEnum::BSpline))
           {
             isBSplineTransform = false;
             break;
@@ -201,7 +201,7 @@ RegistrationParameterScalesEstimator<TMetric>::IsBSplineTransform()
         {
           if (compositeTransform->GetNthTransformToOptimize(tind) &&
               (compositeTransform->GetNthTransformConstPointer(tind)->GetTransformCategory() !=
-               FixedTransformType::TransformCategoryType::BSpline))
+               FixedTransformType::TransformCategoryEnum::BSpline))
           {
             isBSplineTransform = false;
             break;
@@ -343,19 +343,19 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomain()
                       " yet this->m_VirtualDomainPointSet has not been assigned. ");
   }
 
-  if (m_SamplingStrategy == StrategyTypeForSampling::VirtualDomainPointSetSampling)
+  if (m_SamplingStrategy == SamplingStrategyEnum::VirtualDomainPointSetSampling)
   {
     this->SampleVirtualDomainWithPointSet();
   }
-  else if (m_SamplingStrategy == StrategyTypeForSampling::CornerSampling)
+  else if (m_SamplingStrategy == SamplingStrategyEnum::CornerSampling)
   {
     this->SampleVirtualDomainWithCorners();
   }
-  else if (m_SamplingStrategy == StrategyTypeForSampling::RandomSampling)
+  else if (m_SamplingStrategy == SamplingStrategyEnum::RandomSampling)
   {
     this->SampleVirtualDomainRandomly();
   }
-  else if (m_SamplingStrategy == StrategyTypeForSampling::CentralRegionSampling)
+  else if (m_SamplingStrategy == SamplingStrategyEnum::CentralRegionSampling)
   {
     this->SampleVirtualDomainWithCentralRegion();
   }
@@ -383,19 +383,19 @@ RegistrationParameterScalesEstimator<TMetric>::SetScalesSamplingStrategy()
 {
   if (this->m_VirtualDomainPointSet)
   {
-    this->SetSamplingStrategy(StrategyTypeForSampling::VirtualDomainPointSetSampling);
+    this->SetSamplingStrategy(SamplingStrategyEnum::VirtualDomainPointSetSampling);
   }
   else if (this->TransformHasLocalSupportForScalesEstimation())
   {
-    this->SetSamplingStrategy(StrategyTypeForSampling::CentralRegionSampling);
+    this->SetSamplingStrategy(SamplingStrategyEnum::CentralRegionSampling);
   }
   else if (this->CheckGeneralAffineTransform())
   {
-    this->SetSamplingStrategy(StrategyTypeForSampling::CornerSampling);
+    this->SetSamplingStrategy(SamplingStrategyEnum::CornerSampling);
   }
   else
   {
-    this->SetSamplingStrategy(StrategyTypeForSampling::RandomSampling);
+    this->SetSamplingStrategy(SamplingStrategyEnum::RandomSampling);
     this->SetNumberOfRandomSamples(SizeOfSmallDomain);
   }
 }
@@ -409,20 +409,20 @@ RegistrationParameterScalesEstimator<TMetric>::SetStepScaleSamplingStrategy()
 {
   if (this->m_VirtualDomainPointSet)
   {
-    this->SetSamplingStrategy(StrategyTypeForSampling::VirtualDomainPointSetSampling);
+    this->SetSamplingStrategy(SamplingStrategyEnum::VirtualDomainPointSetSampling);
   }
   else if (this->TransformHasLocalSupportForScalesEstimation())
   {
     // Have to use FullDomainSampling for a transform with local support
-    this->SetSamplingStrategy(StrategyTypeForSampling::FullDomainSampling);
+    this->SetSamplingStrategy(SamplingStrategyEnum::FullDomainSampling);
   }
   else if (this->CheckGeneralAffineTransform())
   {
-    this->SetSamplingStrategy(StrategyTypeForSampling::CornerSampling);
+    this->SetSamplingStrategy(SamplingStrategyEnum::CornerSampling);
   }
   else
   {
-    this->SetSamplingStrategy(StrategyTypeForSampling::RandomSampling);
+    this->SetSamplingStrategy(SamplingStrategyEnum::RandomSampling);
     this->SetNumberOfRandomSamples(SizeOfSmallDomain);
   }
 }

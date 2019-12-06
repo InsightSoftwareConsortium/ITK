@@ -325,11 +325,11 @@ public:
   }
 #endif
 
-  /** \class TCompressionType
+  /** \class CompressionEnum
    *
    * \ingroup ITKIOGDCM
    * Set/Get a compression type to use. */
-  enum class TCompressionType : uint8_t
+  enum class CompressionEnum : uint8_t
   {
     JPEG = 0,
     JPEG2000,
@@ -339,14 +339,14 @@ public:
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr TCompressionType JPEG = TCompressionType::JPEG;
-  static constexpr TCompressionType JPEG2000 = TCompressionType::JPEG2000;
-  static constexpr TCompressionType JPEGLS = TCompressionType::JPEGLS;
-  static constexpr TCompressionType RLE = TCompressionType::RLE;
+  static constexpr CompressionEnum JPEG = CompressionEnum::JPEG;
+  static constexpr CompressionEnum JPEG2000 = CompressionEnum::JPEG2000;
+  static constexpr CompressionEnum JPEGLS = CompressionEnum::JPEGLS;
+  static constexpr CompressionEnum RLE = CompressionEnum::RLE;
 #endif
 
-  itkSetEnumMacro(CompressionType, TCompressionType);
-  itkGetEnumMacro(CompressionType, TCompressionType);
+  itkSetEnumMacro(CompressionType, CompressionEnum);
+  itkGetEnumMacro(CompressionType, CompressionEnum);
 
   void
   InternalSetCompressor(const std::string & _compressor) override;
@@ -396,8 +396,8 @@ private:
 
   /** defines whether this image is a 2D out of a 2D image
    *  or a 2D out of a 3D image. */
-  unsigned int     m_GlobalNumberOfDimensions;
-  TCompressionType m_CompressionType;
+  unsigned int    m_GlobalNumberOfDimensions;
+  CompressionEnum m_CompressionType;
 
   ImageIOBase::IOComponentType m_InternalComponentType;
   InternalHeader *             m_DICOMHeader;
@@ -405,7 +405,7 @@ private:
 
 // Define how to print enumeration
 extern ITKIOGDCM_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const GDCMImageIO::TCompressionType value);
+                        operator<<(std::ostream & out, const GDCMImageIO::CompressionEnum value);
 
 } // end namespace itk
 

@@ -23,10 +23,10 @@
 
 namespace itk
 {
-/** \class StopType
+/** \class StopEnum
  *  \ingroup ITKOptimizersv4
  * Codes of stopping conditions. */
-enum class StopType : uint8_t
+enum class StopEnum : uint8_t
 {
   MAXIMUM_NUMBER_OF_ITERATIONS,
   COSTFUNCTION_ERROR,
@@ -78,16 +78,16 @@ public:
   using LocalOptimizerPointer = typename LocalOptimizerType::Pointer;
 
   /** Enables backwards compatibility for enum values */
-  using StopConditionType = StopType;
+  using StopConditionEnum = StopEnum;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr StopConditionType MAXIMUM_NUMBER_OF_ITERATIONS = StopConditionType::MAXIMUM_NUMBER_OF_ITERATIONS;
-  static constexpr StopConditionType COSTFUNCTION_ERROR = StopConditionType::COSTFUNCTION_ERROR;
-  static constexpr StopConditionType UPDATE_PARAMETERS_ERROR = StopConditionType::UPDATE_PARAMETERS_ERROR;
-  static constexpr StopConditionType STEP_TOO_SMALL = StopConditionType::STEP_TOO_SMALL;
-  static constexpr StopConditionType CONVERGENCE_CHECKER_PASSED = StopConditionType::CONVERGENCE_CHECKER_PASSED;
-  static constexpr StopConditionType OTHER_ERROR = StopConditionType::OTHER_ERROR;
+  static constexpr StopConditionEnum MAXIMUM_NUMBER_OF_ITERATIONS = StopConditionEnum::MAXIMUM_NUMBER_OF_ITERATIONS;
+  static constexpr StopConditionEnum COSTFUNCTION_ERROR = StopConditionEnum::COSTFUNCTION_ERROR;
+  static constexpr StopConditionEnum UPDATE_PARAMETERS_ERROR = StopConditionEnum::UPDATE_PARAMETERS_ERROR;
+  static constexpr StopConditionEnum STEP_TOO_SMALL = StopConditionEnum::STEP_TOO_SMALL;
+  static constexpr StopConditionEnum CONVERGENCE_CHECKER_PASSED = StopConditionEnum::CONVERGENCE_CHECKER_PASSED;
+  static constexpr StopConditionEnum OTHER_ERROR = StopConditionEnum::OTHER_ERROR;
 #endif
 
   /** Stop condition return string type */
@@ -112,7 +112,7 @@ public:
   using MetricValuesListType = std::vector<MeasureType>;
 
   /** Get stop condition enum */
-  itkGetConstReferenceMacro(StopCondition, StopConditionType);
+  itkGetConstReferenceMacro(StopCondition, StopConditionEnum);
 
   /** Create an instance of the local optimizer */
   void
@@ -172,7 +172,7 @@ protected:
 
   /* Common variables for optimization control and reporting */
   bool                         m_Stop{ false };
-  StopConditionType            m_StopCondition;
+  StopConditionEnum            m_StopCondition;
   StopConditionDescriptionType m_StopConditionDescription;
   ParametersListType           m_ParametersList;
   MetricValuesListType         m_MetricValuesList;
@@ -187,7 +187,7 @@ using MultiStartOptimizerv4 = MultiStartOptimizerv4Template<double>;
 
 /** Define how to print enumerations */
 extern ITKOptimizersv4_EXPORT std::ostream &
-                              operator<<(std::ostream & out, const StopType value);
+                              operator<<(std::ostream & out, const StopEnum value);
 
 } // end namespace itk
 

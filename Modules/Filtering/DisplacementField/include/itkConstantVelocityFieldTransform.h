@@ -64,7 +64,7 @@ public:
   using ParametersValueType = typename Superclass::ParametersValueType;
 
   /** Transform category type. */
-  using TransformCategoryType = typename Superclass::TransformCategoryType;
+  using TransformCategoryEnum = typename Superclass::TransformCategoryEnum;
 
   /** The number of parameters defining this transform. */
   using NumberOfParametersType = typename Superclass::NumberOfParametersType;

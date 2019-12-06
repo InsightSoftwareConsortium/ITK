@@ -58,11 +58,11 @@ public:
   /** Convenient type alias. */
   using MeshIOBasePointer = ::itk::MeshIOBase::Pointer;
 
-  /** \class FileModeType
+  /** \class FileModeEnum
    *
    * \ingroup ITKIOMeshBase
    * Mode in which the files is intended to be used */
-  enum class FileModeType : uint8_t
+  enum class FileModeEnum : uint8_t
   {
     ReadMode,
     WriteMode
@@ -70,13 +70,13 @@ public:
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr FileModeType ReadMode = FileModeType::ReadMode;
-  static constexpr FileModeType WriteMode = FileModeType::WriteMode;
+  static constexpr FileModeEnum ReadMode = FileModeEnum::ReadMode;
+  static constexpr FileModeEnum WriteMode = FileModeEnum::WriteMode;
 #endif
 
   /** Create the appropriate MeshIO depending on the particulars of the file. */
   static MeshIOBasePointer
-  CreateMeshIO(const char * path, FileModeType mode);
+  CreateMeshIO(const char * path, FileModeEnum mode);
 
 protected:
   MeshIOFactory();
@@ -85,7 +85,7 @@ protected:
 
 // Define how to print enumeration
 extern ITKIOMeshBase_EXPORT std::ostream &
-                            operator<<(std::ostream & out, const MeshIOFactory::FileModeType value);
+                            operator<<(std::ostream & out, const MeshIOFactory::FileModeEnum value);
 
 } // end namespace itk
 

@@ -74,11 +74,11 @@ itkMergeLabelMapFilterTest1(int argc, char * argv[])
   using MethodChoice = ChangeType::MethodChoice;
   auto method = static_cast<MethodChoice>(std::stoi(argv[6]));
 
-  change->SetMethod(itk::ChoiceMethod::STRICT);
-  ITK_TEST_SET_GET_VALUE(itk::ChoiceMethod::STRICT, change->GetMethod());
+  change->SetMethod(itk::ChoiceMethodEnum::STRICT);
+  ITK_TEST_SET_GET_VALUE(itk::ChoiceMethodEnum::STRICT, change->GetMethod());
 
-  change->SetMethod(itk::ChoiceMethod::KEEP);
-  ITK_TEST_SET_GET_VALUE(itk::ChoiceMethod::KEEP, change->GetMethod());
+  change->SetMethod(itk::ChoiceMethodEnum::KEEP);
+  ITK_TEST_SET_GET_VALUE(itk::ChoiceMethodEnum::KEEP, change->GetMethod());
 
   change->SetMethod(method);
   itk::SimpleFilterWatcher watcher6(change, "filter");

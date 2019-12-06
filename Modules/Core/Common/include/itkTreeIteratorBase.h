@@ -22,11 +22,11 @@
 
 namespace itk
 {
-/** \class TreeIteratorBaseNodeType
+/** \class TreeIteratorBaseNodeEnum
  * \ingroup ITKCommon
  * Enumerations for node type
  */
-enum class TreeIteratorBaseNodeType : uint8_t
+enum class TreeIteratorBaseNodeEnum : uint8_t
 {
   UNDEFIND = 0,
   PREORDER = 1,
@@ -65,7 +65,7 @@ public:
   using ChildIdentifier = typename TreeNodeType::ChildIdentifier;
 
   /** Backwards compatibility for enum values */
-  using NodeType = TreeIteratorBaseNodeType;
+  using NodeType = TreeIteratorBaseNodeEnum;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility

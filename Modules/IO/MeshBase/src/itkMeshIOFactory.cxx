@@ -27,7 +27,7 @@ MeshIOFactory ::~MeshIOFactory() = default;
 
 
 MeshIOBase::Pointer
-MeshIOFactory ::CreateMeshIO(const char * path, FileModeType mode)
+MeshIOFactory ::CreateMeshIO(const char * path, FileModeEnum mode)
 {
   std::list<MeshIOBase::Pointer> possibleMeshIO;
 
@@ -47,14 +47,14 @@ MeshIOFactory ::CreateMeshIO(const char * path, FileModeType mode)
 
   for (auto & k : possibleMeshIO)
   {
-    if (mode == FileModeType::ReadMode)
+    if (mode == FileModeEnum::ReadMode)
     {
       if (k->CanReadFile(path))
       {
         return k;
       }
     }
-    else if (mode == FileModeType::WriteMode)
+    else if (mode == FileModeEnum::WriteMode)
     {
       if (k->CanWriteFile(path))
       {
@@ -68,17 +68,17 @@ MeshIOFactory ::CreateMeshIO(const char * path, FileModeType mode)
 
 /**Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const MeshIOFactory::FileModeType value)
+operator<<(std::ostream & out, const MeshIOFactory::FileModeEnum value)
 {
   return out << [value] {
     switch (value)
     {
-      case MeshIOFactory::FileModeType::ReadMode:
-        return "MeshIOFactory::FileModeType::ReadMode";
-      case MeshIOFactory::FileModeType::WriteMode:
-        return "MeshIOFactory::FileModeType::WriteMode";
+      case MeshIOFactory::FileModeEnum::ReadMode:
+        return "MeshIOFactory::FileModeEnum::ReadMode";
+      case MeshIOFactory::FileModeEnum::WriteMode:
+        return "MeshIOFactory::FileModeEnum::WriteMode";
       default:
-        return "INVALID VALUE FOR MeshIOFactory::FileModeType";
+        return "INVALID VALUE FOR MeshIOFactory::FileModeEnum";
     }
   }();
 }

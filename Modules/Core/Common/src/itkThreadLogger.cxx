@@ -39,7 +39,7 @@ ThreadLogger ::~ThreadLogger()
 }
 
 void
-ThreadLogger ::SetPriorityLevel(PriorityLevelType level)
+ThreadLogger ::SetPriorityLevel(PriorityLevelEnum level)
 {
   this->m_Mutex.lock();
   this->m_OperationQ.push(SET_PRIORITY_LEVEL);
@@ -47,17 +47,17 @@ ThreadLogger ::SetPriorityLevel(PriorityLevelType level)
   this->m_Mutex.unlock();
 }
 
-Logger::PriorityLevelType
+Logger::PriorityLevelEnum
 ThreadLogger ::GetPriorityLevel() const
 {
   this->m_Mutex.lock();
-  PriorityLevelType level = this->m_PriorityLevel;
+  PriorityLevelEnum level = this->m_PriorityLevel;
   this->m_Mutex.unlock();
   return level;
 }
 
 void
-ThreadLogger ::SetLevelForFlushing(PriorityLevelType level)
+ThreadLogger ::SetLevelForFlushing(PriorityLevelEnum level)
 {
   this->m_Mutex.lock();
   this->m_LevelForFlushing = level;
@@ -66,11 +66,11 @@ ThreadLogger ::SetLevelForFlushing(PriorityLevelType level)
   this->m_Mutex.unlock();
 }
 
-Logger::PriorityLevelType
+Logger::PriorityLevelEnum
 ThreadLogger ::GetLevelForFlushing() const
 {
   this->m_Mutex.lock();
-  PriorityLevelType level = this->m_LevelForFlushing;
+  PriorityLevelEnum level = this->m_LevelForFlushing;
   this->m_Mutex.unlock();
   return level;
 }
@@ -102,7 +102,7 @@ ThreadLogger ::AddLogOutput(OutputType * output)
 }
 
 void
-ThreadLogger ::Write(PriorityLevelType level, std::string const & content)
+ThreadLogger ::Write(PriorityLevelEnum level, std::string const & content)
 {
   this->m_Mutex.lock();
   this->m_OperationQ.push(WRITE);

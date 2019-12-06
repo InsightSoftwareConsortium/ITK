@@ -81,7 +81,7 @@ public:
   using MeasureType = typename Superclass::MeasureType;
   using DerivativeType = typename Superclass::DerivativeType;
   using IndexRangeType = typename Superclass::IndexRangeType;
-  using StopConditionType = typename Superclass::StopConditionType;
+  using StopConditionEnum = typename Superclass::StopConditionEnum;
 
   /** Type for Hessian matrix in the Quasi-Newton method */
   using HessianType = itk::Array2D<TInternalComputationValueType>;

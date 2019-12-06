@@ -30,7 +30,7 @@ namespace itk
  */
 template <typename TInputImage, typename TOutputImage>
 ExtractImageFilter<TInputImage, TOutputImage>::ExtractImageFilter()
-  : m_DirectionCollapseStrategy(ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN)
+  : m_DirectionCollapseStrategy(ExtractImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN)
 {
   Superclass::InPlaceOff();
   this->DynamicMultiThreadingOn();
@@ -208,12 +208,12 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     {
       switch (m_DirectionCollapseStrategy)
       {
-        case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY:
+        case ExtractImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY:
         {
           outputDirection.SetIdentity();
         }
         break;
-        case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX:
+        case ExtractImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX:
         {
           if (vnl_determinant(outputDirection.GetVnlMatrix()) == 0.0)
           {
@@ -221,7 +221,7 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
           }
         }
         break;
-        case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS:
+        case ExtractImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS:
         {
           if (vnl_determinant(outputDirection.GetVnlMatrix()) == 0.0)
           {
@@ -229,7 +229,7 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
           }
         }
         break;
-        case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN:
+        case ExtractImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN:
         default:
         {
           itkExceptionMacro(

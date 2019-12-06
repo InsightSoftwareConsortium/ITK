@@ -1,5 +1,5 @@
 set(ITKGPUFiniteDifference_SRCS
-  itkGPUFiniteDifferenceFilterTypeEnum.cxx
+  itkGPUFiniteDifferenceFilterEnum.cxx
 )
 
 if (ITK_USE_GPU)

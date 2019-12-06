@@ -110,7 +110,7 @@ public:
   /** Parameters type.   */
   using ParametersType = typename Superclass::ParametersType;
   using FixedParametersType = typename Superclass::FixedParametersType;
-  using TransformCategoryType = typename Superclass::TransformCategoryType;
+  using TransformCategoryEnum = typename Superclass::TransformCategoryEnum;
 
   /** Jacobian type.   */
   using JacobianType = typename Superclass::JacobianType;
@@ -170,12 +170,12 @@ public:
   }
 
 
-  /** Overrides the TransformCategoryType to  UnknownTransformCategory. Even though
+  /** Overrides the TransformCategoryEnum to  UnknownTransformCategory. Even though
   this class derives from AffineTransform, its not a linear transform */
-  TransformCategoryType
+  TransformCategoryEnum
   GetTransformCategory() const override
   {
-    return Self::TransformCategoryType::UnknownTransformCategory;
+    return Self::TransformCategoryEnum::UnknownTransformCategory;
   }
 
   /** Defines that the forward transform goes from azimuth,elevation to

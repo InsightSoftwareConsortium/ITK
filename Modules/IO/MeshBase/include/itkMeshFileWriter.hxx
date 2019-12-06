@@ -91,7 +91,7 @@ MeshFileWriter<TInputMesh>::Write()
     if (m_MeshIO.IsNull())
     {
       itkDebugMacro(<< "Attempting factory creation of MeshIO for file: " << m_FileName);
-      m_MeshIO = MeshIOFactory::CreateMeshIO(m_FileName.c_str(), MeshIOFactory::FileModeType::WriteMode);
+      m_MeshIO = MeshIOFactory::CreateMeshIO(m_FileName.c_str(), MeshIOFactory::FileModeEnum::WriteMode);
       m_FactorySpecifiedMeshIO = true;
     }
     else
@@ -100,7 +100,7 @@ MeshFileWriter<TInputMesh>::Write()
       {
         itkDebugMacro(<< "MeshIO exists but doesn't know how to write file:" << m_FileName);
         itkDebugMacro(<< "Attempting creation of MeshIO with a factory for file:" << m_FileName);
-        m_MeshIO = MeshIOFactory::CreateMeshIO(m_FileName.c_str(), MeshIOFactory::FileModeType::WriteMode);
+        m_MeshIO = MeshIOFactory::CreateMeshIO(m_FileName.c_str(), MeshIOFactory::FileModeEnum::WriteMode);
         m_FactorySpecifiedMeshIO = true;
       }
     }

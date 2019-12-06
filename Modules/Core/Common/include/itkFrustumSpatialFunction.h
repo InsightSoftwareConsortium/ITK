@@ -22,11 +22,11 @@
 
 namespace itk
 {
-/** \class RotationPlaneType
+/** \class RotationPlaneEnum
  *  \ingroup ITKCommon
  *  Enumerations for Frustum rotation type
  */
-enum class RotationPlaneType : uint8_t
+enum class RotationPlaneEnum : uint8_t
 {
   RotateInXZPlane = 1,
   RotateInYZPlane
@@ -70,12 +70,12 @@ public:
   using OutputType = typename Superclass::OutputType;
 
   /** Rotate the frustum in the XZ or the YZ plane. */
-  using FrustumRotationPlaneType = RotationPlaneType;
+  using FrustumRotationPlaneType = RotationPlaneEnum;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr FrustumRotationPlaneType RotateInXZPlane = FrustumRotationPlaneType::RotateInXZPlane;
-  static constexpr FrustumRotationPlaneType RotateInYZPlane = FrustumRotationPlaneType::RotateInYZPlane;
+  static constexpr FrustumRotationPlaneType RotateInXZPlane = RotationPlaneEnum::RotateInXZPlane;
+  static constexpr FrustumRotationPlaneType RotateInYZPlane = RotationPlaneEnum::RotateInYZPlane;
 #endif
 
   /** Evaluates the function at a given position. */
@@ -128,7 +128,7 @@ private:
 
 /** Define how to print enumerations */
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const RotationPlaneType value);
+                        operator<<(std::ostream & out, const RotationPlaneEnum value);
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

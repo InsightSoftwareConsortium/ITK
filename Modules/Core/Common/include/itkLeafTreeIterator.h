@@ -109,7 +109,7 @@ template <typename TTreeType>
 typename LeafTreeIterator<TTreeType>::NodeType
 LeafTreeIterator<TTreeType>::GetType() const
 {
-  return TreeIteratorBaseNodeType ::LEAF;
+  return TreeIteratorBaseNodeEnum ::LEAF;
 }
 
 /** Return true if the next value exists */

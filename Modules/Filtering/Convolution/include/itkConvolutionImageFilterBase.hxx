@@ -24,7 +24,7 @@ namespace itk
 {
 template <typename TInputImage, typename TKernelImage, typename TOutputImage>
 ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::ConvolutionImageFilterBase()
-  : m_OutputRegionMode(ConvolutionImageFilterOutputRegionType::SAME)
+  : m_OutputRegionMode(ConvolutionImageFilterOutputRegionEnum::SAME)
 {
   this->AddRequiredInputName("KernelImage");
 
@@ -39,7 +39,7 @@ ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::GenerateOut
   // behavior corresponds to SAME output region mode.
   Superclass::GenerateOutputInformation();
 
-  if (m_OutputRegionMode == ConvolutionImageFilterOutputRegionType::VALID)
+  if (m_OutputRegionMode == ConvolutionImageFilterOutputRegionEnum::VALID)
   {
     OutputRegionType validRegion = this->GetValidRegion();
 
@@ -96,14 +96,14 @@ template <typename TInputImage, typename TKernelImage, typename TOutputImage>
 void
 ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::SetOutputRegionModeToSame()
 {
-  this->SetOutputRegionMode(ConvolutionImageFilterOutputRegionType::SAME);
+  this->SetOutputRegionMode(ConvolutionImageFilterOutputRegionEnum::SAME);
 }
 
 template <typename TInputImage, typename TKernelImage, typename TOutputImage>
 void
 ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::SetOutputRegionModeToValid()
 {
-  this->SetOutputRegionMode(ConvolutionImageFilterOutputRegionType::VALID);
+  this->SetOutputRegionMode(ConvolutionImageFilterOutputRegionEnum::VALID);
 }
 
 template <typename TInputImage, typename TKernelImage, typename TOutputImage>
@@ -117,11 +117,11 @@ ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::PrintSelf(s
   os << indent << "OutputRegionMode: ";
   switch (m_OutputRegionMode)
   {
-    case OutputRegionModeType::SAME:
+    case OutputRegionModeEnum::SAME:
       os << "SAME";
       break;
 
-    case OutputRegionModeType::VALID:
+    case OutputRegionModeEnum::VALID:
       os << "VALID";
       break;
 

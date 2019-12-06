@@ -20,19 +20,19 @@
 namespace itk
 {
 std::ostream &
-operator<<(std::ostream & out, const OrderType value)
+operator<<(std::ostream & out, const EigenValueOrderEnum value)
 {
   return out << [value] {
     switch (value)
     {
-      case OrderType::OrderByValue:
-        return "OrderType::OrderByValue";
-      case OrderType::OrderByMagnitude:
-        return "OrderType::OrderByMagnitude";
-      case OrderType::DoNotOrder:
-        return "OrderType::DoNotOrder";
+      case EigenValueOrderEnum::OrderByValue:
+        return "EigenValueOrderEnum::OrderByValue";
+      case EigenValueOrderEnum::OrderByMagnitude:
+        return "EigenValueOrderEnum::OrderByMagnitude";
+      case EigenValueOrderEnum::DoNotOrder:
+        return "EigenValueOrderEnum::DoNotOrder";
       default:
-        return "INVALID VALUE FOR OrderType";
+        return "INVALID VALUE FOR EigenValueOrderEnum";
     }
   }();
 }

@@ -24,11 +24,11 @@
 
 namespace itk
 {
-/** \class ExtractImageFilterCollapseStrategy
+/** \class ExtractImageFilterCollapseStrategyEnum
  * \ingroup ITKCommon
  * Strategy to be used to collapse phsycial space dimensions
  */
-enum class ExtractImageFilterCollapseStrategy : uint8_t
+enum class ExtractImageFilterCollapseStrategyEnum : uint8_t
 {
   DIRECTIONCOLLAPSETOUNKOWN = 0,
   DIRECTIONCOLLAPSETOIDENTITY = 1,
@@ -135,8 +135,8 @@ public:
   using InputImageSizeType = typename TInputImage::SizeType;
 
   /** Backwards compatibility for enum values */
-  using DIRECTIONCOLLAPSESTRATEGY = ExtractImageFilterCollapseStrategy;
-  using DirectionCollapseStrategyEnum = ExtractImageFilterCollapseStrategy;
+  using DIRECTIONCOLLAPSESTRATEGY = ExtractImageFilterCollapseStrategyEnum;
+  using DirectionCollapseStrategyEnum = ExtractImageFilterCollapseStrategyEnum;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
@@ -175,15 +175,15 @@ public:
    * is 3D+time, and that the 3D sub-space is properly defined.
    */
   void
-  SetDirectionCollapseToStrategy(const ExtractImageFilterCollapseStrategy choosenStrategy)
+  SetDirectionCollapseToStrategy(const ExtractImageFilterCollapseStrategyEnum choosenStrategy)
   {
     switch (choosenStrategy)
     {
-      case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS:
-      case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY:
-      case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX:
+      case ExtractImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS:
+      case ExtractImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY:
+      case ExtractImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX:
         break;
-      case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN:
+      case ExtractImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN:
       default:
         itkExceptionMacro(<< "Invalid Strategy Chosen for itk::ExtractImageFilter");
     }
@@ -207,21 +207,21 @@ public:
   void
   SetDirectionCollapseToGuess()
   {
-    this->SetDirectionCollapseToStrategy(ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS);
+    this->SetDirectionCollapseToStrategy(ExtractImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS);
   }
 
   /** \sa SetDirectionCollapseToStrategy */
   void
   SetDirectionCollapseToIdentity()
   {
-    this->SetDirectionCollapseToStrategy(ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY);
+    this->SetDirectionCollapseToStrategy(ExtractImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY);
   }
 
   /** \sa SetDirectionCollapseToStrategy */
   void
   SetDirectionCollapseToSubmatrix()
   {
-    this->SetDirectionCollapseToStrategy(ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX);
+    this->SetDirectionCollapseToStrategy(ExtractImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX);
   }
 
 
@@ -300,12 +300,12 @@ protected:
   OutputImageRegionType m_OutputImageRegion;
 
 private:
-  ExtractImageFilterCollapseStrategy m_DirectionCollapseStrategy;
+  ExtractImageFilterCollapseStrategyEnum m_DirectionCollapseStrategy;
 };
 
 /** Define how to print enumerations */
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const ExtractImageFilterCollapseStrategy value);
+                        operator<<(std::ostream & out, const ExtractImageFilterCollapseStrategyEnum value);
 
 } // end namespace itk
 

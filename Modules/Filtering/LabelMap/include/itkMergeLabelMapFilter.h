@@ -28,10 +28,10 @@ namespace itk
 #  define TEMPINPLACELABELMAPSTRICT STRICT
 #  undef STRICT
 #endif
-/**\class ChoiceMethod
+/**\class ChoiceMethodEnum
  *  \ingroup ITKLabelMap
  */
-enum class ChoiceMethod : uint8_t
+enum class ChoiceMethodEnum : uint8_t
 {
   KEEP = 0,
   AGGREGATE = 1,
@@ -119,7 +119,7 @@ public:
 #endif
 
   /** Enables backwards compatibility for enum values */
-  using MethodChoice = ChoiceMethod;
+  using MethodChoice = ChoiceMethodEnum;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
@@ -161,7 +161,7 @@ private:
 
 /** Define how to print enumerations */
 extern ITKLabelMap_EXPORT std::ostream &
-                          operator<<(std::ostream & out, const ChoiceMethod value);
+                          operator<<(std::ostream & out, const ChoiceMethodEnum value);
 
 } // end namespace itk
 

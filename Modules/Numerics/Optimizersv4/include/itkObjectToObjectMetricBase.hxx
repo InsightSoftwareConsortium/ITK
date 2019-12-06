@@ -28,7 +28,7 @@ template <typename TInternalComputationValueType>
 ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>::ObjectToObjectMetricBaseTemplate()
 {
   // Don't call SetGradientSource, to avoid valgrind warning.
-  this->m_GradientSource = SourceTypeOfGradient::GRADIENT_SOURCE_MOVING;
+  this->m_GradientSource = GradientSourceEnum::GRADIENT_SOURCE_MOVING;
   this->m_Value = NumericTraits<MeasureType>::ZeroValue();
 }
 
@@ -37,8 +37,8 @@ template <typename TInternalComputationValueType>
 bool
 ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>::GetGradientSourceIncludesFixed() const
 {
-  return m_GradientSource == SourceTypeOfGradient::GRADIENT_SOURCE_FIXED ||
-         m_GradientSource == SourceTypeOfGradient::GRADIENT_SOURCE_BOTH;
+  return m_GradientSource == GradientSourceEnum::GRADIENT_SOURCE_FIXED ||
+         m_GradientSource == GradientSourceEnum::GRADIENT_SOURCE_BOTH;
 }
 
 //-------------------------------------------------------------------
@@ -46,8 +46,8 @@ template <typename TInternalComputationValueType>
 bool
 ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>::GetGradientSourceIncludesMoving() const
 {
-  return m_GradientSource == SourceTypeOfGradient::GRADIENT_SOURCE_MOVING ||
-         m_GradientSource == SourceTypeOfGradient::GRADIENT_SOURCE_BOTH;
+  return m_GradientSource == GradientSourceEnum::GRADIENT_SOURCE_MOVING ||
+         m_GradientSource == GradientSourceEnum::GRADIENT_SOURCE_BOTH;
 }
 
 //-------------------------------------------------------------------
@@ -68,13 +68,13 @@ ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>::PrintSelf(std::
   os << indent << "GradientSourceType: ";
   switch (m_GradientSource)
   {
-    case SourceTypeOfGradient::GRADIENT_SOURCE_FIXED:
+    case GradientSourceEnum::GRADIENT_SOURCE_FIXED:
       os << "GRADIENT_SOURCE_FIXED";
       break;
-    case SourceTypeOfGradient::GRADIENT_SOURCE_MOVING:
+    case GradientSourceEnum::GRADIENT_SOURCE_MOVING:
       os << "GRADIENT_SOURCE_MOVING";
       break;
-    case SourceTypeOfGradient::GRADIENT_SOURCE_BOTH:
+    case GradientSourceEnum::GRADIENT_SOURCE_BOTH:
       os << "GRADIENT_SOURCE_BOTH";
       break;
     default:

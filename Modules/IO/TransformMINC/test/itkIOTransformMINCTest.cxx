@@ -729,7 +729,7 @@ int
 itkIOTransformMINCTest(int argc, char * argv[])
 {
   itk::ObjectFactoryBase::RegisterFactory(itk::MINCImageIOFactory::New(),
-                                          itk::ObjectFactoryBase::InsertionPositionType::INSERT_AT_FRONT);
+                                          itk::ObjectFactoryBase::InsertionPositionEnum::INSERT_AT_FRONT);
 
   if (argc > 1)
   {

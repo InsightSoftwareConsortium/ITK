@@ -94,7 +94,7 @@ TransformFileReaderTemplate<TParametersValueType>::Update()
     using TransformFactoryIOType = TransformIOFactoryTemplate<TParametersValueType>;
     m_TransformIO = TransformFactoryIOType::CreateTransformIO(
       m_FileName.c_str(),
-      /*TransformIOFactoryTemplate<TParametersValueType>::*/ TransformIOFactoryFileModeType::ReadMode);
+      /*TransformIOFactoryTemplate<TParametersValueType>::*/ TransformIOFactoryFileModeEnum::ReadMode);
     if (m_TransformIO.IsNull())
     {
       std::ostringstream msg;

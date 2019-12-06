@@ -78,7 +78,7 @@ template <typename TTreeType>
 typename PreOrderTreeIterator<TTreeType>::NodeType
 PreOrderTreeIterator<TTreeType>::GetType() const
 {
-  return TreeIteratorBaseNodeType::PREORDER;
+  return TreeIteratorBaseNodeEnum::PREORDER;
 }
 
 /** Return true if the next node exists */

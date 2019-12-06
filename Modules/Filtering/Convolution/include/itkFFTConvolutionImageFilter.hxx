@@ -329,7 +329,7 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
   extractFilter->GraftOutput(this->GetOutput());
 
   // Set up the crop sizes.
-  if (this->GetOutputRegionMode() == ConvolutionImageFilterOutputRegionType::SAME)
+  if (this->GetOutputRegionMode() == ConvolutionImageFilterOutputRegionEnum::SAME)
   {
     InputRegionType sameRegion = this->GetInput()->GetLargestPossibleRegion();
     extractFilter->SetExtractionRegion(sameRegion);

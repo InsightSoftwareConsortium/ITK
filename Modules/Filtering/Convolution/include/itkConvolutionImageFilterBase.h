@@ -24,11 +24,11 @@
 
 namespace itk
 {
-/** \class ConvolutionImageFilterOutputRegionType
+/** \class ConvolutionImageFilterOutputRegionEnum
  * \ingroup ITKConvolution
  * Output region mode type enumeration
  */
-enum class ConvolutionImageFilterOutputRegionType : uint8_t
+enum class ConvolutionImageFilterOutputRegionEnum : uint8_t
 {
   SAME = 0,
   VALID
@@ -94,12 +94,12 @@ public:
   itkBooleanMacro(Normalize);
 
   /** Reverse compatibility for enumerations */
-  using OutputRegionModeType = ConvolutionImageFilterOutputRegionType;
+  using OutputRegionModeEnum = ConvolutionImageFilterOutputRegionEnum;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr OutputRegionModeType SAME = OutputRegionModeType::SAME;
-  static constexpr OutputRegionModeType VALID = OutputRegionModeType::VALID;
+  static constexpr OutputRegionModeEnum SAME = OutputRegionModeEnum::SAME;
+  static constexpr OutputRegionModeEnum VALID = OutputRegionModeEnum::VALID;
 #endif
 
   /** Sets the output region mode. If set to SAME, the output region
@@ -111,8 +111,8 @@ public:
    * (no extrapolated contributions from the boundary condition are
    * needed). The output is therefore smaller than the input
    * region. Default output region mode is SAME. */
-  itkSetEnumMacro(OutputRegionMode, OutputRegionModeType);
-  itkGetEnumMacro(OutputRegionMode, OutputRegionModeType);
+  itkSetEnumMacro(OutputRegionMode, OutputRegionModeEnum);
+  itkGetEnumMacro(OutputRegionMode, OutputRegionModeEnum);
   virtual void
   SetOutputRegionModeToSame();
   virtual void
@@ -145,12 +145,12 @@ private:
   DefaultBoundaryConditionType m_DefaultBoundaryCondition;
   BoundaryConditionPointerType m_BoundaryCondition;
 
-  OutputRegionModeType m_OutputRegionMode;
+  OutputRegionModeEnum m_OutputRegionMode;
 };
 
 /** Define how to print enumerations */
 extern ITKConvolution_EXPORT std::ostream &
-                             operator<<(std::ostream & out, const ConvolutionImageFilterOutputRegionType value);
+                             operator<<(std::ostream & out, const ConvolutionImageFilterOutputRegionEnum value);
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -20,17 +20,17 @@
 namespace itk
 {
 std::ostream &
-operator<<(std::ostream & out, const MRFStopType value)
+operator<<(std::ostream & out, const MRFStopEnum value)
 {
   return out << [value] {
     switch (value)
     {
-      case MRFStopType::MaximumNumberOfIterations:
-        return "MRFStopType::MaximumNumberOfIterations";
-      case MRFStopType::ErrorTolerance:
-        return "MRFStopType::ErrorTolerance";
+      case MRFStopEnum::MaximumNumberOfIterations:
+        return "MRFStopEnum::MaximumNumberOfIterations";
+      case MRFStopEnum::ErrorTolerance:
+        return "MRFStopEnum::ErrorTolerance";
       default:
-        return "MRFStopType";
+        return "MRFStopEnum";
     }
   }();
 }

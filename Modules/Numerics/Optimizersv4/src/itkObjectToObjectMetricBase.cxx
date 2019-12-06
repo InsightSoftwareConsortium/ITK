@@ -21,42 +21,42 @@ namespace itk
 {
 /** Define how to print enumerations */
 std::ostream &
-operator<<(std::ostream & out, const SourceTypeOfGradient value)
+operator<<(std::ostream & out, const GradientSourceEnum value)
 {
   return out << [value] {
     switch (value)
     {
-      case SourceTypeOfGradient::GRADIENT_SOURCE_FIXED:
-        return "SourceTypeOfGradient::GRADIENT_SOURCE_FIXED";
-      case SourceTypeOfGradient::GRADIENT_SOURCE_MOVING:
-        return "SourceTypeOfGradient::GRADIENT_SOURCE_MOVING";
-      case SourceTypeOfGradient::GRADIENT_SOURCE_BOTH:
-        return "SourceTypeOfGradient::GRADIENT_SOURCE_BOTH";
+      case GradientSourceEnum::GRADIENT_SOURCE_FIXED:
+        return "GradientSourceEnum::GRADIENT_SOURCE_FIXED";
+      case GradientSourceEnum::GRADIENT_SOURCE_MOVING:
+        return "GradientSourceEnum::GRADIENT_SOURCE_MOVING";
+      case GradientSourceEnum::GRADIENT_SOURCE_BOTH:
+        return "GradientSourceEnum::GRADIENT_SOURCE_BOTH";
       default:
-        return "INVALID VALUE FOR SourceTypeOfGradient";
+        return "INVALID VALUE FOR GradientSourceEnum";
     }
   }();
 }
 
 /** Define how to print enumerations */
 std::ostream &
-operator<<(std::ostream & out, const CategoryTypeForMetric value)
+operator<<(std::ostream & out, const MetricCategoryEnum value)
 {
   return out << [value] {
     switch (value)
     {
-      case CategoryTypeForMetric::UNKNOWN_METRIC:
-        return "CategoryTypeForMetric::UNKNOWN_METRIC";
-      case CategoryTypeForMetric::OBJECT_METRIC:
-        return "CategoryTypeForMetric::OBJECT_METRIC";
-      case CategoryTypeForMetric::IMAGE_METRIC:
-        return "CategoryTypeForMetric::IMAGE_METRIC";
-      case CategoryTypeForMetric::POINT_SET_METRIC:
-        return "CategoryTypeForMetric::POINT_SET_METRIC";
-      case CategoryTypeForMetric::MULTI_METRIC:
-        return "CategoryTypeForMetric::MULTI_METRIC";
+      case MetricCategoryEnum::UNKNOWN_METRIC:
+        return "MetricCategoryEnum::UNKNOWN_METRIC";
+      case MetricCategoryEnum::OBJECT_METRIC:
+        return "MetricCategoryEnum::OBJECT_METRIC";
+      case MetricCategoryEnum::IMAGE_METRIC:
+        return "MetricCategoryEnum::IMAGE_METRIC";
+      case MetricCategoryEnum::POINT_SET_METRIC:
+        return "MetricCategoryEnum::POINT_SET_METRIC";
+      case MetricCategoryEnum::MULTI_METRIC:
+        return "MetricCategoryEnum::MULTI_METRIC";
       default:
-        return "INVALID VALUE FOR CategoryTypeForMetric";
+        return "INVALID VALUE FOR MetricCategoryEnum";
     }
   }();
 }

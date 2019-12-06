@@ -79,7 +79,7 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::PrintSelf
 
   os << indent << "Stop: " << (this->m_Stop ? "On" : "Off") << std::endl;
   os << indent
-     << "StopCondition: " << static_cast<typename NumericTraits<StopConditionType>::PrintType>(this->m_StopCondition)
+     << "StopCondition: " << static_cast<typename NumericTraits<StopConditionEnum>::PrintType>(this->m_StopCondition)
      << std::endl;
   os << indent << "StopConditionDescription: " << this->m_StopConditionDescription.str() << std::endl;
   os << indent << "Gradient: " << static_cast<typename NumericTraits<DerivativeType>::PrintType>(this->m_Gradient)
