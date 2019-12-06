@@ -17,11 +17,15 @@ option(ITK_USE_SYSTEM_SWIG "Use system swig. If OFF, swig is built as an externa
 mark_as_advanced(ITK_USE_SYSTEM_SWIG)
 
 # Minimal swig version
-set(swig_version_min 4.0.1)
-
-set(ITK_SWIG_VERSION 4.0.1)
-set(swig_hash     "595ef01cb83adfa960ceed9c325a9429192549e8d1e9aa3ab35a4301512a61d82e2e89a8c7939c2a5a0811254ea1832a443bd387e11459eb2b0bafc563ad1308")
-set(swigwin_hash  "2da147231164466c0dee91beca6a4f7b10e6f727062338ea6d70f44f4e4163ad6616b72c2de767539a69977ba96d3ee920ed3c182124c45569ca946750fd4495")
+if(WIN32)
+  set(swig_version_min 4.0.1)
+  set(ITK_SWIG_VERSION 4.0.1)
+  set(swigwin_hash  "2da147231164466c0dee91beca6a4f7b10e6f727062338ea6d70f44f4e4163ad6616b72c2de767539a69977ba96d3ee920ed3c182124c45569ca946750fd4495")
+else()
+  set(ITK_SWIG_VERSION 3.0.12)
+  set(swig_version_min 3.0.0)
+  set(swig_hash     "85605bd98bf2b56f5bfca23ae23d76d764d76a174b05836c8686825e912d6326c370e9cf2134c0bf4f425560be103b16bf9c9d075077f52e713a69082616e906")
+endif()
 
 if(WIN32)
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-${ITK_SWIG_VERSION}/swig.exe")
