@@ -241,6 +241,17 @@ endif()
 set(CMAKE_DEBUG_POSTFIX "" CACHE STRING "Generate debug library name with a postfix.")
 mark_as_advanced(CMAKE_DEBUG_POSTFIX)
 
+# Configure find_package behavior
+if("${CMAKE_VERSION}" VERSION_GREATER_EQUAL "3.16")
+  if(NOT DEFINED CMAKE_FIND_USE_PACKAGE_REGISTRY)
+    set(CMAKE_FIND_USE_PACKAGE_REGISTRY 0)
+  endif()
+else()
+  if(NOT DEFINED CMAKE_FIND_PACKAGE_NO_PACKAGE_REGISTRY)
+    set(CMAKE_FIND_PACKAGE_NO_PACKAGE_REGISTRY 1)
+  endif()
+endif()
+
 # Setup build locations.
 if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/bin)
@@ -252,6 +263,7 @@ if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/lib)
 endif()
 set(ITK_MODULES_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
+
 
 
 #-----------------------------------------------------------------------------
