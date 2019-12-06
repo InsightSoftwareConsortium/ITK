@@ -26,6 +26,7 @@
 #include "itkMath.h"
 #include "itkProgressReporter.h"
 #include "itkMetaDataObject.h"
+#include <iomanip>
 
 namespace itk
 {
@@ -311,6 +312,7 @@ ImageSeriesReader<TOutputImage>::GenerateData()
     const bool insideRequestedRegion = requestedRegion.IsInside(sliceStartIndex);
     const int  iFileName = (m_ReverseOrder ? numberOfFiles - i - 1 : i);
     bool       nonUniformSampling = false;
+    double     spacingDeviation = 0.0;
 
     // check if we need this slice
     if (!insideRequestedRegion && !needToUpdateMetaDataDictionaryArray)
@@ -436,17 +438,15 @@ ImageSeriesReader<TOutputImage>::GenerateData()
               outputSpacing[this->m_NumberOfDimensionsInImage])) // either non-uniform sampling or missing slice
         {
           nonUniformSampling = true;
-          itkWarningMacro(<< "Non unform sampling or missing slices detected , expected "
-                          << outputSpacing[this->m_NumberOfDimensionsInImage] << " got: " << dirNnorm);
-
-          EncapsulateMetaData<bool>(output->GetMetaDataDictionary(),
-                                    "ITK_non_uniform_sampling",
-                                    true); // set metadata for the series reader output
+          spacingDeviation = Math::abs(outputSpacing[this->m_NumberOfDimensionsInImage] - dirNnorm);
+          itkWarningMacro(<< "Non uniform sampling or missing slices detected , expected " << std::setprecision(14)
+                          << outputSpacing[this->m_NumberOfDimensionsInImage] << " got: " << dirNnorm
+                          << " Deviation of:" << spacingDeviation << std::defaultfloat);
 
           needToUpdateMetaDataDictionaryArray = true;
-          if (Math::abs(outputSpacing[this->m_NumberOfDimensionsInImage] - dirNnorm) > maxSpacingDeviation)
+          if (spacingDeviation > maxSpacingDeviation)
           {
-            maxSpacingDeviation = Math::abs(outputSpacing[this->m_NumberOfDimensionsInImage] - dirNnorm);
+            maxSpacingDeviation = spacingDeviation;
             EncapsulateMetaData<double>(output->GetMetaDataDictionary(),
                                         "ITK_non_uniform_sampling_deviation",
                                         maxSpacingDeviation); // maximum deviation
@@ -471,7 +471,8 @@ ImageSeriesReader<TOutputImage>::GenerateData()
       *newDictionary = reader->GetImageIO()->GetMetaDataDictionary();
       if (nonUniformSampling)
       {
-        EncapsulateMetaData<bool>(*newDictionary, "ITK_non_uniform_sampling", true); // slice-specific information
+        // slice-specific information
+        EncapsulateMetaData<double>(*newDictionary, "ITK_non_uniform_sampling_deviation", spacingDeviation);
       }
       m_MetaDataDictionaryArray.push_back(newDictionary);
     }

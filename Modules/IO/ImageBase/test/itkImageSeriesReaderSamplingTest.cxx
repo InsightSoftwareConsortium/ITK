@@ -45,28 +45,15 @@ itkImageSeriesReaderSamplingTest(int ac, char * av[])
     Reader3DType::Pointer reader = Reader3DType::New();
     reader->SetFileNames(fnames);
     reader->Update();
-    bool globalNonUniformSampling = false;
-    if (itk::ExposeMetaData<bool>(
-          reader->GetOutput()->GetMetaDataDictionary(), "ITK_non_uniform_sampling", globalNonUniformSampling) &&
-        globalNonUniformSampling)
-    {
-      std::cout << "output ITK_non_uniform_sampling detected " << std::endl;
-    }
-    else
-    {
-      std::cout << "output ITK_non_uniform_sampling not found" << std::endl;
-      return EXIT_FAILURE;
-    }
-
-    double globalSamplingDeviation = 0.0;
+    double maxSamplingDeviation = 0.0;
     if (itk::ExposeMetaData<double>(
-          reader->GetOutput()->GetMetaDataDictionary(), "ITK_non_uniform_sampling_deviation", globalSamplingDeviation))
+          reader->GetOutput()->GetMetaDataDictionary(), "ITK_non_uniform_sampling_deviation", maxSamplingDeviation))
     {
-      std::cout << "output ITK_non_uniform_sampling_deviation = " << globalSamplingDeviation << std::endl;
+      std::cout << "global ITK_non_uniform_sampling_deviation detected : " << maxSamplingDeviation << std::endl;
     }
     else
     {
-      std::cout << "output ITK_non_uniform_sampling_deviation not found" << std::endl;
+      std::cout << "global ITK_non_uniform_sampling_deviation not found" << std::endl;
       return EXIT_FAILURE;
     }
 
@@ -74,14 +61,14 @@ itkImageSeriesReaderSamplingTest(int ac, char * av[])
     for (auto d : *reader->GetMetaDataDictionaryArray())
     {
       itk::MetaDataDictionary theMetadata = *d;
-      bool                    nonUniformSampling = false;
-      if (itk::ExposeMetaData<bool>(theMetadata, "ITK_non_uniform_sampling", nonUniformSampling) && nonUniformSampling)
+      double                  samplingDeviation = 0.0;
+      if (itk::ExposeMetaData<double>(theMetadata, "ITK_non_uniform_sampling_deviation", samplingDeviation))
       {
-        std::cout << "slice ITK_non_uniform_sampling detected" << std::endl;
+        std::cout << "slice ITK_non_uniform_sampling_deviation detected: " << samplingDeviation << std::endl;
       }
       else
       {
-        std::cout << "slice ITK_non_uniform_sampling not detected" << std::endl;
+        std::cout << "slice ITK_non_uniform_sampling_deviation not detected" << std::endl;
       }
     }
   }
