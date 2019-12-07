@@ -28,6 +28,7 @@
 #ifndef itkMath_h
 #define itkMath_h
 
+#include <cmath>
 #include "itkMathDetail.h"
 #include "itkConceptChecking.h"
 #include <vnl/vnl_math.h>
@@ -280,8 +281,8 @@ FloatAddULP(T x, typename Detail::FloatIEEE<T>::IntType ulps)
  *
  * The implementation is based off the explanation in the white papers:
  *
- * - http://randomascii.wordpress.com/2012/02/25/comparing-floating-point-numbers-2012-edition/
- * - http://randomascii.wordpress.com/category/floating-point/
+ * - https://randomascii.wordpress.com/2012/02/25/comparing-floating-point-numbers-2012-edition/
+ * - https://randomascii.wordpress.com/category/floating-point/
  *
  * This function is not a cure-all, and reading those articles is important
  * to understand its appropriate use in the context of ULPs, zeros, subnormals,
@@ -318,25 +319,21 @@ FloatAlmostEqual(T                                        x1,
     return true;
   }
 
-#if defined(__APPLE__) && (__clang_major__ == 3) && (__clang_minor__ == 0) && defined(NDEBUG) && defined(__x86_64__)
-  Detail::FloatIEEE<T> x1f(x1);
-  Detail::FloatIEEE<T> x2f(x2);
-  double               x1fAsULP = static_cast<double>(x1f.AsULP());
-  double               x2fAsULP = static_cast<double>(x2f.AsULP());
-  double               ulps = x1fAsULP - x2fAsULP;
-  if (ulps < 0)
+  // This check for different signs is necessary for several reasons, see the blog link above.
+  // Subtracting the signed-magnitude representation of floats using twos-complement
+  // math isn't particularly meaningful, and the subtraction would produce a 33-bit
+  // result and overflow an int.
+  if (std::signbit(x1) != std::signbit(x2))
   {
-    ulps = -ulps;
+    return false;
   }
-  return ulps <= static_cast<double>(maxUlps);
-#else
+
   typename Detail::FloatIEEE<T>::IntType ulps = FloatDifferenceULP(x1, x2);
   if (ulps < 0)
   {
     ulps = -ulps;
   }
   return ulps <= maxUlps;
-#endif
 }
 
 // The following code cannot be moved to the itkMathDetail.h file without introducing circular dependencies
