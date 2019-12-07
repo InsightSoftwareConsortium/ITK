@@ -206,7 +206,6 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     )
   WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk "ITKCommon" ${init_file})
   set(python_modules ${ITK_WRAP_PYTHON_INSTALL_FILES})
-  list(REMOVE_AT python_modules 0)
   WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "ITKCommon" ${python_modules})
 endif()
 
