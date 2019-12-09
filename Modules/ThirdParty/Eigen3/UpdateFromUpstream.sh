@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
 
-set -e
-set -x
-shopt -s dotglob
+thirdparty_module_name="Eigen3"
 
-readonly name="Eigen3"
-readonly ownership="Eigen Upstream <kwrobot@kitware.com>"
-readonly subtree="Modules/ThirdParty/Eigen3/src/itkeigen"
 # readonly repo="https://github.com/eigenteam/eigen-git-mirror"
 # readonly repo="https://gitlab.kitware.com/third-party/eigen.git"
-readonly repo="https://gitlab.kitware.com/phcerdan/eigen.git"
-readonly tag="for/itk-eigen-3.3"
-readonly paths="
+upstream_git_url="https://gitlab.kitware.com/phcerdan/eigen.git"
+upstream_git_branch="for/itk-eigen-3.3"
+
+snapshot_author_name="Eigen Upstream"
+snapshot_author_email="kwrobot@kitware.com"
+
+snapshot_redact_cmd=''
+snapshot_relative_path="src/itkeigen"
+
+snapshot_paths="
 Eigen/Cholesky
 Eigen/CholmodSupport
 Eigen/CMakeLists.txt
@@ -43,25 +45,17 @@ Eigen/SuperLUSupport
 Eigen/SVD
 Eigen/UmfPackSupport
 Eigen/src
-
 COPYING.BSD
 COPYING.MINPACK
 COPYING.MPL2
 COPYING.README
 README.md
 README.kitware.md
-
 CMakeLists.txt
 cmake/FindStandardMathLibrary.cmake
 cmake/Eigen3Config.cmake.in
-
 .gitattributes
 "
 
-extract_source () {
-    git_archive
-    pushd "$extractdir"
-    popd
-}
-
-source "${BASH_SOURCE%/*}/../../../Utilities/Maintenance/update-third-party.bash"
+source "${BASH_SOURCE%/*}/../../../Utilities/Maintenance/UpdateThirdPartyFromUpstream.sh"
+update_from_upstream
