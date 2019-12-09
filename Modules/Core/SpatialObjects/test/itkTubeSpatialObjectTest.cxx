@@ -497,7 +497,7 @@ itkTubeSpatialObjectTest(int, char *[])
 
   std::cout << "Testing PointBasedSO RemovePoint: ";
   pBSO->RemovePoint(0);
-  if (pBSO->GetPoints().size() != 1 || pBSO->GetPoint(1)->GetPositionInObjectSpace()[0] != 1)
+  if (pBSO->GetPoints().size() != 1 || pBSO->GetPoint(0)->GetPositionInObjectSpace()[0] != 1)
   {
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
