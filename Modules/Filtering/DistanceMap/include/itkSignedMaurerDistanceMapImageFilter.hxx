@@ -248,7 +248,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
     this->Voronoi(m_CurrentDimension, idx, outputImage);
     progress->CompletedPixel();
   }
-  progress.release();
+  progress.reset();
 
   if (m_CurrentDimension == ImageDimension - 1 && !this->m_SquaredDistance)
   {
