@@ -95,7 +95,7 @@ public:
 
   /** Go to the beginning pixel of the current line. */
   void
-  GoToBeginOfLine(void)
+  GoToBeginOfLine()
   {
     this->m_Index0 = this->m_BeginIndex0;
     this->m_RealIndex = 0;
@@ -104,7 +104,7 @@ public:
 
   /** Go to the past end pixel of the current line. */
   void
-  GoToEndOfLine(void)
+  GoToEndOfLine()
   {
     this->m_Index0 = this->m_EndIndex0;
     this->m_RealIndex = this->m_RunLengthLine->size() - 1;
@@ -113,14 +113,14 @@ public:
 
   /** Test if the index is at the end of line. */
   inline bool
-  IsAtEndOfLine(void)
+  IsAtEndOfLine()
   {
     return this->m_Index0 == this->m_EndIndex0;
   }
 
   /** Go to the next line. */
   inline void
-  NextLine(void)
+  NextLine()
   {
     ++(this->m_BI);
     if (!this->m_BI.IsAtEnd())

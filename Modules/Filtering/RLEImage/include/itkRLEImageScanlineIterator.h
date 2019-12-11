@@ -84,7 +84,7 @@ public:
   ///** Return a reference to the pixel
   // * This method will provide the fastest access to pixel
   // * data, but it will NOT support ImageAdaptors. */
-  // PixelType & Value(void)
+  // PixelType & Value()
   // {
   //    return m_Buffer[m_Index[2]][m_Index[1]][m_RealIndex].second;
   // }

@@ -313,7 +313,7 @@ public:
 
   /** Get the pixel value */
   PixelType
-  Get(void) const
+  Get() const
   {
     return Value();
   }
@@ -322,7 +322,7 @@ public:
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
   const PixelType &
-  Value(void) const
+  Value() const
   {
     RLLine & line = const_cast<Self *>(this)->m_BI.Value();
 
@@ -350,7 +350,7 @@ public:
   /** Is the iterator at the beginning of the region? "Begin" is defined
    * as the first pixel in the region. */
   bool
-  IsAtBegin(void) const
+  IsAtBegin() const
   {
     return m_Index0 == m_BeginIndex0 && m_BI.IsAtBegin();
   }
@@ -358,7 +358,7 @@ public:
   /** Is the iterator at the end of the region? "End" is defined as one
    * pixel past the last pixel of the region. */
   bool
-  IsAtEnd(void) const
+  IsAtEnd() const
   {
     return m_Index0 == m_BeginIndex0 && m_BI.IsAtEnd();
   }

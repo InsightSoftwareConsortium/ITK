@@ -100,7 +100,7 @@ public:
   // * Setting this value would change value of the whole run-length segment.
   // * If we wanted to safely enable it,
   // * we would isolate this pixel into its own segment. */
-  // PixelType & Value(void)
+  // PixelType & Value()
   // {
   //    return m_Buffer[m_Index[2]][m_Index[1]][m_RealIndex].second;
   // }
