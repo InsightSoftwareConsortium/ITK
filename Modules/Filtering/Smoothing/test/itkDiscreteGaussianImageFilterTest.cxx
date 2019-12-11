@@ -21,6 +21,7 @@
 #include "itkNullImageToImageFilterDriver.hxx"
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
+#include "itkConstantBoundaryCondition.h"
 
 int
 itkDiscreteGaussianImageFilterTest(int, char *[])
@@ -57,6 +58,14 @@ itkDiscreteGaussianImageFilterTest(int, char *[])
 
     filter->SetSigmaArray(sigma);
     ITK_TEST_SET_GET_VALUE(sigma, filter->GetSigmaArray());
+
+    // Set the boundary condition used by the filter
+    itk::ConstantBoundaryCondition<ImageType> constantBoundaryCondition;
+    filter->SetInputBoundaryCondition(&constantBoundaryCondition);
+    ITK_TEST_SET_GET_VALUE(&constantBoundaryCondition, filter->GetInputBoundaryCondition());
+
+    filter->SetRealBoundaryCondition(&constantBoundaryCondition);
+    ITK_TEST_SET_GET_VALUE(&constantBoundaryCondition, filter->GetRealBoundaryCondition());
 
     // set some parameters
     filter->SetVariance(1.0);

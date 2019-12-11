@@ -20,6 +20,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"
+#include "itkZeroFluxNeumannBoundaryCondition.h"
 
 namespace itk
 {
@@ -95,6 +96,18 @@ public:
    * of the two images is assumed to be the same. */
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
+  /** Type of the pixel to use for intermediate results */
+  using RealOutputPixelType = typename NumericTraits< OutputPixelType >::RealType;
+  using RealOutputImageType = Image< OutputPixelType, ImageDimension >;
+  using RealOutputPixelValueType = typename NumericTraits<RealOutputPixelType>::ValueType;
+
+  /** Typedef to describe the boundary condition. */
+  using BoundaryConditionType = ImageBoundaryCondition< TInputImage >;
+  using InputBoundaryConditionPointerType = BoundaryConditionType *;
+  using InputDefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition< TInputImage >;
+  using RealBoundaryConditionPointerType = ImageBoundaryCondition<RealOutputImageType> *;
+  using RealDefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition< RealOutputImageType >;
+
   /** Typedef of double containers */
   using ArrayType = FixedArray<double, Self::ImageDimension>;
   using SigmaArrayType = ArrayType;
@@ -127,6 +140,12 @@ public:
    * FilterDimensionality to 2. */
   itkGetConstMacro(FilterDimensionality, unsigned int);
   itkSetMacro(FilterDimensionality, unsigned int);
+
+  /** Set/get the boundary condition. */
+  itkSetMacro(InputBoundaryCondition, InputBoundaryConditionPointerType);
+  itkGetConstMacro(InputBoundaryCondition, InputBoundaryConditionPointerType);
+  itkSetMacro(RealBoundaryCondition, RealBoundaryConditionPointerType);
+  itkGetConstMacro(RealBoundaryCondition, RealBoundaryConditionPointerType);
 
   /** Convenience Set methods for setting all dimensional parameters
    *  to the same values. */
@@ -291,6 +310,8 @@ protected:
     m_MaximumKernelWidth = 32;
     m_UseImageSpacing = true;
     m_FilterDimensionality = ImageDimension;
+    m_InputBoundaryCondition = &m_InputDefaultBoundaryCondition;
+    m_RealBoundaryCondition = &m_RealDefaultBoundaryCondition;
   }
 
   ~DiscreteGaussianImageFilter() override = default;
@@ -324,6 +345,20 @@ private:
 
   /** Flag to indicate whether to use image spacing */
   bool m_UseImageSpacing;
+
+  /** Pointer to a persistent boundary condition object used
+   ** for the image iterator. */
+  InputBoundaryConditionPointerType m_InputBoundaryCondition;
+
+  /** Default boundary condition */
+  InputDefaultBoundaryConditionType m_InputDefaultBoundaryCondition;
+
+  /** Boundary condition use for the intermediate filters */
+  RealBoundaryConditionPointerType m_RealBoundaryCondition;
+
+ /** Default boundary condition use for the intermediate filters */
+  RealDefaultBoundaryConditionType m_RealDefaultBoundaryCondition;
+
 };
 } // end namespace itk
 
