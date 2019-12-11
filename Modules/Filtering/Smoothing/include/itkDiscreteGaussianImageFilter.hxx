@@ -140,19 +140,12 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
     return;
   }
 
-  // Type of the pixel to use for intermediate results
-  using RealOutputPixelType = typename NumericTraits<OutputPixelType>::RealType;
-  using RealOutputImageType = Image<OutputPixelType, ImageDimension>;
-
-  using RealOutputPixelValueType = typename NumericTraits<RealOutputPixelType>::ValueType;
-
   // Type definition for the internal neighborhood filter
   //
   // First filter convolves and changes type from input type to real type
   // Middle filters convolves from real to real
   // Last filter convolves and changes type from real type to output type
   // Streaming filter forces the mini-pipeline to run in chunks
-
 
   using FirstFilterType =
     NeighborhoodOperatorImageFilter<InputImageType, RealOutputImageType, RealOutputPixelValueType>;
@@ -221,6 +214,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
     SingleFilterPointer singleFilter = SingleFilterType::New();
     singleFilter->SetOperator(oper[0]);
     singleFilter->SetInput(localInput);
+    singleFilter->OverrideBoundaryCondition(m_InputBoundaryCondition);
     progress->RegisterInternalFilter(singleFilter, 1.0f / m_FilterDimensionality);
 
     // Graft this filters output onto the mini-pipeline so the mini-pipeline
@@ -247,6 +241,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
     firstFilter->SetOperator(oper[0]);
     firstFilter->ReleaseDataFlagOn();
     firstFilter->SetInput(localInput);
+    firstFilter->OverrideBoundaryCondition(m_InputBoundaryCondition);
     progress->RegisterInternalFilter(firstFilter, 1.0f / numberOfStages);
 
     // Middle filters convolves from real to real
@@ -258,6 +253,8 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
         IntermediateFilterPointer f = IntermediateFilterType::New();
         f->SetOperator(oper[i]);
         f->ReleaseDataFlagOn();
+
+        f->OverrideBoundaryCondition(m_RealBoundaryCondition);
         progress->RegisterInternalFilter(f, 1.0f / numberOfStages);
 
         if (i == 1)
@@ -277,6 +274,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
     // Last filter convolves and changes type from real type to output type
     LastFilterPointer lastFilter = LastFilterType::New();
     lastFilter->SetOperator(oper[filterDimensionality - 1]);
+    lastFilter->OverrideBoundaryCondition(m_RealBoundaryCondition);
     if (filterDimensionality > 2)
     {
       lastFilter->SetInput(intermediateFilters[filterDimensionality - 3]->GetOutput());
@@ -331,6 +329,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream &
   os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
   os << indent << "FilterDimensionality: " << m_FilterDimensionality << std::endl;
   os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
+  os << indent << "RealBoundaryCondition: " << m_RealBoundaryCondition << std::endl;
 }
 } // end namespace itk
 
