@@ -23,7 +23,7 @@
 namespace itk
 {
 /** \class TreeIteratorBaseNodeEnum
- * \ingroup ITKCommon
+ * \ingroup ITKDeprecated
  * Enumerations for node type
  */
 enum class TreeIteratorBaseNodeEnum : uint8_t
@@ -52,7 +52,7 @@ enum class TreeIteratorBaseNodeEnum : uint8_t
  * Please note that this iterator may not be fully functional, but you should always be able to use its Get() method to
  * retrieve the thing it points to.
  *
- * \ingroup ITKCommon
+ * \ingroup ITKDeprecated
  */
 template <typename TTreeType>
 class ITK_TEMPLATE_EXPORT TreeIteratorBase

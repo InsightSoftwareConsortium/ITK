@@ -6,6 +6,8 @@ itkConditionVariableTest.cxx
 itkSimpleFastMutexLockTest.cxx
 itkVectorCentralDifferenceImageFunctionTest.cxx
 itkVectorResampleImageFilterTest.cxx
+itkTreeContainerTest.cxx
+itkTreeContainerTest2.cxx
 )
 
 if (NOT ITK_LEGACY_REMOVE)
@@ -41,3 +43,6 @@ itk_add_test(NAME itkVectorResampleImageFilterTest
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorResampleImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/VectorResampleImageFilterTest.png
     itkVectorResampleImageFilterTest ${ITK_TEST_OUTPUT_DIR}/VectorResampleImageFilterTest.png)
+
+itk_add_test(NAME itkTreeContainerTest COMMAND ITKDeprecatedTestDriver itkTreeContainerTest)
+itk_add_test(NAME itkTreeContainerTest2 COMMAND ITKDeprecatedTestDriver itkTreeContainerTest2)

@@ -28,7 +28,7 @@ namespace itk
  * \class LevelOrderTreeIterator
  * \brief Iterate over a tree in level order.
  *
- * \ingroup ITKCommon
+ * \ingroup ITKDeprecated
  */
 template <typename TTreeType>
 class ITK_TEMPLATE_EXPORT LevelOrderTreeIterator : public TreeIteratorBase<TTreeType>

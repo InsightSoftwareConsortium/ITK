@@ -29,7 +29,6 @@ itkImageRandomIteratorTest2.cxx
 itkImageRandomNonRepeatingIteratorWithIndexTest.cxx
 itkImageRandomNonRepeatingIteratorWithIndexTest2.cxx
 itkImageSliceIteratorTest.cxx
-itkTreeContainerTest2.cxx
 itkRGBPixelTest.cxx
 itkLightObjectTest.cxx
 itkBoundingBoxTest.cxx
@@ -128,7 +127,6 @@ itkMetaDataDictionaryTest.cxx
 itkStdStreamLogOutputTest.cxx
 itkOctreeTest.cxx
 itkTimeProbesTest.cxx
-itkTreeContainerTest.cxx
 itkVariableLengthVectorTest.cxx
 itkSpatialFunctionTest.cxx
 itkPeriodicBoundaryConditionTest.cxx
@@ -484,8 +482,6 @@ itk_add_test(NAME itkStdStreamLogOutputTest COMMAND ITKCommon2TestDriver itkStdS
 itk_add_test(NAME itkThreadLoggerTest COMMAND ITKCommon2TestDriver itkThreadLoggerTest ${TEMP}/test_threadLogger.txt)
 itk_add_test(NAME itkThreadDefsTest COMMAND ITKCommon2TestDriver itkThreadDefsTest)
 itk_add_test(NAME itkTimeProbesTest COMMAND ITKCommon2TestDriver itkTimeProbesTest)
-itk_add_test(NAME itkTreeContainerTest COMMAND ITKCommon2TestDriver itkTreeContainerTest)
-itk_add_test(NAME itkTreeContainerTest2 COMMAND ITKCommon1TestDriver itkTreeContainerTest2)
 itk_add_test(NAME itkVersorTest COMMAND ITKCommon2TestDriver itkVersorTest)
 itk_add_test(NAME itkConicShellInteriorExteriorSpatialFunctionTest COMMAND ITKCommon2TestDriver itkConicShellInteriorExteriorSpatialFunctionTest)
 itk_add_test(NAME itkEllipsoidInteriorExteriorSpatialFunctionTest COMMAND ITKCommon2TestDriver itkEllipsoidInteriorExteriorSpatialFunctionTest)
