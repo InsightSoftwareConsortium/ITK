@@ -102,7 +102,7 @@ public:
 
   /** Copy constructor. ImageIORegion is a lightweight object that is not
    * reference counted, so the copy constructor is public. */
-  ImageIORegion(const Self & region) = default;
+  ImageIORegion(const Self &) = default;
 
   /** Move-constructor. Fast and non-throwing. */
   ImageIORegion(Self &&) = default;
