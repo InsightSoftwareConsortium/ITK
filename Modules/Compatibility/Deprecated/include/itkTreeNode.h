@@ -37,7 +37,7 @@ namespace itk
  * \tparam TValue = Element type stored in the node
  *
  * \ingroup DataRepresentation
- * \ingroup ITKCommon
+ * \ingroup ITKDeprecated
  */
 template <typename TValue>
 class ITK_TEMPLATE_EXPORT TreeNode : public Object

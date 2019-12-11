@@ -142,7 +142,6 @@ set(ITKCommon_SRCS
   itkFrustumSpatialFunction.cxx
   itkObjectStore.cxx
   itkSymmetricEigenAnalysis.cxx
-  itkTreeIteratorBase.cxx
   )
 
 if(WIN32)
