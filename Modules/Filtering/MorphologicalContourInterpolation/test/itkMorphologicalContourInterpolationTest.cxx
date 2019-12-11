@@ -101,7 +101,7 @@ itkMorphologicalContourInterpolationTest(int argc, char * argv[])
 
   using ScalarPixelType = itk::ImageIOBase::IOComponentType;
   itk::ImageIOBase::Pointer imageIO =
-    itk::ImageIOFactory::CreateImageIO(inputImageFileName, itk::ImageIOFactory::FileModeType::ReadMode);
+    itk::ImageIOFactory::CreateImageIO(inputImageFileName, itk::ImageIOFactory::FileModeEnum::ReadMode);
   if (!imageIO)
   {
     std::cerr << "Could not CreateImageIO for: " << inputImageFileName << std::endl;
