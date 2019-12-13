@@ -85,19 +85,27 @@ public:
   itkSetInputMacro(Mask, MaskSpatialObjectType);
   itkGetInputMacro(Mask, MaskSpatialObjectType);
 
-  /** Template the EigenValueOrderType. Methods that inherit from this class can override this function
-   * to produce a different eigenvalue ordering. Ideally, the enum EigenValueOrderType should come from
+  /**\class EigenValueOrderEnum
+   * Template the EigenValueOrderEnum. Methods that inherit from this class can override this function
+   * to produce a different eigenvalue ordering. Ideally, the enum EigenValueOrderEnum should come from
    * itkSymmetricEigenAnalysisImageFilter.h or itkSymmetricEigenAnalysis.h. That turns out to be non-trivial
    * because the enumeration is hidden within the templated class. Therefore, you would need the hessian type
    * and eigenvalue type to do such an operation. We do not necessarily have the hessian type information.
    */
-  typedef enum
+  enum class EigenValueOrderEnum : uint8_t
   {
     OrderByValue = 1,
     OrderByMagnitude,
     DoNotOrder
-  } EigenValueOrderType;
-  virtual EigenValueOrderType
+  };
+/**Exposes enums values for backwards compatibility*/
+#if !defined(ITK_LEGACY_REMOVE)
+  static constexpr EigenValueOrderEnum OrderByValue = EigenValueOrderEnum::OrderByValue;
+  static constexpr EigenValueOrderEnum OrderByMagnitude = EigenValueOrderEnum::OrderByMagnitude;
+  static constexpr EigenValueOrderEnum DoNotOrder = EigenValueOrderEnum::DoNotOrder;
+#endif
+
+  virtual EigenValueOrderEnum
   GetEigenValueOrder() const = 0;
 
 protected:

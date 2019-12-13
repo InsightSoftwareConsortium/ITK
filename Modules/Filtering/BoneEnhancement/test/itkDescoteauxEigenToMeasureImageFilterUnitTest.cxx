@@ -171,7 +171,7 @@ TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, InitialParameters)
   /* Default enhance bright structures */
   EXPECT_DOUBLE_EQ(-1.0, this->m_Filter->GetEnhanceType());
 
-  EXPECT_EQ(2, this->m_Filter->GetEigenValueOrder());
+  EXPECT_EQ(2, static_cast<int>(this->m_Filter->GetEigenValueOrder()));
 }
 
 TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestZerosImage)

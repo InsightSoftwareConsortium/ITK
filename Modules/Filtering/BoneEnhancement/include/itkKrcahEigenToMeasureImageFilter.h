@@ -85,7 +85,7 @@ public:
   itkTypeMacro(KrcahEigenToMeasureImageFilter, EigenToMeasureImageFilter);
 
   /** Explicitely state the eigenvalues are ordered by magnitude for this filter */
-  typename Superclass::EigenValueOrderType
+  typename Superclass::EigenValueOrderEnum
   GetEigenValueOrder() const override
   {
     return Superclass::OrderByMagnitude;

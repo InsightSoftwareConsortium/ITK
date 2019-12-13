@@ -64,7 +64,7 @@ KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::AfterTh
       gamma = 0.25f;
       break;
     default:
-      itkExceptionMacro(<< "Have bad parameterset enumeration " << m_ParameterSet);
+      itkExceptionMacro(<< "Have bad parameterset enumeration " << static_cast<char>(m_ParameterSet));
       break;
   }
 
@@ -113,7 +113,7 @@ KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::Dynamic
       traceFunction = &Self::CalculateTraceAccordingToJournalArticle;
       break;
     default:
-      itkExceptionMacro(<< "Have bad parameterset enumeration " << m_ParameterSet);
+      itkExceptionMacro(<< "Have bad parameterset enumeration " << static_cast<char>(m_ParameterSet));
       break;
   }
 
@@ -207,7 +207,7 @@ KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::PrintSe
                                                                                    Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "ParameterSet: " << GetParameterSet() << std::endl;
+  os << indent << "ParameterSet: " << static_cast<char>(GetParameterSet()) << std::endl;
 }
 
 } // namespace itk
