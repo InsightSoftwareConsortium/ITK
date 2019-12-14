@@ -563,7 +563,7 @@ mainHelper(int argc, char * argv[], std::string inputPath)
 
   std::string               firstFilename = inputPath + stageTiles.Tiles[0].FileName;
   itk::ImageIOBase::Pointer imageIO =
-    itk::ImageIOFactory::CreateImageIO(firstFilename.c_str(), itk::ImageIOFactory::FileModeType::ReadMode);
+    itk::ImageIOFactory::CreateImageIO(firstFilename.c_str(), itk::ImageIOFactory::FileModeEnum::ReadMode);
   imageIO->SetFileName(firstFilename);
   imageIO->ReadImageInformation();
 

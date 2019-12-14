@@ -158,7 +158,7 @@ itkMontagePCMTestFiles(int argc, char * argv[])
   try
   {
     itk::ImageIOBase::Pointer imageIO =
-      itk::ImageIOFactory::CreateImageIO(argv[1], itk::ImageIOFactory::FileModeType::ReadMode);
+      itk::ImageIOFactory::CreateImageIO(argv[1], itk::ImageIOFactory::FileModeEnum::ReadMode);
     imageIO->SetFileName(argv[1]);
     imageIO->ReadImageInformation();
     // const itk::ImageIOBase::IOComponentType pixelType = imageIO->GetComponentType();
