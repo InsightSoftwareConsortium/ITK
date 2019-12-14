@@ -289,7 +289,7 @@ public:
   }; // end of class Iterator
 
   void
-  Print(std::ostream & os);
+  Print(std::ostream & os) const;
 
 protected:
   void
