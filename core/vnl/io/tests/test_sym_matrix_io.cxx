@@ -5,21 +5,22 @@
 #include "testlib/testlib_test.h"
 #include "vpl/vpl.h"
 
-void test_sym_matrix_double_io()
+void
+test_sym_matrix_double_io()
 {
   std::cout << "*********************************\n"
-           << "Testing vnl_sym_matrix<double> io\n"
-           << "*********************************\n";
+            << "Testing vnl_sym_matrix<double> io\n"
+            << "*********************************\n";
   //// test constructors, accessors
   constexpr int n = 6;
-  vnl_sym_matrix<double> m_out( n), m_in1(n),m_in2;
+  vnl_sym_matrix<double> m_out(n), m_in1(n), m_in2;
 
-  for (int i=0; i<n; i++)
+  for (int i = 0; i < n; i++)
   {
-    for (int j=0; j<=i; j++)
+    for (int j = 0; j <= i; j++)
     {
-      m_out(i,j) = (double)(i*j);
-      m_in1(i,j) = (double)(73);
+      m_out(i, j) = (double)(i * j);
+      m_in1(i, j) = (double)(73);
     }
   }
 
@@ -37,7 +38,7 @@ void test_sym_matrix_double_io()
   TEST("Finished reading file successfully", (!bfs_in), false);
   bfs_in.close();
 
-  vpl_unlink ("vnl_sym_matrix_test_double_io.bvl.tmp");
+  vpl_unlink("vnl_sym_matrix_test_double_io.bvl.tmp");
 
   // m_in1 has content
   TEST("m_out == m_in1", m_out, m_in1);
@@ -49,7 +50,8 @@ void test_sym_matrix_double_io()
 }
 
 
-void test_sym_matrix_io()
+void
+test_sym_matrix_io()
 {
   test_sym_matrix_double_io();
 }

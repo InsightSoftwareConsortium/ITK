@@ -19,7 +19,7 @@ constexpr int vnl_numeric_traits<int>::zero;
 constexpr unsigned int vnl_numeric_traits<unsigned int>::zero;
 constexpr long vnl_numeric_traits<long>::zero;
 constexpr unsigned long vnl_numeric_traits<unsigned long>::zero;
-//long long - target type will have width of at least 64 bits. (since C++11)
+// long long - target type will have width of at least 64 bits. (since C++11)
 constexpr long long vnl_numeric_traits<long long>::zero;
 constexpr unsigned long long vnl_numeric_traits<unsigned long long>::zero;
 
@@ -35,7 +35,7 @@ constexpr unsigned int vnl_numeric_traits<unsigned int>::one;
 constexpr long vnl_numeric_traits<long>::one;
 constexpr unsigned long vnl_numeric_traits<unsigned long>::one;
 
-//long long - target type will have width of at least 64 bits. (since C++11)
+// long long - target type will have width of at least 64 bits. (since C++11)
 constexpr long long vnl_numeric_traits<long long>::one;
 constexpr unsigned long long vnl_numeric_traits<unsigned long long>::one;
 
@@ -50,7 +50,7 @@ constexpr int vnl_numeric_traits<int>::maxval;
 constexpr unsigned int vnl_numeric_traits<unsigned int>::maxval;
 constexpr long vnl_numeric_traits<long>::maxval;
 constexpr unsigned long vnl_numeric_traits<unsigned long>::maxval;
-//long long - target type will have width of at least 64 bits. (since C++11)
+// long long - target type will have width of at least 64 bits. (since C++11)
 constexpr long long vnl_numeric_traits<long long>::maxval;
 constexpr unsigned long long vnl_numeric_traits<unsigned long long>::maxval;
 
@@ -72,17 +72,17 @@ constexpr long double vnl_numeric_traits<long double>::maxval;
 // 'complex<float>' is not suitable for being a constexpr because it is not a literal type
 //                   because it is not an aggregate and has no constexpr
 //                  constructors other than copy or move constructors
-const std::complex<float> vnl_numeric_traits<std::complex<float> >::zero(0.0F);
-const std::complex<double> vnl_numeric_traits<std::complex<double> >::zero(0.0);
-const std::complex<long double> vnl_numeric_traits<std::complex<long double> >::zero(0.0L);
+const std::complex<float> vnl_numeric_traits<std::complex<float>>::zero(0.0F);
+const std::complex<double> vnl_numeric_traits<std::complex<double>>::zero(0.0);
+const std::complex<long double> vnl_numeric_traits<std::complex<long double>>::zero(0.0L);
 
-const std::complex<float> vnl_numeric_traits<std::complex<float> >::one(1.0F);
-const std::complex<double> vnl_numeric_traits<std::complex<double> >::one(1.0);
-const std::complex<long double> vnl_numeric_traits<std::complex<long double> >::one(1.0L);
+const std::complex<float> vnl_numeric_traits<std::complex<float>>::one(1.0F);
+const std::complex<double> vnl_numeric_traits<std::complex<double>>::one(1.0);
+const std::complex<long double> vnl_numeric_traits<std::complex<long double>>::one(1.0L);
 
 // Unknown, so undefined. Will cause link errors if someone refers to it.
-//const std::complex<float> vnl_numeric_traits<std::complex<float> >::maxval;
-//const std::complex<double> vnl_numeric_traits<std::complex<double> >::maxval;
-//const std::complex<long double> vnl_numeric_traits<std::complex<long double> >::maxval;
+// const std::complex<float> vnl_numeric_traits<std::complex<float> >::maxval;
+// const std::complex<double> vnl_numeric_traits<std::complex<double> >::maxval;
+// const std::complex<long double> vnl_numeric_traits<std::complex<long double> >::maxval;
 
 //--------------------------------------------------------------------------------

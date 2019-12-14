@@ -6,28 +6,28 @@
 #include "testlib/testlib_test.h"
 #include "vpl/vpl.h"
 
-void test_matrix_double_io()
+void
+test_matrix_double_io()
 {
   std::cout << "*****************************\n"
-           << "Testing vnl_matrix<double> io\n"
-           << "*****************************\n";
+            << "Testing vnl_matrix<double> io\n"
+            << "*****************************\n";
   //// test constructors, accessors
   constexpr int m = 10;
   constexpr int n = 6;
-  vnl_matrix<double> m_out(m, n), m_in1(m,n),m_in2;
+  vnl_matrix<double> m_out(m, n), m_in1(m, n), m_in2;
 
-  for (int i=0; i<m; i++)
+  for (int i = 0; i < m; i++)
   {
-    for (int j=0; j<n; j++)
+    for (int j = 0; j < n; j++)
     {
-      m_out(i,j) = (double)(i*j+i);
-      m_in1(i,j) = (double)(73);
+      m_out(i, j) = (double)(i * j + i);
+      m_in1(i, j) = (double)(73);
     }
   }
 
   vsl_b_ofstream bfs_out("vnl_matrix_test_double_io.bvl.tmp");
-  TEST("Created vnl_matrix_test_double_io.bvl.tmp for writing",
-       (!bfs_out), false);
+  TEST("Created vnl_matrix_test_double_io.bvl.tmp for writing", (!bfs_out), false);
   vsl_b_write(bfs_out, m_out);
   vsl_b_write(bfs_out, m_out);
   bfs_out.close();
@@ -39,7 +39,7 @@ void test_matrix_double_io()
   TEST("Finished reading file successfully", (!bfs_in), false);
   bfs_in.close();
 
-  vpl_unlink ("vnl_matrix_test_double_io.bvl.tmp");
+  vpl_unlink("vnl_matrix_test_double_io.bvl.tmp");
 
   // m_in1 has content
   TEST("m_out == m_in1", m_out, m_in1);
@@ -51,7 +51,8 @@ void test_matrix_double_io()
 }
 
 
-void test_matrix_io()
+void
+test_matrix_io()
 {
   test_matrix_double_io();
 }

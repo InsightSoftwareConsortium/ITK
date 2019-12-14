@@ -23,34 +23,39 @@
 // slowdown:     7.0    4.6    2.8    1.4   1.18   1.04   1.02
 // \endverbatim
 
-vnl_cholesky::vnl_cholesky(vnl_matrix<double> const & M, Operation mode):
-  A_(M)
+vnl_cholesky::vnl_cholesky(vnl_matrix<double> const & M, Operation mode)
+  : A_(M)
 {
   long n = M.columns();
   assert(n == (int)(M.rows()));
   num_dims_rank_def_ = -1;
-  if (std::fabs(M(0,n-1) - M(n-1,0)) > 1e-8) {
+  if (std::fabs(M(0, n - 1) - M(n - 1, 0)) > 1e-8)
+  {
     std::cerr << "vnl_cholesky: WARNING: non-symmetric: " << M << std::endl;
   }
 
-  if (mode != estimate_condition) {
+  if (mode != estimate_condition)
+  {
     // Quick factorization
     v3p_netlib_dpofa_(A_.data_block(), &n, &n, &num_dims_rank_def_);
     if (mode == verbose && num_dims_rank_def_ != 0)
       std::cerr << "vnl_cholesky: " << num_dims_rank_def_ << " dimensions of non-posdeffness\n";
   }
-  else {
+  else
+  {
     vnl_vector<double> nullvec(n);
     v3p_netlib_dpoco_(A_.data_block(), &n, &n, &rcond_, nullvec.data_block(), &num_dims_rank_def_);
     if (num_dims_rank_def_ != 0)
-      std::cerr << "vnl_cholesky: rcond=" << rcond_ << " so " << num_dims_rank_def_ << " dimensions of non-posdeffness\n";
+      std::cerr << "vnl_cholesky: rcond=" << rcond_ << " so " << num_dims_rank_def_
+                << " dimensions of non-posdeffness\n";
   }
 }
 
 //: Solve least squares problem M x = b.
 //  The right-hand-side std::vector x may be b,
 //  which will give a fractional increase in speed.
-void vnl_cholesky::solve(vnl_vector<double> const& b, vnl_vector<double>* x) const
+void
+vnl_cholesky::solve(vnl_vector<double> const & b, vnl_vector<double> * x) const
 {
   assert(b.size() == A_.columns());
 
@@ -60,7 +65,8 @@ void vnl_cholesky::solve(vnl_vector<double> const& b, vnl_vector<double>* x) con
 }
 
 //: Solve least squares problem M x = b.
-vnl_vector<double> vnl_cholesky::solve(vnl_vector<double> const& b) const
+vnl_vector<double>
+vnl_cholesky::solve(vnl_vector<double> const & b) const
 {
   assert(b.size() == A_.columns());
 
@@ -71,7 +77,8 @@ vnl_vector<double> vnl_cholesky::solve(vnl_vector<double> const& b) const
 }
 
 //: Compute determinant.
-double vnl_cholesky::determinant() const
+double
+vnl_cholesky::determinant() const
 {
   long n = A_.columns();
   vnl_matrix<double> I = A_;
@@ -82,9 +89,11 @@ double vnl_cholesky::determinant() const
 }
 
 // : Compute inverse.  Not efficient.
-vnl_matrix<double> vnl_cholesky::inverse() const
+vnl_matrix<double>
+vnl_cholesky::inverse() const
 {
-  if (num_dims_rank_def_) {
+  if (num_dims_rank_def_)
+  {
     std::cerr << "vnl_cholesky: Calling inverse() on rank-deficient matrix\n";
     return vnl_matrix<double>();
   }
@@ -96,23 +105,26 @@ vnl_matrix<double> vnl_cholesky::inverse() const
 
   // Copy lower triangle into upper
   for (int i = 0; i < n; ++i)
-    for (int j = i+1; j < n; ++j)
-      I(i,j) = I(j,i);
+    for (int j = i + 1; j < n; ++j)
+      I(i, j) = I(j, i);
 
   return I;
 }
 
 //: Return lower-triangular factor.
-vnl_matrix<double> vnl_cholesky::lower_triangle() const
+vnl_matrix<double>
+vnl_cholesky::lower_triangle() const
 {
   unsigned n = A_.columns();
-  vnl_matrix<double> L(n,n);
+  vnl_matrix<double> L(n, n);
   // Zap upper triangle and transpose
-  for (unsigned i = 0; i < n; ++i) {
-    L(i,i) = A_(i,i);
-    for (unsigned j = i+1; j < n; ++j) {
-      L(j,i) = A_(j,i);
-      L(i,j) = 0;
+  for (unsigned i = 0; i < n; ++i)
+  {
+    L(i, i) = A_(i, i);
+    for (unsigned j = i + 1; j < n; ++j)
+    {
+      L(j, i) = A_(j, i);
+      L(i, j) = 0;
     }
   }
   return L;
@@ -120,16 +132,19 @@ vnl_matrix<double> vnl_cholesky::lower_triangle() const
 
 
 //: Return upper-triangular factor.
-vnl_matrix<double> vnl_cholesky::upper_triangle() const
+vnl_matrix<double>
+vnl_cholesky::upper_triangle() const
 {
   unsigned n = A_.columns();
-  vnl_matrix<double> U(n,n);
+  vnl_matrix<double> U(n, n);
   // Zap lower triangle and transpose
-  for (unsigned i = 0; i < n; ++i) {
-    U(i,i) = A_(i,i);
-    for (unsigned j = i+1; j < n; ++j) {
-      U(i,j) = A_(j,i);
-      U(j,i) = 0;
+  for (unsigned i = 0; i < n; ++i)
+  {
+    U(i, i) = A_(i, i);
+    for (unsigned j = i + 1; j < n; ++j)
+    {
+      U(i, j) = A_(j, i);
+      U(j, i) = 0;
     }
   }
   return U;

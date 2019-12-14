@@ -9,10 +9,10 @@ my_function()
 }
 
 int
-test_macros_main( int, char*[] )
+test_macros_main(int, char *[])
 {
-  START( "macros" );
-  TEST( "TEST macro", 5, 5 );
-  TEST_RUN( "TEST_RUN macro", my_function(), val, 1 );
+  START("macros");
+  TEST("TEST macro", 5, 5);
+  TEST_RUN("TEST_RUN macro", my_function(), val, 1);
   SUMMARY();
 }

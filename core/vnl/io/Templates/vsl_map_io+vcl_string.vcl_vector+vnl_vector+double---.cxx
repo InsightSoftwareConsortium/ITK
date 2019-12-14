@@ -6,5 +6,5 @@
 #  include "vcl_msvc_warnings.h"
 #endif
 #include <vnl/io/vnl_io_vector.h>
-using value = std::vector<vnl_vector<double> >;
+using value = std::vector<vnl_vector<double>>;
 VSL_MAP_IO_INSTANTIATE(std::string, value, std::less<std::string>);

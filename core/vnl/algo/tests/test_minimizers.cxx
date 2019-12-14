@@ -4,16 +4,22 @@
 
 #include "testlib/testlib_test.h"
 
-struct cubic : public vnl_cost_function {
-  cubic() : vnl_cost_function(1) {}
+struct cubic : public vnl_cost_function
+{
+  cubic()
+    : vnl_cost_function(1)
+  {}
 
-  double f(const vnl_vector<double>& x) override {
+  double
+  f(const vnl_vector<double> & x) override
+  {
     std::cout << ' ' << x[0];
     return (2 - x[0]) * (2 - x[0]) + 10;
   }
 };
 
-void test_minimizers()
+void
+test_minimizers()
 {
   cubic c;
   vnl_brent b(&c);
