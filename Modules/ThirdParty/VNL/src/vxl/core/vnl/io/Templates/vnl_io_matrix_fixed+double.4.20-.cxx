@@ -1,2 +1,2 @@
 #include <vnl/io/vnl_io_matrix_fixed.hxx>
-VNL_IO_MATRIX_FIXED_INSTANTIATE(double,4,20);
+VNL_IO_MATRIX_FIXED_INSTANTIATE(double, 4, 20);

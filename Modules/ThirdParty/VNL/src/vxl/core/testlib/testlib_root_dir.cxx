@@ -14,23 +14,24 @@
 // We need to check for its existence and if it doesn't exist - do something else.
 #include <vcl_where_root_dir.h>
 //: Return source root directory (ie the one just below vcl and vxl).
-std::string testlib_root_dir()
+std::string
+testlib_root_dir()
 {
-  char* ptr = std::getenv("VXLSRC");
+  char * ptr = std::getenv("VXLSRC");
   if (ptr)
     return std::string(ptr);
 
-  ptr= std::getenv("VCLSRC");
+  ptr = std::getenv("VCLSRC");
   if (ptr)
     return std::string(ptr);
 
-  ptr= std::getenv("VXL_SRC");
+  ptr = std::getenv("VXL_SRC");
   if (ptr)
     return std::string(ptr);
 
   return std::string(VCL_SOURCE_ROOT_DIR);
 
-  //std::cerr<<"ERROR: testlib_root_dir() Unable to retrieve directory from\n"
+  // std::cerr<<"ERROR: testlib_root_dir() Unable to retrieve directory from\n"
   //      <<"$VCLSRC or $VXLSRC or $VXL_SRC.  Sorry.\n";
-  //return std::string("");
+  // return std::string("");
 }

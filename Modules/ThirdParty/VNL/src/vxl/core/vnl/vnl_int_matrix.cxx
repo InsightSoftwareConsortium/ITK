@@ -13,19 +13,19 @@
 
 //: Construct from matrix of double.
 //  The double-to-int conversion is simply the standard (int) cast.
-vnl_int_matrix::vnl_int_matrix(const vnl_matrix<double>& d):
-  Base(d.rows(), d.columns())
+vnl_int_matrix::vnl_int_matrix(const vnl_matrix<double> & d)
+  : Base(d.rows(), d.columns())
 {
   unsigned m = d.rows();
   unsigned n = d.columns();
 
   for (unsigned i = 0; i < m; ++i)
     for (unsigned j = 0; j < n; ++j)
-      (*this)(i,j) = (int)d(i,j);
+      (*this)(i, j) = (int)d(i, j);
 }
 
 //: Load from disk
-vnl_int_matrix::vnl_int_matrix(char const* filename)
+vnl_int_matrix::vnl_int_matrix(char const * filename)
 {
   std::ifstream s(filename);
   read_ascii(s);

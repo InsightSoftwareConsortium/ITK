@@ -14,24 +14,27 @@
 #include <vnl/algo/vnl_netlib.h> // setulb_()
 
 //----------------------------------------------------------------------------
-vnl_lbfgsb::vnl_lbfgsb(vnl_cost_function& f): f_(&f)
+vnl_lbfgsb::vnl_lbfgsb(vnl_cost_function & f)
+  : f_(&f)
 {
   init_parameters();
 }
 
 //----------------------------------------------------------------------------
-void vnl_lbfgsb::init_parameters()
+void
+vnl_lbfgsb::init_parameters()
 {
-    long n = this->f_->get_number_of_unknowns();
-    this->bound_selection_.set_size(n);
-    this->bound_selection_.fill(0);
-    this->max_corrections_ = 5;
-    this->convergence_factor_ = 1e+7;
-    this->projected_gradient_tolerance_ = 1e-5;
+  long n = this->f_->get_number_of_unknowns();
+  this->bound_selection_.set_size(n);
+  this->bound_selection_.fill(0);
+  this->max_corrections_ = 5;
+  this->convergence_factor_ = 1e+7;
+  this->projected_gradient_tolerance_ = 1e-5;
 }
 
 //----------------------------------------------------------------------------
-bool vnl_lbfgsb::minimize(vnl_vector<double>& x)
+bool
+vnl_lbfgsb::minimize(vnl_vector<double> & x)
 {
   // Basic setup.
   long n = this->f_->get_number_of_unknowns();
@@ -46,21 +49,21 @@ bool vnl_lbfgsb::minimize(vnl_vector<double>& x)
   //
   //                    2*m*n + 11*m*m + 5*n + 8*m
   //
-  vnl_vector<double> wa(2*m*n + 11*m*m + 5*n + 8*m);
+  vnl_vector<double> wa(2 * m * n + 11 * m * m + 5 * n + 8 * m);
   //
   // the previous version required:
   //
   //                   2*m*n + 12*m*m + 4*n + 12*m
   //
   //
-  vnl_vector<long> iwa(3*n);
+  vnl_vector<long> iwa(3 * n);
   char csave[60];
   long lsave[4];
   long isave[44];
   double dsave[29];
 
   // Task communication.
-  char task[61]="START                                                       ";
+  char task[61] = "START                                                       ";
 
   // Verbosity level inside lbfgs implementation.
   // (-1 no o/p, 0 start and end, 1 every iter)
@@ -80,22 +83,24 @@ bool vnl_lbfgsb::minimize(vnl_vector<double>& x)
   for (;;)
   {
     // Call the L-BFGS-B code.
-    v3p_netlib_setulb_(
-      &n,
-      &m,
-      x.data_block(),
-      this->lower_bound_.data_block(),
-      this->upper_bound_.data_block(),
-      this->bound_selection_.data_block(),
-      &f, gradient.data_block(),
-      &this->convergence_factor_,
-      &this->projected_gradient_tolerance_,
-      wa.data_block(),
-      iwa.data_block(),
-      task,
-      &iprint,
-      csave, lsave, isave, dsave
-      );
+    v3p_netlib_setulb_(&n,
+                       &m,
+                       x.data_block(),
+                       this->lower_bound_.data_block(),
+                       this->upper_bound_.data_block(),
+                       this->bound_selection_.data_block(),
+                       &f,
+                       gradient.data_block(),
+                       &this->convergence_factor_,
+                       &this->projected_gradient_tolerance_,
+                       wa.data_block(),
+                       iwa.data_block(),
+                       task,
+                       &iprint,
+                       csave,
+                       lsave,
+                       isave,
+                       dsave);
 
     // Check the current task.
     if (std::strncmp("FG", task, 2) == 0)
@@ -145,14 +150,12 @@ bool vnl_lbfgsb::minimize(vnl_vector<double>& x)
         this->end_error_ = f;
       }
 
-      if (std::strncmp("CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH",
-                      task, 47) == 0)
+      if (std::strncmp("CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH", task, 47) == 0)
       {
         // function tolerance reached
         this->failure_code_ = CONVERGED_FTOL;
       }
-      else if (std::strncmp("CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL",
-                           task, 48) == 0)
+      else if (std::strncmp("CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL", task, 48) == 0)
       {
         // gradient tolerance reached
         this->failure_code_ = CONVERGED_GTOL;

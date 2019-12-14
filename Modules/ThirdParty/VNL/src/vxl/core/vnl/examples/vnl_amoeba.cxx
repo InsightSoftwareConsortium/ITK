@@ -12,24 +12,28 @@
 // See rosenbrock.cxx for a description of this function.
 class vnl_rosenbrock : public vnl_cost_function
 {
- public:
-  vnl_rosenbrock(): vnl_cost_function(2) {}
+public:
+  vnl_rosenbrock()
+    : vnl_cost_function(2)
+  {}
 
-  double f(const vnl_vector<double>& x) override
+  double
+  f(const vnl_vector<double> & x) override
   {
-    double u = 10*(x[1] - x[0]*x[0]);
+    double u = 10 * (x[1] - x[0] * x[0]);
     double v = 1 - x[0];
-    return u*u + v*v;
+    return u * u + v * v;
   }
 };
 
-int main()
+int
+main()
 {
   // Set up a Rosenbrock compute object
   vnl_rosenbrock f;
 
   // Set up the initial guess
-  vnl_vector<double> x = vnl_double_2(-1.9,2.0).as_vector();
+  vnl_vector<double> x = vnl_double_2(-1.9, 2.0).as_vector();
 
   // Make a Levenberg Marquardt minimizer, attach f to it, and
   // run the minimization

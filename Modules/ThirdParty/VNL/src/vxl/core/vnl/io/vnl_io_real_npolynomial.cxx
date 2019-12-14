@@ -9,7 +9,8 @@
 
 //==============================================================================
 //: Binary save self to stream.
-void vsl_b_write(vsl_b_ostream & os, const vnl_real_npolynomial & p)
+void
+vsl_b_write(vsl_b_ostream & os, const vnl_real_npolynomial & p)
 {
   constexpr short io_version_no = 1;
   vsl_b_write(os, io_version_no);
@@ -20,9 +21,11 @@ void vsl_b_write(vsl_b_ostream & os, const vnl_real_npolynomial & p)
 
 //==============================================================================
 //: Binary load self from stream.
-void vsl_b_read(vsl_b_istream &is, vnl_real_npolynomial & p)
+void
+vsl_b_read(vsl_b_istream & is, vnl_real_npolynomial & p)
 {
-  if (!is) return;
+  if (!is)
+    return;
 
   short ver;
   vnl_vector<double> coeffs;
@@ -30,26 +33,27 @@ void vsl_b_read(vsl_b_istream &is, vnl_real_npolynomial & p)
   vsl_b_read(is, ver);
   switch (ver)
   {
-   case 1:
-    vsl_b_read(is, coeffs);
-    vsl_b_read(is, polyn);
-    p.set(coeffs, polyn);
-    break;
+    case 1:
+      vsl_b_read(is, coeffs);
+      vsl_b_read(is, polyn);
+      p.set(coeffs, polyn);
+      break;
 
-   default:
-    std::cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_real_npolynomial&)\n"
-             << "           Unknown version number "<< ver << '\n';
-    is.is().clear(std::ios::badbit); // Set an unrecoverable IO error on stream
-    return;
+    default:
+      std::cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_real_npolynomial&)\n"
+                << "           Unknown version number " << ver << '\n';
+      is.is().clear(std::ios::badbit); // Set an unrecoverable IO error on stream
+      return;
   }
 }
 
 //==============================================================================
 //: Output a human readable summary to the stream
-void vsl_print_summary(std::ostream & os,const vnl_real_npolynomial & p)
+void
+vsl_print_summary(std::ostream & os, const vnl_real_npolynomial & p)
 {
-  os<<"Coefficients: ";
+  os << "Coefficients: ";
   vsl_print_summary(os, p.coefficients());
-  os<<"Polynomial: ";
+  os << "Polynomial: ";
   vsl_print_summary(os, p.polyn());
 }

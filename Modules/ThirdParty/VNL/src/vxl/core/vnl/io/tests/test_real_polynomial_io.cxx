@@ -5,21 +5,22 @@
 #include "testlib/testlib_test.h"
 #include "vpl/vpl.h"
 
-void test_real_polynomial_io()
+void
+test_real_polynomial_io()
 {
   std::cout << "******************************\n"
-           << "Testing vnl_real_polynomial io\n"
-           << "******************************\n";
+            << "Testing vnl_real_polynomial io\n"
+            << "******************************\n";
   //// test constructors, accessors
   constexpr int n = 10;
   vnl_vector<double> v(n);
 
-  for (int i=0; i<n; i++)
+  for (int i = 0; i < n; i++)
   {
-      v(i) = (double)(i*i);
+    v(i) = (double)(i * i);
   }
 
-  vnl_real_polynomial poly_out(v), poly_in0(0),poly_in1(v*2.0);
+  vnl_real_polynomial poly_out(v), poly_in0(0), poly_in1(v * 2.0);
 
 
   vsl_b_ofstream bfs_out("vnl_real_polynomial_test_io.bvl.tmp");
@@ -35,12 +36,10 @@ void test_real_polynomial_io()
   TEST("Finished reading file successfully", (!bfs_in), false);
   bfs_in.close();
 
-  vpl_unlink ("vnl_real_polynomial_test_io.bvl.tmp");
+  vpl_unlink("vnl_real_polynomial_test_io.bvl.tmp");
 
-  TEST("poly_out.coefficients() == poly_in0.coefficients()",
-       poly_out.coefficients() == poly_in0.coefficients(), true);
-  TEST("poly_out.coefficients() == poly_in1.coefficients()",
-       poly_out.coefficients() == poly_in1.coefficients(), true);
+  TEST("poly_out.coefficients() == poly_in0.coefficients()", poly_out.coefficients() == poly_in0.coefficients(), true);
+  TEST("poly_out.coefficients() == poly_in1.coefficients()", poly_out.coefficients() == poly_in1.coefficients(), true);
 
   vsl_print_summary(std::cout, poly_in0);
   std::cout << std::endl;

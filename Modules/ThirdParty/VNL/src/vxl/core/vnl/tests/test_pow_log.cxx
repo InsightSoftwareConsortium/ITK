@@ -7,28 +7,36 @@
 // certainly in those cases where b is relatively small.
 // Negative exponents make of course no sense since the result must be int.
 // Beware of overflow!
-inline static int int_pow(int a, unsigned int b)
+inline static int
+int_pow(int a, unsigned int b)
 {
-  if (b==0) return 1;
-  else if (b==1) return a;
+  if (b == 0)
+    return 1;
+  else if (b == 1)
+    return a;
   else
-    {
-    long asquare = static_cast<long>(a)*static_cast<long>(a);
-    long r1      = static_cast<long>(int_pow(static_cast<int>(asquare),b/2));
-    long r2      = static_cast<long>(int_pow(a, b%2));
-    return static_cast<int>(r1*r2);
-    }
+  {
+    long asquare = static_cast<long>(a) * static_cast<long>(a);
+    long r1 = static_cast<long>(int_pow(static_cast<int>(asquare), b / 2));
+    long r2 = static_cast<long>(int_pow(a, b % 2));
+    return static_cast<int>(r1 * r2);
+  }
 }
 
 // A recursive implementation for a^b with a double and b integer;
 // this is a more accurate alternative for std::pow(double a,double b),
 // certainly in those cases where b is relatively small.
-inline static double int_pow(double a, int b)
+inline static double
+int_pow(double a, int b)
 {
-  if (b==0) return 1;
-  else if (b==1) return a;
-  else if (b<0) return int_pow(1.0/a, -b);
-  else return int_pow(a*a,b/2) * int_pow(a, b%2);
+  if (b == 0)
+    return 1;
+  else if (b == 1)
+    return a;
+  else if (b < 0)
+    return int_pow(1.0 / a, -b);
+  else
+    return int_pow(a * a, b / 2) * int_pow(a, b % 2);
 }
 
 // An implementation for floor(log(a)/log(8)) with integer argument a;
@@ -36,15 +44,19 @@ inline static double int_pow(double a, int b)
 //  std::floor(std::log(double a)/std::log(8.0)).
 // Negative arguments make of course no sense; strictly speaking, also a=0
 // makes no sense, but in that case a "very negative" value is returned.
-inline static int log8(unsigned int a)
+inline static int
+log8(unsigned int a)
 {
-  if (a==0) return -0x7fffffffL-1L; // stands for minus infinity
+  if (a == 0)
+    return -0x7fffffffL - 1L; // stands for minus infinity
   int r = 0;
-  while (a >= 8) ++r, a>>=3; // divide by 8
+  while (a >= 8)
+    ++r, a >>= 3; // divide by 8
   return r;
 }
 
-static void test_int_pow()
+static void
+test_int_pow()
 {
   TEST("Exponent 0", int_pow(-33, 0U), 1);
   TEST("Exponent 1", int_pow(-33, 1U), -33);
@@ -59,7 +71,8 @@ static void test_int_pow()
   TEST("Just a \"random\" case...", int_pow(-19, 7U), -893871739);
 }
 
-static void test_dbl_pow()
+static void
+test_dbl_pow()
 {
   TEST("Exponent 0", int_pow(-33.3, 0), 1.0);
   TEST("Exponent 1", int_pow(-33.3, 1), -33.3);
@@ -73,7 +86,8 @@ static void test_dbl_pow()
   TEST_NEAR("Negative exponent", int_pow(-10.0, -300), 1e-300, 1e-313);
 }
 
-static void test_log()
+static void
+test_log()
 {
   TEST("log(1)", log8(1), 0);
   TEST("log(2)", log8(2), 0);
@@ -90,11 +104,12 @@ static void test_log()
   TEST("log(0)", log8(0) < -0x7fffffffL, true);
 }
 
-static void test_pow_log()
+static void
+test_pow_log()
 {
   test_int_pow();
   test_dbl_pow();
   test_log();
 }
 
-TESTMAIN( test_pow_log );
+TESTMAIN(test_pow_log);
