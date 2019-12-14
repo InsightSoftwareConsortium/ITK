@@ -70,6 +70,13 @@ DataObjectError ::GetDataObject() noexcept
   return m_DataObject;
 }
 
+const DataObject *
+DataObjectError ::GetDataObject() const noexcept
+{
+  return m_DataObject;
+}
+
+
 void
 DataObjectError ::PrintSelf(std::ostream & os, Indent indent) const
 {
