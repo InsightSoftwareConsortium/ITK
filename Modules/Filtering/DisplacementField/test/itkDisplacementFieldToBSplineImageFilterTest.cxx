@@ -109,7 +109,7 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
   {
     bspliner->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
@@ -168,7 +168,7 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
   {
     bspliner2->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;

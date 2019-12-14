@@ -112,7 +112,7 @@ HDF5ReadWriteTest2(const char * fileName)
   {
     writer->Write();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "itkHDF5ImageIOTest" << std::endl << "Exception Object caught: " << std::endl << err << std::endl;
     return EXIT_FAILURE;
@@ -159,7 +159,7 @@ HDF5ReadWriteTest2(const char * fileName)
   {
     streamer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "itkHDF5ImageIOTest" << std::endl << "Exception Object caught: " << std::endl << err << std::endl;
     return EXIT_FAILURE;

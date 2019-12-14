@@ -254,7 +254,7 @@ main(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excep)
+  catch (const itk::ExceptionObject & excep)
   {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;

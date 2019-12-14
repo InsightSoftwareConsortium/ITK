@@ -212,7 +212,7 @@ itkConjugateGradientOptimizerTest(int, char *[])
   {
     itkOptimizer->StartOptimization();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error occurred during Optimization" << std::endl;

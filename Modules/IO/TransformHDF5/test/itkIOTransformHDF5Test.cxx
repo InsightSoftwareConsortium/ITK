@@ -104,7 +104,7 @@ ReadWriteTest(const std::string fileName, const bool isRealDisplacementField, co
     writer->AddTransform(displacementTransform);
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while saving the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -116,7 +116,7 @@ ReadWriteTest(const std::string fileName, const bool isRealDisplacementField, co
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while reading the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -220,7 +220,7 @@ oneTest(const std::string goodname, const std::string badname, const bool UseCom
     std::cout << "Testing read : " << std::endl;
     reader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while saving the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -240,7 +240,7 @@ oneTest(const std::string goodname, const std::string badname, const bool UseCom
       ++lit;
     }
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while saving the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -285,7 +285,7 @@ oneTest(const std::string goodname, const std::string badname, const bool UseCom
   {
     badwriter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while saving the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -301,7 +301,7 @@ oneTest(const std::string goodname, const std::string badname, const bool UseCom
   {
     badreader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     caught = true;
     std::cout << "Caught exception as expected" << std::endl;

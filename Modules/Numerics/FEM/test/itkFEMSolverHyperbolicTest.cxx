@@ -245,7 +245,7 @@ itkFEMSolverHyperbolicTest(int ac, char * av[])
   {
     SH->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ITK exception detected: " << err;
     return EXIT_FAILURE;

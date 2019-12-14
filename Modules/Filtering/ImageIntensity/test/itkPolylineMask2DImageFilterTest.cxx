@@ -54,7 +54,7 @@ itkPolylineMask2DImageFilterTest(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught an unexpected exception. " << std::endl;
     std::cout << err << std::endl;
@@ -119,7 +119,7 @@ itkPolylineMask2DImageFilterTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught an unexpected exception. " << std::endl;
     std::cout << err << std::endl;
@@ -140,7 +140,7 @@ itkPolylineMask2DImageFilterTest(int argc, char * argv[])
   {
     filter->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught an expected exception. " << std::endl;
     std::cout << err << std::endl;

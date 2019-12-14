@@ -120,7 +120,7 @@ itkGDCMSeriesStreamReadImageWriteTest(int argc, char * argv[])
       streamer->Update();
     }
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
@@ -182,7 +182,7 @@ itkGDCMSeriesStreamReadImageWriteTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown while writing the image" << std::endl;
     std::cerr << excp << std::endl;

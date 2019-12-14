@@ -60,7 +60,7 @@ itkGetAverageSliceImageFilterTest(int argc, char * argv[])
     reader->SetFileNames(names->GetInputFileNames());
     reader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error reading the series" << std::endl;
     std::cerr << excp << std::endl;
@@ -76,7 +76,7 @@ itkGetAverageSliceImageFilterTest(int argc, char * argv[])
   {
     average->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error running the average filter" << std::endl;
     std::cerr << excp << std::endl;
@@ -94,7 +94,7 @@ itkGetAverageSliceImageFilterTest(int argc, char * argv[])
     writer->SetInput(average->GetOutput());
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error writing the series" << std::endl;
     std::cerr << excp << std::endl;

@@ -95,7 +95,7 @@ namespace itk
     std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl;                                                  \
     return EXIT_FAILURE;                                                                                               \
   }                                                                                                                    \
-  catch (itk::ExceptionObject & excp)                                                                                  \
+  catch (const itk::ExceptionObject & excp)                                                                            \
   {                                                                                                                    \
     std::cout << "Caught expected exception" << std::endl;                                                             \
     std::cout << excp << std::endl;                                                                                    \
@@ -108,7 +108,7 @@ namespace itk
     std::cout << "Trying " << #command << std::endl;                                                                   \
     command;                                                                                                           \
   }                                                                                                                    \
-  catch (itk::ExceptionObject & excp)                                                                                  \
+  catch (const itk::ExceptionObject & excp)                                                                            \
   {                                                                                                                    \
     std::cerr << excp << std::endl;                                                                                    \
     std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl;                                                  \

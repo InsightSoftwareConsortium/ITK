@@ -229,7 +229,7 @@ main(int argc, char * argv[])
   {
     movingImageReader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Problem reading Moving image from = " << std::endl;
     std::cerr << argv[1] << std::endl;
@@ -345,7 +345,7 @@ main(int argc, char * argv[])
               << registrationMethod->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Problem found during the registration" << std::endl;
     std::cerr << argv[1] << std::endl;

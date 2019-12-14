@@ -482,7 +482,7 @@ RegressionTestHelper(const char *         testImageFilename,
   {
     baselineReader->UpdateLargestPossibleRegion();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception detected while reading " << baselineImageFilename << " : " << e.GetDescription();
     return itk::NumericTraits<int>::max();
@@ -495,7 +495,7 @@ RegressionTestHelper(const char *         testImageFilename,
   {
     testReader->UpdateLargestPossibleRegion();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception detected while reading " << testImageFilename << " : " << e.GetDescription() << std::endl;
     return itk::NumericTraits<int>::max();
@@ -772,7 +772,7 @@ RegressionTestImage(const char *         testImageFilename,
         return itk::NumericTraits<int>::max();
     }
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception detected while reading " << baselineImageFilename << " : " << e.GetDescription();
     return itk::NumericTraits<int>::max();
@@ -794,7 +794,7 @@ ComputeHash(const char * testImageFilename)
   {
     testReader->UpdateLargestPossibleRegion();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception detected while reading " << testImageFilename << " : " << e.GetDescription() << std::endl;
     throw; // re-throw

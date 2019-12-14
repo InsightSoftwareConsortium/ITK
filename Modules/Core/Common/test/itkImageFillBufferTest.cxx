@@ -50,7 +50,7 @@ itkImageFillBufferTest(int argc, char * argv[])
   //    {
   //    image->SetRegions( size );
   //    }
-  //   catch(itk::ExceptionObject e)
+  //   catch(const itk::ExceptionObject & e)
   //     {
   //     std::cout << e << std::endl;
   //     std::cout << "Can't allocate memory - that's nice. Don't go further." << std::endl;

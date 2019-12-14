@@ -93,7 +93,7 @@ itkScalarImageToCooccurrenceListSampleFilterTest(int, char *[])
     std::cerr << "Failed to throw expected exception due to nullptr input: " << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cout << "Expected exception caught: " << excp << std::endl;
   }

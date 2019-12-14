@@ -61,7 +61,7 @@ itkBSplineTransformInitializerTest1(int argc, char * argv[])
   {
     fixedReader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
@@ -156,7 +156,7 @@ itkBSplineTransformInitializerTest1(int argc, char * argv[])
   {
     movingWriter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
@@ -208,7 +208,7 @@ itkBSplineTransformInitializerTest1(int argc, char * argv[])
     {
       fieldWriter->Update();
     }
-    catch (itk::ExceptionObject & excp)
+    catch (const itk::ExceptionObject & excp)
     {
       std::cerr << "Exception thrown " << std::endl;
       std::cerr << excp << std::endl;

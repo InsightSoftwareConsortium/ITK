@@ -113,7 +113,7 @@ itkResampleImageTest3(int argc, char * argv[])
   {
     writer1->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;

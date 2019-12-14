@@ -128,7 +128,7 @@ itkCurvatureFlowTest(int argc, char * argv[])
     std::cout << "Test when input is nullptr." << std::endl;
     filter->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught expected error." << std::endl;
     std::cout << err << std::endl;
@@ -162,7 +162,7 @@ itkCurvatureFlowTest(int argc, char * argv[])
     filter->SetDifferenceFunction(function);
     filter->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught expected error." << std::endl;
     std::cout << err << std::endl;

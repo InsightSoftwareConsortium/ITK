@@ -136,7 +136,7 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
     std::cout << "Calling Initialize..." << std::endl;
     metric->Initialize();
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cerr << "Caught unexpected exception during Initialize: " << exc << std::endl;
     return EXIT_FAILURE;
@@ -151,7 +151,7 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
     std::cout << "Calling GetValueAndDerivative..." << std::endl;
     metric->GetValueAndDerivative(valueReturn1, derivativeReturn);
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cout << "Caught unexpected exception during GetValueAndDerivative: " << exc;
     return EXIT_FAILURE;
@@ -163,7 +163,7 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
     std::cout << "Calling Initialize..." << std::endl;
     metric->Initialize();
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cerr << "Caught unexpected exception during re-initialize: " << exc << std::endl;
     return EXIT_FAILURE;
@@ -174,7 +174,7 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
     std::cout << "Calling GetValue..." << std::endl;
     valueReturn2 = metric->GetValue();
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cout << "Caught unexpected exception during GetValue: " << exc;
     return EXIT_FAILURE;
@@ -203,7 +203,7 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
     std::cout << "Calling Initialize..." << std::endl;
     metric->Initialize();
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cerr << "Caught unexpected exception during initialize with moving "
               << "image gradient source: " << exc << std::endl;
@@ -216,7 +216,7 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
     std::cout << "Calling GetValueAndDerivative..." << std::endl;
     metric->GetValueAndDerivative(valueReturn1, derivativeReturn);
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cout << "Caught unexpected exception during GetValueAndDerivative: " << exc;
     return EXIT_FAILURE;
@@ -228,7 +228,7 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
     std::cout << "Calling Initialize..." << std::endl;
     metric->Initialize();
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cerr << "Caught unexpected exception during re-initialize: " << exc << std::endl;
     return EXIT_FAILURE;
@@ -239,7 +239,7 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
     std::cout << "Calling GetValue..." << std::endl;
     valueReturn2 = metric->GetValue();
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cout << "Caught unexpected exception during GetValue: " << exc;
     return EXIT_FAILURE;

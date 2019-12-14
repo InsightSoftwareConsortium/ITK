@@ -94,7 +94,7 @@ main(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Problem encoutered while reading image file : " << argv[1]
               << std::endl;

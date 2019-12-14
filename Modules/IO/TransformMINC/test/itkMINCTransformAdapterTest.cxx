@@ -117,7 +117,7 @@ compare_linear(const char * linear_transform)
       }
     }
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while reading the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -190,7 +190,7 @@ compare_nonlinear_double(const char * nonlinear_transform)
   {
     nlwriter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while saving the transforms" << std::endl;
     std::cerr << excp << std::endl;

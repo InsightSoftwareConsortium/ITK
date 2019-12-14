@@ -43,7 +43,7 @@ itkImageToHistogramFilterTest3(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Problem encountered while reading image file : " << argv[1] << std::endl;
     std::cerr << excp << std::endl;

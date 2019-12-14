@@ -86,7 +86,7 @@ itkLargeImageWriteConvertReadTest(int ac, char * av[])
       writer->Update();
       chronometer.Stop("Write");
     }
-    catch (itk::ExceptionObject & ex)
+    catch (const itk::ExceptionObject & ex)
     {
       std::cout << ex << std::endl;
       return EXIT_FAILURE;
@@ -104,7 +104,7 @@ itkLargeImageWriteConvertReadTest(int ac, char * av[])
     reader->Update();
     chronometer.Stop("Read");
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << ex << std::endl;
     return EXIT_FAILURE;

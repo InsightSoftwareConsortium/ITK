@@ -171,7 +171,7 @@ ActualTest(std::string inputFileName,
 
     writer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     if (expectException == -1 || expectException == 1)
     {

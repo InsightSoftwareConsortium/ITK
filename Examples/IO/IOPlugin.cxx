@@ -111,7 +111,7 @@ main(int argc, char * argv[])
       writer->Update();
       reader->GetOutput()->Print(std::cout);
     }
-    catch (itk::ExceptionObject & ex)
+    catch (const itk::ExceptionObject & ex)
     {
       std::cout << "------------------ Caught unexpected exception!" << std::endl;
       std::cout << ex;
@@ -123,7 +123,7 @@ main(int argc, char * argv[])
       reader->SetFileName("foo");
       reader->Update();
     }
-    catch (itk::ExceptionObject & ex)
+    catch (const itk::ExceptionObject & ex)
     {
       std::cout << "------------------ Caught expected exception!" << std::endl;
       std::cout << ex;

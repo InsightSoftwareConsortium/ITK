@@ -159,7 +159,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
     std::cout << "  Success: " << std::endl;
     std::cout << "    Time = " << elapsedTime << std::endl;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught during dilate filter Update\n" << e;
     return -1;
@@ -183,7 +183,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
     std::cout << "  Success: " << std::endl;
     std::cout << "    Time = " << elapsedTime << std::endl;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught during dilate filter Update\n" << e;
     return -1;
@@ -254,7 +254,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
     std::cout << "  Success: " << std::endl;
     std::cout << "    Time = " << elapsedTime << std::endl;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught during erode filter Update\n" << e;
     return -1;
@@ -279,7 +279,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
     std::cout << "  Success: " << std::endl;
     std::cout << "    Time = " << elapsedTime << std::endl;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught during erode filter Update\n" << e;
     return -1;

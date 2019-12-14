@@ -208,7 +208,7 @@ itkLBFGS2Optimizerv4Test(int, char *[])
   {
     itkOptimizer->StartOptimization();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception thrown ! " << std::endl;
     std::cerr << "An error occurred during Optimization" << std::endl;
@@ -270,7 +270,7 @@ itkLBFGS2Optimizerv4Test(int, char *[])
   {
     itkOptimizer->StartOptimization();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception thrown ! " << std::endl;
     std::cerr << "An error occurred during Optimization" << std::endl;

@@ -195,7 +195,7 @@ itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char *[])
   {
     metric->Initialize();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Metric initialization failed" << std::endl;
     std::cout << "Reason " << e.GetDescription() << std::endl;
@@ -258,7 +258,7 @@ itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char *[])
     std::cout << "is NOT managing exceptions correctly    " << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Exception received (as expected) " << std::endl;
     std::cout << "Description : " << e.GetDescription() << std::endl;
@@ -274,7 +274,7 @@ itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char *[])
     std::cout << "is NOT managing exceptions correctly    " << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Exception received (as expected) " << std::endl;
     std::cout << "Description : " << e.GetDescription() << std::endl;

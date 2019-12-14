@@ -141,7 +141,7 @@ ImageRegistration(int itkNotUsed(argc), char * argv[])
   {
     registration->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;

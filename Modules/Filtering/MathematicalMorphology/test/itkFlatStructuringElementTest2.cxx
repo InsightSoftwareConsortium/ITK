@@ -89,7 +89,7 @@ itkFlatStructuringElementTest2(int argc, char * argv[])
   {
     reader->UpdateLargestPossibleRegion();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception detected while reading " << argv[1] << " : " << e;
     return 1000;
@@ -131,7 +131,7 @@ itkFlatStructuringElementTest2(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception writing test image:" << excp << std::endl;
     return EXIT_FAILURE;

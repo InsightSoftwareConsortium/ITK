@@ -67,7 +67,7 @@ itkSubsampleTest(int, char *[])
   {
     filter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught: " << excp << std::endl;
     return EXIT_FAILURE;
@@ -117,7 +117,7 @@ itkSubsampleTest(int, char *[])
               << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Expected Exception caught: " << excp << std::endl;
   }
@@ -132,7 +132,7 @@ itkSubsampleTest(int, char *[])
     std::cerr << "The invalid subsample->GetMeasurementVector() is: " << vec << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Expected Exception caught: " << excp << std::endl;
   }
@@ -146,7 +146,7 @@ itkSubsampleTest(int, char *[])
               << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Expected Exception caught: " << excp << std::endl;
   }
@@ -161,7 +161,7 @@ itkSubsampleTest(int, char *[])
               << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Expected Exception caught: " << excp << std::endl;
   }
@@ -179,7 +179,7 @@ itkSubsampleTest(int, char *[])
     std::cerr << "The invalid subsample->GetMeasurementVectorByIndex() is: " << measurementVector << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Expected Exception caught: " << excp << std::endl;
   }
@@ -196,7 +196,7 @@ itkSubsampleTest(int, char *[])
               << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Expected Exception caught: " << excp << std::endl;
   }
@@ -213,7 +213,7 @@ itkSubsampleTest(int, char *[])
     std::cout << "Instance identifier: " << id << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Expected Exception caught: " << excp << std::endl;
   }

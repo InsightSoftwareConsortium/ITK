@@ -58,7 +58,7 @@ itkLaplacianImageFilterTest(int, char *[])
     {
       filter->Update();
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       exceptionSeen = true;
       std::cout << "Expected exception: " << std::endl;
@@ -71,7 +71,7 @@ itkLaplacianImageFilterTest(int, char *[])
       return EXIT_FAILURE;
     }
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     (&err)->Print(std::cerr);
     return EXIT_FAILURE;

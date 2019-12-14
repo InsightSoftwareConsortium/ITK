@@ -157,7 +157,7 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
     std::cout << "Affine transform" << std::endl;
     affineSimple->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;
@@ -358,7 +358,7 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
     std::cout << "Time-varying velocity field transform (gaussian update)" << std::endl;
     velocityFieldRegistration->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;

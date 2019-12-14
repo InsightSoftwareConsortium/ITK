@@ -178,7 +178,7 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "Exception detected while generating displacement field" << fileName << std::endl;
     std::cerr << " : " << err << std::endl;

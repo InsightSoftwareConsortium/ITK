@@ -91,7 +91,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
     m_ExceptionMessage = "";
     this->TestFileExistanceAndReadability();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     m_ExceptionMessage = err.GetDescription();
   }
@@ -374,7 +374,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
     m_ExceptionMessage = "";
     this->TestFileExistanceAndReadability();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     m_ExceptionMessage = err.GetDescription();
   }

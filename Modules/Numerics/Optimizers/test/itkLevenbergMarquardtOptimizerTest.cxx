@@ -252,7 +252,7 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
   {
     optimizer->SetCostFunction(costFunction);
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error occurred during Optimization" << std::endl;
@@ -297,7 +297,7 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
   {
     optimizer->StartOptimization();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception thrown ! " << std::endl;
     std::cerr << "An error occurred during Optimization" << std::endl;

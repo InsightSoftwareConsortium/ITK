@@ -59,7 +59,7 @@ itkGDCMLoadImageSpacingTest(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & error)
+  catch (const itk::ExceptionObject & error)
   {
     std::cerr << "Error when reading input: " << error << std::endl;
   }

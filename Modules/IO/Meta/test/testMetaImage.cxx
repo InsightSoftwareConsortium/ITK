@@ -61,7 +61,7 @@ ReadWriteCompare(PixelType value, std::string type)
         ++ri;
       }
     }
-    catch (itk::ExceptionObject & ex)
+    catch (const itk::ExceptionObject & ex)
     {
       std::cerr << "Error filling array" << ex << std::endl;
       return EXIT_FAILURE;
@@ -71,7 +71,7 @@ ReadWriteCompare(PixelType value, std::string type)
   {
     itk::IOTestHelper::WriteImage<ImageType, itk::MetaImageIO>(img, std::string(filename));
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::string message;
     message = "Problem found while writing image ";
@@ -90,7 +90,7 @@ ReadWriteCompare(PixelType value, std::string type)
   {
     input = itk::IOTestHelper::ReadImage<ImageType>(std::string(filename));
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     e.Print(std::cerr);
     itk::IOTestHelper::Remove(filename);

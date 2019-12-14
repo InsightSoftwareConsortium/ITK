@@ -181,7 +181,7 @@ itkHistogramImageToImageMetricTest(int, char *[])
 
     std::cout << "Test passed." << std::endl;
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cerr << "Exception caught!" << std::endl;
     std::cerr << ex << std::endl;
@@ -209,7 +209,7 @@ itkHistogramImageToImageMetricTest(int, char *[])
 
     std::cout << "Test passed." << std::endl;
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cerr << "Exception caught!" << std::endl;
     std::cerr << ex << std::endl;
@@ -226,7 +226,7 @@ itkHistogramImageToImageMetricTest(int, char *[])
     metric->Initialize();
     metric->GetDerivative(parameters2, derivatives2);
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cerr << "Expected exception caught!" << std::endl;
     std::cerr << ex << std::endl;

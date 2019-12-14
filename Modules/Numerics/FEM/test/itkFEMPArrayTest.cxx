@@ -74,7 +74,7 @@ itkFEMPArrayTest(int, char *[])
     array.Find(2);
     array.Find(0);
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;
@@ -104,7 +104,7 @@ itkFEMPArrayTest(int, char *[])
   {
     node = array.Find(200);
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;
@@ -117,7 +117,7 @@ itkFEMPArrayTest(int, char *[])
     std::cout << "Error: exception should have been thrown here... " << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Passed Exception test: " << e << std::endl;
   }

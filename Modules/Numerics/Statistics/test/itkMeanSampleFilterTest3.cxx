@@ -109,7 +109,7 @@ itkMeanSampleFilterTest3(int, char *[])
   {
     filter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught: " << excp << std::endl;
   }

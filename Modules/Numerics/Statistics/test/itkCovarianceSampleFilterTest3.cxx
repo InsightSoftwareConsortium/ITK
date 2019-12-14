@@ -150,7 +150,7 @@ itkCovarianceSampleFilterTest3(int, char *[])
     filter->CreateInvalidOutput();
     std::cerr << "Exception should have been thrown: " << std::endl;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Expected Exception caught: " << excp << std::endl;
   }
@@ -162,7 +162,7 @@ itkCovarianceSampleFilterTest3(int, char *[])
   {
     filter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught: " << excp << std::endl;
   }

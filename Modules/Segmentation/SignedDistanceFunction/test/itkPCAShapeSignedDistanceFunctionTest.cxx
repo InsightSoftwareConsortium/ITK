@@ -216,7 +216,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
     pass = false;                                                                                                      \
     shape->Initialize();                                                                                               \
   }                                                                                                                    \
-  catch (itk::ExceptionObject & err)                                                                                   \
+  catch (const itk::ExceptionObject & err)                                                                             \
   {                                                                                                                    \
     std::cout << "Caught expected ExceptionObject" << std::endl;                                                       \
     std::cout << err << std::endl;                                                                                     \

@@ -61,7 +61,7 @@ itkImageToVectorImageFilterTest(int argc, char * argv[])
     writer->SetInput(filter->GetOutput());
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while writing the file" << std::endl;
     std::cerr << excp << std::endl;

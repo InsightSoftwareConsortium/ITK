@@ -65,7 +65,7 @@ itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught ! " << std::endl;
     std::cerr << excp << std::endl;
@@ -80,7 +80,7 @@ itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
     const int algorithmType1 = gradient->GetAlgorithm();
     std::cout << "algorithmType1 : " << algorithmType1 << std::endl;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception detected: " << e.GetDescription();
     return EXIT_FAILURE;
@@ -106,7 +106,7 @@ itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
     const int algorithmType3 = gradient1->GetAlgorithm();
     std::cout << "algorithmType : " << algorithmType3 << std::endl;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception detected: " << e.GetDescription();
     return EXIT_FAILURE;

@@ -261,7 +261,7 @@ public:
     {
       m_Filter->Update();
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
       std::cerr << err << std::endl;
@@ -271,7 +271,7 @@ public:
     {
       m_HistogramFileWriter->Update();
     }
-    catch (itk::ExceptionObject & excp)
+    catch (const itk::ExceptionObject & excp)
     {
       std::cerr << "Exception thrown " << excp << std::endl;
     }
@@ -344,7 +344,7 @@ public:
     {
       m_Filter->Update();
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
       std::cerr << err << std::endl;
@@ -354,7 +354,7 @@ public:
     {
       rescaledWriter->Update();
     }
-    catch (itk::ExceptionObject & excp)
+    catch (const itk::ExceptionObject & excp)
     {
       std::cerr << "Exception thrown " << excp << std::endl;
     }
@@ -591,7 +591,7 @@ main(int argc, char * argv[])
   {
     fixedNormalizer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "ExceptionObject caught !" << std::endl;
     std::cout << err << std::endl;
@@ -633,7 +633,7 @@ main(int argc, char * argv[])
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "ExceptionObject caught !" << std::endl;
     std::cout << err << std::endl;
@@ -662,7 +662,7 @@ main(int argc, char * argv[])
   {
     observer->m_JointHistogramWriter.WriteHistogramFile(histogramAfter);
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
@@ -712,7 +712,7 @@ main(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;

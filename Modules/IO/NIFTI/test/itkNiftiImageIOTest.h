@@ -107,7 +107,7 @@ MakeNiftiImage()
         ++ri;
       }
     }
-    catch (itk::ExceptionObject & ex)
+    catch (const itk::ExceptionObject & ex)
     {
       std::cerr << "Error filling array" << ex << std::endl;
       return EXIT_FAILURE;
@@ -186,7 +186,7 @@ MakeNiftiImage()
   {
     itk::IOTestHelper::WriteImage<ImageType, itk::NiftiImageIO>(img, std::string(filename));
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::string message;
     message = "Problem found while writing image ";
@@ -231,7 +231,7 @@ MakeNiftiImage()
       return EXIT_FAILURE;
     }
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     e.Print(std::cerr);
     itk::IOTestHelper::Remove(filename);
@@ -381,7 +381,7 @@ TestImageOfSymMats(const std::string & fname)
   {
     itk::IOTestHelper::WriteImage<DtiImageType, itk::NiftiImageIO>(vi, fname);
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::string message;
     message = "Problem found while writing image ";
@@ -401,7 +401,7 @@ TestImageOfSymMats(const std::string & fname)
   {
     readback = itk::IOTestHelper::ReadImage<DtiImageType>(fname);
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::string message;
     message = "Problem found while reading image ";
@@ -547,7 +547,7 @@ RGBTest(int ac, char * av[])
     itk::IOTestHelper::WriteImage<RGBImageType, itk::NiftiImageIO>(im, std::string(tmpImage));
     im2 = itk::IOTestHelper::ReadImage<RGBImageType>(std::string(tmpImage));
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "itkNiftiImageIOTest9" << std::endl << "Exception Object caught: " << std::endl << err << std::endl;
     return EXIT_FAILURE;

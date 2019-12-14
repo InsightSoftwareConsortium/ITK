@@ -115,7 +115,7 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2Run(typename TMetric::MeasureType
     std::cout << "Calling Initialize..." << std::endl;
     metric->Initialize();
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cerr << "Caught unexpected exception during Initialize: " << exc << std::endl;
     return EXIT_FAILURE;
@@ -128,7 +128,7 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2Run(typename TMetric::MeasureType
     std::cout << "Calling GetValueAndDerivative..." << std::endl;
     metric->GetValueAndDerivative(measureReturn, derivativeReturn);
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cerr << "Caught unexpected exception during GetValueAndDerivative: " << exc;
     return EXIT_FAILURE;

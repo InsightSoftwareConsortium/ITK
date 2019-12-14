@@ -94,7 +94,7 @@ itkShiftScaleImageFilterTest(int, char *[])
   {
     filter->UpdateLargestPossibleRegion();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception detected: " << e;
     return -1;

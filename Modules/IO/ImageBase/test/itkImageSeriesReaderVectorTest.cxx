@@ -44,7 +44,7 @@ itkImageSeriesReaderVectorTest(int ac, char * av[])
     reader->SetFileNames(fnames);
     reader->Update();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << ex;
     return EXIT_FAILURE;
@@ -57,7 +57,7 @@ itkImageSeriesReaderVectorTest(int ac, char * av[])
     reader->SetFileNames(fnames);
     reader->Update();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << ex;
     return EXIT_FAILURE;

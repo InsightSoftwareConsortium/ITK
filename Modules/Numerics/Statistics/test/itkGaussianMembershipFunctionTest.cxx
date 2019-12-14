@@ -55,7 +55,7 @@ itkGaussianMembershipFunctionTest(int, char *[])
               << std::endl;
     // return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Caughted expected exception: " << excp << std::endl;
   }

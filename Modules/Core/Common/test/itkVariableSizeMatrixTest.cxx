@@ -182,7 +182,7 @@ itkVariableSizeMatrixTest(int, char *[])
   {
     std::cout << d34 * darray << std::endl;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     (&e)->Print(std::cout);
   }
@@ -191,7 +191,7 @@ itkVariableSizeMatrixTest(int, char *[])
   {
     std::cout << d34 * d53 << std::endl;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     (&e)->Print(std::cout);
   }
@@ -200,7 +200,7 @@ itkVariableSizeMatrixTest(int, char *[])
   {
     std::cout << d34 + d53 << std::endl;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     (&e)->Print(std::cout);
   }
@@ -209,7 +209,7 @@ itkVariableSizeMatrixTest(int, char *[])
   {
     std::cout << d34 - d53 << std::endl;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     (&e)->Print(std::cout);
   }
@@ -218,7 +218,7 @@ itkVariableSizeMatrixTest(int, char *[])
   {
     d34 += d53;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     (&e)->Print(std::cout);
   }
@@ -227,7 +227,7 @@ itkVariableSizeMatrixTest(int, char *[])
   {
     d34 -= d53;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     (&e)->Print(std::cout);
   }

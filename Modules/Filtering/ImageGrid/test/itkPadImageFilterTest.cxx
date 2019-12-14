@@ -154,7 +154,7 @@ itkPadImageFilterTest(int, char *[])
     std::cerr << "Failed to catch expected exception when boundary condition is nullptr." << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Caught expected exception when boundary condition is nullptr." << std::endl;
     std::cout << e << std::endl;

@@ -163,7 +163,7 @@ PerformDisplacementFieldImageRegistration(int itkNotUsed(argc), char * argv[])
     std::cout << "Affine transform" << std::endl;
     affineSimple->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;
@@ -378,7 +378,7 @@ PerformDisplacementFieldImageRegistration(int itkNotUsed(argc), char * argv[])
     std::cout << "SyN registration" << std::endl;
     displacementFieldRegistration->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;

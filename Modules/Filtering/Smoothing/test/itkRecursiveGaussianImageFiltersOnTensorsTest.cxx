@@ -95,7 +95,7 @@ itkRecursiveGaussianImageFiltersOnTensorsTest(int, char *[])
   {
     filterY->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "ExceptionObject caught a !" << std::endl;
     std::cout << err << std::endl;

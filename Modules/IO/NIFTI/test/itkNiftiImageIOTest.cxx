@@ -133,7 +133,7 @@ itkNiftiImageIOTest(int ac, char * av[])
       {
         input = itk::IOTestHelper::ReadImage<ImageType>(std::string(av[imagenameindex]));
       }
-      catch (itk::ExceptionObject & e)
+      catch (const itk::ExceptionObject & e)
       {
         e.Print(std::cerr);
         rval = 1;

@@ -188,7 +188,7 @@ main(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught " << excp << std::endl;
     return EXIT_FAILURE;

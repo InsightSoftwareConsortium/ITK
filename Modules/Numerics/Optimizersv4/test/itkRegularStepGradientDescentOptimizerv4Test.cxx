@@ -223,7 +223,7 @@ RegularStepGradientDescentOptimizerv4TestHelper(
     std::cout << "currentPosition after optimization: " << optimizer->GetMetric()->GetParameters() << std::endl;
     std::cout << " Stop Condition  = " << optimizer->GetStopConditionDescription() << std::endl;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error occurred during Optimization" << std::endl;

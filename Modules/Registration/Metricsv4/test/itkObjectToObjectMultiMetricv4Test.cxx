@@ -73,7 +73,7 @@ itkObjectToObjectMultiMetricv4TestEvaluate(ObjectToObjectMultiMetricv4TestMultiM
   {
     multiVariateMetric->GetValueAndDerivative(measure, DerivResultOfGetValueAndDerivative);
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     std::cerr << "Exception caught during call to GetValueAndDerivative:" << std::endl;
     std::cerr << exp << std::endl;
@@ -109,7 +109,7 @@ itkObjectToObjectMultiMetricv4TestEvaluate(ObjectToObjectMultiMetricv4TestMultiM
   {
     measure2 = multiVariateMetric->GetValue();
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     std::cerr << "Exception caught during call to GetValue:" << std::endl;
     std::cerr << exp << std::endl;

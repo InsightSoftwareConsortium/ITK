@@ -104,7 +104,7 @@ itkMetaImageStreamingWriterIOTest(int argc, char * argv[])
     {
       reader->Update();
     }
-    catch (itk::ExceptionObject & ex)
+    catch (const itk::ExceptionObject & ex)
     {
       std::cout << "ERROR : " << ex << std::endl;
       return EXIT_FAILURE;
@@ -134,7 +134,7 @@ itkMetaImageStreamingWriterIOTest(int argc, char * argv[])
     {
       writer->Update();
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cerr << "ExceptionObject caught !" << std::endl;
       std::cerr << err << std::endl;

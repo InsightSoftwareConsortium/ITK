@@ -77,7 +77,7 @@ ProcessArgumentsAndRegisterRequiredFactories(int * ac, ArgumentStringType * av)
   {
     RegisterRequiredFactories();
   }
-  catch (itk::ExceptionObject & error)
+  catch (const itk::ExceptionObject & error)
   {
     std::cerr << "Error during registration of required factories: " << error << std::endl;
   }

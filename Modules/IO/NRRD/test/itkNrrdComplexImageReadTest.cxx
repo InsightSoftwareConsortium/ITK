@@ -46,7 +46,7 @@ itkNrrdComplexImageReadTest(int ac, char * av[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "exception in file reader " << std::endl;
     std::cerr << e << std::endl;

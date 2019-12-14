@@ -84,7 +84,7 @@ itkStimulateImageIOTest(int argc, char * argv[])
     writer->SetFileName(argv[2]);
     writer->Write();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << e << std::endl;
     return EXIT_FAILURE;

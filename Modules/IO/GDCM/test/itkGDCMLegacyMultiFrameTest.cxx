@@ -56,7 +56,7 @@ itkGDCMLegacyMultiFrameTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & error)
+  catch (const itk::ExceptionObject & error)
   {
     std::cerr << "Error when running pipeline: " << error << std::endl;
     return EXIT_FAILURE;

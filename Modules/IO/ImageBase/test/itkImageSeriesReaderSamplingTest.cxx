@@ -72,7 +72,7 @@ itkImageSeriesReaderSamplingTest(int ac, char * av[])
       }
     }
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << ex;
     return EXIT_FAILURE;

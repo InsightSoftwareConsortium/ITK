@@ -56,7 +56,7 @@ itkImageSeriesReaderDimensionsTest(int ac, char * av[])
     reader->Update();
     std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << ex;
     return EXIT_FAILURE;
@@ -70,7 +70,7 @@ itkImageSeriesReaderDimensionsTest(int ac, char * av[])
     reader->Update();
     std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << ex;
     return EXIT_FAILURE;
@@ -84,7 +84,7 @@ itkImageSeriesReaderDimensionsTest(int ac, char * av[])
     reader->Update();
     std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << ex;
     return EXIT_FAILURE;
@@ -100,7 +100,7 @@ itkImageSeriesReaderDimensionsTest(int ac, char * av[])
     reader->Update();
     std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << ex;
     // return EXIT_FAILURE;
@@ -114,7 +114,7 @@ itkImageSeriesReaderDimensionsTest(int ac, char * av[])
     reader->Update();
     std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << ex;
     return EXIT_FAILURE;
@@ -128,7 +128,7 @@ itkImageSeriesReaderDimensionsTest(int ac, char * av[])
     reader->Update();
     std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << ex;
     return EXIT_FAILURE;
@@ -142,7 +142,7 @@ itkImageSeriesReaderDimensionsTest(int ac, char * av[])
     reader->Update();
     std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << ex;
     return EXIT_FAILURE;

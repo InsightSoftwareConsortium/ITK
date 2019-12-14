@@ -369,7 +369,7 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2(int, char *[])
   {
     overlap->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     std::cout << "Caught unexpected exception." << std::endl;

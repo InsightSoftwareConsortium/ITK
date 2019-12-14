@@ -114,7 +114,7 @@ itkHistogramToTextureFeaturesFilterTest(int, char *[])
     filter->Update();
     passed = false;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught: " << excp << std::endl;
   }
@@ -131,7 +131,7 @@ itkHistogramToTextureFeaturesFilterTest(int, char *[])
   {
     filter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught: " << excp << std::endl;
     return EXIT_FAILURE;

@@ -127,7 +127,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
     std::cerr << "Exception should have been thrown: " << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excpt)
+  catch (const itk::ExceptionObject & excpt)
   {
     std::cerr << "Exception caught: " << excpt << std::endl;
   }
@@ -247,7 +247,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
               << "Exception should have been thrown: " << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excpt)
+  catch (const itk::ExceptionObject & excpt)
   {
     std::cerr << "Exception caught: " << excpt << std::endl;
   }

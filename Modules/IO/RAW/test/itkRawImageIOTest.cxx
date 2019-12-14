@@ -71,7 +71,7 @@ itkRawImageIOTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while writing the image " << argv[1] << std::endl;
     std::cerr << excp << std::endl;
@@ -87,7 +87,7 @@ itkRawImageIOTest(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while reading the image " << argv[1] << std::endl;
     std::cerr << excp << std::endl;
@@ -127,7 +127,7 @@ itkRawImageIOTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while writing the image " << argv[2] << std::endl;
     std::cerr << excp << std::endl;

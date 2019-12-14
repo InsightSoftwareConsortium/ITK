@@ -187,7 +187,7 @@ itkNarrowBandImageFilterBaseTest(int argc, char * argv[])
     writer->SetFileName(argv[1]);
     writer->Write();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     (&err)->Print(std::cerr);
     std::cout << "Test failed." << std::endl;

@@ -324,7 +324,7 @@ main(int argc, char * argv[])
     std::cout << "Optimizer stop condition: " << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
@@ -470,7 +470,7 @@ main(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "ExceptionObject while writing the resampled image !" << std::endl;
     std::cerr << excp << std::endl;
@@ -529,7 +529,7 @@ main(int argc, char * argv[])
       writer2->Update();
     }
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while writing difference images" << std::endl;
     std::cerr << excp << std::endl;

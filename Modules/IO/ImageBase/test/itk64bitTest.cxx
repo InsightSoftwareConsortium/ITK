@@ -86,7 +86,7 @@ itk64bitTest(int argc, char * argv[])
     ImageType::Pointer image2 = reader->GetOutput();
     returnValue += verifyContent(image2);
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cerr << exc;
     return EXIT_FAILURE;

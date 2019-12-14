@@ -172,7 +172,7 @@ SlopeInterceptWriteTest()
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "Exception Object caught: " << std::endl << err << std::endl;
     throw;

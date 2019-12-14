@@ -143,7 +143,7 @@ itkMultiResolutionImageRegistrationMethodTest(int, char *[])
     pass = false;                                                                                                      \
     registration->Update();                                                                                            \
   }                                                                                                                    \
-  catch (itk::ExceptionObject & err)                                                                                   \
+  catch (const itk::ExceptionObject & err)                                                                             \
   {                                                                                                                    \
     std::cout << "Caught expected ExceptionObject" << std::endl;                                                       \
     std::cout << err << std::endl;                                                                                     \

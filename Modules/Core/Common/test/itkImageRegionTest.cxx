@@ -72,7 +72,7 @@ itkImageRegionTest(int, char *[])
     sliceA = regionA.Slice(0);
     std::cout << "regionA.Slice(0): " << sliceA;
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught unexpected exception" << err;
     return EXIT_FAILURE;
@@ -84,7 +84,7 @@ itkImageRegionTest(int, char *[])
     sliceA = regionA.Slice(1);
     std::cout << "regionA.Slice(1): " << sliceA;
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught unexpected exception" << err;
     return EXIT_FAILURE;
@@ -96,7 +96,7 @@ itkImageRegionTest(int, char *[])
     sliceA = regionA.Slice(2);
     std::cout << "regionA.Slice(2): " << sliceA;
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught unexpected exception" << err;
     return EXIT_FAILURE;
@@ -110,7 +110,7 @@ itkImageRegionTest(int, char *[])
     std::cout << "Failed to catch expected exception" << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught expected exception" << err;
   }

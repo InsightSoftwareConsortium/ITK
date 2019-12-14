@@ -227,7 +227,7 @@ itkSimplePointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
     std::cout << "Point set affine registration update" << std::endl;
     affineSimple->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;

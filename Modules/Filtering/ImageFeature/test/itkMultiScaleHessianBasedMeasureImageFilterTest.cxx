@@ -68,7 +68,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
   {
     imageReader->Update();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << ex << std::endl;
     return EXIT_FAILURE;
@@ -170,7 +170,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
   {
     multiScaleEnhancementFilter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << e << std::endl;
   }
@@ -184,7 +184,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << e << std::endl;
   }
@@ -197,7 +197,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << e << std::endl;
   }
@@ -219,7 +219,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
     {
       multiScaleEnhancementFilter->Update();
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cerr << e << std::endl;
     }
@@ -233,7 +233,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
     {
       writer2->Update();
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cerr << e << std::endl;
     }
@@ -250,7 +250,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
     {
       multiScaleEnhancementFilter->Update();
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cerr << e << std::endl;
     }
@@ -264,7 +264,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
     {
       writer3->Update();
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cerr << e << std::endl;
     }
@@ -276,7 +276,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
   {
     multiScaleEnhancementFilter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << e << std::endl;
   }
@@ -287,7 +287,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
   {
     multiScaleEnhancementFilter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << e << std::endl;
   }

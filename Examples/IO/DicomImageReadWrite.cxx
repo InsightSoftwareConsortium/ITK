@@ -112,7 +112,7 @@ main(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "exception in file reader " << std::endl;
     std::cerr << e << std::endl;
@@ -175,7 +175,7 @@ main(int argc, char * argv[])
   {
     writer1->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "exception in file writer " << std::endl;
     std::cerr << e << std::endl;
@@ -239,7 +239,7 @@ main(int argc, char * argv[])
   {
     writer2->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "exception in file writer " << std::endl;
     std::cerr << e << std::endl;
@@ -294,7 +294,7 @@ main(int argc, char * argv[])
   {
     writer3->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception in file writer " << std::endl;
     std::cerr << e << std::endl;

@@ -315,7 +315,7 @@ itkGPUDemonsRegistrationFilterTest2(int argc, char * argv[])
     registrator->SetNumberOfIterations(2);
     registrator->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Unexpected error." << std::endl;
     std::cout << err << std::endl;
@@ -339,7 +339,7 @@ itkGPUDemonsRegistrationFilterTest2(int argc, char * argv[])
     registrator->SetMovingImage(nullptr);
     registrator->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught expected error." << std::endl;
     std::cout << err << std::endl;
@@ -363,7 +363,7 @@ itkGPUDemonsRegistrationFilterTest2(int argc, char * argv[])
     registrator->SetInput(initField);
     registrator->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught expected error." << std::endl;
     std::cout << err << std::endl;

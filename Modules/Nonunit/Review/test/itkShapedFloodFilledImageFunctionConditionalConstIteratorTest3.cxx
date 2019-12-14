@@ -113,7 +113,7 @@ itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3(int, char *[])
       return EXIT_FAILURE;
     }
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     e.Print(std::cerr);
     return EXIT_FAILURE;

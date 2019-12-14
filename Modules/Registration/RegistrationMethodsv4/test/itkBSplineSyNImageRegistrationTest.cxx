@@ -133,7 +133,7 @@ PerformBSplineSyNImageRegistration(int itkNotUsed(argc), char * argv[])
     std::cout << "Affine transform" << std::endl;
     affineSimple->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;
@@ -311,7 +311,7 @@ PerformBSplineSyNImageRegistration(int itkNotUsed(argc), char * argv[])
     std::cout << "BSpline SyN registration" << std::endl;
     displacementFieldRegistration->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;

@@ -105,7 +105,7 @@ itkImageToListSampleFilterTest3(int, char *[])
   {
     filter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;

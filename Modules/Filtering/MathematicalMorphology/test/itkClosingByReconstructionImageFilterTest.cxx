@@ -86,7 +86,7 @@ itkClosingByReconstructionImageFilterTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught:" << excp << std::endl;
     return EXIT_FAILURE;
@@ -104,7 +104,7 @@ itkClosingByReconstructionImageFilterTest(int argc, char * argv[])
       writer->SetInput(subtract->GetOutput());
       writer->Update();
     }
-    catch (itk::ExceptionObject & excp)
+    catch (const itk::ExceptionObject & excp)
     {
       std::cerr << "Exception caught writing diff image:" << excp << std::endl;
       return EXIT_FAILURE;

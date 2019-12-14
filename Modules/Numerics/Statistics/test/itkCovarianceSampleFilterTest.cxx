@@ -76,7 +76,7 @@ itkCovarianceSampleFilterTest(int, char *[])
   {
     sampleGeneratingFilter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
@@ -98,7 +98,7 @@ itkCovarianceSampleFilterTest(int, char *[])
               << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught: " << excp << std::endl;
   }
@@ -118,7 +118,7 @@ itkCovarianceSampleFilterTest(int, char *[])
   {
     covarianceFilter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
@@ -159,7 +159,7 @@ itkCovarianceSampleFilterTest(int, char *[])
   {
     meanFilter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught: " << excp << std::endl;
   }

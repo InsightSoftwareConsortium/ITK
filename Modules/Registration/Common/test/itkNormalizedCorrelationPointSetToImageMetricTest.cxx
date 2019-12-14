@@ -186,7 +186,7 @@ itkNormalizedCorrelationPointSetToImageMetricTest(int, char *[])
   {
     metric->Initialize();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Metric initialization failed" << std::endl;
     std::cout << "Reason " << e.GetDescription() << std::endl;
@@ -264,7 +264,7 @@ itkNormalizedCorrelationPointSetToImageMetricTest(int, char *[])
 
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Exception received (as expected) " << std::endl;
     std::cout << "Description : " << e.GetDescription() << std::endl;
@@ -281,7 +281,7 @@ itkNormalizedCorrelationPointSetToImageMetricTest(int, char *[])
 
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Exception received (as expected) " << std::endl;
     std::cout << "Description : " << e.GetDescription() << std::endl;

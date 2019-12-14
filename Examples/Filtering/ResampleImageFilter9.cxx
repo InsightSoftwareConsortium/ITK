@@ -145,7 +145,7 @@ main(int argc, char * argv[])
   {
     writerNearest->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
@@ -155,7 +155,7 @@ main(int argc, char * argv[])
   {
     writerLinear->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;

@@ -137,7 +137,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
   {
     reader->Parse();
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     caught = true;
     std::cerr << "Expected Exception caught!" << std::endl;
@@ -157,7 +157,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     std::cerr << "Exception caught!" << std::endl;
     std::cerr << exp << std::endl;
@@ -327,7 +327,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
       return EXIT_FAILURE;
     }
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     std::cerr << "Expected Exception caught!" << std::endl;
     std::cerr << exp << std::endl;
@@ -344,7 +344,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
       return EXIT_FAILURE;
     }
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     std::cerr << "Expected Exception caught!" << std::endl;
     std::cerr << exp << std::endl;
@@ -399,7 +399,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
       return EXIT_FAILURE;
     }
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     std::cerr << "Expected Exception caught!" << std::endl;
     std::cerr << exp << std::endl;
@@ -413,7 +413,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
       std::cerr << "Wrong value! Test failed!";
     }
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     std::cerr << "Expected Exception caught!" << std::endl;
     std::cerr << exp << std::endl;

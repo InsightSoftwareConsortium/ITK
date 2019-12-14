@@ -208,7 +208,7 @@ PerformExpImageRegistration(int argc, char * argv[])
     affineSimple->Update();
     timer.Stop("4 affineSimple");
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;
@@ -358,7 +358,7 @@ PerformExpImageRegistration(int argc, char * argv[])
     displacementFieldSimple->Update();
     timer.Stop("6 displacementFieldSimple");
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;

@@ -396,7 +396,7 @@ main(int argc, char * argv[])
               << transRegistration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "ExceptionObject caught !" << std::endl;
     std::cout << err << std::endl;
@@ -740,7 +740,7 @@ main(int argc, char * argv[])
               << affineRegistration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "ExceptionObject caught !" << std::endl;
     std::cout << err << std::endl;
@@ -930,7 +930,7 @@ main(int argc, char * argv[])
   {
     identityTransform = TransformType::New();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     err.Print(std::cerr);
     return EXIT_FAILURE;

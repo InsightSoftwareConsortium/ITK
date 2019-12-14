@@ -195,7 +195,7 @@ main(int argc, char * argv[])
     {
       fieldWriter->Update();
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       e.Print(std::cerr);
     }

@@ -149,7 +149,7 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
   {
     itkOptimizer->StartOptimization();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error occurred during Optimization" << std::endl;
@@ -194,7 +194,7 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
     {
       itkOptimizer->StartOptimization();
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cout << "Exception thrown ! " << std::endl;
       std::cout << "An error occurred during Optimization" << std::endl;
@@ -239,7 +239,7 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
     {
       itkOptimizer->StartOptimization();
     }
-    catch (itk::ExceptionObject & excp)
+    catch (const itk::ExceptionObject & excp)
     {
       std::cout << excp << std::endl;
       return EXIT_FAILURE;
@@ -262,7 +262,7 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
   {
     itkOptimizer->StartOptimization();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     expectedExceptionReceived = true;
     std::cout << "Expected Exception " << std::endl;

@@ -89,7 +89,7 @@ itkMetaDataDictionaryTest(int, char *[])
       ++itr;
     }
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception Thrown." << std::endl;
     std::cerr << excp << std::endl;
@@ -113,7 +113,7 @@ itkMetaDataDictionaryTest(int, char *[])
       ++itr;
     }
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception Thrown." << std::endl;
     std::cerr << excp << std::endl;
@@ -135,7 +135,7 @@ itkMetaDataDictionaryTest(int, char *[])
       ++itr;
     }
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception Thrown." << std::endl;
     std::cerr << excp << std::endl;
@@ -147,7 +147,7 @@ itkMetaDataDictionaryTest(int, char *[])
     std::cerr << "Failed to throw expected exception" << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cout << excp << std::endl;
     std::cout << "catched EXPECTED exception for invalid key string to MetaDataDictionary" << std::endl;

@@ -161,7 +161,7 @@ itkImageRegistrationMethodTest_5_Func(int argc, char * argv[], bool subtractMean
   {
     registration->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << e << std::endl;
     pass = false;

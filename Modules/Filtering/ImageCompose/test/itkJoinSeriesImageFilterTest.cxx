@@ -147,7 +147,7 @@ itkJoinSeriesImageFilterTest(int, char *[])
   {
     streamingImage->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     auto * errp = dynamic_cast<itk::DataObjectError *>(&err);
@@ -215,7 +215,7 @@ itkJoinSeriesImageFilterTest(int, char *[])
     std::cout << err << std::endl;
     passed = true;
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     return EXIT_FAILURE;

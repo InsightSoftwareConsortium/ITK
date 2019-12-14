@@ -155,7 +155,7 @@ itkBinaryThresholdImageFilterTest(int, char *[])
   {
     filter->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     pass = true;
     std::cout << "Caught an expected exception. " << std::endl;

@@ -148,7 +148,7 @@ itkMINCImageIOTest_2D(int argc, char * argv[])
     }
     return ret;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;

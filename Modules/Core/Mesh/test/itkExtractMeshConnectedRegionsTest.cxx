@@ -98,7 +98,7 @@ itkExtractMeshConnectedRegionsTest(int, char *[])
   {
     connect->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught " << std::endl;
     std::cerr << excp << std::endl;

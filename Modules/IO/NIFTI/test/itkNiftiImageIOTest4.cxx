@@ -111,7 +111,7 @@ itkNiftiImageIOTest4(int ac, char * av[])
   {
     itk::IOTestHelper::WriteImage<Test4ImageType, itk::NiftiImageIO>(test4Image, fname);
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::string message;
     message = "Problem found while writing image ";
@@ -131,7 +131,7 @@ itkNiftiImageIOTest4(int ac, char * av[])
   {
     readback = itk::IOTestHelper::ReadImage<Test4ImageType>(fname);
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::string message;
     message = "Problem found while reading image ";

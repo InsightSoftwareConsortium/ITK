@@ -241,9 +241,10 @@ itkContourSpatialObjectTest(int, char *[])
   {
     contour->Update();
   }
-  catch (itk::ExceptionObject excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cout << "[FAILED] failed Update()" << std::endl;
+    std::cerr << excp << std::endl;
     return EXIT_FAILURE;
   }
   std::cout << "[PASSED] Update()" << std::endl;

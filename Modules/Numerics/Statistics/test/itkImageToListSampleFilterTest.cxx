@@ -142,7 +142,7 @@ itkImageToListSampleFilterTest(int, char *[])
                     Update() is invoked without setting an input ";
     pass = false;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught: " << excp << std::endl;
   }
@@ -218,7 +218,7 @@ itkImageToListSampleFilterTest(int, char *[])
               << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Expected Exception caught: " << excp << std::endl;
   }

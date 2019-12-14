@@ -77,7 +77,7 @@ itkNrrdMetaDataTest(int ac, char * av[])
     reader->Update();
     image2 = reader->GetOutput();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception in file reader or writer " << std::endl;
     std::cerr << e.GetDescription() << std::endl;

@@ -248,7 +248,7 @@ public:
     {
       transform->SetParameters(parameters);
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cerr << e << std::endl;
     }
@@ -257,7 +257,7 @@ public:
     {
       transform->GetParameters();
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cerr << e << std::endl;
     }
@@ -267,7 +267,7 @@ public:
     {
       transform->ComputeJacobianWithRespectToParameters(pnt, jacobian);
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cerr << e << std::endl;
     }
@@ -277,7 +277,7 @@ public:
     {
       transform->ComputeJacobianWithRespectToPosition(pnt, jacobian_position);
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cerr << e << std::endl;
     }
@@ -287,7 +287,7 @@ public:
     {
       transform->ComputeInverseJacobianWithRespectToPosition(pnt, inv_jacobian_position);
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cerr << e << std::endl;
     }
@@ -298,7 +298,7 @@ public:
     {
       transform->UpdateTransformParameters(update);
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cerr << e << std::endl;
     }

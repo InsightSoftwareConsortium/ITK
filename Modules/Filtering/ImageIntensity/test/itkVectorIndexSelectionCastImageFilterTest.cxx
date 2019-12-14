@@ -66,7 +66,7 @@ itkVectorIndexSelectionCastImageFilterTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception detected: " << e;
     return -1;
@@ -87,7 +87,7 @@ itkVectorIndexSelectionCastImageFilterTest(int argc, char * argv[])
   {
     filter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught as expected: " << e;
     exceptionCaught = true;

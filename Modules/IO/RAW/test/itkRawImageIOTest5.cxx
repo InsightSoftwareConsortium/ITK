@@ -194,7 +194,7 @@ itkRawImageIOTest5(int argc, char * argv[])
   {
     tester1.Write();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught while writing char type." << std::endl;
     std::cerr << excp << std::endl;
@@ -206,7 +206,7 @@ itkRawImageIOTest5(int argc, char * argv[])
   {
     tester1.Read();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught while reading char type." << std::endl;
     std::cerr << excp << std::endl;
@@ -235,7 +235,7 @@ itkRawImageIOTest5(int argc, char * argv[])
   {
     tester2.Write();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught while writing signed char type." << std::endl;
     std::cerr << excp << std::endl;
@@ -247,7 +247,7 @@ itkRawImageIOTest5(int argc, char * argv[])
   {
     tester2.Read();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught while reading signed char type." << std::endl;
     std::cerr << excp << std::endl;
@@ -277,7 +277,7 @@ itkRawImageIOTest5(int argc, char * argv[])
   {
     tester3.Write();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught while writing unsigned char type." << std::endl;
     std::cerr << excp << std::endl;
@@ -289,7 +289,7 @@ itkRawImageIOTest5(int argc, char * argv[])
   {
     tester3.Read();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught while reading unsigned char type." << std::endl;
     std::cerr << excp << std::endl;

@@ -66,7 +66,7 @@ itkOctreeTest(int, char *[])
       ++ri;
     }
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     ex.Print(std::cerr);
     return EXIT_FAILURE;
@@ -101,7 +101,7 @@ itkOctreeTest(int, char *[])
       return EXIT_FAILURE;
     }
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     ex.Print(std::cerr);
     return EXIT_FAILURE;

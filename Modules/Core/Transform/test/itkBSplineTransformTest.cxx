@@ -333,7 +333,7 @@ itkBSplineTransformTest1()
     {
       transform->TransformVector(vector);
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cout << "Caught expected exception." << std::endl;
       std::cout << err << std::endl;
@@ -357,7 +357,7 @@ itkBSplineTransformTest1()
     {
       transform->TransformCovariantVector(vector);
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cout << "Caught expected exception." << std::endl;
       std::cout << err << std::endl;
@@ -381,7 +381,7 @@ itkBSplineTransformTest1()
     {
       transform->TransformVector(vector);
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cout << "Caught expected exception." << std::endl;
       std::cout << err << std::endl;
@@ -403,7 +403,7 @@ itkBSplineTransformTest1()
       temp.Fill(4.0);
       transform->SetParameters(temp);
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cout << "Caught expected exception." << std::endl;
       std::cout << err << std::endl;
@@ -585,7 +585,7 @@ itkBSplineTransformTest2()
     std::cout << " OutputPoint: " << outputPoint;
     std::cout << std::endl;
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     return EXIT_FAILURE;

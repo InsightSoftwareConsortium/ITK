@@ -99,7 +99,7 @@ test_fft(unsigned int * SizeOfDimensions)
     }
     std::cout << std::endl << std::endl;
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     ex.Print(std::cerr);
     return -1;
@@ -120,7 +120,7 @@ test_fft(unsigned int * SizeOfDimensions)
   {
     R2C->Update();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     ex.Print(std::cerr);
     return -1;
@@ -285,7 +285,7 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
     }
     std::cout << std::endl << std::endl;
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     ex.Print(std::cerr);
     return -1;

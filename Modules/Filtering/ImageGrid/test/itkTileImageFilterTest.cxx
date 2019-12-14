@@ -84,7 +84,7 @@ itkTileImageFilterTest(int argc, char * argv[])
     writer->SetInput(tiler->GetOutput());
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while writing the series with SeriesFileNames generator" << std::endl;
     std::cerr << excp << std::endl;

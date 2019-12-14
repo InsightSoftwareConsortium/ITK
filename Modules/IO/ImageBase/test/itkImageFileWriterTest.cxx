@@ -52,7 +52,7 @@ itkImageFileWriterTest(int ac, char * av[])
     WriterType::Pointer writer = WriterType::New();
     writer->Update();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << "------------------ Caught expected exception!" << std::endl;
     std::cout << ex;
@@ -72,7 +72,7 @@ itkImageFileWriterTest(int ac, char * av[])
     writer->SetInput(image);
     writer->Update();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << "------------------ Caught expected exception!" << std::endl;
     std::cout << ex;
@@ -93,7 +93,7 @@ itkImageFileWriterTest(int ac, char * av[])
     writer->SetFileName("this_is_a_bad_filename");
     writer->Update();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << "------------------ Caught expected exception!" << std::endl;
     std::cout << ex;
@@ -114,7 +114,7 @@ itkImageFileWriterTest(int ac, char * av[])
     writer->SetFileName(av[1]);
     writer->Update();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << "------------------ Caught expected exception!" << std::endl;
     std::cout << ex;
@@ -135,7 +135,7 @@ itkImageFileWriterTest(int ac, char * av[])
     writer->SetFileName(av[1]);
     writer->UpdateLargestPossibleRegion();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << "------------------ Caught expected exception!" << std::endl;
     std::cout << ex;

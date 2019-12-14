@@ -91,7 +91,7 @@ TransformTest()
   {
     threader->SingleMethodExecute();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "ITK Exception " << excp.what() << std::endl;
     return 1;

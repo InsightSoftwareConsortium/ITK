@@ -161,7 +161,7 @@ test_RegionGrowKLMExceptionHandling()
     std::cout << MSG << std::endl;                                                                                     \
     FILTER->Update();                                                                                                  \
   }                                                                                                                    \
-  catch (itk::ExceptionObject & err)                                                                                   \
+  catch (const itk::ExceptionObject & err)                                                                             \
   {                                                                                                                    \
     std::cout << "Caught expected error." << std::endl;                                                                \
     std::cout << err << std::endl;                                                                                     \
@@ -289,7 +289,7 @@ test_regiongrowKLM1D()
   {                                                                                                                    \
     FILTER->Update();                                                                                                  \
   }                                                                                                                    \
-  catch (itk::ExceptionObject & err)                                                                                   \
+  catch (const itk::ExceptionObject & err)                                                                             \
   {                                                                                                                    \
     std::cout << "Caught unexpected error." << std::endl;                                                              \
     std::cout << err << std::endl;                                                                                     \

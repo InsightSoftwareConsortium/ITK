@@ -272,7 +272,7 @@ itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
     registration->SetInitialTransformParameters(initialParameters);
     registration->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Registration failed" << std::endl;
     std::cout << "Reason " << e.GetDescription() << std::endl;
@@ -331,7 +331,7 @@ itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
     pass = false;
     registration->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught expected ExceptionObject" << std::endl;
     std::cout << err << std::endl;
@@ -359,7 +359,7 @@ itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
     pass = false;
     registration->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught expected ExceptionObject" << std::endl;
     std::cout << err << std::endl;

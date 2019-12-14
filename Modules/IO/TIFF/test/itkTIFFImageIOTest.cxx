@@ -46,7 +46,7 @@ TestMultipleReads(const std::string & fname, TImage *)
     reader->GetOutput()->ReleaseData();
     reader->GetOutput()->UpdateOutputData();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "exception in file reader for bug  " << std::endl;
     std::cerr << e << std::endl;

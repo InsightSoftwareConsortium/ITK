@@ -75,7 +75,7 @@ itkVectorAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itkNot
     test2.SetFilter(filter2);
     test2.Execute();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     (&err)->Print(std::cerr);
     return EXIT_FAILURE;

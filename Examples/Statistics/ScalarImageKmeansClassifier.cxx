@@ -194,7 +194,7 @@ main(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Problem encountered while writing ";
     std::cerr << " image file : " << argv[2] << std::endl;

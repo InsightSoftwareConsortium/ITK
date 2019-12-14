@@ -69,7 +69,7 @@ main(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown while writing the image" << std::endl;
     std::cerr << excp << std::endl;
@@ -138,7 +138,7 @@ main(int argc, char * argv[])
   {
     seriesWriter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown while writing the series " << std::endl;
     std::cerr << excp << std::endl;

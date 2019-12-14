@@ -180,7 +180,7 @@ PerformBSplineImageRegistration(int argc, char * argv[])
     std::cout << "Affine txf:" << std::endl;
     affineSimple->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;
@@ -323,7 +323,7 @@ PerformBSplineImageRegistration(int argc, char * argv[])
     std::cout << "BSpline. txf - bspline update" << std::endl;
     bsplineRegistration->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;

@@ -71,7 +71,7 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Error in reading the input image: " << e << std::endl;
     return EXIT_FAILURE;
@@ -142,7 +142,7 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
   {
     blockMatchingFilter->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
@@ -172,7 +172,7 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
   {
     colormapImageFilter->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
@@ -239,7 +239,7 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Error in writing the output image:" << e << std::endl;
     return EXIT_FAILURE;

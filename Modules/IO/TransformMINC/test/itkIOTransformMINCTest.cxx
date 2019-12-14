@@ -102,7 +102,7 @@ check_linear(const char * linear_transform)
     std::cout << "Testing read : " << std::endl;
     reader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while saving the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -148,7 +148,7 @@ check_linear(const char * linear_transform)
     }
     std::cout << " Done !" << std::endl;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while reading the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -230,7 +230,7 @@ check_nonlinear_double(const char * nonlinear_transform)
   {
     nlwriter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while saving the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -244,7 +244,7 @@ check_nonlinear_double(const char * nonlinear_transform)
   {
     nlreader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while reading the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -371,7 +371,7 @@ check_nonlinear_float(const char * nonlinear_transform)
   {
     nlwriter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while saving the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -385,7 +385,7 @@ check_nonlinear_float(const char * nonlinear_transform)
   {
     nlreader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while reading the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -520,7 +520,7 @@ check_composite(const char * transform_file)
     std::cout << "Testing read : " << std::endl;
     reader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while saving the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -567,7 +567,7 @@ check_composite(const char * transform_file)
     }
     std::cout << " Done !" << std::endl;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while reading the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -644,7 +644,7 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
     writer->SetInput(field);
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while writing the deformation field" << std::endl;
     std::cerr << excp << std::endl;
@@ -713,7 +713,7 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
 
     std::cout << " Done !" << std::endl;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while reading the transforms" << std::endl;
     std::cerr << excp << std::endl;

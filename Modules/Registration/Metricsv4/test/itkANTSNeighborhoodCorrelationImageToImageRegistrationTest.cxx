@@ -217,7 +217,7 @@ itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char * argv
   {
     optimizer->StartOptimization();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error occurred during deformation Optimization:" << std::endl;
@@ -255,7 +255,7 @@ itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char * argv
   {
     optimizer->StartOptimization();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Exception thrown using sparse metric ! " << std::endl;
     std::cout << "An error occurred during deformation Optimization using sparse metric:" << std::endl;

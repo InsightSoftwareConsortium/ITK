@@ -98,7 +98,7 @@ itkGDCMImagePositionPatientTest(int argc, char * argv[])
     writer2D->SetImageIO(gdcmIO);
     writer2D->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown while writing the file: " << filename.str() << std::endl;
     std::cerr << excp << std::endl;

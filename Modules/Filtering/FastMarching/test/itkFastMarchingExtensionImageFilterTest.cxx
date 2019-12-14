@@ -140,7 +140,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   {
     marcher->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     passed = true;
     marcher->ResetPipeline();
@@ -164,7 +164,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   {
     marcher->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     passed = true;
     marcher->ResetPipeline();
@@ -190,7 +190,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   {
     marcher->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     passed = true;
     marcher->ResetPipeline();
@@ -211,7 +211,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   {
     marcher->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     passed = true;
     marcher->ResetPipeline();
@@ -237,7 +237,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   {
     marcher->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     passed = false;
     marcher->ResetPipeline();

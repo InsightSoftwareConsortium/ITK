@@ -145,7 +145,7 @@ public:
 
       return true;
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cout << e << std::endl;
       return false;
@@ -271,7 +271,7 @@ public:
       // reading successful, so return true
       return true;
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cout << e << std::endl;
       return false;

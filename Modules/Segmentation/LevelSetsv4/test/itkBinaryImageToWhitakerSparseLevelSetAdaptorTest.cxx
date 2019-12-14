@@ -44,7 +44,7 @@ itkBinaryImageToWhitakerSparseLevelSetAdaptorTest(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     return EXIT_FAILURE;
@@ -108,7 +108,7 @@ itkBinaryImageToWhitakerSparseLevelSetAdaptorTest(int argc, char * argv[])
   {
     outputWriter->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     return EXIT_FAILURE;
@@ -123,7 +123,7 @@ itkBinaryImageToWhitakerSparseLevelSetAdaptorTest(int argc, char * argv[])
   {
     statusWriter->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
   }

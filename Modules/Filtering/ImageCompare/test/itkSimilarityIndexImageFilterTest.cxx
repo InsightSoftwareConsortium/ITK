@@ -97,7 +97,7 @@ itkSimilarityIndexImageFilterTest(int, char *[])
   {
     filter->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught an unexpected exception" << std::endl;
     std::cout << err;

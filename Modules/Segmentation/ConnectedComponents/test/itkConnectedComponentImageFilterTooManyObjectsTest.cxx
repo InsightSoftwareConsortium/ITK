@@ -56,7 +56,7 @@ itkConnectedComponentImageFilterTooManyObjectsTest(int itkNotUsed(argc), char *[
     filter->Update();
     // no exception - that's not normal
   }
-  catch (itk::ExceptionObject & excep)
+  catch (const itk::ExceptionObject & excep)
   {
     std::cerr << "exception caught:" << std::endl;
     std::cerr << excep << std::endl;

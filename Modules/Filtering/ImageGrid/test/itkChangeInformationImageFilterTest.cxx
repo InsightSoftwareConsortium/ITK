@@ -287,7 +287,7 @@ itkChangeInformationImageFilterTest(int, char *[])
     std::cout << "-----------ChangeAll(), UseReferenceOn(): " << std::endl;
     PrintInformation3(inputImage, filter->GetOutput(), referenceImage);
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception detected: " << e;
     return -1;

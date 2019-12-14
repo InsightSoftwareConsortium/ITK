@@ -71,7 +71,7 @@ itkNiftiImageIOTest11(int ac, char * av[])
     std::cerr << "FAILED to catch expected exception" << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "EXPECTED exception in file writer " << std::endl;
     std::cout << e.GetDescription() << std::endl;

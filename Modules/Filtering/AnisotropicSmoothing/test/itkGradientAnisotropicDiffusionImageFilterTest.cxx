@@ -54,7 +54,7 @@ itkGradientAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itkN
     test1.SetFilter(filter);
     test1.Execute();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     (&err)->Print(std::cerr);
     return EXIT_FAILURE;

@@ -638,7 +638,7 @@ itkBSplineResampleImageFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
     std::cout << "Test when Standard_l2 spline order is unsupported" << std::endl;
     dummyflag += test2D_Standard_l2_NthOrderSpline_filter(6);
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught expected error." << std::endl;
     std::cout << err << std::endl;
@@ -653,7 +653,7 @@ itkBSplineResampleImageFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
     std::cout << "Test when Centered_l2 spline order is unsupported" << std::endl;
     dummyflag += test2D_Centered_l2_NthOrderSpline_filter(6);
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught expected error." << std::endl;
     std::cout << err << std::endl;
@@ -668,7 +668,7 @@ itkBSplineResampleImageFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
     std::cout << "Test when Standard_L2 spline order is unsupported" << std::endl;
     dummyflag += test2D_Standard_L2_NthOrderSpline_filter(6);
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught expected error." << std::endl;
     std::cout << err << std::endl;
@@ -683,7 +683,7 @@ itkBSplineResampleImageFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
     std::cout << "Test when Centered_L2 spline order is unsupported" << std::endl;
     dummyflag += test2D_Centered_L2_NthOrderSpline_filter(6);
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught expected error." << std::endl;
     std::cout << err << std::endl;

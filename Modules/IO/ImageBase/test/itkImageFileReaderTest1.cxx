@@ -39,7 +39,7 @@ itkImageFileReaderTest1(int ac, char * av[])
     ReaderType::Pointer reader = ReaderType::New();
     reader->Update();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << "------------------ Caught expected exception!" << std::endl;
     std::cout << ex;
@@ -60,7 +60,7 @@ itkImageFileReaderTest1(int ac, char * av[])
     reader->SetFileName("this_file_should_not_exist");
     reader->Update();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << "------------------ Caught expected exception!" << std::endl;
     std::cout << ex;
@@ -81,7 +81,7 @@ itkImageFileReaderTest1(int ac, char * av[])
     reader->SetFileName(av[0]);
     reader->Update();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << "------------------ Caught expected exception!" << std::endl;
     std::cout << ex;

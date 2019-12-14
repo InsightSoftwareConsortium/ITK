@@ -69,7 +69,7 @@ itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * arg
     fixedImageReader->Update();
     movingImageReader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
@@ -132,7 +132,7 @@ itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * arg
       metric->GetDerivative(displacement, derivative_separate);
       metric->GetValueAndDerivative(displacement, value_combined, derivative_combined);
     }
-    catch (itk::ExceptionObject & excep)
+    catch (const itk::ExceptionObject & excep)
     {
       std::cerr << excep << std::endl;
       return EXIT_FAILURE;

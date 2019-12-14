@@ -162,7 +162,7 @@ itkImportContainerTest(int, char *[])
     ContainerType::Pointer container1 = ContainerType::New();
     container1->Reserve(itk::NumericTraits<unsigned long>::max() / sizeof(PixelType));
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught expected exception: " << err << std::endl;
     caughtException = true;

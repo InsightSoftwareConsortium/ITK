@@ -107,7 +107,7 @@ main(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     std::cerr << "Exception thrown while reading the input file " << std::endl;
     std::cerr << exp << std::endl;
@@ -194,7 +194,7 @@ main(int argc, char * argv[])
   {
     meshSource->Update();
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     std::cerr << "Exception thrown during Update() " << std::endl;
     std::cerr << exp << std::endl;

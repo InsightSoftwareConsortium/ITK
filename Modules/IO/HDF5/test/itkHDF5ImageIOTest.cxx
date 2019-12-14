@@ -135,7 +135,7 @@ HDF5ReadWriteTest(const char * fileName)
     itk::IOTestHelper::WriteImage<ImageType, itk::HDF5ImageIO>(im, std::string(fileName));
     im2 = itk::IOTestHelper::ReadImage<ImageType>(std::string(fileName));
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "itkHDF5ImageIOTest" << std::endl << "Exception Object caught: " << std::endl << err << std::endl;
     return EXIT_FAILURE;

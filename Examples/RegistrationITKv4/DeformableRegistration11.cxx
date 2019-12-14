@@ -96,7 +96,7 @@ main(int argc, char * argv[])
   {
     movingfilter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught during reference file reading ";
     std::cerr << std::endl << e << std::endl;
@@ -106,7 +106,7 @@ main(int argc, char * argv[])
   {
     fixedfilter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught during target file reading ";
     std::cerr << std::endl << e << std::endl;
@@ -191,7 +191,7 @@ main(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
@@ -206,7 +206,7 @@ main(int argc, char * argv[])
   {
     dispWriter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;

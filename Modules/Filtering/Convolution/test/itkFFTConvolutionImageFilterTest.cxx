@@ -72,7 +72,7 @@ itkFFTConvolutionImageFilterTest(int argc, char * argv[])
     std::cerr << "Failed to throw expected exception" << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cout << excp << std::endl;
     std::cout << "Caught EXPECTED exception for empty image as input" << std::endl;

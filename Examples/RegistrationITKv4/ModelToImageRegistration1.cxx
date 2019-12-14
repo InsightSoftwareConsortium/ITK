@@ -889,7 +889,7 @@ main(int argc, char * argv[])
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     std::cerr << "Exception caught ! " << std::endl;
     std::cerr << exp << std::endl;

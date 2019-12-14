@@ -50,7 +50,7 @@ itkVTKPolyDataIOQuadEdgeMeshTest(int argc, char * argv[])
   {
     polyDataReader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error during Update() " << std::endl;
     std::cerr << excp << std::endl;
@@ -67,7 +67,7 @@ itkVTKPolyDataIOQuadEdgeMeshTest(int argc, char * argv[])
   {
     polyDataWriter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error during Update() " << std::endl;
     std::cerr << excp << std::endl;

@@ -97,7 +97,7 @@ itkMapRankImageFilterTest(int ac, char * av[])
     filter->SetRank(0.5);
     filter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception detected: " << e.GetDescription();
     return EXIT_FAILURE;

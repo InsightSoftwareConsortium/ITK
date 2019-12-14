@@ -110,7 +110,7 @@ itkWarpMeshFilterTest(int, char *[])
   {
     warpFilter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception: " << excp << std::endl;
     return EXIT_FAILURE;

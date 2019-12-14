@@ -226,7 +226,7 @@ PerformCompositeImageRegistration(int itkNotUsed(argc), char * argv[])
     std::cout << "Rigid transform" << std::endl;
     rigidRegistration->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;
@@ -280,7 +280,7 @@ PerformCompositeImageRegistration(int itkNotUsed(argc), char * argv[])
     std::cout << "Affine transform" << std::endl;
     affineRegistration->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;

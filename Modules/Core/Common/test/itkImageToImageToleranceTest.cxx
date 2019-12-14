@@ -55,7 +55,7 @@ itkImageToImageToleranceTest(int, char *[])
   {
     addImageFilter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     exceptCaught = true;
     std::cout << "Expected exception:" << std::endl << e << std::endl;
@@ -75,7 +75,7 @@ itkImageToImageToleranceTest(int, char *[])
   {
     addImageFilter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     exceptCaught = true;
     std::cout << "Unexpected exception:" << std::endl << e << std::endl;
@@ -99,7 +99,7 @@ itkImageToImageToleranceTest(int, char *[])
   {
     addImageFilter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     exceptCaught = true;
     std::cout << "Expected exception:" << std::endl << e << std::endl;
@@ -119,7 +119,7 @@ itkImageToImageToleranceTest(int, char *[])
   {
     addImageFilter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     exceptCaught = true;
     std::cout << "Unexpected exception:" << std::endl << e << std::endl;

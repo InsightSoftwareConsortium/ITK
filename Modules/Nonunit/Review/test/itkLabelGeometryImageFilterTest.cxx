@@ -124,7 +124,7 @@ LabelGeometryImageFilterTest(std::string labelImageName,
   {
     labelGeometryFilter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << e << std::endl;
   }
@@ -139,7 +139,7 @@ LabelGeometryImageFilterTest(std::string labelImageName,
   {
     intensityWriter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << e << std::endl;
   }
@@ -224,7 +224,7 @@ LabelGeometryImageFilterTest(std::string labelImageName,
   {
     writer->Write();
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     std::cerr << "Exception caught!" << std::endl;
     std::cerr << exp << std::endl;
@@ -256,7 +256,7 @@ LabelGeometryImageFilterTest(std::string labelImageName,
       newReader->Parse();
       compareReader->Parse();
     }
-    catch (itk::ExceptionObject & exp)
+    catch (const itk::ExceptionObject & exp)
     {
       std::cerr << "Exception caught!" << std::endl;
       std::cerr << exp << std::endl;

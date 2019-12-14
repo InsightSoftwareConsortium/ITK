@@ -65,7 +65,7 @@ itkDCMTKLoggerTest(int, char *[])
     // expected exception
     std::cerr << "Failed to detect invalid assignment of " << illegalVal << " to LogLevel" << std::endl;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Expected exception (illegal log level assignment)" << std::endl << e << std::endl;
   }

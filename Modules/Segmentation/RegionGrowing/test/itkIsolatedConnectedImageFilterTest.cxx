@@ -118,7 +118,7 @@ itkIsolatedConnectedImageFilterTest(int ac, char * av[])
     input->Update();
     filter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception detected: " << e.GetDescription();
     return -1;
@@ -157,7 +157,7 @@ itkIsolatedConnectedImageFilterTest(int ac, char * av[])
   {
     filter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception detected: " << e.GetDescription();
     return -1;

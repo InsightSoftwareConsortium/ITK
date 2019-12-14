@@ -237,7 +237,7 @@ itkCannySegmentationLevelSetImageFilterTest(int, char *[])
     //        writer->SetFileName("speedimage.raw");
     //        writer->Write();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << e << std::endl;
     return EXIT_FAILURE;

@@ -154,7 +154,7 @@ main(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown while reading image" << excp << std::endl;
   }
@@ -164,7 +164,7 @@ main(int argc, char * argv[])
   {
     calculator->Compute();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown " << excp << std::endl;
   }
@@ -223,7 +223,7 @@ main(int argc, char * argv[])
     {
       writer->Update();
     }
-    catch (itk::ExceptionObject & excp)
+    catch (const itk::ExceptionObject & excp)
     {
       std::cerr << "Exception thrown " << excp << std::endl;
     }
@@ -251,7 +251,7 @@ main(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown " << excp << std::endl;
   }

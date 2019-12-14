@@ -115,7 +115,7 @@ itkTopHatImageFilterTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught during pipeline Update\n" << e;
     return EXIT_FAILURE;

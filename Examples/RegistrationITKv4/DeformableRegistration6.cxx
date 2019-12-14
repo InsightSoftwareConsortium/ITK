@@ -353,7 +353,7 @@ main(int argc, char * argv[])
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
@@ -399,7 +399,7 @@ main(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
@@ -426,7 +426,7 @@ main(int argc, char * argv[])
     {
       writer2->Update();
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cerr << "ExceptionObject caught !" << std::endl;
       std::cerr << err << std::endl;
@@ -446,7 +446,7 @@ main(int argc, char * argv[])
     {
       writer2->Update();
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cerr << "ExceptionObject caught !" << std::endl;
       std::cerr << err << std::endl;
@@ -473,7 +473,7 @@ main(int argc, char * argv[])
   {
     dispfieldGenerator->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "Exception detected while generating deformation field";
     std::cerr << " : " << err << std::endl;
@@ -492,7 +492,7 @@ main(int argc, char * argv[])
     {
       fieldWriter->Update();
     }
-    catch (itk::ExceptionObject & excp)
+    catch (const itk::ExceptionObject & excp)
     {
       std::cerr << "Exception thrown " << std::endl;
       std::cerr << excp << std::endl;

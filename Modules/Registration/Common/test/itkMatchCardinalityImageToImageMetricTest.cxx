@@ -68,7 +68,7 @@ itkMatchCardinalityImageToImageMetricTest(int argc, char * argv[])
       {
         std::cout << "Offset: " << offset << " = " << metric->GetValue(offset) << std::endl;
       }
-      catch (itk::ExceptionObject & excp)
+      catch (const itk::ExceptionObject & excp)
       {
         std::cerr << "Exception thrown while computing metric " << std::endl;
         std::cerr << excp << std::endl;
@@ -90,7 +90,7 @@ itkMatchCardinalityImageToImageMetricTest(int argc, char * argv[])
       {
         std::cout << "Offset: " << offset << " = " << metric->GetValue(offset) << std::endl;
       }
-      catch (itk::ExceptionObject & excp)
+      catch (const itk::ExceptionObject & excp)
       {
         std::cerr << "Exception thrown while computing metric " << std::endl;
         std::cerr << excp << std::endl;

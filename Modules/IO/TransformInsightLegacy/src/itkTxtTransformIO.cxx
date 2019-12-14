@@ -100,7 +100,7 @@ TxtTransformIOTemplate<TParametersValueType>::ReadComponentFile(std::string Valu
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     itkExceptionMacro("Error reading component file: " << Value << std::endl << ex);
   }

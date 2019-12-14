@@ -39,7 +39,7 @@ itkImageIOBaseTest(int, char *[])
   {
     reader->SetDimensions(3, 1);
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Caught expected exception " << e << std::endl;
     gotException = true;
@@ -55,7 +55,7 @@ itkImageIOBaseTest(int, char *[])
   {
     reader->SetOrigin(3, 1.0);
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Caught expected exception " << e << std::endl;
     gotException = true;
@@ -71,7 +71,7 @@ itkImageIOBaseTest(int, char *[])
   {
     reader->SetSpacing(3, 1.0);
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Caught expected exception " << e << std::endl;
     gotException = true;
@@ -91,7 +91,7 @@ itkImageIOBaseTest(int, char *[])
     direction[2] = 1.0;
     reader->SetDirection(3, direction);
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Caught expected exception " << e << std::endl;
     gotException = true;
@@ -111,7 +111,7 @@ itkImageIOBaseTest(int, char *[])
     direction[2] = 1.0;
     reader->SetDirection(3, direction);
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Caught expected exception " << e << std::endl;
     gotException = true;
