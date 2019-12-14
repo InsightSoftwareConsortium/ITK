@@ -59,7 +59,7 @@ MultivariateLegendrePolynomial ::MultivariateLegendrePolynomial(unsigned int    
 MultivariateLegendrePolynomial ::~MultivariateLegendrePolynomial() = default;
 
 void
-MultivariateLegendrePolynomial ::Print(std::ostream & os)
+MultivariateLegendrePolynomial ::Print(std::ostream & os) const
 {
   itk::Indent indent(4);
 
