@@ -387,7 +387,7 @@ test_OpenCVVideoIO(char *          input,
     {
       opencvIO->ReadImageInformation();
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cerr << "Could not read information from the camera" << std::endl;
       std::cerr << "If a camera is present, this test requires it to be on with OpenCV 2" << std::endl;
@@ -404,7 +404,7 @@ test_OpenCVVideoIO(char *          input,
     {
       opencvIO->Read(reinterpret_cast<void *>(camBuffer));
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cerr << "Could not read from the camera" << std::endl;
       std::cerr << e << std::endl;

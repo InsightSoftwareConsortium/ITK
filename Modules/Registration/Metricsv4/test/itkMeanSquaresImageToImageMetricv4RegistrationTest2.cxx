@@ -192,7 +192,7 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char * argv[])
   {
     optimizer->StartOptimization();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception thrown ! " << std::endl;
     std::cerr << "An error occurred during deformation Optimization:" << std::endl;

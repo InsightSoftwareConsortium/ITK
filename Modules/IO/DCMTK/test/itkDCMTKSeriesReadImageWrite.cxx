@@ -66,7 +66,7 @@ itkDCMTKSeriesReadImageWrite(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown while writing the image" << std::endl;
     std::cerr << excp << std::endl;
@@ -84,7 +84,7 @@ itkDCMTKSeriesReadImageWrite(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown while writing the image" << std::endl;
     std::cerr << excp << std::endl;

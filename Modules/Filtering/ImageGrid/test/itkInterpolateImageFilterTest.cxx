@@ -68,7 +68,7 @@ itkInterpolateImageFilterTest(int, char *[])
   {
     filter->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught unexpected exception: " << err << std::endl;
     std::cout << "Test failed. " << std::endl;
@@ -116,7 +116,7 @@ itkInterpolateImageFilterTest(int, char *[])
   {
     filter->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught expected exception: " << err << std::endl;
     pass = true;

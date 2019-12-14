@@ -113,7 +113,7 @@ itkWeightedCovarianceSampleFilterTest(int, char *[])
               << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cout << "Expected exception caught: " << excp << std::endl;
   }
@@ -134,7 +134,7 @@ itkWeightedCovarianceSampleFilterTest(int, char *[])
     std::cerr << "Exception should have been thrown: " << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cout << "Expected exception caught: " << excp << std::endl;
   }
@@ -148,7 +148,7 @@ itkWeightedCovarianceSampleFilterTest(int, char *[])
   {
     filter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cout << "Expected exception caught: " << excp << std::endl;
   }
@@ -214,7 +214,7 @@ itkWeightedCovarianceSampleFilterTest(int, char *[])
   {
     filter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught: " << excp << std::endl;
     return EXIT_FAILURE;
@@ -275,7 +275,7 @@ itkWeightedCovarianceSampleFilterTest(int, char *[])
   {
     filter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught: " << excp << std::endl;
     return EXIT_FAILURE;
@@ -349,7 +349,7 @@ itkWeightedCovarianceSampleFilterTest(int, char *[])
   {
     filter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught: " << excp << std::endl;
     return EXIT_FAILURE;

@@ -263,7 +263,7 @@ test(char * INfilename, char * OUTfilename, bool IsBinary)
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "Read file " << INfilename << " failed " << std::endl;
     std::cerr << err << std::endl;
@@ -296,7 +296,7 @@ test(char * INfilename, char * OUTfilename, bool IsBinary)
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "Write file " << OUTfilename << " failed " << std::endl;
     std::cerr << err << std::endl;
@@ -314,7 +314,7 @@ test(char * INfilename, char * OUTfilename, bool IsBinary)
   {
     reader1->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "Read file " << OUTfilename << " failed " << std::endl;
     std::cerr << err << std::endl;

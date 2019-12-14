@@ -238,7 +238,7 @@ itkMutualInformationMetricTest(int, char *[])
     std::cout << "Value = " << metric->GetValue(parameters);
     std::cout << std::endl;
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught the exception." << std::endl;
     std::cout << err << std::endl;
@@ -256,7 +256,7 @@ itkMutualInformationMetricTest(int, char *[])
     std::cout << "Value = " << metric->GetValue(parameters);
     std::cout << std::endl;
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught the exception." << std::endl;
     std::cout << err << std::endl;

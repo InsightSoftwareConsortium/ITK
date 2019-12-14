@@ -60,7 +60,7 @@ itkAccumulateImageFilterTest(int argc, char * argv[])
     reader->SetFileNames(names->GetInputFileNames());
     reader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error reading the series" << std::endl;
     std::cerr << excp << std::endl;
@@ -76,7 +76,7 @@ itkAccumulateImageFilterTest(int argc, char * argv[])
   {
     accumulate->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error running the accumulate filter" << std::endl;
     std::cerr << excp << std::endl;
@@ -96,7 +96,7 @@ itkAccumulateImageFilterTest(int argc, char * argv[])
     writer->SetInput(accumulate->GetOutput());
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error writing the series" << std::endl;
     std::cerr << excp << std::endl;
@@ -115,7 +115,7 @@ itkAccumulateImageFilterTest(int argc, char * argv[])
     writer->SetInput(accumulate->GetOutput());
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error writing the series" << std::endl;
     std::cerr << excp << std::endl;
@@ -130,7 +130,7 @@ itkAccumulateImageFilterTest(int argc, char * argv[])
     std::cout << "Failed to catch expected exception." << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cout << "Caught expected exception." << std::endl;
     std::cout << excp << std::endl;

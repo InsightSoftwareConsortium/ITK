@@ -205,7 +205,7 @@ ReadImage(const std::string & fileName)
     {
       reader->Update();
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cout << "Caught an exception: " << std::endl;
       std::cout << err << " " << __FILE__ << " " << __LINE__ << std::endl;

@@ -327,7 +327,7 @@ itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char * 
   {
     optimizer->StartOptimization();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error occurred during deformation Optimization:" << std::endl;

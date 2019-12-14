@@ -183,7 +183,7 @@ itkSampleClassifierFilterTest3(int, char *[])
               << "from the number of classes set" << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
   }
@@ -201,7 +201,7 @@ itkSampleClassifierFilterTest3(int, char *[])
   {
     filter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;

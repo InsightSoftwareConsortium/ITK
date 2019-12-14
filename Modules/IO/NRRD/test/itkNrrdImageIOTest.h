@@ -78,7 +78,7 @@ itkNrrdImageIOTestReadWriteTest(std::string fn, unsigned int size, std::string i
       tmpReader->Update();
       std::cout << "DONE READING INPUT IMAGE" << std::endl;
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cerr << e << std::endl;
       return EXIT_FAILURE;
@@ -108,7 +108,7 @@ itkNrrdImageIOTestReadWriteTest(std::string fn, unsigned int size, std::string i
     // writer->SetFileName("testDebug.mhd");
     // reader->SetFileName("testDebug.mhd");
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
@@ -126,7 +126,7 @@ itkNrrdImageIOTestReadWriteTest(std::string fn, unsigned int size, std::string i
     reader->Update();
     std::cout << "DONE READING TEST IMAGE" << std::endl;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception in file reader or writer " << std::endl;
     std::cerr << e.GetDescription() << std::endl;

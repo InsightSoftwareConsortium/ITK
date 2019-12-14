@@ -112,7 +112,7 @@ main(int argc, char * argv[])
   {
     fixedReader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
@@ -294,7 +294,7 @@ main(int argc, char * argv[])
   {
     movingWriter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
@@ -345,7 +345,7 @@ main(int argc, char * argv[])
     {
       fieldWriter->Update();
     }
-    catch (itk::ExceptionObject & excp)
+    catch (const itk::ExceptionObject & excp)
     {
       std::cerr << "Exception thrown " << std::endl;
       std::cerr << excp << std::endl;
@@ -364,7 +364,7 @@ main(int argc, char * argv[])
       transformWriter->SetFileName(argv[6]);
       transformWriter->Update();
     }
-    catch (itk::ExceptionObject & excp)
+    catch (const itk::ExceptionObject & excp)
     {
       std::cerr << "Exception thrown " << std::endl;
       std::cerr << excp << std::endl;

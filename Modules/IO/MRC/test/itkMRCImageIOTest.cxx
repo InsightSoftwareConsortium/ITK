@@ -132,7 +132,7 @@ MRCImageIOTester<TImageType>::Write(const std::string & filePrefix, std::string 
 
     return true;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << e.GetDescription() << std::endl;
     return false;
@@ -264,7 +264,7 @@ MRCImageIOTester<TImageType>::Read(const std::string & filePrefix, std::string &
     // reading successful, so return true
     return true;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << e.GetDescription() << std::endl;
     return false;

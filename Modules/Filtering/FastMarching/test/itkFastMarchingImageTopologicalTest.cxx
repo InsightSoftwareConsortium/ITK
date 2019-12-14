@@ -55,7 +55,7 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & excep)
+  catch (const itk::ExceptionObject & excep)
   {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
@@ -81,7 +81,7 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
   {
     labelImageReader->Update();
   }
-  catch (itk::ExceptionObject & excep)
+  catch (const itk::ExceptionObject & excep)
   {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
@@ -100,7 +100,7 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
   {
     contour->Update();
   }
-  catch (itk::ExceptionObject & excep)
+  catch (const itk::ExceptionObject & excep)
   {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
@@ -160,7 +160,7 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
   {
     fastMarching->Update();
   }
-  catch (itk::ExceptionObject & excep)
+  catch (const itk::ExceptionObject & excep)
   {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
@@ -180,7 +180,7 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
   {
     thresholder->Update();
   }
-  catch (itk::ExceptionObject & excep)
+  catch (const itk::ExceptionObject & excep)
   {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
@@ -197,7 +197,7 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excep)
+  catch (const itk::ExceptionObject & excep)
   {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
@@ -217,7 +217,7 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
       {
         internal_writer->Update();
       }
-      catch (itk::ExceptionObject & excep)
+      catch (const itk::ExceptionObject & excep)
       {
         std::cerr << "Exception caught !" << std::endl;
         std::cerr << excep << std::endl;
@@ -236,7 +236,7 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
       {
         mapWriter->Update();
       }
-      catch (itk::ExceptionObject & excep)
+      catch (const itk::ExceptionObject & excep)
       {
         std::cerr << "Exception caught !" << std::endl;
         std::cerr << excep << std::endl;

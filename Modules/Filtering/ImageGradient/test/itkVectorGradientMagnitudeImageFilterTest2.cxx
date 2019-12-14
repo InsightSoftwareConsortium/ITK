@@ -104,7 +104,7 @@ itkVectorGradientMagnitudeImageFilterTest2(int ac, char * av[])
     writer->SetInput(extractedImage);
     writer->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception detected: " << e.GetDescription();
     return EXIT_FAILURE;

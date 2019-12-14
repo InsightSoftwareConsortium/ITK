@@ -156,7 +156,7 @@ TestImageOfVectors(const std::string & fname)
   {
     itk::IOTestHelper::WriteImage<VectorImageType, itk::NiftiImageIO>(vi, fname);
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::string message;
     message = "Problem found while writing image ";
@@ -176,7 +176,7 @@ TestImageOfVectors(const std::string & fname)
   {
     readback = itk::IOTestHelper::ReadImage<VectorImageType>(fname);
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::string message;
     message = "Problem found while reading image ";

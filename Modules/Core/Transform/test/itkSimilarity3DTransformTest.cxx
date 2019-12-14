@@ -533,7 +533,7 @@ itkSimilarity3DTransformTest(int, char *[])
     {
       t->SetMatrix(matrix);
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cout << "Caught expected exception" << err << std::endl;
       Ok = true;
@@ -568,7 +568,7 @@ itkSimilarity3DTransformTest(int, char *[])
     {
       t->SetMatrix(matrix);
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cout << err << std::endl;
       Ok = false;

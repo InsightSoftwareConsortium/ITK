@@ -74,7 +74,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
                   is not set yet"
               << std::endl;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Caught expected exception: " << excp << std::endl;
   }
@@ -86,7 +86,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
                   is not set yet"
               << std::endl;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Caught expected exception: " << excp << std::endl;
   }
@@ -99,7 +99,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
                   is not set yet"
               << std::endl;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Caught expected exception: " << excp << std::endl;
   }
@@ -112,7 +112,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
                   is not set yet"
               << std::endl;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Caught expected exception: " << excp << std::endl;
   }
@@ -125,7 +125,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
                   is not set yet"
               << std::endl;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Caught expected exception: " << excp << std::endl;
   }

@@ -64,7 +64,7 @@ itkFFTShiftImageFilterTest(int argc, char * argv[])
     std::cerr << "Failed to throw expected exception" << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cout << excp << std::endl;
     std::cout << "catched EXPECTED exception for emtpy image as input" << std::endl;
@@ -105,7 +105,7 @@ itkFFTShiftImageFilterTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;

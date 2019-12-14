@@ -56,7 +56,7 @@ itkGDCMImageIOTest(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & error)
+  catch (const itk::ExceptionObject & error)
   {
     std::cerr << "Error: exception in file reader " << std::endl;
     std::cerr << error << std::endl;
@@ -103,7 +103,7 @@ itkGDCMImageIOTest(int argc, char * argv[])
   {
     dicomWriter->Update();
   }
-  catch (itk::ExceptionObject & error)
+  catch (const itk::ExceptionObject & error)
   {
     std::cerr << "Error: exception in file writer " << std::endl;
     std::cerr << error << std::endl;
@@ -122,7 +122,7 @@ itkGDCMImageIOTest(int argc, char * argv[])
   {
     metaWriter->Update();
   }
-  catch (itk::ExceptionObject & error)
+  catch (const itk::ExceptionObject & error)
   {
     std::cerr << "Error: exception in file writer " << std::endl;
     std::cerr << error << std::endl;
@@ -164,7 +164,7 @@ itkGDCMImageIOTest(int argc, char * argv[])
   {
     rescaledDicomWriter->Update();
   }
-  catch (itk::ExceptionObject & error)
+  catch (const itk::ExceptionObject & error)
   {
     std::cerr << "Error: exception in file writer " << std::endl;
     std::cerr << error << std::endl;
@@ -184,7 +184,7 @@ itkGDCMImageIOTest(int argc, char * argv[])
   {
     rescaledMetaWriter->Update();
   }
-  catch (itk::ExceptionObject & error)
+  catch (const itk::ExceptionObject & error)
   {
     std::cerr << "Error: exception in file writer " << std::endl;
     std::cerr << error << std::endl;

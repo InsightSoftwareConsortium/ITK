@@ -52,7 +52,7 @@ itkHistogramToProbabilityImageFilterTest2(int argc, char * argv[])
     reader1->Update();
     reader2->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Problem encoutered while reading image file : " << argv[1] << std::endl;
     std::cerr << excp << std::endl;
@@ -133,7 +133,7 @@ itkHistogramToProbabilityImageFilterTest2(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;

@@ -71,7 +71,7 @@ main(int argc, char * argv[])
   {
     reader4D->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error reading the image" << std::endl;
     std::cerr << excp << std::endl;
@@ -205,7 +205,7 @@ main(int argc, char * argv[])
   {
     writer3D->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error writing the image" << std::endl;
     std::cerr << excp << std::endl;

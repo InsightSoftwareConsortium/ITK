@@ -191,7 +191,7 @@ itkSampleTest3(int, char *[])
     std::cerr << "Sample failed to throw an exception when calling SetMeasurementVectorSize()" << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cout << "Expected exception caught: " << excp << std::endl;
   }
@@ -205,7 +205,7 @@ itkSampleTest3(int, char *[])
   {
     sample->SetMeasurementVectorSize(MeasurementVectorSize + 5);
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;

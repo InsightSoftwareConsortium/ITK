@@ -90,7 +90,7 @@ itkMatrixImageWriteReadTest(int ac, char * av[])
   {
     matrixWriter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
@@ -107,7 +107,7 @@ itkMatrixImageWriteReadTest(int ac, char * av[])
   {
     matrixReader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;

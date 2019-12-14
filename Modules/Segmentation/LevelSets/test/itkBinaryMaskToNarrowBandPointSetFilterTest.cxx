@@ -84,7 +84,7 @@ itkBinaryMaskToNarrowBandPointSetFilterTest(int, char *[])
   {
     narrowBandGenerator->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown during the execution of the generator " << std::endl;
     std::cerr << excp << std::endl;

@@ -46,7 +46,7 @@ itkImageIODirection3DTest(int ac, char * av[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
@@ -90,7 +90,7 @@ itkImageIODirection3DTest(int ac, char * av[])
     {
       writer->Update();
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cerr << e << std::endl;
       return EXIT_FAILURE;

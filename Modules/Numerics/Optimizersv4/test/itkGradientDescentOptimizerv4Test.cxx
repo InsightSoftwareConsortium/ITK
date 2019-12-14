@@ -160,7 +160,7 @@ GradientDescentOptimizerv4RunTest(itk::GradientDescentOptimizerv4::Pointer &    
     itkOptimizer->StartOptimization();
     std::cout << "currentPosition after optimization: " << itkOptimizer->GetCurrentPosition() << std::endl;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error occurred during Optimization" << std::endl;
@@ -339,7 +339,7 @@ itkGradientDescentOptimizerv4Test(int, char *[])
   {
     badOptimizer->GetCurrentPosition();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Caught expected exception!";
     std::cout << e << std::endl;

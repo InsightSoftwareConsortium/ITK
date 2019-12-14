@@ -85,7 +85,7 @@ TestNiftiByteSwap(const std::string & prefix)
     std::cout << "Printing Dictionary" << std::endl;
     big->GetMetaDataDictionary().Print(std::cout);
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     e.Print(std::cerr);
     RemoveNiftiByteSwapTestFiles(prefix);
@@ -106,7 +106,7 @@ TestNiftiByteSwap(const std::string & prefix)
     if (!littleIter.IsAtEnd() || !bigIter.IsAtEnd())
       rval = -1;
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cerr << "Error filling array" << ex << std::endl;
     rval = -1;

@@ -297,7 +297,7 @@ itkBSplineDeformableTransformTest1()
     {
       transform->TransformVector(vector);
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cout << "Caught expected exception." << std::endl;
       std::cout << err << std::endl;
@@ -321,7 +321,7 @@ itkBSplineDeformableTransformTest1()
     {
       transform->TransformCovariantVector(vector);
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cout << "Caught expected exception." << std::endl;
       std::cout << err << std::endl;
@@ -345,7 +345,7 @@ itkBSplineDeformableTransformTest1()
     {
       transform->TransformVector(vector);
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cout << "Caught expected exception." << std::endl;
       std::cout << err << std::endl;
@@ -367,7 +367,7 @@ itkBSplineDeformableTransformTest1()
       temp.Fill(4.0);
       transform->SetParameters(temp);
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cout << "Caught expected exception." << std::endl;
       std::cout << err << std::endl;
@@ -507,7 +507,7 @@ itkBSplineDeformableTransformTest2()
     {
       outputPoint = transform->TransformPoint(inputPoint);
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cout << "Expected exception:" << std::endl;
       std::cout << err << std::endl;
@@ -562,7 +562,7 @@ itkBSplineDeformableTransformTest2()
     std::cout << " OutputPoint: " << outputPoint;
     std::cout << std::endl;
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     return EXIT_FAILURE;

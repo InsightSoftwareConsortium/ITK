@@ -47,7 +47,7 @@ itkPhilipsRECImageIOPrintTest(int argc, char * argv[])
   {
     imageIO->ReadImageInformation();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;

@@ -80,7 +80,7 @@ itkPromoteDimensionImageTest(int argc, char * argv[])
     writer->Update();
     // toChar->GetOutput()->Print(std::cout);
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "ExceptionObject caught !" << std::endl;
     std::cout << err << std::endl;

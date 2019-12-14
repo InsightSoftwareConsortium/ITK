@@ -187,7 +187,7 @@ itkMatrixTest(int, char *[])
     std::cout << "ITK * VNL Multiplication result: " << std::endl;
     std::cout << m3 * m4.GetVnlMatrix() << std::endl;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught in test..." << std::endl;
     std::cerr << e << std::endl;
@@ -339,7 +339,7 @@ itkMatrixTest(int, char *[])
   {
     matrixBad.GetInverse();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cout << "Caught expected exception!" << std::endl;
     std::cout << excp;
@@ -356,7 +356,7 @@ itkMatrixTest(int, char *[])
   {
     matrixBad.GetInverse();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cout << "Caught unexpected exception!" << std::endl;
     std::cout << excp;

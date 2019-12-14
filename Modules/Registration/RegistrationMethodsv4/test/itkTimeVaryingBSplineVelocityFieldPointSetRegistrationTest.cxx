@@ -279,7 +279,7 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
     std::cout << "Time-varying B-spline velocity field point set registration" << std::endl;
     velocityFieldRegistration->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;

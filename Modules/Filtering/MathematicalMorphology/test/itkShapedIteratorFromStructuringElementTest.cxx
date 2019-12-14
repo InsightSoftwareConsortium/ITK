@@ -95,7 +95,7 @@ itkShapedIteratorFromStructuringElementTest(int, char *[])
   {
     biterator.CreateActiveListFromNeighborhood(structuringElement);
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     caught = true;
     std::cout << "Caught expected exception." << e << std::endl;

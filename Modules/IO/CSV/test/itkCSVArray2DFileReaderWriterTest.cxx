@@ -126,7 +126,7 @@ itkCSVFileReaderWriterTest_Func(int argc, char * argv[], bool headers)
   {
     writer->Write();
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     std::cerr << "Exception caught!" << std::endl;
     std::cerr << exp << std::endl;
@@ -147,7 +147,7 @@ itkCSVFileReaderWriterTest_Func(int argc, char * argv[], bool headers)
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     std::cerr << "Exception caught!" << std::endl;
     std::cerr << exp << std::endl;

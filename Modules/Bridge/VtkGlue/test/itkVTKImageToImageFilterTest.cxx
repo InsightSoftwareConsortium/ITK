@@ -89,7 +89,7 @@ itkVTKImageToImageFilterTest(int, char *[])
   {
     connector->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::string expectedErrorSubString = "is not equal to 0.0";
     std::string fullErrorString = e.GetDescription();

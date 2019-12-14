@@ -249,7 +249,7 @@ itkExpandImageFilterTest(int, char *[])
     expander->SetInput(nullptr);
     expander->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     expander->ResetPipeline();
@@ -271,7 +271,7 @@ itkExpandImageFilterTest(int, char *[])
     expander->SetInterpolator(nullptr);
     expander->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     expander->ResetPipeline();

@@ -769,7 +769,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     {
       t->SetMatrix(matrix);
     }
-    catch (itk::ExceptionObject & itkNotUsed(err))
+    catch (const itk::ExceptionObject & itkNotUsed(err))
     {
       Ok = true;
     }
@@ -801,7 +801,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     {
       t->SetMatrix(matrix);
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cout << err << std::endl;
       Ok = false;

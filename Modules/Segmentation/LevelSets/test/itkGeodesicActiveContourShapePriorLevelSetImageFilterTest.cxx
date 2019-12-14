@@ -298,7 +298,7 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
   {
     overlap->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     std::cout << "Caught unexpected exception." << std::endl;
@@ -396,7 +396,7 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
     pass = false;                                                                                                      \
     filter->Update();                                                                                                  \
   }                                                                                                                    \
-  catch (itk::ExceptionObject & err)                                                                                   \
+  catch (const itk::ExceptionObject & err)                                                                             \
   {                                                                                                                    \
     std::cout << "Caught expected ExceptionObject" << std::endl;                                                       \
     std::cout << err << std::endl;                                                                                     \

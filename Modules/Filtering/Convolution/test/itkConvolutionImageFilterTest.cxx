@@ -69,7 +69,7 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
@@ -89,7 +89,7 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
     std::cerr << "Failed to throw expected exception" << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cout << excp << std::endl;
     std::cout << "caught EXPECTED exception for empty image as input" << std::endl;
@@ -176,7 +176,7 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
     std::cerr << "Failed to catch expected exception when kernel is larger than the input image." << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Caught expected exception when kernel is larger than the input image." << std::endl;
     std::cout << e << std::endl;
@@ -196,7 +196,7 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
               << "possible region." << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Caught expected exception when request region is outside the largest "
               << "possible region." << std::endl;

@@ -190,7 +190,7 @@ IBPSOTest1()
       return EXIT_FAILURE;
     }
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "[Test 1 FAILURE]" << std::endl;
     std::cout << "Exception thrown ! " << std::endl;
@@ -270,7 +270,7 @@ IBPSOTest2()
       return EXIT_FAILURE;
     }
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "[Test 2 FAILURE]" << std::endl;
     std::cout << "Exception thrown ! " << std::endl;
@@ -416,7 +416,7 @@ IBPSOTest3()
       return EXIT_FAILURE;
     }
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "[Test 3 FAILURE]" << std::endl;
     std::cout << "Exception thrown ! " << std::endl;

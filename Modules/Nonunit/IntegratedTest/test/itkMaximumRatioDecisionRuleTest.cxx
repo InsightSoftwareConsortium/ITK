@@ -61,7 +61,7 @@ itkMaximumRatioDecisionRuleTest(int, char *[])
               << " probability is not set yet " << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception= " << excp << std::endl;
   }
@@ -89,7 +89,7 @@ itkMaximumRatioDecisionRuleTest(int, char *[])
               << " score vector size doesn't match with the apriori vector" << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception= " << excp << std::endl;
   }
@@ -115,7 +115,7 @@ itkMaximumRatioDecisionRuleTest(int, char *[])
   {
     decisionValue = decisionRule->Evaluate(membershipScoreVector);
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception= " << excp << std::endl;
     return EXIT_FAILURE;

@@ -57,7 +57,7 @@ itkRegularSphereQuadEdgeMeshSourceTest(int argc, char * argv[])
   {
     mySphereMeshSource->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error during Update() " << std::endl;
     std::cerr << excp << std::endl;

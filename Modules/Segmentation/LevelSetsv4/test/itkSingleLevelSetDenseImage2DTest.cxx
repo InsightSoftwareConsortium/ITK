@@ -182,7 +182,7 @@ itkSingleLevelSetDenseImage2DTest(int argc, char * argv[])
   {
     evolution->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
@@ -215,7 +215,7 @@ itkSingleLevelSetDenseImage2DTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
   }

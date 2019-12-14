@@ -49,7 +49,7 @@ itkStimulateImageIOTest2(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Exception in file reader " << std::endl;
     std::cout << e << std::endl;

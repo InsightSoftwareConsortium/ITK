@@ -112,7 +112,7 @@ itkExceptionObjectTest(int, char *[])
     lookup(4);  // OK
     lookup(12); // ERROR
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << e << std::endl;
     raised = true;

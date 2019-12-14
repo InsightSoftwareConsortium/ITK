@@ -228,7 +228,7 @@ itkMultiLevelSetEvolutionTest(int, char *[])
   {
     evolution->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     return EXIT_FAILURE;

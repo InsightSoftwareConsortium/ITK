@@ -125,7 +125,7 @@ SmapsFileParser<TSmapsDataType>::ReadFile(const std::string & mapFileLocation)
     // load the file
     inputFile >> this->m_MapData;
   }
-  catch (ExceptionObject excp)
+  catch (const ExceptionObject & excp)
   {
     // propagate the exception
     itkGenericExceptionMacro(<< "The smaps file " << filename.str() << " is an invalid file or contains errors");
@@ -184,7 +184,7 @@ VMMapFileParser<TVMMapDataType>::ReadFile(const std::string & mapFileLocation)
 #endif
     }
   }
-  catch (ExceptionObject excp)
+  catch (const ExceptionObject & excp)
   {
     // propagate the exception
     itkGenericExceptionMacro(<< "The vmmap file is an invalid file or contains errors");

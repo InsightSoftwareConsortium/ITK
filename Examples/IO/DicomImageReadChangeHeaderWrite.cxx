@@ -123,7 +123,7 @@ main(int argc, char * argv[])
     reader->Update();
     // Software Guide : EndCodeSnippet
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "exception in file reader " << std::endl;
     std::cerr << e.GetDescription() << std::endl;
@@ -201,7 +201,7 @@ main(int argc, char * argv[])
     writer1->Update();
     // Software Guide : EndCodeSnippet
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "exception in file writer " << std::endl;
     std::cerr << e.GetDescription() << std::endl;

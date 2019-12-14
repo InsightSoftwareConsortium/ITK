@@ -87,7 +87,7 @@ main(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
@@ -108,7 +108,7 @@ main(int argc, char * argv[])
   {
     bayesianInitializer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
@@ -119,7 +119,7 @@ main(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;

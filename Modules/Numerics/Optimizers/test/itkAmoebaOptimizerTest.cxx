@@ -314,7 +314,7 @@ AmoebaTest1()
     itkOptimizer->SetInitialPosition(itkOptimizer->GetCurrentPosition());
     itkOptimizer->StartOptimization();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception thrown ! " << std::endl;
     std::cerr << "An error occurred during Optimization" << std::endl;
@@ -399,7 +399,7 @@ AmoebaTest1()
       std::cout << std::endl;
       itkOptimizer->StartOptimization();
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cerr << "Exception thrown ! " << std::endl;
       std::cerr << "An error occurred during Optimization" << std::endl;
@@ -487,7 +487,7 @@ AmoebaTest2()
   {
     itkOptimizer->StartOptimization();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception thrown ! " << std::endl;
     std::cerr << "An error occurred during Optimization" << std::endl;
@@ -519,7 +519,7 @@ AmoebaTest2()
   {
     itkOptimizer->StartOptimization();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception thrown ! " << std::endl;
     std::cerr << "An error occurred during Optimization" << std::endl;

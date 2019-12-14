@@ -196,7 +196,7 @@ itkBSplineKernelFunctionTest(int, char *[])
     {
       function->Evaluate(0.0);
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cout << "Caught expected exception" << std::endl;
       std::cout << err << std::endl;
@@ -222,7 +222,7 @@ itkBSplineKernelFunctionTest(int, char *[])
     {
       function->Evaluate(0.0);
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cout << "Caught expected exception" << std::endl;
       std::cout << err << std::endl;

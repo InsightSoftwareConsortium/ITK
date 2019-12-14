@@ -65,7 +65,7 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
       writer->SetInput(convolutionFilter->GetOutput());
       writer->Update();
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cerr << "Unexpected exception caught when writing convolution image: " << e << std::endl;
       return EXIT_FAILURE;
@@ -96,7 +96,7 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
     writer->SetInput(deconvolutionFilter->GetOutput());
     writer->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Unexpected exception caught when writing deconvolution image: " << e << std::endl;
     return EXIT_FAILURE;

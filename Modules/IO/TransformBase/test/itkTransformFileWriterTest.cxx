@@ -44,7 +44,7 @@ itkTransformFileWriterTest(int argc, char * argv[])
     // trigger empty write exception
     transformWriter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Expected exception (no filename)" << std::endl << excp << std::endl;
   }
@@ -54,7 +54,7 @@ itkTransformFileWriterTest(int argc, char * argv[])
     // trigger exception for transformio not found
     transformWriter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
 
     std::cerr << "Expected exception (no transformio that can write garbage and no transformio should be registered)"

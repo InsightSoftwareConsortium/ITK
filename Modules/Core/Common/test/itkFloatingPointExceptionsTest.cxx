@@ -54,7 +54,7 @@ itkFloatingPointExceptionsTest(int argc, char * argv[])
                 << " result is " << s << std::endl;
       error_return++;
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cout << "Expected divide by zero exception caught" << std::endl;
       std::cout << e;
@@ -74,7 +74,7 @@ itkFloatingPointExceptionsTest(int argc, char * argv[])
                 << " result is " << s << std::endl;
       error_return++;
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cout << "Expected 0.0 / 0.0  exception caught" << std::endl;
       std::cout << e;
@@ -95,7 +95,7 @@ itkFloatingPointExceptionsTest(int argc, char * argv[])
                 << " result is " << s << std::endl;
       error_return++;
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cout << "Overflow exception caught" << std::endl;
       std::cout << e;
@@ -117,7 +117,7 @@ itkFloatingPointExceptionsTest(int argc, char * argv[])
                 << " result is " << s << std::endl;
       error_return++;
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cout << "Underflow exception caught" << std::endl;
       std::cout << e;

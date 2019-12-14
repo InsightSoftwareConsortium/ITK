@@ -103,7 +103,7 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
     std::cout << "=== Updating ==" << std::endl;
     writer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
@@ -145,7 +145,7 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
     std::cout << "=== Updating 1x1x1 IORegion ==" << std::endl;
     writer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
@@ -179,7 +179,7 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
     std::cout << "=== Updating 2x2x2 IORegion with odd offset ==" << std::endl;
     writer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
@@ -214,7 +214,7 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
     std::cout << "=== Updating 1x1xlong IORegion ==" << std::endl;
     writer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
@@ -248,7 +248,7 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
     std::cout << "=== Updating 1xlongx1 IORegion ==" << std::endl;
     writer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
@@ -283,7 +283,7 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
     std::cout << "=== Updating Full IORegion ==" << std::endl;
     writer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
@@ -319,7 +319,7 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
     std::cout << "=== Updating out of bounds IORegion ==" << std::endl;
     writer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught expected exception" << std::endl;
     std::cout << err << std::endl;
@@ -348,7 +348,7 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
     std::cout << "=== Updating out of bounds IORegion ==" << std::endl;
     writer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught expected exception" << std::endl;
     std::cout << err << std::endl;
@@ -390,7 +390,7 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
     std::cout << "=== Updating mismatched IORegion ==" << std::endl;
     writer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;

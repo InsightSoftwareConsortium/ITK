@@ -73,7 +73,7 @@ itkImageFileWriterTest2(int ac, char * av[])
     std::cout << "Original Starting Point (physical cooridents) : " << readPoint << std::endl;
     std::cout << "Read Origin: " << image->GetOrigin() << std::endl;
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << "caught exception!" << std::endl;
     std::cout << ex;

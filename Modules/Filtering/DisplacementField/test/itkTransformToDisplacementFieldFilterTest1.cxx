@@ -190,7 +190,7 @@ itkTransformToDisplacementFieldFilterTest1(int argc, char * argv[])
   {
     writer1->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "Exception detected while writing image " << resampledImageFileName;
     std::cerr << " : " << err << std::endl;
@@ -206,7 +206,7 @@ itkTransformToDisplacementFieldFilterTest1(int argc, char * argv[])
   {
     defGenerator->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "Exception detected while generating deformation field";
     std::cerr << " : " << err << std::endl;
@@ -225,7 +225,7 @@ itkTransformToDisplacementFieldFilterTest1(int argc, char * argv[])
   {
     warper->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "Exception detected while warping image";
     std::cerr << " : " << err << std::endl;
@@ -238,7 +238,7 @@ itkTransformToDisplacementFieldFilterTest1(int argc, char * argv[])
   {
     writer2->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "Exception detected while writing image " << displacementFieldFileName;
     std::cerr << " : " << err << std::endl;

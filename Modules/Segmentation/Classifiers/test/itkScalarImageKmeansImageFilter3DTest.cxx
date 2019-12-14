@@ -208,7 +208,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   {
     kmeansFilter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Problem encountered while running K-means segmentation ";
     std::cerr << excp << std::endl;
@@ -250,7 +250,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   {
     kmeansNonBrainFilter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Problem encountered while Background K-Means segmentation ";
     std::cerr << excp << std::endl;

@@ -888,7 +888,7 @@ itkCompositeTransformTest(int, char *[])
   {
     compositeTransform->SetParameters(parametersTruth);
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     caught = true;
     std::cout << "\nCaught expected exception:" << std::endl;

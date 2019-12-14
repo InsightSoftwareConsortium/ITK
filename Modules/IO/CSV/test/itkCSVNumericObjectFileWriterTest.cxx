@@ -66,7 +66,7 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
   {
     array_writer->Update();
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     caught = true;
     std::cerr << "Exception caught!" << std::endl;
@@ -90,7 +90,7 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
   {
     array_writer->Update();
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     caught = true;
     std::cerr << "Exception caught!" << std::endl;
@@ -112,7 +112,7 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
   {
     array_writer->Update();
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     std::cerr << "Exception caught!" << std::endl;
     std::cerr << exp << std::endl;
@@ -155,7 +155,7 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
   {
     vnl_matrix_writer->Update();
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     std::cerr << "Exception caught!" << std::endl;
     std::cerr << exp << std::endl;
@@ -200,7 +200,7 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
   {
     fixed_matrix_writer->Update();
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     std::cerr << "Exception caught!" << std::endl;
     std::cerr << exp << std::endl;

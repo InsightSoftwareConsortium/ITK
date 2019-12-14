@@ -68,7 +68,7 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
   {
     mesh2dWriter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Failed the VTKPolyDataMeshIO 2d test" << excp;
     return EXIT_FAILURE;
@@ -100,7 +100,7 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
   {
     mesh3dWriter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Failed the VTKPolyDataMeshIO 3D test" << excp;
     return EXIT_FAILURE;

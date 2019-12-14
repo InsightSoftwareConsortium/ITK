@@ -183,7 +183,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
     writer->Update();
     filter->SetFunctor(filter->GetFunctor());
   }
-  catch (itk::ExceptionObject & excep)
+  catch (const itk::ExceptionObject & excep)
   {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;

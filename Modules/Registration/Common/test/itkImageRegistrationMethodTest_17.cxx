@@ -281,7 +281,7 @@ itkImageRegistrationMethodTest_17(int, char *[])
 
       initialParameters = registration->GetLastTransformParameters();
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cout << "Registration failed" << std::endl;
       std::cout << "Reason " << e.GetDescription() << std::endl;

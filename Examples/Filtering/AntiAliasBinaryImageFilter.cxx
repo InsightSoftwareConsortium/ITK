@@ -153,7 +153,7 @@ main(int argc, char * argv[])
   {
     realWriter->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "ExceptionObject caught !" << std::endl;
     std::cout << err << std::endl;
@@ -169,7 +169,7 @@ main(int argc, char * argv[])
   {
     rescaledWriter->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "ExceptionObject caught !" << std::endl;
     std::cout << err << std::endl;

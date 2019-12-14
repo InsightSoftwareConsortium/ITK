@@ -161,7 +161,7 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
   {
     costFunction->Initialize();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     return EXIT_FAILURE;
@@ -203,7 +203,7 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
   {
     optimizer->StartOptimization();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     return EXIT_FAILURE;
@@ -232,7 +232,7 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
     pass = false;                                                                                                      \
     costFunction->Initialize();                                                                                        \
   }                                                                                                                    \
-  catch (itk::ExceptionObject & err)                                                                                   \
+  catch (const itk::ExceptionObject & err)                                                                             \
   {                                                                                                                    \
     std::cout << "Caught expected ExceptionObject" << std::endl;                                                       \
     std::cout << err << std::endl;                                                                                     \

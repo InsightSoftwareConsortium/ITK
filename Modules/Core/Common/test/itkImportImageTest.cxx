@@ -90,7 +90,7 @@ itkImportImageTest(int, char *[])
   {
     shrink->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception detected: " << e.GetDescription();
     return EXIT_FAILURE;

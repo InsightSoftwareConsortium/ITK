@@ -70,7 +70,7 @@ itkImageFileReaderDimensionsTest(int argc, char * argv[])
     writer->SetFileName(tempFile1);
     writer->Update();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << ex;
     return EXIT_FAILURE;
@@ -90,7 +90,7 @@ itkImageFileReaderDimensionsTest(int argc, char * argv[])
     writer->SetFileName(tempFile2);
     writer->Update();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << ex;
     return EXIT_FAILURE;
@@ -110,7 +110,7 @@ itkImageFileReaderDimensionsTest(int argc, char * argv[])
     writer->SetNumberOfStreamDivisions(4);
     writer->Update();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << ex;
     return EXIT_FAILURE;
@@ -131,7 +131,7 @@ itkImageFileReaderDimensionsTest(int argc, char * argv[])
     writer->SetNumberOfStreamDivisions(4);
     writer->Update();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << ex;
     return EXIT_FAILURE;
@@ -147,7 +147,7 @@ itkImageFileReaderDimensionsTest(int argc, char * argv[])
     reader->SetFileName(tempFile1);
     reader->UpdateLargestPossibleRegion();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << ex;
     return EXIT_FAILURE;
@@ -181,7 +181,7 @@ itkImageFileReaderDimensionsTest(int argc, char * argv[])
     writer->SetIORegion(ioregion);
     writer->Update();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     // this exception is expected since the ioregion should be invalid
     std::cout << "------------------ Caught expected exception!" << std::endl;
@@ -204,7 +204,7 @@ itkImageFileReaderDimensionsTest(int argc, char * argv[])
     reader->SetFileName(argv[1]);
     reader->Update();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << ex;
     return EXIT_FAILURE;

@@ -98,7 +98,7 @@ itkDistanceMetricTest2(int, char *[])
     MeasurementVectorSizeType sameSize = 3;
     distance->SetMeasurementVectorSize(sameSize);
   }
-  catch (itk::ExceptionObject & excpt)
+  catch (const itk::ExceptionObject & excpt)
   {
     std::cerr << "Exception thrown: " << excpt << std::endl;
     return EXIT_FAILURE;
@@ -117,7 +117,7 @@ itkDistanceMetricTest2(int, char *[])
               << "should result in an exception" << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excpt)
+  catch (const itk::ExceptionObject & excpt)
   {
     std::cerr << "Exception thrown: " << excpt << std::endl;
   }

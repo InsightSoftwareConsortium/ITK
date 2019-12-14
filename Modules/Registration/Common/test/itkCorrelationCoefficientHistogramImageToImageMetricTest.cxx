@@ -137,7 +137,7 @@ itkCorrelationCoefficientHistogramImageToImageMetricTest(int, char *[])
 
     std::cout << "Test passed." << std::endl;
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cerr << "Exception caught!" << std::endl;
     std::cerr << ex << std::endl;

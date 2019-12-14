@@ -226,7 +226,7 @@ itkBSplineSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(ar
     std::cout << "B-spline SyN point set registration" << std::endl;
     displacementFieldRegistration->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught: " << e << std::endl;
     return EXIT_FAILURE;

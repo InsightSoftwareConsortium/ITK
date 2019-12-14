@@ -63,7 +63,7 @@ itkHistogramTest(int, char *[])
     pass = false;
     whereFail = "Initialize(size) before SetMeasurementVectorSize() didn't throw expected exception";
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cout << "Expected exception ";
     std::cout << excp << std::endl;
@@ -374,7 +374,7 @@ itkHistogramTest(int, char *[])
     pass = false;
     whereFail = "SetMeasurementVectorSize() didn't throw expected exception";
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cout << "Expected exception ";
     std::cout << excp << std::endl;

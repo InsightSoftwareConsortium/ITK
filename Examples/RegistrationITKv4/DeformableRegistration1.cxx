@@ -157,7 +157,7 @@ main(int argc, char * argv[])
   {
     movingfilter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught during reference file reading " << std::endl;
     std::cerr << e << std::endl;
@@ -167,7 +167,7 @@ main(int argc, char * argv[])
   {
     fixedfilter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught during target file reading " << std::endl;
     std::cerr << e << std::endl;
@@ -220,7 +220,7 @@ main(int argc, char * argv[])
   {
     writer->Write();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
@@ -236,7 +236,7 @@ main(int argc, char * argv[])
   {
     writer2->Write();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
@@ -304,7 +304,7 @@ main(int argc, char * argv[])
   {
     warpedImageWriter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
@@ -328,7 +328,7 @@ main(int argc, char * argv[])
   {
     dispWriter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;

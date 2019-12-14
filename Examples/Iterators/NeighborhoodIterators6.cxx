@@ -111,7 +111,7 @@ main(int argc, char ** argv)
 
     adder->Update();
   }
-  catch (itk::ExceptionObject & excep)
+  catch (const itk::ExceptionObject & excep)
   {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
@@ -224,7 +224,7 @@ main(int argc, char ** argv)
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;

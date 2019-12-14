@@ -178,7 +178,7 @@ itkMaskImageFilterTest(int, char *[])
   {
     vectorFilter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Caught unexpected exception when default outside value "
               << "is used." << e;
@@ -207,7 +207,7 @@ itkMaskImageFilterTest(int, char *[])
   {
     vectorFilter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Caught unexpected exception:" << e;
     return EXIT_FAILURE;
@@ -229,7 +229,7 @@ itkMaskImageFilterTest(int, char *[])
               << "image and non-default value is used." << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Caught expected exception: " << e;
   }
@@ -243,7 +243,7 @@ itkMaskImageFilterTest(int, char *[])
   {
     vectorFilter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Caught unexpected exception when resetting outside value "
               << "to  vector of length 0." << e;

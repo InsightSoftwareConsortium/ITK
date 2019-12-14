@@ -477,7 +477,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
     m_ExceptionMessage = "";
     this->TestFileExistanceAndReadability();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     m_ExceptionMessage = err.GetDescription();
   }
@@ -534,7 +534,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
     m_ExceptionMessage = "";
     this->TestFileExistanceAndReadability();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     m_ExceptionMessage = err.GetDescription();
   }

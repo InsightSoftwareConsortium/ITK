@@ -64,7 +64,7 @@ itkPointSetToSpatialObjectDemonsRegistrationTest(int, char *[])
   {
     demonsRegistration->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown during the registration process" << std::endl;
     std::cerr << excp << std::endl;

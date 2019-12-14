@@ -71,7 +71,7 @@ itkThresholdMaximumConnectedComponentsImageFilterTest(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "Exception Caught!" << std::endl;
     std::cerr << err << std::endl;
@@ -106,7 +106,7 @@ itkThresholdMaximumConnectedComponentsImageFilterTest(int argc, char * argv[])
   {
     automaticThreshold->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "Exception Caught!" << std::endl;
     std::cerr << err << std::endl;
@@ -132,7 +132,7 @@ itkThresholdMaximumConnectedComponentsImageFilterTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "Exception Caught!" << std::endl;
     std::cerr << err << std::endl;

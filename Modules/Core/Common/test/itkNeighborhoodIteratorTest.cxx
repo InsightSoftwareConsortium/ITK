@@ -197,7 +197,7 @@ itkNeighborhoodIteratorTest(int, char *[])
     it3.SetPixel(it.Size() / 2, z); // in bounds
     it3.SetPixel(0, z);             // out of bounds, should throw an exception
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << e << std::endl;
     raised = true;

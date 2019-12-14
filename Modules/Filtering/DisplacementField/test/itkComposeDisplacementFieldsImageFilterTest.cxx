@@ -62,7 +62,7 @@ itkComposeDisplacementFieldsImageFilterTest(int, char *[])
   {
     composer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;

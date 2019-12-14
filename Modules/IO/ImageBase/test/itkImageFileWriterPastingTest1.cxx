@@ -97,7 +97,7 @@ itkImageFileWriterPastingTest1(int argc, char * argv[])
     {
       writer->Update();
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cerr << "ExceptionObject caught !" << std::endl;
       std::cerr << err << std::endl;

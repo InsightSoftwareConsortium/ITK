@@ -403,7 +403,7 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
     itk::IOTestHelper::WriteImage<ImageType, itk::MINCImageIO>(im, std::string(fileName));
     im2 = itk::IOTestHelper::ReadImage<ImageType>(std::string(fileName));
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "itkMINCImageIOTest" << std::endl
               << "Exception Object caught: " << std::endl
@@ -652,7 +652,7 @@ MINCReadWriteTestVector(const char * fileName,
     itk::IOTestHelper::WriteImage<ImageType, itk::MINCImageIO>(im, std::string(fileName));
     im2 = itk::IOTestHelper::ReadImage<ImageType>(std::string(fileName));
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "itkMINCImageIOTest" << std::endl
               << "Exception Object caught: " << std::endl

@@ -49,7 +49,7 @@ itkManhattanDistanceMetricTest(int, char *[])
                  "size, Exception should have been thrown"
               << std::endl;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception: " << excp << std::endl;
   }

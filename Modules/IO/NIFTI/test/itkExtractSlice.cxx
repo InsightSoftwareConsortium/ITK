@@ -64,7 +64,7 @@ itkExtractSlice(int argc, char * argv[])
     writer->SetFileName(argv[2]);
     writer->Update();
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cerr << exc;
     return EXIT_FAILURE;

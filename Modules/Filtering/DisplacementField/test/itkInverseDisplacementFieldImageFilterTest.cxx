@@ -111,7 +111,7 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
   {
     filter->UpdateLargestPossibleRegion();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
@@ -129,7 +129,7 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown by writer" << std::endl;
     std::cerr << excp << std::endl;

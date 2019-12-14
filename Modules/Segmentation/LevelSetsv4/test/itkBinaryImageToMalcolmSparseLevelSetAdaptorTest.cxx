@@ -47,7 +47,7 @@ itkBinaryImageToMalcolmSparseLevelSetAdaptorTest(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     return EXIT_FAILURE;
@@ -98,7 +98,7 @@ itkBinaryImageToMalcolmSparseLevelSetAdaptorTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     return EXIT_FAILURE;

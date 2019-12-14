@@ -68,7 +68,7 @@ itkMeanSampleFilterTest(int, char *[])
                     Update() is invoked without setting an input ";
     pass = false;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught: " << excp << std::endl;
   }
@@ -87,7 +87,7 @@ itkMeanSampleFilterTest(int, char *[])
   {
     filter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught: " << excp << std::endl;
   }

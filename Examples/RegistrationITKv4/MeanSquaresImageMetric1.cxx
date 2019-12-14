@@ -88,7 +88,7 @@ main(int argc, char * argv[])
     fixedReader->Update();
     movingReader->Update();
   }
-  catch (itk::ExceptionObject & excep)
+  catch (const itk::ExceptionObject & excep)
   {
     std::cerr << "Exception catched !" << std::endl;
     std::cerr << excep << std::endl;
@@ -168,7 +168,7 @@ main(int argc, char * argv[])
   {
     metric->Initialize();
   }
-  catch (itk::ExceptionObject & excep)
+  catch (const itk::ExceptionObject & excep)
   {
     std::cerr << "Exception catched !" << std::endl;
     std::cerr << excep << std::endl;

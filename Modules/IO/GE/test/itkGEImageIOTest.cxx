@@ -62,7 +62,7 @@ itkGEImageIOFactoryTest(int ac, char * av[])
     imageReader->Update();
     input = imageReader->GetOutput();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Caught unexpected exception. Test Failed!" << std::endl;
     std::cout << e << std::endl;
@@ -123,7 +123,7 @@ itkGEImageIOTest(int ac, char * av[])
     imageReader->Update();
     input = imageReader->GetOutput();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     if (Failmode)
     {

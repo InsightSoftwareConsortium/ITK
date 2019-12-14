@@ -86,7 +86,7 @@ public:
     {
       fixedReader->Update();
     }
-    catch (itk::ExceptionObject & excp)
+    catch (const itk::ExceptionObject & excp)
     {
       std::cerr << "Exception thrown " << std::endl;
       std::cerr << excp << std::endl;
@@ -223,7 +223,7 @@ public:
     {
       movingWriter->Update();
     }
-    catch (itk::ExceptionObject & excp)
+    catch (const itk::ExceptionObject & excp)
     {
       std::cerr << "Exception thrown " << std::endl;
       std::cerr << excp << std::endl;
@@ -275,7 +275,7 @@ public:
       {
         fieldWriter->Update();
       }
-      catch (itk::ExceptionObject & excp)
+      catch (const itk::ExceptionObject & excp)
       {
         std::cerr << "Exception thrown " << std::endl;
         std::cerr << excp << std::endl;

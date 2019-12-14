@@ -102,7 +102,7 @@ itkVoronoiDiagram2DTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cout << excp << std::endl;
     return EXIT_FAILURE;

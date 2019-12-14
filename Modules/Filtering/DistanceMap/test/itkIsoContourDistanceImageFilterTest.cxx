@@ -128,7 +128,7 @@ itkIsoContourDistanceImageFilterTest(int, char *[])
   {
     caster->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     (&err)->Print(std::cerr);
     return EXIT_FAILURE;
@@ -162,7 +162,7 @@ itkIsoContourDistanceImageFilterTest(int, char *[])
   {
     isocontour->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     (&err)->Print(std::cerr);
     return EXIT_FAILURE;

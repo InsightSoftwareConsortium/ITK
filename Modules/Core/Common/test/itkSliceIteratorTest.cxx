@@ -191,7 +191,7 @@ itkSliceIteratorTest(int, char *[])
       PrintSlice(vnsi2);
     }
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     (&err)->Print(std::cerr);
     return 2;

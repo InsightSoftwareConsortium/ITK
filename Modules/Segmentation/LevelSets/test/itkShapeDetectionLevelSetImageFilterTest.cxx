@@ -235,7 +235,7 @@ itkShapeDetectionLevelSetImageFilterTest(int, char *[])
     std::cout << "Test Passed. " << std::endl;
     return EXIT_SUCCESS;
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     return EXIT_FAILURE;

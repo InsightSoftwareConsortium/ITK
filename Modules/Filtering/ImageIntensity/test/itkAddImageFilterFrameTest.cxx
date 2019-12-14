@@ -135,7 +135,7 @@ itkAddImageFilterFrameTest(int, char *[])
     std::cout << "No exception thrown for a difference in origins!" << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cout << "Known exception caught (origin)! " << exc << std::endl;
   }
@@ -155,7 +155,7 @@ itkAddImageFilterFrameTest(int, char *[])
     std::cout << "No exception thrown for a difference in spacings!" << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cout << "Known exception caught (spacing)! " << exc << std::endl;
   }
@@ -176,7 +176,7 @@ itkAddImageFilterFrameTest(int, char *[])
     std::cout << "No exception thrown for a difference in directions!" << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cout << "Known exception caught (directions)! " << exc << std::endl;
   }

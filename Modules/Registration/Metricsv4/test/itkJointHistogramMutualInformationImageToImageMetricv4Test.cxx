@@ -112,7 +112,7 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
     std::cout << "Calling Initialize..." << std::endl;
     metric->Initialize();
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cout << "Caught unexpected exception during Initialize: " << exc;
     return EXIT_FAILURE;
@@ -128,7 +128,7 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
     std::cout << "Calling GetValueAndDerivative..." << std::endl;
     metric->GetValueAndDerivative(valueReturn2, derivativeReturn);
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cout << "Caught unexpected exception during GetValueAndDerivative: " << exc;
     return EXIT_FAILURE;

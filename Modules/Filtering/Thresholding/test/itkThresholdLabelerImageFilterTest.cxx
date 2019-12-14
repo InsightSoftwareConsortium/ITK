@@ -132,7 +132,7 @@ ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
     labelerFilter->Update();
     labelerFilter->SetFunctor(labelerFilter->GetFunctor());
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
   }

@@ -390,7 +390,7 @@ test_VXLVideoIO(char *        input,
     {
       vxlIO->ReadImageInformation();
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cerr << "Could not read information from the camera" << std::endl;
       ret = EXIT_FAILURE;
@@ -407,7 +407,7 @@ test_VXLVideoIO(char *        input,
     {
       vxlIO->Read(reinterpret_cast<void *>(camBuffer));
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cerr << "Could not read from the camera" << std::endl;
       ret = EXIT_FAILURE;

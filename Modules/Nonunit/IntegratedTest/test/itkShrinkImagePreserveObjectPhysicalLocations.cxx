@@ -248,7 +248,7 @@ itkShrinkImagePreserveObjectPhysicalLocations(int, char *[])
     writer->SetInput(castFilter->GetOutput());
     writer->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Exception Object caught: " << std::endl;
     std::cout << err << std::endl;

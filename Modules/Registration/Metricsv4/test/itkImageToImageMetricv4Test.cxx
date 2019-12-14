@@ -321,7 +321,7 @@ ImageToImageMetricv4TestRunSingleTest(const ImageToImageMetricv4TestMetricPointe
   {
     metric->Initialize();
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cerr << "Caught unexpected exception during Initialize: " << exc;
     return EXIT_FAILURE;
@@ -332,7 +332,7 @@ ImageToImageMetricv4TestRunSingleTest(const ImageToImageMetricv4TestMetricPointe
   {
     valueReturn1 = metric->GetValue();
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cerr << "Caught unexpected exception during GetValue: " << exc;
     return EXIT_FAILURE;
@@ -343,7 +343,7 @@ ImageToImageMetricv4TestRunSingleTest(const ImageToImageMetricv4TestMetricPointe
   {
     metric->Initialize();
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cerr << "Caught unexpected exception during re-initialize: " << exc;
     return EXIT_FAILURE;
@@ -353,7 +353,7 @@ ImageToImageMetricv4TestRunSingleTest(const ImageToImageMetricv4TestMetricPointe
   {
     metric->GetValueAndDerivative(valueReturn2, derivativeReturn);
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cerr << "Caught unexpected exception during GetValueAndDerivative: " << exc;
     return EXIT_FAILURE;

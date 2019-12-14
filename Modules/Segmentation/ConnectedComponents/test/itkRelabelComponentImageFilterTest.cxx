@@ -132,7 +132,7 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
     relabel->Update();
     std::cout << "Modified time of relabel's output = " << relabel->GetOutput()->GetMTime() << std::endl;
   }
-  catch (itk::ExceptionObject & excep)
+  catch (const itk::ExceptionObject & excep)
   {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
@@ -148,7 +148,7 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
     statistics->UseHistogramsOn();
     statistics->Update();
   }
-  catch (itk::ExceptionObject & excep)
+  catch (const itk::ExceptionObject & excep)
   {
     std::cerr << "Exception caught during statistics calculation!" << std::endl;
     std::cerr << excep << std::endl;

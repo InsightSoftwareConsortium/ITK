@@ -73,7 +73,7 @@ main(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cout << "Problem reading the input image " << std::endl;
     std::cout << excp << std::endl;

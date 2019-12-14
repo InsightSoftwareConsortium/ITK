@@ -78,7 +78,7 @@ oneTest(const char * goodname, const char * badname)
     reader->Update();
     std::cout << goodname << "is read from disk successfully." << std::endl;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while saving the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -97,7 +97,7 @@ oneTest(const char * goodname, const char * badname)
       ++lit;
     }
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while saving the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -142,7 +142,7 @@ oneTest(const char * goodname, const char * badname)
   {
     badwriter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while saving the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -158,7 +158,7 @@ oneTest(const char * goodname, const char * badname)
   {
     badreader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     caught = true;
     std::cout << "Caught exception as expected" << std::endl;
@@ -211,7 +211,7 @@ secondTest()
       ++lit;
     }
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "EXPECTED Error while reading the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -241,7 +241,7 @@ thirdTest()
     reader->Update();
     std::cerr << "FAILED to throw expected exception" << std::endl;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "EXPECTED Error while reading the transforms" << std::endl;
     std::cerr << excp << std::endl;

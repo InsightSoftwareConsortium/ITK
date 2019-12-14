@@ -155,7 +155,7 @@ itkImageRegistrationMethodTest_3(int argc, char * argv[])
   {
     registration->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << e << std::endl;
     pass = false;

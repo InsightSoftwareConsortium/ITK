@@ -79,7 +79,7 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
   {
     sampleGeneratingFilter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
@@ -103,7 +103,7 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
               << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught: " << excp << std::endl;
   }
@@ -123,7 +123,7 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
   {
     standardDeviationFilter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
@@ -170,7 +170,7 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
   {
     covarianceFilter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught: " << excp << std::endl;
   }

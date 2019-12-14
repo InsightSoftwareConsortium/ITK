@@ -261,7 +261,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
     std::cout << "Calling Initialize..." << std::endl;
     metric->Initialize();
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cerr << "Caught unexpected exception during Initialize: " << exc;
     std::cerr << "Test FAILED." << std::endl;
@@ -276,7 +276,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
     std::cout << "Calling GetValueAndDerivative..." << std::endl;
     metric->GetValueAndDerivative(valueReturn1, derivativeReturn);
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cerr << "Caught unexpected exception during GetValueAndDerivative: " << exc;
     std::cerr << "Test FAILED." << std::endl;
@@ -289,7 +289,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
     std::cout << "Calling Initialize..." << std::endl;
     metric->Initialize();
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cerr << "Caught unexpected exception during re-initialize: " << exc;
     std::cerr << "Test FAILED." << std::endl;
@@ -303,7 +303,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
     std::cout << "Calling GetValue..." << std::endl;
     valueReturn2 = metric->GetValue();
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cerr << "Caught unexpected exception during GetValue: " << exc;
     std::cerr << "Test FAILED." << std::endl;
@@ -366,7 +366,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   {
     metricSparse->Initialize();
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cerr << "Caught unexpected exception during Initialize() for sparse threader: " << exc;
     std::cerr << "Test FAILED." << std::endl;
@@ -381,7 +381,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
     std::cout << "Calling GetValueAndDerivative..." << std::endl;
     metricSparse->GetValueAndDerivative(valueReturnSparse, derivativeReturnSparse);
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cerr << "Caught unexpected exception during GetValueAndDrivative() for sparse threader: " << exc;
     std::cerr << "Test FAILED." << std::endl;

@@ -297,7 +297,7 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   {
     itkOptimizer->StartOptimization();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception thrown ! " << std::endl;
     std::cerr << "An error occurred during Optimization" << std::endl;
@@ -388,7 +388,7 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   {
     itkOptimizer->StartOptimization();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception thrown ! " << std::endl;
     std::cerr << "An error occurred during Optimization" << std::endl;
@@ -446,7 +446,7 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   {
     itkOptimizer2->StartOptimization();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception thrown ! " << std::endl;
     std::cerr << "An error occurred during Optimization" << std::endl;

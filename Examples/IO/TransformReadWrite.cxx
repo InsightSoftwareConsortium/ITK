@@ -126,7 +126,7 @@ main(int argc, char * argv[])
     writer->Update();
     // Software Guide : EndCodeSnippet
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while saving the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -164,7 +164,7 @@ main(int argc, char * argv[])
     reader->Update();
     // Software Guide : EndCodeSnippet
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while reading the transform file" << std::endl;
     std::cerr << excp << std::endl;

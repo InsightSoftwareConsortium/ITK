@@ -99,7 +99,7 @@ itkMapGrayscaleMorphologicalClosingImageFilterTest(int ac, char * av[])
     writer->SetFileName(av[5]);
     writer->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception detected: " << e.GetDescription();
     return EXIT_FAILURE;

@@ -58,7 +58,7 @@ itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1(int argc, char * argv[])
   {
     mySphereMeshSource->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error during source Update() " << std::endl;
     std::cerr << excp << std::endl;
@@ -111,7 +111,7 @@ itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error during writer Update() " << std::endl;
     std::cerr << excp << std::endl;

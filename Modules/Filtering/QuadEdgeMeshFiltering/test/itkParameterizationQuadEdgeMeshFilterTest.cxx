@@ -65,7 +65,7 @@ ParameterizationQuadEdgeMeshFilterTest(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception thrown while reading the input file " << std::endl;
     std::cerr << excp << std::endl;

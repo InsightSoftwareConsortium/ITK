@@ -69,7 +69,7 @@ itkCompose2DCovariantVectorImageFilterTest(int, char *[])
     filter->Update();
   }
 
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excp << std::endl;

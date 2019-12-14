@@ -74,7 +74,7 @@ itkImageDuplicatorTest2(int argc, char * argv[])
     writer->Update();
     std::cout << "Test SUCCESS" << std::endl;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << e << std::endl;
     return EXIT_FAILURE;

@@ -179,7 +179,7 @@ itkErodeObjectMorphologyImageFilterTest(int, char *[])
     }
   }
 
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception caught during filter Update\n" << e;
     return -1;

@@ -135,7 +135,7 @@ itkSmoothingRecursiveGaussianImageFilterOnImageAdaptorTest(int, char *[])
   {
     filter->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     (&err)->Print(std::cerr);
     return EXIT_FAILURE;

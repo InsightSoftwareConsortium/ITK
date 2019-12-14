@@ -100,7 +100,7 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest(int argc, char 
   {
     filter->Update();
   }
-  catch (itk::ExceptionObject & except)
+  catch (const itk::ExceptionObject & except)
   {
     std::cerr << "Failure: " << except.what();
     return EXIT_FAILURE;

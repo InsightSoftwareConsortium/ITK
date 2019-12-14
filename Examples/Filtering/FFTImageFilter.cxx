@@ -132,7 +132,7 @@ main(int argc, char * argv[])
   {
     fftFilter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error: " << std::endl;
     std::cerr << excp << std::endl;
@@ -173,7 +173,7 @@ main(int argc, char * argv[])
   {
     complexWriter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error: " << std::endl;
     std::cerr << excp << std::endl;
@@ -247,7 +247,7 @@ main(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error writing the real image: " << std::endl;
     std::cerr << excp << std::endl;
@@ -291,7 +291,7 @@ main(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error writing the imaginary image: " << std::endl;
     std::cerr << excp << std::endl;

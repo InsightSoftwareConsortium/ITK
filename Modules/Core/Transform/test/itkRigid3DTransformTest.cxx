@@ -512,7 +512,7 @@ itkRigid3DTransformTest(int, char *[])
       {
         t->SetParameters(p);
       }
-      catch (itk::ExceptionObject & itkNotUsed(err))
+      catch (const itk::ExceptionObject & itkNotUsed(err))
       {
         Ok = true;
       }
@@ -555,7 +555,7 @@ itkRigid3DTransformTest(int, char *[])
       {
         t->SetParameters(p);
       }
-      catch (itk::ExceptionObject & err)
+      catch (const itk::ExceptionObject & err)
       {
         std::cout << err << std::endl;
         Ok = false;
@@ -639,7 +639,7 @@ itkRigid3DTransformTest(int, char *[])
       {
         t->SetMatrix(matrix);
       }
-      catch (itk::ExceptionObject & itkNotUsed(err))
+      catch (const itk::ExceptionObject & itkNotUsed(err))
       {
         Ok = true;
       }
@@ -661,7 +661,7 @@ itkRigid3DTransformTest(int, char *[])
       {
         t->SetMatrix(matrix, 1000);
       }
-      catch (itk::ExceptionObject & err)
+      catch (const itk::ExceptionObject & err)
       {
         std::cout << err << std::endl;
         Ok = false;
@@ -692,7 +692,7 @@ itkRigid3DTransformTest(int, char *[])
       {
         t->SetMatrix(matrix);
       }
-      catch (itk::ExceptionObject & err)
+      catch (const itk::ExceptionObject & err)
       {
         std::cout << err << std::endl;
         Ok = false;

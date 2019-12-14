@@ -268,7 +268,7 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
     denoiser->SetDifferenceFunction(wrongFunction);
     denoiser->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     passed = true;
     std::cout << "Caught expected exception." << std::endl;

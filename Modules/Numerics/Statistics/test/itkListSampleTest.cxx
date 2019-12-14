@@ -69,7 +69,7 @@ itkListSampleTest(int argc, char * argv[])
               << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Caught expected exception: " << excp << std::endl;
   }
@@ -421,7 +421,7 @@ itkListSampleTest(int argc, char * argv[])
     std::cerr << "Failed to throw expected exception in SetMeasurementVectorSize() " << std::endl;
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Caught expected exception: " << excp << std::endl;
   }
@@ -452,7 +452,7 @@ itkListSampleTest(int argc, char * argv[])
     MeasurementVectorType measurement = sample->GetMeasurementVector(largestId + 10);
     std::cerr << measurement << std::endl;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Caught expected exception: " << excp << std::endl;
     exceptionWorks = true;

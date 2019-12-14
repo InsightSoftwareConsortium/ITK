@@ -120,7 +120,7 @@ itkConditionVariableTest(int, char *[])
       multithreader->SingleMethodExecute();
     }
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << e << std::endl;
     return 2;

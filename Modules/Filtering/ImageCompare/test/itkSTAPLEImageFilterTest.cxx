@@ -172,7 +172,7 @@ Stapler<VDimension>::Execute()
       reader->Update();
       m_Stapler->SetInput(itk::Math::CastWithRangeCheck<unsigned int>(i), reader->GetOutput());
     }
-    catch (itk::ExceptionObject & e)
+    catch (const itk::ExceptionObject & e)
     {
       std::cerr << e << std::endl;
       return -1;
@@ -185,7 +185,7 @@ Stapler<VDimension>::Execute()
     writer->SetInput(m_Stapler->GetOutput());
     writer->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << e << std::endl;
     return -2;

@@ -63,7 +63,7 @@ itkImageFileWriterUpdateLargestPossibleRegionTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << "------------------ Caught expected exception!" << std::endl;
     std::cout << ex;
@@ -81,7 +81,7 @@ itkImageFileWriterUpdateLargestPossibleRegionTest(int argc, char * argv[])
   {
     writer->UpdateLargestPossibleRegion();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;

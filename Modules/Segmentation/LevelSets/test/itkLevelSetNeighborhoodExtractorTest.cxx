@@ -102,7 +102,7 @@ itkLevelSetNeighborhoodExtractorTest(int, char *[])
     extractor->SetInputLevelSet(nullptr);
     extractor->Locate();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     passed = true;
@@ -122,7 +122,7 @@ itkLevelSetNeighborhoodExtractorTest(int, char *[])
     extractor->SetInputNarrowBand(nullptr);
     extractor->Locate();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     passed = true;

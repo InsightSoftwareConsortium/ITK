@@ -98,7 +98,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
   {
     collidingFronts->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
   }
@@ -177,7 +177,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
   {
     collidingFronts->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
   }

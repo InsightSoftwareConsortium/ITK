@@ -133,7 +133,7 @@ main(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << exp << std::endl;
@@ -156,7 +156,7 @@ main(int argc, char * argv[])
   {
     voronoiWriter->Update();
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << exp << std::endl;
@@ -182,7 +182,7 @@ main(int argc, char * argv[])
   {
     offsetWriter->Update();
   }
-  catch (itk::ExceptionObject & exp)
+  catch (const itk::ExceptionObject & exp)
   {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << exp << std::endl;

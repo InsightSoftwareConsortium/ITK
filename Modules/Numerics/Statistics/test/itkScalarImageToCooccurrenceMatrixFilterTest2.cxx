@@ -334,7 +334,7 @@ itkScalarImageToCooccurrenceMatrixFilterTest2(int, char *[])
       return EXIT_SUCCESS;
     }
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;

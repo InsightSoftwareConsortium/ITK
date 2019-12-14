@@ -80,7 +80,7 @@ itkVectorConfidenceConnectedImageFilterTest(int ac, char * av[])
     input->Update();
     filter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception detected: " << e.GetDescription();
     return -1;

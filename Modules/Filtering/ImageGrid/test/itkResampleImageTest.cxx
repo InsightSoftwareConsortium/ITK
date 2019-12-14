@@ -145,7 +145,7 @@ itkResampleImageTest(int, char *[])
     resample->SetInterpolator(nullptr);
     resample->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     passed = true;

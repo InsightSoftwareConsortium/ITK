@@ -150,7 +150,7 @@ itkPermuteAxesImageFilterTest(int, char *[])
   {
     permuter->SetOrder(order);
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     passed = true;
     std::cout << err << std::endl;
@@ -169,7 +169,7 @@ itkPermuteAxesImageFilterTest(int, char *[])
   {
     permuter->SetOrder(order);
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     passed = true;
     std::cout << err << std::endl;

@@ -281,7 +281,7 @@ MultiGradientOptimizerv4RunTest(itk::MultiGradientOptimizerv4::Pointer & itkOpti
     itkOptimizer->StartOptimization();
     std::cout << "currentPosition after optimization: " << itkOptimizer->GetCurrentPosition() << std::endl;
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error occurred during Optimization" << std::endl;

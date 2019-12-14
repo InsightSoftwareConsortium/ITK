@@ -63,7 +63,7 @@ itkImageToListSampleAdaptorTestTemplate()
                   is not set yet"
               << std::endl;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Caught expected exception: " << excp << std::endl;
   }
@@ -75,7 +75,7 @@ itkImageToListSampleAdaptorTestTemplate()
                   is not set yet"
               << std::endl;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Caught expected exception: " << excp << std::endl;
   }
@@ -87,7 +87,7 @@ itkImageToListSampleAdaptorTestTemplate()
                   is not set yet "
               << m << std::endl;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Caught expected exception: " << excp << std::endl;
   }
@@ -99,7 +99,7 @@ itkImageToListSampleAdaptorTestTemplate()
                   is not set yet"
               << std::endl;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Caught expected exception: " << excp << std::endl;
   }
@@ -112,7 +112,7 @@ itkImageToListSampleAdaptorTestTemplate()
                   is not set yet"
               << std::endl;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Caught expected exception: " << excp << std::endl;
   }

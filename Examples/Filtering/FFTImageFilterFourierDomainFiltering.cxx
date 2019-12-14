@@ -210,7 +210,7 @@ main(int argc, char * argv[])
   {
     fftInverseFilter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error: " << std::endl;
     std::cerr << excp << std::endl;
@@ -239,7 +239,7 @@ main(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error writing the real image: " << std::endl;
     std::cerr << excp << std::endl;

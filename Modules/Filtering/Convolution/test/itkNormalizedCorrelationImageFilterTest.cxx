@@ -102,7 +102,7 @@ itkNormalizedCorrelationImageFilterTest(int ac, char * av[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception detected: " << e.GetDescription();
     return -1;

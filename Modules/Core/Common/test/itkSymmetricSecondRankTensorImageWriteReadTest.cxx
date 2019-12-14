@@ -78,7 +78,7 @@ itkSymmetricSecondRankTensorImageWriteReadTest(int ac, char * av[])
   {
     tensorWriter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
@@ -94,7 +94,7 @@ itkSymmetricSecondRankTensorImageWriteReadTest(int ac, char * av[])
   {
     tensorReader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;

@@ -76,7 +76,7 @@ itkShapeKeepNObjectsLabelMapFilterTest1(int argc, char * argv[])
   {
     ITK_TEST_SET_GET_VALUE(attribute, opening->GetAttribute());
   }
-  catch (itk::ExceptionObject & exc)
+  catch (const itk::ExceptionObject & exc)
   {
     std::cerr << "Unexpected exception detected: " << exc;
     return EXIT_FAILURE;

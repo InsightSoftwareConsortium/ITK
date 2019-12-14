@@ -43,7 +43,7 @@ itkTransformFileReaderTest(int argc, char * argv[])
     // trigger empty read exception
     transformReader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Expected exception (no filename)" << std::endl << excp << std::endl;
   }
@@ -53,7 +53,7 @@ itkTransformFileReaderTest(int argc, char * argv[])
     // trigger exception for transformio not found
     transformReader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Expected exception (no transformio that can read garbage and no transformio should be registered)"
               << excp << std::endl;

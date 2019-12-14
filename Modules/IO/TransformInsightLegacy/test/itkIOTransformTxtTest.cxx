@@ -75,7 +75,7 @@ oneTest(const std::string & outputDirectory, const char * goodname, const char *
     std::cout << "Testing read : " << std::endl;
     reader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while saving the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -106,7 +106,7 @@ oneTest(const std::string & outputDirectory, const char * goodname, const char *
       return EXIT_FAILURE;
     }
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while saving the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -151,7 +151,7 @@ oneTest(const std::string & outputDirectory, const char * goodname, const char *
   {
     badwriter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error while saving the transforms" << std::endl;
     std::cerr << excp << std::endl;
@@ -167,7 +167,7 @@ oneTest(const std::string & outputDirectory, const char * goodname, const char *
   {
     badreader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     caught = true;
     std::cout << "Caught exception as expected" << std::endl;
@@ -219,7 +219,7 @@ secondTest(const std::string & outputDirectory)
       ++lit;
     }
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "EXPECTED Error while reading the transforms" << std::endl;
     std::cerr << excp << std::endl;

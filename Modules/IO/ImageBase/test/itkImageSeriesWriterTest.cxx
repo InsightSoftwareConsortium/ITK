@@ -58,7 +58,7 @@ itkImageSeriesWriterTest(int ac, char * av[])
     reader->Update();
     reader->GetOutput()->Print(std::cout);
   }
-  catch (itk::ExceptionObject & ex)
+  catch (const itk::ExceptionObject & ex)
   {
     std::cout << ex;
     return EXIT_FAILURE;
@@ -93,7 +93,7 @@ itkImageSeriesWriterTest(int ac, char * av[])
     {
       writer->Update();
     }
-    catch (itk::ExceptionObject & excp)
+    catch (const itk::ExceptionObject & excp)
     {
       std::cerr << "Error while writing the series with old API" << std::endl;
       std::cerr << excp << std::endl;
@@ -155,7 +155,7 @@ itkImageSeriesWriterTest(int ac, char * av[])
     {
       writer->Update();
     }
-    catch (itk::ExceptionObject & excp)
+    catch (const itk::ExceptionObject & excp)
     {
       std::cerr << "Error while writing the series with SeriesFileNames generator" << std::endl;
       std::cerr << excp << std::endl;

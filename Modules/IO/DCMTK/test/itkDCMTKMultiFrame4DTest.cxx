@@ -47,7 +47,7 @@ itkDCMTKMultiFrame4DTest(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "exception in file reader" << std::endl;
     std::cerr << e << std::endl;
@@ -62,7 +62,7 @@ itkDCMTKMultiFrame4DTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "exception in file writer" << std::endl;
     std::cerr << e << std::endl;
@@ -91,7 +91,7 @@ itkDCMTKMultiFrame4DTest(int argc, char * argv[])
   {
     statisticsFilter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "exception checking files " << std::endl;
     std::cerr << e << std::endl;

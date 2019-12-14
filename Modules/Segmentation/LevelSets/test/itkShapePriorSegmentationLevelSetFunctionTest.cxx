@@ -172,7 +172,7 @@ itkShapePriorSegmentationLevelSetFunctionTest(int, char *[])
 
     filter->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     return EXIT_FAILURE;

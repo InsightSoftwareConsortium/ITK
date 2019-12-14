@@ -115,7 +115,7 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
       std::cerr << "Failed to throw expected exception due to nullptr input: " << std::endl;
       return EXIT_FAILURE;
     }
-    catch (itk::ExceptionObject & excp)
+    catch (const itk::ExceptionObject & excp)
     {
       std::cout << "Expected exception caught: " << excp << std::endl;
     }
@@ -146,7 +146,7 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
       std::cerr << "Failed to throw expected exception due to nullptr input: " << std::endl;
       return EXIT_FAILURE;
     }
-    catch (itk::ExceptionObject & excp)
+    catch (const itk::ExceptionObject & excp)
     {
       std::cout << "Expected exception caught: " << excp << std::endl;
     }
@@ -358,7 +358,7 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
       return EXIT_SUCCESS;
     }
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;

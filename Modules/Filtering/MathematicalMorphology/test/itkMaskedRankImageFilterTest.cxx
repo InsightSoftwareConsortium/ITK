@@ -139,7 +139,7 @@ itkMaskedRankImageFilterTest(int ac, char * av[])
     filter->SetBackgroundMaskValue(0);
     filter->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception detected: " << e.GetDescription();
     return EXIT_FAILURE;

@@ -249,7 +249,7 @@ itkVersorTest(int, char *[])
       qa.Set(xa, angle);
       return EXIT_FAILURE;
     } // setting the axis to (0,0,0) should throw an exception
-    catch (itk::ExceptionObject & excp)
+    catch (const itk::ExceptionObject & excp)
     {
       std::cout << "Caught expected exception: " << excp;
       std::cout << " PASSED !" << std::endl;
@@ -693,7 +693,7 @@ itkVersorTest(int, char *[])
       vv.Set(mm);
       return EXIT_FAILURE;
     } // should always get here, mm isn't a rotation
-    catch (itk::ExceptionObject & excp)
+    catch (const itk::ExceptionObject & excp)
     {
       std::cout << "Caught expected exception: " << excp;
     }

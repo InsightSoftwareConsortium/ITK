@@ -52,7 +52,7 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
               << std::endl;
     exceptionsProperlyCaught = false;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Caught expected exception: " << excp << std::endl;
   }
@@ -65,7 +65,7 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
               << std::endl;
     exceptionsProperlyCaught = false;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Caught expected exception: " << excp << std::endl;
   }
@@ -79,7 +79,7 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
     std::cerr << "The invalid listSample->GetMeasurementVector is: " << m << std::endl;
     exceptionsProperlyCaught = false;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Caught expected exception: " << excp << std::endl;
   }
@@ -93,7 +93,7 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
               << std::endl;
     exceptionsProperlyCaught = false;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Caught expected exception: " << excp << std::endl;
   }
@@ -107,7 +107,7 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
               << std::endl;
     exceptionsProperlyCaught = false;
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Caught expected exception: " << excp << std::endl;
   }

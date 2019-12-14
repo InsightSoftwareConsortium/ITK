@@ -587,7 +587,7 @@ main(int argc, char * argv[])
     caster1->SetOutputMaximum(255);
     writer1->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
@@ -605,7 +605,7 @@ main(int argc, char * argv[])
     caster2->SetOutputMaximum(255);
     writer2->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
@@ -623,7 +623,7 @@ main(int argc, char * argv[])
     caster3->SetOutputMaximum(255);
     writer3->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
@@ -680,7 +680,7 @@ main(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excep)
+  catch (const itk::ExceptionObject & excep)
   {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
@@ -699,7 +699,7 @@ main(int argc, char * argv[])
     caster4->SetOutputMaximum(255);
     writer4->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;

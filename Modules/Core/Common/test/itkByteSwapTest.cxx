@@ -114,7 +114,7 @@ itkByteSwapTest(int, char *[])
     }
     std::cout << "Passed unsigned long: " << ul << std::endl;
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught unsigned long exception size is: " << sizeof(unsigned long) << std::endl;
     (&err)->Print(std::cerr);
@@ -139,7 +139,7 @@ itkByteSwapTest(int, char *[])
     }
     std::cout << "Passed unsigned long long: " << ull << std::endl;
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught unsigned long long exception size is: " << sizeof(unsigned long long) << std::endl;
     (&err)->Print(std::cerr);
@@ -163,7 +163,7 @@ itkByteSwapTest(int, char *[])
     }
     std::cout << "Passed float: " << f << std::endl;
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught float exception size is: " << sizeof(float) << std::endl;
     (&err)->Print(std::cerr);
@@ -188,7 +188,7 @@ itkByteSwapTest(int, char *[])
     }
     std::cout << "Passed unsigned d: " << d << std::endl;
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "Good catch! Caught double exception size is: " << sizeof(double) << std::endl;
     (&err)->Print(std::cerr);

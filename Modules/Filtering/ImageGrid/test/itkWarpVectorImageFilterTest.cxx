@@ -349,7 +349,7 @@ itkWarpVectorImageFilterTest(int, char *[])
     warper->SetInterpolator(nullptr);
     warper->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     testPassed = true;

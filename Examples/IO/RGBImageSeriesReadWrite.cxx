@@ -164,7 +164,7 @@ main(int argc, char ** argv)
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error reading the series " << std::endl;
     std::cerr << excp << std::endl;
@@ -219,7 +219,7 @@ main(int argc, char ** argv)
   {
     seriesWriter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error reading the series " << std::endl;
     std::cerr << excp << std::endl;

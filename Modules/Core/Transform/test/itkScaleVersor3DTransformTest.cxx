@@ -113,7 +113,7 @@ itkScaleVersor3DTransformTest(int, char *[])
       std::cerr << "ERROR: Missed expected exception when calling SetMatrix() " << std::endl;
       return EXIT_FAILURE;
     }
-    catch (itk::ExceptionObject & itkNotUsed(excp))
+    catch (const itk::ExceptionObject & itkNotUsed(excp))
     {
       std::cerr << "Got Normal expected exception when calling SetMatrix() " << std::endl;
     }
@@ -552,7 +552,7 @@ itkScaleVersor3DTransformTest(int, char *[])
       std::cerr << "ERROR: Missed an expected exceptions from ComputeMatrixParameters() " << std::endl;
       return EXIT_FAILURE;
     }
-    catch (itk::ExceptionObject & itkNotUsed(excp))
+    catch (const itk::ExceptionObject & itkNotUsed(excp))
     {
       std::cout << "Got Correct expected exception from ComputeMatrixParameters() " << std::endl;
     }

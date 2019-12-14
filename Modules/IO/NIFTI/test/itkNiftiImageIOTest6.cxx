@@ -69,7 +69,7 @@ itkNiftiImageIOTest6(int ac, char * av[])
     itk::IOTestHelper::WriteImage<VectorImageType, itk::NiftiImageIO>(vecImage, testfname);
     readback = itk::IOTestHelper::ReadImage<VectorImageType>(testfname);
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << "itkNiftiImageIOTest6" << std::endl << "Exception Object caught: " << std::endl << err << std::endl;
     throw;

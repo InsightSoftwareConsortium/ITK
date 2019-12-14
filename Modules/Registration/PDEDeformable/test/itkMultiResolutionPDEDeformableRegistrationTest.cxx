@@ -365,7 +365,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
     registrator->SetRegistrationFilter(nullptr);
     registrator->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     passed = true;
@@ -388,7 +388,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
     registrator->SetFixedImagePyramid(nullptr);
     registrator->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     passed = true;
@@ -412,7 +412,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
     registrator->SetMovingImagePyramid(nullptr);
     registrator->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     passed = true;
@@ -434,7 +434,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
     registrator->SetFixedImage(nullptr);
     registrator->Update();
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
     passed = true;

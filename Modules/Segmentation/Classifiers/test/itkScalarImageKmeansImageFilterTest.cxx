@@ -48,7 +48,7 @@ itkScalarImageKmeansImageFilterTest(int argc, char * argv[])
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Problem encoutered while reading image file : " << argv[1] << std::endl;
     std::cerr << excp << std::endl;
@@ -90,7 +90,7 @@ itkScalarImageKmeansImageFilterTest(int argc, char * argv[])
   {
     kmeansFilter->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Problem encoutered while classifying the image " << std::endl;
     std::cerr << excp << std::endl;
@@ -125,7 +125,7 @@ itkScalarImageKmeansImageFilterTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Problem encoutered while writing image file : " << argv[2] << std::endl;
     std::cerr << excp << std::endl;

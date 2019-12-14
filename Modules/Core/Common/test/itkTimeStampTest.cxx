@@ -169,7 +169,7 @@ itkTimeStampTest(int, char *[])
       prev_mtime = max_mtime;
     }
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "[TEST FAILED]" << std::endl;
     std::cerr << "Exception caught: " << e << std::endl;

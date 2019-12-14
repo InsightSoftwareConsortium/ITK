@@ -79,7 +79,7 @@ itkImageReadRealAndImaginaryWriteComplexTest(int argc, char * argv[])
   {
     writer->Update();
   }
-  catch (itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Error writing the magnitude image: " << std::endl;
     std::cerr << excp << std::endl;

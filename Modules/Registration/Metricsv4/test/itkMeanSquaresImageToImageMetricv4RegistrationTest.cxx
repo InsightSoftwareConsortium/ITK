@@ -221,7 +221,7 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest(int argc, char * argv[])
     else
       std::cout << "** SKIPPING DISPLACEMENT FIELD OPT\n";
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error occurred during deformation Optimization:" << std::endl;
