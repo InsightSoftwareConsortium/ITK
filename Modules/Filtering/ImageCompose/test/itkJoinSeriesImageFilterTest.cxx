@@ -150,7 +150,7 @@ itkJoinSeriesImageFilterTest(int, char *[])
   catch (const itk::ExceptionObject & err)
   {
     std::cout << err << std::endl;
-    auto * errp = dynamic_cast<itk::DataObjectError *>(&err);
+    const auto * const errp = dynamic_cast<const itk::DataObjectError * const>(&err);
     if (errp)
     {
       errp->GetDataObject()->Print(std::cout);

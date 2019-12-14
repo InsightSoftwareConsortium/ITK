@@ -81,6 +81,9 @@ public:
   DataObject *
   GetDataObject() noexcept;
 
+  const DataObject *
+  GetDataObject() const noexcept;
+
 protected:
   /** Print exception information.  This method can be overridden by
    * specific exception subtypes.  The default is to print out the
