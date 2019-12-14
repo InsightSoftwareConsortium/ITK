@@ -234,7 +234,7 @@ private:
 
 template <typename T>
 std::ostream &
-operator<<(std::ostream & os, AutoPointer<T> p)
+operator<<(std::ostream & os, const AutoPointer<T> p)
 {
   p.Print(os);
   os << "Owner: " << p.IsOwner() << std::endl;

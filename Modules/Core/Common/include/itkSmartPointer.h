@@ -299,7 +299,7 @@ operator>=(const SmartPointer<T> & l, const SmartPointer<TU> & r) noexcept
 
 template <typename T>
 std::ostream &
-operator<<(std::ostream & os, SmartPointer<T> p)
+operator<<(std::ostream & os, const SmartPointer<T> p)
 {
   p.Print(os);
   return os;

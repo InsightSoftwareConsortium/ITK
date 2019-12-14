@@ -247,7 +247,7 @@ MultivariateLegendrePolynomial ::GetNumberOfCoefficients()
 }
 
 std::ostream &
-operator<<(std::ostream & os, MultivariateLegendrePolynomial & poly)
+operator<<(std::ostream & os, const MultivariateLegendrePolynomial & poly)
 {
   poly.Print(os);
   return os;
