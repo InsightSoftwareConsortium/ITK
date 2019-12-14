@@ -167,7 +167,7 @@ private:
 
 /** Generic inserter operator for ExceptionObject and its subclasses. */
 inline std::ostream &
-operator<<(std::ostream & os, ExceptionObject & e)
+operator<<(std::ostream & os, const ExceptionObject & e)
 {
   (&e)->Print(os);
   return os;

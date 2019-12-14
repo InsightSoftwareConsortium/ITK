@@ -199,7 +199,7 @@ private:
 
 template <typename T>
 std::ostream &
-operator<<(std::ostream & os, TreeIteratorClone<T> p)
+operator<<(std::ostream & os, const TreeIteratorClone<T> p)
 {
   p.Print(os);
   return os;

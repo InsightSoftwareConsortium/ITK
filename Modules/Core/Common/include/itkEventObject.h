@@ -106,7 +106,7 @@ private:
 
 /** Generic inserter operator for EventObject and its subclasses. */
 inline std::ostream &
-operator<<(std::ostream & os, EventObject & e)
+operator<<(std::ostream & os, const EventObject & e)
 {
   (&e)->Print(os);
   return os;
