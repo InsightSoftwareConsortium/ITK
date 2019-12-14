@@ -64,11 +64,13 @@ DataObjectError ::SetDataObject(DataObject * dobj) noexcept
   m_DataObject = dobj;
 }
 
+#if !defined(ITK_LEGACY_REMOVE)
 DataObject *
 DataObjectError ::GetDataObject() noexcept
 {
   return m_DataObject;
 }
+#endif
 
 const DataObject *
 DataObjectError ::GetDataObject() const noexcept
