@@ -4,9 +4,9 @@
 #include <iostream>
 #include <vnl/algo/vnl_svd.h>
 
-template <class D>  // D is often double or float
-vnl_matrix<D> solve_with_warning(vnl_matrix<D>const& M,
-                                 vnl_matrix<D>const& B)
+template <class D> // D is often double or float
+vnl_matrix<D>
+solve_with_warning(vnl_matrix<D> const & M, vnl_matrix<D> const & B)
 {
   // Take svd of vnl_matrix<D> M, setting singular values
   // smaller than 1e-8 to 0, and hold the result.
@@ -17,16 +17,19 @@ vnl_matrix<D> solve_with_warning(vnl_matrix<D>const& M,
   return svd.solve(B);
 }
 
-template vnl_matrix<double> solve_with_warning(vnl_matrix<double>const&,vnl_matrix<double>const&);
+template vnl_matrix<double>
+solve_with_warning(vnl_matrix<double> const &, vnl_matrix<double> const &);
 
-int main()
+int
+main()
 {
-  double data[] = { 1, 1, 1,  1, 2, 3,  1, 3, 6};
-  vnl_matrix<double> M (data, 3, 3);
-  vnl_matrix<double> B (3, 1, 7.0); // column vector [7 7 7]^T
-  vnl_matrix<double> result = solve_with_warning(M,B);
+  double data[] = { 1, 1, 1, 1, 2, 3, 1, 3, 6 };
+  vnl_matrix<double> M(data, 3, 3);
+  vnl_matrix<double> B(3, 1, 7.0); // column vector [7 7 7]^T
+  vnl_matrix<double> result = solve_with_warning(M, B);
   std::cerr << result << std::endl;
-  M(2,2)=5; result = solve_with_warning(M,B);
+  M(2, 2) = 5;
+  result = solve_with_warning(M, B);
   std::cerr << result << std::endl;
   return 0;
 }

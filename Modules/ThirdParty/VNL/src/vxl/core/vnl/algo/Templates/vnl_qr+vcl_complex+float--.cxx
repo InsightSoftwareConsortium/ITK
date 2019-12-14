@@ -18,13 +18,14 @@ VNL_QR_INSTANTIATE(std::complex<float>);
 //
 // hmm... that still doesn't work.
 
-#include <cassert>
-#include "vnl/vnl_vector.h"
-#include "vnl/vnl_matrix.h"
-#include "vnl/vnl_copy.h"
+#  include <cassert>
+#  include "vnl/vnl_vector.h"
+#  include "vnl/vnl_matrix.h"
+#  include "vnl/vnl_copy.h"
 
 template <>
-vnl_vector<std::complex<float>> vnl_qr<std::complex<float>>::solve(const vnl_vector<std::complex<float>>& b) const
+vnl_vector<std::complex<float>>
+vnl_qr<std::complex<float>>::solve(const vnl_vector<std::complex<float>> & b) const
 {
   assert(!"this does not work");
   int n = qrdc_out_.columns();
@@ -48,12 +49,16 @@ vnl_vector<std::complex<float>> vnl_qr<std::complex<float>>::solve(const vnl_vec
 
   int info = 0;
   vnl_linpack_qrsl(DOUBLE_qrdc_out_.data_block(),
-                   n, n, p,
+                   n,
+                   n,
+                   p,
                    DOUBLE_qraux_.data_block(),
-                   DOUBLE_b_data, 0, DOUBLE_QtB.data_block(),
+                   DOUBLE_b_data,
+                   0,
+                   DOUBLE_QtB.data_block(),
                    DOUBLE_x.data_block(),
-                   0/*residual*/,
-                   0/*Ax*/,
+                   0 /*residual*/,
+                   0 /*Ax*/,
                    JOB,
                    &info);
 
@@ -68,7 +73,8 @@ vnl_vector<std::complex<float>> vnl_qr<std::complex<float>>::solve(const vnl_vec
 
 //: Return residual vector d of M x = b -> d = Q'b
 template <>
-vnl_vector<std::complex<float>> vnl_qr<std::complex<float>>::QtB(const vnl_vector<std::complex<float>>& b) const
+vnl_vector<std::complex<float>>
+vnl_qr<std::complex<float>>::QtB(const vnl_vector<std::complex<float>> & b) const
 {
   assert(!"this does not work");
   int n = qrdc_out_.columns();
@@ -91,7 +97,9 @@ vnl_vector<std::complex<float>> vnl_qr<std::complex<float>>::QtB(const vnl_vecto
 
   int info = 0;
   vnl_linpack_qrsl(DOUBLE_qrdc_out_.data_block(),
-                   n, n, p,
+                   n,
+                   n,
+                   p,
                    DOUBLE_qraux_.data_block(),
                    DOUBLE_b_data,
                    0,                       // A: Qb
@@ -102,7 +110,8 @@ vnl_vector<std::complex<float>> vnl_qr<std::complex<float>>::QtB(const vnl_vecto
                    JOB,
                    &info);
 
-  if (info > 0) {
+  if (info > 0)
+  {
     std::cerr << "vnl_qr<T>::QtB() -- A is rank-def by " << info << '\n';
   }
 

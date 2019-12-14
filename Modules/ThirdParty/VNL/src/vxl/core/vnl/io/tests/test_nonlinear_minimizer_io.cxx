@@ -5,24 +5,25 @@
 #include "testlib/testlib_test.h"
 #include "vpl/vpl.h"
 
-void test_nonlinear_minimizer_io()
+void
+test_nonlinear_minimizer_io()
 {
   std::cout << "**********************************\n"
-           << "Testing vnl_nonlinear_minimizer_io\n"
-           << "**********************************\n";
+            << "Testing vnl_nonlinear_minimizer_io\n"
+            << "**********************************\n";
 
   //// test constructors, accessors
   vnl_nonlinear_minimizer minimizer_out, minimizer_in;
 
   // minimizer settings to be saved
-  double xtol_out= 0.001;
-  double ftol_out= xtol_out*0.01;
-  double gtol_out= 0.005;
+  double xtol_out = 0.001;
+  double ftol_out = xtol_out * 0.01;
+  double gtol_out = 0.005;
   int maxfev_out = 3000;
-  double epsfcn_out = xtol_out* 0.001;
+  double epsfcn_out = xtol_out * 0.001;
   bool trace_out = false;
   bool verbose_out = false;
-  int cd_out =1;
+  int cd_out = 1;
 
   minimizer_out.set_f_tolerance(ftol_out);
   minimizer_out.set_x_tolerance(xtol_out);
@@ -47,16 +48,16 @@ void test_nonlinear_minimizer_io()
   TEST("Finished reading file successfully", (!bfs_in), false);
   bfs_in.close();
 
-  vpl_unlink ("vnl_nonlinear_minimizer_io.bvl.tmp");
+  vpl_unlink("vnl_nonlinear_minimizer_io.bvl.tmp");
 
-  double ftol_in=minimizer_in.get_f_tolerance();
-  double xtol_in=minimizer_in.get_x_tolerance();
-  double gtol_in=minimizer_in.get_g_tolerance();
-  int maxfev_in=minimizer_in.get_max_function_evals();
-  double epsfcn_in=minimizer_in.get_epsilon_function();
-  bool trace_in=minimizer_in.get_trace();
-  bool verbose_in=minimizer_in.get_verbose();
-  int cd_in=minimizer_in.get_check_derivatives();
+  double ftol_in = minimizer_in.get_f_tolerance();
+  double xtol_in = minimizer_in.get_x_tolerance();
+  double gtol_in = minimizer_in.get_g_tolerance();
+  int maxfev_in = minimizer_in.get_max_function_evals();
+  double epsfcn_in = minimizer_in.get_epsilon_function();
+  bool trace_in = minimizer_in.get_trace();
+  bool verbose_in = minimizer_in.get_verbose();
+  int cd_in = minimizer_in.get_check_derivatives();
 
   TEST("ftol_in == ftol_out", ftol_in == ftol_out, true);
   TEST("xtol_in == xtol_out", xtol_in == xtol_out, true);

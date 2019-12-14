@@ -17,15 +17,18 @@
 //-------------------------------------------------------------------------
 class vnl_test_powell_quadratic : public vnl_cost_function
 {
- public:
-  vnl_test_powell_quadratic(int n) : vnl_cost_function(n) {}
+public:
+  vnl_test_powell_quadratic(int n)
+    : vnl_cost_function(n)
+  {}
 
-  double f(const vnl_vector<double>& x) override
+  double
+  f(const vnl_vector<double> & x) override
   {
-    assert((int)x.size()==dim);
+    assert((int)x.size() == dim);
     double sum = 0;
-    for (unsigned int i=0; i<x.size(); ++i)
-      sum += (x[i]-i)*(x[i]-i);
+    for (unsigned int i = 0; i < x.size(); ++i)
+      sum += (x[i] - i) * (x[i] - i);
     return sum;
   }
 };
@@ -37,21 +40,25 @@ class vnl_test_powell_quadratic : public vnl_cost_function
 //-------------------------------------------------------------------------
 class vnl_test_powell_rosenbrock : public vnl_cost_function
 {
- public:
-  vnl_test_powell_rosenbrock() : vnl_cost_function(2) {}
+public:
+  vnl_test_powell_rosenbrock()
+    : vnl_cost_function(2)
+  {}
 
-  double f(const vnl_vector<double>& x) override
+  double
+  f(const vnl_vector<double> & x) override
   {
-    double a = 10*(x[1] - x[0]*x[0]);
+    double a = 10 * (x[1] - x[0] * x[0]);
     double b = 1 - x[0];
-    return a*a + b*b;
+    return a * a + b * b;
   }
 
-  void gradf(const vnl_vector<double>& x, vnl_vector<double>& g) override
+  void
+  gradf(const vnl_vector<double> & x, vnl_vector<double> & g) override
   {
-    double a = 10*(x[1] - x[0]*x[0]);
+    double a = 10 * (x[1] - x[0] * x[0]);
     double b = 1 - x[0];
-    g[0] = 2 * a * (-20*x[0]) - 2 * b;
+    g[0] = 2 * a * (-20 * x[0]) - 2 * b;
     g[1] = 20 * a;
   }
 };
@@ -60,11 +67,12 @@ class vnl_test_powell_rosenbrock : public vnl_cost_function
 //-------------------------------------------------------------------------
 // Test 2D quadratic function
 //-------------------------------------------------------------------------
-static void test_quadratic_2d()
+static void
+test_quadratic_2d()
 {
   std::cout << "---------------------\n"
-           << " test_quadratic_2d()\n"
-           << "---------------------\n";
+            << " test_quadratic_2d()\n"
+            << "---------------------\n";
 
   // No. of dimensions
   constexpr unsigned n = 2;
@@ -77,24 +85,27 @@ static void test_quadratic_2d()
     vnl_powell powell(&cost1);
     powell.minimize(x);
 
-    double err=0;
-    for (unsigned i=0; i<n; ++i) err += std::fabs(x[i]-i);
+    double err = 0;
+    for (unsigned i = 0; i < n; ++i)
+      err += std::fabs(x[i] - i);
     TEST_NEAR("Starting at (1,1,1...)", err, 0.0, 1e-5);
-    std::cout<<"Number of evaluations: "<<powell.get_num_evaluations()<<std::endl;
+    std::cout << "Number of evaluations: " << powell.get_num_evaluations() << std::endl;
   }
 
   // Start at x[i]=n-i
   {
     vnl_vector<double> x(n);
-    for (unsigned i=0; i<n; ++i) x[i] = static_cast<int>(n) - static_cast<int>(i);
+    for (unsigned i = 0; i < n; ++i)
+      x[i] = static_cast<int>(n) - static_cast<int>(i);
     vnl_test_powell_quadratic cost1(n);
     vnl_powell powell(&cost1);
     powell.minimize(x);
 
-    double err=0;
-    for (unsigned i=0; i<n; ++i) err += std::fabs(x[i]-i);
+    double err = 0;
+    for (unsigned i = 0; i < n; ++i)
+      err += std::fabs(x[i] - i);
     TEST_NEAR("Starting at (1,1,1...)", err, 0.0, 1e-5);
-    std::cout<<"Number of evaluations: "<<powell.get_num_evaluations()<<std::endl;
+    std::cout << "Number of evaluations: " << powell.get_num_evaluations() << std::endl;
   }
   std::cout << std::endl;
 }
@@ -103,15 +114,16 @@ static void test_quadratic_2d()
 //-------------------------------------------------------------------------
 // Test quadratic functions with various numbers of dimensions
 //-------------------------------------------------------------------------
-static void test_quadratic_nd()
+static void
+test_quadratic_nd()
 {
   // Max. no. of dimensions
   constexpr unsigned max_n = 16;
-  for (unsigned n=1; n<max_n; ++n)
+  for (unsigned n = 1; n < max_n; ++n)
   {
     std::cout << "-------------------\n"
-             << " test_quadratic_" << n << "d\n"
-             << "-------------------\n";
+              << " test_quadratic_" << n << "d\n"
+              << "-------------------\n";
 
     // Start at (1,1,...,1)
     vnl_vector<double> x(n);
@@ -120,11 +132,11 @@ static void test_quadratic_nd()
     vnl_powell powell(&cost1);
     powell.minimize(x);
 
-    double err=0;
-    for (unsigned i=0; i<n; ++i) err+=std::fabs(x[i]-i);
+    double err = 0;
+    for (unsigned i = 0; i < n; ++i)
+      err += std::fabs(x[i] - i);
     TEST_NEAR("Starting at (1,1,1...)", err, 0.0, 1e-5);
-    std::cout << "Number of evaluations: " << powell.get_num_evaluations()
-             << std::endl << std::endl;
+    std::cout << "Number of evaluations: " << powell.get_num_evaluations() << std::endl << std::endl;
   }
 }
 
@@ -132,29 +144,30 @@ static void test_quadratic_nd()
 //-------------------------------------------------------------------------
 // Test rosenbrock 2d function
 //-------------------------------------------------------------------------
-static void test_rosenbrock_2d()
+static void
+test_rosenbrock_2d()
 {
   std::cout << "----------------------\n"
-           << " test_rosenbrock_2d()\n"
-           << "----------------------\n";
+            << " test_rosenbrock_2d()\n"
+            << "----------------------\n";
   vnl_test_powell_rosenbrock c;
   vnl_double_2 xmin(1.0, 1.0); // true minimum
   vnl_powell powell(&c);
-  vnl_double_2 x0(-2, 2);   // initial x
+  vnl_double_2 x0(-2, 2); // initial x
   vnl_vector<double> x = x0.as_vector();
 
   powell.minimize(x);
-  double r = (x-xmin).magnitude();
+  double r = (x - xmin).magnitude();
   TEST_NEAR("test_rosenbrock_2d", r, 0, 1e-6);
-  std::cout << "Number of evaluations: " << powell.get_num_evaluations()
-           << std::endl << std::endl;
+  std::cout << "Number of evaluations: " << powell.get_num_evaluations() << std::endl << std::endl;
 }
 
 
 //-------------------------------------------------------------------------
 // Main test function
 //-------------------------------------------------------------------------
-void test_powell()
+void
+test_powell()
 {
   test_quadratic_2d();
   test_quadratic_nd();

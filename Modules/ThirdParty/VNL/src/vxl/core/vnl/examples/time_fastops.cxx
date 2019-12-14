@@ -4,40 +4,43 @@
 #include <vector>
 #include "vul/vul_timer.h"
 
-double vnl_fastops_dot(const double* a, const double* b, unsigned int n);
+double
+vnl_fastops_dot(const double * a, const double * b, unsigned int n);
 
 #ifdef OPTIMIZED
-#undef OPTIMIZED
-#define OPTIMIZED 1
+#  undef OPTIMIZED
+#  define OPTIMIZED 1
 #else
-#define OPTIMIZED 0
+#  define OPTIMIZED 0
 #endif
 #ifndef METHOD
-#define METHOD 4
+#  define METHOD 4
 #endif
 
-int main()
+int
+main()
 {
   std::vector<double> x(1000000), y(1000000);
   for (int i = 0; i < 1000000; ++i)
-    x[i] = y[i] = 1.0/std::sqrt(double(i+1));
+    x[i] = y[i] = 1.0 / std::sqrt(double(i + 1));
 
   vul_timer t;
   for (int n = 0; n < 20; ++n)
     vnl_fastops_dot(&x[0], &y[0], x.size());
   std::cerr << "Method = " << METHOD << ", Optimized = " << OPTIMIZED << ", "
-           << "Result = " << vnl_fastops_dot(&x[0], &y[0], x.size()) << ", ";
+            << "Result = " << vnl_fastops_dot(&x[0], &y[0], x.size()) << ", ";
   t.print(std::cerr);
 
   return 0;
 }
 
-double vnl_fastops_dot(const double* a, const double* b, unsigned int n)
+double
+vnl_fastops_dot(const double * a, const double * b, unsigned int n)
 {
   // Method 2 is fastest on the u170 -- weird.
   double accum = 0;
 #if METHOD == 1
-  const double* aend = a + n;
+  const double * aend = a + n;
   while (a != aend)
     accum += *a++ * *b++;
 #endif

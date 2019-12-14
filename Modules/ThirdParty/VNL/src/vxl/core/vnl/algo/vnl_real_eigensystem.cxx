@@ -15,10 +15,10 @@
 
 //: Extract eigensystem of non-symmetric matrix M, using the EISPACK routine rg.
 //  Should probably switch to using LAPACK's dgeev to avoid transposing.
-vnl_real_eigensystem::vnl_real_eigensystem(vnl_matrix<double> const & M):
-  Vreal(M.rows(), M.columns()),
-  V(M.rows(), M.columns()),
-  D(M.rows())
+vnl_real_eigensystem::vnl_real_eigensystem(vnl_matrix<double> const & M)
+  : Vreal(M.rows(), M.columns())
+  , V(M.rows(), M.columns())
+  , D(M.rows())
 {
   long n = M.rows();
   assert(n == (int)(M.columns()));
@@ -33,34 +33,43 @@ vnl_real_eigensystem::vnl_real_eigensystem(vnl_matrix<double> const & M):
 
   long ierr = 0;
   long matz = 1;
-  v3p_netlib_rg_(&n, &n, mf,
-                 wr.data_block(), wi.data_block(),
-                 &matz, devout.data_block(),
-                 iv1.data_block(), fv1.data_block(),
+  v3p_netlib_rg_(&n,
+                 &n,
+                 mf,
+                 wr.data_block(),
+                 wi.data_block(),
+                 &matz,
+                 devout.data_block(),
+                 iv1.data_block(),
+                 fv1.data_block(),
                  &ierr);
 
-  if (ierr != 0) {
-    std::cerr << " *** vnl_real_eigensystem: Failed on " << ierr << "th eigenvalue\n"
-             << M << std::endl;
+  if (ierr != 0)
+  {
+    std::cerr << " *** vnl_real_eigensystem: Failed on " << ierr << "th eigenvalue\n" << M << std::endl;
   }
 
   // Copy out eigenvalues and eigenvectors
-  for (int c = 0; c < n; ++c) {
-    D(c,c) = std::complex<double>(wr[c], wi[c]);
-    if (wi[c] != 0) {
+  for (int c = 0; c < n; ++c)
+  {
+    D(c, c) = std::complex<double>(wr[c], wi[c]);
+    if (wi[c] != 0)
+    {
       // Complex - copy conjugates and inc c.
-      D(c+1, c+1) = std::complex<double>(wr[c], -wi[c]);
-      for (int r = 0; r < n; ++r) {
-        V(r, c) = std::complex<double>(devout(c,r), devout(c+1,r));
-        V(r, c+1) = std::complex<double>(devout(c,r), -devout(c+1,r));
+      D(c + 1, c + 1) = std::complex<double>(wr[c], -wi[c]);
+      for (int r = 0; r < n; ++r)
+      {
+        V(r, c) = std::complex<double>(devout(c, r), devout(c + 1, r));
+        V(r, c + 1) = std::complex<double>(devout(c, r), -devout(c + 1, r));
       }
 
       ++c;
     }
     else
-      for (int r = 0; r < n; ++r) {
-        V(r, c) = std::complex<double>(devout(c,r), 0);
-        Vreal(r,c) = devout(c,r);
+      for (int r = 0; r < n; ++r)
+      {
+        V(r, c) = std::complex<double>(devout(c, r), 0);
+        Vreal(r, c) = devout(c, r);
       }
   }
 }

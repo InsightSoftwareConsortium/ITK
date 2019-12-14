@@ -27,36 +27,46 @@
 
 class vnl_rosenbrock : public vnl_least_squares_function
 {
- public:
-  vnl_rosenbrock(): vnl_least_squares_function(2, 2, no_gradient) {}
+public:
+  vnl_rosenbrock()
+    : vnl_least_squares_function(2, 2, no_gradient)
+  {}
 
-  void f(const vnl_vector<double>& x, vnl_vector<double>& fx) override
+  void
+  f(const vnl_vector<double> & x, vnl_vector<double> & fx) override
   {
-    fx[0] = 10*(x[1] - x[0]*x[0]);
+    fx[0] = 10 * (x[1] - x[0] * x[0]);
     fx[1] = 1 - x[0];
   }
 };
 
 class vnl_rosenbrock_grad_cost_fun : public vnl_cost_function
 {
- public:
-  vnl_rosenbrock_grad_cost_fun(): vnl_cost_function(2) {}
+public:
+  vnl_rosenbrock_grad_cost_fun()
+    : vnl_cost_function(2)
+  {}
 
-  double f(const vnl_vector<double>& x) override {
-    double a = 10*(x[1] - x[0]*x[0]);
+  double
+  f(const vnl_vector<double> & x) override
+  {
+    double a = 10 * (x[1] - x[0] * x[0]);
     double b = 1 - x[0];
-    return a*a + b*b;
+    return a * a + b * b;
   }
 
-  void gradf(const vnl_vector<double>& x, vnl_vector<double>& g) override {
-    double a = 10*(x[1] - x[0]*x[0]);
+  void
+  gradf(const vnl_vector<double> & x, vnl_vector<double> & g) override
+  {
+    double a = 10 * (x[1] - x[0] * x[0]);
     double b = 1 - x[0];
-    g[0] = 2 * a * (-20*x[0]) - 2 * b;
+    g[0] = 2 * a * (-20 * x[0]) - 2 * b;
     g[1] = 20 * a;
   }
 };
 
-int main()
+int
+main()
 {
   // Set up a Rosenbrock compute object
   vnl_rosenbrock f;
@@ -74,9 +84,9 @@ int main()
 
   // Summarize the results, by querying the levmarq object.
   std::cout << "** LevenbergMarquardt default **\n"
-           << "Rosenbrock min of " << levmarq.get_end_error() << " at " << x << '\n'
-           << "Iterations: " << levmarq.get_num_iterations()
-           << "    Evaluations: " << levmarq.get_num_evaluations() << std::endl;
+            << "Rosenbrock min of " << levmarq.get_end_error() << " at " << x << '\n'
+            << "Iterations: " << levmarq.get_num_iterations() << "    Evaluations: " << levmarq.get_num_evaluations()
+            << std::endl;
 
   levmarq.diagnose_outcome();
 
@@ -89,9 +99,9 @@ int main()
   // Summarize the results. It has taken fewer iterations to reach the same
   // answer.
   std::cout << "** LevenbergMarquardt xtol=0.1 **\n"
-           << "Rosenbrock min of " << levmarq.get_end_error() << " at " << x << '\n'
-           << "Iterations: " << levmarq.get_num_iterations()
-           << "    Evaluations: " << levmarq.get_num_evaluations() << std::endl;
+            << "Rosenbrock min of " << levmarq.get_end_error() << " at " << x << '\n'
+            << "Iterations: " << levmarq.get_num_iterations() << "    Evaluations: " << levmarq.get_num_evaluations()
+            << std::endl;
   levmarq.diagnose_outcome();
 
   {
@@ -102,7 +112,7 @@ int main()
     x = x0.as_ref();
     amoeba.minimize(x);
     std::cout << "Rosenbrock min of " << cf.f(x) << " at " << x << '\n'
-             << "Evaluations: " << amoeba.get_num_evaluations() << std::endl;
+              << "Evaluations: " << amoeba.get_num_evaluations() << std::endl;
   }
   {
     std::cout << "** Conjugate Gradient **\n";
@@ -122,7 +132,7 @@ int main()
     lbfgs.minimize(x);
     //    assert(lbfgs.get_end_error() == rcf.f(x));
     std::cout << "L-BFGS min of " << lbfgs.get_end_error() << " at " << x << '\n'
-             << "Evaluations: " << lbfgs.get_num_evaluations() << std::endl;
+              << "Evaluations: " << lbfgs.get_num_evaluations() << std::endl;
   }
 
   {
@@ -133,7 +143,7 @@ int main()
     powell.minimize(x);
     //    assert(lbfgs.get_end_error() == rcf.f(x));
     std::cout << "Powell min of " << powell.get_end_error() << " at " << x << '\n'
-             << "Evaluations: " << powell.get_num_evaluations() << std::endl;
+              << "Evaluations: " << powell.get_num_evaluations() << std::endl;
   }
   return 0;
 }

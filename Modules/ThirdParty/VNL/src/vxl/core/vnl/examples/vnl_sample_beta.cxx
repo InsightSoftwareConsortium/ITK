@@ -22,20 +22,22 @@
 #include "vnl/vnl_sample.h"
 #include "vnl/vnl_math.h"
 
-int main(int argc, char* argv[])
+int
+main(int argc, char * argv[])
 {
   if (argc != 3)
   {
     std::cout << "This program generates n samples drawn from a Beta(a,a) distribution\n"
-             << "for given a (first command line argument), and where n is the second argument.\n";
+              << "for given a (first command line argument), and where n is the second argument.\n";
     return -1;
   }
   double a = std::stod(argv[1]);
   int n = std::stoi(argv[2]);
-  while (n--) {
-    double u = vnl_sample_uniform(0,1);
-    double v = vnl_sample_uniform(0,vnl_math::twopi);
-    std::cout << 0.5+0.5*std::sin(v)*std::sqrt(1.0-std::pow(u,1.0/(a-0.5))) << '\n';
+  while (n--)
+  {
+    double u = vnl_sample_uniform(0, 1);
+    double v = vnl_sample_uniform(0, vnl_math::twopi);
+    std::cout << 0.5 + 0.5 * std::sin(v) * std::sqrt(1.0 - std::pow(u, 1.0 / (a - 0.5))) << '\n';
   }
   return 0;
 }

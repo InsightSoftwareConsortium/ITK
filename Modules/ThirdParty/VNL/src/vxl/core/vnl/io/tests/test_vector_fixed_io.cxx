@@ -6,35 +6,37 @@
 #include "testlib/testlib_test.h"
 #include "vpl/vpl.h"
 
-void test_vector_fixed_double_3_io()
+void
+test_vector_fixed_double_3_io()
 {
   std::cout << "*************************************\n"
-           << "Testing vnl_vector_fixed<double,3> io\n"
-           << "*************************************\n";
+            << "Testing vnl_vector_fixed<double,3> io\n"
+            << "*************************************\n";
   //// test constructors, accessors
 
-  vnl_vector_fixed<double,3> m_out(1.2,3.4,5.6), m_in;
+  vnl_vector_fixed<double, 3> m_out(1.2, 3.4, 5.6), m_in;
 
   vsl_b_ofstream bfs_out("vnl_vector_fixed_io.bvl.tmp");
-  TEST ("vnl_vector_fixed_io.bvl.tmp for writing", (!bfs_out), false);
+  TEST("vnl_vector_fixed_io.bvl.tmp for writing", (!bfs_out), false);
   vsl_b_write(bfs_out, m_out);
   bfs_out.close();
 
   vsl_b_ifstream bfs_in("vnl_vector_fixed_io.bvl.tmp");
-  TEST ("vnl_vector_fixed_io.bvl.tmp for reading", (!bfs_in), false);
+  TEST("vnl_vector_fixed_io.bvl.tmp for reading", (!bfs_in), false);
   vsl_b_read(bfs_in, m_in);
   bfs_in.close();
 
-  vpl_unlink ("vnl_vector_fixed_io.bvl.tmp");
+  vpl_unlink("vnl_vector_fixed_io.bvl.tmp");
 
-  TEST ("m_out == m_in", m_out, m_in);
+  TEST("m_out == m_in", m_out, m_in);
 
   vsl_print_summary(std::cout, m_out);
   std::cout << std::endl;
 }
 
 
-void test_vector_fixed_io()
+void
+test_vector_fixed_io()
 {
   test_vector_fixed_double_3_io();
 }

@@ -3,13 +3,14 @@
 
 #include "testlib/testlib_test.h"
 
-void test_cpoly_roots()
+void
+test_cpoly_roots()
 {
-  const double coeffs[] = {6, 5, 4, 3, 2, 1};
+  const double coeffs[] = { 6, 5, 4, 3, 2, 1 };
   vnl_vector<double> a(coeffs, 6);
 
-  vnl_vector<double> monic( (a/a[0]).extract(a.size()-1,1) );
-  vnl_cpoly_roots roots( monic, 0.0*monic );
+  vnl_vector<double> monic((a / a[0]).extract(a.size() - 1, 1));
+  vnl_cpoly_roots roots(monic, 0.0 * monic);
 
   TEST("Number of solutions", roots.solns.size(), monic.size());
 

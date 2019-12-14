@@ -25,35 +25,35 @@
 #include "vnl/vnl_vector.h"
 #include <vnl/algo/vnl_fft_1d.h>
 
-void test_fft_1d(int n)
+void
+test_fft_1d(int n)
 {
   std::cout << "=================================\n"
-           << "Testing vnl_fft_1d for length " << n << '\n'
-           << "=================================\n";
+            << "Testing vnl_fft_1d for length " << n << '\n'
+            << "=================================\n";
 
   // calculate prime factors for this size array
   //============================================
   vnl_fft_prime_factors<double> oPFx(n);
-  if (!oPFx) {
+  if (!oPFx)
+  {
     std::cerr << "cannot decompose X-size " << n << ")into the form (2^P)(3^Q)(5^R)\n";
     std::abort();
   }
 
   // create a number of arrays for testing the transform
   //====================================================
-  vnl_vector<std::complex<double> > fTestArrayConvert(n);
-  vnl_vector<std::complex<double> > fTestArrayFwd(n);
-  std::vector<std::complex<double> > fTestVecConvert(n);
-  std::vector<std::complex<double> > fTestVecFwd(n);
-  auto* fTestPtrConvert = new std::complex<double>[n];
-  auto* fTestPtrFwd = new std::complex<double>[n];
+  vnl_vector<std::complex<double>> fTestArrayConvert(n);
+  vnl_vector<std::complex<double>> fTestArrayFwd(n);
+  std::vector<std::complex<double>> fTestVecConvert(n);
+  std::vector<std::complex<double>> fTestVecFwd(n);
+  auto * fTestPtrConvert = new std::complex<double>[n];
+  auto * fTestPtrFwd = new std::complex<double>[n];
 
-  //fill with data
-  for (int iC = 0;iC < n;iC ++)
-    fTestArrayConvert(iC) = fTestArrayFwd(iC) =
-    fTestVecConvert[iC]   = fTestVecFwd[iC] =
-    fTestPtrConvert[iC]   = fTestPtrFwd[iC] =
-      std::complex<double>(iC-3.5,0.0);
+  // fill with data
+  for (int iC = 0; iC < n; iC++)
+    fTestArrayConvert(iC) = fTestArrayFwd(iC) = fTestVecConvert[iC] = fTestVecFwd[iC] = fTestPtrConvert[iC] =
+      fTestPtrFwd[iC] = std::complex<double>(iC - 3.5, 0.0);
 
   //============================= super-easy transform =====================
   vnl_fft_1d<double> oFFTSimple(n);
@@ -67,10 +67,13 @@ void test_fft_1d(int n)
   // now compare the results
   TEST("test forward vnl_vector", fTestArrayConvert, fTestArrayFwd);
   TEST("test forward std::vector", fTestVecConvert, fTestVecFwd);
-  bool test_Ptr=true;
-  for (int iC = 0;iC < n;iC ++)
-    if (fTestPtrConvert[iC]!=fTestVecFwd[iC] ||
-        fTestPtrFwd[iC]!=fTestVecConvert[iC]) { test_Ptr = false; break; }
+  bool test_Ptr = true;
+  for (int iC = 0; iC < n; iC++)
+    if (fTestPtrConvert[iC] != fTestVecFwd[iC] || fTestPtrFwd[iC] != fTestVecConvert[iC])
+    {
+      test_Ptr = false;
+      break;
+    }
   TEST("test forward C-array", test_Ptr, true);
 
   // the whole thing backwards
@@ -84,49 +87,48 @@ void test_fft_1d(int n)
 
   TEST("test backward vnl_vector", fTestArrayConvert, fTestArrayFwd);
   TEST("test backward std::vector", fTestVecConvert, fTestVecFwd);
-  test_Ptr=true;
-  for (int iC = 0;iC < n;iC ++)
-    if (fTestPtrConvert[iC]!=fTestVecFwd[iC] ||
-        fTestPtrFwd[iC]!=fTestVecConvert[iC]) {
-      std::cout<<"C-array_fwd_bwd["<<iC<<"]="<<fTestPtrFwd[iC]
-              <<", C-array_convert["<<iC<<"]="<<fTestPtrConvert[iC]
-              <<", std::vector["<<iC<<"]="<<fTestVecFwd[iC]<<'\n';
-      test_Ptr = false; break;
+  test_Ptr = true;
+  for (int iC = 0; iC < n; iC++)
+    if (fTestPtrConvert[iC] != fTestVecFwd[iC] || fTestPtrFwd[iC] != fTestVecConvert[iC])
+    {
+      std::cout << "C-array_fwd_bwd[" << iC << "]=" << fTestPtrFwd[iC] << ", C-array_convert[" << iC
+                << "]=" << fTestPtrConvert[iC] << ", std::vector[" << iC << "]=" << fTestVecFwd[iC] << '\n';
+      test_Ptr = false;
+      break;
     }
   TEST("test backward C-array", test_Ptr, true);
 
-  double fArrayRealError = 0.0, fArrayImagError = 0.0,
-         fVecRealError = 0.0,   fVecImagError = 0.0,
-         fPtrRealError = 0.0,   fPtrImagError = 0.0,
-         fFwdRealError = 0.0,   fFwdImagError = 0.0;
+  double fArrayRealError = 0.0, fArrayImagError = 0.0, fVecRealError = 0.0, fVecImagError = 0.0, fPtrRealError = 0.0,
+         fPtrImagError = 0.0, fFwdRealError = 0.0, fFwdImagError = 0.0;
 
-  for (int iC = 0;iC < n;iC ++)
+  for (int iC = 0; iC < n; iC++)
   {
     // divide by n (since by definition fft_bwd(a) == n*....)
-    fArrayRealError += std::fabs(std::real(fTestArrayConvert(iC))/n - (iC-3.5));
-    fArrayImagError += std::fabs(std::imag(fTestArrayConvert(iC))/n);
-    fVecRealError += std::fabs(std::real(fTestVecConvert[iC])/n - (iC-3.5));
-    fVecImagError += std::fabs(std::imag(fTestVecConvert[iC])/n);
-    fPtrRealError += std::fabs(std::real(fTestPtrConvert[iC])/n - (iC-3.5));
-    fPtrImagError += std::fabs(std::imag(fTestPtrConvert[iC])/n);
-    fFwdRealError += std::fabs(std::real(fTestPtrFwd[iC])/n - (iC-3.5));
-    fFwdImagError += std::fabs(std::imag(fTestPtrFwd[iC])/n);
+    fArrayRealError += std::fabs(std::real(fTestArrayConvert(iC)) / n - (iC - 3.5));
+    fArrayImagError += std::fabs(std::imag(fTestArrayConvert(iC)) / n);
+    fVecRealError += std::fabs(std::real(fTestVecConvert[iC]) / n - (iC - 3.5));
+    fVecImagError += std::fabs(std::imag(fTestVecConvert[iC]) / n);
+    fPtrRealError += std::fabs(std::real(fTestPtrConvert[iC]) / n - (iC - 3.5));
+    fPtrImagError += std::fabs(std::imag(fTestPtrConvert[iC]) / n);
+    fFwdRealError += std::fabs(std::real(fTestPtrFwd[iC]) / n - (iC - 3.5));
+    fFwdImagError += std::fabs(std::imag(fTestPtrFwd[iC]) / n);
   }
 
-  TEST_NEAR("vnl_vector absolute error, real part (per element)", fArrayRealError/n, 0.0, 1e-9);
-  TEST_NEAR("vnl_vector absolute error, imag part (per element)", fArrayImagError/n, 0.0, 1e-9);
-  TEST_NEAR("std::vector absolute error, real part (per element)", fVecRealError/n, 0.0, 1e-9);
-  TEST_NEAR("std::vector absolute error, imag part (per element)", fVecImagError/n, 0.0, 1e-9);
-  TEST_NEAR("C-array absolute error, real part (per element)", fPtrRealError/n, 0.0, 1e-9);
-  TEST_NEAR("C-array absolute error, imag part (per element)", fPtrImagError/n, 0.0, 1e-9);
-  TEST_NEAR("C-array fwd absolute error, real part (per element)", fFwdRealError/n, 0.0, 1e-9);
-  TEST_NEAR("C-array fwd absolute error, imag part (per element)", fFwdImagError/n, 0.0, 1e-9);
+  TEST_NEAR("vnl_vector absolute error, real part (per element)", fArrayRealError / n, 0.0, 1e-9);
+  TEST_NEAR("vnl_vector absolute error, imag part (per element)", fArrayImagError / n, 0.0, 1e-9);
+  TEST_NEAR("std::vector absolute error, real part (per element)", fVecRealError / n, 0.0, 1e-9);
+  TEST_NEAR("std::vector absolute error, imag part (per element)", fVecImagError / n, 0.0, 1e-9);
+  TEST_NEAR("C-array absolute error, real part (per element)", fPtrRealError / n, 0.0, 1e-9);
+  TEST_NEAR("C-array absolute error, imag part (per element)", fPtrImagError / n, 0.0, 1e-9);
+  TEST_NEAR("C-array fwd absolute error, real part (per element)", fFwdRealError / n, 0.0, 1e-9);
+  TEST_NEAR("C-array fwd absolute error, imag part (per element)", fFwdImagError / n, 0.0, 1e-9);
 
   delete[] fTestPtrConvert;
   delete[] fTestPtrFwd;
 }
 
-void test_fft1d()
+void
+test_fft1d()
 {
   test_fft_1d(256);
   test_fft_1d(243);

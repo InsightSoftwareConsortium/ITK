@@ -3,4 +3,4 @@
 #ifdef _MSC_VER
 #  include "vcl_msvc_warnings.h"
 #endif
-VNL_MATLAB_PRINT2_INSTANTIATE(vnl_vector<std::complex<double> >);
+VNL_MATLAB_PRINT2_INSTANTIATE(vnl_vector<std::complex<double>>);
