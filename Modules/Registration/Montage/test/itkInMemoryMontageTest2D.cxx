@@ -46,7 +46,7 @@ itkInMemoryMontageTest2D(int argc, char * argv[])
   stageTiles.Parse(inputPath + "TileConfiguration.registered.txt");
 
   itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO(
-    (inputPath + stageTiles.Tiles[0].FileName).c_str(), itk::ImageIOFactory::FileModeType::ReadMode);
+    (inputPath + stageTiles.Tiles[0].FileName).c_str(), itk::ImageIOFactory::FileModeEnum::ReadMode);
   imageIO->SetFileName(inputPath + stageTiles.Tiles[0].FileName);
   imageIO->ReadImageInformation();
   const itk::ImageIOBase::IOPixelType pixelType = imageIO->GetPixelType();
