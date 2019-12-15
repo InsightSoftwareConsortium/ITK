@@ -201,7 +201,11 @@ struct ITK_TEMPLATE_EXPORT TileConfiguration
       Tiles.push_back(tile);
       line = getNextNonCommentLine(tileFile);
     }
-    AxisSizes[Dimension - 1] = cInd[Dimension - 1] + 1;
+
+    for (unsigned d = 0; d < Dimension; ++d)
+    {
+      AxisSizes[d] = cInd[d] + 1;
+    }
 
     size_t expectedSize = this->LinearSize();
     itkAssertOrThrowMacro(expectedSize == Tiles.size(),
