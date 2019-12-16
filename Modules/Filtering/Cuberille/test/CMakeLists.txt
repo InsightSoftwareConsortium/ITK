@@ -2,7 +2,11 @@ itk_module_test()
 
 set(DATA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Input)
 
-set(CuberilleTests CuberilleTest01.cxx)
+set(
+  CuberilleTests
+  CuberilleTest01.cxx
+  CuberilleTest02.cxx
+)
 
 createtestdriver(Cuberille "${Cuberille-Test_LIBRARIES}" "${CuberilleTests}")
 
@@ -326,3 +330,10 @@ add_test(
 #  0.85    # Step length relaxation factor
 #  25      # Maximum number of steps
 #)
+
+itk_add_test(
+  NAME CuberilleTestDirectionMatrix
+  COMMAND
+    ${itk-module}TestDriver
+    CuberilleTest02
+)
