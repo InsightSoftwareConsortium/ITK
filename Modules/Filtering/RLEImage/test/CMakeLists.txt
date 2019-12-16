@@ -31,33 +31,49 @@ itk_add_test(NAME RLEImageiteratorTests COMMAND iteratorTests)
 
 function(ReadWriteTest ImageName Ext) # optional: big
   set(outImage "${ITK_TEST_OUTPUT_DIR}/${ImageName}.${Ext}")
-  itk_add_test(
-    NAME RLEImage${ImageName}
-    COMMAND
-      RLEImageTestDriver
-      --compare
-      DATA{Input/${ImageName}.${Ext}}
-      ${outImage}
-      itkRLEImageTest
-      DATA{Input/${ImageName}.${Ext}}
-      ${outImage}
-  )
   if("${ARGN}" STREQUAL "big")
-    set_property(
-      TEST
-        RLEImage${ImageName}
-      APPEND
-      PROPERTY
-        LABELS
-          RUNS_LONG
-    )
-    set_property(
-      TEST
-        RLEImage${ImageName}
-      APPEND
-      PROPERTY
-        RUN_SERIAL
-          True
+    if(DEFINED ITK_COMPUTER_MEMORY_SIZE)
+      if(${ITK_COMPUTER_MEMORY_SIZE} GREATER_EQUAL 16)
+        itk_add_test(
+          NAME RLEImage${ImageName}
+          COMMAND
+            RLEImageTestDriver
+            --compare
+            DATA{Input/${ImageName}.${Ext}}
+            ${outImage}
+            itkRLEImageTest
+            DATA{Input/${ImageName}.${Ext}}
+            ${outImage}
+        )
+        set_property(
+          TEST
+            RLEImage${ImageName}
+          APPEND
+          PROPERTY
+            LABELS
+              RUNS_LONG
+        )
+        set_property(
+          TEST
+            RLEImage${ImageName}
+          APPEND
+          PROPERTY
+            RUN_SERIAL
+              True
+        )
+      endif()
+    endif()
+  else()
+    itk_add_test(
+      NAME RLEImage${ImageName}
+      COMMAND
+        RLEImageTestDriver
+        --compare
+        DATA{Input/${ImageName}.${Ext}}
+        ${outImage}
+        itkRLEImageTest
+        DATA{Input/${ImageName}.${Ext}}
+        ${outImage}
     )
   endif()
 endfunction()
