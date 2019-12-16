@@ -265,10 +265,10 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 {
   PointType vertex;
   image->TransformIndexToPhysicalPoint( index, vertex );
-  SpacingType spacing = image->GetSpacing();
-  vertex[0] -= ( spacing[0] / 2.0 );
-  vertex[1] -= ( spacing[1] / 2.0 );
-  vertex[2] -= ( spacing[2] / 2.0 );
+  const auto spacing = image->GetSpacing();
+  const auto direction = image->GetDirection();
+  const auto offset = direction * spacing * 0.5;
+  vertex -= offset;
   if( m_ProjectVerticesToIsoSurface )
     {
     ProjectVertexToIsoSurface( vertex );
