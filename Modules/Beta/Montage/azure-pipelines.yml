@@ -1,6 +1,6 @@
 variables:
-  ITKGitTag: 7018660adbbc74d37ee85b64e93c6cd43830a6a4
-  ITKPythonGitTag: v5.0.1
+  ITKGitTag: v5.1rc01
+  ITKPythonGitTag: v5.1rc01
   CMakeBuildType: Release
 
 trigger:
@@ -24,7 +24,7 @@ jobs:
         cxxCompiler: g++
         compilerInitialization: ''
       macOS:
-        imageName: 'macos-10.13'
+        imageName: 'macos-10.14'
         cCompiler: clang
         cxxCompiler: clang++
         compilerInitialization: ''
