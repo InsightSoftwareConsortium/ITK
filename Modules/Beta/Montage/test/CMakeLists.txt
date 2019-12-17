@@ -343,7 +343,7 @@ itk_add_test(NAME itkMontage-S200-small
     DATA{Input/S200-small/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontage-S200-small
     ${TESTING_OUTPUT_PATH}/itkMontage-S200-smallPairs
-    0 1 1 1 0 0 75 0 1
+    0 1 0 1 0 0 75 0 1
   )
 
 itk_add_test(NAME itkMontage-S200-6-C
