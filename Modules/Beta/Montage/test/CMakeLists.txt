@@ -159,6 +159,17 @@ AddTestOMC(16 1 0)
 AddTestOMC(17 0 0)
 AddTestOMC(18 1 0)
 
+# this test should not crash, but is expected to fail
+itk_add_test(NAME itkMontageSingleLayer3D
+  COMMAND MontageTestDriver
+  itkMontageTest
+    DATA{Input/SingleLayer3D/,REGEX:.*}
+    ${TESTING_OUTPUT_PATH}/itkMontageSingleLayer3D
+    ${TESTING_OUTPUT_PATH}/itkMontageSingleLayer3DPairs
+    0 2 1 1 0 0 0 0 1
+  )
+set_tests_properties(itkMontageSingleLayer3D PROPERTIES WILL_FAIL TRUE)
+
 itk_add_test(NAME itkMontageRGBinMemory
   COMMAND MontageTestDriver
   --compare DATA{Input/VisibleHumanRGB/VisibleHumanMale1608.png}
