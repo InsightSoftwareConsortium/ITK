@@ -422,7 +422,7 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
       avgSpacing = std::pow(avgSpacing, 1.0 / Dimension);
 
       image = denoiseImage<PixelType, Dimension>(image, avgSpacing);
-      // WriteImage(image.GetPointer(), (outputPath + stageTiles.Tiles[t].FileName + "-bil.nrrd").c_str(), true);
+      WriteImage(image.GetPointer(), (outputPath + stageTiles.Tiles[t].FileName + "-bil.nrrd").c_str(), true);
       std::cout << 'D' << std::flush;
     }
 
@@ -446,7 +446,7 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
 
     // show image loading progress
     ind = stageTiles.LinearIndexToNDIndex(t);
-    std::cout << ind << "  " << t + 1 << "/" << stageTiles.LinearSize() << std::endl;
+    std::cout << " " << ind << "  " << t + 1 << "/" << stageTiles.LinearSize() << std::endl;
   }
   std::cout << std::endl;
 
