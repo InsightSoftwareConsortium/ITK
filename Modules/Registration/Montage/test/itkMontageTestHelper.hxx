@@ -217,8 +217,8 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
     {
       montage->SetOriginAdjustment(originAdjustment);
       montage->SetForcedSpacing(sp);
-      // Set full coarse-grained parallelism. It helps with decoding JPEG images.
-      montage->SetNumberOfWorkUnits(itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads());
+      // Force full coarse-grained parallelism. It helps with decoding JPEG images, but leads to high memory use.
+      // montage->SetNumberOfWorkUnits(itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads());
     }
 
     for (size_t t = 0; t < linearSize; t++)
