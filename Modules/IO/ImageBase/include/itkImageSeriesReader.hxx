@@ -441,7 +441,7 @@ ImageSeriesReader<TOutputImage>::GenerateData()
           spacingDeviation = Math::abs(outputSpacing[this->m_NumberOfDimensionsInImage] - dirNnorm);
           itkWarningMacro(<< "Non uniform sampling or missing slices detected , expected " << std::setprecision(14)
                           << outputSpacing[this->m_NumberOfDimensionsInImage] << " got: " << dirNnorm
-                          << " Deviation of:" << spacingDeviation << std::defaultfloat);
+                          << " Deviation of:" << spacingDeviation);
 
           needToUpdateMetaDataDictionaryArray = true;
           if (spacingDeviation > maxSpacingDeviation)
