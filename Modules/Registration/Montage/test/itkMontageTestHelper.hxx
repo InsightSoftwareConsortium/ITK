@@ -130,7 +130,7 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
     origin1[d] = stageTiles.AxisSizes[d] > 1 ? 1 : 0; // support montages of size 1 along a dimension
   }
   size_t    origin1linear = stageTiles.nDIndexToLinearIndex(origin1);
-  PointType originAdjustment = stageTiles.Tiles[origin1linear].Position;
+  PointType originAdjustment = stageTiles.Tiles[origin1linear].Position - stageTiles.Tiles[0].Position;
 
   using PeakInterpolationType = typename itk::MaxPhaseCorrelationOptimizer<PCMType>::PeakInterpolationMethod;
   using PeakFinderUnderlying = typename std::underlying_type<PeakInterpolationType>::type;
@@ -217,8 +217,8 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
     {
       montage->SetOriginAdjustment(originAdjustment);
       montage->SetForcedSpacing(sp);
-      // Set full coarse-grained parallelism. It helps with decoding JPEG images.
-      montage->SetNumberOfWorkUnits(itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads());
+      // Force full coarse-grained parallelism. It helps with decoding JPEG images, but leads to high memory use.
+      // montage->SetNumberOfWorkUnits(itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads());
     }
 
     for (size_t t = 0; t < linearSize; t++)
