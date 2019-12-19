@@ -38,6 +38,7 @@ jobs:
           keys:
             - ccache-{{ arch }}-{{ .Branch }}
             - ccache-{{ arch }}-master
+            - ccache-{{ arch }}
       - run:
           name: Cloning dashboard branch
           command: |
