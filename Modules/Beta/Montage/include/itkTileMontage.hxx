@@ -24,6 +24,7 @@
 #include "itkMultiThreaderBase.h"
 #include "itkNumericTraits.h"
 #include "itkThreadPool.h"
+#include "itkConfigure.h" // for ITK_USE_FFTWF and ITK_USE_FFTWD
 
 #include "itk_eigen.h"
 #include ITK_EIGEN(Sparse)
