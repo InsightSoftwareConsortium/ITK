@@ -209,6 +209,12 @@ public:
   itkSetMacro(ProjectVerticesToIsoSurface, bool);
   itkBooleanMacro(ProjectVerticesToIsoSurface);
 
+  /** Get/Set whether the adjacent input pixel value should be saved as cell data in the output mesh.
+      Default = false. */
+  itkGetMacro(SavePixelAsCellData, bool);
+  itkSetMacro(SavePixelAsCellData, bool);
+  itkBooleanMacro(SavePixelAsCellData);
+
   /** Get/Set the threshold for the "distance" from iso-surface during vertex projection.
       Note that the distance is actually measured in pixel value units (not space).
       The smaller this value, the closer the vertices will be to the iso-surface.
@@ -382,7 +388,7 @@ private:
 
   /** Add quadrilateral face to the given mesh. Increments cell identifier. */
   inline void
-  AddQuadFace(CellIdentifier & id, PointIdentifier f[4], OutputMeshType * mesh);
+  AddQuadFace(CellIdentifier & id, PointIdentifier f[4], OutputMeshType * mesh, const InputPixelType & pixel);
 
   InputPixelType              m_IsoSurfaceValue;
   InterpolatorPointer         m_Interpolator;
@@ -390,6 +396,7 @@ private:
   SpacingValueType            m_MaxSpacing;
   bool                        m_GenerateTriangleFaces;
   bool                        m_ProjectVerticesToIsoSurface;
+  bool                        m_SavePixelAsCellData;
   double                      m_ProjectVertexSurfaceDistanceThreshold;
   double                      m_ProjectVertexStepLength;
   double                      m_ProjectVertexStepLengthRelaxationFactor;
