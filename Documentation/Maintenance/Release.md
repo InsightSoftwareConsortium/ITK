@@ -372,11 +372,11 @@ This will generate tarballs for the source and testing data.
 
 ### Windows
 
-From a `git` bash shell with `wget` in `PATH`, run:
+From a Git Bash shell, run:
 
 ```sh
    ./Utilities/Maintenance/SourceTarball.bash --zip
-``
+```
 
 This should be done on Windows so that the sources have Windows-style newline
 endings.
