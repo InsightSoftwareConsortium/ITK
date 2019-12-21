@@ -220,6 +220,14 @@ system](https://azure.microsoft.com/en-ca/services/devops/pipelines/),
 as well as the [CDash GitHub
 Checks](https://github.com/InsightSoftwareConsortium/ITKGitHubCDashStatus).
 
+If a platform configuration test failure appears to be a false positive, the
+test can be re-executed by adding a comment to the pull request with the
+content `/azp run <ConfigurationName>`. For example:
+
+```
+    /azp run ITK.Linux
+```
+
 After the topic has been merged, it is tested on many
 platforms and configurations on the [nightly
 dashboard](https://open.cdash.org/index.php?project=Insight).
