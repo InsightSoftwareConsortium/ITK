@@ -254,7 +254,7 @@ master, November 2016 or later, (Girder > 2.0.0).
 Archive the `InsightData` contents on ITK's file server at Kitware:
 
 ```sh
-   rsync -v -r ${ExternalData_OBJECT_STORES}/MD5/ public:/projects/Insight/WWW/InsightWeb/files/ExternalData/MD5/
+   rsync -vrt ${ExternalData_OBJECT_STORES}/MD5/ kitware@public:ITKExternalData/MD5/
 ```
 
 Update the data archive at https://github.com/InsightSoftwareConsortium/ITKTestingData.
