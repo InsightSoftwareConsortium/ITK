@@ -91,7 +91,7 @@ SquareThreeTriangleCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::G
   // 2. Get cells container from input
   const InputCellsContainer * cells = input->GetCells();
 
-  // 3. Clearn cells to be subdivided.
+  // 3. Clear cells to be subdivided.
   this->m_CellsToBeSubdivided.clear();
 
   // 4. Copy all the cell that does not insert a new point.
@@ -126,9 +126,10 @@ SquareThreeTriangleCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::G
       if (!this->m_EdgesPointIdentifier->IndexExists(edge))
       {
         // No added new point in this triangle cell
-        output->AddFaceTriangle(static_cast<OutputPointIdentifier>(cellPointIdArray[0]),
-                                static_cast<OutputPointIdentifier>(cellPointIdArray[1]),
-                                static_cast<OutputPointIdentifier>(cellPointIdArray[2]));
+        const auto qeprimal = output->AddFaceTriangle(static_cast<OutputPointIdentifier>(cellPointIdArray[0]),
+                                                      static_cast<OutputPointIdentifier>(cellPointIdArray[1]),
+                                                      static_cast<OutputPointIdentifier>(cellPointIdArray[2]));
+        this->PassCellData(cellIt.Index(), qeprimal);
         break;
       }
       else if (this->m_EdgesPointIdentifier->ElementAt(edge) != NumericTraits<OutputPointIdentifier>::max())
@@ -144,12 +145,14 @@ SquareThreeTriangleCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::G
           // There is no neighbor triangle cell or no splitting of the neighbor triangle cell.
           if (this->m_Uniform)
           {
-            output->AddFaceTriangle(pointIdArray[0][0], pointIdArray[0][1], pointIdArray[1][0]);
+            const auto qeprimal = output->AddFaceTriangle(pointIdArray[0][0], pointIdArray[0][1], pointIdArray[1][0]);
+            this->PassCellData(cellIt.Index(), qeprimal);
           }
           else
           {
             OutputQEType * newTriangleEdge =
               output->AddFaceTriangle(pointIdArray[0][0], pointIdArray[0][1], pointIdArray[1][0]);
+            this->PassCellData(cellIt.Index(), newTriangleEdge);
             this->m_CellsToBeSubdivided.push_back(newTriangleEdge->GetLeft());
           }
         }
@@ -159,16 +162,20 @@ SquareThreeTriangleCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::G
           pointIdArray[1][1] = this->m_EdgesPointIdentifier->ElementAt(edge->GetSym());
           if (this->m_Uniform)
           {
-            output->AddFaceTriangle(pointIdArray[1][0], pointIdArray[1][1], pointIdArray[0][1]);
-            output->AddFaceTriangle(pointIdArray[1][1], pointIdArray[1][0], pointIdArray[0][0]);
+            const auto qeprimal0 = output->AddFaceTriangle(pointIdArray[1][0], pointIdArray[1][1], pointIdArray[0][1]);
+            this->PassCellData(cellIt.Index(), qeprimal0);
+            const auto qeprimal1 = output->AddFaceTriangle(pointIdArray[1][1], pointIdArray[1][0], pointIdArray[0][0]);
+            this->PassCellData(cellIt.Index(), qeprimal1);
           }
           else
           {
             OutputQEType * newTriangleEdge =
               output->AddFaceTriangle(pointIdArray[1][0], pointIdArray[1][1], pointIdArray[0][1]);
+            this->PassCellData(cellIt.Index(), newTriangleEdge);
             this->m_CellsToBeSubdivided.push_back(newTriangleEdge->GetLeft());
 
             newTriangleEdge = output->AddFaceTriangle(pointIdArray[1][1], pointIdArray[1][0], pointIdArray[0][0]);
+            this->PassCellData(cellIt.Index(), newTriangleEdge);
             this->m_CellsToBeSubdivided.push_back(newTriangleEdge->GetLeft());
           }
           this->m_EdgesPointIdentifier->SetElement(edge->GetSym(), NumericTraits<OutputPointIdentifier>::max());

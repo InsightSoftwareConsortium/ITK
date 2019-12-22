@@ -110,16 +110,22 @@ protected:
   SplitTriangleFromOneEdge(OutputMeshType *              output,
                            const OutputPointIdentifier * trianglePointIds,
                            const OutputPointIdentifier * edgePointIds,
-                           const unsigned int *          splitEdges);
+                           const unsigned int *          splitEdges,
+                           const InputCellIdentifier     id);
   void
   SplitTriangleFromTwoEdges(OutputMeshType *              output,
                             const OutputPointIdentifier * trianglePointIds,
                             const OutputPointIdentifier * edgePointIds,
-                            const unsigned int *          splitEdges);
+                            const unsigned int *          splitEdges,
+                            const InputCellIdentifier     id);
   void
   SplitTriangleFromThreeEdges(OutputMeshType *              output,
                               const OutputPointIdentifier * trianglePointIds,
-                              const OutputPointIdentifier * edgePointIds);
+                              const OutputPointIdentifier * edgePointIds,
+                              const InputCellIdentifier     id);
+
+  void
+  PassCellData(const InputCellIdentifier inputId, const OutputQEType * outputEdge);
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

@@ -21,6 +21,7 @@
 
 #include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
 #include "itkConceptChecking.h"
+#include <vector>
 
 namespace itk
 {
@@ -44,6 +45,7 @@ public:
 
   using CellSubdivisionFilterType = TCellSubdivisionFilter;
   using CellSubdivisionFilterPointer = typename CellSubdivisionFilterType::Pointer;
+  using CellSubdivisionFilterPointerVector = typename std::vector<CellSubdivisionFilterPointer>;
 
   using InputMeshType = TInputMesh;
   using InputMeshPointer = typename InputMeshType::Pointer;
@@ -68,10 +70,10 @@ public:
 
   itkSetMacro(ResolutionLevels, unsigned int);
   itkGetConstMacro(ResolutionLevels, unsigned int);
+  void
+  SetCellsToBeSubdivided(const SubdivisionCellContainer &);
   itkGetConstReferenceMacro(CellsToBeSubdivided, SubdivisionCellContainer);
 
-  void
-  SetCellsToBeSubdivided(const SubdivisionCellContainer & cellIdList);
   void
   AddSubdividedCellId(OutputCellIdentifier cellId);
 
@@ -86,9 +88,9 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  CellSubdivisionFilterPointer m_CellSubdivisionFilter;
-  SubdivisionCellContainer     m_CellsToBeSubdivided;
-  unsigned int                 m_ResolutionLevels;
+  CellSubdivisionFilterPointerVector m_CellSubdivisionFilterVector;
+  SubdivisionCellContainer           m_CellsToBeSubdivided;
+  unsigned int                       m_ResolutionLevels;
 };
 } // end namespace itk
 

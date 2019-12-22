@@ -20,6 +20,7 @@
 #define itkIterativeTriangleCellSubdivisionQuadEdgeMeshFilter_hxx
 
 #include "itkIterativeTriangleCellSubdivisionQuadEdgeMeshFilter.h"
+#include <algorithm>
 
 namespace itk
 {
@@ -27,7 +28,6 @@ template <typename TInputMesh, typename TCellSubdivisionFilter>
 IterativeTriangleCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TCellSubdivisionFilter>::
   IterativeTriangleCellSubdivisionQuadEdgeMeshFilter()
 {
-  this->m_CellSubdivisionFilter = CellSubdivisionFilterType::New();
   this->m_ResolutionLevels = 1;
 }
 
@@ -36,7 +36,7 @@ void
 IterativeTriangleCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TCellSubdivisionFilter>::SetCellsToBeSubdivided(
   const SubdivisionCellContainer & cellIdList)
 {
-  this->m_CellSubdivisionFilter->SetCellsToBeSubdivided(cellIdList);
+  this->m_CellsToBeSubdivided = cellIdList;
   this->Modified();
 }
 
@@ -53,17 +53,23 @@ template <typename TInputMesh, typename TCellSubdivisionFilter>
 void
 IterativeTriangleCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TCellSubdivisionFilter>::GenerateData()
 {
-  this->CopyInputMeshToOutputMeshGeometry();
-
-  unsigned int resolution = this->m_ResolutionLevels;
-  while (resolution != 0)
+  this->m_CellSubdivisionFilterVector.clear();
+  const auto resolution = std::max(static_cast<unsigned int>(1), this->m_ResolutionLevels);
+  for (size_t i = 0; i < resolution; ++i)
   {
-    this->m_CellSubdivisionFilter->SetInput(this->GetOutput());
-    this->m_CellSubdivisionFilter->Update();
-    OutputMeshPointer mesh = this->m_CellSubdivisionFilter->GetOutput();
-    mesh->DisconnectPipeline();
-    this->GraftOutput(mesh);
-    --resolution;
+    this->m_CellSubdivisionFilterVector.push_back(TCellSubdivisionFilter::New());
+  }
+  this->m_CellSubdivisionFilterVector.at(0)->SetInput(this->GetInput());
+  this->m_CellSubdivisionFilterVector.at(0)->SetCellsToBeSubdivided(this->m_CellsToBeSubdivided);
+  this->m_CellSubdivisionFilterVector.at(0)->Update();
+  this->GraftOutput(this->m_CellSubdivisionFilterVector.at(0)->GetOutput());
+  for (size_t i = 1; i < resolution; ++i)
+  {
+    this->m_CellSubdivisionFilterVector.at(i)->SetInput(this->GetOutput());
+    this->m_CellSubdivisionFilterVector.at(i)->SetCellsToBeSubdivided(
+      this->m_CellSubdivisionFilterVector.at(i - 1)->GetCellsToBeSubdivided());
+    this->m_CellSubdivisionFilterVector.at(i)->Update();
+    this->GraftOutput(this->m_CellSubdivisionFilterVector.at(i)->GetOutput());
   }
 }
 
