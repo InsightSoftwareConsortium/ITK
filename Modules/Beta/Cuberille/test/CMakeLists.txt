@@ -5,6 +5,7 @@ set(DATA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Input)
 set(CuberilleTests
   CuberilleTest01.cxx
   CuberilleTest02.cxx
+  CuberilleTest03.cxx
   )
 
 CreateTestDriver(Cuberille "${Cuberille-Test_LIBRARIES}" "${CuberilleTests}")
@@ -351,3 +352,6 @@ add_test(
 
 itk_add_test(NAME CuberilleTestDirectionMatrix
   COMMAND ${itk-module}TestDriver CuberilleTest02 )
+
+itk_add_test(NAME CuberilleTestCellData
+  COMMAND ${itk-module}TestDriver CuberilleTest03 )
