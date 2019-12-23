@@ -777,12 +777,18 @@ cookiecutter ~/src/ITK/Utilities/Maintenance/DownloadLinksCookieCutter/
 Start with the previous GitHub Release markdown content to produce the
 release notes.
 
-To generate the changelog:
+To generate the changelog by running
 
 ```sh
    cd ITK
-   git shortlog --topo-order --no-merges v$old_version..v$new_version
+   ./Utilities/Maintenance/AuthorsChangesSince.py $old_version
 ```
+
+The log is generated at */tmp/AuthorsChangesSince/Changelog.txt*.
+
+The count of recent authors is found in the script output, and a list of new authors
+are found at */tmp/AuthorsChangesSince/NewAuthors.txt*.
+
 
 Announcing
 ----------
