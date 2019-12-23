@@ -6,6 +6,7 @@ set(
   CuberilleTests
   CuberilleTest01.cxx
   CuberilleTest02.cxx
+  CuberilleTest03.cxx
 )
 
 createtestdriver(Cuberille "${Cuberille-Test_LIBRARIES}" "${CuberilleTests}")
@@ -336,4 +337,11 @@ itk_add_test(
   COMMAND
     ${itk-module}TestDriver
     CuberilleTest02
+)
+
+itk_add_test(
+  NAME CuberilleTestCellData
+  COMMAND
+    ${itk-module}TestDriver
+    CuberilleTest03
 )

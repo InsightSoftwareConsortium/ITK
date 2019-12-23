@@ -38,6 +38,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::CuberilleIm
   , m_MaxSpacing(NumericTraits<SpacingValueType>::One)
   , m_GenerateTriangleFaces(true)
   , m_ProjectVerticesToIsoSurface(true)
+  , m_SavePixelAsCellData(false)
   , m_ProjectVertexSurfaceDistanceThreshold(0.5)
   , m_ProjectVertexStepLength(-1.0)
   , m_ProjectVertexStepLengthRelaxationFactor(0.95)
@@ -74,11 +75,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GenerateDat
   typename OutputMeshType::Pointer mesh = Superclass::GetOutput();
 
   // Compute maximum spacing
-  m_MaxSpacing = image->GetSpacing()[0];
-  for (unsigned int i = 1; i < InputImageType::ImageDimension; ++i)
-  {
-    m_MaxSpacing = std::max(m_MaxSpacing, image->GetSpacing()[i]);
-  }
+  m_MaxSpacing = image->GetSpacing().GetVnlVector().max_value();
 
   // Set default step length
   if (m_ProjectVertexStepLength < 0.0)
@@ -218,7 +215,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GenerateDat
         f[1] = v[4];
         f[2] = v[7];
         f[3] = v[3];
-        AddQuadFace(nextCellId, f, mesh);
+        AddQuadFace(nextCellId, f, mesh, center);
       }
       if (faceHasQuad[1])
       {
@@ -226,7 +223,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GenerateDat
         f[1] = v[1];
         f[2] = v[5];
         f[3] = v[4];
-        AddQuadFace(nextCellId, f, mesh);
+        AddQuadFace(nextCellId, f, mesh, center);
       }
       if (faceHasQuad[2])
       {
@@ -234,7 +231,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GenerateDat
         f[1] = v[2];
         f[2] = v[6];
         f[3] = v[5];
-        AddQuadFace(nextCellId, f, mesh);
+        AddQuadFace(nextCellId, f, mesh, center);
       }
       if (faceHasQuad[3])
       {
@@ -242,7 +239,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GenerateDat
         f[1] = v[3];
         f[2] = v[7];
         f[3] = v[6];
-        AddQuadFace(nextCellId, f, mesh);
+        AddQuadFace(nextCellId, f, mesh, center);
       }
       if (faceHasQuad[4])
       {
@@ -250,7 +247,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GenerateDat
         f[1] = v[3];
         f[2] = v[2];
         f[3] = v[1];
-        AddQuadFace(nextCellId, f, mesh);
+        AddQuadFace(nextCellId, f, mesh, center);
       }
       if (faceHasQuad[5])
       {
@@ -258,7 +255,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GenerateDat
         f[1] = v[5];
         f[2] = v[6];
         f[3] = v[7];
-        AddQuadFace(nextCellId, f, mesh);
+        AddQuadFace(nextCellId, f, mesh, center);
       }
 
     } // end if num faces > 0
@@ -385,7 +382,8 @@ void
 CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::AddQuadFace(
   typename TOutputMesh::CellIdentifier & id,
   typename TOutputMesh::PointIdentifier  face[4],
-  TOutputMesh *                          mesh)
+  TOutputMesh *                          mesh,
+  const InputPixelType &                 pixel)
 {
   if (m_GenerateTriangleFaces)
   {
@@ -423,14 +421,20 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::AddQuadFace
     tri1.TakeOwnership(new TriangleCellType);
     tri1->SetPointIds(face1);
     mesh->SetCell(id++, tri1);
-    // mesh->SetCellData( id, (OutputPixelType)0 );
+    if (this->m_SavePixelAsCellData)
+    {
+      mesh->SetCellData((id - 1), pixel);
+    }
 
     // Add triangle 2 cell
     TriangleCellAutoPointer tri2;
     tri2.TakeOwnership(new TriangleCellType);
     tri2->SetPointIds(face2);
     mesh->SetCell(id++, tri2);
-    // mesh->SetCellData( id, (OutputPixelType)0 );
+    if (this->m_SavePixelAsCellData)
+    {
+      mesh->SetCellData((id - 1), pixel);
+    }
   }
   else
   {
@@ -439,7 +443,10 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::AddQuadFace
     quad1.TakeOwnership(new QuadrilateralCellType);
     quad1->SetPointIds(face);
     mesh->SetCell(id++, quad1);
-    // mesh->SetCellData( id, (OutputPixelType)0 );
+    if (this->m_SavePixelAsCellData)
+    {
+      mesh->SetCellData((id - 1), pixel);
+    }
   }
 }
 
