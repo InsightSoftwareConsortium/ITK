@@ -72,7 +72,7 @@ set (CTEST_CMAKE_COMMAND "\"${CMAKE_COMMAND}\"")
 if (CTEST_USE_TAR_SOURCE)
   ## Uncompress source if tar or zip file provided
   ## --------------------------
-  if (WIN32)
+  if (WIN32 AND NOT MINGW)
     message (STATUS "extracting... [${CMAKE_EXECUTABLE_NAME} -E tar -xvf ${CTEST_DASHBOARD_ROOT}\\${CTEST_USE_TAR_SOURCE}.zip]")
     execute_process (COMMAND ${CMAKE_EXECUTABLE_NAME} -E tar -xvf ${CTEST_DASHBOARD_ROOT}\\${CTEST_USE_TAR_SOURCE}.zip RESULT_VARIABLE rv)
   else ()
@@ -101,6 +101,11 @@ endif ()
 include (ProcessorCount)
 ProcessorCount (N)
 if (NOT N EQUAL 0)
+  if (MAX_PROC_COUNT)
+    if (N GREATER MAX_PROC_COUNT)
+      set (N ${MAX_PROC_COUNT})
+    endif ()
+  endif ()
   if (NOT WIN32)
     set (CTEST_BUILD_FLAGS -j${N})
   endif ()
@@ -114,8 +119,12 @@ set(CTEST_CONFIGURE_TOOLSET  "")
 if(CMAKE_GENERATOR_TOOLSET)
   set(CTEST_CONFIGURE_TOOLSET  "-T${CMAKE_GENERATOR_TOOLSET}")
 endif()
+set(CTEST_CONFIGURE_ARCHITECTURE  "")
+if(CMAKE_GENERATOR_ARCHITECTURE)
+  set(CTEST_CONFIGURE_ARCHITECTURE  "-A${CMAKE_GENERATOR_ARCHITECTURE}")
+endif()
 set (CTEST_CONFIGURE_COMMAND
-    "${CTEST_CMAKE_COMMAND} -C \"${CTEST_SOURCE_DIRECTORY}/config/cmake/cacheinit.cmake\" -DCMAKE_BUILD_TYPE:STRING=${CTEST_CONFIGURATION_TYPE} ${BUILD_OPTIONS} \"-G${CTEST_CMAKE_GENERATOR}\" \"${CTEST_CONFIGURE_TOOLSET}\" \"${CTEST_SOURCE_DIRECTORY}\""
+    "${CTEST_CMAKE_COMMAND} -C \"${CTEST_SOURCE_DIRECTORY}/config/cmake/cacheinit.cmake\" -DCMAKE_BUILD_TYPE:STRING=${CTEST_CONFIGURATION_TYPE} ${BUILD_OPTIONS} \"-G${CTEST_CMAKE_GENERATOR}\" \"${CTEST_CONFIGURE_ARCHITECTURE}\" \"${CTEST_CONFIGURE_TOOLSET}\" \"${CTEST_SOURCE_DIRECTORY}\""
 )
 #-----------------------------------------------------------------------------
 

@@ -20,6 +20,9 @@ set(CTEST_CMAKE_GENERATOR "@CMAKE_GENERATOR@")
 if("@CMAKE_GENERATOR_TOOLSET@")
   set(CMAKE_GENERATOR_TOOLSET "@CMAKE_GENERATOR_TOOLSET@")
 endif()
+if("@CMAKE_GENERATOR_ARCHITECTURE@")
+  set(CMAKE_GENERATOR_ARCHITECTURE "@CMAKE_GENERATOR_ARCHITECTURE@")
+endif()
 set(CTEST_DASHBOARD_ROOT ${CTEST_SCRIPT_DIRECTORY})
 
 # handle input parameters to script.
@@ -48,7 +51,11 @@ set(ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DCTEST_CONFIGURATION_TYPE:STRING=${
 ##################################################################
 
 if(NOT DEFINED INSTALLDIR)
-  set(INSTALLDIR "C:/Program Files/HDF_Group/@HDF5_PACKAGE_NAME@/@HDF5_PACKAGE_VERSION@")
+  if(WIN32)
+    set(INSTALLDIR "C:/Program Files/HDF_Group/@HDF5_PACKAGE_NAME@/@HDF5_PACKAGE_VERSION@")
+  else()
+    set(INSTALLDIR "@CMAKE_INSTALL_PREFIX@")
+  endif()
 endif()
 
 if(NOT DEFINED CTEST_SOURCE_NAME)
@@ -70,7 +77,7 @@ set(ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DSITE:STRING=${CTEST_SITE} -DBUILDN
 
 #TAR_SOURCE - name of tarfile
 #if(NOT DEFINED TAR_SOURCE)
-#  set(CTEST_USE_TAR_SOURCE "HDF5Examples-1.10.10-Source")
+#  set(CTEST_USE_TAR_SOURCE "HDF5Examples-1.10.13-Source")
 #endif()
 
 ###############################################################################################################
