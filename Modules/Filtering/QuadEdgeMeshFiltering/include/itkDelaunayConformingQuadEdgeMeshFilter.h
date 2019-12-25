@@ -142,6 +142,9 @@ protected:
   void
   Process();
 
+  void
+  ReassignCellData(const OutputCellIdentifier & in, const OutputCellIdentifier & out);
+
   inline CriterionValueType
   Dyer07Criterion(OutputMeshType * iMesh, OutputQEType * iEdge) const
   {

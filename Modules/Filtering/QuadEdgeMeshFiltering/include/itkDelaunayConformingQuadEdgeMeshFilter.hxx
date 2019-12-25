@@ -98,6 +98,27 @@ DelaunayConformingQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::InitializePriorit
 }
 
 // ---------------------------------------------------------------------
+
+template <typename TInputMesh, typename TOutputMesh>
+void
+DelaunayConformingQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ReassignCellData(const OutputCellIdentifier & in,
+                                                                                const OutputCellIdentifier & out)
+{
+
+  if (nullptr == this->GetOutput()->GetCellData())
+  {
+    return;
+  }
+  if (!this->GetOutput()->GetCellData()->IndexExists(in))
+  {
+    return;
+  }
+  const auto cell_data = this->GetOutput()->GetCellData()->ElementAt(in);
+  this->GetOutput()->GetCellData()->DeleteIndex(in);
+  this->GetOutput()->GetCellData()->SetElement(out, cell_data);
+}
+
+// ---------------------------------------------------------------------
 template <typename TInputMesh, typename TOutputMesh>
 void
 DelaunayConformingQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Process()
@@ -134,7 +155,15 @@ DelaunayConformingQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Process()
     delete m_QueueMapper[edge];
     m_QueueMapper.erase(edge);
 
+    const auto il_id = qe->GetLeft();  // Input Left ID
+    const auto ir_id = qe->GetRight(); // Input Right ID
     qe = m_FlipEdge->Evaluate(qe);
+    const auto ol_id = qe->GetLeft();  // Output Left ID
+    const auto or_id = qe->GetRight(); // Output Right ID
+
+    this->ReassignCellData(il_id, ol_id);
+    this->ReassignCellData(ir_id, or_id);
+
     if (qe != nullptr)
     {
       ++this->m_NumberOfEdgeFlips;
