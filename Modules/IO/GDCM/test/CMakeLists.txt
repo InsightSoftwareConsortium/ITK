@@ -176,6 +176,24 @@ itk_add_test(NAME itkGDCMImageReadWriteTest_RGB
       ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadWriteTest_RGB.mha
       rgb)
 
+itk_add_test(NAME itkGDCM_ComplianceTestRGB_JPEG2000ICT
+  COMMAND ITKIOGDCMTestDriver
+    --compare DATA{Baseline/US1_J2KI.mha}
+      ${ITK_TEST_OUTPUT_DIR}/itkGDCM_ComplianceTestRGB_JPEG2000ICT.mha
+    itkGDCMImageReadWriteTest
+      DATA{Input/US1_J2KI.dcm}
+      ${ITK_TEST_OUTPUT_DIR}/itkGDCM_ComplianceTestRGB_JPEG2000ICT.mha
+      rgb)
+
+itk_add_test(NAME itkGDCM_ComplianceTestRGB_JPEG2000RCT
+  COMMAND ITKIOGDCMTestDriver
+    --compare DATA{Baseline/US1_J2KR.mha}
+      ${ITK_TEST_OUTPUT_DIR}/itkGDCM_ComplianceTestRGB_JPEG2000RCT.mha
+    itkGDCMImageReadWriteTest
+      DATA{Input/US1_J2KR.dcm}
+      ${ITK_TEST_OUTPUT_DIR}/itkGDCM_ComplianceTestRGB_JPEG2000RCT.mha
+      rgb)
+
 itk_add_test(NAME itkGDCMImageReadWriteTest_JPEGBaseline1
   COMMAND ITKIOGDCMTestDriver
     --compareIntensityTolerance 5
