@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "itkTestingMacros.h"
 #include "itkMeshFileReader.h"
 #include "itkMeshFileWriter.h"
 #include "itkQuadEdgeMesh.h"
@@ -23,57 +24,87 @@
 #include "itkDelaunayConformingQuadEdgeMeshFilter.h"
 
 int
-itkDelaunayConformingQuadEdgeMeshFilterTest(int argc, char * argv[])
+itkDelaunayConformingQuadEdgeMeshFilterTestHelper(const std::string & input,
+                                                  const std::string & output,
+                                                  const bool          cell_data)
 {
-  // ** ERROR MESSAGE AND HELP ** //
-  if (argc < 3)
-  {
-    std::cout << "Requires 2 argument: " << std::endl;
-    std::cout << "1-Input file name " << std::endl;
-    std::cout << "2-Output file name " << std::endl;
-    return EXIT_FAILURE;
-  }
 
   // ** TYPEDEF **
   using Coord = double;
 
   using MeshType = itk::QuadEdgeMesh<Coord, 3>;
   using ReaderType = itk::MeshFileReader<MeshType>;
+  using DelaunayConformFilterType = itk::DelaunayConformingQuadEdgeMeshFilter<MeshType, MeshType>;
   using WriterType = itk::MeshFileWriter<MeshType>;
 
   // ** READ THE FILE IN **
-  ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName(argv[1]);
-  try
-  {
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception thrown while reading the input file " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  const auto reader = ReaderType::New();
+  reader->SetFileName(input);
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   MeshType::Pointer mesh = reader->GetOutput();
 
-  using DelaunayConformFilterType = itk::DelaunayConformingQuadEdgeMeshFilter<MeshType, MeshType>;
-  DelaunayConformFilterType::Pointer filter = DelaunayConformFilterType::New();
+  if (cell_data)
+  {
+    for (auto it = mesh->GetCells()->Begin(); it != mesh->GetCells()->End(); ++it)
+    {
+      mesh->SetCellData(it.Index(), it.Index());
+    }
+  }
+
+  const auto filter = DelaunayConformFilterType::New();
   filter->SetInput(mesh);
   filter->Update();
 
-  // ** WRITE OUTPUT **
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetInput(filter->GetOutput());
-  writer->SetFileName(argv[2]);
-  writer->Update();
+  if (cell_data)
+  {
+    for (auto it = mesh->GetCells()->Begin(); it != mesh->GetCells()->End(); ++it)
+    {
+      mesh->SetCellData(it.Index(), it.Index());
+      itkAssertOrThrowMacro(mesh->GetCellData()->IndexExists(it.Index()),
+                            "Incorrect number of cells in cell data array.");
+    }
+  }
 
-  std::cout << "Input: " << argv[1] << std::endl;
-  std::cout << "Output: " << argv[2] << std::endl;
+  // ** WRITE OUTPUT **
+  const auto writer = WriterType::New();
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(output);
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+  std::cout << "Input: " << input << std::endl;
+  std::cout << "Output: " << output << std::endl;
   std::cout << "Number of Edge flipped performed: " << filter->GetNumberOfEdgeFlips() << std::endl;
 
   // ** PRINT **
   std::cout << filter;
+
+  return EXIT_SUCCESS;
+}
+
+int
+itkDelaunayConformingQuadEdgeMeshFilterTest(int argc, char * argv[])
+{
+  // ** ERROR MESSAGE AND HELP ** //
+  if (argc < 3)
+  {
+    std::cout << "Requires 2 arguments: " << std::endl;
+    std::cout << "1-Input file name " << std::endl;
+    std::cout << "2-Output file name " << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  const std::string input(argv[1]);
+  const std::string output(argv[2]);
+
+  if (EXIT_FAILURE == itkDelaunayConformingQuadEdgeMeshFilterTestHelper(input, output, true))
+  {
+    return EXIT_FAILURE;
+  }
+  if (EXIT_FAILURE == itkDelaunayConformingQuadEdgeMeshFilterTestHelper(input, output, false))
+  {
+    return EXIT_FAILURE;
+  }
 
   return EXIT_SUCCESS;
 }
