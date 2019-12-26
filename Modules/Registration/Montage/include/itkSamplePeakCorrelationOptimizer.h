@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright NumFOCUS
+ *  Copyright Insight Software Consortium
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,34 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkMaxPhaseCorrelationOptimizer_h
-#define itkMaxPhaseCorrelationOptimizer_h
+#ifndef itkSamplePeakCorrelationOptimizer_h
+#define itkSamplePeakCorrelationOptimizer_h
 
-#include "itkSamplePeakCorrelationOptimizer.h"
+#include "itkNMinimaMaximaImageCalculator.h"
+#include "itkPhaseCorrelationOptimizer.h"
 
 namespace itk
 {
-
-/** \class MaxPhaseCorrelationOptimizerEnums
- * \ingroup Montage
- */
-class MaxPhaseCorrelationOptimizerEnums
-{
-public:
-  /** \class PeakInterpolationMethod
-   *  \brief Different methods of interpolation the phase correlation peak.
-   *  \ingroup Montage */
-  enum class PeakInterpolationMethod : uint8_t
-  {
-    None = 0,
-    Parabolic,
-    Cosine,
-    Last = Cosine
-  };
-};
-
-/** \class MaxPhaseCorrelationOptimizer
- *  \brief Implements basic shift estimation from position of maximum peak.
+/** \class SamplePeakCorrelationOptimizer
+ *
+ *  \brief Implements integer shift estimation from position of maximum peak.
  *
  *  This class is templated over the type of registration method in which it has
  *  to be plugged in.
@@ -51,9 +34,7 @@ public:
  *  it should be get back by
  *  PhaseCorrelationImageRegistrationMethod::GetRealOptimizer() method.
  *
- *  The optimizer finds the maximum peak by SamplePeakCorrelationOptimizer.
- *  If interpolation method is None, the shift is estimated with pixel-level
- *  precision. Otherwise the requested interpolation method is used.
+ *  The optimizer finds the maximum peak by MinimumMaximumImageCalculator.
  *
  * \author Jakub Bican, jakub.bican@matfyz.cz, Department of Image Processing,
  *         Institute of Information Theory and Automation,
@@ -62,13 +43,13 @@ public:
  * \ingroup Montage
  */
 template <typename TRegistrationMethod>
-class ITK_TEMPLATE_EXPORT MaxPhaseCorrelationOptimizer
+class ITK_TEMPLATE_EXPORT SamplePeakCorrelationOptimizer
   : public PhaseCorrelationOptimizer<typename TRegistrationMethod::RealImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaxPhaseCorrelationOptimizer);
+  ITK_DISALLOW_COPY_AND_ASSIGN(SamplePeakCorrelationOptimizer);
 
-  using Self = MaxPhaseCorrelationOptimizer;
+  using Self = SamplePeakCorrelationOptimizer;
   using Superclass = PhaseCorrelationOptimizer<typename TRegistrationMethod::RealImageType>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -77,7 +58,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MaxPhaseCorrelationOptimizer, PhaseCorrelationOptimizer);
+  itkTypeMacro(SamplePeakCorrelationOptimizer, PhaseCorrelationOptimizer);
 
   /**  Type of the input image. */
   using ImageType = typename TRegistrationMethod::RealImageType;
@@ -94,24 +75,33 @@ public:
   using OffsetType = typename Superclass::OffsetType;
   using OffsetScalarType = typename Superclass::OffsetScalarType;
 
-  using PeakInterpolationMethodEnum = MaxPhaseCorrelationOptimizerEnums::PeakInterpolationMethod;
-  itkGetConstMacro(PeakInterpolationMethod, PeakInterpolationMethodEnum);
-  using ConfidenceVector = typename Superclass::ConfidenceVector;
+  using MaxCalculatorType = NMinimaMaximaImageCalculator<ImageType>;
+  using IndexContainerType = typename MaxCalculatorType::IndexVector;
 
-  void
-  SetPeakInterpolationMethod(const PeakInterpolationMethodEnum peakInterpolationMethod);
+  /** Get/Set maximum city-block distance for peak merging. Zero disables it. */
+  itkGetConstMacro(MergePeaks, unsigned);
+  itkSetMacro(MergePeaks, unsigned);
 
-  const ConfidenceVector & GetConfidences() const override
-  {
-    return this->m_SamplePeakOptimizer->GetConfidences();
-  }
+  /** Get/Set suppression aggressiveness of trivial [0,0,...] solution. */
+  itkGetConstMacro(ZeroSuppression, double);
+  itkSetClampMacro(ZeroSuppression, double, 0.0, 100.0);
 
-  using SamplePeakOptimizerType = SamplePeakCorrelationOptimizer<TRegistrationMethod>;
-  itkGetModifiableObjectMacro(SamplePeakOptimizer, SamplePeakOptimizerType);
+  /** Get/Set expected maximum linear translation needed, in pixels.
+   * Zero (the default) has a special meaning: sigmoid scaling
+   * with half-way point at around quarter of image size.
+   * Translations can plausibly be up to half an image size. */
+  itkGetConstMacro(PixelDistanceTolerance, SizeValueType);
+  itkSetMacro(PixelDistanceTolerance, SizeValueType);
+
+  /** Get correlation image biased towards the expected solution. */
+  itkGetConstObjectMacro(AdjustedInput, ImageType);
+
+  /** Indices of the maxima. */
+  itkGetConstReferenceMacro(MaxIndices, IndexContainerType);
 
 protected:
-  MaxPhaseCorrelationOptimizer() = default;
-  ~MaxPhaseCorrelationOptimizer() override = default;
+  SamplePeakCorrelationOptimizer() = default;
+  virtual ~SamplePeakCorrelationOptimizer() = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -120,14 +110,19 @@ protected:
   ComputeOffset() override;
 
 private:
-  PeakInterpolationMethodEnum               m_PeakInterpolationMethod = PeakInterpolationMethodEnum::Parabolic;
-  typename SamplePeakOptimizerType::Pointer m_SamplePeakOptimizer = SamplePeakOptimizerType::New();
+  typename MaxCalculatorType::Pointer m_MaxCalculator = MaxCalculatorType::New();
+  unsigned                            m_MergePeaks = 1;
+  double                              m_ZeroSuppression = 5;
+  SizeValueType                       m_PixelDistanceTolerance = 0;
+
+  typename ImageType::Pointer m_AdjustedInput;
+  IndexContainerType m_MaxIndices;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkMaxPhaseCorrelationOptimizer.hxx"
+#  include "itkSamplePeakCorrelationOptimizer.hxx"
 #endif
 
 #endif
