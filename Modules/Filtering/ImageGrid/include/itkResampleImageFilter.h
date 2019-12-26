@@ -111,17 +111,23 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ResampleImageFilter, ImageToImageFilter);
 
-  /** Number of dimensions. */
-  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
+  /** Number of dimensions of output image. */
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
+
+  /** Number of dimensions of input image. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
-  /** base type for images of the current ImageDimension */
-  using ImageBaseType = ImageBase<Self::ImageDimension>;
+#if !defined(ITK_LEGACY_REMOVE)
+  static constexpr unsigned int ImageDimension = OutputImageDimension; // For backward compatibility
+#endif
+
+  /** base type for images of the current OutputImageDimension */
+  using ImageBaseType = ImageBase<Self::OutputImageDimension>;
 
   /**
    *  Transform type alias.
    */
-  using TransformType = Transform<TTransformPrecisionType, Self::ImageDimension, Self::ImageDimension>;
+  using TransformType = Transform<TTransformPrecisionType, Self::OutputImageDimension, Self::InputImageDimension>;
   using TransformPointerType = typename TransformType::ConstPointer;
   using DecoratedTransformType = DataObjectDecorator<TransformType>;
   using DecoratedTransformPointer = typename DecoratedTransformType::Pointer;
@@ -145,14 +151,14 @@ public:
   using ExtrapolatorPointerType = typename ExtrapolatorType::Pointer;
 
   /** Image size type alias. */
-  using SizeType = Size<Self::ImageDimension>;
+  using SizeType = Size<Self::OutputImageDimension>;
 
   /** Image index type alias. */
   using IndexType = typename TOutputImage::IndexType;
 
   /** Image point type alias. */
-  using PointType = typename InterpolatorType::PointType;
-  // using PointType = typename TOutputImage::PointType;
+  using InputPointType = typename InterpolatorType::PointType;
+  using OutputPointType = typename TOutputImage::PointType;
 
   /** Image pixel value type alias. */
   using PixelType = typename TOutputImage::PixelType;
@@ -163,7 +169,7 @@ public:
   using PixelComponentType = typename PixelConvertType::ComponentType;
 
   /** Input pixel continuous index typdef */
-  using ContinuousInputIndexType = ContinuousIndex<TInterpolatorPrecisionType, ImageDimension>;
+  using ContinuousInputIndexType = ContinuousIndex<TInterpolatorPrecisionType, InputImageDimension>;
 
   /** Typedef to describe the output image region type. */
   using OutputImageRegionType = typename TOutputImage::RegionType;
@@ -174,7 +180,7 @@ public:
   using DirectionType = typename TOutputImage::DirectionType;
 
   /** Typedef the reference image type to be the ImageBase of the OutputImageType */
-  using ReferenceImageBaseType = ImageBase<ImageDimension>;
+  using ReferenceImageBaseType = ImageBase<OutputImageDimension>;
 
   /* See superclass for doxygen. This method adds the additional check
    * that the output space is set */
@@ -357,6 +363,9 @@ private:
   template <typename TPixel>
   static PixelType
   CastPixelWithBoundsChecking(const TPixel value);
+
+  void
+  InitializeTransform();
 
   SizeType                m_Size;         // Size of the output image
   InterpolatorPointerType m_Interpolator; // Image function for
