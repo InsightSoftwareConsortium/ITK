@@ -101,7 +101,8 @@ calculateError(const itk::TileConfiguration<Dimension> &    stageTiles,
 
   using OptimizerType = itk::MaxPhaseCorrelationOptimizer<PhaseCorrelationMethodType>;
   typename OptimizerType::Pointer pcmOptimizer = OptimizerType::New();
-  pcmOptimizer->SetPixelDistanceTolerance(positionTolerance);
+  typename OptimizerType::SamplePeakOptimizerType::Pointer samplePeakOptimizer = pcmOptimizer->GetSamplePeakOptimizer();
+  samplePeakOptimizer->SetPixelDistanceTolerance(positionTolerance);
   phaseCorrelationMethod->SetOptimizer(pcmOptimizer);
 
   using PeakInterpolationType =

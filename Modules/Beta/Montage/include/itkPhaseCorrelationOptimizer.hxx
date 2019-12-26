@@ -55,16 +55,20 @@ WriteDebug(TImage *, const char *)
 
 namespace itk
 {
+
 template <typename TImage>
-PhaseCorrelationOptimizer<TImage>::PhaseCorrelationOptimizer()
+PhaseCorrelationOptimizer<TImage>
+::PhaseCorrelationOptimizer()
 {
   this->SetNumberOfRequiredInputs(3);
   this->SetOffsetCount(4);
 }
 
+
 template <typename TImage>
 void
-PhaseCorrelationOptimizer<TImage>::SetOffsetCount(unsigned count)
+PhaseCorrelationOptimizer<TImage>
+::SetOffsetCount(unsigned count)
 {
   if (m_Offsets.size() != count)
   {
@@ -80,9 +84,11 @@ PhaseCorrelationOptimizer<TImage>::SetOffsetCount(unsigned count)
   }
 }
 
+
 template <typename TImage>
 void
-PhaseCorrelationOptimizer<TImage>::PrintSelf(std::ostream & os, Indent indent) const
+PhaseCorrelationOptimizer<TImage>
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Offsets:";
@@ -93,9 +99,11 @@ PhaseCorrelationOptimizer<TImage>::PrintSelf(std::ostream & os, Indent indent) c
   os << std::endl;
 }
 
+
 template <typename TImage>
 void
-PhaseCorrelationOptimizer<TImage>::GenerateData()
+PhaseCorrelationOptimizer<TImage>
+::GenerateData()
 {
   if (!m_Updating)
   {
@@ -129,9 +137,11 @@ PhaseCorrelationOptimizer<TImage>::GenerateData()
   }
 }
 
+
 template <typename TImage>
 void
-PhaseCorrelationOptimizer<TImage>::SetInput(const ImageType * image)
+PhaseCorrelationOptimizer<TImage>
+::SetInput(const ImageType * image)
 {
   itkDebugMacro("setting input image to " << image);
   if (this->GetInput(0) != image)
@@ -141,9 +151,11 @@ PhaseCorrelationOptimizer<TImage>::SetInput(const ImageType * image)
   }
 }
 
+
 template <typename TImage>
 void
-PhaseCorrelationOptimizer<TImage>::SetFixedImage(const ImageBase<ImageType::ImageDimension> * image)
+PhaseCorrelationOptimizer<TImage>
+::SetFixedImage(const ImageBase<ImageType::ImageDimension> * image)
 {
   itkDebugMacro("setting fixed image to " << image);
   if (this->GetInput(1) != image)
@@ -153,9 +165,11 @@ PhaseCorrelationOptimizer<TImage>::SetFixedImage(const ImageBase<ImageType::Imag
   }
 }
 
+
 template <typename TImage>
 void
-PhaseCorrelationOptimizer<TImage>::SetMovingImage(const ImageBase<ImageType::ImageDimension> * image)
+PhaseCorrelationOptimizer<TImage>
+::SetMovingImage(const ImageBase<ImageType::ImageDimension> * image)
 {
   itkDebugMacro("setting moving image to " << image);
   if (this->GetInput(2) != image)
