@@ -61,12 +61,39 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
 
   // "Transform" required ( not numbered )
   Self::AddRequiredInputName("Transform");
-  Self::SetTransform(IdentityTransform<TTransformPrecisionType, ImageDimension>::New());
+  this->InitializeTransform();
 
   m_Interpolator = dynamic_cast<InterpolatorType *>(LinearInterpolatorType::New().GetPointer());
 
   m_DefaultPixelValue = NumericTraits<PixelType>::ZeroValue(m_DefaultPixelValue);
   this->DynamicMultiThreadingOn();
+}
+
+template <typename TInputImage,
+          typename TOutputImage,
+          typename TInterpolatorPrecisionType,
+          typename TTransformPrecisionType>
+void
+ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType>::
+  InitializeTransform()
+{
+  using IdentityTransformType =
+    Transform<TTransformPrecisionType, Self::OutputImageDimension, Self::OutputImageDimension>;
+  typename IdentityTransformType::Pointer defaultTransform =
+    IdentityTransform<TTransformPrecisionType, OutputImageDimension>::New();
+  if (InputImageDimension == OutputImageDimension)
+  {
+    using DecoratorType = DataObjectDecorator<IdentityTransformType>;
+    typename DecoratorType::Pointer decoratedInput = DecoratorType::New();
+    decoratedInput->Set(defaultTransform);
+    this->ProcessObject::SetInput(
+      "Transform", const_cast<DataObjectDecorator<IdentityTransformType> *>(decoratedInput.GetPointer()));
+  }
+  else
+  {
+    // Initialize with rectangular identity?
+  }
+  this->Modified();
 }
 
 template <typename TInputImage,
@@ -186,7 +213,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   // Check whether the input or the output is a
   // SpecialCoordinatesImage. If either are, then we cannot use the
   // fast path since index mapping will definitely not be linear.
-  using OutputSpecialCoordinatesImageType = SpecialCoordinatesImage<PixelType, ImageDimension>;
+  using OutputSpecialCoordinatesImageType = SpecialCoordinatesImage<PixelType, OutputImageDimension>;
   using InputSpecialCoordinatesImageType = SpecialCoordinatesImage<InputPixelType, InputImageDimension>;
 
   if (outputRegionForThread.GetNumberOfPixels() == 0)
@@ -360,8 +387,8 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
-  PointType outputPoint; // Coordinates of current output pixel
-  PointType inputPoint;  // Coordinates of current input pixel
+  OutputPointType outputPoint; // Coordinates of current output pixel
+  InputPointType  inputPoint;  // Coordinates of current input pixel
 
   ContinuousInputIndexType inputIndex;
 
@@ -423,10 +450,10 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
-  PointType outputPoint; // Coordinates of current output pixel
-  PointType inputPoint;  // Coordinates of current input pixel
+  OutputPointType outputPoint; // Coordinates of current output pixel
+  InputPointType  inputPoint;  // Coordinates of current input pixel
 
-  const InputImageRegionType & largestPossibleRegion = outputPtr->GetLargestPossibleRegion();
+  const OutputImageRegionType & largestPossibleRegion = outputPtr->GetLargestPossibleRegion();
 
   using OutputType = typename InterpolatorType::OutputType;
 
@@ -478,7 +505,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
         (scanlineIndex - largestPossibleRegion.GetIndex(0)) / (double)(largestPossibleRegion.GetSize(0));
 
       ContinuousInputIndexType inputIndex(startIndex);
-      for (unsigned int i = 0; i < ImageDimension; ++i)
+      for (unsigned int i = 0; i < InputImageDimension; ++i)
       {
         inputIndex[i] += alpha * (endIndex[i] - startIndex[i]);
       }
@@ -533,7 +560,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   // Check whether the input or the output is a
   // SpecialCoordinatesImage. If either are, then we cannot use the
   // fast path since index mapping will definitely not be linear.
-  using OutputSpecialCoordinatesImageType = SpecialCoordinatesImage<PixelType, ImageDimension>;
+  using OutputSpecialCoordinatesImageType = SpecialCoordinatesImage<PixelType, OutputImageDimension>;
   using InputSpecialCoordinatesImageType = SpecialCoordinatesImage<InputPixelType, InputImageDimension>;
 
   const bool isSpecialCoordinatesImage =
@@ -592,8 +619,10 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   GenerateOutputInformation()
 {
   // Call the superclass' implementation of this method
-  Superclass::GenerateOutputInformation();
-
+  if (InputImageDimension == OutputImageDimension)
+  {
+    Superclass::GenerateOutputInformation();
+  }
   // Get pointers to the input and output
   OutputImageType * outputPtr = this->GetOutput();
 
