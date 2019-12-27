@@ -24,22 +24,6 @@
 
 namespace itk
 {
-GDCMSeriesFileNames::GDCMSeriesFileNames()
-{
-  m_SerieHelper = new gdcm::SerieHelper();
-  m_InputDirectory = "";
-  m_OutputDirectory = "";
-  m_UseSeriesDetails = true;
-  m_Recursive = false;
-  m_LoadSequences = false;
-  m_LoadPrivateTags = false;
-}
-
-GDCMSeriesFileNames::~GDCMSeriesFileNames()
-{
-  delete m_SerieHelper;
-}
-
 void
 GDCMSeriesFileNames::SetInputDirectory(const char * name)
 {
