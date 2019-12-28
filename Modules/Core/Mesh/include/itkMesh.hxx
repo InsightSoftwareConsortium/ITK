@@ -1129,6 +1129,30 @@ Mesh<TPixelType, VDimension, TMeshTraits>::Graft(const DataObject * data)
   // test on the container will prevent premature deletion of cells.
   this->m_CellsAllocationMethod = mesh->m_CellsAllocationMethod;
 }
+
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+void
+Mesh<TPixelType, VDimension, TMeshTraits>::DeleteUnusedCellData()
+{
+
+  if (nullptr == this->GetCellData())
+  {
+    return;
+  }
+
+  std::vector<typename CellDataContainer::ElementIdentifier> cell_data_to_delete;
+  for (auto it = this->GetCellData()->Begin(); it != this->GetCellData()->End(); ++it)
+  {
+    if (!this->GetCells()->IndexExists(it.Index()))
+    {
+      cell_data_to_delete.push_back(it.Index());
+    }
+  }
+  for (const auto c : cell_data_to_delete)
+  {
+    this->GetCellData()->DeleteIndex(c);
+  }
+}
 } // end namespace itk
 
 #endif

@@ -34,6 +34,7 @@ itkCellInterfaceTest.cxx
 itkNewTest.cxx
 itkQuadrilateralCellTest.cxx
 itkTriangleCellTest.cxx
+itkMeshCellDataTest.cxx
 )
 
 set(ITKMesh-Test_LIBRARIES ${ITKMesh-Test_LIBRARIES})
@@ -182,6 +183,7 @@ itk_add_test(NAME itkNewTest COMMAND ITKMeshTestDriver itkNewTest)
 itk_add_test(NAME itkCellInterfaceTest COMMAND ITKMeshTestDriver itkCellInterfaceTest)
 itk_add_test(NAME itkTriangleCellTest COMMAND ITKMeshTestDriver itkTriangleCellTest)
 itk_add_test(NAME itkQuadrilateralCellTest COMMAND ITKMeshTestDriver itkQuadrilateralCellTest)
+itk_add_test(NAME itkMeshCellDataTest COMMAND ITKMeshTestDriver itkMeshCellDataTest)
 
 set_tests_properties(itkVTKPolyDataReaderTest2
    itkVTKPolyDataReaderBadTest0

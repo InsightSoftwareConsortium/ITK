@@ -81,6 +81,7 @@ QuadEdgeMeshZipMeshFunction<TMesh, TQEType>::Evaluate(QEType * e)
   OutputType VLeft = e->GetDestination();
   OutputType VRite = b->GetOrigin();
   bool       wasFacePresent = e->IsRightSet();
+  const auto rightFaceID = e->GetRight();
   OutputType resultingPointId = QEType::m_NoPoint;
 
   // We should be cautious and consider the case when the very
@@ -203,6 +204,13 @@ QuadEdgeMeshZipMeshFunction<TMesh, TQEType>::Evaluate(QEType * e)
   if (wasFacePresent)
   {
     this->m_Mesh->AddFace(b);
+    if (nullptr != this->m_Mesh->GetCellData())
+    {
+      if (this->m_Mesh->GetCellData()->IndexExists(rightFaceID))
+      {
+        this->m_Mesh->SetCellData(b->GetLeft(), this->m_Mesh->GetCellData()->ElementAt(rightFaceID));
+      }
+    }
   }
 
   this->m_Mesh->Modified();

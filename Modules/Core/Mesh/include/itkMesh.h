@@ -359,6 +359,12 @@ public:
   const CellDataContainer *
   GetCellData() const;
 
+  /** Delete entries in m_CellDataContainer which do not have a corresponding
+   * entry in m_CellsContainer.
+   */
+  void
+  DeleteUnusedCellData();
+
 #if !defined(ITK_WRAPPING_PARSER)
   /**
    * Set/get the BoundaryAssignmentsContainer for a given dimension.
