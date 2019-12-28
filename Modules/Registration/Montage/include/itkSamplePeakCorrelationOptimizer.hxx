@@ -37,6 +37,14 @@ namespace itk
 {
 
 template <typename TRegistrationMethod>
+SamplePeakCorrelationOptimizer<TRegistrationMethod>
+::SamplePeakCorrelationOptimizer()
+{
+  this->m_AdjustedInput = ImageType::New();
+}
+
+
+template <typename TRegistrationMethod>
 void
 SamplePeakCorrelationOptimizer<TRegistrationMethod>
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -78,10 +86,9 @@ SamplePeakCorrelationOptimizer<TRegistrationMethod>
   // other pixels get their value reduced by multiplication with
   // e^(-f*(d/s)^2), where f is distancePenaltyFactor,
   // d is pixel's distance, and s is approximate image size
-  typename ImageType::Pointer iAdjusted = ImageType::New();
-  iAdjusted->CopyInformation(input);
-  iAdjusted->SetRegions(input->GetBufferedRegion());
-  iAdjusted->Allocate(false);
+  m_AdjustedInput->CopyInformation(input);
+  m_AdjustedInput->SetRegions(input->GetBufferedRegion());
+  m_AdjustedInput->Allocate(false);
 
   typename ImageType::IndexType adjustedSize;
   typename ImageType::IndexType directExpectedIndex;
@@ -110,7 +117,7 @@ SamplePeakCorrelationOptimizer<TRegistrationMethod>
     wholeImage,
     [&](const typename ImageType::RegionType & region) {
       ImageRegionConstIterator<ImageType>     iIt(input, region);
-      ImageRegionIteratorWithIndex<ImageType> oIt(iAdjusted, region);
+      ImageRegionIteratorWithIndex<ImageType> oIt(m_AdjustedInput, region);
       IndexValueType                          zeroDist2 =
         100 * m_PixelDistanceTolerance * m_PixelDistanceTolerance; // round down to zero further from this
       for (; !oIt.IsAtEnd(); ++iIt, ++oIt)
@@ -150,7 +157,7 @@ SamplePeakCorrelationOptimizer<TRegistrationMethod>
     },
     nullptr);
 
-  WriteDebug(iAdjusted.GetPointer(), "iAdjusted.nrrd");
+  WriteDebug(m_AdjustedInput.GetPointer(), "m_AdjustedInput.nrrd");
 
   if (m_ZeroSuppression > 0.0) // suppress trivial zero solution
   {
@@ -158,7 +165,7 @@ SamplePeakCorrelationOptimizer<TRegistrationMethod>
     mt->ParallelizeImageRegion<ImageDimension>(
       wholeImage,
       [&](const typename ImageType::RegionType & region) {
-        ImageRegionIteratorWithIndex<ImageType> oIt(iAdjusted, region);
+        ImageRegionIteratorWithIndex<ImageType> oIt(m_AdjustedInput, region);
         for (; !oIt.IsAtEnd(); ++oIt)
         {
           bool                          pixelValid = false;
@@ -201,10 +208,10 @@ SamplePeakCorrelationOptimizer<TRegistrationMethod>
       },
       nullptr);
 
-    WriteDebug(iAdjusted.GetPointer(), "iAdjustedZS.nrrd");
+    WriteDebug(m_AdjustedInput.GetPointer(), "m_AdjustedInputZS.nrrd");
   }
 
-  m_MaxCalculator->SetImage(iAdjusted);
+  m_MaxCalculator->SetImage(m_AdjustedInput);
   if (m_MergePeaks)
   {
     m_MaxCalculator->SetN(std::ceil(this->m_Offsets.size() / 2) *
