@@ -60,6 +60,13 @@ itkSquaredEdgeLengthDecimationQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   MeshType::Pointer mesh = reader->GetOutput();
 
+  for (auto it = mesh->GetCells()->Begin(); it != mesh->GetCells()->End(); ++it)
+  {
+    mesh->SetCellData(it.Index(), 25);
+  }
+  itkAssertOrThrowMacro(mesh->GetNumberOfCells() == mesh->GetCellData()->Size(),
+                        "Incorrect number of elements in the cell data array.");
+
   using CriterionType = itk::NumberOfFacesCriterion<MeshType>;
 
   using DecimationType = itk::SquaredEdgeLengthDecimationQuadEdgeMeshFilter<MeshType, MeshType, CriterionType>;
@@ -76,6 +83,9 @@ itkSquaredEdgeLengthDecimationQuadEdgeMeshFilterTest(int argc, char * argv[])
   decimate->SetInput(mesh);
   decimate->SetCriterion(criterion);
   decimate->Update();
+
+  itkAssertOrThrowMacro(decimate->GetOutput()->GetNumberOfCells() == decimate->GetOutput()->GetCellData()->Size(),
+                        "Incorrect number of elements in the cell data array.");
 
   // ** WRITE OUTPUT **
   WriterType::Pointer writer = WriterType::New();

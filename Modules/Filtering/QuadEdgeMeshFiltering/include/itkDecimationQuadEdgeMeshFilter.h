@@ -88,6 +88,7 @@ protected:
     } while (!IsCriterionSatisfied());
 
     this->GetOutput()->SqueezePointsIds();
+    this->GetOutput()->DeleteUnusedCellData();
   }
 
   virtual void
