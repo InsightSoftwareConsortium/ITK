@@ -100,7 +100,7 @@ public:
   itkGetConstReferenceMacro(MaxIndices, IndexContainerType);
 
 protected:
-  SamplePeakCorrelationOptimizer() = default;
+  SamplePeakCorrelationOptimizer();
   virtual ~SamplePeakCorrelationOptimizer() = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
