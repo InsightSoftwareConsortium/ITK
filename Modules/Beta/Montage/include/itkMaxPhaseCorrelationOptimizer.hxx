@@ -91,7 +91,6 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
   const typename ImageType::IndexType  oIndex = wholeImage.GetIndex();
   const typename ImageType::SizeType   size = wholeImage.GetSize();
 
-  const ImageType * adjustedInput = this->m_SamplePeakOptimizer->GetAdjustedInput();
   const auto maxIndices = this->m_SamplePeakOptimizer->GetMaxIndices();
 
   typename ImageType::IndexType adjustedSize;
@@ -108,7 +107,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
       ContinuousIndexType maxIndex = maxIndices[offsetIndex];
       typename ImageType::IndexType tempIndex = maxIndices[offsetIndex];
       typename ImageType::PixelType y0;
-      typename ImageType::PixelType y1 = this->m_Confidences[offsetIndex];
+      typename ImageType::PixelType y1 = input->GetPixel(tempIndex);
       typename ImageType::PixelType y2;
 
       for (unsigned i = 0; i < ImageDimension; i++)
@@ -119,14 +118,14 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
           tempIndex[i] = maxIndex[i];
           continue;
         }
-        y0 = adjustedInput->GetPixel(tempIndex);
+        y0 = input->GetPixel(tempIndex);
         tempIndex[i] = maxIndex[i] + 1;
         if (!wholeImage.IsInside(tempIndex))
         {
           tempIndex[i] = maxIndex[i];
           continue;
         }
-        y2 = adjustedInput->GetPixel(tempIndex);
+        y2 = input->GetPixel(tempIndex);
         tempIndex[i] = maxIndex[i];
 
         OffsetScalarType omega, theta, ratio;
