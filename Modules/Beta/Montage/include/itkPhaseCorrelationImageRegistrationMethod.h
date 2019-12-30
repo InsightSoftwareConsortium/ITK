@@ -156,7 +156,7 @@ public:
   using MovingImageConstPointer = typename MovingImageType::ConstPointer;
 
   /** Dimensionality of input and output data is assumed to be the same. */
-  itkStaticConstMacro(ImageDimension, unsigned int, FixedImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = FixedImageType::ImageDimension;
 
   /** Image and region size type. */
   using SizeType = Size<ImageDimension>;
@@ -408,7 +408,7 @@ public:
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  itkStaticConstMacro(MovingImageDimension, unsigned int, FixedImageType::ImageDimension);
+  static constexpr unsigned int MovingImageDimension = FixedImageType::ImageDimension;
   /** Start concept checking */
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, MovingImageDimension>));
 #endif

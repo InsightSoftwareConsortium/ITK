@@ -74,7 +74,7 @@ public:
   itkTypeMacro(TileMergeImageFilter, TileMontage);
 
   /** Dimensionality of input images. */
-  itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
   /** This is envisioned to be the primary way of setting inputs.
    * All required inputs are taken from TileMontage. Alternatively,

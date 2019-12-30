@@ -61,7 +61,7 @@ public:
   using ImageConstPointer = typename ImageType::ConstPointer;
 
   /** Dimensionality of input and output data. */
-  itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
   /** Real correlation surface's pixel type. */
   using PixelType = typename ImageType::PixelType;
