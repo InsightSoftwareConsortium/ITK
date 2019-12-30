@@ -97,7 +97,6 @@ public:
   using PeakInterpolationMethodEnum = MaxPhaseCorrelationOptimizerEnums::PeakInterpolationMethod;
   itkGetConstMacro(PeakInterpolationMethod, PeakInterpolationMethodEnum);
   using ConfidenceVector = typename Superclass::ConfidenceVector;
-
   void
   SetPeakInterpolationMethod(const PeakInterpolationMethodEnum peakInterpolationMethod);
 

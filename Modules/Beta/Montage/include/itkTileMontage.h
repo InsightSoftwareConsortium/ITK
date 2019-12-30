@@ -293,14 +293,13 @@ private:
 
   std::mutex m_MemberProtector; // to prevent concurrent access to non-thread-safe internal member variables
 
-  typename PhaseCorrelationImageRegistrationMethodEnums::PaddingMethod m_PaddingMethod =
-    PhaseCorrelationImageRegistrationMethodEnums::PaddingMethod::MirrorWithExponentialDecay;
-  std::vector<std::string>       m_Filenames;
-  std::vector<FFTConstPointer>   m_FFTCache;
-  std::vector<ImagePointer>      m_Tiles; // metadata/image storage (if filenames are given instead of actual images)
-  std::vector<OffsetVector>      m_TransformCandidates; // to adjacent tiles
-  std::vector<ConfidencesType>   m_CandidateConfidences;
-  std::vector<TranslationOffset> m_CurrentAdjustments;
+  typename PCMType::PaddingMethodEnum m_PaddingMethod = PCMType::PaddingMethodEnum::MirrorWithExponentialDecay;
+  std::vector<std::string>        m_Filenames;
+  std::vector<FFTConstPointer>    m_FFTCache;
+  std::vector<ImagePointer>       m_Tiles; // metadata/image storage (if filenames are given instead of actual images)
+  std::vector<OffsetVector>       m_TransformCandidates; // to adjacent tiles
+  std::vector<ConfidencesType>    m_CandidateConfidences;
+  std::vector<TranslationOffset>  m_CurrentAdjustments;
 
   typename PCMOptimizerType::PeakInterpolationMethodEnum m_PeakInterpolationMethod =
     PCMOptimizerType::PeakInterpolationMethodEnum::Parabolic;

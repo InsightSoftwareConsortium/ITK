@@ -35,20 +35,20 @@ PhaseFrequencyCorrelationOptimizer<TRegistrationMethod>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "PeakInterpolationMethod: " << m_PeakInterpolationMethod << std::endl;
+  //os << indent << "PeakInterpolationMethod: " << m_PeakInterpolationMethod << std::endl;
 }
 
-template <typename TRegistrationMethod>
-void
-PhaseFrequencyCorrelationOptimizer<TRegistrationMethod>
-::SetPeakInterpolationMethod(const PeakInterpolationMethod peakInterpolationMethod)
-{
-  if (this->m_PeakInterpolationMethod != peakInterpolationMethod)
-  {
-    this->m_PeakInterpolationMethod = peakInterpolationMethod;
-    this->Modified();
-  }
-}
+//template <typename TRegistrationMethod>
+//void
+//PhaseFrequencyCorrelationOptimizer<TRegistrationMethod>
+//::SetPeakInterpolationMethod(const PeakInterpolationMethod peakInterpolationMethod)
+//{
+  //if (this->m_PeakInterpolationMethod != peakInterpolationMethod)
+  //{
+    //this->m_PeakInterpolationMethod = peakInterpolationMethod;
+    //this->Modified();
+  //}
+//}
 
 
 template <typename TRegistrationMethod>
@@ -92,70 +92,70 @@ PhaseFrequencyCorrelationOptimizer<TRegistrationMethod>
     adjustedSize[d] = size[d] + oIndex[d];
   }
 
-  if (m_PeakInterpolationMethod != PeakInterpolationMethod::None) // interpolate the peak
-  {
-    for (size_t offsetIndex = 0; offsetIndex < this->m_Offsets.size(); ++offsetIndex)
-    {
-      using ContinuousIndexType = ContinuousIndex<OffsetScalarType, ImageDimension>;
-      ContinuousIndexType maxIndex = maxIndices[offsetIndex];
-      typename ImageType::IndexType tempIndex = maxIndices[offsetIndex];
-      typename ImageType::PixelType y0;
-      typename ImageType::PixelType y1 = input->GetPixel(tempIndex);
-      typename ImageType::PixelType y2;
+  //if (m_PeakInterpolationMethod != PeakInterpolationMethod::None) // interpolate the peak
+  //{
+    //for (size_t offsetIndex = 0; offsetIndex < this->m_Offsets.size(); ++offsetIndex)
+    //{
+      //using ContinuousIndexType = ContinuousIndex<OffsetScalarType, ImageDimension>;
+      //ContinuousIndexType maxIndex = maxIndices[offsetIndex];
+      //typename ImageType::IndexType tempIndex = maxIndices[offsetIndex];
+      //typename ImageType::PixelType y0;
+      //typename ImageType::PixelType y1 = input->GetPixel(tempIndex);
+      //typename ImageType::PixelType y2;
 
-      for (unsigned i = 0; i < ImageDimension; i++)
-      {
-        tempIndex[i] = maxIndex[i] - 1;
-        if (!wholeImage.IsInside(tempIndex))
-        {
-          tempIndex[i] = maxIndex[i];
-          continue;
-        }
-        y0 = input->GetPixel(tempIndex);
-        tempIndex[i] = maxIndex[i] + 1;
-        if (!wholeImage.IsInside(tempIndex))
-        {
-          tempIndex[i] = maxIndex[i];
-          continue;
-        }
-        y2 = input->GetPixel(tempIndex);
-        tempIndex[i] = maxIndex[i];
+      //for (unsigned i = 0; i < ImageDimension; i++)
+      //{
+        //tempIndex[i] = maxIndex[i] - 1;
+        //if (!wholeImage.IsInside(tempIndex))
+        //{
+          //tempIndex[i] = maxIndex[i];
+          //continue;
+        //}
+        //y0 = input->GetPixel(tempIndex);
+        //tempIndex[i] = maxIndex[i] + 1;
+        //if (!wholeImage.IsInside(tempIndex))
+        //{
+          //tempIndex[i] = maxIndex[i];
+          //continue;
+        //}
+        //y2 = input->GetPixel(tempIndex);
+        //tempIndex[i] = maxIndex[i];
 
-        OffsetScalarType omega, theta, ratio;
-        switch (m_PeakInterpolationMethod)
-        {
-          case PeakInterpolationMethod::Parabolic:
-            maxIndex[i] += (y0 - y2) / (2 * (y0 - 2 * y1 + y2));
-            break;
-          case PeakInterpolationMethod::Cosine:
-            ratio = (y0 + y2) / (2 * y1);
-            if (offsetIndex > 0) // clip to -0.999... to 0.999... range
-            {
-              ratio = std::min(ratio, 1.0 - std::numeric_limits<OffsetScalarType>::epsilon());
-              ratio = std::max(ratio, -1.0 + std::numeric_limits<OffsetScalarType>::epsilon());
-            }
-            omega = std::acos(ratio);
-            theta = std::atan((y0 - y2) / (2 * y1 * std::sin(omega)));
-            maxIndex[i] -= ::itk::Math::one_over_pi * theta / omega;
-            break;
-          default:
-            itkAssertInDebugAndIgnoreInReleaseMacro("Unknown interpolation method");
-            break;
-        } // switch PeakInterpolationMethod
+        //OffsetScalarType omega, theta, ratio;
+        //switch (m_PeakInterpolationMethod)
+        //{
+          //case PeakInterpolationMethod::Parabolic:
+            //maxIndex[i] += (y0 - y2) / (2 * (y0 - 2 * y1 + y2));
+            //break;
+          //case PeakInterpolationMethod::Cosine:
+            //ratio = (y0 + y2) / (2 * y1);
+            //if (offsetIndex > 0) // clip to -0.999... to 0.999... range
+            //{
+              //ratio = std::min(ratio, 1.0 - std::numeric_limits<OffsetScalarType>::epsilon());
+              //ratio = std::max(ratio, -1.0 + std::numeric_limits<OffsetScalarType>::epsilon());
+            //}
+            //omega = std::acos(ratio);
+            //theta = std::atan((y0 - y2) / (2 * y1 * std::sin(omega)));
+            //maxIndex[i] -= ::itk::Math::one_over_pi * theta / omega;
+            //break;
+          //default:
+            //itkAssertInDebugAndIgnoreInReleaseMacro("Unknown interpolation method");
+            //break;
+        //} // switch PeakInterpolationMethod
 
-        const OffsetScalarType directOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - oIndex[i]);
-        const OffsetScalarType mirrorOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - adjustedSize[i]);
-        if (std::abs(directOffset) <= std::abs(mirrorOffset))
-        {
-          this->m_Offsets[offsetIndex][i] = directOffset;
-        }
-        else
-        {
-          this->m_Offsets[offsetIndex][i] = mirrorOffset;
-        }
-      } // for ImageDimension
-    } // for offsetIndex
-  }
+        //const OffsetScalarType directOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - oIndex[i]);
+        //const OffsetScalarType mirrorOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - adjustedSize[i]);
+        //if (std::abs(directOffset) <= std::abs(mirrorOffset))
+        //{
+          //this->m_Offsets[offsetIndex][i] = directOffset;
+        //}
+        //else
+        //{
+          //this->m_Offsets[offsetIndex][i] = mirrorOffset;
+        //}
+      //} // for ImageDimension
+    //} // for offsetIndex
+  //}
 }
 
 } // end namespace itk
