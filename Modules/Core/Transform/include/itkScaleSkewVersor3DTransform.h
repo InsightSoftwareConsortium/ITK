@@ -32,11 +32,11 @@ namespace itk
  * The parameters for this transform can be set either using individual Set
  * methods or in serialized form using SetParameters() and SetFixedParameters().
  *
- * The serialization of the optimizable parameters is an array of 15 elements.
+ * The serialization of the optimizable parameters is an array of 12 elements.
  * The first 3 elements are the components of the versor representation
  * of 3D rotation. The next 3 parameters defines the translation in each
  * dimension. The next 3 parameters defines scaling in each dimension.
- * The last 6 parameters defines the skew.
+ * The last 3 parameters defines the skew.
  *
  * The serialization of the fixed parameters is an array of 3 elements defining
  * the center of rotation.
@@ -71,7 +71,7 @@ public:
   /** Dimension of parameters. */
   static constexpr unsigned int InputSpaceDimension = 3;
   static constexpr unsigned int OutputSpaceDimension = 3;
-  static constexpr unsigned int ParametersDimension = 15;
+  static constexpr unsigned int ParametersDimension = 12;
 
   /** Parameters Type   */
   using ParametersType = typename Superclass::ParametersType;
@@ -100,7 +100,7 @@ public:
 
   /** Scale & Skew Vector Type. */
   using ScaleVectorType = Vector<TParametersValueType, 3>;
-  using SkewVectorType = Vector<TParametersValueType, 6>;
+  using SkewVectorType = Vector<TParametersValueType, 3>;
 
   using ScaleVectorValueType = typename ScaleVectorType::ValueType;
   using SkewVectorValueType = typename SkewVectorType::ValueType;
@@ -121,11 +121,11 @@ public:
 
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
-   * There are 15 parameters:
+   * There are 12 parameters:
    *   0-2   versor
    *   3-5   translation
    *   6-8   Scale
-   *   9-14  Skew
+   *   9-11  Skew
    **  */
   void
   SetParameters(const ParametersType & parameters) override;
