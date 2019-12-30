@@ -122,7 +122,7 @@ public:
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
    * There are 12 parameters:
-   *   0-2   versor
+   *   0-2   versor (right part)
    *   3-5   translation
    *   6-8   Scale
    *   9-11  Skew
