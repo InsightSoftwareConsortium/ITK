@@ -68,7 +68,7 @@ public:
   using PixelType = typename TInputImage::PixelType;
 
   /** Image dimensionality */
-  itkStaticConstMacro(ImageDimension, unsigned, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
   // constexpr unsigned ImageDimension = TInputImage::VImageDimension;
 
   /** Type definition for the input image index type. */

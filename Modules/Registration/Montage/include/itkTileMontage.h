@@ -61,7 +61,7 @@ public:
   itkTypeMacro(TileMontage, ProcessObject);
 
   /** Dimensionality of input images. */
-  itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
   /** Montage size and tile index types. */
   using SizeType = Size<ImageDimension>;

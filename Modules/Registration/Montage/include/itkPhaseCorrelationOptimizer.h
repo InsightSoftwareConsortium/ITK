@@ -63,7 +63,7 @@ public:
   using ImageConstPointer = typename ImageType::ConstPointer;
 
   /** Dimensionality of input and output data. */
-  itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
   /** Type for the output parameters.
    *  It defines a position in the optimization search space. */
