@@ -391,7 +391,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     TheoreticalJacobian[2][8] = -103.0;
     for (unsigned int ii = 0; ii < 3; ii++)
     {
-      for (unsigned int jj = 0; jj < 15; jj++)
+      for (unsigned int jj = 0; jj < 12; jj++)
       {
         if (itk::Math::abs(TheoreticalJacobian[ii][jj] - jacobian[ii][jj]) > 1e-5)
         {
