@@ -255,7 +255,7 @@ itk_add_test(NAME itkMontageCMUrun2_64_comb
 
 function(AddTestTi64flat slicerNumber)
   set(inDir "${CMAKE_CURRENT_LIST_DIR}/Input/Ti64Cylinder/FlatField/1000${slicerNumber}/")
-  if (EXISTS ${inDir}10099.tif)   
+  if (EXISTS ${inDir}10099.tif)
     itk_add_test(NAME itkMontageTi64flat${slicerNumber}
       COMMAND MontageTestDriver
       itkMontageTest
@@ -306,7 +306,7 @@ function(GroundTruthTest2D tempDir inputFile) # other command-line parameters
   if (Module_Montage_EnableFailingTests)
     set(regressionPart --compare ${inputFile} ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_2_1.mha)
   endif()
-    
+
   itk_add_test(NAME itkMontageGroundTruthRun${tempDir}
     COMMAND MontageTestDriver
     # these tolerance only work for small uchar cases
@@ -525,6 +525,7 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.
       0 1 1 5 0 0 1 0 1
     )
 
+<<<<<<< HEAD
   if (Module_Montage_EnableFailingTests) 
     itk_add_test(NAME itkMontagePCMFiles36_088
       COMMAND MontageTestDriver
@@ -536,6 +537,19 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.
         0.0
         0.0
         0.0
+=======
+  if (ITKMontage_EnableFailingTests)
+  itk_add_test(NAME itkMontagePCMFiles36_088
+    COMMAND MontageTestDriver
+    itkMontagePCMTestFiles
+      ${rawPrefix}088.tif
+      ${rawPrefix}089.tif
+      ${TESTING_OUTPUT_PATH}/itkMontagePCMFiles36raw088_089.nrrd
+      81.28
+      0.0
+      0.0
+      0.0
+>>>>>>> STYLE: Remove trailing whitespace in test/CMakeLists.txt
     )
   endif() # Module_Montage_EnableFailingTests
 endif()
