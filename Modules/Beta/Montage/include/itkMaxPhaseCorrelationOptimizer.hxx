@@ -42,21 +42,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  // os << indent << "PeakInterpolationMethod: " << m_PeakInterpolationMethod << std::endl;
 }
-
-template <typename TRegistrationMethod>
-void
-MaxPhaseCorrelationOptimizer<TRegistrationMethod>::SetPeakInterpolationMethod(
-  const PeakInterpolationMethodEnum peakInterpolationMethod)
-{
-  if (this->m_PeakInterpolationMethod != peakInterpolationMethod)
-  {
-    this->m_PeakInterpolationMethod = peakInterpolationMethod;
-    this->Modified();
-  }
-}
-
 
 template <typename TRegistrationMethod>
 void
@@ -99,7 +85,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
     adjustedSize[d] = size[d] + oIndex[d];
   }
 
-  if (m_PeakInterpolationMethod != PeakInterpolationMethodEnum::None) // interpolate the peak
+  if (this->m_PeakInterpolationMethod != PeakInterpolationMethodEnum::None) // interpolate the peak
   {
     for (size_t offsetIndex = 0; offsetIndex < this->m_Offsets.size(); ++offsetIndex)
     {
@@ -129,7 +115,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
         tempIndex[i] = maxIndex[i];
 
         OffsetScalarType omega, theta, ratio;
-        switch (m_PeakInterpolationMethod)
+        switch (this->m_PeakInterpolationMethod)
         {
           case PeakInterpolationMethodEnum::Parabolic:
             maxIndex[i] += (y0 - y2) / (2 * (y0 - 2 * y1 + y2));
@@ -146,7 +132,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
             maxIndex[i] -= ::itk::Math::one_over_pi * theta / omega;
             break;
           default:
-            itkAssertInDebugAndIgnoreInReleaseMacro("Unknown interpolation method");
+            itkAssertInDebugAndIgnoreInReleaseMacro("Unsupported interpolation method");
             break;
         } // switch PeakInterpolationMethod
 

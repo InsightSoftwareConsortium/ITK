@@ -123,6 +123,27 @@ public:
     return m_Offsets.size();
   }
 
+  /** \class PeakInterpolationMethodEnum
+   *  \brief Different methods of interpolation the phase correlation peak.
+   *  \ingroup Montage */
+  enum class PeakInterpolationMethodEnum: uint8_t
+  {
+    None = 0,
+    Parabolic,
+    Cosine,
+    Last = Cosine
+  };
+  itkGetConstMacro(PeakInterpolationMethod, PeakInterpolationMethodEnum);
+  void
+  SetPeakInterpolationMethod(const PeakInterpolationMethodEnum peakInterpolationMethod);
+  friend std::ostream &
+  operator<<(std::ostream & os, const PeakInterpolationMethodEnum & pim)
+  {
+    os << static_cast<typename std::underlying_type<PeakInterpolationMethodEnum>::type>(pim);
+    return os;
+  }
+
+
   using Superclass::MakeOutput;
 
   /** Make a DataObject of the correct type to be used as the specified
@@ -151,8 +172,10 @@ protected:
   ComputeOffset() = 0;
 
 protected:
-  OffsetVector     m_Offsets;
-  ConfidenceVector m_Confidences;
+  PeakInterpolationMethodEnum             m_PeakInterpolationMethod = PeakInterpolationMethodEnum::Parabolic;
+
+  OffsetVector                                                        m_Offsets;
+  ConfidenceVector                                                    m_Confidences;
 };
 
 } // end namespace itk

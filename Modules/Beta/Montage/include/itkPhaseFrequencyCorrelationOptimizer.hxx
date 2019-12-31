@@ -35,21 +35,7 @@ PhaseFrequencyCorrelationOptimizer<TRegistrationMethod>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  //os << indent << "PeakInterpolationMethod: " << m_PeakInterpolationMethod << std::endl;
 }
-
-//template <typename TRegistrationMethod>
-//void
-//PhaseFrequencyCorrelationOptimizer<TRegistrationMethod>
-//::SetPeakInterpolationMethod(const PeakInterpolationMethod peakInterpolationMethod)
-//{
-  //if (this->m_PeakInterpolationMethod != peakInterpolationMethod)
-  //{
-    //this->m_PeakInterpolationMethod = peakInterpolationMethod;
-    //this->Modified();
-  //}
-//}
-
 
 template <typename TRegistrationMethod>
 void

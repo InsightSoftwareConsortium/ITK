@@ -73,26 +73,6 @@ public:
 
   using ConfidenceVector = typename Superclass::ConfidenceVector;
 
-  /** \class PeakInterpolationMethod
-   *  \brief Different methods of interpolation the phase correlation peak.
-   *  \ingroup Montage */
-  enum class PeakInterpolationMethodEnum: uint8_t
-  {
-    //None = 0,
-    //Parabolic,
-    //Cosine,
-    //Last = Cosine
-  };
-  //itkGetConstMacro(PeakInterpolationMethod, PeakInterpolationMethod);
-  //void
-  //SetPeakInterpolationMethod(const PeakInterpolationMethod peakInterpolationMethod);
-  //friend std::ostream &
-  //operator<<(std::ostream & os, const PeakInterpolationMethod & pim)
-  //{
-    //os << static_cast<typename std::underlying_type<PeakInterpolationMethod>::type>(pim);
-    //return os;
-  //}
-
   const ConfidenceVector & GetConfidences() const override
   {
     return this->m_SamplePeakOptimizer->GetConfidences();
@@ -112,7 +92,6 @@ protected:
   ComputeOffset() override;
 
 private:
-  //PeakInterpolationMethod             m_PeakInterpolationMethod = PeakInterpolationMethod::Parabolic;
   typename SamplePeakOptimizerType::Pointer m_SamplePeakOptimizer = SamplePeakOptimizerType::New();
 };
 
