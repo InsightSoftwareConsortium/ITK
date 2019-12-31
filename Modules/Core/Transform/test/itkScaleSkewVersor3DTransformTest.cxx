@@ -27,6 +27,8 @@
 #include "itkScaleSkewVersor3DTransform.h"
 #include <iostream>
 
+#include <vnl/vnl_sample.h>
+
 // -------------------------
 //
 //   Main code
@@ -81,6 +83,9 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     parameters[6] = 1.0;
     parameters[7] = 1.0;
     parameters[8] = 1.0;
+    parameters[9] = 0.0;
+    parameters[10] = 0.0;
+    parameters[11] = 0.0;
 
     transform->SetParameters(parameters);
 
@@ -317,6 +322,9 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     parameters[6] = 1.0; // Scale
     parameters[7] = 1.0;
     parameters[8] = 1.0;
+    parameters[9] = 0.1; // Skew
+    parameters[10] = 0.1;
+    parameters[11] = 0.0;
 
     transform->SetParameters(parameters);
 
@@ -327,11 +335,11 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     {
       if (std::fabs(parameters[p] - parameters2[p]) > tolerance)
       {
-        std::cerr << "Output parameter does not match input " << std::endl;
+        std::cerr << "Get/Set parameters: parameters do not match " << std::endl;
         return EXIT_FAILURE;
       }
     }
-    std::cout << "Input/Output parameter check Passed !" << std::endl;
+    std::cout << "Get/Set parameter check Passed !" << std::endl;
 
     // Try the ComputeJacobianWithRespectToParameters method
     TransformType::InputPointType aPoint;
@@ -383,7 +391,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     TheoreticalJacobian[2][8] = -103.0;
     for (unsigned int ii = 0; ii < 3; ii++)
     {
-      for (unsigned int jj = 0; jj < 15; jj++)
+      for (unsigned int jj = 0; jj < 12; jj++)
       {
         if (itk::Math::abs(TheoreticalJacobian[ii][jj] - jacobian[ii][jj]) > 1e-5)
         {
@@ -437,22 +445,20 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     parameters[9] = 0.0; // Skew
     parameters[10] = 0.0;
     parameters[11] = 0.0;
-    parameters[12] = 0.0;
-    parameters[13] = 0.0;
-    parameters[14] = 0.0;
 
     ParametersType parameters2 = transform->GetParameters();
 
     const double tolerance = 1e-8;
     for (unsigned int p = 0; p < np; p++)
     {
+      std::cout << parameters[p] << " = " << parameters2[p] << std::endl;
       if (std::fabs(parameters[p] - parameters2[p]) > tolerance)
       {
-        std::cerr << "Output parameter does not match input " << std::endl;
+        std::cerr << "Identity parameters do not match" << std::endl;
         return EXIT_FAILURE;
       }
     }
-    std::cout << "Input/Output parameter check Passed !" << std::endl;
+    std::cout << "Identity parameters check Passed !" << std::endl;
   }
 
   {
@@ -460,29 +466,30 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     TransformType::Pointer transform = TransformType::New();
 
     itk::Vector<double, 3> axis(1);
-
-    const double angle = (std::atan(1.0) / 45.0) * 30.0; // turn 30 degrees
-
+    const double           angle = (std::atan(1.0) / 45.0) * 30.0; // turn 30 degrees
     transform->SetRotation(axis, angle);
 
     TransformType::InputPointType center;
     center[0] = 31;
     center[1] = 62;
     center[2] = 93;
-
     transform->SetCenter(center);
 
     TransformType::OutputVectorType translation;
     translation[0] = 17;
     translation[1] = 19;
     translation[2] = 23;
-
     transform->SetTranslation(translation);
 
     TransformType::ScaleVectorType scale;
     scale.Fill(2.5);
-
     transform->SetScale(scale);
+
+    TransformType::SkewVectorType skew;
+    skew.Fill(0);
+    skew[0] = 0.1;
+    skew[1] = 0.1;
+    transform->SetSkew(skew);
 
     TransformType::ScaleVectorType rscale = transform->GetScale();
 
@@ -515,17 +522,88 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     parameters[6] = scale[0];
     parameters[7] = scale[1];
     parameters[8] = scale[2];
+    parameters[9] = skew[0];
+    parameters[10] = skew[1];
+    parameters[11] = skew[2];
 
     ParametersType parameters2 = transform->GetParameters();
     for (unsigned int p = 0; p < np; p++)
     {
+      std::cout << parameters[p] << " = " << parameters2[p] << std::endl;
       if (std::fabs(parameters[p] - parameters2[p]) > tolerance)
       {
-        std::cerr << "Output parameter does not match input " << std::endl;
+        std::cerr << "Scale parameters do not match input " << std::endl;
         return EXIT_FAILURE;
       }
     }
-    std::cout << "Input/Output parameter check Passed !" << std::endl;
+    std::cout << "Scale parameters check Passed !" << std::endl;
+
+    std::cout << " Exercise the SetMatrix() method" << std::endl;
+    TransformType::Pointer transform2 = TransformType::New();
+    transform2->SetFixedParameters(transform->GetFixedParameters());
+    transform2->SetMatrix(transform->GetMatrix());
+    transform2->SetOffset(transform->GetOffset());
+
+    TransformType::Pointer transform3 = TransformType::New();
+    transform3->SetFixedParameters(transform2->GetFixedParameters());
+    transform3->SetParameters(transform2->GetParameters());
+
+    ParametersType parameters3 = transform3->GetParameters();
+    for (unsigned int p = 0; p < np; p++)
+    {
+      std::cout << parameters[p] << " = " << parameters3[p] << std::endl;
+      if (std::fabs(parameters[p] - parameters3[p]) > tolerance)
+      {
+        std::cerr << "SetMatrix parameters do not match input " << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+    std::cout << "SetMatrix parameters do match!" << std::endl;
+
+    int diff = 0;
+    for (unsigned int p = 0; p < 100; p++)
+    {
+      TransformType::InputPointType pnt;
+      for (unsigned int i = 0; i < 3; ++i)
+      {
+        pnt[i] = vnl_sample_uniform(-100, 100);
+      }
+
+      TransformType::OutputPointType tPnt;
+      tPnt = transform->TransformPoint(pnt);
+      TransformType::OutputPointType tPnt2;
+      tPnt2 = transform2->TransformPoint(pnt);
+      TransformType::OutputPointType tPnt3;
+      tPnt3 = transform3->TransformPoint(pnt);
+
+      for (unsigned int i = 0; i < 3; ++i)
+      {
+        if (fabs(tPnt[i] - tPnt2[i]) > 1e-7)
+        {
+          ++diff;
+        }
+        if (fabs(tPnt[i] - tPnt3[i]) > 1e-7)
+        {
+          ++diff;
+        }
+      }
+      if (diff != 0)
+      {
+        std::cerr << "SetMatrix() points do not match" << std::endl;
+        std::cout << "Point #" << p << std::endl;
+        std::cout << "idea = " << tPnt << std::endl;
+        std::cout << "t2 = " << tPnt2 << std::endl;
+        std::cout << "t3 = " << tPnt3 << std::endl;
+        std::cerr << "**************************************" << std::endl;
+        std::cerr << "Transform = " << transform << std::endl;
+        std::cerr << "**************************************" << std::endl;
+        std::cerr << "Transform2 = " << transform2 << std::endl;
+        std::cerr << "**************************************" << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+    std::cout << "SetMatrix() points check Passed !" << std::endl;
+
 #if 0 // TODO: Need to instrument inverse of ScaleVersor3DTransform
       {
       TransformType::Pointer tInverse = TransformType::New();

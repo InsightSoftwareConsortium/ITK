@@ -21,6 +21,8 @@
 #include "itkScaleSkewVersor3DTransform.h"
 #include "itkMath.h"
 
+#include "vnl/vnl_inverse.h"
+
 namespace itk
 {
 // Constructor with default arguments
@@ -118,9 +120,6 @@ ScaleSkewVersor3DTransform<TParametersValueType>::SetParameters(const Parameters
   m_Skew[0] = parameters[9];
   m_Skew[1] = parameters[10];
   m_Skew[2] = parameters[11];
-  m_Skew[3] = parameters[12];
-  m_Skew[4] = parameters[13];
-  m_Skew[5] = parameters[14];
 
   // Transfer the translation part
   TranslationType newTranslation;
@@ -147,7 +146,7 @@ ScaleSkewVersor3DTransform<TParametersValueType>::SetParameters(const Parameters
 // p[0:2] = right part of the versor (axis times std::sin(t/2))
 // p[3:5] = translation components
 // p[6:8] = Scale
-// p[9:14] = Skew {xy, xz, yx, yz, zx, zy}
+// p[9:11] = Skew {x, y, z}
 //
 
 template <typename TParametersValueType>
@@ -171,9 +170,6 @@ ScaleSkewVersor3DTransform<TParametersValueType>::GetParameters() const
   this->m_Parameters[9] = this->GetSkew()[0];
   this->m_Parameters[10] = this->GetSkew()[1];
   this->m_Parameters[11] = this->GetSkew()[2];
-  this->m_Parameters[12] = this->GetSkew()[3];
-  this->m_Parameters[13] = this->GetSkew()[4];
-  this->m_Parameters[14] = this->GetSkew()[5];
 
   itkDebugMacro(<< "After getting parameters " << this->m_Parameters);
 
@@ -195,6 +191,7 @@ ScaleSkewVersor3DTransform<TParametersValueType>::SetScale(const ScaleVectorType
 {
   m_Scale = scale;
   this->ComputeMatrix();
+  this->ComputeOffset();
 }
 
 template <typename TParametersValueType>
@@ -203,6 +200,7 @@ ScaleSkewVersor3DTransform<TParametersValueType>::SetSkew(const SkewVectorType &
 {
   m_Skew = skew;
   this->ComputeMatrix();
+  this->ComputeOffset();
 }
 
 // Compute the matrix
@@ -214,24 +212,82 @@ ScaleSkewVersor3DTransform<TParametersValueType>::ComputeMatrix()
 
   MatrixType newMatrix = this->GetMatrix();
 
-  newMatrix[0][0] += m_Scale[0] - 1.0;
-  newMatrix[1][1] += m_Scale[1] - 1.0;
-  newMatrix[2][2] += m_Scale[2] - 1.0;
-  newMatrix[0][1] += m_Skew[0];
-  newMatrix[0][2] += m_Skew[1];
-  newMatrix[1][0] += m_Skew[2];
-  newMatrix[1][2] += m_Skew[3];
-  newMatrix[2][0] += m_Skew[4];
-  newMatrix[2][1] += m_Skew[5];
+  MatrixType scaleM;
+  scaleM.SetIdentity();
+  scaleM[0][0] = m_Scale[0];
+  scaleM[1][1] = m_Scale[1];
+  scaleM[2][2] = m_Scale[2];
 
-  this->SetVarMatrix(newMatrix);
+  MatrixType skewM;
+  skewM(0, 0) = 1;
+  skewM(0, 1) = m_Skew[0];
+  skewM(0, 2) = m_Skew[1];
+  skewM(1, 0) = 0;
+  skewM(1, 1) = 1;
+  skewM(1, 2) = m_Skew[2];
+  skewM(2, 0) = 0;
+  skewM(2, 1) = 0;
+  skewM(2, 2) = 1;
+
+  MatrixType Q = scaleM * skewM;
+  MatrixType res = newMatrix * Q;
+
+  this->SetVarMatrix(res);
 }
 
 template <typename TParametersValueType>
 void
 ScaleSkewVersor3DTransform<TParametersValueType>::ComputeMatrixParameters()
 {
-  itkExceptionMacro(<< "Setting the matrix of a ScaleSkewVersor3D transform is not supported at this time.");
+  MatrixType M = this->GetMatrix();
+
+  OutputVectorType scaleV;
+  scaleV[0] = M(0, 0);
+  scaleV[1] = M(1, 0);
+  scaleV[2] = M(2, 0);
+  m_Scale[0] = scaleV.GetVnlVector().magnitude();
+  M(0, 0) /= m_Scale[0];
+  M(1, 0) /= m_Scale[0];
+  M(2, 0) /= m_Scale[0];
+
+  double ortho = M(0, 0) * M(0, 1) + M(1, 0) * M(1, 1) + M(2, 0) * M(2, 1);
+  M(0, 1) -= ortho * M(0, 0);
+  M(1, 1) -= ortho * M(1, 0);
+  M(2, 1) -= ortho * M(2, 0);
+  scaleV[0] = M(0, 1);
+  scaleV[1] = M(1, 1);
+  scaleV[2] = M(2, 1);
+  m_Scale[1] = scaleV.GetVnlVector().magnitude();
+  M(0, 1) /= m_Scale[1];
+  M(1, 1) /= m_Scale[1];
+  M(2, 1) /= m_Scale[1];
+  m_Skew[0] = ortho / m_Scale[0];
+
+  double ortho0 = M(0, 0) * M(0, 2) + M(1, 0) * M(1, 2) + M(2, 0) * M(2, 2);
+  double ortho1 = M(0, 1) * M(0, 2) + M(1, 1) * M(1, 2) + M(2, 1) * M(2, 2);
+  M(0, 2) -= (ortho0 * M(0, 0) + ortho1 * M(0, 1));
+  M(1, 2) -= (ortho0 * M(1, 0) + ortho1 * M(1, 1));
+  M(2, 2) -= (ortho0 * M(2, 0) + ortho1 * M(2, 1));
+  scaleV[0] = M(0, 2);
+  scaleV[1] = M(1, 2);
+  scaleV[2] = M(2, 2);
+  m_Scale[2] = scaleV.GetVnlVector().magnitude();
+  M(0, 2) /= m_Scale[2];
+  M(1, 2) /= m_Scale[2];
+  M(2, 2) /= m_Scale[2];
+  m_Skew[1] = ortho0 / m_Scale[0];
+  m_Skew[2] = ortho1 / m_Scale[1];
+  if (vnl_determinant(M.GetVnlMatrix()) < 0)
+  {
+    m_Scale[0] *= -1;
+    M(0, 0) *= -1;
+    M(1, 0) *= -1;
+    M(2, 0) *= -1;
+  }
+
+  VersorType v;
+  v.Set(M);
+  this->SetVarVersor(v);
 }
 
 // Print self
@@ -300,12 +356,9 @@ ScaleSkewVersor3DTransform<TParametersValueType>::ComputeJacobianWithRespectToPa
   jacobian[1][7] = py;
   jacobian[2][8] = pz;
 
-  jacobian[0][9] = py;
-  jacobian[0][10] = pz;
-  jacobian[1][11] = px;
-  jacobian[1][12] = pz;
-  jacobian[2][13] = px;
-  jacobian[2][14] = py;
+  jacobian[0][9] = px;
+  jacobian[1][10] = py;
+  jacobian[2][11] = pz;
 }
 
 } // namespace itk
