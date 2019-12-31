@@ -43,14 +43,15 @@
 
 // low-level read and write functions
 #ifdef ITK_HAVE_UNISTD_H
-# include <unistd.h>
+#  include <unistd.h>
 #else
-# include <io.h>
+#  include <io.h>
 #endif
 
 
 // BEGIN namespace
-namespace itk {
+namespace itk
+{
 
 
 /************************************************************
@@ -59,39 +60,51 @@ namespace itk {
  ************************************************************/
 
 
-class fdoutbuf : public std::streambuf {
-  protected:
-    int fd;    // file descriptor
-  public:
-    // constructor
-    fdoutbuf (int _fd) : fd(_fd) {
+class fdoutbuf : public std::streambuf
+{
+protected:
+  int fd; // file descriptor
+public:
+  // constructor
+  fdoutbuf(int _fd)
+    : fd(_fd)
+  {}
+
+protected:
+  // write one character
+  virtual int_type
+  overflow(int_type c)
+  {
+    if (c != EOF)
+    {
+      char z = c;
+      if (write(fd, &z, 1) != 1)
+      {
+        return EOF;
+      }
     }
-  protected:
-    // write one character
-    virtual int_type overflow (int_type c) {
-        if (c != EOF) {
-            char z = c;
-            if (write (fd, &z, 1) != 1) {
-                return EOF;
-            }
-        }
-        return c;
-    }
-    // write multiple characters
-    virtual
-    std::streamsize xsputn (const char* s,
-                            std::streamsize num) {
-        return write(fd,s,num);
-    }
+    return c;
+  }
+  // write multiple characters
+  virtual std::streamsize
+  xsputn(const char * s, std::streamsize num)
+  {
+    return write(fd, s, num);
+  }
 };
 
-class fdostream : public std::ostream {
-  protected:
-    fdoutbuf buf;
-  public:
-    fdostream (int fd) : std::ostream(0), buf(fd) {
-        rdbuf(&buf);
-    }
+class fdostream : public std::ostream
+{
+protected:
+  fdoutbuf buf;
+
+public:
+  fdostream(int fd)
+    : std::ostream(0)
+    , buf(fd)
+  {
+    rdbuf(&buf);
+  }
 };
 
 
@@ -100,87 +113,99 @@ class fdostream : public std::ostream {
  * - a stream that reads on a file descriptor
  ************************************************************/
 
-class fdinbuf : public std::streambuf {
-  protected:
-    int fd;    // file descriptor
-  protected:
-    /* data buffer:
-     * - at most, pbSize characters in putback area plus
-     * - at most, bufSize characters in ordinary read buffer
-     */
-    static constexpr ptrdiff_t pbSize = 4;     // size of putback area
-    static constexpr ptrdiff_t bufSize = 1024; // size of the data buffer
-    char buffer[bufSize+pbSize];           // data buffer
+class fdinbuf : public std::streambuf
+{
+protected:
+  int fd; // file descriptor
+protected:
+  /* data buffer:
+   * - at most, pbSize characters in putback area plus
+   * - at most, bufSize characters in ordinary read buffer
+   */
+  static constexpr ptrdiff_t pbSize = 4;               // size of putback area
+  static constexpr ptrdiff_t bufSize = 1024;           // size of the data buffer
+  char                       buffer[bufSize + pbSize]; // data buffer
 
-  public:
-    /* constructor
-     * - initialize file descriptor
-     * - initialize empty data buffer
-     * - no putback area
-     * => force underflow()
-     */
-    fdinbuf (int _fd) : fd(_fd) {
-        setg (buffer+pbSize,     // beginning of putback area
-              buffer+pbSize,     // read position
-              buffer+pbSize);    // end position
-    }
+public:
+  /* constructor
+   * - initialize file descriptor
+   * - initialize empty data buffer
+   * - no putback area
+   * => force underflow()
+   */
+  fdinbuf(int _fd)
+    : fd(_fd)
+  {
+    setg(buffer + pbSize,  // beginning of putback area
+         buffer + pbSize,  // read position
+         buffer + pbSize); // end position
+  }
 
-  protected:
-    // insert new characters into the buffer
-    virtual int_type underflow () {
+protected:
+  // insert new characters into the buffer
+  virtual int_type
+  underflow()
+  {
 #ifndef _MSC_VER
-        using std::memmove;
+    using std::memmove;
 #endif
 
-        // is read position before end of buffer?
-        if (gptr() < egptr()) {
-            return traits_type::to_int_type(*gptr());
-        }
-
-        /* process size of putback area
-         * - use number of characters read
-         * - but at most size of putback area
-         */
-        ptrdiff_t numPutback;
-        numPutback = gptr() - eback();
-        if (numPutback > pbSize) {
-            numPutback = pbSize;
-        }
-
-        /* copy up to pbSize characters previously read into
-         * the putback area
-         */
-        memmove (buffer+(pbSize-numPutback), gptr()-numPutback,
-                numPutback);
-
-        // read at most bufSize new characters
-        int num;
-        num = read (fd, buffer+pbSize, bufSize);
-        if (num <= 0) {
-            // ERROR or EOF
-            return EOF;
-        }
-
-        // reset buffer pointers
-        setg (buffer+(pbSize-numPutback),   // beginning of putback area
-              buffer+pbSize,                // read position
-              buffer+pbSize+num);           // end of buffer
-
-        // return next character
-        return traits_type::to_int_type(*gptr());
+    // is read position before end of buffer?
+    if (gptr() < egptr())
+    {
+      return traits_type::to_int_type(*gptr());
     }
+
+    /* process size of putback area
+     * - use number of characters read
+     * - but at most size of putback area
+     */
+    ptrdiff_t numPutback;
+    numPutback = gptr() - eback();
+    if (numPutback > pbSize)
+    {
+      numPutback = pbSize;
+    }
+
+    /* copy up to pbSize characters previously read into
+     * the putback area
+     */
+    memmove(buffer + (pbSize - numPutback), gptr() - numPutback, numPutback);
+
+    // read at most bufSize new characters
+    int num;
+    num = read(fd, buffer + pbSize, bufSize);
+    if (num <= 0)
+    {
+      // ERROR or EOF
+      return EOF;
+    }
+
+    // reset buffer pointers
+    setg(buffer + (pbSize - numPutback), // beginning of putback area
+         buffer + pbSize,                // read position
+         buffer + pbSize + num);         // end of buffer
+
+    // return next character
+    return traits_type::to_int_type(*gptr());
+  }
 };
 
-class fdistream : public std::istream {
-  protected:
-    fdinbuf buf;
-  public:
-    fdistream (int fd) : std::istream(0), buf(fd) {
-        rdbuf(&buf);
-    }
+class fdistream : public std::istream
+{
+protected:
+  fdinbuf buf;
+
+public:
+  fdistream(int fd)
+    : std::istream(0)
+    , buf(fd)
+  {
+    rdbuf(&buf);
+  }
 };
 
 
-} // END namespace
+} // namespace itk
 
 #endif /*include guard*/
