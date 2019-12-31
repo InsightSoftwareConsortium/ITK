@@ -96,7 +96,21 @@ PhaseCorrelationOptimizer<TImage>
   {
     os << " " << m_Offsets[i];
   }
+  os << indent << "PeakInterpolationMethod: " << m_PeakInterpolationMethod << std::endl;
   os << std::endl;
+}
+
+
+template <typename TRegistrationMethod>
+void
+PhaseCorrelationOptimizer<TRegistrationMethod>
+::SetPeakInterpolationMethod(const PeakInterpolationMethodEnum peakInterpolationMethod)
+{
+  if (this->m_PeakInterpolationMethod != peakInterpolationMethod)
+  {
+    this->m_PeakInterpolationMethod = peakInterpolationMethod;
+    this->Modified();
+  }
 }
 
 

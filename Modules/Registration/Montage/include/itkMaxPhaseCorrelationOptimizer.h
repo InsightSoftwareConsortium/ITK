@@ -94,11 +94,9 @@ public:
   using OffsetType = typename Superclass::OffsetType;
   using OffsetScalarType = typename Superclass::OffsetScalarType;
 
-  using PeakInterpolationMethodEnum = MaxPhaseCorrelationOptimizerEnums::PeakInterpolationMethod;
-  itkGetConstMacro(PeakInterpolationMethod, PeakInterpolationMethodEnum);
   using ConfidenceVector = typename Superclass::ConfidenceVector;
-  void
-  SetPeakInterpolationMethod(const PeakInterpolationMethodEnum peakInterpolationMethod);
+
+  using PeakInterpolationMethodEnum = typename Superclass::PeakInterpolationMethodEnum;
 
   const ConfidenceVector & GetConfidences() const override
   {
@@ -119,7 +117,6 @@ protected:
   ComputeOffset() override;
 
 private:
-  PeakInterpolationMethodEnum               m_PeakInterpolationMethod = PeakInterpolationMethodEnum::Parabolic;
   typename SamplePeakOptimizerType::Pointer m_SamplePeakOptimizer = SamplePeakOptimizerType::New();
 };
 
