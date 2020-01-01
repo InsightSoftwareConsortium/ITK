@@ -58,6 +58,19 @@ SamplePeakCorrelationOptimizer<TRegistrationMethod>
 
 
 template <typename TRegistrationMethod>
+bool
+SamplePeakCorrelationOptimizer<TRegistrationMethod>
+::SupportsPeakInterpolationMethod(PeakInterpolationMethodEnum method) const
+{
+  if (method == PeakInterpolationMethodEnum::None)
+  {
+    return true;
+  }
+  return false;
+}
+
+
+template <typename TRegistrationMethod>
 void
 SamplePeakCorrelationOptimizer<TRegistrationMethod>
 ::ComputeOffset()

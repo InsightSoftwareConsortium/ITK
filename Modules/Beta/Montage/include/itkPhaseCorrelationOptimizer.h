@@ -142,6 +142,8 @@ public:
     os << static_cast<typename std::underlying_type<PeakInterpolationMethodEnum>::type>(pim);
     return os;
   }
+  bool
+  virtual SupportsPeakInterpolationMethod(PeakInterpolationMethodEnum method) const = 0;
 
 
   using Superclass::MakeOutput;

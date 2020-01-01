@@ -116,6 +116,9 @@ protected:
   void
   ComputeOffset() override;
 
+  bool
+  SupportsPeakInterpolationMethod(PeakInterpolationMethodEnum method) const override;
+
 private:
   typename SamplePeakOptimizerType::Pointer m_SamplePeakOptimizer = SamplePeakOptimizerType::New();
 };

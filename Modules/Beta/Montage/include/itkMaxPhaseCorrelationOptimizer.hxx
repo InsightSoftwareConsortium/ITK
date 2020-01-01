@@ -44,6 +44,22 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
   Superclass::PrintSelf(os, indent);
 }
 
+
+template <typename TRegistrationMethod>
+bool
+MaxPhaseCorrelationOptimizer<TRegistrationMethod>
+::SupportsPeakInterpolationMethod(PeakInterpolationMethodEnum method) const
+{
+  if (method == PeakInterpolationMethodEnum::None ||
+      method == PeakInterpolationMethodEnum::Parabolic |
+      method == PeakInterpolationMethodEnum::Cosine)
+  {
+    return true;
+  }
+  return false;
+}
+
+
 template <typename TRegistrationMethod>
 void
 MaxPhaseCorrelationOptimizer<TRegistrationMethod>
