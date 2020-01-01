@@ -83,6 +83,9 @@ public:
   using SamplePeakOptimizerType = SamplePeakCorrelationOptimizer<TRegistrationMethod>;
   itkGetModifiableObjectMacro(SamplePeakOptimizer, SamplePeakOptimizerType);
 
+  bool
+  SupportsPeakInterpolationMethod(PeakInterpolationMethodEnum method) const override;
+
 protected:
   PhaseFrequencyCorrelationOptimizer() = default;
   virtual ~PhaseFrequencyCorrelationOptimizer() = default;

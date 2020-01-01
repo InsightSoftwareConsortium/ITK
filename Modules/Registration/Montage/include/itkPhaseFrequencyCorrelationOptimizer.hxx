@@ -37,6 +37,20 @@ PhaseFrequencyCorrelationOptimizer<TRegistrationMethod>
   Superclass::PrintSelf(os, indent);
 }
 
+
+template <typename TRegistrationMethod>
+bool
+PhaseFrequencyCorrelationOptimizer<TRegistrationMethod>
+::SupportsPeakInterpolationMethod(PeakInterpolationMethodEnum method) const
+{
+  if (method == PeakInterpolationMethodEnum::None)
+  {
+    return true;
+  }
+  return false;
+}
+
+
 template <typename TRegistrationMethod>
 void
 PhaseFrequencyCorrelationOptimizer<TRegistrationMethod>

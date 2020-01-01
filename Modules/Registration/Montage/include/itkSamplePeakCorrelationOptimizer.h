@@ -78,6 +78,8 @@ public:
   using MaxCalculatorType = NMinimaMaximaImageCalculator<ImageType>;
   using IndexContainerType = typename MaxCalculatorType::IndexVector;
 
+  using PeakInterpolationMethodEnum = typename Superclass::PeakInterpolationMethodEnum;
+
   /** Get/Set maximum city-block distance for peak merging. Zero disables it. */
   itkGetConstMacro(MergePeaks, unsigned);
   itkSetMacro(MergePeaks, unsigned);
@@ -98,6 +100,9 @@ public:
 
   /** Indices of the maxima. */
   itkGetConstReferenceMacro(MaxIndices, IndexContainerType);
+
+  bool
+  SupportsPeakInterpolationMethod(PeakInterpolationMethodEnum method) const override;
 
 protected:
   SamplePeakCorrelationOptimizer();
