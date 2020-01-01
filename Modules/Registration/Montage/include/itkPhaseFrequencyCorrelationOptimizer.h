@@ -73,6 +73,8 @@ public:
 
   using ConfidenceVector = typename Superclass::ConfidenceVector;
 
+  using PeakInterpolationMethodEnum = typename Superclass::PeakInterpolationMethodEnum;
+
   const ConfidenceVector & GetConfidences() const override
   {
     return this->m_SamplePeakOptimizer->GetConfidences();

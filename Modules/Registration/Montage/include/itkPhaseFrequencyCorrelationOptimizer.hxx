@@ -78,8 +78,8 @@ PhaseFrequencyCorrelationOptimizer<TRegistrationMethod>
     adjustedSize[d] = size[d] + oIndex[d];
   }
 
-  //if (m_PeakInterpolationMethod != PeakInterpolationMethod::None) // interpolate the peak
-  //{
+  if (this->m_PeakInterpolationMethod != PeakInterpolationMethodEnum::None) // interpolate the peak
+  {
     //for (size_t offsetIndex = 0; offsetIndex < this->m_Offsets.size(); ++offsetIndex)
     //{
       //using ContinuousIndexType = ContinuousIndex<OffsetScalarType, ImageDimension>;
@@ -141,7 +141,7 @@ PhaseFrequencyCorrelationOptimizer<TRegistrationMethod>
         //}
       //} // for ImageDimension
     //} // for offsetIndex
-  //}
+  }
 }
 
 } // end namespace itk

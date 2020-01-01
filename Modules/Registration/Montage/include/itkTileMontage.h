@@ -158,8 +158,8 @@ public:
   itkGetConstMacro(ObligatoryPadding, SizeType);
 
   /** Set/Get the padding method. */
-  itkSetEnumMacro(PaddingMethod, PhaseCorrelationImageRegistrationMethodEnums::PaddingMethod);
-  itkGetConstMacro(PaddingMethod, PhaseCorrelationImageRegistrationMethodEnums::PaddingMethod);
+  itkSetMacro(PaddingMethod, typename PCMType::PaddingMethodEnum);
+  itkGetConstMacro(PaddingMethod, typename PCMType::PaddingMethodEnum);
 
   /** Set/Get the peak interpolation method. */
   itkSetEnumMacro(PeakInterpolationMethod, typename PCMOptimizerType::PeakInterpolationMethodEnum);
@@ -294,6 +294,7 @@ private:
   std::mutex m_MemberProtector; // to prevent concurrent access to non-thread-safe internal member variables
 
   typename PCMType::PaddingMethodEnum m_PaddingMethod = PCMType::PaddingMethodEnum::MirrorWithExponentialDecay;
+
   std::vector<std::string>        m_Filenames;
   std::vector<FFTConstPointer>    m_FFTCache;
   std::vector<ImagePointer>       m_Tiles; // metadata/image storage (if filenames are given instead of actual images)
