@@ -19,12 +19,12 @@ Links
 -----
 
 * [Homepage](https://itk.org)
-* [Download](https://itk.org/ITK/resources/software.html)
+* [Download](https://itk.org/download/)
 * [Discussion](https://discourse.itk.org/)
-* [Software Guide](https://itk.org/ITKSoftwareGuide/html/)
-* [Help](https://itk.org/ITK/help/help.html)
+* [Software Guide](https://itk.org/ItkSoftwareGuide.pdf)
+* [Help](https://itk.org/resources/)
 * [Examples](https://itk.org/ITKExamples/)
-* [Issue tracking](http://issues.itk.org/)
+* [Issue tracking](https://github.com/InsightSoftwareConsortium/ITK/issues)
 * [Submit a patch](CONTRIBUTING.md)
 
 
