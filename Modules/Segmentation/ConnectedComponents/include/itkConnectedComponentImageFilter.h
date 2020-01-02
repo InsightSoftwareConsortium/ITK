@@ -155,7 +155,7 @@ public:
 protected:
   ConnectedComponentImageFilter()
     : ScanlineFilterCommon<TInputImage, TOutputImage>(this)
-    , m_BackgroundValue(NumericTraits<OutputPixelType>::NonpositiveMin())
+    , m_BackgroundValue(NumericTraits<OutputPixelType>::ZeroValue())
   {
     m_ObjectCount = 0;
 
