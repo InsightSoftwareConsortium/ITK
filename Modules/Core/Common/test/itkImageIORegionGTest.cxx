@@ -81,7 +81,7 @@ Expect_CopyAssignableToSelf(const T & value)
   T self(value);
 
   // Slight contortion to avoid self-assignment warning with 'self = self'.
-  const T& referenceToSelf = self;
+  const T & referenceToSelf = self;
   self = referenceToSelf;
 
   EXPECT_EQ(self, value);
