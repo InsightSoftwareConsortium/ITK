@@ -97,16 +97,16 @@ public:
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Type of the pixel to use for intermediate results */
-  using RealOutputPixelType = typename NumericTraits< OutputPixelType >::RealType;
-  using RealOutputImageType = Image< OutputPixelType, ImageDimension >;
+  using RealOutputPixelType = typename NumericTraits<OutputPixelType>::RealType;
+  using RealOutputImageType = Image<OutputPixelType, ImageDimension>;
   using RealOutputPixelValueType = typename NumericTraits<RealOutputPixelType>::ValueType;
 
   /** Typedef to describe the boundary condition. */
-  using BoundaryConditionType = ImageBoundaryCondition< TInputImage >;
+  using BoundaryConditionType = ImageBoundaryCondition<TInputImage>;
   using InputBoundaryConditionPointerType = BoundaryConditionType *;
-  using InputDefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition< TInputImage >;
+  using InputDefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition<TInputImage>;
   using RealBoundaryConditionPointerType = ImageBoundaryCondition<RealOutputImageType> *;
-  using RealDefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition< RealOutputImageType >;
+  using RealDefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition<RealOutputImageType>;
 
   /** Typedef of double containers */
   using ArrayType = FixedArray<double, Self::ImageDimension>;
@@ -356,9 +356,8 @@ private:
   /** Boundary condition use for the intermediate filters */
   RealBoundaryConditionPointerType m_RealBoundaryCondition;
 
- /** Default boundary condition use for the intermediate filters */
+  /** Default boundary condition use for the intermediate filters */
   RealDefaultBoundaryConditionType m_RealDefaultBoundaryCondition;
-
 };
 } // end namespace itk
 
