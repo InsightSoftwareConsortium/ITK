@@ -90,6 +90,18 @@ public:
   const InputSpatialObjectType *
   GetInput(unsigned int idx);
 
+  /** Generate an output image that matches the origin,
+   * size, direction, and spacing of this image. */
+  template <class TMatchImage>
+  void
+  SetMatchImage(TMatchImage * matchImage)
+  {
+    this->SetOrigin(matchImage->GetOrigin());
+    this->SetSpacing(matchImage->GetSpacing());
+    this->SetDirection(matchImage->GetDirection());
+    this->SetSize(matchImage->GetLargestPossibleRegion().GetSize());
+  }
+
   /** Spacing (size of a pixel) of the output image. The
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from
