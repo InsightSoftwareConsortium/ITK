@@ -92,14 +92,14 @@ public:
 
   /** Generate an output image that matches the origin,
    * size, direction, and spacing of this image. */
-  template <class TMatchImage>
+  template <class TReferenceImage>
   void
-  SetMatchImage(TMatchImage * matchImage)
+  SetReferenceImage(TReferenceImage * refImage)
   {
-    this->SetOrigin(matchImage->GetOrigin());
-    this->SetSpacing(matchImage->GetSpacing());
-    this->SetDirection(matchImage->GetDirection());
-    this->SetSize(matchImage->GetLargestPossibleRegion().GetSize());
+    this->SetOrigin(refImage->GetOrigin());
+    this->SetSpacing(refImage->GetSpacing());
+    this->SetDirection(refImage->GetDirection());
+    this->SetSize(refImage->GetLargestPossibleRegion().GetSize());
   }
 
   /** Spacing (size of a pixel) of the output image. The
