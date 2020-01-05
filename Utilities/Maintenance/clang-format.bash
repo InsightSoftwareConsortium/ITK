@@ -32,24 +32,24 @@ usage='usage: clang-format.bash [<options>] [--]
 help="$usage"'
 Example to format locally modified files:
 
-    Utilities/Scripts/clang-format.bash --modified
+    Utilities/Maintenance/clang-format.bash --modified
 
 Example to format locally modified files staged for commit:
 
-    Utilities/Scripts/clang-format.bash --cached
+    Utilities/Maintenance/clang-format.bash --cached
 
 Example to format files modified by the most recent commit:
 
-    Utilities/Scripts/clang-format.bash --amend
+    Utilities/Maintenance/clang-format.bash --amend
 
 Example to format all files:
 
-    Utilities/Scripts/clang-format.bash --tracked
+    Utilities/Maintenance/clang-format.bash --tracked
 
 Example to format the current topic:
 
     git filter-branch \
-      --tree-filter "Utilities/Scripts/clang-format.bash --tracked" \
+      --tree-filter "Utilities/Maintenance/clang-format.bash --tracked" \
       master..
 '
 
