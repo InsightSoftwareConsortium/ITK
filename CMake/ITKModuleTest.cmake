@@ -176,7 +176,7 @@ function(itk_python_add_test)
   set(multiValueArgs TEST_DRIVER_ARGS COMMAND)
   cmake_parse_arguments(PYTHON_ADD_TEST "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-  set(command "${PYTHON_EXECUTABLE}")
+  set(command "${Python3_EXECUTABLE}")
   # add extra command which may be needed on some systems
   if(CMAKE_OSX_ARCHITECTURES)
     list(GET CMAKE_OSX_ARCHITECTURES 0 test_arch)

@@ -516,7 +516,7 @@ virtualenv itk-venv
 git clone https://github.com/InsightSoftwareConsortium/ITKExamples
 mkdir ITKExamples-build
 cd ITKExamples-build
-cmake -DITK_DIR=/path/to/ITK-build -DPYTHON_EXECUTABLE=../itk-venv/bin/python ../ITKExamples
+cmake -DITK_DIR=/path/to/ITK-build -DPython3_ROOT_DIR=../itk-venv/bin/python -DPython3_FIND_VIRTUALENV=ONLY ../ITKExamples
 ctest -R Python
 ```
 

@@ -6,9 +6,23 @@ if("${CMAKE_BINARY_DIR}" MATCHES "^.* .*$")
   message(FATAL_ERROR "Swig and PCRE do not support paths with space characters. Please change build directory name.")
 endif()
 
-###############################################################################
-# Find python
-find_package(PythonInterp REQUIRED)
+# Prefer to use more robust FindPython3 module if greater than cmake 3.12.0
+if("${CMAKE_VERSION}" VERSION_LESS_EQUAL "3.12.0")
+  # Use of PythonInterp and PythonLibs is dprecated since cmake version 3.12.0
+
+  # configure python (find PythonInterp first, as of cmake 3.1)
+  find_package(PythonInterp)
+  # Check for supported python versions
+  if(PYTHON_VERSION_STRING VERSION_LESS 3.5)
+    message(FATAL_ERROR "Python versions less than 3.5 are not supported. Python version: \"${PYTHON_VERSION_STRING}\".")
+  endif()
+
+  ## For forward compatibility with cmake 3.12.0 or greater
+  set(Python3_EXECUTABLE ${PYTHON_EXECUTABLE})
+else()
+  find_package(Python3 COMPONENTS Interpreter REQUIRED)
+endif()
+
 
 ###############################################################################
 # Build swig
@@ -354,7 +368,7 @@ macro(itk_end_wrap_module_swig_interface)
   if(number_interface_files GREATER 0)
     add_custom_command(
       OUTPUT ${i_files} ${typedef_files} ${idx_files}
-      COMMAND ${PYTHON_EXECUTABLE} ${IGENERATOR}
+      COMMAND ${Python3_EXECUTABLE} ${IGENERATOR}
         ${mdx_opts}
         ${swig_libs}
         -w1 -w3 -w51 -w52 -w53 -w54
