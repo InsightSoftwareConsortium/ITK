@@ -1,21 +1,6 @@
 ###############################################################################
-# configure python (find PythonInterp first, as of cmake 3.1)
-find_package(PythonInterp)
-find_package(PythonLibs)
 
-# Check for supported python versions
-if(PYTHON_VERSION_STRING VERSION_LESS 3.5)
-  message(WARNING "Python versions less than 3.5 are not supported. Python version: \"${PYTHON_VERSION_STRING}\".")
-endif()
-
-# check for version mismatch.
-if(PYTHONLIBS_FOUND AND PYTHONINTERP_FOUND
-    AND NOT(PYTHON_VERSION_STRING VERSION_EQUAL PYTHONLIBS_VERSION_STRING))
-  message(WARNING "Python executable (\"${PYTHON_VERSION_STRING}\") and library (\"${PYTHONLIBS_VERSION_STRING}\") version mismatch.")
-endif()
-
-mark_as_advanced(PYTHON_EXECUTABLE)
-include_directories("${PYTHON_INCLUDE_DIRS}")
+include_directories("${Python3_INCLUDE_DIRS}")
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
@@ -36,15 +21,15 @@ file(MAKE_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python)
 
 ###############################################################################
 # Configure Python wrapping installation
-if(PYTHON_EXECUTABLE AND NOT PY_SITE_PACKAGES_PATH)
+if(Python3_EXECUTABLE AND NOT PY_SITE_PACKAGES_PATH)
   set(python_check "from __future__ import print_function\ntry:\n    import distutils.sysconfig\n    print(distutils.sysconfig.get_python_lib(plat_specific=1, prefix=''))\nexcept:\n    pass")
   file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/detect_site_package_path.py ${python_check})
-  execute_process(COMMAND "${PYTHON_EXECUTABLE}" "${CMAKE_CURRENT_BINARY_DIR}/detect_site_package_path.py"
+  execute_process(COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_BINARY_DIR}/detect_site_package_path.py"
     OUTPUT_VARIABLE py_spp
     ERROR_VARIABLE py_spp
   )
 
-  execute_process(COMMAND "${PYTHON_EXECUTABLE}" -c "from __future__ import print_function\nimport sys\nprint(sys.prefix)"
+  execute_process(COMMAND "${Python3_EXECUTABLE}" -c "from __future__ import print_function\nimport sys\nprint(sys.prefix)"
     OUTPUT_VARIABLE py_prefix
     ERROR_VARIABLE py_prefix
     OUTPUT_STRIP_TRAILING_WHITESPACE
