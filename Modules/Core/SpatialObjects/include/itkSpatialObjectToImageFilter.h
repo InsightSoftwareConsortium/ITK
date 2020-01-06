@@ -90,6 +90,18 @@ public:
   const InputSpatialObjectType *
   GetInput(unsigned int idx);
 
+  /** Generate an output image that matches the origin,
+   * size, direction, and spacing of this image. */
+  template <class TReferenceImage>
+  void
+  SetReferenceImage(TReferenceImage * refImage)
+  {
+    this->SetOrigin(refImage->GetOrigin());
+    this->SetSpacing(refImage->GetSpacing());
+    this->SetDirection(refImage->GetDirection());
+    this->SetSize(refImage->GetLargestPossibleRegion().GetSize());
+  }
+
   /** Spacing (size of a pixel) of the output image. The
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from
