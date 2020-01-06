@@ -570,21 +570,24 @@ MetaImageIO ::WriteImageInformation()
       continue;
     }
     // try for common scalar types
-    std::ostringstream strs;
-    double             dval = 0.0;
-    float              fval = 0.0F;
-    long               lval = 0L;
-    unsigned long      ulval = 0L;
-    long long          llval = 0LL;
-    unsigned long long ullval = 0uLL;
-    int                ival = 0;
-    unsigned           uval = 0;
-    short              shval = 0;
-    unsigned short     ushval = 0;
-    char               cval = 0;
-    unsigned char      ucval = 0;
-    bool               bval = false;
-    std::string        value = "";
+    std::ostringstream        strs;
+    double                    dval = 0.0;
+    float                     fval = 0.0F;
+    long                      lval = 0L;
+    unsigned long             ulval = 0L;
+    long long                 llval = 0LL;
+    unsigned long long        ullval = 0uLL;
+    int                       ival = 0;
+    unsigned                  uval = 0;
+    short                     shval = 0;
+    unsigned short            ushval = 0;
+    char                      cval = 0;
+    unsigned char             ucval = 0;
+    bool                      bval = false;
+    std::vector<double>       vval(0);
+    itk::Matrix<double, 2, 2> m2val;
+    itk::Matrix<double, 3, 3> m3val;
+    std::string               value = "";
     if (ExposeMetaData<std::string>(metaDict, *keyIt, value))
     {
       strs << value;
@@ -641,18 +644,54 @@ MetaImageIO ::WriteImageInformation()
     {
       strs << bval;
     }
+    else if (ExposeMetaData<std::vector<double>>(metaDict, *keyIt, vval))
+    {
+      unsigned int i = 0;
+      while (i < vval.size() - 1)
+      {
+        strs << vval[++i] << " ";
+      }
+      strs << vval[i];
+    }
+    else if (ExposeMetaData<itk::Matrix<double, 2, 2>>(metaDict, *keyIt, m2val))
+    {
+      for (unsigned int i = 0; i < 2; ++i)
+      {
+        for (unsigned int j = 0; j < 2; ++j)
+        {
+          strs << m2val[i][j];
+          if (i != 1 && j != 1)
+          {
+            strs << " ";
+          }
+        }
+      }
+    }
+    else if (ExposeMetaData<itk::Matrix<double, 3, 3>>(metaDict, *keyIt, m3val))
+    {
+      for (unsigned int i = 0; i < 3; ++i)
+      {
+        for (unsigned int j = 0; j < 3; ++j)
+        {
+          strs << m3val[i][j];
+          if (i != 2 && j != 2)
+          {
+            strs << " ";
+          }
+        }
+      }
+    }
 
     value = strs.str();
 
     if (value.empty())
     {
       // if the value is an empty string then the resulting entry in
-      // the header will not be able to be read the the metaIO
+      // the header will not be able to be read by the metaIO
       // library, which results is a unreadable/corrupt file.
       itkWarningMacro("Unsupported or empty metaData item " << *keyIt << " of type "
                                                             << metaDict[*keyIt]->GetMetaDataObjectTypeName()
                                                             << "found, won't be written to image file");
-
       // so this entry should be skipped.
       continue;
     }
