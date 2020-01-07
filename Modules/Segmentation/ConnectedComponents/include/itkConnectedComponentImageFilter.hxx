@@ -30,6 +30,17 @@
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
+ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::ConnectedComponentImageFilter()
+  : ScanlineFilterCommon<TInputImage, TOutputImage>(this)
+{
+  // implicit
+  // #0 "Primary" required
+
+  //  #1 "MaskImage" optional
+  Self::AddOptionalInputName("MaskImage", 1);
+}
+
+template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
 ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::GenerateInputRequestedRegion()
 {

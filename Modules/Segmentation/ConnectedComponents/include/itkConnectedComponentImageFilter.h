@@ -153,18 +153,7 @@ public:
   itkGetConstMacro(BackgroundValue, OutputImagePixelType);
 
 protected:
-  ConnectedComponentImageFilter()
-    : ScanlineFilterCommon<TInputImage, TOutputImage>(this)
-    , m_BackgroundValue(NumericTraits<OutputPixelType>::NonpositiveMin())
-  {
-    m_ObjectCount = 0;
-
-    // implicit
-    // #0 "Primary" required
-
-    //  #1 "MaskImage" optional
-    Self::AddOptionalInputName("MaskImage", 1);
-  }
+  ConnectedComponentImageFilter();
 
   ~ConnectedComponentImageFilter() override = default;
   void
@@ -208,8 +197,8 @@ protected:
   using WorkUnitData = typename ScanlineFunctions::WorkUnitData;
 
 private:
-  OutputPixelType m_BackgroundValue;
-  LabelType       m_ObjectCount;
+  OutputPixelType m_BackgroundValue = NumericTraits<OutputPixelType>::ZeroValue();
+  LabelType       m_ObjectCount = 0;
 
   typename TInputImage::ConstPointer m_Input;
 };
