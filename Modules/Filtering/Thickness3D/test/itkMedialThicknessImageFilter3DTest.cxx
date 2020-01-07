@@ -48,18 +48,18 @@ itkMedialThicknessImageFilter3DTest(int argc, char * argv[])
   ReaderType::Pointer                          reader = ReaderType::New();
   reader->SetFileName(infilename);
 
-  TRY_EXPECT_NO_EXCEPTION(reader->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
 
   // Define the thinning filter
   typedef itk::MedialThicknessImageFilter3D<InputImageType, OutputImageType> FilterType;
   FilterType::Pointer                                                        medialThicknessFilter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(medialThicknessFilter, MedialThicknessImageFilter3D, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(medialThicknessFilter, MedialThicknessImageFilter3D, ImageToImageFilter);
 
   medialThicknessFilter->SetInput(reader->GetOutput());
 
-  TRY_EXPECT_NO_EXCEPTION(medialThicknessFilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(medialThicknessFilter->Update());
 
 
   // output to file
@@ -68,7 +68,7 @@ itkMedialThicknessImageFilter3DTest(int argc, char * argv[])
   writer->SetInput(medialThicknessFilter->GetOutput());
   writer->SetFileName(outfilename);
 
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   std::cout << "Test finished.";
