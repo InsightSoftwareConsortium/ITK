@@ -4,25 +4,6 @@
 # primary purpose of this test is to make sure there are not missing module
 # dependencies.
 
-# This does not force the developer to install python to be able to build ITK.
-# The tests will simply not be run if python is unavailable.
-# Prefer to use more robust FindPython3 module if greater than cmake 3.12.0
-if("${CMAKE_VERSION}" VERSION_LESS_EQUAL "3.12.0")
-  # Use of PythonInterp and PythonLibs is dprecated since cmake version 3.12.0
-
-  # configure python (find PythonInterp first, as of cmake 3.1)
-  find_package(PythonInterp)
-  # Check for supported python versions
-  if(PYTHON_VERSION_STRING VERSION_LESS 3.5)
-    message(FATAL_ERROR "Python versions less than 3.5 are not supported. Python version: \"${PYTHON_VERSION_STRING}\".")
-  endif()
-
-  ## For forward compatibility with cmake 3.12.0 or greater
-  set(Python3_EXECUTABLE ${PYTHON_EXECUTABLE})
-else()
-  find_package(Python3 COMPONENTS Interpreter REQUIRED)
-endif()
-
 # Improve performance of MSVC GUI, by reducing number of header tests.
 set( MAXIMUM_NUMBER_OF_HEADERS_default 35 )
 if( MSVC )

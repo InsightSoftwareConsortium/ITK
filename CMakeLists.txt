@@ -512,52 +512,54 @@ endif()
 
 install(FILES "LICENSE" "NOTICE" "README.md" DESTINATION ${ITK_INSTALL_DOC_DIR} COMPONENT Runtime)
 
-if(BUILD_TESTNG OR ITK_WRAP_PYTHON)
-  # Python3 is required if testing (for google tests) or wrapping for python is requested.
-  # Because GoogleTest uses deprecated FindPythonInterp
+if(BUILD_TESTING OR ITK_BUILD_DOCUMENTATION OR ITK_WRAP_PYTHON)
   # Prefer to use more robust FindPython3 module if greater than cmake 3.12.0
   if("${CMAKE_VERSION}" VERSION_LESS_EQUAL "3.12.0")
-    # Use of PythonInterp and PythonLibs is dprecated since cmake version 3.12.0
-
-    # Because GoogleTest uses deprecated FindPythonInterp, attempt finding Python3 versions first
+    # Use of PythonInterp and PythonLibs is deprecated since cmake version 3.12.0
+    # Only use deprecated mechanisms for older versions of cmake
     set(Python_ADDITIONAL_VERSIONS 3.9 3.8 3.7 3.6 3.5)
-    # configure python (find PythonInterp first, as of cmake 3.1)
-    find_package(PythonInterp REQUIRED)
-    # Check for supported python versions
-    if(PYTHON_VERSION_STRING VERSION_LESS 3.5)
-      message(WARNING "Python versions less than 3.5 are not supported. Python version: \"${PYTHON_VERSION_STRING}\".")
-    endif()
-
-    set(Python3_EXECUTABLE ${PYTHON_EXECUTABLE})
-
+    find_package(PythonInterp)
     if(ITK_WRAP_PYTHON)
       find_package(PythonLibs REQUIRED)
       # check for version mismatch.
       if(PYTHONLIBS_FOUND AND PYTHONINTERP_FOUND
           AND NOT(PYTHON_VERSION_STRING VERSION_EQUAL PYTHONLIBS_VERSION_STRING))
-        message(WARNING "Python executable (\"${PYTHON_VERSION_STRING}\") and library (\"${PYTHONLIBS_VERSION_STRING}\") version mismatch.")
+        message(FATAL_ERROR "Python executable (\"${PYTHON_VERSION_STRING}\") and library (\"${PYTHONLIBS_VERSION_STRING}\") version mismatch.")
       endif()
-      ## For forward compatibility with cmake 3.12.0 or greater
+    endif()
+    if(PYTHON_VERSION_STRING VERSION_LESS 3.5)
+      # if python version is less than 3.5, unset so that it appears that no python version is found.
+      # to emulate the same behavior as find(Python3 ..) from cmake 3.12.0+
+      unset(PYTHON_EXECUTABLE)
+      unset(PYTHONINTERP_FOUND)
+      unset(PYTHON_VERSION_STRING)
+      unset(PYTHON_INCLUDE_DIRS)
+    else()
+      ## For forward compatibility with cmake 3.12.0 or greater, emulate variable names from FindPython3.cmake
+      set(Python3_EXECUTABLE ${PYTHON_EXECUTABLE})
+      set(Python3_Interpreter_FOUND ${PYTHONINTERP_FOUND})
+      set(Python3_VERSION ${PYTHON_VERSION_STRING})
+
+      set(Python3_Development_FOUND ${PYTHONLIBS_FOUND})
       set(Python3_INCLUDE_DIRS ${PYTHON_INCLUDE_DIRS})
+      set(Python3_LIBRARIES    ${PYTHON_LIBRARIES})
     endif()
   else()
     if(ITK_WRAP_PYTHON)
       find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
     else()
-      find_package(Python3 COMPONENTS Interpreter REQUIRED)
+      find_package(Python3 COMPONENTS Interpreter)
     endif()
-    # Check for supported python versions
-    if(Python3_VERSION VERSION_LESS 3.5)
-      message(WARNING "Python versions less than 3.5 are not supported. Python version: \"${Python3_VERSION}\".")
-    endif()
-    # For GoogleTest to force use of same python interpreter as found by the Python3 package
-    # as is looked for by the FindPythonInterp from the incluced GoogleTest package.
-    set(PYTHON_EXECUTABLE ${Python3_EXECUTABLE})
-    set(PYTHONINTERP_FOUND ${Python3_Interpreter_FOUND})
-    set(PYTHON_VERSION ${Python3_VERSION})
-    set(PYTHON_VERSION_MAJOR ${Python3_VERSION_MAJOR})
-    set(PYTHON_VERSION_MINOR ${Python3_VERSION_MINOR})
-    set(PYTHON_VERSION_PATCH ${Python3_VERSION_PATCH})
+  endif()
+
+  if(ITK_WRAP_PYTHON AND NOT Python3_Interpreter_FOUND)
+    message(FATAL_ERROR "Python version >=3.5 not found for wrapping.")
+  endif()
+  if(ITK_WRAP_PYTHON AND Python3_VERSION VERSION_LESS 3.5)
+    message(FATAL_ERROR "Python versions less than 3.5 are not supported for wrapping. Python version: \"${Python3_VERSION}\".")
+  endif()
+  if(ITK_WRAP_PYTHON AND NOT Python3_INCLUDE_DIRS)
+    message(FATAL_ERROR "Python version ${Python3_VERSION} development environment not found for wrapping.")
   endif()
 endif()
 
