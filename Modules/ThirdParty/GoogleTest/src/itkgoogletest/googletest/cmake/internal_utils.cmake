@@ -240,7 +240,10 @@ function(cxx_executable name dir libs)
 endfunction()
 
 # Sets PYTHONINTERP_FOUND and PYTHON_EXECUTABLE.
-find_package(PythonInterp)
+# ITK The PythonInterp package finding contaminates the cmake cache and
+# ITK may find a different version than is use by wrapping or documentation
+# ITK generation.  DO NOT USE find_package(PythonInterp)
+# ITK find_package(PythonInterp)
 
 # cxx_test_with_flags(name cxx_flags libs srcs...)
 #
@@ -267,59 +270,8 @@ function(cxx_test name libs)
     "test/${name}.cc" ${ARGN})
 endfunction()
 
-# py_test(name)
-#
-# creates a Python test with the given name whose main module is in
-# test/name.py.  It does nothing if Python is not installed.
-function(py_test name)
-  if (PYTHONINTERP_FOUND)
-    if ("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_GREATER 3.1)
-      if (CMAKE_CONFIGURATION_TYPES)
-        # Multi-configuration build generators as for Visual Studio save
-        # output in a subdirectory of CMAKE_CURRENT_BINARY_DIR (Debug,
-        # Release etc.), so we have to provide it here.
-        if (WIN32 OR MINGW)
-          add_test(NAME ${name}
-            COMMAND powershell -Command ${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/RunTest.ps1
-              ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test/${name}.py
-              --build_dir=${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG> ${ARGN})
-        else()
-          add_test(NAME ${name}
-            COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test/${name}.py
-              --build_dir=${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG> ${ARGN})
-        endif()
-      else (CMAKE_CONFIGURATION_TYPES)
-        # Single-configuration build generators like Makefile generators
-        # don't have subdirs below CMAKE_CURRENT_BINARY_DIR.
-        if (WIN32 OR MINGW)
-          add_test(NAME ${name}
-            COMMAND powershell -Command ${CMAKE_CURRENT_BINARY_DIR}/RunTest.ps1
-              ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test/${name}.py
-              --build_dir=${CMAKE_CURRENT_BINARY_DIR} ${ARGN})
-        else()
-          add_test(NAME ${name}
-            COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test/${name}.py
-              --build_dir=${CMAKE_CURRENT_BINARY_DIR} ${ARGN})
-        endif()
-      endif (CMAKE_CONFIGURATION_TYPES)
-    else()
-      # ${CMAKE_CURRENT_BINARY_DIR} is known at configuration time, so we can
-      # directly bind it from cmake. ${CTEST_CONFIGURATION_TYPE} is known
-      # only at ctest runtime (by calling ctest -c <Configuration>), so
-      # we have to escape $ to delay variable substitution here.
-      if (WIN32 OR MINGW)
-        add_test(NAME ${name}
-          COMMAND powershell -Command ${CMAKE_CURRENT_BINARY_DIR}/RunTest.ps1
-            ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test/${name}.py
-            --build_dir=${CMAKE_CURRENT_BINARY_DIR}/\${CTEST_CONFIGURATION_TYPE} ${ARGN})
-      else()
-        add_test(NAME ${name}
-          COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test/${name}.py
-            --build_dir=${CMAKE_CURRENT_BINARY_DIR}/\${CTEST_CONFIGURATION_TYPE} ${ARGN})
-      endif()
-    endif()
-  endif(PYTHONINTERP_FOUND)
-endfunction()
+# ITK py_test function is not used for ITK, and searching for the python interpreter conflicts with ITK
+# ITK Remove the py_test function.
 
 # install_project(targets...)
 #
