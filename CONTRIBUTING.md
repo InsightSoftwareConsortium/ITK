@@ -218,7 +218,9 @@ When a topic is submitted, it is tested across the three major platforms
 before being merged thanks to the [Azure DevOps Pipelines CI
 system](https://azure.microsoft.com/en-ca/services/devops/pipelines/),
 as well as the [CDash GitHub
-Checks](https://github.com/InsightSoftwareConsortium/ITKGitHubCDashStatus).
+Checks](https://github.com/InsightSoftwareConsortium/ITKGitHubCDashStatus),
+and [ITK Coding Style
+check](https://github.com/InsightSoftwareConsortium/ITKClangFormatLinterAction).
 
 If a platform configuration test failure appears to be a false positive, the
 test can be re-executed by adding a comment to the pull request with the
@@ -278,6 +280,10 @@ for further information on changing multiple commits -i.e. not only the last
 one, but further back in your history-, and the* Pro Git: Rebasing *resource on
 taking all the changes that were committed on one branch and replaying them on
 another one.*)
+
+If your topic branch fails the ITK Coding Style consistency check but is
+otherwise ready to merge, add the *action:ApplyClangFormat* label to the pull
+request. A bot will re-format all commits in the topic.
 
 Merge a Topic
 -------------
