@@ -3,27 +3,6 @@
 # ${_name}.dot file which defines the local dependency as graph
 # which will be then processed by dot
 
-# python is needed to verify the presence of the module name in the doxygen header
-# Don't require it to not force the developers to install python to be able to build
-# ITK. The tests will simply not be run if python is not available.
-# Prefer to use more robust FindPython3 module if greater than cmake 3.12.0
-if("${CMAKE_VERSION}" VERSION_LESS_EQUAL "3.12.0")
-  # Use of PythonInterp and PythonLibs is dprecated since cmake version 3.12.0
-
-  # configure python (find PythonInterp first, as of cmake 3.1)
-  find_package(PythonInterp)
-  # Check for supported python versions
-  if(PYTHON_VERSION_STRING VERSION_LESS 3.5)
-    message(FATAL_ERROR "Python versions less than 3.5 are not supported. Python version: \"${PYTHON_VERSION_STRING}\".")
-  endif()
-
-  ## For forward compatibility with cmake 3.12.0 or greater
-  set(Python3_EXECUTABLE ${PYTHON_EXECUTABLE})
-else()
-  find_package(Python3 COMPONENTS Interpreter REQUIRED)
-endif()
-
-
 macro( itk_module_doxygen _name )
 
   # _content defines the content of the ${_name}.dox file
