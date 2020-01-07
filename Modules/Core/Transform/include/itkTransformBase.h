@@ -141,6 +141,9 @@ public:
   static constexpr TransformCategoryEnum Spline = TransformCategoryEnum::Spline;
   static constexpr TransformCategoryEnum DisplacementField = TransformCategoryEnum::DisplacementField;
   static constexpr TransformCategoryEnum VelocityField = TransformCategoryEnum::VelocityField;
+
+  // Preserve old type name for backwards compatibility
+  using TransformCategoryType = TransformCategoryEnum;
 #endif
 
   /** Get transform category */
