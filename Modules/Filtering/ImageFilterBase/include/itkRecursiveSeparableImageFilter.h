@@ -174,7 +174,7 @@ protected:
 
 
   template <typename T1, typename T2>
-  inline void
+  static inline void
   MathEMAMAMAM(T1 &       out,
                const T1 & a1,
                const T2 & b1,
@@ -190,7 +190,7 @@ protected:
 
 
   template <typename T1, typename T2>
-  inline void
+  static inline void
   MathEMAMAMAM(VariableLengthVector<T1> &       out,
                const VariableLengthVector<T1> & a1,
                const T2 &                       b1,
@@ -213,7 +213,7 @@ protected:
   }
 
   template <typename T1, typename T2>
-  inline void
+  static inline void
   MathSMAMAMAM(T1 &       out,
                const T1 & a1,
                const T2 & b1,
@@ -228,7 +228,7 @@ protected:
   }
 
   template <typename T1, typename T2>
-  inline void
+  static inline void
   MathSMAMAMAM(VariableLengthVector<T1> &       out,
                const VariableLengthVector<T1> & a1,
                const T2 &                       b1,
