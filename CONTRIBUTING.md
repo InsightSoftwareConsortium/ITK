@@ -281,10 +281,6 @@ one, but further back in your history-, and the* Pro Git: Rebasing *resource on
 taking all the changes that were committed on one branch and replaying them on
 another one.*)
 
-If your topic branch fails the ITK Coding Style consistency check but is
-otherwise ready to merge, add the *action:ApplyClangFormat* label to the pull
-request. A bot will re-format all commits in the topic.
-
 Merge a Topic
 -------------
 
