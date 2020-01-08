@@ -22,6 +22,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkOpenCVVideoIOFactory.h"
+#include "itkOpenCVTestHelper.h"
 
 #if defined(CV_VERSION_EPOCH) // OpenCV 2.4.x
 #  include "highgui.h"

@@ -12,7 +12,9 @@ include_directories(${ITKVideoBridgeOpenCV_INCLUDE_DIRS})
 
 CreateTestDriver(ITKVideoBridgeOpenCV
   "${ITKVideoBridgeOpenCV-Test_LIBRARIES};${OpenCV_LIBS}"
-  "${ITKVideoBridgeOpenCVTests}")
+  "${ITKVideoBridgeOpenCVTests}"
+  itkOpenCVTestHelper.cxx
+  )
 
 # OpenCVVideoCapture:
 itk_add_test(NAME

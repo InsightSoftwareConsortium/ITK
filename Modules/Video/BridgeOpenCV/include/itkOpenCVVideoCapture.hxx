@@ -23,10 +23,13 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 #include "opencv2/core/version.hpp"
-#if !defined(CV_VERSION_EPOCH)
-// OpenCV 3.x
+#if !defined(CV_VERSION_EPOCH) // OpenCV >= 3.0
 #  include "opencv2/videoio.hpp"
 #  include "opencv2/imgproc/types_c.h" // CV_RGB2BGR, CV_BGR2GRAY, ...
+#  include "opencv2/imgproc/imgproc_c.h"
+#  if CV_VERSION_MAJOR > 3 // OpenCV 4.x
+#    include "opencv2/videoio/legacy/constants_c.h"
+#  endif
 #else
 // OpenCV 2.4.x
 #  include "cv.h"
