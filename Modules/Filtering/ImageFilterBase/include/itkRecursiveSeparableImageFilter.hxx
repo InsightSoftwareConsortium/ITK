@@ -21,7 +21,7 @@
 #include "itkRecursiveSeparableImageFilter.h"
 #include "itkObjectFactory.h"
 #include "itkImageLinearIteratorWithIndex.h"
-#include <new>
+#include <memory> // For unique_ptr
 
 namespace itk
 {
@@ -282,59 +282,34 @@ RecursiveSeparableImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerat
 
   const SizeValueType ln = region.GetSize(this->m_Direction);
 
-  RealType * inps = nullptr;
-  RealType * outs = nullptr;
-  RealType * scratch = nullptr;
+  const std::unique_ptr<RealType[]> inps(new RealType[ln]);
+  const std::unique_ptr<RealType[]> outs(new RealType[ln]);
+  const std::unique_ptr<RealType[]> scratch(new RealType[ln]);
 
-  try
+  inputIterator.GoToBegin();
+  outputIterator.GoToBegin();
+
+  while (!inputIterator.IsAtEnd() && !outputIterator.IsAtEnd())
   {
-    inps = new RealType[ln];
-    outs = new RealType[ln];
-    scratch = new RealType[ln];
-
-    inputIterator.GoToBegin();
-    outputIterator.GoToBegin();
-
-    while (!inputIterator.IsAtEnd() && !outputIterator.IsAtEnd())
+    unsigned int i = 0;
+    while (!inputIterator.IsAtEndOfLine())
     {
-      unsigned int i = 0;
-      while (!inputIterator.IsAtEndOfLine())
-      {
-        inps[i++] = inputIterator.Get();
-        ++inputIterator;
-      }
-
-      this->FilterDataArray(outs, inps, scratch, ln);
-
-      unsigned int j = 0;
-      while (!outputIterator.IsAtEndOfLine())
-      {
-        outputIterator.Set(static_cast<OutputPixelType>(outs[j++]));
-        ++outputIterator;
-      }
-
-      inputIterator.NextLine();
-      outputIterator.NextLine();
+      inps[i++] = inputIterator.Get();
+      ++inputIterator;
     }
+
+    this->FilterDataArray(outs.get(), inps.get(), scratch.get(), ln);
+
+    unsigned int j = 0;
+    while (!outputIterator.IsAtEndOfLine())
+    {
+      outputIterator.Set(static_cast<OutputPixelType>(outs[j++]));
+      ++outputIterator;
+    }
+
+    inputIterator.NextLine();
+    outputIterator.NextLine();
   }
-  catch (...)
-  {
-    // Consider cases where memory allocation may fail or the process
-    // is aborted.
-
-    // release locally allocated memory, if memory allocation fails
-    // then we will delete a nullptr pointer, which is a valid operation
-    delete[] outs;
-    delete[] inps;
-    delete[] scratch;
-
-    // rethrow same exception
-    throw;
-  }
-
-  delete[] outs;
-  delete[] inps;
-  delete[] scratch;
 }
 
 template <typename TInputImage, typename TOutputImage>
