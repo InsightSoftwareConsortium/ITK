@@ -127,8 +127,6 @@ GPUReduction<TElement>::GetReductionKernel(int whichKernel, int blockSize, int i
   defines << "#define T ";
   GetTypenameInString(typeid(TElement), defines);
 
-  std::cout << "Defines: " << defines.str() << std::endl;
-
   const char * GPUSource = GPUReduction::GetOpenCLSource();
 
   // load and build program

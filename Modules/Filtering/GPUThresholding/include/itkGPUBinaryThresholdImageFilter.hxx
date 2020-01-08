@@ -92,7 +92,6 @@ GPUBinaryThresholdImageFilter<TInputImage, TOutputImage>::GPUBinaryThresholdImag
     itkExceptionMacro(<< excpMsg.str().c_str());
   }
 
-  std::cout << "Defines: " << defines.str() << std::endl;
   const char * GPUSource = GPUBinaryThresholdImageFilter::GetOpenCLSource();
 
   // load and build program

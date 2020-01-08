@@ -84,7 +84,6 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::GP
 
   defines << "#define OUTPIXELTYPE ";
   GetTypenameInString(typeid(typename TDisplacementField::PixelType::ValueType), defines);
-  std::cout << "Defines: " << defines.str() << std::endl;
 
   const char * GPUSource = GPUDemonsRegistrationFunction::GetOpenCLSource();
 

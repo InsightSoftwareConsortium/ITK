@@ -44,8 +44,8 @@ GPUScalarAnisotropicDiffusionFunction<TImage>::GPUScalarAnisotropicDiffusionFunc
   defines << "#define DIM_" << ImageDimension << "\n";
 
   defines << "#define PIXELTYPE ";
+
   GetTypenameInString(typeid(typename TImage::PixelType), defines);
-  std::cout << "Defines: " << defines.str() << std::endl;
 
   const char * GPUSource = GPUScalarAnisotropicDiffusionFunction::GetOpenCLSource();
 

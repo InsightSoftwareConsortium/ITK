@@ -62,8 +62,6 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   defines << "#define OUTPIXELTYPE ";
   GetTypenameInString(typeid(DeformationScalarType), defines);
 
-  std::cout << "Defines: " << defines.str() << std::endl;
-
   using GPUCodeType = const char *;
   GPUCodeType GPUSource = GPUPDEDeformableRegistrationFilter::GetOpenCLSource();
 

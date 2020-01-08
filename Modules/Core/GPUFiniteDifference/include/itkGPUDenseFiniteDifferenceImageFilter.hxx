@@ -59,7 +59,6 @@ GPUDenseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilte
 
   // assumes input and output pixel type is same
   defines << "#define PIXELDIM " << GetPixelDimension(typeid(typename TOutputImage::PixelType)) << "\n";
-  std::cout << "Defines: " << defines.str() << std::endl;
 
   const char * GPUSource = GPUDenseFiniteDifferenceImageFilter::GetOpenCLSource();
 
