@@ -126,7 +126,7 @@ public:
   using NeighborhoodAccessorFunctorType = NeighborhoodAccessorFunctor<Self>;
 
   /** Type of image dimension */
-  using ImageDimensionType = typename Superclass::ImageDimensionType;
+  using ImageDimensionType =   typename Superclass::ImageDimensionType;
 
   /** Index type alias support. An index is used to access pixel values. */
   using IndexType = typename Superclass::IndexType;
