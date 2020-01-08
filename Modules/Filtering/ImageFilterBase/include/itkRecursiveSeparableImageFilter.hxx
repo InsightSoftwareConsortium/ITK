@@ -81,14 +81,14 @@ RecursiveSeparableImageFilter<TInputImage, TOutputImage>::GetInputImage()
  */
 template <typename TInputImage, typename TOutputImage>
 void
-RecursiveSeparableImageFilter<TInputImage, TOutputImage>::FilterDataArray(RealType *       outs,
-                                                                          const RealType * data,
-                                                                          RealType *       scratch,
-                                                                          SizeValueType    ln)
+RecursiveSeparableImageFilter<TInputImage, TOutputImage>::FilterDataArray(RealType * const       outs,
+                                                                          const RealType * const data,
+                                                                          RealType * const       scratch,
+                                                                          const SizeValueType    ln) const
 {
 
-  RealType * scratch1 = outs;
-  RealType * scratch2 = scratch;
+  RealType * const scratch1 = outs;
+  RealType * const scratch2 = scratch;
   /**
    * Causal direction pass
    */
