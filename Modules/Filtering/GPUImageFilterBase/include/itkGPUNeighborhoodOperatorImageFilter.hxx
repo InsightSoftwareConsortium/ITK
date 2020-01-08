@@ -104,8 +104,6 @@ GPUNeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType
   defines << "#define OPTYPE ";
   GetTypenameInString(typeid(TOperatorValueType), defines);
 
-  std::cout << "Defines: " << defines.str() << std::endl;
-
   const char * GPUSource = GPUNeighborhoodOperatorImageFilter::GetOpenCLSource();
 
   // load and build program
