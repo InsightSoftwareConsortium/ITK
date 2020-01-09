@@ -71,7 +71,6 @@
 
 //  The following section of code implements a Command observer
 //  used to monitor the evolution of the registration process.
-//
 #include "itkCommand.h"
 class CommandIterationUpdate : public itk::Command
 {
@@ -176,9 +175,7 @@ main(int argc, char * argv[])
   IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
 
 
-  //
   //   Read the Fixed and Moving images.
-  //
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
@@ -205,17 +202,13 @@ main(int argc, char * argv[])
   registration->SetFixedImage(fixedImage);
   registration->SetMovingImage(movingImageReader->GetOutput());
 
-  //
   // Add a time and memory probes collector for profiling the computation time
   // of every stage.
-  //
   itk::TimeProbesCollectorBase   chronometer;
   itk::MemoryProbesCollectorBase memorymeter;
 
 
-  //
   // Setup the metric parameters
-  //
   metric->SetNumberOfHistogramBins(50);
 
   FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
@@ -245,9 +238,7 @@ main(int argc, char * argv[])
   }
 
 
-  //
   //  Initialize a rigid transform by using Image Intensity Moments
-  //
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
 
   RigidTransformType::Pointer rigidTransform = RigidTransformType::New();
@@ -276,10 +267,8 @@ main(int argc, char * argv[])
 
   registration->SetTransform(rigidTransform);
 
-  //
-  //  Define optimizer normaliztion to compensate for different dynamic range
+  //  Define optimizer normalization to compensate for different dynamic range
   //  of rotations and translations.
-  //
   using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales(rigidTransform->GetNumberOfParameters());
   const double        translationScale = 1.0 / 1000.0;
@@ -307,9 +296,7 @@ main(int argc, char * argv[])
   // image.
   metric->SetNumberOfSpatialSamples(10000L);
 
-  //
   // Create the Command observer and register it with the optimizer.
-  //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
@@ -343,9 +330,7 @@ main(int argc, char * argv[])
   rigidTransform->SetParameters(registration->GetLastTransformParameters());
 
 
-  //
   //  Perform Affine Registration
-  //
   AffineTransformType::Pointer affineTransform = AffineTransformType::New();
 
   affineTransform->SetCenter(rigidTransform->GetCenter());
@@ -378,7 +363,6 @@ main(int argc, char * argv[])
 
   optimizer->SetNumberOfIterations(200);
 
-  //
   // The Affine transform has 12 parameters we use therefore a more samples to run
   // this stage.
   //
@@ -413,9 +397,7 @@ main(int argc, char * argv[])
   affineTransform->SetParameters(registration->GetLastTransformParameters());
 
 
-  //
   //  Perform Deformable Registration
-  //
   DeformableTransformType::Pointer bsplineTransformCoarse =
     DeformableTransformType::New();
 
@@ -491,7 +473,6 @@ main(int argc, char * argv[])
   }
 
 
-  //
   // The BSpline transform has a large number of parameters, we use therefore a
   // much larger number of samples to run this stage.
   //
