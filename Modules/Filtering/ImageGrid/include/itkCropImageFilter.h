@@ -111,6 +111,9 @@ protected:
   void
   GenerateOutputInformation() override;
 
+  void
+  VerifyInputInformation() ITKv5_CONST override;
+
 private:
   SizeType m_UpperBoundaryCropSize;
   SizeType m_LowerBoundaryCropSize;
