@@ -21,7 +21,6 @@ import os.path
 import sys
 import importlib
 import types
-import inspect
 import itkConfig
 import itkTemplate
 
