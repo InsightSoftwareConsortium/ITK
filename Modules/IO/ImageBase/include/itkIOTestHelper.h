@@ -31,12 +31,18 @@ class IOTestHelper
 public:
   template <typename TImage>
   static typename TImage::Pointer
-  ReadImage(const std::string & fileName, const bool zeroOrigin = false)
+  ReadImage(const std::string &           fileName,
+            const bool                    zeroOrigin = false,
+            typename ImageIOBase::Pointer imageio = nullptr)
   {
     using ReaderType = itk::ImageFileReader<TImage>;
 
     typename ReaderType::Pointer reader = ReaderType::New();
     {
+      if (imageio)
+      {
+        reader->SetImageIO(imageio);
+      }
       reader->SetFileName(fileName.c_str());
       try
       {
@@ -69,13 +75,18 @@ public:
 
   template <typename ImageType, typename ImageIOType>
   static void
-  WriteImage(typename ImageType::Pointer & image, const std::string & filename)
+  WriteImage(typename ImageType::Pointer & image,
+             const std::string &           filename,
+             typename ImageIOType::Pointer imageio = nullptr)
   {
 
     using WriterType = itk::ImageFileWriter<ImageType>;
     typename WriterType::Pointer writer = WriterType::New();
 
-    typename ImageIOType::Pointer imageio(ImageIOType::New());
+    if (imageio.IsNull())
+    {
+      imageio = ImageIOType::New();
+    }
 
     writer->SetImageIO(imageio);
 

@@ -44,7 +44,7 @@ WriteNiftiTestFiles(const std::string & prefix)
   if (!little_hdr.is_open())
     return EXIT_FAILURE;
   std::cout << "NiftiLittleEndian written" << std::endl;
-  little_hdr.write(reinterpret_cast<const char *>(LittleEndian_hdr), sizeof(LittleEndian_hdr));
+  little_hdr.write(reinterpret_cast<const char *>(&NiftiLittleEndian), sizeof(NiftiLittleEndian));
   little_hdr.close();
   std::ofstream little_img((prefix + "NiftiLittleEndian.img").c_str(), std::ios::binary | std::ios::out);
   if (!little_img.is_open())
@@ -54,7 +54,7 @@ WriteNiftiTestFiles(const std::string & prefix)
   std::ofstream big_hdr((prefix + "NiftiBigEndian.hdr").c_str(), std::ios::binary | std::ios::out);
   if (!big_hdr.is_open())
     return EXIT_FAILURE;
-  big_hdr.write(reinterpret_cast<const char *>(BigEndian_hdr), sizeof(BigEndian_hdr));
+  big_hdr.write(reinterpret_cast<const char *>(&NiftiBigEndian), sizeof(NiftiBigEndian));
   big_hdr.close();
   std::ofstream big_img((prefix + "NiftiBigEndian.img").c_str(), std::ios::binary | std::ios::out);
   if (!big_img.is_open())

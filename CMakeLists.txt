@@ -295,6 +295,23 @@ if (ITKV3_COMPATIBILITY)
   message(FATAL_ERROR "ITKV3_COMPATIBILITY is removed starting in ITK version 5.0, this option is no longer valid.")
 endif()
 
+# Chose flavour of Analyze reader
+set(ITK_NIFTI_IO_ANALYZE_FLAVOR_DOC_STRING "Which flavour of Analyze reader to use by default")
+
+set(ITK_NIFTI_IO_ANALYZE_FLAVOR "ITK4Warning" CACHE STRING ${ITK_NIFTI_IO_ANALYZE_FLAVOR_DOC_STRING})
+
+set_property(CACHE ITK_NIFTI_IO_ANALYZE_FLAVOR PROPERTY STRINGS ITK4Warning ITK4 SPM FSL Reject)
+
+if( NOT ("${ITK_NIFTI_IO_ANALYZE_FLAVOR}" STREQUAL "ITK4Warning" OR
+         "${ITK_NIFTI_IO_ANALYZE_FLAVOR}" STREQUAL "ITK4" OR
+         "${ITK_NIFTI_IO_ANALYZE_FLAVOR}" STREQUAL "SPM" OR
+         "${ITK_NIFTI_IO_ANALYZE_FLAVOR}" STREQUAL "FSL" OR
+         "${ITK_NIFTI_IO_ANALYZE_FLAVOR}" STREQUAL "Reject"
+         ) )
+  set(ITK_NIFTI_IO_ANALYZE_FLAVOR "ITK4Warning" CACHE STRING ${ITK_NIFTI_IO_ANALYZE_FLAVOR_DOC_STRING} FORCE)
+endif()
+
+
 #-----------------------------------------------------------------------------
 # ITK build classes that are in the review process
 # ITK_USE_REVIEW is deprecated, only kept for backward compatibility

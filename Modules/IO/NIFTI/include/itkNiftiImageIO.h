@@ -27,6 +27,30 @@
 
 namespace itk
 {
+
+
+/** \class Analyze75Flavor
+ * \ingroup ITKIONIFTI
+ * Enum used to define way to treat legacy Analyze75 files
+ */
+enum class Analyze75Flavor : uint8_t
+{
+  /** Behavior introduced in ITK4.0 by NIFTI reader interpreting Analyze files */
+  AnalyzeITK4 = 4,
+  /** Will ignore orientation code and negative pixel dimensions */
+  AnalyzeFSL = 3,
+  /** Will ignore orientation code and respect negative pixel dimensions */
+  AnalyzeSPM = 2,
+  /** Same as AnalyzeITK4 but will show warning about deprecated file format (Default)*/
+  AnalyzeITK4Warning = 1,
+  /** Reject Analyze files as potentially wrong  */
+  AnalyzeReject = 0
+};
+
+/** Define how to print enumerations */
+extern ITKIONIFTI_EXPORT std::ostream &
+                         operator<<(std::ostream & out, const Analyze75Flavor value);
+
 /** \class NiftiImageIO
  *
  * \author Hans J. Johnson, The University of Iowa 2002
@@ -70,6 +94,7 @@ public:
     /** Some other file format, or file system error. */
     OtherOrError = -1,
   };
+
 
   /** Reads the file to determine if it can be read with this ImageIO implementation,
    * and to determine what kind of file it is (Analyze vs NIfTI). Note that the value
@@ -131,10 +156,10 @@ public:
 
   /** A mode to allow the Nifti filter to read and write to the LegacyAnalyze75 format as interpreted by
    * the nifti library maintainers.  This format does not properly respect the file orientation fields.
-   * By default this is set to true.
+   * By default this is set by configuration option ITK_NIFTI_IO_ANALYZE_FLAVOR
    */
-  itkSetMacro(LegacyAnalyze75Mode, bool);
-  itkGetConstMacro(LegacyAnalyze75Mode, bool);
+  itkSetMacro(LegacyAnalyze75Mode, Analyze75Flavor);
+  itkGetConstMacro(LegacyAnalyze75Mode, Analyze75Flavor);
 
 protected:
   NiftiImageIO();
@@ -188,8 +213,10 @@ private:
 
   IOComponentType m_OnDiskComponentType{ UNKNOWNCOMPONENTTYPE };
 
-  bool m_LegacyAnalyze75Mode{ true };
+  Analyze75Flavor m_LegacyAnalyze75Mode;
 };
+
+
 } // end namespace itk
 
 #endif // itkNiftiImageIO_h
