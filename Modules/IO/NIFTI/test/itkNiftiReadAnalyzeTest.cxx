@@ -172,6 +172,7 @@ std::map<itk::SpatialOrientation::ValidCoordinateOrientationFlags, std::string> 
   { itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL, "ASL" }
 };
 
+
 /** WriteFile
  * Write out a char array as binary
  */
@@ -193,14 +194,16 @@ WriteFile(const std::string & name, const unsigned char * buf, size_t buflen)
  */
 template <typename TImage>
 typename TImage::Pointer
-ReadImage(const std::string & fileName)
+ReadImage(const std::string & fileName, itk::Analyze75Flavor analyze_mode = itk::Analyze75Flavor::AnalyzeSPM)
 {
   using ReaderType = itk::ImageFileReader<TImage>;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
+  typename ReaderType::Pointer        reader = ReaderType::New();
+  typename itk::NiftiImageIO::Pointer imageIO = itk::NiftiImageIO::New();
   {
+    imageIO->SetLegacyAnalyze75Mode(analyze_mode);
+    reader->SetImageIO(imageIO);
     reader->SetFileName(fileName.c_str());
-    reader->SetImageIO(itk::NiftiImageIO::New());
     try
     {
       reader->Update();
@@ -227,7 +230,9 @@ ReadImage(const std::string & fileName)
 int
 itkNiftiAnalyzeContentsAndCoordinatesTest(char *                                                   av[],
                                           unsigned char                                            hist_orient_code,
-                                          itk::SpatialOrientation::ValidCoordinateOrientationFlags expected_code)
+                                          itk::SpatialOrientation::ValidCoordinateOrientationFlags expected_code,
+                                          itk::Analyze75Flavor                                     analyze_mode,
+                                          bool                                                     flip_x = false)
 {
   std::string hdrName(av[1]);
   hdrName += "/littleEndian_";
@@ -237,10 +242,18 @@ itkNiftiAnalyzeContentsAndCoordinatesTest(char *                                
   imgName += "/littleEndian_";
   imgName += codeToString[expected_code];
   imgName += ".img";
+
   // hack the header to have proper orientation code
   unsigned char tweaked_hdr[sizeof(LittleEndian_hdr)];
   memcpy(tweaked_hdr, LittleEndian_hdr, sizeof(LittleEndian_hdr));
   tweaked_hdr[252] = hist_orient_code;
+
+  // hack the header to flip X step
+  if (flip_x)
+  {
+    float negative_x = -1.f;
+    memcpy(tweaked_hdr + 80, &negative_x, sizeof(float));
+  }
 
   if (WriteFile(hdrName, tweaked_hdr, sizeof(LittleEndian_hdr)) != EXIT_SUCCESS)
   {
@@ -258,10 +271,12 @@ itkNiftiAnalyzeContentsAndCoordinatesTest(char *                                
   ImageType::Pointer img;
   try
   {
-    img = ReadImage<ImageType>(hdrName);
+    img = ReadImage<ImageType>(hdrName, analyze_mode);
   }
   catch (...)
   {
+    if (analyze_mode == itk::Analyze75Flavor::AnalyzeReject)
+      std::cerr << "Failure is expected" << std::endl << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -295,7 +310,9 @@ itkNiftiAnalyzeContentsAndCoordinatesTest(char *                                
   }
 
   // TODO: check origin and spacing too
-  std::cout << "Analyze orientation " << (int)hist_orient_code << std::endl
+  std::cout << "Analyze orientation :" << (int)hist_orient_code << std::endl
+            << "Analyze flavor :" << analyze_mode << std::endl
+            << "negative x step:" << (flip_x ? "true" : "false") << std::endl
             << "Origin   :" << img->GetOrigin() << std::endl
             << "Spacing  :" << img->GetSpacing() << std::endl
             << "Code     :" << codeToString[orientation_code] << std::endl
@@ -313,22 +330,78 @@ itkNiftiReadAnalyzeTest(int ac, char * av[])
     return EXIT_FAILURE;
   }
 
+  // check that when we reject Analyze, it can't be read
+
+
   // NOTE: according to the information from
   // https://web.archive.org/web/20121116093304/http://wideman-one.com/gw/brain/analyze/formatdoc.htm Analyze code 5
   // should have been PSR but it was revised in NIFTI somehow to PIL
 
-  return itkNiftiAnalyzeContentsAndCoordinatesTest(av, 0, itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI) ==
+  return itkNiftiAnalyzeContentsAndCoordinatesTest(
+           av, 0, itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI, itk::Analyze75Flavor::AnalyzeReject) !=
                EXIT_FAILURE ||
              itkNiftiAnalyzeContentsAndCoordinatesTest(
-               av, 1, itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP) == EXIT_FAILURE ||
+               av, 0, itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI, itk::Analyze75Flavor::AnalyzeSPM) ==
+               EXIT_FAILURE ||
              itkNiftiAnalyzeContentsAndCoordinatesTest(
-               av, 2, itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR) == EXIT_FAILURE ||
+               av, 1, itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP, itk::Analyze75Flavor::AnalyzeSPM) ==
+               EXIT_FAILURE ||
              itkNiftiAnalyzeContentsAndCoordinatesTest(
-               av, 3, itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI) == EXIT_FAILURE ||
+               av, 2, itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR, itk::Analyze75Flavor::AnalyzeSPM) ==
+               EXIT_FAILURE ||
              itkNiftiAnalyzeContentsAndCoordinatesTest(
-               av, 4, itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP) == EXIT_FAILURE ||
+               av, 3, itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI, itk::Analyze75Flavor::AnalyzeSPM) ==
+               EXIT_FAILURE ||
              itkNiftiAnalyzeContentsAndCoordinatesTest(
-               av, 5, itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIL) == EXIT_FAILURE
+               av, 4, itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP, itk::Analyze75Flavor::AnalyzeSPM) ==
+               EXIT_FAILURE ||
+             itkNiftiAnalyzeContentsAndCoordinatesTest(
+               av, 5, itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIL, itk::Analyze75Flavor::AnalyzeSPM) ==
+               EXIT_FAILURE ||
+             // ITK4 default behaviour: reader should ignore orientation code and always produce RAI ,
+             // there should be a warning on console
+             itkNiftiAnalyzeContentsAndCoordinatesTest(av,
+                                                       0,
+                                                       itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI,
+                                                       itk::Analyze75Flavor::AnalyzeITK4Warning) == EXIT_FAILURE ||
+             // ITK4 reader should ignore orientation code and always produce RAI
+             itkNiftiAnalyzeContentsAndCoordinatesTest(
+               av, 0, itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI, itk::Analyze75Flavor::AnalyzeITK4) ==
+               EXIT_FAILURE ||
+             itkNiftiAnalyzeContentsAndCoordinatesTest(
+               av, 1, itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI, itk::Analyze75Flavor::AnalyzeITK4) ==
+               EXIT_FAILURE ||
+             itkNiftiAnalyzeContentsAndCoordinatesTest(
+               av, 2, itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI, itk::Analyze75Flavor::AnalyzeITK4) ==
+               EXIT_FAILURE ||
+             itkNiftiAnalyzeContentsAndCoordinatesTest(
+               av, 3, itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI, itk::Analyze75Flavor::AnalyzeITK4) ==
+               EXIT_FAILURE ||
+             itkNiftiAnalyzeContentsAndCoordinatesTest(
+               av, 5, itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI, itk::Analyze75Flavor::AnalyzeITK4) ==
+               EXIT_FAILURE ||
+             itkNiftiAnalyzeContentsAndCoordinatesTest(
+               av, 5, itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI, itk::Analyze75Flavor::AnalyzeITK4) ==
+               EXIT_FAILURE ||
+             // flip X  axis , SPM reader should respect this
+             itkNiftiAnalyzeContentsAndCoordinatesTest(av,
+                                                       0,
+                                                       itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPI,
+                                                       itk::Analyze75Flavor::AnalyzeSPM,
+                                                       true) == EXIT_FAILURE ||
+             // flip X  axis , ITK4 reader should respect this
+             itkNiftiAnalyzeContentsAndCoordinatesTest(av,
+                                                       0,
+                                                       itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAI,
+                                                       itk::Analyze75Flavor::AnalyzeITK4,
+                                                       true) == EXIT_FAILURE ||
+             // flip X  axis , FSL reader should ignore this
+             itkNiftiAnalyzeContentsAndCoordinatesTest(av,
+                                                       0,
+                                                       itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI,
+                                                       itk::Analyze75Flavor::AnalyzeFSL,
+                                                       true) == EXIT_FAILURE
+
            ? EXIT_FAILURE
            : EXIT_SUCCESS;
 }

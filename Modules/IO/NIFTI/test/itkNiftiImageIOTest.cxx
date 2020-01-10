@@ -125,13 +125,15 @@ itkNiftiImageIOTest(int ac, char * av[])
   if (ac > 1) // This is a mechanism for reading unsigned char images for testing.
   {
     using ImageType = itk::Image<unsigned char, 3>;
-    ImageType::Pointer input;
+    ImageType::Pointer         input;
+    itk::NiftiImageIO::Pointer imageIO = itk::NiftiImageIO::New();
+    // enable old behavior of NIFTI reader
+    imageIO->SetLegacyAnalyze75Mode(itk::Analyze75Flavor::AnalyzeITK4);
     for (int imagenameindex = 1; imagenameindex < ac; imagenameindex++)
     {
-      // std::cout << "Attempting to read " << av[imagenameindex] << std::endl;
       try
       {
-        input = itk::IOTestHelper::ReadImage<ImageType>(std::string(av[imagenameindex]));
+        input = itk::IOTestHelper::ReadImage<ImageType>(std::string(av[imagenameindex]), false, imageIO);
       }
       catch (const itk::ExceptionObject & e)
       {
@@ -216,6 +218,7 @@ itkNiftiImageIOTest(int ac, char * av[])
       std::cerr << "Error writing Nifti file type double" << std::endl;
       rval += cur_return;
     }
+    std::cout << "Prefix:" << prefix << std::endl;
     rval += TestNiftiByteSwap(prefix);
   }
   // Tests added to increase code coverage.

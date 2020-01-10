@@ -21,6 +21,8 @@
 #include "itkSpatialOrientationAdapter.h"
 #include <nifti1_io.h>
 
+#include "itkNiftiImageIOConfigurePrivate.h"
+
 namespace itk
 {
 //#define ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING
@@ -446,6 +448,7 @@ public:
 NiftiImageIO::NiftiImageIO()
   : m_NiftiImageHolder(new NiftiImageProxy(nullptr))
   , m_NiftiImage(*m_NiftiImageHolder.get())
+  , m_LegacyAnalyze75Mode(ITK_NIFTI_IO_ANALYZE_FLAVOR_DEFAULT)
 
 {
   this->SetNumberOfDimensions(3);
@@ -791,9 +794,9 @@ NiftiImageIO::DetermineFileType(const char * FileNameToRead)
   //      == 1 for a nifti file (header+data in 1 file)
   //      == 0 for an analyze 7.5 file,
   //      == -1 for an error,
-  const int image_FTYPE = is_nifti_file(FileNameToRead);
+  const int imageFTYPE = is_nifti_file(FileNameToRead);
 
-  return static_cast<NiftiImageIO::FileType>(image_FTYPE);
+  return static_cast<NiftiImageIO::FileType>(imageFTYPE);
 }
 
 // This method will only test if the header looks like an
@@ -807,13 +810,12 @@ NiftiImageIO ::CanReadFile(const char * FileNameToRead)
   //      == 1 for a nifti file (header+data in 1 file)
   //      == 0 for an analyze 7.5 file,
   //      == -1 for an error,
-  const int image_FTYPE = is_nifti_file(FileNameToRead);
-
-  if (image_FTYPE > 0)
+  const int imageFTYPE = is_nifti_file(FileNameToRead);
+  if (imageFTYPE > 0)
   {
     return true;
   }
-  else if (image_FTYPE == 0 && (this->GetLegacyAnalyze75Mode() == true))
+  else if (imageFTYPE == 0 && (this->GetLegacyAnalyze75Mode() != Analyze75Flavor::AnalyzeReject))
   {
     return true;
   }
@@ -991,6 +993,23 @@ NiftiImageIO::SetImageIOMetadataFromNIfTI()
 void
 NiftiImageIO ::ReadImageInformation()
 {
+  const int image_FTYPE = is_nifti_file(this->GetFileName());
+  if (image_FTYPE == 0)
+  {
+    if (this->GetLegacyAnalyze75Mode() == Analyze75Flavor::AnalyzeReject)
+    {
+      itkExceptionMacro(<< this->GetFileName()
+                        << " is Analyze file and reader is instructed to reject it, specify preferred Analyze flavor "
+                           "using SetLegacyAnalyze75Mode ");
+    }
+    else
+    {
+      if (this->GetLegacyAnalyze75Mode() == Analyze75Flavor::AnalyzeITK4Warning)
+        itkWarningMacro(<< this->GetFileName() << " is Analyze file and it's deprecated ");
+      // to disable this message, specify preferred Analyze flavor using SetLegacyAnalyze75Mode
+    }
+  }
+
   this->m_NiftiImage = nifti_image_read(this->GetFileName(), false);
   static std::string prev;
   if (prev != this->GetFileName())
@@ -1261,39 +1280,51 @@ NiftiImageIO ::ReadImageInformation()
       timingscale = 1e-6;
       break;
   }
+  // see http://www.grahamwideman.com/gw/brain/analyze/formatdoc.htm
+  bool ignore_negative_pixdim =
+    this->m_NiftiImage->nifti_type == 0 && this->GetLegacyAnalyze75Mode() == Analyze75Flavor::AnalyzeFSL;
+
   const int dims = this->GetNumberOfDimensions();
   switch (dims)
   {
     case 7:
       this->SetDimensions(6, this->m_NiftiImage->nw);
       // NOTE: Scaling is not defined in this dimension
-      this->SetSpacing(6, this->m_NiftiImage->dw);
+      this->SetSpacing(6, ignore_negative_pixdim ? std::abs(this->m_NiftiImage->dw) : this->m_NiftiImage->dw);
       ITK_FALLTHROUGH;
     case 6:
       this->SetDimensions(5, this->m_NiftiImage->nv);
       // NOTE: Scaling is not defined in this dimension
-      this->SetSpacing(5, this->m_NiftiImage->dv);
+      this->SetSpacing(5, ignore_negative_pixdim ? std::abs(this->m_NiftiImage->dv) : this->m_NiftiImage->dv);
       ITK_FALLTHROUGH;
     case 5:
       this->SetDimensions(4, this->m_NiftiImage->nu);
       // NOTE: Scaling is not defined in this dimension
-      this->SetSpacing(4, this->m_NiftiImage->du);
+      this->SetSpacing(4, ignore_negative_pixdim ? std::abs(this->m_NiftiImage->du) : this->m_NiftiImage->du);
       ITK_FALLTHROUGH;
     case 4:
       this->SetDimensions(3, this->m_NiftiImage->nt);
-      this->SetSpacing(3, this->m_NiftiImage->dt * timingscale);
+      this->SetSpacing(3,
+                       ignore_negative_pixdim ? std::abs(this->m_NiftiImage->dt * timingscale)
+                                              : this->m_NiftiImage->dt * timingscale);
       ITK_FALLTHROUGH;
     case 3:
       this->SetDimensions(2, this->m_NiftiImage->nz);
-      this->SetSpacing(2, this->m_NiftiImage->dz * spacingscale);
+      this->SetSpacing(2,
+                       ignore_negative_pixdim ? std::abs(this->m_NiftiImage->dz * spacingscale)
+                                              : this->m_NiftiImage->dz * spacingscale);
       ITK_FALLTHROUGH;
     case 2:
       this->SetDimensions(1, this->m_NiftiImage->ny);
-      this->SetSpacing(1, this->m_NiftiImage->dy * spacingscale);
+      this->SetSpacing(1,
+                       ignore_negative_pixdim ? std::abs(this->m_NiftiImage->dy * spacingscale)
+                                              : this->m_NiftiImage->dy * spacingscale);
       ITK_FALLTHROUGH;
     case 1:
       this->SetDimensions(0, this->m_NiftiImage->nx);
-      this->SetSpacing(0, this->m_NiftiImage->dx * spacingscale);
+      this->SetSpacing(0,
+                       ignore_negative_pixdim ? std::abs(this->m_NiftiImage->dx * spacingscale)
+                                              : this->m_NiftiImage->dx * spacingscale);
       break;
     default:
       itkExceptionMacro(<< this->GetFileName() << " has " << dims << " dimensions, and is not supported or invalid!");
@@ -1469,7 +1500,6 @@ NiftiImageIO ::WriteImageInformation()
       this->m_NiftiImage->pixdim[1] = this->m_NiftiImage->dx = static_cast<float>(this->GetSpacing(0));
       this->m_NiftiImage->nvox *= this->m_NiftiImage->dim[1];
   }
-
   const unsigned int numComponents = this->GetNumberOfComponents();
 
   // TODO:  Also need to check for RGB images where numComponets=3
@@ -1714,7 +1744,8 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
       m_Origin[2] = 0.0;
     }
 
-    if (this->m_NiftiImage->nifti_type == 0)
+    if (this->m_NiftiImage->nifti_type == 0 && this->GetLegacyAnalyze75Mode() != Analyze75Flavor::AnalyzeITK4 &&
+        this->GetLegacyAnalyze75Mode() != Analyze75Flavor::AnalyzeITK4Warning)
     { // only do this for Analyze file format
       SpatialOrientationAdapter::DirectionType   dir;
       SpatialOrientationAdapter::OrientationType orient;
@@ -1758,7 +1789,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
     return;
   }
 
-  // not an Analyze file.
+  // not an Analyze file, but this route will be taken when ITK4 Analyze behaviour is needed
   // scale image data based on slope/intercept
   //
   // qform or sform
@@ -2062,4 +2093,28 @@ NiftiImageIO ::Write(const void * buffer)
     delete[] nifti_buf;
   }
 }
+
+/** Define how to print enumerations */
+std::ostream &
+operator<<(std::ostream & out, const Analyze75Flavor value)
+{
+  return out << [value] {
+    switch (value)
+    {
+      case Analyze75Flavor::AnalyzeReject:
+        return "Analyze75Flavor::AnalyzeReject";
+      case Analyze75Flavor::AnalyzeITK4:
+        return "Analyze75Flavor::AnalyzeITK4";
+      case Analyze75Flavor::AnalyzeITK4Warning:
+        return "Analyze75Flavor::AnalyzeITK4Warning";
+      case Analyze75Flavor::AnalyzeSPM:
+        return "Analyze75Flavor::AnalyzeSPM";
+      case Analyze75Flavor::AnalyzeFSL:
+        return "Analyze75Flavor::AnalyzeFSL";
+      default:
+        return "INVALID VALUE FOR Analyze75Flavor";
+    }
+  }();
+}
+
 } // end namespace itk
