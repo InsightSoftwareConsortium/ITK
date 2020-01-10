@@ -46,17 +46,17 @@ itkBinaryThinningImageFilter3DTest(int argc, char * argv[])
   ReaderType::Pointer                     reader = ReaderType::New();
   reader->SetFileName(infilename);
 
-  TRY_EXPECT_NO_EXCEPTION(reader->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   // Define the thinning filter
   typedef itk::BinaryThinningImageFilter3D<ImageType, ImageType> ThinningFilterType;
   ThinningFilterType::Pointer                                    thinningFilter = ThinningFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(thinningFilter, BinaryThinningImageFilter3D, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(thinningFilter, BinaryThinningImageFilter3D, ImageToImageFilter);
 
   thinningFilter->SetInput(reader->GetOutput());
 
-  TRY_EXPECT_NO_EXCEPTION(thinningFilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(thinningFilter->Update());
 
 
   // output to file
@@ -65,7 +65,7 @@ itkBinaryThinningImageFilter3DTest(int argc, char * argv[])
   writer->SetInput(thinningFilter->GetOutput());
   writer->SetFileName(outfilename);
 
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   std::cout << "Test finished.";
