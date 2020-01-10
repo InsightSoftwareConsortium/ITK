@@ -18,9 +18,14 @@
 
 /**
  *
- *  This program illustrates the use of Similarity3DTransform
+ *  This program illustrates the use of ScaleSkewVersor3DTransform
  *
- *  This transform performs: translation, rotation and uniform scaling.
+ *  This transform performs: translation, rotation, scaling, and skewing.
+ *
+ *  Note that this transform's parameters do not do what their names imply.
+ *  The scale and skew parameters actually have effects beyond simple scaling
+ *  and skewing (e.g., they induce rotations and scalings) because they
+ *  are added to the rotation matrix instead of composed with it.
  *
  */
 

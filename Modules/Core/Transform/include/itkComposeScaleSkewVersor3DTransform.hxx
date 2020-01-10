@@ -306,9 +306,14 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::PrintSelf(std::ostream 
 template <typename TParametersValueType>
 void
 ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComputeJacobianWithRespectToParameters(
-  const InputPointType & p,
-  JacobianType &         jacobian) const
+  const InputPointType & itkNotUsed(p),
+  JacobianType &         itkNotUsed(jacobian)) const
 {
+  // This document how the jacobian can be computed for certain parameters;
+  //   however, the proper computation of the scale and skew parameters is
+  //   now given or computed, so ultimately an exception is thrown.
+
+  /*
   using ValueType = typename VersorType::ValueType;
 
   // compute derivatives with respect to rotation
@@ -355,13 +360,14 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComputeJacobianWithResp
   jacobian[1][4] = 1.0;
   jacobian[2][5] = 1.0;
 
-  jacobian[0][6] = px;
+  jacobian[0][6] = px; // These are incorrect!
   jacobian[1][7] = py;
   jacobian[2][8] = pz;
 
   jacobian[0][9] = px; // These are incorrect!
   jacobian[1][10] = py;
   jacobian[2][11] = pz;
+  */
 
   itkExceptionMacro(<< "Computing the Jacobian of a ComposeScaleSkewVersor3D"
                     << " transform is not supported at this time.");

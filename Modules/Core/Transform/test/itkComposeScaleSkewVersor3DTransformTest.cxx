@@ -18,9 +18,9 @@
 
 /**
  *
- *  This program illustrates the use of Similarity3DTransform
+ *  This program illustrates the use of ComposeScaleSkewVersor3D transform.
  *
- *  This transform performs: translation, rotation and uniform scaling.
+ *  This transform performs: translation, rotation scaling, and skewing.
  *
  */
 

@@ -145,10 +145,8 @@ public:
   void
   SetIdentity() override;
 
-  /** This method computes the Jacobian matrix of the transformation.
-   * given point or vector, returning the transformed point or
-   * vector. The rank of the Jacobian will also indicate if the
-   * transform is invertible at this point. */
+  /* This function is not implemented for this transform.  An exception
+   *   is thrown if this function is called. */
   void
   ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const override;
 
