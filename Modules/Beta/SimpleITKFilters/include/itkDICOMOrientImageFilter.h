@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkOrientImageFilter_h
-#define itkOrientImageFilter_h
+#ifndef itkDICOMOrientImageFilter_h
+#define itkDICOMOrientImageFilter_h
 
 #include "itkPermuteAxesImageFilter.h"
 #include "itkFlipImageFilter.h"
