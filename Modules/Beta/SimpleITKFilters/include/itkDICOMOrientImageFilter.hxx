@@ -15,197 +15,170 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkOrientImageFilter_hxx
-#define itkOrientImageFilter_hxx
+#ifndef itkDICOMOrientImageFilter_hxx
+#define itkDICOMOrientImageFilter_hxx
 
-#include "itkImageRegionIterator.h"
-#include "itkOrientImageFilter.h"
+#include "itkDICOMOrientImageFilter.h"
+#include "itkPermuteAxesImageFilter.h"
+#include "itkFlipImageFilter.h"
 #include "itkCastImageFilter.h"
-#include "itkConstantPadImageFilter.h"
-#include "itkMetaDataObject.h"
 #include "itkProgressAccumulator.h"
+#include "itkSpatialOrientationAdapter.h"
 
 namespace itk
 {
-template <typename TInputImage, typename TOutputImage>
-OrientImageFilter<TInputImage, TOutputImage>::OrientImageFilter()
+template <typename TInputImage>
+DICOMOrientImageFilter<TInputImage>::DICOMOrientImageFilter()
   : m_FlipAxes(false)
 {
-  // Map between axis string labels and SpatialOrientation
-  m_StringToCode["RIP"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
-  m_StringToCode["LIP"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIP;
-  m_StringToCode["RSP"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP;
-  m_StringToCode["LSP"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSP;
-  m_StringToCode["RIA"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIA;
-  m_StringToCode["LIA"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIA;
-  m_StringToCode["RSA"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA;
-  m_StringToCode["LSA"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSA;
-  m_StringToCode["IRP"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRP;
-  m_StringToCode["ILP"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILP;
-  m_StringToCode["SRP"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRP;
-  m_StringToCode["SLP"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLP;
-  m_StringToCode["IRA"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRA;
-  m_StringToCode["ILA"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILA;
-  m_StringToCode["SRA"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRA;
-  m_StringToCode["SLA"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLA;
-  m_StringToCode["RPI"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI;
-  m_StringToCode["LPI"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPI;
-  m_StringToCode["RAI"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI;
-  m_StringToCode["LAI"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAI;
-  m_StringToCode["RPS"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS;
-  m_StringToCode["LPS"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPS;
-  m_StringToCode["RAS"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAS;
-  m_StringToCode["LAS"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAS;
-  m_StringToCode["PRI"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRI;
-  m_StringToCode["PLI"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLI;
-  m_StringToCode["ARI"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARI;
-  m_StringToCode["ALI"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALI;
-  m_StringToCode["PRS"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRS;
-  m_StringToCode["PLS"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLS;
-  m_StringToCode["ARS"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARS;
-  m_StringToCode["ALS"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALS;
-  m_StringToCode["IPR"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPR;
-  m_StringToCode["SPR"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPR;
-  m_StringToCode["IAR"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAR;
-  m_StringToCode["SAR"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAR;
-  m_StringToCode["IPL"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPL;
-  m_StringToCode["SPL"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPL;
-  m_StringToCode["IAL"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAL;
-  m_StringToCode["SAL"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAL;
-  m_StringToCode["PIR"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR;
-  m_StringToCode["PSR"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSR;
-  m_StringToCode["AIR"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR;
-  m_StringToCode["ASR"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASR;
-  m_StringToCode["PIL"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIL;
-  m_StringToCode["PSL"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSL;
-  m_StringToCode["AIL"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIL;
-  m_StringToCode["ASL"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL;
 
   // Map between axis string labels and SpatialOrientation
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP] = "RIP";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIP] = "LIP";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP] = "RSP";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSP] = "LSP";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIA] = "RIA";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIA] = "LIA";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA] = "RSA";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSA] = "LSA";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRP] = "IRP";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILP] = "ILP";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRP] = "SRP";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLP] = "SLP";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRA] = "IRA";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILA] = "ILA";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRA] = "SRA";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLA] = "SLA";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI] = "RPI";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPI] = "LPI";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI] = "RAI";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAI] = "LAI";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS] = "RPS";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPS] = "LPS";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAS] = "RAS";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAS] = "LAS";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRI] = "PRI";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLI] = "PLI";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARI] = "ARI";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALI] = "ALI";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRS] = "PRS";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLS] = "PLS";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARS] = "ARS";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALS] = "ALS";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPR] = "IPR";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPR] = "SPR";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAR] = "IAR";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAR] = "SAR";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPL] = "IPL";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPL] = "SPL";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAL] = "IAL";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAL] = "SAL";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR] = "PIR";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSR] = "PSR";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR] = "AIR";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASR] = "ASR";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIL] = "PIL";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSL] = "PSL";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIL] = "AIL";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL] = "ASL";
+  helperAddCode("RIP", OrientationEnum::RIP);
+  helperAddCode("LIP", OrientationEnum::LIP);
+  helperAddCode("RSP", OrientationEnum::RSP);
+  helperAddCode("LSP", OrientationEnum::LSP);
+  helperAddCode("RIA", OrientationEnum::RIA);
+  helperAddCode("LIA", OrientationEnum::LIA);
+  helperAddCode("RSA", OrientationEnum::RSA);
+  helperAddCode("LSA", OrientationEnum::LSA);
+  helperAddCode("IRP", OrientationEnum::IRP);
+  helperAddCode("ILP", OrientationEnum::ILP);
+  helperAddCode("SRP", OrientationEnum::SRP);
+  helperAddCode("SLP", OrientationEnum::SLP);
+  helperAddCode("IRA", OrientationEnum::IRA);
+  helperAddCode("ILA", OrientationEnum::ILA);
+  helperAddCode("SRA", OrientationEnum::SRA);
+  helperAddCode("SLA", OrientationEnum::SLA);
+  helperAddCode("RPI", OrientationEnum::RPI);
+  helperAddCode("LPI", OrientationEnum::LPI);
+  helperAddCode("RAI", OrientationEnum::RAI);
+  helperAddCode("LAI", OrientationEnum::LAI);
+  helperAddCode("RPS", OrientationEnum::RPS);
+  helperAddCode("LPS", OrientationEnum::LPS);
+  helperAddCode("RAS", OrientationEnum::RAS);
+  helperAddCode("LAS", OrientationEnum::LAS);
+  helperAddCode("PRI", OrientationEnum::PRI);
+  helperAddCode("PLI", OrientationEnum::PLI);
+  helperAddCode("ARI", OrientationEnum::ARI);
+  helperAddCode("ALI", OrientationEnum::ALI);
+  helperAddCode("PRS", OrientationEnum::PRS);
+  helperAddCode("PLS", OrientationEnum::PLS);
+  helperAddCode("ARS", OrientationEnum::ARS);
+  helperAddCode("ALS", OrientationEnum::ALS);
+  helperAddCode("IPR", OrientationEnum::IPR);
+  helperAddCode("SPR", OrientationEnum::SPR);
+  helperAddCode("IAR", OrientationEnum::IAR);
+  helperAddCode("SAR", OrientationEnum::SAR);
+  helperAddCode("IPL", OrientationEnum::IPL);
+  helperAddCode("SPL", OrientationEnum::SPL);
+  helperAddCode("IAL", OrientationEnum::IAL);
+  helperAddCode("SAL", OrientationEnum::SAL);
+  helperAddCode("PIR", OrientationEnum::PIR);
+  helperAddCode("PSR", OrientationEnum::PSR);
+  helperAddCode("AIR", OrientationEnum::AIR);
+  helperAddCode("ASR", OrientationEnum::ASR);
+  helperAddCode("PIL", OrientationEnum::PIL);
+  helperAddCode("PSL", OrientationEnum::PSL);
+  helperAddCode("AIL", OrientationEnum::AIL);
+  helperAddCode("ASL", OrientationEnum::ASL);
 
-  for (unsigned int dimension = 0; dimension < InputImageDimension; ++dimension)
+
+  for (unsigned int dimension = 0; dimension < ImageDimension; ++dimension)
   {
     this->m_PermuteOrder[dimension] = dimension;
   }
 }
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage>
 void
-OrientImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
+DICOMOrientImageFilter<TInputImage>::GenerateInputRequestedRegion()
 {
-  // Call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // Get pointers to the input and output
-  InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
-  OutputImagePointer outputPtr = this->GetOutput();
-
-  if (!inputPtr || !outputPtr)
+  typename ImageType::Pointer inputPtr = const_cast<ImageType *>(this->GetInput());
+  if (inputPtr)
   {
-    return;
+    inputPtr->SetRequestedRegionToLargestPossibleRegion();
+  }
+}
+
+template <typename TInputImage>
+typename DICOMOrientImageFilter<TInputImage>::OrientationEnum
+DICOMOrientImageFilter<TInputImage>::DirectionCosinesToOrientation(const DirectionType & dir)
+{
+  // NOTE: This method was based off of itk::SpatialObjectAdaptor::FromDirectionCosines
+  // but it is DIFFERENT in the meaning of direction in terms of sign-ness.
+  CoordinateEnum terms[3] = { CoordinateEnum::UNKNOWN, CoordinateEnum::UNKNOWN, CoordinateEnum::UNKNOWN };
+
+  for (unsigned i = 0; i < 3; i++)
+  {
+
+    const unsigned dominant_axis = Function::Max3(dir[0][i], dir[1][i], dir[2][i]);
+
+    const unsigned dominate_sgn = Math::sgn(dir[dominant_axis][i]);
+
+    switch (dominant_axis)
+    {
+      case 0: {
+        // When the dominate axis sign is positive, assign the coordinate for the direction we are increasing towards.
+        // ITK is in LPS, so that is the positive direction
+        terms[i] = (dominate_sgn == 1) ? CoordinateEnum::Left : CoordinateEnum::Right;
+        break;
+      }
+      case 1: {
+        terms[i] = (dominate_sgn == 1) ? CoordinateEnum::Posterior : CoordinateEnum::Anterior;
+        break;
+      }
+      case 2: {
+        terms[i] = (dominate_sgn == 1) ? CoordinateEnum::Superior : CoordinateEnum::Inferior;
+        break;
+      }
+      default:
+        itkGenericExceptionMacro("Unexpected Axis")
+    }
   }
 
-  using PermuteFilterType = PermuteAxesImageFilter<InputImageType>;
-  using FlipFilterType = FlipImageFilter<InputImageType>;
-  using CastToOutputFilterType = CastImageFilter<InputImageType, OutputImageType>;
-
-  typename PermuteFilterType::Pointer      permute = PermuteFilterType::New();
-  typename FlipFilterType::Pointer         flip = FlipFilterType::New();
-  typename CastToOutputFilterType::Pointer cast = CastToOutputFilterType::New();
-  permute->SetInput(inputPtr);
-  permute->SetOrder(m_PermuteOrder);
-
-  flip->SetInput(permute->GetOutput());
-  flip->SetFlipAxes(m_FlipAxes);
-  flip->FlipAboutOriginOff();
-
-  cast->SetInput(flip->GetOutput());
-  cast->GetOutput()->SetRequestedRegion(outputPtr->GetRequestedRegion());
-
-  // The input to the minipipeline is the input to this filter
-  // minipipeline. Therefore, the requested region of the minipipeline
-  // is the one needed by this filter.
-  cast->GetOutput()->UpdateOutputInformation();
-  cast->GetOutput()->PropagateRequestedRegion();
+  return static_cast<OrientationEnum>(toOrientation(terms[0], terms[1], terms[2]));
 }
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage>
 void
-OrientImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject *)
+DICOMOrientImageFilter<TInputImage>::DeterminePermutationsAndFlips(const OrientationEnum desired,
+                                                                   const OrientationEnum given)
 {
-  this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
-}
+  for (unsigned int j = 0; j < ImageDimension; j++)
+  {
+    m_PermuteOrder[j] = j;
+  }
 
-template <typename TInputImage, typename TOutputImage>
-void
-OrientImageFilter<TInputImage, TOutputImage>::DeterminePermutationsAndFlips(
-  const SpatialOrientation::ValidCoordinateOrientationFlags fixed_orient,
-  const SpatialOrientation::ValidCoordinateOrientationFlags moving_orient)
-{
+  m_FlipAxes.Fill(false);
+
+
   // 3-dimensional version of code system only. The 3-axis testing is unrolled.
-  constexpr unsigned int NumDims = 3;        // InputImageDimension is
-                                             // regarded as 3.
-  constexpr unsigned int CodeField = 15;     // 4 bits wide
+  constexpr unsigned int NumDims = 3; // InputImageDimension is
+                                      // regarded as 3.
+
+  constexpr unsigned CodeField = 0xF;
+
   constexpr unsigned int CodeAxisField = 14; // 3 bits wide, above the
                                              // 0-place bit.
   constexpr unsigned int CodeAxisIncreasingField = 1;
-  unsigned int           fixed_codes[NumDims];
-  unsigned int           moving_codes[NumDims];
 
-  fixed_codes[0] = (fixed_orient >> SpatialOrientation::ITK_COORDINATE_PrimaryMinor) & CodeField;
-  fixed_codes[1] = (fixed_orient >> SpatialOrientation::ITK_COORDINATE_SecondaryMinor) & CodeField;
-  fixed_codes[2] = (fixed_orient >> SpatialOrientation::ITK_COORDINATE_TertiaryMinor) & CodeField;
-  moving_codes[0] = (moving_orient >> SpatialOrientation::ITK_COORDINATE_PrimaryMinor) & CodeField;
-  moving_codes[1] = (moving_orient >> SpatialOrientation::ITK_COORDINATE_SecondaryMinor) & CodeField;
-  moving_codes[2] = (moving_orient >> SpatialOrientation::ITK_COORDINATE_TertiaryMinor) & CodeField;
+  const unsigned int desired_codes[] = {
+    (static_cast<unsigned int>(desired) >> static_cast<uint8_t>(CoordinateMajornessTermsEnum::PrimaryMinor)) &
+      CodeField,
+    (static_cast<unsigned int>(desired) >> static_cast<uint8_t>(CoordinateMajornessTermsEnum::SecondaryMinor)) &
+      CodeField,
+    (static_cast<unsigned int>(desired) >> static_cast<uint8_t>(CoordinateMajornessTermsEnum::TertiaryMinor)) &
+      CodeField
+  };
+  const unsigned int given_codes[] = {
+    (static_cast<unsigned int>(given) >> static_cast<uint8_t>(CoordinateMajornessTermsEnum::PrimaryMinor)) & CodeField,
+    (static_cast<unsigned int>(given) >> static_cast<uint8_t>(CoordinateMajornessTermsEnum::SecondaryMinor)) &
+      CodeField,
+    (static_cast<unsigned int>(given) >> static_cast<uint8_t>(CoordinateMajornessTermsEnum::TertiaryMinor)) & CodeField
+  };
 
   // i, j, k will be the indexes in the Majorness code of the axes to flip;
   // they encode the axes as the reader will find them, 0 is the lowest order
@@ -214,18 +187,18 @@ OrientImageFilter<TInputImage, TOutputImage>::DeterminePermutationsAndFlips(
 
   for (unsigned int i = 0; i < NumDims - 1; i++)
   {
-    if ((fixed_codes[i] & CodeAxisField) != (moving_codes[i] & CodeAxisField))
+    if ((desired_codes[i] & CodeAxisField) != (given_codes[i] & CodeAxisField))
     {
       for (unsigned int j = 0; j < NumDims; j++)
       {
-        if ((moving_codes[i] & CodeAxisField) == (fixed_codes[j] & CodeAxisField))
+        if ((given_codes[i] & CodeAxisField) == (desired_codes[j] & CodeAxisField))
         {
           if (i == j)
           {
             // Axis i is already in place
             continue;
           }
-          else if ((moving_codes[j] & CodeAxisField) == (fixed_codes[i] & CodeAxisField))
+          else if ((given_codes[j] & CodeAxisField) == (desired_codes[i] & CodeAxisField))
           {
             // The cyclic permutation (i j) applies. Therefore the remainder
             // is (k), i.e., stationary
@@ -234,10 +207,10 @@ OrientImageFilter<TInputImage, TOutputImage>::DeterminePermutationsAndFlips(
           }
           else
           {
-            // Need to work out an (i j k) cyclic permutation
+            // work out an (i j k) cyclic permutation
             for (unsigned int k = 0; k < NumDims; k++)
             {
-              if ((moving_codes[j] & CodeAxisField) == (fixed_codes[k] & CodeAxisField))
+              if ((given_codes[j] & CodeAxisField) == (desired_codes[k] & CodeAxisField))
               {
                 // At this point, we can pick off (i j k)
                 m_PermuteOrder[i] = k;
@@ -258,54 +231,39 @@ OrientImageFilter<TInputImage, TOutputImage>::DeterminePermutationsAndFlips(
   for (unsigned int i = 0; i < NumDims; i++)
   {
     const unsigned int j = m_PermuteOrder[i];
-    if ((moving_codes[j] & CodeAxisIncreasingField) != (fixed_codes[i] & CodeAxisIncreasingField))
+    if ((given_codes[j] & CodeAxisIncreasingField) != (desired_codes[i] & CodeAxisIncreasingField))
     {
       m_FlipAxes[i] = true;
     }
   }
 }
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage>
 void
-OrientImageFilter<TInputImage, TOutputImage>::SetGivenCoordinateOrientation(CoordinateOrientationCode newCode)
+DICOMOrientImageFilter<TInputImage>::SetGivenCoordinateOrientation(OrientationEnum newCode)
 {
   m_GivenCoordinateOrientation = newCode;
-
-  for (unsigned int j = 0; j < InputImageDimension; j++)
-  {
-    m_PermuteOrder[j] = j;
-  }
-
-  m_FlipAxes.Fill(false);
 
   this->DeterminePermutationsAndFlips(m_DesiredCoordinateOrientation, m_GivenCoordinateOrientation);
 }
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage>
 void
-OrientImageFilter<TInputImage, TOutputImage>::SetDesiredCoordinateOrientation(CoordinateOrientationCode newCode)
+DICOMOrientImageFilter<TInputImage>::SetDesiredCoordinateOrientation(OrientationEnum newCode)
 {
   if (m_DesiredCoordinateOrientation != newCode)
   {
     m_DesiredCoordinateOrientation = newCode;
-
-    for (unsigned int j = 0; j < InputImageDimension; j++)
-    {
-      m_PermuteOrder[j] = j;
-    }
-
-    m_FlipAxes.Fill(false);
-
     this->DeterminePermutationsAndFlips(m_DesiredCoordinateOrientation, m_GivenCoordinateOrientation);
     this->Modified();
   }
 }
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage>
 bool
-OrientImageFilter<TInputImage, TOutputImage>::NeedToPermute()
+DICOMOrientImageFilter<TInputImage>::NeedToPermute()
 {
-  for (unsigned int j = 0; j < InputImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; j++)
   {
     if (m_PermuteOrder[j] != j)
     {
@@ -315,11 +273,11 @@ OrientImageFilter<TInputImage, TOutputImage>::NeedToPermute()
   return false;
 }
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage>
 bool
-OrientImageFilter<TInputImage, TOutputImage>::NeedToFlip()
+DICOMOrientImageFilter<TInputImage>::NeedToFlip()
 {
-  for (unsigned int j = 0; j < InputImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; j++)
   {
     if (m_FlipAxes[j])
     {
@@ -329,120 +287,9 @@ OrientImageFilter<TInputImage, TOutputImage>::NeedToFlip()
   return false;
 }
 
-//#define __DEBUG_ORIENT__
-#if defined(__DEBUG_ORIENT__)
+//#define ITK_DEBUG_ORIENT
+#if defined(ITK_DEBUG_ORIENT)
 #  define DEBUG_EXECUTE(X) X
-
-using SO_OrientationType = itk::SpatialOrientation::ValidCoordinateOrientationFlags;
-std::string
-SO_OrientationToString(SO_OrientationType in)
-{
-  switch (in)
-  {
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
-      return std::string("RIP");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIP:
-      return std::string("LIP");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP:
-      return std::string("RSP");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSP:
-      return std::string("LSP");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIA:
-      return std::string("RIA");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIA:
-      return std::string("LIA");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA:
-      return std::string("RSA");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSA:
-      return std::string("LSA");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRP:
-      return std::string("IRP");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILP:
-      return std::string("ILP");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRP:
-      return std::string("SRP");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLP:
-      return std::string("SLP");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRA:
-      return std::string("IRA");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILA:
-      return std::string("ILA");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRA:
-      return std::string("SRA");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLA:
-      return std::string("SLA");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:
-      return std::string("RPI");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPI:
-      return std::string("LPI");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI:
-      return std::string("RAI");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAI:
-      return std::string("LAI");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS:
-      return std::string("RPS");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPS:
-      return std::string("LPS");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAS:
-      return std::string("RAS");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAS:
-      return std::string("LAS");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRI:
-      return std::string("PRI");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLI:
-      return std::string("PLI");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARI:
-      return std::string("ARI");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALI:
-      return std::string("ALI");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRS:
-      return std::string("PRS");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLS:
-      return std::string("PLS");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARS:
-      return std::string("ARS");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALS:
-      return std::string("ALS");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPR:
-      return std::string("IPR");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPR:
-      return std::string("SPR");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAR:
-      return std::string("IAR");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAR:
-      return std::string("SAR");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPL:
-      return std::string("IPL");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPL:
-      return std::string("SPL");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAL:
-      return std::string("IAL");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAL:
-      return std::string("SAL");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR:
-      return std::string("PIR");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSR:
-      return std::string("PSR");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR:
-      return std::string("AIR");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASR:
-      return std::string("ASR");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIL:
-      return std::string("PIL");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSL:
-      return std::string("PSL");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIL:
-      return std::string("AIL");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL:
-      return "ASL";
-    default:
-    {
-      std::stringstream x;
-      x << (in & 0xff) << ", " << ((in >> 8) & 0xff) << ", " << ((in >> 16) && 0xff);
-      return x.str();
-    }
-  }
-}
 
 template <typename ImageType>
 void
@@ -461,13 +308,13 @@ DumpDirections(const std::string & prompt, const typename ImageType::Pointer & i
   }
 }
 
-#else //__DEBUG_ORIENT__
+#else // ITK_DEBUG_ORIENT
 #  define DEBUG_EXECUTE(X)
 #endif
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage>
 void
-OrientImageFilter<TInputImage, TOutputImage>::GenerateData()
+DICOMOrientImageFilter<TInputImage>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
   typename ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
@@ -476,35 +323,31 @@ OrientImageFilter<TInputImage, TOutputImage>::GenerateData()
   // No need to allocate the output since the minipipeline does it
   // this->AllocateOutputs();
 
-  using PermuteFilterType = PermuteAxesImageFilter<InputImageType>;
-  using FlipFilterType = FlipImageFilter<InputImageType>;
-  using CastToOutputFilterType = CastImageFilter<InputImageType, OutputImageType>;
+  using PermuteFilterType = PermuteAxesImageFilter<ImageType>;
+  using FlipFilterType = FlipImageFilter<ImageType>;
+  using CastToOutputFilterType = CastImageFilter<ImageType, ImageType>;
 
   typename PermuteFilterType::Pointer      permute = PermuteFilterType::New();
   typename FlipFilterType::Pointer         flip = FlipFilterType::New();
   typename CastToOutputFilterType::Pointer cast = CastToOutputFilterType::New();
 
-  progress->RegisterInternalFilter(permute, .3333333f);
-  progress->RegisterInternalFilter(flip, .3333333f);
-  progress->RegisterInternalFilter(cast, .3333333f);
+  progress->RegisterInternalFilter(permute, .45f);
+  progress->RegisterInternalFilter(flip, .45);
+  progress->RegisterInternalFilter(cast, .1f);
 
-  InputImagePointer permuteInput = const_cast<TInputImage *>(this->GetInput());
-  InputImagePointer flipInput = permuteInput;
-  InputImagePointer castInput = permuteInput;
+  typename ImageType::Pointer inputPtr = ImageType::New();
+  inputPtr->Graft(const_cast<ImageType *>(this->GetInput()));
+
+  typename ImageType::Pointer nextInput = inputPtr;
 
   // Only run those filters that will do something
   if (NeedToPermute())
   {
     DEBUG_EXECUTE(DumpDirections<TInputImage>("before permute", permuteInput);)
-    permute->SetInput(permuteInput);
+    permute->SetInput(nextInput);
     permute->SetOrder(m_PermuteOrder);
     permute->ReleaseDataFlagOn();
-    DEBUG_EXECUTE(std::cerr << "Permute Axes: ";
-                  for (unsigned i = 0; i < 3; i++) { std::cerr << m_PermuteOrder[i] << " "; } std::cerr << std::endl;
-                  permute->Update();
-                  DumpDirections<TInputImage>("after permute", permute->GetOutput());)
-    flipInput = permute->GetOutput();
-    castInput = permute->GetOutput();
+    nextInput = permute->GetOutput();
   }
   else
   {
@@ -512,15 +355,10 @@ OrientImageFilter<TInputImage, TOutputImage>::GenerateData()
   }
   if (NeedToFlip())
   {
-    flip->SetInput(flipInput);
+    flip->SetInput(nextInput);
     flip->SetFlipAxes(m_FlipAxes);
     flip->FlipAboutOriginOff();
-    flip->ReleaseDataFlagOn();
-    DEBUG_EXECUTE(std::cerr << "Flip Axes: ";
-                  for (unsigned i = 0; i < 3; i++) { std::cerr << m_FlipAxes[i] << " "; } std::cerr << std::endl;
-                  flip->Update();
-                  DumpDirections<TInputImage>("after flip", flip->GetOutput());)
-    castInput = flip->GetOutput();
+    nextInput = flip->GetOutput();
   }
   else
   {
@@ -529,46 +367,41 @@ OrientImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   //
   // Cast might not be necessary, but CastImagefilter is optimized for
-  // the case where the InputImageType == OutputImageType
-  cast->SetInput(castInput);
-  cast->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
+  // the case where the ImageType == OutputImageType
+  cast->SetInput(nextInput);
+  cast->GraftOutput(this->GetOutput());
   cast->Update();
-  this->GraftOutput(cast->GetOutput());
 
-  this->GetOutput()->SetMetaDataDictionary(this->GetInput()->GetMetaDataDictionary());
+  this->GraftOutput(cast->GetOutput());
 }
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage>
 void
-OrientImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
+DICOMOrientImageFilter<TInputImage>::GenerateOutputInformation()
 {
   // Call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
 
   // Get pointers to the input and output
-  InputImageConstPointer inputPtr = this->GetInput();
-  OutputImagePointer     outputPtr = this->GetOutput();
 
-  if (!inputPtr || !outputPtr)
-  {
-    return;
-  }
+  typename ImageType::Pointer inputPtr = ImageType::New();
+  inputPtr->Graft(const_cast<ImageType *>(this->GetInput()));
+  ImageType * outputPtr = this->GetOutput();
+
 
   // Either use the direction cosines of the image or the user-specified
   // orientation
   if (m_UseImageDirection)
   {
     // Compute the GivenOrientation from the image's direction cosines
-    this->SetGivenCoordinateOrientation(SpatialOrientationAdapter().FromDirectionCosines(inputPtr->GetDirection()));
+    this->SetGivenCoordinateOrientation(Self::DirectionCosinesToOrientation(inputPtr->GetDirection()));
   }
 
-  using PermuteFilterType = PermuteAxesImageFilter<InputImageType>;
-  using FlipFilterType = FlipImageFilter<InputImageType>;
-  using CastToOutputFilterType = CastImageFilter<InputImageType, OutputImageType>;
+  using PermuteFilterType = PermuteAxesImageFilter<ImageType>;
+  using FlipFilterType = FlipImageFilter<ImageType>;
 
-  typename PermuteFilterType::Pointer      permute = PermuteFilterType::New();
-  typename FlipFilterType::Pointer         flip = FlipFilterType::New();
-  typename CastToOutputFilterType::Pointer cast = CastToOutputFilterType::New();
+  typename PermuteFilterType::Pointer permute = PermuteFilterType::New();
+  typename FlipFilterType::Pointer    flip = FlipFilterType::New();
   permute->SetInput(inputPtr);
   permute->SetOrder(m_PermuteOrder);
 
@@ -576,20 +409,19 @@ OrientImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   flip->SetFlipAxes(m_FlipAxes);
   flip->FlipAboutOriginOff();
 
-  cast->SetInput(flip->GetOutput());
-  cast->UpdateOutputInformation();
+  flip->GraftOutput(this->GetOutput());
+  flip->UpdateOutputInformation();
 
-  outputPtr->CopyInformation(cast->GetOutput());
+  outputPtr->CopyInformation(flip->GetOutput());
 }
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage>
 void
-OrientImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
+DICOMOrientImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  std::map<CoordinateOrientationCode, std::string>::const_iterator axes;
 
-  axes = m_CodeToString.find(m_DesiredCoordinateOrientation);
+  auto axes = m_CodeToString.find(m_DesiredCoordinateOrientation);
   os << indent << "Desired Coordinate Orientation: " << static_cast<long>(this->GetDesiredCoordinateOrientation())
      << " (" << (*axes).second << ")" << std::endl;
   axes = m_CodeToString.find(m_GivenCoordinateOrientation);
