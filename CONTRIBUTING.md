@@ -341,6 +341,7 @@ branch (*warning*: you could lose commits).
 More Information
 ----------------
 
+- [ITK Software Guide, Book 1, Part III: Development Guidelines](https://itk.org/ItkSoftwareGuide.pdf)
 - General [Git Help]
 - [GitHub flow guide]
 - [ITK Git Cheatsheet]
