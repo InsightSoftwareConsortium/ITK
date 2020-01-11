@@ -3,6 +3,7 @@ set(ITKTransformTests
 itkFixedCenterOfRotationAffineTransformTest.cxx
 itkAffineTransformTest.cxx
 itkScaleSkewVersor3DTransformTest.cxx
+itkComposeScaleSkewVersor3DTransformTest.cxx
 itkEuler3DTransformTest.cxx
 itkCenteredRigid2DTransformTest.cxx
 itkEuler2DTransformTest.cxx
@@ -46,6 +47,9 @@ itk_add_test(NAME itkAffineTransformTest
       COMMAND ITKTransformTestDriver itkAffineTransformTest)
 itk_add_test(NAME itkScaleSkewVersor3DTransformTest
       COMMAND ITKTransformTestDriver itkScaleSkewVersor3DTransformTest)
+itk_add_test(NAME itkComposeScaleSkewVersor3DTransformTest
+      COMMAND ITKTransformTestDriver
+        itkComposeScaleSkewVersor3DTransformTest)
 itk_add_test(NAME itkEuler3DTransformTest
       COMMAND ITKTransformTestDriver itkEuler3DTransformTest)
 itk_add_test(NAME itkCenteredRigid2DTransformTest
