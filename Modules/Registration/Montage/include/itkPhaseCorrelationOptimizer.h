@@ -23,9 +23,40 @@
 #include "itkProcessObject.h"
 #include "itkSimpleDataObjectDecorator.h"
 #include <vector>
+#include "MontageExport.h"
 
 namespace itk
 {
+
+/** \class PhaseCorrelationOptimizerEnums
+ * \ingroup Montage
+ */
+class PhaseCorrelationOptimizerEnums
+{
+public:
+  /** \class PeakInterpolationMethodEnum
+   *  \brief Different methods of interpolation the phase correlation peak.
+   *  \ingroup Montage */
+  enum class PeakInterpolationMethod : uint8_t
+  {
+    None = 0,
+    Parabolic,
+    Cosine
+  };
+
+  // For iteration
+  static constexpr std::initializer_list<PeakInterpolationMethod> AllPeakInterpolationMethods =
+  {
+    PeakInterpolationMethod::Parabolic,
+    PeakInterpolationMethod::Cosine,
+  };
+};
+
+/** Define how to print enumerations */
+extern Montage_EXPORT std::ostream &
+                      operator<<(std::ostream & out, const PhaseCorrelationOptimizerEnums::PeakInterpolationMethod value);
+
+
 /** \class PhaseCorrelationOptimizer
  *
  *  \brief Defines common interface for optimizers, that estimates the shift
@@ -123,25 +154,11 @@ public:
     return m_Offsets.size();
   }
 
-  /** \class PeakInterpolationMethodEnum
-   *  \brief Different methods of interpolation the phase correlation peak.
-   *  \ingroup Montage */
-  enum class PeakInterpolationMethodEnum : uint8_t
-  {
-    None = 0,
-    Parabolic,
-    Cosine,
-    Last = Cosine
-  };
+  using PeakInterpolationMethodEnum = PhaseCorrelationOptimizerEnums::PeakInterpolationMethod;
   itkGetConstMacro(PeakInterpolationMethod, PeakInterpolationMethodEnum);
   void
   SetPeakInterpolationMethod(const PeakInterpolationMethodEnum peakInterpolationMethod);
-  friend std::ostream &
-  operator<<(std::ostream & os, const PeakInterpolationMethodEnum & pim)
-  {
-    os << static_cast<typename std::underlying_type<PeakInterpolationMethodEnum>::type>(pim);
-    return os;
-  }
+
   bool virtual SupportsPeakInterpolationMethod(PeakInterpolationMethodEnum method) const = 0;
   bool SupportsPeakInterpolationMethodInt(uint8_t method) const;
 

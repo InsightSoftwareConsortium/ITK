@@ -107,6 +107,9 @@ public:
   using SamplePeakOptimizerType = SamplePeakCorrelationOptimizer<TRegistrationMethod>;
   itkGetModifiableObjectMacro(SamplePeakOptimizer, SamplePeakOptimizerType);
 
+  bool
+  SupportsPeakInterpolationMethod(PeakInterpolationMethodEnum method) const override;
+
 protected:
   MaxPhaseCorrelationOptimizer() = default;
   ~MaxPhaseCorrelationOptimizer() override = default;
@@ -116,9 +119,6 @@ protected:
   /** This method is executed by superclass to execute the computation. */
   void
   ComputeOffset() override;
-
-  bool
-  SupportsPeakInterpolationMethod(PeakInterpolationMethodEnum method) const override;
 
 private:
   typename SamplePeakOptimizerType::Pointer m_SamplePeakOptimizer = SamplePeakOptimizerType::New();
