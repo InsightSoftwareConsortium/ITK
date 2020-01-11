@@ -1,0 +1,13 @@
+name: clang-format linter
+
+on: [push,pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - uses: InsightSoftwareConsortium/ITKClangFormatLinterAction@master
