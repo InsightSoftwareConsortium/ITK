@@ -1,11 +1,9 @@
 ITKMontage
 ==========
 
-![image](https://dev.azure.com/ITKMontage/ITKMontage/_apis/build/status/InsightSoftwareConsortium.ITKMontage?branchName=master%0A%20:target:%20https://dev.azure.com/ITKMontage/ITKMontage/_build/latest?definitionId=1&branchName=master%0A%20:alt:%20Build%20status)
-
-![image](https://img.shields.io/pypi/v/itk-montage.svg%0A%20:target:%20https://pypi.python.org/pypi/itk-montage%0A%20:alt:%20PyPI)
-
-![image](https://img.shields.io/badge/License-Apache%202.0-blue.svg%0A%20:target:%20https://github.com/InsightSoftwareConsortium/ITKMontage/blob/master/LICENSE)%0A%20:alt:%20License)
+[![Build Status](https://dev.azure.com/ITKMontage/ITKMontage/_apis/build/status/InsightSoftwareConsortium.ITKMontage?branchName=master)](https://dev.azure.com/ITKMontage/ITKMontage/_build/latest?definitionId=1&branchName=master)
+[![PyPI](https://img.shields.io/pypi/v/itk-montage.svg)](https://pypi.python.org/pypi/itk-montage)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/InsightSoftwareConsortium/ITK/blob/master/LICENSE)
 
 Montaging for microscopy imaging files.
 
@@ -63,4 +61,3 @@ The code contained herein was partially funded by the following
 contracts:
 
 -   United States Air Force Prime Contract FA8650-15-D-5231
-
