@@ -1,0 +1,8 @@
+itk_wrap_include("itkPhaseCorrelationImageRegistrationMethod.h")
+itk_wrap_class("itk::MaxPhaseCorrelationOptimizer" POINTER)
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    foreach(t ${WRAP_ITK_SCALAR})
+      itk_wrap_template("PCIRM${ITKM_I${t}${d}}${ITKM_I${t}${d}}" "itk::PhaseCorrelationImageRegistrationMethod< ${ITKT_I${t}${d}}, ${ITKT_I${t}${d}} >")
+    endforeach()
+  endforeach()
+itk_end_wrap_class()
