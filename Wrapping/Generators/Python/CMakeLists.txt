@@ -233,7 +233,7 @@ macro(itk_wrap_module_python library_name)
   set(ITK_WRAP_PYTHON_LIBRARY_CALLS )
   set(ITK_WRAP_PYTHON_CXX_FILES )
   if(MSVC)
-    get_filename_component(python_library_directory ${PYTHON_LIBRARY} DIRECTORY)
+    get_filename_component(python_library_directory ${Python3_LIBRARY} DIRECTORY)
     # It should use the following code inside `itk_end_wrap_module_python` but
     # `target_link_directories()` was only added to CMake 3.13.
     # target_link_directories(${lib} PUBLIC ${python_library_directory})
