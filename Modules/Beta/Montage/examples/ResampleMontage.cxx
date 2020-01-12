@@ -105,8 +105,7 @@ resampleMontage(const itk::TileConfiguration<Dimension> & actualTiles,
       break;
     default:
       itkGenericExceptionMacro("Only sclar, RGB and RGBA images are supported! Actual pixel type: "
-                               << itk::ImageIOBase::GetPixelTypeAsString(pixelType))
-      break;
+                               << itk::ImageIOBase::GetPixelTypeAsString(pixelType)) break;
   }
 }
 
@@ -153,8 +152,7 @@ mainHelper(char * argv[])
     default: // instantiating too many types leads to long compilation time and big executable
       itkGenericExceptionMacro(
         "Only unsigned char, unsigned short and short are supported as pixel component types! Trying to montage "
-        << itk::ImageIOBase::GetComponentTypeAsString(componentType))
-      break;
+        << itk::ImageIOBase::GetComponentTypeAsString(componentType)) break;
   }
 
   return EXIT_SUCCESS;

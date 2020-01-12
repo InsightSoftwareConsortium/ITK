@@ -145,8 +145,7 @@ public:
   using Pointer = itk::SmartPointer<Self>;
   itkNewMacro(Self)
 
-protected:
-  CommandIterationUpdate() = default;
+    protected : CommandIterationUpdate() = default;
 
 public:
   void
@@ -527,8 +526,7 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
         stageTiles, inputPath, outputPath, outFilename, correctBias, denoise);
       break;
     default:
-      itkGenericExceptionMacro("Only sclar, RGB and RGBA images are supported!")
-      break;
+      itkGenericExceptionMacro("Only sclar, RGB and RGBA images are supported!") break;
   }
 }
 
@@ -594,8 +592,7 @@ mainHelper(int argc, char * argv[], std::string inputPath)
     default: // instantiating too many types leads to long compilation time and big executable
       itkGenericExceptionMacro(
         "Only unsigned char, unsigned short and short are supported as pixel component types! Trying to montage "
-        << itk::ImageIOBase::GetComponentTypeAsString(componentType))
-      break;
+        << itk::ImageIOBase::GetComponentTypeAsString(componentType)) break;
   }
 
   return EXIT_SUCCESS;
