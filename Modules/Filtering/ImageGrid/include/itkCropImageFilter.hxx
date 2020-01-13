@@ -44,6 +44,8 @@ CropImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   for (unsigned int i = 0; i < InputImageDimension; ++i)
   {
     idx[i] = input_idx[i] + m_LowerBoundaryCropSize[i];
+
+    assert(input_sz[i] >= (m_UpperBoundaryCropSize[i] + m_LowerBoundaryCropSize[i]));
     sz[i] = input_sz[i] - (m_UpperBoundaryCropSize[i] + m_LowerBoundaryCropSize[i]);
   }
 
@@ -54,6 +56,26 @@ CropImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   this->SetExtractionRegion(croppedRegion);
 
   Superclass::GenerateOutputInformation();
+}
+
+
+template <typename TInputImage, typename TOutputImage>
+void
+CropImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() ITKv5_CONST
+{
+  Superclass::VerifyInputInformation();
+
+  const TInputImage * inputPtr = this->GetInput();
+
+  InputImageSizeType input_sz = inputPtr->GetLargestPossibleRegion().GetSize();
+
+  for (unsigned int i = 0; i < InputImageDimension; ++i)
+  {
+    if (input_sz[i] < (m_UpperBoundaryCropSize[i] + m_LowerBoundaryCropSize[i]))
+    {
+      itkExceptionMacro("The input image's size " << input_sz << " is less than the total of the crop size!");
+    }
+  }
 }
 
 template <typename TInputImage, typename TOutputImage>
