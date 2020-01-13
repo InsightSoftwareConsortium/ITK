@@ -84,17 +84,17 @@ public:
   SetMontage(const Superclass * montage);
 
   /** Montage size and tile index types. */
-  using typename Superclass::ContinuousIndexType;
-  using typename Superclass::SizeType;
-  using typename Superclass::TileIndexType;
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
+  using SizeType = typename Superclass::SizeType;
+  using TileIndexType = typename Superclass::TileIndexType;
 
   /** Image's dependent types. */
   using PixelType = typename TImageType::PixelType;
-  using typename Superclass::ImageIndexType;
-  using typename Superclass::OffsetType;
-  using typename Superclass::PointType;
+  using ImageIndexType = typename Superclass::ImageIndexType;
+  using OffsetType = typename Superclass::OffsetType;
+  using PointType = typename Superclass::PointType;
   using RegionType = typename Superclass::RegionType;
-  using typename Superclass::SpacingType;
+  using SpacingType = typename Superclass::SpacingType;
 
   /**  Type for the transform. */
   using TransformType = typename Superclass::PCMType::TransformType;
