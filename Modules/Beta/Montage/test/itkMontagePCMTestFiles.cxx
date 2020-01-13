@@ -86,7 +86,7 @@ PhaseCorrelationRegistrationFiles(int argc, char * argv[])
   using TransformType = typename PhaseCorrelationMethodType::TransformType;
   using ParametersType = typename TransformType::ParametersType;
 
-  using PadMethod = typename PhaseCorrelationMethodType::PaddingMethod;
+  using PadMethod = typename PhaseCorrelationMethodType::PaddingMethodEnum;
   for (auto padMethod : { PadMethod::Zero, PadMethod::Mirror, PadMethod::MirrorWithExponentialDecay })
   {
     phaseCorrelationMethod->SetPaddingMethod(padMethod);

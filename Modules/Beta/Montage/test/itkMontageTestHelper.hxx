@@ -120,7 +120,7 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
   using ScalarImageType = itk::Image<ScalarPixelType, Dimension>;
   using OriginalImageType = itk::Image<PixelType, Dimension>; // possibly RGB instead of scalar
   using PCMType = itk::PhaseCorrelationImageRegistrationMethod<ScalarImageType, ScalarImageType>;
-  using PadMethodUnderlying = typename std::underlying_type<typename PCMType::PaddingMethod>::type;
+  using PadMethodUnderlying = typename std::underlying_type<typename PCMType::PaddingMethodEnum>::type;
   typename ScalarImageType::SpacingType sp;
   itk::ObjectFactoryBase::RegisterFactory(itk::TxtTransformIOFactory::New());
   const size_t                       linearSize = stageTiles.LinearSize();
@@ -132,7 +132,7 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
   size_t    origin1linear = stageTiles.nDIndexToLinearIndex(origin1);
   PointType originAdjustment = stageTiles.Tiles[origin1linear].Position - stageTiles.Tiles[0].Position;
 
-  using PeakInterpolationType = typename itk::MaxPhaseCorrelationOptimizer<PCMType>::PeakInterpolationMethod;
+  using PeakInterpolationType = typename itk::MaxPhaseCorrelationOptimizer<PCMType>::PeakInterpolationMethodEnum;
   using PeakFinderUnderlying = typename std::underlying_type<PeakInterpolationType>::type;
   using MontageType = itk::TileMontage<ScalarImageType>;
   using ResamplerType = itk::TileMergeImageFilter<OriginalImageType, AccumulatePixelType>;
@@ -186,13 +186,13 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
   }
   std::cout << std::endl;
 
-  for (auto padMethod = static_cast<PadMethodUnderlying>(PCMType::PaddingMethod::Zero);
-       padMethod <= static_cast<PadMethodUnderlying>(PCMType::PaddingMethod::Last);
+  for (auto padMethod = static_cast<PadMethodUnderlying>(PCMType::PaddingMethodEnum::Zero);
+       padMethod <= static_cast<PadMethodUnderlying>(PCMType::PaddingMethodEnum::Last);
        padMethod++)
   {
     if (!varyPaddingMethods) // go straight to the last, best method
     {
-      padMethod = static_cast<PadMethodUnderlying>(PCMType::PaddingMethod::Last);
+      padMethod = static_cast<PadMethodUnderlying>(PCMType::PaddingMethodEnum::Last);
     }
     std::ofstream registrationErrors(outFilename + std::to_string(padMethod) + ".tsv");
     std::cout << "Padding method " << padMethod << std::endl;
@@ -209,7 +209,7 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
 
 
     typename MontageType::Pointer montage = MontageType::New();
-    auto                          paddingMethod = static_cast<typename PCMType::PaddingMethod>(padMethod);
+    auto                          paddingMethod = static_cast<typename PCMType::PaddingMethodEnum>(padMethod);
     montage->SetPaddingMethod(paddingMethod);
     montage->SetPositionTolerance(positionTolerance);
     montage->SetMontageSize(stageTiles.AxisSizes);
