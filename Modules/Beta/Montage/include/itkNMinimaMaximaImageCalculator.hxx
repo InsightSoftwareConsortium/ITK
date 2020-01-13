@@ -27,6 +27,13 @@
 
 namespace itk
 {
+
+template <typename TInputImage>
+NMinimaMaximaImageCalculator<TInputImage>::NMinimaMaximaImageCalculator()
+{
+  m_Image = TInputImage::New();
+}
+
 template <typename TInputImage>
 template <typename TComparator>
 inline void

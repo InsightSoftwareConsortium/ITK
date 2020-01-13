@@ -158,12 +158,12 @@ public:
   itkGetConstMacro(ObligatoryPadding, SizeType);
 
   /** Set/Get the padding method. */
-  itkSetMacro(PaddingMethod, typename PCMType::PaddingMethod);
-  itkGetConstMacro(PaddingMethod, typename PCMType::PaddingMethod);
+  itkSetEnumMacro(PaddingMethod, PhaseCorrelationImageRegistrationMethodEnums::PaddingMethod);
+  itkGetConstMacro(PaddingMethod, PhaseCorrelationImageRegistrationMethodEnums::PaddingMethod);
 
   /** Set/Get the peak interpolation method. */
-  itkSetMacro(PeakInterpolationMethod, typename PCMOptimizerType::PeakInterpolationMethod);
-  itkGetConstMacro(PeakInterpolationMethod, typename PCMOptimizerType::PeakInterpolationMethod);
+  itkSetMacro(PeakInterpolationMethod, typename PCMOptimizerType::PeakInterpolationMethodEnum);
+  itkGetConstMacro(PeakInterpolationMethod, typename PCMOptimizerType::PeakInterpolationMethodEnum);
 
   /** Get/Set size of the image mosaic. */
   itkGetConstMacro(MontageSize, SizeType);
@@ -197,7 +197,7 @@ public:
   }
 
   /** After Update(), the transform for each tile is available. */
-  TransformConstPointer
+  const TransformType *
   GetOutputTransform(TileIndexType position)
   {
     return static_cast<TransformOutputType *>(this->GetOutput(this->nDIndexToLinearIndex(position)))->Get();
@@ -293,16 +293,17 @@ private:
 
   std::mutex m_MemberProtector; // to prevent concurrent access to non-thread-safe internal member variables
 
-  typename PCMType::PaddingMethod m_PaddingMethod = PCMType::PaddingMethod::MirrorWithExponentialDecay;
-  std::vector<std::string>        m_Filenames;
-  std::vector<FFTConstPointer>    m_FFTCache;
-  std::vector<ImagePointer>       m_Tiles; // metadata/image storage (if filenames are given instead of actual images)
-  std::vector<OffsetVector>       m_TransformCandidates; // to adjacent tiles
-  std::vector<ConfidencesType>    m_CandidateConfidences;
-  std::vector<TranslationOffset>  m_CurrentAdjustments;
+  typename PhaseCorrelationImageRegistrationMethodEnums::PaddingMethod m_PaddingMethod =
+    PhaseCorrelationImageRegistrationMethodEnums::PaddingMethod::MirrorWithExponentialDecay;
+  std::vector<std::string>       m_Filenames;
+  std::vector<FFTConstPointer>   m_FFTCache;
+  std::vector<ImagePointer>      m_Tiles; // metadata/image storage (if filenames are given instead of actual images)
+  std::vector<OffsetVector>      m_TransformCandidates; // to adjacent tiles
+  std::vector<ConfidencesType>   m_CandidateConfidences;
+  std::vector<TranslationOffset> m_CurrentAdjustments;
 
-  typename PCMOptimizerType::PeakInterpolationMethod m_PeakInterpolationMethod =
-    PCMOptimizerType::PeakInterpolationMethod::Parabolic;
+  typename PCMOptimizerType::PeakInterpolationMethodEnum m_PeakInterpolationMethod =
+    PCMOptimizerType::PeakInterpolationMethodEnum::Parabolic;
 
   const typename ImageType::Pointer m_Dummy = ImageType::New();
 
