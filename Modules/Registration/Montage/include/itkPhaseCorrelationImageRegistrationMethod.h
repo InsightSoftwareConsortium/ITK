@@ -37,6 +37,25 @@
 
 namespace itk
 {
+
+/** \class PhaseCorrelationImageRegistrationMethodEnums
+ * \ingroup Montage
+ */
+class PhaseCorrelationImageRegistrationMethodEnums
+{
+public:
+  /** \class PaddingMethod
+   *  \brief Different methods of padding the images to satisfy FFT size requirements.
+   *  \ingroup Montage */
+  enum class PaddingMethod : uint8_t
+  {
+    Zero = 0,
+    Mirror,
+    MirrorWithExponentialDecay,
+    Last = MirrorWithExponentialDecay
+  };
+};
+
 /** \class PhaseCorrelationImageRegistrationMethod
  *  \brief Base class for phase-correlation-based image registration.
  *
@@ -252,25 +271,10 @@ public:
   itkSetMacro(ObligatoryPadding, SizeType);
   itkGetConstMacro(ObligatoryPadding, SizeType);
 
-  /** \class PaddingMethod
-   *  \brief Different methods of padding the images to satisfy FFT size requirements.
-   *  \ingroup Montage */
-  enum class PaddingMethod
-  {
-    Zero = 0,
-    Mirror,
-    MirrorWithExponentialDecay,
-    Last = MirrorWithExponentialDecay
-  };
-  itkGetConstMacro(PaddingMethod, PaddingMethod);
+  using PaddingMethodEnum = PhaseCorrelationImageRegistrationMethodEnums::PaddingMethod;
+  // itkGetConstMacro(PaddingMethod, PaddingMethodEnum);
   void
-  SetPaddingMethod(const PaddingMethod paddingMethod);
-  friend std::ostream &
-  operator<<(std::ostream & os, const PaddingMethod & pm)
-  {
-    os << static_cast<typename std::underlying_type<PaddingMethod>::type>(pm);
-    return os;
-  }
+  SetPaddingMethod(const PaddingMethodEnum paddingMethod);
 
   /** Set/Get tile cropping. Should tiles be cropped to overlapping
    * region for computing the cross correlation? Default: True.
@@ -478,10 +482,10 @@ private:
   typename ComplexImageType::Pointer m_FixedImageFFT = nullptr;
   typename ComplexImageType::Pointer m_MovingImageFFT = nullptr;
 
-  ParametersType m_TransformParameters;
-  SizeType       m_PadToSize;
-  SizeType       m_ObligatoryPadding;
-  PaddingMethod  m_PaddingMethod = PaddingMethod::MirrorWithExponentialDecay;
+  ParametersType    m_TransformParameters;
+  SizeType          m_PadToSize;
+  SizeType          m_ObligatoryPadding;
+  PaddingMethodEnum m_PaddingMethod = PaddingMethodEnum::MirrorWithExponentialDecay;
 
   typename FixedRoIType::Pointer             m_FixedRoI = FixedRoIType::New();
   typename MovingRoIType::Pointer            m_MovingRoI = MovingRoIType::New();

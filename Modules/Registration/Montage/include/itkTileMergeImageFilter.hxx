@@ -68,7 +68,7 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>::SetMontag
   {
     m_Montage = montage;
     this->SetMontageSize(montage->m_MontageSize);
-    this->m_FinishedPairs = montage->m_FinishedPairs;
+    this->m_FinishedPairs.store(montage->m_FinishedPairs);
     this->m_OriginAdjustment = montage->m_OriginAdjustment;
     this->m_ForcedSpacing = montage->m_ForcedSpacing;
 
@@ -136,7 +136,7 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>::SetMontag
 template <typename TImageType, typename TPixelAccumulateType, typename TInterpolator>
 void
 TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>::SetTileTransform(TileIndexType         position,
-                                                                                        TransformConstPointer transform)
+                                                                                        const TransformType * transform)
 {
   SizeValueType linInd = this->nDIndexToLinearIndex(position);
   if (m_Transforms[linInd].IsNull() || m_Transforms[linInd]->GetParameters() != transform->GetParameters() ||
@@ -468,7 +468,7 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>::ResampleS
   bool                            interpolate = false;
   if (m_Montage.IsNotNull()) // we can check whether interpolation was used
   {
-    const auto InterpolationNone = Superclass::PCMOptimizerType::PeakInterpolationMethod::None;
+    const auto InterpolationNone = Superclass::PCMOptimizerType::PeakInterpolationMethodEnum::None;
     interpolate = (m_Montage->GetPeakInterpolationMethod() != InterpolationNone);
   }
   else // examine alignment of image grids of all the contributing regions

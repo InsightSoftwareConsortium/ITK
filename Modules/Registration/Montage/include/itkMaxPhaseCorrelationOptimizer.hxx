@@ -41,7 +41,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>::PrintSelf(std::ostream & os, 
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "MaxCalculator: " << m_MaxCalculator << std::endl;
-  os << indent << "PeakInterpolationMethod: " << m_PeakInterpolationMethod << std::endl;
+  // os << indent << "PeakInterpolationMethod: " << m_PeakInterpolationMethod << std::endl;
   os << indent << "MergePeaks: " << m_MergePeaks << std::endl;
   os << indent << "ZeroSuppression: " << m_ZeroSuppression << std::endl;
   os << indent << "PixelDistanceTolerance: " << m_PixelDistanceTolerance << std::endl;
@@ -50,7 +50,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>::PrintSelf(std::ostream & os, 
 template <typename TRegistrationMethod>
 void
 MaxPhaseCorrelationOptimizer<TRegistrationMethod>::SetPeakInterpolationMethod(
-  const PeakInterpolationMethod peakInterpolationMethod)
+  const PeakInterpolationMethodEnum peakInterpolationMethod)
 {
   if (this->m_PeakInterpolationMethod != peakInterpolationMethod)
   {
@@ -325,7 +325,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>::ComputeOffset()
     using ContinuousIndexType = ContinuousIndex<OffsetScalarType, ImageDimension>;
     ContinuousIndexType maxIndex = indices[m];
 
-    if (m_PeakInterpolationMethod != PeakInterpolationMethod::None) // interpolate the peak
+    if (m_PeakInterpolationMethod != PeakInterpolationMethodEnum::None) // interpolate the peak
     {
       typename ImageType::PixelType y0, y1 = this->m_Confidences[m], y2;
       typename ImageType::IndexType tempIndex = indices[m];
@@ -351,10 +351,10 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>::ComputeOffset()
         OffsetScalarType omega, theta, ratio;
         switch (m_PeakInterpolationMethod)
         {
-          case PeakInterpolationMethod::Parabolic:
+          case PeakInterpolationMethodEnum::Parabolic:
             maxIndex[i] += (y0 - y2) / (2 * (y0 - 2 * y1 + y2));
             break;
-          case PeakInterpolationMethod::Cosine:
+          case PeakInterpolationMethodEnum::Cosine:
             ratio = (y0 + y2) / (2 * y1);
             if (m > 0) // clip to -0.999... to 0.999... range
             {
