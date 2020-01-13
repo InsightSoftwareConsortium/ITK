@@ -171,29 +171,29 @@ class SwigInputGenerator(object):
         self.snakeCaseProcessObjectFunctions = set()
 
 
-    def warn(self, id, msg, doWarn=True):
+    def warn(self, identifier, msg, doWarn=True):
         if not doWarn:
             # don't warn for anything
             return
-        if str(id) not in self.options.warnings:
-            if not self.verbose and (id, msg) in self.warnings:
+        if str(identifier) not in self.options.warnings:
+            if not self.verbose and (identifier, msg) in self.warnings:
                 # just do nothing
                 return
-            self.warnings.add((id, msg))
+            self.warnings.add((identifier, msg))
             if self.verbose:
                 if self.options.warningError:
-                    print("error(%s): %s" % (str(id), msg), file=sys.stderr)
+                    print("error(%s): %s" % (str(identifier), msg), file=sys.stderr)
                 else:
-                    print("warning(%s): %s" % (str(id), msg), file=sys.stderr)
+                    print("warning(%s): %s" % (str(identifier), msg), file=sys.stderr)
             else:
                 if self.options.warningError:
                     print(
                         "%s: error(%s): %s" %
-                        (self.moduleName, str(id), msg), file=sys.stderr)
+                        (self.moduleName, str(identifier), msg), file=sys.stderr)
                 else:
                     print(
                         "%s: warning(%s): %s" %
-                        (self.moduleName, str(id), msg), file=sys.stderr)
+                        (self.moduleName, str(identifier), msg), file=sys.stderr)
 
     def info(self, msg):
         if self.verbose:
