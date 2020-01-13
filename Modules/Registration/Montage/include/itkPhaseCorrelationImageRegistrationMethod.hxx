@@ -58,8 +58,8 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage, TInternalPixe
 
   m_PadToSize.Fill(0);
   m_ObligatoryPadding.Fill(8);
-  m_PaddingMethod = PaddingMethod::Zero;                       // make sure the next call does modifications
-  SetPaddingMethod(PaddingMethod::MirrorWithExponentialDecay); // this initializes a few things
+  m_PaddingMethod = PaddingMethodEnum::Zero;                       // make sure the next call does modifications
+  SetPaddingMethod(PaddingMethodEnum::MirrorWithExponentialDecay); // this initializes a few things
 
   m_TransformParameters = ParametersType(ImageDimension);
   m_TransformParameters.Fill(0.0f);
@@ -75,7 +75,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage, TInternalPixe
 template <typename TFixedImage, typename TMovingImage, typename TInternalPixelType>
 void
 PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage, TInternalPixelType>::SetPaddingMethod(
-  const PaddingMethod paddingMethod)
+  const PaddingMethodEnum paddingMethod)
 {
   if (this->m_PaddingMethod != paddingMethod)
   {
@@ -83,15 +83,15 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage, TInternalPixe
 
     switch (paddingMethod)
     {
-      case PaddingMethod::Zero:
+      case PaddingMethodEnum::Zero:
         m_FixedPadder = m_FixedConstantPadder;
         m_MovingPadder = m_MovingConstantPadder;
         break;
-      case PaddingMethod::Mirror:
+      case PaddingMethodEnum::Mirror:
         m_FixedPadder = m_FixedMirrorPadder;
         m_MovingPadder = m_MovingMirrorPadder;
         break;
-      case PaddingMethod::MirrorWithExponentialDecay:
+      case PaddingMethodEnum::MirrorWithExponentialDecay:
         m_FixedPadder = m_FixedMirrorWEDPadder;
         m_MovingPadder = m_MovingMirrorWEDPadder;
         break;
@@ -520,7 +520,25 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage, TInternalPixe
 
   os << indent << "Pad To Size: " << m_PadToSize << std::endl;
   os << indent << "Obligatory Padding: " << m_ObligatoryPadding << std::endl;
-  os << indent << "Padding Method: " << m_PaddingMethod << std::endl;
+  switch (m_PaddingMethod)
+  {
+    case PaddingMethodEnum::Zero:
+      os << indent << "Padding Method: "
+         << "Zero" << std::endl;
+      break;
+    case PaddingMethodEnum::Mirror:
+      os << indent << "Padding Method: "
+         << "Mirror" << std::endl;
+      break;
+    case PaddingMethodEnum::MirrorWithExponentialDecay:
+      os << indent << "Padding Method: "
+         << "MirrorWithExponentialDecay" << std::endl;
+      break;
+    default:
+      os << indent << "Padding Method: "
+         << "Unknown" << std::endl;
+      break;
+  }
 
   os << indent << "Crop To Overlap: " << m_CropToOverlap << std::endl;
   os << indent << "Butterworth Order: " << m_ButterworthOrder << std::endl;
