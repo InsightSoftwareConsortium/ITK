@@ -160,7 +160,7 @@ public:
    * To be called for each tile position in the mosaic
    * before the call to Update(). */
   void
-  SetTileTransform(TileIndexType position, TransformConstPointer transform);
+  SetTileTransform(TileIndexType position, const TransformType * transform);
 
   /** Get/Set background value (used if CropToFill is false).
    * Default PixelType's value (usually zero) if not set. */
