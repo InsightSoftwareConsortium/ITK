@@ -30,6 +30,9 @@ endif()
 if(NOT ITK_SOURCE_DIR)
   find_package(ITK REQUIRED)
   list(APPEND CMAKE_MODULE_PATH ${ITK_CMAKE_DIR})
+  # Patch igenerator for enum wrapping until ITK 5.1 RC 2 is released
+  file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/wrapping/igenerator.py DESTINATION
+    ${ITK_CMAKE_DIR}/../Wrapping/Generators/SwigInterface/)
   include(ITKModuleExternal)
 else()
   set(ITK_DIR ${CMAKE_BINARY_DIR})

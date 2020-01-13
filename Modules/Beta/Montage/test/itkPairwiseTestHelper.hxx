@@ -36,7 +36,7 @@ double
 calculateError(const itk::TileConfiguration<Dimension> &    stageTiles,
                const itk::TileConfiguration<Dimension> &    actualTiles,
                const std::string &                          inputPath,
-               int                                          paddingMethod,
+               uint8_t                                      paddingMethod,
                unsigned                                     positionTolerance,
                std::vector<itk::Point<double, Dimension>> & regBias,
                std::ostream &                               out,
@@ -86,7 +86,7 @@ calculateError(const itk::TileConfiguration<Dimension> &    stageTiles,
   phaseCorrelationMethod->SetObligatoryPadding(pad);
   // phaseCorrelationMethod->DebugOn();
 
-  using PMType = typename PhaseCorrelationMethodType::PaddingMethod;
+  using PMType = typename PhaseCorrelationMethodType::PaddingMethodEnum;
   using PadMethodUnderlying = typename std::underlying_type<PMType>::type;
   static_assert(std::is_same<decltype(paddingMethod), PadMethodUnderlying>::value,
                 "We expect type of paddingMethod to be equal to PadMethodUnderlying type");
@@ -105,7 +105,7 @@ calculateError(const itk::TileConfiguration<Dimension> &    stageTiles,
   phaseCorrelationMethod->SetOptimizer(pcmOptimizer);
 
   using PeakInterpolationType =
-    typename itk::MaxPhaseCorrelationOptimizer<PhaseCorrelationMethodType>::PeakInterpolationMethod;
+    typename itk::MaxPhaseCorrelationOptimizer<PhaseCorrelationMethodType>::PeakInterpolationMethodEnum;
   using PeakFinderUnderlying = typename std::underlying_type<PeakInterpolationType>::type;
 
   if (regBias.empty()) // initialize
@@ -175,16 +175,16 @@ pairwiseTests(const itk::TileConfiguration<Dimension> & stageTiles,
   int result = EXIT_SUCCESS;
   using ImageType = itk::Image<PixelType, Dimension>;
   using PCMType = itk::PhaseCorrelationImageRegistrationMethod<ImageType, ImageType, float>;
-  using PadMethodUnderlying = typename std::underlying_type<typename PCMType::PaddingMethod>::type;
+  using PadMethodUnderlying = typename std::underlying_type<typename PCMType::PaddingMethodEnum>::type;
   using TileConfig = itk::TileConfiguration<Dimension>;
 
-  for (auto padMethod = static_cast<PadMethodUnderlying>(PCMType::PaddingMethod::Zero);
-       padMethod <= static_cast<PadMethodUnderlying>(PCMType::PaddingMethod::Last);
+  for (auto padMethod = static_cast<PadMethodUnderlying>(PCMType::PaddingMethodEnum::Zero);
+       padMethod <= static_cast<PadMethodUnderlying>(PCMType::PaddingMethodEnum::Last);
        padMethod++)
   {
     if (!varyPaddingMethods) // go straight to the last, best method
     {
-      padMethod = static_cast<PadMethodUnderlying>(PCMType::PaddingMethod::Last);
+      padMethod = static_cast<PadMethodUnderlying>(PCMType::PaddingMethodEnum::Last);
     }
     std::ofstream registrationErrors(outFilename + std::to_string(padMethod) + ".tsv");
     std::cout << "Padding method " << padMethod << std::endl;

@@ -120,7 +120,7 @@ public:
   itkSetMacro(N, SizeValueType);
 
 protected:
-  NMinimaMaximaImageCalculator() = default;
+  NMinimaMaximaImageCalculator();
   ~NMinimaMaximaImageCalculator() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -136,17 +136,17 @@ protected:
   InternalCompute();
 
 private:
-  ImageConstPointer m_Image = TInputImage::New();
+  ImageConstPointer m_Image;
   ValueVector       m_Minima;
   ValueVector       m_Maxima;
   IndexVector       m_IndicesOfMinima;
   IndexVector       m_IndicesOfMaxima;
-  SizeValueType     m_N = 7;
+  SizeValueType     m_N{ 7 };
 
   RegionType m_Region;
-  bool       m_RegionSetByUser = false;
-  bool       m_ComputeMaxima = true;
-  bool       m_ComputeMinima = true;
+  bool       m_RegionSetByUser{ false };
+  bool       m_ComputeMaxima{ true };
+  bool       m_ComputeMinima{ true };
   std::mutex m_Mutex;
 };
 } // end namespace itk

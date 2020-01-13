@@ -210,13 +210,13 @@ PhaseCorrelationRegistration(int argc, char * argv[])
       pcm->SetFixedImage(fixedImage);
       pcm->SetMovingImage(movingImage);
 
-      using PadMethod = typename PCMType::PaddingMethod;
+      using PadMethod = typename PCMType::PaddingMethodEnum;
       for (auto padMethod : { PadMethod::Zero, PadMethod::Mirror, PadMethod::MirrorWithExponentialDecay })
       {
         pcm->SetPaddingMethod(padMethod);
         std::cout << "Padding method " << static_cast<int>(padMethod) << std::endl;
 
-        using PeakMethod = typename OptimizerType::PeakInterpolationMethod;
+        using PeakMethod = typename OptimizerType::PeakInterpolationMethodEnum;
         for (auto peakMethod : { PeakMethod::None, PeakMethod::Parabolic, PeakMethod::Cosine })
         {
           pcmOptimizer->SetPeakInterpolationMethod(peakMethod);
