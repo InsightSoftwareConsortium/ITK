@@ -23,6 +23,25 @@
 
 namespace itk
 {
+
+/** \class MaxPhaseCorrelationOptimizerEnums
+ * \ingroup Montage
+ */
+class MaxPhaseCorrelationOptimizerEnums
+{
+public:
+  /** \class PeakInterpolationMethod
+   *  \brief Different methods of interpolation the phase correlation peak.
+   *  \ingroup Montage */
+  enum class PeakInterpolationMethod : uint8_t
+  {
+    None = 0,
+    Parabolic,
+    Cosine,
+    Last = Cosine
+  };
+};
+
 /** \class MaxPhaseCorrelationOptimizer
  *  \brief Implements basic shift estimation from position of maximum peak.
  *
@@ -76,25 +95,10 @@ public:
   using OffsetType = typename Superclass::OffsetType;
   using OffsetScalarType = typename Superclass::OffsetScalarType;
 
-  /** \class PeakInterpolationMethod
-   *  \brief Different methods of interpolation the phase correlation peak.
-   *  \ingroup Montage */
-  enum class PeakInterpolationMethod
-  {
-    None = 0,
-    Parabolic,
-    Cosine,
-    Last = Cosine
-  };
-  itkGetConstMacro(PeakInterpolationMethod, PeakInterpolationMethod);
+  using PeakInterpolationMethodEnum = MaxPhaseCorrelationOptimizerEnums::PeakInterpolationMethod;
+  itkGetConstMacro(PeakInterpolationMethod, PeakInterpolationMethodEnum);
   void
-  SetPeakInterpolationMethod(const PeakInterpolationMethod peakInterpolationMethod);
-  friend std::ostream &
-  operator<<(std::ostream & os, const PeakInterpolationMethod & pim)
-  {
-    os << static_cast<typename std::underlying_type<PeakInterpolationMethod>::type>(pim);
-    return os;
-  }
+  SetPeakInterpolationMethod(const PeakInterpolationMethodEnum peakInterpolationMethod);
 
   /** Get/Set maximum city-block distance for peak merging. Zero disables it. */
   itkGetConstMacro(MergePeaks, unsigned);
@@ -126,7 +130,7 @@ protected:
 
 private:
   typename MaxCalculatorType::Pointer m_MaxCalculator = MaxCalculatorType::New();
-  PeakInterpolationMethod             m_PeakInterpolationMethod = PeakInterpolationMethod::Parabolic;
+  PeakInterpolationMethodEnum         m_PeakInterpolationMethod = PeakInterpolationMethodEnum::Parabolic;
   unsigned                            m_MergePeaks = 1;
   double                              m_ZeroSuppression = 5;
   SizeValueType                       m_PixelDistanceTolerance = 0;

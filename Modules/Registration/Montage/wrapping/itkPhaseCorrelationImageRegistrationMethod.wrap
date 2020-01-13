@@ -1,3 +1,8 @@
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkPhaseCorrelationImageRegistrationMethod.h")
+
+itk_wrap_simple_class("itk::PhaseCorrelationImageRegistrationMethodEnums")
+
 itk_wrap_class("itk::PhaseCorrelationImageRegistrationMethod" POINTER)
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${WRAP_ITK_SCALAR})
