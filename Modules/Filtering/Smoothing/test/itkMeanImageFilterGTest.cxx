@@ -20,6 +20,7 @@
 #include "itkMeanImageFilter.h"
 
 #include "itkImage.h"
+#include "itkVectorImage.h"
 #include "itkImageBufferRange.h"
 
 #include <numeric> // For iota.
@@ -39,6 +40,7 @@ Expect_output_pixels_have_same_value_as_input_when_input_image_is_uniform(
 
   const auto image = TImage::New();
   image->SetRegions(imageRegion);
+  image->SetNumberOfComponentsPerPixel(itk::NumericTraits<PixelType>::GetLength(inputPixelValue));
   image->Allocate();
   image->FillBuffer(inputPixelValue);
 
@@ -102,6 +104,11 @@ TEST(MeanImageFilter, OutputSameAsInputForUniformImage)
                                                                                              64);
   Expect_output_pixels_have_same_value_as_input_when_input_image_is_uniform<itk::Image<float, 3>>(
     itk::Size<3>{ { 3, 4, 5 } }, 0.5f);
+
+  float                            array[] = { 3.14f, 2.71f, 1.41f };
+  itk::VariableLengthVector<float> v{ array, 3 };
+  Expect_output_pixels_have_same_value_as_input_when_input_image_is_uniform<itk::VectorImage<float, 3>>(
+    itk::Size<3>{ { 3, 4, 5 } }, v);
 }
 
 
