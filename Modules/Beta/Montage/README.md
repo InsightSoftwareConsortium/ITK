@@ -4,6 +4,7 @@ ITKMontage
 [![Build Status](https://dev.azure.com/ITKMontage/ITKMontage/_apis/build/status/InsightSoftwareConsortium.ITKMontage?branchName=master)](https://dev.azure.com/ITKMontage/ITKMontage/_build/latest?definitionId=1&branchName=master)
 [![PyPI](https://img.shields.io/pypi/v/itk-montage.svg)](https://pypi.python.org/pypi/itk-montage)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/InsightSoftwareConsortium/ITK/blob/master/LICENSE)
+[![DOI](https://zenodo.org/badge/114385071.svg)](https://zenodo.org/badge/latestdoi/114385071)
 
 Montaging for microscopy imaging files.
 
