@@ -24,10 +24,9 @@
 // First the two images are roughly aligned by using a transform
 // initialization, then they are registered using a rigid transform, that in
 // turn, is used to initialize a registration with an affine transform. The
-// transform resulting from the affine registration is used as the bulk
-// transform of a BSplineTransform. The deformable registration is
-// computed, and finally the resulting transform is used to resample the moving
-// image.
+// transform resulting from the affine registration is compounded with
+// a BSplineTransform. The deformable registration is computed,
+// and finally the resulting transform is used to resample the moving image.
 //
 // Software Guide : EndLatex
 
@@ -53,6 +52,7 @@
 #include "itkVersorRigid3DTransform.h"
 #include "itkAffineTransform.h"
 #include "itkBSplineTransform.h"
+#include "itkCompositeTransform.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
 // Software Guide : EndCodeSnippet
 
@@ -436,10 +436,17 @@ main(int argc, char * argv[])
   ParametersType initialDeformableTransformParameters(numberOfBSplineParameters);
   initialDeformableTransformParameters.Fill(0.0);
 
+  using CompositeTransformType = itk::CompositeTransform<double, SpaceDimension>;
+  typename CompositeTransformType::Pointer compositeTransform =
+    CompositeTransformType::New();
+  compositeTransform->AddTransform(affineTransform);
+  compositeTransform->AddTransform(bsplineTransformCoarse);
+  compositeTransform->SetOnlyMostRecentTransformToOptimizeOn();
+
   bsplineTransformCoarse->SetParameters(initialDeformableTransformParameters);
 
   registration->SetInitialTransformParameters(bsplineTransformCoarse->GetParameters());
-  registration->SetTransform(bsplineTransformCoarse);
+  registration->SetTransform(compositeTransform);
 
   // Software Guide : EndCodeSnippet
 
@@ -606,8 +613,10 @@ main(int argc, char * argv[])
   std::cout << "Starting Registration with high resolution transform" << std::endl;
 
   // Software Guide : BeginCodeSnippet
+  compositeTransform->RemoveTransform(); // remove bsplineTransformCoarse
+  compositeTransform->AddTransform(bsplineTransformFine);
+  compositeTransform->SetOnlyMostRecentTransformToOptimizeOn();
   registration->SetInitialTransformParameters(bsplineTransformFine->GetParameters());
-  registration->SetTransform(bsplineTransformFine);
   //
   // The BSpline transform at fine scale has a very large number of parameters,
   // we use therefore a much larger number of samples to run this stage. In
