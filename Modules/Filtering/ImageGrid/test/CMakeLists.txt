@@ -21,6 +21,7 @@ itkCropImageFilterTest.cxx
 itkCropImageFilter3DTest.cxx
 itkFlipImageFilterTest.cxx
 itkExpandImageFilterTest.cxx
+itkExpandImageFilterTest2.cxx
 itkRegionOfInterestImageFilterTest.cxx
 itkBSplineUpsampleImageFilterTest.cxx
 itkBSplineResampleImageFilterTest.cxx
@@ -145,6 +146,8 @@ itk_add_test(NAME itkFlipImageFilterTest2
       COMMAND ITKImageGridTestDriver itkFlipImageFilterTest 1)
 itk_add_test(NAME itkExpandImageFilterTest
       COMMAND ITKImageGridTestDriver itkExpandImageFilterTest)
+itk_add_test(NAME itkExpandImageFilterTest2
+      COMMAND ITKImageGridTestDriver itkExpandImageFilterTest2)
 itk_add_test(NAME itkRegionOfInterestImageFilterTest
       COMMAND ITKImageGridTestDriver itkRegionOfInterestImageFilterTest)
 itk_add_test(NAME itkBSplineUpsampleImageFilterTest
