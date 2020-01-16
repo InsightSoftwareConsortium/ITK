@@ -138,7 +138,7 @@ public:
     }
   }
 
-#if defined(__GNUC__) && (__GNUC__ > 5)
+#if defined(__GNUC__) && (__GNUC__ > 5) || defined(__clang__)
   ~QuadrilateralCell() override = default;
 #else
   ~QuadrilateralCell() override{};
