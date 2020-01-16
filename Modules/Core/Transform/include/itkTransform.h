@@ -552,7 +552,7 @@ protected:
 
   Transform();
   Transform(NumberOfParametersType NumberOfParameters);
-#if defined(__GNUC__) && __GNUC__ < 6
+#if defined(__GNUC__) && __GNUC__ < 6 && !defined(__clang__)
   ~Transform() override{};
 #else
   ~Transform() override = default;

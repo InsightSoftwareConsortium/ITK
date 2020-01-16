@@ -150,7 +150,7 @@ public:
   TriangleCell()
     : m_PointIds(NumberOfPoints, NumericTraits<PointIdentifier>::max())
   {}
-#if defined(__GNUC__) && (__GNUC__ > 5)
+#if defined(__GNUC__) && (__GNUC__ > 5) && !defined(__clang__)
   ~TriangleCell() override = default;
 #else
   ~TriangleCell() override{};

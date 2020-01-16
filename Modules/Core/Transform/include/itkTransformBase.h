@@ -151,7 +151,7 @@ public:
   GetTransformCategory() const = 0;
 
 protected:
-#if defined(__GNUC__) && __GNUC__ < 6
+#if defined(__GNUC__) && __GNUC__ < 6 && !defined(__clang__)
   // A bug in some versions of the gcc 5.4.0 compiler
   // result in a linker error when = default is requested
   TransformBaseTemplate(){};
