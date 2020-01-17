@@ -44,6 +44,7 @@ SimpleFilterWatcher ::SimpleFilterWatcher(ProcessObject * o, const char * commen
 #endif
 
   this->CreateCommands();
+  m_Process->SetDesiredUpdateInterval(std::chrono::microseconds(100));
 }
 
 SimpleFilterWatcher ::SimpleFilterWatcher()

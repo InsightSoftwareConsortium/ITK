@@ -37,6 +37,9 @@
 #include <map>
 #include <set>
 #include <algorithm>
+#include <atomic>
+#include <chrono>
+#include <thread>
 
 namespace itk
 {
@@ -334,6 +337,41 @@ public:
    */
   void
   UpdateProgress(float progress);
+
+  /** Indicate to this class that some of the pixels/items have been processed.
+   * It will decide whether this warrants a progress report or not. */
+  void
+  PixelsProcessed(SizeValueType numberOfPixels);
+
+  /** Should MultiThreader report coarse-grained progress? */
+  itkGetConstReferenceMacro(MultiThreaderUpdatesProgress, bool);
+  virtual void
+  SetMultiThreaderUpdatesProgress(bool arg)
+  {
+    this->m_MultiThreaderUpdatesProgress = arg;
+    // calling this->Modified to update timestamp messes with the pipeline execution
+  }
+
+  /** How many pixels or items this class will work on. */
+  itkGetConstReferenceMacro(TotalPixelCount, SizeValueType);
+  virtual void
+  SetTotalPixelCount(SizeValueType totalPixelCount)
+  {
+    this->m_TotalPixelCount = totalPixelCount;
+    // calling this->Modified to update timestamp messes with the pipeline execution
+  }
+
+  /** How frequently would you like progress to be reported. */
+  itkGetConstReferenceMacro(DesiredUpdateInterval, std::chrono::microseconds);
+  virtual void
+  SetDesiredUpdateInterval(const std::chrono::microseconds microseconds)
+  {
+    if (this->m_DesiredUpdateInterval != microseconds)
+    {
+      this->m_DesiredUpdateInterval = microseconds;
+      this->Modified();
+    }
+  }
 
   /** \brief Bring this filter up-to-date.
    *
@@ -914,6 +952,16 @@ private:
   /** These support the progress method and aborting filter execution. */
   bool  m_AbortGenerateData;
   float m_Progress;
+
+  /** Internal variables used in new-style progress reporting. */
+  bool                                  m_MultiThreaderUpdatesProgress = true;
+  std::atomic<SizeValueType>            m_CurrentPixelCount{ 0 };
+  IdentifierType                        m_TotalPixelCount{ 0 };
+  IdentifierType                        m_PreviousProgressReport{ 0 }; // pixel count during last report
+  std::chrono::steady_clock::time_point m_LastProgressReport = std::chrono::steady_clock::now(); // last report time
+  std::chrono::microseconds             m_DesiredUpdateInterval =
+    std::chrono::milliseconds(100);                               // TODO: have a statically settable global default;
+  std::thread::id m_CallingThreadID = std::this_thread::get_id(); // we can only report from this thread
 
   /** Support processing data in multiple threads. Used by subclasses
    * (e.g., ImageSource). */

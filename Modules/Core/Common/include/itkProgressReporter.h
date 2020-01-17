@@ -110,6 +110,48 @@ protected:
   float           m_InitialProgress;
   float           m_ProgressWeight;
 };
+
+/** \class ProgressReporter2
+ * \brief Implements new-style progress tracking for a filter.
+ *
+ * \ingroup ITKCommon
+ */
+class ITKCommon_EXPORT ProgressReporter2
+{
+public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ProgressReporter2);
+
+  /** Constructor sets progress to 0 because the filter is starting.  */
+  ProgressReporter2(ProcessObject * filter, SizeValueType pixelsPerUpdate = 10000);
+
+  /** Destructor sets progress to 1 because the filter has finished.  */
+  ~ProgressReporter2();
+
+  /** Called by a filter once per pixel.  */
+  void
+  CompletedPixel()
+  {
+    // Inline implementation for efficiency.
+    if (--m_PixelsBeforeUpdate == 0)
+    {
+      m_PixelsBeforeUpdate = m_PixelsPerUpdate;
+      m_Filter->PixelsProcessed(m_PixelsPerUpdate);
+      if (m_Filter->GetAbortGenerateData())
+      {
+        std::string    msg;
+        ProcessAborted e(__FILE__, __LINE__);
+        msg += "Object " + std::string(m_Filter->GetNameOfClass()) + ": AbortGenerateDataOn";
+        e.SetDescription(msg);
+        throw e;
+      }
+    }
+  }
+
+protected:
+  ProcessObject * m_Filter;
+  SizeValueType   m_PixelsPerUpdate;
+  SizeValueType   m_PixelsBeforeUpdate;
+};
 } // end namespace itk
 
 #endif

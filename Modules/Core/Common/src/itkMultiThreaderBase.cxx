@@ -511,6 +511,12 @@ MultiThreaderBase ::ParallelizeArray(SizeValueType             firstIndex,
     {
       aFunc, firstIndex, lastIndexPlus1, filter, std::this_thread::get_id(), { 0 }
     };
+
+    if (filter)
+    {
+      filter->SetTotalPixelCount(lastIndexPlus1 - firstIndex);
+    }
+
     this->SetSingleMethod(&MultiThreaderBase::ParallelizeArrayHelper, &acParams);
     this->SingleMethodExecute();
   }
@@ -547,14 +553,10 @@ MultiThreaderBase ::ParallelizeArrayHelper(void * arg)
   for (SizeValueType i = first; i < afterLast; i++)
   {
     acParams->functor(i);
-    if (acParams->filter)
+    if (acParams->filter && acParams->filter->GetMultiThreaderUpdatesProgress())
     {
       ++acParams->progress;
-      // make sure we are updating progress only from the thead which invoked us
-      if (acParams->callingThread == std::this_thread::get_id())
-      {
-        acParams->filter->UpdateProgress(float(acParams->progress) / range);
-      }
+      acParams->filter->PixelsProcessed(1);
     }
   }
 
@@ -582,6 +584,12 @@ MultiThreaderBase ::ParallelizeImageRegion(unsigned int                         
   {
     funcP, dimension, index, size, filter, std::this_thread::get_id(), pixelCount, { 0 }
   };
+
+  if (filter)
+  {
+    filter->SetTotalPixelCount(pixelCount);
+  }
+
   this->SetSingleMethod(&MultiThreaderBase::ParallelizeImageRegionHelper, &rnc);
   this->SingleMethodExecute();
 
@@ -611,15 +619,11 @@ MultiThreaderBase ::ParallelizeImageRegionHelper(void * arg)
   if (threadId < total)
   {
     rnc->functor(&region.GetIndex()[0], &region.GetSize()[0]);
-    if (rnc->filter)
+    if (rnc->filter && rnc->filter->GetMultiThreaderUpdatesProgress())
     {
       SizeValueType pixelCount = region.GetNumberOfPixels();
       rnc->pixelProgress += pixelCount;
-      // make sure we are updating progress only from the thead which invoked filter->Update();
-      if (rnc->callingThread == std::this_thread::get_id())
-      {
-        rnc->filter->UpdateProgress(float(rnc->pixelProgress) / rnc->pixelCount);
-      }
+      rnc->filter->PixelsProcessed(pixelCount);
     }
   }
 

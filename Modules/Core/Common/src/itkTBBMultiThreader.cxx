@@ -98,10 +98,15 @@ TBBMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
 
   if (firstIndex + 1 < lastIndexPlus1)
   {
-    unsigned                   count = lastIndexPlus1 - firstIndex;
+    SizeValueType              count = lastIndexPlus1 - firstIndex;
     std::atomic<SizeValueType> progress(0);
     std::thread::id            callingThread = std::this_thread::get_id();
     tbb::task_scheduler_init   tbb_init(m_MaximumNumberOfThreads);
+    if (filter)
+    {
+      filter->SetTotalPixelCount(count);
+    }
+
     // we request grain size of 1 and simple_partitioner to ensure there is no chunking
     tbb::parallel_for(
       tbb::blocked_range<SizeValueType>(firstIndex, lastIndexPlus1, 1),
@@ -113,14 +118,10 @@ TBBMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
 
         aFunc(r.begin()); // invoke the function
 
-        if (filter)
+        if (filter && filter->GetMultiThreaderUpdatesProgress())
         {
           ++progress;
-          // make sure we are updating progress only from the thead which invoked us
-          if (callingThread == std::this_thread::get_id())
-          {
-            filter->UpdateProgress(float(progress) / count);
-          }
+          filter->PixelsProcessed(1);
         }
       },
       tbb::simple_partitioner());
@@ -242,18 +243,19 @@ TBBMultiThreader ::ParallelizeImageRegion(unsigned int         dimension,
     SizeValueType              totalCount = region.GetNumberOfPixels();
     std::thread::id            callingThread = std::this_thread::get_id();
     tbb::task_scheduler_init   tbb_init(m_MaximumNumberOfThreads);
+    if (filter)
+    {
+      filter->SetTotalPixelCount(totalCount);
+    }
+
     tbb::parallel_for(regionSplitter, [&](TBBImageRegionSplitter regionToProcess) {
       MultiThreaderBase::HandleFilterProgress(filter);
       funcP(&regionToProcess.GetIndex()[0], &regionToProcess.GetSize()[0]);
-      if (filter) // filter is provided, update progress
+      if (filter && filter->GetMultiThreaderUpdatesProgress())
       {
         SizeValueType pixelCount = regionToProcess.GetNumberOfPixels();
         pixelProgress += pixelCount;
-        // make sure we are updating progress only from the thead which invoked filter->Update();
-        if (callingThread == std::this_thread::get_id())
-        {
-          filter->UpdateProgress(float(pixelProgress) / totalCount);
-        }
+        filter->PixelsProcessed(pixelCount);
       }
     }); // we implicitly use auto_partitioner for load balancing
   }

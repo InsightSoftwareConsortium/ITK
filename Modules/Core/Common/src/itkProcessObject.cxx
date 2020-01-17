@@ -1156,6 +1156,28 @@ ProcessObject ::UpdateProgress(float progress)
   this->InvokeEvent(ProgressEvent());
 }
 
+void
+ProcessObject::PixelsProcessed(SizeValueType numberOfPixels)
+{
+  SizeValueType currentCount = m_CurrentPixelCount.fetch_add(numberOfPixels, std::memory_order_acq_rel);
+
+  // do progress updates only from the calling thread
+  if (std::this_thread::get_id() == this->m_CallingThreadID)
+  {
+    m_Progress = float(currentCount) / this->m_TotalPixelCount;
+    std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+
+    auto duration = now - this->m_LastProgressReport;
+    // aim for 10 reports (every 10%) and every DesiredUpdateInterval
+    if (duration > this->m_DesiredUpdateInterval ||
+        (currentCount - this->m_PreviousProgressReport) > (this->m_TotalPixelCount / 10))
+    {
+      this->m_LastProgressReport = now;
+      this->m_PreviousProgressReport = currentCount;
+      this->InvokeEvent(ProgressEvent());
+    }
+  }
+}
 
 bool
 ProcessObject ::GetReleaseDataFlag() const
@@ -1682,6 +1704,9 @@ ProcessObject ::UpdateOutputData(DataObject * itkNotUsed(output))
    */
   m_AbortGenerateData = false;
   m_Progress = 0.0f;
+
+  m_CallingThreadID = std::this_thread::get_id();
+  m_CurrentPixelCount.store(0);
 
   try
   {

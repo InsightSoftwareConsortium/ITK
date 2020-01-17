@@ -170,16 +170,27 @@ PoolMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
 
   if (firstIndex + 1 < lastIndexPlus1)
   {
-    SizeValueType chunkSize = (lastIndexPlus1 - firstIndex) / m_NumberOfWorkUnits;
-    if ((lastIndexPlus1 - firstIndex) % m_NumberOfWorkUnits > 0)
+    SizeValueType totalSize = lastIndexPlus1 - firstIndex;
+    SizeValueType chunkSize = totalSize / m_NumberOfWorkUnits;
+    if (totalSize % m_NumberOfWorkUnits > 0) // not all chunks will be equal
     {
       chunkSize++; // we want slightly bigger chunks to be processed first
     }
 
-    auto lambda = [aFunc](SizeValueType start, SizeValueType end) {
+    if (filter)
+    {
+      filter->SetTotalPixelCount(totalSize);
+    }
+
+    auto lambda = [aFunc, filter](SizeValueType start, SizeValueType end) {
       for (SizeValueType ii = start; ii < end; ii++)
       {
         aFunc(ii);
+
+        if (filter && filter->GetMultiThreaderUpdatesProgress())
+        {
+          filter->PixelsProcessed(1);
+        }
       }
       // make this lambda have the same signature as m_SingleMethod
       return ITK_THREAD_RETURN_DEFAULT_VALUE;
@@ -198,11 +209,6 @@ PoolMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
     // now wait for the other computations to finish
     for (SizeValueType i = 1; i < workUnit; i++)
     {
-      if (filter)
-      {
-        filter->UpdateProgress(i / float(workUnit));
-      }
-
       exceptionHandler.TryToGetFuture(m_ThreadInfoArray[i]);
     }
 
@@ -276,7 +282,7 @@ PoolMultiThreader ::ParallelizeImageRegion(unsigned int         dimension,
       // now wait for the other computations to finish
       for (ThreadIdType i = 1; i < splitCount; i++)
       {
-        if (filter)
+        if (filter && filter->GetMultiThreaderUpdatesProgress())
         {
           filter->UpdateProgress(i / float(splitCount));
         }

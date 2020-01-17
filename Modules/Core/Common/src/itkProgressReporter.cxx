@@ -63,4 +63,21 @@ ProgressReporter::~ProgressReporter()
     m_Filter->UpdateProgress(m_InitialProgress + m_ProgressWeight);
   }
 }
+
+//----------------------------------------------------------------------------
+ProgressReporter2::ProgressReporter2(ProcessObject * filter, SizeValueType pixelsPerUpdate)
+  : m_Filter(filter)
+  , m_PixelsPerUpdate(pixelsPerUpdate)
+  , m_PixelsBeforeUpdate(pixelsPerUpdate)
+{
+  m_Filter->SetMultiThreaderUpdatesProgress(false); // disable double updating of progress
+  // m_Filter->PixelsProcessed(0); // start reporting
+}
+
+//----------------------------------------------------------------------------
+ProgressReporter2::~ProgressReporter2()
+{
+  m_Filter->PixelsProcessed(m_PixelsPerUpdate - m_PixelsBeforeUpdate); // report any leftover pixels
+}
+
 } // end namespace itk

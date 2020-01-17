@@ -202,6 +202,7 @@ ImageSource<TOutputImage>::ClassicMultiThread(ThreadFunctionType callbackFunctio
 
   this->GetMultiThreader()->SetNumberOfWorkUnits(validThreads);
   this->GetMultiThreader()->SetSingleMethod(callbackFunction, &str);
+  this->SetTotalPixelCount(outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   this->GetMultiThreader()->SingleMethodExecute();
 }
@@ -213,6 +214,8 @@ ImageSource<TOutputImage>::GenerateData()
   // Call a method that can be overriden by a subclass to allocate
   // memory for the filter's outputs
   this->AllocateOutputs();
+
+  this->SetTotalPixelCount(this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
 
   // Call a method that can be overridden by a subclass to perform
   // some calculations prior to splitting the main computations into
