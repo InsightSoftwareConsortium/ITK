@@ -332,7 +332,7 @@ private:
   inline void ComputeGradientImage();
 
   /** Set a flag activating each vertex for the given face. */
-  inline void SetVerticesFromFace( unsigned int face, bool *vertexHasQuad );
+  inline void SetVerticesFromFace( unsigned int face, std::array<bool, 8> &vertexHasQuad );
 
   /** Get the vertex lookup index from the given index and vertex number. */
   inline IndexType GetVertexLookupIndex( unsigned int vertex, IndexType index );
@@ -344,7 +344,7 @@ private:
   inline void AddVertex( PointIdentifier &id, IndexType index, const InputImageType* image, OutputMeshType* mesh );
 
   /** Add quadrilateral face to the given mesh. Increments cell identifier. */
-  inline void AddQuadFace( CellIdentifier &id, PointIdentifier f[4], OutputMeshType* mesh, const InputPixelType& pixel );
+  inline void AddQuadFace( CellIdentifier &id, std::array<PointIdentifier, 4> f, OutputMeshType* mesh, const InputPixelType& pixel );
 
   InputPixelType              m_IsoSurfaceValue;
   InterpolatorPointer         m_Interpolator;

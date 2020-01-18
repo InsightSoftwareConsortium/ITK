@@ -18,12 +18,12 @@
 #ifndef itkCuberilleImageToMeshFilter_hxx
 #define itkCuberilleImageToMeshFilter_hxx
 
-#define SWAP(x,y) unsigned int t;t=x;x=y;y=t;
-
 #include "itkMath.h"
 #include "itkCuberilleImageToMeshFilter.h"
 #include "itkNumericTraits.h"
 #include "itkConnectedComponentAlgorithm.h"
+#include <array>
+#include <utility>
 
 namespace itk
 {
@@ -106,26 +106,26 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   //mesh->GetCells()->Reserve( (size[0]*size[1]*size[2]) / 100 );
 
   // Set up helper structures
-  unsigned int look, look0, look1 = 0;
+  unsigned int look0 = 1;
+  unsigned int look1 = 0;
   unsigned char numFaces = 0;
-  bool faceHasQuad[6];
-  bool vertexHasQuad[8];
-  PointIdentifier v[8];
-  PointIdentifier f[4];
+  std::array<bool, 6> faceHasQuad;
+  std::array<bool, 8> vertexHasQuad;
+  std::array<PointIdentifier, 8> v;
+  std::array<PointIdentifier, 4> f;
   PointIdentifier nextVertexId = 0;
   CellIdentifier nextCellId = 0;
   IndexType index;
   typename IndexType::IndexValueType lastZ = -1;
   InputPixelType center = 0;
-  typename InputImageIteratorType::OffsetType offset[6];
-  offset[0][0] = -1; offset[0][1] = +0; offset[0][2] = +0;
-  offset[1][0] = +0; offset[1][1] = -1; offset[1][2] = +0;
-  offset[2][0] = +1; offset[2][1] = +0; offset[2][2] = +0;
-  offset[3][0] = +0; offset[3][1] = +1; offset[3][2] = +0;
-  offset[4][0] = +0; offset[4][1] = +0; offset[4][2] = -1;
-  offset[5][0] = +0; offset[5][1] = +0; offset[5][2] = +1;
+  std::array<typename InputImageIteratorType::OffsetType, 6> offset;
+  offset[0][0] = -1; offset[0][1] = +0; offset[0][2] = +0; // -X
+  offset[1][0] = +0; offset[1][1] = -1; offset[1][2] = +0; // -Y
+  offset[2][0] = +1; offset[2][1] = +0; offset[2][2] = +0; // +X
+  offset[3][0] = +0; offset[3][1] = +1; offset[3][2] = +0; // +Y
+  offset[4][0] = +0; offset[4][1] = +0; offset[4][2] = -1; // -Z
+  offset[5][0] = +0; offset[5][1] = +0; offset[5][2] = +1; // +Z
   VertexLookupMapType lookup[2];
-  look0 = 1; look1 = 0;
   lookup[look0].Clear();
   lookup[look1].Clear();
 
@@ -143,20 +143,14 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 
     // Re-initialize for new pixel
     numFaces = 0;
-    for(bool & i : faceHasQuad)
-      {
-      i = false;
-      }
-    for(bool & i : vertexHasQuad)
-      {
-      i = false;
-      }
+    faceHasQuad.fill(false);
+    vertexHasQuad.fill(false);
 
     // Re-initialize for new z plane
     index = it.GetIndex();
     if( index[2] != lastZ )
       {
-      SWAP( look0, look1 );
+      std::swap( look0, look1 );
       lookup[look1].Clear();
       lastZ = index[2];
       }
@@ -169,7 +163,7 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
       if( faceHasQuad[i] )
         {
         numFaces++;
-        SetVerticesFromFace( i, &vertexHasQuad[0] );
+        SetVerticesFromFace( i, vertexHasQuad );
         }
       }
 
@@ -183,7 +177,7 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
           {
           // Use the vertex lookup to get the vertex for the correct slice
           IndexType vindex = GetVertexLookupIndex( i, index );
-          look = ( i < 4 ) ? look0 : look1; // First four are first slice
+          unsigned int look = ( i < 4 ) ? look0 : look1; // First four are first slice
           if( !lookup[look].GetVertex(vindex[0], vindex[1], v[i]) )
             {
             // Vertex was not in lookup, create and add to lookup
@@ -219,7 +213,7 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 template<typename TInputImage, typename TOutputMesh, typename TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
-::SetVerticesFromFace( unsigned int face, bool *v )
+::SetVerticesFromFace( unsigned int face, std::array<bool, 8> &v )
 {
   switch ( face )
   {
@@ -277,7 +271,7 @@ template<typename TInputImage, typename TOutputMesh, typename TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 ::AddQuadFace( typename TOutputMesh::CellIdentifier &id,
-               typename TOutputMesh::PointIdentifier face[4],
+               std::array<PointIdentifier, 4> face,
                TOutputMesh* mesh,
                const InputPixelType &pixel )
 {
@@ -329,7 +323,7 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
     // Add quateraleral cell
     QuadrilateralCellAutoPointer quad1;
     quad1.TakeOwnership( new QuadrilateralCellType );
-    quad1->SetPointIds( face );
+    quad1->SetPointIds( face.data() );
     mesh->SetCell( id++, quad1 );
     if (this->m_SavePixelAsCellData)
       {
