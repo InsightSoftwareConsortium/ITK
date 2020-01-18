@@ -372,7 +372,7 @@ private:
 
   /** Set a flag activating each vertex for the given face. */
   inline void
-  SetVerticesFromFace(unsigned int face, bool * vertexHasQuad);
+  SetVerticesFromFace(unsigned int face, std::array<bool, 8> & vertexHasQuad);
 
   /** Get the vertex lookup index from the given index and vertex number. */
   inline IndexType
@@ -388,7 +388,10 @@ private:
 
   /** Add quadrilateral face to the given mesh. Increments cell identifier. */
   inline void
-  AddQuadFace(CellIdentifier & id, PointIdentifier f[4], OutputMeshType * mesh, const InputPixelType & pixel);
+  AddQuadFace(CellIdentifier &               id,
+              std::array<PointIdentifier, 4> f,
+              OutputMeshType *               mesh,
+              const InputPixelType &         pixel);
 
   InputPixelType              m_IsoSurfaceValue;
   InterpolatorPointer         m_Interpolator;
