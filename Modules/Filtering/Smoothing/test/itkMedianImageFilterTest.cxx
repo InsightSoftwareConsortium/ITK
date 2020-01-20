@@ -19,7 +19,7 @@
 #include "itkRandomImageSource.h"
 #include "itkMedianImageFilter.h"
 #include "itkTextOutput.h"
-
+#include "itkSimpleFilterWatcher.h"
 
 int
 itkMedianImageFilterTest(int, char *[])
@@ -55,6 +55,10 @@ itkMedianImageFilterTest(int, char *[])
   neighRadius[0] = 1;
   neighRadius[1] = 1;
   median->SetRadius(neighRadius);
+
+  itk::SimpleFilterWatcher watcher(median, "To watch progress updates");
+  // this is such a small test image, we need high update interval to see meaningful progress updates
+  median->SetDesiredUpdateInterval(std::chrono::microseconds(1));
 
   // run the algorithm
   median->Update();
