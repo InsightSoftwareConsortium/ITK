@@ -30,6 +30,7 @@ UnaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>::UnaryFunctorImage
   this->SetNumberOfRequiredInputs(1);
   this->InPlaceOff();
   this->DynamicMultiThreadingOn();
+  this->SetMultiThreaderUpdatesProgress(false);
 }
 
 /**
@@ -103,6 +104,7 @@ UnaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>::DynamicThreadedGe
       ++inputIt;
       ++outputIt;
     }
+    this->PixelsProcessed(regionSize[0]);
     inputIt.NextLine();
     outputIt.NextLine();
   }

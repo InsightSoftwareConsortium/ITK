@@ -242,6 +242,9 @@ BilateralImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   ZeroFluxNeumannBoundaryCondition<TInputImage> BC;
 
+  // aim for 100 updates for this chunk
+  ProgressReporter2 progress(this, std::ceil(outputRegionForThread.GetNumberOfPixels() / 100.0));
+
   // Find the boundary "faces"
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                        fC;
@@ -312,6 +315,7 @@ BilateralImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
       ++b_iter;
       ++o_iter;
+      progress.CompletedPixel();
     }
   }
 }

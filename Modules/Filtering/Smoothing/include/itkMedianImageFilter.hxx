@@ -62,6 +62,9 @@ MedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   std::vector<InputPixelType> pixels(neighborhoodSize);
   const auto                  medianIterator = pixels.begin() + (neighborhoodSize / 2);
 
+  // aim for 100 updates for this chunk
+  ProgressReporter2 progress(this, std::ceil(outputRegionForThread.GetNumberOfPixels() / 100.0));
+
   const auto nonBoundaryRegion = calculatorResult.GetNonBoundaryRegion();
 
   if (nonBoundaryRegion.GetSize() != InputSizeType())
@@ -79,6 +82,7 @@ MedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
       std::nth_element(pixels.begin(), medianIterator, pixels.end());
       *outputIterator = *medianIterator;
       ++outputIterator;
+      progress.CompletedPixel();
     }
   }
 
@@ -97,6 +101,7 @@ MedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
       std::nth_element(pixels.begin(), medianIterator, pixels.end());
       *outputIterator = *medianIterator;
       ++outputIterator;
+      progress.CompletedPixel();
     }
   }
 }

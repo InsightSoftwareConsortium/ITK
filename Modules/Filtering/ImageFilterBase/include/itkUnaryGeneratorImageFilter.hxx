@@ -33,6 +33,7 @@ UnaryGeneratorImageFilter<TInputImage, TOutputImage>::UnaryGeneratorImageFilter(
   this->SetNumberOfRequiredInputs(1);
   this->InPlaceOff();
   this->DynamicMultiThreadingOn();
+  this->SetMultiThreaderUpdatesProgress(false);
 }
 
 /**
@@ -119,6 +120,7 @@ UnaryGeneratorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDat
       ++inputIt;
       ++outputIt;
     }
+    this->PixelsProcessed(regionSize[0]);
     inputIt.NextLine();
     outputIt.NextLine();
   }
