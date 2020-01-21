@@ -147,14 +147,14 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
   m_SizeOfObjectsInPhysicalUnits.clear();
   m_SizeOfObjectsInPhysicalUnits.resize(m_NumberOfObjects);
   int NumberOfObjectsRemoved = 0;
-  for (i = 0, vit = sizeVector.begin(); vit != sizeVector.end(); ++vit, ++i)
+  for (i = 0, vit = sizeVector.begin(); vit != sizeVector.end(); ++vit)
   {
     // if we find an object smaller than the minimum size, we
     // terminate the loop.
     if (m_MinimumObjectSize > 0 && (*vit).m_SizeInPixels < m_MinimumObjectSize)
     {
       // map small objects to the background
-      NumberOfObjectsRemoved++;
+      ++NumberOfObjectsRemoved;
       relabelMap.insert(RelabelMapValueType((*vit).m_ObjectNumber, 0));
     }
     else
@@ -166,6 +166,7 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
       // cache object sizes for later access by the user
       m_SizeOfObjectsInPixels[i] = (*vit).m_SizeInPixels;
       m_SizeOfObjectsInPhysicalUnits[i] = (*vit).m_SizeInPhysicalUnits;
+      ++i;
     }
   }
 
