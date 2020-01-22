@@ -22,7 +22,10 @@
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
+#include "itkProgressTransformer.h"
+#include "itkImageScanlineIterator.h"
 #include <map>
+#include <utility>
 
 namespace itk
 {
@@ -41,143 +44,172 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRe
   }
 }
 
+
+template <typename TInputImage, typename TOutputImage>
+void
+RelabelComponentImageFilter<TInputImage, TOutputImage>::ParallelComputeLabels(const RegionType & inputRegionForThread)
+{
+  RelabelComponentObjectType initialSize;
+  initialSize.m_SizeInPixels = 0;
+
+  // walk the input
+  ImageScanlineConstIterator<InputImageType> it(this->GetInput(), inputRegionForThread);
+
+  MapType localSizeMap;
+
+  auto mapIt = localSizeMap.end();
+  while (!it.IsAtEnd())
+  {
+    while (!it.IsAtEndOfLine())
+    {
+      // Get the input pixel value
+      const auto inputValue = it.Get();
+
+      // if the input pixel is not the background
+      if (inputValue != NumericTraits<LabelType>::ZeroValue())
+      {
+        // label is not currently in the map
+        mapIt = localSizeMap.insert(mapIt, { inputValue, initialSize });
+
+        // label is already in the map, update the values
+        ++(mapIt->second.m_SizeInPixels);
+      }
+
+      // increment the iterator
+      ++it;
+    }
+    it.NextLine();
+  }
+
+  // Merge localStatistics and m_LabelStatistics concurrently safe in a
+  // local copy, this thread may do multiple merges.
+  while (true)
+  {
+    std::unique_lock<std::mutex> lock(m_Mutex);
+
+    if (m_SizeMap.empty())
+    {
+      swap(m_SizeMap, localSizeMap);
+      break;
+    }
+    else
+    {
+      // copy the output map to thread local storage
+      MapType toMerge;
+      swap(m_SizeMap, toMerge);
+
+      // allow other threads to merge data
+      lock.unlock();
+
+      // Merge toMerge into localSizeMap, locally
+      for (auto & sizePair : toMerge)
+      {
+        localSizeMap[sizePair.first] += sizePair.second;
+      }
+    }
+  } // release lock
+}
+
+
 template <typename TInputImage, typename TOutputImage>
 void
 RelabelComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  SizeValueType i;
-
-  // Use a map to keep track of the size of each object.  Object
-  // number -> ObjectType (which has Object number and the two sizes)
-  using MapType = std::map<LabelType, RelabelComponentObjectType>;
-  MapType                    sizeMap;
-  typename MapType::iterator mapIt;
-  using MapValueType = typename MapType::value_type;
+  using LabelComponentPairType = std::pair<LabelType, RelabelComponentObjectType>;
 
   // Get the input and the output
-  typename TInputImage::ConstPointer input = this->GetInput();
-  typename TOutputImage::Pointer     output = this->GetOutput();
-
-  // Setup a progress reporter.  We have 2 stages to the algorithm so
-  // use the total number of pixels accessed. We walk the entire input
-  // in the first pass, then walk just the output requested region in
-  // the second pass.
-  ProgressReporter progress(
-    this, 0, input->GetRequestedRegion().GetNumberOfPixels() + output->GetRequestedRegion().GetNumberOfPixels());
+  const TInputImage * input = this->GetInput();
+  TOutputImage *      output = this->GetOutput();
 
   // Calculate the size of pixel
   float physicalPixelSize = 1.0;
-  for (i = 0; i < TInputImage::ImageDimension; ++i)
+  for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
     physicalPixelSize *= input->GetSpacing()[i];
   }
 
-  RelabelComponentObjectType initialSize;
-  initialSize.m_SizeInPixels = 1;
-  initialSize.m_SizeInPhysicalUnits = physicalPixelSize;
+  // Walk the entire input image and compute used labels and the number of each label.
+  ProgressTransformer progressTransformer1(0.0f, 0.5f, this);
+  this->GetMultiThreader()->template ParallelizeImageRegion<ImageDimension>(
+    input->GetRequestedRegion(),
+    [this](const RegionType & inputRegion) { this->ParallelComputeLabels(inputRegion); },
+    progressTransformer1.GetProcessObject());
 
-  // First pass: walk the entire input image and determine what
-  // labels are used and the number of pixels used in each label.
-  //
 
-  // walk the input
-  ImageRegionConstIterator<InputImageType> it(input, input->GetRequestedRegion());
-  it.GoToBegin();
+  // Construct an array of the label, component information pair to sort
+  auto sizeVector = std::vector<LabelComponentPairType>(m_SizeMap.begin(), m_SizeMap.end());
 
-  while (!it.IsAtEnd())
-  {
-    // Get the input pixel value
-    const auto inputValue = static_cast<LabelType>(it.Get());
-
-    // if the input pixel is not the background
-    if (inputValue != NumericTraits<LabelType>::ZeroValue())
-    {
-      // Does this label already exist
-      mapIt = sizeMap.find(inputValue);
-      if (mapIt == sizeMap.end())
-      {
-        // label is not currently in the map
-        initialSize.m_ObjectNumber = inputValue;
-        sizeMap.insert(MapValueType(inputValue, initialSize));
-      }
-      else
-      {
-        // label is already in the map, update the values
-        (*mapIt).second.m_SizeInPixels++;
-        (*mapIt).second.m_SizeInPhysicalUnits += physicalPixelSize;
-      }
-    }
-
-    // increment the iterators
-    ++it;
-    progress.CompletedPixel();
-  }
-
-  // Now we need to reorder the labels. Use the m_ObjectSortingOrder
-  // to determine how to sort the objects. Define a map for converting
-  // input labels to output labels.
-  //
-  using VectorType = std::vector<RelabelComponentObjectType>;
-  VectorType                    sizeVector;
-  typename VectorType::iterator vit;
-
-  using RelabelMapType = std::map<LabelType, LabelType>;
-  using RelabelMapValueType = typename RelabelMapType::value_type;
-  RelabelMapType relabelMap;
-
-  // copy the original object map to a vector so we can sort it
-  for (mapIt = sizeMap.begin(); mapIt != sizeMap.end(); ++mapIt)
-  {
-    sizeVector.push_back((*mapIt).second);
-  }
+  // free memory by swapping to a default constructed object.
+  MapType().swap(m_SizeMap);
 
   // Sort the objects by size by default, unless m_SortByObjectSize
   // is set to false.
   if (m_SortByObjectSize)
   {
-    std::sort(sizeVector.begin(), sizeVector.end(), RelabelComponentSizeInPixelsComparator());
+    std::sort(sizeVector.begin(),
+              sizeVector.end(),
+              [](const LabelComponentPairType & a, const LabelComponentPairType & b) -> bool {
+                return a.second.m_SizeInPixels > b.second.m_SizeInPixels ||
+                       (!(a.second.m_SizeInPixels < b.second.m_SizeInPixels) && a.first < b.first);
+              });
   }
+
+
+  // A map from the input pixel labels to the output labels
+  using RelabelMapType = std::map<LabelType, OutputPixelType>;
+  RelabelMapType relabelMap;
 
   // create a lookup table to map the input label to the output label.
   // cache the object sizes for later access by the user
-  m_NumberOfObjects = static_cast<LabelType>(sizeVector.size());
-  m_OriginalNumberOfObjects = static_cast<LabelType>(sizeVector.size());
+  m_NumberOfObjects = sizeVector.size();
+  m_OriginalNumberOfObjects = sizeVector.size();
   m_SizeOfObjectsInPixels.clear();
   m_SizeOfObjectsInPixels.resize(m_NumberOfObjects);
-  m_SizeOfObjectsInPhysicalUnits.clear();
-  m_SizeOfObjectsInPhysicalUnits.resize(m_NumberOfObjects);
-  int NumberOfObjectsRemoved = 0;
-  for (i = 0, vit = sizeVector.begin(); vit != sizeVector.end(); ++vit)
+  SizeValueType   NumberOfObjectsRemoved = 0;
+  OutputPixelType outputLabel = 0;
+  for (const auto & sizeVectorPair : sizeVector)
   {
-    // if we find an object smaller than the minimum size, we
-    // terminate the loop.
-    if (m_MinimumObjectSize > 0 && (*vit).m_SizeInPixels < m_MinimumObjectSize)
+    // skip objects that are too small ( but don't increment the output label )
+    if (m_MinimumObjectSize > 0 && sizeVectorPair.second.m_SizeInPixels < m_MinimumObjectSize)
     {
       // map small objects to the background
       ++NumberOfObjectsRemoved;
-      relabelMap.insert(RelabelMapValueType((*vit).m_ObjectNumber, 0));
+      relabelMap.insert({ sizeVectorPair.first, NumericTraits<OutputPixelType>::ZeroValue() });
     }
     else
     {
+      if (outputLabel == NumericTraits<OutputPixelType>::max())
+      {
+        itkExceptionMacro("Output range exceeded!");
+      }
       // map for input labels to output labels (Note we use i+1 in the
       // map since index 0 is the background)
-      relabelMap.insert(RelabelMapValueType((*vit).m_ObjectNumber, i + 1));
+      relabelMap.insert({ sizeVectorPair.first, outputLabel + 1 });
 
       // cache object sizes for later access by the user
-      m_SizeOfObjectsInPixels[i] = (*vit).m_SizeInPixels;
-      m_SizeOfObjectsInPhysicalUnits[i] = (*vit).m_SizeInPhysicalUnits;
-      ++i;
+      m_SizeOfObjectsInPixels[outputLabel] = sizeVectorPair.second.m_SizeInPixels;
+      ++outputLabel;
     }
   }
 
-  // update number of objects and resize cache vectors if we have removed small
+  // update number of objects and resize vectors if we have removed small
   // objects
   m_NumberOfObjects -= NumberOfObjectsRemoved;
   if (NumberOfObjectsRemoved > 0)
   {
     m_SizeOfObjectsInPixels.resize(m_NumberOfObjects);
-    m_SizeOfObjectsInPhysicalUnits.resize(m_NumberOfObjects);
   }
+
+  // compute the object sizes in physical space too
+  m_SizeOfObjectsInPhysicalUnits.resize(m_NumberOfObjects);
+  std::transform(m_SizeOfObjectsInPixels.begin(),
+                 m_SizeOfObjectsInPixels.end(),
+                 m_SizeOfObjectsInPhysicalUnits.begin(),
+                 [physicalPixelSize](ObjectSizeType sizeInPixels) { return sizeInPixels * physicalPixelSize; });
+
+
+  // After the objects stats are computed add in the background label so the relabelMap can be directly applied.
+  relabelMap.insert({ NumericTraits<LabelType>::ZeroValue(), NumericTraits<OutputPixelType>::ZeroValue() });
 
   // Second pass: walk just the output requested region and relabel
   // the necessary pixels.
@@ -186,35 +218,40 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Allocate the output
   this->AllocateOutputs();
 
-  // Remap the labels.  Note we only walk the region of the output
-  // that was requested.  This may be a subset of the input image.
-  OutputPixelType                      outputValue;
-  ImageRegionIterator<OutputImageType> oit;
-  oit = ImageRegionIterator<OutputImageType>(output, output->GetRequestedRegion());
-  it = ImageRegionConstIterator<InputImageType>(input, output->GetRequestedRegion());
+  // In parallel apply the relabling map
+  ProgressTransformer progressTransformer2(0.5f, 1.0f, this);
+  this->GetMultiThreader()->template ParallelizeImageRegion<ImageDimension>(
+    output->GetRequestedRegion(),
+    [this, &relabelMap](const RegionType & outputRegionForThread) {
+      ImageScanlineIterator<OutputImageType>     oit(this->GetOutput(), outputRegionForThread);
+      ImageScanlineConstIterator<InputImageType> it(this->GetInput(), outputRegionForThread);
 
-  it.GoToBegin();
-  oit.GoToBegin();
-  while (!oit.IsAtEnd())
-  {
-    const auto inputValue = static_cast<LabelType>(it.Get());
+      auto mapIt = relabelMap.cbegin();
 
-    if (inputValue != NumericTraits<LabelType>::ZeroValue())
-    {
-      // lookup the mapped label
-      outputValue = static_cast<OutputPixelType>(relabelMap[inputValue]);
-      oit.Set(outputValue);
-    }
-    else
-    {
-      oit.Set(inputValue);
-    }
+      while (!oit.IsAtEnd())
+      {
+        while (!oit.IsAtEndOfLine())
+        {
+          const auto && inputValue = it.Get();
 
-    // increment the iterators
-    ++it;
-    ++oit;
-    progress.CompletedPixel();
-  }
+          if (mapIt->first != inputValue)
+          {
+            mapIt = relabelMap.find(inputValue);
+          }
+
+          // no new labels should be encountered in the input
+          assert(mapIt != mapIt.cend());
+
+          oit.Set(mapIt->second);
+
+          ++oit;
+          ++it;
+        }
+        oit.NextLine();
+        it.NextLine();
+      }
+    },
+    progressTransformer2.GetProcessObject());
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -226,19 +263,15 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream &
   os << indent << "NumberOfObjects: " << m_NumberOfObjects << std::endl;
   os << indent << "OriginalNumberOfObjects: " << m_OriginalNumberOfObjects << std::endl;
   os << indent << "NumberOfObjectsToPrint: " << m_NumberOfObjectsToPrint << std::endl;
-  os << indent << "MinimumObjectSizez: " << m_MinimumObjectSize << std::endl;
+  os << indent << "MinimumObjectSizes: " << m_MinimumObjectSize << std::endl;
   os << indent << "SortByObjectSize: " << m_SortByObjectSize << std::endl;
 
   typename ObjectSizeInPixelsContainerType::const_iterator it;
   ObjectSizeInPhysicalUnitsContainerType::const_iterator   fit;
-  LabelType                                                i;
+  SizeValueType                                            i;
 
   // limit the number of objects to print
-  LabelType numPrint = m_NumberOfObjectsToPrint;
-  if (numPrint > m_SizeOfObjectsInPixels.size())
-  {
-    numPrint = static_cast<LabelType>(m_SizeOfObjectsInPixels.size());
-  }
+  SizeValueType numPrint = std::min(m_NumberOfObjectsToPrint, m_SizeOfObjectsInPixels.size());
 
   for (i = 0, it = m_SizeOfObjectsInPixels.begin(), fit = m_SizeOfObjectsInPhysicalUnits.begin(); i < numPrint;
        ++it, ++fit, ++i)

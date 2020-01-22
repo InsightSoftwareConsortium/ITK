@@ -21,6 +21,7 @@
 #include "itkInPlaceImageFilter.h"
 #include "itkImage.h"
 #include <vector>
+#include <mutex>
 
 namespace itk
 {
@@ -131,14 +132,14 @@ public:
   itkNewMacro(Self);
 
   /** Type used as identifier for the different component labels. */
-  using LabelType = IdentifierType;
+  using LabelType = InputPixelType;
 
   /** Type used to count number of pixels in objects. */
   using ObjectSizeType = SizeValueType;
 
   /** Get the number of objects in the image. This information is only
    * valid after the filter has executed. */
-  itkGetConstMacro(NumberOfObjects, LabelType);
+  itkGetConstMacro(NumberOfObjects, SizeValueType);
 
   using ObjectSizeInPixelsContainerType = std::vector<ObjectSizeType>;
   using ObjectSizeInPhysicalUnitsContainerType = std::vector<float>;
@@ -148,12 +149,12 @@ public:
    * the filter has executed. If the caller has not specified a
    * minimum object size, OriginalNumberOfObjects is the same as
    * NumberOfObjects. */
-  itkGetConstMacro(OriginalNumberOfObjects, LabelType);
+  itkGetConstMacro(OriginalNumberOfObjects, SizeValueType);
 
   /** Get/Set the number of objects enumerated and described when the
    * filter is printed. */
-  itkSetMacro(NumberOfObjectsToPrint, LabelType);
-  itkGetConstReferenceMacro(NumberOfObjectsToPrint, LabelType);
+  itkSetMacro(NumberOfObjectsToPrint, SizeValueType);
+  itkGetConstReferenceMacro(NumberOfObjectsToPrint, SizeValueType);
 
   /** Set the minimum size in pixels for an object. All objects
    * smaller than this size will be discarded and will not appear
@@ -254,6 +255,9 @@ protected:
   void
   GenerateData() override;
 
+  void
+  ParallelComputeLabels(const RegionType & inputRegion);
+
   /** RelabelComponentImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
    * \sa ProcessObject::GenerateInputRequestedRegion(). */
@@ -266,45 +270,27 @@ protected:
 
   struct RelabelComponentObjectType
   {
-    LabelType      m_ObjectNumber;
     ObjectSizeType m_SizeInPixels;
-    float          m_SizeInPhysicalUnits;
-  };
 
-  // put the function objects here for sorting in descending order
-  class RelabelComponentSizeInPixelsComparator
-  {
-  public:
-    bool
-    operator()(const RelabelComponentObjectType & a, const RelabelComponentObjectType & b)
+    RelabelComponentObjectType &
+    operator+=(const RelabelComponentObjectType & other)
     {
-      if (a.m_SizeInPixels > b.m_SizeInPixels)
-      {
-        return true;
-      }
-      else if (a.m_SizeInPixels < b.m_SizeInPixels)
-      {
-        return false;
-      }
-      // size in pixels and physical units are the same, sort based on
-      // original object number
-      else if (a.m_ObjectNumber < b.m_ObjectNumber)
-      {
-        return true;
-      }
-      else
-      {
-        return false;
-      }
+      this->m_SizeInPixels += other.m_SizeInPixels;
+      return *this;
     }
   };
 
 private:
-  LabelType      m_NumberOfObjects{ 0 };
-  LabelType      m_NumberOfObjectsToPrint{ 10 };
-  LabelType      m_OriginalNumberOfObjects{ 0 };
+  SizeValueType  m_NumberOfObjects{ 0 };
+  SizeValueType  m_NumberOfObjectsToPrint{ 10 };
+  SizeValueType  m_OriginalNumberOfObjects{ 0 };
   ObjectSizeType m_MinimumObjectSize{ 0 };
   bool           m_SortByObjectSize{ true };
+
+  std::mutex m_Mutex;
+
+  using MapType = std::map<LabelType, RelabelComponentObjectType>;
+  MapType m_SizeMap;
 
   ObjectSizeInPixelsContainerType        m_SizeOfObjectsInPixels;
   ObjectSizeInPhysicalUnitsContainerType m_SizeOfObjectsInPhysicalUnits;
