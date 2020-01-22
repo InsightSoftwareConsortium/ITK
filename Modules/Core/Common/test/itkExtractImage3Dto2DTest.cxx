@@ -85,13 +85,14 @@ itkExtractImage3Dto2DTest(int, char *[])
   extractRegion.SetIndex(extractIndex);
   extract->SetExtractionRegion(extractRegion);
   extract->Update();
+
+  extractedImage = extract->GetOutput();
+  Image2DType::DirectionType dir2 = extractedImage->GetDirection();
   // remove first column/row, should obtain :
   // 0 1
   // 1 0
-  if (itk::Math::NotExactlyEquals(extract->GetOutput()->GetDirection()[0][0], 0) ||
-      itk::Math::NotExactlyEquals(extract->GetOutput()->GetDirection()[1][1], 0) ||
-      itk::Math::NotExactlyEquals(extract->GetOutput()->GetDirection()[0][1], 1) ||
-      itk::Math::NotExactlyEquals(extract->GetOutput()->GetDirection()[1][0], 1))
+  if (itk::Math::NotExactlyEquals(dir2[0][0], 0) || itk::Math::NotExactlyEquals(dir2[0][1], 1) ||
+      itk::Math::NotExactlyEquals(dir2[1][0], 1) || itk::Math::NotExactlyEquals(dir2[1][1], 0))
   {
     return EXIT_FAILURE;
   }
