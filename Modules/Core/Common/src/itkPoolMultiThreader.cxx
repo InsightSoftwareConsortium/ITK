@@ -166,8 +166,6 @@ PoolMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
                                      ArrayThreadingFunctorType aFunc,
                                      ProcessObject *           filter)
 {
-  MultiThreaderBase::HandleFilterProgress(filter, 0.0f);
-
   if (firstIndex + 1 < lastIndexPlus1)
   {
     SizeValueType chunkSize = (lastIndexPlus1 - firstIndex) / m_NumberOfWorkUnits;
@@ -192,16 +190,16 @@ PoolMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
     }
     itkAssertOrThrowMacro(workUnit <= m_NumberOfWorkUnits, "Number of work units was somehow miscounted!");
 
+    ProgressReporter reporter(filter, 0, workUnit);
+
     // execute this thread's share
     ExceptionHandler exceptionHandler([lambda, firstIndex, chunkSize] { lambda(firstIndex, firstIndex + chunkSize); });
+    reporter.CompletedPixel();
 
     // now wait for the other computations to finish
     for (SizeValueType i = 1; i < workUnit; i++)
     {
-      if (filter)
-      {
-        filter->UpdateProgress(i / float(workUnit));
-      }
+      reporter.CompletedPixel();
 
       exceptionHandler.TryToGetFuture(m_ThreadInfoArray[i]);
     }
@@ -213,8 +211,6 @@ PoolMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
     aFunc(firstIndex);
   }
   // else nothing needs to be executed
-
-  MultiThreaderBase::HandleFilterProgress(filter, 1.0f);
 }
 
 void
@@ -224,11 +220,11 @@ PoolMultiThreader ::ParallelizeImageRegion(unsigned int         dimension,
                                            ThreadingFunctorType funcP,
                                            ProcessObject *      filter)
 {
-  MultiThreaderBase::HandleFilterProgress(filter, 0.0f);
-
   if (m_NumberOfWorkUnits == 1) // no multi-threading wanted
   {
+    ProgressReporter reporter(filter, 0, 1);
     funcP(index, size); // process whole region
+    reporter.CompletedPixel();
   }
   else
   {
@@ -246,6 +242,7 @@ PoolMultiThreader ::ParallelizeImageRegion(unsigned int         dimension,
     {
       const ImageRegionSplitterBase * splitter = ImageSourceCommon::GetGlobalDefaultSplitter();
       ThreadIdType                    splitCount = splitter->GetNumberOfSplits(region, m_NumberOfWorkUnits);
+      ProgressReporter                reporter(filter, 0, splitCount);
       itkAssertOrThrowMacro(splitCount <= m_NumberOfWorkUnits, "Split count is greater than number of work units!");
       ImageIORegion iRegion;
       ThreadIdType  total;
@@ -276,17 +273,13 @@ PoolMultiThreader ::ParallelizeImageRegion(unsigned int         dimension,
       // now wait for the other computations to finish
       for (ThreadIdType i = 1; i < splitCount; i++)
       {
-        if (filter)
-        {
-          filter->UpdateProgress(i / float(splitCount));
-        }
         exceptionHandler.TryToGetFuture(m_ThreadInfoArray[i]);
+        reporter.CompletedPixel();
       }
 
       exceptionHandler.RethrowFirstCaughtException();
     }
   }
-  MultiThreaderBase::HandleFilterProgress(filter, 1.0f);
 }
 
 void

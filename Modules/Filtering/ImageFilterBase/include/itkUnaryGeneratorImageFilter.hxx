@@ -21,6 +21,7 @@
 #include "itkUnaryGeneratorImageFilter.h"
 #include "itkImageScanlineIterator.h"
 #include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -98,6 +99,9 @@ UnaryGeneratorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDat
   const TInputImage * inputPtr = this->GetInput();
   TOutputImage *      outputPtr = this->GetOutput(0);
 
+  const SizeValueType   numberOfLinesToProcess = outputPtr->GetRequestedRegion().GetNumberOfPixels() / regionSize[0];
+  TotalProgressReporter progress(this, numberOfLinesToProcess);
+
   // Define the portion of the input to walk for this thread, using
   // the CallCopyOutputRegionToInputRegion method allows for the input
   // and output images to be different dimensions
@@ -119,6 +123,7 @@ UnaryGeneratorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDat
       ++inputIt;
       ++outputIt;
     }
+    progress.CompletedPixel();
     inputIt.NextLine();
     outputIt.NextLine();
   }

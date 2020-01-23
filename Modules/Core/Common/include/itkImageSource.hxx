@@ -201,6 +201,7 @@ ImageSource<TOutputImage>::ClassicMultiThread(ThreadFunctionType callbackFunctio
     splitter->GetNumberOfSplits(outputPtr->GetRequestedRegion(), this->GetNumberOfWorkUnits());
 
   this->GetMultiThreader()->SetNumberOfWorkUnits(validThreads);
+  this->GetMultiThreader()->SetUpdateProgress(false);
   this->GetMultiThreader()->SetSingleMethod(callbackFunction, &str);
 
   this->GetMultiThreader()->SingleMethodExecute();
@@ -225,13 +226,17 @@ ImageSource<TOutputImage>::GenerateData()
   }
   else
   {
+    // give process object if progress reporting is to occur from the threader
+    Self * processObjectForThreader = this->GetThreaderUpdateProgress() ? this : nullptr;
+
     this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
+    this->GetMultiThreader()->SetUpdateProgress(this->GetThreaderUpdateProgress());
     this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
       this->GetOutput()->GetRequestedRegion(),
       [this](const OutputImageRegionType & outputRegionForThread) {
         this->DynamicThreadedGenerateData(outputRegionForThread);
       },
-      this);
+      processObjectForThreader);
   }
 
   // Call a method that can be overridden by a subclass to perform

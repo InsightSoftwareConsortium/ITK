@@ -31,6 +31,7 @@
 #include <cstdio>
 #include <sstream>
 #include <algorithm>
+#include "itkMultiThreaderBase.h"
 
 namespace itk
 {
@@ -61,7 +62,7 @@ ProcessObject ::ProcessObject()
   m_NumberOfRequiredOutputs = 0;
 
   m_AbortGenerateData = false;
-  m_Progress = 0.0f;
+  m_Progress = 0u;
   m_Updating = false;
 
   DataObjectPointerMap::value_type p("Primary", DataObjectPointer());
@@ -1143,17 +1144,33 @@ ProcessObject ::IsIndexedOutputName(const DataObjectIdentifierType & name) const
 void
 ProcessObject ::UpdateProgress(float progress)
 {
-  /*
-   * Update the progress of the process object. If a ProgressMethod exists,
-   * execute it. Then set the Progress ivar to amount. The parameter amount
-   * should range between (0,1).
-   */
-
-  // Clamp the value to be between 0 and 1.
-  m_Progress = std::max(progress, 0.0f);
-  m_Progress = std::min(m_Progress, 1.0f);
+  // value is clamped between 0 and 1.
+  m_Progress = progressFloatToFixed(progress);
 
   this->InvokeEvent(ProgressEvent());
+}
+
+
+void
+ProcessObject::IncrementProgress(float increment)
+{
+  // Clamp the value to be between 0 and 1.
+  uint32_t integerIncrement = progressFloatToFixed(increment);
+
+  uint32_t oldProgress = m_Progress;
+
+  uint32_t updatedProgress = m_Progress.fetch_add(integerIncrement);
+
+  // check if progress overflowed
+  if (oldProgress > updatedProgress)
+  {
+    m_Progress = std::numeric_limits<uint32_t>::max();
+  }
+
+  if (std::this_thread::get_id() == this->m_UpdateThreadID)
+  {
+    this->InvokeEvent(ProgressEvent());
+  }
 }
 
 
@@ -1256,7 +1273,7 @@ ProcessObject ::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "ReleaseDataFlag: " << (this->GetReleaseDataFlag() ? "On" : "Off") << std::endl;
   os << indent << "ReleaseDataBeforeUpdateFlag: " << (m_ReleaseDataBeforeUpdateFlag ? "On" : "Off") << std::endl;
   os << indent << "AbortGenerateData: " << (m_AbortGenerateData ? "On" : "Off") << std::endl;
-  os << indent << "Progress: " << m_Progress << std::endl;
+  os << indent << "Progress: " << progressFixedToFloat(m_Progress) << std::endl;
   os << indent << "Multithreader: " << std::endl;
   m_MultiThreader->PrintSelf(os, indent.GetNextIndent());
 }
@@ -1296,6 +1313,7 @@ ProcessObject ::PropagateResetPipeline()
   // Clear the updating flag.
   m_Updating = false;
 
+  m_UpdateThreadID = std::thread::id();
   //
   // Loop through the inputs
   //
@@ -1630,6 +1648,7 @@ ProcessObject ::UpdateOutputData(DataObject * itkNotUsed(output))
     return;
   }
 
+
   /**
    * Prepare all the outputs. This may deallocate previous bulk data.
    */
@@ -1642,6 +1661,8 @@ ProcessObject ::UpdateOutputData(DataObject * itkNotUsed(output))
    * inputs since they may lead back to the same data object.
    */
   m_Updating = true;
+  m_UpdateThreadID = std::this_thread::get_id();
+
   if (m_Inputs.size() == 1)
   {
     if (this->GetPrimaryInput())
@@ -1681,7 +1702,7 @@ ProcessObject ::UpdateOutputData(DataObject * itkNotUsed(output))
    * before we start to execute is 0.0.
    */
   m_AbortGenerateData = false;
-  m_Progress = 0.0f;
+  m_Progress = 0u;
 
   try
   {
@@ -1774,6 +1795,11 @@ ProcessObject ::RestoreInputReleaseDataFlags()
   m_CachedInputReleaseDataFlags.clear();
 }
 
+void
+ProcessObject::SetThreaderUpdateProgress(bool arg)
+{
+  this->m_ThreaderUpdateProgress = arg;
+}
 
 void
 ProcessObject ::GenerateOutputInformation()

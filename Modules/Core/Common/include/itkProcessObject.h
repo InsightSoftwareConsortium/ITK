@@ -29,17 +29,20 @@
 #define itkProcessObject_h
 
 #include "itkDataObject.h"
-#include "itkDomainThreader.h"
-#include "itkMultiThreaderBase.h"
 #include "itkObjectFactory.h"
 #include "itkNumericTraits.h"
+#include "itkThreadSupport.h"
 #include <vector>
 #include <map>
 #include <set>
 #include <algorithm>
+#include <thread>
 
 namespace itk
 {
+
+class MultiThreaderBase;
+
 /** \class ProcessObject
  * \brief The base class for all process objects (source,
  *        filters, mappers) in the Insight data processing pipeline.
@@ -303,19 +306,13 @@ public:
    * the filter has completed execution.  The ProgressEvent is NOT
    * invoked.
    * This method is deprecated because filters should not be calling
-   * SetProgress directly but should be using UpdateProgress instead.
-   * We avoid the use of the itkSetClampMacro because that macro calls
-   * Modified on the filter, which will cause the filter to rerun even
-   * if it doesn't need to.
-   * Thus, we implement the SetClampMacro directly without the call to
-   * Modified. */
+   * SetProgress directly but should be using UpdateProgress or IncrementProgress instead.
+   */
 #if !defined(ITK_LEGACY_REMOVE)
   void
   SetProgress(float progress)
   {
-    // Clamp the value to be between 0 and 1.
-    m_Progress = std::max(progress, 0.0f);
-    m_Progress = std::min(m_Progress, 1.0f);
+    m_Progress = progressFloatToFixed(progress);
   }
 #endif
 
@@ -324,16 +321,33 @@ public:
    * The progress is a floating number in [0,1] with 0 meaning no
    * progress and 1 meaning the filter has completed execution.
    */
-  itkGetConstReferenceMacro(Progress, float);
+  virtual float
+  GetProgress() const
+  {
+    return progressFixedToFloat(m_Progress);
+  }
 
   /** \brief Update the progress of the process object.
    *
    * Sets the Progress ivar to amount and invokes any observers for
    * the ProgressEvent. The parameter amount should be in [0,1] and is
    * the cumulative (not incremental) progress.
+   *
+   * Multiple thread should not call this method, since they may have computed different values and increments may get
+   * lost.
    */
   void
   UpdateProgress(float progress);
+
+  /** \brief Increment the progress of the process object.
+   *
+   * Atomically add the the current progress and may invoke observers of the ProgressEvent. Progress is represented in
+   * [0.0,1.0] or percentage. This method will invoke the ProgressEvent when called by the same as the pipeline.
+   *
+   * Multiple threads may call this method and the total progress will be atomically incremented.
+   */
+  void
+  IncrementProgress(float increment);
 
   /** \brief Bring this filter up-to-date.
    *
@@ -873,6 +887,43 @@ protected:
   virtual void
   RestoreInputReleaseDataFlags();
 
+  /**
+   * When true, the MultiThreader will report course grain progress. If set to false, a progress must be explicitly
+   * updated in derived filters.
+   */
+  itkGetConstMacro(ThreaderUpdateProgress, bool);
+  itkBooleanMacro(ThreaderUpdateProgress);
+  virtual void
+  SetThreaderUpdateProgress(bool arg);
+
+
+  /**
+   * Internal method to convert internal integer progress to float [0.0, 1.0]
+   */
+  static inline constexpr float
+  progressFixedToFloat(uint32_t fixed)
+  {
+    return double(fixed) / double(std::numeric_limits<uint32_t>::max());
+  };
+
+  /**
+   * Internal method convert floating point progress [0.0, 1.0] to internal integer representation. Values outside the
+   * [0.0, 1.0] range are clamped.
+   */
+  static inline uint32_t
+  progressFloatToFixed(float f)
+  {
+    if (f <= 0.0f)
+    {
+      return 0;
+    }
+    if (f >= 1.0f)
+    {
+      return std::numeric_limits<uint32_t>::max();
+    }
+    return static_cast<double>(f) * std::numeric_limits<uint32_t>::max();
+  };
+
   /** These ivars are made protected so filters like itkStreamingImageFilter
    * can access them directly. */
 
@@ -912,13 +963,18 @@ private:
   NameSet m_RequiredInputNames;
 
   /** These support the progress method and aborting filter execution. */
-  bool  m_AbortGenerateData;
-  float m_Progress;
+  bool                  m_AbortGenerateData;
+  std::atomic<uint32_t> m_Progress;
+
+
+  std::thread::id m_UpdateThreadID;
 
   /** Support processing data in multiple threads. Used by subclasses
    * (e.g., ImageSource). */
-  MultiThreaderType::Pointer m_MultiThreader;
-  ThreadIdType               m_NumberOfWorkUnits;
+  itk::SmartPointer<MultiThreaderType> m_MultiThreader;
+  ThreadIdType                         m_NumberOfWorkUnits;
+
+  bool m_ThreaderUpdateProgress{ true };
 
   /** Memory management ivars */
   bool m_ReleaseDataBeforeUpdateFlag;

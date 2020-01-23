@@ -19,6 +19,7 @@
 #define itkVideoSource_hxx
 
 #include "itkVideoSource.h"
+#include "itkMultiThreaderBase.h"
 
 namespace itk
 {

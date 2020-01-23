@@ -58,6 +58,7 @@ set(ITKCommon_SRCS
   itkLogOutput.cxx
   itkLoggerOutput.cxx
   itkProgressAccumulator.cxx
+  itkTotalProgressReporter.cxx
   itkNumericTraits.cxx
   itkHexahedronCellTopology.cxx
   itkIndent.cxx

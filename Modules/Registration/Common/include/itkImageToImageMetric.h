@@ -24,6 +24,7 @@
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkSpatialObject.h"
 #include "itkCentralDifferenceImageFunction.h"
+#include "itkMultiThreaderBase.h"
 
 namespace itk
 {

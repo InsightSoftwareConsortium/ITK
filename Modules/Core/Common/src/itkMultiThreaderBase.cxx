@@ -48,6 +48,8 @@
 #  include "itkTBBMultiThreader.h"
 #endif
 
+#include "itkTotalProgressReporter.h"
+
 namespace itk
 {
 
@@ -268,6 +270,12 @@ MultiThreaderBase::SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
   m_NumberOfWorkUnits = std::max(m_NumberOfWorkUnits, NumericTraits<ThreadIdType>::OneValue());
 }
 
+void
+MultiThreaderBase::SetUpdateProgress(bool updates)
+{
+  this->m_UpdateProgress = updates;
+}
+
 ThreadIdType
 MultiThreaderBase::GetGlobalDefaultNumberOfThreads()
 {
@@ -455,28 +463,6 @@ MultiThreaderBase ::SingleMethodProxy(void * arg)
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
-
-void
-MultiThreaderBase ::HandleFilterProgress(ProcessObject * filter, float progress)
-{
-  if (filter)
-  {
-    if (progress >= 0.0f)
-    {
-      filter->UpdateProgress(progress);
-    }
-    if (filter->GetAbortGenerateData())
-    {
-      std::string    msg;
-      ProcessAborted e(__FILE__, __LINE__);
-      msg += "AbortGenerateData was called in " + std::string(filter->GetNameOfClass()) +
-             " during multi-threaded part of filter execution";
-      e.SetDescription(msg);
-      throw e;
-    }
-  }
-}
-
 void
 MultiThreaderBase ::ParallelizeArray(SizeValueType             firstIndex,
                                      SizeValueType             lastIndexPlus1,
@@ -485,13 +471,15 @@ MultiThreaderBase ::ParallelizeArray(SizeValueType             firstIndex,
 {
   // This implementation simply delegates parallelization to the old interface
   // SetSingleMethod+SingleMethodExecute. This method is meant to be overloaded!
-  MultiThreaderBase::HandleFilterProgress(filter, 0.0f);
+
+  // Upon destruction, progress will be set to 1.0
+  ProgressReporter progress(filter, 0, 1);
 
   if (firstIndex + 1 < lastIndexPlus1)
   {
     struct ArrayCallback acParams
     {
-      aFunc, firstIndex, lastIndexPlus1, filter, std::this_thread::get_id(), { 0 }
+      aFunc, firstIndex, lastIndexPlus1, filter
     };
     this->SetSingleMethod(&MultiThreaderBase::ParallelizeArrayHelper, &acParams);
     this->SingleMethodExecute();
@@ -501,8 +489,6 @@ MultiThreaderBase ::ParallelizeArray(SizeValueType             firstIndex,
     aFunc(firstIndex);
   }
   // else nothing needs to be executed
-
-  MultiThreaderBase::HandleFilterProgress(filter, 1.0f);
 }
 
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
@@ -514,8 +500,6 @@ MultiThreaderBase ::ParallelizeArrayHelper(void * arg)
   ThreadIdType threadCount = threadInfo->NumberOfWorkUnits;
   auto *       acParams = static_cast<struct ArrayCallback *>(threadInfo->UserData);
 
-  MultiThreaderBase::HandleFilterProgress(acParams->filter);
-
   SizeValueType range = acParams->lastIndexPlus1 - acParams->firstIndex;
   double        fraction = double(range) / threadCount;
   SizeValueType first = acParams->firstIndex + fraction * threadId;
@@ -526,18 +510,13 @@ MultiThreaderBase ::ParallelizeArrayHelper(void * arg)
     afterLast = acParams->lastIndexPlus1;
   }
 
+  TotalProgressReporter reporter(acParams->filter, range);
+
   for (SizeValueType i = first; i < afterLast; i++)
   {
     acParams->functor(i);
-    if (acParams->filter)
-    {
-      ++acParams->progress;
-      // make sure we are updating progress only from the thead which invoked us
-      if (acParams->callingThread == std::this_thread::get_id())
-      {
-        acParams->filter->UpdateProgress(float(acParams->progress) / range);
-      }
-    }
+
+    reporter.CompletedPixel();
   }
 
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
@@ -553,7 +532,7 @@ MultiThreaderBase ::ParallelizeImageRegion(unsigned int                         
 {
   // This implementation simply delegates parallelization to the old interface
   // SetSingleMethod+SingleMethodExecute. This method is meant to be overloaded!
-  MultiThreaderBase::HandleFilterProgress(filter, 0.0f);
+  ProgressReporter progress(filter, 0, 1);
 
   SizeValueType pixelCount = 1;
   for (unsigned d = 0; d < dimension; d++)
@@ -562,12 +541,10 @@ MultiThreaderBase ::ParallelizeImageRegion(unsigned int                         
   }
   struct RegionAndCallback rnc
   {
-    funcP, dimension, index, size, filter, std::this_thread::get_id(), pixelCount, { 0 }
+    funcP, dimension, index, size, 0, filter
   };
   this->SetSingleMethod(&MultiThreaderBase::ParallelizeImageRegionHelper, &rnc);
   this->SingleMethodExecute();
-
-  MultiThreaderBase::HandleFilterProgress(filter, 1.0f);
 }
 
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
@@ -588,21 +565,13 @@ MultiThreaderBase ::ParallelizeImageRegionHelper(void * arg)
   }
   ThreadIdType total = splitter->GetSplit(threadId, threadCount, region);
 
-  MultiThreaderBase::HandleFilterProgress(rnc->filter);
+  TotalProgressReporter reporter(rnc->filter, rnc->pixelCount);
 
   if (threadId < total)
   {
     rnc->functor(&region.GetIndex()[0], &region.GetSize()[0]);
-    if (rnc->filter)
-    {
-      SizeValueType pixelCount = region.GetNumberOfPixels();
-      rnc->pixelProgress += pixelCount;
-      // make sure we are updating progress only from the thead which invoked filter->Update();
-      if (rnc->callingThread == std::this_thread::get_id())
-      {
-        rnc->filter->UpdateProgress(float(rnc->pixelProgress) / rnc->pixelCount);
-      }
-    }
+
+    reporter.Completed(region.GetNumberOfPixels());
   }
 
   return ITK_THREAD_RETURN_DEFAULT_VALUE;

@@ -37,6 +37,7 @@
 #include "itkSingletonMacro.h"
 #include <functional>
 #include <thread>
+#include "itkProgressReporter.h"
 
 
 namespace itk
@@ -132,6 +133,10 @@ public:
   virtual void
   SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits);
   itkGetConstMacro(NumberOfWorkUnits, ThreadIdType);
+
+  virtual void
+  SetUpdateProgress(bool updates);
+  itkGetConstMacro(UpdateProgress, bool);
 
   /** Set/Get the maximum number of threads to use when multithreading.  It
    * will be clamped to the range [ 1, ITK_MAX_THREADS ] because several arrays
@@ -359,9 +364,9 @@ ITK_GCC_PRAGMA_DIAG_POP()
   {
     if (VDimension <= 1) // Cannot split, no parallelization
     {
-      MultiThreaderBase::HandleFilterProgress(filter, 0.0f);
+
+      ProgressReporter progress(filter, 0, requestedRegion.GetNumberOfPixels());
       funcP(requestedRegion);
-      MultiThreaderBase::HandleFilterProgress(filter, 1.0f);
     }
     else // Can split, parallelize!
     {
@@ -413,11 +418,6 @@ ITK_GCC_PRAGMA_DIAG_POP()
                          ThreadingFunctorType funcP,
                          ProcessObject *      filter);
 
-  /** Updates progress if progress is non-negative and checks for abort.
-   * If "abort generate data" is set, throws the ProcessAborted exception. */
-  static void
-  HandleFilterProgress(ProcessObject * filter, float progress = -1.0f);
-
 protected:
   MultiThreaderBase();
   ~MultiThreaderBase() override;
@@ -426,12 +426,10 @@ protected:
 
   struct ArrayCallback
   {
-    ArrayThreadingFunctorType  functor;
-    const SizeValueType        firstIndex;
-    const SizeValueType        lastIndexPlus1;
-    ProcessObject *            filter;
-    std::thread::id            callingThread;
-    std::atomic<SizeValueType> progress;
+    ArrayThreadingFunctorType functor;
+    const SizeValueType       firstIndex;
+    const SizeValueType       lastIndexPlus1;
+    ProcessObject *           filter;
   };
 
   static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
@@ -439,14 +437,12 @@ protected:
 
   struct RegionAndCallback
   {
-    ThreadingFunctorType       functor;
-    unsigned int               dimension;
-    const IndexValueType *     index;
-    const SizeValueType *      size;
-    ProcessObject *            filter;
-    std::thread::id            callingThread;
-    SizeValueType              pixelCount;
-    std::atomic<SizeValueType> pixelProgress;
+    ThreadingFunctorType   functor;
+    unsigned int           dimension;
+    const IndexValueType * index;
+    const SizeValueType *  size;
+    SizeValueType          pixelCount;
+    ProcessObject *        filter;
   };
 
   static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
@@ -484,6 +480,8 @@ private:
   /** Only used to synchronize the global variable across static libraries.*/
   itkGetGlobalDeclarationMacro(MultiThreaderBaseGlobals, PimplGlobals);
 
+  bool m_UpdateProgress{ true };
+
   static MultiThreaderBaseGlobals * m_PimplGlobals;
   /** Friends of Multithreader.
    * ProcessObject is a friend so that it can call PrintSelf() on its
@@ -494,5 +492,8 @@ private:
   static ThreadIdType
   GetGlobalDefaultNumberOfThreadsByPlatform();
 };
-} // end namespace itk
+
+
+} // namespace itk
+
 #endif

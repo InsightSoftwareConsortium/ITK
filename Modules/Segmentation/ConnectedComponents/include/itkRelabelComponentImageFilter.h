@@ -246,7 +246,7 @@ public:
 #endif
 
 protected:
-  RelabelComponentImageFilter() { this->InPlaceOff(); }
+  RelabelComponentImageFilter();
   ~RelabelComponentImageFilter() override = default;
 
   /**

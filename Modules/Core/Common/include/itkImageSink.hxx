@@ -21,6 +21,7 @@
 #include "itkImageSink.h"
 #include "itkProgressTransformer.h"
 #include "itkInputDataObjectConstIterator.h"
+#include "itkMultiThreaderBase.h"
 
 namespace itk
 {

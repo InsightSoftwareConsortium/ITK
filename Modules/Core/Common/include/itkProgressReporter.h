@@ -83,13 +83,13 @@ public:
       m_PixelsBeforeUpdate = m_PixelsPerUpdate;
       m_CurrentPixel += m_PixelsPerUpdate;
       // only thread 0 should update the progress of the filter
-      if (m_ThreadId == 0)
+      if (m_ThreadId == 0 && m_Filter)
       {
         m_Filter->UpdateProgress(static_cast<float>(m_CurrentPixel) * m_InverseNumberOfPixels * m_ProgressWeight +
                                  m_InitialProgress);
       }
       // all threads needs to check the abort flag
-      if (m_Filter->GetAbortGenerateData())
+      if (m_Filter && m_Filter->GetAbortGenerateData())
       {
         std::string    msg;
         ProcessAborted e(__FILE__, __LINE__);
