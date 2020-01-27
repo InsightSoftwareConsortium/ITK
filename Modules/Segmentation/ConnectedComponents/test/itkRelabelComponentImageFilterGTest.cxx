@@ -24,6 +24,8 @@ using itk::print_helper::operator<<;
 #include "itkImage.h"
 #include "itkRelabelComponentImageFilter.h"
 
+#include "itkSimpleFilterWatcher.h"
+#include "itkRandomImageSource.h"
 
 namespace
 {
@@ -124,4 +126,48 @@ TEST(RelabelComponentImageFilter, sort_nosize)
   std::vector<unsigned> expected({ 3u, 2u, 1u });
   ITK_EXPECT_VECTOR_NEAR(filter->GetSizeOfObjectsInPixels(), expected, 0);
   EXPECT_EQ(filter->GetOutput()->GetPixel({ { 2, 2 } }), 1u);
+}
+
+
+TEST(RelabelComponentImageFilter, big_zero)
+{
+
+  using namespace itk::GTest::TypedefsAndConstructors::Dimension3;
+
+  using PixelType = unsigned short;
+  using ImageType = itk::Image<PixelType, Dimension>;
+
+  auto image = ImageType::New();
+  image->SetRegions(typename ImageType::RegionType({ 512, 512, 512 }));
+  image->Allocate(true);
+
+  auto filter = itk::RelabelComponentImageFilter<ImageType, ImageType>::New();
+  filter->SetInput(image);
+
+  itk::SimpleFilterWatcher watcher1(filter, "relabeler");
+
+  filter->Update();
+}
+
+
+TEST(RelabelComponentImageFilter, big_random)
+{
+
+  using namespace itk::GTest::TypedefsAndConstructors::Dimension3;
+
+  using PixelType = unsigned short;
+  using ImageType = itk::Image<PixelType, Dimension>;
+
+
+  auto randomSource = itk::RandomImageSource<ImageType>::New();
+  randomSource->SetSize({ 512, 512, 512 });
+  randomSource->SetMin(0);
+  randomSource->Update();
+
+  auto filter = itk::RelabelComponentImageFilter<ImageType, ImageType>::New();
+  filter->SetInput(randomSource->GetOutput());
+
+  itk::SimpleFilterWatcher watcher1(filter, "relabeler");
+
+  filter->Update();
 }
