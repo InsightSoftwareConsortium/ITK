@@ -86,11 +86,11 @@ public:
       sObj = obj;
       outputList->push_back(sObj);
     }
-    InputChildrenListType *         inputList = m_Input->GetChildren(9999);
-    InputChildrenListType::iterator it = inputList->begin();
+    InputChildrenListType *                  inputList = m_Input->GetChildren(9999);
+    typename InputChildrenListType::iterator it = inputList->begin();
     while (it != inputList->end())
     {
-      OutObjectType * obj = dynamic_cast<OutObjectType *>(it->GetPointer());
+      obj = dynamic_cast<OutObjectType *>(it->GetPointer());
       if (obj != nullptr)
       {
         typename OutObjectType::Pointer sObj = OutObjectType::New();
