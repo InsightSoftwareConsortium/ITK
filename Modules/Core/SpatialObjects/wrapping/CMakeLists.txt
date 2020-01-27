@@ -26,6 +26,7 @@ set(WRAPPER_SUBMODULE_ORDER
   itkGaussianSpatialObject
   itkGroupSpatialObject
   itkSpatialObjectToImageFilter
+  itkCastSpatialObjectFilter
 )
 itk_auto_load_submodules()
 itk_end_wrap_module()
