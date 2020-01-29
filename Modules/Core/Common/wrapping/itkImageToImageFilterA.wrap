@@ -15,6 +15,16 @@ itk_wrap_class("itk::ImageToImageFilter" POINTER)
   # Vector types
   itk_wrap_image_filter_combinations("${WRAP_ITK_VECTOR}" "${WRAP_ITK_VECTOR}")
 
+  # VectorImage <-> vector
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    if(ITK_WRAP_vector_float)
+      itk_wrap_template("${ITKM_IVF${d}${d}}${ITKM_VIF${d}}" "${ITKT_IVF${d}${d}},${ITKT_VIF${d}}")
+    endif()
+    if(ITK_WRAP_vector_double)
+      itk_wrap_template("${ITKM_IVD${d}${d}}${ITKM_VID${d}}" "${ITKT_IVD${d}${d}},${ITKT_VID${d}}")
+    endif()
+  endforeach()
+
   # For GradientRecursiveGaussianImageFilter we need some specific combinations
   foreach(image_dim ${ITK_WRAP_IMAGE_DIMS})
     foreach(input_vector_dim ${ITK_WRAP_VECTOR_COMPONENTS})
