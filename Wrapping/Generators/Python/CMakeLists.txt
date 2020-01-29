@@ -902,7 +902,6 @@ macro(itk_wrap_simple_type_python wrap_class swig_name)
                                "itk::BlogSpatialObject"
                                "itk::BoxSpatialObject"
                                "itk::ContourSpatialObject"
-                               "itk::DTITubeSpatialObject"
                                "itk::EllipseSpatialObject"
                                "itk::GaussianSpatialObject"
                                "itk::GroupSpatialObject"
