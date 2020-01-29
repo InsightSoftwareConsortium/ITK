@@ -240,7 +240,7 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
           }
 
           // no new labels should be encountered in the input
-          assert(mapIt != mapIt.cend());
+          assert(mapIt != relabelMap.cend());
 
           oit.Set(mapIt->second);
 
