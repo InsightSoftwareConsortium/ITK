@@ -64,8 +64,7 @@ itkCastSpatialObjectFilterTest(int, char *[])
 
   TubeType::Pointer tListTube = (*tList).begin()->GetPointer();
 
-  bool                                        found = false;
-  TubeType::TubePointListType::const_iterator jpnt;
+  bool found = false;
   if (!strcmp(tListTube->GetTypeName().c_str(), "TubeSpatialObject"))
   {
     found = true;
@@ -77,13 +76,14 @@ itkCastSpatialObjectFilterTest(int, char *[])
       return EXIT_FAILURE;
     }
 
-    for (jpnt = tListTube->GetPoints().begin(); jpnt != tListTube->GetPoints().end(); jpnt++)
+    TubeType::TubePointListType::const_iterator pnt;
+    for (pnt = tListTube->GetPoints().begin(); pnt != tListTube->GetPoints().end(); pnt++)
     {
       for (unsigned int d = 0; d < 3; d++)
       {
-        if (itk::Math::NotAlmostEquals((*jpnt).GetPositionInWorldSpace()[d], value * tListTube->GetId()))
+        if (itk::Math::NotAlmostEquals((*pnt).GetPositionInWorldSpace()[d], value * tListTube->GetId()))
         {
-          std::cout << " [FAILED] (Position is: " << (*jpnt).GetPositionInWorldSpace()[d]
+          std::cout << " [FAILED] (Position is: " << (*pnt).GetPositionInWorldSpace()[d]
                     << " expected : " << value * tListTube->GetId() << " ) " << std::endl;
           return EXIT_FAILURE;
         }
@@ -98,7 +98,7 @@ itkCastSpatialObjectFilterTest(int, char *[])
   }
   else
   {
-    std::cout << " [FAILED] : Cannot found VesselSpatialObject" << std::endl;
+    std::cout << " [FAILED] : Cannot found TubeSpatialObject" << std::endl;
     return EXIT_FAILURE;
   }
 

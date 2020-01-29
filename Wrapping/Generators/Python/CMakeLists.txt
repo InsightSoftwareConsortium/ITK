@@ -882,122 +882,44 @@ macro(itk_wrap_simple_type_python wrap_class swig_name)
     ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${swig_name}" "${cpp_name}< ${template_params} >")
   endif()
 
-  if("${cpp_name}" STREQUAL "itk::ContourSpatialObjectPoint")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(vector${swig_name}) std::vector< ${swig_name} >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${swig_name}" "${cpp_name}< ${template_params} >")
-  endif()
-
-  if("${cpp_name}" STREQUAL "itk::DTITubeSpatialObjectPoint")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(vector${swig_name}) std::vector< ${swig_name} >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${swig_name}" "${cpp_name}< ${template_params} >")
-  endif()
-
-  if("${cpp_name}" STREQUAL "itk::LineSpatialObjectPoint")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(vector${swig_name}) std::vector< ${swig_name} >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${swig_name}" "${cpp_name}< ${template_params} >")
-  endif()
-
-  if("${cpp_name}" STREQUAL "itk::SurfaceSpatialObjectPoint")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(vector${swig_name}) std::vector< ${swig_name} >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${swig_name}" "${cpp_name}< ${template_params} >")
-  endif()
-
-  if("${cpp_name}" STREQUAL "itk::TubeSpatialObjectPoint")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(vector${swig_name}) std::vector< ${swig_name} >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${swig_name}" "${cpp_name}< ${template_params} >")
-  endif()
+  foreach(sopClassName IN ITEMS "itk::ContourSpatialObjectPoint"
+                                "itk::DTITubeSpatialObjectPoint"
+                                "itk::LineSpatialObjectPoint"
+                                "itk::SurfaceSpatialObjectPoint"
+                                "itk::TubeSpatialObjectPoint")
+    if("${cpp_name}" STREQUAL "${sopClassName}")
+      set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(vector${swig_name}) std::vector< ${swig_name} >;\n")
+      ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${swig_name}" "${cpp_name}< ${template_params} >")
+    endif()
+  endforeach()
 
   if("${cpp_name}" STREQUAL "itk::SpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
     set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
     ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
   endif()
 
-  if("${cpp_name}" STREQUAL "itk::ArrowSpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
-  endif()
-
-  if("${cpp_name}" STREQUAL "itk::BlogSpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
-  endif()
-
-  if("${cpp_name}" STREQUAL "itk::BoxSpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
-  endif()
-
-  if("${cpp_name}" STREQUAL "itk::ContourSpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
-  endif()
-
-  #if("${cpp_name}" STREQUAL "itk::DTITubeSpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
-    #set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
-    #ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
-  #endif()
-
-  if("${cpp_name}" STREQUAL "itk::EllipseSpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
-  endif()
-
-  if("${cpp_name}" STREQUAL "itk::GaussianSpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
-  endif()
-
-  if("${cpp_name}" STREQUAL "itk::GroupSpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
-  endif()
-
-  if("${cpp_name}" STREQUAL "itk::ImageMaskSpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
-  endif()
-
-  if("${cpp_name}" STREQUAL "itk::ImageSpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
-  endif()
-
-  if("${cpp_name}" STREQUAL "itk::LandmarkSpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
-  endif()
-
-  if("${cpp_name}" STREQUAL "itk::LineSpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
-  endif()
-
-  #if("${cpp_name}" STREQUAL "itk::MeshSpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
-    #set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
-    #ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
-  #endif()
-
-  if("${cpp_name}" STREQUAL "itk::PointBasedSpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
-  endif()
-
-  if("${cpp_name}" STREQUAL "itk::PoloygonSpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
-  endif()
-
-  if("${cpp_name}" STREQUAL "itk::SurfaceSpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
-  endif()
-
-  if("${cpp_name}" STREQUAL "itk::TubeSpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
-  endif()
+  foreach(soClassName IN ITEMS "itk::ArrowSpatialObjectPoint"
+                               "itk::BlogSpatialObject"
+                               "itk::BoxSpatialObject"
+                               "itk::ContourSpatialObject"
+                               "itk::DTITubeSpatialObject"
+                               "itk::EllipseSpatialObject"
+                               "itk::GaussianSpatialObject"
+                               "itk::GroupSpatialObject"
+                               "itk::ImageMaskSpatialObject"
+                               "itk::ImageSpatialObject"
+                               "itk::LandmarkSpatialObject"
+                               "itk::LineSpatialObject"
+                               "itk::PointBasedSpatialObject"
+                               "itk::PolygonSpatialObject"
+                               "itk::SurfaceSpatialObject"
+                               "itk::TubeSpatialObject")
+    if("${cpp_name}" STREQUAL "${soClassName}" AND NOT "${ext_def}" MATCHES "Pointer")
+      set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
+      ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
+    endif()
+  endforeach()
 endmacro()
-
 
 macro(ADD_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS type function)
   set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS(${type}, ${function})\n")

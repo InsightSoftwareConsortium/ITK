@@ -42,17 +42,20 @@
 namespace itk
 {
 
-/** \class CastSpatialFilter
+/** \class CastSpatialObjectFilter
  * \brief This filter casts one spatialobject to another, when the class
  * hierarchy supports it (e.g., Tube to PointBased).
  * Particularly useful in Python where casting objects without public
  * contructors (e.g., objects managed by smartpointers) is problematic.
+ * \ingroup ITKSpatialObjects
  */
 
 template <unsigned int ObjectDimension>
 class ITK_TEMPLATE_EXPORT CastSpatialObjectFilter : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CastSpatialObjectFilter);
+
   /** Standard class typedefs. */
   using Self = CastSpatialObjectFilter;
   using Superclass = Object;
@@ -219,17 +222,13 @@ public:
 
 protected:
   CastSpatialObjectFilter(void);
-  virtual ~CastSpatialObjectFilter(void){};
+  ~CastSpatialObjectFilter(void) override = default;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 
 private:
-  CastSpatialObjectFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
-
   typename InputSpatialObjectType::Pointer m_Input;
 
 }; // End class CastSpatialObjectFilter
