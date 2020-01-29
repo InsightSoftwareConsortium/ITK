@@ -120,7 +120,6 @@ CastImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDataDispatche
   // Implementation for non-implicit convertible pixels which are
   // itk-array-like.
 
-  static_assert(OutputPixelType::Dimension == InputPixelType::Dimension, "Vector dimensions are required to match!");
   static_assert(std::is_convertible<typename InputPixelType::ValueType, typename OutputPixelType::ValueType>::value,
                 "Component types are required to be convertible.");
 
@@ -140,6 +139,8 @@ CastImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDataDispatche
 
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
+  const unsigned int componentsPerPixel = outputPtr->GetNumberOfComponentsPerPixel();
+
   // Define the iterators
   ImageScanlineConstIterator<TInputImage> inputIt(inputPtr, inputRegionForThread);
   ImageScanlineIterator<TOutputImage>     outputIt(outputPtr, outputRegionForThread);
@@ -152,7 +153,7 @@ CastImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDataDispatche
     {
       const InputPixelType & inputPixel = inputIt.Get();
       OutputPixelType        value;
-      for (unsigned int k = 0; k < OutputPixelType::Dimension; k++)
+      for (unsigned int k = 0; k < componentsPerPixel; k++)
       {
         value[k] = static_cast<typename OutputPixelType::ValueType>(inputPixel[k]);
       }

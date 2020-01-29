@@ -7,6 +7,16 @@ itk_wrap_class("itk::CastImageFilter" POINTER_WITH_SUPERCLASS)
   # vector <-> vector
   itk_wrap_image_filter_combinations("${WRAP_ITK_VECTOR}" "${WRAP_ITK_VECTOR}")
 
+  # VectorImage <-> vector
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    if(ITK_WRAP_vector_float)
+      itk_wrap_template("${ITKM_IVF${d}${d}}${ITKM_VIF${d}}" "${ITKT_IVF${d}${d}},${ITKT_VIF${d}}")
+    endif()
+    if(ITK_WRAP_vector_double)
+      itk_wrap_template("${ITKM_IVD${d}${d}}${ITKM_VID${d}}" "${ITKT_IVD${d}${d}},${ITKT_VID${d}}")
+    endif()
+  endforeach()
+
   # RGB <-> RGB
   UNIQUE(rgb "RGBUC;${WRAP_ITK_RGB}")
   itk_wrap_image_filter_combinations("${rgb}" "${rgb}")
