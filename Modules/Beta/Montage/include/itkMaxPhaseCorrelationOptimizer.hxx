@@ -38,8 +38,7 @@ namespace itk
 
 template <typename TRegistrationMethod>
 void
-MaxPhaseCorrelationOptimizer<TRegistrationMethod>
-::PrintSelf(std::ostream & os, Indent indent) const
+MaxPhaseCorrelationOptimizer<TRegistrationMethod>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
@@ -47,12 +46,11 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 
 template <typename TRegistrationMethod>
 bool
-MaxPhaseCorrelationOptimizer<TRegistrationMethod>
-::SupportsPeakInterpolationMethod(PeakInterpolationMethodEnum method) const
+MaxPhaseCorrelationOptimizer<TRegistrationMethod>::SupportsPeakInterpolationMethod(
+  PeakInterpolationMethodEnum method) const
 {
   if (method == PeakInterpolationMethodEnum::None ||
-      method == PeakInterpolationMethodEnum::Parabolic |
-      method == PeakInterpolationMethodEnum::Cosine)
+      method == PeakInterpolationMethodEnum::Parabolic | method == PeakInterpolationMethodEnum::Cosine)
   {
     return true;
   }
@@ -62,8 +60,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 
 template <typename TRegistrationMethod>
 void
-MaxPhaseCorrelationOptimizer<TRegistrationMethod>
-::ComputeOffset()
+MaxPhaseCorrelationOptimizer<TRegistrationMethod>::ComputeOffset()
 {
   ImageConstPointer input = static_cast<ImageType *>(this->GetInput(0));
   ImageConstPointer fixed = static_cast<ImageType *>(this->GetInput(1));
@@ -106,7 +103,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
     for (size_t offsetIndex = 0; offsetIndex < this->m_Offsets.size(); ++offsetIndex)
     {
       using ContinuousIndexType = ContinuousIndex<OffsetScalarType, ImageDimension>;
-      ContinuousIndexType maxIndex = maxIndices[offsetIndex];
+      ContinuousIndexType           maxIndex = maxIndices[offsetIndex];
       typename ImageType::IndexType tempIndex = maxIndices[offsetIndex];
       typename ImageType::PixelType y0;
       typename ImageType::PixelType y1 = input->GetPixel(tempIndex);
@@ -152,8 +149,10 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
             break;
         } // switch PeakInterpolationMethod
 
-        const OffsetScalarType directOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - oIndex[i]);
-        const OffsetScalarType mirrorOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - adjustedSize[i]);
+        const OffsetScalarType directOffset =
+          (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - oIndex[i]);
+        const OffsetScalarType mirrorOffset =
+          (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - adjustedSize[i]);
         if (std::abs(directOffset) <= std::abs(mirrorOffset))
         {
           this->m_Offsets[offsetIndex][i] = directOffset;
@@ -163,7 +162,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
           this->m_Offsets[offsetIndex][i] = mirrorOffset;
         }
       } // for ImageDimension
-    } // for offsetIndex
+    }   // for offsetIndex
   }
 }
 
