@@ -75,7 +75,8 @@ public:
 
   using PeakInterpolationMethodEnum = typename Superclass::PeakInterpolationMethodEnum;
 
-  const ConfidenceVector & GetConfidences() const override
+  const ConfidenceVector &
+  GetConfidences() const override
   {
     return this->m_SamplePeakOptimizer->GetConfidences();
   }

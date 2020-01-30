@@ -126,7 +126,7 @@ public:
   /** \class PeakInterpolationMethodEnum
    *  \brief Different methods of interpolation the phase correlation peak.
    *  \ingroup Montage */
-  enum class PeakInterpolationMethodEnum: uint8_t
+  enum class PeakInterpolationMethodEnum : uint8_t
   {
     None = 0,
     Parabolic,
@@ -142,8 +142,8 @@ public:
     os << static_cast<typename std::underlying_type<PeakInterpolationMethodEnum>::type>(pim);
     return os;
   }
-  bool
-  virtual SupportsPeakInterpolationMethod(PeakInterpolationMethodEnum method) const = 0;
+  bool virtual SupportsPeakInterpolationMethod(PeakInterpolationMethodEnum method) const = 0;
+  bool SupportsPeakInterpolationMethodInt(uint8_t method) const;
 
 
   using Superclass::MakeOutput;
@@ -174,10 +174,10 @@ protected:
   ComputeOffset() = 0;
 
 protected:
-  PeakInterpolationMethodEnum             m_PeakInterpolationMethod = PeakInterpolationMethodEnum::Parabolic;
+  PeakInterpolationMethodEnum m_PeakInterpolationMethod = PeakInterpolationMethodEnum::Parabolic;
 
-  OffsetVector                                                        m_Offsets;
-  ConfidenceVector                                                    m_Confidences;
+  OffsetVector     m_Offsets;
+  ConfidenceVector m_Confidences;
 };
 
 } // end namespace itk

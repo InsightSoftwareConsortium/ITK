@@ -121,7 +121,7 @@ private:
   SizeValueType                       m_PixelDistanceTolerance = 0;
 
   typename ImageType::Pointer m_AdjustedInput;
-  IndexContainerType m_MaxIndices;
+  IndexContainerType          m_MaxIndices;
 };
 
 } // end namespace itk

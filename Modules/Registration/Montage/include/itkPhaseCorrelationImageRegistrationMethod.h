@@ -482,10 +482,10 @@ private:
   typename ComplexImageType::Pointer m_FixedImageFFT = nullptr;
   typename ComplexImageType::Pointer m_MovingImageFFT = nullptr;
 
-  ParametersType                       m_TransformParameters;
-  SizeType                             m_PadToSize;
-  SizeType                             m_ObligatoryPadding;
-  PaddingMethodEnum  m_PaddingMethod = PaddingMethodEnum::MirrorWithExponentialDecay;
+  ParametersType    m_TransformParameters;
+  SizeType          m_PadToSize;
+  SizeType          m_ObligatoryPadding;
+  PaddingMethodEnum m_PaddingMethod = PaddingMethodEnum::MirrorWithExponentialDecay;
 
   typename FixedRoIType::Pointer             m_FixedRoI = FixedRoIType::New();
   typename MovingRoIType::Pointer            m_MovingRoI = MovingRoIType::New();

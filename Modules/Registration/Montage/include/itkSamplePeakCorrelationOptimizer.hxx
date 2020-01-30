@@ -37,8 +37,7 @@ namespace itk
 {
 
 template <typename TRegistrationMethod>
-SamplePeakCorrelationOptimizer<TRegistrationMethod>
-::SamplePeakCorrelationOptimizer()
+SamplePeakCorrelationOptimizer<TRegistrationMethod>::SamplePeakCorrelationOptimizer()
 {
   this->m_AdjustedInput = ImageType::New();
 }
@@ -46,8 +45,7 @@ SamplePeakCorrelationOptimizer<TRegistrationMethod>
 
 template <typename TRegistrationMethod>
 void
-SamplePeakCorrelationOptimizer<TRegistrationMethod>
-::PrintSelf(std::ostream & os, Indent indent) const
+SamplePeakCorrelationOptimizer<TRegistrationMethod>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "MaxCalculator: " << m_MaxCalculator << std::endl;
@@ -59,8 +57,8 @@ SamplePeakCorrelationOptimizer<TRegistrationMethod>
 
 template <typename TRegistrationMethod>
 bool
-SamplePeakCorrelationOptimizer<TRegistrationMethod>
-::SupportsPeakInterpolationMethod(PeakInterpolationMethodEnum method) const
+SamplePeakCorrelationOptimizer<TRegistrationMethod>::SupportsPeakInterpolationMethod(
+  PeakInterpolationMethodEnum method) const
 {
   if (method == PeakInterpolationMethodEnum::None)
   {
@@ -72,8 +70,7 @@ SamplePeakCorrelationOptimizer<TRegistrationMethod>
 
 template <typename TRegistrationMethod>
 void
-SamplePeakCorrelationOptimizer<TRegistrationMethod>
-::ComputeOffset()
+SamplePeakCorrelationOptimizer<TRegistrationMethod>::ComputeOffset()
 {
   ImageConstPointer input = static_cast<ImageType *>(this->GetInput(0));
   ImageConstPointer fixed = static_cast<ImageType *>(this->GetInput(1));
@@ -338,7 +335,8 @@ SamplePeakCorrelationOptimizer<TRegistrationMethod>
 
     for (unsigned i = 0; i < ImageDimension; ++i)
     {
-      const OffsetScalarType directOffset = (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - oIndex[i]);
+      const OffsetScalarType directOffset =
+        (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - oIndex[i]);
       const OffsetScalarType mirrorOffset =
         (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - adjustedSize[i]);
       if (std::abs(directOffset) <= std::abs(mirrorOffset))
