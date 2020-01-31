@@ -361,12 +361,13 @@ str = str
                 """
                 self.UpdateLargestPossibleRegion()
                 try:
+                    import itk
                     if self.GetNumberOfIndexedOutputs() == 0:
                         result = None
                     elif self.GetNumberOfIndexedOutputs() == 1:
-                        result = self.GetOutput()
+                        result = itk.down_cast(self.GetOutput())
                     else:
-                        result = tuple([self.GetOutput(idx) for idx in range(self.GetNumberOfIndexedOutputs())])
+                        result = tuple([itk.down_cast(self.GetOutput(idx)) for idx in range(self.GetNumberOfIndexedOutputs())])
                     return result
                 except AttributeError as e:
                     # In theory, filters should declare that they don't return any output
