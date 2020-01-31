@@ -216,7 +216,7 @@ template <typename TFixedImage,
           typename TVirtualImage,
           typename TPointSet>
 typename BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::
-  DisplacementFieldPointer
+  DisplacementFieldType *
   BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::
     ComputeUpdateField(const FixedImagesContainerType      fixedImages,
                        const PointSetsContainerType        fixedPointSets,
@@ -365,7 +365,7 @@ template <typename TFixedImage,
           typename TVirtualImage,
           typename TPointSet>
 typename BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::
-  DisplacementFieldPointer
+  DisplacementFieldType *
   BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::
     BSplineSmoothDisplacementField(const DisplacementFieldType * field,
                                    const ArrayType &             numberOfControlPoints,
