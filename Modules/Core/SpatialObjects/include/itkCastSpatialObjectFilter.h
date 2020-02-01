@@ -64,7 +64,7 @@ public:
 
   itkNewMacro(Self);
 
-  itkTypeMacro(SpatialObjectCastFilter, Object);
+  itkTypeMacro(CastSpatialObjectFilter, Object);
 
   using InputSpatialObjectType = SpatialObject<ObjectDimension>;
 
