@@ -71,7 +71,7 @@ public:
   using InputChildrenListType = typename InputSpatialObjectType::ChildrenListType;
 
   itkSetObjectMacro(Input, InputSpatialObjectType);
-  itkGetObjectMacro(Input, InputSpatialObjectType);
+  itkGetConstObjectMacro(Input, InputSpatialObjectType);
 
   template <class OutputSpatialObjectT>
   std::list<typename OutputSpatialObjectT::Pointer> *
