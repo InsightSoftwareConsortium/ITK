@@ -214,7 +214,7 @@ protected:
   void
   InitializeRegistrationAtEachLevel(const SizeValueType) override;
 
-  virtual DisplacementFieldPointer
+  virtual DisplacementFieldType *
   ComputeUpdateField(const FixedImagesContainerType,
                      const PointSetsContainerType,
                      const TransformBaseType *,
@@ -224,7 +224,7 @@ protected:
                      const FixedImageMasksContainerType,
                      const MovingImageMasksContainerType,
                      MeasureType &);
-  virtual DisplacementFieldPointer
+  virtual DisplacementFieldType *
   ComputeMetricGradientField(const FixedImagesContainerType,
                              const PointSetsContainerType,
                              const TransformBaseType *,
@@ -235,11 +235,11 @@ protected:
                              const MovingImageMasksContainerType,
                              MeasureType &);
 
-  virtual DisplacementFieldPointer
+  virtual DisplacementFieldType *
   ScaleUpdateField(const DisplacementFieldType *);
-  virtual DisplacementFieldPointer
+  virtual DisplacementFieldType *
   GaussianSmoothDisplacementField(const DisplacementFieldType *, const RealType);
-  virtual DisplacementFieldPointer
+  virtual DisplacementFieldType *
   InvertDisplacementField(const DisplacementFieldType *, const DisplacementFieldType * = nullptr);
 
   RealType m_LearningRate{ 0.25 };

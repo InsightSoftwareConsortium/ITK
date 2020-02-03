@@ -271,7 +271,7 @@ template <typename TFixedImage,
           typename TVirtualImage,
           typename TPointSet>
 typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::
-  DisplacementFieldPointer
+  DisplacementFieldType *
   SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::ComputeUpdateField(
     const FixedImagesContainerType      fixedImages,
     const PointSetsContainerType        fixedPointSets,
@@ -307,7 +307,7 @@ template <typename TFixedImage,
           typename TVirtualImage,
           typename TPointSet>
 typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::
-  DisplacementFieldPointer
+  DisplacementFieldType *
   SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::
     ComputeMetricGradientField(const FixedImagesContainerType      fixedImages,
                                const PointSetsContainerType        fixedPointSets,
@@ -657,7 +657,7 @@ template <typename TFixedImage,
           typename TVirtualImage,
           typename TPointSet>
 typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::
-  DisplacementFieldPointer
+  DisplacementFieldType *
   SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::ScaleUpdateField(
     const DisplacementFieldType * updateField)
 {
@@ -708,7 +708,7 @@ template <typename TFixedImage,
           typename TVirtualImage,
           typename TPointSet>
 typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::
-  DisplacementFieldPointer
+  DisplacementFieldType *
   SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::
     InvertDisplacementField(const DisplacementFieldType * field, const DisplacementFieldType * inverseFieldEstimate)
 {
@@ -733,7 +733,7 @@ template <typename TFixedImage,
           typename TVirtualImage,
           typename TPointSet>
 typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::
-  DisplacementFieldPointer
+  DisplacementFieldType *
   SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::
     GaussianSmoothDisplacementField(const DisplacementFieldType * field, const RealType variance)
 {

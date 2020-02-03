@@ -139,7 +139,7 @@ protected:
   void
   InitializeRegistrationAtEachLevel(const SizeValueType) override;
 
-  DisplacementFieldPointer
+  DisplacementFieldType *
   ComputeUpdateField(const FixedImagesContainerType,
                      const PointSetsContainerType,
                      const TransformBaseType *,
@@ -149,7 +149,7 @@ protected:
                      const FixedImageMasksContainerType,
                      const MovingImageMasksContainerType,
                      MeasureType &) override;
-  virtual DisplacementFieldPointer
+  virtual DisplacementFieldType *
   BSplineSmoothDisplacementField(const DisplacementFieldType *,
                                  const ArrayType &,
                                  const WeightedMaskImageType *,
