@@ -83,5 +83,6 @@ itk_add_test(NAME itkMaskConnectedComponentImageFilterTest
 
 set(ITKConnectedComponentsGTests
         itkRelabelComponentImageFilterGTest.cxx
+        itkConnectedComponentImageFilterGTest.cxx
         )
 CreateGoogleTestDriver(ITKConnectedComponents "${ITKConnectedComponents-Test_LIBRARIES}" "${ITKConnectedComponentsGTests}")

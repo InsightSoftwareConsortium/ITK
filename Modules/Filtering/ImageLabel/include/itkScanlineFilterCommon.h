@@ -236,12 +236,21 @@ protected:
   {
     // This checks whether the line encodings are really neighbors. The first
     // dimension gets ignored because the encodings are along that axis.
+    SizeValueType diffSum = 0;
     for (unsigned i = 1; i < OutputImageDimension; i++)
     {
-      if (Math::abs(A[i] - B[i]) > 1)
+      SizeValueType diff = Math::abs(A[i] - B[i]);
+      if (diff > 1)
       {
         return false;
       }
+      diffSum += diff;
+    }
+
+    assert(diffSum > 0); // we are checking potential neighbors, index difference must exist
+    if (!this->m_FullyConnected)
+    {
+      return (diffSum <= 1); // indices can differ only along one dimension
     }
     return true;
   }
