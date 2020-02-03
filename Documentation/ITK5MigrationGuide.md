@@ -423,6 +423,16 @@ primary output, as it was a shallow copy of the primary
 input. Additionally, minor API changes have occoured related to the
 decorated output methods to conform to ITK conventions.
 
+`itk::NiftiImageIO` was changed to support different kinds of Analyze file conventions.
+See [Mayo/SPM "Analyze" Format Spec Compilation](http://www.grahamwideman.com/gw/brain/analyze/formatdoc.htm) for detailed description.
+The method `SetLegacyAnalyze75Mode` is now expecting parameter specifying which convention to use:
+* `itk::Analyze75Flavor::AnalyzeReject` - refuse to read Analyze files and show an error message
+* `itk::Analyze75Flavor::AnalyzeITK4` - behaviour introduced in ITK4 NIFTI reader
+* `itk::Analyze75Flavor::AnalyzeITK4Warning` - same as `AnalyzeITK4`, but a warning will be displayed
+* `itk::Analyze75Flavor::AnalyzeSPM` -  use SPM convention, same as Analyze reader in ITK3/ITK4
+* `itk::Analyze75Flavor::AnalyzeFSL` -  use FSL convention
+There is also now CMake configuration option `ITK_NIFTI_IO_ANALYZE_FLAVOR` which specifies default behaviour of the reader, `ITK4Warning` is the default.
+
 Consolidated Vector Filter
 --------------------------
 
