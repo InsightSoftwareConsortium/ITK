@@ -459,6 +459,11 @@ mark_as_advanced(ITK_USE_FLOAT_SPACE_PRECISION)
 option(DISABLE_MODULE_TESTS "Disable all ITK module tests in `test` folder" OFF)
 mark_as_advanced(DISABLE_MODULE_TESTS)
 
+#-----------------------------------------------------------------------------
+# Configure Eigen3 before ITKModuleEnablement
+# No download or build is performed. Generates Targets and Config.cmake files for Eigen
+include(itkExternal_Eigen3)
+
 #----------------------------------------------------------------------
 # Make sure remote modules are downloaded before sorting out the module
 # dependencies.
@@ -469,7 +474,6 @@ include(ITKModuleEnablement)
 
 # Setup clang-format for code style enforcement
 include(ITKClangFormatSetup)
-
 #----------------------------------------------------------------------
 # Generate ITKConfig.cmake for the build tree.
 set(ITK_CONFIG_CODE "

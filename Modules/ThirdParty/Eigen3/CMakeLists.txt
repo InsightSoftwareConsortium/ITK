@@ -45,11 +45,10 @@ set(_Eigen3_min_version 3.3)
 # if(DEFINED ITKInternalEigen3_DIR) # Equivalent to if(NOT ITK_USE_SYSTEM_EIGEN)
 #   set(Eigen3_DIR ${ITKInternalEigen3_DIR})
 #   find_package(Eigen3 REQUIRED CONFIG)
-#   list(APPEND ITK_EIGEN_LIBRARIES Eigen3::Eigen)
 # endif()
 # add_executable(script file_with_itk_and_eigen3.cpp)
 # target_link_library(script ${ITK_LIBRARIES})
-# target_link_library(script ${ITK_EIGEN_LIBRARIES})
+# target_link_library(script Eigen3::Eigen)
 
 if(ITK_USE_SYSTEM_EIGEN)
   set(_Eigen3_SYSTEM_OR_INTERNAL "Eigen3")
@@ -58,36 +57,32 @@ if(ITK_USE_SYSTEM_EIGEN)
   set(Eigen3_DIR_BUILD ${Eigen3_DIR})
 else()
   set(_Eigen3_SYSTEM_OR_INTERNAL "ITKInternalEigen3")
+  find_package(${_Eigen3_SYSTEM_OR_INTERNAL} ${_Eigen3_min_version} REQUIRED CONFIG)
   set(Eigen3_DIR_INSTALL "\${ITK_MODULES_DIR}")
-  set(Eigen3_DIR_BUILD "${CMAKE_CURRENT_BINARY_DIR}/src/itkeigen")
+  set(_eigen3_build_dir "${ITK_BINARY_DIR}/ITKInternalEigen3-build")
+  set(Eigen3_DIR_BUILD "${_eigen3_build_dir}")
 endif()
 
 # Eigen3 is header only, but there are compile definitions that we want to provide
 # to enforce use of MPL only code, and to disable warnings.
-# We only need the BINARY_DIR, we rely on the target Eigen3::Eigen for the include headers.
-# SOURCE_DIR is added to be consistent with the way ITKModules, wrapping does not work without it.
+# We only need to add the location of the header itk_eigen.h used internally.
+get_target_property(Eigen_INCLUDE_DIRS ${_eigen_itk_target} INTERFACE_INCLUDE_DIRECTORIES)
 set(ITKEigen3_INCLUDE_DIRS
-  ${ITKEigen3_BINARY_DIR}/src
-  ${ITKEigen3_SOURCE_DIR}/src
+  ${Eigen_INCLUDE_DIRS}
+  ${ITKEigen3_BINARY_DIR}/src # For the generated itk_eigen.h
   )
-if(ITK_USE_SYSTEM_EIGEN)
-  get_target_property(Eigen_INCLUDE_DIRS Eigen3::Eigen INTERFACE_INCLUDE_DIRECTORIES)
-  set(ITKEigen3_SYSTEM_INCLUDE_DIRS
-    ${Eigen_INCLUDE_DIRS}
-    )
-endif()
 
 # When this module is loaded by an app, load Eigen too.
 # Load ITKInternalEigen3 or Eigen3 depending on ITK_USE_SYSTEM_EIGEN
 set(ITKEigen3_EXPORT_CODE_INSTALL "
+set(ITK_USE_SYSTEM_EIGEN \"${ITK_USE_SYSTEM_EIGEN}\")
 set(${_Eigen3_SYSTEM_OR_INTERNAL}_DIR \"${Eigen3_DIR_INSTALL}\")
 find_package(${_Eigen3_SYSTEM_OR_INTERNAL} ${_Eigen3_min_version} REQUIRED CONFIG)
 ")
 set(ITKEigen3_EXPORT_CODE_BUILD "
+set(ITK_USE_SYSTEM_EIGEN \"${ITK_USE_SYSTEM_EIGEN}\")
 set(${_Eigen3_SYSTEM_OR_INTERNAL}_DIR \"${Eigen3_DIR_BUILD}\")
-if(NOT ITK_BINARY_DIR OR ITK_USE_SYSTEM_EIGEN)
-  find_package(${_Eigen3_SYSTEM_OR_INTERNAL} ${_Eigen3_min_version} REQUIRED CONFIG)
-endif()
+find_package(${_Eigen3_SYSTEM_OR_INTERNAL} ${_Eigen3_min_version} REQUIRED CONFIG)
 ")
 
 # Eigen3 targets are not installed if ITK_USE_SYSTEM_EIGEN==True
