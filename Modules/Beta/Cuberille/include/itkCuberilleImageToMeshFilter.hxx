@@ -21,9 +21,10 @@
 #include "itkMath.h"
 #include "itkCuberilleImageToMeshFilter.h"
 #include "itkNumericTraits.h"
-#include "itkConnectedComponentAlgorithm.h"
+#include <itkConnectedComponentImageFilter.h>
 #include <array>
 #include <utility>
+#include <bitset>
 
 namespace itk
 {
@@ -42,6 +43,7 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   m_ProjectVertexMaximumNumberOfSteps( 50 )
 {
   this->SetNumberOfRequiredInputs(1);
+  this->CalculateLabelsArray();
 }
 
 template<typename TInputImage, typename TOutputMesh, typename TInterpolator>
@@ -173,19 +175,25 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
       // Create vertices
       for( unsigned int i = 0; i < 8; ++i )
         {
-        if( vertexHasQuad[i] )
+        if ( !vertexHasQuad[i] ) { continue; }
+
+        // Use the vertex lookup to get the vertex for the correct slice
+        IndexType vindex = GetVertexLookupIndex( i, index );
+        const auto bitmaskID = this->CalculateBitmaskIDForVertexIndex( vindex );
+        const auto diff = vindex - index;
+        size_t offsetID = 7 - (diff[0] + diff[1]*2 + diff[2]*4);
+        const auto components = this->m_LabelsArray.at(bitmaskID);
+        const auto numComponents = (*std::max_element(components.begin(), components.end())) + 1;
+        const auto component = components.at(offsetID);
+        unsigned int look = ( i < 4 ) ? look0 : look1; // First four are first slice
+        if( !lookup[look].GetVertex(vindex[0], vindex[1], component, v[i]) )
           {
-          // Use the vertex lookup to get the vertex for the correct slice
-          IndexType vindex = GetVertexLookupIndex( i, index );
-          unsigned int look = ( i < 4 ) ? look0 : look1; // First four are first slice
-          if( !lookup[look].GetVertex(vindex[0], vindex[1], v[i]) )
-            {
-            // Vertex was not in lookup, create and add to lookup
-            v[i] = nextVertexId;
-            AddVertex( nextVertexId, vindex, image, mesh );
-            lookup[look].AddVertex( vindex[0], vindex[1], v[i] );
-            }
-          } // end if vertex has quad
+          // Vertex was not in lookup, create and add to lookup
+          v[i] = nextVertexId;
+          const auto pv = AddVertex( nextVertexId, vindex, image, mesh, numComponents );
+          lookup[look].AddVertex( vindex[0], vindex[1], pv );
+          }
+
         } // end foreach vertex
 
       // Create faces
@@ -247,12 +255,13 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 }
 
 template<typename TInputImage, typename TOutputMesh, typename TInterpolator>
-void
+typename CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>::PointVectorType
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 ::AddVertex( typename TOutputMesh::PointIdentifier &id,
              typename TInputImage::IndexType index,
              const TInputImage* image,
-             TOutputMesh* mesh )
+             TOutputMesh* mesh,
+             const size_t numComponents )
 {
   PointType vertex;
   image->TransformIndexToPhysicalPoint( index, vertex );
@@ -264,7 +273,12 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
     {
     ProjectVertexToIsoSurface( vertex );
     }
-  mesh->GetPoints()->InsertElement( id++, vertex );
+  PointVectorType pointIDVector;
+  for (size_t i = 0; i < numComponents; ++i) {
+    pointIDVector.push_back(id);
+    mesh->GetPoints()->InsertElement( id++, vertex );
+  }
+  return pointIDVector;
 }
 
 template<typename TInputImage, typename TOutputMesh, typename TInterpolator>
@@ -533,6 +547,363 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
     gradientFilter->GetOutput()->DisconnectPipeline();
     gradientFilter = nullptr;
     }
+}
+
+template<typename TInputImage, typename TOutputMesh, typename TInterpolator>
+size_t
+CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
+::CalculateBitmaskIDForVertexIndex( const IndexType &vindex ) {
+  typename IndexType::OffsetType ones;
+  ones.Fill(1);
+  const IndexType localorigin = vindex - ones;
+  std::bitset<8> bitmask;
+  for (size_t i = 0; i < 8; ++i) {
+    std::bitset<3> bits(i);
+    typename IndexType::OffsetType offset;
+    offset[0] = bits[0];
+    offset[1] = bits[1];
+    offset[2] = bits[2];
+    const auto index = localorigin + offset;
+    const auto pixel = this->GetInput()->GetPixel( index );
+    bitmask[i] = (pixel >= this->m_IsoSurfaceValue);
+  }
+  return static_cast<size_t>(bitmask.to_ulong());
+}
+
+template<typename TInputImage, typename TOutputMesh, typename TInterpolator>
+void
+CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
+::CalculateLabelsArray()
+{
+
+//  The commented code below iterates through all possible binary 2x2x2 regions,
+//  runs connected components on the result.  The total number of foreground
+//  connected components is equal to the number of vertices which must be
+//  replicated--these vertices are stored in the VertexMap.  One less than the
+//  number of the connected component is equal to the index of the corresponding
+//  vertex in the VertexMap.  While it would be easily possible to generate this at
+//  runtime, it could theoretically cause a significant performance hit in a
+//  case where many instances of this class must be instantiated.  Therefore,
+//  the values are hardcoded below.  The commented code was used to generate
+//  the hardcoded values.
+//
+//  using TImage = itk::Image<unsigned char, 3>;
+//  using TConnected = itk::ConnectedComponentImageFilter< TImage, TImage >;
+//
+//  for (size_t mask = 0; mask < pow(2, 8); ++mask) {
+//
+//    std::bitset<8> bitmask(mask);
+//
+//    const auto image = TImage::New();
+//    TImage::SizeType size;
+//    size.Fill( 2 );
+//
+//    TImage::IndexType origin;
+//    origin.Fill( 0 );
+//
+//    TImage::RegionType region(origin, size);
+//
+//    image->SetRegions( region );
+//    image->Allocate();
+//    image->FillBuffer( 0 );
+//
+//    for (size_t index = 0; index < pow(2, 3); ++index) {
+//      std::bitset<3> bitindex(index);
+//      image->SetPixel( {{bitindex[0], bitindex[1], bitindex[2]}}, bitmask[index] );
+//    }
+//
+//    const auto connected = TConnected::New();
+//    connected->SetInput( image );
+//    connected->FullyConnectedOff();
+//    connected->Update();
+//
+//    TLabels labels;
+//
+//    for (size_t index = 0; index < pow(2, 3); ++index) {
+//      std::bitset<3> bitindex(index);
+//      const auto component = connected->GetOutput()->GetPixel({{
+//        bitindex[0],
+//        bitindex[1],
+//        bitindex[2]
+//      }});
+//      labels[index] = component - 1;
+//    }
+//
+//    this->m_LabelsArray[mask] = labels;
+//
+//  }
+//
+//  for (size_t i = 0; i < pow(2,8); ++i) {
+//    std::cout << "this->m_LabelsArray[" << i << "] ";
+//    if (i < 10) std::cout << ' ';
+//    if (i < 100) std::cout << ' ';
+//    std::cout << "= {";
+//    for (size_t j = 0; j < pow(2,3); ++j) {
+//      const auto k = static_cast<int>(this->m_LabelsArray[i][j]);
+//      if (k >= 0) std::cout << ' ';
+//      std::cout << k;
+//      if (j != 7) std::cout << ',';
+//    }
+//    std::cout << "};\n";
+//  }
+
+  this->m_LabelsArray[0]   = { 0, 0, 0, 0, 0, 0, 0, 0};
+  this->m_LabelsArray[1]   = { 0,-1,-1,-1,-1,-1,-1,-1};
+  this->m_LabelsArray[2]   = {-1, 0,-1,-1,-1,-1,-1,-1};
+  this->m_LabelsArray[3]   = { 0, 0,-1,-1,-1,-1,-1,-1};
+  this->m_LabelsArray[4]   = {-1,-1, 0,-1,-1,-1,-1,-1};
+  this->m_LabelsArray[5]   = { 0,-1, 0,-1,-1,-1,-1,-1};
+  this->m_LabelsArray[6]   = {-1, 0, 1,-1,-1,-1,-1,-1};
+  this->m_LabelsArray[7]   = { 0, 0, 0,-1,-1,-1,-1,-1};
+  this->m_LabelsArray[8]   = {-1,-1,-1, 0,-1,-1,-1,-1};
+  this->m_LabelsArray[9]   = { 0,-1,-1, 1,-1,-1,-1,-1};
+  this->m_LabelsArray[10]  = {-1, 0,-1, 0,-1,-1,-1,-1};
+  this->m_LabelsArray[11]  = { 0, 0,-1, 0,-1,-1,-1,-1};
+  this->m_LabelsArray[12]  = {-1,-1, 0, 0,-1,-1,-1,-1};
+  this->m_LabelsArray[13]  = { 0,-1, 0, 0,-1,-1,-1,-1};
+  this->m_LabelsArray[14]  = {-1, 0, 0, 0,-1,-1,-1,-1};
+  this->m_LabelsArray[15]  = { 0, 0, 0, 0,-1,-1,-1,-1};
+  this->m_LabelsArray[16]  = {-1,-1,-1,-1, 0,-1,-1,-1};
+  this->m_LabelsArray[17]  = { 0,-1,-1,-1, 0,-1,-1,-1};
+  this->m_LabelsArray[18]  = {-1, 0,-1,-1, 1,-1,-1,-1};
+  this->m_LabelsArray[19]  = { 0, 0,-1,-1, 0,-1,-1,-1};
+  this->m_LabelsArray[20]  = {-1,-1, 0,-1, 0,-1,-1,-1};
+  this->m_LabelsArray[21]  = { 0,-1, 0,-1, 0,-1,-1,-1};
+  this->m_LabelsArray[22]  = {-1, 0, 1,-1, 1,-1,-1,-1};
+  this->m_LabelsArray[23]  = { 0, 0, 0,-1, 0,-1,-1,-1};
+  this->m_LabelsArray[24]  = {-1,-1,-1, 0, 1,-1,-1,-1};
+  this->m_LabelsArray[25]  = { 0,-1,-1, 1, 0,-1,-1,-1};
+  this->m_LabelsArray[26]  = {-1, 0,-1, 0, 1,-1,-1,-1};
+  this->m_LabelsArray[27]  = { 0, 0,-1, 0, 0,-1,-1,-1};
+  this->m_LabelsArray[28]  = {-1,-1, 0, 0, 0,-1,-1,-1};
+  this->m_LabelsArray[29]  = { 0,-1, 0, 0, 0,-1,-1,-1};
+  this->m_LabelsArray[30]  = {-1, 0, 0, 0, 0,-1,-1,-1};
+  this->m_LabelsArray[31]  = { 0, 0, 0, 0, 0,-1,-1,-1};
+  this->m_LabelsArray[32]  = {-1,-1,-1,-1,-1, 0,-1,-1};
+  this->m_LabelsArray[33]  = { 0,-1,-1,-1,-1, 1,-1,-1};
+  this->m_LabelsArray[34]  = {-1, 0,-1,-1,-1, 0,-1,-1};
+  this->m_LabelsArray[35]  = { 0, 0,-1,-1,-1, 0,-1,-1};
+  this->m_LabelsArray[36]  = {-1,-1, 0,-1,-1, 1,-1,-1};
+  this->m_LabelsArray[37]  = { 0,-1, 0,-1,-1, 1,-1,-1};
+  this->m_LabelsArray[38]  = {-1, 0, 1,-1,-1, 0,-1,-1};
+  this->m_LabelsArray[39]  = { 0, 0, 0,-1,-1, 0,-1,-1};
+  this->m_LabelsArray[40]  = {-1,-1,-1, 0,-1, 0,-1,-1};
+  this->m_LabelsArray[41]  = { 0,-1,-1, 1,-1, 1,-1,-1};
+  this->m_LabelsArray[42]  = {-1, 0,-1, 0,-1, 0,-1,-1};
+  this->m_LabelsArray[43]  = { 0, 0,-1, 0,-1, 0,-1,-1};
+  this->m_LabelsArray[44]  = {-1,-1, 0, 0,-1, 0,-1,-1};
+  this->m_LabelsArray[45]  = { 0,-1, 0, 0,-1, 0,-1,-1};
+  this->m_LabelsArray[46]  = {-1, 0, 0, 0,-1, 0,-1,-1};
+  this->m_LabelsArray[47]  = { 0, 0, 0, 0,-1, 0,-1,-1};
+  this->m_LabelsArray[48]  = {-1,-1,-1,-1, 0, 0,-1,-1};
+  this->m_LabelsArray[49]  = { 0,-1,-1,-1, 0, 0,-1,-1};
+  this->m_LabelsArray[50]  = {-1, 0,-1,-1, 0, 0,-1,-1};
+  this->m_LabelsArray[51]  = { 0, 0,-1,-1, 0, 0,-1,-1};
+  this->m_LabelsArray[52]  = {-1,-1, 0,-1, 0, 0,-1,-1};
+  this->m_LabelsArray[53]  = { 0,-1, 0,-1, 0, 0,-1,-1};
+  this->m_LabelsArray[54]  = {-1, 0, 0,-1, 0, 0,-1,-1};
+  this->m_LabelsArray[55]  = { 0, 0, 0,-1, 0, 0,-1,-1};
+  this->m_LabelsArray[56]  = {-1,-1,-1, 0, 0, 0,-1,-1};
+  this->m_LabelsArray[57]  = { 0,-1,-1, 0, 0, 0,-1,-1};
+  this->m_LabelsArray[58]  = {-1, 0,-1, 0, 0, 0,-1,-1};
+  this->m_LabelsArray[59]  = { 0, 0,-1, 0, 0, 0,-1,-1};
+  this->m_LabelsArray[60]  = {-1,-1, 0, 0, 0, 0,-1,-1};
+  this->m_LabelsArray[61]  = { 0,-1, 0, 0, 0, 0,-1,-1};
+  this->m_LabelsArray[62]  = {-1, 0, 0, 0, 0, 0,-1,-1};
+  this->m_LabelsArray[63]  = { 0, 0, 0, 0, 0, 0,-1,-1};
+  this->m_LabelsArray[64]  = {-1,-1,-1,-1,-1,-1, 0,-1};
+  this->m_LabelsArray[65]  = { 0,-1,-1,-1,-1,-1, 1,-1};
+  this->m_LabelsArray[66]  = {-1, 0,-1,-1,-1,-1, 1,-1};
+  this->m_LabelsArray[67]  = { 0, 0,-1,-1,-1,-1, 1,-1};
+  this->m_LabelsArray[68]  = {-1,-1, 0,-1,-1,-1, 0,-1};
+  this->m_LabelsArray[69]  = { 0,-1, 0,-1,-1,-1, 0,-1};
+  this->m_LabelsArray[70]  = {-1, 0, 1,-1,-1,-1, 1,-1};
+  this->m_LabelsArray[71]  = { 0, 0, 0,-1,-1,-1, 0,-1};
+  this->m_LabelsArray[72]  = {-1,-1,-1, 0,-1,-1, 1,-1};
+  this->m_LabelsArray[73]  = { 0,-1,-1, 1,-1,-1, 2,-1};
+  this->m_LabelsArray[74]  = {-1, 0,-1, 0,-1,-1, 1,-1};
+  this->m_LabelsArray[75]  = { 0, 0,-1, 0,-1,-1, 1,-1};
+  this->m_LabelsArray[76]  = {-1,-1, 0, 0,-1,-1, 0,-1};
+  this->m_LabelsArray[77]  = { 0,-1, 0, 0,-1,-1, 0,-1};
+  this->m_LabelsArray[78]  = {-1, 0, 0, 0,-1,-1, 0,-1};
+  this->m_LabelsArray[79]  = { 0, 0, 0, 0,-1,-1, 0,-1};
+  this->m_LabelsArray[80]  = {-1,-1,-1,-1, 0,-1, 0,-1};
+  this->m_LabelsArray[81]  = { 0,-1,-1,-1, 0,-1, 0,-1};
+  this->m_LabelsArray[82]  = {-1, 0,-1,-1, 1,-1, 1,-1};
+  this->m_LabelsArray[83]  = { 0, 0,-1,-1, 0,-1, 0,-1};
+  this->m_LabelsArray[84]  = {-1,-1, 0,-1, 0,-1, 0,-1};
+  this->m_LabelsArray[85]  = { 0,-1, 0,-1, 0,-1, 0,-1};
+  this->m_LabelsArray[86]  = {-1, 0, 1,-1, 1,-1, 1,-1};
+  this->m_LabelsArray[87]  = { 0, 0, 0,-1, 0,-1, 0,-1};
+  this->m_LabelsArray[88]  = {-1,-1,-1, 0, 1,-1, 1,-1};
+  this->m_LabelsArray[89]  = { 0,-1,-1, 1, 0,-1, 0,-1};
+  this->m_LabelsArray[90]  = {-1, 0,-1, 0, 1,-1, 1,-1};
+  this->m_LabelsArray[91]  = { 0, 0,-1, 0, 0,-1, 0,-1};
+  this->m_LabelsArray[92]  = {-1,-1, 0, 0, 0,-1, 0,-1};
+  this->m_LabelsArray[93]  = { 0,-1, 0, 0, 0,-1, 0,-1};
+  this->m_LabelsArray[94]  = {-1, 0, 0, 0, 0,-1, 0,-1};
+  this->m_LabelsArray[95]  = { 0, 0, 0, 0, 0,-1, 0,-1};
+  this->m_LabelsArray[96]  = {-1,-1,-1,-1,-1, 0, 1,-1};
+  this->m_LabelsArray[97]  = { 0,-1,-1,-1,-1, 1, 2,-1};
+  this->m_LabelsArray[98]  = {-1, 0,-1,-1,-1, 0, 1,-1};
+  this->m_LabelsArray[99]  = { 0, 0,-1,-1,-1, 0, 1,-1};
+  this->m_LabelsArray[100] = {-1,-1, 0,-1,-1, 1, 0,-1};
+  this->m_LabelsArray[101] = { 0,-1, 0,-1,-1, 1, 0,-1};
+  this->m_LabelsArray[102] = {-1, 0, 1,-1,-1, 0, 1,-1};
+  this->m_LabelsArray[103] = { 0, 0, 0,-1,-1, 0, 0,-1};
+  this->m_LabelsArray[104] = {-1,-1,-1, 0,-1, 0, 1,-1};
+  this->m_LabelsArray[105] = { 0,-1,-1, 1,-1, 1, 2,-1};
+  this->m_LabelsArray[106] = {-1, 0,-1, 0,-1, 0, 1,-1};
+  this->m_LabelsArray[107] = { 0, 0,-1, 0,-1, 0, 1,-1};
+  this->m_LabelsArray[108] = {-1,-1, 0, 0,-1, 0, 0,-1};
+  this->m_LabelsArray[109] = { 0,-1, 0, 0,-1, 0, 0,-1};
+  this->m_LabelsArray[110] = {-1, 0, 0, 0,-1, 0, 0,-1};
+  this->m_LabelsArray[111] = { 0, 0, 0, 0,-1, 0, 0,-1};
+  this->m_LabelsArray[112] = {-1,-1,-1,-1, 0, 0, 0,-1};
+  this->m_LabelsArray[113] = { 0,-1,-1,-1, 0, 0, 0,-1};
+  this->m_LabelsArray[114] = {-1, 0,-1,-1, 0, 0, 0,-1};
+  this->m_LabelsArray[115] = { 0, 0,-1,-1, 0, 0, 0,-1};
+  this->m_LabelsArray[116] = {-1,-1, 0,-1, 0, 0, 0,-1};
+  this->m_LabelsArray[117] = { 0,-1, 0,-1, 0, 0, 0,-1};
+  this->m_LabelsArray[118] = {-1, 0, 0,-1, 0, 0, 0,-1};
+  this->m_LabelsArray[119] = { 0, 0, 0,-1, 0, 0, 0,-1};
+  this->m_LabelsArray[120] = {-1,-1,-1, 0, 0, 0, 0,-1};
+  this->m_LabelsArray[121] = { 0,-1,-1, 0, 0, 0, 0,-1};
+  this->m_LabelsArray[122] = {-1, 0,-1, 0, 0, 0, 0,-1};
+  this->m_LabelsArray[123] = { 0, 0,-1, 0, 0, 0, 0,-1};
+  this->m_LabelsArray[124] = {-1,-1, 0, 0, 0, 0, 0,-1};
+  this->m_LabelsArray[125] = { 0,-1, 0, 0, 0, 0, 0,-1};
+  this->m_LabelsArray[126] = {-1, 0, 0, 0, 0, 0, 0,-1};
+  this->m_LabelsArray[127] = { 0, 0, 0, 0, 0, 0, 0,-1};
+  this->m_LabelsArray[128] = {-1,-1,-1,-1,-1,-1,-1, 0};
+  this->m_LabelsArray[129] = { 0,-1,-1,-1,-1,-1,-1, 1};
+  this->m_LabelsArray[130] = {-1, 0,-1,-1,-1,-1,-1, 1};
+  this->m_LabelsArray[131] = { 0, 0,-1,-1,-1,-1,-1, 1};
+  this->m_LabelsArray[132] = {-1,-1, 0,-1,-1,-1,-1, 1};
+  this->m_LabelsArray[133] = { 0,-1, 0,-1,-1,-1,-1, 1};
+  this->m_LabelsArray[134] = {-1, 0, 1,-1,-1,-1,-1, 2};
+  this->m_LabelsArray[135] = { 0, 0, 0,-1,-1,-1,-1, 1};
+  this->m_LabelsArray[136] = {-1,-1,-1, 0,-1,-1,-1, 0};
+  this->m_LabelsArray[137] = { 0,-1,-1, 1,-1,-1,-1, 1};
+  this->m_LabelsArray[138] = {-1, 0,-1, 0,-1,-1,-1, 0};
+  this->m_LabelsArray[139] = { 0, 0,-1, 0,-1,-1,-1, 0};
+  this->m_LabelsArray[140] = {-1,-1, 0, 0,-1,-1,-1, 0};
+  this->m_LabelsArray[141] = { 0,-1, 0, 0,-1,-1,-1, 0};
+  this->m_LabelsArray[142] = {-1, 0, 0, 0,-1,-1,-1, 0};
+  this->m_LabelsArray[143] = { 0, 0, 0, 0,-1,-1,-1, 0};
+  this->m_LabelsArray[144] = {-1,-1,-1,-1, 0,-1,-1, 1};
+  this->m_LabelsArray[145] = { 0,-1,-1,-1, 0,-1,-1, 1};
+  this->m_LabelsArray[146] = {-1, 0,-1,-1, 1,-1,-1, 2};
+  this->m_LabelsArray[147] = { 0, 0,-1,-1, 0,-1,-1, 1};
+  this->m_LabelsArray[148] = {-1,-1, 0,-1, 0,-1,-1, 1};
+  this->m_LabelsArray[149] = { 0,-1, 0,-1, 0,-1,-1, 1};
+  this->m_LabelsArray[150] = {-1, 0, 1,-1, 1,-1,-1, 2};
+  this->m_LabelsArray[151] = { 0, 0, 0,-1, 0,-1,-1, 1};
+  this->m_LabelsArray[152] = {-1,-1,-1, 0, 1,-1,-1, 0};
+  this->m_LabelsArray[153] = { 0,-1,-1, 1, 0,-1,-1, 1};
+  this->m_LabelsArray[154] = {-1, 0,-1, 0, 1,-1,-1, 0};
+  this->m_LabelsArray[155] = { 0, 0,-1, 0, 0,-1,-1, 0};
+  this->m_LabelsArray[156] = {-1,-1, 0, 0, 0,-1,-1, 0};
+  this->m_LabelsArray[157] = { 0,-1, 0, 0, 0,-1,-1, 0};
+  this->m_LabelsArray[158] = {-1, 0, 0, 0, 0,-1,-1, 0};
+  this->m_LabelsArray[159] = { 0, 0, 0, 0, 0,-1,-1, 0};
+  this->m_LabelsArray[160] = {-1,-1,-1,-1,-1, 0,-1, 0};
+  this->m_LabelsArray[161] = { 0,-1,-1,-1,-1, 1,-1, 1};
+  this->m_LabelsArray[162] = {-1, 0,-1,-1,-1, 0,-1, 0};
+  this->m_LabelsArray[163] = { 0, 0,-1,-1,-1, 0,-1, 0};
+  this->m_LabelsArray[164] = {-1,-1, 0,-1,-1, 1,-1, 1};
+  this->m_LabelsArray[165] = { 0,-1, 0,-1,-1, 1,-1, 1};
+  this->m_LabelsArray[166] = {-1, 0, 1,-1,-1, 0,-1, 0};
+  this->m_LabelsArray[167] = { 0, 0, 0,-1,-1, 0,-1, 0};
+  this->m_LabelsArray[168] = {-1,-1,-1, 0,-1, 0,-1, 0};
+  this->m_LabelsArray[169] = { 0,-1,-1, 1,-1, 1,-1, 1};
+  this->m_LabelsArray[170] = {-1, 0,-1, 0,-1, 0,-1, 0};
+  this->m_LabelsArray[171] = { 0, 0,-1, 0,-1, 0,-1, 0};
+  this->m_LabelsArray[172] = {-1,-1, 0, 0,-1, 0,-1, 0};
+  this->m_LabelsArray[173] = { 0,-1, 0, 0,-1, 0,-1, 0};
+  this->m_LabelsArray[174] = {-1, 0, 0, 0,-1, 0,-1, 0};
+  this->m_LabelsArray[175] = { 0, 0, 0, 0,-1, 0,-1, 0};
+  this->m_LabelsArray[176] = {-1,-1,-1,-1, 0, 0,-1, 0};
+  this->m_LabelsArray[177] = { 0,-1,-1,-1, 0, 0,-1, 0};
+  this->m_LabelsArray[178] = {-1, 0,-1,-1, 0, 0,-1, 0};
+  this->m_LabelsArray[179] = { 0, 0,-1,-1, 0, 0,-1, 0};
+  this->m_LabelsArray[180] = {-1,-1, 0,-1, 0, 0,-1, 0};
+  this->m_LabelsArray[181] = { 0,-1, 0,-1, 0, 0,-1, 0};
+  this->m_LabelsArray[182] = {-1, 0, 0,-1, 0, 0,-1, 0};
+  this->m_LabelsArray[183] = { 0, 0, 0,-1, 0, 0,-1, 0};
+  this->m_LabelsArray[184] = {-1,-1,-1, 0, 0, 0,-1, 0};
+  this->m_LabelsArray[185] = { 0,-1,-1, 0, 0, 0,-1, 0};
+  this->m_LabelsArray[186] = {-1, 0,-1, 0, 0, 0,-1, 0};
+  this->m_LabelsArray[187] = { 0, 0,-1, 0, 0, 0,-1, 0};
+  this->m_LabelsArray[188] = {-1,-1, 0, 0, 0, 0,-1, 0};
+  this->m_LabelsArray[189] = { 0,-1, 0, 0, 0, 0,-1, 0};
+  this->m_LabelsArray[190] = {-1, 0, 0, 0, 0, 0,-1, 0};
+  this->m_LabelsArray[191] = { 0, 0, 0, 0, 0, 0,-1, 0};
+  this->m_LabelsArray[192] = {-1,-1,-1,-1,-1,-1, 0, 0};
+  this->m_LabelsArray[193] = { 0,-1,-1,-1,-1,-1, 1, 1};
+  this->m_LabelsArray[194] = {-1, 0,-1,-1,-1,-1, 1, 1};
+  this->m_LabelsArray[195] = { 0, 0,-1,-1,-1,-1, 1, 1};
+  this->m_LabelsArray[196] = {-1,-1, 0,-1,-1,-1, 0, 0};
+  this->m_LabelsArray[197] = { 0,-1, 0,-1,-1,-1, 0, 0};
+  this->m_LabelsArray[198] = {-1, 0, 1,-1,-1,-1, 1, 1};
+  this->m_LabelsArray[199] = { 0, 0, 0,-1,-1,-1, 0, 0};
+  this->m_LabelsArray[200] = {-1,-1,-1, 0,-1,-1, 0, 0};
+  this->m_LabelsArray[201] = { 0,-1,-1, 1,-1,-1, 1, 1};
+  this->m_LabelsArray[202] = {-1, 0,-1, 0,-1,-1, 0, 0};
+  this->m_LabelsArray[203] = { 0, 0,-1, 0,-1,-1, 0, 0};
+  this->m_LabelsArray[204] = {-1,-1, 0, 0,-1,-1, 0, 0};
+  this->m_LabelsArray[205] = { 0,-1, 0, 0,-1,-1, 0, 0};
+  this->m_LabelsArray[206] = {-1, 0, 0, 0,-1,-1, 0, 0};
+  this->m_LabelsArray[207] = { 0, 0, 0, 0,-1,-1, 0, 0};
+  this->m_LabelsArray[208] = {-1,-1,-1,-1, 0,-1, 0, 0};
+  this->m_LabelsArray[209] = { 0,-1,-1,-1, 0,-1, 0, 0};
+  this->m_LabelsArray[210] = {-1, 0,-1,-1, 1,-1, 1, 1};
+  this->m_LabelsArray[211] = { 0, 0,-1,-1, 0,-1, 0, 0};
+  this->m_LabelsArray[212] = {-1,-1, 0,-1, 0,-1, 0, 0};
+  this->m_LabelsArray[213] = { 0,-1, 0,-1, 0,-1, 0, 0};
+  this->m_LabelsArray[214] = {-1, 0, 1,-1, 1,-1, 1, 1};
+  this->m_LabelsArray[215] = { 0, 0, 0,-1, 0,-1, 0, 0};
+  this->m_LabelsArray[216] = {-1,-1,-1, 0, 0,-1, 0, 0};
+  this->m_LabelsArray[217] = { 0,-1,-1, 0, 0,-1, 0, 0};
+  this->m_LabelsArray[218] = {-1, 0,-1, 0, 0,-1, 0, 0};
+  this->m_LabelsArray[219] = { 0, 0,-1, 0, 0,-1, 0, 0};
+  this->m_LabelsArray[220] = {-1,-1, 0, 0, 0,-1, 0, 0};
+  this->m_LabelsArray[221] = { 0,-1, 0, 0, 0,-1, 0, 0};
+  this->m_LabelsArray[222] = {-1, 0, 0, 0, 0,-1, 0, 0};
+  this->m_LabelsArray[223] = { 0, 0, 0, 0, 0,-1, 0, 0};
+  this->m_LabelsArray[224] = {-1,-1,-1,-1,-1, 0, 0, 0};
+  this->m_LabelsArray[225] = { 0,-1,-1,-1,-1, 1, 1, 1};
+  this->m_LabelsArray[226] = {-1, 0,-1,-1,-1, 0, 0, 0};
+  this->m_LabelsArray[227] = { 0, 0,-1,-1,-1, 0, 0, 0};
+  this->m_LabelsArray[228] = {-1,-1, 0,-1,-1, 0, 0, 0};
+  this->m_LabelsArray[229] = { 0,-1, 0,-1,-1, 0, 0, 0};
+  this->m_LabelsArray[230] = {-1, 0, 0,-1,-1, 0, 0, 0};
+  this->m_LabelsArray[231] = { 0, 0, 0,-1,-1, 0, 0, 0};
+  this->m_LabelsArray[232] = {-1,-1,-1, 0,-1, 0, 0, 0};
+  this->m_LabelsArray[233] = { 0,-1,-1, 1,-1, 1, 1, 1};
+  this->m_LabelsArray[234] = {-1, 0,-1, 0,-1, 0, 0, 0};
+  this->m_LabelsArray[235] = { 0, 0,-1, 0,-1, 0, 0, 0};
+  this->m_LabelsArray[236] = {-1,-1, 0, 0,-1, 0, 0, 0};
+  this->m_LabelsArray[237] = { 0,-1, 0, 0,-1, 0, 0, 0};
+  this->m_LabelsArray[238] = {-1, 0, 0, 0,-1, 0, 0, 0};
+  this->m_LabelsArray[239] = { 0, 0, 0, 0,-1, 0, 0, 0};
+  this->m_LabelsArray[240] = {-1,-1,-1,-1, 0, 0, 0, 0};
+  this->m_LabelsArray[241] = { 0,-1,-1,-1, 0, 0, 0, 0};
+  this->m_LabelsArray[242] = {-1, 0,-1,-1, 0, 0, 0, 0};
+  this->m_LabelsArray[243] = { 0, 0,-1,-1, 0, 0, 0, 0};
+  this->m_LabelsArray[244] = {-1,-1, 0,-1, 0, 0, 0, 0};
+  this->m_LabelsArray[245] = { 0,-1, 0,-1, 0, 0, 0, 0};
+  this->m_LabelsArray[246] = {-1, 0, 0,-1, 0, 0, 0, 0};
+  this->m_LabelsArray[247] = { 0, 0, 0,-1, 0, 0, 0, 0};
+  this->m_LabelsArray[248] = {-1,-1,-1, 0, 0, 0, 0, 0};
+  this->m_LabelsArray[249] = { 0,-1,-1, 0, 0, 0, 0, 0};
+  this->m_LabelsArray[250] = {-1, 0,-1, 0, 0, 0, 0, 0};
+  this->m_LabelsArray[251] = { 0, 0,-1, 0, 0, 0, 0, 0};
+  this->m_LabelsArray[252] = {-1,-1, 0, 0, 0, 0, 0, 0};
+  this->m_LabelsArray[253] = { 0,-1, 0, 0, 0, 0, 0, 0};
+  this->m_LabelsArray[254] = {-1, 0, 0, 0, 0, 0, 0, 0};
+  this->m_LabelsArray[255] = { 0, 0, 0, 0, 0, 0, 0, 0};
+
 }
 
 template<typename TInputImage, typename TOutputMesh, typename TInterpolator>
