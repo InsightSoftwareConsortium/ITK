@@ -142,6 +142,7 @@ public:
   using CellsContainerPointer = typename OutputMeshType::CellsContainerPointer;
   using CellsContainer = typename OutputMeshType::CellsContainer;
   using PointIdentifier = typename OutputMeshType::PointIdentifier;
+  using PointVectorType = typename std::vector<PointIdentifier>;
   using CellIdentifier = typename OutputMeshType::CellIdentifier;
   using CellInterfaceType = CellInterface<OutputPixelType, CellTraits>;
   using TriangleCellType = TriangleCell<CellInterfaceType>;
@@ -242,6 +243,10 @@ public:
   itkGetMacro(ProjectVertexMaximumNumberOfSteps, unsigned int);
   itkSetMacro(ProjectVertexMaximumNumberOfSteps, unsigned int);
 
+  /** Calculate connected components labels for all possible 2x2x2 binary images. */
+  void
+  CalculateLabelsArray();
+
 protected:
   CuberilleImageToMeshFilter();
   ~CuberilleImageToMeshFilter() override;
@@ -319,8 +324,7 @@ private:
   public:
     /** Convenient type alias */
     using Self = VertexLookupMap;
-    using PointIdentifier = typename TMeshType::PointIdentifier;
-    using MapType = std::map<VertexLookupNode, PointIdentifier>;
+    using MapType = std::map<VertexLookupNode, PointVectorType>;
 
     /** Constructors */
     VertexLookupMap() {}
@@ -334,17 +338,17 @@ private:
 
     /** Add the given vertex identifer to the given [x,y] position. */
     void
-    AddVertex(unsigned int x, unsigned int y, PointIdentifier id)
+    AddVertex(unsigned int x, unsigned int y, PointVectorType ids)
     {
       VertexLookupNode node(x, y);
-      m_Map.insert(typename MapType::value_type(node, id));
+      m_Map.insert(typename MapType::value_type(node, ids));
     }
 
     /** Get the vertex identifer for the given [x,y] position.
      * Returns true if the vertex exists and id contains the identifer.
      * Returns false if the vertex does not exist and id is undefined. */
     bool
-    GetVertex(unsigned int x, unsigned int y, PointIdentifier & id)
+    GetVertex(unsigned int x, unsigned int y, const size_t component, PointIdentifier & id)
     {
       bool             result = false;
       VertexLookupNode node(x, y);
@@ -352,7 +356,7 @@ private:
       if (it != m_Map.end())
       {
         result = true;
-        id = it->second;
+        id = it->second.at(component);
       }
       return result;
     }
@@ -383,8 +387,12 @@ private:
   ProjectVertexToIsoSurface(PointType & vertex);
 
   /** Add a vertex to the given mesh. Increments point identifier. */
-  inline void
-  AddVertex(PointIdentifier & id, IndexType index, const InputImageType * image, OutputMeshType * mesh);
+  inline PointVectorType
+  AddVertex(PointIdentifier &      id,
+            IndexType              index,
+            const InputImageType * image,
+            OutputMeshType *       mesh,
+            const size_t           numComponents);
 
   /** Add quadrilateral face to the given mesh. Increments cell identifier. */
   inline void
@@ -392,6 +400,16 @@ private:
               std::array<PointIdentifier, 4> f,
               OutputMeshType *               mesh,
               const InputPixelType &         pixel);
+
+  /** Calculate the local 2x2x2 bitmask for a given vertex index. */
+  size_t
+  CalculateBitmaskIDForVertexIndex(const IndexType & vindex);
+
+  using TLabel = signed char;
+  using TLabels = std::array<TLabel, 8>;
+  using TLabelsArray = std::array<TLabels, 256>;
+
+  TLabelsArray m_LabelsArray;
 
   InputPixelType              m_IsoSurfaceValue;
   InterpolatorPointer         m_Interpolator;

@@ -47,7 +47,7 @@ add_test(
   COMMAND
     CuberilleTestDriver CuberilleTest01 ${DATA_DIR}/blob2.mha
     ${ITK_TEST_OUTPUT_DIR}/blob2-01.vtk 200 # Iso-surface value
-    14 # Expected number of points
+    16 # Expected number of points
     12 # Expected number of cells
     0 # Generate triangle faces
     0 # Project vertices to iso-surface
@@ -62,7 +62,7 @@ add_test(
   COMMAND
     CuberilleTestDriver CuberilleTest01 ${DATA_DIR}/blob3.mha
     ${ITK_TEST_OUTPUT_DIR}/blob3-01.vtk 200 # Iso-surface value
-    122 # Expected number of points
+    216 # Expected number of points
     180 # Expected number of cells
     0 # Generate triangle faces
     0 # Project vertices to iso-surface
@@ -92,7 +92,7 @@ add_test(
   COMMAND
     CuberilleTestDriver CuberilleTest01 ${DATA_DIR}/marschnerlobb.mha
     ${ITK_TEST_OUTPUT_DIR}/marschnerlobb-01.vtk 55 # Iso-surface value
-    20524 # Expected number of points
+    22106 # Expected number of points
     22104 # Expected number of cells
     0 # Generate triangle faces
     1 # Project vertices to iso-surface
@@ -167,7 +167,7 @@ add_test(
   COMMAND
     CuberilleTestDriver CuberilleTest01 ${DATA_DIR}/neghip.mha
     ${ITK_TEST_OUTPUT_DIR}/neghip-01.vtk 55 # Iso-surface value
-    15146 # Expected number of points
+    15162 # Expected number of points
     15136 # Expected number of cells
     0 # Generate triangle faces
     0 # Project vertices to iso-surface
@@ -182,7 +182,7 @@ add_test(
   COMMAND
     CuberilleTestDriver CuberilleTest01 ${DATA_DIR}/neghip.mha
     ${ITK_TEST_OUTPUT_DIR}/neghip-02.vtk 55 # Iso-surface value
-    15146 # Expected number of points
+    15162 # Expected number of points
     15136 # Expected number of cells
     0 # Generate triangle faces
     1 # Project vertices to iso-surface
@@ -197,7 +197,7 @@ add_test(
   COMMAND
     CuberilleTestDriver CuberilleTest01 ${DATA_DIR}/neghip.mha
     ${ITK_TEST_OUTPUT_DIR}/neghip-03.vtk 55 # Iso-surface value
-    15146 # Expected number of points
+    15162 # Expected number of points
     30272 # Expected number of cells
     1 # Generate triangle faces
     1 # Project vertices to iso-surface
