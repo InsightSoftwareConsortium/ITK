@@ -252,21 +252,6 @@ ExposeMetaData(const MetaDataDictionary & Dictionary, const std::string key, T &
 
 /** Explicit instantiations */
 #ifndef ITK_TEMPLATE_EXPLICIT_MetaDataObject
-// Explicit instantiation is required to ensure correct dynamic_cast
-// behavior across shared libraries.
-//
-// IMPORTANT: Since within the same compilation unit,
-//            ITK_TEMPLATE_EXPLICIT_<classname> defined and undefined states
-//            need to be considered. This code *MUST* be *OUTSIDE* the header
-//            guards.
-//
-#if defined(ITKCommon_EXPORTS)
-//   We are building this library
-#  define ITKCommon_EXPORT_EXPLICIT ITK_TEMPLATE_EXPORT
-#else
-//   We are using this library
-#  define ITKCommon_EXPORT_EXPLICIT ITKCommon_EXPORT
-#endif
 namespace itk
 {
 
@@ -301,5 +286,4 @@ extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject<Matrix<double>>;
 ITK_GCC_PRAGMA_DIAG_POP()
 
 } // end namespace itk
-#undef ITKCommon_EXPORT_EXPLICIT
 #endif

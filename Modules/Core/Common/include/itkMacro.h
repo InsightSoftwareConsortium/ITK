@@ -216,6 +216,13 @@ namespace itk
 #  endif
 #endif
 
+#if defined(ITKCommon_EXPORTS)
+//   We are building this library
+#  define ITKCommon_EXPORT_EXPLICIT ITK_TEMPLATE_EXPORT
+#else
+//   We are using this library
+#  define ITKCommon_EXPORT_EXPLICIT ITKCommon_EXPORT
+#endif
 
 //-*-*-*
 // The following deprecations should be removed in ITKV6 and later

@@ -25,6 +25,7 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
+#define ITK_TEMPLATE_EXPLICIT_MultiThreaderBase
 #include "itkMultiThreaderBase.h"
 #include "itkPlatformMultiThreader.h"
 #if defined(ITK_USE_PTHREADS) || defined(ITK_USE_WIN32_THREADS)
@@ -649,5 +650,53 @@ MultiThreaderBase::PrintSelf(std::ostream & os, Indent indent) const
 }
 
 MultiThreaderBaseGlobals * MultiThreaderBase::m_PimplGlobals;
+
+
+template void ITKCommon_EXPORT
+              MultiThreaderBase::ParallelizeImageRegion<1>(const ImageRegion<1> &           requestedRegion,
+                                             TemplatedThreadingFunctorType<1> funcP,
+                                             ProcessObject *                  filter);
+template void ITKCommon_EXPORT
+              MultiThreaderBase::ParallelizeImageRegion<2>(const ImageRegion<2> &           requestedRegion,
+                                             TemplatedThreadingFunctorType<2> funcP,
+                                             ProcessObject *                  filter);
+template void ITKCommon_EXPORT
+              MultiThreaderBase::ParallelizeImageRegion<3>(const ImageRegion<3> &           requestedRegion,
+                                             TemplatedThreadingFunctorType<3> funcP,
+                                             ProcessObject *                  filter);
+template void ITKCommon_EXPORT
+              MultiThreaderBase::ParallelizeImageRegion<4>(const ImageRegion<4> &           requestedRegion,
+                                             TemplatedThreadingFunctorType<4> funcP,
+                                             ProcessObject *                  filter);
+template void ITKCommon_EXPORT
+              MultiThreaderBase::ParallelizeImageRegion<5>(const ImageRegion<5> &           requestedRegion,
+                                             TemplatedThreadingFunctorType<5> funcP,
+                                             ProcessObject *                  filter);
+
+template void ITKCommon_EXPORT
+              MultiThreaderBase::ParallelizeImageRegionRestrictDirection<1>(unsigned int,
+                                                              const ImageRegion<1> &,
+                                                              TemplatedThreadingFunctorType<1>,
+                                                              ProcessObject *);
+template void ITKCommon_EXPORT
+              MultiThreaderBase::ParallelizeImageRegionRestrictDirection<2>(unsigned int,
+                                                              const ImageRegion<2> &,
+                                                              TemplatedThreadingFunctorType<2>,
+                                                              ProcessObject *);
+template void ITKCommon_EXPORT
+              MultiThreaderBase::ParallelizeImageRegionRestrictDirection<3>(unsigned int,
+                                                              const ImageRegion<3> &,
+                                                              TemplatedThreadingFunctorType<3>,
+                                                              ProcessObject *);
+template void ITKCommon_EXPORT
+              MultiThreaderBase::ParallelizeImageRegionRestrictDirection<4>(unsigned int,
+                                                              const ImageRegion<4> &,
+                                                              TemplatedThreadingFunctorType<4>,
+                                                              ProcessObject *);
+template void ITKCommon_EXPORT
+              MultiThreaderBase::ParallelizeImageRegionRestrictDirection<5>(unsigned int,
+                                                              const ImageRegion<5> &,
+                                                              TemplatedThreadingFunctorType<5>,
+                                                              ProcessObject *);
 
 } // namespace itk

@@ -466,3 +466,50 @@ ITKCommon_EXPORT std::ostream &
 
 } // end namespace itk
 #endif
+
+#ifndef ITK_TEMPLATE_EXPLICIT_MultiThreaderBase
+
+namespace itk
+{
+extern template void ITKCommon_EXPORT_EXPLICIT
+                     MultiThreaderBase::ParallelizeImageRegion<1>(const ImageRegion<1> &, TemplatedThreadingFunctorType<1>, ProcessObject *);
+extern template void ITKCommon_EXPORT_EXPLICIT
+                     MultiThreaderBase::ParallelizeImageRegion<2>(const ImageRegion<2> &, TemplatedThreadingFunctorType<2>, ProcessObject *);
+extern template void ITKCommon_EXPORT_EXPLICIT
+                     MultiThreaderBase::ParallelizeImageRegion<3>(const ImageRegion<3> &, TemplatedThreadingFunctorType<3>, ProcessObject *);
+extern template void ITKCommon_EXPORT_EXPLICIT
+                     MultiThreaderBase::ParallelizeImageRegion<4>(const ImageRegion<4> &, TemplatedThreadingFunctorType<4>, ProcessObject *);
+extern template void ITKCommon_EXPORT_EXPLICIT
+                     MultiThreaderBase::ParallelizeImageRegion<5>(const ImageRegion<5> &,
+                                             TemplatedThreadingFunctorType<5> funcP,
+                                             ProcessObject *);
+
+
+extern template void ITKCommon_EXPORT_EXPLICIT
+                     MultiThreaderBase::ParallelizeImageRegionRestrictDirection<1>(unsigned int,
+                                                              const ImageRegion<1> &,
+                                                              TemplatedThreadingFunctorType<1>,
+                                                              ProcessObject *);
+extern template void ITKCommon_EXPORT_EXPLICIT
+                     MultiThreaderBase::ParallelizeImageRegionRestrictDirection<2>(unsigned int,
+                                                              const ImageRegion<2> &,
+                                                              TemplatedThreadingFunctorType<2>,
+                                                              ProcessObject *);
+extern template void ITKCommon_EXPORT_EXPLICIT
+                     MultiThreaderBase::ParallelizeImageRegionRestrictDirection<3>(unsigned int,
+                                                              const ImageRegion<3> &,
+                                                              TemplatedThreadingFunctorType<3>,
+                                                              ProcessObject *);
+extern template void ITKCommon_EXPORT_EXPLICIT
+                     MultiThreaderBase::ParallelizeImageRegionRestrictDirection<4>(unsigned int,
+                                                              const ImageRegion<4> &,
+                                                              TemplatedThreadingFunctorType<4>,
+                                                              ProcessObject *);
+extern template void ITKCommon_EXPORT_EXPLICIT
+                     MultiThreaderBase::ParallelizeImageRegionRestrictDirection<5>(unsigned int,
+                                                              const ImageRegion<5> &,
+                                                              TemplatedThreadingFunctorType<5>,
+                                                              ProcessObject *);
+
+} // namespace itk
+#endif
