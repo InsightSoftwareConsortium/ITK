@@ -88,3 +88,8 @@ To cite ITK, please reference, as appropriate:
 ### Specific software version
 
 [![DOI](https://zenodo.org/badge/800928.svg)](https://zenodo.org/badge/latestdoi/800928)
+
+Once your work has been published, please create a pull request to add
+publication to the
+[ITKBibliography.bib](https://github.com/InsightSoftwareConsortium/insightsoftwareconsortium.org/blob/insightsoftwareconsortium-org/citations/ITKBibliography.bib)
+file.
