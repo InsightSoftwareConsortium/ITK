@@ -67,3 +67,24 @@ distributed under a license that enables use for both non-commercial and
 commercial applications. See [LICENSE](https://github.com/InsightSoftwareConsortium/ITK/blob/master/LICENSE)
 and [NOTICE](https://github.com/InsightSoftwareConsortium/ITK/blob/master/NOTICE)
 files for details.
+
+Citation
+--------
+
+To cite ITK, please reference, as appropriate:
+
+### The papers
+
+> McCormick M, Liu X, Jomier J, Marion C, Ibanez L. ITK: enabling reproducible research and open science. Front Neuroinform. 2014;8:13. Published 2014 Feb 20. doi:10.3389/fninf.2014.00013
+
+> Yoo TS, Ackerman MJ, Lorensen WE, Schroeder W, Chalana V, Aylward S, Metaxas D, Whitaker R. Engineering and Algorithm Design for an Image Processing API: A Technical Report on ITK – The Insight Toolkit. In Proc. of Medicine Meets Virtual Reality, J. Westwood, ed., IOS Press Amsterdam pp 586-592 (2002).
+
+### The books
+
+> Johnson, McCormick, Ibanez. "The ITK Software Guide: Design and Functionality." Fourth Edition. Published by Kitware, Inc. 2015 ISBN: 9781-930934-28-3.
+
+> Johnson, McCormick, Ibanez. "The ITK Software Guide: Introduction and Development Guidelines." Fourth Edition. Published by Kitware, Inc. 2015 ISBN: 9781-930934-27-6.
+
+### Specific software version
+
+[![DOI](https://zenodo.org/badge/800928.svg)](https://zenodo.org/badge/latestdoi/800928)
