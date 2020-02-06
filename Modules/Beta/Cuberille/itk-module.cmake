@@ -20,6 +20,7 @@ itk_module(Cuberille
     ITKImageFunction
     ITKImageGradient
     ITKMesh
+    ITKConnectedComponents
   TEST_DEPENDS
     ITKTestKernel
     ITKQuadEdgeMesh

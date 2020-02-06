@@ -156,6 +156,16 @@ int CuberilleTest01 (int argc, char * argv [] )
   ITK_EXERCISE_BASIC_OBJECT_METHODS( cuberille, CuberilleImageToMeshFilter,
     ImageToMeshFilter );
 
+  // How long does it take to pre-calculate the array labels array?
+
+  itk::TimeProbe labelsArrayTimer;
+
+  labelsArrayTimer.Start();
+  cuberille->CalculateLabelsArray();
+  labelsArrayTimer.Stop();
+
+  std::cout << "Time to calculate labels array: " << labelsArrayTimer.GetMean() << std::endl;
+
   cuberille->SetInput( input );
 
   cuberille->SetIsoSurfaceValue( isoSurfaceValue );
