@@ -24,6 +24,7 @@ itk_module(
     ITKImageFunction
     ITKImageGradient
     ITKMesh
+    ITKConnectedComponents
   TEST_DEPENDS
     ITKTestKernel
     ITKQuadEdgeMesh
