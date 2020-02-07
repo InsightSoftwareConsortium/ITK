@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #==========================================================================
 #
-#   Copyright Insight Software Consortium
+#   Copyright NumFOCUS
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ import os
 ## New license as specified on: https://itk.org/Wiki/ITK_Release_4/Licensing
 NewITKCopyrightNotice="""/*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
