@@ -17,7 +17,7 @@
  *=========================================================================*/
 #define USE_BSPLINE_INTERPOLATOR 0
 #define USE_MARCHING_CUBES 0
-#define USE_QUAD_EDGE_MESH 0
+#define USE_QUAD_EDGE_MESH 1
 #define USE_DECIMATION 0
 
 #include "itkTimeProbe.h"
