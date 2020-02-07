@@ -1,0 +1,23 @@
+{
+  "creators": [
+    {
+      "affiliation": "Kitware, Inc",
+      "name": "McCormick, Matthew",
+      "orcid": "0000-0001-9475-3756"
+    }
+  ],
+  "keywords": [
+    "itk",
+    "insight-toolkit",
+    "c-plus-plus",
+    "python",
+    "image-analysis",
+    "medical-imaging",
+    "scientific-computing",
+    "open-science",
+    "open-source",
+    "reproducible-research"
+  ],
+  "license": "Apache-2.0",
+  "upload_type": "software"
+}
