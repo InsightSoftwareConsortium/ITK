@@ -587,6 +587,13 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 //  the values are hardcoded below.  The commented code was used to generate
 //  the hardcoded values.
 //
+//  NOTE: There was previously a bug in itk::ConnectedComponentImageFilter which
+//  caused the hardcoded values below to be incorrect, though this has since been
+//  fixed.  Therefore, the commented code below will fail if built prior to the
+//  following patch:
+//
+//  Git Hash: c32a7846cb6502eaa79780de3ff7b0ce81597118
+//
 //  using TImage = itk::Image<unsigned char, 3>;
 //  using TConnected = itk::ConnectedComponentImageFilter< TImage, TImage >;
 //
@@ -647,7 +654,7 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 //    std::cout << "};\n";
 //  }
 
-  this->m_LabelsArray[0]   = { 0, 0, 0, 0, 0, 0, 0, 0};
+  this->m_LabelsArray[0]   = {-1,-1,-1,-1,-1,-1,-1,-1};
   this->m_LabelsArray[1]   = { 0,-1,-1,-1,-1,-1,-1,-1};
   this->m_LabelsArray[2]   = {-1, 0,-1,-1,-1,-1,-1,-1};
   this->m_LabelsArray[3]   = { 0, 0,-1,-1,-1,-1,-1,-1};
@@ -667,17 +674,17 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   this->m_LabelsArray[17]  = { 0,-1,-1,-1, 0,-1,-1,-1};
   this->m_LabelsArray[18]  = {-1, 0,-1,-1, 1,-1,-1,-1};
   this->m_LabelsArray[19]  = { 0, 0,-1,-1, 0,-1,-1,-1};
-  this->m_LabelsArray[20]  = {-1,-1, 0,-1, 0,-1,-1,-1};
+  this->m_LabelsArray[20]  = {-1,-1, 0,-1, 1,-1,-1,-1};
   this->m_LabelsArray[21]  = { 0,-1, 0,-1, 0,-1,-1,-1};
-  this->m_LabelsArray[22]  = {-1, 0, 1,-1, 1,-1,-1,-1};
+  this->m_LabelsArray[22]  = {-1, 0, 1,-1, 2,-1,-1,-1};
   this->m_LabelsArray[23]  = { 0, 0, 0,-1, 0,-1,-1,-1};
   this->m_LabelsArray[24]  = {-1,-1,-1, 0, 1,-1,-1,-1};
   this->m_LabelsArray[25]  = { 0,-1,-1, 1, 0,-1,-1,-1};
   this->m_LabelsArray[26]  = {-1, 0,-1, 0, 1,-1,-1,-1};
   this->m_LabelsArray[27]  = { 0, 0,-1, 0, 0,-1,-1,-1};
-  this->m_LabelsArray[28]  = {-1,-1, 0, 0, 0,-1,-1,-1};
+  this->m_LabelsArray[28]  = {-1,-1, 0, 0, 1,-1,-1,-1};
   this->m_LabelsArray[29]  = { 0,-1, 0, 0, 0,-1,-1,-1};
-  this->m_LabelsArray[30]  = {-1, 0, 0, 0, 0,-1,-1,-1};
+  this->m_LabelsArray[30]  = {-1, 0, 0, 0, 1,-1,-1,-1};
   this->m_LabelsArray[31]  = { 0, 0, 0, 0, 0,-1,-1,-1};
   this->m_LabelsArray[32]  = {-1,-1,-1,-1,-1, 0,-1,-1};
   this->m_LabelsArray[33]  = { 0,-1,-1,-1,-1, 1,-1,-1};
@@ -687,27 +694,27 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   this->m_LabelsArray[37]  = { 0,-1, 0,-1,-1, 1,-1,-1};
   this->m_LabelsArray[38]  = {-1, 0, 1,-1,-1, 0,-1,-1};
   this->m_LabelsArray[39]  = { 0, 0, 0,-1,-1, 0,-1,-1};
-  this->m_LabelsArray[40]  = {-1,-1,-1, 0,-1, 0,-1,-1};
-  this->m_LabelsArray[41]  = { 0,-1,-1, 1,-1, 1,-1,-1};
+  this->m_LabelsArray[40]  = {-1,-1,-1, 0,-1, 1,-1,-1};
+  this->m_LabelsArray[41]  = { 0,-1,-1, 1,-1, 2,-1,-1};
   this->m_LabelsArray[42]  = {-1, 0,-1, 0,-1, 0,-1,-1};
   this->m_LabelsArray[43]  = { 0, 0,-1, 0,-1, 0,-1,-1};
-  this->m_LabelsArray[44]  = {-1,-1, 0, 0,-1, 0,-1,-1};
-  this->m_LabelsArray[45]  = { 0,-1, 0, 0,-1, 0,-1,-1};
+  this->m_LabelsArray[44]  = {-1,-1, 0, 0,-1, 1,-1,-1};
+  this->m_LabelsArray[45]  = { 0,-1, 0, 0,-1, 1,-1,-1};
   this->m_LabelsArray[46]  = {-1, 0, 0, 0,-1, 0,-1,-1};
   this->m_LabelsArray[47]  = { 0, 0, 0, 0,-1, 0,-1,-1};
   this->m_LabelsArray[48]  = {-1,-1,-1,-1, 0, 0,-1,-1};
   this->m_LabelsArray[49]  = { 0,-1,-1,-1, 0, 0,-1,-1};
   this->m_LabelsArray[50]  = {-1, 0,-1,-1, 0, 0,-1,-1};
   this->m_LabelsArray[51]  = { 0, 0,-1,-1, 0, 0,-1,-1};
-  this->m_LabelsArray[52]  = {-1,-1, 0,-1, 0, 0,-1,-1};
+  this->m_LabelsArray[52]  = {-1,-1, 0,-1, 1, 1,-1,-1};
   this->m_LabelsArray[53]  = { 0,-1, 0,-1, 0, 0,-1,-1};
-  this->m_LabelsArray[54]  = {-1, 0, 0,-1, 0, 0,-1,-1};
+  this->m_LabelsArray[54]  = {-1, 0, 1,-1, 0, 0,-1,-1};
   this->m_LabelsArray[55]  = { 0, 0, 0,-1, 0, 0,-1,-1};
-  this->m_LabelsArray[56]  = {-1,-1,-1, 0, 0, 0,-1,-1};
-  this->m_LabelsArray[57]  = { 0,-1,-1, 0, 0, 0,-1,-1};
+  this->m_LabelsArray[56]  = {-1,-1,-1, 0, 1, 1,-1,-1};
+  this->m_LabelsArray[57]  = { 0,-1,-1, 1, 0, 0,-1,-1};
   this->m_LabelsArray[58]  = {-1, 0,-1, 0, 0, 0,-1,-1};
   this->m_LabelsArray[59]  = { 0, 0,-1, 0, 0, 0,-1,-1};
-  this->m_LabelsArray[60]  = {-1,-1, 0, 0, 0, 0,-1,-1};
+  this->m_LabelsArray[60]  = {-1,-1, 0, 0, 1, 1,-1,-1};
   this->m_LabelsArray[61]  = { 0,-1, 0, 0, 0, 0,-1,-1};
   this->m_LabelsArray[62]  = {-1, 0, 0, 0, 0, 0,-1,-1};
   this->m_LabelsArray[63]  = { 0, 0, 0, 0, 0, 0,-1,-1};
@@ -751,12 +758,12 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   this->m_LabelsArray[101] = { 0,-1, 0,-1,-1, 1, 0,-1};
   this->m_LabelsArray[102] = {-1, 0, 1,-1,-1, 0, 1,-1};
   this->m_LabelsArray[103] = { 0, 0, 0,-1,-1, 0, 0,-1};
-  this->m_LabelsArray[104] = {-1,-1,-1, 0,-1, 0, 1,-1};
-  this->m_LabelsArray[105] = { 0,-1,-1, 1,-1, 1, 2,-1};
+  this->m_LabelsArray[104] = {-1,-1,-1, 0,-1, 1, 2,-1};
+  this->m_LabelsArray[105] = { 0,-1,-1, 1,-1, 2, 3,-1};
   this->m_LabelsArray[106] = {-1, 0,-1, 0,-1, 0, 1,-1};
   this->m_LabelsArray[107] = { 0, 0,-1, 0,-1, 0, 1,-1};
-  this->m_LabelsArray[108] = {-1,-1, 0, 0,-1, 0, 0,-1};
-  this->m_LabelsArray[109] = { 0,-1, 0, 0,-1, 0, 0,-1};
+  this->m_LabelsArray[108] = {-1,-1, 0, 0,-1, 1, 0,-1};
+  this->m_LabelsArray[109] = { 0,-1, 0, 0,-1, 1, 0,-1};
   this->m_LabelsArray[110] = {-1, 0, 0, 0,-1, 0, 0,-1};
   this->m_LabelsArray[111] = { 0, 0, 0, 0,-1, 0, 0,-1};
   this->m_LabelsArray[112] = {-1,-1,-1,-1, 0, 0, 0,-1};
@@ -767,8 +774,8 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   this->m_LabelsArray[117] = { 0,-1, 0,-1, 0, 0, 0,-1};
   this->m_LabelsArray[118] = {-1, 0, 0,-1, 0, 0, 0,-1};
   this->m_LabelsArray[119] = { 0, 0, 0,-1, 0, 0, 0,-1};
-  this->m_LabelsArray[120] = {-1,-1,-1, 0, 0, 0, 0,-1};
-  this->m_LabelsArray[121] = { 0,-1,-1, 0, 0, 0, 0,-1};
+  this->m_LabelsArray[120] = {-1,-1,-1, 0, 1, 1, 1,-1};
+  this->m_LabelsArray[121] = { 0,-1,-1, 1, 0, 0, 0,-1};
   this->m_LabelsArray[122] = {-1, 0,-1, 0, 0, 0, 0,-1};
   this->m_LabelsArray[123] = { 0, 0,-1, 0, 0, 0, 0,-1};
   this->m_LabelsArray[124] = {-1,-1, 0, 0, 0, 0, 0,-1};
@@ -795,17 +802,17 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   this->m_LabelsArray[145] = { 0,-1,-1,-1, 0,-1,-1, 1};
   this->m_LabelsArray[146] = {-1, 0,-1,-1, 1,-1,-1, 2};
   this->m_LabelsArray[147] = { 0, 0,-1,-1, 0,-1,-1, 1};
-  this->m_LabelsArray[148] = {-1,-1, 0,-1, 0,-1,-1, 1};
+  this->m_LabelsArray[148] = {-1,-1, 0,-1, 1,-1,-1, 2};
   this->m_LabelsArray[149] = { 0,-1, 0,-1, 0,-1,-1, 1};
-  this->m_LabelsArray[150] = {-1, 0, 1,-1, 1,-1,-1, 2};
+  this->m_LabelsArray[150] = {-1, 0, 1,-1, 2,-1,-1, 3};
   this->m_LabelsArray[151] = { 0, 0, 0,-1, 0,-1,-1, 1};
   this->m_LabelsArray[152] = {-1,-1,-1, 0, 1,-1,-1, 0};
   this->m_LabelsArray[153] = { 0,-1,-1, 1, 0,-1,-1, 1};
   this->m_LabelsArray[154] = {-1, 0,-1, 0, 1,-1,-1, 0};
   this->m_LabelsArray[155] = { 0, 0,-1, 0, 0,-1,-1, 0};
-  this->m_LabelsArray[156] = {-1,-1, 0, 0, 0,-1,-1, 0};
+  this->m_LabelsArray[156] = {-1,-1, 0, 0, 1,-1,-1, 0};
   this->m_LabelsArray[157] = { 0,-1, 0, 0, 0,-1,-1, 0};
-  this->m_LabelsArray[158] = {-1, 0, 0, 0, 0,-1,-1, 0};
+  this->m_LabelsArray[158] = {-1, 0, 0, 0, 1,-1,-1, 0};
   this->m_LabelsArray[159] = { 0, 0, 0, 0, 0,-1,-1, 0};
   this->m_LabelsArray[160] = {-1,-1,-1,-1,-1, 0,-1, 0};
   this->m_LabelsArray[161] = { 0,-1,-1,-1,-1, 1,-1, 1};
@@ -827,9 +834,9 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   this->m_LabelsArray[177] = { 0,-1,-1,-1, 0, 0,-1, 0};
   this->m_LabelsArray[178] = {-1, 0,-1,-1, 0, 0,-1, 0};
   this->m_LabelsArray[179] = { 0, 0,-1,-1, 0, 0,-1, 0};
-  this->m_LabelsArray[180] = {-1,-1, 0,-1, 0, 0,-1, 0};
+  this->m_LabelsArray[180] = {-1,-1, 0,-1, 1, 1,-1, 1};
   this->m_LabelsArray[181] = { 0,-1, 0,-1, 0, 0,-1, 0};
-  this->m_LabelsArray[182] = {-1, 0, 0,-1, 0, 0,-1, 0};
+  this->m_LabelsArray[182] = {-1, 0, 1,-1, 0, 0,-1, 0};
   this->m_LabelsArray[183] = { 0, 0, 0,-1, 0, 0,-1, 0};
   this->m_LabelsArray[184] = {-1,-1,-1, 0, 0, 0,-1, 0};
   this->m_LabelsArray[185] = { 0,-1,-1, 0, 0, 0,-1, 0};
