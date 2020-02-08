@@ -47,7 +47,7 @@ public:
   }
 
   void
-  operator()(vtkRenderWindow * iRenderer, const std::string & iFileName) const
+  operator()(vtkRenderWindow * iRenderer, const std::string & iFileName)
   {
     m_Renderer = iRenderer;
     Capture(m_Renderer, iFileName);
