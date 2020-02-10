@@ -247,7 +247,6 @@ protected:
       diffSum += diff;
     }
 
-    assert(diffSum > 0); // we are checking potential neighbors, index difference must exist
     if (!this->m_FullyConnected)
     {
       return (diffSum <= 1); // indices can differ only along one dimension
