@@ -37,11 +37,17 @@ uuidP.h
 
 #include (${CMAKE_ROOT}/Modules/CheckIncludeFile.cmake)
 
-if(WIN32)
-  if (BUILD_SHARED_LIBS)
+
+if (BUILD_SHARED_LIBS)
+  if(WIN32)
     add_definitions(-DUUID_DLL)
   endif ()
+else()
+  if (CMAKE_CXX_VISIBILITY_PRESET STREQUAL "hidden")
+    add_definitions(-DUUID_HIDDEN)
+  endif()
 endif()
+
 
 if(COMMAND CHECK_INCLUDE_FILE_CONCAT)
 else()

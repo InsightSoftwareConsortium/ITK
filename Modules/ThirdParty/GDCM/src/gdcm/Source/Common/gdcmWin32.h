@@ -27,7 +27,7 @@
     #define GDCM_EXPORT __declspec( dllimport )
   #endif
 #else
-  #if __GNUC__ >= 4
+  #if __GNUC__ >= 4 && defined(GDCM_BUILD_SHARED_LIBS)
     #define GDCM_EXPORT __attribute__ ((visibility ("default")))
     #define GDCM_LOCAL  __attribute__ ((visibility ("hidden")))
   #else
