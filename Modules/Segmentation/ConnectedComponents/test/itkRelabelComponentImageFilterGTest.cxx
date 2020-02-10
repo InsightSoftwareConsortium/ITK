@@ -160,7 +160,7 @@ TEST(RelabelComponentImageFilter, big_random)
 
 
   auto randomSource = itk::RandomImageSource<ImageType>::New();
-  randomSource->SetSize({ 512, 512, 512 });
+  randomSource->SetSize({ { 512, 512, 512 } });
   randomSource->SetMin(0);
   randomSource->Update();
 

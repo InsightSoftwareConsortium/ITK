@@ -38,12 +38,12 @@ itkMeshCellDataTest(int, char *[])
   // 0      2------4
 
   const auto mesh = TMesh::New();
-  mesh->SetPoint(0, TPoint{ { 0.0, 0.0 } });
-  mesh->SetPoint(1, TPoint{ { 0.0, 1.0 } });
-  mesh->SetPoint(2, TPoint{ { 1.0, 0.0 } });
-  mesh->SetPoint(3, TPoint{ { 1.0, 1.0 } });
-  mesh->SetPoint(4, TPoint{ { 4.0, 0.0 } });
-  mesh->SetPoint(5, TPoint{ { 5.0, 1.0 } });
+  mesh->SetPoint(0, TPoint{ { { 0.0, 0.0 } } });
+  mesh->SetPoint(1, TPoint{ { { 0.0, 1.0 } } });
+  mesh->SetPoint(2, TPoint{ { { 1.0, 0.0 } } });
+  mesh->SetPoint(3, TPoint{ { { 1.0, 1.0 } } });
+  mesh->SetPoint(4, TPoint{ { { 4.0, 0.0 } } });
+  mesh->SetPoint(5, TPoint{ { { 5.0, 1.0 } } });
 
   {
     TCell::CellAutoPointer cellpointer;
