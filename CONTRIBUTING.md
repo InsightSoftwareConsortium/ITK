@@ -1,6 +1,8 @@
 Contributing to ITK
 ===================
 
+Welcome to the Insight Toolkit (ITK) ! We're excited you're here and want to contribute.
+
 This article documents how to contribute improvements to ITK.
 
 For a *quick start guide*, see the [ITK Git Cheatsheet].
