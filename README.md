@@ -60,12 +60,20 @@ The cross-platform, C++ core of the toolkit may be built from source using
 Copyright
 ---------
 
-The [Insight Software Consortium](http://www.insightsoftwareconsortium.org)
-holds the copyright of this software. This is a non-profit entity that
-promotes the use of ITK for educational and research purposes. ITK is
-distributed under a license that enables use for both non-commercial and
-commercial applications. See [LICENSE](https://github.com/InsightSoftwareConsortium/ITK/blob/master/LICENSE)
-and [NOTICE](https://github.com/InsightSoftwareConsortium/ITK/blob/master/NOTICE)
+[NumFOCUS](https://numfocus.org/) holds the copyright of this software.
+NumFOCUS is a non-profit entity that promotes the use of open source
+scientific software for educational and research purposes.  NumFOCUS delegates
+project governance to the [Insight Software
+Consortium](http://www.insightsoftwareconsortium.org) Council, an educational
+consortium dedicated to promoting and maintaining open-source, freely
+available software for medical image analysis. This includes promoting such
+software in teaching, research, and commercial applications, and maintaining
+webpages and user and developer communities.  ITK is distributed under a
+license that enables use for both non-commercial and commercial applications.
+See
+[LICENSE](https://github.com/InsightSoftwareConsortium/ITK/blob/master/LICENSE)
+and
+[NOTICE](https://github.com/InsightSoftwareConsortium/ITK/blob/master/NOTICE)
 files for details.
 
 Citation
@@ -90,6 +98,6 @@ To cite ITK, please reference, as appropriate:
 [![DOI](https://zenodo.org/badge/800928.svg)](https://zenodo.org/badge/latestdoi/800928)
 
 Once your work has been published, please create a pull request to add
-publication to the
+the publication to the
 [ITKBibliography.bib](https://github.com/InsightSoftwareConsortium/insightsoftwareconsortium.org/blob/insightsoftwareconsortium-org/citations/ITKBibliography.bib)
 file.
