@@ -538,14 +538,22 @@ bool ImageCodec::DoOverlayCleanup(std::istream &is, std::ostream &os)
     else // Pixel are unsigned
       {
 #if 1
-      uint16_t c;
-      while( is.read((char*)&c,2) )
+      // On Windows, is.read and os.write are expensive operations.
+      // If we called it for each value then conversion would be extremely slow.
+      // Therefore we read/mask/write 1000 values at once.
+      const unsigned int bufferSize = 1000;
+      std::vector<uint16_t> buffer(bufferSize);
+      while (is)
         {
-        c = (uint16_t)(
-          (c >> (PF.GetBitsStored() - PF.GetHighBit() - 1)) & pmask);
-        os.write((char*)&c, 2 );
-        }
-      //os.rdbuf( is.rdbuf() );
+        is.read((char *)&buffer[0], bufferSize * sizeof(uint16_t));
+        std::streamsize bytesRead = is.gcount();
+        std::vector<uint16_t>::iterator validBufferEnd = buffer.begin() + bytesRead / sizeof(uint16_t);
+        for (std::vector<uint16_t>::iterator it = buffer.begin(); it != validBufferEnd; ++it)
+          {
+          *it = ((*it >> (PF.GetBitsStored() - PF.GetHighBit() - 1)) & pmask);
+          }
+        os.write((char *)&buffer[0], bytesRead);
+        };
 #else
       //std::ostreambuf_iterator<char> end_of_stream_iterator;
       //std::ostreambuf_iterator<char> out_iter(os.rdbuf());
