@@ -224,7 +224,7 @@ typedef unsigned int JDIMENSION;
 #if defined( _WIN32 ) && defined (JPEGDLL)
 #define GLOBAL(type)            __declspec(dllexport) type
 #else
-#if __GNUC__ >= 4
+#if __GNUC__ >= 4 && defined (JPEGDLL)
 #define GLOBAL(type)            __attribute__ ((visibility ("default"))) type
 #else
 #define GLOBAL(type)            type
