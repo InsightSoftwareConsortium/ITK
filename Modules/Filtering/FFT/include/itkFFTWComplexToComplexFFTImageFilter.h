@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class FFTWComplexToComplexFFTImageFilter
+/**
+ *\class FFTWComplexToComplexFFTImageFilter
  *
  *  \brief Implements an API to enable the Fourier transform or the inverse
  *  Fourier transform of images with complex valued voxels to be computed using

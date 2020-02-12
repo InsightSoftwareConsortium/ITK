@@ -27,7 +27,8 @@
 
 namespace itk
 {
-/** \class BMPImageIO
+/**
+ *\class BMPImageIO
  *
  *  \brief Read BMPImage file format.
  *

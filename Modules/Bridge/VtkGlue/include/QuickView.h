@@ -28,7 +28,8 @@
 
 #include "ITKVtkGlueExport.h"
 
-/** \class ImageInfo
+/**
+ *\class ImageInfo
  * \brief A container for an image and its description
  * \ingroup ITKVtkGlue
  */
@@ -47,7 +48,8 @@ public:
   std::string        m_Description;
 };
 
-/** \class RGBImageInfo
+/**
+ *\class RGBImageInfo
  * \brief A container for an rgb image and its description
  * \ingroup ITKVtkGlue
  */
@@ -65,7 +67,8 @@ public:
   std::string        m_Description;
 };
 
-/** \class QuickView
+/**
+ *\class QuickView
  * \brief A convenient class to render itk images with vtk
  *
  * This class presents a convenient and efficient mechanism to display

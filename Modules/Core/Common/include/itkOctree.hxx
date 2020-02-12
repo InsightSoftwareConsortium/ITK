@@ -138,7 +138,7 @@ Octree<TPixel, ColorTableSize, MappingFunctionType>::GetValue(const unsigned int
     oy = oy + YF(octantID) * halfwidth;
     oz = oz + ZF(octantID) * halfwidth;
 
-    CurrentOctreeNode = &CurrentOctreeNode->GetChild(static_cast<enum LeafIdentifier>(octantID));
+    CurrentOctreeNode = &CurrentOctreeNode->GetChild(static_cast<OctreeNode::LeafIdentifierEnum>(octantID));
   }
   return CurrentOctreeNode->GetColor();
 }
@@ -181,33 +181,40 @@ Octree<TPixel, ColorTableSize, MappingFunctionType>::maskToOctree(const TPixel *
   }
   else
   {
-    auto *       q = new OctreeNodeBranch(this);
-    OctreeNode * newbranch;
+    auto * q = new OctreeNodeBranch(this);
 
-    newbranch = q->GetLeaf(ZERO);
-    newbranch->SetBranch(nodeArray[ZERO]);
-
-    newbranch = q->GetLeaf(ONE);
-    newbranch->SetBranch(nodeArray[ONE]);
-
-    newbranch = q->GetLeaf(TWO);
-    newbranch->SetBranch(nodeArray[TWO]);
-
-    newbranch = q->GetLeaf(THREE);
-    newbranch->SetBranch(nodeArray[THREE]);
-
-    newbranch = q->GetLeaf(FOUR);
-    newbranch->SetBranch(nodeArray[FOUR]);
-
-    newbranch = q->GetLeaf(FIVE);
-    newbranch->SetBranch(nodeArray[FIVE]);
-
-    newbranch = q->GetLeaf(SIX);
-    newbranch->SetBranch(nodeArray[SIX]);
-
-    newbranch = q->GetLeaf(SEVEN);
-    newbranch->SetBranch(nodeArray[SEVEN]);
-
+    {
+      OctreeNode * newbranch = q->GetLeaf(OctreeNode::LeafIdentifierEnum::ZERO);
+      newbranch->SetBranch(nodeArray[static_cast<uint8_t>(OctreeNode::LeafIdentifierEnum::ZERO)]);
+    }
+    {
+      OctreeNode * newbranch = q->GetLeaf(OctreeNode::LeafIdentifierEnum::ONE);
+      newbranch->SetBranch(nodeArray[static_cast<uint8_t>(OctreeNode::LeafIdentifierEnum::ONE)]);
+    }
+    {
+      OctreeNode * newbranch = q->GetLeaf(OctreeNode::LeafIdentifierEnum::TWO);
+      newbranch->SetBranch(nodeArray[static_cast<uint8_t>(OctreeNode::LeafIdentifierEnum::TWO)]);
+    }
+    {
+      OctreeNode * newbranch = q->GetLeaf(OctreeNode::LeafIdentifierEnum::THREE);
+      newbranch->SetBranch(nodeArray[static_cast<uint8_t>(OctreeNode::LeafIdentifierEnum::THREE)]);
+    }
+    {
+      OctreeNode * newbranch = q->GetLeaf(OctreeNode::LeafIdentifierEnum::FOUR);
+      newbranch->SetBranch(nodeArray[static_cast<uint8_t>(OctreeNode::LeafIdentifierEnum::FOUR)]);
+    }
+    {
+      OctreeNode * newbranch = q->GetLeaf(OctreeNode::LeafIdentifierEnum::FIVE);
+      newbranch->SetBranch(nodeArray[static_cast<uint8_t>(OctreeNode::LeafIdentifierEnum::FIVE)]);
+    }
+    {
+      OctreeNode * newbranch = q->GetLeaf(OctreeNode::LeafIdentifierEnum::SIX);
+      newbranch->SetBranch(nodeArray[static_cast<uint8_t>(OctreeNode::LeafIdentifierEnum::SIX)]);
+    }
+    {
+      OctreeNode * newbranch = q->GetLeaf(OctreeNode::LeafIdentifierEnum::SEVEN);
+      newbranch->SetBranch(nodeArray[static_cast<uint8_t>(OctreeNode::LeafIdentifierEnum::SEVEN)]);
+    }
     return (q);
   }
 }

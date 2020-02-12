@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class AttributeKeepNObjectsLabelMapFilter
+/**
+ *\class AttributeKeepNObjectsLabelMapFilter
  * \brief keep N objects according to their attribute value
  *
  * AttributeKeepNObjectsLabelMapFilter keeps the N objects in a label collection image

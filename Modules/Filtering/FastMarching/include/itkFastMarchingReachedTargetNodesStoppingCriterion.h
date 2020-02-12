@@ -21,9 +21,31 @@
 
 #include "itkFastMarchingStoppingCriterionBase.h"
 #include "itkObjectFactory.h"
+#include "ITKFastMarchingExport.h"
 
 namespace itk
 {
+/**\class FastMarchingReachedTargetNodesStoppingCriterionEnums
+ * \brief Contains all enum classes used by FastMarchingReachedTargetNodesStoppingCriterion class
+ * \ingroup ITKFastMarching
+ */
+class FastMarchingReachedTargetNodesStoppingCriterionEnums
+{
+public:
+  /**
+   *\class TargetCondition
+   * \ingroup ITKFastMarching
+   * TargetConditionEnum */
+  enum class TargetCondition : uint8_t
+  {
+    OneTarget = 1,
+    SomeTargets,
+    AllTargets
+  };
+};
+// Define how to print enumeration
+extern ITKFastMarching_EXPORT std::ostream &
+                              operator<<(std::ostream & out, const FastMarchingReachedTargetNodesStoppingCriterionEnums::TargetCondition value);
 /**
  * \class FastMarchingReachedTargetNodesStoppingCriterion
  * \brief Stopping criterion for FastMarchingFilterBase.
@@ -54,25 +76,25 @@ public:
   using OutputPixelType = typename Superclass::OutputPixelType;
   using NodeType = typename Superclass::NodeType;
 
-  /** \enum TargetConditionType */
-  enum TargetConditionType
-  {
-    OneTarget = 1,
-    SomeTargets,
-    AllTargets
-  };
+  using TargetConditionEnum = FastMarchingReachedTargetNodesStoppingCriterionEnums::TargetCondition;
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enums values for backwards compatibility*/
+  static constexpr TargetConditionEnum OneTarget = TargetConditionEnum::OneTarget;
+  static constexpr TargetConditionEnum SomeTargets = TargetConditionEnum::SomeTargets;
+  static constexpr TargetConditionEnum AllTargets = TargetConditionEnum::AllTargets;
+#endif
 
   /** Set/Get TargetCondition to indicate if the user wants the front to
   reach one, some or all target nodes. */
   void
-  SetTargetCondition(const TargetConditionType & iCondition)
+  SetTargetCondition(const TargetConditionEnum & iCondition)
   {
     m_TargetCondition = iCondition;
     m_Initialized = false;
     this->Modified();
   }
 
-  itkGetConstReferenceMacro(TargetCondition, TargetConditionType);
+  itkGetConstReferenceMacro(TargetCondition, TargetConditionEnum);
 
   /** Set/Get TargetOffset */
   itkSetMacro(TargetOffset, OutputPixelType);
@@ -154,7 +176,7 @@ protected:
   /** Constructor */
   FastMarchingReachedTargetNodesStoppingCriterion()
     : Superclass()
-    , m_TargetCondition(AllTargets)
+    , m_TargetCondition(TargetConditionEnum::AllTargets)
     , m_TargetOffset(NumericTraits<OutputPixelType>::ZeroValue())
     , m_StoppingValue(NumericTraits<OutputPixelType>::ZeroValue())
 
@@ -163,7 +185,7 @@ protected:
   /** Destructor */
   ~FastMarchingReachedTargetNodesStoppingCriterion() override = default;
 
-  TargetConditionType   m_TargetCondition;
+  TargetConditionEnum   m_TargetCondition;
   std::vector<NodeType> m_TargetNodes;
   std::vector<NodeType> m_ReachedTargetNodes;
   size_t                m_NumberOfTargetsToBeReached{ 0 };
@@ -181,11 +203,11 @@ protected:
   void
   Initialize()
   {
-    if (m_TargetCondition == OneTarget)
+    if (m_TargetCondition == TargetConditionEnum::OneTarget)
     {
       m_NumberOfTargetsToBeReached = 1;
     }
-    if (m_TargetCondition == AllTargets)
+    if (m_TargetCondition == TargetConditionEnum::AllTargets)
     {
       m_NumberOfTargetsToBeReached = m_TargetNodes.size();
     }

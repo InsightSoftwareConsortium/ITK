@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class MetaImageIOFactory
+/**
+ *\class MetaImageIOFactory
  * \brief Create instances of MetaImageIO objects using an object factory.
  * \ingroup ITKIOMeta
  */

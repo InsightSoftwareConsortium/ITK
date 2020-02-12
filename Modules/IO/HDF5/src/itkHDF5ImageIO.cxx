@@ -109,139 +109,140 @@ GetH5TypeSpecialize(float, H5::PredType::NATIVE_FLOAT) GetH5TypeSpecialize(doubl
 
 #undef GetH5TypeSpecialize
 
-                  inline ImageIOBase::IOComponentType PredTypeToComponentType(H5::DataType & type)
+                  inline IOComponentEnum PredTypeToComponentType(H5::DataType & type)
 {
   if (type == H5::PredType::NATIVE_UCHAR)
   {
-    return ImageIOBase::UCHAR;
+    return IOComponentEnum::UCHAR;
   }
   else if (type == H5::PredType::NATIVE_CHAR)
   {
-    return ImageIOBase::CHAR;
+    return IOComponentEnum::CHAR;
   }
   else if (type == H5::PredType::NATIVE_USHORT)
   {
-    return ImageIOBase::USHORT;
+    return IOComponentEnum::USHORT;
   }
   else if (type == H5::PredType::NATIVE_SHORT)
   {
-    return ImageIOBase::SHORT;
+    return IOComponentEnum::SHORT;
   }
   else if (type == H5::PredType::NATIVE_UINT)
   {
-    return ImageIOBase::UINT;
+    return IOComponentEnum::UINT;
   }
   else if (type == H5::PredType::NATIVE_INT)
   {
-    return ImageIOBase::INT;
+    return IOComponentEnum::INT;
   }
   else if (type == H5::PredType::NATIVE_ULONG)
   {
-    return ImageIOBase::ULONG;
+    return IOComponentEnum::ULONG;
   }
   else if (type == H5::PredType::NATIVE_LONG)
   {
-    return ImageIOBase::LONG;
+    return IOComponentEnum::LONG;
   }
   else if (type == H5::PredType::NATIVE_LLONG)
   {
-    return ImageIOBase::LONGLONG;
+    return IOComponentEnum::LONGLONG;
   }
   else if (type == H5::PredType::NATIVE_ULLONG)
   {
-    return ImageIOBase::ULONGLONG;
+    return IOComponentEnum::ULONGLONG;
   }
   else if (type == H5::PredType::NATIVE_FLOAT)
   {
-    return ImageIOBase::FLOAT;
+    return IOComponentEnum::FLOAT;
   }
   else if (type == H5::PredType::NATIVE_DOUBLE)
   {
-    return ImageIOBase::DOUBLE;
+    return IOComponentEnum::DOUBLE;
   }
   itkGenericExceptionMacro(<< "unsupported HDF5 data type with id " << type.getId());
 }
 
 H5::PredType
-ComponentToPredType(ImageIOBase::IOComponentType cType)
+ComponentToPredType(IOComponentEnum cType)
 {
   switch (cType)
   {
-    case ImageIOBase::UCHAR:
+    case IOComponentEnum::UCHAR:
       return H5::PredType::NATIVE_UCHAR;
-    case ImageIOBase::CHAR:
+    case IOComponentEnum::CHAR:
       return H5::PredType::NATIVE_CHAR;
-    case ImageIOBase::USHORT:
+    case IOComponentEnum::USHORT:
       return H5::PredType::NATIVE_USHORT;
-    case ImageIOBase::SHORT:
+    case IOComponentEnum::SHORT:
       return H5::PredType::NATIVE_SHORT;
-    case ImageIOBase::UINT:
+    case IOComponentEnum::UINT:
       return H5::PredType::NATIVE_UINT;
-    case ImageIOBase::INT:
+    case IOComponentEnum::INT:
       return H5::PredType::NATIVE_INT;
-    case ImageIOBase::ULONG:
+    case IOComponentEnum::ULONG:
       return H5::PredType::NATIVE_ULONG;
-    case ImageIOBase::LONG:
+    case IOComponentEnum::LONG:
       return H5::PredType::NATIVE_LONG;
-    case ImageIOBase::ULONGLONG:
+    case IOComponentEnum::ULONGLONG:
       return H5::PredType::NATIVE_ULLONG;
-    case ImageIOBase::LONGLONG:
+    case IOComponentEnum::LONGLONG:
       return H5::PredType::NATIVE_LLONG;
-    case ImageIOBase::FLOAT:
+    case IOComponentEnum::FLOAT:
       return H5::PredType::NATIVE_FLOAT;
-    case ImageIOBase::DOUBLE:
+    case IOComponentEnum::DOUBLE:
       return H5::PredType::NATIVE_DOUBLE;
-    case ImageIOBase::UNKNOWNCOMPONENTTYPE:
-      itkGenericExceptionMacro(<< "unsupported IOComponentType" << cType);
+    case IOComponentEnum::LDOUBLE:
+    case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
+      itkGenericExceptionMacro(<< "unsupported IOComponentEnum" << static_cast<char>(cType));
   }
 
-  itkGenericExceptionMacro(<< "unsupported IOComponentType" << cType);
+  itkGenericExceptionMacro(<< "unsupported IOComponentEnum" << static_cast<char>(cType));
 }
 
 std::string
-ComponentToString(ImageIOBase::IOComponentType cType)
+ComponentToString(IOComponentEnum cType)
 {
   std::string rval;
   switch (cType)
   {
-    case ImageIOBase::UCHAR:
+    case IOComponentEnum::UCHAR:
       rval = "UCHAR";
       break;
-    case ImageIOBase::CHAR:
+    case IOComponentEnum::CHAR:
       rval = "CHAR";
       break;
-    case ImageIOBase::USHORT:
+    case IOComponentEnum::USHORT:
       rval = "USHORT";
       break;
-    case ImageIOBase::SHORT:
+    case IOComponentEnum::SHORT:
       rval = "SHORT";
       break;
-    case ImageIOBase::UINT:
+    case IOComponentEnum::UINT:
       rval = "UINT";
       break;
-    case ImageIOBase::INT:
+    case IOComponentEnum::INT:
       rval = "INT";
       break;
-    case ImageIOBase::ULONG:
+    case IOComponentEnum::ULONG:
       rval = "ULONG";
       break;
-    case ImageIOBase::LONG:
+    case IOComponentEnum::LONG:
       rval = "LONG";
       break;
-    case ImageIOBase::ULONGLONG:
+    case IOComponentEnum::ULONGLONG:
       rval = "ULONGLONG";
       break;
-    case ImageIOBase::LONGLONG:
+    case IOComponentEnum::LONGLONG:
       rval = "LONGLONG";
       break;
-    case ImageIOBase::FLOAT:
+    case IOComponentEnum::FLOAT:
       rval = "FLOAT";
       break;
-    case ImageIOBase::DOUBLE:
+    case IOComponentEnum::DOUBLE:
       rval = "DOUBLE";
       break;
     default:
-      itkGenericExceptionMacro(<< "unsupported IOComponentType" << cType);
+      itkGenericExceptionMacro(<< "unsupported IOComponentEnum" << static_cast<char>(cType));
   }
   return rval;
 }

@@ -37,7 +37,8 @@
 
 namespace itk
 {
-/** \class OpenCVVideoIO
+/**
+ *\class OpenCVVideoIO
  *
  * \brief VideoIO object for reading and writing videos using OpenCV
  *

@@ -26,7 +26,8 @@
 
 namespace itk
 {
-/** \class SpatialObjectToImageStatisticsCalculator
+/**
+ *\class SpatialObjectToImageStatisticsCalculator
  * This calculator computes the mean and the covariance matrices of a certain
  *  region of an image specified by a spatial object.
  * \ingroup Operators

@@ -98,7 +98,7 @@ itkRegularSphereMeshSourceTest(int, char *[])
   {
     CellType * cellPointer = cellsItr.Value();
 
-    if (cellPointer->GetType() != 1)
+    if (static_cast<int>(cellPointer->GetType()) != 1)
     {
       const unsigned int numberOfPoints = cellPointer->GetNumberOfPoints();
 

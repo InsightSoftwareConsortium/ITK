@@ -30,7 +30,8 @@
 namespace itk
 {
 
-/** \class PyVnl
+/**
+ *\class PyVnl
  *
  *  \brief Helper class get views of VNL data buffers in python arrays and back.
  *

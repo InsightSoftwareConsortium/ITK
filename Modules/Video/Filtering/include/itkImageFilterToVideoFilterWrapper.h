@@ -23,7 +23,8 @@
 namespace itk
 {
 
-/** \class ImageFilterToVideoFilterWrapper
+/**
+ *\class ImageFilterToVideoFilterWrapper
  * \brief Wrap an ImageToImageFilter as a VideoToVideoFilter that operates on
  * a single frame at a time
  *

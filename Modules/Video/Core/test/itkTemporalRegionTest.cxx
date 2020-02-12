@@ -83,7 +83,8 @@ itkTemporalRegionTest(int, char *[])
   CHECK_FOR_VALUE(regionB.GetFrameDuration(), testFrameDuration);
 
   // Check the region type
-  CHECK_FOR_VALUE(regionA.GetRegionType(), itk::TemporalRegion::ITK_STRUCTURED_REGION);
+  CHECK_FOR_VALUE(static_cast<int>(regionA.GetRegionType()),
+                  static_cast<int>(itk::TemporalRegion::RegionEnum::ITK_STRUCTURED_REGION));
 
   return EXIT_SUCCESS;
 }

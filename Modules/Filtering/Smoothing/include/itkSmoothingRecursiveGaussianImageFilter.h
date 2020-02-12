@@ -28,7 +28,8 @@
 namespace itk
 {
 
-/** \class SmoothingRecursiveGaussianImageFilter
+/**
+ *\class SmoothingRecursiveGaussianImageFilter
  * \brief Computes the smoothing of an image by convolution with the Gaussian kernels implemented as IIR filters.
  *
  * This filter is implemented using the recursive gaussian

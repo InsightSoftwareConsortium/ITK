@@ -360,25 +360,25 @@ HistogramToTextureFeaturesFilter<THistogram>::GetHaralickCorrelation() const
 
 template <typename THistogram>
 typename HistogramToTextureFeaturesFilter<THistogram>::MeasurementType
-HistogramToTextureFeaturesFilter<THistogram>::GetFeature(TextureFeatureName feature)
+HistogramToTextureFeaturesFilter<THistogram>::GetFeature(TextureFeatureEnum feature)
 {
   switch (feature)
   {
-    case Energy:
+    case TextureFeatureEnum::Energy:
       return this->GetEnergy();
-    case Entropy:
+    case TextureFeatureEnum::Entropy:
       return this->GetEntropy();
-    case Correlation:
+    case TextureFeatureEnum::Correlation:
       return this->GetCorrelation();
-    case InverseDifferenceMoment:
+    case TextureFeatureEnum::InverseDifferenceMoment:
       return this->GetInverseDifferenceMoment();
-    case Inertia:
+    case TextureFeatureEnum::Inertia:
       return this->GetInertia();
-    case ClusterShade:
+    case TextureFeatureEnum::ClusterShade:
       return this->GetClusterShade();
-    case ClusterProminence:
+    case TextureFeatureEnum::ClusterProminence:
       return this->GetClusterProminence();
-    case HaralickCorrelation:
+    case TextureFeatureEnum::HaralickCorrelation:
       return this->GetHaralickCorrelation();
     default:
       return 0;

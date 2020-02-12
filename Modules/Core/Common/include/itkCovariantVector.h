@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class CovariantVector
+/**
+ *\class CovariantVector
  * \brief A templated class holding a n-Dimensional covariant vector.
  *
  * CovariantVector is a templated class that holds a single vector

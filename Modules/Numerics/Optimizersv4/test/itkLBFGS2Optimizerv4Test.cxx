@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include <set>
 #include "itkLBFGS2Optimizerv4.h"
 #include "itkMath.h"
 #include "itkTestingMacros.h"
@@ -170,7 +171,7 @@ itkLBFGS2Optimizerv4Test(int, char *[])
   itkOptimizer->SetDeltaConvergenceDistance(0);
   itkOptimizer->SetDeltaConvergenceTolerance(0);
   itkOptimizer->SetMaximumIterations(0);
-  itkOptimizer->SetLineSearch(OptimizerType::LINESEARCH_DEFAULT);
+  itkOptimizer->SetLineSearch(OptimizerType::LineSearchMethodEnum::LINESEARCH_DEFAULT);
   itkOptimizer->SetMaximumLineSearchEvaluations(20);
   itkOptimizer->SetMinimumLineSearchStep(1e-20);
   itkOptimizer->SetMaximumLineSearchStep(1e+20);
@@ -293,6 +294,21 @@ itkLBFGS2Optimizerv4Test(int, char *[])
   // Such transforms are not yet supported.
   metric->SetHasLocalSupport(true);
   ITK_TRY_EXPECT_EXCEPTION(itkOptimizer->StartOptimization());
+
+  // Test streaming enumeration for LBFGS2Optimizerv4Enums::LineSearchMethod elements
+  const std::set<itk::LBFGS2Optimizerv4Enums::LineSearchMethod> allLineSearchMethod{
+    itk::LBFGS2Optimizerv4Enums::LineSearchMethod::LINESEARCH_DEFAULT,
+    itk::LBFGS2Optimizerv4Enums::LineSearchMethod::LINESEARCH_MORETHUENTE,
+    itk::LBFGS2Optimizerv4Enums::LineSearchMethod::LINESEARCH_BACKTRACKING_ARMIJO,
+    itk::LBFGS2Optimizerv4Enums::LineSearchMethod::LINESEARCH_BACKTRACKING,
+    itk::LBFGS2Optimizerv4Enums::LineSearchMethod::LINESEARCH_BACKTRACKING_WOLFE,
+    itk::LBFGS2Optimizerv4Enums::LineSearchMethod::LINESEARCH_BACKTRACKING_STRONG_WOLFE
+  };
+  for (const auto & ee : allLineSearchMethod)
+  {
+    std::cout << "STREAMED ENUM VALUE LBFGS2Optimizerv4Enums::LineSearchMethod: " << ee << std::endl;
+  }
+
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

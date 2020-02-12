@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class ConvertLabelMapFilter
+/**
+ *\class ConvertLabelMapFilter
  * \brief Converts the LabelObjects of a LabelMap to a different type of LabelObejct
  *
  * The LabelObjects are copied and not simply dynamically casted so the filter ensures

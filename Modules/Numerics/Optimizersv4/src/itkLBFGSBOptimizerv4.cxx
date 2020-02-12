@@ -19,7 +19,8 @@
 
 namespace itk
 {
-/** \class LBFGSBOptimizerHelperv4
+/**
+ *\class LBFGSBOptimizerHelperv4
  * \brief Wrapper helper around vnl_lbfgsb.
  *
  * This class is used to translate iteration events, etc, from

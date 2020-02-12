@@ -64,10 +64,10 @@ public:
   static constexpr unsigned int CellDimension = 2;
 
   /** Implement the standard CellInterface. */
-  CellGeometry
+  CellGeometryEnum
   GetType() const override
   {
-    return Superclass::QUADRATIC_TRIANGLE_CELL;
+    return CellGeometryEnum::QUADRATIC_TRIANGLE_CELL;
   }
   void
   MakeCopy(CellAutoPointer &) const override;
@@ -116,7 +116,7 @@ public:
   GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
 
   /** Cell visitor interface. */
-  itkCellVisitMacro(Superclass::QUADRATIC_TRIANGLE_CELL);
+  itkCellVisitMacro(CellGeometryEnum::QUADRATIC_TRIANGLE_CELL);
 
   /** Given the parametric coordinates of a point in the cell
    *  determine the value of its Shape Functions

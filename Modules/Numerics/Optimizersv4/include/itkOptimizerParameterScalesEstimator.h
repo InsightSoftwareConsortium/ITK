@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class OptimizerParameterScalesEstimatorTemplate
+/**
+ *\class OptimizerParameterScalesEstimatorTemplate
  *  \brief OptimizerParameterScalesEstimatorTemplate is the base class offering a
  * empty method of estimating the parameter scales for optimizers.
  *

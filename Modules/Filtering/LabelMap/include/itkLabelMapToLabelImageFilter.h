@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class LabelMapToLabelImageFilter
+/**
+ *\class LabelMapToLabelImageFilter
  * \brief Converts a LabelMap to a labeled image.
  *
  * LabelMapToBinaryImageFilter to a label image.

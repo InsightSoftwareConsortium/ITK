@@ -29,7 +29,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class MaximumRatioDecisionRule
+/**
+ *\class MaximumRatioDecisionRule
  *  \brief A decision rule that operates as a frequentist's
  *  approximation to Bayes rule.
  *

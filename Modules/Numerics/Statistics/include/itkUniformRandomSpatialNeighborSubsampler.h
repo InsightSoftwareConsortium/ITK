@@ -25,7 +25,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class UniformRandomSpatialNeighborSubsampler
+/**
+ *\class UniformRandomSpatialNeighborSubsampler
  * \brief A subsampler that uniformly randomly selects points
  * within the specified radius of the query point.
  *

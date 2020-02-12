@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class ConditionVariable
+/**
+ *\class ConditionVariable
  * \brief A thread synchronization object used to suspend execution until some
  * condition on shared data is met.
  *

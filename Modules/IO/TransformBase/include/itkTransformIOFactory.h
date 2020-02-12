@@ -21,28 +21,14 @@
 #include "itkObject.h"
 #include "itkTransformIOBase.h"
 #include "ITKIOTransformBaseExport.h"
+#include "itkCommonEnums.h"
 
 namespace itk
 {
 
-/** \class TransformIOFactorFileModeEnum
- * \ingroup ITKIOTransformBase
- * Mode in which the files is intended to be used */
-enum class TransformIOFactoryFileModeEnum : uint8_t
-{
-  ReadMode,
-  WriteMode
-};
 #if !defined(ITK_LEGACY_REMOVE)
-// We need to expose the enum values at the class level
-// for backwards compatibility
-static constexpr TransformIOFactoryFileModeEnum ReadMode = TransformIOFactoryFileModeEnum::ReadMode;
-static constexpr TransformIOFactoryFileModeEnum WriteMode = TransformIOFactoryFileModeEnum::WriteMode;
+using TransformIOFactoryFileModeEnum = IOFileModeEnum;
 #endif
-
-// Define how to print enumeration
-extern ITKIOTransformBase_EXPORT std::ostream &
-                                 operator<<(std::ostream & out, const TransformIOFactoryFileModeEnum value);
 
 /** \class TransformIOFactoryTemplate
  * \brief Create instances of TransformIO objects using an object factory.
@@ -72,7 +58,7 @@ public:
    *  the particulars of the file.
    */
   static TransformIOBasePointer
-  CreateTransformIO(const char * path, TransformIOFactoryFileModeEnum mode);
+  CreateTransformIO(const char * path, IOFileModeEnum mode);
 
 protected:
   TransformIOFactoryTemplate();

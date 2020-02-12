@@ -35,7 +35,8 @@
 namespace itk
 {
 
-/** \class BSplineCenteredResampleImageFilterBase
+/**
+ *\class BSplineCenteredResampleImageFilterBase
  * \brief Evaluates the Centered B-Spline interpolation of an image.  Spline order may be from 0 to 5.
  *
  * This class defines N-Dimension CenteredB-Spline transformation.

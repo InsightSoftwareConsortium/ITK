@@ -18,6 +18,7 @@
 #include "itkFloatingPointExceptions.h"
 #include <iostream>
 #include <cfloat>
+#include <set>
 
 // constants declared in another compilation unit to prevent
 // compilation time errors for divide by zero and overflow
@@ -29,7 +30,7 @@ int
 itkFloatingPointExceptionsTest(int argc, char * argv[])
 {
   itk::FloatingPointExceptions::Enable();
-  itk::FloatingPointExceptions::SetExceptionAction(itk::FloatingPointExceptions::EXIT);
+  itk::FloatingPointExceptions::SetExceptionAction(itk::FloatingPointExceptions::ExceptionActionEnum::EXIT);
   if (argc < 2)
   {
     std::cout << "No test specified" << std::endl;
@@ -122,6 +123,15 @@ itkFloatingPointExceptionsTest(int argc, char * argv[])
       std::cout << "Underflow exception caught" << std::endl;
       std::cout << e;
     }
+  }
+
+  // Test streaming enumeration for FloatingPointExceptionsEnums::ExceptionAction elements
+  const std::set<itk::FloatingPointExceptionsEnums::ExceptionAction> allExceptionAction{
+    itk::FloatingPointExceptionsEnums::ExceptionAction::ABORT, itk::FloatingPointExceptionsEnums::ExceptionAction::EXIT
+  };
+  for (const auto & ee : allExceptionAction)
+  {
+    std::cout << "STREAMED ENUM VALUE FloatingPointExceptionsEnums::ExceptionAction: " << ee << std::endl;
   }
 
   return error_return;

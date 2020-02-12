@@ -27,7 +27,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class Sample
+/**
+ *\class Sample
  *  \brief A collection of measurements for statistical analysis
  *
  * Sample represents a set of measurements for statistical

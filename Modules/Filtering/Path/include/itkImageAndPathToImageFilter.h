@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class ImageAndPathToImageFilter
+/**
+ *\class ImageAndPathToImageFilter
  * \brief Base class for filters that take both a path and an image as input and produce a path as output.
  *
  * This class is the base class for filters that take both an image and a path

@@ -25,6 +25,31 @@
 
 namespace itk
 {
+/***\class ContourSpatialObjectEnums
+ *
+ * \brief Enum classes for the ControuSpatialObject class.
+ *
+ * \ingroup ITKSpatialObjects
+ */
+class ContourSpatialObjectEnums
+{
+public:
+  /***\class InterpolationMethodEnum
+   * \ingroup ITKSpatialObjects
+   * Hold interpolation method type
+   */
+  enum class InterpolationMethod : uint8_t
+  {
+    NO_INTERPOLATION = 0,
+    EXPLICIT_INTERPOLATION,
+    BEZIER_INTERPOLATION,
+    LINEAR_INTERPOLATION
+  };
+};
+// Define how to print enumeration
+extern ITKSpatialObjects_EXPORT std::ostream &
+                                operator<<(std::ostream & out, ContourSpatialObjectEnums::InterpolationMethod value);
+
 /**
  * \class ContourSpatialObject
  * \brief Representation of a Contour based on the spatial object classes.
@@ -65,13 +90,16 @@ public:
   using PointContainerType = VectorContainer<IdentifierType, PointType>;
   using PointContainerPointer = SmartPointer<PointContainerType>;
 
-  enum InterpolationMethodType
-  {
-    NO_INTERPOLATION = 0,
-    EXPLICIT_INTERPOLATION,
-    BEZIER_INTERPOLATION,
-    LINEAR_INTERPOLATION
-  };
+  using InterpolationMethodEnum = ContourSpatialObjectEnums::InterpolationMethod;
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enums values for backwards compatibility*/
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr InterpolationMethodEnum NO_INTERPOLATION = InterpolationMethodEnum::NO_INTERPOLATION;
+  static constexpr InterpolationMethodEnum EXPLICIT_INTERPOLATION = InterpolationMethodEnum::EXPLICIT_INTERPOLATION;
+  static constexpr InterpolationMethodEnum BEZIER_INTERPOLATION = InterpolationMethodEnum::BEZIER_INTERPOLATION;
+  static constexpr InterpolationMethodEnum LINEAR_INTERPOLATION = InterpolationMethodEnum::LINEAR_INTERPOLATION;
+#endif
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -128,10 +156,10 @@ public:
   }
 
   /** Set the interpolation type */
-  itkSetMacro(InterpolationMethod, InterpolationMethodType)
+  itkSetEnumMacro(InterpolationMethod, InterpolationMethodEnum)
 
     /** Get the interpolation type */
-    itkGetConstMacro(InterpolationMethod, InterpolationMethodType)
+    itkGetConstMacro(InterpolationMethod, InterpolationMethodEnum)
 
     /** Set the interpolation factor, e.g., factor of 2 means 2 interpolated
      *    points created for every control point. */
@@ -176,7 +204,7 @@ protected:
 private:
   ContourPointListType m_ControlPoints;
 
-  InterpolationMethodType m_InterpolationMethod;
+  InterpolationMethodEnum m_InterpolationMethod;
   unsigned int            m_InterpolationFactor;
 
   mutable bool             m_IsClosed;

@@ -5,7 +5,7 @@ UNIQUE(types "${WRAP_ITK_SCALAR};D")
 
 set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
 itk_wrap_include("itkMesh.h")
-itk_wrap_simple_class("itk::MeshClassCellsAllocationMethodEnum" ENUM)
+itk_wrap_simple_class("itk::MeshEnums")
 set(WRAPPER_AUTO_INCLUDE_HEADERS ON)
 
 itk_wrap_class("itk::Mesh" POINTER)

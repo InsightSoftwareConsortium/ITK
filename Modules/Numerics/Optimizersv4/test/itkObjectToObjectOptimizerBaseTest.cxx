@@ -247,5 +247,24 @@ itkObjectToObjectOptimizerBaseTest(int, char *[])
   std::cout << "Printing self.." << std::endl;
   std::cout << optimizer << std::endl;
 
+  // Test streaming enumeration for ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer
+  // elements
+  const std::set<itk::ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer>
+    allStopConditionObjectToObjectOptimizer{
+      itk::ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer::MAXIMUM_NUMBER_OF_ITERATIONS,
+      itk::ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer::COSTFUNCTION_ERROR,
+      itk::ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer::UPDATE_PARAMETERS_ERROR,
+      itk::ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer::STEP_TOO_SMALL,
+      itk::ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer::CONVERGENCE_CHECKER_PASSED,
+      itk::ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer::
+        GRADIENT_MAGNITUDE_TOLEARANCE,
+      itk::ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer::OTHER_ERROR
+    };
+  for (const auto & ee : allStopConditionObjectToObjectOptimizer)
+  {
+    std::cout << "STREAMED ENUM VALUE ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer: "
+              << ee << std::endl;
+  }
+
   return EXIT_SUCCESS;
 }

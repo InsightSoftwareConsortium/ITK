@@ -201,7 +201,7 @@ test_FileListVideoIO(const char *  input,
   std::vector<itk::SizeValueType> size;
   size.push_back(width);
   size.push_back(height);
-  fileListIO->SetWriterParameters(fps, size, fourCC, nChannels, itk::ImageIOBase::UCHAR);
+  fileListIO->SetWriterParameters(fps, size, fourCC, nChannels, itk::IOComponentEnum::UCHAR);
 
   // Make sure they set correctly
   if (itk::Math::NotExactlyEquals(fileListIO->GetFramesPerSecond(), fps) || fileListIO->GetDimensions(0) != width ||
@@ -275,6 +275,15 @@ test_FileListVideoIO(const char *  input,
   // Finish writing
   fileListIO2->FinishReadingOrWriting();
   fileListIO->FinishReadingOrWriting();
+
+
+  // Test streaming enumeration for VideoIOBaseEnums::ReadFrom elements
+  const std::set<itk::VideoIOBaseEnums::ReadFrom> allReadFrom{ itk::VideoIOBaseEnums::ReadFrom::ReadFromFile,
+                                                               itk::VideoIOBaseEnums::ReadFrom::ReadFromCamera };
+  for (const auto & ee : allReadFrom)
+  {
+    std::cout << "STREAMED ENUM VALUE VideoIOBaseEnums::ReadFrom: " << ee << std::endl;
+  }
 
   std::cout << "Test finished" << std::endl;
 

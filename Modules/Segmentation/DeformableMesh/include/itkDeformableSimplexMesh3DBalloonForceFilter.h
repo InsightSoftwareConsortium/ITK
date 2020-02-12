@@ -37,7 +37,8 @@
 
 namespace itk
 {
-/** \class DeformableSimplexMesh3DBalloonForceFilter
+/**
+ *\class DeformableSimplexMesh3DBalloonForceFilter
  * \brief
  * Additional to its superclass this model adds an balloon force component to the
  * internal forces.

@@ -435,9 +435,7 @@ ProcessArguments(int * ac, ArgumentStringType * av, ProcessedOutputType * proces
 
 /// Get the PixelType and ComponentType from fileName
 void
-GetImageType(const char *                        fileName,
-             itk::ImageIOBase::IOPixelType &     pixelType,
-             itk::ImageIOBase::IOComponentType & componentType)
+GetImageType(const char * fileName, itk::IOPixelEnum & pixelType, itk::IOComponentEnum & componentType)
 {
   using ImageType = itk::Image<unsigned char, 3>;
   itk::ImageFileReader<ImageType>::Pointer imageReader = itk::ImageFileReader<ImageType>::New();
@@ -718,19 +716,19 @@ RegressionTestImage(const char *         testImageFilename,
                     double               coordinateTolerance,
                     double               directionTolerance)
 {
-  itk::ImageIOBase::IOPixelType     pixelType;
-  itk::ImageIOBase::IOComponentType componentType;
+  itk::IOPixelEnum     pixelType;
+  itk::IOComponentEnum componentType;
   try
   {
     GetImageType(testImageFilename, pixelType, componentType);
 
     switch (componentType)
     {
-      case itk::ImageIOBase::UCHAR:
-      case itk::ImageIOBase::USHORT:
-      case itk::ImageIOBase::UINT:
-      case itk::ImageIOBase::ULONG:
-      case itk::ImageIOBase::ULONGLONG:
+      case itk::IOComponentEnum::UCHAR:
+      case itk::IOComponentEnum::USHORT:
+      case itk::IOComponentEnum::UINT:
+      case itk::IOComponentEnum::ULONG:
+      case itk::IOComponentEnum::ULONGLONG:
         return RegressionTestHelper<unsigned long long>(testImageFilename,
                                                         baselineImageFilename,
                                                         reportErrors,
@@ -740,11 +738,11 @@ RegressionTestImage(const char *         testImageFilename,
                                                         verifyInputInformation,
                                                         coordinateTolerance,
                                                         directionTolerance);
-      case itk::ImageIOBase::CHAR:
-      case itk::ImageIOBase::SHORT:
-      case itk::ImageIOBase::INT:
-      case itk::ImageIOBase::LONG:
-      case itk::ImageIOBase::LONGLONG:
+      case itk::IOComponentEnum::CHAR:
+      case itk::IOComponentEnum::SHORT:
+      case itk::IOComponentEnum::INT:
+      case itk::IOComponentEnum::LONG:
+      case itk::IOComponentEnum::LONGLONG:
         return RegressionTestHelper<long long>(testImageFilename,
                                                baselineImageFilename,
                                                reportErrors,
@@ -754,8 +752,8 @@ RegressionTestImage(const char *         testImageFilename,
                                                verifyInputInformation,
                                                coordinateTolerance,
                                                directionTolerance);
-      case itk::ImageIOBase::FLOAT:
-      case itk::ImageIOBase::DOUBLE:
+      case itk::IOComponentEnum::FLOAT:
+      case itk::IOComponentEnum::DOUBLE:
         return RegressionTestHelper<double>(testImageFilename,
                                             baselineImageFilename,
                                             reportErrors,
@@ -765,7 +763,7 @@ RegressionTestImage(const char *         testImageFilename,
                                             verifyInputInformation,
                                             coordinateTolerance,
                                             directionTolerance);
-      case itk::ImageIOBase::UNKNOWNCOMPONENTTYPE:
+      case itk::IOComponentEnum::UNKNOWNCOMPONENTTYPE:
       default:
         std::cerr << "Exception detected while reading " << baselineImageFilename << " : "
                   << "Unknown component type";
@@ -813,7 +811,7 @@ int
 HashTestImage(const char * testImageFilename, const std::vector<std::string> & baselineMD5Vector)
 {
   itk::ImageIOBase::Pointer iobase =
-    itk::ImageIOFactory::CreateImageIO(testImageFilename, itk::ImageIOFactory::FileModeEnum::ReadMode);
+    itk::ImageIOFactory::CreateImageIO(testImageFilename, itk::ImageIOFactory::IOFileModeEnum::ReadMode);
 
   if (iobase.IsNull())
   {
@@ -825,47 +823,47 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
   iobase->ReadImageInformation();
 
   // get output information about input image
-  itk::ImageIOBase::IOComponentType componentType = iobase->GetComponentType();
+  itk::IOComponentEnum componentType = iobase->GetComponentType();
 
   std::string testMD5 = "";
   switch (componentType)
   {
-    case itk::ImageIOBase::CHAR:
+    case itk::IOComponentEnum::CHAR:
       testMD5 = ComputeHash<itk::VectorImage<char, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
-    case itk::ImageIOBase::UCHAR:
+    case itk::IOComponentEnum::UCHAR:
       testMD5 = ComputeHash<itk::VectorImage<unsigned char, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
-    case itk::ImageIOBase::SHORT:
+    case itk::IOComponentEnum::SHORT:
       testMD5 = ComputeHash<itk::VectorImage<short, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
-    case itk::ImageIOBase::USHORT:
+    case itk::IOComponentEnum::USHORT:
       testMD5 = ComputeHash<itk::VectorImage<unsigned short, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
-    case itk::ImageIOBase::INT:
+    case itk::IOComponentEnum::INT:
       testMD5 = ComputeHash<itk::VectorImage<int, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
-    case itk::ImageIOBase::UINT:
+    case itk::IOComponentEnum::UINT:
       testMD5 = ComputeHash<itk::VectorImage<unsigned int, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
-    case itk::ImageIOBase::LONG:
+    case itk::IOComponentEnum::LONG:
       testMD5 = ComputeHash<itk::VectorImage<long, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
-    case itk::ImageIOBase::ULONG:
+    case itk::IOComponentEnum::ULONG:
       testMD5 = ComputeHash<itk::VectorImage<unsigned long, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
-    case itk::ImageIOBase::LONGLONG:
+    case itk::IOComponentEnum::LONGLONG:
       testMD5 = ComputeHash<itk::VectorImage<long long, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
-    case itk::ImageIOBase::ULONGLONG:
+    case itk::IOComponentEnum::ULONGLONG:
       testMD5 = ComputeHash<itk::VectorImage<unsigned long long, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
-    case itk::ImageIOBase::FLOAT:
-    case itk::ImageIOBase::DOUBLE:
+    case itk::IOComponentEnum::FLOAT:
+    case itk::IOComponentEnum::DOUBLE:
       std::cerr << "Hashing is not supporting for float and double images." << std::endl;
       itkGenericExceptionMacro("Hashing is not supported for images of float or doubles.");
 
-    case itk::ImageIOBase::UNKNOWNCOMPONENTTYPE:
+    case itk::IOComponentEnum::UNKNOWNCOMPONENTTYPE:
     default:
       assert(false); // should never get here unless we forgot a type
       itkGenericExceptionMacro("Logic error!");

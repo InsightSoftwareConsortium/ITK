@@ -1060,38 +1060,38 @@ DCMTKFileReader ::GetSlopeIntercept(double & slope, double & intercept) const
   return EXIT_SUCCESS;
 }
 
-ImageIOBase::IOPixelType
+IOPixelEnum
 DCMTKFileReader ::GetImagePixelType() const
 {
   unsigned short SamplesPerPixel;
   if (this->GetElementUS(0x0028, 0x0100, SamplesPerPixel, false) != EXIT_SUCCESS)
   {
-    return ImageIOBase::UNKNOWNPIXELTYPE;
+    return IOPixelEnum::UNKNOWNPIXELTYPE;
   }
-  ImageIOBase::IOPixelType pixelType;
+  IOPixelEnum pixelType;
   switch (SamplesPerPixel)
   {
     case 8:
     case 16:
-      pixelType = ImageIOBase::SCALAR;
+      pixelType = IOPixelEnum::SCALAR;
       break;
     case 24:
-      pixelType = ImageIOBase::RGB;
+      pixelType = IOPixelEnum::RGB;
       break;
     default:
-      pixelType = ImageIOBase::VECTOR;
+      pixelType = IOPixelEnum::VECTOR;
   }
   return pixelType;
 }
 
-ImageIOBase::IOComponentType
+IOComponentEnum
 DCMTKFileReader ::GetImageDataType() const
 {
-  unsigned short               IsSigned;
-  unsigned short               BitsAllocated;
-  unsigned short               BitsStored;
-  unsigned short               HighBit;
-  ImageIOBase::IOComponentType type = ImageIOBase::UNKNOWNCOMPONENTTYPE;
+  unsigned short  IsSigned;
+  unsigned short  BitsAllocated;
+  unsigned short  BitsStored;
+  unsigned short  HighBit;
+  IOComponentEnum type = IOComponentEnum::UNKNOWNCOMPONENTTYPE;
 
   if (this->GetElementUS(0x0028, 0x0100, BitsAllocated, false) != EXIT_SUCCESS ||
       this->GetElementUS(0x0028, 0x0101, BitsStored, false) != EXIT_SUCCESS ||
@@ -1110,42 +1110,42 @@ DCMTKFileReader ::GetImageDataType() const
     case 24: // RGB?
       if (IsSigned)
       {
-        type = ImageIOBase::CHAR;
+        type = IOComponentEnum::CHAR;
       }
       else
       {
-        type = ImageIOBase::UCHAR;
+        type = IOComponentEnum::UCHAR;
       }
       break;
     case 12:
     case 16:
       if (IsSigned)
       {
-        type = ImageIOBase::SHORT;
+        type = IOComponentEnum::SHORT;
       }
       else
       {
-        type = ImageIOBase::USHORT;
+        type = IOComponentEnum::USHORT;
       }
       break;
     case 32:
       if (IsSigned)
       {
-        type = ImageIOBase::INT;
+        type = IOComponentEnum::INT;
       }
       else
       {
-        type = ImageIOBase::UINT;
+        type = IOComponentEnum::UINT;
       }
       break;
     case 64:
       if (IsSigned)
       {
-        type = ImageIOBase::LONGLONG;
+        type = IOComponentEnum::LONGLONG;
       }
       else
       {
-        type = ImageIOBase::ULONGLONG;
+        type = IOComponentEnum::ULONGLONG;
       }
       break;
     case 0:

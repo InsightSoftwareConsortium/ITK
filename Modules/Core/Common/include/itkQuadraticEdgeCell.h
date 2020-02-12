@@ -56,10 +56,10 @@ public:
   static constexpr unsigned int CellDimension = 1;
 
   /** Implement the standard CellInterface. */
-  CellGeometry
+  CellGeometryEnum
   GetType() const override
   {
-    return Superclass::QUADRATIC_EDGE_CELL;
+    return CellGeometryEnum::QUADRATIC_EDGE_CELL;
   }
   void
   MakeCopy(CellAutoPointer &) const override;
@@ -103,7 +103,7 @@ public:
   GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
 
   /** Visitor interface */
-  itkCellVisitMacro(Superclass::QUADRATIC_EDGE_CELL);
+  itkCellVisitMacro(CellGeometryEnum::QUADRATIC_EDGE_CELL);
 
   QuadraticEdgeCell()
   {

@@ -134,53 +134,53 @@ MRCImageIO::ReadImageInformation()
       // todo: the format is unclear weather this is signed or
       // unsigned, it would be best to check the min and max in the
       // header to see what makes since
-      this->SetComponentType(UCHAR);
+      this->SetComponentType(IOComponentEnum::UCHAR);
       this->SetNumberOfComponents(1);
-      this->SetPixelType(SCALAR);
+      this->SetPixelType(IOPixelEnum::SCALAR);
       break;
     }
     case MRCHeaderObject::MRCHEADER_MODE_IN16:
     {
-      this->SetComponentType(SHORT);
+      this->SetComponentType(IOComponentEnum::SHORT);
       this->SetNumberOfComponents(1);
-      this->SetPixelType(SCALAR);
+      this->SetPixelType(IOPixelEnum::SCALAR);
       break;
     }
     case MRCHeaderObject::MRCHEADER_MODE_FLOAT:
     {
-      this->SetComponentType(FLOAT);
+      this->SetComponentType(IOComponentEnum::FLOAT);
       this->SetNumberOfComponents(1);
-      this->SetPixelType(SCALAR);
+      this->SetPixelType(IOPixelEnum::SCALAR);
       break;
     }
     case MRCHeaderObject::MRCHEADER_MODE_COMPLEX_INT16:
     {
       // ITK does not support short complex well
       // but if the program has gotten this far we can just write it out
-      this->SetComponentType(SHORT);
+      this->SetComponentType(IOComponentEnum::SHORT);
       this->SetNumberOfComponents(2);
-      this->SetPixelType(COMPLEX);
+      this->SetPixelType(IOPixelEnum::COMPLEX);
       break;
     }
     case MRCHeaderObject::MRCHEADER_MODE_COMPLEX_FLOAT:
     {
-      this->SetComponentType(FLOAT);
+      this->SetComponentType(IOComponentEnum::FLOAT);
       this->SetNumberOfComponents(2);
-      this->SetPixelType(COMPLEX);
+      this->SetPixelType(IOPixelEnum::COMPLEX);
       break;
     }
     case MRCHeaderObject::MRCHEADER_MODE_UINT16:
     {
-      this->SetComponentType(USHORT);
+      this->SetComponentType(IOComponentEnum::USHORT);
       this->SetNumberOfComponents(1);
-      this->SetPixelType(SCALAR);
+      this->SetPixelType(IOPixelEnum::SCALAR);
       break;
     }
     case MRCHeaderObject::MRCHEADER_MODE_RGB_BYTE:
     {
-      this->SetComponentType(UCHAR);
+      this->SetComponentType(IOComponentEnum::UCHAR);
       this->SetNumberOfComponents(3);
-      this->SetPixelType(RGB);
+      this->SetPixelType(IOPixelEnum::RGB);
       break;
     }
     default:
@@ -309,13 +309,13 @@ MRCImageIO ::Read(void * buffer)
     case 1:
       break;
     case 2:
-      this->GetByteOrder() == BigEndian
+      this->GetByteOrder() == IOByteOrderEnum::BigEndian
         ? ByteSwapper<uint16_t>::SwapRangeFromSystemToBigEndian((uint16_t *)buffer, this->GetImageSizeInComponents())
         : ByteSwapper<uint16_t>::SwapRangeFromSystemToLittleEndian((uint16_t *)buffer,
                                                                    this->GetImageSizeInComponents());
       break;
     case 4:
-      this->GetByteOrder() == BigEndian
+      this->GetByteOrder() == IOByteOrderEnum::BigEndian
         ? ByteSwapper<uint32_t>::SwapRangeFromSystemToBigEndian((uint32_t *)buffer, this->GetImageSizeInComponents())
         : ByteSwapper<uint32_t>::SwapRangeFromSystemToLittleEndian((uint32_t *)buffer,
                                                                    this->GetImageSizeInComponents());
@@ -392,37 +392,37 @@ MRCImageIO::UpdateHeaderFromImageIO()
   header.mode = -1;
   if (this->GetNumberOfComponents() == 1)
   {
-    if (this->GetComponentType() == UCHAR)
+    if (this->GetComponentType() == IOComponentEnum::UCHAR)
     {
       header.mode = MRCHeaderObject::MRCHEADER_MODE_UINT8;
     }
-    else if (this->GetComponentType() == SHORT)
+    else if (this->GetComponentType() == IOComponentEnum::SHORT)
     {
       header.mode = MRCHeaderObject::MRCHEADER_MODE_IN16;
     }
-    else if (this->GetComponentType() == FLOAT)
+    else if (this->GetComponentType() == IOComponentEnum::FLOAT)
     {
       header.mode = MRCHeaderObject::MRCHEADER_MODE_FLOAT;
     }
-    else if (this->GetComponentType() == USHORT)
+    else if (this->GetComponentType() == IOComponentEnum::USHORT)
     {
       header.mode = MRCHeaderObject::MRCHEADER_MODE_UINT16;
     }
   }
-  else if (this->GetNumberOfComponents() == 2 && this->GetPixelType() == COMPLEX)
+  else if (this->GetNumberOfComponents() == 2 && this->GetPixelType() == IOPixelEnum::COMPLEX)
   {
-    if (this->GetComponentType() == FLOAT)
+    if (this->GetComponentType() == IOComponentEnum::FLOAT)
     {
       header.mode = MRCHeaderObject::MRCHEADER_MODE_COMPLEX_FLOAT;
     }
     // ITK does not support short complex well
     // but if we have gotten this far, it's done
-    else if (this->GetComponentType() == SHORT)
+    else if (this->GetComponentType() == IOComponentEnum::SHORT)
     {
       header.mode = MRCHeaderObject::MRCHEADER_MODE_COMPLEX_INT16;
     }
   }
-  else if (this->GetNumberOfComponents() == 3 && this->GetComponentType() == UCHAR)
+  else if (this->GetNumberOfComponents() == 3 && this->GetComponentType() == IOComponentEnum::UCHAR)
   {
     header.mode = MRCHeaderObject::MRCHEADER_MODE_RGB_BYTE;
   }

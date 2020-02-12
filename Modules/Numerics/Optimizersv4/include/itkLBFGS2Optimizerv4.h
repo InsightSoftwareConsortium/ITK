@@ -26,7 +26,65 @@
 
 namespace itk
 {
-/** \class LBFGS2Optimizerv4
+/*** \class LBFGS2Optimizerv4Enums
+ * \brief Scoped Enum classes for LBFGS2Optimizerv4 class
+ * \ingroup ITKOptimizersv4
+ */
+class LBFGS2Optimizerv4Enums
+{
+public:
+  /***\class LineSearchMethod
+   * \ingroup ITKOptimizersv4
+   * Line search method enum
+   */
+  enum class LineSearchMethod : uint8_t
+  {
+    /** The default algorithm (MoreThuente method). */
+    LINESEARCH_DEFAULT = 0,
+    /** MoreThuente method proposed by More and Thuente. */
+    LINESEARCH_MORETHUENTE = 0,
+    /**
+     * Backtracking method with the Armijo condition.
+     *  The backtracking method finds the step length such that it satisfies
+     *  the sufficient decrease (Armijo) condition,
+     *    - f(x + a * d) <= f(x) + lbfgs_parameter_t::ftol * a * g(x)^T d,
+     *
+     *  where x is the current point, d is the current search direction, and
+     *  a is the step length.
+     */
+    LINESEARCH_BACKTRACKING_ARMIJO = 1,
+    /** The backtracking method with the default (regular Wolfe) condition. */
+    LINESEARCH_BACKTRACKING = 2,
+    /**
+     * Backtracking method with regular Wolfe condition.
+     *  The backtracking method finds the step length such that it satisfies
+     *  both the Armijo condition (LINESEARCH_BACKTRACKING_ARMIJO)
+     *  and the curvature condition,
+     *    - g(x + a * d)^T d >= lbfgs_parameter_t::wolfe * g(x)^T d,
+     *
+     *  where x is the current point, d is the current search direction, and
+     *  a is the step length.
+     */
+    LINESEARCH_BACKTRACKING_WOLFE = 2,
+    /**
+     * Backtracking method with strong Wolfe condition.
+     *  The backtracking method finds the step length such that it satisfies
+     *  both the Armijo condition (LINESEARCH_BACKTRACKING_ARMIJO)
+     *  and the following condition,
+     *    - |g(x + a * d)^T d| <= lbfgs_parameter_t::wolfe * |g(x)^T d|,
+     *
+     *  where x is the current point, d is the current search direction, and
+     *  a is the step length.
+     */
+    LINESEARCH_BACKTRACKING_STRONG_WOLFE = 3,
+  };
+};
+// Define how to print enumeration
+extern ITKOptimizersv4_EXPORT std::ostream &
+                              operator<<(std::ostream & out, LBFGS2Optimizerv4Enums::LineSearchMethod value);
+
+/**
+ *\class LBFGS2Optimizerv4
  * \brief Wrap of the libLBFGS[1] algorithm for use in ITKv4 registration framework.
  * LibLBFGS is a translation of LBFGS code by Nocedal [2] and adds the orthantwise
  * limited-memmory Quais-Newton method [3] for optimization with L1-norm on the
@@ -105,48 +163,19 @@ class ITKOptimizersv4_EXPORT LBFGS2Optimizerv4 : public ObjectToObjectOptimizerB
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LBFGS2Optimizerv4);
 
-  enum LineSearchMethod
-  {
-    /** The default algorithm (MoreThuente method). */
-    LINESEARCH_DEFAULT = 0,
-    /** MoreThuente method proposed by More and Thuente. */
-    LINESEARCH_MORETHUENTE = 0,
-    /**
-     * Backtracking method with the Armijo condition.
-     *  The backtracking method finds the step length such that it satisfies
-     *  the sufficient decrease (Armijo) condition,
-     *    - f(x + a * d) <= f(x) + lbfgs_parameter_t::ftol * a * g(x)^T d,
-     *
-     *  where x is the current point, d is the current search direction, and
-     *  a is the step length.
-     */
-    LINESEARCH_BACKTRACKING_ARMIJO = 1,
-    /** The backtracking method with the default (regular Wolfe) condition. */
-    LINESEARCH_BACKTRACKING = 2,
-    /**
-     * Backtracking method with regular Wolfe condition.
-     *  The backtracking method finds the step length such that it satisfies
-     *  both the Armijo condition (LINESEARCH_BACKTRACKING_ARMIJO)
-     *  and the curvature condition,
-     *    - g(x + a * d)^T d >= lbfgs_parameter_t::wolfe * g(x)^T d,
-     *
-     *  where x is the current point, d is the current search direction, and
-     *  a is the step length.
-     */
-    LINESEARCH_BACKTRACKING_WOLFE = 2,
-    /**
-     * Backtracking method with strong Wolfe condition.
-     *  The backtracking method finds the step length such that it satisfies
-     *  both the Armijo condition (LINESEARCH_BACKTRACKING_ARMIJO)
-     *  and the following condition,
-     *    - |g(x + a * d)^T d| <= lbfgs_parameter_t::wolfe * |g(x)^T d|,
-     *
-     *  where x is the current point, d is the current search direction, and
-     *  a is the step length.
-     */
-    LINESEARCH_BACKTRACKING_STRONG_WOLFE = 3,
-  };
-
+  using LineSearchMethodEnum = LBFGS2Optimizerv4Enums::LineSearchMethod;
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enums values for backwards compatibility*/
+  static constexpr LineSearchMethodEnum LINESEARCH_DEFAULT = LineSearchMethodEnum::LINESEARCH_DEFAULT;
+  static constexpr LineSearchMethodEnum LINESEARCH_MORETHUENTE = LineSearchMethodEnum::LINESEARCH_MORETHUENTE;
+  static constexpr LineSearchMethodEnum LINESEARCH_BACKTRACKING_ARMIJO =
+    LineSearchMethodEnum::LINESEARCH_BACKTRACKING_ARMIJO;
+  static constexpr LineSearchMethodEnum LINESEARCH_BACKTRACKING = LineSearchMethodEnum::LINESEARCH_BACKTRACKING;
+  static constexpr LineSearchMethodEnum LINESEARCH_BACKTRACKING_WOLFE =
+    LineSearchMethodEnum::LINESEARCH_BACKTRACKING_WOLFE;
+  static constexpr LineSearchMethodEnum LINESEARCH_BACKTRACKING_STRONG_WOLFE =
+    LineSearchMethodEnum::LINESEARCH_BACKTRACKING_STRONG_WOLFE;
+#endif
 
   /**
    * currently only double is used in lbfgs need to figure
@@ -273,8 +302,8 @@ public:
    * Defaults to More-Thuente's method.
    */
   void
-  SetLineSearch(const LineSearchMethod & linesearch);
-  LineSearchMethod
+  SetLineSearch(const LineSearchMethodEnum & linesearch);
+  LineSearchMethodEnum
   GetLineSearch() const;
 
   /**
@@ -485,6 +514,5 @@ private:
 
   int m_StatusCode;
 };
-
 } // end namespace itk
 #endif

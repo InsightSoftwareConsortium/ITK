@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class RelabelLabelMapFilter
+/**
+ *\class RelabelLabelMapFilter
  * \brief This filter relabels the LabelObjects; the new labels are arranged
  * consecutively with consideration for the background value.
  *

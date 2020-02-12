@@ -202,8 +202,9 @@ PerformSimpleImageRegistration2(int argc, char * argv[])
   rigidShrinkFactorsPerLevel[2] = 4;
   rigidRegistration->SetShrinkFactorsPerLevel(rigidShrinkFactorsPerLevel);
 
-  typename RegistrationType::MetricSamplingStrategyType rigidSamplingStrategy = RegistrationType::RANDOM;
-  double                                                rigidSamplingPercentage = 0.20;
+  typename RegistrationType::MetricSamplingStrategyEnum rigidSamplingStrategy =
+    RegistrationType::MetricSamplingStrategyEnum::RANDOM;
+  double rigidSamplingPercentage = 0.20;
   rigidRegistration->SetMetricSamplingStrategy(rigidSamplingStrategy);
   rigidRegistration->SetMetricSamplingPercentage(rigidSamplingPercentage);
 

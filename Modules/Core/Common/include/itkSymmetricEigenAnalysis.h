@@ -111,19 +111,56 @@ permuteColumnsWithSortIndices(QMatrix & eigenVectors, const std::vector<int> & i
 }
 } // end namespace detail
 
-/** \class EigenValueOrderEnum
+/**\class SymmetricEigenAnalysisEnums
+ * \brief This class contains all enum classes used by SymmetricEigenAnalysis class.
  * \ingroup ITKCommon
- * Order of eigen values
- * OrderByValue:      lambda_1 < lambda_2 < ....
- * OrderByMagnitude:  |lambda_1| < |lambda_2| < .....
- * DoNotOrder:        Default order of eigen values obtained after QL method
  */
-enum class EigenValueOrderEnum : uint8_t
+class SymmetricEigenAnalysisEnums
 {
-  OrderByValue = 1,
-  OrderByMagnitude,
-  DoNotOrder
+public:
+  /** \class EigenValueOrder
+   * \ingroup ITKCommon
+   * Order of eigen values
+   * OrderByValue:      lambda_1 < lambda_2 < ....
+   * OrderByMagnitude:  |lambda_1| < |lambda_2| < .....
+   * DoNotOrder:        Default order of eigen values obtained after QL method
+   */
+  enum class EigenValueOrder : uint8_t
+  {
+    OrderByValue = 1,
+    OrderByMagnitude = 2,
+    DoNotOrder = 3
+  };
 };
+// Define how to print enumeration
+extern ITKCommon_EXPORT std::ostream &
+                        operator<<(std::ostream & out, const SymmetricEigenAnalysisEnums::EigenValueOrder value);
+
+using EigenValueOrderEnum = SymmetricEigenAnalysisEnums::EigenValueOrder;
+
+inline EigenValueOrderEnum
+Int2EigenValueOrderEnum(const uint8_t value)
+{
+  switch (value)
+  {
+    case 1:
+      return EigenValueOrderEnum::OrderByValue;
+    case 2:
+      return EigenValueOrderEnum::OrderByMagnitude;
+    case 3:
+      return EigenValueOrderEnum::DoNotOrder;
+    default:
+      break;
+  }
+  itkGenericExceptionMacro(<< "Error: Invalid value for conversion.")
+}
+
+#if !defined(ITK_LEGACY_REMOVE)
+/** Enables reverse compatibility for enumeration values */
+static constexpr EigenValueOrderEnum OrderByValue = EigenValueOrderEnum::OrderByValue;
+static constexpr EigenValueOrderEnum OrderByMagnitude = EigenValueOrderEnum::OrderByMagnitude;
+static constexpr EigenValueOrderEnum DoNotOrder = EigenValueOrderEnum::DoNotOrder;
+#endif
 
 /** \class SymmetricEigenAnalysis
  * \brief Find Eigen values of a real 2D symmetric matrix. It
@@ -164,14 +201,10 @@ template <typename TMatrix, typename TVector, typename TEigenMatrix = TMatrix>
 class ITK_TEMPLATE_EXPORT SymmetricEigenAnalysis
 {
 public:
+  using EigenValueOrderEnum = itk::EigenValueOrderEnum;
+#if !defined(ITK_LEGACY_REMOVE)
   /** Enables reverse compatibility for enumeration values */
   using EigenValueOrderType = EigenValueOrderEnum;
-#if !defined(ITK_LEGACY_REMOVE)
-  // We need to expose the enum values at the class level
-  // for backwards compatibility
-  static constexpr EigenValueOrderType OrderByValue = EigenValueOrderEnum::OrderByValue;
-  static constexpr EigenValueOrderType OrderByMagnitude = EigenValueOrderEnum::OrderByMagnitude;
-  static constexpr EigenValueOrderType DoNotOrder = EigenValueOrderEnum::DoNotOrder;
 #endif
 
   SymmetricEigenAnalysis()
@@ -338,7 +371,7 @@ private:
   bool                m_UseEigenLibrary{ false };
   unsigned int        m_Dimension{ 0 };
   unsigned int        m_Order{ 0 };
-  EigenValueOrderType m_OrderEigenValues;
+  EigenValueOrderEnum m_OrderEigenValues;
 
   /** Reduces a real symmetric matrix to a symmetric tridiagonal matrix using
    *  orthogonal similarity transformations.
@@ -728,14 +761,16 @@ template <unsigned int VDimension, typename TMatrix, typename TVector, typename 
 class ITK_TEMPLATE_EXPORT SymmetricEigenAnalysisFixedDimension
 {
 public:
+#if !defined(ITK_LEGACY_REMOVE)
   /** Enables reverse compatibility for enumeration values */
   using EigenValueOrderType = EigenValueOrderEnum;
+#endif
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr EigenValueOrderType OrderByValue = EigenValueOrderEnum::OrderByValue;
-  static constexpr EigenValueOrderType OrderByMagnitude = EigenValueOrderEnum::OrderByMagnitude;
-  static constexpr EigenValueOrderType DoNotOrder = EigenValueOrderEnum::DoNotOrder;
+  static constexpr EigenValueOrderEnum OrderByValue = EigenValueOrderEnum::OrderByValue;
+  static constexpr EigenValueOrderEnum OrderByMagnitude = EigenValueOrderEnum::OrderByMagnitude;
+  static constexpr EigenValueOrderEnum DoNotOrder = EigenValueOrderEnum::DoNotOrder;
 #endif
 
   SymmetricEigenAnalysisFixedDimension()
@@ -843,7 +878,7 @@ public:
   }
 
 private:
-  EigenValueOrderType m_OrderEigenValues;
+  EigenValueOrderEnum m_OrderEigenValues;
 
   /* Helper to get the matrix value type for EigenLibMatrix typename.
    *

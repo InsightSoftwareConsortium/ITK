@@ -855,6 +855,8 @@ class SwigInputGenerator(object):
         # search the files to import
         usedSources = set()
         for alias in self.usedTypes:
+            if alias.rfind("Enums::") != -1:
+                alias = alias[:alias.rfind("Enums::")+5]
             if alias in self.typedefSource:
                 idxName = os.path.basename(self.typedefSource[alias])
                 iName = idxName[:-len(".idx")]

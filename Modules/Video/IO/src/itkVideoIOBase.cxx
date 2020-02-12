@@ -40,19 +40,19 @@ VideoIOBase::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 }
 
-/** Print Enumerations */
+/** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const VideoIOBase::ReadFromEnum value)
+operator<<(std::ostream & out, const VideoIOBaseEnums::ReadFrom value)
 {
   return out << [value] {
     switch (value)
     {
-      case VideoIOBase::ReadFromEnum::ReadFromFile:
-        return "VideoIOBase::ReadFromEnum::ReadFromFile";
-      case VideoIOBase::ReadFromEnum::ReadFromCamera:
-        return "VideoIOBase::ReadFromEnum::ReadFromCamera";
+      case VideoIOBaseEnums::ReadFrom::ReadFromFile:
+        return "itk::VideoIOBaseEnums::ReadFrom::ReadFromFile";
+      case VideoIOBaseEnums::ReadFrom::ReadFromCamera:
+        return "itk::VideoIOBaseEnums::ReadFrom::ReadFromCamera";
       default:
-        return "INVALID VALUE FOR VideoIOBase::ReadFromEnum";
+        return "INVALID VALUE FOR itk::VideoIOBaseEnums::ReadFrom";
     }
   }();
 }

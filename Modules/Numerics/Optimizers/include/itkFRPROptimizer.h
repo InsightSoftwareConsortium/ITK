@@ -23,6 +23,26 @@
 
 namespace itk
 {
+/**\class FRPROptimizerEnums
+ * \brief Contains enum classes used by FRPROptimizer class
+ * \ingroup ITKOptimizers
+ */
+class FRPROptimizerEnums
+{
+public:
+  /**\class Optimization
+   * \ingroup ITKOptimizers
+   * */
+  enum class Optimization : uint8_t
+  {
+    FletchReeves,
+    PolakRibiere
+  };
+};
+// Define how to print enumeration
+extern ITKOptimizers_EXPORT std::ostream &
+                            operator<<(std::ostream & out, const FRPROptimizerEnums::Optimization value);
+
 /** \class FRPROptimizer
  * \brief Implements Fletch-Reeves & Polak-Ribiere optimization using dBrent
  * line search.
@@ -106,13 +126,14 @@ protected:
 private:
   FRPROptimizer(const FRPROptimizer &) = delete;
 
-  typedef enum
-  {
-    FletchReeves,
-    PolakRibiere
-  } OptimizationType;
+  using OptimizationEnum = FRPROptimizerEnums::Optimization;
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enums values for backwards compatibility*/
+  static constexpr OptimizationEnum FletchReeves = OptimizationEnum::FletchReeves;
+  static constexpr OptimizationEnum PolakRibiere = OptimizationEnum::PolakRibiere;
+#endif
 
-  OptimizationType m_OptimizationType;
+  OptimizationEnum m_OptimizationType;
 
   bool m_UseUnitLengthGradient;
 }; // end of class

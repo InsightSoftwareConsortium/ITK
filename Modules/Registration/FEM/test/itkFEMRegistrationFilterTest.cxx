@@ -372,6 +372,15 @@ itkFEMRegistrationFilterTest(int argc, char * argv[])
   std::cout << "Test passed" << std::endl;
   */
 
+  // Test streaming enumeration for FEMRegistrationFilterEnums::Sign elements
+  const std::set<itk::fem::FEMRegistrationFilterEnums::Sign> allSign{
+    itk::fem::FEMRegistrationFilterEnums::Sign::positive, itk::fem::FEMRegistrationFilterEnums::Sign::negative
+  };
+  for (const auto & ee : allSign)
+  {
+    std::cout << "STREAMED ENUM VALUE FEMRegistrationFilterEnums::Sign: " << ee << std::endl;
+  }
+
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

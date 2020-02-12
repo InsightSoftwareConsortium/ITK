@@ -114,7 +114,7 @@ public:
   /** DemonsRegistrationFilterFunction type. */
   using DemonsRegistrationFunctionType =
     ESMDemonsRegistrationFunction<FixedImageType, MovingImageType, DisplacementFieldType>;
-  using GradientType = typename DemonsRegistrationFunctionType::GradientType;
+  using GradientType = typename DemonsRegistrationFunctionType::GradientEnum;
 
   static constexpr unsigned int ImageDimension = FixedImageType::ImageDimension;
 

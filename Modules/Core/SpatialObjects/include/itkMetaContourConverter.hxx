@@ -214,13 +214,13 @@ MetaContourConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObject
   // Set the interpolation type
   switch (contourSO->GetInterpolationMethod())
   {
-    case ContourSpatialObjectType::InterpolationMethodType::EXPLICIT_INTERPOLATION:
+    case ContourSpatialObjectType::InterpolationMethodEnum::EXPLICIT_INTERPOLATION:
       contourMO->Interpolation(MET_EXPLICIT_INTERPOLATION);
       break;
-    case ContourSpatialObjectType::InterpolationMethodType::LINEAR_INTERPOLATION:
+    case ContourSpatialObjectType::InterpolationMethodEnum::LINEAR_INTERPOLATION:
       contourMO->Interpolation(MET_LINEAR_INTERPOLATION);
       break;
-    case ContourSpatialObjectType::InterpolationMethodType::BEZIER_INTERPOLATION:
+    case ContourSpatialObjectType::InterpolationMethodEnum::BEZIER_INTERPOLATION:
       contourMO->Interpolation(MET_BEZIER_INTERPOLATION);
       break;
     default:

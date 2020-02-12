@@ -169,8 +169,8 @@ itkContourSpatialObjectTest(int, char *[])
   //
   // Test Set/Get InterpolationType
   //
-  contour->SetInterpolationMethod(SpatialObjectType::InterpolationMethodType::LINEAR_INTERPOLATION);
-  if (contour->GetInterpolationMethod() != SpatialObjectType::InterpolationMethodType::LINEAR_INTERPOLATION)
+  contour->SetInterpolationMethod(SpatialObjectType::InterpolationMethodEnum::LINEAR_INTERPOLATION);
+  if (contour->GetInterpolationMethod() != SpatialObjectType::InterpolationMethodEnum::LINEAR_INTERPOLATION)
   {
     std::cout << "[FAILED] Did not set/retrieve interpolation type correctly" << std::endl;
     return EXIT_FAILURE;
@@ -196,7 +196,7 @@ itkContourSpatialObjectTest(int, char *[])
   interpPointList.push_back(intPt2);
 
   contour->SetControlPoints(interpPointList);
-  contour->SetInterpolationMethod(SpatialObjectType::InterpolationMethodType::NO_INTERPOLATION);
+  contour->SetInterpolationMethod(SpatialObjectType::InterpolationMethodEnum::NO_INTERPOLATION);
   contour->Update();
 
   // check number of points
@@ -298,6 +298,17 @@ itkContourSpatialObjectTest(int, char *[])
   itk::Indent idt;
   contour->Print(std::cout, idt);
 
+  // Test streaming enumeration for ContourSpatialObjectEnum::InterpolationMethod elements
+  const std::set<itk::ContourSpatialObjectEnums::InterpolationMethod> allInterpolationMethod{
+    itk::ContourSpatialObjectEnums::InterpolationMethod::NO_INTERPOLATION,
+    itk::ContourSpatialObjectEnums::InterpolationMethod::EXPLICIT_INTERPOLATION,
+    itk::ContourSpatialObjectEnums::InterpolationMethod::BEZIER_INTERPOLATION,
+    itk::ContourSpatialObjectEnums::InterpolationMethod::LINEAR_INTERPOLATION
+  };
+  for (const auto & ee : allInterpolationMethod)
+  {
+    std::cout << "STREAMED ENUM VALUE ContourSpatialObjectEnums::InterpolationMethod: " << ee << std::endl;
+  }
 
   //
   // All tests executed successfully

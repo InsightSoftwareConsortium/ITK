@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \class NoiseBaseImageFilter
+/**
+ *\class NoiseBaseImageFilter
  *
  * \brief An Abstract Base class for Noise image filters
  *

@@ -72,10 +72,10 @@ public:
 GDCMImageIO::GDCMImageIO()
 {
   this->m_DICOMHeader = new InternalHeader;
-  this->SetNumberOfDimensions(3); // needed for getting the 3 coordinates of
-                                  // the origin, even if it is a 2D slice.
-  m_ByteOrder = LittleEndian;     // default
-  m_FileType = Binary;            // default...always true
+  this->SetNumberOfDimensions(3);              // needed for getting the 3 coordinates of
+                                               // the origin, even if it is a 2D slice.
+  m_ByteOrder = IOByteOrderEnum::LittleEndian; // default
+  m_FileType = IOFileEnum::Binary;             // default...always true
   m_RescaleSlope = 1.0;
   m_RescaleIntercept = 0.0;
   // UIDPrefix is the ITK root id tacked with a ".1"
@@ -94,7 +94,7 @@ GDCMImageIO::GDCMImageIO()
 
   m_ReadYBRtoRGB = true;
 
-  m_InternalComponentType = UNKNOWNCOMPONENTTYPE;
+  m_InternalComponentType = IOComponentEnum::UNKNOWNCOMPONENTTYPE;
 
   // by default assume that images will be 2D.
   // This number is updated according the information
@@ -429,37 +429,37 @@ GDCMImageIO::InternalReadImageInformation()
   switch (pixeltype)
   {
     case gdcm::PixelFormat::INT8:
-      m_InternalComponentType = ImageIOBase::CHAR; // Is it signed char ?
+      m_InternalComponentType = IOComponentEnum::CHAR; // Is it signed char ?
       break;
     case gdcm::PixelFormat::UINT8:
-      m_InternalComponentType = ImageIOBase::UCHAR;
+      m_InternalComponentType = IOComponentEnum::UCHAR;
       break;
     /* INT12 / UINT12 should not happen anymore in any modern DICOM */
     case gdcm::PixelFormat::INT12:
-      m_InternalComponentType = ImageIOBase::SHORT;
+      m_InternalComponentType = IOComponentEnum::SHORT;
       break;
     case gdcm::PixelFormat::UINT12:
-      m_InternalComponentType = ImageIOBase::USHORT;
+      m_InternalComponentType = IOComponentEnum::USHORT;
       break;
     case gdcm::PixelFormat::INT16:
-      m_InternalComponentType = ImageIOBase::SHORT;
+      m_InternalComponentType = IOComponentEnum::SHORT;
       break;
     case gdcm::PixelFormat::UINT16:
-      m_InternalComponentType = ImageIOBase::USHORT;
+      m_InternalComponentType = IOComponentEnum::USHORT;
       break;
     // RT / SC have 32bits
     case gdcm::PixelFormat::INT32:
-      m_InternalComponentType = ImageIOBase::INT;
+      m_InternalComponentType = IOComponentEnum::INT;
       break;
     case gdcm::PixelFormat::UINT32:
-      m_InternalComponentType = ImageIOBase::UINT;
+      m_InternalComponentType = IOComponentEnum::UINT;
       break;
     // case gdcm::PixelFormat::FLOAT16: // TODO
     case gdcm::PixelFormat::FLOAT32:
-      m_InternalComponentType = ImageIOBase::FLOAT;
+      m_InternalComponentType = IOComponentEnum::FLOAT;
       break;
     case gdcm::PixelFormat::FLOAT64:
-      m_InternalComponentType = ImageIOBase::DOUBLE;
+      m_InternalComponentType = IOComponentEnum::DOUBLE;
       break;
     default:
       itkExceptionMacro("Unhandled PixelFormat: " << pixeltype);
@@ -479,41 +479,41 @@ GDCMImageIO::InternalReadImageInformation()
 
   itkAssertInDebugAndIgnoreInReleaseMacro(pixeltype <= outputpt);
 
-  m_ComponentType = UNKNOWNCOMPONENTTYPE;
+  m_ComponentType = IOComponentEnum::UNKNOWNCOMPONENTTYPE;
   switch (outputpt)
   {
     case gdcm::PixelFormat::INT8:
-      m_ComponentType = ImageIOBase::CHAR; // Is it signed char ?
+      m_ComponentType = IOComponentEnum::CHAR; // Is it signed char ?
       break;
     case gdcm::PixelFormat::UINT8:
-      m_ComponentType = ImageIOBase::UCHAR;
+      m_ComponentType = IOComponentEnum::UCHAR;
       break;
     /* INT12 / UINT12 should not happen anymore in any modern DICOM */
     case gdcm::PixelFormat::INT12:
-      m_ComponentType = ImageIOBase::SHORT;
+      m_ComponentType = IOComponentEnum::SHORT;
       break;
     case gdcm::PixelFormat::UINT12:
-      m_ComponentType = ImageIOBase::USHORT;
+      m_ComponentType = IOComponentEnum::USHORT;
       break;
     case gdcm::PixelFormat::INT16:
-      m_ComponentType = ImageIOBase::SHORT;
+      m_ComponentType = IOComponentEnum::SHORT;
       break;
     case gdcm::PixelFormat::UINT16:
-      m_ComponentType = ImageIOBase::USHORT;
+      m_ComponentType = IOComponentEnum::USHORT;
       break;
     // RT / SC have 32bits
     case gdcm::PixelFormat::INT32:
-      m_ComponentType = ImageIOBase::INT;
+      m_ComponentType = IOComponentEnum::INT;
       break;
     case gdcm::PixelFormat::UINT32:
-      m_ComponentType = ImageIOBase::UINT;
+      m_ComponentType = IOComponentEnum::UINT;
       break;
     // case gdcm::PixelFormat::FLOAT16: // TODO
     case gdcm::PixelFormat::FLOAT32:
-      m_ComponentType = ImageIOBase::FLOAT;
+      m_ComponentType = IOComponentEnum::FLOAT;
       break;
     case gdcm::PixelFormat::FLOAT64:
-      m_ComponentType = ImageIOBase::DOUBLE;
+      m_ComponentType = IOComponentEnum::DOUBLE;
       break;
     default:
       itkExceptionMacro("Unhandled PixelFormat: " << outputpt);
@@ -530,7 +530,7 @@ GDCMImageIO::InternalReadImageInformation()
   }
   if (m_NumberOfComponents == 1)
   {
-    this->SetPixelType(SCALAR);
+    this->SetPixelType(IOPixelEnum::SCALAR);
   }
   else if (m_NumberOfComponents == 3)
   {
@@ -545,16 +545,16 @@ GDCMImageIO::InternalReadImageInformation()
                      pi == gdcm::PhotometricInterpretation::PALETTE_COLOR || rgb_from_ybr || ybr_jp2;
     if (rgb)
     {
-      this->SetPixelType(RGB);
+      this->SetPixelType(IOPixelEnum::RGB);
     }
     else
     {
-      this->SetPixelType(VECTOR);
+      this->SetPixelType(IOPixelEnum::VECTOR);
     }
   }
   else
   {
-    this->SetPixelType(VECTOR);
+    this->SetPixelType(IOPixelEnum::VECTOR);
   }
 
   m_Dimensions[0] = dims[0];
@@ -1086,29 +1086,29 @@ GDCMImageIO::Write(const void * buffer)
   gdcm::PixelFormat pixeltype = gdcm::PixelFormat::UNKNOWN;
   switch (this->GetComponentType())
   {
-    case ImageIOBase::CHAR:
+    case IOComponentEnum::CHAR:
       pixeltype = gdcm::PixelFormat::INT8;
       break;
-    case ImageIOBase::UCHAR:
+    case IOComponentEnum::UCHAR:
       pixeltype = gdcm::PixelFormat::UINT8;
       break;
-    case ImageIOBase::SHORT:
+    case IOComponentEnum::SHORT:
       pixeltype = gdcm::PixelFormat::INT16;
       break;
-    case ImageIOBase::USHORT:
+    case IOComponentEnum::USHORT:
       pixeltype = gdcm::PixelFormat::UINT16;
       break;
-    case ImageIOBase::INT:
+    case IOComponentEnum::INT:
       pixeltype = gdcm::PixelFormat::INT32;
       break;
-    case ImageIOBase::UINT:
+    case IOComponentEnum::UINT:
       pixeltype = gdcm::PixelFormat::UINT32;
       break;
     // Disabling FLOAT and DOUBLE for now...
-    case ImageIOBase::FLOAT:
+    case IOComponentEnum::FLOAT:
       pixeltype = gdcm::PixelFormat::FLOAT32;
       break;
-    case ImageIOBase::DOUBLE:
+    case IOComponentEnum::DOUBLE:
       pixeltype = gdcm::PixelFormat::FLOAT64;
       break;
     default:
@@ -1154,9 +1154,9 @@ GDCMImageIO::Write(const void * buffer)
                            "This is currently not supported");
     }
   }
-  else if (this->GetInternalComponentType() != UNKNOWNCOMPONENTTYPE)
+  else if (this->GetInternalComponentType() != IOComponentEnum::UNKNOWNCOMPONENTTYPE)
   {
-    const IOComponentType internalComponentType = this->GetInternalComponentType();
+    const IOComponentEnum internalComponentType = this->GetInternalComponentType();
     switch (internalComponentType)
     {
       //
@@ -1166,22 +1166,22 @@ GDCMImageIO::Write(const void * buffer)
       //  already been taken care of. The float case use an Integer internal
       //  storage, and specifies the precision desired for it.
       //
-      case ImageIOBase::CHAR:
+      case IOComponentEnum::CHAR:
         outpixeltype = gdcm::PixelFormat::INT8;
         break;
-      case ImageIOBase::UCHAR:
+      case IOComponentEnum::UCHAR:
         outpixeltype = gdcm::PixelFormat::UINT8;
         break;
-      case ImageIOBase::SHORT:
+      case IOComponentEnum::SHORT:
         outpixeltype = gdcm::PixelFormat::INT16;
         break;
-      case ImageIOBase::USHORT:
+      case IOComponentEnum::USHORT:
         outpixeltype = gdcm::PixelFormat::UINT16;
         break;
-      case ImageIOBase::INT:
+      case IOComponentEnum::INT:
         outpixeltype = gdcm::PixelFormat::INT32;
         break;
-      case ImageIOBase::UINT:
+      case IOComponentEnum::UINT:
         outpixeltype = gdcm::PixelFormat::UINT32;
         break;
       default:
@@ -1574,21 +1574,21 @@ GDCMImageIO::PrintSelf(std::ostream & os, Indent indent) const
 
 /** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const GDCMImageIO::CompressionEnum value)
+operator<<(std::ostream & out, const GDCMImageIOEnums::Compression value)
 {
   return out << [value] {
     switch (value)
     {
-      case GDCMImageIO::CompressionEnum::JPEG:
-        return "GDCMImageIO::CompressionEnum::JPEG";
-      case GDCMImageIO::CompressionEnum::JPEG2000:
-        return "GDCMImageIO::CompressionEnum::JPEG2000";
-      case GDCMImageIO::CompressionEnum::JPEGLS:
-        return "GDCMImageIO::CompressionEnum::JPEGLS";
-      case GDCMImageIO::CompressionEnum::RLE:
-        return "GDCMImageIO::CompressionEnum::RLE";
+      case GDCMImageIOEnums::Compression::JPEG:
+        return "itk::GDCMImageIOEnums::Compression::JPEG";
+      case GDCMImageIOEnums::Compression::JPEG2000:
+        return "itk::GDCMImageIOEnums::Compression::JPEG2000";
+      case GDCMImageIOEnums::Compression::JPEGLS:
+        return "itk::GDCMImageIOEnums::Compression::JPEGLS";
+      case GDCMImageIOEnums::Compression::RLE:
+        return "itk::GDCMImageIOEnums::Compression::RLE";
       default:
-        return "INVALID VALUE FOR GDCMImageIO::CompressionEnum";
+        return "INVALID VALUE FOR itk::GDCMImageIOEnums::Compression";
     }
   }();
 }

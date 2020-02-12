@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class BinaryMedianImageFilter
+/**
+ *\class BinaryMedianImageFilter
  * \brief Applies a version of the median filter optimized for binary images.
  *
  * This filter was contributed by Bjorn Hanch Sollie after identifying that

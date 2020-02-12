@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class CurvatureFlowImageFilter
+/**
+ *\class CurvatureFlowImageFilter
  * \brief Denoise an image using curvature driven flow.
  *
  * CurvatureFlowImageFilter implements a curvature driven image denoising

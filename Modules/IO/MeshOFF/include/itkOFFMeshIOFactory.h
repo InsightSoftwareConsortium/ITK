@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class OFFMeshIOFactory
+/**
+ *\class OFFMeshIOFactory
  * \brief Create instances of OFFMeshIO objects using an object factory.
  * \ingroup ITKIOMeshOFF
  */

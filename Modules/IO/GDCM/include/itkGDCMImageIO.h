@@ -28,6 +28,7 @@
 #ifndef itkGDCMImageIO_h
 #define itkGDCMImageIO_h
 
+#include "itkCommonEnums.h"
 #include "itkImageIOBase.h"
 #include "ITKIOGDCMExport.h"
 #include <fstream>
@@ -41,7 +42,30 @@
 
 namespace itk
 {
-/** \class GDCMImageIO
+/**\class GDCMImageIOEnums
+ * \brief
+ * \ingroup ITKIOGDCM
+ */
+class GDCMImageIOEnums
+{
+public:
+  /**
+   *\class Compression
+   * \ingroup ITKIOGDCM
+   * Set/Get a compression type to use. */
+  enum class Compression : uint8_t
+  {
+    JPEG = 0,
+    JPEG2000,
+    JPEGLS,
+    RLE
+  };
+};
+// Define how to print enumeration
+extern ITKIOGDCM_EXPORT std::ostream &
+                        operator<<(std::ostream & out, const GDCMImageIOEnums::Compression value);
+/**
+ *\class GDCMImageIO
  *
  *  \brief ImageIO class for reading and writing DICOM V3.0 and ACR/NEMA 1&2 uncompressed images.
  *  This class is only an adaptor to the GDCM library.
@@ -117,8 +141,8 @@ public:
   /** Set/Get the original component type of the image. This differs from
    * ComponentType which may change as a function of rescale slope and
    * intercept. */
-  itkGetEnumMacro(InternalComponentType, IOComponentType);
-  itkSetEnumMacro(InternalComponentType, IOComponentType);
+  itkGetEnumMacro(InternalComponentType, ::itk::CommonEnums::IOComponent);
+  itkSetEnumMacro(InternalComponentType, ::itk::CommonEnums::IOComponent);
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
@@ -325,17 +349,8 @@ public:
   }
 #endif
 
-  /** \class CompressionEnum
-   *
-   * \ingroup ITKIOGDCM
-   * Set/Get a compression type to use. */
-  enum class CompressionEnum : uint8_t
-  {
-    JPEG = 0,
-    JPEG2000,
-    JPEGLS,
-    RLE
-  };
+
+  using CompressionEnum = GDCMImageIOEnums::Compression;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
@@ -399,14 +414,9 @@ private:
   unsigned int    m_GlobalNumberOfDimensions;
   CompressionEnum m_CompressionType;
 
-  ImageIOBase::IOComponentType m_InternalComponentType;
-  InternalHeader *             m_DICOMHeader;
+  IOComponentEnum  m_InternalComponentType;
+  InternalHeader * m_DICOMHeader;
 };
-
-// Define how to print enumeration
-extern ITKIOGDCM_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const GDCMImageIO::CompressionEnum value);
-
 } // end namespace itk
 
 #endif // itkGDCMImageIO_h

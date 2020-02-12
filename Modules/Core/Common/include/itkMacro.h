@@ -235,9 +235,15 @@ namespace itk
 #if defined(ITK_FUTURE_LEGACY_REMOVE)
 #  define ITK_CONSTEXPR_FUNC "Replace ITK_CONSTEXPR_FUNC with constexpr"
 #  define ITK_CONSTEXPR_VAR "Replace ITK_CONSTEXPR_VAR with constexpr"
+/** Exposes enum value as an int*/
+#  define itkExposeEnumValue(name) static_cast<int>(name)
+// Future remove#  define itkExposeEnumValue(name) "Replace type of  " #  name " with proper enumeration instead of
+// integer."
 #else
 #  define ITK_CONSTEXPR_FUNC constexpr
 #  define ITK_CONSTEXPR_VAR constexpr
+/** Exposes enum value as an int*/
+#  define itkExposeEnumValue(name) static_cast<int>(name)
 #endif
 
 // Use "ITK_FALLTHROUGH;" to annotate deliberate fall-through in switches,

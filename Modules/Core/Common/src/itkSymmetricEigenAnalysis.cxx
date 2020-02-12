@@ -19,20 +19,21 @@
 
 namespace itk
 {
+/** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const EigenValueOrderEnum value)
+operator<<(std::ostream & out, const SymmetricEigenAnalysisEnums::EigenValueOrder value)
 {
   return out << [value] {
     switch (value)
     {
-      case EigenValueOrderEnum::OrderByValue:
-        return "EigenValueOrderEnum::OrderByValue";
-      case EigenValueOrderEnum::OrderByMagnitude:
-        return "EigenValueOrderEnum::OrderByMagnitude";
-      case EigenValueOrderEnum::DoNotOrder:
-        return "EigenValueOrderEnum::DoNotOrder";
+      case SymmetricEigenAnalysisEnums::EigenValueOrder::OrderByValue:
+        return "itk::SymmetricEigenAnalysisEnums::EigenValueOrder::OrderByValue";
+      case SymmetricEigenAnalysisEnums::EigenValueOrder::OrderByMagnitude:
+        return "itk::SymmetricEigenAnalysisEnums::EigenValueOrder::OrderByMagnitude";
+      case SymmetricEigenAnalysisEnums::EigenValueOrder::DoNotOrder:
+        return "itk::SymmetricEigenAnalysisEnums::EigenValueOrder::DoNotOrder";
       default:
-        return "INVALID VALUE FOR EigenValueOrderEnum";
+        return "INVALID VALUE FOR itk::SymmetricEigenAnalysisEnums::EigenValueOrder";
     }
   }();
 }

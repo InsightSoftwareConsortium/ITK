@@ -38,7 +38,8 @@
 
 namespace itk
 {
-/** \class GEAdwImageIO
+/**
+ *\class GEAdwImageIO
  *
  * \author Hans J. Johnson
  * \brief Class that defines how to read GEAdw file format.

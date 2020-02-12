@@ -31,7 +31,8 @@
 
 namespace itk
 {
-/** \class MultiLabelSTAPLEImageFilter
+/**
+ *\class MultiLabelSTAPLEImageFilter
  *
  * \brief This filter performs a pixelwise combination of an arbitrary number
  * of input images, where each of them represents a segmentation of the same

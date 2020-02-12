@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class WarpImageFilter
+/**
+ *\class WarpImageFilter
  * \brief Warps an image using an input displacement field.
  *
  * WarpImageFilter warps an existing image with respect to

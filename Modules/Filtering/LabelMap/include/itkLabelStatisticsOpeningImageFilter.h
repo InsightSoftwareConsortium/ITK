@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class LabelStatisticsOpeningImageFilter
+/**
+ *\class LabelStatisticsOpeningImageFilter
  * \brief remove the objects according to the value of their statistics attribute
  *
  * LabelStatisticsOpeningImageFilter removes the objects in a labeled image

@@ -26,7 +26,7 @@ namespace itk
 template <typename TInputMesh, typename TOutputMesh>
 NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::NormalQuadEdgeMeshFilter()
 {
-  this->m_Weight = THURMER;
+  this->m_Weight = WeightEnum::THURMER;
 }
 
 template <typename TInputMesh, typename TOutputMesh>
@@ -123,7 +123,7 @@ NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Weight(const OutputPointIdent
                                                           const OutputCellIdentifier &  iCId,
                                                           OutputMeshType *              outputMesh)
 {
-  if (m_Weight == GOURAUD)
+  if (m_Weight == WeightEnum::GOURAUD)
   {
     return static_cast<OutputVertexNormalComponentType>(1.0);
   }
@@ -157,11 +157,11 @@ NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Weight(const OutputPointIdent
         switch (m_Weight)
         {
           default:
-          case GOURAUD:
+          case WeightEnum::GOURAUD:
           {
             return static_cast<OutputVertexNormalComponentType>(1.);
           }
-          case THURMER:
+          case WeightEnum::THURMER:
           {
             // this implementation may be included inside itkTriangle
             switch (internal_id)
@@ -194,7 +194,7 @@ NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Weight(const OutputPointIdent
             }
             return static_cast<OutputVertexNormalComponentType>(std::acos(u * v));
           }
-          case AREA:
+          case WeightEnum::AREA:
           {
             return static_cast<OutputVertexNormalComponentType>(TriangleType::ComputeArea(pt[0], pt[1], pt[2]));
           }

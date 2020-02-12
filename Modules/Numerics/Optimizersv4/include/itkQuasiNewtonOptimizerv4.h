@@ -26,7 +26,8 @@
 
 namespace itk
 {
-/** \class QuasiNewtonOptimizerv4Template
+/**
+ *\class QuasiNewtonOptimizerv4Template
  * \brief Implement a Quasi-Newton optimizer with BFGS Hessian estimation.
  *
  * Second order approximation of the cost function is usually more efficient
@@ -81,7 +82,6 @@ public:
   using MeasureType = typename Superclass::MeasureType;
   using DerivativeType = typename Superclass::DerivativeType;
   using IndexRangeType = typename Superclass::IndexRangeType;
-  using StopConditionEnum = typename Superclass::StopConditionEnum;
 
   /** Type for Hessian matrix in the Quasi-Newton method */
   using HessianType = itk::Array2D<TInternalComputationValueType>;

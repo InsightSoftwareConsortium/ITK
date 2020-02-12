@@ -26,7 +26,8 @@ namespace itk
 namespace Functor
 {
 
-/** \class Clamp
+/**
+ *\class Clamp
  *
  * \brief Functor used to clamp a value to a specified range.
  *
@@ -109,7 +110,8 @@ Clamp<TInput, TOutput>::operator()(const InputType & A) const
 } // end namespace Functor
 
 
-/** \class ClampImageFilter
+/**
+ *\class ClampImageFilter
  *
  * \brief Casts input pixels to output pixel type and clamps the
  * output pixel values to a specified range.

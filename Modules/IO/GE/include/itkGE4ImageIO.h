@@ -47,7 +47,8 @@
 
 namespace itk
 {
-/** \class GE4ImageIO
+/**
+ *\class GE4ImageIO
  *
  * \author Hans J. Johnson
  * \brief Class that defines how to read GE4 file format.

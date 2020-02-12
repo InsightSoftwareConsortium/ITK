@@ -29,7 +29,8 @@
 
 namespace itk
 {
-/** \class ConstantImageSource
+/**
+ *\class ConstantImageSource
  * Image Source that generates an image with constant pixel value.
  */
 template <class TOutputImage>

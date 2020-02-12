@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class MaximumEntropyThresholdImageFilter
+/**
+ *\class MaximumEntropyThresholdImageFilter
  * \brief Threshold an image using the MaximumEntropy Threshold
  *
  * This filter creates a binary thresholded image that separates an

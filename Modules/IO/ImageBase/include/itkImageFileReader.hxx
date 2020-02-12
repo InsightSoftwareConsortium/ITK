@@ -98,7 +98,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
 
   if (m_UserSpecifiedImageIO == false) // try creating via factory
   {
-    m_ImageIO = ImageIOFactory::CreateImageIO(this->GetFileName().c_str(), ImageIOFactory::FileModeEnum::ReadMode);
+    m_ImageIO = ImageIOFactory::CreateImageIO(this->GetFileName().c_str(), ImageIOFactory::IOFileModeEnum::ReadMode);
   }
 
   if (m_ImageIO.IsNull())
@@ -391,7 +391,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
   size_t sizeOfActualIORegion =
     m_ActualIORegion.GetNumberOfPixels() * (m_ImageIO->GetComponentSize() * m_ImageIO->GetNumberOfComponents());
 
-  ImageIOBase::IOComponentType ioType = ImageIOBase ::MapPixelType<typename ConvertPixelTraits::ComponentType>::CType;
+  IOComponentEnum ioType = ImageIOBase ::MapPixelType<typename ConvertPixelTraits::ComponentType>::CType;
   if (m_ImageIO->GetComponentType() != ioType ||
       (m_ImageIO->GetNumberOfComponents() != ConvertPixelTraits::GetNumberOfComponents()))
   {
@@ -481,18 +481,18 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::DoConvertBuffer(void * inputD
   if (false)
   {
   }
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::UCHAR, unsigned char)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::CHAR, char)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::USHORT, unsigned short)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::SHORT, short)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::UINT, unsigned int)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::INT, int)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::ULONG, unsigned long)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::LONG, long)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::ULONGLONG, unsigned long long)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::LONGLONG, long long)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::FLOAT, float)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::DOUBLE, double)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::UCHAR, unsigned char)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::CHAR, char)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::USHORT, unsigned short)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::SHORT, short)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::UINT, unsigned int)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::INT, int)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::ULONG, unsigned long)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::LONG, long)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::ULONGLONG, unsigned long long)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::LONGLONG, long long)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::FLOAT, float)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::DOUBLE, double)
   else
   {
 #define TYPENAME(x) m_ImageIO->GetComponentTypeAsString(ImageIOBase::MapPixelType<x>::CType)

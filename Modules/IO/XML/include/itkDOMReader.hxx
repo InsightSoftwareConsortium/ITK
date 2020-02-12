@@ -42,7 +42,7 @@ DOMReader<TOutput>::DOMReader()
   this->m_Logger->SetLevelForFlushing(
     Logger::PriorityLevelEnum::MUSTFLUSH); // never flush (MUSTFLUSH actually leads to no flush, a bug in Logger)
   // some other settings
-  this->m_Logger->SetTimeStampFormat(Logger::HUMANREADABLE);
+  this->m_Logger->SetTimeStampFormat(Logger::TimeStampFormatEnum::HUMANREADABLE);
   this->m_Logger->SetHumanReadableFormat("%Y-%b-%d %H:%M:%S"); // time stamp format
 }
 

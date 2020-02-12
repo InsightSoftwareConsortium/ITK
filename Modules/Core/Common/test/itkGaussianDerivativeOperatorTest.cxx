@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include <set>
 #include "itkGaussianDerivativeOperator.h"
 #include "itkStdStreamStateSave.h"
 #include "itkTestingMacros.h"
@@ -147,5 +148,16 @@ itkGaussianDerivativeOperatorTest(int argc, char * argv[])
   {
     return EXIT_SUCCESS;
   }
+
+  // Test streaming enumeration for GaussianDerivativeOperatorEnums::InterpolationMode elements
+  const std::set<itk::GaussianDerivativeOperatorEnums::InterpolationMode> allInterpolationMode{
+    itk::GaussianDerivativeOperatorEnums::InterpolationMode::NearestNeighbourInterpolation,
+    itk::GaussianDerivativeOperatorEnums::InterpolationMode::LinearInterpolation
+  };
+  for (const auto & ee : allInterpolationMode)
+  {
+    std::cout << "STREAMED ENUM VALUE GaussianDerivativeOperatorEnums::InterpolationMode: " << ee << std::endl;
+  }
+
   return EXIT_FAILURE;
 }

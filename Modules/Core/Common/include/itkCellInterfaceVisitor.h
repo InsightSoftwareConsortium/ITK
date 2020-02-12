@@ -20,6 +20,7 @@
 
 #include "itkLightObject.h"
 #include "itkObjectFactory.h"
+#include "itkCommonEnums.h"
 
 namespace itk
 {
@@ -61,7 +62,7 @@ public:
   VisitFromCell(CellIdentifier cellId, CellInterface<TPixelType, TCellTraits> *) = 0;
 
   /**  Return the index of the CellTopology. */
-  virtual int
+  virtual CellGeometryEnum
   GetCellTopologyId() = 0;
 
 protected:
@@ -116,7 +117,7 @@ public:
 
   /** Call the static method GetTopologyId for the CellTopology type that
    * we are templated over. */
-  int
+  CellGeometryEnum
   GetCellTopologyId() override
   {
     return CellTopology::GetTopologyId();

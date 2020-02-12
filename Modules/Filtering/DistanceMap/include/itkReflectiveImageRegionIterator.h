@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class ReflectiveImageRegionIterator
+/**
+ *\class ReflectiveImageRegionIterator
  * \brief Multi-dimensional image iterator which only walks a region.
  *
  * ReflectiveImageRegionIterator is a templated class to represent a multi-dimensional

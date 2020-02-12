@@ -26,7 +26,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class TDistribution
+/**
+ *\class TDistribution
  * \brief TDistribution class defines the interface for a univariate
  * Student-t distribution (pdfs, cdfs, etc.).
  *

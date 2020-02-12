@@ -210,7 +210,7 @@ PlatformMultiThreader::SingleMethodExecute()
 
       this->SpawnWaitForSingleMethodThread(process_id[thread_loop]);
 
-      if (m_ThreadInfoArray[thread_loop].ThreadExitCode != WorkUnitInfo::ThreadExitCodeType::SUCCESS)
+      if (m_ThreadInfoArray[thread_loop].ThreadExitCode != WorkUnitInfo::ThreadExitCodeEnum::SUCCESS)
       {
         exceptionOccurred = true;
       }

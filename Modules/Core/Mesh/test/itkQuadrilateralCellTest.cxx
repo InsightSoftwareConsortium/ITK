@@ -105,7 +105,7 @@ itkQuadrilateralCellTest(int, char *[])
   /**
    * Specify the method used for allocating cells
    */
-  mesh->SetCellsAllocationMethod(itk::MeshClassCellsAllocationMethodEnum::CellsAllocatedDynamicallyCellByCell);
+  mesh->SetCellsAllocationMethod(itk::MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell);
 
   /**
    * Create the test cell. Note that testCell is a generic auto

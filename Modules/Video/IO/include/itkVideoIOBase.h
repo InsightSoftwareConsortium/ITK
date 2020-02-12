@@ -26,7 +26,28 @@
 
 namespace itk
 {
-/** \class VideoIOBase
+/**\class VideoIOBaseEnums
+ * \brief This contains all enum classes used from VideoIOBase class.
+ * \ingroup ITKVideoIO
+ */
+class VideoIOBaseEnums
+{
+public:
+  /**
+   *\class ReadFrom
+   * \ingroup ITKVideoIO
+   * Enum used to define weather to read from a file or a camera */
+  enum class ReadFrom : uint8_t
+  {
+    ReadFromFile,
+    ReadFromCamera
+  };
+};
+// Define how to print enumeration
+extern ITKVideoIO_EXPORT std::ostream &
+                         operator<<(std::ostream & out, const VideoIOBaseEnums::ReadFrom value);
+/**
+ *\class VideoIOBase
  * \brief Abstract superclass defines video IO interface.
  *
  * VideoIOBase is a class that reads and/or writes video data
@@ -73,14 +94,7 @@ public:
 
   /*-------- This part of the interface deals with reading data. ------ */
 
-  /** \class ReadFromEnum
-   * \ingroup ITKVideoIO
-   * Enum used to define weather to read from a file or a camera */
-  enum class ReadFromEnum : uint8_t
-  {
-    ReadFromFile,
-    ReadFromCamera
-  };
+  using ReadFromEnum = VideoIOBaseEnums::ReadFrom;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
@@ -135,7 +149,7 @@ public:
                       const std::vector<SizeValueType> & dim,
                       const char *                       fourCC,
                       unsigned int                       nChannels,
-                      IOComponentType                    componentType) = 0;
+                      IOComponentEnum                    componentType) = 0;
 
 protected:
   VideoIOBase();
@@ -156,11 +170,6 @@ protected:
   bool               m_WriterOpen{ false };
   bool               m_ReaderOpen{ false };
 };
-
-// Define how to print enumeration
-extern ITKVideoIO_EXPORT std::ostream &
-                         operator<<(std::ostream & out, const VideoIOBase::ReadFromEnum value);
-
 } // end namespace itk
 
 #endif // itkVideoIOBase_h

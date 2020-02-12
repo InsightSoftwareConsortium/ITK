@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class JPEGImageIO
+/**
+ *\class JPEGImageIO
  *
  * \brief ImageIO object for reading and writing JPEG images
  *

@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class FullToHalfHermitianImageFilter
+/**
+ *\class FullToHalfHermitianImageFilter
  *
  * \brief Reduces the size of a full complex image produced from a
  * forward discrete Fourier transform of a real image to only the

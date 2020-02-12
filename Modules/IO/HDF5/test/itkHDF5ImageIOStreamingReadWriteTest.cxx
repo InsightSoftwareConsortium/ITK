@@ -26,7 +26,8 @@
 
 namespace itk
 {
-/** \class DemoImageSource
+/**
+ *\class DemoImageSource
  *
  * \brief Streamable process that will generate image regions from the write requests
  *

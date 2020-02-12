@@ -26,7 +26,8 @@
 
 namespace itk
 {
-/** \class ShapeUniqueLabelMapFilter
+/**
+ *\class ShapeUniqueLabelMapFilter
  * \brief Remove some pixels in the label object according to the value of their shape attribute to ensure that a pixel
  * is not in to objects
  *

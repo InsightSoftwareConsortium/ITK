@@ -94,34 +94,34 @@ MINCImageIO::Read(void * buffer)
 
   switch (this->GetComponentType())
   {
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
       volume_data_type = MI_TYPE_UBYTE;
       break;
-    case CHAR:
+    case IOComponentEnum::CHAR:
       volume_data_type = MI_TYPE_BYTE;
       break;
-    case USHORT:
+    case IOComponentEnum::USHORT:
       volume_data_type = MI_TYPE_USHORT;
       break;
-    case SHORT:
+    case IOComponentEnum::SHORT:
       volume_data_type = MI_TYPE_SHORT;
       break;
-    case UINT:
+    case IOComponentEnum::UINT:
       volume_data_type = MI_TYPE_UINT;
       break;
-    case INT:
+    case IOComponentEnum::INT:
       volume_data_type = MI_TYPE_INT;
       break;
-    case ULONG: // TODO: make sure we are cross-platform here!
+    case IOComponentEnum::ULONG: // TODO: make sure we are cross-platform here!
       volume_data_type = MI_TYPE_UINT;
       break;
-    case LONG: // TODO: make sure we are cross-platform here!
+    case IOComponentEnum::LONG: // TODO: make sure we are cross-platform here!
       volume_data_type = MI_TYPE_INT;
       break;
-    case FLOAT:
+    case IOComponentEnum::FLOAT:
       volume_data_type = MI_TYPE_FLOAT;
       break;
-    case DOUBLE:
+    case IOComponentEnum::DOUBLE:
       volume_data_type = MI_TYPE_DOUBLE;
       break;
     default:
@@ -541,19 +541,19 @@ MINCImageIO::ReadImageInformation()
     switch (volume_data_type)
     {
       case MI_TYPE_FLOAT:
-        this->SetComponentType(FLOAT);
+        this->SetComponentType(IOComponentEnum::FLOAT);
         break;
       case MI_TYPE_DOUBLE:
-        this->SetComponentType(DOUBLE);
+        this->SetComponentType(IOComponentEnum::DOUBLE);
         break;
       case MI_TYPE_FCOMPLEX:
-        this->SetComponentType(FLOAT);
+        this->SetComponentType(IOComponentEnum::FLOAT);
         break;
       case MI_TYPE_DCOMPLEX:
-        this->SetComponentType(DOUBLE);
+        this->SetComponentType(IOComponentEnum::DOUBLE);
         break;
       default:
-        this->SetComponentType(FLOAT);
+        this->SetComponentType(IOComponentEnum::FLOAT);
         break;
     } // end of switch
       // file will have do
@@ -563,40 +563,40 @@ MINCImageIO::ReadImageInformation()
     switch (volume_data_type)
     {
       case MI_TYPE_BYTE:
-        this->SetComponentType(CHAR);
+        this->SetComponentType(IOComponentEnum::CHAR);
         break;
       case MI_TYPE_UBYTE:
-        this->SetComponentType(UCHAR);
+        this->SetComponentType(IOComponentEnum::UCHAR);
         break;
       case MI_TYPE_SHORT:
-        this->SetComponentType(SHORT);
+        this->SetComponentType(IOComponentEnum::SHORT);
         break;
       case MI_TYPE_USHORT:
-        this->SetComponentType(USHORT);
+        this->SetComponentType(IOComponentEnum::USHORT);
         break;
       case MI_TYPE_INT:
-        this->SetComponentType(INT);
+        this->SetComponentType(IOComponentEnum::INT);
         break;
       case MI_TYPE_UINT:
-        this->SetComponentType(UINT);
+        this->SetComponentType(IOComponentEnum::UINT);
         break;
       case MI_TYPE_FLOAT:
-        this->SetComponentType(FLOAT);
+        this->SetComponentType(IOComponentEnum::FLOAT);
         break;
       case MI_TYPE_DOUBLE:
-        this->SetComponentType(DOUBLE);
+        this->SetComponentType(IOComponentEnum::DOUBLE);
         break;
       case MI_TYPE_SCOMPLEX:
-        this->SetComponentType(SHORT);
+        this->SetComponentType(IOComponentEnum::SHORT);
         break;
       case MI_TYPE_ICOMPLEX:
-        this->SetComponentType(INT);
+        this->SetComponentType(IOComponentEnum::INT);
         break;
       case MI_TYPE_FCOMPLEX:
-        this->SetComponentType(FLOAT);
+        this->SetComponentType(IOComponentEnum::FLOAT);
         break;
       case MI_TYPE_DCOMPLEX:
-        this->SetComponentType(DOUBLE);
+        this->SetComponentType(IOComponentEnum::DOUBLE);
         break;
       default:
         itkExceptionMacro(<< "Bad data type ");
@@ -608,38 +608,38 @@ MINCImageIO::ReadImageInformation()
     case MI_CLASS_REAL:
       if (numberOfComponents == 1)
       {
-        this->SetPixelType(SCALAR);
+        this->SetPixelType(IOPixelEnum::SCALAR);
       }
       else
       {
-        this->SetPixelType(VECTOR); // TODO: handle more types (i.e matrix,
-      }                             // tensor etc)
+        this->SetPixelType(IOPixelEnum::VECTOR); // TODO: handle more types (i.e matrix,
+      }                                          // tensor etc)
       break;
     case MI_CLASS_INT:
       if (numberOfComponents == 1)
       {
-        this->SetPixelType(SCALAR);
+        this->SetPixelType(IOPixelEnum::SCALAR);
       }
       else
       {
-        this->SetPixelType(VECTOR); // TODO: handle more types (i.e matrix,
-      }                             // tensor etc)
+        this->SetPixelType(IOPixelEnum::VECTOR); // TODO: handle more types (i.e matrix,
+      }                                          // tensor etc)
       break;
     case MI_CLASS_LABEL:
       if (numberOfComponents == 1)
       {
-        this->SetPixelType(SCALAR);
+        this->SetPixelType(IOPixelEnum::SCALAR);
       }
       else
       {
-        this->SetPixelType(VECTOR);
+        this->SetPixelType(IOPixelEnum::VECTOR);
       }
       // create an array of label names and values
       // not sure how to pass this to itk yet!
       break;
     case MI_CLASS_COMPLEX:
       // m_Complex = 1;
-      this->SetPixelType(COMPLEX);
+      this->SetPixelType(IOPixelEnum::COMPLEX);
       numberOfComponents *= 2;
       break;
     default:
@@ -998,40 +998,40 @@ MINCImageIO::WriteImageInformation()
 
   switch (this->GetComponentType())
   {
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
       this->m_MINCPImpl->m_Volume_type = MI_TYPE_UBYTE;
       // this->m_MINCPImpl->m_Volume_class=MI_CLASS_INT;
       break;
-    case CHAR:
+    case IOComponentEnum::CHAR:
       this->m_MINCPImpl->m_Volume_type = MI_TYPE_BYTE;
       // this->m_MINCPImpl->m_Volume_class=MI_CLASS_INT;
       break;
-    case USHORT:
+    case IOComponentEnum::USHORT:
       this->m_MINCPImpl->m_Volume_type = MI_TYPE_USHORT;
       // this->m_MINCPImpl->m_Volume_class=MI_CLASS_INT;
       break;
-    case SHORT:
+    case IOComponentEnum::SHORT:
       this->m_MINCPImpl->m_Volume_type = MI_TYPE_SHORT;
       // this->m_MINCPImpl->m_Volume_class=MI_CLASS_INT;
       break;
-    case UINT:
+    case IOComponentEnum::UINT:
       this->m_MINCPImpl->m_Volume_type = MI_TYPE_UINT;
       // this->m_MINCPImpl->m_Volume_class=MI_CLASS_INT;
       break;
-    case INT:
+    case IOComponentEnum::INT:
       this->m_MINCPImpl->m_Volume_type = MI_TYPE_INT;
       // this->m_MINCPImpl->m_Volume_class=MI_CLASS_INT;
       break;
-      //     case ULONG://TODO: make sure we are cross-platform here!
+      //     case IOComponentEnum::ULONG://TODO: make sure we are cross-platform here!
       //       volume_data_type=MI_TYPE_ULONG;
       //       break;
-      //     case LONG://TODO: make sure we are cross-platform here!
+      //     case IOComponentEnum::LONG://TODO: make sure we are cross-platform here!
       //       volume_data_type=MI_TYPE_LONG;
       //       break;
-    case FLOAT: // TODO: make sure we are cross-platform here!
+    case IOComponentEnum::FLOAT: // TODO: make sure we are cross-platform here!
       this->m_MINCPImpl->m_Volume_type = MI_TYPE_FLOAT;
       break;
-    case DOUBLE: // TODO: make sure we are cross-platform here!
+    case IOComponentEnum::DOUBLE: // TODO: make sure we are cross-platform here!
       this->m_MINCPImpl->m_Volume_type = MI_TYPE_DOUBLE;
       break;
     default:
@@ -1041,7 +1041,7 @@ MINCImageIO::WriteImageInformation()
   std::string storage_data_type;
 
   // perform storage of floating point data using fixed point arithmetics
-  if ((this->GetComponentType() == FLOAT || this->GetComponentType() == DOUBLE) &&
+  if ((this->GetComponentType() == IOComponentEnum::FLOAT || this->GetComponentType() == IOComponentEnum::DOUBLE) &&
       ExposeMetaData<std::string>(thisDic, "storage_data_type", storage_data_type))
   {
     if (storage_data_type == typeid(char).name())
@@ -1350,41 +1350,41 @@ MINCImageIO::Write(const void * buffer)
 
   switch (this->GetComponentType())
   {
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
       volume_data_type = MI_TYPE_UBYTE;
       get_buffer_min_max<unsigned char>(buffer, buffer_length, buffer_min, buffer_max);
       break;
-    case CHAR:
+    case IOComponentEnum::CHAR:
       volume_data_type = MI_TYPE_BYTE;
       get_buffer_min_max<char>(buffer, buffer_length, buffer_min, buffer_max);
       break;
-    case USHORT:
+    case IOComponentEnum::USHORT:
       volume_data_type = MI_TYPE_USHORT;
       get_buffer_min_max<unsigned short>(buffer, buffer_length, buffer_min, buffer_max);
       break;
-    case SHORT:
+    case IOComponentEnum::SHORT:
       volume_data_type = MI_TYPE_SHORT;
       get_buffer_min_max<short>(buffer, buffer_length, buffer_min, buffer_max);
       break;
-    case UINT:
+    case IOComponentEnum::UINT:
       volume_data_type = MI_TYPE_UINT;
       get_buffer_min_max<unsigned int>(buffer, buffer_length, buffer_min, buffer_max);
       break;
-    case INT:
+    case IOComponentEnum::INT:
       volume_data_type = MI_TYPE_INT;
       get_buffer_min_max<int>(buffer, buffer_length, buffer_min, buffer_max);
       break;
-      //     case ULONG://TODO: make sure we are cross-platform here!
+      //     case IOComponentEnum::ULONG://TODO: make sure we are cross-platform here!
       //       volume_data_type=MI_TYPE_ULONG;
       //       break;
-      //     case LONG://TODO: make sure we are cross-platform here!
+      //     case IOComponentEnum::LONG://TODO: make sure we are cross-platform here!
       //       volume_data_type=MI_TYPE_LONG;
       //       break;
-    case FLOAT: // TODO: make sure we are cross-platform here!
+    case IOComponentEnum::FLOAT: // TODO: make sure we are cross-platform here!
       volume_data_type = MI_TYPE_FLOAT;
       get_buffer_min_max<float>(buffer, buffer_length, buffer_min, buffer_max);
       break;
-    case DOUBLE: // TODO: make sure we are cross-platform here!
+    case IOComponentEnum::DOUBLE: // TODO: make sure we are cross-platform here!
       volume_data_type = MI_TYPE_DOUBLE;
       get_buffer_min_max<double>(buffer, buffer_length, buffer_min, buffer_max);
       break;
@@ -1406,7 +1406,7 @@ MINCImageIO::Write(const void * buffer)
     // Special hack to deal with rounding errors
     // unfortunately the dynamic range will be smaller
     // but it's ok since it matches float
-    if (this->GetComponentType() == FLOAT)
+    if (this->GetComponentType() == IOComponentEnum::FLOAT)
     {
       if (this->m_MINCPImpl->m_Volume_type == MI_TYPE_INT)
       {

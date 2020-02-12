@@ -539,7 +539,7 @@ keyword arguments: %s""" % ", ".join(primary_input_methods))
         if "ImageIO" in kwargs:
             imageIO = kwargs["ImageIO"]
         else:
-            imageIO = itk.ImageIOFactory.CreateImageIO(inputFileName, itk.ImageIOFactory.FileModeEnum_ReadMode)
+            imageIO = itk.ImageIOFactory.CreateImageIO(inputFileName, itk.CommonEnums.IOFileMode_ReadMode)
         if not imageIO:
             msg = ""
             if not os.path.isfile(inputFileName):
@@ -595,7 +595,7 @@ keyword arguments: %s""" % ", ".join(primary_input_methods))
         if "MeshIO" in kwargs:
             meshIO = kwargs["MeshIO"]
         else:
-            meshIO = itk.MeshIOFactory.CreateMeshIO(inputFileName, itk.MeshIOFactory.FileModeEnum_ReadMode)
+            meshIO = itk.MeshIOFactory.CreateMeshIO(inputFileName, itk.CommonEnums.IOFileMode_ReadMode)
         if not meshIO:
             msg = ""
             if not os.path.isfile(inputFileName):

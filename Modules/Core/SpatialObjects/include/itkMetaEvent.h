@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class MetaEvent
+/**
+ *\class MetaEvent
  * \brief Event abstract class
  *
  * The itk::MetaEvent inherits from the

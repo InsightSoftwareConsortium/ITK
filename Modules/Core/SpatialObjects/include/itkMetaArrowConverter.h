@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class MetaArrowConverter
+/**
+ *\class MetaArrowConverter
  *  \brief converts between MetaObject<->SpatialObject.
  *
  *  \sa MetaConverterBase

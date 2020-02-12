@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \class RenyiEntropyThresholdCalculator
+/**
+ *\class RenyiEntropyThresholdCalculator
  * \brief Computes the RenyiEntropy's threshold for an image.
  *
  * Kapur J.N., Sahoo P.K., and Wong A.K.C. (1985) "A New Method for

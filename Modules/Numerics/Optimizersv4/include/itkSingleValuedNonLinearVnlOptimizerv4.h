@@ -26,7 +26,8 @@
 
 namespace itk
 {
-/** \class SingleValuedNonLinearVnlOptimizerv4
+/**
+ *\class SingleValuedNonLinearVnlOptimizerv4
  * \brief This is a base for the ITKv4 Optimization methods using
  * the vnl library.
  *

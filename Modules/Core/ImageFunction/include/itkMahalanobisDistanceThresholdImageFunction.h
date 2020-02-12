@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class MahalanobisDistanceThresholdImageFunction
+/**
+ *\class MahalanobisDistanceThresholdImageFunction
  * \brief Returns true if the pixel value of a vector image has a
  * Mahalanobis distance below the value specified by the threshold.
  *

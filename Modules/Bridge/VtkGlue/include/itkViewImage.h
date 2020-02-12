@@ -22,7 +22,8 @@
 namespace itk
 {
 
-/** \class ViewImage
+/**
+ *\class ViewImage
  *
  * \brief Class with static function to visualize an image using just vtk.
  * It accepts 2D and 3D images.

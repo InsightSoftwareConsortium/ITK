@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class PathToChainCodePathFilter
+/**
+ *\class PathToChainCodePathFilter
  * \brief Filter that produces a chain code version of a path.
  *
  * PathToChainCodePathFilter produces a chain code representation of a path.

@@ -41,6 +41,49 @@
 
 namespace itk
 {
+
+/** \class MultiThreaderBaseEnums
+ *
+ * \brief enums for MultiThreaderBase
+ *
+ * \ingroup ITKCommon
+ */
+class MultiThreaderBaseEnums
+{
+public:
+  /** \class Threader
+   * \ingroup ITKCommon
+   * Currently supported types of multi-threader implementations.
+   * Last will change with additional implementations.
+   */
+  enum class Threader : int8_t
+  {
+    Platform = 0,
+    First = Platform,
+    Pool,
+    TBB,
+    Last = TBB,
+    Unknown = -1
+  };
+
+  /** \class ThreadExitCode
+   * \ingroup ITKCommon
+   */
+  enum class ThreadExitCode : uint8_t
+  {
+    SUCCESS,
+    ITK_EXCEPTION,
+    ITK_PROCESS_ABORTED_EXCEPTION,
+    STD_EXCEPTION,
+    UNKNOWN
+  };
+};
+// Define how to print enumeration
+extern ITKCommon_EXPORT std::ostream &
+                        operator<<(std::ostream & out, const MultiThreaderBaseEnums::Threader value);
+extern ITKCommon_EXPORT std::ostream &
+                        operator<<(std::ostream & out, const MultiThreaderBaseEnums::ThreadExitCode value);
+
 /** \class MultiThreaderBase
  * \brief A class for performing multithreaded execution
  *
@@ -108,19 +151,15 @@ public:
   itkLegacyMacro(static void SetGlobalDefaultUseThreadPool(const bool GlobalDefaultUseThreadPool));
   itkLegacyMacro(static bool GetGlobalDefaultUseThreadPool());
 
-  /** Currently supported types of multi-threader implementations.
-   * Last will change with additional implementations. */
-  enum class ThreaderEnum : int8_t
-  {
-    Platform = 0,
-    First = Platform,
-    Pool,
-    TBB,
-    Last = TBB,
-    Unknown = -1
-  };
+  using ThreaderEnum = MultiThreaderBaseEnums::Threader;
 #if !defined(ITK_LEGACY_REMOVE)
   using ThreaderType = ThreaderEnum;
+  static constexpr ThreaderEnum Platform = ThreaderEnum::Platform;
+  static constexpr ThreaderEnum First = ThreaderEnum::First;
+  static constexpr ThreaderEnum Pool = ThreaderEnum::Pool;
+  static constexpr ThreaderEnum TBB = ThreaderEnum::TBB;
+  static constexpr ThreaderEnum Last = ThreaderEnum::Last;
+  static constexpr ThreaderEnum Unknown = ThreaderEnum::Unknown;
 #endif
 
   /** Convert a threader name into its enum type. */
@@ -240,21 +279,16 @@ ITK_GCC_PRAGMA_DIAG_POP()
     ThreadIdType       NumberOfWorkUnits;
     void *             UserData;
     ThreadFunctionType ThreadFunction;
-    enum class ThreadExitCodeType : uint8_t
-    {
-      SUCCESS,
-      ITK_EXCEPTION,
-      ITK_PROCESS_ABORTED_EXCEPTION,
-      STD_EXCEPTION,
-      UNKNOWN
-    } ThreadExitCode;
+    using ThreadExitCodeEnum = MultiThreaderBaseEnums::ThreadExitCode;
+    ThreadExitCodeEnum ThreadExitCode;
 #if !defined(ITK_LEGACY_REMOVE)
-    static constexpr ThreadExitCodeType SUCCESS = ThreadExitCodeType::SUCCESS;
-    static constexpr ThreadExitCodeType ITK_EXCEPTION = ThreadExitCodeType::ITK_EXCEPTION;
-    static constexpr ThreadExitCodeType ITK_PROCESS_ABORTED_EXCEPTION =
-      ThreadExitCodeType::ITK_PROCESS_ABORTED_EXCEPTION;
-    static constexpr ThreadExitCodeType STD_EXCEPTION = ThreadExitCodeType::STD_EXCEPTION;
-    static constexpr ThreadExitCodeType UNKNOWN = ThreadExitCodeType::UNKNOWN;
+    using ThreadExitCodeType = ThreadExitCodeEnum;
+    static constexpr ThreadExitCodeEnum SUCCESS = ThreadExitCodeEnum::SUCCESS;
+    static constexpr ThreadExitCodeEnum ITK_EXCEPTION = ThreadExitCodeEnum::ITK_EXCEPTION;
+    static constexpr ThreadExitCodeEnum ITK_PROCESS_ABORTED_EXCEPTION =
+      ThreadExitCodeEnum::ITK_PROCESS_ABORTED_EXCEPTION;
+    static constexpr ThreadExitCodeEnum STD_EXCEPTION = ThreadExitCodeEnum::STD_EXCEPTION;
+    static constexpr ThreadExitCodeEnum UNKNOWN = ThreadExitCodeEnum::UNKNOWN;
 #endif
   };
 
@@ -460,9 +494,5 @@ private:
   static ThreadIdType
   GetGlobalDefaultNumberOfThreadsByPlatform();
 };
-
-ITKCommon_EXPORT std::ostream &
-                 operator<<(std::ostream & os, const MultiThreaderBase::ThreaderEnum & threader);
-
 } // end namespace itk
 #endif

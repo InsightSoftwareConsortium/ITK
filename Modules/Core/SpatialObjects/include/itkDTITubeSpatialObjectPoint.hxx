@@ -47,7 +47,7 @@ DTITubeSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent 
 /** Translate the enumerated types to a string */
 template <unsigned int TPointDimension>
 std::string
-DTITubeSpatialObjectPoint<TPointDimension>::TranslateEnumToChar(FieldEnumType name) const
+DTITubeSpatialObjectPoint<TPointDimension>::TranslateEnumToChar(DTITubeSpatialObjectPointFieldEnum name) const
 {
   // Do the translation
   switch (static_cast<int>(name))
@@ -95,7 +95,7 @@ DTITubeSpatialObjectPoint<TPointDimension>::SetField(const char * name, float va
 /** Set a value to a field in the point list */
 template <unsigned int TPointDimension>
 void
-DTITubeSpatialObjectPoint<TPointDimension>::SetField(FieldEnumType name, float value)
+DTITubeSpatialObjectPoint<TPointDimension>::SetField(DTITubeSpatialObjectPointFieldEnum name, float value)
 {
   std::string charname = this->TranslateEnumToChar(name);
 
@@ -112,7 +112,7 @@ DTITubeSpatialObjectPoint<TPointDimension>::SetField(FieldEnumType name, float v
 /** Add a field to the point list */
 template <unsigned int TPointDimension>
 void
-DTITubeSpatialObjectPoint<TPointDimension>::AddField(FieldEnumType name, float value)
+DTITubeSpatialObjectPoint<TPointDimension>::AddField(DTITubeSpatialObjectPointFieldEnum name, float value)
 {
   std::string charname = this->TranslateEnumToChar(name);
 
@@ -148,7 +148,7 @@ DTITubeSpatialObjectPoint<TPointDimension>::GetField(const char * name) const
 /** Add a field to the point list */
 template <unsigned int TPointDimension>
 float
-DTITubeSpatialObjectPoint<TPointDimension>::GetField(FieldEnumType name) const
+DTITubeSpatialObjectPoint<TPointDimension>::GetField(DTITubeSpatialObjectPointFieldEnum name) const
 {
   std::string charname = this->TranslateEnumToChar(name);
   if (!charname.empty())

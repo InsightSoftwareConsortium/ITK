@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \class VideoToVideoFilter
+/**
+ *\class VideoToVideoFilter
  * \brief Base class for filters that use a VideoStream as input and output
  *
  * VideoToVideoFilter is the base class for all process objects that output

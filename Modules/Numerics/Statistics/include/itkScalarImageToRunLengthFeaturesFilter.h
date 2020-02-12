@@ -27,7 +27,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class ScalarImageToRunLengthFeaturesFilter
+/**
+ *\class ScalarImageToRunLengthFeaturesFilter
  *  \brief This class computes run length descriptions from an image.
  *
  * By default, run length features are computed for each spatial
@@ -123,7 +124,9 @@ public:
 
   using RunLengthFeaturesFilterType = HistogramToRunLengthFeaturesFilter<HistogramType>;
 
-  using RunLengthFeatureName = short;
+  // More work needs to be done to fix wrapping
+  // using RunLengthFeatureName = itk::Statistics::RunLengthFeatureEnum;
+  using RunLengthFeatureName = uint8_t;
   using FeatureNameVector = VectorContainer<unsigned char, RunLengthFeatureName>;
   using FeatureNameVectorPointer = typename FeatureNameVector::Pointer;
   using FeatureNameVectorConstPointer = typename FeatureNameVector::ConstPointer;

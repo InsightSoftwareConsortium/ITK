@@ -311,29 +311,29 @@ HistogramToRunLengthFeaturesFilter<THistogram>::GetLongRunHighGreyLevelEmphasis(
 
 template <typename THistogram>
 typename HistogramToRunLengthFeaturesFilter<THistogram>::MeasurementType
-HistogramToRunLengthFeaturesFilter<THistogram>::GetFeature(RunLengthFeatureName feature)
+HistogramToRunLengthFeaturesFilter<THistogram>::GetFeature(RunLengthFeatureEnum feature)
 {
   switch (feature)
   {
-    case ShortRunEmphasis:
+    case RunLengthFeatureEnum::ShortRunEmphasis:
       return this->GetShortRunEmphasis();
-    case LongRunEmphasis:
+    case RunLengthFeatureEnum::LongRunEmphasis:
       return this->GetLongRunEmphasis();
-    case GreyLevelNonuniformity:
+    case RunLengthFeatureEnum::GreyLevelNonuniformity:
       return this->GetGreyLevelNonuniformity();
-    case RunLengthNonuniformity:
+    case RunLengthFeatureEnum::RunLengthNonuniformity:
       return this->GetRunLengthNonuniformity();
-    case LowGreyLevelRunEmphasis:
+    case RunLengthFeatureEnum::LowGreyLevelRunEmphasis:
       return this->GetLowGreyLevelRunEmphasis();
-    case HighGreyLevelRunEmphasis:
+    case RunLengthFeatureEnum::HighGreyLevelRunEmphasis:
       return this->GetHighGreyLevelRunEmphasis();
-    case ShortRunLowGreyLevelEmphasis:
+    case RunLengthFeatureEnum::ShortRunLowGreyLevelEmphasis:
       return this->GetShortRunLowGreyLevelEmphasis();
-    case ShortRunHighGreyLevelEmphasis:
+    case RunLengthFeatureEnum::ShortRunHighGreyLevelEmphasis:
       return this->GetShortRunHighGreyLevelEmphasis();
-    case LongRunLowGreyLevelEmphasis:
+    case RunLengthFeatureEnum::LongRunLowGreyLevelEmphasis:
       return this->GetLongRunLowGreyLevelEmphasis();
-    case LongRunHighGreyLevelEmphasis:
+    case RunLengthFeatureEnum::LongRunHighGreyLevelEmphasis:
       return this->GetLongRunHighGreyLevelEmphasis();
     default:
       return 0;

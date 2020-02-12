@@ -18,19 +18,10 @@
 #ifndef itkOctreeNode_h
 #define itkOctreeNode_h
 #include "itkMacro.h"
+#include "itkCommonEnums.h"
+
 namespace itk
 {
-enum LeafIdentifier
-{
-  ZERO = 0,
-  ONE = 1,
-  TWO = 2,
-  THREE = 3,
-  FOUR = 4,
-  FIVE = 5,
-  SIX = 6,
-  SEVEN = 7
-};
 
 // Forward reference because of circular dependencies
 class ITK_FORWARD_EXPORT OctreeNodeBranch;
@@ -67,6 +58,20 @@ public:
    */
   virtual ~OctreeNode();
 
+  using LeafIdentifierEnum = OctreeEnums::LeafIdentifier;
+#if !defined(ITK_LEGACY_REMOVE)
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr LeafIdentifierEnum ZERO = LeafIdentifierEnum::ZERO;
+  static constexpr LeafIdentifierEnum ONE = LeafIdentifierEnum::ONE;
+  static constexpr LeafIdentifierEnum TWO = LeafIdentifierEnum::TWO;
+  static constexpr LeafIdentifierEnum THREE = LeafIdentifierEnum::THREE;
+  static constexpr LeafIdentifierEnum FOUR = LeafIdentifierEnum::FOUR;
+  static constexpr LeafIdentifierEnum FIVE = LeafIdentifierEnum::FIVE;
+  static constexpr LeafIdentifierEnum SIX = LeafIdentifierEnum::SIX;
+  static constexpr LeafIdentifierEnum SEVEN = LeafIdentifierEnum::SEVEN;
+#endif
+
   /**
    * Returns the value of the specified Child for this OctreeNode
    * \param ChildID The numerical identifier of the desired child.
@@ -75,10 +80,10 @@ public:
    * @{
    */
   OctreeNode &
-  GetChild(const enum LeafIdentifier ChildID) const;
+  GetChild(const LeafIdentifierEnum ChildID) const;
 
   OctreeNode &
-  GetChild(const enum LeafIdentifier ChildID);
+  GetChild(const LeafIdentifierEnum ChildID);
   /** @}
    */
 
@@ -150,13 +155,14 @@ public:
   }
 
   inline OctreeNode *
-  GetLeaf(enum LeafIdentifier LeafID)
+  GetLeaf(OctreeNode::LeafIdentifierEnum LeafID)
   {
-    return &m_Leaves[LeafID];
+    return &m_Leaves[static_cast<uint8_t>(LeafID)];
   }
 
 private:
   OctreeNode m_Leaves[8];
 };
+
 } // namespace itk
 #endif /* itkOctreeNode_h */

@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class GradientDescentOptimizerBasev4
+/**
+ *\class GradientDescentOptimizerBasev4
  *  \brief Abstract base class for gradient descent-style optimizers.
  *
  * Gradient modification is threaded in \c ModifyGradient.
@@ -51,17 +52,23 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(GradientDescentOptimizerBasev4Template, Superclass);
 
-  /** Codes of stopping conditions. */
-  typedef enum
-  {
-    MAXIMUM_NUMBER_OF_ITERATIONS,
-    COSTFUNCTION_ERROR,
-    UPDATE_PARAMETERS_ERROR,
-    STEP_TOO_SMALL,
-    CONVERGENCE_CHECKER_PASSED,
-    GRADIENT_MAGNITUDE_TOLEARANCE,
-    OTHER_ERROR
-  } StopConditionEnum;
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enums values for backwards compatibility*/
+  static constexpr itk::StopConditionObjectToObjectOptimizerEnum MAXIMUM_NUMBER_OF_ITERATIONS =
+    itk::StopConditionObjectToObjectOptimizerEnum::MAXIMUM_NUMBER_OF_ITERATIONS;
+  static constexpr itk::StopConditionObjectToObjectOptimizerEnum COSTFUNCTION_ERROR =
+    itk::StopConditionObjectToObjectOptimizerEnum::COSTFUNCTION_ERROR;
+  static constexpr itk::StopConditionObjectToObjectOptimizerEnum UPDATE_PARAMETERS_ERROR =
+    itk::StopConditionObjectToObjectOptimizerEnum::UPDATE_PARAMETERS_ERROR;
+  static constexpr itk::StopConditionObjectToObjectOptimizerEnum STEP_TOO_SMALL =
+    itk::StopConditionObjectToObjectOptimizerEnum::STEP_TOO_SMALL;
+  static constexpr itk::StopConditionObjectToObjectOptimizerEnum CONVERGENCE_CHECKER_PASSED =
+    itk::StopConditionObjectToObjectOptimizerEnum::CONVERGENCE_CHECKER_PASSED;
+  static constexpr itk::StopConditionObjectToObjectOptimizerEnum GRADIENT_MAGNITUDE_TOLEARANCE =
+    itk::StopConditionObjectToObjectOptimizerEnum::GRADIENT_MAGNITUDE_TOLEARANCE;
+  static constexpr itk::StopConditionObjectToObjectOptimizerEnum OTHER_ERROR =
+    itk::StopConditionObjectToObjectOptimizerEnum::OTHER_ERROR;
+#endif
 
   /** Stop condition return string type */
   using StopConditionReturnStringType = typename Superclass::StopConditionReturnStringType;
@@ -93,7 +100,7 @@ public:
   itkGetConstReferenceMacro(Gradient, DerivativeType);
 
   /** Get stop condition enum */
-  itkGetConstReferenceMacro(StopCondition, StopConditionEnum);
+  itkGetConstReferenceMacro(StopCondition, StopConditionObjectToObjectOptimizerEnum);
 
   /** Set the number of iterations. */
   void
@@ -220,9 +227,9 @@ protected:
   typename DomainThreader<ThreadedIndexedContainerPartitioner, Self>::Pointer m_ModifyGradientByLearningRateThreader;
 
   /* Common variables for optimization control and reporting */
-  bool                         m_Stop{ false };
-  StopConditionEnum            m_StopCondition;
-  StopConditionDescriptionType m_StopConditionDescription;
+  bool                                     m_Stop{ false };
+  StopConditionObjectToObjectOptimizerEnum m_StopCondition;
+  StopConditionDescriptionType             m_StopConditionDescription;
 
   /** Current gradient */
   DerivativeType m_Gradient;

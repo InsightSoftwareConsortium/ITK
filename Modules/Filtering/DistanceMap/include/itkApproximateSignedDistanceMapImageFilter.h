@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class ApproximateSignedDistanceMapImageFilter
+/**
+ *\class ApproximateSignedDistanceMapImageFilter
  * \brief Create a map of the approximate signed distance from the boundaries of
  * a binary image.
  *

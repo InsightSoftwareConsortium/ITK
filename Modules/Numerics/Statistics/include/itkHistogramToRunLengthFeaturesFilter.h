@@ -27,7 +27,39 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class HistogramToRunLengthFeaturesFilter
+/**\class HistogramToRunLengthFeaturesFilterEnums
+ * \brief Contains all enum classes used by HistogramToRunLengthFeaturesFilter class.
+ * \ingroup ITKStatistics
+ */
+class HistogramToRunLengthFeaturesFilterEnums
+{
+public:
+  /**
+   * \class RunLengthFeature
+   * \ingroup ITKStatistics
+   * Run-length feature types.
+   */
+  enum class RunLengthFeature : uint8_t
+  {
+    ShortRunEmphasis,
+    LongRunEmphasis,
+    GreyLevelNonuniformity,
+    RunLengthNonuniformity,
+    LowGreyLevelRunEmphasis,
+    HighGreyLevelRunEmphasis,
+    ShortRunLowGreyLevelEmphasis,
+    ShortRunHighGreyLevelEmphasis,
+    LongRunLowGreyLevelEmphasis,
+    LongRunHighGreyLevelEmphasis
+  };
+};
+// Helps for backwards compatibility
+using RunLengthFeatureEnum = HistogramToRunLengthFeaturesFilterEnums::RunLengthFeature;
+// Define how to print enumeration
+extern ITKStatistics_EXPORT std::ostream &
+                            operator<<(std::ostream & out, const HistogramToRunLengthFeaturesFilterEnums::RunLengthFeature value);
+/**
+ *\class HistogramToRunLengthFeaturesFilter
  *  \brief This class computes texture feature coefficients from a grey level
  * run-length matrix.
  *
@@ -165,24 +197,26 @@ public:
 
   itkGetMacro(TotalNumberOfRuns, unsigned long);
 
-  /** Run-length feature types */
-  typedef enum
-  {
-    ShortRunEmphasis,
-    LongRunEmphasis,
-    GreyLevelNonuniformity,
-    RunLengthNonuniformity,
-    LowGreyLevelRunEmphasis,
-    HighGreyLevelRunEmphasis,
-    ShortRunLowGreyLevelEmphasis,
-    ShortRunHighGreyLevelEmphasis,
-    LongRunLowGreyLevelEmphasis,
-    LongRunHighGreyLevelEmphasis
-  } RunLengthFeatureName;
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enums values for backwards compatibility*/
+  static constexpr RunLengthFeatureEnum ShortRunEmphasis = RunLengthFeatureEnum::ShortRunEmphasis;
+  static constexpr RunLengthFeatureEnum LongRunEmphasis = RunLengthFeatureEnum::LongRunEmphasis;
+  static constexpr RunLengthFeatureEnum GreyLevelNonuniformity = RunLengthFeatureEnum::GreyLevelNonuniformity;
+  static constexpr RunLengthFeatureEnum RunLengthNonuniformity = RunLengthFeatureEnum::RunLengthNonuniformity;
+  static constexpr RunLengthFeatureEnum LowGreyLevelRunEmphasis = RunLengthFeatureEnum::LowGreyLevelRunEmphasis;
+  static constexpr RunLengthFeatureEnum HighGreyLevelRunEmphasis = RunLengthFeatureEnum::HighGreyLevelRunEmphasis;
+  static constexpr RunLengthFeatureEnum ShortRunLowGreyLevelEmphasis =
+    RunLengthFeatureEnum::ShortRunLowGreyLevelEmphasis;
+  static constexpr RunLengthFeatureEnum ShortRunHighGreyLevelEmphasis =
+    RunLengthFeatureEnum::ShortRunHighGreyLevelEmphasis;
+  static constexpr RunLengthFeatureEnum LongRunLowGreyLevelEmphasis = RunLengthFeatureEnum::LongRunLowGreyLevelEmphasis;
+  static constexpr RunLengthFeatureEnum LongRunHighGreyLevelEmphasis =
+    RunLengthFeatureEnum::LongRunHighGreyLevelEmphasis;
+#endif
 
   /** convenience method to access the run length values */
   MeasurementType
-  GetFeature(RunLengthFeatureName name);
+  GetFeature(RunLengthFeatureEnum name);
 
 protected:
   HistogramToRunLengthFeaturesFilter();

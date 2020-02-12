@@ -26,7 +26,8 @@
 
 namespace itk
 {
-/** \class KLMSegmentationRegion
+/**
+ *\class KLMSegmentationRegion
  * \brief Base class for KLMSegmentationRegion object
  *
  * itkKLMSegmentationRegion is the base class for the KLMSegmentationRegion

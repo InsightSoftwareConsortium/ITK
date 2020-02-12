@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class ShiftScaleLabelMapFilter
+/**
+ *\class ShiftScaleLabelMapFilter
  * \brief Shifts and scales a label map filter, giving the option to change the background value.
  *
  * This filter takes as input a label map and shift, scale and background values

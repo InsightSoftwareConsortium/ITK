@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class ParametricImageSource
+/**
+ *\class ParametricImageSource
  * \brief Base class for all parametric image sources.
  *
  * This abstract class specifies an interface than enables parameters

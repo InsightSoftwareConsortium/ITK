@@ -23,7 +23,8 @@
 namespace itk
 {
 
-/** \class PipelineMonitorImageFilter
+/**
+ *\class PipelineMonitorImageFilter
  *
  * \brief Enables monitoring, recording and debugging of the pipeline
  * execution and information exchange.

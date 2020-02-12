@@ -98,12 +98,13 @@ public:
   using OperatorImageFunctionType = NeighborhoodOperatorImageFunction<InputImageType, TOutput>;
   using OperatorImageFunctionPointer = typename OperatorImageFunctionType::Pointer;
 
-  /** Interpolation modes */
-  enum InterpolationModeType
-  {
-    NearestNeighbourInterpolation,
-    LinearInterpolation
-  };
+  using InterpolationModeEnum = itk::GaussianDerivativeOperatorEnums::InterpolationMode;
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enums values for backwards compatibility*/
+  static constexpr InterpolationModeEnum NearestNeighbourInterpolation =
+    InterpolationModeEnum::NearestNeighbourInterpolation;
+  static constexpr InterpolationModeEnum LinearInterpolation = InterpolationModeEnum::LinearInterpolation;
+#endif
 
 public:
   /** Evalutate the  in the given dimension at specified point */
@@ -170,8 +171,8 @@ public:
   itkGetConstMacro(MaximumKernelWidth, unsigned int);
 
   /** Set/Get the interpolation mode. */
-  itkSetMacro(InterpolationMode, InterpolationModeType);
-  itkGetConstMacro(InterpolationMode, InterpolationModeType);
+  itkSetEnumMacro(InterpolationMode, InterpolationModeEnum);
+  itkGetEnumMacro(InterpolationMode, InterpolationModeEnum);
 
   /** Set the input image.
    * \warning this method caches BufferedRegion information.
@@ -237,7 +238,7 @@ private:
   bool m_UseImageSpacing;
 
   /** Interpolation mode */
-  InterpolationModeType m_InterpolationMode;
+  InterpolationModeEnum m_InterpolationMode;
 };
 } // namespace itk
 

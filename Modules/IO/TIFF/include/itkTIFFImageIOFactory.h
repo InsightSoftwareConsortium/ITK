@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class TIFFImageIOFactory
+/**
+ *\class TIFFImageIOFactory
  * \brief Create instances of TIFFImageIO objects using an object factory.
  * \ingroup ITKIOTIFF
  */

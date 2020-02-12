@@ -15,28 +15,36 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkMesh.h"
+/*=========================================================================
+ *
+ *  Portions of this file are subject to the VTK Toolkit Version 3 copyright.
+ *
+ *  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen
+ *
+ *  For complete copyright, license and disclaimer of warranty information
+ *  please refer to the NOTICE file at the top of the ITK source tree.
+ *
+ *=========================================================================*/
+
+#include "../include/itkTestingHashImageFilter.h"
 
 namespace itk
 {
-/** Define how to print enumerations */
+namespace Testing
+{
+/** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const MeshClassCellsAllocationMethodEnum value)
+operator<<(std::ostream & out, const HashImageFilterEnums::HashFunction value)
 {
   return out << [value] {
     switch (value)
     {
-      case MeshClassCellsAllocationMethodEnum::CellsAllocationMethodUndefined:
-        return "MeshClassCellsAllocationMethodEnum::CellsAllocationMethodUndefined";
-      case MeshClassCellsAllocationMethodEnum::CellsAllocatedAsStaticArray:
-        return "MeshClassCellsAllocationMethodEnum::CellsAllocatedAsStaticArray";
-      case MeshClassCellsAllocationMethodEnum::CellsAllocatedAsADynamicArray:
-        return "MeshClassCellsAllocationMethodEnum::CellsAllocatedAsADynamicArray";
-      case MeshClassCellsAllocationMethodEnum::CellsAllocatedDynamicallyCellByCell:
-        return "MeshClassCellsAllocationMethodEnum::CellsAllocatedDynamicallyCellByCell";
+      case HashImageFilterEnums::HashFunction::MD5:
+        return "itk::HashImageFilterEnums::HashFunction::MD5";
       default:
-        return "INVALID VALUE FOR MeshClassCellsAllocationMethodEnum";
+        return "INVALID VALUE FOR itk::HashImageFilterEnums::HashFunction";
     }
   }();
 }
+} // namespace Testing
 } // namespace itk

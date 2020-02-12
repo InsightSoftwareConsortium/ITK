@@ -23,7 +23,8 @@
 namespace itk
 {
 
-/** \class RegistrationParameterScalesFromIndexShift
+/**
+ *\class RegistrationParameterScalesFromIndexShift
  *  \brief Registration helper class for estimating scales of
  * transform parameters from the maximum voxel shift in image index space
  * caused by a parameter change.

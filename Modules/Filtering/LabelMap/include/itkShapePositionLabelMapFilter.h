@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class ShapePositionLabelMapFilter
+/**
+ *\class ShapePositionLabelMapFilter
  * \brief Mark a single pixel in the label object which correspond to a position given by an attribute
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.

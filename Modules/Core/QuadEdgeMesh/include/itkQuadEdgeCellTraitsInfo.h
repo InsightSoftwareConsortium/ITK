@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class QuadEdgeMeshCellTraitsInfo
+/**
+ *\class QuadEdgeMeshCellTraitsInfo
  *  \brief Helper class holding the traits of QuadEdge cells.
  *
  * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix

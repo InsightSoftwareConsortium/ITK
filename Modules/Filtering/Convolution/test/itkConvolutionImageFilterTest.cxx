@@ -21,6 +21,7 @@
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
+#include "itkConvolutionImageFilterBase.h"
 
 int
 itkConvolutionImageFilterTest(int argc, char * argv[])
@@ -123,29 +124,33 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  convoluter->SetOutputRegionMode(itk::ConvolutionImageFilterOutputRegionEnum::SAME);
-  if (convoluter->GetOutputRegionMode() != itk::ConvolutionImageFilterOutputRegionEnum::SAME)
+  convoluter->SetOutputRegionMode(itk::ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion::SAME);
+  if (convoluter->GetOutputRegionMode() !=
+      itk::ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion::SAME)
   {
     std::cerr << "SetOutputRegionMode() error when argument is SAME" << std::endl;
     return EXIT_FAILURE;
   }
 
-  convoluter->SetOutputRegionMode(itk::ConvolutionImageFilterOutputRegionEnum::VALID);
-  if (convoluter->GetOutputRegionMode() != itk::ConvolutionImageFilterOutputRegionEnum::VALID)
+  convoluter->SetOutputRegionMode(itk::ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion::VALID);
+  if (convoluter->GetOutputRegionMode() !=
+      itk::ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion::VALID)
   {
     std::cerr << "SetOutputRegionMode() error when argument is VALID" << std::endl;
     return EXIT_FAILURE;
   }
 
   convoluter->SetOutputRegionModeToSame();
-  if (convoluter->GetOutputRegionMode() != itk::ConvolutionImageFilterOutputRegionEnum::SAME)
+  if (convoluter->GetOutputRegionMode() !=
+      itk::ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion::SAME)
   {
     std::cerr << "SetOutputRegionModeToSame() error" << std::endl;
     return EXIT_FAILURE;
   }
 
   convoluter->SetOutputRegionModeToValid();
-  if (convoluter->GetOutputRegionMode() != itk::ConvolutionImageFilterOutputRegionEnum::VALID)
+  if (convoluter->GetOutputRegionMode() !=
+      itk::ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion::VALID)
   {
     std::cerr << "SetOutputRegionModeToValid() error" << std::endl;
     return EXIT_FAILURE;
@@ -201,6 +206,18 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
     std::cout << "Caught expected exception when request region is outside the largest "
               << "possible region." << std::endl;
     std::cout << e << std::endl;
+  }
+
+  // Test streaming enumeration for ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion elements
+  const std::set<itk::ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion>
+    allConvolutionImageFilterOutputRegion{
+      itk::ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion::SAME,
+      itk::ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion::VALID
+    };
+  for (const auto & ee : allConvolutionImageFilterOutputRegion)
+  {
+    std::cout << "STREAMED ENUM VALUE ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion: " << ee
+              << std::endl;
   }
 
   return EXIT_SUCCESS;

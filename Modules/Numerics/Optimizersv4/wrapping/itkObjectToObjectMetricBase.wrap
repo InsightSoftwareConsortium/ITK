@@ -1,8 +1,7 @@
 set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
 itk_wrap_include("itkObjectToObjectMetricBase.h")
 
-itk_wrap_simple_class("itk::GradientSourceEnum" ENUM)
-itk_wrap_simple_class("itk::MetricCategoryEnum" ENUM)
+itk_wrap_simple_class("itk::ObjectToObjectMetricBaseTemplateEnums")
 
 itk_wrap_class("itk::ObjectToObjectMetricBaseTemplate" POINTER)
   UNIQUE(types "D;${WRAP_ITK_REAL}")

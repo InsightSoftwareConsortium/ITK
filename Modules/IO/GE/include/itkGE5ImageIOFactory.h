@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class GE5ImageIOFactory
+/**
+ *\class GE5ImageIOFactory
  * \brief Create instances of GE5ImageIO objects using an object factory.
  * \ingroup ITKIOGE
  */

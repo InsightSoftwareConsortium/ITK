@@ -203,12 +203,23 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   criterion->SetTargetNodes(TargetNodes);
 
   // Stop the algorithm when ONE of the targets has been reached.
-  criterion->SetTargetCondition(CriterionType::OneTarget);
+  criterion->SetTargetCondition(CriterionType::TargetConditionEnum::OneTarget);
 
   marcher->SetStoppingCriterion(criterion);
 
   marcher->Update();
 
+  // Test streaming enumeration for FastMarchingReachedTargetNodesStoppingCriterionEnums::TargetCondition elements
+  const std::set<itk::FastMarchingReachedTargetNodesStoppingCriterionEnums::TargetCondition> allTargetCondition{
+    itk::FastMarchingReachedTargetNodesStoppingCriterionEnums::TargetCondition::OneTarget,
+    itk::FastMarchingReachedTargetNodesStoppingCriterionEnums::TargetCondition::SomeTargets,
+    itk::FastMarchingReachedTargetNodesStoppingCriterionEnums::TargetCondition::AllTargets
+  };
+  for (const auto & ee : allTargetCondition)
+  {
+    std::cout << "STREAMED ENUM VALUE FastMarchingReachedTargetNodesStoppingCriterionEnums::TargetCondition: " << ee
+              << std::endl;
+  }
 
   if (passed)
   {

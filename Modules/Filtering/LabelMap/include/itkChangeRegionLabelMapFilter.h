@@ -32,7 +32,8 @@
 
 namespace itk
 {
-/** \class ChangeRegionLabelMapFilter
+/**
+ *\class ChangeRegionLabelMapFilter
  * \brief Change the region of a label map.
  *
  * Change the region of a label map. If the output can't contain some of the objects' lines

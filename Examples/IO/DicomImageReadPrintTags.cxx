@@ -363,9 +363,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  itk::ImageIOBase::IOPixelType     pixelType = reader->GetImageIO()->GetPixelType();
-  itk::ImageIOBase::IOComponentType componentType =
-    reader->GetImageIO()->GetComponentType();
+  itk::IOPixelEnum     pixelType = reader->GetImageIO()->GetPixelType();
+  itk::IOComponentEnum componentType = reader->GetImageIO()->GetComponentType();
   std::cout << "PixelType: " << reader->GetImageIO()->GetPixelTypeAsString(pixelType)
             << std::endl;
   std::cout << "Component Type: "

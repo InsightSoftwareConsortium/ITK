@@ -22,15 +22,28 @@
 
 namespace itk
 {
-/** \class RotationPlaneEnum
- *  \ingroup ITKCommon
- *  Enumerations for Frustum rotation type
+
+/** \class FrustumSpatialFunctionEnums
+ *
+ * \brief enums for FrustumSpatialFunction class.
+ *
+ * \ingroup ITKCommon
  */
-enum class RotationPlaneEnum : uint8_t
+class FrustumSpatialFunctionEnums
 {
-  RotateInXZPlane = 1,
-  RotateInYZPlane
+public:
+  /** \class RotationPlane
+   *  \ingroup ITKCommon
+   */
+  enum class RotationPlane : uint8_t
+  {
+    RotateInXZPlane = 1,
+    RotateInYZPlane
+  };
 };
+extern ITKCommon_EXPORT std::ostream &
+                        operator<<(std::ostream & out, const FrustumSpatialFunctionEnums::RotationPlane value);
+
 
 /**
  * \class FrustumSpatialFunction
@@ -56,6 +69,8 @@ public:
   using Superclass = InteriorExteriorSpatialFunction<VDimension, TInput>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
+
+  using RotationPlaneEnum = FrustumSpatialFunctionEnums::RotationPlane;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FrustumSpatialFunction, InteriorExteriorSpatialFunction);
@@ -126,9 +141,6 @@ private:
   FrustumRotationPlaneType m_RotationPlane;
 };
 
-/** Define how to print enumerations */
-extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const RotationPlaneEnum value);
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

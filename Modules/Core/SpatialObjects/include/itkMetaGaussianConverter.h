@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class MetaGaussianConverter
+/**
+ *\class MetaGaussianConverter
  *  \brief Converts between MetaObject<->SpatialObject.
  *
  *  \sa MetaConverterBase

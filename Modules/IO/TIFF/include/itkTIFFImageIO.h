@@ -28,7 +28,8 @@ namespace itk
 class TIFFReaderInternal;
 // ETX
 
-/** \class TIFFImageIO
+/**
+ *\class TIFFImageIO
  *
  * \brief ImageIO object for reading and writing TIFF images
  *

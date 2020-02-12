@@ -26,7 +26,8 @@
 namespace itk
 {
 
-/** \class MRCHeaderObject
+/**
+ *\class MRCHeaderObject
  * \brief This class is a light wrapper for a couple of plain old data
  * structures, so that they can be utilized in a MetaDataDictionary.
  *

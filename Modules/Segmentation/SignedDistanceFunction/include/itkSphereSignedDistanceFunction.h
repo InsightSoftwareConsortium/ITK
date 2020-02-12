@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class SphereSignedDistanceFunction
+/**
+ *\class SphereSignedDistanceFunction
  * \brief Compute the signed distance from a N-dimensional sphere.
  *
  * A instance of sphere is defined by a set parameters. The first parameter

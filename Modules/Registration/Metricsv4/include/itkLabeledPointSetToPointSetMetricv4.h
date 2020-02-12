@@ -36,7 +36,7 @@ namespace itk
  * \li \c JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4
  *
  * where it is assumed that the point set \c PixelType associated with
- * each point is a label (i.e. \c LabelType).  This class is used to find
+ * each point is a label (i.e. \c LabelEnum).  This class is used to find
  * the total metric and total derivative based on the matching between the
  * separate fixed and moving labeled point sets.  This class first determines
  * the common label set between the fixed and moving point sets.  For each

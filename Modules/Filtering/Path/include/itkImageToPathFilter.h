@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class ImageToPathFilter
+/**
+ *\class ImageToPathFilter
  * \brief Base class for filters that take an image as input and produce an path as output.
  *
  * ImageToPathFilter is the base class for all process objects that output

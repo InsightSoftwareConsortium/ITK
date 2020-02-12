@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class MINCImageIOFactory
+/**
+ *\class MINCImageIOFactory
  * \brief Create instances of MINCImageIO objects using an object factory.
  *
  * \ingroup ITKIOMINC

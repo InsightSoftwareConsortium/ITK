@@ -26,7 +26,8 @@
 
 namespace itk
 {
-/** \class RichardsonLucyDeconvolutionImageFilter
+/**
+ *\class RichardsonLucyDeconvolutionImageFilter
  * \brief Deconvolve an image using the Richardson-Lucy deconvolution
  * algorithm.
  *

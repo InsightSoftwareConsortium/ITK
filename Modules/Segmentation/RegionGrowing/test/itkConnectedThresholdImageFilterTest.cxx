@@ -108,9 +108,9 @@ itkConnectedThresholdImageFilterTest(int argc, char * argv[])
   // Test the use of full (8 connectivity in 2D) on this image
   if (argc > 7)
   {
-    ConnectedThresholdImageFilterType::ConnectivityEnumType conenctivity =
-      std::stoi(argv[7]) ? ConnectedThresholdImageFilterType::FullConnectivity
-                         : ConnectedThresholdImageFilterType::FaceConnectivity;
+    ConnectedThresholdImageFilterType::ConnectivityEnum conenctivity =
+      std::stoi(argv[7]) ? ConnectedThresholdImageFilterType::ConnectivityEnum::FullConnectivity
+                         : ConnectedThresholdImageFilterType::ConnectivityEnum::FaceConnectivity;
     connectedThresholdFilter->SetConnectivity(conenctivity);
     ITK_TEST_SET_GET_VALUE(conenctivity, connectedThresholdFilter->GetConnectivity());
   }
@@ -128,6 +128,16 @@ itkConnectedThresholdImageFilterTest(int argc, char * argv[])
   writer->SetInput(connectedThresholdFilter->GetOutput());
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+  // Test streaming enumeration for ConnectedThresholdImageFilterEnums::Connectivity elements
+  const std::set<itk::ConnectedThresholdImageFilterEnums::Connectivity> allConnectivity{
+    itk::ConnectedThresholdImageFilterEnums::Connectivity::FaceConnectivity,
+    itk::ConnectedThresholdImageFilterEnums::Connectivity::FullConnectivity
+  };
+  for (const auto & ee : allConnectivity)
+  {
+    std::cout << "STREAMED ENUM VALUE ConnectedThresholdImageFilterEnums::Connectivity: " << ee << std::endl;
+  }
 
   return EXIT_SUCCESS;
 }

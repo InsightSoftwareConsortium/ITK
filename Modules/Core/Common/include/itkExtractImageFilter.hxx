@@ -30,7 +30,7 @@ namespace itk
  */
 template <typename TInputImage, typename TOutputImage>
 ExtractImageFilter<TInputImage, TOutputImage>::ExtractImageFilter()
-  : m_DirectionCollapseStrategy(ExtractImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN)
+  : m_DirectionCollapseStrategy(DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN)
 {
   Superclass::InPlaceOff();
   this->DynamicMultiThreadingOn();
@@ -208,12 +208,12 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     {
       switch (m_DirectionCollapseStrategy)
       {
-        case ExtractImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY:
+        case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY:
         {
           outputDirection.SetIdentity();
         }
         break;
-        case ExtractImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX:
+        case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX:
         {
           if (vnl_determinant(outputDirection.GetVnlMatrix()) == 0.0)
           {
@@ -221,7 +221,7 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
           }
         }
         break;
-        case ExtractImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS:
+        case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS:
         {
           if (vnl_determinant(outputDirection.GetVnlMatrix()) == 0.0)
           {
@@ -229,7 +229,7 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
           }
         }
         break;
-        case ExtractImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN:
+        case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN:
         default:
         {
           itkExceptionMacro(
@@ -310,6 +310,7 @@ ExtractImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   // copy the input pixel to the output
   ImageAlgorithm::Copy(inputPtr, outputPtr, inputRegionForThread, outputRegionForThread);
 }
+
 } // end namespace itk
 
 #endif

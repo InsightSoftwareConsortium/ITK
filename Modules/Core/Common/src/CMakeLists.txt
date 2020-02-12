@@ -51,10 +51,10 @@ configure_file(itkBuildInformation.cxx.in ${ITKCommon_BINARY_DIR}/itkBuildInform
 
 set(ITKCommon_SRCS
   ${ITKCommon_BINARY_DIR}/itkBuildInformation.cxx
+  itkCommonEnums.cxx
   itkMemoryProbesCollectorBase.cxx
   itkCreateObjectFunction.cxx
   itkLogger.cxx
-  itkLogggerThreadWrapper.cxx
   itkLogOutput.cxx
   itkLoggerOutput.cxx
   itkProgressAccumulator.cxx
@@ -138,10 +138,12 @@ set(ITKCommon_SRCS
   itkRandomVariateGeneratorBase.cxx
   itkMath.cxx
   itkProgressTransformer.cxx
+  itkSymmetricEigenAnalysis.cxx
   itkExtractImageFilter.cxx
+  itkLoggerThreadWrapper.cxx
   itkFrustumSpatialFunction.cxx
   itkObjectStore.cxx
-  itkSymmetricEigenAnalysis.cxx
+        itkGaussianDerivativeOperator.cxx
   )
 
 if(WIN32)

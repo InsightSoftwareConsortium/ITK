@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class DanielssonDistanceMapImageFilter
+/**
+ *\class DanielssonDistanceMapImageFilter
  *
  * \tparam TInputImage Input Image Type
  * \tparam TOutputImage Output Image Type

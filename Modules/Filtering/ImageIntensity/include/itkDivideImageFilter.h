@@ -26,7 +26,8 @@
 namespace itk
 {
 
-/** \class DivideImageFilter
+/**
+ *\class DivideImageFilter
  * \brief Pixel-wise division of two images.
  *
  * This class is templated over the types of the two

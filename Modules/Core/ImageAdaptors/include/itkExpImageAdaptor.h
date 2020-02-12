@@ -25,7 +25,8 @@ namespace itk
 {
 namespace Accessor
 {
-/** \class ExpPixelAccessor
+/**
+ *\class ExpPixelAccessor
  * \brief Give access to the std::exp() function of a value
  *
  * ExpPixelAccessor is templated over an internal type and an
@@ -62,7 +63,8 @@ public:
 };
 } // end namespace Accessor
 
-/** \class ExpImageAdaptor
+/**
+ *\class ExpImageAdaptor
  * \brief Presents an image as being composed of the std::exp() of its pixels
  *
  * Additional casting is performed according to the input and output image

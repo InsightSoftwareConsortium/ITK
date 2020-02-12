@@ -61,8 +61,8 @@ itkRawImageIOTest2(int argc, char * argv[])
   io->SetHeaderSize(0);
   io->SetImageMask(0x7fff);
   io->SetByteOrderToLittleEndian();
-  io->SetPixelType(itk::ImageIOBase::RGB);
-  io->SetComponentType(itk::ImageIOBase::UCHAR);
+  io->SetPixelType(itk::IOPixelEnum::RGB);
+  io->SetComponentType(itk::IOComponentEnum::UCHAR);
   io->SetNumberOfComponents(3);
 
   std::cout << "IO: " << io << std::endl;

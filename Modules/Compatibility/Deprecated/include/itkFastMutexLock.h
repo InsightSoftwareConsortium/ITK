@@ -34,7 +34,8 @@
 
 namespace itk
 {
-/** \class FastMutexLock
+/**
+ *\class FastMutexLock
  * \brief Critical section locking class.
  *
  * FastMutexLock allows the locking of variables which are accessed

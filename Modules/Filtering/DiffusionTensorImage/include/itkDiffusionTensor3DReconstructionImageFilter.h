@@ -28,18 +28,30 @@
 #include "itkVectorContainer.h"
 #include "itkVectorImage.h"
 #include "ITKDiffusionTensorImageExport.h"
+
 namespace itk
 {
-/** \class GradientEnum
+/**\class DiffusionTensor3DReconstructionImageFilterEnums
+ * \brief Contains all enum classes used by DiffusionTensor3DReconstructionImageFilter class.
  * \ingroup ITKDiffusionTensorImage
- * enum to indicate if the gradient image is specified as a single multi-
- * component image or as several separate images */
-enum class GradientEnum : uint8_t
+ */
+class DiffusionTensor3DReconstructionImageFilterEnums
 {
-  GradientIsInASingleImage = 1,
-  GradientIsInManyImages,
-  Else
+public:
+  /** \class GradientImageFormat
+   * \ingroup ITKDiffusionTensorImage
+   * enum to indicate if the gradient image is specified as a single multi-
+   * component image or as several separate images */
+  enum class GradientImageFormat : uint8_t
+  {
+    GradientIsInASingleImage = 1,
+    GradientIsInManyImages,
+    Else
+  };
 };
+// Define how to print enumeration
+extern ITKDiffusionTensorImage_EXPORT std::ostream &
+                                      operator<<(std::ostream & out, const DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat value);
 
 /** \class DiffusionTensor3DReconstructionImageFilter
  * \brief This class takes as input one or more reference image (acquired in the
@@ -211,7 +223,8 @@ public:
   void
   SetReferenceImage(ReferenceImageType * referenceImage)
   {
-    if (m_GradientImageTypeEnumeration == GradientEnum::GradientIsInASingleImage)
+    if (m_GradientImageTypeEnumeration ==
+        DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::GradientIsInASingleImage)
     {
       itkExceptionMacro(<< "Cannot call both methods:"
                         << "AddGradientImage and SetGradientImage. Please call only one of them.");
@@ -219,7 +232,8 @@ public:
 
     this->ProcessObject::SetNthInput(0, referenceImage);
 
-    m_GradientImageTypeEnumeration = GradientEnum::GradientIsInManyImages;
+    m_GradientImageTypeEnumeration =
+      DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::GradientIsInManyImages;
   }
 
   /** Get reference image */
@@ -301,7 +315,7 @@ protected:
   VerifyPreconditions() ITKv5_CONST override;
 
   /** Enables backwards compatibility for enum values */
-  using GradientImageTypeEnumeration = GradientEnum;
+  using GradientImageTypeEnumeration = DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
@@ -339,10 +353,6 @@ private:
   /** Mask Image Present */
   bool m_MaskImagePresent;
 };
-
-/** Define how to print enum values */
-extern ITKDiffusionTensorImage_EXPORT std::ostream &
-                                      operator<<(std::ostream & out, const GradientEnum value);
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -78,7 +78,7 @@ MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::MetaObjectToSpatialObjec
   // Add Cells
   using CellType = typename MeshType::CellType;
   using CellAutoPointer = typename CellType::CellAutoPointer;
-  mesh->SetCellsAllocationMethod(MeshClassCellsAllocationMethodEnum::CellsAllocatedDynamicallyCellByCell);
+  mesh->SetCellsAllocationMethod(MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell);
 
   for (unsigned int celltype = 0; celltype < MET_NUM_CELL_TYPES; celltype++)
   {
@@ -260,36 +260,35 @@ MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::SpatialObjectToMetaObjec
     }
     cell->m_Id = (*it_cells)->Index();
 
-    typename MeshType::MeshTraits::CellType::CellGeometry geom = (*it_cells)->Value()->GetType();
-    using CellType = typename MeshType::MeshTraits::CellType;
+    CellGeometryEnum geom = (*it_cells)->Value()->GetType();
 
     switch (geom)
     {
-      case CellType::VERTEX_CELL:
+      case CellGeometryEnum::VERTEX_CELL:
         metamesh->GetCells(MET_VERTEX_CELL).push_back(cell);
         break;
-      case CellType::LINE_CELL:
+      case CellGeometryEnum::LINE_CELL:
         metamesh->GetCells(MET_LINE_CELL).push_back(cell);
         break;
-      case CellType::TRIANGLE_CELL:
+      case CellGeometryEnum::TRIANGLE_CELL:
         metamesh->GetCells(MET_TRIANGLE_CELL).push_back(cell);
         break;
-      case CellType::QUADRILATERAL_CELL:
+      case CellGeometryEnum::QUADRILATERAL_CELL:
         metamesh->GetCells(MET_QUADRILATERAL_CELL).push_back(cell);
         break;
-      case CellType::POLYGON_CELL:
+      case CellGeometryEnum::POLYGON_CELL:
         metamesh->GetCells(MET_POLYGON_CELL).push_back(cell);
         break;
-      case CellType::TETRAHEDRON_CELL:
+      case CellGeometryEnum::TETRAHEDRON_CELL:
         metamesh->GetCells(MET_TETRAHEDRON_CELL).push_back(cell);
         break;
-      case CellType::HEXAHEDRON_CELL:
+      case CellGeometryEnum::HEXAHEDRON_CELL:
         metamesh->GetCells(MET_HEXAHEDRON_CELL).push_back(cell);
         break;
-      case CellType::QUADRATIC_EDGE_CELL:
+      case CellGeometryEnum::QUADRATIC_EDGE_CELL:
         metamesh->GetCells(MET_QUADRATIC_EDGE_CELL).push_back(cell);
         break;
-      case CellType::QUADRATIC_TRIANGLE_CELL:
+      case CellGeometryEnum::QUADRATIC_TRIANGLE_CELL:
         metamesh->GetCells(MET_QUADRATIC_TRIANGLE_CELL).push_back(cell);
         break;
       default:

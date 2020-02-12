@@ -27,7 +27,37 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class HistogramToTextureFeaturesFilter
+/**\class HistogramToTextureFeaturesFilterEnums
+ *\brief This class contains all enum classes used by HistogramToTextureFeaturesFilter class.
+ * \ingroup ITKStatistics
+ */
+class HistogramToTextureFeaturesFilterEnums
+{
+public:
+  /**
+   * \class TextureFeature
+   * \ingroup ITKStatistics
+   * Texture feature types
+   */
+  enum class TextureFeature : uint8_t
+  {
+    Energy,
+    Entropy,
+    Correlation,
+    InverseDifferenceMoment,
+    Inertia,
+    ClusterShade,
+    ClusterProminence,
+    HaralickCorrelation,
+    InvalidFeatureName
+  };
+};
+// Define how to print enumeration
+extern ITKStatistics_EXPORT std::ostream &
+                            operator<<(std::ostream & out, const HistogramToTextureFeaturesFilterEnums::TextureFeature value);
+
+/**
+ *\class HistogramToTextureFeaturesFilter
  *  \brief This class computes texture feature coefficients from a grey level
  * co-occurrence matrix.
  *
@@ -202,23 +232,23 @@ public:
   const MeasurementObjectType *
   GetHaralickCorrelationOutput() const;
 
-  /** Texture feature types */
-  typedef enum
-  {
-    Energy,
-    Entropy,
-    Correlation,
-    InverseDifferenceMoment,
-    Inertia,
-    ClusterShade,
-    ClusterProminence,
-    HaralickCorrelation,
-    InvalidFeatureName
-  } TextureFeatureName;
+  using TextureFeatureEnum = HistogramToTextureFeaturesFilterEnums::TextureFeature;
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enums values for backwards compatibility*/
+  static constexpr TextureFeatureEnum Energy = TextureFeatureEnum::Energy;
+  static constexpr TextureFeatureEnum Entropy = TextureFeatureEnum::Entropy;
+  static constexpr TextureFeatureEnum Correlation = TextureFeatureEnum::Correlation;
+  static constexpr TextureFeatureEnum InverseDifferenceMoment = TextureFeatureEnum::InverseDifferenceMoment;
+  static constexpr TextureFeatureEnum Inertia = TextureFeatureEnum::Inertia;
+  static constexpr TextureFeatureEnum ClusterShade = TextureFeatureEnum::ClusterShade;
+  static constexpr TextureFeatureEnum ClusterProminence = TextureFeatureEnum::ClusterProminence;
+  static constexpr TextureFeatureEnum HaralickCorrelation = TextureFeatureEnum::HaralickCorrelation;
+  static constexpr TextureFeatureEnum InvalidFeatureName = TextureFeatureEnum::InvalidFeatureName;
+#endif
 
   /** convenience method to access the texture values */
   MeasurementType
-  GetFeature(TextureFeatureName name);
+  GetFeature(TextureFeatureEnum name);
 
 protected:
   HistogramToTextureFeaturesFilter();

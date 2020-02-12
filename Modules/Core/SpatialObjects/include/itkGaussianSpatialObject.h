@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class GaussianSpatialObject
+/**
+ *\class GaussianSpatialObject
  *
  * \brief Represents a multivariate Gaussian function.
  *

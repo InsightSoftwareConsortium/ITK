@@ -114,7 +114,8 @@
 
 namespace itk
 {
-/** \class QuadEdge
+/**
+ *\class QuadEdge
  * \brief Base class for the implementation of a quad-edge data structure as
  * proposed in "Guibas and Stolfi 1985"
  *

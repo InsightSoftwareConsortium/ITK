@@ -71,8 +71,7 @@ itkMergeLabelMapFilterTest1(int argc, char * argv[])
   std::cout << "======" << change->GetInputNames()[0] << std::endl;
   std::cout << "======" << change->GetInputNames()[1] << std::endl;
 
-  using MethodChoice = ChangeType::MethodChoice;
-  auto method = static_cast<MethodChoice>(std::stoi(argv[6]));
+  auto method = static_cast<itk::ChoiceMethodEnum>(std::stoi(argv[6]));
 
   change->SetMethod(itk::ChoiceMethodEnum::STRICT);
   ITK_TEST_SET_GET_VALUE(itk::ChoiceMethodEnum::STRICT, change->GetMethod());
@@ -105,6 +104,18 @@ itkMergeLabelMapFilterTest1(int argc, char * argv[])
   }
 
   ITK_TEST_SET_GET_VALUE(background1, change->GetOutput()->GetBackgroundValue());
+
+  // Test streaming enumeration for MergeLabelMapFilterEnums::ChoiceMethod elements
+  const std::set<itk::MergeLabelMapFilterEnums::ChoiceMethod> allChoiceMethod{
+    itk::MergeLabelMapFilterEnums::ChoiceMethod::KEEP,
+    itk::MergeLabelMapFilterEnums::ChoiceMethod::AGGREGATE,
+    itk::MergeLabelMapFilterEnums::ChoiceMethod::PACK,
+    itk::MergeLabelMapFilterEnums::ChoiceMethod::STRICT
+  };
+  for (const auto & ee : allChoiceMethod)
+  {
+    std::cout << "STREAMED ENUM VALUE MergeLabelMapFilterEnums::ChoiceMethod: " << ee << std::endl;
+  }
 
   return EXIT_SUCCESS;
 }

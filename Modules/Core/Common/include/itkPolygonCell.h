@@ -77,13 +77,13 @@ public:
   using EdgeInfoDQ = std::deque<EdgeInfo>;
 
   /** Need to add POLYGON_CELL into CellInterface. */
-  itkCellVisitMacro(Superclass::POLYGON_CELL);
+  itkCellVisitMacro(CellGeometryEnum::POLYGON_CELL);
 
   /** Implement the standard CellInterface. */
-  CellGeometry
+  CellGeometryEnum
   GetType() const override
   {
-    return Superclass::POLYGON_CELL;
+    return CellGeometryEnum::POLYGON_CELL;
   }
   void
   MakeCopy(CellAutoPointer &) const override;

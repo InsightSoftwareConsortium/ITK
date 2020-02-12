@@ -169,7 +169,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelSetImageType * 
   typeIt.GoToBegin();
   while (!typeIt.IsAtEnd())
   {
-    typeIt.Set(FarPoint);
+    typeIt.Set(LabelEnum::FarPoint);
     ++typeIt;
   }
 
@@ -192,7 +192,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelSetImageType * 
       if (m_BufferedRegion.IsInside(idx))
       {
         // make this an alive point
-        m_LabelImage->SetPixel(idx, AlivePoint);
+        m_LabelImage->SetPixel(idx, LabelEnum::AlivePoint);
 
         outputPixel = node.GetValue();
         output->SetPixel(idx, outputPixel);
@@ -217,7 +217,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelSetImageType * 
       if (m_BufferedRegion.IsInside(idx))
       {
         // make this an alive point
-        m_LabelImage->SetPixel(idx, OutsidePoint);
+        m_LabelImage->SetPixel(idx, LabelEnum::OutsidePoint);
 
         outputPixel = node.GetValue();
         output->SetPixel(idx, outputPixel);
@@ -249,7 +249,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelSetImageType * 
       if (m_BufferedRegion.IsInside(idx))
       {
         // make this an initial trial point
-        m_LabelImage->SetPixel(idx, InitialTrialPoint);
+        m_LabelImage->SetPixel(idx, LabelEnum::InitialTrialPoint);
 
         outputPixel = node.GetValue();
         output->SetPixel(idx, outputPixel);
@@ -303,7 +303,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::GenerateData()
     if (Math::ExactlyEquals(node.GetValue(), currentValue))
     {
       // is this node already alive ?
-      if (m_LabelImage->GetPixel(node.GetIndex()) != AlivePoint)
+      if (m_LabelImage->GetPixel(node.GetIndex()) != LabelEnum::AlivePoint)
       {
         if (currentValue > m_StoppingValue)
         {
@@ -317,7 +317,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::GenerateData()
         }
 
         // set this node as alive
-        m_LabelImage->SetPixel(node.GetIndex(), AlivePoint);
+        m_LabelImage->SetPixel(node.GetIndex(), LabelEnum::AlivePoint);
 
         // update its neighbors
         this->UpdateNeighbors(node.GetIndex(), speedImage, output);
@@ -349,8 +349,8 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::UpdateNeighbors(const IndexType
                                                                  const SpeedImageType * speedImage,
                                                                  LevelSetImageType *    output)
 {
-  IndexType     neighIndex = index;
-  unsigned char label;
+  IndexType neighIndex = index;
+
 
   for (unsigned int j = 0; j < SetDimension; j++)
   {
@@ -360,9 +360,10 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::UpdateNeighbors(const IndexType
       neighIndex[j] = index[j] - 1;
     }
 
-    label = m_LabelImage->GetPixel(neighIndex);
+    LabelEnum label = m_LabelImage->GetPixel(neighIndex);
 
-    if ((label != AlivePoint) && (label != InitialTrialPoint) && (label != OutsidePoint))
+    if ((label != LabelEnum::AlivePoint) && (label != LabelEnum::InitialTrialPoint) &&
+        (label != LabelEnum::OutsidePoint))
     {
       this->UpdateValue(neighIndex, speedImage, output);
     }
@@ -375,7 +376,8 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::UpdateNeighbors(const IndexType
 
     label = m_LabelImage->GetPixel(neighIndex);
 
-    if ((label != AlivePoint) && (label != InitialTrialPoint) && (label != OutsidePoint))
+    if ((label != LabelEnum::AlivePoint) && (label != LabelEnum::InitialTrialPoint) &&
+        (label != LabelEnum::OutsidePoint))
     {
       this->UpdateValue(neighIndex, speedImage, output);
     }
@@ -414,7 +416,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::UpdateValue(const IndexType &  
         continue;
       }
 
-      if (m_LabelImage->GetPixel(neighIndex) == AlivePoint)
+      if (m_LabelImage->GetPixel(neighIndex) == LabelEnum::AlivePoint)
       {
         neighValue = static_cast<PixelType>(output->GetPixel(neighIndex));
 
@@ -494,7 +496,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::UpdateValue(const IndexType &  
     output->SetPixel(index, outputPixel);
 
     // insert point into trial heap
-    m_LabelImage->SetPixel(index, TrialPoint);
+    m_LabelImage->SetPixel(index, LabelEnum::TrialPoint);
     node.SetValue(outputPixel);
     node.SetIndex(index);
     m_TrialHeap.push(node);

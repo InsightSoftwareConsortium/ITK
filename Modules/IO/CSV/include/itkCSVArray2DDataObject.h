@@ -27,7 +27,8 @@
 
 namespace itk
 {
-/** \class CSVArray2DDataObject
+/**
+ *\class CSVArray2DDataObject
  * \brief Stores parsed data from csv files.
  *
  * CSVArray2DDataObject contains methods for accessing data from the

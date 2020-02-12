@@ -120,7 +120,7 @@ public:
   using DemonsRegistrationFunctionType =
     ESMDemonsRegistrationFunction<FixedImageType, MovingImageType, DisplacementFieldType>;
 
-  using GradientType = typename DemonsRegistrationFunctionType::GradientType;
+  using GradientType = typename DemonsRegistrationFunctionType::GradientEnum;
   virtual void
   SetUseGradientType(GradientType gtype);
 

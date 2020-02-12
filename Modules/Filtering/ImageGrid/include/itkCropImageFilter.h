@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class CropImageFilter
+/**
+ *\class CropImageFilter
  * \brief Decrease the image size by cropping the image by an itk::Size at
  * both the upper and lower bounds of the largest possible region.
  *

@@ -1,5 +1,7 @@
 set(types "${WRAP_ITK_REAL}")
-
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkGaussianDerivativeOperator.h")
+itk_wrap_simple_class("itk::GaussianDerivativeOperatorEnums")
 itk_wrap_class("itk::GaussianDerivativeOperator")
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${types})

@@ -50,38 +50,38 @@ const char * const ROI_PLANE = "ROI_PLANE";
 const char * const ROI_SCAN_ID = "ROI_SCAN_ID";
 
 std::string
-IOCommon ::AtomicPixelTypeToString(const AtomicPixelType pixelType)
+IOCommon ::AtomicPixelTypeToString(const AtomicPixelEnum pixelType)
 {
   switch (pixelType)
   {
-    case ITK_UCHAR:
+    case AtomicPixelEnum::ITK_UCHAR:
       return "unsigned char";
 
-    case ITK_CHAR:
+    case AtomicPixelEnum::ITK_CHAR:
       return "char";
 
-    case ITK_USHORT:
+    case AtomicPixelEnum::ITK_USHORT:
       return "unsigned short";
 
-    case ITK_SHORT:
+    case AtomicPixelEnum::ITK_SHORT:
       return "short";
 
-    case ITK_UINT:
+    case AtomicPixelEnum::ITK_UINT:
       return "unsigned int";
 
-    case ITK_INT:
+    case AtomicPixelEnum::ITK_INT:
       return "int";
 
-    case ITK_ULONG:
+    case AtomicPixelEnum::ITK_ULONG:
       return "unsigned long";
 
-    case ITK_LONG:
+    case AtomicPixelEnum::ITK_LONG:
       return "long";
 
-    case ITK_FLOAT:
+    case AtomicPixelEnum::ITK_FLOAT:
       return "float";
 
-    case ITK_DOUBLE:
+    case AtomicPixelEnum::ITK_DOUBLE:
       return "double";
 
     default:
@@ -90,42 +90,74 @@ IOCommon ::AtomicPixelTypeToString(const AtomicPixelType pixelType)
 }
 
 unsigned int
-IOCommon ::ComputeSizeOfAtomicPixelType(const AtomicPixelType pixelType)
+IOCommon ::ComputeSizeOfAtomicPixelType(const AtomicPixelEnum pixelType)
 {
   switch (pixelType)
   {
-    case ITK_CHAR:
+    case AtomicPixelEnum::ITK_CHAR:
       return static_cast<unsigned int>(sizeof(char));
 
-    case ITK_UCHAR:
+    case AtomicPixelEnum::ITK_UCHAR:
       return static_cast<unsigned int>(sizeof(unsigned char));
 
-    case ITK_SHORT:
+    case AtomicPixelEnum::ITK_SHORT:
       return static_cast<unsigned int>(sizeof(short));
 
-    case ITK_USHORT:
+    case AtomicPixelEnum::ITK_USHORT:
       return static_cast<unsigned int>(sizeof(unsigned short));
 
-    case ITK_INT:
+    case AtomicPixelEnum::ITK_INT:
       return static_cast<unsigned int>(sizeof(int));
 
-    case ITK_UINT:
+    case AtomicPixelEnum::ITK_UINT:
       return static_cast<unsigned int>(sizeof(unsigned int));
 
-    case ITK_LONG:
+    case AtomicPixelEnum::ITK_LONG:
       return static_cast<unsigned int>(sizeof(long));
 
-    case ITK_ULONG:
+    case AtomicPixelEnum::ITK_ULONG:
       return static_cast<unsigned int>(sizeof(unsigned long));
 
-    case ITK_FLOAT:
+    case AtomicPixelEnum::ITK_FLOAT:
       return static_cast<unsigned int>(sizeof(float));
 
-    case ITK_DOUBLE:
+    case AtomicPixelEnum::ITK_DOUBLE:
       return static_cast<unsigned int>(sizeof(double));
 
     default:
       return static_cast<unsigned int>(sizeof(char));
   }
+}
+/** Print enum values */
+std::ostream &
+operator<<(std::ostream & out, const IOCommonEnums::AtomicPixel value)
+{
+  return out << [value] {
+    switch (value)
+    {
+      case IOCommonEnums::AtomicPixel::ITK_UCHAR:
+        return "itk::IOCommonEnums::AtomicPixel::ITK_UCHAR";
+      case IOCommonEnums::AtomicPixel::ITK_CHAR:
+        return "itk::IOCommonEnums::AtomicPixel::ITK_CHAR";
+      case IOCommonEnums::AtomicPixel::ITK_USHORT:
+        return "itk::IOCommonEnums::AtomicPixel::ITK_USHORT";
+      case IOCommonEnums::AtomicPixel::ITK_SHORT:
+        return "itk::IOCommonEnums::AtomicPixel::ITK_SHORT";
+      case IOCommonEnums::AtomicPixel::ITK_UINT:
+        return "itk::IOCommonEnums::AtomicPixel::ITK_UINT";
+      case IOCommonEnums::AtomicPixel::ITK_INT:
+        return "itk::IOCommonEnums::AtomicPixel::ITK_INT";
+      case IOCommonEnums::AtomicPixel::ITK_ULONG:
+        return "itk::IOCommonEnums::AtomicPixel::ITK_ULONG";
+      case IOCommonEnums::AtomicPixel::ITK_LONG:
+        return "itk::IOCommonEnums::AtomicPixel::ITK_LONG";
+      case IOCommonEnums::AtomicPixel::ITK_FLOAT:
+        return "itk::IOCommonEnums::AtomicPixel::ITK_FLOAT";
+      case IOCommonEnums::AtomicPixel::ITK_DOUBLE:
+        return "itk::IOCommonEnums::AtomicPixel::ITK_DOUBLE";
+      default:
+        return "INVALID VALUE FOR itk::IOCommonEnums::AtomicPixel";
+    }
+  }();
 }
 } // namespace itk

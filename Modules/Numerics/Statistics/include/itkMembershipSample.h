@@ -25,7 +25,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class MembershipSample
+/**
+ *\class MembershipSample
  * \brief Container for storing the instance-identifiers of other sample with
  * their associated class labels.
  *

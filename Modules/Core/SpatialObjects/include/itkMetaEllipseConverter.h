@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class MetaEllipseConverter
+/**
+ *\class MetaEllipseConverter
  *  \brief converts between MetaObject<->SpatialObject.
  *
  *  \sa MetaConverterBase

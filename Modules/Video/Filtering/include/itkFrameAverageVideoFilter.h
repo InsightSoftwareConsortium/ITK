@@ -23,7 +23,8 @@
 namespace itk
 {
 
-/** \class FrameAverageVideoFilter
+/**
+ *\class FrameAverageVideoFilter
  * \brief Average frames over a designated range in a video
  *
  * This filter computes the average of X frames at once from an input video. It

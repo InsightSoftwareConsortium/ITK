@@ -42,7 +42,7 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::GradientD
     GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate<TInternalComputationValueType>::New();
   this->m_ModifyGradientByLearningRateThreader = modifyGradientByLearningRateThreader;
 
-  this->m_StopCondition = MAXIMUM_NUMBER_OF_ITERATIONS;
+  this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::MAXIMUM_NUMBER_OF_ITERATIONS;
   this->m_StopConditionDescription << this->GetNameOfClass() << ": ";
 
   this->m_MaximumStepSizeInPhysicalUnits = NumericTraits<TInternalComputationValueType>::ZeroValue();
@@ -78,8 +78,8 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::PrintSelf
   itkPrintSelfObjectMacro(ModifyGradientByLearningRateThreader);
 
   os << indent << "Stop: " << (this->m_Stop ? "On" : "Off") << std::endl;
-  os << indent
-     << "StopCondition: " << static_cast<typename NumericTraits<StopConditionEnum>::PrintType>(this->m_StopCondition)
+  os << indent << "StopCondition: "
+     << static_cast<typename NumericTraits<StopConditionObjectToObjectOptimizerEnum>::PrintType>(this->m_StopCondition)
      << std::endl;
   os << indent << "StopConditionDescription: " << this->m_StopConditionDescription.str() << std::endl;
   os << indent << "Gradient: " << static_cast<typename NumericTraits<DerivativeType>::PrintType>(this->m_Gradient)

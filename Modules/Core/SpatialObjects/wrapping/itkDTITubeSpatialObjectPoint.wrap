@@ -4,7 +4,7 @@ if(has_d_3)
   set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
   itk_wrap_include("itkDTITubeSpatialObjectPoint.h")
 
-  itk_wrap_simple_class("itk::DTITubeSpatialObjectPointFieldEnum" ENUM)
+  itk_wrap_simple_class("itk::DTITubeSpatialObjectPointEnums")
 
   itk_wrap_class("itk::DTITubeSpatialObjectPoint")
     itk_wrap_template(3 3)

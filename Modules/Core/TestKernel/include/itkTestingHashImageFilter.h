@@ -26,8 +26,28 @@ namespace itk
 {
 namespace Testing
 {
+/**\class HashImageFilterEnums
+ * \brief Enum classes for HashImageFilter
+ * \ingroup ITKTestKernel
+ * */
+class HashImageFilterEnums
+{
+public:
+  /**\class HashFunction
+   * \ingroup ITKTestKernel
+   * Describes the hash function
+   */
+  enum class HashFunction : uint8_t
+  {
+    MD5
+  };
+};
+// Define how to print enumeration
+extern std::ostream &
+operator<<(std::ostream & out, HashImageFilterEnums::HashFunction value);
 
-/** \class HashImageFilter
+/**
+ *\class HashImageFilter
  * \brief Generates a md5 hash string from an image.
  *
  * \note This class utlizes low level buffer pointer access, to work
@@ -91,16 +111,17 @@ public:
   DataObjectPointer
   MakeOutput(DataObjectPointerArraySizeType idx) override;
 
-  enum HashFunction
-  {
-    MD5
-  };
+  using HashFunctionEnum = HashImageFilterEnums::HashFunction;
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enums values for backwards compatibility*/
+  static constexpr HashFunctionEnum MD5 = HashFunctionEnum::MD5;
+#endif
 
   /** Set/Get The hash function type. Currently only MD5 is supported
    * and this value is ignores.
    */
-  itkSetMacro(HashFunction, HashFunction);
-  itkGetMacro(HashFunction, HashFunction);
+  itkSetEnumMacro(HashFunction, HashFunctionEnum);
+  itkGetMacro(HashFunction, HashFunctionEnum);
 
 protected:
   HashImageFilter();
@@ -132,7 +153,7 @@ protected:
   EnlargeOutputRequestedRegion(DataObject * data) override;
 
 private:
-  HashFunction m_HashFunction;
+  HashFunctionEnum m_HashFunction;
 };
 
 } // end namespace Testing

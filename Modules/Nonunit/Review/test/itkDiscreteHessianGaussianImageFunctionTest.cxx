@@ -99,8 +99,8 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
   bool useImageSpacing = true;
   ITK_TEST_SET_GET_BOOLEAN(function, UseImageSpacing, useImageSpacing);
 
-  typename HessianGaussianImageFunctionType::InterpolationModeType interpolationMode =
-    HessianGaussianImageFunctionType::NearestNeighbourInterpolation;
+  typename HessianGaussianImageFunctionType::InterpolationModeEnum interpolationMode =
+    HessianGaussianImageFunctionType::InterpolationModeEnum::NearestNeighbourInterpolation;
 
   function->SetInterpolationMode(interpolationMode);
   ITK_TEST_SET_GET_VALUE(interpolationMode, function->GetInterpolationMode());
@@ -223,7 +223,7 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
 
   // Exercise another interpolation mode: LinearInterpolation
   {
-    function->SetInterpolationMode(HessianGaussianImageFunctionType::LinearInterpolation);
+    function->SetInterpolationMode(HessianGaussianImageFunctionType::InterpolationModeEnum::LinearInterpolation);
     const ImageType *              inputImage = reader->GetOutput();
     typename ImageType::RegionType region = inputImage->GetBufferedRegion();
     typename ImageType::SizeType   size = region.GetSize();

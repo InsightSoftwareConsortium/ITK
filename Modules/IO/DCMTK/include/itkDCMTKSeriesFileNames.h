@@ -26,7 +26,8 @@
 
 namespace itk
 {
-/** \class DCMTKSeriesFileNames
+/**
+ *\class DCMTKSeriesFileNames
  * \brief Generate a sequence of filenames from a DICOM series.
  *
  * This class generate a sequence of files whose filenames points to

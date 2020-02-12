@@ -33,7 +33,8 @@
 
 namespace itk
 {
-/** \class ImageTransformer
+/**
+ *\class ImageTransformer
  *  \brief Base class for all process objects that transform an image into something else.
  *
  * ImageTransformer is the base class for all process objects that transform an

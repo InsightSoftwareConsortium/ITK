@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class LabelObjectLine
+/**
+ *\class LabelObjectLine
  * LabelObjectLine is the line object used in the LabelObject class
  * to store the line which are part of the object.
  * A line is formed of and index and a length in the dimension 0.

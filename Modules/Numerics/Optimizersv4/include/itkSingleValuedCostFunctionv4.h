@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class SingleValuedCostFunctionv4Template
+/**
+ *\class SingleValuedCostFunctionv4Template
  * \brief This class is a base for a CostFunction that returns a
  * single value.
  *

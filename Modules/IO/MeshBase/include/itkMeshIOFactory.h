@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class MeshIOFactory
+/**
+ *\class MeshIOFactory
  * \brief Create instances of MeshIO objects using an object factory.
  *
  * Below are the supported mesh file format:
@@ -58,34 +59,22 @@ public:
   /** Convenient type alias. */
   using MeshIOBasePointer = ::itk::MeshIOBase::Pointer;
 
-  /** \class FileModeEnum
-   *
-   * \ingroup ITKIOMeshBase
-   * Mode in which the files is intended to be used */
-  enum class FileModeEnum : uint8_t
-  {
-    ReadMode,
-    WriteMode
-  };
+  using IOFileModeEnum = itk::IOFileModeEnum;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr FileModeEnum ReadMode = FileModeEnum::ReadMode;
-  static constexpr FileModeEnum WriteMode = FileModeEnum::WriteMode;
+  static constexpr IOFileModeEnum ReadMode = IOFileModeEnum::ReadMode;
+  static constexpr IOFileModeEnum WriteMode = IOFileModeEnum::WriteMode;
 #endif
 
   /** Create the appropriate MeshIO depending on the particulars of the file. */
   static MeshIOBasePointer
-  CreateMeshIO(const char * path, FileModeEnum mode);
+  CreateMeshIO(const char * path, IOFileModeEnum mode);
 
 protected:
   MeshIOFactory();
   ~MeshIOFactory() override;
 };
-
-// Define how to print enumeration
-extern ITKIOMeshBase_EXPORT std::ostream &
-                            operator<<(std::ostream & out, const MeshIOFactory::FileModeEnum value);
 
 } // end namespace itk
 

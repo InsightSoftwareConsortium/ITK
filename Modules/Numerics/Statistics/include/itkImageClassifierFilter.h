@@ -29,7 +29,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class ImageClassifierFilter
+/**
+ *\class ImageClassifierFilter
  *
  *  \brief Image classification class
  *

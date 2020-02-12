@@ -36,7 +36,8 @@
 
 namespace itk
 {
-/** \class PatchBasedDenoisingImageFilter
+/**
+ *\class PatchBasedDenoisingImageFilter
  * \brief Derived class implementing a specific patch-based denoising algorithm, as detailed below.
  *
  * This class is derived from the base class PatchBasedDenoisingBaseImageFilter; please refer to the
@@ -288,7 +289,7 @@ protected:
   void
   ComputeMinMax(const Image<DiffusionTensor3D<PixelValueType>, ImageDimension> * img)
   {
-    if (this->GetComponentSpace() == Superclass::RIEMANNIAN)
+    if (this->GetComponentSpace() == Superclass::ComponentSpaceEnum::RIEMANNIAN)
     {
       DispatchedRiemannianMinMax(img);
     }
@@ -331,7 +332,7 @@ protected:
                                           RealType &                                diff,
                                           RealArrayType &                           norm)
   {
-    if (this->GetComponentSpace() == Superclass::RIEMANNIAN)
+    if (this->GetComponentSpace() == Superclass::ComponentSpaceEnum::RIEMANNIAN)
     {
       ComputeLogMapAndWeightedSquaredGeodesicDifference(
         a, b, weight, useCachedComputations, cacheIndex, eigenValsCache, eigenVecsCache, diff, norm);
@@ -365,7 +366,7 @@ protected:
   RealType
   AddUpdate(const DiffusionTensor3D<RealValueType> & a, const RealType & b)
   {
-    if (this->GetComponentSpace() == Superclass::RIEMANNIAN)
+    if (this->GetComponentSpace() == Superclass::ComponentSpaceEnum::RIEMANNIAN)
     {
       return this->AddExponentialMapUpdate(a, b);
     }
@@ -566,13 +567,6 @@ private:
   BaseSamplerPointer                m_Sampler;
   typename ListAdaptorType::Pointer m_SearchSpaceList;
 };
-/** Define how to print enumerations */
-extern ITKDenoising_EXPORT std::ostream &
-                           operator<<(std::ostream & out, const NoiseType value);
-extern ITKDenoising_EXPORT std::ostream &
-                           operator<<(std::ostream & out, const SpaceType value);
-extern ITKDenoising_EXPORT std::ostream &
-                           operator<<(std::ostream & out, const StateTypeOfFilter value);
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -8,8 +8,7 @@ set(ITKOptimizersv4_SRCS
   itkAmoebaOptimizerv4.cxx
   itkRegistrationParameterScalesEstimator.cxx
   itkObjectToObjectMetricBase.cxx
-  itkMultiStartOptimizerv4.cxx
-  )
+        )
 
 itk_module_add_library(ITKOptimizersv4 ${ITKOptimizersv4_SRCS})
 target_link_libraries(ITKOptimizersv4 LINK_PUBLIC ${ITKMetricsv4_LIBRARIES})

@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class NrrdImageIOFactory
+/**
+ *\class NrrdImageIOFactory
  * \brief Create instances of NrrdImageIO objects using an object factory.
  * \ingroup ITKIONRRD
  */

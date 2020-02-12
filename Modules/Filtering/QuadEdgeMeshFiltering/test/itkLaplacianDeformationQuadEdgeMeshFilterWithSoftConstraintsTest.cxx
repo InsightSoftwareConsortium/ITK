@@ -54,11 +54,11 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest(int argc, char 
   filter->SetLambda(1.);
   if (std::stoi(argv[3]) == 1)
   {
-    filter->SetAreaComputationType(FilterType::MIXEDAREA);
+    filter->SetAreaComputationType(FilterType::AreaEnum::MIXEDAREA);
   }
   else
   {
-    filter->SetAreaComputationType(FilterType::NONE);
+    filter->SetAreaComputationType(FilterType::AreaEnum::NONE);
   }
 
 

@@ -26,7 +26,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class WeightedCovarianceSampleFilter
+/**
+ *\class WeightedCovarianceSampleFilter
  * \brief Calculates the covariance matrix of the target sample data.
  *  where each measurement vector has an associated weight value
  *

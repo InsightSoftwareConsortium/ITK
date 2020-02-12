@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class ShanbhagThresholdImageFilter
+/**
+ *\class ShanbhagThresholdImageFilter
  * \brief Threshold an image using the Shanbhag Threshold
  *
  * This filter creates a binary thresholded image that separates an

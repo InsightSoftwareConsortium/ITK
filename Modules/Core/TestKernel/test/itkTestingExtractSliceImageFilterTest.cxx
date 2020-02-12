@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include <iostream>
+#include "itkTestingHashImageFilter.h"
 #include "itkImage.h"
 #include "itkTestingExtractSliceImageFilter.h"
 #include "itkTestingMacros.h"
@@ -88,40 +89,47 @@ itkTestingExtractSliceImageFilterTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(extractRegion, filter->GetExtractionRegion());
 
   FilterType::DIRECTIONCOLLAPSESTRATEGY strategy =
-    itk::Testing::TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN;
+    itk::Testing::ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN;
 
   ITK_TEST_SET_GET_VALUE(strategy, filter->GetDirectionCollapseToStrategy());
   ITK_TRY_EXPECT_EXCEPTION(filter->Update());
 
-  ITK_TRY_EXPECT_EXCEPTION(filter->SetDirectionCollapseToStrategy(
-    itk::Testing::TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN));
+  ITK_TRY_EXPECT_EXCEPTION(
+    filter->SetDirectionCollapseToStrategy(itk::Testing::ExtractSliceImageFilterEnums::
+                                             TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN));
 
   filter->SetDirectionCollapseToIdentity();
-  strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY;
+  strategy = itk::Testing::ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy::
+    DIRECTIONCOLLAPSETOIDENTITY;
   ITK_TEST_SET_GET_VALUE(strategy, filter->GetDirectionCollapseToStrategy());
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   filter->SetDirectionCollapseToGuess();
-  strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS;
+  strategy =
+    itk::Testing::ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS;
   ITK_TEST_SET_GET_VALUE(strategy, filter->GetDirectionCollapseToStrategy());
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   filter->SetDirectionCollapseToSubmatrix();
-  strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX;
+  strategy = itk::Testing::ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy::
+    DIRECTIONCOLLAPSETOSUBMATRIX;
   ITK_TEST_SET_GET_VALUE(strategy, filter->GetDirectionCollapseToStrategy());
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-  strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY;
+  strategy = itk::Testing::ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy::
+    DIRECTIONCOLLAPSETOIDENTITY;
   filter->SetDirectionCollapseToStrategy(strategy);
   ITK_TEST_SET_GET_VALUE(strategy, filter->GetDirectionCollapseToStrategy());
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-  strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS;
+  strategy =
+    itk::Testing::ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS;
   filter->SetDirectionCollapseToStrategy(strategy);
   ITK_TEST_SET_GET_VALUE(strategy, filter->GetDirectionCollapseToStrategy());
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-  strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX;
+  strategy = itk::Testing::ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy::
+    DIRECTIONCOLLAPSETOSUBMATRIX;
   filter->SetDirectionCollapseToStrategy(strategy);
   ITK_TEST_SET_GET_VALUE(strategy, filter->GetDirectionCollapseToStrategy());
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
@@ -134,6 +142,32 @@ itkTestingExtractSliceImageFilterTest(int, char *[])
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
+  }
+
+  // Test streaming enumeration for HashImageFilterEnums::HashFunction elements
+  const std::set<itk::Testing::HashImageFilterEnums::HashFunction> allHashFunction{
+    itk::Testing::HashImageFilterEnums::HashFunction::MD5
+  };
+  for (const auto & ee : allHashFunction)
+  {
+    std::cout << "STREAMED ENUM VALUE HashImageFilterEnums::HashFunction: " << ee << std::endl;
+  }
+
+  // Test streaming enumeration for ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy elements
+  const std::set<itk::Testing::ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy>
+    allTestExtractSliceImageFilterCollapseStrategy{
+      itk::Testing::ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy::
+        DIRECTIONCOLLAPSETOUNKOWN,
+      itk::Testing::ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy::
+        DIRECTIONCOLLAPSETOIDENTITY,
+      itk::Testing::ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy::
+        DIRECTIONCOLLAPSETOSUBMATRIX,
+      itk::Testing::ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS
+    };
+  for (const auto & ee : allTestExtractSliceImageFilterCollapseStrategy)
+  {
+    std::cout << "STREAMED ENUM VALUE ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy: " << ee
+              << std::endl;
   }
 
   // Exercise PrintSelf()

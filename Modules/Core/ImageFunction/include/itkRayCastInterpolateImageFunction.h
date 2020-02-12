@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class RayCastInterpolateImageFunction
+/**
+ *\class RayCastInterpolateImageFunction
  * \brief Projective interpolation of an image at specified positions.
  *
  * RayCastInterpolateImageFunction casts rays through a 3-dimensional

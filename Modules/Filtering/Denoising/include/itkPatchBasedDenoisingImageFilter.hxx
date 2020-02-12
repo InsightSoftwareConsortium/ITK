@@ -262,14 +262,14 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Initialize()
   // specified that they should be treated independently.
   if (this->GetAlwaysTreatComponentsAsEuclidean())
   {
-    this->SetComponentSpace(Superclass::EUCLIDEAN);
+    this->SetComponentSpace(Superclass::ComponentSpaceEnum::EUCLIDEAN);
   }
   else
   {
     this->SetComponentSpace(this->DetermineComponentSpace(m_ZeroPixel));
   }
 
-  if (this->GetComponentSpace() == Superclass::EUCLIDEAN)
+  if (this->GetComponentSpace() == Superclass::ComponentSpaceEnum::EUCLIDEAN)
   {
     m_NumIndependentComponents = m_NumPixelComponents;
   }
@@ -356,7 +356,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Initialize()
     {
       // Initialize to 5% of the intensity range
       RealValueType invFactor;
-      if (this->GetComponentSpace() == Superclass::EUCLIDEAN)
+      if (this->GetComponentSpace() == Superclass::ComponentSpaceEnum::EUCLIDEAN)
       {
         invFactor = m_IntensityRescaleInvFactor[pc];
       }
@@ -395,7 +395,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::EnforceConstraints()
   }
 
   // For Poisson or Rician noise models, image must be >= 0
-  if (this->GetNoiseModel() == Superclass::RICIAN || this->GetNoiseModel() == Superclass::POISSON)
+  if (this->GetNoiseModel() == Superclass::NoiseModelEnum::RICIAN ||
+      this->GetNoiseModel() == Superclass::NoiseModelEnum::POISSON)
   {
     for (unsigned int ic = 0; ic < m_NumIndependentComponents; ++ic)
     {
@@ -411,7 +412,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::EnforceConstraints()
 
   // Do not know how to compute noise model in RIEMANNIAN case
   // so make sure the computation is disabled
-  if (this->GetComponentSpace() == Superclass::RIEMANNIAN)
+  if (this->GetComponentSpace() == Superclass::ComponentSpaceEnum::RIEMANNIAN)
   {
     if (this->GetNoiseModelFidelityWeight() > 0)
     {
@@ -2033,12 +2034,12 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeImageU
         const PixelType out = outputIt.Get();
         switch (this->GetNoiseModel())
         {
-          case Superclass::NOMODEL:
+          case Superclass::NoiseModelEnum::NOMODEL:
           {
             // Do nothing
             break;
           }
-          case Superclass::GAUSSIAN:
+          case Superclass::NoiseModelEnum::GAUSSIAN:
           {
             for (unsigned int pc = 0; pc < m_NumPixelComponents; ++pc)
             {
@@ -2049,7 +2050,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeImageU
             }
             break;
           }
-          case Superclass::RICIAN:
+          case Superclass::NoiseModelEnum::RICIAN:
           {
             for (unsigned int pc = 0; pc < m_NumPixelComponents; ++pc)
             {
@@ -2069,7 +2070,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeImageU
             }
             break;
           }
-          case Superclass::POISSON:
+          case Superclass::NoiseModelEnum::POISSON:
           {
             for (unsigned int pc = 0; pc < m_NumPixelComponents; ++pc)
             {

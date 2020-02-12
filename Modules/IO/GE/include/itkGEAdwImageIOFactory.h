@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class GEAdwImageIOFactory
+/**
+ *\class GEAdwImageIOFactory
  * \brief Create instances of GEAdwImageIO objects using an object factory.
  * \ingroup ITKIOGE
  */

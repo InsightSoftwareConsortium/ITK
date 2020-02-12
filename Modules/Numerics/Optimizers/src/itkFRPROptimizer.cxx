@@ -27,7 +27,7 @@ const double FRPR_TINY = 1e-20;
 FRPROptimizer ::FRPROptimizer()
 {
   m_UseUnitLengthGradient = false;
-  m_OptimizationType = PolakRibiere;
+  m_OptimizationType = OptimizationEnum::PolakRibiere;
 }
 
 FRPROptimizer ::~FRPROptimizer() = default;
@@ -162,7 +162,7 @@ FRPROptimizer ::StartOptimization()
     gg = 0.0;
     dgg = 0.0;
 
-    if (m_OptimizationType == PolakRibiere)
+    if (m_OptimizationType == OptimizationEnum::PolakRibiere)
     {
       for (i = 0; i < this->GetSpaceDimension(); i++)
       {
@@ -170,7 +170,7 @@ FRPROptimizer ::StartOptimization()
         dgg += (xi[i] + g[i]) * xi[i];
       }
     }
-    if (m_OptimizationType == FletchReeves)
+    if (m_OptimizationType == OptimizationEnum::FletchReeves)
     {
       for (i = 0; i < this->GetSpaceDimension(); i++)
       {
@@ -207,7 +207,7 @@ FRPROptimizer ::StartOptimization()
 void
 FRPROptimizer ::SetToPolakRibiere()
 {
-  m_OptimizationType = PolakRibiere;
+  m_OptimizationType = OptimizationEnum::PolakRibiere;
 }
 
 /**
@@ -216,7 +216,7 @@ FRPROptimizer ::SetToPolakRibiere()
 void
 FRPROptimizer ::SetToFletchReeves()
 {
-  m_OptimizationType = FletchReeves;
+  m_OptimizationType = OptimizationEnum::FletchReeves;
 }
 
 /**
@@ -230,5 +230,23 @@ FRPROptimizer ::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "0=FletchReeves, 1=PolakRibiere" << std::endl;
   os << indent << "Use unit length gradient = " << m_UseUnitLengthGradient << std::endl;
 }
+
+/** Print enum values */
+std::ostream &
+operator<<(std::ostream & out, const FRPROptimizerEnums::Optimization value)
+{
+  return out << [value] {
+    switch (value)
+    {
+      case FRPROptimizerEnums::Optimization::FletchReeves:
+        return "itk::FRPROptimizerEnums::Optimization::FletchReeves";
+      case FRPROptimizerEnums::Optimization::PolakRibiere:
+        return "itk::FRPROptimizerEnums::Optimization::PolakRibiere";
+      default:
+        return "INVALID VALUE FOR itk::FRPROptimizerEnums::Optimization";
+    }
+  }();
+}
+
 } // end of namespace itk
 #endif

@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class ExtrapolateImageFunction
+/**
+ *\class ExtrapolateImageFunction
  * \brief Base class for all image extrapolaters.
  *
  * ExtrapolateImageFunction is the base for all ImageFunctions that

@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class BinaryThinningImageFilter
+/**
+ *\class BinaryThinningImageFilter
  *
  * \brief This filter computes one-pixel-wide edges of the input image.
  *

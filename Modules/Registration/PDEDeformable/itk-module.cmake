@@ -9,6 +9,7 @@ if( ITK_USE_FFTWF OR ITK_USE_FFTWD )
 endif()
 
 itk_module(ITKPDEDeformableRegistration
+  ENABLE_SHARED
   DEPENDS
     ${_FFTW_DEPENDS}
     ITKRegistrationCommon

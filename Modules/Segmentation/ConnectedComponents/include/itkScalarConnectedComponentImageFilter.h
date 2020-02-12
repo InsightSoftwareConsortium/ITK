@@ -34,7 +34,8 @@
 
 namespace itk
 {
-/** \class ScalarConnectedComponentImageFilter
+/**
+ *\class ScalarConnectedComponentImageFilter
  *
  *  \brief A connected components filter that labels the
  *         objects in an arbitrary image.  Two pixels are

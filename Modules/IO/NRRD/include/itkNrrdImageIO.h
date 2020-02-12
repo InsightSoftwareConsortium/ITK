@@ -27,7 +27,8 @@ struct NrrdEncoding_t;
 
 namespace itk
 {
-/** \class NrrdImageIO
+/**
+ *\class NrrdImageIO
  *
  * \brief Read and write the "Nearly Raw Raster Data" (Nrrd) image format.
  * The Nrrd format was developed as part of the Teem package
@@ -103,9 +104,9 @@ protected:
   /** Utility functions for converting between enumerated data type
       representations */
   int
-  ITKToNrrdComponentType(const ImageIOBase::IOComponentType) const;
+  ITKToNrrdComponentType(const IOComponentEnum) const;
 
-  ImageIOBase::IOComponentType
+  IOComponentEnum
   NrrdToITKComponentType(const int) const;
 
   const NrrdEncoding_t * m_NrrdCompressionEncoding{ nullptr };

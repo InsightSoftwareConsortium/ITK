@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class ImageFunction
+/**
+ *\class ImageFunction
  * \brief Evaluates a function of an image at specified position.
  *
  * ImageFunction is a baseclass for all objects that evaluates

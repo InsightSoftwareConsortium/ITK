@@ -190,21 +190,21 @@ OBJMeshIO ::ReadMeshInformation()
   }
 
   // Set default point component type
-  this->m_PointComponentType = FLOAT;
+  this->m_PointComponentType = IOComponentEnum::FLOAT;
 
   // Set default cell component type
-  this->m_CellComponentType = LONG;
+  this->m_CellComponentType = IOComponentEnum::LONG;
   this->m_CellBufferSize = this->m_NumberOfCells * 2 + numberOfCellPoints;
 
   // Set default point pixel component and point pixel type
-  this->m_PointPixelComponentType = FLOAT;
-  this->m_PointPixelType = VECTOR;
+  this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
+  this->m_PointPixelType = IOPixelEnum::VECTOR;
   this->m_NumberOfPointPixelComponents = 3;
   // this->m_UpdatePointData = true;
 
   // Set default cell pixel component and point pixel type
-  this->m_CellPixelComponentType = LONG;
-  this->m_CellPixelType = VECTOR;
+  this->m_CellPixelComponentType = IOComponentEnum::LONG;
+  this->m_CellPixelType = IOPixelEnum::VECTOR;
   this->m_NumberOfCellPixelComponents = 3;
   this->m_UpdateCellData = false;
 
@@ -294,9 +294,9 @@ OBJMeshIO ::ReadCells(void * buffer)
 
   CloseFile();
 
-  this->WriteCellsBuffer(data, static_cast<long *>(buffer), POLYGON_CELL, this->m_NumberOfCells);
+  this->WriteCellsBuffer(data, static_cast<long *>(buffer), CellGeometryEnum::POLYGON_CELL, this->m_NumberOfCells);
   // this->WriteCellsBuffer(data, static_cast<unsigned int *>(buffer),
-  // TRIANGLE_CELL, 3, this->m_NumberOfCells);
+  // CellGeometryEnum::TRIANGLE_CELL, 3, this->m_NumberOfCells);
   delete[] data;
 }
 
@@ -391,78 +391,78 @@ OBJMeshIO::WritePoints(void * buffer)
   // Write points
   switch (this->m_PointComponentType)
   {
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
     {
       WritePoints(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
-    case CHAR:
+    case IOComponentEnum::CHAR:
     {
       WritePoints(static_cast<char *>(buffer), outputFile);
 
       break;
     }
-    case USHORT:
+    case IOComponentEnum::USHORT:
     {
       WritePoints(static_cast<unsigned short *>(buffer), outputFile);
 
       break;
     }
-    case SHORT:
+    case IOComponentEnum::SHORT:
     {
       WritePoints(static_cast<short *>(buffer), outputFile);
 
       break;
     }
-    case UINT:
+    case IOComponentEnum::UINT:
     {
       WritePoints(static_cast<unsigned int *>(buffer), outputFile);
 
       break;
     }
-    case INT:
+    case IOComponentEnum::INT:
     {
       WritePoints(static_cast<int *>(buffer), outputFile);
 
       break;
     }
-    case ULONG:
+    case IOComponentEnum::ULONG:
     {
       WritePoints(static_cast<unsigned long *>(buffer), outputFile);
 
       break;
     }
-    case LONG:
+    case IOComponentEnum::LONG:
     {
       WritePoints(static_cast<long *>(buffer), outputFile);
 
       break;
     }
-    case ULONGLONG:
+    case IOComponentEnum::ULONGLONG:
     {
       WritePoints(static_cast<unsigned long long *>(buffer), outputFile);
 
       break;
     }
-    case LONGLONG:
+    case IOComponentEnum::LONGLONG:
     {
       WritePoints(static_cast<long long *>(buffer), outputFile);
 
       break;
     }
-    case FLOAT:
+    case IOComponentEnum::FLOAT:
     {
       WritePoints(static_cast<float *>(buffer), outputFile);
 
       break;
     }
-    case DOUBLE:
+    case IOComponentEnum::DOUBLE:
     {
       WritePoints(static_cast<double *>(buffer), outputFile);
 
       break;
     }
-    case LDOUBLE:
+    case IOComponentEnum::LDOUBLE:
     {
       WritePoints(static_cast<long double *>(buffer), outputFile);
 
@@ -500,67 +500,67 @@ OBJMeshIO ::WriteCells(void * buffer)
 
   switch (this->m_CellComponentType)
   {
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
     {
       WriteCells(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
-    case CHAR:
+    case IOComponentEnum::CHAR:
     {
       WriteCells(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
-    case USHORT:
+    case IOComponentEnum::USHORT:
     {
       WriteCells(static_cast<unsigned short *>(buffer), outputFile);
       break;
     }
-    case SHORT:
+    case IOComponentEnum::SHORT:
     {
       WriteCells(static_cast<short *>(buffer), outputFile);
       break;
     }
-    case UINT:
+    case IOComponentEnum::UINT:
     {
       WriteCells(static_cast<unsigned int *>(buffer), outputFile);
       break;
     }
-    case INT:
+    case IOComponentEnum::INT:
     {
       WriteCells(static_cast<int *>(buffer), outputFile);
       break;
     }
-    case ULONG:
+    case IOComponentEnum::ULONG:
     {
       WriteCells(static_cast<unsigned long *>(buffer), outputFile);
       break;
     }
-    case LONG:
+    case IOComponentEnum::LONG:
     {
       WriteCells(static_cast<long *>(buffer), outputFile);
       break;
     }
-    case ULONGLONG:
+    case IOComponentEnum::ULONGLONG:
     {
       WriteCells(static_cast<unsigned long long *>(buffer), outputFile);
       break;
     }
-    case LONGLONG:
+    case IOComponentEnum::LONGLONG:
     {
       WriteCells(static_cast<long long *>(buffer), outputFile);
       break;
     }
-    case FLOAT:
+    case IOComponentEnum::FLOAT:
     {
       WriteCells(static_cast<float *>(buffer), outputFile);
       break;
     }
-    case DOUBLE:
+    case IOComponentEnum::DOUBLE:
     {
       WriteCells(static_cast<double *>(buffer), outputFile);
       break;
     }
-    case LDOUBLE:
+    case IOComponentEnum::LDOUBLE:
     {
       WriteCells(static_cast<long double *>(buffer), outputFile);
       break;
@@ -604,78 +604,78 @@ OBJMeshIO ::WritePointData(void * buffer)
   // Write point data
   switch (this->m_PointPixelComponentType)
   {
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
     {
       WritePointData(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
-    case CHAR:
+    case IOComponentEnum::CHAR:
     {
       WritePointData(static_cast<char *>(buffer), outputFile);
 
       break;
     }
-    case USHORT:
+    case IOComponentEnum::USHORT:
     {
       WritePointData(static_cast<unsigned short *>(buffer), outputFile);
 
       break;
     }
-    case SHORT:
+    case IOComponentEnum::SHORT:
     {
       WritePointData(static_cast<short *>(buffer), outputFile);
 
       break;
     }
-    case UINT:
+    case IOComponentEnum::UINT:
     {
       WritePointData(static_cast<unsigned int *>(buffer), outputFile);
 
       break;
     }
-    case INT:
+    case IOComponentEnum::INT:
     {
       WritePointData(static_cast<int *>(buffer), outputFile);
 
       break;
     }
-    case ULONG:
+    case IOComponentEnum::ULONG:
     {
       WritePointData(static_cast<unsigned long *>(buffer), outputFile);
 
       break;
     }
-    case LONG:
+    case IOComponentEnum::LONG:
     {
       WritePointData(static_cast<long *>(buffer), outputFile);
 
       break;
     }
-    case ULONGLONG:
+    case IOComponentEnum::ULONGLONG:
     {
       WritePointData(static_cast<unsigned long long *>(buffer), outputFile);
 
       break;
     }
-    case LONGLONG:
+    case IOComponentEnum::LONGLONG:
     {
       WritePointData(static_cast<long long *>(buffer), outputFile);
 
       break;
     }
-    case FLOAT:
+    case IOComponentEnum::FLOAT:
     {
       WritePointData(static_cast<float *>(buffer), outputFile);
 
       break;
     }
-    case DOUBLE:
+    case IOComponentEnum::DOUBLE:
     {
       WritePointData(static_cast<double *>(buffer), outputFile);
 
       break;
     }
-    case LDOUBLE:
+    case IOComponentEnum::LDOUBLE:
     {
       WritePointData(static_cast<long double *>(buffer), outputFile);
 
@@ -686,7 +686,6 @@ OBJMeshIO ::WritePointData(void * buffer)
       itkExceptionMacro(<< "Unknown point data pixel component type" << std::endl);
     }
   }
-
   outputFile.close();
 }
 

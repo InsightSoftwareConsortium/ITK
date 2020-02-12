@@ -25,7 +25,8 @@ namespace itk
 {
 namespace Accessor
 {
-/** \class ComplexToPhasePixelAccessor
+/**
+ *\class ComplexToPhasePixelAccessor
  * \brief Give access to the Phase part of a std::complex<> value.
  *
  * ComplexToPhasePixelAccessor is templated over an internal type and an
@@ -63,7 +64,8 @@ public:
 };
 } // end namespace Accessor
 
-/** \class ComplexToPhaseImageAdaptor
+/**
+ *\class ComplexToPhaseImageAdaptor
  * \brief Presents a complex image as being composed of arg() part of its pixels.
  *
  * Additional casting is performed according to the input and output image

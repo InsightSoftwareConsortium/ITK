@@ -126,7 +126,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::AdvanceOneStep()
     this->m_CurrentPosition = this->m_BestPosition;
     this->m_CurrentMetricValue = this->m_BestValue;
 
-    this->m_StopCondition = Superclass::STEP_TOO_SMALL;
+    this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::STEP_TOO_SMALL;
     this->m_StopConditionDescription << "Optimization stops after " << this->GetCurrentIteration()
                                      << " iterations since"
                                      << " there is no progress in the last " << m_MaximumIterationsWithoutProgress
@@ -142,7 +142,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::AdvanceOneStep()
     lastStep = this->m_CurrentPosition - this->m_PreviousPosition;
     if (lastStep.squared_magnitude() < NumericTraits<TInternalComputationValueType>::epsilon())
     {
-      this->m_StopCondition = Superclass::STEP_TOO_SMALL;
+      this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::STEP_TOO_SMALL;
       this->m_StopConditionDescription << "Optimization stops after " << this->GetCurrentIteration()
                                        << " iterations since"
                                        << " the last step is almost zero.";
@@ -168,7 +168,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::AdvanceOneStep()
   }
   catch (ExceptionObject & err)
   {
-    this->m_StopCondition = Superclass::UPDATE_PARAMETERS_ERROR;
+    this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::UPDATE_PARAMETERS_ERROR;
     this->m_StopConditionDescription << "UpdateTransformParameters error";
     this->StopOptimization();
 

@@ -32,16 +32,30 @@
 
 namespace itk
 {
-/** \class MRFStopEnum
- *  \ingroup ITKMarkovRandomFieldsClassifiers
- * Enum to get the stopping condition of the MRF filter*/
-enum class MRFStopEnum : uint8_t
+/**\class MRFImageFilterEnums
+ * \brief Contains all enum classes in MRFImageFilter class;
+ * \ingroup ITKMarkovRandomFieldsClassifiers
+ */
+class MRFImageFilterEnums
 {
-  MaximumNumberOfIterations = 1,
-  ErrorTolerance
+public:
+  /**
+   * \class MRFStop
+   *  \ingroup ITKMarkovRandomFieldsClassifiers
+   * Enum to get the stopping condition of the MRF filter
+   */
+  enum class MRFStop : uint8_t
+  {
+    MaximumNumberOfIterations = 1,
+    ErrorTolerance
+  };
 };
 
-/** \class MRFImageFilter
+// Define how to print enumeration
+extern ITKMarkovRandomFieldsClassifiers_EXPORT std::ostream &
+                                               operator<<(std::ostream & out, const MRFImageFilterEnums::MRFStop value);
+/**
+ *\class MRFImageFilter
  * \brief Implementation of a labeller object that uses Markov Random Fields
  * to classify pixels in an image data set.
  *
@@ -293,18 +307,18 @@ public:
     return m_MRFNeighborhoodWeight;
   }
 
-  /** Backwards compatibility for enumerations */
-  using StopConditionEnum = MRFStopEnum;
+  using MRFStopEnum = MRFImageFilterEnums::MRFStop;
 #if !defined(ITK_LEGACY_REMOVE)
+  /** Backwards compatibility for enumerations */
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr StopConditionEnum MaximumNumberOfIterations = StopConditionEnum::MaximumNumberOfIterations;
-  static constexpr StopConditionEnum ErrorTolerance = StopConditionEnum::ErrorTolerance;
+  static constexpr MRFStopEnum MaximumNumberOfIterations = MRFStopEnum::MaximumNumberOfIterations;
+  static constexpr MRFStopEnum ErrorTolerance = MRFStopEnum::ErrorTolerance;
 #endif
 
   /** Get condition that stops the MRF filter (Number of Iterations
    * / Error tolerance ) */
-  itkGetConstReferenceMacro(StopCondition, StopConditionEnum);
+  itkGetConstReferenceMacro(StopCondition, MRFStopEnum);
 
   /* Get macro for number of iterations */
   itkGetConstReferenceMacro(NumberOfIterations, unsigned int);
@@ -388,15 +402,15 @@ private:
   unsigned int m_MaximumNumberOfIterations{ 50 };
   unsigned int m_KernelSize;
 
-  int               m_ErrorCounter{ 0 };
-  int               m_NeighborhoodSize{ 27 };
-  int               m_TotalNumberOfValidPixelsInOutputImage{ 1 };
-  int               m_TotalNumberOfPixelsInInputImage{ 1 };
-  double            m_ErrorTolerance{ 0.2 };
-  double            m_SmoothingFactor{ 1 };
-  double *          m_ClassProbability{ nullptr }; // Class liklihood
-  unsigned int      m_NumberOfIterations{ 0 };
-  StopConditionEnum m_StopCondition;
+  int          m_ErrorCounter{ 0 };
+  int          m_NeighborhoodSize{ 27 };
+  int          m_TotalNumberOfValidPixelsInOutputImage{ 1 };
+  int          m_TotalNumberOfPixelsInInputImage{ 1 };
+  double       m_ErrorTolerance{ 0.2 };
+  double       m_SmoothingFactor{ 1 };
+  double *     m_ClassProbability{ nullptr }; // Class liklihood
+  unsigned int m_NumberOfIterations{ 0 };
+  MRFStopEnum  m_StopCondition;
 
   LabelStatusImagePointer m_LabelStatusImage;
 
@@ -418,11 +432,6 @@ private:
   void
   ApplyICMLabeller();
 }; // class MRFImageFilter
-
-/** Define how to print enumerations. */
-extern ITKMarkovRandomFieldsClassifiers_EXPORT std::ostream &
-                                               operator<<(std::ostream & out, const MRFStopEnum value);
-
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

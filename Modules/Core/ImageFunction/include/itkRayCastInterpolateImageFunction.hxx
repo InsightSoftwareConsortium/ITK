@@ -23,11 +23,41 @@
 
 #include "itkMath.h"
 
+/**\class RayCastHelperEnums
+ * \brief Contains all enum classes used by RayCastHelper class.
+ * \ingroup ITKImageFunction
+ * @tparam TInputImage
+ * @tparam TCoordRep
+ */
+class RayCastHelperEnums
+{
+public:
+  /**
+   * \class TraversalDirection
+   * \ingroup ITKImageFunction
+   * The ray is traversed by stepping in the axial direction
+   * that enables the greatest number of planes in the volume to be
+   * intercepted.
+   *
+   * This enumeration is not exposed to the user, so no need to
+   * create an ostream operator<< for it.
+   */
+  enum class TraversalDirection : uint8_t
+  {
+    UNDEFINED_DIRECTION = 0, //!< Undefined
+    TRANSVERSE_IN_X,         //!< x
+    TRANSVERSE_IN_Y,         //!< y
+    TRANSVERSE_IN_Z,         //!< z
+    LAST_DIRECTION
+  };
+};
+
 // Put the helper class in an anonymous namespace so that it is not
 // exposed to the user
 namespace
 {
-/** \class Helper class to maintain state when casting a ray.
+/**
+ *\class Helper class to maintain state when casting a ray.
  *  This helper class keeps the RayCastInterpolateImageFunction thread safe.
  */
 template <typename TInputImage, typename TCoordRep = float>
@@ -193,19 +223,15 @@ protected:
   bool
   CalcRayIntercepts();
 
-  /**
-   *   The ray is traversed by stepping in the axial direction
-   *   that enables the greatest number of planes in the volume to be
-   *   intercepted.
-   */
-  enum TraversalDirection : uint8_t
-  {
-    UNDEFINED_DIRECTION = 0, //!< Undefined
-    TRANSVERSE_IN_X,         //!< x
-    TRANSVERSE_IN_Y,         //!< y
-    TRANSVERSE_IN_Z,         //!< z
-    LAST_DIRECTION
-  };
+  using TraversalDirectionEnum = RayCastHelperEnums::TraversalDirection;
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enum values at class level for backwards compatibility*/
+  static constexpr TraversalDirectionEnum UNDEFINED_DIRECTION = TraversalDirectionEnum::UNDEFINED_DIRECTION;
+  static constexpr TraversalDirectionEnum TRANSVERSE_IN_X = TraversalDirectionEnum::TRANSVERSE_IN_X;
+  static constexpr TraversalDirectionEnum TRANSVERSE_IN_Y = TraversalDirectionEnum::TRANSVERSE_IN_Y;
+  static constexpr TraversalDirectionEnum TRANSVERSE_IN_Z = TraversalDirectionEnum::TRANSVERSE_IN_Z;
+  static constexpr TraversalDirectionEnum LAST_DIRECTION = TraversalDirectionEnum::LAST_DIRECTION;
+#endif
 
   // Cache the image in the structure. Skip the smart pointer for
   // efficiency. This inner class will go in/out of scope with every
@@ -250,7 +276,7 @@ protected:
 
   /// The direction in which the ray is incremented thorough the volume (x, y or
   // z).
-  TraversalDirection m_TraversalDirection;
+  TraversalDirectionEnum m_TraversalDirection;
 
   /// The total number of planes of voxels traversed by the ray.
   int m_TotalRayVoxelPlanes;
@@ -819,7 +845,7 @@ RayCastHelper<TInputImage, TCoordRep>::CalcDirnVector()
 
     m_TotalRayVoxelPlanes = (int)xNum;
 
-    m_TraversalDirection = TRANSVERSE_IN_X;
+    m_TraversalDirection = TraversalDirectionEnum::TRANSVERSE_IN_X;
   }
 
   // Iterate in Y direction
@@ -859,7 +885,7 @@ RayCastHelper<TInputImage, TCoordRep>::CalcDirnVector()
 
     m_TotalRayVoxelPlanes = (int)yNum;
 
-    m_TraversalDirection = TRANSVERSE_IN_Y;
+    m_TraversalDirection = TraversalDirectionEnum::TRANSVERSE_IN_Y;
   }
 
   // Iterate in Z direction
@@ -899,7 +925,7 @@ RayCastHelper<TInputImage, TCoordRep>::CalcDirnVector()
 
     m_TotalRayVoxelPlanes = (int)zNum;
 
-    m_TraversalDirection = TRANSVERSE_IN_Z;
+    m_TraversalDirection = TraversalDirectionEnum::TRANSVERSE_IN_Z;
   }
 }
 
@@ -916,19 +942,19 @@ RayCastHelper<TInputImage, TCoordRep>::AdjustRayLength()
   int Istart[3];
   int Idirn[3];
 
-  if (m_TraversalDirection == TRANSVERSE_IN_X)
+  if (m_TraversalDirection == TraversalDirectionEnum::TRANSVERSE_IN_X)
   {
     Idirn[0] = 0;
     Idirn[1] = 1;
     Idirn[2] = 1;
   }
-  else if (m_TraversalDirection == TRANSVERSE_IN_Y)
+  else if (m_TraversalDirection == TraversalDirectionEnum::TRANSVERSE_IN_Y)
   {
     Idirn[0] = 1;
     Idirn[1] = 0;
     Idirn[2] = 1;
   }
-  else if (m_TraversalDirection == TRANSVERSE_IN_Z)
+  else if (m_TraversalDirection == TraversalDirectionEnum::TRANSVERSE_IN_Z)
   {
     Idirn[0] = 1;
     Idirn[1] = 1;
@@ -1028,7 +1054,7 @@ RayCastHelper<TInputImage, TCoordRep>::Reset()
     {
       m_VoxelIncrement[i] = 0.;
     }
-    m_TraversalDirection = UNDEFINED_DIRECTION;
+    m_TraversalDirection = TraversalDirectionEnum::UNDEFINED_DIRECTION;
 
     m_TotalRayVoxelPlanes = 0;
 
@@ -1065,7 +1091,7 @@ RayCastHelper<TInputImage, TCoordRep>::InitialiseVoxelPointers()
 
   switch (m_TraversalDirection)
   {
-    case TRANSVERSE_IN_X:
+    case TraversalDirectionEnum::TRANSVERSE_IN_X:
     {
       if ((Ix >= 0) && (Ix < m_NumberOfVoxelsInX) && (Iy >= 0) && (Iy + 1 < m_NumberOfVoxelsInY) && (Iz >= 0) &&
           (Iz + 1 < m_NumberOfVoxelsInZ))
@@ -1098,7 +1124,7 @@ RayCastHelper<TInputImage, TCoordRep>::InitialiseVoxelPointers()
       break;
     }
 
-    case TRANSVERSE_IN_Y:
+    case TraversalDirectionEnum::TRANSVERSE_IN_Y:
     {
       if ((Ix >= 0) && (Ix + 1 < m_NumberOfVoxelsInX) && (Iy >= 0) && (Iy < m_NumberOfVoxelsInY) && (Iz >= 0) &&
           (Iz + 1 < m_NumberOfVoxelsInZ))
@@ -1131,7 +1157,7 @@ RayCastHelper<TInputImage, TCoordRep>::InitialiseVoxelPointers()
       break;
     }
 
-    case TRANSVERSE_IN_Z:
+    case TraversalDirectionEnum::TRANSVERSE_IN_Z:
     {
       if ((Ix >= 0) && (Ix + 1 < m_NumberOfVoxelsInX) && (Iy >= 0) && (Iy + 1 < m_NumberOfVoxelsInY) && (Iz >= 0) &&
           (Iz < m_NumberOfVoxelsInZ))
@@ -1230,19 +1256,19 @@ RayCastHelper<TInputImage, TCoordRep>::GetCurrentIntensity() const
 
   switch (m_TraversalDirection)
   {
-    case TRANSVERSE_IN_X:
+    case TraversalDirectionEnum::TRANSVERSE_IN_X:
     {
       y = m_Position3Dvox[1].GetSum() - std::floor(m_Position3Dvox[1].GetSum());
       z = m_Position3Dvox[2].GetSum() - std::floor(m_Position3Dvox[2].GetSum());
       break;
     }
-    case TRANSVERSE_IN_Y:
+    case TraversalDirectionEnum::TRANSVERSE_IN_Y:
     {
       y = m_Position3Dvox[0].GetSum() - std::floor(m_Position3Dvox[0].GetSum());
       z = m_Position3Dvox[2].GetSum() - std::floor(m_Position3Dvox[2].GetSum());
       break;
     }
-    case TRANSVERSE_IN_Z:
+    case TraversalDirectionEnum::TRANSVERSE_IN_Z:
     {
       y = m_Position3Dvox[0].GetSum() - std::floor(m_Position3Dvox[0].GetSum());
       z = m_Position3Dvox[1].GetSum() - std::floor(m_Position3Dvox[1].GetSum());
@@ -1345,7 +1371,7 @@ RayCastHelper<TInputImage, TCoordRep>::ZeroState()
   {
     m_VoxelIncrement[i] = 0.;
   }
-  m_TraversalDirection = UNDEFINED_DIRECTION;
+  m_TraversalDirection = TraversalDirectionEnum::UNDEFINED_DIRECTION;
 
   m_TotalRayVoxelPlanes = 0;
   m_NumVoxelPlanesTraversed = -1;

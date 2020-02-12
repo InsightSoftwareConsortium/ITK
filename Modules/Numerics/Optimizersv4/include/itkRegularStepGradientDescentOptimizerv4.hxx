@@ -115,7 +115,7 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>::AdvanceOne
 
   if (gradientMagnitude < this->m_GradientMagnitudeTolerance)
   {
-    this->m_StopCondition = Superclass::GRADIENT_MAGNITUDE_TOLEARANCE;
+    this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::GRADIENT_MAGNITUDE_TOLEARANCE;
     this->m_StopConditionDescription << "Gradient magnitude tolerance met after " << this->m_CurrentIteration
                                      << " iterations. Gradient magnitude (" << gradientMagnitude
                                      << ") is less than gradient magnitude tolerance ("
@@ -143,7 +143,7 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>::AdvanceOne
 
   if (stepLength < this->m_MinimumStepLength)
   {
-    this->m_StopCondition = Superclass::STEP_TOO_SMALL;
+    this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::STEP_TOO_SMALL;
     this->m_StopConditionDescription << "Step too small after " << this->m_CurrentIteration
                                      << " iterations. Current step (" << stepLength << ") is less than minimum step ("
                                      << this->m_MinimumStepLength << ").";
@@ -162,7 +162,7 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>::AdvanceOne
   }
   catch (ExceptionObject & err)
   {
-    this->m_StopCondition = Superclass::UPDATE_PARAMETERS_ERROR;
+    this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::UPDATE_PARAMETERS_ERROR;
     this->m_StopConditionDescription << "UpdateTransformParameters error";
     this->StopOptimization();
 

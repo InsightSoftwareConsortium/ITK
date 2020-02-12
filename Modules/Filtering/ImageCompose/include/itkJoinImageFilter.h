@@ -175,7 +175,8 @@ struct MakeJoin
 };
 } // namespace Functor
 
-/** \class JoinImageFilter
+/**
+ *\class JoinImageFilter
  * \brief Join two images, resulting in an image where each pixel has the components of the first image followed by the
  * components of the second image.
  *

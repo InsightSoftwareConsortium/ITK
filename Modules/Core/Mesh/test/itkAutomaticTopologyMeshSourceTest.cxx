@@ -246,7 +246,7 @@ itkAutomaticTopologyMeshSourceTest(int, char *[])
     CellAutoPointer cell;
     if (mesh->GetCell(i, cell))
     {
-      if (cell->GetType() == CellType::LINE_CELL)
+      if (cell->GetType() == itk::CellGeometryEnum::LINE_CELL)
       {
         std::cout << "Cell " << i << ":\n";
 

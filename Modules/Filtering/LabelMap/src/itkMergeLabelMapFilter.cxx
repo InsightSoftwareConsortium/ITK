@@ -19,23 +19,23 @@
 
 namespace itk
 {
-/**Define how to print enumerations */
+/** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const ChoiceMethodEnum value)
+operator<<(std::ostream & out, const MergeLabelMapFilterEnums::ChoiceMethod value)
 {
   return out << [value] {
     switch (value)
     {
-      case ChoiceMethodEnum::KEEP:
-        return "ChoiceMethodEnum::KEEP";
-      case ChoiceMethodEnum::AGGREGATE:
-        return "ChoiceMethodEnum::AGGREGATE";
-      case ChoiceMethodEnum::PACK:
-        return "ChoiceMethodEnum::PACK";
-      case ChoiceMethodEnum::STRICT:
-        return "ChoiceMethodEnum::STRICT";
+      case MergeLabelMapFilterEnums::ChoiceMethod::KEEP:
+        return "itk::MergeLabelMapFilterEnums::ChoiceMethod::KEEP";
+      case MergeLabelMapFilterEnums::ChoiceMethod::AGGREGATE:
+        return "itk::MergeLabelMapFilterEnums::ChoiceMethod::AGGREGATE";
+      case MergeLabelMapFilterEnums::ChoiceMethod::PACK:
+        return "itk::MergeLabelMapFilterEnums::ChoiceMethod::PACK";
+      case MergeLabelMapFilterEnums::ChoiceMethod::STRICT:
+        return "itk::MergeLabelMapFilterEnums::ChoiceMethod::STRICT";
       default:
-        return "INVALID VALUE FOR ChoiceMethodEnum";
+        return "INVALID VALUE FOR itk::MergeLabelMapFilterEnums::ChoiceMethod";
     }
   }();
 }

@@ -92,7 +92,7 @@ ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>::A
   }
   catch (ExceptionObject & err)
   {
-    this->m_StopCondition = Superclass::UPDATE_PARAMETERS_ERROR;
+    this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::UPDATE_PARAMETERS_ERROR;
     this->m_StopConditionDescription << "UpdateTransformParameters error";
     this->StopOptimization();
     // Pass exception to caller

@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class RGBToLuminanceImageFilter
+/**
+ *\class RGBToLuminanceImageFilter
  * \brief Converts an RGB image into a grayscale image.
  *
  * This filters converts an RGB image into a Luminance on by computing

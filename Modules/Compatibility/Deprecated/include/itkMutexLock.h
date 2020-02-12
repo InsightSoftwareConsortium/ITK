@@ -36,7 +36,8 @@
 namespace itk
 {
 
-/** \class SimpleMutexLock
+/**
+ *\class SimpleMutexLock
  * \brief Simple mutual exclusion locking class.
 
  * SimpleMutexLock allows the locking of variables which are accessed
@@ -104,7 +105,8 @@ protected:
   MutexType m_MutexLock;
 };
 
-/** \class MutexLock
+/**
+ *\class MutexLock
  * \brief Mutual exclusion locking class.
  *
  * MutexLock allows the locking of variables which are accessed

@@ -25,7 +25,8 @@ namespace itk
 {
 namespace Accessor
 {
-/** \class SqrtPixelAccessor
+/**
+ *\class SqrtPixelAccessor
  * \brief Give access to the std::sqrt() function of a value
  *
  * SqrtPixelAccessor is templated over an internal type and an
@@ -62,7 +63,8 @@ public:
 };
 } // end namespace Accessor
 
-/** \class SqrtImageAdaptor
+/**
+ *\class SqrtImageAdaptor
  * \brief Presents an image as being composed of the std::sqrt() of its pixels
  *
  * Additional casting is performed according to the input and output image

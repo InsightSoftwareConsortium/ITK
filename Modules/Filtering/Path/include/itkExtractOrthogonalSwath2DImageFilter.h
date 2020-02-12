@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class ExtractOrthogonalSwath2DImageFilter
+/**
+ *\class ExtractOrthogonalSwath2DImageFilter
  * \brief Extracts into rectangular form a "swath" image from the input image along the parametric path.
  *
  * Extracts a rectangular "swath" image from the 2D input image by interpolating

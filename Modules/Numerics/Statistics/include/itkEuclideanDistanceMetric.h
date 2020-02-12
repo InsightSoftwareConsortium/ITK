@@ -24,7 +24,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class EuclideanDistanceMetric
+/**
+ *\class EuclideanDistanceMetric
  * \brief Euclidean distance function.
  *
  *

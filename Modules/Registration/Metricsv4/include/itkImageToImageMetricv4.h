@@ -204,7 +204,7 @@ public:
   using ParametersValueType = typename Superclass::ParametersValueType;
 
   /** Gradient source type */
-  using GradientSourceType = typename Superclass::GradientSourceType;
+  using GradientSourceEnum = typename Superclass::GradientSourceEnum;
 
   /** Dimension type */
   using DimensionType = typename Superclass::DimensionType;
@@ -605,7 +605,7 @@ public:
   MetricCategoryType
   GetMetricCategory() const override
   {
-    return Superclass::IMAGE_METRIC;
+    return MetricCategoryType::IMAGE_METRIC;
   }
 
 protected:

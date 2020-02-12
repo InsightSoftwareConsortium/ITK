@@ -469,6 +469,117 @@ expanded, but previous template parameters may not be available.
 
 Arguments to functions in `itkExtras` were cleaned up and now use snake case.
 
+Strongly Typed Enumerations
+---------------------------
+
+In ITK 5, enumerations are strongly typed, declared with `enum class`. A best
+practice in modern C++, strongly typed enum's [offer the following improvements](https://www.modernescpp.com/index.php/strongly-typed-enums):
+
+- The enumerators can only be accessed in the scope of the enumeration.
+- The enumerators don't implicitly convert to `int`.
+- The enumerators aren't imported in the enclosing scope.
+- The type of the enumerators is by default `int`. Therefore, you can forward the enumeration.
+
+In order to preserve as much backwards compatibility as possible, appropriate
+scoping, provide clean, readable code, facilitate wrapping in languages such
+as Python, and enable printing enum values to `std::ostream` with
+`operator<<`, and support templates, enums that we previously declared as:
+
+```
+// itkClassName.h
+namespace itk
+{
+
+class ClassName
+{
+public:
+
+  enum Choices
+  {
+     One,
+     Two,
+     Three
+  };
+};
+
+}
+```
+
+are now declared as:
+
+```
+// itkClassName.h
+namespace itk
+{
+
+class ClassNameEnums
+{
+public:
+  enum class Choices: uint8_t
+  {
+    One,
+    Two,
+    Three
+  };
+};
+extern ITKModuleName_EXPORT std::ostream &
+operator<<(std::ostream & out, const ClassNameEnums::Choices value);
+
+class ClassName
+{
+public:
+
+  using ChoicesEnum = ClassNameEnums::Choices;
+#if !defined(ITK_LEGACY_REMOVE)
+  using Choices = ChoicesEnum;
+  static constexpr Choices One = ChoicesEnum::One;
+  static constexpr Choices Two = ChoicesEnum::Two;
+  static constexpr Choices Three = ChoicesEnum::Three;
+#endif
+};
+
+}
+
+// itkClassName.cxx
+namespace itk
+{
+
+/** Print enum values */
+std::ostream &
+operator<<(std::ostream & out, const ClassNameEnums::Choices value)
+{
+  return out << [value] {
+    switch (value)
+    {
+      case ClassNameEnums::Choices::One:
+        return "itk::ClassNameEnums::Choices::One";
+      case ClassNameEnums::Choices::Two:
+        return "itk::ClassNameEnums::Choices::Two";
+      case ClassNameEnums::Choices::Three:
+        return "itk::ClassNameEnums::Choices::Three";
+      default:
+        return "INVALID VALUE FOR itk::ClassNameEnums::Choices";
+    }
+  }();
+}
+```
+
+for a class called `ClassName` and an enum called `Choices`.
+
+Wrapping is configured with `itk_wrap_simple_class("itk::ClassNameEnums")`,
+which results in access to the enums in Python as
+`itk.ClassNameEnums.Choices_One`, `itk.ClassNameEnums.Choices_Two`, and
+`itk.ClassNameEnums.Choices_Three`.
+
+While backwards compatible type aliases and `static constexpr` backwards
+compatible values were introduced, the names of the enums were generally made
+more consistent, and existing code should migrate to new enum names. Since
+strongly typed enums do not implicitly cast to int's like classic enums,
+explicit `static_cast`'s may be required in migrated code.
+
+Common enums used in classes across the toolkit are now available in the
+`itk::CommonEnums` class.
+
 Update scripts
 --------------
 

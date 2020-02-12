@@ -23,7 +23,8 @@
 namespace itk
 {
 
-/** \class RegistrationParameterScalesFromPhysicalShift
+/**
+ *\class RegistrationParameterScalesFromPhysicalShift
  *  \brief Registration helper class for estimating scales of
  * transform parameters a step sizes, from the maximum voxel shift
  * in physical space caused by a parameter change.

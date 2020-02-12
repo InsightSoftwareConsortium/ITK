@@ -26,7 +26,8 @@
 
 namespace itk
 {
-/** \class BinaryShapeOpeningImageFilter
+/**
+ *\class BinaryShapeOpeningImageFilter
  * \brief Remove objects based on the value of their shape attribute.
  *
  * The BinaryShapeOpeningImageFilter removes the objects in a binary image

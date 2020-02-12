@@ -68,10 +68,10 @@ public:
   static constexpr unsigned int CellDimension = 3;
 
   /** Implement the standard CellInterface. */
-  CellGeometry
+  CellGeometryEnum
   GetType() const override
   {
-    return Superclass::TETRAHEDRON_CELL;
+    return CellGeometryEnum::TETRAHEDRON_CELL;
   }
   void
   MakeCopy(CellAutoPointer &) const override;
@@ -125,7 +125,7 @@ public:
   GetFace(CellFeatureIdentifier, FaceAutoPointer &);
 
   /** Visitor interface. */
-  itkCellVisitMacro(Superclass::TETRAHEDRON_CELL);
+  itkCellVisitMacro(CellGeometryEnum::TETRAHEDRON_CELL);
 
   bool
   EvaluatePosition(CoordRepType *,

@@ -84,7 +84,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::ResumeOptimiz
     {
       this->m_StopConditionDescription << "Maximum number of iterations (" << this->m_NumberOfIterations
                                        << ") exceeded.";
-      this->m_StopCondition = Superclass::MAXIMUM_NUMBER_OF_ITERATIONS;
+      this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::MAXIMUM_NUMBER_OF_ITERATIONS;
       this->StopOptimization();
       break;
     }
@@ -101,7 +101,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::ResumeOptimiz
     }
     catch (ExceptionObject & err)
     {
-      this->m_StopCondition = Superclass::COSTFUNCTION_ERROR;
+      this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::COSTFUNCTION_ERROR;
       this->m_StopConditionDescription << "Metric error during optimization";
       this->StopOptimization();
 
@@ -126,7 +126,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::ResumeOptimiz
         this->m_ConvergenceValue = this->m_ConvergenceMonitoring->GetConvergenceValue();
         if (this->m_ConvergenceValue <= this->m_MinimumConvergenceValue)
         {
-          this->m_StopCondition = Superclass::CONVERGENCE_CHECKER_PASSED;
+          this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::CONVERGENCE_CHECKER_PASSED;
           this->m_StopConditionDescription << "Convergence checker passed at iteration " << this->m_CurrentIteration
                                            << ".";
           this->StopOptimization();
@@ -178,7 +178,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::AdvanceOneSte
   }
   catch (ExceptionObject & err)
   {
-    this->m_StopCondition = Superclass::UPDATE_PARAMETERS_ERROR;
+    this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::UPDATE_PARAMETERS_ERROR;
     this->m_StopConditionDescription << "UpdateTransformParameters error";
     this->StopOptimization();
 

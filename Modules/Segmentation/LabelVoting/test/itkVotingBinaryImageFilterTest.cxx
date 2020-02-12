@@ -101,7 +101,7 @@ itkVotingBinaryImageFilterTest(int argc, char * argv[])
 
 
   itk::ImageIOBase::Pointer iobase =
-    itk::ImageIOFactory::CreateImageIO(infname.c_str(), itk::ImageIOFactory::FileModeEnum::ReadMode);
+    itk::ImageIOFactory::CreateImageIO(infname.c_str(), itk::ImageIOFactory::IOFileModeEnum::ReadMode);
 
   if (iobase.IsNull())
   {
@@ -109,9 +109,9 @@ itkVotingBinaryImageFilterTest(int argc, char * argv[])
   }
 
 
-  // const itk::ImageIOBase::IOPixelType pixelType = iobase->GetPixelType();
-  const itk::ImageIOBase::IOComponentType componentType = iobase->GetComponentType();
-  const unsigned int                      dimension = iobase->GetNumberOfDimensions();
+  // const itk::IOPixelEnum pixelType = iobase->GetPixelType();
+  const itk::IOComponentEnum componentType = iobase->GetComponentType();
+  const unsigned int         dimension = iobase->GetNumberOfDimensions();
 
   using TestImageType = itk::Image<short, 3>;
   using FilterType = itk::VotingBinaryImageFilter<TestImageType, TestImageType>;
@@ -121,9 +121,9 @@ itkVotingBinaryImageFilterTest(int argc, char * argv[])
 
   switch (componentType)
   {
-    case itk::ImageIOBase::CHAR:
-    case itk::ImageIOBase::UCHAR:
-    case itk::ImageIOBase::SHORT:
+    case itk::IOComponentEnum::CHAR:
+    case itk::IOComponentEnum::UCHAR:
+    case itk::IOComponentEnum::SHORT:
       if (dimension == 2)
         return itkVotingBinaryImageFilterTestImp<itk::Image<short, 2>>(
           infname, outfname, radius, foregroundValue, backgroundValue);
@@ -131,8 +131,8 @@ itkVotingBinaryImageFilterTest(int argc, char * argv[])
         return itkVotingBinaryImageFilterTestImp<itk::Image<short, 3>>(
           infname, outfname, radius, foregroundValue, backgroundValue);
       break;
-    case itk::ImageIOBase::USHORT:
-    case itk::ImageIOBase::INT:
+    case itk::IOComponentEnum::USHORT:
+    case itk::IOComponentEnum::INT:
       if (dimension == 2)
         return itkVotingBinaryImageFilterTestImp<itk::Image<int, 2>>(
           infname, outfname, radius, foregroundValue, backgroundValue);
@@ -140,7 +140,7 @@ itkVotingBinaryImageFilterTest(int argc, char * argv[])
         return itkVotingBinaryImageFilterTestImp<itk::Image<int, 3>>(
           infname, outfname, radius, foregroundValue, backgroundValue);
       break;
-    case itk::ImageIOBase::UINT:
+    case itk::IOComponentEnum::UINT:
       if (dimension == 2)
         return itkVotingBinaryImageFilterTestImp<itk::Image<unsigned int, 2>>(
           infname, outfname, radius, foregroundValue, backgroundValue);
@@ -148,13 +148,13 @@ itkVotingBinaryImageFilterTest(int argc, char * argv[])
         return itkVotingBinaryImageFilterTestImp<itk::Image<unsigned int, 3>>(
           infname, outfname, radius, foregroundValue, backgroundValue);
       break;
-    case itk::ImageIOBase::ULONG:
-    case itk::ImageIOBase::LONG:
-    case itk::ImageIOBase::ULONGLONG:
-    case itk::ImageIOBase::LONGLONG:
-    case itk::ImageIOBase::FLOAT:
-    case itk::ImageIOBase::DOUBLE:
-    case itk::ImageIOBase::UNKNOWNCOMPONENTTYPE:
+    case itk::IOComponentEnum::ULONG:
+    case itk::IOComponentEnum::LONG:
+    case itk::IOComponentEnum::ULONGLONG:
+    case itk::IOComponentEnum::LONGLONG:
+    case itk::IOComponentEnum::FLOAT:
+    case itk::IOComponentEnum::DOUBLE:
+    case itk::IOComponentEnum::UNKNOWNCOMPONENTTYPE:
     default:
       itkGenericExceptionMacro("Input image is a real, long, long long, or an unknown component type");
   }

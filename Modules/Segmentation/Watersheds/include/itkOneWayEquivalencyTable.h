@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class OneWayEquivalencyTable
+/**
+ *\class OneWayEquivalencyTable
  * \brief Hash table to manage integral label equivalencies that are order dependent.
  *
  * OneWayEquivalencyTable is a variation on itk::EquivalencyTable that

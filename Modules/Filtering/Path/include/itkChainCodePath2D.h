@@ -26,7 +26,8 @@
 
 namespace itk
 {
-/** \class ChainCodePath2D
+/**
+ *\class ChainCodePath2D
  * \brief  Represent a 2D path as a sequence of connected image index offsets
  *
  * This class is intended to represent sequences of connected indices in a 2D

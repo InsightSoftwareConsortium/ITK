@@ -154,7 +154,7 @@ itkTIFFImageIOCompressionTest(int argc, char * argv[])
 
   std::string inputFilename = argv[1];
 
-  using ScalarPixelType = itk::ImageIOBase::IOComponentType;
+  using ScalarPixelType = itk::IOComponentEnum;
 
   itk::TIFFImageIO::Pointer imageIO = itk::TIFFImageIO::New();
 
@@ -180,103 +180,103 @@ itkTIFFImageIOCompressionTest(int argc, char * argv[])
 
   switch (imageIO->GetPixelType())
   {
-    case itk::ImageIOBase::SCALAR:
+    case itk::IOPixelEnum::SCALAR:
       switch (componentType)
       {
-        case itk::ImageIOBase::UCHAR:
+        case itk::IOComponentEnum::UCHAR:
         {
           using PixelType = unsigned char;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::ImageIOBase::CHAR:
+        case itk::IOComponentEnum::CHAR:
         {
           using PixelType = char;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::ImageIOBase::USHORT:
+        case itk::IOComponentEnum::USHORT:
         {
           using PixelType = unsigned short;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::ImageIOBase::SHORT:
+        case itk::IOComponentEnum::SHORT:
         {
           using PixelType = short;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::ImageIOBase::FLOAT:
+        case itk::IOComponentEnum::FLOAT:
         {
           using PixelType = float;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::ImageIOBase::UNKNOWNCOMPONENTTYPE:
+        case itk::IOComponentEnum::UNKNOWNCOMPONENTTYPE:
         default:
           std::cout << "unknown component type" << std::endl;
           break;
       }
       break;
-    case itk::ImageIOBase::RGB:
+    case itk::IOPixelEnum::RGB:
       switch (componentType)
       {
-        case itk::ImageIOBase::UCHAR:
+        case itk::IOComponentEnum::UCHAR:
         {
           using PixelType = itk::RGBPixel<unsigned char>;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::ImageIOBase::CHAR:
+        case itk::IOComponentEnum::CHAR:
         {
           using PixelType = itk::RGBPixel<char>;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::ImageIOBase::USHORT:
+        case itk::IOComponentEnum::USHORT:
         {
           using PixelType = itk::RGBPixel<unsigned short>;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::ImageIOBase::SHORT:
+        case itk::IOComponentEnum::SHORT:
         {
           using PixelType = itk::RGBPixel<short>;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::ImageIOBase::FLOAT:
+        case itk::IOComponentEnum::FLOAT:
         {
           using PixelType = itk::RGBPixel<float>;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::ImageIOBase::UNKNOWNCOMPONENTTYPE:
+        case itk::IOComponentEnum::UNKNOWNCOMPONENTTYPE:
         default:
           std::cout << "unknown component type" << std::endl;
           break;
       }
       break;
-    case itk::ImageIOBase::RGBA:
+    case itk::IOPixelEnum::RGBA:
       switch (componentType)
       {
-        case itk::ImageIOBase::UCHAR:
+        case itk::IOComponentEnum::UCHAR:
         {
           using PixelType = itk::RGBAPixel<unsigned char>;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::ImageIOBase::CHAR:
+        case itk::IOComponentEnum::CHAR:
         {
           using PixelType = itk::RGBAPixel<char>;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::ImageIOBase::USHORT:
+        case itk::IOComponentEnum::USHORT:
         {
           using PixelType = itk::RGBAPixel<unsigned short>;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::ImageIOBase::SHORT:
+        case itk::IOComponentEnum::SHORT:
         {
           using PixelType = itk::RGBAPixel<short>;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::ImageIOBase::FLOAT:
+        case itk::IOComponentEnum::FLOAT:
         {
           using PixelType = itk::RGBAPixel<float>;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::ImageIOBase::UNKNOWNCOMPONENTTYPE:
+        case itk::IOComponentEnum::UNKNOWNCOMPONENTTYPE:
         default:
           std::cout << "unknown component type" << std::endl;
           break;
@@ -286,7 +286,6 @@ itkTIFFImageIOCompressionTest(int argc, char * argv[])
       std::cout << "unknown pixel type" << std::endl;
       break;
   }
-
 
   return EXIT_FAILURE;
 }

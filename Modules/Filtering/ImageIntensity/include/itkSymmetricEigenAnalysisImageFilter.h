@@ -34,13 +34,7 @@ namespace itk
 // magnitude as is common with use of tensors in vessel extraction.
 namespace Functor
 {
-/**\class EigenValueOrderType
- * \ingroup ITKImageIntensity
- * Typdedefs to order eigen values.
- * OrderByValue:      lambda_1 < lambda_2 < ....
- * OrderByMagnitude:  |lambda_1| < |lambda_2| < .....
- * DoNotOrder:        Default order of eigen values obtained after QL method
- */
+
 #if !defined(ITK_LEGACY_REMOVE)
 using OrderTypeOfEigenValue = EigenValueOrderEnum;
 #endif
@@ -86,19 +80,22 @@ public:
     return m_Calculator.GetDimension();
   }
 
+#if !defined(ITK_LEGACY_REMOVE)
+  /** Enables reverse compatibility for enumeration values */
   using EigenValueOrderType = EigenValueOrderEnum;
+#endif
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr EigenValueOrderType OrderByValue = EigenValueOrderEnum::OrderByValue;
-  static constexpr EigenValueOrderType OrderByMagnitude = EigenValueOrderEnum::OrderByMagnitude;
-  static constexpr EigenValueOrderType DoNotOrder = EigenValueOrderEnum::DoNotOrder;
+  static constexpr EigenValueOrderEnum OrderByValue = EigenValueOrderEnum::OrderByValue;
+  static constexpr EigenValueOrderEnum OrderByMagnitude = EigenValueOrderEnum::OrderByMagnitude;
+  static constexpr EigenValueOrderEnum DoNotOrder = EigenValueOrderEnum::DoNotOrder;
 #endif
 
   /** Order eigen values. Default is to OrderByValue:  lambda_1 <
    * lambda_2 < .... */
   void
-  OrderEigenValuesBy(EigenValueOrderType order)
+  OrderEigenValuesBy(EigenValueOrderEnum order)
   {
     if (order == EigenValueOrderEnum::OrderByMagnitude)
     {
@@ -150,20 +147,22 @@ public:
     return m_Calculator.GetDimension();
   }
 
-  /** Reverse compatibility for enum values */
+#if !defined(ITK_LEGACY_REMOVE)
+  /** Enables reverse compatibility for enumeration values */
   using EigenValueOrderType = EigenValueOrderEnum;
+#endif
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr EigenValueOrderType OrderByValue = EigenValueOrderType::OrderByValue;
-  static constexpr EigenValueOrderType OrderByMagnitude = EigenValueOrderType::OrderByMagnitude;
-  static constexpr EigenValueOrderType DoNotOrder = EigenValueOrderType::DoNotOrder;
+  static constexpr EigenValueOrderEnum OrderByValue = EigenValueOrderEnum::OrderByValue;
+  static constexpr EigenValueOrderEnum OrderByMagnitude = EigenValueOrderEnum::OrderByMagnitude;
+  static constexpr EigenValueOrderEnum DoNotOrder = EigenValueOrderEnum::DoNotOrder;
 #endif
 
   /** Order eigen values. Default is to OrderByValue:  lambda_1 <
    * lambda_2 < .... */
   void
-  OrderEigenValuesBy(EigenValueOrderType order)
+  OrderEigenValuesBy(EigenValueOrderEnum order)
   {
     if (order == EigenValueOrderEnum::OrderByMagnitude)
     {
@@ -185,7 +184,8 @@ extern ITKImageIntensity_EXPORT std::ostream &
 
 } // end namespace Functor
 
-/** \class SymmetricEigenAnalysisImageFilter
+/**
+ *\class SymmetricEigenAnalysisImageFilter
  * \brief Computes the eigen-values of every input symmetric matrix pixel.
  *
  * SymmetricEigenAnalysisImageFilter applies pixel-wise the invocation for
@@ -231,17 +231,15 @@ public:
   using InputValueType = typename InputPixelType::ValueType;
   using FunctorType = typename Superclass::FunctorType;
 
-  /** Typdedefs to order eigen values.
-   * OrderByValue:      lambda_1 < lambda_2 < ....
-   * OrderByMagnitude:  |lambda_1| < |lambda_2| < .....
-   * DoNotOrder:        Default order of eigen values obtained after QL method
-   */
-  using EigenValueOrderType = typename FunctorType::EigenValueOrderType;
+#if !defined(ITK_LEGACY_REMOVE)
+  /** Enables reverse compatibility for enumeration values */
+  using EigenValueOrderType = EigenValueOrderEnum;
+#endif
 
   /** Order eigen values. Default is to OrderByValue:  lambda_1 <
    * lambda_2 < .... */
   void
-  OrderEigenValuesBy(EigenValueOrderType order)
+  OrderEigenValuesBy(EigenValueOrderEnum order)
   {
     this->GetFunctor().OrderEigenValuesBy(order);
   }
@@ -283,7 +281,8 @@ protected:
   ~SymmetricEigenAnalysisImageFilter() override = default;
 };
 
-/** \class SymmetricEigenAnalysisFixedDimensionImageFilter
+/**
+ *\class SymmetricEigenAnalysisFixedDimensionImageFilter
  * \brief Computes the eigen-values of every input symmetric matrix pixel.
  *
  * SymmetricEigenAnalysisImageFilter applies pixel-wise the invokation for
@@ -330,17 +329,13 @@ public:
   using InputValueType = typename InputPixelType::ValueType;
   using FunctorType = typename Superclass::FunctorType;
 
-  /** Typdedefs to order eigen values.
-   * OrderByValue:      lambda_1 < lambda_2 < ....
-   * OrderByMagnitude:  |lambda_1| < |lambda_2| < .....
-   * DoNotOrder:        Default order of eigen values obtained after QL method
-   */
-  using EigenValueOrderType = typename FunctorType::EigenValueOrderType;
+  /** expose public enumeration class as member  for backward compatibility */
+  using EigenValueOrderEnum = itk::EigenValueOrderEnum;
 
   /** Order eigen values. Default is to OrderByValue:  lambda_1 <
    * lambda_2 < .... */
   void
-  OrderEigenValuesBy(EigenValueOrderType order)
+  OrderEigenValuesBy(EigenValueOrderEnum order)
   {
     this->GetFunctor().OrderEigenValuesBy(order);
   }

@@ -449,7 +449,7 @@ test_VXLVideoIO(char *        input,
   std::vector<itk::SizeValueType> size;
   size.push_back(width);
   size.push_back(height);
-  vxlIO_write->SetWriterParameters(fps, size, fourCC, nChannels, itk::ImageIOBase::UCHAR);
+  vxlIO_write->SetWriterParameters(fps, size, fourCC, nChannels, itk::IOComponentEnum::UCHAR);
 
   // Make sure they set correctly
   if (vxlIO_write->GetFramesPerSecond() != fps || vxlIO_write->GetDimensions(0) != width ||

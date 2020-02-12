@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \class GeometryUtilities
+/**
+ *\class GeometryUtilities
  * \brief Groups some utility functions related to geometry
  *
  * This implementation was taken from the Insight Journal paper:

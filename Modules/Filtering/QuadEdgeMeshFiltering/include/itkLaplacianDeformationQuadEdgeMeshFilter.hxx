@@ -25,7 +25,7 @@ namespace itk
 template <typename TInputMesh, typename TOutputMesh, typename TSolverTraits>
 LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::LaplacianDeformationQuadEdgeMeshFilter()
   : m_CoefficientsMethod(nullptr)
-  , m_AreaComputationType(NONE)
+  , m_AreaComputationType(AreaEnum::NONE)
 {}
 
 template <typename TInputMesh, typename TOutputMesh, typename TSolverTraits>
@@ -248,7 +248,7 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
 
           if (degree < iDegree)
           {
-            if (m_AreaComputationType != NONE)
+            if (m_AreaComputationType != AreaEnum::NONE)
             {
               AreaMapConstIterator mixedIt = m_MixedAreaMap.find(vId);
               OutputCoordRepType   mixedArea = NumericTraits<OutputCoordRepType>::OneValue();
@@ -259,7 +259,7 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
               }
               else
               {
-                if (m_AreaComputationType == MIXEDAREA)
+                if (m_AreaComputationType == AreaEnum::MIXEDAREA)
                 {
                   mixedArea = this->ComputeMixedAreaForGivenVertex(vId);
                 }

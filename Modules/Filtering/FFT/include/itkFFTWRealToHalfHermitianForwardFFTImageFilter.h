@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class FFTWRealToHalfHermitianForwardFFTImageFilter
+/**
+ *\class FFTWRealToHalfHermitianForwardFFTImageFilter
  *
  * \brief FFTW-based forward Fast Fourier Transform.
  *

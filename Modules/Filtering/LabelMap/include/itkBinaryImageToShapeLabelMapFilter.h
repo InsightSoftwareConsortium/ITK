@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class BinaryImageToShapeLabelMapFilter
+/**
+ *\class BinaryImageToShapeLabelMapFilter
  * \brief Converts a binary image to a label map and valuate the shape attributes.
  *
  * A convenient class that converts a binary image to a label map and valuates the

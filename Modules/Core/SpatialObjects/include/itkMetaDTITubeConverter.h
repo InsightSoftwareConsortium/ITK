@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class MetaDTITubeConverter
+/**
+ *\class MetaDTITubeConverter
  *  \brief converts between MetaObject<->SpatialObject
  *  \sa MetaConverterBase
  *  \ingroup ITKSpatialObjects

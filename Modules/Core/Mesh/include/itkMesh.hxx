@@ -982,7 +982,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::Mesh()
   m_CellLinksContainer = CellLinksContainer::New();
   m_BoundingBox = BoundingBoxType::New();
   m_BoundaryAssignmentsContainers = BoundaryAssignmentsContainerVector(MaxTopologicalDimension);
-  m_CellsAllocationMethod = MeshClassCellsAllocationMethodEnum::CellsAllocatedDynamicallyCellByCell;
+  m_CellsAllocationMethod = MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell;
 }
 
 /**
@@ -1045,14 +1045,14 @@ Mesh<TPixelType, VDimension, TMeshTraits>::ReleaseCellsMemory()
         itkGenericExceptionMacro(<< "Cells Allocation Method was not specified. See SetCellsAllocationMethod()");
         break;
       }
-      case MeshClassCellsAllocationMethodEnum::CellsAllocatedAsStaticArray:
+      case MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedAsStaticArray:
       {
         // The cells will be naturally destroyed when
         // the original array goes out of scope.
         itkDebugMacro("CellsAllocatedAsStaticArray ");
         break;
       }
-      case MeshClassCellsAllocationMethodEnum::CellsAllocatedAsADynamicArray:
+      case MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedAsADynamicArray:
       {
         // the pointer to the first Cell is assumed to be the
         // base pointer of the array
@@ -1063,7 +1063,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::ReleaseCellsMemory()
         itkDebugMacro("CellsAllocatedAsADynamicArray");
         break;
       }
-      case MeshClassCellsAllocationMethodEnum::CellsAllocatedDynamicallyCellByCell:
+      case MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell:
       {
         itkDebugMacro("CellsAllocatedDynamicallyCellByCell start");
         // It is assumed that every cell was allocated independently.

@@ -175,31 +175,31 @@ ImageIOBase::GetComponentTypeInfo() const
 {
   switch (m_ComponentType)
   {
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
       return typeid(unsigned char);
-    case CHAR:
+    case IOComponentEnum::CHAR:
       return typeid(char);
-    case USHORT:
+    case IOComponentEnum::USHORT:
       return typeid(unsigned short);
-    case SHORT:
+    case IOComponentEnum::SHORT:
       return typeid(short);
-    case UINT:
+    case IOComponentEnum::UINT:
       return typeid(unsigned int);
-    case INT:
+    case IOComponentEnum::INT:
       return typeid(int);
-    case ULONG:
+    case IOComponentEnum::ULONG:
       return typeid(unsigned long);
-    case LONG:
+    case IOComponentEnum::LONG:
       return typeid(long);
-    case ULONGLONG:
+    case IOComponentEnum::ULONGLONG:
       return typeid(unsigned long long);
-    case LONGLONG:
+    case IOComponentEnum::LONGLONG:
       return typeid(long long);
-    case FLOAT:
+    case IOComponentEnum::FLOAT:
       return typeid(float);
-    case DOUBLE:
+    case IOComponentEnum::DOUBLE:
       return typeid(double);
-    case UNKNOWNCOMPONENTTYPE:
+    case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
     default:
       itkExceptionMacro("Unknown component type: " << m_ComponentType);
   }
@@ -326,7 +326,7 @@ ImageIOBase ::ReadBufferAsBinary(std::istream & is, void * buffer, ImageIOBase::
 unsigned int
 ImageIOBase::GetPixelSize() const
 {
-  if (m_ComponentType == UNKNOWNCOMPONENTTYPE || m_PixelType == UNKNOWNPIXELTYPE)
+  if (m_ComponentType == IOComponentEnum::UNKNOWNCOMPONENTTYPE || m_PixelType == IOPixelEnum::UNKNOWNPIXELTYPE)
   {
     itkExceptionMacro("Unknown pixel or component type: (" << m_PixelType << ", " << m_ComponentType << ")");
   }
@@ -370,46 +370,46 @@ ImageIOBase::GetComponentSize() const
 {
   switch (m_ComponentType)
   {
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
       return sizeof(unsigned char);
-    case CHAR:
+    case IOComponentEnum::CHAR:
       return sizeof(char);
-    case USHORT:
+    case IOComponentEnum::USHORT:
       return sizeof(unsigned short);
-    case SHORT:
+    case IOComponentEnum::SHORT:
       return sizeof(short);
-    case UINT:
+    case IOComponentEnum::UINT:
       return sizeof(unsigned int);
-    case INT:
+    case IOComponentEnum::INT:
       return sizeof(int);
-    case ULONG:
+    case IOComponentEnum::ULONG:
       return sizeof(unsigned long);
-    case LONG:
+    case IOComponentEnum::LONG:
       return sizeof(long);
-    case ULONGLONG:
+    case IOComponentEnum::ULONGLONG:
       return sizeof(unsigned long long);
-    case LONGLONG:
+    case IOComponentEnum::LONGLONG:
       return sizeof(long long);
-    case FLOAT:
+    case IOComponentEnum::FLOAT:
       return sizeof(float);
-    case DOUBLE:
+    case IOComponentEnum::DOUBLE:
       return sizeof(double);
-    case UNKNOWNCOMPONENTTYPE:
+    case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
     default:
       itkExceptionMacro("Unknown component type: " << m_ComponentType);
   }
 }
 
 std::string
-ImageIOBase::GetFileTypeAsString(FileType t) const
+ImageIOBase::GetFileTypeAsString(IOFileEnum t) const
 {
   switch (t)
   {
-    case ASCII:
+    case IOFileEnum::ASCII:
       return std::string("ASCII");
-    case Binary:
+    case IOFileEnum::Binary:
       return std::string("Binary");
-    case TypeNotApplicable:
+    case IOFileEnum::TypeNotApplicable:
     default:
       return std::string("TypeNotApplicable");
   }
@@ -417,203 +417,203 @@ ImageIOBase::GetFileTypeAsString(FileType t) const
 }
 
 std::string
-ImageIOBase::GetByteOrderAsString(ByteOrder t) const
+ImageIOBase::GetByteOrderAsString(IOByteOrderEnum t) const
 {
   switch (t)
   {
-    case BigEndian:
+    case IOByteOrderEnum::BigEndian:
       return std::string("BigEndian");
-    case LittleEndian:
+    case IOByteOrderEnum::LittleEndian:
       return std::string("LittleEndian");
-    case OrderNotApplicable:
+    case IOByteOrderEnum::OrderNotApplicable:
     default:
       return std::string("OrderNotApplicable");
   }
 }
 
 std::string
-ImageIOBase::GetComponentTypeAsString(IOComponentType t)
+ImageIOBase::GetComponentTypeAsString(IOComponentEnum t)
 {
   switch (t)
   {
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
       return std::string("unsigned_char");
-    case CHAR:
+    case IOComponentEnum::CHAR:
       return std::string("char");
-    case USHORT:
+    case IOComponentEnum::USHORT:
       return std::string("unsigned_short");
-    case SHORT:
+    case IOComponentEnum::SHORT:
       return std::string("short");
-    case UINT:
+    case IOComponentEnum::UINT:
       return std::string("unsigned_int");
-    case INT:
+    case IOComponentEnum::INT:
       return std::string("int");
-    case ULONG:
+    case IOComponentEnum::ULONG:
       return std::string("unsigned_long");
-    case LONG:
+    case IOComponentEnum::LONG:
       return std::string("long");
-    case ULONGLONG:
+    case IOComponentEnum::ULONGLONG:
       return std::string("unsigned_long_long");
-    case LONGLONG:
+    case IOComponentEnum::LONGLONG:
       return std::string("long_long");
-    case FLOAT:
+    case IOComponentEnum::FLOAT:
       return std::string("float");
-    case DOUBLE:
+    case IOComponentEnum::DOUBLE:
       return std::string("double");
-    case UNKNOWNCOMPONENTTYPE:
+    case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
       return std::string("unknown");
     default:
       return std::string("unknown");
   }
 }
 
-ImageIOBase::IOComponentType
+IOComponentEnum
 ImageIOBase::GetComponentTypeFromString(const std::string & typeString)
 {
   if (typeString.compare("unsigned_char") == 0)
   {
-    return UCHAR;
+    return IOComponentEnum::UCHAR;
   }
   else if (typeString.compare("char") == 0)
   {
-    return CHAR;
+    return IOComponentEnum::CHAR;
   }
   else if (typeString.compare("unsigned_short") == 0)
   {
-    return USHORT;
+    return IOComponentEnum::USHORT;
   }
   else if (typeString.compare("short") == 0)
   {
-    return SHORT;
+    return IOComponentEnum::SHORT;
   }
   else if (typeString.compare("unsigned_int") == 0)
   {
-    return UINT;
+    return IOComponentEnum::UINT;
   }
   else if (typeString.compare("int") == 0)
   {
-    return INT;
+    return IOComponentEnum::INT;
   }
   else if (typeString.compare("unsigned_long") == 0)
   {
-    return ULONG;
+    return IOComponentEnum::ULONG;
   }
   else if (typeString.compare("long") == 0)
   {
-    return LONG;
+    return IOComponentEnum::LONG;
   }
   else if (typeString.compare("unsigned_long_long") == 0)
   {
-    return ULONGLONG;
+    return IOComponentEnum::ULONGLONG;
   }
   else if (typeString.compare("long_long") == 0)
   {
-    return LONGLONG;
+    return IOComponentEnum::LONGLONG;
   }
   else if (typeString.compare("float") == 0)
   {
-    return FLOAT;
+    return IOComponentEnum::FLOAT;
   }
   else if (typeString.compare("double") == 0)
   {
-    return DOUBLE;
+    return IOComponentEnum::DOUBLE;
   }
   else
   {
-    return UNKNOWNCOMPONENTTYPE;
+    return IOComponentEnum::UNKNOWNCOMPONENTTYPE;
   }
 }
 
 std::string
-ImageIOBase::GetPixelTypeAsString(IOPixelType t)
+ImageIOBase::GetPixelTypeAsString(IOPixelEnum t)
 {
   switch (t)
   {
-    case SCALAR:
+    case IOPixelEnum::SCALAR:
       return std::string("scalar");
-    case VECTOR:
+    case IOPixelEnum::VECTOR:
       return std::string("vector");
-    case COVARIANTVECTOR:
+    case IOPixelEnum::COVARIANTVECTOR:
       return std::string("covariant_vector");
-    case POINT:
+    case IOPixelEnum::POINT:
       return std::string("point");
-    case OFFSET:
+    case IOPixelEnum::OFFSET:
       return std::string("offset");
-    case RGB:
+    case IOPixelEnum::RGB:
       return std::string("rgb");
-    case RGBA:
+    case IOPixelEnum::RGBA:
       return std::string("rgba");
-    case SYMMETRICSECONDRANKTENSOR:
+    case IOPixelEnum::SYMMETRICSECONDRANKTENSOR:
       return std::string("symmetric_second_rank_tensor");
-    case DIFFUSIONTENSOR3D:
+    case IOPixelEnum::DIFFUSIONTENSOR3D:
       return std::string("diffusion_tensor_3D");
-    case COMPLEX:
+    case IOPixelEnum::COMPLEX:
       return std::string("complex");
-    case FIXEDARRAY:
+    case IOPixelEnum::FIXEDARRAY:
       return std::string("fixed_array");
-    case MATRIX:
+    case IOPixelEnum::MATRIX:
       return std::string("matrix");
-    case UNKNOWNPIXELTYPE:
+    case IOPixelEnum::UNKNOWNPIXELTYPE:
       return std::string("unknown");
     default:
       return std::string("unknown");
   }
 }
 
-ImageIOBase::IOPixelType
+IOPixelEnum
 ImageIOBase::GetPixelTypeFromString(const std::string & pixelString)
 {
   if (pixelString.compare("scalar") == 0)
   {
-    return SCALAR;
+    return IOPixelEnum::SCALAR;
   }
   else if (pixelString.compare("vector") == 0)
   {
-    return VECTOR;
+    return IOPixelEnum::VECTOR;
   }
   else if (pixelString.compare("covariant_vector") == 0)
   {
-    return COVARIANTVECTOR;
+    return IOPixelEnum::COVARIANTVECTOR;
   }
   else if (pixelString.compare("point") == 0)
   {
-    return POINT;
+    return IOPixelEnum::POINT;
   }
   else if (pixelString.compare("offset") == 0)
   {
-    return OFFSET;
+    return IOPixelEnum::OFFSET;
   }
   else if (pixelString.compare("rgb") == 0)
   {
-    return RGB;
+    return IOPixelEnum::RGB;
   }
   else if (pixelString.compare("rgba") == 0)
   {
-    return RGBA;
+    return IOPixelEnum::RGBA;
   }
   else if (pixelString.compare("symmetric_second_rank_tensor") == 0)
   {
-    return SYMMETRICSECONDRANKTENSOR;
+    return IOPixelEnum::SYMMETRICSECONDRANKTENSOR;
   }
   else if (pixelString.compare("diffusion_tensor_3D") == 0)
   {
-    return DIFFUSIONTENSOR3D;
+    return IOPixelEnum::DIFFUSIONTENSOR3D;
   }
   else if (pixelString.compare("complex") == 0)
   {
-    return COMPLEX;
+    return IOPixelEnum::COMPLEX;
   }
   else if (pixelString.compare("fixed_array") == 0)
   {
-    return FIXEDARRAY;
+    return IOPixelEnum::FIXEDARRAY;
   }
   else if (pixelString.compare("matrix") == 0)
   {
-    return MATRIX;
+    return IOPixelEnum::MATRIX;
   }
   else
   {
-    return UNKNOWNPIXELTYPE;
+    return IOPixelEnum::UNKNOWNPIXELTYPE;
   }
 }
 
@@ -721,19 +721,19 @@ WriteBuffer(std::ostream & os, const TComponent * buffer, ImageIOBase::SizeType 
 void
 ImageIOBase::WriteBufferAsASCII(std::ostream &        os,
                                 const void *          buffer,
-                                IOComponentType       ctype,
+                                IOComponentEnum       ctype,
                                 ImageIOBase::SizeType numComp)
 {
   switch (ctype)
   {
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
     {
       using Type = const unsigned char *;
       auto buf = static_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
     }
     break;
-    case CHAR:
+    case IOComponentEnum::CHAR:
     {
       using Type = const char *;
       auto buf = static_cast<Type>(buffer);
@@ -741,7 +741,7 @@ ImageIOBase::WriteBufferAsASCII(std::ostream &        os,
     }
     break;
 
-    case USHORT:
+    case IOComponentEnum::USHORT:
     {
       using Type = const unsigned short *;
       auto buf = static_cast<Type>(buffer);
@@ -749,7 +749,7 @@ ImageIOBase::WriteBufferAsASCII(std::ostream &        os,
     }
     break;
 
-    case SHORT:
+    case IOComponentEnum::SHORT:
     {
       using Type = const short *;
       auto buf = static_cast<Type>(buffer);
@@ -757,7 +757,7 @@ ImageIOBase::WriteBufferAsASCII(std::ostream &        os,
     }
     break;
 
-    case UINT:
+    case IOComponentEnum::UINT:
     {
       using Type = const unsigned int *;
       auto buf = static_cast<Type>(buffer);
@@ -765,7 +765,7 @@ ImageIOBase::WriteBufferAsASCII(std::ostream &        os,
     }
     break;
 
-    case INT:
+    case IOComponentEnum::INT:
     {
       using Type = const int *;
       auto buf = static_cast<Type>(buffer);
@@ -773,7 +773,7 @@ ImageIOBase::WriteBufferAsASCII(std::ostream &        os,
     }
     break;
 
-    case ULONG:
+    case IOComponentEnum::ULONG:
     {
       using Type = const unsigned long *;
       auto buf = static_cast<Type>(buffer);
@@ -781,7 +781,7 @@ ImageIOBase::WriteBufferAsASCII(std::ostream &        os,
     }
     break;
 
-    case LONG:
+    case IOComponentEnum::LONG:
     {
       using Type = const long *;
       auto buf = static_cast<Type>(buffer);
@@ -789,7 +789,7 @@ ImageIOBase::WriteBufferAsASCII(std::ostream &        os,
     }
     break;
 
-    case ULONGLONG:
+    case IOComponentEnum::ULONGLONG:
     {
       using Type = const unsigned long long *;
       auto buf = static_cast<Type>(buffer);
@@ -797,7 +797,7 @@ ImageIOBase::WriteBufferAsASCII(std::ostream &        os,
     }
     break;
 
-    case LONGLONG:
+    case IOComponentEnum::LONGLONG:
     {
       using Type = const long long *;
       auto buf = static_cast<Type>(buffer);
@@ -805,7 +805,7 @@ ImageIOBase::WriteBufferAsASCII(std::ostream &        os,
     }
     break;
 
-    case FLOAT:
+    case IOComponentEnum::FLOAT:
     {
       using Type = const float *;
       auto buf = static_cast<Type>(buffer);
@@ -813,7 +813,7 @@ ImageIOBase::WriteBufferAsASCII(std::ostream &        os,
     }
     break;
 
-    case DOUBLE:
+    case IOComponentEnum::DOUBLE:
     {
       using Type = const double *;
       auto buf = static_cast<Type>(buffer);
@@ -843,87 +843,87 @@ ReadBuffer(std::istream & is, TComponent * buffer, ImageIOBase::SizeType num)
 }
 } // namespace
 void
-ImageIOBase::ReadBufferAsASCII(std::istream & is, void * buffer, IOComponentType ctype, ImageIOBase::SizeType numComp)
+ImageIOBase::ReadBufferAsASCII(std::istream & is, void * buffer, IOComponentEnum ctype, ImageIOBase::SizeType numComp)
 {
   switch (ctype)
   {
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
     {
       auto * buf = static_cast<unsigned char *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
-    case CHAR:
+    case IOComponentEnum::CHAR:
     {
       auto * buf = static_cast<char *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
 
-    case USHORT:
+    case IOComponentEnum::USHORT:
     {
       auto * buf = static_cast<unsigned short *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
 
-    case SHORT:
+    case IOComponentEnum::SHORT:
     {
       auto * buf = static_cast<short *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
 
-    case UINT:
+    case IOComponentEnum::UINT:
     {
       auto * buf = static_cast<unsigned int *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
 
-    case INT:
+    case IOComponentEnum::INT:
     {
       auto * buf = static_cast<int *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
 
-    case ULONG:
+    case IOComponentEnum::ULONG:
     {
       auto * buf = static_cast<unsigned long *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
 
-    case LONG:
+    case IOComponentEnum::LONG:
     {
       auto * buf = static_cast<long *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
 
-    case ULONGLONG:
+    case IOComponentEnum::ULONGLONG:
     {
       auto * buf = static_cast<unsigned long long *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
 
-    case LONGLONG:
+    case IOComponentEnum::LONGLONG:
     {
       auto * buf = static_cast<long long *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
 
-    case FLOAT:
+    case IOComponentEnum::FLOAT:
     {
       auto * buf = static_cast<float *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
 
-    case DOUBLE:
+    case IOComponentEnum::DOUBLE:
     {
       auto * buf = static_cast<double *>(buffer);
       ReadBuffer(is, buf, numComp);
@@ -1160,8 +1160,8 @@ ImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "FileName: " << m_FileName << std::endl;
-  os << indent << "FileType: " << this->GetFileTypeAsString(m_FileType) << std::endl;
-  os << indent << "ByteOrder: " << this->GetByteOrderAsString(m_ByteOrder) << std::endl;
+  os << indent << "IOFileEnum: " << this->GetFileTypeAsString(m_FileType) << std::endl;
+  os << indent << "IOByteOrderEnum: " << this->GetByteOrderAsString(m_ByteOrder) << std::endl;
   os << indent << "IORegion: " << std::endl;
   m_IORegion.Print(os, indent.GetNextIndent());
   os << indent << "Number of Components/Pixel: " << m_NumberOfComponents << "\n";

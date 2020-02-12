@@ -30,7 +30,7 @@
 
 #include "itkCreateObjectFunction.h"
 #include "itkSingletonMacro.h"
-#include "ITKCommonExport.h"
+#include "itkCommonEnums.h"
 #include <list>
 #include <vector>
 
@@ -102,19 +102,7 @@ public:
   static void
   RegisterFactoryInternal(ObjectFactoryBase *);
 
-  /** \class InsertionPositionEnum
-   *
-   *  \ingroup ITKCommon
-   *
-   *  Position at which the new factory will be registered in the
-   *  internal factory container.
-   */
-  enum class InsertionPositionEnum : uint8_t
-  {
-    INSERT_AT_FRONT,
-    INSERT_AT_BACK,
-    INSERT_AT_POSITION
-  };
+  using InsertionPositionEnum = ObjectFactoryEnums::InsertionPosition;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
@@ -299,11 +287,6 @@ private:
 
   static ObjectFactoryBasePrivate * m_PimplGlobals;
 };
-
-// Define how to print enumeration
-extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const ObjectFactoryBase::InsertionPositionEnum value);
-
 } // end namespace itk
 
 #endif

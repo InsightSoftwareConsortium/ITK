@@ -32,7 +32,8 @@
 
 namespace itk
 {
-/** \class CropLabelMapFilter
+/**
+ *\class CropLabelMapFilter
  * \brief Crop a LabelMap image
  *
  * Crop a label map. If the output cannot contain some lines of the objects, they are truncated

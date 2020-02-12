@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class ImageSpatialObject
+/**
+ *\class ImageSpatialObject
  * \brief Implementation of an image as spatial object.
  *
  * This class combines functionalities from a spatial object,

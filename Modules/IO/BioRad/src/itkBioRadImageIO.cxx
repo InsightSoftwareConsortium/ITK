@@ -114,10 +114,10 @@ struct bioradnote
 BioRadImageIO::BioRadImageIO()
 {
   this->SetNumberOfDimensions(3);
-  m_PixelType = SCALAR;
-  m_ComponentType = UCHAR;
-  m_ByteOrder = LittleEndian;
-  m_FileType = Binary;
+  m_PixelType = IOPixelEnum::SCALAR;
+  m_ComponentType = IOComponentEnum::UCHAR;
+  m_ByteOrder = IOByteOrderEnum::LittleEndian;
+  m_FileType = IOFileEnum::Binary;
   m_NumberOfComponents = 1; // default
   this->AddSupportedWriteExtension(".pic");
   this->AddSupportedReadExtension(".PIC");
@@ -186,7 +186,7 @@ BioRadImageIO::Read(void * buffer)
   }
 
   // byte swapping depending on pixel type:
-  if (this->GetComponentType() == USHORT)
+  if (this->GetComponentType() == IOComponentEnum::USHORT)
   {
     ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian(
       reinterpret_cast<unsigned short *>(buffer), static_cast<SizeValueType>(this->GetImageSizeInComponents()));
@@ -250,7 +250,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
   // Check the pixel size:
   if (h.byte_format == 1)
   {
-    SetComponentType(UCHAR);
+    SetComponentType(IOComponentEnum::UCHAR);
   }
   else
   {
@@ -262,15 +262,15 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
     if (gcount == hsize)
     {
       itkWarningMacro(<< "File is declared as two bytes but really is only one byte");
-      SetComponentType(UCHAR);
+      SetComponentType(IOComponentEnum::UCHAR);
     }
     else if (gcount == hsize * 2)
     {
-      SetComponentType(USHORT);
+      SetComponentType(IOComponentEnum::USHORT);
     }
     else
     {
-      SetComponentType(UNKNOWNCOMPONENTTYPE);
+      SetComponentType(IOComponentEnum::UNKNOWNCOMPONENTTYPE);
       itkExceptionMacro(<< "Cannot read requested file");
     }
   }
@@ -282,7 +282,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
   {
     // do it the recommended way
     std::streampos pos = static_cast<std::streampos>(h.nx) * static_cast<std::streampos>(h.ny);
-    if (this->GetComponentType() == USHORT)
+    if (this->GetComponentType() == IOComponentEnum::USHORT)
     {
       pos = pos * 2;
     }
@@ -436,14 +436,14 @@ BioRadImageIO::Write(const void * buffer)
   // Set the if file is in byte format or not:
   switch (this->GetComponentType())
   {
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
       header.byte_format = 1;
       header.ramp1_min = 0;
       header.ramp1_max = 255;
       header.ramp2_min = 0;
       header.ramp2_max = 255;
       break;
-    case USHORT:
+    case IOComponentEnum::USHORT:
       header.byte_format = 0;
       header.ramp1_min = 0;
       header.ramp1_max = 65535;
@@ -482,7 +482,7 @@ BioRadImageIO::Write(const void * buffer)
 
   auto * tempmemory = new char[numberOfBytes];
   memcpy(tempmemory, buffer, numberOfBytes);
-  if (this->GetComponentType() == USHORT)
+  if (this->GetComponentType() == IOComponentEnum::USHORT)
   {
     ByteSwapper<unsigned short>::SwapRangeFromSystemToBigEndian(reinterpret_cast<unsigned short *>(tempmemory),
                                                                 numberOfComponents);

@@ -186,5 +186,18 @@ itkIOCommonTest(int, char *[])
 
   success = success && CheckFileNameParsing("", "", "", "");
 
+  // Test streaming enumeration for IOCommonEnums::AtomicPixel elements
+  const std::set<itk::IOCommonEnums::AtomicPixel> allAtomicPixel{
+    itk::IOCommonEnums::AtomicPixel::ITK_UCHAR,  itk::IOCommonEnums::AtomicPixel::ITK_CHAR,
+    itk::IOCommonEnums::AtomicPixel::ITK_USHORT, itk::IOCommonEnums::AtomicPixel::ITK_SHORT,
+    itk::IOCommonEnums::AtomicPixel::ITK_UINT,   itk::IOCommonEnums::AtomicPixel::ITK_INT,
+    itk::IOCommonEnums::AtomicPixel::ITK_ULONG,  itk::IOCommonEnums::AtomicPixel::ITK_LONG,
+    itk::IOCommonEnums::AtomicPixel::ITK_FLOAT,  itk::IOCommonEnums::AtomicPixel::ITK_DOUBLE
+  };
+  for (const auto & ee : allAtomicPixel)
+  {
+    std::cout << "STREAMED ENUM VALUE IOCommonEnums::AtomicPixel: " << ee << std::endl;
+  }
+
   return success ? EXIT_SUCCESS : EXIT_FAILURE;
 }

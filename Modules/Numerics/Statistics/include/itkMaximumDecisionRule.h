@@ -25,7 +25,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class MaximumDecisionRule
+/**
+ *\class MaximumDecisionRule
  *  \brief A decision rule that returns the class label with the
  *  largest discriminant score.
  *

@@ -29,7 +29,8 @@
 
 namespace itk
 {
-/** \class VariableSizeMatrix
+/**
+ *\class VariableSizeMatrix
  * \brief A templated class holding a M x N size Matrix.
  *
  * This class contains a vnl_matrix in order

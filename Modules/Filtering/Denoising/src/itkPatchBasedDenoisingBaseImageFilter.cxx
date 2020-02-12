@@ -19,54 +19,55 @@
 
 namespace itk
 {
-/** Printing of enumeration values */
+/** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const NoiseType value)
+operator<<(std::ostream & out, const PatchBasedDenoisingBaseImageFilterEnums::NoiseModel value)
 {
   return out << [value] {
     switch (value)
     {
-      case NoiseType::NOMODEL:
-        return "NoiseType::NOMODEL";
-      case NoiseType::GAUSSIAN:
-        return "NoiseType::GAUSSIAN";
-      case NoiseType::RICIAN:
-        return "NoiseType::RICIAN";
-      case NoiseType::POISSON:
-        return "NoiseType::POISSON";
+      case PatchBasedDenoisingBaseImageFilterEnums::NoiseModel::NOMODEL:
+        return "itk::PatchBasedDenoisingBaseImageFilterEnums::NoiseModel::NOMODEL";
+      case PatchBasedDenoisingBaseImageFilterEnums::NoiseModel::GAUSSIAN:
+        return "itk::PatchBasedDenoisingBaseImageFilterEnums::NoiseModel::GAUSSIAN";
+      case PatchBasedDenoisingBaseImageFilterEnums::NoiseModel::RICIAN:
+        return "itk::PatchBasedDenoisingBaseImageFilterEnums::NoiseModel::RICIAN";
+      case PatchBasedDenoisingBaseImageFilterEnums::NoiseModel::POISSON:
+        return "itk::PatchBasedDenoisingBaseImageFilterEnums::NoiseModel::POISSON";
       default:
-        return "INVALID VALUE FOR NoiseType";
+        return "INVALID VALUE FOR itk::PatchBasedDenoisingBaseImageFilterEnums::NoiseModel";
     }
   }();
 }
 
 std::ostream &
-operator<<(std::ostream & out, const SpaceType value)
+operator<<(std::ostream & out, const PatchBasedDenoisingBaseImageFilterEnums::ComponentSpace value)
 {
   return out << [value] {
     switch (value)
     {
-      case SpaceType::EUCLIDEAN:
-        return "SpaceType::EUCLIDEAN";
-      case SpaceType::RIEMANNIAN:
-        return "SpaceType::RIEMANNIAN";
+      case PatchBasedDenoisingBaseImageFilterEnums::ComponentSpace::EUCLIDEAN:
+        return "itk::PatchBasedDenoisingBaseImageFilterEnums::ComponentSpace::EUCLIDEAN";
+      case PatchBasedDenoisingBaseImageFilterEnums::ComponentSpace::RIEMANNIAN:
+        return "itk::PatchBasedDenoisingBaseImageFilterEnums::ComponentSpace::RIEMANNIAN";
       default:
-        return "INVALID VALUE FOR SpaceType";
+        return "INVALID VALUE FOR itk::PatchBasedDenoisingBaseImageFilterEnums::ComponentSpace";
     }
   }();
 }
+
 std::ostream &
-operator<<(std::ostream & out, const StateTypeOfFilter value)
+operator<<(std::ostream & out, const PatchBasedDenoisingBaseImageFilterEnums::FilterState value)
 {
   return out << [value] {
     switch (value)
     {
-      case StateTypeOfFilter::UNINITIALIZED:
-        return "StateTypeOfFilter::UNINITIALIZED";
-      case StateTypeOfFilter::INITIALIZED:
-        return "StateTypeOfFilter::INITIALIZED";
+      case PatchBasedDenoisingBaseImageFilterEnums::FilterState::UNINITIALIZED:
+        return "itk::PatchBasedDenoisingBaseImageFilterEnums::FilterStateEnum::UNINITIALIZED";
+      case PatchBasedDenoisingBaseImageFilterEnums::FilterState::INITIALIZED:
+        return "itk::PatchBasedDenoisingBaseImageFilterEnums::FilterStateEnum::INITIALIZED";
       default:
-        return "INVALID VALUE FOR StateTypeOfFilter";
+        return "INVALID VALUE FOR itk::PatchBasedDenoisingBaseImageFilterEnums::FilterStateEnum";
     }
   }();
 }

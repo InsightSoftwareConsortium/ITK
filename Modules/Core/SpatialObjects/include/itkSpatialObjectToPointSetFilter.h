@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class SpatialObjectToPointSetFilter
+/**
+ *\class SpatialObjectToPointSetFilter
  * \brief Base class for filters that take a SpatialObject
  *        as input and produce a PointSet as output.
  *  The pointset created is in physical space.

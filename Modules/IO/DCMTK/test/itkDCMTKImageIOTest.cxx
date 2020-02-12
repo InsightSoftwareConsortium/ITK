@@ -88,5 +88,16 @@ itkDCMTKImageIOTest(int ac, char * av[])
 
   dcmtkImageIO->Print(std::cout);
 
+  // Test streaming enumeration for DCMTKImageIOEnums::LogLevel elements
+  const std::set<itk::DCMTKImageIOEnums::LogLevel> allLogLevel{
+    itk::DCMTKImageIOEnums::LogLevel::TRACE_LOG_LEVEL, itk::DCMTKImageIOEnums::LogLevel::DEBUG_LOG_LEVEL,
+    itk::DCMTKImageIOEnums::LogLevel::INFO_LOG_LEVEL,  itk::DCMTKImageIOEnums::LogLevel::WARN_LOG_LEVEL,
+    itk::DCMTKImageIOEnums::LogLevel::ERROR_LOG_LEVEL, itk::DCMTKImageIOEnums::LogLevel::FATAL_LOG_LEVEL,
+    itk::DCMTKImageIOEnums::LogLevel::OFF_LOG_LEVEL
+  };
+  for (const auto & ee : allLogLevel)
+  {
+    std::cout << "STREAMED ENUM VALUE DCMTKImageIOEnums::LogLevel: " << ee << std::endl;
+  }
   return EXIT_SUCCESS;
 }

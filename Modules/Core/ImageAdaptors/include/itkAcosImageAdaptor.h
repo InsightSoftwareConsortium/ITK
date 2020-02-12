@@ -25,7 +25,8 @@ namespace itk
 {
 namespace Accessor
 {
-/** \class AcosPixelAccessor
+/**
+ *\class AcosPixelAccessor
  * \brief Give access to the std::acos() function of a value
  *
  * AcosPixelAccessor is templated over an internal type and an
@@ -63,7 +64,8 @@ public:
 };
 } // end namespace Accessor
 
-/** \class AcosImageAdaptor
+/**
+ *\class AcosImageAdaptor
  * \brief Presents an image as being composed of the std::acos() of its pixels
  *
  * Additional casting is performed according to the input and output image

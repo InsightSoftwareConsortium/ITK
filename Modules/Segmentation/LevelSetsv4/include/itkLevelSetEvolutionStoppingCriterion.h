@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class LevelSetEvolutionStoppingCriterion
+/**
+ *\class LevelSetEvolutionStoppingCriterion
  \ingroup ITKLevelSetsv4
  */
 template <typename TLevelSetContainer>

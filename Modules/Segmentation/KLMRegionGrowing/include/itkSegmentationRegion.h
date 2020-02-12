@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class SegmentationRegion
+/**
+ *\class SegmentationRegion
  * \brief Base class for SegmentationRegion object
  *
  * itkSegmentationRegion is the base class for the SegmentationRegion

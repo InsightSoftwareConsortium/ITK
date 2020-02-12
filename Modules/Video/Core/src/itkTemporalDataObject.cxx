@@ -55,21 +55,21 @@ TemporalDataObject ::GetTemporalUnit() const
 void
 TemporalDataObject ::SetTemporalUnitToFrame()
 {
-  m_TemporalUnit = Frame;
+  m_TemporalUnit = TemporalUnitEnum::Frame;
 }
 
 //----------------------------------------------------------------------------
 void
 TemporalDataObject ::SetTemporalUnitToRealTime()
 {
-  m_TemporalUnit = RealTime;
+  m_TemporalUnit = TemporalUnitEnum::RealTime;
 }
 
 //----------------------------------------------------------------------------
 void
 TemporalDataObject ::SetTemporalUnitToFrameAndRealTime()
 {
-  m_TemporalUnit = FrameAndRealTime;
+  m_TemporalUnit = TemporalUnitEnum::FrameAndRealTime;
 }
 
 //----------------------------------------------------------------------------
@@ -210,15 +210,15 @@ TemporalDataObject ::RequestedRegionIsOutsideOfTheBufferedRegion()
 
   switch (m_TemporalUnit)
   {
-    case Frame:
+    case TemporalUnitEnum::Frame:
     {
       return frameFlag;
     }
-    case RealTime:
+    case TemporalUnitEnum::RealTime:
     {
       return realTimeFlag;
     }
-    case FrameAndRealTime:
+    case TemporalUnitEnum::FrameAndRealTime:
     {
       return frameFlag || realTimeFlag;
     }
@@ -239,15 +239,15 @@ TemporalDataObject ::VerifyRequestedRegion()
   realTimeFlag &= m_RequestedTemporalRegion.GetRealDuration() <= m_LargestPossibleTemporalRegion.GetRealDuration();
   switch (m_TemporalUnit)
   {
-    case Frame:
+    case TemporalUnitEnum::Frame:
     {
       return frameFlag;
     }
-    case RealTime:
+    case TemporalUnitEnum::RealTime:
     {
       return realTimeFlag;
     }
-    case FrameAndRealTime:
+    case TemporalUnitEnum::FrameAndRealTime:
     {
       return frameFlag && realTimeFlag;
     }
@@ -366,4 +366,22 @@ TemporalDataObject ::PrintSelf(std::ostream & os, Indent indent) const
   this->GetRequestedTemporalRegion().Print(os, indent.GetNextIndent());
 }
 
+/** Print enum values */
+std::ostream &
+operator<<(std::ostream & out, const TemporalDataObjectEnums::TemporalUnit value)
+{
+  return out << [value] {
+    switch (value)
+    {
+      case TemporalDataObjectEnums::TemporalUnit::Frame:
+        return "itk::TemporalDataObjectEnums::TemporalUnit::Frame";
+      case TemporalDataObjectEnums::TemporalUnit::RealTime:
+        return "itk::TemporalDataObjectEnums::TemporalUnit::RealTime";
+      case TemporalDataObjectEnums::TemporalUnit::FrameAndRealTime:
+        return "itk::TemporalDataObjectEnums::TemporalUnit::FrameAndRealTime";
+      default:
+        return "INVALID VALUE FOR itk::TemporalDataObjectEnums::TemporalUnit";
+    }
+  }();
+}
 } // end namespace itk

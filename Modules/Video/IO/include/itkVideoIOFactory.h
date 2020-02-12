@@ -25,8 +25,29 @@
 
 namespace itk
 {
-
-/** \class VideoIOFactory
+/**\class VideoIOFactoryEnums
+ * \brief Contains all enum classes used by VideoIOFactory class
+ * \ingroup ITKVideoIO
+ */
+class VideoIOFactoryEnums
+{
+public:
+  /**
+   *\class IOModeEnum
+   * \ingroup ITKVideoIO
+   * Mode in which the VideoIO is intended to be used */
+  enum class IOMode : uint8_t
+  {
+    ReadFileMode,
+    ReadCameraMode,
+    WriteMode
+  };
+};
+// Define how to print enumeration
+extern ITKVideoIO_EXPORT std::ostream &
+                         operator<<(std::ostream & out, const VideoIOFactoryEnums::IOMode value);
+/**
+ *\class VideoIOFactory
  * \brief Create instances of VideoIO objects using an object factory.
  *
  * This class will create a VideoIO instance that can read/write to/from the
@@ -46,15 +67,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  /** \class IOModeEnum
-   * \ingroup ITKVideoIO
-   * Mode in which the VideoIO is intended to be used */
-  enum class IOModeEnum : uint8_t
-  {
-    ReadFileMode,
-    ReadCameraMode,
-    WriteMode
-  };
+  using IOModeEnum = VideoIOFactoryEnums::IOMode;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
@@ -77,11 +90,6 @@ protected:
   VideoIOFactory();
   ~VideoIOFactory() override;
 };
-
-// Define how to print enumeration
-extern ITKVideoIO_EXPORT std::ostream &
-                         operator<<(std::ostream & out, const VideoIOFactory::IOModeEnum value);
-
 } // end namespace itk
 
 #endif

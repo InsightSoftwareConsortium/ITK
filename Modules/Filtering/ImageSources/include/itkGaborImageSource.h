@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class GaborImageSource
+/**
+ *\class GaborImageSource
  * \brief Generate an n-dimensional image of a Gabor filter.
  *
  * GaborImageSource generates an image of either the real

@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class LabelStatisticsKeepNObjectsImageFilter
+/**
+ *\class LabelStatisticsKeepNObjectsImageFilter
  * \brief keep N objects according to their statistics attributes
  *
  * LabelStatisticsKeepNObjectsImageFilter keep the N objects in a labeled image

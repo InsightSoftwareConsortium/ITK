@@ -56,7 +56,8 @@ public:
 };
 } // namespace Functor
 
-/** \class AsinImageFilter
+/**
+ *\class AsinImageFilter
  * \brief Computes the sine of each pixel.
  *
  * This filter is templated over the pixel type of the input image

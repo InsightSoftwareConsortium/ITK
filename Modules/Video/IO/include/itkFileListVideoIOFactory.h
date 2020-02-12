@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class FileListVideoIOFactory
+/**
+ *\class FileListVideoIOFactory
  * \brief Create instances of FileListVideoIO objects using an object factory.
  *
  * \ingroup ITKVideoIO

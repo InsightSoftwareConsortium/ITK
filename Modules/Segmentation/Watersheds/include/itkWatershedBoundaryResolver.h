@@ -25,7 +25,8 @@ namespace itk
 {
 namespace watershed
 {
-/** \class BoundaryResolver
+/**
+ *\class BoundaryResolver
  *  This filter implements a piece of the streaming watershed
  *  segmentation algorithm.  It takes in pairs of itk::watershed::Boundary
  *  objects and connects the labeling of pixels across image chunk boundaries.

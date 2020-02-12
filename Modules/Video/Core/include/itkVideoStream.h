@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \class VideoStream
+/**
+ *\class VideoStream
  * \brief A DataObject that holds a buffered portion of a video
  *
  * The function of VideoStream is to provide an Image-specific subclass of

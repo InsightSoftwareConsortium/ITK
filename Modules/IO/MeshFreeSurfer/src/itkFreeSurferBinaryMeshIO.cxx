@@ -99,7 +99,7 @@ FreeSurferBinaryMeshIO ::ReadMeshInformation()
   // Define required variables
   constexpr unsigned int fileTypeIdLength = 3;
   unsigned char          fileTypeId[fileTypeIdLength];
-  this->m_FileType = BINARY;
+  this->m_FileType = IOFileEnum::BINARY;
 
   // Read file type
   m_InputFile.read(reinterpret_cast<char *>(fileTypeId), fileTypeIdLength);
@@ -173,10 +173,10 @@ FreeSurferBinaryMeshIO ::ReadMeshInformation()
     }
 
     // Set default point component type
-    this->m_PointComponentType = FLOAT;
+    this->m_PointComponentType = IOComponentEnum::FLOAT;
 
     // Set default cell component type
-    this->m_CellComponentType = UINT;
+    this->m_CellComponentType = IOComponentEnum::UINT;
     this->m_CellBufferSize = this->m_NumberOfCells * (numberOfCellPoints + 2);
 
     m_FilePosition = m_InputFile.tellg();
@@ -214,14 +214,14 @@ FreeSurferBinaryMeshIO ::ReadMeshInformation()
   }
 
   // Set default point pixel component and point pixel type
-  this->m_PointPixelComponentType = FLOAT;
+  this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
   this->m_NumberOfPointPixelComponents = itk::NumericTraits<unsigned int>::OneValue();
-  this->m_PointPixelType = SCALAR;
+  this->m_PointPixelType = IOPixelEnum::SCALAR;
 
   // Set default cell pixel component and point pixel type
-  this->m_CellPixelComponentType = FLOAT;
+  this->m_CellPixelComponentType = IOComponentEnum::FLOAT;
   this->m_NumberOfCellPixelComponents = itk::NumericTraits<unsigned int>::OneValue();
-  this->m_CellPixelType = SCALAR;
+  this->m_CellPixelType = IOPixelEnum::SCALAR;
 
   CloseFile();
 }
@@ -248,7 +248,8 @@ FreeSurferBinaryMeshIO ::ReadCells(void * buffer)
   m_InputFile.read(reinterpret_cast<char *>(data), this->m_NumberOfCells * numberOfCellPoints * sizeof(itk::uint32_t));
   itk::ByteSwapper<itk::uint32_t>::SwapRangeFromSystemToBigEndian(data, this->m_NumberOfCells * numberOfCellPoints);
 
-  this->WriteCellsBuffer(data, static_cast<unsigned int *>(buffer), TRIANGLE_CELL, 3, this->m_NumberOfCells);
+  this->WriteCellsBuffer(
+    data, static_cast<unsigned int *>(buffer), CellGeometryEnum::TRIANGLE_CELL, 3, this->m_NumberOfCells);
   delete[] data;
 
   CloseFile();
@@ -345,78 +346,78 @@ FreeSurferBinaryMeshIO ::WritePoints(void * buffer)
   // Write points
   switch (this->m_PointComponentType)
   {
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
     {
       WritePoints(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
-    case CHAR:
+    case IOComponentEnum::CHAR:
     {
       WritePoints(static_cast<char *>(buffer), outputFile);
 
       break;
     }
-    case USHORT:
+    case IOComponentEnum::USHORT:
     {
       WritePoints(static_cast<unsigned short *>(buffer), outputFile);
 
       break;
     }
-    case SHORT:
+    case IOComponentEnum::SHORT:
     {
       WritePoints(static_cast<short *>(buffer), outputFile);
 
       break;
     }
-    case UINT:
+    case IOComponentEnum::UINT:
     {
       WritePoints(static_cast<unsigned int *>(buffer), outputFile);
 
       break;
     }
-    case INT:
+    case IOComponentEnum::INT:
     {
       WritePoints(static_cast<int *>(buffer), outputFile);
 
       break;
     }
-    case ULONG:
+    case IOComponentEnum::ULONG:
     {
       WritePoints(static_cast<unsigned long *>(buffer), outputFile);
 
       break;
     }
-    case LONG:
+    case IOComponentEnum::LONG:
     {
       WritePoints(static_cast<long *>(buffer), outputFile);
 
       break;
     }
-    case ULONGLONG:
+    case IOComponentEnum::ULONGLONG:
     {
       WritePoints(static_cast<unsigned long long *>(buffer), outputFile);
 
       break;
     }
-    case LONGLONG:
+    case IOComponentEnum::LONGLONG:
     {
       WritePoints(static_cast<long long *>(buffer), outputFile);
 
       break;
     }
-    case FLOAT:
+    case IOComponentEnum::FLOAT:
     {
       WritePoints(static_cast<float *>(buffer), outputFile);
 
       break;
     }
-    case DOUBLE:
+    case IOComponentEnum::DOUBLE:
     {
       WritePoints(static_cast<double *>(buffer), outputFile);
 
       break;
     }
-    case LDOUBLE:
+    case IOComponentEnum::LDOUBLE:
     {
       WritePoints(static_cast<long double *>(buffer), outputFile);
 
@@ -453,67 +454,67 @@ FreeSurferBinaryMeshIO ::WriteCells(void * buffer)
   // Write triangles
   switch (this->m_CellComponentType)
   {
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
     {
       WriteCells(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
-    case CHAR:
+    case IOComponentEnum::CHAR:
     {
       WriteCells(static_cast<char *>(buffer), outputFile);
       break;
     }
-    case USHORT:
+    case IOComponentEnum::USHORT:
     {
       WriteCells(static_cast<unsigned short *>(buffer), outputFile);
       break;
     }
-    case SHORT:
+    case IOComponentEnum::SHORT:
     {
       WriteCells(static_cast<short *>(buffer), outputFile);
       break;
     }
-    case UINT:
+    case IOComponentEnum::UINT:
     {
       WriteCells(static_cast<unsigned int *>(buffer), outputFile);
       break;
     }
-    case INT:
+    case IOComponentEnum::INT:
     {
       WriteCells(static_cast<int *>(buffer), outputFile);
       break;
     }
-    case ULONG:
+    case IOComponentEnum::ULONG:
     {
       WriteCells(static_cast<unsigned long *>(buffer), outputFile);
       break;
     }
-    case LONG:
+    case IOComponentEnum::LONG:
     {
       WriteCells(static_cast<long *>(buffer), outputFile);
       break;
     }
-    case ULONGLONG:
+    case IOComponentEnum::ULONGLONG:
     {
       WriteCells(static_cast<unsigned long long *>(buffer), outputFile);
       break;
     }
-    case LONGLONG:
+    case IOComponentEnum::LONGLONG:
     {
       WriteCells(static_cast<long long *>(buffer), outputFile);
       break;
     }
-    case FLOAT:
+    case IOComponentEnum::FLOAT:
     {
       WriteCells(static_cast<float *>(buffer), outputFile);
       break;
     }
-    case DOUBLE:
+    case IOComponentEnum::DOUBLE:
     {
       WriteCells(static_cast<double *>(buffer), outputFile);
       break;
     }
-    case LDOUBLE:
+    case IOComponentEnum::LDOUBLE:
     {
       WriteCells(static_cast<long double *>(buffer), outputFile);
       break;
@@ -549,78 +550,78 @@ FreeSurferBinaryMeshIO ::WritePointData(void * buffer)
   // Write point data
   switch (this->m_PointPixelComponentType)
   {
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
     {
       WritePointData(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
-    case CHAR:
+    case IOComponentEnum::CHAR:
     {
       WritePointData(static_cast<char *>(buffer), outputFile);
 
       break;
     }
-    case USHORT:
+    case IOComponentEnum::USHORT:
     {
       WritePointData(static_cast<unsigned short *>(buffer), outputFile);
 
       break;
     }
-    case SHORT:
+    case IOComponentEnum::SHORT:
     {
       WritePointData(static_cast<short *>(buffer), outputFile);
 
       break;
     }
-    case UINT:
+    case IOComponentEnum::UINT:
     {
       WritePointData(static_cast<unsigned int *>(buffer), outputFile);
 
       break;
     }
-    case INT:
+    case IOComponentEnum::INT:
     {
       WritePointData(static_cast<int *>(buffer), outputFile);
 
       break;
     }
-    case ULONG:
+    case IOComponentEnum::ULONG:
     {
       WritePointData(static_cast<unsigned long *>(buffer), outputFile);
 
       break;
     }
-    case LONG:
+    case IOComponentEnum::LONG:
     {
       WritePointData(static_cast<long *>(buffer), outputFile);
 
       break;
     }
-    case ULONGLONG:
+    case IOComponentEnum::ULONGLONG:
     {
       WritePointData(static_cast<unsigned long long *>(buffer), outputFile);
 
       break;
     }
-    case LONGLONG:
+    case IOComponentEnum::LONGLONG:
     {
       WritePointData(static_cast<long long *>(buffer), outputFile);
 
       break;
     }
-    case FLOAT:
+    case IOComponentEnum::FLOAT:
     {
       WritePointData(static_cast<float *>(buffer), outputFile);
 
       break;
     }
-    case DOUBLE:
+    case IOComponentEnum::DOUBLE:
     {
       WritePointData(static_cast<double *>(buffer), outputFile);
 
       break;
     }
-    case LDOUBLE:
+    case IOComponentEnum::LDOUBLE:
     {
       WritePointData(static_cast<long double *>(buffer), outputFile);
 

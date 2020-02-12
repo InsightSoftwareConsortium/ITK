@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class QuadEdgeMeshToQuadEdgeMeshFilter
+/**
+ *\class QuadEdgeMeshToQuadEdgeMeshFilter
  *  \brief Duplicates the content of a Mesh
  *
  * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
@@ -218,7 +219,7 @@ CopyMeshToMeshCells(const TInputMesh * in, TOutputMesh * out)
   using InputCellTraits = typename TInputMesh::CellTraits;
   using InputPointsIdInternalIterator = typename InputCellTraits::PointIdInternalIterator;
 
-  out->SetCellsAllocationMethod(TOutputMesh::CellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell);
+  out->SetCellsAllocationMethod(MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell);
 
   InputCellsContainerConstPointer inCells = in->GetCells();
 

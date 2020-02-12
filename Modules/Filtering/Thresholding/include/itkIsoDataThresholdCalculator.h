@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \class IsoDataThresholdCalculator
+/**
+ *\class IsoDataThresholdCalculator
  * \brief Computes the IsoData threshold for an image. Aka intermeans
  *
  * Iterative procedure based on the isodata algorithm [T.W. Ridler, S. Calvard, Picture

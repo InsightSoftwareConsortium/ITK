@@ -48,7 +48,7 @@ TestCellInterface(std::string name, TCell * aCell)
   CellAutoPointer cell(aCell, true);
 
   std::cout << "-------- " << name << " (" << aCell->GetNameOfClass() << ")" << std::endl;
-  std::cout << "    Type: " << cell->GetType() << std::endl;
+  std::cout << "    Type: " << static_cast<int>(cell->GetType()) << std::endl;
   std::cout << "    Dimension: " << cell->GetDimension() << std::endl;
   std::cout << "    NumberOfPoints: " << cell->GetNumberOfPoints() << std::endl;
   std::cout << "    NumberOfBoundaryFeatures:" << std::endl;

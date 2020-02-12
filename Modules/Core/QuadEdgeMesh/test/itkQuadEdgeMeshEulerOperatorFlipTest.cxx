@@ -154,5 +154,20 @@ itkQuadEdgeMeshEulerOperatorFlipTest(int, char *[])
             << "OK" << std::endl
             << std::endl;
 
+  // Test streaming enumeration for QuadEdgeMeshEulerOperatorFlipEdgeFunctionEnums::EdgeStatusType elements
+  const std::set<itk::QuadEdgeMeshEulerOperatorFlipEdgeFunctionEnums::EdgeStatusType> allEdgeStatusType{
+    itk::QuadEdgeMeshEulerOperatorFlipEdgeFunctionEnums::EdgeStatusType::STANDARD_CONFIG,
+    itk::QuadEdgeMeshEulerOperatorFlipEdgeFunctionEnums::EdgeStatusType::EDGE_NULL,
+    itk::QuadEdgeMeshEulerOperatorFlipEdgeFunctionEnums::EdgeStatusType::MESH_NULL,
+    itk::QuadEdgeMeshEulerOperatorFlipEdgeFunctionEnums::EdgeStatusType::NON_INTERNAL_EDGE,
+    itk::QuadEdgeMeshEulerOperatorFlipEdgeFunctionEnums::EdgeStatusType::NON_TRIANGULAR_RIGHT_FACE,
+    itk::QuadEdgeMeshEulerOperatorFlipEdgeFunctionEnums::EdgeStatusType::NON_TRIANGULAR_LEFT_FACE,
+    itk::QuadEdgeMeshEulerOperatorFlipEdgeFunctionEnums::EdgeStatusType::EXISTING_OPPOSITE_EDGE
+  };
+  for (const auto & ee : allEdgeStatusType)
+  {
+    std::cout << "STREAMED ENUM VALUE QuadEdgeMeshEulerOperatorFlipEdgeFunctionEnums::EdgeStatusType: " << ee
+              << std::endl;
+  }
   return EXIT_SUCCESS;
 }

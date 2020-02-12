@@ -30,7 +30,8 @@
 
 namespace itk
 {
-/** \class VTKPolyDataMeshIO
+/**
+ *\class VTKPolyDataMeshIO
  * \brief This class defines how to read and write vtk legacy file format.
  *
  * \author Wanlin Zhu. Uviversity of New South Wales, Australia.
@@ -146,27 +147,27 @@ protected:
 
     for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
     {
-      auto cellType = static_cast<MeshIOBase::CellGeometryType>(static_cast<int>(buffer[index++]));
+      auto cellType = static_cast<CellGeometryEnum>(static_cast<int>(buffer[index++]));
       auto nn = static_cast<unsigned int>(buffer[index++]);
       switch (cellType)
       {
-        case VERTEX_CELL:
+        case CellGeometryEnum::VERTEX_CELL:
           numberOfVertices++;
           numberOfVertexIndices += nn + 1;
           break;
-        case LINE_CELL:
+        case CellGeometryEnum::LINE_CELL:
           numberOfLines++;
           numberOfLineIndices += nn + 1;
           break;
-        case TRIANGLE_CELL:
+        case CellGeometryEnum::TRIANGLE_CELL:
           numberOfPolygons++;
           numberOfPolygonIndices += nn + 1;
           break;
-        case POLYGON_CELL:
+        case CellGeometryEnum::POLYGON_CELL:
           numberOfPolygons++;
           numberOfPolygonIndices += nn + 1;
           break;
-        case QUADRILATERAL_CELL:
+        case CellGeometryEnum::QUADRILATERAL_CELL:
           numberOfPolygons++;
           numberOfPolygonIndices += nn + 1;
           break;
@@ -485,9 +486,9 @@ protected:
       outputFile << "VERTICES " << numberOfVertices << " " << numberOfVertexIndices << '\n';
       for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
       {
-        auto cellType = static_cast<MeshIOBase::CellGeometryType>(static_cast<int>(buffer[index++]));
+        auto cellType = static_cast<CellGeometryEnum>(static_cast<int>(buffer[index++]));
         auto nn = static_cast<unsigned int>(buffer[index++]);
-        if (cellType == VERTEX_CELL)
+        if (cellType == CellGeometryEnum::VERTEX_CELL)
         {
           outputFile << nn;
           for (unsigned int jj = 0; jj < nn; jj++)
@@ -514,9 +515,9 @@ protected:
       PointIdVector             pointIds;
       for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
       {
-        auto cellType = static_cast<MeshIOBase::CellGeometryType>(static_cast<int>(buffer[index++]));
+        auto cellType = static_cast<CellGeometryEnum>(static_cast<int>(buffer[index++]));
         auto nn = static_cast<unsigned int>(buffer[index++]);
-        if (cellType == LINE_CELL)
+        if (cellType == CellGeometryEnum::LINE_CELL)
         {
           if (pointIds.size() >= nn)
           {
@@ -582,9 +583,10 @@ protected:
       outputFile << "POLYGONS " << numberOfPolygons << " " << numberOfPolygonIndices << '\n';
       for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
       {
-        auto cellType = static_cast<MeshIOBase::CellGeometryType>(static_cast<int>(buffer[index++]));
+        auto cellType = static_cast<CellGeometryEnum>(static_cast<int>(buffer[index++]));
         auto nn = static_cast<unsigned int>(buffer[index++]);
-        if (cellType == POLYGON_CELL || cellType == TRIANGLE_CELL || cellType == QUADRILATERAL_CELL)
+        if (cellType == CellGeometryEnum::POLYGON_CELL || cellType == CellGeometryEnum::TRIANGLE_CELL ||
+            cellType == CellGeometryEnum::QUADRILATERAL_CELL)
         {
           outputFile << nn;
           for (unsigned int jj = 0; jj < nn; jj++)
@@ -639,9 +641,9 @@ protected:
       PointIdVector             pointIds;
       for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
       {
-        auto cellType = static_cast<MeshIOBase::CellGeometryType>(static_cast<int>(buffer[index++]));
+        auto cellType = static_cast<CellGeometryEnum>(static_cast<int>(buffer[index++]));
         auto nn = static_cast<unsigned int>(buffer[index++]);
-        if (cellType == LINE_CELL)
+        if (cellType == CellGeometryEnum::LINE_CELL)
         {
           if (pointIds.size() >= nn)
           {
@@ -730,33 +732,33 @@ protected:
     outputFile << "POINT_DATA " << this->m_NumberOfPointPixels << '\n';
     switch (this->m_PointPixelType)
     {
-      case SCALAR:
+      case IOPixelEnum::SCALAR:
       {
         outputFile << "SCALARS ";
         ExposeMetaData<StringType>(metaDic, "pointScalarDataName", dataName);
         outputFile << dataName << "  ";
         break;
       }
-      case OFFSET:
-      case POINT:
-      case COVARIANTVECTOR:
-      case VECTOR:
+      case IOPixelEnum::OFFSET:
+      case IOPixelEnum::POINT:
+      case IOPixelEnum::COVARIANTVECTOR:
+      case IOPixelEnum::VECTOR:
       {
         outputFile << "VECTORS ";
         ExposeMetaData<StringType>(metaDic, "pointVectorDataName", dataName);
         outputFile << dataName << "  ";
         break;
       }
-      case SYMMETRICSECONDRANKTENSOR:
-      case DIFFUSIONTENSOR3D:
+      case IOPixelEnum::SYMMETRICSECONDRANKTENSOR:
+      case IOPixelEnum::DIFFUSIONTENSOR3D:
       {
         outputFile << "TENSORS ";
         ExposeMetaData<StringType>(metaDic, "pointTensorDataName", dataName);
         outputFile << dataName << "  ";
         break;
       }
-      case ARRAY:
-      case VARIABLELENGTHVECTOR:
+      case IOPixelEnum::ARRAY:
+      case IOPixelEnum::VARIABLELENGTHVECTOR:
       {
         outputFile << "COLOR_SCALARS ";
         ExposeMetaData<StringType>(metaDic, "pointColorScalarDataName", dataName);
@@ -773,13 +775,13 @@ protected:
 
     outputFile << pointPixelComponentName << '\n';
 
-    if (this->m_PointPixelType == SCALAR)
+    if (this->m_PointPixelType == IOPixelEnum::SCALAR)
     {
       outputFile << "LOOKUP_TABLE default" << '\n';
     }
 
     Indent indent(2);
-    if (this->m_PointPixelType == SYMMETRICSECONDRANKTENSOR)
+    if (this->m_PointPixelType == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
     {
       T *                 ptr = buffer;
       SizeValueType       i = 0;
@@ -865,33 +867,33 @@ protected:
     outputFile << "POINT_DATA " << this->m_NumberOfPointPixels << "\n";
     switch (this->m_PointPixelType)
     {
-      case SCALAR:
+      case IOPixelEnum::SCALAR:
       {
         outputFile << "SCALARS ";
         ExposeMetaData<StringType>(metaDic, "pointScalarDataName", dataName);
         outputFile << dataName << "  ";
         break;
       }
-      case OFFSET:
-      case POINT:
-      case COVARIANTVECTOR:
-      case VECTOR:
+      case IOPixelEnum::OFFSET:
+      case IOPixelEnum::POINT:
+      case IOPixelEnum::COVARIANTVECTOR:
+      case IOPixelEnum::VECTOR:
       {
         outputFile << "VECTORS ";
         ExposeMetaData<StringType>(metaDic, "pointVectorDataName", dataName);
         outputFile << dataName << "  ";
         break;
       }
-      case SYMMETRICSECONDRANKTENSOR:
-      case DIFFUSIONTENSOR3D:
+      case IOPixelEnum::SYMMETRICSECONDRANKTENSOR:
+      case IOPixelEnum::DIFFUSIONTENSOR3D:
       {
         outputFile << "TENSORS ";
         ExposeMetaData<StringType>(metaDic, "pointTensorDataName", dataName);
         outputFile << dataName << "  ";
         break;
       }
-      case ARRAY:
-      case VARIABLELENGTHVECTOR:
+      case IOPixelEnum::ARRAY:
+      case IOPixelEnum::VARIABLELENGTHVECTOR:
       {
         outputFile << "COLOR_SCALARS ";
         ExposeMetaData<StringType>(metaDic, "pointColorScalarDataName", dataName);
@@ -907,7 +909,7 @@ protected:
     }
 
     outputFile << pointPixelComponentName << "\n";
-    if (this->m_PointPixelType == SCALAR)
+    if (this->m_PointPixelType == IOPixelEnum::SCALAR)
     {
       outputFile << "LOOKUP_TABLE default\n";
     }
@@ -928,33 +930,33 @@ protected:
     outputFile << "CELL_DATA " << this->m_NumberOfCellPixels << '\n';
     switch (this->m_CellPixelType)
     {
-      case SCALAR:
+      case IOPixelEnum::SCALAR:
       {
         outputFile << "SCALARS ";
         ExposeMetaData<StringType>(metaDic, "cellScalarDataName", dataName);
         outputFile << dataName << "  ";
         break;
       }
-      case OFFSET:
-      case POINT:
-      case COVARIANTVECTOR:
-      case VECTOR:
+      case IOPixelEnum::OFFSET:
+      case IOPixelEnum::POINT:
+      case IOPixelEnum::COVARIANTVECTOR:
+      case IOPixelEnum::VECTOR:
       {
         outputFile << "VECTORS ";
         ExposeMetaData<StringType>(metaDic, "cellVectorDataName", dataName);
         outputFile << dataName << "  ";
         break;
       }
-      case SYMMETRICSECONDRANKTENSOR:
-      case DIFFUSIONTENSOR3D:
+      case IOPixelEnum::SYMMETRICSECONDRANKTENSOR:
+      case IOPixelEnum::DIFFUSIONTENSOR3D:
       {
         outputFile << "TENSORS ";
         ExposeMetaData<StringType>(metaDic, "cellTensorDataName", dataName);
         outputFile << dataName << "  ";
         break;
       }
-      case ARRAY:
-      case VARIABLELENGTHVECTOR:
+      case IOPixelEnum::ARRAY:
+      case IOPixelEnum::VARIABLELENGTHVECTOR:
       {
         outputFile << "COLOR_SCALARS ";
         ExposeMetaData<StringType>(metaDic, "cellColorScalarDataName", dataName);
@@ -970,13 +972,13 @@ protected:
     }
 
     outputFile << cellPixelComponentName << '\n';
-    if (this->m_CellPixelType == SCALAR)
+    if (this->m_CellPixelType == IOPixelEnum::SCALAR)
     {
       outputFile << "LOOKUP_TABLE default" << '\n';
     }
 
     Indent indent(2);
-    if (this->m_CellPixelType == SYMMETRICSECONDRANKTENSOR)
+    if (this->m_CellPixelType == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
     {
       T *                 ptr = buffer;
       SizeValueType       i = 0;
@@ -1062,33 +1064,33 @@ protected:
     outputFile << "CELL_DATA " << this->m_NumberOfCellPixels << "\n";
     switch (this->m_CellPixelType)
     {
-      case SCALAR:
+      case IOPixelEnum::SCALAR:
       {
         outputFile << "SCALARS ";
         ExposeMetaData<StringType>(metaDic, "cellScalarDataName", dataName);
         outputFile << dataName << "  ";
         break;
       }
-      case OFFSET:
-      case POINT:
-      case COVARIANTVECTOR:
-      case VECTOR:
+      case IOPixelEnum::OFFSET:
+      case IOPixelEnum::POINT:
+      case IOPixelEnum::COVARIANTVECTOR:
+      case IOPixelEnum::VECTOR:
       {
         outputFile << "VECTORS ";
         ExposeMetaData<StringType>(metaDic, "cellVectorDataName", dataName);
         outputFile << dataName << "  ";
         break;
       }
-      case SYMMETRICSECONDRANKTENSOR:
-      case DIFFUSIONTENSOR3D:
+      case IOPixelEnum::SYMMETRICSECONDRANKTENSOR:
+      case IOPixelEnum::DIFFUSIONTENSOR3D:
       {
         outputFile << "TENSORS ";
         ExposeMetaData<StringType>(metaDic, "cellTensorDataName", dataName);
         outputFile << dataName << "  ";
         break;
       }
-      case ARRAY:
-      case VARIABLELENGTHVECTOR:
+      case IOPixelEnum::ARRAY:
+      case IOPixelEnum::VARIABLELENGTHVECTOR:
       {
         outputFile << "COLOR_SCALARS ";
         ExposeMetaData<StringType>(metaDic, "cellColorScalarDataName", dataName);
@@ -1104,7 +1106,7 @@ protected:
     }
 
     outputFile << cellPixelComponentName << "\n";
-    if (this->m_CellPixelType == SCALAR)
+    if (this->m_CellPixelType == IOPixelEnum::SCALAR)
     {
       outputFile << "LOOKUP_TABLE default\n";
     }
@@ -1184,8 +1186,8 @@ protected:
     }
   }
 
-  /** Convenience method returns the IOComponentType corresponding to a string. */
-  IOComponentType
+  /** Convenience method returns the IOComponentEnum corresponding to a string. */
+  IOComponentEnum
   GetComponentTypeFromString(const std::string & pixelType);
 };
 } // end namespace itk

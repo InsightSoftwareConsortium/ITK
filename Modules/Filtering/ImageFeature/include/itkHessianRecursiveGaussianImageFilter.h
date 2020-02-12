@@ -26,7 +26,8 @@
 
 namespace itk
 {
-/** \class HessianRecursiveGaussianImageFilter
+/**
+ *\class HessianRecursiveGaussianImageFilter
  * \brief Computes the Hessian matrix of an image by convolution
  *        with the Second and Cross derivatives of a Gaussian.
  *

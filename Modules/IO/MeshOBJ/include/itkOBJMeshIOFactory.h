@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class OBJMeshIOFactory
+/**
+ *\class OBJMeshIOFactory
  * \brief Create instances of OBJMeshIO objects using an object factory.
  * \ingroup ITKIOMeshOBJ
  */

@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class RGBToVectorImageAdaptor
+/**
+ *\class RGBToVectorImageAdaptor
  * \brief Presents an image of pixel type RGBPixel as being and image of
  * Vectors.
  *

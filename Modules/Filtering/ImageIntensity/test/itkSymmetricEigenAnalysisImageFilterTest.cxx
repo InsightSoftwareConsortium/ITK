@@ -47,7 +47,7 @@ public:
   itkNewMacro(Self);
 
   static int
-  Exercise(typename Superclass::FunctorType::EigenValueOrderType order, std::string outputFilename)
+  Exercise(itk::EigenValueOrderEnum order, std::string outputFilename)
   {
 
     using SymmetricEigenAnalysisImageFilterType = SymmetricEigenAnalysisImageFilter<InputImageType, InternalImageType>;
@@ -177,7 +177,7 @@ public:
   itkNewMacro(Self);
 
   static int
-  Exercise(typename Superclass::FunctorType::EigenValueOrderType order, std::string outputFilename)
+  Exercise(itk::EigenValueOrderEnum order, std::string outputFilename)
   {
 
     using SymmetricEigenAnalysisFixedDimensionImageFilterType =
@@ -329,7 +329,7 @@ itkSymmetricEigenAnalysisImageFilterTest(int argc, char * argv[])
 
 
   // Get the input arguments
-  auto order = static_cast<FilterType::FunctorType::EigenValueOrderType>(std::stoi(argv[2]));
+  auto order = static_cast<itk::EigenValueOrderEnum>(std::stoi(argv[2]));
 
   std::string outputFilename = argv[1];
 
@@ -349,8 +349,7 @@ itkSymmetricEigenAnalysisImageFilterTest(int argc, char * argv[])
   using FilterFixedDimensionType =
     itk::SymmetricEigenAnalysisFixedDimensionImageFilter<Dimension, InputImageType, InternalImageType>;
 
-  auto orderFixedDimension =
-    static_cast<FilterFixedDimensionType::FunctorType::EigenValueOrderType>(std::stoi(argv[2]));
+  auto        orderFixedDimension = static_cast<itk::EigenValueOrderEnum>(std::stoi(argv[2]));
   std::string outputFilenameFixedDimension = argv[3];
   // Create an instance to exercise basic object methods
   auto filterFixedDimension = FilterFixedDimensionType::New();

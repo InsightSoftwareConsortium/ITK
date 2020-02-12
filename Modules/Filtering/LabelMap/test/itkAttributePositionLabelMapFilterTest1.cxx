@@ -22,7 +22,8 @@
 #include "itkLabelImageToShapeLabelMapFilter.h"
 #include "itkAttributePositionLabelMapFilter.h"
 
-/** \class TestLabelObjectAccessor
+/**
+ *\class TestLabelObjectAccessor
  * \brief a test accessor - to make kwstyle happy
  */
 template <typename TLabelObject>

@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class MetaBlobConverter
+/**
+ *\class MetaBlobConverter
  *  \brief converts between MetaObject<->SpatialObject.
  *
  *  \sa MetaConverterBase

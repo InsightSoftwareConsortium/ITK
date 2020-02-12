@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class IsolatedWatershedImageFilter
+/**
+ *\class IsolatedWatershedImageFilter
  * \brief Isolate watershed basins using two seeds
  *
  * IsolatedWatershedImageFilter labels pixels with ReplaceValue1 that

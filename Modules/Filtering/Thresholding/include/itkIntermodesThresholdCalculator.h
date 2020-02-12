@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \class IntermodesThresholdCalculator
+/**
+ *\class IntermodesThresholdCalculator
  * \brief Computes the Intermodes's threshold for an image.
  *
  * J. M. S. Prewitt and M. L. Mendelsohn, "The analysis of cell images," in

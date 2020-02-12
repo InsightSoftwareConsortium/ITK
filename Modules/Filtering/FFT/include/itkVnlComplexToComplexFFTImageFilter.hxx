@@ -64,7 +64,7 @@ VnlComplexToComplexFFTImageFilter<TImage>::BeforeThreadedGenerateData()
 
   // call the proper transform, based on compile type template parameter
   VnlFFTCommon::VnlFFTTransform<Image<typename PixelType::value_type, ImageDimension>> vnlfft(imageSize);
-  if (this->GetTransformDirection() == Superclass::INVERSE)
+  if (this->GetTransformDirection() == Superclass::TransformDirectionEnum::INVERSE)
   {
     vnlfft.transform(outputBuffer, 1);
   }
@@ -81,7 +81,7 @@ VnlComplexToComplexFFTImageFilter<TImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
   // Normalize the output if backward transform
-  if (this->GetTransformDirection() == Superclass::INVERSE)
+  if (this->GetTransformDirection() == Superclass::TransformDirectionEnum::INVERSE)
   {
     using IteratorType = ImageRegionIterator<OutputImageType>;
     SizeValueType totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();

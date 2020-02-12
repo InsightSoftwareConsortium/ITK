@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class VectorMagnitudeImageFilter
+/**
+ *\class VectorMagnitudeImageFilter
  *
  * \brief Take an image of vectors as input and produce an image with the
  *  magnitude of those vectors.

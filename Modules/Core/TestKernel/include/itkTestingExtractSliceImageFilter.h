@@ -26,18 +26,31 @@ namespace itk
 {
 namespace Testing
 {
-/** \class TestExtractSliceImageFilterCollapseStrategyEnum
+/**\class ExtractSliceImageFilterEnums
+ * \brief Contains all enum classes used by the ExtractSliceImageFilterEnums class.
  * \ingroup ITKTestKernel
  */
-enum class TestExtractSliceImageFilterCollapseStrategyEnum : uint8_t
+class ExtractSliceImageFilterEnums
 {
-  DIRECTIONCOLLAPSETOUNKOWN = 0,
-  DIRECTIONCOLLAPSETOIDENTITY = 1,
-  DIRECTIONCOLLAPSETOSUBMATRIX = 2,
-  DIRECTIONCOLLAPSETOGUESS = 3
+public:
+  /**
+   *\class TestExtractSliceImageFilterCollapseStrategy
+   * \ingroup ITKTestKernel
+   */
+  enum class TestExtractSliceImageFilterCollapseStrategy : uint8_t
+  {
+    DIRECTIONCOLLAPSETOUNKOWN = 0,
+    DIRECTIONCOLLAPSETOIDENTITY = 1,
+    DIRECTIONCOLLAPSETOSUBMATRIX = 2,
+    DIRECTIONCOLLAPSETOGUESS = 3
+  };
 };
+// Define how to print enumeration
+extern std::ostream &
+operator<<(std::ostream & out, const ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy value);
 
-/** \class ExtractSliceImageFilter
+/**
+ *\class ExtractSliceImageFilter
  * \brief Decrease the image size by cropping the image to the selected
  * region bounds.
  *
@@ -127,6 +140,8 @@ public:
   using InputImageSizeType = typename TInputImage::SizeType;
 
   /** Enables backwards compatibility for enum values */
+  using TestExtractSliceImageFilterCollapseStrategyEnum =
+    ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy;
   using DIRECTIONCOLLAPSESTRATEGY = TestExtractSliceImageFilterCollapseStrategyEnum;
   using DirectionCollaspeStrategyEnum = TestExtractSliceImageFilterCollapseStrategyEnum;
 #if !defined(ITK_LEGACY_REMOVE)
@@ -293,11 +308,6 @@ protected:
 private:
   DIRECTIONCOLLAPSESTRATEGY m_DirectionCollaspeStrategy;
 };
-
-/** Define how to print enumerations */
-// TestKernal is not a shared library, so no EXPORT
-extern std::ostream &
-operator<<(std::ostream & out, const TestExtractSliceImageFilterCollapseStrategyEnum value);
 } // end namespace Testing
 } // end namespace itk
 

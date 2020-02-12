@@ -23,19 +23,43 @@
 
 namespace itk
 {
-/**\class GaussianOrderEnum
+/**\class RecursiveGaussianImageFilterEnums
+ * \brief Contains all enum classes used by RecursiveGaussianImageFilter class.
  * \ingroup ITKSmoothing
- * Enum type that indicates if the filter applies the equivalent operation
-   of convolving with a gaussian, first derivative of a gaussian or the
-   second derivative of a gaussian.  */
-enum class GaussianOrderEnum : uint8_t
+ */
+class RecursiveGaussianImageFilterEnums
 {
-  ZeroOrder,
-  FirstOrder,
-  SecondOrder
+public:
+  /**\class GaussianOrder
+* \ingroup ITKSmoothing
+* Enum type that indicates if the filter applies the equivalent operation
+of convolving with a gaussian, first derivative of a gaussian or the
+second derivative of a gaussian.  */
+  enum class GaussianOrder : uint8_t
+  {
+    ZeroOrder = 0,
+    FirstOrder = 1,
+    SecondOrder = 2
+  };
 };
+// Define how to print enumeration
+extern ITKSmoothing_EXPORT std::ostream &
+                           operator<<(std::ostream & out, const RecursiveGaussianImageFilterEnums::GaussianOrder value);
 
-/** \class RecursiveGaussianImageFilter
+using GaussianOrderEnum = RecursiveGaussianImageFilterEnums::GaussianOrder;
+#if !defined(ITK_LEGACY_REMOVE)
+/** Enables backwards compatibility for enum values */
+using OrderEnumType = GaussianOrderEnum;
+using EnumGaussianOrderType = GaussianOrderEnum;
+// We need to expose the enum values at the class level
+// for backwards compatibility
+static constexpr GaussianOrderEnum ZeroOrder = GaussianOrderEnum::ZeroOrder;
+static constexpr GaussianOrderEnum FirstOrder = GaussianOrderEnum::FirstOrder;
+static constexpr GaussianOrderEnum SecondOrder = GaussianOrderEnum::SecondOrder;
+#endif
+
+/**
+ *\class RecursiveGaussianImageFilter
  * \brief Base class for computing IIR convolution with an approximation of a  Gaussian kernel.
  *
  *    \f[
@@ -99,19 +123,19 @@ public:
   itkGetConstMacro(Sigma, ScalarRealType);
   itkSetMacro(Sigma, ScalarRealType);
 
-  /** Enables backwards compatibility for enum values */
-  using OrderEnumType = GaussianOrderEnum;
-#if !defined(ITK_LEGACY_REMOVE)
-  // We need to expose the enum values at the class level
-  // for backwards compatibility
-  static constexpr OrderEnumType ZeroOrder = OrderEnumType::ZeroOrder;
-  static constexpr OrderEnumType FirstOrder = OrderEnumType::FirstOrder;
-  static constexpr OrderEnumType SecondOrder = OrderEnumType::SecondOrder;
-#endif
-
   /** Type of the output image */
   using OutputImageType = TOutputImage;
 
+#if !defined(ITK_LEGACY_REMOVE)
+  /** Enables backwards compatibility for enum values */
+  using OrderEnumType = GaussianOrderEnum;
+  using EnumGaussianOrderType = GaussianOrderEnum;
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr GaussianOrderEnum ZeroOrder = GaussianOrderEnum::ZeroOrder;
+  static constexpr GaussianOrderEnum FirstOrder = GaussianOrderEnum::FirstOrder;
+  static constexpr GaussianOrderEnum SecondOrder = GaussianOrderEnum::SecondOrder;
+#endif
   /** Set/Get the flag for normalizing the gaussian over scale-space.
 
       This flag enables the analysis of the differential shape of
@@ -160,8 +184,8 @@ public:
       \li FirstOrder is equivalent to convolving with the first derivative of a Gaussian.
       \li SecondOrder is equivalent to convolving with the second derivative of a Gaussian.
     */
-  itkSetMacro(Order, OrderEnumType);
-  itkGetConstMacro(Order, OrderEnumType);
+  itkSetMacro(Order, GaussianOrderEnum);
+  itkGetConstMacro(Order, GaussianOrderEnum);
 
   /** Explicitly set a zeroth order derivative. */
   void
@@ -235,13 +259,8 @@ private:
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale;
 
-  OrderEnumType m_Order;
+  GaussianOrderEnum m_Order;
 };
-
-/** Define how to print enumerations */
-extern ITKSmoothing_EXPORT std::ostream &
-                           operator<<(std::ostream & out, const GaussianOrderEnum value);
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

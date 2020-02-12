@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class GradientMagnitudeImageFilter
+/**
+ *\class GradientMagnitudeImageFilter
  * \brief Computes the gradient magnitude of an image region at each pixel.
  *
  * \ingroup GradientFilters

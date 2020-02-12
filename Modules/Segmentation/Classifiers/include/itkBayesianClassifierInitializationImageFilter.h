@@ -26,7 +26,8 @@
 
 namespace itk
 {
-/** \class BayesianClassifierInitializationImageFilter
+/**
+ *\class BayesianClassifierInitializationImageFilter
  *
  * \brief This filter is intended to be used as a helper class to
  * initialize the BayesianClassifierImageFilter.

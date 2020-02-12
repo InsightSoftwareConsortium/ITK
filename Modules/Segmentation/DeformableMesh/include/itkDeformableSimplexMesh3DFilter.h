@@ -40,7 +40,8 @@
 
 namespace itk
 {
-/** \class DeformableSimplexMesh3DFilter
+/**
+ *\class DeformableSimplexMesh3DFilter
  * \brief Three-dimensional deformable model for image segmentation
  *
  * DeformableSimplexMesh3DFilter is a discrete three-dimensional deformable model, which

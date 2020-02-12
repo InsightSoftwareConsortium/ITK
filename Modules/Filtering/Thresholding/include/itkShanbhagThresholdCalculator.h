@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \class ShanbhagThresholdCalculator
+/**
+ *\class ShanbhagThresholdCalculator
  * \brief Computes the Shanbhag threshold for an image. Aka intermeans
  *
  * Shanhbag A.G. (1994) "Utilization of Information Measure as a Means of

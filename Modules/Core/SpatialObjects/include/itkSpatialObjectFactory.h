@@ -32,7 +32,8 @@
 
 namespace itk
 {
-/** \class SpatialObjectFactory
+/**
+ *\class SpatialObjectFactory
  * \brief Create instances of SpatialObjects
  * \ingroup ITKSpatialObjects
  */

@@ -26,7 +26,8 @@
 
 namespace itk
 {
-/** \class Bruker2dseqImageIO
+/**
+ *\class Bruker2dseqImageIO
  * \brief Class that defines how to read Bruker file format.
  *
  * The following is a brief description of the Bruker file format.
@@ -138,8 +139,8 @@ private:
   void
   SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels);
 
-  ImageIOBase::IOComponentType m_OnDiskComponentType{ UCHAR };
-  ImageIOBase::ByteOrder       m_MachineByteOrder;
+  IOComponentEnum m_OnDiskComponentType{ IOComponentEnum::UCHAR };
+  IOByteOrderEnum m_MachineByteOrder;
 };
 
 } // end namespace itk

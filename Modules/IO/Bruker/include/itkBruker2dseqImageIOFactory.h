@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class Bruker2dseqImageIOFactory
+/**
+ *\class Bruker2dseqImageIOFactory
  * \brief Create instances of Bruker2dseqImageIO objects using an object factory.
  *
  * \author Don C. Bigler

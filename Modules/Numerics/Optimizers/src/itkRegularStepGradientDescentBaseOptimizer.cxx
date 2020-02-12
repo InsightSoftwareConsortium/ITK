@@ -39,7 +39,7 @@ RegularStepGradientDescentBaseOptimizer ::RegularStepGradientDescentBaseOptimize
   m_Maximize = false;
   m_CostFunction = nullptr;
   m_CurrentStepLength = 0;
-  m_StopCondition = StopConditionEnum::Unknown;
+  m_StopCondition = StopConditionRegularStepGradientDescentBaseOptimizerEnum::Unknown;
   m_Gradient.Fill(0.0f);
   m_PreviousGradient.Fill(0.0f);
   m_RelaxationFactor = 0.5;
@@ -57,7 +57,7 @@ RegularStepGradientDescentBaseOptimizer ::StartOptimization()
   m_CurrentStepLength = m_MaximumStepLength;
   m_CurrentIteration = 0;
 
-  m_StopCondition = StopConditionEnum::Unknown;
+  m_StopCondition = StopConditionRegularStepGradientDescentBaseOptimizerEnum::Unknown;
   m_StopConditionDescription.str("");
   m_StopConditionDescription << this->GetNameOfClass() << ": ";
 
@@ -96,7 +96,7 @@ RegularStepGradientDescentBaseOptimizer ::ResumeOptimization()
   {
     if (m_CurrentIteration >= m_NumberOfIterations)
     {
-      m_StopCondition = StopConditionEnum::MaximumNumberOfIterations;
+      m_StopCondition = StopConditionRegularStepGradientDescentBaseOptimizerEnum::MaximumNumberOfIterations;
       m_StopConditionDescription << "Maximum number of iterations (" << m_NumberOfIterations << ") exceeded.";
       this->StopOptimization();
       break;
@@ -110,7 +110,7 @@ RegularStepGradientDescentBaseOptimizer ::ResumeOptimization()
     }
     catch (ExceptionObject & excp)
     {
-      m_StopCondition = StopConditionEnum::CostFunctionError;
+      m_StopCondition = StopConditionRegularStepGradientDescentBaseOptimizerEnum::CostFunctionError;
       m_StopConditionDescription << "Cost function error after " << m_CurrentIteration << " iterations. "
                                  << excp.GetDescription();
       this->StopOptimization();
@@ -188,7 +188,7 @@ RegularStepGradientDescentBaseOptimizer ::AdvanceOneStep()
 
   if (gradientMagnitude < m_GradientMagnitudeTolerance)
   {
-    m_StopCondition = StopConditionEnum::GradientMagnitudeTolerance;
+    m_StopCondition = StopConditionRegularStepGradientDescentBaseOptimizerEnum::GradientMagnitudeTolerance;
     m_StopConditionDescription << "Gradient magnitude tolerance met after " << m_CurrentIteration
                                << " iterations. Gradient magnitude (" << gradientMagnitude
                                << ") is less than gradient magnitude tolerance (" << m_GradientMagnitudeTolerance
@@ -214,7 +214,7 @@ RegularStepGradientDescentBaseOptimizer ::AdvanceOneStep()
 
   if (m_CurrentStepLength < m_MinimumStepLength)
   {
-    m_StopCondition = StopConditionEnum::StepTooSmall;
+    m_StopCondition = StopConditionRegularStepGradientDescentBaseOptimizerEnum::StepTooSmall;
     m_StopConditionDescription << "Step too small after " << m_CurrentIteration << " iterations. Current step ("
                                << m_CurrentStepLength << ") is less than minimum step (" << m_MinimumStepLength << ").";
     this->StopOptimization();
@@ -272,27 +272,42 @@ RegularStepGradientDescentBaseOptimizer ::PrintSelf(std::ostream & os, Indent in
   os << indent << "Gradient: " << m_Gradient << std::endl;
 }
 
-/**Print enum values */
+/** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const RegularStepGradientDescentBaseOptimizer::StopConditionEnum value)
+operator<<(
+  std::ostream &                                                                                           out,
+  const RegularStepGradientDescentBaseOptimizerEnums::StopConditionRegularStepGradientDescentBaseOptimizer value)
 {
   return out << [value] {
     switch (value)
     {
-      case RegularStepGradientDescentBaseOptimizer::StopConditionEnum::GradientMagnitudeTolerance:
-        return "RegularStepGradientDescentBaseOptimizer::StopConditionEnum::GradientMagnitudeTolerance";
-      case RegularStepGradientDescentBaseOptimizer::StopConditionEnum::StepTooSmall:
-        return "RegularStepGradientDescentBaseOptimizer::StopConditionEnum::StepTooSmall";
-      case RegularStepGradientDescentBaseOptimizer::StopConditionEnum::ImageNotAvailable:
-        return "RegularStepGradientDescentBaseOptimizer::StopConditionEnum::ImageNotAvailable";
-      case RegularStepGradientDescentBaseOptimizer::StopConditionEnum::CostFunctionError:
-        return "RegularStepGradientDescentBaseOptimizer::StopConditionEnum::CostFunctionError";
-      case RegularStepGradientDescentBaseOptimizer::StopConditionEnum::MaximumNumberOfIterations:
-        return "RegularStepGradientDescentBaseOptimizer::StopConditionEnum::MaximumNumberOfIterations";
-      case RegularStepGradientDescentBaseOptimizer::StopConditionEnum::Unknown:
-        return "RegularStepGradientDescentBaseOptimizer::StopConditionEnum::Unknown";
+      case RegularStepGradientDescentBaseOptimizerEnums::StopConditionRegularStepGradientDescentBaseOptimizer::
+        GradientMagnitudeTolerance:
+        return "itk::RegularStepGradientDescentBaseOptimizerEnums::"
+               "StopConditionRegularStepGradientDescentBaseOptimizer::GradientMagnitudeTolerance";
+      case RegularStepGradientDescentBaseOptimizerEnums::StopConditionRegularStepGradientDescentBaseOptimizer::
+        StepTooSmall:
+        return "itk::RegularStepGradientDescentBaseOptimizerEnums::"
+               "StopConditionRegularStepGradientDescentBaseOptimizer::StepTooSmall";
+      case RegularStepGradientDescentBaseOptimizerEnums::StopConditionRegularStepGradientDescentBaseOptimizer::
+        ImageNotAvailable:
+        return "itk::RegularStepGradientDescentBaseOptimizerEnums::"
+               "StopConditionRegularStepGradientDescentBaseOptimizer::ImageNotAvailable";
+      case RegularStepGradientDescentBaseOptimizerEnums::StopConditionRegularStepGradientDescentBaseOptimizer::
+        CostFunctionError:
+        return "itk::RegularStepGradientDescentBaseOptimizerEnums::"
+               "StopConditionRegularStepGradientDescentBaseOptimizer::CostFunctionError";
+      case RegularStepGradientDescentBaseOptimizerEnums::StopConditionRegularStepGradientDescentBaseOptimizer::
+        MaximumNumberOfIterations:
+        return "itk::RegularStepGradientDescentBaseOptimizerEnums::"
+               "StopConditionRegularStepGradientDescentBaseOptimizer::MaximumNumberOfIterations";
+      case RegularStepGradientDescentBaseOptimizerEnums::StopConditionRegularStepGradientDescentBaseOptimizer::Unknown:
+        return "itk::RegularStepGradientDescentBaseOptimizerEnums::"
+               "StopConditionRegularStepGradientDescentBaseOptimizer::Unknown";
       default:
-        return "INVALID VALUE FOR ";
+        return "INVALID VALUE FOR "
+               "itk::RegularStepGradientDescentBaseOptimizerEnums::"
+               "StopConditionRegularStepGradientDescentBaseOptimizer";
     }
   }();
 }

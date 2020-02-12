@@ -94,7 +94,8 @@ public:
   class Iterator;
   friend class Iterator;
 
-  /** \class ConstIterator
+  /**
+   *\class ConstIterator
     \ingroup ITKLevelSetsv4
     */
   class ConstIterator
@@ -175,7 +176,8 @@ public:
     friend class Iterator;
   };
 
-  /** \class Iterator
+  /**
+   *\class Iterator
     \ingroup ITKLevelSetsv4 */
   class Iterator
   {

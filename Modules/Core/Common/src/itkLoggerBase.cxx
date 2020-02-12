@@ -26,7 +26,7 @@ LoggerBase::LoggerBase()
   this->m_LevelForFlushing = LoggerBase::PriorityLevelEnum::MUSTFLUSH;
   this->m_Clock = RealTimeClock::New();
   this->m_Output = MultipleLogOutput::New();
-  this->m_TimeStampFormat = REALVALUE;
+  this->m_TimeStampFormat = TimeStampFormatEnum::REALVALUE;
   this->m_HumanReadableFormat = "%Y %b %d %H:%M:%S";
 }
 
@@ -71,13 +71,13 @@ LoggerBase ::BuildFormattedEntry(PriorityLevelEnum level, std::string const & co
 
   switch (this->m_TimeStampFormat)
   {
-    case REALVALUE:
+    case TimeStampFormatEnum::REALVALUE:
     {
       s.precision(30);
       s << m_Clock->GetTimeInSeconds();
       break;
     }
-    case HUMANREADABLE:
+    case TimeStampFormatEnum::HUMANREADABLE:
     {
       s << itksys::SystemTools::GetCurrentDateTime(this->m_HumanReadableFormat.c_str());
       break;
@@ -101,29 +101,46 @@ LoggerBase::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "HumanReadableFormat: " << this->GetHumanReadableFormat() << std::endl;
 }
 
-/** Print enumerations */
+/** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const LoggerBase::PriorityLevelEnum value)
+operator<<(std::ostream & out, const LoggerBaseEnums::PriorityLevel value)
 {
   return out << [value] {
     switch (value)
     {
-      case LoggerBase::PriorityLevelEnum::MUSTFLUSH:
-        return "LoggerBase::PriorityLevelEnum::MUSTFLUSH";
-      case LoggerBase::PriorityLevelEnum::FATAL:
-        return "LoggerBase::PriorityLevelEnum::FATAL";
-      case LoggerBase::PriorityLevelEnum::CRITICAL:
-        return "LoggerBase::PriorityLevelEnum::CRITICAL";
-      case LoggerBase::PriorityLevelEnum::WARNING:
-        return "LoggerBase::PriorityLevelEnum::WARNING";
-      case LoggerBase::PriorityLevelEnum::INFO:
-        return "LoggerBase::PriorityLevelEnum::INFO";
-      case LoggerBase::PriorityLevelEnum::DEBUG:
-        return "LoggerBase::PriorityLevelEnum::DEBUG";
-      case LoggerBase::PriorityLevelEnum::NOTSET:
-        return "LoggerBase::PriorityLevelEnum::NOTSET";
+      case LoggerBaseEnums::PriorityLevel::MUSTFLUSH:
+        return "itk::LoggerBaseEnums::PriorityLevel::MUSTFLUSH";
+      case LoggerBaseEnums::PriorityLevel::FATAL:
+        return "itk::LoggerBaseEnums::PriorityLevel::FATAL";
+      case LoggerBaseEnums::PriorityLevel::CRITICAL:
+        return "itk::LoggerBaseEnums::PriorityLevel::CRITICAL";
+      case LoggerBaseEnums::PriorityLevel::WARNING:
+        return "itk::LoggerBaseEnums::PriorityLevel::WARNING";
+      case LoggerBaseEnums::PriorityLevel::INFO:
+        return "itk::LoggerBaseEnums::PriorityLevel::INFO";
+      case LoggerBaseEnums::PriorityLevel::DEBUG:
+        return "itk::LoggerBaseEnums::PriorityLevel::DEBUG";
+      case LoggerBaseEnums::PriorityLevel::NOTSET:
+        return "itk::LoggerBaseEnums::PriorityLevel::NOTSET";
       default:
-        return "INVALID VALUE FOR LoggerBase::PriorityLevelEnum";
+        return "INVALID VALUE FOR itk::LoggerBaseEnums::PriorityLevel";
+    }
+  }();
+}
+
+/** Print enum values */
+std::ostream &
+operator<<(std::ostream & out, const LoggerBaseEnums::TimeStampFormat value)
+{
+  return out << [value] {
+    switch (value)
+    {
+      case LoggerBaseEnums::TimeStampFormat::REALVALUE:
+        return "itk::LoggerBaseEnums::TimeStampFormat::REALVALUE";
+      case LoggerBaseEnums::TimeStampFormat::HUMANREADABLE:
+        return "itk::LoggerBaseEnums::TimeStampFormat::HUMANREADABLE";
+      default:
+        return "INVALID VALUE FOR itk::LoggerBaseEnums::TimeStampFormat";
     }
   }();
 }

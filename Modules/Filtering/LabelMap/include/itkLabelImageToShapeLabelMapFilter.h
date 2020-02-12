@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class LabelImageToShapeLabelMapFilter
+/**
+ *\class LabelImageToShapeLabelMapFilter
  * \brief Converts a label image to a label map and valuates the shape attributes
  *
  *  A convenient class that converts a label image to a label map and valuates the shape attribute at once.

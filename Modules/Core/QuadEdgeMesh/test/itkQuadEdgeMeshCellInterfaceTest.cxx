@@ -79,7 +79,7 @@ TestCellInterface(std::string name, TCell * aCell)
   const TCell *   cell2 = aCell;
 
   std::cout << "-------- " << name << "(" << aCell->GetNameOfClass() << ")" << std::endl;
-  std::cout << "    Type: " << cell->GetType() << std::endl;
+  std::cout << "    Type: " << static_cast<int>(cell->GetType()) << std::endl;
   std::cout << "    Dimension: " << cell->GetDimension() << std::endl;
   std::cout << "    NumberOfPoints: " << cell->GetNumberOfPoints() << std::endl;
   std::cout << "    NumberOfBoundaryFeatures:" << std::endl;

@@ -29,8 +29,7 @@ TransformIOFactoryTemplate<TParametersValueType>::~TransformIOFactoryTemplate() 
 
 template <typename TParametersValueType>
 typename TransformIOBaseTemplate<TParametersValueType>::Pointer
-TransformIOFactoryTemplate<TParametersValueType>::CreateTransformIO(const char *                   path,
-                                                                    TransformIOFactoryFileModeEnum mode)
+TransformIOFactoryTemplate<TParametersValueType>::CreateTransformIO(const char * path, IOFileModeEnum mode)
 {
   typename std::list<typename TransformIOBaseTemplate<TParametersValueType>::Pointer> possibleTransformIO;
   for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkTransformIOBaseTemplate"))
@@ -43,14 +42,14 @@ TransformIOFactoryTemplate<TParametersValueType>::CreateTransformIO(const char *
   }
   for (auto k = possibleTransformIO.begin(); k != possibleTransformIO.end(); ++k)
   {
-    if (mode == TransformIOFactoryFileModeEnum::ReadMode)
+    if (mode == IOFileModeEnum::ReadMode)
     {
       if ((*k)->CanReadFile(path))
       {
         return *k;
       }
     }
-    else if (mode == TransformIOFactoryFileModeEnum::WriteMode)
+    else if (mode == IOFileModeEnum::WriteMode)
     {
       if ((*k)->CanWriteFile(path))
       {
@@ -59,23 +58,6 @@ TransformIOFactoryTemplate<TParametersValueType>::CreateTransformIO(const char *
     }
   }
   return nullptr;
-}
-
-/** Print enum values */
-std::ostream &
-operator<<(std::ostream & out, const TransformIOFactoryFileModeEnum value)
-{
-  return out << [value] {
-    switch (value)
-    {
-      case TransformIOFactoryFileModeEnum::ReadMode:
-        return "TransformIOFactoryFileModeEnum::ReadMode";
-      case TransformIOFactoryFileModeEnum::WriteMode:
-        return "TransformIOFactoryFileModeEnum::WriteMode";
-      default:
-        return "INVALID VALUE FOR TransformIOFactoryFileModeEnum";
-    }
-  }();
 }
 
 ITK_GCC_PRAGMA_DIAG_PUSH()

@@ -12,6 +12,7 @@ endif()
 set(ITKTestKernel_SRCS
   itkTestDriverIncludeRequiredIOFactories.cxx
   itkTestDriverInclude.cxx
-  itkTestingExtractSliceImageFilter.cxx)
+  itkTestingExtractSliceImageFilter.cxx
+  itkTestingHashImageFilter.cxx)
 
 itk_module_add_library(ITKTestKernel ${ITKTestKernel_SRCS})

@@ -432,5 +432,14 @@ itkMRFImageFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
+  // Test streaming enumeration for MRFImageFilterEnums::MRFStop elements
+  const std::set<itk::MRFImageFilterEnums::MRFStop> allMRFStop{
+    itk::MRFImageFilterEnums::MRFStop::MaximumNumberOfIterations, itk::MRFImageFilterEnums::MRFStop::ErrorTolerance
+  };
+  for (const auto & ee : allMRFStop)
+  {
+    std::cout << "STREAMED ENUM VALUE MRFImageFilterEnums::MRFStop: " << ee << std::endl;
+  }
+
   return EXIT_SUCCESS;
 }

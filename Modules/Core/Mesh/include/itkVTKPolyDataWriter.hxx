@@ -145,7 +145,7 @@ VTKPolyDataWriter<TInputMesh>::GenerateData()
 
     while (cellIterator != cellEnd)
     {
-      switch (cellIterator.Value()->GetType())
+      switch (static_cast<int>(cellIterator.Value()->GetType()))
       {
         case 0: // VERTEX_CELL:
           numberOfVertices++;
@@ -181,7 +181,7 @@ VTKPolyDataWriter<TInputMesh>::GenerateData()
       while (cellIterator != cellEnd)
       {
         CellType * cellPointer = cellIterator.Value();
-        switch (cellIterator.Value()->GetType())
+        switch (static_cast<int>(cellIterator.Value()->GetType()))
         {
           case 1: // LINE_CELL:
           case 7: // QUADRATIC_EDGE_CELL:
@@ -215,7 +215,8 @@ VTKPolyDataWriter<TInputMesh>::GenerateData()
       while (cellIterator != cells->End())
       {
         CellType * cellPointer = cellIterator.Value();
-        if (cellPointer->GetType() != CellType::VERTEX_CELL && cellPointer->GetType() != CellType::LINE_CELL)
+        if (cellPointer->GetType() != CellGeometryEnum::VERTEX_CELL &&
+            cellPointer->GetType() != CellGeometryEnum::LINE_CELL)
         {
           totalNumberOfPointsInPolygons += cellPointer->GetNumberOfPoints();
         }
@@ -229,7 +230,7 @@ VTKPolyDataWriter<TInputMesh>::GenerateData()
       while (cellIterator != cellEnd)
       {
         CellType * cellPointer = cellIterator.Value();
-        switch (cellIterator.Value()->GetType())
+        switch (static_cast<int>(cellIterator.Value()->GetType()))
         {
           case 2: // TRIANGLE_CELL:
           case 3: // QUADRILATERAL_CELL:

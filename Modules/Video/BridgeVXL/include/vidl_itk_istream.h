@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \class vidl_itk_istream
+/**
+ *\class vidl_itk_istream
  * \brief implementation of VXL's vidl_istream using an itk VideoStream
  *
  * This implementation of VXL's vidl_istream can be placed at the end of an ITK

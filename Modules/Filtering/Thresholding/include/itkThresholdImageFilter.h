@@ -34,7 +34,8 @@
 
 namespace itk
 {
-/** \class ThresholdImageFilter
+/**
+ *\class ThresholdImageFilter
  * \brief Set image values to a user-specified value if they are below,
  * above, or between simple threshold values.
  *

@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class FourierSeriesPath
+/**
+ *\class FourierSeriesPath
  * \brief  Represent a closed path through ND Space by its frequency components
  *
  * This class is intended to represent closed parametric paths through an image

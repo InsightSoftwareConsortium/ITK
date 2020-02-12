@@ -25,7 +25,8 @@ namespace itk
 {
 namespace watershed
 {
-/** \class Relabeler
+/**
+ *\class Relabeler
  *
  * This filter implements the final step in the watershed segmentation
  * algorithm.  It is responsible for relabeling a segmented image according to

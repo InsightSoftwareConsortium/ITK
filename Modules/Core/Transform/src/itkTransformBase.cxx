@@ -23,49 +23,25 @@ namespace itk
 {
 /** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const typename TransformBaseTemplate<double>::TransformCategoryEnum value)
+operator<<(std::ostream & out, const TransformBaseTemplateEnums::TransformCategory value)
 {
   return out << [value] {
     switch (value)
     {
-      case TransformBaseTemplate<double>::TransformCategoryEnum::UnknownTransformCategory:
-        return "TransformBaseTemplate<double>::TransformCategoryEnum::UnknownTransformCategory";
-      case TransformBaseTemplate<double>::TransformCategoryEnum::Linear:
-        return "TransformBaseTemplate<double>::TransformCategoryEnum::Linear";
-      case TransformBaseTemplate<double>::TransformCategoryEnum::BSpline:
-        return "TransformBaseTemplate<double>::TransformCategoryEnum::BSpline";
-      case TransformBaseTemplate<double>::TransformCategoryEnum::Spline:
-        return "TransformBaseTemplate<double>::TransformCategoryEnum::Spline";
-      case TransformBaseTemplate<double>::TransformCategoryEnum::DisplacementField:
-        return "TransformBaseTemplate<double>::TransformCategoryEnum::DisplacementField";
-      case TransformBaseTemplate<double>::TransformCategoryEnum::VelocityField:
-        return "TransformBaseTemplate<double>::TransformCategoryEnum::VelocityField";
+      case TransformBaseTemplateEnums::TransformCategory::UnknownTransformCategory:
+        return "itk::TransformBaseTemplateEnums::TransformCategory::UnknownTransformCategory";
+      case TransformBaseTemplateEnums::TransformCategory::Linear:
+        return "itk::TransformBaseTemplateEnums::TransformCategory::Linear";
+      case TransformBaseTemplateEnums::TransformCategory::BSpline:
+        return "itk::TransformBaseTemplateEnums::TransformCategory::BSpline";
+      case TransformBaseTemplateEnums::TransformCategory::Spline:
+        return "itk::TransformBaseTemplateEnums::TransformCategory::Spline";
+      case TransformBaseTemplateEnums::TransformCategory::DisplacementField:
+        return "itk::TransformBaseTemplateEnums::TransformCategory::DisplacementField";
+      case TransformBaseTemplateEnums::TransformCategory::VelocityField:
+        return "itk::TransformBaseTemplateEnums::TransformCategory::VelocityField";
       default:
-        return "INVALID VALUE FOR TransformBaseTemplate<double>::TransformCategoryEnum";
-    }
-  }();
-}
-/** Print enum values */
-std::ostream &
-operator<<(std::ostream & out, const typename TransformBaseTemplate<float>::TransformCategoryEnum value)
-{
-  return out << [value] {
-    switch (value)
-    {
-      case TransformBaseTemplate<float>::TransformCategoryEnum::UnknownTransformCategory:
-        return "TransformBaseTemplate<float>::TransformCategoryEnum::UnknownTransformCategory";
-      case TransformBaseTemplate<float>::TransformCategoryEnum::Linear:
-        return "TransformBaseTemplate<float>::TransformCategoryEnum::Linear";
-      case TransformBaseTemplate<float>::TransformCategoryEnum::BSpline:
-        return "TransformBaseTemplate<float>::TransformCategoryEnum::BSpline";
-      case TransformBaseTemplate<float>::TransformCategoryEnum::Spline:
-        return "TransformBaseTemplate<float>::TransformCategoryEnum::Spline";
-      case TransformBaseTemplate<float>::TransformCategoryEnum::DisplacementField:
-        return "TransformBaseTemplate<float>::TransformCategoryEnum::DisplacementField";
-      case TransformBaseTemplate<float>::TransformCategoryEnum::VelocityField:
-        return "TransformBaseTemplate<float>::TransformCategoryEnum::VelocityField";
-      default:
-        return "INVALID VALUE FOR TransformBaseTemplate<float>::TransformCategoryEnum";
+        return "INVALID VALUE FOR itk::TransformBaseTemplateEnums::TransformCategory";
     }
   }();
 }

@@ -49,7 +49,7 @@ itkNormalQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   using ReaderType = itk::MeshFileReader<InputMeshType>;
   using NormalFilterType = itk::NormalQuadEdgeMeshFilter<InputMeshType, OutputMeshType>;
-  NormalFilterType::WeightType weight_type;
+  NormalFilterType::WeightEnum weight_type;
 
   int param = std::stoi(argv[2]);
 
@@ -67,13 +67,13 @@ itkNormalQuadEdgeMeshFilterTest(int argc, char * argv[])
     {
       default:
       case 0:
-        weight_type = NormalFilterType::GOURAUD;
+        weight_type = NormalFilterType::WeightEnum::GOURAUD;
         break;
       case 1:
-        weight_type = NormalFilterType::THURMER;
+        weight_type = NormalFilterType::WeightEnum::THURMER;
         break;
       case 2:
-        weight_type = NormalFilterType::AREA;
+        weight_type = NormalFilterType::WeightEnum::AREA;
         break;
     }
   }
@@ -135,5 +135,17 @@ itkNormalQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   // ** PRINT **
   std::cout << normals;
+
+  // Test streaming enumeration for NormalQuadEdgeMeshFilterEnums::Weight elements
+  const std::set<itk::NormalQuadEdgeMeshFilterEnums::Weight> allWeight{
+    itk::NormalQuadEdgeMeshFilterEnums::Weight::GOURAUD,
+    itk::NormalQuadEdgeMeshFilterEnums::Weight::THURMER,
+    itk::NormalQuadEdgeMeshFilterEnums::Weight::AREA
+  };
+  for (const auto & ee : allWeight)
+  {
+    std::cout << "STREAMED ENUM VALUE NormalQuadEdgeMeshFilterEnums::Weight: " << ee << std::endl;
+  }
+
   return EXIT_SUCCESS;
 }

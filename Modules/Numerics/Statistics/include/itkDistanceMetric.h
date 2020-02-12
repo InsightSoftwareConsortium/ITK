@@ -25,7 +25,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class DistanceMetric
+/**
+ *\class DistanceMetric
  * \brief this class declares common interfaces
  * for distance functions.
  *

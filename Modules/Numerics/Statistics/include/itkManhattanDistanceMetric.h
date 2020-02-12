@@ -24,7 +24,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class ManhattanDistanceMetric
+/**
+ *\class ManhattanDistanceMetric
  * \brief Euclidean distance function.
  *
  * \sa DistanceMetric

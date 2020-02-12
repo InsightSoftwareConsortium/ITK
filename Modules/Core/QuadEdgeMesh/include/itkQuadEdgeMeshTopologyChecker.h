@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class QuadEdgeMeshTopologyChecker
+/**
+ *\class QuadEdgeMeshTopologyChecker
  *  \brief Make some basic checks in order to verify that the considered
  *         mesh is not degenerated and correctly represents a surface
  *         with a potential boundary.

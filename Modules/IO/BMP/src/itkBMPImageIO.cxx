@@ -28,9 +28,9 @@ BMPImageIO::BMPImageIO()
 {
   this->SetNumberOfDimensions(2);
 
-  m_ByteOrder = BigEndian;
-  m_ComponentType = UCHAR;
-  m_PixelType = SCALAR;
+  m_ByteOrder = IOByteOrderEnum::BigEndian;
+  m_ComponentType = IOComponentEnum::UCHAR;
+  m_PixelType = IOPixelEnum::SCALAR;
 
   m_Spacing[0] = 1.0;
   m_Spacing[1] = 1.0;
@@ -571,12 +571,12 @@ BMPImageIO::ReadImageInformation()
       if (this->GetExpandRGBPalette())
       {
         this->SetNumberOfComponents(3);
-        m_PixelType = RGB;
+        m_PixelType = IOPixelEnum::RGB;
       }
       else
       {
         this->SetNumberOfComponents(1);
-        m_PixelType = SCALAR;
+        m_PixelType = IOPixelEnum::SCALAR;
         m_IsReadAsScalarPlusPalette = true;
       }
       break;
@@ -584,13 +584,13 @@ BMPImageIO::ReadImageInformation()
     case 24:
     {
       this->SetNumberOfComponents(3);
-      m_PixelType = RGB;
+      m_PixelType = IOPixelEnum::RGB;
       break;
     }
     case 32:
     {
       this->SetNumberOfComponents(4);
-      m_PixelType = RGBA;
+      m_PixelType = IOPixelEnum::RGBA;
       break;
     }
   }
@@ -603,49 +603,49 @@ BMPImageIO ::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
 {
   switch (m_ComponentType)
   {
-    case CHAR:
+    case IOComponentEnum::CHAR:
     {
-      if (m_ByteOrder == LittleEndian)
+      if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<char>::SwapRangeFromSystemToLittleEndian((char *)buffer, numberOfPixels);
       }
-      else if (m_ByteOrder == BigEndian)
+      else if (m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<char>::SwapRangeFromSystemToBigEndian((char *)buffer, numberOfPixels);
       }
       break;
     }
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
     {
-      if (m_ByteOrder == LittleEndian)
+      if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<unsigned char>::SwapRangeFromSystemToLittleEndian((unsigned char *)buffer, numberOfPixels);
       }
-      else if (m_ByteOrder == BigEndian)
+      else if (m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<unsigned char>::SwapRangeFromSystemToBigEndian((unsigned char *)buffer, numberOfPixels);
       }
       break;
     }
-    case SHORT:
+    case IOComponentEnum::SHORT:
     {
-      if (m_ByteOrder == LittleEndian)
+      if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<short>::SwapRangeFromSystemToLittleEndian((short *)buffer, numberOfPixels);
       }
-      else if (m_ByteOrder == BigEndian)
+      else if (m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<short>::SwapRangeFromSystemToBigEndian((short *)buffer, numberOfPixels);
       }
       break;
     }
-    case USHORT:
+    case IOComponentEnum::USHORT:
     {
-      if (m_ByteOrder == LittleEndian)
+      if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian((unsigned short *)buffer, numberOfPixels);
       }
-      else if (m_ByteOrder == BigEndian)
+      else if (m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<unsigned short>::SwapRangeFromSystemToBigEndian((unsigned short *)buffer, numberOfPixels);
       }
@@ -710,7 +710,7 @@ BMPImageIO ::Write(const void * buffer)
     itkExceptionMacro(<< "BMPImageIO cannot write images with a dimension != 2");
   }
 
-  if (this->GetComponentType() != UCHAR)
+  if (this->GetComponentType() != IOComponentEnum::UCHAR)
   {
     itkExceptionMacro(<< "BMPImageIO supports unsigned char only");
   }

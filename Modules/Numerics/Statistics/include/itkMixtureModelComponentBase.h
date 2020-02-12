@@ -29,7 +29,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class MixtureModelComponentBase
+/**
+ *\class MixtureModelComponentBase
  * \brief base class for distribution modules that supports analytical way
  * to update the distribution parameters
  *

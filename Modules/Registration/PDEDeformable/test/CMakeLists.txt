@@ -7,6 +7,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest2.cxx
 itkFastSymmetricForcesDemonsRegistrationFilterTest.cxx
 itkLevelSetMotionRegistrationFilterTest.cxx
 itkSymmetricForcesDemonsRegistrationFilterTest.cxx
+itkESMDemonsRegistrationFunctionTest.cxx
 )
  # Define some convenient locations
 set(BASELINE ${ITK_DATA_ROOT}/Baseline/Algorithms)
@@ -71,3 +72,5 @@ itk_add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest11
               ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice1.mha ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice2.mha ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest11.mha 0 1 0.001 0.1)
 itk_add_test(NAME itkFastSymmetricForcesDemonsRegistrationFilterTest
       COMMAND ITKPDEDeformableRegistrationTestDriver itkFastSymmetricForcesDemonsRegistrationFilterTest)
+itk_add_test(NAME itkESMDemonsRegistrationFunctionTest
+        COMMAND ITKPDEDeformableRegistrationTestDriver itkESMDemonsRegistrationFunctionTest)

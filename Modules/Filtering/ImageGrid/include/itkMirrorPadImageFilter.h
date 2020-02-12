@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class MirrorPadImageFilter
+/**
+ *\class MirrorPadImageFilter
  * \brief Increase the image size by padding with replicants of the
  * input image value.
  *

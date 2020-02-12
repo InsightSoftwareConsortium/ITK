@@ -59,7 +59,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FEMRegistrationFil
   , m_UseNormalizedGradient(false)
   , m_CreateMeshFromImage(true)
   , m_EmployRegridding(1)
-  , m_DescentDirection(positive)
+  , m_DescentDirection(SignEnum::positive)
   , m_EnergyReductionFactor(0.0)
   , m_MaximumError(0.1)
   , m_MaximumKernelWidth(30)
@@ -369,7 +369,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyImageLoads(TM
   m_Load->SetMetricRadius(r);
   m_Load->SetNumberOfIntegrationPoints(m_NumberOfIntegrationPoints[m_CurrentLevel]);
   m_Load->SetGlobalNumber(m_FEMObject->GetNumberOfLoads() + 1);
-  if (m_DescentDirection == positive)
+  if (m_DescentDirection == SignEnum::positive)
   {
     m_Load->SetDescentDirectionMinimize();
   }
@@ -555,7 +555,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::IterativeSolve(Sol
     solver->Update();
     m_Load->PrintCurrentEnergy();
 
-    if (m_DescentDirection == 1)
+    if (static_cast<int>(m_DescentDirection) == 1)
     {
       deltE = (LastE - m_Load->GetCurrentEnergy());
     }

@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class GPUGradientNDAnisotropicDiffusionFunction
+/**
+ *\class GPUGradientNDAnisotropicDiffusionFunction
  *
  * This class implements an N-dimensional version of the classic Perona-Malik
  * anisotropic diffusion equation for scalar-valued images on the GPU.  See

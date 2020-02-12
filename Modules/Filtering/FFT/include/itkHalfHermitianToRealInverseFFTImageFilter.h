@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class HalfHermitianToRealInverseFFTImageFilter
+/**
+ *\class HalfHermitianToRealInverseFFTImageFilter
  *
  * \brief Base class for specialized complex-to-real inverse Fast Fourier Transform.
  *

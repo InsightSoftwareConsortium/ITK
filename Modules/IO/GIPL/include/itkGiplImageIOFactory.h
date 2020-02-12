@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class GiplImageIOFactory
+/**
+ *\class GiplImageIOFactory
  * \brief Create instances of GiplImageIO objects using an object factory.
  * \ingroup ITKIOGIPL
  */

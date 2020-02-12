@@ -480,7 +480,7 @@ itkImageToImageMetricv4Test(int, char ** const)
   metric->SetFixedTransform(fixedTransform);
   metric->SetMovingTransform(movingTransform);
   // Tell the metric to compute image gradients for both fixed and moving.
-  metric->SetGradientSource(itk::GradientSourceEnum::GRADIENT_SOURCE_BOTH);
+  metric->SetGradientSource(itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_BOTH);
 
   // Enable ITK debugging output
   metric->SetDebug(false);
@@ -581,7 +581,7 @@ itkImageToImageMetricv4Test(int, char ** const)
   metric->SetUseFixedImageGradientFilter(true);
   metric->SetUseMovingImageGradientFilter(true);
   // Tell the metric to compute image gradients for both fixed and moving.
-  metric->SetGradientSource(itk::GradientSourceEnum::GRADIENT_SOURCE_BOTH);
+  metric->SetGradientSource(itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_BOTH);
 
   // Evaluate the metric
   std::cout << "* Testing with identity DisplacementFieldTransform for moving image..." << std::endl;
@@ -607,7 +607,7 @@ itkImageToImageMetricv4Test(int, char ** const)
   movingTransform->SetIdentity();
   metric->SetMovingTransform(movingTransform);
   metric->SetFixedTransform(fixedTransform);
-  metric->SetGradientSource(itk::GradientSourceEnum::GRADIENT_SOURCE_BOTH);
+  metric->SetGradientSource(itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_BOTH);
   metric->SetUseFixedImageGradientFilter(false);
   metric->SetUseMovingImageGradientFilter(false);
 

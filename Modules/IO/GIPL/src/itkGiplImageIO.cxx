@@ -76,7 +76,7 @@ GiplImageIO::GiplImageIO()
 {
   m_Internal = new GiplImageIOInternals;
   m_Internal->m_GzFile = nullptr;
-  m_ByteOrder = BigEndian;
+  m_ByteOrder = IOByteOrderEnum::BigEndian;
   m_IsCompressed = false;
 }
 
@@ -127,11 +127,11 @@ GiplImageIO::CanReadFile(const char * filename)
     unsigned int magic_number;
     inputStream.read((char *)&magic_number, static_cast<std::streamsize>(sizeof(unsigned int)));
 
-    if (m_ByteOrder == BigEndian)
+    if (m_ByteOrder == IOByteOrderEnum::BigEndian)
     {
       ByteSwapper<unsigned int>::SwapFromSystemToBigEndian(&magic_number);
     }
-    else if (m_ByteOrder == LittleEndian)
+    else if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
     {
       ByteSwapper<unsigned int>::SwapFromSystemToLittleEndian(&magic_number);
     }
@@ -156,11 +156,11 @@ GiplImageIO::CanReadFile(const char * filename)
     unsigned int magic_number;
     gzread(m_Internal->m_GzFile, (char *)&magic_number, static_cast<unsigned int>(sizeof(unsigned int)));
 
-    if (m_ByteOrder == BigEndian)
+    if (m_ByteOrder == IOByteOrderEnum::BigEndian)
     {
       ByteSwapper<unsigned int>::SwapFromSystemToBigEndian(&magic_number);
     }
-    else if (m_ByteOrder == LittleEndian)
+    else if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
     {
       ByteSwapper<unsigned int>::SwapFromSystemToLittleEndian(&magic_number);
     }
@@ -297,11 +297,11 @@ GiplImageIO::ReadImageInformation()
     {
       m_Ifstream.read((char *)&dims[i], sizeof(unsigned short));
     }
-    if (m_ByteOrder == BigEndian)
+    if (m_ByteOrder == IOByteOrderEnum::BigEndian)
     {
       ByteSwapper<unsigned short>::SwapFromSystemToBigEndian(&dims[i]);
     }
-    else if (m_ByteOrder == LittleEndian)
+    else if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
     {
       ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&dims[i]);
     }
@@ -337,40 +337,40 @@ GiplImageIO::ReadImageInformation()
     m_Ifstream.read((char *)&image_type, sizeof(unsigned short));
   }
 
-  if (m_ByteOrder == BigEndian)
+  if (m_ByteOrder == IOByteOrderEnum::BigEndian)
   {
     ByteSwapper<unsigned short>::SwapFromSystemToBigEndian(&image_type);
   }
 
-  m_PixelType = SCALAR;
+  m_PixelType = IOPixelEnum::SCALAR;
   switch (image_type)
   {
     case GIPL_BINARY:
-      m_ComponentType = UCHAR;
+      m_ComponentType = IOComponentEnum::UCHAR;
       break;
     case GIPL_CHAR:
-      m_ComponentType = CHAR;
+      m_ComponentType = IOComponentEnum::CHAR;
       break;
     case GIPL_U_CHAR:
-      m_ComponentType = UCHAR;
+      m_ComponentType = IOComponentEnum::UCHAR;
       break;
     case GIPL_SHORT:
-      m_ComponentType = SHORT;
+      m_ComponentType = IOComponentEnum::SHORT;
       break;
     case GIPL_U_SHORT:
-      m_ComponentType = USHORT;
+      m_ComponentType = IOComponentEnum::USHORT;
       break;
     case GIPL_U_INT:
-      m_ComponentType = UINT;
+      m_ComponentType = IOComponentEnum::UINT;
       break;
     case GIPL_INT:
-      m_ComponentType = INT;
+      m_ComponentType = IOComponentEnum::INT;
       break;
     case GIPL_FLOAT:
-      m_ComponentType = FLOAT;
+      m_ComponentType = IOComponentEnum::FLOAT;
       break;
     case GIPL_DOUBLE:
-      m_ComponentType = DOUBLE;
+      m_ComponentType = IOComponentEnum::DOUBLE;
       break;
   }
 
@@ -385,11 +385,11 @@ GiplImageIO::ReadImageInformation()
     {
       m_Ifstream.read((char *)&pixdim[i], sizeof(float));
     }
-    if (m_ByteOrder == BigEndian)
+    if (m_ByteOrder == IOByteOrderEnum::BigEndian)
     {
       ByteSwapper<float>::SwapFromSystemToBigEndian(&pixdim[i]);
     }
-    else if (m_ByteOrder == LittleEndian)
+    else if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
     {
       ByteSwapper<float>::SwapFromSystemToLittleEndian(&pixdim[i]);
     }
@@ -425,11 +425,11 @@ GiplImageIO::ReadImageInformation()
       m_Ifstream.read((char *)&matrix[i], sizeof(float));
     }
 
-    if (m_ByteOrder == BigEndian)
+    if (m_ByteOrder == IOByteOrderEnum::BigEndian)
     {
       ByteSwapper<float>::SwapFromSystemToBigEndian(&matrix[i]);
     }
-    else if (m_ByteOrder == LittleEndian)
+    else if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
     {
       ByteSwapper<float>::SwapFromSystemToLittleEndian(&matrix[i]);
     }
@@ -445,11 +445,11 @@ GiplImageIO::ReadImageInformation()
     m_Ifstream.read((char *)&flag1, sizeof(char));
   }
 
-  if (m_ByteOrder == BigEndian)
+  if (m_ByteOrder == IOByteOrderEnum::BigEndian)
   {
     ByteSwapper<char>::SwapFromSystemToBigEndian(&flag1);
   }
-  else if (m_ByteOrder == LittleEndian)
+  else if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
   {
     ByteSwapper<char>::SwapFromSystemToLittleEndian(&flag1);
   }
@@ -464,11 +464,11 @@ GiplImageIO::ReadImageInformation()
     m_Ifstream.read((char *)&flag2, sizeof(char));
   }
 
-  if (m_ByteOrder == BigEndian)
+  if (m_ByteOrder == IOByteOrderEnum::BigEndian)
   {
     ByteSwapper<char>::SwapFromSystemToBigEndian(&flag2);
   }
-  else if (m_ByteOrder == LittleEndian)
+  else if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
   {
     ByteSwapper<char>::SwapFromSystemToLittleEndian(&flag2);
   }
@@ -505,11 +505,11 @@ GiplImageIO::ReadImageInformation()
       m_Ifstream.read((char *)&origin[i], sizeof(double));
     }
 
-    if (m_ByteOrder == BigEndian)
+    if (m_ByteOrder == IOByteOrderEnum::BigEndian)
     {
       ByteSwapper<double>::SwapFromSystemToBigEndian(&origin[i]);
     }
-    else if (m_ByteOrder == LittleEndian)
+    else if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
     {
       ByteSwapper<double>::SwapFromSystemToLittleEndian(&origin[i]);
     }
@@ -530,11 +530,11 @@ GiplImageIO::ReadImageInformation()
     m_Ifstream.read((char *)&pixval_offset, sizeof(float));
   }
 
-  if (m_ByteOrder == BigEndian)
+  if (m_ByteOrder == IOByteOrderEnum::BigEndian)
   {
     ByteSwapper<float>::SwapFromSystemToBigEndian(&pixval_offset);
   }
-  else if (m_ByteOrder == LittleEndian)
+  else if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
   {
     ByteSwapper<float>::SwapFromSystemToLittleEndian(&pixval_offset);
   }
@@ -549,11 +549,11 @@ GiplImageIO::ReadImageInformation()
     m_Ifstream.read((char *)&pixval_cal, sizeof(float));
   }
 
-  if (m_ByteOrder == BigEndian)
+  if (m_ByteOrder == IOByteOrderEnum::BigEndian)
   {
     ByteSwapper<float>::SwapFromSystemToBigEndian(&pixval_cal);
   }
-  else if (m_ByteOrder == LittleEndian)
+  else if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
   {
     ByteSwapper<float>::SwapFromSystemToLittleEndian(&pixval_cal);
   }
@@ -568,11 +568,11 @@ GiplImageIO::ReadImageInformation()
     m_Ifstream.read((char *)&user_def1, sizeof(float));
   }
 
-  if (m_ByteOrder == BigEndian)
+  if (m_ByteOrder == IOByteOrderEnum::BigEndian)
   {
     ByteSwapper<float>::SwapFromSystemToBigEndian(&user_def1);
   }
-  else if (m_ByteOrder == LittleEndian)
+  else if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
   {
     ByteSwapper<float>::SwapFromSystemToLittleEndian(&user_def1);
   }
@@ -587,11 +587,11 @@ GiplImageIO::ReadImageInformation()
     m_Ifstream.read((char *)&user_def2, sizeof(float));
   }
 
-  if (m_ByteOrder == BigEndian)
+  if (m_ByteOrder == IOByteOrderEnum::BigEndian)
   {
     ByteSwapper<float>::SwapFromSystemToBigEndian(&user_def2);
   }
-  else if (m_ByteOrder == LittleEndian)
+  else if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
   {
     ByteSwapper<float>::SwapFromSystemToLittleEndian(&user_def2);
   }
@@ -606,11 +606,11 @@ GiplImageIO::ReadImageInformation()
     m_Ifstream.read((char *)&magic_number, sizeof(unsigned int));
   }
 
-  if (m_ByteOrder == BigEndian)
+  if (m_ByteOrder == IOByteOrderEnum::BigEndian)
   {
     ByteSwapper<unsigned int>::SwapFromSystemToBigEndian(&magic_number);
   }
-  else if (m_ByteOrder == LittleEndian)
+  else if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
   {
     ByteSwapper<unsigned int>::SwapFromSystemToLittleEndian(&magic_number);
   }
@@ -621,73 +621,73 @@ GiplImageIO ::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
 {
   switch (m_ComponentType)
   {
-    case CHAR:
+    case IOComponentEnum::CHAR:
     {
-      if (m_ByteOrder == LittleEndian)
+      if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<char>::SwapRangeFromSystemToLittleEndian((char *)buffer, numberOfPixels);
       }
-      else if (m_ByteOrder == BigEndian)
+      else if (m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<char>::SwapRangeFromSystemToBigEndian((char *)buffer, numberOfPixels);
       }
       break;
     }
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
     {
-      if (m_ByteOrder == LittleEndian)
+      if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<unsigned char>::SwapRangeFromSystemToLittleEndian((unsigned char *)buffer, numberOfPixels);
       }
-      else if (m_ByteOrder == BigEndian)
+      else if (m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<unsigned char>::SwapRangeFromSystemToBigEndian((unsigned char *)buffer, numberOfPixels);
       }
       break;
     }
-    case SHORT:
+    case IOComponentEnum::SHORT:
     {
-      if (m_ByteOrder == LittleEndian)
+      if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<short>::SwapRangeFromSystemToLittleEndian((short *)buffer, numberOfPixels);
       }
-      else if (m_ByteOrder == BigEndian)
+      else if (m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<short>::SwapRangeFromSystemToBigEndian((short *)buffer, numberOfPixels);
       }
       break;
     }
-    case USHORT:
+    case IOComponentEnum::USHORT:
     {
-      if (m_ByteOrder == LittleEndian)
+      if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian((unsigned short *)buffer, numberOfPixels);
       }
-      else if (m_ByteOrder == BigEndian)
+      else if (m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<unsigned short>::SwapRangeFromSystemToBigEndian((unsigned short *)buffer, numberOfPixels);
       }
       break;
     }
-    case FLOAT:
+    case IOComponentEnum::FLOAT:
     {
-      if (m_ByteOrder == LittleEndian)
+      if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<float>::SwapRangeFromSystemToLittleEndian((float *)buffer, numberOfPixels);
       }
-      else if (m_ByteOrder == BigEndian)
+      else if (m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<float>::SwapRangeFromSystemToBigEndian((float *)buffer, numberOfPixels);
       }
       break;
     }
-    case DOUBLE:
+    case IOComponentEnum::DOUBLE:
     {
-      if (m_ByteOrder == LittleEndian)
+      if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<double>::SwapRangeFromSystemToLittleEndian((double *)buffer, numberOfPixels);
       }
-      else if (m_ByteOrder == BigEndian)
+      else if (m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<double>::SwapRangeFromSystemToBigEndian((double *)buffer, numberOfPixels);
       }
@@ -735,11 +735,11 @@ GiplImageIO ::Write(const void * buffer)
     if (i < nDims)
     {
       value = this->GetDimensions(i);
-      if (m_ByteOrder == BigEndian)
+      if (m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<unsigned short>::SwapFromSystemToBigEndian(&value);
       }
-      else if (m_ByteOrder == LittleEndian)
+      else if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&value);
       }
@@ -756,11 +756,11 @@ GiplImageIO ::Write(const void * buffer)
     else
     {
       value = 1;
-      if (m_ByteOrder == BigEndian)
+      if (m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<unsigned short>::SwapFromSystemToBigEndian(&value);
       }
-      else if (m_ByteOrder == LittleEndian)
+      else if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&value);
       }
@@ -778,39 +778,39 @@ GiplImageIO ::Write(const void * buffer)
   unsigned short image_type;
   switch (m_ComponentType)
   {
-    case CHAR:
+    case IOComponentEnum::CHAR:
       image_type = GIPL_CHAR;
       break;
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
       image_type = GIPL_U_CHAR;
       break;
-    case SHORT:
+    case IOComponentEnum::SHORT:
       image_type = GIPL_SHORT;
       break;
-    case USHORT:
+    case IOComponentEnum::USHORT:
       image_type = GIPL_U_SHORT;
       break;
-    case UINT:
+    case IOComponentEnum::UINT:
       image_type = GIPL_U_INT;
       break;
-    case INT:
+    case IOComponentEnum::INT:
       image_type = GIPL_INT;
       break;
-    case FLOAT:
+    case IOComponentEnum::FLOAT:
       image_type = GIPL_FLOAT;
       break;
-    case DOUBLE:
+    case IOComponentEnum::DOUBLE:
       image_type = GIPL_DOUBLE;
       break;
     default:
       itkExceptionMacro("Invalid type: " << m_ComponentType);
   }
 
-  if (m_ByteOrder == BigEndian)
+  if (m_ByteOrder == IOByteOrderEnum::BigEndian)
   {
     ByteSwapper<unsigned short>::SwapFromSystemToBigEndian((unsigned short *)&image_type);
   }
-  if (m_ByteOrder == LittleEndian)
+  if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
   {
     ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian((unsigned short *)&image_type);
   }
@@ -830,11 +830,11 @@ GiplImageIO ::Write(const void * buffer)
     if (i < nDims)
     {
       auto value = static_cast<float>(m_Spacing[i]);
-      if (m_ByteOrder == BigEndian)
+      if (m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<float>::SwapFromSystemToBigEndian((float *)&value);
       }
-      if (m_ByteOrder == LittleEndian)
+      if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<float>::SwapFromSystemToLittleEndian((float *)&value);
       }
@@ -850,11 +850,11 @@ GiplImageIO ::Write(const void * buffer)
     else
     {
       float value = 1.0f;
-      if (m_ByteOrder == BigEndian)
+      if (m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<float>::SwapFromSystemToBigEndian((float *)&value);
       }
-      if (m_ByteOrder == LittleEndian)
+      if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<float>::SwapFromSystemToLittleEndian((float *)&value);
       }
@@ -955,11 +955,11 @@ GiplImageIO ::Write(const void * buffer)
       origin[i] = 0;
     }
 
-    if (m_ByteOrder == BigEndian)
+    if (m_ByteOrder == IOByteOrderEnum::BigEndian)
     {
       ByteSwapper<double>::SwapFromSystemToBigEndian((double *)&origin[i]);
     }
-    if (m_ByteOrder == LittleEndian)
+    if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
     {
       ByteSwapper<double>::SwapFromSystemToLittleEndian((double *)&origin[i]);
     }
@@ -1016,11 +1016,11 @@ GiplImageIO ::Write(const void * buffer)
 
   unsigned int magic_number = GIPL_MAGIC_NUMBER; /*  252    4 Magic Number
                                                   */
-  if (m_ByteOrder == BigEndian)
+  if (m_ByteOrder == IOByteOrderEnum::BigEndian)
   {
     ByteSwapper<unsigned int>::SwapFromSystemToBigEndian(&magic_number);
   }
-  if (m_ByteOrder == LittleEndian)
+  if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
   {
     ByteSwapper<unsigned int>::SwapFromSystemToLittleEndian(&magic_number);
   }
@@ -1037,7 +1037,7 @@ GiplImageIO ::Write(const void * buffer)
   // Actually do the writing
   //
   this->ComputeStrides();
-  if (m_FileType == ASCII)
+  if (m_FileType == IOFileEnum::ASCII)
   {
     this->WriteBufferAsASCII(m_Ofstream, buffer, this->GetComponentType(), this->GetImageSizeInComponents());
   }
@@ -1047,7 +1047,7 @@ GiplImageIO ::Write(const void * buffer)
     const auto numberOfComponents = static_cast<SizeValueType>(this->GetImageSizeInComponents());
 
     // Swap bytes if necessary
-    if (m_ByteOrder == LittleEndian)
+    if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
     {
       auto * tempBuffer = new char[numberOfBytes];
       memcpy(tempBuffer, buffer, numberOfBytes);
@@ -1062,7 +1062,7 @@ GiplImageIO ::Write(const void * buffer)
       }
       delete[] tempBuffer;
     }
-    else if (m_ByteOrder == BigEndian)
+    else if (m_ByteOrder == IOByteOrderEnum::BigEndian)
     {
       auto * tempBuffer = new char[numberOfBytes];
       memcpy(tempBuffer, buffer, numberOfBytes);

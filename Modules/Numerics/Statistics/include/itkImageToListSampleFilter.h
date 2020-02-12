@@ -27,7 +27,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class ImageToListSampleFilter
+/**
+ *\class ImageToListSampleFilter
  *  \brief The class takes an image as input and generates a list sample as
  *  output.
  *

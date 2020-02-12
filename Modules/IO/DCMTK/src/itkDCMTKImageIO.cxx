@@ -39,10 +39,10 @@ DCMTKImageIO::DCMTKImageIO()
   m_DImage = nullptr;
 
   // standard ImageIOBase variables
-  m_ByteOrder = BigEndian;
+  m_ByteOrder = IOByteOrderEnum::BigEndian;
   this->SetNumberOfDimensions(3); // otherwise, things go crazy w/dir cosines
-  m_PixelType = SCALAR;
-  m_ComponentType = UCHAR;
+  m_PixelType = IOPixelEnum::SCALAR;
+  m_ComponentType = IOComponentEnum::UCHAR;
   // m_FileType =
 
   // specific members
@@ -61,63 +61,63 @@ DCMTKImageIO::DCMTKImageIO()
   }
 
   // DCMTK loves printing warnings, turn off by default.
-  this->SetLogLevel(FATAL_LOG_LEVEL);
+  this->SetLogLevel(LogLevelEnum::FATAL_LOG_LEVEL);
 }
 
 void
-DCMTKImageIO ::SetLogLevel(LogLevel level)
+DCMTKImageIO ::SetLogLevel(LogLevelEnum level)
 {
   switch (level)
   {
-    case TRACE_LOG_LEVEL:
+    case LogLevelEnum::TRACE_LOG_LEVEL:
       OFLog::configure(OFLogger::TRACE_LOG_LEVEL);
       break;
-    case DEBUG_LOG_LEVEL:
+    case LogLevelEnum::DEBUG_LOG_LEVEL:
       OFLog::configure(OFLogger::DEBUG_LOG_LEVEL);
       break;
-    case INFO_LOG_LEVEL:
+    case LogLevelEnum::INFO_LOG_LEVEL:
       OFLog::configure(OFLogger::INFO_LOG_LEVEL);
       break;
-    case WARN_LOG_LEVEL:
+    case LogLevelEnum::WARN_LOG_LEVEL:
       OFLog::configure(OFLogger::WARN_LOG_LEVEL);
       break;
-    case ERROR_LOG_LEVEL:
+    case LogLevelEnum::ERROR_LOG_LEVEL:
       OFLog::configure(OFLogger::ERROR_LOG_LEVEL);
       break;
-    case FATAL_LOG_LEVEL:
+    case LogLevelEnum::FATAL_LOG_LEVEL:
       OFLog::configure(OFLogger::FATAL_LOG_LEVEL);
       break;
-    case OFF_LOG_LEVEL:
+    case LogLevelEnum::OFF_LOG_LEVEL:
       OFLog::configure(OFLogger::OFF_LOG_LEVEL);
       break;
     default:
-      itkExceptionMacro(<< "Unknown DCMTK Logging constant " << level);
+      itkExceptionMacro(<< "Unknown DCMTK Logging constant " << static_cast<int>(level));
   }
 }
 
-DCMTKImageIO::LogLevel
+DCMTKImageIO::LogLevelEnum
 DCMTKImageIO ::GetLogLevel() const
 {
   dcmtk::log4cplus::Logger rootLogger = dcmtk::log4cplus::Logger::getRoot();
   switch (rootLogger.getLogLevel())
   {
     case OFLogger::TRACE_LOG_LEVEL:
-      return TRACE_LOG_LEVEL;
+      return LogLevelEnum::TRACE_LOG_LEVEL;
     case OFLogger::DEBUG_LOG_LEVEL:
-      return DEBUG_LOG_LEVEL;
+      return LogLevelEnum::DEBUG_LOG_LEVEL;
     case OFLogger::INFO_LOG_LEVEL:
-      return INFO_LOG_LEVEL;
+      return LogLevelEnum::INFO_LOG_LEVEL;
     case OFLogger::WARN_LOG_LEVEL:
-      return WARN_LOG_LEVEL;
+      return LogLevelEnum::WARN_LOG_LEVEL;
     case OFLogger::ERROR_LOG_LEVEL:
-      return ERROR_LOG_LEVEL;
+      return LogLevelEnum::ERROR_LOG_LEVEL;
     case OFLogger::FATAL_LOG_LEVEL:
-      return FATAL_LOG_LEVEL;
+      return LogLevelEnum::FATAL_LOG_LEVEL;
     case OFLogger::OFF_LOG_LEVEL:
-      return OFF_LOG_LEVEL;
+      return LogLevelEnum::OFF_LOG_LEVEL;
   }
   // will never happen
-  return FATAL_LOG_LEVEL;
+  return LogLevelEnum::FATAL_LOG_LEVEL;
 }
 
 /** Destructor */
@@ -284,9 +284,9 @@ DCMTKImageIO ::Read(void * buffer)
 
   switch (this->m_ComponentType)
   {
-    case UNKNOWNCOMPONENTTYPE:
-    case FLOAT:
-    case DOUBLE:
+    case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
+    case IOComponentEnum::FLOAT:
+    case IOComponentEnum::DOUBLE:
       itkExceptionMacro(<< "Bad component type" << ImageIOBase::GetComponentTypeAsString(this->m_ComponentType));
       break;
     default: // scalarSize already set
@@ -296,7 +296,7 @@ DCMTKImageIO ::Read(void * buffer)
   const DiPixel * const interData = m_DImage->getInterData();
   const void *          data = interData->getData();
   size_t                count = interData->getCount();
-  if (this->m_PixelType == RGB || this->m_PixelType == RGBA)
+  if (this->m_PixelType == IOPixelEnum::RGB || this->m_PixelType == IOPixelEnum::RGBA)
   {
     ReorderRGBValues(buffer, data, count, this->GetNumberOfComponents());
   }
@@ -315,16 +315,16 @@ DCMTKImageIO ::ReorderRGBValues(void * buffer, const void * data, size_t count, 
     // see DCMTK file dcmimage/libsrc/dicoimg.cc (function const void *DiColorImage::getData(...) )
     // DCMTK only supports uint8, uint16, and uint32, but we leave LONG (at least 32bits but
     // could be 64bits) for future support.
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
       ReorderRGBValues<unsigned char>(buffer, data, count, voxel_size);
       break;
-    case USHORT:
+    case IOComponentEnum::USHORT:
       ReorderRGBValues<unsigned short>(buffer, data, count, voxel_size);
       break;
-    case UINT:
+    case IOComponentEnum::UINT:
       ReorderRGBValues<unsigned int>(buffer, data, count, voxel_size);
       break;
-    case ULONG:
+    case IOComponentEnum::ULONG:
       ReorderRGBValues<unsigned long>(buffer, data, count, voxel_size);
       break;
     default:
@@ -466,45 +466,45 @@ DCMTKImageIO::ReadImageInformation()
   switch (pixelRep)
   {
     case EPR_Uint8:
-      this->m_ComponentType = UCHAR;
+      this->m_ComponentType = IOComponentEnum::UCHAR;
       break;
     case EPR_Sint8:
-      this->m_ComponentType = CHAR;
+      this->m_ComponentType = IOComponentEnum::CHAR;
       break;
     case EPR_Uint16:
-      this->m_ComponentType = USHORT;
+      this->m_ComponentType = IOComponentEnum::USHORT;
       break;
     case EPR_Sint16:
-      this->m_ComponentType = SHORT;
+      this->m_ComponentType = IOComponentEnum::SHORT;
       break;
     case EPR_Uint32:
-      this->m_ComponentType = UINT;
+      this->m_ComponentType = IOComponentEnum::UINT;
       break;
     case EPR_Sint32:
-      this->m_ComponentType = INT;
+      this->m_ComponentType = IOComponentEnum::INT;
       break;
     default: // HACK should throw exception
-      this->m_ComponentType = USHORT;
+      this->m_ComponentType = IOComponentEnum::USHORT;
       break;
   }
   int numPlanes = this->m_DImage->getInterData()->getPlanes();
   switch (numPlanes)
   {
     case 1:
-      this->m_PixelType = SCALAR;
+      this->m_PixelType = IOPixelEnum::SCALAR;
       break;
     case 2:
       // hack, supposedly Luminence/Alpha
       this->SetNumberOfComponents(2);
-      this->m_PixelType = VECTOR;
+      this->m_PixelType = IOPixelEnum::VECTOR;
       break;
     case 3:
       this->SetNumberOfComponents(3);
-      this->m_PixelType = RGB;
+      this->m_PixelType = IOPixelEnum::RGB;
       break;
     case 4:
       this->SetNumberOfComponents(4);
-      this->m_PixelType = RGBA;
+      this->m_PixelType = IOPixelEnum::RGBA;
       break;
   }
 }
@@ -525,5 +525,32 @@ void
 DCMTKImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+}
+
+/** Print enum values */
+std::ostream &
+operator<<(std::ostream & out, const DCMTKImageIOEnums::LogLevel value)
+{
+  return out << [value] {
+    switch (value)
+    {
+      case DCMTKImageIOEnums::LogLevel::TRACE_LOG_LEVEL:
+        return "itk::DCMTKImageIOEnums::LogLevel::TRACE_LOG_LEVEL";
+      case DCMTKImageIOEnums::LogLevel::DEBUG_LOG_LEVEL:
+        return "itk::DCMTKImageIOEnums::LogLevel::DEBUG_LOG_LEVEL";
+      case DCMTKImageIOEnums::LogLevel::INFO_LOG_LEVEL:
+        return "itk::DCMTKImageIOEnums::LogLevel::INFO_LOG_LEVEL";
+      case DCMTKImageIOEnums::LogLevel::WARN_LOG_LEVEL:
+        return "itk::DCMTKImageIOEnums::LogLevel::WARN_LOG_LEVEL";
+      case DCMTKImageIOEnums::LogLevel::ERROR_LOG_LEVEL:
+        return "itk::DCMTKImageIOEnums::LogLevel::ERROR_LOG_LEVEL";
+      case DCMTKImageIOEnums::LogLevel::FATAL_LOG_LEVEL:
+        return "itk::DCMTKImageIOEnums::LogLevel::FATAL_LOG_LEVEL";
+      case DCMTKImageIOEnums::LogLevel::OFF_LOG_LEVEL:
+        return "itk::DCMTKImageIOEnums::LogLevel::OFF_LOG_LEVEL";
+      default:
+        return "INVALID VALUE FOR itk::DCMTKImageIOEnums::LogLevel";
+    }
+  }();
 }
 } // end namespace itk

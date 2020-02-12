@@ -33,7 +33,8 @@
 
 namespace itk
 {
-/** \class BSplineL2ResampleImageFilterBase
+/**
+ *\class BSplineL2ResampleImageFilterBase
  * \brief Uses the "Centered l2" B-Spline pyramid implementation of B-Spline Filters
  *        to up/down sample an image by a factor of 2.
  *

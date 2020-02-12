@@ -217,21 +217,26 @@ itkHistogramToTextureFeaturesFilterTest(int, char *[])
   }
 
   // Get the texture features using GetFeature() method
-  double energy2 = filter->GetFeature(HistogramToTextureFeaturesFilterType::Energy);
+  double energy2 = filter->GetFeature(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::Energy);
 
-  double entropy2 = filter->GetFeature(HistogramToTextureFeaturesFilterType::Entropy);
+  double entropy2 = filter->GetFeature(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::Entropy);
 
-  double correlation2 = filter->GetFeature(HistogramToTextureFeaturesFilterType::Correlation);
+  double correlation2 =
+    filter->GetFeature(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::Correlation);
 
-  double inverseDifferenceMoment2 = filter->GetFeature(HistogramToTextureFeaturesFilterType::InverseDifferenceMoment);
+  double inverseDifferenceMoment2 =
+    filter->GetFeature(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::InverseDifferenceMoment);
 
-  double inertia2 = filter->GetFeature(HistogramToTextureFeaturesFilterType::Inertia);
+  double inertia2 = filter->GetFeature(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::Inertia);
 
-  double clusterShade2 = filter->GetFeature(HistogramToTextureFeaturesFilterType::ClusterShade);
+  double clusterShade2 =
+    filter->GetFeature(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::ClusterShade);
 
-  double clusterProminence2 = filter->GetFeature(HistogramToTextureFeaturesFilterType::ClusterProminence);
+  double clusterProminence2 =
+    filter->GetFeature(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::ClusterProminence);
 
-  double haralickCorrelation2 = filter->GetFeature(HistogramToTextureFeaturesFilterType::HaralickCorrelation);
+  double haralickCorrelation2 =
+    filter->GetFeature(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::HaralickCorrelation);
 
   if (itk::Math::abs(energy2 - trueEnergy) > 0.001)
   {
@@ -296,7 +301,7 @@ itkHistogramToTextureFeaturesFilterTest(int, char *[])
 
   // Test inquiry for invalid feature
 
-  if (filter->GetFeature(HistogramToTextureFeaturesFilterType::InvalidFeatureName))
+  if (filter->GetFeature(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::InvalidFeatureName))
   {
     std::cerr << "Error: " << std::endl;
     std::cerr << "GetFeature() is returing non-zero feature value: "
@@ -304,6 +309,22 @@ itkHistogramToTextureFeaturesFilterTest(int, char *[])
     passed = false;
   }
 
+  // Test streaming enumeration for HistogramToTextureFeaturesFilterEnums::TextureFeature elements
+  const std::set<itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature> allTextureFeature{
+    itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::Energy,
+    itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::Entropy,
+    itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::Correlation,
+    itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::InverseDifferenceMoment,
+    itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::Inertia,
+    itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::ClusterShade,
+    itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::ClusterProminence,
+    itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::HaralickCorrelation,
+    itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::InvalidFeatureName
+  };
+  for (const auto & ee : allTextureFeature)
+  {
+    std::cout << "STREAMED ENUM VALUE HistogramToTextureFeaturesFilterEnums::TextureFeature: " << ee << std::endl;
+  }
 
   if (!passed)
   {

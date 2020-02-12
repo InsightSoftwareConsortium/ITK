@@ -188,5 +188,18 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int, char *[])
     }
     std::cout << "[PASSED]" << std::endl;
   }
+
+  // Test streaming enumeration for DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat elements
+  const std::set<itk::DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat> allGradientImageFormat{
+    itk::DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::GradientIsInASingleImage,
+    itk::DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::GradientIsInManyImages,
+    itk::DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::Else
+  };
+  for (const auto & ee : allGradientImageFormat)
+  {
+    std::cout << "STREAMED ENUM VALUE DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat: " << ee
+              << std::endl;
+  }
+
   return result;
 }

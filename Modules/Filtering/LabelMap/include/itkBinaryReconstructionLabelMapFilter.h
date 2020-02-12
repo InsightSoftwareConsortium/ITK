@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class BinaryReconstructionLabelMapFilter
+/**
+ *\class BinaryReconstructionLabelMapFilter
  * \brief Mark the objects at least partially at the same position as the objects in a binary image
  *
  * The attribute is accessed through the accessor given with TAttributeAccessor.

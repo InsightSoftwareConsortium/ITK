@@ -60,8 +60,8 @@ itkDiscreteGaussianDerivativeImageFunctionTestND(int argc, char * argv[])
 
   double                                                              maxError = 0.001;
   unsigned int                                                        maxKernelWidth = 100;
-  typename GaussianDerivativeImageFunctionType::InterpolationModeType interpolationMode =
-    GaussianDerivativeImageFunctionType::NearestNeighbourInterpolation;
+  typename GaussianDerivativeImageFunctionType::InterpolationModeEnum interpolationMode =
+    GaussianDerivativeImageFunctionType::InterpolationModeEnum::NearestNeighbourInterpolation;
 
   if (argc > 5)
   {
@@ -74,7 +74,7 @@ itkDiscreteGaussianDerivativeImageFunctionTestND(int argc, char * argv[])
   if (argc > 7)
   {
     interpolationMode =
-      static_cast<typename GaussianDerivativeImageFunctionType::InterpolationModeType>(std::stoi(argv[7]));
+      static_cast<typename GaussianDerivativeImageFunctionType::InterpolationModeEnum>(std::stoi(argv[7]));
   }
 
 

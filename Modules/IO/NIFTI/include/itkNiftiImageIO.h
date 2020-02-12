@@ -51,7 +51,8 @@ enum class Analyze75Flavor : uint8_t
 extern ITKIONIFTI_EXPORT std::ostream &
                          operator<<(std::ostream & out, const Analyze75Flavor value);
 
-/** \class NiftiImageIO
+/**
+ *\class NiftiImageIO
  *
  * \author Hans J. Johnson, The University of Iowa 2002
  * \brief Class that defines how to read Nifti file format.
@@ -100,7 +101,7 @@ public:
    * and to determine what kind of file it is (Analyze vs NIfTI). Note that the value
    * of LegacyAnalyze75Mode is ignored by this method.
    * \param FileNameToRead The name of the file to test for reading.
-   * \return Returns one of the FileType enumerations.
+   * \return Returns one of the IOFileEnum enumerations.
    */
   FileType
   DetermineFileType(const char * FileNameToRead);
@@ -211,7 +212,7 @@ private:
   double m_RescaleSlope{ 1.0 };
   double m_RescaleIntercept{ 0.0 };
 
-  IOComponentType m_OnDiskComponentType{ UNKNOWNCOMPONENTTYPE };
+  IOComponentEnum m_OnDiskComponentType{ IOComponentEnum::UNKNOWNCOMPONENTTYPE };
 
   Analyze75Flavor m_LegacyAnalyze75Mode;
 };

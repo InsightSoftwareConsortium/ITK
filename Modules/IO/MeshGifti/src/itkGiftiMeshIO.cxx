@@ -48,8 +48,8 @@ GiftiMeshIO ::GiftiMeshIO()
   this->AddSupportedWriteExtension(".gii");
   m_ReadPointData = true;
   m_Direction.SetIdentity();
-  this->m_FileType = BINARY;
-  this->m_ByteOrder = BigEndian;
+  this->m_FileType = IOFileEnum::BINARY;
+  this->m_ByteOrder = IOByteOrderEnum::BigEndian;
   this->m_UseCompression = true;
 }
 
@@ -171,37 +171,37 @@ GiftiMeshIO ::ReadMeshInformation()
       switch (m_GiftiImage->darray[ii]->datatype)
       {
         case NIFTI_TYPE_INT8:
-          this->m_PointComponentType = CHAR;
+          this->m_PointComponentType = IOComponentEnum::CHAR;
           break;
         case NIFTI_TYPE_UINT8:
-          this->m_PointComponentType = UCHAR;
+          this->m_PointComponentType = IOComponentEnum::UCHAR;
           break;
         case NIFTI_TYPE_INT16:
-          this->m_PointComponentType = SHORT;
+          this->m_PointComponentType = IOComponentEnum::SHORT;
           break;
         case NIFTI_TYPE_UINT16:
-          this->m_PointComponentType = USHORT;
+          this->m_PointComponentType = IOComponentEnum::USHORT;
           break;
         case NIFTI_TYPE_INT32:
-          this->m_PointComponentType = INT;
+          this->m_PointComponentType = IOComponentEnum::INT;
           break;
         case NIFTI_TYPE_UINT32:
-          this->m_PointComponentType = UINT;
+          this->m_PointComponentType = IOComponentEnum::UINT;
           break;
         case NIFTI_TYPE_INT64:
-          this->m_PointComponentType = LONGLONG;
+          this->m_PointComponentType = IOComponentEnum::LONGLONG;
           break;
         case NIFTI_TYPE_UINT64:
-          this->m_PointComponentType = ULONGLONG;
+          this->m_PointComponentType = IOComponentEnum::ULONGLONG;
           break;
         case NIFTI_TYPE_FLOAT32:
-          this->m_PointComponentType = FLOAT;
+          this->m_PointComponentType = IOComponentEnum::FLOAT;
           break;
         case NIFTI_TYPE_FLOAT64:
-          this->m_PointComponentType = DOUBLE;
+          this->m_PointComponentType = IOComponentEnum::DOUBLE;
           break;
         case NIFTI_TYPE_FLOAT128:
-          this->m_PointComponentType = LDOUBLE;
+          this->m_PointComponentType = IOComponentEnum::LDOUBLE;
           break;
         default:
           itkExceptionMacro(<< "Unknown point component type");
@@ -240,37 +240,37 @@ GiftiMeshIO ::ReadMeshInformation()
       switch (m_GiftiImage->darray[ii]->datatype)
       {
         case NIFTI_TYPE_INT8:
-          this->m_CellComponentType = CHAR;
+          this->m_CellComponentType = IOComponentEnum::CHAR;
           break;
         case NIFTI_TYPE_UINT8:
-          this->m_CellComponentType = UCHAR;
+          this->m_CellComponentType = IOComponentEnum::UCHAR;
           break;
         case NIFTI_TYPE_INT16:
-          this->m_CellComponentType = SHORT;
+          this->m_CellComponentType = IOComponentEnum::SHORT;
           break;
         case NIFTI_TYPE_UINT16:
-          this->m_CellComponentType = USHORT;
+          this->m_CellComponentType = IOComponentEnum::USHORT;
           break;
         case NIFTI_TYPE_INT32:
-          this->m_CellComponentType = INT;
+          this->m_CellComponentType = IOComponentEnum::INT;
           break;
         case NIFTI_TYPE_UINT32:
-          this->m_CellComponentType = UINT;
+          this->m_CellComponentType = IOComponentEnum::UINT;
           break;
         case NIFTI_TYPE_INT64:
-          this->m_CellComponentType = LONGLONG;
+          this->m_CellComponentType = IOComponentEnum::LONGLONG;
           break;
         case NIFTI_TYPE_UINT64:
-          this->m_CellComponentType = ULONGLONG;
+          this->m_CellComponentType = IOComponentEnum::ULONGLONG;
           break;
         case NIFTI_TYPE_FLOAT32:
-          this->m_CellComponentType = FLOAT;
+          this->m_CellComponentType = IOComponentEnum::FLOAT;
           break;
         case NIFTI_TYPE_FLOAT64:
-          this->m_CellComponentType = DOUBLE;
+          this->m_CellComponentType = IOComponentEnum::DOUBLE;
           break;
         case NIFTI_TYPE_FLOAT128:
-          this->m_CellComponentType = LDOUBLE;
+          this->m_CellComponentType = IOComponentEnum::LDOUBLE;
           break;
         default:
           gifti_free_image(m_GiftiImage);
@@ -317,58 +317,58 @@ GiftiMeshIO ::ReadMeshInformation()
           switch (m_GiftiImage->darray[ii]->datatype)
           {
             case NIFTI_TYPE_INT8:
-              this->m_PointPixelComponentType = CHAR;
-              this->m_PointPixelType = SCALAR;
+              this->m_PointPixelComponentType = IOComponentEnum::CHAR;
+              this->m_PointPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_UINT8:
-              this->m_PointPixelComponentType = UCHAR;
-              this->m_PointPixelType = SCALAR;
+              this->m_PointPixelComponentType = IOComponentEnum::UCHAR;
+              this->m_PointPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_INT16:
-              this->m_PointPixelComponentType = SHORT;
-              this->m_PointPixelType = SCALAR;
+              this->m_PointPixelComponentType = IOComponentEnum::SHORT;
+              this->m_PointPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_UINT16:
-              this->m_PointPixelComponentType = USHORT;
-              this->m_PointPixelType = SCALAR;
+              this->m_PointPixelComponentType = IOComponentEnum::USHORT;
+              this->m_PointPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_INT32:
-              this->m_PointPixelComponentType = INT;
-              this->m_PointPixelType = SCALAR;
+              this->m_PointPixelComponentType = IOComponentEnum::INT;
+              this->m_PointPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_UINT32:
-              this->m_PointPixelComponentType = UINT;
-              this->m_PointPixelType = SCALAR;
+              this->m_PointPixelComponentType = IOComponentEnum::UINT;
+              this->m_PointPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_INT64:
-              this->m_PointPixelComponentType = LONGLONG;
-              this->m_PointPixelType = SCALAR;
+              this->m_PointPixelComponentType = IOComponentEnum::LONGLONG;
+              this->m_PointPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_UINT64:
-              this->m_PointPixelComponentType = ULONGLONG;
-              this->m_PointPixelType = SCALAR;
+              this->m_PointPixelComponentType = IOComponentEnum::ULONGLONG;
+              this->m_PointPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_FLOAT32:
-              this->m_PointPixelComponentType = FLOAT;
-              this->m_PointPixelType = SCALAR;
+              this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
+              this->m_PointPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_FLOAT64:
-              this->m_PointPixelComponentType = DOUBLE;
-              this->m_PointPixelType = SCALAR;
+              this->m_PointPixelComponentType = IOComponentEnum::DOUBLE;
+              this->m_PointPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_COMPLEX64:
-              this->m_PointPixelComponentType = FLOAT;
-              this->m_PointPixelType = COMPLEX;
+              this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
+              this->m_PointPixelType = IOPixelEnum::COMPLEX;
               this->SetNumberOfPointPixelComponents(2);
               break;
             case NIFTI_TYPE_COMPLEX128:
-              this->m_PointPixelComponentType = DOUBLE;
-              this->m_PointPixelType = COMPLEX;
+              this->m_PointPixelComponentType = IOComponentEnum::DOUBLE;
+              this->m_PointPixelType = IOPixelEnum::COMPLEX;
               this->SetNumberOfPointPixelComponents(2);
               break;
             case NIFTI_TYPE_RGB24:
-              this->m_PointPixelComponentType = UCHAR;
-              this->m_PointPixelType = RGB;
+              this->m_PointPixelComponentType = IOComponentEnum::UCHAR;
+              this->m_PointPixelType = IOPixelEnum::RGB;
               this->SetNumberOfPointPixelComponents(3);
               // TODO:  Need to be able to read/write RGB images into ITK.
               //    case DT_RGB:
@@ -376,8 +376,8 @@ GiftiMeshIO ::ReadMeshInformation()
               // image.setDataType( uiig::DATA_RGBQUAD );
               break;
             case NIFTI_TYPE_RGBA32:
-              this->m_PointPixelComponentType = UCHAR;
-              this->m_PointPixelType = RGBA;
+              this->m_PointPixelComponentType = IOComponentEnum::UCHAR;
+              this->m_PointPixelType = IOPixelEnum::RGBA;
               this->SetNumberOfPointPixelComponents(4);
               break;
             default:
@@ -392,50 +392,50 @@ GiftiMeshIO ::ReadMeshInformation()
           switch (m_GiftiImage->darray[ii]->datatype)
           {
             case NIFTI_TYPE_INT8:
-              this->m_CellPixelComponentType = CHAR;
-              this->m_CellPixelType = SCALAR;
+              this->m_CellPixelComponentType = IOComponentEnum::CHAR;
+              this->m_CellPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_UINT8:
-              this->m_CellPixelComponentType = UCHAR;
-              this->m_CellPixelType = SCALAR;
+              this->m_CellPixelComponentType = IOComponentEnum::UCHAR;
+              this->m_CellPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_INT16:
-              this->m_CellPixelComponentType = SHORT;
-              this->m_CellPixelType = SCALAR;
+              this->m_CellPixelComponentType = IOComponentEnum::SHORT;
+              this->m_CellPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_UINT16:
-              this->m_CellPixelComponentType = USHORT;
-              this->m_CellPixelType = SCALAR;
+              this->m_CellPixelComponentType = IOComponentEnum::USHORT;
+              this->m_CellPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_INT32:
-              this->m_CellPixelComponentType = INT;
-              this->m_CellPixelType = SCALAR;
+              this->m_CellPixelComponentType = IOComponentEnum::INT;
+              this->m_CellPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_UINT32:
-              this->m_CellPixelComponentType = UINT;
-              this->m_CellPixelType = SCALAR;
+              this->m_CellPixelComponentType = IOComponentEnum::UINT;
+              this->m_CellPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_FLOAT32:
-              this->m_CellPixelComponentType = FLOAT;
-              this->m_CellPixelType = SCALAR;
+              this->m_CellPixelComponentType = IOComponentEnum::FLOAT;
+              this->m_CellPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_FLOAT64:
-              this->m_CellPixelComponentType = DOUBLE;
-              this->m_CellPixelType = SCALAR;
+              this->m_CellPixelComponentType = IOComponentEnum::DOUBLE;
+              this->m_CellPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_COMPLEX64:
-              this->m_CellPixelComponentType = FLOAT;
-              this->m_CellPixelType = COMPLEX;
+              this->m_CellPixelComponentType = IOComponentEnum::FLOAT;
+              this->m_CellPixelType = IOPixelEnum::COMPLEX;
               this->SetNumberOfCellPixelComponents(2);
               break;
             case NIFTI_TYPE_COMPLEX128:
-              this->m_CellPixelComponentType = DOUBLE;
-              this->m_CellPixelType = COMPLEX;
+              this->m_CellPixelComponentType = IOComponentEnum::DOUBLE;
+              this->m_CellPixelType = IOPixelEnum::COMPLEX;
               this->SetNumberOfCellPixelComponents(2);
               break;
             case NIFTI_TYPE_RGB24:
-              this->m_CellPixelComponentType = UCHAR;
-              this->m_CellPixelType = RGB;
+              this->m_CellPixelComponentType = IOComponentEnum::UCHAR;
+              this->m_CellPixelType = IOPixelEnum::RGB;
               this->SetNumberOfCellPixelComponents(3);
               // TODO:  Need to be able to read/write RGB images into ITK.
               //    case DT_RGB:
@@ -443,8 +443,8 @@ GiftiMeshIO ::ReadMeshInformation()
               // image.setDataType( uiig::DATA_RGBQUAD );
               break;
             case NIFTI_TYPE_RGBA32:
-              this->m_CellPixelComponentType = UCHAR;
-              this->m_CellPixelType = RGBA;
+              this->m_CellPixelComponentType = IOComponentEnum::UCHAR;
+              this->m_CellPixelType = IOPixelEnum::RGBA;
               this->SetNumberOfCellPixelComponents(4);
               break;
             default:
@@ -495,58 +495,58 @@ GiftiMeshIO ::ReadMeshInformation()
             switch (m_GiftiImage->darray[ii]->datatype)
             {
               case NIFTI_TYPE_INT8:
-                this->m_PointPixelComponentType = CHAR;
-                this->m_PointPixelType = VECTOR;
+                this->m_PointPixelComponentType = IOComponentEnum::CHAR;
+                this->m_PointPixelType = IOPixelEnum::VECTOR;
                 break;
               case NIFTI_TYPE_UINT8:
-                this->m_PointPixelComponentType = UCHAR;
-                this->m_PointPixelType = VECTOR;
+                this->m_PointPixelComponentType = IOComponentEnum::UCHAR;
+                this->m_PointPixelType = IOPixelEnum::VECTOR;
                 break;
               case NIFTI_TYPE_INT16:
-                this->m_PointPixelComponentType = SHORT;
-                this->m_PointPixelType = VECTOR;
+                this->m_PointPixelComponentType = IOComponentEnum::SHORT;
+                this->m_PointPixelType = IOPixelEnum::VECTOR;
                 break;
               case NIFTI_TYPE_UINT16:
-                this->m_PointPixelComponentType = USHORT;
-                this->m_PointPixelType = VECTOR;
+                this->m_PointPixelComponentType = IOComponentEnum::USHORT;
+                this->m_PointPixelType = IOPixelEnum::VECTOR;
                 break;
               case NIFTI_TYPE_INT32:
-                this->m_PointPixelComponentType = INT;
-                this->m_PointPixelType = VECTOR;
+                this->m_PointPixelComponentType = IOComponentEnum::INT;
+                this->m_PointPixelType = IOPixelEnum::VECTOR;
                 break;
               case NIFTI_TYPE_UINT32:
-                this->m_PointPixelComponentType = UINT;
-                this->m_PointPixelType = VECTOR;
+                this->m_PointPixelComponentType = IOComponentEnum::UINT;
+                this->m_PointPixelType = IOPixelEnum::VECTOR;
                 break;
               case NIFTI_TYPE_INT64:
-                this->m_PointPixelComponentType = LONGLONG;
-                this->m_PointPixelType = VECTOR;
+                this->m_PointPixelComponentType = IOComponentEnum::LONGLONG;
+                this->m_PointPixelType = IOPixelEnum::VECTOR;
                 break;
               case NIFTI_TYPE_UINT64:
-                this->m_PointPixelComponentType = ULONGLONG;
-                this->m_PointPixelType = VECTOR;
+                this->m_PointPixelComponentType = IOComponentEnum::ULONGLONG;
+                this->m_PointPixelType = IOPixelEnum::VECTOR;
                 break;
               case NIFTI_TYPE_FLOAT32:
-                this->m_PointPixelComponentType = FLOAT;
-                this->m_PointPixelType = VECTOR;
+                this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
+                this->m_PointPixelType = IOPixelEnum::VECTOR;
                 break;
               case NIFTI_TYPE_FLOAT64:
-                this->m_PointPixelComponentType = DOUBLE;
-                this->m_PointPixelType = VECTOR;
+                this->m_PointPixelComponentType = IOComponentEnum::DOUBLE;
+                this->m_PointPixelType = IOPixelEnum::VECTOR;
                 break;
               case NIFTI_TYPE_COMPLEX64:
-                this->m_PointPixelComponentType = FLOAT;
-                this->m_PointPixelType = COMPLEX;
+                this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
+                this->m_PointPixelType = IOPixelEnum::COMPLEX;
                 this->SetNumberOfPointPixelComponents(2);
                 break;
               case NIFTI_TYPE_COMPLEX128:
-                this->m_PointPixelComponentType = DOUBLE;
-                this->m_PointPixelType = COMPLEX;
+                this->m_PointPixelComponentType = IOComponentEnum::DOUBLE;
+                this->m_PointPixelType = IOPixelEnum::COMPLEX;
                 this->SetNumberOfPointPixelComponents(2);
                 break;
               case NIFTI_TYPE_RGB24:
-                this->m_PointPixelComponentType = UCHAR;
-                this->m_PointPixelType = RGB;
+                this->m_PointPixelComponentType = IOComponentEnum::UCHAR;
+                this->m_PointPixelType = IOPixelEnum::RGB;
                 this->SetNumberOfPointPixelComponents(3);
                 // TODO:  Need to be able to read/write RGB images into ITK.
                 //    case DT_RGB:
@@ -554,8 +554,8 @@ GiftiMeshIO ::ReadMeshInformation()
                 // image.setDataType( uiig::DATA_RGBQUAD );
                 break;
               case NIFTI_TYPE_RGBA32:
-                this->m_PointPixelComponentType = UCHAR;
-                this->m_PointPixelType = RGBA;
+                this->m_PointPixelComponentType = IOComponentEnum::UCHAR;
+                this->m_PointPixelType = IOPixelEnum::RGBA;
                 this->SetNumberOfPointPixelComponents(4);
                 break;
               default:
@@ -574,50 +574,50 @@ GiftiMeshIO ::ReadMeshInformation()
             switch (m_GiftiImage->darray[ii]->datatype)
             {
               case NIFTI_TYPE_INT8:
-                this->m_CellPixelComponentType = CHAR;
-                this->m_CellPixelType = VECTOR;
+                this->m_CellPixelComponentType = IOComponentEnum::CHAR;
+                this->m_CellPixelType = IOPixelEnum::VECTOR;
                 break;
               case NIFTI_TYPE_UINT8:
-                this->m_CellPixelComponentType = UCHAR;
-                this->m_CellPixelType = VECTOR;
+                this->m_CellPixelComponentType = IOComponentEnum::UCHAR;
+                this->m_CellPixelType = IOPixelEnum::VECTOR;
                 break;
               case NIFTI_TYPE_INT16:
-                this->m_CellPixelComponentType = SHORT;
-                this->m_CellPixelType = VECTOR;
+                this->m_CellPixelComponentType = IOComponentEnum::SHORT;
+                this->m_CellPixelType = IOPixelEnum::VECTOR;
                 break;
               case NIFTI_TYPE_UINT16:
-                this->m_CellPixelComponentType = USHORT;
-                this->m_CellPixelType = VECTOR;
+                this->m_CellPixelComponentType = IOComponentEnum::USHORT;
+                this->m_CellPixelType = IOPixelEnum::VECTOR;
                 break;
               case NIFTI_TYPE_INT32:
-                this->m_CellPixelComponentType = INT;
-                this->m_CellPixelType = VECTOR;
+                this->m_CellPixelComponentType = IOComponentEnum::INT;
+                this->m_CellPixelType = IOPixelEnum::VECTOR;
                 break;
               case NIFTI_TYPE_UINT32:
-                this->m_CellPixelComponentType = UINT;
-                this->m_CellPixelType = VECTOR;
+                this->m_CellPixelComponentType = IOComponentEnum::UINT;
+                this->m_CellPixelType = IOPixelEnum::VECTOR;
                 break;
               case NIFTI_TYPE_FLOAT32:
-                this->m_CellPixelComponentType = FLOAT;
-                this->m_CellPixelType = VECTOR;
+                this->m_CellPixelComponentType = IOComponentEnum::FLOAT;
+                this->m_CellPixelType = IOPixelEnum::VECTOR;
                 break;
               case NIFTI_TYPE_FLOAT64:
-                this->m_CellPixelComponentType = DOUBLE;
-                this->m_CellPixelType = VECTOR;
+                this->m_CellPixelComponentType = IOComponentEnum::DOUBLE;
+                this->m_CellPixelType = IOPixelEnum::VECTOR;
                 break;
               case NIFTI_TYPE_COMPLEX64:
-                this->m_CellPixelComponentType = FLOAT;
-                this->m_CellPixelType = COMPLEX;
+                this->m_CellPixelComponentType = IOComponentEnum::FLOAT;
+                this->m_CellPixelType = IOPixelEnum::COMPLEX;
                 this->SetNumberOfCellPixelComponents(2);
                 break;
               case NIFTI_TYPE_COMPLEX128:
-                this->m_CellPixelComponentType = DOUBLE;
-                this->m_CellPixelType = COMPLEX;
+                this->m_CellPixelComponentType = IOComponentEnum::DOUBLE;
+                this->m_CellPixelType = IOPixelEnum::COMPLEX;
                 this->SetNumberOfCellPixelComponents(2);
                 break;
               case NIFTI_TYPE_RGB24:
-                this->m_CellPixelComponentType = UCHAR;
-                this->m_CellPixelType = RGB;
+                this->m_CellPixelComponentType = IOComponentEnum::UCHAR;
+                this->m_CellPixelType = IOPixelEnum::RGB;
                 this->SetNumberOfCellPixelComponents(3);
                 // TODO:  Need to be able to read/write RGB images into ITK.
                 //    case DT_RGB:
@@ -625,8 +625,8 @@ GiftiMeshIO ::ReadMeshInformation()
                 // image.setDataType( uiig::DATA_RGBQUAD );
                 break;
               case NIFTI_TYPE_RGBA32:
-                this->m_CellPixelComponentType = UCHAR;
-                this->m_CellPixelType = RGBA;
+                this->m_CellPixelComponentType = IOComponentEnum::UCHAR;
+                this->m_CellPixelType = IOPixelEnum::RGBA;
                 this->SetNumberOfCellPixelComponents(4);
                 break;
               default:
@@ -710,58 +710,58 @@ GiftiMeshIO ::ReadMeshInformation()
           switch (m_GiftiImage->darray[ii]->datatype)
           {
             case NIFTI_TYPE_INT8:
-              this->m_PointPixelComponentType = CHAR;
-              this->m_PointPixelType = SCALAR;
+              this->m_PointPixelComponentType = IOComponentEnum::CHAR;
+              this->m_PointPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_UINT8:
-              this->m_PointPixelComponentType = UCHAR;
-              this->m_PointPixelType = SCALAR;
+              this->m_PointPixelComponentType = IOComponentEnum::UCHAR;
+              this->m_PointPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_INT16:
-              this->m_PointPixelComponentType = SHORT;
-              this->m_PointPixelType = SCALAR;
+              this->m_PointPixelComponentType = IOComponentEnum::SHORT;
+              this->m_PointPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_UINT16:
-              this->m_PointPixelComponentType = USHORT;
-              this->m_PointPixelType = SCALAR;
+              this->m_PointPixelComponentType = IOComponentEnum::USHORT;
+              this->m_PointPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_INT32:
-              this->m_PointPixelComponentType = INT;
-              this->m_PointPixelType = SCALAR;
+              this->m_PointPixelComponentType = IOComponentEnum::INT;
+              this->m_PointPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_UINT32:
-              this->m_PointPixelComponentType = UINT;
-              this->m_PointPixelType = SCALAR;
+              this->m_PointPixelComponentType = IOComponentEnum::UINT;
+              this->m_PointPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_INT64:
-              this->m_PointPixelComponentType = LONGLONG;
-              this->m_PointPixelType = SCALAR;
+              this->m_PointPixelComponentType = IOComponentEnum::LONGLONG;
+              this->m_PointPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_UINT64:
-              this->m_PointPixelComponentType = ULONGLONG;
-              this->m_PointPixelType = SCALAR;
+              this->m_PointPixelComponentType = IOComponentEnum::ULONGLONG;
+              this->m_PointPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_FLOAT32:
-              this->m_PointPixelComponentType = FLOAT;
-              this->m_PointPixelType = SCALAR;
+              this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
+              this->m_PointPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_FLOAT64:
-              this->m_PointPixelComponentType = DOUBLE;
-              this->m_PointPixelType = SCALAR;
+              this->m_PointPixelComponentType = IOComponentEnum::DOUBLE;
+              this->m_PointPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_COMPLEX64:
-              this->m_PointPixelComponentType = FLOAT;
-              this->m_PointPixelType = COMPLEX;
+              this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
+              this->m_PointPixelType = IOPixelEnum::COMPLEX;
               this->SetNumberOfPointPixelComponents(2);
               break;
             case NIFTI_TYPE_COMPLEX128:
-              this->m_PointPixelComponentType = DOUBLE;
-              this->m_PointPixelType = COMPLEX;
+              this->m_PointPixelComponentType = IOComponentEnum::DOUBLE;
+              this->m_PointPixelType = IOPixelEnum::COMPLEX;
               this->SetNumberOfPointPixelComponents(2);
               break;
             case NIFTI_TYPE_RGB24:
-              this->m_PointPixelComponentType = UCHAR;
-              this->m_PointPixelType = RGB;
+              this->m_PointPixelComponentType = IOComponentEnum::UCHAR;
+              this->m_PointPixelType = IOPixelEnum::RGB;
               this->SetNumberOfPointPixelComponents(3);
               // TODO:  Need to be able to read/write RGB images into ITK.
               //    case DT_RGB:
@@ -769,8 +769,8 @@ GiftiMeshIO ::ReadMeshInformation()
               // image.setDataType( uiig::DATA_RGBQUAD );
               break;
             case NIFTI_TYPE_RGBA32:
-              this->m_PointPixelComponentType = UCHAR;
-              this->m_PointPixelType = RGBA;
+              this->m_PointPixelComponentType = IOComponentEnum::UCHAR;
+              this->m_PointPixelType = IOPixelEnum::RGBA;
               this->SetNumberOfPointPixelComponents(4);
               break;
             default:
@@ -785,50 +785,50 @@ GiftiMeshIO ::ReadMeshInformation()
           switch (m_GiftiImage->darray[ii]->datatype)
           {
             case NIFTI_TYPE_INT8:
-              this->m_CellPixelComponentType = CHAR;
-              this->m_CellPixelType = SCALAR;
+              this->m_CellPixelComponentType = IOComponentEnum::CHAR;
+              this->m_CellPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_UINT8:
-              this->m_CellPixelComponentType = UCHAR;
-              this->m_CellPixelType = SCALAR;
+              this->m_CellPixelComponentType = IOComponentEnum::UCHAR;
+              this->m_CellPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_INT16:
-              this->m_CellPixelComponentType = SHORT;
-              this->m_CellPixelType = SCALAR;
+              this->m_CellPixelComponentType = IOComponentEnum::SHORT;
+              this->m_CellPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_UINT16:
-              this->m_CellPixelComponentType = USHORT;
-              this->m_CellPixelType = SCALAR;
+              this->m_CellPixelComponentType = IOComponentEnum::USHORT;
+              this->m_CellPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_INT32:
-              this->m_CellPixelComponentType = INT;
-              this->m_CellPixelType = SCALAR;
+              this->m_CellPixelComponentType = IOComponentEnum::INT;
+              this->m_CellPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_UINT32:
-              this->m_CellPixelComponentType = UINT;
-              this->m_CellPixelType = SCALAR;
+              this->m_CellPixelComponentType = IOComponentEnum::UINT;
+              this->m_CellPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_FLOAT32:
-              this->m_CellPixelComponentType = FLOAT;
-              this->m_CellPixelType = SCALAR;
+              this->m_CellPixelComponentType = IOComponentEnum::FLOAT;
+              this->m_CellPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_FLOAT64:
-              this->m_CellPixelComponentType = DOUBLE;
-              this->m_CellPixelType = SCALAR;
+              this->m_CellPixelComponentType = IOComponentEnum::DOUBLE;
+              this->m_CellPixelType = IOPixelEnum::SCALAR;
               break;
             case NIFTI_TYPE_COMPLEX64:
-              this->m_CellPixelComponentType = FLOAT;
-              this->m_CellPixelType = COMPLEX;
+              this->m_CellPixelComponentType = IOComponentEnum::FLOAT;
+              this->m_CellPixelType = IOPixelEnum::COMPLEX;
               this->SetNumberOfCellPixelComponents(2);
               break;
             case NIFTI_TYPE_COMPLEX128:
-              this->m_CellPixelComponentType = DOUBLE;
-              this->m_CellPixelType = COMPLEX;
+              this->m_CellPixelComponentType = IOComponentEnum::DOUBLE;
+              this->m_CellPixelType = IOPixelEnum::COMPLEX;
               this->SetNumberOfCellPixelComponents(2);
               break;
             case NIFTI_TYPE_RGB24:
-              this->m_CellPixelComponentType = UCHAR;
-              this->m_CellPixelType = RGB;
+              this->m_CellPixelComponentType = IOComponentEnum::UCHAR;
+              this->m_CellPixelType = IOPixelEnum::RGB;
               this->SetNumberOfCellPixelComponents(3);
               // TODO:  Need to be able to read/write RGB images into ITK.
               //    case DT_RGB:
@@ -836,8 +836,8 @@ GiftiMeshIO ::ReadMeshInformation()
               // image.setDataType( uiig::DATA_RGBQUAD );
               break;
             case NIFTI_TYPE_RGBA32:
-              this->m_CellPixelComponentType = UCHAR;
-              this->m_CellPixelType = RGBA;
+              this->m_CellPixelComponentType = IOComponentEnum::UCHAR;
+              this->m_CellPixelType = IOPixelEnum::RGBA;
               this->SetNumberOfCellPixelComponents(4);
               break;
             default:
@@ -895,119 +895,119 @@ GiftiMeshIO ::ReadCells(void * buffer)
     {
       switch (this->m_CellComponentType)
       {
-        case CHAR:
+        case IOComponentEnum::CHAR:
         {
           this->WriteCellsBuffer(static_cast<char *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<char *>(buffer),
-                                 TRIANGLE_CELL,
+                                 CellGeometryEnum::TRIANGLE_CELL,
                                  3,
                                  this->m_NumberOfCells);
           break;
         }
-        case UCHAR:
+        case IOComponentEnum::UCHAR:
         {
           this->WriteCellsBuffer(static_cast<unsigned char *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<unsigned char *>(buffer),
-                                 TRIANGLE_CELL,
+                                 CellGeometryEnum::TRIANGLE_CELL,
                                  3,
                                  this->m_NumberOfCells);
           break;
         }
-        case USHORT:
+        case IOComponentEnum::USHORT:
         {
           this->WriteCellsBuffer(static_cast<unsigned short *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<unsigned short *>(buffer),
-                                 TRIANGLE_CELL,
+                                 CellGeometryEnum::TRIANGLE_CELL,
                                  3,
                                  this->m_NumberOfCells);
           break;
         }
-        case SHORT:
+        case IOComponentEnum::SHORT:
         {
           this->WriteCellsBuffer(static_cast<short *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<short *>(buffer),
-                                 TRIANGLE_CELL,
+                                 CellGeometryEnum::TRIANGLE_CELL,
                                  3,
                                  this->m_NumberOfCells);
           break;
         }
-        case UINT:
+        case IOComponentEnum::UINT:
         {
           this->WriteCellsBuffer(static_cast<unsigned int *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<unsigned int *>(buffer),
-                                 TRIANGLE_CELL,
+                                 CellGeometryEnum::TRIANGLE_CELL,
                                  3,
                                  this->m_NumberOfCells);
           break;
         }
-        case INT:
+        case IOComponentEnum::INT:
         {
           this->WriteCellsBuffer(static_cast<int *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<int *>(buffer),
-                                 TRIANGLE_CELL,
+                                 CellGeometryEnum::TRIANGLE_CELL,
                                  3,
                                  this->m_NumberOfCells);
           break;
         }
-        case ULONG:
+        case IOComponentEnum::ULONG:
         {
           this->WriteCellsBuffer(static_cast<unsigned long *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<unsigned long *>(buffer),
-                                 TRIANGLE_CELL,
+                                 CellGeometryEnum::TRIANGLE_CELL,
                                  3,
                                  this->m_NumberOfCells);
           break;
         }
-        case LONG:
+        case IOComponentEnum::LONG:
         {
           this->WriteCellsBuffer(static_cast<long *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<long *>(buffer),
-                                 TRIANGLE_CELL,
+                                 CellGeometryEnum::TRIANGLE_CELL,
                                  3,
                                  this->m_NumberOfCells);
           break;
         }
-        case LONGLONG:
+        case IOComponentEnum::LONGLONG:
         {
           this->WriteCellsBuffer(static_cast<long long *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<long long *>(buffer),
-                                 TRIANGLE_CELL,
+                                 CellGeometryEnum::TRIANGLE_CELL,
                                  3,
                                  this->m_NumberOfCells);
           break;
         }
-        case ULONGLONG:
+        case IOComponentEnum::ULONGLONG:
         {
           this->WriteCellsBuffer(static_cast<unsigned long long *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<unsigned long long *>(buffer),
-                                 TRIANGLE_CELL,
+                                 CellGeometryEnum::TRIANGLE_CELL,
                                  3,
                                  this->m_NumberOfCells);
           break;
         }
-        case FLOAT:
+        case IOComponentEnum::FLOAT:
         {
           this->WriteCellsBuffer(static_cast<float *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<float *>(buffer),
-                                 TRIANGLE_CELL,
+                                 CellGeometryEnum::TRIANGLE_CELL,
                                  3,
                                  this->m_NumberOfCells);
           break;
         }
-        case DOUBLE:
+        case IOComponentEnum::DOUBLE:
         {
           this->WriteCellsBuffer(static_cast<double *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<double *>(buffer),
-                                 TRIANGLE_CELL,
+                                 CellGeometryEnum::TRIANGLE_CELL,
                                  3,
                                  this->m_NumberOfCells);
           break;
         }
-        case LDOUBLE:
+        case IOComponentEnum::LDOUBLE:
         {
           this->WriteCellsBuffer(static_cast<long double *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<long double *>(buffer),
-                                 TRIANGLE_CELL,
+                                 CellGeometryEnum::TRIANGLE_CELL,
                                  3,
                                  this->m_NumberOfCells);
           break;
@@ -1187,11 +1187,11 @@ GiftiMeshIO ::WriteMeshInformation()
     gifti_set_atr_in_DAs(m_GiftiImage, "DataType", gifti_datatype2str(dtype), dalist, 1);
 
     // Set data encoding type
-    if (this->m_FileType == ASCII)
+    if (this->m_FileType == IOFileEnum::ASCII)
     {
       gifti_set_atr_in_DAs(m_GiftiImage, "Encoding", "ASCII", dalist, 1);
     }
-    else if (this->m_FileType == BINARY && !this->m_UseCompression)
+    else if (this->m_FileType == IOFileEnum::BINARY && !this->m_UseCompression)
     {
       gifti_set_atr_in_DAs(m_GiftiImage, "Encoding", "Base64Binary", dalist, 1);
     }
@@ -1201,11 +1201,11 @@ GiftiMeshIO ::WriteMeshInformation()
     }
 
     // set endian type
-    if (this->m_ByteOrder == LittleEndian)
+    if (this->m_ByteOrder == IOByteOrderEnum::LittleEndian)
     {
       gifti_set_atr_in_DAs(m_GiftiImage, "Endian", "LittleEndian", dalist, 1);
     }
-    else if (this->m_ByteOrder == BigEndian)
+    else if (this->m_ByteOrder == IOByteOrderEnum::BigEndian)
     {
       gifti_set_atr_in_DAs(m_GiftiImage, "Endian", "BigEndian", dalist, 1);
     }
@@ -1259,11 +1259,11 @@ GiftiMeshIO ::WriteMeshInformation()
     gifti_set_atr_in_DAs(m_GiftiImage, "DataType", gifti_datatype2str(dtype), dalist, 1);
 
     // Set data encoding type
-    if (this->m_FileType == ASCII)
+    if (this->m_FileType == IOFileEnum::ASCII)
     {
       gifti_set_atr_in_DAs(m_GiftiImage, "Encoding", "ASCII", dalist, 1);
     }
-    else if (this->m_FileType == BINARY && !this->m_UseCompression)
+    else if (this->m_FileType == IOFileEnum::BINARY && !this->m_UseCompression)
     {
       gifti_set_atr_in_DAs(m_GiftiImage, "Encoding", "Base64Binary", dalist, 1);
     }
@@ -1273,11 +1273,11 @@ GiftiMeshIO ::WriteMeshInformation()
     }
 
     // set endian type
-    if (this->m_ByteOrder == LittleEndian)
+    if (this->m_ByteOrder == IOByteOrderEnum::LittleEndian)
     {
       gifti_set_atr_in_DAs(m_GiftiImage, "Endian", "LittleEndian", dalist, 1);
     }
-    else if (this->m_ByteOrder == BigEndian)
+    else if (this->m_ByteOrder == IOByteOrderEnum::BigEndian)
     {
       gifti_set_atr_in_DAs(m_GiftiImage, "Endian", "BigEndian", dalist, 1);
     }
@@ -1345,11 +1345,11 @@ GiftiMeshIO ::WriteMeshInformation()
     gifti_set_atr_in_DAs(m_GiftiImage, "DataType", gifti_datatype2str(dtype), dalist, 1);
 
     // Set data encoding type
-    if (this->m_FileType == ASCII)
+    if (this->m_FileType == IOFileEnum::ASCII)
     {
       gifti_set_atr_in_DAs(m_GiftiImage, "Encoding", "ASCII", dalist, 1);
     }
-    else if (this->m_FileType == BINARY && !this->m_UseCompression)
+    else if (this->m_FileType == IOFileEnum::BINARY && !this->m_UseCompression)
     {
       gifti_set_atr_in_DAs(m_GiftiImage, "Encoding", "Base64Binary", dalist, 1);
     }
@@ -1359,11 +1359,11 @@ GiftiMeshIO ::WriteMeshInformation()
     }
 
     // set endian type
-    if (this->m_ByteOrder == LittleEndian)
+    if (this->m_ByteOrder == IOByteOrderEnum::LittleEndian)
     {
       gifti_set_atr_in_DAs(m_GiftiImage, "Endian", "LittleEndian", dalist, 1);
     }
-    else if (this->m_ByteOrder == BigEndian)
+    else if (this->m_ByteOrder == IOByteOrderEnum::BigEndian)
     {
       gifti_set_atr_in_DAs(m_GiftiImage, "Endian", "BigEndian", dalist, 1);
     }
@@ -1431,11 +1431,11 @@ GiftiMeshIO ::WriteMeshInformation()
     gifti_set_atr_in_DAs(m_GiftiImage, "DataType", gifti_datatype2str(dtype), dalist, 1);
 
     // Set data encoding type
-    if (this->m_FileType == ASCII)
+    if (this->m_FileType == IOFileEnum::ASCII)
     {
       gifti_set_atr_in_DAs(m_GiftiImage, "Encoding", "ASCII", dalist, 1);
     }
-    else if (this->m_FileType == BINARY && !this->m_UseCompression)
+    else if (this->m_FileType == IOFileEnum::BINARY && !this->m_UseCompression)
     {
       gifti_set_atr_in_DAs(m_GiftiImage, "Encoding", "Base64Binary", dalist, 1);
     }
@@ -1445,11 +1445,11 @@ GiftiMeshIO ::WriteMeshInformation()
     }
 
     // set endian type
-    if (this->m_ByteOrder == LittleEndian)
+    if (this->m_ByteOrder == IOByteOrderEnum::LittleEndian)
     {
       gifti_set_atr_in_DAs(m_GiftiImage, "Endian", "LittleEndian", dalist, 1);
     }
-    else if (this->m_ByteOrder == BigEndian)
+    else if (this->m_ByteOrder == IOByteOrderEnum::BigEndian)
     {
       gifti_set_atr_in_DAs(m_GiftiImage, "Endian", "BigEndian", dalist, 1);
     }
@@ -1472,84 +1472,84 @@ GiftiMeshIO ::WritePoints(void * buffer)
     {
       switch (this->m_PointComponentType)
       {
-        case UCHAR:
+        case IOComponentEnum::UCHAR:
         {
           ConvertBuffer(static_cast<unsigned char *>(buffer),
                         static_cast<float *>(m_GiftiImage->darray[ii]->data),
                         pointsBufferSize);
           break;
         }
-        case CHAR:
+        case IOComponentEnum::CHAR:
         {
           ConvertBuffer(
             static_cast<char *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointsBufferSize);
           break;
         }
-        case USHORT:
+        case IOComponentEnum::USHORT:
         {
           ConvertBuffer(static_cast<unsigned short *>(buffer),
                         static_cast<float *>(m_GiftiImage->darray[ii]->data),
                         pointsBufferSize);
           break;
         }
-        case SHORT:
+        case IOComponentEnum::SHORT:
         {
           ConvertBuffer(
             static_cast<short *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointsBufferSize);
           break;
         }
-        case UINT:
+        case IOComponentEnum::UINT:
         {
           ConvertBuffer(static_cast<unsigned int *>(buffer),
                         static_cast<float *>(m_GiftiImage->darray[ii]->data),
                         pointsBufferSize);
           break;
         }
-        case INT:
+        case IOComponentEnum::INT:
         {
           ConvertBuffer(
             static_cast<int *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointsBufferSize);
           break;
         }
-        case ULONG:
+        case IOComponentEnum::ULONG:
         {
           ConvertBuffer(static_cast<unsigned long *>(buffer),
                         static_cast<float *>(m_GiftiImage->darray[ii]->data),
                         pointsBufferSize);
           break;
         }
-        case LONG:
+        case IOComponentEnum::LONG:
         {
           ConvertBuffer(
             static_cast<long *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointsBufferSize);
           break;
         }
-        case ULONGLONG:
+        case IOComponentEnum::ULONGLONG:
         {
           ConvertBuffer(static_cast<unsigned long long *>(buffer),
                         static_cast<float *>(m_GiftiImage->darray[ii]->data),
                         pointsBufferSize);
           break;
         }
-        case LONGLONG:
+        case IOComponentEnum::LONGLONG:
         {
           ConvertBuffer(
             static_cast<long long *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointsBufferSize);
           break;
         }
-        case FLOAT:
+        case IOComponentEnum::FLOAT:
         {
           ConvertBuffer(
             static_cast<float *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointsBufferSize);
           break;
         }
-        case DOUBLE:
+        case IOComponentEnum::DOUBLE:
         {
           ConvertBuffer(
             static_cast<double *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointsBufferSize);
           break;
         }
-        case LDOUBLE:
+        case IOComponentEnum::LDOUBLE:
         {
           ConvertBuffer(
             static_cast<long double *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointsBufferSize);
@@ -1575,73 +1575,73 @@ GiftiMeshIO ::WriteCells(void * buffer)
     {
       switch (this->m_CellComponentType)
       {
-        case UCHAR:
+        case IOComponentEnum::UCHAR:
         {
           this->ReadCellsBuffer(static_cast<unsigned char *>(buffer),
                                 static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case CHAR:
+        case IOComponentEnum::CHAR:
         {
           this->ReadCellsBuffer(static_cast<char *>(buffer), static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case USHORT:
+        case IOComponentEnum::USHORT:
         {
           this->ReadCellsBuffer(static_cast<unsigned short *>(buffer),
                                 static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case SHORT:
+        case IOComponentEnum::SHORT:
         {
           this->ReadCellsBuffer(static_cast<short *>(buffer), static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case UINT:
+        case IOComponentEnum::UINT:
         {
           this->ReadCellsBuffer(static_cast<unsigned int *>(buffer),
                                 static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case INT:
+        case IOComponentEnum::INT:
         {
           this->ReadCellsBuffer(static_cast<int *>(buffer), static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case ULONG:
+        case IOComponentEnum::ULONG:
         {
           this->ReadCellsBuffer(static_cast<unsigned long *>(buffer),
                                 static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case LONG:
+        case IOComponentEnum::LONG:
         {
           this->ReadCellsBuffer(static_cast<long *>(buffer), static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case ULONGLONG:
+        case IOComponentEnum::ULONGLONG:
         {
           this->ReadCellsBuffer(static_cast<unsigned long long *>(buffer),
                                 static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case LONGLONG:
+        case IOComponentEnum::LONGLONG:
         {
           this->ReadCellsBuffer(static_cast<long long *>(buffer),
                                 static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case FLOAT:
+        case IOComponentEnum::FLOAT:
         {
           this->ReadCellsBuffer(static_cast<float *>(buffer), static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case DOUBLE:
+        case IOComponentEnum::DOUBLE:
         {
           this->ReadCellsBuffer(static_cast<double *>(buffer), static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case LDOUBLE:
+        case IOComponentEnum::LDOUBLE:
         {
           this->ReadCellsBuffer(static_cast<long double *>(buffer),
                                 static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
@@ -1671,85 +1671,85 @@ GiftiMeshIO ::WritePointData(void * buffer)
         const SizeValueType pointDataBufferSize = this->m_NumberOfPointPixels * this->m_NumberOfPointPixelComponents;
         switch (this->m_PointPixelComponentType)
         {
-          case UCHAR:
+          case IOComponentEnum::UCHAR:
           {
             ConvertBuffer(static_cast<unsigned char *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case CHAR:
+          case IOComponentEnum::CHAR:
           {
             ConvertBuffer(
               static_cast<char *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case USHORT:
+          case IOComponentEnum::USHORT:
           {
             ConvertBuffer(static_cast<unsigned short *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case SHORT:
+          case IOComponentEnum::SHORT:
           {
             ConvertBuffer(
               static_cast<short *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case UINT:
+          case IOComponentEnum::UINT:
           {
             ConvertBuffer(static_cast<unsigned int *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case INT:
+          case IOComponentEnum::INT:
           {
             ConvertBuffer(
               static_cast<int *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case ULONG:
+          case IOComponentEnum::ULONG:
           {
             ConvertBuffer(static_cast<unsigned long *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case LONG:
+          case IOComponentEnum::LONG:
           {
             ConvertBuffer(
               static_cast<long *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case ULONGLONG:
+          case IOComponentEnum::ULONGLONG:
           {
             ConvertBuffer(static_cast<unsigned long long *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case LONGLONG:
+          case IOComponentEnum::LONGLONG:
           {
             ConvertBuffer(static_cast<long long *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case FLOAT:
+          case IOComponentEnum::FLOAT:
           {
             ConvertBuffer(
               static_cast<float *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case DOUBLE:
+          case IOComponentEnum::DOUBLE:
           {
             ConvertBuffer(
               static_cast<double *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case LDOUBLE:
+          case IOComponentEnum::LDOUBLE:
           {
             ConvertBuffer(static_cast<long double *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
@@ -1772,85 +1772,85 @@ GiftiMeshIO ::WritePointData(void * buffer)
 
         switch (this->m_PointPixelComponentType)
         {
-          case UCHAR:
+          case IOComponentEnum::UCHAR:
           {
             ConvertBuffer(static_cast<unsigned char *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case CHAR:
+          case IOComponentEnum::CHAR:
           {
             ConvertBuffer(
               static_cast<char *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case USHORT:
+          case IOComponentEnum::USHORT:
           {
             ConvertBuffer(static_cast<unsigned short *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case SHORT:
+          case IOComponentEnum::SHORT:
           {
             ConvertBuffer(
               static_cast<short *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case UINT:
+          case IOComponentEnum::UINT:
           {
             ConvertBuffer(static_cast<unsigned int *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case INT:
+          case IOComponentEnum::INT:
           {
             ConvertBuffer(
               static_cast<int *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case ULONG:
+          case IOComponentEnum::ULONG:
           {
             ConvertBuffer(static_cast<unsigned long *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case LONG:
+          case IOComponentEnum::LONG:
           {
             ConvertBuffer(
               static_cast<long *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case ULONGLONG:
+          case IOComponentEnum::ULONGLONG:
           {
             ConvertBuffer(static_cast<unsigned long long *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case LONGLONG:
+          case IOComponentEnum::LONGLONG:
           {
             ConvertBuffer(static_cast<long long *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case FLOAT:
+          case IOComponentEnum::FLOAT:
           {
             ConvertBuffer(
               static_cast<float *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case DOUBLE:
+          case IOComponentEnum::DOUBLE:
           {
             ConvertBuffer(
               static_cast<double *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case LDOUBLE:
+          case IOComponentEnum::LDOUBLE:
           {
             ConvertBuffer(static_cast<long double *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
@@ -1882,85 +1882,85 @@ GiftiMeshIO ::WriteCellData(void * buffer)
         const SizeValueType cellDataBufferSize = this->m_NumberOfCellPixels * this->m_NumberOfCellPixelComponents;
         switch (this->m_CellPixelComponentType)
         {
-          case UCHAR:
+          case IOComponentEnum::UCHAR:
           {
             ConvertBuffer(static_cast<unsigned char *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case CHAR:
+          case IOComponentEnum::CHAR:
           {
             ConvertBuffer(
               static_cast<char *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case USHORT:
+          case IOComponentEnum::USHORT:
           {
             ConvertBuffer(static_cast<unsigned short *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case SHORT:
+          case IOComponentEnum::SHORT:
           {
             ConvertBuffer(
               static_cast<short *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case UINT:
+          case IOComponentEnum::UINT:
           {
             ConvertBuffer(static_cast<unsigned int *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case INT:
+          case IOComponentEnum::INT:
           {
             ConvertBuffer(
               static_cast<int *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case ULONG:
+          case IOComponentEnum::ULONG:
           {
             ConvertBuffer(static_cast<unsigned long *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case LONG:
+          case IOComponentEnum::LONG:
           {
             ConvertBuffer(
               static_cast<long *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case ULONGLONG:
+          case IOComponentEnum::ULONGLONG:
           {
             ConvertBuffer(static_cast<unsigned long long *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case LONGLONG:
+          case IOComponentEnum::LONGLONG:
           {
             ConvertBuffer(static_cast<long long *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case FLOAT:
+          case IOComponentEnum::FLOAT:
           {
             ConvertBuffer(
               static_cast<float *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case DOUBLE:
+          case IOComponentEnum::DOUBLE:
           {
             ConvertBuffer(
               static_cast<double *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case LDOUBLE:
+          case IOComponentEnum::LDOUBLE:
           {
             ConvertBuffer(static_cast<long double *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
@@ -1983,84 +1983,84 @@ GiftiMeshIO ::WriteCellData(void * buffer)
 
         switch (this->m_CellPixelComponentType)
         {
-          case UCHAR:
+          case IOComponentEnum::UCHAR:
           {
             ConvertBuffer(static_cast<unsigned char *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case CHAR:
+          case IOComponentEnum::CHAR:
           {
             ConvertBuffer(
               static_cast<char *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case USHORT:
+          case IOComponentEnum::USHORT:
           {
             ConvertBuffer(static_cast<unsigned short *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case SHORT:
+          case IOComponentEnum::SHORT:
           {
             ConvertBuffer(
               static_cast<short *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case UINT:
+          case IOComponentEnum::UINT:
           {
             ConvertBuffer(static_cast<unsigned int *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case INT:
+          case IOComponentEnum::INT:
           {
             ConvertBuffer(
               static_cast<int *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case ULONG:
+          case IOComponentEnum::ULONG:
           {
             ConvertBuffer(static_cast<unsigned long *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case LONG:
+          case IOComponentEnum::LONG:
           {
             ConvertBuffer(
               static_cast<long *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case ULONGLONG:
+          case IOComponentEnum::ULONGLONG:
           {
             ConvertBuffer(static_cast<unsigned long long *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case LONGLONG:
+          case IOComponentEnum::LONGLONG:
           {
             ConvertBuffer(
               static_cast<long long *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case FLOAT:
+          case IOComponentEnum::FLOAT:
           {
             ConvertBuffer(
               static_cast<float *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case DOUBLE:
+          case IOComponentEnum::DOUBLE:
           {
             ConvertBuffer(
               static_cast<double *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case LDOUBLE:
+          case IOComponentEnum::LDOUBLE:
           {
             ConvertBuffer(static_cast<long double *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
