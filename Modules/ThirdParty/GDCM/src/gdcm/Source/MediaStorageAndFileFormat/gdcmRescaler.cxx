@@ -146,6 +146,11 @@ static inline PixelFormat::ScalarType ComputeBestFit(const PixelFormat &pf, doub
       {
       st = PixelFormat::UINT32;
       }
+    else if( max <= std::numeric_limits<uint64_t>::max() )
+      {
+      // very large value in Rescale Slope ?
+      return PixelFormat::FLOAT64;
+      }
     else
       {
       gdcmErrorMacro( "Unhandled Pixel Format" );
@@ -168,6 +173,12 @@ static inline PixelFormat::ScalarType ComputeBestFit(const PixelFormat &pf, doub
       && min >= std::numeric_limits<int32_t>::min() )
       {
       st = PixelFormat::INT32;
+      }
+    else if( max <= std::numeric_limits<int64_t>::max()
+      && min >= std::numeric_limits<int64_t>::min() )
+      {
+      // very large value in Rescale Slope ?
+      return PixelFormat::FLOAT64;
       }
     else
       {

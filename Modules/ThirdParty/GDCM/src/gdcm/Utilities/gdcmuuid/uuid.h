@@ -45,7 +45,7 @@
     #define UUID_EXPORT __declspec( dllimport )
   #endif
 #else
-#if __GNUC__ >= 4
+#if __GNUC__ >= 4 && defined(UUID_DLL)
 #define UUID_EXPORT    __attribute__ ((visibility ("default")))
 #else
   #define UUID_EXPORT

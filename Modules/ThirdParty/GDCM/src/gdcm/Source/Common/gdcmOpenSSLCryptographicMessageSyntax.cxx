@@ -288,6 +288,7 @@ bool OpenSSLCryptographicMessageSyntax::ParseCertificateFile( const char *keyfil
     }
   ::BIO_free(in); in = NULL;
   ::sk_X509_push(recips, x509);
+  //::X509_free(x509);
   return true;
 }
 

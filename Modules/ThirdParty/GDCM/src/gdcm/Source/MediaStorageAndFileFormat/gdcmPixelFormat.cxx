@@ -130,6 +130,7 @@ void PixelFormat::SetScalarType(ScalarType st)
 PixelFormat::ScalarType PixelFormat::GetScalarType() const
 {
   ScalarType type = PixelFormat::UNKNOWN;
+  gdcmAssertAlwaysMacro( BitsStored <= BitsAllocated );
   switch( BitsAllocated )
     {
   case 0:
@@ -191,7 +192,7 @@ PixelFormat::ScalarType PixelFormat::GetScalarType() const
       }
     else
       {
-      assert(0);
+      gdcmAssertAlwaysMacro(0);
       }
     }
   return type;

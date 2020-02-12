@@ -518,6 +518,10 @@ if(GDCM_STANDALONE)
   mark_as_advanced(GDCM_USE_ACTIVIZ)
   option(GDCM_USE_JPEGLS "Build GDCM with JPEG-LS support" ON)
   mark_as_advanced(GDCM_USE_JPEGLS)
+  if(NOT DEFINED GDCM_DEFAULT_PYTHON_VERSION)
+    # override with cmake -DGDCM_DEFAULT_PYTHON_VERSION:STRING=2.7 if you dare
+    set(GDCM_DEFAULT_PYTHON_VERSION 3.2)
+  endif()
   if(NOT DEFINED GDCM_DEFAULT_JAVA_VERSION)
     # override with cmake -DGDCM_DEFAULT_JAVA_VERSION:STRING=1.5 if you dare
     set(GDCM_DEFAULT_JAVA_VERSION 1.7)
