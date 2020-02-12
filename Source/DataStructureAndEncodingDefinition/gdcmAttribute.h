@@ -205,7 +205,7 @@ public:
 
   void SetFromDataElement(DataElement const &de) {
     // This is kind of hackish but since I do not generate other element than the first one: 0x6000 I should be ok:
-    assert( GetTag() == de.GetTag() || GetTag().GetGroup() == 0x6000 || GetTag().GetGroup() == 0x5000 );
+    assert( Tag(Group,Element) == de.GetTag() || Group == 0x6000 || Group == 0x5000 );
     assert( GetVR() != VR::INVALID );
     assert( GetVR().Compatible( de.GetVR() ) || de.GetVR() == VR::INVALID ); // In case of VR::INVALID cannot use the & operator
     if( de.IsEmpty() ) return;
@@ -224,13 +224,13 @@ public:
       }
   }
   void Set(DataSet const &ds) {
-    SetFromDataElement( ds.GetDataElement( GetTag() ) );
+    SetFromDataElement( ds.GetDataElement( Tag(Group,Element) ) );
   }
   void SetFromDataSet(DataSet const &ds) {
-    if( ds.FindDataElement( GetTag() ) &&
-      !ds.GetDataElement( GetTag() ).IsEmpty() )
+    if( ds.FindDataElement( Tag(Group,Element) ) &&
+      !ds.GetDataElement( Tag(Group,Element) ).IsEmpty() )
       {
-      SetFromDataElement( ds.GetDataElement( GetTag() ) );
+      SetFromDataElement( ds.GetDataElement( Tag(Group,Element) ) );
       }
   }
 protected:
@@ -416,7 +416,7 @@ public:
 
   // API to talk to the run-time layer: gdcm::DataElement
   DataElement GetAsDataElement() const {
-    DataElement ret( GetTag() );
+    DataElement ret( Tag(Group,Element) );
     std::ostringstream os;
     // os.imbue(std::locale::classic()); // This is not required AFAIK
     EncodingImplementation<VRToEncoding<TVR>::Mode>::Write(&Internal,
@@ -440,7 +440,7 @@ public:
 
   void SetFromDataElement(DataElement const &de) {
     // This is kind of hackish but since I do not generate other element than the first one: 0x6000 I should be ok:
-    assert( GetTag() == de.GetTag() || GetTag().GetGroup() == 0x6000 || GetTag().GetGroup() == 0x5000 );
+    assert( Tag(Group,Element) == de.GetTag() || Group == 0x6000 || Group == 0x5000 );
     assert( GetVR() != VR::INVALID );
     assert( GetVR().Compatible( de.GetVR() ) || de.GetVR() == VR::INVALID ); // In case of VR::INVALID cannot use the & operator
     if( de.IsEmpty() ) return;
@@ -459,13 +459,13 @@ public:
       }
   }
   void Set(DataSet const &ds) {
-    SetFromDataElement( ds.GetDataElement( GetTag() ) );
+    SetFromDataElement( ds.GetDataElement( Tag(Group,Element) ) );
   }
   void SetFromDataSet(DataSet const &ds) {
-    if( ds.FindDataElement( GetTag() ) &&
-      !ds.GetDataElement( GetTag() ).IsEmpty() )
+    if( ds.FindDataElement( Tag(Group,Element) ) &&
+      !ds.GetDataElement( Tag(Group,Element) ).IsEmpty() )
       {
-      SetFromDataElement( ds.GetDataElement( GetTag() ) );
+      SetFromDataElement( ds.GetDataElement( Tag(Group,Element) ) );
       }
   }
 protected:
