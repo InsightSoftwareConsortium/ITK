@@ -72,7 +72,7 @@ template<typename _DecompositionType> struct kernel_retval_base
   using Base::rank; \
   using Base::rows; \
   using Base::cols; \
-  kernel_retval(const DecompositionType& decType) : Base(decType) {}
+  kernel_retval(const DecompositionType& dec) : Base(dec) {}
 
 } // end namespace Eigen
 

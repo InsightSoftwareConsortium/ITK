@@ -71,9 +71,9 @@ void MatrixBase<Derived>::makeHouseholder(
   using numext::conj;
   
   EIGEN_STATIC_ASSERT_VECTOR_ONLY(EssentialPart)
-  VectorBlock<const Derived, EssentialPart::SizeAtCompileTime> l_tail(derived(), 1, size()-1);
+  VectorBlock<const Derived, EssentialPart::SizeAtCompileTime> tail(derived(), 1, size()-1);
   
-  RealScalar tailSqNorm = size()==1 ? RealScalar(0) : l_tail.squaredNorm();
+  RealScalar tailSqNorm = size()==1 ? RealScalar(0) : tail.squaredNorm();
   Scalar c0 = coeff(0);
   const RealScalar tol = (std::numeric_limits<RealScalar>::min)();
 
@@ -88,7 +88,7 @@ void MatrixBase<Derived>::makeHouseholder(
     beta = sqrt(numext::abs2(c0) + tailSqNorm);
     if (numext::real(c0)>=RealScalar(0))
       beta = -beta;
-    essential = l_tail / (c0 - beta);
+    essential = tail / (c0 - beta);
     tau = conj((beta - c0) / beta);
   }
 }

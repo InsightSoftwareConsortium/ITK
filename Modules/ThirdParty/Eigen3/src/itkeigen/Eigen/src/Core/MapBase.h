@@ -282,7 +282,7 @@ template<typename Derived> class MapBase<Derived, WriteAccessors>
 
     EIGEN_DEVICE_FUNC explicit inline MapBase(PointerType dataPtr) : Base(dataPtr) {}
     EIGEN_DEVICE_FUNC inline MapBase(PointerType dataPtr, Index vecSize) : Base(dataPtr, vecSize) {}
-    EIGEN_DEVICE_FUNC inline MapBase(PointerType dataPtr, Index p_rows, Index p_cols) : Base(dataPtr, p_rows, p_cols) {}
+    EIGEN_DEVICE_FUNC inline MapBase(PointerType dataPtr, Index rows, Index cols) : Base(dataPtr, rows, cols) {}
 
     EIGEN_DEVICE_FUNC
     Derived& operator=(const MapBase& other)

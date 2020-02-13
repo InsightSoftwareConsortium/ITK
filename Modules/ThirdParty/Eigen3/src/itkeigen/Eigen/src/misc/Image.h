@@ -74,8 +74,8 @@ template<typename _DecompositionType> struct image_retval_base
   using Base::rank; \
   using Base::rows; \
   using Base::cols; \
-  image_retval(const DecompositionType& decType, const MatrixType& originalMatrixType) \
-    : Base(decType, originalMatrixType) {}
+  image_retval(const DecompositionType& dec, const MatrixType& originalMatrix) \
+    : Base(dec, originalMatrix) {}
 
 } // end namespace Eigen
 

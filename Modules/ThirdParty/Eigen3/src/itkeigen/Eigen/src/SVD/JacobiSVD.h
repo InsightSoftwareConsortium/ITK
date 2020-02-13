@@ -528,9 +528,9 @@ template<typename _MatrixType, int QRPreconditioner> class JacobiSVD
       * according to the specified problem size.
       * \sa JacobiSVD()
       */
-    JacobiSVD(Index p_rows, Index p_cols, unsigned int computationOptions = 0)
+    JacobiSVD(Index rows, Index cols, unsigned int computationOptions = 0)
     {
-      allocate(p_rows, p_cols, computationOptions);
+      allocate(rows, cols, computationOptions);
     }
 
     /** \brief Constructor performing the decomposition of given matrix.
@@ -610,20 +610,20 @@ template<typename _MatrixType, int QRPreconditioner> class JacobiSVD
 };
 
 template<typename MatrixType, int QRPreconditioner>
-void JacobiSVD<MatrixType, QRPreconditioner>::allocate(Index p_rows, Index p_cols, unsigned int computationOptions)
+void JacobiSVD<MatrixType, QRPreconditioner>::allocate(Index rows, Index cols, unsigned int computationOptions)
 {
-  eigen_assert(p_rows >= 0 && p_cols >= 0);
+  eigen_assert(rows >= 0 && cols >= 0);
 
   if (m_isAllocated &&
-      p_rows == m_rows &&
-      p_cols == m_cols &&
+      rows == m_rows &&
+      cols == m_cols &&
       computationOptions == m_computationOptions)
   {
     return;
   }
 
-  m_rows = p_rows;
-  m_cols = p_cols;
+  m_rows = rows;
+  m_cols = cols;
   m_isInitialized = false;
   m_isAllocated = true;
   m_computationOptions = computationOptions;
@@ -655,7 +655,7 @@ void JacobiSVD<MatrixType, QRPreconditioner>::allocate(Index p_rows, Index p_col
   
   if(m_cols>m_rows)   m_qr_precond_morecols.allocate(*this);
   if(m_rows>m_cols)   m_qr_precond_morerows.allocate(*this);
-  if(m_rows!=m_cols)  m_scaledMatrix.resize(p_rows,p_cols);
+  if(m_rows!=m_cols)  m_scaledMatrix.resize(rows,cols);
 }
 
 template<typename MatrixType, int QRPreconditioner>

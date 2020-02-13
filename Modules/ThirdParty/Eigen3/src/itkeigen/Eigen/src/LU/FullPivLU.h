@@ -629,7 +629,7 @@ struct kernel_retval<FullPivLU<_MatrixType> >
   template<typename Dest> void evalTo(Dest& dst) const
   {
     using std::abs;
-    const Index l_cols = dec().matrixLU().cols(), dimker = l_cols - rank();
+    const Index cols = dec().matrixLU().cols(), dimker = cols - rank();
     if(dimker == 0)
     {
       // The Kernel is just {0}, so it doesn't have a basis properly speaking, but let's
@@ -669,11 +669,11 @@ struct kernel_retval<FullPivLU<_MatrixType> >
     // FIXME when we get triangularView-for-rectangular-matrices, this can be simplified
     Matrix<typename MatrixType::Scalar, Dynamic, Dynamic, MatrixType::Options,
            MaxSmallDimAtCompileTime, MatrixType::MaxColsAtCompileTime>
-      m(dec().matrixLU().block(0, 0, rank(), l_cols));
+      m(dec().matrixLU().block(0, 0, rank(), cols));
     for(Index i = 0; i < rank(); ++i)
     {
       if(i) m.row(i).head(i).setZero();
-      m.row(i).tail(l_cols-i) = dec().matrixLU().row(pivots.coeff(i)).tail(l_cols-i);
+      m.row(i).tail(cols-i) = dec().matrixLU().row(pivots.coeff(i)).tail(cols-i);
     }
     m.block(0, 0, rank(), rank());
     m.block(0, 0, rank(), rank()).template triangularView<StrictlyLower>().setZero();
@@ -694,7 +694,7 @@ struct kernel_retval<FullPivLU<_MatrixType> >
 
     // see the negative sign in the next line, that's what we were talking about above.
     for(Index i = 0; i < rank(); ++i) dst.row(dec().permutationQ().indices().coeff(i)) = -m.row(i).tail(dimker);
-    for(Index i = rank(); i < l_cols; ++i) dst.row(dec().permutationQ().indices().coeff(i)).setZero();
+    for(Index i = rank(); i < cols; ++i) dst.row(dec().permutationQ().indices().coeff(i)).setZero();
     for(Index k = 0; k < dimker; ++k) dst.coeffRef(dec().permutationQ().indices().coeff(rank()+k), k) = Scalar(1);
   }
 };
