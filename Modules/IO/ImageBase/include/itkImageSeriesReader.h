@@ -169,6 +169,10 @@ public:
   itkGetConstReferenceMacro(UseStreaming, bool);
   itkBooleanMacro(UseStreaming);
 
+  /** Set the relative threshold for issuing warnings about non-uniform sampling */
+  itkSetMacro(SpacingWarningRelThreshold, double);
+  itkGetConstMacro(SpacingWarningRelThreshold, double);
+
 protected:
   ImageSeriesReader()
     : m_ImageIO(nullptr)
@@ -208,6 +212,8 @@ protected:
   bool m_UseStreaming{ true };
 
   bool m_SpacingDefined{ false };
+
+  double m_SpacingWarningRelThreshold{ 1e-4 };
 
 private:
   using ReaderType = ImageFileReader<TOutputImage>;

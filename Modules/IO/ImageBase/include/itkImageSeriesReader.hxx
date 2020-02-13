@@ -439,18 +439,12 @@ ImageSeriesReader<TOutputImage>::GenerateData()
         {
           nonUniformSampling = true;
           spacingDeviation = Math::abs(outputSpacing[this->m_NumberOfDimensionsInImage] - dirNnorm);
-          itkWarningMacro(<< "Non uniform sampling or missing slices detected , expected " << std::setprecision(14)
-                          << outputSpacing[this->m_NumberOfDimensionsInImage] << " got: " << dirNnorm
-                          << " Deviation of:" << spacingDeviation);
-
-          needToUpdateMetaDataDictionaryArray = true;
           if (spacingDeviation > maxSpacingDeviation)
           {
             maxSpacingDeviation = spacingDeviation;
-            EncapsulateMetaData<double>(output->GetMetaDataDictionary(),
-                                        "ITK_non_uniform_sampling_deviation",
-                                        maxSpacingDeviation); // maximum deviation
           }
+
+          needToUpdateMetaDataDictionaryArray = true;
         }
         prevSliceOrigin = sliceOrigin;
       }
@@ -476,8 +470,21 @@ ImageSeriesReader<TOutputImage>::GenerateData()
       }
       m_MetaDataDictionaryArray.push_back(newDictionary);
     }
-
   } // end per slice loop
+
+
+  if (maxSpacingDeviation > m_SpacingWarningRelThreshold * outputSpacing[this->m_NumberOfDimensionsInImage])
+  {
+    itkWarningMacro(<< "Non uniform sampling or missing slices detected,  maximum nonuniformity:"
+                    << maxSpacingDeviation);
+  }
+  if (maxSpacingDeviation > 0.0)
+  {
+    EncapsulateMetaData<double>(output->GetMetaDataDictionary(),
+                                "ITK_non_uniform_sampling_deviation",
+                                maxSpacingDeviation); // maximum deviation
+  }
+
 
   // update the time if we modified the meta array
   if (needToUpdateMetaDataDictionaryArray)
