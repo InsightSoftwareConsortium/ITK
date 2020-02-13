@@ -19,7 +19,7 @@
    This file tests whether fdstream compiles
 */
 
-#include "itkfdstream/fdstream.hpp"
+#include "itkfdstream/fdstream.hxx"
 
 int
 main()

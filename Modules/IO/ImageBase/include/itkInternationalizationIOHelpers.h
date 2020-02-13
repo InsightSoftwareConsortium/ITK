@@ -59,7 +59,7 @@
 #  include <fstream>
 #else
 #  define LOCAL_USE_FDSTREAM 1
-#  include "itkfdstream/fdstream.hpp"
+#  include "itkfdstream/fdstream.hxx"
 #endif
 
 namespace itk
