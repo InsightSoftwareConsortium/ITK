@@ -71,7 +71,7 @@ public:
     return !(*this != other);
   }
   inline TPixel
-  operator()(const TPixel & A)
+  operator()(const TPixel & A) const
   {
     bool a = (A == m_ForegroundValue);
     if (!a)
