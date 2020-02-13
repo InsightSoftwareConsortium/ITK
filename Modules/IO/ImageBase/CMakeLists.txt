@@ -12,7 +12,7 @@ try_compile(ITK_SUPPORTS_WCHAR_T_FILENAME_IOSTREAMS_CONSTRUCTORS
   ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkTestIOStreamsWCharFilenameConstructors.cxx
   OUTPUT_VARIABLE ITK_SUPPORTS_WCHAR_T_FILENAME_IOSTREAMS_CONSTRUCTORS_OUTPUT)
 
-# check if the platform can compile fdstream.hpp
+# check if the platform can compile fdstream.hxx
 if(HAVE_UNISTD_H)
   set(ITK_SUPPORTS_FDSTREAM_HPP_COMPILE_DEFINITIONS -DITK_HAVE_UNISTD_H=${HAVE_UNISTD_H})
 endif()

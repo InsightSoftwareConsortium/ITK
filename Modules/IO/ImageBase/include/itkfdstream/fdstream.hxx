@@ -29,8 +29,8 @@
  *     Replaced int by ptrdiff_t when it makes sense
  *     Use itk namespace instead of boost
  */
-#ifndef __fdstream_hpp
-#define __fdstream_hpp
+#ifndef fdstream_hxx
+#define fdstream_hxx
 
 #include <istream>
 #include <ostream>
@@ -62,8 +62,6 @@ namespace itk
 
 class fdoutbuf : public std::streambuf
 {
-protected:
-  int fd; // file descriptor
 public:
   // constructor
   fdoutbuf(int _fd)
@@ -71,6 +69,8 @@ public:
   {}
 
 protected:
+  int fd; // file descriptor
+
   // write one character
   virtual int_type
   overflow(int_type c)
