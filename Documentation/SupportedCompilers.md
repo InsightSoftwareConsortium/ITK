@@ -2,9 +2,9 @@ ITK requires a compiler with C++11 support.
 
 # Visual Studio
 * VS2013 and earlier: **NOT supported**
-* MSVC toolset v140 (first shipped with VS2015): fully supported
-* MSVC toolset v141 (first shipped with VS2017): fully supported
-* MSVC toolset v142 (first shipped with VS2019): supported with some [caveats](https://discourse.itk.org/t/has-anyone-tried-to-build-visual-studio-c-2019/1561/6?u=dzenanz)
+* MSVC toolset v140 (first shipped with VS2015): supported
+* MSVC toolset v141 (first shipped with VS2017): supported
+* MSVC toolset v142 (first shipped with VS2019): supported
 
 # GNU Compile Collection
 * GCC 4.8.1 and later [should be supported](https://www.gnu.org/software/gcc/projects/cxx-status.html).
