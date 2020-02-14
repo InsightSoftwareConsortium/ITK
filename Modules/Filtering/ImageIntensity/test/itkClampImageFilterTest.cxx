@@ -100,16 +100,16 @@ TestClampFromTo()
 
   it.GoToBegin();
   ot.GoToBegin();
+  constexpr double expectedMin = static_cast<double>(itk::NumericTraits<TOutputPixelType>::NonpositiveMin());
+  constexpr double expectedMax = static_cast<double>(itk::NumericTraits<TOutputPixelType>::max());
   while (!it.IsAtEnd())
   {
-    TInputPixelType  inValue = it.Value();
-    TOutputPixelType outValue = ot.Value();
+    const TInputPixelType  inValue = it.Value();
+    const TOutputPixelType outValue = ot.Value();
+
+    const double dInValue = static_cast<double>(inValue);
+
     TOutputPixelType expectedValue;
-
-    auto   dInValue = static_cast<double>(inValue);
-    double expectedMin = itk::NumericTraits<TOutputPixelType>::NonpositiveMin();
-    double expectedMax = itk::NumericTraits<TOutputPixelType>::max();
-
     if (dInValue < expectedMin)
     {
       expectedValue = itk::NumericTraits<TOutputPixelType>::NonpositiveMin();
