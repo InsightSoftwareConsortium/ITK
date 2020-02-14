@@ -608,7 +608,7 @@ public:
   }
 
   double
-  mest(int /*k*/, double ek2)
+  mest(int /*k*/, double ek2) const
   {
     // Beaton-Tukey
     if (ek2 > scale2_)
@@ -621,7 +621,7 @@ public:
   }
 
   double
-  d_mest(int /*k*/, double ek2)
+  d_mest(int /*k*/, double ek2) const
   {
     // Beaton-Tukey
     if (ek2 > scale2_)

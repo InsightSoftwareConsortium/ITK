@@ -91,7 +91,7 @@ test_symmetric_eigensystem()
     constexpr unsigned n = 20000;
 
     double fixed_data[n][3];
-    unsigned int fixed_time=0;
+    unsigned int fixed_time = 0;
     {
       double M11, M12, M13, M22, M23, M33;
       // Generate a random system
@@ -108,12 +108,12 @@ test_symmetric_eigensystem()
         const auto timer_01 = std::chrono::high_resolution_clock::now();
         vnl_symmetric_eigensystem_compute_eigenvals(M11, M12, M13, M22, M23, M33, c[0], c[1], c[2]);
         const auto timer_02 = std::chrono::high_resolution_clock::now();
-        fixed_time += (timer_02 - timer_01).count(); 
+        fixed_time += (timer_02 - timer_01).count();
       }
     }
 
     double netlib_data[n][3];
-    unsigned int netlib_time=0;
+    unsigned int netlib_time = 0;
     {
       // Generate same random system
       vnl_random rng(5);
