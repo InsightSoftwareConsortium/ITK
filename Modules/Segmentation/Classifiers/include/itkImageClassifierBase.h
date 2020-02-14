@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class ImageClassifierBase
+/**
+ *\class ImageClassifierBase
  * \brief Base class for the ImageClassifierBase object.
  *
  * itkImageClassifierBase is the base class for algorithms

@@ -32,7 +32,8 @@
 
 namespace itk
 {
-/** \class InPlaceLabelMapFilter
+/**
+ *\class InPlaceLabelMapFilter
  * \brief Base class for filters that takes an image as input and overwrites
  * that image as the output
  *

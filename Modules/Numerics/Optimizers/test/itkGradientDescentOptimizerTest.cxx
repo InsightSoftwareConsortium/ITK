@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include <set>
 #include "itkGradientDescentOptimizer.h"
 #include "itkMath.h"
 
@@ -180,6 +181,18 @@ itkGradientDescentOptimizerTest(int, char *[])
 
   itkOptimizer->Print(std::cout);
   std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
+
+  // Test streaming enumeration for GradientDescentOptimizerEnums::StopConditionGradientDescentOptimizer elements
+  const std::set<itk::GradientDescentOptimizerEnums::StopConditionGradientDescentOptimizer>
+    allStopConditionGradientDescentOptimizer{
+      itk::GradientDescentOptimizerEnums::StopConditionGradientDescentOptimizer::MaximumNumberOfIterations,
+      itk::GradientDescentOptimizerEnums::StopConditionGradientDescentOptimizer::MetricError
+    };
+  for (const auto & ee : allStopConditionGradientDescentOptimizer)
+  {
+    std::cout << "STREAMED ENUM VALUE GradientDescentOptimizerEnums::StopConditionGradientDescentOptimizer: " << ee
+              << std::endl;
+  }
 
   if (!pass)
   {

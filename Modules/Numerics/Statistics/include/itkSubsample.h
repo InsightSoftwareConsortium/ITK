@@ -26,7 +26,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class Subsample
+/**
+ *\class Subsample
  * \brief This class stores a subset of instance identifiers from another sample
  * object. You can create a subsample out of another sample object or another
  * subsample object. The class is useful when storing or extracting a portion

@@ -20,6 +20,7 @@
 
 #include "itkOctreeNode.h"
 #include "itkImage.h"
+#include "itkCommonEnums.h"
 
 namespace itk
 {
@@ -28,17 +29,6 @@ enum
   B2_MASKFILE_BLACK = 0,
   B2_MASKFILE_WHITE = 1,
   B2_MASKFILE_GRAY = 2
-};
-
-/**
- * The enumeration to define the planar orientation of the octree
- */
-enum OctreePlaneType
-{
-  UNKNOWN_PLANE,   ///< The plane is Unknown
-  SAGITAL_PLANE,   ///< The plane is Sagital
-  CORONAL_PLANE,   ///< The plane is Coronal
-  TRANSVERSE_PLANE ///< The plane is Transverse
 };
 
 /**
@@ -53,6 +43,17 @@ public:
   /** Standard class type aliases. */
   using Self = OctreeBase;
   using Pointer = SmartPointer<Self>;
+
+  using OctreeEnum = OctreeEnums::Octree;
+
+#if !defined(ITK_LEGACY_REMOVE)
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr OctreeEnum UNKNOWN_PLANE = OctreeEnum::UNKNOWN_PLANE;
+  static constexpr OctreeEnum SAGITAL_PLANE = OctreeEnum::SAGITAL_PLANE;
+  static constexpr OctreeEnum CORONAL_PLANE = OctreeEnum::CORONAL_PLANE;
+  static constexpr OctreeEnum TRANSVERSE_PLANE = OctreeEnum::TRANSVERSE_PLANE;
+#endif
 
   /** Get the actual tree base
    *
@@ -180,6 +181,16 @@ public:
   unsigned int
   GetDepth() override;
 
+  /***
+   * Exposes enum values for backwards compatibility
+   * */
+#if !defined(ITK_LEGACY_REMOVE)
+  static constexpr OctreeEnum UNKNOWN_PLANE = OctreeEnum::UNKNOWN_PLANE;
+  static constexpr OctreeEnum SAGITAL_PLANE = OctreeEnum::SAGITAL_PLANE;
+  static constexpr OctreeEnum CORONAL_PLANE = OctreeEnum::CORONAL_PLANE;
+  static constexpr OctreeEnum TRANSVERSE_PLANE = OctreeEnum::TRANSVERSE_PLANE;
+#endif
+
   OctreeNode *
   GetTree() override;
 
@@ -200,7 +211,7 @@ private:
                unsigned       ysize,
                unsigned       zsize);
 
-  OctreePlaneType m_Plane{ UNKNOWN_PLANE }; // The orientation of the plane for this octree
+  OctreeEnum m_Plane{ OctreeEnum::UNKNOWN_PLANE }; // The orientation of the plane for this octree
 
   // The width of the Octree. This is always a power of 2,
   // and large enough to contain MAX(DIMS[1,2,3])

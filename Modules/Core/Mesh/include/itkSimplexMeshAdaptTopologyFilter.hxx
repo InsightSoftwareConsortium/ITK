@@ -105,7 +105,7 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::ComputeCellParameters()
   OutputMeshPointer outputMesh = this->GetOutput();
 
   // Ensure that cells will be deallocated by the Mesh.
-  outputMesh->SetCellsAllocationMethod(MeshClassCellsAllocationMethodEnum::CellsAllocatedDynamicallyCellByCell);
+  outputMesh->SetCellsAllocationMethod(MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell);
 
   SimplexVisitorInterfacePointer simplexVisitor = SimplexVisitorInterfaceType::New();
   simplexVisitor->mesh = outputMesh;

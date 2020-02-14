@@ -19,25 +19,25 @@
 
 namespace itk
 {
-/** Define how to print enumerations */
+/** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const SamplingStrategyEnum value)
+operator<<(std::ostream & out, const RegistrationParameterScalesEstimatorEnums::SamplingStrategy value)
 {
   return out << [value] {
     switch (value)
     {
-      case SamplingStrategyEnum::FullDomainSampling:
-        return "SamplingStrategyEnum::FullDomainSampling";
-      case SamplingStrategyEnum::CornerSampling:
-        return "SamplingStrategyEnum::CornerSampling";
-      case SamplingStrategyEnum::RandomSampling:
-        return "SamplingStrategyEnum::RandomSampling";
-      case SamplingStrategyEnum::CentralRegionSampling:
-        return "SamplingStrategyEnum::CentralRegionSampling";
-      case SamplingStrategyEnum::VirtualDomainPointSetSampling:
-        return "SamplingStrategyEnum::VirtualDomainPointSetSampling";
+      case RegistrationParameterScalesEstimatorEnums::SamplingStrategy::FullDomainSampling:
+        return "itk::RegistrationParameterScalesEstimatorEnums::SamplingStrategy::FullDomainSampling";
+      case RegistrationParameterScalesEstimatorEnums::SamplingStrategy::CornerSampling:
+        return "itk::RegistrationParameterScalesEstimatorEnums::SamplingStrategy::CornerSampling";
+      case RegistrationParameterScalesEstimatorEnums::SamplingStrategy::RandomSampling:
+        return "itk::RegistrationParameterScalesEstimatorEnums::SamplingStrategy::RandomSampling";
+      case RegistrationParameterScalesEstimatorEnums::SamplingStrategy::CentralRegionSampling:
+        return "itk::RegistrationParameterScalesEstimatorEnums::SamplingStrategy::CentralRegionSampling";
+      case RegistrationParameterScalesEstimatorEnums::SamplingStrategy::VirtualDomainPointSetSampling:
+        return "itk::RegistrationParameterScalesEstimatorEnums::SamplingStrategy::VirtualDomainPointSetSampling";
       default:
-        return "INVALID VALUE FOR SamplingStrategyEnum";
+        return "INVALID VALUE FOR itk::RegistrationParameterScalesEstimatorEnums::SamplingStrategy";
     }
   }();
 }

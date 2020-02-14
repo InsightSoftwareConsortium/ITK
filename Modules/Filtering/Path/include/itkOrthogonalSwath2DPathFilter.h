@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class OrthogonalSwath2DPathFilter
+/**
+ *\class OrthogonalSwath2DPathFilter
  * \brief Filter that optimizes a 2D path relative to an image.
  *
  * OrthogonalSwath2DPathFilter produces an OrthogonallyCorrected2DParametricPath

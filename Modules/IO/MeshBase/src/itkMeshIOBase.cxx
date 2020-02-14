@@ -54,52 +54,52 @@ MeshIOBase ::AddSupportedWriteExtension(const char * extension)
 }
 
 unsigned int
-MeshIOBase ::GetComponentSize(IOComponentType componentType) const
+MeshIOBase ::GetComponentSize(IOComponentEnum componentType) const
 {
   switch (componentType)
   {
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
       return sizeof(unsigned char);
-    case CHAR:
+    case IOComponentEnum::CHAR:
       return sizeof(char);
-    case USHORT:
+    case IOComponentEnum::USHORT:
       return sizeof(unsigned short);
-    case SHORT:
+    case IOComponentEnum::SHORT:
       return sizeof(short);
-    case UINT:
+    case IOComponentEnum::UINT:
       return sizeof(unsigned int);
-    case INT:
+    case IOComponentEnum::INT:
       return sizeof(int);
-    case ULONG:
+    case IOComponentEnum::ULONG:
       return sizeof(unsigned long);
-    case LONG:
+    case IOComponentEnum::LONG:
       return sizeof(long);
-    case LONGLONG:
+    case IOComponentEnum::LONGLONG:
       return sizeof(long long);
-    case ULONGLONG:
+    case IOComponentEnum::ULONGLONG:
       return sizeof(unsigned long long);
-    case FLOAT:
+    case IOComponentEnum::FLOAT:
       return sizeof(float);
-    case DOUBLE:
+    case IOComponentEnum::DOUBLE:
       return sizeof(double);
-    case LDOUBLE:
+    case IOComponentEnum::LDOUBLE:
       return sizeof(long double);
-    case UNKNOWNCOMPONENTTYPE:
+    case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
     default:
-      itkExceptionMacro("Unknown component type: " << componentType);
+      itkExceptionMacro("Unknown component type: " << static_cast<char>(componentType));
   }
 }
 
 std::string
-MeshIOBase ::GetFileTypeAsString(FileType t) const
+MeshIOBase ::GetFileTypeAsString(IOFileEnum t) const
 {
   switch (t)
   {
-    case ASCII:
+    case IOFileEnum::ASCII:
       return std::string("ASCII");
-    case BINARY:
+    case IOFileEnum::BINARY:
       return std::string("BINARY");
-    case TYPENOTAPPLICABLE:
+    case IOFileEnum::TYPENOTAPPLICABLE:
       break;
     default:
       break;
@@ -108,15 +108,15 @@ MeshIOBase ::GetFileTypeAsString(FileType t) const
 }
 
 std::string
-MeshIOBase::GetByteOrderAsString(ByteOrder t) const
+MeshIOBase::GetByteOrderAsString(IOByteOrderEnum t) const
 {
   switch (t)
   {
-    case BigEndian:
+    case IOByteOrderEnum::BigEndian:
       return std::string("BigEndian");
-    case LittleEndian:
+    case IOByteOrderEnum::LittleEndian:
       return std::string("LittleEndian");
-    case OrderNotApplicable:
+    case IOByteOrderEnum::OrderNotApplicable:
       break;
     default:
       break;
@@ -125,85 +125,85 @@ MeshIOBase::GetByteOrderAsString(ByteOrder t) const
 }
 
 std::string
-MeshIOBase ::GetComponentTypeAsString(IOComponentType t) const
+MeshIOBase ::GetComponentTypeAsString(IOComponentEnum t) const
 {
   switch (t)
   {
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
       return std::string("unsigned_char");
-    case CHAR:
+    case IOComponentEnum::CHAR:
       return std::string("char");
-    case USHORT:
+    case IOComponentEnum::USHORT:
       return std::string("unsigned_short");
-    case SHORT:
+    case IOComponentEnum::SHORT:
       return std::string("short");
-    case UINT:
+    case IOComponentEnum::UINT:
       return std::string("unsigned_int");
-    case INT:
+    case IOComponentEnum::INT:
       return std::string("int");
-    case ULONG:
+    case IOComponentEnum::ULONG:
       return std::string("unsigned_long");
-    case LONG:
+    case IOComponentEnum::LONG:
       return std::string("long");
-    case LONGLONG:
+    case IOComponentEnum::LONGLONG:
       return std::string("long_long");
-    case ULONGLONG:
+    case IOComponentEnum::ULONGLONG:
       return std::string("unsigned_long_long");
-    case FLOAT:
+    case IOComponentEnum::FLOAT:
       return std::string("float");
-    case DOUBLE:
+    case IOComponentEnum::DOUBLE:
       return std::string("double");
-    case LDOUBLE:
+    case IOComponentEnum::LDOUBLE:
       return std::string("long_double");
-    case UNKNOWNCOMPONENTTYPE:
+    case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
       return std::string("unknown");
     default:
       break;
   }
-  itkExceptionMacro("Unknown component type: " << t);
+  itkExceptionMacro("Unknown component type: " << static_cast<char>(t));
 }
 
 std::string
-MeshIOBase ::GetPixelTypeAsString(IOPixelType t) const
+MeshIOBase ::GetPixelTypeAsString(IOPixelEnum t) const
 {
   switch (t)
   {
-    case SCALAR:
+    case IOPixelEnum::SCALAR:
       return std::string("scalar");
-    case VECTOR:
+    case IOPixelEnum::VECTOR:
       return std::string("vector");
-    case COVARIANTVECTOR:
+    case IOPixelEnum::COVARIANTVECTOR:
       return std::string("covariant_vector");
-    case POINT:
+    case IOPixelEnum::POINT:
       return std::string("point");
-    case OFFSET:
+    case IOPixelEnum::OFFSET:
       return std::string("offset");
-    case RGB:
+    case IOPixelEnum::RGB:
       return std::string("rgb");
-    case RGBA:
+    case IOPixelEnum::RGBA:
       return std::string("rgba");
-    case SYMMETRICSECONDRANKTENSOR:
+    case IOPixelEnum::SYMMETRICSECONDRANKTENSOR:
       return std::string("symmetric_second_rank_tensor");
-    case DIFFUSIONTENSOR3D:
+    case IOPixelEnum::DIFFUSIONTENSOR3D:
       return std::string("diffusion_tensor_3D");
-    case COMPLEX:
+    case IOPixelEnum::COMPLEX:
       return std::string("complex");
-    case FIXEDARRAY:
+    case IOPixelEnum::FIXEDARRAY:
       return std::string("fixed_array");
-    case ARRAY:
+    case IOPixelEnum::ARRAY:
       return std::string("array");
-    case MATRIX:
+    case IOPixelEnum::MATRIX:
       return std::string("matrix");
-    case VARIABLELENGTHVECTOR:
+    case IOPixelEnum::VARIABLELENGTHVECTOR:
       return std::string("variable_length_vector");
-    case VARIABLESIZEMATRIX:
+    case IOPixelEnum::VARIABLESIZEMATRIX:
       return std::string("variable_size_matrix");
-    case UNKNOWNPIXELTYPE:
+    case IOPixelEnum::UNKNOWNPIXELTYPE:
       return std::string("unknown");
     default:
       break;
   }
-  itkExceptionMacro("Unknown pixel type: " << t);
+  itkExceptionMacro("Unknown pixel type: " << static_cast<char>(t));
 }
 
 void
@@ -212,8 +212,8 @@ MeshIOBase ::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "FileName: " << m_FileName << std::endl;
-  os << indent << "FileType: " << GetFileTypeAsString(m_FileType) << std::endl;
-  os << indent << "ByteOrder: " << GetByteOrderAsString(m_ByteOrder) << std::endl;
+  os << indent << "IOFileEnum: " << GetFileTypeAsString(m_FileType) << std::endl;
+  os << indent << "IOByteOrderEnum: " << GetByteOrderAsString(m_ByteOrder) << std::endl;
   os << indent << "Point dimension: " << m_PointDimension << std::endl;
   os << indent << "Point component type: " << GetComponentTypeAsString(m_PointComponentType) << std::endl;
   os << indent << "Cell  component type: " << GetComponentTypeAsString(m_CellComponentType) << std::endl;

@@ -27,7 +27,8 @@
 
 namespace itk
 {
-/** \class GradientMagnitudeRecursiveGaussianImageFilter
+/**
+ *\class GradientMagnitudeRecursiveGaussianImageFilter
  * \brief Computes the Magnitude of the Gradient of an image by convolution
  *        with the first derivative of a Gaussian.
  *

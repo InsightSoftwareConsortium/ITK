@@ -552,7 +552,7 @@ def imread(filename, pixel_type=None, fallback_only=False):
         increase_dimension=False
         kwargs={'FileName':filename}
     if pixel_type:
-        imageIO = itk.ImageIOFactory.CreateImageIO(io_filename, itk.ImageIOFactory.FileModeEnum_ReadMode)
+        imageIO = itk.ImageIOFactory.CreateImageIO(io_filename, itk.CommonEnums.IOFileMode_ReadMode)
         if not imageIO:
             raise RuntimeError("No ImageIO is registered to handle the given file.")
         imageIO.SetFileName(io_filename)
@@ -611,7 +611,7 @@ def meshread(filename, pixel_type=None, fallback_only=False):
     increase_dimension=False
     kwargs={'FileName':filename}
     if pixel_type:
-        meshIO = itk.MeshIOFactory.CreateMeshIO(io_filename, itk.MeshIOFactory.FileModeEnum_ReadMode)
+        meshIO = itk.MeshIOFactory.CreateMeshIO(io_filename, itk.CommonEnums.IOFileMode_ReadMode)
         if not meshIO:
             raise RuntimeError("No MeshIO is registered to handle the given file.")
         meshIO.SetFileName(io_filename)

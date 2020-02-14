@@ -29,8 +29,44 @@ namespace itk
 {
 
 class JPEG2000ImageIOInternal;
+class JPEG2000ImageIOInternalEnums;
+/**\class JPEG2000ImageIOInternalEnums
+ * \brief This class contains all enum classes used by JPEG2000ImageIOInternal class.
+ * \ingroup ITKIOJPEG2000
+ */
+class JPEG2000ImageIOInternalEnums
+{
+public:
+  /**
+   * \class DecodingFormat
+   * \ingroup ITKIOJPEG2000
+   * */
+  enum class DecodingFormat : uint8_t
+  {
+    J2K_CFMT = 0,
+    JP2_CFMT = 1,
+    JPT_CFMT = 2,
+    MJ2_CFMT = 3
+  };
+  /**\class DFMFormat
+   * \ingroup ITKIOJPEG2000
+   * */
+  enum class DFMFormat : uint8_t
+  {
+    PXM_DFMT = 0,
+    PGX_DFMT = 1,
+    BMP_DFMT = 2,
+    YUV_DFMT = 3
+  };
+};
+// Define how to print enumeration
+extern ITKIOJPEG2000_EXPORT std::ostream &
+                            operator<<(std::ostream & out, const JPEG2000ImageIOInternalEnums::DecodingFormat value);
+extern ITKIOJPEG2000_EXPORT std::ostream &
+                            operator<<(std::ostream & out, const JPEG2000ImageIOInternalEnums::DFMFormat value);
 
-/** \class JPEG2000ImageIO
+/**
+ *\class JPEG2000ImageIO
  *
  * \brief Supports for the JPEG2000 file format based on openjpeg
  *

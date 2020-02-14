@@ -31,19 +31,33 @@
 
 namespace itk
 {
-/** \class SamplingStrategyEnum
+/**\class RegistrationParameterScalesEstimatorEnums
+ * \brief This class contains all the enum classes used by RegistrationParameterScalesEstimator class.
  * \ingroup ITKOptimizersv4
- * The strategies to sample physical points in the virtual domain. */
-enum class SamplingStrategyEnum : uint8_t
+ */
+class RegistrationParameterScalesEstimatorEnums
 {
-  FullDomainSampling = 0,
-  CornerSampling,
-  RandomSampling,
-  CentralRegionSampling,
-  VirtualDomainPointSetSampling
+public:
+  /**
+   *\class SamplingStrategy
+   * \ingroup ITKOptimizersv4
+   * The strategies to sample physical points in the virtual domain. */
+  enum class SamplingStrategy : uint8_t
+  {
+    FullDomainSampling = 0,
+    CornerSampling,
+    RandomSampling,
+    CentralRegionSampling,
+    VirtualDomainPointSetSampling
+  };
 };
+using SamplingStrategyEnum = RegistrationParameterScalesEstimatorEnums::SamplingStrategy;
+// Define how to print enumeration
+extern ITKOptimizersv4_EXPORT std::ostream &
+                              operator<<(std::ostream & out, const RegistrationParameterScalesEstimatorEnums::SamplingStrategy value);
 
-/** \class RegistrationParameterScalesEstimator
+/**
+ *\class RegistrationParameterScalesEstimator
  *  \brief Implements a registration helper class for estimating scales of
  * transform parameters and step sizes.
  *
@@ -323,11 +337,6 @@ private:
   SamplingStrategyType m_SamplingStrategy;
 
 }; // class RegistrationParameterScalesEstimator
-
-/** Define how to print enumerations */
-extern ITKOptimizersv4_EXPORT std::ostream &
-                              operator<<(std::ostream & out, const SamplingStrategyEnum value);
-
 } // namespace itk
 
 

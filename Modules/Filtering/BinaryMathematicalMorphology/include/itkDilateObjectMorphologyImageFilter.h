@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class DilateObjectMorphologyImageFilter
+/**
+ *\class DilateObjectMorphologyImageFilter
  * \brief dilation of an object in an image
  *
  * Dilate an image using binary morphology.

@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class ComposeImageFilter
+/**
+ *\class ComposeImageFilter
  * \brief ComposeImageFilter combine several scalar images into a multicomponent image
  *
  * ComposeImageFilter combine several scalar images into an itk::Image of

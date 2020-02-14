@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include <itkCommonEnums.h>
 #include "itkLogicOpsFunctors.h"
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -41,16 +42,19 @@ public:
   void
   Visit(int, Bogus *)
   {}
-  int
+
+  itk::CellGeometryEnum
   GetCellTopologyId()
   {
-    return 1;
+    return itk::CellGeometryEnum::HEXAHEDRON_CELL;
   }
-  int
+
+  itk::CellGeometryEnum
   GetTopologyId()
   {
-    return 1;
+    return itk::CellGeometryEnum::HEXAHEDRON_CELL;
   }
+
   Bogus() = default;
   virtual ~Bogus() = default;
 };

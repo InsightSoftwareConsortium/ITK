@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class OrImageFilter
+/**
+ *\class OrImageFilter
  * \brief Implements the OR bitwise operator pixel-wise between two images.
  *
  * This class is templated over the types of the two

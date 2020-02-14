@@ -32,7 +32,7 @@ void
 LoggerThreadWrapper<SimpleLoggerType>::SetPriorityLevel(PriorityLevelEnum level)
 {
   this->m_Mutex.lock();
-  this->m_OperationQ.push(LoggerThreadWrapperOperationType::SET_PRIORITY_LEVEL);
+  this->m_OperationQ.push(OperationEnum::SET_PRIORITY_LEVEL);
   this->m_LevelQ.push(level);
   this->m_Mutex.unlock();
 }
@@ -56,7 +56,7 @@ LoggerThreadWrapper<SimpleLoggerType>::SetLevelForFlushing(PriorityLevelEnum lev
 {
   this->m_Mutex.lock();
   this->m_LevelForFlushing = level;
-  this->m_OperationQ.push(LoggerThreadWrapperOperationType::SET_LEVEL_FOR_FLUSHING);
+  this->m_OperationQ.push(OperationEnum::SET_LEVEL_FOR_FLUSHING);
   this->m_LevelQ.push(level);
   this->m_Mutex.unlock();
 }
@@ -96,7 +96,7 @@ void
 LoggerThreadWrapper<SimpleLoggerType>::AddLogOutput(OutputType * output)
 {
   this->m_Mutex.lock();
-  this->m_OperationQ.push(LoggerThreadWrapperOperationType::ADD_LOG_OUTPUT);
+  this->m_OperationQ.push(OperationEnum::ADD_LOG_OUTPUT);
   this->m_OutputQ.push(output);
   this->m_Mutex.unlock();
 }
@@ -108,7 +108,7 @@ LoggerThreadWrapper<SimpleLoggerType>::Write(PriorityLevelEnum level, std::strin
   this->m_Mutex.lock();
   if (this->m_PriorityLevel >= level)
   {
-    this->m_OperationQ.push(LoggerThreadWrapperOperationType::WRITE);
+    this->m_OperationQ.push(OperationEnum::WRITE);
     this->m_MessageQ.push(content);
     this->m_LevelQ.push(level);
   }
@@ -129,19 +129,19 @@ LoggerThreadWrapper<SimpleLoggerType>::Flush()
   {
     switch (this->m_OperationQ.front())
     {
-      case LoggerThreadWrapperOperationType::SET_PRIORITY_LEVEL:
+      case OperationEnum::SET_PRIORITY_LEVEL:
         this->m_PriorityLevel = this->m_LevelQ.front();
         this->m_LevelQ.pop();
         break;
-      case LoggerThreadWrapperOperationType::SET_LEVEL_FOR_FLUSHING:
+      case OperationEnum::SET_LEVEL_FOR_FLUSHING:
         this->m_LevelForFlushing = this->m_LevelQ.front();
         this->m_LevelQ.pop();
         break;
-      case LoggerThreadWrapperOperationType::ADD_LOG_OUTPUT:
+      case OperationEnum::ADD_LOG_OUTPUT:
         this->m_Output->AddLogOutput(this->m_OutputQ.front());
         this->m_OutputQ.pop();
         break;
-      case LoggerThreadWrapperOperationType::WRITE:
+      case OperationEnum::WRITE:
         this->SimpleLoggerType::Write(this->m_LevelQ.front(), this->m_MessageQ.front());
         this->m_LevelQ.pop();
         this->m_MessageQ.pop();
@@ -186,22 +186,22 @@ LoggerThreadWrapper<SimpleLoggerType>::ThreadFunction()
     {
       switch (m_OperationQ.front())
       {
-        case LoggerThreadWrapperOperationType::SET_PRIORITY_LEVEL:
+        case OperationEnum::SET_PRIORITY_LEVEL:
           this->m_PriorityLevel = m_LevelQ.front();
           m_LevelQ.pop();
           break;
 
-        case LoggerThreadWrapperOperationType::SET_LEVEL_FOR_FLUSHING:
+        case OperationEnum::SET_LEVEL_FOR_FLUSHING:
           this->m_LevelForFlushing = m_LevelQ.front();
           m_LevelQ.pop();
           break;
 
-        case LoggerThreadWrapperOperationType::ADD_LOG_OUTPUT:
+        case OperationEnum::ADD_LOG_OUTPUT:
           this->m_Output->AddLogOutput(m_OutputQ.front());
           m_OutputQ.pop();
           break;
 
-        case LoggerThreadWrapperOperationType::WRITE:
+        case OperationEnum::WRITE:
           SimpleLoggerType::Write(m_LevelQ.front(), m_MessageQ.front());
           m_LevelQ.pop();
           m_MessageQ.pop();
@@ -229,6 +229,7 @@ LoggerThreadWrapper<SimpleLoggerType>::PrintSelf(std::ostream & os, Indent inden
   os << indent << "Level Queue Size: " << this->m_LevelQ.size() << std::endl;
   os << indent << "Output Queue Size: " << this->m_OutputQ.size() << std::endl;
 }
+
 } // namespace itk
 
 #endif // itkLoggerThreadWrapper_hxx

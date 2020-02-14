@@ -29,7 +29,8 @@
 
 namespace itk
 {
-/** \class VectorGradientMagnitudeImageFilter
+/**
+ *\class VectorGradientMagnitudeImageFilter
  *
  * \brief Computes a scalar, gradient magnitude image from a multiple channel
  * (pixels are vectors) input.

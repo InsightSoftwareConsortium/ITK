@@ -28,7 +28,8 @@
 
 namespace itk
 {
-/** \class MetaImageIO
+/**
+ *\class MetaImageIO
  *
  *  \brief Read MetaImage file format.
  *

@@ -79,21 +79,22 @@ VideoIOFactory::CreateVideoIO(IOModeEnum mode, const char * arg)
   // Didn't find a usable VideoIO
   return nullptr;
 }
-/** Print Enumerations */
+
+/** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const VideoIOFactory::IOModeEnum value)
+operator<<(std::ostream & out, const VideoIOFactoryEnums::IOMode value)
 {
   return out << [value] {
     switch (value)
     {
-      case VideoIOFactory::IOModeEnum::ReadFileMode:
-        return "VideoIOFactory::IOModeEnum::ReadFileMode";
-      case VideoIOFactory::IOModeEnum::ReadCameraMode:
-        return "VideoIOFactory::IOModeEnum::ReadCameraMode";
-      case VideoIOFactory::IOModeEnum::WriteMode:
-        return "VideoIOFactory::IOModeEnum::WriteMode";
+      case VideoIOFactoryEnums::IOMode::ReadFileMode:
+        return "itk::VideoIOFactoryEnums::IOMode::ReadFileMode";
+      case VideoIOFactoryEnums::IOMode::ReadCameraMode:
+        return "itk::VideoIOFactoryEnums::IOMode::ReadCameraMode";
+      case VideoIOFactoryEnums::IOMode::WriteMode:
+        return "itk::VideoIOFactoryEnums::IOMode::WriteMode";
       default:
-        return "INVALID VALUE FOR VideoIOFactory::IOModeEnum";
+        return "INVALID VALUE FOR itk::VideoIOFactoryEnums::IOMode";
     }
   }();
 }

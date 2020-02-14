@@ -123,8 +123,8 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
   metric->SetMovingTransform(displacementTransform);
 
   /* Test 1st with fixed image gradient source. This is the default */
-  metric->SetGradientSource(itk::GradientSourceEnum::GRADIENT_SOURCE_FIXED);
-  if (metric->GetGradientSource() != itk::GradientSourceEnum::GRADIENT_SOURCE_FIXED)
+  metric->SetGradientSource(itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_FIXED);
+  if (metric->GetGradientSource() != itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_FIXED)
   {
     std::cerr << "Failed setting fixed image gradient source." << std::endl;
     return EXIT_FAILURE;
@@ -191,8 +191,8 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
    * to have the fixed image used for image gradients.  */
   metric->SetFixedTransform(translationTransform);
   metric->SetMovingTransform(displacementTransform);
-  metric->SetGradientSource(itk::GradientSourceEnum::GRADIENT_SOURCE_MOVING);
-  if (metric->GetGradientSource() != itk::GradientSourceEnum::GRADIENT_SOURCE_MOVING)
+  metric->SetGradientSource(itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_MOVING);
+  if (metric->GetGradientSource() != itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_MOVING)
   {
     std::cerr << "Failed setting moving image gradient source." << std::endl;
     return EXIT_FAILURE;

@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class PNGImageIOFactory
+/**
+ *\class PNGImageIOFactory
  * \brief Create instances of PNGImageIO objects using an object factory.
  * \ingroup ITKIOPNG
  */

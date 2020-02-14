@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class HDF5ImageIOFactory
+/**
+ *\class HDF5ImageIOFactory
  * \author KEnt Williams
  * \brief Create instances of HDF5ImageIO objects using an object
  * factory.

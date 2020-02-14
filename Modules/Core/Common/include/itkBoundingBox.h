@@ -37,7 +37,8 @@
 namespace itk
 {
 
-/** \class BoundingBox
+/**
+ *\class BoundingBox
  *
  * \brief Represent and compute information about bounding boxes.
  *

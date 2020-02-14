@@ -25,7 +25,8 @@
 namespace itk
 {
 /* Necessary forward declaration */
-/** \class LBFGSBOptimizerHelperv4
+/**
+ *\class LBFGSBOptimizerHelperv4
  * \brief Wrapper helper around vnl_lbfgsb.
  *
  * This class is used to translate iteration events, etc, from
@@ -36,7 +37,8 @@ namespace itk
 // Forward reference because of private implementation
 class ITK_FORWARD_EXPORT LBFGSBOptimizerHelperv4;
 
-/** \class LBFGSBOptimizerv4
+/**
+ *\class LBFGSBOptimizerv4
  * \brief Limited memory Broyden Fletcher Goldfarb Shannon minimization with simple bounds.
  *
  * This class is a wrapper for converted Fortran code for performing limited

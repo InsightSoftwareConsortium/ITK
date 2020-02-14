@@ -25,7 +25,8 @@ namespace itk
 {
 namespace Accessor
 {
-/** \class ComplexToImaginaryPixelAccessor
+/**
+ *\class ComplexToImaginaryPixelAccessor
  * \brief Give access to the Imaginary part of a std::complex<> value.
  *
  * ComplexToImaginaryPixelAccessor is templated over an internal type and an
@@ -66,7 +67,8 @@ public:
 };
 } // end namespace Accessor
 
-/** \class ComplexToImaginaryImageAdaptor
+/**
+ *\class ComplexToImaginaryImageAdaptor
  * \brief Presents a complex image as being composed of imag() part of
  * its pixels.
  *

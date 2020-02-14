@@ -19,18 +19,19 @@
 
 namespace itk
 {
+/** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const MRFStopEnum value)
+operator<<(std::ostream & out, const MRFImageFilterEnums::MRFStop value)
 {
   return out << [value] {
     switch (value)
     {
-      case MRFStopEnum::MaximumNumberOfIterations:
-        return "MRFStopEnum::MaximumNumberOfIterations";
-      case MRFStopEnum::ErrorTolerance:
-        return "MRFStopEnum::ErrorTolerance";
+      case MRFImageFilterEnums::MRFStop::MaximumNumberOfIterations:
+        return "itk::MRFImageFilterEnums::MRFStop::MaximumNumberOfIterations";
+      case MRFImageFilterEnums::MRFStop::ErrorTolerance:
+        return "itk::MRFImageFilterEnums::MRFStop::ErrorTolerance";
       default:
-        return "MRFStopEnum";
+        return "INVALID VALUE FOR itk::MRFImageFilterEnums::MRFStop";
     }
   }();
 }

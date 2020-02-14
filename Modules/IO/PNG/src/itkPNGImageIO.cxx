@@ -276,8 +276,8 @@ PNGImageIO::PNGImageIO()
 {
   this->SetNumberOfDimensions(2);
 
-  m_ComponentType = UCHAR;
-  m_PixelType = SCALAR;
+  m_ComponentType = IOComponentEnum::UCHAR;
+  m_PixelType = IOPixelEnum::SCALAR;
 
   this->Self::UseCompressionOff();
 
@@ -293,8 +293,7 @@ PNGImageIO::PNGImageIO()
   m_Origin[0] = 0.0;
   m_Origin[1] = 0.0;
 
-  const char * extensions[] = { ".png", ".PNG" };
-
+  constexpr const char * const extensions[] = { ".png", ".PNG" };
 
   for (auto ext : extensions)
   {
@@ -445,23 +444,23 @@ PNGImageIO::ReadImageInformation()
   m_Dimensions[1] = height;
   if (bitDepth <= 8)
   {
-    m_PixelType = SCALAR;
-    m_ComponentType = UCHAR;
+    m_PixelType = IOPixelEnum::SCALAR;
+    m_ComponentType = IOComponentEnum::UCHAR;
   }
   else
   {
-    m_PixelType = SCALAR;
-    m_ComponentType = USHORT;
+    m_PixelType = IOPixelEnum::SCALAR;
+    m_ComponentType = IOComponentEnum::USHORT;
   }
   this->SetNumberOfComponents(png_get_channels(png_ptr, info_ptr));
 
   if (this->GetNumberOfComponents() == 3)
   {
-    m_PixelType = RGB;
+    m_PixelType = IOPixelEnum::RGB;
   }
   else if (this->GetNumberOfComponents() == 4)
   {
-    m_PixelType = RGBA;
+    m_PixelType = IOPixelEnum::RGBA;
   }
 
   // see if the PNG file stored spacing information,
@@ -534,11 +533,11 @@ PNGImageIO::WriteSlice(const std::string & fileName, const void * buffer)
   volatile int bitDepth;
   switch (this->GetComponentType())
   {
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
       bitDepth = 8;
       break;
 
-    case USHORT:
+    case IOComponentEnum::USHORT:
       bitDepth = 16;
       break;
 

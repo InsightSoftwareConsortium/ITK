@@ -19,31 +19,31 @@
 
 namespace itk
 {
-/** Print enumerations */
+/** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const TreeIteratorBaseNodeEnum value)
+operator<<(std::ostream & out, const TreeIteratorBaseEnums::TreeIteratorBaseNode value)
 {
   return out << [value] {
     switch (value)
     {
-      case TreeIteratorBaseNodeEnum::UNDEFIND:
-        return "TreeIteratorBaseNodeEnum::UNDEFIND";
-      case TreeIteratorBaseNodeEnum::PREORDER:
-        return "TreeIteratorBaseNodeEnum::PREORDER";
-      case TreeIteratorBaseNodeEnum::INORDER:
-        return "TreeIteratorBaseNodeEnum::INORDER";
-      case TreeIteratorBaseNodeEnum::POSTORDER:
-        return "TreeIteratorBaseNodeEnum::POSTORDER";
-      case TreeIteratorBaseNodeEnum::LEVELORDER:
-        return "TreeIteratorBaseNodeEnum::LEVELORDER";
-      case TreeIteratorBaseNodeEnum::CHILD:
-        return "TreeIteratorBaseNodeEnum::CHILD";
-      case TreeIteratorBaseNodeEnum::ROOT:
-        return "TreeIteratorBaseNodeEnum::ROOT";
-      case TreeIteratorBaseNodeEnum::LEAF:
-        return "TreeIteratorBaseNodeEnum::LEAF";
+      case TreeIteratorBaseEnums::TreeIteratorBaseNode::UNDEFIND:
+        return "itk::TreeIteratorBaseEnums::TreeIteratorBaseNode::UNDEFIND";
+      case TreeIteratorBaseEnums::TreeIteratorBaseNode::PREORDER:
+        return "itk::TreeIteratorBaseEnums::TreeIteratorBaseNode::PREORDER";
+      case TreeIteratorBaseEnums::TreeIteratorBaseNode::INORDER:
+        return "itk::TreeIteratorBaseEnums::TreeIteratorBaseNode::INORDER";
+      case TreeIteratorBaseEnums::TreeIteratorBaseNode::POSTORDER:
+        return "itk::TreeIteratorBaseEnums::TreeIteratorBaseNode::POSTORDER";
+      case TreeIteratorBaseEnums::TreeIteratorBaseNode::LEVELORDER:
+        return "itk::TreeIteratorBaseEnums::TreeIteratorBaseNode::LEVELORDER";
+      case TreeIteratorBaseEnums::TreeIteratorBaseNode::CHILD:
+        return "itk::TreeIteratorBaseEnums::TreeIteratorBaseNode::CHILD";
+      case TreeIteratorBaseEnums::TreeIteratorBaseNode::ROOT:
+        return "itk::TreeIteratorBaseEnums::TreeIteratorBaseNode::ROOT";
+      case TreeIteratorBaseEnums::TreeIteratorBaseNode::LEAF:
+        return "itk::TreeIteratorBaseEnums::TreeIteratorBaseNode::LEAF";
       default:
-        return "INVALID VALUE FOR TreeIteratorBaseNodeEnum";
+        return "INVALID VALUE FOR itk::TreeIteratorBaseEnums::TreeIteratorBaseNode";
     }
   }();
 }

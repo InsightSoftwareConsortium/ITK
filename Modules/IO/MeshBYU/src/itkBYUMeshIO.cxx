@@ -118,7 +118,7 @@ BYUMeshIO ::ReadMeshInformation()
 
   /** 6. Set default parameters */
   this->m_PointDimension = 3;
-  this->m_FileType = ASCII;
+  this->m_FileType = IOFileEnum::ASCII;
 
   // If number of points is not equal zero, update points
   if (this->m_NumberOfPoints)
@@ -133,7 +133,7 @@ BYUMeshIO ::ReadMeshInformation()
   }
 
   // Set default point component type
-  this->m_PointComponentType = DOUBLE;
+  this->m_PointComponentType = IOComponentEnum::DOUBLE;
 
   // Read and omit points
   double x;
@@ -161,17 +161,17 @@ BYUMeshIO ::ReadMeshInformation()
   }
 
   // Set default cell component type
-  this->m_CellComponentType = UINT;
+  this->m_CellComponentType = IOComponentEnum::UINT;
   this->m_CellBufferSize += this->m_NumberOfCells * 2;
 
   // Set default point pixel component and point pixel type
-  this->m_PointPixelComponentType = FLOAT;
-  this->m_PointPixelType = SCALAR;
+  this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
+  this->m_PointPixelType = IOPixelEnum::SCALAR;
   this->m_NumberOfPointPixelComponents = itk::NumericTraits<unsigned int>::OneValue();
 
   // Set default cell pixel component and point pixel type
-  this->m_CellPixelComponentType = FLOAT;
-  this->m_CellPixelType = SCALAR;
+  this->m_CellPixelComponentType = IOComponentEnum::FLOAT;
+  this->m_CellPixelType = IOPixelEnum::SCALAR;
   this->m_NumberOfCellPixelComponents = itk::NumericTraits<unsigned int>::OneValue();
 
   inputFile.close();
@@ -257,7 +257,7 @@ BYUMeshIO ::ReadCells(void * buffer)
       {
         data[index++] = -(ptId + 1);
         numPoints++;
-        data[index - numPoints - 2] = MeshIOBase::POLYGON_CELL;
+        data[index - numPoints - 2] = static_cast<unsigned int>(CellGeometryEnum::POLYGON_CELL);
         data[index - numPoints - 1] = numPoints;
         numPoints = 0;
         index += 2;
@@ -330,78 +330,78 @@ BYUMeshIO ::WritePoints(void * buffer)
   // Write points
   switch (this->m_PointComponentType)
   {
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
     {
       WritePoints(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
-    case CHAR:
+    case IOComponentEnum::CHAR:
     {
       WritePoints(static_cast<char *>(buffer), outputFile);
 
       break;
     }
-    case USHORT:
+    case IOComponentEnum::USHORT:
     {
       WritePoints(static_cast<unsigned short *>(buffer), outputFile);
 
       break;
     }
-    case SHORT:
+    case IOComponentEnum::SHORT:
     {
       WritePoints(static_cast<short *>(buffer), outputFile);
 
       break;
     }
-    case UINT:
+    case IOComponentEnum::UINT:
     {
       WritePoints(static_cast<unsigned int *>(buffer), outputFile);
 
       break;
     }
-    case INT:
+    case IOComponentEnum::INT:
     {
       WritePoints(static_cast<int *>(buffer), outputFile);
 
       break;
     }
-    case ULONG:
+    case IOComponentEnum::ULONG:
     {
       WritePoints(static_cast<unsigned long *>(buffer), outputFile);
 
       break;
     }
-    case LONG:
+    case IOComponentEnum::LONG:
     {
       WritePoints(static_cast<long *>(buffer), outputFile);
 
       break;
     }
-    case ULONGLONG:
+    case IOComponentEnum::ULONGLONG:
     {
       WritePoints(static_cast<unsigned long long *>(buffer), outputFile);
 
       break;
     }
-    case LONGLONG:
+    case IOComponentEnum::LONGLONG:
     {
       WritePoints(static_cast<long long *>(buffer), outputFile);
 
       break;
     }
-    case FLOAT:
+    case IOComponentEnum::FLOAT:
     {
       WritePoints(static_cast<float *>(buffer), outputFile);
 
       break;
     }
-    case DOUBLE:
+    case IOComponentEnum::DOUBLE:
     {
       WritePoints(static_cast<double *>(buffer), outputFile);
 
       break;
     }
-    case LDOUBLE:
+    case IOComponentEnum::LDOUBLE:
     {
       WritePoints(static_cast<long double *>(buffer), outputFile);
 
@@ -438,67 +438,67 @@ BYUMeshIO ::WriteCells(void * buffer)
   // Write polygons
   switch (this->m_CellComponentType)
   {
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
     {
       WriteCells(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
-    case CHAR:
+    case IOComponentEnum::CHAR:
     {
       WriteCells(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
-    case USHORT:
+    case IOComponentEnum::USHORT:
     {
       WriteCells(static_cast<unsigned short *>(buffer), outputFile);
       break;
     }
-    case SHORT:
+    case IOComponentEnum::SHORT:
     {
       WriteCells(static_cast<short *>(buffer), outputFile);
       break;
     }
-    case UINT:
+    case IOComponentEnum::UINT:
     {
       WriteCells(static_cast<unsigned int *>(buffer), outputFile);
       break;
     }
-    case INT:
+    case IOComponentEnum::INT:
     {
       WriteCells(static_cast<int *>(buffer), outputFile);
       break;
     }
-    case ULONG:
+    case IOComponentEnum::ULONG:
     {
       WriteCells(static_cast<unsigned long *>(buffer), outputFile);
       break;
     }
-    case LONG:
+    case IOComponentEnum::LONG:
     {
       WriteCells(static_cast<long *>(buffer), outputFile);
       break;
     }
-    case ULONGLONG:
+    case IOComponentEnum::ULONGLONG:
     {
       WriteCells(static_cast<unsigned long long *>(buffer), outputFile);
       break;
     }
-    case LONGLONG:
+    case IOComponentEnum::LONGLONG:
     {
       WriteCells(static_cast<long long *>(buffer), outputFile);
       break;
     }
-    case FLOAT:
+    case IOComponentEnum::FLOAT:
     {
       WriteCells(static_cast<float *>(buffer), outputFile);
       break;
     }
-    case DOUBLE:
+    case IOComponentEnum::DOUBLE:
     {
       WriteCells(static_cast<double *>(buffer), outputFile);
       break;
     }
-    case LDOUBLE:
+    case IOComponentEnum::LDOUBLE:
     {
       WriteCells(static_cast<long double *>(buffer), outputFile);
       break;

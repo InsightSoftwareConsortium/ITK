@@ -90,10 +90,10 @@ TemporalRegion ::GetFrameDuration() const
 }
 
 // ---------------------------------------------------------------------------
-TemporalRegion::RegionType
+TemporalRegion::RegionEnum
 TemporalRegion ::GetRegionType() const
 {
-  return ITK_STRUCTURED_REGION;
+  return RegionEnum::ITK_STRUCTURED_REGION;
 }
 
 // ---------------------------------------------------------------------------

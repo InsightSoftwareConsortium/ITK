@@ -217,7 +217,7 @@ public:
   MetricCategoryType
   GetMetricCategory() const override
   {
-    return Superclass::MULTI_METRIC;
+    return MetricCategoryType::MULTI_METRIC;
   }
 
 protected:

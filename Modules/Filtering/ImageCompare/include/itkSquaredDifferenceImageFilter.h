@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class SquaredDifferenceImageFilter
+/**
+ *\class SquaredDifferenceImageFilter
  * \brief Implements pixel-wise the computation of squared difference.
  *
  * This filter is parameterized over the types of the two

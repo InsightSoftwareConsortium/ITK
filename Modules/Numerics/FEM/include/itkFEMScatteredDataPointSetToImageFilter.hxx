@@ -475,7 +475,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 
     switch (cell->GetType())
     {
-      case CellType::TRIANGLE_CELL:
+      case itk::CellGeometryEnum::TRIANGLE_CELL:
       {
         FEM2DTriangleType::Pointer triangleEle = FEM2DTriangleType::New();
 
@@ -499,7 +499,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
         break;
       }
 
-      case CellType::TETRAHEDRON_CELL:
+      case itk::CellGeometryEnum::TETRAHEDRON_CELL:
       {
         FEMTetrahedronType::Pointer tetrahedronEle = FEMTetrahedronType::New();
 
@@ -524,7 +524,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
         break;
       }
 
-      case CellType::QUADRILATERAL_CELL:
+      case itk::CellGeometryEnum::QUADRILATERAL_CELL:
       {
         FEM2DQuadrilateralType::Pointer quadrilateralEle = FEM2DQuadrilateralType::New();
 
@@ -550,7 +550,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
         break;
       }
 
-      case CellType::HEXAHEDRON_CELL:
+      case itk::CellGeometryEnum::HEXAHEDRON_CELL:
       {
         FEMHexahedronType::Pointer hexahedronEle = FEMHexahedronType::New();
 

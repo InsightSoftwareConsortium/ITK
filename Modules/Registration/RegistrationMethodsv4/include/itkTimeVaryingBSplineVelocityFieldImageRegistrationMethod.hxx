@@ -468,7 +468,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
 
     SizeValueType initialNumberOfVelocityFieldPointsAtTimePoint = velocityFieldPointSet->GetNumberOfPoints();
 
-    if (this->m_Metric->GetMetricCategory() == MetricType::POINT_SET_METRIC)
+    if (this->m_Metric->GetMetricCategory() == ObjectToObjectMetricBaseTemplateEnums::MetricCategory::POINT_SET_METRIC)
     {
       this->m_Metric->SetFixedObject(this->m_FixedPointSets[0]);
       this->m_Metric->SetMovingObject(this->m_MovingPointSets[0]);
@@ -659,7 +659,8 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
   {
     for (SizeValueType n = 0; n < multiMetric->GetNumberOfMetrics(); n++)
     {
-      if (multiMetric->GetMetricQueue()[n]->GetMetricCategory() == MetricType::POINT_SET_METRIC)
+      if (multiMetric->GetMetricQueue()[n]->GetMetricCategory() ==
+          ObjectToObjectMetricBaseTemplateEnums::MetricCategory::POINT_SET_METRIC)
       {
         multiMetric->GetMetricQueue()[n]->SetFixedObject(fixedPointSets[n]);
         multiMetric->GetMetricQueue()[n]->SetMovingObject(movingPointSets[n]);
@@ -671,7 +672,8 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
         dynamic_cast<PointSetMetricType *>(multiMetric->GetMetricQueue()[n].GetPointer())
           ->SetStoreDerivativeAsSparseFieldForLocalSupportTransforms(true);
       }
-      else if (multiMetric->GetMetricQueue()[n]->GetMetricCategory() == MetricType::IMAGE_METRIC)
+      else if (multiMetric->GetMetricQueue()[n]->GetMetricCategory() ==
+               ObjectToObjectMetricBaseTemplateEnums::MetricCategory::IMAGE_METRIC)
       {
         using FixedResamplerType = ResampleImageFilter<FixedImageType, FixedImageType, RealType>;
         typename FixedResamplerType::Pointer fixedResampler = FixedResamplerType::New();
@@ -703,7 +705,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
       }
     }
   }
-  else if (this->m_Metric->GetMetricCategory() == MetricType::IMAGE_METRIC)
+  else if (this->m_Metric->GetMetricCategory() == ObjectToObjectMetricBaseTemplateEnums::MetricCategory::IMAGE_METRIC)
   {
     using FixedResamplerType = ResampleImageFilter<FixedImageType, FixedImageType, RealType>;
     typename FixedResamplerType::Pointer fixedResampler = FixedResamplerType::New();

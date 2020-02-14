@@ -4,6 +4,7 @@ region identifying a tissue type by testing if connected pixels pass a criteria.
 See also ITKKLMRegionGrowing.")
 
 itk_module(ITKRegionGrowing
+  ENABLE_SHARED
   DEPENDS
     ITKThresholding
   TEST_DEPENDS

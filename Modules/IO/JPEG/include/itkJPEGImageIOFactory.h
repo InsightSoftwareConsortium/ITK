@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class JPEGImageIOFactory
+/**
+ *\class JPEGImageIOFactory
  * \brief Create instances of JPEGImageIO objects using an object factory.
  * \ingroup ITKIOJPEG
  */

@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include <iostream>
+#include <set>
 
 #include "itkTransform.h"
 
@@ -306,6 +307,20 @@ public:
     // Exercise some methods
     transform->Print(std::cout);
     std::cout << transform->GetNameOfClass() << std::endl;
+
+    // Test streaming enumeration for TransformBaseTemplateEnums::TransformCategory elements
+    const std::set<itk::TransformBaseTemplateEnums::TransformCategory> allTransformCategory{
+      itk::TransformBaseTemplateEnums::TransformCategory::UnknownTransformCategory,
+      itk::TransformBaseTemplateEnums::TransformCategory::Linear,
+      itk::TransformBaseTemplateEnums::TransformCategory::BSpline,
+      itk::TransformBaseTemplateEnums::TransformCategory::Spline,
+      itk::TransformBaseTemplateEnums::TransformCategory::DisplacementField,
+      itk::TransformBaseTemplateEnums::TransformCategory::VelocityField
+    };
+    for (const auto & ee : allTransformCategory)
+    {
+      std::cout << "STREAMED ENUM VALUE TransformBaseTemplateEnums::TransformCategory: " << ee << std::endl;
+    }
 
     return true;
   }

@@ -22,22 +22,32 @@
 
 namespace itk
 {
-/** \class TreeIteratorBaseNodeEnum
+/**\class TreeIteratorBaseEnums
+ * \brief Enum classes used in the TreeIteratorBase class.
  * \ingroup ITKDeprecated
- * Enumerations for node type
  */
-enum class TreeIteratorBaseNodeEnum : uint8_t
+class TreeIteratorBaseEnums
 {
-  UNDEFIND = 0,
-  PREORDER = 1,
-  INORDER = 2,
-  POSTORDER = 3,
-  LEVELORDER = 4,
-  CHILD = 5,
-  ROOT = 6,
-  LEAF = 7
+public:
+  /** \class TreeIteratorBaseNode
+   * \ingroup ITKDeprecated
+   * Enumerations for node type
+   */
+  enum class TreeIteratorBaseNode : uint8_t
+  {
+    UNDEFIND = 0,
+    PREORDER = 1,
+    INORDER = 2,
+    POSTORDER = 3,
+    LEVELORDER = 4,
+    CHILD = 5,
+    ROOT = 6,
+    LEAF = 7
+  };
 };
-
+// Define how to print enumeration
+extern ITKCOMMON_DEPRECATED_EXPORT std::ostream &
+                                   operator<<(std::ostream & out, const TreeIteratorBaseEnums::TreeIteratorBaseNode value);
 /** \class TreeIteratorBase
  *  \brief This class provides the base implementation for tree iterators.
  *
@@ -65,7 +75,7 @@ public:
   using ChildIdentifier = typename TreeNodeType::ChildIdentifier;
 
   /** Backwards compatibility for enum values */
-  using NodeType = TreeIteratorBaseNodeEnum;
+  using NodeType = TreeIteratorBaseEnums::TreeIteratorBaseNode;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility

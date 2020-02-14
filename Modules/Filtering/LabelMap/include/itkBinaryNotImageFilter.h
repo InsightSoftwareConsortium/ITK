@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class BinaryNotImageFilter
+/**
+ *\class BinaryNotImageFilter
  * \brief Implements the BinaryNot logical operator pixel-wise between two images.
  *
  * This class is parameterized over the types of the two

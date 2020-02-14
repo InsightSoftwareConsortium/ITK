@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \class LiThresholdCalculator
+/**
+ *\class LiThresholdCalculator
  * \brief Computes the Li threshold for an image. Aka intermeans
  *
  * Implements Li's Minimum Cross Entropy thresholding method

@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class MomentsThresholdImageFilter
+/**
+ *\class MomentsThresholdImageFilter
  * \brief Threshold an image using the Moments Threshold
  *
  * This filter creates a binary thresholded image that separates an

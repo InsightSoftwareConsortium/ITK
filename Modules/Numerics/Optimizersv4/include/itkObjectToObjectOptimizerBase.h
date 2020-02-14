@@ -27,7 +27,38 @@
 
 namespace itk
 {
-/** \class ObjectToObjectOptimizerBaseTemplate
+/**\class ObjectToObjectOptimizerBaseTemplateEnums
+ *\brief This class contains all the enum classes used by ObjectToObjectOptimizerBaseTemplate class.
+ *\ingroup ITKOptimizersv4
+ */
+class ObjectToObjectOptimizerBaseTemplateEnums
+{
+public:
+  /**
+   * \class StopConditionObjectToObjectOptimizer
+   * \ingroup ITKOptimizersv4
+   * Codes of stopping conditions.
+   */
+  enum class StopConditionObjectToObjectOptimizer : uint8_t
+  {
+    MAXIMUM_NUMBER_OF_ITERATIONS,
+    COSTFUNCTION_ERROR,
+    UPDATE_PARAMETERS_ERROR,
+    STEP_TOO_SMALL,
+    CONVERGENCE_CHECKER_PASSED,
+    GRADIENT_MAGNITUDE_TOLEARANCE,
+    OTHER_ERROR
+  };
+};
+// Define how to print enumeration
+using StopConditionObjectToObjectOptimizerEnum =
+  ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer;
+extern ITKOptimizersv4_EXPORT std::ostream &
+                              operator<<(std::ostream &                                                                       out,
+           const ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer value);
+
+/**
+ *\class ObjectToObjectOptimizerBaseTemplate
  * \brief Abstract base for object-to-object optimizers.
  *
  * The goal of this optimizer hierarchy is to work with metrics

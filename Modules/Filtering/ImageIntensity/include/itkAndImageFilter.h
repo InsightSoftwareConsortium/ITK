@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class AndImageFilter
+/**
+ *\class AndImageFilter
  * \brief Implements the AND bitwise operator pixel-wise between two images.
  *
  * This class is templated over the types of the two

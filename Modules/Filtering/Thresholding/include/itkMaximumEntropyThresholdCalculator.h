@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \class MaximumEntropyThresholdCalculator
+/**
+ *\class MaximumEntropyThresholdCalculator
  * \brief Computes the MaximumEntropy's threshold for an image.
  *
  * Implements Kapur-Sahoo-Wong (Maximum Entropy) thresholding method

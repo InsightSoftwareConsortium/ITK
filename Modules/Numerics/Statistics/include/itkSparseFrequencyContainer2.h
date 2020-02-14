@@ -29,7 +29,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class SparseFrequencyContainer2
+/**
+ *\class SparseFrequencyContainer2
  *  \brief his class is a container for an histogram.
  *
  *  This class uses an map to store histogram. If your histogram is dense

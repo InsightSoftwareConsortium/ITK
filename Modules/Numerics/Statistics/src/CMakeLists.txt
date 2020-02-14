@@ -10,6 +10,9 @@ set(ITKStatistics_SRCS
   itkMaximumDecisionRule.cxx
   itkMaximumRatioDecisionRule.cxx
   itkMinimumDecisionRule.cxx
+  itkHistogramToRunLengthFeaturesFilter.cxx
+itkExpectationMaximizationMixtureModelEstimator.cxx
+itkHistogramToTextureFeaturesFilter.cxx
   )
 
 itk_module_add_library(ITKStatistics ${ITKStatistics_SRCS})

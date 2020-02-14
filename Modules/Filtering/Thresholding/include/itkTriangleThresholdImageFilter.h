@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class TriangleThresholdImageFilter
+/**
+ *\class TriangleThresholdImageFilter
  * \brief Threshold an image using the Triangle Threshold
  *
  * This filter creates a binary thresholded image that separates an

@@ -43,7 +43,7 @@ namespace itk
  * Since the \c PointSet class permits each \c Point to be associated with a
  * \c PixelType, there are potential applications which could make use of
  * this additional information.  For example, the derived \c LabeledPointSetToPointSetMetric
- * class uses the \c PixelType as a \c LabelType for estimating total metric values
+ * class uses the \c PixelType as a \c LabelEnum for estimating total metric values
  * and gradients from the individual label-wise point subset metric and derivatives
  *
  * If a virtual domain is not defined by the user, one of two things happens:
@@ -434,7 +434,7 @@ protected:
   MetricCategoryType
   GetMetricCategory() const override
   {
-    return Superclass::POINT_SET_METRIC;
+    return MetricCategoryType::POINT_SET_METRIC;
   }
 
   virtual bool

@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class LabelToRGBImageFilter
+/**
+ *\class LabelToRGBImageFilter
  * \brief Apply a colormap to a label image
  *
  * Apply a colormap to a label image. The set of colors

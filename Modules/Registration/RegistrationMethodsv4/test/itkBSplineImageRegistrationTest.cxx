@@ -383,5 +383,17 @@ itkBSplineImageRegistrationTest(int argc, char * argv[])
       std::cerr << "Unsupported dimension" << std::endl;
       exit(EXIT_FAILURE);
   }
+
+  // Test streaming enumeration for ImageRegistrationMethodv4Enums::MetricSamplingStrategy elements
+  const std::set<itk::ImageRegistrationMethodv4Enums::MetricSamplingStrategy> allMetricSamplingStrategy{
+    itk::ImageRegistrationMethodv4Enums::MetricSamplingStrategy::NONE,
+    itk::ImageRegistrationMethodv4Enums::MetricSamplingStrategy::REGULAR,
+    itk::ImageRegistrationMethodv4Enums::MetricSamplingStrategy::RANDOM
+  };
+  for (const auto & ee : allMetricSamplingStrategy)
+  {
+    std::cout << "STREAMED ENUM VALUE ImageRegistrationMethodv4Enums::MetricSamplingStrategy: " << ee << std::endl;
+  }
+
   return EXIT_SUCCESS;
 }

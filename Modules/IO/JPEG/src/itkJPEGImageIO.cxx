@@ -241,12 +241,12 @@ JPEGImageIO::Read(void * buffer)
 JPEGImageIO::JPEGImageIO()
 {
   this->SetNumberOfDimensions(2);
-  m_PixelType = SCALAR;
+  m_PixelType = IOPixelEnum::SCALAR;
   // 12bits is not working right now, but this should be doable
 #if BITS_IN_JSAMPLE == 8
-  m_ComponentType = UCHAR;
+  m_ComponentType = IOComponentEnum::UCHAR;
 #else
-  m_ComponentType = UINT;
+  m_ComponentType = IOComponentEnum::UINT;
 #endif
   m_UseCompression = false;
   this->Self::SetQuality(95);
@@ -331,16 +331,16 @@ JPEGImageIO::ReadImageInformation()
   switch (this->GetNumberOfComponents())
   {
     case 1:
-      m_PixelType = SCALAR;
+      m_PixelType = IOPixelEnum::SCALAR;
       break;
     case 2:
-      m_PixelType = VECTOR;
+      m_PixelType = IOPixelEnum::VECTOR;
       break;
     case 3:
-      m_PixelType = RGB;
+      m_PixelType = IOPixelEnum::RGB;
       break;
     case 4:
-      m_PixelType = RGBA;
+      m_PixelType = IOPixelEnum::RGBA;
       break;
   }
 
@@ -389,7 +389,7 @@ JPEGImageIO::Write(const void * buffer)
     itkExceptionMacro(<< "JPEG Writer can only write 2-dimensional images");
   }
 
-  if (this->GetComponentType() != UCHAR && this->GetComponentType() != UINT)
+  if (this->GetComponentType() != IOComponentEnum::UCHAR && this->GetComponentType() != IOComponentEnum::UINT)
   {
     itkExceptionMacro(<< "JPEG supports unsigned char/int only");
   }

@@ -38,7 +38,8 @@
 
 namespace itk
 {
-/** \class GE5ImageIO
+/**
+ *\class GE5ImageIO
  *
  * \author Hans J. Johnson
  * \brief Class that defines how to read GE5 file format.

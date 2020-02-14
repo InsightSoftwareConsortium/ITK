@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class VnlComplexToComplexFFTImageFilter
+/**
+ *\class VnlComplexToComplexFFTImageFilter
  *
  * \brief VNL based complex to complex Fast Fourier Transform.
  *

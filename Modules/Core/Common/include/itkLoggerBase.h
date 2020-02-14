@@ -28,6 +28,45 @@
 
 namespace itk
 {
+/***\class LoggerBaseEnums
+ * \brief Contains all enum classes used by LoggerBase class.
+ * \ingroup ITKCommon
+ */
+class LoggerBaseEnums
+{
+public:
+  /** \class PriorityLevel
+   *  \ingroup ITKCommon
+   * Definition of types of messages. These codes will be used to regulate
+   * the level of detail of messages reported to the final outputs
+   */
+  enum class PriorityLevel : uint8_t
+  {
+    MUSTFLUSH = 0,
+    FATAL,
+    CRITICAL,
+    WARNING,
+    INFO,
+    DEBUG,
+    NOTSET
+  };
+
+  /**\class TimeStampFormat
+   * \ingroup ITKCommon
+   * Select the type of format for reporting time stamps */
+  enum class TimeStampFormat : uint8_t
+  {
+    REALVALUE = 0,
+    HUMANREADABLE = 1
+  };
+};
+
+// Define how to print enumeration
+extern ITKCommon_EXPORT std::ostream &
+                        operator<<(std::ostream & out, const LoggerBaseEnums::PriorityLevel value);
+extern ITKCommon_EXPORT std::ostream &
+                        operator<<(std::ostream & out, const LoggerBaseEnums::TimeStampFormat value);
+
 /** \class LoggerBase
  *  \brief Used for logging information during a run.
  *
@@ -52,21 +91,7 @@ public:
 
   using OutputType = MultipleLogOutput::OutputType;
 
-  /** \class PriorityLevelEnum
-   *  \ingroup ITKCommon
-   * Definition of types of messages. These codes will be used to regulate
-   * the level of detail of messages reported to the final outputs
-   */
-  enum class PriorityLevelEnum : uint8_t
-  {
-    MUSTFLUSH = 0,
-    FATAL,
-    CRITICAL,
-    WARNING,
-    INFO,
-    DEBUG,
-    NOTSET
-  };
+  using PriorityLevelEnum = LoggerBaseEnums::PriorityLevel;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
@@ -82,12 +107,13 @@ public:
   itkSetStringMacro(Name);
   itkGetStringMacro(Name);
 
-  /** Select the type of format for reporting time stamps */
-  typedef enum
-  {
-    REALVALUE = 0,
-    HUMANREADABLE
-  } TimeStampFormatType;
+  using TimeStampFormatEnum = LoggerBaseEnums::TimeStampFormat;
+#if !defined(ITK_LEGACY_REMOVE)
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr TimeStampFormatEnum REALVALUE = TimeStampFormatEnum::REALVALUE;
+  static constexpr TimeStampFormatEnum HUMANREADABLE = TimeStampFormatEnum::HUMANREADABLE;
+#endif
 
   /** Set/Get the type of format used for reporting the time stamp of a given
    * log message. The main options are REALVALUE and HUMANREADABLE.
@@ -98,8 +124,8 @@ public:
    * \sa SetHumanReadableFormat()
    *
    */
-  itkSetMacro(TimeStampFormat, TimeStampFormatType);
-  itkGetConstReferenceMacro(TimeStampFormat, TimeStampFormatType);
+  itkSetEnumMacro(TimeStampFormat, TimeStampFormatEnum);
+  itkGetConstReferenceMacro(TimeStampFormat, TimeStampFormatEnum);
 
   /** Set/Get the specific text format to use when the time stamp format type
    * is set to HUMANREADABLE. For a description of the acceptable formats
@@ -213,17 +239,13 @@ protected:
 
   RealTimeClock::Pointer m_Clock;
 
-  TimeStampFormatType m_TimeStampFormat;
+  TimeStampFormatEnum m_TimeStampFormat;
 
   std::string m_HumanReadableFormat;
 
 private:
   std::string m_Name;
 }; // class LoggerBase
-
-// Define how to print enumeration
-extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const LoggerBase::PriorityLevelEnum value);
 } // namespace itk
 
 #endif // itkLoggerBase_h

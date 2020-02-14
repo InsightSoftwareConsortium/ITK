@@ -26,7 +26,8 @@
 
 namespace itk
 {
-/** \class LabelUniqueLabelMapFilter
+/**
+ *\class LabelUniqueLabelMapFilter
  * \brief Make sure that the objects are not overlapping
  *
  * AttributeUniqueLabelMapFilter search the overlapping zones in the overlapping

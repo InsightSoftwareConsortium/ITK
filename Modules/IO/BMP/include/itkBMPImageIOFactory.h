@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class BMPImageIOFactory
+/**
+ *\class BMPImageIOFactory
  * \brief Create instances of BMPImageIO objects using an object factory.
  * \ingroup ITKIOBMP
  */

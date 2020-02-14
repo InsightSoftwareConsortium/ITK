@@ -27,7 +27,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class WeightedCentroidKdTreeGenerator
+/**
+ *\class WeightedCentroidKdTreeGenerator
  *  \brief This class generates a KdTree object with centroid information.
  *
  * The KdTree object stores measurement vectors in a k-d tree structure

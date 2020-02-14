@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class PathToImageFilter
+/**
+ *\class PathToImageFilter
  * \brief Base class for filters that take a Path as input and produce an image as output.
  * Base class for filters that take a Path as input and produce an image as
  * output. By default, if the user does not specify the size of the output

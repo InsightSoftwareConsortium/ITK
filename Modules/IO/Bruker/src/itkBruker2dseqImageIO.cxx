@@ -332,21 +332,21 @@ Bruker2dseqImageIO::Bruker2dseqImageIO()
 {
   // By default, only have 3 dimensions
   this->SetNumberOfDimensions(3);
-  this->m_PixelType = SCALAR;
-  this->m_ComponentType = CHAR;
+  this->m_PixelType = IOPixelEnum::SCALAR;
+  this->m_ComponentType = IOComponentEnum::CHAR;
   this->SetNumberOfComponents(1);
 
-  // Set m_MachineByteOrder to the ByteOrder of the machine
+  // Set m_MachineByteOrder to the IOByteOrderEnum of the machine
   // Start out with file byte order == system byte order
   // this will be changed if we're reading a file to whatever
   // the file actually contains.
   if (ByteSwapper<int>::SystemIsBigEndian())
   {
-    this->m_MachineByteOrder = this->m_ByteOrder = BigEndian;
+    this->m_MachineByteOrder = this->m_ByteOrder = IOByteOrderEnum::BigEndian;
   }
   else
   {
-    this->m_MachineByteOrder = this->m_ByteOrder = LittleEndian;
+    this->m_MachineByteOrder = this->m_ByteOrder = IOByteOrderEnum::LittleEndian;
   }
 }
 
@@ -355,39 +355,39 @@ Bruker2dseqImageIO::~Bruker2dseqImageIO() = default;
 void
 Bruker2dseqImageIO::SwapBytesIfNecessary(void * buff, SizeValueType components)
 {
-  if (m_ByteOrder == LittleEndian)
+  if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
   {
 #define BYTE_SWAP(T) ByteSwapper<T>::SwapRangeFromSystemToLittleEndian((T *)buff, components)
     switch (this->m_OnDiskComponentType)
     {
-      case CHAR:
+      case IOComponentEnum::CHAR:
         BYTE_SWAP(char);
         break;
-      case UCHAR:
+      case IOComponentEnum::UCHAR:
         BYTE_SWAP(unsigned char);
         break;
-      case SHORT:
+      case IOComponentEnum::SHORT:
         BYTE_SWAP(short);
         break;
-      case USHORT:
+      case IOComponentEnum::USHORT:
         BYTE_SWAP(unsigned short);
         break;
-      case INT:
+      case IOComponentEnum::INT:
         BYTE_SWAP(int);
         break;
-      case UINT:
+      case IOComponentEnum::UINT:
         BYTE_SWAP(unsigned int);
         break;
-      case LONG:
+      case IOComponentEnum::LONG:
         BYTE_SWAP(long);
         break;
-      case ULONG:
+      case IOComponentEnum::ULONG:
         BYTE_SWAP(unsigned long);
         break;
-      case FLOAT:
+      case IOComponentEnum::FLOAT:
         BYTE_SWAP(float);
         break;
-      case DOUBLE:
+      case IOComponentEnum::DOUBLE:
         BYTE_SWAP(double);
         break;
       default:
@@ -400,34 +400,34 @@ Bruker2dseqImageIO::SwapBytesIfNecessary(void * buff, SizeValueType components)
 #define BYTE_SWAP(T) ByteSwapper<T>::SwapRangeFromSystemToBigEndian((T *)buff, components)
     switch (this->m_OnDiskComponentType)
     {
-      case CHAR:
+      case IOComponentEnum::CHAR:
         BYTE_SWAP(char);
         break;
-      case UCHAR:
+      case IOComponentEnum::UCHAR:
         BYTE_SWAP(unsigned char);
         break;
-      case SHORT:
+      case IOComponentEnum::SHORT:
         BYTE_SWAP(short);
         break;
-      case USHORT:
+      case IOComponentEnum::USHORT:
         BYTE_SWAP(unsigned short);
         break;
-      case INT:
+      case IOComponentEnum::INT:
         BYTE_SWAP(int);
         break;
-      case UINT:
+      case IOComponentEnum::UINT:
         BYTE_SWAP(unsigned int);
         break;
-      case LONG:
+      case IOComponentEnum::LONG:
         BYTE_SWAP(long);
         break;
-      case ULONG:
+      case IOComponentEnum::ULONG:
         BYTE_SWAP(unsigned long);
         break;
-      case FLOAT:
+      case IOComponentEnum::FLOAT:
         BYTE_SWAP(float);
         break;
-      case DOUBLE:
+      case IOComponentEnum::DOUBLE:
         BYTE_SWAP(double);
         break;
       default:
@@ -452,37 +452,37 @@ Bruker2dseqImageIO::Read(void * buffer)
     SizeType numberOfBytesOnDisk = numberOfComponents;
     switch (m_OnDiskComponentType)
     {
-      case UCHAR:
+      case IOComponentEnum::UCHAR:
         numberOfBytesOnDisk *= sizeof(unsigned char);
         break;
-      case CHAR:
+      case IOComponentEnum::CHAR:
         numberOfBytesOnDisk *= sizeof(char);
         break;
-      case USHORT:
+      case IOComponentEnum::USHORT:
         numberOfBytesOnDisk *= sizeof(unsigned short);
         break;
-      case SHORT:
+      case IOComponentEnum::SHORT:
         numberOfBytesOnDisk *= sizeof(short);
         break;
-      case UINT:
+      case IOComponentEnum::UINT:
         numberOfBytesOnDisk *= sizeof(unsigned int);
         break;
-      case INT:
+      case IOComponentEnum::INT:
         numberOfBytesOnDisk *= sizeof(int);
         break;
-      case ULONG:
+      case IOComponentEnum::ULONG:
         numberOfBytesOnDisk *= sizeof(unsigned long);
         break;
-      case LONG:
+      case IOComponentEnum::LONG:
         numberOfBytesOnDisk *= sizeof(long);
         break;
-      case FLOAT:
+      case IOComponentEnum::FLOAT:
         numberOfBytesOnDisk *= sizeof(float);
         break;
-      case DOUBLE:
+      case IOComponentEnum::DOUBLE:
         numberOfBytesOnDisk *= sizeof(double);
         break;
-      case UNKNOWNCOMPONENTTYPE:
+      case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
       default:
         itkExceptionMacro("Unknown component type: " << m_ComponentType);
     }
@@ -500,35 +500,35 @@ Bruker2dseqImageIO::Read(void * buffer)
     auto * floatBuffer = static_cast<float *>(buffer);
     switch (m_OnDiskComponentType)
     {
-      case CHAR:
+      case IOComponentEnum::CHAR:
         CastCopy<char>(floatBuffer, dataFromDiskBuffer, numberOfComponents);
         break;
-      case UCHAR:
+      case IOComponentEnum::UCHAR:
         CastCopy<unsigned char>(floatBuffer, dataFromDiskBuffer, numberOfComponents);
         break;
-      case SHORT:
+      case IOComponentEnum::SHORT:
         CastCopy<short>(floatBuffer, dataFromDiskBuffer, numberOfComponents);
         break;
-      case USHORT:
+      case IOComponentEnum::USHORT:
         CastCopy<unsigned short>(floatBuffer, dataFromDiskBuffer, numberOfComponents);
         break;
-      case INT:
+      case IOComponentEnum::INT:
         CastCopy<int>(floatBuffer, dataFromDiskBuffer, numberOfComponents);
         break;
-      case UINT:
+      case IOComponentEnum::UINT:
         CastCopy<unsigned int>(floatBuffer, dataFromDiskBuffer, numberOfComponents);
         break;
-      case LONG:
+      case IOComponentEnum::LONG:
         CastCopy<long>(floatBuffer, dataFromDiskBuffer, numberOfComponents);
         break;
-      case ULONG:
+      case IOComponentEnum::ULONG:
         CastCopy<unsigned long>(floatBuffer, dataFromDiskBuffer, numberOfComponents);
         break;
-      case FLOAT:
+      case IOComponentEnum::FLOAT:
         itkExceptionMacro("FLOAT pixels do not need Casting to float");
-      case DOUBLE:
+      case IOComponentEnum::DOUBLE:
         itkExceptionMacro("DOUBLE pixels do not need Casting to float");
-      case UNKNOWNCOMPONENTTYPE:
+      case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
       default:
         itkExceptionMacro("Bad OnDiskComponentType UNKNOWNCOMPONENTTYPE");
     }
@@ -559,26 +559,26 @@ Bruker2dseqImageIO::Read(void * buffer)
 
   switch (this->m_ComponentType)
   {
-    case CHAR:
+    case IOComponentEnum::CHAR:
       ITK_FALLTHROUGH;
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
       ITK_FALLTHROUGH;
-    case SHORT:
+    case IOComponentEnum::SHORT:
       ITK_FALLTHROUGH;
-    case USHORT:
+    case IOComponentEnum::USHORT:
       ITK_FALLTHROUGH;
-    case INT:
+    case IOComponentEnum::INT:
       ITK_FALLTHROUGH;
-    case UINT:
+    case IOComponentEnum::UINT:
       ITK_FALLTHROUGH;
-    case LONG:
+    case IOComponentEnum::LONG:
       ITK_FALLTHROUGH;
-    case ULONG:
+    case IOComponentEnum::ULONG:
       itkExceptionMacro("Must have float pixels to rescale");
-    case FLOAT:
+    case IOComponentEnum::FLOAT:
       Rescale(static_cast<float *>(buffer), slopes, offsets, frameSize, frameCount);
       break;
-    case DOUBLE:
+    case IOComponentEnum::DOUBLE:
       Rescale(static_cast<double *>(buffer), slopes, offsets, frameSize, frameCount);
       break;
     default:
@@ -612,34 +612,34 @@ Bruker2dseqImageIO::Read(void * buffer)
       const SizeValueType noswap = this->GetDimensions(3) / sizeToSwap;
       switch (this->m_ComponentType)
       {
-        case CHAR:
+        case IOComponentEnum::CHAR:
           SwapSlicesAndVolumes(static_cast<char *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
-        case UCHAR:
+        case IOComponentEnum::UCHAR:
           SwapSlicesAndVolumes(static_cast<unsigned char *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
-        case SHORT:
+        case IOComponentEnum::SHORT:
           SwapSlicesAndVolumes(static_cast<short *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
-        case USHORT:
+        case IOComponentEnum::USHORT:
           SwapSlicesAndVolumes(static_cast<unsigned short *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
-        case INT:
+        case IOComponentEnum::INT:
           SwapSlicesAndVolumes(static_cast<int *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
-        case UINT:
+        case IOComponentEnum::UINT:
           SwapSlicesAndVolumes(static_cast<unsigned int *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
-        case LONG:
+        case IOComponentEnum::LONG:
           SwapSlicesAndVolumes(static_cast<long *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
-        case ULONG:
+        case IOComponentEnum::ULONG:
           SwapSlicesAndVolumes(static_cast<unsigned long *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
-        case FLOAT:
+        case IOComponentEnum::FLOAT:
           SwapSlicesAndVolumes(static_cast<float *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
-        case DOUBLE:
+        case IOComponentEnum::DOUBLE:
           SwapSlicesAndVolumes(static_cast<double *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
         default:
@@ -657,34 +657,34 @@ Bruker2dseqImageIO::Read(void * buffer)
     const SizeValueType v = (this->GetNumberOfDimensions() > 3) ? this->GetDimensions(3) : 1;
     switch (this->m_ComponentType)
     {
-      case CHAR:
+      case IOComponentEnum::CHAR:
         ReverseSliceOrder(static_cast<char *>(buffer), x, y, z, v);
         break;
-      case UCHAR:
+      case IOComponentEnum::UCHAR:
         ReverseSliceOrder(static_cast<unsigned char *>(buffer), x, y, z, v);
         break;
-      case SHORT:
+      case IOComponentEnum::SHORT:
         ReverseSliceOrder(static_cast<short *>(buffer), x, y, z, v);
         break;
-      case USHORT:
+      case IOComponentEnum::USHORT:
         ReverseSliceOrder(static_cast<unsigned short *>(buffer), x, y, z, v);
         break;
-      case INT:
+      case IOComponentEnum::INT:
         ReverseSliceOrder(static_cast<int *>(buffer), x, y, z, v);
         break;
-      case UINT:
+      case IOComponentEnum::UINT:
         ReverseSliceOrder(static_cast<unsigned int *>(buffer), x, y, z, v);
         break;
-      case LONG:
+      case IOComponentEnum::LONG:
         ReverseSliceOrder(static_cast<long *>(buffer), x, y, z, v);
         break;
-      case ULONG:
+      case IOComponentEnum::ULONG:
         ReverseSliceOrder(static_cast<unsigned long *>(buffer), x, y, z, v);
         break;
-      case FLOAT:
+      case IOComponentEnum::FLOAT:
         ReverseSliceOrder(static_cast<float *>(buffer), x, y, z, v);
         break;
-      case DOUBLE:
+      case IOComponentEnum::DOUBLE:
         ReverseSliceOrder(static_cast<double *>(buffer), x, y, z, v);
         break;
       default:
@@ -734,28 +734,28 @@ Bruker2dseqImageIO::ReadImageInformation()
   const std::string wordType = GetParameter<std::string>(dict, "VisuCoreWordType");
   if (wordType == BRUKER_SIGNED_CHAR)
   {
-    this->m_ComponentType = CHAR;
-    this->m_PixelType = SCALAR;
+    this->m_ComponentType = IOComponentEnum::CHAR;
+    this->m_PixelType = IOPixelEnum::SCALAR;
   }
   else if (wordType == BRUKER_UNSIGNED_CHAR)
   {
-    this->m_ComponentType = UCHAR;
-    this->m_PixelType = SCALAR;
+    this->m_ComponentType = IOComponentEnum::UCHAR;
+    this->m_PixelType = IOPixelEnum::SCALAR;
   }
   else if (wordType == BRUKER_SIGNED_SHORT)
   {
-    this->m_ComponentType = SHORT;
-    this->m_PixelType = SCALAR;
+    this->m_ComponentType = IOComponentEnum::SHORT;
+    this->m_PixelType = IOPixelEnum::SCALAR;
   }
   else if (wordType == BRUKER_SIGNED_INT)
   {
-    this->m_ComponentType = INT;
-    this->m_PixelType = SCALAR;
+    this->m_ComponentType = IOComponentEnum::INT;
+    this->m_PixelType = IOPixelEnum::SCALAR;
   }
   else if (wordType == BRUKER_FLOAT)
   {
-    this->m_ComponentType = FLOAT;
-    this->m_PixelType = SCALAR;
+    this->m_ComponentType = IOComponentEnum::FLOAT;
+    this->m_PixelType = IOPixelEnum::SCALAR;
   }
   else
   {
@@ -764,21 +764,22 @@ Bruker2dseqImageIO::ReadImageInformation()
 
   // Similar to NIFTI - promote to at least float for rescaling
   this->m_OnDiskComponentType = this->m_ComponentType;
-  if (this->m_ComponentType == CHAR || this->m_ComponentType == UCHAR || this->m_ComponentType == SHORT ||
-      this->m_ComponentType == USHORT || this->m_ComponentType == INT || this->m_ComponentType == UINT ||
-      this->m_ComponentType == LONG || this->m_ComponentType == ULONG)
+  if (this->m_ComponentType == IOComponentEnum::CHAR || this->m_ComponentType == IOComponentEnum::UCHAR ||
+      this->m_ComponentType == IOComponentEnum::SHORT || this->m_ComponentType == IOComponentEnum::USHORT ||
+      this->m_ComponentType == IOComponentEnum::INT || this->m_ComponentType == IOComponentEnum::UINT ||
+      this->m_ComponentType == IOComponentEnum::LONG || this->m_ComponentType == IOComponentEnum::ULONG)
   {
-    this->m_ComponentType = FLOAT;
+    this->m_ComponentType = IOComponentEnum::FLOAT;
   }
 
   const std::string byteOrder = GetParameter<std::string>(dict, "VisuCoreByteOrder");
   if (byteOrder == BRUKER_LITTLE_ENDIAN)
   {
-    this->m_ByteOrder = LittleEndian;
+    this->m_ByteOrder = IOByteOrderEnum::LittleEndian;
   }
   else if (byteOrder == BRUKER_BIG_ENDIAN)
   {
-    this->m_ByteOrder = BigEndian;
+    this->m_ByteOrder = IOByteOrderEnum::BigEndian;
   }
   else
   {
@@ -932,9 +933,9 @@ Bruker2dseqImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "OnDiskComponentType"
-     << static_cast<NumericTraits<ImageIOBase::IOComponentType>::PrintType>(m_OnDiskComponentType) << std::endl;
-  os << indent << "MachineByteOrder"
-     << static_cast<NumericTraits<ImageIOBase::ByteOrder>::PrintType>(m_MachineByteOrder) << std::endl;
+  os << indent << "OnDiskComponentType" << static_cast<NumericTraits<IOComponentEnum>::PrintType>(m_OnDiskComponentType)
+     << std::endl;
+  os << indent << "MachineByteOrder" << static_cast<NumericTraits<IOByteOrderEnum>::PrintType>(m_MachineByteOrder)
+     << std::endl;
 }
 } // end namespace itk

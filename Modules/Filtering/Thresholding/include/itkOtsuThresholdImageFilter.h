@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class OtsuThresholdImageFilter
+/**
+ *\class OtsuThresholdImageFilter
  * \brief Threshold an image using the Otsu Threshold
  *
  * This filter creates a binary thresholded image that separates an

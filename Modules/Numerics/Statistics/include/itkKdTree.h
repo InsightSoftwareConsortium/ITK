@@ -34,7 +34,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class KdTreeNode
+/**
+ *\class KdTreeNode
  *  \brief This class defines the interface of its derived classes.
  *
  * The methods defined in this class are a superset of the methods
@@ -130,7 +131,8 @@ struct ITK_TEMPLATE_EXPORT KdTreeNode
   virtual ~KdTreeNode() = default; // needed to subclasses will actually be deleted
 };                                 // end of class
 
-/** \class KdTreeNonterminalNode
+/**
+ *\class KdTreeNonterminalNode
  *  \brief This is a subclass of the KdTreeNode.
  *
  * KdTreeNonterminalNode doesn't store the information related with the
@@ -242,7 +244,8 @@ private:
   Superclass *       m_Right;
 }; // end of class
 
-/** \class KdTreeWeightedCentroidNonterminalNode
+/**
+ *\class KdTreeWeightedCentroidNonterminalNode
  *  \brief This is a subclass of the KdTreeNode.
  *
  * KdTreeNonterminalNode does have the information related with the
@@ -374,7 +377,8 @@ private:
   Superclass *              m_Right;
 }; // end of class
 
-/** \class KdTreeTerminalNode
+/**
+ *\class KdTreeTerminalNode
  *  \brief This class is the node that doesn't have any child node. The
  *  IsTerminal method returns true for this class. This class stores the
  *  instance identifiers belonging to this node, while the nonterminal
@@ -485,7 +489,8 @@ private:
   std::vector<InstanceIdentifier> m_InstanceIdentifiers;
 }; // end of class
 
-/** \class KdTree
+/**
+ *\class KdTree
  *  \brief This class provides methods for k-nearest neighbor search and
  *  related data structures for a k-d tree.
  *
@@ -562,7 +567,8 @@ public:
 
   using InstanceIdentifierVectorType = std::vector<InstanceIdentifier>;
 
-  /** \class NearestNeighbors
+  /**
+   *\class NearestNeighbors
    * \brief data structure for storing k-nearest neighbor search result
    * (k number of Neighbors)
    *

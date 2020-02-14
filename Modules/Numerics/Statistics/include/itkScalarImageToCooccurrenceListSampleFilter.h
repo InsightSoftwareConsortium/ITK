@@ -36,7 +36,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class ScalarImageToCooccurrenceListSampleFilter
+/**
+ *\class ScalarImageToCooccurrenceListSampleFilter
  *  \brief Converts pixel data into a list of pairs in order to compute a cooccurrence Histogram.
  *
  *  This class is intended to be used in combination with the ListToHistogramFilter class.

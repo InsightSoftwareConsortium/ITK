@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class FastMarchingQuadEdgeMeshFilterBase
+/**
+ *\class FastMarchingQuadEdgeMeshFilterBase
   \brief Fast Marching Method on QuadEdgeMesh
 
   The speed function is specified by the input mesh. Data associated to each

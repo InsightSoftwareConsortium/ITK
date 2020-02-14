@@ -177,8 +177,8 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   registration->SetMetricSamplingPercentage(samplingPercentage);
 
-  RegistrationType::MetricSamplingStrategyType samplingStrategy =
-    RegistrationType::RANDOM;
+  RegistrationType::MetricSamplingStrategyEnum samplingStrategy =
+    RegistrationType::MetricSamplingStrategyEnum::RANDOM;
   registration->SetMetricSamplingStrategy(samplingStrategy);
   // Software Guide : EndCodeSnippet
 

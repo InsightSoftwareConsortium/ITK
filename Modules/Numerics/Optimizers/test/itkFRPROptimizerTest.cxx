@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include <set>
 #include "itkFRPROptimizer.h"
 
 
@@ -243,5 +244,13 @@ itkFRPROptimizerTest(int, char *[])
     std::cout << "Polak Ribiere test passed." << std::endl;
   }
 
+  // Test streaming enumeration for FRPROptimizerEnums::Optimization elements
+  const std::set<itk::FRPROptimizerEnums::Optimization> allOptimization{
+    itk::FRPROptimizerEnums::Optimization::FletchReeves, itk::FRPROptimizerEnums::Optimization::PolakRibiere
+  };
+  for (const auto & ee : allOptimization)
+  {
+    std::cout << "STREAMED ENUM VALUE FRPROptimizerEnums::Optimization: " << ee << std::endl;
+  }
   return EXIT_SUCCESS;
 }

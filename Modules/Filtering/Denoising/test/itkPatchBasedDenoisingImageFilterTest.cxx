@@ -118,22 +118,22 @@ doDenoising(const std::string & inputFileName,
   ITK_TEST_SET_GET_BOOLEAN(filter, UseFastTensorComputations, useFastTensorComputations);
 
   // Noise model to use
-  typename FilterType::NoiseModelType noiseModel;
+  typename FilterType::NoiseModelEnum noiseModel;
   if (noiseModelStr == "GAUSSIAN")
   {
-    noiseModel = FilterType::GAUSSIAN;
+    noiseModel = FilterType::NoiseModelEnum::GAUSSIAN;
   }
   else if (noiseModelStr == "RICIAN")
   {
-    noiseModel = FilterType::RICIAN;
+    noiseModel = FilterType::NoiseModelEnum::RICIAN;
   }
   else if (noiseModelStr == "POISSON")
   {
-    noiseModel = FilterType::POISSON;
+    noiseModel = FilterType::NoiseModelEnum::POISSON;
   }
   else
   {
-    noiseModel = FilterType::NOMODEL;
+    noiseModel = FilterType::NoiseModelEnum::NOMODEL;
   }
   filter->SetNoiseModel(noiseModel);
   ITK_TEST_SET_GET_VALUE(noiseModel, filter->GetNoiseModel());
@@ -197,7 +197,8 @@ doDenoising(const std::string & inputFileName,
   // noise models.
   // Temporarily modify the value of an arbitrary pixel of the input image to
   // get a nonpositive value.
-  if (filter->GetNoiseModel() == FilterType::RICIAN || filter->GetNoiseModel() == FilterType::POISSON)
+  if (filter->GetNoiseModel() == FilterType::NoiseModelEnum::RICIAN ||
+      filter->GetNoiseModel() == FilterType::NoiseModelEnum::POISSON)
   {
     typename ImageT::IndexType::IndexValueType indexValue = 0;
     typename ImageT::IndexType                 pixelIndex;
@@ -409,6 +410,38 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
 
   using SixComponent2DImage = itk::Image<SixComponentType, 2>;
   using SixComponent3DImage = itk::Image<SixComponentType, 3>;
+
+  // Test streaming enumeration for PatchBasedDenoisingBaseImageFilterEnums::NoiseModel elements
+  const std::set<itk::PatchBasedDenoisingBaseImageFilterEnums::NoiseModel> allNoiseModel{
+    itk::PatchBasedDenoisingBaseImageFilterEnums::NoiseModel::NOMODEL,
+    itk::PatchBasedDenoisingBaseImageFilterEnums::NoiseModel::GAUSSIAN,
+    itk::PatchBasedDenoisingBaseImageFilterEnums::NoiseModel::RICIAN,
+    itk::PatchBasedDenoisingBaseImageFilterEnums::NoiseModel::POISSON
+  };
+  for (const auto & ee : allNoiseModel)
+  {
+    std::cout << "STREAMED ENUM VALUE PatchBasedDenoisingBaseImageFilterEnums::NoiseModel: " << ee << std::endl;
+  }
+
+  // Test streaming enumeration for PatchBasedDenoisingBaseImageFilterEnums::ComponentSpace elements
+  const std::set<itk::PatchBasedDenoisingBaseImageFilterEnums::ComponentSpace> allComponentSpace{
+    itk::PatchBasedDenoisingBaseImageFilterEnums::ComponentSpace::EUCLIDEAN,
+    itk::PatchBasedDenoisingBaseImageFilterEnums::ComponentSpace::RIEMANNIAN
+  };
+  for (const auto & ee : allComponentSpace)
+  {
+    std::cout << "STREAMED ENUM VALUE PatchBasedDenoisingBaseImageFilterEnums::ComponentSpace: " << ee << std::endl;
+  }
+
+  // Test streaming enumeration for PatchBasedDenoisingBaseImageFilterEnums::FilterState elements
+  const std::set<itk::PatchBasedDenoisingBaseImageFilterEnums::FilterState> allFilterState{
+    itk::PatchBasedDenoisingBaseImageFilterEnums::FilterState::UNINITIALIZED,
+    itk::PatchBasedDenoisingBaseImageFilterEnums::FilterState::INITIALIZED
+  };
+  for (const auto & ee : allFilterState)
+  {
+    std::cout << "STREAMED ENUM VALUE PatchBasedDenoisingBaseImageFilterEnums::FilterStateEnum: " << ee << std::endl;
+  }
 
   if (numComponents == 1 && numDimensions == 2)
   {

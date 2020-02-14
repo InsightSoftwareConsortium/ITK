@@ -54,7 +54,7 @@
 
 #define ITK_TEST_DIMENSION_MAX 6
 
-int
+extern int
 RegressionTestImage(const char *         testImageFilename,
                     const char *         baselineImageFilename,
                     int                  reportErrors,
@@ -65,11 +65,11 @@ RegressionTestImage(const char *         testImageFilename,
                     double               coordinateTolerance = 1.0e-6,
                     double               directionTolerance = 1.0e-6);
 
-int
+extern int
 HashTestImage(const char * testImageFilename, const std::string md5hash);
 
 
-std::map<std::string, int>
+extern std::map<std::string, int>
 RegressionTestBaselines(char *);
 
 using ComparePairType = std::pair<char *, char *>;
@@ -86,13 +86,13 @@ using RegressionTestParameters = struct _RegressionTestParameters
   double                       directionTolerance;
 };
 
-RegressionTestParameters &
+extern RegressionTestParameters &
 GetRegressionTestParameters();
 
 
 using HashPairType = std::pair<const char *, std::vector<std::string>>;
 
-std::vector<HashPairType> &
+extern std::vector<HashPairType> &
 GetHashTestList();
 
 using ArgumentStringType = char **;
@@ -118,24 +118,21 @@ using RedirectOutputParameters = struct _RedirectOutputParameters
   std::string fileName;
 };
 
-RedirectOutputParameters &
+extern RedirectOutputParameters &
 GetRedirectOutputParameters();
 
-void
+extern void
 usage();
 
-
-int
+extern int
 ProcessArguments(int * ac, ArgumentStringType * av, ProcessedOutputType * processedOutput = nullptr);
 
 
 /// Get the PixelType and ComponentType from fileName
-void
-GetImageType(const char *                        fileName,
-             itk::ImageIOBase::IOPixelType &     pixelType,
-             itk::ImageIOBase::IOComponentType & componentType);
+extern void
+GetImageType(const char * fileName, itk::IOPixelEnum & pixelType, itk::IOComponentEnum & componentType);
 
-int
+extern int
 RegressionTestImage(const char *         testImageFilename,
                     const char *         baselineImageFilename,
                     int                  reportErrors,
@@ -147,7 +144,7 @@ RegressionTestImage(const char *         testImageFilename,
                     double               directionTolerance);
 
 
-int
+extern int
 HashTestImage(const char * testImageFilename, const std::vector<std::string> & baselineMD5Vector);
 
 //
@@ -159,7 +156,7 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
 // 3) append the original suffix.
 // It the file exists, increment x and continue
 //
-std::map<std::string, int>
+extern std::map<std::string, int>
 RegressionTestBaselines(char * baselineFilename);
 
 // Needed for explicit instantiate

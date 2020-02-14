@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class SurfaceSpatialObjectPoint
+/**
+ *\class SurfaceSpatialObjectPoint
  * \brief Point used for a Surface definition
  *
  * This class contains all the functions necessary to define a point

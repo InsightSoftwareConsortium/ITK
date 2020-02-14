@@ -28,7 +28,8 @@
 
 namespace itk
 {
-/** \class GradientVectorFlowImageFilter
+/**
+ *\class GradientVectorFlowImageFilter
  * \brief
  * This class computes a diffusion of the gradient vectors for graylevel or binary
  * edge map derive from the image. It enlarges the capture range of the gradient

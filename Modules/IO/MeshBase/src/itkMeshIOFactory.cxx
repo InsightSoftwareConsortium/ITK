@@ -27,7 +27,7 @@ MeshIOFactory ::~MeshIOFactory() = default;
 
 
 MeshIOBase::Pointer
-MeshIOFactory ::CreateMeshIO(const char * path, FileModeEnum mode)
+MeshIOFactory ::CreateMeshIO(const char * path, IOFileModeEnum mode)
 {
   std::list<MeshIOBase::Pointer> possibleMeshIO;
 
@@ -47,14 +47,14 @@ MeshIOFactory ::CreateMeshIO(const char * path, FileModeEnum mode)
 
   for (auto & k : possibleMeshIO)
   {
-    if (mode == FileModeEnum::ReadMode)
+    if (mode == IOFileModeEnum::ReadMode)
     {
       if (k->CanReadFile(path))
       {
         return k;
       }
     }
-    else if (mode == FileModeEnum::WriteMode)
+    else if (mode == IOFileModeEnum::WriteMode)
     {
       if (k->CanWriteFile(path))
       {
@@ -64,23 +64,6 @@ MeshIOFactory ::CreateMeshIO(const char * path, FileModeEnum mode)
   }
 
   return nullptr;
-}
-
-/**Print enum values */
-std::ostream &
-operator<<(std::ostream & out, const MeshIOFactory::FileModeEnum value)
-{
-  return out << [value] {
-    switch (value)
-    {
-      case MeshIOFactory::FileModeEnum::ReadMode:
-        return "MeshIOFactory::FileModeEnum::ReadMode";
-      case MeshIOFactory::FileModeEnum::WriteMode:
-        return "MeshIOFactory::FileModeEnum::WriteMode";
-      default:
-        return "INVALID VALUE FOR MeshIOFactory::FileModeEnum";
-    }
-  }();
 }
 
 } // end namespace itk

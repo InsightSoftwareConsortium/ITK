@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class ChainCodeToFourierSeriesPathFilter
+/**
+ *\class ChainCodeToFourierSeriesPathFilter
  * \brief Filter that produces a Fourier series version of a chain code path
  *
  * ChainCodeToFourierSeriesPathFilter produces a Fourier series representation

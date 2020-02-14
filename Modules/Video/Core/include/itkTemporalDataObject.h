@@ -25,8 +25,31 @@
 
 namespace itk
 {
+/**\class TemporalDataObjectEnums
+ * \brief Contains all enum classes used by TemporalUnit class.
+ * \ingroup ITKVideoCore
+ */
+class TemporalDataObjectEnums
+{
+public:
+  /**
+   * \class TemporalUnit
+   * \ingroup ITKVideoCore
+   * \brief For defining the way in which to compare temporal regions.
+   */
+  enum class TemporalUnit : uint8_t
+  {
+    Frame,
+    RealTime,
+    FrameAndRealTime
+  };
+};
+// Define how to print enumeration
+extern ITKVideoCore_EXPORT std::ostream &
+                           operator<<(std::ostream & out, TemporalDataObjectEnums::TemporalUnit value);
 
-/** \class TemporalDataObject
+/**
+ *\class TemporalDataObject
  * \brief DataObject subclass with knowledge of temporal region
  *
  * This class represents a data object that relies on temporal regions. It uses
@@ -54,13 +77,15 @@ public:
   using BufferType = RingBuffer<DataObject>;
   using TemporalRegionType = TemporalRegion;
 
-  /** Enum for defining the way in which to compare temporal regions */
-  typedef enum
-  {
-    Frame,
-    RealTime,
-    FrameAndRealTime
-  } TemporalUnitType;
+  using TemporalUnitEnum = TemporalDataObjectEnums::TemporalUnit;
+  using TemporalUnitType = TemporalUnitEnum;
+
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enums values for backwards compatibility*/
+  static constexpr TemporalUnitEnum Frame = TemporalUnitEnum::Frame;
+  static constexpr TemporalUnitEnum RealTime = TemporalUnitEnum::RealTime;
+  static constexpr TemporalUnitEnum FrameAndRealTime = TemporalUnitEnum::FrameAndRealTime;
+#endif
 
   itkNewMacro(Self);
 
@@ -136,9 +161,8 @@ protected:
   TemporalRegionType m_RequestedTemporalRegion;
   TemporalRegionType m_BufferedTemporalRegion;
 
-  TemporalUnitType m_TemporalUnit{ Frame };
+  TemporalUnitEnum m_TemporalUnit{ TemporalUnitEnum::Frame };
 }; // end class TemporalDataObject
-
 } // end namespace itk
 
 #endif

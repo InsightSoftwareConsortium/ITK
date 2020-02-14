@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class TikhonovDeconvolutionImageFilter
+/**
+ *\class TikhonovDeconvolutionImageFilter
  * \brief An inverse deconvolution filter regularized in the Tikhonov sense.
  *
  * The Tikhonov deconvolution filter is the inverse deconvolution

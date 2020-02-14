@@ -33,7 +33,8 @@
 
 namespace itk
 {
-/** \class LabelMapFilter
+/**
+ *\class LabelMapFilter
  * \brief Base class for filters that take an image as input and overwrite that image as the output
  *
  * LabelMapFilter is the base class for all process objects whose

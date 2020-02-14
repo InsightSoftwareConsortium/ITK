@@ -154,6 +154,8 @@ public:
   using EdgeListType = std::list<QEPrimal *>;
   using EdgeListPointerType = EdgeListType *;
 
+  using MeshClassCellsAllocationMethodEnum = itk::MeshEnums::MeshClassCellsAllocationMethod;
+
   /** Reserved PointIdentifier designated to represent the absence of Point */
   static const PointIdentifier m_NoPoint;
 

@@ -78,7 +78,8 @@ private:
 };
 } // namespace Functor
 
-/** \class ExpNegativeImageFilter
+/**
+ *\class ExpNegativeImageFilter
  * \brief Computes the function exp(-K.x) for each input pixel.
  *
  * Every output pixel is equal to std::exp(-K.x ). where x is the

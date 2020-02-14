@@ -451,23 +451,23 @@ MultiThreaderBase ::SingleMethodProxy(void * arg)
   try
   {
     (*threadInfoStruct->ThreadFunction)(arg);
-    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeType::SUCCESS;
+    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeEnum::SUCCESS;
   }
   catch (ProcessAborted &)
   {
-    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeType::ITK_PROCESS_ABORTED_EXCEPTION;
+    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeEnum::ITK_PROCESS_ABORTED_EXCEPTION;
   }
   catch (ExceptionObject &)
   {
-    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeType::ITK_EXCEPTION;
+    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeEnum::ITK_EXCEPTION;
   }
   catch (std::exception &)
   {
-    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeType::STD_EXCEPTION;
+    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeEnum::STD_EXCEPTION;
   }
   catch (...)
   {
-    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeType::UNKNOWN;
+    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeEnum::UNKNOWN;
   }
 
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
@@ -626,13 +626,6 @@ MultiThreaderBase ::ParallelizeImageRegionHelper(void * arg)
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
-std::ostream &
-operator<<(std::ostream & os, const MultiThreaderBase::ThreaderEnum & threader)
-{
-  os << MultiThreaderBase::ThreaderTypeToString(threader) << "MultiThreader";
-  return os;
-}
-
 // Print method for the multithreader
 void
 MultiThreaderBase::PrintSelf(std::ostream & os, Indent indent) const
@@ -650,4 +643,50 @@ MultiThreaderBase::PrintSelf(std::ostream & os, Indent indent) const
 
 MultiThreaderBaseGlobals * MultiThreaderBase::m_PimplGlobals;
 
+/** Print enum values */
+std::ostream &
+operator<<(std::ostream & out, const MultiThreaderBaseEnums::Threader value)
+{
+  return out << [value] {
+    switch (value)
+    {
+      case MultiThreaderBaseEnums::Threader::Platform:
+        return "itk::MultiThreaderBaseEnums::Threader::Platform";
+        //      TODO    case MultiThreaderBaseEnums::Threader::First:
+        //                    return "itk::MultiThreaderBaseEnums::Threader::First";
+      case MultiThreaderBaseEnums::Threader::Pool:
+        return "itk::MultiThreaderBaseEnums::Threader::Pool";
+      case MultiThreaderBaseEnums::Threader::TBB:
+        return "itk::MultiThreaderBaseEnums::Threader::TBB";
+        //      TODO    case MultiThreaderBaseEnums::Threader::Last:
+        //                    return "itk::MultiThreaderBaseEnums::Threader::Last";
+      case MultiThreaderBaseEnums::Threader::Unknown:
+        return "itk::MultiThreaderBaseEnums::Threader::Unknown";
+      default:
+        return "INVALID VALUE FOR itk::MultiThreaderBaseEnums::Threader";
+    }
+  }();
+}
+/** Print enum values */
+std::ostream &
+operator<<(std::ostream & out, const MultiThreaderBaseEnums::ThreadExitCode value)
+{
+  return out << [value] {
+    switch (value)
+    {
+      case MultiThreaderBaseEnums::ThreadExitCode::SUCCESS:
+        return "itk::MultiThreaderBaseEnums::ThreadExitCode::SUCCESS";
+      case MultiThreaderBaseEnums::ThreadExitCode::ITK_EXCEPTION:
+        return "itk::MultiThreaderBaseEnums::ThreadExitCode::ITK_EXCEPTION";
+      case MultiThreaderBaseEnums::ThreadExitCode::ITK_PROCESS_ABORTED_EXCEPTION:
+        return "itk::MultiThreaderBaseEnums::ThreadExitCode::ITK_PROCESS_ABORTED_EXCEPTION";
+      case MultiThreaderBaseEnums::ThreadExitCode::STD_EXCEPTION:
+        return "itk::MultiThreaderBaseEnums::ThreadExitCode::STD_EXCEPTION";
+      case MultiThreaderBaseEnums::ThreadExitCode::UNKNOWN:
+        return "itk::MultiThreaderBaseEnums::ThreadExitCode::UNKNOWN";
+      default:
+        return "INVALID VALUE FOR itk::MultiThreaderBaseEnums::ThreadExitCode";
+    }
+  }();
+}
 } // namespace itk

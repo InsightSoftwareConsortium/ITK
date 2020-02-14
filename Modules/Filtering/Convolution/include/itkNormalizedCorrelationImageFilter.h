@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class NormalizedCorrelationImageFilter
+/**
+ *\class NormalizedCorrelationImageFilter
  * \brief Computes the normalized correlation of an image and a template.
  *
  * This filter calculates the normalized correlation between an image

@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class FFTWInverseFFTImageFilter
+/**
+ *\class FFTWInverseFFTImageFilter
  *
  * \brief FFTW-based inverse Fast Fourier Transform
  *

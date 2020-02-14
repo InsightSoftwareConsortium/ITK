@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class KappaSigmaThresholdImageCalculator
+/**
+ *\class KappaSigmaThresholdImageCalculator
  * \brief Computes a Kappa-Sigma-Clipping threshold for an image.
  *
  * When an image is mostly composed of background pixels, most of the automatic

@@ -23,7 +23,8 @@
 namespace itk
 {
 
-/** \class DecimateFramesVideoFilter
+/**
+ *\class DecimateFramesVideoFilter
  * \brief Reduce a video's frame-rate by keeping every Nth frame
  *
  * This filter simply takes an input video and passes every Nth frame through

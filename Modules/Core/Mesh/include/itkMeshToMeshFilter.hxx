@@ -28,6 +28,7 @@
 #ifndef itkMeshToMeshFilter_hxx
 #define itkMeshToMeshFilter_hxx
 
+#include "itkMesh.h"
 #include "itkMeshToMeshFilter.h"
 
 namespace itk
@@ -183,7 +184,7 @@ MeshToMeshFilter<TInputMesh, TOutputMesh>::CopyInputMeshToOutputMeshCells()
   using InputCellsContainer = typename TInputMesh::CellsContainer;
   using CellAutoPointer = typename TOutputMesh::CellAutoPointer;
 
-  outputMesh->SetCellsAllocationMethod(OutputMeshType::CellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell);
+  outputMesh->SetCellsAllocationMethod(MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell);
 
   typename OutputCellsContainer::Pointer outputCells = OutputCellsContainer::New();
   const InputCellsContainer *            inputCells = inputMesh->GetCells();

@@ -15,32 +15,28 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkMultiStartOptimizerv4.h"
+#include "../include/itkESMDemonsRegistrationFunction.h"
 
 namespace itk
 {
-/**Define how to print enumerations. */
+/** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const StopEnum value)
+operator<<(std::ostream & out, const ESMDemonsRegistrationFunctionEnums::Gradient value)
 {
   return out << [value] {
     switch (value)
     {
-      case StopEnum::MAXIMUM_NUMBER_OF_ITERATIONS:
-        return "StopEnum::MAXIMUM_NUMBER_OF_ITERATIONS";
-      case StopEnum::COSTFUNCTION_ERROR:
-        return "StopEnum::COSTFUNCTION_ERROR";
-      case StopEnum::UPDATE_PARAMETERS_ERROR:
-        return "StopEnum::UPDATE_PARAMETERS_ERROR";
-      case StopEnum::STEP_TOO_SMALL:
-        return "StopEnum::STEP_TOO_SMALL";
-      case StopEnum::CONVERGENCE_CHECKER_PASSED:
-        return "StopEnum::CONVERGENCE_CHECKER_PASSED";
-      case StopEnum::OTHER_ERROR:
-        return "StopEnum::OTHER_ERROR";
+      case ESMDemonsRegistrationFunctionEnums::Gradient::Symmetric:
+        return "itk::ESMDemonsRegistrationFunctionEnums::Gradient::Symmetric";
+      case ESMDemonsRegistrationFunctionEnums::Gradient::Fixed:
+        return "itk::ESMDemonsRegistrationFunctionEnums::Gradient::Fixed";
+      case ESMDemonsRegistrationFunctionEnums::Gradient::WarpedMoving:
+        return "itk::ESMDemonsRegistrationFunctionEnums::Gradient::WarpedMoving";
+      case ESMDemonsRegistrationFunctionEnums::Gradient::MappedMoving:
+        return "itk::ESMDemonsRegistrationFunctionEnums::Gradient::MappedMoving";
       default:
-        return "INVALID VALUE FOR StopEnum";
+        return "INVALID VALUE FOR itk::ESMDemonsRegistrationFunctionEnums::Gradient";
     }
   }();
 }
-} // namespace itk
+} // end namespace itk

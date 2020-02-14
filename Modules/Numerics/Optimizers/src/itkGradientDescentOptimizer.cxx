@@ -96,7 +96,7 @@ GradientDescentOptimizer ::ResumeOptimization()
     {
       // An exception has occurred.
       // Terminate immediately.
-      m_StopCondition = StopConditionEnum::MetricError;
+      m_StopCondition = StopConditionGradientDescentOptimizerEnum::MetricError;
       m_StopConditionDescription << "Metric error";
       StopOptimization();
 
@@ -117,7 +117,7 @@ GradientDescentOptimizer ::ResumeOptimization()
     if (m_CurrentIteration >= m_NumberOfIterations)
     {
       m_StopConditionDescription << "Maximum number of iterations (" << m_NumberOfIterations << ") exceeded.";
-      m_StopCondition = StopConditionEnum::MaximumNumberOfIterations;
+      m_StopCondition = StopConditionGradientDescentOptimizerEnum::MaximumNumberOfIterations;
       StopOptimization();
       break;
     }
@@ -187,17 +187,17 @@ GradientDescentOptimizer ::AdvanceOneStep()
 
 /** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const GradientDescentOptimizer::StopConditionEnum value)
+operator<<(std::ostream & out, const GradientDescentOptimizerEnums::StopConditionGradientDescentOptimizer value)
 {
   return out << [value] {
     switch (value)
     {
-      case GradientDescentOptimizer::StopConditionEnum::MaximumNumberOfIterations:
-        return "GradientDescentOptimizer::StopConditionEnum::MaximumNumberOfIterations";
-      case GradientDescentOptimizer::StopConditionEnum::MetricError:
-        return "GradientDescentOptimizer::StopConditionEnum::MetricError";
+      case GradientDescentOptimizerEnums::StopConditionGradientDescentOptimizer::MaximumNumberOfIterations:
+        return "itk::GradientDescentOptimizerEnums::StopConditionGradientDescentOptimizer::MaximumNumberOfIterations";
+      case GradientDescentOptimizerEnums::StopConditionGradientDescentOptimizer::MetricError:
+        return "itk::GradientDescentOptimizerEnums::StopConditionGradientDescentOptimizer::MetricError";
       default:
-        return "INVALID VALUE FOR GradientDescentOptimizer::StopConditionEnum";
+        return "INVALID VALUE FOR itk::GradientDescentOptimizerEnums::StopConditionGradientDescentOptimizer";
     }
   }();
 }

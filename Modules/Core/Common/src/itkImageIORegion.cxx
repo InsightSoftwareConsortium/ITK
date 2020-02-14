@@ -111,7 +111,7 @@ ImageIORegion ::GetImageDimension() const
 ImageIORegion::RegionType
 ImageIORegion ::GetRegionType() const
 {
-  return Superclass::ITK_STRUCTURED_REGION;
+  return Superclass::RegionEnum::ITK_STRUCTURED_REGION;
 }
 
 unsigned int

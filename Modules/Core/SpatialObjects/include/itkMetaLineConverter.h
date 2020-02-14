@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class MetaLineConverter
+/**
+ *\class MetaLineConverter
  *  \brief converts between MetaObject<->SpatialObject.
  *
  *  \sa MetaConverterBase

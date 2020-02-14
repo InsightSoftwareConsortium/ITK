@@ -35,15 +35,15 @@ unsigned int * MetaImageIO::m_DefaultDoublePrecision;
 MetaImageIO::MetaImageIO()
 {
   itkInitGlobalsMacro(DefaultDoublePrecision);
-  m_FileType = Binary;
+  m_FileType = IOFileEnum::Binary;
   m_SubSamplingFactor = 1;
   if (MET_SystemByteOrderMSB())
   {
-    m_ByteOrder = BigEndian;
+    m_ByteOrder = IOByteOrderEnum::BigEndian;
   }
   else
   {
-    m_ByteOrder = LittleEndian;
+    m_ByteOrder = IOByteOrderEnum::LittleEndian;
   }
 
   this->AddSupportedWriteExtension(".mha");
@@ -104,262 +104,262 @@ MetaImageIO::ReadImageInformation()
 
   if (m_MetaImage.BinaryData())
   {
-    this->SetFileType(Binary);
+    this->SetFileType(IOFileEnum::Binary);
   }
   else
   {
-    this->SetFileType(ASCII);
+    this->SetFileType(IOFileEnum::ASCII);
   }
 
   this->SetNumberOfComponents(m_MetaImage.ElementNumberOfChannels());
 
   // Set default value
-  this->SetComponentType(UNKNOWNCOMPONENTTYPE);
+  this->SetComponentType(IOComponentEnum::UNKNOWNCOMPONENTTYPE);
   itk::MetaDataDictionary & thisMetaDict = this->GetMetaDataDictionary();
   switch (m_MetaImage.ElementType())
   {
     default:
     case MET_OTHER:
     case MET_NONE:
-      this->SetPixelType(UNKNOWNPIXELTYPE);
-      this->SetComponentType(UNKNOWNCOMPONENTTYPE);
+      this->SetPixelType(IOPixelEnum::UNKNOWNPIXELTYPE);
+      this->SetComponentType(IOComponentEnum::UNKNOWNCOMPONENTTYPE);
       break;
     case MET_CHAR:
     case MET_ASCII_CHAR:
-      this->SetPixelType(SCALAR);
-      this->SetComponentType(CHAR);
+      this->SetPixelType(IOPixelEnum::SCALAR);
+      this->SetComponentType(IOComponentEnum::CHAR);
       break;
     case MET_CHAR_ARRAY:
     case MET_STRING:
-      this->SetPixelType(VECTOR);
-      this->SetComponentType(CHAR);
+      this->SetPixelType(IOPixelEnum::VECTOR);
+      this->SetComponentType(IOComponentEnum::CHAR);
       break;
     case MET_UCHAR:
-      this->SetPixelType(SCALAR);
-      this->SetComponentType(UCHAR);
+      this->SetPixelType(IOPixelEnum::SCALAR);
+      this->SetComponentType(IOComponentEnum::UCHAR);
       break;
     case MET_UCHAR_ARRAY:
-      this->SetPixelType(VECTOR);
-      this->SetComponentType(UCHAR);
+      this->SetPixelType(IOPixelEnum::VECTOR);
+      this->SetComponentType(IOComponentEnum::UCHAR);
       break;
     case MET_SHORT:
-      this->SetPixelType(SCALAR);
-      this->SetComponentType(SHORT);
+      this->SetPixelType(IOPixelEnum::SCALAR);
+      this->SetComponentType(IOComponentEnum::SHORT);
       break;
     case MET_SHORT_ARRAY:
-      this->SetPixelType(VECTOR);
-      this->SetComponentType(SHORT);
+      this->SetPixelType(IOPixelEnum::VECTOR);
+      this->SetComponentType(IOComponentEnum::SHORT);
       break;
     case MET_USHORT:
-      this->SetPixelType(SCALAR);
-      this->SetComponentType(USHORT);
+      this->SetPixelType(IOPixelEnum::SCALAR);
+      this->SetComponentType(IOComponentEnum::USHORT);
       break;
     case MET_USHORT_ARRAY:
-      this->SetPixelType(VECTOR);
-      this->SetComponentType(USHORT);
+      this->SetPixelType(IOPixelEnum::VECTOR);
+      this->SetComponentType(IOComponentEnum::USHORT);
       break;
     case MET_INT:
-      this->SetPixelType(SCALAR);
+      this->SetPixelType(IOPixelEnum::SCALAR);
       if (sizeof(int) == MET_ValueTypeSize[MET_INT])
       {
-        this->SetComponentType(INT);
+        this->SetComponentType(IOComponentEnum::INT);
       }
       else if (sizeof(long) == MET_ValueTypeSize[MET_INT])
       {
-        this->SetComponentType(LONG);
+        this->SetComponentType(IOComponentEnum::LONG);
       }
       break;
     case MET_INT_ARRAY:
-      this->SetPixelType(VECTOR);
+      this->SetPixelType(IOPixelEnum::VECTOR);
       if (sizeof(int) == MET_ValueTypeSize[MET_INT])
       {
-        this->SetComponentType(INT);
+        this->SetComponentType(IOComponentEnum::INT);
       }
       else if (sizeof(long) == MET_ValueTypeSize[MET_INT])
       {
-        this->SetComponentType(LONG);
+        this->SetComponentType(IOComponentEnum::LONG);
       }
       break;
     case MET_UINT:
-      this->SetPixelType(SCALAR);
+      this->SetPixelType(IOPixelEnum::SCALAR);
       if (sizeof(unsigned int) == MET_ValueTypeSize[MET_UINT])
       {
-        this->SetComponentType(UINT);
+        this->SetComponentType(IOComponentEnum::UINT);
       }
       else if (sizeof(unsigned long) == MET_ValueTypeSize[MET_UINT])
       {
-        this->SetComponentType(ULONG);
+        this->SetComponentType(IOComponentEnum::ULONG);
       }
       break;
     case MET_UINT_ARRAY:
-      this->SetPixelType(VECTOR);
+      this->SetPixelType(IOPixelEnum::VECTOR);
       if (sizeof(int) == MET_ValueTypeSize[MET_INT])
       {
-        this->SetComponentType(UINT);
+        this->SetComponentType(IOComponentEnum::UINT);
       }
       else if (sizeof(long) == MET_ValueTypeSize[MET_INT])
       {
-        this->SetComponentType(ULONG);
+        this->SetComponentType(IOComponentEnum::ULONG);
       }
       break;
     case MET_LONG:
-      this->SetPixelType(SCALAR);
+      this->SetPixelType(IOPixelEnum::SCALAR);
       if (sizeof(long) == MET_ValueTypeSize[MET_LONG])
       {
-        this->SetComponentType(LONG);
+        this->SetComponentType(IOComponentEnum::LONG);
       }
       else if (sizeof(int) == MET_ValueTypeSize[MET_LONG])
       {
-        this->SetComponentType(INT);
+        this->SetComponentType(IOComponentEnum::INT);
       }
       break;
     case MET_LONG_ARRAY:
-      this->SetPixelType(VECTOR);
+      this->SetPixelType(IOPixelEnum::VECTOR);
       if (sizeof(long) == MET_ValueTypeSize[MET_LONG])
       {
-        this->SetComponentType(LONG);
+        this->SetComponentType(IOComponentEnum::LONG);
       }
       else if (sizeof(int) == MET_ValueTypeSize[MET_LONG])
       {
-        this->SetComponentType(INT);
+        this->SetComponentType(IOComponentEnum::INT);
       }
       break;
     case MET_ULONG:
-      this->SetPixelType(SCALAR);
+      this->SetPixelType(IOPixelEnum::SCALAR);
       if (sizeof(unsigned long) == MET_ValueTypeSize[MET_ULONG])
       {
-        this->SetComponentType(ULONG);
+        this->SetComponentType(IOComponentEnum::ULONG);
       }
       else if (sizeof(unsigned int) == MET_ValueTypeSize[MET_ULONG])
       {
-        this->SetComponentType(UINT);
+        this->SetComponentType(IOComponentEnum::UINT);
       }
       break;
     case MET_ULONG_ARRAY:
-      this->SetPixelType(VECTOR);
+      this->SetPixelType(IOPixelEnum::VECTOR);
       if (sizeof(unsigned long) == MET_ValueTypeSize[MET_ULONG])
       {
-        this->SetComponentType(ULONG);
+        this->SetComponentType(IOComponentEnum::ULONG);
       }
       else if (sizeof(unsigned int) == MET_ValueTypeSize[MET_ULONG])
       {
-        this->SetComponentType(UINT);
+        this->SetComponentType(IOComponentEnum::UINT);
       }
       break;
     case MET_LONG_LONG:
-      this->SetPixelType(SCALAR);
+      this->SetPixelType(IOPixelEnum::SCALAR);
       if (sizeof(long long) == MET_ValueTypeSize[MET_LONG_LONG])
       {
-        this->SetComponentType(LONGLONG);
+        this->SetComponentType(IOComponentEnum::LONGLONG);
       }
       else if (sizeof(int) == MET_ValueTypeSize[MET_LONG_LONG])
       {
-        this->SetComponentType(INT);
+        this->SetComponentType(IOComponentEnum::INT);
       }
       else if (sizeof(long) == MET_ValueTypeSize[MET_LONG_LONG])
       {
-        this->SetComponentType(LONG);
+        this->SetComponentType(IOComponentEnum::LONG);
       }
       break;
     case MET_LONG_LONG_ARRAY:
-      this->SetPixelType(VECTOR);
+      this->SetPixelType(IOPixelEnum::VECTOR);
       if (sizeof(long long) == MET_ValueTypeSize[MET_LONG_LONG])
       {
-        this->SetComponentType(LONGLONG);
+        this->SetComponentType(IOComponentEnum::LONGLONG);
       }
       else if (sizeof(int) == MET_ValueTypeSize[MET_LONG_LONG])
       {
-        this->SetComponentType(INT);
+        this->SetComponentType(IOComponentEnum::INT);
       }
       else if (sizeof(long) == MET_ValueTypeSize[MET_LONG_LONG])
       {
-        this->SetComponentType(LONG);
+        this->SetComponentType(IOComponentEnum::LONG);
       }
       break;
     case MET_ULONG_LONG:
-      this->SetPixelType(SCALAR);
+      this->SetPixelType(IOPixelEnum::SCALAR);
       if (sizeof(unsigned long long) == MET_ValueTypeSize[MET_ULONG_LONG])
       {
-        this->SetComponentType(ULONGLONG);
+        this->SetComponentType(IOComponentEnum::ULONGLONG);
       }
       else if (sizeof(unsigned int) == MET_ValueTypeSize[MET_ULONG_LONG])
       {
-        this->SetComponentType(UINT);
+        this->SetComponentType(IOComponentEnum::UINT);
       }
       else if (sizeof(unsigned long) == MET_ValueTypeSize[MET_ULONG_LONG])
       {
-        this->SetComponentType(ULONG);
+        this->SetComponentType(IOComponentEnum::ULONG);
       }
       break;
     case MET_ULONG_LONG_ARRAY:
-      this->SetPixelType(VECTOR);
+      this->SetPixelType(IOPixelEnum::VECTOR);
       if (sizeof(unsigned long long) == MET_ValueTypeSize[MET_ULONG_LONG])
       {
-        this->SetComponentType(ULONGLONG);
+        this->SetComponentType(IOComponentEnum::ULONGLONG);
       }
       else if (sizeof(unsigned int) == MET_ValueTypeSize[MET_ULONG_LONG])
       {
-        this->SetComponentType(UINT);
+        this->SetComponentType(IOComponentEnum::UINT);
       }
       else if (sizeof(unsigned long) == MET_ValueTypeSize[MET_ULONG_LONG])
       {
-        this->SetComponentType(ULONG);
+        this->SetComponentType(IOComponentEnum::ULONG);
       }
       break;
     case MET_FLOAT:
-      this->SetPixelType(SCALAR);
+      this->SetPixelType(IOPixelEnum::SCALAR);
       if (sizeof(float) == MET_ValueTypeSize[MET_FLOAT])
       {
-        this->SetComponentType(FLOAT);
+        this->SetComponentType(IOComponentEnum::FLOAT);
       }
       else if (sizeof(double) == MET_ValueTypeSize[MET_FLOAT])
       {
-        this->SetComponentType(DOUBLE);
+        this->SetComponentType(IOComponentEnum::DOUBLE);
       }
       break;
     case MET_FLOAT_ARRAY:
-      this->SetPixelType(VECTOR);
+      this->SetPixelType(IOPixelEnum::VECTOR);
       if (sizeof(float) == MET_ValueTypeSize[MET_FLOAT])
       {
-        this->SetComponentType(FLOAT);
+        this->SetComponentType(IOComponentEnum::FLOAT);
       }
       else if (sizeof(double) == MET_ValueTypeSize[MET_FLOAT])
       {
-        this->SetComponentType(DOUBLE);
+        this->SetComponentType(IOComponentEnum::DOUBLE);
       }
       break;
     case MET_DOUBLE:
-      this->SetPixelType(SCALAR);
-      this->SetComponentType(DOUBLE);
+      this->SetPixelType(IOPixelEnum::SCALAR);
+      this->SetComponentType(IOComponentEnum::DOUBLE);
       if (sizeof(double) == MET_ValueTypeSize[MET_DOUBLE])
       {
-        this->SetComponentType(DOUBLE);
+        this->SetComponentType(IOComponentEnum::DOUBLE);
       }
       else if (sizeof(float) == MET_ValueTypeSize[MET_DOUBLE])
       {
-        this->SetComponentType(FLOAT);
+        this->SetComponentType(IOComponentEnum::FLOAT);
       }
       break;
     case MET_DOUBLE_ARRAY:
-      this->SetPixelType(VECTOR);
+      this->SetPixelType(IOPixelEnum::VECTOR);
       if (sizeof(double) == MET_ValueTypeSize[MET_DOUBLE])
       {
-        this->SetComponentType(DOUBLE);
+        this->SetComponentType(IOComponentEnum::DOUBLE);
       }
       else if (sizeof(float) == MET_ValueTypeSize[MET_DOUBLE])
       {
-        this->SetComponentType(FLOAT);
+        this->SetComponentType(IOComponentEnum::FLOAT);
       }
       break;
     case MET_FLOAT_MATRIX:
-      this->SetPixelType(VECTOR);
+      this->SetPixelType(IOPixelEnum::VECTOR);
       if (sizeof(float) == MET_ValueTypeSize[MET_FLOAT])
       {
-        this->SetComponentType(FLOAT);
+        this->SetComponentType(IOComponentEnum::FLOAT);
       }
       else if (sizeof(double) == MET_ValueTypeSize[MET_FLOAT])
       {
-        this->SetComponentType(DOUBLE);
+        this->SetComponentType(IOComponentEnum::DOUBLE);
       }
       this->SetNumberOfComponents(m_NumberOfComponents * m_NumberOfComponents);
       break;
@@ -375,7 +375,7 @@ MetaImageIO::ReadImageInformation()
   // different pixel types
   if (m_MetaImage.ElementNumberOfChannels() > 1)
   {
-    this->SetPixelType(VECTOR);
+    this->SetPixelType(IOPixelEnum::VECTOR);
   }
 
   this->SetNumberOfDimensions(m_MetaImage.NDims());
@@ -712,7 +712,7 @@ MetaImageIO ::Write(const void * buffer)
 
   bool binaryData = true;
 
-  if (this->GetFileType() == ASCII)
+  if (this->GetFileType() == IOFileEnum::ASCII)
   {
     binaryData = false;
   }
@@ -723,22 +723,22 @@ MetaImageIO ::Write(const void * buffer)
   switch (m_ComponentType)
   {
     default:
-    case UNKNOWNCOMPONENTTYPE:
+    case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
       eType = MET_OTHER;
       break;
-    case CHAR:
+    case IOComponentEnum::CHAR:
       eType = MET_CHAR;
       break;
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
       eType = MET_UCHAR;
       break;
-    case SHORT:
+    case IOComponentEnum::SHORT:
       eType = MET_SHORT;
       break;
-    case USHORT:
+    case IOComponentEnum::USHORT:
       eType = MET_USHORT;
       break;
-    case LONG:
+    case IOComponentEnum::LONG:
       if (sizeof(long) == MET_ValueTypeSize[MET_LONG])
       {
         eType = MET_LONG;
@@ -752,7 +752,7 @@ MetaImageIO ::Write(const void * buffer)
         eType = MET_LONG_LONG;
       }
       break;
-    case ULONG:
+    case IOComponentEnum::ULONG:
       if (sizeof(long) == MET_ValueTypeSize[MET_LONG])
       {
         eType = MET_ULONG;
@@ -766,20 +766,20 @@ MetaImageIO ::Write(const void * buffer)
         eType = MET_ULONG_LONG;
       }
       break;
-    case LONGLONG:
+    case IOComponentEnum::LONGLONG:
 
       if (sizeof(long long) == MET_ValueTypeSize[MET_LONG_LONG])
       {
         eType = MET_LONG_LONG;
       }
       break;
-    case ULONGLONG:
+    case IOComponentEnum::ULONGLONG:
       if (sizeof(long long) == MET_ValueTypeSize[MET_ULONG_LONG])
       {
         eType = MET_ULONG_LONG;
       }
       break;
-    case INT:
+    case IOComponentEnum::INT:
       eType = MET_INT;
       if (sizeof(int) == MET_ValueTypeSize[MET_INT])
       {
@@ -790,7 +790,7 @@ MetaImageIO ::Write(const void * buffer)
         eType = MET_LONG;
       }
       break;
-    case UINT:
+    case IOComponentEnum::UINT:
       if (sizeof(int) == MET_ValueTypeSize[MET_INT])
       {
         eType = MET_UINT;
@@ -800,7 +800,7 @@ MetaImageIO ::Write(const void * buffer)
         eType = MET_ULONG;
       }
       break;
-    case FLOAT:
+    case IOComponentEnum::FLOAT:
       if (sizeof(float) == MET_ValueTypeSize[MET_FLOAT])
       {
         eType = MET_FLOAT;
@@ -810,7 +810,7 @@ MetaImageIO ::Write(const void * buffer)
         eType = MET_DOUBLE;
       }
       break;
-    case DOUBLE:
+    case IOComponentEnum::DOUBLE:
       if (sizeof(double) == MET_ValueTypeSize[MET_DOUBLE])
       {
         eType = MET_DOUBLE;

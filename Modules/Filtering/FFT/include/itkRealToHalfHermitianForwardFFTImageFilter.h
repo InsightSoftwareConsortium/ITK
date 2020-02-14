@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class RealToHalfHermitianForwardFFTImageFilter
+/**
+ *\class RealToHalfHermitianForwardFFTImageFilter
  *
  * \brief Base class for specialized real-to-complex forward Fast Fourier Transform.
  *

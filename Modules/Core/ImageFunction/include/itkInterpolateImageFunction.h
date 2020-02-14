@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class InterpolateImageFunction
+/**
+ *\class InterpolateImageFunction
  * \brief Base class for all image interpolators.
  *
  * InterpolateImageFunction is the base for all ImageFunctions that

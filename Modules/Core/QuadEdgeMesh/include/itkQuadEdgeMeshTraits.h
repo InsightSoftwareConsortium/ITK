@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class QuadEdgeMeshTraits
+/**
+ *\class QuadEdgeMeshTraits
  *  \brief Class holding the traits of the QuadEdgeMesh.
  *
  *  This class is a variant of the MeshTraits that adds the traits

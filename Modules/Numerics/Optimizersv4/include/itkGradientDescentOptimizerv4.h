@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class GradientDescentOptimizerv4Template
+/**
+ *\class GradientDescentOptimizerv4Template
  *  \brief Gradient descent optimizer.
  *
  * GradientDescentOptimizer implements a simple gradient descent optimizer.
@@ -104,9 +105,9 @@ public:
   using IndexRangeType = typename Superclass::IndexRangeType;
   using ScalesType = typename Superclass::ScalesType;
   using ParametersType = typename Superclass::ParametersType;
-  using StopConditionEnum = typename Superclass::StopConditionEnum;
 
-  /** Set/Get the learning rate to apply. It is overridden by
+  /**
+   * Set/Get the learning rate to apply. It is overridden by
    *  automatic learning rate estimation if enabled. See main documentation.
    */
   itkSetMacro(LearningRate, TInternalComputationValueType);

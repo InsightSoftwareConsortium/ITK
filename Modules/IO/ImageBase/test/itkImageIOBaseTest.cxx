@@ -122,37 +122,37 @@ itkImageIOBaseTest(int, char *[])
     return EXIT_FAILURE;
   }
   { // Test string <-> type conversions
-    itk::ImageIOBase::IOComponentType listComponentType[] = { itk::ImageIOBase::UNKNOWNCOMPONENTTYPE,
-                                                              itk::ImageIOBase::UCHAR,
-                                                              itk::ImageIOBase::CHAR,
-                                                              itk::ImageIOBase::USHORT,
-                                                              itk::ImageIOBase::SHORT,
-                                                              itk::ImageIOBase::UINT,
-                                                              itk::ImageIOBase::INT,
-                                                              itk::ImageIOBase::ULONG,
-                                                              itk::ImageIOBase::LONG,
-                                                              itk::ImageIOBase::ULONGLONG,
-                                                              itk::ImageIOBase::LONGLONG,
-                                                              itk::ImageIOBase::FLOAT,
-                                                              itk::ImageIOBase::DOUBLE };
-    const char * listComponentTypeString[] = { "unknown", "unsigned_char",      "char",      "unsigned_short",
+    itk::IOComponentEnum listComponentType[] = { itk::IOComponentEnum::UNKNOWNCOMPONENTTYPE,
+                                                 itk::IOComponentEnum::UCHAR,
+                                                 itk::IOComponentEnum::CHAR,
+                                                 itk::IOComponentEnum::USHORT,
+                                                 itk::IOComponentEnum::SHORT,
+                                                 itk::IOComponentEnum::UINT,
+                                                 itk::IOComponentEnum::INT,
+                                                 itk::IOComponentEnum::ULONG,
+                                                 itk::IOComponentEnum::LONG,
+                                                 itk::IOComponentEnum::ULONGLONG,
+                                                 itk::IOComponentEnum::LONGLONG,
+                                                 itk::IOComponentEnum::FLOAT,
+                                                 itk::IOComponentEnum::DOUBLE };
+    const char *         listComponentTypeString[] = { "unknown", "unsigned_char",      "char",      "unsigned_short",
                                                "short",   "unsigned_int",       "int",       "unsigned_long",
                                                "long",    "unsigned_long_long", "long_long", "float",
                                                "double" };
-    itk::ImageIOBase::IOPixelType listIOPixelType[] = { itk::ImageIOBase::UNKNOWNPIXELTYPE,
-                                                        itk::ImageIOBase::SCALAR,
-                                                        itk::ImageIOBase::RGB,
-                                                        itk::ImageIOBase::RGBA,
-                                                        itk::ImageIOBase::OFFSET,
-                                                        itk::ImageIOBase::VECTOR,
-                                                        itk::ImageIOBase::POINT,
-                                                        itk::ImageIOBase::COVARIANTVECTOR,
-                                                        itk::ImageIOBase::SYMMETRICSECONDRANKTENSOR,
-                                                        itk::ImageIOBase::DIFFUSIONTENSOR3D,
-                                                        itk::ImageIOBase::COMPLEX,
-                                                        itk::ImageIOBase::FIXEDARRAY,
-                                                        itk::ImageIOBase::MATRIX };
-    const char *                  listIOPixelTypeString[] = { "unknown",
+    itk::IOPixelEnum     listIOPixelType[] = { itk::IOPixelEnum::UNKNOWNPIXELTYPE,
+                                           itk::IOPixelEnum::SCALAR,
+                                           itk::IOPixelEnum::RGB,
+                                           itk::IOPixelEnum::RGBA,
+                                           itk::IOPixelEnum::OFFSET,
+                                           itk::IOPixelEnum::VECTOR,
+                                           itk::IOPixelEnum::POINT,
+                                           itk::IOPixelEnum::COVARIANTVECTOR,
+                                           itk::IOPixelEnum::SYMMETRICSECONDRANKTENSOR,
+                                           itk::IOPixelEnum::DIFFUSIONTENSOR3D,
+                                           itk::IOPixelEnum::COMPLEX,
+                                           itk::IOPixelEnum::FIXEDARRAY,
+                                           itk::IOPixelEnum::MATRIX };
+    const char *         listIOPixelTypeString[] = { "unknown",
                                              "scalar",
                                              "rgb",
                                              "rgba",
@@ -192,8 +192,7 @@ itkImageIOBaseTest(int, char *[])
       }
       for (size_t i = 0; i < listComponentSize; ++i)
       {
-        itk::ImageIOBase::IOComponentType componentType =
-          itk::ImageIOBase::GetComponentTypeFromString(listComponentTypeString[i]);
+        itk::IOComponentEnum componentType = itk::ImageIOBase::GetComponentTypeFromString(listComponentTypeString[i]);
         if (componentType != listComponentType[i])
         {
           std::cerr << "GetComponentTypeFromString('" << listComponentTypeString[i] << "') should return "
@@ -203,7 +202,7 @@ itkImageIOBaseTest(int, char *[])
       }
       for (size_t i = 0; i < listPixelSize; ++i)
       {
-        itk::ImageIOBase::IOPixelType pixelType = itk::ImageIOBase::GetPixelTypeFromString(listIOPixelTypeString[i]);
+        itk::IOPixelEnum pixelType = itk::ImageIOBase::GetPixelTypeFromString(listIOPixelTypeString[i]);
         if (pixelType != listIOPixelType[i])
         {
           std::cerr << "GetPixelTypeFromString('" << listIOPixelTypeString[i] << "') should return "
@@ -218,7 +217,7 @@ itkImageIOBaseTest(int, char *[])
       // Create an instance of ImageIOBase. It does not matter that 'test' is not a valid image to read,
       // we just want the ImageIOBase object.
       itk::ImageIOBase::Pointer imageIOBase =
-        itk::ImageIOFactory::CreateImageIO("test", itk::ImageIOFactory::FileModeEnum::ReadMode);
+        itk::ImageIOFactory::CreateImageIO("test", itk::ImageIOFactory::IOFileModeEnum::ReadMode);
       for (size_t i = 0; i < listComponentSize; ++i)
       {
         std::string componentTypeString = imageIOBase->GetComponentTypeAsString(listComponentType[i]);
@@ -241,8 +240,7 @@ itkImageIOBaseTest(int, char *[])
       }
       for (size_t i = 0; i < listComponentSize; ++i)
       {
-        itk::ImageIOBase::IOComponentType componentType =
-          imageIOBase->GetComponentTypeFromString(listComponentTypeString[i]);
+        itk::IOComponentEnum componentType = imageIOBase->GetComponentTypeFromString(listComponentTypeString[i]);
         if (componentType != listComponentType[i])
         {
           std::cerr << "GetComponentTypeFromString('" << listComponentTypeString[i] << "') should return "
@@ -252,7 +250,7 @@ itkImageIOBaseTest(int, char *[])
       }
       for (size_t i = 0; i < listPixelSize; ++i)
       {
-        itk::ImageIOBase::IOPixelType pixelType = imageIOBase->GetPixelTypeFromString(listIOPixelTypeString[i]);
+        itk::IOPixelEnum pixelType = imageIOBase->GetPixelTypeFromString(listIOPixelTypeString[i]);
         if (pixelType != listIOPixelType[i])
         {
           std::cerr << "GetPixelTypeFromString('" << listIOPixelTypeString[i] << "') should return "

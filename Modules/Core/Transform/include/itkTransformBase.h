@@ -32,6 +32,29 @@
 
 namespace itk
 {
+/**\class TransformBaseTemplateEnums
+ * \brief Contains all enum classes used by TransformBaseTemplate class.
+ * \ingroup ITKTransform
+ */
+class TransformBaseTemplateEnums
+{
+public:
+  /**\class TransformCategory
+   * \ingroup ITKTransform
+   * */
+  enum class TransformCategory : uint8_t
+  {
+    UnknownTransformCategory = 0,
+    Linear = 1,
+    BSpline = 2,
+    Spline = 3,
+    DisplacementField = 4,
+    VelocityField = 5
+  };
+};
+// Define how to print enumeration
+extern ITKTransform_EXPORT std::ostream &
+                           operator<<(std::ostream & out, const TransformBaseTemplateEnums::TransformCategory value);
 /** \class itkTransformBaseTemplate
  *
  * This class is an abstract class to represent a spatial transform.
@@ -123,15 +146,7 @@ public:
   virtual std::string
   GetTransformTypeAsString() const = 0;
 
-  enum class TransformCategoryEnum : uint8_t
-  {
-    UnknownTransformCategory = 0,
-    Linear = 1,
-    BSpline = 2,
-    Spline = 3,
-    DisplacementField = 4,
-    VelocityField = 5
-  };
+  using TransformCategoryEnum = TransformBaseTemplateEnums::TransformCategory;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
@@ -164,12 +179,6 @@ protected:
 
 /** This helps to meet backward compatibility */
 using TransformBase = TransformBaseTemplate<double>;
-
-// Define how to print enumeration
-extern ITKTransform_EXPORT std::ostream &
-                           operator<<(std::ostream & out, const typename TransformBaseTemplate<double>::TransformCategoryEnum value);
-extern ITKTransform_EXPORT std::ostream &
-                           operator<<(std::ostream & out, const typename TransformBaseTemplate<float>::TransformCategoryEnum value);
 } // end namespace itk
 
 #endif

@@ -39,7 +39,8 @@ public:
   ListNode * Previous;
 };
 
-/** \class CannyEdgeDetectionImageFilter
+/**
+ *\class CannyEdgeDetectionImageFilter
  * \brief This filter is an implementation of a Canny edge detector for
  * scalar-valued images.
  *

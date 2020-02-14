@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class HistogramToProbabilityImageFilter
+/**
+ *\class HistogramToProbabilityImageFilter
  * \brief The class takes a histogram as an input and gives the probability
  * image as the output. A pixel, at position I,  in the output image is given by
  *

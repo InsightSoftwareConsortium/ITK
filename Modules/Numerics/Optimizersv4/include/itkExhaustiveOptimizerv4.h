@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class ExhaustiveOptimizerv4
+/**
+ *\class ExhaustiveOptimizerv4
  * \brief Optimizer that fully samples a grid on the parametric space.
  *
  * This optimizer is equivalent to an exhaustive search in a discrete grid

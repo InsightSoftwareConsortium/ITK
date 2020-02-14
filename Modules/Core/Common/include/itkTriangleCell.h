@@ -71,10 +71,10 @@ public:
   static constexpr unsigned int CellDimension = 2;
 
   /** Implement the standard CellInterface. */
-  CellGeometry
+  CellGeometryEnum
   GetType() const override
   {
-    return Superclass::TRIANGLE_CELL;
+    return CellGeometryEnum::TRIANGLE_CELL;
   }
   void
   MakeCopy(CellAutoPointer &) const override;
@@ -131,7 +131,7 @@ public:
                    InterpolationWeightType *) override;
 
   /** Cell visitor interface. */
-  itkCellVisitMacro(Superclass::TRIANGLE_CELL);
+  itkCellVisitMacro(CellGeometryEnum::TRIANGLE_CELL);
 
   /** \brief Compute Area to a TriangleCell given a PointsContainer.  */
   CoordRepType

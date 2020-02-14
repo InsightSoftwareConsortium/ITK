@@ -65,7 +65,7 @@ ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>::PrintSelf(std::
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Value: " << m_Value << std::endl;
-  os << indent << "GradientSourceType: ";
+  os << indent << "GradientSourceEnum: ";
   switch (m_GradientSource)
   {
     case GradientSourceEnum::GRADIENT_SOURCE_FIXED:

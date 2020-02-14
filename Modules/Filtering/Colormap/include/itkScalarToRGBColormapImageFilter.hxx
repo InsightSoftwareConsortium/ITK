@@ -125,7 +125,7 @@ ScalarToRGBColormapImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenera
 
 template <typename TInputImage, typename TOutputImage>
 void
-ScalarToRGBColormapImageFilter<TInputImage, TOutputImage>::SetColormap(ColormapEnumType map)
+ScalarToRGBColormapImageFilter<TInputImage, TOutputImage>::SetColormap(RGBColormapFilterEnum map)
 {
   switch (map)
   {

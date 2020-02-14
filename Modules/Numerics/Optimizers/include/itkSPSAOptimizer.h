@@ -24,6 +24,27 @@
 
 namespace itk
 {
+/**\class SPSAOptimizerEnums
+ * \brief Contains all enum classes used by SPSAOptimizer class.
+ * \ingroup ITKOptimizers
+ */
+class SPSAOptimizerEnums
+{
+public:
+  /** \class StopConditionSPSAOptimizer
+   * \ingroup ITKOptimizers
+   * Codes of stopping conditions */
+  enum class StopConditionSPSAOptimizer : uint8_t
+  {
+    Unknown,
+    MaximumNumberOfIterations,
+    BelowTolerance,
+    MetricError
+  };
+};
+// Define how to print enumeration
+extern ITKOptimizers_EXPORT std::ostream &
+                            operator<<(std::ostream & out, const SPSAOptimizerEnums::StopConditionSPSAOptimizer value);
 /**
  * \class SPSAOptimizer
  * \brief An optimizer based on simultaneous perturbation...
@@ -58,24 +79,15 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(SPSAOptimizer, SingleValuedNonLinearOptimizer);
 
-  /** \class StopConditionEnum
-   *
-   * \ingroup ITKOptimizers
-   * Codes of stopping conditions */
-  enum class StopConditionEnum : uint8_t
-  {
-    Unknown,
-    MaximumNumberOfIterations,
-    BelowTolerance,
-    MetricError
-  };
+  using StopConditionSPSAOptimizerEnum = SPSAOptimizerEnums::StopConditionSPSAOptimizer;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr StopConditionEnum Unknown = StopConditionEnum::Unknown;
-  static constexpr StopConditionEnum MaximumNumberOfIterations = StopConditionEnum::MaximumNumberOfIterations;
-  static constexpr StopConditionEnum BelowTolerance = StopConditionEnum::BelowTolerance;
-  static constexpr StopConditionEnum MetricError = StopConditionEnum::MetricError;
+  static constexpr StopConditionSPSAOptimizerEnum Unknown = StopConditionSPSAOptimizerEnum::Unknown;
+  static constexpr StopConditionSPSAOptimizerEnum MaximumNumberOfIterations =
+    StopConditionSPSAOptimizerEnum::MaximumNumberOfIterations;
+  static constexpr StopConditionSPSAOptimizerEnum BelowTolerance = StopConditionSPSAOptimizerEnum::BelowTolerance;
+  static constexpr StopConditionSPSAOptimizerEnum MetricError = StopConditionSPSAOptimizerEnum::MetricError;
 #endif
   /** Advance one step following the gradient direction. */
   virtual void
@@ -123,7 +135,7 @@ public:
   itkGetConstMacro(CurrentIteration, SizeValueType);
 
   /** Get Stop condition. */
-  itkGetConstMacro(StopCondition, StopConditionEnum);
+  itkGetConstMacro(StopCondition, StopConditionSPSAOptimizerEnum);
 
   /** Get the current LearningRate (a_k) */
   itkGetConstMacro(LearningRate, double);
@@ -259,7 +271,7 @@ protected:
 
   bool m_Stop{ false };
 
-  StopConditionEnum m_StopCondition;
+  StopConditionSPSAOptimizerEnum m_StopCondition;
 
   double m_StateOfConvergence;
 
@@ -310,7 +322,7 @@ private:
 
 // Define how to print enumeration
 extern ITKOptimizers_EXPORT std::ostream &
-                            operator<<(std::ostream & out, const SPSAOptimizer::StopConditionEnum value);
+                            operator<<(std::ostream & out, const SPSAOptimizer::StopConditionSPSAOptimizerEnum value);
 
 } // end namespace itk
 

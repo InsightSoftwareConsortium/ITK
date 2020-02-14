@@ -19,44 +19,44 @@
 
 namespace itk
 {
-/** Define how to print enumerations */
+/** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const GradientSourceEnum value)
+operator<<(std::ostream & out, const ObjectToObjectMetricBaseTemplateEnums::GradientSource value)
 {
   return out << [value] {
     switch (value)
     {
-      case GradientSourceEnum::GRADIENT_SOURCE_FIXED:
-        return "GradientSourceEnum::GRADIENT_SOURCE_FIXED";
-      case GradientSourceEnum::GRADIENT_SOURCE_MOVING:
-        return "GradientSourceEnum::GRADIENT_SOURCE_MOVING";
-      case GradientSourceEnum::GRADIENT_SOURCE_BOTH:
-        return "GradientSourceEnum::GRADIENT_SOURCE_BOTH";
+      case ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_FIXED:
+        return "itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_FIXED";
+      case ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_MOVING:
+        return "itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_MOVING";
+      case ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_BOTH:
+        return "itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_BOTH";
       default:
-        return "INVALID VALUE FOR GradientSourceEnum";
+        return "INVALID VALUE FOR itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource";
     }
   }();
 }
 
-/** Define how to print enumerations */
+/** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const MetricCategoryEnum value)
+operator<<(std::ostream & out, const ObjectToObjectMetricBaseTemplateEnums::MetricCategory value)
 {
   return out << [value] {
     switch (value)
     {
-      case MetricCategoryEnum::UNKNOWN_METRIC:
-        return "MetricCategoryEnum::UNKNOWN_METRIC";
-      case MetricCategoryEnum::OBJECT_METRIC:
-        return "MetricCategoryEnum::OBJECT_METRIC";
-      case MetricCategoryEnum::IMAGE_METRIC:
-        return "MetricCategoryEnum::IMAGE_METRIC";
-      case MetricCategoryEnum::POINT_SET_METRIC:
-        return "MetricCategoryEnum::POINT_SET_METRIC";
-      case MetricCategoryEnum::MULTI_METRIC:
-        return "MetricCategoryEnum::MULTI_METRIC";
+      case ObjectToObjectMetricBaseTemplateEnums::MetricCategory::UNKNOWN_METRIC:
+        return "itk::ObjectToObjectMetricBaseTemplateEnums::MetricCategory::UNKNOWN_METRIC";
+      case ObjectToObjectMetricBaseTemplateEnums::MetricCategory::OBJECT_METRIC:
+        return "itk::ObjectToObjectMetricBaseTemplateEnums::MetricCategory::OBJECT_METRIC";
+      case ObjectToObjectMetricBaseTemplateEnums::MetricCategory::IMAGE_METRIC:
+        return "itk::ObjectToObjectMetricBaseTemplateEnums::MetricCategory::IMAGE_METRIC";
+      case ObjectToObjectMetricBaseTemplateEnums::MetricCategory::POINT_SET_METRIC:
+        return "itk::ObjectToObjectMetricBaseTemplateEnums::MetricCategory::POINT_SET_METRIC";
+      case ObjectToObjectMetricBaseTemplateEnums::MetricCategory::MULTI_METRIC:
+        return "itk::ObjectToObjectMetricBaseTemplateEnums::MetricCategory::MULTI_METRIC";
       default:
-        return "INVALID VALUE FOR MetricCategoryEnum";
+        return "INVALID VALUE FOR itk::ObjectToObjectMetricBaseTemplateEnums::MetricCategory";
     }
   }();
 }

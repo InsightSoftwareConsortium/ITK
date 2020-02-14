@@ -100,33 +100,32 @@ public:
     }
   }
 
+#if !defined(ITK_LEGACY_REMOVE)
   /** Enables backwards compatibility for enum values */
   using FilterStateType = GPUFiniteDifferenceFilterEnum;
-#if !defined(ITK_LEGACY_REMOVE)
-  // We need to expose the enum values at the class level
-  // for backwards compatibility
-  static constexpr FilterStateType UNINITIALIZED = FilterStateType::UNINITIALIZED;
-  static constexpr FilterStateType INITIALIZED = FilterStateType::INITIALIZED;
+  // We need to expose the enum values at the class level for backwards compatibility
+  static constexpr GPUFiniteDifferenceFilterEnum UNINITIALIZED = GPUFiniteDifferenceFilterEnum::UNINITIALIZED;
+  static constexpr GPUFiniteDifferenceFilterEnum INITIALIZED = GPUFiniteDifferenceFilterEnum::INITIALIZED;
 #endif
 
   /** Set the state of the filter to INITIALIZED */
   void
   SetStateToInitialized()
   {
-    this->SetState(FilterStateType::INITIALIZED);
+    this->SetState(GPUFiniteDifferenceFilterEnum::INITIALIZED);
   }
 
   /** Set the state of the filter to UNINITIALIZED */
   void
   SetStateToUninitialized()
   {
-    this->SetState(FilterStateType::UNINITIALIZED);
+    this->SetState(GPUFiniteDifferenceFilterEnum::UNINITIALIZED);
   }
 
   /** Set/Get the state of the filter. */
 #if !defined(ITK_WRAPPING_PARSER)
-  itkSetMacro(State, FilterStateType);
-  itkGetConstReferenceMacro(State, FilterStateType);
+  itkSetMacro(State, GPUFiniteDifferenceFilterEnum);
+  itkGetConstReferenceMacro(State, GPUFiniteDifferenceFilterEnum);
 #endif
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -287,7 +286,7 @@ private:
   bool m_UseImageSpacing;
 
   /** State that the filter is in, i.e. UNINITIALIZED or INITIALIZED */
-  FilterStateType m_State;
+  GPUFiniteDifferenceFilterEnum m_State;
 };
 
 } // end namespace itk

@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class CSVArray2DFileReader
+/**
+ *\class CSVArray2DFileReader
  * \brief Parses csv files and stores the data in a itkCSVArray2DDataObject.
  *
  * CSVArray2DFileReader is used for reading csv files. This reader should

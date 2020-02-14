@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class PolylineMask2DImageFilter
+/**
+ *\class PolylineMask2DImageFilter
  * \brief Implements 2D image masking operation constrained by a contour.
  *
  * This class is parameterized over input image type, contour defined by a polyline,

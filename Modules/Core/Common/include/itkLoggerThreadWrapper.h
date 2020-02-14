@@ -29,19 +29,29 @@
 namespace itk
 {
 
-/** \class LoggerThreadWrapperOperationType
- *
+/** \class LoggerThreadWrapperEnums
+ * \brief enums for LoggerThreadWrapper
  * \ingroup ITKCommon
- *
- * Definition of types of operations for LoggerThreadWrapper.
  */
-enum class LoggerThreadWrapperOperationType : uint8_t
+class LoggerThreadWrapperEnums
 {
-  SET_PRIORITY_LEVEL,
-  SET_LEVEL_FOR_FLUSHING,
-  ADD_LOG_OUTPUT,
-  WRITE
+public:
+  /** \class Operation
+   * \ingroup ITKCommon
+   * Definition of types of operations for LoggerThreadWrapper.
+   */
+  enum class Operation : uint8_t
+  {
+    SET_PRIORITY_LEVEL,
+    SET_LEVEL_FOR_FLUSHING,
+    ADD_LOG_OUTPUT,
+    WRITE
+  };
 };
+// Define how to print enumeration
+extern ITKCommon_EXPORT std::ostream &
+                        operator<<(std::ostream & out, const LoggerThreadWrapperEnums::Operation value);
+
 
 /** \class LoggerThreadWrapper
  *  \brief Used for providing logging service as a separate thread.
@@ -72,13 +82,15 @@ public:
   using PriorityLevelEnum = typename SimpleLoggerType::PriorityLevelEnum;
   using DelayType = unsigned int;
 
+  using OperationEnum = LoggerThreadWrapperEnums::Operation;
+
 #if !defined(ITK_LEGACY_REMOVE)
-  static constexpr LoggerThreadWrapperOperationType SET_PRIORITY_LEVEL =
-    LoggerThreadWrapperOperationType::SET_PRIORITY_LEVEL;
-  static constexpr LoggerThreadWrapperOperationType SET_LEVEL_FOR_FLUSHING =
-    LoggerThreadWrapperOperationType::SET_LEVEL_FOR_FLUSHING;
-  static constexpr LoggerThreadWrapperOperationType ADD_LOG_OUTPUT = LoggerThreadWrapperOperationType::ADD_LOG_OUTPUT;
-  static constexpr LoggerThreadWrapperOperationType WRITE = LoggerThreadWrapperOperationType::WRITE;
+  using LoggerThreadWrapperOperationType = OperationEnum;
+
+  static constexpr OperationEnum SET_PRIORITY_LEVEL = OperationEnum::SET_PRIORITY_LEVEL;
+  static constexpr OperationEnum SET_LEVEL_FOR_FLUSHING = OperationEnum::SET_LEVEL_FOR_FLUSHING;
+  static constexpr OperationEnum ADD_LOG_OUTPUT = OperationEnum::ADD_LOG_OUTPUT;
+  static constexpr OperationEnum WRITE = OperationEnum::WRITE;
 #endif
 
   /** Set the priority level for the current logger. Only messages that have
@@ -136,7 +148,7 @@ protected:
   ThreadFunction();
 
 private:
-  using OperationContainerType = std::queue<LoggerThreadWrapperOperationType>;
+  using OperationContainerType = std::queue<OperationEnum>;
 
   using MessageContainerType = std::queue<std::string>;
 
@@ -161,10 +173,6 @@ private:
   DelayType m_Delay;
 
 }; // class LoggerThreadWrapper
-
-// Define how to print enumeration
-extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const LoggerThreadWrapperOperationType value);
 
 } // namespace itk
 

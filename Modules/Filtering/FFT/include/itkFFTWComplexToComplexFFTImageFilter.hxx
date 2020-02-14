@@ -72,7 +72,7 @@ FFTWComplexToComplexFFTImageFilter<TImage>::BeforeThreadedGenerateData()
   const typename OutputImageType::SizeType & inputSize = input->GetLargestPossibleRegion().GetSize();
 
   int transformDirection = 1;
-  if (this->GetTransformDirection() == Superclass::INVERSE)
+  if (this->GetTransformDirection() == Superclass::TransformDirectionEnum::INVERSE)
   {
     transformDirection = -1;
   }
@@ -109,7 +109,7 @@ FFTWComplexToComplexFFTImageFilter<TImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
   // Normalize the output if backward transform
-  if (this->GetTransformDirection() == Superclass::INVERSE)
+  if (this->GetTransformDirection() == Superclass::TransformDirectionEnum::INVERSE)
   {
     using IteratorType = ImageRegionIterator<OutputImageType>;
     SizeValueType totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();

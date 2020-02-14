@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class LabelOverlayImageFilter
+/**
+ *\class LabelOverlayImageFilter
  * \brief Apply a colormap to a label image and put it on top of the
  *  input image
  *

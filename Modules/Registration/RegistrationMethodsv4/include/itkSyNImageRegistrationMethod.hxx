@@ -327,7 +327,8 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
   {
     for (SizeValueType n = 0; n < multiMetric->GetNumberOfMetrics(); n++)
     {
-      if (multiMetric->GetMetricQueue()[n]->GetMetricCategory() == MetricType::POINT_SET_METRIC)
+      if (multiMetric->GetMetricQueue()[n]->GetMetricCategory() ==
+          ObjectToObjectMetricBaseTemplateEnums::MetricCategory::POINT_SET_METRIC)
       {
         multiMetric->GetMetricQueue()[n]->SetFixedObject(fixedPointSets[n]);
         multiMetric->GetMetricQueue()[n]->SetMovingObject(movingPointSets[n]);
@@ -337,7 +338,8 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
         dynamic_cast<PointSetMetricType *>(multiMetric->GetMetricQueue()[n].GetPointer())
           ->SetCalculateValueAndDerivativeInTangentSpace(true);
       }
-      else if (multiMetric->GetMetricQueue()[n]->GetMetricCategory() == MetricType::IMAGE_METRIC)
+      else if (multiMetric->GetMetricQueue()[n]->GetMetricCategory() ==
+               ObjectToObjectMetricBaseTemplateEnums::MetricCategory::IMAGE_METRIC)
       {
         if (!this->m_DownsampleImagesForMetricDerivatives)
         {
@@ -444,7 +446,7 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
   }
   else
   {
-    if (this->m_Metric->GetMetricCategory() == MetricType::POINT_SET_METRIC)
+    if (this->m_Metric->GetMetricCategory() == ObjectToObjectMetricBaseTemplateEnums::MetricCategory::POINT_SET_METRIC)
     {
       this->m_Metric->SetFixedObject(fixedPointSets[0]);
       this->m_Metric->SetMovingObject(movingPointSets[0]);
@@ -470,7 +472,7 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
       dynamic_cast<PointSetMetricType *>(this->m_Metric.GetPointer())
         ->SetStoreDerivativeAsSparseFieldForLocalSupportTransforms(true);
     }
-    else if (this->m_Metric->GetMetricCategory() == MetricType::IMAGE_METRIC)
+    else if (this->m_Metric->GetMetricCategory() == ObjectToObjectMetricBaseTemplateEnums::MetricCategory::IMAGE_METRIC)
     {
 
       if (!this->m_DownsampleImagesForMetricDerivatives)
@@ -574,7 +576,7 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
   }
 
   if (this->m_DownsampleImagesForMetricDerivatives &&
-      this->m_Metric->GetMetricCategory() != MetricType::POINT_SET_METRIC)
+      this->m_Metric->GetMetricCategory() != ObjectToObjectMetricBaseTemplateEnums::MetricCategory::POINT_SET_METRIC)
   {
     const DisplacementVectorType zeroVector(0.0);
 
@@ -588,12 +590,12 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
     identityDisplacementFieldTransform->SetDisplacementField(identityField);
     identityDisplacementFieldTransform->SetInverseDisplacementField(identityField);
 
-    if (this->m_Metric->GetMetricCategory() == MetricType::MULTI_METRIC)
+    if (this->m_Metric->GetMetricCategory() == ObjectToObjectMetricBaseTemplateEnums::MetricCategory::MULTI_METRIC)
     {
       multiMetric->SetFixedTransform(identityDisplacementFieldTransform);
       multiMetric->SetMovingTransform(identityDisplacementFieldTransform);
     }
-    else if (this->m_Metric->GetMetricCategory() == MetricType::IMAGE_METRIC)
+    else if (this->m_Metric->GetMetricCategory() == ObjectToObjectMetricBaseTemplateEnums::MetricCategory::IMAGE_METRIC)
     {
       dynamic_cast<ImageMetricType *>(this->m_Metric.GetPointer())
         ->SetFixedTransform(identityDisplacementFieldTransform);

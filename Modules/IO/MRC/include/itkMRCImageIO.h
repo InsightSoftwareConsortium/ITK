@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class MRCImageIO
+/**
+ *\class MRCImageIO
  *
  *  \brief An ImageIO class to read the MRC file format.
  * The MRC file format frequently has the extension ".mrc" or

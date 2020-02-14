@@ -34,7 +34,8 @@
 
 namespace itk
 {
-/** \class BSplineDownsampleImageFilter
+/**
+ *\class BSplineDownsampleImageFilter
  * \brief Down-samples an image by a factor of 2 using B-Spline filter interpolation.
  *
  * This class is the public interface for spline down-sampling as defined by the

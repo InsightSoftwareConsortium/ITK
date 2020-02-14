@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class NthElementPixelAccessor
+/**
+ *\class NthElementPixelAccessor
  * \brief Give access to the N-th of a Container type
  *
  * This class is intended to be used as parameter of

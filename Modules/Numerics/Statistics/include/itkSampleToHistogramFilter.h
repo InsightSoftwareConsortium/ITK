@@ -48,7 +48,8 @@ namespace itk
 namespace Statistics
 {
 
-/** \class SampleToHistogramFilter
+/**
+ *\class SampleToHistogramFilter
  *  \brief Computes the Histogram corresponding to a Sample.
  *
  * This filter produces as output the histogram corresponding to

@@ -58,7 +58,8 @@ public:
 };
 } // namespace Functor
 
-/** \class BinaryMagnitudeImageFilter
+/**
+ *\class BinaryMagnitudeImageFilter
  * \brief Computes the square root of the sum of squares of corresponding input pixels.
  *
  * This filter is templated over the types of the two

@@ -47,7 +47,7 @@ ContourSpatialObject<TDimension>::Clear(void)
 
   m_ControlPoints.clear();
 
-  m_InterpolationMethod = NO_INTERPOLATION;
+  m_InterpolationMethod = InterpolationMethodEnum::NO_INTERPOLATION;
   m_InterpolationFactor = 2.0;
 
   m_IsClosed = false;
@@ -180,18 +180,18 @@ ContourSpatialObject<TDimension>::Update()
 {
   switch (m_InterpolationMethod)
   {
-    case NO_INTERPOLATION:
+    case InterpolationMethodEnum::NO_INTERPOLATION:
       this->SetPoints(m_ControlPoints);
       break;
-    case EXPLICIT_INTERPOLATION:
+    case InterpolationMethodEnum::EXPLICIT_INTERPOLATION:
       break;
-    case BEZIER_INTERPOLATION:
+    case InterpolationMethodEnum::BEZIER_INTERPOLATION:
       // TODO: Implement bezier interpolation
       {
         itkExceptionMacro(<< "Bezier interpolation type not yet defined.");
       }
       break;
-    case LINEAR_INTERPOLATION:
+    case InterpolationMethodEnum::LINEAR_INTERPOLATION:
       this->m_Points.clear();
       auto it = m_ControlPoints.begin();
       while (it != m_ControlPoints.end())
@@ -216,6 +216,7 @@ ContourSpatialObject<TDimension>::Update()
           step[d] = (pnt2[d] - pnt[d]) / m_InterpolationFactor;
         }
         PointType newPoint;
+        newPoint.Fill(NumericTraits<double>::max());
         for (unsigned int i = 0; i < m_InterpolationFactor; ++i)
         {
           for (unsigned int d = 0; d < TDimension; ++d)

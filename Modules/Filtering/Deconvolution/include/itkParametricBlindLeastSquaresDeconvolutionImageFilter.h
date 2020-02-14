@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class ParametricBlindLeastSquaresDeconvolutionImageFilter
+/**
+ *\class ParametricBlindLeastSquaresDeconvolutionImageFilter
  *
  * \brief Least-squares blind deconvolution filter that also estimates
  * the parameters of a user-supplied parametric point-spread function.

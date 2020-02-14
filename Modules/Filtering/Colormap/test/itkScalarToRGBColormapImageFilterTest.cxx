@@ -69,73 +69,73 @@ itkScalarToRGBColormapImageFilterTest(int argc, char * argv[])
 
   if (colormapString == "red")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Red);
-    vfilter->SetColormap(itk::RGBColormapFilterEnum::Red);
+    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Red);
+    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Red);
   }
   else if (colormapString == "green")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Green);
-    vfilter->SetColormap(itk::RGBColormapFilterEnum::Green);
+    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Green);
+    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Green);
   }
   else if (colormapString == "blue")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Blue);
-    vfilter->SetColormap(itk::RGBColormapFilterEnum::Blue);
+    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Blue);
+    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Blue);
   }
   else if (colormapString == "grey")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Grey);
-    vfilter->SetColormap(itk::RGBColormapFilterEnum::Grey);
+    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Grey);
+    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Grey);
   }
   else if (colormapString == "cool")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Cool);
-    vfilter->SetColormap(itk::RGBColormapFilterEnum::Cool);
+    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Cool);
+    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Cool);
   }
   else if (colormapString == "hot")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Hot);
-    vfilter->SetColormap(itk::RGBColormapFilterEnum::Hot);
+    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Hot);
+    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Hot);
   }
   else if (colormapString == "spring")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Spring);
-    vfilter->SetColormap(itk::RGBColormapFilterEnum::Spring);
+    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Spring);
+    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Spring);
   }
   else if (colormapString == "autumn")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Autumn);
-    vfilter->SetColormap(itk::RGBColormapFilterEnum::Autumn);
+    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Autumn);
+    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Autumn);
   }
   else if (colormapString == "winter")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Winter);
-    vfilter->SetColormap(itk::RGBColormapFilterEnum::Winter);
+    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Winter);
+    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Winter);
   }
   else if (colormapString == "copper")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Copper);
-    vfilter->SetColormap(itk::RGBColormapFilterEnum::Copper);
+    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Copper);
+    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Copper);
   }
   else if (colormapString == "summer")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Summer);
-    vfilter->SetColormap(itk::RGBColormapFilterEnum::Summer);
+    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Summer);
+    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Summer);
   }
   else if (colormapString == "jet")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::Jet);
-    vfilter->SetColormap(itk::RGBColormapFilterEnum::Jet);
+    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Jet);
+    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Jet);
   }
   else if (colormapString == "hsv")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::HSV);
-    vfilter->SetColormap(itk::RGBColormapFilterEnum::HSV);
+    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::HSV);
+    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::HSV);
   }
   else if (colormapString == "overunder")
   {
-    rgbfilter->SetColormap(itk::RGBColormapFilterEnum::OverUnder);
-    vfilter->SetColormap(itk::RGBColormapFilterEnum::OverUnder);
+    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::OverUnder);
+    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::OverUnder);
   }
   else if (colormapString == "custom")
   {
@@ -216,5 +216,26 @@ itkScalarToRGBColormapImageFilterTest(int argc, char * argv[])
   writer->SetInput(rgbfilter->GetOutput());
   writer->Update();
 
+  // Test streaming enumeration for ScalarToRGBColormapImageFilterEnums::RGBColormapFilter elements
+  const std::set<itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter> allRGBColormapFilter{
+    itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Red,
+    itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Green,
+    itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Blue,
+    itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Grey,
+    itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Hot,
+    itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Cool,
+    itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Spring,
+    itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Summer,
+    itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Autumn,
+    itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Winter,
+    itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Copper,
+    itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Jet,
+    itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::HSV,
+    itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::OverUnder
+  };
+  for (const auto & ee : allRGBColormapFilter)
+  {
+    std::cout << "STREAMED ENUM VALUE ScalarToRGBColormapImageFilterEnums::RGBColormapFilter: " << ee << std::endl;
+  }
   return EXIT_SUCCESS;
 }

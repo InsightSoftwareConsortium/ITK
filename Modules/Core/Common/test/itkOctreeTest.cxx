@@ -106,5 +106,28 @@ itkOctreeTest(int, char *[])
     ex.Print(std::cerr);
     return EXIT_FAILURE;
   }
+
+  // Test streaming enumeration for OctreeEnums::Octree elements
+  const std::set<itk::OctreeEnums::Octree> allOctree{ itk::OctreeEnums::Octree::UNKNOWN_PLANE,
+                                                      itk::OctreeEnums::Octree::SAGITAL_PLANE,
+                                                      itk::OctreeEnums::Octree::CORONAL_PLANE,
+                                                      itk::OctreeEnums::Octree::TRANSVERSE_PLANE };
+  for (const auto & ee : allOctree)
+  {
+    std::cout << "STREAMED ENUM VALUE Octree: " << ee << std::endl;
+  }
+
+  // Test streaming enumeration for OctreeEnums::LeafIdentifier elements
+  const std::set<itk::OctreeEnums::LeafIdentifier> allLeafIdentifier{
+    itk::OctreeEnums::LeafIdentifier::ZERO, itk::OctreeEnums::LeafIdentifier::ONE,
+    itk::OctreeEnums::LeafIdentifier::TWO,  itk::OctreeEnums::LeafIdentifier::THREE,
+    itk::OctreeEnums::LeafIdentifier::FOUR, itk::OctreeEnums::LeafIdentifier::FIVE,
+    itk::OctreeEnums::LeafIdentifier::SIX,  itk::OctreeEnums::LeafIdentifier::SEVEN
+  };
+  for (const auto & ee : allLeafIdentifier)
+  {
+    std::cout << "STREAMED ENUM VALUE Octree: " << ee << std::endl;
+  }
+
   return EXIT_SUCCESS;
 }

@@ -24,7 +24,8 @@ namespace itk
 {
 namespace watershed
 {
-/** \class EquivalenceRelabeler
+/**
+ *\class EquivalenceRelabeler
  *
  * This class is part of the set of watershed segmentation component objects.
  * It is an image-to-image filter that relabels its input according to a set of

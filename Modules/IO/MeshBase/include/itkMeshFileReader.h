@@ -38,7 +38,8 @@
 namespace itk
 {
 
-/** \class MeshFileReader
+/**
+ *\class MeshFileReader
  * \brief Mesh source that reads mesh data from a single file.
  *
  * This source object is a general filter to read data from

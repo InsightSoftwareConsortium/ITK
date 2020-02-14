@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \class MomentsThresholdCalculator
+/**
+ *\class MomentsThresholdCalculator
  * \brief Computes the Moments's threshold for an image.
  *
  *  W. Tsai, "Moment-preserving thresholding: a new approach," Computer Vision,

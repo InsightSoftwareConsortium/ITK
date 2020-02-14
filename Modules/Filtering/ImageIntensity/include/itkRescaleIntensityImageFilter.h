@@ -111,7 +111,8 @@ private:
 };
 } // end namespace Functor
 
-/** \class RescaleIntensityImageFilter
+/**
+ *\class RescaleIntensityImageFilter
  * \brief Applies a linear transformation to the intensity levels of the
  * input Image.
  *

@@ -2,7 +2,7 @@ set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
 itk_wrap_include("itkSymmetricEigenAnalysisImageFilter.h")
 itk_wrap_include("itkSymmetricSecondRankTensor.h")
 
-itk_wrap_simple_class("itk::EigenValueOrderEnum" ENUM)
+itk_wrap_simple_class("itk::SymmetricEigenAnalysisEnums")
 
 itk_wrap_class("itk::SymmetricEigenAnalysisImageFilter" POINTER_WITH_2_SUPERCLASSES)
   foreach(d ${ITK_WRAP_IMAGE_DIMS})

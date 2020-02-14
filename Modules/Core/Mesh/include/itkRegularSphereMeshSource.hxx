@@ -50,7 +50,7 @@ RegularSphereMeshSource<TOutputMesh>::GenerateData()
 
   typename OutputMeshType::Pointer outputMesh = this->GetOutput();
 
-  outputMesh->SetCellsAllocationMethod(MeshClassCellsAllocationMethodEnum::CellsAllocatedDynamicallyCellByCell);
+  outputMesh->SetCellsAllocationMethod(MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell);
 
   PointsContainerPointer myPoints = outputMesh->GetPoints();
 

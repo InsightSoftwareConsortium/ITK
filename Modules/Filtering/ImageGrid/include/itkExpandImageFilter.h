@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class ExpandImageFilter
+/**
+ *\class ExpandImageFilter
  * \brief Expand the size of an image by an integer factor in each
  * dimension.
  *

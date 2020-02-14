@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class AbsoluteValueDifferenceImageFilter
+/**
+ *\class AbsoluteValueDifferenceImageFilter
  * \brief Implements pixel-wise the computation of absolute value difference.
  *
  * This filter is parameterized over the types of the two

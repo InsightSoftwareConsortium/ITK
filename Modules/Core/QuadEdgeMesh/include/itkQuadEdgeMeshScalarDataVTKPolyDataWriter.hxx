@@ -77,7 +77,7 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh>::WriteCellData()
       while (c_it != celldata->End())
       {
         CellType * cellPointer = it.Value();
-        if (cellPointer->GetType() != 1)
+        if (static_cast<int>(cellPointer->GetType()) != 1)
         {
           outputFile << c_it.Value();
           if (k++ % 3 == 0)

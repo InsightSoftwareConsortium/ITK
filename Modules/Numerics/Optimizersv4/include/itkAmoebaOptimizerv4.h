@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class AmoebaOptimizerv4
+/**
+ *\class AmoebaOptimizerv4
  * \brief Wrap of the vnl_amoeba algorithm
  *
  * AmoebaOptimizerv4 is a wrapper around the vnl_amoeba algorithm which

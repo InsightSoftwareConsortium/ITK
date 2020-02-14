@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class LBFGSOptimizerv4
+/**
+ *\class LBFGSOptimizerv4
  * \brief Wrap of the vnl_lbfgs algorithm for use in ITKv4 registration framework.
  * The vnl_lbfgs is a wrapper for the NETLIB fortran code by Nocedal [1].
  *

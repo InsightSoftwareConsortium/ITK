@@ -22,7 +22,8 @@
 #include "itkQuadEdgeMeshLineCell.h"
 namespace itk
 {
-/** \class QuadEdgeMeshPolygonCell
+/**
+ *\class QuadEdgeMeshPolygonCell
  * Class that connects the QE with itk
  *
  * \param TCellInterface Basic type for the itk*Cell. This usually comes
@@ -66,7 +67,6 @@ public:
   using PointType = typename Superclass::PointType;
   using PointsContainer = typename Superclass::PointsContainer;
   using UsingCellsContainer = typename Superclass::UsingCellsContainer;
-  using CellGeometry = typename Superclass::CellGeometry;
   using ParametricCoordArrayType = typename Superclass::ParametricCoordArrayType;
   using ShapeFunctionsArrayType = typename Superclass::ShapeFunctionsArrayType;
   static constexpr unsigned int PointDimension = Superclass::PointDimension;
@@ -133,17 +133,17 @@ public:
   void
   Accept(CellIdentifier cellId, MultiVisitor * mv) override;
 
-  CellGeometry
+  CellGeometryEnum
   GetType() const override
   {
-    return (Superclass::POLYGON_CELL);
+    return (CellGeometryEnum::POLYGON_CELL);
   }
 
   /** itk topology related methods. */
-  static int
+  static constexpr CellGeometryEnum
   GetTopologyId()
   {
-    return (Superclass::POLYGON_CELL);
+    return CellGeometryEnum::POLYGON_CELL;
   }
 
   unsigned int

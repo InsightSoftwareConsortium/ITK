@@ -28,7 +28,37 @@ class DicomImage;
 
 namespace itk
 {
-/** \class DCMTKImageIO
+/**\class DCMTKImageIOEnums
+ * \brief Enums used by the DCMTKImageIO class
+ * \ingroup IOFilters
+ */
+class DCMTKImageIOEnums
+{
+public:
+  /**
+   *\class LogLevel
+   * \ingroup IOFilters
+   * enum for DCMTK log level.  These are defined here without
+   *  reference to DCMTK library enumerations, to avoid including
+   * dcmtk headers in this header.
+   */
+  enum class LogLevel : uint8_t
+  {
+    TRACE_LOG_LEVEL = 0,
+    DEBUG_LOG_LEVEL,
+    INFO_LOG_LEVEL,
+    WARN_LOG_LEVEL,
+    ERROR_LOG_LEVEL,
+    FATAL_LOG_LEVEL,
+    OFF_LOG_LEVEL,
+  };
+};
+// Define how to print enumeration
+extern ITKIODCMTK_EXPORT std::ostream &
+                         operator<<(std::ostream & out, const DCMTKImageIOEnums::LogLevel value);
+
+/**
+ *\class DCMTKImageIO
  *
  *  \brief Read DICOM image file format.
  *
@@ -52,20 +82,17 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(DCMTKImageIO, ImageIOBase);
 
-  /** enum for DCMTK log level.  These are defined here without
-   *  reference to DCMTK library enumerations, to avoid including
-   * dcmtk headers in this header.
-   */
-  enum LogLevel
-  {
-    TRACE_LOG_LEVEL = 0,
-    DEBUG_LOG_LEVEL,
-    INFO_LOG_LEVEL,
-    WARN_LOG_LEVEL,
-    ERROR_LOG_LEVEL,
-    FATAL_LOG_LEVEL,
-    OFF_LOG_LEVEL,
-  };
+  using LogLevelEnum = DCMTKImageIOEnums::LogLevel;
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enums values for backwards compatibility*/
+  static constexpr LogLevelEnum TRACE_LOG_LEVEL = LogLevelEnum::TRACE_LOG_LEVEL;
+  static constexpr LogLevelEnum DEBUG_LOG_LEVEL = LogLevelEnum::DEBUG_LOG_LEVEL;
+  static constexpr LogLevelEnum INFO_LOG_LEVEL = LogLevelEnum::INFO_LOG_LEVEL;
+  static constexpr LogLevelEnum WARN_LOG_LEVEL = LogLevelEnum::WARN_LOG_LEVEL;
+  static constexpr LogLevelEnum ERROR_LOG_LEVEL = LogLevelEnum::ERROR_LOG_LEVEL;
+  static constexpr LogLevelEnum FATAL_LOG_LEVEL = LogLevelEnum::FATAL_LOG_LEVEL;
+  static constexpr LogLevelEnum OFF_LOG_LEVEL = LogLevelEnum::OFF_LOG_LEVEL;
+#endif
 
   /** */
   void
@@ -108,9 +135,9 @@ public:
 
   /** Set the DCMTK Message Logging Level */
   void
-  SetLogLevel(LogLevel level);
+  SetLogLevel(LogLevelEnum level);
   /** Get the DCMTK Message Logging Level */
-  LogLevel
+  LogLevelEnum
   GetLogLevel() const;
 
   DCMTKImageIO();
@@ -158,6 +185,11 @@ private:
   double      m_RescaleIntercept;
   std::string m_LastFileName;
 };
+
+// Define how to print enumeration
+extern ITKCommon_EXPORT std::ostream &
+                        operator<<(std::ostream & out, DCMTKImageIO::LogLevelEnum value);
+
 } // end namespace itk
 
 #endif // itkDCMTKImageIO_h

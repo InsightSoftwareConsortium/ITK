@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class LabelMapContourOverlayImageFilter
+/**
+ *\class LabelMapContourOverlayImageFilter
  * \brief Apply a colormap to the contours (outlines) of each object in a label map
  *        and superimpose it on top of the feature image.
  *

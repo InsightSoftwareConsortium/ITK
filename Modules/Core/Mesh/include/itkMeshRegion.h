@@ -68,10 +68,10 @@ public:
   ~MeshRegion() override;
 
   /** Return the region type. Meshes are described with unstructured regions. */
-  RegionType
+  RegionEnum
   GetRegionType() const override
   {
-    return Superclass::ITK_UNSTRUCTURED_REGION;
+    return Superclass::RegionEnum::ITK_UNSTRUCTURED_REGION;
   }
 
   /** Get the number of regions. */

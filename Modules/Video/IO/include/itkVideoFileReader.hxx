@@ -192,7 +192,7 @@ VideoFileReader<TOutputVideoStream>::InitializeVideoIO()
   }
 
   // See if a buffer conversion is needed
-  ImageIOBase::IOComponentType ioType = ImageIOBase ::MapPixelType<typename ConvertPixelTraits::ComponentType>::CType;
+  IOComponentEnum ioType = ImageIOBase ::MapPixelType<typename ConvertPixelTraits::ComponentType>::CType;
   if (m_VideoIO->GetComponentType() != ioType ||
       m_VideoIO->GetNumberOfComponents() != ConvertPixelTraits::GetNumberOfComponents())
   {
@@ -281,18 +281,18 @@ VideoFileReader<TOutputVideoStream>::DoConvertBuffer(void * inputData, FrameOffs
   if (false)
   {
   }
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::UCHAR, unsigned char)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::CHAR, char)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::USHORT, unsigned short)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::SHORT, short)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::UINT, unsigned int)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::INT, int)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::ULONG, unsigned long)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::LONG, long)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::ULONGLONG, unsigned long long)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::LONGLONG, long long)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::FLOAT, float)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::DOUBLE, double)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::UCHAR, unsigned char)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::CHAR, char)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::USHORT, unsigned short)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::SHORT, short)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::UINT, unsigned int)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::INT, int)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::ULONG, unsigned long)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::LONG, long)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::ULONGLONG, unsigned long long)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::LONGLONG, long long)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::FLOAT, float)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::DOUBLE, double)
   else
   {
 #define TYPENAME_VideoFileReader(x) m_VideoIO->GetComponentTypeAsString(ImageIOBase::MapPixelType<x>::CType)

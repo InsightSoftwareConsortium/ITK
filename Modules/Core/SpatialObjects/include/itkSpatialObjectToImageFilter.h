@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class SpatialObjectToImageFilter
+/**
+ *\class SpatialObjectToImageFilter
  * \brief Base class for filters that take a SpatialObject
  *        as input and produce an image as output.
  *  By default, if the user does not specify the size of the output image,

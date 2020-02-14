@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class SpatialObjectDuplicator
+/**
+ *\class SpatialObjectDuplicator
  *  This helper class create an SpatialObject which is perfect
  *  copy of the input SpatialObject
  * \ingroup ITKSpatialObjects

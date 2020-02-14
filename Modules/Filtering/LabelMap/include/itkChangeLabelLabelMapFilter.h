@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class ChangeLabelLabelMapFilter
+/**
+ *\class ChangeLabelLabelMapFilter
  * \brief  Replace the label Ids of selected LabelObjects with new label Ids.
  *
  * This filter takes as input a label map and a list of pairs of Label Ids, to

@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class BYUMeshIOFactory
+/**
+ *\class BYUMeshIOFactory
  * \brief Create instances of BYUMeshIO objects using an object factory.
  * \ingroup ITKIOMeshBYU
  */

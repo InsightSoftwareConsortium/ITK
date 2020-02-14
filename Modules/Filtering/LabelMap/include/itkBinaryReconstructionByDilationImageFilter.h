@@ -30,7 +30,8 @@
 namespace itk
 {
 
-/** \class BinaryReconstructionByDilationImageFilter
+/**
+ *\class BinaryReconstructionByDilationImageFilter
  *
  * \brief binary reconstruction by dilation of an image
  *

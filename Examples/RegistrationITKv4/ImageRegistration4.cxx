@@ -303,8 +303,8 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  RegistrationType::MetricSamplingStrategyType samplingStrategy =
-    RegistrationType::RANDOM;
+  RegistrationType::MetricSamplingStrategyEnum samplingStrategy =
+    RegistrationType::MetricSamplingStrategyEnum::RANDOM;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

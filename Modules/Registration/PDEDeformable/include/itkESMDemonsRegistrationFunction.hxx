@@ -56,7 +56,7 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ES
   // Gradient orientation will be taken care of explicitly
   m_MappedMovingImageGradientCalculator->UseImageDirectionOff();
 
-  this->m_UseGradientType = Symmetric;
+  this->m_UseGradientType = GradientEnum::Symmetric;
 
   typename DefaultInterpolatorType::Pointer interp = DefaultInterpolatorType::New();
 
@@ -231,7 +231,7 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
   // afterwards
   CovariantVectorType usedOrientFreeGradientTimes2;
 
-  if ((this->m_UseGradientType == Symmetric) || (this->m_UseGradientType == WarpedMoving))
+  if ((this->m_UseGradientType == GradientEnum::Symmetric) || (this->m_UseGradientType == GradientEnum::WarpedMoving))
   {
     // we don't use a CentralDifferenceImageFunction here to be able to
     // check for NumericTraits<MovingPixelType>::max()
@@ -329,14 +329,14 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
       tmpIndex[dim] += 1;
     }
 
-    if (this->m_UseGradientType == Symmetric)
+    if (this->m_UseGradientType == GradientEnum::Symmetric)
     {
       // Compute orientation-free gradient with calculator
       const CovariantVectorType fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
 
       usedOrientFreeGradientTimes2 = fixedGradient + warpedMovingGradient;
     }
-    else if (this->m_UseGradientType == WarpedMoving)
+    else if (this->m_UseGradientType == GradientEnum::WarpedMoving)
     {
       usedOrientFreeGradientTimes2 = warpedMovingGradient + warpedMovingGradient;
     }
@@ -345,14 +345,14 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
       itkExceptionMacro(<< "Unknown gradient type");
     }
   }
-  else if (this->m_UseGradientType == Fixed)
+  else if (this->m_UseGradientType == GradientEnum::Fixed)
   {
     // Compute orientation-free gradient with calculator
     const CovariantVectorType fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
 
     usedOrientFreeGradientTimes2 = fixedGradient + fixedGradient;
   }
-  else if (this->m_UseGradientType == MappedMoving)
+  else if (this->m_UseGradientType == GradientEnum::MappedMoving)
   {
     PointType mappedPoint;
     this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);

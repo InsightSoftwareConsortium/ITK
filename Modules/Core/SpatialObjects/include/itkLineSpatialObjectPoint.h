@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class LineSpatialObjectPoint
+/**
+ *\class LineSpatialObjectPoint
  * \brief Point used for a line definition
  *
  * This class contains all the functions necessary to define a point

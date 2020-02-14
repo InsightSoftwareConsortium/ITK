@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class VTKImageExport
+/**
+ *\class VTKImageExport
  * \brief Connect the end of an ITK image pipeline to a VTK pipeline.
  *
  * VTKImageExport can be used at the end of an ITK image pipeline to

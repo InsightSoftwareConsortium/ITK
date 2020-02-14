@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class FileListVideoIO
+/**
+ *\class FileListVideoIO
  *
  * \brief VideoIO object for reading and writing videos as a sequence of frame
  *  files.
@@ -169,7 +170,7 @@ public:
                       const std::vector<SizeValueType> & dim,
                       const char *                       fourCC,
                       unsigned int                       nChannels,
-                      IOComponentType                    componentType) override;
+                      IOComponentEnum                    componentType) override;
 
 protected:
   FileListVideoIO();

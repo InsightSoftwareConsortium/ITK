@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class ConjugateGradientLineSearchOptimizerv4Template
+/**
+ *\class ConjugateGradientLineSearchOptimizerv4Template
  *  \brief Conjugate gradient descent optimizer with a golden section line search for nonlinear optimization.
  *
  * ConjugateGradientLineSearchOptimizer implements a conjugate gradient descent optimizer

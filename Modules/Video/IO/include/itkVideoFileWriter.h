@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class VideoFileWriter
+/**
+ *\class VideoFileWriter
  * \brief Writer that takes in a VideoStream and writes the frames to a file
  *
  * This class is a subclass of TemporalProcessObject which specifically takes a
@@ -144,11 +145,11 @@ private:
   TemporalRegion m_OutputTemporalRegion;
 
   /** Parameters for writing. */
-  TemporalRatioType            m_FramesPerSecond{ 24 };
-  std::string                  m_FourCC;
-  std::vector<SizeValueType>   m_Dimensions;
-  SizeValueType                m_NumberOfComponents{ 0 };
-  ImageIOBase::IOComponentType m_ComponentType;
+  TemporalRatioType          m_FramesPerSecond{ 24 };
+  std::string                m_FourCC;
+  std::vector<SizeValueType> m_Dimensions;
+  SizeValueType              m_NumberOfComponents{ 0 };
+  IOComponentEnum            m_ComponentType;
 };
 
 } // end namespace itk

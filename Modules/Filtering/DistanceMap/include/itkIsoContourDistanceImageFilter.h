@@ -26,7 +26,8 @@
 
 namespace itk
 {
-/** \class IsoContourDistanceImageFilter
+/**
+ *\class IsoContourDistanceImageFilter
  *  \brief Compute an approximate distance from an interpolated isocontour
  *  to the close grid points.
  *

@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include <set>
 #include "itkSPSAOptimizer.h"
 
 
@@ -191,11 +192,11 @@ itkSPSAOptimizerTest(int, char *[])
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
       pass = false;
   }
-  if (itkOptimizer->GetStopCondition() == itk::SPSAOptimizer::StopConditionEnum::Unknown)
+  if (itkOptimizer->GetStopCondition() == itk::SPSAOptimizer::StopConditionSPSAOptimizerEnum::Unknown)
   {
     pass = false;
   }
-  if (itkOptimizer->GetStopCondition() == itk::SPSAOptimizer::StopConditionEnum::MetricError)
+  if (itkOptimizer->GetStopCondition() == itk::SPSAOptimizer::StopConditionSPSAOptimizerEnum::MetricError)
   {
     pass = false;
   }
@@ -207,6 +208,18 @@ itkSPSAOptimizerTest(int, char *[])
   }
 
   itkOptimizer->Print(std::cout);
+
+  // Test streaming enumeration for SPSAOptimizerEnums::StopConditionSPSAOptimizer elements
+  const std::set<itk::SPSAOptimizerEnums::StopConditionSPSAOptimizer> allStopConditionSPSAOptimizer{
+    itk::SPSAOptimizerEnums::StopConditionSPSAOptimizer::Unknown,
+    itk::SPSAOptimizerEnums::StopConditionSPSAOptimizer::MaximumNumberOfIterations,
+    itk::SPSAOptimizerEnums::StopConditionSPSAOptimizer::BelowTolerance,
+    itk::SPSAOptimizerEnums::StopConditionSPSAOptimizer::MetricError
+  };
+  for (const auto & ee : allStopConditionSPSAOptimizer)
+  {
+    std::cout << "STREAMED ENUM VALUE SPSAOptimizerEnums::StopConditionSPSAOptimizer: " << ee << std::endl;
+  }
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

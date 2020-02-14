@@ -141,8 +141,8 @@ main(int argc, char * argv[])
   double samplingPercentage = 0.20;
   registration->SetMetricSamplingPercentage(samplingPercentage);
 
-  RegistrationType::MetricSamplingStrategyType samplingStrategy =
-    RegistrationType::RANDOM;
+  RegistrationType::MetricSamplingStrategyEnum samplingStrategy =
+    RegistrationType::MetricSamplingStrategyEnum::RANDOM;
   registration->SetMetricSamplingStrategy(samplingStrategy);
   // Software Guide : EndCodeSnippet
 

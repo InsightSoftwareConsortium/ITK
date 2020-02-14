@@ -18,7 +18,7 @@
 #ifndef itkExpectationMaximizationMixtureModelEstimator_hxx
 #define itkExpectationMaximizationMixtureModelEstimator_hxx
 
-#include "itkExpectationMaximizationMixtureModelEstimator.h"
+#include "../include/itkExpectationMaximizationMixtureModelEstimator.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 
@@ -29,7 +29,7 @@ namespace Statistics
 template <typename TSample>
 ExpectationMaximizationMixtureModelEstimator<TSample>::ExpectationMaximizationMixtureModelEstimator()
   : m_Sample(nullptr)
-  , m_TerminationCode(NOT_CONVERGED)
+  , m_TerminationCode(TERMINATION_CODE_ENUM::NOT_CONVERGED)
   , m_MembershipFunctionsObject(MembershipFunctionVectorObjectType::New())
   , m_MembershipFunctionsWeightArrayObject(MembershipFunctionsWeightsArrayObjectType::New())
 {}
@@ -118,7 +118,7 @@ ExpectationMaximizationMixtureModelEstimator<TSample>::GetNumberOfComponents() c
 }
 
 template <typename TSample>
-typename ExpectationMaximizationMixtureModelEstimator<TSample>::TERMINATION_CODE
+typename ExpectationMaximizationMixtureModelEstimator<TSample>::TERMINATION_CODE_ENUM
 ExpectationMaximizationMixtureModelEstimator<TSample>::GetTerminationCode() const
 {
   return m_TerminationCode;
@@ -333,13 +333,13 @@ ExpectationMaximizationMixtureModelEstimator<TSample>::GenerateData()
     }
     else
     {
-      m_TerminationCode = CONVERGED;
+      m_TerminationCode = TERMINATION_CODE_ENUM::CONVERGED;
       break;
     }
     ++iteration;
   }
 
-  m_TerminationCode = NOT_CONVERGED;
+  m_TerminationCode = TERMINATION_CODE_ENUM::NOT_CONVERGED;
 }
 
 template <typename TSample>

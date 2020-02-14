@@ -143,17 +143,17 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
   fastMarching->SetTrialPoints(TrialPoints);
   fastMarching->SetAlivePoints(AlivePoints);
 
-  fastMarching->SetTopologyCheck(FastMarchingType::Nothing);
+  fastMarching->SetTopologyCheck(FastMarchingType::TopologyCheckEnum::Nothing);
 
   if (argc > 6 && std::stoi(argv[6]) == 1)
   {
     std::cout << "Strict." << std::endl;
-    fastMarching->SetTopologyCheck(FastMarchingType::Strict);
+    fastMarching->SetTopologyCheck(FastMarchingType::TopologyCheckEnum::Strict);
   }
   if (argc > 6 && std::stoi(argv[6]) == 2)
   {
     std::cout << "No handles." << std::endl;
-    fastMarching->SetTopologyCheck(FastMarchingType::NoHandles);
+    fastMarching->SetTopologyCheck(FastMarchingType::TopologyCheckEnum::NoHandles);
   }
 
   try

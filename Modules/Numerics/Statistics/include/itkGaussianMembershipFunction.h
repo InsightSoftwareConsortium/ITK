@@ -25,7 +25,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class GaussianMembershipFunction
+/**
+ *\class GaussianMembershipFunction
  * \brief GaussianMembershipFunction models class membership through a
  * multivariate Gaussian function.
  *

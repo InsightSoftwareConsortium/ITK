@@ -23,6 +23,26 @@
 
 namespace itk
 {
+/**\class FloatingPointExceptionsEnums
+ * \brief Contains all enum classes used by FloatingPointExceptions class.
+ * \ingroup ITKCommon
+ */
+class FloatingPointExceptionsEnums
+{
+public:
+  /**\class ExceptionAction
+   * \ingroup ITKCommon
+   * defines what should happen when exceptions occur */
+  enum class ExceptionAction : uint8_t
+  {
+    ABORT,
+    EXIT
+  };
+};
+// Define how to print enumeration
+extern ITKCommon_EXPORT std::ostream &
+                        operator<<(std::ostream & out, const FloatingPointExceptionsEnums::ExceptionAction value);
+
 /** \class itkFloatingPointExceptions
  *  \brief Allows floating point exceptions to be caught during program execution.
  *
@@ -35,8 +55,13 @@ struct ExceptionGlobals;
 class ITKCommon_EXPORT FloatingPointExceptions
 {
 public:
-  /** defines what should happen when exceptions occur */
-  using ExceptionAction = enum { ABORT, EXIT };
+  using ExceptionActionEnum = FloatingPointExceptionsEnums::ExceptionAction;
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enum values at class level for backwards compatibility*/
+  using ExceptionAction = ExceptionActionEnum;
+  static constexpr ExceptionActionEnum ABORT = ExceptionActionEnum::ABORT;
+  static constexpr ExceptionActionEnum EXIT = ExceptionActionEnum::EXIT;
+#endif
 
   /** Enable floating point exceptions.
    *
@@ -72,10 +97,10 @@ public:
 
   /** Control whether exit(255) or abort() is called on an exception */
   static void
-  SetExceptionAction(ExceptionAction a);
+  SetExceptionAction(ExceptionActionEnum a);
 
   /** Access current ExceptionAction */
-  static ExceptionAction
+  static ExceptionActionEnum
   GetExceptionAction();
 
   /** Return if floating point exceptions are supported on this platform */

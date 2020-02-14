@@ -34,28 +34,20 @@ extern "C"
 
 namespace itk
 {
-
 class JPEG2000ImageIOInternal
 {
 public:
-  typedef enum
-  {
-    J2K_CFMT = 0,
-    JP2_CFMT = 1,
-    JPT_CFMT = 2,
-    MJ2_CFMT = 3
-  } DecodingFormatType;
-
-  enum class DFMFormatType : uint8_t
-  {
-    PXM_DFMT = 0,
-    PGX_DFMT = 1,
-    BMP_DFMT = 2,
-    YUV_DFMT = 3
-  };
+  using DecodingFormatEnum = JPEG2000ImageIOInternalEnums::DecodingFormat;
+  using DFMFormatType = JPEG2000ImageIOInternalEnums::DFMFormat;
+  /**Expose enum values for backwards compatibility*/
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
+  static constexpr DecodingFormatEnum J2K_CFMT = DecodingFormatEnum::J2K_CFMT;
+  static constexpr DecodingFormatEnum JP2_CFMT = DecodingFormatEnum::JP2_CFMT;
+  static constexpr DecodingFormatEnum JPT_CFMT = DecodingFormatEnum::JPT_CFMT;
+  static constexpr DecodingFormatEnum MJ2_CFMT = DecodingFormatEnum::MJ2_CFMT;
+
   static constexpr DFMFormatType PXM_DFMT = DFMFormatType::PXM_DFMT;
   static constexpr DFMFormatType PGX_DFMT = DFMFormatType::PGX_DFMT;
   static constexpr DFMFormatType BMP_DFMT = DFMFormatType::BMP_DFMT;
@@ -174,20 +166,23 @@ JPEG2000ImageIO::ReadImageInformation()
 
   if (extension == ".j2k")
   {
-    this->m_Internal->m_DecompressionParameters.decod_format = JPEG2000ImageIOInternal::J2K_CFMT;
+    this->m_Internal->m_DecompressionParameters.decod_format =
+      static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::J2K_CFMT);
   }
   else if (extension == ".jp2")
   {
-    this->m_Internal->m_DecompressionParameters.decod_format = JPEG2000ImageIOInternal::JP2_CFMT;
+    this->m_Internal->m_DecompressionParameters.decod_format =
+      static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::JP2_CFMT);
   }
   else if (extension == ".jpt")
   {
-    this->m_Internal->m_DecompressionParameters.decod_format = JPEG2000ImageIOInternal::JPT_CFMT;
+    this->m_Internal->m_DecompressionParameters.decod_format =
+      static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::JPT_CFMT);
   }
 
   switch (this->m_Internal->m_DecompressionParameters.decod_format)
   {
-    case JPEG2000ImageIOInternal::J2K_CFMT:
+    case static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::J2K_CFMT):
     {
       /* JPEG-2000 codestream */
 
@@ -203,7 +198,7 @@ JPEG2000ImageIO::ReadImageInformation()
       }
       break;
     }
-    case JPEG2000ImageIOInternal::JP2_CFMT:
+    case static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::JP2_CFMT):
     {
       /* JPEG 2000 compressed image data */
       /* get a decoder handle */
@@ -218,7 +213,7 @@ JPEG2000ImageIO::ReadImageInformation()
       }
       break;
     }
-    case JPEG2000ImageIOInternal::JPT_CFMT:
+    case static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::JPT_CFMT):
     {
       /* JPEG 2000, JPIP */
       /* get a decoder handle */
@@ -303,11 +298,11 @@ JPEG2000ImageIO::ReadImageInformation()
 
   if (l_image->comps[0].prec == 8)
   {
-    this->SetComponentType(UCHAR);
+    this->SetComponentType(IOComponentEnum::UCHAR);
   }
   else if (l_image->comps[0].prec == 16)
   {
-    this->SetComponentType(USHORT);
+    this->SetComponentType(IOComponentEnum::USHORT);
   }
   else
   {
@@ -321,17 +316,17 @@ JPEG2000ImageIO::ReadImageInformation()
   switch (this->GetNumberOfComponents())
   {
     case 1:
-      this->SetPixelType(SCALAR);
+      this->SetPixelType(IOPixelEnum::SCALAR);
       break;
     case 3:
       if (l_image->color_space != CLRSPC_SRGB)
       {
         itkWarningMacro(<< "file does not specify color space, assuming sRGB");
       }
-      this->SetPixelType(RGB);
+      this->SetPixelType(IOPixelEnum::RGB);
       break;
     default:
-      this->SetPixelType(VECTOR);
+      this->SetPixelType(IOPixelEnum::VECTOR);
   }
 
   itkDebugMacro(<< "bits per pixel = " << l_image->comps[0].prec);
@@ -398,7 +393,7 @@ JPEG2000ImageIO::Read(void * buffer)
   /* ---------------------- */
   switch (this->m_Internal->m_DecompressionParameters.decod_format)
   {
-    case JPEG2000ImageIOInternal::J2K_CFMT:
+    case static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::J2K_CFMT):
     {
       /* JPEG-2000 codestream */
       /* get a decoder handle */
@@ -411,7 +406,7 @@ JPEG2000ImageIO::Read(void * buffer)
       }
       break;
     }
-    case JPEG2000ImageIOInternal::JP2_CFMT:
+    case static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::JP2_CFMT):
     {
       /* JPEG 2000 compressed image data */
       /* get a decoder handle */
@@ -424,7 +419,7 @@ JPEG2000ImageIO::Read(void * buffer)
       }
       break;
     }
-    case JPEG2000ImageIOInternal::JPT_CFMT:
+    case static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::JPT_CFMT):
     {
       /* JPEG 2000, JPIP */
       /* get a decoder handle */
@@ -719,7 +714,7 @@ JPEG2000ImageIO ::WriteImageInformation()
                       << "JPEG 2000 writer can only write 2-dimensional images");
   }
 
-  if (this->GetComponentType() != UCHAR && this->GetComponentType() != USHORT)
+  if (this->GetComponentType() != IOComponentEnum::UCHAR && this->GetComponentType() != IOComponentEnum::USHORT)
   {
     itkExceptionMacro("JPEG2000ImageIO failed to write file: "
                       << this->GetFileName() << std::endl
@@ -752,11 +747,11 @@ JPEG2000ImageIO ::Write(const void * buffer)
   std::string extension = itksys::SystemTools::GetFilenameLastExtension(this->m_FileName.c_str());
   if (extension == ".j2k")
   {
-    parameters.cod_format = JPEG2000ImageIOInternal::J2K_CFMT;
+    parameters.cod_format = static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::J2K_CFMT);
   }
   else if (extension == ".jp2")
   {
-    parameters.cod_format = JPEG2000ImageIOInternal::JP2_CFMT;
+    parameters.cod_format = static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::JP2_CFMT);
   }
 
   strncpy(parameters.outfile, this->m_FileName.c_str(), sizeof(parameters.outfile) - 1);
@@ -851,7 +846,7 @@ JPEG2000ImageIO ::Write(const void * buffer)
   if (this->GetNumberOfComponents() == 3)
   {
 
-    color_space = (this->GetPixelType() == RGB) ? CLRSPC_SRGB : CLRSPC_UNSPECIFIED;
+    color_space = (this->GetPixelType() == IOPixelEnum::RGB) ? CLRSPC_SRGB : CLRSPC_UNSPECIFIED;
 
     /* initialize image components */
     memset(&cmptparms[0], 0, 3 * sizeof(opj_image_cmptparm_t));
@@ -874,13 +869,13 @@ JPEG2000ImageIO ::Write(const void * buffer)
     /* initialize image components */
     memset(&cmptparms[0], 0, sizeof(opj_image_cmptparm_t));
 
-    if (this->GetComponentType() == UCHAR)
+    if (this->GetComponentType() == IOComponentEnum::UCHAR)
     {
       cmptparms[0].prec = 8;
       cmptparms[0].bpp = 8;
     }
 
-    if (this->GetComponentType() == USHORT)
+    if (this->GetComponentType() == IOComponentEnum::USHORT)
     {
       cmptparms[0].prec = 16;
       cmptparms[0].bpp = 16;
@@ -914,7 +909,7 @@ JPEG2000ImageIO ::Write(const void * buffer)
   SizeValueType index = 0;
   SizeValueType numberOfPixels = SizeValueType(w) * SizeValueType(h);
   itkDebugMacro(<< " START COPY BUFFER");
-  if (this->GetComponentType() == UCHAR)
+  if (this->GetComponentType() == IOComponentEnum::UCHAR)
   {
     const auto * charBuffer = (const unsigned char *)buffer;
     for (SizeValueType j = 0; j < numberOfPixels; j++)
@@ -927,7 +922,7 @@ JPEG2000ImageIO ::Write(const void * buffer)
     }
   }
 
-  if (this->GetComponentType() == USHORT)
+  if (this->GetComponentType() == IOComponentEnum::USHORT)
   {
     const auto * shortBuffer = (const unsigned short *)buffer;
     for (SizeValueType j = 0; j < numberOfPixels; j++)
@@ -1130,28 +1125,44 @@ JPEG2000ImageIO ::CanStreamWrite()
   return false;
 }
 
+/** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const JPEG2000ImageIOInternal::DFMFormatType value)
+operator<<(std::ostream & out, const JPEG2000ImageIOInternalEnums::DecodingFormat value)
 {
   return out << [value] {
     switch (value)
     {
-      case JPEG2000ImageIOInternal::DFMFormatType::PXM_DFMT:
-        return "JPEG2000ImageIOInternal::DFMFormatType::PXM_DFMT";
-      case JPEG2000ImageIOInternal::DFMFormatType::PGX_DFMT:
-        return "JPEG2000ImageIOInternal::DFMFormatType::PGX_DFMT";
-      case JPEG2000ImageIOInternal::DFMFormatType::BMP_DFMT:
-        return "JPEG2000ImageIOInternal::DFMFormatType::BMP_DFMT";
-      case JPEG2000ImageIOInternal::DFMFormatType::YUV_DFMT:
-        return "JPEG2000ImageIOInternal::DFMFormatType::YUV_DFMT";
+      case JPEG2000ImageIOInternalEnums::DecodingFormat::J2K_CFMT:
+        return "itk::JPEG2000ImageIOInternalEnums::DecodingFormat::J2K_CFMT";
+      case JPEG2000ImageIOInternalEnums::DecodingFormat::JP2_CFMT:
+        return "itk::JPEG2000ImageIOInternalEnums::DecodingFormat::JP2_CFMT";
+      case JPEG2000ImageIOInternalEnums::DecodingFormat::JPT_CFMT:
+        return "itk::JPEG2000ImageIOInternalEnums::DecodingFormat::JPT_CFMT";
+      case JPEG2000ImageIOInternalEnums::DecodingFormat::MJ2_CFMT:
+        return "itk::JPEG2000ImageIOInternalEnums::DecodingFormat::MJ2_CFMT";
       default:
-        return "INVALID VALUE FOR JPEG2000ImageIOInternal::DFMFormatType";
+        return "INVALID VALUE FOR itk::JPEG2000ImageIOInternalEnums::DecodingFormat";
     }
   }();
 }
-
-// Define how to print enumeration
+/** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const JPEG2000ImageIOInternal::DFMFormatType value);
-
+operator<<(std::ostream & out, const JPEG2000ImageIOInternalEnums::DFMFormat value)
+{
+  return out << [value] {
+    switch (value)
+    {
+      case JPEG2000ImageIOInternalEnums::DFMFormat::PXM_DFMT:
+        return "itk::JPEG2000ImageIOInternalEnums::DFMFormat::PXM_DFMT";
+      case JPEG2000ImageIOInternalEnums::DFMFormat::PGX_DFMT:
+        return "itk::JPEG2000ImageIOInternalEnums::DFMFormat::PGX_DFMT";
+      case JPEG2000ImageIOInternalEnums::DFMFormat::BMP_DFMT:
+        return "itk::JPEG2000ImageIOInternalEnums::DFMFormat::BMP_DFMT";
+      case JPEG2000ImageIOInternalEnums::DFMFormat::YUV_DFMT:
+        return "itk::JPEG2000ImageIOInternalEnums::DFMFormat::YUV_DFMT";
+      default:
+        return "INVALID VALUE FOR itk::JPEG2000ImageIOInternalEnums::DFMFormat";
+    }
+  }();
+}
 } // end namespace itk

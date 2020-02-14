@@ -37,7 +37,8 @@
 
 namespace itk
 {
-/** \class BSplineDecompositionImageFilter
+/**
+ *\class BSplineDecompositionImageFilter
  * \brief Calculates the B-Spline coefficients of an image. Spline order may be from 0 to 5.
  *
  * This class defines N-Dimension B-Spline transformation.

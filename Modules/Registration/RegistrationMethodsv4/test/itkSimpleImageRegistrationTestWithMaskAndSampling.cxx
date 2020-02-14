@@ -168,7 +168,7 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
   affineSimple->SetObjectName("affineSimple");
   affineSimple->SetFixedImage(fixedImage);
   affineSimple->SetMovingImage(movingImage);
-  affineSimple->SetMetricSamplingStrategy(AffineRegistrationType::REGULAR);
+  affineSimple->SetMetricSamplingStrategy(AffineRegistrationType::MetricSamplingStrategyEnum::REGULAR);
   affineSimple->SetMetricSamplingPercentage(0.5);
   affineSimple->SetInitialTransform(affineTransform);
   affineSimple->InPlaceOn();

@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class LiThresholdImageFilter
+/**
+ *\class LiThresholdImageFilter
  * \brief Threshold an image using the Li Threshold
  *
  * This filter creates a binary thresholded image that separates an

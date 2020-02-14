@@ -24,28 +24,58 @@
 
 namespace itk
 {
-/** \class RGBColormapFilterEnum
+/**\class ScalarToRGBColormapImageFilterEnums
+ * \brief Contains all enum classes for ScalarToRGBColormapImageFilter class
  * \ingroup ITKColormap
- * Enum type that provides for an easy interface to existing colormaps. */
-enum class RGBColormapFilterEnum : uint8_t
+ */
+class ScalarToRGBColormapImageFilterEnums
 {
-  Red,
-  Green,
-  Blue,
-  Grey,
-  Hot,
-  Cool,
-  Spring,
-  Summer,
-  Autumn,
-  Winter,
-  Copper,
-  Jet,
-  HSV,
-  OverUnder
+public:
+  /**\class RGBColormapFilter
+   * \ingroup ITKColormap
+   * Enum type that provides for an easy interface to existing colormaps. */
+  enum class RGBColormapFilter : uint8_t
+  {
+    Red,
+    Green,
+    Blue,
+    Grey,
+    Hot,
+    Cool,
+    Spring,
+    Summer,
+    Autumn,
+    Winter,
+    Copper,
+    Jet,
+    HSV,
+    OverUnder
+  };
 };
-
-/** \class ScalarToRGBColormapImageFilter
+#if !defined(ITK_LEGACY_REMOVE)
+using RGBColormapFilterEnum = ScalarToRGBColormapImageFilterEnums::RGBColormapFilter;
+// We need to expose the enum values at the class level
+// for backwards compatibility
+static constexpr RGBColormapFilterEnum Red = RGBColormapFilterEnum::Red;
+static constexpr RGBColormapFilterEnum Green = RGBColormapFilterEnum::Green;
+static constexpr RGBColormapFilterEnum Blue = RGBColormapFilterEnum::Blue;
+static constexpr RGBColormapFilterEnum Grey = RGBColormapFilterEnum::Grey;
+static constexpr RGBColormapFilterEnum Hot = RGBColormapFilterEnum::Hot;
+static constexpr RGBColormapFilterEnum Cool = RGBColormapFilterEnum::Cool;
+static constexpr RGBColormapFilterEnum Spring = RGBColormapFilterEnum::Spring;
+static constexpr RGBColormapFilterEnum Summer = RGBColormapFilterEnum::Summer;
+static constexpr RGBColormapFilterEnum Autumn = RGBColormapFilterEnum::Autumn;
+static constexpr RGBColormapFilterEnum Winter = RGBColormapFilterEnum::Winter;
+static constexpr RGBColormapFilterEnum Copper = RGBColormapFilterEnum::Copper;
+static constexpr RGBColormapFilterEnum Jet = RGBColormapFilterEnum::Jet;
+static constexpr RGBColormapFilterEnum HSV = RGBColormapFilterEnum::HSV;
+static constexpr RGBColormapFilterEnum OverUnder = RGBColormapFilterEnum::OverUnder;
+#endif
+/** Define how to print enumerations */
+extern ITKColormap_EXPORT std::ostream &
+                          operator<<(std::ostream & out, const ScalarToRGBColormapImageFilterEnums::RGBColormapFilter value);
+/**
+ *\class ScalarToRGBColormapImageFilter
  * \brief Implements pixel-wise intensity->rgb mapping operation on one image.
  *
  * This class is parameterized over the type of the input image and
@@ -125,32 +155,36 @@ public:
 
   using ColormapType = Function::ColormapFunction<InputImagePixelType, OutputImagePixelType>;
 
+  using RGBColormapFilterEnum = ScalarToRGBColormapImageFilterEnums::RGBColormapFilter;
+#if !defined(ITK_LEGACY_REMOVE)
+  /** Reverse compatibility for enum values */
+  using ColormapEnumType = RGBColormapFilterEnum;
+#endif
+
+#if !defined(ITK_LEGACY_REMOVE)
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr RGBColormapFilterEnum Red = RGBColormapFilterEnum::Red;
+  static constexpr RGBColormapFilterEnum Green = RGBColormapFilterEnum::Green;
+  static constexpr RGBColormapFilterEnum Blue = RGBColormapFilterEnum::Blue;
+  static constexpr RGBColormapFilterEnum Grey = RGBColormapFilterEnum::Grey;
+  static constexpr RGBColormapFilterEnum Hot = RGBColormapFilterEnum::Hot;
+  static constexpr RGBColormapFilterEnum Cool = RGBColormapFilterEnum::Cool;
+  static constexpr RGBColormapFilterEnum Spring = RGBColormapFilterEnum::Spring;
+  static constexpr RGBColormapFilterEnum Summer = RGBColormapFilterEnum::Summer;
+  static constexpr RGBColormapFilterEnum Autumn = RGBColormapFilterEnum::Autumn;
+  static constexpr RGBColormapFilterEnum Winter = RGBColormapFilterEnum::Winter;
+  static constexpr RGBColormapFilterEnum Copper = RGBColormapFilterEnum::Copper;
+  static constexpr RGBColormapFilterEnum Jet = RGBColormapFilterEnum::Jet;
+  static constexpr RGBColormapFilterEnum HSV = RGBColormapFilterEnum::HSV;
+  static constexpr RGBColormapFilterEnum OverUnder = RGBColormapFilterEnum::OverUnder;
+#endif
+
   /** Set/Get the colormap object. */
   itkSetObjectMacro(Colormap, ColormapType);
   itkGetModifiableObjectMacro(Colormap, ColormapType);
 
-  /** Reverse compatibility for enum values */
-  using ColormapEnumType = RGBColormapFilterEnum;
-#if !defined(ITK_LEGACY_REMOVE)
-  // We need to expose the enum values at the class level
-  // for backwards compatibility
-  static constexpr ColormapEnumType Red = ColormapEnumType::Red;
-  static constexpr ColormapEnumType Green = ColormapEnumType::Green;
-  static constexpr ColormapEnumType Blue = ColormapEnumType::Blue;
-  static constexpr ColormapEnumType Grey = ColormapEnumType::Grey;
-  static constexpr ColormapEnumType Hot = ColormapEnumType::Hot;
-  static constexpr ColormapEnumType Cool = ColormapEnumType::Cool;
-  static constexpr ColormapEnumType Spring = ColormapEnumType::Spring;
-  static constexpr ColormapEnumType Summer = ColormapEnumType::Summer;
-  static constexpr ColormapEnumType Autumn = ColormapEnumType::Autumn;
-  static constexpr ColormapEnumType Winter = ColormapEnumType::Winter;
-  static constexpr ColormapEnumType Copper = ColormapEnumType::Copper;
-  static constexpr ColormapEnumType Jet = ColormapEnumType::Jet;
-  static constexpr ColormapEnumType HSV = ColormapEnumType::HSV;
-  static constexpr ColormapEnumType OverUnder = ColormapEnumType::OverUnder;
-#endif
-
-  void SetColormap(ColormapEnumType);
+  void SetColormap(RGBColormapFilterEnum);
 
   /** Set/Get UseInputImageExtremaForScaling. If true, the colormap uses the
    * min and max values from the image to scale appropriately. Otherwise,
@@ -209,10 +243,6 @@ private:
 
   bool m_UseInputImageExtremaForScaling;
 };
-
-/** Define how to print enumerations */
-extern ITKColormap_EXPORT std::ostream &
-                          operator<<(std::ostream & out, const RGBColormapFilterEnum value);
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

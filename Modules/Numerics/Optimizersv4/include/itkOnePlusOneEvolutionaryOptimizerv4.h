@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class OnePlusOneEvolutionaryOptimizerv4
+/**
+ *\class OnePlusOneEvolutionaryOptimizerv4
  * \brief 1+1 evolutionary strategy optimizer
  *
  * This optimizer searches for the optimal parameters. It changes its search

@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \class TriangleThresholdCalculator
+/**
+ *\class TriangleThresholdCalculator
  * \brief Computes the Triangle's threshold for an image.
  *
  * This calculator computes the Triangle's threshold which separates an image

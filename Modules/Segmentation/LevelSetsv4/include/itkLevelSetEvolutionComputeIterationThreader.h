@@ -28,7 +28,8 @@
 namespace itk
 {
 
-/** \class LevelSetEvolutionComputeIterationThreader
+/**
+ *\class LevelSetEvolutionComputeIterationThreader
  * \brief Thread the ComputeIteration method.
  *
  * Thread the \c ComputeIteration method of the LevelSetEvolution class

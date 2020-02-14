@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class RedPixelAccessor
+/**
+ *\class RedPixelAccessor
  * \brief Give access to the red component of a RGBPixel type.
  *
  * This class is intended to be used as parameter of

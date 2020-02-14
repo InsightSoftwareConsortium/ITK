@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \class PhysicalPointImageSource
+/**
+ *\class PhysicalPointImageSource
  * \brief Generate an image of the physical locations of each pixel.
  *
  * This image source supports image which have a multi-component pixel

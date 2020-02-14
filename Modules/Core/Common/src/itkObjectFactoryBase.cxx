@@ -926,7 +926,7 @@ ObjectFactoryBase ::GetClassOverrideWithNames()
 }
 
 /**
- * Retrun a list of descriptions for class overrides
+ * Return a list of descriptions for class overrides
  */
 std::list<std::string>
 ObjectFactoryBase ::GetClassOverrideDescriptions()
@@ -962,23 +962,4 @@ ObjectFactoryBase ::GetLibraryPath()
 }
 
 ObjectFactoryBasePrivate * ObjectFactoryBase::m_PimplGlobals;
-
-/** Print enumerations */
-std::ostream &
-operator<<(std::ostream & out, const ObjectFactoryBase::InsertionPositionEnum value)
-{
-  return out << [value] {
-    switch (value)
-    {
-      case ObjectFactoryBase::InsertionPositionEnum::INSERT_AT_FRONT:
-        return "ObjectFactoryBase::InsertionPositionEnum::INSERT_AT_FRONT";
-      case ObjectFactoryBase::InsertionPositionEnum::INSERT_AT_BACK:
-        return "ObjectFactoryBase::InsertionPositionEnum::INSERT_AT_BACK";
-      case ObjectFactoryBase::InsertionPositionEnum::INSERT_AT_POSITION:
-        return "ObjectFactoryBase::InsertionPositionEnum::INSERT_AT_POSITION";
-      default:
-        return "INVALID VALUE FOR ObjectFactoryBase::InsertionPositionEnum";
-    }
-  }();
-}
 } // end namespace itk

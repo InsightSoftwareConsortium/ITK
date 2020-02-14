@@ -87,10 +87,10 @@ ParameterizationQuadEdgeMeshFilterTest(int argc, char * argv[])
   switch (border) // choose border type
   {
     case 0: // square shaped domain
-      border_transform->SetTransformType(BorderTransformType::SQUARE_BORDER_TRANSFORM);
+      border_transform->SetTransformType(itk::BorderQuadEdgeMeshFilterEnums::BorderTransform::SQUARE_BORDER_TRANSFORM);
       break;
     case 1: // disk shaped domain
-      border_transform->SetTransformType(BorderTransformType::DISK_BORDER_TRANSFORM);
+      border_transform->SetTransformType(itk::BorderQuadEdgeMeshFilterEnums::BorderTransform::DISK_BORDER_TRANSFORM);
       break;
     default: // handle .... user ....
       std::cerr << "2nd argument must be " << std::endl;

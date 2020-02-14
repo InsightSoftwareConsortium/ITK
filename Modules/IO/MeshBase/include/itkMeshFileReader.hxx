@@ -138,10 +138,10 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
   OutputCellIdentifier id = NumericTraits<OutputCellIdentifier>::ZeroValue();
   while (index < m_MeshIO->GetCellBufferSize())
   {
-    auto type = static_cast<MeshIOBase::CellGeometryType>(static_cast<int>(buffer[index++]));
+    auto type = static_cast<CellGeometryEnum>(static_cast<int>(buffer[index++]));
     switch (type)
     {
-      case MeshIOBase::VERTEX_CELL:
+      case CellGeometryEnum::VERTEX_CELL:
       {
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints != OutputVertexCellType::NumberOfPoints)
@@ -159,7 +159,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         output->SetCell(id++, cell);
         break;
       }
-      case MeshIOBase::LINE_CELL:
+      case CellGeometryEnum::LINE_CELL:
       {
         // for polylines will be loaded as individual edges.
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
@@ -180,7 +180,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         }
         break;
       }
-      case MeshIOBase::TRIANGLE_CELL:
+      case CellGeometryEnum::TRIANGLE_CELL:
       {
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints != OutputTriangleCellType::NumberOfPoints)
@@ -199,7 +199,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         output->SetCell(id++, cell);
         break;
       }
-      case MeshIOBase::QUADRILATERAL_CELL:
+      case CellGeometryEnum::QUADRILATERAL_CELL:
       {
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints != OutputQuadrilateralCellType::NumberOfPoints)
@@ -218,7 +218,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         output->SetCell(id++, cell);
         break;
       }
-      case MeshIOBase::POLYGON_CELL:
+      case CellGeometryEnum::POLYGON_CELL:
       {
         // For polyhedron, if the number of points is 3, then we treat it as
         // triangle cell
@@ -246,7 +246,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         output->SetCell(id++, cell);
         break;
       }
-      case MeshIOBase::TETRAHEDRON_CELL:
+      case CellGeometryEnum::TETRAHEDRON_CELL:
       {
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints != OutputTetrahedronCellType::NumberOfPoints)
@@ -265,7 +265,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         output->SetCell(id++, cell);
         break;
       }
-      case MeshIOBase::HEXAHEDRON_CELL:
+      case CellGeometryEnum::HEXAHEDRON_CELL:
       {
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints != OutputHexahedronCellType::NumberOfPoints)
@@ -284,7 +284,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         output->SetCell(id++, cell);
         break;
       }
-      case MeshIOBase::QUADRATIC_EDGE_CELL:
+      case CellGeometryEnum::QUADRATIC_EDGE_CELL:
       {
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints != OutputQuadraticEdgeCellType::NumberOfPoints)
@@ -303,7 +303,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         output->SetCell(id++, cell);
         break;
       }
-      case MeshIOBase::QUADRATIC_TRIANGLE_CELL:
+      case CellGeometryEnum::QUADRATIC_TRIANGLE_CELL:
       {
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints != OutputQuadraticTriangleCellType::NumberOfPoints)
@@ -484,7 +484,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
 
   if (m_UserSpecifiedMeshIO == false) // try creating via factory
   {
-    m_MeshIO = MeshIOFactory::CreateMeshIO(m_FileName.c_str(), MeshIOFactory::FileModeEnum::ReadMode);
+    m_MeshIO = MeshIOFactory::CreateMeshIO(m_FileName.c_str(), MeshIOFactory::IOFileModeEnum::ReadMode);
   }
 
   if (m_MeshIO.IsNull())
@@ -550,7 +550,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
   {
     switch (m_MeshIO->GetPointComponentType())
     {
-      case MeshIOBase::CHAR:
+      case IOComponentEnum::CHAR:
       {
         auto * pointsBuffer = new char[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
@@ -558,7 +558,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] pointsBuffer;
         break;
       }
-      case MeshIOBase::UCHAR:
+      case IOComponentEnum::UCHAR:
       {
         auto * pointsBuffer = new unsigned char[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
@@ -566,7 +566,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] pointsBuffer;
         break;
       }
-      case MeshIOBase::SHORT:
+      case IOComponentEnum::SHORT:
       {
         auto * pointsBuffer = new short[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
@@ -574,7 +574,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] pointsBuffer;
         break;
       }
-      case MeshIOBase::USHORT:
+      case IOComponentEnum::USHORT:
       {
         auto * pointsBuffer = new unsigned short[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
@@ -582,7 +582,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] pointsBuffer;
         break;
       }
-      case MeshIOBase::INT:
+      case IOComponentEnum::INT:
       {
         auto * pointsBuffer = new int[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
@@ -590,7 +590,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] pointsBuffer;
         break;
       }
-      case MeshIOBase::UINT:
+      case IOComponentEnum::UINT:
       {
         auto * pointsBuffer = new unsigned int[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
@@ -598,7 +598,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] pointsBuffer;
         break;
       }
-      case MeshIOBase::LONG:
+      case IOComponentEnum::LONG:
       {
         auto * pointsBuffer = new long[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
@@ -606,7 +606,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] pointsBuffer;
         break;
       }
-      case MeshIOBase::ULONG:
+      case IOComponentEnum::ULONG:
       {
         auto * pointsBuffer = new unsigned long[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
@@ -614,7 +614,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] pointsBuffer;
         break;
       }
-      case MeshIOBase::LONGLONG:
+      case IOComponentEnum::LONGLONG:
       {
         auto * pointsBuffer = new long long[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
@@ -622,7 +622,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] pointsBuffer;
         break;
       }
-      case MeshIOBase::ULONGLONG:
+      case IOComponentEnum::ULONGLONG:
       {
         auto * pointsBuffer = new unsigned long long[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
@@ -630,7 +630,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] pointsBuffer;
         break;
       }
-      case MeshIOBase::FLOAT:
+      case IOComponentEnum::FLOAT:
       {
         auto * pointsBuffer = new float[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
@@ -638,7 +638,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] pointsBuffer;
         break;
       }
-      case MeshIOBase::DOUBLE:
+      case IOComponentEnum::DOUBLE:
       {
         auto * pointsBuffer = new double[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
@@ -646,7 +646,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] pointsBuffer;
         break;
       }
-      case MeshIOBase::LDOUBLE:
+      case IOComponentEnum::LDOUBLE:
       {
         auto * pointsBuffer = new long double[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
         m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
@@ -654,7 +654,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] pointsBuffer;
         break;
       }
-      case MeshIOBase::UNKNOWNCOMPONENTTYPE:
+      case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
       default:
       {
         itkExceptionMacro(<< "Unknown point component type");
@@ -667,7 +667,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
   {
     switch (m_MeshIO->GetCellComponentType())
     {
-      case MeshIOBase::CHAR:
+      case IOComponentEnum::CHAR:
       {
         auto * cellsBuffer = new char[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
@@ -675,7 +675,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] cellsBuffer;
         break;
       }
-      case MeshIOBase::UCHAR:
+      case IOComponentEnum::UCHAR:
       {
         auto * cellsBuffer = new unsigned char[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
@@ -683,7 +683,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] cellsBuffer;
         break;
       }
-      case MeshIOBase::SHORT:
+      case IOComponentEnum::SHORT:
       {
         auto * cellsBuffer = new short[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
@@ -691,7 +691,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] cellsBuffer;
         break;
       }
-      case MeshIOBase::USHORT:
+      case IOComponentEnum::USHORT:
       {
         auto * cellsBuffer = new unsigned short[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
@@ -699,7 +699,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] cellsBuffer;
         break;
       }
-      case MeshIOBase::INT:
+      case IOComponentEnum::INT:
       {
         auto * cellsBuffer = new int[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
@@ -707,7 +707,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] cellsBuffer;
         break;
       }
-      case MeshIOBase::UINT:
+      case IOComponentEnum::UINT:
       {
         auto * cellsBuffer = new unsigned int[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
@@ -715,7 +715,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] cellsBuffer;
         break;
       }
-      case MeshIOBase::LONG:
+      case IOComponentEnum::LONG:
       {
         auto * cellsBuffer = new long[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
@@ -723,7 +723,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] cellsBuffer;
         break;
       }
-      case MeshIOBase::ULONG:
+      case IOComponentEnum::ULONG:
       {
         auto * cellsBuffer = new unsigned long[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
@@ -731,7 +731,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] cellsBuffer;
         break;
       }
-      case MeshIOBase::LONGLONG:
+      case IOComponentEnum::LONGLONG:
       {
         auto * cellsBuffer = new long long[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
@@ -739,7 +739,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] cellsBuffer;
         break;
       }
-      case MeshIOBase::ULONGLONG:
+      case IOComponentEnum::ULONGLONG:
       {
         auto * cellsBuffer = new unsigned long long[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
@@ -747,7 +747,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] cellsBuffer;
         break;
       }
-      case MeshIOBase::FLOAT:
+      case IOComponentEnum::FLOAT:
       {
         auto * cellsBuffer = new float[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
@@ -755,7 +755,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] cellsBuffer;
         break;
       }
-      case MeshIOBase::DOUBLE:
+      case IOComponentEnum::DOUBLE:
       {
         auto * cellsBuffer = new double[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
@@ -763,7 +763,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] cellsBuffer;
         break;
       }
-      case MeshIOBase::LDOUBLE:
+      case IOComponentEnum::LDOUBLE:
       {
         auto * cellsBuffer = new long double[m_MeshIO->GetCellBufferSize()];
         m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
@@ -771,7 +771,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         delete[] cellsBuffer;
         break;
       }
-      case MeshIOBase::UNKNOWNCOMPONENTTYPE:
+      case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
       default:
       {
         itkExceptionMacro(<< "Unknown cell component type");
@@ -821,19 +821,19 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Co
   if (false)
   {
   }
-  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::UCHAR, unsigned char)
-  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::CHAR, char)
-  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::USHORT, unsigned short)
-  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::SHORT, short)
-  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::UINT, unsigned int)
-  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::INT, int)
-  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::ULONG, unsigned long)
-  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::LONG, long)
-  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::ULONGLONG, unsigned long long)
-  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::LONGLONG, long long)
-  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::FLOAT, float)
-  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::DOUBLE, double)
-  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::LDOUBLE, long double)
+  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::UCHAR, unsigned char)
+  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::CHAR, char)
+  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::USHORT, unsigned short)
+  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::SHORT, short)
+  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::UINT, unsigned int)
+  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::INT, int)
+  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::ULONG, unsigned long)
+  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::LONG, long)
+  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::ULONGLONG, unsigned long long)
+  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::LONGLONG, long long)
+  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::FLOAT, float)
+  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::DOUBLE, double)
+  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::LDOUBLE, long double)
   else
   {
     MeshFileReaderException e(__FILE__, __LINE__);
@@ -893,19 +893,19 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Co
   if (false)
   {
   }
-  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::UCHAR, unsigned char)
-  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::CHAR, char)
-  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::USHORT, unsigned short)
-  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::SHORT, short)
-  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::UINT, unsigned int)
-  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::INT, int)
-  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::ULONG, unsigned long)
-  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::LONG, long)
-  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::ULONGLONG, unsigned long long)
-  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::LONGLONG, long long)
-  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::FLOAT, float)
-  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::DOUBLE, double)
-  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(MeshIOBase::LDOUBLE, long double)
+  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::UCHAR, unsigned char)
+  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::CHAR, char)
+  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::USHORT, unsigned short)
+  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::SHORT, short)
+  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::UINT, unsigned int)
+  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::INT, int)
+  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::ULONG, unsigned long)
+  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::LONG, long)
+  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::ULONGLONG, unsigned long long)
+  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::LONGLONG, long long)
+  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::FLOAT, float)
+  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::DOUBLE, double)
+  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::LDOUBLE, long double)
   else
   {
     MeshFileReaderException e(__FILE__, __LINE__);

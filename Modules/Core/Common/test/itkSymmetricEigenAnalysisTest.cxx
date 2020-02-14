@@ -22,6 +22,7 @@
 #include "itkArray2D.h"
 #include <iomanip>
 #include <array>
+#include <set>
 #include "itkTestingMacros.h"
 
 
@@ -423,6 +424,17 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
         }
       }
     }
+  }
+
+  // Test streaming enumeration for SymmetricEigenAnalysisEnums::EigenValueOrder elements
+  const std::set<itk::SymmetricEigenAnalysisEnums::EigenValueOrder> allEigenValueOrder{
+    itk::SymmetricEigenAnalysisEnums::EigenValueOrder::OrderByValue,
+    itk::SymmetricEigenAnalysisEnums::EigenValueOrder::OrderByMagnitude,
+    itk::SymmetricEigenAnalysisEnums::EigenValueOrder::DoNotOrder
+  };
+  for (const auto & ee : allEigenValueOrder)
+  {
+    std::cout << "STREAMED ENUM VALUE SymmetricEigenAnalysisEnums::EigenValueOrder: " << ee << std::endl;
   }
 
   std::cout << "[TEST PASSED]" << std::endl;

@@ -481,9 +481,9 @@ public:
   int
   GetDimensions(unsigned short & rows, unsigned short & columns) const;
 
-  ImageIOBase::IOComponentType
+  IOComponentEnum
   GetImageDataType() const;
-  ImageIOBase::IOPixelType
+  IOPixelEnum
   GetImagePixelType() const;
 
   int

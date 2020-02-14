@@ -27,7 +27,8 @@
 namespace itk
 {
 
-/** \class LabelMapToRGBImageFilter
+/**
+ *\class LabelMapToRGBImageFilter
  * \brief Convert a LabelMap to a colored image
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.

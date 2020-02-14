@@ -26,7 +26,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class WeightedMeanSampleFilter
+/**
+ *\class WeightedMeanSampleFilter
  * \brief Given a sample where each measurement vector has
  * associated weight value, this filter computes the sample mean
  *

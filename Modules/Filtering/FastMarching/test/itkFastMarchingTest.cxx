@@ -195,6 +195,19 @@ itkFastMarchingTest(int, char *[])
 
   marcher->Print(std::cout);
 
+  // Test streaming enumeration for FastMarchingImageFilterEnums::Label elements
+  const std::set<itk::FastMarchingImageFilterEnums::Label> allLabel{
+    itk::FastMarchingImageFilterEnums::Label::FarPoint,
+    itk::FastMarchingImageFilterEnums::Label::AlivePoint,
+    itk::FastMarchingImageFilterEnums::Label::TrialPoint,
+    itk::FastMarchingImageFilterEnums::Label::InitialTrialPoint,
+    itk::FastMarchingImageFilterEnums::Label::OutsidePoint
+  };
+  for (const auto & ee : allLabel)
+  {
+    std::cout << "STREAMED ENUM VALUE FastMarchingImageFilterEnums::Label: " << ee << std::endl;
+  }
+
   if (passed)
   {
     std::cout << "Fast Marching test passed" << std::endl;

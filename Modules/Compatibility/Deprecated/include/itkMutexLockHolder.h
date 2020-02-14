@@ -32,7 +32,8 @@
 
 namespace itk
 {
-/** \class MutexLockHolder
+/**
+ *\class MutexLockHolder
  *  \brief A container to store a Mutex.
  *  This holder class for ensuring that locks are released in
  *  the event of an exception being thrown after the lock was

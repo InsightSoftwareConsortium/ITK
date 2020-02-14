@@ -27,7 +27,8 @@
 
 namespace itk
 {
-/** \class GDCMSeriesFileNames
+/**
+ *\class GDCMSeriesFileNames
  * \brief Generate a sequence of filenames from a DICOM series.
  *
  * This class generates a sequence of files whose filenames point to

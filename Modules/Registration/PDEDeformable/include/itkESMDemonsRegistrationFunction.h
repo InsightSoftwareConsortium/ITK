@@ -21,10 +21,33 @@
 #include "itkPDEDeformableRegistrationFunction.h"
 #include "itkCentralDifferenceImageFunction.h"
 #include "itkWarpImageFilter.h"
+#include "ITKPDEDeformableRegistrationExport.h"
 #include <mutex>
 
 namespace itk
 {
+/**\class ESMDemonsRegistrationFunctionEnums
+ * \brief Contains all enum classes used by ESMDemonsRegistrationFunction class.
+ * \ingroup ITKPDEDeformableRegistration
+ */
+class ESMDemonsRegistrationFunctionEnums
+{
+public:
+  /**\class GradientEnum
+   * \ingroup FiniteDifferenceFunctions
+   * \ingroup ITKPDEDeformableRegistration
+   * Type of available image forces */
+  enum class Gradient : uint8_t
+  {
+    Symmetric = 0,
+    Fixed = 1,
+    WarpedMoving = 2,
+    MappedMoving = 3
+  };
+};
+// Define how to print enumeration
+extern ITKPDEDeformableRegistration_EXPORT std::ostream &
+                                           operator<<(std::ostream & out, const ESMDemonsRegistrationFunctionEnums::Gradient value);
 /**
  * \class ESMDemonsRegistrationFunction
  *
@@ -218,22 +241,22 @@ public:
     return this->m_MaximumUpdateStepLength;
   }
 
-  /** Type of available image forces */
-  enum GradientType
-  {
-    Symmetric = 0,
-    Fixed = 1,
-    WarpedMoving = 2,
-    MappedMoving = 3
-  };
+  using GradientEnum = ESMDemonsRegistrationFunctionEnums::Gradient;
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enums values for backwards compatibility*/
+  static constexpr GradientEnum Symmetric = GradientEnum::Symmetric;
+  static constexpr GradientEnum Fixed = GradientEnum::Fixed;
+  static constexpr GradientEnum WarpedMoving = GradientEnum::WarpedMoving;
+  static constexpr GradientEnum MappedMoving = GradientEnum::MappedMoving;
+#endif
 
   /** Set/Get the type of used image forces */
   virtual void
-  SetUseGradientType(GradientType gtype)
+  SetUseGradientType(GradientEnum gtype)
   {
     m_UseGradientType = gtype;
   }
-  virtual GradientType
+  virtual GradientEnum
   GetUseGradientType() const
   {
     return m_UseGradientType;
@@ -270,7 +293,7 @@ private:
   /** Function to compute derivatives of the moving image (unwarped). */
   MovingImageGradientCalculatorPointer m_MappedMovingImageGradientCalculator;
 
-  GradientType m_UseGradientType;
+  GradientEnum m_UseGradientType;
 
   /** Function to interpolate the moving image. */
   InterpolatorPointer m_MovingImageInterpolator;

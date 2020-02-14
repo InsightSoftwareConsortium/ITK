@@ -271,7 +271,7 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::ComputeGradient(
 
     if (!(neighIndex[j] > lastIndex[j] || neighIndex[j] < startIndex[j]))
     {
-      if (this->GetLabelImage()->GetPixel(neighIndex) == Superclass::AlivePoint)
+      if (this->GetLabelImage()->GetPixel(neighIndex) == Superclass::LabelEnum::AlivePoint)
       {
         dx_backward = centerPixel - output->GetPixel(neighIndex);
       }
@@ -282,7 +282,7 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::ComputeGradient(
 
     if (!(neighIndex[j] > lastIndex[j] || neighIndex[j] < startIndex[j]))
     {
-      if (this->GetLabelImage()->GetPixel(neighIndex) == Superclass::AlivePoint)
+      if (this->GetLabelImage()->GetPixel(neighIndex) == Superclass::LabelEnum::AlivePoint)
       {
         dx_forward = output->GetPixel(neighIndex) - centerPixel;
       }

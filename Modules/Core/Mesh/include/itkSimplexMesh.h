@@ -104,6 +104,9 @@ public:
   using GeometryMapIterator = typename GeometryMapType::Iterator;
   using GeometryMapConstIterator = typename GeometryMapType::ConstIterator;
 
+  // Backward compatibility to expose enum from class.
+  using MeshClassCellsAllocationMethodEnum = itk::MeshEnums::MeshClassCellsAllocationMethod;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 

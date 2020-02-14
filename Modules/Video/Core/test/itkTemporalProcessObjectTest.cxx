@@ -30,30 +30,99 @@ namespace TemporalProcessObjectTest
 
 using SizeValueType = ::itk::SizeValueType;
 using OffsetValueType = ::itk::OffsetValueType;
-/** \class CallRecord
+
+/**\class CallRecordEnumms
+ * \brief Contains all enum classes for CallRecord class.
+ */
+class CallRecordEnums
+{
+public:
+  /**
+   * \class RecordType
+   * Record type used.*/
+  enum class RecordType : uint8_t
+  {
+    START_CALL,
+    END_CALL,
+    MAX_RECORD_TYPE
+  };
+  /***
+   * \class MethodType
+   * Method type used*/
+  enum class MethodType : uint8_t
+  {
+    GENERATE_DATA,
+    STREAMING_GENERATE_DATA,
+    MAX_METHOD_TYPE
+  };
+};
+// Define how to print enumeration
+extern ITKVideoCore_EXPORT std::ostream &
+                           operator<<(std::ostream & out, const CallRecordEnums::RecordType value);
+extern ITKVideoCore_EXPORT std::ostream &
+                           operator<<(std::ostream & out, const CallRecordEnums::MethodType value);
+
+/** Print enum values */
+std::ostream &
+operator<<(std::ostream & out, const CallRecordEnums::RecordType value)
+{
+  return out << [value] {
+    switch (value)
+    {
+      case CallRecordEnums::RecordType::START_CALL:
+        return "itk::CallRecordEnums::RecordType::START_CALL";
+      case CallRecordEnums::RecordType::END_CALL:
+        return "itk::CallRecordEnums::RecordType::END_CALL";
+      case CallRecordEnums::RecordType::MAX_RECORD_TYPE:
+        return "itk::CallRecordEnums::RecordType::MAX_RECORD_TYPE";
+      default:
+        return "INVALID VALUE FOR itk::CallRecordEnums::RecordType";
+    }
+  }();
+}
+std::ostream &
+operator<<(std::ostream & out, const CallRecordEnums::MethodType value)
+{
+  return out << [value] {
+    switch (value)
+    {
+      case CallRecordEnums::MethodType::GENERATE_DATA:
+        return "itk::CallRecordEnums::MethodType::GENERATE_DATA";
+      case CallRecordEnums::MethodType::STREAMING_GENERATE_DATA:
+        return "itk::CallRecordEnums::MethodType::STREAMING_GENERATE_DATA";
+      case CallRecordEnums::MethodType::MAX_METHOD_TYPE:
+        return "itk::CallRecordEnums::MethodType::MAX_METHOD_TYPE";
+      default:
+        return "INVALID VALUE FOR itk::CallRecordEnums::MethodType";
+    }
+  }();
+}
+
+/**
+ *\class CallRecord
  * Record of a start or end of a GenerateDataCall from a
  * DummyTemporalProcessObject instance
  */
 class CallRecord
 {
 public:
-  enum RecordTypeEnum
-  {
-    START_CALL,
-    END_CALL,
-    MAX_RECORD_TYPE
-  };
-  enum MethodTypeEnum
-  {
-    GENERATE_DATA,
-    STREAMING_GENERATE_DATA,
-    MAX_METHOD_TYPE
-  };
+  using RecordTypeEnum = CallRecordEnums::RecordType;
+  using MethodTypeEnum = CallRecordEnums::MethodType;
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enums values for backwards compatibility*/
+  static constexpr RecordTypeEnum START_CALL = RecordTypeEnum::START_CALL;
+  static constexpr RecordTypeEnum END_CALL = RecordTypeEnum::END_CALL;
+  static constexpr RecordTypeEnum MAX_RECORD_TYPE = RecordTypeEnum::MAX_RECORD_TYPE;
+
+  static constexpr MethodTypeEnum GENERATE_DATA = MethodTypeEnum::GENERATE_DATA;
+  static constexpr MethodTypeEnum STREAMING_GENERATE_DATA = MethodTypeEnum::STREAMING_GENERATE_DATA;
+  static constexpr MethodTypeEnum MAX_METHOD_TYPE = MethodTypeEnum::MAX_METHOD_TYPE;
+#endif
 
   /** Constructor that takes necessary info */
-  CallRecord(SizeValueType callerId, SizeValueType recordType, SizeValueType methodType)
+  CallRecord(SizeValueType callerId, RecordTypeEnum recordType, MethodTypeEnum methodType)
   {
-    if (recordType >= MAX_RECORD_TYPE || methodType >= MAX_METHOD_TYPE)
+    if (recordType >= RecordTypeEnum::MAX_RECORD_TYPE || methodType >= MethodTypeEnum::MAX_METHOD_TYPE)
     {
       throw;
     }
@@ -68,12 +137,12 @@ public:
   {
     return m_CallerId;
   }
-  SizeValueType
+  RecordTypeEnum
   GetRecordType() const
   {
     return m_RecordType;
   }
-  SizeValueType
+  MethodTypeEnum
   GetMethodType() const
   {
     return m_MethodType;
@@ -84,20 +153,20 @@ public:
   Print()
   {
     std::cout << "ID: " << m_CallerId << " -> ";
-    if (m_MethodType == GENERATE_DATA)
+    if (m_MethodType == MethodTypeEnum::GENERATE_DATA)
     {
       std::cout << "GenerateData - ";
     }
-    else if (m_MethodType == STREAMING_GENERATE_DATA)
+    else if (m_MethodType == MethodTypeEnum::STREAMING_GENERATE_DATA)
     {
       std::cout << "TemporalStreamingGenerateData - ";
     }
 
-    if (m_RecordType == START_CALL)
+    if (m_RecordType == RecordTypeEnum::START_CALL)
     {
       std::cout << " START";
     }
-    else if (m_RecordType == END_CALL)
+    else if (m_RecordType == RecordTypeEnum::END_CALL)
     {
       std::cout << " END";
     }
@@ -119,9 +188,9 @@ public:
   }
 
 protected:
-  SizeValueType m_CallerId;
-  SizeValueType m_RecordType;
-  SizeValueType m_MethodType;
+  SizeValueType  m_CallerId;
+  RecordTypeEnum m_RecordType;
+  MethodTypeEnum m_MethodType;
 };
 
 /**
@@ -130,7 +199,8 @@ protected:
  */
 std::vector<CallRecord> m_CallStack;
 
-/** \class DummyTemporalDataObject
+/**
+ *\class DummyTemporalDataObject
  * Create TemporaDataObject subclass that does nothing, but overrides some
  * methods to provide debug output
  */
@@ -235,7 +305,8 @@ public:
   }
 };
 
-/** \class DummyTemporalProcessObject
+/**
+ *\class DummyTemporalProcessObject
  * Create TemporalProcessObject subclass that does nothing, but implements
  * New() and TemporalStreamingGenerateData()
  */
@@ -259,7 +330,8 @@ public:
   TemporalStreamingGenerateData() override
   {
     // Create a START entry in the stack trace
-    m_CallStack.emplace_back(m_IdNumber, CallRecord::START_CALL, CallRecord::STREAMING_GENERATE_DATA);
+    m_CallStack.emplace_back(
+      m_IdNumber, CallRecord::RecordTypeEnum::START_CALL, CallRecord::MethodTypeEnum::STREAMING_GENERATE_DATA);
 
     // Report
     SizeValueType outputStart = this->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
@@ -300,7 +372,8 @@ public:
     // this->GetOutput()->SetBufferedTemporalRegion(this->GetOutput()->GetRequestedTemporalRegion());
 
     // Create an END entry in the stack trace
-    m_CallStack.emplace_back(m_IdNumber, CallRecord::END_CALL, CallRecord::STREAMING_GENERATE_DATA);
+    m_CallStack.emplace_back(
+      m_IdNumber, CallRecord::RecordTypeEnum::END_CALL, CallRecord::MethodTypeEnum::STREAMING_GENERATE_DATA);
   }
 
   /** Allow the UnitInputNumberOfFrames to be set */
@@ -407,13 +480,15 @@ public:
   GenerateData() override
   {
     // Create a START entry in the stack trace
-    m_CallStack.emplace_back(m_IdNumber, CallRecord::START_CALL, CallRecord::GENERATE_DATA);
+    m_CallStack.emplace_back(
+      m_IdNumber, CallRecord::RecordTypeEnum::START_CALL, CallRecord::MethodTypeEnum::GENERATE_DATA);
 
     std::cout << "*(ID = " << m_IdNumber << ") - GenerateData" << std::endl;
     Superclass::GenerateData();
 
     // Create an END entry in the stack trace
-    m_CallStack.emplace_back(m_IdNumber, CallRecord::END_CALL, CallRecord::GENERATE_DATA);
+    m_CallStack.emplace_back(
+      m_IdNumber, CallRecord::RecordTypeEnum::END_CALL, CallRecord::MethodTypeEnum::GENERATE_DATA);
   }
 
   /** Override EnlargeOutputRequestedTemporalRegion for debug output */
@@ -635,52 +710,62 @@ itkTemporalProcessObjectTest(int, char *[])
   std::vector<RecordType> correctCallStack;
 
   // GenDat - START - obj 3
-  correctCallStack.emplace_back(3, RecordType::START_CALL, RecordType::GENERATE_DATA);
+  correctCallStack.emplace_back(3, RecordType::RecordTypeEnum::START_CALL, RecordType::MethodTypeEnum::GENERATE_DATA);
 
   // GenDat - START - obj 2
-  correctCallStack.emplace_back(2, RecordType::START_CALL, RecordType::GENERATE_DATA);
+  correctCallStack.emplace_back(2, RecordType::RecordTypeEnum::START_CALL, RecordType::MethodTypeEnum::GENERATE_DATA);
 
   // GenDat - START - obj 1
-  correctCallStack.emplace_back(1, RecordType::START_CALL, RecordType::GENERATE_DATA);
+  correctCallStack.emplace_back(1, RecordType::RecordTypeEnum::START_CALL, RecordType::MethodTypeEnum::GENERATE_DATA);
 
   // TempStreamGenDat - START - obj 1
-  correctCallStack.emplace_back(1, RecordType::START_CALL, RecordType::STREAMING_GENERATE_DATA);
+  correctCallStack.emplace_back(
+    1, RecordType::RecordTypeEnum::START_CALL, RecordType::MethodTypeEnum::STREAMING_GENERATE_DATA);
 
   // TempStreamGenDat - END - obj 1
-  correctCallStack.emplace_back(1, RecordType::END_CALL, RecordType::STREAMING_GENERATE_DATA);
+  correctCallStack.emplace_back(
+    1, RecordType::RecordTypeEnum::END_CALL, RecordType::MethodTypeEnum::STREAMING_GENERATE_DATA);
 
   // TempStreamGenDat - START - obj 1
-  correctCallStack.emplace_back(1, RecordType::START_CALL, RecordType::STREAMING_GENERATE_DATA);
+  correctCallStack.emplace_back(
+    1, RecordType::RecordTypeEnum::START_CALL, RecordType::MethodTypeEnum::STREAMING_GENERATE_DATA);
 
   // TempStreamGenDat - END - obj 1
-  correctCallStack.emplace_back(1, RecordType::END_CALL, RecordType::STREAMING_GENERATE_DATA);
+  correctCallStack.emplace_back(
+    1, RecordType::RecordTypeEnum::END_CALL, RecordType::MethodTypeEnum::STREAMING_GENERATE_DATA);
 
   // TempStreamGenDat - START - obj 1
-  correctCallStack.emplace_back(1, RecordType::START_CALL, RecordType::STREAMING_GENERATE_DATA);
+  correctCallStack.emplace_back(
+    1, RecordType::RecordTypeEnum::START_CALL, RecordType::MethodTypeEnum::STREAMING_GENERATE_DATA);
 
   // TempStreamGenDat - END - obj 1
-  correctCallStack.emplace_back(1, RecordType::END_CALL, RecordType::STREAMING_GENERATE_DATA);
+  correctCallStack.emplace_back(
+    1, RecordType::RecordTypeEnum::END_CALL, RecordType::MethodTypeEnum::STREAMING_GENERATE_DATA);
 
   // GenDat - END - obj 1
-  correctCallStack.emplace_back(1, RecordType::END_CALL, RecordType::GENERATE_DATA);
+  correctCallStack.emplace_back(1, RecordType::RecordTypeEnum::END_CALL, RecordType::MethodTypeEnum::GENERATE_DATA);
 
   // TempStreamGenDat - START - obj 2
-  correctCallStack.emplace_back(2, RecordType::START_CALL, RecordType::STREAMING_GENERATE_DATA);
+  correctCallStack.emplace_back(
+    2, RecordType::RecordTypeEnum::START_CALL, RecordType::MethodTypeEnum::STREAMING_GENERATE_DATA);
 
   // TempStreamGenDat - END - obj 2
-  correctCallStack.emplace_back(2, RecordType::END_CALL, RecordType::STREAMING_GENERATE_DATA);
+  correctCallStack.emplace_back(
+    2, RecordType::RecordTypeEnum::END_CALL, RecordType::MethodTypeEnum::STREAMING_GENERATE_DATA);
 
   // GenDat - END - obj 2
-  correctCallStack.emplace_back(2, RecordType::END_CALL, RecordType::GENERATE_DATA);
+  correctCallStack.emplace_back(2, RecordType::RecordTypeEnum::END_CALL, RecordType::MethodTypeEnum::GENERATE_DATA);
 
   // TempStreamGenDat - START - obj 3
-  correctCallStack.emplace_back(3, RecordType::START_CALL, RecordType::STREAMING_GENERATE_DATA);
+  correctCallStack.emplace_back(
+    3, RecordType::RecordTypeEnum::START_CALL, RecordType::MethodTypeEnum::STREAMING_GENERATE_DATA);
 
   // TempStreamGenDat - END - obj 3
-  correctCallStack.emplace_back(3, RecordType::END_CALL, RecordType::STREAMING_GENERATE_DATA);
+  correctCallStack.emplace_back(
+    3, RecordType::RecordTypeEnum::END_CALL, RecordType::MethodTypeEnum::STREAMING_GENERATE_DATA);
 
   // GenDat - END - obj 3
-  correctCallStack.emplace_back(3, RecordType::END_CALL, RecordType::GENERATE_DATA);
+  correctCallStack.emplace_back(3, RecordType::RecordTypeEnum::END_CALL, RecordType::MethodTypeEnum::GENERATE_DATA);
 
   // Check that correct number of calls made
   if (itk::TemporalProcessObjectTest::m_CallStack.size() != correctCallStack.size())
@@ -757,10 +842,10 @@ itkTemporalProcessObjectTest(int, char *[])
   correctCallStack.clear();
 
   // GenDat - START - obj 3
-  correctCallStack.emplace_back(3, RecordType::START_CALL, RecordType::GENERATE_DATA);
+  correctCallStack.emplace_back(3, RecordType::RecordTypeEnum::START_CALL, RecordType::MethodTypeEnum::GENERATE_DATA);
 
   // GenDat - END - obj 3
-  correctCallStack.emplace_back(3, RecordType::END_CALL, RecordType::GENERATE_DATA);
+  correctCallStack.emplace_back(3, RecordType::RecordTypeEnum::END_CALL, RecordType::MethodTypeEnum::GENERATE_DATA);
 
   // Check that correct number of calls made
   if (itk::TemporalProcessObjectTest::m_CallStack.size() != correctCallStack.size())
@@ -832,6 +917,29 @@ itkTemporalProcessObjectTest(int, char *[])
               << std::endl;
     return EXIT_FAILURE;
   }
+
+  // Test streaming enumeration for CallRecordEnums::RecordType elements
+  const std::set<itk::TemporalProcessObjectTest::CallRecordEnums::RecordType> allRecordType{
+    itk::TemporalProcessObjectTest::CallRecordEnums::RecordType::START_CALL,
+    itk::TemporalProcessObjectTest::CallRecordEnums::RecordType::END_CALL,
+    itk::TemporalProcessObjectTest::CallRecordEnums::RecordType::MAX_RECORD_TYPE
+  };
+  for (const auto & ee : allRecordType)
+  {
+    std::cout << "STREAMED ENUM VALUE CallRecordEnums::RecordType: " << ee << std::endl;
+  }
+
+  // Test streaming enitk::TemporalProcessObjectTest::CallRecordEnumscordEnums::MethodType elements
+  const std::set<itk::TemporalProcessObjectTest::CallRecordEnums::MethodType> allMethodType{
+    itk::TemporalProcessObjectTest::CallRecordEnums::MethodType::GENERATE_DATA,
+    itk::TemporalProcessObjectTest::CallRecordEnums::MethodType::STREAMING_GENERATE_DATA,
+    itk::TemporalProcessObjectTest::CallRecordEnums::MethodType::MAX_METHOD_TYPE
+  };
+  for (const auto & ee : allMethodType)
+  {
+    std::cout << "STREAMED ENUM VALUE CallRecordEnums::MethodType: " << ee << std::endl;
+  }
+
 
   //////
   // Return successfully

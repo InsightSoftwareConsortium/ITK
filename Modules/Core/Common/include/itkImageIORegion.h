@@ -69,7 +69,7 @@ public:
   using SizeType = std::vector<SizeValueType>;
 
   /** Region type taken from the superclass */
-  using RegionType = Superclass::RegionType;
+  using RegionType = Superclass::RegionEnum;
 
   /** Standard part of all itk objects. */
   itkTypeMacro(ImageIORegion, Region);

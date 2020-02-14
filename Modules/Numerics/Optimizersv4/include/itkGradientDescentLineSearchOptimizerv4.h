@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class GradientDescentLineSearchOptimizerv4Template
+/**
+ *\class GradientDescentLineSearchOptimizerv4Template
  *  \brief Gradient descent optimizer with a golden section line search.
  *
  * GradientDescentLineSearchOptimizer implements a simple gradient descent optimizer

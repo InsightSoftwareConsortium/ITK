@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class ContourSpatialObjectPoint
+/**
+ *\class ContourSpatialObjectPoint
  * \brief Point used for a Contour definition
  *
  * This class contains all the functions necessary to define a point

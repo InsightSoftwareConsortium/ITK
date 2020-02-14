@@ -27,19 +27,19 @@ namespace itk
 
 /** Utility function for writing RAW bytes */
 extern void
-WriteRawBytesAfterSwapping(ImageIOBase::IOComponentType componentType,
-                           const void *                 buffer,
-                           std::ofstream &              file,
-                           ImageIOBase::ByteOrder       byteOrder,
-                           SizeValueType                numberOfBytes,
-                           SizeValueType                numberOfComponents);
+WriteRawBytesAfterSwapping(IOComponentEnum componentType,
+                           const void *    buffer,
+                           std::ofstream & file,
+                           IOByteOrderEnum byteOrder,
+                           SizeValueType   numberOfBytes,
+                           SizeValueType   numberOfComponents);
 
 /** Utility function for reading RAW bytes */
 extern void
-ReadRawBytesAfterSwapping(ImageIOBase::IOComponentType componentType,
-                          void *                       buffer,
-                          ImageIOBase::ByteOrder       byteOrder,
-                          SizeValueType                numberOfComponents);
+ReadRawBytesAfterSwapping(IOComponentEnum componentType,
+                          void *          buffer,
+                          IOByteOrderEnum byteOrder,
+                          SizeValueType   numberOfComponents);
 
 
 template <typename TPixel, unsigned int VImageDimension>
@@ -61,9 +61,9 @@ RawImageIO<TPixel, VImageDimension>::RawImageIO()
 
   // Left over from short reader
   m_ImageMask = 0xffff;
-  m_ByteOrder = ImageIOBase::BigEndian;
+  m_ByteOrder = IOByteOrderEnum::BigEndian;
   m_FileDimensionality = 2;
-  m_FileType = Binary;
+  m_FileType = IOFileEnum::Binary;
 }
 
 template <typename TPixel, unsigned int VImageDimension>
@@ -89,7 +89,7 @@ RawImageIO<TPixel, VImageDimension>::GetHeaderSize()
 
   if (!m_ManualHeaderSize)
   {
-    if (m_FileType == ASCII)
+    if (m_FileType == IOFileEnum::ASCII)
     {
       return 0; // cannot determine it
     }
@@ -144,7 +144,7 @@ RawImageIO<TPixel, VImageDimension>::Read(void * buffer)
   itkDebugMacro(<< "Reading " << numberOfBytesToBeRead << " bytes");
 
   const auto componentType = this->GetComponentType();
-  if (m_FileType == Binary)
+  if (m_FileType == IOFileEnum::Binary)
   {
     if (!this->ReadBufferAsBinary(file, buffer, numberOfBytesToBeRead))
     {
@@ -192,7 +192,7 @@ RawImageIO<TPixel, VImageDimension>::Write(const void * buffer)
   // Actually do the writing
   //
   const auto componentType = this->GetComponentType();
-  if (m_FileType == ASCII)
+  if (m_FileType == IOFileEnum::ASCII)
   {
     this->WriteBufferAsASCII(file, buffer, componentType, this->GetImageSizeInComponents());
   }

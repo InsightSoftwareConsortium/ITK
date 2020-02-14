@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class InterpolateImageFilter
+/**
+ *\class InterpolateImageFilter
  * \brief Interpolate an image from two N-D images.
  *
  * Interpolates an image from two input images of the same type

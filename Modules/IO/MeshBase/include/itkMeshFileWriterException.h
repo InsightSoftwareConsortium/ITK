@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class MeshFileWriterException.
+/**
+ *\class MeshFileWriterException.
  * \brief Base exception class for IO problems during writing.
  *
  * \ingroup ITKIOMeshBase

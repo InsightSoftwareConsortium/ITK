@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class ShapeRelabelLabelMapFilter
+/**
+ *\class ShapeRelabelLabelMapFilter
  * \brief Relabels objects according to their shape attributes.
  *
  * The ShapeRelabelImageFilter relabels a label collection image according to the shape attributes of

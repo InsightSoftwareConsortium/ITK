@@ -26,7 +26,8 @@
 
 namespace itk
 {
-/** \class MultivariateLegendrePolynomial
+/**
+ *\class MultivariateLegendrePolynomial
  * \brief 2D and 3D multivariate Legendre Polynomial
  *
  * In 2D,
@@ -130,7 +131,8 @@ public:
     return m_DomainSize;
   }
 
-  /** \class CoefficientVectorSizeMismatch
+  /**
+   *\class CoefficientVectorSizeMismatch
    * \brief Exception object.
    * \ingroup ITKPolynomials
    */
@@ -213,7 +215,8 @@ public:
   unsigned int
   GetNumberOfCoefficients(unsigned int dimension, unsigned int degree);
 
-  /** \class SimpleForwardIterator
+  /**
+   *\class SimpleForwardIterator
    * \brief Iterator which only supports forward iteration and
    * Begin(), IsAtEnd(), and Get() method which work just like as
    * SimpleImageRegionIterator.

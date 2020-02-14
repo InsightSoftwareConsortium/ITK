@@ -29,7 +29,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class DecisionRule
+/**
+ *\class DecisionRule
  *  \brief Base class for decision rules that return a class label
  *  based on a set of discriminant scores.
  *

@@ -48,16 +48,23 @@ ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::Scalar
   // ClusterProminence}
   FeatureNameVectorPointer requestedFeatures = FeatureNameVector::New();
   // can't directly set m_RequestedFeatures since it is const!
-  requestedFeatures->push_back(TextureFeaturesFilterType::Energy);
-  requestedFeatures->push_back(TextureFeaturesFilterType::Entropy);
-  requestedFeatures->push_back(TextureFeaturesFilterType::InverseDifferenceMoment);
-  requestedFeatures->push_back(TextureFeaturesFilterType::Inertia);
-  requestedFeatures->push_back(TextureFeaturesFilterType::ClusterShade);
-  requestedFeatures->push_back(TextureFeaturesFilterType::ClusterProminence);
+  requestedFeatures->push_back(
+    static_cast<uint8_t>(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::Energy));
+  requestedFeatures->push_back(
+    static_cast<uint8_t>(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::Entropy));
+  requestedFeatures->push_back(static_cast<uint8_t>(
+    itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::InverseDifferenceMoment));
+  requestedFeatures->push_back(
+    static_cast<uint8_t>(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::Inertia));
+  requestedFeatures->push_back(
+    static_cast<uint8_t>(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::ClusterShade));
+  requestedFeatures->push_back(
+    static_cast<uint8_t>(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::ClusterProminence));
   this->SetRequestedFeatures(requestedFeatures);
 
   // Set the offset directions to their defaults: half of all the possible
-  // directions 1 pixel away. (The other half is included by symmetry.)
+  // directions 1 pixel ILLRMUI
+  // away. (The other half is included by symmetry.)
   // We use a neighborhood iterator to calculate the appropriate offsets.
   using NeighborhoodType = Neighborhood<typename ImageType::PixelType, ImageType::ImageDimension>;
   NeighborhoodType hood;
@@ -116,7 +123,7 @@ ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::FullCo
   // For each offset, calculate each feature
   typename OffsetVector::ConstIterator offsetIt;
   size_t                               offsetNum, featureNum;
-  using InternalTextureFeatureName = typename TextureFeaturesFilterType::TextureFeatureName;
+  using InternalTextureFeatureName = itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature;
 
   for (offsetIt = m_Offsets->Begin(), offsetNum = 0; offsetIt != m_Offsets->End(); ++offsetIt, offsetNum++)
   {
@@ -204,7 +211,7 @@ ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::FastCo
   this->m_GLCMGenerator->SetOffset(offsetIt.Value());
   this->m_GLCMCalculator->Update();
 
-  using InternalTextureFeatureName = typename TextureFeaturesFilterType::TextureFeatureName;
+  using InternalTextureFeatureName = itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature;
   m_FeatureMeans->clear();
   m_FeatureStandardDeviations->clear();
   typename FeatureNameVector::ConstIterator fnameIt;

@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class ImageModelEstimatorBase
+/**
+ *\class ImageModelEstimatorBase
  * \brief Base class for model estimation from images used for classification.
  *
  * itkImageModelEstimatorBase is the base class for the ImageModelEstimator

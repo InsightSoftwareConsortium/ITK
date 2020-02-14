@@ -106,10 +106,10 @@ public:
   using SliceRegion = ImageRegion<Self::SliceDimension>;
 
   /** Return the region type. Images are described with structured regions. */
-  typename Superclass::RegionType
+  Superclass::RegionEnum
   GetRegionType() const override
   {
-    return Superclass::ITK_STRUCTURED_REGION;
+    return Superclass::RegionEnum::ITK_STRUCTURED_REGION;
   }
 
   /** Constructor. ImageRegion is a lightweight object that is not reference

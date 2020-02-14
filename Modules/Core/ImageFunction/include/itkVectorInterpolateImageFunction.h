@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \class VectorInterpolateImageFunction
+/**
+ *\class VectorInterpolateImageFunction
  * \brief Base class for all vector image interpolators.
  *
  * VectorInterpolateImageFunction is the base for all ImageFunctions that

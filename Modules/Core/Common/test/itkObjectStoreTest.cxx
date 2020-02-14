@@ -18,6 +18,7 @@
 
 #include "itkObjectStore.h"
 #include <iostream>
+#include <set>
 
 struct TestObject
 {
@@ -73,5 +74,13 @@ itkObjectStoreTest(int, char *[])
     store->Squeeze();
   }
 
+  // Test streaming enumeration for ObjectStoreEnums::GrowthStrategy elements
+  const std::set<itk::ObjectStoreEnums::GrowthStrategy> allGrowthStrategy{
+    itk::ObjectStoreEnums::GrowthStrategy::LINEAR_GROWTH, itk::ObjectStoreEnums::GrowthStrategy::EXPONENTIAL_GROWTH
+  };
+  for (const auto & ee : allGrowthStrategy)
+  {
+    std::cout << "STREAMED ENUM VALUE ObjectStoreEnums::GrowthStrategy: " << ee << std::endl;
+  }
   return EXIT_SUCCESS;
 }

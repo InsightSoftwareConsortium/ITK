@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class LabelMapOverlayImageFilter
+/**
+ *\class LabelMapOverlayImageFilter
  * \brief Apply a colormap to a label map and superimpose it on an image.
  *
  * Apply a colormap to a label map and put it on top of the feature

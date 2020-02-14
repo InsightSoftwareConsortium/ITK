@@ -66,10 +66,10 @@ public:
   static constexpr unsigned int NumberOfDerivatives = 8;
 
   /** Implement the standard CellInterface. */
-  CellGeometry
+  CellGeometryEnum
   GetType() const override
   {
-    return Superclass::QUADRILATERAL_CELL;
+    return CellGeometryEnum::QUADRILATERAL_CELL;
   }
   void
   MakeCopy(CellAutoPointer &) const override;
@@ -127,7 +127,7 @@ public:
                    InterpolationWeightType * weight) override;
 
   /** Visitor interface */
-  itkCellVisitMacro(Superclass::QUADRILATERAL_CELL);
+  itkCellVisitMacro(CellGeometryEnum::QUADRILATERAL_CELL);
 
   /** Constructor and destructor */
   QuadrilateralCell()

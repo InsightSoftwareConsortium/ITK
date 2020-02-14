@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class BinaryImageToStatisticsLabelMapFilter
+/**
+ *\class BinaryImageToStatisticsLabelMapFilter
  * \brief a convenient class to convert a binary image to a label map and valuate the statistics attributes at once
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.

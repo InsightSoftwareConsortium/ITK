@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class KappaSigmaThresholdImageFilter
+/**
+ *\class KappaSigmaThresholdImageFilter
  * \brief Threshold an image using Kappa-Sigma-Clipping.
  *
  * This filter creates a binary thresholded image which separates background and

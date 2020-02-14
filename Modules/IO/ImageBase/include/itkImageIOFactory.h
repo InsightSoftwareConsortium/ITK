@@ -48,34 +48,24 @@ public:
   /** Convenient type alias. */
   using ImageIOBasePointer = ::itk::ImageIOBase::Pointer;
 
-  /** \class FileModeEnum
-   *
-   * \ingroup ITKIOImageBase
-   * Mode in which the files is intended to be used */
-  enum class FileModeEnum : uint8_t
-  {
-    ReadMode,
-    WriteMode
-  };
+  using IOFileModeEnum = itk::IOFileModeEnum;
 #if !defined(ITK_LEGACY_REMOVE)
+  using FileModeEnum = itk::IOFileModeEnum;
+  using FileModeType = IOFileModeEnum;
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr FileModeEnum ReadMode = FileModeEnum::ReadMode;
-  static constexpr FileModeEnum WriteMode = FileModeEnum::WriteMode;
+  static constexpr IOFileModeEnum ReadMode = IOFileModeEnum::ReadMode;
+  static constexpr IOFileModeEnum WriteMode = IOFileModeEnum::WriteMode;
 #endif
   /** Create the appropriate ImageIO depending on the particulars of the file.
    */
   static ImageIOBasePointer
-  CreateImageIO(const char * path, FileModeEnum mode);
+  CreateImageIO(const char * path, IOFileModeEnum mode);
 
 protected:
   ImageIOFactory();
   ~ImageIOFactory() override;
 };
-
-// Define how to print enumeration
-extern ITKIOImageBase_EXPORT std::ostream &
-                             operator<<(std::ostream & out, const ImageIOFactory::FileModeEnum value);
 
 } // end namespace itk
 

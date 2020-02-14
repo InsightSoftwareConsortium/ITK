@@ -26,9 +26,9 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::PatchBasedDenoisingBaseImageFilter()
-  : m_NoiseModel(NOMODEL)
-  , m_ComponentSpace(EUCLIDEAN)
-  , m_State(UNINITIALIZED)
+  : m_NoiseModel(NoiseModelEnum::NOMODEL)
+  , m_ComponentSpace(ComponentSpaceEnum::EUCLIDEAN)
+  , m_State(FilterStateEnum::UNINITIALIZED)
 {
   m_InputImage = nullptr;
   m_OutputImage = nullptr;
@@ -38,14 +38,14 @@ template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::SetStateToInitialized()
 {
-  this->SetState(INITIALIZED);
+  this->SetState(FilterStateEnum::INITIALIZED);
 }
 
 template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::SetStateToUninitialized()
 {
-  this->SetState(UNINITIALIZED);
+  this->SetState(FilterStateEnum::UNINITIALIZED);
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -61,7 +61,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  if (this->GetState() == UNINITIALIZED)
+  if (this->GetState() == FilterStateEnum::UNINITIALIZED)
   {
     // Allocate the output image
     this->AllocateOutputs();
@@ -273,17 +273,17 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::PrintSelf(std::os
   os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;
   os << indent << "ElapsedIterations: " << m_ElapsedIterations << std::endl;
 
-  if (m_NoiseModel == Self::GAUSSIAN)
+  if (m_NoiseModel == NoiseModelEnum::GAUSSIAN)
   {
-    os << indent << "NoiseModel: GAUSSIAN" << std::endl;
+    os << indent << "NoiseModelEnum::GAUSSIAN" << std::endl;
   }
-  else if (m_NoiseModel == Self::RICIAN)
+  else if (m_NoiseModel == NoiseModelEnum::RICIAN)
   {
-    os << indent << "NoiseModel: RICIAN" << std::endl;
+    os << indent << "NoiseModelEnum::RICIAN" << std::endl;
   }
-  else if (m_NoiseModel == Self::POISSON)
+  else if (m_NoiseModel == NoiseModelEnum::POISSON)
   {
-    os << indent << "NoiseModel: POISSON" << std::endl;
+    os << indent << "NoiseModelEnum::POISSON" << std::endl;
   }
   else
   {}
@@ -300,11 +300,11 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::PrintSelf(std::os
     os << indent << "AlwaysTreatComponentsAsEuclidean: Off" << std::endl;
   }
 
-  if (m_ComponentSpace == Self::EUCLIDEAN)
+  if (m_ComponentSpace == Self::ComponentSpaceEnum::EUCLIDEAN)
   {
     os << indent << "ComponentSpace: EUCLIDEAN" << std::endl;
   }
-  else if (m_ComponentSpace == Self::RIEMANNIAN)
+  else if (m_ComponentSpace == Self::ComponentSpaceEnum::RIEMANNIAN)
   {
     os << indent << "ComponentSpace: RIEMANNIAN" << std::endl;
   }

@@ -22,6 +22,7 @@
 
 #include "itkLightProcessObject.h"
 #include "itkTransformBase.h"
+#include "itkCommonEnums.h"
 #include <list>
 #include <iostream>
 #include <fstream>

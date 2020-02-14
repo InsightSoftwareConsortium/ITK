@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class ModulusImageFilter
+/**
+ *\class ModulusImageFilter
  * \brief Computes the modulus (x % dividend) pixel-wise
  *
  * The input pixel type must support the c++ modulus operator (%).

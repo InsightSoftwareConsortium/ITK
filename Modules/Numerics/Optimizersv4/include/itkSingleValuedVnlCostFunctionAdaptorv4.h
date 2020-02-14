@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class SingleValuedVnlCostFunctionAdaptorv4
+/**
+ *\class SingleValuedVnlCostFunctionAdaptorv4
  * \brief This class is an Adaptor that allows to pass
  * itk::ObjectToObjectMetricBase objects to vnl_optimizers expecting
  * a vnl_cost_function. For use in the ITKv4 registration framework.

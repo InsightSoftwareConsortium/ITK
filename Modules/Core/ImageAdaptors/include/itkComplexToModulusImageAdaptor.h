@@ -25,7 +25,8 @@ namespace itk
 {
 namespace Accessor
 {
-/** \class ComplexToModulusPixelAccessor
+/**
+ *\class ComplexToModulusPixelAccessor
  * \brief Give access to the Modulus of a std::complex<> value.
  *
  * ComplexToModulusPixelAccessor is templated over an internal type and an
@@ -63,7 +64,8 @@ public:
 };
 } // end namespace Accessor
 
-/** \class ComplexToModulusImageAdaptor
+/**
+ *\class ComplexToModulusImageAdaptor
  * \brief Presents a complex image as being composed of std::abs() part
  * of its pixels.
  *

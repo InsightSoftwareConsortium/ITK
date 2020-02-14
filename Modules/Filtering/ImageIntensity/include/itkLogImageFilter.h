@@ -56,7 +56,8 @@ public:
 };
 } // namespace Functor
 
-/** \class LogImageFilter
+/**
+ *\class LogImageFilter
  * \brief Computes the log() of each pixel.
  *
  * \ingroup IntensityImageFilters

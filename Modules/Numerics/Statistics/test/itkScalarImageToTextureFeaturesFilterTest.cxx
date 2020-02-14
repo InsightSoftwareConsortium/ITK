@@ -20,6 +20,7 @@
 #include "itkImageRegionIterator.h"
 
 #include "itkScalarImageToTextureFeaturesFilter.h"
+#include "itkDenseFrequencyContainer2.h"
 
 int
 itkScalarImageToTextureFeaturesFilterTest(int, char *[])
@@ -101,7 +102,8 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
   try
   {
 
-    using TextureFilterType = itk::Statistics::ScalarImageToTextureFeaturesFilter<InputImageType>;
+    using TextureFilterType =
+      itk::Statistics::ScalarImageToTextureFeaturesFilter<InputImageType, itk::Statistics::DenseFrequencyContainer2>;
 
     // First test: just use the defaults.
     TextureFilterType::Pointer texFilter = TextureFilterType::New();
@@ -311,12 +313,12 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
     }
 
     // Test Set/Get Requested features
-    using TextureFeaturesFilterType = TextureFilterType::TextureFeaturesFilterType;
-
     TextureFilterType::FeatureNameVectorPointer requestedFeatures = TextureFilterType::FeatureNameVector::New();
 
-    requestedFeatures->push_back(TextureFeaturesFilterType::Inertia);
-    requestedFeatures->push_back(TextureFeaturesFilterType::ClusterShade);
+    requestedFeatures->push_back(
+      static_cast<uint8_t>(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::Inertia));
+    requestedFeatures->push_back(
+      static_cast<uint8_t>(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::ClusterShade));
     texFilter->SetRequestedFeatures(requestedFeatures);
 
     const TextureFilterType::FeatureNameVector * requestedFeatures2 = texFilter->GetRequestedFeatures();
@@ -324,14 +326,16 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
     TextureFilterType::FeatureNameVector::ConstIterator fIt;
 
     fIt = requestedFeatures2->Begin();
-    if (fIt.Value() != TextureFeaturesFilterType::Inertia)
+    if (fIt.Value() !=
+        static_cast<uint8_t>(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::Inertia))
     {
       std::cerr << "Requested feature name not correctly set" << std::endl;
       passed = false;
     }
     fIt++;
 
-    if (fIt.Value() != TextureFeaturesFilterType::ClusterShade)
+    if (fIt.Value() !=
+        static_cast<uint8_t>(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::ClusterShade))
     {
       std::cerr << "Requested feature name not correctly set" << std::endl;
       passed = false;

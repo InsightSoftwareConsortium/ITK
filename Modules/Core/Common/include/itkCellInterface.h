@@ -19,16 +19,18 @@
 #define itkCellInterface_h
 
 #include "itkObject.h"
-#include <map>
 #include "itkCellInterfaceVisitor.h"
 #include "itkAutoPointer.h"
 #include "itkArray.h"
+#include "itkCommonEnums.h"
+
+#include <map>
 
 // Define a macro for CellInterface sub-classes to use
 // to define the Accept and GetTopologyId virtuals used
 // by the MultiVisitor class
 #define itkCellVisitMacro(TopologyId)                                                                                  \
-  static int   GetTopologyId() { return TopologyId; }                                                                  \
+  static constexpr CellGeometryEnum GetTopologyId() { return TopologyId; }                                             \
   virtual void Accept(CellIdentifier cellid, typename CellInterface<PixelType, CellTraits>::MultiVisitor * mv)         \
     override                                                                                                           \
   {                                                                                                                    \
@@ -71,13 +73,13 @@
   using VectorType = typename Superclass::VectorType;                                                                  \
   using PointsContainer = typename Superclass::PointsContainer;                                                        \
   using UsingCellsContainer = typename Superclass::UsingCellsContainer;                                                \
-  using CellGeometry = typename Superclass::CellGeometry;                                                              \
   using ParametricCoordArrayType = typename Superclass::ParametricCoordArrayType;                                      \
   using ShapeFunctionsArrayType = typename Superclass::ShapeFunctionsArrayType;                                        \
   static constexpr unsigned int PointDimension = Superclass::PointDimension
 
 namespace itk
 {
+
 /** \class CellInterface
  *  \brief An abstract interface for cells.
  *
@@ -136,22 +138,6 @@ public:
   /** A useful rename. */
   using CellFeatureCount = CellFeatureIdentifier;
 
-  /**  Cell Visitor interfaces */
-  enum CellGeometry
-  {
-    VERTEX_CELL = 0,
-    LINE_CELL,
-    TRIANGLE_CELL,
-    QUADRILATERAL_CELL,
-    POLYGON_CELL,
-    TETRAHEDRON_CELL,
-    HEXAHEDRON_CELL,
-    QUADRATIC_EDGE_CELL,
-    QUADRATIC_TRIANGLE_CELL,
-    LAST_ITK_CELL,
-    MAX_ITK_CELLS = 255
-  };
-
   /** Types needed to contour the cells */
   using ParametricCoordArrayType = Array<CoordRepType>;
   using ShapeFunctionsArrayType = Array<InterpolationWeightType>;
@@ -192,15 +178,15 @@ public:
 
     /** Typedefs for the visitor class.   */
     using VisitorPointer = typename VisitorType::Pointer;
-    using VisitorPointerValueType = typename std::map<int, VisitorPointer>::value_type;
+    using VisitorPointerValueType = typename std::map<CellGeometryEnum, VisitorPointer>::value_type;
 
   public:
     VisitorType *
-    GetVisitor(int id)
+    GetVisitor(CellGeometryEnum id)
     {
-      if (id < LAST_ITK_CELL)
+      if (id < CellGeometryEnum::LAST_ITK_CELL)
       {
-        return m_Visitors[id];
+        return m_Visitors[static_cast<int>(id)];
       }
       else
       {
@@ -216,11 +202,11 @@ public:
     void
     AddVisitor(VisitorType * v)
     {
-      int id = v->GetCellTopologyId();
+      CellGeometryEnum id = v->GetCellTopologyId();
 
-      if (id < LAST_ITK_CELL)
+      if (id < CellGeometryEnum::LAST_ITK_CELL)
       {
-        m_Visitors[id] = v;
+        m_Visitors[static_cast<int>(id)] = v;
       }
       else
       {
@@ -231,20 +217,20 @@ public:
     ~MultiVisitor() override = default;
 
   protected:
-    VisitorPointer m_Visitors[LAST_ITK_CELL];    // fixed array set to the
-                                                 // size
-                                                 // from the enum
-    std::map<int, VisitorPointer> m_UserDefined; // user defined cell types
-                                                 // go here
+    VisitorPointer m_Visitors[static_cast<int>(CellGeometryEnum::LAST_ITK_CELL)]; // fixed array set to the
+                                                                                  // size
+                                                                                  // from the enum
+    std::map<CellGeometryEnum, VisitorPointer> m_UserDefined;                     // user defined cell types
+                                                                                  // go here
   };
 
   /** This must be implemented by all sub-classes of CellInterface */
   virtual void
   Accept(CellIdentifier cellId, MultiVisitor *) = 0;
 
-  /**  Return the type of the cell (one of the CellGeometry enums
+  /**  Return the type of the cell (one of the CellGeometryEnum enums
    *   listed above). */
-  virtual CellGeometry
+  virtual ::itk::CommonEnums::CellGeometry
   GetType() const = 0;
 
   /** Create a new copy of this cell.  This is provided so that a copy can

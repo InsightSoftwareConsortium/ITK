@@ -74,7 +74,8 @@ public:
   using OutputIndexIteratorType = ImageRegionIteratorWithIndex<OutputImageType>;
   using OutputIteratorType = ImageRegionIterator<OutputImageType>;
 
-  /** \class LevelSetDomain
+  /**
+   *\class LevelSetDomain
    * \brief Specifies an image region where an unique std::list of level sets Id's are defined.
    * \ingroup ITKLevelSetsv4 */
   class LevelSetDomain

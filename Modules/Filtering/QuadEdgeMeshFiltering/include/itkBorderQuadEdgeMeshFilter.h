@@ -22,9 +22,40 @@
 #include "itkQuadEdgeMesh.h"
 #include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
 #include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.h"
+#include "ITKQuadEdgeMeshFilteringExport.h"
 
 namespace itk
 {
+/**\class BorderQuadEdgeMeshFilterEnums
+ * \brief Contains all enum classes used by
+ * \ingroup ITKQuadEdgeMeshFiltering
+ */
+class BorderQuadEdgeMeshFilterEnums
+{
+public:
+  /**\class BorderTransform
+   * \ingroup ITKQuadEdgeMeshFiltering
+   * */
+  enum class BorderTransform : uint8_t
+  {
+    SQUARE_BORDER_TRANSFORM = 0,
+    DISK_BORDER_TRANSFORM
+  };
+
+  /**\class BorderPick
+   * \ingroup ITKQuadEdgeMeshFiltering
+   * */
+  enum class BorderPick : uint8_t
+  {
+    LONGEST = 0,
+    LARGEST
+  };
+};
+// Define how to print enumeration
+extern ITKQuadEdgeMeshFiltering_EXPORT std::ostream &
+                                       operator<<(std::ostream & out, const BorderQuadEdgeMeshFilterEnums::BorderTransform value);
+extern ITKQuadEdgeMeshFiltering_EXPORT std::ostream &
+                                       operator<<(std::ostream & out, const BorderQuadEdgeMeshFilterEnums::BorderPick value);
 /**
  * \class BorderQuadEdgeMeshFilter
  * \brief Transform one border of a QuadEdgeMesh into either a circle
@@ -105,23 +136,22 @@ public:
   using BoundaryRepresentativeEdgesType = QuadEdgeMeshBoundaryEdgesMeshFunction<InputMeshType>;
   using BoundaryRepresentativeEdgesPointer = typename BoundaryRepresentativeEdgesType::Pointer;
 
-  enum BorderTransformType
-  {
-    SQUARE_BORDER_TRANSFORM = 0,
-    DISK_BORDER_TRANSFORM
-  };
+  using BorderTransformEnum = itk::BorderQuadEdgeMeshFilterEnums::BorderTransform;
+  using BorderPickEnum = itk::BorderQuadEdgeMeshFilterEnums::BorderPick;
+#if !defined(ITK_LEGACY_REMOVE)
+  /** Exposes enums values for backwards compatibility*/
+  static constexpr BorderTransformEnum SQUARE_BORDER_TRANSFORM = BorderTransformEnum::SQUARE_BORDER_TRANSFORM;
+  static constexpr BorderTransformEnum DISK_BORDER_TRANSFORM = BorderTransformEnum::DISK_BORDER_TRANSFORM;
 
-  enum BorderPickType
-  {
-    LONGEST = 0,
-    LARGEST
-  };
+  static constexpr BorderPickEnum LONGEST = BorderPickEnum::LONGEST;
+  static constexpr BorderPickEnum LARGEST = BorderPickEnum::LARGEST;
+#endif
 
-  itkSetMacro(TransformType, BorderTransformType);
-  itkGetConstMacro(TransformType, BorderTransformType);
+  itkSetEnumMacro(TransformType, BorderTransformEnum);
+  itkGetConstMacro(TransformType, BorderTransformEnum);
 
-  itkSetMacro(BorderPick, BorderPickType);
-  itkGetConstMacro(BorderPick, BorderPickType);
+  itkSetEnumMacro(BorderPick, BorderPickEnum);
+  itkGetConstMacro(BorderPick, BorderPickEnum);
 
   itkSetMacro(Radius, InputCoordRepType);
   itkGetConstMacro(Radius, InputCoordRepType);
@@ -143,8 +173,8 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  BorderTransformType m_TransformType;
-  BorderPickType      m_BorderPick;
+  BorderTransformEnum m_TransformType;
+  BorderPickEnum      m_BorderPick;
 
   InputCoordRepType m_Radius;
 

@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class AddImageFilter
+/**
+ *\class AddImageFilter
  * \brief Pixel-wise addition of two images.
  *
  * This class is templated over the types of the two

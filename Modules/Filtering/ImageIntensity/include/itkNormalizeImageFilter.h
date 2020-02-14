@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class NormalizeImageFilter
+/**
+ *\class NormalizeImageFilter
  * \brief Normalize an image by setting its mean to zero and variance to one.
  *
  * NormalizeImageFilter shifts and scales an image so that the pixels

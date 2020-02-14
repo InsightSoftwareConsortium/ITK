@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class NearestNeighborInterpolateImageFunction
+/**
+ *\class NearestNeighborInterpolateImageFunction
  * \brief Nearest neighbor interpolation of a scalar image.
  *
  * NearestNeighborInterpolateImageFunction interpolates image intensity at

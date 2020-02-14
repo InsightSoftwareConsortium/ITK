@@ -185,6 +185,18 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
 
   estimator->Print(std::cout);
 
+  // Test streaming enumeration for ExpectationMaximizationMixtureModelEstimatorEnums::TERMINATION_CODE elements
+  const std::set<itk::Statistics::ExpectationMaximizationMixtureModelEstimatorEnums::TERMINATION_CODE>
+    allTERMINATION_CODE{
+      itk::Statistics::ExpectationMaximizationMixtureModelEstimatorEnums::TERMINATION_CODE::CONVERGED,
+      itk::Statistics::ExpectationMaximizationMixtureModelEstimatorEnums::TERMINATION_CODE::NOT_CONVERGED
+    };
+  for (const auto & ee : allTERMINATION_CODE)
+  {
+    std::cout << "STREAMED ENUM VALUE ExpectationMaximizationMixtureModelEstimatorEnums::TERMINATION_CODE: " << ee
+              << std::endl;
+  }
+
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 }

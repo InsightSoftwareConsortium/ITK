@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class RingBuffer
+/**
+ *\class RingBuffer
  *  \brief Templated ring buffer for holding anything
  *
  * This ring buffer can hold any type of itk class that supports smart

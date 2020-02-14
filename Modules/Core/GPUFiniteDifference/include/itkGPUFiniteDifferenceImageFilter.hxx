@@ -34,7 +34,7 @@ GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::G
   this->m_NumberOfIterations = NumericTraits<unsigned int>::max();
   m_MaximumRMSError = 0.0;
   m_RMSChange = 0.0;
-  m_State = FilterStateType::UNINITIALIZED;
+  m_State = GPUFiniteDifferenceFilterEnum::UNINITIALIZED;
   m_ManualReinitialization = false;
   this->InPlaceOff();
 }
@@ -56,7 +56,7 @@ GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::G
     itkWarningMacro("Output pixel type MUST be float or double to prevent computational errors");
   }
 
-  if (this->GetState() == FilterStateType::UNINITIALIZED)
+  if (this->GetState() == GPUFiniteDifferenceFilterEnum::UNINITIALIZED)
   {
     // Allocate the output image
     // this->AllocateOutputs();

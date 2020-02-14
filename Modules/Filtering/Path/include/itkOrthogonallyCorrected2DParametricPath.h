@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class OrthogonallyCorrected2DParametricPath
+/**
+ *\class OrthogonallyCorrected2DParametricPath
  * \brief  Represent an orthogonally corrected 2D parametric path
  *
  * Description

@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class ShapeLabelMapFilter
+/**
+ *\class ShapeLabelMapFilter
  * \brief The valuator class for the ShapeLabelObject
  *
  * ShapeLabelMapFilter can be used to set the attributes values of the

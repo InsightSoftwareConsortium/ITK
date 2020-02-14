@@ -40,7 +40,8 @@ namespace itk
 // Implementation" to hide MINC data from the ITK interface.
 struct ITKIOMINC_HIDDEN MINCImageIOPImpl;
 
-/** \class MINCImageIO
+/**
+ *\class MINCImageIO
  *
  * \author Leila Baghdadi
  * \brief Class that defines how to read MINC file format.

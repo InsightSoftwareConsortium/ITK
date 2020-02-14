@@ -25,6 +25,30 @@
 
 namespace itk
 {
+
+/**
+ * \class GaussianDerivativeOperatorEnums
+ * \brief GaussianDerivativeOperator class enum classes.
+ * \ingroup ITKCommon
+ */
+class GaussianDerivativeOperatorEnums
+{
+public:
+  /**
+   * \class InterpolationMode
+   * \ingroup ITKCommon
+   * Interpolation modes
+   */
+  enum class InterpolationMode : uint8_t
+  {
+    NearestNeighbourInterpolation,
+    LinearInterpolation
+  };
+};
+// Define how to print enumeration
+extern ITKCommon_EXPORT std::ostream &
+                        operator<<(std::ostream & out, GaussianDerivativeOperatorEnums::InterpolationMode value);
+
 /**
  * \class GaussianDerivativeOperator
  * \brief A NeighborhoodOperator whose coefficients are a one dimensional,
@@ -84,6 +108,8 @@ public:
   /** Standard class type aliases. */
   using Self = GaussianDerivativeOperator;
   using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
+
+  using InterpolationModeEnum = GaussianDerivativeOperatorEnums::InterpolationMode;
 
   /** Neighborhood operator types. */
   using GaussianOperatorType = GaussianOperator<TPixel, VDimension, TAllocator>;
@@ -242,6 +268,7 @@ private:
   /** Spacing in the direction of this kernel. */
   double m_Spacing{ 1.0 };
 };
+
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

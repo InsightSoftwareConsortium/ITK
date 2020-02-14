@@ -2,3 +2,12 @@ itk_wrap_class("itk::Statistics::HistogramToRunLengthFeaturesFilter" POINTER)
   itk_wrap_template("${ITKM_HF}" "${ITKT_HF}")
   itk_wrap_template("${ITKM_HD}" "${ITKT_HD}")
 itk_end_wrap_class()
+
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_simple_class("itk::Statistics::HistogramToRunLengthFeaturesFilterEnums")
+set(WRAPPER_AUTO_INCLUDE_HEADERS ON)
+
+#itk_wrap_class("itk::VectorContainer" POINTER)
+#  # CUSTOM WRAPPINGS
+#  itk_wrap_template("VC${ITKM_UC}RunLengthFeatureEnum" "${ITKT_UC}, itk::Statistics::HistogramToRunLengthFeaturesFilterEnums::RunLengthFeature")
+#itk_end_wrap_class()

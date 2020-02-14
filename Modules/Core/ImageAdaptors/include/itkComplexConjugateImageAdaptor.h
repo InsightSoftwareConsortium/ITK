@@ -25,7 +25,8 @@ namespace itk
 {
 namespace Accessor
 {
-/** \class ComplexConjugatePixelAccessor
+/**
+ *\class ComplexConjugatePixelAccessor
  * \brief Provide access to the conjugate of a std::complex<> value.
  *
  * \ingroup ImageAdaptors
@@ -52,7 +53,8 @@ public:
 };
 } // end namespace Accessor
 
-/** \class ComplexConjugateImageAdaptor
+/**
+ *\class ComplexConjugateImageAdaptor
  * \brief Presents each pixel of a complex image as its complex conjugate.
  *
  * \ingroup ImageAdaptors

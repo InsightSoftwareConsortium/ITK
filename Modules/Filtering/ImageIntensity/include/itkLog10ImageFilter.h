@@ -56,7 +56,8 @@ public:
 };
 } // namespace Functor
 
-/** \class Log10ImageFilter
+/**
+ *\class Log10ImageFilter
  * \brief Computes the log10 of each pixel.
  *
  * The computation is performed using std::log10(x).

@@ -31,7 +31,7 @@ SPSAOptimizer ::SPSAOptimizer()
 
   m_CurrentIteration = 0;
   m_Maximize = false;
-  m_StopCondition = StopConditionEnum::Unknown;
+  m_StopCondition = StopConditionSPSAOptimizerEnum::Unknown;
   m_StateOfConvergenceDecayRate = 0.9;
   m_Tolerance = 1e-06;
   m_StateOfConvergence = 0;
@@ -136,7 +136,7 @@ SPSAOptimizer ::StartOptimization()
   }
 
   m_CurrentIteration = 0;
-  m_StopCondition = StopConditionEnum::Unknown;
+  m_StopCondition = StopConditionSPSAOptimizerEnum::Unknown;
   m_StateOfConvergence = 0.0;
 
   this->SetCurrentPosition(this->GetInitialPosition());
@@ -169,7 +169,7 @@ SPSAOptimizer ::ResumeOptimization()
 
     if (m_CurrentIteration >= m_MaximumNumberOfIterations)
     {
-      m_StopCondition = StopConditionEnum::MaximumNumberOfIterations;
+      m_StopCondition = StopConditionSPSAOptimizerEnum::MaximumNumberOfIterations;
       StopOptimization();
       break;
     }
@@ -177,7 +177,7 @@ SPSAOptimizer ::ResumeOptimization()
     /** Check convergence */
     if ((m_StateOfConvergence < m_Tolerance) && (m_CurrentIteration >= m_MinimumNumberOfIterations))
     {
-      m_StopCondition = StopConditionEnum::BelowTolerance;
+      m_StopCondition = StopConditionSPSAOptimizerEnum::BelowTolerance;
       StopOptimization();
       break;
     }
@@ -234,7 +234,7 @@ SPSAOptimizer ::AdvanceOneStep()
   {
     // An exception has occurred.
     // Terminate immediately.
-    m_StopCondition = StopConditionEnum::MetricError;
+    m_StopCondition = StopConditionSPSAOptimizerEnum::MetricError;
     StopOptimization();
     // Pass exception to caller
     throw err;
@@ -468,17 +468,17 @@ SPSAOptimizer::GetStopConditionDescription() const
   reason << this->GetNameOfClass() << ": ";
   switch (m_StopCondition)
   {
-    case StopConditionEnum::Unknown:
+    case StopConditionSPSAOptimizerEnum::Unknown:
       reason << "Unknown stop condition";
       break;
-    case StopConditionEnum::MaximumNumberOfIterations:
+    case StopConditionSPSAOptimizerEnum::MaximumNumberOfIterations:
       reason << "Maximum number of iterations exceeded. Number of iterations is " << m_MaximumNumberOfIterations;
       break;
-    case StopConditionEnum::BelowTolerance:
+    case StopConditionSPSAOptimizerEnum::BelowTolerance:
       reason << "Below tolerance. "
              << "Tolerance is " << m_Tolerance;
       break;
-    case StopConditionEnum::MetricError:
+    case StopConditionSPSAOptimizerEnum::MetricError:
       reason << "Metric error";
       break;
     default:
@@ -490,21 +490,21 @@ SPSAOptimizer::GetStopConditionDescription() const
 
 /** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const SPSAOptimizer::StopConditionEnum value)
+operator<<(std::ostream & out, const SPSAOptimizerEnums::StopConditionSPSAOptimizer value)
 {
   return out << [value] {
     switch (value)
     {
-      case SPSAOptimizer::StopConditionEnum::Unknown:
-        return "SPSAOptimizer::StopConditionEnum::Unknown";
-      case SPSAOptimizer::StopConditionEnum::MaximumNumberOfIterations:
-        return "SPSAOptimizer::StopConditionEnum::MaximumNumberOfIterations";
-      case SPSAOptimizer::StopConditionEnum::BelowTolerance:
-        return "SPSAOptimizer::StopConditionEnum::BelowTolerance";
-      case SPSAOptimizer::StopConditionEnum::MetricError:
-        return "SPSAOptimizer::StopConditionEnum::MetricError";
+      case SPSAOptimizerEnums::StopConditionSPSAOptimizer::Unknown:
+        return "itk::SPSAOptimizerEnums::StopConditionSPSAOptimizer::Unknown";
+      case SPSAOptimizerEnums::StopConditionSPSAOptimizer::MaximumNumberOfIterations:
+        return "itk::SPSAOptimizerEnums::StopConditionSPSAOptimizer::MaximumNumberOfIterations";
+      case SPSAOptimizerEnums::StopConditionSPSAOptimizer::BelowTolerance:
+        return "itk::SPSAOptimizerEnums::StopConditionSPSAOptimizer::BelowTolerance";
+      case SPSAOptimizerEnums::StopConditionSPSAOptimizer::MetricError:
+        return "itk::SPSAOptimizerEnums::StopConditionSPSAOptimizer::MetricError";
       default:
-        return "INVALID VALUE FOR SPSAOptimizer::StopConditionEnum";
+        return "INVALID VALUE FOR itk::SPSAOptimizerEnums::StopConditionSPSAOptimizer";
     }
   }();
 }

@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class PowellOptimizerv4
+/**
+ *\class PowellOptimizerv4
  * \brief Implements Powell optimization using Brent line search.
  *
  * The code in this class was adapted from the Wikipedia and the

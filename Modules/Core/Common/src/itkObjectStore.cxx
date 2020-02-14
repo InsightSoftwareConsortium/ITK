@@ -21,17 +21,17 @@ namespace itk
 {
 /** Define how to print enumerations */
 std::ostream &
-operator<<(std::ostream & out, const StrategyForGrowthType value)
+operator<<(std::ostream & out, const ObjectStoreEnums::GrowthStrategy value)
 {
   return out << [value] {
     switch (value)
     {
-      case StrategyForGrowthType::LINEAR_GROWTH:
-        return "StrategyForGrowthType::LINEAR_GROWTH";
-      case StrategyForGrowthType::EXPONENTIAL_GROWTH:
-        return "StrategyForGrowthType::EXPONENTIAL_GROWTH";
+      case ObjectStoreEnums::GrowthStrategy::LINEAR_GROWTH:
+        return "ObjectStoreEnums::GrowthStrategy::LINEAR_GROWTH";
+      case ObjectStoreEnums::GrowthStrategy::EXPONENTIAL_GROWTH:
+        return "ObjectStoreEnums::GrowthStrategy::EXPONENTIAL_GROWTH";
       default:
-        return "INVALID VALUE FOR ObjectStore<TObjectType>::GrowthStrategyType";
+        return "INVALID VALUE FOR ObjectStoreEnums::GrowthStrategy";
     }
   }();
 }

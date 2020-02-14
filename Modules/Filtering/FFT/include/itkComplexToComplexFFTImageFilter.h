@@ -19,12 +19,36 @@
 #define itkComplexToComplexFFTImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "ITKFFTExport.h"
 #include <complex>
 
 namespace itk
 {
+/**\class ComplexToComplexFFTImageFilterEnums
+ * \brief Contains enum classes used by ComplexToComplexFFTImageFilter class
+ * \ingroup ITKFFT
+ * \ingroup FourierTransform
+ */
+class ComplexToComplexFFTImageFilterEnums
+{
+public:
+  /**
+   *\class TransformDirection
+   * \ingroup ITKFFT
+   * \ingroup FourierTransform
+   * */
+  enum class TransformDirection : uint8_t
+  {
+    FORWARD = 1,
+    INVERSE = 2
+  };
+};
+// Define how to print enumeration
+extern ITKFFT_EXPORT std::ostream &
+                     operator<<(std::ostream & out, const ComplexToComplexFFTImageFilterEnums::TransformDirection value);
 
-/** \class ComplexToComplexFFTImageFilter
+/**
+ *\class ComplexToComplexFFTImageFilter
  *
  * \brief Implements an API to enable the Fourier transform or the inverse
  * Fourier transform of images with complex valued voxels to be computed.
@@ -78,12 +102,12 @@ public:
   static Pointer
   New();
 
-  /** Transform Direction */
-  enum TransformDirectionType
-  {
-    FORWARD = 1,
-    INVERSE = 2
-  };
+  using TransformDirectionEnum = ComplexToComplexFFTImageFilterEnums::TransformDirection;
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enums values for backwards compatibility*/
+  static constexpr TransformDirectionEnum FORWARD = TransformDirectionEnum::FORWARD;
+  static constexpr TransformDirectionEnum INVERSE = TransformDirectionEnum::INVERSE;
+#endif
 
   /** Image type type alias support */
   using ImageSizeType = typename ImageType::SizeType;
@@ -92,21 +116,20 @@ public:
    * By selecting FORWARD, this filter will perform a direct, i.e. forward, Fourier Transform,
    * By selecting INVERSE, this filter will perform an inverse, i.e. backward, Fourier Transform,
    */
-  itkSetMacro(TransformDirection, TransformDirectionType);
-  itkGetConstMacro(TransformDirection, TransformDirectionType);
+  itkSetEnumMacro(TransformDirection, TransformDirectionEnum);
+  itkGetConstMacro(TransformDirection, TransformDirectionEnum);
 
 protected:
   ComplexToComplexFFTImageFilter()
-    : m_TransformDirection(FORWARD)
+    : m_TransformDirection(TransformDirectionEnum::FORWARD)
   {}
 
   void
   GenerateInputRequestedRegion() override;
 
 private:
-  TransformDirectionType m_TransformDirection;
+  TransformDirectionEnum m_TransformDirection;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

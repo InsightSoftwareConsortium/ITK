@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class FFTShiftImageFilter
+/**
+ *\class FFTShiftImageFilter
  * \brief Shift the zero-frequency components of a Fourier transform
  * to the center of the image.
  *

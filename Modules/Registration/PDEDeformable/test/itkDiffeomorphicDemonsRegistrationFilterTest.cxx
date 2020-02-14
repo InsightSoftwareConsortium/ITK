@@ -100,7 +100,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
     std::cerr << "Missing arguments" << std::endl;
     std::cerr << "Usage:" << std::endl;
     std::cerr << itkNameOfTestExecutableMacro(argv) << std::endl;
-    std::cerr << "GradientType [0=Symmetric,1=Fixed,2=WarpedMoving,3=MappedMoving]" << std::endl;
+    std::cerr << "GradientEnum [0=Symmetric,1=Fixed,2=WarpedMoving,3=MappedMoving]" << std::endl;
     std::cerr << "UseFirstOrderExp [0=No,1=Yes]" << std::endl;
     std::cerr << "Intensity Difference Threshold (double)" << std::endl;
     std::cerr << "Maximum Update step length (double)" << std::endl;
@@ -222,20 +222,20 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
   switch (gradientType)
   {
     case 0:
-      registrator->SetUseGradientType(FunctionType::Symmetric);
+      registrator->SetUseGradientType(FunctionType::GradientEnum::Symmetric);
       break;
     case 1:
-      registrator->SetUseGradientType(FunctionType::Fixed);
+      registrator->SetUseGradientType(FunctionType::GradientEnum::Fixed);
       break;
     case 2:
-      registrator->SetUseGradientType(FunctionType::WarpedMoving);
+      registrator->SetUseGradientType(FunctionType::GradientEnum::WarpedMoving);
       break;
     case 3:
-      registrator->SetUseGradientType(FunctionType::MappedMoving);
+      registrator->SetUseGradientType(FunctionType::GradientEnum::MappedMoving);
       break;
   }
 
-  std::cout << "GradientType = " << registrator->GetUseGradientType() << std::endl;
+  std::cout << "GradientEnum = " << static_cast<char>(registrator->GetUseGradientType()) << std::endl;
 
   const int useFirstOrderExponential = std::stoi(argv[2]);
 

@@ -32,38 +32,57 @@
 
 namespace itk
 {
-/** \class NoiseType
+/**\class PatchBasedDenoisingBaseImageFilterEnums
+ * \brief Contains all enum classes used by the PatchBasedDenoisingBaseImageFilter class.
  * \ingroup ITKDenoising
- * Type definition for selecting the noise model. */
-enum class NoiseType : uint8_t
-{
-  NOMODEL = 0,
-  GAUSSIAN = 1,
-  RICIAN = 2,
-  POISSON = 3
-};
-
-/** TODO add comment about why no noise model can be used for RIEMANNIAN space
  */
-/** \class SpaceType
- * \ingroup ITKDenoising
- * Type definition to determine which space to do calculations in. */
-enum class SpaceType : uint8_t
+class PatchBasedDenoisingBaseImageFilterEnums
 {
-  EUCLIDEAN = 0,
-  RIEMANNIAN = 1
-};
+public:
+  /**\class NoiseModel
+   * \ingroup Filtering
+   * \ingroup ITKDenoising
+   * Type definition for selecting the noise model. */
+  enum class NoiseModel : uint8_t
+  {
+    NOMODEL = 0,
+    GAUSSIAN = 1,
+    RICIAN = 2,
+    POISSON = 3
+  };
 
-/** \class StateTypeOfFilter
- * \ingroup ITKDenoising
- * State that the filter is in, i.e. UNINITIALIZED or INITIALIZED. */
-enum class StateTypeOfFilter : uint8_t
-{
-  UNINITIALIZED = 0,
-  INITIALIZED = 1
-};
+  /**\class ComponentState
+   * \ingroup Filtering
+   * \ingroup ITKDenoising
+   * Type definition to determine which space to do calculations in.
+   * TODO add comment about why no noise model can be used for RIEMANNIAN space
+   */
+  enum class ComponentSpace : uint8_t
+  {
+    EUCLIDEAN = 0,
+    RIEMANNIAN = 1
+  };
 
-/** \class PatchBasedDenoisingBaseImageFilter
+  /**\class FilterState
+   * \ingroup Filtering
+   * \ingroup ITKDenoising
+   * State that the filter is in, i.e. UNINITIALIZED or INITIALIZED. */
+  enum class FilterState : uint8_t
+  {
+    UNINITIALIZED = 0,
+    INITIALIZED = 1
+  };
+};
+// Define how to print enumeration
+extern ITKDenoising_EXPORT std::ostream &
+                           operator<<(std::ostream & out, const PatchBasedDenoisingBaseImageFilterEnums::NoiseModel value);
+extern ITKDenoising_EXPORT std::ostream &
+                           operator<<(std::ostream & out, const PatchBasedDenoisingBaseImageFilterEnums::ComponentSpace value);
+// Define how to print enumeration
+extern ITKDenoising_EXPORT std::ostream &
+                           operator<<(std::ostream & out, const PatchBasedDenoisingBaseImageFilterEnums::FilterState value);
+/**
+ *\class PatchBasedDenoisingBaseImageFilter
  * \brief Base class for patch-based denoising algorithms.
  *
  * Implementation of a denoising filter that uses iterative non-local, or semi-local, weighted
@@ -151,30 +170,25 @@ public:
   using PixelType = OutputPixelType;
   using PixelValueType = typename NumericTraits<PixelType>::ValueType;
 
-  /** Type definition for selecting the noise model. */
-  typedef enum
-  {
-    NOMODEL = 0,
-    GAUSSIAN = 1,
-    RICIAN = 2,
-    POISSON = 3
-  } NoiseModelType;
+  using NoiseModelEnum = PatchBasedDenoisingBaseImageFilterEnums::NoiseModel;
+  using ComponentSpaceEnum = PatchBasedDenoisingBaseImageFilterEnums::ComponentSpace;
+  using FilterStateEnum = PatchBasedDenoisingBaseImageFilterEnums::FilterState;
+#if !defined(ITK_LEGACY_REMOVE)
+  using NoiseModelType = PatchBasedDenoisingBaseImageFilterEnums::NoiseModel;
+  using ComponentSpaceType = PatchBasedDenoisingBaseImageFilterEnums::ComponentSpace;
+  using FilterStateType = PatchBasedDenoisingBaseImageFilterEnums::FilterState;
+  /**Exposes enums values for backwards compatibility*/
+  static constexpr NoiseModelEnum NOMODEL = NoiseModelEnum::NOMODEL;
+  static constexpr NoiseModelEnum GAUSSIAN = NoiseModelEnum::GAUSSIAN;
+  static constexpr NoiseModelEnum RICIAN = NoiseModelEnum::RICIAN;
+  static constexpr NoiseModelEnum POISSON = NoiseModelEnum::POISSON;
 
-  /** Type definition to determine which space to do calculations in. */
-  /** TODO add comment about why no noise model can be used for RIEMANNIAN space
-   */
-  typedef enum
-  {
-    EUCLIDEAN = 0,
-    RIEMANNIAN = 1
-  } ComponentSpaceType;
+  static constexpr ComponentSpaceEnum EUCLIDEAN = ComponentSpaceEnum::EUCLIDEAN;
+  static constexpr ComponentSpaceEnum RIEMANNIAN = ComponentSpaceEnum::RIEMANNIAN;
 
-  /** State that the filter is in, i.e. UNINITIALIZED or INITIALIZED. */
-  typedef enum
-  {
-    UNINITIALIZED = 0,
-    INITIALIZED = 1
-  } FilterStateType;
+  static constexpr FilterStateEnum UNINITIALIZED = FilterStateEnum::UNINITIALIZED;
+  static constexpr FilterStateEnum INITIALIZED = FilterStateEnum::INITIALIZED;
+#endif
 
   /** This data structure type is used to store the weights (mask) for pixels in a patch in order to
    *  make the patch more isotropic and less rectangular.
@@ -220,8 +234,8 @@ public:
    * Defaults to NOMODEL.
    * To use the noise model during denoising, NoiseModelFidelityWeight must be positive.
    */
-  itkSetMacro(NoiseModel, NoiseModelType);
-  itkGetConstMacro(NoiseModel, NoiseModelType);
+  itkSetEnumMacro(NoiseModel, NoiseModelEnum);
+  itkGetConstMacro(NoiseModel, NoiseModelEnum);
 
   /** Set/Get the weight on the smoothing term.
    *  This option is used when a noise model is specified.
@@ -284,8 +298,8 @@ public:
 
   /** Set/Get the state of the filter. */
 #if !defined(ITK_WRAPPING_PARSER)
-  itkSetMacro(State, FilterStateType);
-  itkGetConstReferenceMacro(State, FilterStateType);
+  itkSetEnumMacro(State, FilterStateEnum);
+  itkGetConstReferenceMacro(State, FilterStateEnum);
 #endif
 
   /** Indicates whether the filter automatically resets to UNINITIALIZED state
@@ -360,34 +374,34 @@ protected:
   itkSetMacro(ElapsedIterations, unsigned int);
 
   /** Determine the component space based on pixel type */
-  ComponentSpaceType
+  ComponentSpaceEnum
   DetermineComponentSpace(const RGBPixel<PixelValueType> & itkNotUsed(p))
   {
-    return EUCLIDEAN;
+    return ComponentSpaceEnum::EUCLIDEAN;
   }
 
-  ComponentSpaceType
+  ComponentSpaceEnum
   DetermineComponentSpace(const RGBAPixel<PixelValueType> & itkNotUsed(p))
   {
-    return EUCLIDEAN;
+    return ComponentSpaceEnum::EUCLIDEAN;
   }
 
-  ComponentSpaceType
+  ComponentSpaceEnum
   DetermineComponentSpace(const DiffusionTensor3D<PixelValueType> & itkNotUsed(p))
   {
-    return RIEMANNIAN;
+    return ComponentSpaceEnum::RIEMANNIAN;
   }
 
   template <typename PixelT>
-  ComponentSpaceType
+  ComponentSpaceEnum
   DetermineComponentSpace(const PixelT & itkNotUsed(p))
   {
-    return EUCLIDEAN;
+    return ComponentSpaceEnum::EUCLIDEAN;
   }
 
   /** Set/Get the component space type. */
-  itkSetMacro(ComponentSpace, ComponentSpaceType);
-  itkGetConstMacro(ComponentSpace, ComponentSpaceType);
+  itkSetEnumMacro(ComponentSpace, ComponentSpaceEnum);
+  itkGetConstMacro(ComponentSpace, ComponentSpaceEnum);
 
   // Cache input and output pointer to get rid of thousands of calls
   // to GetInput and GetOutput.
@@ -409,28 +423,19 @@ private:
   unsigned int m_ElapsedIterations{ 0 };
 
   /** Parameters defining the usage of a specific noise model, if desired. */
-  NoiseModelType m_NoiseModel;
+  NoiseModelEnum m_NoiseModel;
   double         m_SmoothingWeight{ 1.0 };
   double         m_NoiseModelFidelityWeight{ 0.0 };
 
   /** Parameter indicating whether components should be treated as if they are in
       Euclidean space regardless of pixel type. */
   bool               m_AlwaysTreatComponentsAsEuclidean{ false };
-  ComponentSpaceType m_ComponentSpace;
+  ComponentSpaceEnum m_ComponentSpace;
 
   bool m_ManualReinitialization{ false };
 
-  FilterStateType m_State;
+  FilterStateEnum m_State;
 };
-
-// Define how to print enumerations
-extern ITKDenoising_EXPORT std::ostream &
-                           operator<<(std::ostream & out, const NoiseType value);
-extern ITKDenoising_EXPORT std::ostream &
-                           operator<<(std::ostream & out, const SpaceType value);
-extern ITKDenoising_EXPORT std::ostream &
-                           operator<<(std::ostream & out, const StateTypeOfFilter value);
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

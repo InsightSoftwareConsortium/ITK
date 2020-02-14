@@ -53,10 +53,10 @@ public:
   static constexpr unsigned int CellDimension = 0;
 
   /** Implement the standard CellInterface. */
-  CellGeometry
+  CellGeometryEnum
   GetType() const override
   {
-    return Superclass::VERTEX_CELL;
+    return CellGeometryEnum::VERTEX_CELL;
   }
   void
   MakeCopy(CellAutoPointer &) const override;
@@ -98,7 +98,7 @@ public:
   GetPointId();
 
   /** Cell visitor interface */
-  itkCellVisitMacro(Superclass::VERTEX_CELL);
+  itkCellVisitMacro(CellGeometryEnum::VERTEX_CELL);
 
   /** Evaluate the position of a given point */
   bool

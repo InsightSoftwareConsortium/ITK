@@ -19,20 +19,21 @@
 
 namespace itk
 {
+/** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const GradientEnum value)
+operator<<(std::ostream & out, const DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat value)
 {
   return out << [value] {
     switch (value)
     {
-      case GradientEnum::GradientIsInASingleImage:
-        return "GradientEnum::GradientIsInASingleImage";
-      case GradientEnum::GradientIsInManyImages:
-        return "GradientEnum::GradientIsInManyImages";
-      case GradientEnum::Else:
-        return "GradientEnum::Else";
+      case DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::GradientIsInASingleImage:
+        return "itk::DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::GradientIsInASingleImage";
+      case DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::GradientIsInManyImages:
+        return "itk::DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::GradientIsInManyImages";
+      case DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::Else:
+        return "itk::DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::Else";
       default:
-        return "INVALID VALUE FOR GradientEnum";
+        return "INVALID VALUE FOR itk::DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat";
     }
   }();
 }

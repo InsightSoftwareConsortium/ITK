@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class ConvolutionImageFilter
+/**
+ *\class ConvolutionImageFilter
  * \brief Convolve a given image with an arbitrary image kernel.
  *
  * This filter operates by centering the flipped kernel at each pixel

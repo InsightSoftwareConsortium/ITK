@@ -108,10 +108,10 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     p.SetGreen(i + 1);
     p.SetBlue(i + 2);
     p.SetAlpha(i + 3);
-    p.AddField(itk::DTITubeSpatialObjectPointFieldEnum::FA, i);
-    p.SetField(itk::DTITubeSpatialObjectPointFieldEnum::FA, i + 1);
-    p.AddField(itk::DTITubeSpatialObjectPointFieldEnum::ADC, 2 * i);
-    p.AddField(itk::DTITubeSpatialObjectPointFieldEnum::GA, 3 * i);
+    p.AddField(itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::FA, i);
+    p.SetField(itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::FA, i + 1);
+    p.AddField(itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::ADC, 2 * i);
+    p.AddField(itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::GA, 3 * i);
     p.AddField("Lambda1", 4 * i);
     p.AddField("Lambda2", 5 * i);
     p.AddField("Lambda3", 6 * i);
@@ -321,7 +321,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   // Define a contour
   ContourType::Pointer contour = ContourType::New();
   contour->GetProperty().SetName("My First Contour");
-  contour->SetInterpolationMethod(ContourType::InterpolationMethodType::EXPLICIT_INTERPOLATION);
+  contour->SetInterpolationMethod(ContourType::InterpolationMethodEnum::EXPLICIT_INTERPOLATION);
   contour->SetIsClosed(true);
   contour->SetAttachedToSlice(50);
 
@@ -696,20 +696,23 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
           return EXIT_FAILURE;
         }
 
-        if (itk::Math::NotExactlyEquals((*jdti).GetField(itk::DTITubeSpatialObjectPointFieldEnum::FA), value + 1))
+        if (itk::Math::NotExactlyEquals(
+              (*jdti).GetField(itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::FA), value + 1))
         {
           std::cout << " [FAILED] : FA : found " << (*jdti).GetField("FA") << " instead of " << value + 1 << std::endl;
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
-        if (itk::Math::NotExactlyEquals((*jdti).GetField(itk::DTITubeSpatialObjectPointFieldEnum::ADC), value * 2))
+        if (itk::Math::NotExactlyEquals(
+              (*jdti).GetField(itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::ADC), value * 2))
         {
           std::cout << " [FAILED] : ADC : found " << (*jdti).GetField("ADC") << " instead of " << value * 2
                     << std::endl;
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
-        if (itk::Math::NotExactlyEquals((*jdti).GetField(itk::DTITubeSpatialObjectPointFieldEnum::GA), value * 3))
+        if (itk::Math::NotExactlyEquals(
+              (*jdti).GetField(itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::GA), value * 3))
         {
           std::cout << " [FAILED] : GA : found " << (*jdti).GetField("FA") << " instead of " << value * 3 << std::endl;
           delete mySceneChildren;

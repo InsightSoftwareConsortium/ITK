@@ -1,3 +1,6 @@
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkImageRegistrationMethodv4.h")
+itk_wrap_simple_class("itk::ImageRegistrationMethodv4Enums")
 itk_wrap_class("itk::ImageRegistrationMethodv4" POINTER)
   foreach(d ${ITK_WRAP_DIMS})
     foreach(t ${WRAP_ITK_REAL})

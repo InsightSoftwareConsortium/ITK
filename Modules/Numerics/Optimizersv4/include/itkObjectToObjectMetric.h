@@ -30,7 +30,8 @@
 namespace itk
 {
 
-/** \class ObjectToObjectMetric
+/**
+ *\class ObjectToObjectMetric
  * \brief Computes similarity between regions of two objects.
  *
  * This class is templated over the dimensionality of the two input objects.
@@ -122,7 +123,7 @@ public:
   using ParametersType = typename Superclass::ParametersType;
   using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
-  using GradientSourceType = typename Superclass::GradientSourceType;
+  using GradientSourceEnum = typename Superclass::GradientSourceEnum;
 
   /** Dimension type */
   using DimensionType = SizeValueType;
@@ -312,13 +313,13 @@ public:
   bool
   IsInsideVirtualDomain(const VirtualIndexType & index) const;
 
-  using MetricCategoryType = typename Superclass::MetricCategoryType;
+  using MetricCategoryType = typename Superclass::MetricCategoryEnum;
 
   /** Get metric category */
   MetricCategoryType
   GetMetricCategory() const override
   {
-    return Superclass::OBJECT_METRIC;
+    return MetricCategoryType::OBJECT_METRIC;
   }
 
 protected:

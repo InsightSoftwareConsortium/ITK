@@ -136,5 +136,28 @@ itkObjectToObjectMetricBaseTest(int, char *[])
 
   ITK_TEST_EXPECT_EQUAL(objectMetric->GetCurrentValue(), 1.0);
 
+  // Test streaming enumeration for ObjectToObjectMetricBaseTemplateEnums::GradientSource elements
+  const std::set<itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource> allGradientSource{
+    itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_FIXED,
+    itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_MOVING,
+    itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_BOTH
+  };
+  for (const auto & ee : allGradientSource)
+  {
+    std::cout << "STREAMED ENUM VALUE ObjectToObjectMetricBaseTemplateEnums::GradientSource: " << ee << std::endl;
+  }
+
+  // Test streaming enumeration for ObjectToObjectMetricBaseTemplateEnums::MetricCategory elements
+  const std::set<itk::ObjectToObjectMetricBaseTemplateEnums::MetricCategory> allMetricCategory{
+    itk::ObjectToObjectMetricBaseTemplateEnums::MetricCategory::UNKNOWN_METRIC,
+    itk::ObjectToObjectMetricBaseTemplateEnums::MetricCategory::OBJECT_METRIC,
+    itk::ObjectToObjectMetricBaseTemplateEnums::MetricCategory::IMAGE_METRIC,
+    itk::ObjectToObjectMetricBaseTemplateEnums::MetricCategory::POINT_SET_METRIC,
+    itk::ObjectToObjectMetricBaseTemplateEnums::MetricCategory::MULTI_METRIC
+  };
+  for (const auto & ee : allMetricCategory)
+  {
+    std::cout << "STREAMED ENUM VALUE ObjectToObjectMetricBaseTemplateEnums::MetricCategory: " << ee << std::endl;
+  }
   return EXIT_SUCCESS;
 }

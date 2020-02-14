@@ -92,7 +92,7 @@ itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1(int argc, char * argv[])
   for (MeshType::CellsContainerIterator cells_it = cells->Begin(); cells_it != cells->End(); ++cells_it, faceId++)
   {
     CellType * cellPointer = cells_it.Value();
-    if (cellPointer->GetType() != 1)
+    if (static_cast<int>(cellPointer->GetType()) != 1)
     {
       std::cout << "Face " << faceId << " has " << cellPointer->GetNumberOfPoints() << " points" << std::endl;
     }

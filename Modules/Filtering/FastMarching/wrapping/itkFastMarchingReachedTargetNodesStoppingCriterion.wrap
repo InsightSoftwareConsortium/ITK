@@ -1,3 +1,6 @@
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkFastMarchingReachedTargetNodesStoppingCriterion.h")
+itk_wrap_simple_class("itk::FastMarchingReachedTargetNodesStoppingCriterionEnums")
 itk_wrap_class("itk::FastMarchingReachedTargetNodesStoppingCriterion" POINTER)
 #   itk_wrap_image_filter("${WRAP_ITK_USIGN_INT}" 2)
 #   itk_wrap_image_filter("${WRAP_ITK_SIGN_INT}" 2)

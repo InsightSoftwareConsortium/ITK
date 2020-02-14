@@ -511,6 +511,16 @@ itkRecursiveGaussianImageFiltersTest(int, char *[])
     ITK_TRY_EXPECT_EXCEPTION(filter->Update())
   }
 
+  // Test streaming enumeration for RecursiveGaussianImageFilterEnums::GaussianOrder elements
+  const std::set<itk::RecursiveGaussianImageFilterEnums::GaussianOrder> allGaussianOrder{
+    itk::RecursiveGaussianImageFilterEnums::GaussianOrder::ZeroOrder,
+    itk::RecursiveGaussianImageFilterEnums::GaussianOrder::FirstOrder,
+    itk::RecursiveGaussianImageFilterEnums::GaussianOrder::SecondOrder
+  };
+  for (const auto & ee : allGaussianOrder)
+  {
+    std::cout << "STREAMED ENUM VALUE RecursiveGaussianImageFilterEnums::GaussianOrder: " << ee << std::endl;
+  }
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;

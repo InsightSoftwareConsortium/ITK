@@ -91,7 +91,7 @@ MeshFileWriter<TInputMesh>::Write()
     if (m_MeshIO.IsNull())
     {
       itkDebugMacro(<< "Attempting factory creation of MeshIO for file: " << m_FileName);
-      m_MeshIO = MeshIOFactory::CreateMeshIO(m_FileName.c_str(), MeshIOFactory::FileModeEnum::WriteMode);
+      m_MeshIO = MeshIOFactory::CreateMeshIO(m_FileName.c_str(), MeshIOFactory::IOFileModeEnum::WriteMode);
       m_FactorySpecifiedMeshIO = true;
     }
     else
@@ -100,7 +100,7 @@ MeshFileWriter<TInputMesh>::Write()
       {
         itkDebugMacro(<< "MeshIO exists but doesn't know how to write file:" << m_FileName);
         itkDebugMacro(<< "Attempting creation of MeshIO with a factory for file:" << m_FileName);
-        m_MeshIO = MeshIOFactory::CreateMeshIO(m_FileName.c_str(), MeshIOFactory::FileModeEnum::WriteMode);
+        m_MeshIO = MeshIOFactory::CreateMeshIO(m_FileName.c_str(), MeshIOFactory::IOFileModeEnum::WriteMode);
         m_FactorySpecifiedMeshIO = true;
       }
     }
@@ -138,11 +138,11 @@ MeshFileWriter<TInputMesh>::Write()
 
   if (m_FileTypeIsBINARY)
   {
-    m_MeshIO->SetFileType(MeshIOBase::BINARY);
+    m_MeshIO->SetFileType(IOFileEnum::BINARY);
   }
   else
   {
-    m_MeshIO->SetFileType(MeshIOBase::ASCII);
+    m_MeshIO->SetFileType(IOFileEnum::ASCII);
   }
 
   if (m_UseCompression)
@@ -355,32 +355,32 @@ MeshFileWriter<TInputMesh>::CopyCellsToBuffer(Output * data)
     // Write the cell type
     switch (cellPtr->GetType())
     {
-      case InputMeshCellType::VERTEX_CELL:
-        data[index++] = static_cast<Output>(MeshIOBase::VERTEX_CELL);
+      case CellGeometryEnum::VERTEX_CELL:
+        data[index++] = static_cast<Output>(CellGeometryEnum::VERTEX_CELL);
         break;
-      case InputMeshCellType::LINE_CELL:
-        data[index++] = static_cast<Output>(MeshIOBase::LINE_CELL);
+      case CellGeometryEnum::LINE_CELL:
+        data[index++] = static_cast<Output>(CellGeometryEnum::LINE_CELL);
         break;
-      case InputMeshCellType::TRIANGLE_CELL:
-        data[index++] = static_cast<Output>(MeshIOBase::TRIANGLE_CELL);
+      case CellGeometryEnum::TRIANGLE_CELL:
+        data[index++] = static_cast<Output>(CellGeometryEnum::TRIANGLE_CELL);
         break;
-      case InputMeshCellType::QUADRILATERAL_CELL:
-        data[index++] = static_cast<Output>(MeshIOBase::QUADRILATERAL_CELL);
+      case CellGeometryEnum::QUADRILATERAL_CELL:
+        data[index++] = static_cast<Output>(CellGeometryEnum::QUADRILATERAL_CELL);
         break;
-      case InputMeshCellType::POLYGON_CELL:
-        data[index++] = static_cast<Output>(MeshIOBase::POLYGON_CELL);
+      case CellGeometryEnum::POLYGON_CELL:
+        data[index++] = static_cast<Output>(CellGeometryEnum::POLYGON_CELL);
         break;
-      case InputMeshCellType::TETRAHEDRON_CELL:
-        data[index++] = static_cast<Output>(MeshIOBase::TETRAHEDRON_CELL);
+      case CellGeometryEnum::TETRAHEDRON_CELL:
+        data[index++] = static_cast<Output>(CellGeometryEnum::TETRAHEDRON_CELL);
         break;
-      case InputMeshCellType::HEXAHEDRON_CELL:
-        data[index++] = static_cast<Output>(MeshIOBase::HEXAHEDRON_CELL);
+      case CellGeometryEnum::HEXAHEDRON_CELL:
+        data[index++] = static_cast<Output>(CellGeometryEnum::HEXAHEDRON_CELL);
         break;
-      case InputMeshCellType::QUADRATIC_EDGE_CELL:
-        data[index++] = static_cast<Output>(MeshIOBase::QUADRATIC_EDGE_CELL);
+      case CellGeometryEnum::QUADRATIC_EDGE_CELL:
+        data[index++] = static_cast<Output>(CellGeometryEnum::QUADRATIC_EDGE_CELL);
         break;
-      case InputMeshCellType::QUADRATIC_TRIANGLE_CELL:
-        data[index++] = static_cast<Output>(MeshIOBase::QUADRATIC_TRIANGLE_CELL);
+      case CellGeometryEnum::QUADRATIC_TRIANGLE_CELL:
+        data[index++] = static_cast<Output>(CellGeometryEnum::QUADRATIC_TRIANGLE_CELL);
         break;
       default:
         itkExceptionMacro(<< "Unknown mesh cell");

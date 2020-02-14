@@ -98,8 +98,8 @@ using zeiss_info = struct
 
 LSMImageIO::LSMImageIO()
 {
-  m_ByteOrder = LittleEndian;
-  m_FileType = Binary;
+  m_ByteOrder = IOByteOrderEnum::LittleEndian;
+  m_FileType = IOFileEnum::Binary;
 
   this->SetSupportedWriteExtensions(ImageIOBase::ArrayOfExtensionsType{});
   this->AddSupportedWriteExtension(".lsm");
@@ -252,11 +252,11 @@ LSMImageIO::Write(const void * buffer)
 
   switch (this->GetComponentType())
   {
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
       bps = 8;
       break;
 
-    case USHORT:
+    case IOComponentEnum::USHORT:
       bps = 16;
       break;
 
@@ -381,10 +381,10 @@ LSMImageIO::Write(const void * buffer)
 
     switch (this->GetComponentType())
     {
-      case UCHAR:
+      case IOComponentEnum::UCHAR:
         rowLength = sizeof(unsigned char);
         break;
-      case USHORT:
+      case IOComponentEnum::USHORT:
         rowLength = sizeof(unsigned short);
         break;
       default:

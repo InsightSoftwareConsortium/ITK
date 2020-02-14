@@ -25,7 +25,8 @@ namespace itk
 {
 namespace Functor
 {
-/** \class LabelToRGBFunctor
+/**
+ *\class LabelToRGBFunctor
  *  \brief Functor for converting labels into RGB triplets.
  *
  * This functor class used internally by LabelToRGBImageFilter

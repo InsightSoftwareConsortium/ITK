@@ -122,7 +122,7 @@ FileListVideoIO::CanReadFile(const char * filename)
 
   // Make sure we can instantiate an ImageIO to read the first file
   ImageIOBase::Pointer ioTemp =
-    ImageIOFactory::CreateImageIO(fileList[0].c_str(), ImageIOFactory::FileModeEnum::ReadMode);
+    ImageIOFactory::CreateImageIO(fileList[0].c_str(), ImageIOFactory::IOFileModeEnum::ReadMode);
   if (ioTemp.IsNull())
   {
     return false;
@@ -284,7 +284,7 @@ FileListVideoIO::CanWriteFile(const char * filename)
 
   // Make sure we can instantiate an ImageIO to write the first file
   ImageIOBase::Pointer ioTemp =
-    ImageIOFactory::CreateImageIO(fileList[0].c_str(), ImageIOFactory::FileModeEnum::WriteMode);
+    ImageIOFactory::CreateImageIO(fileList[0].c_str(), ImageIOFactory::IOFileModeEnum::WriteMode);
   if (ioTemp.IsNull())
   {
     return false;
@@ -309,7 +309,7 @@ FileListVideoIO::SetWriterParameters(TemporalRatioType                  framesPe
                                      const std::vector<SizeValueType> & dim,
                                      const char *                       itkNotUsed(fourCC),
                                      unsigned int                       nChannels,
-                                     IOComponentType                    itkNotUsed(componentType))
+                                     IOComponentEnum                    itkNotUsed(componentType))
 {
   m_Dimensions.clear();
   m_Origin.clear();
@@ -383,7 +383,7 @@ FileListVideoIO::OpenReader()
   if (m_ReadFrom == ReadFromEnum::ReadFromFile)
   {
     // Use the ImageIOFactory to instantiate a working ImageIO
-    m_ImageIO = ImageIOFactory::CreateImageIO(m_FileNames[0].c_str(), ImageIOFactory::FileModeEnum::ReadMode);
+    m_ImageIO = ImageIOFactory::CreateImageIO(m_FileNames[0].c_str(), ImageIOFactory::IOFileModeEnum::ReadMode);
     if (!m_ImageIO.IsNull())
     {
       m_ReaderOpen = true;
@@ -424,7 +424,7 @@ FileListVideoIO::OpenWriter()
   }
 
   // If neither reader nor writer is currently open, open the writer
-  m_ImageIO = ImageIOFactory::CreateImageIO(m_FileNames[0].c_str(), ImageIOFactory::FileModeEnum::WriteMode);
+  m_ImageIO = ImageIOFactory::CreateImageIO(m_FileNames[0].c_str(), ImageIOFactory::IOFileModeEnum::WriteMode);
   if (!m_ImageIO.IsNull())
   {
     m_WriterOpen = true;
@@ -454,8 +454,8 @@ FileListVideoIO::ResetMembers()
   m_ReadFrom = ReadFromEnum::ReadFromFile;
 
   // Members from ImageIOBase
-  m_PixelType = SCALAR;
-  m_ComponentType = UCHAR;
+  m_PixelType = IOPixelEnum::SCALAR;
+  m_ComponentType = IOComponentEnum::UCHAR;
   this->SetNumberOfDimensions(2);
   m_Spacing[0] = 1.0;
   m_Spacing[1] = 1.0;

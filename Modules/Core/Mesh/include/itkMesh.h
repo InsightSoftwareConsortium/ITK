@@ -34,23 +34,13 @@
 #include "itkBoundingBox.h"
 #include "itkCellInterface.h"
 #include "itkMapContainer.h"
+#include "itkCommonEnums.h"
 #include "ITKMeshExport.h"
 #include <vector>
 #include <set>
 
 namespace itk
 {
-/** \class MeshClassCellsAllocationMethodEnum
- * \ingroup ITKMesh
- * Enum defining the possible methods used to allocate memory for
- * the Cells */
-enum class MeshClassCellsAllocationMethodEnum : uint8_t
-{
-  CellsAllocationMethodUndefined,
-  CellsAllocatedAsStaticArray,
-  CellsAllocatedAsADynamicArray,
-  CellsAllocatedDynamicallyCellByCell
-};
 
 /** \class Mesh
  * \brief Implements the N-dimensional mesh structure.
@@ -144,24 +134,25 @@ public:
   using MeshTraits = TMeshTraits;
   using PixelType = typename MeshTraits::PixelType;
   using CellPixelType = typename MeshTraits::CellPixelType;
+  using MeshClassCellsAllocationMethodEnum = MeshEnums::MeshClassCellsAllocationMethod;
 
   /** Convenient constants obtained from TMeshTraits template parameter. */
   static constexpr unsigned int PointDimension = TMeshTraits::PointDimension;
   static constexpr unsigned int MaxTopologicalDimension = TMeshTraits::MaxTopologicalDimension;
 
-  /** Enables backwards compatibility for enum values */
-  using CellsAllocationMethodType = MeshClassCellsAllocationMethodEnum;
 #if !defined(ITK_LEGACY_REMOVE)
+  using CellsAllocationMethodType = MeshClassCellsAllocationMethodEnum;
+  /** Enables backwards compatibility for enum values */
   // We need to expose the enum values at the class level
   // for backwards compatibility
   static constexpr CellsAllocationMethodType CellsAllocationMethodUndefined =
-    CellsAllocationMethodType::CellsAllocationMethodUndefined;
+    MeshClassCellsAllocationMethodEnum::CellsAllocationMethodUndefined;
   static constexpr CellsAllocationMethodType CellsAllocatedAsStaticArray =
-    CellsAllocationMethodType::CellsAllocatedAsStaticArray;
+    MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedAsStaticArray;
   static constexpr CellsAllocationMethodType CellsAllocatedAsADynamicArray =
-    CellsAllocationMethodType::CellsAllocatedAsADynamicArray;
+    MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedAsADynamicArray;
   static constexpr CellsAllocationMethodType CellsAllocatedDynamicallyCellByCell =
-    CellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell;
+    MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell;
 #endif
 
   /** Convenient type alias obtained from TMeshTraits template parameter. */
@@ -484,8 +475,8 @@ public:
       \warning Failure to call this method correctly will lead to memory leaks
       and/or segmentation faults because the cell memory will not be erased or
       will be erased with an improper method.  */
-  itkSetMacro(CellsAllocationMethod, CellsAllocationMethodType);
-  itkGetConstReferenceMacro(CellsAllocationMethod, CellsAllocationMethodType);
+  itkSetMacro(CellsAllocationMethod, MeshClassCellsAllocationMethodEnum);
+  itkGetConstReferenceMacro(CellsAllocationMethod, MeshClassCellsAllocationMethodEnum);
 
 protected:
   /** Constructor for use by New() method. */
@@ -505,12 +496,12 @@ protected:
   BoundingBoxPointer m_BoundingBox;
 
 private:
-  CellsAllocationMethodType m_CellsAllocationMethod;
+  MeshClassCellsAllocationMethodEnum m_CellsAllocationMethod;
 }; // End Class: Mesh
 
 /** Define how to print enumeration */
 extern ITKMesh_EXPORT std::ostream &
-                      operator<<(std::ostream & out, const MeshClassCellsAllocationMethodEnum value);
+                      operator<<(std::ostream & out, const MeshEnums::MeshClassCellsAllocationMethod value);
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

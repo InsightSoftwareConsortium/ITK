@@ -61,7 +61,7 @@ internalMain(const std::string &       inputImage,
              itk::GDCMImageIO::Pointer gdcmImageIO)
 {
   const unsigned int numberOfComponents = gdcmImageIO->GetNumberOfComponents();
-  using IOPixelType = itk::GDCMImageIO::IOPixelType;
+  using IOPixelType = itk::IOPixelEnum;
   IOPixelType pixelType = gdcmImageIO->GetPixelType();
 
   switch (pixelType)

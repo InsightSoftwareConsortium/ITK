@@ -1,7 +1,7 @@
 set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
 itk_wrap_include("itkExtractImageFilter.h")
 
-itk_wrap_simple_class("itk::ExtractImageFilterCollapseStrategyEnum" ENUM)
+itk_wrap_simple_class("itk::ExtractImageFilterEnums")
 
 itk_wrap_class("itk::ExtractImageFilter" POINTER)
   itk_wrap_image_filter("${WRAP_ITK_ALL_TYPES}" 2)

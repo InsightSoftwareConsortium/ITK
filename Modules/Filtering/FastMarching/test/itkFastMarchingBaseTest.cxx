@@ -167,6 +167,17 @@ itkFastMarchingBaseTest(int argc, char * argv[])
     }
   }
 
+  // Test streaming enumeration for FastMarchingTraitsEnums::TopologyCheck elements
+  const std::set<itk::FastMarchingTraitsEnums::TopologyCheck> allTopologyCheck{
+    itk::FastMarchingTraitsEnums::TopologyCheck::Nothing,
+    itk::FastMarchingTraitsEnums::TopologyCheck::NoHandles,
+    itk::FastMarchingTraitsEnums::TopologyCheck::Strict
+  };
+  for (const auto & ee : allTopologyCheck)
+  {
+    std::cout << "STREAMED ENUM VALUE FastMarchingTraitsEnums::TopologyCheck: " << ee << std::endl;
+  }
+
   if (exception_caught)
   {
     return EXIT_SUCCESS;

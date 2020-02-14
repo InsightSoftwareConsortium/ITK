@@ -55,7 +55,8 @@ public:
 };
 } // namespace Functor
 
-/** \class TernaryMagnitudeImageFilter
+/**
+ *\class TernaryMagnitudeImageFilter
  * \brief Compute the pixel-wise magnitude of three images.
  *
  * This class is templated over the types of the three

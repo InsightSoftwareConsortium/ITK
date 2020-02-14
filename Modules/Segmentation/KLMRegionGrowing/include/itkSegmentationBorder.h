@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class SegmentationBorder
+/**
+ *\class SegmentationBorder
  * \brief Base class for SegmentationBorder object
  *
  * itkSegmentationBorder is the base class for the SegmentationBorder

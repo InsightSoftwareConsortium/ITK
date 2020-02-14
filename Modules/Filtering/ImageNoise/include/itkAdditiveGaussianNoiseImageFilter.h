@@ -23,7 +23,8 @@
 namespace itk
 {
 
-/** \class AdditiveGaussianNoiseImageFilter
+/**
+ *\class AdditiveGaussianNoiseImageFilter
  *
  * \brief Alter an image with additive Gaussian white noise.
  *

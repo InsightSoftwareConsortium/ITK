@@ -25,6 +25,8 @@
 
 #include <set>
 #include <vector>
+#include <ITKDeformableMeshExport.h>
+
 namespace itk
 {
 class ImageVoxel
@@ -94,8 +96,32 @@ public:
     m_Value = val;
   }
 };
-
-/** \class DeformableSimplexMesh3DGradientConstraintForceFilter
+/**\class DeformableSimplexMesh3DGradientConstraintForceFilterEnums
+ * \brief Contains all enum classes used by the DeformableSimplexMesh3DGradientConstraintForceFilter class.
+ * \ingroup ITKDeformableMesh
+ */
+class DeformableSimplexMesh3DGradientConstraintForceFilterEnums
+{
+public:
+  /**
+   * \class SIDE
+   * \ingroup ITKDeformableMesh
+   */
+  enum class SIDE : uint8_t
+  {
+    // half segment in direction
+    NORMAL,
+    // half segment in -direction
+    INVERSE,
+    // complete segment
+    BOTH
+  };
+};
+// Define how to print enumeration
+extern ITKDeformableMesh_EXPORT std::ostream &
+                                operator<<(std::ostream & out, const DeformableSimplexMesh3DGradientConstraintForceFilterEnums::SIDE value);
+/**
+ *\class DeformableSimplexMesh3DGradientConstraintForceFilter
  * \brief
  * Additional to its superclass this class reimplements the external forces methos
  * in which the scan line algorithm is used to find highest gradient is found in
@@ -155,16 +181,13 @@ public:
   itkSetMacro(Range, int);
   itkGetConstMacro(Range, int);
 
-  // full segment or half segment direction
-  enum SIDE
-  {
-    // half segment in direction
-    NORMAL,
-    // half segment in -direction
-    INVERSE,
-    // complete segment
-    BOTH
-  };
+  using SIDEEnum = DeformableSimplexMesh3DGradientConstraintForceFilterEnums::SIDE;
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enums values for backwards compatibility*/
+  static constexpr SIDEEnum NORMAL = SIDEEnum::NORMAL;
+  static constexpr SIDEEnum INVERSE = SIDEEnum::INVERSE;
+  static constexpr SIDEEnum BOTH = SIDEEnum::BOTH;
+#endif
 
   /**
    * Set Original image

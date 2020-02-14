@@ -117,7 +117,8 @@ private:
 };
 } // namespace Functor
 
-/** \class MaskImageFilter
+/**
+ *\class MaskImageFilter
  * \brief Mask an image with a mask.
  *
  * This class is templated over the types of the

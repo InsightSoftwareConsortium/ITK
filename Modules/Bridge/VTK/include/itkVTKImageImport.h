@@ -34,7 +34,8 @@
 
 namespace itk
 {
-/** \class VTKImageImport
+/**
+ *\class VTKImageImport
  * \brief Connect the end of an VTK pipeline to an ITK image pipeline.
  *
  * VTKImageImport can be used at the beginning of an ITK image pipeline to

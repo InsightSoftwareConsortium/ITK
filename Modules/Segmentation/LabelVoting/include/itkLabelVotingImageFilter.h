@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class LabelVotingImageFilter
+/**
+ *\class LabelVotingImageFilter
  *
  * \brief This filter performs pixelwise voting among an arbitrary number
  * of input images, where each of them represents a segmentation of the same

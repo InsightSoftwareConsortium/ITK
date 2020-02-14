@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class PolyLineParametricPath
+/**
+ *\class PolyLineParametricPath
  * \brief  Represent a path of line segments through ND Space
  *
  * This class is intended to represent parametric paths through an image, where

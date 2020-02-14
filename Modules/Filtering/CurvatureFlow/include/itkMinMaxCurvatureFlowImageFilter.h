@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class MinMaxCurvatureFlowImageFilter
+/**
+ *\class MinMaxCurvatureFlowImageFilter
  * \brief Denoise an image using min/max curvature flow.
  *
  * MinMaxCurvatureFlowImageFilter implements a curvature driven image denoising

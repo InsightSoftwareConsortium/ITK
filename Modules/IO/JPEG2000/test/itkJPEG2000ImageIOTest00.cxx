@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include <set>
 #include "itkJPEG2000ImageIO.h"
 
 
@@ -27,6 +28,30 @@ itkJPEG2000ImageIOTest00(int /*argc */, char * /*argv*/[])
   std::cout << "ClassName = " << imageIO->GetNameOfClass() << std::endl;
 
   imageIO->Print(std::cout);
+
+  // Test streaming enumeration for JPEG2000ImageIOInternalEnums::DecodingFormat elements
+  const std::set<itk::JPEG2000ImageIOInternalEnums::DecodingFormat> allDecodingFormat{
+    itk::JPEG2000ImageIOInternalEnums::DecodingFormat::J2K_CFMT,
+    itk::JPEG2000ImageIOInternalEnums::DecodingFormat::JP2_CFMT,
+    itk::JPEG2000ImageIOInternalEnums::DecodingFormat::JPT_CFMT,
+    itk::JPEG2000ImageIOInternalEnums::DecodingFormat::MJ2_CFMT
+  };
+  for (const auto & ee : allDecodingFormat)
+  {
+    std::cout << "STREAMED ENUM VALUE JPEG2000ImageIOInternalEnums::DecodingFormat: " << ee << std::endl;
+  }
+
+  // Test streaming enumeration for JPEG2000ImageIOInternalEnums::DFMFormat elements
+  const std::set<itk::JPEG2000ImageIOInternalEnums::DFMFormat> allDFMFormat{
+    itk::JPEG2000ImageIOInternalEnums::DFMFormat::PXM_DFMT,
+    itk::JPEG2000ImageIOInternalEnums::DFMFormat::PGX_DFMT,
+    itk::JPEG2000ImageIOInternalEnums::DFMFormat::BMP_DFMT,
+    itk::JPEG2000ImageIOInternalEnums::DFMFormat::YUV_DFMT
+  };
+  for (const auto & ee : allDFMFormat)
+  {
+    std::cout << "STREAMED ENUM VALUE JPEG2000ImageIOInternalEnums::DFMFormat: " << ee << std::endl;
+  }
 
   return EXIT_SUCCESS;
 }

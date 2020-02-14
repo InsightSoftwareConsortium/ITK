@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class HilbertPath
+/**
+ *\class HilbertPath
  * \brief  Represent an n-dimensional Hilbert path for a given order
  *
  * This class is used to construct a Hilbert spacing-filling curve

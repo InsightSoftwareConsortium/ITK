@@ -77,10 +77,10 @@ itkBorderQuadEdgeMeshFilterTest(int argc, char * argv[])
   switch (border) // choose border type
   {
     case 0: // square shaped domain
-      border_transform->SetTransformType(BorderTransformType::SQUARE_BORDER_TRANSFORM);
+      border_transform->SetTransformType(BorderTransformType::BorderTransformEnum::SQUARE_BORDER_TRANSFORM);
       break;
     case 1: // disk shaped domain
-      border_transform->SetTransformType(BorderTransformType::DISK_BORDER_TRANSFORM);
+      border_transform->SetTransformType(BorderTransformType::BorderTransformEnum::DISK_BORDER_TRANSFORM);
       break;
     default: // handle .... user ....
       std::cerr << "2nd argument must be " << std::endl;
@@ -94,10 +94,10 @@ itkBorderQuadEdgeMeshFilterTest(int argc, char * argv[])
   switch (pick)
   {
     case 0:
-      border_transform->SetBorderPick(BorderTransformType::LONGEST);
+      border_transform->SetBorderPick(BorderTransformType::BorderPickEnum::LONGEST);
       break;
     case 1:
-      border_transform->SetBorderPick(BorderTransformType::LARGEST);
+      border_transform->SetBorderPick(BorderTransformType::BorderPickEnum::LARGEST);
       break;
     default: // handle .... user ....
       std::cerr << "3rd argument must be " << std::endl;
@@ -118,6 +118,24 @@ itkBorderQuadEdgeMeshFilterTest(int argc, char * argv[])
   // ** PRINT **
   std::cout << "BorderTransform: \n" << border_transform;
 
+  // Test streaming enumeration for BorderQuadEdgeMeshFilterEnums::BorderTransform elements
+  const std::set<itk::BorderQuadEdgeMeshFilterEnums::BorderTransform> allBorderTransform{
+    itk::BorderQuadEdgeMeshFilterEnums::BorderTransform::SQUARE_BORDER_TRANSFORM,
+    itk::BorderQuadEdgeMeshFilterEnums::BorderTransform::DISK_BORDER_TRANSFORM
+  };
+  for (const auto & ee : allBorderTransform)
+  {
+    std::cout << "STREAMED ENUM VALUE BorderQuadEdgeMeshFilterEnums::BorderTransform: " << ee << std::endl;
+  }
+
+  // Test streaming enumeration for BorderQuadEdgeMeshFilterEnums::BorderPick elements
+  const std::set<itk::BorderQuadEdgeMeshFilterEnums::BorderPick> allBorderPick{
+    itk::BorderQuadEdgeMeshFilterEnums::BorderPick::LONGEST, itk::BorderQuadEdgeMeshFilterEnums::BorderPick::LARGEST
+  };
+  for (const auto & ee : allBorderPick)
+  {
+    std::cout << "STREAMED ENUM VALUE BorderQuadEdgeMeshFilterEnums::BorderPick: " << ee << std::endl;
+  }
   // GET OUT OF HERE AND GET (YET ANOTHER) COFFEE
   return EXIT_SUCCESS;
 }

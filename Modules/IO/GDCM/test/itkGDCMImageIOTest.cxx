@@ -155,7 +155,7 @@ itkGDCMImageIOTest(int argc, char * argv[])
   ostrm.str("");
   ostrm << itk::Math::Ceil<int, double>(1. / rescaler->GetScale());
   itk::EncapsulateMetaData<std::string>(dict, "0028|1053", ostrm.str());
-  gdcmImageIO->SetInternalComponentType(itk::ImageIOBase::UCHAR);
+  gdcmImageIO->SetInternalComponentType(itk::IOComponentEnum::UCHAR);
   rescaledDicomWriter->SetImageIO(gdcmImageIO);
 
   gdcmImageIO->Print(std::cout);
@@ -189,6 +189,16 @@ itkGDCMImageIOTest(int argc, char * argv[])
     std::cerr << "Error: exception in file writer " << std::endl;
     std::cerr << error << std::endl;
     return EXIT_FAILURE;
+  }
+
+  // Test streaming enumeration for GDCMImageIOEnums::Compression elements
+  const std::set<itk::GDCMImageIOEnums::Compression> allCompression{ itk::GDCMImageIOEnums::Compression::JPEG,
+                                                                     itk::GDCMImageIOEnums::Compression::JPEG2000,
+                                                                     itk::GDCMImageIOEnums::Compression::JPEGLS,
+                                                                     itk::GDCMImageIOEnums::Compression::RLE };
+  for (const auto & ee : allCompression)
+  {
+    std::cout << "STREAMED ENUM VALUE GDCMImageIOEnums::Compression: " << ee << std::endl;
   }
 
   return EXIT_SUCCESS;

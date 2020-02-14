@@ -26,7 +26,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class SubsamplerBase
+/**
+ *\class SubsamplerBase
  * \brief This is the base subsampler class which defines the subsampler API.
  *
  * This class will search a Sample provided by SetSample and return a

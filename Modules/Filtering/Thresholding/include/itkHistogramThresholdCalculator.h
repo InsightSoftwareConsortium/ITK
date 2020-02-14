@@ -28,7 +28,8 @@
 namespace itk
 {
 
-/** \class HistogramThresholdCalculator
+/**
+ *\class HistogramThresholdCalculator
  * \brief Base class to compute a threshold value based on the histogram of an image
  *
  * \author Richard Beare. Department of Medicine, Monash University,

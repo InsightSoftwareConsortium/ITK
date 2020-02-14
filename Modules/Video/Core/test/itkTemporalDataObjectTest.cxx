@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include <set>
 #include "itkTemporalDataObject.h"
 
 /**
@@ -85,7 +86,7 @@ itkTemporalDataObjectTest(int, char *[])
   ITK_CHECK_FOR_VALUE(tdo->GetRequestedTemporalRegion(), regionRequested);
   ITK_CHECK_FOR_VALUE(tdo->GetBufferedTemporalRegion(), regionBuffered);
 
-  CHECK_FOR_VALUE(tdo->GetTemporalUnit(), itk::TemporalDataObject::Frame);
+  CHECK_FOR_VALUE(tdo->GetTemporalUnit(), itk::TemporalDataObject::TemporalUnitType::Frame);
   CHECK_FOR_VALUE(tdo->VerifyRequestedRegion(), true);
   CHECK_FOR_VALUE(tdo->RequestedRegionIsOutsideOfTheBufferedRegion(), false);
 
@@ -107,5 +108,15 @@ itkTemporalDataObjectTest(int, char *[])
   tdo3->Print(std::cout);
   tdo4->Print(std::cout);
 
+  // Test streaming enumeration for TemporalDataObjectEnums::TemporalUnit elements
+  const std::set<itk::TemporalDataObjectEnums::TemporalUnit> allTemporalUnit{
+    itk::TemporalDataObjectEnums::TemporalUnit::Frame,
+    itk::TemporalDataObjectEnums::TemporalUnit::RealTime,
+    itk::TemporalDataObjectEnums::TemporalUnit::FrameAndRealTime
+  };
+  for (const auto & ee : allTemporalUnit)
+  {
+    std::cout << "STREAMED ENUM VALUE TemporalDataObjectEnums::TemporalUnit: " << ee << std::endl;
+  }
   return EXIT_SUCCESS;
 }

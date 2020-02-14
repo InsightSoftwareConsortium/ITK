@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class BinomialBlurImageFilter
+/**
+ *\class BinomialBlurImageFilter
  * \brief Performs a separable blur on each dimension of an image.
  *
  * The binomial blur consists of a nearest neighbor average along each

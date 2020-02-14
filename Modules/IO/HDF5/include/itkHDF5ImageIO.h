@@ -43,7 +43,8 @@ class DataSet;
 
 namespace itk
 {
-/** \class HDF5ImageIO
+/**
+ *\class HDF5ImageIO
  *
  * \author Kent Williams
  * \brief Class that defines how to read HDF5 file format.

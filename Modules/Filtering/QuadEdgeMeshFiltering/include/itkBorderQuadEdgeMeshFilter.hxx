@@ -26,8 +26,8 @@ namespace itk
 template <typename TInputMesh, typename TOutputMesh>
 BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::BorderQuadEdgeMeshFilter()
 {
-  this->m_TransformType = SQUARE_BORDER_TRANSFORM;
-  this->m_BorderPick = LONGEST;
+  this->m_TransformType = BorderTransformEnum::SQUARE_BORDER_TRANSFORM;
+  this->m_BorderPick = BorderPickEnum::LONGEST;
   this->m_Radius = 0.0;
 }
 
@@ -56,10 +56,10 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeBoundary()
 
   switch (m_BorderPick)
   {
-    case LONGEST:
+    case BorderPickEnum::LONGEST:
       bdryEdge = ComputeLongestBorder();
       break;
-    case LARGEST:
+    case BorderPickEnum::LARGEST:
       bdryEdge = ComputeLargestBorder();
       break;
     default:
@@ -327,12 +327,12 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeTransform()
   switch (this->m_TransformType)
   {
     default:
-    case SQUARE_BORDER_TRANSFORM:
+    case BorderTransformEnum::SQUARE_BORDER_TRANSFORM:
     {
       this->ArcLengthSquareTransform();
       break;
     }
-    case DISK_BORDER_TRANSFORM:
+    case BorderTransformEnum::DISK_BORDER_TRANSFORM:
     {
       this->DiskTransform();
       break;
@@ -440,8 +440,8 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream & os, 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "TransformType: " << m_TransformType << std::endl;
-  os << indent << "BorderPick: " << m_BorderPick << std::endl;
+  os << indent << "TransformType: " << static_cast<char>(m_TransformType) << std::endl;
+  os << indent << "BorderPick: " << static_cast<char>(m_BorderPick) << std::endl;
   os << indent << "Radius: " << m_Radius << std::endl;
 }
 } // namespace itk

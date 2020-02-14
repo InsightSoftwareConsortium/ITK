@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class XMLReaderBase
+/**
+ *\class XMLReaderBase
  * XMLReaderBase encapsulates the expat library (Insight/Utilities/expat
  * and defines the methods needed in a derived class to receive the
  * contents of an XML file in a structured manner.  It's 'impure virtual'
@@ -86,7 +87,8 @@ protected:
   std::string m_Filename;
 };
 
-/** \class XMLReader
+/**
+ *\class XMLReader
  * \brief template base class for an XMLReader
  * It's purpose really is just to define the simple interface for
  * extracting the object resulting from reading the XML File.
@@ -128,7 +130,8 @@ protected:
   T * m_OutputObject;
 };
 
-/** \class XMLWriterBase
+/**
+ *\class XMLWriterBase
  *
  * 'Impure virtual' base class for XML File writing.
  * Defines the interface for an XML file writer and provides

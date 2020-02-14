@@ -242,7 +242,7 @@ typename BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTra
   // smoothing operation is done using the BSplineScatteredDataPointSettoImageFilter so we
   // don't need to artificially zero out "missing" values.
 
-  if (this->m_Metric->GetMetricCategory() == MetricType::POINT_SET_METRIC)
+  if (this->m_Metric->GetMetricCategory() == ObjectToObjectMetricBaseTemplateEnums::MetricCategory::POINT_SET_METRIC)
   {
     const DisplacementVectorType zeroVector(0.0);
 

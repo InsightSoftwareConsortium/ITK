@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex
+/**
+ *\class FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex
  * \brief A multi-dimensional iterator templated over image type that walks
  * pixels within a region and is specialized to keep track of its image index
  * location.

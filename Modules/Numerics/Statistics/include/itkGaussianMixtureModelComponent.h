@@ -27,7 +27,8 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class GaussianMixtureModelComponent
+/**
+ *\class GaussianMixtureModelComponent
  * \brief is a component (derived from MixtureModelComponentBase) for
  * Gaussian class. This class is used in
  * ExpectationMaximizationMixtureModelEstimator.

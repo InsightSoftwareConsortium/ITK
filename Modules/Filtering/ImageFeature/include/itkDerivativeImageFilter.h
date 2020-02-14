@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class DerivativeImageFilter
+/**
+ *\class DerivativeImageFilter
  * \brief Computes the directional derivative of an image.
  * The directional derivative at each pixel location is computed by convolution
  * with a derivative operator of user-specified order.

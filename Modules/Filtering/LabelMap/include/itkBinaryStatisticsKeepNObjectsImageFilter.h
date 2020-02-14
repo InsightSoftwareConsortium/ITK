@@ -25,7 +25,8 @@
 
 namespace itk
 {
-/** \class BinaryStatisticsKeepNObjectsImageFilter
+/**
+ *\class BinaryStatisticsKeepNObjectsImageFilter
  * \brief keep N objects according to their statistics attributes
  *
  * BinaryStatisticsKeepNObjectsImageFilter keep the N objects in a binary image

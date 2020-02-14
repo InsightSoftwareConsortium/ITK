@@ -24,18 +24,30 @@
 
 namespace itk
 {
-/** \class DTITubeSpatialObjectPointFieldEnum
+/**\class DTITubeSpatialObjectPointEnums
+ * \brief Contains all enum classes used by DTITubeSpatialObjectPoint class.
  * \ingroup ITKSpatialObjects
- * If you add a type here you need to modify the TranslateEnumToChar
- to translate the enum to a string */
-enum class DTITubeSpatialObjectPointFieldEnum : uint8_t
+ */
+class DTITubeSpatialObjectPointEnums
 {
-  FA = 0,
-  ADC = 1,
-  GA = 2
+public:
+  /**
+*\class DTITubeSpatialObjectPointField
+* \ingroup ITKSpatialObjects
+* If you add a type here you need to modify the TranslateEnumToChar
+to translate the enum to a string */
+  enum class DTITubeSpatialObjectPointField : uint8_t
+  {
+    FA = 0,
+    ADC = 1,
+    GA = 2
+  };
 };
-
-/** \class DTITubeSpatialObjectPoint
+// Define how to print enumeration
+extern ITKSpatialObjects_EXPORT std::ostream &
+                                operator<<(std::ostream & out, const DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField value);
+/**
+ *\class DTITubeSpatialObjectPoint
  * \brief Point used for a tube definition
  *
  * This class contains all the functions necessary to define a point
@@ -56,14 +68,15 @@ public:
   using FieldType = std::pair<std::string, float>;
   using FieldListType = std::vector<FieldType>;
 
+  using DTITubeSpatialObjectPointFieldEnum = DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField;
+#if !defined(ITK_LEGACY_REMOVE)
   /** Enables backwards compatibility for enum values */
   using FieldEnumType = DTITubeSpatialObjectPointFieldEnum;
-#if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr FieldEnumType FA = FieldEnumType::FA;
-  static constexpr FieldEnumType ADC = FieldEnumType::ADC;
-  static constexpr FieldEnumType GA = FieldEnumType::GA;
+  static constexpr DTITubeSpatialObjectPointFieldEnum FA = DTITubeSpatialObjectPointFieldEnum::FA;
+  static constexpr DTITubeSpatialObjectPointFieldEnum ADC = DTITubeSpatialObjectPointFieldEnum::ADC;
+  static constexpr DTITubeSpatialObjectPointFieldEnum GA = DTITubeSpatialObjectPointFieldEnum::GA;
 #endif
 
   /** Constructor. This one defines the number of dimensions in the
@@ -111,11 +124,11 @@ public:
 
   /** Add a field to the point list */
   void
-  AddField(FieldEnumType name, float value);
+  AddField(DTITubeSpatialObjectPointFieldEnum name, float value);
 
   /** Set a field value */
   void
-  SetField(FieldEnumType name, float value);
+  SetField(DTITubeSpatialObjectPointFieldEnum name, float value);
 
   void
   SetField(const char * name, float value);
@@ -132,7 +145,7 @@ public:
   GetField(const char * name) const;
 
   float
-  GetField(FieldEnumType name) const;
+  GetField(DTITubeSpatialObjectPointFieldEnum name) const;
 
 protected:
   float         m_TensorMatrix[6];
@@ -144,12 +157,8 @@ protected:
 
   /** Translate the enum to char */
   std::string
-  TranslateEnumToChar(FieldEnumType name) const;
+  TranslateEnumToChar(DTITubeSpatialObjectPointFieldEnum name) const;
 };
-
-/** Define how to print enumerations */
-extern ITKSpatialObjects_EXPORT std::ostream &
-                                operator<<(std::ostream & out, const DTITubeSpatialObjectPointFieldEnum value);
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

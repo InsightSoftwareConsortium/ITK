@@ -335,7 +335,7 @@ template <typename TInput, typename TOutput>
 bool
 FastMarchingImageFilterBase<TInput, TOutput>::CheckTopology(OutputImageType * oImage, const NodeType & iNode)
 {
-  if (this->m_TopologyCheck != Superclass::Nothing)
+  if (this->m_TopologyCheck != Superclass::TopologyCheckEnum::Nothing)
   {
     if ((ImageDimension == 2) || (ImageDimension == 3))
     {
@@ -343,14 +343,15 @@ FastMarchingImageFilterBase<TInput, TOutput>::CheckTopology(OutputImageType * oI
 
       bool strictTopologyViolation = this->DoesVoxelChangeViolateStrictTopology(iNode);
 
-      if ((this->m_TopologyCheck == Superclass::Strict) && (wellComposednessViolation || strictTopologyViolation))
+      if ((this->m_TopologyCheck == Superclass::TopologyCheckEnum::Strict) &&
+          (wellComposednessViolation || strictTopologyViolation))
       {
         oImage->SetPixel(iNode, this->m_TopologyValue);
         this->m_LabelImage->SetPixel(iNode, Traits::Topology);
         return false;
       }
 
-      if (this->m_TopologyCheck == Superclass::NoHandles)
+      if (this->m_TopologyCheck == Superclass::TopologyCheckEnum::NoHandles)
       {
         if (wellComposednessViolation)
         {
@@ -446,7 +447,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeOutput(OutputImageType *
 
   // Checking for handles only requires an image to keep track of
   // connected components.
-  if (this->m_TopologyCheck == Superclass::NoHandles)
+  if (this->m_TopologyCheck == Superclass::TopologyCheckEnum::NoHandles)
   {
     m_ConnectedComponentImage = ConnectedComponentImageType::New();
     m_ConnectedComponentImage->SetOrigin(m_OutputOrigin);
@@ -482,7 +483,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeOutput(OutputImageType *
         // Make this an alive point
         this->SetLabelValueForGivenNode(idx, Traits::Alive);
 
-        if (this->m_TopologyCheck == Superclass::NoHandles)
+        if (this->m_TopologyCheck == Superclass::TopologyCheckEnum::NoHandles)
         {
           m_ConnectedComponentImage->SetPixel(idx, 1);
         }
@@ -518,7 +519,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeOutput(OutputImageType *
     }
   }
 
-  if (this->m_TopologyCheck == Superclass::NoHandles)
+  if (this->m_TopologyCheck == Superclass::TopologyCheckEnum::NoHandles)
   {
     // Now create the connected component image and relabel such that labels
     // are 1, 2, 3, ...
@@ -570,7 +571,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeOutput(OutputImageType *
     }
   }
   // Initialize indices if this->m_TopologyCheck is activated
-  if (this->m_TopologyCheck != Superclass::Nothing)
+  if (this->m_TopologyCheck != Superclass::TopologyCheckEnum::Nothing)
   {
     if (ImageDimension == 2)
     {

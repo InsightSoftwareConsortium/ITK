@@ -31,7 +31,8 @@
 namespace itk
 {
 
-/** \class BinaryReconstructionByErosionImageFilter
+/**
+ *\class BinaryReconstructionByErosionImageFilter
  * \brief binary reconstruction by erosion of an image
  *
  * Reconstruction by erosion operates on a "marker" image and a "mask"

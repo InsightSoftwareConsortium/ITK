@@ -1,3 +1,6 @@
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkFastMarchingImageFilter.h")
+itk_wrap_simple_class("itk::FastMarchingImageFilterEnums")
 itk_wrap_class("itk::FastMarchingImageFilter" POINTER)
 #   itk_wrap_image_filter("${WRAP_ITK_USIGN_INT}" 2)
 #   itk_wrap_image_filter("${WRAP_ITK_SIGN_INT}" 2)

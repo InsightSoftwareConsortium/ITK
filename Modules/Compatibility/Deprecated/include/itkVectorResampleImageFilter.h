@@ -26,7 +26,8 @@
 
 namespace itk
 {
-/** \class VectorResampleImageFilter
+/**
+ *\class VectorResampleImageFilter
  * \brief Resample an image via a coordinate transform
  *
  * VectorResampleImageFilter resamples an existing image through some coordinate

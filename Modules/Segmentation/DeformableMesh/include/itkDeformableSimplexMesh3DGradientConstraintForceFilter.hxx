@@ -218,10 +218,11 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
   if (ic[0] >= 0 && ic[0] < this->m_ImageWidth && ic[1] >= 0 && ic[1] < this->m_ImageHeight && ic[2] >= 0 &&
       ic[2] < this->m_ImageDepth)
   {
-    bool stop;
-    SIDE side = BOTH; // make sure you can set half segment as well but for noe
-                      // we just set it to full segment
-    int    vpos[3], ii;
+    bool     stop;
+    SIDEEnum side = SIDEEnum::BOTH; // make sure you can set half segment as well but for noe
+                                    // we just set it to full segment
+    int    vpos[3];
+    int    ii;
     double dist;
     double dp[3];
     double pos[3];
@@ -276,7 +277,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
     m_Positive.push_back(current);
 
     // scan normal side
-    if (side == NORMAL || side == BOTH)
+    if (side == SIDEEnum::NORMAL || side == SIDEEnum::BOTH)
     {
       int i = 0;
       stop = false;
@@ -318,7 +319,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
     }
 
     // scan inverse normal side
-    if (side == INVERSE || side == BOTH)
+    if (side == SIDEEnum::INVERSE || side == SIDEEnum::BOTH)
     {
       pos[0] = data->pos[0];
       pos[1] = data->pos[1];

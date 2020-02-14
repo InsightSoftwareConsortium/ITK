@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class HistogramToEntropyImageFilter
+/**
+ *\class HistogramToEntropyImageFilter
  * \brief The class takes a histogram as an input and gives the entropy
  * image as the output. A pixel, at position I,  in the output image is given by
  *

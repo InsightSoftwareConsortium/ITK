@@ -24,6 +24,26 @@
 #include <string>
 namespace itk
 {
+/**\class GradientDescentOptimizerEnums
+ * \brief Contains all enum classes in the GradientDescentOptimizer class.
+ * \ingroup ITKOptimizers
+ */
+class GradientDescentOptimizerEnums
+{
+public:
+  /** \class StopConditionGradientDescentOptimizer
+   * \ingroup ITKOptimizers
+   * Codes of stopping conditions */
+  enum class StopConditionGradientDescentOptimizer : uint8_t
+  {
+    MaximumNumberOfIterations,
+    MetricError
+  };
+};
+// Define how to print enumeration
+extern ITKOptimizers_EXPORT std::ostream &
+                            operator<<(std::ostream & out, const GradientDescentOptimizerEnums::StopConditionGradientDescentOptimizer value);
+
 /** \class GradientDescentOptimizer
  * \brief Implement a gradient descent optimizer
  *
@@ -66,20 +86,15 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(GradientDescentOptimizer, SingleValuedNonLinearOptimizer);
 
-  /** \class StopConditionEnum
-   *
-   * \ingroup ITKOptimizers
-   * Codes of stopping conditions */
-  enum class StopConditionEnum : uint8_t
-  {
-    MaximumNumberOfIterations,
-    MetricError
-  };
+  using StopConditionGradientDescentOptimizerEnum =
+    GradientDescentOptimizerEnums::StopConditionGradientDescentOptimizer;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr StopConditionEnum MaximumNumberOfIterations = StopConditionEnum::MaximumNumberOfIterations;
-  static constexpr StopConditionEnum MetricError = StopConditionEnum::MetricError;
+  static constexpr StopConditionGradientDescentOptimizerEnum MaximumNumberOfIterations =
+    StopConditionGradientDescentOptimizerEnum::MaximumNumberOfIterations;
+  static constexpr StopConditionGradientDescentOptimizerEnum MetricError =
+    StopConditionGradientDescentOptimizerEnum::MetricError;
 #endif
 
   /** Methods to configure the cost function. */
@@ -144,7 +159,7 @@ public:
   itkGetConstReferenceMacro(Value, double);
 
   /** Get Stop condition. */
-  itkGetConstReferenceMacro(StopCondition, StopConditionEnum);
+  itkGetConstReferenceMacro(StopCondition, StopConditionGradientDescentOptimizerEnum);
   const std::string
   GetStopConditionDescription() const override;
 
@@ -165,9 +180,11 @@ protected:
   double m_LearningRate{ 1.0 };
 
 private:
-  bool               m_Stop{ false };
-  double             m_Value{ 0.0 };
-  StopConditionEnum  m_StopCondition{ StopConditionEnum::MaximumNumberOfIterations };
+  bool                                      m_Stop{ false };
+  double                                    m_Value{ 0.0 };
+  StopConditionGradientDescentOptimizerEnum m_StopCondition{
+    StopConditionGradientDescentOptimizerEnum::MaximumNumberOfIterations
+  };
   SizeValueType      m_NumberOfIterations{ 100 };
   SizeValueType      m_CurrentIteration{ 0 };
   std::ostringstream m_StopConditionDescription;
@@ -175,7 +192,7 @@ private:
 
 // Define how to print enumeration
 extern ITKOptimizers_EXPORT std::ostream &
-                            operator<<(std::ostream & out, const GradientDescentOptimizer::StopConditionEnum value);
+                            operator<<(std::ostream & out, const GradientDescentOptimizer::StopConditionGradientDescentOptimizerEnum value);
 
 } // end namespace itk
 

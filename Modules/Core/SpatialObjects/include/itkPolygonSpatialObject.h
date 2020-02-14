@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class PolygonSpatialObject
+/**
+ *\class PolygonSpatialObject
  *
  * \brief TODO
  * \ingroup ITKSpatialObjects

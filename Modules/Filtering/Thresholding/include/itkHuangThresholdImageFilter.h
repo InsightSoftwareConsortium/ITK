@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class HuangThresholdImageFilter
+/**
+ *\class HuangThresholdImageFilter
  * \brief Threshold an image using the Huang Threshold
  *
  * This filter creates a binary thresholded image that separates an

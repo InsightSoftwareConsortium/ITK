@@ -26,8 +26,8 @@ namespace itk
 VTKImageIO::VTKImageIO()
 {
   this->SetNumberOfDimensions(2);
-  m_ByteOrder = LittleEndian;
-  m_FileType = Binary;
+  m_ByteOrder = IOByteOrderEnum::LittleEndian;
+  m_FileType = IOFileEnum::Binary;
   m_HeaderSize = 0;
 
   this->AddSupportedReadExtension(".vtk");
@@ -110,8 +110,8 @@ bool
 VTKImageIO::CanStreamRead()
 {
   bool canStreamRead = true;
-  canStreamRead &= this->GetPixelType() != ImageIOBase::SYMMETRICSECONDRANKTENSOR;
-  canStreamRead &= this->GetFileType() != ASCII;
+  canStreamRead &= this->GetPixelType() != IOPixelEnum::SYMMETRICSECONDRANKTENSOR;
+  canStreamRead &= this->GetFileType() != IOFileEnum::ASCII;
   return canStreamRead;
 }
 
@@ -119,24 +119,24 @@ bool
 VTKImageIO::CanStreamWrite()
 {
   bool canStreamWrite = true;
-  canStreamWrite &= this->GetPixelType() != ImageIOBase::SYMMETRICSECONDRANKTENSOR;
-  canStreamWrite &= this->GetFileType() != ASCII;
+  canStreamWrite &= this->GetPixelType() != IOPixelEnum::SYMMETRICSECONDRANKTENSOR;
+  canStreamWrite &= this->GetFileType() != IOFileEnum::ASCII;
   return canStreamWrite;
 }
 
 void
 VTKImageIO::SetPixelTypeFromString(const std::string & pixelType)
 {
-  ImageIOBase::IOComponentType compType = GetComponentTypeFromString(pixelType);
-  if (compType == UNKNOWNCOMPONENTTYPE)
+  IOComponentEnum compType = GetComponentTypeFromString(pixelType);
+  if (compType == IOComponentEnum::UNKNOWNCOMPONENTTYPE)
   {
     if (pixelType.find("vtktypeuint64") < pixelType.length())
     {
-      SetComponentType(ULONGLONG);
+      SetComponentType(IOComponentEnum::ULONGLONG);
     }
     else if (pixelType.find("vtktypeint64") < pixelType.length())
     {
-      SetComponentType(LONGLONG);
+      SetComponentType(IOComponentEnum::LONGLONG);
     }
     else
     {
@@ -150,13 +150,13 @@ VTKImageIO::SetPixelTypeFromString(const std::string & pixelType)
 }
 
 std::string
-VTKImageIO::GetComponentTypeAsString(IOComponentType t)
+VTKImageIO::GetComponentTypeAsString(IOComponentEnum t)
 {
-  if (t == ULONGLONG)
+  if (t == IOComponentEnum::ULONGLONG)
   {
     return "vtktypeuint64";
   }
-  else if (t == LONGLONG)
+  else if (t == IOComponentEnum::LONGLONG)
   {
     return "vtktypeint64";
   }
@@ -259,7 +259,7 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
       readAttribute = true;
 
       this->SetNumberOfComponents(3);
-      this->SetPixelType(VECTOR);
+      this->SetPixelType(IOPixelEnum::VECTOR);
       char pixelType[256];
       sscanf(text.c_str(), "%*s %*s %s", pixelType);
       text = pixelType;
@@ -275,29 +275,29 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
       sscanf(text.c_str(), "%*s %*s %u", &numComp);
       if (numComp == 1)
       {
-        this->SetPixelType(SCALAR);
+        this->SetPixelType(IOPixelEnum::SCALAR);
       }
       else if (numComp == 3)
       {
-        this->SetPixelType(RGB);
+        this->SetPixelType(IOPixelEnum::RGB);
       }
       else if (numComp == 4)
       {
-        this->SetPixelType(RGBA);
+        this->SetPixelType(IOPixelEnum::RGBA);
       }
       else
       {
-        SetPixelType(VECTOR);
+        SetPixelType(IOPixelEnum::VECTOR);
       }
-      if (this->GetFileType() == ASCII)
+      if (this->GetFileType() == IOFileEnum::ASCII)
       {
         this->SetNumberOfComponents(numComp);
-        this->SetComponentType(FLOAT);
+        this->SetComponentType(IOComponentEnum::FLOAT);
       }
       else
       {
         this->SetNumberOfComponents(numComp);
-        this->SetComponentType(UCHAR);
+        this->SetComponentType(IOComponentEnum::UCHAR);
       }
     }
 
@@ -312,11 +312,11 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
       text = pixelType;
       if (numComp == 1)
       {
-        this->SetPixelType(SCALAR);
+        this->SetPixelType(IOPixelEnum::SCALAR);
       }
       else
       {
-        this->SetPixelType(VECTOR);
+        this->SetPixelType(IOPixelEnum::VECTOR);
       }
       this->SetPixelTypeFromString(text);
       this->SetNumberOfComponents(numComp);
@@ -339,7 +339,7 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
       char pixelType[256];
       sscanf(text.c_str(), "%*s %*s %s", pixelType);
       text = pixelType;
-      this->SetPixelType(SYMMETRICSECONDRANKTENSOR);
+      this->SetPixelType(IOPixelEnum::SYMMETRICSECONDRANKTENSOR);
       this->SetNumberOfComponents(6);
       this->SetPixelTypeFromString(text);
     }
@@ -446,10 +446,10 @@ ReadTensorBuffer(std::istream & is, TComponent * buffer, const ImageIOBase::Size
 void
 VTKImageIO::ReadBufferAsASCII(std::istream &              is,
                               void *                      buffer,
-                              IOComponentType             ctype,
+                              IOComponentEnum             ctype,
                               const ImageIOBase::SizeType numComp)
 {
-  if (this->GetPixelType() == ImageIOBase::SYMMETRICSECONDRANKTENSOR)
+  if (this->GetPixelType() == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
   {
     if (this->GetNumberOfComponents() != 6)
     {
@@ -458,14 +458,14 @@ VTKImageIO::ReadBufferAsASCII(std::istream &              is,
 
     switch (ctype)
     {
-      case FLOAT:
+      case IOComponentEnum::FLOAT:
       {
         auto * buf = static_cast<float *>(buffer);
         ReadTensorBuffer(is, buf, numComp);
       }
       break;
 
-      case DOUBLE:
+      case IOComponentEnum::DOUBLE:
       {
         auto * buf = static_cast<double *>(buffer);
         ReadTensorBuffer(is, buf, numComp);
@@ -523,9 +523,9 @@ VTKImageIO::Read(void * buffer)
 
   if (this->RequestedToStream())
   {
-    itkAssertOrThrowMacro(m_FileType != ASCII, "Can not stream with ASCII type files");
+    itkAssertOrThrowMacro(m_FileType != IOFileEnum::ASCII, "Can not stream with ASCII type files");
 
-    if (this->GetPixelType() == ImageIOBase::SYMMETRICSECONDRANKTENSOR)
+    if (this->GetPixelType() == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
     {
       itkExceptionMacro(<< "Cannot stream read binary second rank tensors.");
     }
@@ -571,14 +571,14 @@ VTKImageIO::Read(void * buffer)
 
     // We are positioned at the data. The data is read depending on whether
     // it is ASCII or binary.
-    if (m_FileType == ASCII)
+    if (m_FileType == IOFileEnum::ASCII)
     {
       this->ReadBufferAsASCII(file, buffer, this->GetComponentType(), this->GetImageSizeInComponents());
     }
     else
     {
       // read the image
-      if (this->GetPixelType() == ImageIOBase::SYMMETRICSECONDRANKTENSOR)
+      if (this->GetPixelType() == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
       {
         this->ReadSymmetricTensorBufferAsBinary(file, buffer, this->GetImageSizeInBytes());
       }
@@ -640,7 +640,7 @@ VTKImageIO::WriteImageInformation(const void * itkNotUsed(buffer))
   file << "# vtk DataFile Version 3.0\n";
   file << "VTK File Generated by Insight Segmentation and Registration Toolkit (ITK)\n";
 
-  if (this->GetFileType() == ASCII)
+  if (this->GetFileType() == IOFileEnum::ASCII)
   {
     file << "ASCII\n";
   }
@@ -672,19 +672,19 @@ VTKImageIO::WriteImageInformation(const void * itkNotUsed(buffer))
 
   // NOTE: we don't write out RGB pixel types with ascii due to complication of
   // the required datatypes and the different ranges
-  if (((this->GetPixelType() == RGB && this->GetNumberOfComponents() == 3) ||
-       (this->GetPixelType() == RGBA && this->GetNumberOfComponents() == 4)) &&
-      (this->GetComponentType() == UCHAR) && (this->GetFileType() == Binary))
+  if (((this->GetPixelType() == IOPixelEnum::RGB && this->GetNumberOfComponents() == 3) ||
+       (this->GetPixelType() == IOPixelEnum::RGBA && this->GetNumberOfComponents() == 4)) &&
+      (this->GetComponentType() == IOComponentEnum::UCHAR) && (this->GetFileType() == IOFileEnum::Binary))
   {
     file << "COLOR_SCALARS color_scalars"
          << " " << this->GetNumberOfComponents() << "\n";
   }
   // Prefer the VECTORS representation when possible:
-  else if (this->GetPixelType() == VECTOR && this->GetNumberOfComponents() == 3)
+  else if (this->GetPixelType() == IOPixelEnum::VECTOR && this->GetNumberOfComponents() == 3)
   {
     file << "VECTORS vectors " << this->GetComponentTypeAsString(m_ComponentType) << "\n";
   }
-  else if (this->GetPixelType() == SYMMETRICSECONDRANKTENSOR)
+  else if (this->GetPixelType() == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
   {
     file << "TENSORS tensors " << this->GetComponentTypeAsString(m_ComponentType) << "\n";
   }
@@ -774,14 +774,14 @@ WriteTensorBuffer(std::ostream &              os,
 void
 VTKImageIO::WriteBufferAsASCII(std::ostream &              os,
                                const void *                buffer,
-                               IOComponentType             ctype,
+                               IOComponentEnum             ctype,
                                const ImageIOBase::SizeType numComp)
 {
-  if (this->GetPixelType() == ImageIOBase::SYMMETRICSECONDRANKTENSOR)
+  if (this->GetPixelType() == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
   {
     switch (ctype)
     {
-      case FLOAT:
+      case IOComponentEnum::FLOAT:
       {
         using Type = const float *;
         auto buf = static_cast<Type>(buffer);
@@ -789,7 +789,7 @@ VTKImageIO::WriteBufferAsASCII(std::ostream &              os,
       }
       break;
 
-      case DOUBLE:
+      case IOComponentEnum::DOUBLE:
       {
         using Type = const double *;
         auto buf = static_cast<Type>(buffer);
@@ -814,7 +814,7 @@ VTKImageIO::WriteBufferAsASCII(std::ostream &              os,
       static_cast<ImageIOBase::BufferSizeType>(this->GetImageSizeInBytes());                                           \
     const ImageIOBase::BufferSizeType numberImageComponents =                                                          \
       static_cast<ImageIOBase::BufferSizeType>(this->GetImageSizeInComponents());                                      \
-    const bool    isSymmetricSecondRankTensor = (this->GetPixelType() == ImageIOBase::SYMMETRICSECONDRANKTENSOR);      \
+    const bool    isSymmetricSecondRankTensor = (this->GetPixelType() == IOPixelEnum::SYMMETRICSECONDRANKTENSOR);      \
     storageType * tempmemory = new storageType[numberImageComponents];                                                 \
     memcpy(tempmemory, buffer, numbytes);                                                                              \
     ByteSwapper<storageType>::SwapRangeFromSystemToBigEndian(tempmemory, numberImageComponents);                       \
@@ -919,9 +919,9 @@ VTKImageIO::Write(const void * buffer)
 {
   if (this->RequestedToStream())
   {
-    itkAssertOrThrowMacro(m_FileType != ASCII, "Can not stream with ASCII type files");
+    itkAssertOrThrowMacro(m_FileType != IOFileEnum::ASCII, "Can not stream with ASCII type files");
 
-    if (this->GetPixelType() == ImageIOBase::SYMMETRICSECONDRANKTENSOR)
+    if (this->GetPixelType() == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
     {
       itkExceptionMacro(<< "Cannot stream write binary second rank tensors.");
     }
@@ -1002,7 +1002,7 @@ VTKImageIO::Write(const void * buffer)
     }
 
     // Write the actual pixel data
-    if (m_FileType == ASCII)
+    if (m_FileType == IOFileEnum::ASCII)
     {
       this->WriteBufferAsASCII(file, buffer, this->GetComponentType(), this->GetImageSizeInComponents());
     }
@@ -1029,7 +1029,7 @@ VTKImageIO::Write(const void * buffer)
       else
       {
         // write the image
-        if (this->GetPixelType() == ImageIOBase::SYMMETRICSECONDRANKTENSOR)
+        if (this->GetPixelType() == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
         {
           this->WriteSymmetricTensorBufferAsBinary(file, buffer, this->GetImageSizeInBytes());
         }

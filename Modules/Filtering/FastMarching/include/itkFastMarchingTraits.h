@@ -74,7 +74,7 @@ public:
 
   using SuperclassType = TSuperclass;
 
-  /** \enum LabelType Fast Marching algorithm nodes types. */
+  /** \enum LabelEnum Fast Marching algorithm nodes types. */
   enum LabelType
   {
     /** \c Far represent far away nodes*/

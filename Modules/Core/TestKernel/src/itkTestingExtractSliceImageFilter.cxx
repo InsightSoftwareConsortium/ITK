@@ -21,23 +21,27 @@ namespace itk
 {
 namespace Testing
 {
-/** Define how to print enumerations */
+/** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const TestExtractSliceImageFilterCollapseStrategyEnum value)
+operator<<(std::ostream & out, const ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy value)
 {
   return out << [value] {
     switch (value)
     {
-      case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN:
-        return "TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN";
-      case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY:
-        return "TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY";
-      case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX:
-        return "TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX";
-      case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS:
-        return "TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS";
+      case ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN:
+        return "itk::ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy::"
+               "DIRECTIONCOLLAPSETOUNKOWN";
+      case ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY:
+        return "itk::ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy::"
+               "DIRECTIONCOLLAPSETOIDENTITY";
+      case ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX:
+        return "itk::ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy::"
+               "DIRECTIONCOLLAPSETOSUBMATRIX";
+      case ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS:
+        return "itk::ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy::"
+               "DIRECTIONCOLLAPSETOGUESS";
       default:
-        return "INVALID VALUE FOR TestExtractSliceImageFilterCollapseStrategyEnum";
+        return "INVALID VALUE FOR itk::ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy";
     }
   }();
 }

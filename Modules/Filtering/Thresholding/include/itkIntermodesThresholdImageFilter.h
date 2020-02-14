@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class IntermodesThresholdImageFilter
+/**
+ *\class IntermodesThresholdImageFilter
  * \brief Threshold an image using the Intermodes Threshold
  *
  * This filter creates a binary thresholded image that separates an

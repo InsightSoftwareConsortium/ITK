@@ -30,11 +30,34 @@
 #include "itkShrinkImageFilter.h"
 #include "itkIdentityTransform.h"
 #include "itkTransformParametersAdaptorBase.h"
+#include "ITKRegistrationMethodsv4Export.h"
 
 #include <vector>
 
 namespace itk
 {
+/**\class ImageRegistrationMethodv4Enums
+ *\brief Contains all enum classes for ImageRegistrationMethodv4 class.
+ * \ingroup ITKRegistrationMethodsv4
+ */
+class ImageRegistrationMethodv4Enums
+{
+public:
+  /**
+   * \class MetricSamplingStrategy
+   * \ingroup ITKRegistrationMethodsv4
+   * \brief enum type for metric sampling strategy
+   */
+  enum class MetricSamplingStrategy : uint8_t
+  {
+    NONE,
+    REGULAR,
+    RANDOM
+  };
+};
+// Define how to print enumeration
+extern ITKRegistrationMethodsv4_EXPORT std::ostream &
+                                       operator<<(std::ostream & out, const ImageRegistrationMethodv4Enums::MetricSamplingStrategy value);
 
 /** \class ImageRegistrationMethodv4
  * \brief Interface method for the current registration framework.
@@ -188,13 +211,15 @@ public:
   /** Weights type for the optimizer. */
   using OptimizerWeightsType = typename OptimizerType::ScalesType;
 
-  /** enum type for metric sampling strategy */
-  enum MetricSamplingStrategyType
-  {
-    NONE,
-    REGULAR,
-    RANDOM
-  };
+  using MetricSamplingStrategyEnum = ImageRegistrationMethodv4Enums::MetricSamplingStrategy;
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enums values for backwards compatibility*/
+  using MetricSamplingStrategyType = MetricSamplingStrategyEnum;
+  static constexpr MetricSamplingStrategyEnum NONE = MetricSamplingStrategyEnum::NONE;
+  static constexpr MetricSamplingStrategyEnum REGULAR = MetricSamplingStrategyEnum::REGULAR;
+  static constexpr MetricSamplingStrategyEnum RANDOM = MetricSamplingStrategyEnum::RANDOM;
+#endif
+
 
   using MetricSamplePointSetType = typename ImageMetricType::FixedSampledPointSetType;
 
@@ -279,8 +304,8 @@ public:
   itkGetModifiableObjectMacro(Metric, MetricType);
 
   /** Set/Get the metric sampling strategy. */
-  itkSetMacro(MetricSamplingStrategy, MetricSamplingStrategyType);
-  itkGetConstMacro(MetricSamplingStrategy, MetricSamplingStrategyType);
+  itkSetEnumMacro(MetricSamplingStrategy, MetricSamplingStrategyEnum);
+  itkGetEnumMacro(MetricSamplingStrategy, MetricSamplingStrategyEnum);
 
   /** Reinitialize the seed for the random number generators that
    * select the samples for some metric sampling strategies.
@@ -528,7 +553,7 @@ protected:
   bool                 m_OptimizerWeightsAreIdentity;
 
   MetricPointer                                       m_Metric;
-  MetricSamplingStrategyType                          m_MetricSamplingStrategy;
+  MetricSamplingStrategyEnum                          m_MetricSamplingStrategy;
   MetricSamplingPercentageArrayType                   m_MetricSamplingPercentagePerLevel;
   SizeValueType                                       m_NumberOfMetrics;
   int                                                 m_FirstImageMetricIndex;

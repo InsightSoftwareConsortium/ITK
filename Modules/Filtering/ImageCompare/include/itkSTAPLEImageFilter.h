@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class STAPLEImageFilter
+/**
+ *\class STAPLEImageFilter
  *
  * \brief The STAPLE filter implements the Simultaneous Truth and Performance
  * Level Estimation algorithm for generating ground truth volumes from a set of

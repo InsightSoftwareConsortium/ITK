@@ -45,11 +45,11 @@ transformImage(const char * inputImageFileName, const char * outputImageFileName
   using ComplexFilterType = itk::VnlComplexToComplexFFTImageFilter<ComplexImageType>;
   typename ComplexFilterType::Pointer inverseComplexFilter = ComplexFilterType::New();
   inverseComplexFilter->SetInput(forwardFilter->GetOutput());
-  inverseComplexFilter->SetTransformDirection(ComplexFilterType::INVERSE);
+  inverseComplexFilter->SetTransformDirection(ComplexFilterType::TransformDirectionEnum::INVERSE);
 
   typename ComplexFilterType::Pointer forwardComplexFilter = ComplexFilterType::New();
   forwardComplexFilter->SetInput(inverseComplexFilter->GetOutput());
-  forwardComplexFilter->SetTransformDirection(ComplexFilterType::FORWARD);
+  forwardComplexFilter->SetTransformDirection(ComplexFilterType::TransformDirectionEnum::FORWARD);
 
   using InverseFilterType = itk::InverseFFTImageFilter<ComplexImageType, RealImageType>;
   typename InverseFilterType::Pointer inverseFilter = InverseFilterType::New();
@@ -87,7 +87,7 @@ itkVnlComplexToComplexFFTImageFilterTest(int argc, char * argv[])
   const std::string pixelTypeString(argv[3]);
 
   itk::ImageIOBase::Pointer imageIO =
-    itk::ImageIOFactory::CreateImageIO(inputImageFileName, itk::ImageIOFactory::FileModeEnum::ReadMode);
+    itk::ImageIOFactory::CreateImageIO(inputImageFileName, itk::ImageIOFactory::IOFileModeEnum::ReadMode);
   imageIO->SetFileName(inputImageFileName);
   imageIO->ReadImageInformation();
   const unsigned int dimension = imageIO->GetNumberOfDimensions();

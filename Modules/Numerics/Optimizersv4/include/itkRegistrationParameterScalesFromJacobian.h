@@ -23,7 +23,8 @@
 namespace itk
 {
 
-/** \class RegistrationParameterScalesFromJacobian
+/**
+ *\class RegistrationParameterScalesFromJacobian
  *  \brief Implements a registration helper class for estimating scales of
  * transform parameters from Jacobian norms.
  *

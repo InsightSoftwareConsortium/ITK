@@ -21,9 +21,30 @@
 #include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
 #include "itkQuadEdgeMeshPolygonCell.h"
 #include "itkTriangleHelper.h"
-
+#include "ITKQuadEdgeMeshFilteringExport.h"
 namespace itk
 {
+/**\class NormalQuadEdgeMeshFilterEnums
+ * \brief Contains enum classes used by NormalQuadEdgeMeshFilter class
+ * \ingroup ITKQuadEdgeMeshFiltering
+ */
+class NormalQuadEdgeMeshFilterEnums
+{
+public:
+  /**\class WeightEnum
+   * \ingroup ITKQuadEdgeMeshFiltering
+   */
+  enum class Weight : uint8_t
+  {
+    GOURAUD = 0, // Uniform weights
+    THURMER,     // Angle on a triangle at the given vertex
+    AREA
+  };
+};
+// Define how to print enumeration
+extern ITKQuadEdgeMeshFiltering_EXPORT std::ostream &
+                                       operator<<(std::ostream & out, const NormalQuadEdgeMeshFilterEnums::Weight value);
+
 /** \class NormalQuadEdgeMeshFilter
  *
  * \brief Filter which computes normals to faces and vertices and store it in
@@ -118,15 +139,17 @@ public:
   using OutputFaceNormalType = typename OutputMeshTraits::CellPixelType;
   using OutputFaceNormalComponentType = typename OutputFaceNormalType::ValueType;
 
-  enum WeightType
-  {
-    GOURAUD = 0, // Uniform weights
-    THURMER,     // Angle on a triangle at the given vertex
-    AREA
-  };
+  using WeightEnum = NormalQuadEdgeMeshFilterEnums::Weight;
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enums values for backwards compatibility*/
+  using WeightType = WeightEnum;
+  static constexpr WeightEnum GOURAUD = WeightEnum::GOURAUD;
+  static constexpr WeightEnum THURMER = WeightEnum::THURMER;
+  static constexpr WeightEnum AREA = WeightEnum::AREA;
+#endif
 
-  itkSetMacro(Weight, WeightType);
-  itkGetConstMacro(Weight, WeightType);
+  itkSetEnumMacro(Weight, WeightEnum);
+  itkGetConstMacro(Weight, WeightEnum);
 
 protected:
   NormalQuadEdgeMeshFilter();
@@ -134,7 +157,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  WeightType m_Weight;
+  WeightEnum m_Weight;
 
   /** \brief Compute the normal to a face iPoly. It assumes that iPoly != 0
    * and

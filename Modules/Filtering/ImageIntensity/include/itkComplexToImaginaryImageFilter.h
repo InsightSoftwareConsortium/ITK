@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class ComplexToImaginaryImageFilter
+/**
+ *\class ComplexToImaginaryImageFilter
  * \brief Computes pixel-wise the imaginary part of a complex image.
  *
  * \ingroup IntensityImageFilters  MultiThreaded

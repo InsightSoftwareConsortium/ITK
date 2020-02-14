@@ -26,7 +26,8 @@
 namespace itk
 {
 
-/** \class HistogramThresholdImageFilter
+/**
+ *\class HistogramThresholdImageFilter
  * \brief Threshold an image using a HistogramThresholdCalculator
  *
  * This filter creates a binary thresholded image that separates an

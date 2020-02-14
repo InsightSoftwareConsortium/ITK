@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \class BinShrinkImageFilter
+/**
+ *\class BinShrinkImageFilter
  * \brief Reduce the size of an image by an integer factor in each
  * dimension while performing averaging of an input neighborhood.
  *

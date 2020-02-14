@@ -39,7 +39,8 @@
 namespace itk
 {
 
-/** \class OpenCVImageBridge
+/**
+ *\class OpenCVImageBridge
  * \brief This class provides static methods to convert between OpenCV images
  * and itk::Image
  *
@@ -191,7 +192,7 @@ private:
   struct HandleRGBPixel<RGBPixel<TValue>, VDimension>
   {
     using ValueType = TValue;
-    using PixelType = RGBPixel<ValueType>;
+    using PixelType = IOPixelEnum::RGBPixel<ValueType>;
     using ImageType = Image<PixelType, VDimension>;
 
     static void

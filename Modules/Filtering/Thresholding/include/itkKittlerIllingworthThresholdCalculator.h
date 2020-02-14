@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \class KittlerIllingworthThresholdCalculator
+/**
+ *\class KittlerIllingworthThresholdCalculator
  * \brief Computes the KittlerIllingworth's threshold for an image.
  *
  * Kittler and J. Illingworth, "Minimum error thresholding," Pattern Recognition, vol. 19, pp. 41-47, 1986.

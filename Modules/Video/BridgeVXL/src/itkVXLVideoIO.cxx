@@ -291,11 +291,11 @@ VXLVideoIO::ReadImageInformation()
     }
     if (bytesPerPixel == 1)
     {
-      this->m_ComponentType = UCHAR;
+      this->m_ComponentType = IOComponentEnum::UCHAR;
     }
     else if (bytesPerPixel == 2)
     {
-      this->m_ComponentType = UINT;
+      this->m_ComponentType = IOComponentEnum::UINT;
     }
     else
     {
@@ -527,21 +527,21 @@ VXLVideoIO::SetWriterParameters(TemporalRatioType                  fps,
   // Figure out the right pixel type to write out
   if (this->m_NumberOfComponents == 4)
   {
-    this->m_PixelType = RGBA;
+    this->m_PixelType = IOPixelEnum::RGBA;
     std::stringstream ss;
     ss << "RGBA " << this->m_NumberOfComponents * this->GetComponentSize() * 8;
     this->m_PixelFormat = vidl_pixel_format_from_string(ss.str());
   }
   else if (this->m_NumberOfComponents == 3)
   {
-    this->m_PixelType = RGB;
+    this->m_PixelType = IOPixelEnum::RGB;
     std::stringstream ss;
     ss << "RGB " << this->m_NumberOfComponents * this->GetComponentSize() * 8;
     this->m_PixelFormat = vidl_pixel_format_from_string(ss.str());
   }
   else if (this->m_NumberOfComponents == 1)
   {
-    this->m_PixelType = SCALAR;
+    this->m_PixelType = IOPixelEnum::SCALAR;
     std::stringstream ss;
     ss << "MONO " << this->m_NumberOfComponents * this->GetComponentSize() * 8;
     this->m_PixelFormat = vidl_pixel_format_from_string(ss.str());
@@ -772,8 +772,8 @@ VXLVideoIO::ResetMembers()
   this->m_CameraIndex = 0;
 
   // Members from ImageIOBase
-  this->m_PixelType = SCALAR;
-  this->m_ComponentType = UCHAR;
+  this->m_PixelType = IOPixelEnum::SCALAR;
+  this->m_ComponentType = IOComponentEnum::UCHAR;
   this->SetNumberOfDimensions(2);
   this->m_Spacing[0] = 1.0;
   this->m_Spacing[1] = 1.0;

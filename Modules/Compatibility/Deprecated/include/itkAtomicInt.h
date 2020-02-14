@@ -44,7 +44,8 @@
 namespace itk
 {
 
-/** \class AtomicInt
+/**
+ *\class AtomicInt
  *  \brief Provides support for atomic integers
  *
  *

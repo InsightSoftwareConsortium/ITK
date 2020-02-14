@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include <set>
+#include "itkHistogramToRunLengthFeaturesFilter.h"
 #include "itkMath.h"
 #include "itkHistogram.h"
 #include "itkSample.h"
@@ -822,6 +824,24 @@ itkHistogramTest(int, char *[])
       std::cerr << "Iterator walk failed" << std::endl;
       return EXIT_FAILURE;
     }
+  }
+
+  // Test streaming enumeration for HistogramToRunLengthFeaturesFilterEnums::RunLengthFeature elements
+  const std::set<itk::Statistics::HistogramToRunLengthFeaturesFilterEnums::RunLengthFeature> allRunLengthFeature{
+    itk::Statistics::HistogramToRunLengthFeaturesFilterEnums::RunLengthFeature::ShortRunEmphasis,
+    itk::Statistics::HistogramToRunLengthFeaturesFilterEnums::RunLengthFeature::LongRunEmphasis,
+    itk::Statistics::HistogramToRunLengthFeaturesFilterEnums::RunLengthFeature::GreyLevelNonuniformity,
+    itk::Statistics::HistogramToRunLengthFeaturesFilterEnums::RunLengthFeature::RunLengthNonuniformity,
+    itk::Statistics::HistogramToRunLengthFeaturesFilterEnums::RunLengthFeature::LowGreyLevelRunEmphasis,
+    itk::Statistics::HistogramToRunLengthFeaturesFilterEnums::RunLengthFeature::HighGreyLevelRunEmphasis,
+    itk::Statistics::HistogramToRunLengthFeaturesFilterEnums::RunLengthFeature::ShortRunLowGreyLevelEmphasis,
+    itk::Statistics::HistogramToRunLengthFeaturesFilterEnums::RunLengthFeature::ShortRunHighGreyLevelEmphasis,
+    itk::Statistics::HistogramToRunLengthFeaturesFilterEnums::RunLengthFeature::LongRunLowGreyLevelEmphasis,
+    itk::Statistics::HistogramToRunLengthFeaturesFilterEnums::RunLengthFeature::LongRunHighGreyLevelEmphasis
+  };
+  for (const auto & ee : allRunLengthFeature)
+  {
+    std::cout << "STREAMED ENUM VALUE HistogramToRunLengthFeaturesFilterEnums::RunLengthFeature: " << ee << std::endl;
   }
 
   if (!pass)

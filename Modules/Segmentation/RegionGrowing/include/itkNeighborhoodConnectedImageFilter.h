@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class NeighborhoodConnectedImageFilter
+/**
+ *\class NeighborhoodConnectedImageFilter
  * \brief Label pixels that are connected to a seed and lie within a neighborhood
  *
  * NeighborhoodConnectedImageFilter labels pixels with ReplaceValue that

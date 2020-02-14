@@ -29,7 +29,7 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::MultiGradientOp
 
 {
   this->m_NumberOfIterations = static_cast<SizeValueType>(0);
-  this->m_StopCondition = Superclass::MAXIMUM_NUMBER_OF_ITERATIONS;
+  this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::MAXIMUM_NUMBER_OF_ITERATIONS;
   this->m_StopConditionDescription << this->GetNameOfClass() << ": ";
 
   this->m_MaximumMetricValue = NumericTraits<MeasureType>::max();
@@ -207,7 +207,7 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::ResumeOptimizat
     }
     catch (ExceptionObject & err)
     {
-      this->m_StopCondition = Superclass::UPDATE_PARAMETERS_ERROR;
+      this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::UPDATE_PARAMETERS_ERROR;
       this->m_StopConditionDescription << "UpdateTransformParameters error";
       this->StopOptimization();
       // Pass exception to caller
@@ -220,7 +220,7 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::ResumeOptimizat
     {
       this->m_StopConditionDescription << "Maximum number of iterations (" << this->m_NumberOfIterations
                                        << ") exceeded.";
-      this->m_StopCondition = Superclass::MAXIMUM_NUMBER_OF_ITERATIONS;
+      this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::MAXIMUM_NUMBER_OF_ITERATIONS;
       this->StopOptimization();
       break;
     }

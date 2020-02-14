@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \class LabelImageGaussianInterpolateImageFunction
+/**
+ *\class LabelImageGaussianInterpolateImageFunction
  * \brief Interpolation function for multi-label images that implicitly smooths each
  * unique value in the image corresponding to each label set element and returns the
  * corresponding label set element with the largest weight.

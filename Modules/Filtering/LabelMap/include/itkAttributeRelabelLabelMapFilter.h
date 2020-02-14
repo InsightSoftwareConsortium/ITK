@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class AttributeRelabelLabelMapFilter
+/**
+ *\class AttributeRelabelLabelMapFilter
  * \brief relabel objects according to their shape attributes
  *
  * AttributeRelabelLabelMapFilter relabel a label map according to the

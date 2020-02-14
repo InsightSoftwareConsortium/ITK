@@ -24,7 +24,8 @@ namespace itk
 {
 namespace Accessor
 {
-/** \class AddPixelAccessor
+/**
+ *\class AddPixelAccessor
  * \brief Simulates the effect of adding a constant value to all pixels
  *
  * This class is intended to be used as parameter of

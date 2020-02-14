@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class BinaryMinMaxCurvatureFlowFunction
+/**
+ *\class BinaryMinMaxCurvatureFlowFunction
  *
  * This class encapsulate the finite difference equation which drives a
  * min/max curvature flow algorithm for denoising binary images.

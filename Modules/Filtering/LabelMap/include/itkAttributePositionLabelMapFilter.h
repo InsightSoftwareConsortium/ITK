@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class AttributePositionLabelMapFilter
+/**
+ *\class AttributePositionLabelMapFilter
  * \brief Mark a single pixel in the label object which correspond to a position given by an attribute
  *
  *

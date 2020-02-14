@@ -25,7 +25,8 @@ namespace itk
 {
 namespace Accessor
 {
-/** \class Log10PixelAccessor
+/**
+ *\class Log10PixelAccessor
  * \brief Give access to the std::log10() function of a value
  *
  * Log10PixelAccessor is templated over an internal type and an
@@ -63,7 +64,8 @@ public:
 };
 } // end namespace Accessor
 
-/** \class Log10ImageAdaptor
+/**
+ *\class Log10ImageAdaptor
  * \brief Presents an image as being composed of the std::log10() of its pixels
  *
  * Additional casting is performed according to the input and output image

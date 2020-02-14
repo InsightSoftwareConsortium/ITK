@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include <set>
 #include "itkMultiThreaderBase.h"
 #include "itkPlatformMultiThreader.h"
 #include "itkPoolMultiThreader.h"
@@ -131,6 +132,34 @@ itkMultiThreaderBaseTest(int argc, char * argv[])
   result &= SetAndVerify(itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads());
   result &= SetAndVerify(itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() - 1);
   result &= SetAndVerify(itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() + 1);
+
+
+  // Test streaming enumeration for MultiThreaderBaseEnums::Threader elements
+  const std::set<itk::MultiThreaderBaseEnums::Threader> allThreader{
+    itk::MultiThreaderBaseEnums::Threader::Platform,
+    //            itk::MultiThreaderBaseEnums::Threader::First,
+    itk::MultiThreaderBaseEnums::Threader::Pool,
+    itk::MultiThreaderBaseEnums::Threader::TBB,
+    //            itk::MultiThreaderBaseEnums::Threader::Last,
+    itk::MultiThreaderBaseEnums::Threader::Unknown
+  };
+  for (const auto & ee : allThreader)
+  {
+    std::cout << "STREAMED ENUM VALUE MultiThreaderBaseEnums::Threader: " << ee << std::endl;
+  }
+
+  // Test streaming enumeration for MultiThreaderBaseEnums::ThreadExitCode elements
+  const std::set<itk::MultiThreaderBaseEnums::ThreadExitCode> allThreadExitCode{
+    itk::MultiThreaderBaseEnums::ThreadExitCode::SUCCESS,
+    itk::MultiThreaderBaseEnums::ThreadExitCode::ITK_EXCEPTION,
+    itk::MultiThreaderBaseEnums::ThreadExitCode::ITK_PROCESS_ABORTED_EXCEPTION,
+    itk::MultiThreaderBaseEnums::ThreadExitCode::STD_EXCEPTION,
+    itk::MultiThreaderBaseEnums::ThreadExitCode::UNKNOWN
+  };
+  for (const auto & ee : allThreadExitCode)
+  {
+    std::cout << "STREAMED ENUM VALUE MultiThreaderBaseEnums::ThreadExitCode: " << ee << std::endl;
+  }
 
   if (!result)
   {

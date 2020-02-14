@@ -26,7 +26,8 @@
 
 namespace itk
 {
-/** \class OBJMeshIO
+/**
+ *\class OBJMeshIO
  * \brief This class defines how to read and write Object file format.
  * \ingroup IOFilters
  * \ingroup ITKIOMeshOBJ

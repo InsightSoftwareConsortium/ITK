@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class HausdorffDistanceImageFilter
+/**
+ *\class HausdorffDistanceImageFilter
  * \brief Computes the Hausdorff distance between the set of
  * non-zero pixels of two images.
  *

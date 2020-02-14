@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class NthElementImageAdaptor
+/**
+ *\class NthElementImageAdaptor
  * \brief Presents an image as being composed of the N-th element of its pixels
  *
  * It assumes that the pixels are of container type and have in their API

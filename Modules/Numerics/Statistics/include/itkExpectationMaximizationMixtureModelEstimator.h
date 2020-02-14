@@ -18,6 +18,7 @@
 #ifndef itkExpectationMaximizationMixtureModelEstimator_h
 #define itkExpectationMaximizationMixtureModelEstimator_h
 
+#include <ITKStatisticsExport.h>
 #include "itkMixtureModelComponentBase.h"
 #include "itkGaussianMembershipFunction.h"
 #include "itkSimpleDataObjectDecorator.h"
@@ -26,7 +27,28 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class ExpectationMaximizationMixtureModelEstimator
+/**\class ExpectationMaximizationMixtureModelEstimatorEnums
+ * \brief Contains all enum classes used by ExpectationMaximizationMixtureModelEstimator class.
+ * \ingroup ITKStatistics
+ */
+class ExpectationMaximizationMixtureModelEstimatorEnums
+{
+public:
+  /**\class TERMINATION_CODE
+   * \ingroup ITKStatistics
+   * Termination status after running optimization */
+  enum class TERMINATION_CODE : uint8_t
+  {
+    CONVERGED = 0,
+    NOT_CONVERGED = 1
+  };
+};
+// Define how to print enumeration
+extern ITKStatistics_EXPORT std::ostream &
+                            operator<<(std::ostream & out, const ExpectationMaximizationMixtureModelEstimatorEnums::TERMINATION_CODE value);
+
+/**
+ *\class ExpectationMaximizationMixtureModelEstimator
  *  \brief This class generates the parameter estimates for a mixture
  *  model using expectation maximization strategy.
  *
@@ -159,15 +181,15 @@ public:
   void
   Update();
 
-  /** Termination status after running optimization */
-  enum TERMINATION_CODE
-  {
-    CONVERGED = 0,
-    NOT_CONVERGED = 1
-  };
+  using TERMINATION_CODE_ENUM = ExpectationMaximizationMixtureModelEstimatorEnums::TERMINATION_CODE;
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enums values for backwards compatibility*/
+  static constexpr TERMINATION_CODE_ENUM CONVERGED = TERMINATION_CODE_ENUM::CONVERGED;
+  static constexpr TERMINATION_CODE_ENUM NOT_CONVERGED = TERMINATION_CODE_ENUM::NOT_CONVERGED;
+#endif
 
   /** Gets the termination status */
-  TERMINATION_CODE
+  TERMINATION_CODE_ENUM
   GetTerminationCode() const;
 
   /** Gets the membership function specified by componentIndex
@@ -209,10 +231,10 @@ private:
   int m_MaxIteration{ 100 };
   int m_CurrentIteration{ 0 };
 
-  TERMINATION_CODE     m_TerminationCode;
-  ComponentVectorType  m_ComponentVector;
-  ProportionVectorType m_InitialProportions;
-  ProportionVectorType m_Proportions;
+  TERMINATION_CODE_ENUM m_TerminationCode;
+  ComponentVectorType   m_ComponentVector;
+  ProportionVectorType  m_InitialProportions;
+  ProportionVectorType  m_Proportions;
 
   MembershipFunctionVectorObjectPointer  m_MembershipFunctionsObject;
   MembershipFunctionsWeightsArrayPointer m_MembershipFunctionsWeightArrayObject;

@@ -30,7 +30,7 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::DiscreteHessianGauss
   , m_MaximumKernelWidth(30)
   , m_NormalizeAcrossScale(true)
   , m_UseImageSpacing(true)
-  , m_InterpolationMode(NearestNeighbourInterpolation)
+  , m_InterpolationMode(InterpolationModeEnum::NearestNeighbourInterpolation)
 {
   m_Variance.Fill(1.0);
   m_OperatorImageFunction = OperatorImageFunctionType::New();
@@ -212,7 +212,7 @@ template <typename TInputImage, typename TOutput>
 typename DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::OutputType
 DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::Evaluate(const PointType & point) const
 {
-  if (m_InterpolationMode == NearestNeighbourInterpolation)
+  if (m_InterpolationMode == InterpolationModeEnum::NearestNeighbourInterpolation)
   {
     IndexType index;
     this->ConvertPointToNearestIndex(point, index);
@@ -232,7 +232,7 @@ typename DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::OutputType
 DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::EvaluateAtContinuousIndex(
   const ContinuousIndexType & cindex) const
 {
-  if (m_InterpolationMode == NearestNeighbourInterpolation)
+  if (m_InterpolationMode == InterpolationModeEnum::NearestNeighbourInterpolation)
   {
     IndexType index;
     this->ConvertContinuousIndexToNearestIndex(cindex, index);

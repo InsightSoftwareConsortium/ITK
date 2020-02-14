@@ -78,9 +78,9 @@ itkSpatialObjectDuplicatorTest(int, char *[])
     p.SetGreen(i + 1);
     p.SetBlue(i + 2);
     p.SetAlpha(i + 3);
-    p.AddField(itk::DTITubeSpatialObjectPointFieldEnum::FA, i);
-    p.AddField(itk::DTITubeSpatialObjectPointFieldEnum::ADC, 2 * i);
-    p.AddField(itk::DTITubeSpatialObjectPointFieldEnum::GA, 3 * i);
+    p.AddField(itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::FA, i);
+    p.AddField(itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::ADC, 2 * i);
+    p.AddField(itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::GA, 3 * i);
     p.AddField("Lambda1", 4 * i);
     p.AddField("Lambda2", 5 * i);
     p.AddField("Lambda3", 6 * i);
@@ -163,17 +163,20 @@ itkSpatialObjectDuplicatorTest(int, char *[])
         return EXIT_FAILURE;
       }
 
-      if (itk::Math::NotExactlyEquals((*jdti).GetField(itk::DTITubeSpatialObjectPointFieldEnum::FA), value))
+      if (itk::Math::NotExactlyEquals(
+            (*jdti).GetField(itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::FA), value))
       {
         std::cout << " [FAILED] : FA : found " << (*jdti).GetField("FA") << " instead of " << value << std::endl;
         return EXIT_FAILURE;
       }
-      if (itk::Math::NotExactlyEquals((*jdti).GetField(itk::DTITubeSpatialObjectPointFieldEnum::ADC), value * 2))
+      if (itk::Math::NotExactlyEquals(
+            (*jdti).GetField(itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::ADC), value * 2))
       {
         std::cout << " [FAILED] : ADC : found " << (*jdti).GetField("ADC") << " instead of " << value * 2 << std::endl;
         return EXIT_FAILURE;
       }
-      if (itk::Math::NotExactlyEquals((*jdti).GetField(itk::DTITubeSpatialObjectPointFieldEnum::GA), value * 3))
+      if (itk::Math::NotExactlyEquals(
+            (*jdti).GetField(itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::GA), value * 3))
       {
         std::cout << " [FAILED] : GA : found " << (*jdti).GetField("FA") << " instead of " << value * 3 << std::endl;
         return EXIT_FAILURE;
@@ -208,6 +211,18 @@ itkSpatialObjectDuplicatorTest(int, char *[])
       }
       value++;
     }
+  }
+
+  // Test streaming enumeration for DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField elements
+  const std::set<itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField> allDTITubeSpatialObjectPointField{
+    itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::FA,
+    itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::ADC,
+    itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::GA
+  };
+  for (const auto & ee : allDTITubeSpatialObjectPointField)
+  {
+    std::cout << "STREAMED ENUM VALUE DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField: " << ee
+              << std::endl;
   }
 
   if (found)

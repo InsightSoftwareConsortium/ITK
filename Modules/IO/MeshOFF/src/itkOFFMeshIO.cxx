@@ -112,11 +112,11 @@ OFFMeshIO ::ReadMeshInformation()
   // If the file is binary file, it contains "BINARY"
   if (line.find("BINARY") != std::string::npos)
   {
-    this->m_FileType = BINARY;
+    this->m_FileType = IOFileEnum::BINARY;
   }
   else
   {
-    this->m_FileType = ASCII;
+    this->m_FileType = IOFileEnum::ASCII;
   }
 
   // Read and Set point dimension
@@ -142,7 +142,7 @@ OFFMeshIO ::ReadMeshInformation()
   }
 
   // Read points and cells information
-  if (this->m_FileType == ASCII)
+  if (this->m_FileType == IOFileEnum::ASCII)
   {
     // Put the last line with output '#' into a stringstream.
     std::stringstream ss;
@@ -184,7 +184,7 @@ OFFMeshIO ::ReadMeshInformation()
     }
   }
   // Read points and cells information from binary mesh
-  else if (this->m_FileType == BINARY)
+  else if (this->m_FileType == IOFileEnum::BINARY)
   {
     // Read the number of points
     itk::uint32_t numberOfPoints;
@@ -228,10 +228,10 @@ OFFMeshIO ::ReadMeshInformation()
   }
 
   // Set default point component type
-  this->m_PointComponentType = FLOAT;
+  this->m_PointComponentType = IOComponentEnum::FLOAT;
 
   // Set default cell component type
-  this->m_CellComponentType = UINT;
+  this->m_CellComponentType = IOComponentEnum::UINT;
 
   // If number of points is not equal zero, update points
   if (this->m_NumberOfPoints)
@@ -246,14 +246,14 @@ OFFMeshIO ::ReadMeshInformation()
   }
 
   // Set default point pixel component and point pixel type
-  this->m_PointPixelComponentType = FLOAT;
-  this->m_PointPixelType = SCALAR;
+  this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
+  this->m_PointPixelType = IOPixelEnum::SCALAR;
   this->m_UpdatePointData = false;
   this->m_NumberOfPointPixelComponents = itk::NumericTraits<unsigned int>::OneValue();
 
   // Set default cell pixel component and point pixel type
-  this->m_CellPixelComponentType = FLOAT;
-  this->m_CellPixelType = SCALAR;
+  this->m_CellPixelComponentType = IOComponentEnum::FLOAT;
+  this->m_CellPixelType = IOPixelEnum::SCALAR;
   this->m_UpdateCellData = false;
   this->m_NumberOfCellPixelComponents = itk::NumericTraits<unsigned int>::OneValue();
 }
@@ -265,11 +265,11 @@ OFFMeshIO ::ReadPoints(void * buffer)
   m_InputFile.seekg(m_PointsStartPosition, std::ios::beg);
 
   // Read file according to ASCII or BINARY
-  if (this->m_FileType == ASCII)
+  if (this->m_FileType == IOFileEnum::ASCII)
   {
     this->ReadBufferAsAscii(static_cast<float *>(buffer), m_InputFile, this->m_NumberOfPoints * this->m_PointDimension);
   }
-  else if (this->m_FileType == BINARY)
+  else if (this->m_FileType == IOFileEnum::BINARY)
   {
     this->ReadBufferAsBinary(
       static_cast<float *>(buffer), m_InputFile, this->m_NumberOfPoints * this->m_PointDimension);
@@ -285,11 +285,11 @@ OFFMeshIO ::ReadCells(void * buffer)
 {
   auto * data = new itk::uint32_t[this->m_CellBufferSize - this->m_NumberOfCells];
 
-  if (this->m_FileType == ASCII)
+  if (this->m_FileType == IOFileEnum::ASCII)
   {
     this->ReadCellsBufferAsAscii(data, m_InputFile);
   }
-  else if (this->m_FileType == BINARY)
+  else if (this->m_FileType == IOFileEnum::BINARY)
   {
     this->ReadBufferAsBinary(data, m_InputFile, this->m_CellBufferSize - this->m_NumberOfCells);
   }
@@ -302,11 +302,13 @@ OFFMeshIO ::ReadCells(void * buffer)
 
   if (m_TriangleCellType)
   {
-    this->WriteCellsBuffer(data, static_cast<unsigned int *>(buffer), TRIANGLE_CELL, this->m_NumberOfCells);
+    this->WriteCellsBuffer(
+      data, static_cast<unsigned int *>(buffer), CellGeometryEnum::TRIANGLE_CELL, this->m_NumberOfCells);
   }
   else
   {
-    this->WriteCellsBuffer(data, static_cast<unsigned int *>(buffer), POLYGON_CELL, this->m_NumberOfCells);
+    this->WriteCellsBuffer(
+      data, static_cast<unsigned int *>(buffer), CellGeometryEnum::POLYGON_CELL, this->m_NumberOfCells);
   }
 
   delete[] data;
@@ -331,11 +333,11 @@ OFFMeshIO ::WriteMeshInformation()
 
   // Write to output file
   std::ofstream outputFile;
-  if (this->m_FileType == ASCII)
+  if (this->m_FileType == IOFileEnum::ASCII)
   {
     outputFile.open(this->m_FileName.c_str(), std::ios::out);
   }
-  else if (m_FileType == BINARY)
+  else if (m_FileType == IOFileEnum::BINARY)
   {
     outputFile.open(this->m_FileName.c_str(), std::ios::out | std::ios::binary);
   }
@@ -351,7 +353,7 @@ OFFMeshIO ::WriteMeshInformation()
   outputFile << "OFF " << std::endl;
 
   // Read points and cells information
-  if (this->m_FileType == ASCII)
+  if (this->m_FileType == IOFileEnum::ASCII)
   {
     // Write number of points
     outputFile << this->m_NumberOfPoints << "    ";
@@ -363,7 +365,7 @@ OFFMeshIO ::WriteMeshInformation()
     unsigned int numberOfEdges = 0;
     outputFile << numberOfEdges << std::endl;
   }
-  else if (this->m_FileType == BINARY)
+  else if (this->m_FileType == IOFileEnum::BINARY)
   {
     // Write number of points
     auto numberOfPoints = static_cast<itk::uint32_t>(this->m_NumberOfPoints);
@@ -392,11 +394,11 @@ OFFMeshIO ::WritePoints(void * buffer)
 
   // Write to output file
   std::ofstream outputFile;
-  if (this->m_FileType == ASCII)
+  if (this->m_FileType == IOFileEnum::ASCII)
   {
     outputFile.open(this->m_FileName.c_str(), std::ios::app);
   }
-  else if (m_FileType == BINARY)
+  else if (m_FileType == IOFileEnum::BINARY)
   {
     outputFile.open(this->m_FileName.c_str(), std::ios::app | std::ios::binary);
   }
@@ -409,82 +411,82 @@ OFFMeshIO ::WritePoints(void * buffer)
   }
 
   // Write points
-  if (this->m_FileType == ASCII)
+  if (this->m_FileType == IOFileEnum::ASCII)
   {
     switch (this->m_PointComponentType)
     {
-      case UCHAR:
+      case IOComponentEnum::UCHAR:
       {
         WriteBufferAsAscii(static_cast<unsigned char *>(buffer), outputFile, m_NumberOfPoints, m_PointDimension);
         break;
       }
-      case CHAR:
+      case IOComponentEnum::CHAR:
       {
         WriteBufferAsAscii(static_cast<char *>(buffer), outputFile, m_NumberOfPoints, m_PointDimension);
 
         break;
       }
-      case USHORT:
+      case IOComponentEnum::USHORT:
       {
         WriteBufferAsAscii(static_cast<unsigned short *>(buffer), outputFile, m_NumberOfPoints, m_PointDimension);
 
         break;
       }
-      case SHORT:
+      case IOComponentEnum::SHORT:
       {
         WriteBufferAsAscii(static_cast<short *>(buffer), outputFile, m_NumberOfPoints, m_PointDimension);
 
         break;
       }
-      case UINT:
+      case IOComponentEnum::UINT:
       {
         WriteBufferAsAscii(static_cast<unsigned int *>(buffer), outputFile, m_NumberOfPoints, m_PointDimension);
 
         break;
       }
-      case INT:
+      case IOComponentEnum::INT:
       {
         WriteBufferAsAscii(static_cast<int *>(buffer), outputFile, m_NumberOfPoints, m_PointDimension);
 
         break;
       }
-      case ULONG:
+      case IOComponentEnum::ULONG:
       {
         WriteBufferAsAscii(static_cast<unsigned long *>(buffer), outputFile, m_NumberOfPoints, m_PointDimension);
 
         break;
       }
-      case LONG:
+      case IOComponentEnum::LONG:
       {
         WriteBufferAsAscii(static_cast<long *>(buffer), outputFile, m_NumberOfPoints, m_PointDimension);
 
         break;
       }
-      case ULONGLONG:
+      case IOComponentEnum::ULONGLONG:
       {
         WriteBufferAsAscii(static_cast<unsigned long long *>(buffer), outputFile, m_NumberOfPoints, m_PointDimension);
 
         break;
       }
-      case LONGLONG:
+      case IOComponentEnum::LONGLONG:
       {
         WriteBufferAsAscii(static_cast<long long *>(buffer), outputFile, m_NumberOfPoints, m_PointDimension);
 
         break;
       }
-      case FLOAT:
+      case IOComponentEnum::FLOAT:
       {
         WriteBufferAsAscii(static_cast<float *>(buffer), outputFile, m_NumberOfPoints, m_PointDimension);
 
         break;
       }
-      case DOUBLE:
+      case IOComponentEnum::DOUBLE:
       {
         WriteBufferAsAscii(static_cast<double *>(buffer), outputFile, m_NumberOfPoints, m_PointDimension);
 
         break;
       }
-      case LDOUBLE:
+      case IOComponentEnum::LDOUBLE:
       {
         WriteBufferAsAscii(static_cast<long double *>(buffer), outputFile, m_NumberOfPoints, m_PointDimension);
 
@@ -496,87 +498,87 @@ OFFMeshIO ::WritePoints(void * buffer)
       }
     }
   }
-  else if (this->m_FileType == BINARY)
+  else if (this->m_FileType == IOFileEnum::BINARY)
   {
     switch (this->m_PointComponentType)
     {
-      case UCHAR:
+      case IOComponentEnum::UCHAR:
       {
         WriteBufferAsBinary<float>(
           static_cast<unsigned char *>(buffer), outputFile, m_NumberOfPoints * m_PointDimension);
         break;
       }
-      case CHAR:
+      case IOComponentEnum::CHAR:
       {
         WriteBufferAsBinary<float>(static_cast<char *>(buffer), outputFile, m_NumberOfPoints * m_PointDimension);
 
         break;
       }
-      case USHORT:
+      case IOComponentEnum::USHORT:
       {
         WriteBufferAsBinary<float>(
           static_cast<unsigned short *>(buffer), outputFile, m_NumberOfPoints * m_PointDimension);
 
         break;
       }
-      case SHORT:
+      case IOComponentEnum::SHORT:
       {
         WriteBufferAsBinary<float>(static_cast<short *>(buffer), outputFile, m_NumberOfPoints * m_PointDimension);
 
         break;
       }
-      case UINT:
+      case IOComponentEnum::UINT:
       {
         WriteBufferAsBinary<float>(
           static_cast<unsigned int *>(buffer), outputFile, m_NumberOfPoints * m_PointDimension);
 
         break;
       }
-      case INT:
+      case IOComponentEnum::INT:
       {
         WriteBufferAsBinary<float>(static_cast<int *>(buffer), outputFile, m_NumberOfPoints * m_PointDimension);
 
         break;
       }
-      case ULONG:
+      case IOComponentEnum::ULONG:
       {
         WriteBufferAsBinary<float>(
           static_cast<unsigned long *>(buffer), outputFile, m_NumberOfPoints * m_PointDimension);
 
         break;
       }
-      case LONG:
+      case IOComponentEnum::LONG:
       {
         WriteBufferAsBinary<float>(static_cast<long *>(buffer), outputFile, m_NumberOfPoints * m_PointDimension);
 
         break;
       }
-      case ULONGLONG:
+      case IOComponentEnum::ULONGLONG:
       {
         WriteBufferAsBinary<float>(
           static_cast<unsigned long long *>(buffer), outputFile, m_NumberOfPoints * m_PointDimension);
 
         break;
       }
-      case LONGLONG:
+      case IOComponentEnum::LONGLONG:
       {
         WriteBufferAsBinary<float>(static_cast<long long *>(buffer), outputFile, m_NumberOfPoints * m_PointDimension);
 
         break;
       }
-      case FLOAT:
+      case IOComponentEnum::FLOAT:
       {
         WriteBufferAsBinary<float>(static_cast<float *>(buffer), outputFile, m_NumberOfPoints * m_PointDimension);
 
         break;
       }
-      case DOUBLE:
+      case IOComponentEnum::DOUBLE:
       {
         WriteBufferAsBinary<float>(static_cast<double *>(buffer), outputFile, m_NumberOfPoints * m_PointDimension);
 
         break;
       }
-      case LDOUBLE:
+      case IOComponentEnum::LDOUBLE:
       {
         WriteBufferAsBinary<float>(static_cast<long double *>(buffer), outputFile, m_NumberOfPoints * m_PointDimension);
 
@@ -603,11 +605,11 @@ OFFMeshIO ::WriteCells(void * buffer)
 
   // Write to output file
   std::ofstream outputFile;
-  if (this->m_FileType == ASCII)
+  if (this->m_FileType == IOFileEnum::ASCII)
   {
     outputFile.open(this->m_FileName.c_str(), std::ios::app);
   }
-  else if (m_FileType == BINARY)
+  else if (m_FileType == IOFileEnum::BINARY)
   {
     outputFile.open(this->m_FileName.c_str(), std::ios::app | std::ios::binary);
   }
@@ -620,83 +622,83 @@ OFFMeshIO ::WriteCells(void * buffer)
   }
 
   // Write cells
-  if (this->m_FileType == ASCII)
+  if (this->m_FileType == IOFileEnum::ASCII)
   {
     switch (this->m_CellComponentType)
     {
-      case UCHAR:
+      case IOComponentEnum::UCHAR:
       {
         WriteCellsAsAscii(static_cast<unsigned char *>(buffer), outputFile);
 
         break;
       }
-      case CHAR:
+      case IOComponentEnum::CHAR:
       {
         WriteCellsAsAscii(static_cast<unsigned char *>(buffer), outputFile);
 
         break;
       }
-      case USHORT:
+      case IOComponentEnum::USHORT:
       {
         WriteCellsAsAscii(static_cast<unsigned short *>(buffer), outputFile);
 
         break;
       }
-      case SHORT:
+      case IOComponentEnum::SHORT:
       {
         WriteCellsAsAscii(static_cast<short *>(buffer), outputFile);
 
         break;
       }
-      case UINT:
+      case IOComponentEnum::UINT:
       {
         WriteCellsAsAscii(static_cast<unsigned int *>(buffer), outputFile);
 
         break;
       }
-      case INT:
+      case IOComponentEnum::INT:
       {
         WriteCellsAsAscii(static_cast<int *>(buffer), outputFile);
 
         break;
       }
-      case ULONG:
+      case IOComponentEnum::ULONG:
       {
         WriteCellsAsAscii(static_cast<long *>(buffer), outputFile);
 
         break;
       }
-      case LONG:
+      case IOComponentEnum::LONG:
       {
         WriteCellsAsAscii(static_cast<long *>(buffer), outputFile);
 
         break;
       }
-      case ULONGLONG:
+      case IOComponentEnum::ULONGLONG:
       {
         WriteCellsAsAscii(static_cast<unsigned long long *>(buffer), outputFile);
 
         break;
       }
-      case LONGLONG:
+      case IOComponentEnum::LONGLONG:
       {
         WriteCellsAsAscii(static_cast<long long *>(buffer), outputFile);
 
         break;
       }
-      case FLOAT:
+      case IOComponentEnum::FLOAT:
       {
         WriteCellsAsAscii(static_cast<float *>(buffer), outputFile);
 
         break;
       }
-      case DOUBLE:
+      case IOComponentEnum::DOUBLE:
       {
         WriteCellsAsAscii(static_cast<double *>(buffer), outputFile);
 
         break;
       }
-      case LDOUBLE:
+      case IOComponentEnum::LDOUBLE:
       {
         WriteCellsAsAscii(static_cast<long double *>(buffer), outputFile);
 
@@ -708,83 +710,83 @@ OFFMeshIO ::WriteCells(void * buffer)
       }
     }
   }
-  else if (this->m_FileType == BINARY)
+  else if (this->m_FileType == IOFileEnum::BINARY)
   {
     switch (this->m_CellComponentType)
     {
-      case UCHAR:
+      case IOComponentEnum::UCHAR:
       {
         WriteCellsAsBinary<itk::uint32_t>(static_cast<unsigned char *>(buffer), outputFile);
 
         break;
       }
-      case CHAR:
+      case IOComponentEnum::CHAR:
       {
         WriteCellsAsBinary<itk::uint32_t>(static_cast<char *>(buffer), outputFile);
 
         break;
       }
-      case USHORT:
+      case IOComponentEnum::USHORT:
       {
         WriteCellsAsBinary<itk::uint32_t>(static_cast<unsigned short *>(buffer), outputFile);
 
         break;
       }
-      case SHORT:
+      case IOComponentEnum::SHORT:
       {
         WriteCellsAsBinary<itk::uint32_t>(static_cast<short *>(buffer), outputFile);
 
         break;
       }
-      case UINT:
+      case IOComponentEnum::UINT:
       {
         WriteCellsAsBinary<itk::uint32_t>(static_cast<unsigned int *>(buffer), outputFile);
 
         break;
       }
-      case INT:
+      case IOComponentEnum::INT:
       {
         WriteCellsAsBinary<itk::uint32_t>(static_cast<int *>(buffer), outputFile);
 
         break;
       }
-      case ULONG:
+      case IOComponentEnum::ULONG:
       {
         WriteCellsAsBinary<itk::uint32_t>(static_cast<long *>(buffer), outputFile);
 
         break;
       }
-      case LONG:
+      case IOComponentEnum::LONG:
       {
         WriteCellsAsBinary<itk::uint32_t>(static_cast<long *>(buffer), outputFile);
 
         break;
       }
-      case ULONGLONG:
+      case IOComponentEnum::ULONGLONG:
       {
         WriteCellsAsBinary<itk::uint32_t>(static_cast<unsigned long long *>(buffer), outputFile);
 
         break;
       }
-      case LONGLONG:
+      case IOComponentEnum::LONGLONG:
       {
         WriteCellsAsBinary<itk::uint32_t>(static_cast<long long *>(buffer), outputFile);
 
         break;
       }
-      case FLOAT:
+      case IOComponentEnum::FLOAT:
       {
         WriteCellsAsBinary<itk::uint32_t>(static_cast<float *>(buffer), outputFile);
 
         break;
       }
-      case DOUBLE:
+      case IOComponentEnum::DOUBLE:
       {
         WriteCellsAsBinary<itk::uint32_t>(static_cast<double *>(buffer), outputFile);
 
         break;
       }
-      case LDOUBLE:
+      case IOComponentEnum::LDOUBLE:
       {
         WriteCellsAsBinary<itk::uint32_t>(static_cast<long double *>(buffer), outputFile);
 

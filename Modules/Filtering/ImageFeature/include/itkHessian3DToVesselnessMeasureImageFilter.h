@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class Hessian3DToVesselnessMeasureImageFilter
+/**
+ *\class Hessian3DToVesselnessMeasureImageFilter
  * \brief Line filter to provide a vesselness measure for tubular objects from the
  * hessian matrix.
  *

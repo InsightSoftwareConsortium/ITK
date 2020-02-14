@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/** \class MultiGradientOptimizerv4Template
+/**
+ *\class MultiGradientOptimizerv4Template
  *  \brief Multiple gradient-based optimizers are combined in order to perform a multi-objective optimization.
  *
  *  This optimizer will do a combined gradient descent optimization using whatever metric/optimizer gradient
@@ -70,8 +71,6 @@ public:
   using OptimizersListType = std::vector<LocalOptimizerPointer>;
   using OptimizersListSizeType = typename OptimizersListType::size_type;
 
-  using StopConditionEnum = typename Superclass::StopConditionEnum;
-
   /** Stop condition return string type */
   using StopConditionReturnStringType = typename Superclass::StopConditionReturnStringType;
 
@@ -93,7 +92,7 @@ public:
   using MetricValuesListType = std::vector<MeasureType>;
 
   /** Get stop condition enum */
-  const StopConditionEnum &
+  const StopConditionObjectToObjectOptimizerEnum &
   GetStopCondition() const override
   {
     return this->m_StopCondition;
@@ -138,13 +137,13 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /* Common variables for optimization control and reporting */
-  bool                         m_Stop{ false };
-  StopConditionEnum            m_StopCondition;
-  StopConditionDescriptionType m_StopConditionDescription;
-  OptimizersListType           m_OptimizersList;
-  MetricValuesListType         m_MetricValuesList;
-  MeasureType                  m_MinimumMetricValue;
-  MeasureType                  m_MaximumMetricValue;
+  bool                                     m_Stop{ false };
+  StopConditionObjectToObjectOptimizerEnum m_StopCondition;
+  StopConditionDescriptionType             m_StopConditionDescription;
+  OptimizersListType                       m_OptimizersList;
+  MetricValuesListType                     m_MetricValuesList;
+  MeasureType                              m_MinimumMetricValue;
+  MeasureType                              m_MaximumMetricValue;
 };
 
 /** This helps to meet backward compatibility */

@@ -26,7 +26,8 @@
 namespace itk
 {
 
-/** \class FFTPadImageFilter
+/**
+ *\class FFTPadImageFilter
  * \brief Pad an image to make it suitable for an FFT transformation
  *
  * FFT filters usually requires a specific image size. The size is decomposed

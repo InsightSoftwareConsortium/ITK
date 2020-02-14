@@ -20,9 +20,32 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkHessianRecursiveGaussianImageFilter.h"
+#include "ITKImageFeatureExport.h"
 
 namespace itk
 {
+/**\class MultiScaleHessianBasedMeasureImageFilterEnums
+ * \brief This class contains all enum classes used by MultiScaleHessianBasedMeasureImageFilter class.
+ * \ingroup ITKImageFeature
+ */
+class MultiScaleHessianBasedMeasureImageFilterEnums
+{
+public:
+  /**\class SigmaStepMethod
+   * \ingroup ITKImageFeature
+   * \ingroup IntensityImageFilters
+   * Sigma step method type
+   * */
+  enum class SigmaStepMethod : uint8_t
+  {
+    EquispacedSigmaSteps = 0,
+    LogarithmicSigmaSteps = 1
+  };
+};
+// Define how to print enumeration
+extern ITKImageFeature_EXPORT std::ostream &
+                              operator<<(std::ostream & out, const MultiScaleHessianBasedMeasureImageFilterEnums::SigmaStepMethod value);
+
 /**\class MultiScaleHessianBasedMeasureImageFilter
  * \brief A filter to enhance structures using Hessian eigensystem-based
  * measures in a multiscale framework
@@ -137,16 +160,17 @@ public:
   itkGetConstMacro(NonNegativeHessianBasedMeasure, bool);
   itkBooleanMacro(NonNegativeHessianBasedMeasure);
 
-  enum SigmaStepMethodType : uint8_t
-  {
-    EquispacedSigmaSteps = 0,
-    LogarithmicSigmaSteps = 1
-  };
+  using SigmaStepMethodEnum = MultiScaleHessianBasedMeasureImageFilterEnums::SigmaStepMethod;
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enums values for backwards compatibility*/
+  static constexpr SigmaStepMethodEnum EquispacedSigmaSteps = SigmaStepMethodEnum::EquispacedSigmaSteps;
+  static constexpr SigmaStepMethodEnum LogarithmicSigmaSteps = SigmaStepMethodEnum::LogarithmicSigmaSteps;
+#endif
 
   /** Set/Get the method used to generate scale sequence (Equispaced
    * or Logarithmic) */
-  itkSetMacro(SigmaStepMethod, SigmaStepMethodType);
-  itkGetConstMacro(SigmaStepMethod, SigmaStepMethodType);
+  itkSetEnumMacro(SigmaStepMethod, SigmaStepMethodEnum);
+  itkGetConstMacro(SigmaStepMethod, SigmaStepMethodEnum);
 
   /**Set equispaced sigma step method */
   void
@@ -214,7 +238,7 @@ private:
   double m_SigmaMaximum;
 
   unsigned int        m_NumberOfSigmaSteps;
-  SigmaStepMethodType m_SigmaStepMethod;
+  SigmaStepMethodEnum m_SigmaStepMethod;
 
   typename HessianToMeasureFilterType::Pointer m_HessianToMeasureFilter;
 

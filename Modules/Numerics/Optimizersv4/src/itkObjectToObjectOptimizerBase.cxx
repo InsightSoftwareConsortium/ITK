@@ -224,4 +224,39 @@ template class ITKOptimizersv4_EXPORT ObjectToObjectOptimizerBaseTemplate<float>
 
 ITK_GCC_PRAGMA_DIAG_POP()
 
+
+/** Print enum values */
+std::ostream &
+operator<<(std::ostream &                                                                       out,
+           const ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer value)
+{
+  return out << [value] {
+    switch (value)
+    {
+      case ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer::MAXIMUM_NUMBER_OF_ITERATIONS:
+        return "itk::ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer::MAXIMUM_NUMBER_OF_"
+               "ITERATIONS";
+      case ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer::COSTFUNCTION_ERROR:
+        return "itk::ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer::COSTFUNCTION_"
+               "ERROR";
+      case ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer::UPDATE_PARAMETERS_ERROR:
+        return "itk::ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer::UPDATE_PARAMETERS_"
+               "ERROR";
+      case ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer::STEP_TOO_SMALL:
+        return "itk::ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer::STEP_TOO_SMALL";
+      case ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer::CONVERGENCE_CHECKER_PASSED:
+        return "itk::ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer::CONVERGENCE_"
+               "CHECKER_PASSED";
+      case ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer::
+        GRADIENT_MAGNITUDE_TOLEARANCE:
+        return "itk::ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer::GRADIENT_"
+               "MAGNITUDE_TOLEARANCE";
+      case ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer::OTHER_ERROR:
+        return "itk::ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer::OTHER_ERROR";
+      default:
+        return "INVALID VALUE FOR itk::ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer";
+    }
+  }();
+}
+
 } // end namespace itk

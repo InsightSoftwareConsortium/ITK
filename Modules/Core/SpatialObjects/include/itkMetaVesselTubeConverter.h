@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class MetaVesselTubeConverter
+/**
+ *\class MetaVesselTubeConverter
  *  \brief Converts between MetaObject<->SpatialObject
  *  \sa MetaConverterBase
  *  \ingroup ITKSpatialObjects

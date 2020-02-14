@@ -22,7 +22,8 @@
 
 namespace itk
 {
-/** \class PathToPathFilter
+/**
+ *\class PathToPathFilter
  * \brief Base class for filters that take a path as input and produce a path as output.
  *
  * PathToPathFilter is the base class for all process objects that output

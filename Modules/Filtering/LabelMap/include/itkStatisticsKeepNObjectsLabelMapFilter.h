@@ -24,7 +24,8 @@
 
 namespace itk
 {
-/** \class StatisticsKeepNObjectsLabelMapFilter
+/**
+ *\class StatisticsKeepNObjectsLabelMapFilter
  * \brief keep N objects according to their statistics attributes
  *
  * StatisticsKeepNObjectsLabelMapFilter keep the N objects in a label collection image

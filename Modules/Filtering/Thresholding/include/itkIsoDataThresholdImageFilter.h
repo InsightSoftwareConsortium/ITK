@@ -25,7 +25,8 @@
 namespace itk
 {
 
-/** \class IsoDataThresholdImageFilter
+/**
+ *\class IsoDataThresholdImageFilter
  * \brief Threshold an image using the IsoData Threshold
  *
  * This filter creates a binary thresholded image that separates an

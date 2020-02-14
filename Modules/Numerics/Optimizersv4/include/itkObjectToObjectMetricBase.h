@@ -24,31 +24,46 @@
 
 namespace itk
 {
-/** \class GradientSourceEnum
- * \ingroup ITKOptimizersv4
- * Source of the gradient(s) used by the metric
- * (e.g. image gradients, in the case of
- * image to image metrics). Defaults to Moving. */
-enum class GradientSourceEnum : uint8_t
-{
-  GRADIENT_SOURCE_FIXED = 0,
-  GRADIENT_SOURCE_MOVING,
-  GRADIENT_SOURCE_BOTH
-};
-
-/** \class MetricCategoryEnum
+/**\class ObjectToObjectMetricBaseTemplateEnums
+ *\brief This class contains all the enum classes used by the ObjectToObjectMetricBaseTemplate class.
  * \ingroup ITKOptimizersv4
  */
-enum class MetricCategoryEnum : uint8_t
+class ObjectToObjectMetricBaseTemplateEnums
 {
-  UNKNOWN_METRIC = 0,
-  OBJECT_METRIC = 1,
-  IMAGE_METRIC = 2,
-  POINT_SET_METRIC = 3,
-  MULTI_METRIC = 4
-};
+public:
+  /**
+   *\class GradientSource
+   * \ingroup ITKOptimizersv4
+   * Source of the gradient(s) used by the metric
+   * (e.g. image gradients, in the case of
+   * image to image metrics). Defaults to Moving. */
+  enum class GradientSource : uint8_t
+  {
+    GRADIENT_SOURCE_FIXED = 0,
+    GRADIENT_SOURCE_MOVING,
+    GRADIENT_SOURCE_BOTH
+  };
 
-/** \class ObjectToObjectMetricBaseTemplate
+  /**
+   *\class MetricCategory
+   * \ingroup ITKOptimizersv4
+   */
+  enum class MetricCategory : uint8_t
+  {
+    UNKNOWN_METRIC = 0,
+    OBJECT_METRIC = 1,
+    IMAGE_METRIC = 2,
+    POINT_SET_METRIC = 3,
+    MULTI_METRIC = 4
+  };
+};
+// Define how to print enumeration
+extern ITKOptimizersv4_EXPORT std::ostream &
+                              operator<<(std::ostream & out, const ObjectToObjectMetricBaseTemplateEnums::GradientSource value);
+extern ITKOptimizersv4_EXPORT std::ostream &
+                              operator<<(std::ostream & out, const ObjectToObjectMetricBaseTemplateEnums::MetricCategory value);
+/**
+ *\class ObjectToObjectMetricBaseTemplate
  * \brief Base class for all object-to-object similarity metrics added in ITKv4.
  *
  * This is the abstract base class for a hierarchy of similarity metrics
@@ -112,29 +127,29 @@ public:
   itkSetConstObjectMacro(MovingObject, ObjectType);
   itkGetConstObjectMacro(MovingObject, ObjectType);
 
-  /** Enables backwards compatibility for enum values */
-  using GradientSourceType = GradientSourceEnum;
+  using GradientSourceEnum = itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource;
 #if !defined(ITK_LEGACY_REMOVE)
+  /** Enables backwards compatibility for enum values */
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr GradientSourceType GRADIENT_SOURCE_FIXED = GradientSourceType::GRADIENT_SOURCE_FIXED;
-  static constexpr GradientSourceType GRADIENT_SOURCE_MOVING = GradientSourceType::GRADIENT_SOURCE_MOVING;
-  static constexpr GradientSourceType GRADIENT_SOURCE_BOTH = GradientSourceType::GRADIENT_SOURCE_BOTH;
+  static constexpr GradientSourceEnum GRADIENT_SOURCE_FIXED = GradientSourceEnum::GRADIENT_SOURCE_FIXED;
+  static constexpr GradientSourceEnum GRADIENT_SOURCE_MOVING = GradientSourceEnum::GRADIENT_SOURCE_MOVING;
+  static constexpr GradientSourceEnum GRADIENT_SOURCE_BOTH = GradientSourceEnum::GRADIENT_SOURCE_BOTH;
 #endif
 
   /**
    * Set source of gradient.  This variable allows the user to switch
    * between calculating the gradient with respect to the fixed
    * object or moving object.
-   * \sa GradientSourceType
+   * \sa GradientSourceEnum
    */
-  itkSetMacro(GradientSource, GradientSourceType);
+  itkSetMacro(GradientSource, GradientSourceEnum);
 
   /**
    * Get gradient source.
    * See \c GetGradientSourceIncludesFixed and \c GetGradientSourceIncludesMoving
    * for convenience methods. */
-  itkGetConstMacro(GradientSource, GradientSourceType);
+  itkGetConstMacro(GradientSource, GradientSourceEnum);
 
   /** Return true of \c m_GradientSource is either \c GRADIENT_SOURCE_FIXED or
    * \c GRADIENT_SOURCE_BOTH. Convenience method. */
@@ -213,20 +228,21 @@ public:
   MeasureType
   GetCurrentValue() const;
 
-  typedef enum
-  {
-    UNKNOWN_METRIC = 0,
-    OBJECT_METRIC = 1,
-    IMAGE_METRIC = 2,
-    POINT_SET_METRIC = 3,
-    MULTI_METRIC = 4
-  } MetricCategoryType;
+  using MetricCategoryEnum = itk::ObjectToObjectMetricBaseTemplateEnums::MetricCategory;
+#if !defined(ITK_LEGACY_REMOVE)
+  /**Exposes enums values for backwards compatibility*/
+  static constexpr MetricCategoryEnum UNKNOWN_METRIC = MetricCategoryEnum::UNKNOWN_METRIC;
+  static constexpr MetricCategoryEnum OBJECT_METRIC = MetricCategoryEnum::OBJECT_METRIC;
+  static constexpr MetricCategoryEnum IMAGE_METRIC = MetricCategoryEnum::IMAGE_METRIC;
+  static constexpr MetricCategoryEnum POINT_SET_METRIC = MetricCategoryEnum::POINT_SET_METRIC;
+  static constexpr MetricCategoryEnum MULTI_METRIC = MetricCategoryEnum::MULTI_METRIC;
+#endif
 
   /** Get metric category */
-  virtual MetricCategoryType
+  virtual MetricCategoryEnum
   GetMetricCategory() const
   {
-    return UNKNOWN_METRIC;
+    return MetricCategoryEnum::UNKNOWN_METRIC;
   }
 
 protected:
@@ -240,7 +256,7 @@ protected:
   ObjectConstPointer m_FixedObject;
   ObjectConstPointer m_MovingObject;
 
-  GradientSourceType m_GradientSource;
+  GradientSourceEnum m_GradientSource;
 
   /** Metric value, stored after evaluating */
   mutable MeasureType m_Value;
@@ -248,13 +264,6 @@ protected:
 
 /** This helps to meet backward compatibility */
 using ObjectToObjectMetricBase = ObjectToObjectMetricBaseTemplate<double>;
-
-/** Define how to print enumerations */
-extern ITKOptimizersv4_EXPORT std::ostream &
-                              operator<<(std::ostream & out, const GradientSourceEnum value);
-extern ITKOptimizersv4_EXPORT std::ostream &
-                              operator<<(std::ostream & out, const MetricCategoryEnum value);
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
