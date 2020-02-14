@@ -1,8 +1,0 @@
-set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
-itk_wrap_include("itkTestingComparisonImageFilter.h")
-
-itk_wrap_class("itk::Testing::ComparisonImageFilter" POINTER)
-  itk_wrap_image_filter("${WRAP_ITK_SCALAR}" 2)
-  # itk_wrap_image_filter("${WRAP_ITK_VECTOR_REAL}" 2)
-  # itk_wrap_image_filter("${WRAP_ITK_COV_VECTOR_REAL}" 2)
-itk_end_wrap_class()

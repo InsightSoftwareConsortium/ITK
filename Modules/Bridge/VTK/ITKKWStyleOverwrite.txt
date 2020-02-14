@@ -1,2 +1,0 @@
-itkVTKImageExportBase\.cxx SemicolonSpace Disable
-itkVTKImageExportBase\.cxx SemicolonSpace Disable

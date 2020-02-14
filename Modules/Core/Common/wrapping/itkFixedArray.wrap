@@ -1,3 +1,0 @@
-itk_wrap_class("itk::FixedArray")
-  set(WRAPPER_TEMPLATES ${itk_Wrap_FixedArray})
-itk_end_wrap_class()

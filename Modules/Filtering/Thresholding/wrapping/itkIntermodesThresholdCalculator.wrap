@@ -1,7 +1,0 @@
-itk_wrap_include("itkHistogram.h")
-itk_wrap_class("itk::IntermodesThresholdCalculator" POINTER)
-  foreach(t ${WRAP_ITK_SCALAR})
-    itk_wrap_template("${ITKM_HD}${ITKM_${t}}"  "${ITKT_HD}, ${ITKT_${t}}")
-    itk_wrap_template("${ITKM_HF}${ITKM_${t}}"  "${ITKT_HF}, ${ITKT_${t}}")
-  endforeach()
-itk_end_wrap_class()

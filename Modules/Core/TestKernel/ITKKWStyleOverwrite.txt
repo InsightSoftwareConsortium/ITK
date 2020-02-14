@@ -1,3 +1,0 @@
-test/.*\.cxx Namespace Disable
-itkTestingMacros\.h Namespace Disable
-itkFilterWatcher\.h Namespace Disable
