@@ -339,6 +339,12 @@ The `branch -d` command works only when the topic branch has been correctly
 merged. Use `-D` instead of `-d` to force the deletion of an unmerged topic
 branch (*warning*: you could lose commits).
 
+Citation Addition
+-----------------
+
+To connect your [ORCID](https://orcid.org/) profile to the [ITK Zenodo
+citation](https://zenodo.org/record/3592082), add your name and ORCID iD to
+the *ITK/.zenodo* file.
 
 More Information
 ----------------
