@@ -87,8 +87,8 @@ else()
       set(GCC_POSITION_INDEPENDENT_CODE_FLAG "-fPIC")
     endif()
 
-    set(_fftw_target_version 3.3.4)
-    set(_fftw_url_hash "1ee2c7bec3657f6846e63c6dfa71410563830d2b951966bf0123bd8f4f2f5d6b50f13b76d9a7b0eae70e44856f829ca6ceb3d080bb01649d1572c9f3f68e8eb1")
+    set(_fftw_target_version 3.3.8)
+    set(_fftw_url_hash "ab918b742a7c7dcb56390a0a0014f517a6dff9a2e4b4591060deeb2c652bf3c6868aa74559a422a276b853289b4b701bdcbd3d4d8c08943acf29167a7be81a38")
     set(_fftw_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_fftw_url_hash}/download")
 
     if(ITK_USE_FFTWF)
