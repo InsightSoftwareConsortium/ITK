@@ -1,6 +1,7 @@
 Insight Toolkit (ITK)
 
 Copyright 1999-2019 Insight Software Consortium
+Copyright 2020 NumFOCUS
 
 This software is distributed under the Apache 2.0 License.
 
@@ -30,7 +31,11 @@ Apache 2.0 License. The move from the BSD license to the Apache 2.0 was
 discussed at the October 2009 Insight Software Consortium Board Meeting,
 discussed until December 14th, 2009 and the Insight Software Consortium Board
 voted and approved the transition to Apache 2.0 license during a period from
-Deember 15, 2009 to January 14th, 2010 to move to the Apache 2.0 License.
+December 15, 2009 to January 14th, 2010 to move to the Apache 2.0 License.
+
+On November 26th, 2019 the Insight Software Consortium transferred the ITK
+copyright to NumFOCUS following a vote by the Insight Software Consortium
+Board of Directors.
 
 -----------------------------------------------------------------------
 
