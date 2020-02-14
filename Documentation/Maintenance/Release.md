@@ -192,6 +192,28 @@ could serve as the start of the new release branch.
 After creating the release branch, submit another merge request to update the
 master branch's minor version number.
 
+Update Zenodo Citation Configuration
+------------------------------------
+
+Install the python packages:
+
+```sh
+  python -m pip install gitpython python-Levenshtein fuzzywuzzy
+```
+
+Run the update script:
+
+```sh
+  ./Utilities/Maintenance/UpdateZenodo.py
+```
+
+Commit the result:
+
+```sh
+  git add -- .zenodo
+  git commit -m "DOC: Update .zenodo"
+```
+
 Archive ExternalData
 --------------------
 
