@@ -198,7 +198,7 @@ RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
   InternalMatrixType & S = this->GetVnlMatrix();
   if (this->m_Order == 1)
   {
-    S = this->GetSpatialRotationMatrix().GetVnlMatrix();
+    S = this->GetSpatialRotationMatrix().GetVnlMatrix().as_matrix();
     return this->GetVnlMatrix();
   }
 
