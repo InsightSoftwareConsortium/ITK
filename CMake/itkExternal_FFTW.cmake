@@ -94,7 +94,7 @@ else()
     if(ITK_USE_FFTWF)
       itk_download_attempt_check(FFTW)
       ExternalProject_add(fftwf
-        PREFIX fftwf
+        PREFIX fftwf-${_fftw_target_version}
         URL ${_fftw_url}
         URL_HASH SHA512=${_fftw_url_hash}
         DOWNLOAD_NAME "fftw-${_fftw_target_version}.tar.gz"
@@ -108,7 +108,7 @@ else()
             "CPPFLAGS=$ENV{CPPFLAGS} ${_additional_deployment_target_flags}"
             "CXXFLAGS=$ENV{CXXFLAGS} ${GCC_POSITION_INDEPENDENT_CODE_FLAG} ${_additional_deployment_target_flags}"
             ${_additional_configure_env}
-          ${ITK_BINARY_DIR}/fftwf/src/fftwf/configure
+          ${ITK_BINARY_DIR}/fftwf-${_fftw_target_version}/src/fftwf/configure
             ${FFTW_SHARED_FLAG}
             ${FFTW_OPTIMIZATION_CONFIGURATION}
             ${FFTW_THREADS_CONFIGURATION}
@@ -122,7 +122,7 @@ else()
     if(ITK_USE_FFTWD)
       itk_download_attempt_check(FFTW)
       ExternalProject_add(fftwd
-        PREFIX fftwd
+        PREFIX fftwd-${_fftw_target_version}
         URL ${_fftw_url}
         URL_HASH SHA512=${_fftw_url_hash}
         DOWNLOAD_NAME "fftw-${_fftw_target_version}.tar.gz"
@@ -136,7 +136,7 @@ else()
             "CPPFLAGS=$ENV{CPPFLAGS} ${_additional_deployment_target_flags}"
             "CXXFLAGS=$ENV{CXXFLAGS} ${GCC_POSITION_INDEPENDENT_CODE_FLAG} ${_additional_deployment_target_flags}"
             ${_additional_configure_env}
-          ${ITK_BINARY_DIR}/fftwd/src/fftwd/configure
+          ${ITK_BINARY_DIR}/fftwd-${_fftw_target_version}/src/fftwd/configure
             ${FFTW_SHARED_FLAG}
             ${FFTW_OPTIMIZATION_CONFIGURATION}
             ${FFTW_THREADS_CONFIGURATION}
