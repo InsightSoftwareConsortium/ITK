@@ -40,8 +40,9 @@ vnl_real_polynomial_evaluate(double const * a, int n, T const & x)
 //: Instantiate templates before use
 template double vnl_real_polynomial_evaluate
 SELECT(double)(double const *, int, double const &);
-template std::complex<double> vnl_real_polynomial_evaluate
-SELECT(std::complex<double>)(double const *, int, std::complex<double> const &);
+template std::complex<double> vnl_real_polynomial_evaluate SELECT(std::complex<double>)(double const *,
+                                                                                        int,
+                                                                                        std::complex<double> const &);
 
 //: Evaluate polynomial at value x
 double
