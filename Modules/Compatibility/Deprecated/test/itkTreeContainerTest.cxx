@@ -127,7 +127,7 @@ itkTreeContainerTest(int, char *[])
 
   std::cout << "Testing other features : ";
 
-  if (childIt2.GetType() != itk::TreeIteratorBaseNodeEnum::CHILD)
+  if (childIt2.GetType() != itk::TreeIteratorBaseEnums::TreeIteratorBaseNode::CHILD)
   {
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;

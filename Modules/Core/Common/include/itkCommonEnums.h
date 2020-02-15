@@ -160,6 +160,15 @@ using IOFileModeEnum = CommonEnums::IOFileMode;
 using IOByteOrderEnum = CommonEnums::IOByteOrder;
 using CellGeometryEnum = CommonEnums::CellGeometry;
 
+#if !defined(ITK_LEGACY_REMOVE)
+/** Expose old names for backwards compatibility*/
+using IOPixelType = CommonEnums::IOPixel;
+using IOComponentType = CommonEnums::IOComponent;
+using IOFileType = CommonEnums::IOFile;
+using IOFileModeType = CommonEnums::IOFileMode;
+using IOByteOrderType = CommonEnums::IOByteOrder;
+using CellGeometryType = CommonEnums::CellGeometry;
+#endif
 // Define how to print enumeration
 extern ITKCommon_EXPORT std::ostream &
                         operator<<(std::ostream & out, IOPixelEnum value);

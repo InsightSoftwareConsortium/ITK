@@ -192,7 +192,7 @@ private:
   struct HandleRGBPixel<RGBPixel<TValue>, VDimension>
   {
     using ValueType = TValue;
-    using PixelType = IOPixelEnum::RGBPixel<ValueType>;
+    using PixelType = RGBPixel<ValueType>;
     using ImageType = Image<PixelType, VDimension>;
 
     static void

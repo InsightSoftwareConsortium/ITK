@@ -472,6 +472,22 @@ public:
   /** Get the geometric position of a point. */
   //  bool GetPointPosition(PointsContainer*, int localId, Point*)=0;
 
+#if !defined(ITK_LEGACY_REMOVE)
+  /** Expose old names for backwards compatibility*/
+  constexpr static CommonEnums::CellGeometry VERTEX_CELL = CommonEnums::CellGeometry::VERTEX_CELL;
+  constexpr static CommonEnums::CellGeometry LINE_CELL = CommonEnums::CellGeometry::LINE_CELL;
+  constexpr static CommonEnums::CellGeometry TRIANGLE_CELL = CommonEnums::CellGeometry::TRIANGLE_CELL;
+  constexpr static CommonEnums::CellGeometry QUADRILATERAL_CELL = CommonEnums::CellGeometry::QUADRILATERAL_CELL;
+  constexpr static CommonEnums::CellGeometry POLYGON_CELL = CommonEnums::CellGeometry::POLYGON_CELL;
+  constexpr static CommonEnums::CellGeometry TETRAHEDRON_CELL = CommonEnums::CellGeometry::TETRAHEDRON_CELL;
+  constexpr static CommonEnums::CellGeometry HEXAHEDRON_CELL = CommonEnums::CellGeometry::HEXAHEDRON_CELL;
+  constexpr static CommonEnums::CellGeometry QUADRATIC_EDGE_CELL = CommonEnums::CellGeometry::QUADRATIC_EDGE_CELL;
+  constexpr static CommonEnums::CellGeometry QUADRATIC_TRIANGLE_CELL =
+    CommonEnums::CellGeometry::QUADRATIC_TRIANGLE_CELL;
+  constexpr static CommonEnums::CellGeometry LAST_ITK_CELL = CommonEnums::CellGeometry::LAST_ITK_CELL;
+  constexpr static CommonEnums::CellGeometry MAX_ITK_CELLS = CommonEnums::CellGeometry::MAX_ITK_CELLS;
+#endif
+
 protected:
   /** Store the set of cells using this boundary. */
   UsingCellsContainer m_UsingCells;

@@ -54,6 +54,7 @@ public:
 };
 #if !defined(ITK_LEGACY_REMOVE)
 using RGBColormapFilterEnum = ScalarToRGBColormapImageFilterEnums::RGBColormapFilter;
+using RGBColormapFilterEnumType = ScalarToRGBColormapImageFilterEnums::RGBColormapFilter;
 // We need to expose the enum values at the class level
 // for backwards compatibility
 static constexpr RGBColormapFilterEnum Red = RGBColormapFilterEnum::Red;
