@@ -5,7 +5,9 @@ itkVXLVideoIOTest.cxx
 vidl_itk_istreamTest.cxx
 )
 
-include( ${VXL_CMAKE_DIR}/UseVXL.cmake )
+if(ITK_USE_SYSTEM_VXL)
+  include( ${VXL_CMAKE_DIR}/UseVXL.cmake )
+endif()
 CreateTestDriver(ITKVideoBridgeVXL
                 "${ITKVideoBridgeVXL-Test_LIBRARIES};vul;vidl"
                 "${ITKVideoBridgeVXLTests}" )
