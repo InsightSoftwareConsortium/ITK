@@ -5,7 +5,7 @@ macro(EXEC_CHECK CMD ARGS )
     endif()
 endmacro()
 
-SET (CMD1 ${CMAKE_CURRENT_BINARY_DIR}/labelSetsDilatePerf)
+set (CMD1 ${CMAKE_CURRENT_BINARY_DIR}/labelSetsDilatePerf)
 
 #message(STATUS "${TESTIMAGE}")
 
