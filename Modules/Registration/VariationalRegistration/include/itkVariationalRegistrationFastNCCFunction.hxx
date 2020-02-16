@@ -19,7 +19,7 @@
 #define itkVariationalRegistrationFastNCCFunction_hxx
 
 #include "itkVariationalRegistrationFastNCCFunction.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkMath.h"
 
 namespace itk

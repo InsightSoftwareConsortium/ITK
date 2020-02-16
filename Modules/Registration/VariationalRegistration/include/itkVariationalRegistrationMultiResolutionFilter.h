@@ -20,7 +20,7 @@
 
 #include "itkImage.h"
 #include "itkMultiResolutionPyramidImageFilter.h"
-#include "itkVectorResampleImageFilter.h"
+#include "itkResampleImageFilter.h"
 #include "itkVariationalRegistrationFilter.h"
 #include "itkArray.h"
 
@@ -141,7 +141,7 @@ public:
   using MaskImagePyramidPointer = typename MaskImagePyramidType::Pointer;
 
   /** The deformation field expander type. */
-  using FieldExpanderType = VectorResampleImageFilter<DisplacementFieldType, DisplacementFieldType>;
+  using FieldExpanderType = ResampleImageFilter<DisplacementFieldType, DisplacementFieldType>;
   using FieldExpanderPointer = typename FieldExpanderType::Pointer;
 
   /** Array containing the number of iterations. */
