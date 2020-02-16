@@ -97,67 +97,97 @@ itkWaveletCoeffsSpatialDomainImageFilterTest(int argc, char * argv[])
               << std::endl;
     return EXIT_FAILURE;
   }
-  const std::string      inputImage = argv[1];
-  const std::string      outputImage = argv[2];
-  const unsigned int     inputLevels = atoi(argv[3]);
-  const unsigned int     inputBands = atoi(argv[4]);
-  const unsigned int     dimension = atoi(argv[6]);
-  constexpr unsigned int ImageDimension = 3;
-  if (dimension == 2)
+  const std::string  inputImage = argv[1];
+  const std::string  outputImage = argv[2];
+  const unsigned int inputLevels = atoi(argv[3]);
+  const unsigned int inputBands = atoi(argv[4]);
+  const unsigned int dimension = atoi(argv[6]);
+  constexpr size_t   ImageDimension = 3;
+  if (!(dimension == ImageDimension))
   {
-    unsigned int ImageDimension = 2;
-  }
-  else if (dimension == 3)
-  {
-    unsigned int ImageDimension = 3;
+    std::cerr << "Only 3 dimension supported." << std::endl;
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error: only 3 dimensions allowed, " << dimension << " selected." << std::endl;
+    return EXIT_FAILURE;
   }
 
   using ImageType = itk::Image<float, ImageDimension>;
 
   using WaveletScalarType = double;
-  using WaveletType = itk::SimoncelliIsotropicWavelet<WaveletScalarType, ImageDimension>;
   const std::string waveletFunction = argv[5];
   if (waveletFunction == "Held")
   {
     using WaveletType = itk::HeldIsotropicWavelet<WaveletScalarType, ImageDimension>;
+    {
+      // Exercise basic object methods
+      // Done outside the helper function in the test because GCC is limited
+      // when calling overloaded base class functions.
+      using WaveletCoeffsSpatialDomainImageFilterType =
+        itk::WaveletCoeffsSpatialDomainImageFilter<ImageType, WaveletType>;
+
+      auto waveletCoeffsSpatialDomainImageFilter = WaveletCoeffsSpatialDomainImageFilterType::New();
+      EXERCISE_BASIC_OBJECT_METHODS(
+        waveletCoeffsSpatialDomainImageFilter, WaveletCoeffsSpatialDomainImageFilter, ImageToImageFilter);
+
+      return runWaveletCoeffsSpatialDomainImageFilterTest<3, WaveletType>(
+        inputImage, outputImage, inputLevels, inputBands);
+    }
   }
   else if (waveletFunction == "Vow")
   {
     using WaveletType = itk::VowIsotropicWavelet<WaveletScalarType, ImageDimension>;
+    {
+      // Exercise basic object methods
+      // Done outside the helper function in the test because GCC is limited
+      // when calling overloaded base class functions.
+      using WaveletCoeffsSpatialDomainImageFilterType =
+        itk::WaveletCoeffsSpatialDomainImageFilter<ImageType, WaveletType>;
+
+      auto waveletCoeffsSpatialDomainImageFilter = WaveletCoeffsSpatialDomainImageFilterType::New();
+      EXERCISE_BASIC_OBJECT_METHODS(
+        waveletCoeffsSpatialDomainImageFilter, WaveletCoeffsSpatialDomainImageFilter, ImageToImageFilter);
+
+      return runWaveletCoeffsSpatialDomainImageFilterTest<3, WaveletType>(
+        inputImage, outputImage, inputLevels, inputBands);
+    }
   }
   else if (waveletFunction == "Simoncelli")
   {
     using WaveletType = itk::SimoncelliIsotropicWavelet<WaveletScalarType, ImageDimension>;
+    {
+      // Exercise basic object methods
+      // Done outside the helper function in the test because GCC is limited
+      // when calling overloaded base class functions.
+      using WaveletCoeffsSpatialDomainImageFilterType =
+        itk::WaveletCoeffsSpatialDomainImageFilter<ImageType, WaveletType>;
+
+      auto waveletCoeffsSpatialDomainImageFilter = WaveletCoeffsSpatialDomainImageFilterType::New();
+      EXERCISE_BASIC_OBJECT_METHODS(
+        waveletCoeffsSpatialDomainImageFilter, WaveletCoeffsSpatialDomainImageFilter, ImageToImageFilter);
+
+      return runWaveletCoeffsSpatialDomainImageFilterTest<3, WaveletType>(
+        inputImage, outputImage, inputLevels, inputBands);
+    }
   }
   else if (waveletFunction == "Shannon")
   {
     using WaveletType = itk::ShannonIsotropicWavelet<WaveletScalarType, ImageDimension>;
-  }
-  else
-  {
-    std::cerr << " failed!" << std::endl;
-    std::cerr << waveletFunction << " wavelet type not supported." << std::endl;
-    return EXIT_FAILURE;
-  }
+    {
+      // Exercise basic object methods
+      // Done outside the helper function in the test because GCC is limited
+      // when calling overloaded base class functions.
+      using WaveletCoeffsSpatialDomainImageFilterType =
+        itk::WaveletCoeffsSpatialDomainImageFilter<ImageType, WaveletType>;
 
-  // Exercise basic object methods
-  // Done outside the helper function in the test because GCC is limited
-  // when calling overloaded base class functions.
-  using WaveletCoeffsSpatialDomainImageFilterType = itk::WaveletCoeffsSpatialDomainImageFilter<ImageType, WaveletType>;
+      auto waveletCoeffsSpatialDomainImageFilter = WaveletCoeffsSpatialDomainImageFilterType::New();
+      EXERCISE_BASIC_OBJECT_METHODS(
+        waveletCoeffsSpatialDomainImageFilter, WaveletCoeffsSpatialDomainImageFilter, ImageToImageFilter);
 
-  auto waveletCoeffsSpatialDomainImageFilter = WaveletCoeffsSpatialDomainImageFilterType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(
-    waveletCoeffsSpatialDomainImageFilter, WaveletCoeffsSpatialDomainImageFilter, ImageToImageFilter);
-
-  if (ImageDimension == 3)
-  {
-    return runWaveletCoeffsSpatialDomainImageFilterTest<3, WaveletType>(
-      inputImage, outputImage, inputLevels, inputBands);
+      return runWaveletCoeffsSpatialDomainImageFilterTest<3, WaveletType>(
+        inputImage, outputImage, inputLevels, inputBands);
+    }
   }
-  else
-  {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error: only 2 or 3 dimensions allowed, " << dimension << " selected." << std::endl;
-    return EXIT_FAILURE;
-  }
+  std::cerr << " failed!" << std::endl;
+  std::cerr << waveletFunction << " wavelet type not supported." << std::endl;
+  return EXIT_FAILURE;
 }

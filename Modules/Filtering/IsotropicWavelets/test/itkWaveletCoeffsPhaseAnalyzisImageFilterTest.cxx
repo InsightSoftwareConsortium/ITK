@@ -97,13 +97,11 @@ itkWaveletCoeffsPhaseAnalyzisImageFilterTest(int argc, char * argv[])
   const unsigned int     inputBands = atoi(argv[4]);
   const unsigned int     dimension = atoi(argv[6]);
   constexpr unsigned int ImageDimension = 3;
-  if (dimension == 2)
+  if (dimension != ImageDimension)
   {
-    unsigned int ImageDimension = 2;
-  }
-  else if (dimension == 3)
-  {
-    unsigned int ImageDimension = 3;
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error: only 3 dimensions allowed, " << dimension << " selected." << std::endl;
+    return EXIT_FAILURE;
   }
   const std::string applySoftThresholdInput = argv[7];
   bool              applySoftThreshold = false;
@@ -129,49 +127,80 @@ itkWaveletCoeffsPhaseAnalyzisImageFilterTest(int argc, char * argv[])
   using ImageType = itk::Image<float, ImageDimension>;
 
   using WaveletScalarType = double;
-  using WaveletType = itk::SimoncelliIsotropicWavelet<WaveletScalarType, ImageDimension>;
   const std::string waveletFunction = argv[5];
   if (waveletFunction == "Held")
   {
     using WaveletType = itk::HeldIsotropicWavelet<WaveletScalarType, ImageDimension>;
+    {
+      // Exercise basic object methods
+      // Done outside the helper function in the test because GCC is limited
+      // when calling overloaded base class functions.
+      using WaveletCoeffsPhaseAnalyzisImageFilterType =
+        itk::WaveletCoeffsPhaseAnalyzisImageFilter<ImageType, WaveletType>;
+
+      auto waveletCoeffsPhaseAnalyzisImageFilter = WaveletCoeffsPhaseAnalyzisImageFilterType::New();
+      EXERCISE_BASIC_OBJECT_METHODS(
+        waveletCoeffsPhaseAnalyzisImageFilter, WaveletCoeffsPhaseAnalyzisImageFilter, ImageToImageFilter);
+
+      return runWaveletCoeffsPhaseAnalyzisImageFilterTest<3, WaveletType>(
+        inputImage, outputImage, inputLevels, inputBands, applySoftThreshold, thresholdNumOfSigmas);
+    }
   }
   else if (waveletFunction == "Vow")
   {
     using WaveletType = itk::VowIsotropicWavelet<WaveletScalarType, ImageDimension>;
+    {
+      // Exercise basic object methods
+      // Done outside the helper function in the test because GCC is limited
+      // when calling overloaded base class functions.
+      using WaveletCoeffsPhaseAnalyzisImageFilterType =
+        itk::WaveletCoeffsPhaseAnalyzisImageFilter<ImageType, WaveletType>;
+
+      auto waveletCoeffsPhaseAnalyzisImageFilter = WaveletCoeffsPhaseAnalyzisImageFilterType::New();
+      EXERCISE_BASIC_OBJECT_METHODS(
+        waveletCoeffsPhaseAnalyzisImageFilter, WaveletCoeffsPhaseAnalyzisImageFilter, ImageToImageFilter);
+
+      return runWaveletCoeffsPhaseAnalyzisImageFilterTest<3, WaveletType>(
+        inputImage, outputImage, inputLevels, inputBands, applySoftThreshold, thresholdNumOfSigmas);
+    }
   }
   else if (waveletFunction == "Simoncelli")
   {
     using WaveletType = itk::SimoncelliIsotropicWavelet<WaveletScalarType, ImageDimension>;
+    {
+      // Exercise basic object methods
+      // Done outside the helper function in the test because GCC is limited
+      // when calling overloaded base class functions.
+      using WaveletCoeffsPhaseAnalyzisImageFilterType =
+        itk::WaveletCoeffsPhaseAnalyzisImageFilter<ImageType, WaveletType>;
+
+      auto waveletCoeffsPhaseAnalyzisImageFilter = WaveletCoeffsPhaseAnalyzisImageFilterType::New();
+      EXERCISE_BASIC_OBJECT_METHODS(
+        waveletCoeffsPhaseAnalyzisImageFilter, WaveletCoeffsPhaseAnalyzisImageFilter, ImageToImageFilter);
+
+      return runWaveletCoeffsPhaseAnalyzisImageFilterTest<3, WaveletType>(
+        inputImage, outputImage, inputLevels, inputBands, applySoftThreshold, thresholdNumOfSigmas);
+    }
   }
   else if (waveletFunction == "Shannon")
   {
     using WaveletType = itk::ShannonIsotropicWavelet<WaveletScalarType, ImageDimension>;
-  }
-  else
-  {
-    std::cerr << " failed!" << std::endl;
-    std::cerr << waveletFunction << " wavelet type not supported." << std::endl;
-    return EXIT_FAILURE;
-  }
+    {
+      // Exercise basic object methods
+      // Done outside the helper function in the test because GCC is limited
+      // when calling overloaded base class functions.
+      using WaveletCoeffsPhaseAnalyzisImageFilterType =
+        itk::WaveletCoeffsPhaseAnalyzisImageFilter<ImageType, WaveletType>;
 
-  // Exercise basic object methods
-  // Done outside the helper function in the test because GCC is limited
-  // when calling overloaded base class functions.
-  using WaveletCoeffsPhaseAnalyzisImageFilterType = itk::WaveletCoeffsPhaseAnalyzisImageFilter<ImageType, WaveletType>;
+      auto waveletCoeffsPhaseAnalyzisImageFilter = WaveletCoeffsPhaseAnalyzisImageFilterType::New();
+      EXERCISE_BASIC_OBJECT_METHODS(
+        waveletCoeffsPhaseAnalyzisImageFilter, WaveletCoeffsPhaseAnalyzisImageFilter, ImageToImageFilter);
 
-  auto waveletCoeffsPhaseAnalyzisImageFilter = WaveletCoeffsPhaseAnalyzisImageFilterType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(
-    waveletCoeffsPhaseAnalyzisImageFilter, WaveletCoeffsPhaseAnalyzisImageFilter, ImageToImageFilter);
-
-  if (ImageDimension == 3)
-  {
-    return runWaveletCoeffsPhaseAnalyzisImageFilterTest<3, WaveletType>(
-      inputImage, outputImage, inputLevels, inputBands, applySoftThreshold, thresholdNumOfSigmas);
+      return runWaveletCoeffsPhaseAnalyzisImageFilterTest<3, WaveletType>(
+        inputImage, outputImage, inputLevels, inputBands, applySoftThreshold, thresholdNumOfSigmas);
+    }
   }
-  else
-  {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error: only 2 or 3 dimensions allowed, " << dimension << " selected." << std::endl;
-    return EXIT_FAILURE;
-  }
+  std::cerr << " failed!" << std::endl;
+  std::cerr << waveletFunction << " wavelet type not supported." << std::endl;
+  return EXIT_FAILURE;
 }
