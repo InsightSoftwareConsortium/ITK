@@ -76,7 +76,7 @@ if(NOT ITK_BINARY_DIR)
 endif()
 "
   )
-else(ITK_USE_SYSTEM_proxTV) # build proxTV here with the selected Eigen3
+else() # build proxTV here with the selected Eigen3
   # Build proxTV with C++11
   if(NOT CMAKE_CXX_STANDARD)
     set(CMAKE_CXX_STANDARD 11)
@@ -115,7 +115,7 @@ set(proxTV_DIR \"${proxtv_fetch_BINARY_DIR}\")
 find_package(proxTV REQUIRED CONFIG)
 "
   )
-endif(ITK_USE_SYSTEM_proxTV)
+endif()
 
 # When this module is loaded by an app, load proxTV too.
 set(
