@@ -3,9 +3,9 @@ set(dcmtk3rdParty ${dcmtkSource}/CMake/3rdparty.cmake)
 #
 # Newer versions of TIFF depend on JPEG
 file(READ ${dcmtk3rdParty} code)
-string(REPLACE "SET(LIBTIFF_LIBS \${TIFF_LIBRARY})
+string(REPLACE "set(LIBTIFF_LIBS \${TIFF_LIBRARY})
 "
-"SET(LIBTIFF_LIBS \${TIFF_LIBRARY})
+"set(LIBTIFF_LIBS \${TIFF_LIBRARY})
     list(APPEND LIBTIFF_LIBS \${JPEG_LIBRARY})
 " code "${code}")
 #
@@ -13,12 +13,12 @@ string(REPLACE "SET(LIBTIFF_LIBS \${TIFF_LIBRARY})
 # running find_package for those libraries
 # screws up using the ITK versions
 if(NOT ITK_USE_SYSTEM_TIFF)
-  string(REPLACE "FIND_PACKAGE(TIFF)
+  string(REPLACE "find_package(TIFF QUIET)
 " "" code "${code}")
 endif()
 
 if(NOT ITK_USE_SYSTEM_ZLIB)
-string(REPLACE "FIND_PACKAGE(ZLIB)
+string(REPLACE "find_package(ZLIB QUIET)
 " "" code "${code}")
 endif()
 
@@ -53,8 +53,8 @@ foreach(cmakelists ${dcmtk_cmakelists})
   message("CMakeLists ${_cmakelists}")
   file(READ ${_cmakelists} source)
   string(REGEX REPLACE
-    "SUBDIRS\\((.*) apps "
-    "SUBDIRS(\\1 "
+    "add_subdirectory\\((.*) apps "
+    "add_subdirectory(\\1 "
     source
     "${source}")
   file(WRITE ${_cmakelists} "${source}")
@@ -69,9 +69,9 @@ set(dcmtkCmakeLists_txt ${dcmtkSource}/CMakeLists.txt)
 file(READ ${dcmtkCmakeLists_txt} cmakelists)
 
 string(REPLACE "# build output files in these directories
-SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY \"\${CMAKE_BINARY_DIR}/lib\")
-SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY \"\${CMAKE_BINARY_DIR}/lib\")
-SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY \"\${CMAKE_BINARY_DIR}/bin\")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY \"\${CMAKE_BINARY_DIR}/lib\")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY \"\${CMAKE_BINARY_DIR}/lib\")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY \"\${CMAKE_BINARY_DIR}/bin\")
 "
 "" cmakelists "${cmakelists}")
 file(WRITE ${dcmtkCmakeLists_txt} "${cmakelists}")

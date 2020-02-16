@@ -11,4 +11,4 @@ set(DCMTK_GIT_REPOSITORY "https://github.com/InsightSoftwareConsortium/DCMTK.git
 # Support the generation of arith.h with Emscription
 # Do not use non-type template argument -1 in variadic template
 
-set(DCMTK_GIT_TAG "4d3ac5b16f48321c2ae6775e0b64025501fff932")
+set(DCMTK_GIT_TAG "14393c0baa743469b5826bea724c048e221dd08b") # 20200215 master
