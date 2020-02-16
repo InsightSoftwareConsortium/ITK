@@ -1,4 +1,4 @@
-if(NOT ITK_LEGACY_REMOVE)
+if(NOT ITK_LEGACY_REMOVE AND ITKV4_COMPATIBILITY AND Module_ITKDeprecated)
 
 itk_fetch_module(NeuralNetworks
 "This deprecated remote module contains classes and support classes
