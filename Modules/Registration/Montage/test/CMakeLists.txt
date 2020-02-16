@@ -320,7 +320,7 @@ function(GroundTruthTest2D tempDir inputFile) # other command-line parameters
       ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}Pairs_
       0 1 1 1 1 0 0 0 1
     )
-  SET_TESTS_PROPERTIES(itkMontageGroundTruthRun${tempDir}
+  set_tests_properties(itkMontageGroundTruthRun${tempDir}
     PROPERTIES DEPENDS itkMontageGroundTruthMake${tempDir})
 endfunction()
 
@@ -486,7 +486,7 @@ itk_add_test(NAME itkMontageGroundTruthRun${tempDir}
     ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}Pairs_
     0 1 1 1 1 0 0 0 1
   )
-SET_TESTS_PROPERTIES(itkMontageGroundTruthRun${tempDir}
+set_tests_properties(itkMontageGroundTruthRun${tempDir}
   PROPERTIES DEPENDS itkMontageGroundTruthMake${tempDir})
 
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.tif)
