@@ -24,6 +24,7 @@ if(ITK_USE_GPU)
      TEST_DEPENDS
         ITKTestKernel #to handle IO in src
         ITKGPUCommon
+        ITKSmoothing
      EXCLUDE_FROM_DEFAULT
      DESCRIPTION
          "${DOCUMENTATION}"
@@ -37,6 +38,7 @@ else()
         ITKSmoothing
      TEST_DEPENDS
         ITKTestKernel #to handle IO in src
+        ITKSmoothing
      EXCLUDE_FROM_DEFAULT
      DESCRIPTION
          "${DOCUMENTATION}"
