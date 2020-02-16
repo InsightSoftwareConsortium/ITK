@@ -1,20 +1,20 @@
 # The header files
-SET(HEADERS
+set(HEADERS
   itkCuberilleImageToMeshFilter.h
 )
 
 # The implementation files
-SET(SOURCES
+set(SOURCES
   itkCuberilleImageToMeshFilter.txx
   examples.cxx
 )
 
 # Add this as include directory
-INCLUDE_DIRECTORIES(
+include_directories(
   ${CMAKE_SOURCE_DIR}
   ${SOURCE_PATH}
 )
 
 # Main library
-ADD_EXECUTABLE(Examples ${HEADERS} ${SOURCES})
-TARGET_LINK_LIBRARIES(Examples ${ITK_LIBRARIES} ITKQuadEdgeMesh)
+add_executable(Examples ${HEADERS} ${SOURCES})
+target_link_libraries(Examples ${ITK_LIBRARIES} ITKQuadEdgeMesh)
