@@ -368,14 +368,15 @@ STLMeshIO ::ReadCells(void * buffer)
   CellsVectorType::const_iterator cellItr = this->m_CellsVector.begin();
   CellsVectorType::const_iterator cellEnd = this->m_CellsVector.end();
 
-  auto * cellPointIds = reinterpret_cast<unsigned int *>(buffer);
+  using CellIDType = unsigned int;
+  auto * cellPointIds = reinterpret_cast<CellIDType *>(buffer);
 
   constexpr unsigned int numberOfPointsInCell = 3;
 
   while (cellItr != cellEnd)
   {
 
-    *cellPointIds++ = MeshIOBase::TRIANGLE_CELL;
+    *cellPointIds++ = static_cast<CellIDType>(MeshIOBase::TRIANGLE_CELL);
     *cellPointIds++ = numberOfPointsInCell;
 
     //
