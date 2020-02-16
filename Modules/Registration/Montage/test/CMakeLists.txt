@@ -397,7 +397,7 @@ itk_add_test(NAME itkMontagePCMFilesS200_32_33
     74.09566
     7.614863315
   )
-endif(ITKMontage_EnableFailingTests)
+endif() # ITKMontage_EnableFailingTests
 
 itk_add_test(NAME itkMontagePCMFilesS200_33_67
   COMMAND MontageTestDriver
@@ -526,18 +526,18 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.
     )
 
   if (ITKMontage_EnableFailingTests) 
-  itk_add_test(NAME itkMontagePCMFiles36_088
-    COMMAND MontageTestDriver
-    itkMontagePCMTestFiles
-      ${rawPrefix}088.tif
-      ${rawPrefix}089.tif
-      ${TESTING_OUTPUT_PATH}/itkMontagePCMFiles36raw088_089.nrrd
-      81.28
-      0.0
-      0.0
-      0.0
+    itk_add_test(NAME itkMontagePCMFiles36_088
+      COMMAND MontageTestDriver
+      itkMontagePCMTestFiles
+        ${rawPrefix}088.tif
+        ${rawPrefix}089.tif
+        ${TESTING_OUTPUT_PATH}/itkMontagePCMFiles36raw088_089.nrrd
+        81.28
+        0.0
+        0.0
+        0.0
     )
-  endif(ITKMontage_EnableFailingTests)
+  endif() # ITKMontage_EnableFailingTests
 endif()
 
 if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region1_10_Mosaic36/Ti-7Al_Region #1_10_Mosaic_36_p323.tif")
