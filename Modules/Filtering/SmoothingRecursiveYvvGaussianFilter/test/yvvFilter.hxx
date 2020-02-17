@@ -229,9 +229,9 @@ testGpuFilter(std::string &                                 filterLabel,
   }
 
   src->DisconnectPipeline();
-  src = 0;
-  filter = 0;
-  imgPtr = 0;
+  src = nullptr;
+  filter = nullptr;
+  imgPtr = nullptr;
   return EXIT_SUCCESS;
 }
 
