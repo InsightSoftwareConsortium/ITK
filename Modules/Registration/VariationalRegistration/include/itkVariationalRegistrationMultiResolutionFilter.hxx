@@ -87,8 +87,8 @@ const typename VariationalRegistrationMultiResolutionFilter<TFixedImage,
                                                             TMovingImage,
                                                             TDisplacementField,
                                                             TRealType>::MovingImageType *
-VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::GetMovingImage(
-  void) const
+VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::GetMovingImage()
+  const
 {
   return dynamic_cast<const MovingImageType *>(this->ProcessObject::GetInput(2));
 }
@@ -108,10 +108,12 @@ VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplac
  * Get the fixed image.
  */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType>
-const typename VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::
-  FixedImageType *
-  VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::GetFixedImage(
-    void) const
+const typename VariationalRegistrationMultiResolutionFilter<TFixedImage,
+                                                            TMovingImage,
+                                                            TDisplacementField,
+                                                            TRealType>::FixedImageType *
+VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::GetFixedImage()
+  const
 {
   return dynamic_cast<const FixedImageType *>(this->ProcessObject::GetInput(1));
 }

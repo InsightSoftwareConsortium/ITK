@@ -106,7 +106,7 @@ public:
 
   /** Get the Moving image. */
   virtual const MovingImageType *
-  GetMovingImage(void) const
+  GetMovingImage() const
   {
     return m_MovingImage;
   }
@@ -120,7 +120,7 @@ public:
 
   /** Get the fixed image. */
   virtual const FixedImageType *
-  GetFixedImage(void) const
+  GetFixedImage() const
   {
     return m_FixedImage;
   }
@@ -134,7 +134,7 @@ public:
 
   /** Get the deformation field. */
   virtual const DisplacementFieldType *
-  GetDisplacementField(void) const
+  GetDisplacementField() const
   {
     return m_DisplacementField;
   }
@@ -148,7 +148,7 @@ public:
 
   /** Get the mask image. */
   virtual const MaskImageType *
-  GetMaskImage(void) const
+  GetMaskImage() const
   {
     return m_MaskImage;
   }
@@ -162,7 +162,7 @@ public:
 
   /** Get the moving image warper. */
   virtual const MovingImageWarperType *
-  GetMovingImageWarper(void) const
+  GetMovingImageWarper() const
   {
     return m_MovingImageWarper;
   }
@@ -176,7 +176,7 @@ public:
 
   /** Get the time step. */
   virtual const TimeStepType
-  GetTimeStep(void) const
+  GetTimeStep() const
   {
     return m_TimeStep;
   }
@@ -192,7 +192,7 @@ public:
   /** Get the MaskBackgroundThreshold. All Pixels of the mask image will be
    *  treated as background if the are <= this threshold. */
   virtual MaskImagePixelType
-  GetMaskBackgroundThreshold(void) const
+  GetMaskBackgroundThreshold() const
   {
     return m_MaskBackgroundThreshold;
   }
@@ -248,11 +248,11 @@ protected:
   /** Warp the moving image into the domain of the fixed image using the
    * deformation field. */
   virtual void
-  WarpMovingImage(void);
+  WarpMovingImage();
 
   /** Get the warped image. */
   virtual const WarpedImagePointer
-  GetWarpedImage(void) const;
+  GetWarpedImage() const;
 
   /** A global data type for this class of equation. Used to store
    * information for computing the metric. */

@@ -165,7 +165,7 @@ public:
 
   /** Get the fixed image. */
   virtual const FixedImageType *
-  GetFixedImage(void) const;
+  GetFixedImage() const;
 
   /** Set the moving image. */
   virtual void
@@ -173,7 +173,7 @@ public:
 
   /** Get the moving image. */
   virtual const MovingImageType *
-  GetMovingImage(void) const;
+  GetMovingImage() const;
 
   /** Set the mask image. */
   virtual void
@@ -181,7 +181,7 @@ public:
 
   /** Get the mask image. */
   virtual const MaskImageType *
-  GetMaskImage(void) const;
+  GetMaskImage() const;
 
   /** Set initial deformation field. */
   virtual void

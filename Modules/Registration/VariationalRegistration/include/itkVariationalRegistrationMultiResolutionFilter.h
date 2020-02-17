@@ -153,7 +153,7 @@ public:
 
   /** Get the fixed image. */
   const FixedImageType *
-  GetFixedImage(void) const;
+  GetFixedImage() const;
 
   /** Set the moving image. */
   virtual void
@@ -161,7 +161,7 @@ public:
 
   /** Get the moving image. */
   const MovingImageType *
-  GetMovingImage(void) const;
+  GetMovingImage() const;
 
   /** Set the mask image. */
   void
@@ -169,7 +169,7 @@ public:
 
   /** Get the mask image. */
   const MaskImageType *
-  GetMaskImage(void) const;
+  GetMaskImage() const;
 
   /** Set initial field, which will be smoothed and scaled to the size of the
    *  coarsest level. The field is interpreted either as displacement field
@@ -184,7 +184,7 @@ public:
   /** Get the initial field. The field is either a displacement field (standard
    *  registration) or velocity field (diffeomorphic registration). */
   const DisplacementFieldType *
-  GetInitialField(void)
+  GetInitialField()
   {
     return this->GetInput();
   }
@@ -192,7 +192,7 @@ public:
   /** Get the output field. The field is either a displacement field (standard
    *  registration) or velocity field (diffeomorphic registration). */
   const DisplacementFieldType *
-  GetOutputField(void)
+  GetOutputField()
   {
     return this->GetOutput();
   }
