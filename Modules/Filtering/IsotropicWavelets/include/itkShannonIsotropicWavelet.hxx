@@ -25,12 +25,10 @@
 namespace itk
 {
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
-ShannonIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::ShannonIsotropicWavelet()
-{}
+ShannonIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::ShannonIsotropicWavelet() = default;
 
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
-ShannonIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::~ShannonIsotropicWavelet()
-{}
+ShannonIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::~ShannonIsotropicWavelet() = default;
 
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
 void

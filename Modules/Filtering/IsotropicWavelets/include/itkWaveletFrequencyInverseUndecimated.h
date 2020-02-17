@@ -123,7 +123,7 @@ public:
 
 protected:
   WaveletFrequencyInverseUndecimated();
-  ~WaveletFrequencyInverseUndecimated() override {}
+  ~WaveletFrequencyInverseUndecimated() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

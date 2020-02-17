@@ -99,7 +99,7 @@ public:
 
 protected:
   PhaseAnalysisSoftThresholdImageFilter();
-  ~PhaseAnalysisSoftThresholdImageFilter() override {}
+  ~PhaseAnalysisSoftThresholdImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

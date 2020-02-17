@@ -82,7 +82,7 @@ public:
 
 protected:
   ZeroDCImageFilter();
-  ~ZeroDCImageFilter() override {}
+  ~ZeroDCImageFilter() override = default;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

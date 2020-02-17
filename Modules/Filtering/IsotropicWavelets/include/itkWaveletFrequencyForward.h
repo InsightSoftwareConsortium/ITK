@@ -152,7 +152,7 @@ public:
 
 protected:
   WaveletFrequencyForward();
-  ~WaveletFrequencyForward() override {}
+  ~WaveletFrequencyForward() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

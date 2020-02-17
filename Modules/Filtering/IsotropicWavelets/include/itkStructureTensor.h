@@ -206,7 +206,7 @@ public:
 
 protected:
   StructureTensor();
-  ~StructureTensor() override {}
+  ~StructureTensor() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

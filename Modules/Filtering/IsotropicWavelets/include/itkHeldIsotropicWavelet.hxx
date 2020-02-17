@@ -30,8 +30,7 @@ HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::HeldIsotropicWave
 {}
 
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
-HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::~HeldIsotropicWavelet()
-{}
+HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::~HeldIsotropicWavelet() = default;
 
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
 void

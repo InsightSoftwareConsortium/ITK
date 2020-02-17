@@ -25,12 +25,10 @@
 namespace itk
 {
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
-SimoncelliIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::SimoncelliIsotropicWavelet()
-{}
+SimoncelliIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::SimoncelliIsotropicWavelet() = default;
 
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
-SimoncelliIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::~SimoncelliIsotropicWavelet()
-{}
+SimoncelliIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::~SimoncelliIsotropicWavelet() = default;
 
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
 void

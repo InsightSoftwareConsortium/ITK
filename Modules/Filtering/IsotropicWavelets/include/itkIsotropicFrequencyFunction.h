@@ -88,8 +88,10 @@ public:
   // virtual FunctionValueType EvaluateInverse(const TFunctionValue& freq_in_hz) const = 0;
 
 protected:
-  IsotropicFrequencyFunction() {};
-  ~IsotropicFrequencyFunction() override {};
+  IsotropicFrequencyFunction() = default;
+  ;
+  ~IsotropicFrequencyFunction() override = default;
+  ;
   void
   PrintSelf(std::ostream & os, Indent indent) const override
   {

@@ -67,8 +67,10 @@ public:
   Evaluate(const TInput & frequency_point) const override = 0;
 
 protected:
-  FrequencyFunction() {};
-  ~FrequencyFunction() override {};
+  FrequencyFunction() = default;
+  ;
+  ~FrequencyFunction() override = default;
+  ;
   void
   PrintSelf(std::ostream & os, Indent indent) const override
   {

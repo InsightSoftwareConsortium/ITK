@@ -30,8 +30,7 @@ VowIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::VowIsotropicWavele
 {}
 
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
-VowIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::~VowIsotropicWavelet()
-{}
+VowIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::~VowIsotropicWavelet() = default;
 
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
 void

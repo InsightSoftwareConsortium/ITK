@@ -68,8 +68,8 @@ public:
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
 protected:
-  VectorInverseFFTImageFilter() {}
-  ~VectorInverseFFTImageFilter() override {}
+  VectorInverseFFTImageFilter() = default;
+  ~VectorInverseFFTImageFilter() override = default;
 
   void
   GenerateData() override;

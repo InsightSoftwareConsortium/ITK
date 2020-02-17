@@ -131,7 +131,7 @@ public:
 
 protected:
   WaveletFrequencyInverse();
-  ~WaveletFrequencyInverse() override {}
+  ~WaveletFrequencyInverse() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

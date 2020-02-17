@@ -113,7 +113,7 @@ public:
 
 protected:
   RieszFrequencyFilterBankGenerator();
-  ~RieszFrequencyFilterBankGenerator() override {}
+  ~RieszFrequencyFilterBankGenerator() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

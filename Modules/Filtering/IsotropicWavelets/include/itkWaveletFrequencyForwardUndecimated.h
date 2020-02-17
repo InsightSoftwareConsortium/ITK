@@ -144,7 +144,7 @@ public:
 
 protected:
   WaveletFrequencyForwardUndecimated();
-  ~WaveletFrequencyForwardUndecimated() override {}
+  ~WaveletFrequencyForwardUndecimated() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

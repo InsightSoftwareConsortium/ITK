@@ -127,7 +127,7 @@ public:
 
 protected:
   PhaseAnalysisImageFilter();
-  ~PhaseAnalysisImageFilter() override {}
+  ~PhaseAnalysisImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
