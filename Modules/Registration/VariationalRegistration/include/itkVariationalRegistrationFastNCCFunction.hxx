@@ -30,8 +30,7 @@ namespace itk
  */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::
-  VariationalRegistrationFastNCCFunction()
-{}
+  VariationalRegistrationFastNCCFunction() = default;
 
 /*
  * Standard "PrintSelf" method.

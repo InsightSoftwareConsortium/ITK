@@ -165,7 +165,7 @@ public:
 
 protected:
   VariationalRegistrationSSDFunction();
-  ~VariationalRegistrationSSDFunction() override {}
+  ~VariationalRegistrationSSDFunction() override = default;
 
   using GlobalDataStruct = typename Superclass::GlobalDataStruct;
 

@@ -113,7 +113,7 @@ public:
 
 protected:
   VariationalRegistrationElasticRegularizer();
-  ~VariationalRegistrationElasticRegularizer() override {}
+  ~VariationalRegistrationElasticRegularizer() override = default;
 
   /** Print information about the filter. */
   void

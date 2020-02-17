@@ -159,7 +159,7 @@ public:
 
 protected:
   VariationalDiffeomorphicRegistrationFilter();
-  ~VariationalDiffeomorphicRegistrationFilter() override {}
+  ~VariationalDiffeomorphicRegistrationFilter() override = default;
 
   /** Print information about the filter. */
   void

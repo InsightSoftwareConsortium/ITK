@@ -88,7 +88,7 @@ public:
 
 protected:
   VariationalRegistrationDiffusionRegularizer();
-  ~VariationalRegistrationDiffusionRegularizer() override {}
+  ~VariationalRegistrationDiffusionRegularizer() override = default;
 
   /** Print information about the filter. */
   void

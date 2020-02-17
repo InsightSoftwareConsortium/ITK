@@ -158,7 +158,7 @@ public:
 
 protected:
   VariationalRegistrationDemonsFunction();
-  ~VariationalRegistrationDemonsFunction() override {}
+  ~VariationalRegistrationDemonsFunction() override = default;
 
   using GlobalDataStruct = typename Superclass::GlobalDataStruct;
 

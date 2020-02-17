@@ -31,15 +31,13 @@ namespace itk
  * Default constructor
  */
 template <typename TRegistrationFilter, typename TMRFilter>
-VariationalRegistrationLogger<TRegistrationFilter, TMRFilter>::VariationalRegistrationLogger()
-{}
+VariationalRegistrationLogger<TRegistrationFilter, TMRFilter>::VariationalRegistrationLogger() = default;
 
 /**
  * Default destructor
  */
 template <typename TRegistrationFilter, typename TMRFilter>
-VariationalRegistrationLogger<TRegistrationFilter, TMRFilter>::~VariationalRegistrationLogger()
-{}
+VariationalRegistrationLogger<TRegistrationFilter, TMRFilter>::~VariationalRegistrationLogger() = default;
 
 /**
  *

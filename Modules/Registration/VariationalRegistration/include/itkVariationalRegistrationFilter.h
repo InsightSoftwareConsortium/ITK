@@ -253,7 +253,7 @@ public:
 
 protected:
   VariationalRegistrationFilter();
-  ~VariationalRegistrationFilter() override {}
+  ~VariationalRegistrationFilter() override = default;
 
   /** Print information about the filter. */
   void

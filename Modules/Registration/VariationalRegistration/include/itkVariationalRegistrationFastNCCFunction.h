@@ -132,7 +132,7 @@ public:
 
 protected:
   VariationalRegistrationFastNCCFunction();
-  ~VariationalRegistrationFastNCCFunction() override {}
+  ~VariationalRegistrationFastNCCFunction() override = default;
 
   /** Print information about the filter. */
   void

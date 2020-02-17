@@ -109,7 +109,7 @@ public:
 
 protected:
   VariationalRegistrationGaussianRegularizer();
-  ~VariationalRegistrationGaussianRegularizer() override {}
+  ~VariationalRegistrationGaussianRegularizer() override = default;
 
   /** Print information about the filter. */
   void

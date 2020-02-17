@@ -141,7 +141,7 @@ public:
 
 protected:
   VariationalSymmetricDiffeomorphicRegistrationFilter();
-  ~VariationalSymmetricDiffeomorphicRegistrationFilter() override {}
+  ~VariationalSymmetricDiffeomorphicRegistrationFilter() override = default;
 
   /** Print information about the filter. */
   void

@@ -157,7 +157,7 @@ public:
 
 protected:
   VariationalRegistrationNCCFunction();
-  ~VariationalRegistrationNCCFunction() override {}
+  ~VariationalRegistrationNCCFunction() override = default;
 
   /** Print information about the filter. */
   void

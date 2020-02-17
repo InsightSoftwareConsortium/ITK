@@ -264,7 +264,7 @@ public:
 
 protected:
   VariationalRegistrationMultiResolutionFilter();
-  ~VariationalRegistrationMultiResolutionFilter() override {}
+  ~VariationalRegistrationMultiResolutionFilter() override = default;
 
   /** Print information about the filter. */
   void

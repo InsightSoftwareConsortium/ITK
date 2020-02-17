@@ -82,7 +82,7 @@ public:
 
 protected:
   VariationalRegistrationRegularizer();
-  ~VariationalRegistrationRegularizer() override {}
+  ~VariationalRegistrationRegularizer() override = default;
 
   /** Print information about the filter. */
   void
