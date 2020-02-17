@@ -136,10 +136,10 @@ protected:
 
   ScalarType m_DiffusionTime;
   ScalarType m_RatioToMaxStableTimeStep;
-  int        m_MaxNumberOfTimeSteps;
+  int        m_MaxNumberOfTimeSteps{ 10 };
 
   ScalarType m_EffectiveDiffusionTime;
-  int        m_EffectiveNumberOfTimeSteps;
+  int        m_EffectiveNumberOfTimeSteps{ 0 };
 
   virtual void
                               ImageUpdate(ScalarType delta);

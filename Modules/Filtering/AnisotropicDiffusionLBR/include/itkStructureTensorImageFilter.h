@@ -93,9 +93,9 @@ protected:
 
   ScalarType m_FeatureScale;
   ScalarType m_NoiseScale;
-  bool       m_RescaleForUnitMaximumTrace;
+  bool       m_RescaleForUnitMaximumTrace{ false };
   ScalarType m_PostRescaling;
-  bool       m_UseGradientRecursiveGaussianImageFilter;
+  bool       m_UseGradientRecursiveGaussianImageFilter{ true };
 
   struct DispatchBase
   {};

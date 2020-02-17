@@ -34,9 +34,10 @@ AnisotropicDiffusionLBRImageFilter<TImage, TScalar>::AnisotropicDiffusionLBRImag
   : m_NoiseScale(0.5)
   , m_FeatureScale(2)
   , m_RatioToMaxStableTimeStep(0.7)
-  , m_MaxTimeStepsBetweenTensorUpdates(5)
-  , m_DiffusionTime(1)
-  , m_Adimensionize(true)
+  ,
+
+  m_DiffusionTime(1)
+
 {}
 
 

@@ -116,7 +116,7 @@ protected:
   ScalarType m_FeatureScale;
 
   ScalarType m_RatioToMaxStableTimeStep;
-  int        m_MaxTimeStepsBetweenTensorUpdates;
+  int        m_MaxTimeStepsBetweenTensorUpdates{ 5 };
 
   AnisotropicDiffusionLBRImageFilter();
   ~AnisotropicDiffusionLBRImageFilter() override = default;
@@ -127,7 +127,7 @@ protected:
   ComputeDiffusionTensors(ImageType *);
 
   ScalarType m_DiffusionTime;
-  bool       m_Adimensionize;
+  bool       m_Adimensionize{ true };
 
   void
   GenerateData() override;
