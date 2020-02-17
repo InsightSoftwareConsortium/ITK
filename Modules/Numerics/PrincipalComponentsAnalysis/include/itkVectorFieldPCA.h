@@ -192,7 +192,7 @@ public:
       the calculator will perform Kernel PCA.
   */
   void
-  Compute(void);
+  Compute();
 
   /**
    * \brief Return the results.
