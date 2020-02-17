@@ -121,7 +121,7 @@ protected:
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
   void
-  GenerateData(void) override;
+  GenerateData() override;
 
   // Override since the filter produces the entire dataset.
   void
