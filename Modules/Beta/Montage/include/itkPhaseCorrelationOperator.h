@@ -80,7 +80,7 @@ public:
 
 protected:
   PhaseCorrelationOperator();
-  ~PhaseCorrelationOperator() override{};
+  ~PhaseCorrelationOperator() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
