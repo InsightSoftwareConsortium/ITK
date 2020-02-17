@@ -36,8 +36,8 @@ StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::St
 }
 
 template <typename TInputImage, typename TMaskImage, typename TOutputImage>
-StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::~StochasticFractalDimensionImageFilter()
-{}
+StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::~StochasticFractalDimensionImageFilter() =
+  default;
 
 template <typename TInputImage, typename TMaskImage, typename TOutputImage>
 void

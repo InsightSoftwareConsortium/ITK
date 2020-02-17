@@ -28,7 +28,7 @@ namespace itk
 //
 // Constructor
 //
-TemporalProcessObject::TemporalProcessObject() {}
+TemporalProcessObject::TemporalProcessObject() = default;
 
 //
 // PrintSelf

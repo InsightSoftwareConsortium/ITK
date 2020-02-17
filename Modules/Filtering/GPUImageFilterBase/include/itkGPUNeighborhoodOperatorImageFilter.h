@@ -152,7 +152,7 @@ public:
 
 protected:
   GPUNeighborhoodOperatorImageFilter();
-  ~GPUNeighborhoodOperatorImageFilter() override {}
+  ~GPUNeighborhoodOperatorImageFilter() override = default;
 
   /** NeighborhoodOperatorImageFilter can be implemented as a
    * multithreaded filter.  Therefore, this implementation provides a

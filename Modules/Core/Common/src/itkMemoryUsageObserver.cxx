@@ -269,7 +269,7 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
 
 /**         ----         Linux Memory Usage Observer       ----       */
 
-LinuxMemoryUsageObserver::~LinuxMemoryUsageObserver() {}
+LinuxMemoryUsageObserver::~LinuxMemoryUsageObserver() = default;
 
 /** Get Memory Usage - Linux version.
  *  Reference for method used:
@@ -442,7 +442,7 @@ SysResourceMemoryUsageObserver::GetMemoryUsage()
 
 /**         ----         Mallinfo Memory Usage Observer       ----       */
 
-MallinfoMemoryUsageObserver::~MallinfoMemoryUsageObserver() {}
+MallinfoMemoryUsageObserver::~MallinfoMemoryUsageObserver() = default;
 
 MemoryUsageObserverBase::MemoryLoadType
 MallinfoMemoryUsageObserver::GetMemoryUsage()

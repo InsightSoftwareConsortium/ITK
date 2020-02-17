@@ -438,7 +438,7 @@ SmapsData_2_6::GetStackUsage()
 
 /**              ---            VMMapData               ---              **/
 
-VMMapData_10_2 ::VMMapData_10_2() {}
+VMMapData_10_2 ::VMMapData_10_2() = default;
 
 VMMapData_10_2 ::~VMMapData_10_2() = default;
 

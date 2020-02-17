@@ -43,7 +43,7 @@ MINCTransformIOFactory::MINCTransformIOFactory()
                          CreateObjectFunction<MINCTransformIOTemplate<double>>::New());
 }
 
-MINCTransformIOFactory::~MINCTransformIOFactory() {}
+MINCTransformIOFactory::~MINCTransformIOFactory() = default;
 
 const char *
 MINCTransformIOFactory::GetITKSourceVersion() const

@@ -773,7 +773,7 @@ public:
   FEMExceptionItpackSolver(const char * file, unsigned int lineNumber, std::string location, integer errorCode);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  ~FEMExceptionItpackSolver() noexcept override {}
+  ~FEMExceptionItpackSolver() noexcept override = default;
 
   /** Type related information. */
   itkTypeMacro(FEMExceptionItpackSolver, FEMException);

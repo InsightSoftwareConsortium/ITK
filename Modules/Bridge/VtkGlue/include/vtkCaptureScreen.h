@@ -34,9 +34,9 @@ public:
     : m_Renderer(iRenderer)
   {}
 
-  vtkCaptureScreen() {}
+  vtkCaptureScreen() = default;
 
-  ~vtkCaptureScreen() {}
+  ~vtkCaptureScreen() = default;
 
   void
   operator()(const std::string & iFileName) const

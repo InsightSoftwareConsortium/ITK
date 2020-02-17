@@ -31,7 +31,7 @@ FEMException::FEMException(const char * file, unsigned int lineNumber, std::stri
   SetLocation(location);
 }
 
-FEMException::~FEMException() noexcept {}
+FEMException::~FEMException() noexcept = default;
 
 FEMExceptionIO::FEMExceptionIO(const char * file,
                                unsigned int lineNumber,
@@ -43,7 +43,7 @@ FEMExceptionIO::FEMExceptionIO(const char * file,
   SetLocation(location);
 }
 
-FEMExceptionIO::~FEMExceptionIO() noexcept {}
+FEMExceptionIO::~FEMExceptionIO() noexcept = default;
 
 FEMExceptionWrongClass::FEMExceptionWrongClass(const char * file, unsigned int lineNumber, std::string location)
   : FEMException(file, lineNumber, location)
@@ -51,7 +51,7 @@ FEMExceptionWrongClass::FEMExceptionWrongClass(const char * file, unsigned int l
   SetDescription("Object was of wrong class!");
 }
 
-FEMExceptionWrongClass::~FEMExceptionWrongClass() noexcept {}
+FEMExceptionWrongClass::~FEMExceptionWrongClass() noexcept = default;
 
 FEMExceptionObjectNotFound::FEMExceptionObjectNotFound(const char * file,
                                                        unsigned int lineNumber,
@@ -67,7 +67,7 @@ FEMExceptionObjectNotFound::FEMExceptionObjectNotFound(const char * file,
   SetDescription(buf.str().c_str());
 }
 
-FEMExceptionObjectNotFound::~FEMExceptionObjectNotFound() noexcept {}
+FEMExceptionObjectNotFound::~FEMExceptionObjectNotFound() noexcept = default;
 
 FEMExceptionSolution::FEMExceptionSolution(const char * file,
                                            unsigned int lineNumber,
@@ -79,7 +79,7 @@ FEMExceptionSolution::FEMExceptionSolution(const char * file,
   SetLocation(location);
 }
 
-FEMExceptionSolution::~FEMExceptionSolution() noexcept {}
+FEMExceptionSolution::~FEMExceptionSolution() noexcept = default;
 
 } // end namespace fem
 } // end namespace itk

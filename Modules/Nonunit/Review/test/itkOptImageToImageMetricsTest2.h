@@ -35,7 +35,7 @@ template <typename FixedImageType,
 class OptImageToImageMetricsTest
 {
 public:
-  OptImageToImageMetricsTest() {}
+  OptImageToImageMetricsTest() = default;
 
   void
   RunTest(FixedImageType *      fixed,

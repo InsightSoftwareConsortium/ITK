@@ -72,7 +72,7 @@ public:
   itkGetConstMacro(NumberOfFilters, unsigned int);
 
 protected:
-  WatershedMiniPipelineProgressCommand() {}
+  WatershedMiniPipelineProgressCommand() = default;
   ~WatershedMiniPipelineProgressCommand() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

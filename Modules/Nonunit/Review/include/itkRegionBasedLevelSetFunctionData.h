@@ -144,7 +144,7 @@ public:
 
 protected:
   RegionBasedLevelSetFunctionData();
-  ~RegionBasedLevelSetFunctionData() override {}
+  ~RegionBasedLevelSetFunctionData() override = default;
 };
 } // end namespace itk
 

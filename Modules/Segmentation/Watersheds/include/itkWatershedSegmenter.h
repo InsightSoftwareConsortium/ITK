@@ -258,7 +258,7 @@ protected:
     //    InputPixelType  bounds_max; // <-- may not be necc.
     InputPixelType value;
     bool           is_on_boundary{ false };
-    flat_region_t() {}
+    flat_region_t() = default;
   };
 
   /** Table for storing flat region information.  */

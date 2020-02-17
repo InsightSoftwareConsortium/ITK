@@ -37,8 +37,7 @@ ImageSpatialObject<TDimension, PixelType>::ImageSpatialObject()
 
 /** Destructor */
 template <unsigned int TDimension, typename PixelType>
-ImageSpatialObject<TDimension, PixelType>::~ImageSpatialObject()
-{}
+ImageSpatialObject<TDimension, PixelType>::~ImageSpatialObject() = default;
 
 template <unsigned int TDimension, typename PixelType>
 void

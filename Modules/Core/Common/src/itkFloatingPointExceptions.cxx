@@ -34,7 +34,7 @@ namespace itk
 
 struct ExceptionGlobals
 {
-  ExceptionGlobals(){};
+  ExceptionGlobals() = default;
   FloatingPointExceptions::ExceptionActionEnum m_ExceptionAction{ FloatingPointExceptions::ExceptionActionEnum::ABORT };
   bool                                         m_Enabled{ false };
 };

@@ -120,7 +120,7 @@ public:
   itkGetConstMacro(TransformDirection, TransformDirectionEnum);
 
 protected:
-  ComplexToComplexFFTImageFilter() {}
+  ComplexToComplexFFTImageFilter() = default;
 
   void
   GenerateInputRequestedRegion() override;

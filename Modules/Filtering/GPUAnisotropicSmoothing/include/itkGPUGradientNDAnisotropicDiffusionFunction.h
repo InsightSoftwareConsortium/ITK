@@ -106,7 +106,7 @@ public:
 
 protected:
   GPUGradientNDAnisotropicDiffusionFunction();
-  ~GPUGradientNDAnisotropicDiffusionFunction() override {}
+  ~GPUGradientNDAnisotropicDiffusionFunction() override = default;
 
   /** Inner product function. */
   NeighborhoodInnerProduct<ImageType> m_InnerProduct;

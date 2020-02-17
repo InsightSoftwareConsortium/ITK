@@ -130,7 +130,7 @@ public:
 
 protected:
   GPUDemonsRegistrationFilter();
-  ~GPUDemonsRegistrationFilter() override {}
+  ~GPUDemonsRegistrationFilter() override = default;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

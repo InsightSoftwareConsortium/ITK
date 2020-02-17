@@ -32,8 +32,7 @@ namespace itk
 
 /** Constructor */
 template <unsigned int NDimensions>
-MetaFEMObjectConverter<NDimensions>::MetaFEMObjectConverter()
-{}
+MetaFEMObjectConverter<NDimensions>::MetaFEMObjectConverter() = default;
 
 template <unsigned int NDimensions>
 typename MetaFEMObjectConverter<NDimensions>::MetaObjectType *

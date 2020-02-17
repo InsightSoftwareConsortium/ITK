@@ -56,7 +56,7 @@ public:
   }
 
 protected:
-  Derived1() {}
+  Derived1() = default;
 
   ~Derived1() override = default;
 

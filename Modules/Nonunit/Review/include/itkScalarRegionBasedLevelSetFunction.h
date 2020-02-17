@@ -134,7 +134,7 @@ protected:
   ScalarRegionBasedLevelSetFunction()
     : Superclass()
   {}
-  ~ScalarRegionBasedLevelSetFunction() override {}
+  ~ScalarRegionBasedLevelSetFunction() override = default;
 
   ScalarValueType
   ComputeOverlapParameters(const FeatureIndexType & featIndex, ScalarValueType & product) override;

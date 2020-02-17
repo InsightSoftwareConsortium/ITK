@@ -64,7 +64,7 @@ namespace itk
 class InternalHeader
 {
 public:
-  InternalHeader() {}
+  InternalHeader() = default;
   ~InternalHeader() { delete m_Header; }
   gdcm::File * m_Header{ nullptr };
 };

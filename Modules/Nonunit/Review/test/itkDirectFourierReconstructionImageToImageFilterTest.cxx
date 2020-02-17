@@ -51,7 +51,7 @@ public:
   itkNewMacro(Self);
 
 protected:
-  CommandProgressUpdate(){};
+  CommandProgressUpdate() = default;
 
   using ReconstructionFilterPointer = const ReconstructionFilterType *;
 

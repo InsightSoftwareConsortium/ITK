@@ -23,7 +23,7 @@ namespace itk
 namespace fem
 {
 
-LinearSystemWrapper::~LinearSystemWrapper() {}
+LinearSystemWrapper::~LinearSystemWrapper() = default;
 
 void
 LinearSystemWrapper::Clean()
@@ -429,7 +429,7 @@ LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int  rowNumb
   }
 }
 
-FEMExceptionLinearSystem::~FEMExceptionLinearSystem() noexcept {}
+FEMExceptionLinearSystem::~FEMExceptionLinearSystem() noexcept = default;
 
 FEMExceptionLinearSystem::FEMExceptionLinearSystem(const char * file,
                                                    unsigned int lineNumber,
@@ -468,7 +468,7 @@ FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(const char * file
   SetDescription(buf.str().c_str());
 }
 
-FEMExceptionLinearSystemBounds::~FEMExceptionLinearSystemBounds() noexcept {}
+FEMExceptionLinearSystemBounds::~FEMExceptionLinearSystemBounds() noexcept = default;
 
 } // end namespace fem
 } // end namespace itk

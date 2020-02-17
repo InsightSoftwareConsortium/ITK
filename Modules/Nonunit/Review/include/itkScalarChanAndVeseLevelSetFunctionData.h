@@ -113,7 +113,7 @@ protected:
     m_WeightedSumOfPixelValuesOutsideLevelSet = 0.;
   }
 
-  ~ScalarChanAndVeseLevelSetFunctionData() override {}
+  ~ScalarChanAndVeseLevelSetFunctionData() override = default;
 };
 } // end namespace itk
 

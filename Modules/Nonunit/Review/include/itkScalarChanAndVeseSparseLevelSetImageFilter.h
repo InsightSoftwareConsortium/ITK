@@ -141,7 +141,7 @@ protected:
     this->m_SharedData = SharedDataType::New();
   }
 
-  ~ScalarChanAndVeseSparseLevelSetImageFilter() override {}
+  ~ScalarChanAndVeseSparseLevelSetImageFilter() override = default;
 
   SharedDataPointer m_SharedData;
 

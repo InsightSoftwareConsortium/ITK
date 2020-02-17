@@ -69,8 +69,8 @@ public:
   {}
 
 protected:
-  ScalarChanAndVeseLevelSetFunctionTest2Helper() {}
-  ~ScalarChanAndVeseLevelSetFunctionTest2Helper() override {}
+  ScalarChanAndVeseLevelSetFunctionTest2Helper() = default;
+  ~ScalarChanAndVeseLevelSetFunctionTest2Helper() override = default;
 };
 
 } // namespace itk

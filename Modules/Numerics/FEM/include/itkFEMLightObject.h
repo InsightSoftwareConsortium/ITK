@@ -72,12 +72,12 @@ protected:
   /**
    * Default constructor
    */
-  FEMLightObject() {}
+  FEMLightObject() = default;
 
   /**
    * Virtual destructor
    */
-  ~FEMLightObject() override {}
+  ~FEMLightObject() override = default;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

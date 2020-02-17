@@ -19,7 +19,7 @@
 
 namespace itk
 {
-SegmentationBorder ::SegmentationBorder() {}
+SegmentationBorder ::SegmentationBorder() = default;
 
 SegmentationBorder ::~SegmentationBorder() = default;
 

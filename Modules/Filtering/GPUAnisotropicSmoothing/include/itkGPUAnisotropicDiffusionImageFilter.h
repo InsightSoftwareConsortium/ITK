@@ -65,8 +65,8 @@ public:
   using TimeStepType = typename GPUSuperclass::TimeStepType;
 
 protected:
-  GPUAnisotropicDiffusionImageFilter() {}
-  ~GPUAnisotropicDiffusionImageFilter() override {}
+  GPUAnisotropicDiffusionImageFilter() = default;
+  ~GPUAnisotropicDiffusionImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

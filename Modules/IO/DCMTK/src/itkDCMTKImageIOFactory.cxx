@@ -27,7 +27,7 @@ DCMTKImageIOFactory::DCMTKImageIOFactory()
     "itkImageIOBase", "itkDCMTKImageIO", "DICOM Image IO", true, CreateObjectFunction<DCMTKImageIO>::New());
 }
 
-DCMTKImageIOFactory::~DCMTKImageIOFactory() {}
+DCMTKImageIOFactory::~DCMTKImageIOFactory() = default;
 
 const char *
 DCMTKImageIOFactory::GetITKSourceVersion() const

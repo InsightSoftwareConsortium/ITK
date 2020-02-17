@@ -69,8 +69,8 @@ public:
   {}
 
 protected:
-  ScalarChanAndVeseLevelSetFunctionTestHelper() {}
-  ~ScalarChanAndVeseLevelSetFunctionTestHelper() override {}
+  ScalarChanAndVeseLevelSetFunctionTestHelper() = default;
+  ~ScalarChanAndVeseLevelSetFunctionTestHelper() override = default;
 };
 
 template <unsigned int NDimension>

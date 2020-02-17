@@ -193,7 +193,7 @@ protected:
   DiscreteHessianGaussianImageFunction();
   DiscreteHessianGaussianImageFunction(const Self &) {}
 
-  ~DiscreteHessianGaussianImageFunction() override {}
+  ~DiscreteHessianGaussianImageFunction() override = default;
 
   void
   operator=(const Self &)

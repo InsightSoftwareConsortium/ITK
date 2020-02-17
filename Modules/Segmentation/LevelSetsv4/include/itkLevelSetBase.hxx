@@ -30,7 +30,7 @@ namespace itk
 template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
 LevelSetBase<TInput, VDimension, TOutput, TDomain>::LevelSetBase()
 
-{}
+  = default;
 
 // ----------------------------------------------------------------------------
 template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>

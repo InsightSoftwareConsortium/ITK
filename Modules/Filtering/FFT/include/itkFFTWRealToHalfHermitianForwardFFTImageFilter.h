@@ -117,7 +117,7 @@ public:
 
 protected:
   FFTWRealToHalfHermitianForwardFFTImageFilter();
-  ~FFTWRealToHalfHermitianForwardFFTImageFilter() override {}
+  ~FFTWRealToHalfHermitianForwardFFTImageFilter() override = default;
 
   void
   GenerateData() override;

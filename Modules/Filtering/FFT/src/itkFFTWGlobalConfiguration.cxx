@@ -51,10 +51,9 @@ struct FFTWGlobalConfigurationGlobals
   std::mutex                       m_CreationLock;
 };
 
-WisdomFilenameGeneratorBase ::WisdomFilenameGeneratorBase() {}
+WisdomFilenameGeneratorBase ::WisdomFilenameGeneratorBase() = default;
 
-
-WisdomFilenameGeneratorBase ::~WisdomFilenameGeneratorBase() {}
+WisdomFilenameGeneratorBase ::~WisdomFilenameGeneratorBase() = default;
 
 ManualWisdomFilenameGenerator ::ManualWisdomFilenameGenerator(std::string wfn)
   : m_WisdomFilename(std::move(wfn))
@@ -171,7 +170,7 @@ FFTWGlobalConfiguration ::GetInstance()
   return m_PimplGlobals->m_Instance;
 }
 
-HardwareWisdomFilenameGenerator ::HardwareWisdomFilenameGenerator() {}
+HardwareWisdomFilenameGenerator ::HardwareWisdomFilenameGenerator() = default;
 
 std::string
 HardwareWisdomFilenameGenerator ::GenerateWisdomFilename(const std::string & baseCacheDirectory) const

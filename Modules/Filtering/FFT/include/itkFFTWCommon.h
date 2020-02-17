@@ -57,8 +57,8 @@ class Proxy
   // empty -- only double and float specializations work
 
 protected:
-  Proxy(){};
-  ~Proxy(){};
+  Proxy() = default;
+  ~Proxy() = default;
 };
 
 #if defined(ITK_USE_FFTWF)

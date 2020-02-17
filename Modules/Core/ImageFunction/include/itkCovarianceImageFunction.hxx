@@ -28,7 +28,7 @@ namespace itk
 template <typename TInputImage, typename TCoordRep>
 CovarianceImageFunction<TInputImage, TCoordRep>::CovarianceImageFunction()
 
-{}
+  = default;
 
 template <typename TInputImage, typename TCoordRep>
 typename CovarianceImageFunction<TInputImage, TCoordRep>::RealType

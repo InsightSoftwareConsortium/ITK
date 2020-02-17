@@ -82,8 +82,8 @@ public:
   {}
 
 protected:
-  ScalarRegionBasedLevelSetFunctionTestHelper() {}
-  ~ScalarRegionBasedLevelSetFunctionTestHelper() override {}
+  ScalarRegionBasedLevelSetFunctionTestHelper() = default;
+  ~ScalarRegionBasedLevelSetFunctionTestHelper() override = default;
 };
 
 template <unsigned int NDimension>

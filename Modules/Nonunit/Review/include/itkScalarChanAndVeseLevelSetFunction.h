@@ -140,7 +140,7 @@ protected:
   ScalarChanAndVeseLevelSetFunction()
     : Superclass()
   {}
-  ~ScalarChanAndVeseLevelSetFunction() override {}
+  ~ScalarChanAndVeseLevelSetFunction() override = default;
 
   void
   ComputeParameters() override;

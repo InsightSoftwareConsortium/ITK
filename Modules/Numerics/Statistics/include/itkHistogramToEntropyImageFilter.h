@@ -62,7 +62,7 @@ public:
   // Returns pixels of float..
   using OutputPixelType = TOutput;
 
-  HistogramEntropyFunction() {}
+  HistogramEntropyFunction() = default;
 
   ~HistogramEntropyFunction() = default;
 

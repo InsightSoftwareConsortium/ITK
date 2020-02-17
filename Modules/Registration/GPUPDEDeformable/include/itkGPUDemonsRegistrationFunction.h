@@ -225,7 +225,7 @@ public:
 
 protected:
   GPUDemonsRegistrationFunction();
-  ~GPUDemonsRegistrationFunction() override {}
+  ~GPUDemonsRegistrationFunction() override = default;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

@@ -396,7 +396,7 @@ protected:
     this->InPlaceOff();
   }
 
-  ~MultiphaseFiniteDifferenceImageFilter() override {}
+  ~MultiphaseFiniteDifferenceImageFilter() override = default;
 
   IdCellType                     m_FunctionCount;
   std::vector<InputImagePointer> m_LevelSet;

@@ -50,7 +50,7 @@ public:
   itkNewMacro(CommandIterationUpdate);
 
 protected:
-  CommandIterationUpdate(){};
+  CommandIterationUpdate() = default;
 
   using InternalImageType = itk::Image<float, Dimension>;
   using VectorPixelType = itk::Vector<float, Dimension>;

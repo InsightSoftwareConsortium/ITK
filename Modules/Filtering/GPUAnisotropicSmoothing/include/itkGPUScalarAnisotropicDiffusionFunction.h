@@ -68,7 +68,7 @@ public:
 
 protected:
   GPUScalarAnisotropicDiffusionFunction();
-  ~GPUScalarAnisotropicDiffusionFunction() override {}
+  ~GPUScalarAnisotropicDiffusionFunction() override = default;
 };
 } // end namespace itk
 

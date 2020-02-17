@@ -163,7 +163,7 @@ public:
   }
 
 protected:
-  EventChecker() {}
+  EventChecker() = default;
 
 private:
   bool m_HadStartEvent{ false };

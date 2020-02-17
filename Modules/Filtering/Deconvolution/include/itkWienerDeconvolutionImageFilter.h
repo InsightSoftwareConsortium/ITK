@@ -146,7 +146,7 @@ template <typename TPixel>
 class ITK_TEMPLATE_EXPORT WienerDeconvolutionFunctor
 {
 public:
-  WienerDeconvolutionFunctor() {}
+  WienerDeconvolutionFunctor() = default;
   ~WienerDeconvolutionFunctor() = default;
   WienerDeconvolutionFunctor(const WienerDeconvolutionFunctor & f)
     : m_NoisePowerSpectralDensityConstant(f.m_NoisePowerSpectralDensityConstant)

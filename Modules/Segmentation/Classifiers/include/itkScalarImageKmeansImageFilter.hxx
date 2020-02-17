@@ -30,7 +30,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::ScalarImageKmeansImageFilter()
 
-{}
+  = default;
 
 template <typename TInputImage, typename TOutputImage>
 void

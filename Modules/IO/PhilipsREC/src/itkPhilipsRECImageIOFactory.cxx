@@ -41,7 +41,7 @@ PhilipsRECImageIOFactory::PhilipsRECImageIOFactory()
                          CreateObjectFunction<PhilipsRECImageIO>::New());
 }
 
-PhilipsRECImageIOFactory::~PhilipsRECImageIOFactory() {}
+PhilipsRECImageIOFactory::~PhilipsRECImageIOFactory() = default;
 
 const char *
 PhilipsRECImageIOFactory::GetITKSourceVersion() const

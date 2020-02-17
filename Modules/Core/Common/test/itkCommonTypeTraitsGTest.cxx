@@ -98,9 +98,9 @@ TEST(CommonTypeTraits, ContinuousIndexIsPOD)
 /* Dummy class without noexcept move contructors. */
 struct NotNoexceptMove
 {
-  NotNoexceptMove() {}
+  NotNoexceptMove() = default;
   NotNoexceptMove(NotNoexceptMove &&) {}
-  NotNoexceptMove(const NotNoexceptMove &) {}
+  NotNoexceptMove(const NotNoexceptMove &) = default;
 };
 
 /* Check that move-constructing a FixedArray works as move-constructing an aggregate.

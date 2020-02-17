@@ -193,7 +193,7 @@ protected:
   DiscreteGradientMagnitudeGaussianImageFunction();
   DiscreteGradientMagnitudeGaussianImageFunction(const Self &) {}
 
-  ~DiscreteGradientMagnitudeGaussianImageFunction() override {}
+  ~DiscreteGradientMagnitudeGaussianImageFunction() override = default;
 
   void
   operator=(const Self &)

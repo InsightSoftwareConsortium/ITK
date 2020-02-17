@@ -154,7 +154,7 @@ protected:
     m_GradientStep = 1.0;
   }
 
-  ~GPUPDEDeformableRegistrationFunction() override {}
+  ~GPUPDEDeformableRegistrationFunction() override = default;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override

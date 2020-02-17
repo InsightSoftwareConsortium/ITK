@@ -90,8 +90,8 @@ public:
   }
 
 protected:
-  TestImageFunction(){};
-  ~TestImageFunction() override{};
+  TestImageFunction() = default;
+  ~TestImageFunction() override = default;
 };
 
 } // namespace itk

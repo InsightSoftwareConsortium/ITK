@@ -114,7 +114,7 @@ public:
 
 protected:
   GPUFiniteDifferenceFunction() { m_GPUKernelManager = GPUKernelManager::New(); }
-  ~GPUFiniteDifferenceFunction() override {}
+  ~GPUFiniteDifferenceFunction() override = default;
 
   /** GPU kernel manager for GPUFiniteDifferenceFunction class */
   typename GPUKernelManager::Pointer m_GPUKernelManager;

@@ -117,7 +117,7 @@ struct ObjectFactoryBasePrivate
     }
   }
 
-  ObjectFactoryBasePrivate() {}
+  ObjectFactoryBasePrivate() = default;
 
   std::list<::itk::ObjectFactoryBase *> * m_RegisteredFactories{ nullptr };
   std::list<::itk::ObjectFactoryBase *> * m_InternalFactories{ nullptr };

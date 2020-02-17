@@ -55,7 +55,7 @@ itkXMLParserCharacterDataHandler(void * parser, const char * data, int length)
   static_cast<DOMNodeXMLReader *>(parser)->CharacterDataHandler(data, length);
 }
 
-DOMNodeXMLReader::DOMNodeXMLReader() {}
+DOMNodeXMLReader::DOMNodeXMLReader() = default;
 
 /**
  * Function called by Update() or end-users to generate the output DOM object

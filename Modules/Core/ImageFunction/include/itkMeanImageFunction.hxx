@@ -29,7 +29,7 @@ namespace itk
 template <typename TInputImage, typename TCoordRep>
 MeanImageFunction<TInputImage, TCoordRep>::MeanImageFunction()
 
-{}
+  = default;
 
 template <typename TInputImage, typename TCoordRep>
 typename MeanImageFunction<TInputImage, TCoordRep>::RealType

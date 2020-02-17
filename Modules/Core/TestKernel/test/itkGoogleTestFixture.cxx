@@ -26,7 +26,7 @@ namespace
 class GoogleTestFixture : public ::testing::Test
 {
 public:
-  GoogleTestFixture() {}
+  GoogleTestFixture() = default;
   ~GoogleTestFixture() override = default;
 
 protected:

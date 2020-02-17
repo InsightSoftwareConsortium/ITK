@@ -114,7 +114,7 @@ public:
 
 protected:
   ConformalFlatteningMeshFilter();
-  ~ConformalFlatteningMeshFilter() override {}
+  ~ConformalFlatteningMeshFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

@@ -121,7 +121,7 @@ public:
 
 protected:
   FFTWHalfHermitianToRealInverseFFTImageFilter();
-  ~FFTWHalfHermitianToRealInverseFFTImageFilter() override {}
+  ~FFTWHalfHermitianToRealInverseFFTImageFilter() override = default;
 
   void
   UpdateOutputData(DataObject * output) override;

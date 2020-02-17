@@ -207,9 +207,7 @@ public:
   using EigenValueOrderType = EigenValueOrderEnum;
 #endif
 
-  SymmetricEigenAnalysis()
-    : m_OrderEigenValues(EigenValueOrderEnum::OrderByValue)
-  {}
+  SymmetricEigenAnalysis() = default;
 
   SymmetricEigenAnalysis(const unsigned int dimension)
     : m_Dimension(dimension)
@@ -770,9 +768,7 @@ public:
   static constexpr EigenValueOrderEnum DoNotOrder = EigenValueOrderEnum::DoNotOrder;
 #endif
 
-  SymmetricEigenAnalysisFixedDimension()
-    : m_OrderEigenValues(EigenValueOrderEnum::OrderByValue)
-  {}
+  SymmetricEigenAnalysisFixedDimension() = default;
   ~SymmetricEigenAnalysisFixedDimension() = default;
 
   using MatrixType = TMatrix;

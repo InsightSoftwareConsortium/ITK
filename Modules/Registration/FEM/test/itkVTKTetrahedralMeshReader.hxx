@@ -43,8 +43,7 @@ VTKTetrahedralMeshReader<TOutputMesh>::VTKTetrahedralMeshReader()
 // Destructor
 //
 template <typename TOutputMesh>
-VTKTetrahedralMeshReader<TOutputMesh>::~VTKTetrahedralMeshReader()
-{}
+VTKTetrahedralMeshReader<TOutputMesh>::~VTKTetrahedralMeshReader() = default;
 
 template <typename TOutputMesh>
 void

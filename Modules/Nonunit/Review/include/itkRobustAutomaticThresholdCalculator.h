@@ -109,7 +109,7 @@ public:
 
 protected:
   RobustAutomaticThresholdCalculator();
-  ~RobustAutomaticThresholdCalculator() override {}
+  ~RobustAutomaticThresholdCalculator() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

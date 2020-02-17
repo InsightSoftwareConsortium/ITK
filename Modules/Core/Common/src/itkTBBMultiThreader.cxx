@@ -41,7 +41,7 @@ TBBMultiThreader::TBBMultiThreader()
 #endif
 }
 
-TBBMultiThreader::~TBBMultiThreader() {}
+TBBMultiThreader::~TBBMultiThreader() = default;
 
 void
 TBBMultiThreader::SetSingleMethod(ThreadFunctionType f, void * data)

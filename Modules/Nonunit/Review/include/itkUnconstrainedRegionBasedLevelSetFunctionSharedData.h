@@ -138,7 +138,7 @@ protected:
   UnconstrainedRegionBasedLevelSetFunctionSharedData()
     : Superclass()
   {}
-  ~UnconstrainedRegionBasedLevelSetFunctionSharedData() override {}
+  ~UnconstrainedRegionBasedLevelSetFunctionSharedData() override = default;
 
 private:
   UnconstrainedRegionBasedLevelSetFunctionSharedData(const Self &); // purposely

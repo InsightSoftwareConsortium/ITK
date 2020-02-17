@@ -65,8 +65,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
                                       TInputMesh,
                                       TOutputImage,
                                       TInputConfidencePointSet,
-                                      TInputTensorPointSet>::~FEMScatteredDataPointSetToImageFilter()
-{}
+                                      TInputTensorPointSet>::~FEMScatteredDataPointSetToImageFilter() = default;
 
 template <typename TInputPointSet,
           typename TInputMesh,

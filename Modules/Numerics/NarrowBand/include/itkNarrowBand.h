@@ -187,7 +187,7 @@ public:
   }
 
 protected:
-  NarrowBand() {}
+  NarrowBand() = default;
 
   float m_TotalRadius{ 0.0 };
   float m_InnerRadius{ 0.0 };

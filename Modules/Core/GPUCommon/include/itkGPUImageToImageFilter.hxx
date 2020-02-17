@@ -30,8 +30,7 @@ GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>::GPUImageTo
 }
 
 template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
-GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>::~GPUImageToImageFilter()
-{}
+GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>::~GPUImageToImageFilter() = default;
 
 template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
 void

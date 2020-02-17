@@ -51,7 +51,7 @@ protected:
   std::string m_FileName;
 
   FEMSpatialObjectReader();
-  ~FEMSpatialObjectReader() override {}
+  ~FEMSpatialObjectReader() override = default;
 };
 
 template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>

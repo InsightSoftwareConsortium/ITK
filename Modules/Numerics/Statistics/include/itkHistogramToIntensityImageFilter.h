@@ -45,7 +45,7 @@ public:
   // Intensity function returns pixels of SizeValueType.
   using OutputPixelType = TOutput;
 
-  HistogramIntensityFunction() {}
+  HistogramIntensityFunction() = default;
 
   ~HistogramIntensityFunction() = default;
 

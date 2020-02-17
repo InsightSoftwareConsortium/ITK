@@ -110,7 +110,7 @@ public:
 protected:
   AreaOpeningImageFilter() { m_UseImageSpacing = true; }
 
-  ~AreaOpeningImageFilter() override {}
+  ~AreaOpeningImageFilter() override = default;
 
   void
   GenerateData() override
