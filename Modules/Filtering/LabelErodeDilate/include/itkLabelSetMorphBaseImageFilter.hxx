@@ -148,7 +148,7 @@ LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>::EnlargeOutput
 
 template <typename TInputImage, bool doDilate, typename TOutputImage>
 void
-LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>::GenerateData(void)
+LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>::GenerateData()
 {
   ThreadIdType nbthreads = this->GetNumberOfWorkUnits();
 
