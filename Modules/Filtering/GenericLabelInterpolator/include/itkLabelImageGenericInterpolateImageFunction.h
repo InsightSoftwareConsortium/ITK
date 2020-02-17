@@ -99,7 +99,7 @@ public:
    * This defines the number of surrounding pixels required to interpolate at
    * a given point.
    */
-  virtual SizeType
+  SizeType
   GetRadius() const override
   {
     return SizeType::Filled(1);
