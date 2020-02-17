@@ -121,11 +121,11 @@ public:
    * Initialize() will then start the optimization process via a call to
    * StartOptimization()  */
   void
-  StartRegistration(void);
+  StartRegistration();
 
   /** Method that initiates the optimization process. */
   void
-  StartOptimization(void);
+  StartOptimization();
 
   /** Set/Get the Fixed images. */
   void

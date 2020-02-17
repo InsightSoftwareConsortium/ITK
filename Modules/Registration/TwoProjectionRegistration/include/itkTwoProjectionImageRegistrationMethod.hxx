@@ -210,7 +210,7 @@ TwoProjectionImageRegistrationMethod<TFixedImage, TMovingImage>::Initialize()
  */
 template <typename TFixedImage, typename TMovingImage>
 void
-TwoProjectionImageRegistrationMethod<TFixedImage, TMovingImage>::StartRegistration(void)
+TwoProjectionImageRegistrationMethod<TFixedImage, TMovingImage>::StartRegistration()
 {
 
   ParametersType empty(1);
@@ -237,7 +237,7 @@ TwoProjectionImageRegistrationMethod<TFixedImage, TMovingImage>::StartRegistrati
  */
 template <typename TFixedImage, typename TMovingImage>
 void
-TwoProjectionImageRegistrationMethod<TFixedImage, TMovingImage>::StartOptimization(void)
+TwoProjectionImageRegistrationMethod<TFixedImage, TMovingImage>::StartOptimization()
 {
   try
   {

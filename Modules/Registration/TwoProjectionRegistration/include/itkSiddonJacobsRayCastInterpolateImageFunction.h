@@ -148,7 +148,7 @@ public:
   EvaluateAtContinuousIndex(const ContinuousIndexType & index) const override;
 
   virtual void
-  Initialize(void);
+  Initialize();
 
   /** Connect the Transform. */
   itkSetObjectMacro(Transform, TransformType);
@@ -219,7 +219,7 @@ protected:
 
 private:
   void
-                   ComputeInverseTransform(void) const;
+                   ComputeInverseTransform() const;
   TransformPointer m_GantryRotTransform; // Gantry rotation transform
   TransformPointer m_CamShiftTransform;  // Camera shift transform camRotTransform
   TransformPointer m_CamRotTransform;    // Camera rotation transform
