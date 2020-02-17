@@ -93,8 +93,8 @@ MorphologicalWatershedImageFilter<TInputImage, TOutputImage>::GenerateData()
   label->SetInput(rmin->GetOutput());
 
   // the watershed
-  typedef MorphologicalWatershedFromMarkersImageFilter<TInputImage, TOutputImage> WatershedType;
-  typename WatershedType::Pointer                                                 wshed = WatershedType::New();
+  using WatershedType = MorphologicalWatershedFromMarkersImageFilter<TInputImage, TOutputImage>;
+  typename WatershedType::Pointer wshed = WatershedType::New();
   wshed->SetInput(input);
   wshed->SetMarkerImage(label->GetOutput());
   wshed->SetFullyConnected(m_FullyConnected);

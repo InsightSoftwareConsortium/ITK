@@ -74,7 +74,7 @@ itkCorrelationCoefficientHistogramImageToImageMetricTest(int, char *[])
     FixedImageType::Pointer  fixedImage = fixedImageSource->GetOutput();
 
     // Set up the metric.
-    typedef itk::CorrelationCoefficientHistogramImageToImageMetric<FixedImageType, MovingImageType> MetricType;
+    using MetricType = itk::CorrelationCoefficientHistogramImageToImageMetric<FixedImageType, MovingImageType>;
     using TransformBaseType = MetricType::TransformType;
     using ScalesType = MetricType::ScalesType;
     using ParametersType = TransformBaseType::ParametersType;

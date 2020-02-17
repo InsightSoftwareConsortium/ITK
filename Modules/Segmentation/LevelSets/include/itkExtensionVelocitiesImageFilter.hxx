@@ -153,7 +153,7 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
 
   IteratorType tempIt;
 
-  typedef ImageRegionIterator<AuxImageType> AuxIteratorType;
+  using AuxIteratorType = ImageRegionIterator<AuxImageType>;
 
   AuxIteratorType auxTempIt[VAuxDimension];
   AuxIteratorType auxOutputIt[VAuxDimension];
@@ -323,7 +323,7 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
   TAuxValue zeroPixel;
   zeroPixel = 0.0;
 
-  typedef ImageRegionIterator<AuxImageType> AuxIteratorType;
+  using AuxIteratorType = ImageRegionIterator<AuxImageType>;
 
   AuxIteratorType auxOutputIt[VAuxDimension];
 
