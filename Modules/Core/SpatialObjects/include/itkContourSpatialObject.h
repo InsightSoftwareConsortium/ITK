@@ -110,7 +110,7 @@ public:
   /** Reset the spatial object to its initial condition, yet preserves
    *   Id, Parent, and Child information */
   void
-  Clear(void) override;
+  Clear() override;
 
   /** Returns a reference to the list of the control points. */
   ControlPointListType &

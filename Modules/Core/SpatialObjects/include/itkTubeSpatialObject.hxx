@@ -37,7 +37,7 @@ TubeSpatialObject<TDimension, TTubePointType>::TubeSpatialObject()
 
 template <unsigned int TDimension, typename TTubePointType>
 void
-TubeSpatialObject<TDimension, TTubePointType>::Clear(void)
+TubeSpatialObject<TDimension, TTubePointType>::Clear()
 {
   Superclass::Clear();
 

@@ -72,7 +72,7 @@ public:
   /** Reset the spatial object to its initial condition, yet preserves
    *   Id, Parent, and Child information */
   void
-  Clear(void) override;
+  Clear() override;
 
   /** Set the type of tube end-type: false = flat, true = rounded */
   itkSetMacro(EndRounded, bool);

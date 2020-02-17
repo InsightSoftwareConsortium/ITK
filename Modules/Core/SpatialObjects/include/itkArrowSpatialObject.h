@@ -58,7 +58,7 @@ public:
   /** Reset the spatial object to its initial condition, yet preserves
    *   Id, Parent, and Child information */
   void
-  Clear(void) override;
+  Clear() override;
 
   /** Set the position of the arrow : this is the point of the arrow */
   itkSetMacro(PositionInObjectSpace, PointType);

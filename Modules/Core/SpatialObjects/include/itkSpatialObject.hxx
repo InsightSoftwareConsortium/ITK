@@ -38,7 +38,7 @@ SpatialObject<TDimension>::~SpatialObject()
 
 template <unsigned int TDimension>
 void
-SpatialObject<TDimension>::Clear(void)
+SpatialObject<TDimension>::Clear()
 {
   typename BoundingBoxType::PointType pnt;
   pnt.Fill(NumericTraits<typename BoundingBoxType::PointType::ValueType>::ZeroValue());

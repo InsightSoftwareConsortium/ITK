@@ -144,7 +144,7 @@ public:
 
 private:
   bool
-  MakeUnique(void);
+  MakeUnique();
 
   std::shared_ptr<MetaDataDictionaryMapType> m_Dictionary;
 };

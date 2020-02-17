@@ -36,7 +36,7 @@ ContourSpatialObject<TDimension>::ContourSpatialObject()
 
 template <unsigned int TDimension>
 void
-ContourSpatialObject<TDimension>::Clear(void)
+ContourSpatialObject<TDimension>::Clear()
 {
   Superclass::Clear();
 

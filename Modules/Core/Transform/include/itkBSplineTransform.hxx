@@ -123,10 +123,9 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::SetTransformD
   }
 }
 
-
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 auto
-BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::GetTransformDomainOrigin(void) const -> OriginType
+BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::GetTransformDomainOrigin() const -> OriginType
 {
   OriginType origin;
   for (unsigned int i = 0; i < NDimensions; i++)
@@ -145,7 +144,6 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::GetTransformD
   return origin;
 }
 
-
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::SetTransformDomainPhysicalDimensions(
@@ -162,10 +160,9 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::SetTransformD
   }
 }
 
-
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 auto
-BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::GetTransformDomainPhysicalDimensions(void) const
+BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::GetTransformDomainPhysicalDimensions() const
   -> PhysicalDimensionsType
 {
   const MeshSizeType     size = this->GetTransformDomainMeshSize();
@@ -177,7 +174,6 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::GetTransformD
   }
   return physicalDim;
 }
-
 
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
@@ -197,11 +193,9 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::SetTransformD
   }
 }
 
-
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 auto
-BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::GetTransformDomainDirection(void) const
-  -> DirectionType
+BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::GetTransformDomainDirection() const -> DirectionType
 {
   DirectionType direction;
 
@@ -234,11 +228,9 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::SetTransformD
   }
 }
 
-
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 auto
-BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::GetTransformDomainMeshSize(void) const
-  -> MeshSizeType
+BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::GetTransformDomainMeshSize() const -> MeshSizeType
 {
   MeshSizeType meshSize;
 
@@ -249,7 +241,6 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::GetTransformD
   }
   return meshSize;
 }
-
 
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 void

@@ -64,7 +64,7 @@ public:
   /** Reset the spatial object to its initial condition, yet preserves
    *   Id, Parent, and Child information */
   void
-  Clear(void) override;
+  Clear() override;
 
   /** The Radius determines the bounding box, and which points are
    * considered to be inside the SpatialObject.  All points with

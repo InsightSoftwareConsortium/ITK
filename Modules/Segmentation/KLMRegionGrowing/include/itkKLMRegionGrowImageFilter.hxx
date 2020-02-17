@@ -22,7 +22,7 @@
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
-KLMRegionGrowImageFilter<TInputImage, TOutputImage>::KLMRegionGrowImageFilter(void)
+KLMRegionGrowImageFilter<TInputImage, TOutputImage>::KLMRegionGrowImageFilter()
 
 {
   m_InitialRegionMean.set_size(InputImageVectorDimension);

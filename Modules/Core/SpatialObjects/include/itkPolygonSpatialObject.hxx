@@ -36,7 +36,7 @@ PolygonSpatialObject<TDimension>::PolygonSpatialObject()
 
 template <unsigned int TDimension>
 void
-PolygonSpatialObject<TDimension>::Clear(void)
+PolygonSpatialObject<TDimension>::Clear()
 {
   Superclass::Clear();
 

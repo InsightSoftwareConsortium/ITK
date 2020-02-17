@@ -57,7 +57,7 @@ public:
   /** Reset the spatial object to its initial condition, yet preserves
    *   Id, Parent, and Child information */
   void
-  Clear(void) override;
+  Clear() override;
 
   /** Set the size of the box spatial object in object space. */
   itkSetMacro(SizeInObjectSpace, SizeType);

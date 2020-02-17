@@ -36,7 +36,7 @@ MeshSpatialObject<TMesh>::MeshSpatialObject()
 
 template <typename TMesh>
 void
-MeshSpatialObject<TMesh>::Clear(void)
+MeshSpatialObject<TMesh>::Clear()
 {
   Superclass::Clear();
 

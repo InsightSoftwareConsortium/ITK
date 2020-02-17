@@ -37,7 +37,7 @@ SurfaceSpatialObject<TDimension>::SurfaceSpatialObject()
 
 template <unsigned int TDimension>
 void
-SurfaceSpatialObject<TDimension>::Clear(void)
+SurfaceSpatialObject<TDimension>::Clear()
 {
   Superclass::Clear();
 

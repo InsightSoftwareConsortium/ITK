@@ -35,7 +35,7 @@ EllipseSpatialObject<TDimension>::EllipseSpatialObject()
 
 template <unsigned int TDimension>
 void
-EllipseSpatialObject<TDimension>::Clear(void)
+EllipseSpatialObject<TDimension>::Clear()
 {
   Superclass::Clear();
 
