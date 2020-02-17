@@ -89,9 +89,7 @@ public:
 
 protected:
   IsotropicFrequencyFunction() = default;
-  ;
   ~IsotropicFrequencyFunction() override = default;
-  ;
   void
   PrintSelf(std::ostream & os, Indent indent) const override
   {
