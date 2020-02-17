@@ -19,9 +19,9 @@
 namespace itk
 {
 
-AnalyzeObjectEntry::~AnalyzeObjectEntry(void) {}
+AnalyzeObjectEntry::~AnalyzeObjectEntry() {}
 
-AnalyzeObjectEntry::AnalyzeObjectEntry(void)
+AnalyzeObjectEntry::AnalyzeObjectEntry()
   : m_DisplayFlag(1)
   , m_CopyFlag(0)
   , m_MirrorFlag(0)

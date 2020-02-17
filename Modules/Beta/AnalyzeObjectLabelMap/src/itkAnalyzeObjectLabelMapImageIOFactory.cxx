@@ -37,7 +37,7 @@ AnalyzeObjectLabelMapImageIOFactory::AnalyzeObjectLabelMapImageIOFactory()
 AnalyzeObjectLabelMapImageIOFactory::~AnalyzeObjectLabelMapImageIOFactory() {}
 
 const char *
-AnalyzeObjectLabelMapImageIOFactory::GetITKSourceVersion(void) const
+AnalyzeObjectLabelMapImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
