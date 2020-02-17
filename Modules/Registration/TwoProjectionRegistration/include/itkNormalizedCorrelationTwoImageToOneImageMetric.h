@@ -100,7 +100,7 @@ public:
 
 protected:
   NormalizedCorrelationTwoImageToOneImageMetric();
-  ~NormalizedCorrelationTwoImageToOneImageMetric() override {};
+  ~NormalizedCorrelationTwoImageToOneImageMetric() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
