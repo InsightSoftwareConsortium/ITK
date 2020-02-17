@@ -345,7 +345,7 @@ public:
     }
     else
     {
-      return 0;
+      return nullptr;
     }
   }
   virtual ComplexConjugateImageType *
@@ -358,7 +358,7 @@ public:
     }
     else
     {
-      return 0;
+      return nullptr;
     }
   }
 
