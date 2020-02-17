@@ -77,7 +77,7 @@ public:
 
 protected:
   LabelSetDilateImageFilter() { this->DynamicMultiThreadingOn(); }
-  ~LabelSetDilateImageFilter() override {}
+  ~LabelSetDilateImageFilter() override = default;
 
   void
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;

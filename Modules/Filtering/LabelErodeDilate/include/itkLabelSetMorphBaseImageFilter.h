@@ -112,7 +112,7 @@ public:
 
 protected:
   LabelSetMorphBaseImageFilter();
-  ~LabelSetMorphBaseImageFilter() override {}
+  ~LabelSetMorphBaseImageFilter() override = default;
 
   RegionIndexType
   SplitRequestedRegion(RegionIndexType i, RegionIndexType num, OutputImageRegionType & splitRegion) override;
