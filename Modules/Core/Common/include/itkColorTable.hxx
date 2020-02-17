@@ -88,7 +88,10 @@ ColorTable<TPixel>::UseDiscreteColors()
   // set to NumericTraits<TPixel>::max().
   typename NumericTraits<TPixel>::RealType realMax(1.0 * scale + shift);
   TPixel                                   pixelMax(NumericTraits<TPixel>::max());
-  if (realMax < NumericTraits<TPixel>::max())
+  // Converting from TPixel to RealType may introduce a rounding error, so do static_cast
+  constexpr auto max_value_converted =
+    static_cast<typename NumericTraits<TPixel>::RealType>(NumericTraits<TPixel>::max());
+  if (realMax < max_value_converted)
   {
     pixelMax = static_cast<TPixel>(realMax);
   }
@@ -131,12 +134,15 @@ ColorTable<TPixel>::UseGrayColors(unsigned int n)
     delta = 0.0;
   }
 
+  // Converting from TPixel to RealType may introduce a rounding error, so do static_cast
+  constexpr auto max_value_converted =
+    static_cast<typename NumericTraits<TPixel>::RealType>(NumericTraits<TPixel>::max());
   for (i = 0; i < m_NumberOfColors; i++)
   {
     typename NumericTraits<TPixel>::RealType realGray(minimum + i * delta);
 
     TPixel gray = NumericTraits<TPixel>::max();
-    if (realGray < NumericTraits<TPixel>::max())
+    if (realGray < max_value_converted)
     {
       gray = static_cast<TPixel>(realGray);
     }
@@ -173,13 +179,16 @@ ColorTable<TPixel>::UseHeatColors(unsigned int n)
     scale = NumericTraits<TPixel>::OneValue();
     shift = NumericTraits<TPixel>::ZeroValue();
   }
+  // Converting from TPixel to RealType may introduce a rounding error, so do static_cast
+  constexpr auto max_value_converted =
+    static_cast<typename NumericTraits<TPixel>::RealType>(NumericTraits<TPixel>::max());
   for (i = 0; i < n / 2.0; i++)
   {
     //
     // avoid overflow
     typename NumericTraits<TPixel>::RealType realR(((i + 1) / (n / 2.0 + 1)) * scale + shift);
     TPixel                                   r(NumericTraits<TPixel>::max());
-    if (realR < NumericTraits<TPixel>::max())
+    if (realR < max_value_converted)
     {
       r = static_cast<TPixel>(realR);
     }
@@ -195,7 +204,7 @@ ColorTable<TPixel>::UseHeatColors(unsigned int n)
   {
     typename NumericTraits<TPixel>::RealType rdouble(1.0 * scale + shift);
     TPixel                                   r(NumericTraits<TPixel>::max());
-    if (rdouble < NumericTraits<TPixel>::max())
+    if (rdouble < max_value_converted)
     {
       r = static_cast<TPixel>(rdouble);
     }
