@@ -115,12 +115,7 @@ public:
   itkGetConstMacro(UseImageSpacing, bool);
 
 protected:
-  HigherOrderAccurateDerivativeImageFilter()
-    : m_Order(1)
-    , m_OrderOfAccuracy(2)
-    , m_Direction(0)
-    , m_UseImageSpacing(true)
-  {}
+  HigherOrderAccurateDerivativeImageFilter() {}
 
   ~HigherOrderAccurateDerivativeImageFilter() override = default;
   void
@@ -146,15 +141,15 @@ protected:
 
 private:
   /** The order of the derivative. */
-  unsigned int m_Order;
+  unsigned int m_Order{ 1 };
 
   /** Order of accuracy. */
-  unsigned int m_OrderOfAccuracy;
+  unsigned int m_OrderOfAccuracy{ 2 };
 
   /** The direction of the derivative. */
-  unsigned int m_Direction;
+  unsigned int m_Direction{ 0 };
 
-  bool m_UseImageSpacing;
+  bool m_UseImageSpacing{ true };
 };
 
 } // end namespace itk

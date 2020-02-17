@@ -72,10 +72,7 @@ public:
   itkTypeMacro(HigherOrderAccurateDerivativeOperator, NeighborhoodOperator);
 
   /** Constructor. */
-  HigherOrderAccurateDerivativeOperator()
-    : m_Order(1)
-    , m_OrderOfAccuracy(2)
-  {}
+  HigherOrderAccurateDerivativeOperator() {}
 
   /** Copy constructor. */
   HigherOrderAccurateDerivativeOperator(const Self & other)
@@ -152,10 +149,10 @@ private:
   GenerateFirstOrderCoefficients();
 
   /** Order of the derivative. */
-  unsigned int m_Order;
+  unsigned int m_Order{ 1 };
 
   /** Order of accuracy. */
-  unsigned int m_OrderOfAccuracy;
+  unsigned int m_OrderOfAccuracy{ 2 };
 };
 
 } // namespace itk

@@ -32,9 +32,7 @@ namespace itk
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType>
 HigherOrderAccurateGradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::
   HigherOrderAccurateGradientImageFilter()
-  : m_UseImageSpacing(true)
-  , m_UseImageDirection(true)
-  , m_OrderOfAccuracy(2)
+
 {}
 
 

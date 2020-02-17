@@ -150,13 +150,13 @@ itkGetConstMacro(OrderOfAccuracy, unsigned int)
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
-  bool m_UseImageSpacing;
+  bool m_UseImageSpacing{ true };
 
   // flag to take or not the image direction into account
   // when computing the derivatives.
-  bool m_UseImageDirection;
+  bool m_UseImageDirection{ true };
 
-  unsigned int m_OrderOfAccuracy;
+  unsigned int m_OrderOfAccuracy{ 2 };
 };
 
 } // end namespace itk
