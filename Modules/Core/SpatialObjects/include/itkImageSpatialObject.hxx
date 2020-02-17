@@ -42,7 +42,7 @@ ImageSpatialObject<TDimension, PixelType>::~ImageSpatialObject()
 
 template <unsigned int TDimension, typename PixelType>
 void
-ImageSpatialObject<TDimension, PixelType>::Clear(void)
+ImageSpatialObject<TDimension, PixelType>::Clear()
 {
   Superclass::Clear();
 

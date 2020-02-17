@@ -24,7 +24,7 @@
 namespace itk
 {
 template <typename TInputImage, typename TMembershipFunction>
-ImageModelEstimatorBase<TInputImage, TMembershipFunction>::ImageModelEstimatorBase(void)
+ImageModelEstimatorBase<TInputImage, TMembershipFunction>::ImageModelEstimatorBase()
 
 {}
 

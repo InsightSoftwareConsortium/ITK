@@ -32,7 +32,7 @@ namespace
 
 
 typename itk::Image<unsigned, 2>::Pointer
-CreateTestImageA(void)
+CreateTestImageA()
 {
 
   using namespace itk::GTest::TypedefsAndConstructors::Dimension2;

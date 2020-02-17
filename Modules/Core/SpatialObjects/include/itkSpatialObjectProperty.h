@@ -47,7 +47,7 @@ public:
   using ColorType = RGBAPixel<double>;
 
   virtual void
-  Clear(void);
+  Clear();
 
   void
   SetColor(const ColorType & color)

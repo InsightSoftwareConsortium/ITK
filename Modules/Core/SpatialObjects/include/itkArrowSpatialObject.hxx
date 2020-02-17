@@ -35,7 +35,7 @@ ArrowSpatialObject<TDimension>::ArrowSpatialObject()
 
 template <unsigned int TDimension>
 void
-ArrowSpatialObject<TDimension>::Clear(void)
+ArrowSpatialObject<TDimension>::Clear()
 {
   Superclass::Clear();
 
@@ -93,7 +93,7 @@ ArrowSpatialObject<TDimension>::IsInsideInObjectSpace(const PointType & point) c
 
 template <unsigned int TDimension>
 typename ArrowSpatialObject<TDimension>::PointType
-ArrowSpatialObject<TDimension>::GetPositionInWorldSpace(void) const
+ArrowSpatialObject<TDimension>::GetPositionInWorldSpace() const
 {
   PointType pnt = this->GetPositionInObjectSpace();
 
@@ -104,7 +104,7 @@ ArrowSpatialObject<TDimension>::GetPositionInWorldSpace(void) const
 
 template <unsigned int TDimension>
 typename ArrowSpatialObject<TDimension>::VectorType
-ArrowSpatialObject<TDimension>::GetDirectionInWorldSpace(void) const
+ArrowSpatialObject<TDimension>::GetDirectionInWorldSpace() const
 {
   PointType pnt = this->GetPositionInObjectSpace();
   PointType pnt2;
@@ -124,7 +124,7 @@ ArrowSpatialObject<TDimension>::GetDirectionInWorldSpace(void) const
 
 template <unsigned int TDimension>
 double
-ArrowSpatialObject<TDimension>::GetLengthInWorldSpace(void) const
+ArrowSpatialObject<TDimension>::GetLengthInWorldSpace() const
 {
   PointType pnt = this->GetPositionInObjectSpace();
   PointType pnt2;

@@ -36,7 +36,7 @@ GaussianSpatialObject<TDimension>::GaussianSpatialObject()
 
 template <unsigned int TDimension>
 void
-GaussianSpatialObject<TDimension>::Clear(void)
+GaussianSpatialObject<TDimension>::Clear()
 {
   Superclass::Clear();
 

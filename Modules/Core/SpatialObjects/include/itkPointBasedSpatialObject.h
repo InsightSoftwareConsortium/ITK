@@ -63,7 +63,7 @@ public:
   /** Reset the spatial object to its initial condition, yet preserves
    *   Id, Parent, and Child information */
   void
-  Clear(void) override;
+  Clear() override;
 
   /** Assign points to this object, and assigned this object to
    * each point (for computing world coordinates) */

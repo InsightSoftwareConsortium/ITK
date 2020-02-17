@@ -37,7 +37,7 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::PointBasedSpatialO
 
 template <unsigned int TDimension, class TSpatialObjectPointType>
 void
-PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::Clear(void)
+PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::Clear()
 {
   Superclass::Clear();
 

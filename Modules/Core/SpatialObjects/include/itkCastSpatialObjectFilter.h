@@ -110,119 +110,119 @@ public:
 
   using ArrowPointer = typename itk::ArrowSpatialObject<ObjectDimension>::Pointer;
   std::list<ArrowPointer> *
-  GetArrows(void) const
+  GetArrows() const
   {
     return this->GetOutput<itk::ArrowSpatialObject<ObjectDimension>>();
   }
 
   using BlobPointer = typename itk::BlobSpatialObject<ObjectDimension>::Pointer;
   std::list<BlobPointer> *
-  GetBlobs(void) const
+  GetBlobs() const
   {
     return this->GetOutput<itk::BlobSpatialObject<ObjectDimension>>();
   }
 
   using BoxPointer = typename itk::BoxSpatialObject<ObjectDimension>::Pointer;
   std::list<BoxPointer> *
-  GetBoxes(void) const
+  GetBoxes() const
   {
     return this->GetOutput<itk::BoxSpatialObject<ObjectDimension>>();
   }
 
   using ContourPointer = typename itk::ContourSpatialObject<ObjectDimension>::Pointer;
   std::list<ContourPointer> *
-  GetContours(void) const
+  GetContours() const
   {
     return this->GetOutput<itk::ContourSpatialObject<ObjectDimension>>();
   }
 
   using EllipsePointer = typename itk::EllipseSpatialObject<ObjectDimension>::Pointer;
   std::list<EllipsePointer> *
-  GetEllipses(void) const
+  GetEllipses() const
   {
     return this->GetOutput<itk::EllipseSpatialObject<ObjectDimension>>();
   }
 
   using GaussianPointer = typename itk::GaussianSpatialObject<ObjectDimension>::Pointer;
   std::list<GaussianPointer> *
-  GetGaussians(void) const
+  GetGaussians() const
   {
     return this->GetOutput<itk::GaussianSpatialObject<ObjectDimension>>();
   }
 
   using GroupPointer = typename itk::GroupSpatialObject<ObjectDimension>::Pointer;
   std::list<GroupPointer> *
-  GetGroups(void) const
+  GetGroups() const
   {
     return this->GetOutput<itk::GroupSpatialObject<ObjectDimension>>();
   }
 
   using ImageMaskPointer = typename itk::ImageMaskSpatialObject<ObjectDimension>::Pointer;
   std::list<ImageMaskPointer> *
-  GetImageMasks(void) const
+  GetImageMasks() const
   {
     return this->GetOutput<itk::ImageMaskSpatialObject<ObjectDimension>>();
   }
 
   using ImagePointer = typename itk::ImageSpatialObject<ObjectDimension>::Pointer;
   std::list<ImagePointer> *
-  GetImages(void) const
+  GetImages() const
   {
     return this->GetOutput<itk::ImageSpatialObject<ObjectDimension>>();
   }
 
   using LandmarkPointer = typename itk::LandmarkSpatialObject<ObjectDimension>::Pointer;
   std::list<LandmarkPointer> *
-  GetLandmarks(void) const
+  GetLandmarks() const
   {
     return this->GetOutput<itk::LandmarkSpatialObject<ObjectDimension>>();
   }
 
   using LinePointer = typename itk::LineSpatialObject<ObjectDimension>::Pointer;
   std::list<LinePointer> *
-  GetLines(void) const
+  GetLines() const
   {
     return this->GetOutput<itk::LineSpatialObject<ObjectDimension>>();
   }
 
   using PointBasedPointer = typename itk::PointBasedSpatialObject<ObjectDimension>::Pointer;
   std::list<PointBasedPointer> *
-  GetPointBased(void) const
+  GetPointBased() const
   {
     return this->GetOutput<itk::PointBasedSpatialObject<ObjectDimension>>();
   }
 
   using PolygonPointer = typename itk::PolygonSpatialObject<ObjectDimension>::Pointer;
   std::list<PolygonPointer> *
-  GetPolygons(void) const
+  GetPolygons() const
   {
     return this->GetOutput<itk::PolygonSpatialObject<ObjectDimension>>();
   }
 
   using SpatialObjectPointer = typename itk::SpatialObject<ObjectDimension>::Pointer;
   std::list<SpatialObjectPointer> *
-  GetSpatialObjects(void) const
+  GetSpatialObjects() const
   {
     return this->GetOutput<itk::SpatialObject<ObjectDimension>>();
   }
 
   using SurfacePointer = typename itk::SurfaceSpatialObject<ObjectDimension>::Pointer;
   std::list<SurfacePointer> *
-  GetSurfaces(void) const
+  GetSurfaces() const
   {
     return this->GetOutput<itk::SurfaceSpatialObject<ObjectDimension>>();
   }
 
   using TubePointer = typename itk::TubeSpatialObject<ObjectDimension>::Pointer;
   std::list<TubePointer> *
-  GetTubes(void) const
+  GetTubes() const
   {
     return this->GetOutput<itk::TubeSpatialObject<ObjectDimension>>();
   }
 
 protected:
-  CastSpatialObjectFilter(void);
-  ~CastSpatialObjectFilter(void) override = default;
+  CastSpatialObjectFilter();
+  ~CastSpatialObjectFilter() override = default;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

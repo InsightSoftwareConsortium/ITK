@@ -27,7 +27,7 @@ namespace
 {
 
 itk::MetaDataDictionary
-createMetaDataDictionary(void)
+createMetaDataDictionary()
 {
   itk::MetaDataDictionary metaDataDictionary;
 

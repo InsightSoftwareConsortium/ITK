@@ -19,7 +19,7 @@
 
 namespace itk
 {
-SegmentationRegion ::SegmentationRegion(void) {}
+SegmentationRegion ::SegmentationRegion() {}
 
 SegmentationRegion ::~SegmentationRegion() = default;
 

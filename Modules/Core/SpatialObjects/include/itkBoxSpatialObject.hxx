@@ -36,7 +36,7 @@ BoxSpatialObject<TDimension>::BoxSpatialObject()
 
 template <unsigned int TDimension>
 void
-BoxSpatialObject<TDimension>::Clear(void)
+BoxSpatialObject<TDimension>::Clear()
 {
   Superclass::Clear();
 

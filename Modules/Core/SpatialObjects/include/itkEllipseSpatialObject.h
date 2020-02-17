@@ -65,7 +65,7 @@ public:
   /** Reset the spatial object to its initial condition, yet preserves
    *   Id, Parent, and Child information */
   void
-  Clear(void) override;
+  Clear() override;
 
   /** Set all radii to the same radius value.  Each radius is
    *  half the length of one axis of the ellipse.  */

@@ -28,7 +28,7 @@ SpatialObjectProperty ::SpatialObjectProperty()
 }
 
 void
-SpatialObjectProperty ::Clear(void)
+SpatialObjectProperty ::Clear()
 {
   m_Color.SetRed(1);
   m_Color.SetGreen(1);

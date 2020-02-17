@@ -29,7 +29,7 @@ using itk::print_helper::operator<<;
 namespace
 {
 typename itk::Image<unsigned char, 3>::Pointer
-CreateTestImageA(void)
+CreateTestImageA()
 {
   std::bitset<8> bits(105); // 3D Checkerboard: 01101001
 

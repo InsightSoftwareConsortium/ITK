@@ -262,7 +262,7 @@ public:
 
   /** Function to retrieve the transform domain origin. */
   virtual OriginType
-  GetTransformDomainOrigin(void) const;
+  GetTransformDomainOrigin() const;
 
   /** Function to specify the transform domain physical dimensions. */
   virtual void
@@ -270,7 +270,7 @@ public:
 
   /** Function to retrieve the transform domain physical dimensions. */
   virtual PhysicalDimensionsType
-  GetTransformDomainPhysicalDimensions(void) const;
+  GetTransformDomainPhysicalDimensions() const;
 
   /** Function to specify the transform domain direction. */
   virtual void
@@ -278,7 +278,7 @@ public:
 
   /** Function to retrieve the transform domain direction. */
   virtual DirectionType
-  GetTransformDomainDirection(void) const;
+  GetTransformDomainDirection() const;
 
   /** Function to specify the transform domain mesh size. */
   virtual void
@@ -286,7 +286,7 @@ public:
 
   /** Function to retrieve the transform domain mesh size. */
   virtual MeshSizeType
-  GetTransformDomainMeshSize(void) const;
+  GetTransformDomainMeshSize() const;
 
 protected:
   /** Print contents of an BSplineTransform. */

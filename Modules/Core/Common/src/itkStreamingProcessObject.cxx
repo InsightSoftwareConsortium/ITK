@@ -23,7 +23,7 @@ namespace itk
 
 
 void
-StreamingProcessObject::GenerateData(void)
+StreamingProcessObject::GenerateData()
 {
   // The m_Updating flag used in StreamingProcessObject::UpdateOutputData
   // should prevent recursive execution.
@@ -261,11 +261,11 @@ StreamingProcessObject::PropagateRequestedRegion(DataObject * output)
 
 
 void
-StreamingProcessObject::BeforeStreamedGenerateData(void)
+StreamingProcessObject::BeforeStreamedGenerateData()
 {}
 
 void
-StreamingProcessObject::AfterStreamedGenerateData(void)
+StreamingProcessObject::AfterStreamedGenerateData()
 {}
 
 } // end namespace itk

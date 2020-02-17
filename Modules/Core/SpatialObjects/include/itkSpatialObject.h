@@ -151,12 +151,12 @@ public:
 
   /** Get the class name with the dimension of the spatial object appended */
   virtual std::string
-  GetClassNameAndDimension(void) const;
+  GetClassNameAndDimension() const;
 
   /** Restore a spatial object to its initial state, yet preserves Id as well as
    *   parent and children relationships */
   virtual void
-  Clear(void);
+  Clear();
 
   /** Set the property applied to the object. */
   void
