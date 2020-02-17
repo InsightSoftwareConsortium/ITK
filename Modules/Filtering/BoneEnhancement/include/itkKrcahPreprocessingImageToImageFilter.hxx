@@ -29,7 +29,7 @@ template <typename TInputImage, typename TOutputImage>
 KrcahPreprocessingImageToImageFilter<TInputImage, TOutputImage>::KrcahPreprocessingImageToImageFilter()
   : m_Sigma(1.0f)
   , m_ScalingConstant(10.0f)
-  , m_ReleaseInternalFilterData(true)
+
 {
   /* Instantiate all filters */
   m_GaussianFilter = GaussianFilterType::New();
