@@ -41,7 +41,7 @@ DCMTKTransformIOFactory ::DCMTKTransformIOFactory()
 DCMTKTransformIOFactory ::~DCMTKTransformIOFactory() {}
 
 const char *
-DCMTKTransformIOFactory ::GetITKSourceVersion(void) const
+DCMTKTransformIOFactory ::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -62,7 +62,7 @@ DCMTKTransformIOFactory ::PrintSelf(std::ostream &, Indent) const
 static bool DCMTKTransformIOFactoryHasBeenRegistered;
 
 void IOTransformDCMTK_EXPORT
-DCMTKTransformIOFactoryRegister__Private(void)
+DCMTKTransformIOFactoryRegister__Private()
 {
   if (!DCMTKTransformIOFactoryHasBeenRegistered)
   {
