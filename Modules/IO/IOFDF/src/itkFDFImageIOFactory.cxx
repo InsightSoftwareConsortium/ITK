@@ -32,7 +32,7 @@ FDFImageIOFactory::FDFImageIOFactory()
 FDFImageIOFactory::~FDFImageIOFactory() {}
 
 const char *
-FDFImageIOFactory::GetITKSourceVersion(void) const
+FDFImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -50,7 +50,7 @@ FDFImageIOFactory::GetDescription() const
 static bool FDFImageIOFactoryHasBeenRegistered;
 
 void IOFDF_EXPORT
-FDFImageIOFactoryRegister__Private(void)
+FDFImageIOFactoryRegister__Private()
 {
   if (!FDFImageIOFactoryHasBeenRegistered)
   {

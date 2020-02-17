@@ -571,7 +571,7 @@ FDFImageIO::SwapBytesIfNecessary(void * buffer, unsigned long numberOfPixels)
 }
 
 void
-FDFImageIO::WriteImageInformation(void)
+FDFImageIO::WriteImageInformation()
 {
   // not possible to write a fdf file
 }
