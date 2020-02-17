@@ -128,7 +128,7 @@ private:
   /* Internal member variables */
   RealType m_Sigma;
   RealType m_ScalingConstant;
-  bool     m_ReleaseInternalFilterData;
+  bool     m_ReleaseInternalFilterData{ true };
 
   /* Filter member variables */
   typename GaussianFilterType::Pointer  m_GaussianFilter;
