@@ -26,7 +26,8 @@ namespace itk
 {
 FDFImageIOFactory::FDFImageIOFactory()
 {
-  this->RegisterOverride("itkImageIOBase", "itkFDFImageIO", "FDF Image IO", 1, CreateObjectFunction<FDFImageIO>::New());
+  this->RegisterOverride(
+    "itkImageIOBase", "itkFDFImageIO", "FDF Image IO", true, CreateObjectFunction<FDFImageIO>::New());
 }
 
 FDFImageIOFactory::~FDFImageIOFactory() {}
