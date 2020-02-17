@@ -25,7 +25,6 @@ namespace itk
 template <typename TInputMesh, typename TOutputMesh, typename TSolverTraits>
 LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::LaplacianDeformationQuadEdgeMeshFilter()
   : m_CoefficientsMethod(nullptr)
-  , m_AreaComputationType(AreaEnum::NONE)
 {}
 
 template <typename TInputMesh, typename TOutputMesh, typename TSolverTraits>

@@ -28,7 +28,6 @@ namespace fem
 template <typename TBaseClass>
 Element3DMembrane<TBaseClass>::Element3DMembrane()
   : Superclass()
-  , m_mat(nullptr)
 {}
 
 // ////////////////////////////////////////////////////////////////////////

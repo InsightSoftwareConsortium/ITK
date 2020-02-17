@@ -191,7 +191,9 @@ private:
   bool m_UseImageSpacing{ true };
 
   /** Neighborhood Image Function. */
-  const GaussianDerivativeSpatialFunctionPointer m_GaussianDerivativeSpatialFunction;
+  const GaussianDerivativeSpatialFunctionPointer m_GaussianDerivativeSpatialFunction{
+    GaussianDerivativeSpatialFunctionType::New()
+  };
 };
 } // namespace itk
 

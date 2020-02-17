@@ -123,7 +123,7 @@ protected:
   /**
    * Pointer to material properties of the element
    */
-  const MaterialLinearElasticity * m_mat;
+  const MaterialLinearElasticity * m_mat{ nullptr };
   virtual void
   SetMaterialInternal(const Material * mat_)
   {

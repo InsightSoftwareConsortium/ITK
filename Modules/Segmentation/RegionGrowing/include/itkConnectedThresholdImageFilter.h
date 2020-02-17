@@ -195,7 +195,7 @@ private:
 
   OutputImagePixelType m_ReplaceValue;
 
-  ConnectedThresholdImageFilterEnums::Connectivity m_Connectivity;
+  ConnectedThresholdImageFilterEnums::Connectivity m_Connectivity{ ConnectivityEnum::FaceConnectivity };
 };
 } // end namespace itk
 

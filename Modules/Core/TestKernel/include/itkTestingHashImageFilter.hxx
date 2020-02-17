@@ -30,7 +30,6 @@ namespace Testing
 
 template <typename TImageType>
 HashImageFilter<TImageType>::HashImageFilter()
-  : m_HashFunction(HashFunctionEnum::MD5)
 {
   // create data object
   this->ProcessObject::SetNthOutput(1, this->MakeOutput(1).GetPointer());

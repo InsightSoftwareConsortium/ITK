@@ -29,7 +29,6 @@ namespace Statistics
 template <typename TSample>
 ExpectationMaximizationMixtureModelEstimator<TSample>::ExpectationMaximizationMixtureModelEstimator()
   : m_Sample(nullptr)
-  , m_TerminationCode(TERMINATION_CODE_ENUM::NOT_CONVERGED)
   , m_MembershipFunctionsObject(MembershipFunctionVectorObjectType::New())
   , m_MembershipFunctionsWeightArrayObject(MembershipFunctionsWeightsArrayObjectType::New())
 {}

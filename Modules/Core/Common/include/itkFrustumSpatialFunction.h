@@ -138,7 +138,7 @@ private:
   double                   m_ApertureAngleY{ 0.0f };
   double                   m_TopPlane{ 0.0f };
   double                   m_BottomPlane{ 0.0f };
-  FrustumRotationPlaneType m_RotationPlane;
+  FrustumRotationPlaneType m_RotationPlane{ RotationPlaneEnum::RotateInXZPlane };
 };
 
 } // end namespace itk

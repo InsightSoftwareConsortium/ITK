@@ -30,8 +30,6 @@ namespace itk
 template <typename TParametersValueType>
 TransformFileWriterTemplate<TParametersValueType>::TransformFileWriterTemplate()
   : m_FileName{ "" }
-  , m_AppendMode{ false }
-  , m_UseCompression{ false }
 {
   TransformFactoryBase::RegisterDefaultTransforms();
 }

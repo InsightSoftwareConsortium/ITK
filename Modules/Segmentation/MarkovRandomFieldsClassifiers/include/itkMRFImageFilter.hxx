@@ -24,8 +24,7 @@ namespace itk
 {
 template <typename TInputImage, typename TClassifiedImage>
 MRFImageFilter<TInputImage, TClassifiedImage>::MRFImageFilter()
-  : m_StopCondition(MRFStopEnum::MaximumNumberOfIterations)
-  , m_ClassifierPtr(nullptr)
+  : m_ClassifierPtr(nullptr)
 {
   if ((int)InputImageDimension != (int)ClassifiedImageDimension)
   {

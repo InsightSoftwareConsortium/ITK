@@ -230,11 +230,9 @@ public:
    * Default constructors
    */
   LoadLandmark()
-    : m_Eta(0)
-    , m_Target(0)
+    : m_Target(0)
     , m_Source(0)
     , m_Force(0)
-    , m_Solution(nullptr)
   {}
 
   /** Get/Set the eta parameter, square root of the variance, for the load */
@@ -255,7 +253,7 @@ protected:
   /**
    * Square root of the variance (eta)
    */
-  double m_Eta;
+  double m_Eta{ 0 };
 
   /**
    * Point in __local coordinates__ in the undeformed configuration
@@ -280,7 +278,7 @@ protected:
   /**
    * Pointer to the solution object
    */
-  Solution::ConstPointer m_Solution;
+  Solution::ConstPointer m_Solution{ nullptr };
 };
 
 } // namespace fem

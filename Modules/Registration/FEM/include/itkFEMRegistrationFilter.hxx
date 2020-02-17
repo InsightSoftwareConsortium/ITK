@@ -42,27 +42,7 @@ namespace fem
 
 template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FEMRegistrationFilter()
-  : m_DoLineSearchOnImageEnergy(1)
-  , m_LineSearchMaximumIterations(100)
-  , m_TotalIterations(0)
-  , m_MaxLevel(1)
-  , m_FileCount(0)
-  , m_CurrentLevel(0)
-  , m_WhichMetric(0)
-  , m_TimeStep(1)
-  , m_Energy(0.0)
-  , m_MinE(vnl_huge_val(0))
-  , m_MinJacobian(1.0)
-  , m_Alpha(1.0)
-  , m_UseLandmarks(false)
-  , m_UseMassMatrix(true)
-  , m_UseNormalizedGradient(false)
-  , m_CreateMeshFromImage(true)
-  , m_EmployRegridding(1)
-  , m_DescentDirection(SignEnum::positive)
-  , m_EnergyReductionFactor(0.0)
-  , m_MaximumError(0.1)
-  , m_MaximumKernelWidth(30)
+  : m_MinE(vnl_huge_val(0))
 {
   this->SetNumberOfRequiredInputs(2);
 

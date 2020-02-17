@@ -410,7 +410,7 @@ private:
   double       m_SmoothingFactor{ 1 };
   double *     m_ClassProbability{ nullptr }; // Class liklihood
   unsigned int m_NumberOfIterations{ 0 };
-  MRFStopEnum  m_StopCondition;
+  MRFStopEnum  m_StopCondition{ MRFStopEnum::MaximumNumberOfIterations };
 
   LabelStatusImagePointer m_LabelStatusImage;
 

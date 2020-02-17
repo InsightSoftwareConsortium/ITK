@@ -171,20 +171,7 @@ FFTWGlobalConfiguration ::GetInstance()
   return m_PimplGlobals->m_Instance;
 }
 
-HardwareWisdomFilenameGenerator ::HardwareWisdomFilenameGenerator()
-  : m_UseOSName(true)
-  , m_UseOSRelease(false)
-  , m_UseOSVersion(false)
-  , m_UseOSPlatform(true)
-  , m_UseOSBitSize(true)
-  , m_UseNumberOfProcessors(true)
-  , m_UseVendorString(true)
-  , m_UseVendorID(false)
-  , m_UseTypeID(true)
-  , m_UseFamilyID(true)
-  , m_UseModelID(true)
-  , m_UseSteppingCode(true)
-{}
+HardwareWisdomFilenameGenerator ::HardwareWisdomFilenameGenerator() {}
 
 std::string
 HardwareWisdomFilenameGenerator ::GenerateWisdomFilename(const std::string & baseCacheDirectory) const
@@ -387,11 +374,7 @@ HardwareWisdomFilenameGenerator ::GetUseSteppingCode() const
 
 
 FFTWGlobalConfiguration ::FFTWGlobalConfiguration()
-  : m_NewWisdomAvailable(false)
-  , m_PlanRigor(0)
-  , m_WriteWisdomCache(false)
-  , m_ReadWisdomCache(true)
-  , m_WisdomCacheBase("")
+  : m_WisdomCacheBase("")
 {
   { // Configure default method for creating WISDOM_CACHE files
     std::string manualCacheFilename = "";

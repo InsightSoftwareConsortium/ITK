@@ -138,13 +138,13 @@ protected:
   EvaluateAtNeighborhood(ConstNeighborhoodIteratorType & it) const;
 
 private:
-  double            m_HarmonicEnergy;
+  double            m_HarmonicEnergy{ 0.0 };
   ImageConstPointer m_Image;
 
   RegionType m_Region;
-  bool       m_RegionSetByUser;
+  bool       m_RegionSetByUser{ false };
 
-  bool m_UseImageSpacing;
+  bool m_UseImageSpacing{ true };
 
   WeightsType m_DerivativeWeights;
 

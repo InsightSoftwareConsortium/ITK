@@ -213,12 +213,12 @@ private:
 
   /** Difference between the areas under the curves of the continuous and
    * discrete Gaussian functions */
-  double m_MaximumError;
+  double m_MaximumError{ 0.005 };
 
   /** Maximum kernel size allowed.  This value is used to truncate a kernel
    *  that has grown too large.  A warning is given when the specified maximum
    *  error causes the kernel to exceed this size */
-  unsigned int m_MaximumKernelWidth;
+  unsigned int m_MaximumKernelWidth{ 30 };
 
   /** Array of derivative operators, one for each dimension and order.
    * First N zero-rder operators are stored, then N first-order making
@@ -232,13 +232,13 @@ private:
   OperatorImageFunctionPointer m_OperatorImageFunction;
 
   /** Flag for scale-space normalization of derivatives */
-  bool m_NormalizeAcrossScale;
+  bool m_NormalizeAcrossScale{ true };
 
   /** Flag to indicate whether to use image spacing */
-  bool m_UseImageSpacing;
+  bool m_UseImageSpacing{ true };
 
   /** Interpolation mode */
-  InterpolationModeEnum m_InterpolationMode;
+  InterpolationModeEnum m_InterpolationMode{ InterpolationModeEnum::NearestNeighbourInterpolation };
 };
 } // namespace itk
 

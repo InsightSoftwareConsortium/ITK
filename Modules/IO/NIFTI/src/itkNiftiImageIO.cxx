@@ -448,8 +448,7 @@ public:
 NiftiImageIO::NiftiImageIO()
   : m_NiftiImageHolder(new NiftiImageProxy(nullptr))
   , m_NiftiImage(*m_NiftiImageHolder.get())
-  , m_LegacyAnalyze75Mode(ITK_NIFTI_IO_ANALYZE_FLAVOR_DEFAULT)
-
+  , m_LegacyAnalyze75Mode{ ITK_NIFTI_IO_ANALYZE_FLAVOR_DEFAULT }
 {
   this->SetNumberOfDimensions(3);
   nifti_set_debug_level(0); // suppress error messages

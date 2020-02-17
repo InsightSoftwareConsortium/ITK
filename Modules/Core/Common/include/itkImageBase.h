@@ -870,7 +870,7 @@ protected:
   Graft(const DataObject * data) override;
 
 private:
-  OffsetValueType m_OffsetTable[VImageDimension + 1];
+  OffsetValueType m_OffsetTable[VImageDimension + 1]{};
 
   RegionType m_LargestPossibleRegion;
   RegionType m_RequestedRegion;

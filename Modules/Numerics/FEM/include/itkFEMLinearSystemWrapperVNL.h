@@ -54,10 +54,8 @@ public:
   /* constructor & destructor */
   LinearSystemWrapperVNL()
     : LinearSystemWrapper()
-    , m_Matrices(nullptr)
-    , m_Vectors(nullptr)
-    , m_Solutions(nullptr)
   {}
+
   ~LinearSystemWrapperVNL() override;
 
   /* memory management routines */
@@ -169,13 +167,13 @@ public:
 private:
   /** vector of pointers to VNL sparse matrices */
   // std::vector< vnl_sparse_matrix<Float>* > *m_Matrices;
-  MatrixHolder * m_Matrices;
+  MatrixHolder * m_Matrices{ nullptr };
 
   /** vector of pointers to VNL vectors  */
-  std::vector<vnl_vector<Float> *> * m_Vectors;
+  std::vector<vnl_vector<Float> *> * m_Vectors{ nullptr };
 
   /** vector of pointers to VNL vectors */
-  std::vector<vnl_vector<Float> *> * m_Solutions;
+  std::vector<vnl_vector<Float> *> * m_Solutions{ nullptr };
 };
 } // end namespace fem
 } // end namespace itk

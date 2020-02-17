@@ -126,7 +126,7 @@ protected:
   /**
    * Pointer to material properties for the element
    */
-  const MaterialLinearElasticity * m_mat;
+  const MaterialLinearElasticity * m_mat{ nullptr };
 
 }; // class Element2DMembrane
 } // end namespace fem

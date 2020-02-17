@@ -27,8 +27,7 @@ namespace itk
 {
 template <typename TInputImage, typename TGradientImage, typename TOutputImage>
 RobustAutomaticThresholdImageFilter<TInputImage, TGradientImage, TOutputImage>::RobustAutomaticThresholdImageFilter()
-  : m_Pow(1)
-  , m_Threshold(NumericTraits<InputPixelType>::ZeroValue())
+  : m_Threshold(NumericTraits<InputPixelType>::ZeroValue())
   , m_InsideValue(NumericTraits<OutputPixelType>::max())
   , m_OutsideValue(NumericTraits<OutputPixelType>::ZeroValue())
 {

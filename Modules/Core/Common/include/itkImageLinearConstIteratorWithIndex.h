@@ -146,7 +146,6 @@ public:
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageLinearConstIteratorWithIndex. */
   ImageLinearConstIteratorWithIndex(const ImageConstIteratorWithIndex<TImage> & it)
-    : m_Direction(0)
   {
     this->ImageConstIteratorWithIndex<TImage>::operator=(it);
   }

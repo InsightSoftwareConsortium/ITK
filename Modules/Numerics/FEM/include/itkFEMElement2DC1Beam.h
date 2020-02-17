@@ -168,7 +168,7 @@ private:
   /**
    * Pointer to material properties of the element
    */
-  const MaterialLinearElasticity * m_mat;
+  const MaterialLinearElasticity * m_mat{ nullptr };
 };
 } // end namespace fem
 } // end namespace itk

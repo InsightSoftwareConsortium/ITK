@@ -79,9 +79,8 @@ public:
   int
   GetNode() const;
 
-  LoadNode()
-    : m_Point(0)
-  {} // default constructor
+  LoadNode() {}
+
   LoadNode(Element::ConstPointer element_, unsigned int pt_, vnl_vector<Float> F_)
     : m_Point(pt_)
     , m_Force(F_)
@@ -101,7 +100,7 @@ protected:
   /**
    * Point within the element on which the force acts.
    */
-  unsigned int m_Point;
+  unsigned int m_Point{ 0 };
 
   /**
    * Force applied on the node. Dimension of F should equal

@@ -153,7 +153,7 @@ protected:
   EnlargeOutputRequestedRegion(DataObject * data) override;
 
 private:
-  HashFunctionEnum m_HashFunction;
+  HashFunctionEnum m_HashFunction{ HashFunctionEnum::MD5 };
 };
 
 } // end namespace Testing

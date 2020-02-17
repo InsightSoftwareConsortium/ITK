@@ -186,12 +186,12 @@ private:
   InterpolatorPointer m_MovingImageInterpolator;
 
   /** Threshold below which the denominator term is considered zero. */
-  double m_DenominatorThreshold;
+  double m_DenominatorThreshold{ 1e-9 };
 
   /** Threshold below which two intensity value are assumed to match. */
-  double m_IntensityDifferenceThreshold;
+  double m_IntensityDifferenceThreshold{ 0.001 };
 
-  mutable double m_MetricTotal;
+  mutable double m_MetricTotal{ 0.0 };
 };
 } // end namespace itk
 

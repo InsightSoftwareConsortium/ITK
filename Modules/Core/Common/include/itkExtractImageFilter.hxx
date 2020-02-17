@@ -30,7 +30,6 @@ namespace itk
  */
 template <typename TInputImage, typename TOutputImage>
 ExtractImageFilter<TInputImage, TOutputImage>::ExtractImageFilter()
-  : m_DirectionCollapseStrategy(DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN)
 {
   Superclass::InPlaceOff();
   this->DynamicMultiThreadingOn();

@@ -329,14 +329,14 @@ private:
 
   typename MovingImageType::SizeType  m_MovingSize;
   typename FixedImageType::SizeType   m_FixedSize;
-  unsigned int                        m_NumberOfIntegrationPoints;
-  unsigned int                        m_SolutionIndex;
-  unsigned int                        m_SolutionIndex2;
+  unsigned int                        m_NumberOfIntegrationPoints{ 0 };
+  unsigned int                        m_SolutionIndex{ 1 };
+  unsigned int                        m_SolutionIndex2{ 0 };
   Float                               m_Gamma;
-  typename Solution::ConstPointer     m_Solution;
-  float                               m_GradSigma;
-  float                               m_Sign;
-  float                               m_WhichMetric;
+  typename Solution::ConstPointer     m_Solution{ nullptr };
+  float                               m_GradSigma{ 0.0f };
+  float                               m_Sign{ 1.0f };
+  float                               m_WhichMetric{ 0.0f };
   FiniteDifferenceFunctionTypePointer m_DifferenceFunction;
 
   typename DisplacementFieldType::Pointer m_DisplacementField;

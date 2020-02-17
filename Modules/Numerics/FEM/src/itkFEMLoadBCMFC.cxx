@@ -44,7 +44,6 @@ LoadBCMFC::CreateAnother() const
  * Fix a DOF to a prescribed value
  */
 LoadBCMFC::LoadBCMFC(Element::ConstPointer element, int dof, vnl_vector<Element::Float> val)
-  : m_Index(0)
 {
   m_LeftHandSide.clear();
 

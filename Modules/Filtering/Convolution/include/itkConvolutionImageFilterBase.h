@@ -159,7 +159,7 @@ private:
   DefaultBoundaryConditionType m_DefaultBoundaryCondition;
   BoundaryConditionPointerType m_BoundaryCondition;
 
-  OutputRegionModeEnum m_OutputRegionMode;
+  OutputRegionModeEnum m_OutputRegionMode{ ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion::SAME };
 };
 } // end namespace itk
 

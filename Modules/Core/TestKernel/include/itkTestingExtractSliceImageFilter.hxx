@@ -30,7 +30,6 @@ namespace Testing
 
 template <typename TInputImage, typename TOutputImage>
 ExtractSliceImageFilter<TInputImage, TOutputImage>::ExtractSliceImageFilter()
-  : m_DirectionCollaspeStrategy(TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN)
 {
   this->DynamicMultiThreadingOn();
 }

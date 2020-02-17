@@ -32,7 +32,6 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 ConnectedThresholdImageFilter<TInputImage, TOutputImage>::ConnectedThresholdImageFilter()
   : m_ReplaceValue(NumericTraits<OutputImagePixelType>::OneValue())
-  , m_Connectivity(ConnectivityEnum::FaceConnectivity)
 {
   typename InputPixelObjectType::Pointer lower = InputPixelObjectType::New();
   lower->Set(NumericTraits<InputImagePixelType>::NonpositiveMin());

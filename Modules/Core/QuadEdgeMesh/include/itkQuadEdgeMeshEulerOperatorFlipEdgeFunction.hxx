@@ -27,7 +27,6 @@ namespace itk
 template <typename TMesh, typename TQEType>
 QuadEdgeMeshEulerOperatorFlipEdgeFunction<TMesh, TQEType>::QuadEdgeMeshEulerOperatorFlipEdgeFunction()
   : Superclass()
-  , m_EdgeStatus(EdgeStatusEnum::STANDARD_CONFIG)
 {}
 
 template <typename TMesh, typename TQEType>

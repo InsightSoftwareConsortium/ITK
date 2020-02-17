@@ -26,11 +26,6 @@ namespace itk
 /** Set the Input Image */
 template <typename TInputImage, typename TOutput>
 DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::DiscreteGradientMagnitudeGaussianImageFunction()
-  : m_MaximumError(0.005)
-  , m_MaximumKernelWidth(30)
-  , m_NormalizeAcrossScale(true)
-  , m_UseImageSpacing(true)
-  , m_InterpolationMode(InterpolationModeEnum::NearestNeighbourInterpolation)
 {
   m_Variance.Fill(1.0);
   m_OperatorImageFunction = OperatorImageFunctionType::New();

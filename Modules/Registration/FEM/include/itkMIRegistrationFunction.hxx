@@ -33,13 +33,6 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::MIRegistrationFunction()
   : m_TimeStep(1.0)
   , m_FixedImageGradientCalculator(GradientCalculatorType::New())
-  , m_DenominatorThreshold(1e-9)
-  , m_IntensityDifferenceThreshold(0.001)
-  , m_MetricTotal(0.0)
-  , m_NumberOfSamples(1)
-  , m_NumberOfBins(4)
-  , m_Minnorm(1.0)
-  , m_DoInverse(false)
 {
   m_FixedImageSpacing.Fill(1);
   m_FixedImageOrigin.Fill(0);

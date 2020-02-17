@@ -212,11 +212,8 @@ public:
   {}
 
   SymmetricEigenAnalysis(const unsigned int dimension)
-    :
-
-    m_Dimension(dimension)
+    : m_Dimension(dimension)
     , m_Order(dimension)
-    , m_OrderEigenValues(EigenValueOrderEnum::OrderByValue)
   {}
 
   ~SymmetricEigenAnalysis() = default;
@@ -371,7 +368,7 @@ private:
   bool                m_UseEigenLibrary{ false };
   unsigned int        m_Dimension{ 0 };
   unsigned int        m_Order{ 0 };
-  EigenValueOrderEnum m_OrderEigenValues;
+  EigenValueOrderEnum m_OrderEigenValues{ EigenValueOrderEnum::OrderByValue };
 
   /** Reduces a real symmetric matrix to a symmetric tridiagonal matrix using
    *  orthogonal similarity transformations.
@@ -878,7 +875,7 @@ public:
   }
 
 private:
-  EigenValueOrderEnum m_OrderEigenValues;
+  EigenValueOrderEnum m_OrderEigenValues{ EigenValueOrderEnum::OrderByValue };
 
   /* Helper to get the matrix value type for EigenLibMatrix typename.
    *

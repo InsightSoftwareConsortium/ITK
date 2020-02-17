@@ -237,7 +237,7 @@ protected:
   CoefficientsComputationType * m_CoefficientsMethod;
 
   unsigned int m_Order{ 1 };
-  AreaEnum     m_AreaComputationType;
+  AreaEnum     m_AreaComputationType{ AreaEnum::NONE };
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

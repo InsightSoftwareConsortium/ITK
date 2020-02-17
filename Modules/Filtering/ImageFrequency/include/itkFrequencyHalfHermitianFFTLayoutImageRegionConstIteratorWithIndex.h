@@ -151,7 +151,6 @@ public:
    * particular region of that image. */
   FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex(const TImage * ptr, const RegionType & region)
     : ImageRegionConstIteratorWithIndex<TImage>(ptr, region)
-    , m_ActualXDimensionIsOdd(false)
   {
     this->Init();
   }
@@ -164,7 +163,6 @@ public:
    * ImageIterator to a ImageRegionIteratorWithIndex. */
   explicit FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex(const Superclass & it)
     : ImageRegionConstIteratorWithIndex<TImage>(it)
-    , m_ActualXDimensionIsOdd(false)
   {
     this->Init();
   }

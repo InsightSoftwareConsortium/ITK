@@ -28,7 +28,6 @@ namespace fem
 template <typename TBaseClass>
 Element2DStrain<TBaseClass>::Element2DStrain()
   : Superclass()
-  , m_mat(nullptr)
 {}
 
 // ////////////////////////////////////////////////////////////////////////

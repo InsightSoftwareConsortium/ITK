@@ -41,12 +41,10 @@ DataObjectError ::DataObjectError() noexcept
 
 DataObjectError ::DataObjectError(const char * file, unsigned int lineNumber)
   : ExceptionObject(file, lineNumber)
-  , m_DataObject(nullptr)
 {}
 
 DataObjectError ::DataObjectError(const std::string & file, unsigned int lineNumber)
   : ExceptionObject(file, lineNumber)
-  , m_DataObject(nullptr)
 {}
 
 DataObjectError ::DataObjectError(const DataObjectError & orig) noexcept

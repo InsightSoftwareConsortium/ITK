@@ -32,7 +32,6 @@ namespace itk
 
 template <typename TInputImage, typename TOutput>
 GaussianDerivativeImageFunction<TInputImage, TOutput>::GaussianDerivativeImageFunction()
-  : m_GaussianDerivativeSpatialFunction{ GaussianDerivativeSpatialFunctionType::New() }
 {
   std::fill_n(m_Sigma, Self::ImageDimension, 1.0);
   std::fill_n(m_Extent, Self::ImageDimension, 1.0);

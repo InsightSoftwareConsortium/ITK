@@ -41,7 +41,6 @@ Element2DC1Beam::CreateAnother() const
 
 Element2DC1Beam ::Element2DC1Beam()
   : Superclass()
-  , m_mat(nullptr)
 {}
 
 Element2DC1Beam ::Element2DC1Beam(NodeIDType n1_, NodeIDType n2_, Material::ConstPointer m_)

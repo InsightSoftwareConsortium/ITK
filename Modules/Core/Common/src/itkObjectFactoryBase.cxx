@@ -116,17 +116,13 @@ struct ObjectFactoryBasePrivate
       m_InternalFactories = nullptr;
     }
   }
-  ObjectFactoryBasePrivate()
-    : m_RegisteredFactories(nullptr)
-    , m_InternalFactories(nullptr)
-    , m_Initialized(false)
-    , m_StrictVersionChecking(false)
-  {}
 
-  std::list<::itk::ObjectFactoryBase *> * m_RegisteredFactories;
-  std::list<::itk::ObjectFactoryBase *> * m_InternalFactories;
-  bool                                    m_Initialized;
-  bool                                    m_StrictVersionChecking;
+  ObjectFactoryBasePrivate() {}
+
+  std::list<::itk::ObjectFactoryBase *> * m_RegisteredFactories{ nullptr };
+  std::list<::itk::ObjectFactoryBase *> * m_InternalFactories{ nullptr };
+  bool                                    m_Initialized{ false };
+  bool                                    m_StrictVersionChecking{ false };
 };
 
 ObjectFactoryBasePrivate *

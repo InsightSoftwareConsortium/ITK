@@ -169,18 +169,18 @@ public:
   GetUseSteppingCode() const;
 
 private:
-  bool m_UseOSName;
-  bool m_UseOSRelease;
-  bool m_UseOSVersion;
-  bool m_UseOSPlatform;
-  bool m_UseOSBitSize;
-  bool m_UseNumberOfProcessors;
-  bool m_UseVendorString;
-  bool m_UseVendorID;
-  bool m_UseTypeID;
-  bool m_UseFamilyID;
-  bool m_UseModelID;
-  bool m_UseSteppingCode;
+  bool m_UseOSName{ true };
+  bool m_UseOSRelease{ false };
+  bool m_UseOSVersion{ false };
+  bool m_UseOSPlatform{ true };
+  bool m_UseOSBitSize{ true };
+  bool m_UseNumberOfProcessors{ true };
+  bool m_UseVendorString{ true };
+  bool m_UseVendorID{ false };
+  bool m_UseTypeID{ true };
+  bool m_UseFamilyID{ true };
+  bool m_UseModelID{ true };
+  bool m_UseSteppingCode{ true };
 };
 
 /**
@@ -369,10 +369,10 @@ private:
   static FFTWGlobalConfigurationGlobals * m_PimplGlobals;
 
   std::mutex  m_Lock;
-  bool        m_NewWisdomAvailable;
-  int         m_PlanRigor;
-  bool        m_WriteWisdomCache;
-  bool        m_ReadWisdomCache;
+  bool        m_NewWisdomAvailable{ false };
+  int         m_PlanRigor{ 0 };
+  bool        m_WriteWisdomCache{ false };
+  bool        m_ReadWisdomCache{ true };
   std::string m_WisdomCacheBase;
   // m_WriteWisdomCache Controls the behavior of default
   // wisdom file creation policies.
