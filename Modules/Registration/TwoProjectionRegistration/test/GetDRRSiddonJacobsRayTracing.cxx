@@ -550,8 +550,8 @@ GetDRRSiddonJacobsRayTracing(int argc, char * argv[])
 
     using FlipAxesArrayType = FlipFilterType::FlipAxesArrayType;
     FlipAxesArrayType flipArray;
-    flipArray[0] = 0;
-    flipArray[1] = 1;
+    flipArray[0] = false;
+    flipArray[1] = true;
 
     flipFilter->SetFlipAxes(flipArray);
     flipFilter->SetInput(rescaler->GetOutput());

@@ -539,9 +539,9 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
 
   using FlipAxesArrayType = FlipFilterType::FlipAxesArrayType;
   FlipAxesArrayType flipArray;
-  flipArray[0] = 0;
-  flipArray[1] = 1;
-  flipArray[2] = 0;
+  flipArray[0] = false;
+  flipArray[1] = true;
+  flipArray[2] = false;
 
   flipFilter1->SetFlipAxes(flipArray);
   flipFilter2->SetFlipAxes(flipArray);
