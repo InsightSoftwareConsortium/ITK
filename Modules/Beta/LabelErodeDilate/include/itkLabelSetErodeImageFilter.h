@@ -82,7 +82,7 @@ public:
 
 protected:
   LabelSetErodeImageFilter() { this->DynamicMultiThreadingOn(); }
-  ~LabelSetErodeImageFilter() override {}
+  ~LabelSetErodeImageFilter() override = default;
 
   void
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
