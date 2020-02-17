@@ -218,9 +218,9 @@ protected:
   DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
 
 private:
-  RegionOfInterestImageFilter(const Self &); // purposely not implemented
+  RegionOfInterestImageFilter(const Self &) = delete; // purposely not implemented
   void
-  operator=(const Self &); // purposely not implemented
+  operator=(const Self &) = delete; // purposely not implemented
 
   RegionType m_RegionOfInterest;
 };
