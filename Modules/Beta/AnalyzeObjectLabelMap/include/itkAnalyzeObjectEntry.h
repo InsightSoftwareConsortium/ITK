@@ -71,7 +71,7 @@ public:
    * including stringswith embedded spaces.
    */
   virtual std::string
-  GetName(void) const
+  GetName() const
   {
     itkDebugMacro("returning "
                   << "Name of " << this->m_Name);
@@ -562,7 +562,7 @@ protected:
    * Possible Causes of Failure:
    * - unknown
    */
-  AnalyzeObjectEntry(void);
+  AnalyzeObjectEntry();
 
   /**
    * \brief ~AnalyzeObjectEntry( void ) is the destructor, which does nothing explicitly due to
@@ -571,7 +571,7 @@ protected:
    * - unknown
    * \sa AnalyzeObjectEntry
    */
-  ~AnalyzeObjectEntry(void) override;
+  ~AnalyzeObjectEntry() override;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

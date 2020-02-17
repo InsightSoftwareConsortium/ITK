@@ -203,12 +203,12 @@ protected:
   /**
    * \brief the default constructor
    */
-  AnalyzeObjectMap(void);
+  AnalyzeObjectMap();
 
   /**
    * \brief the destructor for AnalyzeObjectMap
    */
-  ~AnalyzeObjectMap(void) override;
+  ~AnalyzeObjectMap() override;
 
   /**
    * \brief the copy constructor,
