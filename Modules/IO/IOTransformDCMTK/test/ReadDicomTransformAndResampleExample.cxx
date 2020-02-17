@@ -135,8 +135,8 @@ ReadDicomTransformAndResampleExample(int argc, char * argv[])
   const TransformListType * transformList = transformReader->GetTransformList();
 
   using ReadTransformType = itk::CompositeTransform<ScalarType, Dimension>;
-  TransformListType::const_iterator transformIt = transformList->begin();
-  ReadTransformType::Pointer        fixedTransform = dynamic_cast<ReadTransformType *>((*transformIt).GetPointer());
+  auto                       transformIt = transformList->begin();
+  ReadTransformType::Pointer fixedTransform = dynamic_cast<ReadTransformType *>((*transformIt).GetPointer());
   if (fixedTransform.IsNull())
   {
     std::cerr << "Did not get the expected transform out." << std::endl;
