@@ -327,7 +327,7 @@ private:
     using MapType = std::map<VertexLookupNode, PointVectorType>;
 
     /** Constructors */
-    VertexLookupMap() {}
+    VertexLookupMap() = default;
 
     /** Clear the lookup map. */
     void
