@@ -59,7 +59,7 @@ ScancoImageIO ::ScancoImageIO()
   this->AddSupportedReadExtension(".rad");
   this->AddSupportedReadExtension(".aim");
 
-  this->m_RawHeader = 0;
+  this->m_RawHeader = nullptr;
 }
 
 
@@ -537,7 +537,7 @@ ScancoImageIO ::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
   // decode the extended header (lots of guesswork)
   if (headerSize >= 2048)
   {
-    char * calHeader = 0;
+    char * calHeader = nullptr;
     int    calHeaderSize = 0;
     h = this->m_RawHeader + 512;
     unsigned long hskip = 1;
@@ -810,76 +810,76 @@ ScancoImageIO ::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
       }
       else if (skey == "Index Patient")
       {
-        this->m_PatientIndex = strtol(value, 0, 10);
+        this->m_PatientIndex = strtol(value, nullptr, 10);
       }
       else if (skey == "Index Measurement")
       {
-        this->m_MeasurementIndex = strtol(value, 0, 10);
+        this->m_MeasurementIndex = strtol(value, nullptr, 10);
       }
       else if (skey == "Site")
       {
-        this->m_Site = strtol(value, 0, 10);
+        this->m_Site = strtol(value, nullptr, 10);
       }
       else if (skey == "Scanner ID")
       {
-        this->m_ScannerID = strtol(value, 0, 10);
+        this->m_ScannerID = strtol(value, nullptr, 10);
       }
       else if (skey == "Scanner type")
       {
-        this->m_ScannerType = strtol(value, 0, 10);
+        this->m_ScannerType = strtol(value, nullptr, 10);
       }
       else if (skey == "Position Slice 1 [um]")
       {
-        this->m_StartPosition = strtod(value, 0) * 1e-3;
+        this->m_StartPosition = strtod(value, nullptr) * 1e-3;
         this->m_EndPosition = this->m_StartPosition + elementSize[2] * (structValues[5] - 1);
       }
       else if (skey == "No. samples")
       {
-        this->m_NumberOfSamples = strtol(value, 0, 10);
+        this->m_NumberOfSamples = strtol(value, nullptr, 10);
       }
       else if (skey == "No. projections per 180")
       {
-        this->m_NumberOfProjections = strtol(value, 0, 10);
+        this->m_NumberOfProjections = strtol(value, nullptr, 10);
       }
       else if (skey == "Scan Distance [um]")
       {
-        this->m_ScanDistance = strtod(value, 0) * 1e-3;
+        this->m_ScanDistance = strtod(value, nullptr) * 1e-3;
       }
       else if (skey == "Integration time [us]")
       {
-        this->m_SampleTime = strtod(value, 0) * 1e-3;
+        this->m_SampleTime = strtod(value, nullptr) * 1e-3;
       }
       else if (skey == "Reference line [um]")
       {
-        this->m_ReferenceLine = strtod(value, 0) * 1e-3;
+        this->m_ReferenceLine = strtod(value, nullptr) * 1e-3;
       }
       else if (skey == "Reconstruction-Alg.")
       {
-        this->m_ReconstructionAlg = strtol(value, 0, 10);
+        this->m_ReconstructionAlg = strtol(value, nullptr, 10);
       }
       else if (skey == "Energy [V]")
       {
-        this->m_Energy = strtod(value, 0) * 1e-3;
+        this->m_Energy = strtod(value, nullptr) * 1e-3;
       }
       else if (skey == "Intensity [uA]")
       {
-        this->m_Intensity = strtod(value, 0) * 1e-3;
+        this->m_Intensity = strtod(value, nullptr) * 1e-3;
       }
       else if (skey == "Mu_Scaling")
       {
-        this->m_MuScaling = strtol(value, 0, 10);
+        this->m_MuScaling = strtol(value, nullptr, 10);
       }
       else if (skey == "Minimum data value")
       {
-        this->m_DataRange[0] = strtod(value, 0);
+        this->m_DataRange[0] = strtod(value, nullptr);
       }
       else if (skey == "Maximum data value")
       {
-        this->m_DataRange[1] = strtod(value, 0);
+        this->m_DataRange[1] = strtod(value, nullptr);
       }
       else if (skey == "Calib. default unit type")
       {
-        this->m_RescaleType = strtol(value, 0, 10);
+        this->m_RescaleType = strtol(value, nullptr, 10);
       }
       else if (skey == "Calibration Data")
       {
@@ -895,15 +895,15 @@ ScancoImageIO ::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
       }
       else if (skey == "Density: slope")
       {
-        this->m_RescaleSlope = strtod(value, 0);
+        this->m_RescaleSlope = strtod(value, nullptr);
       }
       else if (skey == "Density: intercept")
       {
-        this->m_RescaleIntercept = strtod(value, 0);
+        this->m_RescaleIntercept = strtod(value, nullptr);
       }
       else if (skey == "HU: mu water")
       {
-        this->m_MuWater = strtod(value, 0);
+        this->m_MuWater = strtod(value, nullptr);
       }
     }
     // skip to the end of the line
@@ -1004,7 +1004,7 @@ ScancoImageIO ::Read(void * buffer)
   outSize *= this->GetComponentSize();
 
   // For the input (compressed) data
-  char * input = 0;
+  char * input = nullptr;
   size_t size = 0;
 
   if (this->m_Compression == 0)
