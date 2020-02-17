@@ -33,7 +33,7 @@ MGHImageIOFactory::MGHImageIOFactory()
     "itkImageIOBase", "itkMGHImageIO", "MGH Image IO", true, CreateObjectFunction<MGHImageIO>::New());
 }
 
-MGHImageIOFactory::~MGHImageIOFactory() {}
+MGHImageIOFactory::~MGHImageIOFactory() = default;
 
 const char *
 MGHImageIOFactory::GetITKSourceVersion() const
