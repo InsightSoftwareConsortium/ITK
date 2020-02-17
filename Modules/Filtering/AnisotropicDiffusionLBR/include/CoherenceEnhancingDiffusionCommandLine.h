@@ -53,7 +53,7 @@ Execute(int argc, char * argv[]);
 
 template <int VDimension>
 int
-Execute(int argc, char * argv[], itk::ImageIOBase::IOComponentType, int nComponents);
+Execute(int argc, char * argv[], itk::ImageIOBase::IOComponentEnum, int nComponents);
 
 template <int VDimension, typename ScalarType, typename ComponentType>
 int
@@ -81,8 +81,7 @@ Execute(int argc, char * argv[])
 
   const char * imageFileName = argv[1];
 
-  itk::ImageIOBase::Pointer imageIO =
-    itk::ImageIOFactory::CreateImageIO(imageFileName, itk::ImageIOFactory::FileModeType::ReadMode);
+  itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO(imageFileName, itk::IOFileModeEnum::ReadMode);
   if (imageIO.IsNull())
   {
     std::cerr << "Could not create ImageIO" << std::endl;
@@ -92,7 +91,7 @@ Execute(int argc, char * argv[])
   imageIO->ReadImageInformation();
 
   const unsigned int                      imageDimension = imageIO->GetNumberOfDimensions();
-  const itk::ImageIOBase::IOComponentType componentType = imageIO->GetComponentType();
+  const itk::ImageIOBase::IOComponentEnum componentType = imageIO->GetComponentType();
   const unsigned int                      nComponents = imageIO->GetNumberOfComponents();
 
   switch (imageDimension)
@@ -108,15 +107,15 @@ Execute(int argc, char * argv[])
 
 template <int Dimension>
 int
-Execute(int argc, char * argv[], itk::ImageIOBase::IOComponentType componentType, int nComponents)
+Execute(int argc, char * argv[], itk::IOComponentEnum componentType, int nComponents)
 {
   switch (componentType)
   {
-    case itk::ImageIOBase::UCHAR:
+    case itk::IOComponentEnum::UCHAR:
       return Execute<Dimension, float, unsigned char>(argc, argv, nComponents);
-    case itk::ImageIOBase::FLOAT:
+    case itk::IOComponentEnum::FLOAT:
       return Execute<Dimension, float, float>(argc, argv, nComponents);
-    case itk::ImageIOBase::DOUBLE:
+    case itk::IOComponentEnum::DOUBLE:
       return Execute<Dimension, double, double>(argc, argv, nComponents);
     default:
       itkGenericExceptionMacro("Sorry, unsupported component type");

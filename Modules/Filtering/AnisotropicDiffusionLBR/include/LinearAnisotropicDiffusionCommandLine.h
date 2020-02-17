@@ -49,7 +49,7 @@ Execute(int argc, char * argv[]);
 
 template <int VDimension>
 int
-Execute(int argc, char * argv[], itk::ImageIOBase::IOComponentType, int nComponents);
+Execute(int argc, char * argv[], itk::ImageIOBase::IOComponentEnum, int nComponents);
 
 template <int VDimension, typename ScalarType, typename ComponentType>
 int
@@ -101,7 +101,7 @@ Execute(int argc, char * argv[])
 
   const ImageIOBase *                     io = reader->GetImageIO();
   const int                               ImageDimension = io->GetNumberOfDimensions();
-  const itk::ImageIOBase::IOComponentType componentType = io->GetComponentType();
+  const itk::ImageIOBase::IOComponentEnum componentType = io->GetComponentType();
   const int                               nComponents = io->GetNumberOfComponents();
 
   {
@@ -117,7 +117,7 @@ Execute(int argc, char * argv[])
     const int TensorDimension = (ImageDimension * (ImageDimension + 1)) / 2;
     if (TensorDimension != (int)io2->GetNumberOfComponents())
       itkGenericExceptionMacro("Error: wrong tensor dimension, should be n*(n+1)/2 where n=ImageDimension.");
-    if (io2->GetPixelType() == itk::ImageIOBase::SYMMETRICSECONDRANKTENSOR)
+    if (io2->GetPixelType() == itk::IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
       std::cerr << "Warning: tensor image pixel type not marked as Symmetric Second Rank Tensor.\n";
   }
 
@@ -133,15 +133,15 @@ Execute(int argc, char * argv[])
 
 template <int Dimension>
 int
-Execute(int argc, char * argv[], itk::ImageIOBase::IOComponentType componentType, int nComponents)
+Execute(int argc, char * argv[], itk::ImageIOBase::IOComponentEnum componentType, int nComponents)
 {
   switch (componentType)
   {
-    case itk::ImageIOBase::UCHAR:
+    case itk::IOComponentEnum::UCHAR:
       return Execute<Dimension, float, unsigned char>(argc, argv, nComponents);
-    case itk::ImageIOBase::FLOAT:
+    case itk::IOComponentEnum::FLOAT:
       return Execute<Dimension, float, float>(argc, argv, nComponents);
-    case itk::ImageIOBase::DOUBLE:
+    case itk::IOComponentEnum::DOUBLE:
       return Execute<Dimension, double, double>(argc, argv, nComponents);
     default:
       itkGenericExceptionMacro("Sorry, unsupported component type");
