@@ -103,7 +103,7 @@ ScancoImageIO ::CheckVersion(const char header[16])
 int
 ScancoImageIO ::DecodeInt(const void * data)
 {
-  const unsigned char * cp = static_cast<const unsigned char *>(data);
+  const auto * cp = static_cast<const unsigned char *>(data);
   return (cp[0] | (cp[1] << 8) | (cp[2] << 16) | (cp[3] << 24));
 }
 
@@ -111,7 +111,7 @@ ScancoImageIO ::DecodeInt(const void * data)
 void
 ScancoImageIO ::EncodeInt(int data, void * target)
 {
-  unsigned char * targetAsUnsignedChar = static_cast<unsigned char *>(target);
+  auto * targetAsUnsignedChar = static_cast<unsigned char *>(target);
   targetAsUnsignedChar[0] = (unsigned char)(data);
   targetAsUnsignedChar[1] = (unsigned char)(data >> 8);
   targetAsUnsignedChar[2] = (unsigned char)(data >> 16);
@@ -122,7 +122,7 @@ ScancoImageIO ::EncodeInt(int data, void * target)
 float
 ScancoImageIO ::DecodeFloat(const void * data)
 {
-  const unsigned char * cp = static_cast<const unsigned char *>(data);
+  const auto * cp = static_cast<const unsigned char *>(data);
   // different ordering and exponent bias than IEEE 754 float
   union
   {
@@ -138,7 +138,7 @@ double
 ScancoImageIO ::DecodeDouble(const void * data)
 {
   // different ordering and exponent bias than IEEE 754 double
-  const unsigned char * cp = static_cast<const unsigned char *>(data);
+  const auto * cp = static_cast<const unsigned char *>(data);
   union
   {
     double   d;
@@ -1049,7 +1049,7 @@ ScancoImageIO ::Read(void * buffer)
   // Close the file
   infile.close();
 
-  unsigned char * dataPtr = reinterpret_cast<unsigned char *>(buffer);
+  auto * dataPtr = reinterpret_cast<unsigned char *>(buffer);
 
   if (this->m_Compression == 0x00b1)
   {
@@ -1178,7 +1178,7 @@ ScancoImageIO ::WriteISQHeader(std::ofstream * file)
   // 3 -> ISQ data type
   ScancoImageIO::EncodeInt(3, header);
   header += 4;
-  const SizeValueType numberOfBytes = static_cast<SizeValueType>(this->GetImageSizeInBytes());
+  const auto numberOfBytes = static_cast<SizeValueType>(this->GetImageSizeInBytes());
   if (numberOfBytes > NumericTraits<int>::max())
   {
     ScancoImageIO::EncodeInt(0, header);
@@ -1286,8 +1286,8 @@ ScancoImageIO ::Write(const void * buffer)
   this->OpenFileForWriting(outFile, m_FileName, false);
   outFile.seekp(this->m_HeaderSize, std::ios::beg);
 
-  const SizeValueType numberOfBytes = static_cast<SizeValueType>(this->GetImageSizeInBytes());
-  const SizeValueType numberOfComponents = static_cast<SizeValueType>(this->GetImageSizeInComponents());
+  const auto numberOfBytes = static_cast<SizeValueType>(this->GetImageSizeInBytes());
+  const auto numberOfComponents = static_cast<SizeValueType>(this->GetImageSizeInComponents());
 
   if (this->GetComponentType() != IOComponentEnum::SHORT)
   {
