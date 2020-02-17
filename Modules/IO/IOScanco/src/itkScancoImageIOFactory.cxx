@@ -24,7 +24,7 @@ namespace itk
 ScancoImageIOFactory::ScancoImageIOFactory()
 {
   this->RegisterOverride(
-    "itkImageIOBase", "itkScancoImageIO", "Scanco Image IO", 1, CreateObjectFunction<ScancoImageIO>::New());
+    "itkImageIOBase", "itkScancoImageIO", "Scanco Image IO", true, CreateObjectFunction<ScancoImageIO>::New());
 }
 
 const char *
