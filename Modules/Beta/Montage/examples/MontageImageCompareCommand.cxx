@@ -356,11 +356,11 @@ RegressionTestImage(const char * testImageFilename,
     if (createDifferenceImage)
     {
       // if there are discrepencies, create an diff image
-      std::cout << "<DartMeasurement name=\"ImageError\" type=\"numeric/double\">" << averageIntensityDifference
+      std::cout << R"(<DartMeasurement name="ImageError" type="numeric/double">)" << averageIntensityDifference
                 << "</DartMeasurement>" << std::endl
 
-                << "<DartMeasurement name=\"NumberOfPixelsError\" type=\"numeric/int\">"
-                << numberOfPixelsWithDifferences << "</DartMeasurement>" << std::endl;
+                << R"(<DartMeasurement name="NumberOfPixelsError" type="numeric/int">)" << numberOfPixelsWithDifferences
+                << "</DartMeasurement>" << std::endl;
 
       std::ostringstream diffName;
       diffName << testImageFilename << ".diff.png";
@@ -393,7 +393,7 @@ RegressionTestImage(const char * testImageFilename,
         std::cerr << "Error during write of " << diffName.str() << std::endl;
       }
 
-      std::cout << "<DartMeasurementFile name=\"DifferenceImage\" type=\"image/png\">";
+      std::cout << R"(<DartMeasurementFile name="DifferenceImage" type="image/png">)";
       std::cout << diffName.str();
       std::cout << "</DartMeasurementFile>" << std::endl;
     }
@@ -428,7 +428,7 @@ RegressionTestImage(const char * testImageFilename,
       std::cerr << "Error during write of " << baseName.str() << std::endl;
     }
 
-    std::cout << "<DartMeasurementFile name=\"BaselineImage\" type=\"image/png\">";
+    std::cout << R"(<DartMeasurementFile name="BaselineImage" type="image/png">)";
     std::cout << baseName.str();
     std::cout << "</DartMeasurementFile>" << std::endl;
 
@@ -463,7 +463,7 @@ RegressionTestImage(const char * testImageFilename,
       std::cerr << "Error during write of " << testName.str() << std::endl;
     }
 
-    std::cout << "<DartMeasurementFile name=\"TestImage\" type=\"image/png\">";
+    std::cout << R"(<DartMeasurementFile name="TestImage" type="image/png">)";
     std::cout << testName.str();
     std::cout << "</DartMeasurementFile>" << std::endl;
   }
