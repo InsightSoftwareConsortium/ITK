@@ -39,8 +39,8 @@ namespace itk
  * \ingroup   ITKVtkGlue
  *
  * \sphinx
- * \sphinxexample{Remote/SphinxExamples/DisplayITKImage,Display ITK Image}
- * \sphinxexample{IO/itkVtkImageConvertDICOM,Uses a custom user matrix to align the image with DICOM physical space}
+ * \sphinxexample{Bridge/VtkGlue/ConvertAnitkImageTovtkImageData,Convert an itk::Image to vtkImageData in a pipeline}
+ * \sphinxexample{Bridge/VtkGlue/ConvertRGBvtkImageDataToAnitkImage,Convert RGB vtkImageData to an itk::Image}
  * \endsphinx
  */
 template <typename TInputImage>
