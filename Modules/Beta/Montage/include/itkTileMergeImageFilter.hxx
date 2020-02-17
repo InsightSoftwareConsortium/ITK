@@ -336,7 +336,7 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>::GenerateO
   // now we split the totalRegion into pieces which have contributions
   // by the same input tiles
   m_Regions.push_back(totalRegion);
-  m_RegionContributors.push_back({}); // we start with an empty set
+  m_RegionContributors.emplace_back(); // we start with an empty set
   for (SizeValueType i = 0; i < this->m_LinearMontageSize; i++)
   {
     // first determine the region indices which the newRegion overlaps
