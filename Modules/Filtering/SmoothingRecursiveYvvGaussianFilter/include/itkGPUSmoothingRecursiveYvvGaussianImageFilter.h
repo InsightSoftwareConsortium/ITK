@@ -140,30 +140,30 @@ public:
   /** Get OpenCL Kernel source as a string, creates a GetOpenCLSource method */
   itkGetOpenCLSourceFromKernelMacro(GPUSmoothingRecursiveYvvGaussianImageFilterKernel);
   void
-  SetInput(const TInputImage * input);
+  SetInput(const TInputImage * input) override;
   using Superclass::SetInput;
 
 protected:
   GPUSmoothingRecursiveYvvGaussianImageFilter();
-  virtual ~GPUSmoothingRecursiveYvvGaussianImageFilter() {}
+  ~GPUSmoothingRecursiveYvvGaussianImageFilter() override {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Data */
   void
-  GPUGenerateData(void);
+  GPUGenerateData(void) override;
 
   /** GPUSmoothingRecursiveYvvGaussianImageFilter needs all of the input to produce an
    * output. Therefore, GPUSmoothingRecursiveYvvGaussianImageFilter needs to provide
    * an implementation for GenerateInputRequestedRegion in order to inform
    * the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void
-  GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
+  void
+  GenerateInputRequestedRegion() throw(InvalidRequestedRegionError) override;
 
   // Override since the filter produces the entire dataset
   void
-  EnlargeOutputRequestedRegion(DataObject * output);
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
   void
   AllocateGPUCoefficients();
