@@ -279,7 +279,7 @@ protected:
   void
   PrintSelf(std::ostream & os, itk::Indent indent) const override;
 
-  ~RLEImage() override {}
+  ~RLEImage() override = default;
   /** Compute helper matrices used to transform Index coordinates to
    * PhysicalPoint coordinates and back. This method is virtual and will be
    * overloaded in derived classes in order to provide backward compatibility

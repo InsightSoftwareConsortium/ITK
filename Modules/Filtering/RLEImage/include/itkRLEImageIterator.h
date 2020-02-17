@@ -60,9 +60,9 @@ public:
 
   /** Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor. */
-  ImageIterator() {}
+  ImageIterator() = default;
   /** Default Destructor */
-  ~ImageIterator() override {}
+  ~ImageIterator() override = default;
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
   ImageIterator(const Self & it)

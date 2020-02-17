@@ -104,7 +104,7 @@ public:
   }
 
   /** Default Destructor. */
-  virtual ~ImageConstIterator() {}
+  virtual ~ImageConstIterator() = default;
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
   ImageConstIterator(const Self & it)
