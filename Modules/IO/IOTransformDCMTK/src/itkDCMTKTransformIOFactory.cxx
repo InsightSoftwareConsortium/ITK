@@ -28,13 +28,13 @@ DCMTKTransformIOFactory ::DCMTKTransformIOFactory()
   this->RegisterOverride("itkTransformIOBaseTemplate",
                          "itkDCMTKTransformIO",
                          "DCMTK Transform float IO",
-                         1,
+                         true,
                          CreateObjectFunction<DCMTKTransformIO<float>>::New());
 
   this->RegisterOverride("itkTransformIOBaseTemplate",
                          "itkDCMTKTransformIO",
                          "DCMTK Transform double IO",
-                         1,
+                         true,
                          CreateObjectFunction<DCMTKTransformIO<double>>::New());
 }
 
