@@ -32,7 +32,7 @@ STLMeshIOFactory ::STLMeshIOFactory()
   this->RegisterOverride("itkMeshIOBase", "itkSTLMeshIO", "STL IO", true, CreateObjectFunction<STLMeshIO>::New());
 }
 
-STLMeshIOFactory ::~STLMeshIOFactory() {}
+STLMeshIOFactory ::~STLMeshIOFactory() = default;
 
 const char *
 STLMeshIOFactory ::GetITKSourceVersion() const
