@@ -76,8 +76,8 @@ protected:
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
-  double m_Cutoff;
-  double m_Order;
+  double m_Cutoff{ 0.4 };
+  double m_Order{ 4 };
 };
 
 } // end namespace itk

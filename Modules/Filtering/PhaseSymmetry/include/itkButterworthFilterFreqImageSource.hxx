@@ -28,8 +28,7 @@ namespace itk
 
 template <typename TOutputImage>
 ButterworthFilterFreqImageSource<TOutputImage>::ButterworthFilterFreqImageSource()
-  : m_Cutoff(0.4)
-  , m_Order(4)
+
 {}
 
 

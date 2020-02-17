@@ -110,7 +110,7 @@ private:
   ArrayType m_Frequency;
 
   /** The phase shift. */
-  double m_PhaseOffset;
+  double m_PhaseOffset{ 0.0 };
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Really only want to use a floating point pixel because the domain of the

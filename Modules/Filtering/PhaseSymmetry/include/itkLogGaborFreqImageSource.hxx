@@ -26,7 +26,7 @@ namespace itk
 
 template <typename TOutputImage>
 LogGaborFreqImageSource<TOutputImage>::LogGaborFreqImageSource()
-  : m_Sigma(1.0)
+
 {
   // Gaussian parameters, defined so that the gaussian
   // is centered in the default image

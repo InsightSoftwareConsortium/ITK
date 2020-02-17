@@ -92,7 +92,7 @@ private:
   ArrayType m_Frequency;
 
   /** The phase shift. */
-  double m_PhaseOffset;
+  double m_PhaseOffset{ 0.0 };
 };
 } // end namespace itk
 

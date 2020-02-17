@@ -75,7 +75,7 @@ protected:
 
 private:
   // Ratio of k/wo in each direction
-  double m_Sigma;
+  double m_Sigma{ 1.0 };
 
   // The wavelengths in each direction
   ArrayType m_Wavelengths;

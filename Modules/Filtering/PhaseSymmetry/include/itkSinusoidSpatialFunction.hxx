@@ -26,7 +26,7 @@ namespace itk
 {
 template <typename TOutput, unsigned int VImageDimension, typename TInput>
 SinusoidSpatialFunction<TOutput, VImageDimension, TInput>::SinusoidSpatialFunction()
-  : m_PhaseOffset(0.0)
+
 {
   m_Frequency.Fill(1.0);
 }

@@ -28,7 +28,7 @@ namespace itk
 
 template <typename TOutputImage>
 SinusoidImageSource<TOutputImage>::SinusoidImageSource()
-  : m_PhaseOffset(0.0)
+
 {
   m_Frequency.Fill(1.0);
 }
