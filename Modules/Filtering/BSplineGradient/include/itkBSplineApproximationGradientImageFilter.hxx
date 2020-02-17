@@ -53,7 +53,7 @@ BSplineApproximationGradientImageFilter<TInputImage, TOutputValueType>::Generate
   Superclass::GenerateInputRequestedRegion();
 
   typename InputImageType::Pointer input = const_cast<InputImageType *>(this->GetInput());
-  if (input.GetPointer() == NULL)
+  if (input.GetPointer() == nullptr)
   {
     return;
   }
@@ -76,7 +76,7 @@ BSplineApproximationGradientImageFilter<TInputImage, TOutputValueType>::Generate
 {
   typename InputImageType::ConstPointer input = this->GetInput();
 
-  if (input.GetPointer() == NULL)
+  if (input.GetPointer() == nullptr)
   {
     return;
   }
