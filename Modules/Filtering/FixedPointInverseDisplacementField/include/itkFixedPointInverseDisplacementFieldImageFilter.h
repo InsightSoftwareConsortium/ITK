@@ -158,7 +158,7 @@ protected:
   void
   GenerateInputRequestedRegion() override;
 
-  unsigned int m_NumberOfIterations;
+  unsigned int m_NumberOfIterations{ 5 };
 
 
 private:

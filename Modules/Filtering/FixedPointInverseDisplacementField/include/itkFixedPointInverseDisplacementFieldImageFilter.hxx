@@ -28,7 +28,6 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 FixedPointInverseDisplacementFieldImageFilter<TInputImage,
                                               TOutputImage>::FixedPointInverseDisplacementFieldImageFilter()
-  : m_NumberOfIterations(5)
 {
 
   m_OutputSpacing.Fill(1.0);
