@@ -86,9 +86,9 @@ class ITKCommon_EXPORT LinuxMemoryUsageObserver : public MemoryUsageObserverBase
 {
 public:
   /** destructor */
-  virtual ~LinuxMemoryUsageObserver();
-  virtual MemoryLoadType
-  GetMemoryUsage();
+  ~LinuxMemoryUsageObserver() override;
+  MemoryLoadType
+  GetMemoryUsage() override;
 };
 #endif // __linux__
 
@@ -133,9 +133,9 @@ class ITKCommon_EXPORT MallinfoMemoryUsageObserver : public MemoryUsageObserverB
 {
 public:
   /** destructor */
-  virtual ~MallinfoMemoryUsageObserver();
-  virtual MemoryLoadType
-  GetMemoryUsage();
+  ~MallinfoMemoryUsageObserver() override;
+  MemoryLoadType
+  GetMemoryUsage() override;
 };
 #  endif // Mallinfo
 #endif   // !defined(WIN32) && !defined(_WIN32)

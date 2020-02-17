@@ -55,7 +55,7 @@ public:
   /** Get/Set the number of work units to create. TBBMultiThreader
    * does not limit the number of work units. This number is
    * only respected by SetSingleMethod/SingleMethodExecute. */
-  virtual void
+  void
   SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits) override;
 
   /** Execute the SingleMethod (as define by SetSingleMethod) using

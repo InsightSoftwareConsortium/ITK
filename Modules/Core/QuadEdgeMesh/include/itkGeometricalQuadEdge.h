@@ -113,7 +113,7 @@ public:
   operator=(const GeometricalQuadEdge &) = default;
   GeometricalQuadEdge &
   operator=(GeometricalQuadEdge &&) = default;
-  virtual ~GeometricalQuadEdge() override = default;
+  ~GeometricalQuadEdge() override = default;
 
   /** Set methods. */
   inline void

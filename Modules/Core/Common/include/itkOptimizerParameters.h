@@ -111,7 +111,7 @@ public:
   const Self &
   operator=(const VnlVectorType & rhs);
 
-  virtual ~OptimizerParameters();
+  ~OptimizerParameters() override;
 
 private:
   OptimizerParametersHelperType * m_Helper;

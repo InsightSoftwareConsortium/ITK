@@ -244,7 +244,7 @@ protected:
    *  valid
    *
    * The default is to return the minimum value in the list. */
-  virtual TimeStepType
+  TimeStepType
   ResolveTimeStep(const std::vector<TimeStepType> & timeStepList, const std::vector<bool> & valid) const override;
 
   /** This method is called after the solution has been generated to allow

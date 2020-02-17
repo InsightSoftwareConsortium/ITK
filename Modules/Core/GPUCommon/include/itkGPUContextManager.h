@@ -60,7 +60,7 @@ public:
 
 private:
   GPUContextManager();
-  ~GPUContextManager();
+  ~GPUContextManager() override;
 
   cl_platform_id     m_Platform;
   cl_context         m_Context;

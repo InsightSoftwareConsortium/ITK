@@ -86,7 +86,7 @@ public:
 
 #if !defined(ITK_WRAPPING_PARSER)
   /** Empty implementation - this will not be used by GPU filters */
-  virtual PixelType
+  PixelType
   ComputeUpdate(const NeighborhoodType & itkNotUsed(neighborhood),
                 void *                   itkNotUsed(globalData),
                 const FloatOffsetType &  itkNotUsed(offset = FloatOffsetType(0.0))) override

@@ -302,14 +302,14 @@ private:
   SetCoefficientImageInformationFromFixedParameters() override;
 
   /** Methods have empty implementations */
-  virtual void
+  void
   SetFixedParametersGridSizeFromTransformDomainInformation() const override{};
-  virtual void
+  void
   SetFixedParametersGridOriginFromTransformDomainInformation() const override{};
-  virtual void
+  void
   SetFixedParametersGridSpacingFromTransformDomainInformation() const override
   {}
-  virtual void
+  void
   SetFixedParametersGridDirectionFromTransformDomainInformation() const override{};
 
   /** Check if a continuous index is inside the valid region. */
