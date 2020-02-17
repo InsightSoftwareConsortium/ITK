@@ -83,21 +83,21 @@ public:
 
   /** Advance one step. */
   virtual void
-  AdvanceOneStep(void);
+  AdvanceOneStep();
 
   /** Start optimization. */
   void
-  StartOptimization(void) override;
+  StartOptimization() override;
 
   /** Resume previously stopped optimization with current parameters
    * \sa StopOptimization. */
   void
-  ResumeOptimization(void);
+  ResumeOptimization();
 
   /** Stop optimization.
    * \sa ResumeOptimization */
   void
-  StopOptimization(void);
+  StopOptimization();
 
   /**
    * Get/set whether the nieghborhood is defined by face connectivity or

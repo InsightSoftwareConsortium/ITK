@@ -77,7 +77,7 @@ SpeedFunctionPathInformation<TPoint>::SetCurrent(const PointType & newcurrent)
 
 template <typename TPoint>
 void
-SpeedFunctionPathInformation<TPoint>::Advance(void)
+SpeedFunctionPathInformation<TPoint>::Advance()
 {
   m_Front--;
 }
