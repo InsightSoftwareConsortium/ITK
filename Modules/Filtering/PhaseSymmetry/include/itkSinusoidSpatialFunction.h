@@ -83,7 +83,7 @@ public:
 
 protected:
   SinusoidSpatialFunction();
-  virtual ~SinusoidSpatialFunction();
+  ~SinusoidSpatialFunction() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

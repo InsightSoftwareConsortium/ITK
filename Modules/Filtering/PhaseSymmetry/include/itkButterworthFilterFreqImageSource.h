@@ -65,7 +65,7 @@ public:
 
 protected:
   ButterworthFilterFreqImageSource();
-  virtual ~ButterworthFilterFreqImageSource();
+  ~ButterworthFilterFreqImageSource() override;
 
   /** Typedef to describe the output image region type. */
   using OutputImageRegionType = typename TOutputImage::RegionType;

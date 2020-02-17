@@ -125,7 +125,7 @@ public:
 
 protected:
   PhaseSymmetryImageFilter();
-  virtual ~PhaseSymmetryImageFilter() {};
+  ~PhaseSymmetryImageFilter() override {};
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
