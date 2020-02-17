@@ -27,7 +27,7 @@ public:
     {
       return;
     }
-    const itk::ProcessObject * processObject = dynamic_cast<const itk::ProcessObject *>(caller);
+    const auto * processObject = dynamic_cast<const itk::ProcessObject *>(caller);
     if (!processObject)
     {
       return;
