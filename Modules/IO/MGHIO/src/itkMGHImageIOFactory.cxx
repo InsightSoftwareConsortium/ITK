@@ -35,7 +35,7 @@ MGHImageIOFactory::MGHImageIOFactory()
 MGHImageIOFactory::~MGHImageIOFactory() {}
 
 const char *
-MGHImageIOFactory::GetITKSourceVersion(void) const
+MGHImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -51,7 +51,7 @@ MGHImageIOFactory::GetDescription() const
 static bool MGHImageIOFactoryHasBeenRegistered = false;
 
 void MGHIO_EXPORT
-     MGHImageIOFactoryRegister__Private(void)
+     MGHImageIOFactoryRegister__Private()
 {
   if (!MGHImageIOFactoryHasBeenRegistered)
   {
