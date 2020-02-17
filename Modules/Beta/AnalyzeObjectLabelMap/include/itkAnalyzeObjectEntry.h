@@ -581,43 +581,43 @@ private:
   void
   ReadBytes(std::ifstream & inputFileStream, TValue * dest, const int Replications, const bool NeedByteSwap);
 
-  char          m_Name[33];              /*bytes   0-31*/
-  int           m_DisplayFlag;           /*bytes  32-35*/
-  unsigned char m_CopyFlag;              /*bytes  36-36*/
-  unsigned char m_MirrorFlag;            /*bytes  37-37*/
-  unsigned char m_StatusFlag;            /*bytes  38-38*/
-  unsigned char m_NeighborsUsedFlag;     /*bytes  39-39*/
-  int           m_Shades;                /*bytes  40-43*/
-  int           m_StartRed;              /*bytes  44-47*/
-  int           m_StartGreen;            /*bytes  48-51*/
-  int           m_StartBlue;             /*bytes  52-55*/
-  int           m_EndRed;                /*bytes  53-58*/
-  int           m_EndGreen;              /*bytes  59-62*/
-  int           m_EndBlue;               /*bytes  63-66*/
-  int           m_XRotation;             /*bytes  67-70*/
-  int           m_YRotation;             /*bytes  71-74*/
-  int           m_ZRotation;             /*bytes  75-78*/
-  int           m_XTranslation;          /*bytes  79-82*/
-  int           m_YTranslation;          /*bytes  83-86*/
-  int           m_ZTranslation;          /*bytes  87-90*/
-  int           m_XCenter;               /*bytes  91-94*/
-  int           m_YCenter;               /*bytes  95-98*/
-  int           m_ZCenter;               /*bytes  99-102*/
-  int           m_XRotationIncrement;    /*bytes  103-106*/
-  int           m_YRotationIncrement;    /*bytes  107-110*/
-  int           m_ZRotationIncrement;    /*bytes  111-114*/
-  int           m_XTranslationIncrement; /*bytes  115-118*/
-  int           m_YTranslationIncrement; /*bytes  119-121*/
-  int           m_ZTranslationIncrement; /*bytes  122-125*/
-  short int     m_MinimumXValue;         /*bytes  126-127*/
-  short int     m_MinimumYValue;         /*bytes  128-129*/
-  short int     m_MinimumZValue;         /*bytes  130-131*/
-  short int     m_MaximumXValue;         /*bytes  132-133*/
-  short int     m_MaximumYValue;         /*bytes  134-135*/
-  short int     m_MaximumZValue;         /*bytes  136-137*/
-  float         m_Opacity;               /*bytes  138-141*/
-  int           m_OpacityThickness;      /*bytes  142-145*/
-  float         m_BlendFactor;           /*bytes  146-149*/
+  char          m_Name[33];                   /*bytes   0-31*/
+  int           m_DisplayFlag{ 1 };           /*bytes  32-35*/
+  unsigned char m_CopyFlag{ 0 };              /*bytes  36-36*/
+  unsigned char m_MirrorFlag{ 0 };            /*bytes  37-37*/
+  unsigned char m_StatusFlag{ 0 };            /*bytes  38-38*/
+  unsigned char m_NeighborsUsedFlag{ 0 };     /*bytes  39-39*/
+  int           m_Shades{ 1 };                /*bytes  40-43*/
+  int           m_StartRed{ 0 };              /*bytes  44-47*/
+  int           m_StartGreen{ 0 };            /*bytes  48-51*/
+  int           m_StartBlue{ 0 };             /*bytes  52-55*/
+  int           m_EndRed{ 0 };                /*bytes  53-58*/
+  int           m_EndGreen{ 0 };              /*bytes  59-62*/
+  int           m_EndBlue{ 0 };               /*bytes  63-66*/
+  int           m_XRotation{ 0 };             /*bytes  67-70*/
+  int           m_YRotation{ 0 };             /*bytes  71-74*/
+  int           m_ZRotation{ 0 };             /*bytes  75-78*/
+  int           m_XTranslation{ 0 };          /*bytes  79-82*/
+  int           m_YTranslation{ 0 };          /*bytes  83-86*/
+  int           m_ZTranslation{ 0 };          /*bytes  87-90*/
+  int           m_XCenter{ 0 };               /*bytes  91-94*/
+  int           m_YCenter{ 0 };               /*bytes  95-98*/
+  int           m_ZCenter{ 0 };               /*bytes  99-102*/
+  int           m_XRotationIncrement{ 0 };    /*bytes  103-106*/
+  int           m_YRotationIncrement{ 0 };    /*bytes  107-110*/
+  int           m_ZRotationIncrement{ 0 };    /*bytes  111-114*/
+  int           m_XTranslationIncrement{ 0 }; /*bytes  115-118*/
+  int           m_YTranslationIncrement{ 0 }; /*bytes  119-121*/
+  int           m_ZTranslationIncrement{ 0 }; /*bytes  122-125*/
+  short int     m_MinimumXValue{ 0 };         /*bytes  126-127*/
+  short int     m_MinimumYValue{ 0 };         /*bytes  128-129*/
+  short int     m_MinimumZValue{ 0 };         /*bytes  130-131*/
+  short int     m_MaximumXValue{ 0 };         /*bytes  132-133*/
+  short int     m_MaximumYValue{ 0 };         /*bytes  134-135*/
+  short int     m_MaximumZValue{ 0 };         /*bytes  136-137*/
+  float         m_Opacity{ 0.5 };             /*bytes  138-141*/
+  int           m_OpacityThickness{ 1 };      /*bytes  142-145*/
+  float         m_BlendFactor{ 0 };           /*bytes  146-149*/
 
   // TODO: Need to use these at some point or maybe just delete them
 #if 0

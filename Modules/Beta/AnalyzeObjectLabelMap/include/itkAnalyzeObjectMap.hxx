@@ -29,7 +29,6 @@ namespace itk
 
 template <class TImage, class TRGBImage>
 AnalyzeObjectMap<TImage, TRGBImage>::AnalyzeObjectMap()
-  : m_NumberOfObjects(1)
 {
   // Create an object map of size 1,1,1 and have the pixles be 0.  Also, create one
   // object entry just like Analyze does with the name "Original", this entry

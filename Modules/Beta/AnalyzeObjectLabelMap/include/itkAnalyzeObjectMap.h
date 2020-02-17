@@ -221,7 +221,7 @@ protected:
 
 private:
   /** Number of Objects in the object file */
-  int m_NumberOfObjects;
+  int m_NumberOfObjects{ 1 };
   /** Pointers to individual objects in the object map, maximum of 256 */
   AnalyzeObjectEntryArrayType m_AnaylzeObjectEntryArray;
 };
