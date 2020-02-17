@@ -268,10 +268,7 @@ private:
     using Self = VertexLookupNode;
 
     /** Constructors */
-    VertexLookupNode()
-      : m_X(0)
-      , m_Y(0)
-    {}
+    VertexLookupNode() {}
     VertexLookupNode(unsigned long x, unsigned long y)
       : m_X(x)
       , m_Y(y)
@@ -312,8 +309,8 @@ private:
     }
 
   private:
-    unsigned long m_X;
-    unsigned long m_Y;
+    unsigned long m_X{ 0 };
+    unsigned long m_Y{ 0 };
   };
 
   /** \class VertexLookupMap A private class providing vertex lookup functionality.
@@ -415,13 +412,13 @@ private:
   InterpolatorPointer         m_Interpolator;
   GradientInterpolatorPointer m_GradientInterpolator;
   SpacingValueType            m_MaxSpacing;
-  bool                        m_GenerateTriangleFaces;
-  bool                        m_ProjectVerticesToIsoSurface;
-  bool                        m_SavePixelAsCellData;
-  double                      m_ProjectVertexSurfaceDistanceThreshold;
-  double                      m_ProjectVertexStepLength;
-  double                      m_ProjectVertexStepLengthRelaxationFactor;
-  unsigned int                m_ProjectVertexMaximumNumberOfSteps;
+  bool                        m_GenerateTriangleFaces{ true };
+  bool                        m_ProjectVerticesToIsoSurface{ true };
+  bool                        m_SavePixelAsCellData{ false };
+  double                      m_ProjectVertexSurfaceDistanceThreshold{ 0.5 };
+  double                      m_ProjectVertexStepLength{ -1.0 };
+  double                      m_ProjectVertexStepLengthRelaxationFactor{ 0.95 };
+  unsigned int                m_ProjectVertexMaximumNumberOfSteps{ 50 };
 #if DEBUG_PRINT
   unsigned int m_ProjectVertexTerminate[3];
 #endif
