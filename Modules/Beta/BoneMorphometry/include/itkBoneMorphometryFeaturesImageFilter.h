@@ -136,7 +136,7 @@ protected:
   GenerateOutputInformation() override;
 
   /** Multi-thread version GenerateData. */
-  virtual void
+  void
   DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
 
   bool
