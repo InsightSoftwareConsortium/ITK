@@ -29,7 +29,8 @@ MGHImageIOFactory::PrintSelf(std::ostream &, Indent) const
 
 MGHImageIOFactory::MGHImageIOFactory()
 {
-  this->RegisterOverride("itkImageIOBase", "itkMGHImageIO", "MGH Image IO", 1, CreateObjectFunction<MGHImageIO>::New());
+  this->RegisterOverride(
+    "itkImageIOBase", "itkMGHImageIO", "MGH Image IO", true, CreateObjectFunction<MGHImageIO>::New());
 }
 
 MGHImageIOFactory::~MGHImageIOFactory() {}
