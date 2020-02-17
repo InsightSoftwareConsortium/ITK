@@ -39,7 +39,7 @@ class ITK_TEMPLATE_EXPORT InMemoryMontageTest : public itk::Object
 {
 public:
   InMemoryMontageTest() = default;
-  ~InMemoryMontageTest() = default;
+  ~InMemoryMontageTest() override = default;
 
   ITK_DISALLOW_COPY_AND_ASSIGN(InMemoryMontageTest);
 

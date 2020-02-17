@@ -118,7 +118,7 @@ public:
 
 protected:
   MaxPhaseCorrelationOptimizer() = default;
-  virtual ~MaxPhaseCorrelationOptimizer() = default;
+  ~MaxPhaseCorrelationOptimizer() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
