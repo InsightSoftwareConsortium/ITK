@@ -57,7 +57,7 @@ IterateNeighborhoodOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
  * Start the optimization
  */
 void
-IterateNeighborhoodOptimizer ::StartOptimization(void)
+IterateNeighborhoodOptimizer ::StartOptimization()
 {
   m_CurrentIteration = 0;
   this->SetCurrentPosition(this->GetInitialPosition());
@@ -68,7 +68,7 @@ IterateNeighborhoodOptimizer ::StartOptimization(void)
  * Resume the optimization
  */
 void
-IterateNeighborhoodOptimizer ::ResumeOptimization(void)
+IterateNeighborhoodOptimizer ::ResumeOptimization()
 {
   m_Stop = false;
 
@@ -104,7 +104,7 @@ IterateNeighborhoodOptimizer ::ResumeOptimization(void)
  * Stop optimization
  */
 void
-IterateNeighborhoodOptimizer ::StopOptimization(void)
+IterateNeighborhoodOptimizer ::StopOptimization()
 {
   m_Stop = true;
   InvokeEvent(EndEvent());
@@ -115,7 +115,7 @@ IterateNeighborhoodOptimizer ::StopOptimization(void)
  * Advance one Step by searching the neighborhood
  */
 void
-IterateNeighborhoodOptimizer ::AdvanceOneStep(void)
+IterateNeighborhoodOptimizer ::AdvanceOneStep()
 {
   const unsigned int     spaceDimension = m_CostFunction->GetNumberOfParameters();
   const ParametersType & currentPosition = this->GetCurrentPosition();
