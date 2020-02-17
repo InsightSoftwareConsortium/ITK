@@ -43,7 +43,7 @@ AdditiveGaussianNoiseQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::PrintSelf(std:
 
 template <typename TInputMesh, typename TOutputMesh>
 void
-AdditiveGaussianNoiseQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::GenerateData(void)
+AdditiveGaussianNoiseQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
 {
   typename TInputMesh::ConstPointer inputMesh = this->GetInput();
   typename TOutputMesh::Pointer     outputMesh = this->GetOutput();

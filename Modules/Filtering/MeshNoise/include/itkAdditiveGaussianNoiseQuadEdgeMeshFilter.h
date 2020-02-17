@@ -79,7 +79,7 @@ protected:
 
   /** Generate Requested Data */
   void
-  GenerateData(void) override;
+  GenerateData() override;
 
   CoordRepType m_Mean;
   CoordRepType m_Sigma;

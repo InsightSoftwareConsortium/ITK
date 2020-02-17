@@ -43,7 +43,7 @@ AdditiveGaussianNoiseMeshFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream
 
 template <typename TInputMesh, typename TOutputMesh>
 void
-AdditiveGaussianNoiseMeshFilter<TInputMesh, TOutputMesh>::GenerateData(void)
+AdditiveGaussianNoiseMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
 {
   using InputPointsContainer = typename TInputMesh::PointsContainer;
   using OutputPointsContainer = typename TOutputMesh::PointsContainer;
