@@ -231,7 +231,7 @@ private:
   int m_MaxIteration{ 100 };
   int m_CurrentIteration{ 0 };
 
-  TERMINATION_CODE_ENUM m_TerminationCode;
+  TERMINATION_CODE_ENUM m_TerminationCode{ TERMINATION_CODE_ENUM::NOT_CONVERGED };
   ComponentVectorType   m_ComponentVector;
   ProportionVectorType  m_InitialProportions;
   ProportionVectorType  m_Proportions;

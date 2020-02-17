@@ -41,7 +41,6 @@ namespace itk
 
 template <unsigned int VImageDimension>
 ImageBase<VImageDimension>::ImageBase()
-  : m_OffsetTable{}
 {
   m_Spacing.Fill(1.0);
   m_Origin.Fill(0.0);

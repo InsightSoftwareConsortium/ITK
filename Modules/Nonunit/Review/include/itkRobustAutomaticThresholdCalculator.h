@@ -114,8 +114,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  bool           m_Valid; // Have moments been computed yet?
-  double         m_Pow;
+  bool           m_Valid{ false }; // Have moments been computed yet?
+  double         m_Pow{ 1 };
   InputPixelType m_Output;
 
   InputImageConstPointer    m_Input;

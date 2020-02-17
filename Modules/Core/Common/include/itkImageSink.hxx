@@ -27,9 +27,6 @@ namespace itk
 
 template <typename TInputImage>
 ImageSink<TInputImage>::ImageSink()
-  : m_NumberOfStreamDivisions{ 1 }
-  , m_CoordinateTolerance{ Self::GetGlobalDefaultCoordinateTolerance() }
-  , m_DirectionTolerance{ Self::GetGlobalDefaultDirectionTolerance() }
 {
   // create default region splitter
   m_RegionSplitter = ImageRegionSplitterSlowDimension::New();

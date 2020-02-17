@@ -32,7 +32,6 @@ template <typename TDisplacementField, typename TOutputImage>
 GridForwardWarpImageFilter<TDisplacementField, TOutputImage>::GridForwardWarpImageFilter()
   : m_BackgroundValue(NumericTraits<PixelType>::ZeroValue())
   , m_ForegroundValue(NumericTraits<PixelType>::OneValue())
-  , m_GridPixSpacing(5)
 {}
 
 template <typename TDisplacementField, typename TOutputImage>

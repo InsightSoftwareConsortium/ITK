@@ -319,7 +319,7 @@ protected:
   OutputImageRegionType m_OutputImageRegion;
 
 private:
-  DirectionCollapseStrategyEnum m_DirectionCollapseStrategy;
+  DirectionCollapseStrategyEnum m_DirectionCollapseStrategy{ DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN };
 };
 
 } // end namespace itk

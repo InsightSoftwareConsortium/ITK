@@ -34,11 +34,9 @@ namespace itk
 
 struct ExceptionGlobals
 {
-  ExceptionGlobals()
-    : m_ExceptionAction(FloatingPointExceptions::ExceptionActionEnum::ABORT)
-    , m_Enabled(false){};
-  FloatingPointExceptions::ExceptionActionEnum m_ExceptionAction;
-  bool                                         m_Enabled;
+  ExceptionGlobals(){};
+  FloatingPointExceptions::ExceptionActionEnum m_ExceptionAction{ FloatingPointExceptions::ExceptionActionEnum::ABORT };
+  bool                                         m_Enabled{ false };
 };
 
 void

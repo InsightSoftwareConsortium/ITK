@@ -124,7 +124,7 @@ protected:
   /**
    * Pointer to material properties of the element
    */
-  const MaterialLinearElasticity * m_mat;
+  const MaterialLinearElasticity * m_mat{ nullptr };
 
 }; // class Element1DStress
 } // end namespace fem

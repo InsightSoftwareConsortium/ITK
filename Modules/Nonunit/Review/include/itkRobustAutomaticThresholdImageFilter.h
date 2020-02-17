@@ -161,7 +161,7 @@ protected:
   GenerateData() override;
 
 private:
-  double          m_Pow;
+  double          m_Pow{ 1 };
   InputPixelType  m_Threshold;
   OutputPixelType m_InsideValue;
   OutputPixelType m_OutsideValue;

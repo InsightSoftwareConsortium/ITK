@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __vtkCaptureScreen_h
-#define __vtkCaptureScreen_h
+#ifndef vtkCaptureScreen_h
+#define vtkCaptureScreen_h
 
 #include <string>
 #include "vtkSmartPointer.h"
@@ -34,9 +34,7 @@ public:
     : m_Renderer(iRenderer)
   {}
 
-  vtkCaptureScreen()
-    : m_Renderer(nullptr)
-  {}
+  vtkCaptureScreen() {}
 
   ~vtkCaptureScreen() {}
 
@@ -58,7 +56,7 @@ private:
   void
   operator=(const vtkCaptureScreen &);
 
-  vtkRenderWindow * m_Renderer;
+  vtkRenderWindow * m_Renderer{ nullptr };
 
   void
   Capture(vtkRenderWindow * iRenderer, const std::string & iFileName) const

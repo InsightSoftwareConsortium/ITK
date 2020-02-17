@@ -175,14 +175,13 @@ public:
   LevelSetDataPointerVector m_LevelSetDataPointerVector;
 
   unsigned int     m_FunctionCount;
-  unsigned int     m_NumberOfNeighbors;
+  unsigned int     m_NumberOfNeighbors{ 6 };
   ListImagePointer m_NearestNeighborListImage;
   KdTreePointer    m_KdTree;
 
 protected:
   RegionBasedLevelSetFunctionSharedData()
-    : m_NumberOfNeighbors(6)
-    , m_KdTree(nullptr)
+    : m_KdTree(nullptr)
   {}
   ~RegionBasedLevelSetFunctionSharedData() override {}
 };

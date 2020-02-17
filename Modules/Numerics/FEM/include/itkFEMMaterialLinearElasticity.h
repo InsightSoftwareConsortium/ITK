@@ -141,27 +141,27 @@ protected:
   /**
    * Young modulus
    */
-  double m_YoungModulus;
+  double m_YoungModulus{ 100.0 };
 
   /**
    * Cross section area of a line element
    */
-  double m_CrossSectionalArea; //
+  double m_CrossSectionalArea{ 1.0 }; //
 
   /**
    * Moment of inertia
    */
-  double m_MomentOfInertia;
+  double m_MomentOfInertia{ 1.0 };
 
   /**
    * Poisson's ratio
    */
-  double m_PoissonRatio;
+  double m_PoissonRatio{ 0.2 };
 
   /**
    * Thickness
    */
-  double m_Thickness;
+  double m_Thickness{ 1.0 };
 
   /*
    * ... we can add properties here as required without the influence on the already defined elements
@@ -170,7 +170,7 @@ protected:
   /**
    * Density times Heat Capacity
    */
-  double m_DensityHeatCapacity;
+  double m_DensityHeatCapacity{ 1.0 };
 };
 } // end namespace fem
 } // end namespace itk

@@ -126,7 +126,7 @@ protected:
 private:
   PixelType    m_BackgroundValue;
   PixelType    m_ForegroundValue;
-  unsigned int m_GridPixSpacing;
+  unsigned int m_GridPixSpacing{ 5 };
 };
 } // end namespace itk
 

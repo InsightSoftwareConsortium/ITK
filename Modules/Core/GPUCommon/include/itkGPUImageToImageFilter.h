@@ -105,7 +105,7 @@ protected:
   // int m_KernelHandle;
 
 private:
-  bool m_GPUEnabled;
+  bool m_GPUEnabled{ true };
 };
 
 } // end namespace itk

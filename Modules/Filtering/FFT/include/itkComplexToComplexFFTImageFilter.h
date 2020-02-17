@@ -120,15 +120,13 @@ public:
   itkGetConstMacro(TransformDirection, TransformDirectionEnum);
 
 protected:
-  ComplexToComplexFFTImageFilter()
-    : m_TransformDirection(TransformDirectionEnum::FORWARD)
-  {}
+  ComplexToComplexFFTImageFilter() {}
 
   void
   GenerateInputRequestedRegion() override;
 
 private:
-  TransformDirectionEnum m_TransformDirection;
+  TransformDirectionEnum m_TransformDirection{ TransformDirectionEnum::FORWARD };
 };
 } // end namespace itk
 

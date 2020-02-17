@@ -111,7 +111,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  EdgeStatusEnum m_EdgeStatus;
+  EdgeStatusEnum m_EdgeStatus{ EdgeStatusEnum::STANDARD_CONFIG };
 
   void
   CheckStatus(QEType * h);

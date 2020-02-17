@@ -25,7 +25,6 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
 GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>::GPUImageToImageFilter()
-  : m_GPUEnabled(true)
 {
   m_GPUKernelManager = GPUKernelManager::New();
 }

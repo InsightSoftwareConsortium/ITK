@@ -182,15 +182,7 @@ protected:
   /**
    * Default constructors
    */
-  LoadNoisyLandmark()
-    : m_Confidence(1.0)
-    , m_ErrorNorm(0.0)
-    , m_IsOutlier(false)
-    , m_IsOutOfMesh(false)
-    , m_HasStructureTensor(false)
-  {
-    this->m_Element.resize(1);
-  }
+  LoadNoisyLandmark() { this->m_Element.resize(1); }
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -199,7 +191,7 @@ private:
   /**
    * Confidence of the landmark
    */
-  float m_Confidence;
+  float m_Confidence{ 1.0 };
 
   /**
    * Real displacement of the landmark
@@ -219,22 +211,22 @@ private:
   /**
    * Magnitude of the error
    */
-  float m_ErrorNorm;
+  float m_ErrorNorm{ 0.0 };
 
   /**
    * Outlier or not
    */
-  bool m_IsOutlier;
+  bool m_IsOutlier{ false };
 
   /**
    * Outside of mesh
    */
-  bool m_IsOutOfMesh;
+  bool m_IsOutOfMesh{ false };
 
   /**
    * Has structure tensor or not
    */
-  bool m_HasStructureTensor;
+  bool m_HasStructureTensor{ false };
 
   /**
    * Structure tensor

@@ -165,12 +165,12 @@ protected:
   GenerateData() override;
 
 private:
-  double        m_SelectFraction;
-  unsigned int  m_NonConnectivity;
+  double        m_SelectFraction{ 0.1 };
+  unsigned int  m_NonConnectivity{ 0 };
   ImageSizeType m_BlockRadius;
   ImageSizeType m_SearchRadius;
-  unsigned int  m_ApproximationSteps;
-  unsigned int  m_OutlierRejectionSteps;
+  unsigned int  m_ApproximationSteps{ 10 };
+  unsigned int  m_OutlierRejectionSteps{ 10 };
 
   typename FeatureSelectionFilterType::Pointer m_FeatureSelectionFilter;
   typename BlockMatchingFilterType::Pointer    m_BlockMatchingFilter;

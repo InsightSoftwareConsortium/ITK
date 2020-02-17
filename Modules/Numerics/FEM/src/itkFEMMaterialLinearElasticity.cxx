@@ -45,14 +45,7 @@ MaterialLinearElasticity::CreateAnother() const
 /**
  * Default constructor
  */
-MaterialLinearElasticity::MaterialLinearElasticity()
-  : m_YoungModulus(100.0)
-  , m_CrossSectionalArea(1.0)
-  , m_MomentOfInertia(1.0)
-  , m_PoissonRatio(0.2)
-  , m_Thickness(1.0)
-  , m_DensityHeatCapacity(1.0)
-{}
+MaterialLinearElasticity::MaterialLinearElasticity() {}
 
 void
 MaterialLinearElasticity::SetCrossSectionalArea(double a)

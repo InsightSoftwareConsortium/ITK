@@ -293,9 +293,6 @@ public:
 protected:
   MINCTransformAdapter()
     : Transform<TParametersValueType, NInputDimensions, NOutputDimensions>(0)
-    , m_Invert(false)
-    , m_Initialized(false)
-    , m_Initialized_invert(false)
   {
     if (NInputDimensions != 3 || NOutputDimensions != 3)
       itkExceptionMacro(<< "Sorry, only 3D to 3d minc xfm transform is currently implemented");
@@ -323,9 +320,9 @@ protected:
   mutable VIO_General_transform m_Xfm;
   mutable VIO_General_transform m_Xfm_inv;
 
-  bool m_Invert;
-  bool m_Initialized;
-  bool m_Initialized_invert;
+  bool m_Invert{ false };
+  bool m_Initialized{ false };
+  bool m_Initialized_invert{ false };
 };
 
 } // namespace itk

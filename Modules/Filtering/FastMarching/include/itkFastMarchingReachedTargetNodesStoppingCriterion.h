@@ -176,16 +176,14 @@ protected:
   /** Constructor */
   FastMarchingReachedTargetNodesStoppingCriterion()
     : Superclass()
-    , m_TargetCondition(TargetConditionEnum::AllTargets)
     , m_TargetOffset(NumericTraits<OutputPixelType>::ZeroValue())
     , m_StoppingValue(NumericTraits<OutputPixelType>::ZeroValue())
-
   {}
 
   /** Destructor */
   ~FastMarchingReachedTargetNodesStoppingCriterion() override = default;
 
-  TargetConditionEnum   m_TargetCondition;
+  TargetConditionEnum   m_TargetCondition{ TargetConditionEnum::AllTargets };
   std::vector<NodeType> m_TargetNodes;
   std::vector<NodeType> m_ReachedTargetNodes;
   size_t                m_NumberOfTargetsToBeReached{ 0 };

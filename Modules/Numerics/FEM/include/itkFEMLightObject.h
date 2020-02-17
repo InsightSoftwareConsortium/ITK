@@ -72,9 +72,7 @@ protected:
   /**
    * Default constructor
    */
-  FEMLightObject()
-    : m_GlobalNumber(-1)
-  {}
+  FEMLightObject() {}
 
   /**
    * Virtual destructor
@@ -100,7 +98,7 @@ protected:
    * If the GN is not required, it can be ignored. (normally you
    * need the GN when writing or reading objects to/from stream.
    */
-  int m_GlobalNumber;
+  int m_GlobalNumber{ -1 };
 };
 } // end namespace fem
 } // end namespace itk

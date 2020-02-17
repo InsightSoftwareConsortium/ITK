@@ -65,12 +65,8 @@ public:
    * Constructor for linear system, should perform any initialization that
    * is required by derived class.
    */
-  LinearSystemWrapper()
-    : m_Order(0)
-    , m_NumberOfMatrices(1)
-    , m_NumberOfVectors(1)
-    , m_NumberOfSolutions(1)
-  {}
+  LinearSystemWrapper() {}
+
   /* , m_PrimaryMatrixSetupFunction(0), m_PrimaryVectorSetupFunction(0),
     m_PrimarySolutionSetupFunction(0) {} */
 
@@ -489,22 +485,22 @@ public:
 
 protected:
   /** Order of linear system */
-  unsigned int m_Order;
+  unsigned int m_Order{ 0 };
 
   /**
    * Number of matrices used by system
    */
-  unsigned int m_NumberOfMatrices;
+  unsigned int m_NumberOfMatrices{ 1 };
 
   /**
    * Number of vectors used by system
    */
-  unsigned int m_NumberOfVectors;
+  unsigned int m_NumberOfVectors{ 1 };
 
   /**
    * Number of solutions used by system
    */
-  unsigned int m_NumberOfSolutions;
+  unsigned int m_NumberOfSolutions{ 1 };
 
   /*
    * Function used to prepare primary matrix for numerical solving

@@ -115,8 +115,7 @@ public:
 
   /** Default constructor */
   LoadBCMFC()
-    : m_Index(0)
-    , m_LeftHandSide()
+    : m_LeftHandSide()
     , m_RightHandSide()
   {}
 
@@ -187,7 +186,7 @@ protected:
   // private:  // FIXME: CrankNicolsonSolver class, which is derived from Solver
   // class also needs access to Index.
   /** used internally by the Solver class */
-  int m_Index;
+  int m_Index{ 0 };
 
   LhsType m_LeftHandSide;
 

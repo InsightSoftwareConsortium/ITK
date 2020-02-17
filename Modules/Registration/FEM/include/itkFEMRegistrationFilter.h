@@ -662,42 +662,42 @@ private:
   void
   InitializeField();
 
-  unsigned int m_DoLineSearchOnImageEnergy;
-  unsigned int m_LineSearchMaximumIterations;
+  unsigned int m_DoLineSearchOnImageEnergy{ 1 };
+  unsigned int m_LineSearchMaximumIterations{ 100 };
 
   /** Parameters used to define Multi-resolution registration. */
   vnl_vector<unsigned int> m_NumberOfIntegrationPoints; // resolution of integration
   vnl_vector<unsigned int> m_MetricWidth;               // number of iterations at each level
   vnl_vector<unsigned int> m_Maxiters;
-  unsigned int             m_TotalIterations; // total number of iterations that were run
-  unsigned int             m_MaxLevel;
-  unsigned int             m_FileCount;    // keeps track of number of files written
-  unsigned int             m_CurrentLevel; // current resolution level
+  unsigned int             m_TotalIterations{ 0 }; // total number of iterations that were run
+  unsigned int             m_MaxLevel{ 1 };
+  unsigned int             m_FileCount{ 0 };    // keeps track of number of files written
+  unsigned int             m_CurrentLevel{ 0 }; // current resolution level
 
   typename FixedImageType::SizeType m_CurrentLevelImageSize;
 
-  unsigned int m_WhichMetric;
+  unsigned int m_WhichMetric{ 0 };
 
   /** Stores the number of  pixels per element  of the mesh for each
       resolution of the multi-resolution pyramid */
   vnl_vector<unsigned int> m_MeshPixelsPerElementAtEachResolution;
 
-  Float             m_TimeStep;
+  Float             m_TimeStep{ 1 };
   vnl_vector<Float> m_E;
   vnl_vector<Float> m_Rho;
   vnl_vector<Float> m_Gamma;
-  Float             m_Energy;      // current value of energy
-  Float             m_MinE;        // minimum recorded energy
-  Float             m_MinJacobian; // minimum recorded energy
-  Float             m_Alpha;
+  Float             m_Energy{ 0.0 };      // current value of energy
+  Float             m_MinE;               // minimum recorded energy
+  Float             m_MinJacobian{ 1.0 }; // minimum recorded energy
+  Float             m_Alpha{ 1.0 };
 
-  bool          m_UseLandmarks;
-  bool          m_UseMassMatrix;
-  bool          m_UseNormalizedGradient;
-  bool          m_CreateMeshFromImage;
-  unsigned int  m_EmployRegridding;
-  SignEnum      m_DescentDirection;
-  Float         m_EnergyReductionFactor;
+  bool          m_UseLandmarks{ false };
+  bool          m_UseMassMatrix{ true };
+  bool          m_UseNormalizedGradient{ false };
+  bool          m_CreateMeshFromImage{ true };
+  unsigned int  m_EmployRegridding{ 1 };
+  SignEnum      m_DescentDirection{ SignEnum::positive };
+  Float         m_EnergyReductionFactor{ 0.0 };
   ImageSizeType m_FullImageSize;
   ImageSizeType m_ImageOrigin;
 
@@ -736,9 +736,9 @@ private:
   LandmarkArrayType   m_LandmarkArray;
   InterpolatorPointer m_Interpolator;
 
-  double m_MaximumError;
+  double m_MaximumError{ 0.1 };
 
-  unsigned int m_MaximumKernelWidth;
+  unsigned int m_MaximumKernelWidth{ 30 };
 
   StandardDeviationsType m_StandardDeviations;
 };

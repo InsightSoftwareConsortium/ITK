@@ -475,10 +475,10 @@ protected:
   SingleMethodProxy(void * arg);
 
   /** The method to invoke. */
-  ThreadFunctionType m_SingleMethod;
+  ThreadFunctionType m_SingleMethod{ nullptr };
 
   /** The data to be passed as argument. */
-  void * m_SingleData;
+  void * m_SingleData{ nullptr };
 
 private:
   /** Only used to synchronize the global variable across static libraries.*/

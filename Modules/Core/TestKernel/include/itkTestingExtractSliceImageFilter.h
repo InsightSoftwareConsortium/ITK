@@ -306,7 +306,9 @@ protected:
   OutputImageRegionType m_OutputImageRegion;
 
 private:
-  DIRECTIONCOLLAPSESTRATEGY m_DirectionCollaspeStrategy;
+  DIRECTIONCOLLAPSESTRATEGY m_DirectionCollaspeStrategy{
+    TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN
+  };
 };
 } // end namespace Testing
 } // end namespace itk

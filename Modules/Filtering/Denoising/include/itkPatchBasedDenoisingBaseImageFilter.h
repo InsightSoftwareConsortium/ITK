@@ -423,18 +423,18 @@ private:
   unsigned int m_ElapsedIterations{ 0 };
 
   /** Parameters defining the usage of a specific noise model, if desired. */
-  NoiseModelEnum m_NoiseModel;
+  NoiseModelEnum m_NoiseModel{ NoiseModelEnum::NOMODEL };
   double         m_SmoothingWeight{ 1.0 };
   double         m_NoiseModelFidelityWeight{ 0.0 };
 
   /** Parameter indicating whether components should be treated as if they are in
       Euclidean space regardless of pixel type. */
   bool               m_AlwaysTreatComponentsAsEuclidean{ false };
-  ComponentSpaceEnum m_ComponentSpace;
+  ComponentSpaceEnum m_ComponentSpace{ ComponentSpaceEnum::EUCLIDEAN };
 
   bool m_ManualReinitialization{ false };
 
-  FilterStateEnum m_State;
+  FilterStateEnum m_State{ FilterStateEnum::UNINITIALIZED };
 };
 } // end namespace itk
 
