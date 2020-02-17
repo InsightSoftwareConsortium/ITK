@@ -33,13 +33,7 @@ template <typename TInputImage, typename TOutputMesh, typename TInterpolator>
 CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::CuberilleImageToMeshFilter()
   : m_IsoSurfaceValue(NumericTraits<InputPixelType>::One)
   , m_MaxSpacing(NumericTraits<SpacingValueType>::One)
-  , m_GenerateTriangleFaces(true)
-  , m_ProjectVerticesToIsoSurface(true)
-  , m_SavePixelAsCellData(false)
-  , m_ProjectVertexSurfaceDistanceThreshold(0.5)
-  , m_ProjectVertexStepLength(-1.0)
-  , m_ProjectVertexStepLengthRelaxationFactor(0.95)
-  , m_ProjectVertexMaximumNumberOfSteps(50)
+
 {
   this->SetNumberOfRequiredInputs(1);
   this->CalculateLabelsArray();
