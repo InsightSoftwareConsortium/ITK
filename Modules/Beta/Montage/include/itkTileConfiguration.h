@@ -298,8 +298,8 @@ struct ITK_TEMPLATE_EXPORT TileConfiguration
     }
     std::getline(ss, temp, '(');
 
-    using PointType = itk::Point<double, Dimension>;
-    PointType p;
+    using PointTypelocal = itk::Point<double, Dimension>;
+    PointTypelocal p;
     for (unsigned d = 0; d < Dimension; d++)
     {
       std::getline(ss, temp, ',');
