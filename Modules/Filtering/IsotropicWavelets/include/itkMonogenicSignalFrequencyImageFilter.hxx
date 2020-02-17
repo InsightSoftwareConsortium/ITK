@@ -33,7 +33,7 @@ MonogenicSignalFrequencyImageFilter<TInputImage,
 
 template <typename TInputImage, typename TFrequencyImageRegionConstIterator>
 void
-MonogenicSignalFrequencyImageFilter<TInputImage, TFrequencyImageRegionConstIterator>::GenerateOutputInformation(void)
+MonogenicSignalFrequencyImageFilter<TInputImage, TFrequencyImageRegionConstIterator>::GenerateOutputInformation()
 {
   this->Superclass::GenerateOutputInformation();
 
