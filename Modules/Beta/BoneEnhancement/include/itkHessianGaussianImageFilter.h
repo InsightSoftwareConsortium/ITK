@@ -142,7 +142,7 @@ protected:
 
   /** Generate Data */
   void
-  GenerateData(void) override;
+  GenerateData() override;
 
 private:
   /** Internal filters **/
