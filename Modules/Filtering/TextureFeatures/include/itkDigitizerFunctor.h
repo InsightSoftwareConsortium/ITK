@@ -34,8 +34,7 @@ public:
   using MaskPixelType = TInput1;
 
   Digitizer()
-    : m_NumberOfBinsPerAxis(256)
-    , m_MaskValue(1)
+    : m_MaskValue(1)
     , m_Min(NumericTraits<PixelType>::min())
     , m_Max(NumericTraits<PixelType>::max())
   {}
@@ -80,7 +79,7 @@ public:
     }
   }
 
-  unsigned int m_NumberOfBinsPerAxis;
+  unsigned int m_NumberOfBinsPerAxis{ 256 };
 
   MaskPixelType m_MaskValue;
 
