@@ -33,8 +33,8 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 StructureTensor<TInputImage, TOutputImage>::StructureTensor()
-  : m_GaussianWindowRadius(2)
-  , m_GaussianWindowSigma(1.0)
+
+
 {
   this->m_GaussianSource = GaussianSourceType::New();
 

@@ -26,7 +26,7 @@ namespace itk
 {
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
 HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::HeldIsotropicWavelet()
-  : m_PolynomialOrder(5)
+
 {}
 
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>

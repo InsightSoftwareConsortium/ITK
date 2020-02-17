@@ -26,8 +26,7 @@ namespace itk
 {
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
 IsotropicWaveletFrequencyFunction<TFunctionValue, VImageDimension, TInput>::IsotropicWaveletFrequencyFunction()
-  : m_HighPassSubBands(1)
-  , m_FreqCutOff(0.25)
+  : m_FreqCutOff(0.25)
 {}
 
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>

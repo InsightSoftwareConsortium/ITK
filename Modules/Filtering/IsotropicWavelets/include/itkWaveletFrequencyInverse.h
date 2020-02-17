@@ -176,12 +176,12 @@ protected:
   VerifyInputInformation() ITKv5_CONST override {};
 
 private:
-  unsigned int             m_Levels;
-  unsigned int             m_HighPassSubBands;
-  unsigned int             m_TotalInputs;
-  unsigned int             m_ScaleFactor;
-  bool                     m_ApplyReconstructionFactors;
-  bool                     m_UseWaveletFilterBankPyramid;
+  unsigned int             m_Levels{ 1 };
+  unsigned int             m_HighPassSubBands{ 1 };
+  unsigned int             m_TotalInputs{ 0 };
+  unsigned int             m_ScaleFactor{ 2 };
+  bool                     m_ApplyReconstructionFactors{ true };
+  bool                     m_UseWaveletFilterBankPyramid{ false };
   WaveletFilterBankPointer m_WaveletFilterBank;
   InputsType               m_WaveletFilterBankPyramid;
 };

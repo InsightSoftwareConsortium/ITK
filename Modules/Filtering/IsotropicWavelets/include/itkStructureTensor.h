@@ -224,8 +224,8 @@ protected:
   }
 
 private:
-  unsigned int                         m_GaussianWindowRadius;
-  FloatType                            m_GaussianWindowSigma;
+  unsigned int                         m_GaussianWindowRadius{ 2 };
+  FloatType                            m_GaussianWindowSigma{ 1.0 };
   typename GaussianSourceType::Pointer m_GaussianSource;
   InputsType                           m_SquareSmoothedImages;
 };

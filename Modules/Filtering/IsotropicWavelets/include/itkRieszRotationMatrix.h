@@ -229,10 +229,10 @@ public:
 
 private:
   SpatialRotationMatrixType m_SpatialRotationMatrix;
-  unsigned int              m_Order;
-  unsigned int              m_Components;
+  unsigned int              m_Order{ 0 };
+  unsigned int              m_Components{ 0 };
   ValueType                 m_MaxAbsoluteDifferenceCloseToZero;
-  bool                      m_Debug;
+  bool                      m_Debug{ false };
 
 }; // end of class
 } // end namespace itk

@@ -25,7 +25,7 @@ namespace itk
 template <typename TOutputImage, typename TRieszFunction, typename TFrequencyRegionIterator>
 RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegionIterator>::
   RieszFrequencyFilterBankGenerator()
-  : m_Order(0)
+
 {
   this->m_Evaluator = RieszFunctionType::New();
   this->SetOrder(1);

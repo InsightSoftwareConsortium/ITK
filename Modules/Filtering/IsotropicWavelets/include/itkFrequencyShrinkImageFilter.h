@@ -153,7 +153,7 @@ protected:
 
 private:
   ShrinkFactorsType                         m_ShrinkFactors;
-  bool                                      m_ApplyBandFilter;
+  bool                                      m_ApplyBandFilter{ false };
   typename FrequencyBandFilterType::Pointer m_FrequencyBandFilter;
 };
 } // end namespace itk

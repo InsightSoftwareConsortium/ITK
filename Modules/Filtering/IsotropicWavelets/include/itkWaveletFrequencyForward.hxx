@@ -31,11 +31,8 @@ namespace itk
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyShrinkFilterType>
 WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::
   WaveletFrequencyForward()
-  : m_Levels(1)
-  , m_HighPassSubBands(1)
-  , m_TotalOutputs(1)
-  , m_ScaleFactor(2)
-  , m_StoreWaveletFilterBankPyramid(false)
+
+
 {
   this->SetNumberOfRequiredInputs(1);
   m_WaveletFilterBank = WaveletFilterBankType::New();

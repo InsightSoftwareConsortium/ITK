@@ -87,7 +87,7 @@ protected:
 
 private:
   /** The order of the polynom. */
-  unsigned int m_PolynomialOrder;
+  unsigned int m_PolynomialOrder{ 5 };
 };
 } // end namespace itk
 

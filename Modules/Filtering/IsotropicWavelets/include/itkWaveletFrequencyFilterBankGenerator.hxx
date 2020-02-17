@@ -25,11 +25,8 @@ namespace itk
 template <typename TOutputImage, typename TWaveletFunction, typename TFrequencyRegionIterator>
 WaveletFrequencyFilterBankGenerator<TOutputImage, TWaveletFunction, TFrequencyRegionIterator>::
   WaveletFrequencyFilterBankGenerator()
-  : m_HighPassSubBands(0)
-  , m_InverseBank(false)
-  , m_Level(0)
-  , m_ScaleFactor(2)
-  , m_LevelFactor(1)
+
+
 {
   this->SetHighPassSubBands(1);
   m_WaveletFunction = TWaveletFunction::New();
