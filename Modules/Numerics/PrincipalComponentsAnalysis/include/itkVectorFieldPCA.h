@@ -224,17 +224,17 @@ private:
   KernelFunctionPointer     m_KernelFunction;
 
   // Problem dimensions
-  unsigned int m_ComponentCount;
-  unsigned int m_SetSize;
-  unsigned int m_VectorDimCount;
-  unsigned int m_VertexCount;
-  unsigned int m_PointDim;
+  unsigned int m_ComponentCount{ 0 };
+  unsigned int m_SetSize{ 0 };
+  unsigned int m_VectorDimCount{ 0 };
+  unsigned int m_VertexCount{ 0 };
+  unsigned int m_PointDim{ 0 };
 
   MatrixType m_V0;
   MatrixType m_AveVectorField;
   MatrixType m_K;
 
-  bool m_PCACalculated;
+  bool m_PCACalculated{ false };
 };
 
 } // end namespace itk
