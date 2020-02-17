@@ -89,7 +89,7 @@ public:
 
 protected:
   BSplineGradientImageFilter();
-  ~BSplineGradientImageFilter() override {}
+  ~BSplineGradientImageFilter() override = default;
 
   /** This filter requires all of the input image for now.  Future
    * implementation may be capable of streaming. */

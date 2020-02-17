@@ -77,8 +77,8 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
 protected:
-  ImageToPointSetFilter() {}
-  ~ImageToPointSetFilter() override {}
+  ImageToPointSetFilter() = default;
+  ~ImageToPointSetFilter() override = default;
 
   void
   GenerateData() override;

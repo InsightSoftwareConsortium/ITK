@@ -131,7 +131,7 @@ public:
 
 protected:
   BSplineApproximationGradientImageFilter();
-  ~BSplineApproximationGradientImageFilter() override {}
+  ~BSplineApproximationGradientImageFilter() override = default;
 
   /** Needs everything. */
   void

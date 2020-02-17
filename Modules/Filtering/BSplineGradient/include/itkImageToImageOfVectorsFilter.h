@@ -85,7 +85,7 @@ public:
 
 protected:
   ImageToImageOfVectorsFilter();
-  ~ImageToImageOfVectorsFilter() override {}
+  ~ImageToImageOfVectorsFilter() override = default;
 
   void
   BeforeThreadedGenerateData() override;

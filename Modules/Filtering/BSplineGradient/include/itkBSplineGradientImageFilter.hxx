@@ -26,8 +26,8 @@ namespace itk
 {
 
 template <typename TInputImage, typename TOutputValueType, typename TCoordRep, typename TCoefficientType>
-BSplineGradientImageFilter<TInputImage, TOutputValueType, TCoordRep, TCoefficientType>::BSplineGradientImageFilter()
-{}
+BSplineGradientImageFilter<TInputImage, TOutputValueType, TCoordRep, TCoefficientType>::BSplineGradientImageFilter() =
+  default;
 
 
 template <typename TInputImage, typename TOutputValueType, typename TCoordRep, typename TCoefficientType>
