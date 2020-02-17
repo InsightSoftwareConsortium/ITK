@@ -29,7 +29,7 @@ STLMeshIOFactory ::PrintSelf(std::ostream &, Indent) const
 
 STLMeshIOFactory ::STLMeshIOFactory()
 {
-  this->RegisterOverride("itkMeshIOBase", "itkSTLMeshIO", "STL IO", 1, CreateObjectFunction<STLMeshIO>::New());
+  this->RegisterOverride("itkMeshIOBase", "itkSTLMeshIO", "STL IO", true, CreateObjectFunction<STLMeshIO>::New());
 }
 
 STLMeshIOFactory ::~STLMeshIOFactory() {}
