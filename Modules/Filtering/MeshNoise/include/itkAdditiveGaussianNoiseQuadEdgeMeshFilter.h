@@ -72,7 +72,7 @@ public:
 
 protected:
   AdditiveGaussianNoiseQuadEdgeMeshFilter();
-  ~AdditiveGaussianNoiseQuadEdgeMeshFilter() override {}
+  ~AdditiveGaussianNoiseQuadEdgeMeshFilter() override = default;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

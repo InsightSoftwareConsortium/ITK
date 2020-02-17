@@ -78,7 +78,7 @@ public:
 
 protected:
   AdditiveGaussianNoiseMeshFilter();
-  ~AdditiveGaussianNoiseMeshFilter() override {}
+  ~AdditiveGaussianNoiseMeshFilter() override = default;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
