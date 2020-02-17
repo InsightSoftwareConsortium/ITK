@@ -415,7 +415,7 @@ public:
 
 protected:
   PhaseCorrelationImageRegistrationMethod();
-  ~PhaseCorrelationImageRegistrationMethod() override{};
+  ~PhaseCorrelationImageRegistrationMethod() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

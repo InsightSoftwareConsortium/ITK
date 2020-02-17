@@ -135,7 +135,7 @@ public:
 
 protected:
   PhaseCorrelationOptimizer();
-  ~PhaseCorrelationOptimizer() override{};
+  ~PhaseCorrelationOptimizer() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
