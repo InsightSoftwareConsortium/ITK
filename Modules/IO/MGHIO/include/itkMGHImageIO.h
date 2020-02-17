@@ -68,7 +68,7 @@ public:
 
   /** Reads the data from disk into the memory buffer provided. */
   void
-  Read(void * buffer) override;
+  Read(void * pData) override;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
@@ -78,7 +78,7 @@ public:
    * \return Returns true if this ImageIO can write the file specified.
    */
   bool
-  CanWriteFile(const char * FileNameToWrite) override;
+  CanWriteFile(const char * name) override;
 
   /** Set the spacing and dimension information for the set filename. */
   void
