@@ -67,11 +67,15 @@ extern ITKIOImageBase_EXPORT std::ostream &
 class ITKIOImageBase_EXPORT IOCommon
 {
 public:
-  typedef enum
+  using SysConstants = enum
+
   {
+
     ITK_MAXPATHLEN = 2048, /**< Maximum length of a filename */
+
     MAX_FILENAMELIST_SIZE = 512
-  } SysConstants;
+
+  };
 
   using AtomicPixelEnum = IOCommonEnums::AtomicPixel;
 #if !defined(ITK_LEGACY_REMOVE)
