@@ -219,7 +219,7 @@ public:
 
 protected:
   ImageToImageFilter();
-  ~ImageToImageFilter() override{};
+  ~ImageToImageFilter() override = default;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

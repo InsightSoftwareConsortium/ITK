@@ -36,7 +36,7 @@ VoxBoCUBImageIOFactory::VoxBoCUBImageIOFactory()
     "itkImageIOBase", "itkVoxBoCUBImageIO", "VoxBo CUB Image IO", true, CreateObjectFunction<VoxBoCUBImageIO>::New());
 }
 
-VoxBoCUBImageIOFactory::~VoxBoCUBImageIOFactory() {}
+VoxBoCUBImageIOFactory::~VoxBoCUBImageIOFactory() = default;
 
 const char *
 VoxBoCUBImageIOFactory::GetITKSourceVersion() const

@@ -19,7 +19,7 @@
 
 namespace itk
 {
-Barrier::Barrier() {}
+Barrier::Barrier() = default;
 
 Barrier::~Barrier() = default;
 

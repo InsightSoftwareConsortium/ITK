@@ -103,7 +103,7 @@ public:
 
 protected:
   GPUDiscreteGaussianImageFilter();
-  ~GPUDiscreteGaussianImageFilter() override {}
+  ~GPUDiscreteGaussianImageFilter() override = default;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

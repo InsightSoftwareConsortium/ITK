@@ -168,7 +168,7 @@ public:
 
 protected:
   VTKImageImport();
-  ~VTKImageImport() override {}
+  ~VTKImageImport() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

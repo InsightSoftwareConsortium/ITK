@@ -55,11 +55,8 @@ RobustSolver<VDimension>::RobustSolver()
   this->m_UseInterpolationGrid = true;
 }
 
-
 template <unsigned int VDimension>
-RobustSolver<VDimension>::~RobustSolver()
-{}
-
+RobustSolver<VDimension>::~RobustSolver() = default;
 
 template <unsigned int VDimension>
 void

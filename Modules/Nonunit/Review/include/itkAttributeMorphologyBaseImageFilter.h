@@ -141,7 +141,7 @@ protected:
     m_Lambda = 0;
   }
 
-  ~AttributeMorphologyBaseImageFilter() override {}
+  ~AttributeMorphologyBaseImageFilter() override = default;
   AttributeMorphologyBaseImageFilter(const Self &) {}
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

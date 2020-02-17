@@ -102,7 +102,7 @@ public:
   }
 
 protected:
-  LoggerOutput() {}
+  LoggerOutput() = default;
   ~LoggerOutput() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

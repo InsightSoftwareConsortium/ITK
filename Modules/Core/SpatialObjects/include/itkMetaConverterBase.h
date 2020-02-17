@@ -78,7 +78,7 @@ public:
   itkGetConstMacro(WriteImagesInSeparateFile, bool);
 
 protected:
-  MetaConverterBase() {}
+  MetaConverterBase() = default;
   ~MetaConverterBase() override = default;
 
   /** Creator for specific metaObject, defined in subclass */

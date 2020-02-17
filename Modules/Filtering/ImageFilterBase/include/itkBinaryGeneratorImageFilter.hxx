@@ -71,8 +71,7 @@ template <typename TInputImage1, typename TInputImage2, typename TOutputImage>
 const typename BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>::Input1ImagePixelType &
 BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>::GetConstant1() const
 {
-  const DecoratedInput1ImagePixelType * input =
-    dynamic_cast<const DecoratedInput1ImagePixelType *>(this->ProcessObject::GetInput(0));
+  const auto * input = dynamic_cast<const DecoratedInput1ImagePixelType *>(this->ProcessObject::GetInput(0));
   if (input == nullptr)
   {
     itkExceptionMacro(<< "Constant 1 is not set");
@@ -117,8 +116,7 @@ template <typename TInputImage1, typename TInputImage2, typename TOutputImage>
 const typename BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>::Input2ImagePixelType &
 BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>::GetConstant2() const
 {
-  const DecoratedInput2ImagePixelType * input =
-    dynamic_cast<const DecoratedInput2ImagePixelType *>(this->ProcessObject::GetInput(1));
+  const auto * input = dynamic_cast<const DecoratedInput2ImagePixelType *>(this->ProcessObject::GetInput(1));
   if (input == nullptr)
   {
     itkExceptionMacro(<< "Constant 2 is not set");
@@ -131,9 +129,9 @@ void
 BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>::GenerateOutputInformation()
 {
 
-  const DataObject *   input = nullptr;
-  const TInputImage1 * inputPtr1 = dynamic_cast<const TInputImage1 *>(ProcessObject::GetInput(0));
-  const TInputImage2 * inputPtr2 = dynamic_cast<const TInputImage2 *>(ProcessObject::GetInput(1));
+  const DataObject * input = nullptr;
+  const auto *       inputPtr1 = dynamic_cast<const TInputImage1 *>(ProcessObject::GetInput(0));
+  const auto *       inputPtr2 = dynamic_cast<const TInputImage2 *>(ProcessObject::GetInput(1));
 
   if (this->GetNumberOfInputs() >= 2)
   {
@@ -180,10 +178,10 @@ BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>::DynamicThr
   // We use dynamic_cast since inputs are stored as DataObjects. The
   // ImageToImageFilter::GetInput(int) always returns a pointer to a
   // TInputImage1 so it cannot be used for the second input.
-  const TInputImage1 * inputPtr1 = dynamic_cast<const TInputImage1 *>(ProcessObject::GetInput(0));
-  const TInputImage2 * inputPtr2 = dynamic_cast<const TInputImage2 *>(ProcessObject::GetInput(1));
-  TOutputImage *       outputPtr = this->GetOutput(0);
-  const SizeValueType  size0 = outputRegionForThread.GetSize(0);
+  const auto *        inputPtr1 = dynamic_cast<const TInputImage1 *>(ProcessObject::GetInput(0));
+  const auto *        inputPtr2 = dynamic_cast<const TInputImage2 *>(ProcessObject::GetInput(1));
+  TOutputImage *      outputPtr = this->GetOutput(0);
+  const SizeValueType size0 = outputRegionForThread.GetSize(0);
   if (size0 == 0)
   {
     return;

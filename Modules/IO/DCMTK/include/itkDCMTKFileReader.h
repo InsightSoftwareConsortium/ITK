@@ -63,7 +63,7 @@ class ITK_FORWARD_EXPORT DCMTKSequence;
 class ITKIODCMTK_EXPORT DCMTKItem
 {
 public:
-  DCMTKItem() {}
+  DCMTKItem() = default;
 
   void
   SetDcmItem(DcmItem * item);
@@ -80,7 +80,7 @@ private:
 class ITKIODCMTK_EXPORT DCMTKSequence
 {
 public:
-  DCMTKSequence() {}
+  DCMTKSequence() = default;
   void
   SetDcmSequenceOfItems(DcmSequenceOfItems * seq);
   int
@@ -245,7 +245,7 @@ class ITKIODCMTK_EXPORT DCMTKFileReader
 public:
   using Self = DCMTKFileReader;
 
-  DCMTKFileReader() {}
+  DCMTKFileReader() = default;
   ~DCMTKFileReader();
 
   void

@@ -102,7 +102,7 @@ public:
 
 protected:
   MiniPipelineSeparableImageFilter();
-  ~MiniPipelineSeparableImageFilter() override {}
+  ~MiniPipelineSeparableImageFilter() override = default;
 
   void
   GenerateData() override;

@@ -96,7 +96,7 @@ public:
   public:
     int                   m_ImageNumber{ -1 };
     OutputImageRegionType m_Region;
-    TileInfo() {}
+    TileInfo() = default;
   };
 
   using TileImageType = Image<TileInfo, Self::OutputImageDimension>;

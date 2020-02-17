@@ -128,7 +128,7 @@ public:
 
 protected:
   FFTWComplexToComplexFFTImageFilter();
-  ~FFTWComplexToComplexFFTImageFilter() override {}
+  ~FFTWComplexToComplexFFTImageFilter() override = default;
 
   void
   UpdateOutputData(DataObject * output) override;

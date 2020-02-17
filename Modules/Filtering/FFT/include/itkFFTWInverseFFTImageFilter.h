@@ -120,7 +120,7 @@ public:
 
 protected:
   FFTWInverseFFTImageFilter();
-  ~FFTWInverseFFTImageFilter() override {}
+  ~FFTWInverseFFTImageFilter() override = default;
 
   void
   BeforeThreadedGenerateData() override;

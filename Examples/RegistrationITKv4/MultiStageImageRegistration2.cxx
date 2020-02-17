@@ -136,7 +136,7 @@ public:
   itkNewMacro(Self);
 
 protected:
-  CommandIterationUpdate(){};
+  CommandIterationUpdate() = default;
 
 public:
   using OptimizerType = itk::GradientDescentOptimizerv4Template<double>;

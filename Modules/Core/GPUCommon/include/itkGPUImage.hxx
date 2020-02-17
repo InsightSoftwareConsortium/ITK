@@ -30,8 +30,7 @@ GPUImage<TPixel, VImageDimension>::GPUImage()
 }
 
 template <typename TPixel, unsigned int VImageDimension>
-GPUImage<TPixel, VImageDimension>::~GPUImage()
-{}
+GPUImage<TPixel, VImageDimension>::~GPUImage() = default;
 
 template <typename TPixel, unsigned int VImageDimension>
 void

@@ -106,7 +106,7 @@ public:
       m_MaxGlobalChange = null_value;
     }
 
-    ~GlobalDataStruct() {}
+    ~GlobalDataStruct() = default;
 
     vnl_matrix_fixed<ScalarValueType, Self::ImageDimension, Self::ImageDimension> m_dxy;
 
@@ -377,7 +377,7 @@ public:
 
 protected:
   RegionBasedLevelSetFunction();
-  ~RegionBasedLevelSetFunction() override {}
+  ~RegionBasedLevelSetFunction() override = default;
 
   /** The initial level set image */
   InputImageConstPointer m_InitialImage;

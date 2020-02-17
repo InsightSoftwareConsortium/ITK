@@ -181,7 +181,7 @@ ValueType
 ResourceProbe<ValueType, MeanType>::GetStandardDeviation()
 {
   using InternalComputeType = typename NumericTraits<ValueType>::RealType;
-  const InternalComputeType        realMean = static_cast<InternalComputeType>(this->GetMean());
+  const auto                       realMean = static_cast<InternalComputeType>(this->GetMean());
   std::vector<InternalComputeType> diff(this->m_ProbeValueList.size());
   std::transform(this->m_ProbeValueList.begin(),
                  this->m_ProbeValueList.end(),

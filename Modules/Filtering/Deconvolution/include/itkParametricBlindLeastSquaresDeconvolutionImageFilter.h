@@ -152,7 +152,7 @@ private:
   class ITK_TEMPLATE_EXPORT ParametricBlindLeastSquaresDeconvolutionImageUpdate
   {
   public:
-    ParametricBlindLeastSquaresDeconvolutionImageUpdate() {}
+    ParametricBlindLeastSquaresDeconvolutionImageUpdate() = default;
     ~ParametricBlindLeastSquaresDeconvolutionImageUpdate() = default;
 
     bool

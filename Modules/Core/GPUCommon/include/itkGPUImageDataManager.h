@@ -82,8 +82,8 @@ public:
   MakeGPUBufferUpToDate();
 
 protected:
-  GPUImageDataManager() {}
-  ~GPUImageDataManager() override {}
+  GPUImageDataManager() = default;
+  ~GPUImageDataManager() override = default;
 
 private:
   WeakPointer<ImageType> m_Image; // WeakPointer has to be used here

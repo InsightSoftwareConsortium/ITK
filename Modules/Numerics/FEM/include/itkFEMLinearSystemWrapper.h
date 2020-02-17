@@ -65,7 +65,7 @@ public:
    * Constructor for linear system, should perform any initialization that
    * is required by derived class.
    */
-  LinearSystemWrapper() {}
+  LinearSystemWrapper() = default;
 
   /* , m_PrimaryMatrixSetupFunction(0), m_PrimaryVectorSetupFunction(0),
     m_PrimarySolutionSetupFunction(0) {} */

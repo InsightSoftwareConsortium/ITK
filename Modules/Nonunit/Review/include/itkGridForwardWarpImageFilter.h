@@ -115,7 +115,7 @@ public:
 
 protected:
   GridForwardWarpImageFilter();
-  ~GridForwardWarpImageFilter() override {}
+  ~GridForwardWarpImageFilter() override = default;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

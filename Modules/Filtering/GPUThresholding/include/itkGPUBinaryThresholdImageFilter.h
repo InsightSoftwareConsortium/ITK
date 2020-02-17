@@ -41,7 +41,7 @@ public:
     m_InsideValue = NumericTraits<TOutput>::max();
   }
 
-  ~GPUBinaryThreshold() override {}
+  ~GPUBinaryThreshold() override = default;
 
   void
   SetLowerThreshold(const TInput & thresh)
@@ -134,7 +134,7 @@ public:
 
 protected:
   GPUBinaryThresholdImageFilter();
-  ~GPUBinaryThresholdImageFilter() override {}
+  ~GPUBinaryThresholdImageFilter() override = default;
 
   /** This method is used to set the state of the filter before
    * multi-threading. */

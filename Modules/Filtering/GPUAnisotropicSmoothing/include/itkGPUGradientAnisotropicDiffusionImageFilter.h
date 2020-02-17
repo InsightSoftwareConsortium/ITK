@@ -85,7 +85,7 @@ protected:
     this->SetDifferenceFunction(p);
   }
 
-  ~GPUGradientAnisotropicDiffusionImageFilter() override {}
+  ~GPUGradientAnisotropicDiffusionImageFilter() override = default;
 };
 
 } // namespace itk

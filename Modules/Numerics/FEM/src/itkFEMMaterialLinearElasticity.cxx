@@ -45,7 +45,7 @@ MaterialLinearElasticity::CreateAnother() const
 /**
  * Default constructor
  */
-MaterialLinearElasticity::MaterialLinearElasticity() {}
+MaterialLinearElasticity::MaterialLinearElasticity() = default;
 
 void
 MaterialLinearElasticity::SetCrossSectionalArea(double a)

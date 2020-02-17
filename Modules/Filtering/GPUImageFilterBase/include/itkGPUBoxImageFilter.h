@@ -73,8 +73,8 @@ public:
   using RadiusValueType = typename InputImageType::SizeValueType;
 
 protected:
-  GPUBoxImageFilter() {}
-  ~GPUBoxImageFilter() override {}
+  GPUBoxImageFilter() = default;
+  ~GPUBoxImageFilter() override = default;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override

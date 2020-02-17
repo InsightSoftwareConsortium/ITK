@@ -123,7 +123,7 @@ template <typename TInput1, typename TInput2, typename TOutput>
 class ITK_TEMPLATE_EXPORT TikhonovDeconvolutionFunctor
 {
 public:
-  TikhonovDeconvolutionFunctor() {}
+  TikhonovDeconvolutionFunctor() = default;
   ~TikhonovDeconvolutionFunctor() = default;
   TikhonovDeconvolutionFunctor(const TikhonovDeconvolutionFunctor & f)
     : m_RegularizationConstant(f.m_RegularizationConstant)

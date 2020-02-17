@@ -42,7 +42,7 @@ class AdaptiveEqualizationHistogram
 public:
   using RealType = float;
 
-  AdaptiveEqualizationHistogram() {}
+  AdaptiveEqualizationHistogram() = default;
 
   // ~AdaptiveEqualizationHistogram()  {} default is ok
 

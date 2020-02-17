@@ -85,7 +85,7 @@ public:
 
 protected:
   SolverHyperbolic();
-  ~SolverHyperbolic() override {}
+  ~SolverHyperbolic() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

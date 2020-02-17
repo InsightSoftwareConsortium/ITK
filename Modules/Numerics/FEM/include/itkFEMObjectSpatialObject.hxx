@@ -34,8 +34,7 @@ FEMObjectSpatialObject<TDimension>::FEMObjectSpatialObject()
 
 /** Destructor */
 template <unsigned int TDimension>
-FEMObjectSpatialObject<TDimension>::~FEMObjectSpatialObject()
-{}
+FEMObjectSpatialObject<TDimension>::~FEMObjectSpatialObject() = default;
 
 /** Set the femobject in the spatial object */
 template <unsigned int TDimension>

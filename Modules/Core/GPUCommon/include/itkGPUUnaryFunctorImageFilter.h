@@ -94,8 +94,8 @@ public:
 #endif // !defined( ITK_WRAPPING_PARSER )
 
 protected:
-  GPUUnaryFunctorImageFilter() {}
-  ~GPUUnaryFunctorImageFilter() override {}
+  GPUUnaryFunctorImageFilter() = default;
+  ~GPUUnaryFunctorImageFilter() override = default;
 
   void
   GenerateOutputInformation() override;

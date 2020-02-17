@@ -207,7 +207,7 @@ protected:
   DiscreteGaussianDerivativeImageFunction();
   DiscreteGaussianDerivativeImageFunction(const Self &) {}
 
-  ~DiscreteGaussianDerivativeImageFunction() override {}
+  ~DiscreteGaussianDerivativeImageFunction() override = default;
 
   void
   operator=(const Self &)

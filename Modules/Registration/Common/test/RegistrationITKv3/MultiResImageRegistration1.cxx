@@ -122,7 +122,7 @@ public:
   itkNewMacro(Self);
 
 protected:
-  RegistrationInterfaceCommand(){};
+  RegistrationInterfaceCommand() = default;
 
   //
   // For convenience, we declare types useful for converting pointers
@@ -216,7 +216,7 @@ public:
   itkNewMacro(Self);
 
 protected:
-  CommandIterationUpdate(){};
+  CommandIterationUpdate() = default;
 
 public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;

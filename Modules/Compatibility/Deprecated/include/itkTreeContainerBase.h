@@ -85,7 +85,7 @@ public:
   }
 
 protected:
-  TreeContainerBase() {}
+  TreeContainerBase() = default;
   ~TreeContainerBase() override = default;
   bool m_SubTree{ false };
 };

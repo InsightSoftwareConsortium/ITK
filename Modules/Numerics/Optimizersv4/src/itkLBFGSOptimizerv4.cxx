@@ -21,7 +21,7 @@
 
 namespace itk
 {
-LBFGSOptimizerv4 ::LBFGSOptimizerv4() {}
+LBFGSOptimizerv4 ::LBFGSOptimizerv4() = default;
 
 LBFGSOptimizerv4 ::~LBFGSOptimizerv4() = default;
 

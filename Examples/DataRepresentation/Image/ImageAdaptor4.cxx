@@ -65,7 +65,7 @@ public:
   using InternalType = unsigned char;
   using ExternalType = unsigned char;
 
-  ThresholdingPixelAccessor(){};
+  ThresholdingPixelAccessor() = default;
 
   ExternalType
   Get(const InternalType & input) const

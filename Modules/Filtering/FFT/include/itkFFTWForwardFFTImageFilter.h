@@ -117,7 +117,7 @@ public:
 
 protected:
   FFTWForwardFFTImageFilter();
-  ~FFTWForwardFFTImageFilter() override {}
+  ~FFTWForwardFFTImageFilter() override = default;
 
   void
   GenerateData() override;

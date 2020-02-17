@@ -175,7 +175,7 @@ protected:
   class CandidateVector
   {
   public:
-    CandidateVector() {}
+    CandidateVector() = default;
 
     struct Candidate
     {

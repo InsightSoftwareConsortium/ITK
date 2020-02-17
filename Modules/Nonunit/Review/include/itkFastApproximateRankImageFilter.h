@@ -105,7 +105,7 @@ protected:
     this->SetRank(0.5);
   }
 
-  ~FastApproximateRankImageFilter() override {}
+  ~FastApproximateRankImageFilter() override = default;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override

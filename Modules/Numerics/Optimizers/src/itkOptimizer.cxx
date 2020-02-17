@@ -26,7 +26,7 @@ namespace itk
  * Constructor
  */
 
-Optimizer ::Optimizer() {}
+Optimizer ::Optimizer() = default;
 
 /**
  * Set scaling as an array of factors

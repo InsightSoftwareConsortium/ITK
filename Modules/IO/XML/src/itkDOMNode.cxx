@@ -23,7 +23,7 @@
 namespace itk
 {
 
-DOMNode::DOMNode() {}
+DOMNode::DOMNode() = default;
 
 void
 DOMNode::SetParent(DOMNode * node)

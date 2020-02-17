@@ -119,7 +119,7 @@ protected:
   /** Constructor */
   DirectFourierReconstructionImageToImageFilter();
   /** Destructor */
-  ~DirectFourierReconstructionImageToImageFilter() override {}
+  ~DirectFourierReconstructionImageToImageFilter() override = default;
 
   /** Output class information */
   void

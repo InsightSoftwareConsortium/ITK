@@ -168,7 +168,7 @@ public:
   class AxisNodeType : public NodeType
   {
   public:
-    AxisNodeType() {}
+    AxisNodeType() = default;
     int
     GetAxis() const
     {

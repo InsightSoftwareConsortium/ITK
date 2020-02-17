@@ -82,8 +82,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FEMRegistrationFil
 }
 
 template <typename TMovingImage, typename TFixedImage, typename TFemObject>
-FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::~FEMRegistrationFilter()
-{}
+FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::~FEMRegistrationFilter() = default;
 
 template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void

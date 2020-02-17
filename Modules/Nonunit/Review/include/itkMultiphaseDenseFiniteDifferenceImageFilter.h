@@ -192,7 +192,7 @@ protected:
     // this->m_UpdateCounter = 0;        // FIXME: Should this be a bool ?
   }
 
-  ~MultiphaseDenseFiniteDifferenceImageFilter() override {}
+  ~MultiphaseDenseFiniteDifferenceImageFilter() override = default;
 
   void
   PrintSelf(std::ostream &, Indent indent) const override;

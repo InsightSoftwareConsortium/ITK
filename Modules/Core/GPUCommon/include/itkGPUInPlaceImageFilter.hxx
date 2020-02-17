@@ -23,12 +23,10 @@
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
-GPUInPlaceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::GPUInPlaceImageFilter()
-{}
+GPUInPlaceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::GPUInPlaceImageFilter() = default;
 
 template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
-GPUInPlaceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::~GPUInPlaceImageFilter()
-{}
+GPUInPlaceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::~GPUInPlaceImageFilter() = default;
 
 template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
 void

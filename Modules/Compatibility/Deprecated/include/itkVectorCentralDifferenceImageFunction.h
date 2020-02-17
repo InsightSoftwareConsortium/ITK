@@ -140,7 +140,7 @@ public:
 
 protected:
   VectorCentralDifferenceImageFunction();
-  ~VectorCentralDifferenceImageFunction() override {}
+  ~VectorCentralDifferenceImageFunction() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

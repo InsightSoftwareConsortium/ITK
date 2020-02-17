@@ -50,8 +50,8 @@ namespace itk
 class GenericCUBFileAdaptor
 {
 public:
-  GenericCUBFileAdaptor() {}
-  virtual ~GenericCUBFileAdaptor() {}
+  GenericCUBFileAdaptor() = default;
+  virtual ~GenericCUBFileAdaptor() = default;
 
   using SizeType = ImageIOBase::SizeType;
 

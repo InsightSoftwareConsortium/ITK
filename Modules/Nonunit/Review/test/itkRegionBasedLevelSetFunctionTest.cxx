@@ -73,8 +73,8 @@ public:
   {}
 
 protected:
-  RegionBasedLevelSetFunctionTestHelper() {}
-  ~RegionBasedLevelSetFunctionTestHelper() override {}
+  RegionBasedLevelSetFunctionTestHelper() = default;
+  ~RegionBasedLevelSetFunctionTestHelper() override = default;
 };
 
 template <unsigned int NDimension>

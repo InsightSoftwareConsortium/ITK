@@ -179,7 +179,7 @@ protected:
   ConstrainedRegionBasedLevelSetFunctionSharedData()
     : Superclass()
   {}
-  ~ConstrainedRegionBasedLevelSetFunctionSharedData() override {}
+  ~ConstrainedRegionBasedLevelSetFunctionSharedData() override = default;
 
 private:
   ConstrainedRegionBasedLevelSetFunctionSharedData(const Self &); // purposely

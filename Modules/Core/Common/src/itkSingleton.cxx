@@ -37,7 +37,7 @@ public:
   using Self = GlobalSingletonIndexInitializer;
   using SingletonIndex = ::itk::SingletonIndex;
 
-  GlobalSingletonIndexInitializer() {}
+  GlobalSingletonIndexInitializer() = default;
 
   /** Delete the time stamp if it was created. */
   ~GlobalSingletonIndexInitializer()

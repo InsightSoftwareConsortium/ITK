@@ -56,7 +56,7 @@ public:
   // Returns pixels of float..
   using OutputPixelType = TOutput;
 
-  HistogramLogProbabilityFunction() {}
+  HistogramLogProbabilityFunction() = default;
 
   ~HistogramLogProbabilityFunction() = default;
 

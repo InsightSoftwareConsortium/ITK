@@ -400,7 +400,7 @@ PhilipsPAR::PhilipsPAR()
   this->m_PARFileLines.resize(0);
 }
 
-PhilipsPAR::~PhilipsPAR() {}
+PhilipsPAR::~PhilipsPAR() = default;
 
 std::string
 PhilipsPAR::GetLineNumber(std::string file, int lineNum)

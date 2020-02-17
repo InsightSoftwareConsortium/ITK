@@ -98,7 +98,7 @@ JPEG2000ImageIO::JPEG2000ImageIO()
   }
 }
 
-JPEG2000ImageIO::~JPEG2000ImageIO() {}
+JPEG2000ImageIO::~JPEG2000ImageIO() = default;
 
 void
 JPEG2000ImageIO::PrintSelf(std::ostream & os, Indent indent) const

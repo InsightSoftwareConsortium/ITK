@@ -40,8 +40,8 @@ GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::G
 }
 
 template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
-GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::~GPUFiniteDifferenceImageFilter()
-{}
+GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::~GPUFiniteDifferenceImageFilter() =
+  default;
 
 template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
 void

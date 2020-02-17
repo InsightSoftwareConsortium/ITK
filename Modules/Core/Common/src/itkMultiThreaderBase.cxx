@@ -54,7 +54,7 @@ namespace itk
 struct MultiThreaderBaseGlobals
 {
   // Initialize static members.
-  MultiThreaderBaseGlobals(){};
+  MultiThreaderBaseGlobals() = default;
   // GlobalDefaultThreaderTypeIsInitialized is used only in this
   // file to ensure that the ITK_GLOBAL_DEFAULT_THREADER or
   // ITK_USE_THREADPOOL environmenal variables are

@@ -44,9 +44,9 @@ namespace itk
 FEMFactoryBase * FEMFactoryBase::m_Factory = nullptr;
 std::mutex       FEMFactoryBase::m_CreationLock;
 
-FEMFactoryBase::FEMFactoryBase() {}
+FEMFactoryBase::FEMFactoryBase() = default;
 
-FEMFactoryBase::~FEMFactoryBase() {}
+FEMFactoryBase::~FEMFactoryBase() = default;
 
 void
 FEMFactoryBase::RegisterDefaultTypes()

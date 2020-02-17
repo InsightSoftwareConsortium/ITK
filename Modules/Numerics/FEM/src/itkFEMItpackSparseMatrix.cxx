@@ -467,7 +467,7 @@ FEMExceptionItpackSparseMatrixSbagn::FEMExceptionItpackSparseMatrixSbagn(const c
   SetLocation(location);
 }
 
-FEMExceptionItpackSparseMatrixSbagn::~FEMExceptionItpackSparseMatrixSbagn() noexcept {}
+FEMExceptionItpackSparseMatrixSbagn::~FEMExceptionItpackSparseMatrixSbagn() noexcept = default;
 
 FEMExceptionItpackSparseMatrixSbsij::FEMExceptionItpackSparseMatrixSbsij(const char * file,
                                                                          unsigned int lineNumber,
@@ -497,7 +497,7 @@ FEMExceptionItpackSparseMatrixSbsij::FEMExceptionItpackSparseMatrixSbsij(const c
   SetLocation(location);
 }
 
-FEMExceptionItpackSparseMatrixSbsij::~FEMExceptionItpackSparseMatrixSbsij() noexcept {}
+FEMExceptionItpackSparseMatrixSbsij::~FEMExceptionItpackSparseMatrixSbsij() noexcept = default;
 
 } // end namespace fem
 } // end namespace itk

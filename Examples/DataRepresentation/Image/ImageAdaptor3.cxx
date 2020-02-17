@@ -69,7 +69,7 @@ public:
   using InternalType = itk::CovariantVector<float, 2>;
   using ExternalType = float;
 
-  VectorPixelAccessor() {}
+  VectorPixelAccessor() = default;
 
   VectorPixelAccessor &
   operator=(const VectorPixelAccessor & vpa) = default;

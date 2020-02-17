@@ -192,7 +192,7 @@ public:
     /**
      * Default constructor
      */
-    Node() {}
+    Node() = default;
     /**
      * Destructor
      */

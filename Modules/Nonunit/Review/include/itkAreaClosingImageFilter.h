@@ -108,7 +108,7 @@ public:
 protected:
   AreaClosingImageFilter() { m_UseImageSpacing = true; }
 
-  ~AreaClosingImageFilter() override {}
+  ~AreaClosingImageFilter() override = default;
 
   void
   GenerateData() override

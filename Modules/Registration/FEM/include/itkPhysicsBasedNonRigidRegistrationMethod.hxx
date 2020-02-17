@@ -55,8 +55,7 @@ PhysicsBasedNonRigidRegistrationMethod<TFixedImage, TMovingImage, TMaskImage, TM
 
 template <typename TFixedImage, typename TMovingImage, typename TMaskImage, typename TMesh, typename TDeformationField>
 PhysicsBasedNonRigidRegistrationMethod<TFixedImage, TMovingImage, TMaskImage, TMesh, TDeformationField>::
-  ~PhysicsBasedNonRigidRegistrationMethod()
-{}
+  ~PhysicsBasedNonRigidRegistrationMethod() = default;
 
 template <typename TFixedImage, typename TMovingImage, typename TMaskImage, typename TMesh, typename TDeformationField>
 void

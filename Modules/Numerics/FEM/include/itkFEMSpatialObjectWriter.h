@@ -51,7 +51,7 @@ protected:
   std::string m_FileName;
 
   FEMSpatialObjectWriter();
-  ~FEMSpatialObjectWriter() override {}
+  ~FEMSpatialObjectWriter() override = default;
 };
 
 template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>

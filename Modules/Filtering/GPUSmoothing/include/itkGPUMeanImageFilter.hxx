@@ -47,8 +47,7 @@ GPUMeanImageFilter<TInputImage, TOutputImage>::GPUMeanImageFilter()
 }
 
 template <typename TInputImage, typename TOutputImage>
-GPUMeanImageFilter<TInputImage, TOutputImage>::~GPUMeanImageFilter()
-{}
+GPUMeanImageFilter<TInputImage, TOutputImage>::~GPUMeanImageFilter() = default;
 
 template <typename TInputImage, typename TOutputImage>
 void

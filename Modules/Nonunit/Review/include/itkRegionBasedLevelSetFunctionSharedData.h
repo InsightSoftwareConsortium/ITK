@@ -183,7 +183,7 @@ protected:
   RegionBasedLevelSetFunctionSharedData()
     : m_KdTree(nullptr)
   {}
-  ~RegionBasedLevelSetFunctionSharedData() override {}
+  ~RegionBasedLevelSetFunctionSharedData() override = default;
 };
 } // end namespace itk
 

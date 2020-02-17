@@ -31,9 +31,7 @@ namespace itk
  * Constructor
  */
 template <typename TInputImage, typename TCoordRep>
-MedianImageFunction<TInputImage, TCoordRep>::MedianImageFunction()
-{}
-
+MedianImageFunction<TInputImage, TCoordRep>::MedianImageFunction() = default;
 
 template <typename TInputImage, typename TCoordRep>
 void

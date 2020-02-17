@@ -27,7 +27,7 @@ JPEG2000ImageIOFactory::JPEG2000ImageIOFactory()
     "itkImageIOBase", "itkJPEG2000ImageIO", "JPEG2000 Image IO", true, CreateObjectFunction<JPEG2000ImageIO>::New());
 }
 
-JPEG2000ImageIOFactory::~JPEG2000ImageIOFactory() {}
+JPEG2000ImageIOFactory::~JPEG2000ImageIOFactory() = default;
 
 const char *
 JPEG2000ImageIOFactory::GetITKSourceVersion() const
