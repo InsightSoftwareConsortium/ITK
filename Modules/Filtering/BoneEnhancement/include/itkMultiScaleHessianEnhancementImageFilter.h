@@ -182,7 +182,7 @@ public:
 #endif
 protected:
   MultiScaleHessianEnhancementImageFilter();
-  virtual ~MultiScaleHessianEnhancementImageFilter() {}
+  ~MultiScaleHessianEnhancementImageFilter() override {}
 
   /** Single threaded since we are connecting data */
   void

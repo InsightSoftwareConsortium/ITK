@@ -120,7 +120,7 @@ public:
 
 protected:
   EigenToMeasureParameterEstimationFilter();
-  virtual ~EigenToMeasureParameterEstimationFilter() {}
+  ~EigenToMeasureParameterEstimationFilter() override {}
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

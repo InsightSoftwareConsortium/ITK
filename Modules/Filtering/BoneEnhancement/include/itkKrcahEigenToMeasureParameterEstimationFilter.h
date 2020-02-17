@@ -155,7 +155,7 @@ public:
 #endif
 protected:
   KrcahEigenToMeasureParameterEstimationFilter();
-  virtual ~KrcahEigenToMeasureParameterEstimationFilter() {}
+  ~KrcahEigenToMeasureParameterEstimationFilter() override {}
 
   /** Initialize some accumulators before the threads run. */
   void
