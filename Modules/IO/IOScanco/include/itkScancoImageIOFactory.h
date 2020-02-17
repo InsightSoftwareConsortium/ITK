@@ -40,10 +40,10 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char *
+  const char *
   GetITKSourceVersion() const override;
 
-  virtual const char *
+  const char *
   GetDescription() const override;
 
   /** Method for class instantiation. */

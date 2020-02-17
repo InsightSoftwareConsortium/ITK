@@ -88,7 +88,7 @@ public:
    * while others can support 2D, 3D, or even n-D. This method returns
    * true/false as to whether the ImageIO can support the dimension
    * indicated. */
-  virtual bool
+  bool
   SupportsDimension(unsigned long dimension) override
   {
     if (dimension == 3)
@@ -102,41 +102,41 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool
+  bool
   CanReadFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void
+  void
   ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void
+  void
   Read(void * buffer) override;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
-  virtual bool
+  bool
   CanWriteFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void
+  void
   WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  virtual void
+  void
   Write(const void * buffer) override;
 
 
-  virtual bool
+  bool
   CanStreamRead() override
   {
     return false;
   }
 
-  virtual bool
+  bool
   CanStreamWrite() override
   {
     return false;
@@ -236,9 +236,9 @@ public:
 
 protected:
   ScancoImageIO();
-  ~ScancoImageIO();
+  ~ScancoImageIO() override;
 
-  virtual void
+  void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
