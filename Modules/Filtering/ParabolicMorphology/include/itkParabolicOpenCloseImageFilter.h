@@ -147,7 +147,7 @@ protected:
 
   /** Generate Data */
   void
-  GenerateData(void) override;
+  GenerateData() override;
 
   unsigned int
   SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType & splitRegion) override;

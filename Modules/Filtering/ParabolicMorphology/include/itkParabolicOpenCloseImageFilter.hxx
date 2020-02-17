@@ -173,7 +173,7 @@ ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::EnlargeOutputR
 
 template <typename TInputImage, bool doOpen, typename TOutputImage>
 void
-ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::GenerateData(void)
+ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::GenerateData()
 {
   ThreadIdType nbthreads = this->GetNumberOfWorkUnits();
 

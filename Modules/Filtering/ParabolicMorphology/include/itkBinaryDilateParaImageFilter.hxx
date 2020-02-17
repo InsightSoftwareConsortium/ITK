@@ -52,7 +52,7 @@ BinaryDilateParaImageFilter<TInputImage, TOutputImage>::SetRadius(ScalarRealType
 
 template <typename TInputImage, typename TOutputImage>
 void
-BinaryDilateParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
+BinaryDilateParaImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Allocate the output
   this->AllocateOutputs();

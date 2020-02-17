@@ -25,7 +25,7 @@ namespace itk
 {
 template <typename TInputImage, bool doOpen, typename TOutputImage>
 void
-ParabolicOpenCloseSafeBorderImageFilter<TInputImage, doOpen, TOutputImage>::GenerateData(void)
+ParabolicOpenCloseSafeBorderImageFilter<TInputImage, doOpen, TOutputImage>::GenerateData()
 {
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
 

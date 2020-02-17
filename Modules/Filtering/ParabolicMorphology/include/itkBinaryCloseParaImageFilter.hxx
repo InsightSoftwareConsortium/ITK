@@ -60,7 +60,7 @@ BinaryCloseParaImageFilter<TInputImage, TOutputImage>::SetRadius(ScalarRealType 
 
 template <typename TInputImage, typename TOutputImage>
 void
-BinaryCloseParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
+BinaryCloseParaImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Allocate the output
   this->AllocateOutputs();

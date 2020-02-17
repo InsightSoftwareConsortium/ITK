@@ -50,7 +50,7 @@ MorphologicalDistanceTransformImageFilter<TInputImage, TOutputImage>::Modified()
 
 template <typename TInputImage, typename TOutputImage>
 void
-MorphologicalDistanceTransformImageFilter<TInputImage, TOutputImage>::GenerateData(void)
+MorphologicalDistanceTransformImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
 

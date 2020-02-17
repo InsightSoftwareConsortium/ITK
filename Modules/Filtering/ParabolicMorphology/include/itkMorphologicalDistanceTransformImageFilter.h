@@ -136,7 +136,7 @@ protected:
 
   /** Generate Data */
   void
-  GenerateData(void) override;
+  GenerateData() override;
 
   // do everything in the output image type, which should have high precision
   using ThreshType = typename itk::BinaryThresholdImageFilter<InputImageType, OutputImageType>;

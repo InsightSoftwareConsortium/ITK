@@ -133,7 +133,7 @@ public:
 
 protected:
   void
-  GenerateData(void) override;
+  GenerateData() override;
 
   BinaryErodeParaImageFilter();
   ~BinaryErodeParaImageFilter() override = default;

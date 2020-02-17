@@ -41,7 +41,7 @@ MorphologicalSharpeningImageFilter<TInputImage, TOutputImage>::MorphologicalShar
 
 template <typename TInputImage, typename TOutputImage>
 void
-MorphologicalSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData(void)
+MorphologicalSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
 

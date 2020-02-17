@@ -52,7 +52,7 @@ BinaryErodeParaImageFilter<TInputImage, TOutputImage>::SetRadius(ScalarRealType 
 
 template <typename TInputImage, typename TOutputImage>
 void
-BinaryErodeParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
+BinaryErodeParaImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Allocate the output
   this->AllocateOutputs();

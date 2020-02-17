@@ -60,7 +60,7 @@ BinaryOpenParaImageFilter<TInputImage, TOutputImage>::SetRadius(ScalarRealType r
 
 template <typename TInputImage, typename TOutputImage>
 void
-BinaryOpenParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
+BinaryOpenParaImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Allocate the output
   this->AllocateOutputs();

@@ -140,7 +140,7 @@ public:
   /* add in the traits here */
 protected:
   void
-  GenerateData(void) override;
+  GenerateData() override;
 
   BinaryCloseParaImageFilter();
   ~BinaryCloseParaImageFilter() override = default;

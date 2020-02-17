@@ -156,7 +156,7 @@ protected:
 
   /** Generate Data */
   void
-  GenerateData(void) override;
+  GenerateData() override;
 
   // do everything in the output image type, which should have high precision
   using ErodeType = typename itk::ParabolicErodeImageFilter<OutputImageType, OutputImageType>;
