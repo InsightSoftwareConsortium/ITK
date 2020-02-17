@@ -422,9 +422,9 @@ FDFImageIO::Read(void * buffer)
 }
 
 
-FDFImageIO::FDFImageIO() {}
+FDFImageIO::FDFImageIO() = default;
 
-FDFImageIO::~FDFImageIO() {}
+FDFImageIO::~FDFImageIO() = default;
 
 void
 FDFImageIO::PrintSelf(std::ostream & os, Indent indent) const

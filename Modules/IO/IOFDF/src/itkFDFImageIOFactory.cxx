@@ -30,7 +30,7 @@ FDFImageIOFactory::FDFImageIOFactory()
     "itkImageIOBase", "itkFDFImageIO", "FDF Image IO", true, CreateObjectFunction<FDFImageIO>::New());
 }
 
-FDFImageIOFactory::~FDFImageIOFactory() {}
+FDFImageIOFactory::~FDFImageIOFactory() = default;
 
 const char *
 FDFImageIOFactory::GetITKSourceVersion() const
