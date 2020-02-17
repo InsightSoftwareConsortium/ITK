@@ -235,7 +235,7 @@ MINCTransformIOTemplate<TParametersValueType>::WriteOneTransform(const int      
       // add 4th normalization row (not stored)
       Transform_elem(lin, 3, 3) = 1.0;
 
-      xfm.push_back(VIO_General_transform());
+      xfm.emplace_back();
       memset(&xfm[xfm.size() - 1], 0, sizeof(VIO_General_transform));
       create_linear_transform(&xfm[xfm.size() - 1], &lin);
     }
@@ -271,7 +271,7 @@ MINCTransformIOTemplate<TParametersValueType>::WriteOneTransform(const int      
       }
       writer->Update();
 
-      xfm.push_back(VIO_General_transform());
+      xfm.emplace_back();
       create_grid_transform_no_copy(&xfm[xfm.size() - 1], nullptr, nullptr); // relying on volume_io using the same name
       if (_inverse_grid)
       {

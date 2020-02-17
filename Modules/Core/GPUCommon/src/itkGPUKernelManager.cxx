@@ -251,7 +251,7 @@ GPUKernelManager::CreateKernel(const char * kernelName)
   m_KernelContainer.push_back(newKernel);
 
   // argument list
-  m_KernelArgumentReady.push_back(std::vector<KernelArgumentList>());
+  m_KernelArgumentReady.emplace_back();
   cl_uint nArg;
   errid = clGetKernelInfo(newKernel, CL_KERNEL_NUM_ARGS, sizeof(cl_uint), &nArg, nullptr);
   (m_KernelArgumentReady.back()).resize(nArg);
