@@ -158,8 +158,8 @@ private:
   IndexValueType
   GetSliceIndex(IndexValueType index) const;
 
-  SliceIndexType *       m_SliceIndex;
-  ImageIOBase::ByteOrder m_MachineByteOrder;
+  SliceIndexType * m_SliceIndex;
+  IOByteOrderEnum  m_MachineByteOrder;
 };
 } // end namespace itk
 
