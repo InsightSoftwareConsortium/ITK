@@ -33,8 +33,7 @@ SinusoidSpatialFunction<TOutput, VImageDimension, TInput>::SinusoidSpatialFuncti
 
 
 template <typename TOutput, unsigned int VImageDimension, typename TInput>
-SinusoidSpatialFunction<TOutput, VImageDimension, TInput>::~SinusoidSpatialFunction()
-{}
+SinusoidSpatialFunction<TOutput, VImageDimension, TInput>::~SinusoidSpatialFunction() = default;
 
 
 template <typename TOutput, unsigned int VImageDimension, typename TInput>

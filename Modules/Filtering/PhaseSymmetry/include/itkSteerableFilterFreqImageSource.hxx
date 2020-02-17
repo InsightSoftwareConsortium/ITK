@@ -44,8 +44,7 @@ SteerableFilterFreqImageSource<TOutputImage>::SteerableFilterFreqImageSource()
 
 
 template <typename TOutputImage>
-SteerableFilterFreqImageSource<TOutputImage>::~SteerableFilterFreqImageSource()
-{}
+SteerableFilterFreqImageSource<TOutputImage>::~SteerableFilterFreqImageSource() = default;
 
 
 template <typename TOutputImage>

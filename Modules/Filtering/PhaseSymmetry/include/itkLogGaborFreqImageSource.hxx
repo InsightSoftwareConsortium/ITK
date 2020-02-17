@@ -35,8 +35,7 @@ LogGaborFreqImageSource<TOutputImage>::LogGaborFreqImageSource()
 
 
 template <typename TOutputImage>
-LogGaborFreqImageSource<TOutputImage>::~LogGaborFreqImageSource()
-{}
+LogGaborFreqImageSource<TOutputImage>::~LogGaborFreqImageSource() = default;
 
 
 template <typename TOutputImage>

@@ -34,8 +34,7 @@ ButterworthFilterFreqImageSource<TOutputImage>::ButterworthFilterFreqImageSource
 
 
 template <typename TOutputImage>
-ButterworthFilterFreqImageSource<TOutputImage>::~ButterworthFilterFreqImageSource()
-{}
+ButterworthFilterFreqImageSource<TOutputImage>::~ButterworthFilterFreqImageSource() = default;
 
 
 template <typename TOutputImage>
