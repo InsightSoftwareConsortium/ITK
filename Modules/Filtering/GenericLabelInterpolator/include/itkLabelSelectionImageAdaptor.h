@@ -60,8 +60,8 @@ public:
   }
 
 protected:
-  LabelSelectionImageAdaptor() {}
-  ~LabelSelectionImageAdaptor() override {}
+  LabelSelectionImageAdaptor() = default;
+  ~LabelSelectionImageAdaptor() override = default;
 };
 } // end namespace itk
 
