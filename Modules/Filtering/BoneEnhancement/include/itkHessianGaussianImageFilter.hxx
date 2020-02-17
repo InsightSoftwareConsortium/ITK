@@ -171,7 +171,7 @@ HessianGaussianImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedReg
  */
 template <typename TInputImage, typename TOutputImage>
 void
-HessianGaussianImageFilter<TInputImage, TOutputImage>::GenerateData(void)
+HessianGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   itkDebugMacro(<< "HessianGaussianImageFilter generating data ");
 
