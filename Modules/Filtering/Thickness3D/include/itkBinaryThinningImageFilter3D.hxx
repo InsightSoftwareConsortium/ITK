@@ -42,14 +42,14 @@ BinaryThinningImageFilter3D<TInputImage, TOutputImage>::BinaryThinningImageFilte
 
 template <class TInputImage, class TOutputImage>
 typename BinaryThinningImageFilter3D<TInputImage, TOutputImage>::OutputImageType *
-BinaryThinningImageFilter3D<TInputImage, TOutputImage>::GetThinning(void)
+BinaryThinningImageFilter3D<TInputImage, TOutputImage>::GetThinning()
 {
   return dynamic_cast<OutputImageType *>(this->ProcessObject::GetOutput(0));
 }
 
 template <class TInputImage, class TOutputImage>
 void
-BinaryThinningImageFilter3D<TInputImage, TOutputImage>::PrepareData(void)
+BinaryThinningImageFilter3D<TInputImage, TOutputImage>::PrepareData()
 {
   // Copy the input image to the output image, changing from the input
   // type to the output type.

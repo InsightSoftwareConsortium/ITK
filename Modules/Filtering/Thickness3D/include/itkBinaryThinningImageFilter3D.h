@@ -113,7 +113,7 @@ public:
 
   /** Get Skeleton by thinning image. */
   OutputImageType *
-  GetThinning(void);
+  GetThinning();
 
   /** ImageDimension enumeration   */
   itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
