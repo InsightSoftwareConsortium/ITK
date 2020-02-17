@@ -43,9 +43,9 @@ template <typename TInputPixel1, typename TInputPixel2 = TInputPixel1, typename 
 class MaximumAbsoluteValue
 {
 public:
-  MaximumAbsoluteValue() {}
+  MaximumAbsoluteValue() = default;
 
-  ~MaximumAbsoluteValue() {}
+  ~MaximumAbsoluteValue() = default;
 
   bool
   operator!=(const MaximumAbsoluteValue &) const
@@ -119,9 +119,8 @@ public:
   // End concept checking
 #endif
 protected:
-  MaximumAbsoluteValueImageFilter(){};
-
-  ~MaximumAbsoluteValueImageFilter() override {}
+  MaximumAbsoluteValueImageFilter() = default;
+  ~MaximumAbsoluteValueImageFilter() override = default;
 }; // end of class
 } // end namespace itk
 

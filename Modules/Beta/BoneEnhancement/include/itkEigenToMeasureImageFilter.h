@@ -109,8 +109,8 @@ public:
   GetEigenValueOrder() const = 0;
 
 protected:
-  EigenToMeasureImageFilter(){};
-  ~EigenToMeasureImageFilter() override {}
+  EigenToMeasureImageFilter() = default;
+  ~EigenToMeasureImageFilter() override = default;
 
   virtual OutputImagePixelType
   ProcessPixel(const InputImagePixelType & pixel) = 0;

@@ -134,7 +134,7 @@ public:
     m_SpatialObject = SpatialObjectType::New();
     m_SpatialObject->SetImage(m_MaskImage);
   }
-  ~itkDescoteauxEigenToMeasureImageFilterUnitTest() override {}
+  ~itkDescoteauxEigenToMeasureImageFilterUnitTest() override = default;
 
 protected:
   void

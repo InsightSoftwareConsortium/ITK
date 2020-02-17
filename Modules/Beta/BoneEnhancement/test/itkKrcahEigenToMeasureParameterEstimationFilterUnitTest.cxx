@@ -120,7 +120,7 @@ public:
     m_SpatialObject = SpatialObjectType::New();
     m_SpatialObject->SetImage(m_MaskImage);
   }
-  ~itkKrcahEigenToMeasureParameterEstimationFilterUnitTest() override {}
+  ~itkKrcahEigenToMeasureParameterEstimationFilterUnitTest() override = default;
 
 protected:
   void
