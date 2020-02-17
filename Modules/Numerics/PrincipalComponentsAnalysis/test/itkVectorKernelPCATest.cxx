@@ -172,7 +172,7 @@ itkVectorKernelPCATest(int argc, char * argv[])
   unsigned int             fieldSetCount = argc - firstVectorFieldIdx;
   for (unsigned int i = firstVectorFieldIdx; i < firstVectorFieldIdx + fieldSetCount; i++)
   {
-    vectorFieldFilenames.push_back(argv[i]);
+    vectorFieldFilenames.emplace_back(argv[i]);
   }
 
   PCACalculatorType::VectorFieldSetTypePointer vectorFieldSet = PCACalculatorType::VectorFieldSetType::New();
