@@ -110,7 +110,7 @@ public:
 
 protected:
   EigenToMeasureImageFilter(){};
-  virtual ~EigenToMeasureImageFilter() {}
+  ~EigenToMeasureImageFilter() override {}
 
   virtual OutputImagePixelType
   ProcessPixel(const InputImagePixelType & pixel) = 0;

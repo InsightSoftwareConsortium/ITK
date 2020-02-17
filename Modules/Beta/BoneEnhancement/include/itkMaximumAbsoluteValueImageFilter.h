@@ -121,7 +121,7 @@ public:
 protected:
   MaximumAbsoluteValueImageFilter(){};
 
-  virtual ~MaximumAbsoluteValueImageFilter() {}
+  ~MaximumAbsoluteValueImageFilter() override {}
 }; // end of class
 } // end namespace itk
 

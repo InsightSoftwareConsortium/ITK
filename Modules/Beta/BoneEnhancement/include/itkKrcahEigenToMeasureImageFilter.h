@@ -114,7 +114,7 @@ public:
 #endif
 protected:
   KrcahEigenToMeasureImageFilter();
-  virtual ~KrcahEigenToMeasureImageFilter() {}
+  ~KrcahEigenToMeasureImageFilter() override {}
 
   OutputImagePixelType
   ProcessPixel(const InputImagePixelType & pixel) override;

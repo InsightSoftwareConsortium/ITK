@@ -136,7 +136,7 @@ public:
 
 protected:
   HessianGaussianImageFilter();
-  virtual ~HessianGaussianImageFilter() {}
+  ~HessianGaussianImageFilter() override {}
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

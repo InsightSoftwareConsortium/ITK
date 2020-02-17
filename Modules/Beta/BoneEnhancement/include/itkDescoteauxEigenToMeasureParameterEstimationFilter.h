@@ -102,7 +102,7 @@ public:
 #endif
 protected:
   DescoteauxEigenToMeasureParameterEstimationFilter();
-  virtual ~DescoteauxEigenToMeasureParameterEstimationFilter() {}
+  ~DescoteauxEigenToMeasureParameterEstimationFilter() override {}
 
   /** Initialize some accumulators before the threads run. */
   void
