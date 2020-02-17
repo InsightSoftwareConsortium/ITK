@@ -38,7 +38,7 @@ DCMTKTransformIOFactory ::DCMTKTransformIOFactory()
                          CreateObjectFunction<DCMTKTransformIO<double>>::New());
 }
 
-DCMTKTransformIOFactory ::~DCMTKTransformIOFactory() {}
+DCMTKTransformIOFactory ::~DCMTKTransformIOFactory() = default;
 
 const char *
 DCMTKTransformIOFactory ::GetITKSourceVersion() const

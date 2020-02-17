@@ -35,13 +35,11 @@ namespace itk
 {
 
 template <typename TInternalComputationValueType>
-DCMTKTransformIO<TInternalComputationValueType>::DCMTKTransformIO()
-{}
+DCMTKTransformIO<TInternalComputationValueType>::DCMTKTransformIO() = default;
 
 
 template <typename TInternalComputationValueType>
-DCMTKTransformIO<TInternalComputationValueType>::~DCMTKTransformIO()
-{}
+DCMTKTransformIO<TInternalComputationValueType>::~DCMTKTransformIO() = default;
 
 
 template <typename TInternalComputationValueType>
