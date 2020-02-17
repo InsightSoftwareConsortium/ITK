@@ -114,7 +114,7 @@ public:
 #endif
 protected:
   DescoteauxEigenToMeasureImageFilter();
-  ~DescoteauxEigenToMeasureImageFilter() override {}
+  ~DescoteauxEigenToMeasureImageFilter() override = default;
 
   OutputImagePixelType
   ProcessPixel(const InputImagePixelType & pixel) override;
