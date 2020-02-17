@@ -140,7 +140,7 @@ protected:
   using InternalGradientType = typename BSplineControlPointImageFunctionType::GradientType;
 
   BSplineScatteredDataPointSetToGradientImageFilter();
-  virtual ~BSplineScatteredDataPointSetToGradientImageFilter() {}
+  ~BSplineScatteredDataPointSetToGradientImageFilter() override {}
 
   void
   GenerateOutputInformation() override;

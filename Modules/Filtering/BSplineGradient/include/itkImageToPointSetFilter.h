@@ -78,7 +78,7 @@ public:
 
 protected:
   ImageToPointSetFilter() {}
-  virtual ~ImageToPointSetFilter() {}
+  ~ImageToPointSetFilter() override {}
 
   void
   GenerateData() override;
