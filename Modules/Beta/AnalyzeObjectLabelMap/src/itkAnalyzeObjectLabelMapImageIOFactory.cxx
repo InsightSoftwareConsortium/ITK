@@ -34,7 +34,7 @@ AnalyzeObjectLabelMapImageIOFactory::AnalyzeObjectLabelMapImageIOFactory()
                          CreateObjectFunction<AnalyzeObjectLabelMapImageIO>::New());
 }
 
-AnalyzeObjectLabelMapImageIOFactory::~AnalyzeObjectLabelMapImageIOFactory() {}
+AnalyzeObjectLabelMapImageIOFactory::~AnalyzeObjectLabelMapImageIOFactory() = default;
 
 const char *
 AnalyzeObjectLabelMapImageIOFactory::GetITKSourceVersion() const

@@ -19,7 +19,7 @@
 namespace itk
 {
 
-AnalyzeObjectEntry::~AnalyzeObjectEntry() {}
+AnalyzeObjectEntry::~AnalyzeObjectEntry() = default;
 
 AnalyzeObjectEntry::AnalyzeObjectEntry()
   : m_DisplayFlag(1)
