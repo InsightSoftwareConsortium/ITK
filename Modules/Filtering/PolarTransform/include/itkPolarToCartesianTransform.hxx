@@ -32,8 +32,7 @@ PolarToCartesianTransform<TParametersValueType, NDimensions>::PolarToCartesianTr
 
 
 template <typename TParametersValueType, unsigned int NDimensions>
-PolarToCartesianTransform<TParametersValueType, NDimensions>::~PolarToCartesianTransform()
-{}
+PolarToCartesianTransform<TParametersValueType, NDimensions>::~PolarToCartesianTransform() = default;
 
 
 template <typename TParametersValueType, unsigned int NDimensions>
