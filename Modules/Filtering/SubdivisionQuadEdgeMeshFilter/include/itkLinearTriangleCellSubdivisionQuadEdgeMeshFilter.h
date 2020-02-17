@@ -84,8 +84,8 @@ public:
   itkNewMacro(Self);
 
 protected:
-  LinearTriangleCellSubdivisionQuadEdgeMeshFilter() {}
-  ~LinearTriangleCellSubdivisionQuadEdgeMeshFilter() override {}
+  LinearTriangleCellSubdivisionQuadEdgeMeshFilter() = default;
+  ~LinearTriangleCellSubdivisionQuadEdgeMeshFilter() override = default;
 
   void
   AddNewCellPoints(InputCellType * cell) override;

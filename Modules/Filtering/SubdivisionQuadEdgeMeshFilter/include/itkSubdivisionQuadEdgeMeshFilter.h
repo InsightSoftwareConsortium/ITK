@@ -94,7 +94,7 @@ public:
 
 protected:
   SubdivisionQuadEdgeMeshFilter();
-  ~SubdivisionQuadEdgeMeshFilter() override {}
+  ~SubdivisionQuadEdgeMeshFilter() override = default;
 
   /** inheriting class should implement this method, to take care of mesh geometry (vertex' coordinates). */
   virtual void

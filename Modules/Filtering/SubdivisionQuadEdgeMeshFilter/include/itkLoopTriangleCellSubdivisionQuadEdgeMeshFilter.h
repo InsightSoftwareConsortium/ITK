@@ -109,8 +109,8 @@ public:
   itkNewMacro(Self);
 
 protected:
-  LoopTriangleCellSubdivisionQuadEdgeMeshFilter() {}
-  ~LoopTriangleCellSubdivisionQuadEdgeMeshFilter() override {}
+  LoopTriangleCellSubdivisionQuadEdgeMeshFilter() = default;
+  ~LoopTriangleCellSubdivisionQuadEdgeMeshFilter() override = default;
 
   void
   CopyInputMeshToOutputMeshPoints() override;

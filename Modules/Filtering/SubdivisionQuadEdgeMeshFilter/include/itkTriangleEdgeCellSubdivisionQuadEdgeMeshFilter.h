@@ -92,7 +92,7 @@ public:
 
 protected:
   TriangleEdgeCellSubdivisionQuadEdgeMeshFilter();
-  ~TriangleEdgeCellSubdivisionQuadEdgeMeshFilter() override {}
+  ~TriangleEdgeCellSubdivisionQuadEdgeMeshFilter() override = default;
 
   void
   AddNewCellPoints(InputCellType * itkNotUsed(cell)) override

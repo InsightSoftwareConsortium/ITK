@@ -71,7 +71,7 @@ public:
 
 protected:
   EdgeLengthTriangleEdgeCellSubdivisionCriterion() { m_MaximumLength = NumericTraits<CoordRepType>::max(); }
-  ~EdgeLengthTriangleEdgeCellSubdivisionCriterion() override {}
+  ~EdgeLengthTriangleEdgeCellSubdivisionCriterion() override = default;
 
 private:
   CoordRepType m_MaximumLength;

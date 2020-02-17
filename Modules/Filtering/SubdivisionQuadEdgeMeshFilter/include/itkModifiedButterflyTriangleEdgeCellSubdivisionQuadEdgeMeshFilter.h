@@ -83,8 +83,8 @@ public:
   itkNewMacro(Self);
 
 protected:
-  ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter() {}
-  ~ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter() override {}
+  ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter() = default;
+  ~ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter() override = default;
 
   void
   AddNewEdgePoints(InputQEType * edge) override;

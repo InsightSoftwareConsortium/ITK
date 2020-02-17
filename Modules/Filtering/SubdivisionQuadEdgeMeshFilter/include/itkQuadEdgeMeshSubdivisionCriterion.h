@@ -63,8 +63,8 @@ public:
   Compute(MeshType * mesh, SubdivisionCellContainer & edgeList) = 0;
 
 protected:
-  QuadEdgeMeshSubdivisionCriterion() {}
-  ~QuadEdgeMeshSubdivisionCriterion() override {}
+  QuadEdgeMeshSubdivisionCriterion() = default;
+  ~QuadEdgeMeshSubdivisionCriterion() override = default;
 };
 
 } // namespace itk

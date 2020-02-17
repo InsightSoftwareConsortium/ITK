@@ -97,7 +97,7 @@ public:
 
 protected:
   TriangleCellSubdivisionQuadEdgeMeshFilter();
-  ~TriangleCellSubdivisionQuadEdgeMeshFilter() override {}
+  ~TriangleCellSubdivisionQuadEdgeMeshFilter() override = default;
 
   virtual void
   AddNewCellPoints(InputCellType * cell) = 0;
