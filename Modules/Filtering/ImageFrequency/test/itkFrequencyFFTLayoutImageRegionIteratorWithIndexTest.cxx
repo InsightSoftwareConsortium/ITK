@@ -55,7 +55,7 @@ public:
     m_PositiveHalfRegion.SetSize(size);
     m_PositiveHalfRegion.SetIndex(start);
 
-    m_ImageIsOdd = inputImageSize % 2 == 1 ? 1 : 0;
+    m_ImageIsOdd = inputImageSize % 2 == 1 ? true : false;
     // Setup the half, negative frequencies region.
     unsigned int isImageSizeOdd = m_ImageIsOdd ? 1 : 0;
     size.Fill(inputImageSize / 2);
