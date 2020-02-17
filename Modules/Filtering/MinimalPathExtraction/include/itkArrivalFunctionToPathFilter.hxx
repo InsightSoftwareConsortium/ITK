@@ -34,8 +34,7 @@ ArrivalFunctionToPathFilter<TInputImage, TOutputPath>::ArrivalFunctionToPathFilt
 
 
 template <typename TInputImage, typename TOutputPath>
-ArrivalFunctionToPathFilter<TInputImage, TOutputPath>::~ArrivalFunctionToPathFilter()
-{}
+ArrivalFunctionToPathFilter<TInputImage, TOutputPath>::~ArrivalFunctionToPathFilter() = default;
 
 template <typename TInputImage, typename TOutputPath>
 void

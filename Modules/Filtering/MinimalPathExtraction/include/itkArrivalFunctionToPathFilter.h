@@ -84,8 +84,8 @@ public:
   }
 
 protected:
-  ArrivalFunctionToPathCommand() {}
-  ~ArrivalFunctionToPathCommand() override {}
+  ArrivalFunctionToPathCommand() = default;
+  ~ArrivalFunctionToPathCommand() override = default;
 
 private:
   typename FilterType::Pointer m_Filter;

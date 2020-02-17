@@ -132,7 +132,7 @@ public:
 
 protected:
   PhysicalCentralDifferenceImageFunction();
-  ~PhysicalCentralDifferenceImageFunction() override {};
+  ~PhysicalCentralDifferenceImageFunction() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

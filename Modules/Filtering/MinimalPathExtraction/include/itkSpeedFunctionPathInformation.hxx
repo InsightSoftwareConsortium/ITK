@@ -31,8 +31,7 @@ SpeedFunctionPathInformation<TPoint>::SpeedFunctionPathInformation()
 
 
 template <typename TPoint>
-SpeedFunctionPathInformation<TPoint>::~SpeedFunctionPathInformation()
-{}
+SpeedFunctionPathInformation<TPoint>::~SpeedFunctionPathInformation() = default;
 
 
 template <typename TPoint>

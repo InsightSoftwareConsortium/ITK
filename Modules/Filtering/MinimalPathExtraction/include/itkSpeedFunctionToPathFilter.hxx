@@ -33,8 +33,7 @@ SpeedFunctionToPathFilter<TInputImage, TOutputPath>::SpeedFunctionToPathFilter()
 
 
 template <typename TInputImage, typename TOutputPath>
-SpeedFunctionToPathFilter<TInputImage, TOutputPath>::~SpeedFunctionToPathFilter()
-{}
+SpeedFunctionToPathFilter<TInputImage, TOutputPath>::~SpeedFunctionToPathFilter() = default;
 
 
 template <typename TInputImage, typename TOutputPath>
