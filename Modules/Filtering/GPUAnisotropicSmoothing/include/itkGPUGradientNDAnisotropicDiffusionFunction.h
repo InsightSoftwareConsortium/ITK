@@ -93,7 +93,7 @@ public:
   itkGetOpenCLSourceFromKernelMacro(GPUGradientNDAnisotropicDiffusionFunctionKernel);
 
   /** Compute the equation value. */
-  virtual void
+  void
   GPUComputeUpdate(const typename TImage::Pointer output, typename TImage::Pointer buffer, void * globalData) override;
 
   /** This method is called prior to each iteration of the solver. */

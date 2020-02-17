@@ -255,7 +255,7 @@ public:
 
   /** Standard print method */
   void
-  PrintSelf(std::ostream &, Indent) const;
+  PrintSelf(std::ostream &, Indent) const override;
 
   /** Returns the central memory pointer of the neighborhood. */
   InternalPixelType *

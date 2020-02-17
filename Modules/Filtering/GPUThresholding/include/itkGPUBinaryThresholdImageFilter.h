@@ -41,7 +41,7 @@ public:
     m_InsideValue = NumericTraits<TOutput>::max();
   }
 
-  ~GPUBinaryThreshold() {}
+  ~GPUBinaryThreshold() override {}
 
   void
   SetLowerThreshold(const TInput & thresh)
@@ -67,7 +67,7 @@ public:
   /** Setup GPU kernel arguments for this functor.
    * Returns current argument index to set additional arguments in the GPU kernel */
   int
-  SetGPUKernelArguments(GPUKernelManager::Pointer KernelManager, int KernelHandle)
+  SetGPUKernelArguments(GPUKernelManager::Pointer KernelManager, int KernelHandle) override
   {
     KernelManager->SetKernelArg(KernelHandle, 0, sizeof(TInput), &(m_LowerThreshold));
     KernelManager->SetKernelArg(KernelHandle, 1, sizeof(TInput), &(m_UpperThreshold));

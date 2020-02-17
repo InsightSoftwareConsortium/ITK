@@ -155,7 +155,7 @@ protected:
   unsigned int
   GetNumberOfInputRequestedRegions() override;
 
-  virtual void
+  void
   ThreadedStreamedGenerateData(const RegionType &) override;
   virtual void
   ThreadedComputeMinimumAndMaximum(const RegionType & inputRegionForThread);

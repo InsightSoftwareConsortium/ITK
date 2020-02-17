@@ -64,7 +64,7 @@ public:
 
 protected:
   DCMTKImageIOFactory();
-  ~DCMTKImageIOFactory();
+  ~DCMTKImageIOFactory() override;
 };
 } // end namespace itk
 

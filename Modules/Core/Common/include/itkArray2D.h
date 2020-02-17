@@ -87,7 +87,7 @@ public:
 
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
-  ~Array2D() = default;
+  ~Array2D() override = default;
 };
 
 template <typename TValue>

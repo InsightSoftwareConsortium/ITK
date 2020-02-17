@@ -183,7 +183,7 @@ public:
 #endif
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
-  ~Array();
+  ~Array() override;
 
 #if !defined(ITK_LEGACY_REMOVE)
   void

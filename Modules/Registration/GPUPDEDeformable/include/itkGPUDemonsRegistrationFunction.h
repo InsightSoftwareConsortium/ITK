@@ -136,7 +136,7 @@ public:
   }
 
   /** This class uses a constant timestep of 1. */
-  virtual TimeStepType
+  TimeStepType
   ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const override
   {
     return m_TimeStep;
@@ -175,12 +175,12 @@ public:
 
   /** This method is called by a finite difference solver image filter at
    * each pixel that does not lie on a data set boundary */
-  virtual PixelType
+  PixelType
   ComputeUpdate(const NeighborhoodType & neighborhood,
                 void *                   globalData,
                 const FloatOffsetType &  offset = FloatOffsetType(0.0)) override;
 
-  virtual void
+  void
   GPUComputeUpdate(const DisplacementFieldTypePointer output, DisplacementFieldTypePointer update, void * gd) override;
 
   /** Get the metric value. The metric value is the mean square difference
