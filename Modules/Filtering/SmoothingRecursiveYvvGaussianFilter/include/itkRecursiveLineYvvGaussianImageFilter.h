@@ -97,7 +97,7 @@ public:
 
   /** Get Input Image. */
   const TInputImage *
-  GetInputImage(void);
+  GetInputImage();
 
   /** Set/Get the flag for normalizing the gaussian over scale space.
    When this flag is ON the filter will be normalized in such a way
@@ -136,7 +136,7 @@ protected:
   ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
   const ImageRegionSplitterBase *
-  GetImageRegionSplitter(void) const override;
+  GetImageRegionSplitter() const override;
 
   /** RecursiveLineYvvGaussianImageFilter needs all of the input only in the
    *  "Direction" dimension. Therefore we enlarge the output's

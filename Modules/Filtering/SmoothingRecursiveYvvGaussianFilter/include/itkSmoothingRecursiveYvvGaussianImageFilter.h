@@ -129,7 +129,7 @@ public:
   SetNumberOfWorkUnits(ThreadIdType nb) override;
 
   bool
-  CanRunInPlace(void) const override;
+  CanRunInPlace() const override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -144,7 +144,7 @@ protected:
 
   /** Generate Data */
   void
-  GenerateData(void) override;
+  GenerateData() override;
 
   /** SmoothingRecursiveYvvGaussianImageFilter needs all of the input to produce an
    * output. Therefore, SmoothingRecursiveYvvGaussianImageFilter needs to provide

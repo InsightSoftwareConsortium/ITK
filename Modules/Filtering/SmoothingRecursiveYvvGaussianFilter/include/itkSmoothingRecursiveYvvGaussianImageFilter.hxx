@@ -109,7 +109,7 @@ SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SetNumberOf
 
 template <typename TInputImage, typename TOutputImage>
 bool
-SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::CanRunInPlace(void) const
+SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::CanRunInPlace() const
 {
   // Note: There are two different ways this filter may try to run
   // in-place:
@@ -217,7 +217,7 @@ SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::EnlargeOutp
 // Compute filter for Gaussian kernel
 template <typename TInputImage, typename TOutputImage>
 void
-SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GenerateData(void)
+SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   itkDebugMacro(<< "SmoothingRecursiveYvvGaussianImageFilter generating data ");
 

@@ -78,7 +78,7 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::SetInputImage(co
 
 template <typename TInputImage, typename TOutputImage>
 const TInputImage *
-RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::GetInputImage(void)
+RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::GetInputImage()
 {
   return dynamic_cast<const TInputImage *>((ProcessObject::GetInput(0)));
 }
@@ -262,7 +262,7 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::EnlargeOutputReq
 
 template <typename TInputImage, typename TOutputImage>
 const ImageRegionSplitterBase *
-RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::GetImageRegionSplitter(void) const
+RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::GetImageRegionSplitter() const
 {
   return this->m_ImageRegionSplitter;
 }

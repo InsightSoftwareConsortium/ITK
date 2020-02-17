@@ -286,7 +286,7 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::Allocate
  */
 template <typename TInputImage, typename TOutputImage>
 void
-GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GPUGenerateData(void)
+GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GPUGenerateData()
 {
   if (m_FilterGPUKernelHandle == -1)
   {

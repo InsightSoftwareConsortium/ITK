@@ -151,7 +151,7 @@ protected:
 
   /** Generate Data */
   void
-  GPUGenerateData(void) override;
+  GPUGenerateData() override;
 
   /** GPUSmoothingRecursiveYvvGaussianImageFilter needs all of the input to produce an
    * output. Therefore, GPUSmoothingRecursiveYvvGaussianImageFilter needs to provide
