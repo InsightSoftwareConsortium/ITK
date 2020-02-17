@@ -30,7 +30,7 @@ AnalyzeObjectLabelMapImageIOFactory::AnalyzeObjectLabelMapImageIOFactory()
   this->RegisterOverride("itkImageIOBase",
                          "itkAnalyzeObjectLabelMapImageIO",
                          "Anaylze Object Label Map IO",
-                         1,
+                         true,
                          CreateObjectFunction<AnalyzeObjectLabelMapImageIO>::New());
 }
 
