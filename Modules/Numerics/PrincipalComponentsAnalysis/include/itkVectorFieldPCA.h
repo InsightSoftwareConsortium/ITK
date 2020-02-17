@@ -88,8 +88,8 @@ public:
   }
 
 protected:
-  GaussianDistanceKernel() {}
-  ~GaussianDistanceKernel() override {}
+  GaussianDistanceKernel() = default;
+  ~GaussianDistanceKernel() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override
   {
@@ -203,7 +203,7 @@ public:
 
 protected:
   VectorFieldPCA();
-  ~VectorFieldPCA() override {};
+  ~VectorFieldPCA() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
