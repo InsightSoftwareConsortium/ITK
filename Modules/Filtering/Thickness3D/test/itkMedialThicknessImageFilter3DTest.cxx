@@ -37,23 +37,23 @@ itkMedialThicknessImageFilter3DTest(int argc, char * argv[])
   char * infilename = argv[1];
   char * outfilename = argv[2];
 
-  const unsigned int                             Dimension = 3;
-  typedef unsigned char                          InputPixelType;
-  typedef float                                  OutputPixelType;
-  typedef itk::Image<InputPixelType, Dimension>  InputImageType;
-  typedef itk::Image<OutputPixelType, Dimension> OutputImageType;
+  const unsigned int Dimension = 3;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = float;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
   // Read image
-  typedef itk::ImageFileReader<InputImageType> ReaderType;
-  ReaderType::Pointer                          reader = ReaderType::New();
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(infilename);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
 
   // Define the thinning filter
-  typedef itk::MedialThicknessImageFilter3D<InputImageType, OutputImageType> FilterType;
-  FilterType::Pointer                                                        medialThicknessFilter = FilterType::New();
+  using FilterType = itk::MedialThicknessImageFilter3D<InputImageType, OutputImageType>;
+  FilterType::Pointer medialThicknessFilter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(medialThicknessFilter, MedialThicknessImageFilter3D, ImageToImageFilter);
 
@@ -63,8 +63,8 @@ itkMedialThicknessImageFilter3DTest(int argc, char * argv[])
 
 
   // output to file
-  typedef itk::ImageFileWriter<OutputImageType> WriterType;
-  WriterType::Pointer                           writer = WriterType::New();
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
+  WriterType::Pointer writer = WriterType::New();
   writer->SetInput(medialThicknessFilter->GetOutput());
   writer->SetFileName(outfilename);
 

@@ -37,20 +37,20 @@ itkBinaryThinningImageFilter3DTest(int argc, char * argv[])
   char * infilename = argv[1];
   char * outfilename = argv[2];
 
-  const unsigned int                       Dimension = 3;
-  typedef unsigned char                    PixelType;
-  typedef itk::Image<PixelType, Dimension> ImageType;
+  const unsigned int Dimension = 3;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
   // Read image
-  typedef itk::ImageFileReader<ImageType> ReaderType;
-  ReaderType::Pointer                     reader = ReaderType::New();
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(infilename);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   // Define the thinning filter
-  typedef itk::BinaryThinningImageFilter3D<ImageType, ImageType> ThinningFilterType;
-  ThinningFilterType::Pointer                                    thinningFilter = ThinningFilterType::New();
+  using ThinningFilterType = itk::BinaryThinningImageFilter3D<ImageType, ImageType>;
+  ThinningFilterType::Pointer thinningFilter = ThinningFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(thinningFilter, BinaryThinningImageFilter3D, ImageToImageFilter);
 
@@ -60,8 +60,8 @@ itkBinaryThinningImageFilter3DTest(int argc, char * argv[])
 
 
   // output to file
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer                     writer = WriterType::New();
+  using WriterType = itk::ImageFileWriter<ImageType>;
+  WriterType::Pointer writer = WriterType::New();
   writer->SetInput(thinningFilter->GetOutput());
   writer->SetFileName(outfilename);
 
