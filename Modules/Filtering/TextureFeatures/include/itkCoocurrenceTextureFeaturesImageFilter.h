@@ -214,7 +214,7 @@ protected:
   using NeighborIndexType = typename NeighborhoodIteratorType::NeighborIndexType;
 
   CoocurrenceTextureFeaturesImageFilter();
-  ~CoocurrenceTextureFeaturesImageFilter() override {}
+  ~CoocurrenceTextureFeaturesImageFilter() override = default;
 
   bool
   IsInsideNeighborhood(const OffsetType & iteratedOffset);

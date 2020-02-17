@@ -47,7 +47,7 @@ public:
     , m_Max(max)
   {}
 
-  ~Digitizer() {}
+  ~Digitizer() = default;
 
   bool
   operator!=(const Digitizer & other) const

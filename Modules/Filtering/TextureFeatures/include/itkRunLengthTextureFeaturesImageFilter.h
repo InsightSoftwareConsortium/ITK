@@ -238,7 +238,7 @@ protected:
   using NeighborIndexType = typename NeighborhoodIteratorType::NeighborIndexType;
 
   RunLengthTextureFeaturesImageFilter();
-  ~RunLengthTextureFeaturesImageFilter() override {}
+  ~RunLengthTextureFeaturesImageFilter() override = default;
 
   void
   NormalizeOffsetDirection(OffsetType & offset);

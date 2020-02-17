@@ -96,7 +96,7 @@ protected:
     return 8;
   }
 
-  FirstOrderTextureFeaturesImageFilter() {}
+  FirstOrderTextureFeaturesImageFilter() = default;
 
   void
   GenerateOutputInformation() override
@@ -118,7 +118,7 @@ protected:
   }
 
 
-  ~FirstOrderTextureFeaturesImageFilter() override {}
+  ~FirstOrderTextureFeaturesImageFilter() override = default;
 };
 } // end namespace itk
 
