@@ -138,7 +138,7 @@ public:
 #endif
 protected:
   SmoothingRecursiveYvvGaussianImageFilter();
-  ~SmoothingRecursiveYvvGaussianImageFilter() override {}
+  ~SmoothingRecursiveYvvGaussianImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
