@@ -143,7 +143,7 @@ protected:
   GenerateData(void) override;
 
   BinaryOpenParaImageFilter();
-  ~BinaryOpenParaImageFilter() override {}
+  ~BinaryOpenParaImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

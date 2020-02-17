@@ -136,7 +136,7 @@ protected:
   GenerateData(void) override;
 
   BinaryErodeParaImageFilter();
-  ~BinaryErodeParaImageFilter() override {}
+  ~BinaryErodeParaImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

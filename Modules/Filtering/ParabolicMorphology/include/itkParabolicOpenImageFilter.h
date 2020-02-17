@@ -82,8 +82,8 @@ public:
       RealType is usually 'double' in NumericTraits.
       Here we prefer float in order to save memory.  */
 protected:
-  ParabolicOpenImageFilter() {}
-  ~ParabolicOpenImageFilter() override {}
+  ParabolicOpenImageFilter() = default;
+  ~ParabolicOpenImageFilter() override = default;
   //   void PrintSelf(std::ostream& os, Indent indent) const;
 };
 } // end namespace itk

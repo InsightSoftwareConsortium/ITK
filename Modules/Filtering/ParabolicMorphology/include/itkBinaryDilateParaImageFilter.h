@@ -135,7 +135,7 @@ protected:
   GenerateData(void) override;
 
   BinaryDilateParaImageFilter();
-  ~BinaryDilateParaImageFilter() override {}
+  ~BinaryDilateParaImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

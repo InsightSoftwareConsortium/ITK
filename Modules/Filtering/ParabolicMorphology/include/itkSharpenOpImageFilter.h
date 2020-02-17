@@ -49,8 +49,8 @@ template <typename TInput1, typename TInput2, typename TInput3, typename TOutput
 class SharpM
 {
 public:
-  SharpM() {}
-  ~SharpM() {}
+  SharpM() = default;
+  ~SharpM() = default;
   bool
   operator!=(const SharpM &) const
   {
@@ -118,8 +118,8 @@ public:
   itkTypeMacro(SharpenOpImageFilter, TernaryFunctorImageFilter);
 
 protected:
-  SharpenOpImageFilter() {}
-  ~SharpenOpImageFilter() override {}
+  SharpenOpImageFilter() = default;
+  ~SharpenOpImageFilter() override = default;
 };
 } // end namespace itk
 

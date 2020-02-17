@@ -82,8 +82,8 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
 protected:
-  ParabolicDilateImageFilter() {}
-  ~ParabolicDilateImageFilter() override {}
+  ParabolicDilateImageFilter() = default;
+  ~ParabolicDilateImageFilter() override = default;
   //   void PrintSelf(std::ostream& os, Indent indent) const;
 };
 } // end namespace itk

@@ -164,7 +164,7 @@ protected:
     m_ParabolicAlgorithm = INTERSECTION;
   }
 
-  ~ParabolicOpenCloseSafeBorderImageFilter() override {}
+  ~ParabolicOpenCloseSafeBorderImageFilter() override = default;
   int m_ParabolicAlgorithm;
 
 private:

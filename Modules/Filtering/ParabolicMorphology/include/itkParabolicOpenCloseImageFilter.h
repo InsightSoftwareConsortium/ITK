@@ -141,7 +141,7 @@ public:
 #endif
 protected:
   ParabolicOpenCloseImageFilter();
-  ~ParabolicOpenCloseImageFilter() override {}
+  ~ParabolicOpenCloseImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

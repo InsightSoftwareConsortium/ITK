@@ -41,7 +41,7 @@ public:
     m_Val = i;
   }
 
-  ~GEConst() {}
+  ~GEConst() = default;
   bool
   operator!=(const GEConst &) const
   {
@@ -100,8 +100,8 @@ public:
   /** End concept checking */
 #endif
 protected:
-  GreaterEqualValImageFilter() {}
-  ~GreaterEqualValImageFilter() override {}
+  GreaterEqualValImageFilter() = default;
+  ~GreaterEqualValImageFilter() override = default;
 };
 } // end namespace itk
 

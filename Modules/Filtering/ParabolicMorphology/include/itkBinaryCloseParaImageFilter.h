@@ -143,7 +143,7 @@ protected:
   GenerateData(void) override;
 
   BinaryCloseParaImageFilter();
-  ~BinaryCloseParaImageFilter() override {}
+  ~BinaryCloseParaImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

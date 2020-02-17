@@ -150,7 +150,7 @@ public:
 #endif
 protected:
   MorphologicalSharpeningImageFilter();
-  ~MorphologicalSharpeningImageFilter() override {}
+  ~MorphologicalSharpeningImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

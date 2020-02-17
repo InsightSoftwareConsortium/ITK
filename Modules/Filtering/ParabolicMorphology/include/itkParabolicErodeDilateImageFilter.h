@@ -173,7 +173,7 @@ public:
 #endif
 protected:
   ParabolicErodeDilateImageFilter();
-  ~ParabolicErodeDilateImageFilter() override {}
+  ~ParabolicErodeDilateImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
