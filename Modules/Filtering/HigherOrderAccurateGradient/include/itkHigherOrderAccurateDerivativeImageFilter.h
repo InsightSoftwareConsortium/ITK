@@ -122,7 +122,7 @@ protected:
     , m_UseImageSpacing(true)
   {}
 
-  ~HigherOrderAccurateDerivativeImageFilter() override {}
+  ~HigherOrderAccurateDerivativeImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
