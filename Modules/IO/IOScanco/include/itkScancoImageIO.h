@@ -284,9 +284,9 @@ private:
    *  The dest must have a size of at least l+1.
    */
   static void
-  StripString(char * dest, const char * source, size_t l);
+  StripString(char * dest, const char * source, size_t length);
   static void
-  PadString(char * dest, const char * source, size_t l);
+  PadString(char * dest, const char * source, size_t length);
 
   void
   InitializeHeader();
