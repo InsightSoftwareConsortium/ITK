@@ -28,15 +28,13 @@ close a related issues using keywords (https://help.github.com/articles/closing-
 of the person or team responsible for reviewing proposed changes. -->
 
 ## PR Checklist
-<!-- Delete either [X] or :no_entry_sign: to indicate if the statement is true or false. -->
-- [X] :no_entry_sign: [Makes breaking changes](https://github.com/InsightSoftwareConsortium/ITK/blob/master/CONTRIBUTING.md#breaking-changes)
-- [X] :no_entry_sign: [Makes design changes](https://github.com/InsightSoftwareConsortium/ITK/blob/master/CONTRIBUTING.md#design-changes)
-- [X] :no_entry_sign: Adds the License notice to new files.
-- [X] :no_entry_sign: Adds Python wrapping.
-- [X] :no_entry_sign: Adds tests and baseline comparison (quantitative).
-- [X] :no_entry_sign: [Adds test data](https://github.com/InsightSoftwareConsortium/ITK/blob/master/Documentation/UploadBinaryData.md).
-- [X] :no_entry_sign: Adds Examples to [ITKExamples](https://github.com/InsightSoftwareConsortium/ITKExamples)
-- [X] :no_entry_sign: Adds Documentation.
+- [ ] No [API changes](https://github.com/InsightSoftwareConsortium/ITK/blob/master/CONTRIBUTING.md#breaking-changes) were made (or the changes have been approved)
+- [ ] No [major design changes](https://github.com/InsightSoftwareConsortium/ITK/blob/master/CONTRIBUTING.md#design-changes) were made (or the changes have been approved)
+- [ ] Added test (or behavior not changed)
+- [ ] Updated API documentation (or API not changed)
+- [ ] Added [license](https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/KWStyle/ITKHeader.h) to new files (if any)
+- [ ] Added Python wrapping to new files (if any) as described in [ITK Software Guide](https://itk.org/ItkSoftwareGuide.pdf) Section 9.5
+- [ ] Added [ITK examples](https://github.com/InsightSoftwareConsortium/ITKExamples) for all new major features (if any)
 
 Refer to the [ITK Software Guide](https://itk.org/ItkSoftwareGuide.pdf) for
 further development details if necessary.
