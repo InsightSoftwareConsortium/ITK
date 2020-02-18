@@ -46,8 +46,8 @@ namespace itk
 ScancoImageIO ::ScancoImageIO()
   : m_HeaderSize(0)
 {
-  this->m_FileType = Binary;
-  this->m_ByteOrder = LittleEndian;
+  this->m_FileType = IOFileEnum::Binary;
+  this->m_ByteOrder = IOByteOrderEnum::LittleEndian;
 
   this->AddSupportedWriteExtension(".isq");
   this->AddSupportedWriteExtension(".rsq");
@@ -513,8 +513,8 @@ ScancoImageIO ::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
     this->SetOrigin(i, 0.0);
   }
 
-  this->SetPixelType(SCALAR);
-  this->SetComponentType(SHORT);
+  this->SetPixelType(IOPixelEnum::SCALAR);
+  this->SetComponentType(IOComponentEnum::SHORT);
 
   // total header size
   const SizeValueType headerSize = static_cast<SizeValueType>(dataOffset + 1) * 512;
@@ -665,7 +665,7 @@ ScancoImageIO ::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
   }
 
   // number of components per pixel is 1 by default
-  this->SetPixelType(SCALAR);
+  this->SetPixelType(IOPixelEnum::SCALAR);
   this->m_Compression = 0;
 
   // a limited selection of data types are supported
@@ -673,47 +673,47 @@ ScancoImageIO ::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
   switch (dataType)
   {
     case 0x00160001:
-      this->SetComponentType(UCHAR);
+      this->SetComponentType(IOComponentEnum::UCHAR);
       break;
     case 0x000d0001:
-      this->SetComponentType(UCHAR);
+      this->SetComponentType(IOComponentEnum::UCHAR);
       break;
     case 0x00120003:
-      this->SetComponentType(UCHAR);
-      this->SetPixelType(VECTOR);
+      this->SetComponentType(IOComponentEnum::UCHAR);
+      this->SetPixelType(IOPixelEnum::VECTOR);
       this->SetNumberOfDimensions(3);
       break;
     case 0x00010001:
-      this->SetComponentType(CHAR);
+      this->SetComponentType(IOComponentEnum::CHAR);
       break;
     case 0x00060003:
-      this->SetComponentType(CHAR);
-      this->SetPixelType(VECTOR);
+      this->SetComponentType(IOComponentEnum::CHAR);
+      this->SetPixelType(IOPixelEnum::VECTOR);
       this->SetNumberOfDimensions(3);
       break;
     case 0x00170002:
-      this->SetComponentType(USHORT);
+      this->SetComponentType(IOComponentEnum::USHORT);
       break;
     case 0x00020002:
-      this->SetComponentType(SHORT);
+      this->SetComponentType(IOComponentEnum::SHORT);
       break;
     case 0x00030004:
-      this->SetComponentType(INT);
+      this->SetComponentType(IOComponentEnum::INT);
       break;
     case 0x001a0004:
-      this->SetComponentType(FLOAT);
+      this->SetComponentType(IOComponentEnum::FLOAT);
       break;
     case 0x00150001:
       this->m_Compression = 0x00b2; // run-length compressed bits
-      this->SetComponentType(CHAR);
+      this->SetComponentType(IOComponentEnum::CHAR);
       break;
     case 0x00080002:
       this->m_Compression = 0x00c2; // run-length compressed signed char
-      this->SetComponentType(CHAR);
+      this->SetComponentType(IOComponentEnum::CHAR);
       break;
     case 0x00060001:
       this->m_Compression = 0x00b1; // packed bits
-      this->SetComponentType(CHAR);
+      this->SetComponentType(IOComponentEnum::CHAR);
       break;
     default:
       itkExceptionMacro("Unrecognized data type in AIM file: " << dataType);
@@ -1289,7 +1289,7 @@ ScancoImageIO ::Write(const void * buffer)
   const SizeValueType numberOfBytes = static_cast<SizeValueType>(this->GetImageSizeInBytes());
   const SizeValueType numberOfComponents = static_cast<SizeValueType>(this->GetImageSizeInComponents());
 
-  if (this->GetComponentType() != SHORT)
+  if (this->GetComponentType() != IOComponentEnum::SHORT)
   {
     itkExceptionMacro("ScancoImageIO only supports writing short files.")
   }
