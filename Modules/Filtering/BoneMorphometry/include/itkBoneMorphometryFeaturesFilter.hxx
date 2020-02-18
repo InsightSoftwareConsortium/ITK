@@ -121,8 +121,7 @@ BoneMorphometryFeaturesFilter<TInputImage, TMaskImage>::DynamicThreadedGenerateD
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>                        boundaryFacesCalculator;
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::FaceListType faceList =
     boundaryFacesCalculator(this->GetInput(), outputRegionForThread, radius);
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::FaceListType::iterator fit =
-    faceList.begin();
+  auto fit = faceList.begin();
 
   for (; fit != faceList.end(); ++fit)
   {
