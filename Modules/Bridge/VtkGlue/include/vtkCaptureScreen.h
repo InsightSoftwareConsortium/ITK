@@ -52,9 +52,9 @@ public:
   }
 
 private:
-  vtkCaptureScreen(const vtkCaptureScreen &);
+  vtkCaptureScreen(const vtkCaptureScreen &) = delete;
   void
-  operator=(const vtkCaptureScreen &);
+  operator=(const vtkCaptureScreen &) = delete;
 
   vtkRenderWindow * m_Renderer{ nullptr };
 

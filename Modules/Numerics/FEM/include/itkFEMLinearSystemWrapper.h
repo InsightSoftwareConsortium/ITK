@@ -532,11 +532,11 @@ private:
                                         unsigned int  matrixIndex = 0);
 
   /** Copy constructor is not allowed. */
-  LinearSystemWrapper(const LinearSystemWrapper &);
+  LinearSystemWrapper(const LinearSystemWrapper &) = delete;
 
   /** Asignment operator is not allowed. */
   const LinearSystemWrapper &
-  operator=(const LinearSystemWrapper &);
+  operator=(const LinearSystemWrapper &) = delete;
 };
 
 class ITK_ABI_EXPORT FEMExceptionLinearSystem : public FEMException
