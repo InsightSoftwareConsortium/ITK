@@ -382,6 +382,83 @@ def GetMatrixFromArray(arr):
 
 matrix_from_array = GetMatrixFromArray
 
+def xarray_from_image(image):
+    """Convert an itk.Image to an xarray.DataArray.
+
+    Origin and spacing metadata is preserved in the xarray's coords. The
+    Direction is set in the `direction` attribute.
+    Dims are labeled as `x`, `y`, `z`, and `c`.
+
+    This interface is and behavior is experimental and is subject to possible
+    future changes."""
+    import xarray as xr
+    import itk
+    import numpy as np
+
+    array_view = itk.array_view_from_image(image)
+    spacing = itk.spacing(image)
+    origin = itk.origin(image)
+    size = itk.size(image)
+    direction = np.flip(itk.array_from_matrix(image.GetDirection()))
+    spatial_dimension = image.GetImageDimension()
+
+    spatial_dims = ('x', 'y', 'z')
+    coords = {}
+    for index, dim in enumerate(spatial_dims[:spatial_dimension]):
+        coords[dim] = np.arange(origin[index],
+                                origin[index] + size[index]*spacing[index],
+                                spacing[index],
+                                dtype=np.float64)
+
+    dims = list(reversed(spatial_dims[:spatial_dimension]))
+    components = image.GetNumberOfComponentsPerPixel()
+    if components > 1:
+        dims.append('c')
+        coords['c'] = np.arange(components, dtype=np.uint64)
+
+    data_array = xr.DataArray(array_view,
+                              dims=dims,
+                              coords=coords,
+                              attrs={'direction': direction})
+    return data_array
+
+def image_from_xarray(data_array):
+    """Convert an xarray.DataArray to an itk.Image.
+
+    Metadata encoded with xarray_from_image is applied to the itk.Image.
+
+    This interface is and behavior is experimental and is subject to possible
+    future changes."""
+    import numpy as np
+    import itk
+
+    spatial_dims = list({'z', 'y', 'x'}.intersection(set(data_array.dims)))
+    spatial_dims.sort(reverse=True)
+    spatial_dimension = len(spatial_dims)
+    ordered_dims = ('z', 'y', 'x')[-spatial_dimension:]
+    if ordered_dims != tuple(spatial_dims):
+        raise ValueError('Spatial dimensions do not have the required order: ' + str(ordered_dims))
+
+    is_vector = False
+    if spatial_dimension < len(data_array.dims):
+        is_vector = True
+    itk_image = itk.image_view_from_array(data_array.values, is_vector=is_vector)
+
+    origin = [0.0]*spatial_dimension
+    spacing = [1.0]*spatial_dimension
+    for index, dim in enumerate(spatial_dims):
+        origin[index] = float(data_array.coords[dim][0])
+        spacing[index] = float(data_array.coords[dim][1]) - float(data_array.coords[dim][0])
+    spacing.reverse()
+    itk_image.SetSpacing(spacing)
+    origin.reverse()
+    itk_image.SetOrigin(origin)
+    if 'direction' in data_array.attrs:
+        direction = data_array.attrs['direction']
+        itk_image.SetDirection(np.flip(direction))
+
+    return itk_image
+
 # return an image
 from itkTemplate import image, output
 
