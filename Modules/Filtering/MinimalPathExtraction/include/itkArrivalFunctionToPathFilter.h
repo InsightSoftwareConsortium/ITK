@@ -64,7 +64,7 @@ public:
   void
   Execute(itk::Object * caller, const itk::EventObject & event) override
   {
-    const itk::Object * constCaller = const_cast<const itk::Object *>(caller);
+    const auto * constCaller = const_cast<const itk::Object *>(caller);
     Execute(constCaller, event);
   }
 
