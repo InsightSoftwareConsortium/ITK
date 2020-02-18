@@ -33,7 +33,7 @@ template <typename TInputImage, typename TOperatorValueType, typename TOutputVal
 HigherOrderAccurateGradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::
   HigherOrderAccurateGradientImageFilter()
 
-{}
+  = default;
 
 
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType>

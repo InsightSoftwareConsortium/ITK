@@ -72,7 +72,9 @@ public:
   itkTypeMacro(HigherOrderAccurateDerivativeOperator, NeighborhoodOperator);
 
   /** Constructor. */
-  HigherOrderAccurateDerivativeOperator() {}
+  HigherOrderAccurateDerivativeOperator()
+
+    = default;
 
   /** Copy constructor. */
   HigherOrderAccurateDerivativeOperator(const Self & other)

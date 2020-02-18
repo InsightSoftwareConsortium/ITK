@@ -115,7 +115,9 @@ public:
   itkGetConstMacro(UseImageSpacing, bool);
 
 protected:
-  HigherOrderAccurateDerivativeImageFilter() {}
+  HigherOrderAccurateDerivativeImageFilter()
+
+    = default;
 
   ~HigherOrderAccurateDerivativeImageFilter() override = default;
   void
