@@ -172,7 +172,7 @@ SpeedFunctionToPathFilter<TInputImage, TOutputPath>::GenerateData()
   }
 
   // Ensure the user has added at least one path info object
-  if (m_Information.size() == 0)
+  if (m_Information.empty())
   {
     itkExceptionMacro("No PathInfo objects: at least one must be added.");
   }
