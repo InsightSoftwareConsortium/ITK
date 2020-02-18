@@ -68,7 +68,7 @@ LabelImageGenericInterpolateImageFunction<TInputImage, TInterpolator, TCoordRep>
   double                          value = 0;
   typename TInputImage::PixelType best_label = 0;
   int                             i = 0;
-  for (typename LabelSetType::const_iterator it = m_Labels.begin(); it != m_Labels.end(); ++it)
+  for (auto it = m_Labels.begin(); it != m_Labels.end(); ++it)
   {
     double tmp = m_InternalInterpolators[i]->EvaluateAtContinuousIndex(cindex);
     if (tmp > value)
