@@ -648,18 +648,18 @@ ScancoImageIO ::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
   int dataType = ScancoImageIO::DecodeInt(h);
   h += 4;
   int structValues[21];
-  for (int i = 0; i < 21; ++i)
+  for (int & structValue : structValues)
   {
-    structValues[i] = ScancoImageIO::DecodeInt(h);
+    structValue = ScancoImageIO::DecodeInt(h);
     h += intSize;
   }
   float elementSize[3];
-  for (int i = 0; i < 3; ++i)
+  for (float & i : elementSize)
   {
-    elementSize[i] = ScancoImageIO::DecodeFloat(h);
-    if (elementSize[i] == 0)
+    i = ScancoImageIO::DecodeFloat(h);
+    if (i == 0)
     {
-      elementSize[i] = 1.0;
+      i = 1.0;
     }
     h += 4;
   }
@@ -790,16 +790,16 @@ ScancoImageIO ::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
       }
       else if (skey == "Orig-ISQ-Dim-p")
       {
-        for (int i = 0; i < 3; i++)
+        for (int & ScanDimensionsPixel : this->ScanDimensionsPixels)
         {
-          this->ScanDimensionsPixels[i] = strtol(value, &value, 10);
+          ScanDimensionsPixel = strtol(value, &value, 10);
         }
       }
       else if (skey == "Orig-ISQ-Dim-um")
       {
-        for (int i = 0; i < 3; i++)
+        for (double & i : this->ScanDimensionsPhysical)
         {
-          this->ScanDimensionsPhysical[i] = strtod(value, &value) * 1e-3;
+          i = strtod(value, &value) * 1e-3;
         }
       }
       else if (skey == "Patient Name")
