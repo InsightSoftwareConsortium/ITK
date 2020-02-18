@@ -430,7 +430,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage, TInternalPixe
     m_FixedPadder->UpdateOutputInformation(); // to make sure xSize is valid
     unsigned xSize = m_FixedPadder->GetOutput()->GetLargestPossibleRegion().GetSize(0);
     m_IFFT->SetActualXDimensionIsOdd(xSize % 2 != 0);
-    RealImageType * phaseCorrelation = static_cast<RealImageType *>(this->ProcessObject::GetOutput(1));
+    auto * phaseCorrelation = static_cast<RealImageType *>(this->ProcessObject::GetOutput(1));
     phaseCorrelation->Allocate();
     m_IFFT->GraftOutput(phaseCorrelation);
     m_IFFT->Update();
@@ -498,8 +498,8 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage, TInternalPixe
   }
 
   // set the output transform
-  TransformOutputType * transformOutput = static_cast<TransformOutputType *>(this->ProcessObject::GetOutput(0));
-  TransformPointer      transform(const_cast<TransformType *>(transformOutput->Get()));
+  auto *           transformOutput = static_cast<TransformOutputType *>(this->ProcessObject::GetOutput(0));
+  TransformPointer transform(const_cast<TransformType *>(transformOutput->Get()));
   transform->SetParameters(m_TransformParameters);
 
   itkDebugMacro("output set to " << transform);
@@ -579,7 +579,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage, TInternalPixe
 
   m_IFFT->UpdateOutputInformation();
 
-  RealImageType * phaseCorrelation = static_cast<RealImageType *>(this->ProcessObject::GetOutput(1));
+  auto * phaseCorrelation = static_cast<RealImageType *>(this->ProcessObject::GetOutput(1));
   phaseCorrelation->CopyInformation(m_IFFT->GetOutput());
 }
 

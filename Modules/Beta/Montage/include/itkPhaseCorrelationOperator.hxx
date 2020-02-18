@@ -198,9 +198,9 @@ PhaseCorrelationOperator<TRealPixel, VImageDimension>::GenerateOutputInformation
   SizeScalarType movingX = NumericTraits<SizeScalarType>::Zero;
   SizeScalarType outputX = NumericTraits<SizeScalarType>::Zero;
 
-  MetaDataDictionary & fixedDic = const_cast<MetaDataDictionary &>(fixed->GetMetaDataDictionary());
-  MetaDataDictionary & movingDic = const_cast<MetaDataDictionary &>(moving->GetMetaDataDictionary());
-  MetaDataDictionary & outputDic = const_cast<MetaDataDictionary &>(output->GetMetaDataDictionary());
+  auto & fixedDic = const_cast<MetaDataDictionary &>(fixed->GetMetaDataDictionary());
+  auto & movingDic = const_cast<MetaDataDictionary &>(moving->GetMetaDataDictionary());
+  auto & outputDic = const_cast<MetaDataDictionary &>(output->GetMetaDataDictionary());
 
   if (ExposeMetaData<SizeScalarType>(fixedDic, std::string("FFT_Actual_RealImage_Size"), fixedX) &&
       ExposeMetaData<SizeScalarType>(movingDic, std::string("FFT_Actual_RealImage_Size"), movingX))
