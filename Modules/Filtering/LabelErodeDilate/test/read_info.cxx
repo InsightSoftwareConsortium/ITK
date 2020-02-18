@@ -21,10 +21,9 @@
 
 /////////////////////////////////
 static int
-readImageInfo(char * filename, itk::ImageIOBase::IOComponentType * ComponentType, int * dim)
+readImageInfo(char * filename, itk::IOComponentEnum * ComponentType, int * dim)
 {
-  itk::ImageIOBase::Pointer imageIO =
-    itk::ImageIOFactory::CreateImageIO(filename, itk::ImageIOFactory::FileModeType::ReadMode);
+  itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO(filename, itk::IOFileModeEnum::ReadMode);
 
   if (imageIO.IsNull())
   {
