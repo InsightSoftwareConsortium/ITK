@@ -29,7 +29,7 @@ namespace itk
 template <typename TOutputImage>
 ButterworthFilterFreqImageSource<TOutputImage>::ButterworthFilterFreqImageSource()
 
-{}
+  = default;
 
 
 template <typename TOutputImage>
