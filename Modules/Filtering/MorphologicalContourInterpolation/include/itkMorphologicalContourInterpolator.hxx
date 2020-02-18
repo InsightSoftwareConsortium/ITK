@@ -1558,7 +1558,7 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
     this->DetermineSliceOrientations();
   }
 
-  if (m_BoundingBoxes.size() == 0 && !m_UseCustomSlicePositions)
+  if (m_BoundingBoxes.empty() && !m_UseCustomSlicePositions)
   {
     ImageAlgorithm::Copy<TImage, TImage>(
       m_Input.GetPointer(), m_Output.GetPointer(), m_Output->GetRequestedRegion(), m_Output->GetRequestedRegion());
