@@ -19,6 +19,13 @@
 import re
 import functools
 
+_HAVE_XARRAY = False
+try:
+    import xarray as xr
+    _HAVE_XARRAY = True
+except ImportError:
+    pass
+
 def camel_to_snake_case(name):
     snake = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
     snake = re.sub('([a-z0-9])([A-Z])', r'\1_\2', snake)
@@ -30,47 +37,64 @@ def is_arraylike(arr):
     hasattr(arr, '__array__') and \
     hasattr(arr, 'ndim')
 
-def accept_numpy_array_like(image_filter):
+def accept_numpy_array_like_xarray(image_filter):
     """Decorator that allows itk.ProcessObject snake_case functions to accept
-    NumPy array-like inputs for itk.Image inputs. If a NumPy array-like is
-    passed as an input, output itk.Image's are converted to numpy.ndarray's."""
+    NumPy array-like or xarray DataArray inputs for itk.Image inputs. If a NumPy array-like is
+    passed as an input, output itk.Image's are converted to numpy.ndarray's. If a xarray DataArray is
+    passed as an input, output itk.Image's are converted to xarray.DataArray's."""
     import numpy as np
     import itk
 
     @functools.wraps(image_filter)
     def image_filter_wrapper(*args, **kwargs):
-        have_array_like_input = False
+        have_array_input = False
+        have_xarray_input = False
 
         args_list = list(args)
         for index, arg in enumerate(args):
-            if is_arraylike(arg):
-                have_array_like_input = True
+            if _HAVE_XARRAY and isinstance(arg, xr.DataArray):
+                    have_xarray_input = True
+                    image = itk.image_from_xarray(arg)
+                    args_list[index] = image
+            elif is_arraylike(arg):
+                have_array_input = True
                 array = np.asarray(arg)
                 image = itk.image_view_from_array(array)
                 args_list[index] = image
 
         potential_image_input_kwargs = ('input', 'input1', 'input2', 'input3')
         for key, value in kwargs.items():
-            if (key.lower() in potential_image_input_kwargs or
-                    "image" in key.lower()) and is_arraylike(value):
-                have_array_like_input = True
-                array = np.asarray(value)
-                image = itk.image_view_from_array(array)
-                kwargs[key] = image
+            if (key.lower() in potential_image_input_kwargs or "image" in key.lower()):
+                if _HAVE_XARRAY and isinstance(value, xr.DataArray):
+                    have_xarray_input = True
+                    image = itk.image_from_xarray(value)
+                    kwargs[key] = image
+                elif is_arraylike(value):
+                    have_array_input = True
+                    array = np.asarray(value)
+                    image = itk.image_view_from_array(array)
+                    kwargs[key] = image
 
-        if have_array_like_input:
+        if have_xarray_input or have_array_input:
             # Convert output itk.Image's to numpy.ndarray's
             output = image_filter(*tuple(args_list), **kwargs)
             if isinstance(output, tuple):
                 output_list = list(output)
                 for index, value in output_list:
                     if isinstance(value, itk.Image):
-                        array = itk.array_from_image(value)
-                        output_list[index] = array
+                        if have_xarray_input:
+                            data_array = itk.xarray_from_image(value)
+                            output_list[index] = data_array
+                        else:
+                            array = itk.array_from_image(value)
+                            output_list[index] = array
                 return tuple(output_list)
             else:
                 if isinstance(output, itk.Image):
-                    output = itk.array_from_image(output)
+                    if have_xarray_input:
+                        output = itk.xarray_from_image(output)
+                    else:
+                        output = itk.array_from_image(output)
                 return output
         else:
             return image_filter(*args, **kwargs)
