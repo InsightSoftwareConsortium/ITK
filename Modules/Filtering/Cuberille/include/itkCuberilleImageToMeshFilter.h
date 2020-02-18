@@ -268,7 +268,7 @@ private:
     using Self = VertexLookupNode;
 
     /** Constructors */
-    VertexLookupNode() {}
+    VertexLookupNode() = default;
     VertexLookupNode(unsigned long x, unsigned long y)
       : m_X(x)
       , m_Y(y)
