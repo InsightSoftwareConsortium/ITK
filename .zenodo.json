@@ -1,0 +1,397 @@
+{
+  "creators": [
+    {
+      "name": "Ibanez, Luis"
+    },
+    {
+      "name": "Lorensen, Bill"
+    },
+    {
+      "affiliation": "Kitware, Inc",
+      "name": "McCormick, Matthew",
+      "orcid": "0000-0001-9475-3756"
+    },
+    {
+      "name": "King, Brad"
+    },
+    {
+      "name": "Blezek, Daniel"
+    },
+    {
+      "affiliation": "University of Iowa",
+      "name": "Johnson, Hans",
+      "orcid": "0000-0001-9513-2660"
+    },
+    {
+      "name": "Lowekamp, Bradley"
+    },
+    {
+      "name": "Jomier, Julien"
+    },
+    {
+      "name": "Miller, Jim"
+    },
+    {
+      "name": "Lehmann, Ga\u00ebtan"
+    },
+    {
+      "name": "Cates, Josh"
+    },
+    {
+      "name": "Ng, Lydia"
+    },
+    {
+      "name": "Kim, Jisung"
+    },
+    {
+      "name": "Gelas, Arnaud"
+    },
+    {
+      "name": "Malaterre, Mathieu"
+    },
+    {
+      "name": "Krishnan, Karthik"
+    },
+    {
+      "name": "Hoffman, Bill"
+    },
+    {
+      "name": "Williams, Kent"
+    },
+    {
+      "name": "Budin, Francois"
+    },
+    {
+      "affiliation": "Universit\u00e9 de Sherbrooke",
+      "name": "Legarreta, Jon Haitz",
+      "orcid": "0000-0002-9661-1396"
+    },
+    {
+      "name": "Schroeder, Will"
+    },
+    {
+      "name": "R. Aylward, Stephen"
+    },
+    {
+      "name": "Zuki\u0107, D\u017eenan"
+    },
+    {
+      "name": "Liu, Xiaoxiao"
+    },
+    {
+      "name": "Avants, Brian"
+    },
+    {
+      "name": "Dekker, Niels"
+    },
+    {
+      "name": "Noe, Aljaz"
+    },
+    {
+      "name": "Popoff, Michka"
+    },
+    {
+      "name": "Tustison, Nick"
+    },
+    {
+      "name": "Hart, Gabe"
+    },
+    {
+      "name": "Zuki\u0107, D\u017eenan"
+    },
+    {
+      "name": "McBride, Sean"
+    },
+    {
+      "name": "Sundaram, Tessa"
+    },
+    {
+      "name": "Gouaillard, Alexandre"
+    },
+    {
+      "name": "Stauffer, Michael"
+    },
+    {
+      "name": "Enquobahrie, Andinet"
+    },
+    {
+      "name": "Pathak, Sayan"
+    },
+    {
+      "name": "Cedilnik, Andy"
+    },
+    {
+      "name": "Chen, Ting"
+    },
+    {
+      "name": "Shelton, Damion"
+    },
+    {
+      "name": "Helba, Brian"
+    },
+    {
+      "name": "Quammen, Cory"
+    },
+    {
+      "affiliation": "Universit\u00e9 de Sherbrooke",
+      "name": "Legarreta, Jon Haitz",
+      "orcid": "0000-0002-9661-1396"
+    },
+    {
+      "name": "Jin, Yinpeng"
+    },
+    {
+      "name": "Padfield, Dirk"
+    },
+    {
+      "name": "Vercauteren, Tom"
+    },
+    {
+      "name": "Jae Kang, Hyun"
+    },
+    {
+      "name": "Turek, Matt"
+    },
+    {
+      "name": "Tamburo, Robert"
+    },
+    {
+      "name": "Audette, Michel"
+    },
+    {
+      "name": "Foskey, Mark"
+    },
+    {
+      "name": "Hernandez-Cerdan, Pablo"
+    },
+    {
+      "name": "Hughett, Paul"
+    },
+    {
+      "affiliation": "University of Iowa",
+      "name": "Johnson, Hans",
+      "orcid": "0000-0001-9513-2660"
+    },
+    {
+      "name": "Doria, David"
+    },
+    {
+      "name": "Kindlmann, Gordon"
+    },
+    {
+      "name": "Cole, David"
+    },
+    {
+      "name": "Fillion-Robin, Jean-Christophe"
+    },
+    {
+      "name": "Turner, Wes"
+    },
+    {
+      "name": "Chen, Sophie"
+    },
+    {
+      "name": "S. FONOV, Vladimir"
+    },
+    {
+      "name": "Tasdizen, Tolga"
+    },
+    {
+      "name": "Duda, Jeffrey"
+    },
+    {
+      "name": "Galeotti, John"
+    },
+    {
+      "name": "BARRE, Sebastien"
+    },
+    {
+      "name": "Jaume, Sylvain"
+    },
+    {
+      "name": "Mosaliganti, Kishore"
+    },
+    {
+      "name": "Chandra, Parag"
+    },
+    {
+      "name": "Ghayoor, Ali"
+    },
+    {
+      "name": "Mackelfresh, Andrew"
+    },
+    {
+      "name": "Mullins, Christopher"
+    },
+    {
+      "name": "Zhuge, Ying"
+    },
+    {
+      "name": "Martin, Ken"
+    },
+    {
+      "name": "Xue, Xinwei"
+    },
+    {
+      "name": "Straing, Marius"
+    },
+    {
+      "name": "Estepar, Raul"
+    },
+    {
+      "name": "Squillacote, Amy"
+    },
+    {
+      "name": "Wyman, Brad"
+    },
+    {
+      "name": "Chang, Wilson"
+    },
+    {
+      "name": "Guyon, Jean-Philippe"
+    },
+    {
+      "name": "Botha, Charl"
+    },
+    {
+      "name": "Baghdadi, Leila"
+    },
+    {
+      "name": "maekclena"
+    },
+    {
+      "name": "P. Awate, Suyash"
+    },
+    {
+      "name": "Vigneault, Davis"
+    },
+    {
+      "name": "Reynolds, Patrick"
+    },
+    {
+      "name": "Pincus, Zachary"
+    },
+    {
+      "name": "Finet, Julien"
+    },
+    {
+      "name": "Venkatram, Raghu"
+    },
+    {
+      "name": "Zygmunt, Kris"
+    },
+    {
+      "name": "Rondot, Pascale"
+    },
+    {
+      "name": "Davis, Brad"
+    },
+    {
+      "name": "Rit, Simon"
+    },
+    {
+      "name": "Antiga, Luca"
+    },
+    {
+      "name": "Coursolle, Mathieu"
+    },
+    {
+      "name": "Roden, Mark"
+    },
+    {
+      "name": "Park, Sangwook"
+    },
+    {
+      "name": "Cheung, Ho"
+    },
+    {
+      "name": "Aaron Cois, C."
+    },
+    {
+      "name": "Gandel, Lucas"
+    },
+    {
+      "name": "Kaucic, Robert"
+    },
+    {
+      "name": "D. Hanwell, Marcus"
+    },
+    {
+      "name": "Magnotta, Vincent"
+    },
+    {
+      "name": "Yaniv, Ziv"
+    },
+    {
+      "name": "Bertel, Fran\u00e7ois"
+    },
+    {
+      "name": "Hipwell, John"
+    },
+    {
+      "name": "Greer, Hastings"
+    },
+    {
+      "name": "Chandrashekara, Raghavendra"
+    },
+    {
+      "name": "C. Bigler, Don"
+    },
+    {
+      "name": "Straing, Marius"
+    },
+    {
+      "name": "Styner, Martin"
+    },
+    {
+      "name": "Robbins, Steven"
+    },
+    {
+      "name": "Chalana, Vikram"
+    },
+    {
+      "name": "Le Poul, Yann"
+    },
+    {
+      "name": "Neundorf, Alexander"
+    },
+    {
+      "name": "Lamb, Peter"
+    },
+    {
+      "name": "Gerber, Samuel"
+    },
+    {
+      "name": "Williamson, Zach"
+    },
+    {
+      "name": "Braun-Jones, Taylor"
+    },
+    {
+      "name": "Wasem, Andrew"
+    },
+    {
+      "name": "Rannou, Nicolas"
+    },
+    {
+      "name": "Beare, Richard"
+    },
+    {
+      "name": "ITK Community Members"
+    }
+  ],
+  "keywords": [
+    "itk",
+    "insight-toolkit",
+    "c-plus-plus",
+    "python",
+    "image-analysis",
+    "medical-imaging",
+    "scientific-computing",
+    "open-science",
+    "open-source",
+    "reproducible-research"
+  ],
+  "license": "Apache-2.0",
+  "upload_type": "software"
+}
