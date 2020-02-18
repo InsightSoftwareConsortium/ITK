@@ -19,6 +19,8 @@
 #ifndef itkFEMLoadNode_h
 #define itkFEMLoadNode_h
 
+#include <utility>
+
 #include "itkFEMLoadBase.h"
 #include "ITKFEMExport.h"
 #include "vnl/vnl_vector.h"
@@ -83,7 +85,7 @@ public:
 
   LoadNode(Element::ConstPointer element_, unsigned int pt_, vnl_vector<Float> F_)
     : m_Point(pt_)
-    , m_Force(F_)
+    , m_Force(std::move(F_))
   {
     this->m_Element = element_;
   }
