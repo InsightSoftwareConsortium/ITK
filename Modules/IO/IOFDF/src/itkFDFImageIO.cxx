@@ -231,47 +231,47 @@ FDFImageIO::ReadImageInformation()
       // Get the binary data type
       if (name == "storage")
       {
-        this->SetPixelType(SCALAR);
+        this->SetPixelType(IOPixelEnum::SCALAR);
 
         if (value == "double")
         {
-          this->SetComponentType(DOUBLE);
+          this->SetComponentType(IOComponentEnum::DOUBLE);
         }
         else if (value == "float")
         {
-          this->SetComponentType(FLOAT);
+          this->SetComponentType(IOComponentEnum::FLOAT);
         }
         else if (value == "long")
         {
-          this->SetComponentType(LONG);
+          this->SetComponentType(IOComponentEnum::LONG);
         }
         else if (value == "unsigned long")
         {
-          this->SetComponentType(ULONG);
+          this->SetComponentType(IOComponentEnum::ULONG);
         }
         else if (value == "int")
         {
-          this->SetComponentType(INT);
+          this->SetComponentType(IOComponentEnum::INT);
         }
         else if (value == "unsigned int")
         {
-          this->SetComponentType(UINT);
+          this->SetComponentType(IOComponentEnum::UINT);
         }
         else if (value == "short")
         {
-          this->SetComponentType(SHORT);
+          this->SetComponentType(IOComponentEnum::SHORT);
         }
         else if (value == "unsigned short")
         {
-          this->SetComponentType(USHORT);
+          this->SetComponentType(IOComponentEnum::USHORT);
         }
         else if (value == "char")
         {
-          this->SetComponentType(CHAR);
+          this->SetComponentType(IOComponentEnum::CHAR);
         }
         else if (value == "unsigned char")
         {
-          this->SetComponentType(UCHAR);
+          this->SetComponentType(IOComponentEnum::UCHAR);
         }
         else
         {
@@ -455,109 +455,109 @@ FDFImageIO::SwapBytesIfNecessary(void * buffer, unsigned long numberOfPixels)
 {
   switch (this->GetComponentType())
   {
-    case CHAR:
+    case IOComponentEnum::CHAR:
     {
-      if (this->m_ByteOrder == LittleEndian)
+      if (this->m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<char>::SwapRangeFromSystemToLittleEndian((char *)buffer, numberOfPixels);
       }
-      else if (this->m_ByteOrder == BigEndian)
+      else if (this->m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<char>::SwapRangeFromSystemToBigEndian((char *)buffer, numberOfPixels);
       }
       break;
     }
-    case FLOAT:
+    case IOComponentEnum::FLOAT:
     {
-      if (this->m_ByteOrder == LittleEndian)
+      if (this->m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<float>::SwapRangeFromSystemToLittleEndian((float *)buffer, numberOfPixels);
       }
-      else if (this->m_ByteOrder == BigEndian)
+      else if (this->m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<float>::SwapRangeFromSystemToBigEndian((float *)buffer, numberOfPixels);
       }
       break;
     }
-    case UCHAR:
+    case IOComponentEnum::UCHAR:
     {
-      if (this->m_ByteOrder == LittleEndian)
+      if (this->m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<unsigned char>::SwapRangeFromSystemToLittleEndian((unsigned char *)buffer, numberOfPixels);
       }
-      else if (this->m_ByteOrder == BigEndian)
+      else if (this->m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<unsigned char>::SwapRangeFromSystemToBigEndian((unsigned char *)buffer, numberOfPixels);
       }
       break;
     }
-    case SHORT:
+    case IOComponentEnum::SHORT:
     {
-      if (this->m_ByteOrder == LittleEndian)
+      if (this->m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<short>::SwapRangeFromSystemToLittleEndian((short *)buffer, numberOfPixels);
       }
-      else if (this->m_ByteOrder == BigEndian)
+      else if (this->m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<short>::SwapRangeFromSystemToBigEndian((short *)buffer, numberOfPixels);
       }
       break;
     }
-    case USHORT:
+    case IOComponentEnum::USHORT:
     {
-      if (this->m_ByteOrder == LittleEndian)
+      if (this->m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian((unsigned short *)buffer, numberOfPixels);
       }
-      else if (this->m_ByteOrder == BigEndian)
+      else if (this->m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<unsigned short>::SwapRangeFromSystemToBigEndian((unsigned short *)buffer, numberOfPixels);
       }
       break;
     }
-    case INT:
+    case IOComponentEnum::INT:
     {
-      if (this->m_ByteOrder == LittleEndian)
+      if (this->m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<int>::SwapRangeFromSystemToLittleEndian((int *)buffer, numberOfPixels);
       }
-      else if (this->m_ByteOrder == BigEndian)
+      else if (this->m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<int>::SwapRangeFromSystemToBigEndian((int *)buffer, numberOfPixels);
       }
       break;
     }
-    case UINT:
+    case IOComponentEnum::UINT:
     {
-      if (this->m_ByteOrder == LittleEndian)
+      if (this->m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<unsigned int>::SwapRangeFromSystemToLittleEndian((unsigned int *)buffer, numberOfPixels);
       }
-      else if (this->m_ByteOrder == BigEndian)
+      else if (this->m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<unsigned int>::SwapRangeFromSystemToBigEndian((unsigned int *)buffer, numberOfPixels);
       }
       break;
     }
-    case LONG:
+    case IOComponentEnum::LONG:
     {
-      if (this->m_ByteOrder == LittleEndian)
+      if (this->m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<long>::SwapRangeFromSystemToLittleEndian((long *)buffer, numberOfPixels);
       }
-      else if (this->m_ByteOrder == BigEndian)
+      else if (this->m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<long>::SwapRangeFromSystemToBigEndian((long *)buffer, numberOfPixels);
       }
       break;
     }
-    case ULONG:
+    case IOComponentEnum::ULONG:
     {
-      if (this->m_ByteOrder == LittleEndian)
+      if (this->m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<unsigned long>::SwapRangeFromSystemToLittleEndian((unsigned long *)buffer, numberOfPixels);
       }
-      else if (this->m_ByteOrder == BigEndian)
+      else if (this->m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
         ByteSwapper<unsigned long>::SwapRangeFromSystemToBigEndian((unsigned long *)buffer, numberOfPixels);
       }
