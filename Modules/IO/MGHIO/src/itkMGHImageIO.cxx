@@ -148,7 +148,7 @@ MGHImageIO ::CanReadFile(const char * FileNameToRead)
 {
   const std::string filename(FileNameToRead);
 
-  if (filename == "")
+  if (filename.empty())
   {
     itkExceptionMacro(<< "A FileName must be specified.");
     return false;
