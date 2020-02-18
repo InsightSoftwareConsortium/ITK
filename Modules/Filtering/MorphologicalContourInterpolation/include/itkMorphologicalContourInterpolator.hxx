@@ -870,8 +870,8 @@ MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                   
   {
     if (maskIt.Get())
     {
-      typename TImage::PixelType         jVal = jIt.Get();
-      typename PixelList::const_iterator res = std::find(jRegionIds.begin(), jRegionIds.end(), jVal);
+      typename TImage::PixelType jVal = jIt.Get();
+      auto                       res = std::find(jRegionIds.begin(), jRegionIds.end(), jVal);
       if (res != jRegionIds.end())
       {
         blobs[res - jRegionIds.begin()]->SetPixel(maskIt.GetIndex(), true);
@@ -1044,8 +1044,8 @@ MorphologicalContourInterpolator<TImage>::Intersection(typename SliceType::Point
   {
     if (iIt.Get() == iRegionId)
     {
-      typename TImage::PixelType         jVal = jIt.Get();
-      typename PixelList::const_iterator res = std::find(jRegionIds.begin(), jRegionIds.end(), jVal);
+      typename TImage::PixelType jVal = jIt.Get();
+      auto                       res = std::find(jRegionIds.begin(), jRegionIds.end(), jVal);
       if (res != jRegionIds.end())
       {
         ++counts[res - jRegionIds.begin()];
@@ -1101,7 +1101,7 @@ MorphologicalContourInterpolator<TImage>::Centroid(typename SliceType::Pointer &
     typename TImage::PixelType val = it.Get();
     if (val)
     {
-      typename PixelList::const_iterator res = std::find(regionIds.begin(), regionIds.end(), val);
+      auto res = std::find(regionIds.begin(), regionIds.end(), val);
       if (res != regionIds.end())
       {
         ++pixelCount;
@@ -1267,7 +1267,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
                       std::inserter(pairs, pairs.end()));
 
   // first do extrapolation for components without overlaps
-  typename PairSet::iterator p = pairs.begin();
+  auto p = pairs.begin();
   while (p != pairs.end())
   {
     if (p->second == 0)
@@ -1324,7 +1324,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
 
     if (iCounts[p->first] == 1) // M-to-1
     {
-      for (typename PairSet::iterator rest = pairs.begin(); rest != pairs.end(); ++rest)
+      for (auto rest = pairs.begin(); rest != pairs.end(); ++rest)
       {
         if (rest->second == p->second)
         {
@@ -1335,7 +1335,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
       typename SliceType::IndexType translation = Align(jconn, p->second, iconn, regionIDs);
       Interpolate1toN(axis, out, label, j, i, jconn, p->second, iconn, regionIDs, translation);
 
-      typename PairSet::iterator rest = pairs.begin();
+      auto rest = pairs.begin();
       while (rest != pairs.end())
       {
         if (rest != p && rest->second == p->second)
@@ -1356,7 +1356,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
     } // M-to-1
     else if (jCounts[p->second] == 1) // 1-to-N
     {
-      for (typename PairSet::iterator rest = pairs.begin(); rest != pairs.end(); ++rest)
+      for (auto rest = pairs.begin(); rest != pairs.end(); ++rest)
       {
         if (rest->first == p->first)
         {
@@ -1367,7 +1367,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
       typename SliceType::IndexType translation = Align(iconn, p->first, jconn, regionIDs);
       Interpolate1toN(axis, out, label, i, j, iconn, p->first, jconn, regionIDs, translation);
 
-      typename PairSet::iterator rest = pairs.begin();
+      auto rest = pairs.begin();
       ++rest;
       while (rest != pairs.end())
       {
@@ -1399,7 +1399,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
   while (p != pairs.end())
   {
     regionIDs.clear();
-    for (typename PairSet::iterator rest = p; rest != pairs.end(); ++rest)
+    for (auto rest = p; rest != pairs.end(); ++rest)
     {
       if (rest->first == p->first)
       {
@@ -1410,7 +1410,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
     typename SliceType::IndexType translation = Align(iconn, p->first, jconn, regionIDs);
     Interpolate1toN(axis, out, label, i, j, iconn, p->first, jconn, regionIDs, translation);
 
-    typename PairSet::iterator rest = p;
+    auto rest = p;
     ++rest;
     while (rest != pairs.end())
     {
@@ -1443,7 +1443,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int      axis,
   {
     if (m_Label == 0 || m_Label == it->first) // label needs to be interpolated
     {
-      typename SliceSetType::iterator prev = it->second.begin();
+      auto prev = it->second.begin();
       if (prev == it->second.end())
       {
         continue; // nothing to do for this label
@@ -1471,7 +1471,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int      axis,
                    ? -1
                    : (*prev > reqRegion.GetIndex(axis) + IndexValueType(reqRegion.GetSize(axis)) ? +1 : 0);
 
-      typename SliceSetType::iterator next = it->second.begin();
+      auto next = it->second.begin();
       for (++next; next != it->second.end(); ++next)
       {
         typename TImage::RegionType rj = ri;
