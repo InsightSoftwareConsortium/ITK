@@ -35,7 +35,7 @@ FDFImageIO::CanReadFile(const char * file)
 
   // First check the extension
   std::string filename = file;
-  if (filename == "")
+  if (filename.empty())
   {
     itkDebugMacro(<< "No filename specified.");
     return false;
