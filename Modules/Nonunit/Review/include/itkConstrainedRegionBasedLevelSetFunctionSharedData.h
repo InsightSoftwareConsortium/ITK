@@ -182,13 +182,9 @@ protected:
   ~ConstrainedRegionBasedLevelSetFunctionSharedData() override = default;
 
 private:
-  ConstrainedRegionBasedLevelSetFunctionSharedData(const Self &); // purposely
-                                                                  // not
-                                                                  // implemented
+  ConstrainedRegionBasedLevelSetFunctionSharedData(const Self &) = delete;
   void
-  operator=(const Self &); // purposely
-                           // not
-                           // implemented
+  operator=(const Self &) = delete;
 };
 } // end namespace itk
 

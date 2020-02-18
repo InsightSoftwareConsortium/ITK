@@ -43,8 +43,8 @@ public:
   itkGetOpenCLSourceFromKernelMacro(GPUImageOpsKernel);
 
 private:
-  GPUImageOps();
-  virtual ~GPUImageOps();
+  GPUImageOps() = delete;
+  virtual ~GPUImageOps() = delete;
 };
 
 
