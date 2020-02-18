@@ -372,7 +372,7 @@ BinaryThinningImageFilter3D<TInputImage, TOutputImage>::FillEulerLUT(int * LUT)
 
 template <class TInputImage, class TOutputImage>
 bool
-BinaryThinningImageFilter3D<TInputImage, TOutputImage>::IsEulerInvariant(NeighborhoodType neighbors, int * LUT)
+BinaryThinningImageFilter3D<TInputImage, TOutputImage>::IsEulerInvariant(NeighborhoodType neighbors, const int * LUT)
 {
   // Calculate Euler characteristic for each octant and sum up
   int           EulerChar = 0;

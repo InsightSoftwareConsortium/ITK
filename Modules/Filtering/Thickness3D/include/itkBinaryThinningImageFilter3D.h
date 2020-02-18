@@ -150,7 +150,7 @@ protected:
 
   /** Check for Euler invariance (see [Lee94]). */
   bool
-  IsEulerInvariant(NeighborhoodType neighbors, int * LUT);
+  IsEulerInvariant(NeighborhoodType neighbors, const int * LUT);
 
   /** Fill the Euler look-up table (LUT) for later check of the Euler
    * invariance (see [Lee94]). */
