@@ -60,7 +60,10 @@ if __name__ == "__main__":
     # Stable sort:
     # Number of commits in descending order
     # Ties broken by alphabetical order of first name
-    for committer, _ in sorted(commit_counts.items(), key=lambda x: (-int(x[1]), x[0])):
+    for committer, count in sorted(commit_counts.items(), key=lambda x: (-int(x[1]), x[0])):
+        # Require >= 10 commits
+        if int(count) < 10:
+            continue
         matches = process.extract(
             committer, creator_map.keys(), scorer=fuzz.token_sort_ratio, limit=2
         )

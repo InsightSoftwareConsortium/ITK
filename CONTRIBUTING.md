@@ -344,7 +344,7 @@ Citation Addition
 
 To connect your [ORCID](https://orcid.org/) profile to the [ITK Zenodo
 citation](https://zenodo.org/record/3592082), add your name and ORCID iD to
-the *ITK/.zenodo* file.
+the *ITK/.zenodo* file after contributing 10 or more commits.
 
 More Information
 ----------------
