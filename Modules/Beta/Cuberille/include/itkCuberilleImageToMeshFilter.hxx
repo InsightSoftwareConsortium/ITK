@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef itkCuberilleImageToMeshFilter_hxx
 #define itkCuberilleImageToMeshFilter_hxx
 

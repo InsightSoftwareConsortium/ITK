@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #define USE_BSPLINE_INTERPOLATOR 0
 #define USE_MARCHING_CUBES 0
 #define USE_QUAD_EDGE_MESH 1
