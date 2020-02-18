@@ -81,7 +81,7 @@ EigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::UpdateOutput
   outputPtr->Allocate();
 
   /** Grab the input */
-  InputImageType * inputPtr = const_cast<InputImageType *>(this->GetInput(0));
+  auto * inputPtr = const_cast<InputImageType *>(this->GetInput(0));
 
   /**
    * Determine of number of pieces to divide the input.  This will be the

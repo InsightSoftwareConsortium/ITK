@@ -54,9 +54,9 @@ KrcahEigenToMeasureImageFilter<TInputImage, TOutputImage>::ProcessPixel(const In
 
   /* Grab pixel values */
   double sheetness = 0.0;
-  double a1 = static_cast<double>(pixel[0]);
-  double a2 = static_cast<double>(pixel[1]);
-  double a3 = static_cast<double>(pixel[2]);
+  auto   a1 = static_cast<double>(pixel[0]);
+  auto   a2 = static_cast<double>(pixel[1]);
+  auto   a3 = static_cast<double>(pixel[2]);
   double l1 = Math::abs(a1);
   double l2 = Math::abs(a2);
   double l3 = Math::abs(a3);
