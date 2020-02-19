@@ -23,7 +23,7 @@
 
 namespace itk
 {
-#if     ITK_VERSION_MAJOR < 4
+#if ITK_VERSION_MAJOR < 4
 using ThreadIdType = int;
 using RegionIndexType = int;
 #else
@@ -41,20 +41,18 @@ using RegionIndexType = unsigned int;
  *
  * \author Richard Beare, Department of Medicine, Monash University,
  * Australia.  <Richard.Beare@monash.edu>
-**/
-template< typename TInputImage, bool doDilate,
-          typename TOutputImage = TInputImage >
-class ITK_EXPORT LabelSetMorphBaseImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+ **/
+template <typename TInputImage, bool doDilate, typename TOutputImage = TInputImage>
+class ITK_EXPORT LabelSetMorphBaseImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelSetMorphBaseImageFilter);
 
   /** Standard class type alias. */
   using Self = LabelSetMorphBaseImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -66,9 +64,9 @@ public:
   using InputImageType = TInputImage;
   using OutputImageType = TOutputImage;
   using PixelType = typename TInputImage::PixelType;
-  using RealType = typename NumericTraits< PixelType >::FloatType;
+  using RealType = typename NumericTraits<PixelType>::FloatType;
   using OutputPixelType = typename TOutputImage::PixelType;
-  using ScalarRealType = typename NumericTraits< PixelType >::ScalarRealType;
+  using ScalarRealType = typename NumericTraits<PixelType>::ScalarRealType;
 
   using OutputIndexType = typename OutputImageType::IndexType;
   using OutputIndexValueType = typename OutputImageType::IndexValueType;
@@ -80,13 +78,14 @@ public:
   using OutputSizeType = typename TOutputImage::SizeType;
 
   /** a type to represent the "kernel radius" */
-  using RadiusType = typename itk::FixedArray< ScalarRealType, TInputImage::ImageDimension >;
+  using RadiusType = typename itk::FixedArray<ScalarRealType, TInputImage::ImageDimension>;
   /** Image dimension. */
 
   using OutputImageRegionType = typename OutputImageType::RegionType;
 
   // set all of the scales the same
-  void SetRadius(ScalarRealType scale);
+  void
+  SetRadius(ScalarRealType scale);
 
   itkSetMacro(Radius, RadiusType);
   itkGetConstReferenceMacro(Radius, RadiusType);
@@ -108,28 +107,33 @@ public:
       RealType is usually 'double' in NumericTraits.
       Here we prefer float in order to save memory.  */
 
-  void writeDist(std::string fname);
+  void
+  writeDist(std::string fname);
 
 protected:
   LabelSetMorphBaseImageFilter();
   ~LabelSetMorphBaseImageFilter() override {}
 
-  RegionIndexType SplitRequestedRegion(RegionIndexType i, RegionIndexType num,
-                                       OutputImageRegionType & splitRegion) override;
+  RegionIndexType
+  SplitRequestedRegion(RegionIndexType i, RegionIndexType num, OutputImageRegionType & splitRegion) override;
 
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
-  void GenerateData(void) override;
+  void
+  GenerateData(void) override;
 
   // Override since the filter produces the entire dataset.
-  void EnlargeOutputRequestedRegion(DataObject *output) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
   bool m_UseImageSpacing;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   RadiusType m_Radius;
   RadiusType m_Scale;
-  using DistanceImageType = typename itk::Image< RealType, TInputImage::ImageDimension >;
+  using DistanceImageType = typename itk::Image<RealType, TInputImage::ImageDimension>;
   RealType m_Extreme;
 
   typename DistanceImageType::Pointer m_DistanceImage;
@@ -145,7 +149,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelSetMorphBaseImageFilter.hxx"
+#  include "itkLabelSetMorphBaseImageFilter.hxx"
 #endif
 
 #endif

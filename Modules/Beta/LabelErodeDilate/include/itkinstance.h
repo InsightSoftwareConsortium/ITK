@@ -22,12 +22,14 @@
 #include <itkSmartPointer.h>
 namespace itk
 {
-template< typename T >
-class Instance:public T::Pointer
+template <typename T>
+class Instance : public T::Pointer
 {
 public:
-  Instance():SmartPointer< T >( T::New() ) {}
+  Instance()
+    : SmartPointer<T>(T::New())
+  {}
 };
-}
+} // namespace itk
 
 #endif

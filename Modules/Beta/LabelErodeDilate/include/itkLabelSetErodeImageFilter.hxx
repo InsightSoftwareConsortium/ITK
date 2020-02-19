@@ -29,10 +29,10 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelSetErodeImageFilter< TInputImage, TOutputImage >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+LabelSetErodeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   // this is where the work happens. We use a distance image with
   // floating point pixel to perform the parabolic operations. The
@@ -43,24 +43,24 @@ LabelSetErodeImageFilter< TInputImage, TOutputImage >
   // Similarly, the thresholding on output needs to be integrated
   // with the last processing stage.
 
-  using InputConstIteratorType = ImageLinearConstIteratorWithIndex< TInputImage  >;
-  using OutputIteratorType = ImageLinearIteratorWithIndex< TOutputImage >;
+  using InputConstIteratorType = ImageLinearConstIteratorWithIndex<TInputImage>;
+  using OutputIteratorType = ImageLinearIteratorWithIndex<TOutputImage>;
 
-  using InputDistIteratorType = ImageLinearConstIteratorWithIndex< DistanceImageType >;
-  using OutputDistIteratorType = ImageLinearIteratorWithIndex< DistanceImageType >;
+  using InputDistIteratorType = ImageLinearConstIteratorWithIndex<DistanceImageType>;
+  using OutputDistIteratorType = ImageLinearIteratorWithIndex<DistanceImageType>;
 
-  using RegionType = ImageRegion< TInputImage::ImageDimension >;
+  using RegionType = ImageRegion<TInputImage::ImageDimension>;
 
-  typename TInputImage::ConstPointer inputImage( this->GetInput () );
-  typename TOutputImage::Pointer     outputImage( this->GetOutput() );
+  typename TInputImage::ConstPointer inputImage(this->GetInput());
+  typename TOutputImage::Pointer     outputImage(this->GetOutput());
 
-  outputImage->SetBufferedRegion( outputImage->GetRequestedRegion() );
+  outputImage->SetBufferedRegion(outputImage->GetRequestedRegion());
   outputImage->Allocate();
   RegionType region = outputRegionForThread;
 
-  InputConstIteratorType inputIterator(inputImage,  region);
+  InputConstIteratorType inputIterator(inputImage, region);
   OutputIteratorType     outputIterator(outputImage, region);
-  //OutputConstIteratorType inputIteratorStage2( outputImage, region );
+  // OutputConstIteratorType inputIteratorStage2( outputImage, region );
 
   InputDistIteratorType  inputDistIterator(this->m_DistanceImage, region);
   OutputDistIteratorType outputDistIterator(this->m_DistanceImage, region);
@@ -71,48 +71,51 @@ LabelSetErodeImageFilter< TInputImage, TOutputImage >
 
   // flag to indicate whether the internal distance image has been
   // initialized using the special first pass erosion
-  if ( this->m_Scale[this->m_CurrentDimension] > 0 )
-    {
+  if (this->m_Scale[this->m_CurrentDimension] > 0)
+  {
     // Perform as normal
-    //RealType magnitude = 1.0/(2.0 * m_Scale[0]);
+    // RealType magnitude = 1.0/(2.0 * m_Scale[0]);
     unsigned long LineLength = region.GetSize()[this->m_CurrentDimension];
     RealType      image_scale = this->GetInput()->GetSpacing()[this->m_CurrentDimension];
-    bool          lastpass = ( this->m_CurrentDimension == ImageDimension - 1 );
+    bool          lastpass = (this->m_CurrentDimension == ImageDimension - 1);
 
-    if ( !this->m_FirstPassDone )
-      {
-      LabSet::doOneDimensionErodeFirstPass< InputConstIteratorType, OutputDistIteratorType, OutputIteratorType,
-                                            RealType >(inputIterator, outputDistIterator, outputIterator,
-                                                       LineLength,
-                                                       this->m_CurrentDimension,
-                                                       this->m_MagnitudeSign,
-                                                       this->m_UseImageSpacing,
-                                                       image_scale,
-                                                       this->m_Scale[this->m_CurrentDimension],
-                                                       lastpass);
-      }
-    else
-      {
-      // do a standard erosion
-      LabSet::doOneDimensionErode< InputConstIteratorType,
-                                   InputDistIteratorType,
-                                   OutputIteratorType,
-                                   OutputDistIteratorType,
-                                   RealType >(inputIterator,
-                                              inputDistIterator,
-                                              outputDistIterator,
-                                              outputIterator,
-                                              LineLength,
-                                              this->m_CurrentDimension,
-                                              this->m_MagnitudeSign,
-                                              this->m_UseImageSpacing,
-                                              this->m_Extreme,
-                                              image_scale,
-                                              this->m_Scale[this->m_CurrentDimension],
-                                              this->m_BaseSigma,
-                                              lastpass);
-      }
+    if (!this->m_FirstPassDone)
+    {
+      LabSet::
+        doOneDimensionErodeFirstPass<InputConstIteratorType, OutputDistIteratorType, OutputIteratorType, RealType>(
+          inputIterator,
+          outputDistIterator,
+          outputIterator,
+          LineLength,
+          this->m_CurrentDimension,
+          this->m_MagnitudeSign,
+          this->m_UseImageSpacing,
+          image_scale,
+          this->m_Scale[this->m_CurrentDimension],
+          lastpass);
     }
+    else
+    {
+      // do a standard erosion
+      LabSet::doOneDimensionErode<InputConstIteratorType,
+                                  InputDistIteratorType,
+                                  OutputIteratorType,
+                                  OutputDistIteratorType,
+                                  RealType>(inputIterator,
+                                            inputDistIterator,
+                                            outputDistIterator,
+                                            outputIterator,
+                                            LineLength,
+                                            this->m_CurrentDimension,
+                                            this->m_MagnitudeSign,
+                                            this->m_UseImageSpacing,
+                                            this->m_Extreme,
+                                            image_scale,
+                                            this->m_Scale[this->m_CurrentDimension],
+                                            this->m_BaseSigma,
+                                            lastpass);
+    }
+  }
 }
 } // namespace itk
 #endif

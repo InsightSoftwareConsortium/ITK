@@ -27,10 +27,11 @@
 #define TCLAP_STANDARD_TRAITS_H
 
 #ifdef HAVE_CONFIG_H
-#include <config.h> // To check for long long
+#  include <config.h> // To check for long long
 #endif
 
-namespace TCLAP {
+namespace TCLAP
+{
 
 // ======================================================================
 // Integer types
@@ -39,42 +40,47 @@ namespace TCLAP {
 /**
  * longs have value-like semantics.
  */
-template<>
-struct ArgTraits<long> {
-    using ValueCategory = ValueLike;
+template <>
+struct ArgTraits<long>
+{
+  using ValueCategory = ValueLike;
 };
 
 /**
  * ints have value-like semantics.
  */
-template<>
-struct ArgTraits<int> {
-    using ValueCategory = ValueLike;
+template <>
+struct ArgTraits<int>
+{
+  using ValueCategory = ValueLike;
 };
 
 /**
  * shorts have value-like semantics.
  */
-template<>
-struct ArgTraits<short> {
-    using ValueCategory = ValueLike;
+template <>
+struct ArgTraits<short>
+{
+  using ValueCategory = ValueLike;
 };
 
 /**
  * chars have value-like semantics.
  */
-template<>
-struct ArgTraits<char> {
-    using ValueCategory = ValueLike;
+template <>
+struct ArgTraits<char>
+{
+  using ValueCategory = ValueLike;
 };
 
 #ifdef HAVE_LONG_LONG
 /**
  * long longs have value-like semantics.
  */
-template<>
-struct ArgTraits<long long> {
-    using ValueCategory = ValueLike;
+template <>
+struct ArgTraits<long long>
+{
+  using ValueCategory = ValueLike;
 };
 #endif
 
@@ -85,42 +91,47 @@ struct ArgTraits<long long> {
 /**
  * unsigned longs have value-like semantics.
  */
-template<>
-struct ArgTraits<unsigned long> {
-    using ValueCategory = ValueLike;
+template <>
+struct ArgTraits<unsigned long>
+{
+  using ValueCategory = ValueLike;
 };
 
 /**
  * unsigned ints have value-like semantics.
  */
-template<>
-struct ArgTraits<unsigned int> {
-    using ValueCategory = ValueLike;
+template <>
+struct ArgTraits<unsigned int>
+{
+  using ValueCategory = ValueLike;
 };
 
 /**
  * unsigned shorts have value-like semantics.
  */
-template<>
-struct ArgTraits<unsigned short> {
-    using ValueCategory = ValueLike;
+template <>
+struct ArgTraits<unsigned short>
+{
+  using ValueCategory = ValueLike;
 };
 
 /**
  * unsigned chars have value-like semantics.
  */
-template<>
-struct ArgTraits<unsigned char> {
-    using ValueCategory = ValueLike;
+template <>
+struct ArgTraits<unsigned char>
+{
+  using ValueCategory = ValueLike;
 };
 
 #ifdef HAVE_LONG_LONG
 /**
  * unsigned long longs have value-like semantics.
  */
-template<>
-struct ArgTraits<unsigned long long> {
-    using ValueCategory = ValueLike;
+template <>
+struct ArgTraits<unsigned long long>
+{
+  using ValueCategory = ValueLike;
 };
 #endif
 
@@ -131,17 +142,19 @@ struct ArgTraits<unsigned long long> {
 /**
  * floats have value-like semantics.
  */
-template<>
-struct ArgTraits<float> {
-    using ValueCategory = ValueLike;
+template <>
+struct ArgTraits<float>
+{
+  using ValueCategory = ValueLike;
 };
 
 /**
  * doubles have value-like semantics.
  */
-template<>
-struct ArgTraits<double> {
-    using ValueCategory = ValueLike;
+template <>
+struct ArgTraits<double>
+{
+  using ValueCategory = ValueLike;
 };
 
 // ======================================================================
@@ -151,34 +164,37 @@ struct ArgTraits<double> {
 /**
  * bools have value-like semantics.
  */
-template<>
-struct ArgTraits<bool> {
-    using ValueCategory = ValueLike;
+template <>
+struct ArgTraits<bool>
+{
+  using ValueCategory = ValueLike;
 };
 
 /**
  * wchar_ts have value-like semantics.
  */
-template<>
-struct ArgTraits<wchar_t> {
-    using ValueCategory = ValueLike;
+template <>
+struct ArgTraits<wchar_t>
+{
+  using ValueCategory = ValueLike;
 };
 
 /**
  * Strings have string like argument traits.
  */
-template<>
-struct ArgTraits<std::string> {
-    using ValueCategory = StringLike;
+template <>
+struct ArgTraits<std::string>
+{
+  using ValueCategory = StringLike;
 };
 
-template<typename T>
-void SetString(T &dst, const std::string &src)
+template <typename T>
+void
+SetString(T & dst, const std::string & src)
 {
-    dst = src;
+  dst = src;
 }
 
-} // namespace
+} // namespace TCLAP
 
 #endif
-

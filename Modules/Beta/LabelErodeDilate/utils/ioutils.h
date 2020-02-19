@@ -9,9 +9,11 @@
 #include <itkOrientImageFilter.h>
 #include <itkSpatialOrientation.h>
 
-int readImageInfo(std::string filename, itk::ImageIOBase::IOComponentType *ComponentType, int *dim)
+int
+readImageInfo(std::string filename, itk::ImageIOBase::IOComponentType * ComponentType, int * dim)
 {
-  itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO(filename.c_str(), itk::ImageIOFactory::ReadMode);
+  itk::ImageIOBase::Pointer imageIO =
+    itk::ImageIOFactory::CreateImageIO(filename.c_str(), itk::ImageIOFactory::ReadMode);
   if (imageIO.IsNull())
     return 0;
 
@@ -21,12 +23,13 @@ int readImageInfo(std::string filename, itk::ImageIOBase::IOComponentType *Compo
 
   *ComponentType = imageIO->GetComponentType();
   *dim = imageIO->GetNumberOfDimensions();
-  return(1);
+  return (1);
 }
 
 
 template <class TImage>
-void writeIm(typename TImage::Pointer Im, std::string filename)
+void
+writeIm(typename TImage::Pointer Im, std::string filename)
 {
   using WriterType = typename itk::ImageFileWriter<TImage>;
   typename WriterType::Pointer writer = WriterType::New();
@@ -36,26 +39,26 @@ void writeIm(typename TImage::Pointer Im, std::string filename)
 }
 
 template <class TImage, class PixType>
-void writeImScale(typename TImage::Pointer Im, std::string filename)
+void
+writeImScale(typename TImage::Pointer Im, std::string filename)
 {
   const int dim = TImage::ImageDimension;
   using OutType = typename itk::Image<PixType, dim>;
   using WriterType = typename itk::ImageFileWriter<OutType>;
   using StatsType = typename itk::StatisticsImageFilter<TImage>;
   using FitType = typename itk::ShiftScaleImageFilter<TImage, OutType>;
-  
+
   typename StatsType::Pointer stats = StatsType::New();
-  typename FitType::Pointer fitter = FitType::New();
+  typename FitType::Pointer   fitter = FitType::New();
 
   stats->SetInput(Im);
   stats->Update();
-  float range = itk::NumericTraits<PixType  >::max() -
-    itk::NumericTraits< PixType >::NonpositiveMin() + 1;
+  float range = itk::NumericTraits<PixType>::max() - itk::NumericTraits<PixType>::NonpositiveMin() + 1;
   float mx = stats->GetMaximum();
   float mn = stats->GetMinimum();
-  float scale = range/(mx - mn);
-  float shift = - mn;
-  
+  float scale = range / (mx - mn);
+  float shift = -mn;
+
   fitter->SetInput(stats->GetOutput());
   fitter->SetScale(scale);
   fitter->SetShift(shift);
@@ -67,28 +70,30 @@ void writeImScale(typename TImage::Pointer Im, std::string filename)
 }
 
 template <class TImage>
-typename TImage::Pointer readIm(std::string filename)
+typename TImage::Pointer
+readIm(std::string filename)
 {
   using ReaderType = typename itk::ImageFileReader<TImage>;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(filename.c_str());
   typename TImage::Pointer result = reader->GetOutput();
   try
-    {
+  {
     result->Update();
-    }
-  catch(itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex << std::endl;
     std::cout << filename << std::endl;
     return 0;
-    }
-    result->DisconnectPipeline();
-    return(result);
+  }
+  result->DisconnectPipeline();
+  return (result);
 }
 
 template <class TImage>
-typename TImage::Pointer readImOriented(std::string filename, itk::SpatialOrientation::ValidCoordinateOrientationFlags direction)
+typename TImage::Pointer
+readImOriented(std::string filename, itk::SpatialOrientation::ValidCoordinateOrientationFlags direction)
 {
   using ReaderType = typename itk::ImageFileReader<TImage>;
   typename ReaderType::Pointer reader = ReaderType::New();
@@ -101,17 +106,17 @@ typename TImage::Pointer readImOriented(std::string filename, itk::SpatialOrient
   typename TImage::Pointer result = reorient->GetOutput();
 
   try
-    {
+  {
     result->Update();
-    }
-  catch(itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex << std::endl;
     std::cout << filename << std::endl;
     return 0;
-    }
-    result->DisconnectPipeline();
-    return(result);
+  }
+  result->DisconnectPipeline();
+  return (result);
 }
 
 

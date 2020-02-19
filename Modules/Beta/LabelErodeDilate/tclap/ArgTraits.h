@@ -24,9 +24,10 @@
 // include this directly
 
 #ifndef TCLAP_ARGTRAITS_H
-#define TCLAP_ARGTRAITS_H
+#  define TCLAP_ARGTRAITS_H
 
-namespace TCLAP {
+namespace TCLAP
+{
 
 // We use two empty structs to get compile type specialization
 // function to work
@@ -35,8 +36,9 @@ namespace TCLAP {
  * A value like argument value type is a value that can be set using
  * operator>>. This is the default value type.
  */
-struct ValueLike {
-    using ValueCategory = ValueLike;
+struct ValueLike
+{
+  using ValueCategory = ValueLike;
 };
 
 /**
@@ -44,15 +46,17 @@ struct ValueLike {
  * operator=(string). Usefull if the value type contains spaces which
  * will be broken up into individual tokens by operator>>.
  */
-struct StringLike {};
+struct StringLike
+{};
 
 /**
  * A class can inherit from this object to make it have string like
  * traits. This is a compile time thing and does not add any overhead
  * to the inherenting class.
  */
-struct StringLikeTrait {
-    using ValueCategory = StringLike;
+struct StringLikeTrait
+{
+  using ValueCategory = StringLike;
 };
 
 /**
@@ -60,8 +64,9 @@ struct StringLikeTrait {
  * traits. This is a compile time thing and does not add any overhead
  * to the inherenting class.
  */
-struct ValueLikeTrait {
-    using ValueCategory = ValueLike;
+struct ValueLikeTrait
+{
+  using ValueCategory = ValueLike;
 };
 
 /**
@@ -70,10 +75,11 @@ struct ValueLikeTrait {
  * values gets assigned to any particular type during parsing. The two
  * supported types are string like and value like.
  */
-template<typename T>
-struct ArgTraits {
-    using ValueCategory = typename T::ValueCategory;
-    //using ValueCategory = ValueLike;
+template <typename T>
+struct ArgTraits
+{
+  using ValueCategory = typename T::ValueCategory;
+  // using ValueCategory = ValueLike;
 };
 
 #endif

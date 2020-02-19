@@ -30,26 +30,25 @@
 
 namespace itk
 {
-template< typename TInputImage, bool doDilate, typename TOutputImage >
-LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
-::LabelSetMorphBaseImageFilter()
+template <typename TInputImage, bool doDilate, typename TOutputImage>
+LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>::LabelSetMorphBaseImageFilter()
 {
   this->SetNumberOfRequiredOutputs(1);
   this->SetNumberOfRequiredInputs(1);
-// needs to be selected according to erosion/dilation
+  // needs to be selected according to erosion/dilation
 
   m_DistanceImage = DistanceImageType::New();
 
-  if ( doDilate )
-    {
-    m_Extreme = NumericTraits< RealType >::NonpositiveMin();
+  if (doDilate)
+  {
+    m_Extreme = NumericTraits<RealType>::NonpositiveMin();
     m_MagnitudeSign = 1;
-    }
+  }
   else
-    {
-    m_Extreme = NumericTraits< RealType >::max();
+  {
+    m_Extreme = NumericTraits<RealType>::max();
     m_MagnitudeSign = -1;
-    }
+  }
   m_UseImageSpacing = false;
 
   this->SetRadius(1);
@@ -57,22 +56,24 @@ LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
   this->DynamicMultiThreadingOn();
 }
 
-template< typename TInputImage, bool doDilate, typename TOutputImage >
+template <typename TInputImage, bool doDilate, typename TOutputImage>
 void
-LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   // stop warnings
   (void)outputRegionForThread;
 }
 
-template< typename TInputImage, bool doDilate, typename TOutputImage >
+template <typename TInputImage, bool doDilate, typename TOutputImage>
 RegionIndexType
-LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
-::SplitRequestedRegion(RegionIndexType i, RegionIndexType num, OutputImageRegionType & splitRegion)
+LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>::SplitRequestedRegion(
+  RegionIndexType         i,
+  RegionIndexType         num,
+  OutputImageRegionType & splitRegion)
 {
   // Get the output pointer
-  OutputImageType *outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
 
   // Initialize the splitRegion to the output requested region
   splitRegion = outputPtr->GetRequestedRegion();
@@ -80,41 +81,39 @@ LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
   const OutputSizeType & requestedRegionSize = splitRegion.GetSize();
 
   OutputIndexType splitIndex = splitRegion.GetIndex();
-  OutputSizeType  splitSize  = splitRegion.GetSize();
+  OutputSizeType  splitSize = splitRegion.GetSize();
 
   // split on the outermost dimension available
   // and avoid the current dimension
-  int splitAxis = static_cast< int >( outputPtr->GetImageDimension() ) - 1;
-  while ( ( requestedRegionSize[splitAxis] == 1 )
-          || ( splitAxis == static_cast< int >( m_CurrentDimension ) ) )
-    {
+  int splitAxis = static_cast<int>(outputPtr->GetImageDimension()) - 1;
+  while ((requestedRegionSize[splitAxis] == 1) || (splitAxis == static_cast<int>(m_CurrentDimension)))
+  {
     --splitAxis;
-    if ( splitAxis < 0 )
-      { // cannot split
+    if (splitAxis < 0)
+    { // cannot split
       itkDebugMacro("Cannot Split");
       return 1;
-      }
     }
+  }
 
   // determine the actual number of pieces that will be generated
-  auto range = static_cast< double >( requestedRegionSize[splitAxis] );
+  auto range = static_cast<double>(requestedRegionSize[splitAxis]);
 
-  auto valuesPerThread = static_cast< unsigned int >( std::ceil( range / static_cast< double >( num ) ) );
-  unsigned int maxThreadIdUsed =
-    static_cast< unsigned int >( std::ceil( range / static_cast< double >( valuesPerThread ) ) ) - 1;
+  auto         valuesPerThread = static_cast<unsigned int>(std::ceil(range / static_cast<double>(num)));
+  unsigned int maxThreadIdUsed = static_cast<unsigned int>(std::ceil(range / static_cast<double>(valuesPerThread))) - 1;
 
   // Split the region
-  if ( i < maxThreadIdUsed )
-    {
+  if (i < maxThreadIdUsed)
+  {
     splitIndex[splitAxis] += i * valuesPerThread;
     splitSize[splitAxis] = valuesPerThread;
-    }
-  if ( i == maxThreadIdUsed )
-    {
+  }
+  if (i == maxThreadIdUsed)
+  {
     splitIndex[splitAxis] += i * valuesPerThread;
     // last thread needs to process the "rest" dimension being split
     splitSize[splitAxis] = splitSize[splitAxis] - i * valuesPerThread;
-    }
+  }
 
   // set the split region ivars
   splitRegion.SetIndex(splitIndex);
@@ -125,10 +124,9 @@ LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
   return maxThreadIdUsed + 1;
 }
 
-template< typename TInputImage, bool doDilate, typename TOutputImage >
+template <typename TInputImage, bool doDilate, typename TOutputImage>
 void
-LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
-::SetRadius(ScalarRealType radius)
+LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>::SetRadius(ScalarRealType radius)
 {
   RadiusType s;
 
@@ -136,52 +134,50 @@ LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
   this->SetRadius(s);
 }
 
-template< typename TInputImage, bool doDilate, typename TOutputImage >
+template <typename TInputImage, bool doDilate, typename TOutputImage>
 void
-LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
-::EnlargeOutputRequestedRegion(DataObject *output)
+LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * output)
 {
-  auto *out = dynamic_cast< TOutputImage * >( output );
+  auto * out = dynamic_cast<TOutputImage *>(output);
 
-  if ( out )
-    {
-    out->SetRequestedRegion( out->GetLargestPossibleRegion() );
-    }
+  if (out)
+  {
+    out->SetRequestedRegion(out->GetLargestPossibleRegion());
+  }
 }
 
-template< typename TInputImage, bool doDilate, typename TOutputImage >
+template <typename TInputImage, bool doDilate, typename TOutputImage>
 void
-LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
-::GenerateData(void)
+LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>::GenerateData(void)
 {
   ThreadIdType nbthreads = this->GetNumberOfWorkUnits();
 
-  typename TInputImage::ConstPointer inputImage( this->GetInput () );
-  typename TOutputImage::Pointer     outputImage( this->GetOutput() );
+  typename TInputImage::ConstPointer inputImage(this->GetInput());
+  typename TOutputImage::Pointer     outputImage(this->GetOutput());
 
   this->AllocateOutputs();
 
-  m_DistanceImage->SetBufferedRegion( outputImage->GetRequestedRegion() );
+  m_DistanceImage->SetBufferedRegion(outputImage->GetRequestedRegion());
   m_DistanceImage->Allocate();
   m_DistanceImage->FillBuffer(0);
   m_DistanceImage->CopyInformation(inputImage);
 
-  if ( this->GetUseImageSpacing() )
-    {
+  if (this->GetUseImageSpacing())
+  {
     // radius is in mm
-    for ( unsigned P = 0; P < InputImageType::ImageDimension; P++ )
-      {
-      m_Scale[P] = 0.5 * m_Radius[P] * m_Radius[P];
-      }
-    }
-  else
+    for (unsigned P = 0; P < InputImageType::ImageDimension; P++)
     {
-    // this gives us a little bit of a margin
-    for ( unsigned P = 0; P < InputImageType::ImageDimension; P++ )
-      {
-      m_Scale[P] = ( 0.5 * m_Radius[P] * m_Radius[P] + 1 );
-      }
+      m_Scale[P] = 0.5 * m_Radius[P] * m_Radius[P];
     }
+  }
+  else
+  {
+    // this gives us a little bit of a margin
+    for (unsigned P = 0; P < InputImageType::ImageDimension; P++)
+    {
+      m_Scale[P] = (0.5 * m_Radius[P] * m_Radius[P] + 1);
+    }
+  }
 
   // set up the scaling parameter
   // first non zero element of m_Scale sets the value used the first
@@ -190,69 +186,67 @@ LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
   // value to support elliptical operations.
   // The first value needs to be recorded for use by the erosion operation.
   unsigned firstval = 0;
-  for ( unsigned P = 0; P < InputImageType::ImageDimension; P++ )
+  for (unsigned P = 0; P < InputImageType::ImageDimension; P++)
+  {
+    if (m_Radius[P] != 0)
     {
-    if ( m_Radius[P] != 0 )
-      {
       firstval = P;
       break;
-      }
     }
+  }
   m_BaseSigma = m_Scale[firstval];
-  for ( unsigned P = firstval + 1; P < InputImageType::ImageDimension; P++ )
-    {
+  for (unsigned P = firstval + 1; P < InputImageType::ImageDimension; P++)
+  {
     m_Scale[P] = m_Scale[P] / m_Scale[firstval];
-    }
+  }
 
   m_FirstPassDone = false;
 
   // Set up the multithreaded processing
-  typename ImageSource< TOutputImage >::ThreadStruct str;
+  typename ImageSource<TOutputImage>::ThreadStruct str;
   str.Filter = this;
-  ProcessObject::MultiThreaderType *multithreader = this->GetMultiThreader();
+  ProcessObject::MultiThreaderType * multithreader = this->GetMultiThreader();
   multithreader->SetNumberOfWorkUnits(nbthreads);
   multithreader->SetSingleMethod(this->ThreaderCallback, &str);
 
   // multithread the execution
-  for ( unsigned int d = 0; d < ImageDimension; d++ )
-    {
+  for (unsigned int d = 0; d < ImageDimension; d++)
+  {
     m_CurrentDimension = d;
     multithreader->SingleMethodExecute();
-    if ( this->m_Scale[m_CurrentDimension] > 0 )
-      {
+    if (this->m_Scale[m_CurrentDimension] > 0)
+    {
       // needs to be set outside the multithreaded code
       // first pass is completed as soon as we hit a structuring
       // element dimension that is non zero.
       m_FirstPassDone = true;
-      }
     }
+  }
 }
 
-template< typename TInputImage, bool doDilate, typename TOutputImage >
+template <typename TInputImage, bool doDilate, typename TOutputImage>
 void
-LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  if ( m_UseImageSpacing )
-    {
+  if (m_UseImageSpacing)
+  {
     os << "Scale in world units: " << m_Radius << std::endl;
-    }
+  }
   else
-    {
+  {
     os << "Scale in voxels: " << m_Radius << std::endl;
-    }
+  }
 }
 
-template< typename TInputImage, bool doDilate, typename TOutputImage >
+template <typename TInputImage, bool doDilate, typename TOutputImage>
 void
-LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
-::writeDist(std::string fname)
+LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>::writeDist(std::string fname)
 {
-  using WriterType = typename  itk::ImageFileWriter< DistanceImageType >;
+  using WriterType = typename itk::ImageFileWriter<DistanceImageType>;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetInput(m_DistanceImage);
-  writer->SetFileName( fname.c_str() );
+  writer->SetFileName(fname.c_str());
   writer->Update();
 }
 } // namespace itk
