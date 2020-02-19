@@ -37,9 +37,8 @@ namespace itk
  * \f]
  * \f[
  *   f^{symmetric}(x)=\tau\frac{(F(x)-M(x+u(x)))}{\|\frac{\nabla F(x) + \nabla M(x+u(x))}{2}\|^2 +
- * \kappa|F(x)-M(x+u(x))|^2}\frac{\nabla F(x) + \nabla M(x+u(x))}{2}
- * \f]
- * with \f$\tau\f$ as the step size and \f$\kappa\f$ as the mean squared spacing.
+ * \kappa|F(x)-M(x+u(x))|^2}\frac{\nabla F(x) + \nabla M(x+u(x))}{2} \f] with \f$\tau\f$ as the step size and
+ * \f$\kappa\f$ as the mean squared spacing.
  *
  * \sa VariationalRegistrationFilter
  * \sa VariationalRegistrationFunction

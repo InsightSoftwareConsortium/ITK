@@ -42,12 +42,9 @@ namespace itk
  *  \f]
  *  \f$ f \f$ denotes the force term corresponding to the similarity measure \f$ D\f$ and \f$ A\f$ is a linear
  * differential operator associated with the regularization term \f$ S \f$. The ELE is solved using gradient descent
- * with a semi-implicite update scheme and step size \f$ \tau \f$:
- *  \f[
- *    (2)\quad u^{k+1} = (Id - \tau\alpha A)^{-1}(u^k + \tau f^k).
- *  \f]
- *  VariationalRegistrationFilter has two images as input (fixed image \f$ R \f$, and moving image \f$ T \f$)
- *  and computes the displacement field \f$ u \f$ as output.
+ * with a semi-implicite update scheme and step size \f$ \tau \f$: \f[ (2)\quad u^{k+1} = (Id - \tau\alpha A)^{-1}(u^k +
+ * \tau f^k). \f] VariationalRegistrationFilter has two images as input (fixed image \f$ R \f$, and moving image \f$ T
+ * \f$) and computes the displacement field \f$ u \f$ as output.
  *
  *  The force term \f$ f \f$ is implemented in a subclass of VariationalRegistrationFunction. The computation
  *  of the regularization with \f$ (Id - \tau A)^{-1}\f$ is implemented in a subclass of
