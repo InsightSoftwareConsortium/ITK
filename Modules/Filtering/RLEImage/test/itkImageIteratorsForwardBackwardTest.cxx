@@ -23,7 +23,6 @@
 int
 itkImageIteratorsForwardBackwardTest(int, char *[])
 {
-
   std::cout << "Creating an image" << std::endl;
   using ImageType = itk::RLEImage<unsigned short>;
 

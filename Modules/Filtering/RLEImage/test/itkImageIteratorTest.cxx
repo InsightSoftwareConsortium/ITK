@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#include <iostream>
 #include "itkRLEImage.h"
+#include <iostream>
 
 
 // This routine is used to make sure that we call the "const" version

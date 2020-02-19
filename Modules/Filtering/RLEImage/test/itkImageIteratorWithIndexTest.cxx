@@ -18,14 +18,13 @@
 
 #include <iostream>
 
-#include "itkRLEImage.h"
 #include "itkNumericTraits.h"
+#include "itkRLEImage.h"
 
 
 template <typename TPixelType>
 class itkImageIteratorWithIndexTestIteratorTester
 {
-
 public:
   using PixelType = TPixelType;
 
@@ -118,7 +117,6 @@ private:
 int
 itkImageIteratorWithIndexTest(int, char *[])
 {
-
   bool testPassed = true; // let's be optimistic
 
   // Instantiate image of various types and

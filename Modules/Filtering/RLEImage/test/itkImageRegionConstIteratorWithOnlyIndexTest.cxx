@@ -23,7 +23,6 @@
 template <typename TImage>
 class itkImageRegionConstIteratorWithOnlyIndexTestIteratorTester
 {
-
 public:
   using ImageType = TImage;
   using IndexType = typename ImageType::IndexType;

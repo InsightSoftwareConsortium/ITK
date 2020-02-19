@@ -16,11 +16,11 @@
  *
  *=========================================================================*/
 
-#include "itkTestDriverIncludeRequiredIOFactories.h"
-#include "itkRLEImage.h"
 #include "itkImageFileReader.h"
-#include <string>
+#include "itkRLEImage.h"
+#include "itkTestDriverIncludeRequiredIOFactories.h"
 #include <iostream>
+#include <string>
 
 int
 main(int argc, char * argv[])

@@ -19,8 +19,8 @@
 #include <iostream>
 
 #include "itkImage.h"
-#include "itkVector.h"
 #include "itkRLEImage.h"
+#include "itkVector.h"
 #include <ctime>
 
 int

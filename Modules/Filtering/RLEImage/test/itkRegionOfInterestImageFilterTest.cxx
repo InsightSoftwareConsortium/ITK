@@ -16,14 +16,13 @@
  *
  *=========================================================================*/
 
-#include <iostream>
 #include "itkRLEImage.h"
 #include "itkSimpleFilterWatcher.h"
+#include <iostream>
 
 int
 itkRegionOfInterestImageFilterTest(int, char *[])
 {
-
   constexpr unsigned int Dimension = 3;
   using PixelType = itk::Index<Dimension>;
 
