@@ -35,20 +35,18 @@ namespace itk
  *
  * \author Richard Beare, Department of Medicine, Monash University,
  * Australia.  <Richard.Beare@monash.edu>
-**/
-template< typename TInputImage,
-          typename TOutputImage = TInputImage >
-class ITK_EXPORT LabelSetDilateImageFilter:
-  public LabelSetMorphBaseImageFilter< TInputImage, true, TOutputImage >
+ **/
+template <typename TInputImage, typename TOutputImage = TInputImage>
+class ITK_EXPORT LabelSetDilateImageFilter : public LabelSetMorphBaseImageFilter<TInputImage, true, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelSetDilateImageFilter);
 
   /** Standard class type alias. */
   using Self = LabelSetDilateImageFilter;
-  using Superclass = LabelSetMorphBaseImageFilter< TInputImage, true, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = LabelSetMorphBaseImageFilter<TInputImage, true, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -60,9 +58,9 @@ public:
   using InputImageType = TInputImage;
   using OutputImageType = TOutputImage;
   using PixelType = typename TInputImage::PixelType;
-  using RealType = typename NumericTraits< PixelType >::FloatType;
+  using RealType = typename NumericTraits<PixelType>::FloatType;
   using OutputPixelType = typename TOutputImage::PixelType;
-  using ScalarRealType = typename NumericTraits< PixelType >::ScalarRealType;
+  using ScalarRealType = typename NumericTraits<PixelType>::ScalarRealType;
 
   /** Smart pointer type alias support.  */
   using InputImagePointer = typename TInputImage::Pointer;
@@ -76,12 +74,13 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
+
 protected:
-  LabelSetDilateImageFilter()
-    { this->DynamicMultiThreadingOn(); }
+  LabelSetDilateImageFilter() { this->DynamicMultiThreadingOn(); }
   ~LabelSetDilateImageFilter() override {}
 
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
   using DistanceImageType = typename Superclass::DistanceImageType;
@@ -89,7 +88,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelSetDilateImageFilter.hxx"
+#  include "itkLabelSetDilateImageFilter.hxx"
 #endif
 
 #endif

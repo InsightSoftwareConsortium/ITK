@@ -37,20 +37,18 @@ namespace itk
  *
  * \author Richard Beare, Department of Medicine, Monash University,
  * Australia.  <Richard.Beare@monash.edu>
-**/
-template< typename TInputImage,
-          typename TOutputImage = TInputImage >
-class ITK_EXPORT LabelSetErodeImageFilter:
-  public LabelSetMorphBaseImageFilter< TInputImage, false, TOutputImage >
+ **/
+template <typename TInputImage, typename TOutputImage = TInputImage>
+class ITK_EXPORT LabelSetErodeImageFilter : public LabelSetMorphBaseImageFilter<TInputImage, false, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelSetErodeImageFilter);
 
   /** Standard class type alias. */
   using Self = LabelSetErodeImageFilter;
-  using Superclass = LabelSetMorphBaseImageFilter< TInputImage, false, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = LabelSetMorphBaseImageFilter<TInputImage, false, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -62,9 +60,9 @@ public:
   using InputImageType = TInputImage;
   using OutputImageType = TOutputImage;
   using PixelType = typename TInputImage::PixelType;
-  using RealType = typename NumericTraits< PixelType >::FloatType;
+  using RealType = typename NumericTraits<PixelType>::FloatType;
   using OutputPixelType = typename TOutputImage::PixelType;
-  using ScalarRealType = typename NumericTraits< PixelType >::ScalarRealType;
+  using ScalarRealType = typename NumericTraits<PixelType>::ScalarRealType;
 
   /** Smart pointer type alias support.  */
   using InputImagePointer = typename TInputImage::Pointer;
@@ -73,7 +71,7 @@ public:
   using OutputSizeType = typename TOutputImage::SizeType;
 
   /** a type to represent the "kernel radius" */
-  using RadiusType = typename itk::FixedArray< ScalarRealType, TInputImage::ImageDimension >;
+  using RadiusType = typename itk::FixedArray<ScalarRealType, TInputImage::ImageDimension>;
   /** Image dimension. */
 
   using OutputImageRegionType = typename OutputImageType::RegionType;
@@ -81,12 +79,13 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
+
 protected:
-  LabelSetErodeImageFilter()
-    { this->DynamicMultiThreadingOn(); }
+  LabelSetErodeImageFilter() { this->DynamicMultiThreadingOn(); }
   ~LabelSetErodeImageFilter() override {}
 
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
   // Override since the filter produces the entire dataset.
 private:
@@ -95,7 +94,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelSetErodeImageFilter.hxx"
+#  include "itkLabelSetErodeImageFilter.hxx"
 #endif
 
 #endif
