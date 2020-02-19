@@ -371,7 +371,7 @@ DCMTKFileReader ::IsImageFile(const std::string & filename)
 void
 DCMTKFileReader ::LoadFile()
 {
-  if (this->m_FileName == "")
+  if (this->m_FileName.empty())
   {
     itkGenericExceptionMacro(<< "No filename given");
   }

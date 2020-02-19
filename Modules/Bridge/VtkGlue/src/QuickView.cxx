@@ -273,7 +273,7 @@ QuickView::Visualize(bool interact)
         }
         std::rotate(background, background + 1, background + 6);
 
-        if (this->Images[i].m_Description != "")
+        if (!this->Images[i].m_Description.empty())
         {
           vtkSmartPointer<vtkTextProperty> textProperty = vtkSmartPointer<vtkTextProperty>::New();
           textProperty->SetFontSize(10);
@@ -332,7 +332,7 @@ QuickView::Visualize(bool interact)
         }
         std::rotate(background, background + 1, background + 6);
 
-        if (this->RGBImages[j].m_Description != "")
+        if (!this->RGBImages[j].m_Description.empty())
         {
           vtkSmartPointer<vtkTextProperty> textProperty = vtkSmartPointer<vtkTextProperty>::New();
           textProperty->SetFontSize(10);

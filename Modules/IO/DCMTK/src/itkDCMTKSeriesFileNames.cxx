@@ -51,7 +51,7 @@ DCMTKSeriesFileNames ::SetInputDirectory(const char * name)
 void
 DCMTKSeriesFileNames ::SetInputDirectory(std::string const & name)
 {
-  if (name == "")
+  if (name.empty())
   {
     itkWarningMacro(<< "You need to specify a directory where "
                        "the DICOM files are located");
@@ -127,7 +127,7 @@ DCMTKSeriesFileNames ::GetDicomData(const std::string & series, bool saveFileNam
       reader->GetElementUI(0x0020, 0x000e, uid);
       //
       // if you've restricked it to a particular series instance ID
-      if (series == "" || series == uid)
+      if (series.empty() || series == uid)
       {
         allHeaders.push_back(reader);
       }

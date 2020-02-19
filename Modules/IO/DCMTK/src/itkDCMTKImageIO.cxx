@@ -212,7 +212,7 @@ DCMTKImageIO::CanReadFile(const char * filename)
   // First check the filename extension
   std::string fname = filename;
 
-  if (fname == "")
+  if (fname.empty())
   {
     itkDebugMacro(<< "No filename specified.");
   }

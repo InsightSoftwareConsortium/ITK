@@ -35,7 +35,7 @@ GPUKernelManager::~GPUKernelManager()
 {
   cl_int errid;
 
-  while (m_KernelContainer.size() > 0)
+  while (!m_KernelContainer.empty())
   {
     errid = clReleaseKernel(m_KernelContainer.back());
     OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);

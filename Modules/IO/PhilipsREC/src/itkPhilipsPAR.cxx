@@ -221,7 +221,7 @@ GetImageInformationDefinitionV3(std::string file, int lineNum, PhilipsPAR * phil
     return tempInfo;
   }
   currentLine = philipsPARClass->GetLineNumber(file, lineNum);
-  if ((currentLine == "") || (currentLine == "\n") || (currentLine == "\r\n") || (currentLine == "\r") ||
+  if ((currentLine.empty()) || (currentLine == "\n") || (currentLine == "\r\n") || (currentLine == "\r") ||
       (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
                       "=========================") ||
       (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
@@ -262,7 +262,7 @@ GetImageInformationDefinitionV4(std::string file, int lineNum, PhilipsPAR * phil
     return tempInfo;
   }
   currentLine = philipsPARClass->GetLineNumber(file, lineNum);
-  if ((currentLine == "") || (currentLine == "\n") || (currentLine == "\r\n") || (currentLine == "\r") ||
+  if ((currentLine.empty()) || (currentLine == "\n") || (currentLine == "\r\n") || (currentLine == "\r") ||
       (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
                       "=========================") ||
       (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
@@ -308,7 +308,7 @@ GetImageInformationDefinitionV41(std::string file, int lineNum, PhilipsPAR * phi
     return tempInfo;
   }
   currentLine = philipsPARClass->GetLineNumber(file, lineNum);
-  if ((currentLine == "") || (currentLine == "\n") || (currentLine == "\r\n") || (currentLine == "\r") ||
+  if ((currentLine.empty()) || (currentLine == "\n") || (currentLine == "\r\n") || (currentLine == "\r") ||
       (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
                       "=========================") ||
       (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
@@ -357,7 +357,7 @@ GetImageInformationDefinitionV42(std::string file, int lineNum, PhilipsPAR * phi
     return tempInfo;
   }
   currentLine = philipsPARClass->GetLineNumber(file, lineNum);
-  if ((currentLine == "") || (currentLine == "\n") || (currentLine == "\r\n") || (currentLine == "\r") ||
+  if ((currentLine.empty()) || (currentLine == "\n") || (currentLine == "\r\n") || (currentLine == "\r") ||
       (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
                       "=========================") ||
       (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"

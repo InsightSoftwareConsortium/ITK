@@ -264,7 +264,7 @@ TIFFImageIO::PrintSelf(std::ostream & os, Indent indent) const
 void
 TIFFImageIO::InternalSetCompressor(const std::string & _compressor)
 {
-  if (_compressor == "" || _compressor == "PACKBITS")
+  if (_compressor.empty() || _compressor == "PACKBITS")
   {
     this->SetCompression(PackBits);
   }

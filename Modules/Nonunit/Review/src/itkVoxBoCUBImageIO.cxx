@@ -608,7 +608,7 @@ VoxBoCUBImageIO::ReadImageInformation()
         std::ostringstream oss;
         while (iss >> word)
         {
-          if (oss.str().size())
+          if (!oss.str().empty())
           {
             oss << " ";
           }
@@ -760,7 +760,7 @@ VoxBoCUBImageIO::CheckExtension(const char * filename, bool & isCompressed)
 {
   std::string fname = filename;
 
-  if (fname == "")
+  if (fname.empty())
   {
     itkDebugMacro(<< "No filename specified.");
     return false;

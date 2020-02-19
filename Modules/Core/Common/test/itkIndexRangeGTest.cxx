@@ -177,7 +177,7 @@ TEST(IndexRange, BeginAndEndDoNotCompareEqualWhenSizeIsGreaterThanZero)
   using RangeType = IndexRange<2, true>;
   RangeType range(RangeType::SizeType{ { 1, 2 } });
 
-  EXPECT_TRUE(range.size() > 0);
+  EXPECT_TRUE(!range.empty());
   EXPECT_FALSE(range.empty());
 
   EXPECT_FALSE(range.begin() == range.end());

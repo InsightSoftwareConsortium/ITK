@@ -1523,7 +1523,7 @@ void
 GDCMImageIO::InternalSetCompressor(const std::string & _compressor)
 {
 
-  if (_compressor == "" || _compressor == "JPEG2000")
+  if (_compressor.empty() || _compressor == "JPEG2000")
   {
     m_CompressionType = CompressionEnum::JPEG2000;
   }

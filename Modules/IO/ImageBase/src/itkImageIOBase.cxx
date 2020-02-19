@@ -358,7 +358,7 @@ ImageIOBase::SetMaximumCompressionLevel(int _MaximumCompressionLevel)
 void
 ImageIOBase::InternalSetCompressor(const std::string & _compressor)
 {
-  if (_compressor != "")
+  if (!_compressor.empty())
   {
     itkWarningMacro("Unknown compressor: \"" << _compressor << "\", setting to default.");
     this->SetCompressor("");

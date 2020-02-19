@@ -57,7 +57,7 @@ View(const char * name,
   viewer1.AddImage(source->GetOutput(), false, std::string(name) + " not flipped");
 
   std::string path(snapshotPath);
-  if (path != "")
+  if (!path.empty())
   {
     viewer1.SnapshotOn();
     viewer1.SetSnapshotPrefix("/QuickViewTest");
@@ -108,7 +108,7 @@ ViewRGB(const char * name,
   viewer1.AddRGBImage(source->GetOutput(), false, std::string(name) + " not flipped");
 
   std::string path(snapshotPath);
-  if (path != "")
+  if (!path.empty())
   {
     viewer1.SnapshotOn();
     viewer1.SetSnapshotPrefix("/QuickViewTest");

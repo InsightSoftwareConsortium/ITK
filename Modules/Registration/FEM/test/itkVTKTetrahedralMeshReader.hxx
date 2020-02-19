@@ -53,7 +53,7 @@ VTKTetrahedralMeshReader<TOutputMesh>::GenerateData()
 
   outputMesh->SetCellsAllocationMethod(MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell);
 
-  if (m_FileName == "")
+  if (m_FileName.empty())
   {
     itkExceptionMacro(<< "No input FileName");
   }

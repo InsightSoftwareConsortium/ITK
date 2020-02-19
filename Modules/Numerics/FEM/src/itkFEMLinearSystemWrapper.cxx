@@ -366,7 +366,7 @@ LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int  rowNumb
   }
 
   /* while there are more rows to examine */
-  while ((nextRows.size() != 0) && (nextRowNumber < this->m_Order))
+  while ((!nextRows.empty()) && (nextRowNumber < this->m_Order))
   {
     bufferArray.clear();
     for (i = 0; i < (int)(nextRows.size()); i++)

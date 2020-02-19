@@ -434,7 +434,7 @@ FFTWGlobalConfiguration ::FFTWGlobalConfiguration()
     {
       this->m_WisdomCacheBase = envSetPath;
     }
-    else if (this->m_WisdomCacheBase.size() < 1) // Use home account if nothing specified
+    else if (this->m_WisdomCacheBase.empty()) // Use home account if nothing specified
     {
 #  ifdef _WIN32
       this->m_WisdomCacheBase = std::string(itksys::SystemTools::GetEnv("HOMEPATH"));

@@ -64,7 +64,7 @@ MedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   const auto nonBoundaryRegion = calculatorResult.GetNonBoundaryRegion();
 
-  if (nonBoundaryRegion.GetSize() != InputSizeType())
+  if (!nonBoundaryRegion.GetSize().empty())
   {
     // Process the non-boundary subregion, using a faster pixel access policy without boundary extrapolation.
     auto neighborhoodRange =

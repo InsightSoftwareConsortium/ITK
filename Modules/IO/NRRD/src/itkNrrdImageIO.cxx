@@ -71,7 +71,7 @@ NrrdImageIO::InternalSetCompressor(const std::string & _compressor)
   this->m_NrrdCompressionEncoding = nullptr;
 
   // set default to gzip
-  if (_compressor == "")
+  if (_compressor.empty())
   {
     if (nrrdEncodingGzip->available())
     {
