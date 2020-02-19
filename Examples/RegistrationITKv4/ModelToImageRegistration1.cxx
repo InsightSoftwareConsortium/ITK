@@ -332,9 +332,9 @@ public:
     this->m_Transform->SetParameters(parameters);
 
     value = 0;
-    for (auto it = m_PointList.begin(); it != m_PointList.end(); ++it)
+    for (auto it : m_PointList)
     {
-      PointType transformedPoint = this->m_Transform->TransformPoint(*it);
+      PointType transformedPoint = this->m_Transform->TransformPoint(it);
       if (this->m_Interpolator->IsInsideBuffer(transformedPoint))
       {
         value += this->m_Interpolator->Evaluate(transformedPoint);

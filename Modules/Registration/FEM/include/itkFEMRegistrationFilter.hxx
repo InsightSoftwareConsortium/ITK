@@ -311,9 +311,9 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::CreateMesh(unsigne
 
   if (m_UseLandmarks)
   {
-    for (unsigned int i = 0; i < m_LandmarkArray.size(); i++)
+    for (auto & i : m_LandmarkArray)
     {
-      m_FEMObject->AddNextLoad((m_LandmarkArray[i]));
+      m_FEMObject->AddNextLoad(i);
     }
   }
 

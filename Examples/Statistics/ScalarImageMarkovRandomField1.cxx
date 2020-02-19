@@ -367,11 +367,9 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   double totalWeight = 0;
-  for (std::vector<double>::const_iterator wcIt = weights.begin();
-       wcIt != weights.end();
-       ++wcIt)
+  for (double weight : weights)
   {
-    totalWeight += *wcIt;
+    totalWeight += weight;
   }
   for (double & weight : weights)
   {

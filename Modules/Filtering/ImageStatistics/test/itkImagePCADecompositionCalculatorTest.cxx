@@ -327,19 +327,16 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
 
   // Print the basis and projections: first the PCA basis
   std::cout << "The basis of projection is: " << std::endl;
-  for (ImagePCAShapeModelEstimatorType::BasisImagePointerVector::const_iterator basis_it = basis_check.begin();
-       basis_it != basis_check.end();
-       ++basis_it)
+  for (const auto & basis_it : basis_check)
   {
     std::cout << "[";
-    InputImageIterator basisImage_it(*basis_it, (*basis_it)->GetBufferedRegion());
+    InputImageIterator basisImage_it(basis_it, basis_it->GetBufferedRegion());
     for (basisImage_it.GoToBegin(); !basisImage_it.IsAtEnd(); ++basisImage_it)
     {
       std::cout << basisImage_it.Get() << " ";
     }
     std::cout << "]" << std::endl;
   }
-
 
   // Print the projections
   std::cout << "The projection of [0 2 2 0] is [" << proj3 << "]" << std::endl;
@@ -351,19 +348,16 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
   // Print the basis and projections: now the new basis
   std::cout << std::endl;
   std::cout << "Now the basis of projection is: " << std::endl;
-  for (ImagePCAShapeModelEstimatorType::BasisImagePointerVector::const_iterator basis_it = basis_check_2.begin();
-       basis_it != basis_check_2.end();
-       ++basis_it)
+  for (const auto & basis_it : basis_check_2)
   {
     std::cout << "[";
-    InputImageIterator basisImage_it(*basis_it, (*basis_it)->GetBufferedRegion());
+    InputImageIterator basisImage_it(basis_it, basis_it->GetBufferedRegion());
     for (basisImage_it.GoToBegin(); !basisImage_it.IsAtEnd(); ++basisImage_it)
     {
       std::cout << basisImage_it.Get() << " ";
     }
     std::cout << "]" << std::endl;
   }
-
 
   // Print the projections
   std::cout << "The projection of [0 2 2 0] is [" << proj3_2 << "]" << std::endl;

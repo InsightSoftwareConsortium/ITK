@@ -316,11 +316,9 @@ MultiThreaderBase::GetGlobalDefaultNumberOfThreads()
     }
     // first, check for environment variable
     std::string itkGlobalDefaultNumberOfThreadsEnv = "0";
-    for (std::vector<std::string>::const_iterator lit = ITK_NUMBER_OF_THREADS_ENV_LIST.begin();
-         lit != ITK_NUMBER_OF_THREADS_ENV_LIST.end();
-         ++lit)
+    for (const auto & lit : ITK_NUMBER_OF_THREADS_ENV_LIST)
     {
-      if (itksys::SystemTools::GetEnv(lit->c_str(), itkGlobalDefaultNumberOfThreadsEnv))
+      if (itksys::SystemTools::GetEnv(lit.c_str(), itkGlobalDefaultNumberOfThreadsEnv))
       {
         threadCount = static_cast<ThreadIdType>(atoi(itkGlobalDefaultNumberOfThreadsEnv.c_str()));
       }

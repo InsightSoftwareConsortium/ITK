@@ -177,9 +177,9 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int, char *[])
       for (const auto & i : expectedResult)
       {
         std::cout << "\t";
-        for (unsigned int j = 0; j < 3; j++)
+        for (double j : i)
         {
-          std::cout << i[j] << " ";
+          std::cout << j << " ";
         }
         std::cout << std::endl;
       }
