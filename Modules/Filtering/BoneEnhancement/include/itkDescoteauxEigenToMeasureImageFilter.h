@@ -37,8 +37,7 @@ namespace itk
  *      R_{blob} &=&  \frac{|2 |\lambda_3| - |\lambda_2| - |\lambda_1| |}{|\lambda_3|} \\
  *      R_{noise} &=&  \sqrt{|\lambda_1|^2 + |\lambda_2|^2 + \lambda_3|^2} \\
  *      s &=& \exp\left(- \frac{R_{sheet}^2}{\alpha^2} \right) \left(1 - \exp\left(- \frac{R_{blob}^2}{\beta^2} \right)
- * \right) \left(1 - \exp\left(- \frac{R_{noise}^2}{c^2} \right) \right)
- *  \f}
+ * \right) \left(1 - \exp\left(- \frac{R_{noise}^2}{c^2} \right) \right) \f}
  *
  * Note that if \f$ \lambda_3 > 0 \f$, \f$ s = 0 \f$.
  *

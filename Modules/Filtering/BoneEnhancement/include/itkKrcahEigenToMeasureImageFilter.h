@@ -37,8 +37,7 @@ namespace itk
  *      R_{tube} &=&  \frac{\lambda_1|}{|\lambda_2| \cdot \lambda_3|} \\
  *      R_{noise} &=&  \lambda_1| + |\lambda_2| + \lambda_3| \\
  *      s &=& sign(\lambda_3) \exp\left(- \frac{R_{sheet}^2}{\alpha^2} \right) \exp\left(- \frac{R_{tube}^2}{\beta^2}
- * \right) \left(1 - \exp\left(- \frac{R_{noise}^2}{\gamma^2} \right) \right)
- *  \f}
+ * \right) \left(1 - \exp\left(- \frac{R_{noise}^2}{\gamma^2} \right) \right) \f}
  *
  * The scaling by the average trace of the Hessian matrix is implicit in \f$ \gamma \f$.
  *
