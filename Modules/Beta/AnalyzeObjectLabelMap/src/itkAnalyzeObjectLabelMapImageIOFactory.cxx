@@ -21,9 +21,9 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-void AnalyzeObjectLabelMapImageIOFactory::PrintSelf(std::ostream &, Indent) const
-{
-}
+void
+AnalyzeObjectLabelMapImageIOFactory::PrintSelf(std::ostream &, Indent) const
+{}
 
 AnalyzeObjectLabelMapImageIOFactory::AnalyzeObjectLabelMapImageIOFactory()
 {
@@ -31,12 +31,10 @@ AnalyzeObjectLabelMapImageIOFactory::AnalyzeObjectLabelMapImageIOFactory()
                          "itkAnalyzeObjectLabelMapImageIO",
                          "Anaylze Object Label Map IO",
                          1,
-                         CreateObjectFunction<AnalyzeObjectLabelMapImageIO>::New() );
+                         CreateObjectFunction<AnalyzeObjectLabelMapImageIO>::New());
 }
 
-AnalyzeObjectLabelMapImageIOFactory::~AnalyzeObjectLabelMapImageIOFactory()
-{
-}
+AnalyzeObjectLabelMapImageIOFactory::~AnalyzeObjectLabelMapImageIOFactory() {}
 
 const char *
 AnalyzeObjectLabelMapImageIOFactory::GetITKSourceVersion(void) const

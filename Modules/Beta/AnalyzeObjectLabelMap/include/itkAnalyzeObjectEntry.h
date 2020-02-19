@@ -60,7 +60,8 @@ public:
    *This function will copy all of the ivars except the name of the entry.
    *The reason why the function does not copy the name, is that each object entry should have a unique name.
    */
-  void Copy( AnalyzeObjectEntry::Pointer rhs );
+  void
+  Copy(AnalyzeObjectEntry::Pointer rhs);
 
   /**
    * \brief getName/setName
@@ -69,25 +70,30 @@ public:
    * defined name for this object. Any zero-terminated string can be used,
    * including stringswith embedded spaces.
    */
-  virtual std::string GetName( void ) const
+  virtual std::string
+  GetName(void) const
   {
-    itkDebugMacro("returning " << "Name of " << this->m_Name );
+    itkDebugMacro("returning "
+                  << "Name of " << this->m_Name);
     return std::string(this->m_Name);
   }
 
   /** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility()); */
-  virtual void SetName(const std::string _arg)
+  virtual void
+  SetName(const std::string _arg)
   {
     char temp[32];
 
     strncpy(temp, _arg.c_str(), 31);
     temp[31] = '\0';
-    itkDebugMacro("setting " << "Name" << " to " << temp);
-    if( strcmp(this->m_Name, temp) != 0 )
-      {
+    itkDebugMacro("setting "
+                  << "Name"
+                  << " to " << temp);
+    if (strcmp(this->m_Name, temp) != 0)
+    {
       strncpy(this->m_Name, temp, 32);
       this->Modified();
-      }
+    }
   }
 
   /**
@@ -523,14 +529,16 @@ public:
    *This function will print out all of the ivars out to any file that the user wants.
    *This is mostly used for debugging purposes.
    */
-  void Print(std::ostream & myfile);
+  void
+  Print(std::ostream & myfile);
 
   /**
    *\brief ReadFromFilePointer
    *
    *This function will read in all of the ivars from a file location that is passed into it.
    */
-  void ReadFromFilePointer(std::ifstream & inputFileStream, const bool NeedByteSwap, const bool /* NeedBlendFactor */);
+  void
+  ReadFromFilePointer(std::ifstream & inputFileStream, const bool NeedByteSwap, const bool /* NeedBlendFactor */);
 
   /**
    *\brief SwapObjectEndeness
@@ -538,20 +546,23 @@ public:
    *This function will change the object endedness if the computer is a little endian machine,
    *since the object maps are written in big endian.
    */
-  void SwapObjectEndedness();
+  void
+  SwapObjectEndedness();
   /**
    *\brief Write
    *
    *This function will write out all of the ivars to a file location that is passed into it.
    */
-  void Write(std::ofstream & outputFileStream);
+  void
+  Write(std::ofstream & outputFileStream);
+
 protected:
   /**
    * \brief AnalyzeObjectEntry( ) is the default constructor, initializes to 0 or NULL
    * Possible Causes of Failure:
    * - unknown
    */
-  AnalyzeObjectEntry( void );
+  AnalyzeObjectEntry(void);
 
   /**
    * \brief ~AnalyzeObjectEntry( void ) is the destructor, which does nothing explicitly due to
@@ -560,16 +571,15 @@ protected:
    * - unknown
    * \sa AnalyzeObjectEntry
    */
-  ~AnalyzeObjectEntry( void ) override;
+  ~AnalyzeObjectEntry(void) override;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   template <typename TValue>
-  void ReadBytes(std::ifstream & inputFileStream,
-                 TValue * dest,
-                 const int Replications,
-                 const bool NeedByteSwap);
+  void
+  ReadBytes(std::ifstream & inputFileStream, TValue * dest, const int Replications, const bool NeedByteSwap);
 
   char          m_Name[33];              /*bytes   0-31*/
   int           m_DisplayFlag;           /*bytes  32-35*/
@@ -631,5 +641,5 @@ private:
   Index m_MaximumCoordinateValue;
 #endif
 };
-}
-#endif                           // __OBJECTENTR_H__
+} // namespace itk
+#endif // __OBJECTENTR_H__

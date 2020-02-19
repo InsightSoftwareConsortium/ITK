@@ -19,97 +19,96 @@
 namespace itk
 {
 
-AnalyzeObjectEntry::~AnalyzeObjectEntry( void )
-{
-}
+AnalyzeObjectEntry::~AnalyzeObjectEntry(void) {}
 
-AnalyzeObjectEntry::AnalyzeObjectEntry( void ) : m_DisplayFlag(1),
-                                                 m_CopyFlag(0),
-                                                 m_MirrorFlag(0),
-                                                 m_StatusFlag(0),
-                                                 m_NeighborsUsedFlag(0),
-                                                 m_Shades(1),
-                                                 m_StartRed(0),
-                                                 m_StartGreen(0),
-                                                 m_StartBlue(0),
-                                                 m_EndRed(0),
-                                                 m_EndGreen(0),
-                                                 m_EndBlue(0),
-                                                 m_XRotation(0),
-                                                 m_YRotation(0),
-                                                 m_ZRotation(0),
-                                                 m_XTranslation(0),
-                                                 m_YTranslation(0),
-                                                 m_ZTranslation(0),
-                                                 m_XCenter(0),
-                                                 m_YCenter(0),
-                                                 m_ZCenter(0),
-                                                 m_XRotationIncrement(0),
-                                                 m_YRotationIncrement(0),
-                                                 m_ZRotationIncrement(0),
-                                                 m_XTranslationIncrement(0),
-                                                 m_YTranslationIncrement(0),
-                                                 m_ZTranslationIncrement(0),
-                                                 m_MinimumXValue(0),
-                                                 m_MinimumYValue(0),
-                                                 m_MinimumZValue(0),
-                                                 m_MaximumXValue(0),
-                                                 m_MaximumYValue(0),
-                                                 m_MaximumZValue(0),
-                                                 m_Opacity(0.5),
-                                                 m_OpacityThickness(1),
-                                                 m_BlendFactor(0)
+AnalyzeObjectEntry::AnalyzeObjectEntry(void)
+  : m_DisplayFlag(1)
+  , m_CopyFlag(0)
+  , m_MirrorFlag(0)
+  , m_StatusFlag(0)
+  , m_NeighborsUsedFlag(0)
+  , m_Shades(1)
+  , m_StartRed(0)
+  , m_StartGreen(0)
+  , m_StartBlue(0)
+  , m_EndRed(0)
+  , m_EndGreen(0)
+  , m_EndBlue(0)
+  , m_XRotation(0)
+  , m_YRotation(0)
+  , m_ZRotation(0)
+  , m_XTranslation(0)
+  , m_YTranslation(0)
+  , m_ZTranslation(0)
+  , m_XCenter(0)
+  , m_YCenter(0)
+  , m_ZCenter(0)
+  , m_XRotationIncrement(0)
+  , m_YRotationIncrement(0)
+  , m_ZRotationIncrement(0)
+  , m_XTranslationIncrement(0)
+  , m_YTranslationIncrement(0)
+  , m_ZTranslationIncrement(0)
+  , m_MinimumXValue(0)
+  , m_MinimumYValue(0)
+  , m_MinimumZValue(0)
+  , m_MaximumXValue(0)
+  , m_MaximumYValue(0)
+  , m_MaximumZValue(0)
+  , m_Opacity(0.5)
+  , m_OpacityThickness(1)
+  , m_BlendFactor(0)
 {
-  std::memset(this->m_Name,0,sizeof(this->m_Name));
+  std::memset(this->m_Name, 0, sizeof(this->m_Name));
 }
 
 // AnalyzeObjectEntry & AnalyzeObjectEntry
 // ::operator=( const AnalyzeObjectEntry & rhs )
 
 // Copy everything but the name.  Each ObjectEntry must have a unique name.
-void AnalyzeObjectEntry::Copy( AnalyzeObjectEntry::Pointer rhs )
+void
+AnalyzeObjectEntry::Copy(AnalyzeObjectEntry::Pointer rhs)
 {
-  this->SetBlendFactor(rhs->GetBlendFactor() );
-  this->SetCopyFlag(rhs->GetCopyFlag() );
-  this->SetDisplayFlag(rhs->GetDisplayFlag() );
-  this->SetEndBlue(rhs->GetEndBlue() );
-  this->SetEndGreen(rhs->GetEndGreen() );
-  this->SetEndRed(rhs->GetEndRed() );
-  this->SetMaximumXValue(rhs->GetMaximumXValue() );
-  this->SetMaximumYValue(rhs->GetMaximumYValue() );
-  this->SetMaximumZValue(rhs->GetMaximumZValue() );
-  this->SetMinimumXValue(rhs->GetMinimumXValue() );
-  this->SetMinimumYValue(rhs->GetMinimumYValue() );
-  this->SetMinimumZValue(rhs->GetMinimumZValue() );
-  this->SetMirrorFlag(rhs->GetMirrorFlag() );
-  this->SetNeighborsUsedFlag(rhs->GetNeighborsUsedFlag() );
-  this->SetOpacity(rhs->GetOpacity() );
-  this->SetOpacityThickness(rhs->GetOpacityThickness() );
-  this->SetXRotation(rhs->GetXRotation() );
-  this->SetYRotation(rhs->GetYRotation() );
-  this->SetZRotation(rhs->GetZRotation() );
-  this->SetXRotationIncrement(rhs->GetXRotationIncrement() );
-  this->SetYRotationIncrement(rhs->GetYRotationIncrement() );
-  this->SetZRotationIncrement(rhs->GetZRotationIncrement() );
-  this->SetShades(rhs->GetShades() );
-  this->SetStartBlue(rhs->GetStartBlue() );
-  this->SetStartGreen(rhs->GetStartGreen() );
-  this->SetStartRed(rhs->GetStartRed() );
-  this->SetStatusFlag(rhs->GetStatusFlag() );
-  this->SetXTranslation(rhs->GetXTranslation() );
-  this->SetYTranslation(rhs->GetYTranslation() );
-  this->SetZTranslation(rhs->GetZTranslation() );
-  this->SetXTranslationIncrement(rhs->GetXTranslationIncrement() );
-  this->SetYTranslationIncrement(rhs->GetYTranslationIncrement() );
-  this->SetZTranslationIncrement(rhs->GetZTranslationIncrement() );
-  this->SetXCenter(rhs->GetXCenter() );
-  this->SetYCenter(rhs->GetYCenter() );
-  this->SetZCenter(rhs->GetZCenter() );
+  this->SetBlendFactor(rhs->GetBlendFactor());
+  this->SetCopyFlag(rhs->GetCopyFlag());
+  this->SetDisplayFlag(rhs->GetDisplayFlag());
+  this->SetEndBlue(rhs->GetEndBlue());
+  this->SetEndGreen(rhs->GetEndGreen());
+  this->SetEndRed(rhs->GetEndRed());
+  this->SetMaximumXValue(rhs->GetMaximumXValue());
+  this->SetMaximumYValue(rhs->GetMaximumYValue());
+  this->SetMaximumZValue(rhs->GetMaximumZValue());
+  this->SetMinimumXValue(rhs->GetMinimumXValue());
+  this->SetMinimumYValue(rhs->GetMinimumYValue());
+  this->SetMinimumZValue(rhs->GetMinimumZValue());
+  this->SetMirrorFlag(rhs->GetMirrorFlag());
+  this->SetNeighborsUsedFlag(rhs->GetNeighborsUsedFlag());
+  this->SetOpacity(rhs->GetOpacity());
+  this->SetOpacityThickness(rhs->GetOpacityThickness());
+  this->SetXRotation(rhs->GetXRotation());
+  this->SetYRotation(rhs->GetYRotation());
+  this->SetZRotation(rhs->GetZRotation());
+  this->SetXRotationIncrement(rhs->GetXRotationIncrement());
+  this->SetYRotationIncrement(rhs->GetYRotationIncrement());
+  this->SetZRotationIncrement(rhs->GetZRotationIncrement());
+  this->SetShades(rhs->GetShades());
+  this->SetStartBlue(rhs->GetStartBlue());
+  this->SetStartGreen(rhs->GetStartGreen());
+  this->SetStartRed(rhs->GetStartRed());
+  this->SetStatusFlag(rhs->GetStatusFlag());
+  this->SetXTranslation(rhs->GetXTranslation());
+  this->SetYTranslation(rhs->GetYTranslation());
+  this->SetZTranslation(rhs->GetZTranslation());
+  this->SetXTranslationIncrement(rhs->GetXTranslationIncrement());
+  this->SetYTranslationIncrement(rhs->GetYTranslationIncrement());
+  this->SetZTranslationIncrement(rhs->GetZTranslationIncrement());
+  this->SetXCenter(rhs->GetXCenter());
+  this->SetYCenter(rhs->GetYCenter());
+  this->SetZCenter(rhs->GetZCenter());
 }
 
 void
-AnalyzeObjectEntry
-::Print(std::ostream & myfile)
+AnalyzeObjectEntry ::Print(std::ostream & myfile)
 {
   myfile << this->m_Name << std::endl;
   myfile << m_DisplayFlag << std::endl;
@@ -153,22 +152,25 @@ AnalyzeObjectEntry
 
 template <typename TValue>
 void
-AnalyzeObjectEntry
-::ReadBytes(std::ifstream & inputFileStream, TValue * dest, const int Replications, const bool NeedByteSwap)
+AnalyzeObjectEntry ::ReadBytes(std::ifstream & inputFileStream,
+                               TValue *        dest,
+                               const int       Replications,
+                               const bool      NeedByteSwap)
 {
-  if( inputFileStream.read(reinterpret_cast<char *>(dest), sizeof(TValue) * Replications).fail() )
-    {
+  if (inputFileStream.read(reinterpret_cast<char *>(dest), sizeof(TValue) * Replications).fail())
+  {
     itkExceptionMacro("6: Unable to read in object #1 description.");
-    }
-  if( NeedByteSwap )
-    {
+  }
+  if (NeedByteSwap)
+  {
     itk::ByteSwapper<TValue>::SwapFromSystemToBigEndian(dest);
-    }
+  }
 }
 
 void
-AnalyzeObjectEntry
-::ReadFromFilePointer(std::ifstream & inputFileStream, const bool NeedByteSwap, const bool /* NeedBlendFactor */)
+AnalyzeObjectEntry ::ReadFromFilePointer(std::ifstream & inputFileStream,
+                                         const bool      NeedByteSwap,
+                                         const bool /* NeedBlendFactor */)
 {
   ReadBytes<char>(inputFileStream, this->m_Name, 32, NeedByteSwap);
   ReadBytes<int>(inputFileStream, &(this->m_DisplayFlag), 1, NeedByteSwap);
@@ -217,91 +219,88 @@ AnalyzeObjectEntry
 }
 
 void
-AnalyzeObjectEntry
-::SwapObjectEndedness()
+AnalyzeObjectEntry ::SwapObjectEndedness()
 {
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_DisplayFlag) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_Shades) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_StartRed) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_StartGreen) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_StartBlue) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_EndRed) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_EndGreen) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_EndBlue) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_XRotation) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_YRotation) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_ZRotation) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_XTranslation) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_YTranslation) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_ZTranslation) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_XCenter) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_YCenter) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_ZCenter) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_XRotationIncrement) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_YRotationIncrement) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_ZRotationIncrement) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_XTranslationIncrement) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_YTranslationIncrement) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_ZTranslationIncrement) );
-  itk::ByteSwapper<short int>::SwapFromSystemToBigEndian(&(this->m_MinimumXValue) );
-  itk::ByteSwapper<short int>::SwapFromSystemToBigEndian(&(this->m_MinimumYValue) );
-  itk::ByteSwapper<short int>::SwapFromSystemToBigEndian(&(this->m_MinimumZValue) );
-  itk::ByteSwapper<short int>::SwapFromSystemToBigEndian(&(this->m_MaximumXValue) );
-  itk::ByteSwapper<short int>::SwapFromSystemToBigEndian(&(this->m_MaximumYValue) );
-  itk::ByteSwapper<short int>::SwapFromSystemToBigEndian(&(this->m_MaximumZValue) );
-  itk::ByteSwapper<float>::SwapFromSystemToBigEndian(&(this->m_Opacity) );
-  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_OpacityThickness) );
-  itk::ByteSwapper<float>::SwapFromSystemToBigEndian(&(this->m_BlendFactor) );
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_DisplayFlag));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_Shades));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_StartRed));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_StartGreen));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_StartBlue));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_EndRed));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_EndGreen));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_EndBlue));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_XRotation));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_YRotation));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_ZRotation));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_XTranslation));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_YTranslation));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_ZTranslation));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_XCenter));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_YCenter));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_ZCenter));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_XRotationIncrement));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_YRotationIncrement));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_ZRotationIncrement));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_XTranslationIncrement));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_YTranslationIncrement));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_ZTranslationIncrement));
+  itk::ByteSwapper<short int>::SwapFromSystemToBigEndian(&(this->m_MinimumXValue));
+  itk::ByteSwapper<short int>::SwapFromSystemToBigEndian(&(this->m_MinimumYValue));
+  itk::ByteSwapper<short int>::SwapFromSystemToBigEndian(&(this->m_MinimumZValue));
+  itk::ByteSwapper<short int>::SwapFromSystemToBigEndian(&(this->m_MaximumXValue));
+  itk::ByteSwapper<short int>::SwapFromSystemToBigEndian(&(this->m_MaximumYValue));
+  itk::ByteSwapper<short int>::SwapFromSystemToBigEndian(&(this->m_MaximumZValue));
+  itk::ByteSwapper<float>::SwapFromSystemToBigEndian(&(this->m_Opacity));
+  itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(this->m_OpacityThickness));
+  itk::ByteSwapper<float>::SwapFromSystemToBigEndian(&(this->m_BlendFactor));
 }
 
 void
-AnalyzeObjectEntry
-::Write(std::ofstream & outputFileStream)
+AnalyzeObjectEntry ::Write(std::ofstream & outputFileStream)
 {
   outputFileStream.write(reinterpret_cast<char *>(m_Name), sizeof(char) * 32);
-  outputFileStream.write(reinterpret_cast<char *>(&m_DisplayFlag), sizeof(m_DisplayFlag) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_CopyFlag), sizeof(m_CopyFlag) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_MirrorFlag), sizeof(m_MirrorFlag) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_StatusFlag), sizeof(m_StatusFlag) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_NeighborsUsedFlag), sizeof(m_NeighborsUsedFlag) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_Shades), sizeof(m_Shades) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_StartRed), sizeof(m_StartRed) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_StartGreen), sizeof(m_StartGreen) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_StartBlue), sizeof(m_StartBlue) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_EndRed), sizeof(m_EndRed) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_EndGreen), sizeof(m_EndGreen) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_EndBlue), sizeof(m_EndBlue) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_XRotation), sizeof(m_XRotation) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_YRotation), sizeof(m_YRotation) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_ZRotation), sizeof(m_ZRotation) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_XTranslation), sizeof(m_XTranslation) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_YTranslation), sizeof(m_YTranslation) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_ZTranslation), sizeof(m_ZTranslation) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_XCenter), sizeof(m_XCenter) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_YCenter), sizeof(m_YCenter) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_ZCenter), sizeof(m_ZCenter) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_XRotationIncrement), sizeof(m_XRotationIncrement) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_YRotationIncrement), sizeof(m_YRotationIncrement) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_ZRotationIncrement), sizeof(m_ZRotationIncrement) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_XTranslationIncrement), sizeof(m_XTranslationIncrement) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_YTranslationIncrement), sizeof(m_YTranslationIncrement) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_ZTranslationIncrement), sizeof(m_ZTranslationIncrement) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_MinimumXValue), sizeof(m_MinimumXValue) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_MinimumYValue), sizeof(m_MinimumYValue) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_MinimumZValue), sizeof(m_MinimumZValue) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_MaximumXValue), sizeof(m_MaximumXValue) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_MaximumYValue), sizeof(m_MaximumYValue) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_MaximumZValue), sizeof(m_MaximumZValue) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_Opacity), sizeof(m_Opacity) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_OpacityThickness), sizeof(m_OpacityThickness) );
-  outputFileStream.write(reinterpret_cast<char *>(&m_BlendFactor), sizeof(m_BlendFactor) );
+  outputFileStream.write(reinterpret_cast<char *>(&m_DisplayFlag), sizeof(m_DisplayFlag));
+  outputFileStream.write(reinterpret_cast<char *>(&m_CopyFlag), sizeof(m_CopyFlag));
+  outputFileStream.write(reinterpret_cast<char *>(&m_MirrorFlag), sizeof(m_MirrorFlag));
+  outputFileStream.write(reinterpret_cast<char *>(&m_StatusFlag), sizeof(m_StatusFlag));
+  outputFileStream.write(reinterpret_cast<char *>(&m_NeighborsUsedFlag), sizeof(m_NeighborsUsedFlag));
+  outputFileStream.write(reinterpret_cast<char *>(&m_Shades), sizeof(m_Shades));
+  outputFileStream.write(reinterpret_cast<char *>(&m_StartRed), sizeof(m_StartRed));
+  outputFileStream.write(reinterpret_cast<char *>(&m_StartGreen), sizeof(m_StartGreen));
+  outputFileStream.write(reinterpret_cast<char *>(&m_StartBlue), sizeof(m_StartBlue));
+  outputFileStream.write(reinterpret_cast<char *>(&m_EndRed), sizeof(m_EndRed));
+  outputFileStream.write(reinterpret_cast<char *>(&m_EndGreen), sizeof(m_EndGreen));
+  outputFileStream.write(reinterpret_cast<char *>(&m_EndBlue), sizeof(m_EndBlue));
+  outputFileStream.write(reinterpret_cast<char *>(&m_XRotation), sizeof(m_XRotation));
+  outputFileStream.write(reinterpret_cast<char *>(&m_YRotation), sizeof(m_YRotation));
+  outputFileStream.write(reinterpret_cast<char *>(&m_ZRotation), sizeof(m_ZRotation));
+  outputFileStream.write(reinterpret_cast<char *>(&m_XTranslation), sizeof(m_XTranslation));
+  outputFileStream.write(reinterpret_cast<char *>(&m_YTranslation), sizeof(m_YTranslation));
+  outputFileStream.write(reinterpret_cast<char *>(&m_ZTranslation), sizeof(m_ZTranslation));
+  outputFileStream.write(reinterpret_cast<char *>(&m_XCenter), sizeof(m_XCenter));
+  outputFileStream.write(reinterpret_cast<char *>(&m_YCenter), sizeof(m_YCenter));
+  outputFileStream.write(reinterpret_cast<char *>(&m_ZCenter), sizeof(m_ZCenter));
+  outputFileStream.write(reinterpret_cast<char *>(&m_XRotationIncrement), sizeof(m_XRotationIncrement));
+  outputFileStream.write(reinterpret_cast<char *>(&m_YRotationIncrement), sizeof(m_YRotationIncrement));
+  outputFileStream.write(reinterpret_cast<char *>(&m_ZRotationIncrement), sizeof(m_ZRotationIncrement));
+  outputFileStream.write(reinterpret_cast<char *>(&m_XTranslationIncrement), sizeof(m_XTranslationIncrement));
+  outputFileStream.write(reinterpret_cast<char *>(&m_YTranslationIncrement), sizeof(m_YTranslationIncrement));
+  outputFileStream.write(reinterpret_cast<char *>(&m_ZTranslationIncrement), sizeof(m_ZTranslationIncrement));
+  outputFileStream.write(reinterpret_cast<char *>(&m_MinimumXValue), sizeof(m_MinimumXValue));
+  outputFileStream.write(reinterpret_cast<char *>(&m_MinimumYValue), sizeof(m_MinimumYValue));
+  outputFileStream.write(reinterpret_cast<char *>(&m_MinimumZValue), sizeof(m_MinimumZValue));
+  outputFileStream.write(reinterpret_cast<char *>(&m_MaximumXValue), sizeof(m_MaximumXValue));
+  outputFileStream.write(reinterpret_cast<char *>(&m_MaximumYValue), sizeof(m_MaximumYValue));
+  outputFileStream.write(reinterpret_cast<char *>(&m_MaximumZValue), sizeof(m_MaximumZValue));
+  outputFileStream.write(reinterpret_cast<char *>(&m_Opacity), sizeof(m_Opacity));
+  outputFileStream.write(reinterpret_cast<char *>(&m_OpacityThickness), sizeof(m_OpacityThickness));
+  outputFileStream.write(reinterpret_cast<char *>(&m_BlendFactor), sizeof(m_BlendFactor));
 }
 
 void
-AnalyzeObjectEntry
-::PrintSelf(std::ostream& os, Indent indent) const
+AnalyzeObjectEntry ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
-}
+} // namespace itk

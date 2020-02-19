@@ -18,7 +18,7 @@ PURPOSE.  See the above copyright notices for more information.
 #define itkAnalyzeObjectLabelMapImageIOFactory_h
 
 #ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
+#  pragma warning(disable : 4786)
 #endif
 
 #include "itkObjectFactoryBase.h"
@@ -40,9 +40,11 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  const char * GetITKSourceVersion(void) const override;
+  const char *
+  GetITKSourceVersion(void) const override;
 
-  const char * GetDescription(void) const override;
+  const char *
+  GetDescription(void) const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -51,7 +53,8 @@ public:
   itkTypeMacro(AnalyzeObjectLabelMapImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory(void)
+  static void
+  RegisterOneFactory(void)
   {
     AnalyzeObjectLabelMapImageIOFactory::Pointer metaFactory = AnalyzeObjectLabelMapImageIOFactory::New();
     ObjectFactoryBase::RegisterFactory(metaFactory);
@@ -60,12 +63,13 @@ public:
 protected:
   AnalyzeObjectLabelMapImageIOFactory();
   ~AnalyzeObjectLabelMapImageIOFactory() override;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   AnalyzeObjectLabelMapImageIOFactory(const Self &); // purposely not implemented
-  void operator=(const Self &);                      // purposely not implemented
-
+  void
+  operator=(const Self &); // purposely not implemented
 };
 
 } // end namespace itk

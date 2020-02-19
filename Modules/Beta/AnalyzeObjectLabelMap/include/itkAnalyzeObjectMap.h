@@ -26,13 +26,13 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkMetaDataObject.h"
 #include "itkThresholdImageFilter.h"
 
-const char *const ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY = "ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY";
+const char * const ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY = "ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY";
 /**
-  * Constants representing the current version number of the object map file for Analyze
-  */
-constexpr int VERSION1 = 880102;
-constexpr int VERSION2 = 880801;
-constexpr int VERSION3 = 890102;
+ * Constants representing the current version number of the object map file for Analyze
+ */
+constexpr int    VERSION1 = 880102;
+constexpr int    VERSION2 = 880801;
+constexpr int    VERSION3 = 890102;
 static const int VERSION4 = 900302;
 static const int VERSION5 = 910402;
 static const int VERSION6 = 910926;
@@ -42,7 +42,7 @@ namespace itk
 {
 
 using AnalyzeObjectEntryArrayType = std::vector<AnalyzeObjectEntry::Pointer>;
-template <class TImage = itk::Image<unsigned char, 4>, class TRGBImage = itk::Image<itk::RGBPixel<unsigned char>, 4> >
+template <class TImage = itk::Image<unsigned char, 4>, class TRGBImage = itk::Image<itk::RGBPixel<unsigned char>, 4>>
 
 /** \class AnalyzeObjectMap
  *  \ingroup AnalyzeObjectMapIO
@@ -52,7 +52,6 @@ template <class TImage = itk::Image<unsigned char, 4>, class TRGBImage = itk::Im
 class AnalyzeObjectMap : public TImage
 {
 public:
-
   /** Standard type alias. */
   using Self = AnalyzeObjectMap;
   using Superclass = TImage;
@@ -68,21 +67,23 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(AnalyzeObjectMap, TImage );
+  itkTypeMacro(AnalyzeObjectMap, TImage);
 
   /**
    * \brief an assignment operator
    * \param const AnalyzeObjectMap & rhs
    * \return AnalyzeObjectMap &, a new object created from the right hand side
    */
-  AnalyzeObjectMap & operator=( const AnalyzeObjectMap & rhs );
+  AnalyzeObjectMap &
+  operator=(const AnalyzeObjectMap & rhs);
 
   /**
    *\brief GetAnalyzeObjectEntryArrayPointer
    *
    *This will return a pointer to the vector of object entries that an object map has.
    */
-  AnalyzeObjectEntryArrayType * GetAnalyzeObjectEntryArrayPointer();
+  AnalyzeObjectEntryArrayType *
+  GetAnalyzeObjectEntryArrayPointer();
 
   /**
    * \brief GetNumberOfObjects/SetNumberOfObjects
@@ -103,7 +104,8 @@ public:
    *After that the object entry from the original object map will be copied over to the
    *new object map's vector of object entries.
    */
-  typename itk::AnalyzeObjectMap<TImage>::Pointer PickOneEntry(const int numberOfEntry = -1);
+  typename itk::AnalyzeObjectMap<TImage>::Pointer
+  PickOneEntry(const int numberOfEntry = -1);
 
   /**
    * \brief ObjectMapToRGBImage
@@ -114,7 +116,8 @@ public:
    *corresponds to the value of the pixel and then pull out the end red, end green and end
    *blue and set that as the pixel color for the RGB Image.  Then that RGB Image will be returned.
    */
-  typename TRGBImage::Pointer ObjectMapToRGBImage();
+  typename TRGBImage::Pointer
+  ObjectMapToRGBImage();
 
   /**
    * \brief AddObjectEntryBasedOnImagePixel
@@ -123,15 +126,21 @@ public:
    *inputs and then create an object map at the location that it finds the specific pixel value.
    The user will also have the option of inputing the red, green and blue they want the object map to be.
    */
-  void AddObjectEntryBasedOnImagePixel(ImageType *Image, const int value = -1, const std::string ObjectName = "",
-                                       const int Red = 0, const int Green = 0, const int Blue = 0);
+  void
+  AddObjectEntryBasedOnImagePixel(ImageType *       Image,
+                                  const int         value = -1,
+                                  const std::string ObjectName = "",
+                                  const int         Red = 0,
+                                  const int         Green = 0,
+                                  const int         Blue = 0);
 
   /**
    * \brief AddObjectEntry
    *
    *This will just add an object entry to the end of the vector of object entries that an object map has.
    */
-  void AddAnalyzeObjectEntry(const std::string ObjectName = "");
+  void
+  AddAnalyzeObjectEntry(const std::string ObjectName = "");
 
   /**
    * \brief DeleteObjectEntry
@@ -139,9 +148,11 @@ public:
    * This will delete an object entry that a user specifies.
    *The function will go through the image and delete the number that corresponds to the object entry.
    *Then the function will move all of the object entry numbers above the object entry that was deleted down one number.
-   *Then the function will move all of the object entries above the object entry that was deleted in the vector one number down.
+   *Then the function will move all of the object entries above the object entry that was deleted in the vector one
+   *number down.
    */
-  void DeleteAnalyzeObjectEntry(const std::string ObjectName = "");
+  void
+  DeleteAnalyzeObjectEntry(const std::string ObjectName = "");
 
   /**
    * \brief FindObject
@@ -150,7 +161,8 @@ public:
    *If the function finds the object entry then it will return the number of the vector of the object entry.
    *If the function does not find the object entry then the function will return -1.
    */
-  int FindObjectEntry(const std::string ObjectName = "");
+  int
+  FindObjectEntry(const std::string ObjectName = "");
 
   /**
    * \brief PlaceObjectMapEntriesIntoMetaData
@@ -158,21 +170,24 @@ public:
    *This function will place the object entries into the meta data so that the object map can be moved around
    *just like a normal image.  This function is normally called in the functions that are in this class.
    */
-  void PlaceObjectMapEntriesIntoMetaData();
+  void
+  PlaceObjectMapEntriesIntoMetaData();
 
   /**
    * \brief GetObjectEntry
    *
    * This function will return the smart pointer of the object entry the user inputs.
    */
-  AnalyzeObjectEntry::Pointer GetObjectEntry( const int index );
+  AnalyzeObjectEntry::Pointer
+  GetObjectEntry(const int index);
 
   /**
    * \brief GetObjectEntry const
    *
    * This function will return the smart pointer of the object entry the user inputs.
    */
-  const AnalyzeObjectEntry::Pointer GetObjectEntry( const int index ) const;
+  const AnalyzeObjectEntry::Pointer
+  GetObjectEntry(const int index) const;
 
   /**
    *\brief ImageToObjectMap
@@ -181,26 +196,28 @@ public:
    *If there is data for object entries in the meta data then extract that data.
    *Then take the pixel container of the image and place it into the object map's pixel container.
    */
-  void ImageToObjectMap(ImageType *image);
+  void
+  ImageToObjectMap(ImageType * image);
 
 protected:
   /**
    * \brief the default constructor
    */
-  AnalyzeObjectMap( void );
+  AnalyzeObjectMap(void);
 
   /**
    * \brief the destructor for AnalyzeObjectMap
    */
-  ~AnalyzeObjectMap( void ) override;
+  ~AnalyzeObjectMap(void) override;
 
   /**
    * \brief the copy constructor,
    * THIS IS NOT ALLOWED
    */
-  AnalyzeObjectMap( const AnalyzeObjectMap & /* rhs */ ); /*Explicitly not allowed*/
+  AnalyzeObjectMap(const AnalyzeObjectMap & /* rhs */); /*Explicitly not allowed*/
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** Number of Objects in the object file */
@@ -208,8 +225,8 @@ private:
   /** Pointers to individual objects in the object map, maximum of 256 */
   AnalyzeObjectEntryArrayType m_AnaylzeObjectEntryArray;
 };
-}
+} // namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAnalyzeObjectMap.hxx"
+#  include "itkAnalyzeObjectMap.hxx"
 #endif
-#endif                           // __OBJECTMAP_H_
+#endif // __OBJECTMAP_H_

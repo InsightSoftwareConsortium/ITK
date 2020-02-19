@@ -25,23 +25,24 @@ using ReaderType = itk::ImageFileReader<ImageType>;
 
 // using ConnectorType = itk::ImageToVTKImageFilter<RGBImageType>;
 
-int main(int argc, char * argv [] )
+int
+main(int argc, char * argv[])
 {
-  if( argc != 2 )
-    {
+  if (argc != 2)
+  {
     std::cerr << "USAGE: " << argv[0] << "<inputFileName>" << std::endl;
-    }
-  const char *DisplayImage = argv[1];
+  }
+  const char * DisplayImage = argv[1];
 
   // This is very important to use if you are not going to install the Analyze Object map code directly into
   // itk.  This means that you can build the Analyze Object map outside of ITK and still use it and treat
   // the code as if it is in ITK.
-  itk::ObjectFactoryBase::RegisterFactory( itk::AnalyzeObjectLabelMapImageIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory(itk::AnalyzeObjectLabelMapImageIOFactory::New());
 
-  ReaderType::Pointer reader  = ReaderType::New();
+  ReaderType::Pointer reader = ReaderType::New();
 
   // The input should be an Anaylze Object Map file
-  reader->SetFileName( DisplayImage );
+  reader->SetFileName(DisplayImage);
 
   // try
   // {
@@ -49,9 +50,9 @@ int main(int argc, char * argv [] )
   reader->Update();
 
   // This will convert the output of the reader into an object map
-  itk::AnalyzeObjectMap<ImageType,
-                        RGBImageType>::Pointer Objectmap = itk::AnalyzeObjectMap<ImageType, RGBImageType>::New();
-  Objectmap->ImageToObjectMap(reader->GetOutput() );
+  itk::AnalyzeObjectMap<ImageType, RGBImageType>::Pointer Objectmap =
+    itk::AnalyzeObjectMap<ImageType, RGBImageType>::New();
+  Objectmap->ImageToObjectMap(reader->GetOutput());
 
   // If you have vtk and itkApplications installed then you can uncomment this out to display
   // an object map to the screen.  Otherwise you can see how to display an object map using vtk.

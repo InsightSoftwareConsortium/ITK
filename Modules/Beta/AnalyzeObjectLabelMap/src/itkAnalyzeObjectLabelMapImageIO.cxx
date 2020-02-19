@@ -31,8 +31,9 @@ namespace itk
 {
 // Streaming not yet supported, so use the default base class to return the LargestPossibleRegion
 #if _USE_STREAMABLE_REGION_FOR_AOLM
-ImageIORegion AnalyzeObjectLabelMapImageIO
-::GenerateStreamableReadRegionFromRequestedRegion( const ImageIORegion & requestedRegion ) const
+ImageIORegion
+AnalyzeObjectLabelMapImageIO ::GenerateStreamableReadRegionFromRequestedRegion(
+  const ImageIORegion & requestedRegion) const
 {
   std::cout << "AnalyzeObjectLabelMapImageIO::GenerateStreamableReadRegionFromRequestedRegion() " << std::endl;
   std::cout << "RequestedRegion = " << requestedRegion << std::endl;
@@ -47,43 +48,44 @@ AnalyzeObjectLabelMapImageIO::AnalyzeObjectLabelMapImageIO()
   // Nothing to do during initialization.
 }
 
-AnalyzeObjectLabelMapImageIO::~AnalyzeObjectLabelMapImageIO()
-{
-}
+AnalyzeObjectLabelMapImageIO::~AnalyzeObjectLabelMapImageIO() {}
 
-void AnalyzeObjectLabelMapImageIO::PrintSelf(std::ostream& os, Indent indent) const
+void
+AnalyzeObjectLabelMapImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
-bool AnalyzeObjectLabelMapImageIO::CanWriteFile(const char * FileNameToWrite)
+bool
+AnalyzeObjectLabelMapImageIO::CanWriteFile(const char * FileNameToWrite)
 {
-  if(FileNameToWrite == nullptr || *FileNameToWrite == '\0' )
-    {
+  if (FileNameToWrite == nullptr || *FileNameToWrite == '\0')
+  {
     itkDebugMacro(<< "No filename specified.");
     return false;
-    }
+  }
   // This assumes that the final '.' in a file name is the delimiter
   // for the file's extension type
-  std::string filename = FileNameToWrite;
+  std::string       filename = FileNameToWrite;
   const std::string fileExt = itksys::SystemTools::GetFilenameLastExtension(filename);
-  if( fileExt != ".obj" )
-    {
+  if (fileExt != ".obj")
+  {
     return false;
-    }
+  }
 
   return true;
 }
 
-void AnalyzeObjectLabelMapImageIO::Read(void* buffer)
+void
+AnalyzeObjectLabelMapImageIO::Read(void * buffer)
 {
   this->m_InputFileStream.open(m_FileName.c_str(), std::ios::binary | std::ios::in);
-  this->m_InputFileStream.seekg( m_LocationOfFile);
-  if( !this->m_InputFileStream.is_open() )
-    {
-    itkDebugMacro(<< "Error: Could not open " << m_FileName.c_str() );
+  this->m_InputFileStream.seekg(m_LocationOfFile);
+  if (!this->m_InputFileStream.is_open())
+  {
+    itkDebugMacro(<< "Error: Could not open " << m_FileName.c_str());
     exit(-1);
-    }
+  }
   // TODO: Image spacing needs fixing.  Will need to look to see if a
   //      .nii, .nii.gz, or a .hdr file
   //      exists for the same .obj file.
@@ -103,9 +105,9 @@ void AnalyzeObjectLabelMapImageIO::Read(void* buffer)
   // The character pairs have the form of length, tag value.  Note also that the data in
   // Analyze object files are run length encoded a plane at a time.
 
-  int            index = 0;
-  int            voxel_count_sum = 0;
-  auto *tobuf = (unsigned char *)buffer;
+  int    index = 0;
+  int    voxel_count_sum = 0;
+  auto * tobuf = (unsigned char *)buffer;
 
   // The following commented out code is a starting attempt at streaming.
 
@@ -145,7 +147,8 @@ void AnalyzeObjectLabelMapImageIO::Read(void* buffer)
         {
           if((j-1)%2 != 2 && j!=1)
           {
-            cornersOfRegion[j] = (startPoint[0] * startPoint[1] * startPoint[2] + xDim * (j/2) + startPoint[1] + (j-1)/2) * i;
+            cornersOfRegion[j] = (startPoint[0] * startPoint[1] * startPoint[2] + xDim * (j/2) + startPoint[1] +
+     (j-1)/2) * i;
           }
           else if(j%2 != 2)
           {
@@ -159,10 +162,10 @@ void AnalyzeObjectLabelMapImageIO::Read(void* buffer)
       }
       std::cout<<"Can not deal with the image size right now"<<std::endl;*/
 
-  int VolumeSize = 1;
+  int      VolumeSize = 1;
   unsigned dim = this->GetNumberOfDimensions();
-  switch(dim)
-    {
+  switch (dim)
+  {
     case 4:
       VolumeSize *= this->GetDimensions(3);
     case 3:
@@ -174,277 +177,278 @@ void AnalyzeObjectLabelMapImageIO::Read(void* buffer)
       break;
     default:
       itkExceptionMacro(<< "Dimensions " << dim << " > maximum dimension 4");
-    }
+  }
 
   // You can uncomment the following commented out code to have a file written with the exact values that are read in.
 
   //      std::ofstream myfile;
   //      myfile.open("VoxelInformationReader.txt", myfile.app);
-  while( !this->m_InputFileStream.read(reinterpret_cast<char *>(RunLengthArray), sizeof(RunLengthElement)
-                                       * NumberOfRunLengthElementsPerRead).eof() )
+  while (!this->m_InputFileStream
+            .read(reinterpret_cast<char *>(RunLengthArray), sizeof(RunLengthElement) * NumberOfRunLengthElementsPerRead)
+            .eof())
+  {
+    for (const auto & i : RunLengthArray)
     {
-    for(const auto & i : RunLengthArray)
-      {
       //           myfile<< "Assigning: " << (int)RunLengthArray[i].voxel_count
       //             << " voxels of label " << (int)RunLengthArray[i].voxel_value
       //             << std::endl;
-      if( i.voxel_count == 0 )
-        {
-        itkDebugMacro(
-          << "Inside AnaylzeObjectLabelMap Invalid Length " << static_cast<int> ( i.voxel_count ) << std::endl);
+      if (i.voxel_count == 0)
+      {
+        itkDebugMacro(<< "Inside AnaylzeObjectLabelMap Invalid Length " << static_cast<int>(i.voxel_count)
+                      << std::endl);
         exit(-1);
-        }
-      for( int j = 0; j < i.voxel_count; j++ )
-        {
+      }
+      for (int j = 0; j < i.voxel_count; j++)
+      {
         tobuf[index] = i.voxel_value;
         index++;
-        }
+      }
       voxel_count_sum += i.voxel_count;
       //          myfile <<"index = "<<index
       //            << " voxel_count_sum= " << voxel_count_sum
       //            << " Volume size = "<<VolumeSize<<std::endl;
-      if( index > VolumeSize )
-        {
+      if (index > VolumeSize)
+      {
         itkDebugMacro(<< "BREAK!\n");
         exit(-1);
-        }
       }
     }
+  }
 
   //      myfile.close();
 
-  if( index != VolumeSize )
-    {
+  if (index != VolumeSize)
+  {
     itkDebugMacro(<< "Warning: Error decoding run-length encoding." << std::endl);
-    if( index < VolumeSize )
-      {
+    if (index < VolumeSize)
+    {
       itkDebugMacro(<< "Warning: file underrun." << std::endl);
-      }
-    else
-      {
-      itkDebugMacro(<< "Warning: file overrun." << std::endl);
-      }
-    exit(-1);
     }
+    else
+    {
+      itkDebugMacro(<< "Warning: file overrun." << std::endl);
+    }
+    exit(-1);
+  }
 
   this->m_InputFileStream.close();
 
-// The following commented code will run through all of the values and write them to a file.
+  // The following commented code will run through all of the values and write them to a file.
 
-//    std::ofstream check;
-//    check.open("CheckBuffer.txt");
-//    for(int i=0; i<VolumeSize;i++)
-//    {
-//      check<<(int)tobuf[i]<<std::endl;
-//    }
-//    check.close();
-
+  //    std::ofstream check;
+  //    check.open("CheckBuffer.txt");
+  //    for(int i=0; i<VolumeSize;i++)
+  //    {
+  //      check<<(int)tobuf[i]<<std::endl;
+  //    }
+  //    check.close();
 }
 
-bool AnalyzeObjectLabelMapImageIO::CanReadFile( const char* FileNameToRead )
+bool
+AnalyzeObjectLabelMapImageIO::CanReadFile(const char * FileNameToRead)
 {
   itkDebugMacro(<< "I am in Can Read File for AnalyzeObjectLabelMapImageIO" << std::endl);
-  if(FileNameToRead == nullptr || *FileNameToRead == '\0' )
-    {
+  if (FileNameToRead == nullptr || *FileNameToRead == '\0')
+  {
     itkDebugMacro(<< "No filename specified.");
     return false;
-    }
+  }
   // check for existence.
-  if(!itksys::SystemTools::FileExists(FileNameToRead,true))
-    {
+  if (!itksys::SystemTools::FileExists(FileNameToRead, true))
+  {
     return false;
-    }
+  }
 
   // This assumes that the final '.' in a file name is the delimiter
   // for the file's extension type
-  std::string filename = FileNameToRead;
+  std::string       filename = FileNameToRead;
   const std::string fileExt = itksys::SystemTools::GetFilenameLastExtension(filename);
-  if( fileExt != ".obj" )
-    {
+  if (fileExt != ".obj")
+  {
     return false;
-    }
+  }
 
   return true;
 }
 
-void AnalyzeObjectLabelMapImageIO::ReadImageInformation()
+void
+AnalyzeObjectLabelMapImageIO::ReadImageInformation()
 {
   m_ComponentType = IOComponentEnum::CHAR;
   m_PixelType = IOPixelEnum::SCALAR;
   // Opening the file
   std::ifstream inputFileStream;
   inputFileStream.open(m_FileName.c_str(), std::ios::binary | std::ios::in);
-  if( !inputFileStream.is_open() )
-    {
+  if (!inputFileStream.is_open())
+  {
     itkDebugMacro(<< "Error: Could not open: " << m_FileName.c_str() << std::endl);
     exit(-1);
-    }
+  }
 
   // Reading the header, which contains the version number, the size, and the
   // number of objects
   bool NeedByteSwap = false;
 
-  int header[6] = {1};
-  if(  inputFileStream.read(reinterpret_cast<char *>(header), sizeof(int) * 5).fail() )
-    {
+  int header[6] = { 1 };
+  if (inputFileStream.read(reinterpret_cast<char *>(header), sizeof(int) * 5).fail())
+  {
     itkDebugMacro(<< "Error: Could not read header of " << m_FileName.c_str() << std::endl);
     exit(-1);
-    }
+  }
   // Do byte swapping if necessary.
-  if( header[0] == -1913442047 || header[0] == 1323699456 )   // Byte swapping needed (Number is byte swapped number of
-                                                              // VERSION7)
-    {
+  if (header[0] == -1913442047 || header[0] == 1323699456) // Byte swapping needed (Number is byte swapped number of
+                                                           // VERSION7)
+  {
     NeedByteSwap = true;
     // NOTE: All analyze object maps should be big endian on disk in order to be valid
     //      The following function calls will swap the bytes when on little endian machines.
-    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[0]) );
-    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[1]) );
-    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[2]) );
-    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[3]) );
-    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[4]) );
-    }
+    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[0]));
+    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[1]));
+    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[2]));
+    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[3]));
+    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[4]));
+  }
 
   bool NeedBlendFactor = false;
-  if( header[0] == VERSION7 )
+  if (header[0] == VERSION7)
+  {
+    if ((inputFileStream.read(reinterpret_cast<char *>(&(header[5])), sizeof(int) * 1)).fail())
     {
-    if( ( inputFileStream.read(reinterpret_cast<char *>(&(header[5]) ), sizeof(int) * 1) ).fail() )
-      {
       itkDebugMacro(<< "Error: Could not read header of " << m_FileName.c_str() << std::endl);
       exit(-1);
-      }
-
-    if( NeedByteSwap )
-      {
-      itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[5]) );
-      }
-    NeedBlendFactor = true;
     }
+
+    if (NeedByteSwap)
+    {
+      itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[5]));
+    }
+    NeedBlendFactor = true;
+  }
   // Now the file pointer is pointing to the image region
 
-  if( header[5] > 1 )
-    {
+  if (header[5] > 1)
+  {
     this->SetNumberOfDimensions(4);
-    }
-  else if( header[3] > 1 )
-    {
+  }
+  else if (header[3] > 1)
+  {
     this->SetNumberOfDimensions(3);
-    }
-  else if( header[2] > 1 )
-    {
+  }
+  else if (header[2] > 1)
+  {
     this->SetNumberOfDimensions(2);
-    }
+  }
   else
-    {
+  {
     this->SetNumberOfDimensions(1);
-    }
+  }
 
-  switch( this->GetNumberOfDimensions() )
-    {
+  switch (this->GetNumberOfDimensions())
+  {
     case 4:
     {
-    this->SetDimensions(3, header[5]);
-    this->SetSpacing(3, 1);
+      this->SetDimensions(3, header[5]);
+      this->SetSpacing(3, 1);
     }
     case 3:
     {
-    this->SetDimensions(2, header[3]);
-    this->SetSpacing(2, 1);
+      this->SetDimensions(2, header[3]);
+      this->SetSpacing(2, 1);
     }
     case 2:
     {
-    this->SetDimensions(1, header[2]);
-    this->SetSpacing(1, 1);
+      this->SetDimensions(1, header[2]);
+      this->SetSpacing(1, 1);
     }
     case 1:
     {
-    this->SetDimensions(0, header[1]);
-    this->SetSpacing(0, 1);
+      this->SetDimensions(0, header[1]);
+      this->SetSpacing(0, 1);
     }
     default:
     {
     }
     break;
-    }
+  }
 
-  std::vector<double> dirx(this->GetNumberOfDimensions(), 0), diry(this->GetNumberOfDimensions(), 0), dirz(
-    this->GetNumberOfDimensions(), 0);
+  std::vector<double> dirx(this->GetNumberOfDimensions(), 0), diry(this->GetNumberOfDimensions(), 0),
+    dirz(this->GetNumberOfDimensions(), 0);
 
-  switch( this->GetNumberOfDimensions() )
-    {
+  switch (this->GetNumberOfDimensions())
+  {
     case 4:
     {
-    m_Origin[3] = 0;
+      m_Origin[3] = 0;
     }
     case 3:
     {
-    dirx[2] = 0;
-    diry[2] = 0;
-    dirz[2] = 1;
+      dirx[2] = 0;
+      diry[2] = 0;
+      dirz[2] = 1;
 
-    dirz[1] = 0;
+      dirz[1] = 0;
 
-    dirz[0] = 0;
+      dirz[0] = 0;
 
-    m_Origin[2] = 0;
+      m_Origin[2] = 0;
     }
     case 2:
     {
-    dirx[1] = 0;
-    diry[1] = 1;
-    diry[0] = 0;
+      dirx[1] = 0;
+      diry[1] = 1;
+      diry[0] = 0;
 
-    m_Origin[1] = 0;
+      m_Origin[1] = 0;
     }
     case 1:
     {
-    dirx[0] = 1;
-    m_Origin[0] = 0;
-
+      dirx[0] = 1;
+      m_Origin[0] = 0;
     }
     break;
     default:
     {
-    itkDebugMacro(<< "Error:  Setting the steps has an error" << std::endl);
+      itkDebugMacro(<< "Error:  Setting the steps has an error" << std::endl);
     }
     break;
-    }
+  }
 
   this->SetDirection(0, dirx);
-  if( this->GetNumberOfDimensions() > 1 )
-    {
+  if (this->GetNumberOfDimensions() > 1)
+  {
     this->SetDirection(1, diry);
-    }
+  }
 
-  if( this->GetNumberOfDimensions() > 2 )
-    {
+  if (this->GetNumberOfDimensions() > 2)
+  {
     this->SetDirection(2, dirz);
-    }
+  }
 
   // Error checking the number of objects in the object file
-  if( (header[4] < 1) || (header[4] > 256) )
-    {
+  if ((header[4] < 1) || (header[4] > 256))
+  {
     itkDebugMacro(<< "Error: Invalid number of object files.\n");
     inputFileStream.close();
     exit(-1);
-    }
+  }
 
   /*std::ofstream myfile;
   myfile.open("ReadFromFilePointer35.txt", myfile.app);*/
   itk::AnalyzeObjectEntryArrayType my_reference;
   (my_reference).resize(header[4]);
-  for( int i = 0; i < header[4]; i++ )
-    {
+  for (int i = 0; i < header[4]; i++)
+  {
     // Allocating a object to be created
     (my_reference)[i] = AnalyzeObjectEntry::New();
-    (my_reference)[i]->ReadFromFilePointer( inputFileStream, NeedByteSwap, NeedBlendFactor);
+    (my_reference)[i]->ReadFromFilePointer(inputFileStream, NeedByteSwap, NeedBlendFactor);
     // (*my_reference)[i]->Print(myfile);
-    }
+  }
   // myfile.close();
-  m_LocationOfFile =  inputFileStream.tellg();
+  m_LocationOfFile = inputFileStream.tellg();
   inputFileStream.close();
   // Now fill out the MetaData
   MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
-  EncapsulateMetaData<std::string>(thisDic, ITK_OnDiskStorageTypeName, std::string(typeid(unsigned char).name() ) );
+  EncapsulateMetaData<std::string>(thisDic, ITK_OnDiskStorageTypeName, std::string(typeid(unsigned char).name()));
   EncapsulateMetaData<itk::AnalyzeObjectEntryArrayType>(thisDic, ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY, my_reference);
 }
 
@@ -452,118 +456,115 @@ void AnalyzeObjectLabelMapImageIO::ReadImageInformation()
  *
  */
 void
-AnalyzeObjectLabelMapImageIO
-::WriteImageInformation(void)
+AnalyzeObjectLabelMapImageIO ::WriteImageInformation(void)
 {
   itkDebugMacro(<< "I am in the writeimageinformaton" << std::endl);
   std::string tempfilename = this->GetFileName();
   // Opening the file
   std::ofstream outputFileStream;
   outputFileStream.open(tempfilename.c_str(), std::ios::binary | std::ios::out | std::ios::trunc);
-  if( !outputFileStream.is_open() )
-    {
+  if (!outputFileStream.is_open())
+  {
     itkDebugMacro(<< "Error: Could not open " << tempfilename.c_str() << std::endl);
     exit(-1);
-    }
+  }
   itk::AnalyzeObjectEntryArrayType my_reference;
 
-  int header[6] = {1, 1, 1, 1, 1, 1};
+  int header[6] = { 1, 1, 1, 1, 1, 1 };
   header[0] = VERSION7;
 
-  switch( this->GetNumberOfDimensions() )
-    {
+  switch (this->GetNumberOfDimensions())
+  {
     case 4:
     {
-    header[5] = this->GetDimensions(3);
+      header[5] = this->GetDimensions(3);
     }
     case 3:
     {
-    header[3] = this->GetDimensions(2);
+      header[3] = this->GetDimensions(2);
     }
     case 2:
     {
-    header[2] = this->GetDimensions(1);
+      header[2] = this->GetDimensions(1);
     }
     case 1:
     {
-    header[1] = this->GetDimensions(0);
+      header[1] = this->GetDimensions(0);
     }
     break;
     default:
       itkDebugMacro(<< "There is an error in writing the header for the Dimensions");
       exit(-1);
-    }
+  }
 
   bool MetaDataCheck = itk::ExposeMetaData<itk::AnalyzeObjectEntryArrayType>(
     this->GetMetaDataDictionary(), ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY, my_reference);
-  if( MetaDataCheck )
-    {
+  if (MetaDataCheck)
+  {
     header[4] = my_reference.size();
-    }
+  }
   else
-    {
+  {
     header[4] = 256;
-    }
+  }
 
   // All object maps are written in BigEndian format as required by the AnalyzeObjectMap documentation.
   bool NeedByteSwap = itk::ByteSwapper<int>::SystemIsLittleEndian();
-  if( NeedByteSwap )
-    {
-    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[0]) );
-    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[1]) );
-    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[2]) );
-    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[3]) );
-    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[4]) );
-    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[5]) );
-    }
+  if (NeedByteSwap)
+  {
+    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[0]));
+    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[1]));
+    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[2]));
+    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[3]));
+    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[4]));
+    itk::ByteSwapper<int>::SwapFromSystemToBigEndian(&(header[5]));
+  }
 
   // Writing the header, which contains the version number, the size, and the
   // number of objects
-  if( outputFileStream.write(reinterpret_cast<char *>(header), sizeof(int) * 6).fail() )
-    {
+  if (outputFileStream.write(reinterpret_cast<char *>(header), sizeof(int) * 6).fail())
+  {
     itkDebugMacro(<< "Error: Could not write header of " << tempfilename.c_str() << std::endl);
     exit(-1);
-    }
+  }
 
   // Error checking the number of objects in the object file
-  if( my_reference.size() > 256 )
-    {
-    itkDebugMacro(<< "Error: Invalid number of object files.\n" );
+  if (my_reference.size() > 256)
+  {
+    itkDebugMacro(<< "Error: Invalid number of object files.\n");
     outputFileStream.close();
-    }
+  }
 
-  if( MetaDataCheck )
-    {
+  if (MetaDataCheck)
+  {
     // Since the NumberOfObjects does not reflect the background, the background will be included
-    for(auto & i : my_reference)
-      {
+    for (auto & i : my_reference)
+    {
       // Using a temporary so that the object file is always written in BIG_ENDIAN mode but does
       // not affect the current object itself
-      AnalyzeObjectEntry *ObjectWrite = i;
-      if( NeedByteSwap == true )
-        {
-        ObjectWrite->SwapObjectEndedness();
-        }
-      ObjectWrite->Write(outputFileStream);
-
-      }
-    }
-  else
-    {
-    for( unsigned int i = 0; i < 256; i++ )
+      AnalyzeObjectEntry * ObjectWrite = i;
+      if (NeedByteSwap == true)
       {
+        ObjectWrite->SwapObjectEndedness();
+      }
+      ObjectWrite->Write(outputFileStream);
+    }
+  }
+  else
+  {
+    for (unsigned int i = 0; i < 256; i++)
+    {
       // Using a temporary so that the object file is always written in BIG_ENDIAN mode but does
       // not affect the current object itself
       AnalyzeObjectEntry::Pointer ObjectWrite = AnalyzeObjectEntry::New();
       ObjectWrite->SetName("Blank Object");
-      if( NeedByteSwap == true )
-        {
+      if (NeedByteSwap == true)
+      {
         ObjectWrite->SwapObjectEndedness();
-        }
-      ObjectWrite->Write(outputFileStream);
-
       }
+      ObjectWrite->Write(outputFileStream);
     }
+  }
 
   outputFileStream.close();
 }
@@ -574,131 +575,130 @@ AnalyzeObjectLabelMapImageIO
 void
 AnalyzeObjectLabelMapImageIO
 
-::Write( const void* buffer)
+  ::Write(const void * buffer)
 {
-  if( this->GetComponentType() != IOComponentEnum::UCHAR )
-    {
+  if (this->GetComponentType() != IOComponentEnum::UCHAR)
+  {
     std::cerr << "Error: The pixel type needs to be an unsigned char." << std::endl;
     exit(-1);
-    }
+  }
   this->WriteImageInformation();
   std::string tempfilename = this->GetFileName();
   // Opening the file
   std::ofstream outputFileStream;
   outputFileStream.open(tempfilename.c_str(), std::ios::binary | std::ios::out | std::ios::app);
-  if( !outputFileStream.is_open() )
-    {
+  if (!outputFileStream.is_open())
+  {
     itkDebugMacro(<< "Error: Could not open " << tempfilename.c_str() << std::endl);
     exit(-1);
-    }
+  }
   itk::AnalyzeObjectEntryArrayType my_reference;
   itk::ExposeMetaData<itk::AnalyzeObjectEntryArrayType>(
     this->GetMetaDataDictionary(), ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY, my_reference);
 
   // Encoding the run length encoded raw data into an unsigned char volume
   int VolumeSize;
-  if( this->GetNumberOfDimensions() > 3 )
-    {
+  if (this->GetNumberOfDimensions() > 3)
+  {
     VolumeSize = this->GetDimensions(0) * this->GetDimensions(1) * this->GetDimensions(2) * this->GetDimensions(3);
-    }
-  else if( this->GetNumberOfDimensions() == 3 )
-    {
+  }
+  else if (this->GetNumberOfDimensions() == 3)
+  {
     VolumeSize = this->GetDimensions(0) * this->GetDimensions(1) * this->GetDimensions(2);
-    }
-  else if( this->GetNumberOfDimensions() == 2 )
-    {
+  }
+  else if (this->GetNumberOfDimensions() == 2)
+  {
     VolumeSize = this->GetDimensions(0) * this->GetDimensions(1);
-    }
+  }
   else
-    {
+  {
     VolumeSize = this->GetDimensions(0);
-    }
+  }
   int PlaneSize;
-  if( this->GetNumberOfDimensions() > 1 )
-    {
+  if (this->GetNumberOfDimensions() > 1)
+  {
     PlaneSize = this->GetDimensions(0) * this->GetDimensions(1);
-    }
+  }
   else
-    {
+  {
     PlaneSize = this->GetDimensions(0);
-    }
+  }
   int           bufferindex = 0;
   int           planeindex = 0;
   int           runlength = 0;
   unsigned char CurrentObjIndex = 0;
   constexpr int buffer_size = 16384; // NOTE: This is probably overkill, but it will work
-  unsigned char bufferObjectMap[buffer_size] = {0};
+  unsigned char bufferObjectMap[buffer_size] = { 0 };
 
-  auto *bufferChar = (unsigned char *)buffer;
-  for( int i = 0; i < VolumeSize; i++ )
+  auto * bufferChar = (unsigned char *)buffer;
+  for (int i = 0; i < VolumeSize; i++)
+  {
+    if (runlength == 0)
     {
-    if( runlength == 0 )
-      {
       CurrentObjIndex = bufferChar[i];
       runlength = 1;
-      }
+    }
     else
+    {
+      if (CurrentObjIndex == bufferChar[i])
       {
-      if( CurrentObjIndex == bufferChar[i] )
-        {
         runlength++;
-        if( runlength == 255 )
-          {
+        if (runlength == 255)
+        {
           bufferObjectMap[bufferindex] = runlength;
           bufferObjectMap[bufferindex + 1] = CurrentObjIndex;
           bufferindex += 2;
           runlength = 0;
-          }
         }
+      }
       else
-        {
+      {
         bufferObjectMap[bufferindex] = runlength;
         bufferObjectMap[bufferindex + 1] = CurrentObjIndex;
         bufferindex += 2;
         CurrentObjIndex = bufferChar[i];
         runlength = 1;
-        }
       }
+    }
 
     planeindex++;
-    if( planeindex == PlaneSize )
-      {
+    if (planeindex == PlaneSize)
+    {
       // Just finished with a plane of data, so encode it
       planeindex = 0;
-      if( runlength != 0 )
-        {
+      if (runlength != 0)
+      {
         bufferObjectMap[bufferindex] = runlength;
         bufferObjectMap[bufferindex + 1] = CurrentObjIndex;
         bufferindex += 2;
         runlength = 0;
-        }
       }
-    if( bufferindex == buffer_size )
-      {
+    }
+    if (bufferindex == buffer_size)
+    {
       // buffer full
-      if( outputFileStream.write(reinterpret_cast<char *>(bufferObjectMap), buffer_size).fail() )
-        {
+      if (outputFileStream.write(reinterpret_cast<char *>(bufferObjectMap), buffer_size).fail())
+      {
         itkDebugMacro(<< "error: could not write buffer" << std::endl);
         exit(-1);
-        }
-      bufferindex = 0;
       }
-
+      bufferindex = 0;
     }
-  if( bufferindex != 0 )
+  }
+  if (bufferindex != 0)
+  {
+    if (runlength != 0)
     {
-    if( runlength != 0 )
-      {
       bufferObjectMap[bufferindex] = runlength;
       bufferObjectMap[bufferindex + 1] = CurrentObjIndex;
       bufferindex += 2;
-      }
-    if( outputFileStream.write(reinterpret_cast<char *>(bufferObjectMap), bufferindex).fail() )
-      {
+    }
+    if (outputFileStream.write(reinterpret_cast<char *>(bufferObjectMap), bufferindex).fail())
+    {
       itkDebugMacro(<< "error: could not write buffer" << std::endl);
       exit(-1);
-      }
     }
+  }
 }
 
 } // end namespace itk

@@ -8,21 +8,22 @@ write the object map out to a file.
 #include "itkAnalyzeObjectMap.h"
 #include "itkAnalyzeObjectLabelMapImageIOFactory.h"
 
-int main( int argc, char * * argv )
+int
+main(int argc, char ** argv)
 {
   int error_count = 0;
 
-  if( argc != 3 )
-    {
+  if (argc != 3)
+  {
     std::cerr << "USAGE: " << argv[0] << "<inputFileName> <outputFileName>" << std::endl;
-    }
-  const char *NiftiFile = argv[1];
-  const char *CreatingObject = argv[2];
+  }
+  const char * NiftiFile = argv[1];
+  const char * CreatingObject = argv[2];
   using InputPixelType = unsigned char;
   using OutputPixelType = unsigned char;
   constexpr unsigned int Dimension = 3;
 
-  using InputImageType = itk::Image<InputPixelType,  Dimension>;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
@@ -31,7 +32,7 @@ int main( int argc, char * * argv )
   // This is very important to use if you are not going to install the Analyze Object map code directly into
   // itk.  This means that you can build the Analyze Object map outside of ITK and still use it and treat
   // the code as if it is in ITK.
-  itk::ObjectFactoryBase::RegisterFactory( itk::AnalyzeObjectLabelMapImageIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory(itk::AnalyzeObjectLabelMapImageIOFactory::New());
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -40,15 +41,15 @@ int main( int argc, char * * argv )
   // different intensity values.
   reader->SetFileName(NiftiFile);
   try
-    {
+  {
     reader->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   itk::AnalyzeObjectMap<InputImageType>::Pointer CreateObjectMap = itk::AnalyzeObjectMap<InputImageType>::New();
 
   // Add one entry to the object map named "You Can Delete Me", this entry corresponds to 1 if you do a pickOneEntry
@@ -66,7 +67,7 @@ int main( int argc, char * * argv )
   CreateObjectMap->AddObjectEntryBasedOnImagePixel(reader->GetOutput(), 128, "Circle", 0, 250, 0);
 
   // This entry corrsponds to 4 if you do a pickOneEntry
-  CreateObjectMap->AddObjectEntryBasedOnImagePixel(reader->GetOutput(), 45,  "SquareTwo", 0, 0, 250);
+  CreateObjectMap->AddObjectEntryBasedOnImagePixel(reader->GetOutput(), 45, "SquareTwo", 0, 0, 250);
 
   // Then anoter entry is added, this entry corrsponds to 5 if you do a pickOneEntry
   CreateObjectMap->AddAnalyzeObjectEntry("Nothing In Here");
@@ -79,16 +80,15 @@ int main( int argc, char * * argv )
   writer->SetFileName(CreatingObject);
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
-
 }

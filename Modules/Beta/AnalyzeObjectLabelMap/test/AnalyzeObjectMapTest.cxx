@@ -15,7 +15,7 @@
 
 =========================================================================*/
 #if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
+#  pragma warning(disable : 4786)
 #endif
 
 #include "itkImageFileReader.h"
@@ -27,27 +27,28 @@
 #include "itkAnalyzeObjectMap.h"
 #include "itkAnalyzeObjectLabelMapImageIOFactory.h"
 
-int AnalyzeObjectMapTest( int ac, char * av[] )
+int
+AnalyzeObjectMapTest(int ac, char * av[])
 {
   int error_count = 0;
 
-  if( ac != 8 )
-    {
+  if (ac != 8)
+  {
     std::cerr << "USAGE: " << av[0]
-              <<
-    "<inputFileName> <outputFileName> <Nifti file> <NewObjectMapFileName> <oneObjectEntryFileName> <blankImageFileName> <OneDimensionFileName>"
+              << "<inputFileName> <outputFileName> <Nifti file> <NewObjectMapFileName> <oneObjectEntryFileName> "
+                 "<blankImageFileName> <OneDimensionFileName>"
               << std::endl;
-    }
-  const char *InputObjectFileName = av[1];
-  const char *OuptputObjectFileName = av[2];
-  const char *NiftiFile = av[3];
-  const char *CreatingObject = av[4];
-  const char *oneObjectEntryFileName = av[5];
-  const char *blankImageFileName = av[6];
-  const char *OneDimensionFileName = av[7];
+  }
+  const char * InputObjectFileName = av[1];
+  const char * OuptputObjectFileName = av[2];
+  const char * NiftiFile = av[3];
+  const char * CreatingObject = av[4];
+  const char * oneObjectEntryFileName = av[5];
+  const char * blankImageFileName = av[6];
+  const char * OneDimensionFileName = av[7];
   using PixelType = unsigned char;
 
-  using ThreeDimensionImageType = itk::Image<PixelType,  3>;
+  using ThreeDimensionImageType = itk::Image<PixelType, 3>;
   using FourDimensionImageType = itk::Image<PixelType, 4>;
   using TwoDimensionImageType = itk::Image<PixelType, 2>;
   using TwoDimensionRGBImageType = itk::Image<itk::RGBPixel<PixelType>, 2>;
@@ -66,46 +67,43 @@ int AnalyzeObjectMapTest( int ac, char * av[] )
   // This is very important to use if you are not going to install the Analyze Object map code directly into
   // itk.  This means that you can build the Analyze Object map outside of ITK and still use it and treat
   // the code as if it is in ITK.
-  itk::ObjectFactoryBase::RegisterFactory( itk::AnalyzeObjectLabelMapImageIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory(itk::AnalyzeObjectLabelMapImageIOFactory::New());
 
   ThreeDimensionReaderType::Pointer ThreeDimensionReader = ThreeDimensionReaderType::New();
   ThreeDimensionWriterType::Pointer ThreeDimensionWriter = ThreeDimensionWriterType::New();
 
-  ThreeDimensionReader->SetFileName( InputObjectFileName);
+  ThreeDimensionReader->SetFileName(InputObjectFileName);
   try
-    {
+  {
     ThreeDimensionReader->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
-    std::cerr << "ExceptionObject caught !" << std::endl
-              << err << std::endl;
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    std::cerr << "ExceptionObject caught !" << std::endl << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Now that we have an itk image now we need to make the image an object map
-  itk::AnalyzeObjectMap<ThreeDimensionImageType,
-                        ThreeDimensionRGBImageType>::Pointer ObjectMap =
+  itk::AnalyzeObjectMap<ThreeDimensionImageType, ThreeDimensionRGBImageType>::Pointer ObjectMap =
     itk::AnalyzeObjectMap<ThreeDimensionImageType, ThreeDimensionRGBImageType>::New();
 
-  ObjectMap->ImageToObjectMap(ThreeDimensionReader->GetOutput() );
+  ObjectMap->ImageToObjectMap(ThreeDimensionReader->GetOutput());
 
   // Now we can change the object map into an itk RGB image, we then can send this image to the itk-vtk
   // converter and show the image if we wanted to.
   ThreeDimensionRGBImageType::Pointer RGBImage = ObjectMap->ObjectMapToRGBImage();
 
   ThreeDimensionWriter->SetFileName(OuptputObjectFileName);
-  ThreeDimensionWriter->SetInput(ThreeDimensionReader->GetOutput() );
+  ThreeDimensionWriter->SetInput(ThreeDimensionReader->GetOutput());
   try
-    {
+  {
     ThreeDimensionWriter->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
-    std::cerr << "ExceptionObject caught !" << std::endl
-              << err << std::endl;
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    std::cerr << "ExceptionObject caught !" << std::endl << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Check the original file against the file that was written out to see if they are the exact same files.
   std::ifstream ReferenceFile;
@@ -117,27 +115,27 @@ int AnalyzeObjectMapTest( int ac, char * av[] )
   char ReferenceBytes;
   char WrittenBytes;
   int  count = 0;
-  while( !ReferenceFile.eof()  && !WrittenFile.eof() )
-    {
+  while (!ReferenceFile.eof() && !WrittenFile.eof())
+  {
     count++;
-    ReferenceFile.read(reinterpret_cast<char *>(&ReferenceBytes), sizeof(char) );
-    WrittenFile.read(reinterpret_cast<char *>(&WrittenBytes), sizeof(char) );
-    if( ReferenceBytes != WrittenBytes )
-      {
-      error_count++;
-      }
-    }
-
-  if( !ReferenceFile.eof() )
+    ReferenceFile.read(reinterpret_cast<char *>(&ReferenceBytes), sizeof(char));
+    WrittenFile.read(reinterpret_cast<char *>(&WrittenBytes), sizeof(char));
+    if (ReferenceBytes != WrittenBytes)
     {
+      error_count++;
+    }
+  }
+
+  if (!ReferenceFile.eof())
+  {
     error_count++;
     std::cout << "ReferenceFile is not at end of file" << std::endl;
-    }
-  if( !WrittenFile.eof() )
-    {
+  }
+  if (!WrittenFile.eof())
+  {
     error_count++;
     std::cout << "WrittenFile is not at end of file" << std::endl;
-    }
+  }
 
   ReferenceFile.close();
   WrittenFile.close();
@@ -151,15 +149,14 @@ int AnalyzeObjectMapTest( int ac, char * av[] )
 
   TwoDimensionReader->SetFileName(NiftiFile);
   try
-    {
+  {
     TwoDimensionReader->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
-    std::cerr << "ExceptionObject caught !" << std::endl
-              << err << std::endl;
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    std::cerr << "ExceptionObject caught !" << std::endl << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   itk::AnalyzeObjectMap<TwoDimensionImageType>::Pointer CreateObjectMap =
     itk::AnalyzeObjectMap<TwoDimensionImageType>::New();
 
@@ -167,7 +164,7 @@ int AnalyzeObjectMapTest( int ac, char * av[] )
   CreateObjectMap->AddObjectEntryBasedOnImagePixel(TwoDimensionReader->GetOutput(), 200, "Square", 250, 0, 0);
   CreateObjectMap->AddObjectEntryBasedOnImagePixel(TwoDimensionReader->GetOutput(), 128, "Circle", 0, 250, 0);
   CreateObjectMap->AddAnalyzeObjectEntry("Nothing In Here");
-  CreateObjectMap->GetObjectEntry(4)->Copy(CreateObjectMap->GetObjectEntry(1) );
+  CreateObjectMap->GetObjectEntry(4)->Copy(CreateObjectMap->GetObjectEntry(1));
   CreateObjectMap->DeleteAnalyzeObjectEntry("Nothing In Here");
 
   TwoDimensionWriterType::Pointer TwoDimensionWriter = TwoDimensionWriterType::New();
@@ -175,70 +172,64 @@ int AnalyzeObjectMapTest( int ac, char * av[] )
   TwoDimensionWriter->SetFileName(CreatingObject);
 
   try
-    {
+  {
     TwoDimensionWriter->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
-    std::cerr << "ExceptionObject caught !" << std::endl
-              << err << std::endl;
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    std::cerr << "ExceptionObject caught !" << std::endl << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   TwoDimensionReader->SetFileName(CreatingObject);
   try
-    {
+  {
     TwoDimensionReader->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
-    std::cerr << "ExceptionObject caught !" << std::endl
-              << err << std::endl;
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    std::cerr << "ExceptionObject caught !" << std::endl << err << std::endl;
     return EXIT_FAILURE;
-    }
-  itk::AnalyzeObjectMap<TwoDimensionImageType,
-                        TwoDimensionRGBImageType>::Pointer ObjectMapTwo =
+  }
+  itk::AnalyzeObjectMap<TwoDimensionImageType, TwoDimensionRGBImageType>::Pointer ObjectMapTwo =
     itk::AnalyzeObjectMap<TwoDimensionImageType, TwoDimensionRGBImageType>::New();
 
-  ObjectMapTwo->ImageToObjectMap(TwoDimensionReader->GetOutput() );
+  ObjectMapTwo->ImageToObjectMap(TwoDimensionReader->GetOutput());
   TwoDimensionRGBImageType::Pointer RGBImageTwo = ObjectMapTwo->ObjectMapToRGBImage();
 
-  TwoDimensionWriter->SetInput(ObjectMapTwo->PickOneEntry(3) );
+  TwoDimensionWriter->SetInput(ObjectMapTwo->PickOneEntry(3));
   TwoDimensionWriter->SetFileName(oneObjectEntryFileName);
 
   try
-    {
+  {
     TwoDimensionWriter->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
-    std::cerr << "ExceptionObject caught !" << std::endl
-              << err << std::endl;
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    std::cerr << "ExceptionObject caught !" << std::endl << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   TwoDimensionReader->SetFileName(oneObjectEntryFileName);
   try
-    {
+  {
     TwoDimensionReader->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
-    std::cerr << "ExceptionObject caught !" << std::endl
-              << err << std::endl;
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    std::cerr << "ExceptionObject caught !" << std::endl << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  itk::AnalyzeObjectMap<TwoDimensionImageType,
-                        TwoDimensionRGBImageType>::Pointer ObjectMapThree =
+  itk::AnalyzeObjectMap<TwoDimensionImageType, TwoDimensionRGBImageType>::Pointer ObjectMapThree =
     itk::AnalyzeObjectMap<TwoDimensionImageType, TwoDimensionRGBImageType>::New();
 
-  ObjectMapThree->ImageToObjectMap(TwoDimensionReader->GetOutput() );
+  ObjectMapThree->ImageToObjectMap(TwoDimensionReader->GetOutput());
   TwoDimensionRGBImageType::Pointer RGBImageThree = ObjectMapThree->ObjectMapToRGBImage();
 
   FourDimensionImageType::Pointer         BlankImage = FourDimensionImageType::New();
-  const FourDimensionImageType::SizeType  size = {{50, 20, 20, 3}};
-  const FourDimensionImageType::IndexType orgin = {{0, 0, 0, 0}};
+  const FourDimensionImageType::SizeType  size = { { 50, 20, 20, 3 } };
+  const FourDimensionImageType::IndexType orgin = { { 0, 0, 0, 0 } };
 
   FourDimensionImageType::RegionType region;
   region.SetSize(size);
@@ -251,32 +242,30 @@ int AnalyzeObjectMapTest( int ac, char * av[] )
   FourDimensionWriter->SetFileName(blankImageFileName);
 
   try
-    {
+  {
     FourDimensionWriter->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
-    std::cerr << "ExceptionObject caught !" << std::endl
-              << err << std::endl;
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    std::cerr << "ExceptionObject caught !" << std::endl << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   FourDimensionReaderType::Pointer FourDimensionReader = FourDimensionReaderType::New();
   FourDimensionReader->SetFileName(blankImageFileName);
   try
-    {
+  {
     FourDimensionReader->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
-    std::cerr << "ExceptionObject caught !" << std::endl
-              << err << std::endl;
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    std::cerr << "ExceptionObject caught !" << std::endl << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   OneDimensionImageType::Pointer         OneDimensionImage = OneDimensionImageType::New();
-  const OneDimensionImageType::SizeType  sizeOne = {{1}};
-  const OneDimensionImageType::IndexType orginOne = {{0}};
+  const OneDimensionImageType::SizeType  sizeOne = { { 1 } };
+  const OneDimensionImageType::IndexType orginOne = { { 0 } };
 
   OneDimensionImageType::RegionType regionOne;
   regionOne.SetSize(sizeOne);
@@ -289,33 +278,31 @@ int AnalyzeObjectMapTest( int ac, char * av[] )
   OneDimensionWriter->SetFileName(OneDimensionFileName);
 
   try
-    {
+  {
     OneDimensionWriter->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
-    std::cerr << "ExceptionObject caught !" << std::endl
-              << err << std::endl;
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    std::cerr << "ExceptionObject caught !" << std::endl << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   OneDimensionReaderType::Pointer OneDimensionReader = OneDimensionReaderType::New();
   OneDimensionReader->SetFileName(OneDimensionFileName);
   try
-    {
+  {
     OneDimensionReader->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
-    std::cerr << "ExceptionObject caught !" << std::endl
-              << err << std::endl;
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    std::cerr << "ExceptionObject caught !" << std::endl << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( error_count )
-    {
+  if (error_count)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }
