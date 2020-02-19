@@ -209,10 +209,6 @@ public:
 
   /** Gets the number of coefficients. */
   unsigned int
-  GetNumberOfCoefficients();
-
-  /** Gets the number of coefficients. */
-  unsigned int
   GetNumberOfCoefficients(unsigned int dimension, unsigned int degree);
 
   /**

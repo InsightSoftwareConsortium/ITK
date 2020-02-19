@@ -105,7 +105,7 @@ public:
 
   /** Gets the sum of the frequencies */
   TotalAbsoluteFrequencyType
-  GetTotalFrequency()
+  GetTotalFrequency() const
   {
     return m_TotalFrequency;
   }

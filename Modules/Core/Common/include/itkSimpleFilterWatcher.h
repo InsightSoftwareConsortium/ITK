@@ -135,7 +135,7 @@ public:
     m_Steps = val;
   }
   int
-  GetSteps()
+  GetSteps() const
   {
     return m_Steps;
   }
@@ -147,7 +147,7 @@ public:
     m_Iterations = val;
   }
   int
-  GetIterations()
+  GetIterations() const
   {
     return m_Iterations;
   }
@@ -160,7 +160,7 @@ public:
     m_Quiet = val;
   }
   bool
-  GetQuiet()
+  GetQuiet() const
   {
     return m_Quiet;
   }

@@ -62,7 +62,7 @@ public:
   SetBufferSize(unsigned int num);
 
   unsigned int
-  GetBufferSize()
+  GetBufferSize() const
   {
     return m_BufferSize;
   }
@@ -90,13 +90,13 @@ public:
   SetGPUBufferDirty();
 
   bool
-  IsCPUBufferDirty()
+  IsCPUBufferDirty() const
   {
     return m_IsCPUBufferDirty;
   }
 
   bool
-  IsGPUBufferDirty()
+  IsGPUBufferDirty() const
   {
     return m_IsGPUBufferDirty;
   }
@@ -116,7 +116,7 @@ public:
   SetCurrentCommandQueue(int queueid);
 
   int
-  GetCurrentCommandQueueID();
+  GetCurrentCommandQueueID() const;
 
   /** Synchronize CPU and GPU buffers (using dirty flags) */
   bool

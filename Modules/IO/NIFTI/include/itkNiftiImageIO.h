@@ -185,7 +185,7 @@ private:
   getQFormCodeFromDictionary() const;
 
   bool
-  MustRescale();
+  MustRescale() const;
 
   void
   DefineHeaderObjectDataType();

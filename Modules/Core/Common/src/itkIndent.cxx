@@ -48,7 +48,7 @@ Indent::New()
  * max of forty.
  */
 Indent
-Indent ::GetNextIndent()
+Indent ::GetNextIndent() const
 {
   int indent = m_Indent + ITK_STD_INDENT;
 

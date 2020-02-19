@@ -59,7 +59,7 @@ LoadBCMFC::SetIndex(int ind)
 }
 
 int
-LoadBCMFC::GetIndex()
+LoadBCMFC::GetIndex() const
 {
   return this->m_Index;
 }

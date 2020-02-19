@@ -210,7 +210,7 @@ CumulativeGaussianOptimizer ::PrintComputedParameterHeader()
 }
 
 void
-CumulativeGaussianOptimizer ::PrintComputedParameters()
+CumulativeGaussianOptimizer ::PrintComputedParameters() const
 {
   std::cerr << m_ComputedMean - m_OffsetForMean << "\t" // Printed mean is
                                                         // shifted.
@@ -221,7 +221,7 @@ CumulativeGaussianOptimizer ::PrintComputedParameters()
 CumulativeGaussianOptimizer::MeasureType *
 CumulativeGaussianOptimizer ::RecalculateExtendedArrayFromGaussianParameters(MeasureType * originalArray,
                                                                              MeasureType * extendedArray,
-                                                                             int           startingPointForInsertion)
+                                                                             int startingPointForInsertion) const
 {
   // From the Gaussian parameters stored with the extendedArray,
   // recalculate the extended portion of the extendedArray,

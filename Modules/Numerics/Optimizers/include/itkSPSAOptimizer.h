@@ -156,7 +156,7 @@ public:
     SetSa(a);
   }
   double
-  Geta()
+  Geta() const
   {
     return GetSa();
   }
@@ -171,7 +171,7 @@ public:
     SetSc(c);
   }
   double
-  Getc()
+  Getc() const
   {
     return GetSc();
   }

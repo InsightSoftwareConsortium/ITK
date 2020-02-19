@@ -76,7 +76,7 @@ public:
   /** Determine the next indentation level. Keep indenting by two until the
    * a maximum of forty spaces is reached.  */
   Indent
-  GetNextIndent();
+  GetNextIndent() const;
 
   /** Print out the indentation. Basically output a bunch of spaces.  */
   friend ITKCommon_EXPORT std::ostream &
