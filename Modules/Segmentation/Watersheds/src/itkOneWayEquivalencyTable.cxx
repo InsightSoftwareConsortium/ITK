@@ -48,7 +48,7 @@ OneWayEquivalencyTable::Add(unsigned long a, unsigned long b)
 void
 OneWayEquivalencyTable::Flatten()
 {
-  Iterator it = this->Begin();
+  auto it = this->Begin();
 
   while (it != this->End())
   {
@@ -64,7 +64,7 @@ OneWayEquivalencyTable::RecursiveLookup(const unsigned long a) const
   unsigned long last_ans = a;
 
   ConstIterator it;
-  ConstIterator hashEnd = m_HashMap.end();
+  auto          hashEnd = m_HashMap.end();
 
   while ((it = m_HashMap.find(ans)) != hashEnd)
   {

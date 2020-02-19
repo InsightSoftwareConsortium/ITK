@@ -160,7 +160,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // region and destination index for multiple invocations of the
   // PasteImageFilter.
   TOutputImage * outputPtr = this->GetOutput();
-  TInputImage *  inputPtr = const_cast<TInputImage *>(this->GetInput());
+  auto *         inputPtr = const_cast<TInputImage *>(this->GetInput());
 
   if (!outputPtr || !inputPtr)
   {

@@ -181,7 +181,7 @@ GPUImage<TPixel, VImageDimension>::Graft(const Self * data)
 {
   using GPUImageDataManagerType = GPUImageDataManager<GPUImage>;
 
-  GPUImageDataManagerType * ptr = const_cast<GPUImageDataManagerType *>(data->GetDataManager());
+  auto * ptr = const_cast<GPUImageDataManagerType *>(data->GetDataManager());
 
   // call the superclass' implementation
   Superclass::Graft(ptr->GetImagePointer());

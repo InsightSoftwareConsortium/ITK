@@ -64,7 +64,7 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::RemovePoint(Identi
 {
   if (id < m_Points.size())
   {
-    typename SpatialObjectPointListType::iterator it = m_Points.begin();
+    auto it = m_Points.begin();
     advance(it, id);
     m_Points.erase(it);
   }
@@ -79,7 +79,7 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::SetPoints(const Sp
 {
   m_Points.clear();
 
-  typename SpatialObjectPointListType::const_iterator it = newPoints.begin();
+  auto it = newPoints.begin();
   while (it != newPoints.end())
   {
     m_Points.push_back(*it);

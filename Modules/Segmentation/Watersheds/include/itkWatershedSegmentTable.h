@@ -119,7 +119,7 @@ public:
   segment_t *
   Lookup(const IdentifierType a)
   {
-    Iterator result = m_HashMap.find(a);
+    auto result = m_HashMap.find(a);
 
     if (result == m_HashMap.end())
     {

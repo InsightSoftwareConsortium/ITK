@@ -150,8 +150,8 @@ GPUScalarAnisotropicDiffusionFunction<TImage>::GPUCalculateAverageGradientMagnit
   kernelManager->LaunchKernel(kernelHandle, ImageDim, globalSize, localSize);
 
   // Read back intermediate sums from GPU and compute final value
-  double  sum = 0;
-  float * intermSum = new float[bufferSize];
+  double sum = 0;
+  auto * intermSum = new float[bufferSize];
 
   this->m_AnisotropicDiffusionFunctionGPUBuffer->SetCPUBufferPointer(intermSum);
   this->m_AnisotropicDiffusionFunctionGPUBuffer->SetCPUDirtyFlag(true); //

@@ -129,7 +129,7 @@ ImageSink<TInputImage>::GenerateNthInputRequestedRegion(unsigned int inputReques
 {
   Superclass::GenerateInputRequestedRegion();
 
-  InputImageType *     inputPtr = const_cast<InputImageType *>(this->GetInput());
+  auto *               inputPtr = const_cast<InputImageType *>(this->GetInput());
   InputImageRegionType inputImageRegion = inputPtr->GetLargestPossibleRegion();
 
 

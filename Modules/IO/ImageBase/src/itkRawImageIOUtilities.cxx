@@ -34,7 +34,7 @@ _WriteRawBytesAfterSwappingUtility(const void *         buffer,
   const itk::SizeValueType numberOfPixels = numberOfBytes / (sizeof(TStrongType));
   if (byteOrder == itk::IOByteOrderEnum::LittleEndian && InternalByteSwapperType::SystemIsBigEndian())
   {
-    TStrongType * tempBuffer = new TStrongType[numberOfPixels];
+    auto * tempBuffer = new TStrongType[numberOfPixels];
     memcpy((char *)tempBuffer, buffer, numberOfBytes);
     InternalByteSwapperType::SwapRangeFromSystemToLittleEndian((TStrongType *)tempBuffer, numberOfComponents);
     file.write((char *)tempBuffer, numberOfBytes);
@@ -42,7 +42,7 @@ _WriteRawBytesAfterSwappingUtility(const void *         buffer,
   }
   else if (byteOrder == itk::IOByteOrderEnum::BigEndian && InternalByteSwapperType::SystemIsLittleEndian())
   {
-    TStrongType * tempBuffer = new TStrongType[numberOfPixels];
+    auto * tempBuffer = new TStrongType[numberOfPixels];
     memcpy((char *)tempBuffer, buffer, numberOfBytes);
     InternalByteSwapperType::SwapRangeFromSystemToBigEndian((TStrongType *)tempBuffer, numberOfComponents);
     file.write((char *)tempBuffer, numberOfBytes);

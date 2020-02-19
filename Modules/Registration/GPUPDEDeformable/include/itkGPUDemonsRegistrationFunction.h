@@ -147,7 +147,7 @@ public:
   void *
   GetGlobalDataPointer() const override
   {
-    GlobalDataStruct * global = new GlobalDataStruct();
+    auto * global = new GlobalDataStruct();
 
     global->m_SumOfSquaredDifference = 0.0;
     global->m_NumberOfPixelsProcessed = 0L;

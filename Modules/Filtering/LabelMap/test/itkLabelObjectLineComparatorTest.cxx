@@ -37,9 +37,9 @@ itkLabelObjectLineComparatorTest(int, char *[])
   highIndex[0] = 14;
   highIndex[1] = 7;
 
-  LabelObjectLineType * low = new LabelObjectLineType(lowIndex, 11);
-  LabelObjectLineType * high = new LabelObjectLineType(highIndex, 11);
-  LabelObjectLineType * lowlong = new LabelObjectLineType(lowIndex, 15);
+  auto * low = new LabelObjectLineType(lowIndex, 11);
+  auto * high = new LabelObjectLineType(highIndex, 11);
+  auto * lowlong = new LabelObjectLineType(lowIndex, 15);
 
   if (lessThan(*high, *low))
   {

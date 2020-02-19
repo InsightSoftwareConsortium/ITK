@@ -201,7 +201,7 @@ SpatialObject<TDimension>::IsInsideChildrenInObjectSpace(const PointType &   poi
                                                          unsigned int        depth,
                                                          const std::string & name) const
 {
-  typename ChildrenListType::const_iterator it = m_ChildrenList.begin();
+  auto it = m_ChildrenList.begin();
 
   PointType pnt;
   while (it != m_ChildrenList.end())
@@ -260,7 +260,7 @@ SpatialObject<TDimension>::IsEvaluableAtChildrenInObjectSpace(const PointType & 
                                                               unsigned int        depth,
                                                               const std::string & name) const
 {
-  typename ChildrenListType::const_iterator it = m_ChildrenList.begin();
+  auto it = m_ChildrenList.begin();
 
   PointType pnt;
   while (it != m_ChildrenList.end())
@@ -333,7 +333,7 @@ SpatialObject<TDimension>::ValueAtChildrenInObjectSpace(const PointType &   poin
                                                         unsigned int        depth,
                                                         const std::string & name) const
 {
-  typename ChildrenListType::const_iterator it = m_ChildrenList.begin();
+  auto it = m_ChildrenList.begin();
 
   PointType pnt;
   while (it != m_ChildrenList.end())
@@ -489,7 +489,7 @@ template <unsigned int TDimension>
 void
 SpatialObject<TDimension>::RemoveAllChildren(unsigned int depth)
 {
-  typename ChildrenListType::iterator it = m_ChildrenList.begin();
+  auto it = m_ChildrenList.begin();
   while (it != m_ChildrenList.end())
   {
     auto itPtr = *it;
@@ -550,7 +550,7 @@ SpatialObject<TDimension>::ProtectedComputeObjectToWorldTransform()
   }
 
   // Propagate the changes to the children
-  typename ChildrenListType::iterator it = m_ChildrenList.begin();
+  auto it = m_ChildrenList.begin();
   while (it != m_ChildrenList.end())
   {
     (*it)->Update();
@@ -625,8 +625,8 @@ SpatialObject<TDimension>::GetMTime() const
 {
   ModifiedTimeType latestTime = Object::GetMTime();
 
-  typename ChildrenListType::const_iterator it = m_ChildrenList.begin();
-  ModifiedTimeType                          localTime;
+  auto             it = m_ChildrenList.begin();
+  ModifiedTimeType localTime;
 
   while (it != m_ChildrenList.end())
   {
@@ -718,9 +718,9 @@ SpatialObject<TDimension>::ComputeFamilyBoundingBox(unsigned int depth, const st
 
   if (depth > 0)
   {
-    PointType                                 pnt;
-    PointType                                 tPnt;
-    typename ChildrenListType::const_iterator it = m_ChildrenList.begin();
+    PointType pnt;
+    PointType tPnt;
+    auto      it = m_ChildrenList.begin();
     while (it != m_ChildrenList.end())
     {
       (*it)->ComputeFamilyBoundingBox(depth - 1, name);
@@ -962,8 +962,8 @@ SpatialObject<TDimension>::FixIdValidity()
 
   ChildrenListType * children = this->GetChildren(MaximumDepth);
 
-  typename ObjectListType::iterator it = children->begin();
-  typename ObjectListType::iterator itEnd = children->end();
+  auto                              it = children->begin();
+  auto                              itEnd = children->end();
   typename ObjectListType::iterator it2;
   int                               id;
   int                               id2;
@@ -1003,9 +1003,9 @@ SpatialObject<TDimension>::GetNextAvailableId() const
 {
   int maxId = this->GetId();
 
-  typename ChildrenListType::const_iterator it = m_ChildrenList.begin();
-  typename ChildrenListType::const_iterator itEnd = m_ChildrenList.end();
-  int                                       id;
+  auto it = m_ChildrenList.begin();
+  auto itEnd = m_ChildrenList.end();
+  int  id;
   while (it != itEnd)
   {
     id = (*it)->GetNextAvailableId() - 1;

@@ -520,7 +520,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   }
 
   // Get pointers to the input and output
-  InputImageType * input = const_cast<InputImageType *>(this->GetInput());
+  auto * input = const_cast<InputImageType *>(this->GetInput());
 
   // Some interpolators need to look at their images in GetRadius()
   m_Interpolator->SetInputImage(input);

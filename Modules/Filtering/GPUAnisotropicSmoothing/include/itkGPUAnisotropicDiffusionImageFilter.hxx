@@ -29,7 +29,7 @@ template <typename TInputImage, typename TOutputImage, typename TParentImageFilt
 void
 GPUAnisotropicDiffusionImageFilter<TInputImage, TOutputImage, TParentImageFilter>::InitializeIteration()
 {
-  GPUAnisotropicDiffusionFunction<UpdateBufferType> * f =
+  auto * f =
     dynamic_cast<GPUAnisotropicDiffusionFunction<UpdateBufferType> *>(this->GetDifferenceFunction().GetPointer());
   if (!f)
   {

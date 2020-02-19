@@ -210,7 +210,7 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
 
     if (degree == 0)
     {
-      RowIterator rIt = ioRow.find(vId);
+      auto rIt = ioRow.find(vId);
 
       if (rIt == ioRow.end())
       {

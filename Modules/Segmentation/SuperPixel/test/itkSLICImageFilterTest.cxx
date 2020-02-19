@@ -31,7 +31,7 @@ void
 iterationEventCallback(itk::Object * object, const itk::EventObject & event, void *)
 {
   static unsigned int iterationCount = 0;
-  const TFilterType * slicFilter = dynamic_cast<const TFilterType *>(object);
+  const auto *        slicFilter = dynamic_cast<const TFilterType *>(object);
   if (!itk::IterationEvent().CheckEvent(&event) || !slicFilter)
   {
     return;

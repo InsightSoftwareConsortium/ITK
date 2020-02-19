@@ -83,7 +83,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::AfterThreadedGenerateData()
          ++threadIt)
     {
       // Does this label exist in the cumulative structure yet?
-      MapIterator mapIt = this->m_LabelSetMeasures.find((*threadIt).first);
+      auto mapIt = this->m_LabelSetMeasures.find((*threadIt).first);
       if (mapIt == this->m_LabelSetMeasures.end())
       {
         // Create a new entry
@@ -119,8 +119,8 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::ThreadedGenerateData(const RegionT
     LabelType targetLabel = itT.Get();
 
     // Is the label already in this thread?
-    MapIterator mapItS = this->m_LabelSetMeasuresPerThread[threadId].find(sourceLabel);
-    MapIterator mapItT = this->m_LabelSetMeasuresPerThread[threadId].find(targetLabel);
+    auto mapItS = this->m_LabelSetMeasuresPerThread[threadId].find(sourceLabel);
+    auto mapItT = this->m_LabelSetMeasuresPerThread[threadId].find(targetLabel);
 
     if (mapItS == this->m_LabelSetMeasuresPerThread[threadId].end())
     {
@@ -163,7 +163,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetTotalOverlap() const
 {
   RealType numerator = 0.0;
   RealType denominator = 0.0;
-  for (MapConstIterator mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
+  for (auto mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
   {
     // Do not include the background in the final value.
     if ((*mapIt).first == NumericTraits<LabelType>::ZeroValue())
@@ -188,7 +188,7 @@ template <typename TLabelImage>
 typename LabelOverlapMeasuresImageFilter<TLabelImage>::RealType
 LabelOverlapMeasuresImageFilter<TLabelImage>::GetTargetOverlap(LabelType label) const
 {
-  MapConstIterator mapIt = this->m_LabelSetMeasures.find(label);
+  auto mapIt = this->m_LabelSetMeasures.find(label);
   if (mapIt == this->m_LabelSetMeasures.end())
   {
     itkWarningMacro("Label " << label << " not found.");
@@ -214,7 +214,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetUnionOverlap() const
 {
   RealType numerator = 0.0;
   RealType denominator = 0.0;
-  for (MapConstIterator mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
+  for (auto mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
   {
     // Do not include the background in the final value.
     if ((*mapIt).first == NumericTraits<LabelType>::ZeroValue())
@@ -239,7 +239,7 @@ template <typename TLabelImage>
 typename LabelOverlapMeasuresImageFilter<TLabelImage>::RealType
 LabelOverlapMeasuresImageFilter<TLabelImage>::GetUnionOverlap(LabelType label) const
 {
-  MapConstIterator mapIt = this->m_LabelSetMeasures.find(label);
+  auto mapIt = this->m_LabelSetMeasures.find(label);
   if (mapIt == this->m_LabelSetMeasures.end())
   {
     itkWarningMacro("Label " << label << " not found.");
@@ -281,7 +281,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetVolumeSimilarity() const
 {
   RealType numerator = 0.0;
   RealType denominator = 0.0;
-  for (MapConstIterator mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
+  for (auto mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
   {
     // Do not include the background in the final value.
     if ((*mapIt).first == NumericTraits<LabelType>::ZeroValue())
@@ -307,7 +307,7 @@ template <typename TLabelImage>
 typename LabelOverlapMeasuresImageFilter<TLabelImage>::RealType
 LabelOverlapMeasuresImageFilter<TLabelImage>::GetVolumeSimilarity(LabelType label) const
 {
-  MapConstIterator mapIt = this->m_LabelSetMeasures.find(label);
+  auto mapIt = this->m_LabelSetMeasures.find(label);
   if (mapIt == this->m_LabelSetMeasures.end())
   {
     itkWarningMacro("Label " << label << " not found.");
@@ -325,7 +325,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalseNegativeError() const
 {
   RealType numerator = 0.0;
   RealType denominator = 0.0;
-  for (MapConstIterator mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
+  for (auto mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
   {
     // Do not include the background in the final value.
     if ((*mapIt).first == NumericTraits<LabelType>::ZeroValue())
@@ -350,7 +350,7 @@ template <typename TLabelImage>
 typename LabelOverlapMeasuresImageFilter<TLabelImage>::RealType
 LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalseNegativeError(LabelType label) const
 {
-  MapConstIterator mapIt = this->m_LabelSetMeasures.find(label);
+  auto mapIt = this->m_LabelSetMeasures.find(label);
   if (mapIt == this->m_LabelSetMeasures.end())
   {
     itkWarningMacro("Label " << label << " not found.");
@@ -376,7 +376,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError() const
 {
   RealType numerator = 0.0;
   RealType denominator = 0.0;
-  for (MapConstIterator mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
+  for (auto mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
   {
     // Do not include the background in the final value.
     if ((*mapIt).first == NumericTraits<LabelType>::ZeroValue())
@@ -401,7 +401,7 @@ template <typename TLabelImage>
 typename LabelOverlapMeasuresImageFilter<TLabelImage>::RealType
 LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError(LabelType label) const
 {
-  MapConstIterator mapIt = this->m_LabelSetMeasures.find(label);
+  auto mapIt = this->m_LabelSetMeasures.find(label);
   if (mapIt == this->m_LabelSetMeasures.end())
   {
     itkWarningMacro("Label " << label << " not found.");

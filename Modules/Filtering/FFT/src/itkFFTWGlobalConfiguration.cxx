@@ -379,7 +379,7 @@ FFTWGlobalConfiguration ::FFTWGlobalConfiguration()
     std::string manualCacheFilename = "";
     if (itksys::SystemTools::GetEnv("ITK_FFTW_WISDOM_CACHE_FILE", manualCacheFilename))
     {
-      ManualWisdomFilenameGenerator * DefaultFilenameGenerator = new ManualWisdomFilenameGenerator(manualCacheFilename);
+      auto * DefaultFilenameGenerator = new ManualWisdomFilenameGenerator(manualCacheFilename);
       this->m_WisdomFilenameGenerator = DefaultFilenameGenerator;
       this->m_WisdomFilenameGenerator->GenerateWisdomFilename(this->m_WisdomCacheBase);
     }

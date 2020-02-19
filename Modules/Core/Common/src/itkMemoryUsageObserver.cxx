@@ -449,7 +449,7 @@ MallinfoMemoryUsageObserver::GetMemoryUsage()
 {
   struct mallinfo minfo = mallinfo();
 
-  MemoryLoadType mem = static_cast<MemoryLoadType>(static_cast<double>(minfo.uordblks) / 1024.0);
+  auto mem = static_cast<MemoryLoadType>(static_cast<double>(minfo.uordblks) / 1024.0);
 
   return mem;
 }

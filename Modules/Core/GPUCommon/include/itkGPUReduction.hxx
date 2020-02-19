@@ -186,7 +186,7 @@ GPUReduction<TElement>::RandomTest()
   this->InitializeKernel(size);
 
   unsigned int bytes = size * sizeof(TElement);
-  TElement *   h_idata = (TElement *)malloc(bytes);
+  auto *       h_idata = (TElement *)malloc(bytes);
 
   for (int i = 0; i < size; i++)
   {
@@ -256,7 +256,7 @@ GPUReduction<TElement>::GPUGenerateData()
     cpuFinalThreshold = 1;
 
   // allocate output data for the result
-  TElement * h_odata = (TElement *)malloc(numBlocks * sizeof(TElement));
+  auto * h_odata = (TElement *)malloc(numBlocks * sizeof(TElement));
 
   GPUDataPointer odata = GPUDataManager::New();
   odata->SetBufferSize(numBlocks * sizeof(TElement));
@@ -323,7 +323,7 @@ GPUReduction<TElement>::GPUReduce(cl_int         n,
   this->m_GPUKernelManager->LaunchKernel(m_ReduceGPUKernelHandle, 1, globalSize, localSize);
 
   odata->SetCPUDirtyFlag(true);
-  TElement * h_odata = (TElement *)odata->GetCPUBufferPointer();
+  auto * h_odata = (TElement *)odata->GetCPUBufferPointer();
 
 #ifdef CPU_VERIFY
   idata->SetCPUDirtyFlag(true);

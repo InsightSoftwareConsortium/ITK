@@ -114,7 +114,7 @@ StatisticsImageFilter<TInputImage>::ThreadedStreamedGenerateData(const RegionTyp
     while (!it.IsAtEndOfLine())
     {
       const PixelType & value = it.Get();
-      const RealType    realValue = static_cast<RealType>(value);
+      const auto        realValue = static_cast<RealType>(value);
       min = std::min(min, value);
       max = std::max(max, value);
 

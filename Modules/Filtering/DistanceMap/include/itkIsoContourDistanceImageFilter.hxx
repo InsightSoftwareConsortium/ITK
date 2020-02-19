@@ -130,12 +130,12 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreaderFullCallback(void * arg)
 {
   using ThreadInfo = MultiThreaderBase::WorkUnitInfo;
-  ThreadInfo * threadInfo = static_cast<ThreadInfo *>(arg);
+  auto *       threadInfo = static_cast<ThreadInfo *>(arg);
   ThreadIdType threadId = threadInfo->WorkUnitID;
   ThreadIdType threadCount = threadInfo->NumberOfWorkUnits;
   using FilterStruct = typename ImageSource<TOutputImage>::ThreadStruct;
-  FilterStruct * str = (FilterStruct *)(threadInfo->UserData);
-  Self *         filter = static_cast<Self *>(str->Filter.GetPointer());
+  auto * str = (FilterStruct *)(threadInfo->UserData);
+  Self * filter = static_cast<Self *>(str->Filter.GetPointer());
 
   // execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.

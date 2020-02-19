@@ -167,7 +167,7 @@ readNoPreambleDicom(std::ifstream & file) // NOTE: This file is duplicated in it
       char lengthChars[4] = { vrcode[0], vrcode[1], '\0', '\0' };
       file.read(lengthChars + 2, 2);
 
-      unsigned int * uilength = reinterpret_cast<unsigned int *>(lengthChars);
+      auto * uilength = reinterpret_cast<unsigned int *>(lengthChars);
       ByteSwapper<unsigned int>::SwapFromSystemToLittleEndian(uilength);
 
       length = (*uilength);

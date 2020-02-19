@@ -105,8 +105,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   }
 
   // update variables in the equation object
-  GPUPDEDeformableRegistrationFunctionType * f =
-    dynamic_cast<GPUPDEDeformableRegistrationFunctionType *>(this->GetDifferenceFunction().GetPointer());
+  auto * f = dynamic_cast<GPUPDEDeformableRegistrationFunctionType *>(this->GetDifferenceFunction().GetPointer());
 
   if (!f)
   {
@@ -253,8 +252,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   delete m_ImageSizes;
   m_ImageSizes = nullptr;
 
-  GPUPDEDeformableRegistrationFunctionType * f =
-    dynamic_cast<GPUPDEDeformableRegistrationFunctionType *>(this->GetDifferenceFunction().GetPointer());
+  auto * f = dynamic_cast<GPUPDEDeformableRegistrationFunctionType *>(this->GetDifferenceFunction().GetPointer());
   f->GPUReleaseMetricData();
 
   // update the cpu buffer from gpu
@@ -273,10 +271,9 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   this->AllocateSmoothingBuffer();
 
   FixedImageConstPointer fixedImage = this->GetFixedImage();
-  unsigned int           numPixels = (unsigned int)(fixedImage->GetLargestPossibleRegion().GetNumberOfPixels());
+  auto                   numPixels = (unsigned int)(fixedImage->GetLargestPossibleRegion().GetNumberOfPixels());
 
-  GPUPDEDeformableRegistrationFunctionType * f =
-    dynamic_cast<GPUPDEDeformableRegistrationFunctionType *>(this->GetDifferenceFunction().GetPointer());
+  auto * f = dynamic_cast<GPUPDEDeformableRegistrationFunctionType *>(this->GetDifferenceFunction().GetPointer());
   f->GPUAllocateMetricData(numPixels);
 }
 
