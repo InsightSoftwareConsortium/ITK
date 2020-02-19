@@ -26,37 +26,33 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TMaskImage >
-BoneMorphometryFeaturesFilter< TInputImage, TMaskImage >
-::BoneMorphometryFeaturesFilter():
-  m_Threshold(1),
-  m_Pp(0),
-  m_Pl(0),
-  m_PlX(0),
-  m_PlY(0),
-  m_PlZ(0)
+template <typename TInputImage, typename TMaskImage>
+BoneMorphometryFeaturesFilter<TInputImage, TMaskImage>::BoneMorphometryFeaturesFilter()
+  : m_Threshold(1)
+  , m_Pp(0)
+  , m_Pl(0)
+  , m_PlX(0)
+  , m_PlY(0)
+  , m_PlZ(0)
 {
-  this->SetNumberOfRequiredInputs( 1 );
+  this->SetNumberOfRequiredInputs(1);
 }
 
-template< typename TInputImage, typename TMaskImage >
+template <typename TInputImage, typename TMaskImage>
 void
-BoneMorphometryFeaturesFilter< TInputImage, TMaskImage >
-::AllocateOutputs()
+BoneMorphometryFeaturesFilter<TInputImage, TMaskImage>::AllocateOutputs()
 {
   // Pass the input through as the output
-  InputImagePointer image =
-    const_cast< TInputImage * >( this->GetInput() );
+  InputImagePointer image = const_cast<TInputImage *>(this->GetInput());
 
   this->GraftOutput(image);
 
   // Nothing that needs to be allocated for the remaining outputs
 }
 
-template< typename TInputImage, typename TMaskImage >
+template <typename TInputImage, typename TMaskImage>
 void
-BoneMorphometryFeaturesFilter< TInputImage, TMaskImage >
-::BeforeThreadedGenerateData()
+BoneMorphometryFeaturesFilter<TInputImage, TMaskImage>::BeforeThreadedGenerateData()
 {
   m_Pp = 0;
   m_Pl = 0;
@@ -75,10 +71,9 @@ BoneMorphometryFeaturesFilter< TInputImage, TMaskImage >
   m_NumZO.store(0);
 }
 
-template< typename TInputImage, typename TMaskImage >
+template <typename TInputImage, typename TMaskImage>
 void
-BoneMorphometryFeaturesFilter< TInputImage, TMaskImage >
-::AfterThreadedGenerateData()
+BoneMorphometryFeaturesFilter<TInputImage, TMaskImage>::AfterThreadedGenerateData()
 {
   SizeValueType numVoxelsInsideMask = m_NumVoxelsInsideMask.load();
   SizeValueType numBoneVoxels = m_NumBoneVoxels.load();
@@ -91,25 +86,25 @@ BoneMorphometryFeaturesFilter< TInputImage, TMaskImage >
 
   typename TInputImage::SpacingType inSpacing = this->GetInput()->GetSpacing();
   m_Pp = numBoneVoxels / static_cast<RealType>(numVoxelsInsideMask);
-  m_PlX = ((numX+numXO)/2.0) / (numVoxelsInsideMask * inSpacing[0]) * 2;
-  m_PlY = ((numY+numYO)/2.0) / (numVoxelsInsideMask * inSpacing[1]) * 2;
-  m_PlZ = ((numZ+numZO)/2.0) / (numVoxelsInsideMask * inSpacing[2]) * 2;
+  m_PlX = ((numX + numXO) / 2.0) / (numVoxelsInsideMask * inSpacing[0]) * 2;
+  m_PlY = ((numY + numYO) / 2.0) / (numVoxelsInsideMask * inSpacing[1]) * 2;
+  m_PlZ = ((numZ + numZO) / 2.0) / (numVoxelsInsideMask * inSpacing[2]) * 2;
   m_Pl = (m_PlX + m_PlY + m_PlZ) / 3.0;
 }
 
-template< typename TInputImage, typename TMaskImage >
+template <typename TInputImage, typename TMaskImage>
 void
-BoneMorphometryFeaturesFilter< TInputImage, TMaskImage >
-::DynamicThreadedGenerateData(const RegionType & outputRegionForThread)
+BoneMorphometryFeaturesFilter<TInputImage, TMaskImage>::DynamicThreadedGenerateData(
+  const RegionType & outputRegionForThread)
 {
   NeighborhoodRadiusType radius;
   radius.Fill(1);
-  NeighborhoodOffsetType offsetX = {{0,0,1}};
-  NeighborhoodOffsetType offsetXO = {{0,0,-1}};
-  NeighborhoodOffsetType offsetY = {{0,1,0}};
-  NeighborhoodOffsetType offsetYO = {{0,-1,0}};
-  NeighborhoodOffsetType offsetZ = {{1,0,0}};
-  NeighborhoodOffsetType offsetZO = {{-1,0,0}};
+  NeighborhoodOffsetType offsetX = { { 0, 0, 1 } };
+  NeighborhoodOffsetType offsetXO = { { 0, 0, -1 } };
+  NeighborhoodOffsetType offsetY = { { 0, 1, 0 } };
+  NeighborhoodOffsetType offsetYO = { { 0, -1, 0 } };
+  NeighborhoodOffsetType offsetZ = { { 1, 0, 0 } };
+  NeighborhoodOffsetType offsetZO = { { -1, 0, 0 } };
 
   SizeValueType numVoxelsInsideMask = 0;
   SizeValueType numBoneVoxels = 0;
@@ -121,64 +116,65 @@ BoneMorphometryFeaturesFilter< TInputImage, TMaskImage >
   SizeValueType numZO = 0;
 
   MaskImagePointer maskPointer = TMaskImage::New();
-  maskPointer = const_cast<TMaskImage*>(this->GetMaskImage());
+  maskPointer = const_cast<TMaskImage *>(this->GetMaskImage());
 
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage > boundaryFacesCalculator;
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage >::FaceListType
-  faceList = boundaryFacesCalculator( this->GetInput(), outputRegionForThread, radius );
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage >::FaceListType::iterator fit = faceList.begin();
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>                        boundaryFacesCalculator;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::FaceListType faceList =
+    boundaryFacesCalculator(this->GetInput(), outputRegionForThread, radius);
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::FaceListType::iterator fit =
+    faceList.begin();
 
-  for (; fit != faceList.end(); ++fit )
-    {
-    NeighborhoodIteratorType inputNIt(radius, this->GetInput(), *fit );
-    BoundaryConditionType  BoundaryCondition;
+  for (; fit != faceList.end(); ++fit)
+  {
+    NeighborhoodIteratorType inputNIt(radius, this->GetInput(), *fit);
+    BoundaryConditionType    BoundaryCondition;
     inputNIt.SetBoundaryCondition(BoundaryCondition);
     inputNIt.GoToBegin();
 
-    while( !inputNIt.IsAtEnd() )
+    while (!inputNIt.IsAtEnd())
+    {
+      if (maskPointer && maskPointer->GetPixel(inputNIt.GetIndex()) == 0)
       {
-      if( maskPointer && maskPointer->GetPixel( inputNIt.GetIndex() ) == 0 )
-        {
         ++inputNIt;
         continue;
-        }
+      }
 
       ++numVoxelsInsideMask;
 
-      if( inputNIt.GetCenterPixel() >= m_Threshold )
-        {
+      if (inputNIt.GetCenterPixel() >= m_Threshold)
+      {
 
         ++numBoneVoxels;
 
-        if( inputNIt.GetPixel(offsetX) < m_Threshold )
-          {
+        if (inputNIt.GetPixel(offsetX) < m_Threshold)
+        {
           ++numXO;
-          }
-        if( inputNIt.GetPixel(offsetXO) < m_Threshold )
-          {
+        }
+        if (inputNIt.GetPixel(offsetXO) < m_Threshold)
+        {
           ++numX;
-          }
-        if( inputNIt.GetPixel(offsetY) < m_Threshold )
-          {
+        }
+        if (inputNIt.GetPixel(offsetY) < m_Threshold)
+        {
           ++numYO;
-          }
-        if( inputNIt.GetPixel(offsetYO) < m_Threshold )
-          {
+        }
+        if (inputNIt.GetPixel(offsetYO) < m_Threshold)
+        {
           ++numY;
-          }
-        if( inputNIt.GetPixel(offsetZ) < m_Threshold )
-          {
+        }
+        if (inputNIt.GetPixel(offsetZ) < m_Threshold)
+        {
           ++numZO;
-          }
-        if( inputNIt.GetPixel(offsetZO) < m_Threshold )
-          {
+        }
+        if (inputNIt.GetPixel(offsetZO) < m_Threshold)
+        {
           ++numZ;
-          }
+        }
       }
 
       ++inputNIt;
-      }
     }
+  }
 
   m_NumVoxelsInsideMask.fetch_add(numVoxelsInsideMask, std::memory_order_relaxed);
   m_NumBoneVoxels.fetch_add(numBoneVoxels, std::memory_order_relaxed);
@@ -190,10 +186,9 @@ BoneMorphometryFeaturesFilter< TInputImage, TMaskImage >
   m_NumZO.fetch_add(numZO, std::memory_order_relaxed);
 }
 
-template< typename TInputImage, typename TMaskImage >
+template <typename TInputImage, typename TMaskImage>
 void
-BoneMorphometryFeaturesFilter< TInputImage, TMaskImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+BoneMorphometryFeaturesFilter<TInputImage, TMaskImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "m_Threshold: " << m_Threshold << std::endl;
@@ -210,7 +205,6 @@ BoneMorphometryFeaturesFilter< TInputImage, TMaskImage >
   os << indent << "m_NumXO: " << m_NumXO.load() << std::endl;
   os << indent << "m_NumYO: " << m_NumYO.load() << std::endl;
   os << indent << "m_NumZO: " << m_NumZO.load() << std::endl;
-
 }
 } // end namespace itk
 

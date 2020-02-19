@@ -32,13 +32,14 @@
 namespace itk
 {
 /** \class BoneMorphometryFeaturesFilter
- * \brief Compute the percent bone volume [BVTV], trabecular thickness [TbTh], trabecular separation [TbSp] trabecular number [TbN] and Bone Surface to Bone Volume ration [BSBV]
+ * \brief Compute the percent bone volume [BVTV], trabecular thickness [TbTh], trabecular separation [TbSp] trabecular
+ * number [TbN] and Bone Surface to Bone Volume ration [BSBV]
  *
- * BoneMorphometryFeaturesFilter computes bone morphometry features such as the percent bone volume [BVTV], the trabecular thickness [TbTh],
- * the trabecular separation [TbSp], the trabecular number [TbN], or the Bone Surface to Bone Volume ration [BSBV].
- * To do so, the filter needs a 3D input scan and a threshold. All voxels with an intensity higher than the threshold will
- * be considered as part of the bone.
- * A mask can also be specified in order to have more precise results (the morphometry will be computed only for the mask's voxels with value different than zero)
+ * BoneMorphometryFeaturesFilter computes bone morphometry features such as the percent bone volume [BVTV], the
+ * trabecular thickness [TbTh], the trabecular separation [TbSp], the trabecular number [TbN], or the Bone Surface to
+ * Bone Volume ration [BSBV]. To do so, the filter needs a 3D input scan and a threshold. All voxels with an intensity
+ * higher than the threshold will be considered as part of the bone. A mask can also be specified in order to have more
+ * precise results (the morphometry will be computed only for the mask's voxels with value different than zero)
  *
  * BoneMorphometryFeaturesFilter behaves as a filter with an input and output. Thus it can be inserted
  * in a pipeline with other filters and the metrics will only be
@@ -52,18 +53,17 @@ namespace itk
  * \ingroup BoneMorphometry
  *
  */
-template< typename TInputImage,typename TMaskImage = Image< unsigned char, TInputImage::ImageDimension> >
-class ITK_TEMPLATE_EXPORT BoneMorphometryFeaturesFilter:
-public ImageToImageFilter< TInputImage, TInputImage >
+template <typename TInputImage, typename TMaskImage = Image<unsigned char, TInputImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT BoneMorphometryFeaturesFilter : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BoneMorphometryFeaturesFilter);
 
   /** Standard Self type alias. */
   using Self = BoneMorphometryFeaturesFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TInputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -82,13 +82,13 @@ public:
   using MaskImagePointer = typename TMaskImage::Pointer;
 
   /** NeighborhoodIterator type alias */
-  using BoundaryConditionType = ConstantBoundaryCondition< TInputImage >;
-  using NeighborhoodIteratorType = ConstNeighborhoodIterator< TInputImage, BoundaryConditionType >;
+  using BoundaryConditionType = ConstantBoundaryCondition<TInputImage>;
+  using NeighborhoodIteratorType = ConstNeighborhoodIterator<TInputImage, BoundaryConditionType>;
   using NeighborhoodRadiusType = typename NeighborhoodIteratorType::RadiusType;
   using NeighborhoodOffsetType = typename NeighborhoodIteratorType::OffsetType;
 
   /** Type to use for computations. */
-  using RealType = typename NumericTraits< PixelType >::RealType;
+  using RealType = typename NumericTraits<PixelType>::RealType;
 
   /** Methods to set/get the mask image */
   itkSetInputMacro(MaskImage, TMaskImage);
@@ -99,52 +99,76 @@ public:
   itkGetMacro(Threshold, RealType);
 
   /** Methods to get the mask different outputs */
-  using RealTypeDecoratedType = SimpleDataObjectDecorator< RealType >;
+  using RealTypeDecoratedType = SimpleDataObjectDecorator<RealType>;
 
-  RealType GetBVTV() { return m_Pp; }
-  RealTypeDecoratedType * GetBVTVOutput()
-    {
+  RealType
+  GetBVTV()
+  {
+    return m_Pp;
+  }
+  RealTypeDecoratedType *
+  GetBVTVOutput()
+  {
     typename RealTypeDecoratedType::Pointer decoratedBVTV = RealTypeDecoratedType::New();
-    decoratedBVTV->Set( this->GetBVTV() );
+    decoratedBVTV->Set(this->GetBVTV());
     return decoratedBVTV.GetPointer();
-    }
+  }
 
-  RealType GetTbN() { return m_Pl; }
-  RealTypeDecoratedType * GetTbNOutput()
-    {
+  RealType
+  GetTbN()
+  {
+    return m_Pl;
+  }
+  RealTypeDecoratedType *
+  GetTbNOutput()
+  {
     typename RealTypeDecoratedType::Pointer decoratedTbN = RealTypeDecoratedType::New();
-    decoratedTbN->Set( this->GetTbN() );
+    decoratedTbN->Set(this->GetTbN());
     return decoratedTbN.GetPointer();
-    }
+  }
 
-  RealType GetTbTh() { return m_Pp/m_Pl; }
-  RealTypeDecoratedType * GetTbThOutput()
-    {
+  RealType
+  GetTbTh()
+  {
+    return m_Pp / m_Pl;
+  }
+  RealTypeDecoratedType *
+  GetTbThOutput()
+  {
     typename RealTypeDecoratedType::Pointer decoratedTbTh = RealTypeDecoratedType::New();
-    decoratedTbTh->Set( this->GetTbTh() );
+    decoratedTbTh->Set(this->GetTbTh());
     return decoratedTbTh.GetPointer();
-    }
+  }
 
-  RealType GetTbSp() { return (1.0 - m_Pp) / m_Pl; }
-  RealTypeDecoratedType * GetTbSpOutput()
-    {
+  RealType
+  GetTbSp()
+  {
+    return (1.0 - m_Pp) / m_Pl;
+  }
+  RealTypeDecoratedType *
+  GetTbSpOutput()
+  {
     typename RealTypeDecoratedType::Pointer decoratedTbSp = RealTypeDecoratedType::New();
-    decoratedTbSp->Set( this->GetTbSp() );
+    decoratedTbSp->Set(this->GetTbSp());
     return decoratedTbSp.GetPointer();
-    }
+  }
 
-  RealType GetBSBV() { return 2.0 * (m_Pl / m_Pp); }
-  RealTypeDecoratedType * GetBSBVOutput()
-    {
+  RealType
+  GetBSBV()
+  {
+    return 2.0 * (m_Pl / m_Pp);
+  }
+  RealTypeDecoratedType *
+  GetBSBVOutput()
+  {
     typename RealTypeDecoratedType::Pointer decoratedBSBV = RealTypeDecoratedType::New();
-    decoratedBSBV->Set( this->GetBSBV() );
+    decoratedBSBV->Set(this->GetBSBV());
     return decoratedBSBV.GetPointer();
-    }
+  }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputPixelDimensionCheck,
-                   ( Concept::SameDimension<TInputImage::ImageDimension, 3u>) );
+  itkConceptMacro(InputPixelDimensionCheck, (Concept::SameDimension<TInputImage::ImageDimension, 3u>));
   // End concept checking
 #endif
 
@@ -155,23 +179,27 @@ protected:
 
 
   /** Pass the input through unmodified. Do this by Grafting in the
-  * AllocateOutputs method. */
-  void AllocateOutputs() override;
+   * AllocateOutputs method. */
+  void
+  AllocateOutputs() override;
 
   /** Initialize some accumulators before the threads run. */
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
   /** Do final mean and variance computation from data accumulated in threads. */
-  void AfterThreadedGenerateData() override;
+  void
+  AfterThreadedGenerateData() override;
 
   /** Multi-thread version GenerateData. */
-  void DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
-  //Inputs
+  // Inputs
   RealType m_Threshold;
 
   // Internal computation
@@ -194,7 +222,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBoneMorphometryFeaturesFilter.hxx"
+#  include "itkBoneMorphometryFeaturesFilter.hxx"
 #endif
 
 #endif // itkBoneMorphometryFeaturesFilter_h

@@ -22,99 +22,98 @@
 
 namespace itk
 {
-template< typename TImage >
+template <typename TImage>
 
-ReplaceFeatureMapNanInfImageFilter<TImage>
-::ReplaceFeatureMapNanInfImageFilter()
+ReplaceFeatureMapNanInfImageFilter<TImage>::ReplaceFeatureMapNanInfImageFilter()
 {
   m_IndexSelectionFiter = IndexSelectionFiterType::New();
-  m_IndexSelectionFiter->SetInput( this->GetInput() );
+  m_IndexSelectionFiter->SetInput(this->GetInput());
   m_IndexSelectionFiter->SetIndex(0);
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-ReplaceFeatureMapNanInfImageFilter<TImage>
-::GenerateData()
+ReplaceFeatureMapNanInfImageFilter<TImage>::GenerateData()
 {
-  m_IndexSelectionFiter->SetInput( this->GetInput() );
+  m_IndexSelectionFiter->SetInput(this->GetInput());
 
-  for(unsigned int i = 0; i < 5; i++)
-    {
-    m_IndexSelectionFiter->SetInput( this->GetInput() );
+  for (unsigned int i = 0; i < 5; i++)
+  {
+    m_IndexSelectionFiter->SetInput(this->GetInput());
     m_IndexSelectionFiter->SetIndex(i);
     m_IndexSelectionFiter->Update();
 
-    InterIteratorType interIt( m_IndexSelectionFiter->GetOutput(), m_IndexSelectionFiter->GetOutput()->GetLargestPossibleRegion() );
+    InterIteratorType interIt(m_IndexSelectionFiter->GetOutput(),
+                              m_IndexSelectionFiter->GetOutput()->GetLargestPossibleRegion());
     interIt.GoToBegin();
     RealType min = interIt.Get();
     RealType max = interIt.Get();
 
-    while( !interIt.IsAtEnd() )
+    while (!interIt.IsAtEnd())
+    {
+      if (!Math::isnan(interIt.Get()) && !Math::isinf(interIt.Get()))
       {
-      if(!Math::isnan(interIt.Get()) && !Math::isinf(interIt.Get()))
+        if (interIt.Get() < min)
         {
-        if(interIt.Get() < min)
-          {
           min = interIt.Get();
-          }
-        if(interIt.Get() > max)
-          {
-          max = interIt.Get();
-          }
         }
-       ++interIt;
+        if (interIt.Get() > max)
+        {
+          max = interIt.Get();
+        }
       }
+      ++interIt;
+    }
 
-    TImage* outputPtr = this->GetOutput();
-    outputPtr->SetRegions( this->GetInput()->GetLargestPossibleRegion());
+    TImage * outputPtr = this->GetOutput();
+    outputPtr->SetRegions(this->GetInput()->GetLargestPossibleRegion());
     outputPtr->Allocate();
-    using IteratorType = ImageRegionIterator< TImage >;
-    IteratorType outputIt( outputPtr, outputPtr->GetLargestPossibleRegion() );
+    using IteratorType = ImageRegionIterator<TImage>;
+    IteratorType outputIt(outputPtr, outputPtr->GetLargestPossibleRegion());
     outputIt.GoToBegin();
     interIt.GoToBegin();
     PixelType pixel;
 
-    while( !interIt.IsAtEnd() )
-      {
+    while (!interIt.IsAtEnd())
+    {
       pixel = outputIt.Get();
-      if(Math::isnan(interIt.Get()))
+      if (Math::isnan(interIt.Get()))
+      {
+        if (i == 4)
         {
-        if(i == 4)
-          {
           pixel[i] = max;
-          }
+        }
         else
-          {
-          pixel[i] = min;
-          }
-        }
-      else if (Math::isinf(interIt.Get()))
         {
-        if(i == 4)
-          {
           pixel[i] = min;
-          }
-        else
-          {
-          pixel[i] = max;
-          }
         }
-      else
-        {
-        pixel[i] = interIt.Get();
-        }
-      outputIt.Set(pixel);
-      ++interIt; ++outputIt;
       }
+      else if (Math::isinf(interIt.Get()))
+      {
+        if (i == 4)
+        {
+          pixel[i] = min;
+        }
+        else
+        {
+          pixel[i] = max;
+        }
+      }
+      else
+      {
+        pixel[i] = interIt.Get();
+      }
+      outputIt.Set(pixel);
+      ++interIt;
+      ++outputIt;
     }
-  this->GraftOutput( this->GetOutput() );
+  }
+  this->GraftOutput(this->GetOutput());
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-ReplaceFeatureMapNanInfImageFilter<TImage>
-::PrintSelf(std::ostream & os, Indent indent) const
+ReplaceFeatureMapNanInfImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

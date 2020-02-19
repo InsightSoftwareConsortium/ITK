@@ -26,62 +26,62 @@
 #include "itkTestingMacros.h"
 #include "itkVectorIndexSelectionCastImageFilter.h"
 
-int ReplaceFeatureMapNanInfImageFilterInstantiationTest( int argc, char *argv[] )
+int
+ReplaceFeatureMapNanInfImageFilterInstantiationTest(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << argv[0]
-      << " inputImageFile"
-      << " maskImageFile"
-      << " outputImageFile"<< std::endl;
+    std::cerr << "Usage: " << argv[0] << " inputImageFile"
+              << " maskImageFile"
+              << " outputImageFile" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int ImageDimension = 3;
   constexpr unsigned int VectorComponentDimension = 5;
 
   // Declare types
   using InputPixelType = float;
-  using InputImageType = itk::Image< InputPixelType, ImageDimension >;
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using InputImageType = itk::Image<InputPixelType, ImageDimension>;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
 
   using OutputPixelComponentType = float;
-  using OutputPixelType = itk::Vector< OutputPixelComponentType, VectorComponentDimension >;
-  using OutputImageType = itk::Image< OutputPixelType, ImageDimension >;
+  using OutputPixelType = itk::Vector<OutputPixelComponentType, VectorComponentDimension>;
+  using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 
   // Create and set up a reader
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
   // Create and set up a maskReader
   ReaderType::Pointer maskReader = ReaderType::New();
-  maskReader->SetFileName( argv[2] );
+  maskReader->SetFileName(argv[2]);
 
   // Create the filter
   using FilterType = itk::BoneMorphometryFeaturesImageFilter<InputImageType, OutputImageType, InputImageType>;
   FilterType::Pointer filter = FilterType::New();
 
 
-  filter->SetInput( reader->GetOutput() );
-  filter->SetMaskImage( maskReader->GetOutput() );
-  filter->SetThreshold( 1300 );
+  filter->SetInput(reader->GetOutput());
+  filter->SetMaskImage(maskReader->GetOutput());
+  filter->SetThreshold(1300);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   using PostProcessingFilterType = itk::ReplaceFeatureMapNanInfImageFilter<OutputImageType>;
   PostProcessingFilterType::Pointer postProcessingFilter = PostProcessingFilterType::New();
 
-  postProcessingFilter->SetInput( filter->GetOutput() );
+  postProcessingFilter->SetInput(filter->GetOutput());
 
   // Create and set up a writer
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[3] );
-  writer->SetInput( postProcessingFilter->GetOutput() );
+  writer->SetFileName(argv[3]);
+  writer->SetInput(postProcessingFilter->GetOutput());
 
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
