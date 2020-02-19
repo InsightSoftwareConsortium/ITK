@@ -29,9 +29,8 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TOutputImage >
-EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
-::EigenToMeasureParameterEstimationFilter()
+template <typename TInputImage, typename TOutputImage>
+EigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::EigenToMeasureParameterEstimationFilter()
 {
   /* Set stream parameters */
   this->SetNumberOfStreamDivisions(10);
@@ -39,17 +38,16 @@ EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 
   /* Allocate parameterset decorator */
   typename ParameterDecoratedType::Pointer output = ParameterDecoratedType::New().GetPointer();
-  this->ProcessObject::SetNthOutput( 1,  output.GetPointer() );
-  this->GetParametersOutput()->Set( ParameterArrayType() );
+  this->ProcessObject::SetNthOutput(1, output.GetPointer());
+  this->GetParametersOutput()->Set(ParameterArrayType());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
-::UpdateOutputData(DataObject *itkNotUsed(output))
+EigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::UpdateOutputData(DataObject * itkNotUsed(output))
 {
   /** Prevent chasing our tail */
-  if ( this->m_Updating )
+  if (this->m_Updating)
   {
     return;
   }
@@ -58,12 +56,11 @@ EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
   this->PrepareOutputs();
 
   /** Make sure we have the necessary inputs */
-  const itk::ProcessObject::DataObjectPointerArraySizeType &ninputs = this->GetNumberOfValidRequiredInputs();
-  if ( ninputs < this->GetNumberOfRequiredInputs() )
+  const itk::ProcessObject::DataObjectPointerArraySizeType & ninputs = this->GetNumberOfValidRequiredInputs();
+  if (ninputs < this->GetNumberOfRequiredInputs())
   {
-    itkExceptionMacro(
-      << "At least " << static_cast< unsigned int >( this->GetNumberOfRequiredInputs() )
-      << " inputs are required but only " << ninputs << " are specified.");
+    itkExceptionMacro(<< "At least " << static_cast<unsigned int>(this->GetNumberOfRequiredInputs())
+                      << " inputs are required but only " << ninputs << " are specified.");
     return;
   }
 
@@ -71,20 +68,20 @@ EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
    * Tell all Observers that the filter is starting,
    * before emiting the 0.0 Progress event
    */
-  this->InvokeEvent( StartEvent() );
+  this->InvokeEvent(StartEvent());
 
   this->SetAbortGenerateData(0);
   this->UpdateProgress(0.0);
   this->m_Updating = true;
 
   /** Allocate the output buffer. */
-  OutputImageType      *outputPtr = this->GetOutput(0);
+  OutputImageType *           outputPtr = this->GetOutput(0);
   const OutputImageRegionType outputRegion = outputPtr->GetRequestedRegion();
   outputPtr->SetBufferedRegion(outputRegion);
   outputPtr->Allocate();
 
   /** Grab the input */
-  InputImageType * inputPtr = const_cast < InputImageType * >(this->GetInput(0));
+  InputImageType * inputPtr = const_cast<InputImageType *>(this->GetInput(0));
 
   /**
    * Determine of number of pieces to divide the input.  This will be the
@@ -95,9 +92,8 @@ EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 
   numDivisions = this->GetNumberOfStreamDivisions();
   numDivisionsFromSplitter =
-    this->GetRegionSplitter()
-    ->GetNumberOfSplits(outputRegion, this->GetNumberOfStreamDivisions());
-  if ( numDivisionsFromSplitter < numDivisions )
+    this->GetRegionSplitter()->GetNumberOfSplits(outputRegion, this->GetNumberOfStreamDivisions());
+  if (numDivisionsFromSplitter < numDivisions)
   {
     numDivisions = numDivisionsFromSplitter;
   }
@@ -111,9 +107,7 @@ EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
    * Loop over the number of pieces, execute the upstream pipeline on each
    * piece, and copy the results into the output image.
    */
-  for (unsigned int piece=0;
-       piece < numDivisions && !this->GetAbortGenerateData();
-       piece++ )
+  for (unsigned int piece = 0; piece < numDivisions && !this->GetAbortGenerateData(); piece++)
   {
     /* Determine the split region and calculate the input */
     InputImageRegionType streamRegion;
@@ -126,9 +120,9 @@ EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
 
     /* Process this chunk */
     this->ThreadedGenerateData(streamRegion, piece);
-    
+
     /* Update progress and stream another chunk */
-    this->UpdateProgress( static_cast<float>(piece) / static_cast<float>(numDivisions) );
+    this->UpdateProgress(static_cast<float>(piece) / static_cast<float>(numDivisions));
   }
 
   // Call a method that can be overridden by a subclass to perform
@@ -139,18 +133,18 @@ EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
    * If we ended due to aborting, push the progress up to 1.0
    * (since it probably didn't end there)
    */
-  if ( !this->GetAbortGenerateData() )
+  if (!this->GetAbortGenerateData())
   {
     this->UpdateProgress(1.0);
   }
 
   /** Notify end event observers */
-  this->InvokeEvent( EndEvent() );
+  this->InvokeEvent(EndEvent());
 
   /** Now we have to mark the data as up to data. */
-  for (unsigned int idx = 0; idx < this->GetNumberOfOutputs(); ++idx )
+  for (unsigned int idx = 0; idx < this->GetNumberOfOutputs(); ++idx)
   {
-    if ( this->ProcessObject::GetOutput(idx) )
+    if (this->ProcessObject::GetOutput(idx))
     {
       this->ProcessObject::GetOutput(idx)->DataHasBeenGenerated();
     }
@@ -163,24 +157,23 @@ EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
   this->m_Updating = false;
 }
 
-template< typename TInputImage, typename TOutputImage >
-typename EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >::ParameterDecoratedType *
-EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
-::GetParametersOutput() {
-  return static_cast< ParameterDecoratedType * >( this->ProcessObject::GetOutput(1) );
+template <typename TInputImage, typename TOutputImage>
+typename EigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::ParameterDecoratedType *
+EigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::GetParametersOutput()
+{
+  return static_cast<ParameterDecoratedType *>(this->ProcessObject::GetOutput(1));
 }
 
-template< typename TInputImage, typename TOutputImage >
-const typename EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >::ParameterDecoratedType *
-EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
-::GetParametersOutput() const {
-  return static_cast< const ParameterDecoratedType * >( this->ProcessObject::GetOutput(1) );
+template <typename TInputImage, typename TOutputImage>
+const typename EigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::ParameterDecoratedType *
+EigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::GetParametersOutput() const
+{
+  return static_cast<const ParameterDecoratedType *>(this->ProcessObject::GetOutput(1));
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-EigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+EigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

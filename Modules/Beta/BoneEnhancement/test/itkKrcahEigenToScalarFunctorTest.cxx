@@ -19,22 +19,23 @@
 #include "itkKrcahEigenToScalarFunctorImageFilter.h"
 #include "itkTestingMacros.h"
 
-int itkKrcahEigenToScalarFunctorTest( int argc, char * argv[] )
+int
+itkKrcahEigenToScalarFunctorTest(int argc, char * argv[])
 {
   /* type alias, instantiate functor */
   constexpr unsigned int Dimension = 3;
   using ImagePixelType = double;
-  using ImageType = itk::Image< ImagePixelType, Dimension >;
+  using ImageType = itk::Image<ImagePixelType, Dimension>;
   typename ImageType::Pointer image = ImageType::New();
   ITK_EXERCISE_BASIC_OBJECT_METHODS(image, Image, ImageBase);
 
   using EigenValueType = float;
-  using EigenValueArrayType = itk::FixedArray< EigenValueType, Dimension >;
-  using EigenValueImageType = itk::Image< EigenValueArrayType, Dimension >;
+  using EigenValueArrayType = itk::FixedArray<EigenValueType, Dimension>;
+  using EigenValueImageType = itk::Image<EigenValueArrayType, Dimension>;
   typename EigenValueImageType::Pointer image2 = EigenValueImageType::New();
   ITK_EXERCISE_BASIC_OBJECT_METHODS(image2, Image, ImageBase);
 
-  using FunctorType = itk::Functor::KrcahEigenToScalarFunctor< EigenValueArrayType, ImagePixelType>;
+  using FunctorType = itk::Functor::KrcahEigenToScalarFunctor<EigenValueArrayType, ImagePixelType>;
   FunctorType functor = FunctorType();
 
   /* Exercise basic set/get methods */
@@ -62,97 +63,97 @@ int itkKrcahEigenToScalarFunctorTest( int argc, char * argv[] )
   mEigenValueArray[0] = 0;
   mEigenValueArray[1] = 0;
   mEigenValueArray[2] = 0;
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.0, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(functor(mEigenValueArray), 0.0, 6, 0.000001));
 
   /* lambda_2 zeros returns zero */
   mEigenValueArray[0] = 0;
   mEigenValueArray[1] = 0;
   mEigenValueArray[2] = 1;
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.0, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(functor(mEigenValueArray), 0.0, 6, 0.000001));
 
   /* lambda_1 zero */
   functor.SetEnhanceBrightObjects();
   mEigenValueArray[0] = 0;
   mEigenValueArray[1] = 1;
   mEigenValueArray[2] = 1;
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), -0.0183156368276, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(functor(mEigenValueArray), -0.0183156368276, 6, 0.000001));
 
   /* lambda_1 zero; dark sheets */
   functor.SetEnhanceDarkObjects();
   mEigenValueArray[0] = 0;
   mEigenValueArray[1] = 1;
   mEigenValueArray[2] = 1;
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.0183156368276, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(functor(mEigenValueArray), 0.0183156368276, 6, 0.000001));
 
   /* one, one, one */
   functor.SetEnhanceBrightObjects();
   mEigenValueArray[0] = 1;
   mEigenValueArray[1] = 1;
   mEigenValueArray[2] = 1;
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), -0.000335462627903, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(functor(mEigenValueArray), -0.000335462627903, 6, 0.000001));
 
   /* one, one, one; dark sheets */
   functor.SetEnhanceDarkObjects();
   mEigenValueArray[0] = 1;
   mEigenValueArray[1] = 1;
   mEigenValueArray[2] = 1;
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.000335462627903, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(functor(mEigenValueArray), 0.000335462627903, 6, 0.000001));
 
   /* one, one, one negative */
   functor.SetEnhanceBrightObjects();
   mEigenValueArray[0] = -1;
   mEigenValueArray[1] = -1;
   mEigenValueArray[2] = -1;
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.000335462627903, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(functor(mEigenValueArray), 0.000335462627903, 6, 0.000001));
 
   /* one, one, one negative; dark sheets */
   functor.SetEnhanceDarkObjects();
   mEigenValueArray[0] = -1;
   mEigenValueArray[1] = -1;
   mEigenValueArray[2] = -1;
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), -0.000335462627903, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(functor(mEigenValueArray), -0.000335462627903, 6, 0.000001));
 
   /* -1, -2, 3 */
   functor.SetEnhanceBrightObjects();
   mEigenValueArray[0] = -1;
   mEigenValueArray[1] = -2;
   mEigenValueArray[2] = 3;
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), -0.15123975969, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(functor(mEigenValueArray), -0.15123975969, 6, 0.000001));
 
   /* -1, -2, 3; dark sheets */
   functor.SetEnhanceDarkObjects();
   mEigenValueArray[0] = -1;
   mEigenValueArray[1] = -2;
   mEigenValueArray[2] = 3;
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 0.15123975969, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(functor(mEigenValueArray), 0.15123975969, 6, 0.000001));
 
   /* Perfect Joint */
   functor.SetEnhanceBrightObjects();
   mEigenValueArray[0] = 0;
   mEigenValueArray[1] = 1000;
   mEigenValueArray[2] = 100000000;
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), -1.0, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(functor(mEigenValueArray), -1.0, 6, 0.000001));
 
   /* Perfect Joint; dark sheets */
   functor.SetEnhanceDarkObjects();
   mEigenValueArray[0] = 0;
   mEigenValueArray[1] = 1000;
   mEigenValueArray[2] = 100000000;
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 1.0, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(functor(mEigenValueArray), 1.0, 6, 0.000001));
 
   /* Perfect Bone */
   functor.SetEnhanceBrightObjects();
   mEigenValueArray[0] = 0;
   mEigenValueArray[1] = -1000;
   mEigenValueArray[2] = -100000000;
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), 1.0, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(functor(mEigenValueArray), 1.0, 6, 0.000001));
 
   /* Perfect Bone; dark sheets */
   functor.SetEnhanceDarkObjects();
   mEigenValueArray[0] = 0;
   mEigenValueArray[1] = -1000;
   mEigenValueArray[2] = -100000000;
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( functor(mEigenValueArray), -1.0, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(functor(mEigenValueArray), -1.0, 6, 0.000001));
 
   return EXIT_SUCCESS;
 }

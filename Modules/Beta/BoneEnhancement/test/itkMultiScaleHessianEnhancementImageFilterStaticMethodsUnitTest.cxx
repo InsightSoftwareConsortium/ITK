@@ -20,24 +20,26 @@
 #include "gtest/gtest.h"
 #include "itkMath.h"
 
-TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateSigmaArrayWithSizeZero) {
-  const unsigned int                                                  Dimension = 3;
-  using PixelType                                   = int;
-  using ImageType                                   = itk::Image< PixelType, Dimension >;
+TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateSigmaArrayWithSizeZero)
+{
+  const unsigned int Dimension = 3;
+  using PixelType = int;
+  using ImageType = itk::Image<PixelType, Dimension>;
   using MultiScaleHessianEnhancementImageFilterType = itk::MultiScaleHessianEnhancementImageFilter<ImageType>;
-  using ArrayType                                   = MultiScaleHessianEnhancementImageFilterType::SigmaArrayType;
+  using ArrayType = MultiScaleHessianEnhancementImageFilterType::SigmaArrayType;
 
   ArrayType sigmaArray;
   EXPECT_ANY_THROW(sigmaArray = MultiScaleHessianEnhancementImageFilterType::GenerateLogarithmicSigmaArray(5, 5, 0));
   EXPECT_ANY_THROW(sigmaArray = MultiScaleHessianEnhancementImageFilterType::GenerateEquispacedSigmaArray(5, 5, 0));
 }
 
-TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateSigmaArrayWithMinEqualMax) {
-  const unsigned int                                                  Dimension = 3;
-  using PixelType                                   = int;
-  using ImageType                                   = itk::Image< PixelType, Dimension >;
+TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateSigmaArrayWithMinEqualMax)
+{
+  const unsigned int Dimension = 3;
+  using PixelType = int;
+  using ImageType = itk::Image<PixelType, Dimension>;
   using MultiScaleHessianEnhancementImageFilterType = itk::MultiScaleHessianEnhancementImageFilter<ImageType>;
-  using ArrayType                                   = MultiScaleHessianEnhancementImageFilterType::SigmaArrayType;
+  using ArrayType = MultiScaleHessianEnhancementImageFilterType::SigmaArrayType;
 
   /* Test that we get one when min equals max */
   ArrayType expectedOneSigmaArray;
@@ -52,12 +54,13 @@ TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateSi
   EXPECT_EQ(expectedOneSigmaArray, sigmaArray);
 }
 
-TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateEquispacedSigmaArray) {
-  const unsigned int                                                  Dimension = 3;
-  using PixelType                                   = int;
-  using ImageType                                   = itk::Image< PixelType, Dimension >;
+TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateEquispacedSigmaArray)
+{
+  const unsigned int Dimension = 3;
+  using PixelType = int;
+  using ImageType = itk::Image<PixelType, Dimension>;
   using MultiScaleHessianEnhancementImageFilterType = itk::MultiScaleHessianEnhancementImageFilter<ImageType>;
-  using ArrayType                                   = MultiScaleHessianEnhancementImageFilterType::SigmaArrayType;
+  using ArrayType = MultiScaleHessianEnhancementImageFilterType::SigmaArrayType;
 
   /* Expected array */
   ArrayType expectedArray;
@@ -72,17 +75,19 @@ TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateEq
   ArrayType sigmaArray;
   sigmaArray = MultiScaleHessianEnhancementImageFilterType::GenerateEquispacedSigmaArray(1, 5, 5);
   EXPECT_EQ(expectedArray.GetSize(), sigmaArray.GetSize());
-  for (unsigned int i = 0; i < expectedArray.GetSize(); ++i) {
+  for (unsigned int i = 0; i < expectedArray.GetSize(); ++i)
+  {
     EXPECT_DOUBLE_EQ(expectedArray.GetElement(i), sigmaArray.GetElement(i));
   }
 }
 
-TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateEquispacedSigmaArrayWithFlip) {
-  const unsigned int                                                  Dimension = 3;
-  using PixelType                                   = int;
-  using ImageType                                   = itk::Image< PixelType, Dimension >;
+TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateEquispacedSigmaArrayWithFlip)
+{
+  const unsigned int Dimension = 3;
+  using PixelType = int;
+  using ImageType = itk::Image<PixelType, Dimension>;
   using MultiScaleHessianEnhancementImageFilterType = itk::MultiScaleHessianEnhancementImageFilter<ImageType>;
-  using ArrayType                                   = MultiScaleHessianEnhancementImageFilterType::SigmaArrayType;
+  using ArrayType = MultiScaleHessianEnhancementImageFilterType::SigmaArrayType;
 
   /* Expected array */
   ArrayType expectedArray;
@@ -97,17 +102,19 @@ TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateEq
   ArrayType sigmaArray;
   sigmaArray = MultiScaleHessianEnhancementImageFilterType::GenerateEquispacedSigmaArray(5, 1, 5);
   EXPECT_EQ(expectedArray.GetSize(), sigmaArray.GetSize());
-  for (unsigned int i = 0; i < expectedArray.GetSize(); ++i) {
+  for (unsigned int i = 0; i < expectedArray.GetSize(); ++i)
+  {
     EXPECT_DOUBLE_EQ(expectedArray.GetElement(i), sigmaArray.GetElement(i));
   }
 }
 
-TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateLogarithmicSigmaArray) {
-  const unsigned int                                                  Dimension = 3;
-  using PixelType                                   = int;
-  using ImageType                                   = itk::Image< PixelType, Dimension >;
+TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateLogarithmicSigmaArray)
+{
+  const unsigned int Dimension = 3;
+  using PixelType = int;
+  using ImageType = itk::Image<PixelType, Dimension>;
   using MultiScaleHessianEnhancementImageFilterType = itk::MultiScaleHessianEnhancementImageFilter<ImageType>;
-  using ArrayType                                   = MultiScaleHessianEnhancementImageFilterType::SigmaArrayType;
+  using ArrayType = MultiScaleHessianEnhancementImageFilterType::SigmaArrayType;
 
   /* Expected array */
   ArrayType expectedArray;
@@ -122,17 +129,19 @@ TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateLo
   ArrayType sigmaArray;
   sigmaArray = MultiScaleHessianEnhancementImageFilterType::GenerateLogarithmicSigmaArray(1, 5, 5);
   EXPECT_EQ(expectedArray.GetSize(), sigmaArray.GetSize());
-  for (unsigned int i = 0; i < expectedArray.GetSize(); ++i) {
+  for (unsigned int i = 0; i < expectedArray.GetSize(); ++i)
+  {
     EXPECT_DOUBLE_EQ(expectedArray.GetElement(i), sigmaArray.GetElement(i));
   }
 }
 
-TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateLogarithmicSigmaArrayWithFlip) {
-  const unsigned int                                                  Dimension = 3;
-  using PixelType                                   = int;
-  using ImageType                                   = itk::Image< PixelType, Dimension >;
+TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateLogarithmicSigmaArrayWithFlip)
+{
+  const unsigned int Dimension = 3;
+  using PixelType = int;
+  using ImageType = itk::Image<PixelType, Dimension>;
   using MultiScaleHessianEnhancementImageFilterType = itk::MultiScaleHessianEnhancementImageFilter<ImageType>;
-  using ArrayType                                   = MultiScaleHessianEnhancementImageFilterType::SigmaArrayType;
+  using ArrayType = MultiScaleHessianEnhancementImageFilterType::SigmaArrayType;
 
   /* Expected array */
   ArrayType expectedArray;
@@ -147,7 +156,8 @@ TEST(itkMultiScaleHessianEnhancementImageFilterStaticMethodsUnitTest, GenerateLo
   ArrayType sigmaArray;
   sigmaArray = MultiScaleHessianEnhancementImageFilterType::GenerateLogarithmicSigmaArray(5, 1, 5);
   EXPECT_EQ(expectedArray.GetSize(), sigmaArray.GetSize());
-  for (unsigned int i = 0; i < expectedArray.GetSize(); ++i) {
+  for (unsigned int i = 0; i < expectedArray.GetSize(); ++i)
+  {
     EXPECT_DOUBLE_EQ(expectedArray.GetElement(i), sigmaArray.GetElement(i));
   }
 }

@@ -22,60 +22,61 @@
 #include "itkEigenToMeasureImageFilter.h"
 #include "itkMath.h"
 
-namespace itk {
+namespace itk
+{
 /** \class DescoteauxEigenToMeasureImageFilter
  * \brief Convert eigenvalues into a measure of sheetness according to the method of Descoteaux et al.
- * 
+ *
  * Converts a 3D fixed array of eigenvalues into a measure of sheetness according to the method
- * of Descoteaux et al. The parameters of the filter should be set using DescoteauxEigentoScalarParameterEstimationImageFilter.
- * 
+ * of Descoteaux et al. The parameters of the filter should be set using
+ * DescoteauxEigentoScalarParameterEstimationImageFilter.
+ *
  * Computes the following equation for eigenvalues in a three dimensional fixed array:
  *  \f{eqnarray*}{
  *      R_{sheet} &=&  \frac{|\lambda_2|}{\lambda_3|} \\
  *      R_{blob} &=&  \frac{|2 |\lambda_3| - |\lambda_2| - |\lambda_1| |}{|\lambda_3|} \\
  *      R_{noise} &=&  \sqrt{|\lambda_1|^2 + |\lambda_2|^2 + \lambda_3|^2} \\
- *      s &=& \exp\left(- \frac{R_{sheet}^2}{\alpha^2} \right) \left(1 - \exp\left(- \frac{R_{blob}^2}{\beta^2} \right) \right) \left(1 - \exp\left(- \frac{R_{noise}^2}{c^2} \right) \right)
- *  \f}
- * 
+ *      s &=& \exp\left(- \frac{R_{sheet}^2}{\alpha^2} \right) \left(1 - \exp\left(- \frac{R_{blob}^2}{\beta^2} \right)
+ * \right) \left(1 - \exp\left(- \frac{R_{noise}^2}{c^2} \right) \right) \f}
+ *
  * Note that if \f$ \lambda_3 > 0 \f$, \f$ s = 0 \f$.
- * 
+ *
  * \sa DescoteauxEigenToMeasureParameterEstimationFilter
  * \sa EigenToMeasureImageFilter
  * \sa MultiScaleHessianEnhancementImageFilter
- * 
+ *
  * \author: Bryce Besler
  * \ingroup BoneEnhancement
  */
-template< typename TInputImage, typename TOutputImage >
-class DescoteauxEigenToMeasureImageFilter
-  : public EigenToMeasureImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class DescoteauxEigenToMeasureImageFilter : public EigenToMeasureImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DescoteauxEigenToMeasureImageFilter);
 
   /** Standard Self typedef */
-  using Self          = DescoteauxEigenToMeasureImageFilter;
-  using Superclass    = EigenToMeasureImageFilter< TInputImage, TOutputImage >;
-  using Pointer       = SmartPointer<Self>;
-  using ConstPointer  = SmartPointer<const Self>;
+  using Self = DescoteauxEigenToMeasureImageFilter;
+  using Superclass = EigenToMeasureImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Input typedefs */
-  using InputImageType          = typename Superclass::InputImageType;
-  using InputImagePixelType     = typename Superclass::InputImagePixelType;
-  using InputImagePointer       = typename Superclass::InputImagePointer;
-  using InputImageConstPointer  = typename Superclass::InputImageConstPointer;
-  using InputImageRegionType    = typename Superclass::InputImageRegionType;
+  using InputImageType = typename Superclass::InputImageType;
+  using InputImagePixelType = typename Superclass::InputImagePixelType;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using InputImageConstPointer = typename Superclass::InputImageConstPointer;
+  using InputImageRegionType = typename Superclass::InputImageRegionType;
 
   /** Output typedefs */
-  using OutputImageType       = typename Superclass::OutputImageType;
-  using OutputImagePointer    = typename Superclass::OutputImagePointer;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
   using OutputImageRegionType = typename Superclass::OutputImageRegionType;
-  using OutputImagePixelType  = typename Superclass::OutputImagePixelType;
+  using OutputImagePixelType = typename Superclass::OutputImagePixelType;
 
   /** Parameter typedefs */
-  using RealType                = typename Superclass::RealType;
-  using ParameterArrayType      = typename Superclass::ParameterArrayType;
-  using ParameterDecoratedType  = typename Superclass::ParameterDecoratedType;
+  using RealType = typename Superclass::RealType;
+  using ParameterArrayType = typename Superclass::ParameterArrayType;
+  using ParameterDecoratedType = typename Superclass::ParameterDecoratedType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -84,7 +85,8 @@ public:
   itkTypeMacro(DescoteauxEigenToMeasureImageFilter, EigenToMeasureImageFilter);
 
   /** Explicitely state the eigenvalues are ordered by magnitude for this filter */
-  typename Superclass::EigenValueOrderType GetEigenValueOrder() const override
+  typename Superclass::EigenValueOrderType
+  GetEigenValueOrder() const override
   {
     return Superclass::OrderByMagnitude;
   }
@@ -92,35 +94,38 @@ public:
   /** Setter/Getter methods for setting Direction */
   itkSetMacro(EnhanceType, RealType);
   itkGetConstMacro(EnhanceType, RealType);
-  void SetEnhanceBrightObjects()
+  void
+  SetEnhanceBrightObjects()
   {
     SetEnhanceType(-1.0);
   }
-  void SetEnhanceDarkObjects()
+  void
+  SetEnhanceDarkObjects()
   {
     SetEnhanceType(1.0);
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHaveDimension3Check,
-                   ( Concept::SameDimension< TInputImage::ImageDimension, 3u >) );
-  itkConceptMacro( OutputHaveDimension3Check,
-                   ( Concept::SameDimension< TOutputImage::ImageDimension, 3u >) );
-  itkConceptMacro( InputFixedArrayHasDimension3Check,
-                   ( Concept::SameDimension< TInputImage::PixelType::Dimension, 3u >) );
+  itkConceptMacro(InputHaveDimension3Check, (Concept::SameDimension<TInputImage::ImageDimension, 3u>));
+  itkConceptMacro(OutputHaveDimension3Check, (Concept::SameDimension<TOutputImage::ImageDimension, 3u>));
+  itkConceptMacro(InputFixedArrayHasDimension3Check, (Concept::SameDimension<TInputImage::PixelType::Dimension, 3u>));
   // End concept checking
 #endif
 protected:
   DescoteauxEigenToMeasureImageFilter();
   virtual ~DescoteauxEigenToMeasureImageFilter() {}
 
-  OutputImagePixelType ProcessPixel(const InputImagePixelType& pixel) override;
+  OutputImagePixelType
+  ProcessPixel(const InputImagePixelType & pixel) override;
 
   /** Check the input has the right number of parameters. */
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
+
 private:
   /* Member variables */
   RealType m_EnhanceType;
@@ -128,7 +133,7 @@ private:
 } /* end namespace itk */
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDescoteauxEigenToMeasureImageFilter.hxx"
+#  include "itkDescoteauxEigenToMeasureImageFilter.hxx"
 #endif
 
 #endif /* itkDescoteauxEigenToMeasureImageFilter_h */

@@ -23,17 +23,16 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 
-namespace itk {
-template< typename TInputImage, typename TOutputImage >
-DescoteauxEigenToMeasureImageFilter< TInputImage, TOutputImage >
-::DescoteauxEigenToMeasureImageFilter() :
-  m_EnhanceType(-1.0)
+namespace itk
+{
+template <typename TInputImage, typename TOutputImage>
+DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage>::DescoteauxEigenToMeasureImageFilter()
+  : m_EnhanceType(-1.0)
 {}
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-DescoteauxEigenToMeasureImageFilter< TInputImage, TOutputImage >
-::BeforeThreadedGenerateData()
+DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   ParameterArrayType parameters = this->GetParametersInput()->Get();
   if (parameters.GetSize() != 3)
@@ -42,40 +41,41 @@ DescoteauxEigenToMeasureImageFilter< TInputImage, TOutputImage >
   }
 }
 
-template< typename TInputImage, typename TOutputImage >
-typename DescoteauxEigenToMeasureImageFilter< TInputImage, TOutputImage >::OutputImagePixelType
-DescoteauxEigenToMeasureImageFilter< TInputImage, TOutputImage >
-::ProcessPixel(const InputImagePixelType& pixel)
+template <typename TInputImage, typename TOutputImage>
+typename DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage>::OutputImagePixelType
+DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage>::ProcessPixel(const InputImagePixelType & pixel)
 {
   /* Grab parameters */
   ParameterArrayType parameters = this->GetParametersInput()->Get();
-  RealType alpha = parameters[0];
-  RealType beta = parameters[1];
-  RealType c = parameters[2];
+  RealType           alpha = parameters[0];
+  RealType           beta = parameters[1];
+  RealType           c = parameters[2];
 
   /* Grab pixel values */
   double sheetness = 0.0;
-  double a1 = static_cast<double>( pixel[0] );
-  double a2 = static_cast<double>( pixel[1] );
-  double a3 = static_cast<double>( pixel[2] );
+  double a1 = static_cast<double>(pixel[0]);
+  double a2 = static_cast<double>(pixel[1]);
+  double a3 = static_cast<double>(pixel[2]);
   double l1 = Math::abs(a1);
   double l2 = Math::abs(a2);
   double l3 = Math::abs(a3);
 
   /* Deal with l3 > 0 */
-  if ( m_EnhanceType * a3 < 0 ) {
-      return static_cast<OutputImagePixelType>( 0.0 );
+  if (m_EnhanceType * a3 < 0)
+  {
+    return static_cast<OutputImagePixelType>(0.0);
   }
 
   /* Avoid divisions by zero (or close to zero) */
-  if ( l3 < Math::eps) {
-      return static_cast<OutputImagePixelType>( 0.0 );
+  if (l3 < Math::eps)
+  {
+    return static_cast<OutputImagePixelType>(0.0);
   }
 
   /* Compute measures */
   const double Rsheet = l2 / l3;
-  const double Rblob = Math::abs(2*l3 - l2 - l1) / l3;
-  const double Rnoise = sqrt(l1*l1 + l2*l2 + l3*l3);
+  const double Rblob = Math::abs(2 * l3 - l2 - l1) / l3;
+  const double Rnoise = sqrt(l1 * l1 + l2 * l2 + l3 * l3);
 
   /* Multiply together to get sheetness */
   sheetness = 1.0;
@@ -83,18 +83,17 @@ DescoteauxEigenToMeasureImageFilter< TInputImage, TOutputImage >
   sheetness *= (1.0 - std::exp(-(Rblob * Rblob) / (2 * beta * beta)));
   sheetness *= (1.0 - std::exp(-(Rnoise * Rnoise) / (2 * c * c)));
 
-  return static_cast<OutputImagePixelType>( sheetness );
+  return static_cast<OutputImagePixelType>(sheetness);
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-DescoteauxEigenToMeasureImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Direction: " << GetEnhanceType() << std::endl;
 }
 
-} /* end namespace */
+} // namespace itk
 
 #endif /* itkDescoteauxEigenToMeasureImageFilter_hxx */

@@ -21,22 +21,23 @@
 #include "itkTestingMacros.h"
 #include "itkMath.h"
 
-int itkMultiScaleHessianEnhancementImageFilterStaticMethodsTest( int, char * [] )
+int
+itkMultiScaleHessianEnhancementImageFilterStaticMethodsTest(int, char *[])
 {
   constexpr unsigned int Dimension = 2;
   using PixelType = int;
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
   using MultiScaleHessianEnhancementImageFilterType = itk::MultiScaleHessianEnhancementImageFilter<ImageType>;
   using ArrayType = MultiScaleHessianEnhancementImageFilterType::SigmaArrayType;
 
   /* Test the two cases of step size zero */
   ArrayType sigmaArray;
 
-  ITK_TRY_EXPECT_EXCEPTION(
-    sigmaArray = MultiScaleHessianEnhancementImageFilterType::GenerateLogarithmicSigmaArray(5, 5, 0));
+  ITK_TRY_EXPECT_EXCEPTION(sigmaArray =
+                             MultiScaleHessianEnhancementImageFilterType::GenerateLogarithmicSigmaArray(5, 5, 0));
 
-  ITK_TRY_EXPECT_EXCEPTION(
-    sigmaArray = MultiScaleHessianEnhancementImageFilterType::GenerateEquispacedSigmaArray(5, 5, 0) );
+  ITK_TRY_EXPECT_EXCEPTION(sigmaArray =
+                             MultiScaleHessianEnhancementImageFilterType::GenerateEquispacedSigmaArray(5, 5, 0));
 
   /* Test that we get one when min equals max */
   ArrayType expectedOneSigmaArray;
@@ -63,12 +64,8 @@ int itkMultiScaleHessianEnhancementImageFilterStaticMethodsTest( int, char * [] 
   ITK_TEST_EXPECT_EQUAL(expectedLogarithmicArray.GetSize(), logarithmicArray.GetSize())
   for (ArrayType::SizeValueType i = 0; i < expectedLogarithmicArray.GetSize(); ++i)
   {
-    ITK_TEST_EXPECT_TRUE( itk::Math::FloatAlmostEqual(
-      expectedLogarithmicArray.GetElement(i),
-      logarithmicArray.GetElement(i),
-      6,
-      0.000001
-    ));
+    ITK_TEST_EXPECT_TRUE(
+      itk::Math::FloatAlmostEqual(expectedLogarithmicArray.GetElement(i), logarithmicArray.GetElement(i), 6, 0.000001));
   }
 
   logarithmicArray = MultiScaleHessianEnhancementImageFilterType::GenerateLogarithmicSigmaArray(5, 1, 5);
@@ -76,12 +73,8 @@ int itkMultiScaleHessianEnhancementImageFilterStaticMethodsTest( int, char * [] 
   ITK_TEST_EXPECT_EQUAL(expectedLogarithmicArray.GetSize(), logarithmicArray.GetSize())
   for (ArrayType::SizeValueType i = 0; i < expectedLogarithmicArray.GetSize(); ++i)
   {
-    ITK_TEST_EXPECT_TRUE( itk::Math::FloatAlmostEqual(
-      expectedLogarithmicArray.GetElement(i),
-      logarithmicArray.GetElement(i),
-      6,
-      0.000001
-    ));
+    ITK_TEST_EXPECT_TRUE(
+      itk::Math::FloatAlmostEqual(expectedLogarithmicArray.GetElement(i), logarithmicArray.GetElement(i), 6, 0.000001));
   }
 
   /* Test the Equidistance method */
@@ -94,16 +87,13 @@ int itkMultiScaleHessianEnhancementImageFilterStaticMethodsTest( int, char * [] 
   expectedEquidistanceArray.SetElement(4, 5.0);
 
   ArrayType equidistanceArray = MultiScaleHessianEnhancementImageFilterType::GenerateEquispacedSigmaArray(1, 5, 5);
-  /* Here we need to do some floating point comparisons. These are exact, but we should still do a floating point comparison to be sure */
+  /* Here we need to do some floating point comparisons. These are exact, but we should still do a floating point
+   * comparison to be sure */
   ITK_TEST_EXPECT_EQUAL(expectedEquidistanceArray.GetSize(), equidistanceArray.GetSize())
   for (ArrayType::SizeValueType i = 0; i < expectedEquidistanceArray.GetSize(); ++i)
   {
-    ITK_TEST_EXPECT_TRUE( itk::Math::FloatAlmostEqual(
-      expectedEquidistanceArray.GetElement(i),
-      equidistanceArray.GetElement(i),
-      6,
-      0.000001
-    ));
+    ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(
+      expectedEquidistanceArray.GetElement(i), equidistanceArray.GetElement(i), 6, 0.000001));
   }
 
   equidistanceArray = MultiScaleHessianEnhancementImageFilterType::GenerateEquispacedSigmaArray(5, 1, 5);
@@ -111,12 +101,8 @@ int itkMultiScaleHessianEnhancementImageFilterStaticMethodsTest( int, char * [] 
   ITK_TEST_EXPECT_EQUAL(expectedEquidistanceArray.GetSize(), equidistanceArray.GetSize())
   for (ArrayType::SizeValueType i = 0; i < expectedEquidistanceArray.GetSize(); ++i)
   {
-    ITK_TEST_EXPECT_TRUE( itk::Math::FloatAlmostEqual(
-      expectedEquidistanceArray.GetElement(i),
-      equidistanceArray.GetElement(i),
-      6,
-      0.000001
-    ));
+    ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(
+      expectedEquidistanceArray.GetElement(i), equidistanceArray.GetElement(i), 6, 0.000001));
   }
 
   return EXIT_SUCCESS;

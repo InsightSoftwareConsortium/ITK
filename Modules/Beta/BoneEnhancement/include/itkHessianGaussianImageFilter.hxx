@@ -30,13 +30,12 @@ namespace itk
 /**
  * Constructor
  */
-template< typename TInputImage, typename TOutputImage >
-HessianGaussianImageFilter< TInputImage, TOutputImage >
-::HessianGaussianImageFilter()
+template <typename TInputImage, typename TOutputImage>
+HessianGaussianImageFilter<TInputImage, TOutputImage>::HessianGaussianImageFilter()
 {
   // Create Derivative Filter
   m_DerivativeFilter = DerivativeFilterType::New();
-  m_DerivativeFilter->SetInput( this->GetInput() );
+  m_DerivativeFilter->SetInput(this->GetInput());
   m_DerivativeFilter->ReleaseDataFlagOn(); // output is only used once
   m_DerivativeFilter->UseImageSpacingOn();
 
@@ -51,12 +50,11 @@ HessianGaussianImageFilter< TInputImage, TOutputImage >
 /**
  * Set value of Sigma
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-HessianGaussianImageFilter< TInputImage, TOutputImage >
-::SetSigma(RealType sigma)
+HessianGaussianImageFilter<TInputImage, TOutputImage>::SetSigma(RealType sigma)
 {
-  m_DerivativeFilter->SetVariance(sigma*sigma);
+  m_DerivativeFilter->SetVariance(sigma * sigma);
 
   this->Modified();
 }
@@ -64,11 +62,9 @@ HessianGaussianImageFilter< TInputImage, TOutputImage >
 /**
  * Get value of Sigma
  */
-template< typename TInputImage, typename TOutputImage >
-typename HessianGaussianImageFilter< TInputImage, TOutputImage >
-::RealType
- HessianGaussianImageFilter< TInputImage, TOutputImage >
-::GetSigma() const
+template <typename TInputImage, typename TOutputImage>
+typename HessianGaussianImageFilter<TInputImage, TOutputImage>::RealType
+HessianGaussianImageFilter<TInputImage, TOutputImage>::GetSigma() const
 {
   return sqrt(m_DerivativeFilter->GetVariance()[0]);
 }
@@ -76,10 +72,9 @@ typename HessianGaussianImageFilter< TInputImage, TOutputImage >
 /**
  * Set Normalize Across Scale Space
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-HessianGaussianImageFilter< TInputImage, TOutputImage >
-::SetNormalizeAcrossScale(bool normalize)
+HessianGaussianImageFilter<TInputImage, TOutputImage>::SetNormalizeAcrossScale(bool normalize)
 {
   m_DerivativeFilter->SetNormalizeAcrossScale(normalize);
 
@@ -89,49 +84,46 @@ HessianGaussianImageFilter< TInputImage, TOutputImage >
 /**
  * Get Normalize Across SCale Space
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 bool
-HessianGaussianImageFilter< TInputImage, TOutputImage >
-::GetNormalizeAcrossScale() const
+HessianGaussianImageFilter<TInputImage, TOutputImage>::GetNormalizeAcrossScale() const
 {
   return m_DerivativeFilter->GetNormalizeAcrossScale();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-HessianGaussianImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+HessianGaussianImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method. this should
   // copy the output requested region to the input requested region
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input
-  typename Superclass::InputImagePointer inputPtr =
-    const_cast< TInputImage * >( this->GetInput() );
+  typename Superclass::InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
 
-  if ( !inputPtr )
-    {
+  if (!inputPtr)
+  {
     return;
-    }
+  }
 
   // Build an operator so that we can determine the kernel size
-  GaussianDerivativeOperator< InternalRealType, ImageDimension >  oper;
-  typename TInputImage::SizeType                                  radius;
+  GaussianDerivativeOperator<InternalRealType, ImageDimension> oper;
+  typename TInputImage::SizeType                               radius;
 
-  for ( unsigned int i = 0; i < TInputImage::ImageDimension; i++ )
-    {
+  for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
+  {
     // Determine the size of the operator in this dimension.  Note that the
     // Gaussian is built as a 1D operator in each of the specified directions.
     oper.SetDirection(i);
-    if ( this->GetInput()->GetSpacing()[i] == 0.0 )
-      {
+    if (this->GetInput()->GetSpacing()[i] == 0.0)
+    {
       itkExceptionMacro(<< "Pixel spacing cannot be zero");
-      }
+    }
     else
-      {
+    {
       oper.SetSpacing(this->GetInput()->GetSpacing()[i]);
-      }
+    }
 
     // GaussianDerivativeOperator modifies the variance when setting image
     // spacing
@@ -141,7 +133,7 @@ HessianGaussianImageFilter< TInputImage, TOutputImage >
     oper.CreateDirectional();
 
     radius[i] = oper.GetRadius(i);
-    }
+  }
 
   // get a copy of the input requested region (should equal the output
   // requested region)
@@ -152,13 +144,13 @@ HessianGaussianImageFilter< TInputImage, TOutputImage >
   inputRequestedRegion.PadByRadius(radius);
 
   // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() ) )
-    {
+  if (inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()))
+  {
     inputPtr->SetRequestedRegion(inputRequestedRegion);
     return;
-    }
+  }
   else
-    {
+  {
     // Couldn't crop the region (requested region is outside the largest
     // possible region).  Throw an exception.
 
@@ -171,16 +163,15 @@ HessianGaussianImageFilter< TInputImage, TOutputImage >
     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
     e.SetDataObject(inputPtr);
     throw e;
-    }
+  }
 }
 
 /**
  * Compute filter for Gaussian kernel
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-HessianGaussianImageFilter< TInputImage, TOutputImage >
-::GenerateData(void)
+HessianGaussianImageFilter<TInputImage, TOutputImage>::GenerateData(void)
 {
   itkDebugMacro(<< "HessianGaussianImageFilter generating data ");
 
@@ -193,24 +184,20 @@ HessianGaussianImageFilter< TInputImage, TOutputImage >
   // Compute the contribution of each filter to the total progress.
   // For a DxD matrix, we do the following number of computations:
   //    \sum_{i=1}^D \sum_{j=i}^D 1 = D(D+1)/2
-  const double weight =
-    1.0 / ( ImageDimension * ( ImageDimension + 1 ) / 2.0 );
+  const double weight = 1.0 / (ImageDimension * (ImageDimension + 1) / 2.0);
 
   progress->RegisterInternalFilter(m_DerivativeFilter, weight);
 
-  const typename TInputImage::ConstPointer inputImage( this->GetInput() );
+  const typename TInputImage::ConstPointer inputImage(this->GetInput());
 
   // Setup Image Adaptor
-  m_ImageAdaptor->SetImage( this->GetOutput() );
+  m_ImageAdaptor->SetImage(this->GetOutput());
 
-  m_ImageAdaptor->SetLargestPossibleRegion(
-    this->GetOutput()->GetLargestPossibleRegion() );
+  m_ImageAdaptor->SetLargestPossibleRegion(this->GetOutput()->GetLargestPossibleRegion());
 
-  m_ImageAdaptor->SetBufferedRegion(
-    this->GetOutput()->GetRequestedRegion() );
+  m_ImageAdaptor->SetBufferedRegion(this->GetOutput()->GetRequestedRegion());
 
-  m_ImageAdaptor->SetRequestedRegion(
-    this->GetOutput()->GetRequestedRegion() );
+  m_ImageAdaptor->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
 
   m_ImageAdaptor->Allocate();
 
@@ -218,14 +205,15 @@ HessianGaussianImageFilter< TInputImage, TOutputImage >
   m_DerivativeFilter->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
 
   unsigned int element = 0;
-  int order[ImageDimension];
+  int          order[ImageDimension];
 
-  for ( unsigned int dima = 0; dima < ImageDimension; dima++ )
-    {
-    for ( unsigned int dimb = dima; dimb < ImageDimension; dimb++ )
+  for (unsigned int dima = 0; dima < ImageDimension; dima++)
+  {
+    for (unsigned int dimb = dima; dimb < ImageDimension; dimb++)
     {
       // All directions have zero order derivative initially
-      for (int k = 0; k < ImageDimension; ++k) {
+      for (int k = 0; k < ImageDimension; ++k)
+      {
         order[k] = 0;
       }
 
@@ -244,13 +232,9 @@ HessianGaussianImageFilter< TInputImage, TOutputImage >
       // on the output image of vectors
       m_ImageAdaptor->SelectNthElement(element++);
 
-      ImageRegionIteratorWithIndex< RealImageType > it(
-        derivativeImage,
-        derivativeImage->GetRequestedRegion() );
+      ImageRegionIteratorWithIndex<RealImageType> it(derivativeImage, derivativeImage->GetRequestedRegion());
 
-      ImageRegionIteratorWithIndex< OutputImageAdaptorType > ot(
-        m_ImageAdaptor,
-        m_ImageAdaptor->GetRequestedRegion() );
+      ImageRegionIteratorWithIndex<OutputImageAdaptorType> ot(m_ImageAdaptor, m_ImageAdaptor->GetRequestedRegion());
 
       const RealType spacingA = inputImage->GetSpacing()[dima];
       const RealType spacingB = inputImage->GetSpacing()[dimb];
@@ -259,22 +243,21 @@ HessianGaussianImageFilter< TInputImage, TOutputImage >
 
       it.GoToBegin();
       ot.GoToBegin();
-      while ( !it.IsAtEnd() )
-        {
+      while (!it.IsAtEnd())
+      {
         ot.Set(it.Get() / factor);
         ++it;
         ++ot;
-        }
+      }
 
       derivativeImage->ReleaseData();
-      }
     }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-HessianGaussianImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+HessianGaussianImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << "DerivativeFilter: " << m_DerivativeFilter << std::endl;

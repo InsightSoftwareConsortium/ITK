@@ -9,41 +9,53 @@
 
 class MyCommand : public itk::Command
 {
-  public:
-    itkNewMacro( MyCommand );
-  public:
-    void Execute(itk::Object *caller, const itk::EventObject & event) override {
-      Execute( (const itk::Object *)caller, event);
+public:
+  itkNewMacro(MyCommand);
+
+public:
+  void
+  Execute(itk::Object * caller, const itk::EventObject & event) override
+  {
+    Execute((const itk::Object *)caller, event);
+  }
+
+  void
+  Execute(const itk::Object * caller, const itk::EventObject & event) override
+  {
+    if (!itk::ProgressEvent().CheckEvent(&event))
+    {
+      return;
     }
- 
-    void Execute(const itk::Object * caller, const itk::EventObject & event) override {
-      if( ! itk::ProgressEvent().CheckEvent( &event ) ) {
-        return;
-      }
-      const itk::ProcessObject * processObject = dynamic_cast< const itk::ProcessObject * >( caller );
-      if( ! processObject ) {
-        return;
-      }
-      float progress = processObject->GetProgress() * 100;
-      if (int(progress) > int(m_PastProgress)) {
-        m_PastProgress = progress;
-        // \r is a cheap trick to reset the line
-        // The spaces are a dirty trick since the output buffer is not reset everytime
-        std::cout << "\rProgress: " << m_PastProgress << "%" << "                                " << std::flush;
-        if (m_PastProgress >= 99) {
-          std::cout << std::endl;
-        }
+    const itk::ProcessObject * processObject = dynamic_cast<const itk::ProcessObject *>(caller);
+    if (!processObject)
+    {
+      return;
+    }
+    float progress = processObject->GetProgress() * 100;
+    if (int(progress) > int(m_PastProgress))
+    {
+      m_PastProgress = progress;
+      // \r is a cheap trick to reset the line
+      // The spaces are a dirty trick since the output buffer is not reset everytime
+      std::cout << "\rProgress: " << m_PastProgress << "%"
+                << "                                " << std::flush;
+      if (m_PastProgress >= 99)
+      {
+        std::cout << std::endl;
       }
     }
-  private:
-    float m_PastProgress = -1;
+  }
+
+private:
+  float m_PastProgress = -1;
 };
 
-int main(int argc, char * argv[])
+int
+main(int argc, char * argv[])
 {
-  if( argc < 6 )
+  if (argc < 6)
   {
-    std::cerr << "Usage: "<< std::endl;
+    std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0];
     std::cerr << " <InputFileName> <OutputMeasure> ";
     std::cerr << " <SetEnhanceBrightObjects[0,1]> ";
@@ -56,23 +68,29 @@ int main(int argc, char * argv[])
   std::string inputFileName = argv[1];
   std::string outputMeasureFileName = argv[2];
 
-  int enhanceBrightObjects = std::stoi(argv[3]);
-  int numberOfSigma = std::stoi(argv[4]);
-  double thisSigma;
-  itk::Array< double > sigmaArray;
+  int                enhanceBrightObjects = std::stoi(argv[3]);
+  int                numberOfSigma = std::stoi(argv[4]);
+  double             thisSigma;
+  itk::Array<double> sigmaArray;
   sigmaArray.SetSize(numberOfSigma);
-  for (int i = 0; i < numberOfSigma; ++i) {
-    thisSigma = std::stod(argv[5+i]);
+  for (int i = 0; i < numberOfSigma; ++i)
+  {
+    thisSigma = std::stod(argv[5 + i]);
     sigmaArray.SetElement(i, thisSigma);
   }
 
   std::cout << "Read in the following parameters:" << std::endl;
   std::cout << "  InputFilePath:               " << inputFileName << std::endl;
   std::cout << "  OutputMeasure:               " << outputMeasureFileName << std::endl;
-  if (enhanceBrightObjects == 1) {
-    std::cout << "  SetEnhanceBrightObjects:     " << "Enhancing bright objects" << std::endl;
-  } else {
-    std::cout << "  SetEnhanceBrightObjects:     " << "Enhancing dark objects" << std::endl;
+  if (enhanceBrightObjects == 1)
+  {
+    std::cout << "  SetEnhanceBrightObjects:     "
+              << "Enhancing bright objects" << std::endl;
+  }
+  else
+  {
+    std::cout << "  SetEnhanceBrightObjects:     "
+              << "Enhancing dark objects" << std::endl;
   }
   std::cout << "  NumberOfSigma:               " << numberOfSigma << std::endl;
   std::cout << "  Sigmas:                      " << sigmaArray << std::endl;
@@ -85,21 +103,24 @@ int main(int argc, char * argv[])
   using OutputPixelType = float;
   using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
-  using MeasureWriterType = itk::ImageFileWriter< OutputImageType >;
-  using MultiScaleHessianFilterType = itk::MultiScaleHessianEnhancementImageFilter< InputImageType, OutputImageType >;
-  using DescoteauxEigenToMeasureImageFilterType = itk::DescoteauxEigenToMeasureImageFilter< MultiScaleHessianFilterType::EigenValueImageType, OutputImageType >;
-  using DescoteauxEigenToMeasureParameterEstimationFilterType = itk::DescoteauxEigenToMeasureParameterEstimationFilter< MultiScaleHessianFilterType::EigenValueImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using MeasureWriterType = itk::ImageFileWriter<OutputImageType>;
+  using MultiScaleHessianFilterType = itk::MultiScaleHessianEnhancementImageFilter<InputImageType, OutputImageType>;
+  using DescoteauxEigenToMeasureImageFilterType =
+    itk::DescoteauxEigenToMeasureImageFilter<MultiScaleHessianFilterType::EigenValueImageType, OutputImageType>;
+  using DescoteauxEigenToMeasureParameterEstimationFilterType =
+    itk::DescoteauxEigenToMeasureParameterEstimationFilter<MultiScaleHessianFilterType::EigenValueImageType>;
 
   /* Do preprocessing */
   std::cout << "Reading in " << inputFileName << std::endl;
-  ReaderType::Pointer  reader = ReaderType::New();
+  ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(inputFileName);
   reader->Update();
 
   /* Multiscale measure */
-  MultiScaleHessianFilterType::Pointer multiScaleFilter = MultiScaleHessianFilterType::New();
-  DescoteauxEigenToMeasureParameterEstimationFilterType::Pointer estimationFilter = DescoteauxEigenToMeasureParameterEstimationFilterType::New();
+  MultiScaleHessianFilterType::Pointer                           multiScaleFilter = MultiScaleHessianFilterType::New();
+  DescoteauxEigenToMeasureParameterEstimationFilterType::Pointer estimationFilter =
+    DescoteauxEigenToMeasureParameterEstimationFilterType::New();
   DescoteauxEigenToMeasureImageFilterType::Pointer descoFilter = DescoteauxEigenToMeasureImageFilterType::New();
   multiScaleFilter->SetInput(reader->GetOutput());
   multiScaleFilter->SetEigenToMeasureImageFilter(descoFilter);

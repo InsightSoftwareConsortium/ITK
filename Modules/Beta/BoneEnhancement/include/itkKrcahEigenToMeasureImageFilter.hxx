@@ -1,4 +1,4 @@
- /*=========================================================================
+/*=========================================================================
  *
  *  Copyright Insight Software Consortium
  *
@@ -23,18 +23,17 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 
-namespace itk {
-template< typename TInputImage, typename TOutputImage >
-KrcahEigenToMeasureImageFilter< TInputImage, TOutputImage >
-::KrcahEigenToMeasureImageFilter() :
-  Superclass(),
-  m_EnhanceType(-1.0f)
+namespace itk
+{
+template <typename TInputImage, typename TOutputImage>
+KrcahEigenToMeasureImageFilter<TInputImage, TOutputImage>::KrcahEigenToMeasureImageFilter()
+  : Superclass()
+  , m_EnhanceType(-1.0f)
 {}
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-KrcahEigenToMeasureImageFilter< TInputImage, TOutputImage >
-::BeforeThreadedGenerateData()
+KrcahEigenToMeasureImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   ParameterArrayType parameters = this->GetParametersInput()->Get();
   if (parameters.GetSize() != 3)
@@ -43,29 +42,29 @@ KrcahEigenToMeasureImageFilter< TInputImage, TOutputImage >
   }
 }
 
-template< typename TInputImage, typename TOutputImage >
-typename KrcahEigenToMeasureImageFilter< TInputImage, TOutputImage >::OutputImagePixelType
-KrcahEigenToMeasureImageFilter< TInputImage, TOutputImage >
-::ProcessPixel(const InputImagePixelType& pixel)
+template <typename TInputImage, typename TOutputImage>
+typename KrcahEigenToMeasureImageFilter<TInputImage, TOutputImage>::OutputImagePixelType
+KrcahEigenToMeasureImageFilter<TInputImage, TOutputImage>::ProcessPixel(const InputImagePixelType & pixel)
 {
   /* Grab parameters */
   ParameterArrayType parameters = this->GetParametersInput()->Get();
-  RealType alpha = parameters[0];
-  RealType beta = parameters[1];
-  RealType gamma = parameters[2];
+  RealType           alpha = parameters[0];
+  RealType           beta = parameters[1];
+  RealType           gamma = parameters[2];
 
   /* Grab pixel values */
   double sheetness = 0.0;
-  double a1 = static_cast<double>( pixel[0] );
-  double a2 = static_cast<double>( pixel[1] );
-  double a3 = static_cast<double>( pixel[2] );
+  double a1 = static_cast<double>(pixel[0]);
+  double a2 = static_cast<double>(pixel[1]);
+  double a3 = static_cast<double>(pixel[2]);
   double l1 = Math::abs(a1);
   double l2 = Math::abs(a2);
   double l3 = Math::abs(a3);
 
   /* Avoid divisions by zero (or close to zero) */
-  if (static_cast<double>( l3 ) < Math::eps || static_cast<double>( l2 ) < Math::eps) {
-      return static_cast<OutputImagePixelType>( sheetness );
+  if (static_cast<double>(l3) < Math::eps || static_cast<double>(l2) < Math::eps)
+  {
+    return static_cast<OutputImagePixelType>(sheetness);
   }
 
   /**
@@ -77,23 +76,22 @@ KrcahEigenToMeasureImageFilter< TInputImage, TOutputImage >
   const double Rtube = l1 / (l2 * l3);
 
   /* Multiply together to get sheetness */
-  sheetness = (m_EnhanceType*a3/l3);
+  sheetness = (m_EnhanceType * a3 / l3);
   sheetness *= std::exp(-(Rsheet * Rsheet) / (alpha * alpha));
   sheetness *= std::exp(-(Rtube * Rtube) / (beta * beta));
   sheetness *= (1.0 - std::exp(-(Rnoise * Rnoise) / (gamma * gamma)));
 
-  return static_cast<OutputImagePixelType>( sheetness );
+  return static_cast<OutputImagePixelType>(sheetness);
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-KrcahEigenToMeasureImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+KrcahEigenToMeasureImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Direction: " << GetEnhanceType() << std::endl;
 }
 
-} /* end namespace */
+} // namespace itk
 
 #endif /* itkKrcahEigenToMeasureImageFilter_hxx */

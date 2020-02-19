@@ -22,25 +22,26 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkMath.h"
 
-int itkDescoteauxEigenToScalarFunctorImageTest( int argc, char * argv[] )
+int
+itkDescoteauxEigenToScalarFunctorImageTest(int argc, char * argv[])
 {
   /* type alias, instantiate filter */
   constexpr unsigned int Dimension = 3;
   using ImagePixelType = double;
-  using ImageType = itk::Image< ImagePixelType, Dimension >;
+  using ImageType = itk::Image<ImagePixelType, Dimension>;
 
   using EigenValueType = double;
-  using EigenValueArrayType = itk::FixedArray< EigenValueType, Dimension >;
-  using EigenValueImageType = itk::Image< EigenValueArrayType, Dimension >;
+  using EigenValueArrayType = itk::FixedArray<EigenValueType, Dimension>;
+  using EigenValueImageType = itk::Image<EigenValueArrayType, Dimension>;
 
-  using FilterType = itk::DescoteauxEigenToScalarFunctorImageFilter< EigenValueImageType, ImageType>;
+  using FilterType = itk::DescoteauxEigenToScalarFunctorImageFilter<EigenValueImageType, ImageType>;
   FilterType::Pointer descoFilter = FilterType::New();
 
   /* Basic tests. Need to set parameters first. */
   descoFilter->SetAlpha(0.5);
   descoFilter->SetBeta(0.5);
   descoFilter->SetC(0.25);
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( descoFilter, DescoteauxEigenToScalarFunctorImageFilter, UnaryFunctorImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(descoFilter, DescoteauxEigenToScalarFunctorImageFilter, UnaryFunctorImageFilter);
 
   /* Exercise basic set/get methods */
   descoFilter->SetAlpha(0.5);
@@ -58,24 +59,25 @@ int itkDescoteauxEigenToScalarFunctorImageTest( int argc, char * argv[] )
 
   /* Create some test data which is computable */
   EigenValueArrayType simpleEigenPixel;
-  for (unsigned int i = 0; i < Dimension; ++i) {
+  for (unsigned int i = 0; i < Dimension; ++i)
+  {
     simpleEigenPixel.SetElement(i, 0);
   }
 
   EigenValueImageType::RegionType region;
-  EigenValueImageType::IndexType start;
+  EigenValueImageType::IndexType  start;
   start[0] = 0;
   start[1] = 0;
   start[2] = 0;
- 
+
   EigenValueImageType::SizeType size;
   size[0] = 10;
   size[1] = 10;
   size[2] = 10;
- 
+
   region.SetSize(size);
   region.SetIndex(start);
- 
+
   EigenValueImageType::Pointer image = EigenValueImageType::New();
   image->SetRegions(region);
   image->Allocate();
@@ -84,12 +86,12 @@ int itkDescoteauxEigenToScalarFunctorImageTest( int argc, char * argv[] )
   descoFilter->SetInput(image);
   ITK_TRY_EXPECT_NO_EXCEPTION(descoFilter->Update());
 
-  itk::ImageRegionIteratorWithIndex< ImageType > input(descoFilter->GetOutput(), region);
+  itk::ImageRegionIteratorWithIndex<ImageType> input(descoFilter->GetOutput(), region);
 
   input.GoToBegin();
-  while ( !input.IsAtEnd() )
+  while (!input.IsAtEnd())
   {
-    ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( input.Get(), 0.0, 6, 0.000001));
+    ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(input.Get(), 0.0, 6, 0.000001));
     ++input;
   }
 
@@ -97,7 +99,7 @@ int itkDescoteauxEigenToScalarFunctorImageTest( int argc, char * argv[] )
   simpleEigenPixel.SetElement(0, 0.25);
   simpleEigenPixel.SetElement(1, 1);
   simpleEigenPixel.SetElement(2, -1);
- 
+
   EigenValueImageType::Pointer image2 = EigenValueImageType::New();
   image2->SetRegions(region);
   image2->Allocate();
@@ -106,12 +108,12 @@ int itkDescoteauxEigenToScalarFunctorImageTest( int argc, char * argv[] )
   descoFilter->SetInput(image2);
   ITK_TRY_EXPECT_NO_EXCEPTION(descoFilter->Update());
 
-  itk::ImageRegionIteratorWithIndex< ImageType > input2(descoFilter->GetOutput(), region);
+  itk::ImageRegionIteratorWithIndex<ImageType> input2(descoFilter->GetOutput(), region);
 
   input2.GoToBegin();
-  while ( !input2.IsAtEnd() )
+  while (!input2.IsAtEnd())
   {
-    ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( input2.Get(), 0.0913983433747, 6, 0.000001));
+    ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(input2.Get(), 0.0913983433747, 6, 0.000001));
     ++input2;
   }
 

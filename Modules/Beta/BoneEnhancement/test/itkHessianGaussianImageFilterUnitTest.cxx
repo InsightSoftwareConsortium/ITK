@@ -19,11 +19,12 @@
 #include "itkHessianGaussianImageFilter.h"
 #include "gtest/gtest.h"
 
-TEST(itkHessianGaussianImageFilterTest, ExerciseBasicMethods) {
-  const unsigned int                                  Dimension = 2;
-  using PixelType                       = int;
-  using ImageType                       = itk::Image< PixelType, Dimension >;
-  using HessianGaussianImageFilterType  = itk::HessianGaussianImageFilter<ImageType>;
+TEST(itkHessianGaussianImageFilterTest, ExerciseBasicMethods)
+{
+  const unsigned int Dimension = 2;
+  using PixelType = int;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using HessianGaussianImageFilterType = itk::HessianGaussianImageFilter<ImageType>;
   HessianGaussianImageFilterType::Pointer hess_filter = HessianGaussianImageFilterType::New();
 
   /* Exercise basic set/get methods */

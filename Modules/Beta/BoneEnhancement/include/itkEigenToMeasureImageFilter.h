@@ -23,60 +23,60 @@
 #include "itkSimpleDataObjectDecorator.h"
 #include "itkSpatialObject.h"
 
-namespace itk {
+namespace itk
+{
 /** \class EigenToMeasureImageFilter
  * \brief Abstract class for computing a measure from local structure.
- * 
+ *
  * This is an abstract class that computes a local-structure measure from an eigen-image.
  * Any algorithm implementing a local-structure measure should inherit from this class
  * so they can be used in the MultiScaleHessianEnhancementImageFilter framework.
- * 
+ *
  * \sa MultiScaleHessianEnhancementImageFilter
  * \sa EigenToMeasureParameterEstimationFilter
- * 
+ *
  * \author: Bryce Besler
  * \ingroup BoneEnhancement
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT EigenToMeasureImageFilter
-  : public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT EigenToMeasureImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(EigenToMeasureImageFilter);
 
   /** Standard Self typedef */
-  using Self          = EigenToMeasureImageFilter;
-  using Superclass    = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer       = SmartPointer< Self >;
-  using ConstPointer  = SmartPointer< const Self >;
+  using Self = EigenToMeasureImageFilter;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(EigenToMeasureImageFilter, ImageToImageFilter);
 
   /** Input Image typedefs. */
-  using InputImageType          = TInputImage;
-  using InputImagePointer       = typename InputImageType::Pointer;
-  using InputImageConstPointer  = typename InputImageType::ConstPointer;
-  using InputImageRegionType    = typename InputImageType::RegionType;
-  using InputImagePixelType     = typename InputImageType::PixelType;
-  using PixelValueType          = typename InputImagePixelType::ValueType;
-  itkStaticConstMacro(ImageDimension, unsigned int,  TInputImage::ImageDimension);
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using PixelValueType = typename InputImagePixelType::ValueType;
+  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
   /** Output image typedefs. */
-  using OutputImageType       = TOutputImage;
-  using OutputImagePointer    = typename OutputImageType::Pointer;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
   using OutputImageRegionType = typename OutputImageType::RegionType;
-  using OutputImagePixelType  = typename OutputImageType::PixelType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** Input Mask typedefs. */
-  using MaskSpatialObjectType               = SpatialObject< Self::ImageDimension >;
-  using MaskSpatialObjectTypeConstPointer   = typename MaskSpatialObjectType::ConstPointer;
+  using MaskSpatialObjectType = SpatialObject<Self::ImageDimension>;
+  using MaskSpatialObjectTypeConstPointer = typename MaskSpatialObjectType::ConstPointer;
 
   /** Parameter typedefs. */
-  using RealType                = typename NumericTraits< PixelValueType >::RealType;
-  using ParameterType           = RealType;
-  using ParameterArrayType      = Array< ParameterType >;
-  using ParameterDecoratedType  = SimpleDataObjectDecorator< ParameterArrayType >;
+  using RealType = typename NumericTraits<PixelValueType>::RealType;
+  using ParameterType = RealType;
+  using ParameterArrayType = Array<ParameterType>;
+  using ParameterDecoratedType = SimpleDataObjectDecorator<ParameterArrayType>;
 
   /** Process object */
   itkSetGetDecoratedInputMacro(Parameters, ParameterArrayType);
@@ -91,26 +91,30 @@ public:
    * because the enumeration is hidden within the templated class. Therefore, you would need the hessian type
    * and eigenvalue type to do such an operation. We do not necessarily have the hessian type information.
    */
-  typedef enum {
+  typedef enum
+  {
     OrderByValue = 1,
     OrderByMagnitude,
     DoNotOrder
   } EigenValueOrderType;
-  virtual EigenValueOrderType GetEigenValueOrder() const = 0;
+  virtual EigenValueOrderType
+  GetEigenValueOrder() const = 0;
 
 protected:
-  EigenToMeasureImageFilter() {};
+  EigenToMeasureImageFilter(){};
   virtual ~EigenToMeasureImageFilter() {}
 
-  virtual OutputImagePixelType ProcessPixel(const InputImagePixelType& pixel) = 0;
+  virtual OutputImagePixelType
+  ProcessPixel(const InputImagePixelType & pixel) = 0;
 
   /** Multi-thread version GenerateData. */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 }; // end class
-} /* end namespace */
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkEigenToMeasureImageFilter.hxx"
+#  include "itkEigenToMeasureImageFilter.hxx"
 #endif
 
 #endif /* itkEigenToMeasureImageFilter_h */

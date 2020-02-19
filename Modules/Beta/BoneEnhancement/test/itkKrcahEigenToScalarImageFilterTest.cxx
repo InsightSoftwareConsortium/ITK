@@ -21,48 +21,52 @@
 #include "itkMath.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
-int itkKrcahEigenToScalarImageFilterTest( int argc, char * argv[] )
+int
+itkKrcahEigenToScalarImageFilterTest(int argc, char * argv[])
 {
   constexpr unsigned int Dimension = 3;
   using MaskPixelType = unsigned int;
-  using MaskType = itk::Image< MaskPixelType, Dimension >;
+  using MaskType = itk::Image<MaskPixelType, Dimension>;
 
   using OutputPixelType = double;
-  using OutputType = itk::Image< OutputPixelType, Dimension >;
+  using OutputType = itk::Image<OutputPixelType, Dimension>;
 
   using EigenValueType = float;
-  using EigenValueArrayType = itk::FixedArray< EigenValueType, Dimension >;
-  using EigenValueImageType = itk::Image< EigenValueArrayType, Dimension >;
-  
-  using KrcahEigenToScalarImageFilterType = itk::KrcahEigenToScalarImageFilter< EigenValueImageType, OutputType, MaskType >;
+  using EigenValueArrayType = itk::FixedArray<EigenValueType, Dimension>;
+  using EigenValueImageType = itk::Image<EigenValueArrayType, Dimension>;
+
+  using KrcahEigenToScalarImageFilterType =
+    itk::KrcahEigenToScalarImageFilter<EigenValueImageType, OutputType, MaskType>;
 
   KrcahEigenToScalarImageFilterType::Pointer krcahFilter = KrcahEigenToScalarImageFilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( krcahFilter, KrcahEigenToScalarImageFilter, EigenToScalarImageFilter );
-  
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(krcahFilter, KrcahEigenToScalarImageFilter, EigenToScalarImageFilter);
+
   /* Test defaults */
-  ITK_TEST_EXPECT_EQUAL(krcahFilter->GetEigenValueOrder(), KrcahEigenToScalarImageFilterType::Superclass::OrderByMagnitude);
+  ITK_TEST_EXPECT_EQUAL(krcahFilter->GetEigenValueOrder(),
+                        KrcahEigenToScalarImageFilterType::Superclass::OrderByMagnitude);
 
   /* Create some test data which is computable */
   EigenValueArrayType simpleEigenPixel;
-  for (unsigned int i = 0; i < Dimension; ++i) {
+  for (unsigned int i = 0; i < Dimension; ++i)
+  {
     simpleEigenPixel.SetElement(i, -1);
   }
 
   EigenValueImageType::RegionType region;
-  EigenValueImageType::IndexType start;
+  EigenValueImageType::IndexType  start;
   start[0] = 0;
   start[1] = 0;
   start[2] = 0;
- 
+
   EigenValueImageType::SizeType size;
   size[0] = 10;
   size[1] = 10;
   size[2] = 10;
- 
+
   region.SetSize(size);
   region.SetIndex(start);
- 
+
   EigenValueImageType::Pointer image = EigenValueImageType::New();
   image->SetRegions(region);
   image->Allocate();
@@ -75,16 +79,16 @@ int itkKrcahEigenToScalarImageFilterTest( int argc, char * argv[] )
   ITK_TRY_EXPECT_NO_EXCEPTION(krcahFilter->Update());
 
   /* Make sure process for setting parameters works */
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahFilter->GetAlpha(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahFilter->GetBeta(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahFilter->GetGamma(), itk::Math::sqrt2 * 3*0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(krcahFilter->GetAlpha(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(krcahFilter->GetBeta(), itk::Math::sqrt2 * 0.5, 6, 0.000001));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(krcahFilter->GetGamma(), itk::Math::sqrt2 * 3 * 0.5, 6, 0.000001));
 
-  itk::ImageRegionIteratorWithIndex< OutputType > it(krcahFilter->GetOutput(), region);
+  itk::ImageRegionIteratorWithIndex<OutputType> it(krcahFilter->GetOutput(), region);
 
   it.GoToBegin();
-  while ( !it.IsAtEnd() )
+  while (!it.IsAtEnd())
   {
-    ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( it.Get(), 0.0158368867121, 6, 0.000001));
+    ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(it.Get(), 0.0158368867121, 6, 0.000001));
     ++it;
   }
 

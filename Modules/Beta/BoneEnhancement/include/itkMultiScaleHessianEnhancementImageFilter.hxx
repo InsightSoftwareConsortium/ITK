@@ -24,36 +24,33 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
-::MultiScaleHessianEnhancementImageFilter()
+template <typename TInputImage, typename TOutputImage>
+MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::MultiScaleHessianEnhancementImageFilter()
 {
   /* Sigma member variables */
   m_SigmaArray.SetSize(0);
 
   /* Instantiate filters. */
-  m_HessianFilter                           = HessianFilterType::New();
-  m_EigenAnalysisFilter                     = EigenAnalysisFilterType::New();
-  m_MaximumAbsoluteValueFilter              = MaximumAbsoluteValueFilterType::New();
-  m_EigenToMeasureImageFilter               = nullptr; // has to be provided by the user.
+  m_HessianFilter = HessianFilterType::New();
+  m_EigenAnalysisFilter = EigenAnalysisFilterType::New();
+  m_MaximumAbsoluteValueFilter = MaximumAbsoluteValueFilterType::New();
+  m_EigenToMeasureImageFilter = nullptr;               // has to be provided by the user.
   m_EigenToMeasureParameterEstimationFilter = nullptr; // has to be provided by the user.
 
   /* We require an input image */
-  this->SetNumberOfRequiredInputs( 1 );
+  this->SetNumberOfRequiredInputs(1);
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input
-  typename Superclass::InputImagePointer inputPtr =
-    const_cast< TInputImage * >( this->GetInput() );
+  typename Superclass::InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
 
-  if ( !inputPtr )
+  if (!inputPtr)
   {
     return;
   }
@@ -61,13 +58,12 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
   inputPtr->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
-::EnlargeOutputRequestedRegion(DataObject *data)
+MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * data)
 {
   Superclass::EnlargeOutputRequestedRegion(data);
-  OutputImagePointer imgData = dynamic_cast< TOutputImage * >( data );
+  OutputImagePointer imgData = dynamic_cast<TOutputImage *>(data);
 
   // if ( this->GetInput() )
   // {
@@ -95,30 +91,31 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
   //   }
   // }
   // else
-  if (imgData) {
+  if (imgData)
+  {
     imgData->SetRequestedRegionToLargestPossibleRegion();
   }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   /* Test all inputs are set */
-  if ( !m_EigenToMeasureImageFilter )
+  if (!m_EigenToMeasureImageFilter)
   {
     itkExceptionMacro(<< "m_EigenToMeasureImageFilter is not present");
   }
 
-  if (!m_EigenToMeasureParameterEstimationFilter )
+  if (!m_EigenToMeasureParameterEstimationFilter)
   {
     itkExceptionMacro(<< "m_EigenToMeasureParameterEstimationFilter is not present");
   }
 
-  if ( m_SigmaArray.GetSize() < 1 )
+  if (m_SigmaArray.GetSize() < 1)
   {
-    itkExceptionMacro(<< "SigmaArray must have at least one sigma value. Given array of size " << m_SigmaArray.GetSize());
+    itkExceptionMacro(<< "SigmaArray must have at least one sigma value. Given array of size "
+                      << m_SigmaArray.GetSize());
   }
 
   /* Set filters parameters */
@@ -155,24 +152,27 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
   /*
    * We checked that m_SigmaArray.GetSize() > 0 above and do not need to repeat the check. However,
    * if we are only given one sigma value we do not need to take the maximum over scales.
-   * 
+   *
    * Two filters, ran m_SigmaArray.GetSize() times
    * One filter, ran (m_SigmaArray.GetSize() - 1) times
-   * 
+   *
    * We do not count the hessian or eigenanalysis filters since they will be streamed many times.
    */
-  float numberOfFiltersToProcess = 2*m_SigmaArray.GetSize() + 1*(m_SigmaArray.GetSize()-1);
+  float numberOfFiltersToProcess = 2 * m_SigmaArray.GetSize() + 1 * (m_SigmaArray.GetSize() - 1);
   float perFilterProccessPercentage = 1.0 / numberOfFiltersToProcess;
-  itkDebugMacro(<< "each filter accounts for " << perFilterProccessPercentage*100.0 << "% of processing");
+  itkDebugMacro(<< "each filter accounts for " << perFilterProccessPercentage * 100.0 << "% of processing");
 
 
-  progress->RegisterInternalFilter(m_EigenToMeasureParameterEstimationFilter, 1.5*m_SigmaArray.GetSize()*perFilterProccessPercentage);
-  progress->RegisterInternalFilter(m_EigenToMeasureImageFilter, 0.5*m_SigmaArray.GetSize()*perFilterProccessPercentage);
+  progress->RegisterInternalFilter(m_EigenToMeasureParameterEstimationFilter,
+                                   1.5 * m_SigmaArray.GetSize() * perFilterProccessPercentage);
+  progress->RegisterInternalFilter(m_EigenToMeasureImageFilter,
+                                   0.5 * m_SigmaArray.GetSize() * perFilterProccessPercentage);
 
-  /* Check if we need to run the MaximumAbsoluteValueFilter at all */ 
+  /* Check if we need to run the MaximumAbsoluteValueFilter at all */
   if (m_SigmaArray.GetSize() > 1)
   {
-    progress->RegisterInternalFilter(m_MaximumAbsoluteValueFilter, (m_SigmaArray.GetSize()-1)*perFilterProccessPercentage);
+    progress->RegisterInternalFilter(m_MaximumAbsoluteValueFilter,
+                                     (m_SigmaArray.GetSize() - 1) * perFilterProccessPercentage);
   }
   else
   {
@@ -205,10 +205,9 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
   this->GraftOutput(outputImagePointer);
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 typename TOutputImage::Pointer
-MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
-::generateResponseAtScale(SigmaStepsType scaleLevel)
+MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::generateResponseAtScale(SigmaStepsType scaleLevel)
 {
   /* Get this sigma value */
   SigmaType thisSigma = m_SigmaArray.GetElement(scaleLevel);
@@ -220,18 +219,17 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
   return m_EigenToMeasureImageFilter->GetOutput();
 }
 
-template< typename TInputImage, typename TOutputImage >
-typename MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >::OutputImageRegionType
-MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
-::GetOutputRegion()
+template <typename TInputImage, typename TOutputImage>
+typename MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::OutputImageRegionType
+MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::GetOutputRegion()
 {
   /* Create region */
   OutputImageRegionType region;
 
   /* Get and test input */
-  InputImagePointer inputPtr = const_cast< TInputImage * >( this->GetInput() );
+  InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
 
-  if ( !inputPtr )
+  if (!inputPtr)
   {
     itkExceptionMacro(<< "Input image must be set to run this filter.");
   }
@@ -252,24 +250,29 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
   return region;
 }
 
-template< typename TInputImage, typename TOutputImage >
-typename MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >::SigmaArrayType
-MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
-::GenerateSigmaArray(SigmaType SigmaMinimum, SigmaType SigmaMaximum, SigmaStepsType NumberOfSigmaSteps, SigmaStepMethodEnum SigmaStepMethod)
+template <typename TInputImage, typename TOutputImage>
+typename MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::SigmaArrayType
+MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::GenerateSigmaArray(
+  SigmaType           SigmaMinimum,
+  SigmaType           SigmaMaximum,
+  SigmaStepsType      NumberOfSigmaSteps,
+  SigmaStepMethodEnum SigmaStepMethod)
 {
   /* Quick check to make sure value is correct */
-  if ( NumberOfSigmaSteps < 1 )
+  if (NumberOfSigmaSteps < 1)
   {
     throw ExceptionObject(__FILE__, __LINE__, "Number of sigma values requested is less than 1", ITK_LOCATION);
   }
 
   /* If we have min greater than max just swap */
-  if (SigmaMinimum > SigmaMaximum) {
+  if (SigmaMinimum > SigmaMaximum)
+  {
     std::swap(SigmaMinimum, SigmaMaximum);
   }
 
   /* If min equals max, just generate one step size */
-  if (SigmaMinimum == SigmaMaximum) {
+  if (SigmaMinimum == SigmaMaximum)
+  {
     NumberOfSigmaSteps = 1;
   }
 
@@ -284,25 +287,25 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
   SigmaType thisSigma;
   for (SigmaStepsType scaleLevel = 1; scaleLevel < sigmaArray.GetSize(); ++scaleLevel)
   {
-    switch ( SigmaStepMethod )
+    switch (SigmaStepMethod)
     {
-    case Self::EquispacedSigmaSteps:
+      case Self::EquispacedSigmaSteps:
       {
-      const RealType stepSize = std::max( 1e-10, ( SigmaMaximum - SigmaMinimum ) / ( NumberOfSigmaSteps - 1 ) );
-      thisSigma = SigmaMinimum + stepSize * scaleLevel;
-      break;
+        const RealType stepSize = std::max(1e-10, (SigmaMaximum - SigmaMinimum) / (NumberOfSigmaSteps - 1));
+        thisSigma = SigmaMinimum + stepSize * scaleLevel;
+        break;
       }
-    case Self::LogarithmicSigmaSteps:
+      case Self::LogarithmicSigmaSteps:
       {
-      const RealType stepSize =
-        std::max( 1e-10, ( std::log(SigmaMaximum) - std::log(SigmaMinimum) ) / ( NumberOfSigmaSteps - 1 ) );
-      thisSigma = std::exp(std::log (SigmaMinimum) + stepSize * scaleLevel);
-      break;
+        const RealType stepSize =
+          std::max(1e-10, (std::log(SigmaMaximum) - std::log(SigmaMinimum)) / (NumberOfSigmaSteps - 1));
+        thisSigma = std::exp(std::log(SigmaMinimum) + stepSize * scaleLevel);
+        break;
       }
-    default:
-      throw ExceptionObject(__FILE__, __LINE__, "Requested sigma step method does not exist", ITK_LOCATION);
+      default:
+        throw ExceptionObject(__FILE__, __LINE__, "Requested sigma step method does not exist", ITK_LOCATION);
     }
-    
+
     /* Assign to array */
     sigmaArray.SetElement(scaleLevel, thisSigma);
   }
@@ -310,51 +313,54 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
   return sigmaArray;
 }
 
-template< typename TInputImage, typename TOutputImage >
-typename MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >::SigmaArrayType
-MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
-::GenerateEquispacedSigmaArray(SigmaType SigmaMinimum, SigmaType SigmaMaximum, SigmaStepsType NumberOfSigmaSteps)
+template <typename TInputImage, typename TOutputImage>
+typename MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::SigmaArrayType
+MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::GenerateEquispacedSigmaArray(
+  SigmaType      SigmaMinimum,
+  SigmaType      SigmaMaximum,
+  SigmaStepsType NumberOfSigmaSteps)
 {
   return GenerateSigmaArray(SigmaMinimum, SigmaMaximum, NumberOfSigmaSteps, Self::EquispacedSigmaSteps);
 }
 
-template< typename TInputImage, typename TOutputImage >
-typename MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >::SigmaArrayType
-MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
-::GenerateLogarithmicSigmaArray(SigmaType SigmaMinimum, SigmaType SigmaMaximum, SigmaStepsType NumberOfSigmaSteps)
+template <typename TInputImage, typename TOutputImage>
+typename MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::SigmaArrayType
+MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::GenerateLogarithmicSigmaArray(
+  SigmaType      SigmaMinimum,
+  SigmaType      SigmaMaximum,
+  SigmaStepsType NumberOfSigmaSteps)
 {
   return GenerateSigmaArray(SigmaMinimum, SigmaMaximum, NumberOfSigmaSteps, Self::LogarithmicSigmaSteps);
 }
 
-template< typename TInputImage, typename TOutputImage >
-typename MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >::InternalEigenValueOrderType
-MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
-::ConvertType(ExternalEigenValueOrderType order)
+template <typename TInputImage, typename TOutputImage>
+typename MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::InternalEigenValueOrderType
+MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::ConvertType(ExternalEigenValueOrderType order)
 {
-  switch(order)
+  switch (order)
   {
-  case EigenToMeasureImageFilterType::OrderByValue:
-    return EigenAnalysisFilterType::FunctorType::EigenValueOrderType::OrderByValue;
-  case EigenToMeasureImageFilterType::OrderByMagnitude:
-    return EigenAnalysisFilterType::FunctorType::EigenValueOrderType::OrderByMagnitude;
-  case EigenToMeasureImageFilterType::DoNotOrder:
-    return EigenAnalysisFilterType::FunctorType::EigenValueOrderType::DoNotOrder;
-  default:
-    itkExceptionMacro(<< "Trying to convert bad order " << order);
+    case EigenToMeasureImageFilterType::OrderByValue:
+      return EigenAnalysisFilterType::FunctorType::EigenValueOrderType::OrderByValue;
+    case EigenToMeasureImageFilterType::OrderByMagnitude:
+      return EigenAnalysisFilterType::FunctorType::EigenValueOrderType::OrderByMagnitude;
+    case EigenToMeasureImageFilterType::DoNotOrder:
+      return EigenAnalysisFilterType::FunctorType::EigenValueOrderType::DoNotOrder;
+    default:
+      itkExceptionMacro(<< "Trying to convert bad order " << order);
   }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "HessianFilter: " << m_HessianFilter.GetPointer() << std::endl;
   os << indent << "EigenAnalysisFilter: " << m_EigenAnalysisFilter.GetPointer() << std::endl;
   os << indent << "MaximumAbsoluteValueFilter: " << m_MaximumAbsoluteValueFilter.GetPointer() << std::endl;
   os << indent << "EigenToMeasureImageFilter: " << m_EigenToMeasureImageFilter.GetPointer() << std::endl;
-  os << indent << "EigenToMeasureParameterEstimationFilter: " << m_EigenToMeasureParameterEstimationFilter.GetPointer() << std::endl;
+  os << indent << "EigenToMeasureParameterEstimationFilter: " << m_EigenToMeasureParameterEstimationFilter.GetPointer()
+     << std::endl;
   os << indent << "SigmaArray: " << m_SigmaArray << std::endl;
 }
 

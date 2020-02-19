@@ -23,16 +23,17 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 
-namespace itk {
+namespace itk
+{
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-EigenToMeasureImageFilter< TInputImage, TOutputImage >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+EigenToMeasureImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   /* Get Inputs */
-  InputImageConstPointer  inputPtr = this->GetInput(0);
-  OutputImagePointer outputPtr = this->GetOutput(0);
+  InputImageConstPointer            inputPtr = this->GetInput(0);
+  OutputImagePointer                outputPtr = this->GetOutput(0);
   MaskSpatialObjectTypeConstPointer maskPointer = this->GetMask();
 
   // Define the portion of the input to walk for this thread, using
@@ -71,6 +72,6 @@ EigenToMeasureImageFilter< TInputImage, TOutputImage >
     nullptr);
 }
 
-} /* end namespace */
+} // namespace itk
 
 #endif /* itkEigenToMeasureImageFilter_hxx */

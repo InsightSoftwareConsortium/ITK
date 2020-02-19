@@ -25,12 +25,11 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-KrcahPreprocessingImageToImageFilter< TInputImage, TOutputImage >
-::KrcahPreprocessingImageToImageFilter() :
-  m_Sigma(1.0f),
-  m_ScalingConstant(10.0f),
-  m_ReleaseInternalFilterData(true)
+template <typename TInputImage, typename TOutputImage>
+KrcahPreprocessingImageToImageFilter<TInputImage, TOutputImage>::KrcahPreprocessingImageToImageFilter()
+  : m_Sigma(1.0f)
+  , m_ScalingConstant(10.0f)
+  , m_ReleaseInternalFilterData(true)
 {
   /* Instantiate all filters */
   m_GaussianFilter = GaussianFilterType::New();
@@ -39,29 +38,27 @@ KrcahPreprocessingImageToImageFilter< TInputImage, TOutputImage >
   m_AddFilter = AddFilterType::New();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-KrcahPreprocessingImageToImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+KrcahPreprocessingImageToImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // Gaussian filter needs expanding around kernel. Since this filter is typically used
   // with the Kcrah enhancing filter, we just expand everything.
   Superclass::GenerateInputRequestedRegion();
   auto * input = const_cast<TInputImage *>(this->GetInput());
-  if( input )
-    {
+  if (input)
+  {
     input->SetRequestedRegionToLargestPossibleRegion();
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-KrcahPreprocessingImageToImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+KrcahPreprocessingImageToImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   /* Get Input */
   InputImageConstPointer input = this->GetInput();
-  
+
   /* I*G */
   m_GaussianFilter->SetInput(input);
   m_GaussianFilter->SetVariance(Math::squared_magnitude(this->GetSigma()));
@@ -101,10 +98,9 @@ KrcahPreprocessingImageToImageFilter< TInputImage, TOutputImage >
   this->GraftOutput(m_AddFilter->GetOutput());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-KrcahPreprocessingImageToImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+KrcahPreprocessingImageToImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "GaussianFilter: " << m_GaussianFilter.GetPointer() << std::endl;
@@ -116,6 +112,6 @@ KrcahPreprocessingImageToImageFilter< TInputImage, TOutputImage >
   os << indent << "ReleaseInternalFilterData: " << GetReleaseInternalFilterData() << std::endl;
 }
 
-} // end namespace
+} // namespace itk
 
 #endif // itkKrcahPreprocessingImageToImageFilter_hxx
