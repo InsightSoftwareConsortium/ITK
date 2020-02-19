@@ -192,7 +192,7 @@ LinearSystemWrapperVNL::GetSolutionValue(unsigned int i, unsigned int SolutionIn
 void
 LinearSystemWrapperVNL::Solve()
 {
-  if ((m_Matrices->size() == 0) || (m_Vectors->size() == 0) || (m_Solutions->size() == 0))
+  if ((m_Matrices->empty()) || (m_Vectors->empty()) || (m_Solutions->empty()))
   {
     itkGenericExceptionMacro(
       << "LinearSystemWrapperVNL::Solve(): m_Matrices, m_Vectors and m_Solutions size's are all zero.");
