@@ -88,18 +88,18 @@ void
 resampleMontage(const itk::TileConfiguration<Dimension> & actualTiles,
                 const std::string &                       inputPath,
                 const std::string &                       outFilename,
-                itk::ImageIOBase::IOPixelType             pixelType)
+                itk::IOPixelEnum                          pixelType)
 {
   switch (pixelType)
   {
-    case itk::ImageIOBase::IOPixelType::SCALAR:
+    case itk::IOPixelEnum ::SCALAR:
       resampleMontage<Dimension, ComponentType, AccumulatePixelType>(actualTiles, inputPath, outFilename);
       break;
-    case itk::ImageIOBase::IOPixelType::RGB:
+    case itk::IOPixelEnum ::RGB:
       resampleMontage<Dimension, itk::RGBPixel<ComponentType>, itk::RGBPixel<AccumulatePixelType>>(
         actualTiles, inputPath, outFilename);
       break;
-    case itk::ImageIOBase::IOPixelType::RGBA:
+    case itk::IOPixelEnum ::RGBA:
       resampleMontage<Dimension, itk::RGBAPixel<ComponentType>, itk::RGBAPixel<AccumulatePixelType>>(
         actualTiles, inputPath, outFilename);
       break;
@@ -124,7 +124,7 @@ mainHelper(char * argv[])
 
   std::string               firstFilename = inputPath + actualTiles.Tiles[0].FileName;
   itk::ImageIOBase::Pointer imageIO =
-    itk::ImageIOFactory::CreateImageIO(firstFilename.c_str(), itk::ImageIOFactory::FileModeEnum::ReadMode);
+    itk::ImageIOFactory::CreateImageIO(firstFilename.c_str(), itk::IOFileModeEnum::ReadMode);
   imageIO->SetFileName(firstFilename);
   imageIO->ReadImageInformation();
 
@@ -136,17 +136,17 @@ mainHelper(char * argv[])
                                                                  << numDimensions)
   }
 
-  const itk::ImageIOBase::IOPixelType     pixelType = imageIO->GetPixelType();
-  const itk::ImageIOBase::IOComponentType componentType = imageIO->GetComponentType();
+  const itk::IOPixelEnum     pixelType = imageIO->GetPixelType();
+  const itk::IOComponentEnum componentType = imageIO->GetComponentType();
   switch (componentType)
   {
-    case itk::ImageIOBase::IOComponentType::UCHAR:
+    case itk::IOComponentEnum::UCHAR:
       resampleMontage<Dimension, unsigned char, unsigned int>(actualTiles, inputPath, argv[2], pixelType);
       break;
-    case itk::ImageIOBase::IOComponentType::USHORT:
+    case itk::IOComponentEnum::USHORT:
       resampleMontage<Dimension, unsigned short, double>(actualTiles, inputPath, argv[2], pixelType);
       break;
-    case itk::ImageIOBase::IOComponentType::SHORT:
+    case itk::IOComponentEnum::SHORT:
       resampleMontage<Dimension, short, double>(actualTiles, inputPath, argv[2], pixelType);
       break;
     default: // instantiating too many types leads to long compilation time and big executable

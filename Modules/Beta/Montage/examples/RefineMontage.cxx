@@ -95,7 +95,7 @@ mainHelper(std::string inputPath, std::string inFile, std::string outFile)
 
   std::string               firstFilename = inputPath + stageTiles.Tiles[0].FileName;
   itk::ImageIOBase::Pointer imageIO =
-    itk::ImageIOFactory::CreateImageIO(firstFilename.c_str(), itk::ImageIOFactory::FileModeEnum::ReadMode);
+    itk::ImageIOFactory::CreateImageIO(firstFilename.c_str(), itk::IOFileModeEnum::ReadMode);
   imageIO->SetFileName(firstFilename);
   imageIO->ReadImageInformation();
 
@@ -107,16 +107,16 @@ mainHelper(std::string inputPath, std::string inFile, std::string outFile)
                                                                  << numDimensions)
   }
 
-  const itk::ImageIOBase::IOComponentType componentType = imageIO->GetComponentType();
+  const itk::IOComponentEnum componentType = imageIO->GetComponentType();
   switch (componentType)
   {
-    case itk::ImageIOBase::IOComponentType::UCHAR:
+    case itk::IOComponentEnum::UCHAR:
       refineMontage<Dimension, unsigned char, unsigned int>(stageTiles, actualTiles, inputPath);
       break;
-    case itk::ImageIOBase::IOComponentType::USHORT:
+    case itk::IOComponentEnum::USHORT:
       refineMontage<Dimension, unsigned short, double>(stageTiles, actualTiles, inputPath);
       break;
-    case itk::ImageIOBase::IOComponentType::SHORT:
+    case itk::IOComponentEnum::SHORT:
       refineMontage<Dimension, short, double>(stageTiles, actualTiles, inputPath);
       break;
     default: // instantiating too many types leads to long compilation time and big executable
