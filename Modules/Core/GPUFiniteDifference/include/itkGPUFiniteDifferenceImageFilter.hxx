@@ -194,9 +194,9 @@ GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::R
   TimeStepType oMin = NumericTraits<TimeStepType>::ZeroValue();
   bool         flag = false;
 
-  typename std::vector<TimeStepType>::const_iterator t_it = timeStepList.begin();
-  typename std::vector<TimeStepType>::const_iterator t_end = timeStepList.end();
-  typename std::vector<bool>::const_iterator         v_it = valid.begin();
+  auto t_it = timeStepList.begin();
+  auto t_end = timeStepList.end();
+  auto v_it = valid.begin();
 
   // grab first valid value
   while (t_it != t_end)

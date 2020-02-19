@@ -60,8 +60,7 @@ GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TPare
   GPUSuperclass::InitializeIteration();
 
   // set the gradient selection flag
-  GPUDemonsRegistrationFunctionType * drfp =
-    dynamic_cast<GPUDemonsRegistrationFunctionType *>(this->GetDifferenceFunction().GetPointer());
+  auto * drfp = dynamic_cast<GPUDemonsRegistrationFunctionType *>(this->GetDifferenceFunction().GetPointer());
 
   if (!drfp)
   {
@@ -86,8 +85,7 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 double
 GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>::GetMetric() const
 {
-  GPUDemonsRegistrationFunctionType * drfp =
-    dynamic_cast<GPUDemonsRegistrationFunctionType *>(this->GetDifferenceFunction().GetPointer());
+  auto * drfp = dynamic_cast<GPUDemonsRegistrationFunctionType *>(this->GetDifferenceFunction().GetPointer());
 
   if (!drfp)
   {
@@ -105,8 +103,7 @@ double
 GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>::
   GetIntensityDifferenceThreshold() const
 {
-  GPUDemonsRegistrationFunctionType * drfp =
-    dynamic_cast<GPUDemonsRegistrationFunctionType *>(this->GetDifferenceFunction().GetPointer());
+  auto * drfp = dynamic_cast<GPUDemonsRegistrationFunctionType *>(this->GetDifferenceFunction().GetPointer());
 
   if (!drfp)
   {
@@ -124,8 +121,7 @@ void
 GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>::
   SetIntensityDifferenceThreshold(double threshold)
 {
-  GPUDemonsRegistrationFunctionType * drfp =
-    dynamic_cast<GPUDemonsRegistrationFunctionType *>(this->GetDifferenceFunction().GetPointer());
+  auto * drfp = dynamic_cast<GPUDemonsRegistrationFunctionType *>(this->GetDifferenceFunction().GetPointer());
 
   if (!drfp)
   {
@@ -154,8 +150,7 @@ GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TPare
   this->GPUSuperclass::ApplyUpdate(dt);
   this->m_ApplyUpdateTime.Stop();
 
-  GPUDemonsRegistrationFunctionType * drfp =
-    dynamic_cast<GPUDemonsRegistrationFunctionType *>(this->GetDifferenceFunction().GetPointer());
+  auto * drfp = dynamic_cast<GPUDemonsRegistrationFunctionType *>(this->GetDifferenceFunction().GetPointer());
 
   if (!drfp)
   {

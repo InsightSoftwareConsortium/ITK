@@ -41,7 +41,7 @@ struct eqstr
 void
 lookup(const std::unordered_set<const char *, std::hash<const char *>, eqstr> & Set, const char * word)
 {
-  std::unordered_set<const char *, std::hash<const char *>, eqstr>::const_iterator it = Set.find(word);
+  auto it = Set.find(word);
   std::cout << word << ": " << (it != Set.end() ? "present" : "not present") << std::endl;
 }
 
@@ -92,7 +92,7 @@ itkHashTableTest(int, char *[])
   Set.insert("the horror");
   Set.count("apple");
   Set.find("kiwi");
-  HashSetType::iterator       hsh_it = Set.begin();
+  auto                        hsh_it = Set.begin();
   HashSetType::const_iterator hst_const_it;
   hst_const_it = Set.end();
   HashSetType SetCopy;
@@ -134,7 +134,7 @@ itkHashTableTest(int, char *[])
   months.insert(p);
   months.count("january");
   months.find("june");
-  HashMapType::iterator       map_it = months.begin();
+  auto                        map_it = months.begin();
   HashMapType::const_iterator map_const_it;
   map_const_it = months.end();
   HashMapType MapCopy;

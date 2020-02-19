@@ -80,17 +80,17 @@ public:
     typedef OutputSpatialObjectT                       OutObjectType;
     typedef std::list<typename OutObjectType::Pointer> OutListType;
 
-    OutListType * outputList = new OutListType;
+    auto * outputList = new OutListType;
 
-    OutObjectType * obj = dynamic_cast<OutObjectType *>(m_Input.GetPointer());
+    auto * obj = dynamic_cast<OutObjectType *>(m_Input.GetPointer());
     if (obj != nullptr)
     {
       typename OutObjectType::Pointer sObj = OutObjectType::New();
       sObj = obj;
       outputList->push_back(sObj);
     }
-    InputChildrenListType *                  inputList = m_Input->GetChildren(9999);
-    typename InputChildrenListType::iterator it = inputList->begin();
+    InputChildrenListType * inputList = m_Input->GetChildren(9999);
+    auto                    it = inputList->begin();
     while (it != inputList->end())
     {
       obj = dynamic_cast<OutObjectType *>(it->GetPointer());

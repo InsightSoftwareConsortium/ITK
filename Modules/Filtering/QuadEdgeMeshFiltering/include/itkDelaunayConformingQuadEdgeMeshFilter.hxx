@@ -68,7 +68,7 @@ DelaunayConformingQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::InitializePriorit
 
       if (value > 0.0)
       {
-        PriorityQueueItemType * qi = new PriorityQueueItemType(edge, PriorityType(true, value));
+        auto * qi = new PriorityQueueItemType(edge, PriorityType(true, value));
         m_QueueMapper[edge] = qi;
         m_PriorityQueue->Push(qi);
       }
@@ -88,7 +88,7 @@ DelaunayConformingQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::InitializePriorit
     }
     else
     {
-      PriorityQueueItemType * qi = new PriorityQueueItemType(edge, PriorityType(false, 0.0));
+      auto * qi = new PriorityQueueItemType(edge, PriorityType(false, 0.0));
       m_QueueMapper[edge] = qi;
       m_PriorityQueue->Push(qi);
     }
@@ -181,7 +181,7 @@ DelaunayConformingQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Process()
             auto queue_it = m_QueueMapper.find(edge);
             if (queue_it == m_QueueMapper.end())
             {
-              PriorityQueueItemType * qi = new PriorityQueueItemType(edge, PriorityType(true, value));
+              auto * qi = new PriorityQueueItemType(edge, PriorityType(true, value));
               m_QueueMapper[edge] = qi;
               m_PriorityQueue->Push(qi);
             }

@@ -86,7 +86,7 @@ public:
   unsigned long
   Lookup(const unsigned long a) const
   {
-    ConstIterator result = m_HashMap.find(a);
+    auto result = m_HashMap.find(a);
 
     if (result == m_HashMap.end())
     {

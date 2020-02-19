@@ -91,7 +91,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
 {
   this->Superclass::GenerateInputRequestedRegion();
   {
-    InputImageType * source_image = const_cast<InputImageType *>(this->GetSourceImage());
+    auto * source_image = const_cast<InputImageType *>(this->GetSourceImage());
     if (source_image)
     {
       source_image->SetRequestedRegionToLargestPossibleRegion();
@@ -100,7 +100,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
 
   if (this->m_GenerateReferenceHistogramFromImage)
   {
-    InputImageType * reference_image = const_cast<InputImageType *>(this->GetReferenceImage());
+    auto * reference_image = const_cast<InputImageType *>(this->GetReferenceImage());
     if (reference_image)
     {
       reference_image->SetRequestedRegionToLargestPossibleRegion();
@@ -329,7 +329,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
 
   for (SizeValueType i = 0; !outIter.IsAtEnd(); ++inIter, ++outIter, i++)
   {
-    const double  srcValue = static_cast<double>(inIter.Get());
+    const auto    srcValue = static_cast<double>(inIter.Get());
     SizeValueType j = 0;
     for (; j < m_NumberOfMatchPoints + 2; j++)
     {

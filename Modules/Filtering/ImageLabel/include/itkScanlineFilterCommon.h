@@ -50,13 +50,13 @@ public:
   void
   Register() const
   {
-    Object * obj = static_cast<Object *>(m_EnclosingFilter.GetPointer());
+    auto * obj = static_cast<Object *>(m_EnclosingFilter.GetPointer());
     obj->Register();
   }
   void
   UnRegister() const noexcept
   {
-    Object * obj = static_cast<Object *>(m_EnclosingFilter.GetPointer());
+    auto * obj = static_cast<Object *>(m_EnclosingFilter.GetPointer());
     obj->UnRegister();
   }
   static Pointer
@@ -485,7 +485,7 @@ protected:
     {
       if (!m_LineMap[thisIdx].empty())
       {
-        typename OffsetVectorType::const_iterator it = this->m_LineOffsets.begin();
+        auto it = this->m_LineOffsets.begin();
         while (it != this->m_LineOffsets.end())
         {
           OffsetValueType neighIdx = thisIdx + (*it);

@@ -286,9 +286,9 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
   }
 
   // Try to find an existing contour that starts where the new segment ends.
-  VertexMapIterator newTail = m_ContourStarts.find(to);
+  auto newTail = m_ContourStarts.find(to);
   // Try to find an existing contour that ends where the new segment starts.
-  VertexMapIterator newHead = m_ContourEnds.find(from);
+  auto newHead = m_ContourEnds.find(from);
 
   if (newTail != m_ContourStarts.end() && newHead != m_ContourEnds.end())
   {

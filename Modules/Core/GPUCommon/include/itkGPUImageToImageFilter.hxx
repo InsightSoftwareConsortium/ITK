@@ -73,7 +73,7 @@ void
 GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>::GraftOutput(DataObject * output)
 {
   using GPUOutputImage = typename itk::GPUTraits<TOutputImage>::Type;
-  GPUOutputImage * gpuImage = dynamic_cast<GPUOutputImage *>(output);
+  auto * gpuImage = dynamic_cast<GPUOutputImage *>(output);
   if (gpuImage)
   {
     this->GraftOutput(gpuImage);
@@ -103,7 +103,7 @@ GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>::GraftOutpu
                                                                                   DataObject * output)
 {
   using GPUOutputImage = typename itk::GPUTraits<TOutputImage>::Type;
-  GPUOutputImage * gpuImage = dynamic_cast<GPUOutputImage *>(output);
+  auto * gpuImage = dynamic_cast<GPUOutputImage *>(output);
   if (gpuImage)
   {
     this->GraftOutput(key, gpuImage);

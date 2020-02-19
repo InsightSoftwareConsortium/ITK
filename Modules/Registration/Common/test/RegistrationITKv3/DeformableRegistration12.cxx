@@ -262,7 +262,7 @@ main(int argc, char * argv[])
 
   metric->SetNumberOfHistogramBins(50);
 
-  const unsigned int numberOfSamples = static_cast<unsigned int>(fixedRegion.GetNumberOfPixels() * 60.0 / 100.0);
+  const auto numberOfSamples = static_cast<unsigned int>(fixedRegion.GetNumberOfPixels() * 60.0 / 100.0);
 
   metric->SetNumberOfSpatialSamples(numberOfSamples);
 
