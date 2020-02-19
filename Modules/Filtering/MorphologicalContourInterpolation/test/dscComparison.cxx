@@ -16,14 +16,14 @@
  *
  *=========================================================================*/
 
-#include <iostream>
-#include <fstream>
-#include <string>
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkMorphologicalContourInterpolator.h"
 #include "itkTestDriverIncludeRequiredIOFactories.h"
 #include "itkTimeProbe.h"
+#include <fstream>
+#include <iostream>
+#include <string>
 
 using TestPixelType = unsigned char;
 constexpr unsigned int testDim = 3;

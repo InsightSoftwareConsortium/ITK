@@ -30,9 +30,9 @@
 #include "itkMultiThreaderBase.h"
 #include "itkObjectFactory.h"
 #include "itkOrImageFilter.h"
+#include "itkProgressTransformer.h"
 #include "itkSignedMaurerDistanceMapImageFilter.h"
 #include "itkUnaryFunctorImageFilter.h"
-#include "itkProgressTransformer.h"
 #include <algorithm>
 #include <climits>
 #include <mutex>

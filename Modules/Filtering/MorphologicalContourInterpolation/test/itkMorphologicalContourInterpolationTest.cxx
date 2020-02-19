@@ -36,10 +36,10 @@ doTest(std::string inFilename, std::string outFilename, bool UseDistanceTransfor
   // region for partial coverage
   typename ImageType::RegionType reg = test->GetLargestPossibleRegion();
   // for (int i = 0; i < ImageType::ImageDimension; i++)
-  //   {
-  //   reg.GetModifiableIndex()[i] += (reg.GetSize(i) - 1) / 4;
-  //   reg.SetSize(i, (reg.GetSize(i) + 1) / 2);
-  //   }
+  //  {
+  //  reg.GetModifiableIndex()[i] += (reg.GetSize(i) - 1) / 4;
+  //  reg.SetSize(i, (reg.GetSize(i) + 1) / 2);
+  //  }
 
   using mciType = itk::MorphologicalContourInterpolator<ImageType>;
   typename mciType::Pointer mci = mciType::New();

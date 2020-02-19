@@ -16,10 +16,10 @@
  *
  *=========================================================================*/
 
-#include "itkRLEImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkMorphologicalContourInterpolator.h"
+#include "itkRLEImage.h"
 #include <cstdlib>
 #include <string>
 
@@ -44,10 +44,10 @@ doTest(std::string inFilename, std::string outFilename, bool UseDistanceTransfor
   typename myRLEImage::RegionType reg = test->GetLargestPossibleRegion();
   // skip X due to RLE representation constraints
   // for (int i = 1; i < ImageType::ImageDimension; i++)
-  //   {
-  //   reg.GetModifiableIndex()[i] += (reg.GetSize(i) - 1) / 4;
-  //   reg.SetSize(i, (reg.GetSize(i) + 1) / 2);
-  //   }
+  //  {
+  //  reg.GetModifiableIndex()[i] += (reg.GetSize(i) - 1) / 4;
+  //  reg.SetSize(i, (reg.GetSize(i) + 1) / 2);
+  //  }
 
   using mciType = itk::MorphologicalContourInterpolator<myRLEImage>;
   typename mciType::Pointer mci = mciType::New();
