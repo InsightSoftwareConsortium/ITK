@@ -5,13 +5,7 @@ import sys
 import os
 import re
 from argparse import ArgumentParser
-
-try:
-    # Python 3
-    from io import StringIO
-except ImportError:
-    # Python 2
-    from cStringIO import StringIO
+from io import StringIO
 
 
 def getType(v):
