@@ -128,7 +128,7 @@ public:
 
   using InternalRealType = typename NumericTraits<PixelType>::FloatType;
   // using RealImageType = typename Image<InternalRealType,
-  //  itkGetStaticConstMacro(ImageDimension) >;
+  // itkGetStaticConstMacro(ImageDimension) >;
 
   // set all of the scales the same
   void

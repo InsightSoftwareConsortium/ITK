@@ -97,9 +97,9 @@ BinaryDilateParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
     m_CircCast->SetInput(m_CircPara->GetOutput());
     // m_CircCast->SetInsideValue(0);
     // m_CircCast->SetOutsideValue(1);
-    //  setting the correct threshold value is a little tricky - needs would
-    //  to produce a result matching a bresenham circle, but these
-    //  circles are such that the voxel centres need to be less than radius
+    // setting the correct threshold value is a little tricky - needs would
+    // to produce a result matching a bresenham circle, but these
+    // circles are such that the voxel centres need to be less than radius
     m_CircCast->SetUpperThreshold(0);
     m_CircCast->SetOutsideValue(1);
     m_CircCast->SetInsideValue(0);

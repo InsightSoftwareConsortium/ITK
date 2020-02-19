@@ -98,11 +98,11 @@ BinaryErodeParaImageFilter<TInputImage, TOutputImage>::GenerateData(void)
     m_CircCast->SetVal(1.0);
     // m_CircCast->SetInsideValue(0);
     // m_CircCast->SetOutsideValue(1);
-    //  setting the correct threshold value is a little tricky - needs would
-    //  to produce a result matching a bresenham circle, but these
-    //  circles are such that the voxel centres need to be less than radius
+    // setting the correct threshold value is a little tricky - needs would
+    // to produce a result matching a bresenham circle, but these
+    // circles are such that the voxel centres need to be less than radius
     // m_CircCast->SetUpperThreshold(1 -
-    //  itk::NumericTraits<InternalRealType>::min());
+    // itk::NumericTraits<InternalRealType>::min());
     // m_CircCast->SetUpperThreshold(0.99);
 
     m_CircCast->GraftOutput(this->GetOutput());
