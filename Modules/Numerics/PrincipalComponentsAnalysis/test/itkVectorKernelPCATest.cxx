@@ -147,7 +147,6 @@ itkVectorKernelPCATest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(pcaCalc, VectorFieldPCA, Object);
 
-
   // Test exception when trying to compute before setting much of anything
   ITK_TRY_EXPECT_EXCEPTION(pcaCalc->Compute());
 
@@ -184,10 +183,8 @@ itkVectorKernelPCATest(int argc, char * argv[])
   pcaCalc->SetVectorFieldSet(vectorFieldSet);
   ITK_TEST_SET_GET_VALUE(vectorFieldSet, pcaCalc->GetVectorFieldSet());
 
-
   // Execute the PCA calculator
   ITK_TRY_EXPECT_NO_EXCEPTION(pcaCalc->Compute());
-
 
   double              kernelSigma = 6.25;
   KernelType::Pointer distKernel = KernelType::New();
@@ -259,7 +256,6 @@ itkVectorKernelPCATest(int argc, char * argv[])
   pcaCalc->SetComponentCount(fieldSetCount + 1);
 
   ITK_TRY_EXPECT_EXCEPTION(pcaCalc->Compute());
-
 
   std::cout << "Test finished." << std::endl;
   return testStatus;
