@@ -284,9 +284,9 @@ OBJMeshIO ::ReadCells(void * buffer)
         }
 
         data[index++] = static_cast<long>(idList.size());
-        for (std::vector<long>::const_iterator it = idList.begin(); it != idList.end(); ++it)
+        for (long it : idList)
         {
-          data[index++] = (*it - 1);
+          data[index++] = (it - 1);
         }
       }
     }

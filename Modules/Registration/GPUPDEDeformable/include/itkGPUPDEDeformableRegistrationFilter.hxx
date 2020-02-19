@@ -336,9 +336,9 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
     blockSize = blockSize <= 64 ? blockSize : 64;
     // std::cout << "indir=" << indir << " blockSize=" << blockSize << std::endl;
 
-    for (int i = 0; i < 3; i++)
+    for (unsigned long & i : localSize)
     {
-      localSize[i] = 1;
+      i = 1;
     }
     localSize[indir] = blockSize;
 

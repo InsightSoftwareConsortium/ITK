@@ -106,11 +106,9 @@ struct ObjectFactoryBasePrivate
     ::itk::ObjectFactoryBase::UnRegisterAllFactories();
     if (m_InternalFactories)
     {
-      for (std::list<itk::ObjectFactoryBase *>::iterator i = m_InternalFactories->begin();
-           i != m_InternalFactories->end();
-           ++i)
+      for (auto & m_InternalFactorie : *m_InternalFactories)
       {
-        (*i)->UnRegister();
+        m_InternalFactorie->UnRegister();
       }
       delete m_InternalFactories;
       m_InternalFactories = nullptr;

@@ -148,9 +148,9 @@ ThreadPool ::~ThreadPool()
   // Even if the threads have already been terminated,
   // we should join() the std::thread variables.
   // Otherwise some sanity check in debug mode complains.
-  for (ThreadIdType i = 0; i < m_Threads.size(); i++)
+  for (auto & m_Thread : m_Threads)
   {
-    m_Threads[i].join();
+    m_Thread.join();
   }
 }
 

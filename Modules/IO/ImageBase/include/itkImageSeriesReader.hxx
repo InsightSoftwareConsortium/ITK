@@ -37,10 +37,10 @@ ImageSeriesReader<TOutputImage>::~ImageSeriesReader()
   // Clear the eventual previous content of the MetaDictionary array
   if (!m_MetaDataDictionaryArray.empty())
   {
-    for (unsigned int i = 0; i < m_MetaDataDictionaryArray.size(); i++)
+    for (auto & i : m_MetaDataDictionaryArray)
     {
       // each element is a raw pointer, delete them.
-      delete m_MetaDataDictionaryArray[i];
+      delete i;
     }
   }
   m_MetaDataDictionaryArray.clear();
@@ -106,10 +106,10 @@ ImageSeriesReader<TOutputImage>::GenerateOutputInformation()
   // Clear the previous content of the MetaDictionary array
   if (!m_MetaDataDictionaryArray.empty())
   {
-    for (unsigned int i = 0; i < m_MetaDataDictionaryArray.size(); i++)
+    for (auto & i : m_MetaDataDictionaryArray)
     {
       // each element is a raw pointer, delete them.
-      delete m_MetaDataDictionaryArray[i];
+      delete i;
     }
   }
   m_MetaDataDictionaryArray.clear();

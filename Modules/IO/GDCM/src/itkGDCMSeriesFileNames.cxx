@@ -195,40 +195,40 @@ GDCMSeriesFileNames::GetOutputFileNames()
   if (!m_InputFileNames.empty())
   {
     bool hasExtension = false;
-    for (std::vector<std::string>::const_iterator it = m_InputFileNames.begin(); it != m_InputFileNames.end(); ++it)
+    for (const auto & m_InputFileName : m_InputFileNames)
     {
       // look for extension ".dcm" and ".DCM"
-      std::string::size_type dcmPos = (*it).rfind(".dcm");
-      if ((dcmPos != std::string::npos) && (dcmPos == (*it).length() - 4))
+      std::string::size_type dcmPos = m_InputFileName.rfind(".dcm");
+      if ((dcmPos != std::string::npos) && (dcmPos == m_InputFileName.length() - 4))
       {
         hasExtension = true;
       }
       else
       {
-        dcmPos = (*it).rfind(".DCM");
-        if ((dcmPos != std::string::npos) && (dcmPos == (*it).length() - 4))
+        dcmPos = m_InputFileName.rfind(".DCM");
+        if ((dcmPos != std::string::npos) && (dcmPos == m_InputFileName.length() - 4))
         {
           hasExtension = true;
         }
       }
 
       // look for extension ".dicom" and ".DICOM"
-      std::string::size_type dicomPos = (*it).rfind(".dicom");
-      if ((dicomPos != std::string::npos) && (dicomPos == (*it).length() - 6))
+      std::string::size_type dicomPos = m_InputFileName.rfind(".dicom");
+      if ((dicomPos != std::string::npos) && (dicomPos == m_InputFileName.length() - 6))
       {
         hasExtension = true;
       }
       else
       {
-        dicomPos = (*it).rfind(".DICOM");
-        if ((dicomPos != std::string::npos) && (dicomPos == (*it).length() - 6))
+        dicomPos = m_InputFileName.rfind(".DICOM");
+        if ((dicomPos != std::string::npos) && (dicomPos == m_InputFileName.length() - 6))
         {
           hasExtension = true;
         }
       }
 
       // construct a filename, adding an extension if necessary
-      std::string filename = m_OutputDirectory + itksys::SystemTools::GetFilenameName(*it);
+      std::string filename = m_OutputDirectory + itksys::SystemTools::GetFilenameName(m_InputFileName);
       if (!hasExtension)
       {
         // input filename has no extension, add a ".dcm"

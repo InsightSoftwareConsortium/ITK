@@ -394,9 +394,9 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
   }
 
   m_BordersPointer.resize(numberOfBorders);
-  for (unsigned int k = 0; k < m_BordersPointer.size(); k++)
+  for (auto & k : m_BordersPointer)
   {
-    m_BordersPointer[k] = KLMSegmentationBorder::New();
+    k = KLMSegmentationBorder::New();
   }
 
   /* the following initialization of the borders ensures that

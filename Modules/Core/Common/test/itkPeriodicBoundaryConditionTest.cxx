@@ -305,9 +305,9 @@ itkPeriodicBoundaryConditionTest(int, char *[])
   while (!testIter.IsAtEnd())
   {
     float sum = 0;
-    for (size_t j = 0; j < back.size(); ++j)
+    for (auto & j : back)
     {
-      const float d = testIter.GetPixel(back[j]);
+      const float d = testIter.GetPixel(j);
       sum += d * d;
     }
     ++testIter;

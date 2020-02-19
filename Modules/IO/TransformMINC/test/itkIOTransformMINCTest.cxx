@@ -677,11 +677,11 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
     using TransformType = itk::Transform<double, 3>;
 
     CompositeTransformType::Pointer _xfm = CompositeTransformType::New();
-    for (auto it = list->begin(); it != list->end(); ++it)
+    for (const auto & it : *list)
     {
-      (*it)->Print(std::cout);
+      it->Print(std::cout);
       std::cout << std::endl;
-      _xfm->AddTransform(static_cast<TransformType *>((*it).GetPointer()));
+      _xfm->AddTransform(static_cast<TransformType *>(it.GetPointer()));
     }
     std::cout << std::endl;
     std::cout << std::endl;

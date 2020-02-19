@@ -223,9 +223,9 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
       InputMeshCellLinksContainer                          links;
       typename std::set<InputMeshCellIdentifier>::iterator citer;
 
-      for (auto i = m_SeedList.begin(); i != m_SeedList.end(); ++i)
+      for (unsigned long & i : m_SeedList)
       {
-        links = cellLinks->ElementAt(*i);
+        links = cellLinks->ElementAt(i);
         for (citer = links.begin(); citer != links.end(); ++citer)
         {
           m_Wave->push_back(*citer);
@@ -235,9 +235,9 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
     // use the seeds directly
     else if (m_ExtractionMode == CellSeededRegions)
     {
-      for (auto i = m_SeedList.begin(); i != m_SeedList.end(); ++i)
+      for (unsigned long & i : m_SeedList)
       {
-        m_Wave->push_back(*i);
+        m_Wave->push_back(i);
       }
     }
     // find the closest point and get the cells using it as the seeds
@@ -390,9 +390,9 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
   if (this->GetDebug())
   {
     SizeValueType count = 0;
-    for (auto ii = m_RegionSizes.begin(); ii != m_RegionSizes.end(); ++ii)
+    for (unsigned long & m_RegionSize : m_RegionSizes)
     {
-      count += *ii;
+      count += m_RegionSize;
     }
     itkDebugMacro(<< "Total #of cells accounted for: " << count);
     itkDebugMacro(<< "Extracted " << output->GetNumberOfCells() << " cells");
