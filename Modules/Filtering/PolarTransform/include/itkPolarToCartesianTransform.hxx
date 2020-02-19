@@ -57,6 +57,14 @@ PolarToCartesianTransform<TParametersValueType, NDimensions>::TransformPoint(con
     alpha /= inputPoint[1]; // alpha = arc/r
   }
 
+  if (m_ReturnNaN && (alpha < -Math::pi || Math::pi < alpha))
+  {
+    using PointNumericTraits = NumericTraits<typename OutputPointType::ValueType>;
+    outputPoint[0] = PointNumericTraits::quiet_NaN();
+    outputPoint[1] = PointNumericTraits::quiet_NaN();
+    return outputPoint;
+  }
+
   outputPoint[0] = inputPoint[1] * std::cos(alpha); // r*cos(alpha)
   outputPoint[1] = inputPoint[1] * std::sin(alpha); // r*sin(alpha)
 

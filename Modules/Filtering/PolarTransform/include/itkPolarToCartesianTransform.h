@@ -168,6 +168,14 @@ public:
   itkGetMacro(ConstArcIncr, bool);
   itkBooleanMacro(ConstArcIncr);
 
+  /** Enable/Disable to return NaN in case alpha is outside [-pi,pi].
+   *
+   * Defaults to Off
+   */
+  itkSetMacro(ReturnNaN, bool);
+  itkGetMacro(ReturnNaN, bool);
+  itkBooleanMacro(ReturnNaN);
+
 protected:
   PolarToCartesianTransform();
   ~PolarToCartesianTransform() override;
@@ -179,6 +187,7 @@ protected:
 private:
   OutputPointType m_Center;
   bool            m_ConstArcIncr = false;
+  bool            m_ReturnNaN = false;
 }; // class PolarToCartesianTransform
 
 } // namespace itk
