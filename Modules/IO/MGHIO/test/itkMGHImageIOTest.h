@@ -33,7 +33,6 @@
 #include "itkEuler3DTransform.h"
 
 
-
 template <class TPixelType, unsigned int VImageDimension>
 typename itk::Image<TPixelType, VImageDimension>::Pointer
 itkMGHImageIOTestGenerateRandomImage(const unsigned int size)
@@ -43,46 +42,45 @@ itkMGHImageIOTestGenerateRandomImage(const unsigned int size)
   eulerTransform->SetIdentity();
 
   // 15 degrees in radians
-  const double angleX = 15.0 * std::atan( 1.0 ) / 45.0;
+  const double angleX = 15.0 * std::atan(1.0) / 45.0;
   // 10 degrees in radians
-  const double angleY = 10.0 * std::atan( 1.0 ) / 45.0;
+  const double angleY = 10.0 * std::atan(1.0) / 45.0;
   // 5 degrees in radians
-  const double angleZ = 5.0 * std::atan( 1.0 ) / 45.0;
+  const double angleZ = 5.0 * std::atan(1.0) / 45.0;
   eulerTransform->SetRotation(angleX, angleY, angleZ);
- 
+
   using ImageType = itk::Image<TPixelType, VImageDimension>;
 
   typename ImageType::DirectionType permuteDirections;
-  const double dir1[3] = { -1.,  0.,  0. };
-  const double dir2[3] = {  0.,  0.,  1. };
-  const double dir3[3] = {  0., -1.,  0.  };
-  permuteDirections.GetVnlMatrix().set_column(0,dir1);
-  permuteDirections.GetVnlMatrix().set_column(1,dir2);
-  permuteDirections.GetVnlMatrix().set_column(2,dir3);
+  const double                      dir1[3] = { -1., 0., 0. };
+  const double                      dir2[3] = { 0., 0., 1. };
+  const double                      dir3[3] = { 0., -1., 0. };
+  permuteDirections.GetVnlMatrix().set_column(0, dir1);
+  permuteDirections.GetVnlMatrix().set_column(1, dir2);
+  permuteDirections.GetVnlMatrix().set_column(2, dir3);
 
-  typename ImageType::DirectionType direction = eulerTransform->GetMatrix()*permuteDirections;
-  
+  typename ImageType::DirectionType direction = eulerTransform->GetMatrix() * permuteDirections;
+
   for (unsigned int i = 0; i < VImageDimension; ++i)
-    {
+  {
     for (unsigned int j = 0; j < VImageDimension; ++j)
-      {
-      direction[i][j] = static_cast<float>(direction[i][j]); //Truncate for testing purposes
-      }
+    {
+      direction[i][j] = static_cast<float>(direction[i][j]); // Truncate for testing purposes
     }
+  }
 
-  typename ImageType::SizeType sz;
+  typename ImageType::SizeType    sz;
   typename ImageType::SpacingType spacing;
-  typename ImageType::PointType origin;
+  typename ImageType::PointType   origin;
 
   for (unsigned int i = 0; i < VImageDimension; ++i)
-    {
-    sz[i]      = size;
-    spacing[i] = static_cast<float>(i+1.234567);
-    origin[i]  = static_cast<float>(1234.5);
-    }
+  {
+    sz[i] = size;
+    spacing[i] = static_cast<float>(i + 1.234567);
+    origin[i] = static_cast<float>(1234.5);
+  }
 
-  typename itk::RandomImageSource<ImageType>::Pointer source
-    = itk::RandomImageSource<ImageType>::New();
+  typename itk::RandomImageSource<ImageType>::Pointer source = itk::RandomImageSource<ImageType>::New();
 
   source->SetDirection(direction);
   source->SetSize(sz);
@@ -90,41 +88,36 @@ itkMGHImageIOTestGenerateRandomImage(const unsigned int size)
   source->SetSpacing(spacing);
 
   source->Update();
-  typename ImageType::Pointer outImage=source->GetOutput();
+  typename ImageType::Pointer outImage = source->GetOutput();
 
-    {
+  {
     itk::MetaDataDictionary & thisDic = outImage->GetMetaDataDictionary();
-    //Add meta data to dictionary
+    // Add meta data to dictionary
     // set TR, Flip, TE, FI, FOV //TODO: Add code that verifies these values
     float fBufTR = 2.0F;
-    float fBufFA=89.1F;
-    float fBufTE=1.5F;
-    float fBufTI=0.75F;
-    float fBufFOV=321.0F;
-    itk::EncapsulateMetaData<float>(thisDic,
-      std::string("TR"), fBufTR);
+    float fBufFA = 89.1F;
+    float fBufTE = 1.5F;
+    float fBufTI = 0.75F;
+    float fBufFOV = 321.0F;
+    itk::EncapsulateMetaData<float>(thisDic, std::string("TR"), fBufTR);
     // try to read flipAngle
-    itk::EncapsulateMetaData<float>(thisDic,
-      std::string("FlipAngle"), fBufFA);
+    itk::EncapsulateMetaData<float>(thisDic, std::string("FlipAngle"), fBufFA);
     // TE
-    itk::EncapsulateMetaData<float>(thisDic,
-      std::string("TE"), fBufTE);
+    itk::EncapsulateMetaData<float>(thisDic, std::string("TE"), fBufTE);
     // TI
-    itk::EncapsulateMetaData<float>(thisDic,
-      std::string("TI"), fBufTI);
+    itk::EncapsulateMetaData<float>(thisDic, std::string("TI"), fBufTI);
     // FOV
-    itk::EncapsulateMetaData<float>(thisDic,
-      std::string("FoV"), fBufFOV);
-    }
+    itk::EncapsulateMetaData<float>(thisDic, std::string("FoV"), fBufFOV);
+  }
   return outImage;
 }
 
-//Template specialization for itkDiffusionTensor3D
-template<>
-itk::Image<itk::DiffusionTensor3D<float>,3>::Pointer
-itkMGHImageIOTestGenerateRandomImage< itk::DiffusionTensor3D<float> , 3 >(unsigned int size)
+// Template specialization for itkDiffusionTensor3D
+template <>
+itk::Image<itk::DiffusionTensor3D<float>, 3>::Pointer
+itkMGHImageIOTestGenerateRandomImage<itk::DiffusionTensor3D<float>, 3>(unsigned int size)
 {
-  using TensorImageType = itk::Image<itk::DiffusionTensor3D<float>,3>;
+  using TensorImageType = itk::Image<itk::DiffusionTensor3D<float>, 3>;
   using TensorImagePointer = TensorImageType::Pointer;
 
   const double dir1[3] = { 0, -1, 0 };
@@ -132,19 +125,19 @@ itkMGHImageIOTestGenerateRandomImage< itk::DiffusionTensor3D<float> , 3 >(unsign
   const double dir3[3] = { 0, 0, -1 };
 
   TensorImageType::DirectionType direction;
-  direction.GetVnlMatrix().set_column(0,dir1);
-  direction.GetVnlMatrix().set_column(1,dir2);
-  direction.GetVnlMatrix().set_column(2,dir3);
+  direction.GetVnlMatrix().set_column(0, dir1);
+  direction.GetVnlMatrix().set_column(1, dir2);
+  direction.GetVnlMatrix().set_column(2, dir3);
 
-  TensorImageType::SizeType      sz;
-  TensorImageType::SpacingType   spacing;
-  TensorImageType::PointType     origin;
-  for(unsigned int i = 0; i < 3; ++i)
-    {
+  TensorImageType::SizeType    sz;
+  TensorImageType::SpacingType spacing;
+  TensorImageType::PointType   origin;
+  for (unsigned int i = 0; i < 3; ++i)
+  {
     sz[i] = size;
-    spacing[i] = static_cast<double>(i*3.21 + 1.0);
-    origin[i] = static_cast<double>( 1.23456 );
-    }
+    spacing[i] = static_cast<double>(i * 3.21 + 1.0);
+    origin[i] = static_cast<double>(1.23456);
+  }
 
   TensorImagePointer tensorImage = TensorImageType::New();
   tensorImage->SetRegions(sz);
@@ -153,41 +146,38 @@ itkMGHImageIOTestGenerateRandomImage< itk::DiffusionTensor3D<float> , 3 >(unsign
   tensorImage->Allocate();
   tensorImage->SetDirection(direction);
 
-  itk::DiffusionTensor3D<double>   pix;
-  using ScalarImageType = itk::Image<double,3>;
+  itk::DiffusionTensor3D<double> pix;
+  using ScalarImageType = itk::Image<double, 3>;
   using ScalarImagePointer = ScalarImageType::Pointer;
 
   std::vector<ScalarImagePointer> scalarImageVec;
-  for(unsigned i = 0; i < pix.Size(); ++i)
-    {
-    ScalarImagePointer tempImage = itkMGHImageIOTestGenerateRandomImage<double,3>(size);
+  for (unsigned i = 0; i < pix.Size(); ++i)
+  {
+    ScalarImagePointer tempImage = itkMGHImageIOTestGenerateRandomImage<double, 3>(size);
     scalarImageVec.push_back(tempImage);
-    }
-  itk::ImageRegionIteratorWithIndex<TensorImageType>
-    tensorIt(tensorImage,tensorImage->GetLargestPossibleRegion());
-  for(tensorIt.GoToBegin(); !tensorIt.IsAtEnd(); ++tensorIt)
+  }
+  itk::ImageRegionIteratorWithIndex<TensorImageType> tensorIt(tensorImage, tensorImage->GetLargestPossibleRegion());
+  for (tensorIt.GoToBegin(); !tensorIt.IsAtEnd(); ++tensorIt)
+  {
+    for (unsigned int i = 0; i < pix.Size(); ++i)
     {
-    for(unsigned int i = 0; i < pix.Size(); ++i)
-      {
       const TensorImageType::IndexType & index = tensorIt.GetIndex();
-      pix.SetNthComponent(i,scalarImageVec[i]->GetPixel(index));
-      }
-      tensorIt.Set(pix);
+      pix.SetNthComponent(i, scalarImageVec[i]->GetPixel(index));
     }
+    tensorIt.Set(pix);
+  }
   return tensorImage;
 }
 
 
-template<class TPixelType, unsigned int VImageDimension>
-bool itkMGHImageIOTestReadWriteTest(std::string fn, unsigned int size,
-                                    std::string inputFile, bool compression=false)
+template <class TPixelType, unsigned int VImageDimension>
+bool
+itkMGHImageIOTestReadWriteTest(std::string fn, unsigned int size, std::string inputFile, bool compression = false)
 {
   using ImageType = itk::Image<TPixelType, VImageDimension>;
 
-  typename itk::ImageFileReader<ImageType>::Pointer reader
-    = itk::ImageFileReader<ImageType>::New();
-  typename itk::ImageFileWriter<ImageType>::Pointer writer
-    = itk::ImageFileWriter<ImageType>::New();
+  typename itk::ImageFileReader<ImageType>::Pointer reader = itk::ImageFileReader<ImageType>::New();
+  typename itk::ImageFileWriter<ImageType>::Pointer writer = itk::ImageFileWriter<ImageType>::New();
 
   itk::MGHImageIO::Pointer io = itk::MGHImageIO::New();
   reader->SetImageIO(io);
@@ -196,69 +186,72 @@ bool itkMGHImageIOTestReadWriteTest(std::string fn, unsigned int size,
   typename ImageType::Pointer reference_image;
 
   if (inputFile != "null")
-    {
-    typename itk::ImageFileReader<ImageType>::Pointer tmpReader
-      = itk::ImageFileReader<ImageType>::New();
+  {
+    typename itk::ImageFileReader<ImageType>::Pointer tmpReader = itk::ImageFileReader<ImageType>::New();
     tmpReader->SetImageIO(io);
     tmpReader->SetFileName(inputFile.c_str());
     try
-      {
+    {
       tmpReader->Update();
       std::cout << "DONE READING INPUT IMAGE" << std::endl;
-      }
-    catch(itk::ExceptionObject &e)
-      {
+    }
+    catch (itk::ExceptionObject & e)
+    {
       std::cerr << e << std::endl;
       return EXIT_FAILURE;
-      }
-    reference_image = tmpReader->GetOutput();
     }
+    reference_image = tmpReader->GetOutput();
+  }
   else
-    {
+  {
     // Generate a random reference_image.
     reference_image = itkMGHImageIOTestGenerateRandomImage<TPixelType, VImageDimension>(size);
-    }
+  }
 
   // Write, then read the reference_image.
   try
-    {
+  {
     writer->SetFileName(fn.c_str());
-    if (compression==true)
-      { writer->UseCompressionOn(); }
-    else
-      { writer->UseCompressionOff();}
-    reader->SetFileName(fn.c_str());
-    //writer->SetFileName("testDebug.mhd");
-    //reader->SetFileName("testDebug.mhd");
-    }
-  catch(itk::ExceptionObject &e)
+    if (compression == true)
     {
+      writer->UseCompressionOn();
+    }
+    else
+    {
+      writer->UseCompressionOff();
+    }
+    reader->SetFileName(fn.c_str());
+    // writer->SetFileName("testDebug.mhd");
+    // reader->SetFileName("testDebug.mhd");
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-    writer->SetInput(reference_image);
-    reference_image->Print(std::cout);
-    std::cout << "----------" << std::endl;
+  writer->SetInput(reference_image);
+  reference_image->Print(std::cout);
+  std::cout << "----------" << std::endl;
 
   try
-    {
+  {
     writer->Update();
     std::cout << "DONE WRITING TEST IMAGE" << std::endl;
     reader->Update();
     std::cout << "DONE READING TEST IMAGE" << std::endl;
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "Exception in file reader or writer " << std::endl;
     std::cerr << e.GetDescription() << std::endl;
     std::cerr << e.GetLocation() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Print the reference_image information.
 
-  typename ImageType::Pointer test_image=reader->GetOutput();
+  typename ImageType::Pointer test_image = reader->GetOutput();
   test_image->Print(std::cout);
   std::cout << std::endl;
 
@@ -269,57 +262,53 @@ bool itkMGHImageIOTestReadWriteTest(std::string fn, unsigned int size,
   // Compare input and output images.
   itk::ImageRegionIterator<ImageType> a(reference_image, reference_image->GetRequestedRegion());
   itk::ImageRegionIterator<ImageType> b(test_image, test_image->GetRequestedRegion());
-  for (a.GoToBegin(), b.GoToBegin(); ! a.IsAtEnd(); ++a, ++b)
+  for (a.GoToBegin(), b.GoToBegin(); !a.IsAtEnd(); ++a, ++b)
+  {
+    if (b.Get() != a.Get())
     {
-    if ( b.Get() != a.Get() )
-      {
       std::cerr << "At index " << b.GetIndex() << " value " << b.Get() << " should be " << a.Get() << std::endl;
       isFailingPixelValues = true;
-      }
     }
-  for( int idx = 0; idx < 3; ++idx )
-    {
+  }
+  for (int idx = 0; idx < 3; ++idx)
+  {
     // itk::Math::FloatAlmostEqual( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat, 4, 0.1f)
-    if( ! itk::Math::FloatAlmostEqual( test_image->GetSpacing()[idx],
-        reference_image->GetSpacing()[idx], 4, 1e-7 ) )
-      {
+    if (!itk::Math::FloatAlmostEqual(test_image->GetSpacing()[idx], reference_image->GetSpacing()[idx], 4, 1e-7))
+    {
       isFailingSpacing = true;
-      }
-    if( ! itk::Math::FloatAlmostEqual( test_image->GetOrigin()[idx],
-        reference_image->GetOrigin()[idx], 100000, 1e-1 ) )
-      {
+    }
+    if (!itk::Math::FloatAlmostEqual(test_image->GetOrigin()[idx], reference_image->GetOrigin()[idx], 100000, 1e-1))
+    {
       isFailingOrigin = true;
-      }
-    for( int idx2 = 0; idx2 < 3; ++idx2 )
+    }
+    for (int idx2 = 0; idx2 < 3; ++idx2)
+    {
+      if (!itk::Math::FloatAlmostEqual(
+            test_image->GetDirection()[idx][idx2], reference_image->GetDirection()[idx][idx2], 4, 1e-7))
       {
-      if( ! itk::Math::FloatAlmostEqual( test_image->GetDirection()[idx][idx2],
-          reference_image->GetDirection()[idx][idx2], 4, 1e-7 ) )
-        {
         isFailingDirection = true;
-        }
       }
     }
+  }
   std::cerr << std::fixed << std::setprecision(10) << std::endl;
-  //Report failure dianostics
-  if(isFailingSpacing)
-    {
-    std::cerr << "ERROR:  Invalid Spacing: " 
-      << test_image->GetSpacing() <<  " ! = " << reference_image->GetSpacing()
-      << std::endl;
-    }
-  if(isFailingOrigin)
-    {
-    std::cerr << "ERROR:  Invalid Origin: " 
-      << test_image->GetOrigin() <<  " ! = " << reference_image->GetOrigin()
-      << std::endl;
-    }
-  if(isFailingDirection)
-    {
-    std::cerr << "ERROR:  Invalid Direction: \n" 
-      << test_image->GetDirection() <<  " ! = \n" << reference_image->GetDirection()
-      << std::endl;
-    }
-  return ! (isFailingPixelValues || isFailingOrigin || isFailingSpacing || isFailingDirection);
+  // Report failure dianostics
+  if (isFailingSpacing)
+  {
+    std::cerr << "ERROR:  Invalid Spacing: " << test_image->GetSpacing() << " ! = " << reference_image->GetSpacing()
+              << std::endl;
+  }
+  if (isFailingOrigin)
+  {
+    std::cerr << "ERROR:  Invalid Origin: " << test_image->GetOrigin() << " ! = " << reference_image->GetOrigin()
+              << std::endl;
+  }
+  if (isFailingDirection)
+  {
+    std::cerr << "ERROR:  Invalid Direction: \n"
+              << test_image->GetDirection() << " ! = \n"
+              << reference_image->GetDirection() << std::endl;
+  }
+  return !(isFailingPixelValues || isFailingOrigin || isFailingSpacing || isFailingDirection);
 }
 
-#endif //itkMGHImageIOTest_h_
+#endif // itkMGHImageIOTest_h_

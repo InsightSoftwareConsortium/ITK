@@ -27,86 +27,90 @@
 #include "itkMGHImageIOTest.h"
 #include <iomanip>
 
-int itkMGHImageIOTest(int ac, char* av[])
+int
+itkMGHImageIOTest(int ac, char * av[])
 {
   itk::ObjectFactoryBase::UnRegisterAllFactories();
   itk::MGHImageIOFactory::RegisterOneFactory();
-  if(ac < 3 )
-    {
-    std::cerr << "ERROR:  Incorrect number of arguments <TestDirectory> <TestMode> [ImageFileNameRead ImageFileNameWrite]" << std::endl;
+  if (ac < 3)
+  {
+    std::cerr
+      << "ERROR:  Incorrect number of arguments <TestDirectory> <TestMode> [ImageFileNameRead ImageFileNameWrite]"
+      << std::endl;
     std::cerr << "Only " << ac << " arguments given." << std::endl;
     return EXIT_FAILURE;
-    }
-  for(int i =0; i < ac; ++i)
-    {
+  }
+  for (int i = 0; i < ac; ++i)
+  {
     std::cout << i << "  av= " << av[i] << std::endl;
-    }
+  }
   //
   // first argument is passing in the writable directory to do all testing
   itksys::SystemTools::ChangeDirectory(av[1]);
 
   static bool firstTime = true;
-  if(firstTime)
-    {
-    itk::ObjectFactoryBase::RegisterFactory(itk::MGHImageIOFactory::New() );
+  if (firstTime)
+  {
+    itk::ObjectFactoryBase::RegisterFactory(itk::MGHImageIOFactory::New());
     firstTime = false;
-    }
+  }
   const std::string TestMode(av[2]);
 
   bool returnSucceeded = true;
-  if( TestMode == std::string("FactoryCreationTest"))
-  //Tests added to increase code coverage.
+  if (TestMode == std::string("FactoryCreationTest"))
+  // Tests added to increase code coverage.
+  {
+    itk::MGHImageIOFactory::Pointer MyFactoryTest = itk::MGHImageIOFactory::New();
+    if (MyFactoryTest.IsNull())
     {
-    itk::MGHImageIOFactory::Pointer MyFactoryTest=itk::MGHImageIOFactory::New();
-    if(MyFactoryTest.IsNull())
-      {
       returnSucceeded &= false;
-      }
-    //This was made a protected function.  MyFactoryTest->PrintSelf(std::cout,0);
     }
-  else if ( TestMode == std::string("TestReadWriteOfSmallImageOfAllTypes"))
-    {
+    // This was made a protected function.  MyFactoryTest->PrintSelf(std::cout,0);
+  }
+  else if (TestMode == std::string("TestReadWriteOfSmallImageOfAllTypes"))
+  {
     std::string fn("test.mgz");
-    //TODO: Need to test with images of non-identity direction cosigns, spacing, origin
-    returnSucceeded &= itkMGHImageIOTestReadWriteTest<unsigned char,3>(fn,3,"null", true);
-    returnSucceeded &= itkMGHImageIOTestReadWriteTest<short int,3>(fn,3,"null", true);
-    returnSucceeded &= itkMGHImageIOTestReadWriteTest<int,3>(fn,3,"null", true);
-    returnSucceeded &= itkMGHImageIOTestReadWriteTest<float,3>(fn,3,"null", true);
-    returnSucceeded &= itkMGHImageIOTestReadWriteTest<itk::DiffusionTensor3D<float>, 3>(fn,3,"null", true);
-    }
-  else if( TestMode == std::string("ReadImagesTest") ) //This is a mechanism for reading unsigned int images for testing.
-    {
+    // TODO: Need to test with images of non-identity direction cosigns, spacing, origin
+    returnSucceeded &= itkMGHImageIOTestReadWriteTest<unsigned char, 3>(fn, 3, "null", true);
+    returnSucceeded &= itkMGHImageIOTestReadWriteTest<short int, 3>(fn, 3, "null", true);
+    returnSucceeded &= itkMGHImageIOTestReadWriteTest<int, 3>(fn, 3, "null", true);
+    returnSucceeded &= itkMGHImageIOTestReadWriteTest<float, 3>(fn, 3, "null", true);
+    returnSucceeded &= itkMGHImageIOTestReadWriteTest<itk::DiffusionTensor3D<float>, 3>(fn, 3, "null", true);
+  }
+  else if (TestMode == std::string("ReadImagesTest")) // This is a mechanism for reading unsigned int images for
+                                                      // testing.
+  {
     using ImageType = itk::Image<int, 3>;
     const std::string imageToBeRead(av[3]);
     const std::string imageToBeWritten(av[4]);
     try
-      {
+    {
       std::cout << "Reading Image: " << imageToBeRead << std::endl;
       ImageType::Pointer input = itk::IOTestHelper::ReadImage<ImageType>(imageToBeRead);
       std::cout << input << std::endl;
-      itk::ImageFileWriter<ImageType>::Pointer testFactoryWriter=itk::ImageFileWriter<ImageType>::New();
+      itk::ImageFileWriter<ImageType>::Pointer testFactoryWriter = itk::ImageFileWriter<ImageType>::New();
       testFactoryWriter->SetFileName(imageToBeWritten);
       testFactoryWriter->SetInput(input);
       testFactoryWriter->Update();
-      itk::ImageFileReader<ImageType>::Pointer testFactoryReader=itk::ImageFileReader<ImageType>::New();
+      itk::ImageFileReader<ImageType>::Pointer testFactoryReader = itk::ImageFileReader<ImageType>::New();
       testFactoryReader->SetFileName(imageToBeWritten);
       testFactoryReader->Update();
       ImageType::Pointer new_image = testFactoryReader->GetOutput();
-      }
-    catch (itk::ExceptionObject &e)
-      {
+    }
+    catch (itk::ExceptionObject & e)
+    {
       e.Print(std::cerr);
       returnSucceeded &= false;
-      }
     }
-  else if( TestMode == "TestOriginWriteTest" )
-    {
+  }
+  else if (TestMode == "TestOriginWriteTest")
+  {
     using ImageType = itk::Image<int, 3>;
     ImageType::Pointer input;
-    const std::string imageToBeRead(av[3]);
-    const std::string imageToBeWritten(av[4]);
+    const std::string  imageToBeRead(av[3]);
+    const std::string  imageToBeWritten(av[4]);
     try
-      {
+    {
       std::cout << "Reading Image: " << imageToBeRead << std::endl;
       input = itk::IOTestHelper::ReadImage<ImageType>(imageToBeRead);
       std::cout << input << std::endl;
@@ -117,37 +121,34 @@ int itkMGHImageIOTest(int ac, char* av[])
       reference_origin[2] = -890.0;
       input->SetOrigin(reference_origin);
 
-      itk::ImageFileWriter<ImageType>::Pointer testFactoryWriter=itk::ImageFileWriter<ImageType>::New();
+      itk::ImageFileWriter<ImageType>::Pointer testFactoryWriter = itk::ImageFileWriter<ImageType>::New();
 
       testFactoryWriter->SetFileName(imageToBeWritten);
       testFactoryWriter->SetInput(input);
       testFactoryWriter->Update();
-      itk::ImageFileReader<ImageType>::Pointer testFactoryReader=itk::ImageFileReader<ImageType>::New();
+      itk::ImageFileReader<ImageType>::Pointer testFactoryReader = itk::ImageFileReader<ImageType>::New();
       testFactoryReader->SetFileName(imageToBeWritten);
       testFactoryReader->Update();
-      ImageType::Pointer new_image = testFactoryReader->GetOutput();
+      ImageType::Pointer         new_image = testFactoryReader->GetOutput();
       const ImageType::PointType test_origin = new_image->GetOrigin();
-      const double dist = reference_origin.EuclideanDistanceTo(test_origin);
-      if(dist > 1.0E-4)
-        {
-        std::cerr << std::setprecision(10)
-                  << "Origin written and origin read do not match: "
-                  << "written: " << reference_origin
-                  << " read: " << test_origin << " distance: "
-                  << dist << std::endl;
-        returnSucceeded &= false;
-        }
-      }
-    catch (itk::ExceptionObject &e)
+      const double               dist = reference_origin.EuclideanDistanceTo(test_origin);
+      if (dist > 1.0E-4)
       {
+        std::cerr << std::setprecision(10) << "Origin written and origin read do not match: "
+                  << "written: " << reference_origin << " read: " << test_origin << " distance: " << dist << std::endl;
+        returnSucceeded &= false;
+      }
+    }
+    catch (itk::ExceptionObject & e)
+    {
       e.Print(std::cerr);
       returnSucceeded &= false;
-      }
     }
+  }
   else
-    {
+  {
     std::cerr << "Invalid TestMode : " << TestMode << std::endl;
     returnSucceeded &= false;
-    }
+  }
   return (returnSucceeded == true) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
