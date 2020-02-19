@@ -17,8 +17,8 @@
  *=========================================================================*/
 #include "CuberilleTest01.cxx"
 
-int main(int argc, char * argv [])
+int
+main(int argc, char * argv[])
 {
-  return Test01( argc, argv );
+  return Test01(argc, argv);
 }
-

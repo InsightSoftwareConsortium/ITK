@@ -31,16 +31,17 @@ const unsigned int Dimension = 3;
 using TPixel = unsigned char;
 using TImage = itk::Image<TPixel, Dimension>;
 using TMesh = itk::Mesh<double, Dimension>;
-using TImageToMesh = itk::CuberilleImageToMeshFilter< TImage, TMesh >;
-using TInterp = itk::NearestNeighborInterpolateImageFunction< TImage >;
-using TTriangleHelper = itk::TriangleHelper< typename TMesh::PointType >;
+using TImageToMesh = itk::CuberilleImageToMeshFilter<TImage, TMesh>;
+using TInterp = itk::NearestNeighborInterpolateImageFunction<TImage>;
+using TTriangleHelper = itk::TriangleHelper<typename TMesh::PointType>;
 
 TImage::Pointer
-CuberilleTest03CreateImage() {
+CuberilleTest03CreateImage()
+{
   const auto image = TImage::New();
 
   TImage::IndexType start;
-  start.Fill( 0 );
+  start.Fill(0);
 
   TImage::SizeType size;
   size[0] = 3;
@@ -53,86 +54,85 @@ CuberilleTest03CreateImage() {
 
   image->SetRegions(region);
   image->Allocate();
-  image->FillBuffer( 0 );
+  image->FillBuffer(0);
 
   TImage::IndexType index;
-  index.Fill( 1 );
-  image->SetPixel( index, 1 );
+  index.Fill(1);
+  image->SetPixel(index, 1);
   index[1] = 2;
-  image->SetPixel( index, 2 );
+  image->SetPixel(index, 2);
   index[1] = 3;
-  image->SetPixel( index, 3 );
+  image->SetPixel(index, 3);
 
   return image;
 }
 
 void
-CuberilleTest03Helper(TImage::Pointer image) {
+CuberilleTest03Helper(TImage::Pointer image)
+{
 
   const auto image_to_mesh = TImageToMesh::New();
-  image_to_mesh->SetInput( image );
+  image_to_mesh->SetInput(image);
   image_to_mesh->SavePixelAsCellDataOn();
   image_to_mesh->GenerateTriangleFacesOff();
   image_to_mesh->ProjectVerticesToIsoSurfaceOff();
   image_to_mesh->Update();
 
   const auto mesh = TMesh::New();
-  mesh->Graft( image_to_mesh->GetOutput() );
+  mesh->Graft(image_to_mesh->GetOutput());
   mesh->DisconnectPipeline();
 
   const auto interp = TInterp::New();
-  interp->SetInputImage( image );
+  interp->SetInputImage(image);
 
   const auto half_spacing = image->GetSpacing() * 0.5;
 
-  for (auto it = mesh->GetCells()->Begin();
-       it != mesh->GetCells()->End();
-       ++it) {
+  for (auto it = mesh->GetCells()->Begin(); it != mesh->GetCells()->End(); ++it)
+  {
     const auto cell = it.Value();
 
     typename TImage::PointType centroid;
-    centroid.SetToMidPoint(
-      mesh->GetPoint(cell->GetPointIds()[0]),
-      mesh->GetPoint(cell->GetPointIds()[2])
-      );
+    centroid.SetToMidPoint(mesh->GetPoint(cell->GetPointIds()[0]), mesh->GetPoint(cell->GetPointIds()[2]));
 
-    auto normal = TTriangleHelper::ComputeNormal(
-      mesh->GetPoint(cell->GetPointIds()[0]),
-      mesh->GetPoint(cell->GetPointIds()[1]),
-      mesh->GetPoint(cell->GetPointIds()[2])
-    );
+    auto normal = TTriangleHelper::ComputeNormal(mesh->GetPoint(cell->GetPointIds()[0]),
+                                                 mesh->GetPoint(cell->GetPointIds()[1]),
+                                                 mesh->GetPoint(cell->GetPointIds()[2]));
 
     normal.Normalize();
 
-    for (size_t i = 0; i < 3; ++i) {
+    for (size_t i = 0; i < 3; ++i)
+    {
       normal[i] *= half_spacing[i];
     }
 
-    const auto resample = centroid + -1.0f*normal;
-    const auto label = interp->Evaluate( resample );
+    const auto resample = centroid + -1.0f * normal;
+    const auto label = interp->Evaluate(resample);
 
-    const auto data = mesh->GetCellData()->ElementAt( it.Index() );
+    const auto data = mesh->GetCellData()->ElementAt(it.Index());
 
-    if (label != data) {
+    if (label != data)
+    {
       std::cerr << "Calculated Pixel (" << label << ") != Cell Data (" << data << ").\n";
       throw 0;
     }
   }
 }
 
-int CuberilleTest03Parameters(const bool triangles, const bool project) {
+int
+CuberilleTest03Parameters(const bool triangles, const bool project)
+{
 
   const auto image = CuberilleTest03CreateImage();
   const auto image_to_mesh = TImageToMesh::New();
-  image_to_mesh->SetInput( image );
+  image_to_mesh->SetInput(image);
   image_to_mesh->SavePixelAsCellDataOn();
   image_to_mesh->SetGenerateTriangleFaces(triangles);
   image_to_mesh->SetProjectVerticesToIsoSurface(project);
-  ITK_TRY_EXPECT_NO_EXCEPTION( image_to_mesh->Update() );
-  ITK_TEST_EXPECT_EQUAL( image_to_mesh->GetOutput()->GetCells()->Size(), image_to_mesh->GetOutput()->GetCellData()->Size() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(image_to_mesh->Update());
+  ITK_TEST_EXPECT_EQUAL(image_to_mesh->GetOutput()->GetCells()->Size(),
+                        image_to_mesh->GetOutput()->GetCellData()->Size());
 
   return EXIT_SUCCESS;
-
 }
 
 // - Create a test image, 3x3x5, with zeros along the edges and [1 2 3]
@@ -142,24 +142,30 @@ int CuberilleTest03Parameters(const bool triangles, const bool project) {
 // - Walk one-half pixel width from the centroid along the normal into the mesh.
 // - Sample that point in the input segmentation image.
 // - Assert that that cell data is equal to the adjacent pixel value.
-int CuberilleTest03 (int itkNotUsed(argc), char * itkNotUsed(argv) [] ) {
+int
+CuberilleTest03(int itkNotUsed(argc), char * itkNotUsed(argv)[])
+{
 
-    { // Test Set/Get Methods
+  { // Test Set/Get Methods
     const auto image_to_mesh = TImageToMesh::New();
-    bool save = true;
-    ITK_TEST_SET_GET_BOOLEAN( image_to_mesh, SavePixelAsCellData, save);
-    }
+    bool       save = true;
+    ITK_TEST_SET_GET_BOOLEAN(image_to_mesh, SavePixelAsCellData, save);
+  }
 
-  if (EXIT_FAILURE == CuberilleTest03Parameters( false, false )) {
+  if (EXIT_FAILURE == CuberilleTest03Parameters(false, false))
+  {
     throw 0;
   }
-  if (EXIT_FAILURE == CuberilleTest03Parameters( false, true )) {
+  if (EXIT_FAILURE == CuberilleTest03Parameters(false, true))
+  {
     throw 0;
   }
-  if (EXIT_FAILURE == CuberilleTest03Parameters( true, false )) {
+  if (EXIT_FAILURE == CuberilleTest03Parameters(true, false))
+  {
     throw 0;
   }
-  if (EXIT_FAILURE == CuberilleTest03Parameters( true, true )) {
+  if (EXIT_FAILURE == CuberilleTest03Parameters(true, true))
+  {
     throw 0;
   }
 
@@ -167,5 +173,4 @@ int CuberilleTest03 (int itkNotUsed(argc), char * itkNotUsed(argv) [] ) {
   CuberilleTest03Helper(image);
 
   return EXIT_SUCCESS;
-
 }

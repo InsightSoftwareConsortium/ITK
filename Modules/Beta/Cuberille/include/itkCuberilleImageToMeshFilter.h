@@ -110,15 +110,17 @@ namespace itk
  * \ingroup Cuberille
  *
  */
-template < typename TInputImage, typename TOutputMesh, typename TInterpolator=itk::LinearInterpolateImageFunction<TInputImage> >
-class CuberilleImageToMeshFilter : public ImageToMeshFilter< TInputImage, TOutputMesh >
+template <typename TInputImage,
+          typename TOutputMesh,
+          typename TInterpolator = itk::LinearInterpolateImageFunction<TInputImage>>
+class CuberilleImageToMeshFilter : public ImageToMeshFilter<TInputImage, TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CuberilleImageToMeshFilter);
 
   /** Standard "Self" type alias. */
   using Self = CuberilleImageToMeshFilter;
-  using Superclass = ImageToMeshFilter< TInputImage, TOutputMesh >;
+  using Superclass = ImageToMeshFilter<TInputImage, TOutputMesh>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -165,53 +167,54 @@ public:
   using InterpolatorOutputType = typename InterpolatorType::OutputType;
 
   /** Other convenient type alias. */
-  using InputImageIteratorType = ConstShapedNeighborhoodIterator< InputImageType >;
+  using InputImageIteratorType = ConstShapedNeighborhoodIterator<InputImageType>;
 #if USE_GRADIENT_RECURSIVE_GAUSSIAN
-  using GradientFilterType = GradientRecursiveGaussianImageFilter< InputImageType >;
+  using GradientFilterType = GradientRecursiveGaussianImageFilter<InputImageType>;
 #else
-  using GradientFilterType = GradientImageFilter< InputImageType >;
+  using GradientFilterType = GradientImageFilter<InputImageType>;
 #endif
   using GradientFilterPointer = typename GradientFilterType::Pointer;
   using GradientImageType = typename GradientFilterType::OutputImageType;
   using GradientImagePointer = typename GradientImageType::Pointer;
   using GradientPixelType = typename GradientFilterType::OutputPixelType;
-  using GradientInterpolatorType = itk::VectorLinearInterpolateImageFunction< GradientImageType >;
+  using GradientInterpolatorType = itk::VectorLinearInterpolateImageFunction<GradientImageType>;
   using GradientInterpolatorPointer = typename GradientInterpolatorType::Pointer;
 
   /** Get/Set the iso-surface value.
-    * This parameter specifies the value of the iso-surface for which to
-    * generate the mesh. Pixels equal to or less than this value are
-    * considered on the surface or inside the resultant mesh.
-    */
-  itkGetMacro( IsoSurfaceValue, InputPixelType );
-  itkSetMacro( IsoSurfaceValue, InputPixelType );
+   * This parameter specifies the value of the iso-surface for which to
+   * generate the mesh. Pixels equal to or less than this value are
+   * considered on the surface or inside the resultant mesh.
+   */
+  itkGetMacro(IsoSurfaceValue, InputPixelType);
+  itkSetMacro(IsoSurfaceValue, InputPixelType);
 
   /** Accept the input image. */
   using Superclass::SetInput;
-  virtual void SetInput( const InputImageType * inputImage );
+  virtual void
+  SetInput(const InputImageType * inputImage);
 
   /** Get/Set interpolate function. */
-  itkGetConstObjectMacro( Interpolator, InterpolatorType );
-  itkSetObjectMacro( Interpolator, InterpolatorType );
+  itkGetConstObjectMacro(Interpolator, InterpolatorType);
+  itkSetObjectMacro(Interpolator, InterpolatorType);
 
   /** Get/Set whether triangle or quadrilateral faces should be generated.
     * True = triangle faces, False = quadrilateral faces.
       Default = true (triangle faces). */
-  itkGetMacro( GenerateTriangleFaces, bool );
-  itkSetMacro( GenerateTriangleFaces, bool );
-  itkBooleanMacro( GenerateTriangleFaces );
+  itkGetMacro(GenerateTriangleFaces, bool);
+  itkSetMacro(GenerateTriangleFaces, bool);
+  itkBooleanMacro(GenerateTriangleFaces);
 
   /** Get/Set whether the vertices should be project to the iso-surface.
       Default = true. */
-  itkGetMacro( ProjectVerticesToIsoSurface, bool );
-  itkSetMacro( ProjectVerticesToIsoSurface, bool );
-  itkBooleanMacro( ProjectVerticesToIsoSurface );
+  itkGetMacro(ProjectVerticesToIsoSurface, bool);
+  itkSetMacro(ProjectVerticesToIsoSurface, bool);
+  itkBooleanMacro(ProjectVerticesToIsoSurface);
 
   /** Get/Set whether the adjacent input pixel value should be saved as cell data in the output mesh.
       Default = false. */
-  itkGetMacro( SavePixelAsCellData, bool );
-  itkSetMacro( SavePixelAsCellData, bool );
-  itkBooleanMacro( SavePixelAsCellData );
+  itkGetMacro(SavePixelAsCellData, bool);
+  itkSetMacro(SavePixelAsCellData, bool);
+  itkBooleanMacro(SavePixelAsCellData);
 
   /** Get/Set the threshold for the "distance" from iso-surface during vertex projection.
       Note that the distance is actually measured in pixel value units (not space).
@@ -219,142 +222,191 @@ public:
       Small values result in longer convergence time (i.e. slower).
       Values are clamped to the range [0.0, max pixel value].
       Default = 0.5. */
-  itkGetMacro( ProjectVertexSurfaceDistanceThreshold, double );
-  itkSetClampMacro( ProjectVertexSurfaceDistanceThreshold, double, 0.0, NumericTraits<InputPixelType>::max() );
+  itkGetMacro(ProjectVertexSurfaceDistanceThreshold, double);
+  itkSetClampMacro(ProjectVertexSurfaceDistanceThreshold, double, 0.0, NumericTraits<InputPixelType>::max());
 
   /** Get/Set the the initial step length for vertex projection.
       Values are clamped to the range [0.0, large].
       Default = max spacing * 0.25 (expressed in physical space). */
-  itkGetMacro( ProjectVertexStepLength, double );
-  itkSetClampMacro( ProjectVertexStepLength, double, 0.0, 100000.0 );
+  itkGetMacro(ProjectVertexStepLength, double);
+  itkSetClampMacro(ProjectVertexStepLength, double, 0.0, 100000.0);
 
   /** Get/Set the step length relaxation factor during vertex projection.
       The step length is multiplied by this factor each iteration to allow convergence.
       Values are clamped to the range [0.0, 1.0].
       Default = 0.95. */
-  itkGetMacro( ProjectVertexStepLengthRelaxationFactor, double );
-  itkSetClampMacro( ProjectVertexStepLengthRelaxationFactor, double, 0.0, 1.0 );
+  itkGetMacro(ProjectVertexStepLengthRelaxationFactor, double);
+  itkSetClampMacro(ProjectVertexStepLengthRelaxationFactor, double, 0.0, 1.0);
 
   /** Get/Set the maximum number of steps used during vertex projection.
       Default = 50. */
-  itkGetMacro( ProjectVertexMaximumNumberOfSteps, unsigned int );
-  itkSetMacro( ProjectVertexMaximumNumberOfSteps, unsigned int );
+  itkGetMacro(ProjectVertexMaximumNumberOfSteps, unsigned int);
+  itkSetMacro(ProjectVertexMaximumNumberOfSteps, unsigned int);
 
   /** Calculate connected components labels for all possible 2x2x2 binary images. */
-  void CalculateLabelsArray();
+  void
+  CalculateLabelsArray();
 
 protected:
   CuberilleImageToMeshFilter();
   ~CuberilleImageToMeshFilter() override;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
-  void GenerateOutputInformation() override{ }; // do nothing
+  void
+  GenerateData() override;
+  void
+  GenerateOutputInformation() override{}; // do nothing
 
 private:
-
   /** \class VertexLookupNode A private class containing lookup details for vertices.
    *  \ingroup Cuberille */
   class VertexLookupNode
+  {
+  public:
+    /** Convenient type alias */
+    using Self = VertexLookupNode;
+
+    /** Constructors */
+    VertexLookupNode()
+      : m_X(0)
+      , m_Y(0)
+    {}
+    VertexLookupNode(unsigned long x, unsigned long y)
+      : m_X(x)
+      , m_Y(y)
+    {}
+
+    /** Parameters */
+    unsigned long
+    GetX()
     {
-    public:
-      /** Convenient type alias */
-      using Self = VertexLookupNode;
+      return m_X;
+    }
+    unsigned long
+    GetY()
+    {
+      return m_Y;
+    }
 
-      /** Constructors */
-      VertexLookupNode() : m_X( 0 ), m_Y( 0 ) { }
-      VertexLookupNode(unsigned long x, unsigned long y) : m_X( x ), m_Y( y ) { }
+    /** Comparison operators for sorting */
+    bool
+    operator>(const Self & node) const
+    {
+      return (m_Y > node.m_Y) || ((m_Y == node.m_Y) && (m_X > node.m_X));
+    }
+    bool
+    operator>=(const Self & node) const
+    {
+      return (m_Y >= node.m_Y) || ((m_Y == node.m_Y) && (m_X >= node.m_X));
+    }
+    bool
+    operator<(const Self & node) const
+    {
+      return (m_Y < node.m_Y) || ((m_Y == node.m_Y) && (m_X < node.m_X));
+    }
+    bool
+    operator<=(const Self & node) const
+    {
+      return (m_Y <= node.m_Y) || ((m_Y == node.m_Y) && (m_X <= node.m_X));
+    }
 
-      /** Parameters */
-      unsigned long GetX() { return m_X; }
-      unsigned long GetY() { return m_Y; }
-
-      /** Comparison operators for sorting */
-      bool operator> ( const Self& node ) const
-        { return (m_Y > node.m_Y) || ( (m_Y == node.m_Y) && (m_X > node.m_X) ); }
-      bool operator>= ( const Self& node ) const
-        { return (m_Y >= node.m_Y) || ( (m_Y == node.m_Y) && (m_X >= node.m_X) ); }
-      bool operator< ( const Self& node ) const
-        { return (m_Y < node.m_Y) || ( (m_Y == node.m_Y) && (m_X < node.m_X) ); }
-      bool operator<= ( const Self& node ) const
-        { return (m_Y <= node.m_Y) || ( (m_Y == node.m_Y) && (m_X <= node.m_X) ); }
-
-    private:
-      unsigned long m_X;
-      unsigned long m_Y;
+  private:
+    unsigned long m_X;
+    unsigned long m_Y;
   };
 
   /** \class VertexLookupMap A private class providing vertex lookup functionality.
    *  \ingroup Cuberille */
-  template< typename TMeshType >
+  template <typename TMeshType>
   class VertexLookupMap
+  {
+  public:
+    /** Convenient type alias */
+    using Self = VertexLookupMap;
+    using MapType = std::map<VertexLookupNode, PointVectorType>;
+
+    /** Constructors */
+    VertexLookupMap() {}
+
+    /** Clear the lookup map. */
+    void
+    Clear()
     {
-    public:
-      /** Convenient type alias */
-      using Self = VertexLookupMap;
-      using MapType = std::map< VertexLookupNode, PointVectorType >;
+      m_Map.clear();
+    }
 
-      /** Constructors */
-      VertexLookupMap() { }
+    /** Add the given vertex identifer to the given [x,y] position. */
+    void
+    AddVertex(unsigned int x, unsigned int y, PointVectorType ids)
+    {
+      VertexLookupNode node(x, y);
+      m_Map.insert(typename MapType::value_type(node, ids));
+    }
 
-      /** Clear the lookup map. */
-      void Clear() { m_Map.clear(); }
+    /** Get the vertex identifer for the given [x,y] position.
+     * Returns true if the vertex exists and id contains the identifer.
+     * Returns false if the vertex does not exist and id is undefined. */
+    bool
+    GetVertex(unsigned int x, unsigned int y, const size_t component, PointIdentifier & id)
+    {
+      bool             result = false;
+      VertexLookupNode node(x, y);
+      auto             it = m_Map.find(node);
+      if (it != m_Map.end())
+      {
+        result = true;
+        id = it->second.at(component);
+      }
+      return result;
+    }
 
-      /** Add the given vertex identifer to the given [x,y] position. */
-      void AddVertex( unsigned int x, unsigned int y, PointVectorType ids )
-        {
-          VertexLookupNode node( x, y );
-          m_Map.insert( typename MapType::value_type(node, ids) );
-        }
-
-      /** Get the vertex identifer for the given [x,y] position.
-        * Returns true if the vertex exists and id contains the identifer.
-        * Returns false if the vertex does not exist and id is undefined. */
-      bool GetVertex( unsigned int x, unsigned int y, const size_t component, PointIdentifier &id )
-        {
-        bool result = false;
-        VertexLookupNode node( x, y );
-        auto it = m_Map.find( node );
-        if ( it != m_Map.end() )
-          {
-          result = true;
-          id = it->second.at(component);
-          }
-        return result;
-        }
-
-    private:
-      MapType m_Map;
+  private:
+    MapType m_Map;
   };
 
   /** Some convenient type alias. */
-  using VertexLookupMapType = VertexLookupMap< OutputMeshType >;
+  using VertexLookupMapType = VertexLookupMap<OutputMeshType>;
 
   /** Private functions to implement the algorithm. */
 
   /** Compute gradient image. */
-  inline void ComputeGradientImage();
+  inline void
+  ComputeGradientImage();
 
   /** Set a flag activating each vertex for the given face. */
-  inline void SetVerticesFromFace( unsigned int face, std::array<bool, 8> &vertexHasQuad );
+  inline void
+  SetVerticesFromFace(unsigned int face, std::array<bool, 8> & vertexHasQuad);
 
   /** Get the vertex lookup index from the given index and vertex number. */
-  inline IndexType GetVertexLookupIndex( unsigned int vertex, IndexType index );
+  inline IndexType
+  GetVertexLookupIndex(unsigned int vertex, IndexType index);
 
   /** Project vertex to the iso-surface by stepping along normal. */
-  inline void ProjectVertexToIsoSurface( PointType &vertex );
+  inline void
+  ProjectVertexToIsoSurface(PointType & vertex);
 
   /** Add a vertex to the given mesh. Increments point identifier. */
-  inline PointVectorType AddVertex( PointIdentifier &id, IndexType index, const InputImageType* image, OutputMeshType* mesh, const size_t numComponents );
+  inline PointVectorType
+  AddVertex(PointIdentifier &      id,
+            IndexType              index,
+            const InputImageType * image,
+            OutputMeshType *       mesh,
+            const size_t           numComponents);
 
   /** Add quadrilateral face to the given mesh. Increments cell identifier. */
-  inline void AddQuadFace( CellIdentifier &id, std::array<PointIdentifier, 4> f, OutputMeshType* mesh, const InputPixelType& pixel );
+  inline void
+  AddQuadFace(CellIdentifier &               id,
+              std::array<PointIdentifier, 4> f,
+              OutputMeshType *               mesh,
+              const InputPixelType &         pixel);
 
   /** Calculate the local 2x2x2 bitmask for a given vertex index. */
-  size_t CalculateBitmaskIDForVertexIndex( const IndexType &vindex );
+  size_t
+  CalculateBitmaskIDForVertexIndex(const IndexType & vindex);
 
   using TLabel = signed char;
-  using TLabels = std::array<TLabel, 8>; 
+  using TLabels = std::array<TLabel, 8>;
   using TLabelsArray = std::array<TLabels, 256>;
 
   TLabelsArray m_LabelsArray;
@@ -378,7 +430,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCuberilleImageToMeshFilter.hxx"
+#  include "itkCuberilleImageToMeshFilter.hxx"
 #endif
 
 #endif
