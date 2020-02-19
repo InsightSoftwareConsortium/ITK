@@ -51,8 +51,14 @@ PolarToCartesianTransform<TParametersValueType, NDimensions>::TransformPoint(con
 {
   OutputPointType outputPoint(inputPoint);
 
-  outputPoint[0] = inputPoint[1] * std::cos(inputPoint[0]); // r*cos(alpha)
-  outputPoint[1] = inputPoint[1] * std::sin(inputPoint[0]); // r*sin(alpha)
+  double alpha = inputPoint[0];
+  if (m_ConstArcIncr)
+  {
+    alpha /= inputPoint[1]; // alpha = arc/r
+  }
+
+  outputPoint[0] = inputPoint[1] * std::cos(alpha); // r*cos(alpha)
+  outputPoint[1] = inputPoint[1] * std::sin(alpha); // r*sin(alpha)
 
   for (unsigned int ii = 0; ii < SpaceDimension; ++ii)
   {
