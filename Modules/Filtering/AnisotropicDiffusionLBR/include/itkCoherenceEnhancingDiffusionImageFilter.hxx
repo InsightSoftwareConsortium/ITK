@@ -24,70 +24,67 @@
 namespace itk
 {
 
-template< typename TImage, typename TScalar >
-CoherenceEnhancingDiffusionImageFilter< TImage, TScalar >
-::CoherenceEnhancingDiffusionImageFilter():
-  m_Lambda( 0.05 ),
-  m_Exponent( 2 ),
-  m_Alpha( 0.01 ),
-  m_Enhancement( CED )
-{
-}
+template <typename TImage, typename TScalar>
+CoherenceEnhancingDiffusionImageFilter<TImage, TScalar>::CoherenceEnhancingDiffusionImageFilter()
+  : m_Lambda(0.05)
+  , m_Exponent(2)
+  , m_Alpha(0.01)
+  , m_Enhancement(CED)
+{}
 
 
-template< typename TImage, typename TScalar >
-typename CoherenceEnhancingDiffusionImageFilter< TImage, TScalar >::EigenValuesArrayType
-CoherenceEnhancingDiffusionImageFilter< TImage, TScalar >
-::EigenValuesTransform(const EigenValuesArrayType & ev0) const
+template <typename TImage, typename TScalar>
+typename CoherenceEnhancingDiffusionImageFilter<TImage, TScalar>::EigenValuesArrayType
+CoherenceEnhancingDiffusionImageFilter<TImage, TScalar>::EigenValuesTransform(const EigenValuesArrayType & ev0) const
 {
   const ScalarType evMin = ev0[0];
-  const ScalarType evMax = ev0[InputImageDimension-1];
+  const ScalarType evMax = ev0[InputImageDimension - 1];
 
   EigenValuesArrayType ev;
-  switch(m_Enhancement)
-    {
-        // Weickert's filter.
+  switch (m_Enhancement)
+  {
+      // Weickert's filter.
     case CED:
-        for( InputImageDimensionType i = 0; i < InputImageDimension; ++i )
-          {
-          ev[i] = g_CED(evMax-ev0[i]);
-          }
-        break;
+      for (InputImageDimensionType i = 0; i < InputImageDimension; ++i)
+      {
+        ev[i] = g_CED(evMax - ev0[i]);
+      }
+      break;
 
-        // A variance, requiring stronger coherence.
+      // A variance, requiring stronger coherence.
     case cCED:
-        for( InputImageDimensionType i = 0; i < InputImageDimension; ++i )
-          {
-          ev[i] = g_CED( (evMax-ev0[i])/(1.+ev0[i]/m_Lambda) );
-          }
-        break;
+      for (InputImageDimensionType i = 0; i < InputImageDimension; ++i)
+      {
+        ev[i] = g_CED((evMax - ev0[i]) / (1. + ev0[i] / m_Lambda));
+      }
+      break;
 
-        // Weickert's filter.
+      // Weickert's filter.
     case EED:
-        for( InputImageDimensionType i = 0; i < InputImageDimension; ++i )
-          {
-          ev[i] = g_EED(ev0[i]-evMin);
-          }
-        break;
+      for (InputImageDimensionType i = 0; i < InputImageDimension; ++i)
+      {
+        ev[i] = g_EED(ev0[i] - evMin);
+      }
+      break;
 
-        // A variant, promoting diffusion in at least one direction at each point.
+      // A variant, promoting diffusion in at least one direction at each point.
     case cEED:
-        for( InputImageDimensionType i = 0; i < InputImageDimension; ++i )
-          {
-          ev[i] = g_EED(ev0[i]);
-          }
-        break;
+      for (InputImageDimensionType i = 0; i < InputImageDimension; ++i)
+      {
+        ev[i] = g_EED(ev0[i]);
+      }
+      break;
 
-        // Isotropic tensors, closely related to Perona-Malik's approach.
+      // Isotropic tensors, closely related to Perona-Malik's approach.
     case Isotropic:
-        for( InputImageDimensionType i = 0; i < InputImageDimension; ++i )
-          {
-          ev[i] = g_EED(evMax);
-          }
-        break;
+      for (InputImageDimensionType i = 0; i < InputImageDimension; ++i)
+      {
+        ev[i] = g_EED(evMax);
+      }
+      break;
 
     default:
-        itkExceptionMacro("Unsupported diffusion type");
+      itkExceptionMacro("Unsupported diffusion type");
   }
   return ev;
 }

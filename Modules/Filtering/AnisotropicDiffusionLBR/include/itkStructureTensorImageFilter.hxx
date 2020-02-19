@@ -29,28 +29,25 @@
 namespace itk
 {
 
-template< typename TImage, typename TTensorImage >
-StructureTensorImageFilter< TImage, TTensorImage >
-::StructureTensorImageFilter():
-  m_FeatureScale( 2 ),
-  m_NoiseScale( 1 ),
-  m_RescaleForUnitMaximumTrace( false ),
-  m_UseGradientRecursiveGaussianImageFilter( true )
-{
-}
+template <typename TImage, typename TTensorImage>
+StructureTensorImageFilter<TImage, TTensorImage>::StructureTensorImageFilter()
+  : m_FeatureScale(2)
+  , m_NoiseScale(1)
+  , m_RescaleForUnitMaximumTrace(false)
+  , m_UseGradientRecursiveGaussianImageFilter(true)
+{}
 
 
-template< typename TImage, typename TTensorImage >
+template <typename TImage, typename TTensorImage>
 void
-StructureTensorImageFilter< TImage, TTensorImage >
-::IntermediateFilter( const Dispatch< true > & )
+StructureTensorImageFilter<TImage, TTensorImage>::IntermediateFilter(const Dispatch<true> &)
 {
-  using GradientFilterType = GradientRecursiveGaussianImageFilter< TImage, Self::CovariantImageType >;
+  using GradientFilterType = GradientRecursiveGaussianImageFilter<TImage, Self::CovariantImageType>;
   typename GradientFilterType::Pointer gradientFilter = GradientFilterType::New();
   gradientFilter->SetInput(this->GetInput());
   gradientFilter->SetSigma(this->m_NoiseScale);
 
-  using OuterFilterType = UnaryFunctorImageFilter< Self::CovariantImageType, Self::TensorImageType, Self::OuterFunctor >;
+  using OuterFilterType = UnaryFunctorImageFilter<Self::CovariantImageType, Self::TensorImageType, Self::OuterFunctor>;
   typename OuterFilterType::Pointer outerFilter = OuterFilterType::New();
   outerFilter->SetInput(gradientFilter->GetOutput());
 
@@ -59,52 +56,54 @@ StructureTensorImageFilter< TImage, TTensorImage >
 }
 
 
-template< typename TImage, typename TTensorImage >
+template <typename TImage, typename TTensorImage>
 void
-StructureTensorImageFilter< TImage, TTensorImage >
-::IntermediateFilter( const Dispatch< false > & )
+StructureTensorImageFilter<TImage, TTensorImage>::IntermediateFilter(const Dispatch<false> &)
 {
-  typename Self::ImageType::ConstPointer input = this->GetInput();
+  typename Self::ImageType::ConstPointer  input = this->GetInput();
   typename Self::TensorImageType::Pointer output = Self::TensorImageType::New();
   output->CopyInformation(input);
   output->SetRegions(input->GetRequestedRegion());
   output->Allocate();
   output->FillBuffer(Self::TensorType(0.));
 
-  for( unsigned int index = 0; index < Self::PixelType::Dimension; ++index )
-    {
-    using SelectionFilterType = VectorIndexSelectionCastImageFilter< Self::ImageType, Self::ScalarImageType >;
+  for (unsigned int index = 0; index < Self::PixelType::Dimension; ++index)
+  {
+    using SelectionFilterType = VectorIndexSelectionCastImageFilter<Self::ImageType, Self::ScalarImageType>;
     typename SelectionFilterType::Pointer selectionFilter = SelectionFilterType::New();
     selectionFilter->SetIndex(index);
     selectionFilter->SetInput(input);
 
-    using GaussianFilterType = RecursiveGaussianImageFilter< Self::ScalarImageType >;
-    using GradientFilterType = GradientImageFilter< Self::ScalarImageType, Self::ScalarType, Self::ScalarType, Self::CovariantImageType >;
-    using GradientGaussianFilterType = GradientRecursiveGaussianImageFilter< Self::ScalarImageType, Self::CovariantImageType >;
+    using GaussianFilterType = RecursiveGaussianImageFilter<Self::ScalarImageType>;
+    using GradientFilterType =
+      GradientImageFilter<Self::ScalarImageType, Self::ScalarType, Self::ScalarType, Self::CovariantImageType>;
+    using GradientGaussianFilterType =
+      GradientRecursiveGaussianImageFilter<Self::ScalarImageType, Self::CovariantImageType>;
 
-    typename GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
-    typename GradientFilterType::Pointer gradientFilter = GradientFilterType::New();
+    typename GaussianFilterType::Pointer         gaussianFilter = GaussianFilterType::New();
+    typename GradientFilterType::Pointer         gradientFilter = GradientFilterType::New();
     typename GradientGaussianFilterType::Pointer gradientGaussianFilter = GradientGaussianFilterType::New();
 
     gaussianFilter->SetSigma(this->m_NoiseScale);
     gradientGaussianFilter->SetSigma(this->m_NoiseScale);
 
-    using OuterFilterType = UnaryFunctorImageFilter< Self::CovariantImageType, Self::TensorImageType, Self::OuterFunctor >;
+    using OuterFilterType =
+      UnaryFunctorImageFilter<Self::CovariantImageType, Self::TensorImageType, Self::OuterFunctor>;
     typename OuterFilterType::Pointer outerFilter = OuterFilterType::New();
 
-    if( this->m_UseGradientRecursiveGaussianImageFilter )
-      {
+    if (this->m_UseGradientRecursiveGaussianImageFilter)
+    {
       gradientGaussianFilter->SetInput(selectionFilter->GetOutput());
       outerFilter->SetInput(gradientGaussianFilter->GetOutput());
-      }
+    }
     else
-      {
+    {
       gaussianFilter->SetInput(selectionFilter->GetOutput());
       gradientFilter->SetInput(gaussianFilter->GetOutput());
       outerFilter->SetInput(gradientFilter->GetOutput());
-      }
+    }
 
-    using AddFilterType = AddImageFilter< Self::TensorImageType >;
+    using AddFilterType = AddImageFilter<Self::TensorImageType>;
     typename AddFilterType::Pointer addFilter = AddFilterType::New();
     addFilter->InPlaceOn();
     addFilter->SetInput1(output);
@@ -112,31 +111,30 @@ StructureTensorImageFilter< TImage, TTensorImage >
     addFilter->Update();
     output = addFilter->GetOutput();
 
-    this->UpdateProgress(index/float( Self::PixelType::Dimension+1 ));
-    }
+    this->UpdateProgress(index / float(Self::PixelType::Dimension + 1));
+  }
   this->m_IntermediateResult = output;
 }
 
 
-template< typename TImage, typename TTensorImage >
+template <typename TImage, typename TTensorImage>
 void
-StructureTensorImageFilter< TImage, TTensorImage >
-::GenerateData()
+StructureTensorImageFilter<TImage, TTensorImage>::GenerateData()
 {
-  this->IntermediateFilter( Dispatch< std::numeric_limits< PixelType >::is_specialized >() );
+  this->IntermediateFilter(Dispatch<std::numeric_limits<PixelType>::is_specialized>());
 
   using GaussianFilterType = RecursiveGaussianImageFilter<TensorImageType>;
   typename GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
-  gaussianFilter->SetInput( m_IntermediateResult );
-  gaussianFilter->SetSigma( m_FeatureScale );
+  gaussianFilter->SetInput(m_IntermediateResult);
+  gaussianFilter->SetSigma(m_FeatureScale);
 
-  if( !m_RescaleForUnitMaximumTrace )
-    {
+  if (!m_RescaleForUnitMaximumTrace)
+  {
     m_PostRescaling = 1.;
     gaussianFilter->Update();
     this->GraftOutput(gaussianFilter->GetOutput());
     return;
-    }
+  }
 
   // *** Rescaling for normalization of largest trace ***
 
@@ -154,7 +152,7 @@ StructureTensorImageFilter< TImage, TTensorImage >
 
   traceFilter->Update();
   maximumCalculator->ComputeMaximum();
-  m_PostRescaling = 1./maximumCalculator->GetMaximum();
+  m_PostRescaling = 1. / maximumCalculator->GetMaximum();
   scaleFilter->GetFunctor().scaling = m_PostRescaling;
   scaleFilter->Update();
   this->GraftOutput(scaleFilter->GetOutput());

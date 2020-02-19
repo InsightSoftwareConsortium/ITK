@@ -37,17 +37,16 @@ namespace itk
  *
  * \ingroup AnisotropicDiffusionLBR
  */
-template<typename TInputImage, typename TOutputImage, typename TFunctor>
-class UnaryFunctorWithIndexImageFilter:
-  public ImageToImageFilter<TInputImage, TOutputImage>
+template <typename TInputImage, typename TOutputImage, typename TFunctor>
+class UnaryFunctorWithIndexImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(UnaryFunctorWithIndexImageFilter);
 
   using Self = UnaryFunctorWithIndexImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -62,36 +61,34 @@ public:
   GetSetFunctorMacro(Functor, FunctorType);
 
 protected:
-  UnaryFunctorWithIndexImageFilter()
-    { this->DynamicMultiThreadingOn(); }
+  UnaryFunctorWithIndexImageFilter() { this->DynamicMultiThreadingOn(); }
 
   FunctorType m_Functor;
 
   using InputRegionType = typename InputImageType::RegionType;
   using OutputRegionType = typename OutputImageType::RegionType;
 
-  void DynamicThreadedGenerateData(const OutputRegionType & region) override
+  void
+  DynamicThreadedGenerateData(const OutputRegionType & region) override
   {
-    if( region.GetSize()[0] == 0 )
-      {
+    if (region.GetSize()[0] == 0)
+    {
       return;
-      }
+    }
 
-    ImageRegionConstIteratorWithIndex< InputImageType > inputIt( this->GetInput(), region);
-    ImageScanlineIterator< OutputImageType > outputIt( this->GetOutput(), region);
+    ImageRegionConstIteratorWithIndex<InputImageType> inputIt(this->GetInput(), region);
+    ImageScanlineIterator<OutputImageType>            outputIt(this->GetOutput(), region);
 
-    for( inputIt.GoToBegin(), outputIt.GoToBegin();
-         !outputIt.IsAtEnd();
-         )
+    for (inputIt.GoToBegin(), outputIt.GoToBegin(); !outputIt.IsAtEnd();)
+    {
+      while (!outputIt.IsAtEndOfLine())
       {
-      while(!outputIt.IsAtEndOfLine())
-        {
         outputIt.Set(m_Functor(inputIt.Value(), inputIt.GetIndex()));
         ++inputIt;
         ++outputIt;
-        }
-        outputIt.NextLine();
       }
+      outputIt.NextLine();
+    }
   }
 };
 

@@ -28,25 +28,22 @@
 namespace itk
 {
 
-template< typename TImage, typename TScalar >
-AnisotropicDiffusionLBRImageFilter< TImage, TScalar >
-::AnisotropicDiffusionLBRImageFilter():
-  m_NoiseScale( 0.5 ),
-  m_FeatureScale( 2 ),
-  m_RatioToMaxStableTimeStep( 0.7 ),
-  m_MaxTimeStepsBetweenTensorUpdates( 5 ),
-  m_DiffusionTime( 1 ),
-  m_Adimensionize( true )
-{
-}
+template <typename TImage, typename TScalar>
+AnisotropicDiffusionLBRImageFilter<TImage, TScalar>::AnisotropicDiffusionLBRImageFilter()
+  : m_NoiseScale(0.5)
+  , m_FeatureScale(2)
+  , m_RatioToMaxStableTimeStep(0.7)
+  , m_MaxTimeStepsBetweenTensorUpdates(5)
+  , m_DiffusionTime(1)
+  , m_Adimensionize(true)
+{}
 
 
-template< typename TImage, typename TScalar >
+template <typename TImage, typename TScalar>
 void
-AnisotropicDiffusionLBRImageFilter< TImage, TScalar >
-::GenerateData()
+AnisotropicDiffusionLBRImageFilter<TImage, TScalar>::GenerateData()
 {
-  typename ImageType::Pointer inputImage = const_cast<ImageType*>(this->GetInput());
+  typename ImageType::Pointer inputImage = const_cast<ImageType *>(this->GetInput());
   typename ImageType::Pointer image = inputImage;
 
   using SpacingType = typename ImageType::SpacingType;
@@ -54,21 +51,21 @@ AnisotropicDiffusionLBRImageFilter< TImage, TScalar >
 
   //        const SpacingType unitSpacing(1); // Better below for non-uniform spacing.
   double minSpacing = referenceSpacing[0];
-  for( ImageDimensionType i = 1; i < ImageDimension; ++i )
-    {
-    minSpacing = std::min(minSpacing,referenceSpacing[i]);
-    }
-  const SpacingType unitSpacing = referenceSpacing/minSpacing;
+  for (ImageDimensionType i = 1; i < ImageDimension; ++i)
+  {
+    minSpacing = std::min(minSpacing, referenceSpacing[i]);
+  }
+  const SpacingType unitSpacing = referenceSpacing / minSpacing;
 
-  if( m_Adimensionize )
-    {
+  if (m_Adimensionize)
+  {
     inputImage->SetSpacing(unitSpacing);
-    }
+  }
 
   ScalarType remainingTime = m_DiffusionTime;
 
-  while( remainingTime > 0 )
-    {
+  while (remainingTime > 0)
+  {
     ComputeDiffusionTensors(image);
     typename LinearDiffusionFilterType::Pointer linearDiffusionFilter = LinearDiffusionFilterType::New();
     linearDiffusionFilter->SetMaxNumberOfTimeSteps(m_MaxTimeStepsBetweenTensorUpdates);
@@ -81,68 +78,74 @@ AnisotropicDiffusionLBRImageFilter< TImage, TScalar >
     image = linearDiffusionFilter->GetOutput();
     remainingTime -= linearDiffusionFilter->GetEffectiveDiffusionTime();
 
-    m_LinearFilterEffectiveTimesAndIterations.push_back(std::pair<ScalarType,int>(linearDiffusionFilter->GetEffectiveDiffusionTime(),linearDiffusionFilter->GetEffectiveNumberOfTimeSteps()));
+    m_LinearFilterEffectiveTimesAndIterations.push_back(std::pair<ScalarType, int>(
+      linearDiffusionFilter->GetEffectiveDiffusionTime(), linearDiffusionFilter->GetEffectiveNumberOfTimeSteps()));
 
-    this->UpdateProgress(1.-remainingTime/m_DiffusionTime);
-    }
+    this->UpdateProgress(1. - remainingTime / m_DiffusionTime);
+  }
 
-  if(m_Adimensionize)
-    {
+  if (m_Adimensionize)
+  {
     inputImage->SetSpacing(referenceSpacing);
     image->SetSpacing(referenceSpacing);
-    }
+  }
   this->GraftOutput(image);
 }
 
 
-template< typename TImage, typename TScalar >
-struct AnisotropicDiffusionLBRImageFilter< TImage, TScalar >
-::DiffusionTensorFunctor
+template <typename TImage, typename TScalar>
+struct AnisotropicDiffusionLBRImageFilter<TImage, TScalar>::DiffusionTensorFunctor
 {
   Self * eigenValuesFunctor;
   struct OrderingType;
-  TensorType operator()(const TensorType & S)
+  TensorType
+  operator()(const TensorType & S)
+  {
+    EigenValuesArrayType                        eigenValues;
+    typename TensorType::EigenVectorsMatrixType eigenVectors;
+    S.ComputeEigenAnalysis(eigenValues, eigenVectors);
+
+    // For convenience, eigenvalues are sorted by increasing order
+    Vector<int, ImageDimension> order;
+    for (ImageDimensionType i = 0; i < ImageDimension; ++i)
+      order[i] = i;
+
+    OrderingType ordering(eigenValues);
+
+    std::sort(order.Begin(), order.End(), ordering);
+
+    std::sort(eigenValues.Begin(), eigenValues.End());
+    EigenValuesArrayType ev = this->eigenValuesFunctor->EigenValuesTransform(eigenValues);
+
+    TensorType DiffusionTensor;
+    for (ImageDimensionType i = 0; i < ImageDimension; ++i)
     {
-      EigenValuesArrayType eigenValues;
-      typename TensorType::EigenVectorsMatrixType eigenVectors;
-      S.ComputeEigenAnalysis(eigenValues,eigenVectors);
-
-      // For convenience, eigenvalues are sorted by increasing order
-      Vector<int, ImageDimension> order;
-      for(ImageDimensionType i=0; i < ImageDimension; ++i) order[i]=i;
-
-      OrderingType ordering(eigenValues);
-
-      std::sort(order.Begin(), order.End(),ordering);
-
-      std::sort(eigenValues.Begin(), eigenValues.End());
-      EigenValuesArrayType ev = this->eigenValuesFunctor->EigenValuesTransform(eigenValues);
-
-      TensorType DiffusionTensor;
-      for(ImageDimensionType i=0; i < ImageDimension; ++i){
-          DiffusionTensor(order[i],order[i]) = ev[i];
-          for(ImageDimensionType j=0; j<i; ++j) DiffusionTensor(i,j) = 0.;
-      }
-      return DiffusionTensor.Rotate(eigenVectors.GetTranspose());
+      DiffusionTensor(order[i], order[i]) = ev[i];
+      for (ImageDimensionType j = 0; j < i; ++j)
+        DiffusionTensor(i, j) = 0.;
+    }
+    return DiffusionTensor.Rotate(eigenVectors.GetTranspose());
   }
 };
 
 
 // c++ 11 would be : [& eigenValues](int i, int j)->bool {return eigenValues[i]<eigenValues[j];}
-template< typename TImage, typename TScalar >
-struct AnisotropicDiffusionLBRImageFilter< TImage, TScalar >
-::DiffusionTensorFunctor
-::OrderingType
+template <typename TImage, typename TScalar>
+struct AnisotropicDiffusionLBRImageFilter<TImage, TScalar>::DiffusionTensorFunctor ::OrderingType
 {
-  bool operator()(int i, int j) const {return this->e[i]<this->e[j];}
+  bool
+  operator()(int i, int j) const
+  {
+    return this->e[i] < this->e[j];
+  }
   const EigenValuesArrayType & e;
-  OrderingType(const EigenValuesArrayType & e_):e(e_){};
+  OrderingType(const EigenValuesArrayType & e_)
+    : e(e_){};
 };
 
-template< typename TImage, typename TScalar >
+template <typename TImage, typename TScalar>
 void
-AnisotropicDiffusionLBRImageFilter< TImage, TScalar >
-::ComputeDiffusionTensors( ImageType * image )
+AnisotropicDiffusionLBRImageFilter<TImage, TScalar>::ComputeDiffusionTensors(ImageType * image)
 {
   typename StructureTensorFilterType::Pointer structureTensorFilter = StructureTensorFilterType::New();
 

@@ -60,17 +60,16 @@ namespace itk
  *
  * \ingroup AnisotropicDiffusionLBR
  */
-template< typename TImage, typename TScalar = typename NumericTraits< typename TImage::PixelType >::RealType >
-class CoherenceEnhancingDiffusionImageFilter:
-  public AnisotropicDiffusionLBRImageFilter< TImage, TScalar >
+template <typename TImage, typename TScalar = typename NumericTraits<typename TImage::PixelType>::RealType>
+class CoherenceEnhancingDiffusionImageFilter : public AnisotropicDiffusionLBRImageFilter<TImage, TScalar>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CoherenceEnhancingDiffusionImageFilter);
 
   using Self = CoherenceEnhancingDiffusionImageFilter;
-  using Superclass = AnisotropicDiffusionLBRImageFilter< TImage, TScalar >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = AnisotropicDiffusionLBRImageFilter<TImage, TScalar>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -82,7 +81,8 @@ public:
   static constexpr InputImageDimensionType InputImageDimension = Superclass::InputImageType::ImageDimension;
 
   using EigenValuesArrayType = typename Superclass::EigenValuesArrayType;
-  EigenValuesArrayType EigenValuesTransform(const EigenValuesArrayType &) const override;
+  EigenValuesArrayType
+  EigenValuesTransform(const EigenValuesArrayType &) const override;
 
   using ScalarType = typename Superclass::ScalarType;
   /** Exponent m involved in the function g defining eigenvalues. */
@@ -94,7 +94,14 @@ public:
   itkGetMacro(Lambda, ScalarType);
   itkGetMacro(Alpha, ScalarType);
 
-  enum EnhancementType {CED, cCED, EED, cEED, Isotropic};
+  enum EnhancementType
+  {
+    CED,
+    cCED,
+    EED,
+    cEED,
+    Isotropic
+  };
   /// Switch between CED, EED, and variants.
   itkSetEnumMacro(Enhancement, EnhancementType);
   itkGetEnumMacro(Enhancement, EnhancementType);
@@ -105,8 +112,16 @@ protected:
   ScalarType      m_Alpha;
   EnhancementType m_Enhancement;
 
-  ScalarType g_CED(ScalarType s) const {return s<=0 ? m_Alpha : m_Alpha + (1-m_Alpha)*exp(-pow(m_Lambda/s,m_Exponent));}
-  ScalarType g_EED(ScalarType s) const {return s<=0 ? 1 : 1 - (1-m_Alpha)*exp(-pow(m_Lambda/s,m_Exponent));}
+  ScalarType
+  g_CED(ScalarType s) const
+  {
+    return s <= 0 ? m_Alpha : m_Alpha + (1 - m_Alpha) * exp(-pow(m_Lambda / s, m_Exponent));
+  }
+  ScalarType
+  g_EED(ScalarType s) const
+  {
+    return s <= 0 ? 1 : 1 - (1 - m_Alpha) * exp(-pow(m_Lambda / s, m_Exponent));
+  }
 
   CoherenceEnhancingDiffusionImageFilter();
   ~CoherenceEnhancingDiffusionImageFilter() override = default;
@@ -115,7 +130,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCoherenceEnhancingDiffusionImageFilter.hxx"
+#  include "itkCoherenceEnhancingDiffusionImageFilter.hxx"
 #endif
 
 #endif

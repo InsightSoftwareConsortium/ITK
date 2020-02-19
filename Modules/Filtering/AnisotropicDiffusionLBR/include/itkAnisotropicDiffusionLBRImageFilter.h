@@ -42,16 +42,16 @@ namespace itk
  *
  * \ingroup AnisotropicDiffusionLBR
  */
-template< typename TImage, typename TScalar = typename NumericTraits< typename TImage::PixelType >::RealType >
-class AnisotropicDiffusionLBRImageFilter : public ImageToImageFilter< TImage, TImage >
+template <typename TImage, typename TScalar = typename NumericTraits<typename TImage::PixelType>::RealType>
+class AnisotropicDiffusionLBRImageFilter : public ImageToImageFilter<TImage, TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AnisotropicDiffusionLBRImageFilter);
 
   using Self = AnisotropicDiffusionLBRImageFilter;
-  using Superclass = ImageToImageFilter< TImage, TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TImage, TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /// Method for creation through the object factory.
   itkNewMacro(Self);
@@ -65,8 +65,8 @@ public:
   using ImageDimensionType = typename ImageType::ImageDimensionType;
   static constexpr ImageDimensionType ImageDimension = ImageType::ImageDimension;
 
-  using TensorType = SymmetricSecondRankTensor< ScalarType, ImageDimension >;
-  using TensorImageType = Image< TensorType, ImageDimension >;
+  using TensorType = SymmetricSecondRankTensor<ScalarType, ImageDimension>;
+  using TensorImageType = Image<TensorType, ImageDimension>;
 
   using StructureTensorFilterType = StructureTensorImageFilter<ImageType, TensorImageType>;
   using LinearDiffusionFilterType = LinearAnisotropicDiffusionLBRImageFilter<ImageType, ScalarType>;
@@ -95,16 +95,18 @@ public:
   /** Transformation of the Structure tensor eigenvalues into the diffusion
    * tensor eigenvalues. Needs to be overloaded in a subclass.
    * (Structure tensor eigenvalues are sorted by increasing order for convenience). */
-  virtual EigenValuesArrayType EigenValuesTransform(const EigenValuesArrayType &) const
+  virtual EigenValuesArrayType
+  EigenValuesTransform(const EigenValuesArrayType &) const
   {
     itkExceptionMacro("Undefined tensor eigenvalues transform");
   }
 
-  virtual typename TensorImageType::Pointer GetLastTensorImage()
+  virtual typename TensorImageType::Pointer
+  GetLastTensorImage()
   {
     return m_TensorImage;
   }
-  using EffectiveTimesAndIterationsType = std::vector< std::pair<ScalarType, int> >;
+  using EffectiveTimesAndIterationsType = std::vector<std::pair<ScalarType, int>>;
   itkGetConstReferenceMacro(LinearFilterEffectiveTimesAndIterations, EffectiveTimesAndIterationsType);
 
 protected:
@@ -119,12 +121,14 @@ protected:
 
   typename TensorImageType::Pointer m_TensorImage;
 
-  virtual void ComputeDiffusionTensors(ImageType*);
+  virtual void
+  ComputeDiffusionTensors(ImageType *);
 
   ScalarType m_DiffusionTime;
   bool       m_Adimensionize;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   EffectiveTimesAndIterationsType m_LinearFilterEffectiveTimesAndIterations;
 
@@ -134,7 +138,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAnisotropicDiffusionLBRImageFilter.hxx"
+#  include "itkAnisotropicDiffusionLBRImageFilter.hxx"
 #endif
 
 #endif

@@ -43,18 +43,17 @@ namespace itk
  *
  * \ingroup AnisotropicDiffusionLBR
  */
-template< typename TImage, typename TScalar = typename NumericTraits< typename TImage::PixelType >::RealType >
-class LinearAnisotropicDiffusionLBRImageFilter:
-  public ImageToImageFilter< TImage, TImage >
+template <typename TImage, typename TScalar = typename NumericTraits<typename TImage::PixelType>::RealType>
+class LinearAnisotropicDiffusionLBRImageFilter : public ImageToImageFilter<TImage, TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LinearAnisotropicDiffusionLBRImageFilter);
 
   /** Standard class type alias. */
   using Self = LinearAnisotropicDiffusionLBRImageFilter;
-  using Superclass = ImageToImageFilter< TImage, TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TImage, TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -69,20 +68,25 @@ public:
   static constexpr ImageDimensionType ImageDimension = ImageType::ImageDimension;
 
   using ScalarType = TScalar;
-  using TensorType = SymmetricSecondRankTensor< ScalarType, ImageDimension >;
-  using TensorImageType = Image< TensorType, ImageDimension >;
-  using RegionType = ImageRegion< ImageDimension >;
+  using TensorType = SymmetricSecondRankTensor<ScalarType, ImageDimension>;
+  using TensorImageType = Image<TensorType, ImageDimension>;
+  using RegionType = ImageRegion<ImageDimension>;
 
-  void SetInputImage(const ImageType* image);
-  void SetInputTensor(const TensorImageType* tensorImage);
+  void
+  SetInputImage(const ImageType * image);
+  void
+  SetInputTensor(const TensorImageType * tensorImage);
 
-  void SetMaxDiffusionTime(ScalarType time);
+  void
+  SetMaxDiffusionTime(ScalarType time);
   itkGetConstMacro(DiffusionTime, ScalarType);
 
-  void SetMaxNumberOfTimeSteps(int n);
+  void
+  SetMaxNumberOfTimeSteps(int n);
   itkGetConstMacro(MaxNumberOfTimeSteps, int);
 
-  void SetRatioToMaxStableTimeStep(ScalarType ratio);
+  void
+  SetRatioToMaxStableTimeStep(ScalarType ratio);
   itkGetConstMacro(RatioToMaxStableTimeStep, ScalarType);
 
   itkGetConstMacro(EffectiveDiffusionTime, ScalarType);
@@ -92,8 +96,10 @@ protected:
   LinearAnisotropicDiffusionLBRImageFilter();
   ~LinearAnisotropicDiffusionLBRImageFilter() override = default;
 
-  typename ImageType::ConstPointer GetInputImage();
-  typename TensorImageType::ConstPointer GetInputTensor();
+  typename ImageType::ConstPointer
+  GetInputImage();
+  typename TensorImageType::ConstPointer
+  GetInputTensor();
 
   using IndexType = Index<ImageDimension>;
 
@@ -101,27 +107,31 @@ protected:
   static const unsigned int HalfStencilSize = (ImageDimension == 2) ? 3 : 6;
   static const unsigned int StencilSize = 2 * HalfStencilSize;
 
-  using StencilCoefficientsType = Vector<ScalarType,HalfStencilSize>;
+  using StencilCoefficientsType = Vector<ScalarType, HalfStencilSize>;
   using OffsetType = Offset<ImageDimension>;
   using StencilOffsetsType = Vector<OffsetType, HalfStencilSize>;
 
   using InternalSizeT = int;
-  using StencilBufferIndicesType = Vector<InternalSizeT,StencilSize>;
+  using StencilBufferIndicesType = Vector<InternalSizeT, StencilSize>;
 
 
   // *************** Computation *****************
-  void GenerateData() override;
-  virtual void GenerateStencils(); /// Automatically called by GenerateData
-  virtual void ImageUpdateLoop(); /// Automatically called by GenerateData
+  void
+  GenerateData() override;
+  virtual void
+  GenerateStencils(); /// Automatically called by GenerateData
+  virtual void
+  ImageUpdateLoop(); /// Automatically called by GenerateData
 
-  using StencilType = std::pair< StencilBufferIndicesType, StencilCoefficientsType >;
-  using StencilImageType = Image< StencilType, ImageDimension >;
+  using StencilType = std::pair<StencilBufferIndicesType, StencilCoefficientsType>;
+  using StencilImageType = Image<StencilType, ImageDimension>;
   typename StencilImageType::Pointer m_StencilImage;
 
   using ScalarImageType = Image<ScalarType, ImageDimension>;
   typename ScalarImageType::Pointer m_DiagonalCoefficients;
 
-  virtual ScalarType MaxStableTimeStep();
+  virtual ScalarType
+  MaxStableTimeStep();
 
   ScalarType m_DiffusionTime;
   ScalarType m_RatioToMaxStableTimeStep;
@@ -130,26 +140,35 @@ protected:
   ScalarType m_EffectiveDiffusionTime;
   int        m_EffectiveNumberOfTimeSteps;
 
-  virtual void ImageUpdate(ScalarType delta);
+  virtual void
+                              ImageUpdate(ScalarType delta);
   typename ImageType::Pointer m_PreviousImage;
   typename ImageType::Pointer m_NextImage;
 
-  virtual RegionType GetRequestedRegion(){return GetInputImage()->GetRequestedRegion();}
+  virtual RegionType
+  GetRequestedRegion()
+  {
+    return GetInputImage()->GetRequestedRegion();
+  }
 
-  InternalSizeT OutsideBufferIndex() const {return NumericTraits<InternalSizeT>::max();}
+  InternalSizeT
+  OutsideBufferIndex() const
+  {
+    return NumericTraits<InternalSizeT>::max();
+  }
 
   struct StencilFunctor;
   struct FunctorType;
 
   using VectorType = Vector<ScalarType, ImageDimension>;
-  static ScalarType ScalarProduct(const TensorType &, const VectorType &, const VectorType &);
-
+  static ScalarType
+  ScalarProduct(const TensorType &, const VectorType &, const VectorType &);
 };
 } // end namespace itk
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLinearAnisotropicDiffusionLBRImageFilter.hxx"
+#  include "itkLinearAnisotropicDiffusionLBRImageFilter.hxx"
 #endif
 
 #endif

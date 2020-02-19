@@ -46,17 +46,16 @@ namespace itk
  *
  * \ingroup AnisotropicDiffusionLBR
  */
-template< typename TImage,
-          typename TTensorImage =
-            Image< SymmetricSecondRankTensor< typename TImage::PixelType,TImage::ImageDimension >, TImage::ImageDimension > >
-class StructureTensorImageFilter:
-  public ImageToImageFilter< TImage, TTensorImage >
+template <typename TImage,
+          typename TTensorImage = Image<SymmetricSecondRankTensor<typename TImage::PixelType, TImage::ImageDimension>,
+                                        TImage::ImageDimension>>
+class StructureTensorImageFilter : public ImageToImageFilter<TImage, TTensorImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(StructureTensorImageFilter);
 
   using Self = StructureTensorImageFilter;
-  using Superclass = ImageToImageFilter< TImage, TImage>;
+  using Superclass = ImageToImageFilter<TImage, TImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -75,11 +74,11 @@ public:
   using ScalarType = typename TensorType::ComponentType;
   using ScalarImageType = Image<ScalarType, InputImageDimension>;
 
-  ///Parameter \f$\sigma\f$ of the structure tensor definition.
+  /// Parameter \f$\sigma\f$ of the structure tensor definition.
   itkSetMacro(NoiseScale, ScalarType);
-  ///Parameter \f$\rho\f$ of the structure tensor definition.
+  /// Parameter \f$\rho\f$ of the structure tensor definition.
   itkSetMacro(FeatureScale, ScalarType);
-  ///Rescales all structure tensors by a common factor, so that the maximum trace is 1.
+  /// Rescales all structure tensors by a common factor, so that the maximum trace is 1.
   itkSetMacro(RescaleForUnitMaximumTrace, bool);
 
   itkGetConstMacro(NoiseScale, ScalarType);
@@ -88,7 +87,8 @@ public:
   itkGetConstMacro(PostRescaling, ScalarType); /// Global rescaling constant used.
 
 protected:
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   ScalarType m_FeatureScale;
   ScalarType m_NoiseScale;
@@ -96,12 +96,16 @@ protected:
   ScalarType m_PostRescaling;
   bool       m_UseGradientRecursiveGaussianImageFilter;
 
-  struct DispatchBase {};
-  template< bool >
-  struct Dispatch: public DispatchBase {};
+  struct DispatchBase
+  {};
+  template <bool>
+  struct Dispatch : public DispatchBase
+  {};
 
-  void IntermediateFilter( const Dispatch< true > & );
-  void IntermediateFilter( const Dispatch< false > & );
+  void
+  IntermediateFilter(const Dispatch<true> &);
+  void
+                                    IntermediateFilter(const Dispatch<false> &);
   typename TensorImageType::Pointer m_IntermediateResult;
 
   using CovariantVectorType = CovariantVector<ScalarType, InputImageDimension>;
@@ -109,30 +113,35 @@ protected:
 
   struct OuterFunctor
   {
-    TensorType operator()(const CovariantVectorType & u) const
-      {
+    TensorType
+    operator()(const CovariantVectorType & u) const
+    {
       TensorType m;
-      for( InputImageDimensionType i = 0; i < InputImageDimension; ++i )
+      for (InputImageDimensionType i = 0; i < InputImageDimension; ++i)
+      {
+        for (InputImageDimensionType j = i; j < InputImageDimension; ++j)
         {
-        for( InputImageDimensionType j = i; j < InputImageDimension; ++j)
-          {
-          m(i,j) = u[i]*u[j];
-          }
+          m(i, j) = u[i] * u[j];
         }
-        return m;
       }
+      return m;
+    }
   };
   struct TraceFunctor
   {
-    ScalarType operator()(const TensorType & t) const {
-        return t.GetTrace();
+    ScalarType
+    operator()(const TensorType & t) const
+    {
+      return t.GetTrace();
     }
   };
   struct ScaleFunctor
   {
     ScalarType scaling;
-    TensorType operator()(const TensorType & t) const {
-        return t*scaling;
+    TensorType
+    operator()(const TensorType & t) const
+    {
+      return t * scaling;
     }
   };
 
@@ -142,7 +151,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkStructureTensorImageFilter.hxx"
+#  include "itkStructureTensorImageFilter.hxx"
 #endif
 
 #endif
