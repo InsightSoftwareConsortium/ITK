@@ -167,17 +167,17 @@ public:
   itkNewMacro(Self);
 
   bool
-  GetHadStartEvent()
+  GetHadStartEvent() const
   {
     return m_HadStartEvent;
   }
   bool
-  GetHadIterationEvent()
+  GetHadIterationEvent() const
   {
     return m_HadIterationEvent;
   }
   bool
-  GetHadEndEvent()
+  GetHadEndEvent() const
   {
     return m_HadEndEvent;
   }

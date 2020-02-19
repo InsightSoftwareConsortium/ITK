@@ -112,7 +112,7 @@ public:
   }
 
   double
-  GetUncompensatedSumOfThreads()
+  GetUncompensatedSumOfThreads() const
   {
     return this->m_UncompensatedSumOfThreads;
   }

@@ -107,12 +107,12 @@ public:
 
   /** Support comparisons of time stamp objects directly.  */
   bool
-  operator>(TimeStamp & ts)
+  operator>(TimeStamp & ts) const
   {
     return (m_ModifiedTime > ts.m_ModifiedTime);
   }
   bool
-  operator<(TimeStamp & ts)
+  operator<(TimeStamp & ts) const
   {
     return (m_ModifiedTime < ts.m_ModifiedTime);
   }

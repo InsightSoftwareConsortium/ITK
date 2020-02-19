@@ -207,7 +207,7 @@ GPUDataManager::SetCurrentCommandQueue(int queueid)
 }
 
 int
-GPUDataManager::GetCurrentCommandQueueID()
+GPUDataManager::GetCurrentCommandQueueID() const
 {
   return m_CommandQueueId;
 }

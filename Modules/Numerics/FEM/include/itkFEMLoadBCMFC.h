@@ -138,7 +138,7 @@ public:
   /** Get the index variable for the multi freedom displacement constraint. This is used
   internally by itk::FEM::Solver*/
   int
-  GetIndex();
+  GetIndex() const;
 
   /** Add terms to the left hand side of multi freedom displacement constraint*/
   void

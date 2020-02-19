@@ -98,7 +98,7 @@ public:
   GetFrequency(const InstanceIdentifier id) const;
 
   TotalAbsoluteFrequencyType
-  GetTotalFrequency()
+  GetTotalFrequency() const
   {
     return m_TotalFrequency;
   }

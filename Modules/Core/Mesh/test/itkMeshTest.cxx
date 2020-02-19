@@ -101,18 +101,18 @@ public:
   }
 
   void
-  Visit(unsigned long, TetraCellType *)
+  Visit(unsigned long, TetraCellType *) const
   {
     m_CountClass->m_Tetra++;
   }
   void
-  Visit(unsigned long, QuadraticEdgeCellType *)
+  Visit(unsigned long, QuadraticEdgeCellType *) const
   {
     m_CountClass->m_QuadraticEdgeCell++;
   }
 
   void
-  Visit(unsigned long, QuadraticTriangleCellType *)
+  Visit(unsigned long, QuadraticTriangleCellType *) const
   {
     m_CountClass->m_QuadraticTriangleCellType++;
   }

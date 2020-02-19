@@ -240,12 +240,6 @@ MultivariateLegendrePolynomial ::GetNumberOfCoefficients(unsigned int dimension,
   return numerator / denominator;
 }
 
-unsigned int
-MultivariateLegendrePolynomial ::GetNumberOfCoefficients()
-{
-  return m_NumberOfCoefficients;
-}
-
 std::ostream &
 operator<<(std::ostream & os, const MultivariateLegendrePolynomial & poly)
 {

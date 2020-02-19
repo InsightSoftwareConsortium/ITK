@@ -483,7 +483,7 @@ NiftiImageIO ::CanWriteFile(const char * FileNameToWrite)
 }
 
 bool
-NiftiImageIO::MustRescale()
+NiftiImageIO::MustRescale() const
 {
   return std::abs(this->m_RescaleSlope) > std::numeric_limits<double>::epsilon() &&
          (std::abs(this->m_RescaleSlope - 1.0) > std::numeric_limits<double>::epsilon() ||

@@ -659,7 +659,7 @@ GPUKernelManager::SetCurrentCommandQueue(int queueid)
 }
 
 int
-GPUKernelManager::GetCurrentCommandQueueID()
+GPUKernelManager::GetCurrentCommandQueueID() const
 {
   return m_CommandQueueId;
 }

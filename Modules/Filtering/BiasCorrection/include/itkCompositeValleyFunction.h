@@ -88,7 +88,7 @@ public:
     m_Mean = mean;
   }
   double
-  GetMean()
+  GetMean() const
   {
     return m_Mean;
   }
@@ -100,7 +100,7 @@ public:
     m_Sigma = sigma;
   }
   double
-  GetSigma()
+  GetSigma() const
   {
     return m_Sigma;
   }
@@ -128,14 +128,14 @@ public:
 
   /** Get energy table's higher bound. */
   double
-  GetUpperBound()
+  GetUpperBound() const
   {
     return m_UpperBound;
   }
 
   /** Get energy table's lower bound. */
   double
-  GetLowerBound()
+  GetLowerBound() const
   {
     return m_LowerBound;
   }

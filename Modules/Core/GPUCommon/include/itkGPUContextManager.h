@@ -44,7 +44,7 @@ public:
   GetCommandQueue(int i);
 
   unsigned int
-  GetNumberOfCommandQueues()
+  GetNumberOfCommandQueues() const
   {
     return m_NumberOfDevices;
   }

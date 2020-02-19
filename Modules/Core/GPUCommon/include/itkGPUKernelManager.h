@@ -184,7 +184,7 @@ public:
   SetCurrentCommandQueue(int queueid);
 
   int
-  GetCurrentCommandQueueID();
+  GetCurrentCommandQueueID() const;
 
 protected:
   GPUKernelManager();

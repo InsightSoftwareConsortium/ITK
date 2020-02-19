@@ -96,7 +96,7 @@ public:
   }
 
   void
-  SetPriority(SizeValueType i, SizeValueType priority)
+  SetPriority(SizeValueType i, SizeValueType priority) const
   {
     if (i > m_Size)
     {
@@ -111,7 +111,7 @@ public:
   }
 
   void
-  Shuffle()
+  Shuffle() const
   {
     for (SizeValueType i = 0; i < m_Size; i++)
     {
@@ -121,19 +121,19 @@ public:
     std::sort(m_Permutation, m_Permutation + m_Size);
   }
 
-  SizeValueType operator[](SizeValueType i) { return m_Permutation[i].m_Index; }
+  SizeValueType operator[](SizeValueType i) const { return m_Permutation[i].m_Index; }
 
   ~RandomPermutation() { delete[] m_Permutation; }
 
   /** Reinitialize the seed of the random number generator */
   void
-  ReinitializeSeed()
+  ReinitializeSeed() const
   {
     m_Generator->Initialize();
   }
 
   void
-  ReinitializeSeed(unsigned int seed)
+  ReinitializeSeed(unsigned int seed) const
   {
     m_Generator->SetSeed(seed);
   }

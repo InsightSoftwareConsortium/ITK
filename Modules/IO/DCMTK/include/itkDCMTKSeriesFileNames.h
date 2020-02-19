@@ -148,7 +148,7 @@ public:
    *   multiple 3D volumes - as can occur with perfusion and DTI imaging
    */
   bool
-  GetUseSeriesDetails()
+  GetUseSeriesDetails() const
   {
     return m_UseSeriesDetails;
   }
