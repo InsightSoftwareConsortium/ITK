@@ -22,14 +22,14 @@ file(MAKE_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python)
 ###############################################################################
 # Configure Python wrapping installation
 if(Python3_EXECUTABLE AND NOT PY_SITE_PACKAGES_PATH)
-  set(python_check "from __future__ import print_function\ntry:\n    import distutils.sysconfig\n    print(distutils.sysconfig.get_python_lib(plat_specific=1, prefix=''))\nexcept:\n    pass")
+  set(python_check "try:\n    import distutils.sysconfig\n    print(distutils.sysconfig.get_python_lib(plat_specific=1, prefix=''))\nexcept:\n    pass")
   file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/detect_site_package_path.py ${python_check})
   execute_process(COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_BINARY_DIR}/detect_site_package_path.py"
     OUTPUT_VARIABLE py_spp
     ERROR_VARIABLE py_spp
   )
 
-  execute_process(COMMAND "${Python3_EXECUTABLE}" -c "from __future__ import print_function\nimport sys\nprint(sys.prefix)"
+  execute_process(COMMAND "${Python3_EXECUTABLE}" -c "import sys\nprint(sys.prefix)"
     OUTPUT_VARIABLE py_prefix
     ERROR_VARIABLE py_prefix
     OUTPUT_STRIP_TRAILING_WHITESPACE
