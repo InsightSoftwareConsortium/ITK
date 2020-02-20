@@ -5,13 +5,7 @@ import sys
 import os
 import re
 from argparse import ArgumentParser
-
-try:
-    # Python 3
-    from io import StringIO
-except ImportError:
-    # Python 2
-    from cStringIO import StringIO
+from io import StringIO
 
 
 def getType(v):
@@ -529,7 +523,7 @@ class SwigInputGenerator(object):
                 snakeCase = self.camelCaseToSnakeCase(processObject)
                 self.snakeCaseProcessObjectFunctions.add(snakeCase)
                 self.outputFile.write('import itkHelpers\n')
-                self.outputFile.write('@itkHelpers.accept_numpy_array_like\n')
+                self.outputFile.write('@itkHelpers.accept_numpy_array_like_xarray\n')
                 self.outputFile.write('def %s(*args, **kwargs):\n' % snakeCase)
                 self.outputFile.write('    """Procedural interface for %s"""\n' % processObject)
                 self.outputFile.write('    import itk\n')

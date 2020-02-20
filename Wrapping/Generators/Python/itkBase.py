@@ -19,6 +19,8 @@
 import os
 import os.path
 import sys
+# Required to work around weird import error with xarray
+import pkg_resources
 import importlib
 import types
 import itkConfig

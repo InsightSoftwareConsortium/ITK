@@ -33,3 +33,25 @@ assert(np.all(added == 3))
 
 # support kwargs with "image" in the name
 masked = itk.mask_image_filter(array1, mask_image=array2)
+
+try:
+    import xarray as xr
+
+    image1 = itk.image_from_array(array1)
+    data_array1 = itk.xarray_from_image(image1)
+    image2 = itk.image_from_array(array2)
+    data_array2 = itk.xarray_from_image(image2)
+
+    added = itk.add_image_filter(data_array1, data_array2)
+    assert(isinstance(added, xr.DataArray))
+    assert(np.all(added == 3))
+
+    added = itk.add_image_filter(Input1=data_array1, Input2=data_array2)
+    assert(isinstance(added, xr.DataArray))
+    assert(np.all(added == 3))
+
+    # support kwargs with "image" in the name
+    masked = itk.mask_image_filter(data_array1, mask_image=data_array2)
+except ImportError:
+    # Could not import xarray
+    pass
