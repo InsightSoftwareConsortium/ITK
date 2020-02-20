@@ -28,10 +28,8 @@ namespace itk
  * \brief Interpolating subdivision scheme.
  *
  * Similar to LinearTriangleCellSubdivisionQuadEdgeMeshFilter, except that new vertices created using butterfly
- * neighborhood:
- * \f[
- * NV_k = \frac{1}{2} \sum_{i=1}{2} U_k^i + \frac{1}{8} \sum_{i=1}^{2} V_k^i - \frac{1}{16} \sum_{i=1}{4} W_k^i
- * \f]
+ * neighborhood: \f[ NV_k = \frac{1}{2} \sum_{i=1}{2} U_k^i + \frac{1}{8} \sum_{i=1}^{2} V_k^i - \frac{1}{16}
+ * \sum_{i=1}{4} W_k^i \f]
  *
  * \ingroup SubdivisionQuadEdgeMeshFilter
  */
