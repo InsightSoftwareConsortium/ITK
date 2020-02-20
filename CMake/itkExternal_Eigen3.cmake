@@ -37,6 +37,7 @@ else()
     "-DCMAKE_INSTALL_PREFIX=${_eigen3_cmake_install_prefix}"
     "-DCMAKE_INSTALL_INCLUDEDIR=${_eigen3_cmake_install_includedir}"
     "-DCMAKE_INSTALL_DATADIR=${_eigen3_cmake_install_datadir}"
+    "-DCMAKE_GENERATOR=${CMAKE_GENERATOR}"
     ${_additional_external_project_args}
     WORKING_DIRECTORY ${_eigen3_build_dir}
     )
