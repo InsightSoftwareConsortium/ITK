@@ -88,7 +88,7 @@ public:
   typename Superclass::EigenValueOrderEnum
   GetEigenValueOrder() const override
   {
-    return Superclass::OrderByMagnitude;
+    return Superclass::EigenValueOrderEnum::OrderByMagnitude;
   }
 
   /** Setter/Getter methods for setting Direction */

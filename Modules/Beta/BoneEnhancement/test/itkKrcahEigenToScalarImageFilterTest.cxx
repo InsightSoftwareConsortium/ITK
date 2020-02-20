@@ -44,7 +44,7 @@ itkKrcahEigenToScalarImageFilterTest(int argc, char * argv[])
 
   /* Test defaults */
   ITK_TEST_EXPECT_EQUAL(krcahFilter->GetEigenValueOrder(),
-                        KrcahEigenToScalarImageFilterType::Superclass::OrderByMagnitude);
+                        KrcahEigenToScalarImageFilterType::Superclass::EigenValueOrderEnum::OrderByMagnitude);
 
   /* Create some test data which is computable */
   EigenValueArrayType simpleEigenPixel;

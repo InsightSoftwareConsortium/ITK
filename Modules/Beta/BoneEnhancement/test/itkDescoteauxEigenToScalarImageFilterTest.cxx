@@ -44,7 +44,7 @@ itkDescoteauxEigenToScalarImageFilterTest(int argc, char * argv[])
 
   /* Test defaults */
   ITK_TEST_EXPECT_EQUAL(descoFilter->GetEigenValueOrder(),
-                        DescoteauxEigenToScalarImageFilterType::Superclass::OrderByMagnitude);
+                        DescoteauxEigenToScalarImageFilterType::Superclass::EigenValueOrderEnum::OrderByMagnitude);
 
   /* Create some test data which is computable */
   EigenValueArrayType simpleEigenPixel;
