@@ -138,13 +138,13 @@ public:
   void
   SetParameterSetToImplementation()
   {
-    this->SetParameterSet(UseImplementationParameters);
+    this->SetParameterSet(KrcahImplementationEnum::UseImplementationParameters);
   }
 
   void
   SetParameterSetToJournalArticle()
   {
-    this->SetParameterSet(UseJournalParameters);
+    this->SetParameterSet(KrcahImplementationEnum::UseJournalParameters);
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING

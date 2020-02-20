@@ -126,7 +126,7 @@ public:
   using EigenToMeasureParameterEstimationFilterType = EigenToMeasureParameterEstimationFilter<EigenValueImageType>;
 
   /** Need some types to determine how to order the eigenvalues */
-  using InternalEigenValueOrderType = typename EigenAnalysisFilterType::FunctorType::EigenValueOrderType;
+  using InternalEigenValueOrderType = typename itk::EigenValueOrderEnum;
   using ExternalEigenValueOrderType = typename EigenToMeasureImageFilterType::EigenValueOrderEnum;
 
   /** Set/Get the EigenToMeasureImageFilter. */

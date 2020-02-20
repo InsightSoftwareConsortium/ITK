@@ -26,7 +26,7 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::KrcahEigenToMeasureParameterEstimationFilter()
-  : m_ParameterSet(UseImplementationParameters)
+  : m_ParameterSet(KrcahImplementationEnum::UseImplementationParameters)
 {
   /* Set parameter size to 3 */
   ParameterArrayType parameters = this->GetParametersOutput()->Get();
@@ -53,12 +53,12 @@ KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::AfterTh
   RealType alpha, beta, gamma;
   switch (m_ParameterSet)
   {
-    case UseImplementationParameters:
+    case KrcahImplementationEnum::UseImplementationParameters:
       alpha = Math::sqrt2 * 0.5f;
       beta = Math::sqrt2 * 0.5f;
       gamma = Math::sqrt2 * 0.5f;
       break;
-    case UseJournalParameters:
+    case KrcahImplementationEnum::UseJournalParameters:
       alpha = 0.5f;
       beta = 0.5f;
       gamma = 0.25f;
@@ -106,10 +106,10 @@ KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::Dynamic
   RealType (Self::*traceFunction)(InputImagePixelType);
   switch (m_ParameterSet)
   {
-    case UseImplementationParameters:
+    case KrcahImplementationEnum::UseImplementationParameters:
       traceFunction = &Self::CalculateTraceAccordingToImplementation;
       break;
-    case UseJournalParameters:
+    case KrcahImplementationEnum::UseJournalParameters:
       traceFunction = &Self::CalculateTraceAccordingToJournalArticle;
       break;
     default:
