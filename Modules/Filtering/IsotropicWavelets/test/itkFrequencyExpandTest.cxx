@@ -143,7 +143,7 @@ runFrequencyExpandTest(const std::string & inputImage, const std::string & outpu
       std::cout << "Even Image?: " << imageIsEven << std::endl;
       using ComplexFFTType = itk::ComplexToComplexFFTImageFilter<ComplexImageType>;
       auto complexInverseFFT = ComplexFFTType::New();
-      complexInverseFFT->SetTransformDirection(ComplexFFTType::INVERSE);
+      complexInverseFFT->SetTransformDirection(ComplexFFTType::TransformDirectionEnum::INVERSE);
       complexInverseFFT->SetInput(fftFilter->GetOutput());
       complexInverseFFT->Update();
 
@@ -176,7 +176,7 @@ runFrequencyExpandTest(const std::string & inputImage, const std::string & outpu
     {
       using ComplexFFTType = itk::ComplexToComplexFFTImageFilter<ComplexImageType>;
       auto complexInverseFFT = ComplexFFTType::New();
-      complexInverseFFT->SetTransformDirection(ComplexFFTType::INVERSE);
+      complexInverseFFT->SetTransformDirection(ComplexFFTType::TransformDirectionEnum::INVERSE);
       complexInverseFFT->SetInput(expandFilter->GetOutput());
       complexInverseFFT->Update();
 
