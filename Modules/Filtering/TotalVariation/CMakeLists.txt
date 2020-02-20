@@ -108,15 +108,6 @@ else() # build proxTV here with the selected Eigen3
   # or a library proxTV when using add_subdirectory
   set(_proxTV_lib proxTV) # proxTV generated in subdirectory
   set(proxTV_DIR_INSTALL "\${ITK_MODULES_DIR}/../proxTV")
-
-  # When this module is loaded by an app, load proxTV too.
-  set(
-    ${PROJECT_NAME}_EXPORT_CODE_BUILD
-    "${${PROJECT_NAME}_EXPORT_CODE_BUILD}
-set(proxTV_DIR \"${proxtv_fetch_BINARY_DIR}\")
-find_package(proxTV REQUIRED CONFIG)
-"
-  )
 endif()
 
 # When this module is loaded by an app, load proxTV too.
