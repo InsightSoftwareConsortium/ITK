@@ -576,6 +576,10 @@ if(BUILD_TESTING OR ITK_BUILD_DOCUMENTATION OR ITK_WRAP_PYTHON)
     else()
       find_package(Python3 COMPONENTS Interpreter)
     endif()
+    if(NOT Python3_EXECUTABLE AND _Python3_EXECUTABLE)
+      set(Python3_EXECUTABLE ${_Python3_EXECUTABLE} CACHE INTERNAL
+        "Path to the Python interpreter" FORCE)
+    endif()
   endif()
 
   if(ITK_WRAP_PYTHON AND Python3_VERSION VERSION_LESS 3.5)
