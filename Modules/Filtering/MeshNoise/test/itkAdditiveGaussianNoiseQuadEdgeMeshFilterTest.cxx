@@ -21,7 +21,7 @@
 #include "itkTestingMacros.h"
 
 int
-itkAdditiveGaussianNoiseQuadEdgeMeshFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv) [])
+itkAdditiveGaussianNoiseQuadEdgeMeshFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 {
 
   using TPixel = double;
@@ -31,20 +31,20 @@ itkAdditiveGaussianNoiseQuadEdgeMeshFilterTest(int itkNotUsed(argc), char * itkN
   // Typedefs //
   //////////////
 
-  using TMesh = itk::QuadEdgeMesh< TPixel, Dimension >;
-  using TSphere = itk::RegularSphereMeshSource< TMesh >;
-  using TNoise = itk::AdditiveGaussianNoiseQuadEdgeMeshFilter< TMesh >;
+  using TMesh = itk::QuadEdgeMesh<TPixel, Dimension>;
+  using TSphere = itk::RegularSphereMeshSource<TMesh>;
+  using TNoise = itk::AdditiveGaussianNoiseQuadEdgeMeshFilter<TMesh>;
 
   ////////////////
   // Parameters //
   ////////////////
 
-  constexpr int SPHERE_RESOLUTION = 5;
+  constexpr int    SPHERE_RESOLUTION = 5;
   constexpr double SPHERE_SCALE = 10.0;
 
-  constexpr int NOISE_SEED = 100;
-  const TMesh::CoordRepType NOISE_SIGMA = SPHERE_SCALE * 0.01;
-  constexpr TMesh::CoordRepType NOISE_MEAN  = 1.0;
+  constexpr int                 NOISE_SEED = 100;
+  const TMesh::CoordRepType     NOISE_SIGMA = SPHERE_SCALE * 0.01;
+  constexpr TMesh::CoordRepType NOISE_MEAN = 1.0;
 
   ///////////
   // Logic //
@@ -52,25 +52,22 @@ itkAdditiveGaussianNoiseQuadEdgeMeshFilterTest(int itkNotUsed(argc), char * itkN
 
   TSphere::Pointer sphere = TSphere::New();
 
-  sphere->SetResolution( SPHERE_RESOLUTION );
-  sphere->SetScale( SPHERE_SCALE );
+  sphere->SetResolution(SPHERE_RESOLUTION);
+  sphere->SetScale(SPHERE_SCALE);
 
   TNoise::Pointer noise = TNoise::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( noise,
-                                 AdditiveGaussianNoiseQuadEdgeMeshFilter,
-                                 QuadEdgeMeshToQuadEdgeMeshFilter );
+  EXERCISE_BASIC_OBJECT_METHODS(noise, AdditiveGaussianNoiseQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
 
-  noise->SetInput( sphere->GetOutput() );
-  noise->SetSeed( NOISE_SEED );
-  TEST_SET_GET_VALUE( NOISE_SEED, noise->GetSeed() );
-  noise->SetSigma( NOISE_SIGMA );
-  TEST_SET_GET_VALUE( NOISE_SIGMA, noise->GetSigma() );
-  noise->SetMean( NOISE_MEAN );
-  TEST_SET_GET_VALUE( NOISE_MEAN, noise->GetMean() );
+  noise->SetInput(sphere->GetOutput());
+  noise->SetSeed(NOISE_SEED);
+  TEST_SET_GET_VALUE(NOISE_SEED, noise->GetSeed());
+  noise->SetSigma(NOISE_SIGMA);
+  TEST_SET_GET_VALUE(NOISE_SIGMA, noise->GetSigma());
+  noise->SetMean(NOISE_MEAN);
+  TEST_SET_GET_VALUE(NOISE_MEAN, noise->GetMean());
 
   noise->Update();
 
   return EXIT_SUCCESS;
-
 }

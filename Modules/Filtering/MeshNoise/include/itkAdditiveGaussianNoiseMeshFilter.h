@@ -37,9 +37,8 @@ namespace itk
  *
  * \ingroup MeshNoise
  */
-template< typename TInput, typename TOutput = TInput >
-class AdditiveGaussianNoiseMeshFilter:
-public MeshToMeshFilter< TInput, TOutput >
+template <typename TInput, typename TOutput = TInput>
+class AdditiveGaussianNoiseMeshFilter : public MeshToMeshFilter<TInput, TOutput>
 {
 
 public:
@@ -47,9 +46,9 @@ public:
 
   /** Standard class type alias. */
   using Self = AdditiveGaussianNoiseMeshFilter;
-  using Superclass = MeshToMeshFilter< TInput, TOutput >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MeshToMeshFilter<TInput, TOutput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using InputMeshType = TInput;
   using OutputMeshType = TOutput;
@@ -78,24 +77,25 @@ public:
   itkSetMacro(Seed, int);
 
 protected:
-
   AdditiveGaussianNoiseMeshFilter();
-  ~AdditiveGaussianNoiseMeshFilter() override{}
+  ~AdditiveGaussianNoiseMeshFilter() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Requested Data */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   CoordRepType m_Mean;
   CoordRepType m_Sigma;
   int          m_Seed;
 };
 
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAdditiveGaussianNoiseMeshFilter.hxx"
+#  include "itkAdditiveGaussianNoiseMeshFilter.hxx"
 #endif
 
 #endif

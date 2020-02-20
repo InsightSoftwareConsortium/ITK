@@ -37,18 +37,17 @@ namespace itk
  *
  * \ingroup MeshNoise
  */
-template< typename TInputMesh, typename TOutputMesh = TInputMesh >
-class AdditiveGaussianNoiseQuadEdgeMeshFilter:
-  public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh = TInputMesh>
+class AdditiveGaussianNoiseQuadEdgeMeshFilter : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AdditiveGaussianNoiseQuadEdgeMeshFilter);
 
   /** Standard class type alias. */
   using Self = AdditiveGaussianNoiseQuadEdgeMeshFilter;
-  using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Type for representing coordinates. */
   using CoordRepType = typename TInputMesh::CoordRepType;
@@ -72,14 +71,15 @@ public:
   itkSetMacro(Seed, int);
 
 protected:
-
   AdditiveGaussianNoiseQuadEdgeMeshFilter();
-  ~AdditiveGaussianNoiseQuadEdgeMeshFilter() override{}
+  ~AdditiveGaussianNoiseQuadEdgeMeshFilter() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Requested Data */
-  void GenerateData(void) override;
+  void
+  GenerateData(void) override;
 
   CoordRepType m_Mean;
   CoordRepType m_Sigma;
@@ -89,7 +89,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAdditiveGaussianNoiseQuadEdgeMeshFilter.hxx"
+#  include "itkAdditiveGaussianNoiseQuadEdgeMeshFilter.hxx"
 #endif
 
 #endif
