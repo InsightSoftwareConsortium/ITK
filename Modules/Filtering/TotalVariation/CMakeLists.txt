@@ -98,8 +98,35 @@ else() # build proxTV here with the selected Eigen3
     GIT_TAG ${proxTV_GIT_TAG}
   )
   FetchContent_GetProperties(proxTV_fetch)
+  # proxTV options:
   set(Eigen3_DIR "${Eigen3_DIR}") # This is not needed but explicit helps reader.
   set(proxTV_USE_LAPACK 0)
+  if(NOT DEFINED proxTV_INSTALL_INCLUDE_DIR)
+    if(NOT ITK_SOURCE_DIR)
+      set(
+        ITK_INSTALL_INCLUDE_DIR
+        include/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}
+      )
+    endif()
+    set(proxTV_INSTALL_INCLUDE_DIR ${ITK_INSTALL_INCLUDE_DIR}/proxTV)
+  endif()
+  if(NOT DEFINED proxTV_INSTALL_LIB_DIR)
+    if(NOT ITK_SOURCE_DIR)
+      set(ITK_INSTALL_LIBRARY_DIR lib)
+    endif()
+    set(proxTV_INSTALL_LIB_DIR ${ITK_INSTALL_LIBRARY_DIR})
+  endif()
+  if(NOT DEFINED proxTV_INSTALL_CMAKE_DIR)
+    if(NOT ITK_SOURCE_DIR)
+      set(
+        ITK_INSTALL_PACKAGE_DIR
+        "lib/cmake/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}"
+      )
+    endif()
+    set(proxTV_INSTALL_CMAKE_DIR ${ITK_INSTALL_PACKAGE_DIR}/Modules)
+  endif()
+  # end proxTV options
+
   if(NOT proxtv_fetch_POPULATED)
     FetchContent_Populate(proxTV_fetch)
     add_subdirectory(${proxtv_fetch_SOURCE_DIR} ${proxtv_fetch_BINARY_DIR})
@@ -107,7 +134,7 @@ else() # build proxTV here with the selected Eigen3
   # proxTV will generate a target proxTV::proxTV when using find_package,
   # or a library proxTV when using add_subdirectory
   set(_proxTV_lib proxTV) # proxTV generated in subdirectory
-  set(proxTV_DIR_INSTALL "\${ITK_MODULES_DIR}/../proxTV")
+  set(proxTV_DIR_INSTALL "${CMAKE_INSTALL_PREFIX}/${proxTV_INSTALL_CMAKE_DIR}")
 endif()
 
 # When this module is loaded by an app, load proxTV too.
