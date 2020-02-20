@@ -60,7 +60,7 @@ public:
   /** Standard class type alias. */
   using Self = GPUSmoothingRecursiveYvvGaussianImageFilter;
   // typedef SmoothingRecursiveYvvGaussianImageFilter<TInputImage,TOutputImage>
-  //    CPUSuperclass;
+  //   CPUSuperclass;
   using Superclass = GPUImageToImageFilter<TInputImage,
                                            TOutputImage,
                                            SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>>;

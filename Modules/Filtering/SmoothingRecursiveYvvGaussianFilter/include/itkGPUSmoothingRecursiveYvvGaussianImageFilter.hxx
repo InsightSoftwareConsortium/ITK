@@ -327,7 +327,7 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GPUGener
   else
   {
     // We must optimize our 2D workgroup sizes to go over our 3D volume in each
-    //  dimension.
+    // dimension.
 
     this->m_GPUKernelManager->SetKernelArg(m_FilterGPUKernelHandle, argidx++, sizeof(unsigned int), &(X));
     this->m_GPUKernelManager->LaunchKernel2D(m_FilterGPUKernelHandle, m_requestedSize[2], m_requestedSize[1], 16, 16);
@@ -338,7 +338,7 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GPUGener
     this->m_GPUKernelManager->LaunchKernel2D(m_FilterGPUKernelHandle, m_requestedSize[0], m_requestedSize[2], 16, 16);
 
     // input is already pointing to previous output; change ONLY direction of
-    //  filter
+    // filter
     this->m_GPUKernelManager->SetKernelArg(m_FilterGPUKernelHandle, dimArg, sizeof(unsigned int), &(Z));
     this->m_GPUKernelManager->LaunchKernel2D(m_FilterGPUKernelHandle, m_requestedSize[0], m_requestedSize[1], 16, 16);
   }
