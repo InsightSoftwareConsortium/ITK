@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -33,8 +33,8 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 StructureTensor<TInputImage, TOutputImage>::StructureTensor()
-  : m_GaussianWindowRadius(2)
-  , m_GaussianWindowSigma(1.0)
+
+
 {
   this->m_GaussianSource = GaussianSourceType::New();
 

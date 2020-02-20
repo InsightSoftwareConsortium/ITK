@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,11 +25,8 @@ namespace itk
 template <typename TOutputImage, typename TWaveletFunction, typename TFrequencyRegionIterator>
 WaveletFrequencyFilterBankGenerator<TOutputImage, TWaveletFunction, TFrequencyRegionIterator>::
   WaveletFrequencyFilterBankGenerator()
-  : m_HighPassSubBands(0)
-  , m_InverseBank(false)
-  , m_Level(0)
-  , m_ScaleFactor(2)
-  , m_LevelFactor(1)
+
+
 {
   this->SetHighPassSubBands(1);
   m_WaveletFunction = TWaveletFunction::New();

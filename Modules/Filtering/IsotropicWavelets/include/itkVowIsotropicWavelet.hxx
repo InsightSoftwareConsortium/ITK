@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -30,8 +30,7 @@ VowIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::VowIsotropicWavele
 {}
 
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
-VowIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::~VowIsotropicWavelet()
-{}
+VowIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::~VowIsotropicWavelet() = default;
 
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
 void

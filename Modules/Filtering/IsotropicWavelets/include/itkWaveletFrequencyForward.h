@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -152,7 +152,7 @@ public:
 
 protected:
   WaveletFrequencyForward();
-  ~WaveletFrequencyForward() override {}
+  ~WaveletFrequencyForward() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -192,12 +192,12 @@ protected:
   GenerateInputRequestedRegion() override;
 
 private:
-  unsigned int             m_Levels;
-  unsigned int             m_HighPassSubBands;
-  unsigned int             m_TotalOutputs;
-  unsigned int             m_ScaleFactor;
+  unsigned int             m_Levels{ 1 };
+  unsigned int             m_HighPassSubBands{ 1 };
+  unsigned int             m_TotalOutputs{ 1 };
+  unsigned int             m_ScaleFactor{ 2 };
   WaveletFilterBankPointer m_WaveletFilterBank;
-  bool                     m_StoreWaveletFilterBankPyramid;
+  bool                     m_StoreWaveletFilterBankPyramid{ false };
   OutputsType              m_WaveletFilterBankPyramid;
 };
 } // end namespace itk

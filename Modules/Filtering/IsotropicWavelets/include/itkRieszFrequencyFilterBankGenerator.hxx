@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ namespace itk
 template <typename TOutputImage, typename TRieszFunction, typename TFrequencyRegionIterator>
 RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegionIterator>::
   RieszFrequencyFilterBankGenerator()
-  : m_Order(0)
+
 {
   this->m_Evaluator = RieszFunctionType::New();
   this->SetOrder(1);

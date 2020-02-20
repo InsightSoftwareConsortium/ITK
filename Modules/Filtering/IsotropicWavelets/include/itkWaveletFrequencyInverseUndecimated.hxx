@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -30,12 +30,8 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
 WaveletFrequencyInverseUndecimated<TInputImage, TOutputImage, TWaveletFilterBank>::WaveletFrequencyInverseUndecimated()
-  : m_Levels(1)
-  , m_HighPassSubBands(1)
-  , m_TotalInputs(0)
-  , m_ScaleFactor(2)
-  , m_ApplyReconstructionFactors(true)
-  , m_UseWaveletFilterBankPyramid(false)
+
+
 {
   this->SetNumberOfRequiredOutputs(1);
   this->m_WaveletFilterBank = WaveletFilterBankType::New();

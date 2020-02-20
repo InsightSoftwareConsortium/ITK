@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -29,10 +29,10 @@ template <typename T, unsigned int VImageDimension>
 RieszRotationMatrix<T, VImageDimension>::RieszRotationMatrix()
   : Superclass()
   , m_SpatialRotationMatrix()
-  , m_Order(0)
-  , m_Components(0)
-  , m_MaxAbsoluteDifferenceCloseToZero(1 * itk::NumericTraits<ValueType>::epsilon())
-  , m_Debug(false)
+  ,
+
+  m_MaxAbsoluteDifferenceCloseToZero(1 * itk::NumericTraits<ValueType>::epsilon())
+
 {}
 
 template <typename T, unsigned int VImageDimension>
@@ -42,7 +42,7 @@ RieszRotationMatrix<T, VImageDimension>::RieszRotationMatrix(const Self & rieszM
   , m_Order(rieszMatrix.GetOrder())
   , m_Components(rieszMatrix.GetComponents())
   , m_MaxAbsoluteDifferenceCloseToZero(1 * itk::NumericTraits<ValueType>::epsilon())
-  , m_Debug(false)
+
 {}
 
 template <typename T, unsigned int VImageDimension>
@@ -51,7 +51,7 @@ RieszRotationMatrix<T, VImageDimension>::RieszRotationMatrix(const SpatialRotati
   : Superclass()
   , m_SpatialRotationMatrix(spatialRotationMatrix)
   , m_MaxAbsoluteDifferenceCloseToZero(1 * itk::NumericTraits<ValueType>::epsilon())
-  , m_Debug(false)
+
 {
   this->SetOrder(order);
   this->ComputeSteerableMatrix();
@@ -198,7 +198,7 @@ RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
   InternalMatrixType & S = this->GetVnlMatrix();
   if (this->m_Order == 1)
   {
-    S = this->GetSpatialRotationMatrix().GetVnlMatrix();
+    S = this->GetSpatialRotationMatrix().GetVnlMatrix().as_matrix();
     return this->GetVnlMatrix();
   }
 

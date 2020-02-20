@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -135,7 +135,7 @@ public:
 
 protected:
   WaveletFrequencyFilterBankGenerator();
-  ~WaveletFrequencyFilterBankGenerator() override {}
+  ~WaveletFrequencyFilterBankGenerator() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -145,14 +145,14 @@ protected:
   DynamicThreadedGenerateData(const OutputImageRegionType & threadRegion) override;
 
 private:
-  unsigned int           m_HighPassSubBands;
-  bool                   m_InverseBank;
+  unsigned int           m_HighPassSubBands{ 0 };
+  bool                   m_InverseBank{ false };
   WaveletFunctionPointer m_WaveletFunction;
-  unsigned int           m_Level;
+  unsigned int           m_Level{ 0 };
   /** Default to 2 (Dyadic). No modifiable, but allow future extensions */
-  unsigned int m_ScaleFactor;
+  unsigned int m_ScaleFactor{ 2 };
   /** m_ScaleFactor^m_Level */
-  double m_LevelFactor;
+  double m_LevelFactor{ 1 };
 }; // end of class
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION

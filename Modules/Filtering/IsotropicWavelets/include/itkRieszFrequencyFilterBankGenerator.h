@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -113,7 +113,7 @@ public:
 
 protected:
   RieszFrequencyFilterBankGenerator();
-  ~RieszFrequencyFilterBankGenerator() override {}
+  ~RieszFrequencyFilterBankGenerator() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -124,7 +124,7 @@ protected:
   DynamicThreadedGenerateData(const OutputImageRegionType & threadRegion) override;
 
 private:
-  unsigned int         m_Order;
+  unsigned int         m_Order{ 0 };
   RieszFunctionPointer m_Evaluator;
 }; // end of class
 } // end namespace itk
