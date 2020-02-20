@@ -39,7 +39,7 @@ CellAreaTriangleCellSubdivisionCriterion<TTriangleCellSubdivisionFilter>::Comput
   while (cter != cells->End())
   {
     CellType * cell = cter->Value();
-    if (!cell || cell->GetType() != CellType::POLYGON_CELL || cell->GetNumberOfPoints() != 3)
+    if (!cell || cell->GetType() != CellGeometryEnum::POLYGON_CELL || cell->GetNumberOfPoints() != 3)
     {
       continue;
     }
