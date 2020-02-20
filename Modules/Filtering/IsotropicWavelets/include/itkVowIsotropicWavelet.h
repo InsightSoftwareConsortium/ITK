@@ -33,11 +33,8 @@ namespace itk
        &\sqrt{\frac{1}{2} + \frac{\tan(\kappa(1+2\log_2\frac{2\omega}{\pi})}{2\tan(\kappa)}} , &\omega \in
  [\frac{\pi}{4} , \frac{\pi}{2} [ \\
        &\sqrt{\frac{1}{2} - \frac{\tan(\kappa(1+2\log_2\frac{\omega}{\pi}))}{2\tan(\kappa)}} , &\omega \in
- [\frac{\pi}{2} , \pi ] \\ &0, &\text{otherwise}
-     \end{aligned}
-     \end{cases}
- \f}
- where \f$\kappa \in [0, \frac{\pi}{2}] \text{ is found to be } 0.75 \f$
+ [\frac{\pi}{2} , \pi ] \\ &0, &\text{otherwise} \end{aligned} \end{cases} \f} where \f$\kappa \in [0, \frac{\pi}{2}]
+ \text{ is found to be } 0.75 \f$
  *
  * Where q(t) is a m grade polynomial (m can be chosen) which elements are
  * calculated so the wavelet has desirable properties.

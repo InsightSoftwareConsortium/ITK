@@ -40,10 +40,7 @@ response for each location in the image.
  *
 \f[
  \mathbf{u}({\mathbf{x}_0}) = \arg \max_{\Vert\mathbf{u}\Vert =1 }  \int_{\mathbb{R}^d} g(\mathbf{x} - \mathbf{x}_0)
-\left| \mathbf{I}_{\mathbf{u}}(\mathbf{x})\right|^2
-\f]
-\f[
- \left| \mathbf{I}_{\mathbf{u}}(\mathbf{x})\right|^2 =
+\left| \mathbf{I}_{\mathbf{u}}(\mathbf{x})\right|^2 \f] \f[ \left| \mathbf{I}_{\mathbf{u}}(\mathbf{x})\right|^2 =
  \mathbf{u}^T \cdot \mathbf{I}(\mathbf{x}) \cdot (\mathbf{I}(\mathbf{x}))^T \cdot \mathbf{u}
 \f]
  * \f$ \mathbf{I}\f$ is the required std::vector of input images. These images might be the output
