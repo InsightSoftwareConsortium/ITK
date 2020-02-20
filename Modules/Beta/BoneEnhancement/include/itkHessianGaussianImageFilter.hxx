@@ -212,7 +212,7 @@ HessianGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
     for (unsigned int dimb = dima; dimb < ImageDimension; dimb++)
     {
       // All directions have zero order derivative initially
-      for (int k = 0; k < ImageDimension; ++k)
+      for (unsigned int k = 0; k < ImageDimension; ++k)
       {
         order[k] = 0;
       }
