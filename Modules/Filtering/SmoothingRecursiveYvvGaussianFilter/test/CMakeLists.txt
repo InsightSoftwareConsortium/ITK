@@ -16,7 +16,7 @@ if(ITK_USE_GPU)
   include_directories("${${itk-module}KernelDir}")
 
   set(
-    ${itk-module}Tests
+    ${itk-module}TestSRC
     itkCPURecursiveYvvGaussianImageFilterTest.cxx
     itkGPURecursiveYvvGaussianImageFilterTest.cxx
     itkYvvGpuCpuSimilarityTest.cxx
@@ -27,7 +27,7 @@ else()
   #No GPU, but CPU user will probably want double-precision.
   add_definitions(-DWITH_DOUBLE)
   set(
-    ${itk-module}Tests
+    ${itk-module}TestSRC
     itkCPURecursiveYvvGaussianImageFilterTest.cxx
     itkYvvBenchmark.cxx
     itkYvvWhiteImageTest.cxx
@@ -36,7 +36,7 @@ endif()
 
 #set(ITK_TEST_DRIVER itkTestDriver)
 
-createtestdriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${${itk-module}Tests}")
+createtestdriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${${itk-module}TestSRC}")
 
 #Common tests for CPU and/or GPU
 itk_add_test(

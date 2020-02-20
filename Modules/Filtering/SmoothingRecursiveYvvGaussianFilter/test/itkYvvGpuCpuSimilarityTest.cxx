@@ -113,7 +113,7 @@ runYvvGpuCpuSimilarityTest(const std::string & inFile, float mySigma)
 
     std::cout << "\nSize: " << src->GetLargestPossibleRegion().GetSize() << std::endl;
     std::cout << "CPU Recursive YVV Gaussian Filter took " << cputimer.GetMean() << " seconds with "
-              << CPUFilter->GetNumberOfThreads() << " threads." << std::endl;
+              << CPUFilter->GetNumberOfWorkUnits() << " threads." << std::endl;
 
     castFilterCPU->SetInput(CPUFilter->GetOutput());
     writerCPU->SetInput(castFilterCPU->GetOutput());
