@@ -1,17 +1,9 @@
-set(DOCUMENTATION "This module implements Anisotropic Diffusion, using Lattice Basis Reduction.
+# the top-level README is used for describing this module, just
+# re-used it for documentation here
+get_filename_component(MY_CURRENT_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+file(READ "${MY_CURRENT_DIR}/README.rst" DOCUMENTATION)
 
-Documentation can be found in the Insight Journal article, 'Anisotropic
-Diffusion in ITK', by Mirebeau J., Fehrenbach J., Risser L., Tobji S.
-
-http://insight-journal.org/browse/publication/953
-http://hdl.handle.net/10380/3505
-")
-
-# itk_module() defines the module dependencies in ITKAnisotropicFastMarchingLBR;
-# ITKAnisotropicFastMarchingLBR depends on ITKCommon;
-# The testing module in ITKExternalTemplate depends on ITKTestKernel,
-# and ITKMetaIO for image IO (besides ITKAnisotropicDiffusionLBR itself)
-
+# define the dependencies of the include module and the tests
 itk_module(AnisotropicDiffusionLBR
   DEPENDS
     ITKCommon
@@ -21,7 +13,8 @@ itk_module(AnisotropicDiffusionLBR
     ITKImageGradient
   TEST_DEPENDS
     ITKTestKernel
-  EXCLUDE_FROM_DEFAULT
   DESCRIPTION
     "${DOCUMENTATION}"
+  EXCLUDE_FROM_DEFAULT
+  # Header only library, no ENABLE_SHARED
 )
