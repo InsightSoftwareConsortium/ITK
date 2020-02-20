@@ -30,10 +30,12 @@ message(
 )
 if(TotalVariation_proxTV_USE_EIGEN)
   if(NOT ITK_USE_SYSTEM_EIGEN)
-    # Set Eigen3_DIR to the internal ITKEigen3 module.
-    set(_internal_cmake_eigen3)
-    list(GET ITKEigen3_INCLUDE_DIRS 0 _internal_cmake_eigen3)
-    set(Eigen3_DIR "${_internal_cmake_eigen3}/itkeigen")
+    # Set Eigen3_DIR to the internal Eigen3 used in ITK
+    set(Eigen3_DIR "${ITKInternalEigen3_DIR}")
+    message(
+      STATUS
+      "ITKTotalVariation: Using internal ITK Eigen Config found in: ${Eigen3_DIR}"
+    )
   endif()
   find_package(Eigen3 REQUIRED)
   set(
