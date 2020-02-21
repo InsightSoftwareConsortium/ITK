@@ -65,6 +65,8 @@ PolarToCartesianTransform<TParametersValueType, NDimensions>::TransformPoint(con
     return outputPoint;
   }
 
+  alpha += m_AngleOffset; // add offset after NaN return to keep values within [-pi,pi]
+
   outputPoint[0] = inputPoint[1] * std::cos(alpha); // r*cos(alpha)
   outputPoint[1] = inputPoint[1] * std::sin(alpha); // r*sin(alpha)
 
