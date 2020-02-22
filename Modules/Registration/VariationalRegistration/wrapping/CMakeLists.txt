@@ -21,4 +21,4 @@ set(
 )
 
 itk_auto_load_submodules()
-itk_end_module()
+itk_end_wrap_module()
