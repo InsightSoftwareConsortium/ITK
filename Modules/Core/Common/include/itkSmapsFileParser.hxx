@@ -187,7 +187,7 @@ VMMapFileParser<TVMMapDataType>::ReadFile(const std::string & mapFileLocation)
   catch (const ExceptionObject & excp)
   {
     // propagate the exception
-    itkGenericExceptionMacro(<< "The vmmap file is an invalid file or contains errors");
+    itkGenericExceptionMacro(<< "The vmmap file is an invalid file or contains errors\n" << excp);
   }
 }
 } // end namespace itk
