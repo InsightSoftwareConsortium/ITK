@@ -28,7 +28,9 @@ else()
   # ExternalProject_add creates a target for the build tree,
   # too late for our purposes of find_package at configure time.
   # We execute the configuration manually to create the Config and Targets.cmake files.
-  # Nothing to link or compile, so no need to pass generators or toolchains.
+  # Nothing to link or compile, so no need to pass compiler flags.
+  # However, generators and c,cxx compilers have to be explictily passed
+  # for CMake configuration to work.
   # Configure Eigen
   file(MAKE_DIRECTORY ${_eigen3_build_dir})
   execute_process(
@@ -38,6 +40,13 @@ else()
     "-DCMAKE_INSTALL_INCLUDEDIR=${_eigen3_cmake_install_includedir}"
     "-DCMAKE_INSTALL_DATADIR=${_eigen3_cmake_install_datadir}"
     "-DCMAKE_GENERATOR=${CMAKE_GENERATOR}"
+    "-DCMAKE_GENERATOR_TOOLSET=${CMAKE_GENERATOR_TOOLSET}"
+    "-DCMAKE_GENERATOR_PLATFORM=${CMAKE_GENERATOR_PLATFORM}"
+    "-DCMAKE_GENERATOR_INSTANCE=${CMAKE_GENERATOR_INSTANCE}"
+    "-DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}"
+    "-DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}"
+    "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
+    "-DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}"
     ${_additional_external_project_args}
     WORKING_DIRECTORY ${_eigen3_build_dir}
     )
