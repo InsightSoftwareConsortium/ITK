@@ -116,7 +116,7 @@ SmapsFileParser<TSmapsDataType>::ReadFile(const std::string & mapFileLocation)
   // can't find or open the Smaps file
   if (inputFile.is_open() == false)
   {
-    std::cerr << "The smaps file " << filename.str() << " could not be open";
+    std::cerr << "The smaps file " << filename.str() << " could not be opened";
     return;
   }
 
@@ -128,7 +128,8 @@ SmapsFileParser<TSmapsDataType>::ReadFile(const std::string & mapFileLocation)
   catch (const ExceptionObject & excp)
   {
     // propagate the exception
-    itkGenericExceptionMacro(<< "The smaps file " << filename.str() << " is an invalid file or contains errors");
+    itkGenericExceptionMacro(<< "The smaps file " << filename.str()
+                             << " is an invalid file or contains errors: " << excp);
   }
   this->m_MapFilePath = filename.str();
 }
@@ -187,7 +188,7 @@ VMMapFileParser<TVMMapDataType>::ReadFile(const std::string & mapFileLocation)
   catch (const ExceptionObject & excp)
   {
     // propagate the exception
-    itkGenericExceptionMacro(<< "The vmmap file is an invalid file or contains errors\n" << excp);
+    itkGenericExceptionMacro(<< "The vmmap file is an invalid file or contains errors:\n" << excp);
   }
 }
 } // end namespace itk
