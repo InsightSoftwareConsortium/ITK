@@ -162,6 +162,21 @@ public:
   itkSetMacro(Center, InputPointType);
   itkGetConstReferenceMacro(Center, InputPointType);
 
+  /** Set an angular offset for the polar coordinate transform.
+   *
+   * Defaults to 0.0
+   */
+  itkSetMacro(AngleOffset, typename OutputPointType::ValueType);
+  itkGetConstReferenceMacro(AngleOffset, typename OutputPointType::ValueType);
+
+  /** Enable/Disable to use constant arc increment instead of constant angular increment.
+   *
+   * Defaults to Off
+   */
+  itkSetMacro(ConstArcIncr, bool);
+  itkGetMacro(ConstArcIncr, bool);
+  itkBooleanMacro(ConstArcIncr);
+
 protected:
   CartesianToPolarTransform();
   ~CartesianToPolarTransform() override;
@@ -171,7 +186,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  InputPointType m_Center;
+  InputPointType                      m_Center;
+  typename OutputPointType::ValueType m_AngleOffset = 0;
+  bool                                m_ConstArcIncr = false;
 }; // class CartesianToPolarTransform
 
 } // namespace itk
