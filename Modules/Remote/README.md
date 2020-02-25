@@ -1,5 +1,4 @@
-Introduction
-============
+# Introduction
 
 This directory is a place-holder for all remote modules distributed outside
 ITK's main repository. Remote modules share the same directory structure as
@@ -25,3 +24,73 @@ of the remote modules should **not** contain the "ITK" string prefix in them.
 
 
 [ITK Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
+
+
+# Compliance Level guide
+
+Given that remote modules have a variety of maturity levels, a rating system
+is available to assist with communicating the quality and maturity level
+of each remote module.
+
+## Background
+
+One of the primary goals of creating remote modules was to ease the burden of
+core developers in maintaining the core ITK code base.  There are currently (2020-02-21)
+44 remote modules distributed with ITK.
+
+## Goals of the Compliance Level gradings
+
+ * Provide a grading/ranking system for the remote modules to better convey the compliance level for which the module passes.
+ * Provide cmake filtering to hide modules of lower-class quality
+ * Provide ITK core developers a test-bed in Compliance levels 5,4,3 for ensuring backward compatibility testing, external tool support, and identifying migration guide support
+ * Provide ITK core developers with indications of which remote modules (2,1,0) that have not reached a level of maturity which demands high levels of efforts to ensure that they continue to work with the latest ITK developments (Perhaps they have surpassed their useful lifespan, or been replaced with other mechanisms).
+
+## Documenting the Compliance Level of a remote module
+Use the following template to document the compliance level of the modules.
+```
+#-- # Grading Level Criteria
+#--
+#-- ## Compliance level 5 star (AKA ITK main modules, or remote modules that could become core modules)
+#--   - [ ] Widespread community dependance
+#--   - [ ] Above 90% code coverage
+#--   - [ ] CI dashboards and testing monitored rigorously
+#--   - [ ] All requirements of Levels 4,3,2,1
+#--
+#-- ## Compliance Level 4 star (Very high-quality code, perhaps small community dependance)
+#--   - [X] Meets all ITK code style standards
+#--   - [X] No external requirements beyond those needed by ITK proper
+#--   - [X] Builds and passes tests on all supported platforms within 1 month of each core tagged release
+#--   - [X] Active developer community dedicated to maintaining code-base
+#--   - [X] 75% code coverage demonstrated for testing suite
+#--   - [ ] Continuous integration testing performed
+#--   - [ ] All requirements of Levels 3,2,1
+#--
+#-- ## Compliance Level 3 star (Quality beta code)
+#--   - [X] API | executable interface is considered mostly stable and feature complete
+#--   - [X] Some tests exist and pass on at least some platform
+#--   - [ ] All requirements of Levels 2,1
+#--
+#-- ## Compliance Level 2 star (Alpha code feature API development or niche community/exectution environment dependance )
+#--   - [X] Compiles for at least 1 niche set of execution envirionments, and perhaps others
+#--         (may depend on specific external tools like a java environment, or specific external libraries to work )
+#--   - [ ] All requirements of Levels 1
+#--
+#-- ## Compliance Level 1 star (Pre-alpha features under development and code of unkown quality)
+#--   - [X] Code complies on at least 1 platform
+#--
+#-- ## Compliance Level 0 star ( Code/Feature of known poor-quality or deprecated status )
+#--   - [ ] Code reviewed and explicitly identified as not recommended for use
+#--
+#-- ### Please document how the above criteria were evaluated
+#       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed.
+#       On 2020-02-15 manual evaluation of code coverage for running the supplied test resulted in 77% code coverage
+#       Tests manually confirmed to pass for Windows VS 19, Mac 10.14, and Ubuntu Linux gcc 7 compilers
+#       CI integration is not yet working as of 2020-02-19, so level 4 compliance not yet achived.
+
+itk_fetch_module(MyFavRemoteModule
+  "The best image processing algorithm in ITK. From Insight Journal article with handle: https://hdl.handle.net/1234/567"
+  MODULE_COMPLIANCE_LEVEL 3
+  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/MyFavRemoteModule.git
+  GIT_TAG 9988d866433896368bd3049c396b974433b22ccd
+  )
+```

@@ -147,8 +147,15 @@ endfunction()
 # the CMake user interface.
 #
 # The following options are currently supported:
-#    [GIT_REPOSITORY url]        # URL of git repo
-#    [GIT_TAG tag]               # Git branch name, commit id or tag
+#    [MODULE_COMPLIANCE_LEVEL [5|4|3|2|1|0] ] # The compliance level of the module, used for filtering
+#            Compliance level 5 star (AKA ITK main modules, or remote modules that could become core modules)
+#            Compliance Level 4 star (Very high-quality code, perhaps small community dependance)
+#            Compliance Level 3 star (Quality beta code)
+#            Compliance Level 2 star (Alpha code feature API development or niche community/exectution environment dependance )
+#            Compliance Level 1 star (Pre-alpha features under development and code of unkown quality)
+#            Compliance Level 0 star ( Code/Feature of known poor-quality or deprecated status )
+#    [GIT_REPOSITORY url]            # URL of git repo
+#    [GIT_TAG tag]                   # Git branch name, commit id or tag
 #
 # An CMake variable REMOTE_GIT_TAG_${_name} can be set
 # in to override the value in the remote module configuration file.
@@ -156,19 +163,32 @@ endfunction()
 # facilitate testing of remote module branch behaviors without
 # requiring changes to the ITK code base.
 function(itk_fetch_module _name _description)
-  option(Module_${_name} "${_description}" OFF)
+  include(CMakeParseArguments)
+  cmake_parse_arguments(_fetch_options "" "MODULE_COMPLIANCE_LEVEL;GIT_REPOSITORY;GIT_TAG" "" ${ARGN})
+  set(MODULE_COMPLIANCE_LEVEL "${_fetch_options_MODULE_COMPLIANCE_LEVEL}")
+  if(NOT MODULE_COMPLIANCE_LEVEL)
+    set(DEFAULT_MODULE_COMPLIANCE_LEVEL 1)
+    message(STATUS "Implicitly setting unspecified compliance level for module Module_${_name} to ${DEFAULT_MODULE_COMPLIANCE_LEVEL}")
+    set(MODULE_COMPLIANCE_LEVEL ${DEFAULT_MODULE_COMPLIANCE_LEVEL})
+  endif()
+
+  if(MODULE_COMPLIANCE_LEVEL GREATER_EQUAL ITK_MINIMUM_COMPLIANCE_LEVEL)
+    set(Module_${_name}_VALID ON)
+  else()
+    set(Module_${_name}_VALID OFF)
+  endif()
+  #message(WARNING "MODULE_VALID:${Module_${_name}_VALID}:${MODULE_COMPLIANCE_LEVEL}>=${ITK_MINIMUM_COMPLIANCE_LEVEL}")
+  cmake_dependent_option(Module_${_name} "(Remote-${MODULE_COMPLIANCE_LEVEL}) ${_description}" OFF "MODULE_COMPLIANCE_LEVEL GREATER_EQUAL ITK_MINIMUM_COMPLIANCE_LEVEL" OFF)
   mark_as_advanced(Module_${_name})
 
   # Fetch_$_remote_module} is deprecated. To maintain backward compatibility:
   if(Fetch_${_name})
     message(WARNING "Fetch_${_name} is deprecated, please use Module_${_name} to download and enable the remote module.")
-    set(Module_${_name} ON CACHE FORCE "${_description}")
+    set(Module_${_name} ON CACHE FORCE "(Remote-${MODULE_COMPLIANCE_LEVEL}) ${_description}")
   endif()
 
   if(Module_${_name})
     itk_download_attempt_check(Module_${_name})
-    include(CMakeParseArguments)
-    cmake_parse_arguments(_fetch_options "" "GIT_REPOSITORY;GIT_TAG" "" ${ARGN})
     find_package(Git)
     if(NOT GIT_EXECUTABLE)
       message(FATAL_ERROR "error: could not find git for clone of ${_name}")
