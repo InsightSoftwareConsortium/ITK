@@ -162,7 +162,7 @@ public:
   itkGetConstMacro(PaddingMethod, PhaseCorrelationImageRegistrationMethodEnums::PaddingMethod);
 
   /** Set/Get the peak interpolation method. */
-  itkSetMacro(PeakInterpolationMethod, typename PCMOptimizerType::PeakInterpolationMethodEnum);
+  itkSetEnumMacro(PeakInterpolationMethod, typename PCMOptimizerType::PeakInterpolationMethodEnum);
   itkGetConstMacro(PeakInterpolationMethod, typename PCMOptimizerType::PeakInterpolationMethodEnum);
 
   /** Get/Set size of the image mosaic. */
