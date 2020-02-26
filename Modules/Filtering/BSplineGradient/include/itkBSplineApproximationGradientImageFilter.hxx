@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@ BSplineApproximationGradientImageFilter<TInputImage, TOutputValueType>::Generate
   Superclass::GenerateInputRequestedRegion();
 
   typename InputImageType::Pointer input = const_cast<InputImageType *>(this->GetInput());
-  if (input.GetPointer() == NULL)
+  if (input.GetPointer() == nullptr)
   {
     return;
   }
@@ -76,7 +76,7 @@ BSplineApproximationGradientImageFilter<TInputImage, TOutputValueType>::Generate
 {
   typename InputImageType::ConstPointer input = this->GetInput();
 
-  if (input.GetPointer() == NULL)
+  if (input.GetPointer() == nullptr)
   {
     return;
   }

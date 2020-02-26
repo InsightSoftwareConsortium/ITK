@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ ImageToImageOfVectorsFilter<TInputImage, NComponents>::BeforeThreadedGenerateDat
 
   for (unsigned int i = 0; i < NComponents; i++)
   {
-    InputImageType * input = static_cast<InputImageType *>(this->ProcessObject::GetInput(i));
+    auto * input = static_cast<InputImageType *>(this->ProcessObject::GetInput(i));
     if (!input)
     {
       itkExceptionMacro(<< "Input " << i << " not set!");
@@ -74,7 +74,7 @@ ImageToImageOfVectorsFilter<TInputImage, NComponents>::DynamicThreadedGenerateDa
     typename InputImageType::Pointer inputImagePointer =
       static_cast<InputImageType *>(this->ProcessObject::GetInput(i));
 
-    InputIteratorType * iit = new InputIteratorType(inputImagePointer, outputRegionForThread);
+    auto * iit = new InputIteratorType(inputImagePointer, outputRegionForThread);
     iit->GoToBegin();
     inputItContainer.push_back(iit);
   }
