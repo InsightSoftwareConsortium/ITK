@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -124,7 +124,7 @@ PhaseCorrelationOptimizer<TImage>::GenerateData()
   for (unsigned i = 0; i < m_Offsets.size(); i++)
   {
     // write the result to the output
-    OffsetOutputType * output = static_cast<OffsetOutputType *>(this->ProcessObject::GetOutput(0));
+    auto * output = static_cast<OffsetOutputType *>(this->ProcessObject::GetOutput(0));
     output->Set(m_Offsets[i]);
   }
 }
