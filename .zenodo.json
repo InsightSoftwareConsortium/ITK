@@ -46,7 +46,9 @@
       "name": "Cates, Josh"
     },
     {
-      "name": "Ng, Lydia"
+      "affiliation": "Allen Institute for Brain Science",
+      "name": "Ng, Lydia",
+      "orcid": "0000-0002-7499-3514"
     },
     {
       "name": "Kim, Jisung"
