@@ -35,16 +35,14 @@ class GPUImageOps
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUImageOps);
+  GPUImageOps() = default;
+  virtual ~GPUImageOps() = default;
 
   /** Standard class type aliases. */
   using Self = GPUImageOps;
 
   /** Get OpenCL Kernel source as a string, creates a GetOpenCLSource method */
   itkGetOpenCLSourceFromKernelMacro(GPUImageOpsKernel);
-
-private:
-  GPUImageOps() = delete;
-  virtual ~GPUImageOps() = delete;
 };
 
 
