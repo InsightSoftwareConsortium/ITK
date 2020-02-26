@@ -49,7 +49,7 @@ namespace {
 
   void (*TransformIOFactoryRegisterRegisterList[])(void) = {
     @LIST_OF_FACTORY_NAMES@
-    0};
+    nullptr};
   TransformIOFactoryRegisterManager TransformIOFactoryRegisterManagerInstance(TransformIOFactoryRegisterRegisterList);
 
 }

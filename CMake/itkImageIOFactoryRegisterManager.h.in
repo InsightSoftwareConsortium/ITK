@@ -49,7 +49,7 @@ namespace {
 
   void (*ImageIOFactoryRegisterRegisterList[])(void) = {
     @LIST_OF_FACTORY_NAMES@
-    0};
+    nullptr};
   ImageIOFactoryRegisterManager ImageIOFactoryRegisterManagerInstance(ImageIOFactoryRegisterRegisterList);
 
 }
