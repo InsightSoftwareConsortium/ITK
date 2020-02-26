@@ -70,6 +70,7 @@ extern ITKOptimizers_EXPORT std::ostream &
 class ITKOptimizers_EXPORT FRPROptimizer : public PowellOptimizer
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FRPROptimizer);
   /** Standard "Self" type alias. */
   using Self = FRPROptimizer;
   using Superclass = PowellOptimizer;
@@ -124,8 +125,6 @@ protected:
   LineOptimize(ParametersType * p, ParametersType & xi, double * val, ParametersType & tempCoord);
 
 private:
-  FRPROptimizer(const FRPROptimizer &) = delete;
-
   using OptimizationEnum = FRPROptimizerEnums::Optimization;
 #if !defined(ITK_LEGACY_REMOVE)
   /**Exposes enums values for backwards compatibility*/

@@ -41,6 +41,8 @@ class ITK_TEMPLATE_EXPORT EdgeDecimationQuadEdgeMeshFilter
   : public DecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(EdgeDecimationQuadEdgeMeshFilter);
+
   using Self = EdgeDecimationQuadEdgeMeshFilter;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -306,11 +308,6 @@ protected:
    */
   bool
   IsCriterionSatisfied() override;
-
-private:
-  EdgeDecimationQuadEdgeMeshFilter(const Self &) = delete;
-  void
-  operator=(const Self &) = delete;
 };
 } // namespace itk
 

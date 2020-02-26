@@ -40,6 +40,8 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT LevelSetDomainMapImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDomainMapImageFilter);
+
   using Self = LevelSetDomainMapImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
@@ -134,10 +136,6 @@ protected:
 
 private:
   DomainMapType m_DomainMap;
-
-  LevelSetDomainMapImageFilter(Self &) = delete;
-  void
-  operator=(const Self &) = delete;
 
   const InputImageType * m_InputImage;
   OutputImageType *      m_OutputImage;

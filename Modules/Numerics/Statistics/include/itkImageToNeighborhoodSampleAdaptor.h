@@ -164,6 +164,8 @@ public:
     friend class ImageToNeighborhoodSampleAdaptor;
 
   public:
+    ConstIterator() = delete;
+
     ConstIterator(const ImageToNeighborhoodSampleAdaptor * adaptor) { *this = adaptor->Begin(); }
 
     ConstIterator(const ConstIterator & iter)
@@ -228,7 +230,6 @@ public:
     }
 
   private:
-    ConstIterator() = delete;
     mutable MeasurementVectorType m_MeasurementVectorCache;
     InstanceIdentifier            m_InstanceIdentifier;
   };
@@ -244,6 +245,12 @@ public:
     friend class ImageToNeighborhoodSampleAdaptor;
 
   public:
+    Iterator() = delete;
+    Iterator(const Self * adaptor) = delete;
+    Iterator(const ConstIterator & it) = delete;
+    ConstIterator &
+    operator=(const ConstIterator & it) = delete;
+
     Iterator(Self * adaptor)
       : ConstIterator(adaptor)
     {}
@@ -264,15 +271,6 @@ public:
     Iterator(NeighborhoodIteratorType iter, InstanceIdentifier iid)
       : ConstIterator(iter, iid)
     {}
-
-  private:
-    // To ensure const-correctness these method must not be in the public API.
-    // The are not implemented, since they should never be called.
-    Iterator() = delete;
-    Iterator(const Self * adaptor) = delete;
-    Iterator(const ConstIterator & it) = delete;
-    ConstIterator &
-    operator=(const ConstIterator & it) = delete;
   };
 
   /** returns an iterator that points to the beginning of the container */

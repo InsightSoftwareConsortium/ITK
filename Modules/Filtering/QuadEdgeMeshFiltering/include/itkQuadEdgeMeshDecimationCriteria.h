@@ -36,6 +36,8 @@ template <typename TMesh,
 class QuadEdgeMeshDecimationCriterion : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshDecimationCriterion);
+
   using Self = QuadEdgeMeshDecimationCriterion;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -96,11 +98,6 @@ protected:
   SizeValueType m_NumberOfElements;
 
   MeasureType m_MeasureBound;
-
-private:
-  QuadEdgeMeshDecimationCriterion(const Self &) = delete;
-  void
-  operator=(const Self &) = delete;
 };
 
 /**
@@ -116,6 +113,8 @@ template <typename TMesh,
 class NumberOfPointsCriterion : public QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NumberOfPointsCriterion);
+
   using Self = NumberOfPointsCriterion;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -142,11 +141,6 @@ public:
 protected:
   NumberOfPointsCriterion() = default;
   ~NumberOfPointsCriterion() = default;
-
-private:
-  NumberOfPointsCriterion(const Self &) = delete;
-  void
-  operator=(const Self &) = delete;
 };
 
 /**
@@ -162,6 +156,8 @@ template <typename TMesh,
 class NumberOfFacesCriterion : public QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NumberOfFacesCriterion);
+
   using Self = NumberOfFacesCriterion;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -191,11 +187,6 @@ public:
 protected:
   NumberOfFacesCriterion() = default;
   ~NumberOfFacesCriterion() override = default;
-
-private:
-  NumberOfFacesCriterion(const Self &) = delete;
-  void
-  operator=(const Self &) = delete;
 };
 
 /**
@@ -212,6 +203,8 @@ class MaxMeasureBoundCriterion
   : public QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MaxMeasureBoundCriterion);
+
   using Self = MaxMeasureBoundCriterion;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -243,11 +236,6 @@ protected:
     : Superclass()
   {}
   ~MaxMeasureBoundCriterion() override = default;
-
-private:
-  MaxMeasureBoundCriterion(const Self &) = delete;
-  void
-  operator=(const Self &) = delete;
 };
 
 /**
@@ -264,6 +252,8 @@ class MinMeasureBoundCriterion
   : public QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MinMeasureBoundCriterion);
+
   using Self = MinMeasureBoundCriterion;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -291,11 +281,6 @@ public:
 protected:
   MinMeasureBoundCriterion() = default;
   ~MinMeasureBoundCriterion() = default;
-
-private:
-  MinMeasureBoundCriterion(const Self &) = delete;
-  void
-  operator=(const Self &) = delete;
 };
 } // namespace itk
 

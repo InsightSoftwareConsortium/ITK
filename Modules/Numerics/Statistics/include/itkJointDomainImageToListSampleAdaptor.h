@@ -190,6 +190,8 @@ public:
     friend class JointDomainImageToListSampleAdaptor;
 
   public:
+    ConstIterator() = delete;
+
     ConstIterator(const JointDomainImageToListSampleAdaptor * adaptor) { *this = adaptor->Begin(); }
 
     ConstIterator(const ConstIterator & iter)
@@ -252,7 +254,6 @@ public:
     }
 
   private:
-    ConstIterator() = delete;
     mutable MeasurementVectorType               m_MeasurementVectorCache;
     InstanceIdentifier                          m_InstanceIdentifier;
     const JointDomainImageToListSampleAdaptor * m_Adaptor;
@@ -267,6 +268,12 @@ public:
     friend class JointDomainImageToListSampleAdaptor;
 
   public:
+    Iterator() = delete;
+    Iterator(const Self * adaptor) = delete;
+    Iterator(const ConstIterator & it) = delete;
+    ConstIterator &
+    operator=(const ConstIterator & it) = delete;
+
     Iterator(Self * adaptor)
       : ConstIterator(adaptor)
     {}
@@ -286,15 +293,6 @@ public:
     Iterator(const JointDomainImageToListSampleAdaptor * adaptor, InstanceIdentifier iid)
       : ConstIterator(adaptor, iid)
     {}
-
-  private:
-    // To ensure const-correctness these method must not be in the public API.
-    // The are purposly not implemented, since they should never be called.
-    Iterator() = delete;
-    Iterator(const Self * adaptor) = delete;
-    Iterator(const ConstIterator & it) = delete;
-    ConstIterator &
-    operator=(const ConstIterator & it) = delete;
   };
 
   /** returns an iterator that points to the beginning of the container */

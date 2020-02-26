@@ -96,6 +96,8 @@ public:
   class ITK_TEMPLATE_EXPORT DataType
   {
   public:
+    DataType() = delete;
+
     DataType(std::string iName)
       : m_Name(std::move(iName))
       , m_Computed(false)
@@ -119,9 +121,6 @@ public:
       this->m_Value = iData.m_Value;
       this->m_Computed = iData.m_Computed;
     }
-
-  private:
-    DataType() = delete;
   };
 
   /** \struct LevelSetDataType

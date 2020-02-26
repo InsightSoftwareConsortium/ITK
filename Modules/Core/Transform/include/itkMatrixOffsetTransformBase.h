@@ -107,6 +107,8 @@ class ITK_TEMPLATE_EXPORT MatrixOffsetTransformBase
   : public Transform<TParametersValueType, NInputDimensions, NOutputDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MatrixOffsetTransformBase);
+
   /** Standard type alias   */
   using Self = MatrixOffsetTransformBase;
   using Superclass = Transform<TParametersValueType, NInputDimensions, NOutputDimensions>;
@@ -575,10 +577,6 @@ protected:
   itkGetConstMacro(Singular, bool);
 
 private:
-  MatrixOffsetTransformBase(const Self & other) = delete;
-  const Self &
-  operator=(const Self &) = delete;
-
   MatrixType                m_Matrix;        // Matrix of the transformation
   OutputVectorType          m_Offset;        // Offset of the transformation
   mutable InverseMatrixType m_InverseMatrix; // Inverse of the matrix

@@ -34,6 +34,8 @@ template <typename TParametersValueType = double, unsigned int NDimensions = 3>
 class ITK_TEMPLATE_EXPORT CenteredAffineTransform : public AffineTransform<TParametersValueType, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CenteredAffineTransform);
+
   /** Standard type alias   */
   using Self = CenteredAffineTransform;
   using Superclass = AffineTransform<TParametersValueType, NDimensions>;
@@ -116,12 +118,6 @@ protected:
 
   /** Destroy an CenteredAffineTransform object */
   ~CenteredAffineTransform() override = default;
-
-private:
-  CenteredAffineTransform(const Self & other) = delete;
-  const Self &
-  operator=(const Self &) = delete;
-
 }; // class CenteredAffineTransform
 } // namespace itk
 

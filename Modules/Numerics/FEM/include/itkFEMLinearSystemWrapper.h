@@ -54,6 +54,8 @@ namespace fem
 class ITKFEM_EXPORT LinearSystemWrapper : public Solution
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(LinearSystemWrapper);
+
   using Self = LinearSystemWrapper;
   using Superclass = Solution;
   using Pointer = Self *;
@@ -530,13 +532,6 @@ private:
                                         ColumnArray & newNumbering,
                                         unsigned int  nextRowNumber,
                                         unsigned int  matrixIndex = 0);
-
-  /** Copy constructor is not allowed. */
-  LinearSystemWrapper(const LinearSystemWrapper &) = delete;
-
-  /** Asignment operator is not allowed. */
-  const LinearSystemWrapper &
-  operator=(const LinearSystemWrapper &) = delete;
 };
 
 class ITK_ABI_EXPORT FEMExceptionLinearSystem : public FEMException

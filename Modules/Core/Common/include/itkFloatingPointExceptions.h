@@ -55,6 +55,11 @@ struct ExceptionGlobals;
 class ITKCommon_EXPORT FloatingPointExceptions
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FloatingPointExceptions);
+  // default constructor required for wrapping to succeed
+  FloatingPointExceptions() = default;
+  virtual ~FloatingPointExceptions() = default;
+
   using ExceptionActionEnum = FloatingPointExceptionsEnums::ExceptionAction;
 #if !defined(ITK_LEGACY_REMOVE)
   /**Exposes enum values at class level for backwards compatibility*/
@@ -108,11 +113,6 @@ public:
   HasFloatingPointExceptionsSupport();
 
 private:
-  FloatingPointExceptions() = default;
-  FloatingPointExceptions(const FloatingPointExceptions &) = delete;
-  void
-  operator=(const FloatingPointExceptions &) = delete;
-
   itkGetGlobalDeclarationMacro(ExceptionGlobals, PimplGlobals);
   /** static member that controls what happens during an exception */
   static ExceptionGlobals * m_PimplGlobals;

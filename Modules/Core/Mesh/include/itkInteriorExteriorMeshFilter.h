@@ -48,6 +48,8 @@ template <typename TInputMesh, typename TOutputMesh, typename TSpatialFunction>
 class ITK_TEMPLATE_EXPORT InteriorExteriorMeshFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(InteriorExteriorMeshFilter);
+
   /** Standard class type aliases. */
   using Self = InteriorExteriorMeshFilter;
   using Superclass = MeshToMeshFilter<TInputMesh, TOutputMesh>;
@@ -90,11 +92,6 @@ protected:
 
   /** Transform applied to all the mesh points. */
   typename SpatialFunctionType::Pointer m_SpatialFunction;
-
-private:
-  InteriorExteriorMeshFilter(const InteriorExteriorMeshFilter &) = delete;
-  void
-  operator=(const InteriorExteriorMeshFilter &) = delete;
 };
 } // end namespace itk
 

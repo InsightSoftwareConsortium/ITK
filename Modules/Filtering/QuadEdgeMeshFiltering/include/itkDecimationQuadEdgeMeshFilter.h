@@ -32,6 +32,8 @@ template <typename TInput, typename TOutput, typename TCriterion>
 class DecimationQuadEdgeMeshFilter : public QuadEdgeMeshToQuadEdgeMeshFilter<TInput, TOutput>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DecimationQuadEdgeMeshFilter);
+
   using Self = DecimationQuadEdgeMeshFilter;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -118,11 +120,6 @@ protected:
 
   /** Cache pointer to output to use in inner loops */
   OutputMeshType * m_OutputMesh;
-
-private:
-  DecimationQuadEdgeMeshFilter(const Self &) = delete;
-  void
-  operator=(const Self &) = delete;
 };
 } // namespace itk
 

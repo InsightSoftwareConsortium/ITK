@@ -35,16 +35,21 @@ template <typename InputPixelType, typename T, typename OutputConvertTraits>
 class ITK_TEMPLATE_EXPORT ConvertPixelBuffer<InputPixelType, Array<T>, OutputConvertTraits>
 {
 public:
+  // Remove all constructor/ destructor / assignments for class with only static member functions.
+  ConvertPixelBuffer(const ConvertPixelBuffer &) = delete;
+  ConvertPixelBuffer(ConvertPixelBuffer &&) = delete;
+  ConvertPixelBuffer &
+  operator=(const ConvertPixelBuffer &) = delete;
+  ConvertPixelBuffer &
+  operator=(ConvertPixelBuffer &&) = delete;
+  virtual ~ConvertPixelBuffer() = delete;
+
   /** Determine the output data type. */
   using OutputComponentType = typename OutputConvertTraits::ComponentType;
 
   /** General method converts from one type to another. */
   static void
   Convert(InputPixelType * inputData, int inputNumberOfComponents, Array<T> * outputData, size_t size);
-
-private:
-  ConvertPixelBuffer() = delete;
-  ~ConvertPixelBuffer() = delete;
 };
 } // namespace itk
 

@@ -62,6 +62,8 @@ class ConstrainedRegionBasedLevelSetFunctionSharedData
   : public RegionBasedLevelSetFunctionSharedData<TInputImage, TFeatureImage, TSingleData>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConstrainedRegionBasedLevelSetFunctionSharedData);
+
   using Self = ConstrainedRegionBasedLevelSetFunctionSharedData;
   using Superclass = RegionBasedLevelSetFunctionSharedData<TInputImage, TFeatureImage, TSingleData>;
   using Pointer = SmartPointer<Self>;
@@ -180,11 +182,6 @@ protected:
     : Superclass()
   {}
   ~ConstrainedRegionBasedLevelSetFunctionSharedData() override = default;
-
-private:
-  ConstrainedRegionBasedLevelSetFunctionSharedData(const Self &) = delete;
-  void
-  operator=(const Self &) = delete;
 };
 } // end namespace itk
 

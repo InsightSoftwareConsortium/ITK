@@ -116,6 +116,8 @@ public:
       this->m_InstanceIdentifier = iter.m_InstanceIdentifier;
     }
 
+    ConstIterator() = delete;
+
     ConstIterator &
     operator=(const ConstIterator & iter)
     {
@@ -171,7 +173,6 @@ public:
     }
 
   private:
-    ConstIterator() = delete;
     VectorContainerConstIterator m_Iter;
     InstanceIdentifier           m_InstanceIdentifier;
   };
@@ -184,6 +185,13 @@ public:
     friend class VectorContainerToListSampleAdaptor;
 
   public:
+    Iterator() = delete;
+    Iterator(const Self * adaptor) = delete;
+    Iterator(VectorContainerConstIterator iter, InstanceIdentifier iid) = delete;
+    Iterator(const ConstIterator & it) = delete;
+    ConstIterator &
+    operator=(const ConstIterator & it) = delete;
+
     Iterator(Self * adaptor)
       : ConstIterator(adaptor)
     {}
@@ -203,16 +211,6 @@ public:
     Iterator(VectorContainerIterator iter, InstanceIdentifier iid)
       : ConstIterator(iter, iid)
     {}
-
-  private:
-    // To ensure const-correctness these method must not be in the public API.
-    // The are not implemented, since they should never be called.
-    Iterator() = delete;
-    Iterator(const Self * adaptor) = delete;
-    Iterator(VectorContainerConstIterator iter, InstanceIdentifier iid) = delete;
-    Iterator(const ConstIterator & it) = delete;
-    ConstIterator &
-    operator=(const ConstIterator & it) = delete;
   };
 
   /** returns an iterator that points to the beginning of the container */

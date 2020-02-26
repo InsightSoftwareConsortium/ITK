@@ -43,6 +43,8 @@ template <typename TContainer>
 class STLContainerAdaptor
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(STLContainerAdaptor);
+
   using AdapteeType = TContainer;
 
   using ElementType = typename AdapteeType::Element;
@@ -50,14 +52,6 @@ public:
 
 private:
   AdapteeType & m_AdapteeRef;
-
-  /** hide the copy constructor to allow only direct construction of the adapter
-   */
-  STLContainerAdaptor(const STLContainerAdaptor & r) = delete;
-
-  /* hide and avoid operator= */
-  const STLContainerAdaptor &
-  operator=(const STLContainerAdaptor & r) = delete;
 
 public:
   STLContainerAdaptor(AdapteeType & adaptee)

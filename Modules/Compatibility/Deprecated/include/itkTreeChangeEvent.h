@@ -37,6 +37,9 @@ public:
   using Self = TreeChangeEvent;
   using Superclass = ModifiedEvent;
 
+  Self &
+  operator=(const Self &) = delete;
+
   /** Constructor */
   TreeChangeEvent()
     : m_ChangePosition(nullptr)
@@ -83,10 +86,6 @@ public:
 
 protected:
   const TreeIteratorBase<TTreeType> * m_ChangePosition;
-
-private:
-  void
-  operator=(const Self &) = delete;
 };
 
 /**  \class TreeNodeChangeEvent
@@ -130,7 +129,6 @@ public:
     : TreeChangeEvent<TTreeType>(s)
   {}
 
-private:
   void
   operator=(const Self &) = delete;
 };
@@ -180,7 +178,6 @@ public:
     : TreeChangeEvent<TTreeType>(s)
   {}
 
-private:
   void
   operator=(const Self &) = delete;
 };
@@ -230,7 +227,6 @@ public:
     : TreeChangeEvent<TTreeType>(s)
   {}
 
-private:
   void
   operator=(const Self &) = delete;
 };
@@ -275,7 +271,6 @@ public:
     : TreeRemoveEvent<TTreeType>(s)
   {}
 
-private:
   void
   operator=(const Self &) = delete;
 };

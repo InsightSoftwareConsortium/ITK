@@ -44,8 +44,6 @@ public:
   /** Get OpenCL Kernel source as a string, creates a GetOpenCLSource method */
   itkGetOpenCLSourceFromKernelMacro(GPUImageOpsKernel);
 };
-
-
 } // end of namespace itk
 
 #endif

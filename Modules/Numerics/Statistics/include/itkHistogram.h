@@ -437,6 +437,13 @@ public:
   class Iterator : public ConstIterator
   {
   public:
+    Iterator() = delete;
+    Iterator(const Self * histogram) = delete;
+    Iterator(InstanceIdentifier id, const Self * histogram) = delete;
+    Iterator(const ConstIterator & it) = delete;
+    ConstIterator &
+    operator=(const ConstIterator & it) = delete;
+
     Iterator(Self * histogram)
       : ConstIterator(histogram)
     {}
@@ -463,16 +470,6 @@ public:
 
       return histogram->SetFrequency(this->m_Id, value);
     }
-
-  private:
-    // To ensure const-correctness these method must not be in the public API.
-    // The are not implemented, since they should never be called.
-    Iterator() = delete;
-    Iterator(const Self * histogram) = delete;
-    Iterator(InstanceIdentifier id, const Self * histogram) = delete;
-    Iterator(const ConstIterator & it) = delete;
-    ConstIterator &
-    operator=(const ConstIterator & it) = delete;
   }; // end of iterator class
 
   Iterator

@@ -40,6 +40,8 @@ class ITK_TEMPLATE_EXPORT SymmetricEllipsoidInteriorExteriorSpatialFunction
   : public InteriorExteriorSpatialFunction<VDimension, TInput>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SymmetricEllipsoidInteriorExteriorSpatialFunction);
+
   /** Standard class type aliases. */
   using Self = SymmetricEllipsoidInteriorExteriorSpatialFunction;
   using Superclass = InteriorExteriorSpatialFunction<VDimension>;
@@ -80,10 +82,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  SymmetricEllipsoidInteriorExteriorSpatialFunction(const Self &) = delete;
-  void
-  operator=(const Self &) = delete;
-
   /** The center of the ellipsoid. */
   InputType m_Center;
 

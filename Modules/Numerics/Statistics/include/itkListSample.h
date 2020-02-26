@@ -146,6 +146,8 @@ public:
       m_InstanceIdentifier = iter.m_InstanceIdentifier;
     }
 
+    ConstIterator() = delete;
+
     ConstIterator &
     operator=(const ConstIterator & iter)
     {
@@ -201,7 +203,6 @@ public:
     }
 
   private:
-    ConstIterator() = delete;
     using InternalIterator = typename InternalDataContainerType::const_iterator;
     InternalIterator   m_Iter;
     InstanceIdentifier m_InstanceIdentifier;
@@ -216,6 +217,13 @@ public:
     friend class ListSample;
 
   public:
+    Iterator() = delete;
+    Iterator(const Self * sample) = delete;
+    Iterator(typename InternalDataContainerType::const_iterator iter, InstanceIdentifier iid) = delete;
+    Iterator(const ConstIterator & it) = delete;
+    ConstIterator &
+    operator=(const ConstIterator & it) = delete;
+
     Iterator(Self * sample)
       : ConstIterator(sample)
     {}
@@ -235,16 +243,6 @@ public:
     Iterator(typename InternalDataContainerType::iterator iter, InstanceIdentifier iid)
       : ConstIterator(iter, iid)
     {}
-
-  private:
-    // To ensure const-correctness these method must not be in the public API.
-    // The are purposly not implemented, since they should never be called.
-    Iterator() = delete;
-    Iterator(const Self * sample) = delete;
-    Iterator(typename InternalDataContainerType::const_iterator iter, InstanceIdentifier iid) = delete;
-    Iterator(const ConstIterator & it) = delete;
-    ConstIterator &
-    operator=(const ConstIterator & it) = delete;
   };
 
   /** returns an iterator that points to the beginning of the container */
