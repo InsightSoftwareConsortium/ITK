@@ -356,9 +356,9 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>::GenerateO
         }
       }
     }
-    for (unsigned long & roIndice : roIndices)
+    for (auto & roIndex : roIndices)
     {
-      this->SplitRegionAndCopyContributions(m_Regions, m_RegionContributors, m_InputMappings[i], roIndice, i);
+      this->SplitRegionAndCopyContributions(m_Regions, m_RegionContributors, m_InputMappings[i], roIndex, i);
     }
   }
 }
