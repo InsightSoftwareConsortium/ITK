@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -336,7 +336,7 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>::GenerateO
   // now we split the totalRegion into pieces which have contributions
   // by the same input tiles
   m_Regions.push_back(totalRegion);
-  m_RegionContributors.push_back({}); // we start with an empty set
+  m_RegionContributors.emplace_back(); // we start with an empty set
   for (SizeValueType i = 0; i < this->m_LinearMontageSize; i++)
   {
     // first determine the region indices which the newRegion overlaps
@@ -356,9 +356,9 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>::GenerateO
         }
       }
     }
-    for (unsigned r = 0; r < roIndices.size(); r++)
+    for (auto & roIndex : roIndices)
     {
-      this->SplitRegionAndCopyContributions(m_Regions, m_RegionContributors, m_InputMappings[i], roIndices[r], i);
+      this->SplitRegionAndCopyContributions(m_Regions, m_RegionContributors, m_InputMappings[i], roIndex, i);
     }
   }
 }

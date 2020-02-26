@@ -58,7 +58,7 @@ distributed under the Apache 2 license.
 Acknowledgements
 ----------------
 
-The code contained herein was partially funded by the following
-contracts:
+The code contained herein was partially funded by the
+following contracts:
 
 -   United States Air Force Prime Contract FA8650-15-D-5231

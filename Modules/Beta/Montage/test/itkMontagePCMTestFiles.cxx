@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -157,8 +157,7 @@ itkMontagePCMTestFiles(int argc, char * argv[])
 
   try
   {
-    itk::ImageIOBase::Pointer imageIO =
-      itk::ImageIOFactory::CreateImageIO(argv[1], itk::ImageIOFactory::FileModeEnum::ReadMode);
+    itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO(argv[1], itk::IOFileModeEnum::ReadMode);
     imageIO->SetFileName(argv[1]);
     imageIO->ReadImageInformation();
     // const itk::ImageIOBase::IOComponentType pixelType = imageIO->GetComponentType();

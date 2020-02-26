@@ -31,8 +31,8 @@ target_link_libraries(ResampleMontage ${ITK_LIBRARIES})
 add_executable(CompareTileConfigurations CompareTileConfigurations.cxx)
 target_link_libraries(CompareTileConfigurations ${ITK_LIBRARIES})
 
-add_executable(ImageCompareCommand ImageCompareCommand.cxx)
-target_link_libraries(ImageCompareCommand ${ITK_LIBRARIES})
+add_executable(MontageImageCompareCommand MontageImageCompareCommand.cxx)
+target_link_libraries(MontageImageCompareCommand ${ITK_LIBRARIES})
 
 
 # add some regression tests
@@ -53,7 +53,7 @@ add_test(NAME ResampleMontage2D
     ${CMAKE_CURRENT_LIST_DIR}/SampleData_CMUrun2/TileConfiguration.registered.txt
     ${TESTING_OUTPUT_PATH}/SampleData_CMUrun2.nrrd)
 add_test(NAME ResampleMontage2DCompare
-  COMMAND ImageCompareCommand
+  COMMAND MontageImageCompareCommand
     # a lot of tolerances are required because the reconstruction is not perfect
     --tolerance-radius 1 --tolerance-intensity 16 --tolerance-number-of-pixels 200
     --baseline-image ${CMAKE_CURRENT_LIST_DIR}/SampleData_CMUrun2/groundTruth.png
@@ -76,7 +76,7 @@ add_test(NAME ResampleMontage3D
     ${CMAKE_CURRENT_LIST_DIR}/SampleData_DzZ_T1/TileConfiguration.registered.txt
     ${TESTING_OUTPUT_PATH}/SampleData_DzZ_T1.nrrd)
 add_test(NAME ResampleMontage3DCompare
-  COMMAND ImageCompareCommand
+  COMMAND MontageImageCompareCommand
     # a lot of tolerances are required because the reconstruction is not perfect
     --tolerance-radius 1 --tolerance-intensity 64 --tolerance-number-of-pixels 300
     --baseline-image ${CMAKE_CURRENT_LIST_DIR}/SampleData_DzZ_T1/DzZ_T1_orig.nhdr
@@ -98,7 +98,7 @@ add_test(NAME CompleteMontage2DComparePositions
     ${TESTING_OUTPUT_PATH}/SampleData_CMUrun2/TileConfiguration.registered.txt)
 set_tests_properties(CompleteMontage2DComparePositions PROPERTIES DEPENDS CompleteMontage2D)
 add_test(NAME CompleteMontage2DCompareImage
-  COMMAND ImageCompareCommand
+  COMMAND MontageImageCompareCommand
     # a lot of tolerances are required because the reconstruction is not perfect
     --tolerance-radius 1 --tolerance-intensity 16 --tolerance-number-of-pixels 1000
     --baseline-image ${CMAKE_CURRENT_LIST_DIR}/SampleData_CMUrun2/groundTruth.png
@@ -120,7 +120,7 @@ add_test(NAME CompleteMontage3DComparePositions
     ${TESTING_OUTPUT_PATH}/SampleData_DzZ_T1/TileConfiguration.registered.txt)
 set_tests_properties(CompleteMontage3DComparePositions PROPERTIES DEPENDS CompleteMontage3D)
 # add_test(NAME CompleteMontage3DCompareImage
-#   COMMAND ImageCompareCommand
+#   COMMAND MontageImageCompareCommand
 #     # a lot of tolerances are required because the reconstruction is not perfect
 #     --tolerance-radius 1 --tolerance-intensity 16 --tolerance-number-of-pixels 1000
 #     --baseline-image ${CMAKE_CURRENT_LIST_DIR}/SampleData_DzZ_T1/DzZ_T1_orig.nhdr

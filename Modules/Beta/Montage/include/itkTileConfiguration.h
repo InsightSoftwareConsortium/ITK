@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -298,8 +298,8 @@ struct ITK_TEMPLATE_EXPORT TileConfiguration
     }
     std::getline(ss, temp, '(');
 
-    using PointType = itk::Point<double, Dimension>;
-    PointType p;
+    using PointTypelocal = itk::Point<double, Dimension>;
+    PointTypelocal p;
     for (unsigned d = 0; d < Dimension; d++)
     {
       std::getline(ss, temp, ',');

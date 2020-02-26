@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -46,14 +46,14 @@ itkInMemoryMontageTest2D(int argc, char * argv[])
   stageTiles.Parse(inputPath + "TileConfiguration.registered.txt");
 
   itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO(
-    (inputPath + stageTiles.Tiles[0].FileName).c_str(), itk::ImageIOFactory::FileModeEnum::ReadMode);
+    (inputPath + stageTiles.Tiles[0].FileName).c_str(), itk::IOFileModeEnum::ReadMode);
   imageIO->SetFileName(inputPath + stageTiles.Tiles[0].FileName);
   imageIO->ReadImageInformation();
-  const itk::ImageIOBase::IOPixelType pixelType = imageIO->GetPixelType();
+  const itk::IOPixelEnum pixelType = imageIO->GetPixelType();
 
   std::string outFileName = std::string(argv[2]);
 
-  if (pixelType == itk::ImageIOBase::IOPixelType::RGB)
+  if (pixelType == itk::IOPixelEnum::RGB)
   {
     using TestTransformType = InMemoryMontageTest<itk::RGBPixel<unsigned char>, itk::RGBPixel<unsigned int>>;
 

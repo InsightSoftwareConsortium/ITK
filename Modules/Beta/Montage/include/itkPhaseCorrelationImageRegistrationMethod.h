@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -345,7 +345,7 @@ public:
     }
     else
     {
-      return 0;
+      return nullptr;
     }
   }
   virtual ComplexConjugateImageType *
@@ -358,7 +358,7 @@ public:
     }
     else
     {
-      return 0;
+      return nullptr;
     }
   }
 
@@ -415,7 +415,7 @@ public:
 
 protected:
   PhaseCorrelationImageRegistrationMethod();
-  virtual ~PhaseCorrelationImageRegistrationMethod(){};
+  ~PhaseCorrelationImageRegistrationMethod() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

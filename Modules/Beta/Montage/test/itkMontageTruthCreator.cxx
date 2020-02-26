@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -173,9 +173,9 @@ CreateGroundTruth(int argc, char * argv[], unsigned dimension)
 
 template <typename ComponentType>
 int
-CreateGroundTruth(int argc, char * argv[], unsigned dimension, itk::ImageIOBase::IOPixelType pixelType)
+CreateGroundTruth(int argc, char * argv[], unsigned dimension, itk::IOPixelEnum pixelType)
 {
-  if (pixelType == itk::ImageIOBase::IOPixelType::RGB) // possibly add RGBA
+  if (pixelType == itk::IOPixelEnum::RGB) // possibly add RGBA
   {
     return CreateGroundTruth<itk::RGBPixel<ComponentType>>(argc, argv, dimension);
   }
@@ -198,22 +198,21 @@ itkMontageTruthCreator(int argc, char * argv[])
 
   try
   {
-    itk::ImageIOBase::Pointer imageIO =
-      itk::ImageIOFactory::CreateImageIO(argv[1], itk::ImageIOFactory::FileModeEnum::ReadMode);
+    itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO(argv[1], itk::IOFileModeEnum::ReadMode);
     imageIO->SetFileName(argv[1]);
     imageIO->ReadImageInformation();
-    unsigned                                dim = imageIO->GetNumberOfDimensions();
-    const itk::ImageIOBase::IOComponentType cType = imageIO->GetComponentType();
+    unsigned                   dim = imageIO->GetNumberOfDimensions();
+    const itk::IOComponentEnum cType = imageIO->GetComponentType();
 
-    if (cType == itk::ImageIOBase::IOComponentType::UCHAR)
+    if (cType == itk::IOComponentEnum::UCHAR)
     {
       return CreateGroundTruth<unsigned char>(argc, argv, dim, imageIO->GetPixelType());
     }
-    else if (cType == itk::ImageIOBase::IOComponentType::USHORT)
+    else if (cType == itk::IOComponentEnum::USHORT)
     {
       return CreateGroundTruth<unsigned short>(argc, argv, dim, imageIO->GetPixelType());
     }
-    else if (cType == itk::ImageIOBase::IOComponentType::SHORT)
+    else if (cType == itk::IOComponentEnum::SHORT)
     {
       return CreateGroundTruth<short>(argc, argv, dim, imageIO->GetPixelType());
     }
