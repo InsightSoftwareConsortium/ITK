@@ -213,11 +213,18 @@ function(itk_fetch_module _name _description)
     endif()
     set(REMOTE_GIT_TAG_${_name} "${REMOTE_GIT_TAG}" CACHE STRING "Override default GIT_TAG value for remote module ${_name}")
     mark_as_advanced(REMOTE_GIT_TAG_${_name})
+    # Show remote module options if building.
+    set_property(CACHE REMOTE_GIT_TAG_${_name} PROPERTY TYPE STRING)
 
     _fetch_with_git("${GIT_EXECUTABLE}"
       "${_fetch_options_GIT_REPOSITORY}"
       "${REMOTE_GIT_TAG}"
       "${ITK_SOURCE_DIR}/Modules/Remote/${_name}"
       )
+  else()
+    # Hide remote module options if not building.
+    if(REMOTE_GIT_TAG_${_name})
+      set_property(CACHE REMOTE_GIT_TAG_${_name} PROPERTY TYPE INTERNAL)
+    endif()
   endif()
 endfunction()
