@@ -49,6 +49,16 @@ public:
   /** Determine the output data type. */
   using OutputComponentType = typename OutputConvertTraits::ComponentType;
   using Self = ConvertPixelBuffer;
+
+  // Remove all constructor/ destructor / assignments for class with only static member functions.
+  ConvertPixelBuffer(const ConvertPixelBuffer &) = delete;
+  ConvertPixelBuffer(ConvertPixelBuffer &&) = delete;
+  ConvertPixelBuffer &
+  operator=(const ConvertPixelBuffer &) = delete;
+  ConvertPixelBuffer &
+  operator=(ConvertPixelBuffer &&) = delete;
+  virtual ~ConvertPixelBuffer() = delete;
+
   /** General method converts from one type to another. */
   static void
   Convert(InputPixelType * inputData, int inputNumberOfComponents, OutputPixelType * outputData, size_t size);
@@ -163,10 +173,6 @@ protected:
   template <typename UComponentType>
   static typename EnableIfC<NumericTraits<UComponentType>::IsInteger, UComponentType>::Type
   DefaultAlphaValue();
-
-private:
-  ConvertPixelBuffer() = delete;
-  ~ConvertPixelBuffer() = delete;
 };
 } // namespace itk
 

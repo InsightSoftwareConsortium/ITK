@@ -586,6 +586,7 @@ public:
       : m_FarthestNeighborIndex(0)
       , m_Distances(cache_vector)
     {}
+    NearestNeighbors() = delete;
 
     /** Destructor */
     ~NearestNeighbors() = default;
@@ -644,7 +645,6 @@ public:
     }
 
   private:
-    NearestNeighbors() = delete;
     /** The index of the farthest neighbor among k-neighbors */
     unsigned int m_FarthestNeighborIndex;
 

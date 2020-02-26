@@ -218,6 +218,9 @@ public:
   /** Virtual destructor */
   ~ShapedNeighborhoodIterator() override = default;
 
+  /** Copy constructor */
+  ShapedNeighborhoodIterator(const ShapedNeighborhoodIterator & o) = delete;
+
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
   ShapedNeighborhoodIterator(const SizeType & radius, const ImageType * ptr, const RegionType & region)
@@ -260,9 +263,6 @@ public:
 
 protected:
   friend Superclass;
-
-  /** Copy constructor */
-  ShapedNeighborhoodIterator(const ShapedNeighborhoodIterator & o) = delete;
 
   using NeighborIndexType = typename Superclass::NeighborIndexType;
 };

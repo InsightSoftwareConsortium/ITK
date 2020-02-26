@@ -46,6 +46,8 @@ template <typename TContainer>
 class STLConstContainerAdaptor
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(STLConstContainerAdaptor);
+
   using AdapteeType = const TContainer;
 
   using ElementType = const typename AdapteeType::Element;
@@ -53,14 +55,6 @@ public:
 
 private:
   AdapteeType & m_AdapteeRef;
-
-  /** hide the copy constructor to allow only direct construction of the adapter
-   */
-  STLConstContainerAdaptor(const STLConstContainerAdaptor & r) = delete;
-
-  /* hide and avoid operator= */
-  const STLConstContainerAdaptor &
-  operator=(const STLConstContainerAdaptor & r) = delete;
 
 public:
   STLConstContainerAdaptor(AdapteeType & adaptee)

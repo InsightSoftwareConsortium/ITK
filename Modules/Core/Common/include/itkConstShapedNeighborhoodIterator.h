@@ -264,6 +264,9 @@ public:
     : Superclass(radius, const_cast<ImageType *>(ptr), region)
   {}
 
+  /** Copy constructor */
+  ConstShapedNeighborhoodIterator(const ConstShapedNeighborhoodIterator &) = delete;
+
   // Expose the following methods from the superclass.  This is a
   // restricted subset of the methods available for
   // ConstNeighborhoodIterator.
@@ -418,10 +421,6 @@ protected:
 
   bool          m_CenterIsActive{ false };
   IndexListType m_ActiveIndexList;
-
-private:
-  /** Copy constructor */
-  ConstShapedNeighborhoodIterator(const ConstShapedNeighborhoodIterator &) = delete;
 };
 } // namespace itk
 

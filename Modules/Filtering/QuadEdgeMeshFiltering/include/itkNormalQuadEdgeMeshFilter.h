@@ -93,6 +93,8 @@ template <typename TInputMesh, typename TOutputMesh>
 class ITK_TEMPLATE_EXPORT NormalQuadEdgeMeshFilter : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NormalQuadEdgeMeshFilter);
+
   using Self = NormalQuadEdgeMeshFilter;
   using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
   using Pointer = SmartPointer<Self>;
@@ -201,11 +203,6 @@ protected:
    */
   void
   GenerateData() override;
-
-private:
-  NormalQuadEdgeMeshFilter(const Self &) = delete;
-  void
-  operator=(const Self &) = delete;
 };
 } // namespace itk
 

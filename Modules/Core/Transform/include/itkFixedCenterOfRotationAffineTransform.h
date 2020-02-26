@@ -36,6 +36,8 @@ class ITK_TEMPLATE_EXPORT FixedCenterOfRotationAffineTransform
   : public ScalableAffineTransform<TParametersValueType, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(FixedCenterOfRotationAffineTransform);
+
   /** Standard type alias   */
   using Self = FixedCenterOfRotationAffineTransform;
   using Superclass = ScalableAffineTransform<TParametersValueType, NDimensions>;
@@ -123,11 +125,6 @@ protected:
 
   /** Destroy an FixedCenterOfRotationAffineTransform object   */
   ~FixedCenterOfRotationAffineTransform() override = default;
-
-private:
-  FixedCenterOfRotationAffineTransform(const Self & other) = delete;
-  const Self &
-  operator=(const Self &) = delete;
 }; // class FixedCenterOfRotationAffineTransform
 } // namespace itk
 

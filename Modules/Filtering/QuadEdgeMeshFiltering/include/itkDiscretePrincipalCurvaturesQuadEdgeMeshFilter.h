@@ -35,6 +35,8 @@ class DiscretePrincipalCurvaturesQuadEdgeMeshFilter
   : public DiscreteCurvatureQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DiscretePrincipalCurvaturesQuadEdgeMeshFilter);
+
   using Self = DiscretePrincipalCurvaturesQuadEdgeMeshFilter;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -150,11 +152,6 @@ protected:
   {
     return std::max(static_cast<OutputCurvatureType>(0.), m_Mean * m_Mean - m_Gaussian);
   }
-
-private:
-  DiscretePrincipalCurvaturesQuadEdgeMeshFilter(const Self &) = delete;
-  void
-  operator=(const Self &) = delete;
 };
 } // namespace itk
 

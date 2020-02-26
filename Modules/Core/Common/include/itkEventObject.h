@@ -63,6 +63,9 @@ public:
 
   EventObject(const EventObject &) = default;
 
+  EventObject &
+  operator=(const EventObject &) = delete;
+
   /** Virtual destructor needed  */
   virtual ~EventObject() = default;
 
@@ -98,10 +101,6 @@ protected:
 
   virtual void
   PrintTrailer(std::ostream & os, Indent indent) const;
-
-private:
-  void
-  operator=(const EventObject &) = delete;
 };
 
 /** Generic inserter operator for EventObject and its subclasses. */

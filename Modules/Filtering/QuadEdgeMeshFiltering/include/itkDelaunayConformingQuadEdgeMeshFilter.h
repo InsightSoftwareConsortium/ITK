@@ -38,6 +38,8 @@ class ITK_TEMPLATE_EXPORT DelaunayConformingQuadEdgeMeshFilter
   : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(DelaunayConformingQuadEdgeMeshFilter);
+
   /** Basic types. */
   using Self = DelaunayConformingQuadEdgeMeshFilter;
   using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
@@ -207,11 +209,6 @@ protected:
 
     return (std::acos(dotA) + std::acos(dotB) - itk::Math::pi);
   }
-
-private:
-  DelaunayConformingQuadEdgeMeshFilter(const Self &) = delete;
-  void
-  operator=(const Self &) = delete;
 };
 } // end namespace itk
 

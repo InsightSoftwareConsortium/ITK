@@ -34,6 +34,8 @@ template <typename TParametersValueType = double, unsigned int NDimensions = 3>
 class ITK_TEMPLATE_EXPORT ScalableAffineTransform : public AffineTransform<TParametersValueType, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScalableAffineTransform);
+
   /** Standard type alias   */
   using Self = ScalableAffineTransform;
   using Superclass = AffineTransform<TParametersValueType, NDimensions>;
@@ -160,10 +162,6 @@ protected:
   }
 
 private:
-  ScalableAffineTransform(const Self & other) = delete;
-  const Self &
-  operator=(const Self &) = delete;
-
   double          m_Scale[NDimensions];
   InputVectorType m_MatrixScale;
 }; // class ScalableAffineTransform

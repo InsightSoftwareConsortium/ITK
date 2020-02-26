@@ -28,6 +28,8 @@ template <typename TImageWriter>
 class vtkCaptureScreen
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(vtkCaptureScreen);
+
   using ImageWriterType = TImageWriter;
 
   vtkCaptureScreen(vtkRenderWindow * iRenderer)
@@ -35,7 +37,6 @@ public:
   {}
 
   vtkCaptureScreen() = default;
-
   ~vtkCaptureScreen() = default;
 
   void
@@ -52,10 +53,6 @@ public:
   }
 
 private:
-  vtkCaptureScreen(const vtkCaptureScreen &) = delete;
-  void
-  operator=(const vtkCaptureScreen &) = delete;
-
   vtkRenderWindow * m_Renderer{ nullptr };
 
   void

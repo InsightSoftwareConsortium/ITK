@@ -44,10 +44,6 @@ class ITK_TEMPLATE_EXPORT NumberToString
 public:
   std::string
   operator()(TValue val);
-
-private:
-  NumberToString &
-  operator=(const NumberToString &) = delete;
 };
 
 // declaration of specialization

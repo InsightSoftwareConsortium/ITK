@@ -68,6 +68,8 @@ template <typename TImageType>
 class ITK_TEMPLATE_EXPORT PipelineMonitorImageFilter : public ImageToImageFilter<TImageType, TImageType>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PipelineMonitorImageFilter);
+
   using Self = PipelineMonitorImageFilter;
   using Superclass = ImageToImageFilter<TImageType, TImageType>;
   using Pointer = SmartPointer<Self>;
@@ -216,10 +218,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  PipelineMonitorImageFilter(const PipelineMonitorImageFilter &) = delete;
-  void
-  operator=(const PipelineMonitorImageFilter &) = delete;
-
   bool m_ClearPipelineOnGenerateOutputInformation;
 
   unsigned int m_NumberOfUpdates;
@@ -236,7 +234,6 @@ private:
   SpacingType     m_UpdatedOutputSpacing;
   ImageRegionType m_UpdatedOutputLargestPossibleRegion;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -101,6 +101,8 @@ class ITK_TEMPLATE_EXPORT AffineTransform
   : public MatrixOffsetTransformBase<TParametersValueType, NDimensions, NDimensions>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AffineTransform);
+
   /** Standard type alias   */
   using Self = AffineTransform;
   using Superclass = MatrixOffsetTransformBase<TParametersValueType, NDimensions, NDimensions>;
@@ -282,11 +284,6 @@ protected:
   /** Print contents of an AffineTransform */
   void
   PrintSelf(std::ostream & s, Indent indent) const override;
-
-private:
-  AffineTransform(const Self & other) = delete;
-  const Self &
-  operator=(const Self &) = delete;
 }; // class AffineTransform
 
 } // namespace itk

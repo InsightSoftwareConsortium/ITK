@@ -48,6 +48,8 @@ template <typename TInputImage, typename TClassifiedImage>
 class ITK_TEMPLATE_EXPORT RGBGibbsPriorFilter : public MRFImageFilter<TInputImage, TClassifiedImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(RGBGibbsPriorFilter);
+
   /** Standard "Self" type alias. */
   using Self = RGBGibbsPriorFilter;
   using Superclass = MRFImageFilter<TInputImage, TClassifiedImage>;
@@ -221,10 +223,6 @@ protected:
 #endif
 
 private:
-  RGBGibbsPriorFilter(const Self &) = delete;
-  void
-  operator=(const Self &) = delete;
-
   using InputImageSizeType = typename TInputImage::SizeType;
 
   InputImageConstPointer m_InputImage;            /** the input */
