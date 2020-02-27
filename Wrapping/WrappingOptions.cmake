@@ -20,43 +20,43 @@ else()
   set(ITK_WRAPPING OFF CACHE INTERNAL "Build external languages support" FORCE)
 endif()
 
+cmake_dependent_option(ITK_WRAP_unsigned_char "Wrap unsigned char type" ON "ITK_WRAPPING" OFF)
+cmake_dependent_option(ITK_WRAP_unsigned_short "Wrap unsigned short type" OFF "ITK_WRAPPING" OFF)
+cmake_dependent_option(ITK_WRAP_unsigned_long "Wrap unsigned long type" OFF "ITK_WRAPPING" OFF)
+mark_as_advanced(ITK_WRAP_unsigned_long)
+if(ITK_WRAP_unsigned_long)
+  message(WARNING "ITK_WRAP_unsigned_long is deprecated. Please use ITK_WRAP_unsigned_long_long instead.")
+endif()
+cmake_dependent_option(ITK_WRAP_unsigned_long_long "Wrap unsigned long long type" OFF "ITK_WRAPPING" OFF)
+
+cmake_dependent_option(ITK_WRAP_signed_char "Wrap signed char type" OFF "ITK_WRAPPING" OFF)
+cmake_dependent_option(ITK_WRAP_signed_short "Wrap signed short type" ON "ITK_WRAPPING" OFF)
+cmake_dependent_option(ITK_WRAP_signed_long "Wrap signed long type" OFF "ITK_WRAPPING" OFF)
+mark_as_advanced(ITK_WRAP_signed_long)
+if(ITK_WRAP_signed_long)
+  message(WARNING "ITK_WRAP_signed_long is deprecated. Please use ITK_WRAP_signed_long_long instead.")
+endif()
+cmake_dependent_option(ITK_WRAP_signed_long_long "Wrap signed long long type" OFF "ITK_WRAPPING" OFF)
+
+cmake_dependent_option(ITK_WRAP_float "Wrap float type" ON "ITK_WRAPPING" OFF)
+cmake_dependent_option(ITK_WRAP_double "Wrap double type" OFF "ITK_WRAPPING" OFF)
+
+cmake_dependent_option(ITK_WRAP_vector_float "Wrap vector float type" ON "ITK_WRAPPING" OFF)
+cmake_dependent_option(ITK_WRAP_vector_double "Wrap vector double type" OFF "ITK_WRAPPING" OFF)
+
+cmake_dependent_option(ITK_WRAP_covariant_vector_float "Wrap covariant vector float type" ON "ITK_WRAPPING" OFF)
+cmake_dependent_option(ITK_WRAP_covariant_vector_double "Wrap covariant vector double type" OFF "ITK_WRAPPING" OFF)
+
+cmake_dependent_option(ITK_WRAP_rgb_unsigned_char "Wrap RGB< unsigned char > type" ON "ITK_WRAPPING" OFF)
+cmake_dependent_option(ITK_WRAP_rgb_unsigned_short "Wrap RGB< unsigned short > type" OFF "ITK_WRAPPING" OFF)
+
+cmake_dependent_option(ITK_WRAP_rgba_unsigned_char "Wrap RGBA< unsigned char > type" ON "ITK_WRAPPING" OFF)
+cmake_dependent_option(ITK_WRAP_rgba_unsigned_short "Wrap RGBA< unsigned short > type" OFF "ITK_WRAPPING" OFF)
+
+cmake_dependent_option(ITK_WRAP_complex_float "Wrap complex< float > type" ON "ITK_WRAPPING" OFF)
+cmake_dependent_option(ITK_WRAP_complex_double "Wrap complex< double > type" OFF "ITK_WRAPPING" OFF)
+
 if(ITK_WRAPPING)
-  option(ITK_WRAP_unsigned_char "Wrap unsigned char type" ON)
-  option(ITK_WRAP_unsigned_short "Wrap unsigned short type" OFF)
-  option(ITK_WRAP_unsigned_long "Wrap unsigned long type" OFF)
-  mark_as_advanced(ITK_WRAP_unsigned_long)
-  if(ITK_WRAP_unsigned_long)
-    message(WARNING "ITK_WRAP_unsigned_long is deprecated. Please use ITK_WRAP_unsigned_long_long instead.")
-  endif()
-  option(ITK_WRAP_unsigned_long_long "Wrap unsigned long long type" OFF)
-
-  option(ITK_WRAP_signed_char "Wrap signed char type" OFF)
-  option(ITK_WRAP_signed_short "Wrap signed short type" ON)
-  option(ITK_WRAP_signed_long "Wrap signed long type" OFF)
-  mark_as_advanced(ITK_WRAP_signed_long)
-  if(ITK_WRAP_signed_long)
-    message(WARNING "ITK_WRAP_signed_long is deprecated. Please use ITK_WRAP_signed_long_long instead.")
-  endif()
-  option(ITK_WRAP_signed_long_long "Wrap signed long long type" OFF)
-
-  option(ITK_WRAP_float "Wrap float type" ON)
-  option(ITK_WRAP_double "Wrap double type" OFF)
-
-  option(ITK_WRAP_vector_float "Wrap vector float type" ON)
-  option(ITK_WRAP_vector_double "Wrap vector double type" OFF)
-
-  option(ITK_WRAP_covariant_vector_float "Wrap covariant vector float type" ON)
-  option(ITK_WRAP_covariant_vector_double "Wrap covariant vector double type" OFF)
-
-  option(ITK_WRAP_rgb_unsigned_char "Wrap RGB< unsigned char > type" ON)
-  option(ITK_WRAP_rgb_unsigned_short "Wrap RGB< unsigned short > type" OFF)
-
-  option(ITK_WRAP_rgba_unsigned_char "Wrap RGBA< unsigned char > type" ON)
-  option(ITK_WRAP_rgba_unsigned_short "Wrap RGBA< unsigned short > type" OFF)
-
-  option(ITK_WRAP_complex_float "Wrap complex< float > type" ON)
-  option(ITK_WRAP_complex_double "Wrap complex< double > type" OFF)
-
   # Check for type conditions that need to be fullfilled.
   foreach(t float double)
     # Vectors
@@ -95,4 +95,15 @@ if(ITK_WRAPPING)
   endif()
   UNIQUE(vector_components "${ITK_WRAP_IMAGE_DIMS};4")
   set(ITK_WRAP_VECTOR_COMPONENTS "${vector_components}" CACHE STRING "Number of vector components available separated by semicolons (;)")
+else()
+  # Hide options that are not relevant when no wrapping is requested
+  if(ITK_WRAP_IMAGE_DIMS)
+    set_property(CACHE ITK_WRAP_IMAGE_DIMS PROPERTY TYPE INTERNAL)
+  endif()
+  if(ITK_WRAP_DIMS)
+    set_property(CACHE ITK_WRAP_DIMS PROPERTY TYPE INTERNAL)
+  endif()
+  if(ITK_WRAP_VECTOR_COMPONENTS)
+    set_property(CACHE ITK_WRAP_VECTOR_COMPONENTS PROPERTY TYPE INTERNAL)
+  endif()
 endif()
