@@ -1,6 +1,9 @@
-set(DOCUMENTATION "This modules contains an ImageIO class to read or write the
-  AnalyzeObjectMap file format.")
+# the top-level README is used for describing this module, just
+# re-used it for documentation here
+get_filename_component(MY_CURRENT_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+file(READ "${MY_CURRENT_DIR}/README.md" DOCUMENTATION)
 
+# define the dependencies of the include module and the tests
 itk_module(AnalyzeObjectMapIO
   DEPENDS
     ITKThresholding
@@ -8,7 +11,10 @@ itk_module(AnalyzeObjectMapIO
     ITKZLIB
   TEST_DEPENDS
     ITKTestKernel
-  EXCLUDE_FROM_DEFAULT
+  FACTORY_NAMES
+    ImageIO::AnalyzeObjectMap
   DESCRIPTION
     "${DOCUMENTATION}"
+  EXCLUDE_FROM_DEFAULT
+  ENABLE_SHARED
 )

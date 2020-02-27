@@ -1,0 +1,236 @@
+# The file template originates from the instructions: https://github.com/InsightSoftwareConsortium/ITKModuleTemplate/README.md
+variables:
+  ITKGitTag: v5.1rc02         #Used for choosing branch of ITK to checkout
+  ITKPythonGitTag: v20200228  #Used to identify the release name for the cached python build environmeent ITKPythonBuilds-linux.tar.zst
+  CMakeBuildType: Release
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+
+jobs:
+
+- job: 'Test'
+  displayName: "Build and test"
+  timeoutInMinutes: 0
+  cancelTimeoutInMinutes: 300
+
+  strategy:
+    matrix:
+     Linux1604:
+       imageName: 'ubuntu-16.04'
+       cCompiler: gcc
+       cxxCompiler: g++
+       compilerInitialization: ''
+     Linux1804:
+       imageName: 'ubuntu-18.04'
+       cCompiler: gcc
+       cxxCompiler: g++
+       compilerInitialization: ''
+     macOS1015:
+       imageName: 'macos-10.15'
+       cCompiler: clang
+       cxxCompiler: clang++
+       compilerInitialization: ''
+     macOS1014:
+       imageName: 'macos-10.14'
+       cCompiler: clang
+       cxxCompiler: clang++
+       compilerInitialization: ''
+     Windows2017:
+       imageName: 'vs2017-win2016'
+       cCompiler: cl.exe
+       cxxCompiler: cl.exe
+       compilerInitialization: 'call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvars64.bat"'
+     Windows2019:
+       imageName: 'windows-2019'
+       cCompiler: cl.exe
+       cxxCompiler: cl.exe
+       compilerInitialization: 'call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"'
+
+  pool:
+    vmImage: $(imageName)
+
+  steps:
+  - bash: |
+      set -x
+      if [ -n "$(System.PullRequest.SourceCommitId)" ]; then
+        git checkout $(System.PullRequest.SourceCommitId)
+      fi
+    displayName: 'Checkout pull request HEAD'
+
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.7'
+      architecture: 'x64'
+
+  - script: |
+      python -m pip install --upgrade pip
+      python -m pip install --upgrade setuptools
+      python -m pip install scikit-ci-addons
+      python -m pip install ninja
+    displayName: 'Install build dependencies'
+
+  - script: |
+      #git clone https://github.com/InsightSoftwareConsortium/ITK.git
+      git clone --depth 5 --branch $(ITKGitTag) https://github.com/InsightSoftwareConsortium/ITK.git
+      cd ITK
+      git checkout $(ITKGitTag)
+    workingDirectory: $(Agent.BuildDirectory)
+    displayName: 'Download ITK'
+
+  - script: |
+      mkdir ITK-build
+      cd ITK-build
+      $(compilerInitialization)
+      cmake -DCMAKE_C_COMPILER:FILEPATH="$(cCompiler)" -DBUILD_SHARED_LIBS:BOOL=ON -DCMAKE_CXX_COMPILER="$(cxxCompiler)" -DCMAKE_BUILD_TYPE:STRING=$(CMakeBuildType) -DBUILD_TESTING:BOOL=OFF -GNinja ../ITK
+      ninja
+    workingDirectory: $(Agent.BuildDirectory)
+    displayName: 'Build ITK'
+
+  - script: |
+      curl -L https://raw.githubusercontent.com/InsightSoftwareConsortium/ITK/dashboard/itk_common.cmake -O
+    displayName: 'Fetch CTest driver script'
+
+  - bash: |
+      cat > dashboard.cmake << EOF
+      set(CTEST_SITE "Azure.\$ENV{AGENT_MACHINENAME}")
+      file(TO_CMAKE_PATH "\$ENV{AGENT_BUILDDIRECTORY}" CTEST_DASHBOARD_ROOT)
+      file(TO_CMAKE_PATH "\$ENV{BUILD_SOURCESDIRECTORY}" CTEST_SOURCE_DIRECTORY)
+      file(TO_CMAKE_PATH "\$ENV{AGENT_BUILDDIRECTORY}/build" CTEST_BINARY_DIRECTORY)
+      set(dashboard_source_name "$(Build.Repository.Name)")
+      if(DEFINED ENV{SYSTEM_PULLREQUEST_SOURCEBRANCH})
+        set(branch "-\$ENV{SYSTEM_PULLREQUEST_SOURCEBRANCH}")
+        set(dashboard_model "Experimental")
+      elseif(ENV{BUILD_SOURCEBRANCHNAME} STREQUAL "master")
+        set(branch "-master")
+        set(dashboard_model "Continuous")
+      else()
+        set(branch "-\$ENV{BUILD_SOURCEBRANCHNAME}")
+        set(dashboard_model "Experimental")
+      endif()
+      if(DEFINED ENV{SYSTEM_PULLREQUEST_PULLREQUESTNUMBER})
+        set(pr "-PR\$ENV{SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}")
+      else()
+        set(pr "")
+      endif()
+      set(CTEST_BUILD_NAME "$(Build.Repository.Name)-$(Agent.OS)-Build$(Build.BuildId)\${pr}\${branch}")
+      set(CTEST_UPDATE_VERSION_ONLY 1)
+      set(CTEST_TEST_ARGS \${CTEST_TEST_ARGS} PARALLEL_LEVEL \${PARALLEL_LEVEL})
+      set(CTEST_BUILD_CONFIGURATION "Release")
+      set(CTEST_CMAKE_GENERATOR "Ninja")
+      set(CTEST_CUSTOM_WARNING_EXCEPTION
+        \${CTEST_CUSTOM_WARNING_EXCEPTION}
+        # macOS Azure Pipelines
+        "ld: warning: text-based stub file"
+        )
+      set(dashboard_no_clean 1)
+      set(ENV{CC} $(cCompiler))
+      set(ENV{CXX} $(cxxCompiler))
+      set(dashboard_cache "
+      ITK_DIR:PATH=\${CTEST_DASHBOARD_ROOT}/ITK-build
+      BUILD_TESTING:BOOL=ON
+      ")
+      string(TIMESTAMP build_date "%Y-%m-%d")
+      message("CDash Build Identifier: \${build_date} \${CTEST_BUILD_NAME}")
+      message("CTEST_SITE = \${CTEST_SITE}")
+      include(\${CTEST_SCRIPT_DIRECTORY}/itk_common.cmake)
+      EOF
+      cat dashboard.cmake
+    displayName: 'Configure CTest script'
+
+  - script: |
+      $(compilerInitialization)
+      ctest -j 2 -V -S dashboard.cmake
+    displayName: 'Build and test'
+
+  - script: |
+      sudo pip3 install --upgrade pip
+      sudo pip3 install --upgrade setuptools
+      sudo pip3 install scikit-ci-addons
+      ci_addons ctest_junit_formatter $(Agent.BuildDirectory)/build > $(Agent.BuildDirectory)/JUnitTestResults.xml
+    condition: succeededOrFailed()
+    displayName: 'Format CTest output in JUnit format'
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFiles: "$(Agent.BuildDirectory)/JUnitTestResults.xml"
+      testRunTitle: 'CTest $(Agent.OS)'
+    condition: succeededOrFailed()
+    displayName: 'Publish test results'
+
+
+- job: 'PackageLinux'
+  timeoutInMinutes: 0
+  cancelTimeoutInMinutes: 300
+  displayName: "Build Linux Python packages"
+  pool:
+    vmImage: 'Ubuntu-16.04'
+
+  steps:
+  - script: |
+      curl -L https://raw.githubusercontent.com/InsightSoftwareConsortium/ITKPythonPackage/master/scripts/dockcross-manylinux-download-cache-and-build-module-wheels.sh -O
+      chmod u+x dockcross-manylinux-download-cache-and-build-module-wheels.sh
+    displayName: 'Fetch build script'
+
+  - script: |
+      export ITK_PACKAGE_VERSION=$(ITKPythonGitTag)
+      ./dockcross-manylinux-download-cache-and-build-module-wheels.sh
+    displayName: 'Build Python packages'
+
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: 'LinuxWheels'
+      targetPath: './dist'
+
+
+- job: 'PackageMacOS'
+  displayName: "Build macOS Python packages"
+  timeoutInMinutes: 0
+  cancelTimeoutInMinutes: 300
+  pool:
+    vmImage: 'macos-10.14'
+
+  steps:
+  - script: |
+      curl -L https://raw.githubusercontent.com/InsightSoftwareConsortium/ITKPythonPackage/master/scripts/macpython-download-cache-and-build-module-wheels.sh -O
+      chmod u+x macpython-download-cache-and-build-module-wheels.sh
+    displayName: 'Fetch build script'
+
+  - script: |
+      export ITK_PACKAGE_VERSION=$(ITKPythonGitTag)
+      ./macpython-download-cache-and-build-module-wheels.sh
+    displayName: 'Build Python packages'
+
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: 'MacOSWheels'
+      targetPath: './dist'
+
+
+- job: 'PackageWindows'
+  displayName: "Build Windows Python packages"
+  timeoutInMinutes: 0
+  cancelTimeoutInMinutes: 300
+  pool:
+    vmImage: 'vs2017-win2016'
+
+  steps:
+  - script: |
+      curl -L https://raw.githubusercontent.com/InsightSoftwareConsortium/ITKPythonPackage/master/scripts/windows-download-cache-and-build-module-wheels.ps1 -O
+    displayName: 'Fetch build script'
+
+  - script: |
+      call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+      set ITK_PACKAGE_VERSION=$(ITKPythonGitTag)
+      set CC=cl.exe
+      set CXX=cl.exe
+      powershell.exe -file .\windows-download-cache-and-build-module-wheels.ps1
+    displayName: 'Build Python packages'
+
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: 'WindowsWheels'
+      targetPath: './dist'
