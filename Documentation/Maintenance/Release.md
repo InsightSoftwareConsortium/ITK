@@ -503,7 +503,7 @@ git pull
 git clean -fdx
 # Open a VS2017 x64 SDK 8.1 Native Tools Command Prompt
 cd C:\P\IPP
-set PATH=C:\cmake-3.12.1\bin;%PATH%
+set PATH=C:\cmake-3.16.4\bin;%PATH%
 set PATH=C:\P\doxygen;%PATH%
 C:\Python36-x64\python.exe ./scripts/windows_build_wheels.py
 # Back in Git Bash...
