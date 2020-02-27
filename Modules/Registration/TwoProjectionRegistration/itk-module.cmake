@@ -17,6 +17,7 @@ itk_module(
     ITKTransform
   TEST_DEPENDS
     ITKTestKernel
-  EXCLUDE_FROM_DEFAULT
   DESCRIPTION "Module ingested from upstream."
+  EXCLUDE_FROM_DEFAULT
+  ENABLE_SHARED
 )
