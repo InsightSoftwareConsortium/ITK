@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -33,8 +33,7 @@ CartesianToPolarTransform<TParametersValueType, NDimensions>::CartesianToPolarTr
 
 
 template <typename TParametersValueType, unsigned int NDimensions>
-CartesianToPolarTransform<TParametersValueType, NDimensions>::~CartesianToPolarTransform()
-{}
+CartesianToPolarTransform<TParametersValueType, NDimensions>::~CartesianToPolarTransform() = default;
 
 
 template <typename TParametersValueType, unsigned int NDimensions>
