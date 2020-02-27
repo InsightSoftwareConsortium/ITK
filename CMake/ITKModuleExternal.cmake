@@ -11,8 +11,23 @@ if(NOT EXISTS ${ITK_CMAKE_DIR}/ITKModuleMacros.cmake)
   message(FATAL_ERROR "Modules can only be built against an ITK build tree; they cannot be built against an ITK install tree.")
 endif()
 
+if(ITK_WRAP_PYTHON)
+  if(DEFINED Python3_EXECUTABLE)
+    set(_specified_Python3_EXECUTABLE ${Python3_EXECUTABLE})
+  endif()
+  find_package(Python3 COMPONENTS Interpreter Development)
+  set(Python3_EXECUTABLE ${_specified_Python3_EXECUTABLE} CACHE INTERNAL
+    "Path to the Python interpreter" FORCE)
+else()
+  find_package(Python3 COMPONENTS Interpreter)
+endif()
+if(NOT Python3_EXECUTABLE AND _Python3_EXECUTABLE)
+  set(Python3_EXECUTABLE ${_Python3_EXECUTABLE} CACHE INTERNAL
+    "Path to the Python interpreter" FORCE)
+endif()
+
 # To hide dependent variables
-include( CMakeDependentOption )
+include(CMakeDependentOption)
 
 # Install rules when creating a Python package with scikit-build
 if(SKBUILD)
