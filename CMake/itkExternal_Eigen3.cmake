@@ -49,9 +49,14 @@ else()
     "-DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}"
     ${_additional_external_project_args}
     WORKING_DIRECTORY ${_eigen3_build_dir}
+    OUTPUT_VARIABLE ITKEigen3Config_STDOUT
+    ERROR_VARIABLE ITKEigen3Config_STDERR
     )
   set(ITKInternalEigen3_DIR ${_eigen3_build_dir})
   find_package( ITKInternalEigen3 )
+  if(NOT ITKInternalEigen3_FOUND)
+    message(FATAL_ERROR "ITKInternalEigen3 configuration faileed\nREPORT:\n${ITKEigen3Config_STDOUT}\n${ITKEigen3Config_STDERR}")
+  endif()
   install(CODE
   "execute_process(
     COMMAND
