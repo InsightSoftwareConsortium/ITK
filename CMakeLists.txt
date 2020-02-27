@@ -310,6 +310,7 @@ if( NOT ("${ITK_NIFTI_IO_ANALYZE_FLAVOR}" STREQUAL "ITK4Warning" OR
          ) )
   set(ITK_NIFTI_IO_ANALYZE_FLAVOR "ITK4Warning" CACHE STRING ${ITK_NIFTI_IO_ANALYZE_FLAVOR_DOC_STRING} FORCE)
 endif()
+mark_as_advanced(ITK_NIFTI_IO_ANALYZE_FLAVOR)
 
 
 #-----------------------------------------------------------------------------
