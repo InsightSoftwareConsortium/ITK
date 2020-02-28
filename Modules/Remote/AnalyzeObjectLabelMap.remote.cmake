@@ -1,4 +1,6 @@
-#-- # Grading Level Criteria
+#-- # Grading Level Criteria Report
+#-- EVALUATION DATE: 2020-03-01
+#-- EVALUATORS: [<<NO EVALUATOR>>,<<NO EVALUATOR>>]
 #--
 #-- ## Compliance level 5 star (AKA ITK main modules, or remote modules that could become core modules)
 #--   - [ ] Widespread community dependance
@@ -47,5 +49,5 @@ itk_fetch_module(AnalyzeObjectLabelMap
   "AnalyzeObjectLabelMap plugin for ITK. From Insight Journal article with handle: https://hdl.handle.net/1926/593"
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/itkAnalyzeObjectMap.git
-  GIT_TAG 7388d866433896368bd3049c396b974433b22cc5
+  GIT_TAG d7e27e8228d326a273a729d83d4b5007b0af22d8
   )
