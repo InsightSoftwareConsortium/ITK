@@ -1,6 +1,7 @@
-#-- Contact: Simon Rit <simon.rit@creatis.insa-lyon.fr>
-#--
 #-- # Grading Level Criteria
+#-- Contact: Simon Rit <simon.rit@creatis.insa-lyon.fr>
+#-- EVALUATION DATE: 2020-03-01
+#-- EVALUATORS: [Simon Rit]
 #--
 #-- ## Compliance level 5 star (AKA ITK main modules, or remote modules that could become core modules)
 #--   - [ ] Widespread community dependance

@@ -46,7 +46,7 @@ pushd ${remoteCache}
 git fetch origin
 git rebase origin/master
 HEAD_HASH=$(git rev-parse --verify HEAD)
-sed -i "" "s/GIT_TAG .*/GIT_TAG ${HEAD_HASH}/g" ../${remoteFile}
+sed -i"" "s/GIT_TAG .*/GIT_TAG ${HEAD_HASH}/g" ../${remoteFile}
 MASTER_HASH=$(git rev-parse --verify origin/master)
 if [[ "${HEAD_HASH}" != "${MASTER_HASH}" ]]; then
     CURR_BRANCH=$(git rev-parse --abbrev-ref HEAD)
