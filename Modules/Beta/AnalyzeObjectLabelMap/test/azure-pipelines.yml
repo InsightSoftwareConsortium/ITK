@@ -1,7 +1,7 @@
 # The file template originates from the instructions: https://github.com/InsightSoftwareConsortium/ITKModuleTemplate/README.md
 variables:
-  ITKGitTag: v5.1rc02         #Used for choosing branch of ITK to checkout
-  ITKPythonGitTag: v20200228  #Used to identify the release name for the cached python build environmeent ITKPythonBuilds-linux.tar.zst
+  ITKGitTag: v5.1rc02       #Used for choosing branch of ITK to checkout
+  ITKPythonGitTag: v5.1rc02 #Used to identify the release name for the cached python build environmeent ITKPythonBuilds-linux.tar.zst
   CMakeBuildType: Release
 
 trigger:
@@ -19,11 +19,11 @@ jobs:
 
   strategy:
     matrix:
-     Linux1604:
-       imageName: 'ubuntu-16.04'
-       cCompiler: gcc
-       cxxCompiler: g++
-       compilerInitialization: ''
+#     Linux1604:
+#       imageName: 'ubuntu-16.04'
+#       cCompiler: gcc
+#       cxxCompiler: g++
+#       compilerInitialization: ''
      Linux1804:
        imageName: 'ubuntu-18.04'
        cCompiler: gcc
@@ -34,16 +34,16 @@ jobs:
        cCompiler: clang
        cxxCompiler: clang++
        compilerInitialization: ''
-     macOS1014:
-       imageName: 'macos-10.14'
-       cCompiler: clang
-       cxxCompiler: clang++
-       compilerInitialization: ''
-     Windows2017:
-       imageName: 'vs2017-win2016'
-       cCompiler: cl.exe
-       cxxCompiler: cl.exe
-       compilerInitialization: 'call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvars64.bat"'
+#     macOS1014:
+#       imageName: 'macos-10.14'
+#       cCompiler: clang
+#       cxxCompiler: clang++
+#       compilerInitialization: ''
+#     Windows2017:
+#       imageName: 'vs2017-win2016'
+#       cCompiler: cl.exe
+#       cxxCompiler: cl.exe
+#       compilerInitialization: 'call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvars64.bat"'
      Windows2019:
        imageName: 'windows-2019'
        cCompiler: cl.exe
@@ -162,75 +162,75 @@ jobs:
     displayName: 'Publish test results'
 
 
-- job: 'PackageLinux'
-  timeoutInMinutes: 0
-  cancelTimeoutInMinutes: 300
-  displayName: "Build Linux Python packages"
-  pool:
-    vmImage: 'Ubuntu-16.04'
-
-  steps:
-  - script: |
-      curl -L https://raw.githubusercontent.com/InsightSoftwareConsortium/ITKPythonPackage/master/scripts/dockcross-manylinux-download-cache-and-build-module-wheels.sh -O
-      chmod u+x dockcross-manylinux-download-cache-and-build-module-wheels.sh
-    displayName: 'Fetch build script'
-
-  - script: |
-      export ITK_PACKAGE_VERSION=$(ITKPythonGitTag)
-      ./dockcross-manylinux-download-cache-and-build-module-wheels.sh
-    displayName: 'Build Python packages'
-
-  - task: PublishPipelineArtifact@0
-    inputs:
-      artifactName: 'LinuxWheels'
-      targetPath: './dist'
-
-
-- job: 'PackageMacOS'
-  displayName: "Build macOS Python packages"
-  timeoutInMinutes: 0
-  cancelTimeoutInMinutes: 300
-  pool:
-    vmImage: 'macos-10.14'
-
-  steps:
-  - script: |
-      curl -L https://raw.githubusercontent.com/InsightSoftwareConsortium/ITKPythonPackage/master/scripts/macpython-download-cache-and-build-module-wheels.sh -O
-      chmod u+x macpython-download-cache-and-build-module-wheels.sh
-    displayName: 'Fetch build script'
-
-  - script: |
-      export ITK_PACKAGE_VERSION=$(ITKPythonGitTag)
-      ./macpython-download-cache-and-build-module-wheels.sh
-    displayName: 'Build Python packages'
-
-  - task: PublishPipelineArtifact@0
-    inputs:
-      artifactName: 'MacOSWheels'
-      targetPath: './dist'
-
-
-- job: 'PackageWindows'
-  displayName: "Build Windows Python packages"
-  timeoutInMinutes: 0
-  cancelTimeoutInMinutes: 300
-  pool:
-    vmImage: 'vs2017-win2016'
-
-  steps:
-  - script: |
-      curl -L https://raw.githubusercontent.com/InsightSoftwareConsortium/ITKPythonPackage/master/scripts/windows-download-cache-and-build-module-wheels.ps1 -O
-    displayName: 'Fetch build script'
-
-  - script: |
-      call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-      set ITK_PACKAGE_VERSION=$(ITKPythonGitTag)
-      set CC=cl.exe
-      set CXX=cl.exe
-      powershell.exe -file .\windows-download-cache-and-build-module-wheels.ps1
-    displayName: 'Build Python packages'
-
-  - task: PublishPipelineArtifact@0
-    inputs:
-      artifactName: 'WindowsWheels'
-      targetPath: './dist'
+# - job: 'PackageLinux'
+#   timeoutInMinutes: 0
+#   cancelTimeoutInMinutes: 300
+#   displayName: "Build Linux Python packages"
+#   pool:
+#     vmImage: 'Ubuntu-16.04'
+# 
+#   steps:
+#   - script: |
+#       curl -L https://raw.githubusercontent.com/InsightSoftwareConsortium/ITKPythonPackage/master/scripts/dockcross-manylinux-download-cache-and-build-module-wheels.sh -O
+#       chmod u+x dockcross-manylinux-download-cache-and-build-module-wheels.sh
+#     displayName: 'Fetch build script'
+# 
+#   - script: |
+#       export ITK_PACKAGE_VERSION=$(ITKPythonGitTag)
+#       ./dockcross-manylinux-download-cache-and-build-module-wheels.sh
+#     displayName: 'Build Python packages'
+# 
+#   - task: PublishPipelineArtifact@0
+#     inputs:
+#       artifactName: 'LinuxWheels'
+#       targetPath: './dist'
+# 
+# 
+# - job: 'PackageMacOS'
+#   displayName: "Build macOS Python packages"
+#   timeoutInMinutes: 0
+#   cancelTimeoutInMinutes: 300
+#   pool:
+#     vmImage: 'macos-10.14'
+# 
+#   steps:
+#   - script: |
+#       curl -L https://raw.githubusercontent.com/InsightSoftwareConsortium/ITKPythonPackage/master/scripts/macpython-download-cache-and-build-module-wheels.sh -O
+#       chmod u+x macpython-download-cache-and-build-module-wheels.sh
+#     displayName: 'Fetch build script'
+# 
+#   - script: |
+#       export ITK_PACKAGE_VERSION=$(ITKPythonGitTag)
+#       ./macpython-download-cache-and-build-module-wheels.sh
+#     displayName: 'Build Python packages'
+# 
+#   - task: PublishPipelineArtifact@0
+#     inputs:
+#       artifactName: 'MacOSWheels'
+#       targetPath: './dist'
+# 
+# 
+# - job: 'PackageWindows'
+#   displayName: "Build Windows Python packages"
+#   timeoutInMinutes: 0
+#   cancelTimeoutInMinutes: 300
+#   pool:
+#     vmImage: 'vs2017-win2016'
+# 
+#   steps:
+#   - script: |
+#       curl -L https://raw.githubusercontent.com/InsightSoftwareConsortium/ITKPythonPackage/master/scripts/windows-download-cache-and-build-module-wheels.ps1 -O
+#     displayName: 'Fetch build script'
+# 
+#   - script: |
+#       call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+#       set ITK_PACKAGE_VERSION=$(ITKPythonGitTag)
+#       set CC=cl.exe
+#       set CXX=cl.exe
+#       powershell.exe -file .\windows-download-cache-and-build-module-wheels.ps1
+#     displayName: 'Build Python packages'
+# 
+#   - task: PublishPipelineArtifact@0
+#     inputs:
+#       artifactName: 'WindowsWheels'
+#       targetPath: './dist'
