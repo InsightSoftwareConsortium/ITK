@@ -23,7 +23,7 @@
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 #include <vector>
 #include <algorithm>
@@ -38,6 +38,7 @@ VotingBinaryImageFilter<TInputImage, TOutputImage>::VotingBinaryImageFilter()
   m_BackgroundValue = NumericTraits<InputPixelType>::ZeroValue();
   m_BirthThreshold = 1;
   m_SurvivalThreshold = 1;
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -107,6 +108,7 @@ VotingBinaryImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
 
+  TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
   for (fit = faceList.begin(); fit != faceList.end(); ++fit)
@@ -148,6 +150,7 @@ VotingBinaryImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
       ++bit;
       ++it;
+      progress.CompletedPixel();
     }
   }
 }

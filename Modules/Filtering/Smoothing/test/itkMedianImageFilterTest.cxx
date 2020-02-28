@@ -60,29 +60,6 @@ itkMedianImageFilterTest(int, char *[])
   // run the algorithm
   median->Update();
 
-  itk::ImageRegionIterator<FloatImage2DType> it;
-  it = itk::ImageRegionIterator<FloatImage2DType>(random->GetOutput(), random->GetOutput()->GetBufferedRegion());
-  std::cout << "Input image" << std::endl;
-  unsigned int i;
-  for (i = 1; !it.IsAtEnd(); ++i, ++it)
-  {
-    std::cout << "\t" << it.Get();
-    if ((i % 8) == 0)
-    {
-      std::cout << std::endl;
-    }
-  }
-
-  std::cout << "Output image" << std::endl;
-  it = itk::ImageRegionIterator<FloatImage2DType>(median->GetOutput(), median->GetOutput()->GetBufferedRegion());
-  for (i = 1; !it.IsAtEnd(); ++i, ++it)
-  {
-    std::cout << "\t" << it.Get();
-    if ((i % 8) == 0)
-    {
-      std::cout << std::endl;
-    }
-  }
 
   // Test the itkGetConstReferenceMacro
   const FloatImage2DType::SizeType & radius = median->GetRadius();

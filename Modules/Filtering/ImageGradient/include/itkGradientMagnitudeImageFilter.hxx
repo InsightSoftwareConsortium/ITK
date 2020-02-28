@@ -24,10 +24,19 @@
 #include "itkImageRegionIterator.h"
 #include "itkDerivativeOperator.h"
 #include "itkNeighborhoodAlgorithm.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
+
+
+template <typename TInputImage, typename TOutputImage>
+GradientMagnitudeImageFilter<TInputImage, TOutputImage>::GradientMagnitudeImageFilter()
+{
+  this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
+}
+
 template <typename TInputImage, typename TOutputImage>
 void
 GradientMagnitudeImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -135,6 +144,8 @@ GradientMagnitudeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerate
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::FaceListType::iterator fit;
   fit = faceList.begin();
 
+  TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
+
   // Process non-boundary face
   nit = ConstNeighborhoodIterator<TInputImage>(radius, input, *fit);
 
@@ -165,6 +176,7 @@ GradientMagnitudeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerate
       it.Value() = static_cast<OutputPixelType>(std::sqrt(a));
       ++bit;
       ++it;
+      progress.CompletedPixel();
     }
   }
 }

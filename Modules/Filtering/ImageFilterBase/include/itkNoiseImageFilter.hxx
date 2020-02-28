@@ -24,7 +24,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkOffset.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -32,6 +32,7 @@ template <typename TInputImage, typename TOutputImage>
 NoiseImageFilter<TInputImage, TOutputImage>::NoiseImageFilter()
 {
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -56,6 +57,8 @@ NoiseImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   faceList = bC(input, outputRegionForThread, this->GetRadius());
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
+
+  TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
 
   InputRealType value;
   InputRealType sum;
@@ -92,6 +95,7 @@ NoiseImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
       ++bit;
       ++it;
+      progress.CompletedPixel();
     }
   }
 }

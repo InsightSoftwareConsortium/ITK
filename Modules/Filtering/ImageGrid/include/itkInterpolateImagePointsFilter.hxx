@@ -29,7 +29,7 @@
 #define itkInterpolateImagePointsFilter_hxx
 
 #include "itkInterpolateImagePointsFilter.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -42,6 +42,7 @@ InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordType, Interpolator
 
   this->SetNumberOfRequiredInputs(ImageDimension + 1);
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TOutputImage, typename TCoordType, typename InterpolatorType>
@@ -89,6 +90,8 @@ InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordType, Interpolator
     coordIter[j] = temp;
   }
 
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+
   // Loop through each pixel and calculate interpolated value.
   ContinuousIndexType index;
   while (!outIter.IsAtEnd())
@@ -114,6 +117,7 @@ InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordType, Interpolator
       outIter.Set(m_DefaultPixelValue);
     }
     ++outIter;
+    progress.CompletedPixel();
   }
 }
 

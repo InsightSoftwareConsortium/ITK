@@ -139,6 +139,7 @@ protected:
     : m_BoundsCondition(nullptr)
   {
     this->DynamicMultiThreadingOn();
+    this->ThreaderUpdateProgressOff();
   }
 
   ~VectorNeighborhoodOperatorImageFilter() override = default;

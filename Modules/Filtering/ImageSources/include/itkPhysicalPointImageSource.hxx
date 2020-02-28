@@ -20,7 +20,7 @@
 #define itkPhysicalPointImageSource_hxx
 
 #include "itkPhysicalPointImageSource.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
@@ -50,6 +50,8 @@ PhysicalPointImageSource<TOutputImage>::DynamicThreadedGenerateData(const Region
 {
   TOutputImage * image = this->GetOutput(0);
 
+  TotalProgressReporter progress(this, image->GetRequestedRegion().GetNumberOfPixels());
+
   ImageRegionIteratorWithIndex<TOutputImage> it(image, outputRegionForThread);
   PointType                                  pt;
   PixelType                                  px;
@@ -64,6 +66,7 @@ PhysicalPointImageSource<TOutputImage>::DynamicThreadedGenerateData(const Region
       px[i] = static_cast<typename PixelType::ValueType>(pt[i]);
     }
     it.Set(px);
+    progress.CompletedPixel();
   }
 }
 } // end namespace itk

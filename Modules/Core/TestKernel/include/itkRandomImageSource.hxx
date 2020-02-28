@@ -31,13 +31,15 @@
 #include "itkRandomImageSource.h"
 #include "itkImageRegionIterator.h"
 #include "itkObjectFactory.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
+
 
 namespace itk
 {
 template <typename TOutputImage>
 RandomImageSource<TOutputImage>::RandomImageSource()
 {
+
   // Default image is 64 wide in each direction.
   for (unsigned int i = 0; i < TOutputImage::GetImageDimension(); i++)
   {
@@ -47,6 +49,7 @@ RandomImageSource<TOutputImage>::RandomImageSource()
   }
   m_Direction.SetIdentity();
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 
   m_Min = NumericTraits<OutputImagePixelType>::NonpositiveMin();
   m_Max = NumericTraits<OutputImagePixelType>::max();
@@ -219,10 +222,13 @@ RandomImageSource<TOutputImage>::DynamicThreadedGenerateData(const OutputImageRe
 {
   itkDebugMacro(<< "Generating a random image of scalars");
 
+
   using scalarType = typename TOutputImage::PixelType;
   typename TOutputImage::Pointer image = this->GetOutput(0);
 
   ImageRegionIterator<TOutputImage> it(image, outputRegionForThread);
+
+  TotalProgressReporter progress(this, image->GetRequestedRegion().GetNumberOfPixels());
 
   IndexValueType indSeed = outputRegionForThread.GetIndex(0);
   for (unsigned d = 1; d < OutputImageDimension; d++)
@@ -245,6 +251,7 @@ RandomImageSource<TOutputImage>::DynamicThreadedGenerateData(const OutputImageRe
     rnd = (1.0 - u) * dMin + u * dMax;
 
     it.Set((scalarType)rnd);
+    progress.CompletedPixel();
   }
 }
 } // end namespace itk

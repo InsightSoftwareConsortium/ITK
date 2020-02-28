@@ -21,7 +21,7 @@
 #include "itkLabelVotingImageFilter.h"
 
 #include "itkImageRegionIterator.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 #include "itkMath.h"
 
@@ -31,7 +31,9 @@ template <typename TInputImage, typename TOutputImage>
 LabelVotingImageFilter<TInputImage, TOutputImage>::LabelVotingImageFilter()
   : m_LabelForUndecidedPixels(0)
 
-{}
+{
+  this->ThreaderUpdateProgressOff();
+}
 
 template <typename TInputImage, typename TOutputImage>
 typename LabelVotingImageFilter<TInputImage, TOutputImage>::InputPixelType
@@ -91,23 +93,25 @@ LabelVotingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   typename TOutputImage::Pointer output = this->GetOutput();
 
+  TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
+
   // Record the number of indexed inputs
   const size_t numberOfInputIndexes = this->GetNumberOfIndexedInputs();
 
   // Create and initialize all input image iterators
-  auto * it = new IteratorType[numberOfInputIndexes];
+  std::vector<IteratorType> it(numberOfInputIndexes);
   for (size_t i = 0; i < numberOfInputIndexes; ++i)
   {
     it[i] = IteratorType(this->GetInput(i), outputRegionForThread);
   }
 
-  auto * votesByLabel = new unsigned int[this->m_TotalLabelCount];
+  std::vector<unsigned int> votesByLabel(this->m_TotalLabelCount);
 
   OutIteratorType out = OutIteratorType(output, outputRegionForThread);
   for (out.GoToBegin(); !out.IsAtEnd(); ++out)
   {
     // Reset number of votes per label for all labels
-    std::fill_n(votesByLabel, this->m_TotalLabelCount, 0);
+    std::fill_n(votesByLabel.begin(), this->m_TotalLabelCount, 0);
 
     // count number of votes for the labels
     for (unsigned int i = 0; i < numberOfInputIndexes; ++i)
@@ -138,10 +142,8 @@ LabelVotingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
         }
       }
     }
+    progress.CompletedPixel();
   }
-
-  delete[] it;
-  delete[] votesByLabel;
 }
 
 template <typename TInputImage, typename TOutputImage>

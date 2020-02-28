@@ -21,7 +21,7 @@
 #include "itkMaskedMovingHistogramImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkOffset.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkNumericTraits.h"
 
 #include "itkImageRegionIterator.h"
@@ -51,6 +51,7 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
   this->m_GenerateOutputMask = true;
   this->SetGenerateOutputMask(false);
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel, typename THistogram>
@@ -140,6 +141,8 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
   const MaskImageType *  maskImage = this->GetMaskImage();
 
   RegionType inputRegion = inputImage->GetRequestedRegion();
+
+  TotalProgressReporter progress(this, inputRegion.GetNumberOfPixels());
 
   // initialize the histogram
   for (auto listIt = this->m_KernelOffsets.begin(); listIt != this->m_KernelOffsets.end(); listIt++)
@@ -235,6 +238,7 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
     }
     Steps[BestDirection] += LineLength;
     InLineIt.NextLine();
+    progress.Completed(outputRegionForThread.GetSize()[0]);
     if (InLineIt.IsAtEnd())
     {
       break;

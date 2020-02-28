@@ -20,7 +20,7 @@
 
 #include "itkTernaryFunctorImageFilter.h"
 #include "itkImageScanlineIterator.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -34,6 +34,7 @@ TernaryFunctorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage
 {
   this->InPlaceOff();
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 /**
@@ -121,11 +122,6 @@ void
 TernaryFunctorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage, TFunction>::
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  const SizeValueType size0 = outputRegionForThread.GetSize(0);
-  if (size0 == 0)
-  {
-    return;
-  }
   // We use dynamic_cast since inputs are stored as DataObjects.  The
   // ImageToImageFilter::GetInput(int) always returns a pointer to a
   // TInputImage1 so it cannot be used for the second or third input.
@@ -134,6 +130,7 @@ TernaryFunctorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage
   Input3ImagePointer inputPtr3 = dynamic_cast<const TInputImage3 *>((ProcessObject::GetInput(2)));
   OutputImagePointer outputPtr = this->GetOutput(0);
 
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   ImageScanlineConstIterator<TInputImage1> inputIt1(inputPtr1, outputRegionForThread);
   ImageScanlineConstIterator<TInputImage2> inputIt2(inputPtr2, outputRegionForThread);
@@ -154,6 +151,7 @@ TernaryFunctorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage
     inputIt2.NextLine();
     inputIt3.NextLine();
     outputIt.NextLine();
+    progress.Completed(outputRegionForThread.GetSize()[0]);
   }
 }
 } // end namespace itk

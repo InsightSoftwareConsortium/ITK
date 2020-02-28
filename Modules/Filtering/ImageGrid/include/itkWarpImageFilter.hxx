@@ -24,7 +24,7 @@
 #include "itkImageAlgorithm.h"
 #include "itkNumericTraits.h"
 #include "itkDefaultConvertPixelTraits.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkContinuousIndex.h"
 #include "itkMath.h"
 #include "itkTransform.h"
@@ -51,6 +51,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::WarpImageFilter(
 
   m_DefFieldSameInformation = false;
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
@@ -280,6 +281,8 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThreadedG
   OutputImageType *             outputPtr = this->GetOutput();
   const DisplacementFieldType * fieldPtr = this->GetDisplacementField();
 
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+
   // iterator for the output image
   ImageRegionIteratorWithIndex<OutputImageType> outputIt(outputPtr, outputRegionForThread);
   IndexType                                     index;
@@ -318,6 +321,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThreadedG
       }
       ++outputIt;
       ++fieldIt;
+      progress.CompletedPixel();
     }
   }
   else
@@ -346,6 +350,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThreadedG
         outputIt.Set(m_EdgePaddingValue);
       }
       ++outputIt;
+      progress.CompletedPixel();
     }
   }
 }

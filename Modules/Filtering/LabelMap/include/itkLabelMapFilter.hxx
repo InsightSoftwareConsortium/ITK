@@ -29,6 +29,7 @@
 #define itkLabelMapFilter_hxx
 #include "itkLabelMapFilter.h"
 #include <mutex>
+#include <itkTotalProgressReporter.h>
 
 namespace itk
 {
@@ -69,17 +70,6 @@ void
 LabelMapFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   m_LabelObjectIterator = typename InputImageType::Iterator(this->GetLabelMap());
-
-  if (Math::ExactlyEquals(this->GetLabelMap()->GetNumberOfLabelObjects(), 0.0))
-  {
-    m_InverseNumberOfLabelObjects = NumericTraits<float>::max();
-  }
-  else
-  {
-    m_InverseNumberOfLabelObjects = 1.0f / this->GetLabelMap()->GetNumberOfLabelObjects();
-  }
-  // TODO: set number of work units to be equal to GetNumberOfLabelObjects()
-  m_NumberOfLabelObjectsProcessed = 0;
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -93,6 +83,8 @@ template <typename TInputImage, typename TOutputImage>
 void
 LabelMapFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(const OutputImageRegionType &)
 {
+  const auto            numberOfLabelObjects = this->GetLabelMap()->GetNumberOfLabelObjects();
+  TotalProgressReporter progress(this, numberOfLabelObjects, numberOfLabelObjects);
   while (true)
   {
     LabelObjectType * labelObject;
@@ -112,7 +104,6 @@ LabelMapFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(const Out
       // increment the iterator now, so it will not be invalidated if the object
       // is destroyed
       ++m_LabelObjectIterator;
-      ++m_NumberOfLabelObjectsProcessed;
 
       // unlock the mutex, so the other threads can get an object
     }
@@ -122,15 +113,7 @@ LabelMapFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(const Out
     // and run the user defined method for that object
     this->ThreadedProcessLabelObject(labelObject);
 
-    // all threads needs to check the abort flag
-    if (this->GetAbortGenerateData())
-    {
-      std::string    msg;
-      ProcessAborted e(__FILE__, __LINE__);
-      msg += "Object " + std::string(this->GetNameOfClass()) + ": AbortGenerateDataOn";
-      e.SetDescription(msg);
-      throw e;
-    }
+    progress.CompletedPixel();
   }
 }
 

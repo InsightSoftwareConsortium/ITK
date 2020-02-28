@@ -158,6 +158,7 @@ protected:
   {
     m_BoundsCondition = static_cast<ImageBoundaryConditionPointerType>(&m_DefaultBoundaryCondition);
     this->DynamicMultiThreadingOn();
+    this->ThreaderUpdateProgressOff();
   }
   ~NeighborhoodOperatorImageFilter() override = default;
 

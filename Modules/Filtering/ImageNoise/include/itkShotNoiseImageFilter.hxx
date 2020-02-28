@@ -21,7 +21,7 @@
 #include "itkShotNoiseImageFilter.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkImageScanlineIterator.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkNormalVariateGenerator.h"
 
 namespace itk
@@ -32,6 +32,7 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>::ShotNoiseImageFilter()
 
 {
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <class TInputImage, class TOutputImage>
@@ -68,6 +69,8 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   inputIt.GoToBegin();
   outputIt.GoToBegin();
 
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+
   while (!inputIt.IsAtEnd())
   {
     while (!inputIt.IsAtEndOfLine())
@@ -103,6 +106,7 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     }
     inputIt.NextLine();
     outputIt.NextLine();
+    progress.Completed(outputRegionForThread.GetSize()[0]);
   }
 }
 

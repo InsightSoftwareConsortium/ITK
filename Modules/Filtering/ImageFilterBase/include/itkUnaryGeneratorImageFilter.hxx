@@ -43,7 +43,7 @@ UnaryGeneratorImageFilter<TInputImage, TOutputImage>::UnaryGeneratorImageFilter(
  * the pipeline execution model.  The original documentation of this
  * method is below.
  *
- * \sa ProcessObject::GenerateOutputInformaton()
+ * \sa ProcessObject::GenerateOutputInformation()
  */
 template <typename TInputImage, typename TOutputImage>
 void
@@ -92,15 +92,10 @@ UnaryGeneratorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDat
 {
   const typename OutputImageRegionType::SizeType & regionSize = outputRegionForThread.GetSize();
 
-  if (regionSize[0] == 0)
-  {
-    return;
-  }
   const TInputImage * inputPtr = this->GetInput();
   TOutputImage *      outputPtr = this->GetOutput(0);
 
-  const SizeValueType   numberOfLinesToProcess = outputPtr->GetRequestedRegion().GetNumberOfPixels() / regionSize[0];
-  TotalProgressReporter progress(this, numberOfLinesToProcess);
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   // Define the portion of the input to walk for this thread, using
   // the CallCopyOutputRegionToInputRegion method allows for the input
@@ -123,7 +118,7 @@ UnaryGeneratorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDat
       ++inputIt;
       ++outputIt;
     }
-    progress.CompletedPixel();
+    progress.Completed(regionSize[0]);
     inputIt.NextLine();
     outputIt.NextLine();
   }

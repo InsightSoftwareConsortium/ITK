@@ -21,7 +21,7 @@
 #include "itkResampleImageFilter.h"
 #include "itkObjectFactory.h"
 #include "itkIdentityTransform.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageScanlineIterator.h"
 #include "itkSpecialCoordinatesImage.h"
@@ -346,6 +346,8 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   const InputImageType * inputPtr = this->GetInput();
   const TransformType *  transformPtr = this->GetTransform();
 
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+
   // Honor the SpecialCoordinatesImage isInside value returned
   // by TransformPhysicalPointToContinuousIndex
   using InputSpecialCoordinatesImageType = SpecialCoordinatesImage<InputPixelType, InputImageDimension>;
@@ -396,7 +398,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
         outIt.Set(Self::CastPixelWithBoundsChecking(value));
       }
     }
-
+    progress.CompletedPixel();
     ++outIt;
   }
 }
@@ -416,6 +418,8 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   // Create an iterator that will walk the output region for this thread.
   using OutputIterator = ImageScanlineIterator<TOutputImage>;
   OutputIterator outIt(outputPtr, outputRegionForThread);
+
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
@@ -503,6 +507,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
       ++scanlineIndex;
     }
     outIt.NextLine();
+    progress.Completed(outputRegionForThread.GetSize()[0]);
   }
 }
 

@@ -20,7 +20,7 @@
 
 #include "itkFlipImageFilter.h"
 #include "itkImageScanlineIterator.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -31,6 +31,7 @@ FlipImageFilter<TImage>::FlipImageFilter()
 {
   m_FlipAxes.Fill(false);
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TImage>
@@ -186,6 +187,8 @@ FlipImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageRegionType
     }
   }
 
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+
   outputIt.GoToBegin();
   while (!outputIt.IsAtEnd())
   {
@@ -213,7 +216,7 @@ FlipImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageRegionType
         outputIt.Set(inputIter.Get());
 
         ++outputIt;
-        // Read the input scaneline in reverse
+        // Read the input scanline in reverse
         --inputIter;
       }
     }
@@ -231,6 +234,7 @@ FlipImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageRegionType
     }
 
     outputIt.NextLine();
+    progress.Completed(outputRegionForThread.GetSize()[0]);
   }
 }
 

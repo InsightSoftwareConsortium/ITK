@@ -21,7 +21,7 @@
 #include "itkTransformToDisplacementFieldFilter.h"
 
 #include "itkIdentityTransform.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageScanlineIterator.h"
 
@@ -190,6 +190,9 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::Nonlinea
   PointType transformedPoint; // Coordinates of transformed pixel
   PixelType displacement;     // the difference
 
+
+  TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
+
   // Walk the output region
   outIt.GoToBegin();
   while (!outIt.IsAtEnd())
@@ -207,6 +210,7 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::Nonlinea
       ++outIt;
     }
     outIt.NextLine();
+    progress.Completed(outputRegionForThread.GetSize()[0]);
   }
 }
 

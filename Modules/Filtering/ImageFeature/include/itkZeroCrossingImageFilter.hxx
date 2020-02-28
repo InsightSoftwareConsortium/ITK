@@ -23,7 +23,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkFixedArray.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkMath.h"
 
 namespace itk
@@ -35,6 +35,7 @@ ZeroCrossingImageFilter<TInputImage, TOutputImage>::ZeroCrossingImageFilter()
   , m_ForegroundValue(NumericTraits<OutputImagePixelType>::OneValue())
 {
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -113,6 +114,8 @@ ZeroCrossingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::FaceListType::iterator fit;
 
+  TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
+
   InputImagePixelType this_one, that, abs_this_one, abs_that;
   InputImagePixelType zero = NumericTraits<InputImagePixelType>::ZeroValue();
 
@@ -163,6 +166,7 @@ ZeroCrossingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
       }
       ++bit;
       ++it;
+      progress.CompletedPixel();
     }
   }
 }

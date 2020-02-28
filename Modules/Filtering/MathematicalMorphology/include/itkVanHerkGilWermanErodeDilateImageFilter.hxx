@@ -30,6 +30,7 @@ VanHerkGilWermanErodeDilateImageFilter<TImage, TKernel, TFunction1>::VanHerkGilW
   : m_Boundary(NumericTraits<InputImagePixelType>::ZeroValue())
 {
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TImage, typename TKernel, typename TFunction1>
@@ -53,6 +54,10 @@ VanHerkGilWermanErodeDilateImageFilter<TImage, TKernel, TFunction1>::DynamicThre
   // directions.
 
   InputImageConstPointer input = this->GetInput();
+
+  SizeValueType totalPixels =
+    this->GetKernel().GetLines().size() * this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
+  TotalProgressReporter progress(this, totalPixels);
 
   InputImageRegionType IReg = outputRegionForThread;
   IReg.PadByRadius(this->GetKernel().GetRadius());
@@ -104,16 +109,11 @@ VanHerkGilWermanErodeDilateImageFilter<TImage, TKernel, TFunction1>::DynamicThre
 
     // after the first pass the input will be taken from the output
     input = internalbuffer;
+    progress.Completed(IReg.GetNumberOfPixels());
   }
 
   // copy internal buffer to output
-  using IterType = ImageRegionIterator<InputImageType>;
-  IterType oit(this->GetOutput(), OReg);
-  IterType iit(internalbuffer, OReg);
-  for (oit.GoToBegin(), iit.GoToBegin(); !oit.IsAtEnd(); ++oit, ++iit)
-  {
-    oit.Set(iit.Get());
-  }
+  ImageAlgorithm::Copy(input.GetPointer(), this->GetOutput(), OReg, OReg);
 }
 
 template <typename TImage, typename TKernel, typename TFunction1>

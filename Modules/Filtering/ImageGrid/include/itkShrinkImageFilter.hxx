@@ -32,7 +32,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkContinuousIndex.h"
 #include "itkObjectFactory.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -44,6 +44,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::ShrinkImageFilter()
     m_ShrinkFactors[j] = 1;
   }
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -111,6 +112,8 @@ ShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   InputImageConstPointer inputPtr = this->GetInput();
   OutputImagePointer     outputPtr = this->GetOutput();
 
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+
   // Convert the factor for convenient multiplication
   unsigned int i;
 
@@ -168,6 +171,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     // Copy the input pixel to the output
     outIt.Set(inputPtr->GetPixel(inputIndex));
     ++outIt;
+    progress.CompletedPixel();
   }
 }
 

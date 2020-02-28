@@ -20,7 +20,7 @@
 
 #include "itkPasteImageFilter.h"
 #include "itkObjectFactory.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkImageAlgorithm.h"
 
 namespace itk
@@ -38,6 +38,7 @@ PasteImageFilter<TInputImage, TSourceImage, TOutputImage>::PasteImageFilter()
   this->InPlaceOff();
   m_DestinationIndex.Fill(0);
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 
@@ -74,6 +75,8 @@ PasteImageFilter<TInputImage, TSourceImage, TOutputImage>::DynamicThreadedGenera
   const InputImageType *  destPtr = this->GetInput();
   const SourceImageType * sourcePtr = this->GetSourceImage();
   OutputImageType *       outputPtr = this->GetOutput();
+
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   // What is the region on the destination image would be overwritten by the
   // source?
@@ -153,6 +156,7 @@ PasteImageFilter<TInputImage, TSourceImage, TOutputImage>::DynamicThreadedGenera
     // Paste region is outside this thread, so just copy the destination
     // input to the output
     ImageAlgorithm::Copy(destPtr, outputPtr, outputRegionForThread, outputRegionForThread);
+    progress.Completed(outputRegionForThread.GetNumberOfPixels());
   }
   else if (useOnlySource)
   {
@@ -160,6 +164,7 @@ PasteImageFilter<TInputImage, TSourceImage, TOutputImage>::DynamicThreadedGenera
     // for this thread, so copy data from the second input
     // to the output
     ImageAlgorithm::Copy(sourcePtr, outputPtr, sourceRegionInSourceImageCropped, outputRegionForThread);
+    progress.Completed(outputRegionForThread.GetNumberOfPixels());
   }
   else
   {
@@ -178,10 +183,15 @@ PasteImageFilter<TInputImage, TSourceImage, TOutputImage>::DynamicThreadedGenera
     {
       // Copy destination to output
       ImageAlgorithm::Copy(destPtr, outputPtr, outputRegionForThread, outputRegionForThread);
+
+      progress.Completed(outputRegionForThread.GetNumberOfPixels() -
+                         sourceRegionInDestinationImageCropped.GetNumberOfPixels());
     }
 
     // copy the cropped source region to output
     ImageAlgorithm::Copy(sourcePtr, outputPtr, sourceRegionInSourceImageCropped, sourceRegionInDestinationImageCropped);
+
+    progress.Completed(sourceRegionInDestinationImageCropped.GetNumberOfPixels());
   }
 }
 

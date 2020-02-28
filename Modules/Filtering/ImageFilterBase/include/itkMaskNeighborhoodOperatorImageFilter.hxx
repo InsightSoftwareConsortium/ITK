@@ -22,7 +22,7 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkImageRegionIterator.h"
 #include "itkConstNeighborhoodIterator.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -33,6 +33,7 @@ MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOper
 {
   this->ProcessObject::SetNthInput(1, const_cast<TMaskImage *>(mask));
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TMaskImage, typename TOutputImage, typename TOperatorValueType>
@@ -118,6 +119,8 @@ MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOper
 
   faceList = faceCalculator(input, outputRegionForThread, this->GetOperator().GetRadius());
 
+  TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
+
   // Get the operator
   OutputNeighborhoodType noperator = this->GetOperator();
 
@@ -151,6 +154,7 @@ MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOper
       ++bit;
       ++it;
       ++mit;
+      progress.CompletedPixel();
     }
   }
 }

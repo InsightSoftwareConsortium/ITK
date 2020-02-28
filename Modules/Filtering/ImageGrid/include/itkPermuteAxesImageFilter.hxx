@@ -21,7 +21,7 @@
 #include "itkPermuteAxesImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkMacro.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -37,6 +37,7 @@ PermuteAxesImageFilter<TImage>::PermuteAxesImageFilter()
     m_InverseOrder[m_Order[j]] = j;
   }
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 /**
@@ -225,6 +226,8 @@ PermuteAxesImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageReg
   typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
   typename Superclass::OutputImagePointer     outputPtr = this->GetOutput();
 
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+
   // Setup output region iterator
   using OutputIterator = ImageRegionIteratorWithIndex<TImage>;
   OutputIterator outIt(outputPtr, outputRegionForThread);
@@ -246,6 +249,7 @@ PermuteAxesImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageReg
 
     // copy the input pixel to the output
     outIt.Set(inputPtr->GetPixel(inputIndex));
+    progress.CompletedPixel();
   }
 }
 } // namespace itk

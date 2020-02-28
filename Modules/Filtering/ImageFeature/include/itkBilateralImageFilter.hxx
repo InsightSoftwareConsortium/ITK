@@ -23,7 +23,7 @@
 #include "itkGaussianImageSource.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkStatisticsImageFilter.h"
 
 namespace itk
@@ -43,6 +43,7 @@ BilateralImageFilter<TInputImage, TOutputImage>::BilateralImageFilter()
   this->m_RangeMu = 4.0;  // can be bigger then DomainMu since we only
                           // index into a single table
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -254,13 +255,15 @@ BilateralImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   const double distanceToTableIndex = static_cast<double>(m_NumberOfRangeGaussianSamples) / m_DynamicRangeUsed;
 
-  // Process all the faces, the NeighborhoodIterator will deteremine
+  // Process all the faces, the NeighborhoodIterator will determine
   // whether a specified region needs to use the boundary conditions or
   // not.
   NeighborhoodIteratorType             b_iter;
   ImageRegionIterator<OutputImageType> o_iter;
   KernelConstIteratorType              k_it;
   KernelConstIteratorType              kernelEnd = m_GaussianKernel.End();
+
+  TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
 
   for (fit = faceList.begin(); fit != faceList.end(); ++fit)
   {
@@ -312,6 +315,7 @@ BilateralImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
       ++b_iter;
       ++o_iter;
+      progress.CompletedPixel();
     }
   }
 }

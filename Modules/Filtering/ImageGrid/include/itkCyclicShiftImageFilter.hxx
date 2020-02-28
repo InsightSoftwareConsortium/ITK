@@ -20,7 +20,7 @@
 
 #include "itkCyclicShiftImageFilter.h"
 #include "itkNumericTraits.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
@@ -31,6 +31,7 @@ CyclicShiftImageFilter<TInputImage, TOutputImage>::CyclicShiftImageFilter()
 {
   m_Shift.Fill(NumericTraits<OffsetValueType>::ZeroValue());
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -60,6 +61,8 @@ CyclicShiftImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const IndexType outIdx = this->GetOutput()->GetLargestPossibleRegion().GetIndex();
   const SizeType  outSize = this->GetOutput()->GetLargestPossibleRegion().GetSize();
 
+  TotalProgressReporter progress(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
+
   // Now iterate over the pixels of the output region for this thread.
   ImageRegionIteratorWithIndex<OutputImageType> outIt(this->GetOutput(), outputRegionForThread);
   for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
@@ -77,6 +80,7 @@ CyclicShiftImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     }
 
     outIt.Set(static_cast<OutputImagePixelType>(inputImage->GetPixel(index)));
+    progress.CompletedPixel();
   }
 }
 

@@ -21,7 +21,7 @@
 #include "itkMovingHistogramImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkOffset.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkNumericTraits.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageLinearConstIteratorWithIndex.h"
@@ -32,6 +32,7 @@ template <typename TInputImage, typename TOutputImage, typename TKernel, typenam
 MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::MovingHistogramImageFilter()
 {
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOn();
 }
 
 // a modified version that uses line iterators and only moves the
@@ -48,6 +49,8 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::Dyna
   OutputImageType *      outputImage = this->GetOutput();
   const InputImageType * inputImage = this->GetInput();
   RegionType             inputRegion = inputImage->GetRequestedRegion();
+
+  TotalProgressReporter progress(this, outputImage->GetRequestedRegion().GetNumberOfPixels());
 
   // initialize the histogram
   for (auto listIt = this->m_KernelOffsets.begin(); listIt != this->m_KernelOffsets.end(); listIt++)
@@ -166,6 +169,7 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::Dyna
         HistVec[i] = HistVec[LineDirection];
       }
     }
+    progress.Completed(outputRegionForThread.GetSize()[0]);
   }
   delete[] Steps;
 }

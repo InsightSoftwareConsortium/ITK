@@ -21,7 +21,7 @@
 #include "itkInterpolateImageFilter.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -42,6 +42,7 @@ InterpolateImageFilter<TInputImage, TOutputImage>::InterpolateImageFilter()
 
   m_IntermediateImage = nullptr;
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 
@@ -162,6 +163,8 @@ InterpolateImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   IndexType           outputIndex;       // Index to current output pixel
   ContinuousIndexType intermediateIndex; // Coordinates of current intermediate image pixel
 
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+
   // Walk the output region
   while (!outIt.IsAtEnd())
   {
@@ -185,6 +188,7 @@ InterpolateImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     }
 
     ++outIt;
+    progress.CompletedPixel();
   }
 }
 } // end namespace itk

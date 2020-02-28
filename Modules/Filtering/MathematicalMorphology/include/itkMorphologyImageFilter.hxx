@@ -23,7 +23,7 @@
 #include "itkNumericTraits.h"
 #include "itkMorphologyImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -33,6 +33,7 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>::MorphologyImageFilter
   m_DefaultBoundaryCondition.SetConstant(NumericTraits<PixelType>::ZeroValue());
   m_BoundaryCondition = &m_DefaultBoundaryCondition;
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TOutputImage, typename TKernel>
@@ -49,6 +50,8 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DynamicThreadedGenera
   faceList = fC(this->GetInput(), outputRegionForThread, this->GetKernel().GetRadius());
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
+
+  TotalProgressReporter progress(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
 
   ImageRegionIterator<TOutputImage> o_iter;
 
@@ -71,6 +74,7 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DynamicThreadedGenera
       o_iter.Set(this->Evaluate(b_iter, kernelBegin, kernelEnd));
       ++b_iter;
       ++o_iter;
+      progress.CompletedPixel();
     }
   }
 }

@@ -25,7 +25,7 @@
 #include "itkDerivativeOperator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkOffset.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -40,6 +40,7 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
   this->m_UseImageSpacing = true;
   this->m_UseImageDirection = true;
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 //
@@ -156,6 +157,8 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
   fit = faceList.begin();
 
+  TotalProgressReporter progress(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
+
   // Initialize the x_slice array
   ConstNeighborhoodIterator<InputImageType> nit = ConstNeighborhoodIterator<InputImageType>(radius, inputImage, *fit);
 
@@ -190,6 +193,7 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
 
       ++nit;
       ++it;
+      progress.CompletedPixel();
     }
   }
 }

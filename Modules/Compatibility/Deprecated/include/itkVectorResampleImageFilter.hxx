@@ -21,7 +21,7 @@
 #include "itkVectorResampleImageFilter.h"
 #include "itkIdentityTransform.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
@@ -42,6 +42,7 @@ VectorResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType>
 
   m_DefaultPixelValue = NumericTraits<PixelType>::ZeroValue(m_DefaultPixelValue);
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType>
@@ -101,6 +102,8 @@ VectorResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType>
   OutputImagePointer     outputPtr = this->GetOutput();
   InputImageConstPointer inputPtr = this->GetInput();
 
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+
   // Create an iterator that will walk the output region for this thread.
   using OutputIterator = ImageRegionIteratorWithIndex<TOutputImage>;
 
@@ -151,6 +154,7 @@ VectorResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType>
     }
 
     ++outIt;
+    progress.CompletedPixel();
   }
 }
 

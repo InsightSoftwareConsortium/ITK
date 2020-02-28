@@ -24,7 +24,7 @@
 #include "itkImageRegionExclusionIteratorWithIndex.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkObjectFactory.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -34,6 +34,7 @@ PadImageFilterBase<TInputImage, TOutputImage>::PadImageFilterBase()
 {
   m_BoundaryCondition = nullptr;
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -82,6 +83,9 @@ PadImageFilterBase<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   typename Superclass::OutputImagePointer     outputPtr = this->GetOutput();
   typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
+
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+
   // Use the region copy method to copy the input image values to the
   // output image.
   OutputImageRegionType copyRegion(outputRegionForThread);
@@ -90,6 +94,8 @@ PadImageFilterBase<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   {
     // Do a block copy for the overlapping region.
     ImageAlgorithm::Copy(inputPtr.GetPointer(), outputPtr.GetPointer(), copyRegion, copyRegion);
+
+    progress.Completed(copyRegion.GetNumberOfPixels());
 
     // Use the boundary condition for pixels outside the input image region.
     ImageRegionExclusionIteratorWithIndex<TOutputImage> outIter(outputPtr, outputRegionForThread);
@@ -100,6 +106,7 @@ PadImageFilterBase<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
       auto value = static_cast<OutputImagePixelType>(m_BoundaryCondition->GetPixel(outIter.GetIndex(), inputPtr));
       outIter.Set(value);
       ++outIter;
+      progress.CompletedPixel();
     }
   }
   else
@@ -112,6 +119,7 @@ PadImageFilterBase<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
       auto value = static_cast<OutputImagePixelType>(m_BoundaryCondition->GetPixel(outIter.GetIndex(), inputPtr));
       outIter.Set(value);
       ++outIter;
+      progress.CompletedPixel();
     }
   }
 }

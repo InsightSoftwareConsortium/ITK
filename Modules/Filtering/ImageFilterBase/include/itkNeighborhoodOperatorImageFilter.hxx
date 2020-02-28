@@ -24,7 +24,7 @@
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkImageRegionIterator.h"
 #include "itkConstNeighborhoodIterator.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -100,6 +100,8 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType>::
   typename FaceListType::iterator      fit;
   ImageRegionIterator<OutputImageType> it;
 
+  TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
+
   // Process non-boundary region and each of the boundary faces.
   // These are N-d regions which border the edge of the buffer.
   ConstNeighborhoodIterator<InputImageType> bit;
@@ -114,6 +116,7 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType>::
       it.Value() = static_cast<typename OutputImageType::PixelType>(smartInnerProduct(bit, m_Operator));
       ++bit;
       ++it;
+      progress.CompletedPixel();
     }
   }
 }

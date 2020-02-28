@@ -21,7 +21,7 @@
 
 #include "itkImageLinearConstIteratorWithIndex.h"
 #include "itkImageScanlineConstIterator.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {

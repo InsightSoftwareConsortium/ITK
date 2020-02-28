@@ -23,7 +23,7 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkImageRegionIterator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkCastImageFilter.h"
 
 #include "itkMath.h"
@@ -41,6 +41,7 @@ DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
   m_DerivativeWeights.Fill(1.0);
   m_HalfDerivativeWeights.Fill(0.5);
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TRealType, typename TOutputImage>
@@ -186,6 +187,8 @@ DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<RealVectorImageType>::FaceListType::iterator fit;
   fit = faceList.begin();
 
+  TotalProgressReporter progress(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
+
   // Process each of the data set faces.  The iterator is reinitialized on each
   // face so that it can determine whether or not to check for boundary
   // conditions.
@@ -202,6 +205,7 @@ DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
       it.Set(static_cast<OutputPixelType>(this->EvaluateAtNeighborhood(bit)));
       ++bit;
       ++it;
+      progress.CompletedPixel();
     }
   }
 }
