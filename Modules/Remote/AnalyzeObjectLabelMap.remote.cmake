@@ -4,19 +4,24 @@
 #--   - [ ] Widespread community dependance
 #--   - [ ] Above 90% code coverage
 #--   - [ ] CI dashboards and testing monitored rigorously
+#--   - [ ] Key API features are exposed in wrapping interface
 #--   - [ ] All requirements of Levels 4,3,2,1
 #--
 #-- ## Compliance Level 4 star (Very high-quality code, perhaps small community dependance)
 #--   - [X] Meets all ITK code style standards
 #--   - [X] No external requirements beyond those needed by ITK proper
 #--   - [ ] Builds and passes tests on all supported platforms within 1 month of each core tagged release
+#--            - [ ] Windows Shared Library Build with Visual Studio
+#--            - [X] Mac with clang compiller
+#--            - [X] Linux with gcc compiler
 #--   - [ ] Active developer community dedicated to maintaining code-base
-#--   - [ ] 75% code coverage demonstrated for testing suite
+#--   - [ ] 75% C0-code coverage demonstrated for testing suite
 #--   - [ ] Continuous integration testing performed
 #--   - [X] All requirements of Levels 3,2,1
 #--
 #-- ## Compliance Level 3 star (Quality beta code)
 #--   - [X] API | executable interface is considered mostly stable and feature complete
+#--   - [ ] 10% C0-code coverage demonstrated for testing suite
 #--   - [X] Some tests exist and pass on at least some platform
 #--   - [X] All requirements of Levels 2,1
 #--
@@ -33,9 +38,13 @@
 #--
 #-- ### Please document here any justification for the criteria above
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
-
-itk_fetch_module(AnalyzeObjectMapIO
-  "AnalyzeObjectMapIO plugin for ITK. From Insight Journal article with handle: https://hdl.handle.net/1926/593"
+#       NOTE:  CODE DOES NOT COMPILE UNDER VISUAL STUDIO   A link failure occurs in the factory registration magic
+if(Module_AnalyzeObjectMapIO)
+  message(STATUS "AnalyzeObjectMap has been renamed to AnalyzeObjectLabelMap")
+  set(Module_AnalyzeObjectLabelMap ${Module_AnalyzeObjectMapIO})
+endif()
+itk_fetch_module(AnalyzeObjectLabelMap
+  "AnalyzeObjectLabelMap plugin for ITK. From Insight Journal article with handle: https://hdl.handle.net/1926/593"
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/itkAnalyzeObjectMap.git
   GIT_TAG 7388d866433896368bd3049c396b974433b22cc5
