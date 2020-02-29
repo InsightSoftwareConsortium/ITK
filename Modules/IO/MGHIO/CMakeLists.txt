@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.10.2)
-project(MGHIO)
+
+project(MGHIO
+  VERSION 5.1.0       #Version should track with ITK
+  LANGUAGES CXX C)
+
 set(MGHIO_LIBRARIES MGHIO)
 
 if(NOT ITK_SOURCE_DIR)

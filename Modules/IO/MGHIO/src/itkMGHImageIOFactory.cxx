@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #include "itkMGHImageIOFactory.h"
 #include "itkMGHImageIO.h"
 #include "itkVersion.h"
@@ -22,23 +23,20 @@
 
 namespace itk
 {
-void MGHImageIOFactory::PrintSelf(std::ostream &, Indent) const
+void
+MGHImageIOFactory::PrintSelf(std::ostream &, Indent) const
 {}
 
 MGHImageIOFactory::MGHImageIOFactory()
 {
-  this->RegisterOverride("itkImageIOBase",
-                         "itkMGHImageIO",
-                         "MGH Image IO",
-                         1,
-                         CreateObjectFunction<MGHImageIO>::New() );
+  this->RegisterOverride(
+    "itkImageIOBase", "itkMGHImageIO", "MGH Image IO", true, CreateObjectFunction<MGHImageIO>::New());
 }
 
-MGHImageIOFactory::~MGHImageIOFactory()
-{}
+MGHImageIOFactory::~MGHImageIOFactory() = default;
 
 const char *
-MGHImageIOFactory::GetITKSourceVersion(void) const
+MGHImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
@@ -51,15 +49,16 @@ MGHImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 
-static bool MGHImageIOFactoryHasBeenRegistered=false;
+static bool MGHImageIOFactoryHasBeenRegistered = false;
 
-void MGHIO_EXPORT MGHImageIOFactoryRegister__Private(void)
+void MGHIO_EXPORT
+     MGHImageIOFactoryRegister__Private()
 {
-  if( ! MGHImageIOFactoryHasBeenRegistered )
-    {
+  if (!MGHImageIOFactoryHasBeenRegistered)
+  {
     MGHImageIOFactoryHasBeenRegistered = true;
     MGHImageIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

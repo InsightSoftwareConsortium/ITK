@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef itkMGHImageIOFactory_h
 #define itkMGHImageIOFactory_h
 
@@ -26,9 +27,9 @@
 namespace itk
 {
 /** \class MGHImageIOFactory
-   * \brief Create instances of MGHImageIO objects using an object factory.
-   * \ingroup MGHIO
-   */
+ * \brief Create instances of MGHImageIO objects using an object factory.
+ * \ingroup MGHIO
+ */
 class MGHIO_EXPORT MGHImageIOFactory : public ObjectFactoryBase
 {
 public:
@@ -41,9 +42,11 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories **/
-  const char * GetITKSourceVersion(void) const override;
+  const char *
+  GetITKSourceVersion() const override;
 
-  const char * GetDescription(void)  const override;
+  const char *
+  GetDescription() const override;
 
   /** Method for class instantiation **/
   itkFactorylessNewMacro(Self);
@@ -52,7 +55,8 @@ public:
   itkTypeMacro(MGHImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type */
-  static void RegisterOneFactory(void)
+  static void
+  RegisterOneFactory()
   {
     MGHImageIOFactory::Pointer MGHFactory = MGHImageIOFactory::New();
 
@@ -62,7 +66,8 @@ public:
 protected:
   MGHImageIOFactory();
   ~MGHImageIOFactory() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk
 
