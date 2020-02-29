@@ -27,18 +27,6 @@
 #include "itkMetaDataObject.h"
 #include "itkThresholdImageFilter.h"
 
-constexpr char * const ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY = "ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY";
-/**
- * Constants representing the current version number of the object map file for Analyze
- */
-constexpr int VERSION1 = 880102;
-constexpr int VERSION2 = 880801;
-constexpr int VERSION3 = 890102;
-constexpr int VERSION4 = 900302;
-constexpr int VERSION5 = 910402;
-constexpr int VERSION6 = 910926;
-constexpr int VERSION7 = 20050829;
-
 namespace itk
 {
 

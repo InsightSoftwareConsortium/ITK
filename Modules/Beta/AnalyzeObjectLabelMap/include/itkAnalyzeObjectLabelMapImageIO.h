@@ -31,17 +31,6 @@
 namespace itk
 {
 using AnalyzeObjectEntryArrayType = std::vector<AnalyzeObjectEntry::Pointer>;
-const char * const ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY = "ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY";
-/**
- * Constants representing the current version number of the object map file for Analyze
- */
-constexpr int    VERSION1 = 880102;
-constexpr int    VERSION2 = 880801;
-constexpr int    VERSION3 = 890102;
-static const int VERSION4 = 900302;
-static const int VERSION5 = 910402;
-static const int VERSION6 = 910926;
-static const int VERSION7 = 20050829;
 
 /**
  * Buffer size for reading in the run length encoded object data
