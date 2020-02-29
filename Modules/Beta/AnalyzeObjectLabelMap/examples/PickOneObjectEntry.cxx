@@ -11,8 +11,6 @@ then write out the new object map with the one entry only.
 int
 main(int argc, char ** argv)
 {
-  int error_count = 0;
-
   if (argc != 3)
   {
     std::cerr << "USAGE: " << argv[0] << "<inputFileName> <outputFileName>" << std::endl;
