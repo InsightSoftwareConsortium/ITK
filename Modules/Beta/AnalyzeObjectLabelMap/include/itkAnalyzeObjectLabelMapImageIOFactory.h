@@ -24,6 +24,7 @@
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
+#include "AnalyzeObjectLabelMapExport.h"
 
 namespace itk
 {
@@ -31,7 +32,7 @@ namespace itk
  *  \ingroup AnalyzeObjectMapIO
  *  \brief Create instances of AnalyzeObjectLabelMapImageIO objects using an object factory.
  */
-class ITK_EXPORT AnalyzeObjectLabelMapImageIOFactory : public ObjectFactoryBase
+class AnalyzeObjectLabelMap_EXPORT AnalyzeObjectLabelMapImageIOFactory : public ObjectFactoryBase
 {
 public:
   /** Standard class type alias. */

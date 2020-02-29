@@ -49,4 +49,19 @@ AnalyzeObjectLabelMapImageIOFactory::GetDescription() const
   return "Anaylyze Object Map ImageIO Factory, allows the loading of Object Maps images into insight";
 }
 
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+
+static bool AnalyzeObjectLabelMapImageIOFactoryHasBeenRegistered{ false };
+
+void AnalyzeObjectLabelMap_EXPORT
+AnalyzeObjectLabelMapImageImageIOFactoryRegister__Private()
+{
+  if (!AnalyzeObjectLabelMapImageIOFactoryHasBeenRegistered)
+  {
+    AnalyzeObjectLabelMapImageIOFactoryHasBeenRegistered = true;
+    AnalyzeObjectLabelMapImageIOFactory::RegisterOneFactory();
+  }
+}
+
 } // end namespace itk

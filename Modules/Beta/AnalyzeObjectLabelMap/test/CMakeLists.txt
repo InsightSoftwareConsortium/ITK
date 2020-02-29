@@ -1,16 +1,16 @@
 itk_module_test()
-set(AnalyzeObjectMapIOTests AnalyzeObjectMapTest.cxx )
+set(AnalyzeObjectLabelMapTests_SRCS AnalyzeObjectMapTest.cxx )
 
 set(TEST_DATA_ROOT     ${CMAKE_CURRENT_LIST_DIR}/Data/Input)
 set(TESTING_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR})
 
 
-CreateTestDriver(AnalyzeObjectMapIO
-  "${AnalyzeObjectMapIO-Test_LIBRARIES}"
-  "${AnalyzeObjectMapIOTests}")
+CreateTestDriver(AnalyzeObjectLabelMap
+  "${AnalyzeObjectLabelMap-Test_LIBRARIES}"
+  "${AnalyzeObjectLabelMapTests_SRCS}")
 
-itk_add_test(NAME AnalyzeObjectMapIOTest1
-  COMMAND AnalyzeObjectMapIOTestDriver
+itk_add_test(NAME AnalyzeObjectLabelMapTest1
+  COMMAND AnalyzeObjectLabelMapTestDriver
   AnalyzeObjectMapTest
   ${TEST_DATA_ROOT}/test.obj
   ${TESTING_OUTPUT_DIR}/objectLabelTest.obj

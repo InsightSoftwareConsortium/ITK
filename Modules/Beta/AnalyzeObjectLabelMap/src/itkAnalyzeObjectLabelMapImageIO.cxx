@@ -15,14 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkAnalyzeObjectLabelMapImageIO.h"
+#include "itk_zlib.h"
+
 #include "itkIOCommon.h"
 #include "itkByteSwapper.h"
 #include "itkMetaDataObject.h"
 #include "itkSpatialOrientationAdapter.h"
-#include <itksys/SystemTools.hxx>
-#include <itkMath.h>
-#include "itk_zlib.h"
+#include "itksys/SystemTools.hxx"
+#include "itkMath.h"
+
+#include "itkAnalyzeObjectLabelMapImageIO.h"
+
 #include <cstdio>
 #include <cstdlib>
 #include <vector>

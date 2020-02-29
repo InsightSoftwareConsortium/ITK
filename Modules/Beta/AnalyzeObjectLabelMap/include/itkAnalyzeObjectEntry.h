@@ -29,6 +29,8 @@
 #include "itksys/SystemTools.hxx"
 #include "itkImageIOBase.h"
 
+#include "AnalyzeObjectLabelMapExport.h"
+
 namespace itk
 {
 
@@ -37,7 +39,7 @@ namespace itk
  * \ingroup AnalyzeObjectMapIO
  * \brief This class encapsulates a single object in an Analyze object file
  */
-class AnalyzeObjectEntry : public Object
+class AnalyzeObjectLabelMap_EXPORT AnalyzeObjectEntry : public Object
 {
 public:
   /** Standard type alias. */

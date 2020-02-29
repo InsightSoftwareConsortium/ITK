@@ -27,30 +27,31 @@
 #include "itkMetaDataObject.h"
 #include "itkThresholdImageFilter.h"
 
-const char * const ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY = "ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY";
+constexpr char * const ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY = "ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY";
 /**
  * Constants representing the current version number of the object map file for Analyze
  */
-constexpr int    VERSION1 = 880102;
-constexpr int    VERSION2 = 880801;
-constexpr int    VERSION3 = 890102;
-static const int VERSION4 = 900302;
-static const int VERSION5 = 910402;
-static const int VERSION6 = 910926;
-static const int VERSION7 = 20050829;
+constexpr int VERSION1 = 880102;
+constexpr int VERSION2 = 880801;
+constexpr int VERSION3 = 890102;
+constexpr int VERSION4 = 900302;
+constexpr int VERSION5 = 910402;
+constexpr int VERSION6 = 910926;
+constexpr int VERSION7 = 20050829;
 
 namespace itk
 {
 
 using AnalyzeObjectEntryArrayType = std::vector<AnalyzeObjectEntry::Pointer>;
-template <class TImage = itk::Image<unsigned char, 4>, class TRGBImage = itk::Image<itk::RGBPixel<unsigned char>, 4>>
 
 /** \class AnalyzeObjectMap
  *  \ingroup AnalyzeObjectMapIO
  *  \brief A class that is an image with functions that let the user change aspects of the class.  This
  * is a templated class where most everything will depend on the Image type that is used.
  */
-class AnalyzeObjectMap : public TImage
+template <class TImage = itk::Image<unsigned char, 4>,
+          class TRGBImage = itk::Image<itk::RGBPixel<unsigned char>, 4>>
+class ITK_TEMPLATE_EXPORT AnalyzeObjectMap : public TImage
 {
 public:
   /** Standard type alias. */

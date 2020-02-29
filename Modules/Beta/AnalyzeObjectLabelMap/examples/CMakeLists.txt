@@ -1,33 +1,31 @@
 cmake_minimum_required(VERSION 3.10.2)
 
-project(AnalyzeObjectMapExamples)
+project(AnalyzeObjectLabelMapExamples
+  VERSION 5.1.0       #Version should track with ITK
+  LANGUAGES CXX)
 
-find_package(ITK 5.1 REQUIRED)
-if(ITK_FOUND)
- include(${ITK_USE_FILE})
+if(NOT ITK_SOURCE_DIR)
+  find_package(ITK 5.1 REQUIRED)
+  if(ITK_FOUND)
+   include(${ITK_USE_FILE})
+  endif()
 endif()
-
 #find_package( VTK REQUIRED )
 #if( VTK_FOUND )
 #  include( ${USE_VTK_FILE} )
 #endif()
 
+#set(TEST_DATA_ROOT     ${AnalyzeObjectLabelMapExamples_SOURCE_DIR}/Data/Input)
+#set(TESTING_OUTPUT_DIR ${AnalyzeObjectLabelMapExamples_BINARY_DIR}/Temporary)
 
-include_directories(${AnalyzeObjectMap_SOURCE_DIR})
-include_directories(${AnalyzeObjectMapIO_SOURCE_DIR})
-
-set(TEST_DATA_ROOT     ${AnalyzeObjectMapExamples_SOURCE_DIR}/Data/Input)
-set(TESTING_OUTPUT_DIR ${AnalyzeObjectMapExamples_BINARY_DIR}/Temporary)
-
-include_directories( ${AnalyzeObjectMapExamples_SOURCE_DIR} )
+include_directories(${AnalyzeObjectLabelMap_SOURCE_DIR})
+include_directories(${AnalyzeObjectLabelMapExamples_SOURCE_DIR})
 
 add_executable( CreatingObjects CreatingObjects.cxx )
-target_link_libraries( CreatingObjects ${AnalyzeObjectMapIO_LIBRARIES} ${ITK_LIBRARIES})
+target_link_libraries( CreatingObjects ${AnalyzeObjectLabelMap_LIBRARIES} ${ITK_LIBRARIES})
 
 add_executable( DisplayingObjectMaps DisplayingObjectMaps.cxx )
-target_link_libraries( DisplayingObjectMaps ${AnalyzeObjectMapIO_LIBRARIES} ${ITK_LIBRARIES})
+target_link_libraries( DisplayingObjectMaps ${AnalyzeObjectLabelMap_LIBRARIES} ${ITK_LIBRARIES})
 
 add_executable( PickOneObjectEntry PickOneObjectEntry.cxx )
-target_link_libraries( PickOneObjectEntry ${AnalyzeObjectMapIO_LIBRARIES} ${ITK_LIBRARIES})
-
-
+target_link_libraries( PickOneObjectEntry ${AnalyzeObjectLabelMap_LIBRARIES} ${ITK_LIBRARIES})

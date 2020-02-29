@@ -23,7 +23,6 @@ namespace itk
 AnalyzeObjectEntry::~AnalyzeObjectEntry() = default;
 
 AnalyzeObjectEntry::AnalyzeObjectEntry()
-
 {
   std::memset(this->m_Name, 0, sizeof(this->m_Name));
 }
@@ -32,7 +31,7 @@ AnalyzeObjectEntry::AnalyzeObjectEntry()
 // ::operator=( const AnalyzeObjectEntry & rhs )
 
 // Copy everything but the name.  Each ObjectEntry must have a unique name.
-void
+AnalyzeObjectLabelMap_EXPORT void
 AnalyzeObjectEntry::Copy(AnalyzeObjectEntry::Pointer rhs)
 {
   this->SetBlendFactor(rhs->GetBlendFactor());

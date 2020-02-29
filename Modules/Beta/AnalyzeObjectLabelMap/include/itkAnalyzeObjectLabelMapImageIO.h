@@ -22,10 +22,11 @@
 #  pragma warning(disable : 4786)
 #endif
 
-#include <fstream>
+#include "itkAnalyzeObjectEntry.h"
+#include "AnalyzeObjectLabelMapExport.h"
 #include "itkImageRegionIterator.h"
 
-#include "itkAnalyzeObjectEntry.h"
+#include <fstream>
 
 namespace itk
 {
@@ -51,7 +52,7 @@ constexpr int NumberOfRunLengthElementsPerRead = 1;
  *   \ingroup AnalyzeObjectMapIO
  *
  */
-class ITK_EXPORT AnalyzeObjectLabelMapImageIO : public ImageIOBase
+class AnalyzeObjectLabelMap_EXPORT AnalyzeObjectLabelMapImageIO : public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AnalyzeObjectLabelMapImageIO);

@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.10.2)
 
-project(AnalyzeObjectMapIO
+project(AnalyzeObjectLabelMap
   VERSION 5.1.0       #Version should track with ITK
   LANGUAGES CXX)
 
-set(AnalyzeObjectMapIO_LIBRARIES AnalyzeObjectMapIO)
+set(AnalyzeObjectLabelMap_LIBRARIES AnalyzeObjectLabelMap)
 
 if(NOT ITK_SOURCE_DIR)
   find_package(ITK 5.1 REQUIRED)
