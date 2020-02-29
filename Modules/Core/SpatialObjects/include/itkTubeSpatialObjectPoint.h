@@ -153,6 +153,54 @@ public:
   }
 
   void
+  SetCurvature(double curvature)
+  {
+    m_Curvature = curvature;
+  }
+
+  double
+  GetCurvature() const
+  {
+    return m_Curvature;
+  }
+
+  void
+  SetLevelness(double levelness)
+  {
+    m_Levelness = levelness;
+  }
+
+  double
+  GetLevelness() const
+  {
+    return m_Levelness;
+  }
+
+  void
+  SetRoundness(double roundness)
+  {
+    m_Roundness = roundness;
+  }
+
+  double
+  GetRoundness() const
+  {
+    return m_Roundness;
+  }
+
+  void
+  SetIntensity(double intensity)
+  {
+    m_Intensity = intensity;
+  }
+
+  double
+  GetIntensity() const
+  {
+    return m_Intensity;
+  }
+
+  void
   SetMedialness(double medialness)
   {
     m_Medialness = medialness;
@@ -224,6 +272,10 @@ protected:
   double m_Branchness;
   double m_Medialness;
   double m_Ridgeness;
+  double m_Curvature;
+  double m_Levelness;
+  double m_Roundness;
+  double m_Intensity;
   double m_Alpha1;
   double m_Alpha2;
   double m_Alpha3;

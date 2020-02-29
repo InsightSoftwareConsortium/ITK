@@ -81,8 +81,12 @@ MetaVesselTubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObject
     pnt.SetPositionInObjectSpace(pos);
     pnt.SetRadiusInObjectSpace((*it2)->m_R * vesselTubeMO->ElementSpacing(0));
     pnt.SetMedialness((*it2)->m_Medialness);
-    pnt.SetRidgeness((*it2)->m_Ridgeness);
     pnt.SetBranchness((*it2)->m_Branchness);
+    pnt.SetRidgeness((*it2)->m_Ridgeness);
+    pnt.SetCurvature((*it2)->m_Curvature);
+    pnt.SetLevelness((*it2)->m_Levelness);
+    pnt.SetRoundness((*it2)->m_Roundness);
+    pnt.SetIntensity((*it2)->m_Intensity);
 
     for (unsigned int ii = 0; ii < NDimensions; ii++)
     {
@@ -153,8 +157,12 @@ MetaVesselTubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObj
     pnt->m_Alpha2 = (*i).GetAlpha2();
     pnt->m_Alpha3 = (*i).GetAlpha3();
     pnt->m_Medialness = (*i).GetMedialness();
-    pnt->m_Ridgeness = (*i).GetRidgeness();
     pnt->m_Branchness = (*i).GetBranchness();
+    pnt->m_Ridgeness = (*i).GetRidgeness();
+    pnt->m_Curvature = (*i).GetCurvature();
+    pnt->m_Levelness = (*i).GetLevelness();
+    pnt->m_Roundness = (*i).GetRoundness();
+    pnt->m_Intensity = (*i).GetIntensity();
 
     for (unsigned int d = 0; d < NDimensions; d++)
     {

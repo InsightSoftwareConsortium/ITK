@@ -69,6 +69,13 @@ MetaTubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType *
     }
     pnt.SetPositionInObjectSpace(pos);
     pnt.SetRadiusInObjectSpace((*it2)->m_R * tubeMO->ElementSpacing(0));
+    pnt.SetMedialness((*it2)->m_Medialness);
+    pnt.SetBranchness((*it2)->m_Branchness);
+    pnt.SetRidgeness((*it2)->m_Ridgeness);
+    pnt.SetCurvature((*it2)->m_Curvature);
+    pnt.SetLevelness((*it2)->m_Levelness);
+    pnt.SetRoundness((*it2)->m_Roundness);
+    pnt.SetIntensity((*it2)->m_Intensity);
 
     for (unsigned int i = 0; i < NDimensions; i++)
     {
@@ -87,6 +94,10 @@ MetaTubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType *
       t[i] = (*it2)->m_T[i];
     }
     pnt.SetTangentInObjectSpace(t);
+
+    pnt.SetAlpha1((*it2)->m_Alpha1);
+    pnt.SetAlpha2((*it2)->m_Alpha2);
+    pnt.SetAlpha3((*it2)->m_Alpha3);
 
     pnt.SetRed((*it2)->m_Color[0]);
     pnt.SetGreen((*it2)->m_Color[1]);
@@ -129,6 +140,16 @@ MetaTubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectTyp
 
     pnt->m_ID = (*it).GetId();
     pnt->m_R = (*it).GetRadiusInObjectSpace();
+    pnt->m_Alpha1 = (*it).GetAlpha1();
+    pnt->m_Alpha2 = (*it).GetAlpha2();
+    pnt->m_Alpha3 = (*it).GetAlpha3();
+    pnt->m_Medialness = (*it).GetMedialness();
+    pnt->m_Branchness = (*it).GetBranchness();
+    pnt->m_Ridgeness = (*it).GetRidgeness();
+    pnt->m_Curvature = (*it).GetCurvature();
+    pnt->m_Levelness = (*it).GetLevelness();
+    pnt->m_Roundness = (*it).GetRoundness();
+    pnt->m_Intensity = (*it).GetIntensity();
 
     for (unsigned int d = 0; d < NDimensions; d++)
     {
@@ -151,15 +172,6 @@ MetaTubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectTyp
     pnt->m_Color[3] = (*it).GetAlpha();
 
     tubeMO->GetPoints().push_back(pnt);
-  }
-
-  if (NDimensions == 2)
-  {
-    tubeMO->PointDim("x y r v1x v1y tx ty red green blue alpha id");
-  }
-  else
-  {
-    tubeMO->PointDim("x y z r v1x v1y v1z v2x v2y v2z tx ty tz red green blue alpha id");
   }
 
   float color[4];
