@@ -34,6 +34,10 @@ TubeSpatialObjectPoint<TPointDimension>::TubeSpatialObjectPoint()
   m_Medialness = 0;
   m_Ridgeness = 0;
   m_Branchness = 0;
+  m_Curvature = 0;
+  m_Levelness = 0;
+  m_Roundness = 0;
+  m_Intensity = 0;
   m_Alpha1 = 0;
   m_Alpha2 = 0;
   m_Alpha3 = 0;
@@ -170,6 +174,10 @@ TubeSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent ind
   os << indent << "Medialness: " << m_Medialness << std::endl;
   os << indent << "Branchness: " << m_Branchness << std::endl;
   os << indent << "Ridgeness: " << m_Ridgeness << std::endl;
+  os << indent << "Curvature: " << m_Curvature << std::endl;
+  os << indent << "Levelness: " << m_Levelness << std::endl;
+  os << indent << "Roundness: " << m_Roundness << std::endl;
+  os << indent << "Intensity: " << m_Intensity << std::endl;
   os << indent << "Alpha1: " << m_Alpha1 << std::endl;
   os << indent << "Alpha2: " << m_Alpha2 << std::endl;
   os << indent << "Alpha3: " << m_Alpha3 << std::endl;
@@ -196,6 +204,10 @@ TubeSpatialObjectPoint<TPointDimension>::operator=(const TubeSpatialObjectPoint 
     this->SetRidgeness(rhs.GetRidgeness());
     this->SetMedialness(rhs.GetMedialness());
     this->SetBranchness(rhs.GetBranchness());
+    this->SetCurvature(rhs.GetCurvature());
+    this->SetLevelness(rhs.GetLevelness());
+    this->SetRoundness(rhs.GetRoundness());
+    this->SetIntensity(rhs.GetIntensity());
     this->SetAlpha1(rhs.GetAlpha1());
     this->SetAlpha2(rhs.GetAlpha2());
     this->SetAlpha3(rhs.GetAlpha3());
