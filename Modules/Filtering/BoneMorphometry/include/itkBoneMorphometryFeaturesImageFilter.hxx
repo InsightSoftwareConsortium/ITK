@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -84,8 +84,7 @@ BoneMorphometryFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Dynam
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>                        boundaryFacesCalculator;
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::FaceListType faceList =
     boundaryFacesCalculator(this->GetInput(), outputRegionForThread, m_NeighborhoodRadius);
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::FaceListType::iterator fit =
-    faceList.begin();
+  auto fit = faceList.begin();
 
   for (; fit != faceList.end(); ++fit)
   {
