@@ -27,7 +27,8 @@ itk_module(Cuberille
     ITKQuadEdgeMeshFiltering
     ITKThresholding
     ITKIOImageBase
-  EXCLUDE_FROM_DEFAULT
   DESCRIPTION
     "${DOCUMENTATION}"
+  EXCLUDE_FROM_DEFAULT
+  ENABLE_SHARED
 )

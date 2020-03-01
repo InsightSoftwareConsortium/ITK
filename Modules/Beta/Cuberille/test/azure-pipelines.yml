@@ -1,6 +1,7 @@
+# The file template originates from the instructions: https://github.com/InsightSoftwareConsortium/ITKModuleTemplate/README.md
 variables:
-  ITKGitTag: v5.1rc02
-  ITKPythonGitTag: v5.1rc02
+  ITKGitTag: v5.1rc02       #Used for choosing branch of ITK to checkout
+  ITKPythonGitTag: v5.1rc02 #Used to identify the release name for the cached python build environmeent ITKPythonBuilds-linux.tar.zst
   CMakeBuildType: Release
 
 trigger:
@@ -18,21 +19,36 @@ jobs:
 
   strategy:
     matrix:
-      Linux:
-        imageName: 'ubuntu-16.04'
-        cCompiler: gcc
-        cxxCompiler: g++
-        compilerInitialization: ''
-      macOS:
-        imageName: 'macos-10.13'
-        cCompiler: clang
-        cxxCompiler: clang++
-        compilerInitialization: ''
-      Windows:
-        imageName: 'vs2017-win2016'
-        cCompiler: cl.exe
-        cxxCompiler: cl.exe
-        compilerInitialization: 'call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvars64.bat"'
+#     Linux1604:
+#       imageName: 'ubuntu-16.04'
+#       cCompiler: gcc
+#       cxxCompiler: g++
+#       compilerInitialization: ''
+     Linux1804:
+       imageName: 'ubuntu-18.04'
+       cCompiler: gcc
+       cxxCompiler: g++
+       compilerInitialization: ''
+     macOS1015:
+       imageName: 'macos-10.15'
+       cCompiler: clang
+       cxxCompiler: clang++
+       compilerInitialization: ''
+#     macOS1014:
+#       imageName: 'macos-10.14'
+#       cCompiler: clang
+#       cxxCompiler: clang++
+#       compilerInitialization: ''
+#     Windows2017:
+#       imageName: 'vs2017-win2016'
+#       cCompiler: cl.exe
+#       cxxCompiler: cl.exe
+#       compilerInitialization: 'call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvars64.bat"'
+     Windows2019:
+       imageName: 'windows-2019'
+       cCompiler: cl.exe
+       cxxCompiler: cl.exe
+       compilerInitialization: 'call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"'
 
   pool:
     vmImage: $(imageName)
@@ -58,7 +74,10 @@ jobs:
     displayName: 'Install build dependencies'
 
   - script: |
+      #git clone https://github.com/InsightSoftwareConsortium/ITK.git
       git clone --depth 5 --branch $(ITKGitTag) https://github.com/InsightSoftwareConsortium/ITK.git
+      cd ITK
+      git checkout $(ITKGitTag)
     workingDirectory: $(Agent.BuildDirectory)
     displayName: 'Download ITK'
 
@@ -172,7 +191,7 @@ jobs:
   timeoutInMinutes: 0
   cancelTimeoutInMinutes: 300
   pool:
-    vmImage: 'macos-10.13'
+    vmImage: 'macos-10.14'
 
   steps:
   - script: |
